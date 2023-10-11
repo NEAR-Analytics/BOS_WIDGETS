@@ -1,149 +1,88 @@
-const ShareButtonDiv = styled.div`
- 
-}
-`;
-const ShareButton = styled.button`
+const Dropdown = styled.select`
+.Dropdown{
+box-sizing: border-box;
 display: flex;
-padding: 2px 12px;
+flex-direction: row;
 align-items: flex-start;
+padding: 0px 10px;
 gap: 10px;
-border-radius: 4px;
-background: var(--buttons-yellow-default, #FFD50D);
-border: 1px solid #FFD50D;
-
-`;
-const ShareButtonText = styled.p`
-color: var(--primary-black, #000);
-font-size: 12px;
-font-family: Open Sans;
-font-weight: 500;
-line-height: 24px;
-margin: 0px;
-
-`;
-
-const ShareOptionButtonContainer = styled.button`
 width: 100%;
-padding:0px;
-background:transparent;
-border-color:transparent;
-@media (hover: hover) {
+height: 35px;
+background: #FFFFFF;
+border: 1px solid #D0D6D9;
+border-radius: 10px;
+flex: none;
+order: 1;
+
+font-size:12px;
+font-family: Open Sans;
+font-style: normal;
+font-weight: 400;
+font-size: 12px;
+line-height: 120%;
  
-  button:hover {
-    color: black;
-    background: #F8F8F9;
+display: flex;
+align-items: center;
+
+color: #828688;
+@media only screen and (max-width: 480px) {
+   
+}
   }
-}
-
 `;
-const ShareOptionButton = styled.button`
-color: #000000;
+
+const H1styled = styled.h1`
+
 width: 100%;
-border-radius: 10px; 
-border-color: transparent; 
-background:#FFFFFF;
-font-size: 12px;
+height: 10px;
 font-family: Open Sans;
+font-style: normal;
 font-weight: 500;
-line-height: 24px;
-text-align: left
-padding:0px;
+font-size: 12px;
+line-height: 120%;
+color: #000000;
+
+`;
+const Colcont = styled.div`
+
+margin-top:.5rem;
+ width:33.3%;
+ @media only screen and (max-width: 820px) {
+ width:100%;
+}
+@media only screen and (max-width: 480px) {
+ width:100%;
  
+}
 
 `;
 
-State.init({
-  showShareOptions: false,
-  shareText: "Copy",
-});
-function handleShare(urlToCopy) {
-  console.log(urlToCopy);
-  State.update({ shareText: "Copied" });
-  clipboard.writeText(
-    "https://near.org/#/yairnava.near/widget/NDC.Nomination.Candidate.Container?house=" +
-      "&candidate="
-  );
-  /*
-  setTimeout(() => {
-    State.update({ showShareOptions: false, shareText: "Copy" });
-  }, "1500");*/
-}
+const onChangeFunction = props.onchangeFunc;
 return (
-  <>
-    <div class="col  ">
-      <div
-        style={{
-          display: "flex",
-          "justify-content": " end",
-          "align-items": "center",
-        }}
-      >
-        <ShareButton
-          onClick={() => {
-            State.update({ showShareOptions: !state.showShareOptions });
-          }}
-        >
-          {" "}
-          <ShareButtonText>Share</ShareButtonText>
-        </ShareButton>
-      </div>
-      <div
-        style={{
-          display: "flex",
-          "justify-content": " end",
-          "align-items": "center",
-          "margin-top": "5px",
-        }}
-      >
-        {state.showShareOptions && (
-          <div
-            class="row"
-            id="b"
-            style={{
-              width: "200px",
-              height: "auto",
-              "z-index": "10",
-              top: "0",
-              left: "50%",
-              color: "rgb(255, 255, 255)",
-              "background-color": "rgb(255, 255, 255)",
-              "border-radius": "6px",
-              padding: "2px 5px",
-              display: "flex",
-              gap: "5px",
-              "box-shadow": ".1px .1px 5px",
-            }}
-          >
-            {props.shareoptions.map((op) => {
-              return (
-                <OverlayTrigger
-                  placement={"left"}
-                  overlay={<Tooltip>{state.shareText}</Tooltip>}
-                >
-                  <ShareOptionButtonContainer>
-                    <ShareOptionButton
-                      onClick={() => {
-                        handleShare(op.shareUrl);
-                      }}
-                    >
-                      <div
-                        style={{
-                          display: "flex",
-                          "justify-content": "space-between",
-                          padding: "2px 5px",
-                        }}
-                      >
-                        {op.title}
-                        <img src={op.icon} />
-                      </div>
-                    </ShareOptionButton>
-                  </ShareOptionButtonContainer>
-                </OverlayTrigger>
-              );
-            })}
-          </div>
-        )}
-      </div>
-    </div>
-  </>
+  <Colcont>
+    <H1styled>{props.title}</H1styled>
+    <FormInput
+      value={props.value}
+      placeholder={props.placeholder}
+      onChange={(e) => {
+        console.log("hijo", e.target.value);
+        onChangeFunction(e.target.value);
+      }}
+    ></FormInput>
+    <Dropdown
+      placeholder={props.placeholder}
+      value={props.value}
+      onChange={(e) => {
+        console.log("hijo", e.target.value);
+        onChangeFunction(e.target.value);
+      }}
+    >
+      <option default value="">
+        Select issuer
+      </option>
+      {props.options.map((op) => {
+        return <option value={op.value}>{op.label}</option>;
+      })}
+    </Dropdown>
+  </Colcont>
 );
