@@ -1,6 +1,6 @@
 const { isTest, stateUpdate, libCalls, initialEmoji } = props;
 
-const prodAction = "sayALotReaction_v0.0.1";
+const prodAction = "sayALotReaction";
 const testAction = `test_${prodAction}`;
 const action = isTest ? testAction : prodAction;
 
@@ -37,7 +37,7 @@ function setAreValidUsers(accountIds, sbtsNames) {
       key: `isValidUser-${accountId}`,
       props: {
         accountId,
-        sbtsNames: sbtsNames[0],
+        sbtsNames: sbtsNames,
       },
     });
   });
