@@ -723,6 +723,10 @@ option {
     .removeLiquidityButtonContainer{
       padding-inline: 5px;
     }
+
+    .binsButtonContainer{
+      padding-inline: 0px;
+    }
 }
 `;
 
