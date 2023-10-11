@@ -36,7 +36,7 @@ articlesToRender.forEach((article) =>
     key: `upVotes-${article.id}`,
     props: {
       id: article.id ?? `${article.author}-${article.timeCreate}`,
-      articleSbts: article.sbts[0] ?? [],
+      articleSbts: article.sbts ?? [],
     },
   })
 );
