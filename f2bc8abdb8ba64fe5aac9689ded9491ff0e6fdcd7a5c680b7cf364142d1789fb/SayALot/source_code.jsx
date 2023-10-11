@@ -147,6 +147,7 @@ const navigationButtons = [
 const sbts = state.sbts;
 
 const initialBodyAtCreation = state.editArticleData.body;
+const canLoggedUserCreateArticle = state.canLoggedUserCreateArticle[sbts[0]];
 
 //=================================================END CONSTS=======================================================
 
@@ -439,6 +440,8 @@ function getLink() {
 }
 
 //===============================================END FUNCTIONS======================================================
+
+console.log(state);
 return (
   <>
     {state.showShareModal && renderShareInteraction()}
@@ -476,7 +479,7 @@ return (
           editArticleData: state.editArticleData,
           callLibs,
           handleEditArticle,
-          showCreateArticle: state.canLoggedUserCreateArticle,
+          showCreateArticle: canLoggedUserCreateArticle,
           sbtWhiteList,
           handleSbtSelection,
           sbts,
