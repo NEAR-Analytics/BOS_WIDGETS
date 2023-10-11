@@ -303,6 +303,32 @@ const getBarData = () => {
   };
 };
 
+function renderWidgetBasedOnProject(projectName) {
+  if (projectName === "Sweat Economy") {
+    return (
+      <Widget
+        src="y3k.near/widget/near_atlas.components.CohortSweat"
+        props={{}}
+      />
+    );
+  } else if (projectName === "Play Ember") {
+    return (
+      <Widget
+        src="y3k.near/widget/near_atlas.components.CohortPlayEmber"
+        props={{}}
+      />
+    );
+  } else if (projectName === "Cosmose") {
+    return (
+      <Widget
+        src="y3k.near/widget/near_atlas.components.CohortCosmose"
+        props={{}}
+      />
+    );
+  }
+  return null;
+}
+
 return (
   <Style>
     <div className="bg-dark container rounded-4 p-3 mb-4">
@@ -361,6 +387,10 @@ return (
               </div>
             </div>
           </div>
+          <br />
+          <br />
+          <hr />
+          {renderWidgetBasedOnProject(state.project_name)}
 
           <div></div>
         </>
