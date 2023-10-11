@@ -38,16 +38,16 @@ return (
       </button>
       <input
         type="text"
-        class="form-control"
+        className="form-control"
         placeholder=""
         aria-label="Example text with button addon"
         aria-describedby="button-addon1"
       />
 
-      <label class="input-group-text" for="inputGroupSelect01">
+      <label className="input-group-text" htmlFor="inputGroupSelect01">
         Options
       </label>
-      <select class="form-select" id="inputGroupSelect01">
+      <select className="form-select" id="inputGroupSelect01">
         <option selected>Choose...</option>
         <option value="1">One</option>
         <option value="2">Two</option>
