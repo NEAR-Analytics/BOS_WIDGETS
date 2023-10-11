@@ -268,7 +268,7 @@ const data = [
   {
     title: "Polygon",
     bannerIcon:
-      "https://ipfs.near.social/ipfs/bafkreie3rxllt4uknrcjhqcldharoxad3bbkfhjbmeceapiefjyi77cewe",
+      "https://ipfs.near.social/ipfs/bafkreigcm4smhy5x5i4sf74c52rnpbk7lhxlh5jmfdp3pjra6kl2wwu4vu",
     src: "polygon.technology",
     chainId: "137 (0x89)",
     technology: "-",
