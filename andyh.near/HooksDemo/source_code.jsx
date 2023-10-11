@@ -33,6 +33,7 @@ return (
         className="btn btn-outline-secondary"
         type="button"
         id="button-addon1"
+        aria-pressed="true"
       >
         Delay
       </button>
