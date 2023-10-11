@@ -62,7 +62,9 @@ return (
         className="btn btn-primary"
         type="button"
         onClick={() => {
-          setSentMessages([...sentMessages].push(message));
+          const updatedMessages = [...sentMessages];
+          updatedMessages.push(message);
+          setSentMessages(updatedMessages);
           setMessage("");
         }}
       >
