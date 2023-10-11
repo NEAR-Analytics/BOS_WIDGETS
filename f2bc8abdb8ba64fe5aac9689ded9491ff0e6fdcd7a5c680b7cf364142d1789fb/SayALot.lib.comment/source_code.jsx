@@ -37,7 +37,7 @@ function setAreValidUsers(accountIds, sbtName) {
       key: `isValidUser-${accountId}`,
       props: {
         accountId,
-        sbtName: sbtName[0],
+        sbtName: sbtName,
       },
     });
   });
