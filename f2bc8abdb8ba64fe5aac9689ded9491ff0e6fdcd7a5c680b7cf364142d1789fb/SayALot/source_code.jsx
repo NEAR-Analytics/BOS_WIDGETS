@@ -2,6 +2,12 @@
 let { sharedBlockHeight, tagShared, isTest, accountId } = props;
 sharedBlockHeight = Number(sharedBlockHeight);
 
+const sbtWhiteList = [
+  "fractal.i-am-human.near - class 1",
+  "community.i-am-human.near - class 1",
+  "community.i-am-human.near - class 2",
+];
+
 const initSbtsNames = ["fractal.i-am-human.near - class 1"];
 
 const sbtsNames = state.sbt;
@@ -12,7 +18,7 @@ const initLibCalls = [
     key: "articles",
     props: {
       env: isTest ? "test" : "prod",
-      sbtsNames: initSbtsNames,
+      sbtsNames: sbtWhiteList,
     },
   },
   {
@@ -20,7 +26,7 @@ const initLibCalls = [
     key: "canLoggedUserCreateArticle",
     props: {
       accountId: context.accountId,
-      sbtsNames: initSbtsNames,
+      sbtsNames: sbtWhiteList,
     },
   },
 ];
@@ -89,12 +95,6 @@ const authorForWidget =
 // const authorForWidget = "kenrou-it.near";
 const libSrcArray = [`${authorForWidget}/widget/SayALot.lib.article`];
 const thisWidgetName = "SayALot";
-
-const sbtWhiteList = [
-  "fractal.i-am-human.near - class 1",
-  "community.i-am-human.near - class 1",
-  "community.i-am-human.near - class 2",
-];
 
 const widgets = {
   sayALot: `${authorForWidget}/widget/${thisWidgetName}`,
@@ -441,7 +441,7 @@ function getLink() {
 
 //===============================================END FUNCTIONS======================================================
 
-console.log(state);
+// console.log(state);
 return (
   <>
     {state.showShareModal && renderShareInteraction()}
