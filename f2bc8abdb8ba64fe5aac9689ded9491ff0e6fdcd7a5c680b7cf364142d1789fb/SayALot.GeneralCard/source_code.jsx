@@ -313,15 +313,29 @@ const sayALotProfileImageStyles = {
 const inner = (
   <div className="d-flex flex-row mx-1">
     <Widget
-      src="mob.near/widget/ProfileImage"
+      src={widgets.newStyledComponents.Element.User}
       props={{
-        metadata,
         accountId,
-        widgetName,
-        style: sayALotProfileImageStyles,
-        className: "me-2 rounded-pill",
+        options: {
+          showHumanBadge: true,
+          showImage: true,
+          showSocialName: true,
+          shortenLength: 20,
+        },
       }}
     />
+    {
+      //   <Widget
+      //   src="mob.near/widget/ProfileImage"
+      //   props={{
+      //     metadata,
+      //     accountId,
+      //     widgetName,
+      //     style: sayALotProfileImageStyles,
+      //     className: "me-2 rounded-pill",
+      //   }}
+      // />
+    }
   </div>
 );
 
@@ -336,9 +350,11 @@ const renderTags = () => {
             <div onClick={() => handleFilterArticles(filter)}>
               {tag && (
                 <Widget
-                  src={widgets.styledComponents}
+                  src={widgets.newStyledComponents.Element.Badge}
                   props={{
-                    Tag: { title: tag },
+                    children: tag,
+                    variant: "round info outline",
+                    size: "lg",
                   }}
                 />
               )}
@@ -419,16 +435,18 @@ return (
             src="mob.near/widget/Profile.OverlayTrigger"
             props={{ accountId, children: inner }}
           />
-          <HeaderContent>
-            <HeaderContentText
-              onClick={() => {
-                handleOpenArticle(data);
-              }}
-            >
-              <NominationName>{getUserName()}</NominationName>
-              <NominationUser>{getShortUserName()}</NominationUser>
-            </HeaderContentText>
-          </HeaderContent>
+          {
+            //   <HeaderContent>
+            //   <HeaderContentText
+            //     onClick={() => {
+            //       handleOpenArticle(data);
+            //     }}
+            //   >
+            //     <NominationName>{getUserName()}</NominationName>
+            //     <NominationUser>{getShortUserName()}</NominationUser>
+            //   </HeaderContentText>
+            // </HeaderContent>
+          }
         </div>
         <HeaderButtonsContainer>
           <Widget
@@ -447,18 +465,16 @@ return (
             }}
           />
           <Widget
-            src={"rubycop.near/widget/NDC.StyledComponents"}
+            src={widgets.newStyledComponents.Input.Button}
             props={{
-              Button: {
-                size: "sm",
-                className: "secondary dark",
-                icon: <i className="bi bi-share"></i>,
-                onClick: () =>
-                  handleShareButton(true, {
-                    type: "sharedBlockHeight",
-                    value: data.blockHeight,
-                  }),
-              },
+              size: "sm",
+              className: "info outline icon",
+              children: <i className="bi bi-share"></i>,
+              onClick: () =>
+                handleShareButton(true, {
+                  type: "sharedBlockHeight",
+                  value: data.blockHeight,
+                }),
             }}
           />
         </HeaderButtonsContainer>
@@ -521,39 +537,40 @@ return (
           <div className="d-flex w-100 align-items-center">
             <div className="d-flex w-100 gap-2 justify-content-between">
               <Widget
-                src={widgets.styledComponents}
+                src={widgets.newStyledComponents.Input.Button}
                 props={{
-                  Button: {
-                    text: `Add comment`,
-                    disabled:
-                      !context.accountId ||
-                      context.accountId === accountId ||
-                      (articleSbts.length > 0 &&
-                        !state.canLoggedUserCreateComment),
-                    size: "sm",
-                    className: "secondary dark w-100 justify-content-center",
-                    onClick: () => {
-                      State.update({ showModal: true });
-                    },
-                    icon: (
-                      <>
-                        <i className="bi bi-chat-square-text-fill"></i>
-                      </>
-                    ),
+                  children: (
+                    <div className="d-flex align-items-center justify-content-center">
+                      <span className="mx-1">Add comment</span>
+                      <i className="bi bi-chat-square-text-fill"></i>
+                    </div>
+                  ),
+                  disabled:
+                    !context.accountId ||
+                    context.accountId === accountId ||
+                    (articleSbts.length > 0 &&
+                      !state.canLoggedUserCreateComment),
+                  size: "sm",
+                  className: "info outline w-100",
+                  onClick: () => {
+                    State.update({ showModal: true });
                   },
+                  icon: <></>,
                 }}
               />
               <Widget
-                src={widgets.styledComponents}
+                src={widgets.newStyledComponents.Input.Button}
                 props={{
-                  Button: {
-                    text: "View",
-                    size: "sm",
-                    className: "primary w-100 justify-content-center",
-                    icon: <i className="bi bi-eye fs-6"></i>,
-                    onClick: () => {
-                      handleOpenArticle(data);
-                    },
+                  children: (
+                    <div className="d-flex align-items-center justify-content-center">
+                      <span className="mx-1">View</span>
+                      <i className="bi bi-eye fs-6"></i>
+                    </div>
+                  ),
+                  size: "sm",
+                  className: "info outline w-100",
+                  onClick: () => {
+                    handleOpenArticle(data);
                   },
                 }}
               />
