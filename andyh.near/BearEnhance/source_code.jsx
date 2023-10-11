@@ -23,7 +23,9 @@ return (
     <h3>Bear Facts</h3>
 
     <div className="mb-3">
-      <span style={{ fontStyle: "italic" }}>{bearFact}</span>
+      <span style={{ margin: "24px", fontSize: "1.2em", fontStyle: "italic" }}>
+        {bearFact}
+      </span>
     </div>
     <div className="input-group mb-3">
       <label className="input-group-text" htmlFor="inputGroupSelect0">
