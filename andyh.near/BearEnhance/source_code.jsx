@@ -28,7 +28,7 @@ return (
   >
     <h3>Bear Facts</h3>
 
-    <div style={{ flex: 1 }}>
+    <div style={{ flex: 1, height: "500px", width: "500px" }}>
       <img src={`https://placebear.com/${width}/${height}`} />
     </div>
     <div style={{ flex: 1 }}>
