@@ -12,6 +12,11 @@ const IconWrapper = styled.div`
         width: 13px;
         height: 13px;
         border-radius: 13px;
+
+        > * {
+            width: 8px;
+            height: 8px;
+        }
     `
         : ""
     }
