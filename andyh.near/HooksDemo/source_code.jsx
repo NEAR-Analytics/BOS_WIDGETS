@@ -29,14 +29,9 @@ return (
     <input type="text" onChange={(e) => setText(e.target.value)} />
 
     <div className="input-group mb-3">
-      <button
-        className="btn btn-outline-secondary"
-        type="button"
-        id="button-addon1"
-        aria-pressed="true"
-      >
-        Delay
-      </button>
+      <label className="input-group-text" htmlFor="inputGroupSelect0">
+        Message
+      </label>
       <input
         type="text"
         className="form-control"
@@ -44,7 +39,9 @@ return (
         aria-label="Example text with button addon"
         aria-describedby="button-addon1"
       />
+    </div>
 
+    <div className="input-group mb-3">
       <label className="input-group-text" htmlFor="inputGroupSelect01">
         Delay
       </label>
