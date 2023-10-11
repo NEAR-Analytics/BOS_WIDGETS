@@ -38,9 +38,9 @@ let hasUserVoted = userVote !== undefined;
 
 function getUpVoteButtonClass() {
   if (hasUserVoted) {
-    return "secondary";
+    return "info";
   } else {
-    return "secondary outline";
+    return "info outline";
   }
 }
 
