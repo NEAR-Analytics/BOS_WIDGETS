@@ -101,13 +101,12 @@ initState({
   name: props.name ?? "",
   description: props.description ?? "",
   amount: props.amount ?? "0",
-  token: tokenMapping[props.token] ?? "USDT",
+  token: props.token ?? "USDT",
   supervisor: props.supervisor ?? "",
   githubLink: props.githubLink ?? "",
   warning: "",
   draftStateApplied: false,
 });
-console.log(props.token, tokenMapping[props.token]);
 
 if (!state.draftStateApplied && props.draftState) {
   State.update({ ...props.draftState, draftStateApplied: true });
