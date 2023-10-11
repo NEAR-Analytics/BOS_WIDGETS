@@ -5,6 +5,7 @@ return (
       primaryText: "Dapp Creator",
       secondaryText: "Dapplets Project",
       iconSrc: "mybadge.near/widget/Dapplets.LogoIcon",
+      color: "green",
     }}
   />
 );
