@@ -134,7 +134,7 @@ return (
             <div style={{ width: "100vw" }}>
               Follow More Users to Unlock More Personalized Recommendations, See
               Who’s
-              <a href="https://near.org/${REPL_ACCOUNT}/widget/PeoplePage?tab=trending">
+              <a href="https://near.org/scopalaffairs.near/widget/PeoplePage?tab=trending">
                 Trending
               </a>
             </div>
