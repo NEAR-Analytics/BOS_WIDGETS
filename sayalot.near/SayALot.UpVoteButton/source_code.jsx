@@ -17,7 +17,7 @@ const initLibCalls = [
     functionName: "getUpVotes",
     key: "upVotes",
     props: {
-      realArticleId: data.realArticleId ?? `${data.author}-${data.timeCreate}`,
+      id: data.id ?? `${data.author}-${data.timeCreate}`,
       articleSbts,
     },
   },
@@ -68,15 +68,14 @@ function stateUpdate(obj) {
 }
 
 function upVoteButtonListener() {
-  let newLibCalls = [...state.libCalls];
+  let newLibCalls = state.libCalls !== undefined ? [...state.libCalls] : [];
 
   if (!hasUserVoted) {
     newLibCalls.push({
       functionName: "addVote",
       key: "newVote",
       props: {
-        realArticleId:
-          data.realArticleId ?? `${data.author}-${data.timeCreate}`,
+        id: data.id ?? `${data.author}-${data.timeCreate}`,
       },
     });
   } else {
@@ -84,8 +83,7 @@ function upVoteButtonListener() {
       functionName: "deleteVote",
       key: "deletedVote",
       props: {
-        realArticleId:
-          data.realArticleId ?? `${data.author}-${data.timeCreate}`,
+        id: data.id ?? `${data.author}-${data.timeCreate}`,
         upVoteId: userVote.value.upVoteId,
       },
     });
