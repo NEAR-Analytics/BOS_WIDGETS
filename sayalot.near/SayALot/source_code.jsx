@@ -2,7 +2,13 @@
 let { sharedBlockHeight, tagShared, isTest, accountId } = props;
 sharedBlockHeight = Number(sharedBlockHeight);
 
-const initSbtsNames = ["fractal.i-am-human.near"];
+const sbtWhiteList = [
+  "fractal.i-am-human.near - class 1",
+  "community.i-am-human.near - class 1",
+  "community.i-am-human.near - class 2",
+];
+
+const initSbtsNames = ["fractal.i-am-human.near - class 1"];
 
 const sbtsNames = state.sbt;
 
@@ -12,7 +18,7 @@ const initLibCalls = [
     key: "articles",
     props: {
       env: isTest ? "test" : "prod",
-      sbtsNames: initSbtsNames,
+      sbtsNames: sbtWhiteList,
     },
   },
   {
@@ -20,19 +26,11 @@ const initLibCalls = [
     key: "canLoggedUserCreateArticle",
     props: {
       accountId: context.accountId,
-      sbtsNames: initSbtsNames,
+      sbtsNames: sbtWhiteList,
     },
   },
-  // {
-  //   functionName: "getLoggedUserSbts",
-  //   key: "logedUserSbts",
-  //   props: {
-  //     accountId: context.accountId,
-  //   },
-  // },
 ];
 
-// if (!accountId) accountId = context.accountId;
 accountId = context.accountId;
 
 const tabs = {
@@ -85,18 +83,6 @@ State.init({
 
 let newLibCalls = state.libCalls;
 
-// const functionsCalledList = newLibCalls.map((functionCalled, index) => {
-//   return { functionName: functionCalled.functionName, i: index };
-// });
-
-// const lastEditArticlesCall = functionsCalledList.filter(
-//   (functionCalled) => functionCalled.functionName === "getLastEditArticles"
-// );
-
-// if (lastEditArticlesCall) {
-//   newLibCalls[getLastEditArticles.index].props.filterBy = state.filterBy;
-// }
-
 State.update({ libCalls: newLibCalls });
 
 //=============================================END INITIALIZATION===================================================
@@ -109,8 +95,6 @@ const authorForWidget = "sayalot.near";
 // const authorForWidget = "kenrou-it.near";
 const libSrcArray = [`${authorForWidget}/widget/SayALot.lib.article`];
 const thisWidgetName = "SayALot";
-
-const sbtWhiteList = ["fractal.i-am-human.near", "community.i-am-human.near"];
 
 const widgets = {
   sayALot: `${authorForWidget}/widget/${thisWidgetName}`,
@@ -140,7 +124,6 @@ if (profile === null) {
 let authorProfile = {};
 if (state.filterBy.parameterName == "author") {
   authorProfile = Social.getr(`${state.filterBy.parameterValue}/profile`);
-  // if (!authorProfile) return "Loading...";
 }
 
 const brand = {
@@ -164,11 +147,13 @@ const navigationButtons = [
 const sbts = state.sbts;
 
 const initialBodyAtCreation = state.editArticleData.body;
+const canLoggedUserCreateArticle = state.canLoggedUserCreateArticle[sbts[0]];
 
 //=================================================END CONSTS=======================================================
 
 //=================================================GET DATA=========================================================
 const finalArticles = state.articles;
+const articlesToRender = finalArticles[sbts[0]] ?? [];
 
 function filterArticlesByTag(tag, articles) {
   return articles.filter((article) => {
@@ -191,19 +176,22 @@ function filterOnePost(blockHeight, articles) {
 }
 
 if (state.filterBy.parameterName === "tag") {
-  finalArticles = filterArticlesByTag(
+  articlesToRender = filterArticlesByTag(
     state.filterBy.parameterValue,
-    finalArticles
+    articlesToRender
   );
 } else if (state.filterBy.parameterName === "author") {
-  finalArticles = filterArticlesByAuthor(
+  articlesToRender = filterArticlesByAuthor(
     state.filterBy.parameterValue,
-    finalArticles
+    articlesToRender
   );
 } else if (state.filterBy.parameterName === "getPost") {
-  finalArticles = filterOnePost(state.filterBy.parameterValue, finalArticles);
-  if (finalArticles.length > 0) {
-    State.update({ articleToRenderData: finalArticles[0] });
+  articlesToRender = filterOnePost(
+    state.filterBy.parameterValue,
+    articlesToRender
+  );
+  if (articlesToRender.length > 0) {
+    State.update({ articleToRenderData: articlesToRender[0] });
   }
 }
 //===============================================END GET DATA=======================================================
@@ -340,7 +328,7 @@ function createSbtOptions() {
 }
 
 const initialCreateState = {
-  articleId: state.editArticleData.articleId ?? "",
+  title: state.editArticleData.title ?? "",
   articleBody: state.editArticleData.body ?? initialBodyAtCreation,
   tags: state.editArticleData.tags ? getValidEditArticleDataTags() : {},
   libCalls: [],
@@ -413,7 +401,6 @@ function handlePillNavigation(navegateTo) {
   State.update({ displayedTabId: navegateTo, editArticleData: undefined });
 }
 
-// console.log(0, "libCalls: ", state.libCalls);
 function callLibs(srcArray, stateUpdate, libCalls) {
   return (
     <>
@@ -453,6 +440,8 @@ function getLink() {
 }
 
 //===============================================END FUNCTIONS======================================================
+
+// console.log(state);
 return (
   <>
     {state.showShareModal && renderShareInteraction()}
@@ -474,12 +463,12 @@ return (
         sbtsNames,
       }}
     />
-    {finalArticles && state.displayedTabId == tabs.SHOW_ARTICLES_LIST.id && (
+    {articlesToRender && state.displayedTabId == tabs.SHOW_ARTICLES_LIST.id && (
       <Widget
         src={widgets.showArticlesList}
         props={{
           isTest,
-          finalArticles,
+          articlesToRender,
           tabs,
           widgets,
           addressForArticles,
@@ -490,49 +479,42 @@ return (
           editArticleData: state.editArticleData,
           callLibs,
           handleEditArticle,
-          showCreateArticle: state.canLoggedUserCreateArticle,
+          showCreateArticle: canLoggedUserCreateArticle,
           sbtWhiteList,
           handleSbtSelection,
           sbts,
           createSbtOptions,
           handleShareButton,
-          // logedUserSbts: state.logedUserSbts,
         }}
       />
     )}
-    {state.articleToRenderData.articleId &&
-    state.displayedTabId == tabs.SHOW_ARTICLE.id ? (
-      <Widget
-        src={widgets.articleView}
-        props={{
-          isTest,
-          widgets,
-          handleFilterArticles,
-          articleToRenderData: state.articleToRenderData,
-          authorForWidget,
-          handleEditArticle,
-          handleShareButton,
-          // logedUserSbts: state.logedUserSbts,
-        }}
-      />
-    ) : (
-      <div className="spinner-grow" role="status">
-        <span className="visually-hidden">Loading...</span>
-      </div>
-    )}
+    {state.articleToRenderData.title &&
+      state.displayedTabId == tabs.SHOW_ARTICLE.id && (
+        <Widget
+          src={widgets.articleView}
+          props={{
+            isTest,
+            widgets,
+            handleFilterArticles,
+            articleToRenderData: state.articleToRenderData,
+            authorForWidget,
+            handleEditArticle,
+            handleShareButton,
+          }}
+        />
+      )}
 
     {state.displayedTabId == tabs.SHOW_ARTICLES_LIST_BY_AUTHORS.id && (
       <Widget
         src={widgets.showArticlesListSortedByAuthors}
         props={{
           isTest,
-          finalArticles,
+          articlesToRender,
           tabs,
           widgets,
           handleOpenArticle,
           handleFilterArticles,
           authorForWidget,
-          // logedUserSbts: state.logedUserSbts,
         }}
       />
     )}
