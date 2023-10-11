@@ -53,13 +53,13 @@ return (
     </div>
     <div style={{ flex: 1 }}>
       <button
-        className="btn btn-primary"
+        className="btn btn-danger"
         type="button"
         onClick={() => {
           setStep(step + 1);
         }}
       >
-        MORE FACTS
+        MORE BEAR FACTS
       </button>
     </div>
   </div>
