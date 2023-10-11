@@ -291,8 +291,9 @@ return (
                               <Input
                                 type="number"
                                 min="0"
-                                value={state[row.id] ?? 0}
+                                value={state[row.id] ?? ""}
                                 onChange={(e) => {
+                                  if (Number(e.target.value) <= 0) return;
                                   State.update({
                                     [row.id]: e.target.value,
                                   });
