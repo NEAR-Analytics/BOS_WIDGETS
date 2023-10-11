@@ -12,17 +12,31 @@ function isValidUser(props) {
     }
   );
 
-  const result =
-    userSBTs.find((sbt) => {
-      return sbt[0] === sbtsNames[0];
-    }) !== undefined;
+  const sbtsData = sbtsNames.map((sbt) => {
+    const data = sbt.split(" - class ");
+    return { name: data[0], classNumber: Number(data[1]) };
+  });
+  const usersValidityBySBT = {};
+  sbtsNames.forEach((sbtName, index) => {
+    const userValidityBySBT =
+      userSBTs.find((userSbt) => {
+        return (
+          userSbt[0] === sbtsData[index].name &&
+          userSbt[1].find(
+            (sbtExtraData) =>
+              sbtExtraData.metadata["class"] === sbtsData[index].classNumber
+          )
+        );
+      }) !== undefined;
+    usersValidityBySBT[sbtName] = userValidityBySBT;
+  });
+
   resultLibCalls = resultLibCalls.filter((call) => {
     return call.functionName !== "isValidUser";
   });
 
   // return true;
-
-  return result;
+  return { ...usersValidityBySBT };
 }
 
 function getLoggedUserSbts(props) {
