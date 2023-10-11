@@ -125,6 +125,7 @@ return (
                   width: `${th.width}%`,
                   verticalAlign: "middle",
                   textAlign: th.align,
+                  background: "transparent",
                 }}
                 scope="col"
               >
