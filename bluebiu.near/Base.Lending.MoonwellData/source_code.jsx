@@ -315,10 +315,14 @@ let _underlyPrice = {};
 let _liquidity = null;
 let _underlyingBalance = null;
 let _userMerberShip = null;
-let _rewards = {};
+let _accountRewards = {};
 let _rewardsForWell = {};
 let count = 0;
 let oTokensLength = Object.values(markets).length;
+const REWARD_TOKEN = {
+  icon: "https://ipfs.near.social/ipfs/bafkreih3un4tcbwp3tneicomraozegmftz45sfx4rtg3qyui67nfdrptei",
+  symbol: "WELL",
+};
 
 const formatedData = (key) => {
   console.log(`${dapp}-${key}`, count);
@@ -330,7 +334,7 @@ const formatedData = (key) => {
   let userTotalSupplyUsd = Big(0);
   let userTotalBorrowUsd = Big(0);
   let totalCollateralUsd = Big(0);
-
+  let totalAccountDistributionApy = Big(0);
   const markets = {};
   Object.values(_cTokensData).forEach((market) => {
     const underlyingPrice = _underlyPrice[market.address];
@@ -353,16 +357,24 @@ const formatedData = (key) => {
           .div(100)
       );
     }
+    const distributionSupplyApy = Big(_rewardsForWell[market.address].supply)
+      .mul(365)
+      .div(marketSupplyUsd.eq(0) ? 1 : marketSupplyUsd)
+      .mul(100)
+      .toFixed(2);
+    const distributionBorrowApy = Big(_rewardsForWell[market.address].borrow)
+      .mul(365)
+      .div(marketBorrowUsd.eq(0) ? 1 : marketBorrowUsd)
+      .mul(100)
+      .toFixed(2);
+    totalAccountDistributionApy = totalAccountDistributionApy
+      .plus(distributionSupplyApy)
+      .plus(distributionBorrowApy);
     const supplyApy = Big(market.supplyRatePerTimestamp)
       .mul(60 * 60 * 24)
       .plus(1)
       .pow(365)
       .minus(1)
-      .add(
-        Big(_rewardsForWell[market.address].supply)
-          .mul(365)
-          .div(marketSupplyUsd.eq(0) ? 1 : marketSupplyUsd)
-      )
       .mul(100)
       .toFixed(2);
     const borrowApy = Big(market.borrowRatePerTimestamp)
@@ -370,29 +382,8 @@ const formatedData = (key) => {
       .plus(1)
       .pow(365)
       .minus(1)
-      .add(
-        Big(_rewardsForWell[market.address].borrow)
-          .mul(365)
-          .div(marketBorrowUsd.eq(0) ? 1 : marketBorrowUsd)
-      )
       .mul(100)
       .toFixed(2);
-
-    let rewards;
-    const reward = _rewards[market.address];
-    if (reward && Big(reward.reward || 0).gt(0)) {
-      rewards = [
-        {
-          icon: "https://ipfs.near.social/ipfs/bafkreih3un4tcbwp3tneicomraozegmftz45sfx4rtg3qyui67nfdrptei",
-          symbol: "WELL",
-          dailyRewards: Big(_rewardsForWell[market.address].borrow)
-            .plus(_rewardsForWell[market.address].supply)
-            .toString(),
-          price: reward.price,
-          unclaimed: reward.reward,
-        },
-      ];
-    }
 
     markets[market.address] = {
       ...market,
@@ -403,12 +394,37 @@ const formatedData = (key) => {
       userMerberShip: _userMerberShip[market.address],
       supplyApy: supplyApy + "%",
       borrowApy: borrowApy + "%",
+      distributionApy: [
+        {
+          ...REWARD_TOKEN,
+          supply: distributionSupplyApy + "%",
+          borrow: distributionBorrowApy + "%",
+        },
+      ],
       dapp,
       rewards,
     };
   });
+  let rewards;
+  if (_accountRewards && Big(_accountRewards.reward || 0).gt(0)) {
+    const dailyRewards = totalAccountDistributionApy
+      .mul(userTotalSupplyUsd.add(userTotalBorrowUsd))
+      .div(365 * 100)
+      .div(_accountRewards.price);
+    rewards = [
+      {
+        ...REWARD_TOKEN,
+        dailyRewards: dailyRewards.lt(0.000001)
+          ? "0.000001"
+          : dailyRewards.toString(),
+        price: _accountRewards.price,
+        unclaimed: _accountRewards.reward,
+      },
+    ];
+  }
   onLoad({
     markets,
+    rewards,
     totalSupplyUsd: totalSupplyUsd.toString(),
     totalBorrowUsd: totalBorrowUsd.toString(),
     userTotalSupplyUsd: userTotalSupplyUsd.toString(),
@@ -492,7 +508,6 @@ const getUnderlyPrice = () => {
     },
     (err) => {
       console.log("getUnderlyPrice error", err);
-      console.log(err);
     }
   );
 };
@@ -672,17 +687,19 @@ const getRewards = () => {
       (res) => {
         for (let i = 0, len = res.length; i < len; i++) {
           const item = res[i];
+          let totalRewards = Big(0);
           if (i === res.length - 1) {
             item[0].forEach((slip) => {
               if (_rewardsForWell[slip[0]]) {
-                _rewards[slip[0]] = {
-                  reward: Big(ethers.utils.formatUnits(slip[1][0][2]._hex, 18))
-                    .add(ethers.utils.formatUnits(slip[1][0][3]._hex, 18))
-                    .toString(),
-                  price,
-                };
+                totalRewards = totalRewards
+                  .plus(ethers.utils.formatUnits(slip[1][0][2]._hex, 18))
+                  .plus(ethers.utils.formatUnits(slip[1][0][3]._hex, 18));
               }
             });
+            _accountRewards = {
+              reward: totalRewards.toString(),
+              price,
+            };
             count++;
             formatedData("getRewards");
             return;
