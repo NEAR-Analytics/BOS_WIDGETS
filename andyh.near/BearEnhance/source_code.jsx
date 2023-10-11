@@ -23,7 +23,7 @@ return (
     <h3>Bear Facts</h3>
 
     <div className="mb-3">
-      <span style={{textDecoration: 'underline'}}>{bearFact}</h5>
+      <span style={{ textDecoration: "underline" }}>{bearFact}</span>
     </div>
     <div className="input-group mb-3">
       <label className="input-group-text" htmlFor="inputGroupSelect0">
