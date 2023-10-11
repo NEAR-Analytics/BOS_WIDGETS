@@ -13,14 +13,14 @@ useEffect(() => {
   }
 }, [isInit]);
 
-// useEffect(() => {
-//   const interval = setInterval(() => {
-//     const updatedMessages = [...sentMessages];
-//     updatedMessages.pop();
-//     setSentMessages(updatedMessages);
-//   }, 500);
-//   return () => clearInterval(interval);
-// }, []);
+useEffect(() => {
+  const interval = setInterval(() => {
+    const updatedMessages = [...sentMessages];
+    updatedMessages.pop();
+    setSentMessages(updatedMessages);
+  }, 2000);
+  return () => clearInterval(interval);
+}, []);
 
 // useEffect(() => {
 //   console.log({ textRef: textRef.current });
@@ -31,7 +31,13 @@ return (
   <>
     <h3>Send a message to the Future</h3>
 
-    <div className="mb-3">{sentMessages.length.toString()}</div>
+    <div className="mb-3">
+      <ul>
+        {sentMessages.map((msg) => (
+          <li>msg</li>
+        ))}
+      </ul>
+    </div>
     <div className="input-group mb-3">
       <label className="input-group-text" htmlFor="inputGroupSelect0">
         Message
