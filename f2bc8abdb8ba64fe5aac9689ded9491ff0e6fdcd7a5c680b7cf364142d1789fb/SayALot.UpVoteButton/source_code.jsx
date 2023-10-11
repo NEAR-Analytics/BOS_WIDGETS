@@ -38,9 +38,9 @@ let hasUserVoted = userVote !== undefined;
 
 function getUpVoteButtonClass() {
   if (hasUserVoted) {
-    return "secondary";
+    return "secondary circule";
   } else {
-    return "secondary dark";
+    return "secondary outline circule";
   }
 }
 
