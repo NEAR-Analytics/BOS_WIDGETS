@@ -1361,7 +1361,7 @@ return (
                       </div>
                       <div class="col-12 mt-2" style={{ textAlign: "center" }}>
                         <img
-                          class="TokenImg poolModeDetailImg"
+                          class="poolModeDetailImg"
                           src={getModeImg(state.poolSelected.kind)}
                         />
                       </div>
