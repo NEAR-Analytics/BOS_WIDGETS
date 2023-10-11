@@ -446,13 +446,13 @@ const disclaimer = (
 const isFundraisingDiv = (
   // This is jank with just btns and not radios. But the radios were glitchy af
   <>
-    <div class="mb-2">
-      <p class="fs-6 fw-bold mb-1">
+    <div className="mb-2">
+      <p className="fs-6 fw-bold mb-1">
         Are you seeking funding for your solution?
-        <span class="text-muted fw-normal">(Optional)</span>
+        <span className="text-muted fw-normal">(Optional)</span>
       </p>
-      <div class="form-check form-check-inline">
-        <label class="form-check-label">
+      <div className="form-check form-check-inline">
+        <label className="form-check-label">
           <button
             className="btn btn-light p-0"
             style={{
@@ -468,8 +468,8 @@ const isFundraisingDiv = (
           Yes
         </label>
       </div>
-      <div class="form-check form-check-inline">
-        <label class="form-check-label">
+      <div className="form-check form-check-inline">
+        <label className="form-check-label">
           <button
             className="btn btn-light p-0"
             style={{
@@ -490,7 +490,7 @@ const isFundraisingDiv = (
 );
 
 const fundraisingDiv = (
-  <div class="d-flex flex-column mb-2">
+  <div className="d-flex flex-column mb-2">
     <div className="col-lg-6 mb-2">
       Currency
       <select
@@ -506,7 +506,7 @@ const fundraisingDiv = (
     </div>
     <div className="col-lg-6 mb-2">
       Requested amount
-      <span class="text-muted fw-normal">(Numbers Only)</span>
+      <span className="text-muted fw-normal">(Numbers Only)</span>
       <input
         type="number"
         value={parseInt(state.amount) > 0 ? state.amount : ""}
@@ -521,21 +521,21 @@ const fundraisingDiv = (
       />
     </div>
     <div className="col-lg-6 mb-2">
-      <p class="mb-1">
+      <p className="mb-1">
         Requested sponsor
-        <span class="text-muted fw-normal">(Optional)</span>
+        <span className="text-muted fw-normal">(Optional)</span>
       </p>
-      <p style={{ fontSize: "13px" }} class="m-0 text-muted fw-light">
+      <p style={{ fontSize: "13px" }} className="m-0 text-muted fw-light">
         If you are requesting funding from a specific sponsor, please enter
         their username.
       </p>
-      <div class="input-group flex-nowrap">
-        <span class="input-group-text" id="addon-wrapping">
+      <div className="input-group flex-nowrap">
+        <span className="input-group-text" id="addon-wrapping">
           @
         </span>
         <input
           type="text"
-          class="form-control"
+          className="form-control"
           placeholder="Enter username"
           value={state.supervisor}
           onChange={(event) => State.update({ supervisor: event.target.value })}
@@ -563,16 +563,16 @@ return (
       {mode} {renamedPostType}
     </div>
 
-    <div class="card-body">
+    <div className="card-body">
       {state.warning && (
         <div
-          class="alert alert-warning alert-dismissible fade show"
+          className="alert alert-warning alert-dismissible fade show"
           role="alert"
         >
           {state.warning}
           <button
             type="button"
-            class="btn-close"
+            className="btn-close"
             data-bs-dismiss="alert"
             aria-label="Close"
             onClick={() => State.update({ warning: "" })}
@@ -616,7 +616,7 @@ return (
       </button>
       {disclaimer}
     </div>
-    <div class="card-footer">
+    <div className="card-footer">
       Preview:
       {widget("entity.post.Post", {
         isPreview: true,
