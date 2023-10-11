@@ -7,4 +7,4 @@ const homepage = accountId
 if (homepage === null) {
   return "Loading";
 }
-return <Widget src={homepage ?? "scopalaffairs.near/widget/ActivityPage"} />;
+return <Widget src={homepage ?? "${REPL_ACCOUNT}/widget/ActivityPage"} />;
