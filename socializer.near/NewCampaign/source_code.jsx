@@ -324,7 +324,7 @@ return (
               src={`${Owner}/widget/Select`}
             />
             <p
-              style={{ fontSize: 12 }}
+              style={{ fontSize: 12, marginTop: 25 }}
             >{`Available Balance = ${state.balance} ${state.token}`}</p>
           </div>
         </div>
