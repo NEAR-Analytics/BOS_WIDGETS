@@ -24,6 +24,7 @@ return (
       display: "flex",
       alignItems: "center",
       flexDirection: "column",
+      gap: "4em",
     }}
   >
     <h3>Bear Facts</h3>
