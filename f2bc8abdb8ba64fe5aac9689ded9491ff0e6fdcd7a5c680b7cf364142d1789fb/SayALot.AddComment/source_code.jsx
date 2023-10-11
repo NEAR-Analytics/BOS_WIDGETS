@@ -309,6 +309,7 @@ const SetText = (txt) => {
 };
 
 const renderSpinner = () => {
+  return <Widget src={widgets.newStyledComponents.Feedback.Spinner} />;
   return <Spinner className="spinner-border" role="status"></Spinner>;
 };
 
@@ -422,23 +423,23 @@ return (
         </div>
         <CommentFooter>
           <Widget
-            src={widgets.styledComponents}
+            src={widgets.newStyledComponents}
             props={{
-              Button: {
-                text: "Cancel",
-                className: "secondary dark",
-                onClick: onCloseModal,
-              },
+              children: "Cancel",
+              className: "info",
+              onClick: onCloseModal,
             }}
           />
           <Widget
-            src={widgets.styledComponents}
+            src={widgets.newStyledComponents.Input.Button}
             props={{
-              Button: {
-                text: state.showSpinner ? "" : "Submit",
-                onClick: !state.showSpinner ? addCommentListener : () => {},
-                icon: state.showSpinner ? renderSpinner() : <></>,
-              },
+              children: (
+                <div className="d-flex justify-content-center align-items-center">
+                  <span>{state.showSpinner ? "" : "Submit"}</span>
+                  {state.showSpinner ? renderSpinner() : <></>}
+                </div>
+              ),
+              onClick: !state.showSpinner ? addCommentListener : () => {},
             }}
           />
         </CommentFooter>
