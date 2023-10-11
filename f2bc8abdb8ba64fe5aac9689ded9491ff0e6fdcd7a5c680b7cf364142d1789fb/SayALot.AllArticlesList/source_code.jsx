@@ -28,7 +28,6 @@ const libSrcArray = [widgets.libUpVotes];
 let initLibCalls = [];
 
 //For the moment we'll allways have only 1 sbt in the array. If this change remember to do the propper work in SayALot.lib.SBT and here.
-const articleSbts = articleToRenderData.sbts[0] ?? [];
 
 articlesToRender.forEach((article) =>
   initLibCalls.push({
@@ -138,8 +137,8 @@ return (
         }}
       />
     </div>
-    <ArticlesListContainer className="row card-group mt-3 py-3 rounded">
-      {sortedFinalArticlesWithUpVotes.length > 0 &&
+    <ArticlesListContainer className="row card-group my-3 py-3 rounded">
+      {sortedFinalArticlesWithUpVotes.length > 0 ? (
         sortedFinalArticlesWithUpVotes.map((article, i) => {
           const authorProfileCall = Social.getr(`${article.author}/profile`);
 
@@ -167,7 +166,10 @@ return (
               }}
             />
           );
-        })}
+        })
+      ) : (
+        <h5>No articles uploaded using this SBT yet</h5>
+      )}
     </ArticlesListContainer>
     <CallLibrary>
       {callLibs(libSrcArray, allArticlesListStateUpdate, state.libCalls)}
