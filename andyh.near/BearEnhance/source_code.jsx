@@ -19,13 +19,15 @@ useEffect(() => {
 }, [step]);
 
 return (
-  <div style={{display: 'flex', flexDirection: 'column', alignContent: 'center'}}>
+  <div
+    style={{ display: "flex", flexDirection: "column", alignContent: "center" }}
+  >
     <h3>Bear Facts</h3>
 
-    <div style={{flex: 1}}>
+    <div style={{ flex: 1 }}>
       <img src={`https://placebear.com/${width}/${height}`} />
     </div>
-    <div style={{flex: 1}}>
+    <div style={{ flex: 1 }}>
       <span
         style={{
           textAlign: "center",
@@ -37,7 +39,7 @@ return (
         {bearFact}
       </span>
     </div>
-    <div style={{flex: 1}}>
+    <div style={{ flex: 1 }}>
       <button
         className="btn btn-primary"
         type="button"
@@ -48,5 +50,5 @@ return (
         MORE FACTS
       </button>
     </div>
-  </>
+  </div>
 );
