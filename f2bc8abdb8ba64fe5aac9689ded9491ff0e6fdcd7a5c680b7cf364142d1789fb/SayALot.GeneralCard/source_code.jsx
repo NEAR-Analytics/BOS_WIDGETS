@@ -413,7 +413,7 @@ const renderArticleBody = () => {
 
 //===================================================RENDER========================================================
 return (
-  <CardContainer className="bg-white rounded-3 p-3 m-3 col-lg-10 col-md-10 col-sm-12">
+  <CardContainer className="bg-white rounded-3 p-3 m-3 col-lg-8 col-md-8 col-sm-12">
     <Card>
       {state.showModal && (
         <Widget
