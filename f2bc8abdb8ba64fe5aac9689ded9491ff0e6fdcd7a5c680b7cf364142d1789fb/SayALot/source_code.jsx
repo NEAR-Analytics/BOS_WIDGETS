@@ -484,6 +484,7 @@ return (
           createSbtOptions,
           handleShareButton,
           canLoggedUserCreateArticles: state.canLoggedUserCreateArticle,
+          filterBy: state.filterBy,
         }}
       />
     )}
