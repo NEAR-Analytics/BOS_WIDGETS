@@ -70,9 +70,6 @@ return (
         onChangeFunction(e.target.value);
       }}
     >
-      <option default value="">
-        Select issuer
-      </option>
       {props.options.map((op) => {
         return (
           <option default={op.def ? op.def : false} value={op.value}>
@@ -80,8 +77,6 @@ return (
           </option>
         );
       })}
-
-      <option value={props._type.SHOWINPUT}>Other -- write it.</option>
     </Dropdown>
   </Colcont>
 );
