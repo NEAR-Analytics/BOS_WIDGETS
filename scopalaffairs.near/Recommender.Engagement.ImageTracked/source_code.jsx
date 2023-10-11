@@ -9,7 +9,7 @@ State.init({
 return (
   <div onClick={handleClick}>
     <Widget
-      src="scopalaffairs.near/widget/Recommender.Service.EngagementTracker"
+      src="${REPL_ACCOUNT}/widget/Recommender.Service.EngagementTracker"
       props={{
         accountId: props.accountId,
         accountIdRank: props.accountIdRank,
@@ -19,7 +19,7 @@ return (
       }}
     />
       <Widget
-        src="mob.near/widget/Image"
+        src="${REPL_MOB}/widget/Image"
         props={{
           image: props.profileImage,
           alt: props.profileImageAlt,
