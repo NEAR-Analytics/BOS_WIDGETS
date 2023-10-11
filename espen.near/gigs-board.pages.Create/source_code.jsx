@@ -410,11 +410,12 @@ const isFundraisingDiv = (
 const fundraisingDiv = (
   <div class="d-flex flex-column mb-2">
     <div className="col-lg-6  mb-2">
-      Currency (fundraising create)
+      Currency
       <select
         onChange={(event) => State.update({ token: event.target.value })}
-        class="form-select"
-        aria-label="Default select"
+        className="form-select"
+        aria-label="Select currency"
+        value={state.token}
       >
         <option selected value="USDT">
           USDT
