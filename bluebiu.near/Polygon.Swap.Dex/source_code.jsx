@@ -17,6 +17,15 @@ const Tokens = {
     icon: "https://assets.coingecko.com/coins/images/2518/small/weth.png?1628852295",
   },
 
+  "0x40379a439D4F6795B6fc9aa5687dB461677A2dBa": {
+    chainId: CHAIN_ID,
+    address: "0x40379a439D4F6795B6fc9aa5687dB461677A2dBa",
+    decimals: 9,
+    symbol: "USDR",
+    name: "Real USD",
+    icon: "https://ipfs.near.social/ipfs/bafkreieocxobsqxkoopzh26huz5zjx4j5cpljzuufuipkmiiwopmym3ave",
+  },
+
   "0x1BFD67037B42Cf73acF2047067bd4F2C47D9BfD6": {
     chainId: CHAIN_ID,
     address: "0x1BFD67037B42Cf73acF2047067bd4F2C47D9BfD6",
@@ -78,6 +87,33 @@ const Tokens = {
     symbol: "CASH",
     name: "CASH",
     icon: "https://assets.coingecko.com/coins/images/27558/small/cash.png?1677063931",
+  },
+
+  "0x00e8c0E92eB3Ad88189E7125Ec8825eDc03Ab265": {
+    chainId: CHAIN_ID,
+    address: "0x00e8c0E92eB3Ad88189E7125Ec8825eDc03Ab265",
+    decimals: 9,
+    symbol: "wUSDR",
+    name: "Wrapped USDR",
+    icon: "https://ipfs.near.social/ipfs/bafkreidij65snn5t2w2fbdgd7pluauudbtvgemvkx2wdk7kpoi5l2fqg4y",
+  },
+
+  "0x6AE96Cc93331c19148541D4D2f31363684917092": {
+    chainId: CHAIN_ID,
+    address: "0x6AE96Cc93331c19148541D4D2f31363684917092",
+    decimals: 18,
+    symbol: "CVR",
+    name: "CAVIAR",
+    icon: "https://ipfs.near.social/ipfs/bafkreiae66wm5kvk523gr2ogu3zf2soggysw73kyvkw2poaq6nicuttbxq",
+  },
+
+  "0x7238390d5f6F64e67c3211C343A410E2A3DEc142": {
+    chainId: CHAIN_ID,
+    address: "0x7238390d5f6F64e67c3211C343A410E2A3DEc142",
+    decimals: 18,
+    symbol: "PEARL",
+    name: "Pearl",
+    icon: "https://ipfs.near.social/ipfs/bafkreieo7d2tqvpszlcvkltb6et2kmxz7n7yuw5ae5w37wzigzlht6i6zu",
   },
 
   "0xc2132D05D31c914a87C6611C10748AEb04B58e8F": {
@@ -228,11 +264,35 @@ return (
               Tokens["0xc2132D05D31c914a87C6611C10748AEb04B58e8F"],
             ],
           },
+          PearlFi: {
+            name: "PearlFi",
+            logo: "https://ipfs.near.social/ipfs/bafkreidtzrrtkb7xbr6trlgir7mg3icshyeho2y374hosn76fszwuullti",
+            factoryAddress: "0xd541Bc203Cc2B85810d9b8E6a534eed1615528E2",
+            routerAddress: "0xcC25C0FD84737F44a7d38649b69491BBf0c7f083",
+            uniType: "solidly",
+            defaultCurrencies: {
+              input: Tokens["0x40379a439D4F6795B6fc9aa5687dB461677A2dBa"],
+              output: Tokens["0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174"],
+            },
+            tokens: [
+              Tokens["0x40379a439D4F6795B6fc9aa5687dB461677A2dBa"],
+              Tokens["0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174"],
+              Tokens["0x8f3Cf7ad23Cd3CaDbD9735AFf958023239c6A063"],
+              Tokens["0xc2132D05D31c914a87C6611C10748AEb04B58e8F"],
+              Tokens["0x7ceB23fD6bC0adD59E62ac25578270cFf1b9f619"],
+              Tokens["0x00e8c0E92eB3Ad88189E7125Ec8825eDc03Ab265"],
+              Tokens["native"],
+              Tokens["0x6AE96Cc93331c19148541D4D2f31363684917092"],
+              Tokens["0x7238390d5f6F64e67c3211C343A410E2A3DEc142"],
+            ],
+          },
         },
         amountOutFn: "bluebiu.near/widget/Arbitrum.Swap.AmountOutV2",
         handlerV2: "bluebiu.near/widget/Arbitrum.Swap.HandlerV2",
         handlerV3: "bluebiu.near/widget/Metis.Swap.HandlerV3",
         quoterV3: "bluebiu.near/widget/Polygon.Swap.QuoterV3",
+        QuoterSolidly: "bluebiu.near/widget/Arbitrum.Swap.QuoterSolidly",
+        handlerSolidly: "bluebiu.near/widget/Arbitrum.Swap.handlerSolidly",
       }}
     />
   </Container>
