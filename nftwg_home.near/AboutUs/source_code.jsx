@@ -3,7 +3,7 @@
 const AboutUsContainer = styled.div`
 
 position: absolute;
-width: 1280px;
+width: 1200px;
 height: 228px;
 left: 80px;
 top: 412px;
@@ -30,7 +30,7 @@ color: #333333;
 const Sentence = styled.div`
 
 position: absolute;
-width: 610px;
+width: 510px;
 height: 120px;
 left: 80px;
 top: 1720px;
