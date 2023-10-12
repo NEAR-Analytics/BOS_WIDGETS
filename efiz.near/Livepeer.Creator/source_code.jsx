@@ -86,7 +86,7 @@ const UploadButton = styled.button`
 `;
 
 function Button({ disabled, onClick }) {
-  return <Widget src="nearui.near/widget/Input.Button" />;
+  return <Widget src="nearui.near/widget/Input.Button" props={{ onClick }} />;
 }
 
 return (
