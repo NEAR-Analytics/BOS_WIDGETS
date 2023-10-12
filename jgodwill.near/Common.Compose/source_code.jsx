@@ -112,7 +112,7 @@ const content = (state.text ||
   type: "md",
   text: state.text,
   image: state.image.cid ? { ipfs_cid: state.image.cid } : undefined,
-  embedNFT: {
+  embededNFT: {
     contractId: state.nftContractId,
     tokenId: state.nftTokenId,
     chain: state.nftChainState,
