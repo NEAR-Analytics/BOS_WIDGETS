@@ -6,7 +6,7 @@ const action = isTest ? testAction : prodAction;
 
 const authorForWidget =
   "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb";
-//const authorForWidget = "sayalot.near";
+// const authorForWidget = "sayalot.near";
 // const authorForWidget = "kenrou-it.near";
 const libSrcArray = [`${authorForWidget}/widget/SayALot.lib.SBT`];
 
@@ -91,7 +91,6 @@ function countUpVotes(arrayLastInteractionForEachUser) {
 
 function getUpVotes(props) {
   const { id, articleSbts } = props;
-  // const { id, createdInteraction } = props;
   const allVotes = Social.index(action, id, {
     order: "desc",
     subscribe: true,
@@ -100,6 +99,9 @@ function getUpVotes(props) {
   let validUpVotes = allVotes;
 
   if (articleSbts.length > 0) {
+    // We assume there will be only one SBT for each article
+    const articleSbt = articleSbts[0];
+
     const validUpVotesAuthors = validUpVotes.map((upVote) => {
       return upVote.accountId;
     });
@@ -107,7 +109,7 @@ function getUpVotes(props) {
     setAreValidUsers(validUpVotesAuthors, articleSbts);
 
     const validAuthors = validUpVotesAuthors.filter((author) => {
-      return state[`isValidUser-${author}`] === true;
+      return state[`isValidUser-${author}`][articleSbt];
     });
 
     resultLibCalls = resultLibCalls.filter((call) => {
@@ -116,57 +118,23 @@ function getUpVotes(props) {
         state[`isValidUser-${call.props.accountId}`] !== undefined;
       return !discardCondition;
     });
-
-    validUpVotes = validUpVotesAuthors.filter((author) => {
-      return validAuthors.includes(author.accountId);
+    validUpVotes = validUpVotes.filter((vote) => {
+      return validAuthors.includes(vote.accountId);
     });
   }
 
-  // const uniqueAccounts = [];
   let upVotes =
     validUpVotes &&
     validUpVotes
       .filter((obj) => {
-        const userLatestInteraction = validUpVotes.find(
-          (vote) => vote.accountId === obj.accountId
-        );
+        const userLatestInteraction = validUpVotes.find((vote) => {
+          return vote.accountId === obj.accountId;
+        });
         return JSON.stringify(userLatestInteraction) === JSON.stringify(obj);
-        // if (!uniqueAccounts.includes(obj.accountId)) {
-        //   // uniqueAccounts.push(obj.accountId);
-        //   return true;
-        // }
-        // return false;
       })
       .filter((vote) => !vote.value.isDelete);
 
   return upVotes ?? [];
-
-  // const userInteraction =
-  //   upVotes &&
-  //   upVotes.find((obj) => {
-  //     return obj.accountId === context.accountId;
-  //   });
-
-  // if (userInteraction && createdInteraction) {
-  //   const newArrayOfLastInteractions = upVotes
-  //     .filter((obj) => {
-  //       return obj.accountId !== context.accountId;
-  //     })
-  //     .push({
-  //       accountId: context.accountId,
-  //       value: {
-  //         type: "md",
-  //         deleteReaction: createdInteraction.value.deleteReaction,
-  //       },
-  //     });
-
-  //   upVotes = newArrayOfLastInteractions;
-  // }
-
-  // return {
-  //   reactionsStatistics: countUpVotes(upVotes),
-  //   userInteraction,
-  // };
 }
 
 function addVote(props) {
@@ -251,10 +219,6 @@ function libCall(call) {
 
 let resultLibCalls = [];
 if (libCalls && libCalls.length > 0) {
-  // console.log(
-  //   "Calling functions",
-  //   libCalls.map((lc) => lc.functionName)
-  // );
   const updateObj = {};
   resultLibCalls = [...libCalls];
   libCalls.forEach((call) => {
@@ -265,4 +229,14 @@ if (libCalls && libCalls.length > 0) {
   stateUpdate(updateObj);
 }
 
-return <></>;
+const CallLibrary = styled.div`
+  display: none;
+`;
+
+return (
+  <>
+    <CallLibrary>
+      {callLibs(libSrcArray, libStateUpdate, state.libCalls)}
+    </CallLibrary>
+  </>
+);
