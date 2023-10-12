@@ -1,6 +1,8 @@
 const content = props.content;
 const raw = !!props.raw;
 
+console.log("content in content widget: ", content);
+
 return content ? (
   <>
     {content.text &&
