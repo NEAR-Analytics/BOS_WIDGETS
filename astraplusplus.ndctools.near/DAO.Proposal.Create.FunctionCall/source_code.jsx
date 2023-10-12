@@ -5,12 +5,12 @@ const daoId = props.daoId;
 const isCongressDaoID = props.isCongressDaoID;
 const powerType = props.powerType;
 const showPowers = props.showPowers ?? true;
-const registry = "registry-v1.gwg-testing.near";
+const registry = "registry.i-am-human.near";
 
-const CoADaoId = "coa.gwg-testing.near";
+const CoADaoId = "congress-coa-v1.ndc-gwg.near";
 const VotingBodyDaoId = "";
-const TCDaoId = "tc.gwg-testing.near";
-const HoMDaoId = "hom.gwg-testing.near";
+const TCDaoId = "congress-tc-v1.ndc-gwg.near";
+const HoMDaoId = "congress-hom-v1.ndc-gwg.near";
 
 if (!accountId) {
     return "Please connect your NEAR wallet :)";
