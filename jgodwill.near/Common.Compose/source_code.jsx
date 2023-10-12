@@ -265,7 +265,7 @@ const onClose = () => {
 //   });
 // }
 
-console.log(state.isChecked)
+console.log(state.isChecked);
 
 const onChangeContractID = (contractId) => {
   State.update({
@@ -371,7 +371,7 @@ return (
                         onChange={(e) => onChangeTokenID(e.target.value)}
                       />
                     </Card>
-                    {state.nftContractId && state.nftTokenId && (
+                    {/*state.nftContractId && state.nftTokenId && (
                       <Widget
                         src="jgodwill.near/widget/GenaDrop.NFTEmbedPreview"
                         props={{
@@ -380,7 +380,7 @@ return (
                           chainState: state.nftChainState.toLowerCase(),
                         }}
                       />
-                    )}
+                    )*/}
                   </Card>
                 </Card>
               </div>
