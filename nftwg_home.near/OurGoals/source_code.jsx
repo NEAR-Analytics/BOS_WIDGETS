@@ -1,6 +1,6 @@
 const OurGoalsContainer = styled.div`
 position: absolute;
-width: 1440px;
+width: 1200px;
 height: 1551px;
 left: 0px;
 top: 2500px;
@@ -42,7 +42,7 @@ color: #333333;
 `;
 const Container = styled.div`
 position: absolute;
-width: 610px;
+width: 510px;
 height: 243.99px;
 left: 30px;
 top: 2.01px;
