@@ -751,7 +751,7 @@ return (
                   : "Ai generated sunset cliffs"}
               </span>
             </Description>
-           {/*<Description>
+            {/*<Description>
               <h6>Details</h6>
               <MintDetails>
                 <span>Mint Address</span>
