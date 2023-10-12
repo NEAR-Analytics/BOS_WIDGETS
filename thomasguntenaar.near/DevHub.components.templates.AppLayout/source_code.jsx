@@ -1,72 +1,110 @@
-const data = fetch(`https://httpbin.org/headers`);
-const gatewayURL = data?.body?.headers?.Origin ?? "";
+const { children, page } = props;
 
-// we need fixed positioning for near social and not for org
-const ParentContainer = gatewayURL.includes("near.org")
-  ? styled.div`
-      width: 100%;
-    `
-  : styled.div`
-      position: fixed;
-      inset: 73px 0px 0px;
-      width: 100%;
-      overflow-y: scroll;
-    `;
-
-const Theme = styled.div`
+const StyledHeader = styled.div`
+  height: 62px;
+  background: #181818;
+  padding: 16px 20px;
   display: flex;
-  flex-direction: column;
-  padding-top: calc(-1 * var(--body-top-padding));
-  background: #f4f4f4;
-  .container-xl {
-    padding-inline: 0px !important;
-  }
+  justify-content: space-between;
+  align-items: center;
+`;
+
+const Logo = styled.img`
+  height: 30px;
+`;
+
+const HeaderActions = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  color: white;
 `;
 
 const Container = styled.div`
-  width: 100%;
-`;
-
-const ContentContainer = styled.div`
-  flex: 1;
   display: flex;
   flex-direction: column;
-  align-items: center;
   width: 100%;
+  height: 100%;
+  min-height: 100vh;
 `;
 
-const AppHeader = ({ page }) => (
-  <Widget
-    src="thomasguntenaar.near/widget/devhub.components.organism.Navbar"
-    props={{
-      page: page,
-      ...props,
-    }}
-  />
-);
-
-const Footer = (props) => {
+function QuestionButton() {
   return (
-    <Widget
-      src="thomasguntenaar.near/widget/devhub.components.organism.NewsLetter"
-      props={{
-        ...props,
-      }}
-    />
+    <div className="btn-group" role="group">
+      <button
+        type="button"
+        className="btn btn-outline-light border-opacity-75 rounded-circle"
+        style={{
+          width: "30px",
+          height: "30px",
+          padding: "6px 0px",
+          borderWidth: "2px",
+          lineHeight: "0px",
+        }}
+        data-bs-toggle="dropdown"
+        aria-expanded="false"
+      >
+        <i className="bi bi-question-lg"></i>
+      </button>
+
+      <ul className="dropdown-menu dropdown-menu-end">
+        <li>
+          <a
+            target="_blank"
+            className="dropdown-item"
+            href="https://github.com/near/devgigsboard-widgets/issues/new?assignees=&labels=bug&template=bug_report.md&title="
+          >
+            Report a bug
+          </a>
+        </li>
+
+        <li>
+          <a
+            target="_blank"
+            className="dropdown-item"
+            href="https://github.com/near/devgigsboard-widgets/issues/new?assignees=&labels=enhancement&template=feature-request.md&title="
+          >
+            Suggest an improvement
+          </a>
+        </li>
+      </ul>
+    </div>
+  );
+}
+
+const AppHeader = ({ page }) => {
+  return (
+    <StyledHeader>
+      <Link to="?page=Feed">
+        <Logo
+          src="https://ipfs.near.social/ipfs/bafkreibjsn3gswlcc5mvgkfv7ady2lzkd2htm55l472suarbd34qryh2uy"
+          alt="DevHub"
+        />
+      </Link>
+
+      <HeaderActions>
+        {page !== "communities" && (
+          <Link to="?page=communities">Communities</Link>
+        )}
+
+        <a
+          href="https://www.neardevgov.org/blog/near-developer-dao"
+          target="_blank"
+        >
+          Developer DAO
+        </a>
+        <QuestionButton />
+      </HeaderActions>
+    </StyledHeader>
   );
 };
 
 function AppLayout({ page, children }) {
   return (
-    <ParentContainer>
-      <Theme>
-        <Container className="container-xl">
-          <AppHeader page={page} />
-          <ContentContainer>{children}</ContentContainer>
-          <Footer page={page} />
-        </Container>
-      </Theme>
-    </ParentContainer>
+    <Container>
+      <AppHeader page={page} />
+      {children}
+    </Container>
   );
 }
 
