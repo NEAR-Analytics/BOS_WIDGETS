@@ -667,21 +667,6 @@ const MintDetails = styled.div`
 
 const closeModal = () => State.update({ message: false });
 
-// const getUsdValue = (price) => {
-//   const res = fetch(
-//     `https://api.coingecko.com/api/v3/simple/price?ids=${
-//       currentChainProps[props.chainState]?.livePrice
-//     }&vs_currencies=usd`
-//   );
-//   if (res.ok) {
-//     const multiplyBy = Object.values(res?.body)[0]?.usd;
-//     const value = multiplyBy * price.toFixed(2);
-//     return value.toFixed(4) !== "NaN" ? `$${value.toFixed(2)}` : 0;
-//   }
-// };
-
-// const PRICE_CONVERSION_CONSTANT =
-//   props.chainState == "near" ? 1000000000000000000000000 : 1000000000000000000;
 const ownerName = profile.name;
 console.log(ownerName);
 return (
@@ -766,7 +751,7 @@ return (
                   : "Ai generated sunset cliffs"}
               </span>
             </Description>
-            <Description>
+           {/*<Description>
               <h6>Details</h6>
               <MintDetails>
                 <span>Mint Address</span>
@@ -790,15 +775,7 @@ return (
                       "near"}
                 </a>
               </MintDetails>
-            </Description>
-            {state.error && (
-              <div className="bg-danger p-2 mt-4 rounded">
-                <p className="text-center text-white pt-2">
-                  Something went wrong when trying to Buy, Please make sure you
-                  are connected to the correct chain and have enough gas
-                </p>
-              </div>
-            )}
+            </Description>*/}
           </RightSection>
         </TopImageContainer>
       </TopSection>
