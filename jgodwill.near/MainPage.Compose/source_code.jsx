@@ -53,6 +53,7 @@ State.init({
   },
 });
 
+console.log("content here", state.content);
 return (
   <>
     <Widget
@@ -62,7 +63,10 @@ return (
         onChange: state.onChange,
         onHelper: ({ extractMentionNotifications, extractHashtags }) => {
           // Major changes here
-          State.update({ extractMentionNotifications: state.extractMentionNotifications , extractHashtags: state.extractHashtags });
+          State.update({
+            extractMentionNotifications: state.extractMentionNotifications,
+            extractHashtags: state.extractHashtags,
+          });
         },
         composeButton: (onCompose) => (
           <CommitButton
@@ -79,10 +83,10 @@ return (
         ),
       }}
     />
-    {state.content && (
+    {state.content && state.content.text && (
       <div className="mt-3">
         <Widget
-          src="mob.near/widget/MainPage.Post"
+          src="jgodwill.near/widget/MainPage.Post"
           props={{
             accountId: context.accountId,
             content: state.content,
