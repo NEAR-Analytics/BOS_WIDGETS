@@ -89,6 +89,7 @@ const DetailContent = styled.div`
 
 const TagContainer = styled.div`
   display: flex;
+  flex-wrap: wrap;
   align-items: flex-start;
   gap: 4px;
   margin-top: 1rem;
@@ -538,7 +539,7 @@ return (
             }}
           >
             <div className="w-100 p-3 d-flex flex-wrap justify-content-between align-items-start">
-              <div className="d-flex flex-column">
+              <div className="d-flex flex-column w-75">
                 <Widget
                   src={widgets.newStyledComponents.Element.User}
                   props={{
