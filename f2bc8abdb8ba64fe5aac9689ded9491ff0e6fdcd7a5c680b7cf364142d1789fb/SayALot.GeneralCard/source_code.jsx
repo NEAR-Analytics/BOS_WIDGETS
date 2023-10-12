@@ -98,6 +98,10 @@ const getShortUserName = () => {
   return name.length > 20 ? `${name.slice(0, 20)}...` : name;
 };
 
+function toggleShowModal() {
+  State.update({ showModal: true });
+}
+
 //================================================END FUNCTIONS=====================================================
 
 //==============================================STYLED COMPONENTS===================================================
@@ -437,7 +441,7 @@ return (
             isTest,
             username: data.author,
             id,
-            onCloseModal: () => State.update({ showModal: false }),
+            onCloseModal: toggleShowModal,
           }}
         />
       )}
@@ -563,9 +567,7 @@ return (
                     (articleSbts.length > 0 && !canLoggedUserCreateComment),
                   size: "sm",
                   className: "info outline w-100",
-                  onClick: () => {
-                    State.update({ showModal: true });
-                  },
+                  onClick: toggleShowModal,
                 }}
               />
               <Widget
