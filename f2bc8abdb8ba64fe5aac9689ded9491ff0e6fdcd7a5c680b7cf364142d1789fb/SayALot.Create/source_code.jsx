@@ -28,7 +28,7 @@ function createStateUpdate(obj) {
   State.update(obj);
 }
 
-const tagsArray = state.tags;
+const tagsArray = editArticleData ? editArticleData.tags : state.tags;
 
 const accountId = context.accountId;
 
@@ -141,9 +141,7 @@ const SecondContainer = styled.div`
   border-radius: 20px;
 `;
 
-console.log("editArticleData: ", editArticleData);
-
-const initialTagsObject = editArticleData ? {} : {};
+const initialTagsObject = {};
 
 Array.isArray(tagsArray) &&
   tagsArray.forEach((tag) => {
