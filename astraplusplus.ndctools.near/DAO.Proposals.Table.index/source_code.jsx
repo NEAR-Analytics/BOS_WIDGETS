@@ -1,5 +1,4 @@
-const { proposals, resPerPage, state, update, isCongressDaoID, daoConfig } =
-    props;
+const { proposals, resPerPage, state, update, isCongressDaoID } = props;
 const { daoId, multiSelectMode } = state;
 const accountId = props.accountId ?? context.accountId ?? "";
 
@@ -157,8 +156,7 @@ return (
                                             daoId,
                                             multiSelectMode,
                                             isAllowedTo,
-                                            isCongressDaoID,
-                                            daoConfig
+                                            isCongressDaoID
                                         }}
                                     />
                                 );
