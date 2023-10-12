@@ -370,7 +370,7 @@ return (
                       <Input
                         type="text"
                         onChange={(e) => onChangeTokenID(e.target.value)}
-                        value={state.nftContractId}
+                        value={state.nftTokenId}
                       />
                     </Card>
                     {/*state.nftContractId && state.nftTokenId && (
