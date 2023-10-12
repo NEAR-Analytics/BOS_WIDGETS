@@ -523,7 +523,7 @@ return (
         src={widgets.showArticlesListSortedByAuthors}
         props={{
           isTest,
-          articlesToRender,
+          finalArticles,
           tabs,
           widgets,
           handleOpenArticle,
