@@ -450,7 +450,9 @@ function handleShareButton(showShareModal, sharedElement) {
 }
 
 function getLink() {
-  return `https://near.social/f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/SayALot?${state.sharedElement.type}=${state.sharedElement.value}`;
+  return `https://near.social/${widgets.sayALot}?${isTest && "isTest=t&"}${
+    state.sharedElement.type
+  }=${state.sharedElement.value}`;
 }
 
 //===============================================END FUNCTIONS======================================================
