@@ -27,7 +27,7 @@ const handleProposal = () => {
         return;
     }
 
-    const gas = 200000000000000;
+    const gas = 20000000000000;
     const deposit = 100000000000000000000000;
     const amount = Big(state.fundingAmt).mul(Big(10).pow(24)).toFixed();
     Near.call([
@@ -59,12 +59,12 @@ const onChangeAmount = (amt) => {
 };
 
 const defaultDescription =
-    "# [Your Title Here]\n\n## Description\n\n[Detailed description of what the proposal is about.]\n\n## Why This Proposal?\n\n[Explanation of why this proposal is necessary or beneficial.]\n\n## Execution Plan\n\n[Description of how the proposal will be implemented.]\n\n## Budget\n\n[If applicable, outline the budget required to execute this proposal.]\n\n## Timeline\n\n[Proposed timeline for the execution of the proposal.]";
+    "### [Your Title Here]\n\n#### Description\n\n[Detailed description of what the proposal is about.]\n\n#### Why This Proposal?\n\n[Explanation of why this proposal is necessary or beneficial.]\n\n#### Execution Plan\n\n[Description of how the proposal will be implemented.]\n\n#### Budget\n\n[If applicable, outline the budget required to execute this proposal.]\n\n#### Timeline\n\n[Proposed timeline for the execution of the proposal.]";
 
 return (
     <>
         <div className="mb-3">
-            <h5>Amount</h5>
+            <h5>Amount (NEAR)</h5>
             <input
                 type="number"
                 onChange={(e) => onChangeAmount(e.target.value)}
