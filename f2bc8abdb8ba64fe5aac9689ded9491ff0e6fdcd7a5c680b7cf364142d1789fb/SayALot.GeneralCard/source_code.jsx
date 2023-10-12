@@ -10,6 +10,7 @@ const {
   addressForArticles,
   authorForWidget,
   handleShareButton,
+  sbtWhiteList,
 } = props;
 
 const tags = data.tags;
@@ -54,7 +55,7 @@ const initLibCalls = [
     key: "canLoggedUserCreateComment",
     props: {
       accountId: context.accountId,
-      sbtName: articleSbts,
+      sbtsNames: sbtWhiteList,
     },
   },
 ];
@@ -69,6 +70,8 @@ State.init({
 //=============================================END INITIALIZATION===================================================
 
 //===================================================CONSTS=========================================================
+const canLoggedUserCreateComment =
+  state.canLoggedUserCreateComment[data.sbts[0]];
 
 //=================================================END CONSTS=======================================================
 
@@ -420,7 +423,7 @@ const renderArticleBody = () => {
 //===============================================END COMPONENTS====================================================
 
 //===================================================RENDER========================================================
-console.log("General card state: ", state);
+// console.log("General card state: ", state);
 return (
   <CardContainer className="bg-white rounded-3 p-3 m-3 col-lg-8 col-md-8 col-sm-12">
     <Card>
@@ -468,7 +471,7 @@ return (
               disabled:
                 !context.accountId ||
                 context.accountId === accountId ||
-                (articleSbts.length > 0 && !state.canLoggedUserCreateComment),
+                (articleSbts.length > 0 && !canLoggedUserCreateComment),
               articleSbts,
               upVotes,
             }}
@@ -539,7 +542,7 @@ return (
                 disabled:
                   !context.accountId ||
                   context.accountId === accountId ||
-                  (articleSbts.length > 0 && !state.canLoggedUserCreateComment),
+                  (articleSbts.length > 0 && !canLoggedUserCreateComment),
               }}
             />
           </ButtonsLowerSection>
@@ -557,8 +560,7 @@ return (
                   disabled:
                     !context.accountId ||
                     context.accountId === accountId ||
-                    (articleSbts.length > 0 &&
-                      !state.canLoggedUserCreateComment),
+                    (articleSbts.length > 0 && !canLoggedUserCreateComment),
                   size: "sm",
                   className: "info outline w-100",
                   onClick: () => {
