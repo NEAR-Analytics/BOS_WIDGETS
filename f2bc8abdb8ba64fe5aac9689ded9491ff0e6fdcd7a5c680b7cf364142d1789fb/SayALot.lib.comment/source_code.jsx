@@ -16,7 +16,7 @@ function libStateUpdate(obj) {
   State.update(obj);
 }
 
-function setAreValidUsers(accountIds, sbtName) {
+function setAreValidUsers(accountIds, sbtsNames) {
   const newLibCalls = [...state.libCalls];
   accountIds.forEach((accountId) => {
     const isCallPushed =
@@ -37,7 +37,7 @@ function setAreValidUsers(accountIds, sbtName) {
       key: `isValidUser-${accountId}`,
       props: {
         accountId,
-        sbtName: sbtName,
+        sbtsNames,
       },
     });
   });
@@ -64,7 +64,7 @@ function callLibs(srcArray, stateUpdate, libCalls) {
 }
 
 function canUserCreateComment(props) {
-  const { env, accountId, sbtsNames } = props;
+  const { accountId, sbtsNames } = props;
 
   setAreValidUsers([accountId], sbtsNames);
 
@@ -187,10 +187,10 @@ function libCall(call) {
 
 let resultLibCalls = [];
 if (libCalls && libCalls.length > 0) {
-  console.log(
-    "Calling functions",
-    libCalls.map((lc) => lc.functionName)
-  );
+  // console.log(
+  //   "Calling functions",
+  //   libCalls.map((lc) => lc.functionName)
+  // );
   const updateObj = {};
   resultLibCalls = [...libCalls];
   libCalls.forEach((call) => {
