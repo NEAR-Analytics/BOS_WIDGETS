@@ -1,7 +1,7 @@
 const Owner = "nftwg_home.near";
 const Layout = styled.div`
 position: relative;
-width: 1600px;
+width: 1440px;
 height: 6060px;
 background: #FFFBDA;
 `;
