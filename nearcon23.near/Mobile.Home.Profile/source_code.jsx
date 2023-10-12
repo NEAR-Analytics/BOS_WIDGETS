@@ -1,5 +1,5 @@
 const ownerId = "nearcon23.near";
-const prefix = props.prefix || "" || "/mobile";
+const prefix = props.prefix || "" ;
 const theme = props.theme;
 
 const [persona, setPersona] = useState("allTracks");
