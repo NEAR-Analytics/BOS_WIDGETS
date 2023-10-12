@@ -162,6 +162,13 @@ const SecondContainer = styled.div`
   border-radius: 20px;
 `;
 
+const initialTagsObject = {};
+
+Array.isArray(tagsArray) &&
+  tagsArray.forEach((tag) => {
+    initialTagsObject[tag] = true;
+  });
+
 return (
   <>
     {state.createdArticle && state.showCreatedArticle && editArticleData ? (
@@ -236,7 +243,7 @@ return (
                   props={{
                     forceClear: state.clearTags,
                     stateUpdate: (obj) => State.update(obj),
-                    initialTagsObject: state.tags,
+                    initialTagsObject,
                     placeholder: "Input tags",
                     setTagsObject: (tags) => {
                       state.tags = Object.keys(tags);
