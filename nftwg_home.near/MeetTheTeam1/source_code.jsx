@@ -113,7 +113,7 @@ position: absolute;
 width: 1205px;
 height: 60px;
 left: 200px;
-top: 1410px;
+top: 110px;
 
 font-family: inherit;
 font-style: normal;
@@ -143,14 +143,16 @@ width:20;
 height:20;
 `;
 return (
-  <CoreText>
-    {" "}
-    The core contributors team is a diverse group comprising individuals with
-    varied experiences. These contributors have been democratically elected by
-    the community, sharing a common commitment to enhance innovations in Near
-    NFTs. You can view the detailed election results by following this link :{" "}
-    <a href="https://gov.near.org/t/nft-wg-election-results/35493">
-      Election Results
-    </a>
-  </CoreText>
+  <MeetTheTeamContainer>
+    <CoreText>
+      {" "}
+      The core contributors team is a diverse group comprising individuals with
+      varied experiences. These contributors have been democratically elected by
+      the community, sharing a common commitment to enhance innovations in Near
+      NFTs. You can view the detailed election results by following this link :{" "}
+      <a href="https://gov.near.org/t/nft-wg-election-results/35493">
+        Election Results
+      </a>
+    </CoreText>
+  </MeetTheTeamContainer>
 );
