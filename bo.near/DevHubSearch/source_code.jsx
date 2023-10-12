@@ -11,7 +11,7 @@ State.init({
   content: null,
 });
 
-const query = `query DevhubPostsQuery($limit: Int = 10, $offset: Int = 0, $where: ${props.queryName}_bool_exp = {}) {
+const query = `query DevhubPostsQuery($limit: Int = 10, $offset: Int = 0, $where: ${queryName}_bool_exp = {}) {
   ${queryName}(
     limit: $limit
     offset: $offset
@@ -46,17 +46,29 @@ function fetchGraphQL(operationsDoc, operationName, variables) {
   });
 }
 
-fetchGraphQL(query, "DevhubPostsQuery", {}).then((result) => {
-  if (result.status === 200) {
-    if (result.body.data) {
-      const data = result.body.data[queryName];
-      State.update({ data });
-      console.log(data);
-    }
-  } else {
-    console.error("error", result.body);
+function search() {
+  let query = {};
+  if (state.author) {
+    query = { author_id: { _eq: state.author }, ...query };
   }
-});
+  if (state.content) {
+    query = { description: { _like: `%${state.content}%` }, ...query };
+  }
+  if (state.title) {
+    query = { name: { _like: `%${state.tilte}%` }, ...query };
+  }
+  fetchGraphQL(query, "DevhubPostsQuery", {}).then((result) => {
+    if (result.status === 200) {
+      if (result.body.data) {
+        const data = result.body.data[queryName];
+        State.update({ data });
+        console.log(data);
+      }
+    } else {
+      console.error("error", result.body);
+    }
+  });
+}
 
 const renderData = (a) => {
   return <div key={JSON.stringify(a)}>{JSON.stringify(a)}</div>;
@@ -78,13 +90,7 @@ return (
         placeholder="content"
         onChange={(e) => State.update({ content: e.target.value })}
       ></input>
-      <button
-        onClick={() => {
-          console.log(state.author);
-        }}
-      >
-        search
-      </button>
+      <button onClick={search}>search</button>
     </div>
     <div>{renderedData}</div>
   </div>
