@@ -18,7 +18,7 @@ padding: 0px;
 gap: 10px;
 
 position: absolute;
-width: 1350px;
+width: 1150px;
 height: 500px;
 left: 10px;
 top: 436px;
