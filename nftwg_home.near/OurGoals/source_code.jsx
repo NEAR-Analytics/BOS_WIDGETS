@@ -237,7 +237,7 @@ return (
             top: 50,
             whiteSpace: "normal",
             fontWeight: 400,
-            width: 510,
+            width: 505,
             lineHeight: 2,
           }}
         >
