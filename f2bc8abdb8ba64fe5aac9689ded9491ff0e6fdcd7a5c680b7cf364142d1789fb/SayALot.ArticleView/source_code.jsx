@@ -733,6 +733,7 @@ return (
             />
             {originalComments.map((data) => (
               <Widget
+                src={widgets.commentView}
                 props={{
                   widgets,
                   data,
@@ -742,7 +743,6 @@ return (
                   canLoggedUserCreateComment: state.canLoggedUserCreateComment,
                   articleSbts,
                 }}
-                src={widgets.commentView}
               />
             ))}
           </CommentSection>
