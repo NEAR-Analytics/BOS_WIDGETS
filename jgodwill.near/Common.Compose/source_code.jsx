@@ -2,13 +2,13 @@ const autocompleteEnabled = props.autocompleteEnabled ?? true;
 
 State.init({
   isChecked: false,
-  nftChainState: "",
+  nftChainState: "Near",
 });
 if (state.image === undefined) {
   State.init({
     image: {},
     text: props.initialText || "",
-    nftChainState: ""
+    nftChainState: "",
   });
 
   if (props?.onHelper) {
@@ -254,11 +254,18 @@ const onClose = () => {
   });
 };
 
-if(state.isChecked === true ){
-  State.update({
-    nftChainState: "Near"
-  })
-}
+// if (state.isChecked === true) {
+//   State.update({
+//     nftChainState: "Near",
+//   });
+// }
+// if (state.isChecked === false) {
+//   State.update({
+//     nftChainState: "",
+//   });
+// }
+
+console.log(state.isChecked)
 
 const onChangeContractID = (contractId) => {
   State.update({
