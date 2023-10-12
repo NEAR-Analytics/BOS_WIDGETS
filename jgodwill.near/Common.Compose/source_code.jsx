@@ -2,7 +2,7 @@ const autocompleteEnabled = props.autocompleteEnabled ?? true;
 
 State.init({
   isChecked: false,
-  chain: "Near",
+  nftChainState: "Near",
 });
 if (state.image === undefined) {
   State.init({
@@ -98,10 +98,10 @@ const chains = [
 ];
 
 const updateChain = (chain) => {
-  State.update({ chain });
+  State.update({ nftChainState: chain });
 };
 
-const content = (state.text || state.image.cid) && {
+const content = (state.text || state.image.cid || state.nftContractId || state.nftTokenId || state.nftChainState) && {
   type: "md",
   text: state.text,
   image: state.image.cid ? { ipfs_cid: state.image.cid } : undefined,
@@ -245,19 +245,19 @@ const onClose = () => {
   State.update({
     isOpen: false,
     isChecked: false,
-    chain: "Near",
+    nftChainState: "Near",
   });
 };
 
 const onChangeContractID = (contractId) => {
   State.update({
-    contractId,
+    nftContractId: contractId,
   });
 };
 
 const onChangeTokenID = (tokenId) => {
   State.update({
-    tokenId,
+    nftTokenId: tokenId,
   });
 };
 // const onOpen = () =>{
@@ -266,7 +266,7 @@ const onChangeTokenID = (tokenId) => {
 //   })
 // }
 // console.log(state.isChecked);
-console.log(state.chain);
+console.log(content);
 return (
   <div className="text-bg-light rounded-4">
     <TextareaWrapper className="p-3" data-value={state.text || ""}>
@@ -296,10 +296,10 @@ return (
     </TextareaWrapper>
     <div className="d-flex flex-row p-2 border-top">
       <div className="flex-grow-1">
-        <IpfsImageUpload
+        {!state.isChecked&&<IpfsImageUpload
           image={state.image}
           className="btn btn-outline-secondary border-0 rounded-3"
-        />
+        />}
         {!state.image.cid && (
           <EmbedNFT>
             <div className="form-check form-switch embed">
@@ -327,9 +327,9 @@ return (
                         <MyAcc>{state.sender ? getSender() : "0x00..."}</MyAcc>
                       </div>
                     ) : (
-                      state.chain !== "Near" && (
+                      state.nftChainState !== "Near" && (
                         <Web3Connect
-                          connectLabel={`Connect ${state.chain} Wallet`}
+                          connectLabel={`Connect ${state.nftChainState} Wallet`}
                           className="w-50"
                         />
                       )
@@ -351,13 +351,13 @@ return (
                         onChange={(e) => onChangeTokenID(e.target.value)}
                       />
                     </Card>
-                    {state.contractId && state.tokenId && (
+                    {state.nftContractId && state.nftTokenId && (
                       <Widget
                         src="jgodwill.near/widget/GenaDrop.NFTEmbedPreview"
                         props={{
-                          contractId: state.contractId,
-                          tokenId: state.tokenId,
-                          chainState: state.chain.toLowerCase(),
+                          contractId: state.nftContractId,
+                          tokenId: state.nftTokenId,
+                          chainState: state.nftChainState.toLowerCase(),
                         }}
                       />
                     )}
