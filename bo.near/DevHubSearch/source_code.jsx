@@ -4,7 +4,7 @@ const queryName =
   props.queryName ?? `bo_near_devhub_v15_posts_with_latest_snapshot`;
 
 State.init({
-  data: [],
+  data: null,
 
   author: null,
   title: null,
@@ -78,7 +78,7 @@ const renderData = (a) => {
     />
   );
 };
-const renderedData = state.data.map(renderData);
+const renderedData = state.data ? state.data.map(renderData) : null;
 
 return (
   <div>
@@ -97,6 +97,15 @@ return (
       ></input>
       <button onClick={search}>search</button>
     </div>
-    <div>{renderedData}</div>
+
+    {state.data ? (
+      state.data.length > 0 ? (
+        <div>{renderedData}</div>
+      ) : (
+        "No posts found"
+      )
+    ) : (
+      ""
+    )}
   </div>
 );
