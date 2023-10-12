@@ -16,9 +16,7 @@ let {
   handleEditArticle,
   showCreateArticle,
   sbtWhiteList,
-  handleSbtSelection,
   sbts,
-  createSbtOptions,
   handleShareButton,
   canLoggedUserCreateArticles,
   filterBy,
@@ -108,8 +106,8 @@ function allArticlesListStateUpdate(obj) {
 return (
   <>
     {
-      // true && (
-      showCreateArticle && (
+      // true ? (
+      showCreateArticle ? (
         <Widget
           src={widgets.create}
           props={{
@@ -124,76 +122,69 @@ return (
             handleFilterArticles,
             handleEditArticle,
             initialBody: "",
-            createSbtOptions,
             canLoggedUserCreateArticles,
+            sbts,
           }}
         />
+      ) : (
+        <h6>You can't post since you don't own this SBT</h6>
       )
     }
-    <div className="mt-3 border-top pt-2">
-      <Widget
-        src={widgets.newStyledComponents.Input.Select}
-        props={{
-          label: "Select sbt filter",
-          value: sbts[0],
-          onChange: handleSbtSelection,
-          options: createSbtOptions(),
-        }}
-      />
-    </div>
-    {filterBy.parameterName === "tag" && (
-      <div className="mt-3">
-        <h6>Filter by tag:</h6>
-        <div className="d-flex align-items-center ">
-          <Widget
-            src={widgets.newStyledComponents.Element.Badge}
-            props={{
-              children: filterBy.parameterValue,
-              variant: "round info",
-              size: "lg",
-            }}
-          />
-          <IconCursorPointer
-            className="bi bi-x"
-            onClick={() => handleFilterArticles({ filterBy: "", value: "" })}
-          ></IconCursorPointer>
-        </div>
-      </div>
-    )}
-    <ArticlesListContainer className="row card-group my-3 py-3 rounded">
-      {sortedFinalArticlesWithUpVotes.length > 0 ? (
-        sortedFinalArticlesWithUpVotes.map((article, i) => {
-          const authorProfileCall = Social.getr(`${article.author}/profile`);
-
-          if (authorProfileCall) {
-            article.authorProfile = authorProfileCall;
-          }
-
-          // If some widget posts data different than an array it will be ignored
-          if (!Array.isArray(article.tags)) article.tags = [];
-          return (
+    <div className="mt-3">
+      {filterBy.parameterName === "tag" && (
+        <div className="mt-3">
+          <h6>Filter by tag:</h6>
+          <div className="d-flex align-items-center ">
             <Widget
-              src={widgets.generalCard}
+              src={widgets.newStyledComponents.Element.Badge}
               props={{
-                widgets,
-                isTest,
-                data: article,
-                displayOverlay: true,
-                renderReactions: true,
-                addressForArticles,
-                handleOpenArticle,
-                handleFilterArticles,
-                authorForWidget,
-                handleShareButton,
-                sbtWhiteList,
+                children: filterBy.parameterValue,
+                variant: "round info",
+                size: "lg",
               }}
             />
-          );
-        })
-      ) : (
-        <h5>No articles uploaded using this SBT yet</h5>
+            <IconCursorPointer
+              className="bi bi-x"
+              onClick={() => handleFilterArticles({ filterBy: "", value: "" })}
+            ></IconCursorPointer>
+          </div>
+        </div>
       )}
-    </ArticlesListContainer>
+      <ArticlesListContainer className="row card-group my-3 py-3 rounded">
+        {sortedFinalArticlesWithUpVotes.length > 0 ? (
+          sortedFinalArticlesWithUpVotes.map((article, i) => {
+            const authorProfileCall = Social.getr(`${article.author}/profile`);
+
+            if (authorProfileCall) {
+              article.authorProfile = authorProfileCall;
+            }
+
+            // If some widget posts data different than an array it will be ignored
+            if (!Array.isArray(article.tags)) article.tags = [];
+            return (
+              <Widget
+                src={widgets.generalCard}
+                props={{
+                  widgets,
+                  isTest,
+                  data: article,
+                  displayOverlay: true,
+                  renderReactions: true,
+                  addressForArticles,
+                  handleOpenArticle,
+                  handleFilterArticles,
+                  authorForWidget,
+                  handleShareButton,
+                  sbtWhiteList,
+                }}
+              />
+            );
+          })
+        ) : (
+          <h5>No articles uploaded using this SBT yet</h5>
+        )}
+      </ArticlesListContainer>
+    </div>
     <CallLibrary>
       {callLibs(libSrcArray, allArticlesListStateUpdate, state.libCalls)}
     </CallLibrary>
