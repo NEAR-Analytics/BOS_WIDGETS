@@ -1,6 +1,7 @@
 if (!context.accountId) {
   return "";
 }
+console.log("content here", state.content);
 
 const composeData = () => {
   const data = {
@@ -53,7 +54,6 @@ State.init({
   },
 });
 
-console.log("content here", state.content);
 return (
   <>
     <Widget
@@ -83,7 +83,7 @@ return (
         ),
       }}
     />
-    {state.content && state.content.embedNFT.contractId && (
+    {state.content && state.content.embeddedNFT.contractId && (
       <div className="mt-3">
         <Widget
           src="jgodwill.near/widget/MainPage.Post"
