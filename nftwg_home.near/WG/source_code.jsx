@@ -1,22 +1,13 @@
 const Owner = "nftwg_home.near";
 const Layout = styled.div`
 position: relative;
-width: 1300px;
-height: 7060px;
+width: 1200px;
+height: 6060px;
 background: #FFFBDA;
-padding:30px;
-
-
-`;
-const HeaderContainer = styled.div`
-position:relative;
-width:200px;
-height:80px;
 `;
 return (
   <Layout>
     <Widget src={`${Owner}/widget/Header`} />
-
     <Widget src={`${Owner}/widget/Hero`} />
     <Widget src={`${Owner}/widget/NFTStats`} />
     <Widget src={`${Owner}/widget/AboutUs`} />
