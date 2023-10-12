@@ -84,16 +84,23 @@ line-height: 120%;
 
 color: #333333;
 `;
+const HeroContainer = styled.div`
+position:absolute;
+width:1200px;
+height:80px;
+`;
 return (
   /*------------Hero----------------*/
-  <Hero>
-    <Text1 id="home">THE NFT WORKGROUP</Text1>
-    <Text2>
-      Empowering NFTs on NEAR: Bridging Communities, Pioneering Innovations!
-    </Text2>
+  <HeroContainer>
+    <Hero>
+      <Text1 id="home">THE NFT WORKGROUP</Text1>
+      <Text2>
+        Empowering NFTs on NEAR: Bridging Communities, Pioneering Innovations!
+      </Text2>
 
-    <ImageLayout>
-      <ImageCss />
-    </ImageLayout>
-  </Hero>
+      <ImageLayout>
+        <ImageCss />
+      </ImageLayout>
+    </Hero>
+  </HeroContainer>
 );
