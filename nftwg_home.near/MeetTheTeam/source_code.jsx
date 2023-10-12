@@ -442,5 +442,15 @@ return (
         </a>
       </SocialIcon>
     </SocialContainer>
+    <CoreText>
+      {" "}
+      The core contributors team is a diverse group comprising individuals with
+      varied experiences. These contributors have been democratically elected by
+      the community, sharing a common commitment to enhance innovations in Near
+      NFTs. You can view the detailed election results by following this link :{" "}
+      <a href="https://gov.near.org/t/nft-wg-election-results/35493">
+        Election Results
+      </a>
+    </CoreText>
   </MeetTheTeamContainer>
 );
