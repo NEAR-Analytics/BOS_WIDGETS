@@ -31,7 +31,8 @@ const proposalKinds = {
     ChangePolicyUpdateParameters: "policy_update_parameters",
     Text: "Text",
     FundingRequest: "FundingRequest",
-    RecurrentFundingRequest: "RecurrentFundingRequest"
+    RecurrentFundingRequest: "RecurrentFundingRequest",
+    DismissAndBan: "DismissAndBan"
 };
 
 const actions = {
@@ -100,20 +101,28 @@ function renderStatus(statusName) {
 
     switch (statusName) {
         case "Approved":
-        case "Vetoed":
-        case "Executed":
         case "Accepted":
             statusicon = "bi bi-check-circle";
             statustext = statusName;
             statusvariant = "success";
             break;
-        case "InProgress":
+        case "Executed":
+            statusicon = "bi bi-play-fill";
+            statustext = statusName;
+            statusvariant = "success";
+            break;
+        case "In Progress":
             statusicon = "spinner-border spinner-border-sm";
-            statustext = "Progress";
+            statustext = "In Progress";
             statusvariant = "primary";
             break;
-        case "Expired":
+        case "Vetoed":
             statusicon = "bi bi-x-circle";
+            statustext = "Expired";
+            statusvariant = "black";
+            break;
+        case "Expired":
+            statusicon = "bi bi-clock";
             statustext = "Expired";
             statusvariant = "black";
             break;
@@ -123,7 +132,7 @@ function renderStatus(statusName) {
             statusvariant = "black";
             break;
         case "Rejected":
-            statusicon = "bi bi-x-circle";
+            statusicon = "bi bi-ban";
             statustext = "Rejected";
             statusvariant = "danger";
             break;
@@ -152,6 +161,9 @@ function renderStatus(statusName) {
         />
     );
 }
+
+const execProposal = ({ daoId, proposal_id }) =>
+    Near.call(daoId, "execute", { id: proposal_id }, 300000000000000);
 
 return (
     <tr
@@ -197,7 +209,17 @@ return (
             </td>
         )}
         <td style={{ width: 150 }}>
-            <div className="d-flex justify-content-end">
+            <div className="d-flex justify-content-end gap-2">
+                {proposal.status === "Approved" && (
+                    <Widget
+                        src="nearui.near/widget/Input.Button"
+                        props={{
+                            variant: "primary icon",
+                            children: <i class="bi bi-caret-right-fill" />,
+                            onClick: () => execProposal({ daoId, proposal_id })
+                        }}
+                    />
+                )}
                 <Widget
                     src="nearui.near/widget/Layout.Modal"
                     props={{
