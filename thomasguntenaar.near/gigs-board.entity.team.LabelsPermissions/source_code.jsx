@@ -87,6 +87,24 @@ const DevHub = {
   update_community_github: ({ handle, github }) =>
     Near.call(devHubAccountId, "update_community_github", { handle, github }),
 
+  add_community_addon: ({ handle, config }) =>
+    Near.call(devHubAccountId, "add_community_addon", {
+      community_handle: handle,
+      addon_config: config,
+    }),
+
+  update_community_addon: ({ handle, config }) =>
+    Near.call(devHubAccountId, "update_community_addon", {
+      community_handle: handle,
+      addon_config: config,
+    }),
+
+  remove_community_addon: ({ handle, config_id }) =>
+    Near.call(devHubAccountId, "remove_community_addon", {
+      community_handle: handle,
+      config_id,
+    }),
+
   get_access_control_info: () =>
     Near.view(devHubAccountId, "get_access_control_info") ?? null,
 
@@ -94,6 +112,14 @@ const DevHub = {
 
   get_all_communities_metadata: () =>
     Near.view(devHubAccountId, "get_all_communities_metadata") ?? null,
+
+  get_available_addons: () =>
+    Near.view(devHubAccountId, "get_available_addons") ?? null,
+
+  get_community_addons: ({ handle }) =>
+    Near.view(devHubAccountId, "get_community_addons", { handle }),
+  get_community_addon_configs: ({ handle }) =>
+    Near.view(devHubAccountId, "get_community_addon_configs", { handle }),
 
   get_all_labels: () => Near.view(devHubAccountId, "get_all_labels") ?? null,
 
@@ -134,6 +160,8 @@ const DevHub = {
 };
 /* END_INCLUDE: "core/adapter/dev-hub" */
 
+const isContractOwner = nearDevGovGigsContractAccountId == context.accountId;
+
 const access_info = DevHub.get_access_control_info() ?? null;
 
 if (!access_info) {
@@ -155,19 +183,45 @@ const permissionExplainer = (permission) => {
   }
 };
 
+function unsetRestrictedRules(name) {
+  Near.call([
+    {
+      contractName: nearDevGovGigsContractAccountId,
+      methodName: "unset_restricted_rules",
+      args: {
+        rules: [name],
+      },
+      deposit: Big(0).pow(21),
+      gas: Big(10).pow(12).mul(100),
+    },
+  ]);
+}
+
 return (
-  <div className="card border-secondary" key="labelpermissions">
-    <div className="card-header">
+  <div className="card" key="labelpermissions">
+    <div className="card-body">
       <i class="bi-lock-fill"> </i>
       <small class="text-muted">Restricted Labels</small>
     </div>
     <ul class="list-group list-group-flush">
       {Object.entries(rules_list).map(([pattern, metadata]) => (
         <li class="list-group-item" key={pattern}>
-          <span class="badge text-bg-primary" key={`${pattern}-permission`}>
-            {permissionExplainer(pattern)}
-          </span>{" "}
-          {metadata.description}
+          <div class="d-flex justify-content-between">
+            <div>
+              <span class="badge text-bg-primary" key={`${pattern}-permission`}>
+                {permissionExplainer(pattern)}
+              </span>
+              {metadata.description}
+            </div>
+            {props.editMode && (
+              <button
+                className="btn btn-sm btn-light"
+                onClick={() => unsetRestrictedRules(pattern)}
+              >
+                Remove label
+              </button>
+            )}
+          </div>
         </li>
       ))}
     </ul>
