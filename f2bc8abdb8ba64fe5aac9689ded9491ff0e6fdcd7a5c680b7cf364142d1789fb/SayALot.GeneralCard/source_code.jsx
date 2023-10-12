@@ -580,7 +580,7 @@ return (
                     </div>
                   ),
                   size: "sm",
-                  className: "info outline w-100",
+                  className: "info w-100",
                   onClick: () => {
                     handleOpenArticle(data);
                   },
