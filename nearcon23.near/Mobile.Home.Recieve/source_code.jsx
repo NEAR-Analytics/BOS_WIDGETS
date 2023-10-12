@@ -144,7 +144,7 @@ return (
           <p style={{}}>
             <span style={{ color: "gray" }}>Receive</span> NCON
           </p>
-          <div>
+          <div style={{display:'flex', justifyContent:'center', alignItems:'center'}}>
             <iframe
               srcDoc={srcData}
               onMessage={(data) => {
