@@ -35,6 +35,8 @@ if (!context.accountId) {
   initLibCalls = initLibCalls.filter(
     (call) => !call.functionName === "canUserCreateArticle"
   );
+
+  State.update({ canUserCreateArticle: false });
 }
 accountId = context.accountId;
 
