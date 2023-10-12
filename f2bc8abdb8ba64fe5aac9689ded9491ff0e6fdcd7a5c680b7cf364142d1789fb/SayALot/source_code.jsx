@@ -99,6 +99,20 @@ const thisWidgetName = "SayALot";
 const widgets = {
   sayALot: `${authorForWidget}/widget/${thisWidgetName}`,
   create: `${authorForWidget}/widget/SayALot.Create`,
+  header: `${authorForWidget}/widget/SayALot.NavBar`,
+  showArticlesList: `${authorForWidget}/widget/SayALot.AllArticlesList`,
+  showArticlesListSortedByAuthors: `${authorForWidget}/widget/SayALot.AllArticlesSortByAuthors`,
+  articlesByAuthorCard: `${authorForWidget}/widget/SayALot.ArticlesByAuthorCard`,
+  generalCard: `${authorForWidget}/widget/SayALot.GeneralCard`,
+  articleView: `${authorForWidget}/widget/SayALot.ArticleView`,
+  reactions: `${authorForWidget}/widget/SayALot.Reactions`,
+  addComment: `${authorForWidget}/widget/SayALot.AddComment`,
+  commentView: `${authorForWidget}/widget/SayALot.CommentView`,
+  libComment: `${authorForWidget}/widget/SayALot.lib.comment`,
+  libArticle: `${authorForWidget}/widget/SayALot.lib.article`,
+  libEmojis: `${authorForWidget}/widget/SayALot.lib.emojis`,
+  libUpVotes: `${authorForWidget}/widget/SayALot.lib.upVotes`,
+  upVoteButton: `${authorForWidget}/widget/SayALot.UpVoteButton`,
   styledComponents: "rubycop.near/widget/NDC.StyledComponents",
   newStyledComponents: {
     Element: {
@@ -114,20 +128,6 @@ const widgets = {
       Select: "nearui.near/widget/Input.Select",
     },
   },
-  header: `${authorForWidget}/widget/SayALot.NavBar`,
-  showArticlesList: `${authorForWidget}/widget/SayALot.AllArticlesList`,
-  showArticlesListSortedByAuthors: `${authorForWidget}/widget/SayALot.AllArticlesSortByAuthors`,
-  articlesByAuthorCard: `${authorForWidget}/widget/SayALot.ArticlesByAuthorCard`,
-  generalCard: `${authorForWidget}/widget/SayALot.GeneralCard`,
-  articleView: `${authorForWidget}/widget/SayALot.ArticleView`,
-  reactions: `${authorForWidget}/widget/SayALot.Reactions`,
-  addComment: `${authorForWidget}/widget/SayALot.AddComment`,
-  commentView: `${authorForWidget}/widget/SayALot.CommentView`,
-  libComment: `${authorForWidget}/widget/SayALot.lib.comment`,
-  libArticle: `${authorForWidget}/widget/SayALot.lib.article`,
-  libEmojis: `${authorForWidget}/widget/SayALot.lib.emojis`,
-  libUpVotes: `${authorForWidget}/widget/SayALot.lib.upVotes`,
-  upVoteButton: `${authorForWidget}/widget/SayALot.UpVoteButton`,
 };
 
 const profile = props.profile ?? Social.getr(`${accountId}/profile`);
@@ -505,6 +505,17 @@ return (
         sbtsNames,
       }}
     />
+    <div className="my-3">
+      <Widget
+        src={widgets.newStyledComponents.Input.Select}
+        props={{
+          label: "Select sbt filter",
+          value: sbts[0],
+          onChange: handleSbtSelection,
+          options: createSbtOptions(),
+        }}
+      />
+    </div>
     {articlesToRender && state.displayedTabId == tabs.SHOW_ARTICLES_LIST.id && (
       <Widget
         src={widgets.showArticlesList}
@@ -523,9 +534,7 @@ return (
           handleEditArticle,
           showCreateArticle: canLoggedUserCreateArticle,
           sbtWhiteList,
-          handleSbtSelection,
           sbts,
-          createSbtOptions,
           handleShareButton,
           canLoggedUserCreateArticles: state.canLoggedUserCreateArticle,
           filterBy: state.filterBy,
@@ -579,7 +588,7 @@ return (
           handleFilterArticles,
           handleEditArticle,
           sbtWhiteList,
-          createSbtOptions,
+          sbts,
           canLoggedUserCreateArticles: state.canLoggedUserCreateArticle,
         }}
       />
