@@ -18,7 +18,10 @@ return (
 
 
   <a href="https://maps.google.com/?q=addressgoeshere">
-    <a href="https://maps.apple.com/maps?q=addressgoeshere">asdsda</a>
+    <a href="https://maps.apple.com/maps?q=addressgoeshere">both</a>
+  </a>
+  <a href="https://maps.google.com/?q=addressgoeshere">
+    google
   </a>
     </div>
 );
