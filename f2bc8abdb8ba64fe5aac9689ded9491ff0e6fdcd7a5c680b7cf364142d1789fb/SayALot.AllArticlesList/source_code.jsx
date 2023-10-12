@@ -185,6 +185,7 @@ return (
                 handleFilterArticles,
                 authorForWidget,
                 handleShareButton,
+                sbtWhiteList,
               }}
             />
           );
