@@ -1,64 +1,12 @@
 const rootUser = "nearweekapp.near";
 const breakpoints = { md: "768px", lg: "1100px", xl: "1300px" };
 
+console.log("props", props);
+
 function NewsletterCard() {
-  const accountId = "near";
-  articles;
   State.init({ active: 0 });
   const nwSite = "https://nearweek.com";
-  let posts = [];
-  const indexedPosts = Social.index("post", "main", {
-    accountId,
-    limit: 20,
-    order: "desc",
-  });
-  if (indexedPosts?.length > 0) {
-    posts = indexedPosts
-      .map((post) => {
-        const data = Social.get(
-          `${post.accountId}/post/main`,
-          post.blockHeight
-        );
-        if (!data) return;
-        const json = JSON.parse(data);
-        const content = json.text.split("\n");
-        const title = content[0] || "";
-        const url = content[1] || content[2] || "";
-        const lastLine = content.pop() || "";
-        const hasNewsTag = lastLine.includes("#news");
-        const isValid = hasNewsTag && url.includes("https://");
-        if (isValid) {
-          const block = Near.block(post.blockHeight);
-          const createdAt = block
-            ? new Date(
-                parseFloat(block.header.timestamp_nanosec) / 1e6
-              ).toISOString()
-            : "";
-          return {
-            blockHeight: post.blockHeight,
-            title,
-            url,
-            thumbnail: "https://near.org/favicon.png",
-            createdAt,
-            categories: ["Near ORG", "blog"],
-          };
-        }
-      })
-      .filter(Boolean);
-    posts.sort((a, b) => b.blockHeight - a.blockHeight);
-  }
 
-  const data = fetch(
-    "https://nearweek.com/api/editions?populate=deep&sort=createdAt:desc&pagination[pageSize]=8",
-    {
-      method: "GET",
-      headers: {
-        Accept: "*/*",
-        Authorization:
-          "Bearer 15699f0723aa9fe9f655b1a94e450552476c08807f67b525b5a3c8011eecc8aee6d45923443620f17815b897858be058cd7bd89ddf23a28aabaecb178e7ebc55d380293beeb51a8ce87b40e1518ce4708e4d51a06b115f27fa64ab5cbee5a3511cec785d7ae6a155ecd05ac8196aadae3e9b8e9401b8df8d8b69904f7364f925",
-      },
-    }
-  );
   const cssFont = fetch("https://fonts.cdnfonts.com/css/hubot-sans").body;
   if (!cssFont) return "";
   if (!state.theme) {
@@ -157,37 +105,6 @@ function NewsletterCard() {
       justify-content: end;
      }
     `;
-  function formatDate(dateString) {
-    const date = new Date(dateString);
-    const day = date.getDate().toString().padStart(2, "0");
-    const month = (date.getMonth() + 1).toString().padStart(2, "0");
-    const year = date.getFullYear().toString().slice(-2);
-    return `${day}.${month}.${year}`;
-  }
-  function calculateTimeDifference(dateString) {
-    const now = new Date();
-    const creationDate = new Date(dateString);
-    const diffMillis = now - creationDate.getTime();
-    const timeUnits = ["Month", "Day", "Hour", "Minute", "Second"];
-    const divisors = [
-      30 * 24 * 60 * 60 * 1000,
-      24 * 60 * 60 * 1000,
-      60 * 60 * 1000,
-      60 * 1000,
-      1000,
-    ];
-
-    for (let i = 0; i < divisors.length; i++) {
-      const unitCount = Math.floor(diffMillis / divisors[i]);
-      if (unitCount >= 1) {
-        return `${unitCount} ${timeUnits[i]}${unitCount > 1 ? "s" : ""}`;
-      }
-    }
-
-    return "Just Now";
-  }
-
-  const issues = data.body.data;
 
   const detailsPage = props.detailsPage;
   const updateDetailsPage = props.updateDetailsPage;
