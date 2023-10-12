@@ -91,7 +91,7 @@ const renderRepost = (a) => {
     return false;
   }
   renderedPosts[item] = true;
-
+console.log(item)
   return (
     <div key={JSON.stringify(a)} className="mb-3">
       <div className="text-muted">
