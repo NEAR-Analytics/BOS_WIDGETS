@@ -8,7 +8,6 @@ const {
   authorForWidget,
   handleEditArticle,
   handleShareButton,
-  // logedUserSbts,
 } = props;
 
 const accountId = articleToRenderData.author;
@@ -92,6 +91,7 @@ const TagContainer = styled.div`
   display: flex;
   align-items: flex-start;
   gap: 4px;
+  margin-top: 1rem;
 `;
 
 const HouseTagDiv = styled.div`
@@ -565,7 +565,7 @@ return (
                             props={{
                               children: tag,
                               variant: "round info outline",
-                              size: "sm",
+                              size: "lg",
                             }}
                           />
                         </CursorPointer>
