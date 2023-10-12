@@ -7,14 +7,23 @@ const {
   authorForWidget,
 } = props;
 
+const finalArticlesBySbt = finalArticles;
+const allFinalArticles = [];
+
+Object.values(finalArticlesBySbt).forEach((sbt) => {
+  const allArticlesOnSbt = sbt.map((article) => article);
+  allFinalArticles = [...allFinalArticles, ...allArticlesOnSbt];
+});
+
 const articlesAuthors =
-  finalArticles.length && Array.from(finalArticles, ({ author }) => author);
+  allFinalArticles.length &&
+  Array.from(allFinalArticles, ({ author }) => author);
 
 let authors = [...new Set(articlesAuthors)];
 
 let articlesByAuthorsArray = [];
 authors.map((author) => {
-  let thisAuthorArtciles = finalArticles.filter(
+  let thisAuthorArtciles = allFinalArticles.filter(
     (article) => article.author == author
   );
   articlesByAuthorsArray.push(thisAuthorArtciles);
