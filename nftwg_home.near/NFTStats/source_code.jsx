@@ -5,7 +5,7 @@ const NFTStats = styled.div`
 /* Rectangle 23793 */
 
 position: absolute;
-width: 100%;
+width: 1600px;
 height: 500px;
 top: 1280px;
 background: #1B1B1B;
