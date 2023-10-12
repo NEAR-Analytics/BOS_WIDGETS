@@ -1,6 +1,6 @@
 const accountId = "near";
 State.init({ active: 0 });
-const limit = 5;
+const limit = 10;
 let posts = [];
 let mediumPosts = [];
 
