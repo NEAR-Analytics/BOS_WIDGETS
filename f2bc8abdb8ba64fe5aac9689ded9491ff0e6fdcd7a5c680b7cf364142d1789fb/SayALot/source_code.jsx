@@ -31,6 +31,11 @@ const initLibCalls = [
   },
 ];
 
+if (!context.accountId) {
+  initLibCalls = initLibCalls.filter(
+    (call) => !call.functionName === "canUserCreateArticle"
+  );
+}
 accountId = context.accountId;
 
 const tabs = {
