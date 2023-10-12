@@ -28,7 +28,8 @@ function createStateUpdate(obj) {
   State.update(obj);
 }
 
-const tagsArray = editArticleData ? editArticleData.tags : state.tags;
+const tagsArray =
+  editArticleData && !state.tagsModified ? editArticleData.tags : state.tags;
 
 const accountId = context.accountId;
 
@@ -247,8 +248,11 @@ return (
                     initialTagsObject,
                     placeholder: "Input tags",
                     setTagsObject: (tags) => {
-                      state.tags = Object.keys(tags);
-                      State.update();
+                      // state.tags = Object.keys(tags);
+                      State.update({
+                        tagsModified: true,
+                        tags: Object.keys(tags),
+                      });
                     },
                   }}
                 />
