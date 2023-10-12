@@ -21,18 +21,7 @@ const query = `query DevhubPostsQuery($limit: Int = 10, $offset: Int = 0, $where
     order_by: {block_height: desc}
     where: $where
   ) {
-    author_id
-    block_height
-    description
-    editor_id
-    labels
-    name
-    parent_id
     post_id
-    post_type
-    sponsorship_supervisor
-    sponsorship_token
-    sponsorship_amount
   }
 }
 `;
@@ -81,7 +70,13 @@ function search() {
 }
 
 const renderData = (a) => {
-  return <div key={JSON.stringify(a)}>{JSON.stringify(a)}</div>;
+  return (
+    <Widget
+      src={`devgovgigs.near/widget/gigs-board.entity.post.Post`}
+      props={{ id: a.post_id }}
+      key={a.post_id}
+    />
+  );
 };
 const renderedData = state.data.map(renderData);
 
