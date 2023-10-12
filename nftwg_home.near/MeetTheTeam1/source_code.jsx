@@ -143,7 +143,7 @@ width:20;
 height:20;
 `;
 return (
-  <MeetTheTeamContainer>
+  <MeetTeamContainer>
     <CoreText>
       {" "}
       The core contributors team is a diverse group comprising individuals with
@@ -154,5 +154,5 @@ return (
         Election Results
       </a>
     </CoreText>
-  </MeetTheTeamContainer>
+  </MeetTeamContainer>
 );
