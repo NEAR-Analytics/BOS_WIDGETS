@@ -25,6 +25,10 @@ const articleSbts = articleToRenderData.sbts ?? data.sbts ?? [];
 
 const libSrcArray = [widgets.libComment];
 
+function stateUpdate(obj) {
+  State.update(obj);
+}
+
 function callLibs(srcArray, stateUpdate, libCalls) {
   return (
     <>
@@ -295,6 +299,10 @@ const Element = styled.div`
     background: #f8f8f9;
   }
 `;
+
+const CallLibrary = styled.div`
+  display: none;
+`;
 //============================================END STYLED COMPONENTS=================================================
 
 //=================================================MORE STYLES======================================================
@@ -412,6 +420,7 @@ const renderArticleBody = () => {
 //===============================================END COMPONENTS====================================================
 
 //===================================================RENDER========================================================
+console.log("General card state: ", state);
 return (
   <CardContainer className="bg-white rounded-3 p-3 m-3 col-lg-8 col-md-8 col-sm-12">
     <Card>
@@ -578,5 +587,8 @@ return (
         </LowerSectionContainer>
       </LowerSection>
     </Card>
+    <CallLibrary>
+      {callLibs(libSrcArray, stateUpdate, state.libCalls)}
+    </CallLibrary>
   </CardContainer>
 );
