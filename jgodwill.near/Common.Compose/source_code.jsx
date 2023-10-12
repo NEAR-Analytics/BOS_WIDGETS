@@ -3,8 +3,6 @@ const autocompleteEnabled = props.autocompleteEnabled ?? true;
 State.init({
   isChecked: false,
   nftChainState: "Near",
-  nftContractId: "nft.genadrop.near1664304736705",
-  nftTokenId: 1664304736705,
 });
 if (state.image === undefined) {
   State.init({
