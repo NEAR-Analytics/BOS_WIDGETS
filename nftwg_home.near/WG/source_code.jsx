@@ -12,7 +12,6 @@ return (
     <Widget src={`${Owner}/widget/NFTStats`} />
     <Widget src={`${Owner}/widget/AboutUs`} />
     <Widget src={`${Owner}/widget/OurGoals`} />
-    <Widget src={`${Owner}/widget/OurGoals1`} />
     <Widget src={`${Owner}/widget/MeetTheTeam`} />
     <Widget src={`${Owner}/widget/DaapCentral`} />
     <Widget src={`${Owner}/widget/Footer`} />
