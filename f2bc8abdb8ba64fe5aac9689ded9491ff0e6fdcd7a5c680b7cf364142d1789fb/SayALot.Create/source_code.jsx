@@ -79,18 +79,19 @@ function onCancel() {
 }
 
 function createArticleListener() {
-  const article = getArticleData();
-  const newLibCalls = [...state.libCalls];
-  newLibCalls.push({
-    functionName: "createArticle",
-    key: "createdArticle",
-    props: {
-      article,
-      onCommit,
-      onCancel,
-    },
-  });
-  State.update({ libCalls: newLibCalls });
+  onCommit();
+  // const article = getArticleData();
+  // const newLibCalls = [...state.libCalls];
+  // newLibCalls.push({
+  //   functionName: "createArticle",
+  //   key: "createdArticle",
+  //   props: {
+  //     article,
+  //     onCommit,
+  //     onCancel,
+  //   },
+  // });
+  // State.update({ libCalls: newLibCalls });
 }
 
 function switchShowPreview() {
