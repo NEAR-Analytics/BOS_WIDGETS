@@ -50,7 +50,7 @@ return (
   /*---------------------About Us---------------*/
   <AboutUsContainer>
     <AboutUs id="aboutus">About Us</AboutUs>
-    <Sentence>
+    <Sentence style={{ left: -55 }}>
       The NFT Work Group is a community-driven initiative that aims to provide
       solutions and standards for the challenges and limitations associated with
       NFTs on NEAR. Our primary objective is to revitalize and expand the Near
