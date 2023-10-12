@@ -3,6 +3,8 @@ const autocompleteEnabled = props.autocompleteEnabled ?? true;
 State.init({
   isChecked: false,
   nftChainState: "Near",
+  nftContractId: "nft.genadrop.near1664304736705",
+  nftTokenId: 1664304736705,
 });
 if (state.image === undefined) {
   State.init({
@@ -362,6 +364,7 @@ return (
                       <Input
                         type="text"
                         onChange={(e) => onChangeContractID(e.target.value)}
+                        value={state.nftContractId}
                       />
                     </Card>
                     <Card>
@@ -369,6 +372,7 @@ return (
                       <Input
                         type="text"
                         onChange={(e) => onChangeTokenID(e.target.value)}
+                        value={state.nftContractId}
                       />
                     </Card>
                     {/*state.nftContractId && state.nftTokenId && (
