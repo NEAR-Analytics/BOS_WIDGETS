@@ -87,6 +87,24 @@ const DevHub = {
   update_community_github: ({ handle, github }) =>
     Near.call(devHubAccountId, "update_community_github", { handle, github }),
 
+  add_community_addon: ({ handle, config }) =>
+    Near.call(devHubAccountId, "add_community_addon", {
+      community_handle: handle,
+      addon_config: config,
+    }),
+
+  update_community_addon: ({ handle, config }) =>
+    Near.call(devHubAccountId, "update_community_addon", {
+      community_handle: handle,
+      addon_config: config,
+    }),
+
+  remove_community_addon: ({ handle, config_id }) =>
+    Near.call(devHubAccountId, "remove_community_addon", {
+      community_handle: handle,
+      config_id,
+    }),
+
   get_access_control_info: () =>
     Near.view(devHubAccountId, "get_access_control_info") ?? null,
 
@@ -94,6 +112,14 @@ const DevHub = {
 
   get_all_communities_metadata: () =>
     Near.view(devHubAccountId, "get_all_communities_metadata") ?? null,
+
+  get_available_addons: () =>
+    Near.view(devHubAccountId, "get_available_addons") ?? null,
+
+  get_community_addons: ({ handle }) =>
+    Near.view(devHubAccountId, "get_community_addons", { handle }),
+  get_community_addon_configs: ({ handle }) =>
+    Near.view(devHubAccountId, "get_community_addon_configs", { handle }),
 
   get_all_labels: () => Near.view(devHubAccountId, "get_all_labels") ?? null,
 
@@ -140,43 +166,28 @@ if (communityData === null) {
   return <div>Loading...</div>;
 }
 
-const UserList = (name, users) => {
-  return (
-    <div>
-      {(users ?? []).map((user, i) => (
-        <div className={`row ${i < users.length - 1 ? "mb-3" : ""}`}>
-          <div class="col-3">
-            <b>{name + " #" + (i + 1)}</b>
-          </div>
-          <div class="col-9">
-            <span
-              key={user}
-              className="d-inline-flex"
-              style={{ fontWeight: 500 }}
-            >
-              <Widget
-                src="neardevgov.near/widget/ProfileLine"
-                props={{
-                  accountId: user,
-                  hideAccountId: true,
-                  tooltip: true,
-                }}
-              />
-            </span>
-          </div>
+const UserList = (name, users) => (
+  <div>
+    {(users ?? []).map((user, i) => (
+      <div className={`row ${i < users.length - 1 ? "mb-3" : ""}`}>
+        <div class="col-3">
+          <b>{name + " #" + (i + 1)}</b>
         </div>
-      ))}
-    </div>
-  );
-};
 
-const Teams = (
-  <div class="d-flex flex-column align-items-center gap-4">
-    {widget("components.molecule.tile", {
-      heading: "Admins",
-      minHeight: 0,
-      children: UserList("Admin", communityData.admins),
-    })}
+        <div class="col-9">
+          <span
+            key={user}
+            className="d-inline-flex"
+            style={{ fontWeight: 500 }}
+          >
+            <Widget
+              src="neardevgov.near/widget/ProfileLine"
+              props={{ accountId: user, hideAccountId: true, tooltip: true }}
+            />
+          </span>
+        </div>
+      </div>
+    ))}
   </div>
 );
 
@@ -184,5 +195,17 @@ return widget("entity.community.layout", {
   path: [{ label: "Communities", pageId: "communities" }],
   handle: props.handle,
   title: "Teams",
-  children: Teams,
+  children: (
+    <div
+      className="d-flex flex-column align-items-center gap-4 w-100"
+      style={{ maxWidth: 960 }}
+    >
+      {widget("components.molecule.tile", {
+        heading: "Admins",
+        fullWidth: true,
+        minHeight: 0,
+        children: UserList("Admin", communityData.admins),
+      })}
+    </div>
+  ),
 });
