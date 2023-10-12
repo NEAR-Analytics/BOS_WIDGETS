@@ -3,7 +3,7 @@ const daoId = props.daoId ?? "multi.sputnik-dao.near";
 const onClose = props.onClose;
 const isCongressDaoID = props.isCongressDaoID;
 
-const HoMDaoId = "hom.gwg-testing.near";
+const HoMDaoId = "congress-hom-v1.ndc-gwg.near";
 
 if (!accountId) {
     return "Please connect your NEAR wallet :)";
