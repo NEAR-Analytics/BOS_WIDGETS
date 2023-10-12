@@ -252,11 +252,6 @@ const AnswerContainer = styled.div`
   width: 96%;;
 `;
 
-// const formatName = (name) =>
-//   name.length === 64
-//     ? `${name.slice(0, 4)}..${name.slice(name.length - 4, name.length)}`
-//     : name;
-
 function closeModal() {
   State.update({ showModal: false });
 }
@@ -269,7 +264,7 @@ return (
           <Widget
             src={widgets.newStyledComponents.Element.User}
             props={{
-              accountId,
+              accountId: data.originalComment.accountId,
               options: {
                 showHumanBadge: true,
                 showImage: true,
@@ -279,11 +274,6 @@ return (
               },
             }}
           />
-          {
-            // <CommentUser>
-            //   {formatName(data.originalComment.accountId)}
-            // </CommentUser>
-          }
         </CommentUserContent>
       </CommentCardHeader>
       <CommentCardContent>
@@ -333,12 +323,6 @@ return (
                   className: "info outline",
                 }}
               />
-              {
-                // <ReplyCommentButtonDisabled>
-                //   <ReplyCommentText>Reply</ReplyCommentText>
-                //   <i className="bi bi-reply"></i>
-                // </ReplyCommentButtonDisabled>
-              }
             </>
           ) : (
             <>
@@ -359,16 +343,6 @@ return (
                   },
                 }}
               />
-              {
-                // <ReplyCommentButtonActive
-                //   onClick={async () => {
-                //     State.update({ showModal: true });
-                //   }}
-                // >
-                //   <ReplyCommentText>Reply</ReplyCommentText>
-                //   <i className="bi bi-reply"></i>
-                // </ReplyCommentButtonActive>
-              }
             </>
           )}
         </div>
