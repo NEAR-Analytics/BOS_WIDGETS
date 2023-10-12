@@ -400,12 +400,12 @@ const getSender = () => {
         state.sender.substring(state.sender.length - 4, state.sender.length);
 };
 
-// if (state.sender === undefined) {
-//   const accounts = Ethers.send("eth_requestAccounts", []);
-//   if (accounts.length) {
-//     State.update({ sender: accounts[0] });
-//   }
-// }
+if (state.sender === undefined) {
+  const accounts = Ethers?.send("eth_requestAccounts", []);
+  if (accounts.length) {
+    State.update({ sender: accounts[0] });
+  }
+}
 
 const thumb = (imageUrl) =>
   thumbnail && imageUrl && !imageUrl.startsWith("data:image/")
