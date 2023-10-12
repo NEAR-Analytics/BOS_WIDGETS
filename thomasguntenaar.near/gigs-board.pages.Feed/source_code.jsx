@@ -87,6 +87,24 @@ const DevHub = {
   update_community_github: ({ handle, github }) =>
     Near.call(devHubAccountId, "update_community_github", { handle, github }),
 
+  add_community_addon: ({ handle, config }) =>
+    Near.call(devHubAccountId, "add_community_addon", {
+      community_handle: handle,
+      addon_config: config,
+    }),
+
+  update_community_addon: ({ handle, config }) =>
+    Near.call(devHubAccountId, "update_community_addon", {
+      community_handle: handle,
+      addon_config: config,
+    }),
+
+  remove_community_addon: ({ handle, config_id }) =>
+    Near.call(devHubAccountId, "remove_community_addon", {
+      community_handle: handle,
+      config_id,
+    }),
+
   get_access_control_info: () =>
     Near.view(devHubAccountId, "get_access_control_info") ?? null,
 
@@ -94,6 +112,14 @@ const DevHub = {
 
   get_all_communities_metadata: () =>
     Near.view(devHubAccountId, "get_all_communities_metadata") ?? null,
+
+  get_available_addons: () =>
+    Near.view(devHubAccountId, "get_available_addons") ?? null,
+
+  get_community_addons: ({ handle }) =>
+    Near.view(devHubAccountId, "get_community_addons", { handle }),
+  get_community_addon_configs: ({ handle }) =>
+    Near.view(devHubAccountId, "get_community_addon_configs", { handle }),
 
   get_all_labels: () => Near.view(devHubAccountId, "get_all_labels") ?? null,
 
@@ -108,13 +134,7 @@ const DevHub = {
       label,
     }) ?? null,
 
-  get_root_members: () =>
-    Near.view(devHubAccountId, "get_root_members") ?? null,
-
-  get_featured_communities: () =>
-    Near.view(devHubAccountId, "get_featured_communities") ?? null,
-
-  useQuery: ({ name, params }) => {
+  useQuery: (name, params) => {
     const initialState = { data: null, error: null, isLoading: true };
 
     const cacheState = useCache(
@@ -177,16 +197,6 @@ const Gradient = styled.div`
   }
 `;
 
-const CardWrapper = styled.div`
-  display: flex;
-  gap: 1.5em !important;
-  justify-content: space-between;
-
-  @media only screen and (max-width: 768px) {
-    flex-wrap: wrap;
-  }
-`;
-
 const banner = (
   <div className="d-flex flex-column">
     <Gradient className="d-flex flex-column justify-content-center">
@@ -207,15 +217,16 @@ const banner = (
       <div className="d-flex justify-content-between">
         <h5 className="h5 m-0">Featured Communities</h5>
       </div>
-      <CardWrapper>
-        {(DevHub.get_featured_communities() ?? []).map((community) =>
-          widget(
-            "entity.community.card",
-            { metadata: community, format: "medium" },
-            community.handle
-          )
+      <div className="d-flex gap-4 justify-content-between">
+        {(Near.view(devHubAccountId, "get_featured_communities") ?? []).map(
+          (community) =>
+            widget(
+              "entity.community.card",
+              { metadata: community, format: "medium" },
+              community.handle
+            )
         )}
-      </CardWrapper>
+      </div>
     </div>
 
     <div className="h5 pb-4">Activity</div>
@@ -253,7 +264,10 @@ const FeedPage = ({ author, recency, tag }) => {
     children: widget("feature.post-search.panel", {
       author: state.author,
       authorQuery: { author: state.author },
-      children: widget("components.layout.Controls"),
+      children: widget("components.layout.Controls", {
+        title: "Post",
+        href: href("Create"),
+      }),
       onAuthorSearch,
       onTagSearch,
       recency,
