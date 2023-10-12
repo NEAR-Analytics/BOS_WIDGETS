@@ -12,8 +12,8 @@ const {
 } = props;
 
 const accountId = articleToRenderData.author;
-const realArticleId =
-  articleToRenderData.realArticleId ??
+const id =
+  articleToRenderData.id ??
   `${articleToRenderData.author}-${articleToRenderData.timeCreate}`;
 
 //For the moment we'll allways have only 1 sbt in the array. If this change remember to do the propper work in SayALot.lib.SBT and here.
@@ -56,14 +56,14 @@ const initLibCalls = [
   {
     functionName: "getValidComments",
     key: "comments",
-    props: { realArticleId, articleSbts },
+    props: { id, articleSbts },
   },
   {
     functionName: "canUserCreateComment",
     key: "canLoggedUserCreateComment",
     props: {
       accountId: context.accountId,
-      sbtName: articleSbts,
+      sbtsNames: articleSbts,
     },
   },
 ];
@@ -484,7 +484,7 @@ const HeaderButtonsContainer = styled.div`
 
 //Get basic original comments info
 let originalComments = state.comments.filter(
-  (comment) => comment.value.comment.originalCommentId === realArticleId
+  (comment) => comment.value.comment.originalCommentId === id
 );
 
 //Append answers to original comments
@@ -657,7 +657,7 @@ return (
                       widgets,
                       isTest,
                       authorForWidget,
-                      elementReactedId: realArticleId,
+                      elementReactedId: id,
                       disabled:
                         !context.accountId ||
                         context.accountId === accountId ||
