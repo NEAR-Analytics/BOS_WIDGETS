@@ -3,18 +3,6 @@ if (!context.accountId) {
 }
 console.log("content here", state.content);
 
-State.update({
-  content: {
-    text: "Hello world!",
-    image: {},
-    embeddedNFT: {
-      contractId: "nft.genadrop.near",
-      tokenId: 1565645,
-      chain: "Near",
-    },
-  },
-});
-
 const composeData = () => {
   const data = {
     post: {
@@ -78,12 +66,14 @@ return (
         props={{
           placeholder: "What's happening?",
           onChange: state.onChange,
-          onHelper: () => onHelp(),
+          onHelper: ({ extractMentionNotifications, extractHashtags }) => {
+            State.update({ extractMentionNotifications, extractHashtags });
+          },
           composeButton: (onCompose) => (
             <CommitButton
               disabled={!state.content}
               force
-              className="btn btn-dark rounded-5"
+              className="btn btn-dark rounded-3"
               data={composeData}
               onCommit={() => {
                 onCompose();
