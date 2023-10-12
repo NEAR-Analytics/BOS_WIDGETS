@@ -432,7 +432,7 @@ return (
             src={widgets.newStyledComponents.Input.Button}
             props={{
               children: "Cancel",
-              className: "info",
+              className: "info outline",
               onClick: onCloseModal,
             }}
           />
@@ -445,6 +445,7 @@ return (
                   {state.showSpinner ? renderSpinner() : <></>}
                 </div>
               ),
+              className: "info",
               onClick: addCommentListener,
             }}
           />
