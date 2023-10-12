@@ -327,23 +327,25 @@ function onClickAddComment() {
 }
 
 function addCommentListener() {
-  let newLibCalls = [...libCalls];
-  const comment = {
-    text: state.reply,
-    id,
-    timestamp: Date.now(),
-    originalCommentId:
-      originalComment.originalComment.value.comment.commentId ??
-      article.id ??
-      `${article.author}-${article.timeCreate}`,
-    commentId: comment.commentId ?? `c_${context.accountId}-${Date.now()}`,
-  };
-  newLibCalls.push({
-    functionName: "createComment",
-    key: "createComment",
-    props: { comment, onClick: onClickAddComment, onCommit, onCancel },
-  });
-  State.update({ libCalls: newLibCalls });
+  if (!state.showSpinner) {
+    let newLibCalls = [...libCalls];
+    const comment = {
+      text: state.reply,
+      id,
+      timestamp: Date.now(),
+      originalCommentId:
+        originalComment.originalComment.value.comment.commentId ??
+        article.id ??
+        `${article.author}-${article.timeCreate}`,
+      commentId: comment.commentId ?? `c_${context.accountId}-${Date.now()}`,
+    };
+    newLibCalls.push({
+      functionName: "createComment",
+      key: "createComment",
+      props: { comment, onClick: onClickAddComment, onCommit, onCancel },
+    });
+    State.update({ libCalls: newLibCalls });
+  }
 }
 
 return (
@@ -439,7 +441,7 @@ return (
                   {state.showSpinner ? renderSpinner() : <></>}
                 </div>
               ),
-              onClick: !state.showSpinner ? addCommentListener : () => {},
+              onClick: addCommentListener,
             }}
           />
         </CommentFooter>
