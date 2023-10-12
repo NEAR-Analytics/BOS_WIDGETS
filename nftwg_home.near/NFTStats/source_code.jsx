@@ -5,7 +5,7 @@ const NFTStats = styled.div`
 /* Rectangle 23793 */
 
 position: absolute;
-width: 1600px;
+width: 1200px;
 height: 500px;
 top: 1280px;
 background: #1B1B1B;
@@ -16,7 +16,7 @@ const StarForStats = styled.div`
 position: absolute;
 width: 80px;
 height: 80px;
-left: 1273px;
+left: 1073px;
 top: 115px;
 
 
@@ -66,7 +66,7 @@ align-items: center;
 padding: 0px;
 
 position: absolute;
-width: 1280px;
+width: 1080px;
 height: 112px;
 left: 60px;
 top: 300px;
@@ -77,13 +77,13 @@ box-sizing: border-box;
 
 /* Auto layout */
 display: flex;
-flex-direction: column;
+flex-direction: row;
 align-items: center;
-padding: 16px;
-gap: 16px;
+padding: 1px;
+gap: 1px;
 
 margin: 0 auto;
-width: 400px;
+width: 300px;
 height: 112px;
 
 background: #FFFFFF;
@@ -105,7 +105,7 @@ align-items: center;
 padding: 0px;
 gap: 16px;
 
-width: 368px;
+width: 268px;
 height: 80px;
 
 
@@ -127,7 +127,7 @@ align-items: flex-start;
 padding: 10px 0px;
 gap: 12px;
 
-width: 368px;
+width: 268px;
 height: 80px;
 
 
@@ -144,10 +144,10 @@ const TitleContainer = styled.div`
 display: flex;
 flex-direction: row;
 align-items: center;
-padding: 0px;
+padding: 10px;
 gap: 8px;
 
-width: 368px;
+width: 290px;
 height: 26px;
 
 
@@ -161,8 +161,9 @@ flex-grow: 0;
 `;
 
 const Title = styled.div`
-width: 298px;
+width: 168px;
 height: 26px;
+
 
 /* Heading/4 */
 font-family: 'Roboto';
@@ -231,7 +232,7 @@ const Description = styled.div`
 
 width: 70px;
 height: 22px;
-
+padding:10px;
 /* Body/M */
 font-family: 'Roboto';
 font-style: normal;
