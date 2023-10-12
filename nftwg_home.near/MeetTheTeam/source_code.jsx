@@ -320,6 +320,39 @@ return (
           }}
         ></div>
       </div>
+      <StarForCharter style={{ left: -1100, top: -280 }}>
+        <div>
+          <svg
+            width="97"
+            height="109"
+            viewBox="0 0 97 109"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M42.5 0L45.583 51.417L97 54.5L45.583 57.583L42.5 109L39.417 57.583L-12 54.5L39.417 51.417L42.5 0Z"
+              fill="#6333DD"
+            />
+          </svg>
+        </div>
+      </StarForCharter>
+
+      <StarForCharter style={{ left: 320, top: 120 }}>
+        <div>
+          <svg
+            width="97"
+            height="109"
+            viewBox="0 0 97 109"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M54.5 0L57.583 51.417L109 54.5L57.583 57.583L54.5 109L51.417 57.583L0 54.5L51.417 51.417L54.5 0Z"
+              fill="#25A45B"
+            />
+          </svg>
+        </div>
+      </StarForCharter>
     </MeetTeamContainer>
   </MeetTheTeamContainer>
 );
