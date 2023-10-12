@@ -342,8 +342,7 @@ return (
                                 multiSelectMode: false
                             });
                             Storage.privateSet("multiSelectMode", false);
-                        },
-                        isCongressDaoID
+                        }
                     }}
                 />
             </>
