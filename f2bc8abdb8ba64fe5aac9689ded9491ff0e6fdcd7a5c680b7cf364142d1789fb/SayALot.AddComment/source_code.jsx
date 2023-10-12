@@ -1,3 +1,5 @@
+console.log(0);
+
 const ModalCard = styled.div`
   position: fixed;
   z-index: 1;
@@ -347,6 +349,8 @@ function addCommentListener() {
     State.update({ libCalls: newLibCalls });
   }
 }
+
+console.log(1);
 
 return (
   <ModalCard>
