@@ -456,6 +456,32 @@ function getLink() {
 //===============================================END FUNCTIONS======================================================
 
 // console.log(state);
+
+if (!context.accountId) {
+  return (
+    <>
+      <Widget
+        src={widgets.header}
+        props={{
+          isTest,
+          stateUpdate,
+          handleGoHomeButton,
+          handlePillNavigation,
+          brand,
+          pills: navigationPills,
+          navigationButtons,
+          displayedTabId: state.displayedTabId,
+          handleFilterArticles,
+          filterParameter: state.filterBy.parameterName,
+          handleBackButton,
+          tabs,
+          sbtsNames,
+        }}
+      />
+      <h2>Log in to see the articles</h2>
+    </>
+  );
+}
 return (
   <>
     {state.showShareModal && renderShareInteraction()}
