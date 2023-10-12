@@ -12,7 +12,7 @@ const {
   handleEditArticle,
   handlerStateUpdate,
   sbtWhiteList,
-  createSbtOptions,
+  sbts,
   canLoggedUserCreateArticles,
 } = props;
 
@@ -42,12 +42,6 @@ function getRealArticleId() {
     return `${accountId}-${Date.now()}`;
   }
 }
-
-function handleSbtSelection(string) {
-  State.update({ sbts: [string] });
-}
-
-const sbts = state.sbts; //TODO[""] currently it will be only 1 sbt
 
 const getArticleData = () => {
   const args = {
@@ -106,23 +100,6 @@ function switchShowPreview() {
   });
 }
 
-function createUserOptions() {
-  const allOptions = createSbtOptions().map((option) => {
-    //Discard the default atribute
-    return { title: option.title, value: option.value };
-  });
-
-  const userOptions = allOptions.filter((sbt) => {
-    return canLoggedUserCreateArticles[sbt.value];
-  });
-
-  if (userOptions[0]) userOptions[0]["default"] = true;
-
-  return userOptions;
-}
-
-const userOptions = createUserOptions();
-
 const Button = styled.button` 
   margin: 0px 1rem; 
   display: inline-block; 
@@ -170,7 +147,7 @@ Array.isArray(tagsArray) &&
   });
 
 return (
-  <>
+  <div className="border-bottom pb-2">
     {state.createdArticle && state.showCreatedArticle && editArticleData ? (
       <Widget
         src={widgets.articleView}
@@ -252,17 +229,6 @@ return (
                   }}
                 />
               </div>
-              <div className="d-flex flex-column pt-3 ">
-                <Widget
-                  src={widgets.newStyledComponents.Input.Select}
-                  props={{
-                    label: "Select SBT",
-                    value: userOptions[0],
-                    onChange: handleSbtSelection,
-                    options: userOptions,
-                  }}
-                />
-              </div>
               <div className="d-flex flex-column pt-3">
                 <label for="textareaArticleBody">
                   Input article body (in makrdown format):
@@ -271,9 +237,6 @@ return (
                   {state.errorBody}
                 </label>
                 <div className="d-flex gap-2">
-                  {
-                    //<div className="w-50">
-                  }
                   <Widget
                     src={`${authorForWidget}/widget/MarkdownEditorIframe`}
                     props={{
@@ -327,10 +290,7 @@ return (
         <div style={{ display: "none" }}>
           {callLibs(libSrcArray, createStateUpdate, state.libCalls)}
         </div>
-        {
-          //</CreationContainer>
-        }
       </div>
     )}
-  </>
+  </div>
 );
