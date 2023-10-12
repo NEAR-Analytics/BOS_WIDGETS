@@ -99,7 +99,6 @@ const getShortUserName = () => {
 };
 
 function toggleShowModal() {
-  console.log("toggle showModal");
   State.update({ showModal: !state.showModal });
 }
 
