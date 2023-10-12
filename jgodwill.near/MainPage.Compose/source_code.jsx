@@ -83,7 +83,7 @@ return (
         ),
       }}
     />
-    {state.content && state.content.embeddedNFT.contractId && (
+    {state.content && (
       <div className="mt-3">
         <Widget
           src="jgodwill.near/widget/MainPage.Post"
