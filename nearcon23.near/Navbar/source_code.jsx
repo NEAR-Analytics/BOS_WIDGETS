@@ -16,6 +16,8 @@ const Navbar = styled.div`
   // padding-top: 32px;
   margin-bottom: 0.75rem;
 
+padding-inline: 16px;
+
   // max-height: 2.5em;
   // height: 100%;
   // max-height: 5.5em;
