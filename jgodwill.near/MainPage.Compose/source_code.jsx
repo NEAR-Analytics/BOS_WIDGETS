@@ -3,15 +3,6 @@ if (!context.accountId) {
 }
 console.log("content here", state.content);
 
-const indexKey = props.indexKey ?? "main";
-const draftKey = props.indexKey ?? "draft";
-const draft = Storage.privateGet(draftKey);
-
-if (draft === null) {
-  return "";
-}
-
-const [initialText] = useState(draft);
 const composeData = () => {
   const data = {
     post: {
@@ -63,6 +54,10 @@ State.init({
   },
 });
 
+const onHelp = ({ extractMentionNotifications, extractHashtags }) => {
+  State.update({ extractMentionNotifications, extractHashtags });
+};
+
 return (
   <>
     <div style={{ margin: "0 -12px" }}>
@@ -72,9 +67,7 @@ return (
           placeholder: "What's happening?",
           onChange: state.onChange,
           initialText,
-          onHelper: ({ extractMentionNotifications, extractHashtags }) => {
-            State.update({ extractMentionNotifications, extractHashtags });
-          },
+          onHelper: () => onHelp(),
           composeButton: (onCompose) => (
             <CommitButton
               disabled={!state.content}
