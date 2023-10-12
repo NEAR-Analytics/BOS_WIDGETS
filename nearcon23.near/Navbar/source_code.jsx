@@ -24,9 +24,15 @@ const Navbar = styled.div`
   backdrop-filter: blur(8px);
 `;
 
+const HideInMobile = styled.span`
+  @media screen and (max-width: 768px) {
+    display: none;
+  }
+`;
+
 const LogoArea = styled.a`
   display: block;
-  width: 14em;
+  width: 10em;
   padding: 0px;
   gap: 0.7em;
   font-style: normal;
@@ -57,10 +63,11 @@ const logo = (
     onClick={() => props.update({ tab: "home" })}
   >
     <svg
-      width="204"
+      width="150"
       height="84"
-      viewBox="0 0 254 84"
+      viewBox="0 0 250 84"
       fill="none"
+      style={{ marginTop: -10 }}
       xmlns="http://www.w3.org/2000/svg"
     >
       <path
@@ -189,7 +196,8 @@ const url = image.ipfs_cid
 
 const actions = (
   <ActionArea>
-    {info}
+    {!props.hideLocation && <> {info}</>}
+
     <Widget src={`${ownerId}/widget/Register.Button`} />
   </ActionArea>
 );
@@ -207,7 +215,6 @@ return (
       <Trigger
         onClick={() => {
           props.update({
-            showSidebar: !props.showSidebar,
             collapsible: !props.collapsible,
           });
         }}
@@ -235,4 +242,3 @@ return (
     {actions}
   </Navbar>
 );
-
