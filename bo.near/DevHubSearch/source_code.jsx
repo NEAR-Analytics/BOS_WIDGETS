@@ -9,6 +9,9 @@ State.init({
   author: null,
   title: null,
   content: null,
+
+  limit: 10,
+  offset: 0,
 });
 
 const query = `query DevhubPostsQuery($limit: Int = 10, $offset: Int = 0, $where: ${queryName}_bool_exp = {}) {
@@ -47,25 +50,32 @@ function fetchGraphQL(operationsDoc, operationName, variables) {
 }
 
 function search() {
-  let query = {};
+  let where = {};
   if (state.author) {
-    query = { author_id: { _eq: state.author }, ...query };
+    where = { author_id: { _eq: state.author }, ...where };
   }
   if (state.content) {
-    query = { description: { _like: `%${state.content}%` }, ...query };
+    where = { description: { _like: `%${state.content}%` }, ...where };
   }
   if (state.title) {
-    query = { name: { _like: `%${state.tilte}%` }, ...query };
+    where = { name: { _like: `%${state.tilte}%` }, ...where };
   }
-  fetchGraphQL(query, "DevhubPostsQuery", {}).then((result) => {
+  console.log("searching for", where);
+  fetchGraphQL(query, "DevhubPostsQuery", {
+    limit: state.limit,
+    offset: state.offset,
+    where,
+  }).then((result) => {
     if (result.status === 200) {
+      console.log("search success");
       if (result.body.data) {
         const data = result.body.data[queryName];
         State.update({ data });
+        console.log("found:");
         console.log(data);
       }
     } else {
-      console.error("error", result.body);
+      console.error("error:", result.body);
     }
   });
 }
