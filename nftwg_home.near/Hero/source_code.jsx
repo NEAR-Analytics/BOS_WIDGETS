@@ -20,7 +20,7 @@ gap: 10px;
 position: absolute;
 width: 1050px;
 height: 500px;
-left: 10px;
+left: 5px;
 top: 436px;
 background-size: cover;
 background-repeat: no-repeat;
