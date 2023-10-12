@@ -307,7 +307,7 @@ return (
               }}
             />
           )}
-          {articleSbts.length > 0 && !state.canLoggedUserCreateComment ? (
+          {articleSbts.length > 0 && (
             <>
               <Widget
                 src={widgets.newStyledComponents.Input.Button}
@@ -318,28 +318,12 @@ return (
                       <i className="bi bi bi-reply"></i>
                     </div>
                   ),
-                  disabled: true,
-                  size: "sm",
-                  className: "info outline",
-                }}
-              />
-            </>
-          ) : (
-            <>
-              <Widget
-                src={widgets.newStyledComponents.Input.Button}
-                props={{
-                  children: (
-                    <div className="d-flex align-items-center justify-content-center">
-                      <span className="mx-1">Reply</span>
-                      <i className="bi bi bi-reply"></i>
-                    </div>
-                  ),
-                  disabled: true,
+                  disabled: !canLoggedUserCreateComment[articleSbts[0]],
                   size: "sm",
                   className: "info outline",
                   onClick: () => {
-                    State.update({ showModal: true });
+                    canLoggedUserCreateComment[articleSbts[0]] &&
+                      State.update({ showModal: true });
                   },
                 }}
               />
@@ -354,6 +338,7 @@ return (
             elementReactedId: data.originalComment.value.comment.commentId,
             widgets,
             articleSbts,
+            disabled: !canLoggedUserCreateComment[articleSbts[0]],
           }}
         />
       </CommentCardLowerSection>
