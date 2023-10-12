@@ -44,7 +44,7 @@ const Container = styled.div`
 position: absolute;
 width: 510px;
 height: 243.99px;
-left: 30px;
+left: -40px;
 top: 2.01px;
 `;
 
@@ -246,7 +246,7 @@ return (
         </TextOurGoals>
       </TextOurGoalsContainer>
     </Container>
-    <Container style={{ left: 30, top: 400 }}>
+    <Container style={{ left: -30, top: 400 }}>
       <IconContainer style={{ background: "#967CFF" }}>
         <Icon>
           <svg
