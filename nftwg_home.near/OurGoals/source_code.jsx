@@ -180,7 +180,7 @@ return (
       </TextOurGoalsContainer>
     </Container>
 
-    <Container>
+    <Container style={{ left: -100 }}>
       <IconContainer style={{ left: 800, background: "#FFDA94" }}>
         <Icon>
           <svg
@@ -246,7 +246,7 @@ return (
         </TextOurGoals>
       </TextOurGoalsContainer>
     </Container>
-    <Container style={{ left: -30, top: 400 }}>
+    <Container style={{ left: -40, top: 400 }}>
       <IconContainer style={{ background: "#967CFF" }}>
         <Icon>
           <svg
@@ -312,7 +312,7 @@ return (
         </TextOurGoals>
       </TextOurGoalsContainer>
     </Container>
-    <Container style={{ left: 750, top: 400 }}>
+    <Container style={{ left: 620, top: 400 }}>
       <IconContainer style={{ background: "B5E4CA" }}>
         <Icon>
           <svg
