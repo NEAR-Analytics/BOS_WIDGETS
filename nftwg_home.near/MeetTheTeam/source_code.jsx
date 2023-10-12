@@ -354,5 +354,31 @@ return (
         </div>
       </StarForCharter>
     </MeetTeamContainer>
+    <MeetTeamContainer style={{ top: 1000, left: 240 }}>
+      <div>
+        <img
+          style={{ width: 280, height: 280 }}
+          src="https://cdn.discordapp.com/attachments/1132232613210357780/1160924867080753203/Aurobot.webp?ex=65366e89&is=6523f989&hm=de32abee5e8d7a308c515a7f4913978ad81230286594124230f51a977f7960ab&"
+        />
+      </div>
+    </MeetTeamContainer>
+    <MeetTeamContainer style={{ top: 1000, left: 640 }}>
+      <div>
+        <img
+          style={{ width: 280, height: 280 }}
+          src="https://cdn.discordapp.com/attachments/1132232613210357780/1160922786118766703/bafkreihsi6z7t2g2blipzzfgmbamfaqjfiifoyfrc47qjt3a3u7p3rbpce.png?ex=65366c99&is=6523f799&hm=532962b74dfd141d6879d8fb0e3a2ac6abdc6389936e998fc9430069c8c3f1fa&
+"
+        />
+      </div>
+    </MeetTeamContainer>
+    <MeetTeamContainer style={{ top: 1000, left: 1030 }}>
+      <div>
+        <img
+          style={{ width: 280, height: 280 }}
+          src="https://cdn.discordapp.com/attachments/932622483662733332/1161374194144133190/1651673561336.jpeg?ex=65381101&is=65259c01&hm=b17f6e79be503b9c50ad09e5ee774f4055698f198f5dae68d71f7a4cf41cc32f&
+"
+        />
+      </div>
+    </MeetTeamContainer>
   </MeetTheTeamContainer>
 );
