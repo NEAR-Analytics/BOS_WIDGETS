@@ -56,33 +56,32 @@ State.init({
 
 return (
   <>
-    <Widget
-      src="jgodwill.near/widget/Common.Compose"
-      props={{
-        placeholder: "What's happening?",
-        onChange: state.onChange,
-        onHelper: ({ extractMentionNotifications, extractHashtags }) => {
-          // Major changes here
-          State.update({
-            extractMentionNotifications: state.extractMentionNotifications,
-            extractHashtags: state.extractHashtags,
-          });
-        },
-        composeButton: (onCompose) => (
-          <CommitButton
-            disabled={!state.content}
-            force
-            className="btn btn-dark rounded-3"
-            data={composeData}
-            onCommit={() => {
-              onCompose();
-            }}
-          >
-            Post
-          </CommitButton>
-        ),
-      }}
-    />
+    <div style={{ margin: "0 -12px" }}>
+      <Widget
+        src="jgodwill.near/widget/Common.Compose"
+        props={{
+          placeholder: "What's happening?",
+          onChange: state.onChange,
+          onHelper: ({ extractMentionNotifications, extractHashtags }) => {
+            // Major changes here
+            State.update({ extractMentionNotifications, extractHashtags });
+          },
+          composeButton: (onCompose) => (
+            <CommitButton
+              disabled={!state.content}
+              force
+              className="btn btn-dark rounded-5"
+              data={composeData}
+              onCommit={() => {
+                onCompose();
+              }}
+            >
+              Post
+            </CommitButton>
+          ),
+        }}
+      />
+    </div>
     {state.content && (
       <div className="mt-3">
         <Widget
