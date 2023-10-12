@@ -79,19 +79,20 @@ function onCancel() {
 }
 
 function createArticleListener() {
-  onCommit();
-  // const article = getArticleData();
-  // const newLibCalls = [...state.libCalls];
-  // newLibCalls.push({
-  //   functionName: "createArticle",
-  //   key: "createdArticle",
-  //   props: {
-  //     article,
-  //     onCommit,
-  //     onCancel,
-  //   },
-  // });
-  // State.update({ libCalls: newLibCalls });
+  //To test without commiting use the next line and comment the rest
+  // onCommit();
+  const article = getArticleData();
+  const newLibCalls = [...state.libCalls];
+  newLibCalls.push({
+    functionName: "createArticle",
+    key: "createdArticle",
+    props: {
+      article,
+      onCommit,
+      onCancel,
+    },
+  });
+  State.update({ libCalls: newLibCalls });
 }
 
 function switchShowPreview() {
