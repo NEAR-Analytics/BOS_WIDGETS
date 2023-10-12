@@ -225,6 +225,7 @@ flex: none;
 order: 0;
 flex-grow: 0;
 `;
+
 return (
   <Layout>
     <Header>
@@ -382,7 +383,14 @@ return (
       </MidWrapper1>
 
       <LastWrapper>
-        <btn1>Our Workspace</btn1>
+        <btn1>
+          <a
+            style={{ textDecoration: "none", color: "#FFFFFF" }}
+            href="https://trello.com/b/cT8mF8wz/nft-wg"
+          >
+            Our Workspace
+          </a>
+        </btn1>
         <btn2> Join Our Community</btn2>
       </LastWrapper>
     </Header>
