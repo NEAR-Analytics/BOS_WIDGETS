@@ -455,7 +455,7 @@ function getLink() {
 
 //===============================================END FUNCTIONS======================================================
 
-console.log(state);
+// console.log(state);
 return (
   <>
     {state.showShareModal && renderShareInteraction()}
