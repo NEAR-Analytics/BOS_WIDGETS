@@ -491,12 +491,12 @@ const ContentBlock = ({ title, abbr, address, description, metadata }) => (
                                         name: Content.tc.title,
                                         onSelect: () => changeHouse("tc"),
                                         href: getHouseUrl("tc")
-                                    },
-                                    {
-                                        name: Content.vb.title,
-                                        onSelect: () => changeHouse("vb"),
-                                        href: getHouseUrl("vb")
                                     }
+                                    // {
+                                    //     name: Content.vb.title,
+                                    //     onSelect: () => changeHouse("vb"),
+                                    //     href: getHouseUrl("vb")
+                                    // }
                                 ]
                             }}
                         />
@@ -583,7 +583,7 @@ const ContentBlock = ({ title, abbr, address, description, metadata }) => (
                         </div>
                     </Tab>
                 </div>
-                <div className="d-flex flex-column gap-4 px-3">
+                <div className="d-flex flex-column gap-4 p-3">
                     {state.selectedTab === "powers" &&
                         metadata.powers.map((r, i) => (
                             <PowerChecksDescription
