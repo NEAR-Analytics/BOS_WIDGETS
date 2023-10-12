@@ -148,28 +148,53 @@ const onCompose = () => {
 };
 
 const TextareaWrapper = styled.div`
-  display: grid;
+    display: grid;
   vertical-align: top;
   align-items: center;
   position: relative;
   align-items: stretch;
 
-  &::after,
   textarea {
+    display: flex;
+    align-items: center;
+    transition: all 0.3s ease;
+  }
+
+  textarea::placeholder {
+    padding-top: 4px;
+    font-size: 20px;
+  }
+
+  textarea:focus::placeholder {
+    font-size: inherit;
+    padding-top: 0px;
+  }
+
+  &::after,
+  textarea, iframe {
     width: 100%;
+    padding: 8px 0;
     min-width: 1em;
     height: unset;
-    min-height: 5em;
+    min-height: 3em;
     font: inherit;
-    padding: var(--padding) var(--padding) calc(40px + (var(--padding) * 2)) calc(40px + (var(--padding) * 2));
     margin: 0;
     resize: none;
     background: none;
     appearance: none;
-    border: none;
+    border: 0px solid #eee;
     grid-area: 1 / 1;
     overflow: hidden;
     outline: none;
+  }
+
+  iframe {
+    padding: 0;
+  }
+
+  textarea:focus, textarea:not(:empty) {
+    border-bottom: 1px solid #eee;
+    min-height: 5em;
   }
 
   &::after {
@@ -177,7 +202,13 @@ const TextareaWrapper = styled.div`
     visibility: hidden;
     white-space: pre-wrap;
   }
+  &.markdown-editor::after {
+    padding-top: 66px;
+    font-family: monospace;
+    font-size: 14px;
+  }
 `;
+
 const EmbedNFT = styled.div`
   margin: 10px;
 `;
