@@ -70,7 +70,7 @@ return (
           onHelper: () => onHelp(),
           composeButton: (onCompose) => (
             <CommitButton
-              disabled={!state.content}
+              disabled={!state.content.text}
               force
               className="btn btn-dark rounded-5"
               data={composeData}
