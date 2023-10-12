@@ -4,6 +4,8 @@ position: relative;
 width: 1600px;
 height: 6060px;
 background: #FFFBDA;
+top:-5999px,
+left:1076px
 `;
 return (
   <Layout>
