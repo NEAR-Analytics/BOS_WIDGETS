@@ -380,5 +380,67 @@ return (
         />
       </div>
     </MeetTeamContainer>
+    <SocialContainer style={{ top: 1350, left: 270 }}>
+      <SocialIcon>
+        <a href="https://near.social/mob.near/widget/ProfilePage?accountId=krikkraktrak.near">
+          <img
+            style={{ width: 20, height: 20 }}
+            src="https://near.social/favicon.png
+"
+          />
+        </a>
+      </SocialIcon>
+      <SocialIcon>
+        <a href="https://gov.near.org/t/self-nomination-nft-revival-dao-krik/35332">
+          <img
+            style={{ width: 20, height: 20 }}
+            src="https://cdn.discordapp.com/attachments/1135845507189702748/1161713477589667850/Self-Intro-icon.svg?ex=65394cfc&is=6526d7fc&hm=78beed194efa12f9e31d0f6c456f54a2a900c4a5b6c0327684cb1003a87509f4&
+"
+          />
+        </a>
+      </SocialIcon>
+    </SocialContainer>
+
+    <SocialContainer style={{ top: 1350, left: 680 }}>
+      <SocialIcon>
+        <a href="https://near.social/mob.near/widget/ProfilePage?accountId=escobarindo.near">
+          <img
+            style={{ width: 20, height: 20 }}
+            src="https://near.social/favicon.png
+"
+          />
+        </a>
+      </SocialIcon>
+      <SocialIcon>
+        <a href="https://gov.near.org/t/self-nomination-nft-wg-core-contributors/35359">
+          <img
+            style={{ width: 20, height: 20 }}
+            src="https://cdn.discordapp.com/attachments/1135845507189702748/1161713477589667850/Self-Intro-icon.svg?ex=65394cfc&is=6526d7fc&hm=78beed194efa12f9e31d0f6c456f54a2a900c4a5b6c0327684cb1003a87509f4&
+"
+          />
+        </a>
+      </SocialIcon>
+    </SocialContainer>
+
+    <SocialContainer style={{ top: 1350, left: 1080 }}>
+      <SocialIcon>
+        <a href="https://near.social/mob.near/widget/ProfilePage?accountId=nearversedao.near">
+          <img
+            style={{ width: 20, height: 20 }}
+            src="https://near.social/favicon.png
+"
+          />
+        </a>
+      </SocialIcon>
+      <SocialIcon>
+        <a href="https://gov.near.org/t/self-nomination-nft-wg-election/35357">
+          <img
+            style={{ width: 20, height: 20 }}
+            src="https://cdn.discordapp.com/attachments/1135845507189702748/1161713477589667850/Self-Intro-icon.svg?ex=65394cfc&is=6526d7fc&hm=78beed194efa12f9e31d0f6c456f54a2a900c4a5b6c0327684cb1003a87509f4&
+"
+          />
+        </a>
+      </SocialIcon>
+    </SocialContainer>
   </MeetTheTeamContainer>
 );
