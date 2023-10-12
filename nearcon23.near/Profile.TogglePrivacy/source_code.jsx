@@ -1,4 +1,4 @@
-const ownerId = "nearpad.testnet";
+const ownerId = "nearcon23.near";
 
 const FirstBorderBox = styled.div`
     border:1px solid #F2F1EA;
