@@ -372,8 +372,7 @@ State.init({
     proposalsCount: 0,
     hideProposalBtn: true,
     showOptions: false,
-    showHouses: false,
-    isDissolved: false
+    showHouses: false
 });
 
 const getProposalsCount = () => {
@@ -392,15 +391,6 @@ const changeHouse = (house) => {
         showPowerChecksDescription: false,
         vbWithTrust: false
     });
-};
-
-const getDissolvedStatus = () => {
-    const isDissolved = Near.view(
-        Content[state.selectedHouse].address,
-        "is_dissolved",
-        {}
-    );
-    State.update({ isDissolved });
 };
 
 const getProposals = () => {
@@ -430,7 +420,6 @@ State.update({ selectedHouse: router.params.house ?? state.selectedHouse });
 getProposalsCount();
 getProposals();
 getMembers();
-getDissolvedStatus();
 
 const ContentBlock = ({ title, abbr, address, description, metadata }) => (
     <Section className="d-flex flex-column justify-content-between h-100">
@@ -441,49 +430,38 @@ const ContentBlock = ({ title, abbr, address, description, metadata }) => (
                         <b>{abbr}</b>
                     </h6>
                 </CircleLogo>
-                <div className="d-flex gap-2 align-items-center">
-                    {isDissolved && (
-                        <Widget
-                            src="nearui.near/widget/Element.Badge"
-                            props={{
-                                children: <>Dissolved</>,
-                                variant: `disabled round`,
-                                size: "lg"
-                            }}
-                        />
-                    )}
-                    <div className="mt-1 px-2">
-                        <Widget
-                            src="near/widget/DIG.DropdownMenu"
-                            props={{
-                                trigger: (
-                                    <Widget
-                                        src="nearui.near/widget/Input.Button"
-                                        props={{
-                                            children: (
-                                                <i className="bi bi-three-dots"></i>
-                                            ),
-                                            variant: "icon rounded"
-                                        }}
-                                    />
-                                ),
-                                items: [
-                                    {
-                                        name: "Proposals",
-                                        href: `#/astraplusplus.ndctools.near/widget/home?page=dao&daoId=${
-                                            Content[state.selectedHouse].address
-                                        }`
-                                    },
-                                    {
-                                        name: "Members",
-                                        href: `#/astraplusplus.ndctools.near/widget/home?page=dao&daoId=${
-                                            Content[state.selectedHouse].address
-                                        }&tab=members`
-                                    }
-                                ]
-                            }}
-                        />
-                    </div>
+
+                <div className="mt-1 px-2">
+                    <Widget
+                        src="near/widget/DIG.DropdownMenu"
+                        props={{
+                            trigger: (
+                                <Widget
+                                    src="nearui.near/widget/Input.Button"
+                                    props={{
+                                        children: (
+                                            <i className="bi bi-three-dots"></i>
+                                        ),
+                                        variant: "icon rounded"
+                                    }}
+                                />
+                            ),
+                            items: [
+                                {
+                                    name: "Proposals",
+                                    href: `#/astraplusplus.ndctools.near/widget/home?page=dao&daoId=${
+                                        Content[state.selectedHouse].address
+                                    }`
+                                },
+                                {
+                                    name: "Members",
+                                    href: `#/astraplusplus.ndctools.near/widget/home?page=dao&daoId=${
+                                        Content[state.selectedHouse].address
+                                    }&tab=members`
+                                }
+                            ]
+                        }}
+                    />
                 </div>
             </div>
             <div>
@@ -513,12 +491,12 @@ const ContentBlock = ({ title, abbr, address, description, metadata }) => (
                                         name: Content.tc.title,
                                         onSelect: () => changeHouse("tc"),
                                         href: getHouseUrl("tc")
+                                    },
+                                    {
+                                        name: Content.vb.title,
+                                        onSelect: () => changeHouse("vb"),
+                                        href: getHouseUrl("vb")
                                     }
-                                    // {
-                                    //     name: Content.vb.title,
-                                    //     onSelect: () => changeHouse("vb"),
-                                    //     href: getHouseUrl("vb")
-                                    // }
                                 ]
                             }}
                         />
@@ -605,7 +583,7 @@ const ContentBlock = ({ title, abbr, address, description, metadata }) => (
                         </div>
                     </Tab>
                 </div>
-                <div className="d-flex flex-column gap-4 p-3">
+                <div className="d-flex flex-column gap-4 px-3">
                     {state.selectedTab === "powers" &&
                         metadata.powers.map((r, i) => (
                             <PowerChecksDescription
