@@ -49,19 +49,16 @@ function callLibs(srcArray, stateUpdate, libCalls) {
   );
 }
 
-const initLibCalls
-if(context.accountId) {
-  initLibCalls = [{
+const initLibCalls = [
+  {
     functionName: "canUserCreateComment",
     key: "canLoggedUserCreateComment",
     props: {
       accountId: context.accountId,
       sbtsNames: sbtWhiteList,
     },
-  },]
-} else {
-  initLibCalls = []
-} 
+  },
+];
 
 State.init({
   verified: true,
@@ -69,7 +66,6 @@ State.init({
   voted: false,
   sliceContent: true,
   libCalls: initLibCalls,
-  canLoggedUserCreateComment: false,
 });
 //=============================================END INITIALIZATION===================================================
 
