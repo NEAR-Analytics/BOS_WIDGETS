@@ -311,7 +311,7 @@ const SetText = (txt) => {
 };
 
 const renderSpinner = () => {
-  return <Widget src={widgets.newStyledComponents.Feedback.Spinner} />;
+  // return <Widget src={widgets.newStyledComponents.Feedback.Spinner} />;
   return <Spinner className="spinner-border" role="status"></Spinner>;
 };
 
