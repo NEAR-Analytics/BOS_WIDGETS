@@ -47,7 +47,7 @@ function search() {
     where = { description: { _like: `%${state.content}%` }, ...where };
   }
   if (state.title) {
-    where = { name: { _like: `%${state.tilte}%` }, ...where };
+    where = { name: { _like: `%${state.title}%` }, ...where };
   }
   console.log("searching for", where);
   fetchGraphQL(query, "DevhubPostsQuery", {
