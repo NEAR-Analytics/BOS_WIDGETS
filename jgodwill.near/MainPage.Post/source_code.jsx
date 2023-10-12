@@ -1,4 +1,4 @@
-const accountId = props.accountId;
+const accountId = props.accountId || "";
 const senderId = context.accountId;
 
 // State.init({
@@ -35,7 +35,7 @@ const sender = `${
     : `@${senderId.slice(0, 10)}...${senderId.slice(senderId.length - 4)}`)
 }`;
 const receiver = `${
-  state?.profile?.name ||
+  state.profile?.name ||
   (accountId.endsWith(".near")
     ? `@${
         accountId.length > 20
