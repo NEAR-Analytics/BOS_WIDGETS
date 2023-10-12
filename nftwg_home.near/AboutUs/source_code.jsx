@@ -56,7 +56,7 @@ return (
       NFTs on NEAR. Our primary objective is to revitalize and expand the Near
       NFT ecosystem.
     </Sentence>
-    <Sentence style={{ left: 750 }}>
+    <Sentence style={{ left: 550 }}>
       Elected by the community, the Work Group strives for long-term
       sustainability, aligning with Near Protocol's core goals through NFTs as a
       catalyst for mass adoption. Read on to know more about our goals, team and
