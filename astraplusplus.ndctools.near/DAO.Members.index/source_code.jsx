@@ -3,10 +3,10 @@ const publicApiKey = "36f2b87a-7ee6-40d8-80b9-5e68e587a5b5";
 const baseApi = "https://api.pikespeak.ai";
 let voters = [];
 
-const CoADaoId = "coa.gwg-testing.near";
+const CoADaoId = "congress-coa-v1.ndc-gwg.near";
 const VotingBodyDaoId = "";
-const TCDaoId = "tc.gwg-testing.near";
-const HoMDaoId = "hom.gwg-testing.near";
+const TCDaoId = "congress-tc-v1.ndc-gwg.near";
+const HoMDaoId = "congress-hom-v1.ndc-gwg.near";
 
 const isCongressDaoID =
     daoId === HoMDaoId ||
