@@ -1,13 +1,4 @@
-const content = {
-  type: "md",
-  text: "Gunna",
-  image: undefined,
-  embeddedNFT: {
-    contractId: "nft.genadrop.near1664304736705",
-    tokenId: 1664304736705,
-    chain: "Near",
-  },
-};
+const content = props.content;
 const raw = !!props.raw;
 
 return content ? (
@@ -49,18 +40,18 @@ return content ? (
           />
         </div>
       ))}
-      {content.embeddedNFT && (
-          <div key="content-img" className="mt-2">
-            <Widget
-              src="jgodwill.near/widget/GenaDrop.NFTEmbedPreview"
-              props={{
-                contractId: content.embeddedNFT.contractId,
-                tokenId: content.embeddedNFT.tokenId,
-                chainState: content.embeddedNFT.chain?.toLowerCase(),
-              }}
-            />
-          </div>
-        )}
+    {content.embeddedNFT && (
+      <div key="content-img" className="mt-2">
+        <Widget
+          src="jgodwill.near/widget/GenaDrop.NFTEmbedPreview"
+          props={{
+            contractId: content.embeddedNFT.contractId,
+            tokenId: content.embeddedNFT.tokenId,
+            chainState: content.embeddedNFT.chain?.toLowerCase(),
+          }}
+        />
+      </div>
+    )}
   </>
 ) : (
   <span
