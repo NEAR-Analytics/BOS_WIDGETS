@@ -1,5 +1,7 @@
 const ownerId = "nearcon23.near";
 const receiverId = props.receiverId || context.receiverId || "nearcon23.near";
+const prefix = props.prefix || "/mobile";
+
 const amount = props.amount || context.amount || 0.0;
 
 initState({ qrCodeData: "" });
@@ -116,8 +118,6 @@ var qrcode = new QRCode(document.getElementById("qrcode"), {
 </html>
 `;
 
-console.log(state);
-
 return (
   <Container>
     <Content>
@@ -157,7 +157,7 @@ return (
         </div>
         <Link
           style={{ width: "100%" }}
-          to={`/nearcon23/home/${ownerId}/widget/Mobile.Home`}
+          to={`${prefix}/${ownerId}/widget/Mobile.Home`}
         >
           <SubmitButton>Home</SubmitButton>
         </Link>
