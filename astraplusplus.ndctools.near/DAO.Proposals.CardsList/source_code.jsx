@@ -1,5 +1,4 @@
-const { proposals, resPerPage, state, update, isCongressDaoID, daoConfig } =
-    props;
+const { proposals, resPerPage, state, update, isCongressDaoID } = props;
 
 return (
     <div>
@@ -39,8 +38,7 @@ return (
                             daoId: state.daoId,
                             proposalString: JSON.stringify(proposal),
                             multiSelectMode: state.multiSelectMode,
-                            isCongressDaoID,
-                            daoConfig
+                            isCongressDaoID
                         }}
                     />
                 );
