@@ -88,6 +88,24 @@ const DevHub = {
   update_community_github: ({ handle, github }) =>
     Near.call(devHubAccountId, "update_community_github", { handle, github }),
 
+  add_community_addon: ({ handle, config }) =>
+    Near.call(devHubAccountId, "add_community_addon", {
+      community_handle: handle,
+      addon_config: config,
+    }),
+
+  update_community_addon: ({ handle, config }) =>
+    Near.call(devHubAccountId, "update_community_addon", {
+      community_handle: handle,
+      addon_config: config,
+    }),
+
+  remove_community_addon: ({ handle, config_id }) =>
+    Near.call(devHubAccountId, "remove_community_addon", {
+      community_handle: handle,
+      config_id,
+    }),
+
   get_access_control_info: () =>
     Near.view(devHubAccountId, "get_access_control_info") ?? null,
 
@@ -95,6 +113,14 @@ const DevHub = {
 
   get_all_communities_metadata: () =>
     Near.view(devHubAccountId, "get_all_communities_metadata") ?? null,
+
+  get_available_addons: () =>
+    Near.view(devHubAccountId, "get_available_addons") ?? null,
+
+  get_community_addons: ({ handle }) =>
+    Near.view(devHubAccountId, "get_community_addons", { handle }),
+  get_community_addon_configs: ({ handle }) =>
+    Near.view(devHubAccountId, "get_community_addon_configs", { handle }),
 
   get_all_labels: () => Near.view(devHubAccountId, "get_all_labels") ?? null,
 
@@ -184,7 +210,7 @@ const CommunitySummary = (community) => {
   ];
 
   return (
-    <div style={{ top: "0", left: "0" }}>
+    <>
       {widget("components.molecule.markdown-viewer", {
         text: community.bio_markdown,
       })}
@@ -215,29 +241,7 @@ const CommunitySummary = (community) => {
           </a>
         ))}
       </div>
-    </div>
-  );
-};
-
-const UserList = (users) => {
-  return (
-    <div>
-      {users.map((user, i) => (
-        <div className={`row ${i < users.length - 1 ? "mb-3" : ""}`}>
-          <div class="col-9">
-            <span
-              key={user}
-              className="d-inline-flex"
-              style={{ fontWeight: 500 }}
-            >
-              {widget("components.molecule.profile-card", {
-                accountId: user,
-              })}
-            </span>
-          </div>
-        </div>
-      ))}
-    </div>
+    </>
   );
 };
 
@@ -255,8 +259,9 @@ const Sidebar = ({ handle }) => {
   return community === null ? (
     <div>Loading...</div>
   ) : (
-    <div class="col-md-12 d-flex flex-column align-items-end">
+    <div class="d-flex flex-column align-items-end">
       {widget("components.molecule.tile", {
+        fullWidth: true,
         minHeight: 0,
         children: CommunitySummary(community),
         noBorder: true,
@@ -267,10 +272,18 @@ const Sidebar = ({ handle }) => {
 
       {widget("components.molecule.tile", {
         heading: "Admins",
+
+        children: (community?.admins ?? []).map((accountId) => (
+          <div key={accountId} className="d-flex" style={{ fontWeight: 500 }}>
+            {widget("components.molecule.profile-card", { accountId })}
+          </div>
+        )),
+
+        fullWidth: true,
         minHeight: 0,
-        children: UserList(community.admins),
         noBorder: true,
         borderRadius: "rounded",
+        style: { overflowX: "scroll" },
       })}
     </div>
   );
