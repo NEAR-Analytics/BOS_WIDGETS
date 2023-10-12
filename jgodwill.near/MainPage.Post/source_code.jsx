@@ -1,5 +1,20 @@
 const accountId = props.accountId;
 const senderId = context.accountId;
+
+// State.init({
+//   blockHeight: "now",
+//   content: {
+//     type: "md",
+//     text: "Gunna",
+//     image: undefined,
+//     embeddedNFT: {
+//       contractId: "nft.genadrop.near1664304736705",
+//       tokenId: 1664304736705,
+//       chain: "Near",
+//     },
+//   },
+// });
+// console.log("content", state.content);
 const userProfile = Social.get(`${accountId}/profile/**`, "final");
 const senderProfile = Social.get(`${senderId}/profile/**`, "final");
 const blockHeight =
@@ -62,8 +77,8 @@ const postDate = `${date?.toLocaleDateString([], {
 console.log("post date", postDate);
 
 const hasImageInPost = content?.image;
-console.log("content", content);
-console.log("receiver", receiver.length);
+// console.log("content", content);
+// console.log("receiver", receiver.length);
 
 const link = `/mob.near/widget/MainPage.Post.Page?accountId=${accountId}&blockHeight=${blockHeight}`;
 State.update({
@@ -148,6 +163,7 @@ const nftMint = () => {
   }
 };
 
+// console.log(content);
 return (
   <>
     {state && (
@@ -170,6 +186,18 @@ return (
             props={{ content, raw }}
           />
         </div>
+        {/*        {content.embeddedNFT && (
+          <div key="content-img" className="mt-2">
+            <Widget
+              src="jgodwill.near/widget/GenaDrop.NFTEmbedPreview"
+              props={{
+                contractId: content.embeddedNFT.contractId,
+                tokenId: content.embeddedNFT.tokenId,
+                chainState: content.embeddedNFT.chain?.toLowerCase(),
+              }}
+            />
+          </div>
+        )}*/}
         {blockHeight !== "now" && (
           <div className="mt-1 d-flex justify-content-between">
             <div className="me-4">
