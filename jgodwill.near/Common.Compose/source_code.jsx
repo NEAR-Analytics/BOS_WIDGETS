@@ -104,9 +104,9 @@ const updateChain = (chain) => {
 
 const content = (state.text ||
   state.image.cid ||
-  state.nftContractId ||
-  state.nftTokenId ||
-  state.nftChainState) && {
+  state?.nftContractId ||
+  state?.nftTokenId ||
+  state?.nftChainState) && {
   type: "md",
   text: state.text,
   image: state.image.cid ? { ipfs_cid: state.image.cid } : undefined,
