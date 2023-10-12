@@ -311,7 +311,7 @@ const SetText = (txt) => {
 };
 
 const renderSpinner = () => {
-  // return <Widget src={widgets.newStyledComponents.Feedback.Spinner} />;
+  return <Widget src={widgets.newStyledComponents.Feedback.Spinner} />;
   return <Spinner className="spinner-border" role="status"></Spinner>;
 };
 
@@ -429,7 +429,7 @@ return (
         </div>
         <CommentFooter>
           <Widget
-            src={widgets.newStyledComponents}
+            src={widgets.newStyledComponents.Input.Button}
             props={{
               children: "Cancel",
               className: "info",
