@@ -215,21 +215,6 @@ return (
                 />
               </div>
               <div className="d-flex flex-column pt-3">
-                <Widget
-                  src={`${authorForWidget}/widget/TagsEditor`}
-                  props={{
-                    forceClear: state.clearTags,
-                    stateUpdate: (obj) => State.update(obj),
-                    initialTagsObject,
-                    placeholder: "Input tags",
-                    setTagsObject: (tags) => {
-                      state.tags = Object.keys(tags);
-                      State.update();
-                    },
-                  }}
-                />
-              </div>
-              <div className="d-flex flex-column pt-3">
                 <label for="textareaArticleBody">
                   Input article body (in makrdown format):
                 </label>
@@ -250,6 +235,21 @@ return (
                     }}
                   />
                 </div>
+              </div>
+              <div className="d-flex flex-column pt-3">
+                <Widget
+                  src={`${authorForWidget}/widget/TagsEditor`}
+                  props={{
+                    forceClear: state.clearTags,
+                    stateUpdate: (obj) => State.update(obj),
+                    initialTagsObject,
+                    placeholder: "Input tags",
+                    setTagsObject: (tags) => {
+                      state.tags = Object.keys(tags);
+                      State.update();
+                    },
+                  }}
+                />
               </div>
             </div>
           )}
