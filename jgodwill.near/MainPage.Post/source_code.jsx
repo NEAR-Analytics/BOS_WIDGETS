@@ -182,7 +182,7 @@ return (
         />
         <div className="mt-3 text-break">
           <Widget
-            src="mob.near/widget/MainPage.Post.Content"
+            src="jgodwill.near/widget/MainPage.Post.Content"
             props={{ content, raw }}
           />
         </div>
