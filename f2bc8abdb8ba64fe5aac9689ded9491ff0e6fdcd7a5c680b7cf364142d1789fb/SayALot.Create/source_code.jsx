@@ -287,7 +287,7 @@ return (
             <Widget
               src={widgets.newStyledComponents.Input.Button}
               props={{
-                className: "info outline rounded mx-2",
+                className: "info outline mx-2",
                 disabled:
                   state.title.length === 0 || state.articleBody.length === 0,
                 onClick: switchShowPreview,
