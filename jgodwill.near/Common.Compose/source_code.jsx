@@ -2,12 +2,13 @@ const autocompleteEnabled = props.autocompleteEnabled ?? true;
 
 State.init({
   isChecked: false,
-  nftChainState: "Near",
+  nftChainState: "",
 });
 if (state.image === undefined) {
   State.init({
     image: {},
     text: props.initialText || "",
+    nftChainState: ""
   });
 
   if (props?.onHelper) {
@@ -101,7 +102,11 @@ const updateChain = (chain) => {
   State.update({ nftChainState: chain });
 };
 
-const content = (state.text || state.image.cid || state.nftContractId || state.nftTokenId || state.nftChainState) && {
+const content = (state.text ||
+  state.image.cid ||
+  state.nftContractId ||
+  state.nftTokenId ||
+  state.nftChainState) && {
   type: "md",
   text: state.text,
   image: state.image.cid ? { ipfs_cid: state.image.cid } : undefined,
@@ -249,6 +254,12 @@ const onClose = () => {
   });
 };
 
+if(state.isChecked === true ){
+  State.update({
+    nftChainState: "Near"
+  })
+}
+
 const onChangeContractID = (contractId) => {
   State.update({
     nftContractId: contractId,
@@ -296,10 +307,12 @@ return (
     </TextareaWrapper>
     <div className="d-flex flex-row p-2 border-top">
       <div className="flex-grow-1">
-        {!state.isChecked&&<IpfsImageUpload
-          image={state.image}
-          className="btn btn-outline-secondary border-0 rounded-3"
-        />}
+        {!state.isChecked && (
+          <IpfsImageUpload
+            image={state.image}
+            className="btn btn-outline-secondary border-0 rounded-3"
+          />
+        )}
         {!state.image.cid && (
           <EmbedNFT>
             <div className="form-check form-switch embed">
