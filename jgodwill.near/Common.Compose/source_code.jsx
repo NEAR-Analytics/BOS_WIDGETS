@@ -11,7 +11,7 @@ if (state.image === undefined) {
     nftChainState: "",
   });
 
-  if (props?.onHelper) {
+  if (props.onHelper) {
     const extractMentions = (text) => {
       const mentionRegex =
         /@((?:(?:[a-z\d]+[-_])*[a-z\d]+\.)*(?:[a-z\d]+[-_])*[a-z\d]+)/gi;
