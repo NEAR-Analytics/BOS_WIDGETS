@@ -176,6 +176,8 @@ const nftMint = () => {
   }
 };
 
+console.log(content);
+
 return (
   <div className="border-bottom pt-3 pb-1">
     <div className="d-flex flex-row align-items-center">
@@ -252,19 +254,10 @@ return (
       </span>
     </div>
     <div className="mt-3 text-break">
-      {!state.embeddedNFT ? (
+      {content.embeddedNFT.tokenId && (
         <Widget
           src="jgodwill.near/widget/MainPage.Post.Content"
           props={{ content, raw }}
-        />
-      ) : (
-        <Widget
-          src="jgodwill.near/widget/GenaDrop.NFTEmbedPreview"
-          props={{
-            contractId: state.contractId,
-            tokenId: state.tokenId,
-            chainState: state.chainState,
-          }}
         />
       )}
     </div>
