@@ -314,22 +314,24 @@ return (
     >
       <h5>Track Preference</h5>
 
-      <Widget
-        src={`${ownerId}/widget/Inputs.Select`}
-        props={{
-          label: "",
-          value: persona,
-          placeholder: "Choose...",
-          options: [
-            { value: "allTracks", text: "All Tracks" },
-            { value: "developers", text: "Developers" },
-            { value: "entrepreneurs", text: "Entrepreneurs" },
-            { value: "creators", text: "Creators" },
-            { value: "regulators", text: "Regulators" },
-          ],
-          onChange: (persona) => setPersona(persona),
-        }}
-      />
+      <div style={{ width: "100%", position: "relative" }}>
+        <Widget
+          src={`${ownerId}/widget/Inputs.Select`}
+          props={{
+            label: "",
+            value: persona,
+            placeholder: "Choose...",
+            options: [
+              { value: "allTracks", text: "All Tracks" },
+              { value: "developers", text: "Developers" },
+              { value: "entrepreneurs", text: "Entrepreneurs" },
+              { value: "creators", text: "Creators" },
+              { value: "regulators", text: "Regulators" },
+            ],
+            onChange: (persona) => setPersona(persona),
+          }}
+        />
+      </div>
     </div>
   </Content>
 );
