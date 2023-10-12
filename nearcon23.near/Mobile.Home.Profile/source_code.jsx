@@ -1,5 +1,5 @@
 const ownerId = "nearcon23.near";
-const prefix = props.prefix || "/mobile";
+const prefix = props.prefix || "" || "/mobile";
 const theme = props.theme;
 
 const [persona, setPersona] = useState("allTracks");
@@ -216,7 +216,7 @@ return (
             justifyContent: "space-around",
           }}
         >
-          <Button href={`/${ownerId}/widget/Mobile.Home.SendAddress`}>
+          <Button href={`${prefix}/${ownerId}/widget/Mobile.Home.SendAddress`}>
             <ButtonIcon>
               <svg
                 width="23"
@@ -235,7 +235,7 @@ return (
             <h6>Send</h6>
           </Button>
 
-          <Button href={`/${ownerId}/widget/Mobile.Home.Recieve`}>
+          <Button href={`${prefix}/${ownerId}/widget/Mobile.Home.Recieve`}>
             <ButtonIcon>
               <svg
                 width="23"
