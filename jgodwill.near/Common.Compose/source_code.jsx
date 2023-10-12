@@ -105,6 +105,11 @@ const content = (state.text || state.image.cid) && {
   type: "md",
   text: state.text,
   image: state.image.cid ? { ipfs_cid: state.image.cid } : undefined,
+  embedNFT: {
+    contractId: state.nftContractId,
+    tokenId: state.nftTokenId,
+    chain: state.nftChainState,
+  },
 };
 
 if (content && props.extraContent) {
@@ -295,7 +300,7 @@ return (
           image={state.image}
           className="btn btn-outline-secondary border-0 rounded-3"
         />
-        {!state.text && !state.image.cid && (
+        {!state.image.cid && (
           <EmbedNFT>
             <div className="form-check form-switch embed">
               <input
