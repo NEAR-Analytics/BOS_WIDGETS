@@ -1,1 +1,1 @@
-return <div>Page under development</div>;
+return <div>Page is in development</div>;
