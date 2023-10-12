@@ -279,9 +279,9 @@ const Tab = styled.div`
     }
 
     .circle {
-        width: 20px;
+        min-width: 20px;
         height: 20px;
-        border-radius: 50%;
+        border-radius: 20px;
         background: #d4d4d4;
         padding: 4px;
     }
@@ -583,7 +583,7 @@ const ContentBlock = ({ title, abbr, address, description, metadata }) => (
                         </div>
                     </Tab>
                 </div>
-                <div className="d-flex flex-column gap-4 p-3">
+                <div className="d-flex flex-column gap-4 px-3">
                     {state.selectedTab === "powers" &&
                         metadata.powers.map((r, i) => (
                             <PowerChecksDescription
