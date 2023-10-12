@@ -1,9 +1,9 @@
 const autocompleteEnabled = props.autocompleteEnabled ?? true;
 
-State.init({
-  isChecked: false,
-  nftChainState: "Near",
-});
+// State.init({
+//   isChecked: false,
+//   nftChainState: "Near",
+// });
 if (state.image === undefined) {
   State.init({
     image: {},
@@ -144,7 +144,7 @@ const onCompose = () => {
   State.update({
     image: {},
     text: "",
-    embeddedNFT: {}
+    embeddedNFT: {},
   });
 };
 
