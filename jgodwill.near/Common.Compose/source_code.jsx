@@ -144,6 +144,7 @@ const onCompose = () => {
   State.update({
     image: {},
     text: "",
+    embeddedNFT: {}
   });
 };
 
