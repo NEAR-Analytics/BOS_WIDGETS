@@ -52,6 +52,9 @@ State.init({
   onChange: ({ content }) => {
     State.update({ content });
   },
+  onHelp: ({ extractMentionNotifications, extractHashtags }) => {
+    State.update({ extractMentionNotifications, extractHashtags });
+  },
 });
 
 const onHelp = ({ extractMentionNotifications, extractHashtags }) => {
@@ -66,9 +69,7 @@ return (
         props={{
           placeholder: "What's happening?",
           onChange: state.onChange,
-          onHelper: ({ extractMentionNotifications, extractHashtags }) => {
-            State.update({ extractMentionNotifications, extractHashtags });
-          },
+          onHelper: state.onHelp,
           composeButton: (onCompose) => (
             <CommitButton
               disabled={!state.content}
