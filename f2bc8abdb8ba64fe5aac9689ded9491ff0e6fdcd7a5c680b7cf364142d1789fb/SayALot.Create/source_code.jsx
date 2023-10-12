@@ -141,7 +141,9 @@ const SecondContainer = styled.div`
   border-radius: 20px;
 `;
 
-const initialTagsObject = {};
+console.log("editArticleData: ", editArticleData);
+
+const initialTagsObject = editArticleData ? {} : {};
 
 Array.isArray(tagsArray) &&
   tagsArray.forEach((tag) => {
