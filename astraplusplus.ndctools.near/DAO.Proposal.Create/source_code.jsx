@@ -2,10 +2,10 @@ const daoId = props.daoId;
 const accountId = props.accountId ?? context.accountId;
 const onClose = props.onClose;
 
-const CoADaoId = "coa.gwg-testing.near";
+const CoADaoId = "congress-coa-v1.ndc-gwg.near";
 const VotingBodyDaoId = "";
-const TCDaoId = "tc.gwg-testing.near";
-const HoMDaoId = "hom.gwg-testing.near";
+const TCDaoId = "congress-tc-v1.ndc-gwg.near";
+const HoMDaoId = "congress-hom-v1.ndc-gwg.near";
 
 const isCongressDaoID =
     props.daoId === HoMDaoId ||
