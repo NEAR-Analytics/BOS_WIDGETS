@@ -18,7 +18,7 @@ padding: 0px;
 gap: 10px;
 
 position: absolute;
-width: 1150px;
+width: 1050px;
 height: 500px;
 left: 10px;
 top: 436px;
@@ -33,7 +33,7 @@ background: url('https://i.ibb.co/qRHzxvw/Rectangle-23798.png'), #DDE1E6;
 const ImageCss = styled.div`
 /* Rectangle 23798 */
 
-width: 1350px;
+width: 1050px;
 height: 500px;
 
 background: url('https://i.ibb.co/qRHzxvw/Rectangle-23798.png'), #D9D9D9;
