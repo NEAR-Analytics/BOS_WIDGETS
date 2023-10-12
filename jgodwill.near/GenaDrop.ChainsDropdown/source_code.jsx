@@ -194,7 +194,7 @@ return (
           {state.chains &&
           state.chains.filter(
             (chain) => chain?.id === state?.selectedChain?.toString()
-          ) ? (
+          ) && (
             <img
               src={state.chains
                 .filter((chain) => chain.id === state.selectedChain.toString())
@@ -203,8 +203,6 @@ return (
                 .filter((chain) => chain.id === state.selectedChain.toString())
                 .map((c) => c.name)}
             />
-          ) : (
-            "Select an option"
           )}
           <span>▼</span>
         </div>
