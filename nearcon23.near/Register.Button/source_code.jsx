@@ -1,4 +1,4 @@
-const ownerId = "nearcon23.near";
+const ownerId = "nearpad.testnet";
 
 const Anchor = styled.a`
   display: flex;
@@ -27,10 +27,20 @@ const Anchor = styled.a`
     border: 1px solid #11181c;
     color: #fff;
   }
+   @media screen and (max-width: 768px) {
+   padding: 5px 10px;
+   min-width: 8em;
+  }
+`;
+
+const HideInMobile = styled.span`
+  @media screen and (max-width: 768px) {
+    display: none;
+  }
 `;
 
 return (
   <Anchor href={props.href ?? `/${ownerId}/widget/Index?tab=register`}>
-    Register $99
+    Register <HideInMobile>$99</HideInMobile>
   </Anchor>
 );
