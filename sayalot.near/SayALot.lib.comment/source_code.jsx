@@ -8,6 +8,7 @@ const action = isTest ? testAction : prodAction;
 //   "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb";
 const authorForWidget = "sayalot.near";
 // const authorForWidget = "kenrou-it.near";
+// const authorForWidget = "silkking.near";
 const libSrcArray = [`${authorForWidget}/widget/SayALot.lib.SBT`];
 
 State.init({ libCalls: [] });
@@ -16,7 +17,7 @@ function libStateUpdate(obj) {
   State.update(obj);
 }
 
-function setAreValidUsers(accountIds, sbtName) {
+function setAreValidUsers(accountIds, sbtsNames) {
   const newLibCalls = [...state.libCalls];
   accountIds.forEach((accountId) => {
     const isCallPushed =
@@ -37,7 +38,7 @@ function setAreValidUsers(accountIds, sbtName) {
       key: `isValidUser-${accountId}`,
       props: {
         accountId,
-        sbtName: sbtName,
+        sbtsNames,
       },
     });
   });
@@ -64,8 +65,7 @@ function callLibs(srcArray, stateUpdate, libCalls) {
 }
 
 function canUserCreateComment(props) {
-  const { env, accountId, sbtsNames } = props;
-
+  const { accountId, sbtsNames } = props;
   setAreValidUsers([accountId], sbtsNames);
 
   const result = state[`isValidUser-${accountId}`];
@@ -148,6 +148,9 @@ function getValidComments(props) {
 
   let finalComments = blacklistFilteredComments;
   if (articleSbts.length > 0) {
+    // We assume there will only be just one articleSbt
+    const articleSbt = articleSbts[0];
+
     const blacklistFilteredCommentsAuthors = blacklistFilteredComments.map(
       (comment) => {
         return comment.accountId;
@@ -157,7 +160,7 @@ function getValidComments(props) {
     setAreValidUsers(blacklistFilteredCommentsAuthors, articleSbts);
 
     const validAuthors = blacklistFilteredCommentsAuthors.filter((author) => {
-      return state[`isValidUser-${author}`] === true;
+      return state[`isValidUser-${author}`][articleSbt];
     });
 
     resultLibCalls = resultLibCalls.filter((call) => {
@@ -166,12 +169,10 @@ function getValidComments(props) {
         state[`isValidUser-${call.props.accountId}`] !== undefined;
       return !discardCondition;
     });
-
-    finalComments = blacklistFilteredCommentsAuthors.filter((comment) => {
+    finalComments = blacklistFilteredComments.filter((comment) => {
       return validAuthors.includes(comment.accountId);
     });
   }
-
   return finalComments;
 }
 
@@ -187,10 +188,10 @@ function libCall(call) {
 
 let resultLibCalls = [];
 if (libCalls && libCalls.length > 0) {
-  console.log(
-    "Calling functions",
-    libCalls.map((lc) => lc.functionName)
-  );
+  // console.log(
+  //   "Calling functions",
+  //   libCalls.map((lc) => lc.functionName)
+  // );
   const updateObj = {};
   resultLibCalls = [...libCalls];
   libCalls.forEach((call) => {
