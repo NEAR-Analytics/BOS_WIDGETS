@@ -132,6 +132,35 @@ const MeetTheTeamText = styled.div`
   text-align: center;
   color: #FFFFFF;
 `;
+const ImageContainer = styled.div`
+position: absolute;
+`;
+const SocialContainer = styled.div`
+
+position: absolute;
+width: 100px;
+height: 30px;
+top: 40px;
+display: flex;
+justify-content: space-between; /* Use 'justify-content' for spacing between flex items */
+flex-direction: row;
+`;
+const SocialIcon = styled.div`
+left:20;
+width:20;
+height:20;
+`;
+const NameContainer = styled.div`
+position: absolute;
+display: flex;
+justify-content: space-between; /* Use 'justify-content' for spacing between flex items */
+flex-direction: row;
+font-family: inherit;
+font-weight: 700;
+font-size: 15px;
+color:#FFFFFF;
+white-space:nowrap;
+`;
 
 return (
   <MainContainer>
@@ -192,6 +221,118 @@ return (
           </svg>
         </Star6>
         <MeetTheTeamText style={{ top: 340 }}>Meet The Team</MeetTheTeamText>
+        <ImageContainer style={{ top: 450, left: 130 }}>
+          <img
+            style={{ width: 140, height: 140 }}
+            src="https://cdn.discordapp.com/attachments/1132232613210357780/1160924867080753203/Aurobot.webp?ex=65366e89&is=6523f989&hm=de32abee5e8d7a308c515a7f4913978ad81230286594124230f51a977f7960ab&"
+          />
+        </ImageContainer>
+
+        <ImageContainer style={{ top: 450, left: 480 }}>
+          <img
+            style={{ width: 140, height: 140 }}
+            src="https://cdn.discordapp.com/attachments/1132232613210357780/1160922786118766703/bafkreihsi6z7t2g2blipzzfgmbamfaqjfiifoyfrc47qjt3a3u7p3rbpce.png?ex=65366c99&is=6523f799&hm=532962b74dfd141d6879d8fb0e3a2ac6abdc6389936e998fc9430069c8c3f1fa&"
+          />
+        </ImageContainer>
+        <ImageContainer style={{ top: 450, left: 820 }}>
+          <img
+            style={{ width: 140, height: 140 }}
+            src="https://cdn.discordapp.com/attachments/932622483662733332/1161374194144133190/1651673561336.jpeg?ex=65381101&is=65259c01&hm=b17f6e79be503b9c50ad09e5ee774f4055698f198f5dae68d71f7a4cf41cc32f&"
+          />
+        </ImageContainer>
+
+        <SocialContainer style={{ top: 620, left: 145 }}>
+          <SocialIcon>
+            <NameContainer style={{ left: 35, top: -20 }}>Kirk</NameContainer>
+            <a href="https://near.social/mob.near/widget/ProfilePage?accountId=krikkraktrak.near">
+              <img
+                style={{ width: 20, height: 20 }}
+                src="https://near.social/favicon.png"
+              />
+            </a>
+          </SocialIcon>
+
+          <SocialIcon>
+            <a href="https://gov.near.org/t/self-nomination-nft-revival-dao-krik/35332">
+              <img
+                style={{ width: 20, height: 20 }}
+                src="https://cdn.discordapp.com/attachments/1135845507189702748/1162113622244347974/self-introduction.svg?ex=653ac1a6&is=65284ca6&hm=93e8c533053b22ea0bbdf66e06ece735bbace3a746ad382a4c2772a3fb467fd7&"
+              />
+            </a>
+          </SocialIcon>
+        </SocialContainer>
+        <SocialContainer style={{ top: 620, left: 500 }}>
+          <NameContainer style={{ left: 15, top: -20 }}>Aescobar</NameContainer>
+          <SocialIcon>
+            <a href="https://near.social/mob.near/widget/ProfilePage?accountId=escobarindo.near">
+              <img
+                style={{ width: 20, height: 20 }}
+                src="https://near.social/favicon.png"
+              />
+            </a>
+          </SocialIcon>
+          <SocialIcon>
+            <a href="https://id.linkedin.com/in/aescobar-mike-85208b285">
+              <svg
+                width="15"
+                height="15"
+                viewBox="0 0 20 20"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M20 12.262V20H15.7132V12.78C15.7132 10.9658 15.0929 9.7284 13.5418 9.7284C12.3573 9.7284 11.6519 10.5631 11.3423 11.3695C11.229 11.6579 11.2 12.0596 11.2 12.4633V20H6.91117C6.91117 20 6.96929 7.77265 6.91117 6.50482H11.2V8.41758L11.1719 8.46162H11.2V8.41758C11.7691 7.5 12.7862 6.18813 15.0639 6.18813C17.8847 6.18813 20 8.11766 20 12.262ZM2.42597 0C0.959968 0 0 1.00671 0 2.33117C0 3.62626 0.931911 4.66338 2.36986 4.66338H2.39792C3.89398 4.66338 4.82289 3.62626 4.82289 2.33117C4.79683 1.00671 3.89398 0 2.42597 0ZM0.254522 20H4.54131V6.50482H0.254522V20Z"
+                  fill="white"
+                />
+              </svg>
+            </a>
+          </SocialIcon>
+          <SocialIcon>
+            <a href="https://gov.near.org/t/self-nomination-nft-wg-core-contributors/35359">
+              <img
+                style={{ width: 20, height: 20 }}
+                src="https://cdn.discordapp.com/attachments/1135845507189702748/1162113622244347974/self-introduction.svg?ex=653ac1a6&is=65284ca6&hm=93e8c533053b22ea0bbdf66e06ece735bbace3a746ad382a4c2772a3fb467fd7&"
+              />
+            </a>
+          </SocialIcon>
+        </SocialContainer>
+        <SocialContainer style={{ top: 620, left: 835 }}>
+          <NameContainer style={{ left: 0, top: -20 }}>
+            Tej (aka Punter)
+          </NameContainer>
+          <SocialIcon>
+            <a href="https://near.social/mob.near/widget/ProfilePage?accountId=nearversedao.near">
+              <img
+                style={{ width: 20, height: 20 }}
+                src="https://near.social/favicon.png"
+              />
+            </a>
+          </SocialIcon>
+          <SocialIcon>
+            <a href="https://www.linkedin.com/in/tej-mirthinti-b2bb575a/">
+              <svg
+                width="15"
+                height="15"
+                viewBox="0 0 20 20"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M20 12.262V20H15.7132V12.78C15.7132 10.9658 15.0929 9.7284 13.5418 9.7284C12.3573 9.7284 11.6519 10.5631 11.3423 11.3695C11.229 11.6579 11.2 12.0596 11.2 12.4633V20H6.91117C6.91117 20 6.96929 7.77265 6.91117 6.50482H11.2V8.41758L11.1719 8.46162H11.2V8.41758C11.7691 7.5 12.7862 6.18813 15.0639 6.18813C17.8847 6.18813 20 8.11766 20 12.262ZM2.42597 0C0.959968 0 0 1.00671 0 2.33117C0 3.62626 0.931911 4.66338 2.36986 4.66338H2.39792C3.89398 4.66338 4.82289 3.62626 4.82289 2.33117C4.79683 1.00671 3.89398 0 2.42597 0ZM0.254522 20H4.54131V6.50482H0.254522V20Z"
+                  fill="white"
+                />
+              </svg>
+            </a>
+          </SocialIcon>
+          <SocialIcon>
+            <a href="https://gov.near.org/t/self-nomination-nft-wg-election/35357">
+              <img
+                style={{ width: 20, height: 20 }}
+                src="https://cdn.discordapp.com/attachments/1135845507189702748/1162113622244347974/self-introduction.svg?ex=653ac1a6&is=65284ca6&hm=93e8c533053b22ea0bbdf66e06ece735bbace3a746ad382a4c2772a3fb467fd7&"
+              />
+            </a>
+          </SocialIcon>
+        </SocialContainer>
       </ContentContainer>
     </BackgroundContainer>
   </MainContainer>
