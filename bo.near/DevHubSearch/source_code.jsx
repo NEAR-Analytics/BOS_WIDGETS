@@ -1,7 +1,7 @@
 const QUERYAPI_ENDPOINT = `https://near-queryapi.api.pagoda.co/v1/graphql/`;
 
 const queryName =
-  props.queryName ?? `bo_near_devhub_v15_posts_with_latest_snapshot`;
+  props.queryName ?? `bo_near_devhub_v17_posts_with_latest_snapshot`;
 
 State.init({
   data: null,
@@ -9,6 +9,7 @@ State.init({
   author: null,
   title: null,
   content: null,
+  label: null,
 
   limit: 10,
   offset: 0,
@@ -49,6 +50,9 @@ function search() {
   if (state.title) {
     where = { name: { _like: `%${state.title}%` }, ...where };
   }
+  if (state.label) {
+    where = { labels: { _contains: state.label }, ...where };
+  }
   console.log("searching for", where);
   fetchGraphQL(query, "DevhubPostsQuery", {
     limit: state.limit,
@@ -73,7 +77,11 @@ const renderData = (a) => {
   return (
     <Widget
       src={`devgovgigs.near/widget/gigs-board.entity.post.Post`}
-      props={{ id: a.post_id }}
+      props={{
+        id: a.post_id,
+        defaultExpanded: false,
+        searchKeywords: state.content ? [state.content] : undefined,
+      }}
       key={a.post_id}
     />
   );
@@ -94,6 +102,10 @@ return (
       <input
         placeholder="content"
         onChange={(e) => State.update({ content: e.target.value })}
+      ></input>
+      <input
+        placeholder="label"
+        onChange={(e) => State.update({ label: e.target.value })}
       ></input>
       <button onClick={search}>search</button>
     </div>
