@@ -4,7 +4,7 @@ return (
   <>
     <div class="container min-vw-80">
       <h1>{`Hello, ${accountId}!👋`}</h1>
-      <strong> Welcome to to all things HERE Wallet! </strong>
+      <strong> Welcome to all things HERE Wallet! </strong>
       <br></br>
       <hr />
       <img
@@ -23,6 +23,8 @@ return (
       <a href="https://discord.gg/8Q3gw3gsD2">🔗---HERE Wallet Discord</a>
       <br></br>
       <a href="https://t.me/herewallet">🔗---HERE Wallet Telegram</a>
+      <br></br>
+      <a href="https://t.co/ljXU6afTT7">🔗---HERE Wallet Download</a>
       <br></br>
       <a href="https://www.tradeport.xyz/near/collection/nft.herewallet.near">
         🔗---HERE NFT Collection on Tradeport - Holders get an extra 1% APY
@@ -58,7 +60,52 @@ return (
       <br></br>
       <strong>Early access</strong>
       <br></br>
-      <i>Access to B-versions with new features. Get rewards for feedback</i>
+      <i>Access to Beta versions with new features. Get rewards for feedback</i>
+      <hr />
+      <h3>Weekly Score🏆</h3>
+      <i>
+        Every week, you can earn score for specific actions, and the leaders in
+        weekly leaderboard will get rewards in USDT.
+      </i>
+      <br></br>
+      <strong>Weekly Score #6 is ongoing!</strong>
+      <br></br>
+      <br></br>
+      <strong>How to earn score?</strong>
+      <br></br>
+      <i>
+        +1 Score for each 0.02 NEAR earned from Staking (max 200 score per week)
+        🚀
+      </i>
+      <br></br>
+      <i>Invite friends: +50 score, +150 if friend connects binance 🚀</i>
+      <br></br>
+      <i>Add friends and give likes: +1 score for each friend's like 👍</i>
+      <br></br>
+      <i>Open the app every day: +5 score 📅</i>
+      <br></br>
+      <i>
+        Daily swap of $10: +25 score (once a day) 💰, Daily swap of $100: +50
+        score (once a day) 💰
+      </i>
+      <br></br>
+      <i>
+        +1 score for each $20 turnover on swaps. (max 200 score per week) 💰
+      </i>
+      <br></br>
+      <i>Find bugs in the APP and report them 🐛</i>
+      <br></br>
+      <strong>
+        NFT Holders get 25% increase on all score actions, Mutated Holders get
+        50%! 😲
+      </strong>
+      <br></br>
+      <img
+        src="https://pbs.twimg.com/media/F8B2zvUWwAA3C0k?format=jpg&name=small"
+        alt="HERE"
+        width="680"
+        height="383"
+      ></img>
       <hr />
     </div>
   </>
