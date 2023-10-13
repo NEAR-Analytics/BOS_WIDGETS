@@ -1,7 +1,7 @@
 /*-------------------------Hero-------------------------*/
 const Hero = styled.div`
 position: absolute;
-width: 1280px;
+width: 1200px;
 height: 756px;
 left: 80px;
 top: 180px;
@@ -91,16 +91,15 @@ height:80px;
 `;
 return (
   /*------------Hero----------------*/
-  <HeroContainer id="home">
-    <Hero>
-      <Text1 id="home">THE NFT WORKGROUP</Text1>
-      <Text2>
-        Empowering NFTs on NEAR: Bridging Communities, Pioneering Innovations!
-      </Text2>
 
-      <ImageLayout>
-        <ImageCss />
-      </ImageLayout>
-    </Hero>
-  </HeroContainer>
+  <Hero>
+    <Text1 id="home">THE NFT WORKGROUP</Text1>
+    <Text2>
+      Empowering NFTs on NEAR: Bridging Communities, Pioneering Innovations!
+    </Text2>
+
+    <ImageLayout>
+      <ImageCss />
+    </ImageLayout>
+  </Hero>
 );
