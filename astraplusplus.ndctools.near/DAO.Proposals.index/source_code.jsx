@@ -98,7 +98,7 @@ return (
 
             <Widget
                 src="astraplusplus.ndctools.near/widget/DAO.Proposals.ProposalsPikespeak"
-                props={{ daoId: daoId }}
+                props={{ daoId: daoId, dev: props.dev }}
             />
         </div>
     </>
