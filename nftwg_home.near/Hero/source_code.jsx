@@ -41,6 +41,7 @@ background: url('https://i.ibb.co/qRHzxvw/Rectangle-23798.png'), #D9D9D9;
 /* Inside auto layout */
 flex: none;
 order: 0;
+left:0;
 flex-grow: 0;
 background-size: cover;
 background-repeat: no-repeat;
@@ -53,7 +54,7 @@ const Text1 = styled.div`
 position: absolute;
 width: 300px;
 height: 50px;
-left: 10px;
+left: 0px;
 top: 40px;
 font-family: inherit;
 font-style: normal;
@@ -72,7 +73,7 @@ const Text2 = styled.div`
 position: absolute;
 width: 1280px;
 height: 168px;
-left: 10px;
+left: 0px;
 top: 190px;
 
 font-family: 'Outfit';
