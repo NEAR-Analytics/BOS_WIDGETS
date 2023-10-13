@@ -2,7 +2,7 @@ return (
   <Widget
     src="mybadge.near/widget/Generic.DetailedBadge"
     props={{
-      primaryText: "Contract Standards",
+      primaryText: "CONTRACT STANDARDS",
       secondaryText: "Working Group",
       iconSrc: "mybadge.near/widget/Near.LogoIcon",
     }}
