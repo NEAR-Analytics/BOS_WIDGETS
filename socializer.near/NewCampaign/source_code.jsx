@@ -38,6 +38,7 @@ State.init({
   tokens: [],
   error: "",
   balance: 0,
+  loading: false,
 });
 
 const Wrapper = styled.div`
@@ -153,7 +154,7 @@ const createCampaign = () => {
   )
     return State.update({ error: "Please fill out all form fields" });
 
-  State.update({ error: "" });
+  State.update({ error: "", loading: true });
   asyncFetch(API_URL + `/api/campaign`, {
     method: "POST",
     headers: {
@@ -163,8 +164,9 @@ const createCampaign = () => {
   }).then((res) => {
     if (res.ok) {
       const { error, data } = res.body;
-      if (error) State.update({ error });
+      if (error) State.update({ error, loading: false });
       else if (data && data === "success") {
+        State.update({ loading: false });
         changePage("dashboard");
       }
     }
@@ -427,7 +429,9 @@ return (
           gap: 21,
         }}
       >
-        <Button onClick={createCampaign}>{"Submit"}</Button>
+        <Button disabled={state.loading} onClick={createCampaign}>
+          {state.loading ? "Loading..." : "Submit"}
+        </Button>
       </div>
     </MainComponent>
   </Wrapper>
