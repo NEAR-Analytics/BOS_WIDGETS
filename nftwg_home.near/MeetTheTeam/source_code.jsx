@@ -10,7 +10,7 @@ const BackgroundContainer = styled.div`
   position: absolute;
   width: 1194px;
   height: 794px;
-  left: 6px;
+  left: 0px;
   top: 6px;
   background: #1B1B1B;
 `;
