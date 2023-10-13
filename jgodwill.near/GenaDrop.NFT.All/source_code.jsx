@@ -4,6 +4,7 @@ State.init({
   offset: 0,
   tokens: [],
   hasMore: true,
+  nftCount: 0,
 });
 
 function fetchTokens() {
@@ -47,7 +48,13 @@ function fetchTokens() {
       }
     }
   });
+  State.update({
+    nftCount:
+      state.nftCount > 0 ? state.tokens.length / 2 : state.tokens.length,
+  });
 }
+
+fetchTokens();
 
 function Sharddog({ owner, media, token }) {
   const size = "144px";
@@ -119,6 +126,7 @@ const loader = (
   </div>
 );
 
+console.log("count", state.nftCount);
 return (
   <InfiniteScroll
     pageStart={0}
@@ -149,7 +157,7 @@ return (
         </li>
       </ol>
     </Inst>
-    <Title>NFT Count: {state?.tokens.length}</Title>
+    <Title>NFT Count: {state.nftCount}</Title>
     <Grid>
       {state.tokens?.map((it) => {
         console.log("It " + it.tokenid);
