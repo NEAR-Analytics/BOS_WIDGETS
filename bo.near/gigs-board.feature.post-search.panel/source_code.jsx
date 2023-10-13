@@ -174,7 +174,7 @@ return (
     </div>
     {state.searchResult
       ? widget("entity.post.List", {
-          searchResult,
+          searchResult: state.searchResult,
           recency: props.recency,
         })
       : widget("entity.post.List", {
