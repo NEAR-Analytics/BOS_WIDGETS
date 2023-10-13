@@ -334,8 +334,5 @@ return (
     <ListMyAppHereContainer style={{ top: 1000, left: 30 }}>
       <ListMyAppHereText>List My App Here</ListMyAppHereText>
     </ListMyAppHereContainer>
-    <INeedSupportContainer style={{ top: 1000, left: 270 }}>
-      <INeedSupportText>I Need Support</INeedSupportText>
-    </INeedSupportContainer>
   </DaapCentralContainer>
 );
