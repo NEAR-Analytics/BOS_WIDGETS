@@ -106,7 +106,7 @@ function search() {
         State.update({
           searchResult: {
             postIds: data.map((p) => p.post_id),
-            keywords: state.term,
+            keywords: state.term ? [state.term] : undefined,
           },
         });
         console.log("found:");
@@ -172,12 +172,9 @@ return (
         {props.children}
       </div>
     </div>
-    {state.term && state.searchResult
+    {state.searchResult
       ? widget("entity.post.List", {
-          searchResult: {
-            postIds: state.searchResult,
-            keywords: [state.term],
-          },
+          searchResult,
           recency: props.recency,
         })
       : widget("entity.post.List", {
