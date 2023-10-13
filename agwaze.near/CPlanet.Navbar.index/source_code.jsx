@@ -1,5 +1,5 @@
 const NavContainer = styled.div`
-  background: black;
+  background: white;
   height: 100px;
   padding: 20px 40px;
   display: flex;
@@ -10,13 +10,30 @@ const NavContainer = styled.div`
 `;
 
 const Logo = styled.div`
-  
+  display: flex;
+  color: black;
+  h2 {
+    color: #000;
+font-family: Helvetica Neue;
+font-size: 32px;
+font-style: italic;
+font-weight: 300;
+line-height: normal;
+  }
+  h1 {
+    color: #000;
+font-family: Helvetica Neue;
+font-size: 32px;
+font-style: normal;
+font-weight: 500;
+line-height: normal;
+  }
 `;
 const Routes = styled.div`
     display: flex;
     gap: 0.7rem;
     h1 {
-      color: #FFF;
+      color: black;
       font-family: Helvetica Neue;
       font-size: 16px;
       font-style: normal;
@@ -30,26 +47,26 @@ const Join = styled.div`
   button:first-child {
     background: transparent;
     border: none;
+    color: black
   }
   button:last-child {
     display: flex;
-    width: 112px;
+    width: 155px;
     height: 40px;
     padding: 8px 15px 8px 14px;
     justify-content: center;
     align-items: center;
     border-radius: 32px;
     background: #FFF;
+    border: 1px solid black;
     color: black;
-    border-color: white;
   }
   button:last-child:hover {
-    color: white;
     background: transparent;
   }
   div {
-    background: white;
-    border: 1px solid white;
+    background: black;
+    border: 1px solid black;
     margin: 0 10px 0 0;
   }
 `;
@@ -57,17 +74,17 @@ const Join = styled.div`
 return (
   <NavContainer>
     <Logo>
-      <h1>Logo</h1>
+      <h2>C</h2><h1>Planet</h1>
     </Logo>
     <Routes>
-      <h1>Contact us</h1>
-      <h1>Products</h1>
-      <h1>About us</h1>
+      <h1>NFTs</h1>
+      <h1>Communities</h1>
+      <h1>Funding</h1>
     </Routes>
     <Join>
-      <button>Get Started</button>
+      <button>Sign up</button>
       <div />
-      <button>Join</button>
+      <button>Connect Wallet</button>
     </Join>
   </NavContainer>
 );
