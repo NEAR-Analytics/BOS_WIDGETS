@@ -70,7 +70,7 @@ const handleMint = () => {
       const deposit = 10000000000000000000000;
       Near.call([
         {
-          contractName: "genadrop-contract.nftgen.near",
+          contractName: "nft.genadrop.near",
           methodName: "nft_mint",
           args: {
             token_id: `${Date.now()}`,
