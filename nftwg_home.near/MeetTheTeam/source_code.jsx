@@ -28,7 +28,7 @@ const NFTText = styled.div`
   width: 500px;
   height: 165px;
   left: 50px;
-  top: 50px;
+  top: 90px;
   font-family: inherit;
   font-style: normal;
   font-weight: 700;
