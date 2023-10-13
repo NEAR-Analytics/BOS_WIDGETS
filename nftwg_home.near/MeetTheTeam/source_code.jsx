@@ -2,7 +2,7 @@ const MainContainer = styled.div`
   position: absolute;
   width: 1200px;
   height: 800px;
-  left: 12px;
+  left: 0px;
   top: 0;
 `;
 
