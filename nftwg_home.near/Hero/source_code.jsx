@@ -91,7 +91,7 @@ height:80px;
 `;
 return (
   /*------------Hero----------------*/
-  <HeroContainer>
+  <HeroContainer id="home">
     <Hero>
       <Text1 id="home">THE NFT WORKGROUP</Text1>
       <Text2>
