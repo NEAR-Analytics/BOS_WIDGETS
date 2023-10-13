@@ -24,19 +24,22 @@ flex-grow: 0;
 const MidWrapper1 = styled.div`
 /* Frame 1 */
 /* Auto layout */
-display: flex;
+	display: flex;
 flex-direction: row;
-justify-content: center;
-align-items: center;
-padding: 0px;
+padding: 70px;
 gap: 24px;
+
 margin: 0 auto;
-width: 490px;
+width: 480px;
 height: 16px;
+
+
 /* Inside auto layout */
 flex: none;
 order: 1;
 flex-grow: 0;
+margin: 0 auto;
+
 `;
 const home = styled.div`
 /* Home */
