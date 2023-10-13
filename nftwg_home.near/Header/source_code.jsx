@@ -13,10 +13,9 @@ align-items: center;
 padding: 16px 80px;
 gap: 80px;
 position: absolute;
-width: 100%;
+width: 1300px;
 height: 80px;
-left: 0px;
-top: 0px;
+
 background: #1B1B1B;
 `;
 const Logo = styled.div`
