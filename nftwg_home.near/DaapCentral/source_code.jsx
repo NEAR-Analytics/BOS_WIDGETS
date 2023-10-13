@@ -286,6 +286,73 @@ order: 0;
 flex-grow: 0;
 
 `;
+const AppCard = styled.div`
+position:absolute;
+width:900;
+height:540;
+
+`;
+const Card = styled.div`
+box-sizing: border-box;
+position: absolute;
+width: 400px;
+height: 313px;
+background: #FFFFFF;
+border: 1px solid #A0A0A0;
+border-radius: 10px;
+background: #D9D9D9;
+
+
+`;
+const CardContent = styled.div`
+position: absolute;
+width: 400px;
+height: 13px;
+`;
+const AppLinkButton = styled.div`
+/* Frame 2 */
+
+box-sizing: border-box;
+
+/* Auto layout */
+display: flex;
+flex-direction: row;
+justify-content: flex-end;
+align-items: center;
+padding: 16px 132px;
+gap: 10px;
+
+position: absolute;
+width: 352px;
+height: 48px;
+
+
+background: #FFFFFF;
+border: 1px solid #F0F0F0;
+border-radius: 79px;
+`;
+const ApplinkText = styled.div`
+/* View Details */
+
+width: 88px;
+height: 16px;
+
+font-family: inherit;
+font-style: normal;
+font-weight: 400;
+font-size: 16px;
+line-height: 100%;
+/* identical to box height, or 16px */
+
+color: #333333;
+
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+flex-grow: 0;
+
+`;
 
 return (
   <DaapCentralContainer>
@@ -300,14 +367,12 @@ return (
         Projects / Communities
       </DaapCentralHeadingLine>
     </DaapCentralHeading>
-
     <ToggleContainer style={{ left: 50 }}>
       <ToggleBox>
         <ToggleText1>NFT WG Projects</ToggleText1>
       </ToggleBox>
       <ToggleText2>Community Innovations</ToggleText2>
     </ToggleContainer>
-
     <SearchContainer style={{ top: 300, left: 50 }}>
       <SearchBar>
         <input style={{ width: 800, height: 56 }} type="search" />
@@ -330,7 +395,39 @@ return (
         <FilterText>Filters</FilterText>
       </Filter>
     </SearchContainer>
-
+    <Card style={{ top: 400, left: 30 }}>
+      <CardContent style={{ top: 50, left: 210, fontSize: 20 }}>
+        Humans of Near.
+      </CardContent>
+      <CardContent style={{ top: 25, left: 0, fontSize: 20 }}>
+        <img src="https://humans.nearverselabs.com/static/media/logo.00ce86b56e35961cfdc360d439c05fb7.svg" />
+      </CardContent>
+      <CardContent style={{ top: 140, left: 15 }}>
+        Humans of Near is a Map of IAM Human SBT holders. Built by the NFT
+        Workgroup.
+      </CardContent>
+      <CardContent style={{ top: 240, left: 20 }}>
+        <AppLinkButton>
+          <a href="https://near.org/humans-of-near.near/widget/humans.nearverselabs.com">
+            <ApplinkText>App Link</ApplinkText>
+          </a>
+        </AppLinkButton>
+      </CardContent>
+    </Card>
+    <Card style={{ top: 400, left: 470 }}>
+      <CardContent style={{ top: 50, left: 210, fontSize: 20 }}>
+        Socializer
+      </CardContent>
+      <CardContent style={{ top: 25, left: 0, fontSize: 20 }}></CardContent>
+      <CardContent style={{ top: 140, left: 15 }}>
+        Socializer is an interactive rewards portal for Near Socaial
+      </CardContent>
+      <CardContent style={{ top: 240, left: 20 }}>
+        <AppLinkButton>
+          <ApplinkText>In Progress</ApplinkText>
+        </AppLinkButton>
+      </CardContent>
+    </Card>
     <ListMyAppHereContainer style={{ top: 1000, left: 30 }}>
       <ListMyAppHereText>List My App Here</ListMyAppHereText>
     </ListMyAppHereContainer>
