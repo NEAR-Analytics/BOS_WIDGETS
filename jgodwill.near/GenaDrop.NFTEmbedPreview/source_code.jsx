@@ -714,7 +714,7 @@ return (
                   color: "#0d99ff",
                 }}
               >
-                {ownerName || "Owner"}
+                Owner
               </p>
               <a
                 target="_blank"
@@ -733,7 +733,7 @@ return (
                     ? state.owner.slice(0, 12) + "...near"
                     : !state.owner && tokenId
                     ? "----"
-                    : "genadrop-contract.nftgen.near".slice(0, 8) +
+                    : "nft.genadrop.near".slice(0, 8) +
                       "..." +
                       "near"}
                 </span>
