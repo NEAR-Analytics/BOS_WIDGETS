@@ -423,6 +423,9 @@ const onBtnClickCall = (fName, action, fIndex) => {
 };
 return (
   <div class="row">
+    <h3 class="row">
+      <div class="d-flex justify-content-center">Contract</div>
+    </h3>
     <div class="col-md-8">
       <div class="container border rounded p-3 border-2">
         <div class="row mb-3">
