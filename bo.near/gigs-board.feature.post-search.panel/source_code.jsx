@@ -84,14 +84,14 @@ function fetchGraphQL(operationsDoc, operationName, variables) {
 function search() {
   State.update({ loading: true });
   let where = {};
-  if (props.authorQuery) {
+  if (props.authorQuery && props.authorQuery.author) {
     where = { author_id: { _eq: props.authorQuery }, ...where };
   }
   if (state.term) {
     where = { description: { _like: `%${state.term}%` }, ...where };
   }
-  if (props.tagQuery) {
-    where = { labels: { _contains: props.tagQuery }, ...where };
+  if (props.tagQuery && props.tagQuery.tag) {
+    where = { labels: { _contains: props.tagQuery.tag }, ...where };
   }
   console.log("searching for", where);
   fetchGraphQL(query, "DevhubPostsQuery", {
