@@ -148,7 +148,7 @@ return (
       <div className="d-flex flex-row position-relative w-25">
         <input
           type="search"
-          className="ps-5 form-control border border-0 bg-light"
+          className="form-control border border-0 bg-light"
           value={state.term ?? ""}
           onChange={(e) => updateInput(e.target.value)}
           placeholder={props.placeholder ?? `Search by content`}
@@ -166,12 +166,16 @@ return (
         )}{" "}
         Search
       </button>
-      <button
-        class="btn btn-light"
-        onClick={() => State.update({ searchResult: null })}
-      >
-        Clear
-      </button>
+      {state.searchResult ? (
+        <button
+          class="btn btn-light"
+          onClick={() => State.update({ searchResult: null })}
+        >
+          Clear Result
+        </button>
+      ) : (
+        ""
+      )}
       <div className="d-flex flex-row-reverse flex-grow-1">
         {props.children}
       </div>
