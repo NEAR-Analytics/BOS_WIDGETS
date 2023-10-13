@@ -17,6 +17,8 @@ return (
     />
     <Widget src="mybadge.near/widget/Near.CircleBadge" />
     <Widget src="mybadge.near/widget/Near.CoreDev" />
+    <Widget src="mybadge.near/widget/Near.BossShortenBadge" />
+    <Widget src="mybadge.near/widget/Near.BossFullBadge" />
     <Widget src="mybadge.near/widget/Near.ProtocolWorkingGroup" />
     <Widget src="mybadge.near/widget/Near.ContractStandardsWorkingGroup" />
     <Widget src="mybadge.near/widget/Near.WalletStandardsWorkingGroup" />
