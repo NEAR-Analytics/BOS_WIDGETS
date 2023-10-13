@@ -335,24 +335,33 @@ return (
         </defs>
       </svg>
     </FooterLogo>
+    //{" "}
     <FooterWrapper>
+      //{" "}
       <home>
-        <a href="#home"> Home </a>
+        // <a href="#home"> Home </a>
+        //{" "}
       </home>
+      //{" "}
       <aboutUs>
-        {" "}
-        <a href="#aboutus">About Us </a>
+        // // <a href="#aboutus">About Us </a>
+        //{" "}
       </aboutUs>
+      //{" "}
       <ourGoals>
-        <a href="#ourgoals"> Our Goals </a>
+        // <a href="#ourgoals"> Our Goals </a>
+        //{" "}
       </ourGoals>
+      //{" "}
       <ourTeam>
-        {" "}
-        <a href="#ourteam">Our Team</a>{" "}
+        // // <a href="#ourteam">Our Team</a> //{" "}
       </ourTeam>
+      //{" "}
       <nftDappCentral>
-        <a href="#nftdaapcentral"> NFT DApp Central </a>
+        // <a href="#nftdaapcentral"> NFT DApp Central </a>
+        //{" "}
       </nftDappCentral>
+      //{" "}
     </FooterWrapper>
     <FooterRightsWrapper>
       <FooterLine>
