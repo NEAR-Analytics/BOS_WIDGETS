@@ -363,7 +363,7 @@ return (
         </div>
       </div>
 
-      <div className="d-flex" style={{ gap: 20 }}>
+      <div className="d-flex" style={{ gap: 20, marginTop: 10 }}>
         <div
           className="d-flex"
           style={{ gap: 8, flexDirection: "column", width: 240 }}
