@@ -188,7 +188,7 @@ return (
           <div className="d-flex justify-content-between align-items-center">
             <p>
               <b>{`${index + 1})`}</b>
-              <span className="text-decoration-underline ">{row.name}</span>
+              <span>{row.name}</span>
             </p>
 
             {state[row.value] ? (
