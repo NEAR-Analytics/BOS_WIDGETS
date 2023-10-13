@@ -150,7 +150,7 @@ return (
   <>
     <div class="container">
       {context.accountId ? contractForm : notLoggedInWarning}
-      <h3 class="text-center">Preview</h3>
+      <h3 class="text-center">Front-End Preview</h3>
       {state.contractError}
       {state.contractAbiView &&
         state.contractAbiView.map((functions) => (
