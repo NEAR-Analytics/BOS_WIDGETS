@@ -17,6 +17,10 @@ const palette = {
     background: "#E7ECEF",
     text: "#222222",
   },
+  orange: {
+    background: "#ffb259",
+    text: "#222",
+  },
 };
 
 const colors = palette[props.color ?? DEFAULT_COLOR];
