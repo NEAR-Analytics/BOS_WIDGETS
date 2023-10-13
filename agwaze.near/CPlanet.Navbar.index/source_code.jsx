@@ -76,7 +76,8 @@ const Join = styled.div`
 return (
   <NavContainer>
     <Logo>
-      <h2>C</h2><h1>Planet</h1>
+      <h2>C</h2>
+      <h1>PLANET</h1>
     </Logo>
     <Routes>
       <h1>NFTs</h1>
