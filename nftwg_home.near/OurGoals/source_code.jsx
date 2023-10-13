@@ -3,7 +3,7 @@ position: absolute;
 width: 1200px;
 height: 1551px;
 left: 0px;
-top: 2500px;
+top: 1500px;
 
 
 `;
