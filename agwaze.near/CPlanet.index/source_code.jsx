@@ -6,8 +6,10 @@ const Root = styled.div`
 
 return (
   <>
-    <Widget src="agwaze.near/widget/CPlanet.Navbar" />
-    <Root></Root>
+    <Widget src="agwaze.near/widget/CPlanet.Navbar.index" />
+    <Root>
+    <Widget src="agwaze.near/widget/CPlanet.Explore.index" />
+    </Root>
     <Widget src="agwaze.near/widget/CPlanet.Footer" />
   </>
 );
