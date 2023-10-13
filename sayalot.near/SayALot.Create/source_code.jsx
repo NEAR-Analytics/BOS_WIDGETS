@@ -12,7 +12,8 @@ const {
   handleEditArticle,
   handlerStateUpdate,
   sbtWhiteList,
-  createSbtOptions,
+  sbts,
+  canLoggedUserCreateArticles,
 } = props;
 
 const libSrcArray = [widgets.libArticle];
@@ -27,7 +28,8 @@ function createStateUpdate(obj) {
   State.update(obj);
 }
 
-const tagsArray = state.tags;
+const tagsArray =
+  editArticleData && !state.tagsModified ? editArticleData.tags : state.tags;
 
 const accountId = context.accountId;
 
@@ -41,12 +43,6 @@ function getRealArticleId() {
     return `${accountId}-${Date.now()}`;
   }
 }
-
-function handleSbtSelection(string) {
-  State.update({ sbts: [string] });
-}
-
-const sbts = state.sbts; //TODO[""] currently it will be only 1 sbt
 
 const getArticleData = () => {
   const args = {
@@ -84,6 +80,8 @@ function onCancel() {
 }
 
 function createArticleListener() {
+  //To test without commiting use the next line and comment the rest
+  // onCommit();
   const article = getArticleData();
   const newLibCalls = [...state.libCalls];
   newLibCalls.push({
@@ -144,8 +142,15 @@ const SecondContainer = styled.div`
   border-radius: 20px;
 `;
 
+const initialTagsObject = {};
+
+Array.isArray(tagsArray) &&
+  tagsArray.forEach((tag) => {
+    initialTagsObject[tag] = true;
+  });
+
 return (
-  <>
+  <div className="border-bottom pb-2">
     {state.createdArticle && state.showCreatedArticle && editArticleData ? (
       <Widget
         src={widgets.articleView}
@@ -196,22 +201,6 @@ return (
             />
           ) : (
             <div>
-              {
-                // <div>
-                //   <Widget
-                //     src={"rubycop.near/widget/NDC.StyledComponents"}
-                //     props={{
-                //       Button: {
-                //         className: "primary dark",
-                //         disable: state.title > 0 || state.articleBody > 0,
-                //         text: editArticleData ? "Save edition" : "Save article",
-                //         onClick: createArticleListener,
-                //         icon: <i className="bi bi-check2"></i>,
-                //       },
-                //     }}
-                //   />
-                // </div>
-              }
               <div className="d-flex flex-column pt-3">
                 <label for="inputArticleId">Title (case-sensitive):</label>
                 <label for="inputArticleId" className="small text-danger">
@@ -229,34 +218,6 @@ return (
                 />
               </div>
               <div className="d-flex flex-column pt-3">
-                <Widget
-                  src={`${authorForWidget}/widget/TagsEditor`}
-                  props={{
-                    forceClear: state.clearTags,
-                    stateUpdate: (obj) => State.update(obj),
-                    initialTagsObject: state.tags,
-                    placeholder: "Input tags",
-                    setTagsObject: (tags) => {
-                      state.tags = Object.keys(tags);
-                      State.update();
-                    },
-                  }}
-                />
-              </div>
-              <div className="d-flex flex-column pt-3 ">
-                <Widget
-                  src={widgets.styledComponents}
-                  props={{
-                    Dropdown: {
-                      label: "Select SBT requiered to interact",
-                      value: sbts[0],
-                      handleChange: handleSbtSelection,
-                      options: createSbtOptions(),
-                    },
-                  }}
-                />
-              </div>
-              <div className="d-flex flex-column pt-3">
                 <label for="textareaArticleBody">
                   Input article body (in makrdown format):
                 </label>
@@ -264,9 +225,6 @@ return (
                   {state.errorBody}
                 </label>
                 <div className="d-flex gap-2">
-                  {
-                    //<div className="w-50">
-                  }
                   <Widget
                     src={`${authorForWidget}/widget/MarkdownEditorIframe`}
                     props={{
@@ -279,57 +237,58 @@ return (
                       clearArticleBody: state.clearArticleBody,
                     }}
                   />
-                  {
-                    //</div>
-                  }
-                  {
-                    //<div className="w-50">
-                  }
-                  {
-                    //TODO make this visible when clicking a show preview button after creating it
-                    //
-                    // <Widget
-                    // src="mob.near/widget/SocialMarkdown"
-                    // props={{ text: state.articleBody }}
-                    // />
-                  }
-                  {
-                    //</div>
-                  }
                 </div>
+              </div>
+              <div className="d-flex flex-column pt-3">
+                <Widget
+                  src={`${authorForWidget}/widget/TagsEditor`}
+                  props={{
+                    forceClear: state.clearTags,
+                    stateUpdate: (obj) => State.update(obj),
+                    initialTagsObject,
+                    placeholder: "Input tags",
+                    setTagsObject: (tags) => {
+                      // state.tags = Object.keys(tags);
+                      State.update({
+                        tagsModified: true,
+                        tags: Object.keys(tags),
+                      });
+                    },
+                  }}
+                />
               </div>
             </div>
           )}
           <div className="mt-2 d-flex justify-content-end">
             <Widget
-              src={"rubycop.near/widget/NDC.StyledComponents"}
+              src={widgets.newStyledComponents.Input.Button}
               props={{
-                Button: {
-                  className: "primary light mx-2",
-                  disabled:
-                    state.title.length === 0 || state.articleBody.length === 0,
-                  onClick: switchShowPreview,
-                  icon: (
-                    <i
-                      className={`bi ${
-                        state.showPreview ? "bi-pencil" : "bi-eye-fill"
-                      }`}
-                    ></i>
-                  ),
-                },
+                className: "info outline mx-2",
+                disabled:
+                  state.title.length === 0 || state.articleBody.length === 0,
+                onClick: switchShowPreview,
+                children: (
+                  <i
+                    className={`bi ${
+                      state.showPreview ? "bi-pencil" : "bi-eye-fill"
+                    }`}
+                  ></i>
+                ),
               }}
             />
             <Widget
-              src={"rubycop.near/widget/NDC.StyledComponents"}
+              src={widgets.newStyledComponents.Input.Button}
               props={{
-                Button: {
-                  className: "primary dark",
-                  disabled:
-                    state.title.length === 0 || state.articleBody.length === 0,
-                  text: editArticleData ? "Save edition" : "Post",
-                  onClick: createArticleListener,
-                  icon: <i className="bi bi-check2"></i>,
-                },
+                className: "info ",
+                disabled:
+                  state.title.length === 0 || state.articleBody.length === 0,
+                onClick: createArticleListener,
+                children: (
+                  <div className="d-flex justify-conten-center align-items-center">
+                    <span>{editArticleData ? "Save edition" : "Post"}</span>
+                    <i className="bi bi-check2"></i>
+                  </div>
+                ),
               }}
             />
           </div>
@@ -337,10 +296,7 @@ return (
         <div style={{ display: "none" }}>
           {callLibs(libSrcArray, createStateUpdate, state.libCalls)}
         </div>
-        {
-          //</CreationContainer>
-        }
       </div>
     )}
-  </>
+  </div>
 );
