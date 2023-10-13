@@ -2,6 +2,7 @@ const daoId = props.daoId;
 const accountId = props.accountId ?? context.accountId;
 const onClose = props.onClose;
 
+
 const CoADaoId = props.dev
     ? "coa.gwg-testing.near"
     : "congress-coa-v1.ndc-gwg.near";
