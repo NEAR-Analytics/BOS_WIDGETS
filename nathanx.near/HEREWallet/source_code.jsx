@@ -61,6 +61,26 @@ return (
       <strong>Early access</strong>
       <br></br>
       <i>Access to Beta versions with new features. Get rewards for feedback</i>
+      <br></br>
+      <br></br>
+      <img
+        src="https://pbs.twimg.com/media/FeaU3BbWYAE1JyW?format=jpg&name=large"
+        alt="HERE"
+        width="250"
+        height="350"
+      ></img>
+      <img
+        src="https://pbs.twimg.com/media/FeacnPyXgBI7q8w?format=jpg&name=4096x4096"
+        alt="HERE"
+        width="250"
+        height="350"
+      ></img>
+      <img
+        src="https://pbs.twimg.com/media/FeaU1qwWAAIf5_X?format=jpg&name=large"
+        alt="HERE"
+        width="250"
+        height="350"
+      ></img>
       <hr />
       <h3>Weekly Score🏆</h3>
       <i>
@@ -99,6 +119,7 @@ return (
         NFT Holders get 25% increase on all score actions, Mutated Holders get
         50%! 😲
       </strong>
+      <br></br>
       <br></br>
       <img
         src="https://pbs.twimg.com/media/F8B2zvUWwAA3C0k?format=jpg&name=small"
