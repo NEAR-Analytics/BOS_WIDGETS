@@ -10,6 +10,7 @@ const {
   addressForArticles,
   authorForWidget,
   handleShareButton,
+  sbtWhiteList,
 } = props;
 
 const tags = data.tags;
@@ -24,6 +25,10 @@ const upVotes = data.upVotes;
 const articleSbts = articleToRenderData.sbts ?? data.sbts ?? [];
 
 const libSrcArray = [widgets.libComment];
+
+function stateUpdate(obj) {
+  State.update(obj);
+}
 
 function callLibs(srcArray, stateUpdate, libCalls) {
   return (
@@ -50,7 +55,7 @@ const initLibCalls = [
     key: "canLoggedUserCreateComment",
     props: {
       accountId: context.accountId,
-      sbtName: articleSbts,
+      sbtsNames: sbtWhiteList,
     },
   },
 ];
@@ -65,6 +70,8 @@ State.init({
 //=============================================END INITIALIZATION===================================================
 
 //===================================================CONSTS=========================================================
+const canLoggedUserCreateComment =
+  state.canLoggedUserCreateComment[data.sbts[0]];
 
 //=================================================END CONSTS=======================================================
 
@@ -90,6 +97,10 @@ const getShortUserName = () => {
 
   return name.length > 20 ? `${name.slice(0, 20)}...` : name;
 };
+
+function toggleShowModal() {
+  State.update({ showModal: !state.showModal });
+}
 
 //================================================END FUNCTIONS=====================================================
 
@@ -295,6 +306,10 @@ const Element = styled.div`
     background: #f8f8f9;
   }
 `;
+
+const CallLibrary = styled.div`
+  display: none;
+`;
 //============================================END STYLED COMPONENTS=================================================
 
 //=================================================MORE STYLES======================================================
@@ -313,15 +328,29 @@ const sayALotProfileImageStyles = {
 const inner = (
   <div className="d-flex flex-row mx-1">
     <Widget
-      src="mob.near/widget/ProfileImage"
+      src={widgets.newStyledComponents.Element.User}
       props={{
-        metadata,
         accountId,
-        widgetName,
-        style: sayALotProfileImageStyles,
-        className: "me-2 rounded-pill",
+        options: {
+          showHumanBadge: true,
+          showImage: true,
+          showSocialName: true,
+          shortenLength: 20,
+        },
       }}
     />
+    {
+      //   <Widget
+      //   src="mob.near/widget/ProfileImage"
+      //   props={{
+      //     metadata,
+      //     accountId,
+      //     widgetName,
+      //     style: sayALotProfileImageStyles,
+      //     className: "me-2 rounded-pill",
+      //   }}
+      // />
+    }
   </div>
 );
 
@@ -336,9 +365,11 @@ const renderTags = () => {
             <div onClick={() => handleFilterArticles(filter)}>
               {tag && (
                 <Widget
-                  src={widgets.styledComponents}
+                  src={widgets.newStyledComponents.Element.Badge}
                   props={{
-                    Tag: { title: tag },
+                    children: tag,
+                    variant: "round info outline",
+                    size: "lg",
                   }}
                 />
               )}
@@ -396,8 +427,9 @@ const renderArticleBody = () => {
 //===============================================END COMPONENTS====================================================
 
 //===================================================RENDER========================================================
+// console.log("General card state: ", state);
 return (
-  <CardContainer className="bg-white rounded-3 p-3 m-3 col-lg-10 col-md-10 col-sm-12">
+  <CardContainer className="bg-white rounded-3 p-3 m-3 col-lg-8 col-md-8 col-sm-12">
     <Card>
       {state.showModal && (
         <Widget
@@ -409,7 +441,7 @@ return (
             isTest,
             username: data.author,
             id,
-            onCloseModal: () => State.update({ showModal: false }),
+            onCloseModal: toggleShowModal,
           }}
         />
       )}
@@ -419,16 +451,18 @@ return (
             src="mob.near/widget/Profile.OverlayTrigger"
             props={{ accountId, children: inner }}
           />
-          <HeaderContent>
-            <HeaderContentText
-              onClick={() => {
-                handleOpenArticle(data);
-              }}
-            >
-              <NominationName>{getUserName()}</NominationName>
-              <NominationUser>{getShortUserName()}</NominationUser>
-            </HeaderContentText>
-          </HeaderContent>
+          {
+            //   <HeaderContent>
+            //   <HeaderContentText
+            //     onClick={() => {
+            //       handleOpenArticle(data);
+            //     }}
+            //   >
+            //     <NominationName>{getUserName()}</NominationName>
+            //     <NominationUser>{getShortUserName()}</NominationUser>
+            //   </HeaderContentText>
+            // </HeaderContent>
+          }
         </div>
         <HeaderButtonsContainer>
           <Widget
@@ -441,24 +475,22 @@ return (
               disabled:
                 !context.accountId ||
                 context.accountId === accountId ||
-                (articleSbts.length > 0 && !state.canLoggedUserCreateComment),
+                (articleSbts.length > 0 && !canLoggedUserCreateComment),
               articleSbts,
               upVotes,
             }}
           />
           <Widget
-            src={"rubycop.near/widget/NDC.StyledComponents"}
+            src={widgets.newStyledComponents.Input.Button}
             props={{
-              Button: {
-                size: "sm",
-                className: "secondary dark",
-                icon: <i className="bi bi-share"></i>,
-                onClick: () =>
-                  handleShareButton(true, {
-                    type: "sharedBlockHeight",
-                    value: data.blockHeight,
-                  }),
-              },
+              size: "sm",
+              className: "info outline icon",
+              children: <i className="bi bi-share"></i>,
+              onClick: () =>
+                handleShareButton(true, {
+                  type: "sharedBlockHeight",
+                  value: data.blockHeight,
+                }),
             }}
           />
         </HeaderButtonsContainer>
@@ -514,46 +546,43 @@ return (
                 disabled:
                   !context.accountId ||
                   context.accountId === accountId ||
-                  (articleSbts.length > 0 && !state.canLoggedUserCreateComment),
+                  (articleSbts.length > 0 && !canLoggedUserCreateComment),
               }}
             />
           </ButtonsLowerSection>
           <div className="d-flex w-100 align-items-center">
             <div className="d-flex w-100 gap-2 justify-content-between">
               <Widget
-                src={widgets.styledComponents}
+                src={widgets.newStyledComponents.Input.Button}
                 props={{
-                  Button: {
-                    text: `Add comment`,
-                    disabled:
-                      !context.accountId ||
-                      context.accountId === accountId ||
-                      (articleSbts.length > 0 &&
-                        !state.canLoggedUserCreateComment),
-                    size: "sm",
-                    className: "secondary dark w-100 justify-content-center",
-                    onClick: () => {
-                      State.update({ showModal: true });
-                    },
-                    icon: (
-                      <>
-                        <i className="bi bi-chat-square-text-fill"></i>
-                      </>
-                    ),
-                  },
+                  children: (
+                    <div className="d-flex align-items-center justify-content-center">
+                      <span className="mx-1">Add comment</span>
+                      <i className="bi bi-chat-square-text-fill"></i>
+                    </div>
+                  ),
+                  disabled:
+                    !context.accountId ||
+                    context.accountId === accountId ||
+                    (articleSbts.length > 0 && !canLoggedUserCreateComment),
+                  size: "sm",
+                  className: "info outline w-100",
+                  onClick: toggleShowModal,
                 }}
               />
               <Widget
-                src={widgets.styledComponents}
+                src={widgets.newStyledComponents.Input.Button}
                 props={{
-                  Button: {
-                    text: "View",
-                    size: "sm",
-                    className: "primary w-100 justify-content-center",
-                    icon: <i className="bi bi-eye fs-6"></i>,
-                    onClick: () => {
-                      handleOpenArticle(data);
-                    },
+                  children: (
+                    <div className="d-flex align-items-center justify-content-center">
+                      <span className="mx-1">View</span>
+                      <i className="bi bi-eye fs-6"></i>
+                    </div>
+                  ),
+                  size: "sm",
+                  className: "info w-100",
+                  onClick: () => {
+                    handleOpenArticle(data);
                   },
                 }}
               />
@@ -562,5 +591,8 @@ return (
         </LowerSectionContainer>
       </LowerSection>
     </Card>
+    <CallLibrary>
+      {callLibs(libSrcArray, stateUpdate, state.libCalls)}
+    </CallLibrary>
   </CardContainer>
 );
