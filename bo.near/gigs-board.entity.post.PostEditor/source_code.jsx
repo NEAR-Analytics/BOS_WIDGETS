@@ -86,6 +86,7 @@ const labels = labelStrings.map((s) => {
 });
 
 initState({
+  seekingFunding: false,
   author_id: context.accountId,
   // Should be a list of objects with field "name".
   labels,
@@ -96,7 +97,7 @@ initState({
   name: props.name ?? "",
   description: props.description ?? "",
   amount: props.amount ?? "0",
-  token: props.token ?? "Near",
+  token: tokenMapping[props.token] ?? "USDT",
   supervisor: props.supervisor ?? "",
   githubLink: props.githubLink ?? "",
   warning: "",
@@ -110,7 +111,7 @@ if (!state.draftStateApplied && props.draftState) {
 let fields = {
   Comment: ["description"],
   Idea: ["name", "description"],
-  Submission: ["name", "description"],
+  Submission: ["name", "description", "fund_raising"],
   Attestation: ["name", "description"],
   Sponsorship: [
     "name",
@@ -131,6 +132,16 @@ let grantNotify = Near.view("social.near", "is_write_permission_granted", {
 if (grantNotify === null) {
   return;
 }
+
+const tokenMapping = {
+  NEAR: "NEAR",
+  USDT: {
+    NEP141: {
+      address: "usdt.tether-token.near",
+    },
+  },
+};
+
 const onSubmit = () => {
   let labels = state.labelStrings;
   var body = {
@@ -142,7 +153,13 @@ const onSubmit = () => {
     },
     Submission: {
       name: state.name,
-      description: state.description,
+      description: generateDescription(
+        state.description,
+        state.amount,
+        state.token,
+        state.supervisor,
+        state.seekingFunding
+      ),
       submission_version: "V1",
     },
     Attestation: {
@@ -154,7 +171,7 @@ const onSubmit = () => {
       name: state.name,
       description: state.description,
       amount: state.amount,
-      sponsorship_token: state.token,
+      sponsorship_token: tokenMapping[state.token],
       supervisor: state.supervisor,
       sponsorship_version: "V1",
     },
@@ -320,7 +337,7 @@ const labelEditor = (
   </div>
 );
 
-const githubLinkDiv = fields.includes("githubLink") ? (
+const githubLinkDiv = (
   <div className="col-lg-12  mb-2">
     Github Issue URL:
     <input
@@ -329,9 +346,9 @@ const githubLinkDiv = fields.includes("githubLink") ? (
       onChange={(event) => State.update({ githubLink: event.target.value })}
     />
   </div>
-) : null;
+);
 
-const nameDiv = fields.includes("name") ? (
+const nameDiv = (
   <div className="col-lg-6  mb-2">
     Title:
     <input
@@ -340,41 +357,9 @@ const nameDiv = fields.includes("name") ? (
       onChange={(event) => State.update({ name: event.target.value })}
     />
   </div>
-) : null;
+);
 
-const descriptionDiv = fields.includes("description") ? (
-  <div className="col-lg-12  mb-2">
-    Description:
-    <br />
-    <textarea
-      value={state.description}
-      type="text"
-      rows={6}
-      className="form-control"
-      onInput={(event) => textareaInputHandler(event.target.value)}
-      onKeyUp={(event) => {
-        if (event.key === "Escape") {
-          State.update({ showAccountAutocomplete: false });
-        }
-      }}
-      onChange={(event) => State.update({ description: event.target.value })}
-    />
-    {autocompleteEnabled && state.showAccountAutocomplete && (
-      <AutoComplete>
-        <Widget
-          src="near/widget/AccountAutocomplete"
-          props={{
-            term: state.text.split("@").pop(),
-            onSelect: autoCompleteAccountId,
-            onClose: () => State.update({ showAccountAutocomplete: false }),
-          }}
-        />
-      </AutoComplete>
-    )}
-  </div>
-) : null;
-
-const amountDiv = fields.includes("amount") ? (
+const amountDiv = (
   <div className="col-lg-6  mb-2">
     Amount:
     <input
@@ -383,20 +368,25 @@ const amountDiv = fields.includes("amount") ? (
       onChange={(event) => State.update({ amount: event.target.value })}
     />
   </div>
-) : null;
+);
 
-const tokenDiv = fields.includes("sponsorship_token") ? (
+const tokenDiv = (
   <div className="col-lg-6  mb-2">
-    Tokens:
-    <input
-      type="text"
-      value={state.token}
+    Currency
+    <select
       onChange={(event) => State.update({ token: event.target.value })}
-    />
+      class="form-select"
+      aria-label="Default select"
+    >
+      <option selected value={"USDT"}>
+        USDT
+      </option>
+      <option value="NEAR">NEAR</option>
+    </select>
   </div>
-) : null;
+);
 
-const supervisorDiv = fields.includes("supervisor") ? (
+const supervisorDiv = (
   <div className="col-lg-6 mb-2">
     Supervisor:
     <input
@@ -405,7 +395,35 @@ const supervisorDiv = fields.includes("supervisor") ? (
       onChange={(event) => State.update({ supervisor: event.target.value })}
     />
   </div>
-) : null;
+);
+
+const callDescriptionDiv = () => {
+  return (
+    <div className="col-lg-12  mb-2">
+      Description:
+      <br />
+      {widget("components.molecule.markdown-editor", {
+        data: { handler: state.handler, content: state.description },
+        onChange: (content) => {
+          State.update({ description: content, handler: "update" });
+          textareaInputHandler(content);
+        },
+      })}
+      {autocompleteEnabled && state.showAccountAutocomplete && (
+        <AutoComplete>
+          <Widget
+            src="near/widget/AccountAutocomplete"
+            props={{
+              term: state.text.split("@").pop(),
+              onSelect: autoCompleteAccountId,
+              onClose: () => State.update({ showAccountAutocomplete: false }),
+            }}
+          />
+        </AutoComplete>
+      )}
+    </div>
+  );
+};
 
 const disclaimer = (
   <p>
@@ -415,6 +433,117 @@ const disclaimer = (
     </i>
   </p>
 );
+
+const isFundraisingDiv = (
+  // This is jank with just btns and not radios. But the radios were glitchy af
+  <>
+    <div class="mb-2">
+      <p class="fs-6 fw-bold mb-1">
+        Are you seeking funding for your solution?
+        <span class="text-muted fw-normal">(Optional)</span>
+      </p>
+      <div class="form-check form-check-inline">
+        <label class="form-check-label">
+          <button
+            className="btn btn-light p-0"
+            style={{
+              backgroundColor: state.seekingFunding ? "#0C7283" : "inherit",
+              color: "#f3f3f3",
+              border: "solid #D9D9D9",
+              borderRadius: "100%",
+              height: "20px",
+              width: "20px",
+            }}
+            onClick={() => State.update({ seekingFunding: true })}
+          />
+          Yes
+        </label>
+      </div>
+      <div class="form-check form-check-inline">
+        <label class="form-check-label">
+          <button
+            className="btn btn-light p-0"
+            style={{
+              backgroundColor: !state.seekingFunding ? "#0C7283" : "inherit",
+              color: "#f3f3f3",
+              border: "solid #D9D9D9",
+              borderRadius: "100%",
+              height: "20px",
+              width: "20px",
+            }}
+            onClick={() => State.update({ seekingFunding: false })}
+          />
+          No
+        </label>
+      </div>
+    </div>
+  </>
+);
+
+const fundraisingDiv = (
+  <div class="d-flex flex-column mb-2">
+    <div className="col-lg-6  mb-2">
+      Currency
+      <select
+        onChange={(event) => State.update({ token: event.target.value })}
+        class="form-select"
+        aria-label="Default select example"
+      >
+        <option selected value="NEAR">
+          NEAR
+        </option>
+        <option value={"USDT"}>USDT</option>
+      </select>
+    </div>
+    <div className="col-lg-6 mb-2">
+      Requested amount
+      <span class="text-muted fw-normal">(Numbers Only)</span>
+      <input
+        type="number"
+        value={parseInt(state.amount) > 0 ? state.amount : ""}
+        min={0}
+        onChange={(event) => {
+          State.update({
+            amount: Number(
+              event.target.value.toString().replace(/e/g, "")
+            ).toString(),
+          });
+        }}
+      />
+    </div>
+    <div className="col-lg-6 mb-2">
+      <p class="mb-1">
+        Requested sponsor
+        <span class="text-muted fw-normal">(Optional)</span>
+      </p>
+      <p style={{ fontSize: "13px" }} class="m-0 text-muted fw-light">
+        If you are requesting funding from a specific sponsor, please enter
+        their username.
+      </p>
+      <div class="input-group flex-nowrap">
+        <span class="input-group-text" id="addon-wrapping">
+          @
+        </span>
+        <input
+          type="text"
+          class="form-control"
+          placeholder="Enter username"
+          value={state.supervisor}
+          onChange={(event) => State.update({ supervisor: event.target.value })}
+        />
+      </div>
+    </div>
+  </div>
+);
+
+function generateDescription(text, amount, token, supervisor, seekingFunding) {
+  const fundingText =
+    amount > 0 && token ? `###### Requested amount: ${amount} ${token}\n` : "";
+  const supervisorText = supervisor
+    ? `###### Requested sponsor: @${supervisor}\n`
+    : "";
+  return seekingFunding ? `${fundingText}${supervisorText}${text}` : text;
+}
 
 const renamedPostType = postType == "Submission" ? "Solution" : postType;
 // Below there is a weird code with fields.includes("githubLink") ternary operator.
@@ -426,7 +555,7 @@ return (
     </div>
 
     <div class="card-body">
-      {state.warning ? (
+      {state.warning && (
         <div
           class="alert alert-warning alert-dismissible fade show"
           role="alert"
@@ -440,30 +569,42 @@ return (
             onClick={() => State.update({ warning: "" })}
           ></button>
         </div>
-      ) : (
-        <></>
       )}
+      {/* This statement around the githubLinkDiv creates a weird render bug 
+      where the title renders extra on state change. */}
       {fields.includes("githubLink") ? (
         <div className="row">
-          {githubLinkDiv}
+          {fields.includes("githubLink") && githubLinkDiv}
           {labelEditor}
-          {nameDiv}
-          {descriptionDiv}
+          {fields.includes("name") && nameDiv}
+          {fields.includes("description") && callDescriptionDiv()}
         </div>
       ) : (
         <div className="row">
           {labelEditor}
-          {nameDiv}
-          {amountDiv}
-          {tokenDiv}
-          {supervisorDiv}
-          {descriptionDiv}
+          {fields.includes("name") && nameDiv}
+          {fields.includes("amount") && amountDiv}
+          {fields.includes("sponsorship_token") && tokenDiv}
+          {fields.includes("supervisor") && supervisorDiv}
+          {fields.includes("description") && callDescriptionDiv()}
+          {fields.includes("fund_raising") && isFundraisingDiv}
+          {state.seekingFunding &&
+            fields.includes("fund_raising") &&
+            fundraisingDiv}
         </div>
       )}
-
-      <a className="btn btn-outline-primary mb-2" onClick={onSubmit}>
+      <button
+        style={{
+          width: "7rem",
+          backgroundColor: "#0C7283",
+          color: "#f3f3f3",
+        }}
+        disabled={state.seekingFunding && (!state.amount || state.amount < 1)}
+        className="btn btn-light mb-2 p-3"
+        onClick={onSubmit}
+      >
         Submit
-      </a>
+      </button>
       {disclaimer}
     </div>
     <div class="card-footer">
@@ -479,7 +620,16 @@ return (
             labels: state.labelStrings,
             post_type: postType,
             name: state.name,
-            description: state.description,
+            description:
+              postType == "Submission"
+                ? generateDescription(
+                    state.description,
+                    state.amount,
+                    state.token,
+                    state.supervisor,
+                    state.seekingFunding
+                  )
+                : state.description,
             amount: state.amount,
             sponsorship_token: state.token,
             supervisor: state.supervisor,
