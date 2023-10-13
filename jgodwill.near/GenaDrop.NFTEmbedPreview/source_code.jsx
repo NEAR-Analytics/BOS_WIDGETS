@@ -667,8 +667,22 @@ const MintDetails = styled.div`
 
 const closeModal = () => State.update({ message: false });
 
-const ownerName = profile.name;
-console.log(ownerName);
+const nftOwner = `${
+  profile?.name ||
+  (state.owner.endsWith(".near")
+    ? `@${
+        state.owner.length > 20
+          ? `${state.owner.slice(0, 10)}...${state.owner.slice(
+              state.owner.length - 4
+            )}`
+          : `${state.owner}`
+      }`
+    : `@${state.owner.slice(0, 10)}...${state.owner.slice(
+        state.owner.length - 4
+      )}`)
+}`;
+
+console.log(state.owner);
 return (
   <Root>
     <MainContainer>
@@ -727,15 +741,14 @@ return (
                 }
               >
                 <span style={{ fontSize: "0.9rem", fontWeight: 600 }}>
-                  {state.owner?.length > 25
+                  {/*state.owner?.length > 25
                     ? state.owner.slice(0, 8) + "..." + state.owner.slice(34)
                     : state.owner?.length < 25
                     ? state.owner.slice(0, 12) + "...near"
                     : !state.owner && tokenId
                     ? "----"
-                    : "nft.genadrop.near".slice(0, 8) +
-                      "..." +
-                      "near"}
+                    : "nft.genadrop.near".slice(0, 8) + "..." + "near"*/}
+                  {nftOwner}
                 </span>
               </a>
             </div>
