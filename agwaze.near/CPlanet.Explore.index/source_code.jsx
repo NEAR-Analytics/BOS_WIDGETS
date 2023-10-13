@@ -25,6 +25,8 @@ const SearchSection = styled.div`
 
 const Search = styled.div`
 margin-top: 32px;
+display:flex;
+flex-wrap: wrap;
 input {
     border-radius: 32px;
     flex-shrink: 0;
@@ -50,6 +52,23 @@ const Cards = styled.div`
     flex-wrap: wrap;
     width: 100%;
 `
+const FilterDropdown = styled.div`
+width: 192px;
+height: 48px;
+flex-shrink: 0;
+border-radius: 4px;
+background: #B0B0B0;
+overflow: hidden;
+color: #FFF;
+font-family: Helvetica Neue;
+font-size: 20px;
+font-style: normal;
+text-align: center;
+font-weight: 400;
+padding-top: 8px;
+margin-left: 10px;
+
+`
 
 return (
   <Root>
@@ -64,6 +83,7 @@ return (
     <h1>Explore Creative DAOs</h1>
     <Search>
         <input type="search" placeholder="Search for DAOs"  />
+        <FilterDropdown>Filter / Dropdown</FilterDropdown>
     </Search>
     </SearchSection>
     <Cards>
