@@ -7,10 +7,18 @@ const powerType = props.powerType;
 const showPowers = props.showPowers ?? true;
 const registry = "registry.i-am-human.near";
 
-const CoADaoId = "congress-coa-v1.ndc-gwg.near";
-const VotingBodyDaoId = "";
-const TCDaoId = "congress-tc-v1.ndc-gwg.near";
-const HoMDaoId = "congress-hom-v1.ndc-gwg.near";
+const CoADaoId = props.dev
+    ? "coa.gwg-testing.near"
+    : "congress-coa-v1.ndc-gwg.near";
+const VotingBodyDaoId = props.dev
+    ? ""
+    : "";
+const TCDaoId = props.dev
+    ? "tc.gwg-testing.near"
+    : "congress-tc-v1.ndc-gwg.near";
+const HoMDaoId = props.dev
+    ? "hom.gwg-testing.near"
+    : "congress-hom-v1.ndc-gwg.near";
 
 if (!accountId) {
     return "Please connect your NEAR wallet :)";
