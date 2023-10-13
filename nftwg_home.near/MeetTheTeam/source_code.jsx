@@ -25,14 +25,14 @@ const ContentContainer = styled.div`
 
 const NFTText = styled.div`
   position: absolute;
-  width: 600px;
+  width: 500px;
   height: 165px;
   left: 50px;
   top: 50px;
   font-family: inherit;
   font-style: normal;
   font-weight: 700;
-  font-size: 44px;
+  font-size: 34px;
   line-height: 125.5%;
   color: #FFFFFF;
 `;
@@ -120,14 +120,14 @@ const Star6 = styled.div`
 
 const MeetTheTeamText = styled.div`
   position: absolute;
-  width: 867px;
+  width: 767px;
   height: 84px;
   left: calc(50% - 867px/2);
   top: 440px;
   font-family: inherit;
   font-style: normal;
   font-weight: 700;
-  font-size: 70px;
+  font-size: 50px;
   line-height: 120%;
   text-align: center;
   color: #FFFFFF;
@@ -191,7 +191,7 @@ return (
             />
           </svg>
         </Star6>
-        <MeetTheTeamText>Meet The Team</MeetTheTeamText>
+        <MeetTheTeamText style={{ top: 340 }}>Meet The Team</MeetTheTeamText>
       </ContentContainer>
     </BackgroundContainer>
   </MainContainer>
