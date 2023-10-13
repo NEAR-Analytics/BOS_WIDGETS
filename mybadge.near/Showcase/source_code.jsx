@@ -15,8 +15,12 @@ return (
       src="mybadge.near/widget/Near.AvatarBadge"
       props={{ size: "medium" }}
     />
-    <Widget src="mybadge.near/widget/Near.SmallAvatarBadge" />
-    <Widget src="mybadge.near/widget/Near.BigAvatarBadge" />
+    // <Widget src="mybadge.near/widget/Near.SmallAvatarBadge" />
+    // <Widget src="mybadge.near/widget/Near.BigAvatarBadge" />
+    <Widget
+      src="mybadge.near/widget/LNC.DropBalanceBadge"
+      props={{ accountId: "coldy.near" }}
+    />
     <Widget src="mybadge.near/widget/LNC.ProTesterBadge" />
     <Widget src="mybadge.near/widget/Dapplets.DappCreatorBadge" />
     <Widget src="mybadge.near/widget/Near.AlphaTesterBadge" />
