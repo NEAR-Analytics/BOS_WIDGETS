@@ -7,7 +7,7 @@ return (
     src="mybadge.near/widget/Generic.DetailedBadge"
     props={{
       primaryText: "(L)Earner",
-      secondaryText: typeof drop === "number" ? `${drop / 1e24} NEAR` : null,
+      secondaryText: drop ? `${drop / 1e24} NEAR` : null,
       iconSrc: "mybadge.near/widget/LNC.LogoIcon",
       color: "orange",
     }}
