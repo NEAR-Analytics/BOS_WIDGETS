@@ -1,12 +1,12 @@
 const { Feed } = VM.require("efiz.near/widget/Module.Feed");
-const { Card } = VM.require("discoverbos.near/widget/Project.Module");
+const { Card } = VM.require("discover.near/widget/Project.Module");
 
 if (!Feed) {
   return <div>Loading modules...</div>;
 }
 
 const projectRegistry = Social.getr(
-  `${context.accountId}/thing/project-registry`,
+  "efiz.near/thing/project-registry",
   "final"
 );
 
@@ -59,7 +59,7 @@ return (
       <Feed
         index={{
           action: "notify",
-          key: "discoverbos.near", // TODO: change to project
+          key: "discover.near", // TODO: change to project
           options: {
             limit: 10,
             order: "desc",
@@ -74,7 +74,7 @@ return (
               return (
                 <div key={p}>
                   <Widget
-                    src="discoverbos.near/widget/Project.Provider"
+                    src="discover.near/widget/Project.Provider"
                     props={{
                       View: Card,
                       path: projectPath,
@@ -114,7 +114,7 @@ return (
       {featured.map((projectPath) => (
         <div key={projectPath}>
           <Widget
-            src="discoverbos.near/widget/Project.Provider"
+            src="discover.near/widget/Project.Provider"
             props={{
               View: Card,
               path: projectPath,
@@ -133,7 +133,7 @@ return (
       {hidden.map((projectPath) => (
         <div key={projectPath}>
           <Widget
-            src="discoverbos.near/widget/Project.Provider"
+            src="discover.near/widget/Project.Provider"
             props={{
               View: Card,
               path: projectPath,
