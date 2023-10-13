@@ -437,7 +437,9 @@ const getMembers = () => {
 };
 
 const getHouseUrl = (house) =>
-    `#/astraplusplus.ndctools.near/widget/home?page=congress&house=${house}`;
+    `#/astraplusplus.ndctools.near/widget/home?page=congress&house=${house}${
+        props.dev && "&dev=true"
+    }`;
 
 State.update({ selectedHouse: router.params.house ?? state.selectedHouse });
 getProposalsCount();
@@ -485,13 +487,15 @@ const ContentBlock = ({ title, abbr, address, description, metadata }) => (
                                         name: "Proposals",
                                         href: `#/astraplusplus.ndctools.near/widget/home?page=dao&daoId=${
                                             Content[state.selectedHouse].address
-                                        }`
+                                        }${props.dev && "&dev=true"}`
                                     },
                                     {
                                         name: "Members",
                                         href: `#/astraplusplus.ndctools.near/widget/home?page=dao&daoId=${
                                             Content[state.selectedHouse].address
-                                        }&tab=members`
+                                        }&tab=members${
+                                            props.dev && "&dev=true"
+                                        }`
                                     }
                                 ]
                             }}
@@ -668,7 +672,7 @@ const ContentBlock = ({ title, abbr, address, description, metadata }) => (
                     variant: "info outline",
                     href: `#/astraplusplus.ndctools.near/widget/home?page=dao&daoId=${
                         Content[state.selectedHouse].address
-                    }`,
+                    }${props.dev && "&dev=true"}`,
                     size: "sm"
                 }}
             />
@@ -710,6 +714,7 @@ const ContentBlock = ({ title, abbr, address, description, metadata }) => (
                                         "astraplusplus.ndctools.near/widget/DAO.Proposal.Create"
                                     }
                                     props={{
+                                        ...props,
                                         daoId: Content[state.selectedHouse]
                                             .address
                                     }}
