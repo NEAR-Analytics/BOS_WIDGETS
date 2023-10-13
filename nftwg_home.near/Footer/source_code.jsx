@@ -1,6 +1,5 @@
 const home = styled.div`
 /* Home */
-
 width: 44px;
 height: 16px;
 font-family: inherit;
@@ -116,11 +115,10 @@ flex-grow: 0;
 `;
 const FooterContainer = styled.div`
 position: absolute;
-width: 1600px;
+width: 1200px;
 height: 240px;
 left: 0px;
 top: 6660px;
-
 background: #1B1B1B;
 `;
 const FooterLogo = styled.div`
@@ -149,7 +147,7 @@ margin: 0 auto;
 const FooterRightsWrapper = styled.div`
 position:absolute;
  top:80px;
- left:70px;
+ left:250px;
  width: 1400px;
 height: 16px;
 flex: none;
@@ -359,7 +357,7 @@ return (
     <FooterRightsWrapper>
       <FooterLine>
         <svg
-          width="1320"
+          width="600"
           height="1"
           viewBox="0 0 1320 1"
           fill="none"
