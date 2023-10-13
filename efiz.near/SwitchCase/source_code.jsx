@@ -8,9 +8,8 @@ const renderContent = () => {
       return <div>Content for Case 2</div>;
     case "case3":
       return <div>Content for Case 3</div>;
-    default:
-      return <div>Default Content</div>;
   }
+  return <p>Hello</p>;
 };
 
 return (
