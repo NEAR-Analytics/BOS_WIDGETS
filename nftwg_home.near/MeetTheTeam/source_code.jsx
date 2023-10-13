@@ -3,7 +3,7 @@ const MainContainer = styled.div`
   width: 1200px;
   height: 800px;
   left: 0px;
-  top: 0;
+  top: 2500px;
 `;
 
 const BackgroundContainer = styled.div`
