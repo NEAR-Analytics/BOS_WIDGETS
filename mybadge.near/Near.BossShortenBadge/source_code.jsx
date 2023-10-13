@@ -3,7 +3,7 @@ return (
     src="mybadge.near/widget/Generic.TextBadge"
     props={{
       iconSrc: "mybadge.near/widget/Near.LogoIcon",
-      label: "NEAR BOSS",
+      label: "NEAR BOSs",
       color: "gray",
     }}
   />
