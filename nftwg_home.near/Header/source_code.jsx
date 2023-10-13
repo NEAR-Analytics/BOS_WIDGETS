@@ -1,6 +1,6 @@
 const Layout = styled.div`
 position: relative;
-width: 1200px;
+width: 1300px;
 height: 6060px;
 background: #FFFBDA;
 `;
