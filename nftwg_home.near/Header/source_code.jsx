@@ -1,9 +1,3 @@
-const Layout = styled.div`
-position: relative;
-width: 1300px;
-height: 6060px;
-background: #FFFBDA;
-`;
 /*-------------Header----------*/
 const Header = styled.div`
 display: flex;
