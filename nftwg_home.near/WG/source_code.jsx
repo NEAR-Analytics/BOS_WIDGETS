@@ -5,6 +5,7 @@ width: 1200px;
 height: 5510px;
 background: #FFFBDA;
 `;
+
 return (
   <Layout>
     <Widget src={`${Owner}/widget/Header`} />
