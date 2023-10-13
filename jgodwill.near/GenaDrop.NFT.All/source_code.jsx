@@ -157,7 +157,7 @@ return (
         </li>
       </ol>
     </Inst>
-    <Title>NFT Count: {Math.trunc(state.nftCount)}</Title>
+    <Title>NFT Count: {state.nftCount}</Title>
     <Grid>
       {state.tokens?.map((it) => {
         console.log("It " + it.tokenid);
