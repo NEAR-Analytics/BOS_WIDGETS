@@ -6,7 +6,7 @@ position: absolute;
 width: 1200px;
 height: 228px;
 left: 80px;
-top: 112px;
+top: 312px;
 
 `;
 
