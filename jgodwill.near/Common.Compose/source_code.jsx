@@ -291,11 +291,12 @@ const onClose = () => {
 //     nftChainState: "Near",
 //   });
 // }
-// if (state.isChecked === false) {
-//   State.update({
-//     nftChainState: "",
-//   });
-// }
+
+if (state.isChecked === false) {
+  State.update({
+    nftChainState: "",
+  });
+}
 
 console.log(state.isChecked);
 
@@ -370,52 +371,33 @@ return (
                 <Card>
                   {/*<Title>Embed NFT</Title>*/}
                   <div className="d-flex align-center text-center gap-2">
+                    <div>Select Chain</div>
                     <Widget
                       src="jgodwill.near/widget/GenaDrop.ChainsDropdown"
                       props={{ chains: chains, updateChain }}
                     />
-                    {state.sender ? (
-                      <div>
-                        <MyAcc>{state.sender ? getSender() : "0x00..."}</MyAcc>
-                      </div>
-                    ) : (
-                      state.nftChainState !== "Near" && (
-                        <Web3Connect
-                          connectLabel={`Connect ${state.nftChainState} Wallet`}
-                          className="w-50"
-                        />
-                      )
-                    )}
                   </div>
-                  <Card>
-                    <h4>Enter the NFT details</h4>
+                  {state.nftChainState&& (
                     <Card>
-                      NFT Contract ID:
-                      <Input
-                        type="text"
-                        onChange={(e) => onChangeContractID(e.target.value)}
-                        value={state.nftContractId}
-                      />
+                      <h4>Enter the NFT details</h4>
+                      <Card>
+                        NFT Contract ID:
+                        <Input
+                          type="text"
+                          onChange={(e) => onChangeContractID(e.target.value)}
+                          value={state.nftContractId}
+                        />
+                      </Card>
+                      <Card>
+                        NFT Token Id:
+                        <Input
+                          type="text"
+                          onChange={(e) => onChangeTokenID(e.target.value)}
+                          value={state.nftTokenId}
+                        />
+                      </Card>
                     </Card>
-                    <Card>
-                      NFT Token Id:
-                      <Input
-                        type="text"
-                        onChange={(e) => onChangeTokenID(e.target.value)}
-                        value={state.nftTokenId}
-                      />
-                    </Card>
-                    {/*state.nftContractId && state.nftTokenId && (
-                      <Widget
-                        src="jgodwill.near/widget/GenaDrop.NFTEmbedPreview"
-                        props={{
-                          contractId: state.nftContractId,
-                          tokenId: state.nftTokenId,
-                          chainState: state.nftChainState.toLowerCase(),
-                        }}
-                      />
-                    )*/}
-                  </Card>
+                  )}
                 </Card>
               </div>
             )}
