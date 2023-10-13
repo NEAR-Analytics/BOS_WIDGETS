@@ -15,7 +15,6 @@ height:80px;
 return (
   <Layout>
     <Widget src={`${Owner}/widget/Header`} />
-
     <Widget src={`${Owner}/widget/Hero`} />
     <Widget src={`${Owner}/widget/NFTStats`} />
     <Widget src={`${Owner}/widget/AboutUs`} />
