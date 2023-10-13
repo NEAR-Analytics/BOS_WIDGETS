@@ -195,7 +195,7 @@ color: #F2F2F2;
 `;
 
 return (
-  <MainContainer>
+  <MainContainer id="ourteam">
     <BackgroundContainer>
       <ContentContainer>
         <NFTText>
