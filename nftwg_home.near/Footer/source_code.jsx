@@ -359,7 +359,7 @@ return (
         <svg
           width="600"
           height="1"
-          viewBox="0 0 1320 1"
+          viewBox="0 0 600 1"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
         >
