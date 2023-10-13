@@ -31,7 +31,7 @@ align-items: center;
 padding: 0px;
 gap: 24px;
 margin: 0 auto;
-width: 480px;
+width: 600px;
 height: 16px;
 /* Inside auto layout */
 flex: none;
