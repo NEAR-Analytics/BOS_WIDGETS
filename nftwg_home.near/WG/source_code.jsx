@@ -4,13 +4,6 @@ position: relative;
 width: 1200px;
 height: 5510px;
 background: #FFFBDA;
-
-
-`;
-const HeaderContainer = styled.div`
-position:relative;
-width:200px;
-height:80px;
 `;
 return (
   <Layout>
