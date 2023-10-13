@@ -85,7 +85,7 @@ function search() {
   State.update({ loading: true });
   let where = {};
   if (props.authorQuery && props.authorQuery.author) {
-    where = { author_id: { _eq: props.authorQuery }, ...where };
+    where = { author_id: { _eq: props.authorQuery.author }, ...where };
   }
   if (state.term) {
     where = { description: { _like: `%${state.term}%` }, ...where };
