@@ -242,6 +242,57 @@ const AmountSec = styled.div`
   }
 `;
 
+const CardTags = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: baseline;
+  gap: 15px;
+  height: 100%;
+  margin-top: 20px;
+`
+const Tag = styled.div`
+  color: #B0B0B0;
+text-align: center;
+font-family: Helvetica Neue;
+font-size: 12px;
+font-style: normal;
+font-weight: 500;
+line-height: 150%; /* 18px */
+width: max-content;
+height: 20px;
+border-radius: 50px;
+background: #F8F8F8;
+display: flex;
+padding: 2px 16px;
+justify-content: center;
+align-items: center;
+gap: 8px;
+`
+
+const Button = styled.div`
+width: 100%;
+display: flex;
+align-items: center;
+justify-content: center;
+margin-top: 10px;
+  button {
+    border: 1px solid black;
+    border-radius: 0;
+    color: white;
+    background: black;
+    text-align: center
+    display: flex;
+    width: 296px;
+    padding: 7px 0px;
+    cursor: pointer;
+  }
+  button:hover {
+    background: white;
+    color: black;
+    border-color: black;
+  }
+`
+
 return (
   <CardRoot>
     <Top>
@@ -280,6 +331,19 @@ return (
           </div>
         </AmountSec>
       </CardBody>
+      <CardTags>
+        <Tag>
+          Category
+        </Tag>
+        <Tag>
+          Tag
+        </Tag><Tag>
+          Anything
+        </Tag>
+      </CardTags>
+      <Button>
+        <button>More Info</button>
+      </Button>
     </Bottom>
   </CardRoot>
 );
