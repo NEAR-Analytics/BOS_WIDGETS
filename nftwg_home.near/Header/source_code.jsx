@@ -384,6 +384,7 @@ return (
         <a
           style={{ textDecoration: "none", color: "#FFFFFF" }}
           href="https://trello.com/b/cT8mF8wz/nft-wg"
+          target="_blank"
         >
           Our Workspace
         </a>
