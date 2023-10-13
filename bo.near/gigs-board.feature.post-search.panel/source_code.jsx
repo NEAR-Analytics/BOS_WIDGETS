@@ -146,17 +146,6 @@ return (
         })}
       </div>
       <div className="d-flex flex-row position-relative w-25">
-        <div className="position-absolute d-flex ps-3 flex-column h-100 justify-center">
-          {state.loading ? (
-            <span
-              className="spinner-grow spinner-grow-sm m-auto"
-              role="status"
-              aria-hidden="true"
-            />
-          ) : (
-            <i class="bi bi-search m-auto"></i>
-          )}
-        </div>
         <input
           type="search"
           className="ps-5 form-control border border-0 bg-light"
@@ -166,7 +155,22 @@ return (
         />
       </div>
       <button class="btn btn-light" style={buttonStyle} onClick={search}>
-        <i class="bi bi-search"></i> Search
+        {state.loading ? (
+          <span
+            className="spinner-grow spinner-grow-sm m-auto"
+            role="status"
+            aria-hidden="true"
+          />
+        ) : (
+          <i class="bi bi-search m-auto"></i>
+        )}{" "}
+        Search
+      </button>
+      <button
+        class="btn btn-light"
+        onClick={() => State.update({ searchResult: null })}
+      >
+        Clear
       </button>
       <div className="d-flex flex-row-reverse flex-grow-1">
         {props.children}
