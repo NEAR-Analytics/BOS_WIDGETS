@@ -670,12 +670,12 @@ const closeModal = () => State.update({ message: false });
 const nftOwner = `${
   profile?.name ||
   (state.owner.endsWith(".near")
-    ? `@${
+    ? `${
         state.owner.length > 20
-          ? `${state.owner.slice(0, 10)}...${state.owner.slice(
+          ? `@${state.owner.slice(0, 10)}...${state.owner.slice(
               state.owner.length - 4
             )}`
-          : `${state.owner}`
+          : `@${state.owner}`
       }`
     : `@${state.owner.slice(0, 10)}...${state.owner.slice(
         state.owner.length - 4
