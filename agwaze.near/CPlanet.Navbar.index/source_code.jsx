@@ -32,6 +32,7 @@ line-height: normal;
 const Routes = styled.div`
     display: flex;
     gap: 0.7rem;
+    margin-top: 10px;
     h1 {
       color: black;
       font-family: Helvetica Neue;
@@ -62,7 +63,8 @@ const Join = styled.div`
     color: black;
   }
   button:last-child:hover {
-    background: transparent;
+    background: black;
+    color: white;
   }
   div {
     background: black;
