@@ -24,28 +24,34 @@ const content =
   JSON.parse(Social.get(`${accountId}/post/main`, blockHeight) ?? "null");
 const subscribe = !!props.subscribe;
 const raw = !!props.raw;
-const sender = `${
-  senderProfile.name ||
-  (senderId.endsWith(".near")
-    ? `@${
-        senderId.length > 20
-          ? `${senderId.slice(0, 10)}...${senderId.slice(senderId.length - 4)}`
-          : `${senderId}`
-      }`
-    : `@${senderId.slice(0, 10)}...${senderId.slice(senderId.length - 4)}`)
-}`;
-const receiver = `${
-  state.profile?.name ||
-  (accountId.endsWith(".near")
-    ? `@${
-        accountId.length > 20
-          ? `${accountId.slice(0, 10)}...${accountId.slice(
-              accountId.length - 4
-            )}`
-          : `${accountId}`
-      }`
-    : `@${accountId.slice(0, 10)}...${accountId.slice(accountId.length - 4)}`)
-}`;
+const sender =
+  senderId &&
+  `${
+    senderProfile.name ||
+    (senderId.endsWith(".near")
+      ? `@${
+          senderId.length > 20
+            ? `${senderId.slice(0, 10)}...${senderId.slice(
+                senderId.length - 4
+              )}`
+            : `${senderId}`
+        }`
+      : `@${senderId.slice(0, 10)}...${senderId.slice(senderId.length - 4)}`)
+  }`;
+const receiver =
+  accountId &&
+  `${
+    state.profile?.name ||
+    (accountId.endsWith(".near")
+      ? `@${
+          accountId.length > 20
+            ? `${accountId.slice(0, 10)}...${accountId.slice(
+                accountId.length - 4
+              )}`
+            : `${accountId}`
+        }`
+      : `@${accountId.slice(0, 10)}...${accountId.slice(accountId.length - 4)}`)
+  }`;
 const nftDescription = content?.text ?? "BOS minting powered by GenaDrop";
 
 const notifyAccountId = accountId;
