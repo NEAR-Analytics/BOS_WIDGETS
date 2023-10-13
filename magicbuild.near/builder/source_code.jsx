@@ -480,7 +480,6 @@ return (
           </div>
         </div>
         <div class="row">
-          {" "}
           <div class="form-group col-md-12">
             {state.cMethod.length > 0 ? (
               <Widget src={`${cep}/widget/export-button`} props={state} />
@@ -505,11 +504,15 @@ return (
             <div class="card-header">
               <div class="container">
                 <div class="row">
-                  <div class="col pt-2">
-                    <h6>{functions.name}</h6>
+                  <div class="col-sm-8 pt-2">
+                    <h6>
+                      {functions.name}
+                      <span class="text-info">
+                        {" - Custom Method/ Button Label/ Params"}
+                      </span>
+                    </h6>
                   </div>
-                  <div class="col text-end pt-2">
-                    {" "}
+                  <div class="col-sm-4 text-end pt-2">
                     <button
                       type="button"
                       onClick={(e) => cMLabel(e, fIndex, "remove")}
