@@ -86,7 +86,6 @@ const PrimaryText = styled.div`
     font-style: normal;
     font-weight: 700;
     line-height: normal;
-    text-transform: uppercase;
 `;
 
 const SecondaryText = styled.div`
