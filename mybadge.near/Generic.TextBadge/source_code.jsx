@@ -45,7 +45,6 @@ const Chip = styled.div`
         font-style: normal;
         font-weight: 500;
         line-height: 100%; /* 10px */
-        text-transform: uppercase;
     }
 `;
 
