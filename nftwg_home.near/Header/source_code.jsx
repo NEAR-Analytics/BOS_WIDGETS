@@ -13,7 +13,7 @@ align-items: center;
 padding: 16px 80px;
 gap: 80px;
 position: absolute;
-width: 1300px;
+width: 100%;
 height: 80px;
 
 background: #1B1B1B;
