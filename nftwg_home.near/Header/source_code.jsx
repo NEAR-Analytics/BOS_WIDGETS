@@ -389,7 +389,16 @@ return (
           Our Workspace
         </a>
       </btn1>
-      <btn2> Join Our Community</btn2>
+      <btn2>
+        <a
+          style={{ textDecoration: "none", color: "#FFFFFF" }}
+          href="https://t.me/+mOAOaAYnAbs3ZmIx "
+          target="_blank"
+        >
+          {" "}
+          Join Our Community
+        </a>
+      </btn2>
     </LastWrapper>
   </Header>
 );
