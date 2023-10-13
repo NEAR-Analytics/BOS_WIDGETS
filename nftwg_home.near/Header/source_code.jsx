@@ -379,7 +379,12 @@ return (
 
     <LastWrapper>
       <btn1>
-        <a href="https://trello.com/b/cT8mF8wz/nft-wg">Our Workspace</a>
+        <a
+          style={{ textDecoration: "none", color: "#FFFFFF" }}
+          href="https://trello.com/b/cT8mF8wz/nft-wg"
+        >
+          Our Workspace
+        </a>
       </btn1>
       <btn2> Join Our Community</btn2>
     </LastWrapper>
