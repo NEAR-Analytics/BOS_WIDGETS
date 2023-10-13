@@ -99,7 +99,6 @@ const thisWidgetName = "SayALot";
 const widgets = {
   sayALot: `${authorForWidget}/widget/${thisWidgetName}`,
   create: `${authorForWidget}/widget/SayALot.Create`,
-  styledComponents: "rubycop.near/widget/NDC.StyledComponents",
   header: `${authorForWidget}/widget/SayALot.NavBar`,
   showArticlesList: `${authorForWidget}/widget/SayALot.AllArticlesList`,
   showArticlesListSortedByAuthors: `${authorForWidget}/widget/SayALot.AllArticlesSortByAuthors`,
@@ -114,6 +113,21 @@ const widgets = {
   libEmojis: `${authorForWidget}/widget/SayALot.lib.emojis`,
   libUpVotes: `${authorForWidget}/widget/SayALot.lib.upVotes`,
   upVoteButton: `${authorForWidget}/widget/SayALot.UpVoteButton`,
+  styledComponents: "rubycop.near/widget/NDC.StyledComponents",
+  newStyledComponents: {
+    Element: {
+      Badge: "nearui.near/widget/Element.Badge",
+      User: "nearui.near/widget/Element.User",
+    },
+    Feedback: {
+      Spinner: "nearui.near/widget/Feedback.Spinner",
+    },
+    Input: {
+      Button: "nearui.near/widget/Input.Button",
+      Checkbox: "nearui.near/widget/Input.Checkbox",
+      Select: "nearui.near/widget/Input.Select",
+    },
+  },
 };
 
 const profile = props.profile ?? Social.getr(`${accountId}/profile`);
@@ -436,12 +450,40 @@ function handleShareButton(showShareModal, sharedElement) {
 }
 
 function getLink() {
-  return `https://near.social/f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/SayALot?${state.sharedElement.type}=${state.sharedElement.value}`;
+  return `https://near.social/${widgets.sayALot}?${isTest && "isTest=t&"}${
+    state.sharedElement.type
+  }=${state.sharedElement.value}`;
 }
 
 //===============================================END FUNCTIONS======================================================
 
 // console.log(state);
+
+if (!context.accountId) {
+  return (
+    <>
+      <Widget
+        src={widgets.header}
+        props={{
+          isTest,
+          stateUpdate,
+          handleGoHomeButton,
+          handlePillNavigation,
+          brand,
+          pills: navigationPills,
+          navigationButtons,
+          displayedTabId: state.displayedTabId,
+          handleFilterArticles,
+          filterParameter: state.filterBy.parameterName,
+          handleBackButton,
+          tabs,
+          sbtsNames,
+        }}
+      />
+      <h2>Log in to see the articles</h2>
+    </>
+  );
+}
 return (
   <>
     {state.showShareModal && renderShareInteraction()}
@@ -463,6 +505,17 @@ return (
         sbtsNames,
       }}
     />
+    <div className="my-3">
+      <Widget
+        src={widgets.newStyledComponents.Input.Select}
+        props={{
+          label: "Select sbt filter",
+          value: sbts[0],
+          onChange: handleSbtSelection,
+          options: createSbtOptions(),
+        }}
+      />
+    </div>
     {articlesToRender && state.displayedTabId == tabs.SHOW_ARTICLES_LIST.id && (
       <Widget
         src={widgets.showArticlesList}
@@ -481,10 +534,10 @@ return (
           handleEditArticle,
           showCreateArticle: canLoggedUserCreateArticle,
           sbtWhiteList,
-          handleSbtSelection,
           sbts,
-          createSbtOptions,
           handleShareButton,
+          canLoggedUserCreateArticles: state.canLoggedUserCreateArticle,
+          filterBy: state.filterBy,
         }}
       />
     )}
@@ -509,7 +562,7 @@ return (
         src={widgets.showArticlesListSortedByAuthors}
         props={{
           isTest,
-          articlesToRender,
+          finalArticles,
           tabs,
           widgets,
           handleOpenArticle,
@@ -535,7 +588,8 @@ return (
           handleFilterArticles,
           handleEditArticle,
           sbtWhiteList,
-          createSbtOptions,
+          sbts,
+          canLoggedUserCreateArticles: state.canLoggedUserCreateArticle,
         }}
       />
     )}
