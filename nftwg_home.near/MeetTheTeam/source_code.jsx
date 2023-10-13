@@ -1,7 +1,7 @@
 const MainContainer = styled.div`
   position: absolute;
   width: 1200px;
-  height: 800px;
+  height: 860px;
   left: 0px;
   top: 3300px;
 `;
@@ -9,10 +9,16 @@ const MainContainer = styled.div`
 const BackgroundContainer = styled.div`
   position: absolute;
   width: 1200px;
-  height: 794px;
+  height: 860px;
   left: 0px;
   top: 6px;
   background: #1B1B1B;
+`;
+const CoreTextContainer = styled.div`
+position: absolute;
+width: 1200px;
+height: 60px;
+background: #1B1B1B;
 `;
 
 const ContentContainer = styled.div`
@@ -117,6 +123,21 @@ const Star6 = styled.div`
   top: 0px;
   
 `;
+const Star7 = styled.div`
+  position: absolute;
+  width: 45px;
+  height: 65px;
+  left: 10px;
+  top: 380px;
+  
+`;
+const Star8 = styled.div`
+ position: absolute;
+  width: 113px;
+  height: 113px;
+  left: 1071px;
+  top: 650px;
+`;
 
 const MeetTheTeamText = styled.div`
   position: absolute;
@@ -160,6 +181,17 @@ font-weight: 700;
 font-size: 15px;
 color:#FFFFFF;
 white-space:nowrap;
+`;
+const CoreText = styled.div`
+font-family: inherit;
+font-size: 20px;
+font-weight: 400;
+line-height: 30px;
+letter-spacing: 0em;
+text-align: center;
+color: #F2F2F2;
+
+
 `;
 
 return (
@@ -220,6 +252,34 @@ return (
             />
           </svg>
         </Star6>
+        <Star7>
+          <svg
+            width="97"
+            height="109"
+            viewBox="0 0 97 109"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M42.5 0L45.583 51.417L97 54.5L45.583 57.583L42.5 109L39.417 57.583L-12 54.5L39.417 51.417L42.5 0Z"
+              fill="#6333DD"
+            />
+          </svg>
+        </Star7>
+        <Star8>
+          <svg
+            width="50"
+            height="65"
+            viewBox="0 0 97 109"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M54.5 0L57.583 51.417L109 54.5L57.583 57.583L54.5 109L51.417 57.583L0 54.5L51.417 51.417L54.5 0Z"
+              fill="#25A45B"
+            />
+          </svg>
+        </Star8>
         <MeetTheTeamText style={{ top: 340 }}>Meet The Team</MeetTheTeamText>
         <ImageContainer style={{ top: 450, left: 130 }}>
           <img
@@ -335,5 +395,13 @@ return (
         </SocialContainer>
       </ContentContainer>
     </BackgroundContainer>
+    <CoreTextContainer style={{ top: 740 }}>
+      <CoreText>
+        The ICP Protocol team is united by a shared vision: to make NFTs
+        accessible, fair, and innovative. Together, we are committed to
+        reshaping the NFT landscape and empowering creators and collectors
+        worldwide.
+      </CoreText>
+    </CoreTextContainer>
   </MainContainer>
 );
