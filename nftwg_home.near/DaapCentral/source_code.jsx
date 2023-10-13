@@ -9,7 +9,7 @@ background: #FFFBDA;
 const DaapCentralHeading = styled.div`
 width: 867px
 height: 168px
-top: 4518px
+top: 1518px
 left: 286px
 `;
 const DaapCentralHeadingLine = styled.div`
