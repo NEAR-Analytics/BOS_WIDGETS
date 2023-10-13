@@ -2,7 +2,7 @@ const DaapCentralContainer = styled.div`
 position:absolute;
 width:1200px;
 height:1100px;
-top:3400px;
+top:4400px;
 background: #FFFBDA;
 `;
 
