@@ -1,23 +1,19 @@
 /*-------------Header----------*/
 const Header = styled.div`
-// display: flex;
-// flex-direction: row;
-// justify-content: space-between;
-// align-items: center;
-// padding: 16px 80px;
-// gap: 80px;
-// position: absolute;
-// width: 1200px;
-// height: 80px;
-
-
-//background: #1B1B1B;
-
+display: flex;
+flex-direction: row;
+justify-content: space-between;
+align-items: center;
+padding: 16px 80px;
+gap: 80px;
 position: absolute;
 width: 1200px;
 height: 80px;
-left: 0px;
+
+
 background: #1B1B1B;
+
+
 `;
 const Logo = styled.div`
 margin: 0 auto;
