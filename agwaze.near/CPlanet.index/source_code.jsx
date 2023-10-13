@@ -1,15 +1,19 @@
 const Root = styled.div`
   display: flex;
+  flex-direction: column;
   width: 100%;
-  height: 500px;
+  height: auto;
+  overflow-y: scroll;
 `;
-
+const Contents = styled.div`
+  
+`
 return (
-  <>
+  <Root>
     <Widget src="agwaze.near/widget/CPlanet.Navbar.index" />
-    <Root>
+    <Contents>
     <Widget src="agwaze.near/widget/CPlanet.Explore.index" />
-    </Root>
+    </Contents>
     <Widget src="agwaze.near/widget/CPlanet.Footer" />
-  </>
+  </Root>
 );
