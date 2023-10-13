@@ -370,7 +370,6 @@ return (
           <a href="#home"> Home </a>
         </home>
         <aboutUs>
-          {" "}
           <a href="#aboutus">About Us </a>
         </aboutUs>
         <ourGoals>
