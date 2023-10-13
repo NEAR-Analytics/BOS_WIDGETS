@@ -15,8 +15,14 @@ return (
       src="mybadge.near/widget/Near.AvatarBadge"
       props={{ size: "medium" }}
     />
-    // <Widget src="mybadge.near/widget/Near.SmallAvatarBadge" />
-    // <Widget src="mybadge.near/widget/Near.BigAvatarBadge" />
+    <Widget src="mybadge.near/widget/Near.CircleBadge" />
+    <Widget src="mybadge.near/widget/Near.CoreDev" />
+    <Widget src="mybadge.near/widget/Near.ProtocolWorkingGroup" />
+    <Widget src="mybadge.near/widget/Near.ContractStandardsWorkingGroup" />
+    <Widget src="mybadge.near/widget/Near.WalletStandardsWorkingGroup" />
+    <Widget src="mybadge.near/widget/Near.ToolingWorkingGroup" />
+    <Widget src="mybadge.near/widget/Near.ZeroKnowledgeWorkingGroup" />
+    <Widget src="mybadge.near/widget/Near.ValidatorWorkingGroup" />
     <Widget
       src="mybadge.near/widget/LNC.DropBalanceBadge"
       props={{ accountId: "coldy.near" }}
