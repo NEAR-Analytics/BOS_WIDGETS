@@ -714,9 +714,10 @@ const ContentBlock = ({ title, abbr, address, description, metadata }) => (
                                         "astraplusplus.ndctools.near/widget/DAO.Proposal.Create"
                                     }
                                     props={{
-                                        ...props,
+                                        dev: props.dev,
                                         daoId: Content[state.selectedHouse]
-                                            .address
+                                            .address,
+                                        dev: props.dev
                                     }}
                                 />
                             </div>
