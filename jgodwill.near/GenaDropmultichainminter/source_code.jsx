@@ -99,7 +99,7 @@ const handleMint = () => {
         console.log("in the promise", res, Id);
         Near.call([
           {
-            contractName: "genadrop-contract.nftgen.near",
+            contractName: nearContrac,
             methodName: "nft_mint",
             args: {
               token_id: `${Date.now()}`,
