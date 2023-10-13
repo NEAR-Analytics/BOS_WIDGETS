@@ -118,7 +118,7 @@ position: absolute;
 width: 1200px;
 height: 240px;
 left: 0px;
-top: 5300px;
+top: 5305px;
 background: #1B1B1B;
 `;
 const FooterLogo = styled.div`
