@@ -59,6 +59,7 @@ const Chip = styled.a`
   gap: 6px;
   width: 128px;
   cursor: pointer;
+  text-decoration: none;
 
   // ICON
   > div:nth-child(1) {
@@ -83,7 +84,7 @@ const Chip = styled.a`
 
   &:hover {
     text-decoration: none;
-    
+
     // ICON
     > div:nth-child(1) {
       > *:nth-child(1) {
