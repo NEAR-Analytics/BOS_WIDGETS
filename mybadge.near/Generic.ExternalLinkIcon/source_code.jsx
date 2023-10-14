@@ -1,15 +1,15 @@
 return (
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-    <g id="_99_link-external-01" data-name="99 link-external-01">
-      <path d="M23.78,27H8.22A3.23,3.23,0,0,1,5,23.78V8.22A3.23,3.23,0,0,1,8.22,5h4.46V7H8.22A1.22,1.22,0,0,0,7,8.22V23.78A1.22,1.22,0,0,0,8.22,25H23.78A1.22,1.22,0,0,0,25,23.78V19.5h2v4.28A3.23,3.23,0,0,1,23.78,27Z" />
-      <path d="M27,14.89H25V7H17.11V5H25a2,2,0,0,1,2,2Z" />
+    <g id="_44_arrow-square-up-right" data-name="44 arrow-square-up-right">
       <rect
-        x="14.06"
-        y="10.33"
-        width="13.22"
+        x="7.86"
+        y="15.88"
+        width="14.47"
         height="2"
-        transform="translate(-1.95 17.94) rotate(-45)"
+        transform="translate(-7.52 15.62) rotate(-45)"
       />
+      <path d="M22,21H20V12H11V10h9a2,2,0,0,1,2,2Z" />
+      <path d="M26,29H6a3,3,0,0,1-3-3V6A3,3,0,0,1,6,3H26a3,3,0,0,1,3,3V26A3,3,0,0,1,26,29ZM6,5A1,1,0,0,0,5,6V26a1,1,0,0,0,1,1H26a1,1,0,0,0,1-1V6a1,1,0,0,0-1-1Z" />
     </g>
   </svg>
 );
