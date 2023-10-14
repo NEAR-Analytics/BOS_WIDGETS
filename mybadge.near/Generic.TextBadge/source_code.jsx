@@ -52,45 +52,36 @@ const Chip = styled.div`
   overflow: hidden;
   background: ${colors.textBackground};
   cursor: pointer;
-
-  svg:nth-child(1) {
-    display: block;
-  }
-
-  svg:nth-child(2) {
-    display: none;
-  }
-
-  span:nth-child(1) {
-    display: block;
-  }
-
-  span:nth-child(2) {
-    display: none;
-  }
+  width: 84px;
+  height: 16px;
+  overflow: hidden;
 
   &:hover {
     > div:nth-child(1) {
       background: ${state.liked ? "#fff" : colors.iconBackground};
-    }
+      transition: top 0.3s 0s;
+      top: -8px;
 
-    svg:nth-child(1) {
-      display: none;
-    }
+      svg:nth-child(1) {
+        opacity: 0;
+      }
 
-    svg:nth-child(2) {
-      display: block;
-      * {
-        fill: ${state.liked ? "#DB504A" : colors.icon};
+      svg:nth-child(2) {
+        display: block;
+
+        * {
+          fill: ${state.liked ? "#DB504A" : colors.icon};
+        }
       }
     }
 
-    span:nth-child(1) {
-      display: none;
-    }
+    > div:nth-child(2) {
+      transition: top 0.3s 0s;
+      top: -5px;
 
-    span:nth-child(2) {
-      display: block;
+      > span:nth-child(1) {
+        opacity: 0;
+      }
     }
   }
 `;
@@ -99,23 +90,42 @@ const LabelText = styled.div`
   padding: 0 4px;
   color: ${colors.text};
   text-align: center;
+  width: 100%;
   font-size: 10px;
   font-style: normal;
   font-weight: 500;
   line-height: 100%; /* 10px */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  position: relative;
+  top: 11px;
+  transition: top 0.3s 1s;
+
+  > span {
+    height: 16px;
+  }
 `;
 
 const IconWrapper = styled.div`
   display: flex;
   width: 18px;
-  height: 16px;
   justify-content: center;
   align-items: center;
   padding: 2px 4px;
   background: ${colors.iconBackground};
+  flex-direction: column;
+  position: relative;
+  top: 8px;
+  transition: top 0.3s 1s;
 
   * {
     fill: ${colors.icon};
+  }
+
+  > * {
+    height: 16px;
   }
 `;
 
