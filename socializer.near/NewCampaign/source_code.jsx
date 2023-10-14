@@ -168,7 +168,9 @@ const createCampaign = () => {
       if (error) State.update({ error, loading: false });
       else if (data && data === "success") {
         State.update({ loading: false, notification: "Campaign created!" });
-        changePage("dashboard");
+        setTimeout(() => {
+          changePage("dashboard");
+        }, 1000);
       }
     }
   });
