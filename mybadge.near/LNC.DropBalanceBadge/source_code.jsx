@@ -10,7 +10,7 @@ return (
       secondaryText: drop ? `${drop / 1e24} NEAR` : null,
       iconSrc: "mybadge.near/widget/LNC.LogoIcon",
       color: "orange",
-      href: `https://explorer.near.org/accounts/${props.accountId}`
+      href: `https://learnnear.club/lnc-pro/beta-testing/`
     }}
   />
 );
