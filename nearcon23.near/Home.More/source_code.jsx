@@ -20,12 +20,15 @@ const Container = styled.div`
   }
 
   p {
-    font-family: "FK Grotesk";
     font-style: normal;
-    font-weight: 500;
+    font-weight: 600;
     font-size: 0.9em;
     line-height: 1.25em;
     color: #000000;
+  }
+
+  @media screen and (max-width: 768px) {
+    padding: 1em;
   }
 `;
 
@@ -53,7 +56,7 @@ const ButtonContainer = styled.div`
 
 return (
   <Container>
-    <h2>More info coming soon</h2>
+    <h2>More coming soon</h2>
     <p>
       We’re working on the full list of partners, speakers, and sessions. Stay
       tuned!
