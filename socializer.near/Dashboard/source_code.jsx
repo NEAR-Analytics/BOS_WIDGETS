@@ -50,6 +50,12 @@ State.init({
   columns: {
     live: [
       {
+        title: "Campaign Id",
+        key: "_id",
+        description: "Campaign Id",
+        width: 16,
+      },
+      {
         title: "Project/User",
         key: "accountId",
         description: "Project/User",
