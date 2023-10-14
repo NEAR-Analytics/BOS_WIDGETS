@@ -17,6 +17,7 @@ const Container = styled.div`
 
   @media screen and (max-width: 768px) {
     flex-direction: column;
+     padding: 1em;
     background-image: url("https://nearcon.s3.amazonaws.com/venues-mobile.png");
 }
 `;
@@ -124,7 +125,7 @@ return (
     </div>
     <Visual>
       <img src={mapImage(palace)} alt="NEARCON Palace" />
-      <p>
+      <p style={{fontWeight: 500}}>
         <b>Nearcon HQ:</b>
         <br />
         Convento Do Beato
@@ -136,7 +137,7 @@ return (
     </Visual>
     <Visual>
       <img src={mapImage(haven)} alt="NEARCON Haven" />
-      <p>
+      <p style={{fontWeight: 500}}>
         <b>Hacker HQ:</b>
         <br />
         Armazem 16
@@ -148,7 +149,7 @@ return (
     </Visual>
     <Visual>
       <img src={mapImage(communityQ)} alt="NEARCON Haven" />
-      <p>
+      <p style={{fontWeight: 500}}>
         <b>Community HQ</b>
         <br />
         Rua Pereira Henriques
