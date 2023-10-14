@@ -146,7 +146,7 @@ const SecondaryText = styled.div`
 `;
 
 return (
-  <Chip href={props.href}>
+  <Chip href={props.href} target="_blank">
     <IconWrapper>
       <Widget src={props.iconSrc} />
       <Widget src={"mybadge.near/widget/Generic.ExternalLinkIcon"} />
