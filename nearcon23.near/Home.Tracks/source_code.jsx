@@ -9,6 +9,9 @@ const Container = styled.div`
   padding: 3.5em 3.5em 4.5em;
   gap: 3em;
   background: #fff;
+   @media screen and (max-width: 768px) {
+     padding: 1em;
+  }
 `;
 
 const Title = styled.div`
@@ -35,7 +38,6 @@ const Tracks = styled.div`
   align-items: stretch;
   flex-wrap: wrap;
   width: 100%;
-  gap: 1em;
 
   @media screen and (max-width: 768px) {
     gap: 1em;
