@@ -144,6 +144,9 @@ if (hasFinishedLoading && allNfts.length === 0) {
 return (
   <Wrapper>
     <div>
+      <Widget src="hack.near/widget/SocialGraph" />
+    </div>
+    <div>
       This component is in open-beta and still under active construction. DO NOT
       publish any sensitive or proprietary information.{" "}
       <a href="#/opencann.near/widget/profile.demographics">
