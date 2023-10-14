@@ -4,12 +4,13 @@ const drop = Near.view("betatest.learnclub.near", "get_caller_drop", {
 
 return (
   <Widget
-    src="mybadge.near/widget/Generic.DetailedBadge"
+    src="mybadge.near/widget/Generic.DetailedLinkBadge"
     props={{
       primaryText: "(L)Earner",
       secondaryText: drop ? `${drop / 1e24} NEAR` : null,
       iconSrc: "mybadge.near/widget/LNC.LogoIcon",
       color: "orange",
+      href: `https://explorer.near.org/accounts/${props.accountId}`
     }}
   />
 );
