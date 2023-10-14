@@ -6,7 +6,6 @@ const API_URL = props.API_URL || "http://localhost:3000";
 const { onClose, data } = props;
 const link = data.post_link.split("?")[1].split("&");
 const posterId = link[0].split("=")[1];
-console.log(posterId, "==>data");
 
 State.init({
   posterAvatar: `https://i.near.social/magic/large/https://near.social/magic/img/account/${posterId}`,
@@ -180,7 +179,7 @@ return (
       <ModalTitle>{`NEAR DEGENS`}</ModalTitle>
       <h4>{`Camaign Details`}</h4>
       <img
-        src={posterAvatar}
+        src={state.posterAvatar}
         onError={() => {
           State.update({
             myAvatar:
