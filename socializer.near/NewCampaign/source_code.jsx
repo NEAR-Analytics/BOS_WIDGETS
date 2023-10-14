@@ -170,7 +170,7 @@ const createCampaign = () => {
         State.update({ loading: false, notification: "Campaign created!" });
         setTimeout(() => {
           changePage("dashboard");
-        }, 1000);
+        }, 2000);
       }
     }
   });
@@ -440,7 +440,7 @@ return (
     </MainComponent>
     {state.notification && (
       <div
-        className="d-flex justify-content-end absolute position-fixed"
+        className="d-flex justify-content-end position-absolute"
         style={{ right: 10 }}
       >
         <Widget
