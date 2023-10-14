@@ -39,6 +39,7 @@ State.init({
   error: "",
   balance: 0,
   loading: false,
+  notification: "",
 });
 
 const Wrapper = styled.div`
@@ -166,7 +167,7 @@ const createCampaign = () => {
       const { error, data } = res.body;
       if (error) State.update({ error, loading: false });
       else if (data && data === "success") {
-        State.update({ loading: false });
+        State.update({ loading: false, notification: "Campaign created!" });
         changePage("dashboard");
       }
     }
@@ -185,6 +186,7 @@ return (
         {"< GoBack"}
       </p>
     </div>
+
     <HeadComponent>
       <div
         style={{
@@ -204,235 +206,18 @@ return (
       </div>
     </HeadComponent>
 
-    <MainComponent>
-      <div className="d-flex" style={{ gap: 20 }}>
-        <div
-          className="d-flex"
-          style={{ gap: 8, flexDirection: "column", width: 240 }}
-        >
-          <p style={{ fontWeight: 600 }}>{"Project /Username*"}</p>
-          <p style={{ fontSize: 14, color: "#595959" }}>
-            {"Your Social  Username"}
-          </p>
-        </div>
-        <div className="d-flex align-items-center col-lg-6">
-          <Input
-            className="col-lg-12"
-            placeholder="Near Degens || neardegens.near"
-            value={state.username}
-            readOnly
-          />
-        </div>
-      </div>
-
-      <div className="d-flex" style={{ gap: 20 }}>
-        <div
-          className="d-flex"
-          style={{ gap: 8, flexDirection: "column", width: 240 }}
-        >
-          <p style={{ fontWeight: 600 }}>{"Post  Link*"}</p>
-          <p style={{ fontSize: 14, color: "#595959" }}>
-            {"Paste the  link of your Near Social Post"}
-          </p>
-        </div>
-        <div className="d-flex align-items-center col-lg-6">
-          <Input
-            className="col-lg-12"
-            value={state.post_link}
-            placeholder="https://near.social/"
-            onChange={(e) => {
-              State.update({
-                post_link: e.target.value,
-              });
-            }}
-          />
-        </div>
-      </div>
-
-      <div className="d-flex" style={{ gap: 20 }}>
-        <div
-          className="d-flex"
-          style={{ gap: 8, flexDirection: "column", width: 240 }}
-        >
-          <p style={{ fontWeight: 600 }}>{"Requirements *"}</p>
-          <p style={{ fontSize: 14, color: "#595959" }}>
-            {"Participation requirements for this campaign"}
-          </p>
-        </div>
-        <div className="d-flex align-items-center col-lg-6">
-          <Typeahead
-            multiple
-            labelKey="name"
-            className="col-lg-12"
-            onChange={changeRequirement}
-            options={requirementsOptions}
-            placeholder=""
-            selected={state.requirements}
-            positionFixed
-          />
-        </div>
-      </div>
-
-      <div className="d-flex" style={{ gap: 20 }}>
-        <div
-          className="d-flex"
-          style={{ gap: 8, flexDirection: "column", width: 240 }}
-        >
-          <p style={{ fontWeight: 600 }}>{"Reward  Per Winner*"}</p>
-          <p style={{ fontSize: 14, color: "#595959" }}>
-            {"Amount and Token Type "}
-          </p>
-        </div>
-        <div className="d-flex align-items-center col-lg-8 gap-4">
-          <div>
-            <p>{`Amount`}</p>
-            <Input
-              type="number"
-              min="0.01"
-              step="0.1"
-              value={state.amount}
-              onChange={(e) => {
-                const amount = Number(e.target.value);
-                if (amount < 0.01) return;
-                const total_reward = `${Number(
-                  (amount * state.winners).toFixed(4)
-                )} ${state.token}`;
-                State.update({
-                  amount,
-                  total_reward,
-                });
-              }}
-            />
-          </div>
-          <div className="d-flex align-items-center" style={{ gap: 10 }}>
-            <Widget
-              props={{
-                label: "Token",
-                value: { value: state.token },
-                placeholder: "Select Token",
-                options: state.tokens,
-                onChange: (e) => {
-                  const token = e.value;
-                  const total_reward = `${Number(
-                    (state.amount * state.winners).toFixed(4)
-                  )} ${token}`;
-                  State.update({
-                    token: e.value,
-                    total_reward,
-                    balance: e.balance,
-                  });
-                },
-              }}
-              src={`${Owner}/widget/Select`}
-            />
-            <p
-              style={{ fontSize: 12, marginTop: 25 }}
-            >{`Available Balance = ${state.balance} ${state.token}`}</p>
-          </div>
-        </div>
-      </div>
-
-      <div className="d-flex" style={{ gap: 20 }}>
-        <div
-          className="d-flex"
-          style={{ gap: 8, flexDirection: "column", width: 240 }}
-        >
-          <p style={{ fontWeight: 600 }}>{"Winners*"}</p>
-          <p style={{ fontSize: 14, color: "#595959" }}>
-            {"No of Winners  <=20"}
-          </p>
-        </div>
-        <div className="d-flex align-items-center col-lg-6">
-          <Input
-            type="number"
-            min="1"
-            max="20"
-            step="1"
-            value={state.winners}
-            onChange={(e) => {
-              const winners = Number(e.target.value);
-              if (winners < 1 || winners > 20) return;
-              const total_reward = `${Number(
-                (state.amount * winners).toFixed(4)
-              )} ${state.token}`;
-              State.update({
-                winners,
-                total_reward,
-              });
-            }}
-            className="col-lg-12"
-          />
-        </div>
-      </div>
-
-      <div className="d-flex" style={{ gap: 20, marginTop: 10 }}>
-        <div
-          className="d-flex"
-          style={{ gap: 8, flexDirection: "column", width: 240 }}
-        >
-          <p style={{ fontWeight: 600 }}>{"Total Rewards*"}</p>
-          <p style={{ fontSize: 14, color: "#595959" }}>
-            {"Total = Reward x  No of Winners"}
-          </p>
-        </div>
-        <div className="d-flex align-items-center col-lg-6">
-          <Input className="col-lg-12" value={state.total_reward} readOnly />
-        </div>
-      </div>
-
-      <div className="d-flex" style={{ gap: 20 }}>
-        <div
-          className="d-flex"
-          style={{ gap: 8, flexDirection: "column", width: 240 }}
-        >
-          <p style={{ fontWeight: 600 }}>{"Duration*"}</p>
-          <p style={{ fontSize: 14, color: "#595959" }}>
-            {"Campaign duration in HH:MM"}
-          </p>
-        </div>
-        <div className="d-flex align-items-center col-lg-6 gap-4">
-          <Widget
-            props={{
-              noLabel: true,
-              width: 100,
-              value: { value: state.duration_hr },
-              options: hrOption,
-              onChange: (e) => {
-                State.update({
-                  duration_hr: e.value,
-                });
-              },
-            }}
-            src={`${Owner}/widget/Select`}
-          />
-          <Widget
-            props={{
-              noLabel: true,
-              width: 100,
-              value: { value: state.duration_min },
-              options: minOption,
-              onChange: (e) => {
-                State.update({
-                  duration_min: e.value,
-                });
-              },
-            }}
-            src={`${Owner}/widget/Select`}
-          />
-        </div>
-      </div>
+    {state.notification && (
       <div
-        style={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "end",
-          gap: 21,
-        }}
+        className="d-flex justify-content-end absolute position-fixed"
+        style={{ right: 10 }}
       >
-        <Button disabled={state.loading} onClick={createCampaign}>
-          {state.loading ? "Loading..." : "Submit"}
-        </Button>
+        <Widget
+          props={{
+            text: "success",
+          }}
+          src={`${Owner}/widget/Alert`}
+        />
       </div>
-    </MainComponent>
+    )}
   </Wrapper>
 );
