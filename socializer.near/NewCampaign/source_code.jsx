@@ -443,7 +443,7 @@ return (
       >
         <Widget
           props={{
-            text: "success",
+            text: state.notification,
           }}
           src={`${Owner}/widget/Alert`}
         />
