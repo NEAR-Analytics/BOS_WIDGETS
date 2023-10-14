@@ -1,3 +1,5 @@
+// Integrate hack.near/widget/SocialGraph
+
 const accountId = props.accountId || context.accountId;
 
 if (!accountId) {
@@ -143,9 +145,6 @@ if (hasFinishedLoading && allNfts.length === 0) {
 
 return (
   <Wrapper>
-    <div>
-      <Widget src="hack.near/widget/SocialGraph" />
-    </div>
     <div>
       This component is in open-beta and still under active construction. DO NOT
       publish any sensitive or proprietary information.{" "}
