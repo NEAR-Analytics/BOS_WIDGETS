@@ -97,7 +97,6 @@ const Chip = styled.div`
   &:hover {
     // ICON
     > div:nth-child(1) {
-      background-color: #fff;
       > *:nth-child(1) {
         display: none;
       }
