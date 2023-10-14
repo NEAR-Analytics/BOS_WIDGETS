@@ -52,7 +52,7 @@ const Chip = styled.div`
   overflow: hidden;
   background: ${colors.textBackground};
   cursor: pointer;
-  width: 84px;
+  width: 88px;
   height: 16px;
   overflow: hidden;
 
