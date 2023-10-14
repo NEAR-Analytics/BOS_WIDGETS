@@ -12,6 +12,7 @@ const Container = styled.div`
 
   @media screen and (max-width: 768px) {
     flex-direction: column-reverse;
+     padding: 1em;
   }
 `;
 
@@ -101,7 +102,9 @@ const ButtonContainer = styled.div`
 return (
   <Container>
     <Text>
-      <h2>The biggest experience of the year is near</h2>
+      <h1 style={{ fontSize: 46, fontWeight: "600" }}>
+        The biggest experience of the year is near
+      </h1>
 
       <p>
         Last year’s NEARCON was epic. This one will be iconic. We are going to
