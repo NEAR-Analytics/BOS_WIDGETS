@@ -32,6 +32,10 @@ const Section = styled.div`
       gap: 1.5rem;
     }
   }
+  @media screen and (max-width: 768px) {
+    padding: 1rem;
+
+  }
 `;
 
 const Logos = styled.div`
