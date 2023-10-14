@@ -35,6 +35,7 @@ const Tracks = styled.div`
   align-items: stretch;
   flex-wrap: wrap;
   width: 100%;
+  gap: 1em;
 
   @media screen and (max-width: 768px) {
     gap: 1em;
