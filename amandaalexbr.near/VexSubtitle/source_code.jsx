@@ -1,7 +1,8 @@
-const Subtitle = styled.div`
+const SubTitle = styled.h2`
 font-size: 1.5rem;
 color: white;
-font-weight: 500;
+font-weight: 600;
+font-family: ${RobotoFont}, sans-serif;
 `;
 
 return <Subtitle>{props.text}</Subtitle>;
