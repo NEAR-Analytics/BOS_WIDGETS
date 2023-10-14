@@ -179,6 +179,7 @@ return (
       <ModalTitle>{`NEAR DEGENS`}</ModalTitle>
       <h4>{`Camaign Details`}</h4>
       <img
+        style={{ width: "100%", height: 250 }}
         src={state.posterAvatar}
         onError={() => {
           State.update({
