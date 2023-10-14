@@ -4,9 +4,9 @@ if (!accountId) return;
 const API_URL = props.API_URL || "http://localhost:3000";
 
 const { onClose, data } = props;
-console.log(data, "==>data");
 const link = data.post_link.split("?")[1].split("&");
 const posterId = link[0].split("=")[1];
+console.log(posterId, "==>data");
 
 State.init({
   posterAvatar: `https://i.near.social/magic/large/https://near.social/magic/img/account/${posterId}`,
