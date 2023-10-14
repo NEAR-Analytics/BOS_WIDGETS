@@ -82,7 +82,7 @@ const isValid = () => {
 return (
   <Container>
     <Content>
-      <div style={{ zIndex: 2, padding: "0 20px", backgroundColor: "#ffffff" }}>
+      <div style={{ zIndex: 2, backgroundColor: "#ffffff" }}>
         <Widget
           src={`${ownerId}/widget/Navbar`}
           props={{ hideLocation: true }}
