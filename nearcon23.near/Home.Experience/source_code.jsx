@@ -12,6 +12,7 @@ const Container = styled.div`
 
   @media screen and (max-width: 768px) {
     flex-direction: column;
+     padding: 1em;
   }
 `;
 
@@ -49,9 +50,10 @@ const Text = styled.div`
   }
 
   span {
-    font-family: "FK Grotesk";
+    font-family: "Mona Sans";
+    margin-top:-10px;
     font-style: normal;
-    font-weight: 400;
+    font-weight: 500;
     font-size: 0.8em;
     line-height: 1.25em;
     color: #fff;
@@ -128,4 +130,3 @@ return (
     </Text>
   </Container>
 );
-
