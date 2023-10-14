@@ -1,15 +1,20 @@
 return (
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-    <g id="_44_arrow-square-up-right" data-name="44 arrow-square-up-right">
-      <rect
-        x="7.86"
-        y="15.88"
-        width="14.47"
-        height="2"
-        transform="translate(-7.52 15.62) rotate(-45)"
+  <svg
+    width="24px"
+    height="24px"
+    viewBox="0 0 24 24"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <g id="Interface / External_Link">
+      <path
+        id="Vector"
+        d="M10.0002 5H8.2002C7.08009 5 6.51962 5 6.0918 5.21799C5.71547 5.40973 5.40973 5.71547 5.21799 6.0918C5 6.51962 5 7.08009 5 8.2002V15.8002C5 16.9203 5 17.4801 5.21799 17.9079C5.40973 18.2842 5.71547 18.5905 6.0918 18.7822C6.5192 19 7.07899 19 8.19691 19H15.8031C16.921 19 17.48 19 17.9074 18.7822C18.2837 18.5905 18.5905 18.2839 18.7822 17.9076C19 17.4802 19 16.921 19 15.8031V14M20 9V4M20 4H15M20 4L13 11"
+        stroke="#000000"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
       />
-      <path d="M22,21H20V12H11V10h9a2,2,0,0,1,2,2Z" />
-      <path d="M26,29H6a3,3,0,0,1-3-3V6A3,3,0,0,1,6,3H26a3,3,0,0,1,3,3V26A3,3,0,0,1,26,29ZM6,5A1,1,0,0,0,5,6V26a1,1,0,0,0,1,1H26a1,1,0,0,0,1-1V6a1,1,0,0,0-1-1Z" />
     </g>
   </svg>
 );
