@@ -4,8 +4,11 @@ if (!accountId) return;
 const API_URL = props.API_URL || "http://localhost:3000";
 
 const { onClose, data } = props;
+const link = data.post_link.split("?")[1].split("&");
+const posterId = link[0].split("=")[1];
 
 State.init({
+  posterAvatar: `https://i.near.social/magic/large/https://near.social/magic/img/account/${posterId}`,
   error: "",
   like: false,
   follow: false,
@@ -175,7 +178,15 @@ return (
       </button>
       <ModalTitle>{`NEAR DEGENS`}</ModalTitle>
       <h4>{`Camaign Details`}</h4>
-      <img src={`${API_URL}/campagin.png`} />
+      <img
+        src={posterAvatar}
+        onError={() => {
+          State.update({
+            myAvatar:
+              "https://ipfs.near.social/ipfs/bafkreibmiy4ozblcgv3fm3gc6q62s55em33vconbavfd2ekkuliznaq3zm",
+          });
+        }}
+      />
 
       <div
         className="d-flex"
