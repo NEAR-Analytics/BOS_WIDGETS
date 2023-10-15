@@ -1,8 +1,16 @@
-const web3connectLabel = props.web3connectLabel || "No-name button web3connect";
+const value = props.value || "no-name button";
+const handleButtonClick =
+    props.handleButtonClick || (() => console.log("button clicked"));
 
 return (
-  <Web3Connect
-    className="FormSubmitContainer"
-    connectLabel={web3connectLabel}
-  />
+    <div class="card-footer">
+        <div className="centered-container">
+            <button class="btn btn-primary"
+                style={{ borderRadius: "20px", width: "300px" }}
+                onClick={handleButtonClick}>
+                {value}
+            </button>
+        </div>
+    </div>
+
 );
