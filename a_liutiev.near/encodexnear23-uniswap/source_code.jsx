@@ -37,6 +37,11 @@ State.init({
   estimatedGasLimit: null,
 });
 
+const liquidityProps = {
+  tokenDecimals: tokenDecimalsETH,
+  fixedDecimals: fixedDecimals,
+};
+
 const provider = Ethers.provider();
 const signer = Ethers.provider();
 const gas = {
@@ -97,7 +102,6 @@ let to = state.sender;
 let tokenAabi = tokenAABI.body.result;
 let tokenBabi = tokenBABI.body.result;
 let lpabi = lpABI.body.result;
-let factory = "0x5C69bEe701ef814a2B6a3EDD4B1652CB9cc5aA6f";
 let pair;
 
 if (!state.theme) {
@@ -283,6 +287,10 @@ const removeLiquidityUni = () => {
 
 return (
   <div>
+    <Widget
+      src="a_liutiev.near/widget/addLiquidityCard"
+      props={{ web3connectLabel }}
+    />
     <div>
       <button onClick={addLiquidityUni}>Add Liquidity</button>
 
