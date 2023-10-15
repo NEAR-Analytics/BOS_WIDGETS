@@ -220,7 +220,7 @@ return (
                       data-bs-toggle="modal"
                       data-bs-target="#createClient"
                     >
-                      Create Your First Client
+                      Add Your First Contract
                       <i class="bi bi-file-earmark-plus"></i>
                     </button>
                   )}
