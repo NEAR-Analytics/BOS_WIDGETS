@@ -1,3 +1,5 @@
+const liquidityProps = props.liquidityProps || "NO PROPS";
+
 const addLiquidityUni = () => {
   const tokenAcontract = new ethers.Contract(
     tokenAContractAddress,
@@ -48,4 +50,17 @@ const addLiquidityUni = () => {
   return;
 };
 
-return <div>Hello World</div>;
+return <div>{liquidityProps.tokenDecimals}</div>;
+
+return (
+  <div>
+    <div>
+      <button onClick={addLiquidityUni}>Add Liquidity</button>
+
+      {state.liquidityResult && <div>{state.liquidityResult}</div>}
+      {state.liquidityError && (
+        <div style={{ color: "red" }}>{state.liquidityError}</div>
+      )}
+    </div>
+  </div>
+);
