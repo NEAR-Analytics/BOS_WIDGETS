@@ -1,4 +1,7 @@
-const liquidityProps = props.liquidityProps || { tokenDecimals: 18 };
+const liquidityProps = props.liquidityProps || {
+  tokenDecimals: 18,
+  coinA: { name: "ETH" },
+};
 const addLiquidityUni = () => {
   const tokenAcontract = new ethers.Contract(
     tokenAContractAddress,
