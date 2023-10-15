@@ -34,8 +34,22 @@ let lpAmount = ethers.utils
   .toHexString();
 
 const options = [
-  { name: "WETH", price: 1561.79, maxAmount: 0.001, minSlippage: 0.01, balance: 0, poolBalance: 0, },
-  { name: "USDT", price: 0.99986, maxAmount: 1.5483, minSlippage: 0.01, balance: 0, poolBalance: 0, },
+  {
+    name: "WETH",
+    price: 1561.79,
+    maxAmount: 0.001,
+    minSlippage: 0.01,
+    balance: 0,
+    poolBalance: 0,
+  },
+  {
+    name: "USDT",
+    price: 0.99986,
+    maxAmount: 1.5483,
+    minSlippage: 0.01,
+    balance: 0,
+    poolBalance: 0,
+  },
 ];
 
 const gas = {
@@ -59,7 +73,7 @@ State.init({
   gasPrice: null,
   estimatedGasLimit: null,
   offsetSeconds: 1800,
-  messageArray: [],
+  messageArray: "",
 });
 
 const provider = Ethers.provider();
@@ -311,7 +325,7 @@ if (state.fExchangeRate === undefined) {
 
   if (!responseGql) return "";
   const ethPriceInUsd = responseGql.body.data.bundle.ethPrice;
-  const txCost = Number(gasCostInEth) * Number(ethPriceInUsd) / 2;
+  const txCost = (Number(gasCostInEth) * Number(ethPriceInUsd)) / 2;
   State.update({ txCost: `$${txCost.toFixed(2)}` });
 }
 
@@ -328,8 +342,40 @@ const getSender = () => {
   return !state.sender
     ? ""
     : state.sender.substring(0, 6) +
-    "..." +
-    state.sender.substring(state.sender.length - 4, state.sender.length);
+        "..." +
+        state.sender.substring(state.sender.length - 4, state.sender.length);
+};
+
+const fetchAccountBalances = async () => {
+  console.log("working");
+  fetchBalanceRequest().then((res) => {
+    let data = res.body;
+    data = data.data.TokenBalances.TokenBalance;
+    let tokenData = data.map(
+      ({ token, formattedAmount, tokenType }) =>
+        ` 
+         - Token: ${
+           token.symbol
+         } - Token Type: ${tokenType} - Amount: ${formattedAmount.toFixed(2)}`
+    );
+
+    console.log(tokenData);
+  });
+};
+
+const fetchBalanceRequest = async () => {
+  let data =
+    '{"query":"query BalanceCheck {\\n  TokenBalances(\\n    input: {filter: {owner: {_in: [\\"' +
+    walletAddress +
+    '\\"]}}, blockchain: ethereum, limit: 10}\\n  ) {\\n    TokenBalance {\\n      tokenAddress\\n      amount\\n      formattedAmount\\n      tokenType\\n      token {\\n        name\\n        symbol\\n      }\\n    }\\n  }\\n}","operationName":"BalanceCheck"}';
+  return asyncFetch(AIR_API, {
+    body: data,
+    headers: {
+      "Content-Type": "application/json",
+      authorization: AIR_API_KEY,
+    },
+    method: "POST",
+  });
 };
 
 return (
@@ -337,7 +383,7 @@ return (
     <Theme>
       <div>
         <div className="container">
-          <div></div>
+          <div>UniswapV2 on BOS</div>
           <div>
             <Widget
               src="a_liutiev.near/widget/button_web3connect"
@@ -560,7 +606,19 @@ return (
             {/* Pill button */}
             <Widget
               src="a_liutiev.near/widget/liquidityFooter"
-              props={{ handleButtonClick: addLiquidityUni, value: state.addLiquidityLabel }} />
+              props={{
+                handleButtonClick: addLiquidityUni,
+                value: state.addLiquidityLabel,
+              }}
+            />
+            <Widget
+              src="a_liutiev.near/widget/liquidityFooter"
+              props={{
+                handleButtonClick: fetchAccountBalances,
+                value: "console tokens",
+              }}
+            />
+            {messageArray}
           </div>
         )}
       </div>
@@ -603,7 +661,11 @@ return (
           </div>
           <Widget
             src="a_liutiev.near/widget/liquidityFooter"
-            props={{ handleButtonClick: removeLiquidityUni, value: state.removeLiquidityLabel }} />
+            props={{
+              handleButtonClick: removeLiquidityUni,
+              value: state.removeLiquidityLabel,
+            }}
+          />
         </div>
       )}
     </Theme>
