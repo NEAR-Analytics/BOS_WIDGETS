@@ -28,11 +28,6 @@ const tokenDecimalsETH = 18;
 const tokenDecimalsUSDT = 6;
 const fixedDecimals = 5;
 
-let lpAmountRaw = "0.00000001663";
-let lpAmount = ethers.utils
-  .parseUnits(lpAmountRaw, tokenDecimalsETH)
-  .toHexString();
-
 const options = [
   {
     name: "WETH",
@@ -45,7 +40,7 @@ const options = [
   {
     name: "USDT",
     price: 0.99986,
-    maxAmount: 1.5483,
+    maxAmount: 1.55258,
     minSlippage: 0.01,
     balance: 0,
     poolBalance: 0,
@@ -182,6 +177,29 @@ const removeLiquidityUni = () => {
     lpabi,
     provider.getSigner()
   );
+
+  let lpAmountRaw = "0.00000001663";
+  let lpAmount = ethers.utils
+    .parseUnits(lpAmountRaw, tokenDecimalsETH)
+    .toHexString();
+
+  let amountAMin = ethers.utils
+    .parseUnits(
+      parseFloat(state.coinA.maxAmount * (1 - state.coinA.minSlippage)).toFixed(
+        fixedDecimals
+      ),
+      tokenDecimalsETH
+    )
+    .toHexString();
+
+  let amountBMin = ethers.utils
+    .parseUnits(
+      parseFloat(state.coinB.maxAmount * (1 - state.coinB.minSlippage)).toFixed(
+        fixedDecimals
+      ),
+      tokenDecimalsUSDT
+    )
+    .toHexString();
   let deadline = ethers.BigNumber.from(
     Math.floor(Date.now() / 1000) + 3600
   ).toHexString();
@@ -227,7 +245,6 @@ const fetchAccountBalances = () => {
       walletData: walletDataArray,
     });
     console.log("updating!");
-
   });
 };
 
@@ -383,8 +400,8 @@ const getSender = () => {
   return !state.sender
     ? ""
     : state.sender.substring(0, 6) +
-    "..." +
-    state.sender.substring(state.sender.length - 4, state.sender.length);
+        "..." +
+        state.sender.substring(state.sender.length - 4, state.sender.length);
 };
 
 return (
@@ -402,7 +419,7 @@ return (
         </div>
 
         {!state.showAddLiquidity && !state.showRemoveLiquidity && (
-          <div class="card">
+          <div class="card m-3">
             <div class="card-header">
               <div className="container">
                 <div>
@@ -427,12 +444,9 @@ return (
 
             <div class="card-body">
               <div className="centered-container">
-
-                {(parseFloat(
-                  state.walletData.find(
-                    (t) => t.tokenAddress === lptokenaddresss
-                  )?.formattedAmount || 0
-                ).toFixed(12)) !== 0 ? (
+                {state.walletData.find(
+                  (t) => t.tokenAddress === lptokenaddresss
+                )?.formattedAmount || 0 !== 0 ? (
                   <div className="container">
                     <div>
                       <a
@@ -454,10 +468,6 @@ return (
                     <p>Your active V2 liquidity positions will appear here.</p>
                   </div>
                 )}
-
-
-
-
               </div>
             </div>
 
@@ -625,13 +635,16 @@ return (
                   <div></div>
                   <div>
                     <span>{state.coinA.name}</span>
-                    <span>Balance: {parseFloat(
-                      state.walletData.find(
-                        (t) =>
-                          t.tokenAddress ===
-                          "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2"
-                      )?.formattedAmount || 0
-                    ).toFixed(6)}</span>
+                    <span>
+                      Balance:{" "}
+                      {parseFloat(
+                        state.walletData.find(
+                          (t) =>
+                            t.tokenAddress ===
+                            "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2"
+                        )?.formattedAmount || 0
+                      ).toFixed(6)}
+                    </span>
                     <a href="#" onClick={handleMaxClick}>
                       MAX
                     </a>
@@ -659,13 +672,14 @@ return (
                   <div></div>
                   <div>
                     <span>{state.coinB.name}</span>
-                    <span>Balance: {parseFloat(
-                      state.walletData.find(
-                        (t) =>
-                          t.tokenAddress ===
-                          tokenBContractAddress
-                      )?.formattedAmount || 0
-                    ).toFixed(6)}</span>{" "}
+                    <span>
+                      Balance:{" "}
+                      {parseFloat(
+                        state.walletData.find(
+                          (t) => t.tokenAddress === tokenBContractAddress
+                        )?.formattedAmount || 0
+                      ).toFixed(6)}
+                    </span>{" "}
                     <a href="#" onClick={handleMaxClick}>
                       MAX
                     </a>
