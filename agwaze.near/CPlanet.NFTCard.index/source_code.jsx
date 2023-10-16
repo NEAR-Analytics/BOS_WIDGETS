@@ -130,7 +130,7 @@ const webSvg = (
 );
 
 const CardRoot = styled.div`
-    width: 328px;
+    width: 315px;
     height: 444px;
     border: 1px solid #EFEFEF;
 background: #FFF;
