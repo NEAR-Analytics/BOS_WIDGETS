@@ -6,6 +6,7 @@ const sbtWhiteList = [
   "fractal.i-am-human.near - class 1",
   "community.i-am-human.near - class 1",
   "community.i-am-human.near - class 2",
+  "community.i-am-human.near - class 3",
 ];
 
 const initSbtsNames = ["fractal.i-am-human.near - class 1"];
@@ -332,11 +333,19 @@ function getValidEditArticleDataTags() {
 
 function createSbtOptions() {
   return sbtWhiteList.map((option, i) => {
-    //The first options is always the default one
+    const title = "";
+
+    console.log(option);
+    if (option === "fractal.i-am-human.near - class 1") title = "General";
+    if (option === "community.i-am-human.near - class 1") title = "OG";
+    if (option === "community.i-am-human.near - class 2") title = "Contributor";
+    if (option === "community.i-am-human.near - class 3")
+      title = "Core Contributor";
     if (i == 0) {
-      return { title: option, default: true, value: option };
+      //The first options is always the default one
+      return { title, default: true, value: option };
     } else {
-      return { title: option, value: option };
+      return { title, value: option };
     }
   });
 }
