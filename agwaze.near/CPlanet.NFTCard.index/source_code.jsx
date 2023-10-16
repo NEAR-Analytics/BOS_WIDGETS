@@ -165,16 +165,20 @@ const Bottom = styled.div`
 `;
 
 const ImageProfile = styled.div`
-  position: absolute;
-  width: 66px;
-height: 66px;
-flex-shrink: 0;
-border: 1px solid white;
-border-radius: 50%;
-top: 45px;
-z-index: 99;
-background: black;
-left: 16px;
+  
+  img {
+    position: absolute;
+    width: 66px;
+    height: 66px;
+    flex-shrink: 0;
+    border: 1px solid white;
+    border-radius: 50%;
+    top: 45px;
+    z-index: 99;
+    object-fit: cover;
+    background: black;
+    left: 16px;
+  }
 `;
 
 const Socials = styled.div`
@@ -301,8 +305,19 @@ margin-top: 10px;
 return (
   <CardRoot>
     <Top>
-      <img src={props.image ?? "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRub7hFLkStCvZiaSeiUGznP4uzqPPcepghhg&usqp=CAU"} alt="" />
+      <img
+        src={
+          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRub7hFLkStCvZiaSeiUGznP4uzqPPcepghhg&usqp=CAU"
+        }
+        alt=""
+      />
       <ImageProfile>
+        <img
+          src={
+            props.image ??
+            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRub7hFLkStCvZiaSeiUGznP4uzqPPcepghhg&usqp=CAU"
+          }
+        />
       </ImageProfile>
     </Top>
     <Bottom>
@@ -314,7 +329,8 @@ return (
       <CardBody>
         <h1>{props.title ?? `My NFT CARD`}</h1>
         <p>
-          {props.description ?? `Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+          {props.description ??
+            `Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
           eiusmod tempor incididunt ut labore et dolore magna aliqua.`}
         </p>
         <AmountSec>
