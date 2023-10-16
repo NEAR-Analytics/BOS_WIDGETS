@@ -8,7 +8,7 @@ const MainContainer = styled.div`
 
 const BackgroundContainer = styled.div`
   position: absolute;
-  width: 1200px;
+  width: 1320px;
   height: 860px;
   left: 0px;
   top: 6px;
