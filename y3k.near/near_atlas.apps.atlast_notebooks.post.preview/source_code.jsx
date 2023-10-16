@@ -99,10 +99,9 @@ const Item = styled.div`
     }
   }
 `;
-
 return (
-  <div class="row">
-    <div class="col-1 d-sm-block d-none">
+  <div className="flex">
+    <div className="hidden sm:block col-span-1">
       <a href={`#/near/widget/ProfilePage?accountId=${accountId}`}>
         <Widget
           src="dev-support.near/widget/ProfileImage"
@@ -113,91 +112,89 @@ return (
         />
       </a>
     </div>
-    <div class="col-sm-1 col-2">
+    <div className="col-span-1 sm:col-span-2">
       <Widget
         src="dev-support.near/widget/DevSupport.Question.Button.Upvote"
         props={{ accountId, blockHeight }}
       />
     </div>
-    <div class="col-10">
-      <div class="row">
-        <div class="col">
-          <div class="row">
-            <div class="col">
-              <H2>
-                <a href={link}>{question.title}</a>
-                <i class="bi bi-arrow-right" />
-              </H2>
-              <p>{question.content.text}</p>
-            </div>
-            <div class="col-auto">
-              <div class="dropdown ms-auto">
-                <button
-                  class="btn border-0 p-0"
-                  type="button"
-                  data-bs-toggle="dropdown"
-                  aria-expanded="false"
-                >
-                  <i class="bi bi-three-dots" />
-                </button>
-                <ul class="dropdown-menu">
-                  <li>
-                    <Item>
-                      <Widget
-                        src="dima_sheleg.near/widget/DevSupport.Question.Button.Flag"
-                        props={{
-                          accountId,
-                          blockHeight,
-                          className: "btn report-btn",
-                        }}
-                      />
-                    </Item>
-                  </li>
-                  <li>
-                    <Item>
-                      {/* Delete widget */}
-                      <Widget
-                        src="dima_sheleg.near/widget/DevSupport.Question.Button.Delete"
-                        props={{
-                          accountId,
-                          blockHeight,
-                          admins,
-                          adminContract,
-                          className: "hide-btn",
-                          text: "Hide",
-                        }}
-                      />
-                    </Item>
-                  </li>
-                </ul>
-              </div>
-            </div>
+    <div className="col-span-10">
+      <div className="grid grid-cols-1">
+        <div className="grid grid-cols-1 sm:grid-cols-2">
+          <div className="col-span-1">
+            <H2>
+              <a href={link}>{question.title}</a>
+              <i className="bi bi-arrow-right" />
+            </H2>
+            <p>{question.content.text}</p>
           </div>
-          <div class="row">
-            <H6>
-              <div class="d-flex">
-                <Trancate>
-                  <a href={`#/near/widget/ProfilePage?accountId=${accountId}`}>
-                    {accountId}
-                  </a>
-                </Trancate>{" "}
-                &nbsp;in&nbsp;
-                <TopicName>
-                  <Widget
-                    src="y3k.near/widget/near_atlas.apps.atlast_notebooks.post.labels"
-                    props={{ labels: question.labels }}
-                  />
-                </TopicName>
-                &nbsp;&#8226;&nbsp;
-                <Widget src="mob.near/widget/TimeAgo" props={{ blockHeight }} />
-                &nbsp;ago
-              </div>
-            </H6>
+          <div className="col-span-1 sm:col-span-1">
+            <div className="dropdown justify-self-end">
+              <button
+                className="btn border-0 p-0"
+                type="button"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+              >
+                <i className="bi bi-three-dots" />
+              </button>
+              <ul className="dropdown-menu">
+                <li>
+                  <Item>
+                    <Widget
+                      src="dima_sheleg.near/widget/DevSupport.Question.Button.Flag"
+                      props={{
+                        accountId,
+                        blockHeight,
+                        className: "btn report-btn",
+                      }}
+                    />
+                  </Item>
+                </li>
+                <li>
+                  <Item>
+                    {/* Delete widget */}
+                    <Widget
+                      src="dima_sheleg.near/widget/DevSupport.Question.Button.Delete"
+                      props={{
+                        accountId,
+                        blockHeight,
+                        admins,
+                        adminContract,
+                        className: "hide-btn",
+                        text: "Hide",
+                      }}
+                    />
+                  </Item>
+                </li>
+              </ul>
+            </div>
           </div>
         </div>
+        <div className="grid grid-cols-1">
+          <H6>
+            <div className="flex">
+              <Trancate>
+                <a href={`#/near/widget/ProfilePage?accountId=${accountId}`}>
+                  {accountId}
+                </a>
+              </Trancate>{" "}
+              &nbsp;in&nbsp;
+              <TopicName>
+                <Widget
+                  src="y3k.near/widget/near_atlas.apps.atlast_notebooks.post.labels"
+                  props={{ labels: question.labels }}
+                />
+              </TopicName>
+              &nbsp;&#8226;&nbsp;
+              <Widget src="mob.near/widget/TimeAgo" props={{ blockHeight }} />
+              &nbsp;ago
+            </div>
+          </H6>
+        </div>
       </div>
-      <div class="row">
-        <div class="col">
+      <div className="grid grid-cols-1">
+        <div className="col-span-1">
           <Widget
             src="y3k.near/widget/near_atlas.apps.atlast_notebooks.comment.repliesButton"
             props={{ accountId, blockHeight, adminContract, link }}
