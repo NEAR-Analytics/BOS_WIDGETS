@@ -50,7 +50,7 @@ const Wrapper = styled.div`
   overflow: hidden;
   border: 1px solid #eee;
   white-space: normal;
-  margin: 12px 0;
+  margin-top: 12px;
 `;
 
 return (
