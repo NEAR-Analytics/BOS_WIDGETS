@@ -18,22 +18,18 @@ padding: 0px;
 gap: 10px;
 
 position: absolute;
-width: 1050px;
+width: 1030px;
 height: 500px;
 left: -8px;
 top: 436px;
 background-size: cover;
 background-repeat: no-repeat;
-
-
-background: url('https://i.ibb.co/qRHzxvw/Rectangle-23798.png'), #DDE1E6;
-
 `;
 
 const ImageCss = styled.div`
 /* Rectangle 23798 */
 
-width: 1050px;
+width: 1030px;
 height: 500px;
 
 background: url('https://i.ibb.co/qRHzxvw/Rectangle-23798.png'), #D9D9D9;
