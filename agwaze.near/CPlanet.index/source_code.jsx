@@ -6,12 +6,12 @@ const Root = styled.div`
 `;
 const Contents = styled.div`
 
-`
+`;
 return (
   <Root>
     <Widget src="agwaze.near/widget/CPlanet.Navbar.index" />
     <Contents>
-    <Widget src="agwaze.near/widget/CPlanet.Explore.index" />
+      <Widget src="agwaze.near/widget/CPlanet.Explore.index" />
     </Contents>
     <Widget src="agwaze.near/widget/CPlanet.Footer" />
   </Root>
