@@ -372,7 +372,7 @@ return (
         <a href="#nftdaapcentral"> NFT DApp Central </a>
       </nftDappCentral>
     </FooterWrapper>
-    <FooterRightsWrapper style={{ left: 120 }}>
+    <FooterRightsWrapper style={{ left: 160 }}>
       <SocialLinksContainer>
         <a href="https://x.com/NearnftWG" target="_blank">
           <svg
