@@ -93,7 +93,7 @@ height:80px;
 return (
   /*------------Hero----------------*/
 
-  <Hero id="home">
+  <Hero id="#home">
     <Text1>THE NFT WORKGROUP</Text1>
     <Text2>
       Empowering NFTs on NEAR: Bridging Communities, Pioneering Innovations!
