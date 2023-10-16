@@ -115,7 +115,7 @@ flex-grow: 0;
 `;
 const FooterContainer = styled.div`
 position: absolute;
-width: 1200px;
+width: 1320px;
 height: 240px;
 left: 0px;
 top: 5305px;
