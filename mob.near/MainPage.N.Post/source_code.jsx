@@ -5,6 +5,8 @@ if (!accountId) {
 const blockHeight =
   props.blockHeight === "now" ? "now" : parseInt(props.blockHeight);
 const pinned = !!props.pinned;
+const hideMenu = !!props.hideMenu;
+const hideButtons = !!props.hideButtons;
 const content =
   props.content ??
   JSON.parse(Social.get(`${accountId}/post/main`, blockHeight) ?? "null");
@@ -157,6 +159,7 @@ return (
             accountId,
             blockHeight,
             pinned,
+            hideMenu,
             link,
             postType: "post",
             flagItem: item,
@@ -170,9 +173,14 @@ return (
             />
           }
           src="mob.near/widget/MainPage.N.Post.Content"
-          props={{ content, raw, truncateContent: props.truncateContent }}
+          props={{
+            content,
+            raw,
+            truncateContent: props.truncateContent,
+            noEmbed: props.noEmbed,
+          }}
         />
-        {!pinned && blockHeight !== "now" ? (
+        {!pinned && !hideButtons && blockHeight !== "now" ? (
           <div className="buttons d-flex justify-content-between">
             <Widget
               loading=""
