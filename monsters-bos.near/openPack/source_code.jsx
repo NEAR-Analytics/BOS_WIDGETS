@@ -8,6 +8,28 @@ const widgetSrc = (component) => {
 const ftContract = (context.networkId === "mainnet") ? "monsters-alpha.near" : "dev-1693882284306-75813657022630";
 const nftContract = (context.networkId === "mainnet") ? "monsters-nfts.near" : "dev-1697387315613-37447934459971";
 
+const App = styled.div`
+	button {
+			background-color: #563D7C;
+			border: none;
+			color: #EDEDED;
+			padding: 10px 20px;
+			text-align: center;
+			text-decoration: none;
+			display: inline-block;
+			font-size: 16px;
+			border-radius: 5px;
+			box-shadow: 2px 2px 4px #000;
+			transition: background-color 0.3s ease;
+	}
+
+	button:hover {
+			background-color: #8C6BB1;
+	}
+`;
+
+
+
 const alphaPacksOwned = Near.view(ftContract, "ft_balance_of", {account_id: context.accountId});
 const isOpenDisabled = (alphaPacksOwned === 0);
 const nftsOwned = Near.view(nftContract, "nft_supply_for_owner", {account_id: context.accountId});
@@ -22,7 +44,7 @@ const sortedNfts = nfts.sort((a, b) => {
 const revealNfts = sortedNfts.slice(0, 5);
 
 const lastOpened = Storage.privateGet("lastOpened");
-const allowReveal = true;//(sortedNfts.length > 0) && (!lastOpened || (new Date(sortedNfts[0].metadata.issued_at) > new Date(lastOpened)));
+const allowReveal = (sortedNfts.length > 0) && (!lastOpened || (Big(sortedNfts[0].metadata.issued_at.replace(".", "").replace("Z", "")) > Big(lastOpened.replace(".", "").replace("Z", ""))));
 
 State.init({error: null, reveal: [false, false, false, false, false]});
 
@@ -81,18 +103,43 @@ const openPack = () => {
   }
 }
 
-const RevealableCard = ({ index, nft }) => {
+const getCurrentDatetime = () => {
+  //mirror smart contract format
+  const timestampMs = new Date().getTime();
+  const timestampNs = timestampMs * 1_000_000;
+  const timestampS = Math.floor(timestampNs / 1_000_000_000);
+  const remainingNs = timestampNs % 1_000_000_000;
+  const datetimeStr = `${timestampS}.000000000Z`;
+  return datetimeStr;
+}
 
-  const reveal = (index) => {
-      return () => {
-        let reveal = state.reveal;
-        reveal[index] = true;
-        if(reveal.every((x) => x)) {
-          Storage.privateSet("lastOpened", (new Date()).toISOString());
-          console.log("Set last opened", Storage.privateGet("lastOpened"));
-        }
-        State.update({ ...state, reveal: reveal });
-      };
+const reveal = (index) => {
+  let reveal = state.reveal;
+  reveal[index] = true;
+  State.update({ ...state, reveal: reveal });
+};
+
+const revealAll = () => {
+  let currentIndex = 0;
+
+  const loop = () => {
+    if (currentIndex < 5) {
+      reveal(currentIndex);
+      currentIndex++;
+      setTimeout(loop, 500);
+    }
+  };
+
+  loop();
+};
+
+const hide = () => {
+  Storage.privateSet("lastOpened", getCurrentDatetime());
+}
+
+const RevealableCard = ({ index, nft }) => {
+  const revealCard = (index) => {
+    return () => {reveal(index);}
   };
   const rarity = () => {
     return JSON.parse(nft.metadata.extra).rarity;
@@ -120,7 +167,7 @@ const RevealableCard = ({ index, nft }) => {
         (!state.reveal[index]) ? (
           <>
           <UnrevealedCard rarity={rarity()}>
-            <img onClick={reveal(index)} src={"https://nearmonsters.s3.us-west-004.backblazeb2.com/alpha/final/back.png"} width={278} height={406}/>
+            <img onClick={revealCard(index)} src={"https://nearmonsters.s3.us-west-004.backblazeb2.com/alpha/final/back.png"} width={278} height={406}/>
           </UnrevealedCard>
           <p>{"Reveal"}</p>
           </>
@@ -137,9 +184,8 @@ const RevealableCard = ({ index, nft }) => {
   );
 };
 
-console.log("rendering");
 return (
-  <div className="App">
+  <App>
     <Widget src={widgetSrc("header")}/>
     <div class="container border border-info p-3">
       <h3 class="text-center">
@@ -154,6 +200,8 @@ return (
       </h3>
       {allowReveal &&
         <div><p>Your pack is ready!</p>
+          {state.reveal.every((x) => x) && <button onClick={hide}>Hide</button>}
+          {state.reveal.some((x) => !x) && <button onClick={revealAll}>Reveal All</button>}
           <CardList>
             {revealNfts.map((nft, index) => (
               <RevealableCard nft={nft} index={index} />
@@ -162,5 +210,5 @@ return (
         </div>
       }
     </div>
-  </div>
+  </App>
 )
