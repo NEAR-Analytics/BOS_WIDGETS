@@ -190,6 +190,10 @@ const Socials = styled.div`
   margin-top: 7px;
 `;
 
+const HeaderText = styled.div`
+  height: 150px;
+`
+
 const CardBody = styled.div`
 margin-top: 33px;
 padding: 0 16px;
@@ -212,7 +216,6 @@ font-size: 16px;
 font-style: normal;
 font-weight: 400;
 line-height: 148%; 
-height: 80px;
   }
 `;
 
@@ -329,6 +332,7 @@ return (
         {twitterSvg}
       </Socials>
       <CardBody>
+        <HeaderText>
         <h1>{props.title ?? `My NFT CARD`}</h1>
         <h3>
           {props.description ??
@@ -338,6 +342,7 @@ return (
               120
             )}
         </h3>
+        </HeaderText>
         <AmountSec>
           <div>
             <span>TOTAL FUNDS</span>
