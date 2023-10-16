@@ -211,7 +211,7 @@ font-size: 16px;
 font-style: normal;
 font-weight: 400;
 line-height: 148%; 
-height: 100px;
+height: 80px;
   }
 `;
 
@@ -332,7 +332,10 @@ return (
         <h3>
           {props.description ??
             `Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-          eiusmod tempor incididunt ut labore et dolore magna aliqua.`.substring(0, 120)}
+          eiusmod tempor incididunt ut labore et dolore magna aliqua.`.substring(
+              0,
+              120
+            )}
         </h3>
         <AmountSec>
           <div>
