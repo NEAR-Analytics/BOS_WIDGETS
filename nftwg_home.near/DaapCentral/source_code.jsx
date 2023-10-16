@@ -321,6 +321,7 @@ justify-content: flex-end;
 align-items: center;
 padding: 16px 132px;
 gap: 10px;
+cursor:pointer;
 
 position: absolute;
 width: 352px;
