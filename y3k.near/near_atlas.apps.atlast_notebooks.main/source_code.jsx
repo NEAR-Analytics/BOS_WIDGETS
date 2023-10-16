@@ -14,12 +14,11 @@ const SidebarWrapper = styled.div`
   `;
 
 return (
-  <div class="container-fluid py-3 mb-5">
-    <div class="row">
+  <div className="container-fluid py-3 mb-5">
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
       {/* Sidebar */}
-
-      <div class="col-12">
-        <div class="pb-3 border-bottom">
+      <div className="col-span-3 md:col-span-1">
+        <div className="pb-3 border-b border-gray-300">
           <Widget
             src="y3k.near/widget/near_atlas.apps.atlast_notebooks.header"
             props={{ disabled: !context.accountId, onClick: toggleNotebook }}
@@ -27,7 +26,7 @@ return (
         </div>
 
         {state.noteBook && (
-          <div class="mt-4 p-2">
+          <div className="mt-4 p-2">
             <Widget
               src="y3k.near/widget/near_atlas.apps.atlast_notebooks.post"
               props={{ onCommit: () => State.update({ noteBook: false }) }}
@@ -35,7 +34,7 @@ return (
           </div>
         )}
 
-        <div class="mt-5">
+        <div className="mt-5">
           <Widget
             src="y3k.near/widget/near_atlas.apps.atlast_notebooks.features"
             props={{ admins, adminContract: adminContract, labelFilter }}
