@@ -1,6 +1,6 @@
 const DaapCentralContainer = styled.div`
 position:absolute;
-width:1200px;
+width:1320px;
 height:1100px;
 top:4250px;
 background: #FFFBDA;
