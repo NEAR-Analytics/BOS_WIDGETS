@@ -10,7 +10,7 @@ const DaapCentralHeading = styled.div`
 width: 867px
 height: 168px
 top: 1518px
-left: 286px
+left: 306px
 `;
 const DaapCentralHeadingLine = styled.div`
 font-family: inherit;
