@@ -54,7 +54,7 @@ const Text1 = styled.div`
 position: absolute;
 width: 300px;
 height: 50px;
-left: 2px;
+left: 0px;
 top: 40px;
 font-family: inherit;
 font-style: normal;
