@@ -64,7 +64,10 @@ const specialAccounts = {
 if (data !== null && data.ok === false) {
   return (
     <div className="text-bg-light rounded-4 p-3 mb-3">
-      <p>houston we have a problem, wen mon ser?</p>
+      <p>
+        The component is undergoing essential maintenance. We apologize for any
+        inconvenience this may cause and appreciate your understanding.
+      </p>
     </div>
   );
 } else {
