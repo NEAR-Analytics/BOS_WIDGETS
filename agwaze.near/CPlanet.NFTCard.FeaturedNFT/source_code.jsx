@@ -73,7 +73,7 @@ return (
     <Content>
       <ImageContainer></ImageContainer>
       <div>
-        <h1>Lorem Ipsum DAO</h1>
+        <h1>{props.title ?? "My NFT"}</h1>
         <Tags>
           <Tag>Category</Tag>
           <Tag>Tag</Tag>
