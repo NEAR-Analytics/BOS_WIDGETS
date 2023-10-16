@@ -18,16 +18,12 @@ padding: 0px;
 gap: 10px;
 
 position: absolute;
-width: 1300px;
+width: 1250px;
 height: 500px;
-left: -68px;
+left: -75px;
 top: 436px;
 background-size: cover;
 background-repeat: no-repeat;
-
-
-
-
 `;
 
 const ImageCss = styled.div`
