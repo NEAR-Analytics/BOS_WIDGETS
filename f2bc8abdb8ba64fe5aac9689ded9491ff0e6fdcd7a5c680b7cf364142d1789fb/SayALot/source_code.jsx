@@ -335,12 +335,12 @@ function createSbtOptions() {
   return sbtWhiteList.map((option, i) => {
     const title = "";
 
-    console.log(option);
     if (option === "fractal.i-am-human.near - class 1") title = "General";
     if (option === "community.i-am-human.near - class 1") title = "OG";
     if (option === "community.i-am-human.near - class 2") title = "Contributor";
     if (option === "community.i-am-human.near - class 3")
       title = "Core Contributor";
+
     if (i == 0) {
       //The first options is always the default one
       return { title, default: true, value: option };
