@@ -187,12 +187,11 @@ fetchData();
 return (
   <Root>
     <TopNFTS>
-      {state.nftData.slice(0, 6).map((_, index) => (
+      {state.nftData.slice(0, 6).map((data, index) => (
         <div key={index}>
           <Widget
             props={{
               title: data.name,
-              description: data.description,
               image: data.media_url,
             }}
             src="agwaze.near/widget/CPlanet.NFTCard.FeaturedNFT"
