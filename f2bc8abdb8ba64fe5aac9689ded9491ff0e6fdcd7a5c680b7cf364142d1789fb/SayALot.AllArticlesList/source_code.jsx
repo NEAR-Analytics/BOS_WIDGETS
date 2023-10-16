@@ -148,7 +148,7 @@ return (
           </div>
         </div>
       )}
-      <ArticlesListContainer className="row card-group py-3 rounded">
+      <ArticlesListContainer className="row card-group py-3">
         {sortedFinalArticlesWithUpVotes.length > 0 ? (
           sortedFinalArticlesWithUpVotes.map((article, i) => {
             const authorProfileCall = Social.getr(`${article.author}/profile`);
