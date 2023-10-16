@@ -107,14 +107,13 @@ const social = {
       deploy: null,
       github: "https://github.com/near/near-discovery",
     },
-        {
+    {
       key: 2,
       name: "Mantle Gateway",
       url: "https://bos.fusionx.finance/",
       image:
         "https://ipfs.near.social/ipfs/bafybeiczyp75wbo73m45jwgntr6bkma2rhe6vjem3vac74vurlzu4533u4",
-      description:
-        "A Mantle gateway featuring top DeFi Apps on Mantle network",
+      description: "A Mantle gateway featuring top DeFi Apps on Mantle network",
       category: ["DeFi", "EVM", "Mantle"],
       deploy:
         "https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fneardefi%mantle-bos-gateway&build-command=pnpm%20run%20build&env=NEXT_PUBLIC_NETWORK_ID,NEXT_PUBLIC_HOSTNAME&envDescription=mainnet-near.org&envLink=https%3A%2F%2Fgithub.com%2FNearDeFi%2Fmantle-bos-gateway%2Fblob%2Fmain%2F.env.example",
@@ -268,17 +267,6 @@ const social = {
       deploy:
         "https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fharmonic-guild%2Fviewer%2Ftree%2Ffathom",
       github: "https://github.com/Harmonic-Guild/viewer",
-    },
-    {
-      key: 0,
-      name: "Bos.gg",
-      url: "https://bos.gg",
-      image:
-        "https://ipfs.near.social/ipfs/bafybeihm3hnhgoov3cpq3dbmbsjnigrljohbbrk6ri2nvwn3vuew755f6e",
-      description: "Decentralized front ends for evm chains",
-      category: ["EVM", "DeFi"],
-      deploy: null,
-      github: "https://github.com/NearDeFi/bos-viewer",
     },
     {
       key: 7,
