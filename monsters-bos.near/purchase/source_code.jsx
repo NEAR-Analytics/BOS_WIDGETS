@@ -7,10 +7,30 @@ const widgetSrc = (component) => {
 }
 const ftContract = (context.networkId === "mainnet") ? "monsters-alpha.near" : "dev-1693882284306-75813657022630";
 const nftContract = (context.networkId === "mainnet") ? "monsters-nfts.near" : "dev-1697387315613-37447934459971";
+
+const App = styled.div`
+	button {
+			background-color: #563D7C;
+			border: none;
+			color: #EDEDED;
+			padding: 10px 20px;
+			text-align: center;
+			text-decoration: none;
+			display: inline-block;
+			font-size: 16px;
+			border-radius: 5px;
+			box-shadow: 2px 2px 4px #000;
+			transition: background-color 0.3s ease;
+	}
+
+	button:hover {
+			background-color: #8C6BB1;
+	}
+`;
+
+
 const alphaPacksRemaining = Near.view(ftContract, "ft_balance_of", {account_id: ftContract});
 const alphaPacksOwned = Near.view(ftContract, "ft_balance_of", {account_id: context.accountId});
-const storageBalance = Near.view(ftContract, "storage_balance_of", {account_id: context.accountId});
-const isRegistered = (storageBalance !== null);
 const ONE_NEAR = Big("1e24");
 const openPacksLink = "https://test.near.org/monstersdev.testnet/widget/openPack";
 const error = (context.accountId ? null : "You must log in!");
@@ -70,7 +90,7 @@ const AlphaPurchase = ({ maxBuy, ftContract }) => {
 };
 
 return (
-  <div className="App">
+  <App>
     <Widget src={widgetSrc("header")}/>
     <div class="container border border-info p-3">
       <h3 class="text-center">
@@ -96,5 +116,5 @@ return (
         )
       }
     </div>
-  </div>
+  </App>
 );
