@@ -1,6 +1,6 @@
 const OurGoalsContainer = styled.div`
 position: absolute;
-width: 1200px;
+width: 1320px;
 height: 1551px;
 left: 0px;
 top: 2200px;
