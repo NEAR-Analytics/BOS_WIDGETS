@@ -143,6 +143,10 @@ const SecondContainer = styled.div`
   padding: 1rem;
 `;
 
+const BoxShadow = styled.div`
+  box-shadow: rgba(140, 149, 159, 0.1) 0px 4px 28px 0px;
+`;
+
 const initialTagsObject = {};
 
 Array.isArray(tagsArray) &&
@@ -153,7 +157,7 @@ Array.isArray(tagsArray) &&
 return (
   <div>
     <GeneralContainer className="pt-2 row card-group">
-      <div className="rounded-3 p-3 m-3 bg-white col-lg-8 col-md-8 col-sm-12">
+      <BoxShadow className="rounded-3 p-3 m-3 bg-white col-lg-8 col-md-8 col-sm-12">
         {state.createdArticle && state.showCreatedArticle && editArticleData ? (
           <Widget
             src={widgets.articleView}
@@ -306,7 +310,7 @@ return (
             </div>
           </div>
         )}
-      </div>
+      </BoxShadow>
     </GeneralContainer>
   </div>
 );
