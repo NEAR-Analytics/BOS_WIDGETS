@@ -153,7 +153,7 @@ Array.isArray(tagsArray) &&
 return (
   <div>
     <GeneralContainer className="pt-2 row card-group">
-      <div className="rounded-3 bg-white col-lg-8 col-md-8 col-sm-12">
+      <div className="rounded-3 p-3 m-3 bg-white col-lg-8 col-md-8 col-sm-12">
         {state.createdArticle && state.showCreatedArticle && editArticleData ? (
           <Widget
             src={widgets.articleView}
