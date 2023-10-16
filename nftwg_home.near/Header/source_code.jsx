@@ -7,7 +7,7 @@ align-items: center;
 padding: 16px 80px;
 gap: 80px;
 position: absolute;
-width: 1200px;
+width: 1320px;
 height: 80px;
 
 
