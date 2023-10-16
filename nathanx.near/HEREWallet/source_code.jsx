@@ -111,7 +111,7 @@ return (
         weekly leaderboard will get rewards in USDT.
       </i>
       <br></br>
-      <strong>Weekly Score #6 is ongoing!</strong>
+      <strong>Weekly Score #7 is ongoing!</strong>
       <br></br>
       <br></br>
       <strong>How to earn score?</strong>
