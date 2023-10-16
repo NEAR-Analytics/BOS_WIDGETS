@@ -192,7 +192,7 @@ const Socials = styled.div`
 
 const HeaderText = styled.div`
   height: 150px;
-`
+`;
 
 const CardBody = styled.div`
 margin-top: 33px;
@@ -262,7 +262,8 @@ const CardTags = styled.div`
   align-items: baseline;
   gap: 15px;
   height: 100%;
-  margin-top: 20px;
+  padding-left: 10px;
+  margin-top: 10px;
 `;
 const Tag = styled.div`
   color: #B0B0B0;
@@ -333,15 +334,15 @@ return (
       </Socials>
       <CardBody>
         <HeaderText>
-        <h1>{props.title ?? `My NFT CARD`}</h1>
-        <h3>
-          {props.description ??
-            `Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+          <h1>{props.title ?? `My NFT CARD`}</h1>
+          <h3>
+            {props.description ??
+              `Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
           eiusmod tempor incididunt ut labore et dolore magna aliqua.`.substring(
-              0,
-              120
-            )}
-        </h3>
+                0,
+                120
+              )}
+          </h3>
         </HeaderText>
         <AmountSec>
           <div>
