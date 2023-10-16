@@ -47,7 +47,7 @@ input {
 const Cards = styled.div`
     display: flex;
     flex-direction: row;
-    gap: 68px;
+    gap: 18px;
     margin-top: 32px;
     flex-wrap: wrap;
     width: 100%;
@@ -72,6 +72,8 @@ margin-left: 10px;
 
 State.init({
   nftData: [],
+  filteredNFTData: [],
+  searchTerm: "",
 });
 
 const currentChainProps = {
@@ -84,6 +86,17 @@ const currentChainProps = {
     logoUrl:
       "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTrJuxjGxj4QmyreE6ix4ygqm5pK9Nn_rdc8Ndw6lmJcd0SSnm2zBIc2xJ_My1V0WmK2zg&usqp=CAU",
   },
+};
+
+const seachInputHandler = (e) => {
+  const value = e.target.value.toLowerCase();
+  const searched = state.nftData.filter((nft) =>
+    nft.name.toLowerCase().includes(value)
+  );
+  State.update({
+    searchTerm: value,
+    filteredNFTData: searched,
+  });
 };
 
 const fetchData = () => {
@@ -170,8 +183,6 @@ const fetchData = () => {
 };
 fetchData();
 
-console.log(nftData);
-
 return (
   <Root>
     <TopNFTS>
@@ -184,23 +195,41 @@ return (
     <SearchSection>
       <h1>Explore Creative NFTs</h1>
       <Search>
-        <input type="search" placeholder="Search for NFTs" />
+        <input
+          value={state.searchTerm}
+          type="search"
+          onChange={seachInputHandler}
+          placeholder="Search for NFTs"
+        />
         <FilterDropdown>Filter / Dropdown</FilterDropdown>
       </Search>
     </SearchSection>
     <Cards>
-      {state.nftData.map((data, index) => (
-        <div key={index}>
-          <Widget
-            props={{
-              title: data.name,
-              description: data.description,
-              image: data.media_url,
-            }}
-            src="agwaze.near/widget/CPlanet.NFTCard.index"
-          />
-        </div>
-      ))}
+      {state.searchTerm === ""
+        ? state.nftData.map((data, index) => (
+            <div key={index}>
+              <Widget
+                props={{
+                  title: data.name,
+                  description: data.description,
+                  image: data.media_url,
+                }}
+                src="agwaze.near/widget/CPlanet.NFTCard.index"
+              />
+            </div>
+          ))
+        : state.filteredNFTData.map((data, index) => (
+            <div key={index}>
+              <Widget
+                props={{
+                  title: data.name,
+                  description: data.description,
+                  image: data.media_url,
+                }}
+                src="agwaze.near/widget/CPlanet.NFTCard.index"
+              />
+            </div>
+          ))}
     </Cards>
   </Root>
 );
