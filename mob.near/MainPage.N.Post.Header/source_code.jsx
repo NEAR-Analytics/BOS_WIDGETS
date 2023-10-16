@@ -1,6 +1,7 @@
 const accountId = props.accountId;
 const blockHeight = props.blockHeight;
 const pinned = !!props.pinned;
+const hideMenu = !!props.hideMenu;
 const name = Social.get(`${accountId}/profile/name`);
 
 const postType = props.postType ?? "post";
@@ -122,7 +123,7 @@ return (
         <i className="bi bi-pin-angle" />
       </span>
     )}
-    {!pinned && blockHeight !== "now" && (
+    {!pinned && !hideMenu && blockHeight !== "now" && (
       <span>
         <Button data-bs-toggle="dropdown" aria-expanded="false">
           <span className="icon">{DotsSvg}</span>
