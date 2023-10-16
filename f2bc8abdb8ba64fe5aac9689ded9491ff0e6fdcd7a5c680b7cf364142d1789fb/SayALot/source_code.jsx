@@ -581,7 +581,7 @@ return (
       />
     )}
 
-    {(true || state.displayedTabId == tabs.ARTICLE_WORKSHOP.id) && (
+    {state.displayedTabId == tabs.ARTICLE_WORKSHOP.id && (
       <Widget
         src={widgets.create}
         props={{
