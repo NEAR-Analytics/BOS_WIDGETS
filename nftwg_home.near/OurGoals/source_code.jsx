@@ -23,7 +23,7 @@ const OurGoals = styled.div`
 position: absolute;
 width: 280px;
 height: 72px;
-left: calc(50% - 280px/2);
+left: calc(50% - 290px/2);
 top: 100px;
 
 font-family: inherit;
