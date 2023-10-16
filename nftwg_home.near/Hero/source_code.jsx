@@ -20,10 +20,14 @@ gap: 10px;
 position: absolute;
 width: 1300px;
 height: 500px;
-left: -75px;
+left: -68px;
 top: 436px;
 background-size: cover;
 background-repeat: no-repeat;
+
+
+
+
 `;
 
 const ImageCss = styled.div`
@@ -50,7 +54,7 @@ const Text1 = styled.div`
 position: absolute;
 width: 300px;
 height: 50px;
-left: 0px;
+left: 2px;
 top: 40px;
 font-family: inherit;
 font-style: normal;
