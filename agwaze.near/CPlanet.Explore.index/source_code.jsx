@@ -25,7 +25,7 @@ const SearchSection = styled.div`
 
 const Search = styled.div`
 margin-top: 32px;
-display:flex;
+display: flex;
 flex-wrap: wrap;
 input {
     border-radius: 32px;
@@ -70,6 +70,108 @@ margin-left: 10px;
 
 `;
 
+State.init({
+  nftData: [],
+});
+
+const currentChainProps = {
+  near: {
+    img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTrJuxjGxj4QmyreE6ix4ygqm5pK9Nn_rdc8Ndw6lmJcd0SSnm2zBIc2xJ_My1V0WmK2zg&usqp=CAU",
+    livePrice: "near",
+    subgraph: "https://api.thegraph.com/subgraphs/name/prometheo/near-mainnet",
+    chain: "near",
+    id: "1112",
+    logoUrl:
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTrJuxjGxj4QmyreE6ix4ygqm5pK9Nn_rdc8Ndw6lmJcd0SSnm2zBIc2xJ_My1V0WmK2zg&usqp=CAU",
+  },
+};
+
+const fetchData = () => {
+  let response = fetch(`${currentChainProps["near"].subgraph}`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      query: `
+            query MyQuery {
+             nfts(orderBy: createdAtTimestamp) {
+                category
+                chain
+                createdAtTimestamp
+                id
+                isSold
+                isListed
+                price
+                tokenID
+                owner {
+                    id
+                }
+                tokenIPFSPath
+                transactions {
+                  price
+                }
+                }
+            }
+        `,
+    }),
+  });
+  if (!response.ok) {
+    return "Loading";
+  }
+  const collectionData = response.body.data.nfts;
+  if (collectionData) {
+    const filteredNftData = [];
+
+    for (const filteredData of collectionData) {
+      try {
+        const response = fetch(
+          filteredData.tokenIPFSPath.replace("ipfs://", "https://ipfs.io/ipfs/")
+        );
+        if (response.body.name != undefined) {
+          filteredNftData.push(filteredData);
+        }
+      } catch (error) {
+        // Handle any errors that occur during the fetch if needed
+        console.error(`Error fetching data: ${error}`);
+      }
+    }
+    const nftBody = filteredNftData.map((data) => {
+      const fetchIPFSData = fetch(
+        data.tokenIPFSPath.replace("ipfs://", "https://ipfs.io/ipfs/")
+      );
+      if (fetchIPFSData.status === 403) {
+        return State.update({ error: true });
+      }
+      if (!fetchIPFSData.ok) {
+        return "Loading NFTS from IPFS";
+      }
+      if (fetchIPFSData.ok) {
+        const nft = fetchIPFSData.body;
+        let nftObject = {};
+        nftObject.contract_id = data?.id;
+        nftObject.sold = data?.isSold;
+        nftObject.isListed = data?.isListed;
+        nftObject.owner = data?.owner?.id;
+        nftObject.price = data?.price;
+        nftObject.token_id = data?.tokenID;
+        nftObject.name = nft?.name;
+        nftObject.description = nft?.description;
+        nftObject.media_url = nft?.image
+          ? nft?.image?.replace("ipfs://", "https://ipfs.io/ipfs/")
+          : "https://ipfs.near.social/ipfs/bafkreidoxgv2w7kmzurdnmflegkthgzaclgwpiccgztpkfdkfzb4265zuu";
+        return nftObject;
+      }
+    });
+    State.update({
+      nftData: nftBody,
+    });
+  }
+};
+fetchData();
+
+console.log(nftData);
+
 return (
   <Root>
     <TopNFTS>
@@ -87,9 +189,16 @@ return (
       </Search>
     </SearchSection>
     <Cards>
-      {Array.from({ length: 4 }).map((_, index) => (
+      {state.nftData.map((data, index) => (
         <div key={index}>
-          <Widget src="agwaze.near/widget/CPlanet.NFTCard.index" />
+          <Widget
+            props={{
+              title: data.name,
+              description: data.description,
+              image: data.media_url,
+            }}
+            src="agwaze.near/widget/CPlanet.NFTCard.index"
+          />
         </div>
       ))}
     </Cards>
