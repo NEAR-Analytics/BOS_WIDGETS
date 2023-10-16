@@ -98,7 +98,7 @@ return (
               className="commit-post-button"
               onCommit={props.onCommit}
               data={{
-                question: {
+                notebook: {
                   minorityprogrammers: JSON.stringify({
                     title: state.title,
                     labels: state.labelStrings,
@@ -106,7 +106,7 @@ return (
                   }),
                 },
                 index: {
-                  question: JSON.stringify({
+                  notebook: JSON.stringify({
                     key: "y3k",
                     value: { type: "md" },
                   }),
