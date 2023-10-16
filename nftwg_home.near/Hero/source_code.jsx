@@ -1,7 +1,7 @@
 /*-------------------------Hero-------------------------*/
 const Hero = styled.div`
 position: absolute;
-width: 1200px;
+width: 1320px;
 height: 756px;
 left: 80px;
 top: 180px;
