@@ -4,6 +4,7 @@ height: 200px;
 flex-shrink: 0;
 border-radius: 8px;
 display: flex;
+background-color: black;
 flex-direction: column;
 justify-content: space-between;
 padding: 16px;
@@ -26,11 +27,13 @@ margin-left: 8px;
 `;
 
 const ImageContainer = styled.div`
-    width: 48px;
-    height: 48px;
-    flex-shrink: 0;
-    background: white;
-    border-radius: 50%;
+    img {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 1px solid white;
+    }
 `;
 
 const Tag = styled.div`
@@ -59,20 +62,19 @@ const Tags = styled.div`
 `;
 
 return (
-  <Root
-    style={{
-      backgroundImage: `url(${
-        props.image
-          ? props.image
-          : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRub7hFLkStCvZiaSeiUGznP4uzqPPcepghhg&usqp=CAU"
-      }`,
-    }}
-  >
+  <Root>
     <div />
     <Content>
-      <ImageContainer></ImageContainer>
+      <ImageContainer>
+        <img
+          src={
+            props.image ??
+            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRub7hFLkStCvZiaSeiUGznP4uzqPPcepghhg&usqp=CAU"
+          }
+        />
+      </ImageContainer>
       <div>
-        <h1>{props.title ?? "My NFT"}</h1>
+        <h1>{props.title ?? "MY NFT"}</h1>
         <Tags>
           <Tag>Category</Tag>
           <Tag>Tag</Tag>
