@@ -135,6 +135,7 @@ const CardRoot = styled.div`
     border: 1px solid #EFEFEF;
 background: #FFF;
 box-shadow: 2px 2px 12px 0px rgba(0, 0, 0, 0.05);
+margin-bottom: 20px;
 
 `;
 const Top = styled.div`
