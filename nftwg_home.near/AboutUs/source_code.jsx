@@ -3,7 +3,7 @@
 const AboutUsContainer = styled.div`
 
 position: absolute;
-width: 1200px;
+width: 1320px;
 height: 228px;
 left: 80px;
 top: 312px;
@@ -12,7 +12,7 @@ top: 312px;
 
 const AboutUs = styled.div`
 position: absolute;
-width: 1280px;
+width: 1360px;
 height: 84px;
 left: 330px;
 top: 1612px;
