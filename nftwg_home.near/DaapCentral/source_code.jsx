@@ -416,9 +416,14 @@ return (
     </Card>
     <Card style={{ top: 400, left: 470 }}>
       <CardContent style={{ top: 50, left: 210, fontSize: 20 }}>
-        Socializer
+        Socializer.
       </CardContent>
-      <CardContent style={{ top: 25, left: 0, fontSize: 20 }}></CardContent>
+      <CardContent style={{ top: -20, left: 10, fontSize: 20 }}>
+        <img
+          style={{ width: 132, height: 120 }}
+          src="https://cdn.discordapp.com/attachments/1135845507189702748/1162116592906293341/image.png?ex=653ac46a&is=65284f6a&hm=65dad1554346d62e5e55c6917328b4a1d5ffad8c1352329ada45b47c85bdaeff&"
+        />
+      </CardContent>
       <CardContent style={{ top: 140, left: 15 }}>
         Socializer is an interactive rewards portal for Near Socaial
       </CardContent>
