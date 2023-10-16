@@ -16,6 +16,97 @@ const Tokens = {
     name: "Wrapped BTC",
     icon: "https://ipfs.near.social/ipfs/bafkreigdklwcldjo4w7viyrym54hdb43wgpv23mbicetszygzapttbgo7q",
   },
+
+  "0x85D84c774CF8e9fF85342684b0E795Df72A24908": {
+    chainId: CHAIN_ID,
+    address: "0x85D84c774CF8e9fF85342684b0E795Df72A24908",
+    decimals: 18,
+    symbol: "VC",
+    name: "VC",
+    icon: "https://ipfs.near.social/ipfs/bafkreia2pgyfxypmylp7f4ypoqagctrjg63akkoc4zvamy3ugfqamqpnmq",
+  },
+
+  "0xA4E4d9984366e74713737Cb5d646bbA0B7E070A4": {
+    chainId: CHAIN_ID,
+    address: "0xA4E4d9984366e74713737Cb5d646bbA0B7E070A4",
+    decimals: 18,
+    symbol: "WAIFU",
+    name: "WAIFU",
+    icon: "https://ipfs.near.social/ipfs/bafkreibaxkkmqu5rnogicxaliozhi5vjbzzoisncrhgwe3g2s7q6rchjty",
+  },
+
+  "0x5AEa5775959fBC2557Cc8789bC1bf90A239D9a91": {
+    chainId: CHAIN_ID,
+    address: "0x5AEa5775959fBC2557Cc8789bC1bf90A239D9a91",
+    decimals: 18,
+    symbol: "WETH",
+    name: "Wrapped Ether",
+    icon: "https://assets.coingecko.com/coins/images/2518/small/weth.png?1628852295",
+  },
+
+  "0xe8f5fbedd89c756a97de655b8d06a5b5cc3452ed": {
+    chainId: CHAIN_ID,
+    address: "0xe8f5fbedd89c756a97de655b8d06a5b5cc3452ed",
+    decimals: 18,
+    symbol: "ZCH",
+    name: "ZilchToken",
+    icon: "https://ipfs.near.social/ipfs/bafkreifquhaltsucnz2heyboy66nhklqrzopqk65o5x66s764za6nzbqou",
+  },
+
+  "0x4a57dA213A589F305B8411f15f64fb8c5724e7CE": {
+    chainId: CHAIN_ID,
+    address: "0x4a57dA213A589F305B8411f15f64fb8c5724e7CE",
+    decimals: 18,
+    symbol: "keyVC",
+    name: "ZilchToken",
+    icon: "https://ipfs.near.social/ipfs/bafkreidx3ep2qhq6kdxey4yae5umjsufyymntblhbji7yoyabp2bd7hcou",
+  },
+
+  "0x458A2E32eAbc7626187E6b75f29D7030a5202bD4": {
+    chainId: CHAIN_ID,
+    address: "0x458A2E32eAbc7626187E6b75f29D7030a5202bD4",
+    decimals: 18,
+    symbol: "LSD",
+    name: "LSD",
+    icon: "https://ipfs.near.social/ipfs/bafkreigeq5rmi74c4reudxe23hmu4udtee7im3gwdjh72uyav7d2ayhxoi",
+  },
+
+  "0xdb89D7b0Dccd0C0e5aC3571133A9aa1a037945cb": {
+    chainId: CHAIN_ID,
+    address: "0xdb89D7b0Dccd0C0e5aC3571133A9aa1a037945cb",
+    decimals: 18,
+    symbol: "USX",
+    name: "USX",
+    icon: "https://ipfs.near.social/ipfs/bafkreidhsn7jgwtcgvwboxwfkwj5sv6ndgqxmlkf7n72o2uoyggcatdsba",
+  },
+
+  "0x1382628e018010035999A1FF330447a0751aa84f": {
+    chainId: CHAIN_ID,
+    address: "0x1382628e018010035999A1FF330447a0751aa84f",
+    decimals: 18,
+    symbol: "iUSD",
+    name: "iZUMi Bond USD",
+    icon: "https://ipfs.near.social/ipfs/bafkreiabjt25div73chcsnfhfqlfxj62j5fp2fvnl427qv3mlicx2bwanq",
+  },
+
+  "0x496d88D1EFc3E145b7c12d53B78Ce5E7eda7a42c": {
+    chainId: CHAIN_ID,
+    address: "0x496d88D1EFc3E145b7c12d53B78Ce5E7eda7a42c",
+    decimals: 18,
+    symbol: "slUSDT",
+    name: "Shared-liquidity USDT",
+    icon: "https://ipfs.near.social/ipfs/bafkreibxvxdhd7go2rtgwmbpxhmm5cmdrkh3oeenuys2nc5lucs44anwam",
+  },
+
+  "0x503234F203fC7Eb888EEC8513210612a43Cf6115": {
+    chainId: CHAIN_ID,
+    address: "0x503234F203fC7Eb888EEC8513210612a43Cf6115",
+    decimals: 18,
+    symbol: "LUSD",
+    name: "LUSD Stablecoin",
+    icon: "https://ipfs.near.social/ipfs/bafkreihbwhrsi447phga5fya4eb4nprudswmh4n5togvpyy4gowntcei5e",
+  },
+
   "0x47260090cE5e83454d5f05A0AbbB2C953835f777": {
     chainId: CHAIN_ID,
     address: "0x47260090cE5e83454d5f05A0AbbB2C953835f777",
@@ -112,9 +203,54 @@ return (
               Tokens["0x2039bb4116B4EFc145Ec4f0e2eA75012D6C0f181"],
             ],
           },
+          "Velocore V1": {
+            name: "Velocore V1",
+            logo: "https://ipfs.near.social/ipfs/bafkreiavgtnnawec2d3xyum2osccpaotv4ivp6k77nuyaun5b6cp646viy",
+            factoryAddress: "0xE140EaC2bB748c8F456719a457F26636617Bb0E9",
+            routerAddress: "0xF29Eb540eEba673f8Fb6131a7C7403C8e4C3f143",
+            uniType: "solidly",
+            defaultCurrencies: {
+              input: Tokens["0x5AEa5775959fBC2557Cc8789bC1bf90A239D9a91"],
+              output: Tokens["0x3355df6D4c9C3035724Fd0e3914dE96A5a83aaf4"],
+            },
+            tokens: [
+              Tokens["0x85D84c774CF8e9fF85342684b0E795Df72A24908"],
+              Tokens["0xA4E4d9984366e74713737Cb5d646bbA0B7E070A4"],
+              Tokens["0x5AEa5775959fBC2557Cc8789bC1bf90A239D9a91"],
+              Tokens["0x3355df6D4c9C3035724Fd0e3914dE96A5a83aaf4"],
+              Tokens["0xe8f5fbedd89c756a97de655b8d06a5b5cc3452ed"],
+              Tokens["0x4a57dA213A589F305B8411f15f64fb8c5724e7CE"],
+              Tokens["0x458A2E32eAbc7626187E6b75f29D7030a5202bD4"],
+              Tokens["0x2039bb4116B4EFc145Ec4f0e2eA75012D6C0f181"],
+            ],
+          },
+
+          veSync: {
+            name: "veSync",
+            logo: "https://ipfs.near.social/ipfs/bafkreig3pzndzzb7zl7nrftklr2mxamzg5h76tcfth2aj3bwle7l44ylx4",
+            factoryAddress: "0x529Bd7Fc43285B96f1e8d5158626d1F15bb8A834",
+            routerAddress: "0x6C31035D62541ceba2Ac587ea09891d1645D6D07",
+            uniType: "solidly",
+            defaultCurrencies: {
+              input: Tokens["native"],
+              output: Tokens["0x3355df6D4c9C3035724Fd0e3914dE96A5a83aaf4"],
+            },
+            tokens: [
+              Tokens["native"],
+              Tokens["0x3355df6D4c9C3035724Fd0e3914dE96A5a83aaf4"],
+              Tokens["0xdb89D7b0Dccd0C0e5aC3571133A9aa1a037945cb"],
+              Tokens["0x1382628e018010035999A1FF330447a0751aa84f"],
+              Tokens["0x496d88D1EFc3E145b7c12d53B78Ce5E7eda7a42c"],
+              Tokens["0x493257fD37EDB34451f62EDf8D2a0C418852bA4C"],
+              Tokens["0x503234F203fC7Eb888EEC8513210612a43Cf6115"],
+              Tokens["0x2039bb4116B4EFc145Ec4f0e2eA75012D6C0f181"],
+            ],
+          },
         },
         amountOutFn: "bluebiu.near/widget/Arbitrum.Swap.AmountOutV2",
         handlerV2: "bluebiu.near/widget/Arbitrum.Swap.HandlerV2",
+        QuoterSolidly: "bluebiu.near/widget/Arbitrum.Swap.QuoterSolidly",
+        handlerSolidly: "bluebiu.near/widget/Arbitrum.Swap.handlerSolidly",
       }}
     />
   </Container>
