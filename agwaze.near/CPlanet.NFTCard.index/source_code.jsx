@@ -201,7 +201,7 @@ font-weight: 700;
 line-height: normal;
 text-transform: uppercase;
   }
-  p {
+  h3 {
     overflow: hidden;
 color: #000;
 text-overflow: ellipsis;
@@ -210,7 +210,8 @@ font-family: Helvetica Neue;
 font-size: 16px;
 font-style: normal;
 font-weight: 400;
-line-height: 148%; /* 23.68px */
+line-height: 148%; 
+height: 100px;
   }
 `;
 
@@ -328,11 +329,11 @@ return (
       </Socials>
       <CardBody>
         <h1>{props.title ?? `My NFT CARD`}</h1>
-        <p>
+        <h3>
           {props.description ??
             `Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-          eiusmod tempor incididunt ut labore et dolore magna aliqua.`}
-        </p>
+          eiusmod tempor incididunt ut labore et dolore magna aliqua.`.substring(0, 120)}
+        </h3>
         <AmountSec>
           <div>
             <span>TOTAL FUNDS</span>
