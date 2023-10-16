@@ -20,14 +20,10 @@ gap: 10px;
 position: absolute;
 width: 1300px;
 height: 500px;
-left: -68px;
+left: -79px;
 top: 436px;
 background-size: cover;
 background-repeat: no-repeat;
-
-
-
-
 `;
 
 const ImageCss = styled.div`
