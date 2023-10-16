@@ -14,7 +14,7 @@ const AboutUs = styled.div`
 position: absolute;
 width: 1360px;
 height: 84px;
-left: 330px;
+left: 370px;
 top: 1612px;
 
 font-family: inherit;
