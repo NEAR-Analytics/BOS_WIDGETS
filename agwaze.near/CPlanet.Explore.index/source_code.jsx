@@ -52,7 +52,6 @@ const Cards = styled.div`
     gap: 18px;
     margin-top: 32px;
     flex-wrap: wrap;
-    width: 100%;
 `;
 const FilterDropdown = styled.div`
 width: 192px;
