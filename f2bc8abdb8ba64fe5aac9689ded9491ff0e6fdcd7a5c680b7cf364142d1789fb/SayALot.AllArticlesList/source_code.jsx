@@ -105,29 +105,31 @@ function allArticlesListStateUpdate(obj) {
 //================================================END FUNCTIONS=====================================================
 return (
   <>
-    {true ? (
-      // showCreateArticle ? (
-      <Widget
-        src={widgets.create}
-        props={{
-          isTest,
-          addressForArticles,
-          authorForWidget,
-          stateUpdate,
-          widgets,
-          initialCreateState,
-          editArticleData,
-          callLibs,
-          handleFilterArticles,
-          handleEditArticle,
-          initialBody: "",
-          canLoggedUserCreateArticles,
-          sbts,
-        }}
-      />
-    ) : (
-      <h6>You can't post since you don't own this SBT</h6>
-    )}
+    {
+      // true ? (
+      showCreateArticle ? (
+        <Widget
+          src={widgets.create}
+          props={{
+            isTest,
+            addressForArticles,
+            authorForWidget,
+            stateUpdate,
+            widgets,
+            initialCreateState,
+            editArticleData,
+            callLibs,
+            handleFilterArticles,
+            handleEditArticle,
+            initialBody: "",
+            canLoggedUserCreateArticles,
+            sbts,
+          }}
+        />
+      ) : (
+        <h6>You can't post since you don't own this SBT</h6>
+      )
+    }
     <div>
       {filterBy.parameterName === "tag" && (
         <div className="mt-3">
