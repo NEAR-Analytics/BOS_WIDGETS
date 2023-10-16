@@ -39,6 +39,7 @@ const renderMention =
 
 const onHashtag = props.onHashtag;
 const onImage = props.onImage;
+const onLink = props.onLink;
 
 const Wrapper = styled.div`
   word-break: break-word;
@@ -57,6 +58,7 @@ return (
       onMention={renderMention}
       onHashtag={onHashtag}
       onImage={onImage}
+      onLink={onLink}
     />
   </Wrapper>
 );
