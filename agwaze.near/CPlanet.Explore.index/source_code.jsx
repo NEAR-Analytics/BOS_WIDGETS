@@ -18,6 +18,7 @@ const TopNFTS = styled.div`
     flex-direction: row;
     gap: 16px;
     margin: 20px 0;
+    overflow-x: scroll;
 `;
 
 const SearchSection = styled.div`
