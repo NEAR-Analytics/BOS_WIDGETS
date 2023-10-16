@@ -138,6 +138,11 @@ box-shadow: 2px 2px 12px 0px rgba(0, 0, 0, 0.05);
 
 `;
 const Top = styled.div`
+    img {
+      width: 100%;
+    height: 80px;
+    background: black;
+    }
     position: relative;
     width: 100%;
     height: 80px;
@@ -249,7 +254,7 @@ const CardTags = styled.div`
   gap: 15px;
   height: 100%;
   margin-top: 20px;
-`
+`;
 const Tag = styled.div`
   color: #B0B0B0;
 text-align: center;
@@ -267,7 +272,7 @@ padding: 2px 16px;
 justify-content: center;
 align-items: center;
 gap: 8px;
-`
+`;
 
 const Button = styled.div`
 width: 100%;
@@ -291,12 +296,14 @@ margin-top: 10px;
     color: black;
     border-color: black;
   }
-`
+`;
 
 return (
   <CardRoot>
     <Top>
-      <ImageProfile></ImageProfile>
+      <img src={props.image ?? "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRub7hFLkStCvZiaSeiUGznP4uzqPPcepghhg&usqp=CAU"} alt="" />
+      <ImageProfile>
+      </ImageProfile>
     </Top>
     <Bottom>
       <Socials>
@@ -305,10 +312,10 @@ return (
         {twitterSvg}
       </Socials>
       <CardBody>
-        <h1>My NFT CARD</h1>
+        <h1>{props.title ?? `My NFT CARD`}</h1>
         <p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-          eiusmod tempor incididunt ut labore et dolore magna aliqua.{" "}
+          {props.description ?? `Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+          eiusmod tempor incididunt ut labore et dolore magna aliqua.`}
         </p>
         <AmountSec>
           <div>
@@ -332,14 +339,9 @@ return (
         </AmountSec>
       </CardBody>
       <CardTags>
-        <Tag>
-          Category
-        </Tag>
-        <Tag>
-          Tag
-        </Tag><Tag>
-          Anything
-        </Tag>
+        <Tag>Category</Tag>
+        <Tag>Tag</Tag>
+        <Tag>Anything</Tag>
       </CardTags>
       <Button>
         <button>More Info</button>
