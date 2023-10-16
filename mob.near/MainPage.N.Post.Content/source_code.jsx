@@ -1,4 +1,5 @@
 const content = props.content;
+const noEmbed = !!props.noEmbed;
 
 const [truncated, setTruncated] = useState(props.truncateContent ?? true);
 
@@ -79,6 +80,15 @@ const [onImage] = useState(
     )
 );
 
+const onLink = useCallback((props) => {
+  if (props.children[0] === "EMBED") {
+    // EMBED
+    return <Widget src="mob.near/widget/N.Embed" loading="" props={props} />;
+  } else {
+    return <a {...props} />;
+  }
+}, []);
+
 return (
   <Wrapper>
     <div className={truncated ? "truncated-content" : "full-content"}>
@@ -91,6 +101,7 @@ return (
             text: content.text,
             onHashtag,
             onImage,
+            onLink: noEmbed ? undefined : onLink,
           }}
         />
       </div>
