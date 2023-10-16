@@ -105,31 +105,29 @@ function allArticlesListStateUpdate(obj) {
 //================================================END FUNCTIONS=====================================================
 return (
   <>
-    {
-      // true ? (
-      showCreateArticle ? (
-        <Widget
-          src={widgets.create}
-          props={{
-            isTest,
-            addressForArticles,
-            authorForWidget,
-            stateUpdate,
-            widgets,
-            initialCreateState,
-            editArticleData,
-            callLibs,
-            handleFilterArticles,
-            handleEditArticle,
-            initialBody: "",
-            canLoggedUserCreateArticles,
-            sbts,
-          }}
-        />
-      ) : (
-        <h6>You can't post since you don't own this SBT</h6>
-      )
-    }
+    {true ? (
+      // showCreateArticle ? (
+      <Widget
+        src={widgets.create}
+        props={{
+          isTest,
+          addressForArticles,
+          authorForWidget,
+          stateUpdate,
+          widgets,
+          initialCreateState,
+          editArticleData,
+          callLibs,
+          handleFilterArticles,
+          handleEditArticle,
+          initialBody: "",
+          canLoggedUserCreateArticles,
+          sbts,
+        }}
+      />
+    ) : (
+      <h6>You can't post since you don't own this SBT</h6>
+    )}
     <div className="mt-3">
       {filterBy.parameterName === "tag" && (
         <div className="mt-3">
@@ -150,7 +148,7 @@ return (
           </div>
         </div>
       )}
-      <ArticlesListContainer className="row card-group my-3 py-3 rounded">
+      <ArticlesListContainer className="row card-group py-3 rounded">
         {sortedFinalArticlesWithUpVotes.length > 0 ? (
           sortedFinalArticlesWithUpVotes.map((article, i) => {
             const authorProfileCall = Social.getr(`${article.author}/profile`);
