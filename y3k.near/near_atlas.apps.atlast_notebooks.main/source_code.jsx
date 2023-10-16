@@ -2,7 +2,7 @@ if (context.loading) {
   return "";
 }
 
-// By default the form to ask a question is hidden
+// By default the form to post a notebook is hidden
 initState({ noteBook: false });
 const toggleNotebook = () => {
   State.update({ noteBook: !state.noteBook });
