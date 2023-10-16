@@ -103,6 +103,10 @@ function switchShowPreview() {
   });
 }
 
+const GeneralContainer = styled.div`
+  background-color: rgb(248, 248, 249);
+`;
+
 const Button = styled.button` 
   margin: 0px 1rem; 
   display: inline-block; 
@@ -134,12 +138,9 @@ const CreationContainer = styled.div`
 `;
 
 const SecondContainer = styled.div`
-  margin: 0 auto;
-  width: 90%;
   min-width: 360px;
   background-color: white;
   padding: 1rem;
-  border-radius: 20px;
 `;
 
 const initialTagsObject = {};
@@ -150,153 +151,158 @@ Array.isArray(tagsArray) &&
   });
 
 return (
-  <div className="border-bottom pb-2">
-    {state.createdArticle && state.showCreatedArticle && editArticleData ? (
-      <Widget
-        src={widgets.articleView}
-        props={{
-          widgets,
-          isTest,
-          handleFilterArticles,
-          articleToRenderData: state.createdArticle,
-          authorForWidget,
-          handleEditArticle,
-        }}
-      />
-    ) : (
-      <div className="border rounded">
-        {
-          // <CreationContainer className="container-fluid">
-        }
-        <SecondContainer className="mx-3">
-          <h5 className="mb-1">
-            {editArticleData ? "Edit Article" : "Create Article"}
-          </h5>
+  <GeneralContainer className="pt-2 row">
+    <div className="col-lg-8 col-md-8 col-sm-12">
+      {state.createdArticle && state.showCreatedArticle && editArticleData ? (
+        <Widget
+          src={widgets.articleView}
+          props={{
+            widgets,
+            isTest,
+            handleFilterArticles,
+            articleToRenderData: state.createdArticle,
+            authorForWidget,
+            handleEditArticle,
+          }}
+        />
+      ) : (
+        <div>
+          {
+            // <CreationContainer className="container-fluid">
+          }
+          <SecondContainer className="rounded">
+            <h5 className="mb-1">
+              {editArticleData ? "Edit Article" : "Create Article"}
+            </h5>
 
-          {state.showPreview ? (
-            <Widget
-              src={widgets.generalCard}
-              props={{
-                widgets,
-                isTest,
-                data: {
-                  title: state.title,
-                  author: accountId,
-                  lastEditor: accountId,
-                  timeLastEdit: Date.now(),
-                  timeCreate: Date.now(),
-                  body: state.articleBody,
-                  version: 0,
-                  navigation_id: null,
-                  tags: tagsArray,
-                  id: getRealArticleId(),
-                  sbts,
-                },
-                addressForArticles,
-                handleOpenArticle: () => {},
-                handleFilterArticles: () => {},
-                authorForWidget,
-                handleShareButton: () => {},
-              }}
-            />
-          ) : (
-            <div>
-              <div className="d-flex flex-column pt-3">
-                <label for="inputArticleId">Title (case-sensitive):</label>
-                <label for="inputArticleId" className="small text-danger">
-                  {state.errorId}
-                </label>
-                <Widget
-                  src={`f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/fasterTextInput`}
-                  props={{
-                    firstText: state.title,
-                    forceClear: state.clearArticleId,
-                    stateUpdate: (obj) => State.update(obj),
-                    filterText: (e) => e.target.value,
-                    editable: editArticleData,
-                  }}
-                />
-              </div>
-              <div className="d-flex flex-column pt-3">
-                <label for="textareaArticleBody">
-                  Input article body (in makrdown format):
-                </label>
-                <label for="textareaArticleBody" className="small text-danger">
-                  {state.errorBody}
-                </label>
-                <div className="d-flex gap-2">
+            {state.showPreview ? (
+              <Widget
+                src={widgets.generalCard}
+                props={{
+                  widgets,
+                  isTest,
+                  data: {
+                    title: state.title,
+                    author: accountId,
+                    lastEditor: accountId,
+                    timeLastEdit: Date.now(),
+                    timeCreate: Date.now(),
+                    body: state.articleBody,
+                    version: 0,
+                    navigation_id: null,
+                    tags: tagsArray,
+                    id: getRealArticleId(),
+                    sbts,
+                  },
+                  addressForArticles,
+                  handleOpenArticle: () => {},
+                  handleFilterArticles: () => {},
+                  authorForWidget,
+                  handleShareButton: () => {},
+                }}
+              />
+            ) : (
+              <div>
+                <div className="d-flex flex-column pt-3">
+                  <label for="inputArticleId">Title (case-sensitive):</label>
+                  <label for="inputArticleId" className="small text-danger">
+                    {state.errorId}
+                  </label>
                   <Widget
-                    src={`${authorForWidget}/widget/MarkdownEditorIframe`}
+                    src={`f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/fasterTextInput`}
                     props={{
-                      initialText: state.initialBody ?? "",
-                      onChange: (articleBody) =>
+                      firstText: state.title,
+                      forceClear: state.clearArticleId,
+                      stateUpdate: (obj) => State.update(obj),
+                      filterText: (e) => e.target.value,
+                      editable: editArticleData,
+                    }}
+                  />
+                </div>
+                <div className="d-flex flex-column pt-3">
+                  <label for="textareaArticleBody">
+                    Input article body (in makrdown format):
+                  </label>
+                  <label
+                    for="textareaArticleBody"
+                    className="small text-danger"
+                  >
+                    {state.errorBody}
+                  </label>
+                  <div className="d-flex gap-2">
+                    <Widget
+                      src={`${authorForWidget}/widget/MarkdownEditorIframe`}
+                      props={{
+                        initialText: state.initialBody ?? "",
+                        onChange: (articleBody) =>
+                          State.update({
+                            articleBody,
+                            clearArticleBody: false,
+                          }),
+                        clearArticleBody: state.clearArticleBody,
+                      }}
+                    />
+                  </div>
+                </div>
+                <div className="d-flex flex-column pt-3">
+                  <Widget
+                    src={`${authorForWidget}/widget/TagsEditor`}
+                    props={{
+                      forceClear: state.clearTags,
+                      stateUpdate: (obj) => State.update(obj),
+                      initialTagsObject,
+                      placeholder: "Input tags",
+                      setTagsObject: (tags) => {
+                        // state.tags = Object.keys(tags);
                         State.update({
-                          articleBody,
-                          clearArticleBody: false,
-                        }),
-                      clearArticleBody: state.clearArticleBody,
+                          tagsModified: true,
+                          tags: Object.keys(tags),
+                        });
+                      },
                     }}
                   />
                 </div>
               </div>
-              <div className="d-flex flex-column pt-3">
-                <Widget
-                  src={`${authorForWidget}/widget/TagsEditor`}
-                  props={{
-                    forceClear: state.clearTags,
-                    stateUpdate: (obj) => State.update(obj),
-                    initialTagsObject,
-                    placeholder: "Input tags",
-                    setTagsObject: (tags) => {
-                      // state.tags = Object.keys(tags);
-                      State.update({
-                        tagsModified: true,
-                        tags: Object.keys(tags),
-                      });
-                    },
-                  }}
-                />
-              </div>
+            )}
+            <div className="mt-2 d-flex justify-content-end">
+              <Widget
+                src={widgets.newStyledComponents.Input.Button}
+                props={{
+                  className: "info outline mx-2",
+                  disabled:
+                    state.title.length === 0 || state.articleBody.length === 0,
+                  onClick: switchShowPreview,
+                  children: (
+                    <i
+                      className={`bi ${
+                        state.showPreview ? "bi-pencil" : "bi-eye-fill"
+                      }`}
+                    ></i>
+                  ),
+                }}
+              />
+              <Widget
+                src={widgets.newStyledComponents.Input.Button}
+                props={{
+                  className: "info ",
+                  disabled:
+                    state.title.length === 0 || state.articleBody.length === 0,
+                  onClick: createArticleListener,
+                  children: (
+                    <div className="d-flex justify-conten-center align-items-center">
+                      <span>{editArticleData ? "Save edition" : "Post"}</span>
+                      <i className="bi bi-check2"></i>
+                    </div>
+                  ),
+                }}
+              />
             </div>
-          )}
-          <div className="mt-2 d-flex justify-content-end">
-            <Widget
-              src={widgets.newStyledComponents.Input.Button}
-              props={{
-                className: "info outline mx-2",
-                disabled:
-                  state.title.length === 0 || state.articleBody.length === 0,
-                onClick: switchShowPreview,
-                children: (
-                  <i
-                    className={`bi ${
-                      state.showPreview ? "bi-pencil" : "bi-eye-fill"
-                    }`}
-                  ></i>
-                ),
-              }}
-            />
-            <Widget
-              src={widgets.newStyledComponents.Input.Button}
-              props={{
-                className: "info ",
-                disabled:
-                  state.title.length === 0 || state.articleBody.length === 0,
-                onClick: createArticleListener,
-                children: (
-                  <div className="d-flex justify-conten-center align-items-center">
-                    <span>{editArticleData ? "Save edition" : "Post"}</span>
-                    <i className="bi bi-check2"></i>
-                  </div>
-                ),
-              }}
-            />
+          </SecondContainer>
+          <div style={{ display: "none" }}>
+            {callLibs(libSrcArray, createStateUpdate, state.libCalls)}
           </div>
-        </SecondContainer>
-        <div style={{ display: "none" }}>
-          {callLibs(libSrcArray, createStateUpdate, state.libCalls)}
         </div>
-      </div>
-    )}
-  </div>
+      )}
+    </div>
+  </GeneralContainer>
 );
