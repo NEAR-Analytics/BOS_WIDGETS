@@ -1,5 +1,6 @@
 const Root = styled.div`
     padding: 20px;
+    width: 100%;
     h1 {
         color: var(--Black, #000);
         leading-trim: both;
@@ -186,9 +187,16 @@ fetchData();
 return (
   <Root>
     <TopNFTS>
-      {Array.from({ length: 4 }).map((_, index) => (
+      {state.nftData.slice(0, 6).map((_, index) => (
         <div key={index}>
-          <Widget src="agwaze.near/widget/CPlanet.NFTCard.FeaturedNFT" />
+          <Widget
+            props={{
+              title: data.name,
+              description: data.description,
+              image: data.media_url,
+            }}
+            src="agwaze.near/widget/CPlanet.NFTCard.FeaturedNFT"
+          />
         </div>
       ))}
     </TopNFTS>
