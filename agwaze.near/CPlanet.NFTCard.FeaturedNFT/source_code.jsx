@@ -3,7 +3,6 @@ const Root = styled.div`
 height: 200px;
 flex-shrink: 0;
 border-radius: 8px;
-background: #000;
 display: flex;
 flex-direction: column;
 justify-content: space-between;
@@ -60,7 +59,16 @@ const Tags = styled.div`
 `;
 
 return (
-  <Root>
+  <Root
+    style={{
+      backgroundImage: `url(${
+        props.image
+          ? props.image
+          : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRub7hFLkStCvZiaSeiUGznP4uzqPPcepghhg&usqp=CAU"
+      }`,
+      backgroundSize: cover,
+    }}
+  >
     <div />
     <Content>
       <ImageContainer></ImageContainer>
