@@ -17,11 +17,11 @@ const TopNFTS = styled.div`
     flex-direction: row;
     gap: 16px;
     margin: 20px 0;
-`
+`;
 
 const SearchSection = styled.div`
     margin-top: 48px;
-`
+`;
 
 const Search = styled.div`
 margin-top: 32px;
@@ -42,7 +42,7 @@ input {
     font-weight: 400;
     line-height: 148%; /* 29.6px */
 }
-`
+`;
 
 const Cards = styled.div`
     display: flex;
@@ -51,7 +51,7 @@ const Cards = styled.div`
     margin-top: 32px;
     flex-wrap: wrap;
     width: 100%;
-`
+`;
 const FilterDropdown = styled.div`
 width: 192px;
 height: 48px;
@@ -68,26 +68,26 @@ font-weight: 400;
 padding-top: 8px;
 margin-left: 10px;
 
-`
+`;
 
 return (
   <Root>
     <TopNFTS>
       {Array.from({ length: 4 }).map((_, index) => (
         <div key={index}>
-          <Widget src="agwaze.near/widget/CPlanet.FeaturedNFT.index" />
+          <Widget src="agwaze.near/widget/CPlanet.NFTCard.FeaturedNFT" />
         </div>
       ))}
     </TopNFTS>
     <SearchSection>
-    <h1>Explore Creative DAOs</h1>
-    <Search>
-        <input type="search" placeholder="Search for DAOs"  />
+      <h1>Explore Creative NFTs</h1>
+      <Search>
+        <input type="search" placeholder="Search for NFTs" />
         <FilterDropdown>Filter / Dropdown</FilterDropdown>
-    </Search>
+      </Search>
     </SearchSection>
     <Cards>
-        {Array.from({ length: 4 }).map((_, index) => (
+      {Array.from({ length: 4 }).map((_, index) => (
         <div key={index}>
           <Widget src="agwaze.near/widget/CPlanet.NFTCard.index" />
         </div>
