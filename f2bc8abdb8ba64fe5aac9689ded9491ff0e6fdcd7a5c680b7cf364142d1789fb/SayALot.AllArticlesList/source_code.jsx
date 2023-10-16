@@ -128,7 +128,7 @@ return (
     ) : (
       <h6>You can't post since you don't own this SBT</h6>
     )}
-    <div className="mt-3">
+    <div>
       {filterBy.parameterName === "tag" && (
         <div className="mt-3">
           <h6>Filter by tag:</h6>
