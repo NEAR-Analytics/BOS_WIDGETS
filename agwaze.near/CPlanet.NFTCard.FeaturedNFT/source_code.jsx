@@ -66,7 +66,6 @@ return (
           ? props.image
           : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRub7hFLkStCvZiaSeiUGznP4uzqPPcepghhg&usqp=CAU"
       }`,
-      backgroundSize: cover,
     }}
   >
     <div />
