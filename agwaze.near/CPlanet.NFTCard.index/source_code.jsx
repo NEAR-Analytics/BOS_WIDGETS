@@ -164,6 +164,10 @@ margin-top: 10px;
     padding: 7px 0px;
     cursor: pointer;
   }
+  button:disabled {
+    background: grey;
+    border: grey;
+  }
   button:hover {
     background: white;
     color: black;
@@ -212,7 +216,7 @@ return (
           <div>
             <span>Current Price</span>
             <p>
-              {props.price ?? "0.00"} <span>NEAR</span>
+              {props.price ?? "N/A"} <span>NEAR</span>
             </p>
           </div>
           <div>
@@ -226,7 +230,7 @@ return (
           href={`#/agwaze.near/widget/CPlanet.Explore.SingleNFT?contractId=${nft.contractId}&tokenId=${props.tokenId}`}
           style={{ textDecoration: "none", color: "inherit" }}
         >
-          <button>More Info</button>
+          <button disabled={!props.isListed}>{props.isListed ? "More Info": "Not Avaialable"}</button>
         </a>
       </Button>
     </Bottom>
