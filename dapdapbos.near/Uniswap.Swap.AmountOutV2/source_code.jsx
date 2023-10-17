@@ -15,7 +15,7 @@ const account = Ethers.send("eth_requestAccounts", [])[0];
 
 if (!account) return "";
 
-if (!update) return;
+if (!update) return "";
 
 if (!inputCurrency.address || !outputCurrency.address || !inputCurrencyAmount) {
   onLoad({});
