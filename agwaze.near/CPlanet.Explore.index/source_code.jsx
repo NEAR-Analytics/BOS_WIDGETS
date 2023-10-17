@@ -220,6 +220,11 @@ return (
                   title: data.name,
                   description: data.description,
                   image: data.media_url,
+                  price: data.price
+                    ? (data.price / 1000000000000000000000000).toFixed(2)
+                    : null,
+                  owner: data.owner,
+                  isListed: data.isListed ? "LISTED" : "NOT LISTED",
                 }}
                 src="agwaze.near/widget/CPlanet.NFTCard.index"
               />
@@ -232,6 +237,9 @@ return (
                   title: data.name,
                   description: data.description,
                   image: data.media_url,
+                  price: data.price,
+                  owner: data.owner,
+                  isListed: data.isListed,
                 }}
                 src="agwaze.near/widget/CPlanet.NFTCard.index"
               />
