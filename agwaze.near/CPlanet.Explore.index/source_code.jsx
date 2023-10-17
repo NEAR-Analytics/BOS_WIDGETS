@@ -23,13 +23,14 @@ const TopNFTS = styled.div`
 
 const SearchSection = styled.div`
     margin-top: 48px;
+    width: 100%;
 `;
 
 const Search = styled.div`
 margin-top: 32px;
+    justify-content: center;
 display: flex;
 width: 100%;
-justify-content: center;
 flex-wrap: wrap;
 input {
     border-radius: 32px;
