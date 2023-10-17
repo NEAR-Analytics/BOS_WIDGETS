@@ -14,9 +14,9 @@ const NETWORK_MANTLE = "MANTLE";
 const network = props.network ?? NETWORK_NEAR;
 let cacheTokenData = undefined;
 
-if (network === NETWORK_MANTLE) {
+if ([NETWORK_MANTLE, NETWORK_ETN].includes(network)) {
   const cachedData = fetch(
-    "https://raw.githubusercontent.com/zavodil/near-nft-owners-list/main/mantle.json"
+    `https://raw.githubusercontent.com/zavodil/near-nft-owners-list/main/${network.toLowerCase()}.json`
   );
   if (cachedData.ok) {
     const cache = JSON.parse(cachedData.body);
