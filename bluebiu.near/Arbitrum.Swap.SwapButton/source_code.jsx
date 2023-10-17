@@ -2,8 +2,8 @@ const SwapButton = styled.button`
   width: 100%;
   height: 60px;
   border-radius: 10px;
-  background-color: ${props.theme.buttonColor};
-  color: ${props.theme.isDark ? "#000" : "#fff"};
+  background-color: var(--button-color);
+  color: var(--button-text-color);
   font-size: 18px;
   line-height: 22px;
   border: none;
@@ -46,7 +46,12 @@ const {
   chainName,
   handlerV2,
   handlerV3,
+  handlerSolidly,
+  handleSyncswap,
+  stable,
+  syncSwapPoolAddress,
 } = props;
+console.log("props: ", props);
 
 if (Big(inputCurrencyAmount || 0).eq(0)) {
   return <SwapButton disabled>Enter An Amount</SwapButton>;
@@ -115,9 +120,10 @@ if (inputCurrency.address !== "native") {
 }
 
 const wrapType =
-  inputCurrency.address === "native" && outputCurrency.symbol === "WETH"
+  inputCurrency.address === "native" && outputCurrency.address === wethAddress
     ? 1
-    : inputCurrency.symbol === "WETH" && outputCurrency.address === "native"
+    : outputCurrency.address === wethAddress &&
+      outputCurrency.address === "native"
     ? 2
     : 0;
 
@@ -332,6 +338,60 @@ return (
         }}
       />
     )}
+
+    {uniType === "solidly" && state.swapping && (
+      <Widget
+        src={handlerSolidly}
+        props={{
+          inputCurrencyAmount,
+          outputCurrencyAmount,
+          inputCurrency,
+          outputCurrency,
+          wethAddress,
+          account,
+          routerAddress,
+          swapping: state.swapping,
+          title,
+          stable,
+          onSuccess: (res) => {
+            successCallback(res, () => {
+              State.update({ swapping: false });
+            });
+          },
+          onError: (err) => {
+            State.update({ swapping: false });
+          },
+        }}
+      />
+    )}
+
+    {uniType === "Syncswap" && state.swapping && (
+      <Widget
+        src={handleSyncswap}
+        props={{
+          inputCurrencyAmount,
+          outputCurrencyAmount,
+          inputCurrency,
+          outputCurrency,
+          wethAddress,
+          account,
+          routerAddress,
+          swapping: state.swapping,
+          title,
+          stable,
+          syncSwapPoolAddress,
+          onSuccess: (res) => {
+            successCallback(res, () => {
+              State.update({ swapping: false });
+            });
+          },
+          onError: (err) => {
+            State.update({ swapping: false });
+          },
+        }}
+      />
+    )}
+
     {uniType === "v3" && state.swapping && (
       <Widget
         src={handlerV3}
