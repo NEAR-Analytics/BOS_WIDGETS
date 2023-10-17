@@ -1,5 +1,11 @@
 const [count, setCount] = useState(0);
-const items = [{ id: 1 }, { id: 2 }, { id: 3 }, { id: 4 }];
+const [items, setItems] = useState([]);
+
+setTimeout(() => {
+  setItems([{ id: 1 }, { id: 2 }, { id: 3 }, { id: 4 }]);
+}, 2000);
+
+// const items = [{ id: 1 }, { id: 2 }, { id: 3 }, { id: 4 }];
 
 return (
   <div>
