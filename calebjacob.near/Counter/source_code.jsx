@@ -1,4 +1,5 @@
 const [count, setCount] = useState(0);
+const items = [{ id: 1 }, { id: 2 }, { id: 3 }, { id: 4 }];
 
 return (
   <div>
@@ -10,6 +11,8 @@ return (
 
     <hr />
 
-    <Widget src="calebjacob.near/widget/Simple" />
+    {items.map((item) => (
+      <Widget src="calebjacob.near/widget/Simple" key={item.id} />
+    ))}
   </div>
 );
