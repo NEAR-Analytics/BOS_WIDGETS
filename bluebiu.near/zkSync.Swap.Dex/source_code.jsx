@@ -80,6 +80,24 @@ const Tokens = {
     icon: "https://ipfs.near.social/ipfs/bafkreidhsn7jgwtcgvwboxwfkwj5sv6ndgqxmlkf7n72o2uoyggcatdsba",
   },
 
+  "0xfc7e56298657b002b3e656400e746b7212912757": {
+    chainId: CHAIN_ID,
+    address: "0xfc7e56298657b002b3e656400e746b7212912757",
+    decimals: 6,
+    symbol: "zkUSD",
+    name: "zkUSD Dollar",
+    icon: "https://ipfs.near.social/ipfs/bafkreifa4v5buq5zlt6prqlqeyfm45gtbdhyg5sfhc3jgtdasemp3qtxjq",
+  },
+
+  "0xbbd1ba24d589c319c86519646817f2f153c9b716": {
+    chainId: CHAIN_ID,
+    address: "0xbbd1ba24d589c319c86519646817f2f153c9b716",
+    decimals: 18,
+    symbol: "DVF",
+    name: "DeversiFi Token",
+    icon: "https://ipfs.near.social/ipfs/bafkreigb3eo2jkoid4bouqjhfqlde5zlhugdwu6jvzd6avxtphqfygl7ua",
+  },
+
   "0x1382628e018010035999A1FF330447a0751aa84f": {
     chainId: CHAIN_ID,
     address: "0x1382628e018010035999A1FF330447a0751aa84f",
@@ -105,6 +123,15 @@ const Tokens = {
     symbol: "LUSD",
     name: "LUSD Stablecoin",
     icon: "https://ipfs.near.social/ipfs/bafkreihbwhrsi447phga5fya4eb4nprudswmh4n5togvpyy4gowntcei5e",
+  },
+
+  "0x32fd44bb869620c0ef993754c8a00be67c464806": {
+    chainId: CHAIN_ID,
+    address: "0x32fd44bb869620c0ef993754c8a00be67c464806",
+    decimals: 18,
+    symbol: "rETH",
+    name: "Rocket Pool ETH",
+    icon: "https://ipfs.near.social/ipfs/bafkreiev6hgtqtg5wleen3wtnk7cejxpdmj5ee2ngkaswphvcwwv5xcsyy",
   },
 
   "0x47260090cE5e83454d5f05A0AbbB2C953835f777": {
@@ -246,11 +273,38 @@ return (
               Tokens["0x2039bb4116B4EFc145Ec4f0e2eA75012D6C0f181"],
             ],
           },
+
+          Syncswap: {
+            name: "Syncswap",
+            logo: "https://ipfs.near.social/ipfs/bafkreiemiwcf4pvz6ijo7tcxfobp5oftqj5mf7vszse33ziud3walq4pqy",
+            factoryAddress: "0xbB05918E9B4bA9Fe2c8384d223f0844867909Ffb",
+            classicPoolAddres: "0xf2DAd89f2788a8CD54625C60b55cD3d2D0ACa7Cb",
+            stablePoolAddress: "0x5b9f21d407F35b10CbfDDca17D5D84b129356ea3",
+            routerAddress: "0x2da10A1e27bF85cEdD8FFb1AbBe97e53391C0295",
+            uniType: "Syncswap",
+            defaultCurrencies: {
+              input: Tokens["native"],
+              output: Tokens["0x3355df6D4c9C3035724Fd0e3914dE96A5a83aaf4"],
+            },
+            tokens: [
+              Tokens["0x3355df6D4c9C3035724Fd0e3914dE96A5a83aaf4"],
+              Tokens["native"],
+              Tokens["0x493257fd37edb34451f62edf8d2a0c418852ba4c"],
+              Tokens["0xBBeB516fb02a01611cBBE0453Fe3c580D7281011"],
+              Tokens["0x2039bb4116B4EFc145Ec4f0e2eA75012D6C0f181"],
+              Tokens["0xfc7e56298657b002b3e656400e746b7212912757"],
+              Tokens["0xbbd1ba24d589c319c86519646817f2f153c9b716"],
+              Tokens["0x503234F203fC7Eb888EEC8513210612a43Cf6115"],
+              Tokens["0x32fd44bb869620c0ef993754c8a00be67c464806"],
+            ],
+          },
         },
         amountOutFn: "bluebiu.near/widget/Arbitrum.Swap.AmountOutV2",
         handlerV2: "bluebiu.near/widget/Arbitrum.Swap.HandlerV2",
         QuoterSolidly: "bluebiu.near/widget/Arbitrum.Swap.QuoterSolidly",
         handlerSolidly: "bluebiu.near/widget/Arbitrum.Swap.handlerSolidly",
+        QuoterSyncswap: "bluebiu.near/widget/Linea.Swap.QuoterSyncswap",
+        handleSyncswap: "bluebiu.near/widget/Linea.Swap.handleSyncswap",
       }}
     />
   </Container>
