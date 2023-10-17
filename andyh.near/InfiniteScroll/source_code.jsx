@@ -1,6 +1,6 @@
 const [items, setItems] = useState([]);
 
-const randomize = new Array(10).fill().map(() => Math.random());
+const randomize = () => new Array(10).fill().map(() => Math.random());
 
 useEffect(() => {
   setItems(randomize());
