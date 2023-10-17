@@ -222,7 +222,12 @@ return (
         </AmountSec>
       </CardBody>
       <Button>
-        <button>More Info</button>
+        <a
+          href={`#/agwaze.near/widget/CPlanet.Explore.SingleNFT?contractId=${nft.contractId}&tokenId=${props.tokenId}`}
+          style={{ textDecoration: "none", color: "inherit" }}
+        >
+          <button>More Info</button>
+        </a>
       </Button>
     </Bottom>
   </CardRoot>
