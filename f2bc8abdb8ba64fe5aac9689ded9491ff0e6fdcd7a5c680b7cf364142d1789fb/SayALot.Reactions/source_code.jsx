@@ -5,6 +5,7 @@ const {
   widgets,
   disabled,
   articleSbts,
+  callLibs,
 } = props;
 // Don't forget to put space between emoji and text -> "❤️ Positive"
 const initialEmoji = "🤍 Like";
@@ -26,43 +27,25 @@ const accountThatIsLoggedIn = context.accountId;
 
 const libSrcArray = [widgets.libEmojis];
 
-function callLibs(srcArray, stateUpdate, libCalls, initialEmoji) {
-  return (
-    <>
-      {srcArray.map((src) => {
-        return (
-          <Widget
-            src={src}
-            props={{
-              isTest,
-              stateUpdate,
-              libCalls,
-              initialEmoji,
-            }}
-          />
-        );
-      })}
-    </>
-  );
-}
-
-const libCalls = [
-  {
-    functionName: "getReactionsData",
-    key: "reactionsData",
-    props: {
-      elementReactedId,
-      articleSbts,
+const initLibsCalls = {
+  emojis: [
+    {
+      functionName: "getReactionsData",
+      key: "reactionsData",
+      props: {
+        elementReactedId,
+        articleSbts,
+      },
     },
-  },
-];
+  ],
+};
 
 State.init({
   emoji: undefined,
   reactionsData: { reactionsStatistics: [], userReaction: undefined },
   show: false,
   loading: false,
-  libCalls,
+  libsCalls: initLibsCalls,
 });
 
 // ================= Mouse Handlers ===============
@@ -93,8 +76,9 @@ function reactListener(emojiMessage) {
       ? emojiArray[0]
       : emojiMessage;
 
-  const newLibCalls = [...state.libCalls];
-  newLibCalls.push({
+  const newLibsCalls = [...state.libsCalls];
+
+  newLibsCalls.emojis = {
     functionName: "createReaction",
     key: "createReaction",
     props: {
@@ -103,8 +87,9 @@ function reactListener(emojiMessage) {
       onCommit: onPushEnd,
       onCancel: onPushEnd,
     },
-  });
-  State.update({ libCalls: newLibCalls, loading: true });
+  };
+
+  State.update({ libsCalls: newLibsCalls, loading: true });
 }
 
 function reactionsStateUpdate(obj) {
@@ -320,12 +305,15 @@ return (
     </EmojiWrapper>
 
     <CallLibrary>
-      {callLibs(
-        libSrcArray,
-        reactionsStateUpdate,
-        state.libCalls,
-        initialEmoji
-      )}
+      {libSrcArray.map((src) => {
+        callLibs(
+          src,
+          reactionsStateUpdate,
+          state.libsCalls,
+          "Reactions"
+          // initialEmoji,
+        );
+      })}
     </CallLibrary>
   </>
 );
