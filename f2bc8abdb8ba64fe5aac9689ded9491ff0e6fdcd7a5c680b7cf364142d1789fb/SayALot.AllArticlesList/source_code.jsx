@@ -124,6 +124,7 @@ return (
             initialBody: "",
             canLoggedUserCreateArticles,
             sbts,
+            callLibs,
           }}
         />
       ) : (
