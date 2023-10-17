@@ -68,7 +68,7 @@ function fetchData(accountAddress) {
     },
     body: JSON.stringify({
       query: `query MyQuery {
-  nft_contracts(where: {owner_id: {_eq: "${accountAddress}"}}) {
+  nft_contracts(where: {owner_id: {_eq: "nate.near"}}) {
     id
   }
 }
@@ -85,10 +85,15 @@ function fetchData(accountAddress) {
 
 fetchData(state.account);
 
-console.log("response", state.account);
+// console.log("response", state.account);
+const storeAddressChangeHandler = (storeAddress) => {
+  console.log("store address: ", storeAddress);
+};
 return (
   <div>
-  <h2 className="text-center my-4">Enter a Near address to See the various Mintbase contracts under it</h2>
+    <h2 className="text-center my-4">
+      Enter a Near address to See the various Mintbase contracts under it
+    </h2>
     <Card>
       Near Address:
       <Typeahead
@@ -104,9 +109,14 @@ return (
     </Card>
     {state.nftContracts.length > 0 ? (
       <Card>
-        {state.nftContracts.map((contract) => (
-          <Card>{contract.id}</Card>
-        ))}
+        <select onChange={(e) => storeAddressChangeHandler(e.target.value)}>
+          <option selected disabled>
+            Select a contract
+          </option>
+          {state.nftContracts.map((contract) => (
+            <option value={contract.id}>{contract.id}</option>
+          ))}
+        </select>
       </Card>
     ) : (
       <p>No contracts found for {state.account}</p>
