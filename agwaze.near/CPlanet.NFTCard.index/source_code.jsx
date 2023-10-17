@@ -216,7 +216,7 @@ return (
           <div>
             <span>Current Price</span>
             <p>
-              {props.price ?? "N/A"} <span>NEAR</span>
+              {props.price ?? "N/A"} {props.price ?<span>NEAR</span>: ""}
             </p>
           </div>
           <div>
@@ -230,7 +230,7 @@ return (
           href={`#/agwaze.near/widget/CPlanet.Explore.SingleNFT?contractId=${nft.contractId}&tokenId=${props.tokenId}`}
           style={{ textDecoration: "none", color: "inherit" }}
         >
-          <button disabled={!props.isListed}>{props.isListed ? "More Info": "Not Avaialable"}</button>
+          <button disabled={!props.price}>{props.price ? "More Info": "Not Avaialable"}</button>
         </a>
       </Button>
     </Bottom>
