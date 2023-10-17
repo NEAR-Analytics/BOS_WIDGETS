@@ -11,6 +11,7 @@ const {
   authorForWidget,
   handleShareButton,
   sbtWhiteList,
+  callLibs,
 } = props;
 
 const tags = data.tags;
@@ -30,42 +31,25 @@ function stateUpdate(obj) {
   State.update(obj);
 }
 
-function callLibs(srcArray, stateUpdate, libCalls) {
-  return (
-    <>
-      {srcArray.map((src) => {
-        return (
-          <Widget
-            src={src}
-            props={{
-              isTest,
-              stateUpdate,
-              libCalls,
-            }}
-          />
-        );
-      })}
-    </>
-  );
-}
-
-const initLibCalls = [
-  {
-    functionName: "canUserCreateComment",
-    key: "canLoggedUserCreateComment",
-    props: {
-      accountId: context.accountId,
-      sbtsNames: sbtWhiteList,
+const initLibsCalls = {
+  comment: [
+    {
+      functionName: "canUserCreateComment",
+      key: "canLoggedUserCreateComment",
+      props: {
+        accountId: context.accountId,
+        sbtsNames: sbtWhiteList,
+      },
     },
-  },
-];
+  ],
+};
 
 State.init({
   verified: true,
   start: true,
   voted: false,
   sliceContent: true,
-  libCalls: initLibCalls,
+  libsCalls: initLibsCalls,
 });
 //=============================================END INITIALIZATION===================================================
 
@@ -442,6 +426,7 @@ return (
             username: data.author,
             id,
             onCloseModal: toggleShowModal,
+            callLibs,
           }}
         />
       )}
@@ -478,6 +463,7 @@ return (
                 (articleSbts.length > 0 && !canLoggedUserCreateComment),
               articleSbts,
               upVotes,
+              callLibs,
             }}
           />
           <Widget
@@ -547,6 +533,7 @@ return (
                   !context.accountId ||
                   context.accountId === accountId ||
                   (articleSbts.length > 0 && !canLoggedUserCreateComment),
+                callLibs,
               }}
             />
           </ButtonsLowerSection>
@@ -592,7 +579,9 @@ return (
       </LowerSection>
     </Card>
     <CallLibrary>
-      {callLibs(libSrcArray, stateUpdate, state.libCalls)}
+      {libSrcArray.map((src) => {
+        callLibs(src, stateUpdate, state.libsCalls, "General card");
+      })}
     </CallLibrary>
   </CardContainer>
 );
