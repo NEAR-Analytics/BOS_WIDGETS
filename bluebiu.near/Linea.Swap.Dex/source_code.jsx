@@ -70,6 +70,33 @@ const Tokens = {
     icon: "https://assets.coingecko.com/coins/images/825/small/bnb-icon2_2x.png?1644979850",
   },
 
+  "0xA219439258ca9da29E9Cc4cE5596924745e12B93": {
+    chainId: CHAIN_ID,
+    address: "0xA219439258ca9da29E9Cc4cE5596924745e12B93",
+    decimals: 6,
+    symbol: "USDT",
+    name: "Tether USD ",
+    icon: "https://ipfs.near.social/ipfs/bafkreih45jy7ggj45ck34rf736kb67smsoa52wd7e46c2grh6etd3bhe5i",
+  },
+
+  "0x4AF15ec2A0BD43Db75dd04E62FAA3B8EF36b00d5": {
+    chainId: CHAIN_ID,
+    address: "0x4AF15ec2A0BD43Db75dd04E62FAA3B8EF36b00d5",
+    decimals: 18,
+    symbol: "DAI",
+    name: "Dai Stablecoin ",
+    icon: "https://assets.coingecko.com/coins/images/9956/small/Badge_Dai.png?1687143508",
+  },
+
+  "0x265B25e22bcd7f10a5bD6E6410F10537Cc7567e8": {
+    chainId: CHAIN_ID,
+    address: "0x265B25e22bcd7f10a5bD6E6410F10537Cc7567e8",
+    decimals: 18,
+    symbol: "MATIC",
+    name: "Matic Token",
+    icon: "https://ipfs.near.social/ipfs/bafkreihhijqfwysk3ck524rx7ult2pmuxs6tsfz5mvq2nlsq2mginak7wm",
+  },
+
   "0x60D01EC2D5E98Ac51C8B4cF84DfCCE98D527c747": {
     chainId: CHAIN_ID,
     address: "0x60D01EC2D5E98Ac51C8B4cF84DfCCE98D527c747",
@@ -168,11 +195,37 @@ return (
               Tokens["0x7d43AABC515C356145049227CeE54B608342c0ad"],
             ],
           },
+
+          Syncswap: {
+            name: "Syncswap",
+            logo: "https://ipfs.near.social/ipfs/bafkreiemiwcf4pvz6ijo7tcxfobp5oftqj5mf7vszse33ziud3walq4pqy",
+            factoryAddress: "0x608Cb7C3168427091F5994A45Baf12083964B4A3",
+            classicPoolAddres: "0x37BAc764494c8db4e54BDE72f6965beA9fa0AC2d",
+            stablePoolAddress: "0xE4CF807E351b56720B17A59094179e7Ed9dD3727",
+            routerAddress: "0x80e38291e06339d10AAB483C65695D004dBD5C69",
+            uniType: "Syncswap",
+            defaultCurrencies: {
+              input: Tokens["native"],
+              output: Tokens["0x176211869cA2b568f2A7D4EE941E073a821EE1ff"],
+            },
+            tokens: [
+              Tokens["0x176211869cA2b568f2A7D4EE941E073a821EE1ff"],
+              Tokens["native"],
+              Tokens["0xA219439258ca9da29E9Cc4cE5596924745e12B93"],
+              Tokens["0x3aAB2285ddcDdaD8edf438C1bAB47e1a9D05a9b4"],
+              Tokens["0x7d43AABC515C356145049227CeE54B608342c0ad"],
+              Tokens["0x265B25e22bcd7f10a5bD6E6410F10537Cc7567e8"],
+              Tokens["0x4AF15ec2A0BD43Db75dd04E62FAA3B8EF36b00d5"],
+              Tokens["0xf5C6825015280CdfD0b56903F9F8B5A2233476F5"],
+            ],
+          },
         },
         amountOutFn: "bluebiu.near/widget/Arbitrum.Swap.AmountOutV2",
         handlerV2: "bluebiu.near/widget/Arbitrum.Swap.HandlerV2",
         handlerV3: "bluebiu.near/widget/Linea.Swap.HandlerV3",
         quoterV3: "bluebiu.near/widget/Linea.Swap.QuoterV3",
+        QuoterSyncswap: "bluebiu.near/widget/Linea.Swap.QuoterSyncswap",
+        handleSyncswap: "bluebiu.near/widget/Linea.Swap.handleSyncswap",
       }}
     />
   </Container>
