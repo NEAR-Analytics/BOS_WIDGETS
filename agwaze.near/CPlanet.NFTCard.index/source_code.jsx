@@ -167,6 +167,7 @@ margin-top: 10px;
   button:disabled {
     background: grey;
     border: grey;
+    cursor: not-allowed;
   }
   button:hover {
     background: white;
