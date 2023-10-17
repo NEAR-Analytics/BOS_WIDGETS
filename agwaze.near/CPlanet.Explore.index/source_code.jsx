@@ -239,6 +239,8 @@ return (
                       : null,
                     owner: data.owner,
                     isListed: data.isListed ? "LISTED" : "NOT LISTED",
+                    tokenId: data.token_id,
+                    contractId: data.contract_id,
                   }}
                   src="agwaze.near/widget/CPlanet.NFTCard.index"
                 />
@@ -251,9 +253,13 @@ return (
                     title: data.name,
                     description: data.description,
                     image: data.media_url,
+
                     price: data.price,
                     owner: data.owner,
-                    isListed: data.isListed,
+                    price: data.price
+                      ? (data.price / 1000000000000000000000000).toFixed(2)
+                      : null,
+                    isListed: data.isListed ? "LISTED" : "NOT LISTED",
                     tokenId: data.token_id,
                     contractId: data.contract_id,
                   }}
