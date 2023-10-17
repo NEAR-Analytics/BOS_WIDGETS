@@ -1105,7 +1105,7 @@ const callTxPancakeZKEVM2 = (
 
     console.log("txArgs", txArgs);
 
-    Ethers.provider()      
+    Ethers.provider()
       .getSigner()
       .sendTransaction(txArgs)
       .then((transactionHash) => {
@@ -1276,7 +1276,10 @@ const NearData = {
 
 console.log("ethers", ethers);
 
-if (ethers !== undefined && Ethers.provider().send("eth_requestAccounts", [])[0]) {
+if (
+  ethers !== undefined &&
+  Ethers.provider().send("eth_requestAccounts", [])[0]
+) {
   Ethers.provider()
     .getNetwork()
     .then((chainIdData) => {
@@ -1346,10 +1349,7 @@ if (ethers !== undefined && Ethers.provider().send("eth_requestAccounts", [])[0]
       } else if (chainIdData.chainId === 1) {
         // ETH
 
-      if (
-          ["UniSwap"].includes(DEX) &&
-          dexData
-        ) {
+        if (["UniSwap"].includes(DEX) && dexData) {
           console.log("dexData", dexData);
           if (state.erc20Abi == undefined) {
             const erc20Abi = fetch(
@@ -1382,11 +1382,12 @@ if (ethers !== undefined && Ethers.provider().send("eth_requestAccounts", [])[0]
             dexName: DEX,
             erc20Abi: state.erc20Abi,
             routerAbi: state.routerAbi,
-             callTx: callTxUni,
+            callTx: callTxUni,
             callTokenApproval: callTokenApprovalEVM,
           });
-        
-        State.update({ loadComplete: true });
+
+          State.update({ loadComplete: true });
+        }
       } else if (chainIdData.chainId === 1313161554) {
         // AURORA
 
