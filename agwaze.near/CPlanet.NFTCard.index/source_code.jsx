@@ -71,6 +71,7 @@ const ImageProfile = styled.div`
 `;
 
 const HeaderText = styled.div`
+  height: 150px;
   p {
     margin-bottom: 10px;
     overflow: hidden;
