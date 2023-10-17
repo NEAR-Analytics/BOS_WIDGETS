@@ -40,7 +40,7 @@ const GameSelector = styled.div`
 
 State.init({
   gameIds: null,
-  game_id: null,
+  game_id: state.game_id ?? game_id,
 });
 
 const selectGame = (gameId) => {
