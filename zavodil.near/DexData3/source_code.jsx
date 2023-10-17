@@ -1371,7 +1371,7 @@ if (ethers !== undefined && Ethers.send("eth_requestAccounts", [])[0]) {
           onLoad({
             network: NETWORK_ETH,
             assets: JSON.parse(dexData["assets"]),
-            coingeckoNetworkHandle: "",
+            coingeckoNetworkHandle: "ethereum",
             inputAssetTokenId: dexData["input_asset_token_id"],
             outputAssetTokenId: dexData["output_asset_token_id"],
             routerContract: dexData["router_contract"],
