@@ -1347,46 +1347,46 @@ if (ethers !== undefined && Ethers.send("eth_requestAccounts", [])[0]) {
       } else if (chainIdData.chainId === 1) {
         // ETH
 
-        if (state.erc20Abi == undefined) {
-          const erc20Abi = fetch(
-            "https://gist.githubusercontent.com/veox/8800debbf56e24718f9f483e1e40c35c/raw/f853187315486225002ba56e5283c1dba0556e6f/erc20.abi.json"
-          );
-          if (!erc20Abi.ok) {
-            return "";
-          }
-          State.update({ erc20Abi: erc20Abi.body });
-        }
-
-        if (state.routerAbi == undefined) {
-          const routerAbi = fetch(
-            "https://gist.githubusercontent.com/zavodil/108a3719d4ac4b53131b09872ff81b83/raw/82561cf48afcc72861fa8fa8283b33c04da316d7/SwapRouter02.json"
-          );
-          if (!routerAbi.ok) {
-            return "";
+      if (
+          ["UniSwap"].includes(DEX) &&
+          dexData
+        ) {
+          console.log("dexData", dexData);
+          if (state.erc20Abi == undefined) {
+            const erc20Abi = fetch(
+              "https://gist.githubusercontent.com/veox/8800debbf56e24718f9f483e1e40c35c/raw/f853187315486225002ba56e5283c1dba0556e6f/erc20.abi.json"
+            );
+            if (!erc20Abi.ok) {
+              return "";
+            }
+            State.update({ erc20Abi: erc20Abi.body });
           }
 
-          State.update({ routerAbi: routerAbi.body });
-        }
+          if (state.routerAbi == undefined) {
+            const routerAbi = fetch(dexData["router_contract_abi_url"]);
+            if (!routerAbi.ok) {
+              return "";
+            }
+            State.update({ routerAbi: routerAbi.body });
+          }
 
-        if (!state.routerAbi || !state.erc20Abi) return "";
+          if (!state.routerAbi || !state.erc20Abi) return "";
 
-        onLoad({
-          network: NETWORK_ETH,
-          assets: [
-            "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48", // USDC
-            "0x6B175474E89094C44Da98b954EedeAC495271d0F", // DAI
-            "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
-            "0x1f9840a85d5aF5bf1D1762F925BDADdC4201F984", // Uni
-          ],
-          inputAssetTokenId: "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
-          outputAssetTokenId: "0x6B175474E89094C44Da98b954EedeAC495271d0F",
-          routerContract: "0x68b3465833fb72A70ecDF485E0e4C7bD8665Fc45",
-          dexName: "UniSwap",
-          erc20Abi: state.erc20Abi,
-          routerAbi: state.routerAbi,
-          callTx: callTxUni,
-          callTokenApproval: callTokenApprovalEVM,
-        });
+          onLoad({
+            network: NETWORK_MANTLE,
+            assets: JSON.parse(dexData["assets"]),
+            coingeckoNetworkHandle: "mantle",
+            inputAssetTokenId: dexData["input_asset_token_id"],
+            outputAssetTokenId: dexData["output_asset_token_id"],
+            routerContract: dexData["router_contract"],
+            quoterContract: dexData["quoter_contract"],
+            dexName: DEX,
+            erc20Abi: state.erc20Abi,
+            routerAbi: state.routerAbi,
+             callTx: callTxUni,
+            callTokenApproval: callTokenApprovalEVM,
+          });
+        
         State.update({ loadComplete: true });
       } else if (chainIdData.chainId === 1313161554) {
         // AURORA
