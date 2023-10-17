@@ -7,7 +7,7 @@ const [items, setItems] = useState([
 ]);
 
 const data = Social.get("calebjacob.near/profile/**");
-console.log(data);
+console.log("!!! Published !!!");
 
 return (
   <div>
