@@ -65,8 +65,8 @@ const NETWORK_AURORA = "AURORA";
 const NETWORK_POLYGON = "POLYGON";
 const NETWORK_MANTLE = "MANTLE";
 
-//const FORCED_NETWORK = NETWORK_ETH;
-//const FORCED_CHAIN_ID = 1;
+const FORCED_NETWORK = NETWORK_ETH;
+const FORCED_CHAIN_ID = 1;
 let DEFAULT_DEX = "UniSwap"; // = "Ref Finance";
 
 if (sender && ethChainId && !state.selectedDex) {
@@ -689,6 +689,7 @@ if (state.rpcError) {
 
 console.log("state.network", state.network);
 
+/*
 if (forceNetwork && state.network && forceNetwork !== state.network) {
   return (
     <Theme>
@@ -715,12 +716,35 @@ if (forceNetwork && state.network && forceNetwork !== state.network) {
       </div>
     </Theme>
   );
-}
+}*/
 
 console.log("state.selectedDex", state.selectedDex);
 
 return (
   <Theme>
+    {forceNetwork && state.network && forceNetwork !== state.network && (
+      <div class="swap-main-container pt-5">
+        {state.sender && (
+          <div class="swap-button-container">
+            <button
+              onClick={() => switchNetwork(FORCED_CHAIN_ID, DEFAULT_DEX)}
+              class="swap-button-enabled swap-button-text p-2"
+            >
+              To proceed, kindly switch to {forceNetwork}
+            </button>
+          </div>
+        )}
+
+        {!state.sender && (
+          <div class="swap-button-container">
+            <Web3Connect
+              className="swap-button-enabled swap-button-text p-2"
+              connectLabel="Connect with Web3"
+            />
+          </div>
+        )}
+      </div>
+    )}
     <Widget
       src="zavodil.near/widget/DexData3"
       loading={loadingBlock}
