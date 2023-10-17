@@ -83,8 +83,9 @@ function createArticleListener() {
   //To test without commiting use the next line and comment the rest
   // onCommit();
   const article = getArticleData();
-  const newLibCalls = [...state.libCalls];
-  newLibCalls.push({
+  const newLibsCalls = state.libsCalls;
+
+  newLibCalls.article = {
     functionName: "createArticle",
     key: "createdArticle",
     props: {
@@ -92,8 +93,9 @@ function createArticleListener() {
       onCommit,
       onCancel,
     },
-  });
-  State.update({ libCalls: newLibCalls });
+  };
+
+  State.update({ libsCalls: newLibsCalls });
 }
 
 function switchShowPreview() {
@@ -306,7 +308,9 @@ return (
               </div>
             </SecondContainer>
             <div style={{ display: "none" }}>
-              {callLibs(libSrcArray, createStateUpdate, state.libCalls)}
+              {libSrcArray.map((src) => {
+                callLibs(src, createStateUpdate, state.libsCalls, "Create");
+              })}
             </div>
           </div>
         )}
