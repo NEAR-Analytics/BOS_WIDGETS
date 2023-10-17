@@ -16,6 +16,20 @@ const verifiedCheck = (
   </svg>
 );
 
+const trippleDots = (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="18"
+    height="4"
+    viewBox="0 0 18 4"
+    fill="none"
+  >
+    <circle cx="2" cy="2" r="2" fill="black" />
+    <circle cx="9" cy="2" r="2" fill="black" />
+    <circle cx="16" cy="2" r="2" fill="black" />
+  </svg>
+);
+
 const dotSVG = (
   <svg
     xmlns="http://www.w3.org/2000/svg"
@@ -60,6 +74,13 @@ const Top = styled.div`
     width: 100%;
     justify-content: space-between;
     align-items: flex-start;
+    flex-direction: column;
+     > div:first-child {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        width: 100%;
+    }
 `;
 
 const Username = styled.div`
@@ -225,7 +246,7 @@ const Buttons = styled.div`
 `;
 
 const Des = styled.div`
-    width: 300px;
+    width: 90%;
     h5 {
         margin-top: 10px;
         color: #000;
@@ -235,27 +256,51 @@ font-style: normal;
 font-weight: 400;
 line-height: 148%; /* 23.68px */
     }
+`;
+
+const Share = styled.div`
+    display: flex;
+width: 32px;
+height: 32px;
+padding: 0px 7px;
+justify-content: center;
+align-items: center;
+border-radius: 32px;
+border: 1px solid #000;
+margin-left: 7px;
 `
+
 
 return (
   <Root>
     <Right>
       <Top>
-        <TopLeft>
-          <h1>Lorem Ipsum Header </h1>
-          <Username>
-            <h2>My User</h2>
-            <Svg>{verifiedCheck}</Svg>
-            {dotSVG}
-            <h2>1 HR AGO</h2>
-          </Username>
-          <Des>
-            <h5>Lorem ih5sum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</h5>
-          </Des>
-        </TopLeft>
-        <TopRight>
-          <p>Follow Artist</p>
-        </TopRight>
+        <div>
+          <TopLeft>
+            <h1>Lorem Ipsum Header </h1>
+            <Username>
+              <h2>My User</h2>
+              <Svg>{verifiedCheck}</Svg>
+              {dotSVG}
+              <h2>1 HR AGO</h2>
+            </Username>
+          </TopLeft>
+
+          <TopRight>
+            <p>Follow Artist</p>
+          <Share>
+            {trippleDots}
+            </Share>
+          </TopRight>
+        </div>
+        <Des>
+          <h5>
+            Lorem ih5sum dolor sit amet, consectetur adipiscing elit, sed do
+            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
+            ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+            aliquip ex ea commodo consequat.
+          </h5>
+        </Des>
       </Top>
     </Right>
     <Left>
