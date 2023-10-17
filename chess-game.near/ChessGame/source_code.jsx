@@ -156,7 +156,7 @@ return (
     />
     <Footer>
       <h3>Your Move:</h3>
-      <div>
+      <div class="text-center">
         <TurnInput
           type="text"
           required
