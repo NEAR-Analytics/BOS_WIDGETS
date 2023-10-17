@@ -446,6 +446,7 @@ function handlePillNavigation(navegateTo) {
 
 function callLibs(src, stateUpdate, libsCalls, callerWidget) {
   console.log(`Call libs props ${callerWidget}: `, src, libsCalls);
+
   const widgetName = src.split("widget/lib.")[1];
 
   const libCalls = libsCalls[widgetName];
@@ -456,6 +457,7 @@ function callLibs(src, stateUpdate, libsCalls, callerWidget) {
         isTest,
         stateUpdate,
         libCalls,
+        callLibs,
       }}
     />
   );
@@ -484,7 +486,7 @@ function getLink() {
 
 //===============================================END FUNCTIONS======================================================
 
-// console.log(state);
+console.log(state);
 
 if (!context.accountId) {
   return (
