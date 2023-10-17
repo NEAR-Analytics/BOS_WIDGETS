@@ -145,7 +145,7 @@ pages.find((page) => {
 const pageContent = activePage ? (
   <Widget
     src={"chess-game.near/widget/" + activePage.widgetName}
-    props={{ isRegistered: state.isRegistered }}
+    props={{ isRegistered: state.isRegistered, game_id: props.game_id }}
   />
 ) : (
   "404"
