@@ -1276,11 +1276,7 @@ const NearData = {
 
 console.log("ethers", ethers);
 
-if (
-  ethers !== undefined &&
-  Ethers?.provider() &&
-  Ethers.provider().send("eth_requestAccounts", [])[0]
-) {
+if (ethers !== undefined && Ethers.send("eth_requestAccounts", [])[0]) {
   Ethers.provider()
     .getNetwork()
     .then((chainIdData) => {
