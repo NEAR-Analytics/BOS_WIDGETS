@@ -88,6 +88,7 @@ fetchData(state.account);
 console.log("response", state.account);
 return (
   <div>
+  <h2 className="text-center my-4">Enter a Near address to See the various Mintbase contracts under it</h2>
     <Card>
       Near Address:
       <Typeahead
