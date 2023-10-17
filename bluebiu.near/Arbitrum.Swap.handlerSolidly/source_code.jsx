@@ -13,8 +13,6 @@ const {
   stable,
 } = props;
 
-console.log("stable: ", stable, props);
-
 if (!swapping) return;
 
 const type =
@@ -104,12 +102,6 @@ const RouterContract = new ethers.Contract(
   Ethers.provider().getSigner()
 );
 if (type === 0) {
-  console.log("[inputCurrency.address, outputCurrency.address, stable]: ", [
-    inputCurrency.address,
-    outputCurrency.address,
-    stable,
-  ]);
-
   RouterContract.swapExactTokensForTokens(
     ethers.utils.parseUnits(inputCurrencyAmount, inputCurrency.decimals),
     "0",
