@@ -9,7 +9,10 @@ useEffect(() => {
 return (
   <InfiniteScroll
     hasMore={true}
-    next={() => setItems((currentItems) => [...currentItems, randomize()])}
+    next={() => {
+      console.log("next!");
+      setItems((currentItems) => [...currentItems, randomize()]);
+    }}
     loader={<h4>loading...</h4>}
   >
     {items.map((n) => (
