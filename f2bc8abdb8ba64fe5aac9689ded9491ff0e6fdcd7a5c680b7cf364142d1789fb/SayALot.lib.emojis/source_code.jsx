@@ -1,4 +1,4 @@
-const { isTest, stateUpdate, libCalls, initialEmoji } = props;
+const { isTest, stateUpdate, libCalls } = props;
 
 const prodAction = "sayALotReaction";
 const testAction = `test_${prodAction}`;
@@ -9,6 +9,7 @@ const authorForWidget =
 //const authorForWidget = "sayalot.near";
 // const authorForWidget = "kenrou-it.near";
 const libSrcArray = [`${authorForWidget}/widget/SayALot.lib.SBT`];
+const initialEmoji = "🤍 Like";
 
 State.init({ libCalls: [] });
 
