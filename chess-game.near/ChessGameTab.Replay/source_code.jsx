@@ -1,9 +1,11 @@
 const { accountId } = context;
 const { isRegistered } = props;
+console.log("props.game_id", props.game_id, typeof props.game_id);
 const game_id =
   props.game_id && typeof props.game_id === "string"
     ? JSON.parse(decodeURIComponent(props.game_id))
     : props.game_id;
+console.log("game_id", game_id);
 
 const contractId = "app.chess-game.near";
 const replayWidget = "chess-game.near/widget/ChessGameReplay";
