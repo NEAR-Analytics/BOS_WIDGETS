@@ -95,14 +95,14 @@ const ShareButton = styled.button`
 return (
   <div className="pt-2 pb-5">
     <H4>
-      <a href="#/y3k.near/widget/canny.main">
+      <a href="#/y3k.near/widget/apps.ama.main">
         <i class="bi bi-arrow-left me-2" />
         Go back
       </a>
     </H4>
 
     <Widget
-      src="y3k.near/widget/canny.post.details"
+      src="y3k.near/widget/apps.ama.post.details"
       props={{
         accountId,
         blockHeight,
