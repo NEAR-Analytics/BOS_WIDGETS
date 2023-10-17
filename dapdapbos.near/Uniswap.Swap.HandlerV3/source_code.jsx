@@ -205,9 +205,15 @@ multicallContract.estimateGas
   })
   .then((gasLimit) => {
     options.gasLimit = gasLimit;
-    multicallContract.multicall(multicallParams, options).then((res) => {
-      onSuccess(res);
-    });
+    multicallContract
+      .multicall(multicallParams, options)
+      .then((res) => {
+        onSuccess(res);
+      })
+      .catch((err) => {
+        console.log(err);
+        onError(err);
+      });
   })
   .catch((err) => {
     console.log(err);
