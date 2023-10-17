@@ -13,7 +13,7 @@ return (
     loader={<h4>loading...</h4>}
   >
     {items.map((n) => (
-      <span>{n}</span>
+      <div>{n}</div>
     ))}
   </InfiniteScroll>
 );
