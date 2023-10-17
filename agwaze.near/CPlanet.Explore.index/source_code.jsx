@@ -28,6 +28,7 @@ const SearchSection = styled.div`
 const Search = styled.div`
 margin-top: 32px;
 display: flex;
+justify-content: center;
 flex-wrap: wrap;
 input {
     border-radius: 32px;
