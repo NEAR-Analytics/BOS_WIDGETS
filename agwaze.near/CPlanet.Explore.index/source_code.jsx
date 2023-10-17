@@ -52,6 +52,8 @@ const Cards = styled.div`
     gap: 18px;
     margin-top: 32px;
     flex-wrap: wrap;
+    width: 100%;
+    justify-content: center;
 `;
 const FilterDropdown = styled.div`
 width: 192px;
@@ -70,6 +72,15 @@ padding-top: 8px;
 margin-left: 10px;
 
 `;
+
+const Explore = styled.div`
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-contents: center;
+`
+
 
 State.init({
   nftData: [],
@@ -199,6 +210,7 @@ return (
         </div>
       ))}
     </TopNFTS>
+    <Explore>
     <SearchSection>
       <h1>Explore Creative NFTs</h1>
       <Search>
@@ -246,5 +258,6 @@ return (
             </div>
           ))}
     </Cards>
+    </Explore>
   </Root>
 );
