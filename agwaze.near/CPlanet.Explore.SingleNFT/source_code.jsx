@@ -36,6 +36,7 @@ const Root = styled.div`
 `;
 
 const Right = styled.div`
+    width: 50%
 `;
 
 const TopLeft = styled.div`
@@ -58,7 +59,7 @@ const Top = styled.div`
     display: flex;
     width: 100%;
     justify-content: space-between;
-    align-items: center;
+    align-items: flex-start;
 `;
 
 const Username = styled.div`
@@ -185,7 +186,7 @@ line-height: normal;
 text-transform: uppercase;
 margin-left: 10px;
     }
-`
+`;
 
 const Buttons = styled.div`
     width: 100%;
@@ -221,6 +222,19 @@ const Buttons = styled.div`
         background: black;
         color: white;
     }
+`;
+
+const Des = styled.div`
+    width: 300px;
+    h5 {
+        margin-top: 10px;
+        color: #000;
+font-family: Helvetica Neue;
+font-size: 16px;
+font-style: normal;
+font-weight: 400;
+line-height: 148%; /* 23.68px */
+    }
 `
 
 return (
@@ -235,6 +249,9 @@ return (
             {dotSVG}
             <h2>1 HR AGO</h2>
           </Username>
+          <Des>
+            <h5>Lorem ih5sum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</h5>
+          </Des>
         </TopLeft>
         <TopRight>
           <p>Follow Artist</p>
@@ -252,8 +269,8 @@ return (
           </PriceAmount>
         </Price>
         <Owner>
-            <p>Current Owner</p>
-            <h2>LOREMIP...</h2>
+          <p>Current Owner</p>
+          <h2>LOREMIP...</h2>
         </Owner>
       </PriceSection>
       <Buttons>
