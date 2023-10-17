@@ -24,28 +24,28 @@ let {
 
 const libSrcArray = [widgets.libUpVotes];
 
-let initLibCalls = [];
+let initLibsCalls = { upVotes: [] };
 
 //For the moment we'll allways have only 1 sbt in the array. If this change remember to do the propper work in SayALot.lib.SBT and here.
 
-articlesToRender.forEach((article) =>
-  initLibCalls.push({
+initLibsCalls.upVotes = articlesToRender.map((article) => {
+  return {
     functionName: "getUpVotes",
     key: `upVotes-${article.id}`,
     props: {
       id: article.id ?? `${article.author}-${article.timeCreate}`,
       articleSbts: article.sbts ?? [],
     },
-  })
-);
+  };
+});
 
-if (initLibCalls.length > 0) {
-  State.update({ libCalls: initLibCalls });
+if (initLibsCalls.length > 0) {
+  State.update({ libsCalls: initLibsCalls });
 }
 
 State.init({
   start: Date.now(),
-  libCalls: initLibCalls,
+  libsCalls: initLibsCalls,
 });
 
 let finalArticlesWithUpVotes = articlesToRender.map((article) => {
@@ -176,6 +176,7 @@ return (
                   authorForWidget,
                   handleShareButton,
                   sbtWhiteList,
+                  callLibs,
                 }}
               />
             );
@@ -186,7 +187,14 @@ return (
       </ArticlesListContainer>
     </div>
     <CallLibrary>
-      {callLibs(libSrcArray, allArticlesListStateUpdate, state.libCalls)}
+      {libSrcArray.map((src) => {
+        callLibs(
+          src,
+          allArticlesListStateUpdate,
+          state.libsCalls,
+          "All articles list"
+        );
+      })}
     </CallLibrary>
   </>
 );
