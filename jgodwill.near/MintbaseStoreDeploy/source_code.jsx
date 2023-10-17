@@ -88,6 +88,9 @@ fetchData(state.account);
 // console.log("response", state.account);
 const storeAddressChangeHandler = (storeAddress) => {
   console.log("store address: ", storeAddress);
+  state.update({
+    storeAddress: storeAddress,
+  });
 };
 return (
   <div>
