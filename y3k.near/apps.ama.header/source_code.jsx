@@ -34,7 +34,7 @@ return (
         disabled={props.disabled}
         onClick={props.onClick}
       >
-        Post A Questions
+        Post A Question
       </Button>
     </div>
   </div>
