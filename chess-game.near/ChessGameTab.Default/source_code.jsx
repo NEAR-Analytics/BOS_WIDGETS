@@ -30,7 +30,7 @@ const GameSelector = styled.div`
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
   gap: 1rem;
 
   > * {
