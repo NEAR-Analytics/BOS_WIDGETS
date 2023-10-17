@@ -182,8 +182,6 @@ const quoteAll = () => {
         }
       }, finalList3[0]);
 
-      console.log("maxAmountOutEstimate: ", maxAmountOutEstimate);
-
       State.update({ quoteDone: true, quoting: false });
       loadAmountOut({
         ...maxAmountOutEstimate,
@@ -201,12 +199,11 @@ const wrapType =
     ? 2
     : 0;
 
-console.log("amountIn: ", amountIn);
-
 if (Number(amountIn) > 0 && !state.quoteDone && !state.quoting) {
   if (wrapType > 0) {
     loadAmountOut({
       amountOut: amountIn,
+      outputCurrencyAmount: amountIn,
       fee: 0,
       success: true,
       quoteDone: true,
