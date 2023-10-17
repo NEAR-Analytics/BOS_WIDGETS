@@ -1,11 +1,13 @@
 const [count, setCount] = useState(0);
-const [items, setItems] = useState([]);
+const [items, setItems] = useState([
+  { id: 1 },
+  { id: 2 },
+  { id: 3 },
+  { id: 4 },
+]);
 
-setTimeout(() => {
-  setItems([{ id: 1 }, { id: 2 }, { id: 3 }, { id: 4 }]);
-}, 2000);
-
-// const items = [{ id: 1 }, { id: 2 }, { id: 3 }, { id: 4 }];
+const data = Social.get("calebjacob.near/profile/**");
+console.log(data);
 
 return (
   <div>
