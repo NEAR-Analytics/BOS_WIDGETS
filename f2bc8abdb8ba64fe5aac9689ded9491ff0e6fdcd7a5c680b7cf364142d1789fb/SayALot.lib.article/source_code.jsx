@@ -1,4 +1,4 @@
-const { isTest, stateUpdate, libCalls } = props;
+const { isTest, stateUpdate, libCalls, callLibs } = props;
 
 //TODO check if env is still needed since we are not using the whitelist anymore because of the human verification system
 
@@ -12,17 +12,19 @@ const authorForWidget =
 // const authorForWidget = "silkking.near";
 const libSrcArray = [`${authorForWidget}/widget/SayALot.lib.SBT`];
 
-State.init({ libCalls: [], sbt: "fractal.i-am-human.near - class 1" });
+State.init({ libsCalls: {}, sbt: "fractal.i-am-human.near - class 1" });
+
+let resultLibCalls = [];
 
 function libStateUpdate(obj) {
   State.update(obj);
 }
 
 function setAreValidUsers(accountIds, sbtsNames) {
-  const newLibCalls = [...state.libCalls];
+  const newLibsCalls = Object.assign({}, state.libsCalls);
   accountIds.forEach((accountId, index) => {
     const isCallPushed =
-      newLibCalls.find((libCall) => {
+      newLibsCalls.SBT.find((libCall) => {
         return (
           libCall.functionName === "isValidUser" &&
           libCall.props.accountId === accountId
@@ -34,7 +36,7 @@ function setAreValidUsers(accountIds, sbtsNames) {
       return;
     }
 
-    newLibCalls.push({
+    newLibsCalls.SBT.push({
       functionName: "isValidUser",
       key: `isValidUser-${accountId}`,
       props: {
@@ -43,26 +45,7 @@ function setAreValidUsers(accountIds, sbtsNames) {
       },
     });
   });
-  State.update({ libCalls: newLibCalls });
-}
-
-function callLibs(srcArray, stateUpdate, libCalls) {
-  return (
-    <>
-      {srcArray.map((src) => {
-        return (
-          <Widget
-            src={src}
-            props={{
-              isTest,
-              stateUpdate,
-              libCalls,
-            }}
-          />
-        );
-      })}
-    </>
-  );
+  State.update({ libsCalls: newLibsCalls });
 }
 
 // const initLibCalls = [
@@ -404,34 +387,34 @@ function filterValidArticles(articles) {
   return filteredArticles;
 }
 
-function getComments(args) {
-  const { id } = args;
-  const key = id;
-  return Social.index(action, key);
-}
+// function getComments(args) {
+//   const { id } = args;
+//   const key = id;
+//   return Social.index(action, key);
+// }
 
-function setComment(args) {
-  const { id, text, previousCommentId } = args;
-  const data = {
-    index: {
-      [action]: JSON.stringify({
-        key: id,
-        value: {
-          text,
-          id: `${id}-${Date.now()}`,
-          previousCommentId,
-        },
-      }),
-    },
-  };
-  Social.set(data);
+// function setComment(args) {
+//   const { id, text, previousCommentId } = args;
+//   const data = {
+//     index: {
+//       [action]: JSON.stringify({
+//         key: id,
+//         value: {
+//           text,
+//           id: `${id}-${Date.now()}`,
+//           previousCommentId,
+//         },
+//       }),
+//     },
+//   };
+//   Social.set(data);
 
-  resultLibCalls = resultLibCalls.filter((call) => {
-    return call.functionName !== "setComment";
-  });
+//   resultLibCalls = resultLibCalls.filter((call) => {
+//     return call.functionName !== "setComment";
+//   });
 
-  return text;
-}
+//   return text;
+// }
 
 function libCall(call) {
   if (call.functionName === "canUserCreateArticle") {
@@ -445,8 +428,6 @@ function libCall(call) {
   }
 }
 
-let resultLibCalls = [];
-
 if (libCalls && libCalls.length > 0) {
   const updateObj = {};
   resultLibCalls = [...libCalls];
@@ -458,4 +439,10 @@ if (libCalls && libCalls.length > 0) {
   stateUpdate(updateObj);
 }
 
-return <>{callLibs(libSrcArray, libStateUpdate, state.libCalls)}</>;
+return (
+  <>
+    {libSrcArray.map((src) => {
+      callLibs(src, libStateUpdate, state.libsCalls, "lib.article");
+    })}
+  </>
+);
