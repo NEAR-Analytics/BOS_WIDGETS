@@ -1,13 +1,4 @@
 const [count, setCount] = useState(0);
-const [items, setItems] = useState([
-  { id: 1 },
-  { id: 2 },
-  { id: 3 },
-  { id: 4 },
-]);
-
-const data = Social.get("calebjacob.near/profile/**");
-console.log("!!! Published !!!");
 
 return (
   <div>
@@ -19,12 +10,6 @@ return (
 
     <hr />
 
-    {items.map((item) => (
-      <Widget
-        src="calebjacob.near/widget/Simple"
-        key={item.id}
-        props={{ item }}
-      />
-    ))}
+    <Widget src="calebjacob.near/widget/Simple" />
   </div>
 );
