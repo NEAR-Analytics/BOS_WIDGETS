@@ -1,5 +1,3 @@
-console.log(0);
-
 const ModalCard = styled.div`
   position: fixed;
   z-index: 1;
@@ -262,6 +260,7 @@ const {
   placement,
   originalComment,
   replyingTo,
+  callLibs,
 } = props;
 
 let id;
@@ -271,28 +270,9 @@ if (originalComment) {
   id = article.id ?? `${article.author}-${article.timeCreate}`;
 }
 
-const libCalls = [];
+const libsCalls = { comment: [] };
 
 const libSrcArray = [widgets.libComment];
-
-function callLibs(srcArray, stateUpdate, libCalls) {
-  return (
-    <>
-      {srcArray.map((src) => {
-        return (
-          <Widget
-            src={src}
-            props={{
-              isTest,
-              stateUpdate,
-              libCalls,
-            }}
-          />
-        );
-      })}
-    </>
-  );
-}
 
 function stateUpdate(obj) {
   State.update(obj);
@@ -303,7 +283,7 @@ State.init({
   reply: "",
   cancel: false,
   e_message: "",
-  libCalls,
+  libsCalls,
 });
 
 const SetText = (txt) => {
@@ -330,7 +310,7 @@ function onClickAddComment() {
 
 function addCommentListener() {
   if (!state.showSpinner) {
-    let newLibCalls = [...libCalls];
+    let newLibsCalls = [...libsCalls];
     const comment = {
       text: state.reply,
       id,
@@ -341,12 +321,14 @@ function addCommentListener() {
         `${article.author}-${article.timeCreate}`,
       commentId: comment.commentId ?? `c_${context.accountId}-${Date.now()}`,
     };
-    newLibCalls.push({
+
+    newLibsCalls.comment = {
       functionName: "createComment",
       key: "createComment",
       props: { comment, onClick: onClickAddComment, onCommit, onCancel },
-    });
-    State.update({ libCalls: newLibCalls });
+    };
+
+    State.update({ libsCalls: newLibsCalls });
   }
 }
 
@@ -453,7 +435,9 @@ return (
       </Container>
     </CommentCard>
     <CallLibrary>
-      {callLibs(libSrcArray, stateUpdate, state.libCalls)}
+      {libSrcArray.map((src) => {
+        callLibs(src, stateUpdate, state.libsCalls, "Add comment");
+      })}
     </CallLibrary>
   </ModalCard>
 );
