@@ -195,7 +195,7 @@ return (
         <HeaderText>
           <h1>{props.title ?? `My NFT CARD`}</h1>
           <Username>
-            <p>My User</p>
+            <p>{props.owner ?? "My User"}</p>
             {verifiedCheck}
           </Username>
           <h3>
@@ -211,14 +211,12 @@ return (
           <div>
             <span>Current Price</span>
             <p>
-              {props.price ?? '0.00'} <span>NEAR</span>
+              {props.price ?? "0.00"} <span>NEAR</span>
             </p>
           </div>
           <div>
             <span>Status</span>
-            <p>
-              {props.isListed ?? "- - -"}
-            </p>
+            <p>{props.isListed ?? "- - -"}</p>
           </div>{" "}
         </AmountSec>
       </CardBody>
