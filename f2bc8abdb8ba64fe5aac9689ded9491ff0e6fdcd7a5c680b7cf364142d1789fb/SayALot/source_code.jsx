@@ -13,24 +13,44 @@ const initSbtsNames = ["fractal.i-am-human.near - class 1"];
 
 const sbtsNames = state.sbt;
 
-const initLibCalls = [
-  {
-    functionName: "getLastEditArticles",
-    key: "articles",
-    props: {
-      env: isTest ? "test" : "prod",
-      sbtsNames: sbtWhiteList,
+// const initLibCalls = [
+//   {
+//     functionName: "getLastEditArticles",
+//     key: "articles",
+//     props: {
+//       env: isTest ? "test" : "prod",
+//       sbtsNames: sbtWhiteList,
+//     },
+//   },
+//   {
+//     functionName: "canUserCreateArticle",
+//     key: "canLoggedUserCreateArticle",
+//     props: {
+//       accountId: context.accountId,
+//       sbtsNames: sbtWhiteList,
+//     },
+//   },
+// ];
+const initLibsCalls = {
+  article: [
+    {
+      functionName: "getLastEditArticles",
+      key: "articles",
+      props: {
+        env: isTest ? "test" : "prod",
+        sbtsNames: sbtWhiteList,
+      },
     },
-  },
-  {
-    functionName: "canUserCreateArticle",
-    key: "canLoggedUserCreateArticle",
-    props: {
-      accountId: context.accountId,
-      sbtsNames: sbtWhiteList,
+    {
+      functionName: "canUserCreateArticle",
+      key: "canLoggedUserCreateArticle",
+      props: {
+        accountId: context.accountId,
+        sbtsNames: sbtWhiteList,
+      },
     },
-  },
-];
+  ],
+};
 
 accountId = context.accountId;
 
@@ -77,14 +97,14 @@ State.init({
   articleToRenderData: {},
   filterBy: getInitialFilter(),
   authorsProfiles: [],
-  libCalls: initLibCalls,
+  libsCalls: initLibsCalls,
   sbtsNames: initSbtsNames,
   sbts: initSbtsNames,
 });
 
-let newLibCalls = state.libCalls;
+let newLibsCalls = state.libsCalls;
 
-State.update({ libCalls: newLibCalls });
+State.update({ libsCalls: newLibsCalls });
 
 //=============================================END INITIALIZATION===================================================
 
@@ -354,7 +374,7 @@ const initialCreateState = {
   title: state.editArticleData.title ?? "",
   articleBody: state.editArticleData.body ?? initialBodyAtCreation,
   tags: state.editArticleData.tags ? getValidEditArticleDataTags() : {},
-  libCalls: [],
+  libsCalls: { comment: {}, article: {}, emojis: {}, upVotes: {} },
   sbts: [sbtWhiteList[0]],
 };
 
@@ -424,22 +444,20 @@ function handlePillNavigation(navegateTo) {
   State.update({ displayedTabId: navegateTo, editArticleData: undefined });
 }
 
-function callLibs(srcArray, stateUpdate, libCalls) {
+function callLibs(src, stateUpdate, libsCalls, callerWidget) {
+  console.log(`Call libs props ${callerWidget}: `, src, libsCalls);
+  const widgetName = src.split("widget/lib.")[1];
+
+  const libCalls = libsCalls[widgetName];
   return (
-    <>
-      {srcArray.map((src) => {
-        return (
-          <Widget
-            src={src}
-            props={{
-              isTest,
-              stateUpdate,
-              libCalls,
-            }}
-          />
-        );
-      })}
-    </>
+    <Widget
+      src={src}
+      props={{
+        isTest,
+        stateUpdate,
+        libCalls,
+      }}
+    />
   );
 }
 
@@ -562,6 +580,7 @@ return (
             authorForWidget,
             handleEditArticle,
             handleShareButton,
+            callLibs,
           }}
         />
       )}
@@ -604,7 +623,9 @@ return (
     )}
 
     <CallLibrary>
-      {callLibs(libSrcArray, stateUpdate, state.libCalls)}
+      {libSrcArray.map((src) => {
+        callLibs(src, stateUpdate, state.libsCalls, "SayALot");
+      })}
     </CallLibrary>
   </>
 );
