@@ -82,8 +82,7 @@ const Explore = styled.div`
     flex-direction: column;
     align-items: center;
     justify-contents: center;
-`
-
+`;
 
 State.init({
   nftData: [],
@@ -214,53 +213,54 @@ return (
       ))}
     </TopNFTS>
     <Explore>
-    <SearchSection>
-      <h1>Explore Creative NFTs</h1>
-      <Search>
-        <input
-          value={state.searchTerm}
-          type="search"
-          onChange={seachInputHandler}
-          placeholder="Search for NFTs"
-        />
-        <FilterDropdown>Filter / Dropdown</FilterDropdown>
-      </Search>
-    </SearchSection>
-    <Cards>
-      {state.searchTerm === ""
-        ? state.nftData.map((data, index) => (
-            <div key={index}>
-              <Widget
-                props={{
-                  title: data.name,
-                  description: data.description,
-                  image: data.media_url,
-                  price: data.price
-                    ? (data.price / 1000000000000000000000000).toFixed(2)
-                    : null,
-                  owner: data.owner,
-                  isListed: data.isListed ? "LISTED" : "NOT LISTED",
-                }}
-                src="agwaze.near/widget/CPlanet.NFTCard.index"
-              />
-            </div>
-          ))
-        : state.filteredNFTData.map((data, index) => (
-            <div key={index}>
-              <Widget
-                props={{
-                  title: data.name,
-                  description: data.description,
-                  image: data.media_url,
-                  price: data.price,
-                  owner: data.owner,
-                  isListed: data.isListed,
-                }}
-                src="agwaze.near/widget/CPlanet.NFTCard.index"
-              />
-            </div>
-          ))}
-    </Cards>
+      <SearchSection>
+        <h1>Explore Creative NFTs</h1>
+        <Search>
+          <input
+            value={state.searchTerm}
+            type="search"
+            onChange={seachInputHandler}
+            placeholder="Search for NFTs"
+          />
+          <FilterDropdown>Filter / Dropdown</FilterDropdown>
+        </Search>
+      </SearchSection>
+      <Cards>
+        {state.searchTerm === ""
+          ? state.nftData.map((data, index) => (
+              <div key={index}>
+                <Widget
+                  props={{
+                    title: data.name,
+                    description: data.description,
+                    image: data.media_url,
+                    price: data.price
+                      ? (data.price / 1000000000000000000000000).toFixed(2)
+                      : null,
+                    owner: data.owner,
+                    isListed: data.isListed ? "LISTED" : "NOT LISTED",
+                  }}
+                  src="agwaze.near/widget/CPlanet.NFTCard.index"
+                />
+              </div>
+            ))
+          : state.filteredNFTData.map((data, index) => (
+              <div key={index}>
+                <Widget
+                  props={{
+                    title: data.name,
+                    description: data.description,
+                    image: data.media_url,
+                    price: data.price,
+                    owner: data.owner,
+                    isListed: data.isListed,
+                    tokenId: data.token_id
+                  }}
+                  src="agwaze.near/widget/CPlanet.NFTCard.index"
+                />
+              </div>
+            ))}
+      </Cards>
     </Explore>
   </Root>
 );
