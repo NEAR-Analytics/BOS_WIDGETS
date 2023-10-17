@@ -3,6 +3,10 @@ const { isRegistered } = props;
 if (!accountId) {
   return "You need to login with your Near wallet first!";
 }
+const game_id =
+  props.game_id && typeof props.game_id === "string"
+    ? JSON.parse(decodeURIComponent(props.game_id))
+    : props.game_id;
 
 const contractId = "app.chess-game.near";
 const gameWidget = "chess-game.near/widget/ChessGame";
@@ -75,7 +79,6 @@ if (state.game_id) {
   if (!res.ok || res.body.error) {
     return `Something went wrong: ${res.body.error}`;
   }
-  console.log("res", res);
   const currentBlockHeight = res.body.result.sync_info.latest_block_height;
   const currentBlockTime = new Date(
     res.body.result.sync_info.latest_block_time
