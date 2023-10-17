@@ -115,7 +115,7 @@ return (
     </div>
     <div class="col-sm-1 col-2">
       <Widget
-        src="dev-support.near/widget/DevSupport.Question.Button.Upvote"
+        src="y3k.near/widget/apps.ama.button.question.upvote"
         props={{ accountId, blockHeight }}
       />
     </div>
@@ -144,7 +144,7 @@ return (
                   <li>
                     <Item>
                       <Widget
-                        src="dima_sheleg.near/widget/DevSupport.Question.Button.Flag"
+                        src="y3k.near/widget/apps.ama.button.question.flag"
                         props={{
                           accountId,
                           blockHeight,
@@ -157,7 +157,7 @@ return (
                     <Item>
                       {/* Delete widget */}
                       <Widget
-                        src="dima_sheleg.near/widget/DevSupport.Question.Button.Delete"
+                        src="y3k.near/widget/apps.ama.button.question.delete"
                         props={{
                           accountId,
                           blockHeight,
