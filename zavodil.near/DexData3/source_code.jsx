@@ -13,7 +13,7 @@ const {
   DEX,
   debug,
 } = props;
-console.log("DexData2.2", DEX);
+console.log("DexData3", DEX);
 
 let onLoad = props.onLoad;
 const forceReload = props.forceReload ?? false;
@@ -35,7 +35,7 @@ if (state.loadComplete && !forceReload) {
 
 if (debug) {
   onLoad = (data) => {
-    if (data) {
+    if (data && Ethers?.provider()) {
       console.log("onLoad triggered", data);
       if (typeof props.onLoad === "function") {
         props.onLoad(data);
@@ -1278,6 +1278,7 @@ console.log("ethers", ethers);
 
 if (
   ethers !== undefined &&
+  Ethers?.provider() &&
   Ethers.provider().send("eth_requestAccounts", [])[0]
 ) {
   Ethers.provider()
@@ -1348,7 +1349,7 @@ if (
         State.update({ loadComplete: true });
       } else if (chainIdData.chainId === 1) {
         // ETH
-
+        console.log("dexData", dexData);
         if (["UniSwap"].includes(DEX) && dexData) {
           console.log("dexData", dexData);
           if (state.erc20Abi == undefined) {
