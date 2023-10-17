@@ -12,7 +12,11 @@ const authorForWidget =
 // const authorForWidget = "silkking.near";
 const libSrcArray = [`${authorForWidget}/widget/SayALot.lib.SBT`];
 
-State.init({ libsCalls: {}, sbt: "fractal.i-am-human.near - class 1" });
+State.init({
+  libCalls: [],
+  libsCalls: {},
+  sbt: "fractal.i-am-human.near - class 1",
+});
 
 let resultLibCalls = [];
 
@@ -438,6 +442,8 @@ if (libCalls && libCalls.length > 0) {
   updateObj.libCalls = resultLibCalls;
   stateUpdate(updateObj);
 }
+
+console.log("lib.article state: ", state);
 
 return (
   <>
