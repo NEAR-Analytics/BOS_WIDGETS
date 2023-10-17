@@ -195,10 +195,19 @@ if (outputCurrency.address === "native") {
 }
 const multicallContract = new ethers.Contract(routerAddress, abi, signer);
 
-multicallContract
+multicallContract.estimateGas
   .multicall(multicallParams, options)
-  .then((res) => {
-    onSuccess(res);
+  .then((gas) => {
+    // estimate gas
+    const gasLimit = gas.toString();
+
+    return Big(gasLimit).times(1.1).toFixed(0);
+  })
+  .then((gasLimit) => {
+    options.gasLimit = gasLimit;
+    multicallContract.multicall(multicallParams, options).then((res) => {
+      onSuccess(res);
+    });
   })
   .catch((err) => {
     console.log(err);
