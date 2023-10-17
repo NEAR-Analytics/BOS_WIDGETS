@@ -254,7 +254,8 @@ return (
                     price: data.price,
                     owner: data.owner,
                     isListed: data.isListed,
-                    tokenId: data.token_id
+                    tokenId: data.token_id,
+                    contractId: data.contract_id
                   }}
                   src="agwaze.near/widget/CPlanet.NFTCard.index"
                 />
