@@ -1105,8 +1105,7 @@ const callTxPancakeZKEVM2 = (
 
     console.log("txArgs", txArgs);
 
-    Ethers.provider()
-      //.send("eth_sendTransaction", txArgs)
+    Ethers.provider()      
       .getSigner()
       .sendTransaction(txArgs)
       .then((transactionHash) => {
@@ -1277,7 +1276,7 @@ const NearData = {
 
 console.log("ethers", ethers);
 
-if (ethers !== undefined && Ethers.send("eth_requestAccounts", [])[0]) {
+if (ethers !== undefined && Ethers.provider().send("eth_requestAccounts", [])[0]) {
   Ethers.provider()
     .getNetwork()
     .then((chainIdData) => {
