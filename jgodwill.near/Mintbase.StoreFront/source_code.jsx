@@ -1,4 +1,4 @@
-const storeData = props ?? props.store;
+const storeData = props ?? props.storeInfo;
 
 const Card = styled.div`
 padding: 1em;
