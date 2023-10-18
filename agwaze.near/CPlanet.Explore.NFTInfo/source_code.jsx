@@ -1,3 +1,28 @@
+const arrow = (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="10"
+    height="10"
+    viewBox="0 0 10 10"
+    fill="none"
+  >
+    <path
+      d="M1.13672 1C4.20751 1 5.92918 1 8.99997 1V9"
+      stroke="black"
+      stroke-width="1.3478"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    />
+    <path
+      d="M8.99883 1L1 8.7377"
+      stroke="black"
+      stroke-width="1.3478"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    />
+  </svg>
+);
+
 const Root = styled.div`
 
 `;
@@ -86,6 +111,57 @@ const Image = styled.div`
     background: #000;
 `;
 
+const About = styled.div`
+  padding-left: 30px;
+  h1 {
+    overflow: hidden;
+    color: #000;
+    text-overflow: ellipsis;
+    font-family: Helvetica Neue;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    text-transform: uppercase;
+  }
+  div {
+    display: flex;
+    border-radius: 32px;
+    border: 1px solid #000;
+    display: flex;
+    padding: 4px 12px;
+    align-items: center;
+    cursor: pointer;
+    transition: 0.3s ease-in-out;
+    margin-top: 8px;
+    gap: 8px;
+    width: max-content;
+    h2 {
+      color: #000;
+      font-family: Helvetica Neue;
+      font-size: 12px;
+      font-style: normal;
+      font-weight: 500;
+      margin-bottom: 0;
+      line-height: normal;
+    }
+  }
+  div:hover {
+    opacity: 0.5;
+  }
+   p {
+    color: #000;
+    font-family: Helvetica Neue;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    margin-top: 8px;
+    line-height: 148%;
+   }
+`;
+
+const profile = props.profile ?? Social.getr(`agwaze.near/profile`);
+
 initState({
   tab: "HISTORY",
 });
@@ -164,6 +240,18 @@ return (
             </PriceSec>
           </Row>
         ))}
+      <About>
+        <h1>ABOUT THE ARTIST</h1>
+        <div>
+          {arrow}
+          <h2>View Artist Page</h2>
+        </div>
+        <p>
+          {profile.description
+            ? profile.description
+            : "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi utaliquip ex ea commodo consequat."}
+        </p>
+      </About>
     </Body>
   </Root>
 );
