@@ -366,12 +366,14 @@ const formatedData = (key) => {
     userTotalBorrowUsd = userTotalBorrowUsd.plus(
       Big(market.userBorrow).mul(underlyingPrice)
     );
-    totalCollateralUsd = totalCollateralUsd.plus(
-      Big(market.userSupply)
-        .mul(underlyingPrice)
-        .mul(_loanToValue[market.address])
-        .div(100)
-    );
+    if (_userMerberShip[market.address]) {
+      totalCollateralUsd = totalCollateralUsd.plus(
+        Big(market.userSupply)
+          .mul(underlyingPrice)
+          .mul(_loanToValue[market.address])
+          .div(100)
+      );
+    }
     const supplyApy = Big(market.supplyRatePerBlock)
       .mul(20 * 60 * 24)
       .plus(1)
