@@ -680,7 +680,11 @@ return (
         <Price>
           <h1>CURRENT PRICE</h1>
           <PriceAmount>
-            <h2>{props.price ? (props.price / 1000000000000000000000000).toFixed(2) : "N/A"}</h2>
+            <h2>
+              {state.price
+                ? (state.price / 1000000000000000000000000).toFixed(2)
+                : "N/A"}
+            </h2>
             <h5>$2.23</h5>
           </PriceAmount>
         </Price>
@@ -710,7 +714,11 @@ return (
           </TableHeader>
           <MarketRow>
             {tradePortLogo}
-            <p>{props.price ? (props.price / 1000000000000000000000000).toFixed(2) : "N/A"}</p>
+            <p>
+              {props.price
+                ? (props.price / 1000000000000000000000000).toFixed(2)
+                : "N/A"}
+            </p>
             <p>$11,496</p>
             <p>58 minutes</p>
           </MarketRow>
