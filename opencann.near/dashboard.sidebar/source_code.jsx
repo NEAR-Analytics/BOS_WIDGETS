@@ -285,7 +285,7 @@ return (
           <Widget
             src="hack.near/widget/DAO.Join"
             props={{
-              daoId: accountId,
+              daoId: "cannabis-genome.sputnik-dao.near",
               role,
             }}
           />
