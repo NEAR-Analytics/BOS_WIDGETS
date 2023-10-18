@@ -60,10 +60,14 @@ if (state.image === undefined) {
   }
 }
 
-const content = (state.text || state.image.cid) && {
+const content = (state.text || state.image.cid || state.image.url) && {
   type: "md",
   text: state.text,
-  image: state.image.cid ? { ipfs_cid: state.image.cid } : undefined,
+  image: state.image.url
+    ? { url: state.image.url }
+    : state.image.cid
+    ? { ipfs_cid: state.image.cid }
+    : undefined,
 };
 
 if (content && props.extraContent) {
@@ -97,6 +101,7 @@ const onCompose = () => {
 };
 
 const [markdownEditor, setMarkdownEditor] = useState(false);
+const [gifSearch, setGifSearch] = useState(false);
 
 const TextareaWrapper = styled.div`
   display: grid;
@@ -196,6 +201,46 @@ const embedCss = `
 }
 `;
 
+const gifSvg = (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    style={{ width: "1em", verticalAlign: "-0.125em" }}
+    fill="currentColor"
+    viewBox="0 0 16 16"
+  >
+    <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z" />
+    <text
+      x="8"
+      y="11"
+      text-anchor="middle"
+      font-size="7"
+      stroke="currentColor"
+      strokeWidth="0.5"
+    >
+      GIF
+    </text>
+  </svg>
+);
+
+const gifSearchWidget = useMemo(
+  () =>
+    gifSearch ? (
+      <Widget
+        src="mob.near/widget/N.GifSearch"
+        props={{
+          onHide: () => setGifSearch(false),
+          onSelect: (gif) => {
+            State.update({
+              image: { url: gif.url },
+            });
+            setGifSearch(false);
+          },
+        }}
+      />
+    ) : undefined,
+  [gifSearch]
+);
+
 return (
   <Wrapper>
     <div className="left">
@@ -247,7 +292,7 @@ return (
         )}
       </TextareaWrapper>
       <div className="up-buttons d-flex flex-row">
-        <div className="flex-grow-1">
+        <div className="flex-grow-1 d-flex">
           <IpfsImageUpload
             image={state.image}
             className="btn btn-outline-secondary border-0 rounded-5"
@@ -258,11 +303,18 @@ return (
               setMarkdownEditor(markdownEditor ? false : Date.now())
             }
           >
-            <i class="bi bi-code-square"></i>
+            <i className="bi bi-code-square" />
+          </button>
+          <button
+            className="btn btn-outline-secondary border-0 rounded-5"
+            onClick={() => setGifSearch(!gifSearch)}
+          >
+            {gifSvg}
           </button>
         </div>
         <div>{props.composeButton && props.composeButton(onCompose)}</div>
       </div>
     </div>
+    {gifSearchWidget}
   </Wrapper>
 );
