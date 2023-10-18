@@ -8,6 +8,7 @@ const Header = styled.div`
     align-items: center;
     justify-content: space-between;
     width: 400px;
+    padding: 30px 0 0 30px;
     h4 {
         color: #000;
         text-align: center;
@@ -22,7 +23,7 @@ const Header = styled.div`
 
 const Body = styled.div`
     margin-top: 23px;
-`
+`;
 
 const Row = styled.div`
     display: flex;
@@ -30,7 +31,7 @@ const Row = styled.div`
     width: 80%;
     max-width: 700px;
     align-items: center;
-`
+`;
 
 const ImageSec = styled.div`
     display: flex;
@@ -55,7 +56,7 @@ const ImageSec = styled.div`
         line-height: 160%; /* 19.2px */
      }
     }
-`
+`;
 
 const PriceSec = styled.div`
     h1 {
@@ -75,14 +76,14 @@ const PriceSec = styled.div`
         font-weight: 400;
         line-height: 160%; /* 19.2px */
     }
-`
+`;
 
 const Image = styled.div`
     width: 45px;
     height: 45px;
     border-radius: 22.5px;
     background: #000;
-`
+`;
 
 initState({
   tab: "INFO",
@@ -144,20 +145,21 @@ return (
       </h4>
     </Header>
     <Body>
+      {state.tab === "HISTORY" && (
         <Row>
-            <ImageSec>
-                <Image>
-                </Image>
-                <div>
-                    <p>Listed by @CryptoBabe</p>
-                    <span>06 Feb 2022 12:30:39 PM</span>
-                </div>
-            </ImageSec>
-            <PriceSec>
-                <h1>20 MATIC</h1>
-                <span>22.65</span>
-            </PriceSec>
+          <ImageSec>
+            <Image></Image>
+            <div>
+              <p>Listed by @CryptoBabe</p>
+              <span>06 Feb 2022 12:30:39 PM</span>
+            </div>
+          </ImageSec>
+          <PriceSec>
+            <h1>20 MATIC</h1>
+            <span>22.65</span>
+          </PriceSec>
         </Row>
+      )}
     </Body>
   </Root>
 );
