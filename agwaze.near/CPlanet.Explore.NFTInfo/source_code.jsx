@@ -160,7 +160,7 @@ const About = styled.div`
    }
 `;
 
-const profile = props.profile ?? Social.getr(`agwaze.near/profile`);
+const profile = props.profile ?? Social.getr(`${props.owner}/profile`);
 
 initState({
   tab: "HISTORY",
@@ -225,6 +225,7 @@ return (
           <Row key={data}>
             <ImageSec>
               <Image></Image>
+
               <div>
                 <p>
                   {data.type} by @{data?.from?.id}
