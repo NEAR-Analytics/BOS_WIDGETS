@@ -77,32 +77,31 @@ max-width: 600px;
 `;
 
 return (
-  <>
-    {contract && (
-      <StoreCard>
-        <div className="top"></div>
-        <div className="middle">
-          <div className="content">
-            <div className="icon_area">
-              <img
-                src={
-                  contract.nftContract.icon ??
-                  "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRub7hFLkStCvZiaSeiUGznP4uzqPPcepghhg&usqp=CAU"
-                }
-                className="chain_icon"
-                alt={contract.nftContract.name + " icon"}
-              />
-            </div>
-            <div className="name_contract">
-              <h3>{contract.nftContract.name.toUpperCase()}</h3>
-              <p>{contract.id}</p>
-            </div>
-          </div>
+  <StoreCard>
+    <div className="top"></div>
+    <div className="middle">
+      <div className="content">
+        <div className="icon_area">
+          <img
+            src={
+              contract.nftContract.icon ??
+              "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRub7hFLkStCvZiaSeiUGznP4uzqPPcepghhg&usqp=CAU"
+            }
+            className="chain_icon"
+            alt={contract.nftContract.name + " icon"}
+          />
         </div>
-        <div className="bottom">
-          <button>Manage NFTs</button>
+        <div className="name_contract">
+          <h3>
+            {(contract && contract?.nftContract?.name.toUpperCase()) ||
+              "Contract Name"}
+          </h3>
+          <p>{contract.id}</p>
         </div>
-      </StoreCard>
-    )}
-  </>
+      </div>
+    </div>
+    <div className="bottom">
+      <button>Manage NFTs</button>
+    </div>
+  </StoreCard>
 );
