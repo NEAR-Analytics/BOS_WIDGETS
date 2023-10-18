@@ -29,12 +29,17 @@ const onClose = () => {
   });
 };
 
+const numberViewAds = Social.index("viewBoenseAds", "viewBoenseAds", {
+  limit: 10,
+}).len;
+
 Social.set({
   index: {
     viewBoenseAds: JSON.stringify({
       key: "viewBoenseAds",
       value: {
         account: context.accountId,
+        count: numberViewAds,
       },
     }),
   },
