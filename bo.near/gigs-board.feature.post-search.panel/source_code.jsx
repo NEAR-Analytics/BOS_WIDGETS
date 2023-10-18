@@ -88,7 +88,7 @@ function search() {
     where = { author_id: { _eq: props.authorQuery.author }, ...where };
   }
   if (state.term) {
-    where = { description: { _like: `%${state.term}%` }, ...where };
+    where = { description: { _ilike: `%${state.term}%` }, ...where };
   }
   if (props.tagQuery && props.tagQuery.tag) {
     where = { labels: { _contains: props.tagQuery.tag }, ...where };
@@ -136,13 +136,19 @@ return (
       <div class="dropdown">
         {widget("feature.post-search.by-author", {
           authorQuery: props.authorQuery,
-          onAuthorSearch: props.onAuthorSearch,
+          onAuthorSearch: (author) => {
+            props.onAuthorSearch(author);
+            search();
+          },
         })}
       </div>
       <div>
         {widget("feature.post-search.by-tag", {
           tagQuery: props.tagQuery,
-          onTagSearch: props.onTagSearch,
+          onTagSearch: (tag) => {
+            props.onTagSearch(tag);
+            search();
+          },
         })}
       </div>
       <div className="d-flex flex-row position-relative w-25">
@@ -151,27 +157,16 @@ return (
           className="form-control border border-0 bg-light"
           value={state.term ?? ""}
           onChange={(e) => updateInput(e.target.value)}
+          onKeyDown={(e) => e.key == "Enter" && search()}
           placeholder={props.placeholder ?? `Search by content`}
         />
       </div>
-      <button class="btn btn-light" style={buttonStyle} onClick={search}>
-        {state.loading ? (
-          <span
-            className="spinner-grow spinner-grow-sm m-auto"
-            role="status"
-            aria-hidden="true"
-          />
-        ) : (
-          <i class="bi bi-search m-auto"></i>
-        )}{" "}
-        Search
-      </button>
       {state.searchResult ? (
         <button
           class="btn btn-light"
           onClick={() => State.update({ searchResult: null })}
         >
-          Clear Result
+          Clear Search Result
         </button>
       ) : (
         ""
