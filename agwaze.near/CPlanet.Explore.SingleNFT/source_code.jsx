@@ -42,12 +42,68 @@ const dotSVG = (
   </svg>
 );
 
+const tradePortLogo = (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="38"
+    height="38"
+    viewBox="0 0 38 38"
+    fill="none"
+  >
+    <path
+      d="M15.3076 7.74805L18.0078 10.4727L6.70031 21.8821L4 19.1574L15.3076 7.74805Z"
+      fill="black"
+    />
+    <path
+      d="M28.1357 20.6895L30.8361 23.414L19.5285 34.8235L16.8281 32.0988L28.1357 20.6895Z"
+      fill="black"
+    />
+    <path
+      d="M25.4345 10.4727L28.1348 13.1973L13.1143 28.3531L10.4141 25.6284L25.4345 10.4727Z"
+      fill="black"
+    />
+    <path
+      d="M34.5492 14.2174L31.8488 16.942L21.7227 6.72464L24.4229 4L34.5492 14.2174Z"
+      fill="black"
+    />
+  </svg>
+);
+
 const Root = styled.div`
     display: flex;
     flex-wrap: wrap;
     width: 100%;
     justify-content: space-between;
 `;
+
+const fewAndFarLogo = (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="32"
+    height="32"
+    viewBox="0 0 32 32"
+    fill="none"
+  >
+    <g clip-path="url(#clip0_155_4752)">
+      <path
+        fill-rule="evenodd"
+        clip-rule="evenodd"
+        d="M0.5 0.564453L0.604503 19.8572L3.91621 19.8379L3.83048 3.95389H19.3669V0.564453H0.5ZM8.51959 8.77372L8.63256 19.8651L11.9443 19.8297L11.8659 12.1631H19.367V8.77372H8.51959ZM22.8227 23.2105H11.9753V19.8212H19.4763L19.3979 12.1542L22.7097 12.1188L22.8227 23.2105ZM11.9753 31.4197H30.8421L30.7376 12.1266L27.4259 12.1458L27.5117 28.0302H11.9753V31.4197Z"
+        fill="black"
+      />
+    </g>
+    <defs>
+      <clipPath id="clip0_155_4752">
+        <rect
+          width="30.9531"
+          height="31.9849"
+          fill="white"
+          transform="translate(0.5)"
+        />
+      </clipPath>
+    </defs>
+  </svg>
+);
 
 const Right = styled.div`
     width: 50%
@@ -268,8 +324,52 @@ align-items: center;
 border-radius: 32px;
 border: 1px solid #000;
 margin-left: 7px;
-`
+`;
 
+const Others = styled.div`
+  margin-top: 31px;
+  h1 {
+    color: #000;
+font-family: Helvetica Neue;
+font-size: 24px;
+font-style: normal;
+font-weight: 500;
+line-height: 160%; /* 38.4px */
+  }
+`;
+
+const Table = styled.div``;
+
+const MarketRow = styled.div`
+  width: 480px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+    margin-left: 35px;
+  p {
+    color: #363C42;
+    font-family: Helvetica Neue;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 160%; /* 22.4px */
+  }
+`;
+
+const TableHeader = styled.div`
+  display: flex;
+  flex-direction: row;
+  width: 480px;
+  justify-content: space-between;
+ h2 {
+  color: #000;
+font-family: Helvetica Neue;
+font-size: 16px;
+font-style: normal;
+font-weight: 700;
+line-height: 160%; /* 25.6px */
+ }
+`;
 
 return (
   <Root>
@@ -288,9 +388,7 @@ return (
 
           <TopRight>
             <p>Follow Artist</p>
-          <Share>
-            {trippleDots}
-            </Share>
+            <Share>{trippleDots}</Share>
           </TopRight>
         </div>
         <Des>
@@ -302,6 +400,7 @@ return (
           </h5>
         </Des>
       </Top>
+      <Widget src="agwaze.near/widget/CPlanet.Explore.NFTInfo" />
     </Right>
     <Left>
       <ImageContainer></ImageContainer>
@@ -322,6 +421,23 @@ return (
         <button>Buy Now</button>
         <button>Trade NFT</button>
       </Buttons>
+      <Others>
+        <h1>OTHER LISTINGS</h1>
+        <Table>
+          <TableHeader>
+            <h2>Marketplace</h2>
+            <h2>Price</h2>
+            <h2>USD Price</h2>
+            <h2>Time</h2>
+          </TableHeader>
+          <MarketRow>
+            {tradePortLogo}
+            <p>7.2399</p>
+            <p>$11,496</p>
+            <p>58 minutes</p>
+          </MarketRow>
+        </Table>
+      </Others>
     </Left>
   </Root>
 );
