@@ -75,11 +75,11 @@ const InputWrapper = styled.div`
 return (
   <Wrapper className="row">
     <div className="col-12">
-      <Title>Question</Title>
+      <Title>Feature Request</Title>
       <InputWrapper>
         <input
           type="text"
-          placeholder={"Describe your Question"}
+          placeholder={"Describe your feature request"}
           value={state.title}
           onChange={(event) => State.update({ title: event.target.value })}
         />
