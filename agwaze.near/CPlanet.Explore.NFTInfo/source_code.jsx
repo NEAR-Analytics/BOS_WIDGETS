@@ -124,7 +124,7 @@ const About = styled.div`
     line-height: normal;
     text-transform: uppercase;
   }
-  div {
+  a {
     display: flex;
     border-radius: 32px;
     border: 1px solid #000;
@@ -146,7 +146,7 @@ const About = styled.div`
       line-height: normal;
     }
   }
-  div:hover {
+  a:hover {
     opacity: 0.5;
   }
    p {
@@ -164,7 +164,7 @@ const TabHeight = styled.div`
   height: 280px;
   overflow-y: scroll;
   margin-bottom: 20px;
-`
+`;
 
 const profile = props.profile ?? Social.getr(`${props.owner}/profile`);
 
@@ -226,35 +226,37 @@ return (
     </Header>
     <Body>
       <TabHeight>
-      {state.tab === "HISTORY" &&
-        props.transactions &&
-        props?.transactions?.map((data, index) => (
-          <Row key={data}>
-            <ImageSec>
-              <Image></Image>
+        {state.tab === "HISTORY" &&
+          props.transactions &&
+          props?.transactions?.map((data, index) => (
+            <Row key={data}>
+              <ImageSec>
+                <Image></Image>
 
-              <div>
-                <p>
-                  {data.type} by @{data?.from?.id}
-                </p>
-                <span>06 Feb 2022 12:30:39 PM</span>
-              </div>
-            </ImageSec>
-            <PriceSec>
-              <h1>
-                {(data.price / 1000000000000000000000000).toFixed(2)} NEAR
-              </h1>
-              <span>$22.65</span>
-            </PriceSec>
-          </Row>
-        ))}
-        </TabHeight>
+                <div>
+                  <p>
+                    {data.type} by @{data?.from?.id}
+                  </p>
+                  <span>06 Feb 2022 12:30:39 PM</span>
+                </div>
+              </ImageSec>
+              <PriceSec>
+                <h1>
+                  {(data.price / 1000000000000000000000000).toFixed(2)} NEAR
+                </h1>
+                <span>$22.65</span>
+              </PriceSec>
+            </Row>
+          ))}
+      </TabHeight>
       <About>
         <h1>ABOUT THE ARTIST</h1>
-        <div>
+        <a
+          href={`#/agwaze.near/widget/GenaDrop.Profile.Main?owner=${props.owner}`}
+        >
           {arrow}
           <h2>View Artist Page</h2>
-        </div>
+        </a>
         <p>
           {profile.description
             ? profile.description
