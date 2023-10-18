@@ -16,37 +16,12 @@ const CONNECT_PROPS = {
   chainName,
 };
 
-// if (!account) {
-//   return (
-//     <Widget
-//       src="dapdapbos.near/widget/Uniswap.Swap.ConnectButton"
-//       props={{
-//         ...CONNECT_PROPS,
-//         isWrongNetwork: false,
-//         CHAIN_LIST,
-//       }}
-//     />
-//   );
-// }
-
 const DEXS = Object.values(dexs || {});
 
 State.init({
   chainId: -1,
   selectedDex: defalutDex,
 });
-
-// if (state.chainId !== chainId) {
-//   return (
-//     <Widget
-//       src="dapdapbos.near/widget/Uniswap.Swap.ConnectButton"
-//       props={{
-//         ...CONNECT_PROPS,
-//         isWrongNetwork: true,
-//       }}
-//     />
-//   );
-// }
 
 const Dex = styled.div`
   display: flex;
