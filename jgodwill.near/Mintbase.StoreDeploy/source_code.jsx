@@ -68,7 +68,7 @@ function fetchData(accountAddress) {
     },
     body: JSON.stringify({
       query: `query MyQuery {
-  mb_store_minters(where: {minter_id: {_eq: "nate.near"}}) {
+  mb_store_minters(where: {minter_id: {_eq: "${accountAddress}"}}) {
     id: nft_contract_id
     nftContract: nft_contract {
       name
