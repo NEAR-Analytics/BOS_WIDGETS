@@ -18,8 +18,6 @@ const {
 
 const libSrcArray = [widgets.libArticle];
 
-console.log(2, widgets.libArticle);
-
 const errTextNoBody = "ERROR: no article Body",
   errTextNoId = "ERROR: no article Id",
   errTextDublicatedId = "ERROR: there is article with such name";
