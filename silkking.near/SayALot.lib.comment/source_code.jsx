@@ -1,4 +1,5 @@
-const { isTest, stateUpdate, libCalls } = props;
+const { isTest, stateUpdate, functionsToCallByLibrary, callLibs } = props;
+const functionsToCall = functionsToCallByLibrary.comment;
 
 const prodAction = "sayALotComment-v0.0.2";
 const testAction = `test_${prodAction}`;
@@ -11,17 +12,20 @@ const action = isTest ? testAction : prodAction;
 const authorForWidget = "silkking.near";
 const libSrcArray = [`${authorForWidget}/widget/SayALot.lib.SBT`];
 
-State.init({ libCalls: [] });
+State.init({
+  libCalls: [],
+  libsCalls: { SBT: [] },
+});
 
 function libStateUpdate(obj) {
   State.update(obj);
 }
 
 function setAreValidUsers(accountIds, sbtsNames) {
-  const newLibCalls = [...state.libCalls];
+  const newLibCalls = Object.assign({}, state.libsCalls);
   accountIds.forEach((accountId) => {
     const isCallPushed =
-      newLibCalls.find((libCall) => {
+      newLibCalls.SBT.find((libCall) => {
         return (
           libCall.functionName === "isValidUser" &&
           libCall.props.accountId === accountId
@@ -33,7 +37,7 @@ function setAreValidUsers(accountIds, sbtsNames) {
       return;
     }
 
-    newLibCalls.push({
+    newLibCalls.SBT.push({
       functionName: "isValidUser",
       key: `isValidUser-${accountId}`,
       props: {
@@ -43,25 +47,6 @@ function setAreValidUsers(accountIds, sbtsNames) {
     });
   });
   State.update({ libCalls: newLibCalls });
-}
-
-function callLibs(srcArray, stateUpdate, libCalls) {
-  return (
-    <>
-      {srcArray.map((src) => {
-        return (
-          <Widget
-            src={src}
-            props={{
-              isTest,
-              stateUpdate,
-              libCalls,
-            }}
-          />
-        );
-      })}
-    </>
-  );
 }
 
 function canUserCreateComment(props) {
@@ -187,7 +172,7 @@ function libCall(call) {
 }
 
 let resultLibCalls = [];
-if (libCalls && libCalls.length > 0) {
+if (functionsToCall && functionsToCall.length > 0) {
   // console.log(
   //   "Calling functions",
   //   libCalls.map((lc) => lc.functionName)
@@ -202,4 +187,10 @@ if (libCalls && libCalls.length > 0) {
   stateUpdate(updateObj);
 }
 
-return <>{callLibs(libSrcArray, libStateUpdate, state.libCalls)}</>;
+return (
+  <>
+    {libSrcArray.map((src) => {
+      return callLibs(src, libStateUpdate, state.libsCalls, "lib.comment");
+    })}
+  </>
+);
