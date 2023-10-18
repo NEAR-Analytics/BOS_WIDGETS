@@ -194,8 +194,12 @@ const Left = styled.div`
 `;
 const ImageContainer = styled.div`
     width: 544px;
-    height: 544px;
-    background: black;
+    height: 444px;
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
 `;
 const PriceSection = styled.div`
     margin-top: 20px;
@@ -371,15 +375,280 @@ line-height: 160%; /* 25.6px */
  }
 `;
 
+const nft = props.nft ?? {
+  contractId: props.contractId,
+  tokenId: props.tokenId,
+};
+
+const contractId = props.contractId;
+const tokenId = props.tokenId;
+const className = props.className ?? "img-fluid";
+const style = props.style;
+const alt = props.alt;
+const thumbnail = props.thumbnail;
+const fallbackUrl = props.fallbackUrl;
+const loadingUrl =
+  props.loadingUrl ??
+  "https://ipfs.near.social/ipfs/bafkreidoxgv2w7kmzurdnmflegkthgzaclgwpiccgztpkfdkfzb4265zuu";
+
+State.init({
+  contractId,
+  tokenId,
+  description: "",
+  text: "",
+  message: false,
+  listings: [],
+  loadingBuying: false,
+  title: "",
+  owner: "",
+  imageUrl: null,
+});
+
+const currentChainProps = {
+  near: {
+    img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTrJuxjGxj4QmyreE6ix4ygqm5pK9Nn_rdc8Ndw6lmJcd0SSnm2zBIc2xJ_My1V0WmK2zg&usqp=CAU",
+    livePrice: "near",
+    subgraph: "https://api.thegraph.com/subgraphs/name/prometheo/near-mainnet",
+    chain: "near",
+    id: "1112",
+    explorer: "https://explorer.near.org/?query=",
+    logoUrl:
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTrJuxjGxj4QmyreE6ix4ygqm5pK9Nn_rdc8Ndw6lmJcd0SSnm2zBIc2xJ_My1V0WmK2zg&usqp=CAU",
+  },
+  aurora: {
+    img: "https://s2.coinmarketcap.com/static/img/coins/200x200/14803.png",
+    id: "1313161554",
+    chain: "Aurora",
+    explorer: "https://aurorascan.dev/",
+    explorerTx: "https://aurorascan.dev/",
+    livePrice: "ethereum",
+    contract: "0xe93097f7C3bF7A0E0F1261c5bD88F86D878667B5",
+    subgraph:
+      "https://api.thegraph.com/subgraphs/name/prometheo/aurora-mainnet",
+  },
+  arbitrum: {
+    img: "https://assets.coingecko.com/coins/images/16547/large/photo_2023-03-29_21.47.00.jpeg?1680097630",
+    id: "42161",
+    contract: "0x27E52A81975F5Fb836e79007E3c478C6c0E6E9FB",
+    chain: "Arbitrum",
+    explorer: "https://arbiscan.io/",
+    explorerTx: "https://arbiscan.io/",
+    livePrice: "ethereum",
+    subgraph: "https://api.thegraph.com/subgraphs/name/prometheo/arbitrum",
+  },
+  celo: {
+    img: "https://assets.coingecko.com/coins/images/11090/large/InjXBNx9_400x400.jpg?1674707499",
+    id: "42220",
+    livePrice: "celo",
+    contract: "0x5616BCcc278F7CE8B003f5a48f3754DDcfA4db5a",
+    explorer: "https://explorer.celo.org/address/",
+    explorerTx: "https://explorer.celo.org/",
+    chain: "Celo",
+    subgraph: "https://api.thegraph.com/subgraphs/name/prometheo/celo-mainnet",
+  },
+  polygon: {
+    img: "https://altcoinsbox.com/wp-content/uploads/2023/03/matic-logo.webp",
+    id: "137",
+    chain: "Polygon",
+    livePrice: "matic-network",
+    contract: "0x57Eb0aaAf69E22D8adAe897535bF57c7958e3b1b",
+    explorer: "https://polygonscan.com/address/",
+    explorerTx: "https://polygonscan.com/",
+    subgraph:
+      "https://api.thegraph.com/subgraphs/name/prometheo/polygon-mainnet",
+  },
+  aptos: {
+    img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQqBinSwbRdx76qY4A3qvVkM9g_mKoGCBDT0sqTT02TgRvKquV2Vlc8fSRmLyuhBS3-CaA&usqp=CAU",
+  },
+  sui: {
+    img: "https://blog.sui.io/content/images/2023/04/Sui_Droplet_Logo_Blue-3.png",
+  },
+};
+
+function fetchTokens() {
+  asyncFetch("https://graph.mintbase.xyz/mainnet", {
+    method: "POST",
+    headers: {
+      "mb-api-key": "omni-site",
+      "Content-Type": "application/json",
+      "x-hasura-role": "anonymous",
+    },
+    body: JSON.stringify({
+      query: `
+          query MyQuery {
+              mb_views_nft_tokens(
+              where: { nft_contract_id: { _eq: "${contractId}" }, token_id: {_eq: "${tokenId}"}}
+              order_by: {minted_timestamp: desc}
+            ) {
+                attributes {
+                    attribute_display_type
+                    attribute_value
+                }
+                media 
+                owner
+                token_id
+                nft_contract_id
+                description
+                title
+                listings {
+                    price
+                    unlisted_at
+                    listed_by
+                }
+            }
+          }
+        `,
+    }),
+  }).then((res) => {
+    if (res.ok) {
+      const tokens = res.body.data.mb_views_nft_tokens;
+      const token = tokens[0];
+      State.update({
+        description: token.description,
+        owner: token.owner,
+        listings: token.listings[0],
+        title: token.title,
+      });
+      if (!token && props.chainState !== ("aptos" || "sui")) {
+        let response = fetch(currentChainProps["near"]?.subgraph, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            query: `
+            query MyQuery {
+             nfts(where: {tokenID: "${tokenId}"}) {
+                category
+                chain
+                createdAtTimestamp
+                id
+                isSold
+                isListed
+                price
+                tokenID
+                owner {
+                    id
+                }
+                tokenIPFSPath
+                transactions {
+                  price
+                  type
+                  from {
+                    id
+                  }
+                  to {
+                    id
+                  }
+                }
+                }
+            }
+        `,
+          }),
+        });
+        const collectionData = response.body.data.nfts;
+
+        if (collectionData) {
+          const nftBody = collectionData.map((data) => {
+            const fetchIPFSData = fetch(
+              data.tokenIPFSPath.replace("ipfs://", "https://ipfs.io/ipfs/")
+            );
+
+            if (fetchIPFSData.ok) {
+              const nft = fetchIPFSData.body;
+              let nftObject = {};
+              nftObject.contract_id = data.id;
+              nftObject.sold = data.isSold;
+              nftObject.isListed = data.isListed;
+              nftObject.owner = data.owner.id;
+              nftObject.price = data.price;
+              nftObject.token_id = data.tokenID;
+              nftObject.name = nft?.name;
+              nftObject.transactions = data?.transactions;
+              nftObject.description = nft?.description;
+              nftObject.attributes = nft?.properties;
+              nftObject.image = nft?.image.replace(
+                "ipfs://",
+                "https://ipfs.io/ipfs/"
+              );
+              return nftObject;
+            }
+          });
+          console.log(nftBody);
+          State.update({
+            title: nftBody[0].name,
+            imageUrl: nftBody[0].image,
+            owner: nftBody[0]?.owner,
+            description: nftBody[0]?.description,
+            price: nftBody[0].price,
+            transactions: nftBody[0].transactions,
+          });
+        }
+      }
+      if (!token) {
+        const response = fetch("https://api.indexer.xyz/graphql", {
+          method: "POST",
+          headers: {
+            "x-api-key": "Krqwh4b.bae381951d6050d351945c0c750f1510",
+            "x-api-user": "Banyan",
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            query: `query MyQuery {
+  ${props.chainState} {
+    nfts(
+      where: { contract_id: { _eq: "${contractId}" }, token_id: {_eq: "${tokenId}"}}
+    ) {
+      contract_id
+      name
+      media_url
+      token_id
+      media_type
+      owner
+      
+      staked_owner
+      listings {
+        listed
+        price
+      }
+      attributes {
+        rarity
+        value
+        type
+        score
+      }
+     }
+     }
+    }`,
+          }),
+        });
+        const token = response.body.data[props.chainState].nfts;
+        if (token) {
+          State.update({
+            title: token[0].name,
+            listings: token[0].listings,
+            attributes: token[0].attributes,
+            imageUrl: token[0].media_url,
+          });
+        }
+      }
+    }
+  });
+}
+
+console.log(state.transactions);
+
+fetchTokens();
+
 return (
   <Root>
     <Right>
       <Top>
         <div>
           <TopLeft>
-            <h1>Lorem Ipsum Header </h1>
+            <h1>{state.title ?? "Lorem Ipsum Header"}</h1>
             <Username>
-              <h2>My User</h2>
+              <h2>{state.owner ?? "My User"}</h2>
               <Svg>{verifiedCheck}</Svg>
               {dotSVG}
               <h2>1 HR AGO</h2>
@@ -393,17 +662,20 @@ return (
         </div>
         <Des>
           <h5>
-            Lorem ih5sum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-            ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-            aliquip ex ea commodo consequat.
+            {state.description ??
+              "Lorem ih5sum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consuat."}
           </h5>
         </Des>
       </Top>
-      <Widget src="agwaze.near/widget/CPlanet.Explore.NFTInfo" />
+      <Widget
+        src="agwaze.near/widget/CPlanet.Explore.NFTInfo"
+        props={{ transactions: state.transactions }}
+      />
     </Right>
     <Left>
-      <ImageContainer></ImageContainer>
+      <ImageContainer>
+        <img src={state.imageUrl} alt="" />
+      </ImageContainer>
       <PriceSection>
         <Price>
           <h1>CURRENT PRICE</h1>
@@ -414,7 +686,13 @@ return (
         </Price>
         <Owner>
           <p>Current Owner</p>
-          <h2>LOREMIP...</h2>
+          <h2>
+            {state.owner.length > 5 && state.owner
+              ? `${state.owner.slice(0, 7)}...near`
+              : state.owner
+              ? state.owner
+              : "LOREMIP..."}
+          </h2>
         </Owner>
       </PriceSection>
       <Buttons>
