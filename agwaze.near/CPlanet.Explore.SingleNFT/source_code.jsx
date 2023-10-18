@@ -680,8 +680,8 @@ return (
         <Price>
           <h1>CURRENT PRICE</h1>
           <PriceAmount>
-            <h2>7.239</h2>
-            <h5>$11,496.32M</h5>
+            <h2>{props.price ? (props.price / 1000000000000000000000000).toFixed(2) : "N/A"}</h2>
+            <h5>$2.23</h5>
           </PriceAmount>
         </Price>
         <Owner>
@@ -710,7 +710,7 @@ return (
           </TableHeader>
           <MarketRow>
             {tradePortLogo}
-            <p>7.2399</p>
+            <p>{props.price ? (props.price / 1000000000000000000000000).toFixed(2) : "N/A"}</p>
             <p>$11,496</p>
             <p>58 minutes</p>
           </MarketRow>
