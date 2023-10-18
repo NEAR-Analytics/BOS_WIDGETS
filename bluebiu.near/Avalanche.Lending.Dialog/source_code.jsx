@@ -117,6 +117,7 @@ const BalanceWrapper = styled.div`
 `;
 const Balance = styled.span`
   font-weight: 400;
+  text-decoration: underline;
 `;
 const Row = styled.div`
   display: flex;
@@ -492,14 +493,7 @@ return (
                   }}
                 >
                   Available
-                  <Balance
-                    style={{
-                      textDecoration:
-                        actionText === "Repay" ? "none" : "underline",
-                    }}
-                  >
-                    {formatBalance()}
-                  </Balance>
+                  <Balance>{formatBalance()}</Balance>
                 </BalanceWrapper>
               </InputBalance>
               {isSupply && (
@@ -531,7 +525,7 @@ return (
                 <Value>{Number(data.loanToValue).toFixed(0)} %</Value>
               </Row>
 
-              <Row>
+              {/* <Row>
                 <Label>Use as Collateral</Label>
                 <Value>
                   <Widget
@@ -542,7 +536,7 @@ return (
                     }}
                   />
                 </Value>
-              </Row>
+              </Row> */}
             </>
           )}
           <Row className={isForCollateral && "justfiy-start"}>
