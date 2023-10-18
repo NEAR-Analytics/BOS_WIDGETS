@@ -296,13 +296,14 @@ const formatedData = (key) => {
     userTotalBorrowUsd = userTotalBorrowUsd.plus(
       Big(market.userBorrow).mul(underlyingPrice)
     );
-    totalCollateralUsd = totalCollateralUsd.plus(
-      Big(market.userSupply)
-        .mul(underlyingPrice)
-        .mul(_loanToValue[market.address])
-        .div(100)
-    );
-
+    if (_userMerberShip[market.address]) {
+      totalCollateralUsd = totalCollateralUsd.plus(
+        Big(market.userSupply)
+          .mul(underlyingPrice)
+          .mul(_loanToValue[market.address])
+          .div(100)
+      );
+    }
     const distributionSupplyApy = _rewards[market.address].supply
       .div(marketSupplyUsd.eq(0) ? 1 : marketSupplyUsd)
       .mul(100)
