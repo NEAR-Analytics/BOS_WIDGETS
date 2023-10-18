@@ -35,7 +35,6 @@ const chainIdList = CHAIN_LIST.map((item) => item.chainId);
 const DEFAULT_CHAIN_ID = 1;
 
 const account = Ethers.send("eth_requestAccounts", [])[0];
-console.log("account: ", account);
 
 const { CHAIN_ID } = state;
 
@@ -278,22 +277,13 @@ const TokensOptimisim = {
     icon: "https://ipfs.near.social/ipfs/bafkreihbld7bpsqjnh5uvnosgdwhyc6bze4vbf62rs5vg7xku77ecga4o4",
   },
 
-  "0x23001f892c0C82b79303EDC9B9033cD190BB21c7": {
+  "0xc40F949F8a4e094D1b49a23ea9241D289B7b2819": {
     chainId: 10,
-    address: "0x23001f892c0C82b79303EDC9B9033cD190BB21c7",
+    address: "0xc40F949F8a4e094D1b49a23ea9241D289B7b2819",
     decimals: 18,
     symbol: "LUSD",
     name: "LUSD",
     icon: "https://ipfs.near.social/ipfs/bafkreihbwhrsi447phga5fya4eb4nprudswmh4n5togvpyy4gowntcei5e",
-  },
-
-  "0xDC3326e71D45186F113a2F448984CA0e8D201995": {
-    chainId: 10,
-    address: "0xDC3326e71D45186F113a2F448984CA0e8D201995",
-    decimals: 6,
-    symbol: "XSGD",
-    name: "XSGD",
-    icon: "https://ipfs.near.social/ipfs/bafkreie3xewmom7u6kvy76sznyfujuarcls3ifsv6dp2v7ab47snkdayhq",
   },
 };
 
