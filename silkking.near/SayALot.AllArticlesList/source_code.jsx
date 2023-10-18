@@ -39,7 +39,7 @@ initLibsCalls.upVotes = articlesToRender.map((article) => {
   };
 });
 
-if (initLibsCalls.length > 0) {
+if (articlesToRender.length > 0) {
   State.update({ libsCalls: initLibsCalls });
 }
 
@@ -47,6 +47,8 @@ State.init({
   start: Date.now(),
   libsCalls: initLibsCalls,
 });
+// console.log(1, "All articles list", state);
+// console.log(2, "All articles list", initLibsCalls);
 
 let finalArticlesWithUpVotes = articlesToRender.map((article) => {
   article.upVotes = state[`upVotes-${article.id}`];
