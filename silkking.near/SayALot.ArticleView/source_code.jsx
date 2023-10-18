@@ -8,7 +8,7 @@ const {
   authorForWidget,
   handleEditArticle,
   handleShareButton,
-  // logedUserSbts,
+  callLibs,
 } = props;
 
 const accountId = articleToRenderData.author;
@@ -20,25 +20,6 @@ const id =
 const articleSbts = articleToRenderData.sbts ?? [];
 
 const libSrcArray = [widgets.libComment];
-
-function callLibs(srcArray, stateUpdate, libCalls) {
-  return (
-    <>
-      {srcArray.map((src) => {
-        return (
-          <Widget
-            src={src}
-            props={{
-              isTest,
-              stateUpdate,
-              libCalls,
-            }}
-          />
-        );
-      })}
-    </>
-  );
-}
 
 const tabs = [
   {
@@ -52,27 +33,29 @@ const prodAction = "sayALotArticle_v0.0.3";
 const testAction = `test_${prodAction}`;
 const action = isTest ? testAction : prodAction;
 
-const initLibCalls = [
-  {
-    functionName: "getValidComments",
-    key: "comments",
-    props: { id, articleSbts },
-  },
-  {
-    functionName: "canUserCreateComment",
-    key: "canLoggedUserCreateComment",
-    props: {
-      accountId: context.accountId,
-      sbtsNames: articleSbts,
+const initLibsCalls = {
+  comment: [
+    {
+      functionName: "getValidComments",
+      key: "comments",
+      props: { id, articleSbts },
     },
-  },
-];
+    {
+      functionName: "canUserCreateComment",
+      key: "canLoggedUserCreateComment",
+      props: {
+        accountId: context.accountId,
+        sbtsNames: articleSbts,
+      },
+    },
+  ],
+};
 
 State.init({
   tabSelected: tabs[0].id,
   comments: [],
   sliceContent: true,
-  libCalls: initLibCalls,
+  libsCalls: initLibsCalls,
 });
 
 const timeLastEdit = new Date(articleToRenderData.timeLastEdit);
@@ -90,8 +73,10 @@ const DetailContent = styled.div`
 
 const TagContainer = styled.div`
   display: flex;
+  flex-wrap: wrap;
   align-items: flex-start;
   gap: 4px;
+  margin-top: 1rem;
 `;
 
 const HouseTagDiv = styled.div`
@@ -538,7 +523,7 @@ return (
             }}
           >
             <div className="w-100 p-3 d-flex flex-wrap justify-content-between align-items-start">
-              <div className="d-flex flex-column">
+              <div className="d-flex flex-column w-75">
                 <Widget
                   src={widgets.newStyledComponents.Element.User}
                   props={{
@@ -565,59 +550,13 @@ return (
                             props={{
                               children: tag,
                               variant: "round info outline",
-                              size: "sm",
+                              size: "lg",
                             }}
                           />
                         </CursorPointer>
                       );
                     })}
                 </TagContainer>
-                {
-                  // <Widget
-                  //   src="mob.near/widget/ProfileImage"
-                  //   props={{
-                  //     accountId,
-                  //     imageClassName: "rounded-circle w-100 h-100",
-                  //     style: {
-                  //       width: "100px",
-                  //       height: "100px",
-                  //       marginRight: "15px",
-                  //     },
-                  //   }}
-                  // />
-                  // <div className="d-flex flex-column">
-                  //   <NominationTitleContainer>
-                  //     <UserLink
-                  //       target="_blank"
-                  //       href={`https://www.near.org/near/widget/ProfilePage?accountId=${accountId}`}
-                  //     >
-                  //       <NominationTitle>
-                  //         {articleToRenderData.authorProfile.name ??
-                  //           getShortUserName()}
-                  //       </NominationTitle>
-                  //       <NominationUser>{getShortUserName()}</NominationUser>
-                  //     </UserLink>
-                  //     <TagContainer>
-                  //       {articleToRenderData.tags.length > 0 &&
-                  //         articleToRenderData.tags.map((tag) => {
-                  //           const filter = { filterBy: "tag", value: tag };
-                  //           return (
-                  //             <CursorPointer
-                  //               onClick={() => handleFilterArticles(filter)}
-                  //             >
-                  //               <Widget
-                  //                 src={widgets.styledComponents}
-                  //                 props={{
-                  //                   Tag: { title: tag },
-                  //                 }}
-                  //               />
-                  //             </CursorPointer>
-                  //           );
-                  //         })}
-                  //     </TagContainer>
-                  //   </NominationTitleContainer>
-                  // </div>
-                }
               </div>
               <div className="d-flex gap-3">
                 <div className="d-flex flex-column">
@@ -633,8 +572,9 @@ return (
                           !context.accountId ||
                           context.accountId === accountId ||
                           (articleSbts.length > 0 &&
-                            !state.canLoggedUserCreateComment),
+                            !state.canLoggedUserCreateComment[articleSbts[0]]),
                         articleSbts,
+                        callLibs,
                       }}
                     />
                     <Widget
@@ -662,7 +602,8 @@ return (
                         !context.accountId ||
                         context.accountId === accountId ||
                         (articleSbts.length > 0 &&
-                          !state.canLoggedUserCreateComment),
+                          !state.canLoggedUserCreateComment[articleSbts[0]]),
+                      callLibs,
                     }}
                   />
                   {context.accountId == accountId && (
@@ -753,6 +694,7 @@ return (
                   isReplying: false,
                   username: accountId,
                   onCloseModal: () => State.update({ showModal: false }),
+                  callLibs,
                   // nomination_contract,
                 }}
               />
@@ -769,33 +711,17 @@ return (
                 disabled:
                   !context.accountId ||
                   context.accountId === accountId ||
-                  (articleSbts.length > 0 && !state.canLoggedUserCreateComment),
+                  (articleSbts.length > 0 &&
+                    !state.canLoggedUserCreateComment[articleSbts[0]]),
                 className: "info outline w-100 mt-4 mb-2",
                 onClick: () => {
                   State.update({ showModal: true });
                 },
               }}
             />
-            {
-              // <Widget
-              //   src={widgets.styledComponents}
-              //   props={{
-              //     Button: {
-              //       text: "Add a Comment",
-              //       disabled:
-              //         !context.accountId ||
-              //         context.accountId === accountId ||
-              //         (articleSbts.length > 0 &&
-              //           !state.canLoggedUserCreateComment),
-              //       className: "primary w-100 mt-4 mb-2 justify-content-center",
-              //       onClick: () => State.update({ showModal: true }),
-              //       icon: <i className="bi bi-plus-lg"></i>,
-              //     },
-              //   }}
-              // />
-            }
             {originalComments.map((data) => (
               <Widget
+                src={widgets.commentView}
                 props={{
                   widgets,
                   data,
@@ -805,7 +731,6 @@ return (
                   canLoggedUserCreateComment: state.canLoggedUserCreateComment,
                   articleSbts,
                 }}
-                src={widgets.commentView}
               />
             ))}
           </CommentSection>
@@ -864,7 +789,9 @@ return (
       </SecondContainer>
     </Container>
     <CallLibrary>
-      {callLibs(libSrcArray, stateUpdate, state.libCalls)}
+      {libSrcArray.map((src) => {
+        return callLibs(src, stateUpdate, state.libsCalls, "Article view");
+      })}
     </CallLibrary>
   </>
 );
