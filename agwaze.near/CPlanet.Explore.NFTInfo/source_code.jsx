@@ -86,7 +86,7 @@ const Image = styled.div`
 `;
 
 initState({
-  tab: "INFO",
+  tab: "HISTORY",
 });
 
 const borderStyle = () => {
@@ -145,21 +145,27 @@ return (
       </h4>
     </Header>
     <Body>
-      {state.tab === "HISTORY" && (
-        <Row>
-          <ImageSec>
-            <Image></Image>
-            <div>
-              <p>Listed by @CryptoBabe</p>
-              <span>06 Feb 2022 12:30:39 PM</span>
-            </div>
-          </ImageSec>
-          <PriceSec>
-            <h1>20 MATIC</h1>
-            <span>22.65</span>
-          </PriceSec>
-        </Row>
-      )}
+      {state.tab === "HISTORY" &&
+        props.transaction &&
+        props?.transactions?.map((data) => (
+          <Row>
+            <ImageSec>
+              <Image></Image>
+              <div>
+                <p>
+                  {data.type} by @{data?.from?.id}
+                </p>
+                <span>06 Feb 2022 12:30:39 PM</span>
+              </div>
+            </ImageSec>
+            <PriceSec>
+              <h1>
+                {(data.price / 1000000000000000000000000).toFixed(2)} NEAR
+              </h1>
+              <span>$22.65</span>
+            </PriceSec>
+          </Row>
+        ))}
     </Body>
   </Root>
 );
