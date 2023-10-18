@@ -29,6 +29,17 @@ const onClose = () => {
   });
 };
 
+Social.set({
+  index: {
+    viewBoenseAds: JSON.stringify({
+      key: "viewBoenseAds",
+      value: {
+        account: context.accountId,
+      },
+    }),
+  },
+});
+
 return (
   <div className="mb-2" style={bannerStyle}>
     <div>
