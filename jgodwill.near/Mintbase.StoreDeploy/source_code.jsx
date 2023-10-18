@@ -30,28 +30,14 @@ border: 1px solid #e5e8eb;
 gap: 2em;
 margin: 10px auto;
 border-radius: .7em;
-& input{
-  display: block;
-  padding:.5em;
-  width:100%;
-  border: 1px solid #e5e8eb;
-  border-radius: 10px;
-  outline: none;
-  background: #f4f5f6;
-  color: #525c76;
-  :focus{
-  box-shadow:none;
-    border:1px solid #0d99ff;
-  }
-  &::placeholder {
-    color: palevioletred;
-  }
-  }
-  .soulbound{
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
-  }
+`;
+const StoreCard = styled.div`
+padding: 1em;
+border: 1px solid #e5e8eb;
+gap: 2em;
+margin: 10px auto;
+width: 100%;
+max-width: 400px;
 `;
 
 const Cards = styled.div`
@@ -61,6 +47,17 @@ const Cards = styled.div`
   background: rgba(214, 214, 214, 0.2);
   border-radius: 10px;
   justify-content: center;
+  padding-top: 3em;
+  box-shadow: 0 0.05rem 0.05rem rgb(34 34 34 / 5%), 0 0.2rem 0.8rem rgb(34 34 34 / 8%);
+`;
+const StoreCards = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+  background: rgba(214, 214, 214, 0.2);
+  border-radius: 10px;
+  justify-content: center;
+  gap: 1rem;
   padding-top: 3em;
   box-shadow: 0 0.05rem 0.05rem rgb(34 34 34 / 5%), 0 0.2rem 0.8rem rgb(34 34 34 / 8%);
 `;
@@ -135,11 +132,9 @@ const storeAddressChangeHandler = (storeAddress) => {
     storeAddress: storeAddress,
   });
 };
+
 return (
   <div>
-    <h2 className="text-center my-4">
-      Enter a Near address to See the various Mintbase contracts under it
-    </h2>
     <Card>
       Near Address:
       <Typeahead
@@ -154,16 +149,11 @@ return (
       />
     </Card>
     {state.nftContracts.length > 0 ? (
-      <Card>
-        <select onChange={(e) => storeAddressChangeHandler(e.target.value)}>
-          <option selected disabled>
-            Select a contract
-          </option>
-          {state.nftContracts.map((contract) => (
-            <option value={contract.id}>{contract.id}</option>
-          ))}
-        </select>
-      </Card>
+      <StoreCards>
+        {state.nftContracts.map((contract) => (
+          <StoreCard>{contract.id}</StoreCard>
+        ))}
+      </StoreCards>
     ) : (
       <p>No contracts found for {state.account}</p>
     )}
