@@ -2,37 +2,56 @@
 let { sharedBlockHeight, tagShared, isTest, accountId } = props;
 sharedBlockHeight = Number(sharedBlockHeight);
 
-const initSbtsNames = ["fractal.i-am-human.near"];
+const sbtWhiteList = [
+  "fractal.i-am-human.near - class 1",
+  "community.i-am-human.near - class 1",
+  "community.i-am-human.near - class 2",
+  "community.i-am-human.near - class 3",
+];
+
+const initSbtsNames = ["fractal.i-am-human.near - class 1"];
 
 const sbtsNames = state.sbt;
 
-const initLibCalls = [
-  {
-    functionName: "getLastEditArticles",
-    key: "articles",
-    props: {
-      env: isTest ? "test" : "prod",
-      sbtsNames: initSbtsNames,
+// const initLibCalls = [
+//   {
+//     functionName: "getLastEditArticles",
+//     key: "articles",
+//     props: {
+//       env: isTest ? "test" : "prod",
+//       sbtsNames: sbtWhiteList,
+//     },
+//   },
+//   {
+//     functionName: "canUserCreateArticle",
+//     key: "canLoggedUserCreateArticle",
+//     props: {
+//       accountId: context.accountId,
+//       sbtsNames: sbtWhiteList,
+//     },
+//   },
+// ];
+const initLibsCalls = {
+  article: [
+    {
+      functionName: "getLastEditArticles",
+      key: "articles",
+      props: {
+        env: isTest ? "test" : "prod",
+        sbtsNames: sbtWhiteList,
+      },
     },
-  },
-  {
-    functionName: "canUserCreateArticle",
-    key: "canLoggedUserCreateArticle",
-    props: {
-      accountId: context.accountId,
-      sbtsNames: initSbtsNames,
+    {
+      functionName: "canUserCreateArticle",
+      key: "canLoggedUserCreateArticle",
+      props: {
+        accountId: context.accountId,
+        sbtsNames: sbtWhiteList,
+      },
     },
-  },
-  // {
-  //   functionName: "getLoggedUserSbts",
-  //   key: "logedUserSbts",
-  //   props: {
-  //     accountId: context.accountId,
-  //   },
-  // },
-];
+  ],
+};
 
-// if (!accountId) accountId = context.accountId;
 accountId = context.accountId;
 
 const tabs = {
@@ -78,26 +97,14 @@ State.init({
   articleToRenderData: {},
   filterBy: getInitialFilter(),
   authorsProfiles: [],
-  libCalls: initLibCalls,
+  functionsToCallByLibrary: initLibsCalls,
   sbtsNames: initSbtsNames,
   sbts: initSbtsNames,
 });
 
-let newLibCalls = state.libCalls;
+let newLibsCalls = state.functionsToCallByLibrary;
 
-// const functionsCalledList = newLibCalls.map((functionCalled, index) => {
-//   return { functionName: functionCalled.functionName, i: index };
-// });
-
-// const lastEditArticlesCall = functionsCalledList.filter(
-//   (functionCalled) => functionCalled.functionName === "getLastEditArticles"
-// );
-
-// if (lastEditArticlesCall) {
-//   newLibCalls[getLastEditArticles.index].props.filterBy = state.filterBy;
-// }
-
-State.update({ libCalls: newLibCalls });
+State.update({ libsCalls: newLibsCalls });
 
 //=============================================END INITIALIZATION===================================================
 
@@ -107,30 +114,56 @@ State.update({ libCalls: newLibCalls });
 const authorForWidget =
   "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb";
 // const authorForWidget = "kenrou-it.near";
-const libSrcArray = [`${authorForWidget}/widget/SayALot.lib.article`];
-const thisWidgetName = "SayALot";
 
-const sbtWhiteList = ["fractal.i-am-human.near", "community.i-am-human.near"];
+const thisWidgetName = "SayALot";
 
 const widgets = {
   sayALot: `${authorForWidget}/widget/${thisWidgetName}`,
-  create: `${authorForWidget}/widget/SayALot.Create`,
-  styledComponents: "rubycop.near/widget/NDC.StyledComponents",
-  header: `${authorForWidget}/widget/SayALot.NavBar`,
-  showArticlesList: `${authorForWidget}/widget/SayALot.AllArticlesList`,
+  // create: `${authorForWidget}/widget/SayALot.Create`,
+  create: `${context.accountId}/widget/SayALot.Create`,
+  // header: `${authorForWidget}/widget/SayALot.NavBar`,
+  header: `${context.accountId}/widget/SayALot.NavBar`,
+  // showArticlesList: `${authorForWidget}/widget/SayALot.AllArticlesList`,
+  showArticlesList: `${context.accountId}/widget/SayALot.AllArticlesList`,
   showArticlesListSortedByAuthors: `${authorForWidget}/widget/SayALot.AllArticlesSortByAuthors`,
   articlesByAuthorCard: `${authorForWidget}/widget/SayALot.ArticlesByAuthorCard`,
-  generalCard: `${authorForWidget}/widget/SayALot.GeneralCard`,
-  articleView: `${authorForWidget}/widget/SayALot.ArticleView`,
-  reactions: `${authorForWidget}/widget/SayALot.Reactions`,
-  addComment: `${authorForWidget}/widget/SayALot.AddComment`,
+  //   generalCard: `${authorForWidget}/widget/SayALot.GeneralCard`,
+  generalCard: `${context.accountId}/widget/SayALot.GeneralCard`,
+  //   articleView: `${authorForWidget}/widget/SayALot.ArticleView`,
+  articleView: `${context.accountId}/widget/SayALot.ArticleView`,
+  // reactions: `${authorForWidget}/widget/SayALot.Reactions`,
+  reactions: `${context.accountId}/widget/SayALot.Reactions`,
+  //   addComment: `${authorForWidget}/widget/SayALot.AddComment`,
+  addComment: `${context.accountId}/widget/SayALot.AddComment`,
   commentView: `${authorForWidget}/widget/SayALot.CommentView`,
-  libComment: `${authorForWidget}/widget/SayALot.lib.comment`,
-  libArticle: `${authorForWidget}/widget/SayALot.lib.article`,
-  libEmojis: `${authorForWidget}/widget/SayALot.lib.emojis`,
-  libUpVotes: `${authorForWidget}/widget/SayALot.lib.upVotes`,
-  upVoteButton: `${authorForWidget}/widget/SayALot.UpVoteButton`,
+  //   libComment: `${authorForWidget}/widget/SayALot.lib.comment`,
+  libComment: `${context.accountId}/widget/SayALot.lib.comment`,
+  // libArticle: `${authorForWidget}/widget/SayALot.lib.article`,
+  libArticle: `${context.accountId}/widget/SayALot.lib.article`,
+  // libEmojis: `${authorForWidget}/widget/SayALot.lib.emojis`,
+  libEmojis: `${context.accountId}/widget/SayALot.lib.emojis`,
+  // libUpVotes: `${authorForWidget}/widget/SayALot.lib.upVotes`,
+  libUpVotes: `${context.accountId}/widget/SayALot.lib.upVotes`,
+  // upVoteButton: `${authorForWidget}/widget/SayALot.UpVoteButton`,
+  upVoteButton: `${context.accountId}/widget/SayALot.UpVoteButton`,
+  styledComponents: "rubycop.near/widget/NDC.StyledComponents",
+  newStyledComponents: {
+    Element: {
+      Badge: "nearui.near/widget/Element.Badge",
+      User: "nearui.near/widget/Element.User",
+    },
+    Feedback: {
+      Spinner: "nearui.near/widget/Feedback.Spinner",
+    },
+    Input: {
+      Button: "nearui.near/widget/Input.Button",
+      Checkbox: "nearui.near/widget/Input.Checkbox",
+      Select: "nearui.near/widget/Input.Select",
+    },
+  },
 };
+
+const libSrcArray = [widgets.libArticle];
 
 const profile = props.profile ?? Social.getr(`${accountId}/profile`);
 if (profile === null) {
@@ -140,7 +173,6 @@ if (profile === null) {
 let authorProfile = {};
 if (state.filterBy.parameterName == "author") {
   authorProfile = Social.getr(`${state.filterBy.parameterValue}/profile`);
-  // if (!authorProfile) return "Loading...";
 }
 
 const brand = {
@@ -164,11 +196,13 @@ const navigationButtons = [
 const sbts = state.sbts;
 
 const initialBodyAtCreation = state.editArticleData.body;
+const canLoggedUserCreateArticle = state.canLoggedUserCreateArticle[sbts[0]];
 
 //=================================================END CONSTS=======================================================
 
 //=================================================GET DATA=========================================================
 const finalArticles = state.articles;
+const articlesToRender = finalArticles[sbts[0]] ?? [];
 
 function filterArticlesByTag(tag, articles) {
   return articles.filter((article) => {
@@ -191,26 +225,29 @@ function filterOnePost(blockHeight, articles) {
 }
 
 if (state.filterBy.parameterName === "tag") {
-  finalArticles = filterArticlesByTag(
+  articlesToRender = filterArticlesByTag(
     state.filterBy.parameterValue,
-    finalArticles
+    articlesToRender
   );
 } else if (state.filterBy.parameterName === "author") {
-  finalArticles = filterArticlesByAuthor(
+  articlesToRender = filterArticlesByAuthor(
     state.filterBy.parameterValue,
-    finalArticles
+    articlesToRender
   );
 } else if (state.filterBy.parameterName === "getPost") {
-  finalArticles = filterOnePost(state.filterBy.parameterValue, finalArticles);
-  if (finalArticles.length > 0) {
-    State.update({ articleToRenderData: finalArticles[0] });
+  articlesToRender = filterOnePost(
+    state.filterBy.parameterValue,
+    articlesToRender
+  );
+  if (articlesToRender.length > 0) {
+    State.update({ articleToRenderData: articlesToRender[0] });
   }
 }
 //===============================================END GET DATA=======================================================
 
 //=============================================STYLED COMPONENTS====================================================
 const CallLibrary = styled.div`
-  display: none;
+  display: block;
 `;
 
 const ShareInteractionGeneralContainer = styled.div`
@@ -330,20 +367,28 @@ function getValidEditArticleDataTags() {
 
 function createSbtOptions() {
   return sbtWhiteList.map((option, i) => {
-    //The first options is always the default one
+    const title = "";
+
+    if (option === "fractal.i-am-human.near - class 1") title = "General";
+    if (option === "community.i-am-human.near - class 1") title = "OG";
+    if (option === "community.i-am-human.near - class 2") title = "Contributor";
+    if (option === "community.i-am-human.near - class 3")
+      title = "Core Contributor";
+
     if (i == 0) {
-      return { title: option, default: true, value: option };
+      //The first options is always the default one
+      return { title, default: true, value: option };
     } else {
-      return { title: option, value: option };
+      return { title, value: option };
     }
   });
 }
 
 const initialCreateState = {
-  articleId: state.editArticleData.articleId ?? "",
+  title: state.editArticleData.title ?? "",
   articleBody: state.editArticleData.body ?? initialBodyAtCreation,
   tags: state.editArticleData.tags ? getValidEditArticleDataTags() : {},
-  libCalls: [],
+  libsCalls: { comment: {}, article: {}, emojis: {}, upVotes: {} },
   sbts: [sbtWhiteList[0]],
 };
 
@@ -413,23 +458,27 @@ function handlePillNavigation(navegateTo) {
   State.update({ displayedTabId: navegateTo, editArticleData: undefined });
 }
 
-// console.log(0, "libCalls: ", state.libCalls);
-function callLibs(srcArray, stateUpdate, libCalls) {
+function callLibs(src, stateUpdate, functionsToCallByLibrary, callerWidget) {
+  // if (callerWidget === "All articles list") {
+  // console.log(
+  //   -1,
+  //   `Call libs props ${callerWidget}: `,
+  //   src,
+  //   functionsToCallByLibrary,
+  //   callLibs
+  // );
+  // }
+
   return (
-    <>
-      {srcArray.map((src) => {
-        return (
-          <Widget
-            src={src}
-            props={{
-              isTest,
-              stateUpdate,
-              libCalls,
-            }}
-          />
-        );
-      })}
-    </>
+    <Widget
+      src={src}
+      props={{
+        isTest,
+        stateUpdate,
+        functionsToCallByLibrary,
+        callLibs,
+      }}
+    />
   );
 }
 
@@ -449,10 +498,38 @@ function handleShareButton(showShareModal, sharedElement) {
 }
 
 function getLink() {
-  return `https://near.social/f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/SayALot?${state.sharedElement.type}=${state.sharedElement.value}`;
+  return `https://near.social/${widgets.sayALot}?${isTest && "isTest=t&"}${
+    state.sharedElement.type
+  }=${state.sharedElement.value}`;
 }
 
 //===============================================END FUNCTIONS======================================================
+
+if (!context.accountId) {
+  return (
+    <>
+      <Widget
+        src={widgets.header}
+        props={{
+          isTest,
+          stateUpdate,
+          handleGoHomeButton,
+          handlePillNavigation,
+          brand,
+          pills: navigationPills,
+          navigationButtons,
+          displayedTabId: state.displayedTabId,
+          handleFilterArticles,
+          filterParameter: state.filterBy.parameterName,
+          handleBackButton,
+          tabs,
+          sbtsNames,
+        }}
+      />
+      <h2>Log in to see the articles</h2>
+    </>
+  );
+}
 return (
   <>
     {state.showShareModal && renderShareInteraction()}
@@ -474,12 +551,23 @@ return (
         sbtsNames,
       }}
     />
-    {finalArticles && state.displayedTabId == tabs.SHOW_ARTICLES_LIST.id && (
+    <div className="my-3">
+      <Widget
+        src={widgets.newStyledComponents.Input.Select}
+        props={{
+          label: "Select sbt filter",
+          value: sbts[0],
+          onChange: handleSbtSelection,
+          options: createSbtOptions(),
+        }}
+      />
+    </div>
+    {articlesToRender && state.displayedTabId == tabs.SHOW_ARTICLES_LIST.id && (
       <Widget
         src={widgets.showArticlesList}
         props={{
           isTest,
-          finalArticles,
+          articlesToRender,
           tabs,
           widgets,
           addressForArticles,
@@ -488,38 +576,33 @@ return (
           authorForWidget,
           initialCreateState,
           editArticleData: state.editArticleData,
-          callLibs,
           handleEditArticle,
-          showCreateArticle: state.canLoggedUserCreateArticle,
+          showCreateArticle: canLoggedUserCreateArticle,
           sbtWhiteList,
-          handleSbtSelection,
           sbts,
-          createSbtOptions,
           handleShareButton,
-          // logedUserSbts: state.logedUserSbts,
+          canLoggedUserCreateArticles: state.canLoggedUserCreateArticle,
+          filterBy: state.filterBy,
+          callLibs,
         }}
       />
     )}
-    {state.articleToRenderData.articleId &&
-    state.displayedTabId == tabs.SHOW_ARTICLE.id ? (
-      <Widget
-        src={widgets.articleView}
-        props={{
-          isTest,
-          widgets,
-          handleFilterArticles,
-          articleToRenderData: state.articleToRenderData,
-          authorForWidget,
-          handleEditArticle,
-          handleShareButton,
-          // logedUserSbts: state.logedUserSbts,
-        }}
-      />
-    ) : (
-      <div className="spinner-grow" role="status">
-        <span className="visually-hidden">Loading...</span>
-      </div>
-    )}
+    {state.articleToRenderData.title &&
+      state.displayedTabId == tabs.SHOW_ARTICLE.id && (
+        <Widget
+          src={widgets.articleView}
+          props={{
+            isTest,
+            widgets,
+            handleFilterArticles,
+            articleToRenderData: state.articleToRenderData,
+            authorForWidget,
+            handleEditArticle,
+            handleShareButton,
+            callLibs,
+          }}
+        />
+      )}
 
     {state.displayedTabId == tabs.SHOW_ARTICLES_LIST_BY_AUTHORS.id && (
       <Widget
@@ -532,7 +615,6 @@ return (
           handleOpenArticle,
           handleFilterArticles,
           authorForWidget,
-          // logedUserSbts: state.logedUserSbts,
         }}
       />
     )}
@@ -553,13 +635,21 @@ return (
           handleFilterArticles,
           handleEditArticle,
           sbtWhiteList,
-          createSbtOptions,
+          sbts,
+          canLoggedUserCreateArticles: state.canLoggedUserCreateArticle,
         }}
       />
     )}
 
     <CallLibrary>
-      {callLibs(libSrcArray, stateUpdate, state.libCalls)}
+      {libSrcArray.map((src) => {
+        return callLibs(
+          src,
+          stateUpdate,
+          state.functionsToCallByLibrary,
+          "SayALot"
+        );
+      })}
     </CallLibrary>
   </>
 );
