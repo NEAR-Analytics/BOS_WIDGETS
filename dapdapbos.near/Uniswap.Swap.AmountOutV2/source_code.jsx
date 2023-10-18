@@ -16,8 +16,6 @@ const {
   tradeType,
 } = props;
 
-console.log("amountIn: ", amountIn);
-
 const account = Ethers.send("eth_requestAccounts", [])[0];
 
 if (!update || !account) return "";
@@ -120,17 +118,13 @@ const quoteSingle = (amountIn, tokenIn, tokenOut, fee, finalList) => {
 
   const encodedData = iface.encodeFunctionData("quoteExactInputSingle", inputs);
 
-  // const provider = new ethers.providers.JsonRpcProvider();
-
   return Ethers.provider()
     .call({
       to: quoterAddress,
       data: encodedData,
     })
     .then((data) => {
-      console.log("data: ", data);
       const res = iface.decodeFunctionResult("quoteExactInputSingle", data);
-      console.log("res: ", res);
 
       const rawAmountOut = Big(res.amountOut.toString()).toFixed();
 
@@ -160,7 +154,7 @@ const quoteSingle = (amountIn, tokenIn, tokenOut, fee, finalList) => {
 };
 
 const quoteAll = () => {
-  quoteSingle(amountIn, tokenIn, tokenOut, feeList[0], [])
+  return quoteSingle(amountIn, tokenIn, tokenOut, feeList[0], [])
     .then((finalList0) => {
       return quoteSingle(amountIn, tokenIn, tokenOut, feeList[1], finalList0);
     })
@@ -207,8 +201,19 @@ if (wrapType > 0) {
     outputCurrencyAmount: amountIn,
     fee: 0,
     success: true,
+    noPair: false,
+    loading: false,
   });
 } else {
+  if (Big(amountIn || "0").eq(0)) {
+    loadAmountOut({
+      loading: false,
+      success: true,
+      noPair: false,
+    });
+    return "";
+  }
+
   quoteAll();
 }
 return "";
