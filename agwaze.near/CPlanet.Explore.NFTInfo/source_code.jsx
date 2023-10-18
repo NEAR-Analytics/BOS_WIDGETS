@@ -160,6 +160,11 @@ const About = styled.div`
    }
 `;
 
+const TabHeight = styled.div`
+  max-height: 300px;
+  overflow-y: scroll;
+`
+
 const profile = props.profile ?? Social.getr(`${props.owner}/profile`);
 
 initState({
@@ -219,6 +224,7 @@ return (
       </h4>
     </Header>
     <Body>
+      <TabHeight>
       {state.tab === "HISTORY" &&
         props.transactions &&
         props?.transactions?.map((data, index) => (
@@ -241,6 +247,7 @@ return (
             </PriceSec>
           </Row>
         ))}
+        </TabHeight>
       <About>
         <h1>ABOUT THE ARTIST</h1>
         <div>
