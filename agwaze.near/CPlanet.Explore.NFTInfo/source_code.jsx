@@ -252,7 +252,7 @@ return (
       <About>
         <h1>ABOUT THE ARTIST</h1>
         <a
-          href={`#/agwaze.near/widget/GenaDrop.Profile.Main?owner=${props.owner}`}
+          href={`#/agwaze.near/widget/GenaDrop.Profile.Main?accountId=${props.owner}`}
         >
           {arrow}
           <h2>View Artist Page</h2>
