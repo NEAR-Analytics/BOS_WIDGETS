@@ -1,6 +1,6 @@
-const { isTest, stateUpdate, libCalls, callLibs } = props;
+const { isTest, stateUpdate, libCalls } = props;
 
-console.log(1, callLibs);
+console.log(0, props);
 
 //TODO check if env is still needed since we are not using the whitelist anymore because of the human verification system
 
