@@ -32,7 +32,13 @@ border-radius: .7em;
 
 return (
   <Card>
-    <img src={storeData.media} alt="store Image" />
+    <img
+      src={
+        storeData.media ||
+        "https://arweave.net/cjSBAKOSIV-ElbiqsdcT0aJ9xXBzPKYlGnUtWqkhrTY"
+      }
+      alt="store Image"
+    />
     <div className="bottom">
       <h4 className="title">{storeData.title || "Store Title"}</h4>
       <p className="desc">{storeData.description || "Description"}</p>
