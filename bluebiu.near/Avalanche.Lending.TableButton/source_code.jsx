@@ -11,6 +11,12 @@ const Button = styled.button`
   justify-content: center;
   gap: 6px;
   padding: 0px 10px;
+  opacity: 0.8;
+
+  &:hover {
+    opacity: 1;
+  }
+
   &.withdraw,
   &.claim {
     background-color: var(--withdraw-bg-color);
