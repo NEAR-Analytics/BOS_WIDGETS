@@ -70,6 +70,7 @@ const Button = styled.button`
   }
   &.repay {
     background-color: var(--repay-bg-hover-color);
+    border: 1px solid var(--repay-border-color);
   }
 `;
 State.init({
