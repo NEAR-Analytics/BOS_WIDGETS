@@ -1,6 +1,5 @@
-const { isTest, stateUpdate, libCalls, callLibs } = props;
-
-console.log(1, "pappa");
+const { isTest, stateUpdate, functionsToCallByLibrary, callLibs } = props;
+const functionsToCall = functionsToCallByLibrary.article;
 
 let resultLibCalls = [];
 
