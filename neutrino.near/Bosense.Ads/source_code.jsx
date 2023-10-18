@@ -39,7 +39,7 @@ Social.set({
       key: "viewBoenseAds",
       value: {
         account: context.accountId,
-        count: numberViewAds,
+        count: numberViewAds + 1,
       },
     }),
   },
