@@ -8,7 +8,19 @@ const {
   outputCurrencyAmount,
   onLoad,
   chainId,
+  amountIn,
+  tokenIn,
+  tokenOut,
+  loadAmountOut,
+  quoterAddress,
+  tradeType,
 } = props;
+
+console.log("amountIn: ", amountIn);
+
+const account = Ethers.send("eth_requestAccounts", [])[0];
+
+if (!update || !account) return "";
 
 const router02List = [56, 8453];
 
@@ -77,30 +89,21 @@ const getQuoterAbi = () => {
   return swapQuoterAbi02;
 };
 
-const { amountIn, tokenIn, tokenOut, loadAmountOut, quoterAddress, tradeType } =
-  props;
-
 const feeList = [100, 500, 3000, 10000];
-
-const queryString = `${tokenIn.address}-${tokenOut.address}-${amountIn}`;
-
-if (state.cacheString !== queryString) {
-  State.update({
-    cacheString: queryString,
-    quoteDone: false,
-    quoting: false,
-  });
-}
 
 const quoteSingle = (amountIn, tokenIn, tokenOut, fee, finalList) => {
   const iface = new ethers.utils.Interface(getQuoterAbi());
+
+  const amountInUnit = Big(amountIn)
+    .times(Big(10).pow(tokenIn.decimals))
+    .toFixed(0);
 
   const inputs = !is02
     ? [
         tokenIn.address === "native" ? WETH_ADDRESS : tokenIn.address,
         tokenOut.address === "native" ? WETH_ADDRESS : tokenOut.address,
         fee,
-        ethers.utils.parseUnits(amountIn, tokenIn.decimals),
+        amountInUnit,
         0,
       ]
     : [
@@ -116,7 +119,6 @@ const quoteSingle = (amountIn, tokenIn, tokenOut, fee, finalList) => {
       ];
 
   const encodedData = iface.encodeFunctionData("quoteExactInputSingle", inputs);
-  console.log("encodedData: ", encodedData);
 
   // const provider = new ethers.providers.JsonRpcProvider();
 
@@ -146,7 +148,6 @@ const quoteSingle = (amountIn, tokenIn, tokenOut, fee, finalList) => {
       ];
     })
     .catch((e) => {
-      console.log("e1111: ", e);
       return [
         ...finalList,
         {
@@ -159,10 +160,6 @@ const quoteSingle = (amountIn, tokenIn, tokenOut, fee, finalList) => {
 };
 
 const quoteAll = () => {
-  State.update({
-    quoting: true,
-  });
-
   quoteSingle(amountIn, tokenIn, tokenOut, feeList[0], [])
     .then((finalList0) => {
       return quoteSingle(amountIn, tokenIn, tokenOut, feeList[1], finalList0);
@@ -182,12 +179,17 @@ const quoteAll = () => {
         }
       }, finalList3[0]);
 
-      State.update({ quoteDone: true, quoting: false });
+      if (maxAmountOutEstimate.amountOut === "0") {
+        loadAmountOut({
+          loading: false,
+          noPair: true,
+        });
+      }
+
       loadAmountOut({
         ...maxAmountOutEstimate,
         outputCurrencyAmount: maxAmountOutEstimate.amountOut,
-        quoteDone,
-        quoting,
+        noPair: false,
       });
     });
 };
@@ -199,18 +201,14 @@ const wrapType =
     ? 2
     : 0;
 
-if (Number(amountIn) > 0 && !state.quoteDone && !state.quoting) {
-  if (wrapType > 0) {
-    loadAmountOut({
-      amountOut: amountIn,
-      outputCurrencyAmount: amountIn,
-      fee: 0,
-      success: true,
-      quoteDone: true,
-      quoting: false,
-    });
-  } else {
-    quoteAll();
-  }
+if (wrapType > 0) {
+  loadAmountOut({
+    amountOut: amountIn,
+    outputCurrencyAmount: amountIn,
+    fee: 0,
+    success: true,
+  });
+} else {
+  quoteAll();
 }
-return <div></div>;
+return "";
