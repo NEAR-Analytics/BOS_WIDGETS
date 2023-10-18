@@ -1,4 +1,4 @@
-const { isTest, stateUpdate, libCalls } = props;
+const { isTest, stateUpdate, libCalls, callLibs } = props;
 
 //TODO check if env is still needed since we are not using the whitelist anymore because of the human verification system
 
@@ -448,9 +448,8 @@ console.log("lib.article state: ", state);
 
 return (
   <>
-    Test1
     {libSrcArray.map((src) => {
-      callLibs(src, libStateUpdate, state.libsCalls, "lib.article");
+      return callLibs(src, libStateUpdate, state.libsCalls, "lib.article");
     })}
   </>
 );
