@@ -110,7 +110,7 @@ return (
             <h4>{accounts.length} Active Builders</h4>
             <p>
               <i class="bi bi-clock-history px-2"></i>
-              before {block && <b>{date.toDateString()}</b>}
+              after {block && <b>{date.toDateString()}</b>}
             </p>
           </div>
           <div className="col-5 mb-2">
