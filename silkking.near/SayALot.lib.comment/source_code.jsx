@@ -17,6 +17,12 @@ State.init({
   libsCalls: { SBT: [] },
 });
 
+let resultFunctionsToCallByLibrary = Object.assign(
+  {},
+  functionsToCallByLibrary
+);
+let resultFunctionsToCall = [];
+
 function libStateUpdate(obj) {
   State.update(obj);
 }
@@ -55,7 +61,7 @@ function canUserCreateComment(props) {
 
   const result = state[`isValidUser-${accountId}`];
 
-  resultLibCalls = resultLibCalls.filter((call) => {
+  resultFunctionsToCall = resultFunctionsToCall.filter((call) => {
     const discardCondition =
       call.functionName === "canUserCreateComment" && result !== undefined;
     return !discardCondition;
@@ -71,7 +77,7 @@ function createComment(props) {
 
   saveComment(comment, onCommit, onCancel);
 
-  resultLibCalls = resultLibCalls.filter((call) => {
+  resultFunctionsToCall = resultFunctionsToCall.filter((call) => {
     return call.functionName !== "createComment";
   });
 
@@ -148,7 +154,7 @@ function getValidComments(props) {
       return state[`isValidUser-${author}`][articleSbt];
     });
 
-    resultLibCalls = resultLibCalls.filter((call) => {
+    resultFunctionsToCall = resultFunctionsToCall.filter((call) => {
       const discardCondition =
         call.functionName === "getValidComments" &&
         state[`isValidUser-${call.props.accountId}`] !== undefined;
@@ -161,7 +167,7 @@ function getValidComments(props) {
   return finalComments;
 }
 
-function libCall(call) {
+function callFunction(call) {
   if (call.functionName === "createComment") {
     return createComment(call.props);
   } else if (call.functionName === "getValidComments") {
@@ -171,19 +177,15 @@ function libCall(call) {
   }
 }
 
-let resultLibCalls = [];
 if (functionsToCall && functionsToCall.length > 0) {
-  // console.log(
-  //   "Calling functions",
-  //   libCalls.map((lc) => lc.functionName)
-  // );
-  const updateObj = {};
-  resultLibCalls = [...libCalls];
-  libCalls.forEach((call) => {
-    updateObj[call.key] = libCall(call);
+  const updateObj = Object.assign({}, functionsToCallByLibrary);
+  resultFunctionsToCall = [...functionsToCall];
+  functionsToCall.forEach((call) => {
+    updateObj[call.key] = callFunction(call);
   });
 
-  updateObj.libCalls = resultLibCalls;
+  resultFunctionsToCallByLibrary.article = resultFunctionsToCall;
+  updateObj.functionsToCallByLibrary = resultFunctionsToCallByLibrary;
   stateUpdate(updateObj);
 }
 
