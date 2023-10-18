@@ -574,7 +574,6 @@ function fetchTokens() {
               return nftObject;
             }
           });
-          console.log(nftBody);
           State.update({
             title: nftBody[0].name,
             imageUrl: nftBody[0].image,
@@ -636,8 +635,6 @@ function fetchTokens() {
   });
 }
 
-console.log(state.transactions);
-
 fetchTokens();
 
 return (
@@ -669,7 +666,7 @@ return (
       </Top>
       <Widget
         src="agwaze.near/widget/CPlanet.Explore.NFTInfo"
-        props={{ transactions: state.transactions }}
+        props={{ transactions: state.transactions, owner: state.owner }}
       />
     </Right>
     <Left>
