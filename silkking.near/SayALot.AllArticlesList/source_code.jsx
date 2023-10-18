@@ -12,7 +12,6 @@ let {
   authorForWidget,
   initialCreateState,
   editArticleData,
-  callLibs,
   handleEditArticle,
   showCreateArticle,
   sbtWhiteList,
@@ -20,6 +19,7 @@ let {
   handleShareButton,
   canLoggedUserCreateArticles,
   filterBy,
+  callLibs,
 } = props;
 
 const libSrcArray = [widgets.libUpVotes];
