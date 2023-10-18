@@ -161,8 +161,9 @@ const About = styled.div`
 `;
 
 const TabHeight = styled.div`
-  max-height: 300px;
+  max-height: 280px;
   overflow-y: scroll;
+  margin-bottom: 20px;
 `
 
 const profile = props.profile ?? Social.getr(`${props.owner}/profile`);
