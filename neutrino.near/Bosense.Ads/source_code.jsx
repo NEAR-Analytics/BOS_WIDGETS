@@ -31,7 +31,7 @@ const onClose = () => {
 
 const numberViewAds = Social.index("viewBoenseAds", "viewBoenseAds", {
   limit: 10,
-}).len;
+}).length;
 
 const total = numberViewAds ? numberViewAds : 0;
 
