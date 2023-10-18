@@ -20,10 +20,10 @@ const sortedData = data.sort((a, b) => {
   return new Date(a["DAY"]) - new Date(b["DAY"]);
 });
 
-const COMMITS_COUNT = {};
+const WALLETS_CREATED = {};
 
 data.map((entry) => {
-  COMMITS_COUNT[entry["DAY"]] = entry["WALLETS_CREATED"];
+  WALLETS_CREATED[entry["DAY"]] = entry["WALLETS_CREATED"];
 });
 
 const dates = data.map((entry) => entry["DAY"]);
@@ -67,8 +67,8 @@ const stacked_bar_data = {
   dates,
   datasets: [
     {
-      label: "COMMITS_COUNT",
-      data: COMMITS_COUNT,
+      label: "Wallets Created",
+      data: WALLETS_CREATED,
       backgroundColor: "rgb(250,164,58)",
     },
   ],
