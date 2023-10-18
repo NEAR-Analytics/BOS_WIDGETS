@@ -1,10 +1,11 @@
-const { isTest, stateUpdate, libCalls } = props;
+const { isTest, stateUpdate, libCalls, callLibs } = props;
+
+console.log(1, "pappa");
 
 let resultLibCalls = [];
 
 function isValidUser(props) {
   const { accountId, sbtsNames } = props;
-  console.log(1, props);
   const userSBTs = Near.view(
     "registry.i-am-human.near",
     "sbt_tokens_by_owner",
