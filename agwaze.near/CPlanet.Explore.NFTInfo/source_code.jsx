@@ -89,9 +89,7 @@ initState({
   tab: "HISTORY",
 });
 
-const borderStyle = () => {
-  return {};
-};
+
 return (
   <Root>
     <Header>
@@ -146,9 +144,9 @@ return (
     </Header>
     <Body>
       {state.tab === "HISTORY" &&
-        props.transaction &&
-        props?.transactions?.map((data) => (
-          <Row>
+        props.transactions &&
+        props?.transactions?.map((data, index) => (
+          <Row key={data}>
             <ImageSec>
               <Image></Image>
               <div>
