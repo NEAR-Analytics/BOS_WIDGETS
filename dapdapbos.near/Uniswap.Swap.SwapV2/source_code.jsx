@@ -28,6 +28,7 @@ if (prevTitle !== title || !state.inputCurrency) {
     tradeType: "in",
     targetUnitAmount: 0,
     noPair: false,
+    chainId,
     updateInputTokenBalance: true,
     updateOutputTokenBalance: true,
     loading: true,
@@ -37,6 +38,15 @@ if (prevTitle !== title || !state.inputCurrency) {
   });
   Storage.privateSet("prevTitle", title);
 }
+
+if (chainId !== state.chainId) {
+  State.update({
+    chainId,
+    inputCurrency: dexConfig.defaultCurrencies.input,
+    outputCurrency: dexConfig.defaultCurrencies.output,
+  });
+}
+
 const SwapContainer = styled.div``;
 const Title = styled.div`
   color: var(--text-color);
@@ -143,8 +153,6 @@ const getUnitAmount = () => {
   if (unitAmount.lt(0.001)) return unitAmount.toPrecision(1);
   return unitAmount.toFixed(3);
 };
-
-console.log("state: ", state);
 
 return (
   <SwapContainer>
@@ -276,7 +284,7 @@ return (
       />
     </Panel>
 
-    <Power>Powered by DapDap</Power>
+    <Power>Powered by DapDap & BOS </Power>
 
     {state.displayCurrencySelect && (
       <Widget
@@ -325,21 +333,21 @@ return (
       />
     )}
 
-    {dexConfig.uniType === "v2" && (
+    {dexConfig.uniType === "v3" && (
       <Widget
         src={amountOutFn}
         props={{
           update: state.loading,
           routerAddress: dexConfig.routerAddress,
-          inputCurrency: state.inputCurrency,
-          outputCurrency: state.outputCurrency,
-          inputCurrencyAmount: state.inputCurrencyAmount,
+          tokenIn: state.inputCurrency,
+          tokenOut: state.outputCurrency,
+          amountIn: state.inputCurrencyAmount,
           outputCurrencyAmount: state.outputCurrencyAmount,
           tradeType: state.tradeType,
+          quoterAddress: dexConfig.quoterAddress,
           wethAddress,
           chainId,
-          onLoad: (data) => {
-            console.log("data: ", data);
+          loadAmountOut: (data) => {
             State.update({
               loading: false,
               ...data,
