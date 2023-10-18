@@ -30,6 +30,7 @@ const Row = styled.div`
     justify-content: space-between;
     width: 80%;
     max-width: 700px;
+    margin-bottom: 10px;
     align-items: center;
 `;
 
@@ -88,7 +89,6 @@ const Image = styled.div`
 initState({
   tab: "HISTORY",
 });
-
 
 return (
   <Root>
