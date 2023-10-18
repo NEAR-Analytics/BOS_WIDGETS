@@ -33,13 +33,15 @@ const numberViewAds = Social.index("viewBoenseAds", "viewBoenseAds", {
   limit: 10,
 }).len;
 
+const total = numberViewAds ? numberViewAds : 0;
+
 Social.set({
   index: {
     viewBoenseAds: JSON.stringify({
       key: "viewBoenseAds",
       value: {
         account: context.accountId,
-        count: numberViewAds + 1,
+        count: total + 1,
       },
     }),
   },
