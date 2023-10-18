@@ -66,11 +66,10 @@ const Button = styled.button`
     opacity: 0.5;
   }
   &.borrow {
-    background-color: var(--repay-border-color);
+    background-color: var(--repay-bg-hover-color);
   }
   &.repay {
-    background-color: var(--repay-bg-color);
-    border: 1px solid var(--repay-border-color);
+    background-color: var(--repay-bg-hover-color);
   }
 `;
 State.init({
