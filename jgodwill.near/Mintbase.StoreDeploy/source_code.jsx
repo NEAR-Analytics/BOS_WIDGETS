@@ -146,7 +146,7 @@ margin: 10px auto;
 width: 100%;
   background: #000;
   color: #fff;
-max-width: 400px;
+max-width: 600px;
 *{
   font-family: Helvetica Neue;
   }
@@ -218,94 +218,89 @@ return (
       />
     </Card>
     {nftContracts.length > 0 ? (
-      <div className="mx-24 md:mx-64 ">
-        <ul className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-2  hd:col-6 xxl:grid-cols-3  xxxl:grid-cols-3 gap-24 md:gap-24 my-24 ">
-          {nftContracts &&
-            nftContracts.map((contract) => (
-              <StoreCard>
-                <div className="top"></div>
-                <div className="middle">
-                  <div className="content">
-                    <div className="icon_area">
-                      <img
-                        src={
-                          contract.nftContract.icon ??
-                          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRub7hFLkStCvZiaSeiUGznP4uzqPPcepghhg&usqp=CAU"
-                        }
-                        className="chain_icon"
-                        alt={contract.nftContract.name + " icon"}
-                      />
-                    </div>
-                    <div className="name_contract">
-                      <h3>{contract.nftContract.name.toUpperCase()}</h3>
-                      <p>{contract.id}</p>
-                    </div>
+      <StoreCards className="mx-24 md:mx-64 ">
+        {nftContracts &&
+          nftContracts.map((contract) => (
+            <StoreCard>
+              <div className="top"></div>
+              <div className="middle">
+                <div className="content">
+                  <div className="icon_area">
+                    <img
+                      src={
+                        contract.nftContract.icon ??
+                        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRub7hFLkStCvZiaSeiUGznP4uzqPPcepghhg&usqp=CAU"
+                      }
+                      className="chain_icon"
+                      alt={contract.nftContract.name + " icon"}
+                    />
+                  </div>
+                  <div className="name_contract">
+                    <h3>{contract.nftContract.name.toUpperCase()}</h3>
+                    <p>{contract.id}</p>
                   </div>
                 </div>
-                <div className="bottom">
-                  <button>Manage NFTs</button>
-                </div>
-              </StoreCard>
-            ))}
-          {/* deploy here*/}
-          <div class="rounded dashed-border p-5">
-            <div class="flex flex-col justify-center items-center h-full">
-              <div class="items-center text-center justify-center">
-                <div class="">
-                  <button
-                    type="button"
-                    class="button secondary active p-8 p-med-90 w-32 mb-12 lg:mb-12 mt-64 relative"
-                  >
-                    <span class="visible">New Contract</span>
-                  </button>
-                </div>
               </div>
-              <div>
-                <a
-                  href="https://docs.mintbase.xyz/creator/creating-nfts/deploy-contract"
-                  target="_blank"
-                  rel="noreferrer noopener"
+              <div className="bottom">
+                <button>Manage NFTs</button>
+              </div>
+            </StoreCard>
+          ))}
+        {/* deploy here*/}
+        <div class="rounded dashed-border p-5">
+          <div class="flex flex-col justify-center items-center h-full">
+            <div class="items-center text-center justify-center">
+              <div class="">
+                <button
+                  type="button"
+                  class="button secondary active p-8 p-med-90 w-32 mb-12 lg:mb-12 mt-64 relative"
                 >
-                  <button
-                    class="action active p-med-90 undefined"
-                    type="button"
-                  >
-                    <div class="flex items-center gap-4 ">
-                      <span class="whitespace-nowrap">Learn more</span>
-                      <div class="flex justify-center m-4">
-                        <svg
-                          width="16px"
-                          height="16px"
-                          viewBox="0 0 24 24"
-                          fill="#000000"
-                          xmlns="http://www.w3.org/2000/svg"
-                          class="fill-current text-blue-300 dark:text-blue-100"
-                        >
-                          <g clip-path="url(#clip0_295_1571)">
-                            <path
-                              d="M19 19H5V5H12V3H5C3.89 3 3 3.9 3 5V19C3 20.1 3.89 21 5 21H19C20.1 21 21 20.1 21 19V12H19V19ZM14 3V5H17.59L7.76 14.83L9.17 16.24L19 6.41V10H21V3H14Z"
-                              fill="currentColor"
-                            ></path>
-                          </g>
-                          <defs>
-                            <clipPath id="clip0_295_1571">
-                              <rect
-                                width="24"
-                                height="24"
-                                fill="currentColor"
-                              ></rect>
-                            </clipPath>
-                          </defs>
-                        </svg>
-                      </div>
-                    </div>
-                  </button>
-                </a>
+                  <span class="visible">New Contract</span>
+                </button>
               </div>
             </div>
+            <div>
+              <a
+                href="https://docs.mintbase.xyz/creator/creating-nfts/deploy-contract"
+                target="_blank"
+                rel="noreferrer noopener"
+              >
+                <button class="action active p-med-90 undefined" type="button">
+                  <div class="flex items-center gap-4 ">
+                    <span class="whitespace-nowrap">Learn more</span>
+                    <div class="flex justify-center m-4">
+                      <svg
+                        width="16px"
+                        height="16px"
+                        viewBox="0 0 24 24"
+                        fill="#000000"
+                        xmlns="http://www.w3.org/2000/svg"
+                        class="fill-current text-blue-300 dark:text-blue-100"
+                      >
+                        <g clip-path="url(#clip0_295_1571)">
+                          <path
+                            d="M19 19H5V5H12V3H5C3.89 3 3 3.9 3 5V19C3 20.1 3.89 21 5 21H19C20.1 21 21 20.1 21 19V12H19V19ZM14 3V5H17.59L7.76 14.83L9.17 16.24L19 6.41V10H21V3H14Z"
+                            fill="currentColor"
+                          ></path>
+                        </g>
+                        <defs>
+                          <clipPath id="clip0_295_1571">
+                            <rect
+                              width="24"
+                              height="24"
+                              fill="currentColor"
+                            ></rect>
+                          </clipPath>
+                        </defs>
+                      </svg>
+                    </div>
+                  </div>
+                </button>
+              </a>
+            </div>
           </div>
-        </ul>
-      </div>
+        </div>
+      </StoreCards>
     ) : (
       <p>No contracts found for {state.account}</p>
     )}
