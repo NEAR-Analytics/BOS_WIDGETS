@@ -4,13 +4,6 @@ const initialState = {
 
 State.init(initialState);
 
-// const state = {
-//   data: initialState,
-//   update(newState) {
-//     this.data = { ...this.data, ...newState };
-//   },
-// };
-
 const Style = styled.div`
   /* Add any styles if needed */
 `;
@@ -35,6 +28,7 @@ return (
         >
           <option value="A">NEAR Active Accounts</option>
           <option value="B">AURORA and NEAR Active Accounts</option>
+          <option value="C">By Transactions Signed</option> {/* New option */}
         </select>
 
         {state.selectedWidget === "A" ? (
@@ -42,9 +36,14 @@ return (
             src="y3k.near/widget/near_atlas.components.MonthlyActiveAcounts"
             props={{}}
           />
-        ) : (
+        ) : state.selectedWidget === "B" ? (
           <Widget
             src="y3k.near/widget/near_atlas.components.MainChainActiveAcounts"
+            props={{}}
+          />
+        ) : (
+          <Widget
+            src="y3k.near/widget/near_atlas.components.vis.txns_signed" // Adjust this src value to your actual widget's URL
             props={{}}
           />
         )}
