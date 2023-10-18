@@ -1,26 +1,36 @@
-const { isTest, stateUpdate, libCalls } = props;
+const { isTest, stateUpdate, functionsToCallByLibrary, callLibs } = props;
+const functionsToCall = functionsToCallByLibrary.article;
 
 const prodAction = "sayALotUpVote-v0.0.2";
 const testAction = `test_${prodAction}`;
 const action = isTest ? testAction : prodAction;
 
-const authorForWidget =
-  "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb";
+// const authorForWidget =
+//   "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb";
 // const authorForWidget = "sayalot.near";
 // const authorForWidget = "kenrou-it.near";
+const authorForWidget = "silkking.near";
 const libSrcArray = [`${authorForWidget}/widget/SayALot.lib.SBT`];
+console.log(1, "upvote", callLibs);
 
-State.init({ libCalls: [] });
+State.init({ libCalls: [], libsCalls: { SBT: [] } });
+
+let resultFunctionsToCallByLibrary = Object.assign(
+  {},
+  functionsToCallByLibrary
+);
+let resultFunctionsToCall = [];
 
 function libStateUpdate(obj) {
   State.update(obj);
 }
 
 function setAreValidUsers(accountIds, sbtsNames) {
-  const newLibCalls = [...state.libCalls];
-  accountIds.forEach((accountId) => {
+  const newLibsCalls = Object.assign({}, state.libsCalls);
+
+  accountIds.forEach((accountId, index) => {
     const isCallPushed =
-      newLibCalls.find((libCall) => {
+      newLibsCalls.SBT.find((libCall) => {
         return (
           libCall.functionName === "isValidUser" &&
           libCall.props.accountId === accountId
@@ -32,7 +42,7 @@ function setAreValidUsers(accountIds, sbtsNames) {
       return;
     }
 
-    newLibCalls.push({
+    newLibsCalls.SBT.push({
       functionName: "isValidUser",
       key: `isValidUser-${accountId}`,
       props: {
@@ -41,27 +51,27 @@ function setAreValidUsers(accountIds, sbtsNames) {
       },
     });
   });
-  State.update({ libCalls: newLibCalls });
+  State.update({ libsCalls: newLibsCalls });
 }
 
-function callLibs(srcArray, stateUpdate, libCalls) {
-  return (
-    <>
-      {srcArray.map((src) => {
-        return (
-          <Widget
-            src={src}
-            props={{
-              isTest,
-              stateUpdate,
-              libCalls,
-            }}
-          />
-        );
-      })}
-    </>
-  );
-}
+// function callLibs(srcArray, stateUpdate, libCalls) {
+//   return (
+//     <>
+//       {srcArray.map((src) => {
+//         return (
+//           <Widget
+//             src={src}
+//             props={{
+//               isTest,
+//               stateUpdate,
+//               libCalls,
+//             }}
+//           />
+//         );
+//       })}
+//     </>
+//   );
+// }
 
 function canUserUpVote(props) {
   const { env, accountId, sbtsNames } = props;
@@ -236,7 +246,9 @@ const CallLibrary = styled.div`
 return (
   <>
     <CallLibrary>
-      {callLibs(libSrcArray, libStateUpdate, state.libCalls)}
+      {libSrcArray.map((src) => {
+        return callLibs(src, libStateUpdate, state.libsCalls, "lib.upVotes");
+      })}
     </CallLibrary>
   </>
 );
