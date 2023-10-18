@@ -19,7 +19,7 @@ const HeroSection = styled.div`
   //max-width: 1440px;
   width: 100%;
   height: 302.4px;
-  margin: 0 -24px;
+  margin: 0 auto;
   margin-top: 0; /* Remove the top margin to close the gap */
   display: flex; /* Make the container a flex container */
   justify-content: space-between; /* Space items horizontally */
