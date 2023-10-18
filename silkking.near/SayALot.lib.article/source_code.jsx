@@ -1,7 +1,5 @@
 const { isTest, stateUpdate, libCalls } = props;
 
-console.log(0, props);
-
 //TODO check if env is still needed since we are not using the whitelist anymore because of the human verification system
 
 const prodAction = "sayALotArticle_v0.0.2";
@@ -16,7 +14,7 @@ const libSrcArray = [`${authorForWidget}/widget/SayALot.lib.SBT`];
 
 State.init({
   libCalls: [],
-  libsCalls: {},
+  libsCalls: { SBT: [] },
   sbt: "fractal.i-am-human.near - class 1",
 });
 
@@ -28,6 +26,7 @@ function libStateUpdate(obj) {
 
 function setAreValidUsers(accountIds, sbtsNames) {
   const newLibsCalls = Object.assign({}, state.libsCalls);
+  console.log(1, newLibsCalls);
   accountIds.forEach((accountId, index) => {
     const isCallPushed =
       newLibsCalls.SBT.find((libCall) => {
@@ -449,6 +448,7 @@ console.log("lib.article state: ", state);
 
 return (
   <>
+    Test1
     {libSrcArray.map((src) => {
       callLibs(src, libStateUpdate, state.libsCalls, "lib.article");
     })}
