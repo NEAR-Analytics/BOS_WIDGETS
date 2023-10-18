@@ -161,7 +161,7 @@ const About = styled.div`
 `;
 
 const TabHeight = styled.div`
-  max-height: 280px;
+  height: 280px;
   overflow-y: scroll;
   margin-bottom: 20px;
 `
