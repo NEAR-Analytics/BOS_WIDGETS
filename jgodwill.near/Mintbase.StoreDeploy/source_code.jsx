@@ -151,25 +151,37 @@ max-width: 600px;
   font-family: Helvetica Neue;
   }
 .icon_area{
-  width: 60px;
-  border-radius: 50%;
-  height: 60px;
+  width: 110px;
+  // border-radius: 50%;
+  height: 110px;
   border: 3px solid #ccc;
   display: flex;
   overflow: hidden;
+  position: absolute;
+  margin-top: -50px;
+  img{
+    object-fit:cover;
+  }
 }
 
 .name_contract{
+  margin-top: 10px;
   h3{
     font-weight: bold;
+    margin: 0;
   }
 }
 
 .middle{
-  padding: 20px;
+  padding: 0px 20px;
+  position: relative;
   .content{
+  position: relative;
     display: flex;
     gap: 20px;
+    .name_contract{
+      margin-left: 130px;
+    }
   }
 }
 
