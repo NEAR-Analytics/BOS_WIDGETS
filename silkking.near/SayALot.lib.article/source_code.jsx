@@ -1,4 +1,5 @@
-const { isTest, stateUpdate, libCalls, callLibs } = props;
+const { isTest, stateUpdate, functionsToCallByLibrary, callLibs } = props;
+const functionsToCall = functionsToCallByLibrary.article;
 
 //TODO check if env is still needed since we are not using the whitelist anymore because of the human verification system
 
@@ -18,7 +19,11 @@ State.init({
   sbt: "fractal.i-am-human.near - class 1",
 });
 
-let resultLibCalls = [];
+let resultFunctionsToCallByLibrary = Object.assign(
+  {},
+  functionsToCallByLibrary
+);
+let resultFunctionsToCall = [];
 
 function libStateUpdate(obj) {
   State.update(obj);
@@ -26,7 +31,7 @@ function libStateUpdate(obj) {
 
 function setAreValidUsers(accountIds, sbtsNames) {
   const newLibsCalls = Object.assign({}, state.libsCalls);
-  console.log(1, newLibsCalls);
+
   accountIds.forEach((accountId, index) => {
     const isCallPushed =
       newLibsCalls.SBT.find((libCall) => {
@@ -72,7 +77,7 @@ function canUserCreateArticle(props) {
   setAreValidUsers([accountId], sbtsNames);
   const result = state[`isValidUser-${accountId}`];
 
-  resultLibCalls = resultLibCalls.filter((call) => {
+  resultFunctionsToCall = resultFunctionsToCall.filter((call) => {
     const discardCondition =
       call.functionName === "canUserCreateArticle" && result !== undefined;
     return !discardCondition;
@@ -94,7 +99,7 @@ function createArticle(props) {
 
   saveHandler(article, onCommit, onCancel);
 
-  resultLibCalls = resultLibCalls.filter((call) => {
+  resultFunctionsToCall = resultFunctionsToCall.filter((call) => {
     return call.functionName !== "createArticle";
   });
 
@@ -334,7 +339,7 @@ function getLastEditArticles(props) {
   //     return state[`isValidUser-${author}`] === true;
   //   }
   // );
-  resultLibCalls = resultLibCalls.filter((call) => {
+  resultFunctionsToCall = resultFunctionsToCall.filter((call) => {
     const discardCondition =
       call.functionName === "getLastEditArticles" &&
       state[`isValidUser-${call.props.accountId}`] !== undefined;
@@ -392,36 +397,7 @@ function filterValidArticles(articles) {
   return filteredArticles;
 }
 
-// function getComments(args) {
-//   const { id } = args;
-//   const key = id;
-//   return Social.index(action, key);
-// }
-
-// function setComment(args) {
-//   const { id, text, previousCommentId } = args;
-//   const data = {
-//     index: {
-//       [action]: JSON.stringify({
-//         key: id,
-//         value: {
-//           text,
-//           id: `${id}-${Date.now()}`,
-//           previousCommentId,
-//         },
-//       }),
-//     },
-//   };
-//   Social.set(data);
-
-//   resultLibCalls = resultLibCalls.filter((call) => {
-//     return call.functionName !== "setComment";
-//   });
-
-//   return text;
-// }
-
-function libCall(call) {
+function callFunction(call) {
   if (call.functionName === "canUserCreateArticle") {
     return canUserCreateArticle(call.props);
   } else if (call.functionName === "createArticle") {
@@ -433,18 +409,17 @@ function libCall(call) {
   }
 }
 
-if (libCalls && libCalls.length > 0) {
-  const updateObj = {};
-  resultLibCalls = [...libCalls];
-  libCalls.forEach((call) => {
-    updateObj[call.key] = libCall(call);
+if (functionsToCall && functionsToCall.length > 0) {
+  const updateObj = Object.assign({}, functionsToCallByLibrary);
+  resultFunctionsToCall = [...functionsToCall];
+  functionsToCall.forEach((call) => {
+    updateObj[call.key] = callFunction(call);
   });
 
-  updateObj.libCalls = resultLibCalls;
+  resultFunctionsToCallByLibrary.article = resultFunctionsToCall;
+  updateObj.functionsToCallByLibrary = resultFunctionsToCallByLibrary;
   stateUpdate(updateObj);
 }
-
-console.log("lib.article state: ", state);
 
 return (
   <>
