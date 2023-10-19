@@ -189,14 +189,5 @@ return (
     ) : (
       <p>No contracts found for {state.account}</p>
     )}
-    {state.storeContracts.length > 0 ? (
-      <Cards>
-        {state.storeContracts.map((store) => (
-          <Widget src="" props={{ storeInfo: store }} />
-        ))}
-      </Cards>
-    ) : (
-      <p>No NFTs found for {state.storeAddress}</p>
-    )}
   </div>
 );
