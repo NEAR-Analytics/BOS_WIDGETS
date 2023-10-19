@@ -191,7 +191,7 @@ const loader = (
   </div>
 );
 
-if (postIds === null || props.loading) {
+if (postIds === null) {
   return loader;
 }
 const initialItems = postIds;
