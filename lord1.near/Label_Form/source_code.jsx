@@ -109,6 +109,280 @@ const validateForm = () => {
     (!state.discord || state.discordError === "")
   );
 };
+let chain = (
+  <Widget
+    src={`lord1.near/widget/Dropdown`}
+    props={{
+      label: "Select a Supported Chain *",
+      placeholder: "Chains ",
+      placeholdercolor: themeColor?.form?.placeholdercolor,
+      inputbackgroundcolor: themeColor?.form?.inputbackgroundcolor,
+      inputcolor: themeColor?.form?.inputcolor,
+      labelcolor: themeColor?.form?.labelcolor,
+      options: [
+        { text: "Algorand", value: "Algorand" },
+        { text: "Arbitrum", value: "Arbitrum" },
+        { text: "Aurora", value: "Aurora" },
+        { text: "Avalanche", value: "Avalanche" },
+        { text: "Axelar", value: "Axelar" },
+        { text: "Base", value: "Base" },
+        { text: "Bitcoin", value: "Bitcoin" },
+        { text: "BSC/Binance", value: "BSC/Binance" },
+        { text: "Cosmos", value: "Cosmos" },
+        { text: "Ethereum", value: "Ethereum" },
+        { text: "EVMOS", value: "EVMOS" },
+        { text: "Flow", value: "Flow" },
+        { text: "Gnosis", value: "Gnosis" },
+        { text: "Near *", value: "Near" },
+        { text: "Optimism", value: "Optimism" },
+        { text: "Osmosis", value: "Osmosis" },
+        { text: "Polygon", value: "Polygon" },
+        { text: "Sei", value: "Sei" },
+        { text: "Solana", value: "Solana" },
+        { text: "Terra", value: "Terra" },
+        { text: "Thorchain", value: "Thorchain" },
+      ],
+      dev: state.blockchain,
+      update: (blockchain) => State.update({ blockchain }),
+      setError: (blockchainError) => State.update({ blockchainError }),
+      error: state.blockchainError,
+    }}
+  />
+);
+let address = (
+  <Widget
+    src={`lord1.near/widget/Text`}
+    props={{
+      label: "Paste the Contract Address *",
+      placeholdercolor: themeColor?.form?.placeholdercolor,
+      inputbackgroundcolor: themeColor?.form?.inputbackgroundcolor,
+      inputcolor: themeColor?.form?.inputcolor,
+      labelcolor: themeColor?.form?.labelcolor,
+      placeholder: "OxA9D1e08C7793af67e9d92fe308d5697FB81d3E43",
+      value: state.contract_address,
+      onChange: (contract_address) => State.update({ contract_address }),
+      validate: () => {
+        if (state.contract_address.length < 5) {
+          State.update({
+            contract_addressError: "Name must be at least 5 characters",
+          });
+          return;
+        }
+
+        if (state.contract_address.length > 100) {
+          State.update({
+            contract_addressError: "Name must be less than 100 characters",
+          });
+          return;
+        }
+
+        State.update({ contract_addressError: "" });
+      },
+      error: state.contract_addressError,
+    }}
+  />
+);
+let protocols = (
+  <Widget
+    src={`lord1.near/widget/Text`}
+    props={{
+      label: "Add the protocol the contract belongs to *",
+      placeholdercolor: themeColor?.form?.placeholdercolor,
+      inputbackgroundcolor: themeColor?.form?.inputbackgroundcolor,
+      inputcolor: themeColor?.form?.inputcolor,
+      labelcolor: themeColor?.form?.labelcolor,
+      placeholder: "Coinbase",
+      value: state.protocol,
+      onChange: (protocol) => State.update({ protocol }),
+      validate: () => {
+        if (state.protocol.length < 2) {
+          State.update({
+            protocolError: "Name must be at least 2 characters",
+          });
+          return;
+        }
+
+        if (state.protocol.length > 100) {
+          State.update({
+            protocolError: "Name must be less than 100 characters",
+          });
+          return;
+        }
+
+        State.update({ protocolError: "" });
+      },
+      error: state.protocolError,
+    }}
+  />
+);
+
+let name = (
+  <Widget
+    src={`lord1.near/widget/Text`}
+    props={{
+      label: "Add the contract name *",
+      placeholdercolor: themeColor?.form?.placeholdercolor,
+      inputbackgroundcolor: themeColor?.form?.inputbackgroundcolor,
+      inputcolor: themeColor?.form?.inputcolor,
+      labelcolor: themeColor?.form?.labelcolor,
+      placeholder: "Coinbase hot wallet 10",
+      value: state.contract_name,
+      onChange: (contract_name) => State.update({ contract_name }),
+      validate: () => {
+        if (state.contract_name.length < 5) {
+          State.update({
+            contract_nameError: "Name must be at least 5 characters",
+          });
+          return;
+        }
+
+        if (state.contract_name.length > 100) {
+          State.update({
+            contract_nameError: "Name must be less than 100 characters",
+          });
+          return;
+        }
+
+        State.update({ contract_nameError: "" });
+      },
+      error: state.contract_nameError,
+    }}
+  />
+);
+
+let labels = (
+  <Widget
+    src={`lord1.near/widget/Dropdown`}
+    props={{
+      label: "Select a Supported Label Type *",
+      placeholdercolor: themeColor?.form?.placeholdercolor,
+      inputbackgroundcolor: themeColor?.form?.inputbackgroundcolor,
+      inputcolor: themeColor?.form?.inputcolor,
+      labelcolor: themeColor?.form?.labelcolor,
+      placeholder: "Label",
+      options: [
+        { text: "cex", value: "cex" },
+        { text: "chadmin", value: "chadmin" },
+        { text: "dapp", value: "dapp" },
+        { text: "defi", value: "defi" },
+        { text: "dex", value: "dex" },
+        { text: "flotsam", value: "flotsam" },
+        { text: "layer2", value: "layer2" },
+        { text: "nft", value: "nft" },
+        { text: "operator", value: "operator" },
+        { text: "token", value: "token" },
+      ],
+      dev: state.label,
+      update: (label) => State.update({ label }),
+      setError: (labelError) => State.update({ labelError }),
+      error: state.labelError,
+    }}
+  />
+);
+let sublabels = (
+  <Widget
+    src={`lord1.near/widget/Dropdown`}
+    props={{
+      label: "Select a Supported Label Subtype *",
+      placeholdercolor: themeColor?.form?.placeholdercolor,
+      inputbackgroundcolor: themeColor?.form?.inputbackgroundcolor,
+      inputcolor: themeColor?.form?.inputcolor,
+      labelcolor: themeColor?.form?.labelcolor,
+      placeholder: "Subtype",
+      options: [
+        {
+          text: "aggregator_contract",
+          value: "aggregator_contract",
+        },
+        { text: "airdrop_contract", value: "airdrop_contract" },
+        { text: "auction", value: "auction" },
+        { text: "bridge", value: "bridge" },
+        { text: "chadmin", value: "chadmin" },
+        { text: "custody_contract", value: "custody_contract" },
+        { text: "dao", value: "dao" },
+        { text: "deposit_wallet", value: "deposit_wallet" },
+        { text: "operator", value: "operator" },
+        { text: "distributor_cex", value: "distributor_cex" },
+        { text: "donation_address", value: "donation_address" },
+        { text: "escrow", value: "escrow" },
+        { text: "fee_wallet", value: "fee_wallet" },
+        { text: "foundation", value: "foundation" },
+        { text: "general_contract", value: "general_contract" },
+        { text: "genesis_block", value: "genesis_block" },
+        { text: "governance", value: "governance" },
+        { text: "hot_wallet", value: "hot_wallet" },
+        { text: "marketplace", value: "marketplace" },
+        { text: "memo_hot_wallet", value: "memo_hot_wallet" },
+        { text: "mining_pool", value: "mining_pool" },
+        { text: "mint_burn", value: "mint_burn" },
+        { text: "mint_contract", value: "mint_contract" },
+        { text: "multisig", value: "multisig" },
+        {
+          text: "nf_position_manager",
+          value: "nf_position_manager",
+        },
+        { text: "nf_token_contract", value: "nf_token_contract" },
+        { text: "nft", value: "nft" },
+        { text: "oracle", value: "oracle" },
+        { text: "pool", value: "pool" },
+        { text: "reserve", value: "reserve" },
+        { text: "rewards", value: "rewards" },
+        { text: "router", value: "router" },
+        { text: "staking_contract", value: "staking_contract" },
+        { text: "strategy", value: "strategy" },
+        { text: "swap_contract", value: "swap_contract" },
+        { text: "swap_router", value: "swap_router" },
+        { text: "token_address", value: "token_address" },
+        { text: "token_contract", value: "token_contract" },
+        { text: "token_distribution", value: "token_distribution" },
+        { text: "token_sale", value: "token_sale" },
+        { text: "token_vesting", value: "token_vesting" },
+        { text: "toxic", value: "toxic" },
+        { text: "treasury", value: "treasury" },
+        { text: "validator", value: "validator" },
+        { text: "vault", value: "vault" },
+        { text: "voting", value: "voting" },
+      ],
+      dev: state.sublabel,
+      update: (sublabel) => State.update({ sublabel }),
+      setError: (sublabelError) => State.update({ sublabelError }),
+      error: state.sublabelError,
+    }}
+  />
+);
+let discords = (
+  <Widget
+    src={`lord1.near/widget/test`}
+    props={{
+      label: "Discord Handle",
+      placeholdercolor: themeColor?.form?.placeholdercolor,
+      inputbackgroundcolor: themeColor?.form?.inputbackgroundcolor,
+      inputcolor: themeColor?.form?.inputcolor,
+      labelcolor: themeColor?.form?.labelcolor,
+      placeholder: "@sick_discord_handle",
+      value: state.discord,
+      onChange: (discord) => State.update({ discord }),
+      validate: () => {
+        if (state.discord.length < 2) {
+          State.update({
+            discordError: "Name must be at least 2 characters",
+          });
+          return;
+        }
+
+        if (state.discord.length > 20) {
+          State.update({
+            discordError: "Name must be less than 20 characters",
+          });
+          return;
+        }
+
+        State.update({ discordError: "" });
+      },
+      error: state.discordError,
+    }}
+  />
+);
 
 return (
   <div
@@ -125,272 +399,13 @@ return (
 
           <Container>
             <Form>
-              <Widget
-                src={`lord1.near/widget/Dropdown`}
-                props={{
-                  label: "Select a Supported Chain *",
-                  placeholder: "Chains ",
-                  placeholdercolor: themeColor?.form?.placeholdercolor,
-                  inputbackgroundcolor: themeColor?.form?.inputbackgroundcolor,
-                  inputcolor: themeColor?.form?.inputcolor,
-                  labelcolor: themeColor?.form?.labelcolor,
-                  options: [
-                    { text: "Algorand", value: "Algorand" },
-                    { text: "Arbitrum", value: "Arbitrum" },
-                    { text: "Aurora", value: "Aurora" },
-                    { text: "Avalanche", value: "Avalanche" },
-                    { text: "Axelar", value: "Axelar" },
-                    { text: "Base", value: "Base" },
-                    { text: "Bitcoin", value: "Bitcoin" },
-                    { text: "BSC/Binance", value: "BSC/Binance" },
-                    { text: "Cosmos", value: "Cosmos" },
-                    { text: "Ethereum", value: "Ethereum" },
-                    { text: "EVMOS", value: "EVMOS" },
-                    { text: "Flow", value: "Flow" },
-                    { text: "Gnosis", value: "Gnosis" },
-                    { text: "Near *", value: "Near" },
-                    { text: "Optimism", value: "Optimism" },
-                    { text: "Osmosis", value: "Osmosis" },
-                    { text: "Polygon", value: "Polygon" },
-                    { text: "Sei", value: "Sei" },
-                    { text: "Solana", value: "Solana" },
-                    { text: "Terra", value: "Terra" },
-                    { text: "Thorchain", value: "Thorchain" },
-                  ],
-                  dev: state.blockchain,
-                  update: (blockchain) => State.update({ blockchain }),
-                  setError: (blockchainError) =>
-                    State.update({ blockchainError }),
-                  error: state.blockchainError,
-                }}
-              />
-
-              <Widget
-                src={`lord1.near/widget/Text`}
-                props={{
-                  label: "Paste the Contract Address *",
-                  placeholdercolor: themeColor?.form?.placeholdercolor,
-                  inputbackgroundcolor: themeColor?.form?.inputbackgroundcolor,
-                  inputcolor: themeColor?.form?.inputcolor,
-                  labelcolor: themeColor?.form?.labelcolor,
-                  placeholder: "OxA9D1e08C7793af67e9d92fe308d5697FB81d3E43",
-                  value: state.contract_address,
-                  onChange: (contract_address) =>
-                    State.update({ contract_address }),
-                  validate: () => {
-                    if (state.contract_address.length < 5) {
-                      State.update({
-                        contract_addressError:
-                          "Name must be at least 5 characters",
-                      });
-                      return;
-                    }
-
-                    if (state.contract_address.length > 100) {
-                      State.update({
-                        contract_addressError:
-                          "Name must be less than 100 characters",
-                      });
-                      return;
-                    }
-
-                    State.update({ contract_addressError: "" });
-                  },
-                  error: state.contract_addressError,
-                }}
-              />
-              <Widget
-                src={`lord1.near/widget/Text`}
-                props={{
-                  label: "Add the protocol the contract belongs to *",
-                  placeholdercolor: themeColor?.form?.placeholdercolor,
-                  inputbackgroundcolor: themeColor?.form?.inputbackgroundcolor,
-                  inputcolor: themeColor?.form?.inputcolor,
-                  labelcolor: themeColor?.form?.labelcolor,
-                  placeholder: "Coinbase",
-                  value: state.protocol,
-                  onChange: (protocol) => State.update({ protocol }),
-                  validate: () => {
-                    if (state.protocol.length < 2) {
-                      State.update({
-                        protocolError: "Name must be at least 2 characters",
-                      });
-                      return;
-                    }
-
-                    if (state.protocol.length > 100) {
-                      State.update({
-                        protocolError: "Name must be less than 100 characters",
-                      });
-                      return;
-                    }
-
-                    State.update({ protocolError: "" });
-                  },
-                  error: state.protocolError,
-                }}
-              />
-              <Widget
-                src={`lord1.near/widget/Text`}
-                props={{
-                  label: "Add the contract name *",
-                  placeholdercolor: themeColor?.form?.placeholdercolor,
-                  inputbackgroundcolor: themeColor?.form?.inputbackgroundcolor,
-                  inputcolor: themeColor?.form?.inputcolor,
-                  labelcolor: themeColor?.form?.labelcolor,
-                  placeholder: "Coinbase hot wallet 10",
-                  value: state.contract_name,
-                  onChange: (contract_name) => State.update({ contract_name }),
-                  validate: () => {
-                    if (state.contract_name.length < 5) {
-                      State.update({
-                        contract_nameError:
-                          "Name must be at least 5 characters",
-                      });
-                      return;
-                    }
-
-                    if (state.contract_name.length > 100) {
-                      State.update({
-                        contract_nameError:
-                          "Name must be less than 100 characters",
-                      });
-                      return;
-                    }
-
-                    State.update({ contract_nameError: "" });
-                  },
-                  error: state.contract_nameError,
-                }}
-              />
-
-              <Widget
-                src={`lord1.near/widget/Dropdown`}
-                props={{
-                  label: "Select a Supported Label Type *",
-                  placeholdercolor: themeColor?.form?.placeholdercolor,
-                  inputbackgroundcolor: themeColor?.form?.inputbackgroundcolor,
-                  inputcolor: themeColor?.form?.inputcolor,
-                  labelcolor: themeColor?.form?.labelcolor,
-                  placeholder: "Label",
-                  options: [
-                    { text: "cex", value: "cex" },
-                    { text: "chadmin", value: "chadmin" },
-                    { text: "dapp", value: "dapp" },
-                    { text: "defi", value: "defi" },
-                    { text: "dex", value: "dex" },
-                    { text: "flotsam", value: "flotsam" },
-                    { text: "layer2", value: "layer2" },
-                    { text: "nft", value: "nft" },
-                    { text: "operator", value: "operator" },
-                    { text: "token", value: "token" },
-                  ],
-                  dev: state.label,
-                  update: (label) => State.update({ label }),
-                  setError: (labelError) => State.update({ labelError }),
-                  error: state.labelError,
-                }}
-              />
-              <Widget
-                src={`lord1.near/widget/Dropdown`}
-                props={{
-                  label: "Select a Supported Label Subtype *",
-                  placeholdercolor: themeColor?.form?.placeholdercolor,
-                  inputbackgroundcolor: themeColor?.form?.inputbackgroundcolor,
-                  inputcolor: themeColor?.form?.inputcolor,
-                  labelcolor: themeColor?.form?.labelcolor,
-                  placeholder: "Subtype",
-                  options: [
-                    {
-                      text: "aggregator_contract",
-                      value: "aggregator_contract",
-                    },
-                    { text: "airdrop_contract", value: "airdrop_contract" },
-                    { text: "auction", value: "auction" },
-                    { text: "bridge", value: "bridge" },
-                    { text: "chadmin", value: "chadmin" },
-                    { text: "custody_contract", value: "custody_contract" },
-                    { text: "dao", value: "dao" },
-                    { text: "deposit_wallet", value: "deposit_wallet" },
-                    { text: "operator", value: "operator" },
-                    { text: "distributor_cex", value: "distributor_cex" },
-                    { text: "donation_address", value: "donation_address" },
-                    { text: "escrow", value: "escrow" },
-                    { text: "fee_wallet", value: "fee_wallet" },
-                    { text: "foundation", value: "foundation" },
-                    { text: "general_contract", value: "general_contract" },
-                    { text: "genesis_block", value: "genesis_block" },
-                    { text: "governance", value: "governance" },
-                    { text: "hot_wallet", value: "hot_wallet" },
-                    { text: "marketplace", value: "marketplace" },
-                    { text: "memo_hot_wallet", value: "memo_hot_wallet" },
-                    { text: "mining_pool", value: "mining_pool" },
-                    { text: "mint_burn", value: "mint_burn" },
-                    { text: "mint_contract", value: "mint_contract" },
-                    { text: "multisig", value: "multisig" },
-                    {
-                      text: "nf_position_manager",
-                      value: "nf_position_manager",
-                    },
-                    { text: "nf_token_contract", value: "nf_token_contract" },
-                    { text: "nft", value: "nft" },
-                    { text: "oracle", value: "oracle" },
-                    { text: "pool", value: "pool" },
-                    { text: "reserve", value: "reserve" },
-                    { text: "rewards", value: "rewards" },
-                    { text: "router", value: "router" },
-                    { text: "staking_contract", value: "staking_contract" },
-                    { text: "strategy", value: "strategy" },
-                    { text: "swap_contract", value: "swap_contract" },
-                    { text: "swap_router", value: "swap_router" },
-                    { text: "token_address", value: "token_address" },
-                    { text: "token_contract", value: "token_contract" },
-                    { text: "token_distribution", value: "token_distribution" },
-                    { text: "token_sale", value: "token_sale" },
-                    { text: "token_vesting", value: "token_vesting" },
-                    { text: "toxic", value: "toxic" },
-                    { text: "treasury", value: "treasury" },
-                    { text: "validator", value: "validator" },
-                    { text: "vault", value: "vault" },
-                    { text: "voting", value: "voting" },
-                  ],
-                  dev: state.sublabel,
-                  update: (sublabel) => State.update({ sublabel }),
-                  setError: (sublabelError) => State.update({ sublabelError }),
-                  error: state.sublabelError,
-                }}
-              />
-              <Widget
-                src={`lord1.near/widget/test`}
-                props={{
-                  label: "Discord Handle",
-                  placeholdercolor: themeColor?.form?.placeholdercolor,
-                  inputbackgroundcolor: themeColor?.form?.inputbackgroundcolor,
-                  inputcolor: themeColor?.form?.inputcolor,
-                  labelcolor: themeColor?.form?.labelcolor,
-                  placeholder: "@sick_discord_handle",
-                  value: state.discord,
-                  onChange: (discord) => State.update({ discord }),
-                  validate: () => {
-                    if (state.discord.length < 2) {
-                      State.update({
-                        discordError: "Name must be at least 2 characters",
-                      });
-                      return;
-                    }
-
-                    if (state.discord.length > 20) {
-                      State.update({
-                        discordError: "Name must be less than 20 characters",
-                      });
-                      return;
-                    }
-
-                    State.update({ discordError: "" });
-                  },
-                  error: state.discordError,
-                }}
-              />
+              {chain}
+              {address}
+              {protocols}
+              {name}
+              {labels}
+              {sublabels}
+              {discords}
               <FormFooter>
                 <Widget
                   src={`contribut3.near/widget/Buttons.Green`}
@@ -398,10 +413,12 @@ return (
                     disabled: !validateForm(),
                     onClick: () => {
                       if (!validateForm()) return;
-                      const data = {
-                        labelrecord: {
-                          gateway: "flipside_gateway",
+
+                      Social.set({
+                        index: JSON.stringify({
                           value: {
+                            gateway: "flipside_gateway",
+                            method: "register_label",
                             blockchain: state.blockchain.value,
                             contract_address: state.contract_address,
                             protocol: state.protocol,
@@ -410,20 +427,8 @@ return (
                             label_subtype: state.sublabel.value,
                             discord_handle: state.discord,
                           },
-                        },
-                      };
-                      const deposit = Big(JSON.stringify(data).length * 16).mul(
-                        Big(10).pow(20)
-                      );
-                      const transactions = [
-                        {
-                          contractName: "social.near",
-                          methodName: "set",
-                          deposit,
-                          args: { data },
-                        },
-                      ];
-                      Near.call(transactions);
+                        }),
+                      });
                     },
                     text: (
                       <>
