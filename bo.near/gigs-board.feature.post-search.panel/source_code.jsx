@@ -81,17 +81,23 @@ function fetchGraphQL(operationsDoc, operationName, variables) {
   });
 }
 
-function search() {
+function search({author, tag}) {
   State.update({ loading: true });
   let where = {};
-  if (props.authorQuery && props.authorQuery.author) {
-    where = { author_id: { _eq: props.authorQuery.author }, ...where };
+  let authorId = author || state.author;
+  let label = tag || state.tag;
+  if (authorId) {
+    where = { author_id: { _eq: authorId }, ...where };
   }
   if (state.term) {
     where = { description: { _ilike: `%${state.term}%` }, ...where };
   }
-  if (props.tagQuery && props.tagQuery.tag) {
-    where = { labels: { _contains: props.tagQuery.tag }, ...where };
+  if (label) {
+    where = { labels: { _contains: label }, ...where };
+  }
+  if (!authorId && !state.term && !label) {
+    State.update({loading: false, searchResult: null})
+    return
   }
   console.log("searching for", where);
   fetchGraphQL(query, "DevhubPostsQuery", {
@@ -135,19 +141,19 @@ return (
     <div className="d-flex flex-row gap-4">
       <div class="dropdown">
         {widget("feature.post-search.by-author", {
-          authorQuery: props.authorQuery,
+          author: state.author,
           onAuthorSearch: (author) => {
-            props.onAuthorSearch(author);
-            search();
+            State.update({author});
+            search({author});
           },
         })}
       </div>
       <div>
         {widget("feature.post-search.by-tag", {
-          tagQuery: props.tagQuery,
+          tag: state.tag,
           onTagSearch: (tag) => {
-            props.onTagSearch(tag);
-            search();
+            State.update({tag});
+            search({tag});
           },
         })}
       </div>
@@ -164,9 +170,9 @@ return (
       {state.searchResult ? (
         <button
           class="btn btn-light"
-          onClick={() => State.update({ searchResult: null })}
+          onClick={() => State.update({ searchResult: null, author: null, tag: null, term: null })}
         >
-          Clear Search Result
+          Clear Search
         </button>
       ) : (
         ""
@@ -177,10 +183,12 @@ return (
     </div>
     {state.searchResult
       ? widget("entity.post.List", {
+          loading: state.loading,
           searchResult: state.searchResult,
           recency: props.recency,
         })
       : widget("entity.post.List", {
+          loading: state.loading,
           recency: props.recency,
           transactionHashes: props.transactionHashes,
         })}
