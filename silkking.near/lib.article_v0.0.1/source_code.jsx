@@ -131,7 +131,9 @@ function getArticleBlackListByRealArticleId() {
 function normalizeFromV0_0_1ToV0_0_2(article) {
   article.title = article.articleId;
   article.id = article.realArticleId;
-  article.sbts[0] = article.sbts[0] + " - class 1"; // There is only one article and only has class 1
+  if (article.sbts[0] !== "public") {
+    article.sbts[0] = article.sbts[0] + " - class 1";
+  } // There is only one article that is not public and only has class 1
 
   delete article.articleId;
   delete article.realArticleId;
