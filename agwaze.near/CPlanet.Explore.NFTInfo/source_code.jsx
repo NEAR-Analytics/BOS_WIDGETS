@@ -255,7 +255,7 @@ return (
                 <h1>
                   <Widget
                     src="agwaze.near/widget/GenaDrop.NearLogo"
-                    props={{ width: 10 }}
+                    props={{ width: 12 }}
                   />
                   {(data.price / 1000000000000000000000000).toFixed(2)}
                 </h1>
