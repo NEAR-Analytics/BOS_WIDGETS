@@ -134,9 +134,7 @@ const DevHub = {
 };
 /* END_INCLUDE: "core/adapter/dev-hub" */
 
-const selectedAuthors = props.author
-  ? [{ name: props.author }]
-  : [];
+const selectedAuthors = props.author ? [{ name: props.author }] : [];
 
 const authors = DevHub.get_all_authors();
 
