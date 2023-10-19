@@ -306,7 +306,7 @@ return (
 
     <CallLibrary>
       {libSrcArray.map((src) => {
-        callLibs(
+        return callLibs(
           src,
           reactionsStateUpdate,
           state.libsCalls,
