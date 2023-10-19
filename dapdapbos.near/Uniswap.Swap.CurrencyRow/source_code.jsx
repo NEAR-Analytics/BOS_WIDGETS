@@ -65,8 +65,12 @@ State.init({
   balance: "0",
 });
 
+const account = Ethers.send("eth_requestAccounts", [])[0];
+
 const utils = {
   balanceFormated: () => {
+    if (!account) return "";
+
     if (!currency.address) return "-";
     if (!state.balanceLoaded) return "Loading";
     if (state.balance === "0" || Big(state.balance).eq(0)) return "0";
