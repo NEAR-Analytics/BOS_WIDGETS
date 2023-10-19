@@ -1,15 +1,12 @@
+const accountId = props.accountId ?? context.accountId;
 const daoId = props.daoId ?? "build.sputnik-dao.near";
 
-if (
-  !props.accountId ||
-  !context.accountId ||
-  context.accountId === props.accountId
-) {
+if (!accountId) {
   return "";
 }
 
 const connectEdge = Social.keys(
-  `${context.accountId}/graph/connect/${props.accountId}`,
+  `${accountId}/graph/connect/${daoId}`,
   undefined,
   {
     values_only: true,
@@ -17,7 +14,7 @@ const connectEdge = Social.keys(
 );
 
 const inverseEdge = Social.keys(
-  `${props.accountId}/graph/connect/${context.accountId}`,
+  `${daoId}/graph/connect/${accountId}`,
   undefined,
   {
     values_only: true,
@@ -31,14 +28,13 @@ const inverse = inverseEdge && Object.keys(inverseEdge).length;
 const type = connect ? "disconnect" : "connect";
 
 const data = {
-  graph: { connect: { [props.accountId]: connect ? null : "" } },
+  graph: { connect: { [daoId]: connect ? null : "" } },
   index: {
     graph: JSON.stringify({
       key: "connect",
       value: {
         type,
-        daoId,
-        accountId: props.accountId,
+        accountId: daoId,
       },
     }),
   },
