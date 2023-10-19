@@ -251,7 +251,8 @@ return (
               </ImageSec>
               <PriceSec>
                 <h1>
-                  {(data.price / 1000000000000000000000000).toFixed(2)} NEAR
+                  {(data.price / 1000000000000000000000000).toFixed(2)} 
+                  <Widget src="agwaze.near/widget/GenaDrop.NearLogo" />
                 </h1>
                 <span>
                   {getUsdValue(
