@@ -12,7 +12,6 @@ let {
   authorForWidget,
   initialCreateState,
   editArticleData,
-  callLibs,
   handleEditArticle,
   showCreateArticle,
   sbtWhiteList,
@@ -20,6 +19,7 @@ let {
   handleShareButton,
   canLoggedUserCreateArticles,
   filterBy,
+  callLibs,
 } = props;
 
 const libSrcArray = [widgets.libUpVotes];
@@ -39,7 +39,7 @@ initLibsCalls.upVotes = articlesToRender.map((article) => {
   };
 });
 
-if (initLibsCalls.length > 0) {
+if (articlesToRender.length > 0) {
   State.update({ libsCalls: initLibsCalls });
 }
 
@@ -47,6 +47,8 @@ State.init({
   start: Date.now(),
   libsCalls: initLibsCalls,
 });
+// console.log(1, "All articles list", state);
+// console.log(2, "All articles list", initLibsCalls);
 
 let finalArticlesWithUpVotes = articlesToRender.map((article) => {
   article.upVotes = state[`upVotes-${article.id}`];
@@ -124,7 +126,6 @@ return (
             initialBody: "",
             canLoggedUserCreateArticles,
             sbts,
-            callLibs,
           }}
         />
       ) : (
@@ -189,7 +190,7 @@ return (
     </div>
     <CallLibrary>
       {libSrcArray.map((src) => {
-        callLibs(
+        return callLibs(
           src,
           allArticlesListStateUpdate,
           state.libsCalls,
