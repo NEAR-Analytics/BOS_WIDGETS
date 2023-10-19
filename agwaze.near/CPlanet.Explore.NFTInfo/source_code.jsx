@@ -93,6 +93,7 @@ const PriceSec = styled.div`
         margin-bottom: 0;
         display: flex;
         gap: 4px;
+        align-items: center;
     }    
     span {
         color: rgba(17, 17, 15, 0.60);
