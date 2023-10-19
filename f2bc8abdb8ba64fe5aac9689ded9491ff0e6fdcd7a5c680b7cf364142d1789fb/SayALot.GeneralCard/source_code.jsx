@@ -14,6 +14,8 @@ const {
   callLibs,
 } = props;
 
+console.log(1, "General card", data);
+
 const tags = data.tags;
 const accountId = data.author;
 const title = data.title;
@@ -580,7 +582,7 @@ return (
     </Card>
     <CallLibrary>
       {libSrcArray.map((src) => {
-        callLibs(src, stateUpdate, state.libsCalls, "General card");
+        return callLibs(src, stateUpdate, state.libsCalls, "General card");
       })}
     </CallLibrary>
   </CardContainer>
