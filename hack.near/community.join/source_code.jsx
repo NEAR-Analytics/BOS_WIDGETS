@@ -1,31 +1,32 @@
 const accountId = context.accountId;
-const memberId = props.memberId ?? context.accountId;
-const roleId = props.roleId ?? "voter";
-const daoId = props.daoId ?? "rc-dao.sputnik-dao.near";
+const memberId = props.memberId ?? "multi.near";
+const roleId = props.roleId ?? "community";
+const daoId = props.daoId ?? "build.sputnik-dao.near";
 const proposalId =
   props.proposalId ?? Near.view(daoId, "get_last_proposal_id") - 1;
-
-console.log(proposalId);
 
 if (!accountId) {
   return "";
 }
 
+State.init({
+  isMember: false,
+});
+
+// get DAO policy, deposit, and group
 const policy = Near.view(daoId, "get_policy");
 
 if (policy === null) {
   return "";
 }
+
 const deposit = policy.proposal_bond;
 
 const group = policy.roles
   .filter((role) => role.name === roleId)
   .map((role) => role.kind.Group);
 
-State.init({
-  isMember: false,
-});
-
+// get data from last proposal
 const proposal = Near.view(daoId, "get_proposal", {
   id: proposalId,
 });
@@ -34,21 +35,17 @@ if (proposal === null) {
   return "";
 }
 
-console.log(proposal);
-
-// check if account can join
+// check if the potential member submitted last proposal
 const canJoin = accountId && memberId !== proposal.proposer;
 
-console.log(canJoin);
-
-const handleProposal = () => {
+const handleJoin = () => {
   Near.call([
     {
       contractName: daoId,
       methodName: "add_proposal",
       args: {
         proposal: {
-          description: "add member to DAO",
+          description: `add ${memberId} to the ${roleId} group`,
           kind: {
             AddMemberToRole: {
               member_id: memberId,
@@ -57,7 +54,7 @@ const handleProposal = () => {
           },
         },
       },
-      gas: 300000000000000,
+      gas: 219000000000000,
       deposit: deposit,
     },
   ]);
@@ -73,7 +70,7 @@ const checkMembership = (groupMembers) => {
 
 const validMember = checkMembership(groupMembers);
 
-// IAH Verification
+// check if the potential member is a verified human
 let human = false;
 const userSBTs = Near.view("registry.i-am-human.near", "sbt_tokens_by_owner", {
   account: memberId,
@@ -85,32 +82,54 @@ for (let i = 0; i < userSBTs.length; i++) {
   }
 }
 
+// check if the potential member is connected
+const connectEdge = Social.keys(
+  `${memberId}/graph/connect/${daoId}`,
+  undefined,
+  {
+    values_only: true,
+  }
+);
+
+const loading = connectEdge === null || inverseEdge === null;
+const isConnected = connectEdge && Object.keys(connectEdge).length;
+
 return (
   <div>
-    {!validMember && canJoin && (
-      <button
-        disabled={!human}
-        className="btn btn-success m-1"
-        onClick={handleProposal}
-      >
-        Join DAO
-      </button>
+    {!isConnected ? (
+      <Widget
+        src="hack.near/widget/dao.connect"
+        props={{ accountId: memberId }}
+      />
+    ) : (
+      <>
+        {!validMember ? (
+          <>
+            {canJoin ? (
+              <button
+                className="btn btn-success m-1 rounded-5"
+                onClick={handleJoin}
+              >
+                Join DAO
+              </button>
+            ) : (
+              <button
+                disabled={!canJoin}
+                className="btn btn-success m-1 rounded-5"
+              >
+                Pending
+              </button>
+            )}
+          </>
+        ) : (
+          <button
+            disabled={validMember}
+            className="btn btn-success m-1 rounded-5"
+          >
+            Joined
+          </button>
+        )}
+      </>
     )}
-    {!validMember && !canJoin && (
-      <button disabled={!canJoin} className="btn btn-success m-1">
-        Pending
-      </button>
-    )}
-    {validMember && (
-      <button disabled={validMember} className="btn btn-success m-1">
-        Joined
-      </button>
-    )}
-    <a
-      className="btn btn-outline-success m-1"
-      href="#/hack.near/widget/verified.members"
-    >
-      Members
-    </a>
   </div>
 );
