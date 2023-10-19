@@ -4,6 +4,9 @@ const value = props.value ?? "";
 const onChange = props.onChange ?? (() => {});
 const validate = props.validate ?? (() => {});
 const error = props.error ?? "";
+const labelcolor = props.labelcolor ?? "#000";
+const inputbackgroundcolor = props.inputbackgroundcolor ?? "#000";
+const inputcolor = props.inputcolor ?? "#000";
 
 const Container = styled.div`
   display: flex;
