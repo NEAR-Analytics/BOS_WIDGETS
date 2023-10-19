@@ -162,9 +162,6 @@ if (functionsToCall && functionsToCall.length > 0) {
   stateUpdate(updateObj);
 }
 
-const a = getArticles();
-console.log(1, a);
-
 return (
   <>
     {libSrcArray.map((src) => {
