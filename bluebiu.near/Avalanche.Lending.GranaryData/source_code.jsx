@@ -347,7 +347,8 @@ const getMarkets = () => {
   });
 };
 
-const getTokenReserveData = (
+const formateTokenReserveData = (
+  data,
   tokenAddress,
   symbol,
   price,
@@ -356,11 +357,77 @@ const getTokenReserveData = (
   loanToValue,
   userReserveParsed
 ) => {
-  dataProviderContract.getReserveData(tokenAddress).then((data) => {
-    const [
+  const [
+    availableLiquidity,
+    totalStableDebt,
+    totalVariableDebt,
+    liquidityRate,
+    variableBorrowRate,
+    stableBorrowRate,
+    averageStableBorrowRate,
+    liquidityIndex,
+    variableBorrowIndex,
+    lastUpdateTimestamp,
+  ] = data;
+
+  const decimalBig = Big(10).pow(Tokens[tokenAddress].decimals);
+
+  const totalDebt = Big(totalStableDebt.toString())
+    .plus(totalVariableDebt.toString())
+    .div(decimalBig)
+    .toFixed();
+
+  const totalDebtRaw = Big(totalStableDebt.toString())
+    .plus(totalVariableDebt.toString())
+    .toFixed();
+
+  const totalDeposit = Big(availableLiquidity.toString())
+    .plus(totalDebtRaw)
+    .div(decimalBig)
+    .toFixed();
+
+  const marketSize = Big(availableLiquidity.toString())
+    .div(decimalBig)
+    .toFixed();
+
+  const Ray = Big(10).pow(27);
+
+  const SECONDS_PER_YEAR = 31536000;
+
+  const depositAPR = Big(liquidityRate).div(Ray);
+
+  const variableBorrowAPR = Big(variableBorrowRate).div(Ray);
+
+  const depositAPY0 = Big(1)
+    .plus(depositAPR.div(Big(SECONDS_PER_YEAR)))
+    .toNumber();
+
+  const depositAPY = Big(
+    100 * (Math.pow(depositAPY0, SECONDS_PER_YEAR) - 1)
+  ).toFixed(2);
+
+  const variableBorrowAPY0 = Big(1)
+    .plus(Big(variableBorrowAPR).div(Big(SECONDS_PER_YEAR)))
+    .toNumber();
+
+  const variableBorrowAPYRaw = Big(
+    100 * (Math.pow(variableBorrowAPY0, SECONDS_PER_YEAR) - 1)
+  );
+
+  const variableBorrowAPY = Big(
+    100 * (Math.pow(variableBorrowAPY0, SECONDS_PER_YEAR) - 1)
+  ).toFixed(2);
+
+  const netApyBig = Big(depositAPY0).minus(variableBorrowAPYRaw);
+
+  return {
+    [tokenAddress]: {
       availableLiquidity,
       totalStableDebt,
       totalVariableDebt,
+      totalBorrows: !price ? "-" : Big(totalDebt).toFixed(4),
+      totalSupply: !price ? "-" : Big(totalDeposit).toFixed(4),
+      liquidity: !price ? "-" : Big(marketSize).toFixed(4),
       liquidityRate,
       variableBorrowRate,
       stableBorrowRate,
@@ -368,140 +435,67 @@ const getTokenReserveData = (
       liquidityIndex,
       variableBorrowIndex,
       lastUpdateTimestamp,
-    ] = data;
-
-    const decimalBig = Big(10).pow(Tokens[tokenAddress].decimals);
-
-    const totalDebt = Big(totalStableDebt.toString())
-      .plus(totalVariableDebt.toString())
-      .div(decimalBig)
-      .toFixed();
-
-    const totalDebtRaw = Big(totalStableDebt.toString())
-      .plus(totalVariableDebt.toString())
-      .toFixed();
-
-    const totalDeposit = Big(availableLiquidity.toString())
-      .plus(totalDebtRaw)
-      .div(decimalBig)
-      .toFixed();
-
-    const marketSize = Big(availableLiquidity.toString())
-      .div(decimalBig)
-      .toFixed();
-
-    const Ray = Big(10).pow(27);
-
-    const SECONDS_PER_YEAR = 31536000;
-
-    const depositAPR = Big(liquidityRate).div(Ray);
-
-    const variableBorrowAPR = Big(variableBorrowRate).div(Ray);
-
-    const depositAPY0 = Big(1)
-      .plus(depositAPR.div(Big(SECONDS_PER_YEAR)))
-      .toNumber();
-
-    const depositAPY = Big(
-      100 * (Math.pow(depositAPY0, SECONDS_PER_YEAR) - 1)
-    ).toFixed(2);
-
-    const variableBorrowAPY0 = Big(1)
-      .plus(Big(variableBorrowAPR).div(Big(SECONDS_PER_YEAR)))
-      .toNumber();
-
-    const variableBorrowAPYRaw = Big(
-      100 * (Math.pow(variableBorrowAPY0, SECONDS_PER_YEAR) - 1)
-    );
-
-    const variableBorrowAPY = Big(
-      100 * (Math.pow(variableBorrowAPY0, SECONDS_PER_YEAR) - 1)
-    ).toFixed(2);
-
-    const netApyBig = Big(depositAPY0).minus(variableBorrowAPYRaw);
-
-    State.update({
-      [tokenAddress]: {
-        availableLiquidity,
-        totalStableDebt,
-        totalVariableDebt,
-        totalBorrows: !price ? "-" : Big(totalDebt).toFixed(4),
-        totalSupply: !price ? "-" : Big(totalDeposit).toFixed(4),
-        liquidity: !price ? "-" : Big(marketSize).toFixed(4),
-        liquidityRate,
-        variableBorrowRate,
-        stableBorrowRate,
-        averageStableBorrowRate,
-        liquidityIndex,
-        variableBorrowIndex,
-        lastUpdateTimestamp,
-        tokenAddress,
-        depositAPY,
-        loanToValue,
-        supplyApy: depositAPY + "%",
-        variableBorrowAPY,
-        borrowApy: variableBorrowAPY + "%",
-        underlyingPrice: price,
-        underlyingToken:
-          tokenAddress.toLowerCase() === wethAddress.toLowerCase()
-            ? native
-            : Tokens[tokenAddress],
-        dapp: initConfig.name,
-        dappName: initConfig.name,
-        address: tokenAddress,
-        ...(tokenAddress.toLowerCase() === wethAddress.toLowerCase()
+      tokenAddress,
+      depositAPY,
+      loanToValue,
+      supplyApy: depositAPY + "%",
+      variableBorrowAPY,
+      borrowApy: variableBorrowAPY + "%",
+      underlyingPrice: price,
+      underlyingToken:
+        tokenAddress.toLowerCase() === wethAddress.toLowerCase()
           ? native
-          : Tokens[tokenAddress]),
-        netApy: netApyBig.toFixed(),
-        aTokenAddress,
-        variableDebtTokenAddress,
-        wethAddress,
-        userReserveParsed,
-      },
-    });
-  });
+          : Tokens[tokenAddress],
+      dapp: initConfig.name,
+      dappName: initConfig.name,
+      address: tokenAddress,
+      ...(tokenAddress.toLowerCase() === wethAddress.toLowerCase()
+        ? native
+        : Tokens[tokenAddress]),
+      netApy: netApyBig.toFixed(),
+      aTokenAddress,
+      variableDebtTokenAddress,
+      wethAddress,
+      userReserveParsed,
+    },
+  };
 };
 
-const getUserReverveData = (market) => {
-  const address = market[1];
-  return dataProviderContract
-    .getUserReserveData(address, account)
-    .then((data) => {
-      const underlyingAsset = Tokens[address];
-      const scaledATokenBalanceUsd = Big(data[0].toString())
-        .div(Big(10).pow(underlyingAsset.decimals))
-        .times(state.tokensPrice[address])
-        .toFixed(4);
+const formatUserReserveData = (data, address) => {
+  const underlyingAsset = Tokens[address];
+  const scaledATokenBalanceUsd = Big(data[0].toString())
+    .div(Big(10).pow(underlyingAsset.decimals))
+    .times(state.tokensPrice[address])
+    .toFixed(4);
 
-      const aTokenBalance = Big(data[0].toString())
-        .div(Big(10).pow(underlyingAsset.decimals))
-        .toFixed();
+  const aTokenBalance = Big(data[0].toString())
+    .div(Big(10).pow(underlyingAsset.decimals))
+    .toFixed();
 
-      const usageAsCollateralEnabledOnUser = data[8];
+  const usageAsCollateralEnabledOnUser = data[8];
 
-      const scaledVariableDebt = Big(data[2].toString())
-        .div(Big(10).pow(underlyingAsset.decimals))
+  const scaledVariableDebt = Big(data[2].toString())
+    .div(Big(10).pow(underlyingAsset.decimals))
 
-        .toFixed(4);
+    .toFixed(4);
 
-      const scaledVariableDebtUsd = Big(data[2].toString())
-        .div(Big(10).pow(underlyingAsset.decimals))
-        .times(state.tokensPrice[address])
-        .toFixed(4);
+  const scaledVariableDebtUsd = Big(data[2].toString())
+    .div(Big(10).pow(underlyingAsset.decimals))
+    .times(state.tokensPrice[address])
+    .toFixed(4);
 
-      const userReserveParsed = {
-        address,
-        underlyingAsset,
-        scaledATokenBalanceUsd,
-        usageAsCollateralEnabledOnUser,
-        scaledVariableDebt,
-        scaledVariableDebtUsd,
-        aTokenBalance,
-        userMerberShip: usageAsCollateralEnabledOnUser,
-      };
+  const userReserveParsed = {
+    address,
+    underlyingAsset,
+    scaledATokenBalanceUsd,
+    usageAsCollateralEnabledOnUser,
+    scaledVariableDebt,
+    scaledVariableDebtUsd,
+    aTokenBalance,
+    userMerberShip: usageAsCollateralEnabledOnUser,
+  };
 
-      return userReserveParsed;
-    });
+  return userReserveParsed;
 };
 
 if (!state.tokensPrice) {
@@ -517,49 +511,125 @@ if (
   Object.keys(state).length === 2 &&
   !state.userDataLoading
 ) {
-  const promiseArray = [];
-
   State.update({
     userDataLoading: true,
   });
 
-  state.markets.forEach((market) => {
-    const [symbol, address] = market;
-
-    const tokensPrice = state.tokensPrice;
-
-    const calls = [
-      {
-        address: aaveProtocolDataProviderAddress,
-        name: "getReserveConfigurationData",
-        params: [address],
-      },
-      {
-        address: aaveProtocolDataProviderAddress,
-        name: "getReserveTokensAddresses",
-        params: [address],
-      },
-    ];
-
-    multicallv2(aaveProtocolDataProviderAbi, calls, {}).then((res) => {
-      const loanToValue = Big(res[0][1].toString()).div(100).toNumber();
-
-      const aTokenAddress = res[1][0];
-      const variableDebtTokenAddress = res[1][2];
-
-      getUserReverveData(market).then((userReserveParsed) => {
-        getTokenReserveData(
-          address,
-          symbol,
-          tokensPrice[address],
-          aTokenAddress,
-          variableDebtTokenAddress,
-          loanToValue,
-          userReserveParsed
-        );
-      });
-    });
+  const userReserveDataCalls = state.markets.map((market) => {
+    return {
+      address: aaveProtocolDataProviderAddress,
+      name: "getUserReserveData",
+      params: [market[1], account],
+    };
   });
+
+  const tokenReserveDataCals = state.markets.map((market) => {
+    return {
+      address: aaveProtocolDataProviderAddress,
+      name: "getReserveData",
+      params: [market[1]],
+    };
+  });
+
+  const reserveConfigurationDataCalls = state.markets
+    .map((market) => {
+      return [
+        {
+          address: aaveProtocolDataProviderAddress,
+          name: "getReserveConfigurationData",
+          params: [market[1]],
+        },
+
+        {
+          address: aaveProtocolDataProviderAddress,
+          name: "getReserveTokensAddresses",
+          params: [market[1]],
+        },
+      ];
+    })
+    .flat();
+
+  // get user reserve data
+  multicallv2(aaveProtocolDataProviderAbi, userReserveDataCalls, {})
+    .then((res) => {
+      const userReserveParsedDataList = res.map((data, i) => {
+        return formatUserReserveData(data, state.markets[i][1]);
+      });
+      return userReserveParsedDataList;
+    })
+    .then((userReserveParsedDataList) => {
+      //  get configuration data
+      multicallv2(
+        aaveProtocolDataProviderAbi,
+        reserveConfigurationDataCalls,
+        {}
+      )
+        .then((res) => {
+          const loanToValues = [];
+
+          const aTokenAddressList = [];
+
+          const variableDebtTokenAddressList = [];
+
+          res.forEach((data, i) => {
+            if (i % 2 == 0) {
+              const loanToValue = Big(data[1].toString()).div(100).toNumber();
+              loanToValues.push(loanToValue);
+            }
+          });
+
+          res.forEach((data, i) => {
+            if (i % 2 == 1) {
+              const aTokenAddress = data[0];
+              const variableDebtTokenAddress = data[2];
+              aTokenAddressList.push(aTokenAddress);
+              variableDebtTokenAddressList.push(variableDebtTokenAddress);
+            }
+          });
+
+          return loanToValues.map((loanToValue, i) => {
+            return {
+              loanToValue,
+              aTokenAddress: aTokenAddressList[i],
+              variableDebtTokenAddress: variableDebtTokenAddressList[i],
+            };
+          });
+        })
+        .then((configurationList) => {
+          multicallv2(
+            aaveProtocolDataProviderAbi,
+            tokenReserveDataCals,
+            {}
+          ).then((tokenReserveDataList) => {
+            const formattedTokenReserveDataList = tokenReserveDataList.map(
+              (data, index) => {
+                return formateTokenReserveData(
+                  data,
+
+                  state.markets[index][1],
+                  state.markets[index][0],
+                  state.tokensPrice[state.markets[index][1]],
+                  configurationList[index].aTokenAddress,
+                  configurationList[index].variableDebtTokenAddress,
+                  configurationList[index].loanToValue,
+                  userReserveParsedDataList[index]
+                );
+              }
+            );
+
+            const toUpdateObj = {};
+
+            formattedTokenReserveDataList.forEach((data) => {
+              const address = Object.keys(data)[0];
+              toUpdateObj[address] = data[address];
+            });
+
+            console.log("toUpdateObj: ", toUpdateObj);
+
+            State.update(toUpdateObj);
+          });
+        });
+    });
 }
 
 if (
