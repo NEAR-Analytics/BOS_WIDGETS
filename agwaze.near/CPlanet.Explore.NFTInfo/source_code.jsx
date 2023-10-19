@@ -241,7 +241,8 @@ return (
           props.transactions &&
           props?.transactions?.map((data, index) => (
             <Row
-              href={`https://explorer.near.org/transactions/${data.txId}`}
+              href={`https://explorer.near.org/?query=${data.txId}`}
+              target="_blank"
               key={data}
             >
               <ImageSec>
