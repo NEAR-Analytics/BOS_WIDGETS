@@ -1,3 +1,5 @@
+const themeColor = props.themeColor;
+
 const projecttheme = {
   height: "130px",
   align: "center",
