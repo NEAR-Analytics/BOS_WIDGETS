@@ -775,6 +775,7 @@ return (
             {tokenInfo &&
               Object.keys(tokenInfo.approved_account_ids).map((key) => (
                 <a
+                  target="_blank"
                   href={
                     matchedKeyWords(key) === "tradeport"
                       ? tradeportLink
