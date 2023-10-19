@@ -133,8 +133,10 @@ function normalizeFromV0_0_1ToV0_0_2(article) {
   article.id = article.realArticleId;
   article.sbts[0] = article.sbts[0] + " - class 1"; // There is only one article and only has class 1
 
-  article.articleId = undefined;
-  article.realArticleId = undefined;
+  delete article.articleId;
+  delete article.realArticleId;
+
+  return article;
 }
 
 function normalizeArticles(articles) {
@@ -159,6 +161,9 @@ if (functionsToCall && functionsToCall.length > 0) {
   updateObj.functionsToCallByLibrary = resultFunctionsToCallByLibrary;
   stateUpdate(updateObj);
 }
+
+const a = getArticles();
+console.log(1, a);
 
 return (
   <>
