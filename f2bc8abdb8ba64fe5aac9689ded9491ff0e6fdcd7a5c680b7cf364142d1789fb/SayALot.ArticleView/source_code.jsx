@@ -790,7 +790,7 @@ return (
     </Container>
     <CallLibrary>
       {libSrcArray.map((src) => {
-        callLibs(src, stateUpdate, state.libsCalls, "Article view");
+        return callLibs(src, stateUpdate, state.libsCalls, "Article view");
       })}
     </CallLibrary>
   </>
