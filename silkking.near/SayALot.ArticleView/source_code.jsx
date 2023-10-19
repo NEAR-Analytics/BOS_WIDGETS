@@ -730,6 +730,7 @@ return (
                   isReply: false,
                   canLoggedUserCreateComment: state.canLoggedUserCreateComment,
                   articleSbts,
+                  callLibs,
                 }}
               />
             ))}
