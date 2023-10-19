@@ -119,7 +119,7 @@ return (
       <div className="col-12">
         <div
           style={{ background: themeColor?.sbt_area?.card_bg }}
-          className="shadow-sm rounded-2 overflow-auto"
+          className="shadow-sm rounded-4 "
         >
           <Widget src="lord1.near/widget/header-dynamic" props={projecttheme} />
 
