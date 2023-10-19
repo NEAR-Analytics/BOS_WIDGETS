@@ -309,7 +309,12 @@ return (
             </SecondContainer>
             <div style={{ display: "none" }}>
               {libSrcArray.map((src) => {
-                callLibs(src, createStateUpdate, state.libsCalls, "Create");
+                return callLibs(
+                  src,
+                  createStateUpdate,
+                  state.libsCalls,
+                  "Create"
+                );
               })}
             </div>
           </div>
