@@ -56,7 +56,7 @@ if (
   !stateUpdate ||
   !(displayedTabId + "") ||
   !pills ||
-  (brand && !brand.logoHref)
+  (brand && (!brand.logoHref || !(brand.homePageId + "")))
 ) {
   const crucialPropMissingMsg = "The following crucial props are missing:";
   return (
@@ -73,6 +73,10 @@ if (
 
         {brand && !brand.logoHref && (
           <li className="text-danger">brand.logoHref</li>
+        )}
+
+        {brand && !(brand.homePageId + "") && (
+          <li className="text-danger">brand.homePageId</li>
         )}
       </ul>
     </div>
