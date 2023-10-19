@@ -33,18 +33,17 @@ initState({
   symbol_name: symbol_name,
   reference: reference,
   reference_hash: reference_hash,
-  nameIsActive: false,
 });
 
 const onChangeName = (name) => {
   State.update({
-    name: name && name.toLowerCase(),
+    name,
   });
 };
 
 const onChangeSymbol = (symbol_name) => {
   State.update({
-    symbol_name: symbol_name && symbol_name.toLowerCase(),
+    symbol_name,
   });
 };
 
@@ -77,155 +76,22 @@ const deployStore = () => {
     },
   ]);
 };
-
-function fetchData() {
-  const response = fetch("https://graph.mintbase.xyz/mainnet", {
-    method: "POST",
-    headers: {
-      "mb-api-key": "anon",
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      query: `query AllStoresQuery {
-  nft_contracts {
-    id
-    symbol
-  }
-}`,
-    }),
-  });
-
-  State.update({
-    allNFTStores:
-      response.body.data.nft_contracts &&
-      response.body.data.nft_contracts.map((store) => store.id),
-    allSymbols:
-      response.body.data.nft_contracts &&
-      response.body.data.nft_contracts.map((store) => store.symbol),
-  });
-  // console.log("data", state.allNFTStores);
-}
-
-fetchData();
-
-if (!owner_id) {
-  return <p>Please Login to a Near account or wallet to Deploy a store</p>;
-}
-const Main = styled.div`
-*{
-  font-family: Helvetica Neue;
-  }
-  h1{
-    margin: 2rem 0;
-    font-weight: 600;
-  }
-  display: flex;
-  flex-flow:column nowrap;
-  justify-content:center;
-  align-items: center;
-  button {
-    border: 1px solid black;
-    border-radius: 0;
-    color: white;
-    background: black;
-    text-align: center;
-    display: flex;
-    padding: 7px 20px;
-    cursor: pointer;
-    margin: 10px auto;
-  }
-  button:disabled {
-    background: grey;
-    border: grey;
-    cursor: not-allowed;
-  }
-  button:hover {
-    background: white;
-    color: black;
-    border-color: black;
-  }
-
-  .input, .name {
-    display: flex;
-    align-items:center;
-    justify-content:space-between;;
-    border-radius: 32px;
-    flex-shrink: 0;
-    height: 48px;
-    width: 100%;
-    border: 1px solid #B0B0B0;
-    background: #F8F8F8;
-    overflow: hidden;
-    color: #B0B0B0;
-    text-overflow: ellipsis;
-    font-family: Helvetica Neue;
-    font-size: 20px;
-    font-style: normal;
-    font-weight: 400;
-    outline: none;
-    padding: 0 1rem;
-    line-height: 148%; /* 29.6px */
-    margin-bottom: 1rem;
-    p{
-      margin: 0;
-    }
-}
-    .danger{
-      color: red;
-      border-color: red;
-    }
-.ip_name{
-  background:transparent;
-  border: none;
-  outline: none;
-  color: inherit;
-  flex:1;
-}
-`;
 return (
-  <Main>
+  <>
     <div>
-      <h1>
-        Deploy Store on Mintbase as <i>{owner_id}</i>
-      </h1>
+      <h1>Deploy Store on Mintbase</h1>
       <div>
         Contract Name*:
-        <div
-          className={`name ${
-            state.allNFTStores &&
-            state.allNFTStores.includes(`${state.name}.${contract_id}`) &&
-            "danger"
-          }`}
-        >
-          <input
-            type="text"
-            onChange={(e) => onChangeName(e.target.value)}
-            className="ip_name"
-          />
-          <p>.{contract_id}</p>
-        </div>
+        <input type="text" onChange={(e) => onChangeName(e.target.value)} />
       </div>
       <div>
         Symbol* (max 3 letters):
-        <input
-          type="text"
-          onChange={(e) => onChangeSymbol(e.target.value)}
-          className={`input ${state.symbol_name.length > 3 ? "danger" : ""}`}
-        />
+        <input type="text" onChange={(e) => onChangeSymbol(e.target.value)} />
+        <div>
+          <button onClick={deployStore}>Deploy Store 3.5N</button>
+        </div>
       </div>
-      <button
-        onClick={deployStore}
-        disabled={
-          !state.symbol_name ||
-          state.symbol_name.length > 3 ||
-          !state.name ||
-          (state.allNFTStores &&
-            state.allNFTStores.includes(`${state.name}.${contract_id}`))
-        }
-      >
-        Deploy Store 3.5N
-      </button>
     </div>
     <Widget src="mintbase.near/widget/PoweredByMintbase" />
-  </Main>
+  </>
 );
