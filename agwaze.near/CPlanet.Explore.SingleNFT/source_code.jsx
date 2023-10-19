@@ -686,7 +686,6 @@ const getUsdValue = (price) => {
   if (res.ok) {
     const multiplyBy = Object.values(res?.body)[0]?.usd;
     const value = multiplyBy * price;
-    console.log(value)
     return value !== "NaN" ? `$${value.toFixed(3)}` : 0;
   }
 };
