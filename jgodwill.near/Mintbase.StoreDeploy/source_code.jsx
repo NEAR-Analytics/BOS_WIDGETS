@@ -68,12 +68,19 @@ function fetchData(accountAddress) {
     },
     body: JSON.stringify({
       query: `query MyQuery {
-  mb_store_minters(where: {minter_id: {_eq: "${accountAddress}"}}) {
+    mb_store_minters(where: {minter_id: {_eq: "${accountAddress}"}}) {
     id: nft_contract_id
     nftContract: nft_contract {
       name
       icon
       owner: owner_id
+    }
+  }
+  mb_store_minters_aggregate(
+    where: {minter_id: {_eq: "${accountAddress}"}}
+  ) {
+    aggregate {
+      count
     }
   }
 }
@@ -83,8 +90,10 @@ function fetchData(accountAddress) {
 
   State.update({
     nftContracts: response.body.data.mb_store_minters,
+    nftContractsCount:
+      response.body.data.mb_store_minters_aggregate.aggregate.count,
   });
-  console.log("running", state.nftContracts);
+  console.log("count", state.nftContractsCount);
 }
 
 const nftContracts = state.nftContracts;
@@ -165,8 +174,21 @@ button {
   }
 `;
 
+const Main = styled.div`
+*{
+  font-family: Helvetica Neue;
+  }
+  .count{
+    text-transform: uppercase;
+    font-weight: 500;
+    font-size: 1.5rem;
+  }
+`;
+
+const s = state.nftContractsCount > 1 ? "s" : "";
+
 return (
-  <div>
+  <Main>
     <Card>
       Near Address:
       <Search>
@@ -183,18 +205,21 @@ return (
       </Search>
     </Card>
     {nftContracts.length > 0 ? (
-      <StoreCards className="mx-24 md:mx-64 ">
-        {nftContracts &&
-          nftContracts.map((contract) => (
-            <Widget
-              src="jgodwill.near/widget/Mintbase.StoreCard"
-              props={{ contract }}
-            />
-          ))}
-        <CreateCard>
-          <button>New Store</button>
-        </CreateCard>
-      </StoreCards>
+      <Cards>
+        <div className="count">{`${state.nftContractsCount} Result${s}`}</div>
+        <StoreCards className="mx-24 md:mx-64 ">
+          {nftContracts &&
+            nftContracts.map((contract) => (
+              <Widget
+                src="jgodwill.near/widget/Mintbase.StoreCard"
+                props={{ contract }}
+              />
+            ))}
+          <CreateCard>
+            <button>New Store</button>
+          </CreateCard>
+        </StoreCards>
+      </Cards>
     ) : (
       <div className="text-center my-4">
         <p>😥 No contracts found for {state.account}</p>
@@ -205,5 +230,5 @@ return (
         <button>New Store</button>
       </CreateCard>
     )}
-  </div>
+  </Main>
 );
