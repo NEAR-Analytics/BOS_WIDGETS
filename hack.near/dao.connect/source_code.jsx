@@ -52,7 +52,7 @@ return (
     disabled={loading}
     className={`btn ${
       loading || connect ? "btn-outline-dark" : "btn-success"
-    } rounded-5`}
+    } m-1 rounded-5`}
     data={data}
   >
     {loading ? "Loading" : connect ? "Connected" : "Connect"}
