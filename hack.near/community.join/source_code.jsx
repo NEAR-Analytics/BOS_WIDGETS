@@ -109,21 +109,37 @@ return (
                 Join DAO
               </button>
             ) : (
-              <button
-                disabled={!canJoin}
-                className="btn btn-success m-1 rounded-5"
-              >
-                Pending
-              </button>
+              <>
+                <button
+                  disabled={!canJoin}
+                  className="btn btn-success m-1 rounded-5"
+                >
+                  Pending
+                </button>
+                <a
+                  href="/hack.near/widget/dao.page.settings"
+                  className="btn btn-outline-success rounded-5"
+                >
+                  Customize
+                </a>
+              </>
             )}
           </>
         ) : (
-          <button
-            disabled={validMember}
-            className="btn btn-success m-1 rounded-5"
-          >
-            Joined
-          </button>
+          <>
+            <button
+              disabled={validMember}
+              className="btn btn-success m-1 rounded-5"
+            >
+              Joined
+            </button>
+            <a
+              href="/hack.near/widget/dao.page.settings"
+              className="btn btn-outline-success rounded-5"
+            >
+              Customize
+            </a>
+          </>
         )}
       </>
     )}
