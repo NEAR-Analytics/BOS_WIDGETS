@@ -392,8 +392,8 @@ const nft = props.nft ?? {
   tokenId: props.tokenId,
 };
 
-const contractId = props.contractId ?? "nft.genadrop.near";
-const tokenId = props.tokenId ?? "1664304736705";
+const contractId = props.contractId;
+const tokenId = props.tokenId;
 const className = props.className ?? "img-fluid";
 const style = props.style;
 const alt = props.alt;
