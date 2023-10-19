@@ -1,5 +1,3 @@
-const storeContract = props && props.storeContract;
-const ownerId = props && props.ownerId;
 const Card = styled.div`
 padding: 1em;
 border: 1px solid #e5e8eb;
@@ -85,7 +83,7 @@ const fetchStoreFrontData = (owner, contractId) => {
   console.log("running2", state.storeContracts);
 };
 
-fetchStoreFrontData(ownerId, storeContract);
+fetchStoreFrontData(props.ownerId, props.storeContract);
 
 const storeNfts = state.storeContracts;
 
