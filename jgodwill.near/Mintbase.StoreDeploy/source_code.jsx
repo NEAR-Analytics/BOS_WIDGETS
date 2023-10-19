@@ -106,21 +106,80 @@ const storeAddressChangeHandler = (storeAddress) => {
     storeAddress: storeAddress,
   });
 };
+const Search = styled.div`
+margin-top: 12px;
+    // justify-content: center;
+display: flex;
+width: 100%;
+flex-wrap: wrap;
+input {
+    border-radius: 32px;
+    flex-shrink: 0;
+    height: 48px;
+    width: 100%;
+    background: #F8F8F8;
+    overflow: hidden;
+    color: #B0B0B0;
+    text-overflow: ellipsis;
+    font-family: Helvetica Neue;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 148%; /* 29.6px */
+}
+`;
+
+const CreateCard = styled.div`
+padding: 1em;
+border: 2px dashed rgba(0,0,0,.3);
+display: flex;
+align-items: center;
+justify-content: center;
+align-content: center;
+gap: 2em;
+margin: 10px auto;
+border-radius: .7em;
+height: 293px;
+max-width: 600px;
+width: 100%;
+button {
+    border: 1px solid black;
+    border-radius: 0;
+    color: white;
+    background: black;
+    text-align: center
+    display: flex;
+    padding: 7px 20px;
+    cursor: pointer;
+  }
+  button:disabled {
+    background: grey;
+    border: grey;
+    cursor: not-allowed;
+  }
+  button:hover {
+    background: white;
+    color: black;
+    border-color: black;
+  }
+`;
 
 return (
   <div>
     <Card>
       Near Address:
-      <Typeahead
-        id="async-example"
-        className="type-ahead"
-        isLoading={isLoading}
-        labelKey="search"
-        minLength={1}
-        options={allWidgets}
-        onChange={(value) => onChangeAccount(value)}
-        placeholder={accountId}
-      />
+      <Search>
+        <Typeahead
+          id="async-example"
+          className="type-ahead"
+          isLoading={isLoading}
+          labelKey="search"
+          minLength={1}
+          options={allWidgets}
+          onChange={(value) => onChangeAccount(value)}
+          placeholder={accountId}
+        />
+      </Search>
     </Card>
     {nftContracts.length > 0 ? (
       <StoreCards className="mx-24 md:mx-64 ">
@@ -131,63 +190,19 @@ return (
               props={{ contract }}
             />
           ))}
-        {/* deploy here*/}
-        <div class="rounded dashed-border p-5">
-          <div class="flex flex-col justify-center items-center h-full">
-            <div class="items-center text-center justify-center">
-              <div class="">
-                <button
-                  type="button"
-                  class="button secondary active p-8 p-med-90 w-32 mb-12 lg:mb-12 mt-64 relative"
-                >
-                  <span class="visible">New Contract</span>
-                </button>
-              </div>
-            </div>
-            <div>
-              <a
-                href="https://docs.mintbase.xyz/creator/creating-nfts/deploy-contract"
-                target="_blank"
-                rel="noreferrer noopener"
-              >
-                <button class="action active p-med-90 undefined" type="button">
-                  <div class="flex items-center gap-4 ">
-                    <span class="whitespace-nowrap">Learn more</span>
-                    <div class="flex justify-center m-4">
-                      <svg
-                        width="16px"
-                        height="16px"
-                        viewBox="0 0 24 24"
-                        fill="#000000"
-                        xmlns="http://www.w3.org/2000/svg"
-                        class="fill-current text-blue-300 dark:text-blue-100"
-                      >
-                        <g clip-path="url(#clip0_295_1571)">
-                          <path
-                            d="M19 19H5V5H12V3H5C3.89 3 3 3.9 3 5V19C3 20.1 3.89 21 5 21H19C20.1 21 21 20.1 21 19V12H19V19ZM14 3V5H17.59L7.76 14.83L9.17 16.24L19 6.41V10H21V3H14Z"
-                            fill="currentColor"
-                          ></path>
-                        </g>
-                        <defs>
-                          <clipPath id="clip0_295_1571">
-                            <rect
-                              width="24"
-                              height="24"
-                              fill="currentColor"
-                            ></rect>
-                          </clipPath>
-                        </defs>
-                      </svg>
-                    </div>
-                  </div>
-                </button>
-              </a>
-            </div>
-          </div>
-        </div>
+        <CreateCard>
+          <button>New Contract</button>
+        </CreateCard>
       </StoreCards>
     ) : (
-      <p>No contracts found for {state.account}</p>
+      <div>
+        <p>😥 No contracts found for {state.account}</p>
+      </div>
+    )}
+    {!nftContracts.length > 0 && (
+      <CreateCard>
+        <button>New Contract</button>
+      </CreateCard>
     )}
   </div>
 );
