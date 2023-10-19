@@ -44,6 +44,7 @@ const Overlay = styled.div`
 const Content = styled.div`
   width: 460px;
   border-radius: 16px;
+  position: relative;
 
   background: linear-gradient(0deg, #131313, #131313);
   @media (max-width: 900px) {
@@ -139,41 +140,45 @@ const handleSearch = (e) => {
 return (
   <Dialog className={props.display ? "display" : ""}>
     <Overlay>
-      <Content>
-        <Header>
-          <Title>Select a token</Title>
-          <Widget
-            src="dapdapbos.near/widget/Uniswap.Swap.CloseIcon"
-            props={{ onClose: props.onClose }}
-          />
-        </Header>
-        <InputWarpper>
-          {SearchIcon}
-          <Input
-            placeholder="Search name or paste address"
-            onChange={handleSearch}
-          />
-        </InputWarpper>
-        <CurrencyList>
-          {state.tokens?.map((currency) => (
+      <div className="borderShadow">
+        <Content>
+          <Header>
+            <Title>Select a token</Title>
             <Widget
-              src="dapdapbos.near/widget/Uniswap.Swap.CurrencyRow"
-              props={{
-                selectedTokenAddress: props.selectedTokenAddress,
-                currency,
-                display: props.display,
-                chainIdNotSupport,
-                onClick: () => {
-                  props.onSelect?.(currency);
-                  props.onClose();
-                },
-              }}
-              key={currency.address}
+              src="dapdapbos.near/widget/Uniswap.Swap.CloseIcon"
+              props={{ onClose: props.onClose }}
             />
-          ))}
-          {(!state.tokens || !state.tokens.length) && <Empty>No token.</Empty>}
-        </CurrencyList>
-      </Content>
+          </Header>
+          <InputWarpper>
+            {SearchIcon}
+            <Input
+              placeholder="Search name or paste address"
+              onChange={handleSearch}
+            />
+          </InputWarpper>
+          <CurrencyList>
+            {state.tokens?.map((currency) => (
+              <Widget
+                src="dapdapbos.near/widget/Uniswap.Swap.CurrencyRow"
+                props={{
+                  selectedTokenAddress: props.selectedTokenAddress,
+                  currency,
+                  display: props.display,
+                  chainIdNotSupport,
+                  onClick: () => {
+                    props.onSelect?.(currency);
+                    props.onClose();
+                  },
+                }}
+                key={currency.address}
+              />
+            ))}
+            {(!state.tokens || !state.tokens.length) && (
+              <Empty>No token.</Empty>
+            )}
+          </CurrencyList>
+        </Content>
+      </div>
     </Overlay>
   </Dialog>
 );
