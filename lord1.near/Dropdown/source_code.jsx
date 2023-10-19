@@ -1,8 +1,12 @@
 return (
   <Widget
-    src={`contribut3.near/widget/Inputs.Select`}
+    src={`lord1.near/widget/select`}
     props={{
       label: props.label,
+      placeholdercolor: props.placeholdercolor,
+      inputbackgroundcolor: props.inputbackgroundcolor,
+      inputcolor: props.inputcolor,
+      labelcolor: props.labelcolor,
       noLabel: props.noLabel,
       placeholder: props.placeholder,
       options: props.options,
