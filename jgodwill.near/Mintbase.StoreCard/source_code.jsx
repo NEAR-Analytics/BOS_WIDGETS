@@ -78,30 +78,35 @@ max-width: 600px;
 
 return (
   <StoreCard>
-    <div className="top"></div>
-    <div className="middle">
-      <div className="content">
-        <div className="icon_area">
-          <img
-            src={
-              contract.nftContract.icon ??
-              "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRub7hFLkStCvZiaSeiUGznP4uzqPPcepghhg&usqp=CAU"
-            }
-            className="chain_icon"
-            alt={contract.nftContract.name + " icon"}
-          />
-        </div>
-        <div className="name_contract">
-          <h3>
-            {(contract && contract?.nftContract?.name.toUpperCase()) ||
-              "Contract Name"}
-          </h3>
-          <p>{contract.id}</p>
+    <a
+      href={`#jgodwill.near/widget/Mintbase.StoreFront?contractId=${props.contractId}&tokenId=${props.tokenId}`}
+      style={{ textDecoration: "none", color: "inherit" }}
+    >
+      <div className="top"></div>
+      <div className="middle">
+        <div className="content">
+          <div className="icon_area">
+            <img
+              src={
+                contract.nftContract.icon ??
+                "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRub7hFLkStCvZiaSeiUGznP4uzqPPcepghhg&usqp=CAU"
+              }
+              className="chain_icon"
+              alt={contract.nftContract.name + " icon"}
+            />
+          </div>
+          <div className="name_contract">
+            <h3>
+              {(contract && contract?.nftContract?.name.toUpperCase()) ||
+                "Contract Name"}
+            </h3>
+            <p>{contract.id}</p>
+          </div>
         </div>
       </div>
-    </div>
-    <div className="bottom">
-      <button>Manage NFTs</button>
-    </div>
+      <div className="bottom">
+        <button>Manage NFTs</button>
+      </div>
+    </a>
   </StoreCard>
 );
