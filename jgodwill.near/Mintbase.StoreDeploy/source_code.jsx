@@ -195,7 +195,7 @@ return (
         </CreateCard>
       </StoreCards>
     ) : (
-      <div>
+      <div className="text-center my-4">
         <p>😥 No contracts found for {state.account}</p>
       </div>
     )}
