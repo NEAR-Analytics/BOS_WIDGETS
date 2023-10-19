@@ -392,8 +392,8 @@ const nft = props.nft ?? {
   tokenId: props.tokenId,
 };
 
-const contractId = props.contractId;
-const tokenId = props.tokenId;
+const contractId = props.contractId ?? "nft.genadrop.near";
+const tokenId = props.tokenId ?? "1664304736705";
 const className = props.className ?? "img-fluid";
 const style = props.style;
 const alt = props.alt;
@@ -567,6 +567,7 @@ function fetchTokens() {
                 transactions {
                   price
                   type
+                  txId
                   from {
                     id
                   }
@@ -676,8 +677,8 @@ const getUsdValue = (price) => {
   );
   if (res.ok) {
     const multiplyBy = Object.values(res?.body)[0]?.usd;
-    const value = multiplyBy * price.toFixed(2);
-    return value.toFixed(4) !== "NaN" ? `$${value.toFixed(2)}` : 0;
+    const value = multiplyBy * price > 0 ? price : 0;
+    return value !== "NaN" ? `$${value}` : 0;
   }
 };
 
@@ -729,13 +730,14 @@ return (
           <PriceAmount>
             <h2>
               {state.price
-                ? (state.price / 1000000000000000000000000).toFixed(2)
+                ? (state.price / 1000000000000000000000000)?.toFixed(2)
                 : "N/A"}
             </h2>
+
             <h5>
               {getUsdValue(
                 state.price
-                  ? (state.price / 1000000000000000000000000).toFixed(2)
+                  ? (state.price / 1000000000000000000000000)?.toFixed(2)
                   : 0
               )}
             </h5>
@@ -776,14 +778,14 @@ return (
                 >
                   {marketPlaceImage[matchedKeyWords(key)]}
                   <p>
-                    {props.price
-                      ? (props.price / 1000000000000000000000000).toFixed(2)
+                    {state.price
+                      ? (state.price / 1000000000000000000000000)?.toFixed(2)
                       : "N/A"}
                   </p>
                   <p>
                     {getUsdValue(
-                      props.price
-                        ? (props.price / 1000000000000000000000000).toFixed(2)
+                      state.price
+                        ? (state.price / 1000000000000000000000000)?.toFixed(2)
                         : 0
                     )}
                   </p>
