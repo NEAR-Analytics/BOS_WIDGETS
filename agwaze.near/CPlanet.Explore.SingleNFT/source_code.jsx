@@ -367,6 +367,8 @@ const MarketRow = styled.div`
 
     a:hover {
       opacity: .7;
+      background: #e7e6e8;
+      border-radius: 8px;
     }
   p {
     color: #363C42;
