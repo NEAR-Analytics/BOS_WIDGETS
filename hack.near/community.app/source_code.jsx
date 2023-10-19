@@ -1,4 +1,3 @@
-const ownerId = props.ownerId ?? "devs.near";
 const accountId = props.accountId ?? context.accountId;
 const daoId = props.daoId ?? "build.sputnik-dao.near";
 const roleId = props.roleId ?? "community";
@@ -15,30 +14,6 @@ if (widgets) {
 if (widgetCount > 0) {
   isBuilder = true;
 }
-
-const handleJoin = () => {
-  const gas = 200000000000000;
-  const deposit = 100000000000000000000000;
-  Near.call([
-    {
-      contractName: daoId,
-      methodName: "add_proposal",
-      args: {
-        proposal: {
-          description: "potential member",
-          kind: {
-            AddMemberToRole: {
-              member_id: accountId,
-              role: roleId,
-            },
-          },
-        },
-      },
-      gas: gas,
-      deposit: deposit,
-    },
-  ]);
-};
 
 const Wrapper = styled.div`
   --section-gap: 23px;
@@ -172,7 +147,7 @@ return (
                 props={{
                   daoId,
                   roleId,
-                  memberId: accountId,
+                  accountId,
                 }}
               />
             </div>
@@ -192,7 +167,7 @@ return (
               <Widget
                 src="near/widget/DIG.Button"
                 props={{
-                  href: "#/hack.near/widget/create.page",
+                  href: "/hack.near/widget/create.page",
                   label: "Create Something",
                   variant: "outline-secondary",
                   size: "large",
