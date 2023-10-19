@@ -240,7 +240,10 @@ return (
         {state.tab === "HISTORY" &&
           props.transactions &&
           props?.transactions?.map((data, index) => (
-            <Row href={`https://explorer.near.org/transactions${data.txId}`} key={data}>
+            <Row
+              href={`https://explorer.near.org/transactions/${data.txId}`}
+              key={data}
+            >
               <ImageSec>
                 <Image></Image>
 
