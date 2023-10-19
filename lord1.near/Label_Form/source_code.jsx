@@ -166,7 +166,7 @@ return (
               />
 
               <Widget
-                src={`contribut3.near/widget/Inputs.Text`}
+                src={`lord1.near/widget/Text`}
                 props={{
                   label: "Paste the Contract Address *",
                   placeholdercolor: themeColor?.form?.placeholdercolor,
@@ -200,7 +200,7 @@ return (
                 }}
               />
               <Widget
-                src={`contribut3.near/widget/Inputs.Text`}
+                src={`lord1.near/widget/Text`}
                 props={{
                   label: "Add the protocol the contract belongs to *",
                   placeholdercolor: themeColor?.form?.placeholdercolor,
@@ -231,7 +231,7 @@ return (
                 }}
               />
               <Widget
-                src={`contribut3.near/widget/Inputs.Text`}
+                src={`lord1.near/widget/Text`}
                 props={{
                   label: "Add the contract name *",
                   placeholdercolor: themeColor?.form?.placeholdercolor,
@@ -361,7 +361,7 @@ return (
                 }}
               />
               <Widget
-                src={`contribut3.near/widget/Inputs.Text`}
+                src={`lord1.near/widget/Text`}
                 props={{
                   label: "Discord Handle",
                   placeholdercolor: themeColor?.form?.placeholdercolor,
