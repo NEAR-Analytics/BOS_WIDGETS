@@ -352,7 +352,7 @@ let sublabels = (
 );
 let discords = (
   <Widget
-    src={`lord1.near/widget/test`}
+    src={`lord1.near/widget/Text`}
     props={{
       label: "Discord Handle",
       placeholdercolor: themeColor?.form?.placeholdercolor,
