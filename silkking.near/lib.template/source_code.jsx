@@ -1,14 +1,7 @@
-const { isTest, stateUpdate, functionsToCallByLibrary, callLibs } = props;
-const functionsToCall = functionsToCallByLibrary.template; // Change this with the name of your widget
+// HOW TO USE
+// Create the functions that you want. Then add the functions you want to 'export' inside the `callFunction` function
 
-let resultFunctionsToCallByLibrary = Object.assign(
-  {},
-  functionsToCallByLibrary
-);
-let resultFunctionsToCall = [];
-
-const libSrcArray = []; // string to lib widget
-
+// INTERFACES
 // interface FunctionCall {
 //     functionName: string,
 //     key: string, // The state of the caller will be updated with this string as a key
@@ -17,8 +10,19 @@ const libSrcArray = []; // string to lib widget
 
 // type LibsCalls = Record<string, FunctionCall> // Key is lib name after lib.
 
+const { isTest, stateUpdate, functionsToCallByLibrary, callLibs } = props;
+const functionsToCall = functionsToCallByLibrary.template; // Change this with the name of your widget
+
+let resultFunctionsToCallByLibrary = Object.assign(
+  {},
+  functionsToCallByLibrary
+); // We make a copy of the functions we're going to call to clean it afterwards if needed, so it isn't called every time the caller gets updated.
+let resultFunctionsToCall = []; // Util for resultFunctionsToCallByLibrary
+
+const libSrcArray = []; // string to lib widget
+
 State.init({
-  libsCalls: {}, // is a LibsCalls object
+  libsCalls: {}, // is a LibsCalls object. It's used to call another library's functions
 });
 
 function firstFunctionName(props) {
