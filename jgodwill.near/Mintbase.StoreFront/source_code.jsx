@@ -99,6 +99,14 @@ const WrapCards = styled.div`
   justify-content: center;
   padding-top: 3em;
   box-shadow: 0 0.05rem 0.05rem rgb(34 34 34 / 5%), 0 0.2rem 0.8rem rgb(34 34 34 / 8%);
+  *{
+  font-family: Helvetica Neue;
+  }
+  .count{
+    text-transform: uppercase;
+    font-weight: 500;
+    font-size: 1.5rem;
+  }
 `;
 
 const s = state.storeNftsCount > 1 ? "s" : "";
