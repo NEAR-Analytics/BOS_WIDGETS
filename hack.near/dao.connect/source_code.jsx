@@ -1,4 +1,4 @@
-const accountId = props.accountId ?? context.accountId;
+const accountId = context.accountId;
 const daoId = props.daoId ?? "build.sputnik-dao.near";
 
 if (!accountId) {
