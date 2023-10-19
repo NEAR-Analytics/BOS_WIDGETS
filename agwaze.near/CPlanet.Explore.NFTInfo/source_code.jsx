@@ -91,6 +91,7 @@ const PriceSec = styled.div`
         font-weight: 700;
         line-height: 160%; /* 25.6px */
         margin-bottom: 0;
+        display: flex;
     }    
     span {
         color: rgba(17, 17, 15, 0.60);
@@ -251,8 +252,8 @@ return (
               </ImageSec>
               <PriceSec>
                 <h1>
-                  {(data.price / 1000000000000000000000000).toFixed(2)} 
                   <Widget src="agwaze.near/widget/GenaDrop.NearLogo" />
+                  {(data.price / 1000000000000000000000000).toFixed(2)}
                 </h1>
                 <span>
                   {getUsdValue(
