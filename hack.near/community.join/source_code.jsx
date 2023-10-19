@@ -1,5 +1,4 @@
 const accountId = context.accountId;
-const memberId = props.memberId ?? context.accountId;
 const roleId = props.roleId ?? "community";
 const daoId = props.daoId ?? "build.sputnik-dao.near";
 const proposalId =
@@ -36,7 +35,7 @@ if (proposal === null) {
 }
 
 // check if the potential member submitted last proposal
-const canJoin = accountId && memberId !== proposal.proposer;
+const canJoin = accountId && accountId !== proposal.proposer;
 
 const handleJoin = () => {
   Near.call([
@@ -45,10 +44,10 @@ const handleJoin = () => {
       methodName: "add_proposal",
       args: {
         proposal: {
-          description: `add ${memberId} to the ${roleId} group`,
+          description: `add ${accountId} to the ${roleId} group`,
           kind: {
             AddMemberToRole: {
-              member_id: memberId,
+              member_id: accountId,
               role: roleId,
             },
           },
@@ -63,7 +62,7 @@ const handleJoin = () => {
 const groupMembers = group.join(", ");
 
 const checkMembership = (groupMembers) => {
-  if (groupMembers.indexOf(memberId) !== -1) {
+  if (groupMembers.indexOf(accountId) !== -1) {
     return State.update({ isMember: true });
   }
 };
@@ -73,7 +72,7 @@ const validMember = checkMembership(groupMembers);
 // check if the potential member is a verified human
 let human = false;
 const userSBTs = Near.view("registry.i-am-human.near", "sbt_tokens_by_owner", {
-  account: memberId,
+  account: accountId,
 });
 
 for (let i = 0; i < userSBTs.length; i++) {
@@ -84,7 +83,7 @@ for (let i = 0; i < userSBTs.length; i++) {
 
 // check if the potential member is connected
 const connectEdge = Social.keys(
-  `${memberId}/graph/connect/${daoId}`,
+  `${accountId}/graph/connect/${daoId}`,
   undefined,
   {
     values_only: true,
@@ -97,10 +96,7 @@ const isConnected = connectEdge && Object.keys(connectEdge).length;
 return (
   <div>
     {!isConnected ? (
-      <Widget
-        src="hack.near/widget/dao.connect"
-        props={{ accountId: memberId }}
-      />
+      <Widget src="hack.near/widget/dao.connect" />
     ) : (
       <>
         {!validMember ? (
