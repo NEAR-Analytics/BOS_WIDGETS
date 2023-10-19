@@ -61,7 +61,7 @@ const fetchStoreFrontData = (owner, contractId) => {
     listed: price
     media
     storeId: nft_contract_id
-    metadata_id
+    metadataId: metadata_id
     title
     description
   }
@@ -86,7 +86,10 @@ const fetchStoreFrontData = (owner, contractId) => {
   console.log("running2", state.storeContracts);
 };
 
-fetchStoreFrontData(props.ownerId, props.storeContract);
+fetchStoreFrontData(
+  props.ownerId || "nate.near",
+  props.storeContract || "nate.mintbase1.near"
+);
 
 const storeNfts = state.storeContracts;
 
@@ -133,7 +136,7 @@ return (
                 tokenId: data.token_id,
                 contractId: data.storeId,
               }}
-              src="agwaze.near/widget/CPlanet.NFTCard.index"
+              src="jgodwill.near/widget/Mintbase.NFTCard.index"
             />
           </div>
         ))}
