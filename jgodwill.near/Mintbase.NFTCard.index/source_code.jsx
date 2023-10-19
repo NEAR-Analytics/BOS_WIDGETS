@@ -106,7 +106,7 @@ font-family: Helvetica Neue;
 font-size: 16px;
 font-style: normal;
 font-weight: 400;
-line-height: 148%; 
+line-height: 125%; 
   }
 `;
 
@@ -205,7 +205,7 @@ return (
             {verifiedCheck}
           </Username>
           <h3>
-            {props.description ??
+            {(props.description && props.description.substring(0, 100)) ||
               `Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
           eiusmod tempor incididunt ut labore et dolore magna aliqua.`.substring(
                 0,
@@ -228,7 +228,8 @@ return (
       </CardBody>
       <Button>
         <a
-          href={`#/agwaze.near/widget/CPlanet.Explore.SingleNFT?contractId=${props.contractId}&tokenId=${props.tokenId}`}
+          href={`https://www.mintbase.xyz/meta/${props.metadataId}`}
+          target="_blank"
           style={{ textDecoration: "none", color: "inherit" }}
         >
           <button disabled={!props.price}>
