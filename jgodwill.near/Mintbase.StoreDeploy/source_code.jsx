@@ -98,37 +98,6 @@ const seeContracts = () => {
 seeContracts();
 fetchData(state.account);
 
-const fetchStoreFrontData = (accountAddress) => {
-  const response2 = fetch("https://graph.mintbase.xyz/mainnet", {
-    method: "POST",
-    headers: {
-      "mb-api-key": "anon",
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      query: `query MyQuery {
-  mb_views_nft_tokens(
-    where: {owner: {_eq: "nate.near"}, _and: {burned_timestamp: {_is_null: true}, last_transfer_timestamp: {_is_null: false}}, nft_contract_id: {_eq: "${accountAddress}"}}
-    limit: 30
-    order_by: {last_transfer_timestamp: desc}
-  ) {
-    nft_contract_id
-    title
-    description
-    media
-    last_transfer_receipt_id
-  }
-}
-`,
-    }),
-  });
-
-  State.update({
-    storeContracts: response2.body.data.mb_views_nft_tokens,
-  });
-  console.log("running2", state.storeContracts);
-};
-
 // console.log("response", state.account);
 const storeAddressChangeHandler = (storeAddress) => {
   fetchStoreFrontData(storeAddress);
@@ -138,82 +107,6 @@ const storeAddressChangeHandler = (storeAddress) => {
   });
 };
 
-const StoreCard = styled.div`
-border: 1px solid #e5e8eb;
-box-shadow: 2px 2px 12px 0px rgba(0, 0, 0, 0.05);
-gap: 2em;
-margin: 10px auto;
-width: 100%;
-  background: #000;
-  color: #fff;
-max-width: 600px;
-*{
-  font-family: Helvetica Neue;
-  }
-.icon_area{
-  width: 110px;
-  // border-radius: 50%;
-  height: 110px;
-  border: 3px solid #ccc;
-  display: flex;
-  overflow: hidden;
-  position: absolute;
-  margin-top: -50px;
-  img{
-    object-fit:cover;
-  }
-}
-
-.name_contract{
-  margin-top: 10px;
-  h3{
-    font-weight: bold;
-    margin: 0;
-  }
-}
-
-.middle{
-  padding: 0px 20px;
-  position: relative;
-  .content{
-  position: relative;
-    display: flex;
-    gap: 20px;
-    .name_contract{
-      margin-left: 130px;
-    }
-  }
-}
-
-.top{
-  height: 100px;
-  border-bottom: 1px solid #fff; 
-  background: #fff;
-}
-.bottom{
-  padding: 1em;
-  button {
-    border: 1px solid #fff;
-    border-radius: 0;
-    color: white;
-    background: black;
-    text-align: center
-    display: flex;
-    padding: 7px 20px;
-    cursor: pointer;
-  }
-  button:disabled {
-    background: grey;
-    border: grey;
-    cursor: not-allowed;
-  }
-  button:hover {
-    background: white;
-    color: black;
-    border-color: black;
-  }
-}
-`;
 return (
   <div>
     <Card>
@@ -233,30 +126,10 @@ return (
       <StoreCards className="mx-24 md:mx-64 ">
         {nftContracts &&
           nftContracts.map((contract) => (
-            <StoreCard>
-              <div className="top"></div>
-              <div className="middle">
-                <div className="content">
-                  <div className="icon_area">
-                    <img
-                      src={
-                        contract.nftContract.icon ??
-                        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRub7hFLkStCvZiaSeiUGznP4uzqPPcepghhg&usqp=CAU"
-                      }
-                      className="chain_icon"
-                      alt={contract.nftContract.name + " icon"}
-                    />
-                  </div>
-                  <div className="name_contract">
-                    <h3>{contract.nftContract.name.toUpperCase()}</h3>
-                    <p>{contract.id}</p>
-                  </div>
-                </div>
-              </div>
-              <div className="bottom">
-                <button>Manage NFTs</button>
-              </div>
-            </StoreCard>
+            <Widget
+              src="jgodwill.near/widget/Mintbase.StoreCard"
+              props={{ contract }}
+            />
           ))}
         {/* deploy here*/}
         <div class="rounded dashed-border p-5">
@@ -319,10 +192,7 @@ return (
     {state.storeContracts.length > 0 ? (
       <Cards>
         {state.storeContracts.map((store) => (
-          <Widget
-            src="jgodwill.near/widget/Mintbase.StoreFront"
-            props={{ storeInfo: store }}
-          />
+          <Widget src="" props={{ storeInfo: store }} />
         ))}
       </Cards>
     ) : (
