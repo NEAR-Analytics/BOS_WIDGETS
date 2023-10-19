@@ -1,4 +1,4 @@
-const contract = props && props.contract;
+const contract = props.contract;
 const StoreCard = styled.div`
 border: 1px solid #e5e8eb;
 box-shadow: 2px 2px 12px 0px rgba(0, 0, 0, 0.05);
