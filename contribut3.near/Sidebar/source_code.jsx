@@ -674,7 +674,7 @@ if (!state.profileIsFetched) {
       linktree: profile.linktree,
       verticals: profile.verticals ?? { [profile.category]: "" },
       product_type: profile.product_type,
-      company_size: profile.team ?? profile.company_size,
+      company_size: profile.team,
       userbase: profile.userbase,
       tam: profile.tam,
       dev: profile.dev,
