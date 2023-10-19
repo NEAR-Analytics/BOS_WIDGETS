@@ -274,7 +274,7 @@ const data = [
     technology: "-",
     token: "MATIC",
     bgColor: "#4C0098",
-    new: false,
+    new: true,
     opacity: false,
     childen: [{
       name: "Polygon Dex Collection",
@@ -318,7 +318,7 @@ const data = [
     technology: "ZK Rollup",
     token: "TBD🔥",
     bgColor: "#3B6BDC",
-    new: false,
+    new: true,
     opacity: false,
     childen: [{
       name: "zkSync Dex Collection",
@@ -336,7 +336,7 @@ const data = [
     technology: "ZK Rollup",
     token: "TBD🔥",
     bgColor: "#218FBE",
-    new: false,
+    new: true,
     opacity: false,
     childen: [{
       name: "Linea Dex Collection",
@@ -372,7 +372,7 @@ const data = [
     technology: "ZK Rollup",
     token: "GNO",
     bgColor: "#04795B",
-    new: false,
+    new: true,
     opacity: false,
     childen: [{
       name: "Gnosis Dex Collection",
@@ -390,7 +390,7 @@ const data = [
     technology: "ZK Rollup",
     token: "METIS",
     bgColor: "#008E85",
-    new: false,
+    new: true,
     opacity: false,
     childen: [{
       name: "Metis Dex Collection",
