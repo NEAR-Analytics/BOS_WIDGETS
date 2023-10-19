@@ -46,15 +46,19 @@ max-width: 600px;
     .name_contract{
       margin-left: 130px;
     }
+    .count_area{
+      flex: 1;
+    }
     .nft_count{
       display: flex;
       flex-flow: column nowrap;
       justify-content: center;
       margin-top: 13px;
-      margin-left: 100px;
+      justfy-self: flex-end;
       background:#222;
       padding: .5em;
       width: 100px;
+      float: right;
       h6{
         opacity: 0.5;
         magin: 0;
@@ -169,9 +173,11 @@ return (
             </h3>
             <p>{contract.id || "Contract Id"}</p>
           </div>
-          <div className="nft_count">
-            <h6>NFT Count</h6>
-            <p>{state.storeNftsCount || 124}</p>
+          <div className="count_area">
+            <div className="nft_count">
+              <h6>NFT Count</h6>
+              <p>{state.storeNftsCount || 124}</p>
+            </div>
           </div>
         </div>
       </div>
