@@ -73,6 +73,7 @@ function fetchData(accountAddress) {
     nftContract: nft_contract {
       name
       icon
+      owner: owner_id
     }
   }
 }
