@@ -82,6 +82,7 @@ const fetchStoreFrontData = (owner, contractId) => {
     storeNftsCount:
       response2.body.data.mb_views_nft_metadata_unburned_aggregate.aggregate
         .count,
+    ownerId: owner,
   });
   console.log("running2", state.storeContracts);
 };
@@ -128,7 +129,7 @@ return (
                 image: data.media,
 
                 price: data.listed,
-                owner: data.owner,
+                owner: state.ownerId,
                 price: data.listed
                   ? (data.listed / 1000000000000000000000000).toFixed(2)
                   : null,
