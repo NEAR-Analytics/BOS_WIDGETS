@@ -4,6 +4,9 @@ const value = props.value ?? "";
 const onChange = props.onChange ?? (() => {});
 const validate = props.validate ?? (() => {});
 const error = props.error ?? "";
+const labelcolor = props.labelcolor ?? "#000";
+const inputbackgroundcolor = props.inputbackgroundcolor ?? "#000";
+const inputcolor = props.inputcolor ?? "#000";
 
 const Container = styled.div`
   display: flex;
@@ -20,7 +23,7 @@ const Label = styled.label`
   font-weight: 600;
   font-size: 0.95em;
   line-height: 1.25em;
-  color: #344054;
+  color: rgb(120, 158, 251);
 `;
 
 const Error = styled.span`
@@ -46,11 +49,11 @@ const Input = styled.input`
   align-items: center;
   padding: 0.5em 0.75em;
   gap: 0.5em;
-  background: #ffffff;
+  background:  rgb(210, 202, 250);
   border: 1px solid #d0d5dd;
   box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05);
   border-radius: 4px;
-  color: #101828;
+  color: #394869;
   width: 100%;
 `;
 
