@@ -79,7 +79,7 @@ max-width: 600px;
 return (
   <StoreCard>
     <a
-      href={`#jgodwill.near/widget/Mintbase.StoreFront?contractId=${props.contractId}&tokenId=${props.tokenId}`}
+      href={`#jgodwill.near/widget/Mintbase.StoreFront?ownerId=${contract.owner}&storeContract=${contract.id}`}
       style={{ textDecoration: "none", color: "inherit" }}
     >
       <div className="top"></div>
