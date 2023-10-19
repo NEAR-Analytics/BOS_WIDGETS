@@ -182,7 +182,7 @@ const res = useCache(
                         </div>
                     ),
 
-                    value: isNEAR ? "" : a.contract
+                    value: a.contract
                 };
             });
             return data;
