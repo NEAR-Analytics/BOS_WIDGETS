@@ -1,4 +1,5 @@
-const { isTest, stateUpdate, libCalls } = props;
+const { isTest, stateUpdate, functionsToCallByLibrary, callLibs } = props;
+const functionsToCall = functionsToCallByLibrary.comment;
 
 const prodAction = "sayALotComment-v0.0.2";
 const testAction = `test_${prodAction}`;
@@ -11,17 +12,26 @@ const authorForWidget =
 // const authorForWidget = "silkking.near";
 const libSrcArray = [`${authorForWidget}/widget/SayALot.lib.SBT`];
 
-State.init({ libCalls: [] });
+State.init({
+  libCalls: [],
+  libsCalls: { SBT: [] },
+});
+
+let resultFunctionsToCallByLibrary = Object.assign(
+  {},
+  functionsToCallByLibrary
+);
+let resultFunctionsToCall = [];
 
 function libStateUpdate(obj) {
   State.update(obj);
 }
 
 function setAreValidUsers(accountIds, sbtsNames) {
-  const newLibCalls = [...state.libCalls];
+  const newLibCalls = Object.assign({}, state.libsCalls);
   accountIds.forEach((accountId) => {
     const isCallPushed =
-      newLibCalls.find((libCall) => {
+      newLibCalls.SBT.find((libCall) => {
         return (
           libCall.functionName === "isValidUser" &&
           libCall.props.accountId === accountId
@@ -33,7 +43,7 @@ function setAreValidUsers(accountIds, sbtsNames) {
       return;
     }
 
-    newLibCalls.push({
+    newLibCalls.SBT.push({
       functionName: "isValidUser",
       key: `isValidUser-${accountId}`,
       props: {
@@ -45,32 +55,13 @@ function setAreValidUsers(accountIds, sbtsNames) {
   State.update({ libCalls: newLibCalls });
 }
 
-function callLibs(srcArray, stateUpdate, libCalls) {
-  return (
-    <>
-      {srcArray.map((src) => {
-        return (
-          <Widget
-            src={src}
-            props={{
-              isTest,
-              stateUpdate,
-              libCalls,
-            }}
-          />
-        );
-      })}
-    </>
-  );
-}
-
 function canUserCreateComment(props) {
   const { accountId, sbtsNames } = props;
   setAreValidUsers([accountId], sbtsNames);
 
   const result = state[`isValidUser-${accountId}`];
 
-  resultLibCalls = resultLibCalls.filter((call) => {
+  resultFunctionsToCall = resultFunctionsToCall.filter((call) => {
     const discardCondition =
       call.functionName === "canUserCreateComment" && result !== undefined;
     return !discardCondition;
@@ -86,7 +77,7 @@ function createComment(props) {
 
   saveComment(comment, onCommit, onCancel);
 
-  resultLibCalls = resultLibCalls.filter((call) => {
+  resultFunctionsToCall = resultFunctionsToCall.filter((call) => {
     return call.functionName !== "createComment";
   });
 
@@ -163,7 +154,7 @@ function getValidComments(props) {
       return state[`isValidUser-${author}`][articleSbt];
     });
 
-    resultLibCalls = resultLibCalls.filter((call) => {
+    resultFunctionsToCall = resultFunctionsToCall.filter((call) => {
       const discardCondition =
         call.functionName === "getValidComments" &&
         state[`isValidUser-${call.props.accountId}`] !== undefined;
@@ -176,7 +167,7 @@ function getValidComments(props) {
   return finalComments;
 }
 
-function libCall(call) {
+function callFunction(call) {
   if (call.functionName === "createComment") {
     return createComment(call.props);
   } else if (call.functionName === "getValidComments") {
@@ -186,20 +177,22 @@ function libCall(call) {
   }
 }
 
-let resultLibCalls = [];
-if (libCalls && libCalls.length > 0) {
-  // console.log(
-  //   "Calling functions",
-  //   libCalls.map((lc) => lc.functionName)
-  // );
-  const updateObj = {};
-  resultLibCalls = [...libCalls];
-  libCalls.forEach((call) => {
-    updateObj[call.key] = libCall(call);
+if (functionsToCall && functionsToCall.length > 0) {
+  const updateObj = Object.assign({}, functionsToCallByLibrary);
+  resultFunctionsToCall = [...functionsToCall];
+  functionsToCall.forEach((call) => {
+    updateObj[call.key] = callFunction(call);
   });
 
-  updateObj.libCalls = resultLibCalls;
+  resultFunctionsToCallByLibrary.article = resultFunctionsToCall;
+  updateObj.functionsToCallByLibrary = resultFunctionsToCallByLibrary;
   stateUpdate(updateObj);
 }
 
-return <>{callLibs(libSrcArray, libStateUpdate, state.libCalls)}</>;
+return (
+  <>
+    {libSrcArray.map((src) => {
+      return callLibs(src, libStateUpdate, state.libsCalls, "lib.comment");
+    })}
+  </>
+);
