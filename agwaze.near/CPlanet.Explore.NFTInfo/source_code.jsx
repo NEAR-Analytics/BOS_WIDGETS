@@ -253,7 +253,10 @@ return (
               </ImageSec>
               <PriceSec>
                 <h1>
-                  <Widget src="agwaze.near/widget/GenaDrop.NearLogo" />
+                  <Widget
+                    src="agwaze.near/widget/GenaDrop.NearLogo"
+                    props={{ width: 10 }}
+                  />
                   {(data.price / 1000000000000000000000000).toFixed(2)}
                 </h1>
                 <span>
