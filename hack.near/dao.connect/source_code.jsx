@@ -1,3 +1,5 @@
+const daoId = props.daoId ?? "build.sputnik-dao.near";
+
 if (
   !props.accountId ||
   !context.accountId ||
@@ -35,13 +37,8 @@ const data = {
       key: "connect",
       value: {
         type,
+        daoId,
         accountId: props.accountId,
-      },
-    }),
-    notify: JSON.stringify({
-      key: props.accountId,
-      value: {
-        type,
       },
     }),
   },
@@ -50,9 +47,7 @@ const data = {
 return (
   <CommitButton
     disabled={loading}
-    className={`btn ${
-      loading || connect ? "btn-outline-dark" : "btn-success"
-    } m-1 rounded-5`}
+    className="btn btn-success m-1 rounded-5"
     data={data}
   >
     {loading ? "Loading" : connect ? "Connected" : "Connect"}
