@@ -220,7 +220,6 @@ return (
           <div>
             <span>Current Price</span>
             <p>
-              {props.price ?? "N/A"}{" "}
               {props.price ? (
                 <Widget
                   src="agwaze.near/widget/GenaDrop.NearLogo"
@@ -229,6 +228,7 @@ return (
               ) : (
                 ""
               )}
+              {props.price ?? "N/A"}{" "}
             </p>
           </div>
           <div>
