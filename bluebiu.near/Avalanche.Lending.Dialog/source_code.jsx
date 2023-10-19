@@ -254,8 +254,6 @@ const formatBorrowLimit = (digits, round) => {
     .toFixed(digits || 2, round || 1);
 };
 
-console.log("data: ", data);
-
 const formatBalance = () => {
   if (state.balanceLoading) return "Loading";
   if (!state.balance) return "-";
@@ -294,12 +292,12 @@ const handleAmountChange = (amount) => {
       params.borrowLimit = Big(data.totalCollateralUsd)
         .minus(data.userTotalBorrowUsd)
         .minus(value)
-        .toFixed(2);
+        .toFixed();
     }
     if (actionText === "Deposit") {
       params.borrowLimit = Big(data.totalCollateralUsd)
         .plus(value.mul(data.loanToValue / 100))
-        .toFixed(2);
+        .toFixed();
     }
   }
   if (isBorrow) {
@@ -314,7 +312,7 @@ const handleAmountChange = (amount) => {
       params.borrowLimit = Big(data.totalCollateralUsd)
         .minus(data.userTotalBorrowUsd)
         .add(value)
-        .toFixed(2);
+        .toFixed();
       isOverSize = value.gt(data.userTotalBorrowUsd);
     }
   }
@@ -401,7 +399,10 @@ if (Storage.privateGet("prevAddress") !== data.address && display) {
     borromLimit = _borrowLimit.minus(
       Big(data.loanToValue / 100).mul(data.userSupply || 0)
     );
-    buttonClickable = !borromLimit.lt(data.userTotalBorrowUsd);
+
+    buttonClickable = Big(data.userTotalBorrowUsd).eq(0)
+      ? true
+      : !borromLimit.lt(0);
   }
   State.update({
     borrowLimit: borromLimit
@@ -554,7 +555,7 @@ return (
                       className="mx_5"
                     />
                   </div>
-                  <Value>${state.borrowLimit}</Value>
+                  <Value>${Big(state.borrowLimit).toFixed(2)}</Value>
                 </>
               )}
             </ValuesWrapper>
