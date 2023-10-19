@@ -403,10 +403,6 @@ const loadingUrl =
   props.loadingUrl ??
   "https://ipfs.near.social/ipfs/bafkreidoxgv2w7kmzurdnmflegkthgzaclgwpiccgztpkfdkfzb4265zuu";
 
-const tokenInfo = Near.view("genadrop-contract.nftgen.near", "nft_token", {
-  token_id: tokenId ?? "1664304736705",
-});
-
 State.init({
   contractId,
   tokenId,
@@ -418,6 +414,10 @@ State.init({
   title: "",
   owner: "",
   imageUrl: null,
+});
+
+const tokenInfo = Near.view("genadrop-contract.nftgen.near", "nft_token", {
+  token_id: tokenId,
 });
 
 const tradeportLink = `https://www.tradeport.xyz/near/collection/${
@@ -765,29 +765,30 @@ return (
             <h2>USD Price</h2>
           </TableHeader>
           <MarketRow>
-            {Object.keys(tokenInfo.approved_account_ids).map((key) => (
-              <a
-                href={
-                  matchedKeyWords(key) === "tradeport"
-                    ? tradeportLink
-                    : fewfarlink
-                }
-              >
-                {marketPlaceImage[matchedKeyWords(key)]}
-                <p>
-                  {props.price
-                    ? (props.price / 1000000000000000000000000).toFixed(2)
-                    : "N/A"}
-                </p>
-                <p>
-                  {getUsdValue(
-                    props.price
+            {tokenInfo &&
+              Object.keys(tokenInfo.approved_account_ids).map((key) => (
+                <a
+                  href={
+                    matchedKeyWords(key) === "tradeport"
+                      ? tradeportLink
+                      : fewfarlink
+                  }
+                >
+                  {marketPlaceImage[matchedKeyWords(key)]}
+                  <p>
+                    {props.price
                       ? (props.price / 1000000000000000000000000).toFixed(2)
-                      : 0
-                  )}
-                </p>
-              </a>
-            ))}
+                      : "N/A"}
+                  </p>
+                  <p>
+                    {getUsdValue(
+                      props.price
+                        ? (props.price / 1000000000000000000000000).toFixed(2)
+                        : 0
+                    )}
+                  </p>
+                </a>
+              ))}
           </MarketRow>
         </Table>
       </Others>
