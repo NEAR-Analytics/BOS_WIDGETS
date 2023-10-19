@@ -180,11 +180,13 @@ const quoteAll = () => {
         });
       }
 
-      loadAmountOut({
-        ...maxAmountOutEstimate,
-        outputCurrencyAmount: maxAmountOutEstimate.amountOut,
-        noPair: false,
-      });
+      if (tokenIn.chainId === chainId) {
+        loadAmountOut({
+          ...maxAmountOutEstimate,
+          outputCurrencyAmount: maxAmountOutEstimate.amountOut,
+          noPair: false,
+        });
+      }
     });
 };
 
