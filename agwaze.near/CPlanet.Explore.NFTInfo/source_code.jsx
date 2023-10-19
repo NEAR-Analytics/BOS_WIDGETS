@@ -92,6 +92,7 @@ const PriceSec = styled.div`
         line-height: 160%; /* 25.6px */
         margin-bottom: 0;
         display: flex;
+        gap: 4px;
     }    
     span {
         color: rgba(17, 17, 15, 0.60);
