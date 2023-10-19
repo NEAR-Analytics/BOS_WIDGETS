@@ -114,7 +114,7 @@ const AmountSec = styled.div`
   width: 100%;
   display: flex;
   flex-direction: row;
-  align-items: flex-start;
+  align-items: center;
   gap: 20px;
   div {
     span {
@@ -126,10 +126,6 @@ const AmountSec = styled.div`
       line-height: normal;
       text-transform: uppercase;
     }
-    img {
-      width: 15px;
-      height: 15px;
-    }
     p {
         color: #000;
         font-family: Helvetica Neue;
@@ -140,7 +136,6 @@ const AmountSec = styled.div`
         text-transform: uppercase;
         display: flex;
         align-items: center;
-        gap: 5px;
         span {
           color: #000;
           font-family: Helvetica Neue;
@@ -206,40 +201,33 @@ return (
     <Bottom>
       <CardBody>
         <HeaderText>
-          <h1>
-            {props.title
-              ? props.title.length > 15
-                ? `${props.title.substring(0, 15)}...`
-                : props.title
-              : `My NFT CARD`}
-          </h1>
+          <h1>{props.title ?? `My NFT CARD`}</h1>
           <Username>
-            <p>{props.owner ? props.owner.substring(0, 20) : "My User"}</p>
+            <p>{props.owner ?? "My User"}</p>
             {verifiedCheck}
           </Username>
           <h3>
-            {props.description
-              ? props.description.substring(0, 100)
-              : `Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+            {props.description ??
+              `Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
           eiusmod tempor incididunt ut labore et dolore magna aliqua.`.substring(
-                  0,
-                  100
-                )}
+                0,
+                100
+              )}
           </h3>
         </HeaderText>
         <AmountSec>
           <div>
             <span>Current Price</span>
             <p>
-              {props.price
-                ? <img src={props.logo} alt="" /> ?? (
-                    <Widget
-                      src="agwaze.near/widget/GenaDrop.NearLogo"
-                      props={{ width: 13 }}
-                    />
-                  )
-                : ""}
               {props.price ?? "N/A"}{" "}
+              {props.price ? (
+                <Widget
+                  src="agwaze.near/widget/GenaDrop.NearLogo"
+                  props={{ width: 13 }}
+                />
+              ) : (
+                ""
+              )}
             </p>
           </div>
           <div>
@@ -250,14 +238,7 @@ return (
       </CardBody>
       <Button>
         <a
-          href={
-            props.isGateway
-              ? `#/agwaze.near/widget/CPlanet.Explore.SingleNFT?contractId=${props.contractId}&tokenId=${props.tokenId}&chainState=${props.chainState}`
-              : props.price
-              ? `#/agwaze.near/widget/CPlanet.index?tab=singleNFT&contractId=${props.contractId}&tokenId=${props.tokenId}&chainState=${props.chainState}`
-              : "#"
-          }
-          onClick={() => props.onButtonClick()}
+          href={`#/agwaze.near/widget/CPlanet.Explore.SingleNFT?contractId=${props.contractId}&tokenId=${props.tokenId}`}
           style={{ textDecoration: "none", color: "inherit" }}
         >
           <button disabled={!props.price}>
