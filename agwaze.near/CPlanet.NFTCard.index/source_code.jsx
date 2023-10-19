@@ -134,6 +134,8 @@ const AmountSec = styled.div`
         font-weight: 700;
         line-height: normal;
         text-transform: uppercase;
+        display: flex;
+        align-items: center;
         span {
           color: #000;
           font-family: Helvetica Neue;
@@ -217,7 +219,15 @@ return (
           <div>
             <span>Current Price</span>
             <p>
-              {props.price ?? "N/A"} {props.price ? <span>NEAR</span> : ""}
+              {props.price ?? "N/A"}{" "}
+              {props.price ? (
+                <Widget
+                  src="agwaze.near/widget/GenaDrop.NearLogo"
+                  props={{ width: 13 }}
+                />
+              ) : (
+                ""
+              )}
             </p>
           </div>
           <div>
