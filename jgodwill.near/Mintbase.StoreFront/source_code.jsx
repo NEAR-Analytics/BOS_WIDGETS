@@ -1,4 +1,4 @@
-const storeData = props ?? props.storeInfo;
+const storeNfts = props.storeInfo || [state.storeContracts];
 
 const Card = styled.div`
 padding: 1em;
@@ -35,18 +35,80 @@ border-radius: .7em;
   }
 `;
 
+const Cards = styled.div`
+    display: flex;
+    flex-direction: row;
+    gap: 18px;
+    margin-top: 32px;
+    flex-wrap: wrap;
+    width: 100%;
+    justify-content: center;
+`;
+
+const fetchStoreFrontData = (owner, contractId) => {
+  const response2 = fetch("https://graph.mintbase.xyz/mainnet", {
+    method: "POST",
+    headers: {
+      "mb-api-key": "anon",
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      query: `query MyQuery {
+  mb_views_nft_metadata_unburned(
+    where: {nft_contract: {id: {_eq: "${contractId}"}, owner_id: {_eq: "${owner}"}}}
+    offset: 0
+    order_by: {minted_timestamp: desc}
+  ) {
+    createdAt: minted_timestamp
+    listed: price
+    media
+    storeId: nft_contract_id
+    metadata_id
+    title
+    description
+  }
+  mb_views_nft_metadata_unburned_aggregate(
+    where: {nft_contract: {id: {_eq: "${contractId}"}, owner_id: {_eq: "${owner}"}}}
+  ) {
+    aggregate {
+      count
+    }
+  }
+}
+`,
+    }),
+  });
+
+  State.update({
+    storeContracts: response2.body.data.mb_views_nft_metadata_unburned,
+  });
+  console.log("running2", state.storeContracts);
+};
+
+fetchStoreFrontData(props.ownerId, props.storeContract);
+
 return (
-  <Card>
-    <img
-      src={
-        storeData.media ||
-        "https://arweave.net/cjSBAKOSIV-ElbiqsdcT0aJ9xXBzPKYlGnUtWqkhrTY"
-      }
-      alt="store Image"
-    />
-    <div className="bottom">
-      <h4 className="title">{storeData.title || "Store Title"}</h4>
-      <p className="desc">{storeData.description || "Description"}</p>
-    </div>
-  </Card>
+  <Cards>
+    {storeNfts.map((data, index) => (
+      <div key={index}>
+        <Widget
+          props={{
+            title: data.title,
+            description: data.description,
+            image: data.media,
+
+            price: data.listed,
+            owner: data.owner,
+            price: data.listed
+              ? (data.listed / 1000000000000000000000000).toFixed(2)
+              : null,
+            isListed: data.listed ? "LISTED" : "NOT LISTED",
+            tokenId: data.token_id,
+            contractId: data.storeId,
+          }}
+          src="agwaze.near/widget/CPlanet.NFTCard.index"
+        />
+      </div>
+    ))}
+  </Cards>
 );
