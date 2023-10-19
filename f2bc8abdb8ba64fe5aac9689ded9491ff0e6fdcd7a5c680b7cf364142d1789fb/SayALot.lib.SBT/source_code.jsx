@@ -1,6 +1,11 @@
-const { isTest, stateUpdate, libCalls } = props;
+const { isTest, stateUpdate, functionsToCallByLibrary, callLibs } = props;
+const functionsToCall = functionsToCallByLibrary.SBT;
 
-let resultLibCalls = [];
+let resultFunctionsToCallByLibrary = Object.assign(
+  {},
+  functionsToCallByLibrary
+);
+let resultFunctionsToCall = [];
 
 function isValidUser(props) {
   const { accountId, sbtsNames } = props;
@@ -31,7 +36,7 @@ function isValidUser(props) {
     usersValidityBySBT[sbtName] = userValidityBySBT;
   });
 
-  resultLibCalls = resultLibCalls.filter((call) => {
+  resultFunctionsToCall = resultFunctionsToCall.filter((call) => {
     return call.functionName !== "isValidUser";
   });
 
@@ -50,7 +55,7 @@ function getLoggedUserSbts(props) {
   );
 
   if (userSBTs) {
-    resultLibCalls = resultLibCalls.filter((call) => {
+    resultFunctionsToCall = resultFunctionsToCall.filter((call) => {
       return call.functionName !== "getLoggedUserSbts";
     });
   }
@@ -58,7 +63,7 @@ function getLoggedUserSbts(props) {
   return userSBTs;
 }
 
-function libCall(call) {
+function callFunction(call) {
   if (call.functionName === "isValidUser") {
     return isValidUser(call.props);
   } else if (call.functionName === "getLoggedUserSbts") {
@@ -66,14 +71,15 @@ function libCall(call) {
   }
 }
 
-if (libCalls && libCalls.length > 0) {
-  const updateObj = {};
-  resultLibCalls = [...libCalls];
-  libCalls.forEach((call) => {
-    updateObj[call.key] = libCall(call);
+if (functionsToCall && functionsToCall.length > 0) {
+  const updateObj = Object.assign({}, functionsToCallByLibrary);
+  resultFunctionsToCall = [...functionsToCall];
+  functionsToCall.forEach((call) => {
+    updateObj[call.key] = callFunction(call);
   });
 
-  updateObj.libCalls = resultLibCalls;
+  resultFunctionsToCallByLibrary.article = resultFunctionsToCall;
+  updateObj.functionsToCallByLibrary = resultFunctionsToCallByLibrary;
   stateUpdate(updateObj);
 }
 
