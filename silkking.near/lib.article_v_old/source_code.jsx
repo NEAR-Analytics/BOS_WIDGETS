@@ -131,9 +131,6 @@ function getArticleBlackListByRealArticleId() {
 function normalizeOldToV_0_0_1(article) {
   article.realArticleId = `${article.author}-${article.timeCreate}`;
   article.sbts = ["public"];
-  if (!Array.isArray(article.tags) && typeof article.tags === "object") {
-    article.tags = Object.keys(article.tags);
-  }
 
   return article;
 }
@@ -151,9 +148,16 @@ function normalizeFromV0_0_1ToV0_0_2(article) {
   return article;
 }
 
+function normalizeFromV0_0_2ToV0_0_3(article) {
+  if (!Array.isArray(article.tags) && typeof article.tags === "object") {
+    article.tags = Object.keys(article.tags);
+  }
+}
+
 function normalizeArticles(articles) {
   articles = articles.map(normalizeOldToV_0_0_1);
   articles = articles.map(normalizeFromV0_0_1ToV0_0_2);
+  articles = articles.map(normalizeFromV0_0_2ToV0_0_3);
   return articles;
 }
 
