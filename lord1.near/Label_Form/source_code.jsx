@@ -355,7 +355,10 @@ let discords = (
     src={`lord1.near/widget/test`}
     props={{
       label: "Discord Handle",
-
+      placeholdercolor: themeColor?.form?.placeholdercolor,
+      inputbackgroundcolor: themeColor?.form?.inputbackgroundcolor,
+      inputcolor: themeColor?.form?.inputcolor,
+      labelcolor: themeColor?.form?.labelcolor,
       placeholder: "@sick_discord_handle",
       value: state.discord,
       onChange: (discord) => State.update({ discord }),
