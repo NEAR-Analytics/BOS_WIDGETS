@@ -23,7 +23,7 @@ const Label = styled.label`
   font-weight: 600;
   font-size: 0.95em;
   line-height: 1.25em;
-  color: ${labelcolor};
+  color: rgb(120, 158, 251);
 `;
 
 const Error = styled.span`
@@ -49,11 +49,11 @@ const Input = styled.input`
   align-items: center;
   padding: 0.5em 0.75em;
   gap: 0.5em;
-  background:  ${inputbackgroundcolor};
+  background:  rgb(210, 202, 250);
   border: 1px solid #d0d5dd;
   box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05);
   border-radius: 4px;
-  color: ${inputcolor};
+  color: #394869;
   width: 100%;
 `;
 
