@@ -6,22 +6,25 @@ const {
   disabled,
   articleSbts,
   upVotes,
+  callLibs,
 } = props;
 
 const data = reactedElementData;
 
 const libSrcArray = [widgets.libUpVotes];
 
-const initLibCalls = [
-  {
-    functionName: "getUpVotes",
-    key: "upVotes",
-    props: {
-      id: data.id ?? `${data.author}-${data.timeCreate}`,
-      articleSbts,
+const initLibCalls = {
+  upVotes: [
+    {
+      functionName: "getUpVotes",
+      key: "upVotes",
+      props: {
+        id: data.id ?? `${data.author}-${data.timeCreate}`,
+        articleSbts,
+      },
     },
-  },
-];
+  ],
+};
 
 if (!upVotes) {
   State.init({
@@ -44,34 +47,34 @@ function getUpVoteButtonClass() {
   }
 }
 
-function callLibs(srcArray, stateUpdate, libCalls) {
-  return (
-    <>
-      {srcArray.map((src) => {
-        return (
-          <Widget
-            src={src}
-            props={{
-              isTest,
-              stateUpdate,
-              libCalls,
-            }}
-          />
-        );
-      })}
-    </>
-  );
-}
+// function callLibs(srcArray, stateUpdate, libCalls) {
+//   return (
+//     <>
+//       {srcArray.map((src) => {
+//         return (
+//           <Widget
+//             src={src}
+//             props={{
+//               isTest,
+//               stateUpdate,
+//               libCalls,
+//             }}
+//           />
+//         );
+//       })}
+//     </>
+//   );
+// }
 
 function stateUpdate(obj) {
   State.update(obj);
 }
 
 function upVoteButtonListener() {
-  let newLibCalls = state.libCalls !== undefined ? [...state.libCalls] : [];
+  let newLibCalls = Object.assign({}, state.libCalls);
 
   if (!hasUserVoted) {
-    newLibCalls.push({
+    newLibCalls.upVotes.push({
       functionName: "addVote",
       key: "newVote",
       props: {
@@ -79,7 +82,7 @@ function upVoteButtonListener() {
       },
     });
   } else {
-    newLibCalls.push({
+    newLibCalls.upVotes.push({
       functionName: "deleteVote",
       key: "deletedVote",
       props: {
@@ -137,7 +140,9 @@ return (
     />
 
     <CallLibrary>
-      {callLibs(libSrcArray, stateUpdate, state.libCalls)}
+      {libSrcArray.map((src) => {
+        return callLibs(src, libStateUpdate, state.libsCalls, "Up vote button");
+      })}
     </CallLibrary>
   </>
 );
