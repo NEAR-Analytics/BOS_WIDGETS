@@ -1,7 +1,7 @@
 const accountId = context.accountId;
 const daoId = props.daoId ?? "build.sputnik-dao.near";
 
-if (!accountId) {
+if (!accountId || accountId === daoId) {
   return "";
 }
 
