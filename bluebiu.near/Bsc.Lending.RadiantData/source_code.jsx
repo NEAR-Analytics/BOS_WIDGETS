@@ -783,6 +783,12 @@ const getUserRevervesData = (addresses) => {
       const address = addresses[index];
 
       const underlyingAsset = Tokens[address];
+
+      const scaledATokenBalance = Big(data[0].toString())
+        .div(Big(10).pow(underlyingAsset.decimals))
+        // .times(state.tokensPrice[address])
+        .toFixed();
+
       const scaledATokenBalanceUsd = Big(data[0].toString())
         .div(Big(10).pow(underlyingAsset.decimals))
         .times(state.tokensPrice[address])
@@ -807,6 +813,7 @@ const getUserRevervesData = (addresses) => {
         address,
         underlyingAsset,
         scaledATokenBalanceUsd,
+        scaledATokenBalance,
         usageAsCollateralEnabledOnUser,
         scaledVariableDebt,
         scaledVariableDebtUsd,
@@ -889,7 +896,7 @@ if (
     marketData[address] = {
       ...d,
       ...marketData[address],
-      userSupply: d.scaledATokenBalanceUsd,
+      userSupply: d.scaledATokenBalance,
       userBorrow: d.scaledVariableDebt,
     };
   });
@@ -897,8 +904,6 @@ if (
   let reduceUnclaimed = Big(0);
 
   let reduceDailyRewards = Big(0);
-
-  console.log("marketData: ", marketData);
 
   Object.keys(marketData).forEach((address) => {
     const market = marketData[address];
