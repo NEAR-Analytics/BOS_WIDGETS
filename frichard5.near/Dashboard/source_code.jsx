@@ -1,12 +1,12 @@
 const widgetProvider = "frichard5.near";
 
 const avenirFontFamily = fetch(
-  "https://fonts.cdnfonts.com/css/avenir-lt-std"
+    "https://fonts.cdnfonts.com/css/avenir-lt-std"
 ).body;
 const theme = {
-  main: "#FFD50D",
-  secondaryPink: "#F29BC0",
-  secondaryBlue: "#4498E0",
+    main: "#FFD50D",
+    secondaryPink: "#F29BC0",
+    secondaryBlue: "#4498E0",
 };
 
 const DashboardContainer = styled.div`
@@ -83,37 +83,55 @@ const WContainer = styled.div`
 `;
 
 const DailyTransactions = (
-  <Widget src={`${widgetProvider}/widget/DailyTransactions`} props={{}} />
+    <Widget
+        src={`${widgetProvider}/widget/NearDashboard.DailyTransactions`}
+        props={{
+        }}
+    />
 );
 
 const ActiveAccounts = (
-  <Widget src={`${widgetProvider}/widget/ActiveAccounts`} props={{}} />
-);
+    <Widget
+        src={`${widgetProvider}/widget/NearDashboard.ActiveAccounts`}
+        props={{
+        }}
+    />
+)
 
 const NewAccounts = (
-  <Widget src={`${widgetProvider}/widget/NewAccounts`} props={{}} />
-);
+    <Widget
+        src={`${widgetProvider}/widget/NearDashboard.NewAccounts`}
+        props={{
+        }}
+    />
+)
 
 const ActiveContracts = (
-  <Widget src={`${widgetProvider}/widget/ActiveContracts`} props={{}} />
-);
+    <Widget
+        src={`${widgetProvider}/widget/NearDashboard.ActiveContracts`}
+        props={{
+        }}
+    />
+)
+
 
 const WidgetContainer = styled.div`
   display: flex;
   @media screen and (max-width:600px) {
     flex-direction: column;
   }
-`;
+`
+
 
 return (
-  <DashboardContainer theme={theme}>
-    <WidgetContainer>
-      <WContainer>{DailyTransactions}</WContainer>
-      <WContainer>{ActiveAccounts}</WContainer>
-    </WidgetContainer>
-    <WidgetContainer>
-      <WContainer>{NewAccounts}</WContainer>
-      <WContainer>{ActiveContracts}</WContainer>
-    </WidgetContainer>
-  </DashboardContainer>
+    <DashboardContainer theme={theme}>
+        <WidgetContainer>
+            <WContainer>{DailyTransactions}</WContainer>
+            <WContainer>{ActiveAccounts}</WContainer>
+        </WidgetContainer>
+        <WidgetContainer>
+            <WContainer>{NewAccounts}</WContainer>
+            <WContainer>{ActiveContracts}</WContainer>
+        </WidgetContainer>
+    </DashboardContainer>
 );
