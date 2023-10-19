@@ -174,7 +174,7 @@ const getUsdValue = (price) => {
   if (res.ok) {
     const multiplyBy = Object.values(res?.body)[0]?.usd;
     const value = multiplyBy * price > 0 ? price : 0;
-    return value !== "NaN" ? `$${value}` : 0;
+    return value !== "NaN" ? `$${value.toFixed(3)}` : 0;
   }
 };
 
@@ -248,7 +248,6 @@ return (
             >
               <ImageSec>
                 <Image></Image>
-
                 <div>
                   <p>
                     {data.type} by @{data?.from?.id}
