@@ -1,4 +1,5 @@
-const { isTest, stateUpdate, libCalls } = props;
+const { isTest, stateUpdate, functionsToCallByLibrary, callLibs } = props;
+const functionsToCall = functionsToCallByLibrary.emojis;
 
 const prodAction = "sayALotReaction";
 const testAction = `test_${prodAction}`;
@@ -8,20 +9,28 @@ const authorForWidget =
   "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb";
 //const authorForWidget = "sayalot.near";
 // const authorForWidget = "kenrou-it.near";
+// const authorForWidget = "silkking.near";
 const libSrcArray = [`${authorForWidget}/widget/SayALot.lib.SBT`];
 const initialEmoji = "🤍 Like";
 
-State.init({ libCalls: [] });
+State.init({ libCalls: [], libsCalls: { SBT: [] } });
+
+let resultFunctionsToCallByLibrary = Object.assign(
+  {},
+  functionsToCallByLibrary
+);
+let resultFunctionsToCall = [];
 
 function libStateUpdate(obj) {
   State.update(obj);
 }
 
 function setAreValidUsers(accountIds, sbtsNames) {
-  const newLibCalls = [...state.libCalls];
-  accountIds.forEach((accountId) => {
+  const newLibsCalls = Object.assign({}, state.libsCalls);
+
+  accountIds.forEach((accountId, index) => {
     const isCallPushed =
-      newLibCalls.find((libCall) => {
+      newLibsCalls.SBT.find((libCall) => {
         return (
           libCall.functionName === "isValidUser" &&
           libCall.props.accountId === accountId
@@ -33,36 +42,36 @@ function setAreValidUsers(accountIds, sbtsNames) {
       return;
     }
 
-    newLibCalls.push({
+    newLibsCalls.SBT.push({
       functionName: "isValidUser",
       key: `isValidUser-${accountId}`,
       props: {
         accountId,
-        sbtsNames: sbtsNames,
+        sbtsNames,
       },
     });
   });
-  State.update({ libCalls: newLibCalls });
+  State.update({ libsCalls: newLibsCalls });
 }
 
-function callLibs(srcArray, stateUpdate, libCalls) {
-  return (
-    <>
-      {srcArray.map((src) => {
-        return (
-          <Widget
-            src={src}
-            props={{
-              isTest,
-              stateUpdate,
-              libCalls,
-            }}
-          />
-        );
-      })}
-    </>
-  );
-}
+// function callLibs(srcArray, stateUpdate, libCalls) {
+//   return (
+//     <>
+//       {srcArray.map((src) => {
+//         return (
+//           <Widget
+//             src={src}
+//             props={{
+//               isTest,
+//               stateUpdate,
+//               libCalls,
+//             }}
+//           />
+//         );
+//       })}
+//     </>
+//   );
+// }
 
 function canUserReact(props) {
   const { env, accountId, sbtsNames } = props;
@@ -233,7 +242,7 @@ function getReactionsData(props) {
   return { reactionsStatistics, userReaction };
 }
 
-function libCall(call) {
+function callFunction(call) {
   if (call.functionName === "createReaction") {
     return createReaction(call.props);
   } else if (call.functionName === "getReactionsData") {
@@ -243,20 +252,22 @@ function libCall(call) {
   }
 }
 
-let resultLibCalls = [];
-if (libCalls && libCalls.length > 0) {
-  // console.log(
-  //   "Calling functions",
-  //   libCalls.map((lc) => lc.functionName)
-  // );
-  const updateObj = {};
-  resultLibCalls = [...libCalls];
-  libCalls.forEach((call) => {
-    updateObj[call.key] = libCall(call);
+if (functionsToCall && functionsToCall.length > 0) {
+  const updateObj = Object.assign({}, functionsToCallByLibrary);
+  resultFunctionsToCall = [...functionsToCall];
+  functionsToCall.forEach((call) => {
+    updateObj[call.key] = callFunction(call);
   });
 
-  updateObj.libCalls = resultLibCalls;
+  resultFunctionsToCallByLibrary.article = resultFunctionsToCall;
+  updateObj.functionsToCallByLibrary = resultFunctionsToCallByLibrary;
   stateUpdate(updateObj);
 }
 
-return <>{}</>;
+return (
+  <>
+    {libSrcArray.map((src) => {
+      return callLibs(src, libStateUpdate, state.libsCalls, "lib.emojis");
+    })}
+  </>
+);
