@@ -463,10 +463,15 @@ const formateTokenReserveData = (
 
 const formatUserReserveData = (data, address) => {
   const underlyingAsset = Tokens[address];
+
+  const scaledATokenBalance = Big(data[0].toString())
+    .div(Big(10).pow(underlyingAsset.decimals))
+    .toFixed();
+
   const scaledATokenBalanceUsd = Big(data[0].toString())
     .div(Big(10).pow(underlyingAsset.decimals))
     .times(state.tokensPrice[address])
-    .toFixed(4);
+    .toFixed();
 
   const aTokenBalance = Big(data[0].toString())
     .div(Big(10).pow(underlyingAsset.decimals))
@@ -477,17 +482,18 @@ const formatUserReserveData = (data, address) => {
   const scaledVariableDebt = Big(data[2].toString())
     .div(Big(10).pow(underlyingAsset.decimals))
 
-    .toFixed(4);
+    .toFixed();
 
   const scaledVariableDebtUsd = Big(data[2].toString())
     .div(Big(10).pow(underlyingAsset.decimals))
     .times(state.tokensPrice[address])
-    .toFixed(4);
+    .toFixed();
 
   const userReserveParsed = {
     address,
     underlyingAsset,
     scaledATokenBalanceUsd,
+    scaledATokenBalance,
     usageAsCollateralEnabledOnUser,
     scaledVariableDebt,
     scaledVariableDebtUsd,
@@ -697,7 +703,7 @@ if (
     marketData[address] = {
       ...marketData[address],
       ...d,
-      userSupply: d.scaledATokenBalanceUsd,
+      userSupply: d.scaledATokenBalance,
       userBorrow: d.scaledVariableDebt,
     };
   });
