@@ -362,7 +362,8 @@ const MarketRow = styled.div`
     cursor: pointer;
     width: 90%;
     transition: 0.3s ease-in-out;
-    margin-bottom: 20px;
+    padding: 10px;
+    margin-bottom: 5px;
         }
 
     a:hover {
