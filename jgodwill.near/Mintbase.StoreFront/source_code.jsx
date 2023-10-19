@@ -89,26 +89,27 @@ const storeNfts = state.storeContracts;
 
 return (
   <Cards>
-    {storeNfts.map((data, index) => (
-      <div key={index}>
-        <Widget
-          props={{
-            title: data.title,
-            description: data.description,
-            image: data.media,
+    {storeNfts &&
+      storeNfts.map((data, index) => (
+        <div key={index}>
+          <Widget
+            props={{
+              title: data.title,
+              description: data.description,
+              image: data.media,
 
-            price: data.listed,
-            owner: data.owner,
-            price: data.listed
-              ? (data.listed / 1000000000000000000000000).toFixed(2)
-              : null,
-            isListed: data.listed ? "LISTED" : "NOT LISTED",
-            tokenId: data.token_id,
-            contractId: data.storeId,
-          }}
-          src="agwaze.near/widget/CPlanet.NFTCard.index"
-        />
-      </div>
-    ))}
+              price: data.listed,
+              owner: data.owner,
+              price: data.listed
+                ? (data.listed / 1000000000000000000000000).toFixed(2)
+                : null,
+              isListed: data.listed ? "LISTED" : "NOT LISTED",
+              tokenId: data.token_id,
+              contractId: data.storeId,
+            }}
+            src="agwaze.near/widget/CPlanet.NFTCard.index"
+          />
+        </div>
+      ))}
   </Cards>
 );
