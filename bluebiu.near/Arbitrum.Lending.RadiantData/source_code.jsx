@@ -797,7 +797,7 @@ const getUserRevervesData = (addresses) => {
       const scaledATokenBalanceUsd = Big(data[0].toString())
         .div(Big(10).pow(underlyingAsset.decimals))
         .times(state.tokensPrice[address])
-        .toFixed(4);
+        .toFixed();
 
       const aTokenBalance = Big(data[0].toString())
         .div(Big(10).pow(underlyingAsset.decimals))
@@ -807,12 +807,12 @@ const getUserRevervesData = (addresses) => {
 
       const scaledVariableDebt = Big(data[2].toString())
         .div(Big(10).pow(underlyingAsset.decimals))
-        .toFixed(4);
+        .toFixed();
 
       const scaledVariableDebtUsd = Big(data[2].toString())
         .div(Big(10).pow(underlyingAsset.decimals))
         .times(state.tokensPrice[address])
-        .toFixed(4);
+        .toFixed();
 
       return {
         address,
