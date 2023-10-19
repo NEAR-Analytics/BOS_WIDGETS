@@ -130,6 +130,10 @@ return (
                 props={{
                   label: "Select a Supported Chain *",
                   placeholder: "Chains ",
+                  placeholdercolor: themeColor?.form?.placeholdercolor,
+                  inputbackgroundcolor: themeColor?.form?.inputbackgroundcolor,
+                  inputcolor: themeColor?.form?.inputcolor,
+                  labelcolor: themeColor?.form?.labelcolor,
                   options: [
                     { text: "Algorand", value: "Algorand" },
                     { text: "Arbitrum", value: "Arbitrum" },
@@ -165,6 +169,10 @@ return (
                 src={`contribut3.near/widget/Inputs.Text`}
                 props={{
                   label: "Paste the Contract Address *",
+                  placeholdercolor: themeColor?.form?.placeholdercolor,
+                  inputbackgroundcolor: themeColor?.form?.inputbackgroundcolor,
+                  inputcolor: themeColor?.form?.inputcolor,
+                  labelcolor: themeColor?.form?.labelcolor,
                   placeholder: "OxA9D1e08C7793af67e9d92fe308d5697FB81d3E43",
                   value: state.contract_address,
                   onChange: (contract_address) =>
@@ -195,6 +203,10 @@ return (
                 src={`contribut3.near/widget/Inputs.Text`}
                 props={{
                   label: "Add the protocol the contract belongs to *",
+                  placeholdercolor: themeColor?.form?.placeholdercolor,
+                  inputbackgroundcolor: themeColor?.form?.inputbackgroundcolor,
+                  inputcolor: themeColor?.form?.inputcolor,
+                  labelcolor: themeColor?.form?.labelcolor,
                   placeholder: "Coinbase",
                   value: state.protocol,
                   onChange: (protocol) => State.update({ protocol }),
@@ -222,6 +234,10 @@ return (
                 src={`contribut3.near/widget/Inputs.Text`}
                 props={{
                   label: "Add the contract name *",
+                  placeholdercolor: themeColor?.form?.placeholdercolor,
+                  inputbackgroundcolor: themeColor?.form?.inputbackgroundcolor,
+                  inputcolor: themeColor?.form?.inputcolor,
+                  labelcolor: themeColor?.form?.labelcolor,
                   placeholder: "Coinbase hot wallet 10",
                   value: state.contract_name,
                   onChange: (contract_name) => State.update({ contract_name }),
@@ -252,6 +268,10 @@ return (
                 src={`lord1.near/widget/Dropdown`}
                 props={{
                   label: "Select a Supported Label Type *",
+                  placeholdercolor: themeColor?.form?.placeholdercolor,
+                  inputbackgroundcolor: themeColor?.form?.inputbackgroundcolor,
+                  inputcolor: themeColor?.form?.inputcolor,
+                  labelcolor: themeColor?.form?.labelcolor,
                   placeholder: "Label",
                   options: [
                     { text: "cex", value: "cex" },
@@ -275,6 +295,10 @@ return (
                 src={`lord1.near/widget/Dropdown`}
                 props={{
                   label: "Select a Supported Label Subtype *",
+                  placeholdercolor: themeColor?.form?.placeholdercolor,
+                  inputbackgroundcolor: themeColor?.form?.inputbackgroundcolor,
+                  inputcolor: themeColor?.form?.inputcolor,
+                  labelcolor: themeColor?.form?.labelcolor,
                   placeholder: "Subtype",
                   options: [
                     {
@@ -340,6 +364,10 @@ return (
                 src={`contribut3.near/widget/Inputs.Text`}
                 props={{
                   label: "Discord Handle",
+                  placeholdercolor: themeColor?.form?.placeholdercolor,
+                  inputbackgroundcolor: themeColor?.form?.inputbackgroundcolor,
+                  inputcolor: themeColor?.form?.inputcolor,
+                  labelcolor: themeColor?.form?.labelcolor,
                   placeholder: "@sick_discord_handle",
                   value: state.discord,
                   onChange: (discord) => State.update({ discord }),
