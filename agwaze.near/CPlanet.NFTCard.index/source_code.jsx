@@ -136,6 +136,7 @@ const AmountSec = styled.div`
         text-transform: uppercase;
         display: flex;
         align-items: center;
+        gap: 5px;
         span {
           color: #000;
           font-family: Helvetica Neue;
