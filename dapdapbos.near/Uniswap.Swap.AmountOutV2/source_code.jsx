@@ -20,7 +20,7 @@ const account = Ethers.send("eth_requestAccounts", [])[0];
 
 if (!update || !account) return "";
 
-const router02List = [56, 8453];
+const router02List = [56, 8453, 42220];
 
 const is02 = router02List.indexOf(chainId) > -1;
 
