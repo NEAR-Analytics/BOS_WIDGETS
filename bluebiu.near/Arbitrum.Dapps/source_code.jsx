@@ -92,6 +92,8 @@ State.init({
   searchValue: "",
 });
 
+console.log("112");
+
 const handleSearchChange = (e) => {
   const value = e.target.value;
   State.update({
