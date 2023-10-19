@@ -1,5 +1,5 @@
 State.init({
-  selectedTab: props.tab || "groups",
+  selectedTab: props.tab || "leaderboard",
 });
 
 const accountId = props.accountId ?? context.accountId;
