@@ -222,7 +222,7 @@ return (
       </Cards>
     ) : (
       <div className="text-center my-4">
-        <p>😥 No contracts found for {state.account}</p>
+        <p>😥 No stores found for {state.account}</p>
       </div>
     )}
     {!nftContracts.length > 0 && (
