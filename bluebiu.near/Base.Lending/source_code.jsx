@@ -38,7 +38,7 @@ return (
               marginTop: "60px",
             },
           },
-          noAccountTips: "Base Swap Collection",
+          noAccountTips: "Base Lending Collection",
           wrongNetworkTips: "To proceed, kindly switch to Base Chain.",
           chainId: CHAIN_ID,
           chainName: CHAIN_NAME,
