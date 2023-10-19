@@ -361,7 +361,7 @@ return (
                 }}
               />
               <Widget
-                src={`lord1.near/widget/Text`}
+                src={`lord1.near/widget/test`}
                 props={{
                   label: "Discord Handle",
                   placeholdercolor: themeColor?.form?.placeholdercolor,
