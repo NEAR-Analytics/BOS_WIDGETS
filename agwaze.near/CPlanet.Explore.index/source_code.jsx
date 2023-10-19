@@ -176,7 +176,7 @@ const fetchData = () => {
       if (fetchIPFSData.ok) {
         const nft = fetchIPFSData.body;
         let nftObject = {};
-        nftObject.contract_id = data?.id;
+        nftObject.contract_id = data?.id.split(data?.tokenID)[0];
         nftObject.sold = data?.isSold;
         nftObject.isListed = data?.isListed;
         nftObject.owner = data?.owner?.id;
@@ -190,6 +190,7 @@ const fetchData = () => {
         return nftObject;
       }
     });
+    console.log(nftBody);
     State.update({
       nftData: nftBody,
     });
@@ -253,8 +254,6 @@ return (
                     title: data.name,
                     description: data.description,
                     image: data.media_url,
-
-                    price: data.price,
                     owner: data.owner,
                     price: data.price
                       ? (data.price / 1000000000000000000000000).toFixed(2)
