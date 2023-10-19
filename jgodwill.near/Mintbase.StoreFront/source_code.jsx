@@ -135,6 +135,7 @@ return (
                 isListed: data.listed ? "LISTED" : "NOT LISTED",
                 tokenId: data.token_id,
                 contractId: data.storeId,
+                metadataId: data.metadataId,
               }}
               src="jgodwill.near/widget/Mintbase.NFTCard.index"
             />
