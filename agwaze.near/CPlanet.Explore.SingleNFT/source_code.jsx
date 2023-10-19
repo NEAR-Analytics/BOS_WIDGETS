@@ -400,8 +400,8 @@ const nft = props.nft ?? {
   tokenId: props.tokenId,
 };
 
-const contractId = props.contractId;
-const tokenId = props.tokenId;
+const contractId = props.contractId ?? "";
+const tokenId = props.tokenId ?? "1664304736705";
 const className = props.className ?? "img-fluid";
 const style = props.style;
 const alt = props.alt;
@@ -685,8 +685,9 @@ const getUsdValue = (price) => {
   );
   if (res.ok) {
     const multiplyBy = Object.values(res?.body)[0]?.usd;
-    const value = multiplyBy * price > 0 ? price : 0;
-    return value !== "NaN" ? `$${value}` : 0;
+    const value = multiplyBy * price;
+    console.log(value)
+    return value !== "NaN" ? `$${value.toFixed(3)}` : 0;
   }
 };
 
