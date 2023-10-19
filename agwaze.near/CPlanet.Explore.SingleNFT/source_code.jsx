@@ -105,6 +105,11 @@ const fewAndFarLogo = (
   </svg>
 );
 
+const marketPlaceImage = {
+  tradeport: tradePortLogo,
+  fewandfar: fewAndFarLogo,
+};
+
 const Right = styled.div`
     width: 50%
 `;
@@ -348,15 +353,22 @@ const MarketRow = styled.div`
   width: 480px;
   display: flex;
   align-items: center;
+  flex-direction: column;
   justify-content: space-between;
-    margin-left: 35px;
+  width: 90%;
+  a {
+    display: flex;
+    justify-content: space-between;
+    cursor: pointer;
+    width: 90%;
+    margin-bottom: 20px;
+        }
   p {
     color: #363C42;
     font-family: Helvetica Neue;
     font-size: 14px;
     font-style: normal;
     font-weight: 500;
-    line-height: 160%; /* 22.4px */
   }
 `;
 
@@ -391,6 +403,10 @@ const loadingUrl =
   props.loadingUrl ??
   "https://ipfs.near.social/ipfs/bafkreidoxgv2w7kmzurdnmflegkthgzaclgwpiccgztpkfdkfzb4265zuu";
 
+const tokenInfo = Near.view("genadrop-contract.nftgen.near", "nft_token", {
+  token_id: tokenId ?? "1664304736705",
+});
+
 State.init({
   contractId,
   tokenId,
@@ -403,6 +419,23 @@ State.init({
   owner: "",
   imageUrl: null,
 });
+
+const tradeportLink = `https://www.tradeport.xyz/near/collection/${
+  state.contractId
+    ? state?.contractId?.includes("genadrop")
+      ? "genadrop-contract.nftgen.near"
+      : state.contractId
+    : ""
+}?tab=items&tokenId=${state.tokenId}`;
+
+//Few and Far Link
+const fewfarlink = `https://fewfar.com/${
+  state.contractId
+    ? state?.contractId?.includes("genadrop")
+      ? "genadrop-single-nft-c40d654de"
+      : state.contractId
+    : ""
+}/${state.tokenId}`;
 
 const currentChainProps = {
   near: {
@@ -637,6 +670,23 @@ function fetchTokens() {
 
 fetchTokens();
 
+const getUsdValue = (price) => {
+  const res = fetch(
+    `https://api.coingecko.com/api/v3/simple/price?ids=${currentChainProps["near"]?.livePrice}&vs_currencies=usd`
+  );
+  if (res.ok) {
+    const multiplyBy = Object.values(res?.body)[0]?.usd;
+    const value = multiplyBy * price.toFixed(2);
+    return value.toFixed(4) !== "NaN" ? `$${value.toFixed(2)}` : 0;
+  }
+};
+
+const keywordsToCheck = ["tradeport", "mintbase", "fewandfar", "paras"];
+
+const matchedKeyWords = (inputString) => {
+  return keywordsToCheck.find((keyword) => inputString.includes(keyword));
+};
+
 return (
   <Root>
     <Right>
@@ -682,7 +732,13 @@ return (
                 ? (state.price / 1000000000000000000000000).toFixed(2)
                 : "N/A"}
             </h2>
-            <h5>$2.23</h5>
+            <h5>
+              {getUsdValue(
+                state.price
+                  ? (state.price / 1000000000000000000000000).toFixed(2)
+                  : 0
+              )}
+            </h5>
           </PriceAmount>
         </Price>
         <Owner>
@@ -707,17 +763,31 @@ return (
             <h2>Marketplace</h2>
             <h2>Price</h2>
             <h2>USD Price</h2>
-            <h2>Time</h2>
           </TableHeader>
           <MarketRow>
-            {tradePortLogo}
-            <p>
-              {props.price
-                ? (props.price / 1000000000000000000000000).toFixed(2)
-                : "N/A"}
-            </p>
-            <p>$11,496</p>
-            <p>58 minutes</p>
+            {Object.keys(tokenInfo.approved_account_ids).map((key) => (
+              <a
+                href={
+                  matchedKeyWords(key) === "tradeport"
+                    ? tradeportLink
+                    : fewfarlink
+                }
+              >
+                {marketPlaceImage[matchedKeyWords(key)]}
+                <p>
+                  {props.price
+                    ? (props.price / 1000000000000000000000000).toFixed(2)
+                    : "N/A"}
+                </p>
+                <p>
+                  {getUsdValue(
+                    props.price
+                      ? (props.price / 1000000000000000000000000).toFixed(2)
+                      : 0
+                  )}
+                </p>
+              </a>
+            ))}
           </MarketRow>
         </Table>
       </Others>
