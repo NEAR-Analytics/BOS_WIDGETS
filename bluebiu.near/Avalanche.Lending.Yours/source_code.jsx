@@ -75,6 +75,7 @@ const formatData = () => {
           rewardBorrowApy += Number(borrowApy.slice(0, -1));
         });
       }
+
       if (Big(market.userSupply || 0).gt(0)) {
         supplies.push({
           icon: market.icon,
