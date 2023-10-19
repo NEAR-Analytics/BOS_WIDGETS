@@ -191,7 +191,7 @@ return (
             />
           ))}
         <CreateCard>
-          <button>New Contract</button>
+          <button>New Store</button>
         </CreateCard>
       </StoreCards>
     ) : (
@@ -201,7 +201,7 @@ return (
     )}
     {!nftContracts.length > 0 && (
       <CreateCard>
-        <button>New Contract</button>
+        <button>New Store</button>
       </CreateCard>
     )}
   </div>
