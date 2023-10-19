@@ -361,8 +361,13 @@ const MarketRow = styled.div`
     justify-content: space-between;
     cursor: pointer;
     width: 90%;
+    transition: 0.3s ease-in-out;
     margin-bottom: 20px;
         }
+
+    a:hover {
+      opacity: .7;
+    }
   p {
     color: #363C42;
     font-family: Helvetica Neue;
