@@ -23,9 +23,7 @@ const arrow = (
   </svg>
 );
 
-const Root = styled.div`
-
-`;
+const Root = styled.div``;
 
 const Header = styled.div`
     display: flex;
@@ -166,6 +164,17 @@ const TabHeight = styled.div`
   margin-bottom: 20px;
 `;
 
+const getUsdValue = (price) => {
+  const res = fetch(
+    `https://api.coingecko.com/api/v3/simple/price?ids=near&vs_currencies=usd`
+  );
+  if (res.ok) {
+    const multiplyBy = Object.values(res?.body)[0]?.usd;
+    const value = multiplyBy * price > 0 ? price : 0;
+    return value !== "NaN" ? `$${value}` : 0;
+  }
+};
+
 const profile = props.profile ?? Social.getr(`${props.owner}/profile`);
 
 initState({
@@ -244,7 +253,11 @@ return (
                 <h1>
                   {(data.price / 1000000000000000000000000).toFixed(2)} NEAR
                 </h1>
-                <span>$22.65</span>
+                <span>
+                  {getUsdValue(
+                    (data.price / 1000000000000000000000000).toFixed(2)
+                  )}
+                </span>
               </PriceSec>
             </Row>
           ))}
