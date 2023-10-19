@@ -436,7 +436,7 @@ return (
     </CommentCard>
     <CallLibrary>
       {libSrcArray.map((src) => {
-        callLibs(src, stateUpdate, state.libsCalls, "Add comment");
+        return callLibs(src, stateUpdate, state.libsCalls, "Add comment");
       })}
     </CallLibrary>
   </ModalCard>
