@@ -48,7 +48,7 @@ const Body = styled.div`
     margin-top: 23px;
 `;
 
-const Row = styled.div`
+const Row = styled.a`
     display: flex;
     justify-content: space-between;
     width: 80%;
@@ -240,7 +240,7 @@ return (
         {state.tab === "HISTORY" &&
           props.transactions &&
           props?.transactions?.map((data, index) => (
-            <Row key={data}>
+            <Row href={`https://explorer.near.org/transactions${data.txId}`} key={data}>
               <ImageSec>
                 <Image></Image>
 
