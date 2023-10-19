@@ -1,9 +1,16 @@
-if (!props.daoId || !context.accountId || context.accountId === props.daoId) {
+const accountId = props.accountId ?? context.accountId;
+const daoId = props.daoId ?? "multi.sputnik-dao.near";
+
+const policy = Near.view(daoId, "get_policy");
+
+if (policy === null) {
   return "";
 }
 
+const deposit = policy.proposal_bond;
+
 const followEdge = Social.keys(
-  `${context.accountId}/graph/follow/${props.daoId}`,
+  `${accountId}/graph/follow/${daoId}`,
   undefined,
   {
     values_only: true,
@@ -11,7 +18,7 @@ const followEdge = Social.keys(
 );
 
 const inverseEdge = Social.keys(
-  `${props.daoId}/graph/follow/${context.accountId}`,
+  `${daoId}/graph/follow/${accountId}`,
   undefined,
   {
     values_only: true,
@@ -19,44 +26,72 @@ const inverseEdge = Social.keys(
 );
 
 const loading = followEdge === null || inverseEdge === null;
-const follow = followEdge && Object.keys(followEdge).length;
-const inverse = inverseEdge && Object.keys(inverseEdge).length;
+const isFollowing = Object.keys(followEdge || {}).length > 0;
+const isInverse = Object.keys(inverseEdge || {}).length > 0;
 
 const type = follow ? "unfollow" : "follow";
 
-const data = {
-  graph: { follow: { [props.daoId]: follow ? null : "" } },
-  index: {
-    graph: JSON.stringify({
-      key: "follow",
-      value: {
-        type,
-        accountId: props.daoId,
+const follow_args = JSON.stringify({
+  data: {
+    [daoId]: {
+      graph: {
+        follow: {
+          [accountId]: "",
+        },
       },
-    }),
-    notify: JSON.stringify({
-      key: props.daoId,
-      value: {
-        type,
+      index: {
+        graph: {
+          key: "follow",
+          value: {
+            type: "follow",
+            accountId: [accountId],
+          },
+        },
+        notify: {
+          key: [accountId],
+          value: {
+            type: "follow",
+          },
+        },
       },
-    }),
+    },
   },
+});
+
+const proposal_args = Buffer.from(follow_args, "utf-8").toString("base64");
+
+const handleProposal = () => {
+  Near.call([
+    {
+      contractName: daoId,
+      methodName: "add_proposal",
+      args: {
+        proposal: {
+          description: "connection request",
+          kind: {
+            FunctionCall: {
+              receiver_id: "social.near",
+              actions: [
+                {
+                  method_name: "set",
+                  args: proposal_args,
+                  deposit: "80000000000000000000000",
+                  gas: "219000000000000",
+                },
+              ],
+            },
+          },
+        },
+      },
+      deposit: deposit,
+      gas: "219000000000000",
+    },
+  ]);
 };
 
 return (
-  <CommitButton
-    disabled={loading}
-    className={`btn ${
-      loading || follow ? "btn-outline-dark" : "btn-outline-primary"
-    }`}
-    data={data}
-  >
-    {loading
-      ? "Loading"
-      : follow
-      ? "Following"
-      : inverse
-      ? "Follow back"
-      : "Follow"}
-  </CommitButton>
+  <button className="btn btn-outline-success" onClick={handleProposal}>
+    {isFollowing && <i className="bi-16 bi bi-check"></i>}
+    {isFollowing ? "Member" : isInverse ? "Join" : "Connect"}
+  </button>
 );
