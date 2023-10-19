@@ -50,6 +50,12 @@ max-width: 600px;
   height: 100px;
   border-bottom: 1px solid #fff; 
   background: #fff;
+  overflow: hidden;
+  img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
 }
 .bottom{
   padding: 1em;
@@ -82,7 +88,15 @@ return (
       href={`#/jgodwill.near/widget/Mintbase.StoreFront?ownerId=${contract.nftContract.owner}&storeContract=${contract.id}`}
       style={{ textDecoration: "none", color: "inherit" }}
     >
-      <div className="top"></div>
+      <div className="top">
+        <img
+          src={
+            "https://ipfs.near.social/ipfs/bafkreic3vnqe4ttofyrgt3w4zfqkpllddgxw5bfdrdg2zn3f4l3xiuuvby"
+          }
+          className="chain_banner"
+          alt={contract.nftContract.name + " banner"}
+        />
+      </div>
       <div className="middle">
         <div className="content">
           <div className="icon_area">
