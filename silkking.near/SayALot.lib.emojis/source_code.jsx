@@ -80,7 +80,7 @@ function canUserReact(props) {
 
   const result = state[`isValidUser-${accountId}`];
 
-  resultLibCalls = resultLibCalls.filter((call) => {
+  resultFunctionsToCall = resultFunctionsToCall.filter((call) => {
     const discardCondition =
       call.functionName === "canUserReact" && result !== undefined;
     return !discardCondition;
@@ -94,7 +94,7 @@ function createReaction(props) {
 
   saveReaction(reaction, elementReactedId, onCommit, onCancel);
 
-  resultLibCalls = resultLibCalls.filter((call) => {
+  resultFunctionsToCall = resultFunctionsToCall.filter((call) => {
     return call.functionName !== "createReaction";
   });
 
@@ -150,7 +150,7 @@ function getReactionsData(props) {
       return state[`isValidUser-${author}`] === true;
     });
 
-    resultLibCalls = resultLibCalls.filter((call) => {
+    resultFunctionsToCall = resultFunctionsToCall.filter((call) => {
       const discardCondition =
         call.functionName === "getReactions" &&
         state[`isValidUser-${call.props.accountId}`] !== undefined;
@@ -234,7 +234,7 @@ function getReactionsData(props) {
   //reactionsStatistics - array of objects {emoji: '😁', quantity: 2, accounts: []}
 
   // if (reactionsStatistics !== null) {
-  //   resultLibCalls = resultLibCalls.filter((call) => {
+  //   resultFunctionsToCall = resultFunctionsToCall.filter((call) => {
   //     return call.functionName !== "getReactionsData";
   //   });
   // }
