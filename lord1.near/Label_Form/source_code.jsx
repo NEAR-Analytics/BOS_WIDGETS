@@ -416,7 +416,7 @@ return (
                       const transactions = [
                         {
                           contractName: "social.near",
-                          methodName: "register_label",
+                          methodName: "set",
                           args: { data },
                         },
                       ];
