@@ -79,6 +79,9 @@ const fetchStoreFrontData = (owner, contractId) => {
 
   State.update({
     storeContracts: response2.body.data.mb_views_nft_metadata_unburned,
+    storeNftsCount:
+      response2.body.data.mb_views_nft_metadata_unburned_aggregate.aggregate
+        .count,
   });
   console.log("running2", state.storeContracts);
 };
@@ -87,29 +90,45 @@ fetchStoreFrontData(props.ownerId, props.storeContract);
 
 const storeNfts = state.storeContracts;
 
-return (
-  <Cards>
-    {storeNfts &&
-      storeNfts.map((data, index) => (
-        <div key={index}>
-          <Widget
-            props={{
-              title: data.title,
-              description: data.description,
-              image: data.media,
+const WrapCards = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+  background: rgba(214, 214, 214, 0.2);
+  border-radius: 10px;
+  justify-content: center;
+  padding-top: 3em;
+  box-shadow: 0 0.05rem 0.05rem rgb(34 34 34 / 5%), 0 0.2rem 0.8rem rgb(34 34 34 / 8%);
+`;
 
-              price: data.listed,
-              owner: data.owner,
-              price: data.listed
-                ? (data.listed / 1000000000000000000000000).toFixed(2)
-                : null,
-              isListed: data.listed ? "LISTED" : "NOT LISTED",
-              tokenId: data.token_id,
-              contractId: data.storeId,
-            }}
-            src="agwaze.near/widget/CPlanet.NFTCard.index"
-          />
-        </div>
-      ))}
-  </Cards>
+const s = state.storeNftsCount > 1 ? "s" : "";
+
+return (
+  <WrapCards>
+    <div className="count">{`${state.storeNftsCount} Result${s}`}</div>
+    <Cards>
+      {storeNfts &&
+        storeNfts.map((data, index) => (
+          <div key={index}>
+            <Widget
+              props={{
+                title: data.title,
+                description: data.description,
+                image: data.media,
+
+                price: data.listed,
+                owner: data.owner,
+                price: data.listed
+                  ? (data.listed / 1000000000000000000000000).toFixed(2)
+                  : null,
+                isListed: data.listed ? "LISTED" : "NOT LISTED",
+                tokenId: data.token_id,
+                contractId: data.storeId,
+              }}
+              src="agwaze.near/widget/CPlanet.NFTCard.index"
+            />
+          </div>
+        ))}
+    </Cards>
+  </WrapCards>
 );
