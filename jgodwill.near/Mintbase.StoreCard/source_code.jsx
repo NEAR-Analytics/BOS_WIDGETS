@@ -10,6 +10,9 @@ width: 100%;
 max-width: 600px;
 *{
   font-family: Helvetica Neue;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
   }
 .icon_area{
   width: 110px;
@@ -42,6 +45,21 @@ max-width: 600px;
     gap: 20px;
     .name_contract{
       margin-left: 130px;
+    }
+    .nft_count{
+      display: flex;
+      flex-flow: column nowrap;
+      justify-content: center;
+      margin-top: 13px;
+      margin-left: 100px;
+      background:#222;
+      padding: .5em;
+      width: 100px;
+      h6{
+        opacity: 0.5;
+        magin: 0;
+        font-size: 13px;
+      }
     }
   }
 }
@@ -82,6 +100,41 @@ max-width: 600px;
 }
 `;
 
+const fetchStoreFrontData = (owner, contractId) => {
+  const response2 = fetch("https://graph.mintbase.xyz/mainnet", {
+    method: "POST",
+    headers: {
+      "mb-api-key": "anon",
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      query: `query MyQuery {
+  mb_views_nft_metadata_unburned_aggregate(
+    where: {nft_contract: {id: {_eq: "${contractId}"}, owner_id: {_eq: "${owner}"}}}
+  ) {
+    aggregate {
+      count
+    }
+  }
+}
+`,
+    }),
+  });
+
+  State.update({
+    storeContracts: response2.body.data.mb_views_nft_metadata_unburned,
+    storeNftsCount:
+      response2.body.data.mb_views_nft_metadata_unburned_aggregate.aggregate
+        .count,
+  });
+  console.log("running2", state.storeContracts);
+};
+
+fetchStoreFrontData(
+  contract.nftContract.owner || "nate.near",
+  contract.id || "nate.mintbase1.near"
+);
+
 return (
   <StoreCard>
     <a
@@ -114,7 +167,11 @@ return (
               {(contract && contract?.nftContract?.name.toUpperCase()) ||
                 "Contract Name"}
             </h3>
-            <p>{contract.id}</p>
+            <p>{contract.id || "Contract Id"}</p>
+          </div>
+          <div className="nft_count">
+            <h6>NFT Count</h6>
+            <p>{state.storeNftsCount || 124}</p>
           </div>
         </div>
       </div>
