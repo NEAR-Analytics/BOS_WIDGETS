@@ -135,7 +135,7 @@ const lightColors = {
     placeholdercolor: "",
     inputbackgroundcolor: "#d2cafa",
     inputcolor: "",
-    labelcolor: "",
+    labelcolor: "#789efb",
   },
   dynamic_header: {
     afterbrandcolor: "#789efb",
