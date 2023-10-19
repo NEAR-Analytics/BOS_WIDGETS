@@ -1,4 +1,4 @@
-const accountId = context.accountId ?? "hack.near";
+const accountId = context.accountId;
 const daoId = props.daoId ?? "build.sputnik-dao.near";
 
 const page = accountId
