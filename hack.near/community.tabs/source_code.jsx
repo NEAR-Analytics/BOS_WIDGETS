@@ -122,14 +122,7 @@ return (
     )}
 
     {state.selectedTab === "projects" && (
-      <>
-        <h3 className="m-2">Projects</h3>
-
-        <Widget
-          src="mob.near/widget/LastWidgets"
-          props={{ accountId: daoId }}
-        />
-      </>
+      <Widget src="mob.near/widget/LastWidgets" props={{ accountId: daoId }} />
     )}
   </Wrapper>
 );
