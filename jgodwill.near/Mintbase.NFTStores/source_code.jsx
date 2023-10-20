@@ -229,7 +229,9 @@ return (
     )}
     {!nftContracts.length > 0 && (
       <CreateCard>
-        <a href="#/jgodwill.near/widget/Mintbase.Store.Deploy">
+        <a
+          href={`#/jgodwill.near/widget/Mintbase.Store.Deploy?ownerId=${state.account}`}
+        >
           <button>New Store</button>
         </a>
       </CreateCard>
