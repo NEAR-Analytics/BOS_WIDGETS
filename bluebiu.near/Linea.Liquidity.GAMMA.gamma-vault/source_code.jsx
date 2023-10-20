@@ -892,9 +892,7 @@ const handleWithdraw = () => {
 const DELAY = 1000 * 60 * 5;
 const timer = Storage.privateGet("priceTimer");
 function getPrice() {
-  asyncFetch(
-    "https://mainnet-indexer.ref-finance.com/get-token-price-by-dapdap"
-  )
+  asyncFetch("https://test-api.dapdap.net/get-token-price-by-dapdap")
     .then((res) => {
       const data = JSON.parse(res.body);
       data.native = data.aurora;
