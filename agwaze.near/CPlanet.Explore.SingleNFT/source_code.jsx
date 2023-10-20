@@ -675,7 +675,11 @@ return (
       </Top>
       <Widget
         src="agwaze.near/widget/CPlanet.Explore.NFTInfo"
-        props={{ transactions: state.transactions, owner: state.owner }}
+        props={{
+          chainState: props.chainState,
+          transactions: state.transactions,
+          owner: state.owner,
+        }}
       />
     </Right>
     <Left>
@@ -694,9 +698,7 @@ return (
 
             <h5>
               {getUsdValue(
-                state.price
-                  ? (state.price / PRICE_CONVERSION_CONSTANT)
-                  : 0
+                state.price ? state.price / PRICE_CONVERSION_CONSTANT : 0
               )}
             </h5>
           </PriceAmount>
@@ -749,7 +751,7 @@ return (
                     <p>
                       {getUsdValue(
                         state.price
-                          ? (state.price / PRICE_CONVERSION_CONSTANT)
+                          ? state.price / PRICE_CONVERSION_CONSTANT
                           : 0
                       )}
                     </p>
