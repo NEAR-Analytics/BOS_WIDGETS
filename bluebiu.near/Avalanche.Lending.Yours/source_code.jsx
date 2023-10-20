@@ -91,9 +91,9 @@ const formatData = () => {
           address: market.address,
         });
         change = change.add(
-          Big(
-            (Number(market.supplyApy.slice(0, -1)) + rewardSupplyApy) / 100
-          ).mul(market.userSupply || 0)
+          Big((Number(market.supplyApy.slice(0, -1)) + rewardSupplyApy) / 100)
+            .mul(market.userSupply || 0)
+            .mul(market.underlyingPrice)
         );
       }
       if (Big(market.userBorrow || 0).gt(0)) {
@@ -110,9 +110,9 @@ const formatData = () => {
           address: market.address,
         });
         change = change.minus(
-          Big(
-            (Number(market.borrowApy.slice(0, -1)) + rewardBorrowApy) / 100
-          ).mul(market.userBorrow || 0)
+          Big((Number(market.borrowApy.slice(0, -1)) - rewardBorrowApy) / 100)
+            .mul(market.userBorrow || 0)
+            .mul(market.underlyingPrice)
         );
       }
     });
