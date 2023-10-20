@@ -173,7 +173,7 @@ const TabHeight = styled.div`
 
 const getUsdValue = (price) => {
   const res = fetch(
-    `https://api.coingecko.com/api/v3/simple/price?ids=near&vs_currencies=usd`
+    `https://api.coingecko.com/api/v3/simple/price?ids=${props.chainState}&vs_currencies=usd`
   );
   if (res.ok) {
     const multiplyBy = Object.values(res?.body)[0]?.usd;
