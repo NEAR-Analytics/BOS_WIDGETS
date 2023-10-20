@@ -707,14 +707,11 @@ const getRewards = () => {
           _rewardsForWell[cTokens[i]] = {
             supply: Big(ethers.utils.formatUnits(item[0][0][7], 18))
               .mul(price)
-              .mul(60 * 60 * 24)
-              .toString(),
+              .mul(60 * 60 * 24),
             borrow: Big(ethers.utils.formatUnits(item[0][0][8], 18))
               .mul(price)
-              .mul(60 * 60 * 24)
-              .toString(),
+              .mul(60 * 60 * 24),
           };
-          console.log("_rewardsForWell", i);
         }
       },
       (err) => {
