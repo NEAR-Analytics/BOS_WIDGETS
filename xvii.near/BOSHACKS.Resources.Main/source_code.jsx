@@ -37,6 +37,24 @@ const LessonLinks = () => {
           Lesson 2
         </a>
       </div>
+      <div style={linkContainerStyle}>
+        <a
+          style={linkStyle}
+          href="https://hackmd.io/@doulos819/ncr-03"
+          target="_blank"
+        >
+          Lesson 3
+        </a>
+      </div>
+      <div style={linkContainerStyle}>
+        <a
+          style={linkStyle}
+          href="https://hackmd.io/@doulos819/ncr-04"
+          target="_blank"
+        >
+          Lesson 4
+        </a>
+      </div>
     </div>
   );
 };
