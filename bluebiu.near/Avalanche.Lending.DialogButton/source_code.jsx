@@ -66,7 +66,8 @@ const Button = styled.button`
     opacity: 0.5;
   }
   &.borrow {
-    background-color: var(--repay-bg-hover-color);
+    background-color: var(--repay-border-color);
+    border: 1px solid var(--repay-border-color);
   }
   &.repay {
     background-color: var(--repay-bg-hover-color);
