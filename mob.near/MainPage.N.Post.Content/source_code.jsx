@@ -37,9 +37,9 @@ const Wrapper = styled.div`
     }
 
     @media(max-width: 991px) {
-      max-height: 38em;
+      max-height: 28em;
       .expand-post {
-        top: 35em;
+        top: 25em;
       }
     }
   }
