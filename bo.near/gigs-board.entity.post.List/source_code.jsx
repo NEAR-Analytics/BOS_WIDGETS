@@ -125,6 +125,7 @@ function fetchGraphQL(operationsDoc, operationName, variables) {
 }
 
 function getPostIds() {
+  State.update({ loading: true });
   let where = {};
   let authorId = props.author;
   let label = props.tag;
@@ -161,6 +162,7 @@ function getPostIds() {
     } else {
       console.error("error:", result.body);
     }
+    State.update({ loading: false });
   });
 }
 
@@ -414,6 +416,7 @@ const Head =
 return (
   <>
     {Head}
+    {state.loading ? loader : null}
     {is_edit_or_add_post_transaction ? (
       <p class="text-secondary mt-4">
         Post {transaction_method_name == "edit_post" ? "edited" : "added"}{" "}
