@@ -704,7 +704,7 @@ return (
           <p>Current Owner</p>
           <h2>
             {state.owner.length > 5 && state.owner
-              ? `${state.owner.slice(0, 7)}...near`
+              ? `${state.owner.slice(0, 7)}${props.chainState === 'near' ? "...near": `...${state.owner.slice(40)}`}`
               : state.owner
               ? state.owner
               : "LOREMIP..."}
