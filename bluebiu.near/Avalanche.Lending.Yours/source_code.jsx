@@ -52,9 +52,11 @@ const formatData = () => {
     });
   } else {
     const dapp = dapps[currentDapp];
-    userTotalSupplyUsd = Big(dapp.userTotalSupplyUsd);
-    userTotalBorrowUsd = Big(dapp.userTotalBorrowUsd);
-    totalCollateralUsd = Big(dapp.totalCollateralUsd);
+    if (dapp) {
+      userTotalSupplyUsd = Big(dapp.userTotalSupplyUsd);
+      userTotalBorrowUsd = Big(dapp.userTotalBorrowUsd);
+      totalCollateralUsd = Big(dapp.totalCollateralUsd);
+    }
   }
   const marketsToList = Object.values(markets);
   const supplies = [];
@@ -116,7 +118,6 @@ const formatData = () => {
         );
       }
     });
-
   Object.values(dapps).forEach((dapp) => {
     if (
       dapp.rewards &&
