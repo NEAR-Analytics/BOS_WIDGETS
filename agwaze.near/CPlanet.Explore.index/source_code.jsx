@@ -13,6 +13,23 @@ const Root = styled.div`
     }
 `;
 
+const NFTCards = styled.div`
+  display: grid;
+  gap: 2rem;
+  grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+  justify-content: center;
+  padding: 20px 3rem 1rem 3rem;
+  width:100%;
+`;
+
+const NoNFTLoading = styled.div`
+  width: 100%;
+  min-height: 80vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
 const TopNFTS = styled.div`
     display: flex;
     flex-direction: row;
@@ -86,6 +103,7 @@ const Explore = styled.div`
 
 State.init({
   nftData: [],
+  chain: "near",
   filteredNFTData: [],
   searchTerm: "",
 });
@@ -100,6 +118,36 @@ const currentChainProps = {
     logoUrl:
       "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTrJuxjGxj4QmyreE6ix4ygqm5pK9Nn_rdc8Ndw6lmJcd0SSnm2zBIc2xJ_My1V0WmK2zg&usqp=CAU",
   },
+  aurora: {
+    img: "https://s2.coinmarketcap.com/static/img/coins/200x200/14803.png",
+    id: "1313161554",
+    chain: "Aurora",
+    livePrice: "ethereum",
+    subgraph:
+      "https://api.thegraph.com/subgraphs/name/prometheo/aurora-mainnet",
+  },
+  arbitrum: {
+    img: "https://assets.coingecko.com/coins/images/16547/large/photo_2023-03-29_21.47.00.jpeg?1680097630",
+    id: "42161",
+    chain: "Arbitrum",
+    livePrice: "ethereum",
+    subgraph: "https://api.thegraph.com/subgraphs/name/prometheo/arbitrum",
+  },
+  celo: {
+    img: "https://assets.coingecko.com/coins/images/11090/large/InjXBNx9_400x400.jpg?1674707499",
+    id: "42220",
+    livePrice: "celo",
+    chain: "Celo",
+    subgraph: "https://api.thegraph.com/subgraphs/name/prometheo/celo-mainnet",
+  },
+  polygon: {
+    img: "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8c/Polygon_Blockchain_Matic_Logo.svg/880px-Polygon_Blockchain_Matic_Logo.svg.png",
+    id: "137",
+    chain: "Polygon",
+    livePrice: "matic-network",
+    subgraph:
+      "https://api.thegraph.com/subgraphs/name/prometheo/polygon-mainnet",
+  },
 };
 
 const seachInputHandler = (e) => {
@@ -113,8 +161,40 @@ const seachInputHandler = (e) => {
   });
 };
 
+const defaultProps = [
+  {
+    id: "0",
+    name: "near",
+    url: "https://ipfs.near.social/ipfs/bafkreigv55ubnx3tfhbf56toihekuxvgzfqn5c3ndbfjcg3e4uvaeuy5cm",
+  },
+  {
+    id: "137",
+    name: "polygon",
+    url: "https://ipfs.near.social/ipfs/bafkreie5h5oq6suoingcwuzj32m3apv56rl56wpwpaxmevlk5vndlypxze",
+  },
+  {
+    id: "1313161554",
+    name: "aurora",
+    url: "https://ipfs.near.social/ipfs/bafkreiajqik4gjbmkh7z2gylpjzrsuht7simjecpxuoqn6icqfbioswzuy",
+  },
+  {
+    id: "42220",
+    name: "celo",
+    url: "https://ipfs.near.social/ipfs/bafkreifu6ufsdf2ivrs5febt7l25wdys6odzfelgjauzod7owrfug56cxe",
+  },
+  {
+    id: "42161",
+    name: "arbitrum",
+    url: "https://ipfs.near.social/ipfs/bafkreiffax4lnya337rz5ph75faondeqmpy6xj37yprwvxbru4qc5emsiq",
+  },
+];
+
+const updateChain = (chain) => {
+  State.update({ chain, currentPage: 1 });
+};
+
 const fetchData = () => {
-  let response = fetch(`${currentChainProps["near"].subgraph}`, {
+  let response = fetch(`${currentChainProps[state.chain].subgraph}`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -122,7 +202,9 @@ const fetchData = () => {
     body: JSON.stringify({
       query: `
             query MyQuery {
-             nfts(orderBy: createdAtTimestamp) {
+             nfts( orderBy: createdAtTimestamp, ${
+               state.chain !== "near" ? "orderDirection: desc" : ""
+             }) {
                 category
                 chain
                 createdAtTimestamp
@@ -198,6 +280,9 @@ const fetchData = () => {
 };
 fetchData();
 
+const PRICE_CONVERSION_CONSTANT =
+  state.chain == "near" ? 1000000000000000000000000 : 1000000000000000000;
+
 return (
   <Root>
     <TopNFTS>
@@ -223,49 +308,65 @@ return (
             onChange={seachInputHandler}
             placeholder="Search for NFTs"
           />
-          <FilterDropdown>Filter / Dropdown</FilterDropdown>
+          <Widget
+            props={{ chains: defaultProps, updateChain }}
+            src="agwaze.near/widget/CPlanet.Explore.ChainsDropdown"
+          />
         </Search>
       </SearchSection>
       <Cards>
-        {state.searchTerm === ""
-          ? state.nftData.map((data, index) => (
-              <div key={index}>
-                <Widget
-                  props={{
-                    title: data.name,
-                    description: data.description,
-                    image: data.media_url,
-                    price: data.price
-                      ? (data.price / 1000000000000000000000000).toFixed(2)
-                      : null,
-                    owner: data.owner,
-                    isListed: data.isListed ? "LISTED" : "NOT LISTED",
-                    tokenId: data.token_id,
-                    contractId: data.contract_id,
-                  }}
-                  src="agwaze.near/widget/CPlanet.NFTCard.index"
-                />
-              </div>
-            ))
-          : state.filteredNFTData.map((data, index) => (
-              <div key={index}>
-                <Widget
-                  props={{
-                    title: data.name,
-                    description: data.description,
-                    image: data.media_url,
-                    owner: data.owner,
-                    price: data.price
-                      ? (data.price / 1000000000000000000000000).toFixed(2)
-                      : null,
-                    isListed: data.isListed ? "LISTED" : "NOT LISTED",
-                    tokenId: data.token_id,
-                    contractId: data.contract_id,
-                  }}
-                  src="agwaze.near/widget/CPlanet.NFTCard.index"
-                />
-              </div>
-            ))}
+        {state.nftData.length > 0 ? (
+          <NFTCards>
+            {state.searchTerm === ""
+              ? state.nftData.map((data, index) => (
+                  <div key={index}>
+                    <Widget
+                      props={{
+                        title: data.name,
+                        description: data.description,
+                        image: data.media_url,
+                        price: data.price
+                          ? (data.price / PRICE_CONVERSION_CONSTANT).toFixed(2)
+                          : null,
+                        owner: data.owner,
+                        isListed: data.isListed ? "LISTED" : "NOT LISTED",
+                        tokenId: data.token_id,
+                        contractId: data.contract_id,
+                        chainState: state.chain,
+                      }}
+                      src="agwaze.near/widget/CPlanet.NFTCard.index"
+                    />
+                  </div>
+                ))
+              : state.filteredNFTData.map((data, index) => (
+                  <div key={index}>
+                    <Widget
+                      props={{
+                        title: data.name,
+                        description: data.description,
+                        image: data.media_url,
+                        owner: data.owner,
+                        chainState: state.chainState,
+                        price: data.price
+                          ? (data.price / PRICE_CONVERSION_CONSTANT).toFixed(2)
+                          : null,
+                        isListed: data.isListed ? "LISTED" : "NOT LISTED",
+                        tokenId: data.token_id,
+                        contractId: data.contract_id,
+                      }}
+                      src="agwaze.near/widget/CPlanet.NFTCard.index"
+                    />
+                  </div>
+                ))}
+          </NFTCards>
+        ) : (
+          <NoNFTLoading>
+            <img
+              src="https://ipfs.near.social/ipfs/bafkreidoxgv2w7kmzurdnmflegkthgzaclgwpiccgztpkfdkfzb4265zuu"
+              alt=""
+            />
+          </NoNFTLoading>
+        )}
       </Cards>
     </Explore>
   </Root>
