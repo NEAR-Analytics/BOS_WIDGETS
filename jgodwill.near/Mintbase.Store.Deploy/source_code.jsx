@@ -76,8 +76,54 @@ const deployStore = () => {
     },
   ]);
 };
+const Main = styled.div`
+*{
+  font-family: Helvetica Neue;
+  }
+  display: flex;
+  flex-flow:column nowrap;
+  justify-content:center;
+  align-items: center;
+  button {
+    border: 1px solid black;
+    border-radius: 0;
+    color: white;
+    background: black;
+    text-align: center;
+    display: flex;
+    padding: 7px 20px;
+    cursor: pointer;
+    margin: 10px auto;
+  }
+  button:disabled {
+    background: grey;
+    border: grey;
+    cursor: not-allowed;
+  }
+  button:hover {
+    background: white;
+    color: black;
+    border-color: black;
+  }
+
+  input {
+    border-radius: 32px;
+    flex-shrink: 0;
+    height: 48px;
+    width: 100%;
+    background: #F8F8F8;
+    overflow: hidden;
+    color: #B0B0B0;
+    text-overflow: ellipsis;
+    font-family: Helvetica Neue;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 148%; /* 29.6px */
+}
+`;
 return (
-  <>
+  <Main>
     <div>
       <h1>Deploy Store on Mintbase</h1>
       <div>
@@ -87,11 +133,16 @@ return (
       <div>
         Symbol* (max 3 letters):
         <input type="text" onChange={(e) => onChangeSymbol(e.target.value)} />
-        <div>
-          <button onClick={deployStore}>Deploy Store 3.5N</button>
-        </div>
       </div>
+      <button
+        onClick={deployStore}
+        disabled={
+          !state.symbol_name || state.symbol_name.length < 3 || !state.name
+        }
+      >
+        Deploy Store 3.5N
+      </button>
     </div>
     <Widget src="mintbase.near/widget/PoweredByMintbase" />
-  </>
+  </Main>
 );
