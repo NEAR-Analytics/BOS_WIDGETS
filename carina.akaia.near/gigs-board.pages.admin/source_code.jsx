@@ -213,7 +213,8 @@ const AdminPage = () => {
         {widget("components.molecule.tile", {
           heading: "Featured communities",
 
-          isHidden: featuredCommunities.isLoading, // || !Viewer.role.isDevHubModerator,
+          isHidden:
+            featuredCommunities.isLoading || !Viewer.role.isDevHubModerator,
 
           noBorder: true,
           noFrame: true,
