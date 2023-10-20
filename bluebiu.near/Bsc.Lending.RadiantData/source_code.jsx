@@ -934,14 +934,6 @@ if (
       const rewardApy = Big(yearlyRewardToThisPoolUsd)
         .div(market.totalDepositUsd)
         .toFixed();
-
-      console.log(
-        "yearlyRewardToThisPool: ",
-        yearlyRewardToThisPoolUsd,
-        market.totalDepositUsd,
-        market.symbol,
-        rewardApy
-      );
     }
 
     if (userData.parsedData[i]) {
@@ -976,7 +968,7 @@ if (
     parsedMarketData[market.aTokenAddress] = market;
 
     if (index === 0 && reduceUnclaimed.gt(0)) {
-      market.rewards = [
+      userData.rewards = [
         {
           ...RewardToken,
           unclaimed: reduceUnclaimed
