@@ -239,7 +239,20 @@ const defaultFieldsRender = ({ schema, form, isEditable, isUnlocked }) => (
   <>
     {Object.entries(schema).map(
       (
-        [key, { format, inputProps, noop, label, order, style, ...fieldProps }],
+        [
+          key,
+          {
+            format,
+            hints,
+            inputProps,
+            noop,
+            label,
+            order,
+            style,
+            title,
+            ...fieldProps
+          },
+        ],
         idx
       ) => {
         const fieldKey = `${idx}-${key}`,
@@ -314,10 +327,9 @@ const defaultFieldsRender = ({ schema, form, isEditable, isUnlocked }) => (
                 ...(inputProps ?? {}),
                 disabled: isDisabled,
 
-                title:
-                  noop ?? false
-                    ? "Temporarily disabled due to technical reasons."
-                    : inputProps.title,
+                title: isDisabled
+                  ? hints.disabled
+                  : hints.default ?? inputProps.title,
 
                 ...(fieldParamsByType[fieldType].inputProps ?? {}),
                 tabIndex: order,
