@@ -173,7 +173,7 @@ const TabHeight = styled.div`
 
 const getUsdValue = (price) => {
   const res = fetch(
-    `https://api.coingecko.com/api/v3/simple/price?ids=${props.chainState}&vs_currencies=usd`
+    `https://api.coingecko.com/api/v3/simple/price?ids=${currentChainProps[props.chainState].livePrice}&vs_currencies=usd`
   );
   if (res.ok) {
     const multiplyBy = Object.values(res?.body)[0]?.usd;
@@ -243,7 +243,6 @@ const currentChainProps = {
   },
 };
 
-
 const PRICE_CONVERSION_CONSTANT =
   props.chainState == "near" ? 1000000000000000000000000 : 1000000000000000000;
 
@@ -305,7 +304,9 @@ return (
           props.transactions &&
           props?.transactions?.map((data, index) => (
             <Row
-              href={`${currentChainProps[props.chainState].explorerTx}${data.txId}`}
+              href={`${currentChainProps[props.chainState].explorerTx}${
+                data.txId
+              }`}
               target="_blank"
               key={data}
             >
