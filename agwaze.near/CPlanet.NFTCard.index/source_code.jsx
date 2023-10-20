@@ -208,12 +208,13 @@ return (
             {verifiedCheck}
           </Username>
           <h3>
-            {props.description ??
-              `Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+            {props.description
+              ? props.description.substring(0, 100)
+              : `Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
           eiusmod tempor incididunt ut labore et dolore magna aliqua.`.substring(
-                0,
-                100
-              )}
+                  0,
+                  100
+                )}
           </h3>
         </HeaderText>
         <AmountSec>
