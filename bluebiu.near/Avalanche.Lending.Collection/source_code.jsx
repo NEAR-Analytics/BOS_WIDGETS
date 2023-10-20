@@ -1,4 +1,5 @@
-const { chainId, chainName, connectProps, dapps, multicallv2 } = props;
+const { chainId, chainName, connectProps, dapps, defaultDapp, multicallv2 } =
+  props;
 
 const account = Ethers.send("eth_requestAccounts", [])[0];
 if (!account) {
@@ -15,11 +16,11 @@ if (!account) {
 
 State.init({
   chainId: -1,
-  updateData: "All",
+  updateData: defaultDapp || "All",
   showDialog: false,
   tableButtonClickData: null,
   currentTab: "Market",
-  currentDapp: "All",
+  currentDapp: defaultDapp || "All",
   dapps: {},
 });
 
@@ -67,7 +68,7 @@ return (
   <>
     {state.updateData && (
       <>
-        {state.updateData === "All" && (
+        {(state.updateData === "All" || !state.dapps[state.updateData]) && (
           <Widget src="bluebiu.near/widget/0vix.LendingSpinner" />
         )}
         <Widget
@@ -100,7 +101,10 @@ return (
         props={{
           currentTab: state.currentTab,
           onChange: (tab) => {
-            State.update({ currentTab: tab, timestamp: Date.now() });
+            State.update({
+              currentTab: tab,
+              timestamp: Date.now(),
+            });
           },
         }}
       />
@@ -110,7 +114,21 @@ return (
           dapps: Object.values(dapps) || [],
           currentDapp: state.currentDapp,
           onChange: (dapp) => {
-            State.update({ currentDapp: dapp, timestamp: Date.now() });
+            let _updateDapp = "";
+            if (dapp == "All") {
+              _updateDapp =
+                Object.values(dapps).length ===
+                Object.values(state.dapps).length
+                  ? ""
+                  : "All";
+            } else {
+              _updateDapp = !state.dapps[dapp] ? dapp : "";
+            }
+            State.update({
+              currentDapp: dapp,
+              updateData: _updateDapp,
+              timestamp: Date.now(),
+            });
           },
         }}
       />
