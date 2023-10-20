@@ -41,6 +41,9 @@ const TopNFTS = styled.div`
 const SearchSection = styled.div`
     margin-top: 48px;
     width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 `;
 
 const Search = styled.div`
