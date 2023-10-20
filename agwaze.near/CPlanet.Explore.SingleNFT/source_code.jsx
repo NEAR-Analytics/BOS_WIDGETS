@@ -626,7 +626,9 @@ fetchTokens();
 
 const getUsdValue = (price) => {
   const res = fetch(
-    `https://api.coingecko.com/api/v3/simple/price?ids=${currentChainProps[props.chainState]?.livePrice}&vs_currencies=usd`
+    `https://api.coingecko.com/api/v3/simple/price?ids=${
+      currentChainProps[props.chainState]?.livePrice
+    }&vs_currencies=usd`
   );
   if (res.ok) {
     const multiplyBy = Object.values(res?.body)[0]?.usd;
@@ -643,7 +645,6 @@ const matchedKeyWords = (inputString) => {
 
 const PRICE_CONVERSION_CONSTANT =
   props.chainState == "near" ? 1000000000000000000000000 : 1000000000000000000;
-
 
 return (
   <Root>
@@ -704,7 +705,11 @@ return (
           <p>Current Owner</p>
           <h2>
             {state.owner.length > 5 && state.owner
-              ? `${state.owner.slice(0, 7)}${props.chainState === 'near' ? "...near": `...${state.owner.slice(40)}`}`
+              ? `${state.owner.slice(0, 7)}${
+                  props.chainState === "near"
+                    ? "...near"
+                    : `...${state.owner.slice(40)}`
+                }`
               : state.owner
               ? state.owner
               : "LOREMIP..."}
@@ -738,15 +743,13 @@ return (
                     {marketPlaceImage[matchedKeyWords(key)]}
                     <p>
                       {state.price
-                        ? (state.price / PRICE_CONVERSION_CONSTANT)?.toFixed(2)
+                        ? (state.price / PRICE_CONVERSION_CONSTANT)?.toFixed(3)
                         : "N/A"}
                     </p>
                     <p>
                       {getUsdValue(
                         state.price
-                          ? (state.price / PRICE_CONVERSION_CONSTANT)?.toFixed(
-                              2
-                            )
+                          ? (state.price / PRICE_CONVERSION_CONSTANT)
                           : 0
                       )}
                     </p>
