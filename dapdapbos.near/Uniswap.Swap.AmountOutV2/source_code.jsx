@@ -20,9 +20,9 @@ const account = Ethers.send("eth_requestAccounts", [])[0];
 
 if (!update || !account) return "";
 
-const router02List = [56, 8453, 42220];
+const quoter02List = [56, 8453, 42220, 43114];
 
-const is02 = router02List.indexOf(chainId) > -1;
+const is02 = quoter02List.indexOf(chainId) > -1;
 
 const currentCurrency = tradeType === "in" ? inputCurrency : outputCurrency;
 
@@ -191,9 +191,9 @@ const quoteAll = () => {
 };
 
 const wrapType =
-  tokenIn.address === "native" && tokenOut.symbol === "WETH"
+  tokenIn.address === "native" && tokenOut.address === wethAddress
     ? 1
-    : tokenIn.symbol === "WETH" && tokenOut.address === "native"
+    : tokenIn.address === wethAddress && tokenOut.address === "native"
     ? 2
     : 0;
 
