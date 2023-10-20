@@ -12,6 +12,7 @@
 
 const { isTest, stateUpdate, functionsToCallByLibrary, callLibs } = props;
 const functionsToCall = functionsToCallByLibrary.template; // Change this with the name of your widget
+const libName = "template";
 
 let resultFunctionsToCallByLibrary = Object.assign(
   {},
@@ -24,6 +25,14 @@ const libSrcArray = []; // string to lib widget
 State.init({
   libsCalls: {}, // is a LibsCalls object. It's used to call another library's functions
 });
+
+function log(message) {
+  console.log(`lib.${libName}`, message);
+}
+
+function logError(message) {
+  console.error(`lib.${libName}`, message);
+}
 
 function firstFunctionName(props) {
   const { firstProp, secondProp } = props;
@@ -62,17 +71,15 @@ if (functionsToCall && functionsToCall.length > 0) {
     updateObj[call.key] = callFunction(call);
   });
 
-  resultFunctionsToCallByLibrary.template = resultFunctionsToCall;
+  resultFunctionsToCallByLibrary[libName] = resultFunctionsToCall;
   updateObj.functionsToCallByLibrary = resultFunctionsToCallByLibrary;
   stateUpdate(updateObj);
 }
 
 return (
   <>
-    <>
-      {libSrcArray.map((src) => {
-        return callLibs(src, libStateUpdate, state.libsCalls, "lib.template");
-      })}
-    </>
+    {libSrcArray.map((src) => {
+      return callLibs(src, libStateUpdate, state.libsCalls, `lib.${libName}`);
+    })}
   </>
 );
