@@ -20,6 +20,15 @@ const account = Ethers.send("eth_requestAccounts", [])[0];
 
 if (!update || !account) return "";
 
+if (!tokenOut || !tokenIn) {
+  loadAmountOut({
+    loading: false,
+    success: true,
+    noPair: true,
+    outputCurrencyAmount: "0",
+  });
+}
+
 const quoter02List = [56, 8453, 42220, 43114];
 
 const is02 = quoter02List.indexOf(chainId) > -1;
