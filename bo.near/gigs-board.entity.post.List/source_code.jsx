@@ -125,6 +125,9 @@ function fetchGraphQL(operationsDoc, operationName, variables) {
 }
 
 function getPostIds() {
+  if (state.postIds) {
+    return;
+  }
   let where = {};
   let authorId = props.author;
   let label = props.tag;
