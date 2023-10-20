@@ -173,7 +173,9 @@ const TabHeight = styled.div`
 
 const getUsdValue = (price) => {
   const res = fetch(
-    `https://api.coingecko.com/api/v3/simple/price?ids=${currentChainProps[props.chainState].livePrice}&vs_currencies=usd`
+    `https://api.coingecko.com/api/v3/simple/price?ids=${
+      currentChainProps[props.chainState].livePrice
+    }&vs_currencies=usd`
   );
   if (res.ok) {
     const multiplyBy = Object.values(res?.body)[0]?.usd;
@@ -314,7 +316,17 @@ return (
                 <Image></Image>
                 <div>
                   <p>
-                    {data.type} by @{data?.from?.id}
+                    {data.type} by @
+                    {props.chainState === "near"
+                      ? data?.from?.id
+                      : data?.from?.id
+                      ? `${data?.from?.id?.slice(
+                          0,
+                          8
+                        )}...${data?.from?.id?.slice(40)}`
+                      : `${data?.to?.id?.slice(0, 8)}...${data?.to?.id?.slice(
+                          40
+                        )}`}
                   </p>
                   <span>06 Feb 2022 12:30:39 PM</span>
                 </div>
