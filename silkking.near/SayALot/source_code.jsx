@@ -120,6 +120,7 @@ const widgets = {
   addComment: `${context.accountId}/widget/SayALot.AddComment`,
   // commentView: `${authorForWidget}/widget/SayALot.CommentView`,
   commentView: `${context.accountId}/widget/SayALot.CommentView`,
+  libSBT: `${context.accountId}/widget/lib.SBT`,
   //   libComment: `${authorForWidget}/widget/SayALot.lib.comment`,
   libComment: `${context.accountId}/widget/SayALot.lib.comment`,
   // libArticle: `${authorForWidget}/widget/SayALot.lib.article`,
@@ -468,6 +469,7 @@ function callLibs(
         stateUpdate,
         functionsToCallByLibrary,
         callLibs,
+        widgets,
         ...extraProps,
       }}
     />
