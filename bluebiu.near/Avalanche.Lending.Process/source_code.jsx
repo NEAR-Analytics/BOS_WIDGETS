@@ -5,7 +5,7 @@ const Process = styled.div`
 const ActiveBar = styled.div`
   height: 5px;
   border-radius: 10px;
-  background-color: var(--switch-color);
+  background-color: var(--supply-color);
   position: absolute;
   left: 0px;
   top: 12px;
