@@ -113,8 +113,18 @@ const Buttons = styled.div`
     padding: 10px 20px 0px;
   }
 `;
+const Empty = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 14px;
+  font-weight: 400;
+  color: #7c7f96;
+  min-height: 50px;
+`;
 
-const { columns, data, buttons, totalReverse, onButtonClick } = props;
+const { columns, data, buttons, totalReverse, emptyTips, onButtonClick } =
+  props;
 
 const renderTotal = (record, key, isSpecialKey) => {
   return (
@@ -236,6 +246,7 @@ return (
           ))}
         </Row>
       ))}
+      {data?.length === 0 && <Empty>{emptyTips}</Empty>}
     </Body>
   </Table>
 );
