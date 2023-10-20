@@ -1,7 +1,13 @@
-const { isTest, stateUpdate, functionsToCallByLibrary, callLibs, baseAction } =
-  props;
-const functionsToCall = functionsToCallByLibrary.article;
-const libName = "article";
+const {
+  isTest,
+  stateUpdate,
+  functionsToCallByLibrary,
+  callLibs,
+  baseAction,
+  widgets,
+} = props;
+const libName = "article"; // EDIT: set lib name
+const functionsToCall = functionsToCallByLibrary[libName];
 
 let resultFunctionsToCallByLibrary = Object.assign(
   {},
@@ -9,16 +15,13 @@ let resultFunctionsToCallByLibrary = Object.assign(
 );
 let resultFunctionsToCall = [];
 
-const currentVersion = "0.0.2";
+const currentVersion = "0.0.2"; // EDIT: Set version
 
 const prodAction = `${baseAction}_v${currentVersion}`;
 const testAction = `test_${prodAction}`;
 const action = isTest ? testAction : prodAction;
 
-const libAuthor = "silkking.near";
-
-const libSrcArray = [`${libAuthor}/widget/lib.SBT`]; // string to lib widget
-
+// START LIB CALLS SECTION
 // interface FunctionCall {
 //     functionName: string,
 //     key: string, // The state of the caller will be updated with this string as a key
@@ -26,6 +29,8 @@ const libSrcArray = [`${libAuthor}/widget/lib.SBT`]; // string to lib widget
 // }
 
 // type LibsCalls = Record<string, FunctionCall> // Key is lib name after lib.
+
+const libSrcArray = [widgets.libSBT]; // string to lib widget // EDIT: set libs to call
 
 const libsCalls = {};
 libSrcArray.forEach((libSrc) => {
@@ -36,6 +41,7 @@ libSrcArray.forEach((libSrc) => {
 State.init({
   libsCalls, // is a LibsCalls object
 });
+// END LIB CALLS SECTION
 
 function log(message) {
   console.log(`lib.${libName}`, message);
@@ -49,6 +55,7 @@ function libStateUpdate(obj) {
   State.update(obj);
 }
 
+// START LIB FUNCTIONS: EDIT set functions you need
 function canUserCreateArticle(props) {
   const { env, accountId, sbtsNames } = props;
 
@@ -350,6 +357,22 @@ function normalizeArticles(articlesByVersion) {
   return articles;
 }
 
+// END LIB FUNCTIONS
+
+// EDIT: set functions you want to export
+function callFunction(call) {
+  if (call.functionName === "canUserCreateArticle") {
+    return canUserCreateArticle(call.props);
+  } else if (call.functionName === "createArticle") {
+    return createArticle(call.props);
+  } else if (call.functionName === "canUserEditArticle") {
+    return canUserEditArticle(call.props);
+  } else if (call.functionName === "getArticles") {
+    return getArticles(call.props);
+  }
+}
+
+// EDIT: set versions you want to handle, considering their action to Social.index and the way to transform to one version to another (normalization)
 const versions = {
   old: {
     normalizationFunction: normalizeOldToV_0_0_1,
@@ -364,18 +387,6 @@ const versions = {
     action: `${baseAction}_v0.0.2`,
   },
 };
-
-function callFunction(call) {
-  if (call.functionName === "canUserCreateArticle") {
-    return canUserCreateArticle(call.props);
-  } else if (call.functionName === "createArticle") {
-    return createArticle(call.props);
-  } else if (call.functionName === "canUserEditArticle") {
-    return canUserEditArticle(call.props);
-  } else if (call.functionName === "getArticles") {
-    return getArticles(call.props);
-  }
-}
 
 if (functionsToCall && functionsToCall.length > 0) {
   const updateObj = Object.assign({}, functionsToCallByLibrary);
