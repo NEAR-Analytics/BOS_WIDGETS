@@ -160,6 +160,11 @@ const AdministrationSettings = {
 const CommunityFeaturingSchema = {
   handle: {
     label: "Community handle",
+
+    hints: {
+      disabled: `You can only add ${AdministrationSettings.communities.maxFeatured} communities at a time`,
+    },
+
     inputProps: { min: 3, max: 40, required: true },
   },
 };
@@ -208,8 +213,7 @@ const AdminPage = () => {
         {widget("components.molecule.tile", {
           heading: "Featured communities",
 
-          isHidden:
-            featuredCommunities.isLoading || !Viewer.role.isDevHubModerator,
+          isHidden: featuredCommunities.isLoading, // || !Viewer.role.isDevHubModerator,
 
           noBorder: true,
           noFrame: true,
@@ -241,11 +245,10 @@ const AdminPage = () => {
                 heading: "Add featured community",
                 isActive: true,
 
-                isHidden:
-                  featuredCommunityList.length >=
+                isUnlocked:
+                  featuredCommunityList.length <
                   AdministrationSettings.communities.maxFeatured,
 
-                isUnlocked: true,
                 schema: CommunityFeaturingSchema,
                 onSubmit: addFeaturedCommunity,
               })}
