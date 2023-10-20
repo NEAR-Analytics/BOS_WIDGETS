@@ -656,13 +656,8 @@ if (
 
   let userTotalSupplyUsd = Big(0);
   let userTotalBorrowUsd = Big(0);
-  let totalCollateralUsd = Big(0);
 
   parsedData.forEach((data) => {
-    if (data.usageAsCollateralEnabledOnUser) {
-      totalCollateralUsd = totalCollateralUsd.plus(data.scaledATokenBalanceUsd);
-    }
-
     userTotalSupplyUsd = userTotalSupplyUsd.plus(data.scaledATokenBalanceUsd);
 
     userTotalBorrowUsd = userTotalBorrowUsd.plus(data.scaledVariableDebtUsd);
@@ -672,7 +667,6 @@ if (
     userData: {
       userTotalSupplyUsd: userTotalSupplyUsd.toString(),
       userTotalBorrowUsd: userTotalBorrowUsd.toString(),
-      totalCollateralUsd: totalCollateralUsd.toString(),
       parsedData,
     },
   });
@@ -708,7 +702,9 @@ if (
     };
   });
 
-  Object.keys(marketData).forEach((address) => {
+  let totalCollateralUsd = Big(0);
+
+  Object.keys(marketData).forEach((address, i) => {
     const market = marketData[address];
 
     const { netApy: netApyRaw } = market;
@@ -721,7 +717,18 @@ if (
     market.wethGateway = wethGateway;
 
     market.address = market.aTokenAddress;
+
+    if (userData.parsedData[i]) {
+      const data = userData.parsedData[i];
+      if (data.usageAsCollateralEnabledOnUser) {
+        totalCollateralUsd = totalCollateralUsd
+          .plus(data.scaledATokenBalanceUsd)
+          .times(market.loanToValue / 100);
+      }
+    }
   });
+
+  userData.totalCollateralUsd = totalCollateralUsd.toFixed();
 
   userData.netApy = netApy.toFixed(2);
 
