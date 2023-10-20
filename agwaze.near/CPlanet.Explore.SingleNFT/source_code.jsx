@@ -498,12 +498,6 @@ const currentChainProps = {
     subgraph:
       "https://api.thegraph.com/subgraphs/name/prometheo/polygon-mainnet",
   },
-  aptos: {
-    img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQqBinSwbRdx76qY4A3qvVkM9g_mKoGCBDT0sqTT02TgRvKquV2Vlc8fSRmLyuhBS3-CaA&usqp=CAU",
-  },
-  sui: {
-    img: "https://blog.sui.io/content/images/2023/04/Sui_Droplet_Logo_Blue-3.png",
-  },
 };
 
 function fetchTokens() {
@@ -550,8 +544,7 @@ function fetchTokens() {
         listings: token.listings[0],
         title: token.title,
       });
-      if (!token && props.chainState !== ("aptos" || "sui")) {
-        let response = fetch(currentChainProps["near"]?.subgraph, {
+        let response = fetch(currentChainProps[props.chainState]?.subgraph, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -626,54 +619,6 @@ function fetchTokens() {
           });
         }
       }
-      if (!token) {
-        const response = fetch("https://api.indexer.xyz/graphql", {
-          method: "POST",
-          headers: {
-            "x-api-key": "Krqwh4b.bae381951d6050d351945c0c750f1510",
-            "x-api-user": "Banyan",
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            query: `query MyQuery {
-  ${props.chainState} {
-    nfts(
-      where: { contract_id: { _eq: "${contractId}" }, token_id: {_eq: "${tokenId}"}}
-    ) {
-      contract_id
-      name
-      media_url
-      token_id
-      media_type
-      owner
-      
-      staked_owner
-      listings {
-        listed
-        price
-      }
-      attributes {
-        rarity
-        value
-        type
-        score
-      }
-     }
-     }
-    }`,
-          }),
-        });
-        const token = response.body.data[props.chainState].nfts;
-        if (token) {
-          State.update({
-            title: token[0].name,
-            listings: token[0].listings,
-            attributes: token[0].attributes,
-            imageUrl: token[0].media_url,
-          });
-        }
-      }
-    }
   });
 }
 
