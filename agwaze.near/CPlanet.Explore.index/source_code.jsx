@@ -329,6 +329,7 @@ return (
                           ? (data.price / PRICE_CONVERSION_CONSTANT).toFixed(2)
                           : null,
                         owner: data.owner,
+                        logo: currentChainProps[state.chain].img,
                         isListed: data.isListed ? "LISTED" : "NOT LISTED",
                         tokenId: data.token_id,
                         contractId: data.contract_id,
@@ -347,6 +348,7 @@ return (
                         image: data.media_url,
                         owner: data.owner,
                         chainState: state.chainState,
+                        logo: currentChainProps[state.chain].img,
                         price: data.price
                           ? (data.price / PRICE_CONVERSION_CONSTANT).toFixed(2)
                           : null,
