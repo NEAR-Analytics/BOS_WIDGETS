@@ -7,34 +7,17 @@ const sbtWhiteList = [
   "community.i-am-human.near - class 1",
   "community.i-am-human.near - class 2",
   "community.i-am-human.near - class 3",
+  "public",
 ];
 
 const initSbtsNames = ["fractal.i-am-human.near - class 1"];
 
 const sbtsNames = state.sbt;
 
-// const initLibCalls = [
-//   {
-//     functionName: "getLastEditArticles",
-//     key: "articles",
-//     props: {
-//       env: isTest ? "test" : "prod",
-//       sbtsNames: sbtWhiteList,
-//     },
-//   },
-//   {
-//     functionName: "canUserCreateArticle",
-//     key: "canLoggedUserCreateArticle",
-//     props: {
-//       accountId: context.accountId,
-//       sbtsNames: sbtWhiteList,
-//     },
-//   },
-// ];
 const initLibsCalls = {
   article: [
     {
-      functionName: "getLastEditArticles",
+      functionName: "getArticles",
       key: "articles",
       props: {
         env: isTest ? "test" : "prod",
@@ -140,7 +123,8 @@ const widgets = {
   //   libComment: `${authorForWidget}/widget/SayALot.lib.comment`,
   libComment: `${context.accountId}/widget/SayALot.lib.comment`,
   // libArticle: `${authorForWidget}/widget/SayALot.lib.article`,
-  libArticle: `${context.accountId}/widget/SayALot.lib.article`,
+  // libArticle: `${context.accountId}/widget/SayALot.lib.article`,
+  libArticle: `${context.accountId}/widget/lib.article`,
   // libEmojis: `${authorForWidget}/widget/SayALot.lib.emojis`,
   libEmojis: `${context.accountId}/widget/SayALot.lib.emojis`,
   // libUpVotes: `${authorForWidget}/widget/SayALot.lib.upVotes`,
@@ -459,7 +443,13 @@ function handlePillNavigation(navegateTo) {
   State.update({ displayedTabId: navegateTo, editArticleData: undefined });
 }
 
-function callLibs(src, stateUpdate, functionsToCallByLibrary, callerWidget) {
+function callLibs(
+  src,
+  stateUpdate,
+  functionsToCallByLibrary,
+  extraProps,
+  callerWidget
+) {
   // if (callerWidget === "All articles list") {
   // console.log(
   //   -1,
@@ -478,6 +468,7 @@ function callLibs(src, stateUpdate, functionsToCallByLibrary, callerWidget) {
         stateUpdate,
         functionsToCallByLibrary,
         callLibs,
+        ...extraProps,
       }}
     />
   );
@@ -505,6 +496,8 @@ function getLink() {
 }
 
 //===============================================END FUNCTIONS======================================================
+
+console.log(1, state.articles);
 
 if (!context.accountId) {
   return (
@@ -648,6 +641,7 @@ return (
           src,
           stateUpdate,
           state.functionsToCallByLibrary,
+          { baseAction: "sayALotArticle" },
           "SayALot"
         );
       })}
