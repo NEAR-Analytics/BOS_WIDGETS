@@ -44,9 +44,7 @@ const currentCurrency = tradeType === "in" ? inputCurrency : outputCurrency;
 
 const currentAmount = Big(
   tradeType === "in" ? inputCurrencyAmount : outputCurrencyAmount
-)
-  .mul(0.995)
-  .toFixed(5);
+).toFixed();
 const outCurrency = tradeType === "in" ? outputCurrency : inputCurrency;
 
 const RouterContract = new ethers.Contract(
@@ -74,10 +72,11 @@ const path = [
   outCurrency.address === "native" ? wethAddress : outCurrency.address,
 ];
 
-RouterContract.getAmountOut(
-  ethers.utils.parseUnits(currentAmount, currentCurrency.decimals),
-  ...path
-)
+const currentAmountUnit = Big(currentAmount)
+  .times(Big(10).pow(currentCurrency.decimals))
+  .toFixed(0);
+
+RouterContract.getAmountOut(currentAmountUnit, ...path)
   .then((res) => {
     const amount = Big(
       ethers.utils.formatUnits(res[0], outCurrency.decimals)
