@@ -229,7 +229,7 @@ return (
           alt="Company Logo"
         />
         <TabsButton
-          href={`sazonmx.near/widget/subirreceta`}
+          href={`https://near.social/e6334d18ab20c3ca9bfda37ae34458c44832ad3faced187912fb07f382b05aaf/widget/subirreceta`}
           selected={state.selectedTab === "home"}
         >
           Inicio
@@ -243,7 +243,7 @@ return (
           Desayuno
         </TabsButton>
         <TabsButton
-          href={`sazonmx.near/widget/galeriaconimagen`}
+          href={`https://near.social/e6334d18ab20c3ca9bfda37ae34458c44832ad3faced187912fb07f382b05aaf/widget/galeriaconimg`}
           selected={state.selectedTab === "tokens"}
         >
           Comidas
@@ -262,7 +262,7 @@ return (
         </TabsButton>
 
         <TabsButton
-          href={`sazonmx.near/widget/subirreceta`}
+          href={`https://near.social/e6334d18ab20c3ca9bfda37ae34458c44832ad3faced187912fb07f382b05aaf/widget/subirreceta`}
           selected={state.selectedTab === "Supporters"}
         >
           Suscripción
