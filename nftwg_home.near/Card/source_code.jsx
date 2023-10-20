@@ -1,14 +1,6 @@
 const Owner = "nftwg_home.near";
 const props = [
   {
-    title: "Socializer",
-    imageSrc:
-      "https://cdn.discordapp.com/attachments/1135845507189702748/1162116592906293341/image.png?ex=653ac46a&is=65284f6a&hm=65dad1554346d62e5e55c6917328b4a1d5ffad8c1352329ada45b47c85bdaeff&",
-    description: "Socializer is an interactive rewards portal for Near Social.",
-    buttonText: "In Progress",
-    fontSize: 20,
-  },
-  {
     title: "Humans Of Near",
     imageSrc: "https://humans.nearverselabs.com/logo.png",
     description:
@@ -16,6 +8,14 @@ const props = [
     buttonText: "Completed",
     fontSize: 20,
     href: "https://near.org/humans-of-near.near/widget/humans.nearverselabs.com",
+  },
+  {
+    title: "Socializer",
+    imageSrc:
+      "https://cdn.discordapp.com/attachments/1135845507189702748/1162116592906293341/image.png?ex=653ac46a&is=65284f6a&hm=65dad1554346d62e5e55c6917328b4a1d5ffad8c1352329ada45b47c85bdaeff&",
+    description: "Socializer is an interactive rewards portal for Near Social.",
+    buttonText: "In Progress",
+    fontSize: 20,
   },
 ];
 const Card = styled.div`
