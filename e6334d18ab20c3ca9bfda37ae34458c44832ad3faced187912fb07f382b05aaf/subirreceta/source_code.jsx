@@ -1,3 +1,4 @@
+// const contratc = "dev-1697764823856-92090162270530";
 const contract = "sazonmx.near";
 const cssFont = fetch(
   "https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800"
@@ -241,7 +242,10 @@ return (
         <TabsButton href={`#`} selected={state.selectedTab === "tokens"}>
           Desayuno
         </TabsButton>
-        <TabsButton href={`#`} selected={state.selectedTab === "tokens"}>
+        <TabsButton
+          href={`sazonmx.near/widget/galeriaconimagen`}
+          selected={state.selectedTab === "tokens"}
+        >
           Comidas
         </TabsButton>
 
@@ -257,7 +261,10 @@ return (
           Sube tu receta
         </TabsButton>
 
-        <TabsButton href={`#`} selected={state.selectedTab === "Supporters"}>
+        <TabsButton
+          href={`sazonmx.near/widget/subirreceta`}
+          selected={state.selectedTab === "Supporters"}
+        >
           Suscripción
         </TabsButton>
       </Tabs>
@@ -269,7 +276,18 @@ return (
           width="120px"
         />
       </div>
-
+      <TabsButton>
+        {!!state.sender ? (
+          <button
+            className=""
+            onClick={() => submitEthers(state.strEther, state.sender)}
+          >
+            <span></span>
+          </button>
+        ) : (
+          <Web3Connect className="" connectLabel="Connect Wallet" />
+        )}
+      </TabsButton>
       <h1> Comparte tu receta</h1>
       <div
         className="container"
