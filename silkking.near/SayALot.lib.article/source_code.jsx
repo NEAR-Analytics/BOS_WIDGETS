@@ -192,11 +192,11 @@ function filterInvalidArticlesIndexes(env, articlesIndexes) {
       // ) // Account is in whitelist
       .filter(
         (articleIndex) =>
-          !getArticleBlackListByBlockHeight().includes(articleIndex.blockHeight) // Article is not in blacklist
+          !getArticleBlackListByBlockHeight().includes(articleIndex.blockHeight) // Blockheight is not in blacklist
       )
       .filter(
         (articleIndex) =>
-          !getArticleBlackListByRealArticleId().includes(articleIndex.value.id) // Article is not in blacklist
+          !getArticleBlackListByRealArticleId().includes(articleIndex.value.id) // Article id is not in blacklist
       )
   );
 }
