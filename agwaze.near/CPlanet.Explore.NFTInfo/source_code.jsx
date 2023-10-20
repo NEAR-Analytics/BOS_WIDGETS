@@ -103,6 +103,10 @@ const PriceSec = styled.div`
         font-weight: 400;
         line-height: 160%; /* 19.2px */
     }
+    img {
+      width: 12px;
+      height: 12px;
+    }
 `;
 
 const Image = styled.div`
@@ -184,6 +188,65 @@ initState({
   tab: "HISTORY",
 });
 
+const currentChainProps = {
+  near: {
+    img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTrJuxjGxj4QmyreE6ix4ygqm5pK9Nn_rdc8Ndw6lmJcd0SSnm2zBIc2xJ_My1V0WmK2zg&usqp=CAU",
+    livePrice: "near",
+    subgraph: "https://api.thegraph.com/subgraphs/name/prometheo/near-mainnet",
+    chain: "near",
+    id: "1112",
+    explorer: "https://explorer.near.org/?query=",
+    logoUrl:
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTrJuxjGxj4QmyreE6ix4ygqm5pK9Nn_rdc8Ndw6lmJcd0SSnm2zBIc2xJ_My1V0WmK2zg&usqp=CAU",
+  },
+  aurora: {
+    img: "https://s2.coinmarketcap.com/static/img/coins/200x200/14803.png",
+    id: "1313161554",
+    chain: "Aurora",
+    explorer: "https://aurorascan.dev/",
+    explorerTx: "https://aurorascan.dev/",
+    livePrice: "ethereum",
+    contract: "0xe93097f7C3bF7A0E0F1261c5bD88F86D878667B5",
+    subgraph:
+      "https://api.thegraph.com/subgraphs/name/prometheo/aurora-mainnet",
+  },
+  arbitrum: {
+    img: "https://assets.coingecko.com/coins/images/16547/large/photo_2023-03-29_21.47.00.jpeg?1680097630",
+    id: "42161",
+    contract: "0x27E52A81975F5Fb836e79007E3c478C6c0E6E9FB",
+    chain: "Arbitrum",
+    explorer: "https://arbiscan.io/",
+    explorerTx: "https://arbiscan.io/",
+    livePrice: "ethereum",
+    subgraph: "https://api.thegraph.com/subgraphs/name/prometheo/arbitrum",
+  },
+  celo: {
+    img: "https://assets.coingecko.com/coins/images/11090/large/InjXBNx9_400x400.jpg?1674707499",
+    id: "42220",
+    livePrice: "celo",
+    contract: "0x5616BCcc278F7CE8B003f5a48f3754DDcfA4db5a",
+    explorer: "https://explorer.celo.org/address/",
+    explorerTx: "https://explorer.celo.org/",
+    chain: "Celo",
+    subgraph: "https://api.thegraph.com/subgraphs/name/prometheo/celo-mainnet",
+  },
+  polygon: {
+    img: "https://altcoinsbox.com/wp-content/uploads/2023/03/matic-logo.webp",
+    id: "137",
+    chain: "Polygon",
+    livePrice: "matic-network",
+    contract: "0x57Eb0aaAf69E22D8adAe897535bF57c7958e3b1b",
+    explorer: "https://polygonscan.com/address/",
+    explorerTx: "https://polygonscan.com/",
+    subgraph:
+      "https://api.thegraph.com/subgraphs/name/prometheo/polygon-mainnet",
+  },
+};
+
+
+const PRICE_CONVERSION_CONSTANT =
+  props.chainState == "near" ? 1000000000000000000000000 : 1000000000000000000;
+
 return (
   <Root>
     <Header>
@@ -242,7 +305,7 @@ return (
           props.transactions &&
           props?.transactions?.map((data, index) => (
             <Row
-              href={`https://explorer.near.org/?query=${data.txId}`}
+              href={`${currentChainProps[props.chainState].explorerTx}${data.txId}`}
               target="_blank"
               key={data}
             >
@@ -257,15 +320,12 @@ return (
               </ImageSec>
               <PriceSec>
                 <h1>
-                  <Widget
-                    src="agwaze.near/widget/GenaDrop.NearLogo"
-                    props={{ width: 12 }}
-                  />
-                  {(data.price / 1000000000000000000000000).toFixed(2)}
+                  <img src={currentChainProps[props.chainState].img} />
+                  {(data.price / PRICE_CONVERSION_CONSTANT).toFixed(2)}
                 </h1>
                 <span>
                   {getUsdValue(
-                    (data.price / 1000000000000000000000000).toFixed(2)
+                    (data.price / PRICE_CONVERSION_CONSTANT).toFixed(2)
                   )}
                 </span>
               </PriceSec>
