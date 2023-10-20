@@ -316,16 +316,16 @@ return (
                 <Image></Image>
                 <div>
                   <p>
-                    {data.type} by @
+                    {data.type} by
                     {props.chainState === "near"
                       ? data?.from?.id
                       : data?.from?.id
                       ? `${data?.from?.id?.slice(
                           0,
                           8
-                        )}...${data?.from?.id?.slice(40)}`
+                        )}...${data?.from?.id?.slice(38)}`
                       : `${data?.to?.id?.slice(0, 8)}...${data?.to?.id?.slice(
-                          40
+                          38
                         )}`}
                   </p>
                   <span>06 Feb 2022 12:30:39 PM</span>
