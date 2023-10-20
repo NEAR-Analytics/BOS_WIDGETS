@@ -212,7 +212,7 @@ const multicallit = () => {
 };
 
 multicallContract.estimateGas
-  .multicall(multicallParams, options)
+  .multicall(multicallParams, { ...options, gasLimit: 5000000 })
   .then((gas) => {
     const gasLimit = gas.toString();
 
