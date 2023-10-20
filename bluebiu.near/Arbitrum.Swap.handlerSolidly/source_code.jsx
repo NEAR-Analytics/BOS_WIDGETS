@@ -22,8 +22,6 @@ const type =
     ? 2
     : 0;
 
-console.log("type: ", type);
-
 const RouterContract = new ethers.Contract(
   routerAddress,
   [
