@@ -244,7 +244,11 @@ return (
       </CardBody>
       <Button>
         <a
-          href={`#/agwaze.near/widget/CPlanet.Explore.SingleNFT?contractId=${props.contractId}&tokenId=${props.tokenId}&chainState=${props.chainState}`}
+          href={
+            props.isListed
+              ? `#/agwaze.near/widget/CPlanet.Explore.SingleNFT?contractId=${props.contractId}&tokenId=${props.tokenId}&chainState=${props.chainState}`
+              : "#"
+          }
           style={{ textDecoration: "none", color: "inherit" }}
         >
           <button disabled={!props.price}>
