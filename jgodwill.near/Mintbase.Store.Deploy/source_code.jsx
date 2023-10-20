@@ -5,7 +5,7 @@
 const mainnet = props.mainnet ?? true;
 const contract_id = mainnet ? "mintbase1.near" : "mintspace2.testnet";
 const func = "create_store";
-const owner_id = props.ownerId || context.accountId;
+const owner_id = context.accountId;
 
 const base_uri = "https://arweave.net";
 const reference = null;
