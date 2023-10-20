@@ -5,7 +5,7 @@
 const mainnet = props.mainnet ?? true;
 const contract_id = mainnet ? "mintbase1.near" : "mintspace2.testnet";
 const func = "create_store";
-const owner_id = context.accountId;
+const owner_id = props.ownerId || context.accountId;
 
 const base_uri = "https://arweave.net";
 const reference = null;
@@ -125,7 +125,7 @@ const Main = styled.div`
 return (
   <Main>
     <div>
-      <h1>Deploy Store on Mintbase</h1>
+      <h1>Deploy Store on Mintbase for {owner_id}</h1>
       <div>
         Contract Name*:
         <input type="text" onChange={(e) => onChangeName(e.target.value)} />
