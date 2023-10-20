@@ -433,7 +433,7 @@ const Configurator = ({
         <div className={`d-flex flex-column gap-${isActive ? 1 : 4}`}>
           {fieldsRender({
             form,
-            isEditable: isUnlocked && isActive,
+            isEditable: isActive,
             isUnlocked,
             schema,
           })}
