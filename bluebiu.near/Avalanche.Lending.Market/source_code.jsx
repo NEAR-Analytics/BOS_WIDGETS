@@ -139,8 +139,14 @@ const formateData = (sortKey) => {
         distributionApy: market.distributionApy,
       };
     });
-  data.sort((a, b) => parseInt(b[sortKey]) - parseInt(a[sortKey]));
-  State.update({ data });
+  State.update({
+    data: data.sort((a, b) => {
+      if (["supplyApy", "borrowApy"].includes(sortKey)) {
+        return b[sortKey].slice(0, -1) - a[sortKey].slice(0, -1);
+      }
+      return b[sortKey] - a[sortKey];
+    }),
+  });
 };
 
 const prevMarketTimestamp = Storage.privateGet("prevMarketTimestampMarket");
@@ -246,12 +252,17 @@ return (
           <Item className="td w_40 apy">
             <div>{market.supplyApy}</div>
             {market.distributionApy &&
-              market.distributionApy.map((reward) => (
-                <RewardApyItem key={reward.symbol}>
-                  <RewardIcon src={reward.icon} />
-                  <RewardApy>{reward.supply}</RewardApy>
-                </RewardApyItem>
-              ))}
+              market.distributionApy
+                .filter((reward) => {
+                  const apy = reward.supply.slice(0, -1);
+                  return !!Number(apy);
+                })
+                .map((reward) => (
+                  <RewardApyItem key={reward.symbol}>
+                    <RewardIcon src={reward.icon} />
+                    <RewardApy>{reward.supply}</RewardApy>
+                  </RewardApyItem>
+                ))}
           </Item>
         </MergeItems>
         <MergeItems
@@ -273,12 +284,17 @@ return (
           <Item className="td w_33 apy">
             <div>{market.borrowApy}</div>
             {market.distributionApy &&
-              market.distributionApy.map((reward) => (
-                <RewardApyItem key={reward.symbol}>
-                  <RewardIcon src={reward.icon} />
-                  <RewardApy>{reward.borrow}</RewardApy>
-                </RewardApyItem>
-              ))}
+              market.distributionApy
+                .filter((reward) => {
+                  const apy = reward.borrow.slice(0, -1);
+                  return !!Number(apy);
+                })
+                .map((reward) => (
+                  <RewardApyItem key={reward.symbol}>
+                    <RewardIcon src={reward.icon} />
+                    <RewardApy>{reward.borrow}</RewardApy>
+                  </RewardApyItem>
+                ))}
           </Item>
           <Item className="td w_33">
             <Widget
