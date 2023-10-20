@@ -2,7 +2,7 @@ const {
   isTest,
   stateUpdate,
   functionsToCallByLibrary,
-  callLibs,
+  // callLibs,
   baseAction,
   widgets,
 } = props;
@@ -203,7 +203,7 @@ function getArticlesNormalized(env) {
     return articles;
   });
 
-  return normalizeArticles(articlesByVersion);
+  return normalizeLibData(articlesByVersion);
 }
 
 function getArticle(articleIndex, action) {
@@ -267,7 +267,7 @@ function getArticles(props) {
   const lastEditionArticlesAuthors = lastEditionArticles.map((article) => {
     return article.author;
   });
-
+  log([1, lastEditionArticles]);
   setAreValidUsers(lastEditionArticlesAuthors, sbtsNames);
 
   resultFunctionsToCall = resultFunctionsToCall.filter((call) => {
@@ -336,27 +336,6 @@ function normalizeFromV0_0_2ToV0_0_3(article) {
   return article;
 }
 
-function normalizeArticles(articlesByVersion) {
-  let articles;
-
-  Object.keys(versions).forEach((version, index, array) => {
-    const normFn = versions[version].normalizationFunction;
-    const normArticles = articlesByVersion[index].map((article, i) => {
-      return normFn(article);
-    });
-
-    if (index + 1 === array.length) {
-      // Last index
-      articles = normArticles;
-      return;
-    }
-    articlesByVersion[index + 1] =
-      articlesByVersion[index + 1].concat(normArticles);
-  });
-
-  return articles;
-}
-
 // END LIB FUNCTIONS
 
 // EDIT: set functions you want to export
@@ -388,6 +367,27 @@ const versions = {
   },
 };
 
+function normalizeLibData(libDataByVersion) {
+  let libData;
+
+  Object.keys(versions).forEach((version, index, array) => {
+    const normFn = versions[version].normalizationFunction;
+    const normLibData = libDataByVersion[index].map((libData, i) => {
+      return normFn(libData);
+    });
+
+    if (index + 1 === array.length) {
+      // Last index
+      libData = normLibData;
+      return;
+    }
+    libDataByVersion[index + 1] =
+      libDataByVersion[index + 1].concat(normLibData);
+  });
+
+  return libData;
+}
+
 if (functionsToCall && functionsToCall.length > 0) {
   const updateObj = Object.assign({}, functionsToCallByLibrary);
   resultFunctionsToCall = [...functionsToCall];
@@ -399,6 +399,49 @@ if (functionsToCall && functionsToCall.length > 0) {
   updateObj.functionsToCallByLibrary = resultFunctionsToCallByLibrary;
   stateUpdate(updateObj);
 }
+
+function callLibs(
+  src,
+  stateUpdate,
+  functionsToCallByLibrary,
+  extraProps,
+  callerWidget
+) {
+  // if (callerWidget === "All articles list") {
+  // console.log(
+  //   -1,
+  //   `Call libs props ${callerWidget}: `,
+  //   src,
+  //   functionsToCallByLibrary,
+  //   callLibs
+  // );
+  // }
+
+  return (
+    <Widget
+      src={src}
+      props={{
+        isTest,
+        stateUpdate,
+        functionsToCallByLibrary,
+        callLibs,
+        widgets,
+        ...extraProps,
+      }}
+    />
+  );
+}
+
+const a = getArticles({
+  sbtsNames: [
+    "fractal.i-am-human.near - class 1",
+    "community.i-am-human.near - class 1",
+    "community.i-am-human.near - class 2",
+    "community.i-am-human.near - class 3",
+    "public",
+  ],
+});
+log(a);
 
 return (
   <>
