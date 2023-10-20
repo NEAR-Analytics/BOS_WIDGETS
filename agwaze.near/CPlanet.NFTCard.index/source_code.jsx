@@ -114,7 +114,7 @@ const AmountSec = styled.div`
   width: 100%;
   display: flex;
   flex-direction: row;
-  align-items: center;
+  align-items: flex-start;
   gap: 20px;
   div {
     span {
@@ -221,14 +221,14 @@ return (
           <div>
             <span>Current Price</span>
             <p>
-              {props.price ? (
-                <Widget
-                  src="agwaze.near/widget/GenaDrop.NearLogo"
-                  props={{ width: 13 }}
-                />
-              ) : (
-                ""
-              )}
+              {props.price
+                ? props.logo ?? (
+                    <Widget
+                      src="agwaze.near/widget/GenaDrop.NearLogo"
+                      props={{ width: 13 }}
+                    />
+                  )
+                : ""}
               {props.price ?? "N/A"}{" "}
             </p>
           </div>
