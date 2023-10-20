@@ -216,6 +216,22 @@ if (wrapType > 0) {
     return "";
   }
 
+  const amountInUnit = Big(amountIn)
+    .times(Big(10).pow(tokenIn.decimals))
+    .toFixed(0);
+
+  const realTokenIn =
+    tokenIn.address === "native" ? WETH_ADDRESS : tokenIn.address;
+
+  const realTokenOut =
+    tokenOut.address === "native" ? WETH_ADDRESS : tokenOut.address;
+
+  // asyncFetch(
+  //   `https://bos-api.delink.one/api/uniswap/get_token?token_in=${realTokenIn}&token_out=${realTokenOut}&amount=${amountInUnit}&chain_id=ETH`
+  // ).then((res) => {
+  //   console.log("res: ", res);
+  // });
+
   quoteAll();
 }
 return "";
