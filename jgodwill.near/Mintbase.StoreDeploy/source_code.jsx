@@ -216,18 +216,22 @@ return (
               />
             ))}
           <CreateCard>
-            <button>New Store</button>
+            <a href="#/jodwill.near/widget/Mintbase.Store.Deploy">
+              <button>New Store</button>
+            </a>
           </CreateCard>
         </StoreCards>
       </Cards>
     ) : (
       <div className="text-center my-4">
-        <p>😥 No stores found for {state.account}</p>
+        <p>😥 sNo stores found for {state.account}</p>
       </div>
     )}
     {!nftContracts.length > 0 && (
       <CreateCard>
-        <button>New Store</button>
+        <a href="#/jodwill.near/widget/Mintbase.Store.Deploy">
+          <button>New Store</button>
+        </a>
       </CreateCard>
     )}
   </Main>
