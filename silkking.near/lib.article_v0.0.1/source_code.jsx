@@ -35,8 +35,6 @@ function logError(message) {
   console.error(`lib.${libName}`, message);
 }
 
-function getNewFormatValidArticles(env) {}
-
 function getArticles(props) {
   const { env } = props;
 
