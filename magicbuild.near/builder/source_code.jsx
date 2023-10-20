@@ -15,7 +15,10 @@ State.init({
 const header = {
   "Content-Type": "application/json",
 };
-
+const opGet = {
+  headers: header,
+  method: "GET",
+};
 const cFunc = (e, type) => {
   const data = e.target.value;
   if (type == "name") State.update({ fName: data });
@@ -132,10 +135,7 @@ const getMethodFromSource = () => {
       filterFunction.forEach((item) => {
         const res = fetch(
           `${state.nearBlockRpc}v1/account/${state.contractAddress}/txns?method=${item}&order=desc&page=1&per_page=25`,
-          {
-            headers: header,
-            method: "GET",
-          }
+          opGet
         );
         const method = {
           name: item,
@@ -171,10 +171,7 @@ const getMethodFromSource = () => {
 const getArgsFromMethod = (fName, fIndex) => {
   const res = fetch(
     `${state.nearBlockRpc}v1/account/${state.contractAddress}/txns?method=${fName}&order=desc&page=1&per_page=1`,
-    {
-      headers: header,
-      method: "GET",
-    }
+    opGet
   );
   const restxns = res.body.txns;
   if (restxns.length > 0 && restxns[0].transaction_hash) {
@@ -506,7 +503,7 @@ return (
               </div>
             </div>
             <div class="card-body">
-              <div class="container">
+              <div class="container mb-3">
                 <div class="row mb-3">
                   <div class="form-group col-md-8">
                     <div class="form-group row mb-2">
@@ -561,7 +558,6 @@ return (
                   </div>
                 </div>
               </div>
-              <br />
               {functions.params.args &&
                 functions.params.args.map((args, argIndex) => {
                   return (
@@ -653,18 +649,16 @@ return (
                 ""
               )}
               {state.res[functions.name] && state.res[functions.name] ? (
-                <>
-                  <div
-                    className={
-                      state.res[functions.name].error
-                        ? "alert  alert-danger"
-                        : "alert  alert-success"
-                    }
-                    role="alert"
-                  >
-                    {state.res[functions.name].value}
-                  </div>
-                </>
+                <div
+                  className={
+                    state.res[functions.name].error
+                      ? "alert  alert-danger"
+                      : "alert  alert-success"
+                  }
+                  role="alert"
+                >
+                  {state.res[functions.name].value}
+                </div>
               ) : (
                 ""
               )}
