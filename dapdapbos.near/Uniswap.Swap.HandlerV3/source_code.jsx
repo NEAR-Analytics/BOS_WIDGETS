@@ -114,7 +114,7 @@ const {
   chainId,
 } = props;
 
-const router02List = [56, 8453];
+const router02List = [56, 8453, 42220, 43114];
 
 const is02 = router02List.indexOf(chainId) > -1;
 
@@ -125,7 +125,8 @@ const getRouterAbi = () => {
   return swapRouterV3Abi;
 };
 
-if (!swapping) return;
+if (!swapping || !chainId) return "";
+
 const expandToken = (value, decimals) => {
   return new Big(value).mul(new Big(10).pow(decimals));
 };
@@ -147,7 +148,7 @@ const tokenOut =
   outputCurrency.address === "native" ? wethAddress : outputCurrency.address;
 
 const options = {
-  gasLimit: 5000000,
+  gasLimit: 250000,
   value: inputCurrency.address === "native" ? value : "0",
 };
 
@@ -182,6 +183,8 @@ const inputs = !is02
       },
     ];
 
+// Ethers get gas price
+
 const multicallParams = [];
 const encodedDataCallSwap = iface.encodeFunctionData(
   "exactInputSingle",
@@ -193,20 +196,31 @@ multicallParams.push(encodedDataCallSwap);
 if (outputCurrency.address === "native") {
   multicallParams.push(iface.encodeFunctionData("unwrapWETH9", ["0", account]));
 }
+
 const multicallContract = new ethers.Contract(routerAddress, abi, signer);
+
+const multicallit = () => {
+  return multicallContract
+    .multicall(multicallParams, options)
+    .then((res) => {
+      onSuccess(res);
+    })
+    .catch((err) => {
+      console.log(err);
+      onError(err);
+    });
+};
 
 multicallContract.estimateGas
   .multicall(multicallParams, options)
   .then((gas) => {
-    // estimate gas
     const gasLimit = gas.toString();
 
     return Big(gasLimit).times(1.1).toFixed(0);
   })
   .then((gasLimit) => {
-    options.gasLimit = gasLimit;
-    multicallContract
-      .multicall(multicallParams, options)
+    return multicallContract
+      .multicall(multicallParams, { value: options.value, gasLimit })
       .then((res) => {
         onSuccess(res);
       })
@@ -216,6 +230,10 @@ multicallContract.estimateGas
       });
   })
   .catch((err) => {
+    if (err.code === "UNPREDICTABLE_GAS_LIMIT") {
+      return multicallit();
+    }
+
     console.log(err);
     onError(err);
   });
