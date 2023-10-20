@@ -73,6 +73,7 @@ const path = [
   currentCurrency.address === "native" ? wethAddress : currentCurrency.address,
   outCurrency.address === "native" ? wethAddress : outCurrency.address,
 ];
+
 RouterContract.getAmountOut(
   ethers.utils.parseUnits(currentAmount, currentCurrency.decimals),
   ...path
@@ -86,7 +87,7 @@ RouterContract.getAmountOut(
       outputCurrencyAmount: Big(amount).gt(0.01)
         ? amount
         : Big(amount).toFixed(),
-      noPair: false,
+      noPair: !Big(amount || "").gt(0),
       stable: res[1],
     });
   })
