@@ -124,8 +124,31 @@ function fetchGraphQL(operationsDoc, operationName, variables) {
   });
 }
 
+function searchConditionChanged() {
+  if (
+    props.author != state.author ||
+    props.term != state.term ||
+    props.tag != state.tag ||
+    props.recency != state.recency
+  ) {
+    return true;
+  }
+  return false;
+}
+
+function updateSearchCondition() {
+  State.update({
+    author: props.author,
+    term: props.term,
+    tag: props.tag,
+    recency: props.recency,
+    loading: true,
+  });
+}
+
 function getPostIds() {
-  if (state.postIds) {
+  if (searchConditionChanged()) {
+    updateSearchCondition();
     return;
   }
   let where = {};
@@ -157,17 +180,19 @@ function getPostIds() {
         const data = result.body.data[queryName];
         State.update({
           postIds: data.map((p) => p.post_id),
+          loading: false,
         });
         console.log("found:");
         console.log(data);
       }
     } else {
       console.error("error:", result.body);
+      State.update({ loading: false });
     }
   });
 }
 
-initState({
+State.init({
   period: "week",
 });
 
