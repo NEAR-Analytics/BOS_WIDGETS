@@ -544,13 +544,13 @@ function fetchTokens() {
         listings: token.listings[0],
         title: token.title,
       });
-        let response = fetch(currentChainProps[props.chainState]?.subgraph, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            query: `
+      let response = fetch(currentChainProps[props.chainState]?.subgraph, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          query: `
             query MyQuery {
              nfts(where: {tokenID: "${tokenId}"}) {
                 category
@@ -579,46 +579,46 @@ function fetchTokens() {
                 }
             }
         `,
-          }),
-        });
-        const collectionData = response.body.data.nfts;
+        }),
+      });
+      const collectionData = response.body.data.nfts;
 
-        if (collectionData) {
-          const nftBody = collectionData.map((data) => {
-            const fetchIPFSData = fetch(
-              data.tokenIPFSPath.replace("ipfs://", "https://ipfs.io/ipfs/")
+      if (collectionData) {
+        const nftBody = collectionData.map((data) => {
+          const fetchIPFSData = fetch(
+            data.tokenIPFSPath.replace("ipfs://", "https://ipfs.io/ipfs/")
+          );
+
+          if (fetchIPFSData.ok) {
+            const nft = fetchIPFSData.body;
+            let nftObject = {};
+            nftObject.contract_id = data.id;
+            nftObject.sold = data.isSold;
+            nftObject.isListed = data.isListed;
+            nftObject.owner = data.owner.id;
+            nftObject.price = data.price;
+            nftObject.token_id = data.tokenID;
+            nftObject.name = nft?.name;
+            nftObject.transactions = data?.transactions;
+            nftObject.description = nft?.description;
+            nftObject.attributes = nft?.properties;
+            nftObject.image = nft?.image.replace(
+              "ipfs://",
+              "https://ipfs.io/ipfs/"
             );
-
-            if (fetchIPFSData.ok) {
-              const nft = fetchIPFSData.body;
-              let nftObject = {};
-              nftObject.contract_id = data.id;
-              nftObject.sold = data.isSold;
-              nftObject.isListed = data.isListed;
-              nftObject.owner = data.owner.id;
-              nftObject.price = data.price;
-              nftObject.token_id = data.tokenID;
-              nftObject.name = nft?.name;
-              nftObject.transactions = data?.transactions;
-              nftObject.description = nft?.description;
-              nftObject.attributes = nft?.properties;
-              nftObject.image = nft?.image.replace(
-                "ipfs://",
-                "https://ipfs.io/ipfs/"
-              );
-              return nftObject;
-            }
-          });
-          State.update({
-            title: nftBody[0].name,
-            imageUrl: nftBody[0].image,
-            owner: nftBody[0]?.owner,
-            description: nftBody[0]?.description,
-            price: nftBody[0].price,
-            transactions: nftBody[0].transactions,
-          });
-        }
+            return nftObject;
+          }
+        });
+        State.update({
+          title: nftBody[0].name,
+          imageUrl: nftBody[0].image,
+          owner: nftBody[0]?.owner,
+          description: nftBody[0]?.description,
+          price: nftBody[0].price,
+          transactions: nftBody[0].transactions,
+        });
       }
+    }
   });
 }
 
@@ -626,7 +626,7 @@ fetchTokens();
 
 const getUsdValue = (price) => {
   const res = fetch(
-    `https://api.coingecko.com/api/v3/simple/price?ids=${currentChainProps["near"]?.livePrice}&vs_currencies=usd`
+    `https://api.coingecko.com/api/v3/simple/price?ids=${currentChainProps[props.chainState]?.livePrice}&vs_currencies=usd`
   );
   if (res.ok) {
     const multiplyBy = Object.values(res?.body)[0]?.usd;
@@ -640,6 +640,10 @@ const keywordsToCheck = ["tradeport", "mintbase", "fewandfar", "paras"];
 const matchedKeyWords = (inputString) => {
   return keywordsToCheck.find((keyword) => inputString.includes(keyword));
 };
+
+const PRICE_CONVERSION_CONSTANT =
+  props.chainState == "near" ? 1000000000000000000000000 : 1000000000000000000;
+
 
 return (
   <Root>
@@ -711,43 +715,47 @@ return (
         <button>Buy Now</button>
         <button>Trade NFT</button>
       </Buttons>
-      <Others>
-        <h1>OTHER LISTINGS</h1>
-        <Table>
-          <TableHeader>
-            <h2>Marketplace</h2>
-            <h2>Price</h2>
-            <h2>USD Price</h2>
-          </TableHeader>
-          <MarketRow>
-            {tokenInfo &&
-              Object.keys(tokenInfo.approved_account_ids).map((key) => (
-                <a
-                  target="_blank"
-                  href={
-                    matchedKeyWords(key) === "tradeport"
-                      ? tradeportLink
-                      : fewfarlink
-                  }
-                >
-                  {marketPlaceImage[matchedKeyWords(key)]}
-                  <p>
-                    {state.price
-                      ? (state.price / 1000000000000000000000000)?.toFixed(2)
-                      : "N/A"}
-                  </p>
-                  <p>
-                    {getUsdValue(
-                      state.price
-                        ? (state.price / 1000000000000000000000000)?.toFixed(2)
-                        : 0
-                    )}
-                  </p>
-                </a>
-              ))}
-          </MarketRow>
-        </Table>
-      </Others>
+      {props.chainState === "near" && (
+        <Others>
+          <h1>OTHER LISTINGS</h1>
+          <Table>
+            <TableHeader>
+              <h2>Marketplace</h2>
+              <h2>Price</h2>
+              <h2>USD Price</h2>
+            </TableHeader>
+            <MarketRow>
+              {tokenInfo &&
+                Object.keys(tokenInfo.approved_account_ids).map((key) => (
+                  <a
+                    target="_blank"
+                    href={
+                      matchedKeyWords(key) === "tradeport"
+                        ? tradeportLink
+                        : fewfarlink
+                    }
+                  >
+                    {marketPlaceImage[matchedKeyWords(key)]}
+                    <p>
+                      {state.price
+                        ? (state.price / PRICE_CONVERSION_CONSTANT)?.toFixed(2)
+                        : "N/A"}
+                    </p>
+                    <p>
+                      {getUsdValue(
+                        state.price
+                          ? (state.price / PRICE_CONVERSION_CONSTANT)?.toFixed(
+                              2
+                            )
+                          : 0
+                      )}
+                    </p>
+                  </a>
+                ))}
+            </MarketRow>
+          </Table>
+        </Others>
+      )}
     </Left>
   </Root>
 );
