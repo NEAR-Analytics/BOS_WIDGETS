@@ -153,7 +153,7 @@ const Viewer = {
 
 const AdministrationSettings = {
   communities: {
-    maxFeatured: 5,
+    maxFeatured: 4,
   },
 };
 
