@@ -193,7 +193,7 @@ const quoteAll = () => {
         loadAmountOut({
           ...maxAmountOutEstimate,
           outputCurrencyAmount: maxAmountOutEstimate.amountOut,
-          noPair: false,
+          noPair: Big(maxAmountOutEstimate.amountOut || "0").eq(0),
         });
       }
     });
