@@ -204,7 +204,7 @@ return (
         <HeaderText>
           <h1>{props.title ?? `My NFT CARD`}</h1>
           <Username>
-            <p>{props.owner ?? "My User"}</p>
+            <p>{props.owner ? props.owner.substring(0, 20) : "My User"}</p>
             {verifiedCheck}
           </Username>
           <h3>
