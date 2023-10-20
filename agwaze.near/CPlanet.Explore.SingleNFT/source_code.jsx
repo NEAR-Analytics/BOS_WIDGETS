@@ -688,14 +688,14 @@ return (
           <PriceAmount>
             <h2>
               {state.price
-                ? (state.price / 1000000000000000000000000)?.toFixed(2)
+                ? (state.price / PRICE_CONVERSION_CONSTANT)?.toFixed(2)
                 : "N/A"}
             </h2>
 
             <h5>
               {getUsdValue(
                 state.price
-                  ? (state.price / 1000000000000000000000000)?.toFixed(2)
+                  ? (state.price / PRICE_CONVERSION_CONSTANT)
                   : 0
               )}
             </h5>
