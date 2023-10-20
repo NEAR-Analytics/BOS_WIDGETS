@@ -43,6 +43,7 @@ return (
           chainId: CHAIN_ID,
           chainName: CHAIN_NAME,
         },
+        defaultDapp: "Radiant",
         dapps: {
           Radiant: {
             name: "Radiant",
