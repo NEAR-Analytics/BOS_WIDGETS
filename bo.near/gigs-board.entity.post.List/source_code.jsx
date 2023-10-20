@@ -125,7 +125,6 @@ function fetchGraphQL(operationsDoc, operationName, variables) {
 }
 
 function getPostIds() {
-  State.update({ loading: true });
   let where = {};
   let authorId = props.author;
   let label = props.tag;
@@ -162,7 +161,6 @@ function getPostIds() {
     } else {
       console.error("error:", result.body);
     }
-    State.update({ loading: false });
   });
 }
 
