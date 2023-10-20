@@ -483,7 +483,7 @@ const currentChainProps = {
     livePrice: "celo",
     contract: "0x5616BCcc278F7CE8B003f5a48f3754DDcfA4db5a",
     explorer: "https://explorer.celo.org/address/",
-    explorerTx: "https://explorer.celo.org/",
+    explorerTx: "https://explorer.celo.org/mainnet/tx/",
     chain: "Celo",
     subgraph: "https://api.thegraph.com/subgraphs/name/prometheo/celo-mainnet",
   },
@@ -720,7 +720,7 @@ return (
       </PriceSection>
       <Buttons>
         <button>Buy Now</button>
-        <button>Trade NFT</button>
+        {props.chainState === "near" && <button>Trade NFT</button>}
       </Buttons>
       {props.chainState === "near" && (
         <Others>
