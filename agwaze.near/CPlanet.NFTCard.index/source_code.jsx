@@ -126,6 +126,10 @@ const AmountSec = styled.div`
       line-height: normal;
       text-transform: uppercase;
     }
+    img {
+      width: 15px;
+      height: 15px;
+    }
     p {
         color: #000;
         font-family: Helvetica Neue;
@@ -222,7 +226,7 @@ return (
             <span>Current Price</span>
             <p>
               {props.price
-                ? props.logo ?? (
+                ? <img src={props.logo} alt="" /> ?? (
                     <Widget
                       src="agwaze.near/widget/GenaDrop.NearLogo"
                       props={{ width: 13 }}
