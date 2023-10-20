@@ -356,7 +356,7 @@ if (wrapType) {
 
 return (
   <>
-    {uniType === "v3" && state.swapping && (
+    {uniType === "v3" && state.swapping ? (
       <Widget
         src={handlerV3}
         props={{
@@ -381,6 +381,8 @@ return (
           },
         }}
       />
+    ) : (
+      ""
     )}
 
     {/* {uniType === "v3" && state.swapping && (
