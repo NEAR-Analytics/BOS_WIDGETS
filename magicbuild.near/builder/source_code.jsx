@@ -46,8 +46,8 @@ const cMLabel = (e, fIdx, type) => {
   const a = state.cMethod;
   if (type == "method") a[fIdx].label = value;
   if (type == "button") a[fIdx].button = value;
-  if (type == "gas") a[fIdx].gas = value;
-  if (type == "deposit") a[fIdx].deposit = value;
+  if (type == "gas") a[fIdx].gas = parseInt(value);
+  if (type == "deposit") a[fIdx].deposit = parseInt(value);
   if (type == "remove") a.splice(fIdx, 1);
   State.update({ cMethod: a });
 };
@@ -201,7 +201,6 @@ const getArgsFromMethod = (fName, fIndex) => {
       restxns.logs[0].replace("EVENT_JSON:", "").replaceAll("\\", "")
     );
     const args = argsData.data[0];
-    console.log(fName, typeof args.token_ids);
     if (Object.keys(args).length > 0) {
       const abiMethod = state.cMethod;
       abiMethod[fIndex].params.args = [];
@@ -250,12 +249,12 @@ const getArgsFromMethod = (fName, fIndex) => {
         method: "POST",
       });
       const strErr = res.body.result.error;
-
       if (strErr && strErr.includes("missing field")) {
         const argName = strErr.substring(
           strErr.indexOf("`") + 1,
           strErr.lastIndexOf("`")
         );
+
         const checkType = [
           { value: "", type: "string" },
           { value: 0, type: "integer" },
@@ -288,30 +287,30 @@ const getArgsFromMethod = (fName, fIndex) => {
               method: "POST",
             });
             const ftch = res.body.result.error;
-            if (ftch) {
-              const uS = (argName, type, value) => {
-                isCheck = true;
-                const arg = {
-                  name: argName,
-                  type_schema: {
-                    type: type,
-                  },
-                  value: type == "enum" ? value[0] : value,
-                };
-                if (type == "enum") {
-                  arg.enum = value;
-                }
-                const isExist = false;
-                abiMethod[fIndex].params.args.forEach((item) => {
-                  if (item.name == argName) {
-                    isExist = true;
-                  }
-                });
-                if (isExist == false) {
-                  abiMethod[fIndex].params.args.push(arg);
-                  State.update({ cMethod: abiMethod });
-                }
+            const uS = (argName, type, value) => {
+              isCheck = true;
+              const arg = {
+                name: argName,
+                type_schema: {
+                  type: type,
+                },
+                value: type == "enum" ? value[0] : value,
               };
+              if (type == "enum") {
+                arg.enum = value;
+              }
+              const isExist = false;
+              abiMethod[fIndex].params.args.forEach((item) => {
+                if (item.name == argName) {
+                  isExist = true;
+                }
+              });
+              if (isExist == false) {
+                abiMethod[fIndex].params.args.push(arg);
+                State.update({ cMethod: abiMethod });
+              }
+            };
+            if (ftch) {
               if (
                 res.body.result.result ||
                 ftch.includes("Option::unwrap()`")
@@ -320,7 +319,7 @@ const getArgsFromMethod = (fName, fIndex) => {
                 clearInterval(getArg);
               }
               if (ftch.includes("the account ID")) {
-                uS(argName, "$ref", context.account_id);
+                uS(argName, "$ref", state.contractAddress);
               }
               if (ftch.includes("unknown variant")) {
                 isCheck = true;
@@ -333,26 +332,35 @@ const getArgsFromMethod = (fName, fIndex) => {
                   .split(",");
                 uS(argName, "enum", getEnum);
               }
-
               if (ftch.includes("missing field")) {
                 uS(argName, typeItem.type, typeItem.value);
               }
-              if (
-                ftch.includes("Requires attached deposit") ||
-                ftch.includes("storage_write") ||
-                ftch.includes("predecessor_account_id")
-              ) {
-                abiMethod[fIndex].kind = "call";
-                State.update({ cMethod: abiMethod });
-                clearInterval(getArg);
-              }
-              if (ftch.includes("MethodNotFound") || res.body.result.result) {
-                clearInterval(getArg);
-              }
+            } else {
+              uS(argName, typeItem.type, typeItem.value);
+              clearInterval(getArg);
             }
           }
         });
       }
+
+      if (strErr) {
+        if (strErr.includes("MethodNotFound") || res.body.result.result) {
+          clearInterval(getArg);
+        }
+        if (
+          strErr.includes("Requires attached deposit") ||
+          strErr.includes("storage_write") ||
+          strErr.includes("predecessor_account_id")
+        ) {
+          if (strErr.includes("Requires attached deposit")) {
+            abiMethod[fIndex].deposit = parseInt(strErr.match(/\d+/)[0]);
+          }
+          abiMethod[fIndex].kind = "call";
+          State.update({ cMethod: abiMethod });
+          clearInterval(getArg);
+        }
+      }
+
       setTimeout(() => {
         clearInterval(getArg);
       }, 10000);
@@ -688,7 +696,7 @@ return (
                       <label>Attached deposit</label>
                       <input
                         type="text"
-                        defaultValue="0"
+                        defaultValue={"" + functions.deposit}
                         onChange={(e) => cMLabel(e, fIndex, "deposit")}
                         class="form-control"
                       />
