@@ -468,7 +468,7 @@ const onBtnClickCall = (fName, action, fIndex) => {
   }
 };
 return (
-  <div class="row">
+  <>
     <div class="container border rounded p-3 border-2">
       <h3 class="text-center">Contract</h3>
       <div class="row mb-3">
@@ -785,5 +785,5 @@ return (
           </div>
         </div>
       ))}
-  </div>
+  </>
 );
