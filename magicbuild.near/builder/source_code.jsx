@@ -73,6 +73,9 @@ const cAD = (e, fIdx, aIdx, type) => {
     if (a[fIdx].params.args[aIdx].type_schema.type == "string") {
       a[fIdx].params.args[aIdx].value = value; //check valid
     }
+    if (a[fIdx].params.args[aIdx].type_schema.type == "enum") {
+      a[fIdx].params.args[aIdx].value = value; //check valid
+    }
     if (a[fIdx].params.args[aIdx].type_schema.type == "$ref") {
       a[fIdx].params.args[aIdx].value = value; //check account valid
     }
@@ -197,7 +200,6 @@ const getArgsFromMethod = (fName, fIndex) => {
     const args = JSON.parse(
       restxns.logs[0].replace("EVENT_JSON:", "").replaceAll("\\", "")
     );
-    console.log("check", args);
     if (Object.keys(args).length > 0) {
       const abiMethod = state.cMethod;
       abiMethod[fIndex].params.args = [];
@@ -285,8 +287,12 @@ const getArgsFromMethod = (fName, fIndex) => {
                 type_schema: {
                   type: type,
                 },
-                value: value,
+                value: type == "enum" ? value[0] : value,
               };
+              if (type == "enum") {
+                arg.enum = value;
+                console.log(arg);
+              }
               const isExist = false;
               abiMethod[fIndex].params.args.forEach((item) => {
                 if (item.name == argName) {
@@ -314,8 +320,7 @@ const getArgsFromMethod = (fName, fIndex) => {
                 )
                 .replaceAll("`", "")
                 .split(",");
-              console.log("enum", getEnum);
-              uS(argName, typeItem.type, getEnum[0]);
+              uS(argName, "enum", getEnum);
             }
 
             if (ftch.includes("missing field")) {
@@ -594,6 +599,7 @@ return (
                         >
                           <option value="string">String</option>
                           <option value="integer">Number</option>
+                          <option value="enum">Enum</option>
                           <option value="boolean">Boolean</option>
                           <option value="json">Json</option>
                           <option value="array">Array</option>
@@ -601,12 +607,46 @@ return (
                         </select>
                       </div>
                       <div class="form-group col-md-4">
-                        <input
-                          onChange={(e) => cAD(e, fIndex, argIndex, "value")}
-                          class="form-control"
-                          type="string"
-                          placeholder="Argument value"
-                        />
+                        {args.type_schema.type == "string" ||
+                        args.type_schema.type == "$ref" ||
+                        args.type_schema.type == "integer" ||
+                        args.type_schema.type == "json" ||
+                        args.type_schema.type == "array" ? (
+                          <input
+                            onChange={(e) => cAD(e, fIndex, argIndex, "value")}
+                            class="form-control"
+                            type="string"
+                            placeholder="Argument value"
+                          />
+                        ) : (
+                          ""
+                        )}
+                        {args.type_schema.type == "boolean" ? (
+                          <select
+                            defaultValue={args.type_schema.type}
+                            class="form-control"
+                            onChange={(e) => cAD(e, fIndex, argIndex, "value")}
+                          >
+                            <option value="true">True</option>
+                            <option value="false">False</option>
+                          </select>
+                        ) : (
+                          ""
+                        )}
+                        {args.type_schema.type == "enum" ? (
+                          <select
+                            defaultValue={args.type_schema.type}
+                            class="form-control"
+                            onChange={(e) => cAD(e, fIndex, argIndex, "value")}
+                          >
+                            {args.enum &&
+                              args.enum.map((item, i) => (
+                                <option value={item}>{item}</option>
+                              ))}
+                          </select>
+                        ) : (
+                          ""
+                        )}
                       </div>
                       <div class="form-group col-md-2">
                         <button
