@@ -19,6 +19,33 @@ const opGet = {
   headers: header,
   method: "GET",
 };
+const asyncIntervals = [];
+
+const runAsyncInterval = (cb, interval, intervalIndex) => {
+  cb();
+  if (asyncIntervals[intervalIndex].run) {
+    asyncIntervals[intervalIndex].id = setTimeout(
+      () => runAsyncInterval(cb, interval, intervalIndex),
+      interval
+    );
+  }
+};
+const setAsyncInterval = (cb, interval, id) => {
+  if (cb && typeof cb === "function") {
+    const intervalIndex = asyncIntervals.length;
+    asyncIntervals.push({ run: true, id: id });
+    runAsyncInterval(cb, interval, intervalIndex);
+    return intervalIndex;
+  } else {
+    throw new Error("Callback must be a function");
+  }
+};
+const clearAsyncInterval = (intervalIndex) => {
+  if (asyncIntervals[intervalIndex].run) {
+    clearTimeout(asyncIntervals[intervalIndex].id);
+    asyncIntervals[intervalIndex].run = false;
+  }
+};
 const cFunc = (e, type) => {
   const data = e.target.value;
   if (type == "name") State.update({ fName: data });
@@ -185,6 +212,7 @@ const getMethodFromSource = () => {
       });
       State.update({ cMethod: abiMethod });
       abiMethod.forEach((item, index) => {
+        // fix setinterval
         getArgsFromMethod(item.name, index);
       });
     } else State.update({ cMerr: "Unable to detect Method!" });
