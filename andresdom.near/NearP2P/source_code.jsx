@@ -1,12 +1,15 @@
 let greeting = "Hello develpers";
 
 const Button = styled.button`
-  background-color: rgb(118, 207, 118);
-  border-color: rgb(118, 207, 118);
-  color: white;
-  padding-left: 20px;
-  padding-right: 20px;
-  padding-top: 5px;
+  /* Adapt the colors based on primary prop */
+  background: ${(props) => (props.primary ? "palevioletred" : "white")};
+  color: ${(props) => (props.primary ? "white" : "palevioletred")};
+
+  font-size: 1em;
+  margin: 1em;
+  padding: 0.25em 1em;
+  border: 2px solid palevioletred;
+  border-radius: 10px;
 `;
 
 return (
@@ -14,8 +17,7 @@ return (
     <div class="container border border-info p-1 text-center">
       <h1>Hello</h1>
       <p> {greeting} </p>
-      <Button>Normal</Button>
-      <Button primary>Primary</Button>
+      <Button className="btn mb-2 mt-2 px-8 py-1">Sell</Button>
     </div>
   </>
 );
