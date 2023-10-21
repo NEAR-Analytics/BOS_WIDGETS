@@ -30,7 +30,7 @@ const runAsyncInterval = (cb, interval, intervalIndex) => {
     );
   }
 };
-const setAsyncInterval = (cb, interval, id) => {
+const setAsyncInterval = (cb, interval) => {
   if (cb && typeof cb === "function") {
     const intervalIndex = asyncIntervals.length;
     asyncIntervals.push({ run: true, id: id });
@@ -228,10 +228,15 @@ const getArgsFromMethod = (fName, fIndex) => {
     const argsData = JSON.parse(
       restxns.logs[0].replace("EVENT_JSON:", "").replaceAll("\\", "")
     );
-    const args = argsData.data[0];
+
+    const args = argsData.data[0] || {};
+
     if (Object.keys(args).length > 0) {
       const abiMethod = state.cMethod;
       abiMethod[fIndex].params.args = [];
+      argMap.forEach((item) => {
+        Object.assign(args, item);
+      });
       Object.keys(args).forEach((item) => {
         const arg = {
           name: item,
@@ -250,7 +255,7 @@ const getArgsFromMethod = (fName, fIndex) => {
       });
     }
   } else {
-    const getArg = setInterval(() => {
+    const getArg = setAsyncInterval(() => {
       const abiMethod = state.cMethod;
       const argsArr = abiMethod[fIndex].params.args;
       const argMap = argsArr.map(({ name, value }) => ({ [name]: value }));
@@ -282,7 +287,6 @@ const getArgsFromMethod = (fName, fIndex) => {
           strErr.indexOf("`") + 1,
           strErr.lastIndexOf("`")
         );
-
         const checkType = [
           { value: "", type: "string" },
           { value: 0, type: "integer" },
@@ -344,7 +348,7 @@ const getArgsFromMethod = (fName, fIndex) => {
                 ftch.includes("Option::unwrap()`")
               ) {
                 uS(argName, typeItem.type, typeItem.value);
-                clearInterval(getArg);
+                clearAsyncInterval(getArg);
               }
               if (ftch.includes("the account ID")) {
                 uS(argName, "$ref", state.contractAddress);
@@ -365,7 +369,7 @@ const getArgsFromMethod = (fName, fIndex) => {
               }
             } else {
               uS(argName, typeItem.type, typeItem.value);
-              clearInterval(getArg);
+              clearAsyncInterval(getArg);
             }
           }
         });
@@ -373,7 +377,7 @@ const getArgsFromMethod = (fName, fIndex) => {
 
       if (strErr) {
         if (strErr.includes("MethodNotFound") || res.body.result.result) {
-          clearInterval(getArg);
+          clearAsyncInterval(getArg);
         }
         if (
           strErr.includes("Requires attached deposit") ||
@@ -385,12 +389,11 @@ const getArgsFromMethod = (fName, fIndex) => {
           }
           abiMethod[fIndex].kind = "call";
           State.update({ cMethod: abiMethod });
-          clearInterval(getArg);
+          clearAsyncInterval(getArg);
         }
       }
-
       setTimeout(() => {
-        clearInterval(getArg);
+        clearAsyncInterval(getArg);
       }, 10000);
     }, 1000);
   }
