@@ -173,36 +173,26 @@ const getArgsFromMethod = (fName, fIndex) => {
     `${state.nearBlockRpc}v1/account/${state.contractAddress}/txns?method=${fName}&order=desc&page=1&per_page=1`,
     opGet
   );
-  const restxns = res.body.txns;
-  if (restxns.length > 0 && restxns[0].transaction_hash) {
-    const res = fetch(state.archivalRpc, {
-      body: JSON.stringify({
-        method: "EXPERIMENTAL_tx_status",
-        params: [restxns[0].transaction_hash, state.contractAddress],
-        id: 128,
-        jsonrpc: "2.0",
-      }),
-      headers: header,
-      method: "POST",
-    });
-    const restrans = res.body.result.transaction.actions[0].FunctionCall.args;
-    if (restrans) {
-      const args = Buffer(restrans, "base64").toString("ascii");
-      if (Object.keys(JSON.parse(args)).length > 0) {
-        const abiMethod = state.cMethod;
-        abiMethod[fIndex].params.args = [];
-        Object.keys(JSON.parse(args)).forEach((item) => {
-          const arg = {
-            name: item,
-            type_schema: {
-              type: typeof JSON.parse(args)[item],
-            },
-            value: "",
-          };
-          abiMethod[fIndex].params.args.push(arg);
-          State.update({ cMethod: abiMethod });
-        });
-      }
+  const restxns = res.body.txns[0];
+  if (restxns.outcomes.status && restxns.logs.length > 0) {
+    const args = JSON.parse(
+      restxns.logs[0].replace("EVENT_JSON:", "").replaceAll("\\", "")
+    );
+    console.log("check", args);
+    if (Object.keys(args).length > 0) {
+      const abiMethod = state.cMethod;
+      abiMethod[fIndex].params.args = [];
+      Object.keys(args).forEach((item) => {
+        const arg = {
+          name: item,
+          type_schema: {
+            type: typeof args[item], //fix type number == integer
+          },
+          value: "",
+        };
+        abiMethod[fIndex].params.args.push(arg);
+        State.update({ cMethod: abiMethod });
+      });
     }
   } else {
     const getArg = setInterval(() => {
@@ -231,11 +221,11 @@ const getArgsFromMethod = (fName, fIndex) => {
         headers: header,
         method: "POST",
       });
-      const str = res.body.result.error;
-      if (str && str.includes("missing field")) {
-        const argName = str.substring(
-          str.indexOf("`") + 1,
-          str.lastIndexOf("`")
+      const strErr = res.body.result.error;
+      if (strErr && strErr.includes("missing field")) {
+        const argName = strErr.substring(
+          strErr.indexOf("`") + 1,
+          strErr.lastIndexOf("`")
         );
         const checkType = [
           { value: "", type: "string" },
@@ -246,7 +236,7 @@ const getArgsFromMethod = (fName, fIndex) => {
           { value: {}, type: "object" },
         ];
         const isCheck = false;
-        checkType.forEach((typeItem, tI) => {
+        checkType.forEach((typeItem) => {
           if (isCheck == false) {
             const res = fetch(state.rpcUrl, {
               body: JSON.stringify({
@@ -257,7 +247,7 @@ const getArgsFromMethod = (fName, fIndex) => {
                   method_name: fName,
                   args_base64: new Buffer.from(
                     JSON.stringify({
-                      [argName]: checkType[tI].value,
+                      [argName]: typeItem.value,
                     })
                   ).toString("base64"),
                   finality: "optimistic",
@@ -412,6 +402,7 @@ return (
             onChange={(e) => cFunc(e, "address")}
           />
         </div>
+
         <div class="form-group col-md-2">
           <label></label>
           <button
@@ -476,7 +467,7 @@ return (
     <br />
     {state.cMethod &&
       state.cMethod.map((functions, fIndex) => (
-        <div class="card mb-2">
+        <div class="card mt-2">
           <div class="card-header">
             <div class="container">
               <div class="row">
