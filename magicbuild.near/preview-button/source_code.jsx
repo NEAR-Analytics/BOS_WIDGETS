@@ -34,7 +34,11 @@ return (
             ></button>
           </div>
           <div class="modal-body">
-            <Widget src={`${cep}/widget/preview`} props={props} />
+            {props.cMethod.length > 0 ? (
+              <Widget src={`${cep}/widget/preview`} props={props} />
+            ) : (
+              ""
+            )}
           </div>
           <div class="modal-footer">
             <button
