@@ -263,9 +263,9 @@ const getArgsFromMethod = (fName, fIndex) => {
       const argsArr = abiMethod[fIndex].params.args;
       const argMap = argsArr.map(({ name, value }) => ({ [name]: value }));
       const args = {};
-      //   argMap.forEach((item) => {
-      //     Object.assign(args, item);
-      //   });
+      argMap.forEach((item) => {
+        Object.assign(args, item);
+      });
       const res = fetch(state.rpcUrl, {
         body: JSON.stringify({
           method: "query",
