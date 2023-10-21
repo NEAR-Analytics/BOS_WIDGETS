@@ -201,6 +201,7 @@ const getArgsFromMethod = (fName, fIndex) => {
       restxns.logs[0].replace("EVENT_JSON:", "").replaceAll("\\", "")
     );
     const args = argsData.data[0];
+    console.log(fName, typeof args.token_ids);
     if (Object.keys(args).length > 0) {
       const abiMethod = state.cMethod;
       abiMethod[fIndex].params.args = [];
@@ -208,7 +209,12 @@ const getArgsFromMethod = (fName, fIndex) => {
         const arg = {
           name: item,
           type_schema: {
-            type: typeof args[item] == "number" ? "integer" : typeof args[item],
+            type:
+              typeof args[item] == "number"
+                ? "integer"
+                : typeof args[item] == "object"
+                ? "json"
+                : typeof args[item],
           },
           value: "",
         };
@@ -217,10 +223,7 @@ const getArgsFromMethod = (fName, fIndex) => {
       });
     }
   } else {
-    let count = 0;
     const getArg = setInterval(() => {
-      count++;
-
       const abiMethod = state.cMethod;
       const argsArr = abiMethod[fIndex].params.args;
       const argMap = argsArr.map(({ name, value }) => ({ [name]: value }));
