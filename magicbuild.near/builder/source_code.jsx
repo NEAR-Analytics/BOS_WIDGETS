@@ -57,7 +57,26 @@ const cAD = (e, fIdx, aIdx, type) => {
   if (type == "name") a[fIdx].params.args[aIdx].name = value;
   if (type == "label") a[fIdx].params.args[aIdx].label = value;
   if (type == "type") a[fIdx].params.args[aIdx].type_schema.type = value;
-  if (type == "value") a[fIdx].params.args[aIdx].value = value;
+  if (type == "value") {
+    if (a[fIdx].params.args[aIdx].type_schema.type == "integer") {
+      a[fIdx].params.args[aIdx].value = parseInt(value);
+    }
+    if (a[fIdx].params.args[aIdx].type_schema.type == "array") {
+      a[fIdx].params.args[aIdx].value = value.split("|");
+    }
+    if (a[fIdx].params.args[aIdx].type_schema.type == "boolean") {
+      a[fIdx].params.args[aIdx].value = Boolean(value);
+    }
+    if (a[fIdx].params.args[aIdx].type_schema.type == "json") {
+      a[fIdx].params.args[aIdx].value = JSON.parse(value);
+    }
+    if (a[fIdx].params.args[aIdx].type_schema.type == "string") {
+      a[fIdx].params.args[aIdx].value = value;
+    }
+    if (a[fIdx].params.args[aIdx].type_schema.type == "$ref") {
+      a[fIdx].params.args[aIdx].value = value;
+    }
+  }
   if (type == "remove") a[fIdx].params.args.splice(aIdx, 1);
   State.update({ cMethod: a });
 };
@@ -186,7 +205,7 @@ const getArgsFromMethod = (fName, fIndex) => {
         const arg = {
           name: item,
           type_schema: {
-            type: typeof args[item], //fix type number == integer
+            type: typeof args[item] == "number" ? "integer" : typeof args[item],
           },
           value: "",
         };
@@ -229,7 +248,7 @@ const getArgsFromMethod = (fName, fIndex) => {
         );
         const checkType = [
           { value: "", type: "string" },
-          { value: 0, type: "number" },
+          { value: 0, type: "integer" },
           { value: [], type: "array" },
           { value: true, type: "boolean" },
           { value: "", type: "enum" },
@@ -284,7 +303,7 @@ const getArgsFromMethod = (fName, fIndex) => {
               clearInterval(getArg);
             }
             if (ftch.includes("the account ID")) {
-              uS(argName, "$ref", state.contractAddress);
+              uS(argName, "$ref", context.account_id);
             }
             if (ftch.includes("unknown variant")) {
               isCheck = true;
@@ -295,6 +314,7 @@ const getArgsFromMethod = (fName, fIndex) => {
                 )
                 .replaceAll("`", "")
                 .split(",");
+              console.log("enum", getEnum);
               uS(argName, typeItem.type, getEnum[0]);
             }
 
@@ -573,7 +593,7 @@ return (
                           onChange={(e) => cAD(e, fIndex, argIndex, "type")}
                         >
                           <option value="string">String</option>
-                          <option value="number">Number</option>
+                          <option value="integer">Number</option>
                           <option value="boolean">Boolean</option>
                           <option value="json">Json</option>
                           <option value="array">Array</option>
