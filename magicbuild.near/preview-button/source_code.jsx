@@ -1,7 +1,7 @@
 State.init({
   props,
 });
-console.log(props);
+console.log("check", props);
 const cep = "magicbuild.near";
 return (
   <>
