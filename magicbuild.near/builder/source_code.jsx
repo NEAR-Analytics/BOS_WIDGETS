@@ -197,9 +197,10 @@ const getArgsFromMethod = (fName, fIndex) => {
   );
   const restxns = res.body.txns[0];
   if (restxns.outcomes.status && restxns.logs.length > 0) {
-    const args = JSON.parse(
+    const argsData = JSON.parse(
       restxns.logs[0].replace("EVENT_JSON:", "").replaceAll("\\", "")
     );
+    const args = argsData.data[0];
     if (Object.keys(args).length > 0) {
       const abiMethod = state.cMethod;
       abiMethod[fIndex].params.args = [];
@@ -216,7 +217,10 @@ const getArgsFromMethod = (fName, fIndex) => {
       });
     }
   } else {
+    let count = 0;
     const getArg = setInterval(() => {
+      count++;
+
       const abiMethod = state.cMethod;
       const argsArr = abiMethod[fIndex].params.args;
       const argMap = argsArr.map(({ name, value }) => ({ [name]: value }));
