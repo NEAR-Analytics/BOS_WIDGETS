@@ -526,13 +526,23 @@ return (
         </div>
       </div>
       <div class="row">
-        <div class="form-group col-md-12">
+        <div class="form-group col-md-6">
           {state.cMethod.length > 0 ? (
             <Widget src={`${cep}/widget/export-button`} props={state} />
           ) : (
             <>
               <label></label>
               <button class="btn btn-dark form-control ">🔼 Export</button>
+            </>
+          )}
+        </div>
+        <div class="form-group col-md-6">
+          {state.cMethod.length > 0 ? (
+            <Widget src={`${cep}/widget/preview-button`} props={state} />
+          ) : (
+            <>
+              <label></label>
+              <button class="btn btn-dark form-control ">👀 Preview</button>
             </>
           )}
         </div>
