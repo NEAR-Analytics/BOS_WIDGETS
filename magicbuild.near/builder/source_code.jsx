@@ -62,19 +62,19 @@ const cAD = (e, fIdx, aIdx, type) => {
       a[fIdx].params.args[aIdx].value = parseInt(value);
     }
     if (a[fIdx].params.args[aIdx].type_schema.type == "array") {
-      a[fIdx].params.args[aIdx].value = value.split("|");
+      a[fIdx].params.args[aIdx].value = value.split("|"); //check valid
     }
     if (a[fIdx].params.args[aIdx].type_schema.type == "boolean") {
       a[fIdx].params.args[aIdx].value = Boolean(value);
     }
     if (a[fIdx].params.args[aIdx].type_schema.type == "json") {
-      a[fIdx].params.args[aIdx].value = JSON.parse(value);
+      a[fIdx].params.args[aIdx].value = JSON.parse(value); //check valid
     }
     if (a[fIdx].params.args[aIdx].type_schema.type == "string") {
-      a[fIdx].params.args[aIdx].value = value;
+      a[fIdx].params.args[aIdx].value = value; //check valid
     }
     if (a[fIdx].params.args[aIdx].type_schema.type == "$ref") {
-      a[fIdx].params.args[aIdx].value = value;
+      a[fIdx].params.args[aIdx].value = value; //check account valid
     }
   }
   if (type == "remove") a[fIdx].params.args.splice(aIdx, 1);
@@ -597,6 +597,7 @@ return (
                           <option value="boolean">Boolean</option>
                           <option value="json">Json</option>
                           <option value="array">Array</option>
+                          <option value="$ref">Account ID</option>
                         </select>
                       </div>
                       <div class="form-group col-md-4">
