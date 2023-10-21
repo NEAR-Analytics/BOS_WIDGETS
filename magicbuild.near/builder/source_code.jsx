@@ -229,14 +229,13 @@ const getArgsFromMethod = (fName, fIndex) => {
       restxns.logs[0].replace("EVENT_JSON:", "").replaceAll("\\", "")
     );
 
-    const args = argsData.data[0] || {};
+    const args = argsData.data[0];
 
     if (Object.keys(args).length > 0) {
       const abiMethod = state.cMethod;
       abiMethod[fIndex].params.args = [];
-      argMap.forEach((item) => {
-        Object.assign(args, item);
-      });
+      console.log(fName, args);
+
       Object.keys(args).forEach((item) => {
         const arg = {
           name: item,
@@ -260,9 +259,9 @@ const getArgsFromMethod = (fName, fIndex) => {
       const argsArr = abiMethod[fIndex].params.args;
       const argMap = argsArr.map(({ name, value }) => ({ [name]: value }));
       const args = {};
-      argMap.forEach((item) => {
-        Object.assign(args, item);
-      });
+      //   argMap.forEach((item) => {
+      //     Object.assign(args, item);
+      //   });
       const res = fetch(state.rpcUrl, {
         body: JSON.stringify({
           method: "query",
