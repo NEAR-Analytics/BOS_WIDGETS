@@ -1,7 +1,8 @@
-const accountId = "nearcon23.near";
+const ownerId = "nearcon23.near";
 
 initState({
   filterOn: false,
+  state: "",
 });
 
 const Filter = styled.div`
@@ -36,7 +37,7 @@ const HideInMobile = styled.div`
 const allSelected = (
   <>
     <Widget
-      src={`${accountId}/widget/Inputs.CheckboxSelect`}
+      src={`${ownerId}/widget/Inputs.CheckboxSelect`}
       props={{
         value: state.persona,
         error: state.personaError,
@@ -62,7 +63,15 @@ const allSelected = (
           { id: "creative", label: "Creative", color: "#04A46E" },
           { id: "regulator", label: "Regulator", color: "#F44738" },
         ],
-        onChange: (persona) => State.update({ persona }),
+        onChange: (persona) => {
+          const objectToSet = Object.entries(persona)
+            .filter(([item, item2]) => item2 === true)
+            .map(([item]) => item);
+          props?.update?.({
+            track: objectToSet.length === 0 ? null : objectToSet,
+          });
+          State.update({ persona });
+        },
         validate: () => {
           if (!state.persona) {
             State.update({
@@ -76,7 +85,7 @@ const allSelected = (
       }}
     />
     <Widget
-      src={`${accountId}/widget/Inputs.CheckboxSelect`}
+      src={`${ownerId}/widget/Inputs.CheckboxSelect`}
       props={{
         value: state.persona,
         error: state.personaError,
@@ -95,12 +104,19 @@ const allSelected = (
             />
           </svg>
         ),
-        options: [
-          { id: "nearconHq", label: "Nearcon HQ" },
-          { id: "hackerHq", label: "Hacker HQ" },
-          { id: "communityHq", label: "Community HQ" },
-        ],
-        onChange: (persona) => State.update({ persona }),
+        options: (props?.locations ?? []).map((item) => ({
+          label: item,
+          id: item,
+        })),
+        onChange: (persona) => {
+          const objectToSet = Object.entries(persona)
+            .filter(([item, item2]) => item2 === true)
+            .map(([item]) => item);
+          props?.update?.({
+            venue: objectToSet.length === 0 ? null : objectToSet,
+          });
+          State.update({ persona });
+        },
         validate: () => {
           if (!state.persona) {
             State.update({
@@ -114,17 +130,17 @@ const allSelected = (
       }}
     />
     <Widget
-      src={`${accountId}/widget/Inputs.CheckboxSelect`}
+      src={`${ownerId}/widget/Inputs.CheckboxSelect`}
       props={{
         value: state.persona,
         error: state.personaError,
         label: "All Dates",
         options: [
-          { id: "nov06", label: "Nov 06" },
-          { id: "nov07", label: "Nov 07" },
-          { id: "nov08", label: "Nov 08" },
-          { id: "nov09", label: "Nov 09" },
-          { id: "nov10", label: "Nov 09" },
+          { id: "Nov 6", label: "Nov 6" },
+          { id: "Nov 7", label: "Nov 7" },
+          { id: "Nov 8", label: "Nov 8" },
+          { id: "Nov 9", label: "Nov 9" },
+          { id: "Nov 10", label: "Nov 10" },
         ],
         icon: (
           <svg
@@ -141,7 +157,15 @@ const allSelected = (
             />
           </svg>
         ),
-        onChange: (persona) => State.update({ persona }),
+        onChange: (persona) => {
+          const objectToSet = Object.entries(persona)
+            .filter(([item, item2]) => item2 === true)
+            .map(([item]) => item);
+          props?.update?.({
+            dates: objectToSet.length === 0 ? null : objectToSet,
+          });
+          State.update({ persona });
+        },
         validate: () => {
           if (!state.persona) {
             State.update({
@@ -163,9 +187,14 @@ return (
       <Filter>
         <div style={{ display: "flex", alignItems: "center" }}>
           <Widget
-            src={`${accountId}/widget/Inputs.Search`}
+            src={`${ownerId}/widget/Inputs.Search`}
             props={{
               placeholder: "Search schedule...",
+              value: state.search,
+              onChange: (e) => {
+                props.update({ search: e });
+                State.update({ search: e });
+              },
             }}
           />
         </div>
@@ -181,9 +210,14 @@ return (
           }}
         >
           <Widget
-            src={`${accountId}/widget/Inputs.Search`}
+            src={`${ownerId}/widget/Inputs.Search`}
             props={{
               placeholder: "Search schedule...",
+              value: state.search,
+              onChange: (e) => {
+                props.update({ search: e });
+                State.update({ search: e });
+              },
             }}
           />
           <button
@@ -196,7 +230,7 @@ return (
               marginBottom: 6,
             }}
           >
-            <Widget src={`${accountId}/widget/Icons.Filter`} />
+            <Widget src={`${ownerId}/widget/Icons.Filter`} />
           </button>
         </div>
         {state.filterOn ? allSelected : null}
