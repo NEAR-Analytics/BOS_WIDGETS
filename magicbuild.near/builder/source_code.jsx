@@ -243,6 +243,7 @@ const getArgsFromMethod = (fName, fIndex) => {
         method: "POST",
       });
       const strErr = res.body.result.error;
+
       if (strErr && strErr.includes("missing field")) {
         const argName = strErr.substring(
           strErr.indexOf("`") + 1,
@@ -280,63 +281,67 @@ const getArgsFromMethod = (fName, fIndex) => {
               method: "POST",
             });
             const ftch = res.body.result.error;
-            const uS = (argName, type, value) => {
-              isCheck = true;
-              const arg = {
-                name: argName,
-                type_schema: {
-                  type: type,
-                },
-                value: type == "enum" ? value[0] : value,
-              };
-              if (type == "enum") {
-                arg.enum = value;
-                console.log(arg);
-              }
-              const isExist = false;
-              abiMethod[fIndex].params.args.forEach((item) => {
-                if (item.name == argName) {
-                  isExist = true;
+            if (ftch) {
+              const uS = (argName, type, value) => {
+                isCheck = true;
+                const arg = {
+                  name: argName,
+                  type_schema: {
+                    type: type,
+                  },
+                  value: type == "enum" ? value[0] : value,
+                };
+                if (type == "enum") {
+                  arg.enum = value;
                 }
-              });
-              if (isExist == false) {
-                abiMethod[fIndex].params.args.push(arg);
-                State.update({ cMethod: abiMethod });
+                const isExist = false;
+                abiMethod[fIndex].params.args.forEach((item) => {
+                  if (item.name == argName) {
+                    isExist = true;
+                  }
+                });
+                if (isExist == false) {
+                  abiMethod[fIndex].params.args.push(arg);
+                  State.update({ cMethod: abiMethod });
+                }
+              };
+              if (
+                res.body.result.result ||
+                ftch.includes("Option::unwrap()`")
+              ) {
+                uS(argName, typeItem.type, typeItem.value);
+                clearInterval(getArg);
               }
-            };
-            if (res.body.result.result || ftch.includes("Option::unwrap()`")) {
-              uS(argName, typeItem.type, typeItem.value);
-              clearInterval(getArg);
-            }
-            if (ftch.includes("the account ID")) {
-              uS(argName, "$ref", context.account_id);
-            }
-            if (ftch.includes("unknown variant")) {
-              isCheck = true;
-              const getEnum = ftch
-                .substring(
-                  ftch.indexOf("expected one of") + 17,
-                  ftch.lastIndexOf("\\")
-                )
-                .replaceAll("`", "")
-                .split(",");
-              uS(argName, "enum", getEnum);
-            }
+              if (ftch.includes("the account ID")) {
+                uS(argName, "$ref", context.account_id);
+              }
+              if (ftch.includes("unknown variant")) {
+                isCheck = true;
+                const getEnum = ftch
+                  .substring(
+                    ftch.indexOf("expected one of") + 17,
+                    ftch.lastIndexOf("\\")
+                  )
+                  .replaceAll("`", "")
+                  .split(",");
+                uS(argName, "enum", getEnum);
+              }
 
-            if (ftch.includes("missing field")) {
-              uS(argName, typeItem.type, typeItem.value);
-            }
-            if (
-              ftch.includes("Requires attached deposit") ||
-              ftch.includes("storage_write") ||
-              ftch.includes("predecessor_account_id")
-            ) {
-              abiMethod[fIndex].kind = "call";
-              State.update({ cMethod: abiMethod });
-              clearInterval(getArg);
-            }
-            if (ftch.includes("MethodNotFound") || res.body.result.result) {
-              clearInterval(getArg);
+              if (ftch.includes("missing field")) {
+                uS(argName, typeItem.type, typeItem.value);
+              }
+              if (
+                ftch.includes("Requires attached deposit") ||
+                ftch.includes("storage_write") ||
+                ftch.includes("predecessor_account_id")
+              ) {
+                abiMethod[fIndex].kind = "call";
+                State.update({ cMethod: abiMethod });
+                clearInterval(getArg);
+              }
+              if (ftch.includes("MethodNotFound") || res.body.result.result) {
+                clearInterval(getArg);
+              }
             }
           }
         });
