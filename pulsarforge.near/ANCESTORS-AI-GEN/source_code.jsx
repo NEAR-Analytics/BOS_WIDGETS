@@ -1,8 +1,8 @@
 State.init({
   queryPlanet: "Strong",
 });
-const handleInputChange = (event) => {
-  State.update({ queryPlanet: event.target.value });
+const handleInputChange = ({ target }) => {
+  State.update({ queryPlanet: target.value });
 };
 
 const TextArea = styled.textarea`
@@ -23,10 +23,10 @@ const Wrapper = styled.div``;
 const handleSubmit = () => {
   // The base URL for our API
   const url = "https://bos-ancestors.pulsarforge.workers.dev/";
-
+  const queryP = state.queryPlanet;
   asyncFetch(url, {
     method: "POST",
-    body: JSON.stringify({ queryPlanet }),
+    body: JSON.stringify({ queryPlanet: queryP }),
     mode: "no-cors",
   })
     .then((response) => response)
@@ -35,11 +35,8 @@ const handleSubmit = () => {
 
 return (
   <Wrapper>
-    <TextArea
+    <input
       placeholder="humanoid dog wearing white clothing, and leather sneakers"
-      value={state.queryPlanet}
-      id="queryPlanet"
-      name="queryPlanet"
       onChange={handleInputChange}
     />
 
