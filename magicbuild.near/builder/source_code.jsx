@@ -667,7 +667,7 @@ return (
                           <option value="boolean">Boolean</option>
                           <option value="json">Json</option>
                           <option value="array">Array</option>
-                          <option value="$ref">Account ID</option>
+                          <option value="$ref">AccountID</option>
                         </select>
                       </div>
                       <div class="form-group col-md-4">
