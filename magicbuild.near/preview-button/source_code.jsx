@@ -7,22 +7,22 @@ return (
     <label></label>
     <button
       data-bs-toggle="modal"
-      data-bs-target="#export"
+      data-bs-target="#preview"
       class="btn btn-dark form-control "
     >
       👀 Preview
     </button>
     <div
       class="modal fade"
-      id="export"
+      id="preview"
       tabindex="-1"
-      aria-labelledby="exportLabel"
+      aria-labelledby="previewLabel"
       aria-hidden="true"
     >
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <h1 class="modal-title fs-5" id="exportLabel">
+            <h1 class="modal-title fs-5" id="previewLabel">
               Preview Front-End
             </h1>
             <button
