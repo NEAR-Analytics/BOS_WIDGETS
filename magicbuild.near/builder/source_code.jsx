@@ -550,7 +550,7 @@ return (
                   <h6>
                     {functions.name}
                     <span class="text-info">
-                      {" - Custom Method/ Button Label/ Params"}
+                      {"[Custom-Method-Params-Label-Button-Style]"}
                     </span>
                   </h6>
                 </div>
