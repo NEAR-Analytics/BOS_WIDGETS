@@ -305,7 +305,7 @@ const getArgsFromMethod = (fName, fIndex) => {
             const isCheck = false;
             checkType.forEach((typeItem) => {
               if (isCheck == false) {
-                const res = fetch(state.rpcUrl, {
+                asyncFetch(state.rpcUrl, {
                   body: JSON.stringify({
                     method: "query",
                     params: {
@@ -324,61 +324,62 @@ const getArgsFromMethod = (fName, fIndex) => {
                   }),
                   headers: header,
                   method: "POST",
-                });
-                const ftch = res.body.result.error;
-                const uS = (argName, type, value) => {
-                  isCheck = true;
-                  const arg = {
-                    name: argName,
-                    type_schema: {
-                      type: type,
-                    },
-                    value: type == "enum" ? value[0] : value,
-                  };
-                  if (type == "enum") {
-                    arg.enum = value;
-                  }
-                  const isExist = false;
-                  abiMethod[fIndex].params.args.forEach((item) => {
-                    if (item.name == argName) {
-                      isExist = true;
-                    }
-                  });
-                  if (isExist == false) {
-                    abiMethod[fIndex].params.args.push(arg);
-                    State.update({ cMethod: abiMethod });
-                  }
-                };
-                if (ftch) {
-                  if (
-                    res.body.result.result ||
-                    ftch.includes("Option::unwrap()`")
-                  ) {
-                    uS(argName, typeItem.type, typeItem.value);
-                    clearAsyncInterval(getArg);
-                  }
-                  if (ftch.includes("the account ID")) {
-                    uS(argName, "$ref", state.contractAddress);
-                  }
-                  if (ftch.includes("unknown variant")) {
+                }).then((res) => {
+                  const ftch = res.body.result.error;
+                  const uS = (argName, type, value) => {
                     isCheck = true;
-                    const getEnum = ftch
-                      .substring(
-                        ftch.indexOf("expected one of") + 17,
-                        ftch.lastIndexOf("\\")
-                      )
-                      .replaceAll("`", "")
-                      .replaceAll(" ", "")
-                      .split(",");
-                    uS(argName, "enum", getEnum);
-                  }
-                  if (ftch.includes("missing field")) {
+                    const arg = {
+                      name: argName,
+                      type_schema: {
+                        type: type,
+                      },
+                      value: type == "enum" ? value[0] : value,
+                    };
+                    if (type == "enum") {
+                      arg.enum = value;
+                    }
+                    const isExist = false;
+                    abiMethod[fIndex].params.args.forEach((item) => {
+                      if (item.name == argName) {
+                        isExist = true;
+                      }
+                    });
+                    if (isExist == false) {
+                      abiMethod[fIndex].params.args.push(arg);
+                      State.update({ cMethod: abiMethod });
+                    }
+                  };
+                  if (ftch) {
+                    if (
+                      res.body.result.result ||
+                      ftch.includes("Option::unwrap()`")
+                    ) {
+                      uS(argName, typeItem.type, typeItem.value);
+                      clearAsyncInterval(getArg);
+                    }
+                    if (ftch.includes("the account ID")) {
+                      uS(argName, "$ref", state.contractAddress);
+                    }
+                    if (ftch.includes("unknown variant")) {
+                      isCheck = true;
+                      const getEnum = ftch
+                        .substring(
+                          ftch.indexOf("expected one of") + 17,
+                          ftch.lastIndexOf("\\")
+                        )
+                        .replaceAll("`", "")
+                        .replaceAll(" ", "")
+                        .split(",");
+                      uS(argName, "enum", getEnum);
+                    }
+                    if (ftch.includes("missing field")) {
+                      uS(argName, typeItem.type, typeItem.value);
+                    }
+                  } else {
                     uS(argName, typeItem.type, typeItem.value);
+                    // clearAsyncInterval(getArg);
                   }
-                } else {
-                  uS(argName, typeItem.type, typeItem.value);
-                  // clearAsyncInterval(getArg);
-                }
+                });
               }
             });
           }
