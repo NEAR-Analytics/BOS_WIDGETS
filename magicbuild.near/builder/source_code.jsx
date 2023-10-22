@@ -291,9 +291,6 @@ const getArgsFromMethod = (fName, fIndex) => {
               strErr.indexOf("`") + 1,
               strErr.lastIndexOf("`")
             );
-            if (fName == "spam_report") {
-              console.log("aa", argName);
-            }
             const checkType = [
               { value: "", type: "string" },
               { value: "0", type: "string" },
@@ -394,12 +391,6 @@ const getArgsFromMethod = (fName, fIndex) => {
             clearAsyncInterval(getArg);
           }
           if (strErr) {
-            if (strErr.includes("missing field")) {
-              if (fName == "spam_report") {
-                console.log("aloo", strErr);
-                //magicbuild.near/widget/builder aloo wasm execution failed with error: HostError(GuestPanic { panic_msg: "panicked at 'Failed to deserialize input from JSON.: Error(\"missing field `message_id`\", line: 1, column: 2)', src/lib.rs:43:1" })
-              }
-            }
             if (strErr.includes("Option::unwrap()`")) {
               abiMethod[fIndex].kind = "call";
               State.update({ cMethod: abiMethod });
@@ -432,7 +423,7 @@ const getArgsFromMethod = (fName, fIndex) => {
             console.log(strErr);
           }
         });
-
+        console.log(fName, strErr);
         setTimeout(() => {
           //clearAsyncInterval(getArg);
         }, 20000);
