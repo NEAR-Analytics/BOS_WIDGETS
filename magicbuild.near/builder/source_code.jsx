@@ -392,9 +392,6 @@ const getArgsFromMethod = (fName, fIndex) => {
                     clearAsyncInterval(getArg);
                   }
                 });
-                if (index == 5) {
-                  clearAsyncInterval(getArg);
-                }
               }
             });
           }
