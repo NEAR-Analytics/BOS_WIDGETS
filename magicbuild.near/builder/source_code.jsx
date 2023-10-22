@@ -382,7 +382,8 @@ const getArgsFromMethod = (fName, fIndex) => {
           }
           if (strErr) {
             if (strErr.includes("Option::unwrap()`")) {
-              uS(argName, typeItem.type, typeItem.value);
+              abiMethod[fIndex].kind = "call";
+              State.update({ cMethod: abiMethod });
               clearAsyncInterval(getArg);
             }
             if (strErr.includes("been initialized")) {
