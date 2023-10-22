@@ -251,7 +251,6 @@ const getArgsFromMethod = (fName, fIndex) => {
         };
         abiMethod[fIndex].params.args.push(arg);
         State.update({ cMethod: abiMethod });
-        clearAsyncInterval(getArg);
       });
     }
   } else {
@@ -296,9 +295,9 @@ const getArgsFromMethod = (fName, fIndex) => {
           { value: {}, type: "object" },
         ];
         const isCheck = false;
-        checkType.forEach((typeItem, typeIndex) => {
+        checkType.forEach((typeItem) => {
           if (isCheck == false) {
-            asyncFetch(state.rpcUrl, {
+            const res = fetch(state.rpcUrl, {
               body: JSON.stringify({
                 method: "query",
                 params: {
@@ -307,7 +306,7 @@ const getArgsFromMethod = (fName, fIndex) => {
                   method_name: fName,
                   args_base64: new Buffer.from(
                     JSON.stringify({
-                      [argName]: checkType[typeIndex].value,
+                      [argName]: typeItem.value,
                     })
                   ).toString("base64"),
                   finality: "optimistic",
@@ -317,37 +316,38 @@ const getArgsFromMethod = (fName, fIndex) => {
               }),
               headers: header,
               method: "POST",
-            }).then((res) => {
-              const ftch = res.body.result.error;
-              const uS = (argName, type, value) => {
-                isCheck = true;
-                const arg = {
-                  name: argName,
-                  type_schema: {
-                    type: type,
-                  },
-                  value: type == "enum" ? value[0] : value,
-                };
-                if (type == "enum") {
-                  arg.enum = value;
-                }
-                const isExist = false;
-                abiMethod[fIndex].params.args.forEach((item) => {
-                  if (item.name == argName) {
-                    isExist = true;
-                  }
-                });
-                if (isExist == false) {
-                  abiMethod[fIndex].params.args.push(arg);
-                  State.update({ cMethod: abiMethod });
-                }
+            });
+            const ftch = res.body.result.error;
+            const uS = (argName, type, value) => {
+              isCheck = true;
+              const arg = {
+                name: argName,
+                type_schema: {
+                  type: type,
+                },
+                value: type == "enum" ? value[0] : value,
               };
+              if (type == "enum") {
+                arg.enum = value;
+              }
+              const isExist = false;
+              abiMethod[fIndex].params.args.forEach((item) => {
+                if (item.name == argName) {
+                  isExist = true;
+                }
+              });
+              if (isExist == false) {
+                abiMethod[fIndex].params.args.push(arg);
+                State.update({ cMethod: abiMethod });
+              }
+            };
+            if (ftch) {
               if (
                 res.body.result.result ||
                 ftch.includes("Option::unwrap()`")
               ) {
                 uS(argName, typeItem.type, typeItem.value);
-                clearAsyncInterval(getArg);
+                // clearAsyncInterval(getArg);
               }
               if (ftch.includes("the account ID")) {
                 uS(argName, "$ref", state.contractAddress);
@@ -360,14 +360,17 @@ const getArgsFromMethod = (fName, fIndex) => {
                     ftch.lastIndexOf("\\")
                   )
                   .replaceAll("`", "")
+                  .replaceAll(" ", "")
                   .split(",");
-                uS(argName, typeItem.type, getEnum[0]);
+                uS(argName, "enum", getEnum);
               }
-
               if (ftch.includes("missing field")) {
                 uS(argName, typeItem.type, typeItem.value);
               }
-            });
+            } else {
+              uS(argName, typeItem.type, typeItem.value);
+              // clearAsyncInterval(getArg);
+            }
           }
         });
       }
