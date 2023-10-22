@@ -394,7 +394,7 @@ const getArgsFromMethod = (fName, fIndex) => {
       setTimeout(() => {
         //clearAsyncInterval(getArg);
       }, 10000);
-    }, 1000);
+    }, 500);
   }
 };
 const onBtnClickCall = (fName, action, fIndex) => {
