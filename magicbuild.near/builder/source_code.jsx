@@ -236,7 +236,6 @@ const getArgsFromMethod = (fName, fIndex) => {
     if (Object.keys(args).length > 0) {
       const abiMethod = state.cMethod;
       abiMethod[fIndex].params.args = [];
-
       Object.keys(args).forEach((item) => {
         const arg = {
           name: item,
@@ -348,7 +347,7 @@ const getArgsFromMethod = (fName, fIndex) => {
                 ftch.includes("Option::unwrap()`")
               ) {
                 uS(argName, typeItem.type, typeItem.value);
-                clearAsyncInterval(getArg);
+                //clearAsyncInterval(getArg);
               }
               if (ftch.includes("the account ID")) {
                 uS(argName, "$ref", state.contractAddress);
@@ -370,7 +369,7 @@ const getArgsFromMethod = (fName, fIndex) => {
               }
             } else {
               uS(argName, typeItem.type, typeItem.value);
-              clearAsyncInterval(getArg);
+              // clearAsyncInterval(getArg);
             }
           }
         });
@@ -378,7 +377,7 @@ const getArgsFromMethod = (fName, fIndex) => {
 
       if (strErr) {
         if (strErr.includes("MethodNotFound") || res.body.result.result) {
-          clearAsyncInterval(getArg);
+          //clearAsyncInterval(getArg);
         }
         if (
           strErr.includes("Requires attached deposit") ||
