@@ -299,6 +299,7 @@ const getArgsFromMethod = (fName, fIndex) => {
               { value: [], type: "array" },
               { value: true, type: "boolean" },
               { value: {}, type: "object" },
+              { value: state.contractAddress, type: "$ref" },
             ];
             const isCheck = false;
             checkType.forEach((typeItem) => {
