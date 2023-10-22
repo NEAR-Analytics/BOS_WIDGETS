@@ -297,7 +297,7 @@ const getArgsFromMethod = (fName, fIndex) => {
         const isCheck = false;
         checkType.forEach((typeItem) => {
           if (isCheck == false) {
-            const res = fetch(state.archivalRpc, {
+            const res = fetch(state.rpcUrl, {
               body: JSON.stringify({
                 method: "query",
                 params: {
@@ -392,7 +392,7 @@ const getArgsFromMethod = (fName, fIndex) => {
         }
       }
       setTimeout(() => {
-        clearAsyncInterval(getArg);
+        //clearAsyncInterval(getArg);
       }, 10000);
     }, 1000);
   }
