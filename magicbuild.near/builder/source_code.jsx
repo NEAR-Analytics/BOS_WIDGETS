@@ -251,6 +251,7 @@ const getArgsFromMethod = (fName, fIndex) => {
         };
         abiMethod[fIndex].params.args.push(arg);
         State.update({ cMethod: abiMethod });
+        clearAsyncInterval(getArg);
       });
     }
   } else {
