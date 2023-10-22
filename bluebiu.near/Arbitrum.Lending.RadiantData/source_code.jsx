@@ -330,13 +330,15 @@ const multicallv2 = (abi, calls, options, onError) => {
 let rewardPrice = "0";
 
 const rndtPriceData = fetch(
-  "https://api.coingecko.com/api/v3/simple/price?ids=radiant&vs_currencies=usd"
+  "https://api.coingecko.com/api/v3/simple/price?ids=radiant-capital&vs_currencies=usd"
 );
 
 if (rndtPriceData) {
   const data = rndtPriceData.body || [];
 
-  rewardPrice = data["radiant"].usd;
+  rewardPrice = data["radiant-capital"].usd;
+
+  console.log("rewardPrice: ", rewardPrice);
 }
 
 const getTokensPrices = () => {
@@ -926,6 +928,8 @@ if (
 
   let totalCollateralUsd = Big(0);
 
+  console.log("marketData: ", marketData);
+
   Object.keys(marketData).forEach((address, i) => {
     const market = marketData[address];
     if (market.rewards) {
@@ -942,14 +946,6 @@ if (
       const rewardApy = Big(yearlyRewardToThisPoolUsd)
         .div(market.totalDepositUsd)
         .toFixed();
-
-      console.log(
-        "yearlyRewardToThisPool: ",
-        yearlyRewardToThisPoolUsd,
-        market.totalDepositUsd,
-        market.symbol,
-        rewardApy
-      );
     }
 
     if (userData.parsedData[i]) {
@@ -960,8 +956,6 @@ if (
           .times(market.loanToValue / 100);
       }
     }
-
-    market.rewards = undefined;
 
     const { netApy: netApyRaw } = market;
     netApy = netApy.plus(netApyRaw);
@@ -983,22 +977,20 @@ if (
 
   Object.entries(marketData).map(([address, market], index) => {
     parsedMarketData[market.aTokenAddress] = market;
-
-    if (index === 0 && reduceUnclaimed.gt(0)) {
-      userData.rewards = [
-        {
-          ...RewardToken,
-          unclaimed: reduceUnclaimed
-            .div(Big(10).pow(RewardToken.decimals))
-            .toFixed(),
-          dailyRewards: reduceDailyRewards
-            .div(Big(10).pow(RewardToken.decimals))
-            .toFixed(),
-          price: rewardPrice,
-        },
-      ];
-    }
   });
+
+  userData.rewards = [
+    {
+      ...RewardToken,
+      unclaimed: reduceUnclaimed
+        .div(Big(10).pow(RewardToken.decimals))
+        .toFixed(),
+      dailyRewards: reduceDailyRewards
+        .div(Big(10).pow(RewardToken.decimals))
+        .toFixed(),
+      price: rewardPrice,
+    },
+  ];
 
   onLoad({
     ...{ ...userData, ...props },
