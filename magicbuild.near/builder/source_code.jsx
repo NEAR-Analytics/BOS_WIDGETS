@@ -212,7 +212,6 @@ const getMethodFromSource = () => {
       });
       State.update({ cMethod: abiMethod });
       abiMethod.forEach((item, index) => {
-        // fix setinterval
         getArgsFromMethod(item.name, index);
       });
     } else {
@@ -223,6 +222,7 @@ const getMethodFromSource = () => {
   }
 };
 const getArgsFromMethod = (fName, fIndex) => {
+  console.log("hello");
   const res = fetch(
     `${state.nearBlockRpc}v1/account/${state.contractAddress}/txns?method=${fName}&order=desc&page=1&per_page=1`,
     opGet
