@@ -286,7 +286,7 @@ const getArgsFromMethod = (fName, fIndex) => {
           method: "POST",
         }).then((res) => {
           const strErr = res.body.result.error;
-          if (fName == "edit_channel") {
+          if (fName == "edit_group") {
             console.log(fName, strErr);
           }
           if (strErr && strErr.includes("missing field")) {
