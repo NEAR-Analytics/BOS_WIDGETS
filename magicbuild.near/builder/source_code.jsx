@@ -385,6 +385,17 @@ const getArgsFromMethod = (fName, fIndex) => {
                       console.log("không tự add đc");
                       uS(argName, typeItem.type, typeItem.value);
                     }
+                    if (ftch.includes("Requires attached deposit")) {
+                      abiMethod[fIndex].kind = "call";
+                      abiMethod[fIndex].deposit = parseInt(
+                        strErr.match(/\d+/)[0]
+                      );
+                      if (fName == "nft_revoke_all") {
+                        console.log("strErr", "helllloooo");
+                      }
+                      State.update({ cMethod: abiMethod });
+                      clearAsyncInterval(getArg);
+                    }
                   } else {
                     uS(argName, typeItem.type, typeItem.value);
                     clearAsyncInterval(getArg);
