@@ -307,7 +307,7 @@ const getArgsFromMethod = (fName, fIndex) => {
                 value: JSON.parse(
                   '{ "spec": "0","name": "check", "symbol": "check" }'
                 ),
-                type: "object",
+                type: "json",
               });
             }
             const isCheck = false;
