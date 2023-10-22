@@ -436,6 +436,7 @@ const getArgsFromMethod = (fName, fIndex) => {
           if (fName == "nft_payout") {
             console.log("strErr", strErr);
           }
+          console.log(fName, strErr);
         });
 
         setTimeout(() => {
