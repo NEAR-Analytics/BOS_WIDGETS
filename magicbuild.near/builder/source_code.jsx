@@ -355,6 +355,7 @@ const getArgsFromMethod = (fName, fIndex) => {
                     console.log(fName, res.body.result);
                   }
                   if (res.body.result.result) {
+                    console.log(fName);
                     clearAsyncInterval(getArg);
                   }
                   if (ftch) {
