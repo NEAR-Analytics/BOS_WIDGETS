@@ -1,11 +1,4 @@
-State.init({ clientName: "", clientContract: "", clientList: [], error });
-const onInputChangeClientName = ({ target }) => {
-  State.update({ clientName: target.value });
-};
-const onInputChangeClientContract = ({ target }) => {
-  State.update({ error: null });
-  State.update({ clientContract: target.value });
-};
+State.init({ clientList: [] });
 
 const loadData = () => {
   const clientList = Social.get(`${context.accountId}/magicbuild/clientlist`);
@@ -24,57 +17,6 @@ const loadData = () => {
   }
 };
 loadData();
-const saveClient = () => {
-  if (state.clientName.length < 5) {
-    State.update({
-      error: "Name requires more than 5 characters",
-    });
-  } else {
-    asyncFetch("https://rpc.near.org/", {
-      body: JSON.stringify({
-        method: "query",
-        params: {
-          request_type: "view_code",
-          account_id: state.clientContract,
-          finality: "final",
-        },
-        id: 154,
-        jsonrpc: "2.0",
-      }),
-      headers: {
-        "Content-Type": "application/json",
-      },
-      method: "POST",
-    }).then((res) => {
-      if (res.body.result.code_base64) {
-        const data = state.clientList;
-        const clientData = {
-          id: Date.now(),
-          name: state.clientName,
-          address: state.clientContract,
-          archived: false,
-          abi: null,
-        };
-        data.push(clientData);
-        const saveData = {
-          magicbuild: {
-            clientlist: data,
-          },
-        };
-        Social.set(saveData, {
-          force: true,
-          onCommit: () => {},
-          onCancel: () => {},
-        });
-      } else {
-        State.update({
-          error:
-            "Unable to save Account ID because the contract has not been deployed yet!",
-        });
-      }
-    });
-  }
-};
 const Wrapper = styled.div`
 .nav-pills .nav-link.active, .nav-pills .show>.nav-link {
   color: #fff;
@@ -126,92 +68,25 @@ return (
                   <li class="mb-1">
                     <div class="small fw-bold text-uppercase d-flex  px-3 align-items-center justify-content-between">
                       <span>Client</span>
-                      {state.clientList.length > 0 && (
-                        <button
-                          type="button"
-                          class="btn btn-sm"
-                          data-bs-toggle="modal"
-                          data-bs-target="#createClient"
-                        >
-                          Add
-                          <i class="bi bi-file-earmark-plus"></i>
-                        </button>
-                      )}
                     </div>
-                    <div
-                      class="modal fade"
-                      id="createClient"
-                      tabindex="-1"
-                      aria-labelledby="createClientLabel"
-                      aria-hidden="true"
+                  </li>
+                  <li class="nav-item" role="presentation">
+                    <span
+                      class="nav-link active"
+                      id="pills-tab-builder"
+                      data-bs-toggle="pill"
+                      data-bs-target="#pills-builder"
+                      type="button"
+                      role="tab"
+                      aria-controls="pills-builder"
+                      aria-selected="true"
+                      class="nav-link px-3 "
                     >
-                      <div class="modal-dialog">
-                        <div class="modal-content">
-                          <div class="modal-header">
-                            <h1 class="modal-title fs-5" id="createClientLabel">
-                              Create Client
-                            </h1>
-                            <button
-                              type="button"
-                              class="btn-close"
-                              data-bs-dismiss="modal"
-                              aria-label="Close"
-                            ></button>
-                          </div>
-                          <div class="modal-body">
-                            <div class="form-group">
-                              <label>Name</label>
-                              <input
-                                class="form-control"
-                                onChange={(e) => onInputChangeClientName(e)}
-                              />
-                            </div>
-                            <div class="form-group">
-                              <label>Address</label>
-                              <input
-                                class="form-control"
-                                onChange={(e) => onInputChangeClientContract(e)}
-                              />
-                            </div>
-                            <div class="form-group">
-                              <label>Chain</label>
-                              <select class="form-control">
-                                <option selected>Near Chain</option>
-                                <option disabled>Ethereum Chain</option>
-                                <option disabled>AVAX Chain</option>
-                              </select>
-                            </div>
-                            {!state.error && (
-                              <small class="form-text text-muted">
-                                A new Client will be created.
-                              </small>
-                            )}
-
-                            {state.error && (
-                              <p class="text-danger" role="alert">
-                                {state.error}
-                              </p>
-                            )}
-                          </div>
-                          <div class="modal-footer">
-                            <button
-                              type="button"
-                              class="btn btn-secondary"
-                              data-bs-dismiss="modal"
-                            >
-                              Close
-                            </button>
-                            <button
-                              type="button"
-                              onClick={saveClient}
-                              class="btn btn-primary"
-                            >
-                              Create
-                            </button>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
+                      {" "}
+                      <label class="custom-control-label" for="darkSwitch">
+                        <span class="fw-bold">Form Builder</span>
+                      </label>
+                    </span>
                   </li>
                   {state.clientList.length == 0 && (
                     <button
@@ -220,7 +95,7 @@ return (
                       data-bs-toggle="modal"
                       data-bs-target="#createClient"
                     >
-                      Add Your First Contract
+                      Create Your First Client
                       <i class="bi bi-file-earmark-plus"></i>
                     </button>
                   )}
@@ -358,6 +233,15 @@ return (
         <div class="col-md-10">
           <div class="tab-content" id="pills-tabContent">
             <div
+              class="tab-pane fade show"
+              id={`pills-builder`}
+              role="tabpanel"
+              aria-labelledby={`pills-tab-builder`}
+              tabindex="0"
+            >
+              <Widget src={"magicbuild.near/widget/builder"} />
+            </div>
+            <div
               class="tab-pane fade show active"
               id={`pills-home`}
               role="tabpanel"
@@ -366,6 +250,7 @@ return (
             >
               <Widget src={"magicbuild.near/widget/welcome"} />
             </div>
+
             <div
               class="tab-pane fade"
               id={`pills-help`}
