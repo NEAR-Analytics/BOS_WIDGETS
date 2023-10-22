@@ -333,15 +333,6 @@ const getArgsFromMethod = (fName, fIndex) => {
                   headers: header,
                   method: "POST",
                 }).then((res) => {
-                  if (fName == "nft_payout") {
-                    console.log(
-                      new Buffer.from(
-                        JSON.stringify({
-                          [argName]: typeItem.value,
-                        })
-                      ).toString("base64")
-                    );
-                  }
                   const uS = (argName, type, value) => {
                     isCheck = true;
                     const arg = {
@@ -420,7 +411,15 @@ const getArgsFromMethod = (fName, fIndex) => {
           if (res.body.result.result) {
             clearInterval(getArg);
           }
+
           if (strErr) {
+            if (strErr.includes("not implemented")) {
+              //predict_add_stable_liquidity
+              //v2.ref-finance.near
+              abiMethod[fIndex].kind = "call";
+              State.update({ cMethod: abiMethod });
+              clearInterval(getArg);
+            }
             if (strErr.includes("Option::unwrap()`")) {
               abiMethod[fIndex].kind = "call";
               State.update({ cMethod: abiMethod });
