@@ -344,7 +344,7 @@ const getArgsFromMethod = (fName, fIndex) => {
                       State.update({ cMethod: abiMethod });
                     }
                   };
-                  const ftch = res.body.result.error;
+
                   //nhiều function chạy hết 1 round rồi nhưng k clear
                   if (fName == "admin_user_account_verify") {
                     console.log(fName, res.body.result);
@@ -359,6 +359,7 @@ const getArgsFromMethod = (fName, fIndex) => {
                     console.log(fName);
                     clearAsyncInterval(getArg);
                   }
+                  const ftch = res.body.result.error;
                   if (ftch) {
                     if (ftch.includes("been initialized")) {
                       abiMethod[fIndex].kind = "call";
@@ -394,6 +395,9 @@ const getArgsFromMethod = (fName, fIndex) => {
                 });
               }
             });
+          }
+          if (fName == "get_user_info") {
+            console.log(fName, res.body.result);
           }
           if (res.body.result.result) {
             clearAsyncInterval(getArg);
