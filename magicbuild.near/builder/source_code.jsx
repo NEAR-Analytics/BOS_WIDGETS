@@ -267,6 +267,7 @@ const getArgsFromMethod = (fName, fIndex) => {
         argMap.forEach((item) => {
           Object.assign(args, item);
         });
+        //magicbuild.near/widget/builder nft_revoke_all wasm execution failed with error: HostError(GuestPanic { panic_msg: "panicked at 'Failed to deserialize input from JSON.: Error(\"missing field `token_id`\", line: 1, column: 2)', src/approval.rs:35:1" })
         asyncFetch(state.rpcUrl, {
           body: JSON.stringify({
             method: "query",
@@ -430,7 +431,7 @@ const getArgsFromMethod = (fName, fIndex) => {
               State.update({ cMethod: abiMethod });
               clearAsyncInterval(getArg);
             }
-            if (fName == "nft_payout") {
+            if (fName == "nft_revoke_all") {
               console.log("strErr", strErr);
             }
             console.log(fName, strErr);
