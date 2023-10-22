@@ -417,8 +417,8 @@ const getArgsFromMethod = (fName, fIndex) => {
               //predict_add_stable_liquidity
               //v2.ref-finance.near
               //https://nearblocks.io/txns/9ZVV2RpsHQAmQcu3UhY8rZb7ULkNGxLTjxoMrUmGC3RZ#execution
-              abiMethod[fIndex].kind = "call";
-              State.update({ cMethod: abiMethod });
+              // abiMethod[fIndex].kind = "call";
+              // State.update({ cMethod: abiMethod });
               clearInterval(getArg);
             }
             if (strErr.includes("Option::unwrap()`")) {
