@@ -208,7 +208,13 @@ return (
         </CharterText>
         <Rectangle />
         <CharterButton>
-          <Charter>Charter</Charter>
+          <a
+            href="https://docs.google.com/document/d/1NgG3e4NqbTlml7F5Wfihhizfei6g17mT/edit?usp=sharing&ouid=107607394251431268575&rtpof=true&sd=true"
+            target="blank"
+          >
+            {" "}
+            <Charter>Charter</Charter>
+          </a>
         </CharterButton>
         <Star4>
           <svg
