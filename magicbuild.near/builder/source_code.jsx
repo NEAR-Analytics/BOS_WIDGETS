@@ -349,15 +349,6 @@ const getArgsFromMethod = (fName, fIndex) => {
                       State.update({ cMethod: abiMethod });
                     }
                   };
-                  if (fName == "nft_revoke_all") {
-                    console.log(
-                      new Buffer.from(
-                        JSON.stringify({
-                          [argName]: typeItem.value,
-                        })
-                      ).toString("base64")
-                    );
-                  }
                   if (res.body.result.result) {
                     clearAsyncInterval(getArg);
                   }
@@ -437,11 +428,10 @@ const getArgsFromMethod = (fName, fIndex) => {
               abiMethod[fIndex].deposit = parseInt(strErr.match(/\d+/)[0]);
               State.update({ cMethod: abiMethod });
               clearAsyncInterval(getArg);
+              if (fName == "nft_revoke_all") {
+                console.log("strErr", strErr);
+              }
             }
-            if (fName == "nft_revoke_all") {
-              console.log("strErr", strErr);
-            }
-            // console.log(fName, strErr);
           }
           //New : HostError(GuestPanic { panic_msg: "panicked at 'Failed to deserialize input from JSON.: Error(\"missing field `spec`\", line: 1, column: 45)'
           //nft_payout
