@@ -33,7 +33,7 @@ const Routes = styled.div`
     display: flex;
     gap: 0.7rem;
     margin-top: 10px;
-    h1 {
+    a {
       color: black;
       font-family: Helvetica Neue;
       font-size: 16px;
@@ -80,9 +80,14 @@ return (
       <h1>PLANET</h1>
     </Logo>
     <Routes>
-      <h1>NFTs</h1>
-      <h1>Communities</h1>
-      <h1>Funding</h1>
+      <a
+        href={`#/agwaze.near/widget/CPlanet.index?tab=explore`}
+        onClick={() => props.update({ tab: "explore" })}
+      >
+        NFTs
+      </a>
+      <a href={`#/agwaze.near/widget/CPlanet.index?tab=explore`}>Communities</a>
+      <a href={`#/agwaze.near/widget/CPlanet.index?tab=explore`}>Funding</a>
     </Routes>
     <Join>
       <button>Sign up</button>
