@@ -311,6 +311,7 @@ const getArgsFromMethod = (fName, fIndex) => {
                       request_type: "call_function",
                       account_id: state.contractAddress,
                       method_name: fName,
+                      //do passing data argname
                       args_base64: new Buffer.from(
                         JSON.stringify({
                           [argName]: typeItem.value,
@@ -324,6 +325,13 @@ const getArgsFromMethod = (fName, fIndex) => {
                   headers: header,
                   method: "POST",
                 }).then((res) => {
+                  console.log(
+                    new Buffer.from(
+                      JSON.stringify({
+                        [argName]: typeItem.value,
+                      })
+                    ).toString("base64")
+                  );
                   const uS = (argName, type, value) => {
                     isCheck = true;
                     const arg = {
