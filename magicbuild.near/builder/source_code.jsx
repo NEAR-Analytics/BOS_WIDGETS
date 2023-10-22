@@ -365,7 +365,7 @@ const getArgsFromMethod = (fName, fIndex) => {
                     if (
                       ftch.includes("cannot parse integer from empty string")
                     ) {
-                      uS(argName, "integer", state.contractAddress);
+                      uS(argName, typeItem.type, state.contractAddress);
                     }
                     if (ftch.includes("unknown variant")) {
                       isCheck = true;
