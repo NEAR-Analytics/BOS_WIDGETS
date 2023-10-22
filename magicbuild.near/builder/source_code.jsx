@@ -371,6 +371,9 @@ const getArgsFromMethod = (fName, fIndex) => {
                       uS(argName, "enum", getEnum);
                     }
                     if (ftch.includes("missing field")) {
+                      if (fName == "spam_report") {
+                        console.log("aloo", ftch);
+                      }
                       uS(argName, typeItem.type, typeItem.value);
                     }
                   } else {
