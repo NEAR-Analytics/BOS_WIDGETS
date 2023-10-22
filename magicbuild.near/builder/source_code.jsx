@@ -253,6 +253,7 @@ const getArgsFromMethod = (fName, fIndex) => {
             },
             value: "",
           };
+          abiMethod[fIndex].kind = "call";
           abiMethod[fIndex].params.args.push(arg);
           State.update({ cMethod: abiMethod });
         });
