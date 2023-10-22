@@ -416,6 +416,7 @@ const getArgsFromMethod = (fName, fIndex) => {
             if (strErr.includes("not implemented")) {
               //predict_add_stable_liquidity
               //v2.ref-finance.near
+              //https://nearblocks.io/txns/9ZVV2RpsHQAmQcu3UhY8rZb7ULkNGxLTjxoMrUmGC3RZ#execution
               abiMethod[fIndex].kind = "call";
               State.update({ cMethod: abiMethod });
               clearInterval(getArg);
