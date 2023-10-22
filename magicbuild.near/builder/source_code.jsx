@@ -391,7 +391,7 @@ const getArgsFromMethod = (fName, fIndex) => {
                       uS(argName, "enum", getEnum);
                     }
                     if (ftch.includes("missing field")) {
-                      console.log("aaaaaaaaa");
+                      console.log("không tự add đc");
                       uS(argName, typeItem.type, typeItem.value);
                     }
                   } else {
