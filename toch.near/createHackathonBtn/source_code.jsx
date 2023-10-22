@@ -44,13 +44,15 @@ const onInput = ({ target }) => {
 
 return (
   <>
-    <input onChange={onInput} />
-    <CommitButton
-      force
-      className="btn btn-primary rounded-5 mt-2"
-      data={composeData}
-    >
-      Create Hackathon
-    </CommitButton>
+    <div className="container">
+      <input onChange={onInput} />
+      <CommitButton
+        force
+        className="btn btn-primary rounded-5 mt-2"
+        data={composeData}
+      >
+        Create Hackathon
+      </CommitButton>
+    </div>
   </>
 );
