@@ -297,7 +297,7 @@ const getArgsFromMethod = (fName, fIndex) => {
         const isCheck = false;
         checkType.forEach((typeItem) => {
           if (isCheck == false) {
-            const res = fetch(state.rpcUrl, {
+            const res = fetch(state.archivalRpc, {
               body: JSON.stringify({
                 method: "query",
                 params: {
