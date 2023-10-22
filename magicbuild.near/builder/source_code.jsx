@@ -292,6 +292,7 @@ const getArgsFromMethod = (fName, fIndex) => {
               strErr.indexOf("`") + 1,
               strErr.lastIndexOf("`")
             );
+
             const checkType = [
               { value: "", type: "string" },
               { value: "300", type: "string" },
@@ -301,6 +302,12 @@ const getArgsFromMethod = (fName, fIndex) => {
               { value: {}, type: "object" },
               { value: state.contractAddress, type: "$ref" },
             ];
+            if (argName == "metadata") {
+              checkType.push({
+                value: { spec: "0", name: "", symbol: "" },
+                type: "object",
+              });
+            }
             const isCheck = false;
             checkType.forEach((typeItem) => {
               if (isCheck == false) {
