@@ -324,7 +324,7 @@ const getArgsFromMethod = (fName, fIndex) => {
                 ftch.includes("Option::unwrap()`")
               ) {
                 uS(argName, typeItem.type, typeItem.value);
-                clearIntervall(getArg);
+                clearInterval(getArg);
               }
               if (ftch.includes("the account ID")) {
                 uS(argName, "$ref", state.contractAddress);
