@@ -367,6 +367,7 @@ const getArgsFromMethod = (fName, fIndex) => {
                     ) {
                       uS(argName, typeItem.type, state.contractAddress);
                     }
+
                     if (ftch.includes("unknown variant")) {
                       isCheck = true;
                       const getEnum = ftch
@@ -427,7 +428,11 @@ const getArgsFromMethod = (fName, fIndex) => {
               clearAsyncInterval(getArg);
             }
           }
-          console.log(fName, strErr);
+          //New : HostError(GuestPanic { panic_msg: "panicked at 'Failed to deserialize input from JSON.: Error(\"missing field `spec`\", line: 1, column: 45)'
+          //nft_payout
+          if (fName == "nft_payout") {
+            console.log(fName, strErr);
+          }
         });
 
         setTimeout(() => {
