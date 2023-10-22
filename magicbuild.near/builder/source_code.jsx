@@ -302,6 +302,7 @@ const getArgsFromMethod = (fName, fIndex) => {
             const isCheck = false;
             checkType.forEach((typeItem) => {
               if (isCheck == false) {
+                //using ayncfech not update arg?
                 asyncFetch(state.rpcUrl, {
                   body: JSON.stringify({
                     method: "query",
@@ -346,9 +347,13 @@ const getArgsFromMethod = (fName, fIndex) => {
                       State.update({ cMethod: abiMethod });
                     }
                   };
+                  if (res.body.result.result) {
+                    clearAsyncInterval(getArg);
+                  }
                   if (ftch) {
                     if (
-                      res.body.result.result ||
+                      //wasm execution failed with error: HostError(GuestPanic { panic_msg: "The contract has already been initialized" })
+                      ftch.includes("been initialized") ||
                       ftch.includes("Option::unwrap()`")
                     ) {
                       uS(argName, typeItem.type, typeItem.value);
@@ -380,8 +385,11 @@ const getArgsFromMethod = (fName, fIndex) => {
               }
             });
           }
+          if (res.body.result.result) {
+            clearAsyncInterval(getArg);
+          }
           if (strErr) {
-            if (strErr.includes("MethodNotFound") || res.body.result.result) {
+            if (strErr.includes("MethodNotFound")) {
               clearAsyncInterval(getArg);
             }
             if (
