@@ -360,15 +360,6 @@ const getArgsFromMethod = (fName, fIndex) => {
                   }
                   const ftch = res.body.result.error;
                   if (ftch) {
-                    if (ftch.includes("missing field")) {
-                      const argNewName = ftch.substring(
-                        ftch.indexOf("`") + 1,
-                        ftch.lastIndexOf("`")
-                      );
-                      if (argNewName == argName) {
-                        uS(argName, typeItem.type, typeItem.value);
-                      }
-                    }
                     if (ftch.includes("Option::unwrap()`")) {
                       uS(argName, typeItem.type, typeItem.value);
                       abiMethod[fIndex].kind = "call";
