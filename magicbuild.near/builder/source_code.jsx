@@ -344,9 +344,7 @@ const getArgsFromMethod = (fName, fIndex) => {
                       State.update({ cMethod: abiMethod });
                     }
                   };
-                  console.log(fName, res.body.result);
                   if (res.body.result.result) {
-                    console.log(fName);
                     clearAsyncInterval(getArg);
                   }
                   const ftch = res.body.result.error;
