@@ -347,7 +347,7 @@ const getArgsFromMethod = (fName, fIndex) => {
                 ftch.includes("Option::unwrap()`")
               ) {
                 uS(argName, typeItem.type, typeItem.value);
-                clearAsyncInterval(getArg);
+                // clearAsyncInterval(getArg);
               }
               if (ftch.includes("the account ID")) {
                 uS(argName, "$ref", state.contractAddress);
@@ -369,7 +369,7 @@ const getArgsFromMethod = (fName, fIndex) => {
               }
             } else {
               uS(argName, typeItem.type, typeItem.value);
-              clearAsyncInterval(getArg);
+              // clearAsyncInterval(getArg);
             }
           }
         });
@@ -392,9 +392,9 @@ const getArgsFromMethod = (fName, fIndex) => {
         }
       }
       setTimeout(() => {
-        //clearAsyncInterval(getArg);
-      }, 10000);
-    }, 500);
+        clearAsyncInterval(getArg);
+      }, 20000);
+    }, 1000);
   }
 };
 const onBtnClickCall = (fName, action, fIndex) => {
