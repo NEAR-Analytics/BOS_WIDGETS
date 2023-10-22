@@ -213,6 +213,7 @@ const getMethodFromSource = () => {
           }
           abiMethod.push(method);
         });
+        console.log("check", abiMethod);
         State.update({ cMethod: abiMethod });
         abiMethod.forEach((item, index) => {
           getArgsFromMethod(item.name, index);
