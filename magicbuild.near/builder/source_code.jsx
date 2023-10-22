@@ -337,6 +337,7 @@ const getArgsFromMethod = (fName, fIndex) => {
                     ftch.lastIndexOf("\\")
                   )
                   .replaceAll("`", "")
+                  .replaceAll(" ", "")
                   .split(",");
                 uS(argName, "enum", getEnum);
               }
