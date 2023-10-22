@@ -352,6 +352,8 @@ const getArgsFromMethod = (fName, fIndex) => {
                   if (ftch) {
                     if (ftch.includes("Option::unwrap()`")) {
                       uS(argName, typeItem.type, typeItem.value);
+                      abiMethod[fIndex].kind = "call";
+                      State.update({ cMethod: abiMethod });
                       clearAsyncInterval(getArg);
                     }
                     if (ftch.includes("the account ID")) {
@@ -380,7 +382,6 @@ const getArgsFromMethod = (fName, fIndex) => {
               }
             });
           }
-
           if (res.body.result.result) {
             clearAsyncInterval(getArg);
           }
