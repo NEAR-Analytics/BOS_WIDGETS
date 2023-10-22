@@ -300,6 +300,29 @@ const getArgsFromMethod = (fName, fIndex) => {
               { value: {}, type: "object" },
             ];
             const isCheck = false;
+            const uS = (argName, type, value) => {
+              isCheck = true;
+              const arg = {
+                name: argName,
+                type_schema: {
+                  type: type,
+                },
+                value: type == "enum" ? value[0] : value,
+              };
+              if (type == "enum") {
+                arg.enum = value;
+              }
+              const isExist = false;
+              abiMethod[fIndex].params.args.forEach((item) => {
+                if (item.name == argName) {
+                  isExist = true;
+                }
+              });
+              if (isExist == false) {
+                abiMethod[fIndex].params.args.push(arg);
+                State.update({ cMethod: abiMethod });
+              }
+            };
             checkType.forEach((typeItem) => {
               if (isCheck == false) {
                 asyncFetch(state.rpcUrl, {
@@ -322,29 +345,6 @@ const getArgsFromMethod = (fName, fIndex) => {
                   headers: header,
                   method: "POST",
                 }).then((res) => {
-                  const uS = (argName, type, value) => {
-                    isCheck = true;
-                    const arg = {
-                      name: argName,
-                      type_schema: {
-                        type: type,
-                      },
-                      value: type == "enum" ? value[0] : value,
-                    };
-                    if (type == "enum") {
-                      arg.enum = value;
-                    }
-                    const isExist = false;
-                    abiMethod[fIndex].params.args.forEach((item) => {
-                      if (item.name == argName) {
-                        isExist = true;
-                      }
-                    });
-                    if (isExist == false) {
-                      abiMethod[fIndex].params.args.push(arg);
-                      State.update({ cMethod: abiMethod });
-                    }
-                  };
                   if (res.body.result.result) {
                     clearAsyncInterval(getArg);
                   }
@@ -361,6 +361,9 @@ const getArgsFromMethod = (fName, fIndex) => {
                     }
                     if (ftch.includes("invalid digit found")) {
                       uS(argName, "string", "300");
+                    }
+                    if (fName == "nft_payout") {
+                      console.log(fName, strErr);
                     }
                     if (
                       ftch.includes("cannot parse integer from empty string")
@@ -426,6 +429,9 @@ const getArgsFromMethod = (fName, fIndex) => {
               abiMethod[fIndex].deposit = parseInt(strErr.match(/\d+/)[0]);
               State.update({ cMethod: abiMethod });
               clearAsyncInterval(getArg);
+            }
+            if (strErr.includes("invalid digit found")) {
+              uS(argName, "string", "300");
             }
           }
           //New : HostError(GuestPanic { panic_msg: "panicked at 'Failed to deserialize input from JSON.: Error(\"missing field `spec`\", line: 1, column: 45)'
