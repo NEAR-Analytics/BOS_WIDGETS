@@ -377,7 +377,7 @@ const getArgsFromMethod = (fName, fIndex) => {
                     }
                   } else {
                     uS(argName, typeItem.type, typeItem.value);
-                    // clearAsyncInterval(getArg);
+                    clearAsyncInterval(getArg);
                   }
                 });
               }
@@ -385,7 +385,7 @@ const getArgsFromMethod = (fName, fIndex) => {
           }
           if (strErr) {
             if (strErr.includes("MethodNotFound") || res.body.result.result) {
-              // clearAsyncInterval(getArg);
+              clearAsyncInterval(getArg);
             }
             if (
               strErr.includes("Requires attached deposit") ||
@@ -397,12 +397,13 @@ const getArgsFromMethod = (fName, fIndex) => {
               }
               abiMethod[fIndex].kind = "call";
               State.update({ cMethod: abiMethod });
+              clearAsyncInterval(getArg);
             }
           }
         });
 
         setTimeout(() => {
-          clearAsyncInterval(getArg);
+          //clearAsyncInterval(getArg);
         }, 20000);
       }, 1000);
     }
