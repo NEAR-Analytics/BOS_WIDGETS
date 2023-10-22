@@ -254,7 +254,7 @@ const getArgsFromMethod = (fName, fIndex) => {
       });
     }
   } else {
-    const getArg = setInterval(() => {
+    const getArg = setAsyncInterval(() => {
       const abiMethod = state.cMethod;
       const argsArr = abiMethod[fIndex].params.args;
       const argMap = argsArr.map(({ name, value }) => ({ [name]: value }));
@@ -343,7 +343,7 @@ const getArgsFromMethod = (fName, fIndex) => {
                 ftch.includes("Option::unwrap()`")
               ) {
                 uS(argName, typeItem.type, typeItem.value);
-                clearInterval(getArg);
+                clearAsyncInterval(getArg);
               }
               if (ftch.includes("the account ID")) {
                 uS(argName, "$ref", state.contractAddress);
