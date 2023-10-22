@@ -363,19 +363,19 @@ return (
 
     <MidWrapper1>
       <home>
-        <a href="#home">Home</a>
+        <a>Home</a>
       </home>
       <aboutUs>
-        <a href="#aboutus">About Us</a>
+        <a>About Us</a>
       </aboutUs>
       <ourGoals>
-        <a href="#ourgoals">Our Goals</a>
+        <a>Our Goals</a>
       </ourGoals>
       <ourTeam>
-        <a href="#ourteam">Our Team</a>
+        <a>Our Team</a>
       </ourTeam>
       <nftDappCentral>
-        <a href="#nftdaapcentral">NFT DApp Central</a>
+        <a>NFT DApp Central</a>
       </nftDappCentral>
     </MidWrapper1>
 
