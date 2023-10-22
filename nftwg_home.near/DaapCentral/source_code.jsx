@@ -1,4 +1,15 @@
 const Owner = "nftwg_home.near";
+
+State.init({
+  isToggleActive: true,
+});
+
+const handleToggleClick = () => {
+  State.update({
+    isToggleActive: !state.isToggleActive,
+  });
+};
+
 const DaapCentralContainer = styled.div`
 position:absolute;
 width:1320px;
@@ -36,7 +47,7 @@ padding: 8px 16px;
 gap: 16px;
 
 position: absolute;
-width: 436px;
+width: 486px;
 height: 56px;
 
 
@@ -95,15 +106,16 @@ flex-grow: 0;
 const ToggleText2 = styled.div`
 /* Community Innovations */
 
-width: 209px;
+width: 239px;
 height: 24px;
 cursor:pointer;
 
-font-family: 'inherit';
+font-family: inherit;
 font-style: normal;
 font-weight: 400;
 font-size: 20px;
 line-height: 120%;
+white-space:nowrap;
 /* identical to box height, or 24px */
 
 color: #333333;
@@ -390,10 +402,27 @@ return (
       </DaapCentralHeadingLine>
     </DaapCentralHeading>
     <ToggleContainer style={{ left: 50 }}>
-      <ToggleBox>
-        <ToggleText1>NFT WG Projects</ToggleText1>
+      <ToggleBox style={{ left: state.isToggleActive ? "0" : "206px" }}>
+        <ToggleText1
+          onClick={() => handleToggleClick()}
+          style={{
+            fontWeight: state.isToggleActive ? 600 : 400,
+            fontSize: 20,
+          }}
+        >
+          NFT WG Projects
+        </ToggleText1>
       </ToggleBox>
-      <ToggleText2>Community Innovations</ToggleText2>
+
+      <ToggleText2
+        onClick={() => handleToggleClick()}
+        style={{
+          fontWeight: state.isToggleActive ? 400 : 600,
+          fontSize: 20,
+        }}
+      >
+        Community Innovations
+      </ToggleText2>
     </ToggleContainer>
     <SearchContainer style={{ top: 300, left: 50 }}>
       <SearchBar>
@@ -418,7 +447,14 @@ return (
       </Filter>
     </SearchContainer>
     <WidgetContainer>
-      <Widget src={`${Owner}/widget/Card`} props={props} />
+      {state.isToggleActive ? (
+        <Widget src={`${Owner}/widget/CardForNFTWG`} props={props} />
+      ) : (
+        <Widget
+          src={`${Owner}/widget/CardForCommunityInnovations`}
+          props={props}
+        />
+      )}
     </WidgetContainer>
     <ListMyAppHereContainer style={{ top: 1000, left: 30 }}>
       <ListMyAppHereText>List My App Here</ListMyAppHereText>
