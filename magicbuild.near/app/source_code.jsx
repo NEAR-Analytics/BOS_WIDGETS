@@ -88,38 +88,6 @@ return (
                       </label>
                     </span>
                   </li>
-                  {state.clientList.length == 0 && (
-                    <button
-                      type="button"
-                      class="btn btn-sm"
-                      data-bs-toggle="modal"
-                      data-bs-target="#createClient"
-                    >
-                      Create Your First Client
-                      <i class="bi bi-file-earmark-plus"></i>
-                    </button>
-                  )}
-                  {state.clientList &&
-                    state.clientList.map((client, index) => {
-                      if (client.archived == false) {
-                        return (
-                          <li role="presentation">
-                            <span
-                              class="nav-link px-3"
-                              id={`pills-tab-${client.id}`}
-                              data-bs-toggle="pill"
-                              data-bs-target={`#pills-${client.id}`}
-                              type="button"
-                              role="tab"
-                              aria-controls={`#pills-${client.id}`}
-                              aria-selected="true"
-                            >
-                              <span class="fw-bold">✨{client.name}</span>
-                            </span>
-                          </li>
-                        );
-                      }
-                    })}
                   {state.clientList.length > 0 && (
                     <li>
                       <a
@@ -127,7 +95,7 @@ return (
                         data-bs-toggle="collapse"
                         href="#collapseArchive"
                         role="button"
-                        aria-expanded="false"
+                        aria-expanded="true"
                         aria-controls="collapseArchive"
                       >
                         <span class="fw-bold">📦Archive</span>
@@ -141,7 +109,7 @@ return (
                           <ul class="navbar-nav ps-3">
                             {state.clientList &&
                               state.clientList.map((client, index) => {
-                                if (client.archived == true) {
+                                if (client.archived == false) {
                                   return (
                                     <li>
                                       <a
