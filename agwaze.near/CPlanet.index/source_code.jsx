@@ -7,12 +7,38 @@ const Root = styled.div`
 const Contents = styled.div`
 
 `;
+
+const availableTabs = ["explore", "singleNFT", "home"];
+
+const getTab = (tab) => {
+  if (!tab || !availableTabs.includes(tab)) {
+    return "explore";
+  }
+
+  return tab;
+};
+
+State.init({
+  tab: getTab(state.tab),
+});
+
+const update = (state) => State.update(state);
+
+
+const tabContentWidget = {
+  explore: "agwaze.near/widget/CPlanet.Explore.index",
+  singleNFT: "agwaze.near/widget/CPlanet.Explore.SingleNFT",
+}[state.tab];
+
+const tabContent = <Widget src={tabContentWidget} props={{ update }} />;
+
 return (
   <Root>
-    <Widget src="agwaze.near/widget/CPlanet.Navbar.index" />
-    <Contents>
-      <Widget src="agwaze.near/widget/CPlanet.Explore.index" />
-    </Contents>
+    <Widget
+      src="agwaze.near/widget/CPlanet.Navbar.index"
+      props={{ tab: state.tab }}
+    />
+    <Contents>{tabContent}</Contents>
     <Widget src="agwaze.near/widget/CPlanet.Footer" />
   </Root>
 );
