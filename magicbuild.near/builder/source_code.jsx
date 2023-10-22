@@ -515,7 +515,7 @@ return (
           ) : (
             <>
               <label></label>
-              <button class="btn btn-dark form-control ">Preview</button>
+              <button class="btn btn-dark form-control ">👀 Preview</button>
             </>
           )}
         </div>
@@ -525,7 +525,7 @@ return (
           ) : (
             <>
               <label></label>
-              <button class="btn btn-dark form-control ">👀 Save Client</button>
+              <button class="btn btn-dark form-control "> Save Client</button>
             </>
           )}
         </div>
