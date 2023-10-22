@@ -252,7 +252,7 @@ return (
         <a
           href={
             props.price
-              ? `#/agwaze.near/widget/CPlanet.Explore.SingleNFT?contractId=${props.contractId}&tokenId=${props.tokenId}&chainState=${props.chainState}`
+              ? `#/agwaze.near/widget/CPlanet.index?tab=singleNFT&contractId=${props.contractId}&tokenId=${props.tokenId}&chainState=${props.chainState}`
               : "#"
           }
           style={{ textDecoration: "none", color: "inherit" }}
