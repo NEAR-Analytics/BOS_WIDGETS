@@ -352,7 +352,7 @@ const getArgsFromMethod = (fName, fIndex) => {
                     ftch.includes("Option::unwrap()`")
                   ) {
                     uS(argName, typeItem.type, typeItem.value);
-                    clearAsyncInterval(getArg);
+                    //clearAsyncInterval(getArg);
                   }
                   if (ftch.includes("the account ID")) {
                     uS(argName, "$ref", state.contractAddress);
@@ -374,14 +374,14 @@ const getArgsFromMethod = (fName, fIndex) => {
                   }
                 } else {
                   uS(argName, typeItem.type, typeItem.value);
-                  clearAsyncInterval(getArg);
+                  // clearAsyncInterval(getArg);
                 }
               }
             });
           }
           if (strErr) {
             if (strErr.includes("MethodNotFound") || res.body.result.result) {
-              clearAsyncInterval(getArg);
+              // clearAsyncInterval(getArg);
             }
             if (
               strErr.includes("Requires attached deposit") ||
@@ -398,7 +398,7 @@ const getArgsFromMethod = (fName, fIndex) => {
         });
 
         setTimeout(() => {
-          clearAsyncInterval(getArg);
+          // clearAsyncInterval(getArg);
         }, 10000);
       }, 1000);
     }
