@@ -350,6 +350,10 @@ const getArgsFromMethod = (fName, fIndex) => {
                   }
                   const ftch = res.body.result.error;
                   if (ftch) {
+                    if (ftch.includes("Option::unwrap()`")) {
+                      uS(argName, typeItem.type, typeItem.value);
+                      clearAsyncInterval(getArg);
+                    }
                     if (ftch.includes("the account ID")) {
                       uS(argName, "$ref", state.contractAddress);
                     }
