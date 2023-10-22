@@ -295,7 +295,6 @@ const getArgsFromMethod = (fName, fIndex) => {
               { value: 0, type: "integer" },
               { value: [], type: "array" },
               { value: true, type: "boolean" },
-              { value: "", type: "enum" },
               { value: {}, type: "object" },
             ];
             const isCheck = false;
