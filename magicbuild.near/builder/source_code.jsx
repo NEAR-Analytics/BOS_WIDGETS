@@ -325,13 +325,6 @@ const getArgsFromMethod = (fName, fIndex) => {
                   headers: header,
                   method: "POST",
                 }).then((res) => {
-                  console.log(
-                    new Buffer.from(
-                      JSON.stringify({
-                        [argName]: typeItem.value,
-                      })
-                    ).toString("base64")
-                  );
                   const uS = (argName, type, value) => {
                     isCheck = true;
                     const arg = {
@@ -358,10 +351,11 @@ const getArgsFromMethod = (fName, fIndex) => {
                   };
                   if (fName == "nft_revoke_all") {
                     console.log(
-                      "ftch",
-                      JSON.stringify({
-                        [argName]: typeItem.value,
-                      })
+                      new Buffer.from(
+                        JSON.stringify({
+                          [argName]: typeItem.value,
+                        })
+                      ).toString("base64")
                     );
                   }
                   if (res.body.result.result) {
