@@ -434,7 +434,7 @@ const getArgsFromMethod = (fName, fIndex) => {
             if (fName == "nft_revoke_all") {
               console.log("strErr", strErr);
             }
-            console.log(fName, strErr);
+            // console.log(fName, strErr);
           }
           //New : HostError(GuestPanic { panic_msg: "panicked at 'Failed to deserialize input from JSON.: Error(\"missing field `spec`\", line: 1, column: 45)'
           //nft_payout
