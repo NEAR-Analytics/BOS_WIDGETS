@@ -278,7 +278,7 @@ const getArgsFromMethod = (fName, fIndex) => {
               args_base64: new Buffer.from(JSON.stringify(args)).toString(
                 "base64"
               ),
-              finality: "optimistic",
+              finality: "final",
             },
             id: 154,
             jsonrpc: "2.0",
