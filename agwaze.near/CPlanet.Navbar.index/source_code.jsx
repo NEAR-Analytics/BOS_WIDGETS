@@ -86,8 +86,10 @@ return (
       >
         NFTs
       </a>
-      <a href={`#/agwaze.near/widget/CPlanet.index?tab=explore`}>Communities</a>
-      <a href={`#/agwaze.near/widget/CPlanet.index?tab=explore`}>Funding</a>
+      <a href={`#/agwaze.near/widget/CPlanet.index?tab=community`}>
+        Communities
+      </a>
+      <a href={`#/agwaze.near/widget/CPlanet.index?tab=funding`}>Funding</a>
     </Routes>
     <Join>
       <button>Sign up</button>
