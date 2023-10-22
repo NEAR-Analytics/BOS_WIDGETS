@@ -395,12 +395,19 @@ return (
         </SocialContainer>
       </ContentContainer>
     </BackgroundContainer>
-    <CoreTextContainer style={{ top: 740 }}>
+    <CoreTextContainer style={{ top: 740, left: 30 }}>
       <CoreText>
-        The ICP Protocol team is united by a shared vision: to make NFTs
-        accessible, fair, and innovative. Together, we are committed to
-        reshaping the NFT landscape and empowering creators and collectors
-        worldwide.
+        The core contributors team is a diverse group comprising individuals
+        with varied experiences. These contributors have been democratically
+        elected by the community, sharing a common commitment to enhance
+        innovations in Near NFTs. You can view the detailed election results by
+        following this link:{" "}
+        <a
+          href="https://gov.near.org/t/nft-wg-election-results/35493"
+          target="blank"
+        >
+          Election Results.
+        </a>
       </CoreText>
     </CoreTextContainer>
   </MainContainer>
