@@ -325,8 +325,11 @@ const getArgsFromMethod = (fName, fIndex) => {
                   type_schema: {
                     type: type,
                   },
-                  value: value,
+                  value: type == "enum" ? value[0] : value,
                 };
+                if (type == "enum") {
+                  arg.enum = value;
+                }
                 const isExist = false;
                 abiMethod[fIndex].params.args.forEach((item) => {
                   if (item.name == argName) {
