@@ -304,7 +304,9 @@ const getArgsFromMethod = (fName, fIndex) => {
             ];
             if (argName == "metadata") {
               checkType.push({
-                value: { spec: "0", name: "", symbol: "" },
+                value: JSON.parse(
+                  '{ "spec": "0","name": "check", "symbol": "check" }'
+                ),
                 type: "object",
               });
             }
