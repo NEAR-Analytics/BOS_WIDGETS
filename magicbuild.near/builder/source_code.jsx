@@ -299,7 +299,7 @@ const getArgsFromMethod = (fName, fIndex) => {
               { value: 0, type: "integer" },
               { value: [], type: "array" },
               { value: true, type: "boolean" },
-              { value: {}, type: "object" },
+              { value: {}, type: "json" },
               { value: state.contractAddress, type: "$ref" },
             ];
             if (argName == "metadata") {
