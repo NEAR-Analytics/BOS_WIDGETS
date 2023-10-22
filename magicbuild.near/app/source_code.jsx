@@ -30,7 +30,7 @@ return (
   <Wrapper>
     <div class="container">
       <div class="row">
-        <div class="col-md-2">
+        <div class="col-md-3">
           <div
             class="side-bar"
             data-bs-scroll="true"
@@ -198,7 +198,7 @@ return (
             </div>
           </div>
         </div>
-        <div class="col-md-10">
+        <div class="col-md-9">
           <div class="tab-content" id="pills-tabContent">
             <div
               class="tab-pane fade show"
