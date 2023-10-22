@@ -232,13 +232,10 @@ const getArgsFromMethod = (fName, fIndex) => {
     const argsData = JSON.parse(
       restxns.logs[0].replace("EVENT_JSON:", "").replaceAll("\\", "")
     );
-
-    const args = argsData.data[0];
-
+    const args = argsData.data[0] || argsData;
     if (Object.keys(args).length > 0) {
       const abiMethod = state.cMethod;
       abiMethod[fIndex].params.args = [];
-      console.log(fName, args);
 
       Object.keys(args).forEach((item) => {
         const arg = {
