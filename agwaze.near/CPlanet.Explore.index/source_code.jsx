@@ -286,8 +286,6 @@ fetchData();
 const PRICE_CONVERSION_CONSTANT =
   state.chain == "near" ? 1000000000000000000000000 : 1000000000000000000;
 
-const handleButtonClick = () => props.update({ tab: "singleNFT" })
-
 return (
   <Root>
     <TopNFTS>
@@ -330,7 +328,13 @@ return (
                         title: data.name,
                         description: data.description,
                         image: data.media_url,
-                        onButtonClick: handleButtonClick,
+                        onButtonClick: () =>
+                          props.update({
+                            tab: "singleNFT",
+                            contractId: data.contract_id,
+                            tokenId: data.token_id,
+                            chainState: state.chain,
+                          }),
                         price: data.price
                           ? (data.price / PRICE_CONVERSION_CONSTANT).toFixed(2)
                           : null,
@@ -355,7 +359,13 @@ return (
                         owner: data.owner,
                         chainState: state.chainState,
                         logo: currentChainProps[state.chain].img,
-                        onButtonClick: handleButtonClick,
+                        onButtonClick: () =>
+                          props.update({
+                            tab: "singleNFT",
+                            contractId: data.contract_id,
+                            tokenId: data.token_id,
+                            chainState: state.chain,
+                          }),
                         price: data.price
                           ? (data.price / PRICE_CONVERSION_CONSTANT).toFixed(2)
                           : null,
