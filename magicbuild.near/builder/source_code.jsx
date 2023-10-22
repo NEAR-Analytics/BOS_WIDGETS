@@ -286,6 +286,9 @@ const getArgsFromMethod = (fName, fIndex) => {
           method: "POST",
         }).then((res) => {
           const strErr = res.body.result.error;
+          if (fName == "edit_channel") {
+            console.log(fName, strErr);
+          }
           if (strErr && strErr.includes("missing field")) {
             const argName = strErr.substring(
               strErr.indexOf("`") + 1,
@@ -352,7 +355,7 @@ const getArgsFromMethod = (fName, fIndex) => {
                     ftch.includes("Option::unwrap()`")
                   ) {
                     uS(argName, typeItem.type, typeItem.value);
-                    //clearAsyncInterval(getArg);
+                    clearAsyncInterval(getArg);
                   }
                   if (ftch.includes("the account ID")) {
                     uS(argName, "$ref", state.contractAddress);
@@ -392,14 +395,14 @@ const getArgsFromMethod = (fName, fIndex) => {
                 abiMethod[fIndex].deposit = parseInt(strErr.match(/\d+/)[0]);
               }
               abiMethod[fIndex].kind = "call";
-              State.update({ cMethod: abiMethod });
+              // State.update({ cMethod: abiMethod });
             }
           }
         });
 
         setTimeout(() => {
-          // clearAsyncInterval(getArg);
-        }, 10000);
+          clearAsyncInterval(getArg);
+        }, 20000);
       }, 1000);
     }
   });
