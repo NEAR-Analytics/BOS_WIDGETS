@@ -372,13 +372,9 @@ const getArgsFromMethod = (fName, fIndex) => {
                     if (ftch.includes("invalid digit found")) {
                       uS(argName, "string", "300");
                     }
-
-                    if (
-                      ftch.includes("cannot parse integer from empty string")
-                    ) {
+                    if (ftch.includes("integer from empty string")) {
                       uS(argName, typeItem.type, state.contractAddress);
                     }
-
                     if (ftch.includes("unknown variant")) {
                       isCheck = true;
                       const getEnum = ftch
