@@ -78,7 +78,7 @@ function canUserCreateComment(props) {
 function setAreValidUsers(accountIds, sbtsNames) {
   const newLibCalls = Object.assign({}, state.libsCalls);
 
-  if (!newLibsCalls.SBT) {
+  if (newLibsCalls && !newLibsCalls.SBT) {
     logError("Key SBT is not set in lib.", libName);
   }
 
@@ -149,7 +149,7 @@ function saveComment(comment, onCommit, onCancel) {
   }
 }
 
-function getComments(id) {
+function getComments(action, id) {
   return Social.index(action, id, {
     order: "desc",
     subscribe: true,
@@ -229,7 +229,6 @@ function filterValidator(comments) {
   return comments.filter((comment) => {
     return (
       comment.sbts.find((commentSbt) => {
-        console.log("comment: ", comment);
         return (
           state[`isValidUser-${comment.accountId}`][commentSbt] ||
           commentSbt === "public"
@@ -249,36 +248,14 @@ function getCommentsNormalized(env, id) {
   const commentsByVersion = Object.keys(versions).map((version) => {
     const action = versions[version].action;
 
-    const comments = getComments(id);
+    const comments = getComments(action, id);
     const validComments = filterInvalidComments(comments);
-    console.log("validCommentsIndexes: ", validComments);
 
     return comments;
   });
 
-  console.log("commentsByVersion: ", commentsByVersion);
-
   return normalizeLibData(commentsByVersion);
 }
-
-// function getComment(commentIndex, action) {
-//   const comment = Social.get(
-//     `${commentIndex.accountId}/${action}/main`,
-//     commentIndex.blockHeight
-//   );
-//   console.log("comment: ", comment);
-
-//   let commentParsed = undefined;
-//   if (comment) {
-//     commentParsed = JSON.parse(comment);
-//     commentParsed.blockHeight = commentIndex.blockHeight;
-//   }
-//   console.log("commentParsed: ", commentParsed);
-
-//   if (commentParsed) {
-//     return commentParsed;
-//   }
-// }
 
 function normalizeOldToV_0_0_1(comment) {
   comment.sbts = ["public"];
