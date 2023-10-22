@@ -20,10 +20,11 @@ const getTab = (tab) => {
 
 State.init({
   tab: getTab(state.tab),
+  contractId: "",
+  tokenId: "",
 });
 
 const update = (state) => State.update(state);
-
 
 const tabContentWidget = {
   explore: "agwaze.near/widget/CPlanet.Explore.index",
