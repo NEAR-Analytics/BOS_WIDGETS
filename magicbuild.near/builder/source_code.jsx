@@ -359,6 +359,9 @@ const getArgsFromMethod = (fName, fIndex) => {
                     if (ftch.includes("the account ID")) {
                       uS(argName, "$ref", state.contractAddress);
                     }
+                    if (ftch.includes("invalid digit found")) {
+                      uS(argName, "string", "300");
+                    }
                     if (
                       ftch.includes("cannot parse integer from empty string")
                     ) {
