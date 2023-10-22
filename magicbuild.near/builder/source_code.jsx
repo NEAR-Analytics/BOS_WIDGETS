@@ -298,7 +298,7 @@ const getArgsFromMethod = (fName, fIndex) => {
               { value: {}, type: "object" },
             ];
             const isCheck = false;
-            checkType.forEach((typeItem, index) => {
+            checkType.forEach((typeItem) => {
               if (isCheck == false) {
                 asyncFetch(state.rpcUrl, {
                   body: JSON.stringify({
@@ -396,14 +396,16 @@ const getArgsFromMethod = (fName, fIndex) => {
               clearAsyncInterval(getArg);
             }
             if (
-              strErr.includes("Requires attached deposit") ||
               strErr.includes("storage_write") ||
               strErr.includes("predecessor_account_id")
             ) {
-              if (strErr.includes("Requires attached deposit")) {
-                abiMethod[fIndex].deposit = parseInt(strErr.match(/\d+/)[0]);
-              }
               abiMethod[fIndex].kind = "call";
+              State.update({ cMethod: abiMethod });
+              clearAsyncInterval(getArg);
+            }
+            if (strErr.includes("Requires attached deposit")) {
+              abiMethod[fIndex].kind = "call";
+              abiMethod[fIndex].deposit = parseInt(strErr.match(/\d+/)[0]);
               State.update({ cMethod: abiMethod });
               clearAsyncInterval(getArg);
             }
