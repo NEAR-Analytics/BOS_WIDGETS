@@ -98,7 +98,7 @@ return (
                         aria-expanded="true"
                         aria-controls="collapseArchive"
                       >
-                        <span class="fw-bold">📦Archive</span>
+                        <span class="fw-bold">📦Client</span>
                         <span class="right-icon ms-auto">
                           <i class="bi bi-chevron-down"></i>
                         </span>
