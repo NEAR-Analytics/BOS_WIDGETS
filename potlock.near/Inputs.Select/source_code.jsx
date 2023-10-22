@@ -19,7 +19,7 @@ const Container = styled.div`
 
 const Label = styled.label`
   font-style: normal;
-  font-weight: 600;
+  // font-weight: 600;
   font-size: 0.95em;
   line-height: 1.25em;
   color: #344054;
@@ -51,7 +51,8 @@ const Input = styled.div`
   gap: 0.5em;
   background: #ffffff;
   border: 1px solid #d0d5dd;
-  box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05);
+  // box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05);
+  boxshadow: 0px -2px 0px rgba(93, 93, 93, 0.24) inset;
   border-radius: 4px;
   color: #101828;
   width: 100%;
@@ -133,9 +134,7 @@ return (
     {noLabel ? <></> : <Label>{label}</Label>}
     <Select.Root
       value={value?.value}
-      onValueChange={(value) =>
-        onChange(options.find((option) => option.value === value))
-      }
+      onValueChange={(value) => onChange(options.find((option) => option.value === value))}
     >
       <Select.Trigger asChild={true}>
         <Input>
