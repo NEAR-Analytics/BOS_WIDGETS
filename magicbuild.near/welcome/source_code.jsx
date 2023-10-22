@@ -12,28 +12,25 @@ return (
         </p>
         <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
           <a
-            href="https://magicbuild.ai/feedback"
-            target="_blank"
+            href="https://magicbuild.ai/telegram"
             type="button"
             class="btn btn-dark btn-lg px-4"
           >
-            💬 Feedback
+            #Telegram
           </a>
           <a
             href="https://twitter.com/MagicBuildAI"
             type="button"
-            target="_blank"
             class="btn btn-dark btn-lg px-4"
           >
-            🦜 Twitter
+            #Twitter
           </a>
           <a
-            href="/#/mob.near/widget/ProfilePage?accountId=magicbuild.near"
+            href="https://near.social/mob.near/widget/ProfilePage?accountId=magicbuild.near"
             type="button"
-            target="_blank"
             class="btn btn-dark btn-lg px-4"
           >
-            👋 Near Social
+            #Near Social
           </a>
         </div>
       </div>
