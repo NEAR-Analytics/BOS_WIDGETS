@@ -324,14 +324,6 @@ const getArgsFromMethod = (fName, fIndex) => {
                   headers: header,
                   method: "POST",
                 }).then((res) => {
-                  if (fName == "nft_revoke_all") {
-                    console.log(
-                      "ftch",
-                      JSON.stringify({
-                        [argName]: typeItem.value,
-                      })
-                    );
-                  }
                   const uS = (argName, type, value) => {
                     isCheck = true;
                     const arg = {
@@ -355,6 +347,14 @@ const getArgsFromMethod = (fName, fIndex) => {
                       State.update({ cMethod: abiMethod });
                     }
                   };
+                  if (fName == "nft_revoke_all") {
+                    console.log(
+                      "ftch",
+                      JSON.stringify({
+                        [argName]: typeItem.value,
+                      })
+                    );
+                  }
                   if (res.body.result.result) {
                     clearAsyncInterval(getArg);
                   }
@@ -388,6 +388,7 @@ const getArgsFromMethod = (fName, fIndex) => {
                       uS(argName, "enum", getEnum);
                     }
                     if (ftch.includes("missing field")) {
+                      console.log("aaaaaaaaa");
                       uS(argName, typeItem.type, typeItem.value);
                     }
                   } else {
