@@ -1,11 +1,11 @@
 const indexKey = props.indexKey ?? "main";
 const groupId = props.groupId;
 
-const text = props.text || "";
+// const text = props.text || "";
 
 const content = {
   type: "md",
-  text: text,
+  text: state.text,
 };
 
 const composeData = () => {
@@ -35,13 +35,19 @@ State.init({
   onChange: ({ content }) => {
     State.update({ content });
   },
+  text: "Hello World",
 });
+
+const onInput = ({ target }) => {
+  State.update({ text: target.value });
+};
 
 return (
   <>
+    <input onChange={onInput} />
     <CommitButton
       force
-      className="btn btn-primary rounded-5"
+      className="btn btn-primary rounded-5 mt-2"
       data={composeData}
     >
       Create Hackathon
