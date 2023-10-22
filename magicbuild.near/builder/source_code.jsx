@@ -382,10 +382,10 @@ const getArgsFromMethod = (fName, fIndex) => {
                       uS(argName, "enum", getEnum);
                     }
                     if (ftch.includes("missing field")) {
-                      console.log("không tự add đc");
                       uS(argName, typeItem.type, typeItem.value);
                     }
                     if (ftch.includes("Requires attached deposit")) {
+                      uS(argName, typeItem.type, typeItem.value);
                       abiMethod[fIndex].kind = "call";
                       abiMethod[fIndex].deposit = parseInt(
                         strErr.match(/\d+/)[0]
@@ -394,6 +394,7 @@ const getArgsFromMethod = (fName, fIndex) => {
                         console.log("strErr", "helllloooo");
                       }
                       State.update({ cMethod: abiMethod });
+
                       clearAsyncInterval(getArg);
                     }
                   } else {
