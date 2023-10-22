@@ -361,6 +361,11 @@ const getArgsFromMethod = (fName, fIndex) => {
                     if (ftch.includes("the account ID")) {
                       uS(argName, "$ref", state.contractAddress);
                     }
+                    if (
+                      ftch.includes("cannot parse integer from empty string")
+                    ) {
+                      uS(argName, "integer", state.contractAddress);
+                    }
                     if (ftch.includes("unknown variant")) {
                       isCheck = true;
                       const getEnum = ftch
@@ -374,9 +379,6 @@ const getArgsFromMethod = (fName, fIndex) => {
                       uS(argName, "enum", getEnum);
                     }
                     if (ftch.includes("missing field")) {
-                      if (fName == "spam_report") {
-                        console.log("aloo", ftch);
-                      }
                       uS(argName, typeItem.type, typeItem.value);
                     }
                   } else {
