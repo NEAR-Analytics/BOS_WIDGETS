@@ -380,7 +380,7 @@ return (
   <DaapCentralContainer>
     <DaapCentralHeading>
       <DaapCentralHeadingLine id="nftdaapcentral">
-        Daap Central
+        DAap Central
       </DaapCentralHeadingLine>
       <DaapCentralHeadingLine
         style={{ fontWeight: 400, fontSize: 20, left: 395 }}
