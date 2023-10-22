@@ -291,6 +291,9 @@ const getArgsFromMethod = (fName, fIndex) => {
               strErr.indexOf("`") + 1,
               strErr.lastIndexOf("`")
             );
+            if (fName == "spam_report") {
+              console.log("aa", argName);
+            }
             const checkType = [
               { value: "", type: "string" },
               { value: 0, type: "integer" },
@@ -391,6 +394,7 @@ const getArgsFromMethod = (fName, fIndex) => {
             if (strErr.includes("missing field")) {
               if (fName == "spam_report") {
                 console.log("aloo", strErr);
+                //magicbuild.near/widget/builder aloo wasm execution failed with error: HostError(GuestPanic { panic_msg: "panicked at 'Failed to deserialize input from JSON.: Error(\"missing field `message_id`\", line: 1, column: 2)', src/lib.rs:43:1" })
               }
             }
             if (strErr.includes("Option::unwrap()`")) {
