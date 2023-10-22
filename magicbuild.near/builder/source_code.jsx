@@ -457,8 +457,9 @@ const getArgsFromMethod = (fName, fIndex) => {
         });
 
         setTimeout(() => {
+          clearInterval(getArg);
           // clearAsyncInterval(getArg);
-        }, 60000);
+        }, 120000);
       }, 1000);
     }
   });
