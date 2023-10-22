@@ -213,7 +213,7 @@ const getMethodFromSource = () => {
           }
           abiMethod.push(method);
         });
-        console.log("abiMethod", abiMethod);
+
         State.update({ cMethod: abiMethod });
         abiMethod.forEach((item, index) => {
           getArgsFromMethod(item.name, index);
@@ -227,7 +227,6 @@ const getMethodFromSource = () => {
   });
 };
 const getArgsFromMethod = (fName, fIndex) => {
-  console.log("hello");
   asyncFetch(
     `${state.nearBlockRpc}v1/account/${state.contractAddress}/txns?method=${fName}&order=desc&page=1&per_page=1`,
     opGet
@@ -286,9 +285,7 @@ const getArgsFromMethod = (fName, fIndex) => {
           method: "POST",
         }).then((res) => {
           const strErr = res.body.result.error;
-          if (fName == "edit_group") {
-            console.log(fName, strErr);
-          }
+
           if (strErr && strErr.includes("missing field")) {
             const argName = strErr.substring(
               strErr.indexOf("`") + 1,
@@ -405,6 +402,7 @@ const getArgsFromMethod = (fName, fIndex) => {
         setTimeout(() => {
           //clearAsyncInterval(getArg);
         }, 20000);
+        console.log(asyncIntervals);
       }, 1000);
     }
   });
