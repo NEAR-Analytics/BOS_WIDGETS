@@ -388,6 +388,11 @@ const getArgsFromMethod = (fName, fIndex) => {
             clearAsyncInterval(getArg);
           }
           if (strErr) {
+            if (strErr.includes("missing field")) {
+              if (fName == "spam_report") {
+                console.log("aloo", strErr);
+              }
+            }
             if (strErr.includes("Option::unwrap()`")) {
               abiMethod[fIndex].kind = "call";
               State.update({ cMethod: abiMethod });
