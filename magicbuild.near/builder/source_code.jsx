@@ -350,10 +350,6 @@ const getArgsFromMethod = (fName, fIndex) => {
                   }
                   const ftch = res.body.result.error;
                   if (ftch) {
-                    if (ftch.includes("Option::unwrap()`")) {
-                      uS(argName, typeItem.type, typeItem.value);
-                      clearAsyncInterval(getArg); // not work
-                    }
                     if (ftch.includes("the account ID")) {
                       uS(argName, "$ref", state.contractAddress);
                     }
@@ -385,6 +381,10 @@ const getArgsFromMethod = (fName, fIndex) => {
             clearAsyncInterval(getArg);
           }
           if (strErr) {
+            if (strErr.includes("Option::unwrap()`")) {
+              uS(argName, typeItem.type, typeItem.value);
+              clearAsyncInterval(getArg);
+            }
             if (strErr.includes("been initialized")) {
               abiMethod[fIndex].kind = "call";
               State.update({ cMethod: abiMethod });
