@@ -369,7 +369,7 @@ const getArgsFromMethod = (fName, fIndex) => {
               }
             } else {
               uS(argName, typeItem.type, typeItem.value);
-              //clearAsyncInterval(getArg);
+              clearAsyncInterval(getArg);
             }
           }
         });
