@@ -323,6 +323,14 @@ const getArgsFromMethod = (fName, fIndex) => {
                   headers: header,
                   method: "POST",
                 }).then((res) => {
+                  if (fName == "nft_revoke_all") {
+                    console.log(
+                      "ftch",
+                      JSON.stringify({
+                        [argName]: typeItem.value,
+                      })
+                    );
+                  }
                   const uS = (argName, type, value) => {
                     isCheck = true;
                     const arg = {
@@ -363,9 +371,7 @@ const getArgsFromMethod = (fName, fIndex) => {
                     if (ftch.includes("invalid digit found")) {
                       uS(argName, "string", "300");
                     }
-                    if (fName == "nft_payout") {
-                      console.log("ftch", strErr);
-                    }
+
                     if (
                       ftch.includes("cannot parse integer from empty string")
                     ) {
