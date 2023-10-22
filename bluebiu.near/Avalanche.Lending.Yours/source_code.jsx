@@ -227,15 +227,13 @@ return (
         />
       </YoursTableWrapper>
     </Yours>
-    {state.rewards && state.rewards.length > 0 && (
-      <Widget
-        src="bluebiu.near/widget/Avalanche.Lending.RewardsTable"
-        props={{
-          data: state.rewards || [],
-          dapps: props.dappsConfig,
-          onSuccess: props.onSuccess,
-        }}
-      />
-    )}
+    <Widget
+      src="bluebiu.near/widget/Avalanche.Lending.RewardsTable"
+      props={{
+        data: state.rewards || [],
+        dapps: props.dappsConfig,
+        onSuccess: props.onSuccess,
+      }}
+    />
   </>
 );
