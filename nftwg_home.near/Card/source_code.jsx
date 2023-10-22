@@ -25,9 +25,9 @@ const Card = styled.div`
   background: #FFFFFF;
   border: 1px solid #A0A0A0;
   border-radius: 10px;
-  background: #D9D9D9;
   margin: 10px; /* Add margin for spacing between cards */
  position: relative;
+ font-family:inherit;
 `;
 
 const CardContent = styled.div`
@@ -49,7 +49,7 @@ const AppLinkButton = styled.div`
   cursor: pointer;
   width: 352px;
   height: 48px;
-  background: #FFFFFF;
+ background: #D9D9D9;
   border: 1px solid #F0F0F0;
   border-radius: 79px;
   position: relative;
@@ -69,6 +69,14 @@ const ApplinkText = styled.div`
   flex-grow: 0;
   position: relative;
 `;
+const Line = styled.div`
+/* Line 6 */
+position: absolute;
+width: 399px;
+height: 0px;
+border: 1px solid #A0A0A0;
+
+`;
 
 return (
   <div style={{ display: "flex" }}>
@@ -81,12 +89,17 @@ return (
             alt={item.title}
           />
         </CardContent>
-        <CardContent style={{ fontSize: 20, top: 50, left: 230 }}>
+        <CardContent
+          style={{ fontSize: 24, top: 50, left: 170, fontWeight: 700 }}
+        >
           {item.title}
         </CardContent>
 
-        <CardContent style={{ fontSize: 16, top: 150, left: 10 }}>
+        <CardContent style={{ fontSize: 16, top: 100, left: 10 }}>
           {item.description}
+        </CardContent>
+        <CardContent style={{ top: 180 }}>
+          <Line />
         </CardContent>
         <CardContent>
           <AppLinkButton style={{ top: 200, left: 20 }}>
