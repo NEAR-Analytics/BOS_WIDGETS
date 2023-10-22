@@ -316,7 +316,7 @@ const getArgsFromMethod = (fName, fIndex) => {
                           [argName]: typeItem.value,
                         })
                       ).toString("base64"),
-                      finality: "optimistic",
+                      finality: "final",
                     },
                     id: 154,
                     jsonrpc: "2.0",
