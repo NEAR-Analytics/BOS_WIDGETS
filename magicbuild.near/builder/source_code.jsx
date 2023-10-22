@@ -364,7 +364,7 @@ const getArgsFromMethod = (fName, fIndex) => {
                       uS(argName, "$ref", state.contractAddress);
                     }
                     if (ftch.includes("invalid digit found")) {
-                      uS(argName, "string", "300");
+                      uS(argName, typeItem.type, "300");
                     }
                     if (ftch.includes("integer from empty string")) {
                       uS(argName, typeItem.type, state.contractAddress);
