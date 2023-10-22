@@ -390,7 +390,6 @@ const getArgsFromMethod = (fName, fIndex) => {
           }
           abiMethod[fIndex].kind = "call";
           State.update({ cMethod: abiMethod });
-          //clearInterval(getArg);
         }
       }
       setTimeout(() => {
