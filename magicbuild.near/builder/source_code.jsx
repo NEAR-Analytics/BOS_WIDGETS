@@ -285,7 +285,6 @@ const getArgsFromMethod = (fName, fIndex) => {
           method: "POST",
         }).then((res) => {
           const strErr = res.body.result.error;
-
           if (strErr && strErr.includes("missing field")) {
             const argName = strErr.substring(
               strErr.indexOf("`") + 1,
@@ -347,7 +346,13 @@ const getArgsFromMethod = (fName, fIndex) => {
                   };
                   const ftch = res.body.result.error;
                   if (fName == "admin_user_account_verify") {
-                    console.log(res.body.result);
+                    console.log(fName, res.body.result);
+                  }
+                  if (fName == "get_user_info") {
+                    console.log(fName, res.body.result);
+                  }
+                  if (fName == "get_spam_count") {
+                    console.log(fName, res.body.result);
                   }
                   if (res.body.result.result) {
                     clearAsyncInterval(getArg);
