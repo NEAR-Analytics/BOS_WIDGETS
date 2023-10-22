@@ -255,6 +255,7 @@ return (
               ? `#/agwaze.near/widget/CPlanet.index?tab=singleNFT&contractId=${props.contractId}&tokenId=${props.tokenId}&chainState=${props.chainState}`
               : "#"
           }
+          onClick={() => props.update({ tab: "singleNFT" })}
           style={{ textDecoration: "none", color: "inherit" }}
         >
           <button disabled={!props.price}>
