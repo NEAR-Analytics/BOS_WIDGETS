@@ -396,7 +396,7 @@ const getArgsFromMethod = (fName, fIndex) => {
                 abiMethod[fIndex].deposit = parseInt(strErr.match(/\d+/)[0]);
               }
               abiMethod[fIndex].kind = "call";
-              // State.update({ cMethod: abiMethod });
+              State.update({ cMethod: abiMethod });
             }
           }
         });
