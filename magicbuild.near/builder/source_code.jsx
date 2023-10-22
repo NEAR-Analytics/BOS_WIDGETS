@@ -351,11 +351,12 @@ const getArgsFromMethod = (fName, fIndex) => {
                     clearAsyncInterval(getArg);
                   }
                   if (ftch) {
-                    if (
-                      //wasm execution failed with error: HostError(GuestPanic { panic_msg: "The contract has already been initialized" })
-                      ftch.includes("been initialized") ||
-                      ftch.includes("Option::unwrap()`")
-                    ) {
+                    if (ftch.includes("been initialized")) {
+                      abiMethod[fIndex].kind = "call";
+                      State.update({ cMethod: abiMethod });
+                      clearAsyncInterval(getArg);
+                    }
+                    if (ftch.includes("Option::unwrap()`")) {
                       uS(argName, typeItem.type, typeItem.value);
                       clearAsyncInterval(getArg);
                     }
