@@ -299,7 +299,7 @@ const getArgsFromMethod = (fName, fIndex) => {
               { value: {}, type: "object" },
             ];
             const isCheck = false;
-            checkType.forEach((typeItem) => {
+            checkType.forEach((typeItem, index) => {
               if (isCheck == false) {
                 asyncFetch(state.rpcUrl, {
                   body: JSON.stringify({
@@ -345,6 +345,7 @@ const getArgsFromMethod = (fName, fIndex) => {
                     }
                   };
                   const ftch = res.body.result.error;
+                  //nhiều function chạy hết 1 round rồi nhưng k clear
                   if (fName == "admin_user_account_verify") {
                     console.log(fName, res.body.result);
                   }
@@ -391,6 +392,9 @@ const getArgsFromMethod = (fName, fIndex) => {
                     clearAsyncInterval(getArg);
                   }
                 });
+                if (index == 5) {
+                  clearAsyncInterval(getArg);
+                }
               }
             });
           }
