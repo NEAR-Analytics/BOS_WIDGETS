@@ -343,8 +343,6 @@ const getArgsFromMethod = (fName, fIndex) => {
                       State.update({ cMethod: abiMethod });
                     }
                   };
-
-                  //nhiều function chạy hết 1 round rồi nhưng k clear
                   console.log(fName, res.body.result);
                   if (res.body.result.result) {
                     console.log(fName);
@@ -352,11 +350,6 @@ const getArgsFromMethod = (fName, fIndex) => {
                   }
                   const ftch = res.body.result.error;
                   if (ftch) {
-                    if (ftch.includes("been initialized")) {
-                      abiMethod[fIndex].kind = "call";
-                      State.update({ cMethod: abiMethod });
-                      clearAsyncInterval(getArg);
-                    }
                     if (ftch.includes("Option::unwrap()`")) {
                       uS(argName, typeItem.type, typeItem.value);
                       clearAsyncInterval(getArg); // not work
@@ -392,6 +385,11 @@ const getArgsFromMethod = (fName, fIndex) => {
             clearAsyncInterval(getArg);
           }
           if (strErr) {
+            if (strErr.includes("been initialized")) {
+              abiMethod[fIndex].kind = "call";
+              State.update({ cMethod: abiMethod });
+              clearAsyncInterval(getArg);
+            }
             if (strErr.includes("MethodNotFound")) {
               clearAsyncInterval(getArg);
             }
