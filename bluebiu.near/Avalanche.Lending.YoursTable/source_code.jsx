@@ -246,7 +246,7 @@ return (
           ))}
         </Row>
       ))}
-      {data?.length === 0 && <Empty>{emptyTips}</Empty>}
+      {(data?.length === 0 || !data) && <Empty>{emptyTips}</Empty>}
     </Body>
   </Table>
 );
