@@ -311,7 +311,6 @@ const getArgsFromMethod = (fName, fIndex) => {
                       request_type: "call_function",
                       account_id: state.contractAddress,
                       method_name: fName,
-                      //do passing data argname
                       args_base64: new Buffer.from(
                         JSON.stringify({
                           [argName]: typeItem.value,
@@ -325,6 +324,15 @@ const getArgsFromMethod = (fName, fIndex) => {
                   headers: header,
                   method: "POST",
                 }).then((res) => {
+                  if (fName == "nft_payout") {
+                    console.log(
+                      new Buffer.from(
+                        JSON.stringify({
+                          [argName]: typeItem.value,
+                        })
+                      ).toString("base64")
+                    );
+                  }
                   const uS = (argName, type, value) => {
                     isCheck = true;
                     const arg = {
@@ -343,7 +351,6 @@ const getArgsFromMethod = (fName, fIndex) => {
                         isExist = true;
                       }
                     });
-                    //maybe bug token_id , nft_revoke and nft_revoke_all
                     if (isExist == false) {
                       abiMethod[fIndex].params.args.push(arg);
                       State.update({ cMethod: abiMethod });
