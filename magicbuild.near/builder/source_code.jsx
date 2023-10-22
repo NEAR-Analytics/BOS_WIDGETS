@@ -303,7 +303,7 @@ const getArgsFromMethod = (fName, fIndex) => {
               { value: state.contractAddress, type: "$ref" },
             ];
             if (argName == "metadata") {
-              checkType.push({
+              checkType.unshift({
                 value: JSON.parse(
                   '{ "spec": "0","name": "check", "symbol": "check" }'
                 ),
