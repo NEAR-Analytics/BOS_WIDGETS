@@ -364,10 +364,11 @@ const getArgsFromMethod = (fName, fIndex) => {
                       uS(argName, "$ref", state.contractAddress);
                     }
                     if (ftch.includes("invalid digit found")) {
+                      // bơi vì khi định hình đc mission thì pass value dạng address vào trước
                       uS(argName, typeItem.type, "300");
                     }
                     if (ftch.includes("integer from empty string")) {
-                      uS(argName, typeItem.type, state.contractAddress);
+                      uS(argName, typeItem.type, "300");
                     }
                     if (ftch.includes("unknown variant")) {
                       isCheck = true;
