@@ -363,7 +363,7 @@ const getArgsFromMethod = (fName, fIndex) => {
                       uS(argName, "string", "300");
                     }
                     if (fName == "nft_payout") {
-                      console.log(fName, strErr);
+                      console.log("ftch", strErr);
                     }
                     if (
                       ftch.includes("cannot parse integer from empty string")
@@ -434,7 +434,7 @@ const getArgsFromMethod = (fName, fIndex) => {
           //New : HostError(GuestPanic { panic_msg: "panicked at 'Failed to deserialize input from JSON.: Error(\"missing field `spec`\", line: 1, column: 45)'
           //nft_payout
           if (fName == "nft_payout") {
-            console.log(fName, strErr);
+            console.log("strErr", strErr);
           }
         });
 
