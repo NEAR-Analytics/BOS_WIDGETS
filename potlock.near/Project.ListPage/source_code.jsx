@@ -1,9 +1,19 @@
 const ownerId = "potlock.near";
-const registryId = "registry.potlock.near";
+const registryId = "registry1.tests.potlock.near"; // TODO: update when registry is deployed
 
 const IPFS_BASE_URL = "https://nftstorage.link/ipfs/";
-const HERO_BACKGROUND_IMAGE_URL =
-  IPFS_BASE_URL + "bafkreiewg5afxbkvo6jbn6jgv7zm4mtoys22jut65fldqtt7wagar4wbga";
+const DEFAULT_BANNER_IMAGE_URL =
+  IPFS_BASE_URL + "bafkreih4i6kftb34wpdzcuvgafozxz6tk6u4f5kcr2gwvtvxikvwriteci";
+const DEFAULT_PROFILE_IMAGE_URL =
+  IPFS_BASE_URL + "bafkreibwq2ucyui3wmkyowtzau6txgbsp6zizy4l2s5hkymsyv6tc75j3u";
+
+const getImageUrlFromSocialImage = (image) => {
+  if (image.url) {
+    return image.url;
+  } else if (image.ipfs_cid) {
+    return IPFS_BASE_URL + image.ipfs_cid;
+  }
+};
 
 const Container = styled.div`
   display: flex;
@@ -25,17 +35,18 @@ const HeroInner = styled.div`
   justify-content: space-between;
 `;
 
+const Separator = styled.div`
+  width: 100%;
+  height: 96px;
+  background-color: #f8f8f8;
+`;
+
 const SectionHeader = styled.div`
   display: flex;
   flex-direction: row;
   width: 100%;
   align-items: center;
   margin-bottom: 24px;
-  padding: 24px 64px 24px 64px;
-
-  @media screen and (max-width: 768px) {
-    padding: 16px 24px;
-  }
 `;
 
 const SectionTitle = styled.div`
@@ -56,166 +67,133 @@ const ProjectsContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  // padding: 0px 64px 96px 64px;
-  // background: #fafafa;
-
-  @media screen and (max-width: 768px) {
-    margin-top: 180px;
-  }
+  padding: 96px 64px;
 `;
 
-const HeroContainer = styled.div`
-  width: 100%;
-  min-height: 700px;
-  position: relative;
-`;
+State.init({
+  registeredProjects: null, // TODO: change this back to null
+  // registeredProjects: sampleProjects,
+  getRegisteredProjectsError: "",
+});
 
-const Hero = styled.img`
-  width: 100%;
-  height: 100%;
-  display: block;
+if (context.accountId && !state.registeredProjects) {
+  Near.asyncView(registryId, "get_projects", {})
+    .then((projects) => {
+      // get social data for each project
+      // name
+      // description
+      // bannerImage
+      // profileImage
+      // category
+      // horizon stuff, e.g. tags
+      Near.asyncView("social.near", "get", {
+        keys: projects.map((project) => `${project.id}/profile/**`),
+      }).then((socialData) => {
+        console.log("social data: ", socialData);
+        const formattedProjects = projects.map((project) => {
+          console.log("project line 153: ", project);
+          const profileData = socialData[project.id]?.profile;
+          console.log("profileData line 154: ", profileData);
+          let profileImageUrl = DEFAULT_PROFILE_IMAGE_URL;
+          if (profileData.image) {
+            const imageUrl = getImageUrlFromSocialImage(profileData.image);
+            if (imageUrl) profileImageUrl = imageUrl;
+          }
+          // get banner image URL
+          let bannerImageUrl = DEFAULT_BANNER_IMAGE_URL;
+          if (profileData.backgroundImage) {
+            const imageUrl = getImageUrlFromSocialImage(profileData.backgroundImage);
+            if (imageUrl) bannerImageUrl = imageUrl;
+          }
+          const formatted = {
+            id: project.id,
+            name: profileData.name ?? "",
+            description: profileData.description ?? "",
+            bannerImageUrl,
+            profileImageUrl,
+            tags: [profileData.category.text ?? ""], // TODO: change this to get tags from horizon/social
+          };
+          console.log("formatted: ", formatted);
+          return formatted;
+        });
+        console.log("formatted projects: ", formattedProjects);
+        State.update({ registeredProjects: formattedProjects });
+      });
+    })
+    .catch((e) => {
+      console.log("error getting projects: ", e);
+      State.update({ getRegisteredProjectsError: e });
+    });
+}
 
-  @media screen and (max-width: 768px) {
-    display: none;
-  }
-`;
-
-const InfoCardsContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  z-index: 1000;
-  margin: 28px 0;
-  gap: 40px;
-
-  @media screen and (max-width: 768px) {
-    flex-direction: column;
-    gap: 24px;
-    // justify-content: center;
-  }
-`;
-
-const userIsAdmin = props.registryAdmins && props.registryAdmins.includes(context.accountId);
-
-const projects = useMemo(
-  () =>
-    userIsAdmin
-      ? props.registeredProjects
-      : props.registeredProjects.filter((project) => project.status === "Approved"),
-  [props.registeredProjects, userIsAdmin]
-);
-
-const [totalDonations, totalDonors] = useMemo(() => {
-  if (!props.donations) {
-    return ["", "", ""];
-  }
-  let totalDonations = new Big("0");
-  let donors = {};
-  props.donations.forEach((donation) => {
-    const totalAmount = new Big(donation.total_amount);
-    const referralAmount = new Big(donation.referrer_fee || "0");
-    const protocolAmount = new Big(donation.protocol_fee || "0");
-    totalDonations = totalDonations.plus(totalAmount.minus(referralAmount).minus(protocolAmount));
-    donors[donation.donor_id] = true;
-  });
-  return [totalDonations.div(1e24).toNumber().toFixed(2), Object.keys(donors).length];
-}, [props.donations]);
+console.log("state in ListPage: ", state);
 
 return (
-  <>
-    <HeroContainer>
-      <Hero src={HERO_BACKGROUND_IMAGE_URL} alt="hero" />
-      <Widget
-        src={`${ownerId}/widget/Components.Header`}
-        props={{
-          title1: "Transforming",
-          title2: "Funding for Public Goods",
-          description:
-            "Discover impact projects, donate directly, or get automatic referral fees for raising donations",
-          centered: true,
-          containerStyle: {
-            position: "absolute",
-            height: "100%",
-            top: 0,
-            left: 0,
-            background:
-              "radial-gradient(80% 80% at 40.82% 50%, white 25%, rgba(255, 255, 255, 0) 100%)",
-          },
-          buttonPrimary: (
-            <Widget
-              src={`${ownerId}/widget/Buttons.ActionButton`}
-              props={{
-                type: "primary",
-                text: "Explore projects",
-                disabled: false,
-                style: { padding: "16px 24px" },
-              }}
-            />
-          ),
-          buttonSecondary: (
-            <Widget
-              src={`${ownerId}/widget/Buttons.NavigationButton`}
-              props={{
-                type: "secondary",
-                text: "Create project",
-                disabled: false,
-                href: `?tab=createproject`,
-                style: { padding: "16px 24px" },
-              }}
-            />
-          ),
-          // TODO: refactor this
-          children: totalDonations && (
-            <InfoCardsContainer>
+  <Container>
+    {!state.registeredProjects ? (
+      <div class="spinner-border text-secondary" role="status" />
+    ) : (
+      <>
+        <Widget
+          src={`${ownerId}/widget/Components.Header`}
+          props={{
+            title1: "Transforming",
+            title2: "Funding for Public Goods",
+            description:
+              "Lorem ipsum dolor sit amet consectetur. Vel sit nunc in nunc. Viverra arcu eu sed consequat.",
+            centered: true,
+            buttonPrimary: (
               <Widget
-                src={`${ownerId}/widget/Components.InfoCard`}
+                src={`${ownerId}/widget/Buttons.ActionButton`}
                 props={{
-                  infoTextPrimary: props.nearToUsd
-                    ? `$${(totalDonations * props.nearToUsd).toFixed(2)}`
-                    : `${totalDonations} N`,
-                  infoTextSecondary: "Total Contributed",
+                  type: "primary",
+                  text: "Explore projects",
+                  disabled: false,
                 }}
               />
+            ),
+            buttonSecondary: (
               <Widget
-                src={`${ownerId}/widget/Components.InfoCard`}
+                src={`${ownerId}/widget/Buttons.NavigationButton`}
                 props={{
-                  infoTextPrimary: totalDonors,
-                  infoTextSecondary: "Unique Donors",
+                  type: "secondary",
+                  text: "Create project",
+                  disabled: false,
+                  href: `?tab=createproject`,
                 }}
               />
-              <Widget
-                src={`${ownerId}/widget/Components.InfoCard`}
-                props={{
-                  infoTextPrimary: props.donations ? props.donations.length : "-",
-                  infoTextSecondary: "Donations",
-                }}
-              />
-            </InfoCardsContainer>
-          ),
-        }}
-      />
-    </HeroContainer>
-    <ProjectsContainer>
-      <SectionHeader>
-        <SectionTitle>All projects</SectionTitle>
-        <ProjectsCount>{projects.length}</ProjectsCount>
-      </SectionHeader>
-      <Widget
-        src={`${ownerId}/widget/Project.ListSection`}
-        props={{
-          projects,
-          renderItem: (project) => (
-            <Widget
-              src={`${ownerId}/widget/Project.Card`}
-              props={{
-                project,
-                ...props,
-              }}
-            />
-          ),
-        }}
-      />
-    </ProjectsContainer>
-  </>
+            ),
+          }}
+        />
+        <Separator />
+        {/* <SectionTitle>Featured projects</SectionTitle> */}
+        {/* <Widget
+      src={`${ownerId}/widget/Project.Carousel`}
+      props={{
+        projects: sampleProjects,
+      }}
+    /> */}
+        <ProjectsContainer>
+          <SectionHeader>
+            <SectionTitle>All projects</SectionTitle>
+            <ProjectsCount>{state.registeredProjects.length}</ProjectsCount>
+          </SectionHeader>
+          <Widget
+            src={`${ownerId}/widget/Project.ListSection`}
+            props={{
+              projects: state.registeredProjects,
+              renderItem: (project) => (
+                <Widget
+                  src={`${ownerId}/widget/Project.Card`}
+                  props={{
+                    project,
+                  }}
+                />
+              ),
+            }}
+          />
+        </ProjectsContainer>
+      </>
+    )}
+  </Container>
 );
