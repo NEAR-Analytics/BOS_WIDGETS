@@ -76,7 +76,7 @@ return (
       <Card key={index}>
         <CardContent style={{ top: 10, left: 10 }}>
           <img
-            style={{ width: 200, height: 90 }}
+            style={{ width: 80, height: 80 }}
             src={item.imageSrc}
             alt={item.title}
           />
