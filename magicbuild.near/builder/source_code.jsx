@@ -254,7 +254,7 @@ const getArgsFromMethod = (fName, fIndex) => {
       });
     }
   } else {
-    const getArg = setAsyncInterval(() => {
+    const getArg = setInterval(() => {
       const abiMethod = state.cMethod;
       const argsArr = abiMethod[fIndex].params.args;
       const argMap = argsArr.map(({ name, value }) => ({ [name]: value }));
@@ -295,9 +295,9 @@ const getArgsFromMethod = (fName, fIndex) => {
           { value: {}, type: "object" },
         ];
         const isCheck = false;
-        checkType.forEach((typeItem) => {
+        checkType.forEach((typeItem, typeIndex) => {
           if (isCheck == false) {
-            const res = fetch(state.rpcUrl, {
+            asyncFetch(state.rpcUrl, {
               body: JSON.stringify({
                 method: "query",
                 params: {
@@ -306,7 +306,7 @@ const getArgsFromMethod = (fName, fIndex) => {
                   method_name: fName,
                   args_base64: new Buffer.from(
                     JSON.stringify({
-                      [argName]: typeItem.value,
+                      [argName]: checkType[typeIndex].value,
                     })
                   ).toString("base64"),
                   finality: "optimistic",
@@ -316,38 +316,34 @@ const getArgsFromMethod = (fName, fIndex) => {
               }),
               headers: header,
               method: "POST",
-            });
-            const ftch = res.body.result.error;
-            const uS = (argName, type, value) => {
-              isCheck = true;
-              const arg = {
-                name: argName,
-                type_schema: {
-                  type: type,
-                },
-                value: type == "enum" ? value[0] : value,
-              };
-              if (type == "enum") {
-                arg.enum = value;
-              }
-              const isExist = false;
-              abiMethod[fIndex].params.args.forEach((item) => {
-                if (item.name == argName) {
-                  isExist = true;
+            }).then((res) => {
+              const ftch = res.body.result.error;
+              const uS = (argName, type, value) => {
+                isCheck = true;
+                const arg = {
+                  name: argName,
+                  type_schema: {
+                    type: type,
+                  },
+                  value: value,
+                };
+                const isExist = false;
+                abiMethod[fIndex].params.args.forEach((item) => {
+                  if (item.name == argName) {
+                    isExist = true;
+                  }
+                });
+                if (isExist == false) {
+                  abiMethod[fIndex].params.args.push(arg);
+                  State.update({ cMethod: abiMethod });
                 }
-              });
-              if (isExist == false) {
-                abiMethod[fIndex].params.args.push(arg);
-                State.update({ cMethod: abiMethod });
-              }
-            };
-            if (ftch) {
+              };
               if (
                 res.body.result.result ||
                 ftch.includes("Option::unwrap()`")
               ) {
                 uS(argName, typeItem.type, typeItem.value);
-                // clearAsyncInterval(getArg);
+                clearInterval(getArg);
               }
               if (ftch.includes("the account ID")) {
                 uS(argName, "$ref", state.contractAddress);
@@ -360,17 +356,14 @@ const getArgsFromMethod = (fName, fIndex) => {
                     ftch.lastIndexOf("\\")
                   )
                   .replaceAll("`", "")
-                  .replaceAll(" ", "")
                   .split(",");
-                uS(argName, "enum", getEnum);
+                uS(argName, typeItem.type, getEnum[0]);
               }
+
               if (ftch.includes("missing field")) {
                 uS(argName, typeItem.type, typeItem.value);
               }
-            } else {
-              uS(argName, typeItem.type, typeItem.value);
-              // clearAsyncInterval(getArg);
-            }
+            });
           }
         });
       }
