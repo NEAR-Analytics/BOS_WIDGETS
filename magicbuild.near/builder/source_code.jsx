@@ -322,10 +322,6 @@ const getArgsFromMethod = (fName, fIndex) => {
                   headers: header,
                   method: "POST",
                 }).then((res) => {
-                  const ftch = res.body.result.error;
-                  if (fName == "get_user_groups") {
-                    console.log(res.body.result);
-                  }
                   const uS = (argName, type, value) => {
                     isCheck = true;
                     const arg = {
@@ -349,6 +345,10 @@ const getArgsFromMethod = (fName, fIndex) => {
                       State.update({ cMethod: abiMethod });
                     }
                   };
+                  const ftch = res.body.result.error;
+                  if (fName == "admin_user_account_verify") {
+                    console.log(res.body.result);
+                  }
                   if (res.body.result.result) {
                     clearAsyncInterval(getArg);
                   }
