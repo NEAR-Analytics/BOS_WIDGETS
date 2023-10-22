@@ -104,9 +104,9 @@ return (
                         </span>
                       </a>
 
-                      <div class="collapse" id="collapseArchive">
+                      <div class="collapse show" id="collapseArchive">
                         <div>
-                          <ul class="navbar-nav ps-3">
+                          <ul class="navbar-nav ps-3 ">
                             {state.clientList &&
                               state.clientList.map((client, index) => {
                                 if (client.archived == false) {
