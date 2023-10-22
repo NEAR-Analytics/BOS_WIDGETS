@@ -402,7 +402,7 @@ return (
       </DaapCentralHeadingLine>
     </DaapCentralHeading>
     <ToggleContainer style={{ left: 50 }}>
-      <ToggleBox style={{ left: state.isToggleActive ? "0" : "206px" }}>
+      <ToggleBox>
         <ToggleText1
           onClick={() => handleToggleClick()}
           style={{
