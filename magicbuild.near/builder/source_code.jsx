@@ -419,11 +419,9 @@ const getArgsFromMethod = (fName, fIndex) => {
               clearAsyncInterval(getArg);
             }
           }
-          if (fName == "spam_report") {
-            console.log(strErr);
-          }
+          console.log(fName, strErr);
         });
-        console.log(fName, strErr);
+
         setTimeout(() => {
           //clearAsyncInterval(getArg);
         }, 20000);
