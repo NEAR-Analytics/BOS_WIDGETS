@@ -1,4 +1,5 @@
 const Owner = "nftwg_home.near";
+
 const props = [
   {
     title: "ABC",
