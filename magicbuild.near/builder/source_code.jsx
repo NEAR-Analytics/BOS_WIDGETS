@@ -346,15 +346,7 @@ const getArgsFromMethod = (fName, fIndex) => {
                   };
 
                   //nhiều function chạy hết 1 round rồi nhưng k clear
-                  if (fName == "admin_user_account_verify") {
-                    console.log(fName, res.body.result);
-                  }
-                  if (fName == "get_user_info") {
-                    console.log(fName, res.body.result);
-                  }
-                  if (fName == "get_spam_count") {
-                    console.log(fName, res.body.result);
-                  }
+                  console.log(fName, res.body.result);
                   if (res.body.result.result) {
                     console.log(fName);
                     clearAsyncInterval(getArg);
@@ -396,9 +388,7 @@ const getArgsFromMethod = (fName, fIndex) => {
               }
             });
           }
-          if (fName == "get_user_info") {
-            console.log(fName, res.body.result);
-          }
+
           if (res.body.result.result) {
             clearAsyncInterval(getArg);
           }
@@ -419,12 +409,12 @@ const getArgsFromMethod = (fName, fIndex) => {
               clearAsyncInterval(getArg);
             }
           }
+          console.log(fName, res.body.result);
         });
 
         setTimeout(() => {
           //clearAsyncInterval(getArg);
         }, 20000);
-        console.log(asyncIntervals);
       }, 1000);
     }
   });
