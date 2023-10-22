@@ -296,6 +296,7 @@ const getArgsFromMethod = (fName, fIndex) => {
             }
             const checkType = [
               { value: "", type: "string" },
+              { value: "0", type: "integer" },
               { value: 0, type: "integer" },
               { value: [], type: "array" },
               { value: true, type: "boolean" },
