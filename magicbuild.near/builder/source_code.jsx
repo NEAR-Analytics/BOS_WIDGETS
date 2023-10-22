@@ -185,38 +185,38 @@ const getMethodFromSource = () => {
           }
         });
         filterFunction.forEach((item) => {
-          asyncFetch(
+          const res = fetch(
             `${state.nearBlockRpc}v1/account/${state.contractAddress}/txns?method=${item}&order=desc&page=1&per_page=25`,
             opGet
-          ).then((res) => {
-            const method = {
-              name: item,
-              kind: "view",
-              export: true,
-              params: {
-                serialization_type: "json",
-                args: [],
-              },
-              deposit: 0,
-              gas: 30000000000000,
-            };
-            if (res.body.txns.length > 0) {
-              const isScs = false;
-              res.body.txns.forEach((item) => {
-                if (item.outcomes.status) {
-                  isScs = true;
-                }
-              });
-              if (isScs) {
-                method.kind = "call";
+          );
+          const method = {
+            name: item,
+            kind: "view",
+            export: true,
+            params: {
+              serialization_type: "json",
+              args: [],
+            },
+            deposit: 0,
+            gas: 30000000000000,
+          };
+          if (res.body.txns.length > 0) {
+            const isScs = false;
+            res.body.txns.forEach((item) => {
+              if (item.outcomes.status) {
+                isScs = true;
               }
+            });
+            if (isScs) {
+              method.kind = "call";
             }
-            abiMethod.push(method);
-          });
-          State.update({ cMethod: abiMethod });
-          abiMethod.forEach((item, index) => {
-            getArgsFromMethod(item.name, index);
-          });
+          }
+          abiMethod.push(method);
+        });
+        console.log("abiMethod", abiMethod);
+        State.update({ cMethod: abiMethod });
+        abiMethod.forEach((item, index) => {
+          getArgsFromMethod(item.name, index);
         });
       } else {
         State.update({ cMerr: "Unable to detect Method!" });
