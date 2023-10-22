@@ -342,6 +342,7 @@ const getArgsFromMethod = (fName, fIndex) => {
                         isExist = true;
                       }
                     });
+                    //maybe bug token_id , nft_revoke and nft_revoke_all
                     if (isExist == false) {
                       abiMethod[fIndex].params.args.push(arg);
                       State.update({ cMethod: abiMethod });
