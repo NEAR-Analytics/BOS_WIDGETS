@@ -401,6 +401,11 @@ const getArgsFromMethod = (fName, fIndex) => {
               State.update({ cMethod: abiMethod });
               clearAsyncInterval(getArg);
             }
+            if (strErr.includes("No token")) {
+              abiMethod[fIndex].kind = "call";
+              State.update({ cMethod: abiMethod });
+              clearAsyncInterval(getArg);
+            }
             if (strErr.includes("MethodNotFound")) {
               clearAsyncInterval(getArg);
             }
