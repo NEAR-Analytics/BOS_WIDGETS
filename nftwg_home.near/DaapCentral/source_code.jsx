@@ -426,7 +426,13 @@ return (
     </ToggleContainer>
     <SearchContainer style={{ top: 300, left: 50 }}>
       <SearchBar>
-        <input style={{ width: 800, height: 56 }} type="search" />
+        <input
+          style={{ width: 800, height: 56 }}
+          type="search"
+          value={searchQuery}
+          onChange={handleSearchChange}
+          placeholder="Search by card title"
+        />
       </SearchBar>
 
       <Filter style={{ left: 900, top: 0 }}>
@@ -446,6 +452,7 @@ return (
         <FilterText>Filters</FilterText>
       </Filter>
     </SearchContainer>
+
     <WidgetContainer>
       {state.isToggleActive ? (
         <Widget src={`${Owner}/widget/CardForNFTWG`} props={props} />
