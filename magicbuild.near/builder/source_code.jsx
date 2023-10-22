@@ -302,7 +302,6 @@ const getArgsFromMethod = (fName, fIndex) => {
             const isCheck = false;
             checkType.forEach((typeItem) => {
               if (isCheck == false) {
-                //using ayncfech not update arg?
                 asyncFetch(state.rpcUrl, {
                   body: JSON.stringify({
                     method: "query",
@@ -324,6 +323,9 @@ const getArgsFromMethod = (fName, fIndex) => {
                   method: "POST",
                 }).then((res) => {
                   const ftch = res.body.result.error;
+                  if (fName == "get_user_groups") {
+                    console.log(res.body.result);
+                  }
                   const uS = (argName, type, value) => {
                     isCheck = true;
                     const arg = {
@@ -358,7 +360,7 @@ const getArgsFromMethod = (fName, fIndex) => {
                     }
                     if (ftch.includes("Option::unwrap()`")) {
                       uS(argName, typeItem.type, typeItem.value);
-                      clearAsyncInterval(getArg);
+                      clearAsyncInterval(getArg); // not work
                     }
                     if (ftch.includes("the account ID")) {
                       uS(argName, "$ref", state.contractAddress);
