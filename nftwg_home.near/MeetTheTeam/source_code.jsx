@@ -304,7 +304,10 @@ return (
         <SocialContainer style={{ top: 620, left: 205 }}>
           <SocialIcon>
             <NameContainer style={{ left: 35, top: -10 }}>Kirk</NameContainer>
-            <a href="https://near.social/mob.near/widget/ProfilePage?accountId=krikkraktrak.near">
+            <a
+              href="https://near.social/mob.near/widget/ProfilePage?accountId=krikkraktrak.near"
+              target="blank"
+            >
               <img
                 style={{ width: 20, height: 20 }}
                 src="https://near.social/favicon.png"
@@ -313,7 +316,10 @@ return (
           </SocialIcon>
 
           <SocialIcon>
-            <a href="https://gov.near.org/t/self-nomination-nft-revival-dao-krik/35332">
+            <a
+              href="https://gov.near.org/t/self-nomination-nft-revival-dao-krik/35332"
+              target="blank"
+            >
               <img
                 style={{ width: 20, height: 20 }}
                 src="https://cdn.discordapp.com/attachments/1135845507189702748/1162113622244347974/self-introduction.svg?ex=653ac1a6&is=65284ca6&hm=93e8c533053b22ea0bbdf66e06ece735bbace3a746ad382a4c2772a3fb467fd7&"
@@ -324,7 +330,10 @@ return (
         <SocialContainer style={{ top: 620, left: 560 }}>
           <NameContainer style={{ left: 15, top: -20 }}>Aescobar</NameContainer>
           <SocialIcon>
-            <a href="https://near.social/mob.near/widget/ProfilePage?accountId=escobarindo.near">
+            <a
+              href="https://near.social/mob.near/widget/ProfilePage?accountId=escobarindo.near"
+              target="blank"
+            >
               <img
                 style={{ width: 20, height: 20 }}
                 src="https://near.social/favicon.png"
@@ -332,7 +341,10 @@ return (
             </a>
           </SocialIcon>
           <SocialIcon>
-            <a href="https://id.linkedin.com/in/aescobar-mike-85208b285">
+            <a
+              href="https://id.linkedin.com/in/aescobar-mike-85208b285"
+              target="blank"
+            >
               <svg
                 width="15"
                 height="15"
@@ -348,7 +360,10 @@ return (
             </a>
           </SocialIcon>
           <SocialIcon>
-            <a href="https://gov.near.org/t/self-nomination-nft-wg-core-contributors/35359">
+            <a
+              href="https://gov.near.org/t/self-nomination-nft-wg-core-contributors/35359"
+              target="blank"
+            >
               <img
                 style={{ width: 20, height: 20 }}
                 src="https://cdn.discordapp.com/attachments/1135845507189702748/1162113622244347974/self-introduction.svg?ex=653ac1a6&is=65284ca6&hm=93e8c533053b22ea0bbdf66e06ece735bbace3a746ad382a4c2772a3fb467fd7&"
@@ -361,7 +376,10 @@ return (
             Tej (aka Punter)
           </NameContainer>
           <SocialIcon>
-            <a href="https://near.social/mob.near/widget/ProfilePage?accountId=nearversedao.near">
+            <a
+              href="https://near.social/mob.near/widget/ProfilePage?accountId=nearversedao.near"
+              target="blank"
+            >
               <img
                 style={{ width: 20, height: 20 }}
                 src="https://near.social/favicon.png"
@@ -369,7 +387,10 @@ return (
             </a>
           </SocialIcon>
           <SocialIcon>
-            <a href="https://www.linkedin.com/in/tej-mirthinti-b2bb575a/">
+            <a
+              href="https://www.linkedin.com/in/tej-mirthinti-b2bb575a/"
+              target="blank"
+            >
               <svg
                 width="15"
                 height="15"
@@ -385,7 +406,10 @@ return (
             </a>
           </SocialIcon>
           <SocialIcon>
-            <a href="https://gov.near.org/t/self-nomination-nft-wg-election/35357">
+            <a
+              href="https://gov.near.org/t/self-nomination-nft-wg-election/35357"
+              target="blank"
+            >
               <img
                 style={{ width: 20, height: 20 }}
                 src="https://cdn.discordapp.com/attachments/1135845507189702748/1162113622244347974/self-introduction.svg?ex=653ac1a6&is=65284ca6&hm=93e8c533053b22ea0bbdf66e06ece735bbace3a746ad382a4c2772a3fb467fd7&"
