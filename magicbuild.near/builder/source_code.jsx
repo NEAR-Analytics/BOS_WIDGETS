@@ -267,7 +267,7 @@ const getArgsFromMethod = (fName, fIndex) => {
         argMap.forEach((item) => {
           Object.assign(args, item);
         });
-        const countLoop = 0;
+        let countLoop = 0;
         asyncFetch(state.rpcUrl, {
           body: JSON.stringify({
             method: "query",
@@ -506,7 +506,7 @@ const getArgsFromMethod = (fName, fIndex) => {
         if (countLoop == 6) {
           clearInterval(getArg);
         }
-        console.log(check, countLoop);
+        console.log("check", countLoop);
         setTimeout(() => {
           clearInterval(getArg);
           // clearAsyncInterval(getArg);
