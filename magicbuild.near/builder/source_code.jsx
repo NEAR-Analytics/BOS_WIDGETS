@@ -405,6 +405,7 @@ const getArgsFromMethod = (fName, fIndex) => {
                       uS(argName, "enum", enumList);
                     }
                     if (ftch.includes("missing field")) {
+                      console.log("test");
                       uS(argName, typeItem.type, typeItem.value);
                     }
                     if (ftch.includes("Requires attached deposit")) {
@@ -423,7 +424,7 @@ const getArgsFromMethod = (fName, fIndex) => {
                     ) {
                       console.log("check", isCheck);
                       //uS(argName, typeItem.type, typeItem.value);
-                      if (!isCheck) {
+                      if (isCheck) {
                         clearInterval(getArg);
                       }
                     }
@@ -491,7 +492,6 @@ const getArgsFromMethod = (fName, fIndex) => {
               clearInterval(getArg);
             }
           }
-          console.log("hello");
           console.log(fName, strErr);
         });
 
