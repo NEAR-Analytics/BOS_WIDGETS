@@ -489,11 +489,16 @@ const getArgsFromMethod = (fName, fIndex) => {
               State.update({ cMethod: abiMethod });
               clearInterval(getArg);
             }
-            const isDupicalte = false;
+
             if (
               strErr.match(/\`(.*?)\`/g)[0] &&
               strErr.includes("missing field")
             ) {
+              const isDupicalte = false;
+              console.log(strErr.match(/\`(.*?)\`/g)[0].replaceAll("`", ""));
+              if (isDupicalte) {
+                clearInterval(getArg);
+              }
             }
           }
           console.log(fName, strErr);
