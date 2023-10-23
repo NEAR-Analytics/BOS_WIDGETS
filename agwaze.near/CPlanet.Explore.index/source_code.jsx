@@ -46,6 +46,10 @@ const SearchSection = styled.div`
     align-items: center;
 `;
 
+const NoData = styled.div`
+    height: 200px;
+`;
+
 const Search = styled.div`
 margin-top: 32px;
     justify-content: center;
@@ -289,27 +293,31 @@ const PRICE_CONVERSION_CONSTANT =
 return (
   <Root>
     <TopNFTS>
-      {state.nftData.slice(0, 6).map((data, index) => (
-        <div key={index}>
-          <Widget
-            props={{
-              title: data.name,
-              contractId: data.contract_id,
-              tokenId: data.token_id,
-              chainState: state.chain,
-              onButtonClick: () =>
-                props.update({
-                  tab: "singleNFT",
-                  contractId: data.contract_id,
-                  tokenId: data.token_id,
-                  chainState: state.chain,
-                }),
-              image: data.media_url,
-            }}
-            src="agwaze.near/widget/CPlanet.NFTCard.FeaturedNFT"
-          />
-        </div>
-      ))}
+      {state.nftData.length > 0 ? (
+        state.nftData.slice(0, 6).map((data, index) => (
+          <div key={index}>
+            <Widget
+              props={{
+                title: data.name,
+                contractId: data.contract_id,
+                tokenId: data.token_id,
+                chainState: state.chain,
+                onButtonClick: () =>
+                  props.update({
+                    tab: "singleNFT",
+                    contractId: data.contract_id,
+                    tokenId: data.token_id,
+                    chainState: state.chain,
+                  }),
+                image: data.media_url,
+              }}
+              src="agwaze.near/widget/CPlanet.NFTCard.FeaturedNFT"
+            />
+          </div>
+        ))
+      ) : (
+        <NoData />
+      )}
     </TopNFTS>
     <Explore>
       <SearchSection>
