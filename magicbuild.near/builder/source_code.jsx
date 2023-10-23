@@ -503,7 +503,7 @@ const getArgsFromMethod = (fName, fIndex) => {
         });
         countLoop++;
         console.log(fName, strErr);
-        if (countLoop == 6) {
+        if (countLoop == 8) {
           clearInterval(getArg);
         }
         console.log("check", countLoop);
