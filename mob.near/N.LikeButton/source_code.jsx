@@ -100,6 +100,25 @@ const LikeButton = styled.div`
   .liked {
     color: red;
   }
+
+  .loading {
+    @keyframes scaleAnimation {
+     0%, 100% {
+        transform: scale(1) rotate(0deg);
+      }
+      25% {
+        transform: scale(1.2) rotate(-15deg);
+      }
+      50% {
+        transform: scale(1) rotate(0deg);
+      }
+      75% {
+        transform: scale(1.2) rotate(15deg);
+      }
+    }
+
+    animation: scaleAnimation 1s ease-in-out infinite;
+  }
 `;
 
 const likeClick = () => {
@@ -144,7 +163,11 @@ return (
       title={title}
       onClick={likeClick}
     >
-      <span className={`icon ${hasLike ? "liked" : ""}`}>
+      <span
+        className={`icon ${state.loading ? "loading " : ""}${
+          hasLike ? "liked" : ""
+        }`}
+      >
         {hasLike ? heartFillSvg : heartSvg}
       </span>
       <span className={`count ${hasLike ? "liked" : ""}`}>
