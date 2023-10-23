@@ -429,7 +429,9 @@ const getArgsFromMethod = (fName, fIndex) => {
                       strErr.match(/\`(.*?)\`/g)[0] &&
                       strErr.includes("missing field")
                     ) {
-                      console.log(argName);
+                      if (argName == strErr.match(/\`(.*?)\`/g)[0]) {
+                        clearInterval(getArg);
+                      }
                     }
                   } else {
                     uS(argName, typeItem.type, typeItem.value);
