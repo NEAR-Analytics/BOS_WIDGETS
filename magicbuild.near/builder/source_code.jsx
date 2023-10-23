@@ -581,3 +581,12 @@ return (
             onChange={(e) => cFunc(e, "address")}
           />
         </div>
+  <div class="form-group col-md-2">
+          <label></label>
+          <button
+            onClick={getMethodFromSource}
+            class="btn btn-dark form-control "
+          >
+            🧙🏻 Scan
+          </button>
+        </div>
