@@ -51,7 +51,7 @@ font-size: 16px;
 line-height: 100%;
 /* identical to box height, or 16px */
 color: #DFDFDF;
-cursor:pointer;
+
 /* Inside auto layout */
 flex: none;
 order: 0;
@@ -62,7 +62,7 @@ const aboutUs = styled.div`
 /* About Us */
 width: 65px;
 height: 16px;
-cursor:pointer;
+
 font-family: inherit;
 font-style: normal;
 font-weight: 400;
@@ -81,7 +81,7 @@ const ourGoals = styled.div`
 /* Our Goals */
 width: 73px;
 height: 16px;
-cursor:pointer;
+
 font-family: inherit;
 font-style: normal;
 font-weight: 400;
@@ -108,7 +108,7 @@ line-height: 100%;
 /* identical to box height, or 16px */
 color: #DFDFDF;
 white-space: nowrap;
-cursor:pointer;
+
 /* Inside auto layout */
 flex: none;
 order: 3;
@@ -127,7 +127,7 @@ line-height: 100%;
 /* identical to box height, or 16px */
 color: #DFDFDF;
 white-space: nowrap;
-cursor:pointer;
+
 /* Inside auto layout */
 flex: none;
 order: 4;
