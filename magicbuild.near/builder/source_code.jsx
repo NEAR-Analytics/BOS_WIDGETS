@@ -567,3 +567,17 @@ const onBtnClickCall = (fName, action, fIndex) => {
     }
   }
 };
+return (
+  <>
+    <div class="container border rounded p-3 border-2">
+      <h3 class="text-center">Contract</h3>
+      <div class="row mb-3">
+        <div class="form-group col-md-10">
+          <h6 class="mb-2">Contract Address</h6>
+          <input
+            class="form-control"
+            value={state.contractAddress}
+            placeholder="Contract Address"
+            onChange={(e) => cFunc(e, "address")}
+          />
+        </div>
