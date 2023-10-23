@@ -436,8 +436,14 @@ const getArgsFromMethod = (fName, fIndex) => {
                     uS(argName, typeItem.type, typeItem.value);
                     clearInterval(getArg);
                   }
-                  console.log("check", isCheck);
-                  console.log("exist", isExist);
+                  console.log(
+                    "check :",
+                    isCheck,
+                    "exist",
+                    isExist,
+                    "arg",
+                    argName
+                  );
                 });
               }
             });
