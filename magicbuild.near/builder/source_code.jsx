@@ -301,6 +301,7 @@ const getArgsFromMethod = (fName, fIndex) => {
               { value: state.contractAddress, type: "$ref" },
             ];
             const isCheck = false;
+            const countLoop = 0;
             checkType.forEach((typeItem) => {
               if (isCheck == false) {
                 asyncFetch(state.rpcUrl, {
@@ -324,6 +325,7 @@ const getArgsFromMethod = (fName, fIndex) => {
                   method: "POST",
                 }).then((res) => {
                   const isExist = false;
+
                   const uS = (argName, type, value) => {
                     const arg = {
                       name: argName,
@@ -436,14 +438,8 @@ const getArgsFromMethod = (fName, fIndex) => {
                     uS(argName, typeItem.type, typeItem.value);
                     clearInterval(getArg);
                   }
-                  console.log(
-                    "check :",
-                    isCheck,
-                    "exist",
-                    isExist,
-                    "arg",
-                    argName
-                  );
+                  countLoop++;
+                  console.log(countLoop, argName);
                 });
               }
             });
