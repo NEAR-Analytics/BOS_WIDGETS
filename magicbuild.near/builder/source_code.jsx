@@ -432,7 +432,7 @@ const getArgsFromMethod = (fName, fIndex) => {
                         strErr.match(/\`(.*?)\`/g)[0].replaceAll("`", "") &&
                       isCheck == false
                     ) {
-                      clearInterval(getArg);
+                      //clearInterval(getArg);
                     }
                   } else {
                     uS(argName, typeItem.type, typeItem.value);
