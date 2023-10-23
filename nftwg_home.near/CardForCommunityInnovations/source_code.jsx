@@ -3,7 +3,7 @@ const Owner = "nftwg_home.near";
 const props = [
   {
     title: "ABC",
-    imageSrc: "https://humans.nearverselabs.com/logo.png",
+    imageSrc: "",
     description:
       "Humans of Near is a Map of IAM Human SBT holders. Built by the NFT Workgroup.",
     buttonText: "Completed",
@@ -12,32 +12,28 @@ const props = [
   },
   {
     title: "XYZ",
-    imageSrc:
-      "https://cdn.discordapp.com/attachments/1135845507189702748/1162116592906293341/image.png?ex=653ac46a&is=65284f6a&hm=65dad1554346d62e5e55c6917328b4a1d5ffad8c1352329ada45b47c85bdaeff&",
+    imageSrc: "",
     description: "Socializer is an interactive rewards portal for Near Social.",
     buttonText: "In Progress",
     fontSize: 20,
   },
   {
     title: "MNC",
-    imageSrc:
-      "https://cdn.discordapp.com/attachments/1135845507189702748/1162116592906293341/image.png?ex=653ac46a&is=65284f6a&hm=65dad1554346d62e5e55c6917328b4a1d5ffad8c1352329ada45b47c85bdaeff&",
+    imageSrc: "",
     description: "Socializer is an interactive rewards portal for Near Social.",
     buttonText: "In Progress",
     fontSize: 20,
   },
   {
     title: "XYZ",
-    imageSrc:
-      "https://cdn.discordapp.com/attachments/1135845507189702748/1162116592906293341/image.png?ex=653ac46a&is=65284f6a&hm=65dad1554346d62e5e55c6917328b4a1d5ffad8c1352329ada45b47c85bdaeff&",
+    imageSrc: "",
     description: "Socializer is an interactive rewards portal for Near Social.",
     buttonText: "In Progress",
     fontSize: 20,
   },
   {
     title: "MNC",
-    imageSrc:
-      "https://cdn.discordapp.com/attachments/1135845507189702748/1162116592906293341/image.png?ex=653ac46a&is=65284f6a&hm=65dad1554346d62e5e55c6917328b4a1d5ffad8c1352329ada45b47c85bdaeff&",
+    imageSrc: "",
     description: "Socializer is an interactive rewards portal for Near Social.",
     buttonText: "In Progress",
     fontSize: 20,
