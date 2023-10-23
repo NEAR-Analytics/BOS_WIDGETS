@@ -135,7 +135,7 @@ const tabContent = (
 const Content = styled.div`
   padding-top: 110px; // navbar height
   width: 100%;
-  height: 100vh;
+  height: 100%;
   background: #ffffff;
   // padding: 3em;
   border-radius: 0rem 0rem 1.5rem 1.5rem;
