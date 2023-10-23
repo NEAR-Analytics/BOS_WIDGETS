@@ -198,26 +198,71 @@ justify-content: center;
 `;
 return (
   <Container className="container-xl">
-    {/*main section*/}
-    <Widget src={`${rootUser}/widget/nw-navbar`} />
+    <div className="row">
+      {/*main section*/}
+      <Widget src={`${rootUser}/widget/nw-navbar`} />
 
-    <ContentContainer>
-      <div>
-        {/*Newsletter div */}
-        <MainSection>
-          <NewsletterCard />
+      <ContentContainer>
+        <div>
+          {/*Newsletter div */}
+          <MainSection>
+            <NewsletterCard />
+            <TabContentFooter>
+              <ButtonLink
+                href="https://nearweek.com/newsletters"
+                target="_blank"
+              >
+                Load more
+              </ButtonLink>
+            </TabContentFooter>
+          </MainSection>
+          {/*Audio Div */}
+          <div class="d-none d-md-block">
+            <MainSection class="border border-danger">
+              <AudioCard />
+              <TabContentFooter>
+                {/* This part remains the same */}
+                <AudioButtonLink href={nwSite + "/audio"} target="_blank">
+                  Load more
+                </AudioButtonLink>
+              </TabContentFooter>
+              <AudioBage>
+                <div className="text-container">
+                  <h3>Submit Your Audio</h3>
+                  <p>
+                    Share your podcast, Spaces or interview and get featured
+                  </p>
+                </div>
+              </AudioBage>
+            </MainSection>
+          </div>
+        </div>
+        {/*Articles div */}
+        <MainSectionArticles fullWidth changeOrder>
+          <Articles />
           <TabContentFooter>
-            <ButtonLink href="https://nearweek.com/newsletters" target="_blank">
+            <ButtonLink href="//nearweek.medium.com" target="_blank">
+              Load more
+            </ButtonLink>
+          </TabContentFooter>
+        </MainSectionArticles>
+        {/*Newswire div */}
+        <MainSection>
+          <NewswireCard />
+          <TabContentFooter>
+            <ButtonLink
+              href="https://near.org/nearweekapp.near/widget/nearweek-news"
+              target="_blank"
+            >
               Load more
             </ButtonLink>
           </TabContentFooter>
         </MainSection>
         {/*Audio Div */}
-        <div class="d-none d-md-block">
-          <MainSection class="border border-danger">
+        <div class="d-block d-md-none">
+          <MainSection>
             <AudioCard />
             <TabContentFooter>
-              {/* This part remains the same */}
               <AudioButtonLink href={nwSite + "/audio"} target="_blank">
                 Load more
               </AudioButtonLink>
@@ -230,46 +275,8 @@ return (
             </AudioBage>
           </MainSection>
         </div>
-      </div>
-      {/*Articles div */}
-      <MainSectionArticles fullWidth changeOrder>
-        <Articles />
-        <TabContentFooter>
-          <ButtonLink href="//nearweek.medium.com" target="_blank">
-            Load more
-          </ButtonLink>
-        </TabContentFooter>
-      </MainSectionArticles>
-      {/*Newswire div */}
-      <MainSection>
-        <NewswireCard />
-        <TabContentFooter>
-          <ButtonLink
-            href="https://near.org/nearweekapp.near/widget/nearweek-news"
-            target="_blank"
-          >
-            Load more
-          </ButtonLink>
-        </TabContentFooter>
-      </MainSection>
-      {/*Audio Div */}
-      <div class="d-block d-md-none">
-        <MainSection>
-          <AudioCard />
-          <TabContentFooter>
-            <AudioButtonLink href={nwSite + "/audio"} target="_blank">
-              Load more
-            </AudioButtonLink>
-          </TabContentFooter>
-          <AudioBage>
-            <div className="text-container">
-              <h3>Submit Your Audio</h3>
-              <p>Share your podcast, Spaces or interview and get featured</p>
-            </div>
-          </AudioBage>
-        </MainSection>
-      </div>
-    </ContentContainer>
-    <Widget src={`${rootUser}/widget/nw-footer`} />
+      </ContentContainer>
+      <Widget src={`${rootUser}/widget/nw-footer`} />
+    </div>
   </Container>
 );
