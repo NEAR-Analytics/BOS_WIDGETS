@@ -38,13 +38,13 @@ initState({
 
 const onChangeName = (name) => {
   State.update({
-    name,
+    name: name && name.toLowerCase(),
   });
 };
 
 const onChangeSymbol = (symbol_name) => {
   State.update({
-    symbol_name,
+    symbol_name: symbol_name && symbol_name.toLowerCase(),
   });
 };
 
