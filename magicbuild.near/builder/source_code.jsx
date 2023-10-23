@@ -361,8 +361,6 @@ const getArgsFromMethod = (fName, fIndex) => {
                   const ftch = res.body.result.error;
 
                   if (ftch) {
-                    //invalid token id
-
                     if (ftch.includes("Option::unwrap()`")) {
                       uS(argName, typeItem.type, typeItem.value);
                       abiMethod[fIndex].kind = "call";
@@ -492,17 +490,10 @@ const getArgsFromMethod = (fName, fIndex) => {
               clearInterval(getArg);
             }
             const isDupicalte = false;
-            abiMethod[fIndex].params.args.forEach((item) => {
-              console.log(item);
-              if (
-                Object.keys(item)[0] ==
-                strErr.match(/\`(.*?)\`/g)[0].replaceAll("`", "")
-              ) {
-                isDupicalte = true;
-              }
-            });
-            if (isDupicalte) {
-              clearInterval(getArg);
+            if (
+              strErr.match(/\`(.*?)\`/g)[0] &&
+              strErr.includes("missing field")
+            ) {
             }
           }
           console.log(fName, strErr);
