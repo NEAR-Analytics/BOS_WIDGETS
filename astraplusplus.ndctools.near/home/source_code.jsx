@@ -2,7 +2,7 @@ const CoADaoId = props.dev
     ? "coa.gwg-testing.near"
     : "congress-coa-v1.ndc-gwg.near";
 const VotingBodyDaoId = props.dev
-    ? ""
+    ? "vb.gwg-testing.near"
     : "";
 const TCDaoId = props.dev
     ? "tc.gwg-testing.near"
@@ -108,14 +108,14 @@ const pages = [
             href: currentLink + `?page=congress&house=tc`,
             onClick: () => router.navigate({ page: "congress", house: "tc" }),
             widgetName: "DAO.index"
+        },
+        {
+            title: "Voting Body",
+            active: page === "congress" && router.params.house === "vb",
+            href: currentLink + `?page=congress&house=vb`,
+            onClick: () => router.navigate({ page: "congress", house: "vb" }),
+            widgetName: "DAO.index"
         }
-        // {
-        //     title: "Voting Body",
-        //     active: page === "congress" && router.params.house === "vb",
-        //     href: currentLink + `?page=congress&house=vb`,
-        //     onClick: () => router.navigate({ page: "congress", house: "vb" }),
-        //     widgetName: "DAO.index"
-        // }
     ],
     [
         {
