@@ -359,11 +359,13 @@ return (
           {arrow}
           <h2>View Artist Page</h2>
         </a>
-        <p>
-          {porps.chainState === "near" && profile.description
-            ? profile.description
-            : "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi utaliquip ex ea commodo consequat."}
-        </p>
+        {props.chainState === "near" && (
+          <p>
+            {profile.description
+              ? profile.description
+              : "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi utaliquip ex ea commodo consequat."}
+          </p>
+        )}
       </About>
     </Body>
   </Root>
