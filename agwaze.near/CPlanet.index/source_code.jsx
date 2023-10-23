@@ -48,7 +48,7 @@ return (
   <Root>
     <Widget
       src="agwaze.near/widget/CPlanet.Navbar.index"
-      props={{ tab: state.tab }}
+      props={{ tab: state.tab, update  }}
     />
     <Contents>{tabContent}</Contents>
     <Widget src="agwaze.near/widget/CPlanet.Footer" />
