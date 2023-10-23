@@ -378,10 +378,11 @@ const getArgsFromMethod = (fName, fIndex) => {
                     }
                     if (ftch.includes("unknown variant")) {
                       const getEnum = ftch.match(/\`(.*?)\`/g).shift();
+                      console.log("getEnum", getEnum);
                       const enumList = [];
-                      getEnum.forEach((item) => {
-                        enumList.push(item.replaceAll("`", ""));
-                      });
+                      // getEnum.forEach((item) => {
+                      //   enumList.push(item.replaceAll("`", ""));
+                      // });
                       //magicbuild.near/widget/builder change_state wasm execution failed with error: HostError(GuestPanic { panic_msg: "panicked at 'Failed to deserialize input from JSON.: Error(\"unknown variant `ailedwitherror:HostError(GuestPanic{panic_msg:\\\"panickedat'FailedtodeserializeinputfromJSON.:Error(\\\\\\\"unknownvariantv2.ref-finance.near`, expected `Running` or `Paused`\", line: 1, column: 147)', ref-exchange/src/owner.rs:11:1" })
                       isCheck = true;
                       uS(argName, "enum", enumList);
