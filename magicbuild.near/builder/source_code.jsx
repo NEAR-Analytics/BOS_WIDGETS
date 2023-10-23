@@ -369,6 +369,8 @@ const getArgsFromMethod = (fName, fIndex) => {
                     if (ftch.includes("the account ID")) {
                       uS(argName, "$ref", state.contractAddress);
                     }
+                    //get_stable_pool wasm execution failed with error: HostError(GuestPanic { panic_msg: "panicked at 'Failed to deserialize input from JSON.: Error(\"invalid type: sequence, expected u64\", line: 1, column: 11)', ref-exchange/src/views.rs:166:1" })
+                    //get_rated_pool wasm execution failed with error: HostError(GuestPanic { panic_msg: "panicked at 'Failed to deserialize input from JSON.: Error(\"invalid type: sequence, expected u64\", line: 1, column: 11)'
                     if (ftch.includes("invalid digit found")) {
                       uS(argName, "string", "300");
                     }
@@ -382,6 +384,15 @@ const getArgsFromMethod = (fName, fIndex) => {
                     }
                     if (ftch.includes("not implemented")) {
                       uS(argName, typeItem.type, ["300", "300"]);
+                    }
+                    if (
+                      ftch.includes(
+                        `'not implemented', ref-exchange/src/pool.rs`
+                      )
+                    ) {
+                      abiMethod[fIndex].kind = "call";
+                      State.update({ cMethod: abiMethod });
+                      clearInterval(getArg);
                     }
                     if (ftch.includes("invalid token id")) {
                       uS(argName, "$ref", "wrap.near");
