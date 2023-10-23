@@ -306,7 +306,7 @@ return (
           props.transactions &&
           props?.transactions?.map((data, index) => (
             <Row
-              href={`${currentChainProps[props.chainState].explorerTx}${
+              href={`${currentChainProps[props.chainState].explorerTx}/${
                 data.txId
               }`}
               target="_blank"
