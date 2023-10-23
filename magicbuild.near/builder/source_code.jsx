@@ -419,18 +419,6 @@ const getArgsFromMethod = (fName, fIndex) => {
                       uS(argName, "enum", enumList);
                     }
                     if (ftch.includes("missing field")) {
-                      //get missing feild and check with argname if = close
-                      if (fName == "swap") {
-                        if (
-                          argName ==
-                          fName.match(/\`(.*?)\`/g)[0].replaceAll("`", "")
-                        ) {
-                          console.log("kill");
-                          // kill
-                        }
-
-                        console.log("ftch", argName);
-                      }
                       uS(argName, typeItem.type, typeItem.value);
                     }
                     if (ftch.includes("Requires attached deposit")) {
@@ -457,7 +445,7 @@ const getArgsFromMethod = (fName, fIndex) => {
           //main.aebf23a2b16652c8ce54.bundle.js:8 magicbuild.near/widget/builder execute_actions wasm execution failed with error: HostError(GuestPanic { panic_msg: "panicked at 'Failed to deserialize input from JSON.: Error(\"missing field `actions`\", line: 1, column: 2)', ref-exchange
           if (strErr) {
             //magicbuild.near/widget/builder add_simple_pool wasm execution failed with error: HostError(GuestPanic { panic_msg: "panicked at 'assertion failed: `(left == right)`\n  left: `0`,\n right: `2`: E89: wrong token count'
-
+            // run here
             if (strErr.includes("Invalid register")) {
               abiMethod[fIndex].kind = "call";
               State.update({ cMethod: abiMethod });
@@ -501,6 +489,17 @@ const getArgsFromMethod = (fName, fIndex) => {
             if (strErr.includes("assertion failed: `(left == right)")) {
               abiMethod[fIndex].kind = "call";
               State.update({ cMethod: abiMethod });
+              clearInterval(getArg);
+            }
+            const isDupicalte = false;
+            abiMethod[fIndex].params.args.forEach((item) => {
+              if (
+                item.name == strErr.match(/\`(.*?)\`/g)[0].replaceAll("`", "")
+              ) {
+                isDupicalte = true;
+              }
+            });
+            if (isDupicalte) {
               clearInterval(getArg);
             }
           }
