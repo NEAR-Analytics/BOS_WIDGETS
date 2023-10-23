@@ -495,6 +495,9 @@ const getArgsFromMethod = (fName, fIndex) => {
               strErr.includes("missing field")
             ) {
               const isDupicalte = false;
+              abiMethod[fIndex].params.args.forEach((item) => {
+                console.log(item);
+              });
               console.log(strErr.match(/\`(.*?)\`/g)[0].replaceAll("`", ""));
               if (isDupicalte) {
                 clearInterval(getArg);
