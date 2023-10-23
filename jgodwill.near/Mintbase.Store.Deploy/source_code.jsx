@@ -163,9 +163,6 @@ const Main = styled.div`
       margin: 0;
     }
 }
-.name{
-  background: ${state.nameIsActive ? "#fff" : "#F8F8F8"};
-}
     .danger{
       color: red;
       border-color: red;
@@ -174,13 +171,8 @@ const Main = styled.div`
   background:transparent;
   border: none;
   outline: none;
-  :focus{
-      background: #fff;
-      }
 }
 `;
-
-console.log(state.nameIsActive);
 return (
   <Main>
     <div>
@@ -200,16 +192,6 @@ return (
             type="text"
             onChange={(e) => onChangeName(e.target.value)}
             className="ip_name"
-            onFocus={() =>
-              State.update({
-                nameIsActive: true,
-              })
-            }
-            onBlur={() =>
-              State.update({
-                nameIsActive: false,
-              })
-            }
           />
           <p>.mintebase1.near</p>
         </div>
