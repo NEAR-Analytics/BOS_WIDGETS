@@ -395,6 +395,8 @@ const WidgetContainer = styled.div`
   top: 400px; /* Adjust the top position */
   left: 40px;
   display: ${state.isWidgetVisible ? "block" : "none"};
+  overflow-x: scroll;
+  max-height: 540px;
 `;
 
 return (
