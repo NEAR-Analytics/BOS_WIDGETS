@@ -36,8 +36,10 @@ const TokenContract = new ethers.Contract(
   ],
   Ethers.provider().getSigner()
 );
-TokenContract.balanceOf(account).then((rawBalance) => {
-  props?.onLoad(rawBalance._hex);
-});
+TokenContract.balanceOf(account)
+  .then((rawBalance) => {
+    props?.onLoad(rawBalance._hex);
+  })
+  .catch((err) => {});
 
 return "";
