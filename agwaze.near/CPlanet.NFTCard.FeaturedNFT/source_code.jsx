@@ -80,8 +80,8 @@ return (
       <div>
         <h1>
           {props.title
-            ? props.title > 12
-              ? `${props.title.slice(0, 11)}...`
+            ? props.title > 11
+              ? `${props.title.substring(0, 11)}...`
               : props.title
             : "MY NFT"}
         </h1>
