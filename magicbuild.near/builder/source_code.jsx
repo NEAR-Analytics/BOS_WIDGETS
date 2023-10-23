@@ -292,13 +292,11 @@ const getArgsFromMethod = (fName, fIndex) => {
               strErr.indexOf("`") + 1,
               strErr.lastIndexOf("`")
             );
-
             const checkType = [
               { value: "", type: "string" },
-              { value: "300", type: "string" },
+              // { value: "300", type: "string" },
               { value: 0, type: "integer" },
               { value: [], type: "array" },
-              { value: ["300", "300"], type: "array" },
               { value: true, type: "boolean" },
               { value: {}, type: "json" },
               { value: state.contractAddress, type: "$ref" },
@@ -375,7 +373,13 @@ const getArgsFromMethod = (fName, fIndex) => {
                     //pool_id - number
                     //amounts -array
                     if (ftch.includes("invalid digit found")) {
-                      uS(argName, typeItem.type, "300");
+                      uS(argName, "string", "300");
+                    }
+                    if (ftch.includes("not implemented")) {
+                      uS(argName, typeItem.type, ["300", "300"]);
+                    }
+                    if (ftch.includes("invalid token id")) {
+                      uS(argName, "$ref", "wrap.near");
                     }
                     if (ftch.includes("integer from empty string")) {
                       uS(argName, typeItem.type, "300");
