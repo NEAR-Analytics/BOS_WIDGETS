@@ -175,6 +175,7 @@ const Main = styled.div`
   border: none;
   outline: none;
   color: inherit;
+  flex:1;
 }
 `;
 return (
