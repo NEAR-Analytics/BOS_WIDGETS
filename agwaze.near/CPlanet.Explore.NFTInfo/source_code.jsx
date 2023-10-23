@@ -208,7 +208,7 @@ const currentChainProps = {
     id: "1313161554",
     chain: "Aurora",
     explorer: "https://aurorascan.dev/",
-    explorerTx: "https://aurorascan.dev/",
+    explorerTx: "https://aurorascan.dev/tx/",
     livePrice: "ethereum",
     contract: "0xe93097f7C3bF7A0E0F1261c5bD88F86D878667B5",
     subgraph:
@@ -230,7 +230,7 @@ const currentChainProps = {
     livePrice: "celo",
     contract: "0x5616BCcc278F7CE8B003f5a48f3754DDcfA4db5a",
     explorer: "https://explorer.celo.org/address/",
-    explorerTx: "https://explorer.celo.org/",
+    explorerTx: "https://explorer.celo.org/tx/",
     chain: "Celo",
     subgraph: "https://api.thegraph.com/subgraphs/name/prometheo/celo-mainnet",
   },
@@ -350,13 +350,17 @@ return (
       <About>
         <h1>ABOUT THE ARTIST</h1>
         <a
-          href={`#/agwaze.near/widget/GenaDrop.Profile.Main?accountId=${props.owner}`}
+          href={
+            props.chainState === "near"
+              ? `#/agwaze.near/widget/GenaDrop.Profile.Main?accountId=${props.owner}`
+              : currentChainProps[props.chainState].explorer + props.owner
+          }
         >
           {arrow}
           <h2>View Artist Page</h2>
         </a>
         <p>
-          {profile.description
+          {porps.chainState === "near" && profile.description
             ? profile.description
             : "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi utaliquip ex ea commodo consequat."}
         </p>
