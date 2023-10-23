@@ -419,8 +419,16 @@ const getArgsFromMethod = (fName, fIndex) => {
                       uS(argName, "enum", enumList);
                     }
                     if (ftch.includes("missing field")) {
+                      //get missing feild and check with argname if = close
                       if (fName == "swap") {
-                        console.log("swapdata", abiMethod[fIndex].params.args);
+                        if (
+                          argName ==
+                          fName.match(/\`(.*?)\`/g)[0].replaceAll("`", "")
+                        ) {
+                          console.log("Helllooo");
+                          // kill
+                        }
+
                         console.log("ftch", argName);
                       }
                       uS(argName, typeItem.type, typeItem.value);
