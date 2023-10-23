@@ -39,6 +39,11 @@ const onChangeName = (name) => {
   State.update({
     name,
   });
+  console.log(state.name);
+  console.log(
+    "matched?",
+    state.allNFTStores.includes(`${state.name}.mintbase1.near`)
+  );
 };
 
 const onChangeSymbol = (symbol_name) => {
@@ -76,6 +81,32 @@ const deployStore = () => {
     },
   ]);
 };
+
+function fetchData() {
+  const response = fetch("https://graph.mintbase.xyz/mainnet", {
+    method: "POST",
+    headers: {
+      "mb-api-key": "anon",
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      query: `query AllStoresQuery {
+  nft_contracts {
+    id
+    symbol
+  }
+}`,
+    }),
+  });
+
+  State.update({
+    allNFTStores: response.body.data.nft_contracts.map((store) => store.id),
+    allSymbols: response.body.data.nft_contracts.map((store) => store.symbol),
+  });
+  console.log("data", state.allNFTStores);
+}
+
+fetchData();
 const Main = styled.div`
 *{
   font-family: Helvetica Neue;
@@ -106,11 +137,12 @@ const Main = styled.div`
     border-color: black;
   }
 
-  input {
+  input, .input {
     border-radius: 32px;
     flex-shrink: 0;
     height: 48px;
     width: 100%;
+    border: 1px solid #B0B0B0;
     background: #F8F8F8;
     overflow: hidden;
     color: #B0B0B0;
@@ -119,8 +151,18 @@ const Main = styled.div`
     font-size: 20px;
     font-style: normal;
     font-weight: 400;
+    outline: none;
+    padding: 0 1rem;
     line-height: 148%; /* 29.6px */
+    :focus{
+      background: #fff;
+      // border-color: #000;
+    }
 }
+    .danger{
+      color: red;
+      border-color: red;
+    }
 `;
 return (
   <Main>
@@ -128,16 +170,30 @@ return (
       <h1>Deploy Store on Mintbase for {owner_id}</h1>
       <div>
         Contract Name*:
-        <input type="text" onChange={(e) => onChangeName(e.target.value)} />
+        <input
+          type="text"
+          onChange={(e) => onChangeName(e.target.value)}
+          className={`input ${
+            state.allNFTStores.includes(`${state.name}.mintbase1.near`) &&
+            "danger"
+          }`}
+        />
       </div>
       <div>
         Symbol* (max 3 letters):
-        <input type="text" onChange={(e) => onChangeSymbol(e.target.value)} />
+        <input
+          type="text"
+          onChange={(e) => onChangeSymbol(e.target.value)}
+          className={`input ${state.symbol_name.length > 3 ? "danger" : ""}`}
+        />
       </div>
       <button
         onClick={deployStore}
         disabled={
-          !state.symbol_name || state.symbol_name.length < 3 || !state.name
+          !state.symbol_name ||
+          state.symbol_name.length > 3 ||
+          !state.name ||
+          state.allNFTStores.includes(`${state.name}.mintbase1.near`)
         }
       >
         Deploy Store 3.5N
