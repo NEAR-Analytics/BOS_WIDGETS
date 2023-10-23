@@ -377,7 +377,7 @@ const getArgsFromMethod = (fName, fIndex) => {
                       uS(argName, typeItem.type, "300");
                     }
                     if (ftch.includes("unknown variant")) {
-                      const getEnum = ftch.match(/\`(.*?)\`/g).shift();
+                      const getEnum = ftch.match(/\`(.*?)\`/g);
                       console.log("getEnum", getEnum);
                       const enumList = [];
                       // getEnum.forEach((item) => {
