@@ -427,7 +427,7 @@ const getArgsFromMethod = (fName, fIndex) => {
                     //   console.log("check", isCheck);
                     //   uS(argName, typeItem.type, typeItem.value);
                     // }
-                    if (isCheck == false && isExist == true) {
+                    if (isCheck == true && isExist == true) {
                       clearInterval(getArg);
                     }
                   } else {
