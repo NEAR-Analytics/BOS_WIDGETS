@@ -68,7 +68,14 @@ const dapps = [
     bannerImg:
       "https://ipfs.near.social/ipfs/bafkreiaanir7abgcbvz5movpquvmsrohle32h3uoaq62xwmmvfzrj3injy",
     icon: "https://ipfs.near.social/ipfs/bafkreibjev4hosbxyjifhvxfihtktoxl3w7c7ch5cqf4mlub7ngvt6k45i",
-    tags: ["Bridge","Dexes","Lending"],
+    tags: ["Bridge", "Dexes", "Lending"],
+  },
+  {
+    src: "bluebiu.near/widget/Optimism.Dex",
+    bannerImg:
+      "https://ipfs.near.social/ipfs/bafkreiehpqmav7fwsgyfv4bagpag4g4lpq3ft7g4k4ocmdojpfwkmwqy6u",
+    icon: "https://ipfs.near.social/ipfs/bafkreigmegqecgsor7pjbqp7pc2lwneteo2anthwkntocww55lh6nljbhm",
+    tags: ["Dexes"],
   },
   {
     src: "bluebiu.near/widget/Optimism.Lending",
