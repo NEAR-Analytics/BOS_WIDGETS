@@ -418,6 +418,7 @@ const getArgsFromMethod = (fName, fIndex) => {
                           // clearInterval(getArg);
                         }
                       }
+
                       uS(argName, typeItem.type, typeItem.value);
                     }
                     if (ftch.includes("Requires attached deposit")) {
