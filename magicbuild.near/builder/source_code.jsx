@@ -424,15 +424,6 @@ const getArgsFromMethod = (fName, fIndex) => {
                       );
                       State.update({ cMethod: abiMethod });
                       clearInterval(getArg);
-                      console.log("123f23123213");
-                    }
-                    if (
-                      strErr.includes("missing field") &&
-                      argName ==
-                        strErr.match(/\`(.*?)\`/g)[0].replaceAll("`", "") &&
-                      isCheck == true
-                    ) {
-                      // clearInterval(getArg);
                     }
                   } else {
                     console.log("helllo");
@@ -448,7 +439,6 @@ const getArgsFromMethod = (fName, fIndex) => {
           }
 
           if (strErr) {
-            // run here
             if (strErr.includes("Invalid register")) {
               abiMethod[fIndex].kind = "call";
               State.update({ cMethod: abiMethod });
@@ -503,10 +493,9 @@ const getArgsFromMethod = (fName, fIndex) => {
         });
         countLoop++;
         console.log(fName, strErr);
-        if (countLoop == 8) {
+        if (countLoop == 15) {
           clearInterval(getArg);
         }
-        console.log("check", countLoop);
         setTimeout(() => {
           clearInterval(getArg);
           // clearAsyncInterval(getArg);
