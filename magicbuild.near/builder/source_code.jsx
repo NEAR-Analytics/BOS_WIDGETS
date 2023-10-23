@@ -406,6 +406,10 @@ const getArgsFromMethod = (fName, fIndex) => {
                     }
                     if (ftch.includes("missing field")) {
                       console.log("arg", argName);
+                      console.log(
+                        "strErr",
+                        strErr.match(/\`(.*?)\`/g)[0].replaceAll("`", "")
+                      );
                       uS(argName, typeItem.type, typeItem.value);
                       if (!isCheck) {
                         clearInterval(getArg);
