@@ -87,7 +87,7 @@ const dapps = [
     tags: ["Lending"],
   },
   {
-    src: "bluebiu.near/widget/Linea.Liquidity.GAMMA.GAMMA",
+    src: "bluebiu.near/widget/Linea.Liquidity.GAMMA",
     bannerImg:
       "https://ipfs.near.social/ipfs/bafkreih77ecmgng2fpy6mblk2aipt3agwm3anjldcyktx2j6kssggpelue",
     icon: "https://ipfs.near.social/ipfs/bafkreial4i3eb5uuxkhecn7nwos76km3qvb7jzxmups57rkxizr5i7dyaa",
