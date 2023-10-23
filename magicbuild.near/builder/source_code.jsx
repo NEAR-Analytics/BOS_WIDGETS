@@ -488,13 +488,14 @@ const getArgsFromMethod = (fName, fIndex) => {
               State.update({ cMethod: abiMethod });
               clearInterval(getArg);
             }
+            if (
+              strErr.match(/\`(.*?)\`/g)[0] &&
+              strErr.includes("missing field")
+            ) {
+              console.log(args);
+            }
           }
-          if (
-            strErr.match(/\`(.*?)\`/g)[0] &&
-            strErr.includes("missing field")
-          ) {
-            console.log(args);
-          }
+
           console.log(fName, strErr);
         });
 
