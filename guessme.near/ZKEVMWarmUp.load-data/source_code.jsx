@@ -11,10 +11,10 @@ let myQuestList = [];
 
 let trendList = [];
 
-const resQuest = JSON.parse(fetch(quest_url).body);
+const resQuest = fetch(quest_url.body);
 console.log("resQuest: ", resQuest);
 
-const resTrend = JSON.parse(fetch(trend_url).body);
+const resTrend = fetch(trend_url.body);
 
 if (Number(resQuest.code) == 0) {
   myQuestList = resQuest.data;
