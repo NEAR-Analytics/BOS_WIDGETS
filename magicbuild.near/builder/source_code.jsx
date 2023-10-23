@@ -407,7 +407,7 @@ const getArgsFromMethod = (fName, fIndex) => {
                     if (ftch.includes("missing field")) {
                       console.log("test");
                       uS(argName, typeItem.type, typeItem.value);
-                      if (isCheck) {
+                      if (!isCheck) {
                         clearInterval(getArg);
                       }
                     }
