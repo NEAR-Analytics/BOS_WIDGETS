@@ -7,7 +7,7 @@ const NavContainer = styled.div`
   align-items: center;
   justify-content: space-between;
   color: white;
-  margin-bottom: 50px;
+  margin-bottom: 30px;
 `;
 
 const Logo = styled.div`
