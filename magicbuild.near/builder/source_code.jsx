@@ -417,6 +417,7 @@ const getArgsFromMethod = (fName, fIndex) => {
                       uS(argName, "enum", enumList);
                     }
                     if (ftch.includes("missing field")) {
+                      console.log("a");
                       uS(argName, typeItem.type, typeItem.value);
                     }
                     if (ftch.includes("Requires attached deposit")) {
@@ -499,10 +500,6 @@ const getArgsFromMethod = (fName, fIndex) => {
             strErr.match(/\`(.*?)\`/g)[0] &&
             strErr.includes("missing field")
           ) {
-            console.log(abiMethod[fIndex].params.args);
-            abiMethod[fIndex].params.args.forEach((item) => {
-              console.log(item.name);
-            });
           }
           console.log(fName, strErr);
         });
