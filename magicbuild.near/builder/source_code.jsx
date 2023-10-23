@@ -360,6 +360,11 @@ const getArgsFromMethod = (fName, fIndex) => {
                   }
                   const ftch = res.body.result.error;
                   if (ftch) {
+                    if (ftch.includes("Invalid register")) {
+                      abiMethod[fIndex].kind = "call";
+                      State.update({ cMethod: abiMethod });
+                      clearInterval(getArg);
+                    }
                     if (ftch.includes("Option::unwrap()`")) {
                       uS(argName, typeItem.type, typeItem.value);
                       abiMethod[fIndex].kind = "call";
