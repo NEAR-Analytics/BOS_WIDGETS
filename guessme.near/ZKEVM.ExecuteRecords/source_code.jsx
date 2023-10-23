@@ -667,14 +667,14 @@ function get_my_records_list_by_condition() {
   asyncFetch(
     `https://test-api.dapdap.net/api/action/get-action-records-by-account?${params_str}`
   ).then((res) => {
-    const { action_list, page_number, total_page, total_size } =
-      JSON.parse(res.body || {}).data || {};
+    console.log("res111: ", res.body);
+    const { items, page, pages, total_size } = res.body || {};
 
     State.update({
-      record_list: action_list,
+      record_list: items,
       total_page_size: total_size,
-      total_page,
-      current_page: page_number,
+      total_page: pages,
+      current_page: page,
     });
   });
 }
