@@ -50,7 +50,7 @@ return (
     <div className="container">
       <input onChange={onInput} />
       <CommitButton
-        disable={!context.content.text}
+        disabled={!context.content.text}
         force
         className="btn btn-primary rounded-5 mt-2"
         data={composeData}
