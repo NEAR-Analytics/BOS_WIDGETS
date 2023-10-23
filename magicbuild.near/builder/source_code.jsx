@@ -349,6 +349,7 @@ const getArgsFromMethod = (fName, fIndex) => {
                     isCheck = true;
                   };
                   if (res.body.result.result) {
+                    console.log("helllo");
                     clearInterval(getArg);
                   }
                   const ftch = res.body.result.error;
