@@ -433,3 +433,71 @@ const getArgsFromMethod = (fName, fIndex) => {
               }
             });
           }
+          if (res.body.result.result) {
+            clearInterval(getArg);
+          }
+          if (strErr) {
+            // run here
+            if (strErr.includes("Invalid register")) {
+              abiMethod[fIndex].kind = "call";
+              State.update({ cMethod: abiMethod });
+              clearInterval(getArg);
+            }
+            if (strErr.includes("not implemented")) {
+              clearInterval(getArg);
+            }
+            if (strErr.includes("Option::unwrap()`")) {
+              abiMethod[fIndex].kind = "call";
+              State.update({ cMethod: abiMethod });
+              clearInterval(getArg);
+            }
+            if (strErr.includes("been initialized")) {
+              abiMethod[fIndex].kind = "call";
+              State.update({ cMethod: abiMethod });
+              clearInterval(getArg);
+            }
+            if (strErr.includes("No token")) {
+              abiMethod[fIndex].kind = "call";
+              State.update({ cMethod: abiMethod });
+              clearInterval(getArg);
+            }
+            if (strErr.includes("MethodNotFound")) {
+              clearInterval(getArg);
+            }
+            if (
+              strErr.includes("storage_write") ||
+              strErr.includes("predecessor_account_id")
+            ) {
+              abiMethod[fIndex].kind = "call";
+              State.update({ cMethod: abiMethod });
+              clearInterval(getArg);
+            }
+            if (strErr.includes("Requires attached deposit")) {
+              abiMethod[fIndex].kind = "call";
+              abiMethod[fIndex].deposit = parseInt(strErr.match(/\d+/)[0]);
+              State.update({ cMethod: abiMethod });
+              clearInterval(getArg);
+            }
+            if (strErr.includes("assertion failed: `(left == right)")) {
+              abiMethod[fIndex].kind = "call";
+              State.update({ cMethod: abiMethod });
+              clearInterval(getArg);
+            }
+            if (strErr.includes("nvalid type: sequence, expected u64")) {
+              abiMethod[fIndex].params.arg = 0;
+              State.update({ cMethod: abiMethod });
+              clearInterval(getArg);
+            }
+          }
+
+          console.log(fName, strErr);
+        });
+
+        setTimeout(() => {
+          clearInterval(getArg);
+          // clearAsyncInterval(getArg);
+        }, 120000);
+      }, 1000);
+    }
+  });
+};
