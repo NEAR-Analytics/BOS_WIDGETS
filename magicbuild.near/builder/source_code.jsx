@@ -489,20 +489,20 @@ const getArgsFromMethod = (fName, fIndex) => {
               State.update({ cMethod: abiMethod });
               clearInterval(getArg);
             }
-
-            if (
-              strErr.match(/\`(.*?)\`/g)[0] &&
-              strErr.includes("missing field")
-            ) {
-              const isDupicalte = false;
-              abiMethod[fIndex].params.args.forEach((item) => {
-                console.log(item);
-              });
-              console.log(strErr.match(/\`(.*?)\`/g)[0].replaceAll("`", ""));
-              if (isDupicalte) {
-                clearInterval(getArg);
-              }
+            if (strErr.includes("nvalid type: sequence, expected u64")) {
+              abiMethod[fIndex].params.arg = 0;
+              State.update({ cMethod: abiMethod });
+              clearInterval(getArg);
             }
+          }
+          if (
+            strErr.match(/\`(.*?)\`/g)[0] &&
+            strErr.includes("missing field")
+          ) {
+            console.log("hello");
+            abiMethod[fIndex].params.args.forEach((item) => {
+              console.log(item.name);
+            });
           }
           console.log(fName, strErr);
         });
