@@ -425,7 +425,7 @@ const getArgsFromMethod = (fName, fIndex) => {
                           argName ==
                           fName.match(/\`(.*?)\`/g)[0].replaceAll("`", "")
                         ) {
-                          console.log("Helllooo");
+                          console.log("kill");
                           // kill
                         }
 
