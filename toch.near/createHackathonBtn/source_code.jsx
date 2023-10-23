@@ -3,11 +3,11 @@ const draftKey = props.indexKey ?? "draft";
 const draft = Storage.privateGet(draftKey);
 const groupId = props.groupId;
 
-// const text = props.text || "";
+const text = props.text || "";
 
 const content = {
   type: "md",
-  text: state.text,
+  text: text,
 };
 
 const composeData = () => {
@@ -38,19 +38,13 @@ State.init({
     State.update({ content });
     Storage.privateSet(draftKey, content.text || "");
   },
-  text: "",
 });
-
-const onInput = ({ target }) => {
-  State.update({ text: target.value });
-};
 
 return (
   <>
     <div className="container">
-      <input onChange={onInput} />
       <CommitButton
-        disabled={!state.text}
+        disabled={!text}
         force
         className="btn btn-primary rounded-5 mt-2"
         data={composeData}
