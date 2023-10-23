@@ -635,3 +635,13 @@ return (
             </>
           )}
         </div>
+<div class="form-group col-md-4">
+          {state.cMethod.length > 0 ? (
+            <Widget src={`${cep}/widget/preview-button`} props={state} />
+          ) : (
+            <>
+              <label></label>
+              <button class="btn btn-dark form-control ">👀 Preview</button>
+            </>
+          )}
+        </div>
