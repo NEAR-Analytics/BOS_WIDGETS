@@ -2,7 +2,8 @@ const Owner = "nftwg_home.near";
 const props = [
   {
     title: "Humans Of Near",
-    imageSrc: "https://humans.nearverselabs.com/logo.png",
+    imageSrc:
+      "https://imgtr.ee/images/2023/10/23/c406744cb2519c3ff347cd46806db29e.png",
     description:
       "Humans of Near is a Map of IAM Human SBT holders. Built by the NFT Workgroup.",
     buttonText: "Completed",
@@ -12,7 +13,7 @@ const props = [
   {
     title: "Socializer",
     imageSrc:
-      "https://cdn.discordapp.com/attachments/1135845507189702748/1162116592906293341/image.png?ex=653ac46a&is=65284f6a&hm=65dad1554346d62e5e55c6917328b4a1d5ffad8c1352329ada45b47c85bdaeff&",
+      "https://imgtr.ee/images/2023/10/23/57b442df1ce536dbf207c6ed36bfae63.png",
     description: "Socializer is an interactive rewards portal for Near Social.",
     buttonText: "In Progress",
     fontSize: 20,
