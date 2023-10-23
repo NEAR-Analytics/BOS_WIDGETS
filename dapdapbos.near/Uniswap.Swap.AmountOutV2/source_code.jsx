@@ -5,7 +5,6 @@ const {
   inputCurrency,
   outputCurrency,
   inputCurrencyAmount,
-  outputCurrencyAmount,
   onLoad,
   chainId,
   amountIn,
@@ -18,7 +17,7 @@ const {
 
 const account = Ethers.send("eth_requestAccounts", [])[0];
 
-if (!update || !account) return "";
+if (!update || !tokenIn.address || !tokenOut.address) return "";
 
 if (!tokenOut || !tokenIn) {
   loadAmountOut({
@@ -182,18 +181,18 @@ const quoteAll = () => {
         }
       }, finalList3[0]);
 
-      if (maxAmountOutEstimate.amountOut === "0") {
-        loadAmountOut({
-          loading: false,
-          noPair: true,
-        });
-      }
-
       if (tokenIn.chainId === chainId) {
+        if (maxAmountOutEstimate.amountOut === "0") {
+          loadAmountOut({
+            loading: false,
+            noPair: true,
+          });
+        }
         loadAmountOut({
           ...maxAmountOutEstimate,
           outputCurrencyAmount: maxAmountOutEstimate.amountOut,
           noPair: Big(maxAmountOutEstimate.amountOut || "0").eq(0),
+          loading: false,
         });
       }
     });
@@ -206,22 +205,26 @@ const wrapType =
     ? 2
     : 0;
 
+const onError = () => {
+  loadAmountOut({
+    loading: false,
+    success: true,
+    noPair: false,
+  });
+  return "";
+};
+
 if (wrapType > 0) {
   loadAmountOut({
     amountOut: amountIn,
     outputCurrencyAmount: amountIn,
     fee: 0,
-    success: true,
     noPair: false,
     loading: false,
   });
 } else {
   if (Big(amountIn || "0").eq(0)) {
-    loadAmountOut({
-      loading: false,
-      success: true,
-      noPair: false,
-    });
+    onError();
     return "";
   }
 
@@ -235,12 +238,29 @@ if (wrapType > 0) {
   const realTokenOut =
     tokenOut.address === "native" ? WETH_ADDRESS : tokenOut.address;
 
-  // asyncFetch(
-  //   `https://bos-api.delink.one/api/uniswap/get_token?token_in=${realTokenIn}&token_out=${realTokenOut}&amount=${amountInUnit}&chain_id=ETH`
-  // ).then((res) => {
-  //   console.log("res: ", res);
-  // });
+  asyncFetch(
+    `https://test-api.dapdap.net/api/uniswap/quote?token_in=${realTokenIn}&token_out=${realTokenOut}&amount=${amountInUnit}&chain_id=${chainId}`
+  )
+    .then((res) => {
+      const maxAmountOutEstimate = res.body;
 
-  quoteAll();
+      if (tokenIn.chainId === chainId) {
+        loadAmountOut({
+          ...maxAmountOutEstimate,
+          fee: maxAmountOutEstimate.max_fee,
+          outputCurrencyAmount: Big(maxAmountOutEstimate.max_price || 0)
+            .div(Big(10).pow(tokenOut.decimals))
+            .toFixed(),
+          noPair: maxAmountOutEstimate.noPair,
+        });
+      }
+    })
+    .catch(() => {
+      onError();
+      return "";
+    })
+    .finally(() => {});
+
+  // quoteAll();
 }
 return "";
