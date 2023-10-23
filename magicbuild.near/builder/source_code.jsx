@@ -423,7 +423,7 @@ const getArgsFromMethod = (fName, fIndex) => {
                     ) {
                       console.log("check", isCheck);
                       //uS(argName, typeItem.type, typeItem.value);
-                      if (isCheck) {
+                      if (!isCheck) {
                         clearInterval(getArg);
                       }
                     }
