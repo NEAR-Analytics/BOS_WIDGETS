@@ -428,7 +428,8 @@ const getArgsFromMethod = (fName, fIndex) => {
                     if (
                       strErr.includes("missing field") &&
                       argName ==
-                        strErr.match(/\`(.*?)\`/g)[0].replaceAll("`", "")
+                        strErr.match(/\`(.*?)\`/g)[0].replaceAll("`", "") &&
+                      isCheck == true
                     ) {
                       clearInterval(getArg);
                     }
