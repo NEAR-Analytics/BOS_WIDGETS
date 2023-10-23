@@ -22,6 +22,7 @@ State.init({
   tab: getTab(state.tab),
   contractId: "",
   tokenId: "",
+  chainState: "",
 });
 
 const update = (state) => State.update(state);
@@ -31,7 +32,17 @@ const tabContentWidget = {
   singleNFT: "agwaze.near/widget/CPlanet.Explore.SingleNFT",
 }[state.tab];
 
-const tabContent = <Widget src={tabContentWidget} props={{ update }} />;
+const tabContent = (
+  <Widget
+    src={tabContentWidget}
+    props={{
+      update,
+      contractId: state.contractId,
+      tokenId: state.tokenId,
+      chainState: state.chainState,
+    }}
+  />
+);
 
 return (
   <Root>
