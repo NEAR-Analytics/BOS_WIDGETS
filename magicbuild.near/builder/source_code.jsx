@@ -369,14 +369,16 @@ const getArgsFromMethod = (fName, fIndex) => {
                     if (ftch.includes("the account ID")) {
                       uS(argName, "$ref", state.contractAddress);
                     }
+                    //wasm execution failed with error: HostError(GuestPanic { panic_msg: "panicked at 'Failed to deserialize input from JSON.: Error(\"invalid type: sequence, expected a string\", line: 1, column: 12)', ref-exchange/src/multi_fungible_token.rs:59:1" })
                     if (ftch.includes("invalid digit found")) {
                       uS(argName, "string", "300");
                     }
                     if (
                       ftch.includes(
-                        "ref-exchange/src/multi_fungible_token.rs:59:1"
+                        "panicked at 'Failed to deserialize input from JSON.: Error(\"invalid type: sequence, expected a string\", line: 1, column: 12)', ref-exchange/src/multi_fungible_token.rs"
                       )
                     ) {
+                      uS(argName, "string", "wrap.near");
                       clearInterval(getArg);
                     }
                     if (ftch.includes("not implemented")) {
