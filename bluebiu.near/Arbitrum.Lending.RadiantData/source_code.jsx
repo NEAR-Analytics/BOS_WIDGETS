@@ -389,6 +389,7 @@ const getUserWalletBalances = () => {
         const parsedValue = Big(value.toString())
           .div(Big(10).pow(Tokens[addresses[index]]?.decimals || 18))
           .toFixed();
+
         balances[addresses[index]] = parsedValue;
       });
 
@@ -505,16 +506,17 @@ const getUserRewards = (aTokenAddress, variableDebtTokenAddress, address) => {
       params: [account, [variableDebtTokenAddress]],
     },
   ];
-
   return multicallv2(incentiveControllerAbi, calls, {})
     .then((res) => {
       const ACC_REWARD_PRECISION = Big(10).pow(12);
+      console.log("ACC_REWARD_PRECISION: ", ACC_REWARD_PRECISION, res);
 
       const totalAllocPoint = res[0].toString();
       const rewardsPerSecond = res[1].toString();
 
       const poolInfo = res[2];
       const poolInfoDebt = res[5];
+      console.log("poolInfoDebt: ", poolInfoDebt);
 
       const totalSupply = poolInfo[0].toString();
       const totalSupplyDebt = poolInfoDebt[0].toString();
@@ -531,6 +533,8 @@ const getUserRewards = (aTokenAddress, variableDebtTokenAddress, address) => {
         .mul(365)
         .div(Big(10).pow(RewardToken.decimals));
 
+      console.log("yearlyRewardToThisPool: ", yearlyRewardToThisPool);
+
       const yearlyRewardToThisPoolUsd = Big(yearlyRewardToThisPool).times(
         rewardPrice
       );
@@ -541,6 +545,8 @@ const getUserRewards = (aTokenAddress, variableDebtTokenAddress, address) => {
         .div(totalSupplyUsd)
         .mul(100)
         .toFixed(2, 0);
+
+      console.log("supplyApy: ", supplyApy);
 
       const dailyRewardToThisPoolDebt = Big(60 * 60 * 24)
         .times(rewardsPerSecond)
@@ -558,11 +564,12 @@ const getUserRewards = (aTokenAddress, variableDebtTokenAddress, address) => {
       const totalBorrowUsd = Big(state.tokensPrice[address]).mul(
         ethers.utils.formatUnits(poolInfoDebt[0]._hex, Tokens[address].decimals)
       );
-
       const borrowApy = yearlyRewardToThisPoolDebtUsd
         .div(totalBorrowUsd)
         .mul(100)
         .toFixed(2, 0);
+
+      console.log("borrowApy: ", borrowApy);
 
       const rewardPerShareThisPool = dailyRewardToThisPool
         .mul(ACC_REWARD_PRECISION)
@@ -631,6 +638,153 @@ const getUserRewards = (aTokenAddress, variableDebtTokenAddress, address) => {
     });
 };
 
+const getRewardApy = (aTokenAddress, variableDebtTokenAddress, address) => {
+  const incentiveControllerAbi = [
+    {
+      inputs: [
+        { internalType: "address", name: "", type: "address" },
+        { internalType: "address", name: "", type: "address" },
+      ],
+      name: "userInfo",
+      outputs: [
+        { internalType: "uint256", name: "amount", type: "uint256" },
+        { internalType: "uint256", name: "rewardDebt", type: "uint256" },
+        { internalType: "uint256", name: "enterTime", type: "uint256" },
+        { internalType: "uint256", name: "lastClaimTime", type: "uint256" },
+      ],
+      stateMutability: "view",
+      type: "function",
+    },
+    {
+      inputs: [
+        { internalType: "address", name: "_user", type: "address" },
+        { internalType: "address[]", name: "_tokens", type: "address[]" },
+      ],
+      name: "pendingRewards",
+      outputs: [{ internalType: "uint256[]", name: "", type: "uint256[]" }],
+      stateMutability: "view",
+      type: "function",
+    },
+    {
+      inputs: [{ internalType: "address", name: "", type: "address" }],
+      name: "poolInfo",
+      outputs: [
+        { internalType: "uint256", name: "totalSupply", type: "uint256" },
+        { internalType: "uint256", name: "allocPoint", type: "uint256" },
+        { internalType: "uint256", name: "lastRewardTime", type: "uint256" },
+        { internalType: "uint256", name: "accRewardPerShare", type: "uint256" },
+        {
+          internalType: "contract IOnwardIncentivesController",
+          name: "onwardIncentives",
+          type: "address",
+        },
+      ],
+      stateMutability: "view",
+      type: "function",
+    },
+    {
+      inputs: [],
+      name: "totalAllocPoint",
+      outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+      stateMutability: "view",
+      type: "function",
+    },
+    {
+      inputs: [],
+      name: "rewardsPerSecond",
+      outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+      stateMutability: "view",
+      type: "function",
+    },
+  ];
+
+  const calls = [
+    {
+      address: incentiveController,
+      name: "totalAllocPoint",
+      params: [],
+    },
+    {
+      address: incentiveController,
+      name: "rewardsPerSecond",
+      params: [],
+    },
+    {
+      address: incentiveController,
+      name: "poolInfo",
+      params: [aTokenAddress],
+    },
+    {
+      address: incentiveController,
+      name: "poolInfo",
+      params: [variableDebtTokenAddress],
+    },
+  ];
+  return multicallv2(incentiveControllerAbi, calls, {})
+    .then((res) => {
+      console.log("res: ", res);
+      const totalAllocPoint = res[0].toString();
+      const rewardsPerSecond = res[1].toString();
+
+      const poolInfo = res[2];
+      const poolInfoDebt = res[3];
+
+      const allocPoint = poolInfo[1].toString();
+      const allocPointDebt = poolInfoDebt[1].toString();
+
+      const dailyRewardToThisPool = Big(60 * 60 * 24)
+        .times(rewardsPerSecond)
+        .times(allocPoint)
+        .div(totalAllocPoint);
+
+      const yearlyRewardToThisPool = dailyRewardToThisPool
+        .mul(365)
+        .div(Big(10).pow(RewardToken.decimals));
+
+      const yearlyRewardToThisPoolUsd = Big(yearlyRewardToThisPool).times(
+        rewardPrice
+      );
+      const totalSupplyUsd = Big(state.tokensPrice[address]).mul(
+        ethers.utils.formatUnits(poolInfo[0]._hex, Tokens[address].decimals)
+      );
+      const supplyApy = yearlyRewardToThisPoolUsd
+        .div(totalSupplyUsd)
+        .mul(100)
+        .toFixed(2, 0);
+
+      const dailyRewardToThisPoolDebt = Big(60 * 60 * 24)
+        .times(rewardsPerSecond)
+        .times(allocPointDebt)
+        .div(totalAllocPoint);
+
+      const yearlyRewardToThisPoolDebt = dailyRewardToThisPoolDebt
+        .mul(365)
+        .div(Big(10).pow(RewardToken.decimals));
+
+      const yearlyRewardToThisPoolDebtUsd = Big(
+        yearlyRewardToThisPoolDebt
+      ).times(rewardPrice);
+
+      const totalBorrowUsd = Big(state.tokensPrice[address]).mul(
+        ethers.utils.formatUnits(poolInfoDebt[0]._hex, Tokens[address].decimals)
+      );
+      const borrowApy = yearlyRewardToThisPoolDebtUsd
+        .div(totalBorrowUsd)
+        .mul(100)
+        .toFixed(2, 0);
+
+      console.log("borrowApy: ", borrowApy);
+
+      return {
+        supplyApy,
+        borrowApy,
+      };
+    })
+    .catch((e) => {
+      return undefined;
+    });
+};
+
 const getMarkets = () => {
   const dataProviderContract = new ethers.Contract(
     aaveProtocolDataProviderAddress,
@@ -666,19 +820,35 @@ const getMarkets = () => {
 
         const aTokenAddress = res[1][0];
         const variableDebtTokenAddress = res[1][2];
+        console.log(
+          "variableDebtTokenAddress: ",
+          variableDebtTokenAddress,
+          aTokenAddress
+        );
 
-        getUserRewards(aTokenAddress, variableDebtTokenAddress, address).then(
-          (rawRewards) => {
-            const rewards = !rawRewards ? undefined : [rawRewards];
-            getTokenReserveData(
-              address,
-              symbol,
-              tokensPrice[address],
+        getRewardApy(aTokenAddress, variableDebtTokenAddress, address).then(
+          ({
+            supplyApy: incentiveSupplyApy,
+            borrowApy: incentiveBorrowApy,
+          }) => {
+            getUserRewards(
               aTokenAddress,
               variableDebtTokenAddress,
-              loanToValue,
-              rewards
-            );
+              address
+            ).then((rawRewards) => {
+              const rewards = !rawRewards ? undefined : [rawRewards];
+              getTokenReserveData(
+                address,
+                symbol,
+                tokensPrice[address],
+                aTokenAddress,
+                variableDebtTokenAddress,
+                loanToValue,
+                rewards,
+                incentiveSupplyApy,
+                incentiveBorrowApy
+              );
+            });
           }
         );
       });
@@ -693,7 +863,9 @@ const getTokenReserveData = (
   aTokenAddress,
   variableDebtTokenAddress,
   loanToValue,
-  rewards
+  rewards,
+  incentiveSupplyApy,
+  incentiveBorrowApy
 ) => {
   const dataProviderContract = new ethers.Contract(
     aaveProtocolDataProviderAddress,
@@ -766,6 +938,8 @@ const getTokenReserveData = (
 
     const netApyBig = Big(depositAPY0).minus(variableBorrowAPYRaw);
 
+    console.log("incentiveSupplyApy: ", incentiveSupplyApy, incentiveBorrowApy);
+
     State.update({
       [tokenAddress]: {
         availableLiquidity,
@@ -806,6 +980,13 @@ const getTokenReserveData = (
         variableDebtTokenAddress,
         wethAddress,
         rewards,
+        distributionApy: [
+          {
+            ...RewardToken,
+            supply: incentiveSupplyApy + "%",
+            borrow: incentiveBorrowApy + "%",
+          },
+        ],
       },
     });
   });
@@ -877,7 +1058,6 @@ const getUserRevervesData = (addresses) => {
       userData: {
         userTotalSupplyUsd: userTotalSupplyUsd.toString(),
         userTotalBorrowUsd: userTotalBorrowUsd.toString(),
-
         parsedData,
       },
     });
@@ -951,14 +1131,6 @@ if (
       reduceUnclaimed = reduceUnclaimed.plus(Big(unclaimed));
 
       reduceDailyRewards = reduceDailyRewards.plus(Big(dailyRewards));
-
-      const supplyApy = market.rewards[0].supplyApy;
-
-      const borrowApy = market.rewards[0].borrowApy;
-
-      market.distributionApy = [
-        { ...RewardToken, supply: supplyApy + "%", borrow: borrowApy + "%" },
-      ];
     }
 
     if (userData.parsedData[i]) {
@@ -972,6 +1144,7 @@ if (
 
     const { netApy: netApyRaw } = market;
     netApy = netApy.plus(netApyRaw);
+    console.log("netApy: ", netApy);
 
     market.userUnderlyingBalance = market.aTokenBalance;
 
