@@ -59,13 +59,13 @@ const Join = styled.div`
     justify-content: center;
     align-items: center;
     border-radius: 32px;
-    background: #FFF;
+    background: #000;
     border: 1px solid black;
-    color: black;
+    color: white;
   }
   button:last-child:hover {
-    background: black;
-    color: white;
+    background: white;
+    color: black;
   }
   div {
     background: black;
