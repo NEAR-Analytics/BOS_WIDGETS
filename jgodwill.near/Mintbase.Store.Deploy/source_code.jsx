@@ -111,6 +111,10 @@ const Main = styled.div`
 *{
   font-family: Helvetica Neue;
   }
+  h1{
+    margin: 2rem 0;
+    font-weight: 600;
+  }
   display: flex;
   flex-flow:column nowrap;
   justify-content:center;
@@ -167,7 +171,9 @@ const Main = styled.div`
 return (
   <Main>
     <div>
-      <h1>Deploy Store on Mintbase for {owner_id}</h1>
+      <h1>
+        Deploy Store on Mintbase as <i>{owner_id}</i>
+      </h1>
       <div>
         Contract Name*:
         <input
