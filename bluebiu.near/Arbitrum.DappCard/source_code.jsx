@@ -13,6 +13,22 @@ const Banner = styled.a`
   position: relative;
   display: block;
   height: 192px;
+
+  .allInOne-btn {
+    z-index: 1;
+    display: ${({ metadata }) =>
+      metadata.name && metadata.name.indexOf("All-in-one") > -1
+        ? "block"
+        : "none"};
+    padding: 8px;
+    background: rgba(0, 0, 0, 0.35);
+    color: #ffffff;
+    font-size: 14px;
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    border-radius: 8px;
+  }
   img {
     position: absolute;
     top: 0;
@@ -97,6 +113,8 @@ const Label = styled.div`
   background: ${({ content }) => {
     if (content === "bridge") {
       return "rgba(227, 233, 157, 1)";
+    } else if (content === "Bridge") {
+      return "rgba(227, 233, 157, 1)";
     } else if (content === "Dexes") {
       return "rgba(172, 252, 237, 1)";
     } else if (content === "lending") {
@@ -139,6 +157,7 @@ const Icon = styled.a`
     width: 72px;
     height: 72px;
   }
+
   @media (max-width: 900px) {
     margin-left: -4px;
     img {
@@ -164,7 +183,8 @@ const metadata = Social.get(`${src}/metadata/**`, "final");
 
 return (
   <Card>
-    <Banner href={`/${src}`}>
+    <Banner href={`/${src}`} metadata={metadata}>
+      <div className="allInOne-btn">All-in-one</div>
       {bannerImg ? (
         <img src={`${bannerImg}`}></img>
       ) : (
