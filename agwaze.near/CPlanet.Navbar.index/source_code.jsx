@@ -93,8 +93,6 @@ return (
       <a href={`#/agwaze.near/widget/CPlanet.index?tab=funding`}>Funding</a>
     </Routes>
     <Join>
-      <button>Sign up</button>
-      <div />
       <button>Connect Wallet</button>
     </Join>
   </NavContainer>
