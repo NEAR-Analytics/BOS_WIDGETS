@@ -33,17 +33,13 @@ initState({
   symbol_name: symbol_name,
   reference: reference,
   reference_hash: reference_hash,
+  nameIsActive: false,
 });
 
 const onChangeName = (name) => {
   State.update({
     name,
   });
-  console.log(state.name);
-  console.log(
-    "matched?",
-    state.allNFTStores.includes(`${state.name}.mintbase1.near`)
-  );
 };
 
 const onChangeSymbol = (symbol_name) => {
@@ -105,7 +101,7 @@ function fetchData() {
     allSymbols:
       response && response.body.data.nft_contracts.map((store) => store.symbol),
   });
-  console.log("data", state.allNFTStores);
+  // console.log("data", state.allNFTStores);
 }
 
 fetchData();
@@ -143,7 +139,10 @@ const Main = styled.div`
     border-color: black;
   }
 
-  input, .input {
+  .input, .name {
+    display: flex;
+    align-items:center;
+    justify-content:space-between;;
     border-radius: 32px;
     flex-shrink: 0;
     height: 48px;
@@ -160,16 +159,28 @@ const Main = styled.div`
     outline: none;
     padding: 0 1rem;
     line-height: 148%; /* 29.6px */
-    :focus{
-      background: #fff;
-      // border-color: #000;
+    p{
+      margin: 0;
     }
+}
+.name{
+  background: ${state.nameIsActive ? "#fff" : "#F8F8F8"};
 }
     .danger{
       color: red;
       border-color: red;
     }
+.ip_name{
+  background:transparent;
+  border: none;
+  outline: none;
+  :focus{
+      background: #fff;
+      }
+}
 `;
+
+console.log(state.nameIsActive);
 return (
   <Main>
     <div>
@@ -178,15 +189,30 @@ return (
       </h1>
       <div>
         Contract Name*:
-        <input
-          type="text"
-          onChange={(e) => onChangeName(e.target.value)}
-          className={`input ${
+        <div
+          className={`name ${
             state.allNFTStores &&
             state.allNFTStores.includes(`${state.name}.mintbase1.near`) &&
             "danger"
           }`}
-        />
+        >
+          <input
+            type="text"
+            onChange={(e) => onChangeName(e.target.value)}
+            className="ip_name"
+            onFocus={() =>
+              State.update({
+                nameIsActive: true,
+              })
+            }
+            onBlur={() =>
+              State.update({
+                nameIsActive: false,
+              })
+            }
+          />
+          <p>.mintebase1.near</p>
+        </div>
       </div>
       <div>
         Symbol* (max 3 letters):
