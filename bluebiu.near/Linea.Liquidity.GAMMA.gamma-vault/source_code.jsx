@@ -963,8 +963,6 @@ const onChangeSlider = (percent) => {
   handleLPChange(newLpValue);
 };
 
-console.log("state.lpPercent: ", state.lpPercent);
-
 return (
   <VStack>
     <Wrapper>
