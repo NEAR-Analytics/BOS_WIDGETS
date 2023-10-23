@@ -590,3 +590,4 @@ return (
             🧙🏻 Scan
           </button>
         </div>
+        </div>
