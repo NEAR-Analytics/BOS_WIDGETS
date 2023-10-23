@@ -430,7 +430,7 @@ const getArgsFromMethod = (fName, fIndex) => {
                     if (
                       argName ==
                         strErr.match(/\`(.*?)\`/g)[0].replaceAll("`", "") &&
-                      isExist == true
+                      isCheck == true
                     ) {
                       clearInterval(getArg);
                     }
