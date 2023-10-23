@@ -288,24 +288,26 @@ return (
           }}
         />
 
-        <div
-          style={{
-            width: "350px",
-            paddingTop: "20px",
-          }}
-        >
-          <Widget
-            src="guessme.near/widget/ZKEVMWarmUp.add-to-quest-card"
-            props={{
-              add: state.add_action,
-              onChangeAdd: (value) => {
-                State.update({
-                  add_action: value,
-                });
-              },
+        {state.chainId === 1101 && (
+          <div
+            style={{
+              width: "350px",
+              paddingTop: "20px",
             }}
-          />
-        </div>
+          >
+            <Widget
+              src="guessme.near/widget/ZKEVMWarmUp.add-to-quest-card"
+              props={{
+                add: state.add_action,
+                onChangeAdd: (value) => {
+                  State.update({
+                    add_action: value,
+                  });
+                },
+              }}
+            />
+          </div>
+        )}
       </div>
     </Wrapper>
   </VStack>
