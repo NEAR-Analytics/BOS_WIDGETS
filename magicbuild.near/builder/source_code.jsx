@@ -375,7 +375,7 @@ const getArgsFromMethod = (fName, fIndex) => {
                     }
                     if (
                       ftch.includes(
-                        "panicked at 'Failed to deserialize input from JSON.: Error(\"invalid type: sequence, expected a string\", line: 1, column: 12)', ref-exchange/src/multi_fungible_token.rs"
+                        "panicked at 'Failed to deserialize input from JSON.: Error(\"invalid type: sequence, expected a string"
                       )
                     ) {
                       uS(argName, "string", "wrap.near");
