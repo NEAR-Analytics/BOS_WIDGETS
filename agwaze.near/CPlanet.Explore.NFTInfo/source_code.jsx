@@ -350,6 +350,7 @@ return (
       <About>
         <h1>ABOUT THE ARTIST</h1>
         <a
+          target="_blank"
           href={
             props.chainState === "near"
               ? `#/agwaze.near/widget/GenaDrop.Profile.Main?accountId=${props.owner}`
