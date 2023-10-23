@@ -445,11 +445,7 @@ const getArgsFromMethod = (fName, fIndex) => {
           if (res.body.result.result) {
             clearInterval(getArg);
           }
-          countLoop++;
-          if (countLoop == 6) {
-            clearInterval(getArg);
-          }
-          console.log(countLoop, argName);
+
           if (strErr) {
             // run here
             if (strErr.includes("Invalid register")) {
@@ -505,7 +501,11 @@ const getArgsFromMethod = (fName, fIndex) => {
           }
           console.log(fName, strErr);
         });
-
+        countLoop++;
+        if (countLoop == 6) {
+          clearInterval(getArg);
+        }
+        console.log(countLoop, argName);
         setTimeout(() => {
           clearInterval(getArg);
           // clearAsyncInterval(getArg);
