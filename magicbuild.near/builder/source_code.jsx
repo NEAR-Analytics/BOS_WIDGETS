@@ -323,6 +323,7 @@ const getArgsFromMethod = (fName, fIndex) => {
                   headers: header,
                   method: "POST",
                 }).then((res) => {
+                  const isExist = false;
                   const uS = (argName, type, value) => {
                     const arg = {
                       name: argName,
@@ -334,7 +335,7 @@ const getArgsFromMethod = (fName, fIndex) => {
                     if (type == "enum") {
                       arg.enum = value;
                     }
-                    const isExist = false;
+
                     abiMethod[fIndex].params.args.forEach((item) => {
                       if (item.name == argName) {
                         isExist = true;
@@ -426,7 +427,7 @@ const getArgsFromMethod = (fName, fIndex) => {
                     //   console.log("check", isCheck);
                     //   uS(argName, typeItem.type, typeItem.value);
                     // }
-                    if (isCheck == false) {
+                    if (isCheck == false && isExist == true) {
                       clearInterval(getArg);
                     }
                   } else {
