@@ -117,6 +117,7 @@ const LikeButton = styled.div`
       }
     }
 
+    transform-origin: center;
     animation: scaleAnimation 1s ease-in-out infinite;
   }
 `;
