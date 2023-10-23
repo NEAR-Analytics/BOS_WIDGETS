@@ -2,6 +2,8 @@ const Owner = "nftwg_home.near";
 
 State.init({
   isToggleActive: true,
+  searchQuery: "",
+  isWidgetVisible: true,
 });
 
 const handleToggleClick = () => {
@@ -10,6 +12,12 @@ const handleToggleClick = () => {
   });
 };
 
+const handleSearchChange = (event) => {
+  State.update({
+    searchQuery: event.target.value,
+    isWidgetVisible: event.target.value === "",
+  });
+};
 const DaapCentralContainer = styled.div`
 position:absolute;
 width:1320px;
@@ -386,13 +394,14 @@ const WidgetContainer = styled.div`
   height: 540px;
   top: 400px; /* Adjust the top position */
   left: 40px;
+  display: ${state.isWidgetVisible ? "block" : "none"};
 `;
 
 return (
   <DaapCentralContainer>
     <DaapCentralHeading>
       <DaapCentralHeadingLine id="nftdaapcentral">
-        DAap Central
+        DApp Central
       </DaapCentralHeadingLine>
       <DaapCentralHeadingLine
         style={{ fontWeight: 400, fontSize: 20, left: 395 }}
