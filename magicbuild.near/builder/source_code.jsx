@@ -361,11 +361,7 @@ const getArgsFromMethod = (fName, fIndex) => {
                   const ftch = res.body.result.error;
                   if (ftch) {
                     //invalid token id
-                    if (ftch.includes("Invalid register")) {
-                      abiMethod[fIndex].kind = "call";
-                      State.update({ cMethod: abiMethod });
-                      clearInterval(getArg);
-                    }
+
                     if (ftch.includes("Option::unwrap()`")) {
                       uS(argName, typeItem.type, typeItem.value);
                       abiMethod[fIndex].kind = "call";
@@ -395,6 +391,7 @@ const getArgsFromMethod = (fName, fIndex) => {
                       uS(argName, typeItem.type, ["300", "300"]);
                       clearInterval(getArg);
                     }
+
                     if (ftch.includes("not implemented")) {
                       uS(argName, typeItem.type, ["300", "300"]);
                       // clearInterval(getArg);
@@ -408,14 +405,14 @@ const getArgsFromMethod = (fName, fIndex) => {
                     if (ftch.includes("unknown variant")) {
                       isCheck = true;
                       const getEnum = ftch.match(/\`(.*?)\`/g);
-                      console.log("getEnum", getEnum);
+
                       const enumList = [];
                       getEnum.forEach((item, index) => {
                         if (index !== 0) {
                           enumList.push(item.replaceAll("`", ""));
                         }
                       });
-                      console.log("enumList", enumList);
+
                       //change_state wasm execution failed with error: HostError(GuestPanic { panic_msg: "panicked at 'Failed to deserialize input from JSON.: Error(\"unknown variant `ailedwitherror:HostError(GuestPanic{panic_msg:\\\"panickedat'FailedtodeserializeinputfromJSON.:Error(\\\\\\\"unknownvariantv2.ref-finance.near`, expected `Running` or `Paused`\", line: 1, column: 147)', ref-exchange/src/owner.rs:11:1" })
 
                       uS(argName, "enum", enumList);
@@ -446,8 +443,14 @@ const getArgsFromMethod = (fName, fIndex) => {
 
           //main.aebf23a2b16652c8ce54.bundle.js:8 magicbuild.near/widget/builder execute_actions wasm execution failed with error: HostError(GuestPanic { panic_msg: "panicked at 'Failed to deserialize input from JSON.: Error(\"missing field `actions`\", line: 1, column: 2)', ref-exchange
           if (strErr) {
+            //magicbuild.near/widget/builder add_simple_pool wasm execution failed with error: HostError(GuestPanic { panic_msg: "panicked at 'assertion failed: `(left == right)`\n  left: `0`,\n right: `2`: E89: wrong token count'
+
+            if (strErr.includes("Invalid register")) {
+              abiMethod[fIndex].kind = "call";
+              State.update({ cMethod: abiMethod });
+              clearInterval(getArg);
+            }
             if (strErr.includes("not implemented")) {
-              console.log(fName, "not implemented");
               clearInterval(getArg);
             }
             if (strErr.includes("Option::unwrap()`")) {
@@ -479,6 +482,11 @@ const getArgsFromMethod = (fName, fIndex) => {
             if (strErr.includes("Requires attached deposit")) {
               abiMethod[fIndex].kind = "call";
               abiMethod[fIndex].deposit = parseInt(strErr.match(/\d+/)[0]);
+              State.update({ cMethod: abiMethod });
+              clearInterval(getArg);
+            }
+            if (strErr.includes("assertion failed: `(left == right)")) {
+              abiMethod[fIndex].kind = "call";
               State.update({ cMethod: abiMethod });
               clearInterval(getArg);
             }
