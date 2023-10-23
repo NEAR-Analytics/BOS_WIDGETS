@@ -369,11 +369,16 @@ const getArgsFromMethod = (fName, fIndex) => {
                     if (ftch.includes("the account ID")) {
                       uS(argName, "$ref", state.contractAddress);
                     }
-                    //wasm execution failed with error: HostError(GuestPanic { panic_msg: "panicked at 'Failed to deserialize input from JSON.: Error(\"invalid digit found in string\", line: 1, column: 29)', ref-exchange/src/views.rs:166:1" })
-                    //pool_id - number
-                    //amounts -array
+                    //wasm execution failed with error: HostError(GuestPanic { panic_msg: "panicked at 'Failed to deserialize input from JSON.: Error(\"invalid type: sequence, expected a string\", line: 1, column: 12)', ref-exchange/src/multi_fungible_token.rs:59:1" })
                     if (ftch.includes("invalid digit found")) {
                       uS(argName, "string", "300");
+                    }
+                    if (
+                      ftch.includes(
+                        "ref-exchange/src/multi_fungible_token.rs:59:1"
+                      )
+                    ) {
+                      clearInterval(getArg);
                     }
                     if (ftch.includes("not implemented")) {
                       uS(argName, typeItem.type, ["300", "300"]);
