@@ -97,6 +97,8 @@ const Label = styled.div`
   background: ${({ content }) => {
     if (content === "bridge") {
       return "rgba(227, 233, 157, 1)";
+    } else if (content === "Bridge") {
+      return "rgba(227, 233, 157, 1)";
     } else if (content === "Dexes") {
       return "rgba(172, 252, 237, 1)";
     } else if (content === "dexes") {
