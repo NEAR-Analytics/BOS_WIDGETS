@@ -24,6 +24,8 @@ const AbsoluteContainer = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
+    font-size: 20px;
+    font-weight: 700;
   }
   .widget-name {
     font-size: 20px;
@@ -109,7 +111,8 @@ return (
     </Link>
     <img src={imgSrc} alt="" className="logo" />
     <div className="container-text">
-      <h3 className="widget-name">{metadata.name || widgetName}</h3>
+      {/* <h3 className="widget-name">{metadata.name || widgetName}</h3> */}
+      {metadata.name || widgetName}
     </div>
   </AbsoluteContainer>
 );
