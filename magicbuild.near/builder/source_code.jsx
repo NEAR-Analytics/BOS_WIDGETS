@@ -378,10 +378,8 @@ const getArgsFromMethod = (fName, fIndex) => {
                     }
                     if (ftch.includes("unknown variant")) {
                       const getEnum = ftch.match(/\`(.*?)\`/g);
-                      const enumList1 = getEnum.splice(0, 1);
                       console.log("getEnum", getEnum);
-                      const enumList = [];
-                      enumList1.forEach((item) => {
+                      getEnum.forEach((item) => {
                         enumList.push(item.replaceAll("`", ""));
                       });
                       console.log("enumList", enumList);
