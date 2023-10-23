@@ -186,7 +186,7 @@ return (
         <div
           className={`name ${
             state.allNFTStores &&
-            state.allNFTStores.includes(`${state.name}.mintbase1.near`) &&
+            state.allNFTStores.includes(`${state.name}.${contract_id}`) &&
             "danger"
           }`}
         >
@@ -195,7 +195,7 @@ return (
             onChange={(e) => onChangeName(e.target.value)}
             className="ip_name"
           />
-          <p>.mintebase1.near</p>
+          <p>.{contract_id}</p>
         </div>
       </div>
       <div>
@@ -213,7 +213,7 @@ return (
           state.symbol_name.length > 3 ||
           !state.name ||
           (state.allNFTStores &&
-            state.allNFTStores.includes(`${state.name}.mintbase1.near`))
+            state.allNFTStores.includes(`${state.name}.${contract_id}`))
         }
       >
         Deploy Store 3.5N
