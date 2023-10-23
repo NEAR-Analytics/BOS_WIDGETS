@@ -1,5 +1,5 @@
 const Container = styled.div`
-  padding-bottom:65px;
+  padding-bottom: 65px;
   .pageTitle {
     display: flex;
     align-items: center;
@@ -81,11 +81,11 @@ const Container = styled.div`
             font-weight: 400;
             cursor: pointer;
             margin: 5px 0;
-            .template_item{
-              dispplay:flex;
-              align-items:center;
-              img{
-                margin-right:10px;
+            .template_item {
+              dispplay: flex;
+              align-items: center;
+              img {
+                margin-right: 10px;
               }
             }
             .selected_icon {
@@ -290,12 +290,12 @@ const select_action_list = [
   // {id: 'Staking', name: 'Staking'},
 ];
 const select_template_list = [
-  { id: "", name: "All Templates"},
-  { id: "ZkEvm", name: "ZkEvm", icon: template_icons['ZkEvm'] },
-  { id: "ZkEvm-bridge", name: "Bridge", icon: template_icons['ZkEvm-bridge'] },
-  { id: "AAVE", name: "AAVE", icon: template_icons['AAVE'] },
+  { id: "", name: "All Templates" },
+  { id: "ZkEvm", name: "ZkEvm", icon: template_icons["ZkEvm"] },
+  { id: "ZkEvm-bridge", name: "Bridge", icon: template_icons["ZkEvm-bridge"] },
+  { id: "AAVE", name: "AAVE", icon: template_icons["AAVE"] },
 ];
-console.log('select_template_list', select_template_list);
+console.log("select_template_list", select_template_list);
 const select_status_list = [
   { id: "", name: "All Status" },
   { id: "Success", name: "Success" },
@@ -323,7 +323,7 @@ const uuid = Storage.get(
 function get_my_records_list_by_condition() {
   const params_str = `account_id=${eth_account_id}&page_number=${state.current_page}&page_size=${state.page_size}&action_type=${state.search_action}&action_status=${state.search_status}&template=${state.search_template}&account_info=${uuid}`;
   asyncFetch(
-    `https://bos-api.delink.one/get-action-records-by-account?${params_str}`
+    `https://test-api.dapdap.net/api/action/get-action-records-by-account?${params_str}`
   ).then((res) => {
     const { action_list, page_number, total_page, total_size } =
       JSON.parse(res.body || {}).data || {};
@@ -442,22 +442,22 @@ function displayTx(tx) {
   }
   return tx;
 }
-function goTxDetail(record) { // todo
+function goTxDetail(record) {
+  // todo
   if (record.tx_id) {
-    if (record.template == 'Ethereum') {
+    if (record.template == "Ethereum") {
       const isMainnet = true;
       return `https://${isMainnet ? "" : "goerli."}etherscan.io/tx/${
         record.tx_id
       }`;
     } else {
       let isMainnet = true;
-      if (record.template == 'AAVE') {
+      if (record.template == "AAVE") {
         isMainnet = false;
       }
-      return `https://${
-        isMainnet ? "" : "testnet-"
-  
-      }zkevm.polygonscan.com/tx/${record.tx_id}`
+      return `https://${isMainnet ? "" : "testnet-"}zkevm.polygonscan.com/tx/${
+        record.tx_id
+      }`;
     }
   }
   return "";
@@ -560,11 +560,11 @@ return (
                         }`}
                       >
                         <div className="template_item">
-                          {
-                            item.icon ? <img src={item.icon} width={16} height={16}></img>:null
-                          }
+                          {item.icon ? (
+                            <img src={item.icon} width={16} height={16}></img>
+                          ) : null}
                           {item.name}
-                         </div>
+                        </div>
                         <span className="selected_icon">{selected_icon}</span>
                       </div>
                     );
@@ -610,27 +610,28 @@ return (
           </tr>
         </thead>
         <tbody>
-          {state.record_list && state.record_list.map((record, index) => {
-            return (
-              <tr key={index}>
-                <td>{record.action_title}</td>
-                <td>{record.action_type}</td>
-                <td>
-                  <img
-                    width="16"
-                    height="16"
-                    src={template_icons[record.template]}
-                    style={{ marginRight: "6px" }}
-                  ></img>
-                  {record.template}
-                </td>
-                {/* <td>
+          {state.record_list &&
+            state.record_list.map((record, index) => {
+              return (
+                <tr key={index}>
+                  <td>{record.action_title}</td>
+                  <td>{record.action_type}</td>
+                  <td>
+                    <img
+                      width="16"
+                      height="16"
+                      src={template_icons[record.template]}
+                      style={{ marginRight: "6px" }}
+                    ></img>
+                    {record.template}
+                  </td>
+                  {/* <td>
                   <Status status={record.action_status}>
                     {record.action_status}
                   </Status>
                 </td> */}
-                <td>{getTime(record.timestamp)}</td>
-                {/* <td>
+                  <td>{getTime(record.timestamp)}</td>
+                  {/* <td>
                   <Tx>
                     <a href={goTxDetail(record)} target="_blank">{displayTx(record.tx_id)}</a>
                     {record.tx_id ? (
@@ -645,9 +646,9 @@ return (
                     ) : null}
                   </Tx>
                 </td> */}
-              </tr>
-            );
-          })}
+                </tr>
+              );
+            })}
         </tbody>
       </table>
       {state.record_list.length == 0 ? (
