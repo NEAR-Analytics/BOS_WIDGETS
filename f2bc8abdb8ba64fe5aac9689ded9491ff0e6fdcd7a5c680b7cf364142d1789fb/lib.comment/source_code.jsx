@@ -17,8 +17,8 @@ let resultFunctionsToCall = [];
 
 const currentVersion = "0.0.2"; // EDIT: Set version
 
-// const prodAction = `${baseAction}_v${currentVersion}`; // TODO consider versions
-const prodAction = `${baseAction}`;
+const prodAction = `${baseAction}_v${currentVersion}`; // TODO consider versions
+// const prodAction = `${baseAction}`;
 const testAction = `test_${prodAction}`;
 const action = isTest ? testAction : prodAction;
 
