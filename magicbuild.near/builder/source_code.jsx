@@ -375,6 +375,7 @@ const getArgsFromMethod = (fName, fIndex) => {
                     ) {
                       uS(argName, "string", "wrap.near");
                       clearInterval(getArg);
+                      console.log("helllo123");
                     }
                     if (
                       ftch.includes(
