@@ -298,6 +298,7 @@ const getArgsFromMethod = (fName, fIndex) => {
               { value: "300", type: "string" },
               { value: 0, type: "integer" },
               { value: [], type: "array" },
+              { value: ["300", "300"], type: "array" },
               { value: true, type: "boolean" },
               { value: {}, type: "json" },
               { value: state.contractAddress, type: "$ref" },
@@ -370,6 +371,9 @@ const getArgsFromMethod = (fName, fIndex) => {
                     if (ftch.includes("the account ID")) {
                       uS(argName, "$ref", state.contractAddress);
                     }
+                    //wasm execution failed with error: HostError(GuestPanic { panic_msg: "panicked at 'Failed to deserialize input from JSON.: Error(\"invalid digit found in string\", line: 1, column: 29)', ref-exchange/src/views.rs:166:1" })
+                    //pool_id - number
+                    //amounts -array
                     if (ftch.includes("invalid digit found")) {
                       uS(argName, typeItem.type, "300");
                     }
