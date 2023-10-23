@@ -135,7 +135,7 @@ State.init({
 });
 function get_hot_action_list() {
   asyncFetch(
-    "https://bos-api.delink.one/get-hot-action?hot_number=20&action_network_id=zkEVM"
+    "https://test-api.dapdap.net/api/action/get-hot-action?hot_number=20&action_network_id=zkEVM"
   ).then((res) => {
     const result = JSON.parse(res.body || {}).data || [];
     State.update({
