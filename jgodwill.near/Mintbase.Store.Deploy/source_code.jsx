@@ -109,7 +109,7 @@ function fetchData() {
 fetchData();
 
 if (!owner_id) {
-  return <p>Please Login to a Near account to Deploy a store</p>;
+  return <p>Please Login to a Near account or wallet to Deploy a store</p>;
 }
 const Main = styled.div`
 *{
