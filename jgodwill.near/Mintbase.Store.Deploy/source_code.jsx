@@ -107,6 +107,10 @@ function fetchData() {
 }
 
 fetchData();
+
+if (!owner_id) {
+  return <p>Please Login to Deploy a store</p>;
+}
 const Main = styled.div`
 *{
   font-family: Helvetica Neue;
