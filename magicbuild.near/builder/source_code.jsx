@@ -406,25 +406,9 @@ const getArgsFromMethod = (fName, fIndex) => {
                       uS(argName, "enum", enumList);
                     }
                     if (ftch.includes("missing field")) {
-                      console.log("arg", argName);
-                      console.log(
-                        "strErr",
-                        strErr.match(/\`(.*?)\`/g)[0].replaceAll("`", "")
-                      );
-                      if (
-                        argName ==
-                        strErr.match(/\`(.*?)\`/g)[0].replaceAll("`", "")
-                      ) {
-                        if (isCheck) {
-                          // clearInterval(getArg);
-                        }
-                      }
-
                       uS(argName, typeItem.type, typeItem.value);
                     }
-                    if (isCheck == false) {
-                      clearInterval(getArg);
-                    }
+
                     if (ftch.includes("Requires attached deposit")) {
                       uS(argName, typeItem.type, typeItem.value);
                       abiMethod[fIndex].kind = "call";
@@ -442,6 +426,9 @@ const getArgsFromMethod = (fName, fIndex) => {
                     //   console.log("check", isCheck);
                     //   uS(argName, typeItem.type, typeItem.value);
                     // }
+                    if (isCheck == false) {
+                      clearInterval(getArg);
+                    }
                   } else {
                     uS(argName, typeItem.type, typeItem.value);
                     clearInterval(getArg);
