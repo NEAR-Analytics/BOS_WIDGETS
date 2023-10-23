@@ -645,13 +645,3 @@ return (
             </>
           )}
         </div>
-<div class="form-group col-md-4">
-          {state.cMethod.length > 0 ? (
-            <Widget src={`${cep}/widget/save-client-button`} />
-          ) : (
-            <>
-              <label></label>
-              <button class="btn btn-dark form-control "> Save Client</button>
-            </>
-          )}
-        </div>
