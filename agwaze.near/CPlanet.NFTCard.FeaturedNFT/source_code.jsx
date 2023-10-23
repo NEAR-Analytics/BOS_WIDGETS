@@ -63,7 +63,14 @@ const Tags = styled.div`
 `;
 
 return (
-  <Root>
+  <Root
+    href={
+      props.price
+        ? `#/agwaze.near/widget/CPlanet.index?tab=singleNFT&contractId=${props.contractId}&tokenId=${props.tokenId}&chainState=${props.chainState}`
+        : "#"
+    }
+    onClick={() => props.onButtonClick()}
+  >
     <div />
     <Content>
       <ImageContainer>
