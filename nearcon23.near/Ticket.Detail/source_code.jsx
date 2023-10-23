@@ -2,6 +2,8 @@ const {
   props: { secretKey },
 } = props;
 
+const ownerId = "nearcon23.near";
+
 const MINTBASE_URL = secretKey
   ? `https://omni-site-git-nearcon-page-mintbase.vercel.app/nearcon/${secretKey}`
   : "#";
@@ -17,7 +19,7 @@ const Container = styled.div`
 `;
 
 const TicketContent = styled.div`
-    width:70%;
+    width:100%;
     padding:20px;
     @media (max-width: 768px) {
     width:100%;
@@ -86,18 +88,47 @@ return (
         the BOS at NEARCON. Don’t miss out.
       </TicketSubtitle>
       <Dividerline />
-      <TicketSubtitle>
-        Can’t make it to NEARCON this year? You can sell your ticket on the
-        secondary marketplace powered by Mintbase.
-      </TicketSubtitle>
-      <SellButton style={{ marginTop: 25 }} href={MINTBASE_URL} target="_blank">
-        Sell on MintBase
-      </SellButton>
       <div style={{ marginTop: 25 }}>
-        <img
-          src="https://nearcon.s3.amazonaws.com/ticketing-solutions-by.png"
-          style={{ width: "100%" }}
-        />
+        <div
+          style={{ backgroundColor: "#F9F9F8", padding: 20, borderRadius: 10 }}
+        >
+          <p
+            style={{
+              fontFamily: "Mona Sans",
+              fontWeight: "600",
+              fontSize: 14,
+              color: "#A1A09A",
+            }}
+          >
+            Ticketing solutions by
+          </p>
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: "10px",
+              justifyContent: "space-around",
+            }}
+          >
+            <div style={{ width: "50%" }}>
+              <Widget src={`${ownerId}/widget/Ticket.VerikenImage`} />
+            </div>
+            <div style={{ width: "40%" }}>
+              <img
+                style={{ width: "100%", objectFit: "contain" }}
+                src="https://ipfs.near.social/ipfs/bafkreihi3rm7qprgjmcdjq5m6hh4hvwanluf433ov2vvb55jstma5vtpem"
+              />
+            </div>
+          </div>
+          <div
+            style={{ width: "30%", display: "flex", justifyContent: "center" }}
+          >
+            <img
+              style={{ width: "100%", marginLeft: 20 }}
+              src="https://ipfs.near.social/ipfs/bafkreiacvdyffnb245npkf6oym6zgknrrxdid3zwoygksa66uozep4obya"
+            />
+          </div>
+        </div>
       </div>
     </TicketContent>
   </Container>
