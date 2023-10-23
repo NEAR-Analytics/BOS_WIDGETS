@@ -64,6 +64,13 @@ const SearchIcon = (
 
 const dapps = [
   {
+    src: "bluebiu.near/widget/Avalanche.All-in-one",
+    bannerImg:
+      "https://ipfs.near.social/ipfs/bafkreiel7dq2dgozf6serjwjugmadrfgp7edqyb5indnmgiedqr2cexi6a",
+    icon: "https://ipfs.near.social/ipfs/bafkreibow7aigjm44gn6unthuam3uiaiv2v543ugigjr5nyfubtnzf3uxy",
+    tags: ["Bridge","Dexes","Lending"],
+  },
+  {
     src: "bluebiu.near/widget/Avalanche.Lending",
     bannerImg:
       "https://ipfs.near.social/ipfs/bafkreiel7dq2dgozf6serjwjugmadrfgp7edqyb5indnmgiedqr2cexi6a",
