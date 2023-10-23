@@ -365,6 +365,7 @@ const MarketRow = styled.div`
     display: flex;
     justify-content: space-between;
     cursor: pointer;
+    text-decoration: none;
     width: 90%;
     transition: 0.3s ease-in-out;
     padding: 10px;
