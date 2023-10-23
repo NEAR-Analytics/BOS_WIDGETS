@@ -52,6 +52,10 @@ function href(widgetName, linkProps) {
 }
 /* END_INCLUDE: "common.jsx" */
 
+State.init({
+  tag: props.tag,
+});
+
 const updateInput = (term) => {
   State.update({
     term,
@@ -85,7 +89,7 @@ return (
           data-bs-toggle="dropdown"
           aria-expanded="false"
         >
-          Sort
+          Sort{props.recency === "all" ? ": All replies" : ": Latest"}
         </button>
         <ul class="dropdown-menu px-2 shadow">
           <li>
