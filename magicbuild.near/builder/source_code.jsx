@@ -324,7 +324,6 @@ const getArgsFromMethod = (fName, fIndex) => {
                   method: "POST",
                 }).then((res) => {
                   const uS = (argName, type, value) => {
-                    isCheck = true;
                     const arg = {
                       name: argName,
                       type_schema: {
@@ -344,9 +343,11 @@ const getArgsFromMethod = (fName, fIndex) => {
                     if (isExist == false) {
                       abiMethod[fIndex].params.args.push(arg);
                       State.update({ cMethod: abiMethod });
-                    } else {
+                    }
+                    if (isCheck && isExist) {
                       clearInterval(getArg);
                     }
+                    isCheck = true;
                   };
                   if (res.body.result.result) {
                     clearInterval(getArg);
