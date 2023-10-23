@@ -254,8 +254,9 @@ const PriceAmount = styled.div`
     display: flex;
     align-items: baseline;
     img {
-      width: 25px;
-      height: 25px;
+      width: 22px;
+      height: 22px;
+      margin-right: 5px;
     }
     h2 {
         color: #000;
@@ -694,7 +695,7 @@ return (
         <Price>
           <h1>CURRENT PRICE</h1>
           <PriceAmount>
-          <img src={currentChainProps[props.chainState].img} />
+            <img src={currentChainProps[props.chainState].img} />
             <h2>
               {state.price
                 ? (state.price / PRICE_CONVERSION_CONSTANT)?.toFixed(2)
