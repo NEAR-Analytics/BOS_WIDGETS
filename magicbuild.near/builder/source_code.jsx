@@ -361,9 +361,6 @@ const getArgsFromMethod = (fName, fIndex) => {
                   const ftch = res.body.result.error;
                   if (ftch) {
                     //invalid token id
-                    if (ftch.includes("invalid token id")) {
-                      clearInterval(getArg);
-                    }
                     if (ftch.includes("Invalid register")) {
                       abiMethod[fIndex].kind = "call";
                       State.update({ cMethod: abiMethod });
