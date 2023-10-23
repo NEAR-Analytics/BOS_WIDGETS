@@ -1,23 +1,17 @@
 const Owner = "nftwg_home.near";
-
 State.init({
   isToggleActive: true,
-  searchQuery: "",
   isWidgetVisible: true,
+  toggleBoxLeft: "50px",
 });
 
 const handleToggleClick = () => {
   State.update({
     isToggleActive: !state.isToggleActive,
+    toggleBoxLeft: state.isToggleActive ? "200px" : "50px",
   });
 };
 
-const handleSearchChange = (event) => {
-  State.update({
-    searchQuery: event.target.value,
-    isWidgetVisible: event.target.value === "",
-  });
-};
 const DaapCentralContainer = styled.div`
 position:absolute;
 width:1320px;
@@ -85,6 +79,7 @@ border-radius: 8px;
 flex: none;
 order: 0;
 flex-grow: 0;
+background: ${(props) => (props.isActive ? "#333333" : "transparent")};
 `;
 const ToggleText1 = styled.div`
 
@@ -102,13 +97,14 @@ font-size: 20px;
 line-height: 120%;
 /* identical to box height, or 24px */
 white-space:nowrap;
-color: #333333;
+
 
 
 /* Inside auto layout */
 flex: none;
 order: 0;
 flex-grow: 0;
+color:#333333
 `;
 
 const ToggleText2 = styled.div`
@@ -126,7 +122,7 @@ line-height: 120%;
 white-space:nowrap;
 /* identical to box height, or 24px */
 
-color: #333333;
+color "#333333"
 
 
 /* Inside auto layout */
@@ -395,8 +391,7 @@ const WidgetContainer = styled.div`
   top: 400px; /* Adjust the top position */
   left: 40px;
   display: ${state.isWidgetVisible ? "block" : "none"};
-  overflow-x: scroll;
-  max-height: 540px;
+  overflow-y: scroll;
 `;
 
 return (
@@ -413,19 +408,19 @@ return (
       </DaapCentralHeadingLine>
     </DaapCentralHeading>
     <ToggleContainer style={{ left: 50 }}>
-      <ToggleBox>
-        <ToggleText1
-          onClick={() => handleToggleClick()}
-          style={{
-            fontWeight: state.isToggleActive ? 600 : 400,
-            fontSize: 20,
-          }}
-        >
-          NFT WG Projects
-        </ToggleText1>
-      </ToggleBox>
+      <ToggleText1
+        isActive={state.isToggleActive}
+        onClick={() => handleToggleClick()}
+        style={{
+          fontWeight: state.isToggleActive ? 600 : 400,
+          fontSize: 20,
+        }}
+      >
+        NFT WG Projects
+      </ToggleText1>
 
       <ToggleText2
+        isActive={!state.isToggleActive}
         onClick={() => handleToggleClick()}
         style={{
           fontWeight: state.isToggleActive ? 400 : 600,
@@ -440,8 +435,6 @@ return (
         <input
           style={{ width: 800, height: 56 }}
           type="search"
-          value={searchQuery}
-          onChange={handleSearchChange}
           placeholder="Search by card title"
         />
       </SearchBar>
