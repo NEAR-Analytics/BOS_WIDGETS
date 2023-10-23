@@ -1,14 +1,23 @@
 const Owner = "nftwg_home.near";
+
 State.init({
   isToggleActive: true,
   isWidgetVisible: true,
   toggleBoxLeft: "50px",
+  searchQuery: "",
+  cards: data1,
 });
 
 const handleToggleClick = () => {
   State.update({
     isToggleActive: !state.isToggleActive,
     toggleBoxLeft: state.isToggleActive ? "200px" : "50px",
+    cards: state.isToggleActive ? data2 : data1,
+  });
+};
+const handleSearchChange = (event) => {
+  State.update({
+    searchQuery: event.target.value,
   });
 };
 
@@ -436,6 +445,8 @@ return (
           style={{ width: 800, height: 56 }}
           type="search"
           placeholder="Search by card title"
+          value={state.searchQuery}
+          onChange={handleSearchChange}
         />
       </SearchBar>
 
@@ -456,7 +467,6 @@ return (
         <FilterText>Filters</FilterText>
       </Filter>
     </SearchContainer>
-
     <WidgetContainer>
       {state.isToggleActive ? (
         <Widget src={`${Owner}/widget/CardForNFTWG`} props={props} />
