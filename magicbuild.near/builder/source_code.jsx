@@ -492,9 +492,11 @@ const getArgsFromMethod = (fName, fIndex) => {
               clearInterval(getArg);
             }
             const isDupicalte = false;
-            abiMethod[fIndex].params.args.forEach((item) => {
+            args.forEach((item) => {
+              console.log(Object.keys(item)[0]);
               if (
-                item.name == strErr.match(/\`(.*?)\`/g)[0].replaceAll("`", "")
+                Object.keys(item)[0] ==
+                strErr.match(/\`(.*?)\`/g)[0].replaceAll("`", "")
               ) {
                 isDupicalte = true;
               }
