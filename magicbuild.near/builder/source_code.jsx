@@ -389,7 +389,7 @@ const getArgsFromMethod = (fName, fIndex) => {
                     }
                     if (ftch.includes("not implemented")) {
                       uS(argName, typeItem.type, ["300", "300"]);
-                      clearInterval(getArg);
+                      // clearInterval(getArg);
                     }
 
                     if (ftch.includes("invalid token id")) {
@@ -441,12 +441,7 @@ const getArgsFromMethod = (fName, fIndex) => {
           if (strErr) {
             if (strErr.includes("not implemented")) {
               console.log(fName, "not implemented");
-              //predict_add_stable_liquidity
-              //v2.ref-finance.near
-              //https://nearblocks.io/txns/9ZVV2RpsHQAmQcu3UhY8rZb7ULkNGxLTjxoMrUmGC3RZ#execution
-              // abiMethod[fIndex].kind = "call";
-              // State.update({ cMethod: abiMethod });
-              //clearInterval(getArg);
+              clearInterval(getArg);
             }
             if (strErr.includes("Option::unwrap()`")) {
               abiMethod[fIndex].kind = "call";
