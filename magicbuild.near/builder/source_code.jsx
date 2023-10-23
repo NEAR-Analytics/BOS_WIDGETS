@@ -624,3 +624,14 @@ return (
           </button>
         </div>
       </div>
+      <div class="row">
+        <div class="form-group col-md-4">
+          {state.cMethod.length > 0 ? (
+            <Widget src={`${cep}/widget/export-button`} props={state} />
+          ) : (
+            <>
+              <label></label>
+              <button class="btn btn-dark form-control ">🔼 Export</button>
+            </>
+          )}
+        </div>
