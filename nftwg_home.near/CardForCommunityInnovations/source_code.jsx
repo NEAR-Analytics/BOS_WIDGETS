@@ -105,7 +105,7 @@ border: 1px solid #A0A0A0;
 `;
 const CardsGrid = styled.div`
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(2, 1fr);
   gap: 20px;
 `;
 
