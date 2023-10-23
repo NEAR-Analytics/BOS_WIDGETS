@@ -338,6 +338,7 @@ const getArgsFromMethod = (fName, fIndex) => {
                     const isExist = false;
                     abiMethod[fIndex].params.args.forEach((item) => {
                       if (item.name == argName) {
+                        clearInterval(getArg);
                         isExist = true;
                       }
                     });
