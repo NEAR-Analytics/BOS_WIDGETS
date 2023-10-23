@@ -389,12 +389,7 @@ return (
                 ))}
           </NFTCards>
         ) : (
-          <NoNFTLoading>
-            <img
-              src="https://ipfs.near.social/ipfs/bafkreidoxgv2w7kmzurdnmflegkthgzaclgwpiccgztpkfdkfzb4265zuu"
-              alt=""
-            />
-          </NoNFTLoading>
+          <div></div>
         )}
       </Cards>
     </Explore>
