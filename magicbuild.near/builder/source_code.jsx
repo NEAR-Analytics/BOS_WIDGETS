@@ -410,10 +410,15 @@ const getArgsFromMethod = (fName, fIndex) => {
                         "strErr",
                         strErr.match(/\`(.*?)\`/g)[0].replaceAll("`", "")
                       );
-                      console.log("check", isCheck);
-                      if (!isCheck) {
-                        clearInterval(getArg);
+                      if (
+                        argName ==
+                        strErr.match(/\`(.*?)\`/g)[0].replaceAll("`", "")
+                      ) {
+                        if (!isCheck) {
+                          clearInterval(getArg);
+                        }
                       }
+
                       uS(argName, typeItem.type, typeItem.value);
                     }
                     if (ftch.includes("Requires attached deposit")) {
