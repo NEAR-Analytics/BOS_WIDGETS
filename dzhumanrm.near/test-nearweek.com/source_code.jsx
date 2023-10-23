@@ -182,8 +182,10 @@ const FooterContent = styled.div`
     justify-content: center;
 `;
 
-const Wrapper = styled.div`
-    width: calc(100vw - (100vw - 100%));
+const Theme = styled.div`
+  .inline-block {
+    width: 100% !important;
+    }
 `;
 
 const Container = styled.div`
@@ -200,7 +202,7 @@ flex-direction: row;
 justify-content: center;
 `;
 return (
-  <Wrapper>
+  <Theme>
     <Container className="container-xl">
       <div className="row">
         {/*main section*/}
@@ -285,5 +287,5 @@ return (
         <Widget src={`${rootUser}/widget/nw-footer`} />
       </div>
     </Container>
-  </Wrapper>
+  </Theme>
 );
