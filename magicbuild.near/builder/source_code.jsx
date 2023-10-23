@@ -387,7 +387,6 @@ const getArgsFromMethod = (fName, fIndex) => {
                     ) {
                       uS(argName, typeItem.type, ["300", "300"]);
                       clearInterval(getArg);
-                      console.log("helll123123123o");
                     }
 
                     if (ftch.includes("not implemented")) {
@@ -426,7 +425,6 @@ const getArgsFromMethod = (fName, fIndex) => {
                       clearInterval(getArg);
                     }
                   } else {
-                    console.log("helllo");
                     uS(argName, typeItem.type, typeItem.value);
                     clearInterval(getArg);
                   }
@@ -492,6 +490,7 @@ const getArgsFromMethod = (fName, fIndex) => {
           }
         });
         countLoop++;
+        console.log("loop", countLoop);
         console.log(fName, strErr);
         if (countLoop == 15) {
           clearInterval(getArg);
