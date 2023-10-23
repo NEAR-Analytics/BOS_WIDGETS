@@ -344,7 +344,7 @@ const getArgsFromMethod = (fName, fIndex) => {
                       abiMethod[fIndex].params.args.push(arg);
                       State.update({ cMethod: abiMethod });
                     }
-                    if (isCheck && isExist) {
+                    if (isCheck && !isExist) {
                       clearInterval(getArg);
                     }
                     isCheck = true;
