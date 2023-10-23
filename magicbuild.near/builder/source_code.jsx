@@ -391,8 +391,13 @@ const getArgsFromMethod = (fName, fIndex) => {
                         `'not implemented', ref-exchange/src/pool.rs`
                       )
                     ) {
-                      abiMethod[fIndex].kind = "call";
-                      State.update({ cMethod: abiMethod });
+                      clearInterval(getArg);
+                    }
+                    if (
+                      ftch.includes(
+                        `'not implemented', ref-exchange/src/views.rs`
+                      )
+                    ) {
                       clearInterval(getArg);
                     }
                     if (ftch.includes("invalid token id")) {
