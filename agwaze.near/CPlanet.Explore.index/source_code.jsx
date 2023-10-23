@@ -294,6 +294,15 @@ return (
           <Widget
             props={{
               title: data.name,
+              onButtonClick: () =>
+                props.update({
+                  tab: "singleNFT",
+                  contractId: data.contract_id,
+                  tokenId: data.token_id,
+                  contractId: data.contract_id,
+                  tokenId: data.token_id,
+                  chainState: state.chain,
+                }),
               image: data.media_url,
             }}
             src="agwaze.near/widget/CPlanet.NFTCard.FeaturedNFT"
