@@ -183,7 +183,7 @@ const FooterContent = styled.div`
 `;
 
 const Theme = styled.div`
-  .inline-block {
+  .d-inline-block {
     width: 100% !important;
     }
 `;
