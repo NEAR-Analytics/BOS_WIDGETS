@@ -428,7 +428,7 @@ const SelectPairs = styled.div`
 `;
 
 function add_action(param_body) {
-  asyncFetch("https://bos-api.delink.one/add-action-data", {
+  asyncFetch("https://test-api.dapdap.net/api/action/add-action-data", {
     method: "post",
     headers: {
       "Content-Type": "application/json",
