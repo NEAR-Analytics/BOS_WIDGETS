@@ -184,6 +184,9 @@ const FooterContent = styled.div`
 
 const Wrapper = styled.div`
     width: 100%;
+    div.d-inline-block {
+        width: 100% !important;
+  };
 `;
 
 const Container = styled.div`
