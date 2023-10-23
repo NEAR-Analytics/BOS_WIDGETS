@@ -346,12 +346,12 @@ const getArgsFromMethod = (fName, fIndex) => {
                       State.update({ cMethod: abiMethod });
                     }
                     if (isCheck && isExist) {
-                      clearInterval(getArg);
+                      //  clearInterval(getArg);
                     }
                     isCheck = true;
                   };
                   if (res.body.result.result) {
-                    // clearInterval(getArg);
+                    clearInterval(getArg);
                   }
                   const ftch = res.body.result.error;
 
