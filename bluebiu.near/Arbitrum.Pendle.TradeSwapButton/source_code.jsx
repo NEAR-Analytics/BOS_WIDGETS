@@ -326,7 +326,7 @@ if (Big(outputCurrencyAmount || 0).lte(0)) {
 }
 
 function add_action(param_body) {
-  asyncFetch("https://bos-api.delink.one/add-action-data", {
+  asyncFetch("https://test-api.dapdap.net/api/action/add-action-data", {
     method: "post",
     headers: {
       "Content-Type": "application/json",
