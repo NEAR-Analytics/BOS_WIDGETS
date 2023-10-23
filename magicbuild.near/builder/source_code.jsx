@@ -387,11 +387,18 @@ const getArgsFromMethod = (fName, fIndex) => {
                       uS(argName, "string", "wrap.near");
                       clearInterval(getArg);
                     }
+                    if (
+                      ftch.includes(
+                        "data did not match any variant of untagged enum"
+                      )
+                    ) {
+                      uS(argName, typeItem.type, ["300", "300"]);
+                      clearInterval(getArg);
+                    }
                     if (ftch.includes("not implemented")) {
                       uS(argName, typeItem.type, ["300", "300"]);
                       // clearInterval(getArg);
                     }
-
                     if (ftch.includes("invalid token id")) {
                       uS(argName, "$ref", "wrap.near");
                     }
