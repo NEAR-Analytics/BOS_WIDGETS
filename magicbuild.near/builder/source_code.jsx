@@ -344,9 +344,7 @@ const getArgsFromMethod = (fName, fIndex) => {
                       abiMethod[fIndex].params.args.push(arg);
                       State.update({ cMethod: abiMethod });
                     }
-                    if (isCheck && !isExist) {
-                      clearInterval(getArg);
-                    }
+
                     isCheck = true;
                   };
                   if (res.body.result.result) {
@@ -423,6 +421,9 @@ const getArgsFromMethod = (fName, fIndex) => {
                       }
 
                       uS(argName, typeItem.type, typeItem.value);
+                    }
+                    if (isCheck == false) {
+                      clearInterval(getArg);
                     }
                     if (ftch.includes("Requires attached deposit")) {
                       uS(argName, typeItem.type, typeItem.value);
