@@ -239,7 +239,7 @@ const currentChainProps = {
     livePrice: "matic-network",
     contract: "0x57Eb0aaAf69E22D8adAe897535bF57c7958e3b1b",
     explorer: "https://polygonscan.com/address/",
-    explorerTx: "https://polygonscan.com/",
+    explorerTx: "https://polygonscan.com/tx/",
     subgraph:
       "https://api.thegraph.com/subgraphs/name/prometheo/polygon-mainnet",
   },
@@ -306,7 +306,7 @@ return (
           props.transactions &&
           props?.transactions?.map((data, index) => (
             <Row
-              href={`${currentChainProps[props.chainState].explorerTx}/${
+              href={`${currentChainProps[props.chainState].explorerTx}${
                 data.txId
               }`}
               target="_blank"
