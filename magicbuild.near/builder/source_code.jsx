@@ -259,6 +259,7 @@ const getArgsFromMethod = (fName, fIndex) => {
         });
       }
     } else {
+      let countLoop = 0;
       const getArg = setInterval(() => {
         const abiMethod = state.cMethod;
         const argsArr = abiMethod[fIndex].params.args;
@@ -267,7 +268,7 @@ const getArgsFromMethod = (fName, fIndex) => {
         argMap.forEach((item) => {
           Object.assign(args, item);
         });
-        let countLoop = 0;
+
         asyncFetch(state.rpcUrl, {
           body: JSON.stringify({
             method: "query",
