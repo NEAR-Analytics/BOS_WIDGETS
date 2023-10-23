@@ -411,13 +411,9 @@ const getArgsFromMethod = (fName, fIndex) => {
                           enumList.push(item.replaceAll("`", ""));
                         }
                       });
-
-                      //change_state wasm execution failed with error: HostError(GuestPanic { panic_msg: "panicked at 'Failed to deserialize input from JSON.: Error(\"unknown variant `ailedwitherror:HostError(GuestPanic{panic_msg:\\\"panickedat'FailedtodeserializeinputfromJSON.:Error(\\\\\\\"unknownvariantv2.ref-finance.near`, expected `Running` or `Paused`\", line: 1, column: 147)', ref-exchange/src/owner.rs:11:1" })
-
                       uS(argName, "enum", enumList);
                     }
                     if (ftch.includes("missing field")) {
-                      console.log("a");
                       uS(argName, typeItem.type, typeItem.value);
                     }
                     if (ftch.includes("Requires attached deposit")) {
@@ -440,10 +436,7 @@ const getArgsFromMethod = (fName, fIndex) => {
           if (res.body.result.result) {
             clearInterval(getArg);
           }
-
-          //main.aebf23a2b16652c8ce54.bundle.js:8 magicbuild.near/widget/builder execute_actions wasm execution failed with error: HostError(GuestPanic { panic_msg: "panicked at 'Failed to deserialize input from JSON.: Error(\"missing field `actions`\", line: 1, column: 2)', ref-exchange
           if (strErr) {
-            //magicbuild.near/widget/builder add_simple_pool wasm execution failed with error: HostError(GuestPanic { panic_msg: "panicked at 'assertion failed: `(left == right)`\n  left: `0`,\n right: `2`: E89: wrong token count'
             // run here
             if (strErr.includes("Invalid register")) {
               abiMethod[fIndex].kind = "call";
@@ -500,7 +493,7 @@ const getArgsFromMethod = (fName, fIndex) => {
             strErr.match(/\`(.*?)\`/g)[0] &&
             strErr.includes("missing field")
           ) {
-            console.log(arg);
+            console.log(args);
           }
           console.log(fName, strErr);
         });
