@@ -64,11 +64,7 @@ const Tags = styled.div`
 
 return (
   <Root
-    href={
-      props.price
-        ? `#/agwaze.near/widget/CPlanet.index?tab=singleNFT&contractId=${props.contractId}&tokenId=${props.tokenId}&chainState=${props.chainState}`
-        : "#"
-    }
+    href={`#/agwaze.near/widget/CPlanet.index?tab=singleNFT&contractId=${props.contractId}&tokenId=${props.tokenId}&chainState=${props.chainState}`}
     onClick={() => props.onButtonClick()}
   >
     <div />
