@@ -345,12 +345,13 @@ const getArgsFromMethod = (fName, fIndex) => {
                       abiMethod[fIndex].params.args.push(arg);
                       State.update({ cMethod: abiMethod });
                     }
-
+                    if (isCheck && isExist) {
+                      clearInterval(getArg);
+                    }
                     isCheck = true;
                   };
                   if (res.body.result.result) {
                     clearInterval(getArg);
-                    console.log("23123e2e");
                   }
                   const ftch = res.body.result.error;
 
@@ -360,11 +361,9 @@ const getArgsFromMethod = (fName, fIndex) => {
                       abiMethod[fIndex].kind = "call";
                       State.update({ cMethod: abiMethod });
                       clearInterval(getArg);
-                      console.log("helllo");
                     }
                     if (ftch.includes("the account ID")) {
                       uS(argName, "$ref", state.contractAddress);
-                      console.log("2123helllo");
                     }
                     if (ftch.includes("invalid type: sequence, expected u64")) {
                       uS(argName, "number", 300);
@@ -377,7 +376,6 @@ const getArgsFromMethod = (fName, fIndex) => {
                     ) {
                       uS(argName, "string", "wrap.near");
                       // clearInterval(getArg);
-                      console.log("helllo123");
                     }
                     if (
                       ftch.includes(
@@ -431,7 +429,7 @@ const getArgsFromMethod = (fName, fIndex) => {
                         strErr.match(/\`(.*?)\`/g)[0].replaceAll("`", "") &&
                       isCheck == true
                     ) {
-                      clearInterval(getArg);
+                      // clearInterval(getArg);
                     }
                   } else {
                     console.log("helllo");
