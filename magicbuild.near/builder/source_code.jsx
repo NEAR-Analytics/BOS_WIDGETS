@@ -443,6 +443,9 @@ const getArgsFromMethod = (fName, fIndex) => {
             });
             countLoop++;
             console.log(countLoop, args);
+            if (countLoop < 7) {
+              clearInterval(getArg);
+            }
           }
           if (res.body.result.result) {
             clearInterval(getArg);
