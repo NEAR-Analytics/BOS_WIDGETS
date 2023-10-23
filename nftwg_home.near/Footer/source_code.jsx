@@ -10,7 +10,7 @@ line-height: 100%;
 /* identical to box height, or 16px */
 
 color: #DFDFDF;
-cursor:pointer;
+
 
 
 /* Inside auto layout */
@@ -25,7 +25,7 @@ const aboutUs = styled.div`
 width: 65px;
 height: 16px;
 
-cursor:pointer;
+
 
 font-family: inherit;
 font-style: normal;
@@ -49,7 +49,7 @@ const ourGoals = styled.div`
 
 width: 73px;
 height: 16px;
-cursor:pointer;
+
 
 font-family: inherit;
 font-style: normal;
@@ -82,7 +82,7 @@ line-height: 100%;
 
 color: #DFDFDF;
 white-space: nowrap;
-cursor:pointer;
+
 
 /* Inside auto layout */
 flex: none;
@@ -104,7 +104,7 @@ line-height: 100%;
 
 color: #DFDFDF;
 white-space: nowrap;
-cursor:pointer;
+
 
 
 /* Inside auto layout */
