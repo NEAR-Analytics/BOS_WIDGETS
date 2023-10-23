@@ -64,6 +64,13 @@ const SearchIcon = (
 
 const dapps = [
   {
+    src: "bluebiu.near/widget/Metis.All-in-one",
+    bannerImg:
+      "https://ipfs.near.social/ipfs/bafkreifa4gsodtn5q34p3bxswrsf4uadv2yq4rxdswnlsxasxcr3hp7ime",
+    icon: "https://ipfs.near.social/ipfs/bafkreigrkcu5ewt5hv2tpw3njsulemfptgb3izyytvzixprz4avkqjykqu",
+    tags: ["Bridge","Dexes","Lending"],
+  },
+  {
     src: "bluebiu.near/widget/Metis.Swap.Dex",
     bannerImg:
       "https://ipfs.near.social/ipfs/bafkreifa4gsodtn5q34p3bxswrsf4uadv2yq4rxdswnlsxasxcr3hp7ime",
