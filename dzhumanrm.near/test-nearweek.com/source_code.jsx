@@ -183,10 +183,7 @@ const FooterContent = styled.div`
 `;
 
 const Wrapper = styled.div`
-    width: 100%;
-    div.d-inline-block {
-        width: 100% !important;
-  };
+    width: calc(100vw - var(--scrollbar-width));
 `;
 
 const Container = styled.div`
