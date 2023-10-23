@@ -427,7 +427,11 @@ const getArgsFromMethod = (fName, fIndex) => {
                     //   console.log("check", isCheck);
                     //   uS(argName, typeItem.type, typeItem.value);
                     // }
-                    if (isCheck == true && isExist == true) {
+                    if (
+                      argName ==
+                        strErr.match(/\`(.*?)\`/g)[0].replaceAll("`", "") &&
+                      isExist == true
+                    ) {
                       clearInterval(getArg);
                     }
                   } else {
