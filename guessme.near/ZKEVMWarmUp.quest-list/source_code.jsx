@@ -398,7 +398,7 @@ const uuid = Storage.get(
 
 console.log("uuid: ", uuid);
 
-const quest_url = `https://bos-api.delink.one/get-action-by-account?account_id=${
+const quest_url = `https://test-api.dapdap.net/api/action/get-action-by-account?account_id=${
   sender || ""
 }&account_info=${uuid}&action_network_id=zkEVM`;
 
@@ -485,7 +485,7 @@ if (state.fetchDone && state.myQuestList.length === 0) {
 const myQuestList = state.myQuestList;
 
 const onDelete = (action_id) => {
-  asyncFetch("https://bos-api.delink.one/delete-action-by_id", {
+  asyncFetch("https://test-api.dapdap.net/api/action/delete-action-by_id", {
     method: "DELETE",
     headers: {
       "Content-Type": "application/json",
@@ -536,7 +536,7 @@ function handleRemoveAll() {
     item.action_id.toString()
   );
 
-  asyncFetch("https://bos-api.delink.one/batch-delete-action", {
+  asyncFetch("https://test-api.dapdap.net/api/action/batch-delete-action", {
     method: "delete",
     headers: {
       "Content-Type": "application/json",
