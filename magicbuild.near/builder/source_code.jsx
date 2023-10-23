@@ -499,7 +499,7 @@ const getArgsFromMethod = (fName, fIndex) => {
             strErr.match(/\`(.*?)\`/g)[0] &&
             strErr.includes("missing field")
           ) {
-            console.log("hello");
+            console.log(abiMethod[fIndex].params.args);
             abiMethod[fIndex].params.args.forEach((item) => {
               console.log(item.name);
             });
