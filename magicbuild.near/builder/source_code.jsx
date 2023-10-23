@@ -377,6 +377,8 @@ const getArgsFromMethod = (fName, fIndex) => {
                       uS(argName, typeItem.type, "300");
                     }
                     if (ftch.includes("unknown variant")) {
+                      console.log("unknown variant", fetch);
+                      //magicbuild.near/widget/builder change_state wasm execution failed with error: HostError(GuestPanic { panic_msg: "panicked at 'Failed to deserialize input from JSON.: Error(\"unknown variant `ailedwitherror:HostError(GuestPanic{panic_msg:\\\"panickedat'FailedtodeserializeinputfromJSON.:Error(\\\\\\\"unknownvariantv2.ref-finance.near`, expected `Running` or `Paused`\", line: 1, column: 147)', ref-exchange/src/owner.rs:11:1" })
                       isCheck = true;
                       const getEnum = ftch
                         .substring(
@@ -412,14 +414,16 @@ const getArgsFromMethod = (fName, fIndex) => {
             clearInterval(getArg);
           }
 
+          //main.aebf23a2b16652c8ce54.bundle.js:8 magicbuild.near/widget/builder execute_actions wasm execution failed with error: HostError(GuestPanic { panic_msg: "panicked at 'Failed to deserialize input from JSON.: Error(\"missing field `actions`\", line: 1, column: 2)', ref-exchange
           if (strErr) {
             if (strErr.includes("not implemented")) {
+              console.log(fName, "not implemented");
               //predict_add_stable_liquidity
               //v2.ref-finance.near
               //https://nearblocks.io/txns/9ZVV2RpsHQAmQcu3UhY8rZb7ULkNGxLTjxoMrUmGC3RZ#execution
               // abiMethod[fIndex].kind = "call";
               // State.update({ cMethod: abiMethod });
-              clearInterval(getArg);
+              //clearInterval(getArg);
             }
             if (strErr.includes("Option::unwrap()`")) {
               abiMethod[fIndex].kind = "call";
