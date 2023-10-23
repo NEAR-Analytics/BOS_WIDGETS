@@ -383,23 +383,23 @@ const getArgsFromMethod = (fName, fIndex) => {
                       uS(argName, "string", "wrap.near");
                       clearInterval(getArg);
                     }
-                    if (ftch.includes("not implemented")) {
-                      uS(argName, typeItem.type, ["300", "300"]);
-                    }
-                    if (
-                      ftch.includes(
-                        `'not implemented', ref-exchange/src/pool.rs`
-                      )
-                    ) {
-                      clearInterval(getArg);
-                    }
-                    if (
-                      ftch.includes(
-                        `'not implemented', ref-exchange/src/views.rs`
-                      )
-                    ) {
-                      clearInterval(getArg);
-                    }
+                    // if (ftch.includes("not implemented")) {
+                    //   uS(argName, typeItem.type, ["300", "300"]);
+                    // }
+                    // if (
+                    //   ftch.includes(
+                    //     `'not implemented', ref-exchange/src/pool.rs`
+                    //   )
+                    // ) {
+                    //   clearInterval(getArg);
+                    // }
+                    // if (
+                    //   ftch.includes(
+                    //     `'not implemented', ref-exchange/src/views.rs`
+                    //   )
+                    // ) {
+                    //   clearInterval(getArg);
+                    // }
                     if (ftch.includes("invalid token id")) {
                       uS(argName, "$ref", "wrap.near");
                     }
