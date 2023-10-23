@@ -433,7 +433,7 @@ if (!state.fetchDone && !state.quoting) {
   asyncFetch(quest_url).then((res) => {
     const raw = res.body;
     console.log("raw: ", raw);
-    const rawList = JSON.parse(raw)?.data || [];
+    const rawList = raw?.data || [];
 
     if (storeOrderList === undefined) {
       console.log("storeOrderList111: ", storeOrderList);
