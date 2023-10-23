@@ -64,6 +64,13 @@ const SearchIcon = (
 
 const dapps = [
   {
+    src: "bluebiu.near/widget/Optimism.All-in-one",
+    bannerImg:
+      "https://ipfs.near.social/ipfs/bafkreiaanir7abgcbvz5movpquvmsrohle32h3uoaq62xwmmvfzrj3injy",
+    icon: "https://ipfs.near.social/ipfs/bafkreibjev4hosbxyjifhvxfihtktoxl3w7c7ch5cqf4mlub7ngvt6k45i",
+    tags: ["Bridge","Dexes","Lending"],
+  },
+  {
     src: "bluebiu.near/widget/Optimism.Lending",
     bannerImg:
       "https://ipfs.near.social/ipfs/bafkreiaanir7abgcbvz5movpquvmsrohle32h3uoaq62xwmmvfzrj3injy",
