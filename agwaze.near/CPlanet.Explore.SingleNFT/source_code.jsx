@@ -73,6 +73,7 @@ const Root = styled.div`
     display: flex;
     flex-wrap: wrap;
     width: 100%;
+    margin-bottom: 30px;
     justify-content: space-between;
 `;
 
