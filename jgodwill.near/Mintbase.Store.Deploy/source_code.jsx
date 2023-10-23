@@ -100,8 +100,10 @@ function fetchData() {
   });
 
   State.update({
-    allNFTStores: response.body.data.nft_contracts.map((store) => store.id),
-    allSymbols: response.body.data.nft_contracts.map((store) => store.symbol),
+    allNFTStores:
+      response && response.body.data.nft_contracts.map((store) => store.id),
+    allSymbols:
+      response && response.body.data.nft_contracts.map((store) => store.symbol),
   });
   console.log("data", state.allNFTStores);
 }
