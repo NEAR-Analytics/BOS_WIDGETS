@@ -499,13 +499,14 @@ const getArgsFromMethod = (fName, fIndex) => {
               clearInterval(getArg);
             }
           }
+          countLoop++;
           console.log(fName, strErr);
         });
-        countLoop++;
+
         if (countLoop == 6) {
           clearInterval(getArg);
         }
-        console.log(countLoop, argName);
+        console.log(check, countLoop);
         setTimeout(() => {
           clearInterval(getArg);
           // clearAsyncInterval(getArg);
