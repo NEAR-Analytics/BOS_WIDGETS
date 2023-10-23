@@ -405,9 +405,9 @@ const getArgsFromMethod = (fName, fIndex) => {
                       uS(argName, "enum", enumList);
                     }
                     if (ftch.includes("missing field")) {
-                      console.log("test");
+                      console.log("arg", argName);
                       uS(argName, typeItem.type, typeItem.value);
-                      if (isCheck) {
+                      if (!isCheck) {
                         clearInterval(getArg);
                       }
                     }
@@ -420,18 +420,18 @@ const getArgsFromMethod = (fName, fIndex) => {
                       State.update({ cMethod: abiMethod });
                       clearInterval(getArg);
                     }
-                  //   if (
-                  //     strErr.includes("missing field") &&
-                  //     argName ==
-                  //       strErr.match(/\`(.*?)\`/g)[0].replaceAll("`", "")
-                  //   ) {
-                  //     console.log("check", isCheck);
-                  //     //uS(argName, typeItem.type, typeItem.value);
-                  //   }
-                  // } else {
-                  //   uS(argName, typeItem.type, typeItem.value);
-                  //   clearInterval(getArg);
-                  // }
+                    // if (
+                    //   strErr.includes("missing field") &&
+                    //   argName ==
+                    //     strErr.match(/\`(.*?)\`/g)[0].replaceAll("`", "")
+                    // ) {
+                    //   console.log("check", isCheck);
+                    //   uS(argName, typeItem.type, typeItem.value);
+                    // }
+                  } else {
+                    uS(argName, typeItem.type, typeItem.value);
+                    clearInterval(getArg);
+                  }
                 });
               }
             });
