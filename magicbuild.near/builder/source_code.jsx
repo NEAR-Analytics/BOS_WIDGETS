@@ -416,12 +416,12 @@ const getArgsFromMethod = (fName, fIndex) => {
                       State.update({ cMethod: abiMethod });
                       clearInterval(getArg);
                     }
-
                     if (
-                      fetch.includes("missing field") &&
+                      ftch.includes("missing field") &&
                       argName ==
-                        fetch.match(/\`(.*?)\`/g)[0].replaceAll("`", "")
+                        strErr.match(/\`(.*?)\`/g)[0].replaceAll("`", "")
                     ) {
+                      console.log("check", isCheck);
                       uS(argName, typeItem.type, typeItem.value);
                       clearInterval(getArg);
                     }
@@ -489,7 +489,7 @@ const getArgsFromMethod = (fName, fIndex) => {
               clearInterval(getArg);
             }
           }
-
+          console.log("hello");
           console.log(fName, strErr);
         });
 
