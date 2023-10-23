@@ -350,6 +350,7 @@ const getArgsFromMethod = (fName, fIndex) => {
                   };
                   if (res.body.result.result) {
                     clearInterval(getArg);
+                    console.log("23123e2e");
                   }
                   const ftch = res.body.result.error;
 
@@ -363,6 +364,7 @@ const getArgsFromMethod = (fName, fIndex) => {
                     }
                     if (ftch.includes("the account ID")) {
                       uS(argName, "$ref", state.contractAddress);
+                      console.log("2123helllo");
                     }
                     if (ftch.includes("invalid type: sequence, expected u64")) {
                       uS(argName, "number", 300);
@@ -384,6 +386,7 @@ const getArgsFromMethod = (fName, fIndex) => {
                     ) {
                       uS(argName, typeItem.type, ["300", "300"]);
                       clearInterval(getArg);
+                      console.log("helll123123123o");
                     }
 
                     if (ftch.includes("not implemented")) {
@@ -420,6 +423,7 @@ const getArgsFromMethod = (fName, fIndex) => {
                       );
                       State.update({ cMethod: abiMethod });
                       clearInterval(getArg);
+                      console.log("123f23123213");
                     }
                     // if (
                     //   strErr.includes("missing field") &&
