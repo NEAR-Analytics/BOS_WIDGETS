@@ -360,6 +360,10 @@ const getArgsFromMethod = (fName, fIndex) => {
                   }
                   const ftch = res.body.result.error;
                   if (ftch) {
+                    //invalid token id
+                    if (ftch.includes("invalid token id")) {
+                      clearInterval(getArg);
+                    }
                     if (ftch.includes("Invalid register")) {
                       abiMethod[fIndex].kind = "call";
                       State.update({ cMethod: abiMethod });
@@ -381,9 +385,7 @@ const getArgsFromMethod = (fName, fIndex) => {
                       uS(argName, "string", "300");
                     }
                     if (
-                      ftch.includes(
-                        "panicked at 'Failed to deserialize input from JSON.: Error(\"invalid type: sequence, expected a string"
-                      )
+                      ftch.includes("invalid type: sequence, expected a string")
                     ) {
                       uS(argName, "string", "wrap.near");
                       clearInterval(getArg);
