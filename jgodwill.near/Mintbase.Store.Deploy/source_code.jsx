@@ -182,6 +182,7 @@ return (
           type="text"
           onChange={(e) => onChangeName(e.target.value)}
           className={`input ${
+            state.allNFTStores &&
             state.allNFTStores.includes(`${state.name}.mintbase1.near`) &&
             "danger"
           }`}
@@ -201,7 +202,8 @@ return (
           !state.symbol_name ||
           state.symbol_name.length > 3 ||
           !state.name ||
-          state.allNFTStores.includes(`${state.name}.mintbase1.near`)
+          (state.allNFTStores &&
+            state.allNFTStores.includes(`${state.name}.mintbase1.near`))
         }
       >
         Deploy Store 3.5N
