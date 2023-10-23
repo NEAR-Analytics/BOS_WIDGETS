@@ -137,6 +137,7 @@ const About = styled.div`
     padding: 4px 12px;
     align-items: center;
     cursor: pointer;
+    text-decoration: none;
     transition: 0.3s ease-in-out;
     margin-top: 8px;
     gap: 8px;
