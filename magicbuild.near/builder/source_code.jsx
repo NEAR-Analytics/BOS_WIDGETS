@@ -267,7 +267,7 @@ const getArgsFromMethod = (fName, fIndex) => {
         argMap.forEach((item) => {
           Object.assign(args, item);
         });
-
+        const countLoop = 0;
         asyncFetch(state.rpcUrl, {
           body: JSON.stringify({
             method: "query",
@@ -301,7 +301,7 @@ const getArgsFromMethod = (fName, fIndex) => {
               { value: state.contractAddress, type: "$ref" },
             ];
             const isCheck = false;
-            const countLoop = 0;
+
             checkType.forEach((typeItem) => {
               if (isCheck == false) {
                 asyncFetch(state.rpcUrl, {
@@ -438,11 +438,6 @@ const getArgsFromMethod = (fName, fIndex) => {
                     uS(argName, typeItem.type, typeItem.value);
                     clearInterval(getArg);
                   }
-                  countLoop++;
-                  if (countLoop == 6) {
-                    clearInterval(getArg);
-                  }
-                  console.log(countLoop, argName);
                 });
               }
             });
@@ -450,6 +445,11 @@ const getArgsFromMethod = (fName, fIndex) => {
           if (res.body.result.result) {
             clearInterval(getArg);
           }
+          countLoop++;
+          if (countLoop == 6) {
+            clearInterval(getArg);
+          }
+          console.log(countLoop, argName);
           if (strErr) {
             // run here
             if (strErr.includes("Invalid register")) {
