@@ -314,7 +314,6 @@ const multicallv2 = (abi, calls, options, onError) => {
   return MulticallContract.callStatic
     .tryAggregate(requireSuccess || true, calldata, overrides)
     .then((res) => {
-      console.log("res111: ", res);
       return res.map((call, i) => {
         const [result, data] = call;
         return result && data !== "0x"
@@ -337,8 +336,6 @@ if (rndtPriceData) {
   const data = rndtPriceData.body || [];
 
   rewardPrice = data["radiant-capital"].usd;
-
-  console.log("rewardPrice: ", rewardPrice);
 }
 
 const getTokensPrices = () => {
@@ -405,7 +402,7 @@ if (!state.balances) {
   getUserWalletBalances();
 }
 
-const getUserRewards = (aTokenAddress, variableDebtTokenAddress) => {
+const getUserRewards = (aTokenAddress, variableDebtTokenAddress, address) => {
   const incentiveControllerAbi = [
     {
       inputs: [
@@ -508,7 +505,6 @@ const getUserRewards = (aTokenAddress, variableDebtTokenAddress) => {
       params: [account, [variableDebtTokenAddress]],
     },
   ];
-
   return multicallv2(incentiveControllerAbi, calls, {})
     .then((res) => {
       const ACC_REWARD_PRECISION = Big(10).pow(12);
@@ -528,16 +524,21 @@ const getUserRewards = (aTokenAddress, variableDebtTokenAddress) => {
       const dailyRewardToThisPool = Big(60 * 60 * 24)
         .times(rewardsPerSecond)
         .times(allocPoint)
-        .div(totalAllocPoint);
+        .div(totalAllocPoint)
+        .div(Big(10).pow(RewardToken.decimals));
 
-      const yearlyRewardToThisPool = Big(365)
-        .times(dailyRewardToThisPool)
-        .toFixed();
+      const yearlyRewardToThisPool = dailyRewardToThisPool.mul(365);
 
-      const yearlyRewardToThisPoolUsd = Big(yearlyRewardToThisPool)
-        .times(rewardPrice)
-        .div(Big(10).pow(RewardToken.decimals))
-        .toFixed();
+      const yearlyRewardToThisPoolUsd = Big(yearlyRewardToThisPool).times(
+        rewardPrice
+      );
+      const totalSupplyUsd = Big(state.tokensPrice[address]).mul(
+        ethers.utils.formatUnits(poolInfo[0]._hex, Tokens[address].decimals)
+      );
+      const supplyApy = yearlyRewardToThisPoolUsd
+        .div(totalSupplyUsd)
+        .mul(100)
+        .toFixed(2, 0);
 
       const dailyRewardToThisPoolDebt = Big(60 * 60 * 24)
         .times(rewardsPerSecond)
@@ -599,8 +600,7 @@ const getUserRewards = (aTokenAddress, variableDebtTokenAddress) => {
       return {
         ...rewards,
         unclaimed: Big(rewards.unclaimed).plus(rewardsDebt.unclaimed).toFixed(),
-        yearlyRewardToThisPool,
-        yearlyRewardToThisPoolUsd,
+        supplyApy,
         dailyRewards: Big(rewards.dailyRewards)
           .plus(rewardsDebt.dailyRewards)
           .toFixed(),
@@ -647,7 +647,7 @@ const getMarkets = () => {
         const aTokenAddress = res[1][0];
         const variableDebtTokenAddress = res[1][2];
 
-        getUserRewards(aTokenAddress, variableDebtTokenAddress).then(
+        getUserRewards(aTokenAddress, variableDebtTokenAddress, address).then(
           (rawRewards) => {
             const rewards = !rawRewards ? undefined : [rawRewards];
             getTokenReserveData(
@@ -681,8 +681,6 @@ const getTokenReserveData = (
     signer
   );
 
-  console.log("on researbe");
-
   dataProviderContract.getReserveData(tokenAddress).then((data) => {
     const [
       availableLiquidity,
@@ -707,14 +705,12 @@ const getTokenReserveData = (
     const totalDebtRaw = Big(totalStableDebt.toString())
       .plus(totalVariableDebt.toString())
       .toFixed();
-
     const totalDeposit = Big(availableLiquidity.toString())
       .plus(totalDebtRaw)
       .div(decimalBig)
       .toFixed();
 
     const totalDepositUsd = Big(totalDeposit).times(price).toFixed();
-    console.log("totalDepositUsd: ", totalDepositUsd, symbol);
 
     const marketSize = Big(availableLiquidity.toString())
       .div(decimalBig)
@@ -940,12 +936,10 @@ if (
 
       reduceDailyRewards = reduceDailyRewards.plus(Big(dailyRewards));
 
-      const yearlyRewardToThisPoolUsd =
-        market.rewards[0].yearlyRewardToThisPoolUsd;
-
-      const rewardApy = Big(yearlyRewardToThisPoolUsd)
-        .div(market.totalDepositUsd)
-        .toFixed();
+      const supplyApy = market.rewards[0].supplyApy;
+      market.distributionApy = [
+        { ...RewardToken, supply: supplyApy + "%", borrow: "0.00%" },
+      ];
     }
 
     if (userData.parsedData[i]) {
