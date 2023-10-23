@@ -369,8 +369,9 @@ const getArgsFromMethod = (fName, fIndex) => {
                     if (ftch.includes("the account ID")) {
                       uS(argName, "$ref", state.contractAddress);
                     }
-                    //get_stable_pool wasm execution failed with error: HostError(GuestPanic { panic_msg: "panicked at 'Failed to deserialize input from JSON.: Error(\"invalid type: sequence, expected u64\", line: 1, column: 11)', ref-exchange/src/views.rs:166:1" })
-                    //get_rated_pool wasm execution failed with error: HostError(GuestPanic { panic_msg: "panicked at 'Failed to deserialize input from JSON.: Error(\"invalid type: sequence, expected u64\", line: 1, column: 11)'
+                    if (ftch.includes("invalid type: sequence, expected u64")) {
+                      uS(argName, "number", 300);
+                    }
                     if (ftch.includes("invalid digit found")) {
                       uS(argName, "string", "300");
                     }
