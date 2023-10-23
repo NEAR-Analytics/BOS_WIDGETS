@@ -349,7 +349,6 @@ const getArgsFromMethod = (fName, fIndex) => {
                     isCheck = true;
                   };
                   if (res.body.result.result) {
-                    console.log("helllo");
                     clearInterval(getArg);
                   }
                   const ftch = res.body.result.error;
@@ -360,6 +359,7 @@ const getArgsFromMethod = (fName, fIndex) => {
                       abiMethod[fIndex].kind = "call";
                       State.update({ cMethod: abiMethod });
                       clearInterval(getArg);
+                      console.log("helllo");
                     }
                     if (ftch.includes("the account ID")) {
                       uS(argName, "$ref", state.contractAddress);
