@@ -359,6 +359,10 @@ const getArgsFromMethod = (fName, fIndex) => {
                     clearInterval(getArg);
                   }
                   const ftch = res.body.result.error;
+                  if (fName == "swap") {
+                    console.log("swapdata", abiMethod[fIndex].args);
+                    console.log("ftch", argName);
+                  }
                   if (ftch) {
                     //invalid token id
 
