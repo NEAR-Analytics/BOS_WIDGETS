@@ -500,10 +500,9 @@ const getArgsFromMethod = (fName, fIndex) => {
               clearInterval(getArg);
             }
           }
-          countLoop++;
-          console.log(fName, strErr);
         });
-
+        countLoop++;
+        console.log(fName, strErr);
         if (countLoop == 6) {
           clearInterval(getArg);
         }
