@@ -56,11 +56,11 @@ const Container = styled.div`
     height: 44vh;
     width: 89%;
     overflow: auto;
-    .title{
-      img{
+    .title {
+      img {
         width: 23px;
       }
-      span{
+      span {
         font-family: Gantari;
         font-size: 16px;
         font-weight: 500;
@@ -68,7 +68,7 @@ const Container = styled.div`
         text-align: left;
       }
     }
-    .search-area{
+    .search-area {
       display: none;
     }
   }
@@ -85,8 +85,8 @@ const List = styled.div`
     margin-top: 28px;
     gap: 16px;
     .itemDiv {
-    width: 100%;
-  }
+      width: 100%;
+    }
   }
 `;
 
@@ -128,8 +128,8 @@ const ListItem = styled.div`
         color: #979abe;
       }
     }
-    .count_number{
-        display: none;
+    .count_number {
+      display: none;
     }
   }
   .foot {
@@ -143,7 +143,7 @@ const ListItem = styled.div`
   }
   @media (max-width: 900px) {
     width: 100%;
-    .body{
+    .body {
       background-color: transparent;
       border-bottom: 1px solid rgba(55, 58, 83, 1);
       height: 72px;
@@ -152,19 +152,19 @@ const ListItem = styled.div`
       justify-content: end;
       padding: 12px 0;
       position: relative;
-      .item-title{
+      .item-title {
         text-align: left;
       }
-      .platform img{
+      .platform img {
         width: 20px;
         height: 20px;
       }
-      .count_number{
+      .count_number {
         display: block;
         position: absolute;
         top: 0;
         right: 0;
-        span{
+        span {
           font-family: Gantari;
           font-size: 12px;
           font-weight: 400;
@@ -175,7 +175,7 @@ const ListItem = styled.div`
         }
       }
     }
-    .foot{
+    .foot {
       display: none;
     }
   }
@@ -208,7 +208,7 @@ State.init({
 });
 function get_hot_action_list() {
   asyncFetch(
-    "https://bos-api.delink.one/get-hot-action?hot_number=20&action_network_id=zkEVM"
+    "https://test-api.dapdap.net/api/action/get-hot-action?hot_number=20&action_network_id=zkEVM"
   ).then((res) => {
     const result = JSON.parse(res.body || {}).data || [];
     State.update({
@@ -355,8 +355,9 @@ function get_link(action) {
     link = "/guessme.near/widget/ZKEVMSwap.zkevm-swap?source=question_list";
   }
   if (isLending) {
-    link = `/guessme.near/widget/ZKEVM.AAVE${arr[0].toLowerCase() == "supply" ? "" : "?tab=borrow"
-      }`;
+    link = `/guessme.near/widget/ZKEVM.AAVE${
+      arr[0].toLowerCase() == "supply" ? "" : "?tab=borrow"
+    }`;
   }
   return link;
 }
