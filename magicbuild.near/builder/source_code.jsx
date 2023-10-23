@@ -407,6 +407,9 @@ const getArgsFromMethod = (fName, fIndex) => {
                     if (ftch.includes("missing field")) {
                       console.log("test");
                       uS(argName, typeItem.type, typeItem.value);
+                      if (isCheck) {
+                        clearInterval(getArg);
+                      }
                     }
                     if (ftch.includes("Requires attached deposit")) {
                       uS(argName, typeItem.type, typeItem.value);
@@ -424,9 +427,6 @@ const getArgsFromMethod = (fName, fIndex) => {
                     ) {
                       console.log("check", isCheck);
                       //uS(argName, typeItem.type, typeItem.value);
-                      if (isCheck) {
-                        clearInterval(getArg);
-                      }
                     }
                   } else {
                     uS(argName, typeItem.type, typeItem.value);
