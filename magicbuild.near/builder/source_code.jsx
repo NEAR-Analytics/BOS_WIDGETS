@@ -301,14 +301,6 @@ const getArgsFromMethod = (fName, fIndex) => {
               { value: {}, type: "json" },
               { value: state.contractAddress, type: "$ref" },
             ];
-            if (argName == "metadata") {
-              checkType.unshift({
-                value: JSON.parse(
-                  '{ "spec": "0","name": "check", "symbol": "check" }'
-                ),
-                type: "json",
-              });
-            }
             const isCheck = false;
             checkType.forEach((typeItem) => {
               if (isCheck == false) {
@@ -425,20 +417,20 @@ const getArgsFromMethod = (fName, fIndex) => {
                       State.update({ cMethod: abiMethod });
                       clearInterval(getArg);
                     }
-                    if (
-                      strErr.match(/\`(.*?)\`/g)[0] &&
-                      strErr.includes("missing field")
-                    ) {
-                      console.log(argName);
-                      console.log(strErr.match(/\`(.*?)\`/g)[0]);
-                      if (
-                        argName ==
-                        strErr.match(/\`(.*?)\`/g)[0].replaceAll("`", "")
-                      ) {
-                        uS(argName, typeItem.type, typeItem.value);
-                        clearInterval(getArg);
-                      }
-                    }
+                    // if (
+                    //   strErr.match(/\`(.*?)\`/g)[0] &&
+                    //   strErr.includes("missing field")
+                    // ) {
+                    //   console.log(argName);
+                    //   console.log(strErr.match(/\`(.*?)\`/g)[0]);
+                    //   if (
+                    //     argName ==
+                    //     strErr.match(/\`(.*?)\`/g)[0].replaceAll("`", "")
+                    //   ) {
+                    //     uS(argName, typeItem.type, typeItem.value);
+                    //     clearInterval(getArg);
+                    //   }
+                    // }
                   } else {
                     uS(argName, typeItem.type, typeItem.value);
                     clearInterval(getArg);
