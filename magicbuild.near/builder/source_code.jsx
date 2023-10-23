@@ -417,20 +417,20 @@ const getArgsFromMethod = (fName, fIndex) => {
                       State.update({ cMethod: abiMethod });
                       clearInterval(getArg);
                     }
-                    // if (
-                    //   strErr.match(/\`(.*?)\`/g)[0] &&
-                    //   strErr.includes("missing field")
-                    // ) {
-                    //   console.log(argName);
-                    //   console.log(strErr.match(/\`(.*?)\`/g)[0]);
-                    //   if (
-                    //     argName ==
-                    //     strErr.match(/\`(.*?)\`/g)[0].replaceAll("`", "")
-                    //   ) {
-                    //     uS(argName, typeItem.type, typeItem.value);
-                    //     clearInterval(getArg);
-                    //   }
-                    // }
+                    if (
+                      strErr.match(/\`(.*?)\`/g)[0] &&
+                      strErr.includes("missing field")
+                    ) {
+                      console.log("argname", argName);
+                      console.log("strmatch", strErr.match(/\`(.*?)\`/g)[0]);
+                      if (
+                        argName ==
+                        strErr.match(/\`(.*?)\`/g)[0].replaceAll("`", "")
+                      ) {
+                        uS(argName, typeItem.type, typeItem.value);
+                        clearInterval(getArg);
+                      }
+                    }
                   } else {
                     uS(argName, typeItem.type, typeItem.value);
                     clearInterval(getArg);
