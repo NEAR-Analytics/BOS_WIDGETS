@@ -376,7 +376,7 @@ const getArgsFromMethod = (fName, fIndex) => {
                       ftch.includes("invalid type: sequence, expected a string")
                     ) {
                       uS(argName, "string", "wrap.near");
-                      clearInterval(getArg);
+                      // clearInterval(getArg);
                       console.log("helllo123");
                     }
                     if (
