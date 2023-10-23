@@ -1,10 +1,11 @@
-const Root = styled.div`
+const Root = styled.a`
     width: 328px;
 height: 200px;
 flex-shrink: 0;
 border-radius: 8px;
 display: flex;
 background-color: black;
+text-decoration: none;
 flex-direction: column;
 justify-content: space-between;
 padding: 16px;
@@ -74,7 +75,13 @@ return (
         />
       </ImageContainer>
       <div>
-        <h1>{props.title ?? "MY NFT"}</h1>
+        <h1>
+          {props.title
+            ? props.title > 12
+              ? `${props.title.slice(0, 11)}...`
+              : props.title
+            : "MY NFT"}
+        </h1>
         <Tags>
           <Tag>Category</Tag>
           <Tag>Tag</Tag>
