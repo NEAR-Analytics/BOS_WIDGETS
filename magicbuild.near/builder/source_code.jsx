@@ -438,11 +438,11 @@ const getArgsFromMethod = (fName, fIndex) => {
                     uS(argName, typeItem.type, typeItem.value);
                     clearInterval(getArg);
                   }
-                  countLoop++;
-                  console.log(countLoop, argName);
                 });
               }
             });
+            countLoop++;
+            console.log(countLoop, args);
           }
           if (res.body.result.result) {
             clearInterval(getArg);
