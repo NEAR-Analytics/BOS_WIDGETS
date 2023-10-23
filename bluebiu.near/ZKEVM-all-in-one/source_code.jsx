@@ -1,6 +1,12 @@
 const Layout = styled.div`
-  position: relative;
-  bottom: 20px;
+  position: absolute;
+  top:106px;
+  left: 0;
+  right: 60px;
+  @media (max-width:900px) {
+    position: relative;
+    top: 0;
+  }
 `;
 
 const Container = styled.div`
@@ -259,49 +265,49 @@ return (
           onClick={() => {
             changeTab("Bridge");
           }}
-          class={`item ${activeMenu == "Bridge" ? "active" : ""}`}
+          className={`item ${activeMenu == "Bridge" ? "active" : ""}`}
         >
-          <span class="icon">{bridgeIcon}</span>
+          <span className="icon">{bridgeIcon}</span>
           Bridge
         </div>
         <div
           onClick={() => {
             changeTab("swap");
           }}
-          class={`item ${activeMenu == "swap" ? "active" : ""}`}
+          className={`item ${activeMenu == "swap" ? "active" : ""}`}
         >
-          <span class="icon">{swapIcon}</span>
+          <span className="icon">{swapIcon}</span>
           Swap
         </div>
 
         <div
-          class={`item ${activeMenu == "Lending" ? "active" : ""}`}
-          onClick={() => {
-            changeTab("Lending");
-          }}
-        >
-          <span class="icon">{lendingIcon}</span>
-          Lending
-        </div>
-
-        <div
-          class={`item ${activeMenu == "Liquidity" ? "active" : ""}`}
+          className={`item ${activeMenu == "Liquidity" ? "active" : ""}`}
           onClick={() => {
             changeTab("Liquidity");
           }}
         >
-          <span class="icon">{liquidityIcon}</span>
+          <span className="icon">{liquidityIcon}</span>
           Liquidity
         </div>
+
+        <div
+          className={`item ${activeMenu == "Lending" ? "active" : ""}`}
+          onClick={() => {
+            changeTab("Lending");
+          }}
+        >
+          <span className="icon">{lendingIcon}</span>
+          Lending
+        </div>
       </MenuContainer>
-      <div class="flex-grow contentOut">
+      <div className="flex-grow contentOut">
         {activeMenu == "Bridge" ? (
           <>
             <p>Bridge</p>
             <Widget
               src="guessme.near/widget/ZKEVMSwap.zkevm-bridge"
               props={{
-                layout: "left",
+                layout: "center",
               }}
             />
           </>
@@ -312,7 +318,7 @@ return (
             <Widget
               src="guessme.near/widget/ZKEVMSwap.zkevm-swap"
               props={{
-                layout: "left",
+                layout: "center",
               }}
             />
           </>
