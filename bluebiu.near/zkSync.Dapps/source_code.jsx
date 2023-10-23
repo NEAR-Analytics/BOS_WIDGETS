@@ -3,7 +3,9 @@ const Container = styled.div`
   flex-wrap: wrap;
   gap: 30px 36px;
   color: #fff;
-  padding: 0 12px;
+  @media (max-width:900px) {
+    padding: 0 12px;
+  }
 `;
 
 const Search = styled.div`
@@ -63,6 +65,13 @@ const SearchIcon = (
 );
 
 const dapps = [
+  {
+    src: "bluebiu.near/widget/zkSync.All-in-one",
+    bannerImg:
+      "https://ipfs.near.social/ipfs/bafkreignjbyuppahss22pys5szr3rthjyuvfmhsooj774vuarxea2si5k4",
+    icon: "https://ipfs.near.social/ipfs/bafkreido2creciicfwo7ceojij2kmn524c63pthhteez6higs5msym4rg4",
+    tags: ["Bridge","Dexes","Lending"],
+  },
   {
     src: "bluebiu.near/widget/zkSync.Swap.Dex",
     bannerImg:
