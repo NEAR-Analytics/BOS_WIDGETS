@@ -159,6 +159,7 @@ const Main = styled.div`
     outline: none;
     padding: 0 1rem;
     line-height: 148%; /* 29.6px */
+    margin-bottom: 1rem;
     p{
       margin: 0;
     }
@@ -171,6 +172,7 @@ const Main = styled.div`
   background:transparent;
   border: none;
   outline: none;
+  color: inherit;
 }
 `;
 return (
