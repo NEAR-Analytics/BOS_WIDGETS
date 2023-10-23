@@ -359,10 +359,7 @@ const getArgsFromMethod = (fName, fIndex) => {
                     clearInterval(getArg);
                   }
                   const ftch = res.body.result.error;
-                  if (fName == "swap") {
-                    console.log("swapdata", abiMethod[fIndex].args);
-                    console.log("ftch", argName);
-                  }
+
                   if (ftch) {
                     //invalid token id
 
@@ -422,6 +419,10 @@ const getArgsFromMethod = (fName, fIndex) => {
                       uS(argName, "enum", enumList);
                     }
                     if (ftch.includes("missing field")) {
+                      if (fName == "swap") {
+                        console.log("swapdata", abiMethod[fIndex].params.args);
+                        console.log("ftch", argName);
+                      }
                       uS(argName, typeItem.type, typeItem.value);
                     }
                     if (ftch.includes("Requires attached deposit")) {
