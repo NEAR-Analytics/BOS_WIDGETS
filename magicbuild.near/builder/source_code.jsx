@@ -501,3 +501,69 @@ const getArgsFromMethod = (fName, fIndex) => {
     }
   });
 };
+const onBtnClickCall = (fName, action, fIndex) => {
+  const abiMethod = state.cMethod;
+  const argMap = abiMethod[fIndex].params.args.map(({ name, value }) => ({
+    [name]: value,
+  }));
+  const args = {};
+  argMap.forEach((item) => {
+    Object.assign(args, item);
+  });
+  if (action === "view") {
+    asyncFetch(state.rpcUrl, {
+      body: JSON.stringify({
+        method: "query",
+        params: {
+          request_type: "call_function",
+          account_id: state.contractAddress,
+          method_name: abiMethod[fIndex].name,
+          args_base64: new Buffer.from(JSON.stringify(args)).toString("base64"),
+          finality: "final",
+        },
+        id: 154,
+        jsonrpc: "2.0",
+      }),
+      headers: header,
+      method: "POST",
+    }).then((res) => {
+      const resb = res.body.result;
+      if (resb.result) {
+        const result = new Buffer.from(resb.result).toString();
+        State.update({
+          res: {
+            [fName]: { value: result, error: false },
+          },
+        });
+      }
+      if (resb.error) {
+        const error = resb.error;
+        State.update({
+          res: {
+            [fName]: { value: error, error: true },
+          },
+        });
+      }
+    });
+  }
+  if (action === "call") {
+    if (
+      abiMethod[fIndex].deposit == 0 &&
+      abiMethod[fIndex].gas == 30000000000000
+    ) {
+      Near.call(state.contractAddress, abiMethod[fIndex].name, args);
+    }
+    if (
+      abiMethod[fIndex].deposit > 0 ||
+      abiMethod[fIndex].gas > 30000000000000
+    ) {
+      Near.call(
+        state.contractAddress,
+        abiMethod[fIndex].name,
+        args,
+        abiMethod[fIndex].deposit,
+        abiMethod[fIndex].gas
+      );
+    }
+  }
+};
