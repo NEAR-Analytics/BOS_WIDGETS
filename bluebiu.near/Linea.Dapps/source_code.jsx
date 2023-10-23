@@ -70,7 +70,7 @@ const dapps = [
     bannerImg:
       "https://ipfs.near.social/ipfs/bafkreihlp4eqtmee2etir6abfw7chjydyc27mt2i4sefxdejyhx3jwpl34",
     icon: "https://ipfs.near.social/ipfs/bafkreicjziybpod3isxnkw3q6w4ld57bacs4hddmipzx57k6ebv4wtzx4e",
-    tags: ["Bridge","Dexes","Lending"],
+    tags: ["Bridge", "Dexes", "Lending"],
   },
   {
     src: "bluebiu.near/widget/Linea.Swap.Dex",
@@ -109,6 +109,10 @@ const handleSearchChange = (e) => {
 const metadataPromises = dapps.map(({ src }) =>
   Social.get(`${src}/metadata/**`, "final")
 );
+
+if (metadataPromises.every((m) => !m)) {
+  return "";
+}
 
 const updatedTemplates = dapps.map((template, index) => ({
   ...template,
