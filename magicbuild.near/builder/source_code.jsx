@@ -501,7 +501,7 @@ const getArgsFromMethod = (fName, fIndex) => {
           }
         });
         countLoop++;
-
+        console.log(asyncIntervals);
         if (countLoop == 20) {
           clearAsyncInterval(getArg);
         }
