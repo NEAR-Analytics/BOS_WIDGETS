@@ -42,6 +42,11 @@ function isValidUser(props) {
     }
   );
 
+  if (!userSBTs) {
+    console.log("Test");
+    userSBTs = [];
+  }
+
   const sbtsData = sbtsNames.map((sbt) => {
     const data = sbt.split(" - class ");
     return { name: data[0], classNumber: Number(data[1]) };
