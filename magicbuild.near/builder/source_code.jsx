@@ -273,9 +273,10 @@ const getArgsFromMethod = (fName, fIndex) => {
       let countLoop = 0;
       const getArg = setAsyncInterval(() => {
         const abiMethod = state.cMethod;
-        console.log("gello", fName);
+
         const argsArr = abiMethod[fIndex].params.args;
         const argMap = argsArr.map(({ name, value }) => ({ [name]: value }));
+        console.log("gello", fName);
         const args = {};
         argMap.forEach((item) => {
           Object.assign(args, item);
