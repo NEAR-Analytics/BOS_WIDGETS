@@ -188,18 +188,19 @@ function getUpVoteBlackListByBlockHeight() {
   return [];
 }
 
-function getUpVotesData(action, id) {
+function getUpVotesData(action, id, subscribe) {
+  log([2, action, id, subscribe]);
   return Social.index(action, id, {
     order: "desc",
-    subscribe: true,
+    subscribe,
   });
 }
 
 function getupVotesNormalized(id) {
-  const upVotesByVersion = Object.keys(versions).map((version) => {
+  const upVotesByVersion = Object.keys(versions).map((version, index, arr) => {
     const action = versions[version].action;
-
-    const allUpVotes = getUpVotesData(action, id);
+    const subscribe = index + 1 === arr.length;
+    const allUpVotes = getUpVotesData(action, id, subscribe);
 
     const validUpVotes = filterInvalidUpVotes(env, allUpVotes);
 
@@ -219,6 +220,7 @@ function getLatestEdits(upVotes) {
 }
 
 function filterInvalidUpVotes(env, upVotes) {
+  log([1, upVotes]);
   return upVotes
     .filter((upVote) => upVote.value.upVoteId) // Has id
     .filter(
@@ -230,7 +232,6 @@ function filterInvalidUpVotes(env, upVotes) {
 function getUpVotes(props) {
   const { sbtsNames, id } = props;
   // Call other libs
-
   const normUpVotes = getupVotesNormalized(id);
 
   // Keep last edit from every upVote
@@ -252,7 +253,7 @@ function getUpVotes(props) {
 
   const finalUpVotes = filterValidUpVotes(lastUpVotes);
   const finalUpVotesMapped = {};
-  log(3, sbtsNames);
+  log([3, sbtsNames]);
   sbtsNames.forEach((sbtName) => {
     const sbtUpVotes = finalUpVotes.filter((upVote) => {
       if (!upVote.sbts) return false;
@@ -260,7 +261,6 @@ function getUpVotes(props) {
     });
     finalUpVotesMapped[sbtName] = sbtUpVotes;
   });
-  log(4);
 
   return finalUpVotesMapped;
 }
@@ -362,37 +362,37 @@ if (functionsToCall && functionsToCall.length > 0) {
   stateUpdate(updateObj);
 }
 
-function callLibs(
-  src,
-  stateUpdate,
-  functionsToCallByLibrary,
-  extraProps,
-  callerWidget
-) {
-  // if (callerWidget === "lib.upVotes") {
-  // console.log(
-  //   -1,
-  //   `Call libs props ${callerWidget}: `,
-  //   src,
-  //   functionsToCallByLibrary,
-  //   callLibs
-  // );
-  // }
+// function callLibs(
+//   src,
+//   stateUpdate,
+//   functionsToCallByLibrary,
+//   extraProps,
+//   callerWidget
+// ) {
+//   // if (callerWidget === "lib.upVotes") {
+//   // console.log(
+//   //   -1,
+//   //   `Call libs props ${callerWidget}: `,
+//   //   src,
+//   //   functionsToCallByLibrary,
+//   //   callLibs
+//   // );
+//   // }
 
-  return (
-    <Widget
-      src={src}
-      props={{
-        isTest,
-        stateUpdate,
-        functionsToCallByLibrary,
-        callLibs,
-        widgets,
-        ...extraProps,
-      }}
-    />
-  );
-}
+//   return (
+//     <Widget
+//       src={src}
+//       props={{
+//         isTest,
+//         stateUpdate,
+//         functionsToCallByLibrary,
+//         callLibs,
+//         widgets,
+//         ...extraProps,
+//       }}
+//     />
+//   );
+// }
 
 // const a = getUpVotes({
 //   sbtsNames: [
