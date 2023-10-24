@@ -19,6 +19,7 @@ const currentVersion = "0.0.2"; // EDIT: Set version
 
 const prodAction = `${baseAction}_v${currentVersion}`;
 const testAction = `test_${prodAction}`;
+const versionsBaseActions = isTest ? `test_${baseAction}` : baseAction;
 const action = isTest ? testAction : prodAction;
 
 // START LIB CALLS SECTION
@@ -177,18 +178,18 @@ function canUserEditArticle(props) {
   return article.author === context.accountId;
 }
 
-function getArticlesIndexes(action) {
+function getArticlesIndexes(action, subscribe) {
   return Social.index(action, "main", {
     order: "desc",
-    subscribe: true,
+    subscribe,
   });
 }
 
 function getArticlesNormalized(env) {
-  const articlesByVersion = Object.keys(versions).map((version) => {
+  const articlesByVersion = Object.keys(versions).map((version, index, arr) => {
     const action = versions[version].action;
-
-    const articlesIndexes = getArticlesIndexes(action);
+    const subscribe = index + 1 === arr.length;
+    const articlesIndexes = getArticlesIndexes(action, subscribe);
 
     const validArticlesIndexes = filterInvalidArticlesIndexes(
       env,
@@ -267,7 +268,7 @@ function getArticles(props) {
   const lastEditionArticlesAuthors = lastEditionArticles.map((article) => {
     return article.author;
   });
-  log([1, lastEditionArticles]);
+
   setAreValidUsers(lastEditionArticlesAuthors, sbtsNames);
 
   resultFunctionsToCall = resultFunctionsToCall.filter((call) => {
@@ -355,15 +356,15 @@ function callFunction(call) {
 const versions = {
   old: {
     normalizationFunction: normalizeOldToV_0_0_1,
-    action: baseAction,
+    action: versionsBaseActions,
   },
   "v0.0.1": {
     normalizationFunction: normalizeFromV0_0_1ToV0_0_2,
-    action: `${baseAction}_v0.0.1`,
+    action: `${versionsBaseActions}_v0.0.1`,
   },
   "v0.0.2": {
     normalizationFunction: normalizeFromV0_0_2ToV0_0_3,
-    action: `${baseAction}_v0.0.2`,
+    action: `${versionsBaseActions}_v0.0.2`,
   },
 };
 
@@ -431,17 +432,6 @@ function callLibs(
     />
   );
 }
-
-const a = getArticles({
-  sbtsNames: [
-    "fractal.i-am-human.near - class 1",
-    "community.i-am-human.near - class 1",
-    "community.i-am-human.near - class 2",
-    "community.i-am-human.near - class 3",
-    "public",
-  ],
-});
-log(a);
 
 return (
   <>
