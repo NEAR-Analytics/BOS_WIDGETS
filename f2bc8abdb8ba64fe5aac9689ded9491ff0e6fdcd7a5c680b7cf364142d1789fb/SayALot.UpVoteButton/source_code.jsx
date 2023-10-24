@@ -17,23 +17,37 @@ const initLibCalls = {
   upVotes: [
     {
       functionName: "getUpVotes",
-      key: "upVotes",
+      key: "upVotesBySBT",
       props: {
         id: data.id ?? `${data.author}-${data.timeCreate}`,
-        articleSbts,
+        sbtsNames: articleSbts,
       },
     },
   ],
 };
+const initUpVotesBySBT = {};
 
 if (!upVotes) {
   State.init({
     libCalls: initLibCalls,
     upVotes: [],
+    upVotesBySBT: initUpVotesBySBT,
+  });
+} else {
+  State.init({
+    upVotes,
   });
 }
 
-let upVotesData = upVotes ?? state.upVotes;
+if (state.upVotesBySBT && Object.keys(state.upVotesBySBT).length > 0) {
+  const key = Object.keys(state.upVotesBySBT)[0]; // There should always be one for now
+  const newUpvotes = state.upVotesBySBT[key];
+  if (JSON.stringify(state.upVotes) !== JSON.stringify(newUpvotes)) {
+    State.update({ upVotes: newUpvotes });
+  }
+}
+
+let upVotesData = state.upVotes;
 
 let userVote = upVotesData.find((vote) => vote.accountId === context.accountId);
 
@@ -141,7 +155,13 @@ return (
 
     <CallLibrary>
       {libSrcArray.map((src) => {
-        return callLibs(src, libStateUpdate, state.libsCalls, "Up vote button");
+        return callLibs(
+          src,
+          libStateUpdate,
+          state.libsCalls,
+          { baseAction: "sayALotUpVote" },
+          "Up vote button"
+        );
       })}
     </CallLibrary>
   </>
