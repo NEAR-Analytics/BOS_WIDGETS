@@ -41,7 +41,7 @@ const markets = {
     decimals: 8,
     symbol: "vUSDT",
     address: "0xfD5840Cd36d94D7229439859C0112a4185BC0255",
-    icon: "https://ipfs.near.social/ipfs/bafkreih45jy7ggj45ck34rf736kb67smsoa52wd7e46c2grh6etd3bhe5i",
+    icon: "https://ipfs.near.social/ipfs/bafkreidio5g2ches6dn3vbswsdzylkillaomay6xzkri7vasxityoqig5m",
   },
   "0xecA88125a5ADbe82614ffC12D0DB554E2e2867C8": {
     underlyingToken: {
