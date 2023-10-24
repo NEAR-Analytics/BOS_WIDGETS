@@ -7,7 +7,7 @@ const blockHeight =
 // const item = props.item;
 const item = {
   type: "social",
-  path: `${accountId}/post/main`,
+  path: `${context.accountId}/post/main`,
   blockHeight,
 };
 
