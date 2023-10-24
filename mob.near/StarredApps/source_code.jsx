@@ -1,37 +1,35 @@
 const accountId = props.accountId ?? context.accountId;
 
-const stars = Social.index(
-  "store",
-  {
-    type: "star",
-    accountId,
-  },
-  {
-    accountId,
-  }
-);
+const stars = Social.getr(`${accountId}/graph/star`, "final", {
+  withBlockHeight: true,
+});
 
 const StorageKey = "order";
 const order = Storage.privateGet(StorageKey);
-
 const apps = useMemo(() => {
-  if (!stars || order === null) {
+  if (stars === null || order === null) {
     return [];
   }
-  const starredApps = new Set();
-  stars.forEach(({ value }) => {
-    if (value.item.type !== "social") {
-      return;
+  const starredApps = new Map();
+  const path = [];
+
+  const buildSrc = (node) => {
+    if (node.hasOwnProperty("")) {
+      starredApps.set(path.join("/"), node[":block"]);
     }
-    const widgetSrc = value.item.path;
-    if (value.type === "star") {
-      starredApps.add(widgetSrc);
-    } else if (value.type === "unstar") {
-      starredApps.delete(widgetSrc);
-    }
-  });
-  const apps = [...starredApps.keys()];
-  apps.reverse();
+    Object.entries(node).forEach(([key, value]) => {
+      if (typeof value === "object") {
+        path.push(key);
+        buildSrc(value);
+        path.pop();
+      }
+    });
+  };
+
+  buildSrc(stars ?? {}, [], starredApps);
+  let apps = [...starredApps.entries()];
+  apps.sort((a, b) => b[1] - a[1]);
+  apps = apps.map((a) => a[0]);
   apps.sort((a, b) => (order?.[a] || 0) - (order?.[b] || 0));
   Storage.privateSet(
     StorageKey,
@@ -71,10 +69,7 @@ const renderItem = (widgetSrc) => {
 };
 
 return (
-  <div>
-    <h5>Starred Apps</h5>
-    <div className="d-flex flex-wrap gap-1 my-3 placeholder-glow">
-      {apps.slice(0, props.limit ? parseInt(props.limit) : 24).map(renderItem)}
-    </div>
+  <div className="d-flex flex-wrap gap-1 my-3 placeholder-glow">
+    {apps.slice(0, props.limit ? parseInt(props.limit) : 24).map(renderItem)}
   </div>
 );
