@@ -147,9 +147,7 @@ const getMethodFromSource = () => {
   // clear interval
   console.log(asyncIntervals);
   asyncIntervals.forEach((item) => {
-    if (item.run) {
-      clearAsyncInterval(item.id);
-    }
+    clearAsyncInterval(item.id);
   });
   State.update({ cMerr: null, cMethod: [] });
   asyncFetch(state.rpcUrl, {
