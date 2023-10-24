@@ -52,6 +52,9 @@ const clearAsyncInterval = (intervalIndex) => {
     });
   }
 };
+const updateContractAddress = (e) => {
+  State.update({ contractAddress: data.toLowerCase() });
+};
 const cFunc = (e, type) => {
   const data = e.target.value;
   if (type == "name") State.update({ fName: data });
@@ -684,7 +687,7 @@ return (
         </div>
         <div class="form-group col-md-4">
           {state.cMethod.length > 0 ? (
-            <Widget src={`${cep}/widget/save-client-button`} />
+            <Widget src={`${cep}/widget/save-client-button`} props={state} />
           ) : (
             <>
               <label></label>
