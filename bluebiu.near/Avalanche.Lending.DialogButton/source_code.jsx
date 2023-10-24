@@ -288,7 +288,7 @@ return (
         props={{
           market: data,
           actionText,
-          amount,
+          amount: Big(amount).toFixed(data.underlyingToken.decimals),
           loading: state.pending,
           onSuccess: (res) => {
             const { status } = res;
