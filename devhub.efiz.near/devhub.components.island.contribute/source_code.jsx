@@ -103,7 +103,7 @@ const Content = (
 
 return (
   <Widget
-    src="devhub.efiz.near/widget/devhub.components.island.home-section"
+    src="${REPL_DEVHUB}/widget/devhub.components.island.home-section"
     props={{
       title: "/contribute",
       description:
