@@ -44,6 +44,7 @@ return (
           chainId: CHAIN_ID,
           chainName: CHAIN_NAME,
         },
+        defalutDapp: "0vix",
         dapps: {
           "0vix": {
             name: "0vix",
