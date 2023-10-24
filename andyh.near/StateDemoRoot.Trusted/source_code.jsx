@@ -1,4 +1,6 @@
-State.init({ circle: "circle", triangle: "triangle", square: "square", i: 0 });
+const [circle, setCircle] = useState("circle");
+const [triangle, setTriangle] = useState("triangle");
+const [square, setSquare] = useState("square");
 
 const icons = [
   "alarm",
@@ -129,8 +131,6 @@ const icons = [
 
 const getRandomIcon = () => icons[Math.floor(Math.random() * icons.length)];
 
-const { circle, square, triangle } = state;
-
 return (
   <div>
     <div className="col">
@@ -144,9 +144,9 @@ return (
           circle,
           square,
           triangle,
-          updateCircle: () => State.update({ circle: getRandomIcon() }),
-          updateSquare: () => State.update({ square: getRandomIcon() }),
-          updateTriangle: () => State.update({ triangle: getRandomIcon() }),
+          updateCircle: () => setCircle(getRandomIcon()),
+          updateSquare: () => setSquare(getRandomIcon()),
+          updateTriangle: () => setTriangle(getRandomIcon()),
         }}
       />
       <Widget
@@ -158,9 +158,9 @@ return (
           circle,
           square,
           triangle,
-          updateCircle: () => State.update({ circle: getRandomIcon() }),
-          updateSquare: () => State.update({ square: getRandomIcon() }),
-          updateTriangle: () => State.update({ triangle: getRandomIcon() }),
+          updateCircle: () => setCircle(getRandomIcon()),
+          updateSquare: () => setSquare(getRandomIcon()),
+          updateTriangle: () => setTriangle(getRandomIcon()),
         }}
       />
     </div>
