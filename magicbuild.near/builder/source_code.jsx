@@ -168,7 +168,7 @@ const getMethodFromSource = () => {
     method: "POST",
   }).then((res) => {
     let abiMethod = [];
-    //State.update({ cMethod: abiMethod });
+    State.update({ cMethod: null });
     const resb = res.body;
     if (resb.result) {
       const data = Buffer(resb.result.code_base64, "base64").toString("ascii");
