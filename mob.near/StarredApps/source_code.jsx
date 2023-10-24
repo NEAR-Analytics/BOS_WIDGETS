@@ -43,13 +43,14 @@ const renderItem = (widgetSrc) => {
   return (
     <a
       href={`/${widgetSrc}`}
-      className="text-decoration-none"
+      className="text-decoration-none position-relative"
       key={widgetSrc}
       onClick={() => {
         order[widgetSrc] = -1;
         Storage.privateSet(StorageKey, order);
       }}
     >
+      {starFillSvg}
       <Widget
         loading={
           <div
@@ -75,7 +76,13 @@ const starFillSvg = (
     stroke="#FFD700"
     strokeWidth="0.5"
     viewBox="-2 -2 20 20"
-    style={{ width: "2em" }}
+    style={{
+      width: "1.25em",
+      left: "0.2em",
+      top: "0.2em",
+      position: "absolute",
+      translate: "-50% -50%",
+    }}
   >
     <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z" />
   </svg>
@@ -85,9 +92,6 @@ return apps.length > 0 ? (
   <>
     <div className="mb-2 pb-2" style={{ borderBottom: "1px dashed #eee" }}>
       <div className="d-flex flex-wrap gap-1 placeholder-glow">
-        <div style={{ width: "3em", height: "3em", padding: "0.5em" }}>
-          {starFillSvg}
-        </div>
         {apps
           .slice(0, props.limit ? parseInt(props.limit) : 24)
           .map(renderItem)}
