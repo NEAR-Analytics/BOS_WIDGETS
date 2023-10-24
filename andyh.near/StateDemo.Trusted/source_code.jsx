@@ -12,7 +12,7 @@ return (
         <h2>trusted</h2>
         <Widget
           id="trusted"
-          src="andyh.near/widget/StateDemoRoot.Trusted"
+          src="andyh.near/widget/StateDemoRoot2"
           trust={{ mode: "trusted-author" }}
           props={{ title: "State within Trusted Components" }}
         />
@@ -21,7 +21,7 @@ return (
         <h2>sandboxed</h2>
         <Widget
           id="sandboed"
-          src="andyh.near/widget/StateDemoRoot"
+          src="andyh.near/widget/StateDemoRoot2"
           trust={{ mode: "sandboxed" }}
           props={{ title: "State across Sandboxed Components" }}
         />
