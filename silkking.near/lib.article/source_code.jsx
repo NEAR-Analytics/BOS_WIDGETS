@@ -2,7 +2,7 @@ const {
   isTest,
   stateUpdate,
   functionsToCallByLibrary,
-  // callLibs,
+  callLibs,
   baseAction,
   widgets,
 } = props;
@@ -190,7 +190,7 @@ function getArticlesNormalized(env) {
     const action = versions[version].action;
     const subscribe = index + 1 === arr.length;
     const articlesIndexes = getArticlesIndexes(action, subscribe);
-
+    if (!articlesIndexes) return [];
     const validArticlesIndexes = filterInvalidArticlesIndexes(
       env,
       articlesIndexes
@@ -399,38 +399,6 @@ if (functionsToCall && functionsToCall.length > 0) {
   resultFunctionsToCallByLibrary[libName] = resultFunctionsToCall;
   updateObj.functionsToCallByLibrary = resultFunctionsToCallByLibrary;
   stateUpdate(updateObj);
-}
-
-function callLibs(
-  src,
-  stateUpdate,
-  functionsToCallByLibrary,
-  extraProps,
-  callerWidget
-) {
-  // if (callerWidget === "All articles list") {
-  // console.log(
-  //   -1,
-  //   `Call libs props ${callerWidget}: `,
-  //   src,
-  //   functionsToCallByLibrary,
-  //   callLibs
-  // );
-  // }
-
-  return (
-    <Widget
-      src={src}
-      props={{
-        isTest,
-        stateUpdate,
-        functionsToCallByLibrary,
-        callLibs,
-        widgets,
-        ...extraProps,
-      }}
-    />
-  );
 }
 
 return (
