@@ -123,7 +123,7 @@ const LikeButton = styled.div`
 `;
 
 const likeClick = () => {
-  if (state.loading) {
+  if (state.loading || dataLoading || !context.accountId) {
     return;
   }
   State.update({
