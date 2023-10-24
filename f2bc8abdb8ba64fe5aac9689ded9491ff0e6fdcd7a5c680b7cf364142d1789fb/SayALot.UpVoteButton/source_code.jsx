@@ -59,9 +59,9 @@ if (state.upVotesBySBT && Object.keys(state.upVotesBySBT).length > 0) {
 
 let upVotesData = state.upVotes;
 
-console.log("upVotesData pepito: ", upVotesData);
+console.log("upVotesData: ", upVotesData);
 
-let userVote = upVotesData.find((vote) => vote.accountId === context.accountId);
+// let userVote = upVotesData.find((vote) => vote.accountId === context.accountId);
 
 let hasUserVoted = userVote !== undefined;
 
