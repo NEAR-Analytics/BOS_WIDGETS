@@ -8,7 +8,7 @@ const {
   upVotes,
   callLibs,
 } = props;
-
+console.log("props upVotes: ", upVotes);
 const data = reactedElementData;
 
 const libSrcArray = [widgets.libUpVotes];
@@ -39,7 +39,8 @@ if (!upVotes) {
   });
 }
 
-console.log(state.upVotesBySBT);
+// console.log("state.upVotes", state.upVotes);
+// console.log("state.upVotesBySBT: ", state.upVotesBySBT);
 // console.log(Object.keys(state.upVotesBySBT).length > 0);
 
 if (state.upVotesBySBT && Object.keys(state.upVotesBySBT).length > 0) {
@@ -59,9 +60,9 @@ if (state.upVotesBySBT && Object.keys(state.upVotesBySBT).length > 0) {
 
 let upVotesData = state.upVotes;
 
-console.log("upVotesData: ", upVotesData);
+// console.log("upVotesData: ", upVotesData);
 
-// let userVote = upVotesData.find((vote) => vote.accountId === context.accountId);
+let userVote = upVotesData.find((vote) => vote.accountId === context.accountId);
 
 let hasUserVoted = userVote !== undefined;
 
