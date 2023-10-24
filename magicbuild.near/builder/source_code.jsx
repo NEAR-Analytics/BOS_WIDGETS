@@ -47,6 +47,9 @@ const clearAsyncInterval = (intervalIndex) => {
   if (asyncIntervals[intervalIndex].run) {
     clearTimeout(asyncIntervals[intervalIndex].id);
     asyncIntervals[intervalIndex].run = false;
+    State.update({
+      endprocess: state.endprocess++,
+    });
   }
 };
 const cFunc = (e, type) => {
@@ -237,6 +240,9 @@ const getArgsFromMethod = (fName, fIndex) => {
   ).then((res) => {
     const restxns = res.body.txns[0];
     if (restxns.outcomes.status && restxns.logs.length > 0) {
+      State.update({
+        endprocess: state.endprocess++,
+      });
       const argsData = JSON.parse(
         restxns.logs[0].replace("EVENT_JSON:", "").replaceAll("\\", "")
       );
@@ -266,6 +272,7 @@ const getArgsFromMethod = (fName, fIndex) => {
       let countLoop = 0;
       const getArg = setAsyncInterval(() => {
         const abiMethod = state.cMethod;
+        //check
         const argsArr = abiMethod[fIndex].params.args;
         const argMap = argsArr.map(({ name, value }) => ({ [name]: value }));
         const args = {};
@@ -504,15 +511,8 @@ const getArgsFromMethod = (fName, fIndex) => {
         if (countLoop == 20) {
           clearAsyncInterval(getArg);
         }
-        const runProcess = 0;
-        asyncIntervals.forEach((item) => {
-          if (item.run) {
-            runProcess++;
-          }
-        });
-        const endprocess = state.totalProcess - runProcess;
+
         State.update({
-          endprocess: endprocess + 1,
           messProccses: `Scanning Method :${fName}`,
         });
       }, 1000);
