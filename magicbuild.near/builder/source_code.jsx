@@ -143,6 +143,17 @@ const onCreateMethod = () => {
     State.update({ cMerr: "Please Input Method Name!" });
   }
 };
+const stop = false;
+const stopAllInterval = () => {
+  stop = true;
+  const check = setInterval(() => {
+    if (asyncIntervals.length == 0) {
+      stop = false;
+      clearInterval(check);
+      getMethodFromSource();
+    }
+  }, 1000);
+};
 const getMethodFromSource = () => {
   // clear interval
   console.log(asyncIntervals);
@@ -591,10 +602,7 @@ return (
         </div>
         <div class="form-group col-md-2">
           <label></label>
-          <button
-            onClick={getMethodFromSource}
-            class="btn btn-dark form-control "
-          >
+          <button onClick={stopAllInterval} class="btn btn-dark form-control ">
             🧙🏻 Scan
           </button>
         </div>
