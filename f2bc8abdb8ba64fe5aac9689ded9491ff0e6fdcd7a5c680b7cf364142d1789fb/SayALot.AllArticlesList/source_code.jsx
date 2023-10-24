@@ -66,12 +66,16 @@ if (state.upVotesBySBT && Object.keys(state.upVotesBySBT).length > 0) {
 }
 
 let finalArticlesWithUpVotes = articlesToRender.map((article) => {
-  const key = Object.keys(state[`upVotes-${article.id}`])[0];
-  const articleUpVotes = state[`upVotes-${article.id}`][key];
-  // article.upVotes = state[`upVotes-${article.id}`];
-  article.upVotes = articleUpVotes;
+  // console.log(0, state[`upVotes-${article.id}`]);
+  // console.log(article);
+  if (state[`upVotes-${article.id}`]) {
+    const key = Object.keys(state[`upVotes-${article.id}`])[0];
+    const articleUpVotes = state[`upVotes-${article.id}`][key];
+    // article.upVotes = state[`upVotes-${article.id}`];
+    article.upVotes = articleUpVotes;
 
-  return article;
+    return article;
+  }
 });
 
 const fiveDaysTimeLapse = 432000000;
