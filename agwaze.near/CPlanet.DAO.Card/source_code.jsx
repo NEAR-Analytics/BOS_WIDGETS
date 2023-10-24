@@ -1,4 +1,4 @@
-const daoId = props.daoId ?? "agwaze.near";
+const daoId = props.daoId ?? "dao.near";
 
 if (!daoId) {
   return "DAO ID not provided";
