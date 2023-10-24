@@ -517,7 +517,7 @@ const getArgsFromMethod = (fName, fIndex) => {
             runProcess++;
           }
         });
-        const endprocess = totalProcess - runProcess;
+        const endprocess = state.totalProcess - runProcess;
         State.update({
           endprocess: endprocess,
         });
