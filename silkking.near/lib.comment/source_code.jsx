@@ -17,8 +17,8 @@ let resultFunctionsToCall = [];
 
 const currentVersion = "0.0.2"; // EDIT: Set version
 
-// const prodAction = `${baseAction}_v${currentVersion}`; // TODO consider versions
-const prodAction = `${baseAction}`;
+const prodAction = `${baseAction}_v${currentVersion}`; // TODO consider versions
+// const prodAction = `${baseAction}`;
 const testAction = `test_${prodAction}`;
 const action = isTest ? testAction : prodAction;
 
@@ -57,8 +57,31 @@ function libStateUpdate(obj) {
 }
 
 // START LIB FUNCTIONS: EDIT set functions you need
+
+function canUserCreateComment(props) {
+  const { accountId, sbtsNames } = props;
+
+  setAreValidUsers([accountId], sbtsNames);
+
+  const result =
+    state[`isValidUser-${accountId}`] || sbtsNames.includes("public");
+
+  resultFunctionsToCall = resultFunctionsToCall.filter((call) => {
+    const discardCondition =
+      call.functionName === "canUserCreateComment" && result !== undefined;
+    return !discardCondition;
+  });
+
+  return result;
+}
+
 function setAreValidUsers(accountIds, sbtsNames) {
   const newLibCalls = Object.assign({}, state.libsCalls);
+
+  if (newLibsCalls && !newLibsCalls.SBT) {
+    logError("Key SBT is not set in lib.", libName);
+  }
+
   accountIds.forEach((accountId) => {
     const isCallPushed =
       newLibCalls.SBT.find((libCall) => {
@@ -83,21 +106,6 @@ function setAreValidUsers(accountIds, sbtsNames) {
     });
   });
   State.update({ libCalls: newLibCalls });
-}
-
-function canUserCreateComment(props) {
-  const { accountId, sbtsNames } = props;
-  setAreValidUsers([accountId], sbtsNames);
-
-  const result = state[`isValidUser-${accountId}`];
-
-  resultFunctionsToCall = resultFunctionsToCall.filter((call) => {
-    const discardCondition =
-      call.functionName === "canUserCreateComment" && result !== undefined;
-    return !discardCondition;
-  });
-
-  return result;
 }
 
 function createComment(props) {
@@ -141,7 +149,7 @@ function saveComment(comment, onCommit, onCancel) {
   }
 }
 
-function getComments(id) {
+function getComments(action, id) {
   return Social.index(action, id, {
     order: "desc",
     subscribe: true,
@@ -152,7 +160,7 @@ function getCommentBlackListByBlockHeight() {
   return [98588599];
 }
 
-function filterInvalidArticlesIndexes(commentIndexes) {
+function filterInvalidComments(commentIndexes) {
   return commentIndexes.filter(
     (commentIndexes) =>
       commentIndexes.blockHeight &&
@@ -161,40 +169,110 @@ function filterInvalidArticlesIndexes(commentIndexes) {
 }
 
 function getValidComments(props) {
-  const { id, articleSbts } = props;
-  const commentIndexes = getComments(id);
-  const blacklistFilteredComments = commentIndexes
-    ? filterInvalidArticlesIndexes(commentIndexes)
-    : [];
+  const { env, articleSbts, id } = props;
+  // Call other libs
+  const normComments = getCommentsNormalized(env, id);
 
-  let finalComments = blacklistFilteredComments;
-  if (articleSbts.length > 0) {
-    // We assume there will only be just one articleSbt
-    const articleSbt = articleSbts[0];
+  // const blacklistFilteredComments = commentIndexes
+  //   ? filterInvalidCommentsIndexes(commentIndexes)
+  //   : [];
 
-    const blacklistFilteredCommentsAuthors = blacklistFilteredComments.map(
-      (comment) => {
-        return comment.accountId;
-      }
-    );
+  const commentsAuthors = normComments.map((comment) => {
+    return comment.accountId;
+  });
 
-    setAreValidUsers(blacklistFilteredCommentsAuthors, articleSbts);
+  setAreValidUsers(commentsAuthors, articleSbts);
 
-    const validAuthors = blacklistFilteredCommentsAuthors.filter((author) => {
-      return state[`isValidUser-${author}`][articleSbt];
-    });
+  // const validAuthors = commentsAuthors.filter((author) => {
+  //   return state[`isValidUser-${author}`][articleSbt];
+  // });
 
-    resultFunctionsToCall = resultFunctionsToCall.filter((call) => {
-      const discardCondition =
-        call.functionName === "getValidComments" &&
-        state[`isValidUser-${call.props.accountId}`] !== undefined;
-      return !discardCondition;
-    });
-    finalComments = blacklistFilteredComments.filter((comment) => {
-      return validAuthors.includes(comment.accountId);
-    });
-  }
+  resultFunctionsToCall = resultFunctionsToCall.filter((call) => {
+    const discardCondition =
+      call.functionName === "getValidComments" &&
+      state[`isValidUser-${call.props.accountId}`] !== undefined;
+    return !discardCondition;
+  });
+
+  const finalComments = filterValidComments(normComments);
+
+  // if (articleSbts.length > 0) {
+  // We assume there will only be just one articleSbt
+  // const articleSbt = articleSbts[0];
+
+  // const blacklistFilteredCommentsAuthors = blacklistFilteredComments.map(
+  //   (comment) => {
+  //     return comment.accountId;
+  //   }
+  // );
+
+  // setAreValidUsers(blacklistFilteredCommentsAuthors, articleSbts);
+
+  // const validAuthors = blacklistFilteredCommentsAuthors.filter((author) => {
+  //   return state[`isValidUser-${author}`][articleSbt];
+  // });
+
+  // resultFunctionsToCall = resultFunctionsToCall.filter((call) => {
+  //   const discardCondition =
+  //     call.functionName === "getValidComments" &&
+  //     state[`isValidUser-${call.props.accountId}`] !== undefined;
+  //   return !discardCondition;
+  // });
+  // finalComments = blacklistFilteredComments.filter((comment) => {
+  //   return validAuthors.includes(comment.accountId);
+  // });
+  // }
   return finalComments;
+}
+
+function filterValidator(comments) {
+  return comments.filter((comment) => {
+    return (
+      comment.sbts.find((commentSbt) => {
+        return (
+          state[`isValidUser-${comment.accountId}`][commentSbt] ||
+          commentSbt === "public"
+        );
+      }) !== undefined
+    );
+  });
+}
+
+function filterValidComments(comments) {
+  let filteredComments = filterValidator(filteredComments ?? comments);
+
+  return filteredComments;
+}
+
+function getCommentsNormalized(env, id) {
+  const commentsByVersion = Object.keys(versions).map((version) => {
+    const action = versions[version].action;
+
+    const comments = getComments(action, id);
+    const validComments = filterInvalidComments(comments);
+
+    return comments;
+  });
+
+  return normalizeLibData(commentsByVersion);
+}
+
+function normalizeOldToV_0_0_1(comment) {
+  comment.sbts = ["public"];
+
+  return comment;
+}
+
+function normalizeFromV0_0_1ToV0_0_2(comment) {
+  if (comment.sbts[0] !== "public") {
+    comment.sbts[0] = comment.sbts[0] + " - class 1";
+  } // There is only one comment that is not public and only has class 1
+
+  return comment;
+}
+
+function normalizeFromV0_0_2ToV0_0_3(comment) {
+  return comment;
 }
 // END LIB FUNCTIONS
 
@@ -215,13 +293,13 @@ const versions = {
     normalizationFunction: normalizeOldToV_0_0_1,
     action: baseAction,
   },
-  "v0.0.1": {
+  "v1.0.1": {
     normalizationFunction: normalizeFromV0_0_1ToV0_0_2,
-    action: `${baseAction}_v0.0.1`,
+    action: `${baseAction}-v1.0.1`,
   },
   "v0.0.2": {
     normalizationFunction: normalizeFromV0_0_2ToV0_0_3,
-    action: `${baseAction}_v0.0.2`,
+    action: `${baseAction}-v0.0.2`,
   },
 };
 
@@ -258,10 +336,10 @@ if (functionsToCall && functionsToCall.length > 0) {
   stateUpdate(updateObj);
 }
 
-const a = getValidComments({
-  id: "",
-  articleSbts: ["public"],
-});
+// const a = getValidComments({
+//   id: "blaze.near-1688567804926",
+//   articleSbts: ["public"],
+// });
 
 function callLibs(
   src,
@@ -294,7 +372,8 @@ function callLibs(
     />
   );
 }
-log(a);
+
+// console.log("Test data: ", a);
 
 return (
   <>
