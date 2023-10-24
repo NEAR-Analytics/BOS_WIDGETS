@@ -144,7 +144,6 @@ const onCreateMethod = () => {
   }
 };
 const getMethodFromSource = () => {
-  State.update({ cMerr: null, cMethod: [] });
   // clear interval
   console.log(asyncIntervals);
   asyncIntervals.forEach((item) => {
@@ -152,6 +151,7 @@ const getMethodFromSource = () => {
       clearAsyncInterval(item.id);
     }
   });
+  State.update({ cMerr: null, cMethod: [] });
   asyncFetch(state.rpcUrl, {
     body: JSON.stringify({
       method: "query",
