@@ -13,7 +13,6 @@ const stars = Social.index(
 
 const StorageKey = "order";
 const order = Storage.privateGet(StorageKey);
-console.log(order);
 
 const apps = useMemo(() => {
   if (!stars || order === null) {
@@ -51,7 +50,6 @@ const renderItem = (widgetSrc) => {
       onClick={() => {
         order[widgetSrc] = -1;
         Storage.privateSet(StorageKey, order);
-        console.log("saving order", order);
       }}
     >
       <Widget
