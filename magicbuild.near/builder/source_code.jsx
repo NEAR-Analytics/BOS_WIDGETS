@@ -11,6 +11,7 @@ State.init({
   cMerr,
   res,
   cAerr,
+  messProccses: "",
   totalProcess: 0,
   endprocess: 0,
 });
@@ -634,8 +635,10 @@ return (
                   width: `${(state.endprocess / state.totalProcess) * 100}%`,
                 }}
               >
+                {state.messProccses}$
+                {(state.endprocess / state.totalProcess) * 100}% - (
                 {state.endprocess < 0 ? 0 : state.endprocess}/
-                {state.totalProcess}
+                {state.totalProcess})
               </div>
             </div>
           </div>
