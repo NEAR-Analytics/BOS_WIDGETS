@@ -368,6 +368,7 @@ const getArgsFromMethod = (fName, fIndex) => {
                     if (ftch.includes("the account ID")) {
                       uS(argName, "$ref", state.contractAddress);
                     }
+
                     if (ftch.includes("invalid type: sequence, expected u64")) {
                       uS(argName, "number", 300);
                     }
