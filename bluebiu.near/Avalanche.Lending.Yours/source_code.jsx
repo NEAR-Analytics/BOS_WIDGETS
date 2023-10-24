@@ -122,7 +122,7 @@ const formatData = () => {
     if (
       dapp.rewards &&
       dapp.rewards.length &&
-      (currentDapp === "All" || currentDapp === dapp.name)
+      (currentDapp === "All" || currentDapp === dapp.dappName)
     ) {
       dapp.rewards.forEach((reward) => {
         rewards.push({
