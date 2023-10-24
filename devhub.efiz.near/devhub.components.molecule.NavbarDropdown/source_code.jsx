@@ -80,7 +80,7 @@ return (
           {links.map((link) => (
             <DropdownLink
               className={link.href === props.page && "active"}
-              href={`/devhub.efiz.near/widget/app?page=${link.href}`}
+              href={`/${REPL_DEVHUB}/widget/app?page=${link.href}`}
               key={`${link.title}-${link.href}`}
             >
               {link.title}
