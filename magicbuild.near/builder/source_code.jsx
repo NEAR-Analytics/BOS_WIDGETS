@@ -510,14 +510,14 @@ const getArgsFromMethod = (fName, fIndex) => {
         if (countLoop == 20) {
           clearAsyncInterval(getArg);
         }
-        const runProcess = -1;
+        const runProcess = 0;
         asyncIntervals.forEach((item) => {
           if (item.run) {
             runProcess++;
           }
         });
         const totalProcess = asyncIntervals.length;
-        const endprocess = totalProcess - runProcess;
+        const endprocess = totalProcess - 1 - runProcess;
         State.update({
           totalProcess: totalProcess,
           endprocess: endprocess,
