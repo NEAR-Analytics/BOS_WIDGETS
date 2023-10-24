@@ -43,6 +43,7 @@ return (
           chainId: CHAIN_ID,
           chainName: CHAIN_NAME,
         },
+        defaultDapp: "Sonne",
         dapps: {
           Sonne: {
             name: "Sonne",
@@ -66,7 +67,6 @@ return (
             handlerCToken:
               "bluebiu.near/widget/Avalanche.Lending.BenqiHandlerCToken",
           },
-
           "Granary Finance": {
             name: "Granary Finance",
             icon: "https://ipfs.near.social/ipfs/bafkreihovftnvueysjuj7wansa74k3bgtfs4hkip4bgdvguh6nhehkvg5e",
