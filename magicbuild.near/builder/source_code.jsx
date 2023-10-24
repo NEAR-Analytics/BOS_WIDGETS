@@ -151,6 +151,7 @@ const onCreateMethod = () => {
 };
 const getMethodFromSource = () => {
   State.update({ cMerr: null, cMethod: [], totalProcess: 0, endprocess: 1 });
+  const abiMethod = [];
   asyncFetch(state.rpcUrl, {
     body: JSON.stringify({
       method: "query",
@@ -275,7 +276,7 @@ const getArgsFromMethod = (fName, fIndex) => {
         const abiMethod = state.cMethod;
 
         const argsArr = abiMethod[fIndex].params.args;
-        const argMap = argsArr.map(({ name, value }) => ({ [name]: value }));
+        const argMap = argsArr.map(({ name, value }) => ({ [name]: value })); //bug
         console.log("gello", fName);
         const args = {};
         argMap.forEach((item) => {
