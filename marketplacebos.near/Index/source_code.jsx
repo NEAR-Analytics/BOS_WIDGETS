@@ -187,35 +187,30 @@ return (
         )}
         {state.selectedTab === "toggleswitches" && (
           <>
-     
             <br />
             <br />
           </>
         )}
         {state.selectedTab === "cards" && (
           <>
-       
             <br />
             <br />
           </>
         )}
         {state.selectedTab === "loaders" && (
           <>
-     
             <br />
             <br />
           </>
         )}{" "}
         {state.selectedTab === "inputs" && (
           <>
-         
             <br />
             <br />
           </>
         )}{" "}
         {state.selectedTab === "radiobuttons" && (
           <>
-         
             <br />
             <br />
           </>
@@ -223,7 +218,6 @@ return (
         {""}
         {state.selectedTab === "forms" && (
           <>
-           
             <br />
             <br />
           </>
@@ -231,7 +225,6 @@ return (
         {""}
         {state.selectedTab === "charts" && (
           <>
-         
             <br />
             <br />
           </>
@@ -239,7 +232,6 @@ return (
         {""}
         {state.selectedTab === "patterns" && (
           <>
-        
             <br />
             <br />
           </>
@@ -247,7 +239,6 @@ return (
         {state.selectedTab === "myfavorites" && (
           <>
             {" "}
-            
             <br />
             <br />
           </>
