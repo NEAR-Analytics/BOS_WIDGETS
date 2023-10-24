@@ -167,11 +167,11 @@ const title = hasStar
   ? props.titleUnstar ?? "Unstar"
   : props.titleStar ?? "Star";
 
-return (
+const inner = (
   <div className="d-inline-flex align-items-center">
     <StarButton
       disabled={state.loading || dataLoading || !context.accountId}
-      title={title}
+      title={!props.tooltip ? title : undefined}
       onClick={starClick}
     >
       <span
@@ -192,4 +192,12 @@ return (
       )}
     </StarButton>
   </div>
+);
+
+return props.tooltip ? (
+  <OverlayTrigger placement="auto" overlay={<Tooltip>{title}</Tooltip>}>
+    {inner}
+  </OverlayTrigger>
+) : (
+  inner
 );
