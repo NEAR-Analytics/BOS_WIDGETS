@@ -84,7 +84,7 @@ function Preview() {
     case "card": {
       return (
         <Widget
-          src="devhub.efiz.near/widget/devhub.entity.addon.blog.Card"
+          src="${REPL_DEVHUB}/widget/devhub.entity.addon.blog.Card"
           props={{
             title,
             content,
@@ -99,7 +99,7 @@ function Preview() {
     case "page": {
       return (
         <Widget
-          src="devhub.efiz.near/widget/devhub.entity.addon.blog.Page"
+          src="${REPL_DEVHUB}/widget/devhub.entity.addon.blog.Page"
           props={{
             title,
             content,
@@ -172,7 +172,7 @@ return (
             <div className="flex-grow-1">
               <Widget
                 // TODO: LEGACY.
-                src="devhub.efiz.near/widget/gigs-board.components.molecule.text-input"
+                src="${REPL_DEVHUB}/widget/gigs-board.components.molecule.text-input"
                 props={{
                   className: "flex-grow-1",
                   onChange: (e) => setTitle(e.target.value),
@@ -187,7 +187,7 @@ return (
             <div className="flex-grow-1">
               <Widget
                 // TODO: LEGACY.
-                src="devhub.efiz.near/widget/gigs-board.components.molecule.text-input"
+                src="${REPL_DEVHUB}/widget/gigs-board.components.molecule.text-input"
                 props={{
                   className: "flex-grow-1",
                   onChange: (e) => setAuthor(e.target.value),
@@ -200,7 +200,7 @@ return (
           <div>
             <h5>Content</h5>
             <Widget
-              src="devhub.efiz.near/widget/devhub.components.molecule.MarkdownEditor"
+              src="${REPL_DEVHUB}/widget/devhub.components.molecule.MarkdownEditor"
               props={{ data: { content }, onChange: setContent }}
             />
           </div>
@@ -209,7 +209,7 @@ return (
           className={"d-flex align-items-center justify-content-end gap-3 mt-4"}
         >
           <Widget
-            src={"devhub.efiz.near/widget/devhub.components.molecule.Button"}
+            src={"${REPL_DEVHUB}/widget/devhub.components.molecule.Button"}
             props={{
               classNames: { root: "btn-success" },
               disabled: !hasDataChanged(),
@@ -233,7 +233,7 @@ return (
         <div style={{ position: "absolute", top: 10, right: 0 }}>
           <Widget
             // LEGACY
-            src="devhub.efiz.near/widget/gigs-board.components.molecule.button-switch"
+            src="${REPL_DEVHUB}/widget/gigs-board.components.molecule.button-switch"
             props={{
               currentValue: previewMode,
               key: "previewMode",
