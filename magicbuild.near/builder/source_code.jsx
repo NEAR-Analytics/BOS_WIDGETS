@@ -604,7 +604,7 @@ return (
           <button
             onClick={getMethodFromSource}
             class="btn btn-dark form-control "
-            disabled={(state.endprocess / state.totalProcess) * 100 == 100}
+            disabled={(state.endprocess / state.totalProcess) * 100 < 100}
           >
             🧙🏻 Scan
           </button>
