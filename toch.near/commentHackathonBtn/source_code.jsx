@@ -15,10 +15,15 @@ const item = {
 //   return "";
 // }
 
+const content = {
+  type: "md",
+  text: "Hello",
+};
+
 const composeData = () => {
   const data = {
     post: {
-      comment: JSON.stringify(Object.assign({ item }, state.content)),
+      comment: JSON.stringify(Object.assign({ item }, content)),
     },
     index: {
       comment: JSON.stringify({
@@ -78,30 +83,17 @@ State.init({
 
 return (
   <>
-    <Widget
-      src="mob.near/widget/MainPage.N.Common.Compose"
-      props={{
-        placeholder: "Reply",
-        initialText: props.initialText,
-        // onChange: state.onChange,
-        // onHelper: ({ extractMentionNotifications, extractHashtags }) => {
-        //   State.update({ extractMentionNotifications, extractHashtags });
-        // },
-        composeButton: (onCompose) => (
-          <CommitButton
-            disabled={!state.content}
-            force
-            className="btn btn-primary rounded-5"
-            data={composeData}
-            onCommit={() => {
-              onCompose();
-              props.onComment && props.onComment(state.content);
-            }}
-          >
-            Comment
-          </CommitButton>
-        ),
-      }}
-    />
+    <CommitButton
+      disabled={!content}
+      force
+      className="btn btn-primary rounded-5"
+      data={composeData}
+      // onCommit={() => {
+      //   onCompose();
+      //   props.onComment && props.onComment(state.content);
+      // }}
+    >
+      Comment
+    </CommitButton>
   </>
 );
