@@ -151,10 +151,9 @@ const onCreateMethod = () => {
 };
 const getMethodFromSource = () => {
   State.update({ cMerr: null });
-  // State.update({ cMethod: null });
   State.update({ totalProcess: 0 });
   State.update({ endprocess: 1 });
-  asyncFetch(state.rpcUrl, {
+  const res = fetch(state.rpcUrl, {
     body: JSON.stringify({
       method: "query",
       params: {
@@ -167,77 +166,73 @@ const getMethodFromSource = () => {
     }),
     headers: header,
     method: "POST",
-  }).then((res) => {
-    let abiMethod = [];
-    State.update({ cMethod });
-    const resb = res.body;
-    if (resb.result) {
-      const data = Buffer(resb.result.code_base64, "base64").toString("ascii");
-      const fist = data.indexOf("memory");
-      let second =
-        data.indexOf("__data_end") !== -1
-          ? data.indexOf("__data_end")
-          : data.indexOf("P]");
-      if (fist !== -1 && second !== -1) {
-        const functionsData = data
-          .substring(fist, second)
-          .replace(/[^\w ]/g, " ")
-          .split(" ");
-        const filterFunction = [];
-        functionsData.forEach((item, index) => {
-          if (index > 0 && item.length > 1) {
-            if (
-              !/^[A-Z]+(?:_[A-Z]+)*$/m.test(item) &&
-              !/^[0-9]*$/.test(string)
-            ) {
-              filterFunction.push(item);
-            }
+  });
+  let abiMethod = [];
+  State.update({ cMethod: [] });
+  const resb = res.body;
+  if (resb.result) {
+    const data = Buffer(resb.result.code_base64, "base64").toString("ascii");
+    const fist = data.indexOf("memory");
+    let second =
+      data.indexOf("__data_end") !== -1
+        ? data.indexOf("__data_end")
+        : data.indexOf("P]");
+    if (fist !== -1 && second !== -1) {
+      const functionsData = data
+        .substring(fist, second)
+        .replace(/[^\w ]/g, " ")
+        .split(" ");
+      const filterFunction = [];
+      functionsData.forEach((item, index) => {
+        if (index > 0 && item.length > 1) {
+          if (!/^[A-Z]+(?:_[A-Z]+)*$/m.test(item) && !/^[0-9]*$/.test(string)) {
+            filterFunction.push(item);
           }
-        });
+        }
+      });
 
-        filterFunction.forEach((item) => {
-          const res = fetch(
-            `${state.nearBlockRpc}v1/account/${state.contractAddress}/txns?method=${item}&order=desc&page=1&per_page=25`,
-            opGet
-          );
-          const method = {
-            name: item,
-            kind: "view",
-            export: true,
-            params: {
-              serialization_type: "json",
-              args: [],
-            },
-            deposit: 0,
-            gas: 30000000000000,
-          };
-          if (res.body.txns.length > 0) {
-            const isScs = false;
-            res.body.txns.forEach((item) => {
-              if (item.outcomes.status) {
-                isScs = true;
-              }
-            });
-            if (isScs) {
-              method.kind = "call";
+      filterFunction.forEach((item) => {
+        const res = fetch(
+          `${state.nearBlockRpc}v1/account/${state.contractAddress}/txns?method=${item}&order=desc&page=1&per_page=25`,
+          opGet
+        );
+        const method = {
+          name: item,
+          kind: "view",
+          export: true,
+          params: {
+            serialization_type: "json",
+            args: [],
+          },
+          deposit: 0,
+          gas: 30000000000000,
+        };
+        if (res.body.txns.length > 0) {
+          const isScs = false;
+          res.body.txns.forEach((item) => {
+            if (item.outcomes.status) {
+              isScs = true;
             }
+          });
+          if (isScs) {
+            method.kind = "call";
           }
-          abiMethod.push(method);
-        });
-        console.log("abiMethod", abiMethod);
-        State.update({ cMethod: abiMethod });
-        abiMethod.forEach((item, index) => {
-          getArgsFromMethod(item.name, index);
-        });
+        }
+        abiMethod.push(method);
+      });
+      console.log("abiMethod", abiMethod);
+      State.update({ cMethod: abiMethod });
+      abiMethod.forEach((item, index) => {
+        getArgsFromMethod(item.name, index);
+      });
 
-        State.update({ totalProcess: filterFunction.length });
-      } else {
-        State.update({ cMerr: "Unable to detect Method!" });
-      }
+      State.update({ totalProcess: filterFunction.length });
     } else {
       State.update({ cMerr: "Unable to detect Method!" });
     }
-  });
+  } else {
+    State.update({ cMerr: "Unable to detect Method!" });
+  }
 };
 const getArgsFromMethod = (fName, fIndex) => {
   asyncFetch(
