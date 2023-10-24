@@ -2,7 +2,7 @@ const {
   isTest,
   stateUpdate,
   functionsToCallByLibrary,
-  // callLibs,
+  callLibs,
   baseAction,
   widgets,
 } = props;
