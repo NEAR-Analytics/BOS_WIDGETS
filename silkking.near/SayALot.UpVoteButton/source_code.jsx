@@ -145,7 +145,7 @@ return (
           src,
           libStateUpdate,
           state.libsCalls,
-          {},
+          { baseAction: "sayALotUpVote" },
           "Up vote button"
         );
       })}
