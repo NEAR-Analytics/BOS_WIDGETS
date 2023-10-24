@@ -34,7 +34,7 @@ initLibsCalls.upVotes = articlesToRender.map((article) => {
     key: `upVotes-${article.id}`,
     props: {
       id: article.id ?? `${article.author}-${article.timeCreate}`,
-      articleSbts: article.sbts ?? [],
+      sbtsNames: article.sbts ?? [],
     },
   };
 });
@@ -194,6 +194,7 @@ return (
           src,
           allArticlesListStateUpdate,
           state.libsCalls,
+          { baseAction: "sayALotUpVote" },
           "All articles list"
         );
       })}
