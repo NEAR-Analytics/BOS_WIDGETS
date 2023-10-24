@@ -271,6 +271,9 @@ const getArgsFromMethod = (fName, fIndex) => {
           State.update({ cMethod: abiMethod });
         });
       }
+      State.update({
+        endprocess: state.endprocess++,
+      });
     } else {
       let countLoop = 0;
       const getArg = setAsyncInterval(() => {
