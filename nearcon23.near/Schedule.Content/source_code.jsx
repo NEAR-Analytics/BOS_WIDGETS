@@ -41,22 +41,38 @@ asyncFetch(airtableApiUrl, {
 
   const simplifiedData = dataToSet
     .filter((data) => {
-      return data.fields["Web Publishing Status"]?.length > 0;
+      const wps = data.fields["Web Publishing Status"];
+
+      return (
+        data.fields["Web Publishing Status"]?.length > 0 &&
+        !wps.includes("reczlWVomn8QUBxXF")
+      );
     })
     .map((data) => {
       allLocations[data.fields["Location"]] = true;
 
+      const speakers = [
+        ...(data?.fields?.["Confirmed Speakers Full Name"] ?? []),
+        ...(data?.fields?.["Confirmed Moderator Full Name"] ?? []),
+      ];
+
+      const ids = [
+        ...(data?.fields?.["Potential Speakers"] ?? []),
+        ...(data?.fields?.["Confirmed Moderator"] ?? []),
+      ];
+
       return {
         startTime: data.fields["⚙️ Start Time"],
-        endTime: data.fields["⚙️ End Time Calculated by Duration"],
-        title: data.fields["⚙️ Session Name"],
-        description: data.fields["⚙️ Description?"],
+        endTime: data.fields["⚙️ End Time"],
+        title: data.fields["Session Name"],
+        description: data.fields["Description"],
         location: data.fields["Location"],
         track: data?.fields?.["Track"]
           ? data?.fields?.["Track"].map((item) => item.toLowerCase())
           : null,
+        imageIds: ids,
         // Assuming that you want to retrieve some speaker name from a different field:
-        confirmedSpeakers: data.fields["Confirmed Speakers Full Name"] ?? [], // Replace with an actual field name if applicable
+        confirmedSpeakers: speakers, // Replace with an actual field name if applicable
         startTimeFormatted: data.fields["Start Time Formatted for Calendar"],
         endTimeFormatted: data.fields["End Time Formatted for Calendar"],
       };
