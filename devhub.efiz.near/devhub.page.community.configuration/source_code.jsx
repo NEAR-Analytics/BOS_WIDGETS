@@ -2,10 +2,17 @@ const { Tile } =
   VM.require("devhub.efiz.near/widget/devhub.components.molecule.Tile") ||
   (() => <></>);
 
-const { permissions, handle, community, deleteCommunity, updateCommunity } =
-  props;
+const {
+  permissions,
+  handle,
+  community,
+  setCommunityAddons,
+  deleteCommunity,
+  updateCommunity,
+} = props;
 
 const [communityData, setCommunityData] = useState(community);
+const [selectedAddon, setSelectedAddon] = useState(null);
 const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
 
 const sectionSubmit = (sectionData) => {
@@ -117,6 +124,19 @@ return (
         }}
       />
     </Tile>
+    {hasConfigurePermissions && (
+      <Tile className={"p-3"}>
+        <Widget
+          src={
+            "devhub.efiz.near/widget/devhub.entity.community.configuration.Addons"
+          }
+          props={{
+            data: communityData.addons || [],
+            onSubmit: (v) => setCommunityAddons({ handle, addons: v }),
+          }}
+        />
+      </Tile>
+    )}
     {hasDeletePermissions && (
       <div
         className="d-flex justify-content-center gap-4 p-4 w-100"
