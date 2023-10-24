@@ -248,7 +248,7 @@ const getArgsFromMethod = (fName, fIndex) => {
           restxns.logs[0].replace("EVENT_JSON:", "").replaceAll("\\", "")
         );
         const args = argsData.data[0] || argsData;
-        console.log("gello", fName);
+
         if (Object.keys(args).length > 0) {
           const abiMethod = state.cMethod;
           abiMethod[fIndex].params.args = [];
@@ -274,7 +274,7 @@ const getArgsFromMethod = (fName, fIndex) => {
         let countLoop = 0;
         const getArg = setAsyncInterval(() => {
           const abiMethod = state.cMethod;
-          //check
+          console.log("gello", fName);
           const argsArr = abiMethod[fIndex].params.args;
           const argMap = argsArr.map(({ name, value }) => ({ [name]: value }));
           const args = {};
