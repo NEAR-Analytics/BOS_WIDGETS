@@ -516,9 +516,6 @@ const getArgsFromMethod = (fName, fIndex) => {
         if (countLoop == 20) {
           clearAsyncInterval(getArg);
         }
-        if (stop) {
-          clearAsyncInterval(getArg);
-        }
       }, 1000);
     }
   });
@@ -605,7 +602,10 @@ return (
         </div>
         <div class="form-group col-md-2">
           <label></label>
-          <button onClick={stopAllInterval} class="btn btn-dark form-control ">
+          <button
+            onClick={getMethodFromSource}
+            class="btn btn-dark form-control "
+          >
             🧙🏻 Scan
           </button>
         </div>
