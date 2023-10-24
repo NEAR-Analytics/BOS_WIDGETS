@@ -626,6 +626,10 @@ return (
                   state.totalProcess > 0 &&
                   (state.endprocess / state.totalProcess) * 100 < 100
                     ? "progress-bar-animated"
+                    : "bg-success"
+                }  ${
+                  (state.endprocess / state.totalProcess) * 100 == 100
+                    ? "bg-success"
                     : ""
                 }`}
                 role="progressbar"
