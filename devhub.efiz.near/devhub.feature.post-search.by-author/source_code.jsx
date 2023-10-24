@@ -1,5 +1,5 @@
 const { getAllAuthors } = VM.require(
-  "${REPL_DEVHUB}/widget/core.adapter.devhub-contract"
+  "devhub.efiz.near/widget/core.adapter.devhub-contract"
 );
 
 if (!getAllAuthors) {
