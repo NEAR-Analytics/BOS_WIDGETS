@@ -616,24 +616,27 @@ return (
           </button>
         </div>
       </div>
-      <div class="row">
-        <div class="form-group col-md-12">
-          <div class="progress">
-            <div
-              class="progress-bar progress-bar-striped progress-bar-animated"
-              role="progressbar"
-              aria-valuenow="75"
-              aria-valuemin="0"
-              aria-valuemax="100"
-              style={{
-                width: `${(state.endprocess / state.totalProcess) * 100}%`,
-              }}
-            >
-              {state.endprocess}/{state.totalProcess}
+      {state.totalProcess > 0 && (
+        <div class="row">
+          <div class="form-group col-md-12">
+            <div class="progress">
+              <div
+                class="progress-bar progress-bar-striped progress-bar-animated"
+                role="progressbar"
+                aria-valuenow="75"
+                aria-valuemin="0"
+                aria-valuemax="100"
+                style={{
+                  width: `${(state.endprocess / state.totalProcess) * 100}%`,
+                }}
+              >
+                {state.endprocess}/{state.totalProcess}
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      )}
+
       <div class="row">
         <div class="form-group col-md-4">
           {state.cMethod.length > 0 ? (
