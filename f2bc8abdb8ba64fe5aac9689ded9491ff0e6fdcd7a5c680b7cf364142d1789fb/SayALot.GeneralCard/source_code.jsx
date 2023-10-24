@@ -14,8 +14,6 @@ const {
   callLibs,
 } = props;
 
-// console.log(1, "General card", data);
-
 const tags = data.tags;
 const accountId = data.author;
 const title = data.title;
