@@ -625,7 +625,7 @@ return (
               aria-valuemax="100"
               style={{ width: "75%" }}
             >
-              {endprocess}/{totalProcess}
+              {state.endprocess}/{state.totalProcess}
             </div>
           </div>
         </div>
