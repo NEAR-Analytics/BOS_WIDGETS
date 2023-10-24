@@ -168,7 +168,7 @@ const getMethodFromSource = () => {
     headers: header,
     method: "POST",
   }).then((res) => {
-    let abiMethod = [];
+    const abiMethod = [];
 
     const resb = res.body;
     if (resb.result) {
