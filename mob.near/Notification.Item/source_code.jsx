@@ -17,6 +17,8 @@ const widgetSrc =
     ? "mob.near/widget/Notification.Item.Mention"
     : value.type === "repost"
     ? "mob.near/widget/Notification.Item.Repost"
+    : value.type === "star"
+    ? "mob.near/widget/Notification.Item.Star"
     : value.type === "chess-game"
     ? "chess-game.near/widget/Notification.Item.ChessGame@98857466"
     : null;
