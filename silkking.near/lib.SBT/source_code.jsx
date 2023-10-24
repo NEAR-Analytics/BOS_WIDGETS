@@ -41,14 +41,15 @@ function isValidUser(props) {
       account: accountId,
     }
   );
-
   const sbtsData = sbtsNames.map((sbt) => {
     const data = sbt.split(" - class ");
     return { name: data[0], classNumber: Number(data[1]) };
   });
   const usersValidityBySBT = {};
   sbtsNames.forEach((sbtName, index) => {
-    const userValidityBySBT =
+    const isSBTContractLoaded = userSBTs !== null;
+    const isUserValid =
+      isSBTContractLoaded &&
       userSBTs.find((userSbt) => {
         return (
           userSbt[0] === sbtsData[index].name &&
@@ -58,7 +59,7 @@ function isValidUser(props) {
           )
         );
       }) !== undefined;
-    usersValidityBySBT[sbtName] = userValidityBySBT || sbtName === "public";
+    usersValidityBySBT[sbtName] = isUserValid || sbtName === "public";
   });
 
   resultFunctionsToCall = resultFunctionsToCall.filter((call) => {
