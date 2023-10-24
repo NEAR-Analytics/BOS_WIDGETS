@@ -13,6 +13,7 @@ const stars = Social.index(
 
 const StorageKey = "order";
 const order = Storage.privateGet(StorageKey);
+console.log(order);
 
 const apps = useMemo(() => {
   if (!stars || order === null) {
