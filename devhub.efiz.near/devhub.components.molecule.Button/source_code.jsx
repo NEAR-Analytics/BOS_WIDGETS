@@ -130,7 +130,7 @@ const Button = ({ classNames, icon: iconProps, label, type, ...restProps }) => {
         typeof iconProps === "object" &&
         !Array.isArray(iconProps) && (
           <Widget
-            src={"devhub.efiz.near/widget/devhub.components.atom.Icon"}
+            src={"${REPL_DEVHUB}/widget/devhub.components.atom.Icon"}
             props={iconProps}
           />
         )}
