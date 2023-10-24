@@ -2,7 +2,7 @@ const {
   isTest,
   stateUpdate,
   functionsToCallByLibrary,
-  // callLibs,
+  callLibs,
   baseAction,
   widgets,
 } = props;
@@ -163,7 +163,7 @@ function getEmojisNormalized(env, elementReactedId) {
     const action = versions[version].action;
 
     const allReactions = getReactions(action, elementReactedId);
-
+    if (!allReactions) return [];
     const validReactions = filterInvalidReactions(env, allReactions);
 
     return getLatestEdits(validReactions);
@@ -308,51 +308,51 @@ if (functionsToCall && functionsToCall.length > 0) {
   stateUpdate(updateObj);
 }
 
-function callLibs(
-  src,
-  stateUpdate,
-  functionsToCallByLibrary,
-  extraProps,
-  callerWidget
-) {
-  // if (callerWidget === "lib.emojis") {
-  // console.log(
-  //   -1,
-  //   `Call libs props ${callerWidget}: `,
-  //   src,
-  //   functionsToCallByLibrary,
-  //   callLibs
-  // );
-  // }
+// function callLibs(
+//   src,
+//   stateUpdate,
+//   functionsToCallByLibrary,
+//   extraProps,
+//   callerWidget
+// ) {
+//   // if (callerWidget === "lib.emojis") {
+//   // console.log(
+//   //   -1,
+//   //   `Call libs props ${callerWidget}: `,
+//   //   src,
+//   //   functionsToCallByLibrary,
+//   //   callLibs
+//   // );
+//   // }
 
-  return (
-    <Widget
-      src={src}
-      props={{
-        isTest,
-        stateUpdate,
-        functionsToCallByLibrary,
-        callLibs,
-        widgets,
-        ...extraProps,
-      }}
-    />
-  );
-}
+//   return (
+//     <Widget
+//       src={src}
+//       props={{
+//         isTest,
+//         stateUpdate,
+//         functionsToCallByLibrary,
+//         callLibs,
+//         widgets,
+//         ...extraProps,
+//       }}
+//     />
+//   );
+// }
 
-const a = getEmojis({
-  env: undefined,
-  sbtsNames: [
-    "fractal.i-am-human.near - class 1",
-    "community.i-am-human.near - class 1",
-    "community.i-am-human.near - class 2",
-    "community.i-am-human.near - class 3",
-    "public",
-  ],
-  elementReactedId: "silkking.near-1696976701328",
-});
+// const a = getEmojis({
+//   env: undefined,
+//   sbtsNames: [
+//     "fractal.i-am-human.near - class 1",
+//     "community.i-am-human.near - class 1",
+//     "community.i-am-human.near - class 2",
+//     "community.i-am-human.near - class 3",
+//     "public",
+//   ],
+//   elementReactedId: "silkking.near-1696976701328",
+// });
 
-console.log(a);
+// console.log(a);
 
 return (
   <>
