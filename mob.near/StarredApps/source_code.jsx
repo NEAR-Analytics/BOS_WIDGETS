@@ -83,7 +83,7 @@ const starFillSvg = (
 
 return apps.length > 0 ? (
   <>
-    <div className="mb-3 pb-3" style={{ borderBottom: "1px dashed #eee" }}>
+    <div className="mb-2 pb-2" style={{ borderBottom: "1px dashed #eee" }}>
       <div className="d-flex flex-wrap gap-1 placeholder-glow">
         <div style={{ width: "3em", height: "3em", padding: "0.5em" }}>
           {starFillSvg}
