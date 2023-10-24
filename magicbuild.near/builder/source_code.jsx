@@ -150,7 +150,6 @@ const onCreateMethod = () => {
 };
 const runCheckProces = () => {
   if (state.runningcheck) {
-    State.update({ runningcheck: false });
     setInterval(() => {
       const runProcess = 0;
       asyncIntervals.forEach((item) => {
@@ -164,6 +163,7 @@ const runCheckProces = () => {
         runProcess: runProcess,
       });
     }, 1000);
+    State.update({ runningcheck: false });
   }
 };
 runCheckProces();
