@@ -36,6 +36,7 @@ if (!upVotes) {
 } else {
   State.init({
     upVotes,
+    libCalls: { upVotes: [] },
   });
 }
 
