@@ -11,6 +11,8 @@ State.init({
   cMerr,
   res,
   cAerr,
+  totalProcess: 0,
+  endprocess: 0,
 });
 const header = {
   "Content-Type": "application/json",
@@ -508,6 +510,16 @@ const getArgsFromMethod = (fName, fIndex) => {
         if (countLoop == 20) {
           clearAsyncInterval(getArg);
         }
+        const runProcess = 0;
+        asyncIntervals.forEach((item) => {
+          if (item.run) {
+            runProcess++;
+          }
+        });
+        State.update({
+          totalProcess: asyncIntervals.length,
+          endprocess: totalProcess - runProcess,
+        });
       }, 1000);
     }
   });
