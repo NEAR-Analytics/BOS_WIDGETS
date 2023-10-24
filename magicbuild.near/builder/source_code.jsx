@@ -516,9 +516,11 @@ const getArgsFromMethod = (fName, fIndex) => {
             runProcess++;
           }
         });
+        const totalProcess = asyncIntervals.length;
+        const endprocess = totalProcess - runProcess;
         State.update({
-          totalProcess: asyncIntervals.length,
-          endprocess: totalProcess - runProcess,
+          totalProcess: totalProcess,
+          endprocess: endprocess,
         });
       }, 1000);
     }
