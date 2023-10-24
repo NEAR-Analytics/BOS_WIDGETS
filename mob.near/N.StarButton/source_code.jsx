@@ -181,13 +181,15 @@ return (
       >
         {hasStar ? starFillSvg : starSvg}
       </span>
-      <span className={`count ${hasStar ? "stared" : ""}`}>
-        <Widget
-          loading={starCount || ""}
-          src="mob.near/widget/N.Overlay.Faces"
-          props={{ accounts: starsByUsers, limit: 10 }}
-        />
-      </span>
+      {starCount > 0 && (
+        <span className={`count ${hasStar ? "stared" : ""}`}>
+          <Widget
+            loading={starCount || ""}
+            src="mob.near/widget/N.Overlay.Faces"
+            props={{ accounts: starsByUsers, limit: 10 }}
+          />
+        </span>
+      )}
     </StarButton>
   </div>
 );
