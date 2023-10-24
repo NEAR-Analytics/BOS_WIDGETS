@@ -150,22 +150,19 @@ const onCreateMethod = () => {
 };
 
 const getMethodFromSource = () => {
-  if (state.runningcheck) {
-    setInterval(() => {
-      const runProcess = 0;
-      asyncIntervals.forEach((item) => {
-        if (item.run) {
-          runProcess++;
-        }
-      });
-      const endprocess = state.totalProcess - runProcess;
-      State.update({
-        endprocess: endprocess,
-        runProcess: runProcess,
-      });
-    }, 1000);
-    State.update({ runningcheck: false });
-  }
+  setInterval(() => {
+    const runProcess = 0;
+    asyncIntervals.forEach((item) => {
+      if (item.run) {
+        runProcess++;
+      }
+    });
+    const endprocess = state.totalProcess - runProcess;
+    State.update({
+      endprocess: endprocess,
+      runProcess: runProcess,
+    });
+  }, 1000);
   State.update({ cMerr: null, cMethod: [] });
   asyncFetch(state.rpcUrl, {
     body: JSON.stringify({
