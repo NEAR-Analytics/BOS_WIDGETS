@@ -4,6 +4,10 @@ if (!item) {
   return "";
 }
 
+useEffect(() => {
+  State.update({ hasLike: null });
+}, [item]);
+
 const likes = Social.index("like", item);
 
 const dataLoading = likes === null;
