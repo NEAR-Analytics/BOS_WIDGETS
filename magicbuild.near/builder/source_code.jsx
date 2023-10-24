@@ -513,7 +513,7 @@ const getArgsFromMethod = (fName, fIndex) => {
         }
 
         State.update({
-          messProccses: `Scanning Method :${fName}`,
+          messProccses: `Scanning Method : "${fName} "`,
         });
       }, 1000);
     }
