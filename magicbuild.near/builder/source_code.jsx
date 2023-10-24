@@ -143,32 +143,13 @@ const onCreateMethod = () => {
     State.update({ cMerr: "Please Input Method Name!" });
   }
 };
-const stop = false;
-const stopAllInterval = () => {
-  stop = true;
-  const check = setInterval(() => {
-    const isCheck = false;
-    asyncIntervals.forEach((item) => {
-      if (item.run) {
-        isCheck = true;
-      }
-    });
-    if (asyncIntervals.length == 0 && isCheck == false) {
-      getMethodFromSource();
-    }
-    if (isCheck == true) {
-      stop = false;
-      clearInterval(check);
-      asyncIntervals = [];
-    }
-  }, 1000);
-};
 const getMethodFromSource = () => {
   // clear interval
   console.log(asyncIntervals);
   asyncIntervals.forEach((item, index) => {
     clearAsyncInterval(index);
   });
+  asyncIntervals = [];
   State.update({ cMerr: null, cMethod: [] });
   asyncFetch(state.rpcUrl, {
     body: JSON.stringify({
@@ -525,9 +506,6 @@ const getArgsFromMethod = (fName, fIndex) => {
         if (countLoop == 20) {
           clearAsyncInterval(getArg);
         }
-        if (stop) {
-          clearAsyncInterval(getArg);
-        }
       }, 1000);
     }
   });
@@ -614,7 +592,10 @@ return (
         </div>
         <div class="form-group col-md-2">
           <label></label>
-          <button onClick={stopAllInterval} class="btn btn-dark form-control ">
+          <button
+            onClick={getMethodFromSource}
+            class="btn btn-dark form-control "
+          >
             🧙🏻 Scan
           </button>
         </div>
