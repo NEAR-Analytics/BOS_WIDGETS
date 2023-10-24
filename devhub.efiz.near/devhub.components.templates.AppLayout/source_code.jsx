@@ -82,7 +82,7 @@ function QuestionButton() {
 const AppHeader = ({ page }) => {
   return (
     <StyledHeader>
-      <Link to={`/devhub.efiz.near/widget/app`}>
+      <Link to={`/${REPL_DEVHUB}/widget/app`}>
         <Logo
           src="https://ipfs.near.social/ipfs/bafkreibjsn3gswlcc5mvgkfv7ady2lzkd2htm55l472suarbd34qryh2uy"
           alt="DevHub"
@@ -91,7 +91,7 @@ const AppHeader = ({ page }) => {
 
       <HeaderActions>
         {page !== "communities" && (
-          <Link to={`/devhub.efiz.near/widget/app?page=communities`}>
+          <Link to={`/${REPL_DEVHUB}/widget/app?page=communities`}>
             Communities
           </Link>
         )}
@@ -109,7 +109,7 @@ const AppHeader = ({ page }) => {
 };
 // const AppHeader = ({ page }) => (
 //   <Widget
-//     src="devhub.efiz.near/widget/devhub.components.organism.Navbar"
+//     src="${REPL_DEVHUB}/widget/devhub.components.organism.Navbar"
 //     props={{
 //       page: page,
 //       ...props,
