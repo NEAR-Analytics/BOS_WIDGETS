@@ -129,16 +129,6 @@ const starClick = () => {
   const type = hasStar ? "unstar" : "star";
   const data = {
     index: {
-      store: JSON.stringify({
-        key: {
-          type: "star",
-          accountId: context.accountId,
-        },
-        value: {
-          type,
-          item,
-        },
-      }),
       star: JSON.stringify({
         key: item,
         value: {
@@ -147,6 +137,20 @@ const starClick = () => {
       }),
     },
   };
+
+  if (item.type === "social" && typeof item.path === "string") {
+    const keys = item.path.split("/");
+    if (keys.length > 0) {
+      data.graph = {
+        star: {},
+      };
+      let root = data.graph.star;
+      keys.slice(0, -1).forEach((key) => {
+        root = root[key] = {};
+      });
+      root[keys[keys.length - 1]] = hasStar ? null : "";
+    }
+  }
 
   if (!hasStar && props.notifyAccountId) {
     data.index.notify = JSON.stringify({
