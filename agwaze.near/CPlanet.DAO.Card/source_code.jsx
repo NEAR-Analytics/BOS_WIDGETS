@@ -1,20 +1,12 @@
-const verifiedCheck = (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    width="16"
-    height="13"
-    viewBox="0 0 16 13"
-    fill="none"
-  >
-    <rect y="0.5" width="16" height="12" rx="6" fill="#B0B0B0" />
-    <path
-      d="M5 6.69231L7 9L11 4"
-      stroke="white"
-      stroke-linecap="round"
-      stroke-linejoin="round"
-    />
-  </svg>
-);
+const daoId = props.daoId ?? "agwaze.near";
+
+if (!daoId) {
+  return "DAO ID not provided";
+}
+
+// -- Pikespeak API
+const baseApi = "https://api.pikespeak.ai";
+const publicApiKey = "36f2b87a-7ee6-40d8-80b9-5e68e587a5b5";
 
 const CardRoot = styled.div`
     width: 315px;
@@ -39,7 +31,6 @@ const Top = styled.div`
     div {
       position: absolute;
       top: 50px;
-      z-index: 100;
       left: 10px;;
       img {
         width: 66px;
@@ -76,7 +67,6 @@ const ImageProfile = styled.div`
     border: 1px solid white;
     border-radius: 50%;
     top: 45px;
-    z-index: 99;
     object-fit: cover;
     background: black;
     left: 16px;
@@ -100,16 +90,16 @@ const HeaderText = styled.div`
 `;
 
 const CardBody = styled.div`
-margin-top: 20px;
 padding: 0 16px;
   h1 {
+    margin-top: 40px;
     color: #000;
 font-family: Helvetica Neue;
-font-size: 24px;
+font-size: 20px;
 font-style: normal;
+text-transform: lowercase;
 font-weight: 700;
 line-height: normal;
-text-transform: uppercase;
   }
   h3 {
     overflow: hidden;
@@ -223,21 +213,103 @@ const Tags = styled.div`
     }
 `;
 
+const fetchApiConfig = {
+  mode: "cors",
+  headers: {
+    "x-api-key": publicApiKey,
+  },
+};
+
+const constructURL = (baseURL, paramObj) => {
+  let params = "";
+  for (const [key, value] of Object.entries(paramObj ?? {})) {
+    params += `${key}=${value}&`;
+  }
+  params = params.slice(0, -1);
+  return `${baseURL}?${params}`;
+};
+
+const fether = {
+  balances: (accounts) => {
+    return fetch(
+      constructURL(`${baseApi}/account/balances`, { accounts }),
+      fetchApiConfig
+    );
+  },
+  proposalsStatus: (daoId) => {
+    return fetch(
+      constructURL(`${baseApi}/daos/proposals/status/${daoId}`),
+      fetchApiConfig
+    );
+  },
+};
+const balances = fether.balances([daoId]);
+const proposalsStatus = fether.proposalsStatus(daoId);
+
+let activeProposalsCount;
+let totalProposalsCount;
+proposalsStatus.body &&
+  proposalsStatus.body?.forEach((p) => {
+    activeProposalsCount += p["InProgress"] ? parseInt(p["InProgress"]) : 0;
+    totalProposalsCount += p["Total"] ? parseInt(p["Total"]) : 0;
+  });
+// --
+
+// -- Social DB
+const profile = Social.get(`${daoId}/profile/**`, "final");
+// --
+
+// -- Smart Contract
+const policy = Near.view(daoId, "get_policy");
+let members = [];
+policy &&
+  policy.roles.forEach((role) => {
+    if (typeof role.kind.Group === "object") {
+      members = members.concat(role.kind.Group);
+    }
+  });
+members = [...new Set(members)];
+// --
+
+const shorten = (str, len) => {
+  if (str.length <= len) {
+    return str;
+  }
+  return str.slice(0, len) + "...";
+};
+
+const shortenNumber = (n) => {
+  if (n < 1e3) return n;
+  if (n >= 1e3 && n < 1e6) return (n / 1e3).toFixed(1) + "k";
+  if (n >= 1e6 && n < 1e9) return (n / 1e6).toFixed(1) + "m";
+  if (n >= 1e9 && n < 1e12) return (n / 1e9).toFixed(1) + "b";
+  if (n >= 1e12) return (n / 1e12).toFixed(1) + "t";
+};
+
+function makeAccountIdShorter(accountId) {
+  if (accountId.length > shortenLength) {
+    return accountId.slice(0, shortenLength) + "...";
+  }
+  return accountId;
+}
+
 return (
   <CardRoot>
     <Top>
       <img
         src={
-          props.image ??
-          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRub7hFLkStCvZiaSeiUGznP4uzqPPcepghhg&usqp=CAU"
+          profile.backgroundImage
+            ? `https://ipfs.near.social/ipfs/${profile.backgroundImage.ipfs_cid}`
+            : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRub7hFLkStCvZiaSeiUGznP4uzqPPcepghhg&usqp=CAU"
         }
         alt=""
       />
       <div>
         <img
           src={
-            props.profileImage ??
-            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRub7hFLkStCvZiaSeiUGznP4uzqPPcepghhg&usqp=CAU"
+            profile.image
+              ? `https://ipfs.near.social/ipfs/${profile.image.ipfs_cid}`
+              : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRub7hFLkStCvZiaSeiUGznP4uzqPPcepghhg&usqp=CAU"
           }
           alt=""
         />
@@ -246,48 +318,42 @@ return (
     <Bottom>
       <CardBody>
         <HeaderText>
-          <h1>
-            {props.title
-              ? props.title.length > 15
-                ? `${props.title.substring(0, 15)}...`
-                : props.title
-              : `DAO Name`}
-          </h1>
+          <h1>{daoId ? makeAccountIdShorter(daoId) : `DAO Name`}</h1>
           <h3>
-            {props.description
-              ? props.description.substring(0, 100)
-              : `Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-          eiusmod tempor incididunt ut labore et dolore magna aliqua.`.substring(
-                  0,
-                  100
-                )}
+            {shorten(profile?.description || "", 80)}
+            {profile !== null &&
+              (!profile?.description || profile?.description?.length < 1) &&
+              "No description"}
           </h3>
         </HeaderText>
         <AmountSec>
           <div>
             <span>Total Funds</span>
             <p>
-              {props.totalFunds ?? "N/A"}/<span>NEAR</span>
+              {props.totalFunds ?? "0"}/<span>0</span>
             </p>
           </div>
           <div>
-            <span>Members Group</span>
+            <span>Members / Group</span>
             <p>
-              {props.membersGroup ?? "N/A"}/<span>99.9M</span>
+              {members.length ?? "0"}/
+              <span>{policy.roles.length ? policy.roles.length - 1 : 0}</span>
             </p>
           </div>
           <div>
             <span>Active Proposal</span>
             <p>
-              {props.activeProposal ?? "N/A"}
-              <span>99.99</span>
+              {activeProposalsCount ?? "0"} /
+              <span>{totalProposalsCount ?? 0}</span>
             </p>
           </div>
         </AmountSec>
         <Tags>
-          <div className="tag">Category</div>
-          <div className="tag">Tag</div>
-          <div className="tag">Anything</div>
+          {profile.tags &&
+            Object.keys(profile.tags).length > 0 &&
+            Object.keys(profile.tags)
+              .slice(0, 3)
+              .map((data) => <div className="tag">{data}</div>)}
         </Tags>
       </CardBody>
       <Button>
