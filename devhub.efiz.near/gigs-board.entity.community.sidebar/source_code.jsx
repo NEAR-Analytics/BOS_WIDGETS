@@ -135,14 +135,21 @@ const DevHub = {
 };
 /* END_INCLUDE: "core/adapter/dev-hub" */
 
+function trimHttps(url) {
+  if (url.startsWith("https://")) {
+    return url.substring(8);
+  }
+  return url;
+}
+
 const CommunitySummary = (community) => {
   const socialLinks = [
     ...((community.website_url?.length ?? 0) > 0
       ? [
           {
-            href: community.website_url,
+            href: `https://${trimHttps(community.website_url)}`,
             iconClass: "bi bi-globe",
-            name: community.website_url,
+            name: trimHttps(community.website_url),
           },
         ]
       : []),
@@ -177,7 +184,7 @@ const CommunitySummary = (community) => {
   ];
 
   return (
-    <div style={{ top: "0", left: "0" }}>
+    <>
       {widget("components.molecule.markdown-viewer", {
         text: community.bio_markdown,
       })}
@@ -192,35 +199,23 @@ const CommunitySummary = (community) => {
             href={link.href}
             style={{ marginLeft: index !== 0 ? "0px" : "0px" }}
             key={link.href}
+            target="_blank"
           >
             <i className={link.iconClass}></i>
-            <span className="ms-1">{link.name}</span>
+            <span
+              className="ms-1"
+              style={{
+                overflow: "hidden",
+                whiteSpace: "nowrap",
+                textOverflow: "ellipsis",
+              }}
+            >
+              {link.name}
+            </span>
           </a>
         ))}
       </div>
-    </div>
-  );
-};
-
-const UserList = (users) => {
-  return (
-    <div>
-      {users.map((user, i) => (
-        <div className={`row ${i < users.length - 1 ? "mb-3" : ""}`}>
-          <div class="col-9">
-            <span
-              key={user}
-              className="d-inline-flex"
-              style={{ fontWeight: 500 }}
-            >
-              {widget("components.molecule.profile-card", {
-                accountId: user,
-              })}
-            </span>
-          </div>
-        </div>
-      ))}
-    </div>
+    </>
   );
 };
 
@@ -238,8 +233,9 @@ const Sidebar = ({ handle }) => {
   return community === null ? (
     <div>Loading...</div>
   ) : (
-    <div class="col-md-12 d-flex flex-column align-items-end">
+    <div class="d-flex flex-column align-items-end">
       {widget("components.molecule.tile", {
+        fullWidth: true,
         minHeight: 0,
         children: CommunitySummary(community),
         noBorder: true,
@@ -250,10 +246,18 @@ const Sidebar = ({ handle }) => {
 
       {widget("components.molecule.tile", {
         heading: "Admins",
+
+        children: (community?.admins ?? []).map((accountId) => (
+          <div key={accountId} className="d-flex" style={{ fontWeight: 500 }}>
+            {widget("components.molecule.profile-card", { accountId })}
+          </div>
+        )),
+
+        fullWidth: true,
         minHeight: 0,
-        children: UserList(community.admins),
         noBorder: true,
         borderRadius: "rounded",
+        style: { overflowX: "scroll" },
       })}
     </div>
   );
