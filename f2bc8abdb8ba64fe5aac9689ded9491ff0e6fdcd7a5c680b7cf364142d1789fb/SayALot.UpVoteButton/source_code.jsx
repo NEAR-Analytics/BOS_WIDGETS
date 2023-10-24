@@ -39,6 +39,9 @@ if (!upVotes) {
   });
 }
 
+console.log(state.upVotesBySBT);
+// console.log(Object.keys(state.upVotesBySBT).length > 0);
+
 if (state.upVotesBySBT && Object.keys(state.upVotesBySBT).length > 0) {
   console.log(
     "Object.keys(state.upVotesBySBT): ",
@@ -56,7 +59,7 @@ if (state.upVotesBySBT && Object.keys(state.upVotesBySBT).length > 0) {
 
 let upVotesData = state.upVotes;
 
-console.log("upVotesData: ", upVotesData);
+console.log("upVotesData pepito: ", upVotesData);
 
 let userVote = upVotesData.find((vote) => vote.accountId === context.accountId);
 
