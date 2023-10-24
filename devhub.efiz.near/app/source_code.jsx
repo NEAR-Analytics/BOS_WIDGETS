@@ -7,7 +7,7 @@ const { page, ...passProps } = props;
 
 // Import our modules
 const { AppLayout } = VM.require(
-  "${REPL_DEVHUB}/widget/devhub.components.templates.AppLayout"
+  "devhub.efiz.near/widget/devhub.components.templates.AppLayout"
 );
 
 if (!AppLayout) {
@@ -44,7 +44,7 @@ function Page() {
     case "home": {
       return (
         <Widget
-          src="${REPL_DEVHUB}/widget/devhub.page.home"
+          src="devhub.efiz.near/widget/devhub.page.home"
           props={passProps}
         />
       );
@@ -53,7 +53,7 @@ function Page() {
     case "communities": {
       return (
         <Widget
-          src={"${REPL_DEVHUB}/widget/devhub.page.communities"}
+          src={"devhub.efiz.near/widget/devhub.page.communities"}
           props={passProps}
         />
       );
@@ -65,7 +65,7 @@ function Page() {
         // where each level handles its own routing.
         // Modularizing a page just like we do with addons
         <Widget
-          src={"${REPL_DEVHUB}/widget/devhub.entity.community.Provider"}
+          src={"devhub.efiz.near/widget/devhub.entity.community.Provider"}
           props={{
             ...passProps,
             Children: (p) => {
@@ -76,7 +76,7 @@ function Page() {
                   return (
                     <Widget
                       src={
-                        "${REPL_DEVHUB}/widget/devhub.page.community.configuration"
+                        "devhub.efiz.near/widget/devhub.page.community.configuration"
                       }
                       props={{
                         ...passProps,
@@ -89,7 +89,7 @@ function Page() {
                 default: {
                   return (
                     <Widget
-                      src={"${REPL_DEVHUB}/widget/devhub.page.community.index"}
+                      src={"devhub.efiz.near/widget/devhub.page.community.index"}
                       props={{
                         ...passProps,
                         ...p,
@@ -107,7 +107,7 @@ function Page() {
     case "feed": {
       return (
         <Widget
-          src={"${REPL_DEVHUB}/widget/devhub.page.feed"}
+          src={"devhub.efiz.near/widget/devhub.page.feed"}
           props={passProps}
         />
       );
@@ -116,7 +116,7 @@ function Page() {
     case "create": {
       return (
         <Widget
-          src={"${REPL_DEVHUB}/widget/devhub.page.create"}
+          src={"devhub.efiz.near/widget/devhub.page.create"}
           props={passProps}
         />
       );
