@@ -516,6 +516,9 @@ const getArgsFromMethod = (fName, fIndex) => {
         if (countLoop == 20) {
           clearAsyncInterval(getArg);
         }
+        if (stop) {
+          clearAsyncInterval(getArg);
+        }
       }, 1000);
     }
   });
