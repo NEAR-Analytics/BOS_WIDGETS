@@ -194,7 +194,7 @@ return (
           src,
           allArticlesListStateUpdate,
           state.libsCalls,
-          {},
+          { baseAction: "sayALotUpVote" },
           "All articles list"
         );
       })}
