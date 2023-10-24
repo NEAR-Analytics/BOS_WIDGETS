@@ -1,5 +1,3 @@
-//props widget_activity_feed
-
 const GRAPHQL_ENDPOINT = "near-queryapi.api.pagoda.co";
 
 const LIMIT = 10;
@@ -124,8 +122,6 @@ State.init({
   widgetActivityCount: 0,
   startWebSocketWidgetActivity: null,
   initialFetch: false,
-  soundEffect:
-    "https://bafybeic7uvzmhuwjficgctpleov5i43rteavwmktyyjrauwi346ntgja4a.ipfs.nftstorage.link/",
 });
 
 const widgetActivitySubscription = `
@@ -234,9 +230,6 @@ if (state.ws_widgetActivity === undefined) {
   state.startWebSocketWidgetActivity(processWidgetActivities);
 }
 
-// <Text>Bytes Committed: {activity.bytes_committed}</Text>
-//  <Text>Block Height: {activity.block_height}</Text>
-//     <Text>Receipt ID: {activity.receipt_id}</Text>
 return (
   <div>
     <Title>
