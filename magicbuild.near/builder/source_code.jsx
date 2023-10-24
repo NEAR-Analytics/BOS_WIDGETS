@@ -621,7 +621,12 @@ return (
           <div class="form-group col-md-12">
             <div class="progress">
               <div
-                class="progress-bar progress-bar-striped progress-bar-animated"
+                className={`progress-bar progress-bar-striped ${
+                  state.totalProcess > 0 &&
+                  (state.endprocess / state.totalProcess) * 100 < 100
+                    ? "progress-bar-animated"
+                    : ""
+                }`}
                 role="progressbar"
                 aria-valuenow="75"
                 aria-valuemin="0"
