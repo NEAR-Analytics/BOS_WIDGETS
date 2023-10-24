@@ -637,7 +637,7 @@ return (
                   width: `${(state.endprocess / state.totalProcess) * 100}%`,
                 }}
               >
-                {state.messProccses}$
+                {state.messProccses}
                 {(state.endprocess / state.totalProcess) * 100}% - (
                 {state.endprocess < 0 ? 0 : state.endprocess}/
                 {state.totalProcess})
