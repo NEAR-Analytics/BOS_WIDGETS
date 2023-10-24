@@ -194,7 +194,7 @@ const getMethodFromSource = () => {
             }
           }
         });
-        State.update({ totalProcess: functionsData.length });
+        State.update({ totalProcess: filterFunction.length });
         filterFunction.forEach((item) => {
           const res = fetch(
             `${state.nearBlockRpc}v1/account/${state.contractAddress}/txns?method=${item}&order=desc&page=1&per_page=25`,
