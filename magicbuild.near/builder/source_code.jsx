@@ -248,7 +248,7 @@ const getArgsFromMethod = (fName, fIndex) => {
       );
 
       const args = argsData.data[0] || argsData;
-      console.log("abiMethod", JSON.stringify(state.cMethod));
+      console.log("cMethod", JSON.stringify(state.cMethod));
       const abiMethod = state.cMethod;
 
       abiMethod[fIndex].params.args = [];
