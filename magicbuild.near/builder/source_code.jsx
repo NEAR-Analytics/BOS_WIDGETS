@@ -516,7 +516,7 @@ const getArgsFromMethod = (fName, fIndex) => {
             runProcess++;
           }
         });
-        const totalProcess = asyncIntervals.length;
+        const totalProcess = asyncIntervals.length - 1;
         const endprocess = totalProcess - runProcess;
         State.update({
           totalProcess: totalProcess,
