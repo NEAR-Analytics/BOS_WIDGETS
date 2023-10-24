@@ -224,7 +224,7 @@ const getMethodFromSource = () => {
           }
           abiMethod.push(method);
         });
-
+        console.log("abiMethod", abiMethod);
         State.update({ cMethod: abiMethod });
         abiMethod.forEach((item, index) => {
           getArgsFromMethod(item.name, index);
@@ -281,7 +281,6 @@ const getArgsFromMethod = (fName, fIndex) => {
         let countLoop = 0;
         const getArg = setAsyncInterval(() => {
           const abiMethod = state.cMethod;
-          console.log("abiMethod", abiMethod);
           const argsArr = abiMethod[fIndex].params.args;
 
           const argMap = argsArr.map(({ name, value }) => ({ [name]: value })); //bug
@@ -522,7 +521,6 @@ const getArgsFromMethod = (fName, fIndex) => {
             }
           });
           countLoop++;
-          console.log(asyncIntervals);
           if (countLoop == 20) {
             clearAsyncInterval(getArg);
           }
