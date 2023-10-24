@@ -1,5 +1,6 @@
 return (
   <div>
+    <Widget src="mob.near/widget/StarredApps" props={{ limit: 24 }} />
     <h5>Applications</h5>
     <div className="mb-2">
       <Widget
