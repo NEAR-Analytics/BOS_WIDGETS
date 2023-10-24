@@ -625,7 +625,9 @@ return (
               aria-valuenow="75"
               aria-valuemin="0"
               aria-valuemax="100"
-              style={{ width: "75%" }}
+              style={{
+                width: `${(state.endprocess / state.totalProcess) * 100}%`,
+              }}
             >
               {state.endprocess}/{state.totalProcess}
             </div>
