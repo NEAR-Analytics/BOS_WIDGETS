@@ -151,7 +151,6 @@ const onCreateMethod = () => {
 };
 const getMethodFromSource = () => {
   State.update({ cMerr: null, cMethod: [], totalProcess: 0, endprocess: 1 });
-  const abiMethod = [];
   asyncFetch(state.rpcUrl, {
     body: JSON.stringify({
       method: "query",
@@ -248,10 +247,9 @@ const getArgsFromMethod = (fName, fIndex) => {
         restxns.logs[0].replace("EVENT_JSON:", "").replaceAll("\\", "")
       );
       const args = argsData.data[0] || argsData;
-
+      const abiMethod = state.cMethod;
+      abiMethod[fIndex].params.args = [];
       if (Object.keys(args).length > 0) {
-        const abiMethod = state.cMethod;
-        abiMethod[fIndex].params.args = [];
         Object.keys(args).forEach((item) => {
           const arg = {
             name: item,
@@ -274,7 +272,6 @@ const getArgsFromMethod = (fName, fIndex) => {
       let countLoop = 0;
       const getArg = setAsyncInterval(() => {
         const abiMethod = state.cMethod;
-
         const argsArr = abiMethod[fIndex].params.args;
         const argMap = argsArr.map(({ name, value }) => ({ [name]: value })); //bug
         console.log("gello", fName);
