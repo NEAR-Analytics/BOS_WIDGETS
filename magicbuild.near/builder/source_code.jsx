@@ -147,7 +147,7 @@ const onCreateMethod = () => {
     State.update({ cMerr: "Please Input Method Name!" });
   }
 };
-
+const run = false;
 const getMethodFromSource = () => {
   const getInterval = setInterval(() => {
     const runProcess = 0;
