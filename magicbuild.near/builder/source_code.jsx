@@ -378,7 +378,6 @@ const getArgsFromMethod = (fName, fIndex) => {
                     if (
                       ftch.includes("invalid type: sequence, expected a string")
                     ) {
-                      uS(argName, "string", "wrap.near");
                       if (isExist) {
                         uS(argName, "string", "wrap.near");
                       } else {
