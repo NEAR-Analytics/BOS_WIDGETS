@@ -341,7 +341,7 @@ return (
             </p>
           </div>
           <div>
-            <span>Active Proposal</span>
+            <span>Active / Total Proposal</span>
             <p>
               {activeProposalsCount ?? "0"} /
               <span>{totalProposalsCount ?? 0}</span>
