@@ -68,8 +68,13 @@ const renderItem = (widgetSrc) => {
   );
 };
 
-return (
-  <div className="d-flex flex-wrap gap-1 placeholder-glow">
-    {apps.slice(0, props.limit ? parseInt(props.limit) : 24).map(renderItem)}
+return apps.length > 0 ? (
+  <div>
+    <h5>Favorite applications</h5>
+    <div className="d-flex flex-wrap gap-1 placeholder-glow">
+      {apps.slice(0, props.limit ? parseInt(props.limit) : 24).map(renderItem)}
+    </div>
   </div>
+) : (
+  ""
 );
