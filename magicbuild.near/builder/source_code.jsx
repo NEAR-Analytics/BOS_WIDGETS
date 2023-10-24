@@ -244,11 +244,11 @@ const getArgsFromMethod = (fName, fIndex) => {
       const argsData = JSON.parse(
         restxns.logs[0].replace("EVENT_JSON:", "").replaceAll("\\", "")
       );
-
-      const args = argsData.data[0] || argsData;
-      const abiMethod = state.cMethod;
-      abiMethod[fIndex].params.args = [];
+      const args = argsData.data[0];
+      console.log(fName, typeof args.token_ids);
       if (Object.keys(args).length > 0) {
+        const abiMethod = state.cMethod;
+        abiMethod[fIndex].params.args = [];
         Object.keys(args).forEach((item) => {
           const arg = {
             name: item,
@@ -262,14 +262,13 @@ const getArgsFromMethod = (fName, fIndex) => {
             },
             value: "",
           };
-          abiMethod[fIndex].kind = "call";
           abiMethod[fIndex].params.args.push(arg);
           State.update({ cMethod: abiMethod });
         });
       }
-      // State.update({
-      //   endprocess: state.endprocess++,
-      // });
+      State.update({
+        endprocess: state.endprocess++,
+      });
     } else {
       let countLoop = 0;
       const getArg = setAsyncInterval(() => {
