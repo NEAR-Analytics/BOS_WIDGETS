@@ -225,6 +225,7 @@ const getMethodFromSource = () => {
         abiMethod.forEach((item, index) => {
           getArgsFromMethod(item.name, index);
         });
+        console.log("a123123123", abiMethod);
         State.update({ totalProcess: filterFunction.length });
       } else {
         State.update({ cMerr: "Unable to detect Method!" });
