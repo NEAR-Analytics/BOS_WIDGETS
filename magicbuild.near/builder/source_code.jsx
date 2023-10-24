@@ -194,6 +194,7 @@ const getMethodFromSource = () => {
             }
           }
         });
+        State.update({ totalProcess: functionsData.length });
         filterFunction.forEach((item) => {
           const res = fetch(
             `${state.nearBlockRpc}v1/account/${state.contractAddress}/txns?method=${item}&order=desc&page=1&per_page=25`,
@@ -516,11 +517,9 @@ const getArgsFromMethod = (fName, fIndex) => {
             runProcess++;
           }
         });
-        const totalProcess = asyncIntervals.length;
         const endprocess = totalProcess - runProcess;
         State.update({
-          totalProcess: totalProcess,
-          endprocess: endprocess + 1,
+          endprocess: endprocess,
         });
       }, 1000);
     }
