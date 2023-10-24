@@ -148,7 +148,7 @@ const onCreateMethod = () => {
   }
 };
 const runCheckProces = () => {
-  const getInterval = setInterval(() => {
+  setInterval(() => {
     const runProcess = 0;
     asyncIntervals.forEach((item) => {
       if (item.run) {
