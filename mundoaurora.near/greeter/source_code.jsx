@@ -9,4 +9,3 @@ return (
     </div>
   </>
 );
-Widget src={`${user}/widget/Greetings`} props={props} ;
