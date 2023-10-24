@@ -16,7 +16,7 @@ const order = Storage.privateGet(StorageKey);
 
 const apps = useMemo(() => {
   if (!stars || order === null) {
-    return;
+    return [];
   }
   const starredApps = new Set();
   stars.forEach(({ value }) => {
