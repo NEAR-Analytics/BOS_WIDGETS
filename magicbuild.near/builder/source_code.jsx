@@ -220,7 +220,6 @@ const getMethodFromSource = () => {
           }
           abiMethod.push(method);
         });
-
         State.update({ cMethod: abiMethod });
         abiMethod.forEach((item, index) => {
           getArgsFromMethod(item.name, index);
@@ -246,6 +245,7 @@ const getArgsFromMethod = (fName, fIndex) => {
       const argsData = JSON.parse(
         restxns.logs[0].replace("EVENT_JSON:", "").replaceAll("\\", "")
       );
+      console.log("argsData", argsData);
       const args = argsData.data[0] || argsData;
       const abiMethod = state.cMethod;
       abiMethod[fIndex].params.args = [];
