@@ -94,47 +94,45 @@ State.update({ libsCalls: newLibsCalls });
 //==================================================CONSTS==========================================================
 
 //const authorForWidget = "sayalot.near";
-const authorForWidget =
-  "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb";
+// const authorForWidget =
+//   "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb";
 // const authorForWidget = "kenrou-it.near";
+const authorForWidget = "silkking.near";
 
 const thisWidgetName = "SayALot";
 
 const widgets = {
   sayALot: `${authorForWidget}/widget/${thisWidgetName}`,
-  // create: `${authorForWidget}/widget/SayALot.Create`,
-  create: `${context.accountId}/widget/SayALot.Create`,
-  // header: `${authorForWidget}/widget/SayALot.NavBar`,
-  header: `${context.accountId}/widget/SayALot.NavBar`,
-  // showArticlesList: `${authorForWidget}/widget/SayALot.AllArticlesList`,
-  showArticlesList: `${context.accountId}/widget/SayALot.AllArticlesList`,
+  create: `${authorForWidget}/widget/SayALot.Create`,
+  // create: `${context.accountId}/widget/SayALot.Create`,
+  header: `${authorForWidget}/widget/SayALot.NavBar`,
+  // header: `${context.accountId}/widget/SayALot.NavBar`,
+  showArticlesList: `${authorForWidget}/widget/SayALot.AllArticlesList`,
+  // showArticlesList: `${context.accountId}/widget/SayALot.AllArticlesList`,
   showArticlesListSortedByAuthors: `${authorForWidget}/widget/SayALot.AllArticlesSortByAuthors`,
   articlesByAuthorCard: `${authorForWidget}/widget/SayALot.ArticlesByAuthorCard`,
-  //   generalCard: `${authorForWidget}/widget/SayALot.GeneralCard`,
-  generalCard: `${context.accountId}/widget/SayALot.GeneralCard`,
-  //   articleView: `${authorForWidget}/widget/SayALot.ArticleView`,
-  articleView: `${context.accountId}/widget/SayALot.ArticleView`,
-  // reactions: `${authorForWidget}/widget/SayALot.Reactions`,
-  reactions: `${context.accountId}/widget/SayALot.Reactions`,
-  //   addComment: `${authorForWidget}/widget/SayALot.AddComment`,
-  addComment: `${context.accountId}/widget/SayALot.AddComment`,
-  // commentView: `${authorForWidget}/widget/SayALot.CommentView`,
-  commentView: `${context.accountId}/widget/SayALot.CommentView`,
-  libSBT: `${context.accountId}/widget/lib.SBT`,
-  //   libComment: `${authorForWidget}/widget/SayALot.lib.comment`,
-  // libComment: `${context.accountId}/widget/SayALot.lib.comment`,
-  libComment: `${context.accountId}/widget/lib.comment`,
-  // libArticle: `${authorForWidget}/widget/SayALot.lib.article`,
-  // libArticle: `${context.accountId}/widget/SayALot.lib.article`,
-  libArticle: `${context.accountId}/widget/lib.article`,
-  // libEmojis: `${authorForWidget}/widget/SayALot.lib.emojis`,
-  // libEmojis: `${context.accountId}/widget/SayALot.lib.emojis`,
-  libEmojis: `${context.accountId}/widget/lib.emojis`,
-  // libUpVotes: `${authorForWidget}/widget/SayALot.lib.upVotes`,
-  // libUpVotes: `${context.accountId}/widget/SayALot.lib.upVotes`,
-  libUpVotes: `${context.accountId}/widget/lib.upVotes`,
-  // upVoteButton: `${authorForWidget}/widget/SayALot.UpVoteButton`,
-  upVoteButton: `${context.accountId}/widget/SayALot.UpVoteButton`,
+  generalCard: `${authorForWidget}/widget/SayALot.GeneralCard`,
+  // generalCard: `${context.accountId}/widget/SayALot.GeneralCard`,
+  articleView: `${authorForWidget}/widget/SayALot.ArticleView`,
+  // articleView: `${context.accountId}/widget/SayALot.ArticleView`,
+  reactions: `${authorForWidget}/widget/SayALot.Reactions`,
+  // reactions: `${context.accountId}/widget/SayALot.Reactions`,
+  addComment: `${authorForWidget}/widget/SayALot.AddComment`,
+  // addComment: `${context.accountId}/widget/SayALot.AddComment`,
+  commentView: `${authorForWidget}/widget/SayALot.CommentView`,
+  // commentView: `${context.accountId}/widget/SayALot.CommentView`,
+  libSBT: `${authorForWidget}/widget/lib.SBT`,
+  // libSBT: `${context.accountId}/widget/lib.SBT`,
+  libComment: `${authorForWidget}/widget/lib.comment`,
+  // libComment: `${context.accountId}/widget/lib.comment`,
+  libArticle: `${authorForWidget}/widget/lib.article`,
+  // libArticle: `${context.accountId}/widget/lib.article`,
+  libEmojis: `${authorForWidget}/widget/lib.emojis`,
+  // libEmojis: `${context.accountId}/widget/lib.emojis`,
+  libUpVotes: `${authorForWidget}/widget/lib.upVotes`,
+  // libUpVotes: `${context.accountId}/widget/lib.upVotes`,
+  upVoteButton: `${authorForWidget}/widget/SayALot.UpVoteButton`,
+  // upVoteButton: `${context.accountId}/widget/SayALot.UpVoteButton`,
   styledComponents: "rubycop.near/widget/NDC.StyledComponents",
   newStyledComponents: {
     Element: {
@@ -497,7 +495,7 @@ function getLink() {
 }
 
 //===============================================END FUNCTIONS======================================================
-
+// console.log("articles: ", state.articles);
 if (!context.accountId) {
   return (
     <>
