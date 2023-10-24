@@ -151,7 +151,7 @@ const onCreateMethod = () => {
 
 const getMethodFromSource = () => {
   console.log("check", state.runningCheck);
-  State.update({ runningcheck: false });
+  State.update({ runningCheck: false });
   //   setInterval(() => {
   //     const runProcess = 0;
   //     asyncIntervals.forEach((item) => {
