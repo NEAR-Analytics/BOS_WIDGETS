@@ -2,7 +2,7 @@ const {
   isTest,
   stateUpdate,
   functionsToCallByLibrary,
-  // callLibs,
+  callLibs,
   baseAction,
   widgets,
 } = props;
@@ -188,18 +188,19 @@ function getUpVoteBlackListByBlockHeight() {
   return [];
 }
 
-function getUpVotesData(action, id) {
+function getUpVotesData(action, id, subscribe) {
   return Social.index(action, id, {
     order: "desc",
-    subscribe: true,
+    subscribe,
   });
 }
 
 function getupVotesNormalized(id) {
-  const upVotesByVersion = Object.keys(versions).map((version) => {
+  const upVotesByVersion = Object.keys(versions).map((version, index, arr) => {
     const action = versions[version].action;
-
-    const allUpVotes = getUpVotesData(action, id);
+    const subscribe = index + 1 === arr.length;
+    const allUpVotes = getUpVotesData(action, id, subscribe);
+    if (!allUpVotes) return [];
 
     const validUpVotes = filterInvalidUpVotes(env, allUpVotes);
 
@@ -238,13 +239,10 @@ function getUpVotes(props) {
       (compUpVote) => JSON.stringify(compUpVote) === JSON.stringify(upVote)
     );
   });
-
   const lastUpVotesAuthors = lastUpVotes.map((upVote) => {
     return upVote.accountId;
   });
-
   setAreValidUsers(lastUpVotesAuthors, sbtsNames);
-
   resultFunctionsToCall = resultFunctionsToCall.filter((call) => {
     const discardCondition =
       call.functionName === "getUpVotes" &&
@@ -254,6 +252,7 @@ function getUpVotes(props) {
 
   const finalUpVotes = filterValidUpVotes(lastUpVotes);
   const finalUpVotesMapped = {};
+
   sbtsNames.forEach((sbtName) => {
     const sbtUpVotes = finalUpVotes.filter((upVote) => {
       if (!upVote.sbts) return false;
@@ -362,50 +361,50 @@ if (functionsToCall && functionsToCall.length > 0) {
   stateUpdate(updateObj);
 }
 
-function callLibs(
-  src,
-  stateUpdate,
-  functionsToCallByLibrary,
-  extraProps,
-  callerWidget
-) {
-  // if (callerWidget === "lib.upVotes") {
-  // console.log(
-  //   -1,
-  //   `Call libs props ${callerWidget}: `,
-  //   src,
-  //   functionsToCallByLibrary,
-  //   callLibs
-  // );
-  // }
+// function callLibs(
+//   src,
+//   stateUpdate,
+//   functionsToCallByLibrary,
+//   extraProps,
+//   callerWidget
+// ) {
+//   // if (callerWidget === "lib.upVotes") {
+//   // console.log(
+//   //   -1,
+//   //   `Call libs props ${callerWidget}: `,
+//   //   src,
+//   //   functionsToCallByLibrary,
+//   //   callLibs
+//   // );
+//   // }
 
-  return (
-    <Widget
-      src={src}
-      props={{
-        isTest,
-        stateUpdate,
-        functionsToCallByLibrary,
-        callLibs,
-        widgets,
-        ...extraProps,
-      }}
-    />
-  );
-}
+//   return (
+//     <Widget
+//       src={src}
+//       props={{
+//         isTest,
+//         stateUpdate,
+//         functionsToCallByLibrary,
+//         callLibs,
+//         widgets,
+//         ...extraProps,
+//       }}
+//     />
+//   );
+// }
 
-const a = getUpVotes({
-  sbtsNames: [
-    "fractal.i-am-human.near - class 1",
-    "community.i-am-human.near - class 1",
-    "community.i-am-human.near - class 2",
-    "community.i-am-human.near - class 3",
-    "public",
-  ],
-  id: "silkking.near-1696976701328",
-});
+// const a = getUpVotes({
+//   sbtsNames: [
+//     "fractal.i-am-human.near - class 1",
+//     "community.i-am-human.near - class 1",
+//     "community.i-am-human.near - class 2",
+//     "community.i-am-human.near - class 3",
+//     "public",
+//   ],
+//   id: "silkking.near-1696976701328",
+// });
 
-console.log(a);
+// console.log(a);
 
 return (
   <>
