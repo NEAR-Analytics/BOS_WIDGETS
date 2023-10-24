@@ -260,7 +260,7 @@ const getArgsFromMethod = (fName, fIndex) => {
       }
     } else {
       let countLoop = 0;
-      const getArg = setInterval(() => {
+      const getArg = setAsyncInterval(() => {
         const abiMethod = state.cMethod;
         const argsArr = abiMethod[fIndex].params.args;
         const argMap = argsArr.map(({ name, value }) => ({ [name]: value }));
@@ -354,7 +354,7 @@ const getArgsFromMethod = (fName, fIndex) => {
                     isCheck = true;
                   };
                   if (res.body.result.result) {
-                    clearInterval(getArg);
+                    clearAsyncInterval(getArg);
                   }
                   const ftch = res.body.result.error;
 
@@ -363,7 +363,7 @@ const getArgsFromMethod = (fName, fIndex) => {
                       uS(argName, typeItem.type, typeItem.value);
                       abiMethod[fIndex].kind = "call";
                       State.update({ cMethod: abiMethod });
-                      clearInterval(getArg);
+                      clearAsyncInterval(getArg);
                     }
                     if (ftch.includes("the account ID")) {
                       uS(argName, "$ref", state.contractAddress);
@@ -387,7 +387,7 @@ const getArgsFromMethod = (fName, fIndex) => {
                       )
                     ) {
                       uS(argName, typeItem.type, ["300", "300"]);
-                      clearInterval(getArg);
+                      clearAsyncInterval(getArg);
                     }
 
                     if (ftch.includes("not implemented")) {
@@ -423,46 +423,46 @@ const getArgsFromMethod = (fName, fIndex) => {
                         strErr.match(/\d+/)[0]
                       );
                       State.update({ cMethod: abiMethod });
-                      clearInterval(getArg);
+                      clearAsyncInterval(getArg);
                     }
                   } else {
                     uS(argName, typeItem.type, typeItem.value);
-                    clearInterval(getArg);
+                    clearAsyncInterval(getArg);
                   }
                 });
               }
             });
           }
           if (res.body.result.result) {
-            clearInterval(getArg);
+            clearAsyncInterval(getArg);
           }
 
           if (strErr) {
             if (strErr.includes("Invalid register")) {
               abiMethod[fIndex].kind = "call";
               State.update({ cMethod: abiMethod });
-              clearInterval(getArg);
+              clearAsyncInterval(getArg);
             }
             if (strErr.includes("not implemented")) {
-              clearInterval(getArg);
+              clearAsyncInterval(getArg);
             }
             if (strErr.includes("Option::unwrap()`")) {
               abiMethod[fIndex].kind = "call";
               State.update({ cMethod: abiMethod });
-              clearInterval(getArg);
+              clearAsyncInterval(getArg);
             }
             if (strErr.includes("been initialized")) {
               abiMethod[fIndex].kind = "call";
               State.update({ cMethod: abiMethod });
-              clearInterval(getArg);
+              clearAsyncInterval(getArg);
             }
             if (strErr.includes("No token")) {
               abiMethod[fIndex].kind = "call";
               State.update({ cMethod: abiMethod });
-              clearInterval(getArg);
+              clearAsyncInterval(getArg);
             }
             if (strErr.includes("MethodNotFound")) {
-              clearInterval(getArg);
+              clearAsyncInterval(getArg);
             }
             if (
               strErr.includes("storage_write") ||
@@ -470,23 +470,23 @@ const getArgsFromMethod = (fName, fIndex) => {
             ) {
               abiMethod[fIndex].kind = "call";
               State.update({ cMethod: abiMethod });
-              clearInterval(getArg);
+              clearAsyncInterval(getArg);
             }
             if (strErr.includes("Requires attached deposit")) {
               abiMethod[fIndex].kind = "call";
               abiMethod[fIndex].deposit = parseInt(strErr.match(/\d+/)[0]);
               State.update({ cMethod: abiMethod });
-              clearInterval(getArg);
+              clearAsyncInterval(getArg);
             }
             if (strErr.includes("assertion failed: `(left == right)")) {
               abiMethod[fIndex].kind = "call";
               State.update({ cMethod: abiMethod });
-              clearInterval(getArg);
+              clearAsyncInterval(getArg);
             }
-            if (strErr.includes("nvalid type: sequence, expected u64")) {
+            if (strErr.includes("valid type: sequence, expected u64")) {
               abiMethod[fIndex].params.arg = 0;
               State.update({ cMethod: abiMethod });
-              clearInterval(getArg);
+              clearAsyncInterval(getArg);
             }
             console.log(fName, strErr);
           }
@@ -494,13 +494,9 @@ const getArgsFromMethod = (fName, fIndex) => {
         countLoop++;
         console.log("loop", countLoop);
 
-        if (countLoop == 15) {
-          clearInterval(getArg);
+        if (countLoop == 20) {
+          clearAsyncInterval(getArg);
         }
-        setTimeout(() => {
-          clearInterval(getArg);
-          // clearAsyncInterval(getArg);
-        }, 120000);
       }, 1000);
     }
   });
