@@ -43,6 +43,7 @@ return (
           chainId: CHAIN_ID,
           chainName: CHAIN_NAME,
         },
+        defaultDapp: "Venus",
         dapps: {
           Venus: {
             name: "Venus",
@@ -59,7 +60,7 @@ return (
             name: "C.R.E.A.M.",
             icon: "https://ipfs.near.social/ipfs/bafkreihxqzhzavb7onnxjtin2y6s7pj3y4nxb6ul42cknregyykfu24ovm",
             unitrollerAddress: "0x589de0f0ccf905477646599bb3e5c622c84cc0ba",
-            oracleAddress: "0xa82958C9f2Ff63f6D2DC7d8Ee22AE69fD0819477",
+            oracleAddress: "0x6eeDcf47711373E758A0ab4E467a36Bc2151Cd6A",
             data: "bluebiu.near/widget/Bsc.Lending.CreamData",
             handlerCollateral:
               "bluebiu.near/widget/Avalanche.Lending.BenqiHandlerCollateral",
