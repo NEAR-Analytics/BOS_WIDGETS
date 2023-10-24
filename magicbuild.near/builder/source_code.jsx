@@ -47,6 +47,9 @@ const clearAsyncInterval = (intervalIndex) => {
   if (asyncIntervals[intervalIndex].run) {
     clearTimeout(asyncIntervals[intervalIndex].id);
     asyncIntervals[intervalIndex].run = false;
+    State.update({
+      endprocess: state.endprocess++,
+    });
   }
 };
 const cFunc = (e, type) => {
@@ -222,6 +225,7 @@ const getMethodFromSource = () => {
         abiMethod.forEach((item, index) => {
           getArgsFromMethod(item.name, index);
         });
+        State.update({ totalProcess: filterFunction.length });
       } else {
         State.update({ cMerr: "Unable to detect Method!" });
       }
