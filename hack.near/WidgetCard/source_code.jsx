@@ -76,7 +76,12 @@ return (
       <div className="col px-2">
         <div className="position-relative">
           <h5 className="card-title">{name}</h5>
-          <div className="text-truncate mb-1">{widgetPath}</div>
+          <div className="text-truncate mb-1">
+            <a href={`#/${widgetPath}`}>
+              <i className="bi bi-box-arrow-up-right text-secondary me-1" />
+              {widgetPath}
+            </a>
+          </div>
         </div>
         <div className="card-text">
           {tags.length > 0 && (
