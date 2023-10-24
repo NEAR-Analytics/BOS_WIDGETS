@@ -7,34 +7,17 @@ const sbtWhiteList = [
   "community.i-am-human.near - class 1",
   "community.i-am-human.near - class 2",
   "community.i-am-human.near - class 3",
+  "public",
 ];
 
 const initSbtsNames = ["fractal.i-am-human.near - class 1"];
 
 const sbtsNames = state.sbt;
 
-// const initLibCalls = [
-//   {
-//     functionName: "getLastEditArticles",
-//     key: "articles",
-//     props: {
-//       env: isTest ? "test" : "prod",
-//       sbtsNames: sbtWhiteList,
-//     },
-//   },
-//   {
-//     functionName: "canUserCreateArticle",
-//     key: "canLoggedUserCreateArticle",
-//     props: {
-//       accountId: context.accountId,
-//       sbtsNames: sbtWhiteList,
-//     },
-//   },
-// ];
 const initLibsCalls = {
   article: [
     {
-      functionName: "getLastEditArticles",
+      functionName: "getArticles",
       key: "articles",
       props: {
         env: isTest ? "test" : "prod",
@@ -135,15 +118,21 @@ const widgets = {
   reactions: `${context.accountId}/widget/SayALot.Reactions`,
   //   addComment: `${authorForWidget}/widget/SayALot.AddComment`,
   addComment: `${context.accountId}/widget/SayALot.AddComment`,
-  commentView: `${authorForWidget}/widget/SayALot.CommentView`,
+  // commentView: `${authorForWidget}/widget/SayALot.CommentView`,
+  commentView: `${context.accountId}/widget/SayALot.CommentView`,
+  libSBT: `${context.accountId}/widget/lib.SBT`,
   //   libComment: `${authorForWidget}/widget/SayALot.lib.comment`,
-  libComment: `${context.accountId}/widget/SayALot.lib.comment`,
+  // libComment: `${context.accountId}/widget/SayALot.lib.comment`,
+  libComment: `${context.accountId}/widget/lib.comment`,
   // libArticle: `${authorForWidget}/widget/SayALot.lib.article`,
-  libArticle: `${context.accountId}/widget/SayALot.lib.article`,
+  // libArticle: `${context.accountId}/widget/SayALot.lib.article`,
+  libArticle: `${context.accountId}/widget/lib.article`,
   // libEmojis: `${authorForWidget}/widget/SayALot.lib.emojis`,
-  libEmojis: `${context.accountId}/widget/SayALot.lib.emojis`,
+  // libEmojis: `${context.accountId}/widget/SayALot.lib.emojis`,
+  libEmojis: `${context.accountId}/widget/lib.emojis`,
   // libUpVotes: `${authorForWidget}/widget/SayALot.lib.upVotes`,
-  libUpVotes: `${context.accountId}/widget/SayALot.lib.upVotes`,
+  // libUpVotes: `${context.accountId}/widget/SayALot.lib.upVotes`,
+  libUpVotes: `${context.accountId}/widget/lib.upVotes`,
   // upVoteButton: `${authorForWidget}/widget/SayALot.UpVoteButton`,
   upVoteButton: `${context.accountId}/widget/SayALot.UpVoteButton`,
   styledComponents: "rubycop.near/widget/NDC.StyledComponents",
@@ -369,11 +358,17 @@ function createSbtOptions() {
   return sbtWhiteList.map((option, i) => {
     const title = "";
 
-    if (option === "fractal.i-am-human.near - class 1") title = "General";
-    if (option === "community.i-am-human.near - class 1") title = "OG";
-    if (option === "community.i-am-human.near - class 2") title = "Contributor";
-    if (option === "community.i-am-human.near - class 3")
+    if (option === "fractal.i-am-human.near - class 1") {
+      title = "General";
+    } else if (option === "community.i-am-human.near - class 1") {
+      title = "OG";
+    } else if (option === "community.i-am-human.near - class 2") {
+      title = "Contributor";
+    } else if (option === "community.i-am-human.near - class 3") {
       title = "Core Contributor";
+    } else {
+      title = "Public";
+    }
 
     if (i == 0) {
       //The first options is always the default one
@@ -458,17 +453,13 @@ function handlePillNavigation(navegateTo) {
   State.update({ displayedTabId: navegateTo, editArticleData: undefined });
 }
 
-function callLibs(src, stateUpdate, functionsToCallByLibrary, callerWidget) {
-  // if (callerWidget === "All articles list") {
-  // console.log(
-  //   -1,
-  //   `Call libs props ${callerWidget}: `,
-  //   src,
-  //   functionsToCallByLibrary,
-  //   callLibs
-  // );
-  // }
-
+function callLibs(
+  src,
+  stateUpdate,
+  functionsToCallByLibrary,
+  extraProps,
+  callerWidget
+) {
   return (
     <Widget
       src={src}
@@ -477,6 +468,8 @@ function callLibs(src, stateUpdate, functionsToCallByLibrary, callerWidget) {
         stateUpdate,
         functionsToCallByLibrary,
         callLibs,
+        widgets,
+        ...extraProps,
       }}
     />
   );
@@ -647,6 +640,7 @@ return (
           src,
           stateUpdate,
           state.functionsToCallByLibrary,
+          { baseAction: "sayALotArticle" },
           "SayALot"
         );
       })}
