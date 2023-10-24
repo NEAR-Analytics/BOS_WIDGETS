@@ -212,6 +212,7 @@ function getupVotesNormalized(id) {
 
 function getLatestEdits(upVotes) {
   return upVotes.filter((obj) => {
+    //log(["upVotes: ", upVotes]);
     const userLatestInteraction = upVotes.find(
       (vote) => vote.accountId === obj.accountId
     );
@@ -235,6 +236,7 @@ function getUpVotes(props) {
 
   // Keep last edit from every upVote
   const lastUpVotes = normUpVotes.filter((upVote) => {
+    //log(["normUpVotes: ", normUpVotes]);
     return normUpVotes.find(
       (compUpVote) => JSON.stringify(compUpVote) === JSON.stringify(upVote)
     );
@@ -266,6 +268,7 @@ function getUpVotes(props) {
 
 function filterValidator(upVotes) {
   return upVotes.filter((upVote) => {
+    //log(["upVote.sbts: ", upVote.sbts]);
     return (
       upVote.sbts.find((upVoteSBT) => {
         return (
