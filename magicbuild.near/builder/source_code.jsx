@@ -521,6 +521,8 @@ const getArgsFromMethod = (fName, fIndex) => {
         const endprocess = state.totalProcess - runProcess;
         State.update({
           endprocess: endprocess + 1,
+          messProccses: `
+scanning Method :${fName}`,
         });
       }, 1000);
     }
