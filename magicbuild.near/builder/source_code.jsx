@@ -145,8 +145,7 @@ const onCreateMethod = () => {
 };
 const getMethodFromSource = () => {
   // clear interval
-  console.log(asyncIntervals);
-  console.log(cMethod);
+  console.log("check", state.cMethod);
   State.update({ cMerr: null, cMethod: [] });
   asyncFetch(state.rpcUrl, {
     body: JSON.stringify({
