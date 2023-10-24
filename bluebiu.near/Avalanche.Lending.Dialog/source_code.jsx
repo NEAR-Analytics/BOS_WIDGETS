@@ -286,18 +286,22 @@ const handleAmountChange = (amount) => {
     processValue: precent.gt(100) ? 100 : precent.toNumber(),
   };
   let isOverSize = false;
-  const value = Big(amount).mul(data.underlyingPrice);
+  const value = Big(Big(amount).mul(data.underlyingPrice).toFixed(20));
   if (isSupply) {
     if (actionText === "Withdraw") {
       params.borrowLimit = Big(data.totalCollateralUsd)
         .minus(data.userTotalBorrowUsd)
-        .minus(value)
-        .toFixed();
+        .minus(value.mul(data.loanToValue / 100));
+      isOverSize = Big(data.userTotalBorrowUsd).eq(0)
+        ? false
+        : Big(data.totalCollateralUsd || 0)
+            .minus(value.mul(data.loanToValue / 100) || 0)
+            .lt(data.userTotalBorrowUsd || 0);
     }
     if (actionText === "Deposit") {
       params.borrowLimit = Big(data.totalCollateralUsd)
-        .plus(value.mul(data.loanToValue / 100))
-        .toFixed();
+        .minus(data.userTotalBorrowUsd)
+        .plus(value.mul(data.loanToValue / 100));
     }
   }
   if (isBorrow) {
@@ -306,21 +310,34 @@ const handleAmountChange = (amount) => {
       isOverSize = value.gt(
         Big(data.totalCollateralUsd).minus(data.userTotalBorrowUsd)
       );
+      params.borrowLimit = Big(data.totalCollateralUsd || 0)
+        .minus(data.userTotalBorrowUsd || 0)
+        .minus(value || 0);
     }
     if (actionText === "Repay") {
       params.borrowBalance = Big(data.userTotalBorrowUsd).minus(value);
       params.borrowLimit = Big(data.totalCollateralUsd)
         .minus(data.userTotalBorrowUsd)
-        .add(value)
-        .toFixed();
+        .add(value);
       isOverSize = value.gt(data.userTotalBorrowUsd);
     }
+  }
+  if (params.borrowLimit.lt(0)) {
+    params.borrowLimit = "0.00";
+  } else {
+    params.borrowLimit = params.borrowLimit.toFixed();
   }
   params.isBigerThanBalance = Big(amount).gt(state.balance);
   params.buttonClickable = !isOverSize && !params.isBigerThanBalance;
   params.isOverSize = isOverSize;
   params.isEmpty = false;
   State.update(params);
+};
+
+const getAvailable = (_balance) => {
+  if (actionText !== "Repay") return _balance;
+  if (Big(_balance).lt(data.userBorrow || 0)) return _balance;
+  if (Big(_balance).gt(data.userBorrow || 0)) return data.userBorrow;
 };
 
 const getBalance = () => {
@@ -337,7 +354,7 @@ const getBalance = () => {
       .getBalance(account)
       .then((rawBalance) => {
         State.update({
-          balance: ethers.utils.formatUnits(rawBalance._hex, 18),
+          balance: getAvailable(ethers.utils.formatUnits(rawBalance._hex, 18)),
           balanceLoading: false,
         });
       });
@@ -355,7 +372,7 @@ const getBalance = () => {
         data.underlyingToken.decimals
       );
       State.update({
-        balance: _rawBalance,
+        balance: getAvailable(_rawBalance),
         balanceLoading: false,
       });
     });
@@ -469,6 +486,9 @@ return (
                   value={state.amount}
                   onChange={(ev) => {
                     handleAmountChange(ev.target.value);
+                    State.update({
+                      isMax: Big(ev.target.value || 0).eq(state.balance),
+                    });
                   }}
                   placeholder="0.0"
                 />
@@ -486,10 +506,10 @@ return (
                 <BalanceWrapper
                   onClick={() => {
                     if (state.balanceLoading || isNaN(state.balance)) return;
-                    const amount = Big(state.balance).toFixed(4, 0);
-                    handleAmountChange(amount);
+                    handleAmountChange(state.balance);
                     State.update({
-                      amount: parseFloat(amount).toString(),
+                      amount: Big(state.balance || 0).toFixed(12),
+                      isMax: true,
                     });
                   }}
                 >
@@ -611,7 +631,7 @@ return (
             props={{
               disabled: !state.buttonClickable,
               actionText,
-              amount: state.amount,
+              amount: state.isMax ? state.balance : state.amount,
               data: data,
               onSuccess: () => {
                 handleClose();
