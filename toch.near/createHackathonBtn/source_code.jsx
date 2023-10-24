@@ -41,16 +41,16 @@ const composeData = () => {
     );
   }
 
-  const hashtags = state.extractHashtags(state.content.text);
+  // const hashtags = state.extractHashtags(state.content.text);
 
-  if (hashtags.length) {
-    data.index.hashtag = JSON.stringify(
-      hashtags.map((hashtag) => ({
-        key: hashtag,
-        value: item,
-      }))
-    );
-  }
+  // if (hashtags.length) {
+  //   data.index.hashtag = JSON.stringify(
+  //     hashtags.map((hashtag) => ({
+  //       key: hashtag,
+  //       value: item,
+  //     }))
+  //   );
+  // }
 
   return data;
 };
