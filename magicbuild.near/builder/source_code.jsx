@@ -157,7 +157,7 @@ const getMethodFromSource = () => {
     });
     const endprocess = state.totalProcess - runProcess;
     State.update({
-      endprocess: endprocess + 1,
+      endprocess: endprocess,
       runProcess: runProcess,
     });
   }, 1000);
