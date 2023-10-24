@@ -40,7 +40,7 @@ return (
     props={{
       L: (
         <>
-          liked your
+          starred your
           <Widget
             loading={content}
             src="mob.near/widget/N.Common.OverlayTrigger"
