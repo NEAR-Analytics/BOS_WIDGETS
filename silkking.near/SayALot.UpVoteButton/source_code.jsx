@@ -141,7 +141,13 @@ return (
 
     <CallLibrary>
       {libSrcArray.map((src) => {
-        return callLibs(src, libStateUpdate, state.libsCalls, "Up vote button");
+        return callLibs(
+          src,
+          libStateUpdate,
+          state.libsCalls,
+          {},
+          "Up vote button"
+        );
       })}
     </CallLibrary>
   </>
