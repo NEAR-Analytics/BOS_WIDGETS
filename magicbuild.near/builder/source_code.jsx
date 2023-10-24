@@ -222,7 +222,6 @@ const getMethodFromSource = () => {
           abiMethod.push(method);
         });
         State.update({ cMethod: abiMethod });
-        console.log("aaaaa", abiMethod);
         abiMethod.forEach((item, index) => {
           getArgsFromMethod(item.name, index);
         });
@@ -242,9 +241,6 @@ const getArgsFromMethod = (fName, fIndex) => {
   ).then((res) => {
     const restxns = res.body.txns[0];
     if (restxns.outcomes.status && restxns.logs.length > 0) {
-      State.update({
-        endprocess: state.endprocess++,
-      });
       const argsData = JSON.parse(
         restxns.logs[0].replace("EVENT_JSON:", "").replaceAll("\\", "")
       );
@@ -271,6 +267,9 @@ const getArgsFromMethod = (fName, fIndex) => {
           State.update({ cMethod: abiMethod });
         });
       }
+      State.update({
+        endprocess: state.endprocess++,
+      });
     } else {
       let countLoop = 0;
       const getArg = setAsyncInterval(() => {
