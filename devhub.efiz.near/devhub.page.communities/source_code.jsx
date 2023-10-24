@@ -1,5 +1,5 @@
 const { getAllCommunitiesMetadata, createCommunity } = VM.require(
-  "devhub.efiz.near/widget/core.adapter.devhub-contract"
+  "${REPL_DEVHUB}/widget/core.adapter.devhub-contract"
 );
 
 if (!getAllCommunitiesMetadata || !createCommunity) {
@@ -40,7 +40,7 @@ return (
       <div className="d-flex flex-column gap-3">
         <h1 className="m-0 fs-4">
           <Link
-            to={"/devhub.efiz.near/widget/app?page=communities"}
+            to={"/${REPL_DEVHUB}/widget/app?page=communities"}
             className="text-white"
           >
             Communities
@@ -54,7 +54,7 @@ return (
       {context.accountId && (
         <div className="d-flex flex-column justify-content-center">
           <Widget
-            src={"devhub.efiz.near/widget/devhub.components.molecule.Button"}
+            src={"${REPL_DEVHUB}/widget/devhub.components.molecule.Button"}
             props={{
               icon: { type: "bootstrap_icon", variant: "bi-people-fill" },
               onClick: () => setShowSpawner(!showSpawner),
@@ -68,13 +68,13 @@ return (
     <div className="d-flex flex-wrap align-content-start gap-4 p-4 w-100 h-100">
       {showSpawner && (
         <Widget
-          src="devhub.efiz.near/widget/devhub.entity.community.Spawner"
+          src="${REPL_DEVHUB}/widget/devhub.entity.community.Spawner"
           props={{ data: null, onSubmit: onCommunitySubmit, onCancel: () => setShowSpawner(false) }}
         />
       )}
       {(communitiesMetadata ?? []).reverse().map((communityMetadata) => (
         <Widget
-          src="devhub.efiz.near/widget/devhub.entity.community.Card"
+          src="${REPL_DEVHUB}/widget/devhub.entity.community.Card"
           props={{
             format: "small",
             isBannerEnabled: false,
