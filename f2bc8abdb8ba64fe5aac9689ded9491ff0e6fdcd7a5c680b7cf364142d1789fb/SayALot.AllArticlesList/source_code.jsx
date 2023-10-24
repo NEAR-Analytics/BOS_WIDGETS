@@ -50,8 +50,26 @@ State.init({
 // console.log(1, "All articles list", state);
 // console.log(2, "All articles list", initLibsCalls);
 
+if (state.upVotesBySBT && Object.keys(state.upVotesBySBT).length > 0) {
+  // console.log(
+  //   "Object.keys(state.upVotesBySBT): ",
+  //   Object.keys(state.upVotesBySBT)
+  // );
+
+  const key = Object.keys(state.upVotesBySBT)[0]; // There should always be one for now
+  // console.log("key: ", key);
+  const newUpvotes = state.upVotesBySBT[key];
+  // console.log("newUpvotes: ", newUpvotes);
+  if (JSON.stringify(state.upVotes) !== JSON.stringify(newUpvotes)) {
+    State.update({ upVotes: newUpvotes });
+  }
+}
+
 let finalArticlesWithUpVotes = articlesToRender.map((article) => {
-  article.upVotes = state[`upVotes-${article.id}`];
+  const key = Object.keys(state[`upVotes-${article.id}`])[0];
+  const articleUpVotes = state[`upVotes-${article.id}`][key];
+  // article.upVotes = state[`upVotes-${article.id}`];
+  article.upVotes = articleUpVotes;
 
   return article;
 });
