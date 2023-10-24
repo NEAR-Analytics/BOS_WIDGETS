@@ -7,7 +7,7 @@ const Theme = styled.div`
   --borrow-bg-color: rgba(202, 85, 85, 0.2);
   --supply-color: #62fff6;
   --borrow-color: #ff6767;
-  --withdraw-bg-color: rgba(255, 255, 255, 0.17);
+  --withdraw-bg-color: #505260;
   --withdraw-bg-hover-color: rgba(255, 255, 255, 0.17);
   --withdraw-border-color: #e1e1e1;
   --repay-bg-color: rgba(202, 85, 85, 0.2);
@@ -16,6 +16,7 @@ const Theme = styled.div`
   --switch-color: #5baea9;
   --switch-border-color: #32496a;
   --secondary-border-color: #3f577b;
+  --yours-table-title: #ffffff;
 `;
 const CHAIN_ID = 43114;
 const CHAIN_NAME = "Avalanche";
@@ -42,6 +43,7 @@ return (
           chainId: CHAIN_ID,
           chainName: CHAIN_NAME,
         },
+        defaultDapp: "Benqi",
         dapps: {
           Benqi: {
             name: "Benqi",
