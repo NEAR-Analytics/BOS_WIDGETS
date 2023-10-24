@@ -8,7 +8,7 @@ const {
   upVotes,
   callLibs,
 } = props;
-console.log("props upVotes: ", upVotes);
+// console.log("props upVotes: ", upVotes);
 const data = reactedElementData;
 
 const libSrcArray = [widgets.libUpVotes];
@@ -44,15 +44,15 @@ if (!upVotes) {
 // console.log(Object.keys(state.upVotesBySBT).length > 0);
 
 if (state.upVotesBySBT && Object.keys(state.upVotesBySBT).length > 0) {
-  console.log(
-    "Object.keys(state.upVotesBySBT): ",
-    Object.keys(state.upVotesBySBT)
-  );
+  // console.log(
+  //   "Object.keys(state.upVotesBySBT): ",
+  //   Object.keys(state.upVotesBySBT)
+  // );
 
   const key = Object.keys(state.upVotesBySBT)[0]; // There should always be one for now
-  console.log("key: ", key);
+  // console.log("key: ", key);
   const newUpvotes = state.upVotesBySBT[key];
-  console.log("newUpvotes: ", newUpvotes);
+  // console.log("newUpvotes: ", newUpvotes);
   if (JSON.stringify(state.upVotes) !== JSON.stringify(newUpvotes)) {
     State.update({ upVotes: newUpvotes });
   }
