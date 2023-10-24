@@ -472,12 +472,13 @@ const getArgsFromMethod = (fName, fIndex) => {
               State.update({ cMethod: abiMethod });
               clearAsyncInterval(getArg);
             }
-            if (strErr.includes("Requires attached deposit")) {
+            if (strErr.includes("attached deposit")) {
               abiMethod[fIndex].kind = "call";
               abiMethod[fIndex].deposit = parseInt(strErr.match(/\d+/)[0]);
               State.update({ cMethod: abiMethod });
               clearAsyncInterval(getArg);
             }
+
             if (strErr.includes("assertion failed: `(left == right)")) {
               abiMethod[fIndex].kind = "call";
               State.update({ cMethod: abiMethod });
