@@ -122,14 +122,17 @@ const widgets = {
   commentView: `${context.accountId}/widget/SayALot.CommentView`,
   libSBT: `${context.accountId}/widget/lib.SBT`,
   //   libComment: `${authorForWidget}/widget/SayALot.lib.comment`,
-  libComment: `${context.accountId}/widget/SayALot.lib.comment`,
+  // libComment: `${context.accountId}/widget/SayALot.lib.comment`,
+  libComment: `${context.accountId}/widget/lib.comment`,
   // libArticle: `${authorForWidget}/widget/SayALot.lib.article`,
   // libArticle: `${context.accountId}/widget/SayALot.lib.article`,
   libArticle: `${context.accountId}/widget/lib.article`,
   // libEmojis: `${authorForWidget}/widget/SayALot.lib.emojis`,
-  libEmojis: `${context.accountId}/widget/SayALot.lib.emojis`,
+  // libEmojis: `${context.accountId}/widget/SayALot.lib.emojis`,
+  libEmojis: `${context.accountId}/widget/lib.emojis`,
   // libUpVotes: `${authorForWidget}/widget/SayALot.lib.upVotes`,
-  libUpVotes: `${context.accountId}/widget/SayALot.lib.upVotes`,
+  // libUpVotes: `${context.accountId}/widget/SayALot.lib.upVotes`,
+  libUpVotes: `${context.accountId}/widget/lib.upVotes`,
   // upVoteButton: `${authorForWidget}/widget/SayALot.UpVoteButton`,
   upVoteButton: `${context.accountId}/widget/SayALot.UpVoteButton`,
   styledComponents: "rubycop.near/widget/NDC.StyledComponents",
@@ -355,11 +358,17 @@ function createSbtOptions() {
   return sbtWhiteList.map((option, i) => {
     const title = "";
 
-    if (option === "fractal.i-am-human.near - class 1") title = "General";
-    if (option === "community.i-am-human.near - class 1") title = "OG";
-    if (option === "community.i-am-human.near - class 2") title = "Contributor";
-    if (option === "community.i-am-human.near - class 3")
+    if (option === "fractal.i-am-human.near - class 1") {
+      title = "General";
+    } else if (option === "community.i-am-human.near - class 1") {
+      title = "OG";
+    } else if (option === "community.i-am-human.near - class 2") {
+      title = "Contributor";
+    } else if (option === "community.i-am-human.near - class 3") {
       title = "Core Contributor";
+    } else {
+      title = "Public";
+    }
 
     if (i == 0) {
       //The first options is always the default one
@@ -451,16 +460,6 @@ function callLibs(
   extraProps,
   callerWidget
 ) {
-  // if (callerWidget === "All articles list") {
-  // console.log(
-  //   -1,
-  //   `Call libs props ${callerWidget}: `,
-  //   src,
-  //   functionsToCallByLibrary,
-  //   callLibs
-  // );
-  // }
-
   return (
     <Widget
       src={src}
@@ -498,8 +497,6 @@ function getLink() {
 }
 
 //===============================================END FUNCTIONS======================================================
-
-console.log(1, state.articles);
 
 if (!context.accountId) {
   return (
