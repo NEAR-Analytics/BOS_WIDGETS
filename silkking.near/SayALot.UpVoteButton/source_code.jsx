@@ -8,7 +8,7 @@ const {
   upVotes,
   callLibs,
 } = props;
-
+// console.log("props upVotes: ", upVotes);
 const data = reactedElementData;
 
 const libSrcArray = [widgets.libUpVotes];
@@ -36,18 +36,34 @@ if (!upVotes) {
 } else {
   State.init({
     upVotes,
+    libCalls: { upVotes: [] },
   });
 }
 
+console.log(1, state.upVotes);
+console.log(2, state.upVotesBySBT);
+// console.log("state.upVotes", state.upVotes);
+// console.log("state.upVotesBySBT: ", state.upVotesBySBT);
+// console.log(Object.keys(state.upVotesBySBT).length > 0);
+
 if (state.upVotesBySBT && Object.keys(state.upVotesBySBT).length > 0) {
+  // console.log(
+  //   "Object.keys(state.upVotesBySBT): ",
+  //   Object.keys(state.upVotesBySBT)
+  // );
+
   const key = Object.keys(state.upVotesBySBT)[0]; // There should always be one for now
+  // console.log("key: ", key);
   const newUpvotes = state.upVotesBySBT[key];
+  // console.log("newUpvotes: ", newUpvotes);
   if (JSON.stringify(state.upVotes) !== JSON.stringify(newUpvotes)) {
     State.update({ upVotes: newUpvotes });
   }
 }
 
 let upVotesData = state.upVotes;
+
+// console.log("upVotesData: ", upVotesData);
 
 let userVote = upVotesData.find((vote) => vote.accountId === context.accountId);
 
@@ -61,25 +77,6 @@ function getUpVoteButtonClass() {
   }
 }
 
-// function callLibs(srcArray, stateUpdate, libCalls) {
-//   return (
-//     <>
-//       {srcArray.map((src) => {
-//         return (
-//           <Widget
-//             src={src}
-//             props={{
-//               isTest,
-//               stateUpdate,
-//               libCalls,
-//             }}
-//           />
-//         );
-//       })}
-//     </>
-//   );
-// }
-
 function stateUpdate(obj) {
   State.update(obj);
 }
@@ -88,11 +85,13 @@ function upVoteButtonListener() {
   let newLibCalls = Object.assign({}, state.libCalls);
 
   if (!hasUserVoted) {
+    console.log(2, data);
     newLibCalls.upVotes.push({
       functionName: "addVote",
       key: "newVote",
       props: {
         id: data.id ?? `${data.author}-${data.timeCreate}`,
+        articleSbts: data.sbts,
       },
     });
   } else {
@@ -157,8 +156,8 @@ return (
       {libSrcArray.map((src) => {
         return callLibs(
           src,
-          libStateUpdate,
-          state.libsCalls,
+          stateUpdate,
+          state.libCalls,
           { baseAction: "sayALotUpVote" },
           "Up vote button"
         );
