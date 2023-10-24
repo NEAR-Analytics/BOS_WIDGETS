@@ -488,11 +488,12 @@ const getArgsFromMethod = (fName, fIndex) => {
               State.update({ cMethod: abiMethod });
               clearInterval(getArg);
             }
+            console.log(fName, strErr);
           }
         });
         countLoop++;
         console.log("loop", countLoop);
-        console.log(fName, strErr);
+
         if (countLoop == 15) {
           clearInterval(getArg);
         }
