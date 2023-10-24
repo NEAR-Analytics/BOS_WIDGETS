@@ -216,7 +216,7 @@ return (
             <h2>&#60;Blockchain OS&#62;</h2>
           </div>
           <div>
-            <a href="https://docs.bos.gg/" target="_blank">
+            <a href="https://docs.near.org/bos" target="_blank">
               <h3>Read Docs -&#62;</h3>
             </a>
           </div>
@@ -225,20 +225,18 @@ return (
       <div class="header-right"></div>
       <div class="header-content-right">
         <div>
-          {
-            // <div>
-            //   <h1>Bounties</h1>
-            //   <h2>&#60;Hackathon&#62;</h2>
-            // </div>
-            //   <div>
-            //   <a
-            //     href="https://ethdubai-sushiswap-hackathon.devpost.com/"
-            //     target="_blank"
-            //   >
-            //     <h3>Sign Up For Hackathon -&#62;</h3>
-            //   </a>
-            // </div>
-          }
+          <div>
+            <h1>$10k Bounty</h1>
+            <h2>&#60;Hackathon&#62;</h2>
+          </div>
+          <div>
+            <a
+              href="https://ethdubai-sushiswap-hackathon.devpost.com/"
+              target="_blank"
+            >
+              <h3>Sign Up For Hackathon -&#62;</h3>
+            </a>
+          </div>
         </div>
       </div>
       <div class="noise"></div>
@@ -258,8 +256,6 @@ return (
             src="mattlock.near/widget/ComponentSearch"
             props={{
               limit: 10,
-              term: "ethdenver2023",
-              boostedTag: "ethdenver2023",
               onChange: ({ result: components, term }) => {
                 console.log(components);
                 State.update({ components, term });
