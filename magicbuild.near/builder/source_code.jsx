@@ -14,6 +14,7 @@ State.init({
   messProccses: "",
   totalProcess: 0,
   endprocess: 0,
+  runProcess: 0,
 });
 const header = {
   "Content-Type": "application/json",
@@ -514,6 +515,7 @@ const getArgsFromMethod = (fName, fIndex) => {
         State.update({
           endprocess: endprocess + 1,
           messProccses: `Scanning Method :${fName}`,
+          runProcess: runProcess,
         });
       }, 1000);
     }
@@ -604,6 +606,7 @@ return (
           <button
             onClick={getMethodFromSource}
             class="btn btn-dark form-control "
+            disabled={true}
           >
             🧙🏻 Scan
           </button>
