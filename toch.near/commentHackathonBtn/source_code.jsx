@@ -1,12 +1,4 @@
-if (!context.accountId) {
-  return "";
-}
-
 const item = props.item;
-
-if (!context.accountId) {
-  return "";
-}
 
 const composeData = () => {
   const data = {
