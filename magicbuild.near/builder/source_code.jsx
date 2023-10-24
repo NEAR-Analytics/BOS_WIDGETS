@@ -15,7 +15,7 @@ State.init({
   totalProcess: 0,
   endprocess: 0,
   runProcess: 0,
-  runningcheck: true,
+  runningCheck: true,
 });
 const header = {
   "Content-Type": "application/json",
@@ -150,7 +150,7 @@ const onCreateMethod = () => {
 };
 
 const getMethodFromSource = () => {
-  console.log(state.runningcheck);
+  console.log("check", state.runningCheck);
   State.update({ runningcheck: false });
   //   setInterval(() => {
   //     const runProcess = 0;
