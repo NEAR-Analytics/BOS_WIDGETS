@@ -145,6 +145,13 @@ const onCreateMethod = () => {
 };
 const getMethodFromSource = () => {
   State.update({ cMerr: null, cMethod: [] });
+  // clear interval
+  console.log(asyncIntervals);
+  asyncIntervals.forEach((item) => {
+    if (item.run) {
+      clearAsyncInterval(item.id);
+    }
+  });
   asyncFetch(state.rpcUrl, {
     body: JSON.stringify({
       method: "query",
@@ -493,11 +500,9 @@ const getArgsFromMethod = (fName, fIndex) => {
               State.update({ cMethod: abiMethod });
               clearAsyncInterval(getArg);
             }
-            console.log(fName, strErr, countLoop);
           }
         });
         countLoop++;
-        console.log("loop", countLoop);
 
         if (countLoop == 20) {
           clearAsyncInterval(getArg);
