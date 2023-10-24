@@ -1,3 +1,5 @@
+const showNavbar = props.showNavbar ?? true
+
 const NavContainer = styled.div`
   background: white;
   height: 100px;
@@ -76,7 +78,9 @@ const Join = styled.div`
 
 return (
   <NavContainer>
-    <Logo>
+  {showNavbar && (
+    <>
+      <Logo>
       <h2>C</h2>
       <h1>PLANET</h1>
     </Logo>
@@ -92,6 +96,9 @@ return (
       </a>
       <a href={`#/agwaze.near/widget/CPlanet.index?tab=funding`}>Funding</a>
     </Routes>
+    </>
+  )}
+    
     <Join>
       <button>Connect Wallet</button>
     </Join>
