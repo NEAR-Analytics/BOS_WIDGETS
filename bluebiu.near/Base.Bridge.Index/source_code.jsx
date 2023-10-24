@@ -43,7 +43,7 @@ Ethers.provider()
   })
   .catch(() => {});
 
-if (![chain.id, mainnet.id].includes(state.chainId)) {
+if (![chain.id, mainnet.id].includes(state.chainId) && state.chainId !== -1) {
   State.update({
     displayNetwork: true,
   });
