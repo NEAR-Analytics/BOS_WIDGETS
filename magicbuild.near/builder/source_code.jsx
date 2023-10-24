@@ -636,11 +636,12 @@ return (
                   width: `${(state.endprocess / state.totalProcess) * 100}%`,
                 }}
               >
-                {Math.round(state.endprocess / state.totalProcess) * 100 == 100
+                {Math.round((state.endprocess / state.totalProcess) * 100) ==
+                100
                   ? "Scan completed"
                   : state.messProccses}
-                {Math.round(state.endprocess / state.totalProcess) * 100} % - (
-                {state.endprocess < 0 ? 0 : state.endprocess}/
+                {Math.round((state.endprocess / state.totalProcess) * 100)} % -
+                ({state.endprocess < 0 ? 0 : state.endprocess}/
                 {state.totalProcess})
               </div>
             </div>
