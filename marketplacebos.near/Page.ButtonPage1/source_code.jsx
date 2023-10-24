@@ -14,7 +14,7 @@ const Text = styled.p`
 
 const widgetList = [];
 
-for (let i = 1; i <= 1; i++) {
+for (let i = 1; i <= 28; i++) {
   const paddedNumber = i.toString().padStart(4, "0");
   const widgetSrc = `marketplacebos.near/widget/Button.Button${paddedNumber}`;
   widgetList.push(<Widget key={i} src={widgetSrc} />);
