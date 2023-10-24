@@ -234,7 +234,6 @@ const getMethodFromSource = () => {
   });
 };
 const getArgsFromMethod = (fName, fIndex) => {
-  console.log("gello", fName);
   asyncFetch(
     `${state.nearBlockRpc}v1/account/${state.contractAddress}/txns?method=${fName}&order=desc&page=1&per_page=1`,
     opGet
@@ -248,6 +247,7 @@ const getArgsFromMethod = (fName, fIndex) => {
         restxns.logs[0].replace("EVENT_JSON:", "").replaceAll("\\", "")
       );
       const args = argsData.data[0] || argsData;
+      console.log("gello", fName);
       if (Object.keys(args).length > 0) {
         const abiMethod = state.cMethod;
         abiMethod[fIndex].params.args = [];
