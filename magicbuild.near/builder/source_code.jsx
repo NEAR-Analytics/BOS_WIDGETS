@@ -151,6 +151,7 @@ const onCreateMethod = () => {
 };
 const getMethodFromSource = () => {
   State.update({ cMerr: null });
+  State.update({ cMethod: null });
   State.update({ totalProcess: 0 });
   State.update({ endprocess: 1 });
   asyncFetch(state.rpcUrl, {
@@ -168,7 +169,7 @@ const getMethodFromSource = () => {
     method: "POST",
   }).then((res) => {
     let abiMethod = [];
-    State.update({ cMethod: null });
+
     const resb = res.body;
     if (resb.result) {
       const data = Buffer(resb.result.code_base64, "base64").toString("ascii");
