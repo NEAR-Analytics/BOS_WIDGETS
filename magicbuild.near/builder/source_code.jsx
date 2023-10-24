@@ -13,7 +13,7 @@ State.init({
   cAerr,
   messProccses: "",
   totalProcess: 0,
-  endprocess: 1,
+  endprocess: 0,
 });
 const header = {
   "Content-Type": "application/json",
@@ -150,7 +150,7 @@ const onCreateMethod = () => {
   }
 };
 const getMethodFromSource = () => {
-  State.update({ cMerr: null, cMethod: [], totalProcess: 0, endprocess: 0 });
+  State.update({ cMerr: null, cMethod: [], totalProcess: 0, endprocess: 1 });
   asyncFetch(state.rpcUrl, {
     body: JSON.stringify({
       method: "query",
@@ -234,6 +234,7 @@ const getMethodFromSource = () => {
   });
 };
 const getArgsFromMethod = (fName, fIndex) => {
+  console.log("gello", fName);
   asyncFetch(
     `${state.nearBlockRpc}v1/account/${state.contractAddress}/txns?method=${fName}&order=desc&page=1&per_page=1`,
     opGet
