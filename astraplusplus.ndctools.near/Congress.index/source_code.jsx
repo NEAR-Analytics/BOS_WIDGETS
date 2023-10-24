@@ -8,7 +8,7 @@ const CoADaoId = props.dev
     ? "coa.gwg-testing.near"
     : "congress-coa-v1.ndc-gwg.near";
 const VotingBodyDaoId = props.dev
-    ? "vb.gwg-testing.near"
+    ? "voting-body-v1.gwg-testing.near"
     : "";
 const TCDaoId = props.dev
     ? "tc.gwg-testing.near"
@@ -542,12 +542,12 @@ const ContentBlock = ({ title, abbr, address, description, metadata }) => (
                                         name: Content.tc.title,
                                         onSelect: () => changeHouse("tc"),
                                         href: getHouseUrl("tc")
-                                    },
-                                    {
-                                        name: Content.vb.title,
-                                        onSelect: () => changeHouse("vb"),
-                                        href: getHouseUrl("vb")
                                     }
+                                    // {
+                                    //     name: Content.vb.title,
+                                    //     onSelect: () => changeHouse("vb"),
+                                    //     href: getHouseUrl("vb")
+                                    // }
                                 ]
                             }}
                         />
