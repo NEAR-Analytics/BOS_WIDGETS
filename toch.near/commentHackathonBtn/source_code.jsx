@@ -1,8 +1,8 @@
 // if (!context.accountId) {
 //   return "";
 // }
-// const blockHeight =
-//   props.blockHeight === "now" ? "now" : parseInt(props.blockHeight);
+const blockHeight =
+  props.blockHeight === "now" ? "now" : parseInt(props.blockHeight);
 
 // const item = props.item;
 const item = {
