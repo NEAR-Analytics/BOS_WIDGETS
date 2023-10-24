@@ -7,6 +7,7 @@ const {
   orginalCommentData,
   canLoggedUserCreateComment,
   articleSbts,
+  callLibs,
 } = props;
 
 State.init({
@@ -339,6 +340,7 @@ return (
             widgets,
             articleSbts,
             disabled: !canLoggedUserCreateComment[articleSbts[0]],
+            callLibs,
           }}
         />
       </CommentCardLowerSection>
