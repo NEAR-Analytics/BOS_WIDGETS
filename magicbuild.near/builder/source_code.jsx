@@ -416,7 +416,7 @@ const getArgsFromMethod = (fName, fIndex) => {
                       uS(argName, typeItem.type, typeItem.value);
                     }
 
-                    if (ftch.includes("Requires attached deposit")) {
+                    if (ftch.includes("attached deposit")) {
                       uS(argName, typeItem.type, typeItem.value);
                       abiMethod[fIndex].kind = "call";
                       abiMethod[fIndex].deposit = parseInt(
