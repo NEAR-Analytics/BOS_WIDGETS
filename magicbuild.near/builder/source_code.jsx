@@ -153,7 +153,7 @@ const stopAllInterval = () => {
         isCheck = true;
       }
     });
-    if (asyncIntervals.length == 0) {
+    if (asyncIntervals.length == 0 && isCheck == false) {
       getMethodFromSource();
     }
     if (isCheck) {
