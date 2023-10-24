@@ -33,9 +33,7 @@ const apps = useMemo(() => {
   });
   const apps = [...starredApps.keys()];
   apps.reverse();
-  apps.sort((a, b) => {
-    (order?.[a] || 0) - (order?.[b] || 0);
-  });
+  apps.sort((a, b) => (order?.[a] || 0) - (order?.[b] || 0));
   Storage.privateSet(
     StorageKey,
     Object.fromEntries(apps.map((a, i) => [a, i + 1]))
