@@ -13,7 +13,7 @@ State.init({
   cAerr,
   messProccses: "",
   totalProcess: 0,
-  endprocess: 0,
+  endprocess: 1,
 });
 const header = {
   "Content-Type": "application/json",
@@ -151,6 +151,7 @@ const onCreateMethod = () => {
 };
 const getMethodFromSource = () => {
   State.update({ cMerr: null, cMethod: [] });
+  State.update({ totalProcess: 0, endprocess: 1 });
   asyncFetch(state.rpcUrl, {
     body: JSON.stringify({
       method: "query",
@@ -521,7 +522,7 @@ const getArgsFromMethod = (fName, fIndex) => {
         }
 
         State.update({
-          messProccses: `Scanning Method : "${fName} "`,
+          messProccses: `Scanning Method : "${fName}"`,
         });
       }, 1000);
     }
