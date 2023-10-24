@@ -221,7 +221,7 @@ const getMethodFromSource = () => {
           }
           abiMethod.push(method);
         });
-        console.log("a123123123", abiMethod);
+
         State.update({ cMethod: abiMethod });
         abiMethod.forEach((item, index) => {
           getArgsFromMethod(item.name, index);
@@ -241,6 +241,7 @@ const getArgsFromMethod = (fName, fIndex) => {
     `${state.nearBlockRpc}v1/account/${state.contractAddress}/txns?method=${fName}&order=desc&page=1&per_page=1`,
     opGet
   ).then((res) => {
+    console.log(fName);
     const restxns = res.body.txns[0];
     if (restxns.outcomes.status && restxns.logs.length > 0) {
       const argsData = JSON.parse(
