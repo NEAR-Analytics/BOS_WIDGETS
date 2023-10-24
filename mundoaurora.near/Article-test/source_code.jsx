@@ -2,8 +2,10 @@ let text = "Ten un lindo día";
 
 return (
   <>
+    <Widget src={`${user}/widget/Greetings`} props={props} />
     <div class="container border border-info p-3 text-right">
       <h1>Mundo Aurora</h1>
+
       <h2>La Constitución en Constante Evolución de NEAR</h2>
 
       <p>
