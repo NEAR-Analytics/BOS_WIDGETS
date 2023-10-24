@@ -156,11 +156,10 @@ const stopAllInterval = () => {
     if (asyncIntervals.length == 0 && isCheck == false) {
       getMethodFromSource();
     }
-    if (isCheck) {
+    if (isCheck == false) {
       stop = false;
       clearInterval(check);
       asyncIntervals = [];
-      getMethodFromSource();
     }
   }, 1000);
 };
