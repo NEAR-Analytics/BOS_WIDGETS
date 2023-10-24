@@ -52,7 +52,7 @@ function handleOnSubmit(v) {
 
 return (
   <Widget
-    src={"${REPL_DEVHUB}/widget/devhub.components.organism.Configurator"}
+    src={"devhub.efiz.near/widget/devhub.components.organism.Configurator"}
     props={{
       externalState: data,
       schema: CommunityAboutSchema,
