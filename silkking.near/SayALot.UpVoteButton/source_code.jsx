@@ -17,7 +17,7 @@ const initLibCalls = {
   upVotes: [
     {
       functionName: "getUpVotes",
-      key: "upVotes",
+      key: "upVotesBySBT",
       props: {
         id: data.id ?? `${data.author}-${data.timeCreate}`,
         sbtsNames: articleSbts,
@@ -25,20 +25,31 @@ const initLibCalls = {
     },
   ],
 };
+const initUpVotesBySBT = {};
 
 if (!upVotes) {
   State.init({
     libCalls: initLibCalls,
     upVotes: [],
+    upVotesBySBT: initUpVotesBySBT,
+  });
+} else {
+  State.init({
+    upVotes,
   });
 }
 
-let upVotesDataBySBT = upVotes ?? state.upVotes;
-const upVotesData = upVotesData[Object.keys(upVotesData)[0]];
-console.log(1, upVotesData);
-let userVote = Object.keys(upVotesData).find(
-  (vote) => vote.accountId === context.accountId
-);
+if (Object.keys(state.upVotesBySBT).length > 0) {
+  const key = Object.keys(state.upVotesBySBT)[0]; // There should always be one for now
+  const newUpvotes = state.upVotesBySBT[key];
+  if (JSON.stringify(state.upVotes) !== JSON.stringify(newUpvotes)) {
+    State.update({ upVotes: newUpvotes });
+  }
+}
+
+let upVotesData = state.upVotes;
+
+let userVote = upVotesData.find((vote) => vote.accountId === context.accountId);
 
 let hasUserVoted = userVote !== undefined;
 
