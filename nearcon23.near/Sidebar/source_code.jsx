@@ -419,12 +419,12 @@ const content = (
         icon: speakers,
         iconSelected: speakersSelected,
       })}
-      {/*navItem({
+      {navItem({
         text: "Schedule",
         id: "schedule",
         icon: schedule,
         iconSelected: scheduleSelected,
-      })*/}
+      })}
       {navItem({
         text: "Hackathon",
         id: "hackathon",
