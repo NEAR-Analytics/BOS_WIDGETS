@@ -16,7 +16,7 @@ const Root = styled.div`
 const NFTCards = styled.div`
   display: grid;
   gap: 2rem;
-  grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   justify-content: center;
   padding: 20px 3rem 1rem 3rem;
   width:100%;
