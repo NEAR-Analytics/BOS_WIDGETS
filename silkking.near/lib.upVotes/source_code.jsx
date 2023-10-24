@@ -252,7 +252,7 @@ function getUpVotes(props) {
 
   const finalUpVotes = filterValidUpVotes(lastUpVotes);
   const finalUpVotesMapped = {};
-  log([3, sbtsNames]);
+
   sbtsNames.forEach((sbtName) => {
     const sbtUpVotes = finalUpVotes.filter((upVote) => {
       if (!upVote.sbts) return false;
