@@ -55,7 +55,7 @@ const renderTag = (tag, tagBadge) => (
 const renderItem = (a) => {
   return (
     <a
-      href={`#/${a.accountId}/widget/${a.widgetName}`}
+      href={`/${a.accountId}/widget/${a.widgetName}`}
       className="text-decoration-none"
       key={JSON.stringify(a)}
     >
