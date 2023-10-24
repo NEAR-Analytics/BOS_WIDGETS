@@ -33,9 +33,12 @@ if (!upVotes) {
   });
 }
 
-let upVotesData = upVotes ?? state.upVotes;
-
-let userVote = upVotesData.find((vote) => vote.accountId === context.accountId);
+let upVotesDataBySBT = upVotes ?? state.upVotes;
+const upVotesData = upVotesData[Object.keys(upVotesData)[0]];
+console.log(1, upVotesData);
+let userVote = Object.keys(upVotesData).find(
+  (vote) => vote.accountId === context.accountId
+);
 
 let hasUserVoted = userVote !== undefined;
 
