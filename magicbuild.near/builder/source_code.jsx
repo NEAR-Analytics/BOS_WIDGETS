@@ -247,6 +247,7 @@ const getArgsFromMethod = (fName, fIndex) => {
 
       const args = argsData.data[0] || argsData;
       const abiMethod = state.cMethod;
+      console.log("abiMethod", abiMethod);
       abiMethod[fIndex].params.args = [];
       if (Object.keys(args).length > 0) {
         Object.keys(args).forEach((item) => {
