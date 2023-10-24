@@ -40,12 +40,6 @@ if (!upVotes) {
   });
 }
 
-console.log(1, state.upVotes);
-console.log(2, state.upVotesBySBT);
-// console.log("state.upVotes", state.upVotes);
-// console.log("state.upVotesBySBT: ", state.upVotesBySBT);
-// console.log(Object.keys(state.upVotesBySBT).length > 0);
-
 if (state.upVotesBySBT && Object.keys(state.upVotesBySBT).length > 0) {
   // console.log(
   //   "Object.keys(state.upVotesBySBT): ",
