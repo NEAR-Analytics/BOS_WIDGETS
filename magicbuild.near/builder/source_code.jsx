@@ -153,7 +153,6 @@ const getMethodFromSource = () => {
   State.update({ cMerr: null });
   State.update({ totalProcess: 0 });
   State.update({ endprocess: 1 });
-  //State.update({ cMethod: [] });
   asyncFetch(state.rpcUrl, {
     body: JSON.stringify({
       method: "query",
@@ -169,7 +168,7 @@ const getMethodFromSource = () => {
     method: "POST",
   }).then((res) => {
     let abiMethod = [];
-
+    State.update({ cMethod: abiMethod });
     const resb = res.body;
     if (resb.result) {
       const data = Buffer(resb.result.code_base64, "base64").toString("ascii");
