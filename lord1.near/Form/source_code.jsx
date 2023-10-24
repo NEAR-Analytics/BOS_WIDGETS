@@ -406,7 +406,7 @@ return (
         <div className="content">
           {state.tab === "sbt-area" && (
             <Widget
-              src="lord1.near/widget/Label_Form"
+              src="lord1.near/widget/test"
               props={{ themeColor: themeColor }}
             />
           )}
