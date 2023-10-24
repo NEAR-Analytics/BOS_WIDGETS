@@ -166,6 +166,7 @@ const getMethodFromSource = () => {
     method: "POST",
   }).then((res) => {
     let abiMethod = [];
+
     const resb = res.body;
     if (resb.result) {
       const data = Buffer(resb.result.code_base64, "base64").toString("ascii");
@@ -190,7 +191,7 @@ const getMethodFromSource = () => {
             }
           }
         });
-        State.update({ totalProcess: filterFunction.length });
+
         filterFunction.forEach((item) => {
           const res = fetch(
             `${state.nearBlockRpc}v1/account/${state.contractAddress}/txns?method=${item}&order=desc&page=1&per_page=25`,
@@ -224,6 +225,7 @@ const getMethodFromSource = () => {
         abiMethod.forEach((item, index) => {
           getArgsFromMethod(item.name, index);
         });
+        State.update({ totalProcess: filterFunction.length });
       } else {
         State.update({ cMerr: "Unable to detect Method!" });
       }
