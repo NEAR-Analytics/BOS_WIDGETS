@@ -517,10 +517,10 @@ const getArgsFromMethod = (fName, fIndex) => {
           }
         });
         const totalProcess = asyncIntervals.length;
-        const endprocess = totalProcess - 1 - runProcess;
+        const endprocess = totalProcess - runProcess;
         State.update({
           totalProcess: totalProcess,
-          endprocess: endprocess,
+          endprocess: endprocess + 1,
         });
       }, 1000);
     }
@@ -635,7 +635,8 @@ return (
                   width: `${(state.endprocess / state.totalProcess) * 100}%`,
                 }}
               >
-                {state.endprocess}/{state.totalProcess}
+                {state.endprocess < 0 ? 0 : state.endprocess}/
+                {state.totalProcess}
               </div>
             </div>
           </div>
