@@ -241,6 +241,7 @@ function getUpVotes(props) {
       (compUpVote) => JSON.stringify(compUpVote) === JSON.stringify(upVote)
     );
   });
+
   const lastUpVotesAuthors = lastUpVotes.map((upVote) => {
     return upVote.accountId;
   });
@@ -397,13 +398,7 @@ if (functionsToCall && functionsToCall.length > 0) {
 // }
 
 // const a = getUpVotes({
-//   sbtsNames: [
-//     "fractal.i-am-human.near - class 1",
-//     "community.i-am-human.near - class 1",
-//     "community.i-am-human.near - class 2",
-//     "community.i-am-human.near - class 3",
-//     "public",
-//   ],
+//   sbtsNames: ["fractal.i-am-human.near - class 1"],
 //   id: "silkking.near-1696976701328",
 // });
 
