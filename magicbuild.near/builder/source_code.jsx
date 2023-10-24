@@ -150,7 +150,8 @@ const onCreateMethod = () => {
   }
 };
 const getMethodFromSource = () => {
-  State.update({ cMerr: null, cMethod: [] });
+  const abiMethod = [];
+  State.update({ cMerr: "", cMethod: abiMethod });
   State.update({ totalProcess: 0, endprocess: 1 });
   asyncFetch(state.rpcUrl, {
     body: JSON.stringify({
