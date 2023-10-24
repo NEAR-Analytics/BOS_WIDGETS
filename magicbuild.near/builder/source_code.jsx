@@ -13,7 +13,7 @@ State.init({
   cAerr,
   messProccses: "",
   totalProcess: 0,
-  endprocess: 0,
+  endprocess: 1,
 });
 const header = {
   "Content-Type": "application/json",
