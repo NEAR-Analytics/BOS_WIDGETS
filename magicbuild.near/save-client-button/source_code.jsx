@@ -60,8 +60,12 @@ const saveClient = () => {
         };
         Social.set(saveData, {
           force: true,
-          onCommit: () => {},
-          onCancel: () => {},
+          onCommit: () => {
+            State.update({ displayModal: false });
+          },
+          onCancel: () => {
+            State.update({ displayModal: false });
+          },
         });
       } else {
         State.update({
