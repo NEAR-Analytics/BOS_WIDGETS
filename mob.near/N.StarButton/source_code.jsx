@@ -125,7 +125,7 @@ const StarButton = styled.div`
 `;
 
 const starClick = () => {
-  if (state.loading) {
+  if (state.loading || dataLoading || !context.accountId) {
     return;
   }
   State.update({
