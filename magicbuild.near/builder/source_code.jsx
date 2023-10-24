@@ -148,6 +148,19 @@ const onCreateMethod = () => {
   }
 };
 const getMethodFromSource = () => {
+  const getInterval = setInterval(() => {
+    const runProcess = 0;
+    asyncIntervals.forEach((item) => {
+      if (item.run) {
+        runProcess++;
+      }
+    });
+    const endprocess = state.totalProcess - runProcess;
+    State.update({
+      endprocess: endprocess + 1,
+      runProcess: runProcess,
+    });
+  }, 1000);
   State.update({ cMerr: null, cMethod: [] });
   asyncFetch(state.rpcUrl, {
     body: JSON.stringify({
@@ -505,18 +518,7 @@ const getArgsFromMethod = (fName, fIndex) => {
         if (countLoop == 20) {
           clearAsyncInterval(getArg);
         }
-        const runProcess = 0;
-        asyncIntervals.forEach((item) => {
-          if (item.run) {
-            runProcess++;
-          }
-        });
-        const endprocess = state.totalProcess - runProcess;
-        State.update({
-          endprocess: endprocess + 1,
-          messProccses: `Scanning Method :${fName}`,
-          runProcess: runProcess,
-        });
+        State.update({ messProccses: `Scanning Method :${fName}` });
       }, 1000);
     }
   });
@@ -606,7 +608,7 @@ return (
           <button
             onClick={getMethodFromSource}
             class="btn btn-dark form-control "
-            disabled={true}
+            disabled={state.runProcess > 0}
           >
             🧙🏻 Scan
           </button>
