@@ -2,7 +2,7 @@ const {
   isTest,
   stateUpdate,
   functionsToCallByLibrary,
-  /*callLibs,*/
+  callLibs,
   baseAction,
   widgets,
 } = props;
@@ -249,9 +249,10 @@ function getCommentsNormalized(env, id) {
     const action = versions[version].action;
 
     const comments = getComments(action, id);
+    if (!comments) return [];
     const validComments = filterInvalidComments(comments);
 
-    return comments;
+    return validComments;
   });
 
   return normalizeLibData(commentsByVersion);
@@ -335,45 +336,6 @@ if (functionsToCall && functionsToCall.length > 0) {
   updateObj.functionsToCallByLibrary = resultFunctionsToCallByLibrary;
   stateUpdate(updateObj);
 }
-
-const a = getValidComments({
-  id: "blaze.near-1688567804926",
-  articleSbts: ["public"],
-});
-
-function callLibs(
-  src,
-  stateUpdate,
-  functionsToCallByLibrary,
-  extraProps,
-  callerWidget
-) {
-  // if (callerWidget === "All articles list") {
-  // console.log(
-  //   -1,
-  //   `Call libs props ${callerWidget}: `,
-  //   src,
-  //   functionsToCallByLibrary,
-  //   callLibs
-  // );
-  // }
-
-  return (
-    <Widget
-      src={src}
-      props={{
-        isTest,
-        stateUpdate,
-        functionsToCallByLibrary,
-        callLibs,
-        widgets,
-        ...extraProps,
-      }}
-    />
-  );
-}
-
-console.log("Test data: ", a);
 
 return (
   <>
