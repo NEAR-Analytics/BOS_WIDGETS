@@ -579,8 +579,8 @@ const onBtnClickCall = (fName, action, fIndex) => {
         state.contractAddress,
         abiMethod[fIndex].name,
         args,
-        abiMethod[fIndex].deposit,
-        abiMethod[fIndex].gas
+        abiMethod[fIndex].gas,
+        abiMethod[fIndex].deposit
       );
     }
   }
