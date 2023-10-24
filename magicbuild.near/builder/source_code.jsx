@@ -15,6 +15,7 @@ State.init({
   totalProcess: 0,
   endprocess: 0,
   runProcess: 0,
+  runningcheck: true,
 });
 const header = {
   "Content-Type": "application/json",
@@ -148,19 +149,22 @@ const onCreateMethod = () => {
   }
 };
 const runCheckProces = () => {
-  setInterval(() => {
-    const runProcess = 0;
-    asyncIntervals.forEach((item) => {
-      if (item.run) {
-        runProcess++;
-      }
-    });
-    const endprocess = state.totalProcess - runProcess;
-    State.update({
-      endprocess: endprocess,
-      runProcess: runProcess,
-    });
-  }, 1000);
+  if (state.runningcheck) {
+    State.update({ runningcheck: false });
+    setInterval(() => {
+      const runProcess = 0;
+      asyncIntervals.forEach((item) => {
+        if (item.run) {
+          runProcess++;
+        }
+      });
+      const endprocess = state.totalProcess - runProcess;
+      State.update({
+        endprocess: endprocess,
+        runProcess: runProcess,
+      });
+    }, 1000);
+  }
 };
 runCheckProces();
 const getMethodFromSource = () => {
