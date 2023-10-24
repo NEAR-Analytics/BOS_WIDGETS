@@ -4,6 +4,10 @@ if (!item) {
   return "";
 }
 
+useEffect(() => {
+  State.update({ hasStar: null });
+}, [item]);
+
 const stars = Social.index("star", item);
 
 const dataLoading = stars === null;
@@ -17,13 +21,14 @@ const starsByUsers = {};
     delete starsByUsers[star.accountId];
   }
 });
-// if (state.hasStar === true) {
-//   starsByUsers[context.accountId] = {
-//     accountId: context.accountId,
-//   };
-// } else if (state.hasStar === false) {
-//   delete starsByUsers[context.accountId];
-// }
+
+if (state.hasStar === true) {
+  starsByUsers[context.accountId] = {
+    accountId: context.accountId,
+  };
+} else if (state.hasStar === false) {
+  delete starsByUsers[context.accountId];
+}
 
 const accountsWithStars = Object.keys(starsByUsers);
 const starCount = accountsWithStars.length;
@@ -162,7 +167,7 @@ const starClick = () => {
     });
   }
   Social.set(data, {
-    onCommit: () => State.update({ loading: false }),
+    onCommit: () => State.update({ loading: false, hasStar: !hasStar }),
     onCancel: () => State.update({ loading: false }),
   });
 };
