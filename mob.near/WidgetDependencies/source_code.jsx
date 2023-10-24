@@ -20,7 +20,7 @@ return (
         <Widget
           src="mob.near/widget/ComponentSearch.Item"
           props={{
-            link: `#/${c.src}`,
+            link: `/${c.src}`,
             accountId: c.accountId,
             widgetName: c.widgetName,
             extraButtons: ({ widgetPath }) => (
