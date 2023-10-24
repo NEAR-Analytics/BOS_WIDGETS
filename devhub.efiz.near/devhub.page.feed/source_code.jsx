@@ -1,10 +1,10 @@
 const { author, recency, tag } = props;
 
 const { getFeaturedCommunities } = VM.require(
-  "${REPL_DEVHUB}/widget/core.adapter.devhub-contract"
+  "devhub.efiz.near/widget/core.adapter.devhub-contract"
 );
 
-const { href } = VM.require("${REPL_DEVHUB}/widget/core.lib.url");
+const { href } = VM.require("devhub.efiz.near/widget/core.lib.url");
 
 if (!getFeaturedCommunities || !href) {
   return <p>Loading modules...</p>;
@@ -73,7 +73,7 @@ function Banner() {
         <div className="d-flex gap-4 justify-content-between">
           {featuredCommunities.map((community) => (
             <Widget
-              src={"${REPL_DEVHUB}/widget/devhub.entity.community.Card"}
+              src={"devhub.efiz.near/widget/devhub.entity.community.Card"}
               props={{ metadata: community, format: "medium" }}
             />
           ))}
@@ -105,17 +105,17 @@ const FeedPage = ({ author, recency, tag }) => {
     <div className="w-100">
       <Banner />
       <Widget
-        src={"${REPL_DEVHUB}/widget/devhub.feature.post-search.panel"}
+        src={"devhub.efiz.near/widget/devhub.feature.post-search.panel"}
         props={{
           children: (
             <Widget
               src={
-                "${REPL_DEVHUB}/widget/devhub.components.molecule.PostControls"
+                "devhub.efiz.near/widget/devhub.components.molecule.PostControls"
               }
               props={{
                 title: "Post",
                 href: href({
-                  widgetSrc: "${REPL_DEVHUB}/widget/app",
+                  widgetSrc: "devhub.efiz.near/widget/app",
                   params: { page: "create" },
                 }),
               }}
