@@ -52,6 +52,7 @@ const renderItem = (widgetSrc) => {
       onClick={() => {
         order[widgetSrc] = -1;
         Storage.privateSet(StorageKey, order);
+        console.log("saving order", order);
       }}
     >
       <Widget
