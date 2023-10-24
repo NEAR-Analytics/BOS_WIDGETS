@@ -150,6 +150,8 @@ const getMethodFromSource = () => {
     clearAsyncInterval(index);
   });
   asyncIntervals = [];
+  console.log("showme", asyncIntervals);
+
   State.update({ cMerr: null, cMethod: [] });
   asyncFetch(state.rpcUrl, {
     body: JSON.stringify({
