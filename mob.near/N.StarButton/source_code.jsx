@@ -17,13 +17,13 @@ const starsByUsers = {};
     delete starsByUsers[star.accountId];
   }
 });
-if (state.hasStar === true) {
-  starsByUsers[context.accountId] = {
-    accountId: context.accountId,
-  };
-} else if (state.hasStar === false) {
-  delete starsByUsers[context.accountId];
-}
+// if (state.hasStar === true) {
+//   starsByUsers[context.accountId] = {
+//     accountId: context.accountId,
+//   };
+// } else if (state.hasStar === false) {
+//   delete starsByUsers[context.accountId];
+// }
 
 const accountsWithStars = Object.keys(starsByUsers);
 const starCount = accountsWithStars.length;
@@ -162,7 +162,7 @@ const starClick = () => {
     });
   }
   Social.set(data, {
-    onCommit: () => State.update({ loading: false, hasStar: !hasStar }),
+    onCommit: () => State.update({ loading: false }),
     onCancel: () => State.update({ loading: false }),
   });
 };
