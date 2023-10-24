@@ -195,7 +195,10 @@ const inner = (
 );
 
 return props.tooltip ? (
-  <OverlayTrigger placement="auto" overlay={<Tooltip>{title}</Tooltip>}>
+  <OverlayTrigger
+    placement={props.overlayPlacement ?? "auto"}
+    overlay={<Tooltip>{title}</Tooltip>}
+  >
     {inner}
   </OverlayTrigger>
 ) : (
