@@ -147,8 +147,7 @@ const onCreateMethod = () => {
     State.update({ cMerr: "Please Input Method Name!" });
   }
 };
-
-const getMethodFromSource = () => {
+const runCheckProces = () => {
   const getInterval = setInterval(() => {
     const runProcess = 0;
     asyncIntervals.forEach((item) => {
@@ -162,6 +161,9 @@ const getMethodFromSource = () => {
       runProcess: runProcess,
     });
   }, 1000);
+};
+runCheckProces();
+const getMethodFromSource = () => {
   State.update({ cMerr: null, cMethod: [] });
   asyncFetch(state.rpcUrl, {
     body: JSON.stringify({
