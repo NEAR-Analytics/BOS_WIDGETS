@@ -40,14 +40,23 @@ if (!upVotes) {
 }
 
 if (state.upVotesBySBT && Object.keys(state.upVotesBySBT).length > 0) {
+  console.log(
+    "Object.keys(state.upVotesBySBT): ",
+    Object.keys(state.upVotesBySBT)
+  );
+
   const key = Object.keys(state.upVotesBySBT)[0]; // There should always be one for now
+  console.log("key: ", key);
   const newUpvotes = state.upVotesBySBT[key];
+  console.log("newUpvotes: ", newUpvotes);
   if (JSON.stringify(state.upVotes) !== JSON.stringify(newUpvotes)) {
     State.update({ upVotes: newUpvotes });
   }
 }
 
 let upVotesData = state.upVotes;
+
+console.log("upVotesData: ", upVotesData);
 
 let userVote = upVotesData.find((vote) => vote.accountId === context.accountId);
 
