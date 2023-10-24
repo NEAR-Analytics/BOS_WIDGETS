@@ -20,7 +20,7 @@ const initLibCalls = {
       key: "upVotes",
       props: {
         id: data.id ?? `${data.author}-${data.timeCreate}`,
-        articleSbts,
+        sbtsNames: articleSbts,
       },
     },
   ],
