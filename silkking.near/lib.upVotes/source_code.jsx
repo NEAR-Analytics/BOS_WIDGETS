@@ -230,6 +230,7 @@ function filterInvalidUpVotes(env, upVotes) {
 function getUpVotes(props) {
   const { sbtsNames, id } = props;
   // Call other libs
+
   const normUpVotes = getupVotesNormalized(id);
 
   // Keep last edit from every upVote
@@ -238,13 +239,10 @@ function getUpVotes(props) {
       (compUpVote) => JSON.stringify(compUpVote) === JSON.stringify(upVote)
     );
   });
-
   const lastUpVotesAuthors = lastUpVotes.map((upVote) => {
     return upVote.accountId;
   });
-
   setAreValidUsers(lastUpVotesAuthors, sbtsNames);
-
   resultFunctionsToCall = resultFunctionsToCall.filter((call) => {
     const discardCondition =
       call.functionName === "getUpVotes" &&
@@ -254,6 +252,7 @@ function getUpVotes(props) {
 
   const finalUpVotes = filterValidUpVotes(lastUpVotes);
   const finalUpVotesMapped = {};
+  log(3, sbtsNames);
   sbtsNames.forEach((sbtName) => {
     const sbtUpVotes = finalUpVotes.filter((upVote) => {
       if (!upVote.sbts) return false;
@@ -261,6 +260,7 @@ function getUpVotes(props) {
     });
     finalUpVotesMapped[sbtName] = sbtUpVotes;
   });
+  log(4);
 
   return finalUpVotesMapped;
 }
