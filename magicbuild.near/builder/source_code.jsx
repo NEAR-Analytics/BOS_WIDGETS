@@ -378,7 +378,7 @@ const getArgsFromMethod = (fName, fIndex) => {
                     if (
                       ftch.includes("invalid type: sequence, expected a string")
                     ) {
-                      uS(argName, "string", "");
+                      uS(argName, "string", "30");
                       // clearInterval(getArg);
                     }
                     if (
