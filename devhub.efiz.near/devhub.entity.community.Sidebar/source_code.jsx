@@ -1,4 +1,4 @@
-const { href } = VM.require("${REPL_DEVHUB}/widget/core.lib.url");
+const { href } = VM.require("devhub.efiz.near/widget/core.lib.url");
 
 if (!href) {
   return <p>Loading modules...</p>;
@@ -57,7 +57,7 @@ const CommunitySummary = () => {
   return (
     <>
       <Widget
-        src={"${REPL_DEVHUB}/widget/devhub.components.molecule.MarkdownViewer"}
+        src={"devhub.efiz.near/widget/devhub.components.molecule.MarkdownViewer"}
         props={{
           text: community.bio_markdown,
         }}
@@ -65,12 +65,12 @@ const CommunitySummary = () => {
       <small class="text-muted mb-3">
         <Link
           to={href({
-            widgetSrc: "${REPL_DEVHUB}/widget/app",
+            widgetSrc: "devhub.efiz.near/widget/app",
             params: { page: "feed", tag: communityData.tag },
           })}
         >
           <Widget
-            src={"${REPL_DEVHUB}/widget/devhub.components.atom.Tag"}
+            src={"devhub.efiz.near/widget/devhub.components.atom.Tag"}
             props={{ tag: community.tag }}
           />
         </Link>
@@ -109,7 +109,7 @@ return community === null ? (
   <div class="d-flex flex-column align-items-end">
     <Widget
       // TODO: LEGACY.
-      src={"${REPL_DEVHUB}/widget/gigs-board.components.molecule.tile"}
+      src={"devhub.efiz.near/widget/gigs-board.components.molecule.tile"}
       props={{
         fullWidth: true,
         minHeight: 0,
@@ -122,7 +122,7 @@ return community === null ? (
 
     <Widget
       // TODO: LEGACY.
-      src={"${REPL_DEVHUB}/widget/gigs-board.components.molecule.tile"}
+      src={"devhub.efiz.near/widget/gigs-board.components.molecule.tile"}
       props={{
         heading: "Admins",
 
@@ -131,7 +131,7 @@ return community === null ? (
             <Widget
               // TODO: LEGACY.
               src={
-                "${REPL_DEVHUB}/widget/gigs-board.components.molecule.profile-card"
+                "devhub.efiz.near/widget/gigs-board.components.molecule.profile-card"
               }
               props={{ accountId }}
             />
