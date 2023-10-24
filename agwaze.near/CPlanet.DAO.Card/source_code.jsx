@@ -28,7 +28,7 @@ flex-direction: column;
 `;
 const Top = styled.div`
     height: 80px;
-    img {
+   > img {
       width: 100%;
       height: 100%;
       object-fit: cover;
@@ -36,6 +36,19 @@ const Top = styled.div`
     position: relative;
     width: 100%;
     background: black;
+    div {
+      position: absolute;
+      top: 50px;
+      z-index: 100;
+      left: 10px;;
+      img {
+        width: 66px;
+        height: 66px;
+        flex-shrink: 0;
+        border-radius: 50%;
+        border 1px solid #fff;
+      }
+    }
 `;
 
 const Bottom = styled.div`
@@ -220,6 +233,15 @@ return (
         }
         alt=""
       />
+      <div>
+        <img
+          src={
+            props.profileImage ??
+            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRub7hFLkStCvZiaSeiUGznP4uzqPPcepghhg&usqp=CAU"
+          }
+          alt=""
+        />
+      </div>
     </Top>
     <Bottom>
       <CardBody>
@@ -245,15 +267,13 @@ return (
           <div>
             <span>Total Funds</span>
             <p>
-              {props.totalFunds ?? "N/A"}/
-              <span>NEAR</span>
+              {props.totalFunds ?? "N/A"}/<span>NEAR</span>
             </p>
           </div>
           <div>
             <span>Members Group</span>
             <p>
-              {props.membersGroup ?? "N/A"}/
-              <span>99.9M</span>
+              {props.membersGroup ?? "N/A"}/<span>99.9M</span>
             </p>
           </div>
           <div>
