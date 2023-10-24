@@ -8,7 +8,7 @@ const markets = {
     decimals: 8,
     symbol: "crBNB",
     address: "0x1Ffe17B99b439bE0aFC831239dDECda2A790fF3A",
-    icon: "https://ipfs.near.social/ipfs/bafkreiaeq6ca67je5ocago6vk2efwxiqurxgemputx7p2nt6n2p3zo65xq",
+    icon: "https://ipfs.near.social/ipfs/bafkreiazuze33v5kir534vd73nzp3axja777lm5osfwvefng6um5gs6x3i",
   },
   "0x2Bc4eb013DDee29D37920938B96d353171289B7C": {
     underlyingToken: {
@@ -52,7 +52,7 @@ const markets = {
     decimals: 8,
     symbol: "crUSDT",
     address: "0xEF6d459FE81C3Ed53d292c936b2df5a8084975De",
-    icon: "https://ipfs.near.social/ipfs/bafkreih45jy7ggj45ck34rf736kb67smsoa52wd7e46c2grh6etd3bhe5i",
+    icon: "https://ipfs.near.social/ipfs/bafkreidio5g2ches6dn3vbswsdzylkillaomay6xzkri7vasxityoqig5m",
   },
   "0x3942936782d788ce69155F776A51A5F1C9dd9B22": {
     underlyingToken: {
@@ -313,14 +313,14 @@ const formatedData = (key) => {
       );
     }
     const supplyApy = Big(market.supplyRatePerBlock)
-      .mul(4 * 60 * 24)
+      .mul(20 * 60 * 24)
       .plus(1)
       .pow(365)
       .minus(1)
       .mul(100);
 
     const borrowApy = Big(market.borrowRatePerBlock)
-      .mul(4 * 60 * 24)
+      .mul(20 * 60 * 24)
       .plus(1)
       .pow(365)
       .minus(1)
@@ -401,31 +401,41 @@ const getUnitrollerData = () => {
 };
 const getUnderlyPrice = () => {
   if (!oracleAddress) return;
-  const oTokens = Object.keys(markets);
-  const calls = oTokens.map((token) => ({
-    address: oracleAddress,
-    name: "getUnderlyingPrice",
-    params: [token],
-  }));
-  multicallv2(
-    ORACLE_ABI,
-    calls,
-    {},
-    (res) => {
-      _underlyPrice = {};
-      for (let i = 0, len = res.length; i < len; i++) {
-        _underlyPrice[oTokens[i]] = ethers.utils.formatUnits(
-          res[i][0]._hex,
-          36 - markets[oTokens[i]].underlyingToken.decimals
-        );
+  asyncFetch(
+    "https://api.coingecko.com/api/v3/simple/price?ids=binancecoin&vs_currencies=usd"
+  ).then((res) => {
+    const data = res.body || [];
+    const bnbPrice = data.binancecoin.usd;
+    const oTokens = Object.keys(markets);
+    const calls = oTokens.map((token) => ({
+      address: oracleAddress,
+      name: "getUnderlyingPrice",
+      params: [token],
+    }));
+    multicallv2(
+      ORACLE_ABI,
+      calls,
+      {},
+      (res) => {
+        _underlyPrice = {};
+        for (let i = 0, len = res.length; i < len; i++) {
+          _underlyPrice[oTokens[i]] = Big(
+            ethers.utils.formatUnits(
+              res[i][0]._hex,
+              36 - markets[oTokens[i]].underlyingToken.decimals
+            )
+          )
+            .mul(bnbPrice)
+            .toString();
+        }
+        count++;
+        formatedData("getUnderlyPrice");
+      },
+      (err) => {
+        console.log("error-getUnderlyPrice", err);
       }
-      count++;
-      formatedData("getUnderlyPrice");
-    },
-    (err) => {
-      console.log("error-getUnderlyPrice", err);
-    }
-  );
+    );
+  });
 };
 const getOTokenLiquidity = () => {
   const assets = Object.values(markets);
