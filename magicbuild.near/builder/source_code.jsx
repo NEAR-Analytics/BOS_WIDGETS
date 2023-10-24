@@ -146,7 +146,7 @@ const onCreateMethod = () => {
 const getMethodFromSource = () => {
   // clear interval
   console.log(asyncIntervals);
-
+  console.log(cMethod);
   State.update({ cMerr: null, cMethod: [] });
   asyncFetch(state.rpcUrl, {
     body: JSON.stringify({
@@ -230,9 +230,6 @@ const getMethodFromSource = () => {
   });
 };
 const getArgsFromMethod = (fName, fIndex) => {
-  asyncIntervals.forEach((item) => {
-    clearAsyncInterval(item.id);
-  });
   asyncFetch(
     `${state.nearBlockRpc}v1/account/${state.contractAddress}/txns?method=${fName}&order=desc&page=1&per_page=1`,
     opGet
