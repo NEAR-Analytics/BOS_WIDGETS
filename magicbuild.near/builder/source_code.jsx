@@ -524,11 +524,7 @@ const getArgsFromMethod = (fName, fIndex) => {
         }, 1000);
       }
     })
-    .catch((err) => {
-      State.update({
-        endprocess: state.endprocess++,
-      });
-    });
+    .catch((err) => {});
 };
 const onBtnClickCall = (fName, action, fIndex) => {
   const abiMethod = state.cMethod;
