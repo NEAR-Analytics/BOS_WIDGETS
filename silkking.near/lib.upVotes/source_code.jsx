@@ -105,8 +105,8 @@ function setAreValidUsers(accountIds, sbtsNames) {
 }
 
 function addVote(props) {
-  const { id } = props;
-  saveUpVote(id);
+  const { id, articleSbts } = props;
+  saveUpVote(id, articleSbts);
 
   resultFunctionsToCall = resultFunctionsToCall.filter((call) => {
     return call.functionName !== "addVote";
@@ -155,9 +155,9 @@ function composeDeleteUpVoteData(id, upVoteId) {
   return data;
 }
 
-const saveUpVote = (id, onCommit, onCancel) => {
+const saveUpVote = (id, articleSbts, onCommit, onCancel) => {
   if (id) {
-    const newData = composeUpVoteData(id);
+    const newData = composeUpVoteData(id, articleSbts);
 
     Social.set(newData, {
       force: true,
@@ -169,13 +169,14 @@ const saveUpVote = (id, onCommit, onCancel) => {
   }
 };
 
-function composeUpVoteData(id) {
+function composeUpVoteData(id, articleSbts) {
   const data = {
     index: {
       [action]: JSON.stringify({
         key: id,
         value: {
           upVoteId: `uv-${context.accountId}-${Date.now()}`,
+          sbts: articleSbts,
         },
       }),
     },
@@ -235,10 +236,12 @@ function getUpVotes(props) {
 
   // Keep last edit from every upVote
   const lastUpVotes = normUpVotes.filter((upVote) => {
+    //log(["normUpVotes: ", normUpVotes]);
     return normUpVotes.find(
       (compUpVote) => JSON.stringify(compUpVote) === JSON.stringify(upVote)
     );
   });
+
   const lastUpVotesAuthors = lastUpVotes.map((upVote) => {
     return upVote.accountId;
   });
@@ -255,8 +258,8 @@ function getUpVotes(props) {
 
   sbtsNames.forEach((sbtName) => {
     const sbtUpVotes = finalUpVotes.filter((upVote) => {
-      if (!upVote.sbts) return false;
-      return upVote.sbts.indexOf(sbtName) !== -1;
+      if (!upVote.value.sbts) return false;
+      return upVote.value.sbts.indexOf(sbtName) !== -1;
     });
     finalUpVotesMapped[sbtName] = sbtUpVotes;
   });
@@ -266,8 +269,9 @@ function getUpVotes(props) {
 
 function filterValidator(upVotes) {
   return upVotes.filter((upVote) => {
+    //log(["upVote.sbts: ", upVote.sbts]);
     return (
-      upVote.sbts.find((upVoteSBT) => {
+      upVote.value.sbts.find((upVoteSBT) => {
         return (
           state[`isValidUser-${upVote.accountId}`][upVoteSBT] ||
           upVoteSBT === "public"
@@ -304,12 +308,11 @@ function normalizeOldToV_0_0_1(upVote) {
 }
 
 function normalizeFromV0_0_1ToV0_0_2(upVote) {
+  upVote.sbts = ["public"];
   return upVote;
 }
 
 function normalizeFromV0_0_2ToV0_0_3(upVote) {
-  upVote.sbts = ["public"];
-
   return upVote;
 }
 
@@ -324,7 +327,7 @@ const versions = {
   },
   "v0.0.2": {
     normalizationFunction: normalizeFromV0_0_2ToV0_0_3,
-    action: props.isTest ? `test_${baseAction}-v0.0.2` : `${baseAction}-v0.0.2`,
+    action: props.isTest ? `test_${baseAction}_v0.0.2` : `${baseAction}_v0.0.2`,
   },
 };
 
@@ -394,13 +397,7 @@ if (functionsToCall && functionsToCall.length > 0) {
 // }
 
 // const a = getUpVotes({
-//   sbtsNames: [
-//     "fractal.i-am-human.near - class 1",
-//     "community.i-am-human.near - class 1",
-//     "community.i-am-human.near - class 2",
-//     "community.i-am-human.near - class 3",
-//     "public",
-//   ],
+//   sbtsNames: ["fractal.i-am-human.near - class 1"],
 //   id: "silkking.near-1696976701328",
 // });
 
