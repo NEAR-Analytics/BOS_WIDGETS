@@ -1,4 +1,9 @@
-State.init({ clientName: "", clientContract: "", clientList: [], error });
+State.init({
+  clientName: "",
+  clientContract: props.clientContract ? props.clientContract : "",
+  clientList: props.clientList ? props.clientList : [],
+  error,
+});
 const onInputChangeClientName = ({ target }) => {
   State.update({ clientName: target.value });
 };
