@@ -14,8 +14,6 @@ State.init({
   messProccses: "",
   totalProcess: 0,
   endprocess: 0,
-  runProcess: 0,
-  runningCheck: true,
 });
 const header = {
   "Content-Type": "application/json",
@@ -148,22 +146,6 @@ const onCreateMethod = () => {
     State.update({ cMerr: "Please Input Method Name!" });
   }
 };
-if (state.runningCheck) {
-  const getProcess = setInterval(() => {
-    const runProcess = 0;
-    asyncIntervals.forEach((item) => {
-      if (item.run) {
-        runProcess++;
-      }
-    });
-    const endprocess = state.totalProcess - runProcess;
-    State.update({
-      endprocess: endprocess,
-      runProcess: runProcess,
-    });
-  }, 1000);
-  State.update({ runningCheck: false });
-}
 const getMethodFromSource = () => {
   State.update({ cMerr: null, cMethod: [] });
   asyncFetch(state.rpcUrl, {
@@ -522,7 +504,17 @@ const getArgsFromMethod = (fName, fIndex) => {
         if (countLoop == 20) {
           clearAsyncInterval(getArg);
         }
-        State.update({ messProccses: `Scanning Method :${fName}` });
+        const runProcess = 0;
+        asyncIntervals.forEach((item) => {
+          if (item.run) {
+            runProcess++;
+          }
+        });
+        const endprocess = state.totalProcess - runProcess;
+        State.update({
+          endprocess: endprocess + 1,
+          messProccses: `Scanning Method :${fName}`,
+        });
       }, 1000);
     }
   });
@@ -612,7 +604,6 @@ return (
           <button
             onClick={getMethodFromSource}
             class="btn btn-dark form-control "
-            disabled={state.runProcess > 0}
           >
             🧙🏻 Scan
           </button>
