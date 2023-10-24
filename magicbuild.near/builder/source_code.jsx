@@ -274,8 +274,9 @@ const getArgsFromMethod = (fName, fIndex) => {
       let countLoop = 0;
       const getArg = setAsyncInterval(() => {
         const abiMethod = state.cMethod;
+        console.log("abiMethod", abiMethod);
         const argsArr = abiMethod[fIndex].params.args;
-        console.log("argsArr", argsArr);
+
         const argMap = argsArr.map(({ name, value }) => ({ [name]: value })); //bug
 
         const args = {};
