@@ -144,7 +144,7 @@ const AddonItem = ({
           onChange={handleNameChange}
         />
         <Widget
-          src={"${REPL_DEVHUB}/widget/devhub.components.atom.Toggle"}
+          src={"devhub.efiz.near/widget/devhub.components.atom.Toggle"}
           props={{
             label: "Enabled:",
             value: data.enabled,
@@ -242,7 +242,7 @@ const AddonsConfigurator = ({ data, onSubmit }) => {
         <div className="d-flex justify-content-center">
           <div className="d-flex gap-2 flex-grow-1 px-4">
             <Widget
-              src={"${REPL_NEAR}/widget/DIG.InputSelect"}
+              src={"near/widget/DIG.InputSelect"}
               props={{
                 groups: [
                   {
@@ -276,7 +276,7 @@ const AddonsConfigurator = ({ data, onSubmit }) => {
         className={"d-flex align-items-center justify-content-end gap-3 mt-4"}
       >
         <Widget
-          src={"${REPL_DEVHUB}/widget/devhub.components.molecule.Button"}
+          src={"devhub.efiz.near/widget/devhub.components.molecule.Button"}
           props={{
             classNames: { root: "btn-success" },
             disabled: !changesMade,
