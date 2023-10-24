@@ -39,7 +39,7 @@ if (!upVotes) {
   });
 }
 
-if (Object.keys(state.upVotesBySBT).length > 0) {
+if (state.upVotesBySBT && Object.keys(state.upVotesBySBT).length > 0) {
   const key = Object.keys(state.upVotesBySBT)[0]; // There should always be one for now
   const newUpvotes = state.upVotesBySBT[key];
   if (JSON.stringify(state.upVotes) !== JSON.stringify(newUpvotes)) {
