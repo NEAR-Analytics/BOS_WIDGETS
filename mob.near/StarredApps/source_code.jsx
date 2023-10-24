@@ -69,7 +69,7 @@ const renderItem = (widgetSrc) => {
 };
 
 return (
-  <div className="d-flex flex-wrap gap-1 my-3 placeholder-glow">
+  <div className="d-flex flex-wrap gap-1 placeholder-glow">
     {apps.slice(0, props.limit ? parseInt(props.limit) : 24).map(renderItem)}
   </div>
 );
