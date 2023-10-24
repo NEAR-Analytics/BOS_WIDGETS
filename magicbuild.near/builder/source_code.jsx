@@ -488,7 +488,7 @@ const getArgsFromMethod = (fName, fIndex) => {
               State.update({ cMethod: abiMethod });
               clearAsyncInterval(getArg);
             }
-            console.log(fName, strErr);
+            console.log(fName, strErr, countLoop);
           }
         });
         countLoop++;
