@@ -147,9 +147,16 @@ const stop = false;
 const stopAllInterval = () => {
   stop = true;
   const check = setInterval(() => {
-    if (asyncIntervals.length == 0) {
+    const isCheck = false;
+    asyncIntervals.forEach((item) => {
+      if (item.run) {
+        isCheck = true;
+      }
+    });
+    if (isCheck) {
       stop = false;
       clearInterval(check);
+      asyncIntervals = [];
       getMethodFromSource();
     }
   }, 1000);
@@ -516,6 +523,9 @@ const getArgsFromMethod = (fName, fIndex) => {
         if (countLoop == 20) {
           clearAsyncInterval(getArg);
         }
+        if (stop) {
+          clearAsyncInterval(getArg);
+        }
       }, 1000);
     }
   });
@@ -602,10 +612,7 @@ return (
         </div>
         <div class="form-group col-md-2">
           <label></label>
-          <button
-            onClick={getMethodFromSource}
-            class="btn btn-dark form-control "
-          >
+          <button onClick={stopAllInterval} class="btn btn-dark form-control ">
             🧙🏻 Scan
           </button>
         </div>
