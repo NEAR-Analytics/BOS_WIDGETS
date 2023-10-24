@@ -47,9 +47,6 @@ const clearAsyncInterval = (intervalIndex) => {
   if (asyncIntervals[intervalIndex].run) {
     clearTimeout(asyncIntervals[intervalIndex].id);
     asyncIntervals[intervalIndex].run = false;
-    State.update({
-      endprocess: state.endprocess++,
-    });
   }
 };
 const cFunc = (e, type) => {
@@ -225,7 +222,6 @@ const getMethodFromSource = () => {
         abiMethod.forEach((item, index) => {
           getArgsFromMethod(item.name, index);
         });
-        State.update({ totalProcess: filterFunction.length });
       } else {
         State.update({ cMerr: "Unable to detect Method!" });
       }
@@ -244,11 +240,11 @@ const getArgsFromMethod = (fName, fIndex) => {
       const argsData = JSON.parse(
         restxns.logs[0].replace("EVENT_JSON:", "").replaceAll("\\", "")
       );
-      const args = argsData.data[0];
-      console.log(fName, typeof args.token_ids);
+
+      const args = argsData.data[0] || argsData;
+      const abiMethod = state.cMethod;
+      abiMethod[fIndex].params.args = [];
       if (Object.keys(args).length > 0) {
-        const abiMethod = state.cMethod;
-        abiMethod[fIndex].params.args = [];
         Object.keys(args).forEach((item) => {
           const arg = {
             name: item,
@@ -262,13 +258,11 @@ const getArgsFromMethod = (fName, fIndex) => {
             },
             value: "",
           };
+          abiMethod[fIndex].kind = "call";
           abiMethod[fIndex].params.args.push(arg);
           State.update({ cMethod: abiMethod });
         });
       }
-      State.update({
-        endprocess: state.endprocess++,
-      });
     } else {
       let countLoop = 0;
       const getArg = setAsyncInterval(() => {
