@@ -1,5 +1,3 @@
-// State.init({ parent: 0, child: 0 });
-
 const {
   circle,
   square,
