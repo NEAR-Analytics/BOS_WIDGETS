@@ -189,7 +189,6 @@ function getUpVoteBlackListByBlockHeight() {
 }
 
 function getUpVotesData(action, id, subscribe) {
-  log([2, action, id, subscribe]);
   return Social.index(action, id, {
     order: "desc",
     subscribe,
@@ -201,6 +200,7 @@ function getupVotesNormalized(id) {
     const action = versions[version].action;
     const subscribe = index + 1 === arr.length;
     const allUpVotes = getUpVotesData(action, id, subscribe);
+    if (!allUpVotes) return [];
 
     const validUpVotes = filterInvalidUpVotes(env, allUpVotes);
 
@@ -220,7 +220,6 @@ function getLatestEdits(upVotes) {
 }
 
 function filterInvalidUpVotes(env, upVotes) {
-  log([1, upVotes]);
   return upVotes
     .filter((upVote) => upVote.value.upVoteId) // Has id
     .filter(
