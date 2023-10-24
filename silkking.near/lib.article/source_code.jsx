@@ -21,7 +21,6 @@ const prodAction = `${baseAction}_v${currentVersion}`;
 const testAction = `test_${prodAction}`;
 const versionsBaseActions = isTest ? `test_${baseAction}` : baseAction;
 const action = isTest ? testAction : prodAction;
-
 // START LIB CALLS SECTION
 // interface FunctionCall {
 //     functionName: string,
@@ -198,9 +197,13 @@ function getArticlesNormalized(env) {
 
     const validLatestEdits = getLatestEdits(validArticlesIndexes);
 
-    const articles = validLatestEdits.map((article) => {
-      return getArticle(article, action);
-    });
+    const articles = validLatestEdits
+      .map((article) => {
+        return getArticle(article, action);
+      })
+      .filter((article) => {
+        return article !== undefined;
+      });
     return articles;
   });
 
@@ -400,7 +403,6 @@ if (functionsToCall && functionsToCall.length > 0) {
   updateObj.functionsToCallByLibrary = resultFunctionsToCallByLibrary;
   stateUpdate(updateObj);
 }
-
 return (
   <>
     {libSrcArray.map((src) => {
