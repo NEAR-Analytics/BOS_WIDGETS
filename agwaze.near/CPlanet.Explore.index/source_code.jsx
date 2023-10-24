@@ -47,7 +47,12 @@ const SearchSection = styled.div`
 `;
 
 const NoData = styled.div`
-    height: 200px;
+    min-height: 200px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+    
 `;
 
 const Search = styled.div`
@@ -279,7 +284,6 @@ const fetchData = () => {
         return nftObject;
       }
     });
-    console.log(nftBody);
     State.update({
       nftData: nftBody,
     });
@@ -292,9 +296,9 @@ const PRICE_CONVERSION_CONSTANT =
 
 return (
   <Root>
-    <TopNFTS>
-      {state.nftData.length > 0 ? (
-        state.nftData.slice(0, 6).map((data, index) => (
+    {state.nftData.length > 0 ? (
+      <TopNFTS>
+        {state.nftData.slice(0, 6).map((data, index) => (
           <div key={index}>
             <Widget
               props={{
@@ -314,11 +318,17 @@ return (
               src="agwaze.near/widget/CPlanet.NFTCard.FeaturedNFT"
             />
           </div>
-        ))
-      ) : (
-        <NoData />
-      )}
-    </TopNFTS>
+        ))}
+      </TopNFTS>
+    ) : (
+      <NoData>
+        <Widget src="agwaze.near/widget/CPlanet.NFTCard.FeaturedNFT" />
+        <Widget src="agwaze.near/widget/CPlanet.NFTCard.FeaturedNFT" />
+        <Widget src="agwaze.near/widget/CPlanet.NFTCard.FeaturedNFT" />
+        <Widget src="agwaze.near/widget/CPlanet.NFTCard.FeaturedNFT" />
+        <Widget src="agwaze.near/widget/CPlanet.NFTCard.FeaturedNFT" />
+      </NoData>
+    )}
     <Explore>
       <SearchSection>
         <h1>Explore Creative NFTs</h1>
