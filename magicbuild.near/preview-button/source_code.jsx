@@ -5,7 +5,7 @@ return (
     <button
       data-bs-toggle="modal"
       data-bs-target="#preview"
-      class="btn btn-dark form-control "
+      class="btn btn-primary form-control "
     >
       👀 Preview
     </button>
