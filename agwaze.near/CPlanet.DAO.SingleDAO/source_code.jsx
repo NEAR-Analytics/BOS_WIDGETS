@@ -50,17 +50,22 @@ const RightProfile = styled.div`
         font-weight: 400;
         line-height: 148%; /* 23.68px */
     }
-`
+`;
 
 return (
   <Root>
     <ImageSection>
-        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRub7hFLkStCvZiaSeiUGznP4uzqPPcepghhg&usqp=CAU" />
+      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRub7hFLkStCvZiaSeiUGznP4uzqPPcepghhg&usqp=CAU" />
     </ImageSection>
     <RightProfile>
-        <h1 className="title">LOREM IPSUM DAO</h1>
-        <span className="username">@lorem.ipsum.dono</span>
-        <p className="description">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+      <h1 className="title">LOREM IPSUM DAO</h1>
+      <span className="username">@lorem.ipsum.dono</span>
+      <p className="description">
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
+        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
+        veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
+        commodo consequat.
+      </p>
     </RightProfile>
   </Root>
 );
