@@ -67,7 +67,7 @@ const saveClient = (e) => {
           const clientId = Date.now();
           const clientData = {
             clientId: clientId,
-            name: state.clientName,
+            clientName: state.clientName,
             address: state.clientContract,
             archived: false,
             abi: state.abi,
