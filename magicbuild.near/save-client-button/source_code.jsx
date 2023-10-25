@@ -133,6 +133,7 @@ return (
                   <label>Name</label>
                   <input
                     class="form-control"
+                    defaultValue={state.id ? state.clientName : ""}
                     onChange={(e) => onInputChangeClientName(e)}
                   />
                 </div>
