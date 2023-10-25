@@ -86,7 +86,7 @@ return (
     <button
       data-bs-toggle="modal"
       data-bs-target="#export"
-      class="btn btn-dark form-control "
+      class="btn btn-primary form-control "
     >
       🔼Export
     </button>
