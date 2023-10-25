@@ -1,6 +1,6 @@
 State.init({
   clientName: "",
-  clientContract: props.clientContract ? props.clientContract : "",
+  clientContract: props,
   clientList: props.clientList ? props.clientList : [],
   displayModal: false,
   error,
