@@ -13,6 +13,7 @@ const onInputChangeClientContract = ({ target }) => {
   State.update({ clientContract: target.value });
 };
 const showModal = (e, type) => {
+  console.log(state.clientContract);
   console.log(state.displayModal);
   if (type == "show") {
     State.update({ displayModal: true });
@@ -115,6 +116,7 @@ return (
               <label>Address</label>
               <input
                 class="form-control"
+                value={state.clientContract}
                 onChange={(e) => onInputChangeClientContract(e)}
               />
             </div>
