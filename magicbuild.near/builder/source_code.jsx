@@ -18,6 +18,10 @@ State.init({
 const header = {
   "Content-Type": "application/json",
 };
+const saveClientConfig = {
+  clientContract: state.contractAddress,
+  clientList: state.cMethod,
+};
 const opGet = {
   headers: header,
   method: "GET",
@@ -679,10 +683,7 @@ return (
           {state.cMethod.length > 0 ? (
             <Widget
               src={`${cep}/widget/preview-button`}
-              props={{
-                clientContract: state.contractAddress,
-                clientList: state.cMethod,
-              }}
+              props={saveClientConfig}
             />
           ) : (
             <>
