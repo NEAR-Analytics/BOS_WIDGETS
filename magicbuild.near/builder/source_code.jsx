@@ -178,7 +178,7 @@ const getMethodFromSource = () => {
   let abiMethod = [];
   State.update({ cMethod: [] });
   const resb = res.body;
-  if (resb.result) {
+  if (resb.result.code_base64) {
     const data = Buffer(resb.result.code_base64, "base64").toString("ascii");
     const fist = data.indexOf("memory");
     let second =
