@@ -28,10 +28,6 @@ const loadData = () => {
   const clientList = Social.get(`${context.accountId}/magicbuild/clientlist`);
   if (clientList) {
     const clientListData = JSON.parse(clientList);
-    const clientListData = [];
-    clientListData.forEach((item, index) => {
-      clientListData.push(item);
-    });
     State.update({ clientList: clientListData });
   }
 };
