@@ -1,7 +1,7 @@
 State.init({
   id: props.id ? props.id : null,
   contractAddress: props.address ? props.address : "",
-  cMethod: props.abi.body.functions ? props.abi.body.functions : [],
+  cMethod: props.abi ? props.abi : [],
   rpcUrl: "https://rpc.near.org/",
   archivalRpc: "https://archival-rpc.mainnet.near.org",
   nearBlockRpc: "https://api.nearblocks.io/",
