@@ -35,7 +35,7 @@ const Logo = styled.div`
 
 const Container = styled.div`
   display: grid;
-  gap: 72px;
+  gap: 35px;
   max-width: 1040px;
   margin: 0 auto;
 `;
@@ -59,7 +59,7 @@ const Icons = styled.div`
   }
 
   @media (max-width: 1000px) {
-    gap: 24px;
+    gap: 74px;
   }
 `;
 
