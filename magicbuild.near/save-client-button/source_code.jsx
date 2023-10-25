@@ -1,5 +1,5 @@
 State.init({
-  clientName: "",
+  clientName: props.contractAddress,
   clientContract: props.clientContract ? props.clientContract : "",
   clientList: props.clientList ? props.clientList : [],
   displayModal: false,
