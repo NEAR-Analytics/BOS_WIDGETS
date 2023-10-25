@@ -8,7 +8,7 @@
 const item = {
   type: "social",
   path: `${context.accountId}/post/main`,
-  blockHeight: 104020917,
+  blockHeight: 104037685,
 };
 
 const notifyAccountId = "toch.near";
@@ -19,7 +19,7 @@ const notifyAccountId = "toch.near";
 
 const content = {
   type: "md",
-  text: "Hi there!!!",
+  text: "Yesss!!!",
 };
 
 const composeData = () => {
