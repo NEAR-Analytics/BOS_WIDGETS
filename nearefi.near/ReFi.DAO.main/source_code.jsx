@@ -5,7 +5,7 @@ const accountId = props.accountId ?? "nearefi.near";
 const socialProfile = Social.getr(`${accountId}/profile`);
 const role = props.role ?? "regens";
 // const accountId = props.accountId ?? context.accountId;
-const daoId = props.daoId ?? "refi.sputnik-dao.near";
+const daoId = props.daoId ?? "impact.sputnik-dao.near";
 const issuer = props.issuer ?? "issuer.regens.near";
 const sbtTitle = props.sbtTitle ?? "";
 State.init({
