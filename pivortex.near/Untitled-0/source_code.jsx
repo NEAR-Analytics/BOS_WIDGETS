@@ -1,5 +1,5 @@
 const user = "gagdiez.near";
-const props = { name: "Anna" };
+const props = { name: "Gary" };
 
 return (
   <>
