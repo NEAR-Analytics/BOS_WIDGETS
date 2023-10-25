@@ -6,6 +6,7 @@ State.init({
   abi: props.abi ? props.abi : null,
   displayModal: false,
   error,
+  clicked: false,
 });
 console.log("check", props);
 const onInputChangeClientName = ({ target }) => {
@@ -32,67 +33,69 @@ const loadData = () => {
 };
 loadData();
 const saveClient = (e) => {
-  e.preventDefault();
-  if (state.clientName.length < 5) {
-    State.update({
-      error: "Name requires more than 5 characters",
-    });
-  } else {
-    asyncFetch("https://rpc.near.org/", {
-      body: JSON.stringify({
-        method: "query",
-        params: {
-          request_type: "view_code",
-          account_id: state.clientContract,
-          finality: "final",
+  if (!state.clicked) {
+    State.update({ clicked: true });
+    if (state.clientName.length < 5) {
+      State.update({
+        error: "Name requires more than 5 characters",
+      });
+    } else {
+      asyncFetch("https://rpc.near.org/", {
+        body: JSON.stringify({
+          method: "query",
+          params: {
+            request_type: "view_code",
+            account_id: state.clientContract,
+            finality: "final",
+          },
+          id: 154,
+          jsonrpc: "2.0",
+        }),
+        headers: {
+          "Content-Type": "application/json",
         },
-        id: 154,
-        jsonrpc: "2.0",
-      }),
-      headers: {
-        "Content-Type": "application/json",
-      },
-      method: "POST",
-    }).then((res) => {
-      if (res.body.result.code_base64) {
-        const data = state.clientList;
-        if (state.clientId) {
-          data.forEach((item, index) => {
-            if (item.clientId == clientId) {
-              data[index].abi = state.abi;
-              data[index].clientName = state.clientName;
-            }
+        method: "POST",
+      }).then((res) => {
+        if (res.body.result.code_base64) {
+          const data = state.clientList;
+          if (state.clientId) {
+            data.forEach((item, index) => {
+              if (item.clientId == clientId) {
+                data[index].abi = state.abi;
+                data[index].clientName = state.clientName;
+              }
+            });
+          } else {
+            const clientId = Date.now();
+            const clientData = {
+              clientId: clientId,
+              clientName: state.clientName,
+              address: state.clientContract,
+              archived: false,
+              abi: state.abi,
+            };
+            data.push(clientData);
+          }
+          const saveData = {
+            magicbuild: {
+              clientList: data,
+            },
+          };
+          Social.set(saveData, {
+            force: true,
+            onCommit: () => {
+              State.update({ displayModal: false });
+            },
+            onCancel: () => {},
           });
         } else {
-          const clientId = Date.now();
-          const clientData = {
-            clientId: clientId,
-            clientName: state.clientName,
-            address: state.clientContract,
-            archived: false,
-            abi: state.abi,
-          };
-          data.push(clientData);
+          State.update({
+            error:
+              "Unable to save Account ID because the contract has not been deployed yet!",
+          });
         }
-        const saveData = {
-          magicbuild: {
-            clientList: data,
-          },
-        };
-        Social.set(saveData, {
-          force: true,
-          onCommit: () => {
-            State.update({ displayModal: false });
-          },
-          onCancel: () => {},
-        });
-      } else {
-        State.update({
-          error:
-            "Unable to save Account ID because the contract has not been deployed yet!",
-        });
-      }
-    });
+      });
+    }
   }
 };
 
@@ -101,6 +104,7 @@ return (
     <label></label>
     <button
       class="btn btn-dark form-control "
+      disabled={state.clicked}
       onClick={(e) => showModal(e, "show")}
     >
       {state.clientId ? "Save Client" : "Create Client"}
