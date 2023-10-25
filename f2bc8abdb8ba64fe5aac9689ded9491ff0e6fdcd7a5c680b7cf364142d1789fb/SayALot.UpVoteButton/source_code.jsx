@@ -40,10 +40,6 @@ if (!upVotes) {
   });
 }
 
-// console.log("state.upVotes", state.upVotes);
-// console.log("state.upVotesBySBT: ", state.upVotesBySBT);
-// console.log(Object.keys(state.upVotesBySBT).length > 0);
-
 if (state.upVotesBySBT && Object.keys(state.upVotesBySBT).length > 0) {
   // console.log(
   //   "Object.keys(state.upVotesBySBT): ",
@@ -75,25 +71,6 @@ function getUpVoteButtonClass() {
   }
 }
 
-// function callLibs(srcArray, stateUpdate, libCalls) {
-//   return (
-//     <>
-//       {srcArray.map((src) => {
-//         return (
-//           <Widget
-//             src={src}
-//             props={{
-//               isTest,
-//               stateUpdate,
-//               libCalls,
-//             }}
-//           />
-//         );
-//       })}
-//     </>
-//   );
-// }
-
 function stateUpdate(obj) {
   State.update(obj);
 }
@@ -102,11 +79,13 @@ function upVoteButtonListener() {
   let newLibCalls = Object.assign({}, state.libCalls);
 
   if (!hasUserVoted) {
+    console.log(2, data);
     newLibCalls.upVotes.push({
       functionName: "addVote",
       key: "newVote",
       props: {
         id: data.id ?? `${data.author}-${data.timeCreate}`,
+        articleSbts: data.sbts,
       },
     });
   } else {
@@ -171,8 +150,8 @@ return (
       {libSrcArray.map((src) => {
         return callLibs(
           src,
-          libStateUpdate,
-          state.libsCalls,
+          stateUpdate,
+          state.libCalls,
           { baseAction: "sayALotUpVote" },
           "Up vote button"
         );
