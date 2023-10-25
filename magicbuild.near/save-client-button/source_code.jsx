@@ -104,7 +104,7 @@ return (
       class="btn btn-dark form-control "
       onClick={(e) => showModal(e, "show")}
     >
-      {state.id ? "Save Client" : "Create Client"}
+      {state.id ? "Create Client" : "Save Client"}
     </button>
     {state.displayModal && (
       <>
