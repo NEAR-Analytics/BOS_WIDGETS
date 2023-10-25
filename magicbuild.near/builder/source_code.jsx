@@ -676,7 +676,7 @@ return (
           ) : (
             <>
               <label></label>
-              <button class="btn btn-dark form-control ">🔼 Export</button>
+              <button class="btn btn-primary form-control ">🔼 Export</button>
             </>
           )}
         </div>
@@ -686,7 +686,7 @@ return (
           ) : (
             <>
               <label></label>
-              <button class="btn btn-dark form-control ">👀 Preview</button>
+              <button class="btn btn-primary form-control ">👀 Preview</button>
             </>
           )}
         </div>
@@ -699,7 +699,10 @@ return (
           ) : (
             <>
               <label></label>
-              <button class="btn btn-dark form-control "> Save Client</button>
+              <button class="btn btn-primary form-control ">
+                {" "}
+                Save Client
+              </button>
             </>
           )}
         </div>
@@ -739,7 +742,7 @@ return (
       </div>
       <div class="form-group col-md-2">
         <label></label>
-        <button onClick={onCreateMethod} class="btn btn-dark form-control ">
+        <button onClick={onCreateMethod} class="btn btn-primary form-control ">
           Create
         </button>
       </div>
