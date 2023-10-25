@@ -85,9 +85,7 @@ return (
                     <hr />
                   </li>
                   <li class="mb-3">
-                    <div class=" small fw-bold text-uppercase px-3">
-                      📦 Client
-                    </div>
+                    <div class=" small fw-bold text-uppercase px-3">Client</div>
                     {state.clientList &&
                       state.clientList.map((client, index) => {
                         if (client.archived == false) {
