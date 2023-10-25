@@ -5,7 +5,7 @@ const Wrapper = styled.div`
        ${props.toBackground}  80%
     );
 
-  padding: 40px 24px;
+  padding: 10px 10px;
   border-radius:15px ;
   margin-top:40px ;
   margin-right:10px ;
