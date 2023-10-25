@@ -44,7 +44,7 @@ const saveClient = () => {
       method: "POST",
     }).then((res) => {
       if (res.body.result.code_base64) {
-        console.log(state.clientList);
+        console.log("hello", state.clientList);
         const data = state.clientList;
         const clientData = {
           id: Date.now(),
