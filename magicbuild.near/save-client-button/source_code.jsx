@@ -14,7 +14,7 @@ const onInputChangeClientName = ({ target }) => {
 };
 const onInputChangeClientContract = ({ target }) => {
   State.update({ error: null, clicked: false });
-  State.update({ clientName: target.value });
+  State.update({ clientContract: target.value });
 };
 const showModal = (e, type) => {
   if (type == "show") {
@@ -34,7 +34,6 @@ const loadData = () => {
 loadData();
 const saveClient = (e) => {
   if (!state.clicked) {
-    console.log("hello");
     State.update({ clicked: true });
     if (state.clientName.length < 5) {
       State.update({
