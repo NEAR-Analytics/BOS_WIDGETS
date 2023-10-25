@@ -53,7 +53,7 @@ const Button0015 = styled.button`
   &:active {
     transform: scale(0.95);
   }`;
-  const text = props.text || "Next";
+const text = props.text || "Next";
 return (
   <Button0015 className="cta">
     <span>{text}</span>
