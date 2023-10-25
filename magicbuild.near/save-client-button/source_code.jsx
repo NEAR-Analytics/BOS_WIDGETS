@@ -13,6 +13,8 @@ const onInputChangeClientContract = ({ target }) => {
   State.update({ clientContract: target.value });
 };
 const showModal = (e, type) => {
+  console.log("hello", state.clientList);
+
   console.log("check", props);
   if (type == "show") {
     State.update({ displayModal: true });
@@ -44,7 +46,6 @@ const saveClient = () => {
       method: "POST",
     }).then((res) => {
       if (res.body.result.code_base64) {
-        console.log("hello", state.clientList);
         const data = state.clientList;
         const clientData = {
           id: Date.now(),
