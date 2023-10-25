@@ -1,7 +1,8 @@
 State.init({
   clientName: props.contractAddress,
   clientContract: props.clientContract ? props.clientContract : "",
-  clientList: props.clientList ? props.clientList : [],
+  clientList: [],
+  abi: props.abi ? props.abi : null,
   displayModal: false,
   error,
 });
@@ -23,6 +24,23 @@ const showModal = (e, type) => {
     State.update({ displayModal: false });
   }
 };
+const loadData = () => {
+  const clientList = Social.get(`${context.accountId}/magicbuild/clientlist`);
+  if (clientList) {
+    const clientListData = JSON.parse(clientList);
+    clientListData.forEach((item, index) => {
+      const abiRes = Social.get(
+        `${context.accountId}/magicbuild/client/${item.id}/abi`
+      );
+      if (abiRes) {
+        const abi = JSON.parse(abiRes);
+        clientListData[index].abi = abi;
+      }
+    });
+    State.update({ clientList: clientListData });
+  }
+};
+loadData();
 const saveClient = () => {
   if (state.clientName.length < 5) {
     State.update({
@@ -52,7 +70,7 @@ const saveClient = () => {
           name: state.clientName,
           address: state.clientContract,
           archived: false,
-          abi: null,
+          abi: state.abi,
         };
         data.push(clientData);
         const saveData = {
