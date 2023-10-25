@@ -108,6 +108,7 @@ const renderItem = (a) => {
           accountId: a.accountId,
           widgetName: a.widgetName,
           blockHeight: a.blockHeight,
+          widgetSrc: `${a.accountId}/widget/${a.widgetName}`,
           renderTag,
           profileLink: makeLink(a.accountId, tag),
         }}
