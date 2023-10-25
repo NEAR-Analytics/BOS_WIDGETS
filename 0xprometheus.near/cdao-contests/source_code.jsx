@@ -78,11 +78,15 @@ const Summary = styled.div`
   margin-bottom: 20px;
 `;
 
-const contests = Near.view("cdao-beta.genadrop.near", "get_contests", {
-  subscribe: true,
-});
+// const contests = Near.view("cdao-beta.genadrop.near", "get_contests", {
+//   subscribe: true,
+// });
 
-State.init({ contests });
+State.init({
+  contests: Near.view("cdao-beta.genadrop.near", "get_contests", {
+    subscribe: true,
+  }),
+});
 
 const isActive = (date) => {
   let dt = new Date(date * 1000);
