@@ -421,7 +421,8 @@ const handleCreateProject = (e) => {
       },
     },
   };
-  const registerArgs = { name: state.name };
+  const potlockRegistryArgs = {};
+  const horizonArgs = { account_id: context.accountId };
   const transactions = [
     // set data on social.near
     {
@@ -430,14 +431,19 @@ const handleCreateProject = (e) => {
       deposit: Big(JSON.stringify(socialArgs).length * 16).mul(Big(10).pow(20)),
       args: socialArgs,
     },
+    // register on NEAR Horizon
+    {
+      contractName: "nearhorizon.near",
+      methodName: "add_project",
+      args: horizonArgs,
+    },
     // register project on potlock
     {
       contractName: registryId,
       methodName: "register",
-      deposit: Big(JSON.stringify(registerArgs).length * 16).mul(Big(10).pow(20)),
-      args: registerArgs,
+      deposit: Big(JSON.stringify(potlockRegistryArgs).length * 16).mul(Big(10).pow(20)), // TODO: update this, it isn't correct
+      args: potlockRegistryArgs,
     },
-    // TODO: register on near horizon
   ];
   const res = Near.call(transactions);
 };
@@ -581,7 +587,9 @@ return (
               <LowerBannerContainer>
                 <LowerBannerContainerLeft>
                   <AddTeamMembers onClick={() => State.update({ isModalOpen: true })}>
-                    Add team members
+                    {state.teamMembers.length > 0
+                      ? "Add or remove team members"
+                      : "Add team members"}
                   </AddTeamMembers>
                 </LowerBannerContainerLeft>
                 <LowerBannerContainerRight>
@@ -627,7 +635,7 @@ return (
           <FormSectionContainer>
             {FormSectionLeft(
               "Project details",
-              "Lorem ipsum dolor sit amet consectetur. Vel sit nunc in nunc. Viverra arcu eu sed consequat.",
+              "Give an overview of your project including background details and your mission.",
               true
             )}
             <FormSectionRightDiv>
@@ -701,6 +709,7 @@ return (
                     { text: "NonProfit", value: "non-profit" },
                     { text: "Climate", value: "climate" },
                     { text: "Public Good", value: "public-good" },
+                    { text: "DeSci", value: "de-sci" },
                   ],
                   value: state.category,
                   onChange: (category) =>
@@ -723,7 +732,7 @@ return (
           <FormSectionContainer>
             {FormSectionLeft(
               "Social links",
-              "Lorem ipsum dolor sit amet consectetur. Vel sit nunc in nunc. Viverra arcu eu sed consequat.",
+              "Add your project social links to so supporters can connect with you directly.",
               false
             )}
             <FormSectionRightDiv>
@@ -855,11 +864,13 @@ return (
                   <MembersListItemText>@{teamMember.accountId}</MembersListItemText>
                 </MembersListItemLeft>
                 <RemoveMember
-                  onClick={() =>
+                  onClick={() => {
                     State.update({
-                      teamMembers: state.teamMembers.filter((member) => member != teamMember),
-                    })
-                  }
+                      teamMembers: state.teamMembers.filter(
+                        (member) => member.accountId != teamMember.accountId
+                      ),
+                    });
+                  }}
                 >
                   Remove
                 </RemoveMember>
