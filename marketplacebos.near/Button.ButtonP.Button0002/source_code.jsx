@@ -40,4 +40,9 @@ const Button0002 = styled.button`
 const text = props.text || "Button0002";
 const height = props.height;
 const width = props.width;
-return <Button0002>{text}</Button0002>;
+
+return (
+  <Button0002 height={height} width={width}>
+    {text}
+  </Button0002>
+);
