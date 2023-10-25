@@ -72,7 +72,7 @@ function canUserCreateComment(props) {
     return !discardCondition;
   });
 
-  return true || result;
+  return result;
 }
 
 function setAreValidUsers(accountIds, sbtsNames) {
