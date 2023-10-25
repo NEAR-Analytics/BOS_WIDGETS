@@ -2,18 +2,12 @@ State.init({ clientList: [] });
 
 const loadData = () => {
   const clientList = Social.get(`${context.accountId}/magicbuild/clientlist`);
-  console.log(clientList);
+  console.log("data", clientList);
   if (clientList) {
     const clientListData = JSON.parse(clientList);
     clientListData.forEach((item, index) => {
-      const abiRes = Social.get(
-        `${context.accountId}/magicbuild/client/${item.id}/abi`
-      );
-      console.log(abiRes);
-      if (abiRes) {
-        const abi = JSON.parse(abiRes);
-        clientListData[index].abi = abi;
-      }
+      console.log("check", abiRes);
+      clientListData[index].abi = abi;
     });
     State.update({ clientList: clientListData });
   }
@@ -239,7 +233,7 @@ return (
                 >
                   <Widget
                     src={"magicbuild.near/widget/builder"}
-                    props={client}
+                    props={{ client }}
                   />
                 </div>
               ))}
