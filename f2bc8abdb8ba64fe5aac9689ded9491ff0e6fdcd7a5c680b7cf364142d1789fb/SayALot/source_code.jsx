@@ -97,6 +97,7 @@ State.update({ libsCalls: newLibsCalls });
 const authorForWidget =
   "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb";
 // const authorForWidget = "kenrou-it.near";
+// const authorForWidget = "silkking.near";
 
 const thisWidgetName = "SayALot";
 
@@ -122,20 +123,12 @@ const widgets = {
   // commentView: `${context.accountId}/widget/SayALot.CommentView`,
   libSBT: `${authorForWidget}/widget/lib.SBT`,
   // libSBT: `${context.accountId}/widget/lib.SBT`,
-  //   libComment: `${authorForWidget}/widget/SayALot.lib.comment`,
-  // libComment: `${context.accountId}/widget/SayALot.lib.comment`,
   libComment: `${authorForWidget}/widget/lib.comment`,
   // libComment: `${context.accountId}/widget/lib.comment`,
-  // libArticle: `${authorForWidget}/widget/SayALot.lib.article`,
-  // libArticle: `${context.accountId}/widget/SayALot.lib.article`,
   libArticle: `${authorForWidget}/widget/lib.article`,
   // libArticle: `${context.accountId}/widget/lib.article`,
-  // libEmojis: `${authorForWidget}/widget/SayALot.lib.emojis`,
-  // libEmojis: `${context.accountId}/widget/SayALot.lib.emojis`,
   libEmojis: `${authorForWidget}/widget/lib.emojis`,
   // libEmojis: `${context.accountId}/widget/lib.emojis`,
-  // libUpVotes: `${authorForWidget}/widget/SayALot.lib.upVotes`,
-  // libUpVotes: `${context.accountId}/widget/SayALot.lib.upVotes`,
   libUpVotes: `${authorForWidget}/widget/lib.upVotes`,
   // libUpVotes: `${context.accountId}/widget/lib.upVotes`,
   upVoteButton: `${authorForWidget}/widget/SayALot.UpVoteButton`,
