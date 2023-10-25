@@ -962,7 +962,21 @@ return (
                 }
                 role="alert"
               >
-                {state.res[functions.name].value}
+                <pre>
+                  {JSON.stringify(
+                    JSON.parse(state.res[functions.name].value),
+                    null,
+                    2
+                  )}
+                </pre>
+                <button
+                  class="btn btn-dark btn-sm mt-2"
+                  onClick={() => {
+                    clipboard.writeText(state.res[functions.name].value);
+                  }}
+                >
+                  Copy
+                </button>
               </div>
             ) : (
               ""
