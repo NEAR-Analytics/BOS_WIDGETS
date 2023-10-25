@@ -10,19 +10,19 @@ function MainComponent(props, context) {
       <h1>DEMO. You are at "{props.title}" page</h1>
       <ul>
         <li>
-          <a href="/frol.near/widget/bos-component-ts-starter.pages.page-a">
+          <Link to="/frol.near/widget/bos-component-ts-starter.pages.page-a">
             Go to Page A
-          </a>
+          </Link>
         </li>
         <li>
-          <a href="/frol.near/widget/bos-component-ts-starter.pages.page-b">
+          <Link href="/frol.near/widget/bos-component-ts-starter.pages.page-b">
             Go to Page B
-          </a>
+          </Link>
         </li>
         <li>
-          <a href="/frol.near/widget/bos-component-ts-starter.pages.page-a?customWelcomeMessage=heyoo">
+          <Link href="/frol.near/widget/bos-component-ts-starter.pages.page-a?customWelcomeMessage=heyoo">
             Go to Page A with custom message
-          </a>
+          </Link>
         </li>
       </ul>
       {props.children}
