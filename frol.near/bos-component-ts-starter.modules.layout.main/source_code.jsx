@@ -4,7 +4,7 @@ Author: frol.near
 Homepage: https://github.com/frol/bos-component-ts-starter#readme
 */
 
-function MainComponent(props, context) {
+function AppLayout(props, context) {
   return (
     <>
       <h1>DEMO. You are at "{props.title}" page</h1>
@@ -30,4 +30,4 @@ function MainComponent(props, context) {
   );
 }
 
-return { MainComponent };
+return { AppLayout };
