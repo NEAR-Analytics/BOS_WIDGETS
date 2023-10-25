@@ -44,20 +44,18 @@ const saveClient = () => {
       method: "POST",
     }).then((res) => {
       if (res.body.result.code_base64) {
+        const data = state.clientList;
         const clientData = {
           id: Date.now(),
           name: state.clientName,
           address: state.clientContract,
           archived: false,
-          abi: {
-            body: {
-              functions: state.clientList,
-            },
-          },
+          abi: null,
         };
+        data.push(clientData);
         const saveData = {
           magicbuild: {
-            clientlist: clientData,
+            clientlist: data,
           },
         };
         Social.set(saveData, {
