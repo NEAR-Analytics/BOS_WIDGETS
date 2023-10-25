@@ -16,7 +16,7 @@ State.init({
   totalProcess: 0,
   endprocess: 1,
 });
-console.log("props", props);
+
 const header = {
   "Content-Type": "application/json",
 };
@@ -231,7 +231,6 @@ const getMethodFromSource = () => {
         }
         abiMethod.push(method);
       });
-      console.log("abiMethod", abiMethod);
       State.update({ cMethod: abiMethod });
       abiMethod.forEach((item, index) => {
         getArgsFromMethod(item.name, index);
