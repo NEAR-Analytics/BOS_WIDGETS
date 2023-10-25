@@ -16,7 +16,7 @@ const onInputChangeClientContract = ({ target }) => {
 };
 const showModal = (e, type) => {
   if (type == "show") {
-    State.update({ displayModal: true });
+    State.update({ displayModal: true, clicked: false });
   }
   if (type == "close") {
     State.update({ displayModal: false });
@@ -103,7 +103,6 @@ return (
     <label></label>
     <button
       class="btn btn-dark form-control "
-      disabled={state.clicked}
       onClick={(e) => showModal(e, "show")}
     >
       {state.clientId ? "Save Client" : "Create Client"}
@@ -176,6 +175,7 @@ return (
                 </button>
                 <button
                   type="button"
+                  disabled={state.clicked}
                   onClick={(e) => saveClient(e)}
                   class="btn btn-primary"
                 >
