@@ -1,5 +1,6 @@
 State.init({
-  clientName: props.contractAddress,
+  clientName: props.name,
+  id: props.id || null,
   clientContract: props.clientContract ? props.clientContract : "",
   clientList: [],
   abi: props.abi ? props.abi : null,
@@ -32,7 +33,8 @@ const loadData = () => {
   }
 };
 loadData();
-const saveClient = () => {
+const saveClient = (e) => {
+  e.preventDefault();
   if (state.clientName.length < 5) {
     State.update({
       error: "Name requires more than 5 characters",
@@ -56,27 +58,31 @@ const saveClient = () => {
     }).then((res) => {
       if (res.body.result.code_base64) {
         const data = state.clientList;
-        const id = Date.now();
-        const clientData = {
-          id: id,
-          name: state.clientName,
-          address: state.clientContract,
-          archived: false,
-          abi: state.abi,
-        };
-        data.push(clientData);
-        const saveData = {
-          magicbuild: {
-            clientList: data,
-          },
-        };
-        Social.set(saveData, {
-          force: true,
-          onCommit: () => {
-            State.update({ displayModal: false });
-          },
-          onCancel: () => {},
-        });
+        if (state.id) {
+          data.forEach((item) => {});
+        } else {
+          const id = Date.now();
+          const clientData = {
+            id: id,
+            name: state.clientName,
+            address: state.clientContract,
+            archived: false,
+            abi: state.abi,
+          };
+          data.push(clientData);
+          const saveData = {
+            magicbuild: {
+              clientList: data,
+            },
+          };
+          Social.set(saveData, {
+            force: true,
+            onCommit: () => {
+              State.update({ displayModal: false });
+            },
+            onCancel: () => {},
+          });
+        }
       } else {
         State.update({
           error:
@@ -94,7 +100,7 @@ return (
       class="btn btn-dark form-control "
       onClick={(e) => showModal(e, "show")}
     >
-      Save Client
+      {state.id ? "Save Client" : "Create Client"}
     </button>
     {state.displayModal && (
       <>
@@ -163,7 +169,7 @@ return (
                 </button>
                 <button
                   type="button"
-                  onClick={saveClient}
+                  onClick={(e) => saveClient(e)}
                   class="btn btn-primary"
                 >
                   Create
