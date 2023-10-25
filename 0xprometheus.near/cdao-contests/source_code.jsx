@@ -1,3 +1,5 @@
+State.init({ contests: [] });
+
 const CardContainer = styled.div`
   display: flex;
   flex-direction: row;
@@ -78,14 +80,12 @@ const Summary = styled.div`
   margin-bottom: 20px;
 `;
 
-// const contests = Near.view("cdao-beta.genadrop.near", "get_contests", {
-//   subscribe: true,
-// });
+const contests = Near.view("cdao-beta.genadrop.near", "get_contests", {
+  subscribe: true,
+});
 
-State.init({
-  contests: Near.view("cdao-beta.genadrop.near", "get_contests", {
-    subscribe: true,
-  }),
+State.update({
+  contests,
 });
 
 const isActive = (date) => {
