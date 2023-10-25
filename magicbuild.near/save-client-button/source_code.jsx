@@ -13,7 +13,7 @@ const onInputChangeClientContract = ({ target }) => {
   State.update({ clientContract: target.value });
 };
 const showModal = (e, type) => {
-  console.log("check", props.clientContract);
+  console.log("check", props);
   if (type == "show") {
     State.update({ displayModal: true });
   }
