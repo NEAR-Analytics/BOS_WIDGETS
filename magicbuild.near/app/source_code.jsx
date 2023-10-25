@@ -59,7 +59,7 @@ return (
                   </li>
                   <li class="mb-1">
                     <div class="small fw-bold text-uppercase d-flex  px-3 align-items-center justify-content-between">
-                      <span>Client</span>
+                      <span>Application</span>
                     </div>
                   </li>
                   <li class="nav-item" role="presentation">
@@ -98,32 +98,7 @@ return (
 
                       <div class="collapse show" id="collapseArchive">
                         <div>
-                          <ul class="navbar-nav ps-3 ">
-                            {state.clientList &&
-                              state.clientList.map((client, index) => {
-                                if (client.archived == false) {
-                                  return (
-                                    <li>
-                                      <a
-                                        href="#"
-                                        class="nav-link px-3"
-                                        id={`pills-tab-${client.clientId}`}
-                                        data-bs-toggle="pill"
-                                        data-bs-target={`#pills-${client.clientId}`}
-                                        type="button"
-                                        role="tab"
-                                        aria-controls={`#pills-${client.clientId}`}
-                                        aria-selected="true"
-                                      >
-                                        <span class="fw-bold">
-                                          ✨{client.clientName}
-                                        </span>
-                                      </a>
-                                    </li>
-                                  );
-                                }
-                              })}
-                          </ul>
+                          <ul class="navbar-nav ps-3 "></ul>
                         </div>
                       </div>
                     </li>
@@ -133,24 +108,33 @@ return (
                     <hr />
                   </li>
                   <li class="mb-3">
-                    <div class=" small fw-bold text-uppercase px-3">Addons</div>
+                    <div class=" small fw-bold text-uppercase px-3">Client</div>
+                    {state.clientList &&
+                      state.clientList.map((client, index) => {
+                        if (client.archived == false) {
+                          return (
+                            <li>
+                              <a
+                                href="#"
+                                class="nav-link px-3"
+                                id={`pills-tab-${client.clientId}`}
+                                data-bs-toggle="pill"
+                                data-bs-target={`#pills-${client.clientId}`}
+                                type="button"
+                                role="tab"
+                                aria-controls={`#pills-${client.clientId}`}
+                                aria-selected="true"
+                              >
+                                <span class="fw-bold">
+                                  ✨{client.clientName}
+                                </span>
+                              </a>
+                            </li>
+                          );
+                        }
+                      })}
                   </li>
-                  <li>
-                    <a href="#" class="nav-link px-3">
-                      <span class="me-2">
-                        <i class="bi bi-activity"></i>
-                      </span>
-                      <span class="fw-bold">Activity</span>
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#" class="nav-link px-3">
-                      <span class="me-2">
-                        <i class="bi bi-clipboard2-data"></i>
-                      </span>
-                      <span class="fw-bold">Data</span>
-                    </a>
-                  </li>
+
                   <li>
                     <hr />
                   </li>
