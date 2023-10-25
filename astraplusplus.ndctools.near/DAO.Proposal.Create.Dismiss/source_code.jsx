@@ -119,20 +119,20 @@ const defaultDescription =
 return (
     <>
         <Widget
+            src="astraplusplus.ndctools.near/widget/DAO.Proposal.Common.ProposalQueue"
+            props={{
+                daoId: daoId,
+                onUpdate: onChangeQueue,
+                dev: props.dev
+            }}
+        />
+        <Widget
             src="astraplusplus.ndctools.near/widget/DAO.Proposal.Common.CongressHouseDropdown"
             props={{
                 daoId: daoId,
                 label: "House",
                 placeholder: "Select house account",
                 onUpdate: onChangeDao
-            }}
-        />
-
-        <Widget
-            src="astraplusplus.ndctools.near/widget/DAO.Proposal.Common.ProposalQueue"
-            props={{
-                daoId: daoId,
-                onUpdate: onChangeQueue
             }}
         />
         <div className="mb-3">
