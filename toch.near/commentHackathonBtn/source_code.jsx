@@ -8,7 +8,7 @@
 const item = {
   type: "social",
   path: `${context.accountId}/post/main`,
-  blockHeight: "104020917",
+  blockHeight: 104020917,
 };
 
 const notifyAccountId = "toch.near";
