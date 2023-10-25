@@ -7,11 +7,11 @@
 // const item = props.item;
 const item = {
   type: "social",
-  path: `${context.accountId}/post/main`,
+  path: `blaze.near/post/main`,
   blockHeight: 104037685,
 };
 
-const notifyAccountId = "toch.near";
+// const notifyAccountId = "blaze.near";
 
 // if (!context.accountId) {
 //   return "";
