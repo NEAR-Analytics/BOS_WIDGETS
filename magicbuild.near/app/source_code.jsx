@@ -8,6 +8,7 @@ const loadData = () => {
       const abiRes = Social.get(
         `${context.accountId}/magicbuild/client/${item.id}/abi`
       );
+      console.log(abiRes);
       if (abiRes) {
         const abi = JSON.parse(abiRes);
         clientListData[index].abi = abi;
