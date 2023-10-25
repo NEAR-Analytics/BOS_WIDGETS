@@ -9,10 +9,12 @@ State.init({
   clicked: false,
 });
 const onInputChangeClientName = ({ target }) => {
-  State.update({ clientName: target.value, clicked: false });
+  State.update({ clientName: target.value });
+  State.update({ clicked: false });
 };
 const onInputChangeClientContract = ({ target }) => {
-  State.update({ error: null, clicked: false, clientContract: target.value });
+  State.update({ error: null, clicked: false });
+  State.update({ clientName: target.value });
 };
 const showModal = (e, type) => {
   if (type == "show") {
