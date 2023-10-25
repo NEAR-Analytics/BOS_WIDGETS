@@ -60,7 +60,7 @@ const saveClient = (e) => {
           data.forEach((item, index) => {
             if (item.clientId == clientId) {
               data[index].abi = state.abi;
-              data[index].name = state.clientName;
+              data[index].clientName = state.clientName;
             }
           });
         } else {
