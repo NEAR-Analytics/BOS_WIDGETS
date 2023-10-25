@@ -5,10 +5,6 @@ const loadData = () => {
 
   if (clientList) {
     const clientListData = JSON.parse(clientList);
-    clientListData.forEach((item, index) => {
-      console.log("data", item);
-      clientListData[index] = item;
-    });
     State.update({ clientList: clientListData });
   }
 };
