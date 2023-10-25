@@ -1,14 +1,14 @@
 // if (!context.accountId) {
 //   return "";
 // }
-const blockHeight =
-  props.blockHeight === "now" ? "now" : parseInt(props.blockHeight);
+// const blockHeight = parseInt("now");
+// props.blockHeight === "now" ? "now" : parseInt(props.blockHeight);
 
 // const item = props.item;
 const item = {
   type: "social",
   path: `${context.accountId}/post/main`,
-  blockHeight,
+  blockHeight: 104146528,
 };
 
 // if (!context.accountId) {
@@ -17,7 +17,7 @@ const item = {
 
 const content = {
   type: "md",
-  text: "Hello",
+  text: "Great news! Thank you for sharing.",
 };
 
 const composeData = () => {
