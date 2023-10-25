@@ -7,7 +7,7 @@ const loadData = () => {
     const clientListData = JSON.parse(clientList);
     clientListData.forEach((item, index) => {
       console.log("check", abiRes);
-      clientListData[index].abi = abi;
+      clientListData[index] = item;
     });
     State.update({ clientList: clientListData });
   }
