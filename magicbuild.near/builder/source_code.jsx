@@ -161,9 +161,6 @@ const onCreateMethod = () => {
   }
 };
 const getMethodFromSource = () => {
-  State.update({ cMerr: null });
-  State.update({ totalProcess: 0 });
-  State.update({ endprocess: 1 });
   const res = fetch(state.rpcUrl, {
     body: JSON.stringify({
       method: "query",
@@ -178,6 +175,9 @@ const getMethodFromSource = () => {
     headers: header,
     method: "POST",
   });
+  State.update({ cMerr: null });
+  State.update({ totalProcess: 0 });
+  State.update({ endprocess: 1 });
   let abiMethod = [];
   State.update({ cMethod: [] });
   const resb = res.body;
