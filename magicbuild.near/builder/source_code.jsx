@@ -1,5 +1,6 @@
 State.init({
-  id: props.id ? props.id : null,
+  clientId: props.clientId ? props.clientId : null,
+  clientName: props.clientName ? props.clientName : "",
   contractAddress: props.address ? props.address : "",
   cMethod: props.abi ? props.abi : [],
   rpcUrl: "https://rpc.near.org/",
@@ -20,6 +21,8 @@ const header = {
   "Content-Type": "application/json",
 };
 const saveClientConfig = {
+  clientId: state.clientId,
+  clientName: state.clientName,
   clientContract: state.contractAddress,
   abi: state.cMethod,
 };
