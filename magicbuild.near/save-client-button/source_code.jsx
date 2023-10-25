@@ -28,14 +28,9 @@ const loadData = () => {
   const clientList = Social.get(`${context.accountId}/magicbuild/clientlist`);
   if (clientList) {
     const clientListData = JSON.parse(clientList);
+    const clientListData = [];
     clientListData.forEach((item, index) => {
-      const abiRes = Social.get(
-        `${context.accountId}/magicbuild/client/${item.id}/abi`
-      );
-      if (abiRes) {
-        const abi = JSON.parse(abiRes);
-        clientListData[index].abi = abi;
-      }
+      clientListData.push(item);
     });
     State.update({ clientList: clientListData });
   }
@@ -75,9 +70,6 @@ const saveClient = () => {
         };
         data.push(clientData);
         const saveData = {
-          magicbuild: {
-            client: id,
-          },
           magicbuild: {
             clientList: data,
           },
