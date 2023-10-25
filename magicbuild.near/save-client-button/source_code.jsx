@@ -96,78 +96,83 @@ return (
     >
       Save Client
     </button>
-    <div
-      style={{ display: state.displayModal ? "block" : "none" }}
-      className={`modal fade ${state.displayModal ? " show" : ""}`}
-      id="createClient"
-      tabindex="-1"
-      aria-labelledby="createClientLabel"
-    >
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h1 class="modal-title fs-5" id="createClientLabel">
-              Create Client
-            </h1>
-            <button
-              type="button"
-              class="btn-close"
-              onClick={(e) => showModal(e, "close")}
-            ></button>
-          </div>
-          <div class="modal-body">
-            <div class="form-group">
-              <label>Name</label>
-              <input
-                class="form-control"
-                onChange={(e) => onInputChangeClientName(e)}
-              />
-            </div>
-            <div class="form-group">
-              <label>Address</label>
-              <input
-                class="form-control"
-                value={state.clientContract}
-                onChange={(e) => onInputChangeClientContract(e)}
-              />
-            </div>
-            <div class="form-group">
-              <label>Chain</label>
-              <select class="form-control">
-                <option selected>Near Chain</option>
-                <option disabled>Ethereum Chain</option>
-                <option disabled>AVAX Chain</option>
-              </select>
-            </div>
-            {!state.error && (
-              <small class="form-text text-muted">
-                A new Client will be created.
-              </small>
-            )}
-
-            {state.error && (
-              <p class="text-danger" role="alert">
-                {state.error}
-              </p>
-            )}
-          </div>
-          <div class="modal-footer">
-            <button
-              type="button"
-              class="btn btn-secondary"
-              onClick={(e) => showModal(e, "close")}
-            >
-              Close
-            </button>
-            <button type="button" onClick={saveClient} class="btn btn-primary">
-              Create
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
     {state.displayModal && (
       <>
+        <div
+          style={{ display: "block" }}
+          className={`modal fade show`}
+          id="createClient"
+          tabindex="-1"
+          aria-labelledby="createClientLabel"
+        >
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h1 class="modal-title fs-5" id="createClientLabel">
+                  Create Client
+                </h1>
+                <button
+                  type="button"
+                  class="btn-close"
+                  onClick={(e) => showModal(e, "close")}
+                ></button>
+              </div>
+              <div class="modal-body">
+                <div class="form-group">
+                  <label>Name</label>
+                  <input
+                    class="form-control"
+                    onChange={(e) => onInputChangeClientName(e)}
+                  />
+                </div>
+                <div class="form-group">
+                  <label>Address</label>
+                  <input
+                    class="form-control"
+                    value={state.clientContract}
+                    onChange={(e) => onInputChangeClientContract(e)}
+                  />
+                </div>
+                <div class="form-group">
+                  <label>Chain</label>
+                  <select class="form-control">
+                    <option selected>Near Chain</option>
+                    <option disabled>Ethereum Chain</option>
+                    <option disabled>AVAX Chain</option>
+                  </select>
+                </div>
+                {!state.error && (
+                  <small class="form-text text-muted">
+                    A new Client will be created.
+                  </small>
+                )}
+
+                {state.error && (
+                  <p class="text-danger" role="alert">
+                    {state.error}
+                  </p>
+                )}
+              </div>
+              <div class="modal-footer">
+                <button
+                  type="button"
+                  class="btn btn-secondary"
+                  onClick={(e) => showModal(e, "close")}
+                >
+                  Close
+                </button>
+                <button
+                  type="button"
+                  onClick={saveClient}
+                  class="btn btn-primary"
+                >
+                  Create
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
         <div class="modal-backdrop fade show"></div>
       </>
     )}
