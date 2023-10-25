@@ -20,7 +20,7 @@ const header = {
 };
 const saveClientConfig = {
   clientContract: state.contractAddress,
-  clientList: state.cMethod,
+  abi: state.cMethod,
 };
 const opGet = {
   headers: header,
