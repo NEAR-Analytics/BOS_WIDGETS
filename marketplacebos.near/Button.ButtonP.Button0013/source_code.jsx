@@ -52,5 +52,5 @@ content: ' ';    display: block;
     border-top-color: inherit;
     transition: margin-top 0.3s, opacity 0.3s; 
   }`;
-  const text = props.text || "Download";
+const text = props.text || "Download";
 return <Button0013>{text}</Button0013>;
