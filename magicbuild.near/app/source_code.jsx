@@ -229,7 +229,7 @@ return (
                 >
                   <Widget
                     src={"magicbuild.near/widget/builder"}
-                    props={{ client }}
+                    props={client}
                   />
                 </div>
               ))}
