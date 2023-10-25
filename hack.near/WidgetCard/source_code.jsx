@@ -1,3 +1,4 @@
+const widgetSrc = props.widgetSrc;
 const accountId = props.accountId;
 const widgetName = props.widgetName;
 const widgetPath = `${accountId}/widget/${widgetName}`;
