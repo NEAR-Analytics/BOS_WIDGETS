@@ -97,11 +97,10 @@ return (
         Active contests{" "}
         <span style={{ color: "green" }}>
           (
-          {
+          {state.contests &&
             state.contests.filter((contest) =>
               isActive(contest[1].voting_end_time)
-            ).length
-          }
+            ).length}
           )
         </span>
       </p>
@@ -109,7 +108,9 @@ return (
         Ended contests{" "}
         <span style={{ color: "red" }}>
           (
-          {state.contests.filter((x) => !isActive(x[1].voting_end_time)).length}
+          {state.contests &&
+            state.contests.filter((x) => !isActive(x[1].voting_end_time))
+              .length}
           )
         </span>
       </p>
