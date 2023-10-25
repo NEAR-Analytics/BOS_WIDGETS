@@ -1,3 +1,5 @@
+const accountId = props.accountId ?? context.accountId;
+
 const item = props.item ?? "mob.near/widget/N.StarButton";
 
 if (!item) {
