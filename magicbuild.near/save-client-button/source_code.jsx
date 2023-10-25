@@ -103,7 +103,7 @@ return (
   <div>
     <label></label>
     <button
-      class="btn btn-dark form-control "
+      class="btn btn-primary form-control "
       onClick={(e) => showModal(e, "show")}
     >
       {state.clientId ? "Save Client" : "Create Client"}
