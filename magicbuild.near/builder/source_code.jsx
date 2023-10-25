@@ -240,8 +240,6 @@ const getMethodFromSource = () => {
     } else {
       State.update({ cMerr: "Unable to detect Method!" });
     }
-  } else {
-    State.update({ cMerr: "Unable to detect Method!" });
   }
 };
 const getArgsFromMethod = (fName, fIndex) => {
