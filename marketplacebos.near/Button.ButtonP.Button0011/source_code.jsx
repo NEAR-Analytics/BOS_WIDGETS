@@ -46,7 +46,7 @@ const Button0011 = styled.button`
   &:hover::before {
     box-shadow: inset 0 0 0 10em rgb(40, 144, 241);
   }`;
-  const text = props.text || "Button0011";
+const text = props.text || "Button0011";
 return (
   <Button0011>
     <span>{text}</span>
