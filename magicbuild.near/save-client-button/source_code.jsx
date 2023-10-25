@@ -8,13 +8,11 @@ State.init({
   error,
   clicked: false,
 });
-console.log("check", props);
 const onInputChangeClientName = ({ target }) => {
-  State.update({ clientName: target.value });
+  State.update({ clientName: target.value, clicked: false });
 };
 const onInputChangeClientContract = ({ target }) => {
-  State.update({ error: null });
-  State.update({ clientContract: target.value });
+  State.update({ error: null, clicked: false, clientContract: target.value });
 };
 const showModal = (e, type) => {
   if (type == "show") {
@@ -34,6 +32,7 @@ const loadData = () => {
 loadData();
 const saveClient = (e) => {
   if (!state.clicked) {
+    console.log("hello");
     State.update({ clicked: true });
     if (state.clientName.length < 5) {
       State.update({
