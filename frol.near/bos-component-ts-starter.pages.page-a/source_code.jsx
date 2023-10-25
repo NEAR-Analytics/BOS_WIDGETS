@@ -4,7 +4,7 @@ Author: frol.near
 Homepage: https://github.com/frol/bos-component-ts-starter#readme
 */
 // Welcome to the home page of the first TypeScript BOS component!
-const { MainComponent: AppLayout } = VM.require(
+const { AppLayout } = VM.require(
   "frol.near/widget/bos-component-ts-starter.modules.layout.main"
 );
 
