@@ -59,7 +59,11 @@ const saveClient = (e) => {
       if (res.body.result.code_base64) {
         const data = state.clientList;
         if (state.id) {
-          data.forEach((item) => {});
+          data.forEach((item, index) => {
+            if (item.id == id) {
+              data[index].abi = state.abi;
+            }
+          });
         } else {
           const id = Date.now();
           const clientData = {
@@ -70,19 +74,19 @@ const saveClient = (e) => {
             abi: state.abi,
           };
           data.push(clientData);
-          const saveData = {
-            magicbuild: {
-              clientList: data,
-            },
-          };
-          Social.set(saveData, {
-            force: true,
-            onCommit: () => {
-              State.update({ displayModal: false });
-            },
-            onCancel: () => {},
-          });
         }
+        const saveData = {
+          magicbuild: {
+            clientList: data,
+          },
+        };
+        Social.set(saveData, {
+          force: true,
+          onCommit: () => {
+            State.update({ displayModal: false });
+          },
+          onCancel: () => {},
+        });
       } else {
         State.update({
           error:
