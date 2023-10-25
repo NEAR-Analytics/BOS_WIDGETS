@@ -7,7 +7,7 @@ State.init({
   displayModal: false,
   error,
 });
-console.log("check", state);
+console.log("check", props);
 const onInputChangeClientName = ({ target }) => {
   State.update({ clientName: target.value });
 };
