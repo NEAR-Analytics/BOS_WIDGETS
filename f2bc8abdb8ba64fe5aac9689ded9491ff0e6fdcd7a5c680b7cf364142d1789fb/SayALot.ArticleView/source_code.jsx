@@ -38,7 +38,7 @@ const initLibsCalls = {
     {
       functionName: "getValidComments",
       key: "comments",
-      props: { id, articleSbts },
+      props: { env: undefined, id, articleSbts },
     },
     {
       functionName: "canUserCreateComment",
@@ -572,8 +572,9 @@ return (
                           !context.accountId ||
                           context.accountId === accountId ||
                           (articleSbts.length > 0 &&
-                            !state.canLoggedUserCreateComment[articleSbts[0]]),
+                            !state.canLoggedUserCreateComment),
                         articleSbts,
+                        upVotes: articleToRenderData.upVotes,
                         callLibs,
                       }}
                     />
@@ -602,8 +603,9 @@ return (
                         !context.accountId ||
                         context.accountId === accountId ||
                         (articleSbts.length > 0 &&
-                          !state.canLoggedUserCreateComment[articleSbts[0]]),
+                          !state.canLoggedUserCreateComment),
                       callLibs,
+                      sbtsNames: articleToRenderData.sbts,
                     }}
                   />
                   {context.accountId == accountId && (
@@ -711,8 +713,7 @@ return (
                 disabled:
                   !context.accountId ||
                   context.accountId === accountId ||
-                  (articleSbts.length > 0 &&
-                    !state.canLoggedUserCreateComment[articleSbts[0]]),
+                  (articleSbts.length > 0 && !state.canLoggedUserCreateComment),
                 className: "info outline w-100 mt-4 mb-2",
                 onClick: () => {
                   State.update({ showModal: true });
@@ -791,7 +792,13 @@ return (
     </Container>
     <CallLibrary>
       {libSrcArray.map((src) => {
-        return callLibs(src, stateUpdate, state.libsCalls, "Article view");
+        return callLibs(
+          src,
+          stateUpdate,
+          state.libsCalls,
+          { baseAction: "sayALotComment" },
+          "Article view"
+        );
       })}
     </CallLibrary>
   </>
