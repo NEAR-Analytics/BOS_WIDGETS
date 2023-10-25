@@ -1,7 +1,7 @@
 State.init({ clientList: [] });
 
 const loadData = () => {
-  const clientList = Social.get(`${context.accountId}/magicbuild/clientlist`);
+  const clientList = Social.get(`${context.accountId}/magicbuild/clientList`);
 
   if (clientList) {
     const clientListData = JSON.parse(clientList);
