@@ -2,7 +2,7 @@ State.init({ clientList: [] });
 
 const loadData = () => {
   const clientList = Social.get(`${context.accountId}/magicbuild/clientlist`);
-  console.log(abiRes);
+  console.log(clientList);
   if (clientList) {
     const clientListData = JSON.parse(clientList);
     clientListData.forEach((item, index) => {
