@@ -38,7 +38,7 @@ const initLibsCalls = {
       key: "canLoggedUserCreateComment",
       props: {
         accountId: context.accountId,
-        sbtsNames: sbtWhiteList,
+        sbtsNames: data.sbts,
       },
     },
   ],
@@ -54,8 +54,7 @@ State.init({
 //=============================================END INITIALIZATION===================================================
 
 //===================================================CONSTS=========================================================
-const canLoggedUserCreateComment =
-  state.canLoggedUserCreateComment[data.sbts[0]];
+const canLoggedUserCreateComment = state.canLoggedUserCreateComment;
 
 //=================================================END CONSTS=======================================================
 
@@ -581,7 +580,13 @@ return (
     </Card>
     <CallLibrary>
       {libSrcArray.map((src) => {
-        return callLibs(src, stateUpdate, state.libsCalls, "General card");
+        return callLibs(
+          src,
+          stateUpdate,
+          state.libsCalls,
+          { baseAction: "sayALotComment" },
+          "General card"
+        );
       })}
     </CallLibrary>
   </CardContainer>
