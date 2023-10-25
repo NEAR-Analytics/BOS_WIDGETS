@@ -16,11 +16,11 @@ let resultFunctionsToCallByLibrary = Object.assign(
 );
 let resultFunctionsToCall = [];
 
-// const currentVersion = ""; // EDIT: Set version
+const currentVersion = "0.0.1"; // EDIT: Set version
 
-// const prodAction = `${baseAction}_v${currentVersion}`;
-const prodAction = `${baseAction}`; //NOTE: consider use versions
+const prodAction = `${baseAction}_v${currentVersion}`;
 const testAction = `test_${prodAction}`;
+const versionsBaseActions = isTest ? `test_${baseAction}` : baseAction;
 const action = isTest ? testAction : prodAction;
 
 // START LIB CALLS SECTION
@@ -106,9 +106,9 @@ function setAreValidUsers(accountIds, sbtsNames) {
 }
 
 function createEmoji(props) {
-  const { reaction, elementReactedId, onCommit, onCancel } = props;
+  const { reaction, elementReactedId, articleSbts, onCommit, onCancel } = props;
 
-  saveHandler(reaction, elementReactedId, onCommit, onCancel);
+  saveHandler(reaction, elementReactedId, articleSbts, onCommit, onCancel);
 
   resultFunctionsToCall = resultFunctionsToCall.filter((call) => {
     return call.functionName !== "createEmoji";
@@ -117,9 +117,19 @@ function createEmoji(props) {
   return reaction;
 }
 
-const saveHandler = (reaction, elementReactedId, onCommit, onCancel) => {
+const saveHandler = (
+  reaction,
+  elementReactedId,
+  articleSbts,
+  onCommit,
+  onCancel
+) => {
   if (reaction) {
-    const newData = composeReactionData(reaction, elementReactedId);
+    const newData = composeReactionData(
+      reaction,
+      elementReactedId,
+      articleSbts
+    );
 
     Social.set(newData, {
       force: true,
@@ -131,7 +141,7 @@ const saveHandler = (reaction, elementReactedId, onCommit, onCancel) => {
   }
 };
 
-function composeReactionData(reaction, elementReactedId) {
+function composeReactionData(reaction, elementReactedId, articleSbts) {
   const data = {
     index: {
       [action]: JSON.stringify({
@@ -139,6 +149,7 @@ function composeReactionData(reaction, elementReactedId) {
         value: {
           reactionId: `r-${context.accountId}-${Date.now()}`,
           reaction,
+          sbts: articleSbts,
         },
       }),
     },
@@ -191,7 +202,8 @@ function filterInvalidReactions(env, reactions) {
 }
 
 function getEmojis(props) {
-  const { env, sbtsNames, elementReactedId } = props;
+  const { env, sbtsNames: articleSbts, elementReactedId } = props;
+
   // Call other libs
   const normReations = getEmojisNormalized(env, elementReactedId);
 
@@ -207,7 +219,7 @@ function getEmojis(props) {
     return reaction.accountId;
   });
 
-  setAreValidUsers(lastReactionsAuthors, sbtsNames);
+  setAreValidUsers(lastReactionsAuthors, articleSbts);
 
   resultFunctionsToCall = resultFunctionsToCall.filter((call) => {
     const discardCondition =
@@ -215,47 +227,82 @@ function getEmojis(props) {
       state[`isValidUser-${call.props.accountId}`] !== undefined;
     return !discardCondition;
   });
+  const finalReactions = filterValidEmojis(lastReactions, articleSbts);
 
-  const finalReactions = filterValidEmojis(lastReactions);
   const finalEmojisMapped = {};
-  sbtsNames.forEach((sbtName) => {
+  articleSbts.forEach((sbtName) => {
     const sbtEmojis = finalReactions.filter((reaction) => {
-      if (!reaction.sbts) return false;
-      return reaction.sbts.indexOf(sbtName) !== -1;
+      if (!reaction.value.sbts) return false;
+      return reaction.value.sbts.indexOf(sbtName) !== -1;
     });
     finalEmojisMapped[sbtName] = sbtEmojis;
   });
 
-  return finalEmojisMapped;
+  const groupedReactions = groupReactions(finalEmojisMapped);
+
+  return groupedReactions;
 }
 
-function filterValidator(emojis) {
+function groupReactions(emojisBySBT) {
+  const userReaction = undefined;
+  const accountsGroupedByReaction = {};
+
+  Object.keys(emojisBySBT).forEach((sbtKey) => {
+    const sbtReactions = emojisBySBT[sbtKey];
+    sbtReactions.forEach((reaction) => {
+      if (reaction.accountId === context.accountId) {
+        userReaction = reaction;
+      }
+      const emoji = reaction.value.reaction.split(" ")[0];
+      if (!accountsGroupedByReaction[emoji]) {
+        accountsGroupedByReaction[emoji] = [];
+      }
+      accountsGroupedByReaction[emoji].push(reaction.accountId);
+    });
+  });
+
+  const reactionsStatistics = Object.keys(accountsGroupedByReaction).map(
+    (reaction) => {
+      return {
+        accounts: accountsGroupedByReaction[reaction],
+        emoji: reaction,
+      };
+    }
+  );
+
+  return { reactionsStatistics, userReaction };
+}
+
+function filterValidator(emojis, articleSbts) {
   return emojis.filter((emoji) => {
     return (
-      emoji.sbts.find((emojiSBT) => {
+      articleSbts.find((articleSBT) => {
         return (
-          state[`isValidUser-${emoji.accountId}`][emojiSBT] ||
-          emojiSBT === "public"
+          state[`isValidUser-${emoji.accountId}`][articleSBT] ||
+          articleSBT === "public"
         );
       }) !== undefined
     );
   });
 }
 
-function filterValidEmojis(emojis) {
-  let filteredEmojis = filterValidator(filteredEmojis ?? emojis);
+function filterValidEmojis(emojis, articleSbts) {
+  let filteredEmojis = filterValidator(filteredEmojis ?? emojis, articleSbts);
 
   return filteredEmojis;
 }
 
-function normalizeOld(reaction) {
-  reaction.sbts = ["public"];
+function normalizeOldToV_0_0_1(reaction) {
+  reaction.value.sbts = ["public"];
 
   return reaction;
 }
 
-// END LIB FUNCTIONS
+function normalizeFromV0_0_1ToV0_0_2(reaction) {
+  return reaction;
+}
 
+// END LIB FUNCTIONS
 // EDIT: set functions you want to export
 function callFunction(call) {
   if (call.functionName === "canUserReact") {
@@ -270,8 +317,12 @@ function callFunction(call) {
 // EDIT: set versions you want to handle, considering their action to Social.index and the way to transform to one version to another (normalization)
 const versions = {
   old: {
-    normalizationFunction: normalizeOld,
-    action: props.isTest ? `test_${baseAction}` : baseAction,
+    normalizationFunction: normalizeOldToV_0_0_1,
+    action: versionsBaseActions,
+  },
+  "0.0.1": {
+    normalizationFunction: normalizeFromV0_0_1ToV0_0_2,
+    action: `${versionsBaseActions}_v0.0.1`,
   },
 };
 
