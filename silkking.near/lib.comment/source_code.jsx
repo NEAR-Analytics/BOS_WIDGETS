@@ -109,6 +109,7 @@ function setAreValidUsers(accountIds, sbtsNames) {
 }
 
 function createComment(props) {
+  console.log(2, props);
   const { comment, onClick, onCommit, onCancel } = props;
 
   onClick();
@@ -327,13 +328,17 @@ function normalizeLibData(libDataByVersion) {
 
 if (functionsToCall && functionsToCall.length > 0) {
   const updateObj = Object.assign({}, functionsToCallByLibrary);
+  console.log(11, updateObj);
   resultFunctionsToCall = [...functionsToCall];
+  console.log(9, resultFunctionsToCall);
   functionsToCall.forEach((call) => {
     updateObj[call.key] = callFunction(call);
   });
 
   resultFunctionsToCallByLibrary[libName] = resultFunctionsToCall;
-  updateObj.functionsToCallByLibrary = resultFunctionsToCallByLibrary;
+  // updateObj.functionsToCallByLibrary = resultFunctionsToCallByLibrary;
+  updateObj.libsCalls = resultFunctionsToCallByLibrary;
+  console.log(10, updateObj);
   stateUpdate(updateObj);
 }
 
