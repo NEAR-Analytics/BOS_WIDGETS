@@ -61,7 +61,7 @@ const saveClient = (e) => {
           const data = state.clientList;
           if (state.clientId) {
             data.forEach((item, index) => {
-              if (item.clientId == clientId) {
+              if (item.clientId == state.clientId) {
                 data[index].abi = state.abi;
                 data[index].clientName = state.clientName;
               }
