@@ -122,7 +122,8 @@ return (
             src="astraplusplus.ndctools.near/widget/DAO.Proposal.Common.ProposalQueue"
             props={{
                 daoId: daoId,
-                onUpdate: onChangeQueue
+                onUpdate: onChangeQueue,
+                dev: props.dev
             }}
         />
         {daoId === HoMDaoId && (
