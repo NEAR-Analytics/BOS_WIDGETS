@@ -12,6 +12,8 @@ function AppLayout(props, context) {
     "https://pluminite.mypinata.cloud/ipfs/Qmboz8aoSvVXLeP5pZbRtNKtDD3kX5D9DEnfMn2ZGSJWtP"
   ).body;
 
+  console.log("font", cssFont);
+
   const Theme = styled.div`
       font-family: Manrope, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
       ${cssFont}
