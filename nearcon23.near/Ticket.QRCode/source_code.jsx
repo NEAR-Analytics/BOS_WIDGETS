@@ -1,6 +1,4 @@
-const {
-  props: { contractId, secretKey },
-} = props;
+const { contractId, secretKey } = props;
 
 const qrPayload = `https://keypom.xyz/nearcon/${contractId}:${secretKey}`;
 
@@ -11,47 +9,37 @@ const imageToBase64 = (data, type) => {
   return `data:${type};base64,` + buff.toString("base64");
 };
 
-const qrCodeParams = {
-  type: "svg",
-  data: qrPayload,
-  dotsOptions: { color: "#403E3E", type: "dots" },
-  cornersSquareOptions: { type: "square" },
-  qrOptions: { errorCorrectionLevel: "M" },
-  backgroundOptions: { color: "#ffffff" },
-};
+const srcData = `
+<html>
+<body>
+  <div id="qrcode"></div>
+  <script src="https://cdn.jsdelivr.net/npm/easyqrcodejs@4.5.0/dist/easy.qrcode.min.js"></script>
+  <script type="text/javascript">
+    new QRCode(document.getElementById("qrcode"), {
+    text: "${qrPayload}",
+  width: 290,
+      height: 290,
+      colorDark: "#000000",
+      colorLight: "#ffffff",
+      correctLevel: QRCode.CorrectLevel.H, // L, M, Q, H
 
-const srcData = `<script type="text/javascript" src="https://unpkg.com/qr-code-styling@1.5.0/lib/qr-code-styling.js"></script>
-<script type="text/javascript">
-console.log(window.location)
-console.log(document.URL)
-  const canvas = document.createElement('canvas');
-  const qrCode = new QRCodeStyling(${JSON.stringify(qrCodeParams)});
-  qrCode.append(canvas);
-  const rawSvg = canvas.firstChild.outerHTML
-  window.top.postMessage(rawSvg, "*")
-</script>`;
+      logo: "https://nearcon.app/favicon.png",
+});
 
-const svgTemplate = `<?xml version="1.0" standalone="yes"?>
-<svg width="400" height="400" version="1.1" xmlns = 'http://www.w3.org/2000/svg'>
-    <a href="${qrPayload}">
-    <g transform="translate(-100,-30)">
-    <svg x="40%" y="50" width="600" height="600">
-    ${state.qrCodeData}
-    </svg>
-    </g>
-  </a>
-
-</svg>`;
-
-const mainSvgImage = imageToBase64(svgTemplate, SVG_CONTENT_TYPE);
+   </script> 
+</body>
+</html>
+`;
 
 return (
   <div>
-    <img src={mainSvgImage} />
     <iframe
       srcDoc={srcData}
-      onMessage={(data) => State.update({ qrCodeData: data })}
-      style={{ width: 0, height: 0 }}
+      onMessage={(data) => {
+        console.log(data);
+        State.update({ qrCodeData: data });
+      }}
+      style={{ width: 320, height: 320 }}
     />
   </div>
 );
