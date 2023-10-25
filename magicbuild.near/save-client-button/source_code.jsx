@@ -1,6 +1,6 @@
 State.init({
   clientName: props.name,
-  id: props.id || null,
+  id: props.id ? props.id : null,
   clientContract: props.clientContract ? props.clientContract : "",
   clientList: [],
   abi: props.abi ? props.abi : null,
