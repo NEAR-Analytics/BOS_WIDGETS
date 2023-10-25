@@ -8,8 +8,10 @@
 const item = {
   type: "social",
   path: `${context.accountId}/post/main`,
-  blockHeight: 104146528,
+  blockHeight: "104020917",
 };
+
+const notifyAccountId = "toch.near";
 
 // if (!context.accountId) {
 //   return "";
@@ -17,7 +19,7 @@ const item = {
 
 const content = {
   type: "md",
-  text: "Great news! Thank you for sharing.",
+  text: "Happy Birthday!",
 };
 
 const composeData = () => {
@@ -35,42 +37,83 @@ const composeData = () => {
     },
   };
 
-  // const thisItem = {
-  //   type: "social",
-  //   path: `${context.accountId}/post/comment`,
-  // };
+  const thisItem = {
+    type: "social",
+    path: `${context.accountId}/post/comment`,
+  };
 
-  // const notifications = state.extractMentionNotifications(
-  //   state.content.text,
-  //   thisItem
-  // );
+  const extractMentions = (text) => {
+    const mentionRegex =
+      /@((?:(?:[a-z\d]+[-_])*[a-z\d]+\.)*(?:[a-z\d]+[-_])*[a-z\d]+)/gi;
+    mentionRegex.lastIndex = 0;
+    const accountIds = new Set();
+    for (const match of text.matchAll(mentionRegex)) {
+      if (
+        !/[\w`]/.test(match.input.charAt(match.index - 1)) &&
+        !/[/\w`]/.test(match.input.charAt(match.index + match[0].length)) &&
+        match[1].length >= 2 &&
+        match[1].length <= 64
+      ) {
+        accountIds.add(match[1].toLowerCase());
+      }
+    }
+    return [...accountIds];
+  };
 
-  // if (props.notifyAccountId && props.notifyAccountId !== context.accountId) {
-  //   notifications.push({
-  //     key: props.notifyAccountId,
-  //     value: {
-  //       type: "comment",
-  //       item,
-  //     },
-  //   });
-  // }
+  const extractHashtags = (text) => {
+    const hashtagRegex = /#(\w+)/gi;
+    hashtagRegex.lastIndex = 0;
+    const hashtags = new Set();
+    for (const match of text.matchAll(hashtagRegex)) {
+      if (
+        !/[\w`]/.test(match.input.charAt(match.index - 1)) &&
+        !/[/\w`]/.test(match.input.charAt(match.index + match[0].length))
+      ) {
+        hashtags.add(match[1].toLowerCase());
+      }
+    }
+    return [...hashtags];
+  };
 
-  // if (notifications.length) {
-  //   data.index.notify = JSON.stringify(
-  //     notifications.length > 1 ? notifications : notifications[0]
-  //   );
-  // }
+  const extractMentionNotifications = (text, item) =>
+    extractMentions(text || "")
+      .filter((accountId) => accountId !== context.accountId)
+      .map((accountId) => ({
+        key: accountId,
+        value: {
+          type: "mention",
+          item,
+        },
+      }));
 
-  // const hashtags = state.extractHashtags(state.content.text);
+  const notifications = extractMentionNotifications(content.text, thisItem);
 
-  // if (hashtags.length) {
-  //   data.index.hashtag = JSON.stringify(
-  //     hashtags.map((hashtag) => ({
-  //       key: hashtag,
-  //       value: thisItem,
-  //     }))
-  //   );
-  // }
+  if (notifyAccountId && notifyAccountId !== context.accountId) {
+    notifications.push({
+      key: notifyAccountId,
+      value: {
+        type: "comment",
+        item,
+      },
+    });
+  }
+
+  if (notifications.length) {
+    data.index.notify = JSON.stringify(
+      notifications.length > 1 ? notifications : notifications[0]
+    );
+  }
+
+  const hashtags = extractHashtags(content.text);
+
+  if (hashtags.length) {
+    data.index.hashtag = JSON.stringify(
+      hashtags.map((hashtag) => ({
+        key: hashtag,
+        value: thisItem,
+      }))
+    );
+  }
 
   return data;
 };
