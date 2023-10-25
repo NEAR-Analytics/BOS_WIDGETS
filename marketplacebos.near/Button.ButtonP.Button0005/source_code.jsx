@@ -20,4 +20,8 @@ const text = props.text || "Button0005";
 const border = props.border;
 const boxshadow = props.boxshadow;
 
-return <Button0005 border={border} boxshadow={boxshadow}>{text}</Button0005>;
+return (
+  <Button0005 border={border} boxshadow={boxshadow}>
+    {text}
+  </Button0005>
+);
