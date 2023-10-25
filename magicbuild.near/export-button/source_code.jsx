@@ -93,7 +93,7 @@ return (
     <div
       class="modal fade"
       id="export"
-      tabindex="-1"
+      tabindex="-2"
       aria-labelledby="exportLabel"
       aria-hidden="true"
     >
