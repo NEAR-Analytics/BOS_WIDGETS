@@ -41,9 +41,14 @@ const Overlay = styled.div`
     align-items: flex-end;
   }
 `;
+
 const Content = styled.div`
   width: 460px;
   border-radius: 16px;
+  /* border: 1px solid #292429; */
+
+  border: 1px solid #3d363d;
+
   position: relative;
 
   background: linear-gradient(0deg, #131313, #131313);
