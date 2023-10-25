@@ -15,6 +15,7 @@ State.init({
   totalProcess: 0,
   endprocess: 1,
 });
+console.log("a", state.cMethod);
 const header = {
   "Content-Type": "application/json",
 };
