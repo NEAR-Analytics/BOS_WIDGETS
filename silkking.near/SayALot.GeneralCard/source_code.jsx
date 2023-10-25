@@ -534,6 +534,7 @@ return (
                   context.accountId === accountId ||
                   (articleSbts.length > 0 && !canLoggedUserCreateComment),
                 callLibs,
+                sbtsNames: articleSbts,
               }}
             />
           </ButtonsLowerSection>
