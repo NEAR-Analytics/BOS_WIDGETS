@@ -107,16 +107,16 @@ return (
                                       <a
                                         href="#"
                                         class="nav-link px-3"
-                                        id={`pills-tab-${client.id}`}
+                                        id={`pills-tab-${client.clientId}`}
                                         data-bs-toggle="pill"
-                                        data-bs-target={`#pills-${client.id}`}
+                                        data-bs-target={`#pills-${client.clientId}`}
                                         type="button"
                                         role="tab"
-                                        aria-controls={`#pills-${client.id}`}
+                                        aria-controls={`#pills-${client.clientId}`}
                                         aria-selected="true"
                                       >
                                         <span class="fw-bold">
-                                          ✨{client.name}
+                                          ✨{client.clientName}
                                         </span>
                                       </a>
                                     </li>
@@ -222,9 +222,9 @@ return (
               state.clientList.map((client, index) => (
                 <div
                   class="tab-pane fade "
-                  id={`pills-${client.id}`}
+                  id={`pills-${client.clientId}`}
                   role="tabpanel"
-                  aria-labelledby={`pills-tab-${client.id}`}
+                  aria-labelledby={`pills-tab-${client.clientId}`}
                   tabindex="0"
                 >
                   <Widget
