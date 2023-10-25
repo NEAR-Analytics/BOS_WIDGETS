@@ -406,7 +406,7 @@ return (
         <div className="content">
           {state.tab === "sbt-area" && (
             <Widget
-              src="lord1.near/widget/test"
+              src="lord1.near/widget/Label_Form"
               props={{ themeColor: themeColor }}
             />
           )}
@@ -419,7 +419,7 @@ return (
         </div>
       </div>
       <Widget
-        src="lord1.near/widget/footer"
+        src="lord1.near/widget/footer-version2"
         props={{
           beBackground: "#fff",
           titlenelowBackground: themeColor?.footer?.titlenelowBackground,
