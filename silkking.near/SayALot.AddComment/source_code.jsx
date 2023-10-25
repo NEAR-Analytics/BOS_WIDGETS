@@ -310,7 +310,8 @@ function onClickAddComment() {
 
 function addCommentListener() {
   if (!state.showSpinner) {
-    let newLibsCalls = [...libsCalls];
+    console.log(4);
+    let newLibsCalls = Object.assign({}, libsCalls);
     const comment = {
       text: state.reply,
       id,
@@ -322,17 +323,17 @@ function addCommentListener() {
       commentId: comment.commentId ?? `c_${context.accountId}-${Date.now()}`,
     };
 
-    newLibsCalls.comment = {
+    newLibsCalls.comment.push({
       functionName: "createComment",
       key: "createComment",
       props: { comment, onClick: onClickAddComment, onCommit, onCancel },
-    };
+    });
 
     State.update({ libsCalls: newLibsCalls });
   }
 }
 
-console.log(1);
+console.log(3, state.libsCalls);
 
 return (
   <ModalCard>
@@ -436,7 +437,13 @@ return (
     </CommentCard>
     <CallLibrary>
       {libSrcArray.map((src) => {
-        return callLibs(src, stateUpdate, state.libsCalls, "Add comment");
+        return callLibs(
+          src,
+          stateUpdate,
+          state.libsCalls,
+          { baseAction: "sayALotComment" },
+          "Add comment"
+        );
       })}
     </CallLibrary>
   </ModalCard>
