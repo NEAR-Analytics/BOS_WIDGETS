@@ -28,6 +28,11 @@ const CHAIN_LIST = [
     chainName: "Celo",
     chainId: 42220,
   },
+
+  {
+    chainName: "Avalanche",
+    chainId: 43114,
+  },
 ];
 
 const chainIdList = CHAIN_LIST.map((item) => item.chainId);
@@ -292,9 +297,9 @@ const TokensPolygon = {
     chainId: 137,
     address: "native",
     decimals: 18,
-    symbol: "ETH",
-    name: "Ether",
-    icon: "https://ipfs.near.social/ipfs/bafkreibspnls7q67q25r2ifv2rrfmvzl744pzuh3s5ekigeqkmyycl2auq",
+    symbol: "MATIC",
+    name: "MATIC",
+    icon: "https://ipfs.near.social/ipfs/bafkreihhijqfwysk3ck524rx7ult2pmuxs6tsfz5mvq2nlsq2mginak7wm",
   },
 
   "0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174": {
@@ -529,6 +534,76 @@ const TokensCelo = {
   },
 };
 
+const TokensAvalanche = {
+  native: {
+    chainId: 43114,
+    address: "native",
+    decimals: 18,
+    symbol: "AVAX",
+    name: "AVAX",
+    icon: "https://ipfs.near.social/ipfs/bafkreibc6odn7prkqm2l3yb35dil4psf5zhjjui5omzrqd7qa4jlv6ndeu",
+  },
+
+  "0xB97EF9Ef8734C71904D8002F8b6Bc66Dd9c48a6E": {
+    chainId: 43114,
+    address: "0xB97EF9Ef8734C71904D8002F8b6Bc66Dd9c48a6E",
+    decimals: 6,
+    symbol: "USDC",
+    name: "USD Coin",
+    icon: "https://ipfs.near.social/ipfs/bafkreie4jihoa76mgyzxhw2yrapihzu2qhkjz6m7u4opoxjebzg6zc2lla",
+  },
+
+  "0x49D5c2BdFfac6CE2BFdB6640F4F80f226bc10bAB": {
+    chainId: 43114,
+    address: "0x49D5c2BdFfac6CE2BFdB6640F4F80f226bc10bAB",
+    decimals: 18,
+    symbol: "WETH",
+    name: "Wrapped Ether",
+    icon: "https://ipfs.near.social/ipfs/bafkreihyzmiuawyekwiyofkzm25xzrrfenhvadi6lb42juvq7tah2u7ha4",
+  },
+  "0x9702230A8Ea53601f5cD2dc00fDBc13d4dF4A8c7": {
+    chainId: 43114,
+    address: "0x9702230A8Ea53601f5cD2dc00fDBc13d4dF4A8c7",
+    decimals: 6,
+    symbol: "USDT",
+    name: "Tether USD",
+    icon: "https://ipfs.near.social/ipfs/bafkreih45jy7ggj45ck34rf736kb67smsoa52wd7e46c2grh6etd3bhe5i",
+  },
+  "0xd586E7F844cEa2F87f50152665BCbc2C279D8d70": {
+    chainId: 43114,
+    address: "0xd586E7F844cEa2F87f50152665BCbc2C279D8d70",
+    decimals: 18,
+    symbol: "DAI",
+    name: "Dai Stablecoin",
+    icon: "https://ipfs.near.social/ipfs/bafkreieuxntkdzi2mzkzdcbk6kahwxqpftxnipxcwc4oe4p4jm2rhj2xhu",
+  },
+
+  "0x50b7545627a5162f82a992c33b87adc75187b218": {
+    chainId: 43114,
+    address: "0x50b7545627a5162f82a992c33b87adc75187b218",
+    decimals: 8,
+    symbol: "WBTC",
+    name: "Wrapped BTC",
+    icon: "https://ipfs.near.social/ipfs/bafkreigdklwcldjo4w7viyrym54hdb43wgpv23mbicetszygzapttbgo7q",
+  },
+  "0xAEC8318a9a59bAEb39861d10ff6C7f7bf1F96C57": {
+    chainId: 43114,
+    address: "0xAEC8318a9a59bAEb39861d10ff6C7f7bf1F96C57",
+    decimals: 18,
+    symbol: "agEUR",
+    name: "agEUR",
+    icon: "https://ipfs.near.social/ipfs/bafkreihbld7bpsqjnh5uvnosgdwhyc6bze4vbf62rs5vg7xku77ecga4o4",
+  },
+  "0xC891EB4cbdEFf6e073e859e987815Ed1505c2ACD": {
+    chainId: 43114,
+    address: "0xC891EB4cbdEFf6e073e859e987815Ed1505c2ACD",
+    decimals: 6,
+    symbol: "EUROC",
+    name: "EUROC",
+    icon: "https://ipfs.near.social/ipfs/bafkreiczg7i6ywatgdzt37fiik2yg7y6ik536l7z3qkp53l26h75hjpmt4",
+  },
+};
+
 const ChainTokensConfig = {
   1: {
     tokens: TokensEthereum,
@@ -550,13 +625,13 @@ const ChainTokensConfig = {
   },
   137: {
     tokens: TokensPolygon,
-    wethAddress: "0x7ceB23fD6bC0adD59E62ac25578270cFf1b9f619",
+    wethAddress: "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270",
     routerAddress: "0xE592427A0AEce92De3Edee1F18E0157C05861564",
     quoterAddress: "0xb27308f9F90D607463bb33eA1BeBb41C27CE5AB6",
   },
   56: {
     tokens: TokensBSC,
-    wethAddress: "0x4DB5a66E937A9F4473fA95b1cAF1d1E1D62E29EA",
+    wethAddress: "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c",
     routerAddress: "0xB971eF87ede563556b2ED4b1C0b0019111Dd85d2",
     quoterAddress: "0x78D78E420Da98ad378D7799bE8f4AF69033EB077",
   },
@@ -572,6 +647,12 @@ const ChainTokensConfig = {
     wethAddress: "0x4200000000000000000000000000000000000006",
     routerAddress: "0x2626664c2603336E57B271c5C0b26F421741e481",
     quoterAddress: "0x3d4e44Eb1374240CE5F1B871ab261CD16335B76a",
+  },
+  43114: {
+    tokens: TokensAvalanche,
+    wethAddress: "0xB31f66AA3C1e785363F0875A1B74E27b85FD66c7",
+    routerAddress: "0xbb00FF08d01D300023C629E8fFfFcb65A5a578cE",
+    quoterAddress: "0xbe0F5544EC67e9B3b2D979aaA43f18Fd87E6257F",
   },
 };
 
@@ -645,10 +726,12 @@ return (
         dexs: {
           UniSwap: {
             name: "UniSwap",
-            logo: "https://www.gitbook.com/cdn-cgi/image/width=40,dpr=2,height=40,fit=contain,format=auto/https%3A%2F%2F4031390532-files.gitbook.io%2F~%2Ffiles%2Fv0%2Fb%2Fgitbook-legacy-files%2Fo%2Fspaces%252F-MTJ1qyFf3rQZjewhth_%252Favatar-1615657020974.png%3Fgeneration%3D1615657021220196%26alt%3Dmedia",
+            logo: "https://ipfs.near.social/ipfs/bafkreigrdrkqfoxu7f24er3aznyqnirvd67u4fdwexzp4dy46lf33t4ev4",
+            powerByIcon:
+              "https://ipfs.near.social/ipfs/bafkreic4fd4txraypt5jxhfpnma3oubkul3bkcqag35oxckpfbzlz2mloq",
             routerAddress: ChainTokensConfig[CHAIN_ID].routerAddress,
             quoterAddress: ChainTokensConfig[CHAIN_ID].quoterAddress,
-            uniType: "v2",
+            uniType: "v3",
             defaultCurrencies: {
               input: Tokens[0],
               output: Tokens[1],
@@ -656,8 +739,8 @@ return (
             tokens: Tokens,
           },
         },
-        amountOutFn: "dapdapbos.near/widget/Uniswap.Swap.AmountOutV2",
-        handlerV2: "dapdapbos.near/widget/Uniswap.Swap.HandlerV3",
+        amountOutFn: "dapdapbos.near/widget/Uniswap.Swap.QuoterV3UniApi",
+        handlerV3: "dapdapbos.near/widget/Uniswap.Swap.HandlerV3",
       }}
     />
   </Container>
