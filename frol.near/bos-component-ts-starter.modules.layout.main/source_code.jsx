@@ -12,16 +12,11 @@ function AppLayout(props, context) {
     "https://pluminite.mypinata.cloud/ipfs/Qmboz8aoSvVXLeP5pZbRtNKtDD3kX5D9DEnfMn2ZGSJWtP"
   ).body;
 
-  if (!state.theme) {
-    State.update({
-      theme: styled.div`
+  const Theme = styled.div`
       font-family: Manrope, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
       ${cssFont}
       ${css}
-  `,
-    });
-  }
-  const Theme = state.theme;
+  `;
 
   return (
     <Theme>
