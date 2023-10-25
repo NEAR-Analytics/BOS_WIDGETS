@@ -1,6 +1,6 @@
 State.init({
-  clientName: props.name ? props.name : "",
-  id: props.id ? props.id : null,
+  clientName: props.clientName ? props.clientName : "",
+  clientId: props.clientId ? props.clientId : null,
   clientContract: props.clientContract ? props.clientContract : "",
   clientList: [],
   abi: props.abi ? props.abi : null,
@@ -56,17 +56,17 @@ const saveClient = (e) => {
     }).then((res) => {
       if (res.body.result.code_base64) {
         const data = state.clientList;
-        if (state.id) {
+        if (state.clientId) {
           data.forEach((item, index) => {
-            if (item.id == id) {
+            if (item.clientId == clientId) {
               data[index].abi = state.abi;
               data[index].name = state.clientName;
             }
           });
         } else {
-          const id = Date.now();
+          const clientId = Date.now();
           const clientData = {
-            id: id,
+            clientId: clientId,
             name: state.clientName,
             address: state.clientContract,
             archived: false,
@@ -103,7 +103,7 @@ return (
       class="btn btn-dark form-control "
       onClick={(e) => showModal(e, "show")}
     >
-      {state.id ? "Save Client" : "Create Client"}
+      {state.clientId ? "Save Client" : "Create Client"}
     </button>
     {state.displayModal && (
       <>
