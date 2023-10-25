@@ -80,35 +80,14 @@ return (
                       </label>
                     </span>
                   </li>
-                  {state.clientList.length > 0 && (
-                    <li>
-                      <a
-                        class="nav-link px-3 sidebar-link"
-                        data-bs-toggle="collapse"
-                        href="#collapseArchive"
-                        role="button"
-                        aria-expanded="true"
-                        aria-controls="collapseArchive"
-                      >
-                        <span class="fw-bold">📦Client</span>
-                        <span class="right-icon ms-auto">
-                          <i class="bi bi-chevron-down"></i>
-                        </span>
-                      </a>
-
-                      <div class="collapse show" id="collapseArchive">
-                        <div>
-                          <ul class="navbar-nav ps-3 "></ul>
-                        </div>
-                      </div>
-                    </li>
-                  )}
 
                   <li>
                     <hr />
                   </li>
                   <li class="mb-3">
-                    <div class=" small fw-bold text-uppercase px-3">Client</div>
+                    <div class=" small fw-bold text-uppercase px-3">
+                      📦 Client
+                    </div>
                     {state.clientList &&
                       state.clientList.map((client, index) => {
                         if (client.archived == false) {
