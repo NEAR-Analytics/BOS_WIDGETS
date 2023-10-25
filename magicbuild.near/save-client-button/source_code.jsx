@@ -75,7 +75,7 @@ const saveClient = () => {
         data.push(clientData);
         const saveData = {
           magicbuild: {
-            clientlist: [],
+            clientlist: data,
           },
         };
         Social.set(saveData, {
