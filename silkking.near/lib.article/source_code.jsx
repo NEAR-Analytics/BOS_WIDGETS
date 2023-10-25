@@ -181,6 +181,7 @@ function getArticlesIndexes(action, subscribe) {
   return Social.index(action, "main", {
     order: "desc",
     subscribe,
+    limit: 5,
   });
 }
 
