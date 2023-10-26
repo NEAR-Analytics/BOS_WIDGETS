@@ -41,6 +41,17 @@ const exportForm = () => {
     abiMethod.forEach((item) => {
       abi.body.functions.push(item);
     });
+    const exportListData = Social.get(
+      `${context.accountId}/magicbuild/exportList`
+    );
+    const exporttList = JSON.parse(exportListData) || [];
+    exporttList.forEach((item, index) => {
+      if (item.widgetName == state.widgetName) {
+        exporttList[index].widgetName = state.widgetName;
+      } else {
+        exporttList.push({ widgetName: state.widgetName });
+      }
+    });
 
     const data = {
       widget: {
@@ -51,9 +62,7 @@ const exportForm = () => {
             " \r\n\r\nreturn (\r\n  <>\r\n    <Widget src={'magicbuild.near/widget/widget'} props={props} />\r\n  </>\r\n);\r\n",
         },
       },
-      widgetList: {
-        [state.widgetName]: {},
-      },
+      widgetList: exporttList,
     };
     Social.set(data, {
       force: true,
