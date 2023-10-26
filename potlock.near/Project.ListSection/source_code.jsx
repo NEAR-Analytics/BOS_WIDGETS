@@ -37,9 +37,11 @@ const List = styled.div`
       width: calc(32% - 24px); /* Subtract double the margin */
     }
   }
-`;
 
-console.log("props.projects: ", props.projects);
+  @media screen and (max-width: 768px) {
+    justify-content: center;
+  }
+`;
 
 return (
   <Container>
