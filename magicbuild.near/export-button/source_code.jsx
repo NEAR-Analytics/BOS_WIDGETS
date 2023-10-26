@@ -112,7 +112,7 @@ return (
               <label>Widget Name</label>
               <input
                 class="form-control"
-                defaultValue={state.widgetName}
+                defaultValue={state.widgetName || ""}
                 onChange={(e) => onInputChangeWidgetName(e)}
               />
               <small class="form-text text-muted">
@@ -138,7 +138,7 @@ return (
                   </label>
                 </div>
               ))}
-            {state.export && (
+            {state.export && state.widgetName && (
               <>
                 <hr />
                 <h5>Export Success</h5>
