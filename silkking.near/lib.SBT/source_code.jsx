@@ -4,10 +4,12 @@ const {
   functionsToCallByLibrary,
   callLibs,
   baseAction,
+  callerWidget,
   widgets,
 } = props;
 const libName = "SBT"; // EDIT: set lib name
 const functionsToCall = functionsToCallByLibrary[libName];
+console.log(3, callerWidget);
 
 let resultFunctionsToCallByLibrary = Object.assign(
   {},
