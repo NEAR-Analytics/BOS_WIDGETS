@@ -320,6 +320,7 @@ return (
                   src,
                   createStateUpdate,
                   state.functionsToCallByLibrary,
+                  { baseAction: "sayALotArticle" },
                   "Create"
                 );
               })}
