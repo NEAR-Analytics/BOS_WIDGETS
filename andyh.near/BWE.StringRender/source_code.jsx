@@ -1,1 +1,1 @@
-return <div>{JSON.stringify(props.content)}</div>;
+return <div>{props.content}</div>;
