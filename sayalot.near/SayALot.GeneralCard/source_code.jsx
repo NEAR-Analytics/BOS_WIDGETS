@@ -1,3 +1,4 @@
+// SayALot.GeneralCard
 //===============================================INITIALIZATION=====================================================
 
 const {
@@ -11,6 +12,7 @@ const {
   authorForWidget,
   handleShareButton,
   sbtWhiteList,
+  callLibs,
 } = props;
 
 const tags = data.tags;
@@ -30,48 +32,30 @@ function stateUpdate(obj) {
   State.update(obj);
 }
 
-function callLibs(srcArray, stateUpdate, libCalls) {
-  return (
-    <>
-      {srcArray.map((src) => {
-        return (
-          <Widget
-            src={src}
-            props={{
-              isTest,
-              stateUpdate,
-              libCalls,
-            }}
-          />
-        );
-      })}
-    </>
-  );
-}
-
-const initLibCalls = [
-  {
-    functionName: "canUserCreateComment",
-    key: "canLoggedUserCreateComment",
-    props: {
-      accountId: context.accountId,
-      sbtsNames: sbtWhiteList,
+const initLibsCalls = {
+  comment: [
+    {
+      functionName: "canUserCreateComment",
+      key: "canLoggedUserCreateComment",
+      props: {
+        accountId: context.accountId,
+        sbtsNames: articleSbts,
+      },
     },
-  },
-];
+  ],
+};
 
 State.init({
   verified: true,
   start: true,
   voted: false,
   sliceContent: true,
-  libCalls: initLibCalls,
+  libsCalls: initLibsCalls,
 });
 //=============================================END INITIALIZATION===================================================
 
 //===================================================CONSTS=========================================================
-const canLoggedUserCreateComment =
-  state.canLoggedUserCreateComment[data.sbts[0]];
+const canLoggedUserCreateComment = state.canLoggedUserCreateComment;
 
 //=================================================END CONSTS=======================================================
 
@@ -427,7 +411,7 @@ const renderArticleBody = () => {
 //===============================================END COMPONENTS====================================================
 
 //===================================================RENDER========================================================
-// console.log("General card state: ", state);
+
 return (
   <CardContainer className="bg-white rounded-3 p-3 m-3 col-lg-8 col-md-8 col-sm-12">
     <Card>
@@ -442,6 +426,7 @@ return (
             username: data.author,
             id,
             onCloseModal: toggleShowModal,
+            callLibs,
           }}
         />
       )}
@@ -478,6 +463,7 @@ return (
                 (articleSbts.length > 0 && !canLoggedUserCreateComment),
               articleSbts,
               upVotes,
+              callLibs,
             }}
           />
           <Widget
@@ -547,6 +533,8 @@ return (
                   !context.accountId ||
                   context.accountId === accountId ||
                   (articleSbts.length > 0 && !canLoggedUserCreateComment),
+                callLibs,
+                sbtsNames: articleSbts,
               }}
             />
           </ButtonsLowerSection>
@@ -592,7 +580,15 @@ return (
       </LowerSection>
     </Card>
     <CallLibrary>
-      {callLibs(libSrcArray, stateUpdate, state.libCalls)}
+      {libSrcArray.map((src) => {
+        return callLibs(
+          src,
+          stateUpdate,
+          state.libsCalls,
+          { baseAction: "sayALotComment" },
+          "General card"
+        );
+      })}
     </CallLibrary>
   </CardContainer>
 );
