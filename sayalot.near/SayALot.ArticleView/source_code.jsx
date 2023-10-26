@@ -1,4 +1,4 @@
-//This code comes from NDC.Nomination.Candidate.Page > NDC.Nomination.Candidate.DesktopView
+// SayALot.ArticleView
 
 const {
   widgets,
@@ -8,6 +8,7 @@ const {
   authorForWidget,
   handleEditArticle,
   handleShareButton,
+  callLibs,
 } = props;
 
 const accountId = articleToRenderData.author;
@@ -19,25 +20,6 @@ const id =
 const articleSbts = articleToRenderData.sbts ?? [];
 
 const libSrcArray = [widgets.libComment];
-
-function callLibs(srcArray, stateUpdate, libCalls) {
-  return (
-    <>
-      {srcArray.map((src) => {
-        return (
-          <Widget
-            src={src}
-            props={{
-              isTest,
-              stateUpdate,
-              libCalls,
-            }}
-          />
-        );
-      })}
-    </>
-  );
-}
 
 const tabs = [
   {
@@ -51,27 +33,29 @@ const prodAction = "sayALotArticle_v0.0.3";
 const testAction = `test_${prodAction}`;
 const action = isTest ? testAction : prodAction;
 
-const initLibCalls = [
-  {
-    functionName: "getValidComments",
-    key: "comments",
-    props: { id, articleSbts },
-  },
-  {
-    functionName: "canUserCreateComment",
-    key: "canLoggedUserCreateComment",
-    props: {
-      accountId: context.accountId,
-      sbtsNames: articleSbts,
+const initLibsCalls = {
+  comment: [
+    {
+      functionName: "getValidComments",
+      key: "comments",
+      props: { env: undefined, id, articleSbts },
     },
-  },
-];
+    {
+      functionName: "canUserCreateComment",
+      key: "canLoggedUserCreateComment",
+      props: {
+        accountId: context.accountId,
+        sbtsNames: articleSbts,
+      },
+    },
+  ],
+};
 
 State.init({
   tabSelected: tabs[0].id,
   comments: [],
   sliceContent: true,
-  libCalls: initLibCalls,
+  libsCalls: initLibsCalls,
 });
 
 const timeLastEdit = new Date(articleToRenderData.timeLastEdit);
@@ -588,8 +572,10 @@ return (
                           !context.accountId ||
                           context.accountId === accountId ||
                           (articleSbts.length > 0 &&
-                            !state.canLoggedUserCreateComment[articleSbts[0]]),
+                            !state.canLoggedUserCreateComment),
                         articleSbts,
+                        upVotes: articleToRenderData.upVotes,
+                        callLibs,
                       }}
                     />
                     <Widget
@@ -617,7 +603,9 @@ return (
                         !context.accountId ||
                         context.accountId === accountId ||
                         (articleSbts.length > 0 &&
-                          !state.canLoggedUserCreateComment[articleSbts[0]]),
+                          !state.canLoggedUserCreateComment),
+                      callLibs,
+                      sbtsNames: articleSbts,
                     }}
                   />
                   {context.accountId == accountId && (
@@ -708,6 +696,7 @@ return (
                   isReplying: false,
                   username: accountId,
                   onCloseModal: () => State.update({ showModal: false }),
+                  callLibs,
                   // nomination_contract,
                 }}
               />
@@ -724,8 +713,7 @@ return (
                 disabled:
                   !context.accountId ||
                   context.accountId === accountId ||
-                  (articleSbts.length > 0 &&
-                    !state.canLoggedUserCreateComment[articleSbts[0]]),
+                  (articleSbts.length > 0 && !state.canLoggedUserCreateComment),
                 className: "info outline w-100 mt-4 mb-2",
                 onClick: () => {
                   State.update({ showModal: true });
@@ -743,6 +731,7 @@ return (
                   isReply: false,
                   canLoggedUserCreateComment: state.canLoggedUserCreateComment,
                   articleSbts,
+                  callLibs,
                 }}
               />
             ))}
@@ -802,7 +791,15 @@ return (
       </SecondContainer>
     </Container>
     <CallLibrary>
-      {callLibs(libSrcArray, stateUpdate, state.libCalls)}
+      {libSrcArray.map((src) => {
+        return callLibs(
+          src,
+          stateUpdate,
+          state.libsCalls,
+          { baseAction: "sayALotComment" },
+          "Article view"
+        );
+      })}
     </CallLibrary>
   </>
 );
