@@ -1025,7 +1025,7 @@ return (
                   <input
                     placeholder="Button Label"
                     class="form-control"
-                    defaultValue={args.button || ""}
+                    defaultValue={functions.button || ""}
                     onChange={(e) => cMLabel(e, fIndex, "button")}
                   />
                 </div>
