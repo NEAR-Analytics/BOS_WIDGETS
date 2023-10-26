@@ -1,13 +1,22 @@
-State.init({ clientList: [] });
+State.init({ clientList: [], widgetList: [] });
 
 const loadData = () => {
-  const clientList = Social.get(`${context.accountId}/magicbuild/clientList`);
+  const clientListData = Social.get(
+    `${context.accountId}/magicbuild/clientList`
+  );
   if (clientList) {
-    console.log(clientList);
-    const clientListData = JSON.parse(clientList);
-    State.update({ clientList: clientListData });
+    const clientList = JSON.parse(clientListData);
+    State.update({ clientList: clientList });
+  }
+  const exportListData = Social.get(
+    `${context.accountId}/magicbuild/widgetList`
+  );
+  if (exportListData) {
+    const exportList = JSON.parse(exportListData);
+    State.update({ exportList: exportList });
   }
 };
+
 loadData();
 const Wrapper = styled.div`
 .nav-pills .nav-link.active, .nav-pills .show>.nav-link {
@@ -112,6 +121,30 @@ return (
                       })}
                   </li>
 
+                  <li class="mb-3">
+                    <div class=" small fw-bold text-uppercase px-3">Widget</div>
+                    {state.widgetList &&
+                      state.widgetList.map((widget, index) => {
+                        return (
+                          <li>
+                            <a
+                              href="#"
+                              class="nav-link px-3"
+                              id={`pills-tab-${widget.widgetName}`}
+                              data-bs-toggle="pill"
+                              data-bs-target={`#pills-${widget.widgetName}`}
+                              type="button"
+                              role="tab"
+                              aria-controls={`#pills-${widget.widgetName}`}
+                              aria-selected="true"
+                            >
+                              <span class="fw-bold">{widget.widgetName}</span>
+                            </a>
+                          </li>
+                        );
+                      })}
+                  </li>
+
                   <li>
                     <hr />
                   </li>
@@ -191,6 +224,22 @@ return (
                   <Widget
                     src={"magicbuild.near/widget/builder"}
                     props={client}
+                  />
+                </div>
+              ))}
+
+            {state.widgetList &&
+              state.widgetList.map((widget, index) => (
+                <div
+                  class="tab-pane fade "
+                  id={`pills-${widget.widgetName}`}
+                  role="tabpanel"
+                  aria-labelledby={`pills-tab-${widget.widgetName}`}
+                  tabindex="0"
+                >
+                  <Widget
+                    src={`${context.accountId}/widget/${widget.widgetName}`}
+                    props={widget}
                   />
                 </div>
               ))}
