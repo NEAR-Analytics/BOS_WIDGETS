@@ -1,6 +1,6 @@
 const data = props.data || {};
 const type = props.type || "";
-const typeSrc = props.typeSrc || "every.near";
+const typeSrc = props.typeSrc || "flowscience.near";
 const buildEdges = props.buildEdges;
 const template = props.template || "";
 const thingId = props.thingId;
@@ -331,7 +331,7 @@ return (
     {state.isModalOpen && (
       <ModalOverlay>
         <ModalContent>
-          <ModalTitle>create thing</ModalTitle>
+          <ModalTitle>Make an attestation</ModalTitle>
           <p>option to provide a thing id</p>
           <Row style={{ gap: "8px" }}>
             <Input
