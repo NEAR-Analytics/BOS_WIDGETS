@@ -107,6 +107,56 @@ return (
               aria-label="Close"
             ></button>
           </div>
+          <div class="modal-body">
+            <div class="form-group">
+              <label>Widget Name</label>
+              <input
+                class="form-control"
+                defaultValue={state.widgetName || ""}
+                onChange={(e) => onInputChangeWidgetName(e)}
+              />
+              <small class="form-text text-muted">
+                A new widget configured with the form will be created.
+              </small>
+            </div>
+            {state.cMethod &&
+              state.cMethod.map((functions, fIndex) => (
+                <div class="form-check form-switch">
+                  <input
+                    class="form-check-input"
+                    type="checkbox"
+                    role="switch"
+                    checked={functions.export}
+                    onChange={() => onSwitchChangeArgExport(fIndex)}
+                    id={`flexSwitchCheckDefaultView${fIndex}`}
+                  />
+                  <label
+                    class="form-check-label"
+                    for={`flexSwitchCheckDefault${fIndex}`}
+                  >
+                    {functions.name}
+                  </label>
+                </div>
+              ))}
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Close
+            </button>
+
+            <button
+              type="button"
+              disabled={state.clicked}
+              onClick={exportForm}
+              class="btn btn-primary"
+            >
+              Export
+            </button>
+          </div>
         </div>
       </div>
     </div>
