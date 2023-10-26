@@ -190,6 +190,7 @@ function getUpVoteBlackListByBlockHeight() {
 }
 
 function getUpVotesData(action, id, subscribe) {
+  console.log(1, subscribe, id);
   return Social.index(action, id, {
     order: "desc",
     subscribe,
@@ -199,7 +200,7 @@ function getUpVotesData(action, id, subscribe) {
 function getupVotesNormalized(id) {
   const upVotesByVersion = Object.keys(versions).map((version, index, arr) => {
     const action = versions[version].action;
-    const subscribe = index + 1 === arr.length;
+    const subscribe = index + 1 === arr.length && false;
     const allUpVotes = getUpVotesData(action, id, subscribe);
     if (!allUpVotes) return [];
 
@@ -230,7 +231,7 @@ function filterInvalidUpVotes(env, upVotes) {
 }
 
 function getUpVotes(props) {
-  const { sbtsNames, id } = props;
+  const { sbtsNames: articleSbts, id } = props;
   // Call other libs
   const normUpVotes = getupVotesNormalized(id);
 
@@ -245,7 +246,7 @@ function getUpVotes(props) {
   const lastUpVotesAuthors = lastUpVotes.map((upVote) => {
     return upVote.accountId;
   });
-  setAreValidUsers(lastUpVotesAuthors, sbtsNames);
+  setAreValidUsers(lastUpVotesAuthors, articleSbts);
   resultFunctionsToCall = resultFunctionsToCall.filter((call) => {
     const discardCondition =
       call.functionName === "getUpVotes" &&
@@ -253,36 +254,33 @@ function getUpVotes(props) {
     return !discardCondition;
   });
 
-  const finalUpVotes = filterValidUpVotes(lastUpVotes);
+  const finalUpVotes = filterValidUpVotes(lastUpVotes, articleSbts);
   const finalUpVotesMapped = {};
 
-  sbtsNames.forEach((sbtName) => {
-    const sbtUpVotes = finalUpVotes.filter((upVote) => {
-      if (!upVote.value.sbts) return false;
-      return upVote.value.sbts.indexOf(sbtName) !== -1;
-    });
-    finalUpVotesMapped[sbtName] = sbtUpVotes;
+  articleSbts.forEach((sbt) => {
+    finalUpVotesMapped[sbt] = finalUpVotes;
   });
 
   return finalUpVotesMapped;
 }
 
-function filterValidator(upVotes) {
+function filterValidator(upVotes, articleSbts) {
   return upVotes.filter((upVote) => {
-    //log(["upVote.sbts: ", upVote.sbts]);
     return (
-      upVote.value.sbts.find((upVoteSBT) => {
+      articleSbts.find((sbt) => {
         return (
-          state[`isValidUser-${upVote.accountId}`][upVoteSBT] ||
-          upVoteSBT === "public"
+          state[`isValidUser-${upVote.accountId}`][sbt] || sbt === "public"
         );
       }) !== undefined
     );
   });
 }
 
-function filterValidUpVotes(upVotes) {
-  let filteredUpVotes = filterValidator(filteredUpVotes ?? upVotes);
+function filterValidUpVotes(upVotes, articleSbts) {
+  let filteredUpVotes = filterValidator(
+    filteredUpVotes ?? upVotes,
+    articleSbts
+  );
 
   return filteredUpVotes;
 }
