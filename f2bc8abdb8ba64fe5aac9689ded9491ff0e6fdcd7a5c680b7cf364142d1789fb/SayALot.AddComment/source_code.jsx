@@ -342,7 +342,6 @@ function addCommentListener() {
     key: "createComment",
     props: {
       comment,
-      articleSbts: article.sbts,
       onClick: onClickAddComment,
       onCommit,
       onCancel,
