@@ -77,7 +77,7 @@ const exportForm = () => {
   Social.set(data, {
     force: true,
     onCommit: () => {
-      URL(
+      new URL(
         `https://near.social/${context.accountId}/widget/${state.widgetName}`
       );
     },
