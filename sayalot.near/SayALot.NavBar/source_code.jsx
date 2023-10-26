@@ -17,30 +17,6 @@ const {
 function stateUpdate(obj) {
   State.update(obj);
 }
-
-// const authorForWidget =
-//   "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb";
-const authorForWidget = "sayalot.near";
-const libSrcArray = [`${authorForWidget}/widget/SayALot.lib.article`];
-
-function callLibs(srcArray, stateUpdate, libCalls) {
-  return (
-    <>
-      {srcArray.map((src) => {
-        return (
-          <Widget
-            src={src}
-            props={{
-              isTest,
-              stateUpdate,
-              libCalls,
-            }}
-          />
-        );
-      })}
-    </>
-  );
-}
 /*
 ======================================================PILLS EXAMPLE====================================================
     *Note: the first pill allways has to be the first one displayed*
@@ -64,21 +40,8 @@ function callLibs(srcArray, stateUpdate, libCalls) {
 
 const loggedUserAccountId = context.accountId;
 
-const initLibCalls = [
-  // {
-  //   functionName: "canUserCreateArticle",
-  //   key: "canLoggedUserCreateArticle",
-  //   props: {
-  //     accountId: loggedUserAccountId,
-  //     env: isTest ? "test" : "prod",
-  //     sbtsNames,
-  //   },
-  // },
-];
-
 State.init({
   selectedPillIndex: 0,
-  libCalls: initLibCalls,
 });
 // const canLoggedUserCreateArticle = state.canLoggedUserCreateArticle;
 
@@ -328,9 +291,5 @@ return (
         Back
       </BackButton>
     )}
-
-    <CallLibrary>
-      {callLibs(libSrcArray, stateUpdate, state.libCalls)}
-    </CallLibrary>
   </>
 );
