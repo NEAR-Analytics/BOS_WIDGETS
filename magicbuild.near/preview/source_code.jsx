@@ -40,6 +40,7 @@ const onBtnClickCall = (fName, action, fIndex) => {
       if (item.type == "array") {
         item.value = item.value.split("|");
       }
+      console.log(item.type);
       if (item.type == "json") {
         item.value = JSON.parse(item.value);
       }
