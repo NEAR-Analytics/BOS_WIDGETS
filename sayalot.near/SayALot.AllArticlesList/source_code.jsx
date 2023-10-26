@@ -1,3 +1,5 @@
+// SayALot.AllArticlesList
+
 //===============================================INITIALIZATION=====================================================
 
 let {
@@ -12,7 +14,6 @@ let {
   authorForWidget,
   initialCreateState,
   editArticleData,
-  callLibs,
   handleEditArticle,
   showCreateArticle,
   sbtWhiteList,
@@ -20,38 +21,63 @@ let {
   handleShareButton,
   canLoggedUserCreateArticles,
   filterBy,
+  callLibs,
 } = props;
 
 const libSrcArray = [widgets.libUpVotes];
 
-let initLibCalls = [];
+let initLibsCalls = { upVotes: [] };
 
 //For the moment we'll allways have only 1 sbt in the array. If this change remember to do the propper work in SayALot.lib.SBT and here.
 
-articlesToRender.forEach((article) =>
-  initLibCalls.push({
+initLibsCalls.upVotes = articlesToRender.map((article) => {
+  return {
     functionName: "getUpVotes",
     key: `upVotes-${article.id}`,
     props: {
       id: article.id ?? `${article.author}-${article.timeCreate}`,
-      articleSbts: article.sbts ?? [],
+      sbtsNames: article.sbts ?? [],
     },
-  })
-);
+  };
+});
 
-if (initLibCalls.length > 0) {
-  State.update({ libCalls: initLibCalls });
+if (articlesToRender.length > 0) {
+  State.update({ libsCalls: initLibsCalls });
 }
 
 State.init({
   start: Date.now(),
-  libCalls: initLibCalls,
+  libsCalls: initLibsCalls,
 });
+// console.log(1, "All articles list", state);
+// console.log(2, "All articles list", initLibsCalls);
+
+if (state.upVotesBySBT && Object.keys(state.upVotesBySBT).length > 0) {
+  // console.log(
+  //   "Object.keys(state.upVotesBySBT): ",
+  //   Object.keys(state.upVotesBySBT)
+  // );
+
+  const key = Object.keys(state.upVotesBySBT)[0]; // There should always be one for now
+  // console.log("key: ", key);
+  const newUpvotes = state.upVotesBySBT[key];
+  // console.log("newUpvotes: ", newUpvotes);
+  if (JSON.stringify(state.upVotes) !== JSON.stringify(newUpvotes)) {
+    State.update({ upVotes: newUpvotes });
+  }
+}
 
 let finalArticlesWithUpVotes = articlesToRender.map((article) => {
-  article.upVotes = state[`upVotes-${article.id}`];
+  // console.log(0, state[`upVotes-${article.id}`]);
+  // console.log(article);
+  if (state[`upVotes-${article.id}`]) {
+    const key = Object.keys(state[`upVotes-${article.id}`])[0];
+    const articleUpVotes = state[`upVotes-${article.id}`][key];
+    // article.upVotes = state[`upVotes-${article.id}`];
+    article.upVotes = articleUpVotes;
 
-  return article;
+    return article;
+  }
 });
 
 const fiveDaysTimeLapse = 432000000;
@@ -130,7 +156,7 @@ return (
         <h6>You can't post since you don't own this SBT</h6>
       )
     }
-    <div className="mt-3">
+    <div>
       {filterBy.parameterName === "tag" && (
         <div className="mt-3">
           <h6>Filter by tag:</h6>
@@ -150,7 +176,7 @@ return (
           </div>
         </div>
       )}
-      <ArticlesListContainer className="row card-group my-3 py-3 rounded">
+      <ArticlesListContainer className="row card-group py-3">
         {sortedFinalArticlesWithUpVotes.length > 0 ? (
           sortedFinalArticlesWithUpVotes.map((article, i) => {
             const authorProfileCall = Social.getr(`${article.author}/profile`);
@@ -176,6 +202,7 @@ return (
                   authorForWidget,
                   handleShareButton,
                   sbtWhiteList,
+                  callLibs,
                 }}
               />
             );
@@ -186,7 +213,15 @@ return (
       </ArticlesListContainer>
     </div>
     <CallLibrary>
-      {callLibs(libSrcArray, allArticlesListStateUpdate, state.libCalls)}
+      {libSrcArray.map((src) => {
+        return callLibs(
+          src,
+          allArticlesListStateUpdate,
+          state.libsCalls,
+          { baseAction: "sayALotUpVote" },
+          "All articles list"
+        );
+      })}
     </CallLibrary>
   </>
 );
