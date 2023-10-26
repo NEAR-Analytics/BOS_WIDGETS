@@ -289,7 +289,7 @@ return (
                   >
                     <pre>
                       {JSON.stringify(
-                        JSON.parse(state.res[functions.name].value),
+                        JSON.parse(state.response[functions.name].value),
                         null,
                         2
                       )}
