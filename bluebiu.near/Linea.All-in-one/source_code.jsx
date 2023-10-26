@@ -1,12 +1,4 @@
 const Layout = styled.div`
-  position: absolute;
-  top: 106px;
-  left: 0;
-  right: 60px;
-  @media (max-width: 900px) {
-    position: relative;
-    top: 0;
-  }
 `;
 
 const Container = styled.div`
@@ -19,8 +11,8 @@ const Container = styled.div`
     flex-grow: 1;
   }
   .contentOut {
-    padding-top: 25px;
-    margin-left: 35px;
+    /* padding-top: 25px;
+    margin-left: 35px; */
   }
   .contentOut p {
     font-size: 20px;
@@ -55,24 +47,15 @@ const MenuContainer = styled.div`
     margin-bottom: 2px;
     border-right: 3px solid transparent;
     transition: 0.5s;
+    border-radius: 16px;
     :hover {
-      background-image: linear-gradient(
-        270deg,
-        rgba(55, 58, 83, 0) 0%,
-        #373a53 50%,
-        rgba(55, 58, 83, 0) 100%
-      );
-      color: #fff;
+    background: linear-gradient(270deg, #373A53 0%, rgba(55, 58, 83, 0) 100%);
+    color: #ffffff;
     }
   }
   .item.active {
-    background-image: linear-gradient(
-      270deg,
-      #373a53 0%,
-      rgba(55, 58, 83, 0) 100%
-    );
-    color: #fff;
-    border-color: #56daff;
+    color: #ffffff;
+    background: linear-gradient(270deg, #373A53 0%, rgba(55, 58, 83, 0) 100%);
   }
   .item.disable {
     cursor: not-allowed;
@@ -282,7 +265,6 @@ return (
       <div className="flex-grow contentOut">
         {activeMenu == "Bridge" ? (
           <>
-            <p>Bridge</p>
             <Widget
               src="bluebiu.near/widget/Linea.Bridge"
               props={{
@@ -293,7 +275,6 @@ return (
         ) : null}
         {activeMenu == "swap" ? (
           <>
-            <p>Swap</p>
             <Widget
               src="bluebiu.near/widget/Linea.Swap.Dex"
               props={{
@@ -304,13 +285,11 @@ return (
         ) : null}
         {activeMenu == "Liquidity" ? (
           <>
-            <p>Liquidity</p>
             <Widget src="bluebiu.near/widget/Linea.Liquidity.GAMMA" />
           </>
         ) : null}
         {activeMenu == "Lending" ? (
           <>
-            <p>Lending</p>
             <Widget src="bluebiu.near/widget/Linea.Lending" />
           </>
         ) : null}
