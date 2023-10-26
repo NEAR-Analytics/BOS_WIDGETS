@@ -138,19 +138,6 @@ return (
                   </label>
                 </div>
               ))}
-            {state.export && state.widgetName && (
-              <>
-                <hr />
-                <h5>Export Success</h5>
-                <div class="alert alert-primary" role="alert">
-                  <a
-                    href={`https://near.social/${context.accountId}/widget/${state.widgetName}`}
-                  >
-                    {`https://near.social/${context.accountId}/widget/${state.widgetName}`}
-                  </a>
-                </div>
-              </>
-            )}
           </div>
           <div class="modal-footer">
             <button
