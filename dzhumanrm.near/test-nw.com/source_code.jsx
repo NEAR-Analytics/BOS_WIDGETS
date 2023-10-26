@@ -183,9 +183,12 @@ const FooterContent = styled.div`
 `;
 
 const Wrapper = styled.div`
-  width: calc(100vw - 20px);
+  width: calc(100vw - 20px);  
   max-width: 100%;
   box-sizing: border-box;
+  @media screen and (max-width: ${breakpoints.md}) {
+      width: 100%;
+  }
 `;
 
 const Container = styled.div`
