@@ -12,7 +12,7 @@ const sbtWhiteList = [
   "public",
 ];
 
-const initSbtsNames = ["fractal.i-am-human.near - class 1"];
+const initSbtsNames = [sbtWhiteList[0]];
 
 const sbtsNames = state.sbt;
 
@@ -479,9 +479,9 @@ function callLibs(
   );
 }
 
-function handleSbtSelection(string) {
+function handleSbtSelection(selectedSbt) {
   State.update({
-    sbts: [string],
+    sbts: [selectedSbt],
   });
 }
 
@@ -580,7 +580,7 @@ return (
           sbtWhiteList,
           sbts,
           handleShareButton,
-          canLoggedUserCreateArticles: state.canLoggedUserCreateArticle,
+          canLoggedUserCreateArticles,
           filterBy: state.filterBy,
           callLibs,
         }}
@@ -635,7 +635,7 @@ return (
           handleEditArticle,
           sbtWhiteList,
           sbts,
-          canLoggedUserCreateArticles: state.canLoggedUserCreateArticle,
+          canLoggedUserCreateArticles,
         }}
       />
     )}
