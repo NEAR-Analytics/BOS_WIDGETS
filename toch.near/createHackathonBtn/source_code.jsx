@@ -68,7 +68,7 @@ return (
       <CommitButton
         disabled={!text}
         force
-        className="bg-blue text-white rounded-full"
+        className="btn btn-primary rounded-5 mt-2"
         data={composeData}
       >
         Create Hackathon
