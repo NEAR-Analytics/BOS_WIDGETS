@@ -150,11 +150,11 @@ return (
   <>
     <div class="container">
       {context.accountId ? contractForm : notLoggedInWarning}
-      <h3 class="text-center">Front-End Preview</h3>
+      <h3 class="text-center">{state.contractAddress}</h3>
       {state.contractError}
       {state.contractAbiView &&
         state.contractAbiView.map((functions) => (
-          <div class="card mb-2">
+          <div className={`card mb-2 ${functions.className}`}>
             <div class="card-header">
               {functions.label.length > 0 ? functions.label : functions.name}
             </div>
@@ -162,7 +162,7 @@ return (
               {functions.params.args &&
                 functions.params.args.map((args) => {
                   return (
-                    <div class="form-group pb-2">
+                    <div className={`form-group pb-2 ${args.className}`}>
                       <label>
                         {args.label.length > 0 ? args.label : args.name}
                       </label>
@@ -248,7 +248,7 @@ return (
                 ""
               )}
               <button
-                class="btn btn-primary"
+                className={`btn btn-primary ${functions.classButton}`}
                 data-action="view"
                 data-name={functions.name}
                 onClick={(e) =>
