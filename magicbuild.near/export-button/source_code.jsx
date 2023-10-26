@@ -77,7 +77,9 @@ const exportForm = () => {
   Social.set(data, {
     force: true,
     onCommit: () => {
-      window.location.href = `https://near.social/${context.accountId}/widget/${state.widgetName}`;
+      window.open(
+        `https://near.social/${context.accountId}/widget/${state.widgetName}`
+      );
     },
     onCancel: () => {},
   });
