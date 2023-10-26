@@ -1,3 +1,24 @@
+// SayALot.AddComment
+
+const {
+  widgets,
+  isTest,
+  article,
+  onCloseModal,
+  isReplying,
+  username,
+  placement,
+  originalComment,
+  replyingTo,
+} = props;
+
+let id;
+if (originalComment) {
+  id = originalComment.originalComment.value.comment.id;
+} else {
+  id = article.id ?? `${article.author}-${article.timeCreate}`;
+}
+
 const ModalCard = styled.div`
   position: fixed;
   z-index: 1;
@@ -250,29 +271,28 @@ const CallLibrary = styled.div`
   display: none;
 `;
 
-const {
-  widgets,
-  isTest,
-  article,
-  onCloseModal,
-  isReplying,
-  username,
-  placement,
-  originalComment,
-  replyingTo,
-  callLibs,
-} = props;
-
-let id;
-if (originalComment) {
-  id = originalComment.originalComment.value.comment.id;
-} else {
-  id = article.id ?? `${article.author}-${article.timeCreate}`;
-}
-
-const libsCalls = { comment: [] };
+const libCalls = [];
 
 const libSrcArray = [widgets.libComment];
+
+function callLibs(srcArray, stateUpdate, libCalls) {
+  return (
+    <>
+      {srcArray.map((src) => {
+        return (
+          <Widget
+            src={src}
+            props={{
+              isTest,
+              stateUpdate,
+              libCalls,
+            }}
+          />
+        );
+      })}
+    </>
+  );
+}
 
 function stateUpdate(obj) {
   State.update(obj);
@@ -283,7 +303,7 @@ State.init({
   reply: "",
   cancel: false,
   e_message: "",
-  libsCalls,
+  libCalls,
 });
 
 const SetText = (txt) => {
@@ -291,7 +311,6 @@ const SetText = (txt) => {
 };
 
 const renderSpinner = () => {
-  return <Widget src={widgets.newStyledComponents.Feedback.Spinner} />;
   return <Spinner className="spinner-border" role="status"></Spinner>;
 };
 
@@ -309,31 +328,29 @@ function onClickAddComment() {
 }
 
 function addCommentListener() {
-  if (!state.showSpinner) {
-    console.log(4);
-    let newLibsCalls = Object.assign({}, libsCalls);
-    const comment = {
-      text: state.reply,
-      id,
-      timestamp: Date.now(),
-      originalCommentId:
-        originalComment.originalComment.value.comment.commentId ??
-        article.id ??
-        `${article.author}-${article.timeCreate}`,
-      commentId: comment.commentId ?? `c_${context.accountId}-${Date.now()}`,
-    };
-
-    newLibsCalls.comment.push({
-      functionName: "createComment",
-      key: "createComment",
-      props: { comment, onClick: onClickAddComment, onCommit, onCancel },
-    });
-
-    State.update({ libsCalls: newLibsCalls });
-  }
+  let newLibCalls = [...libCalls];
+  const comment = {
+    text: state.reply,
+    id,
+    timestamp: Date.now(),
+    originalCommentId:
+      originalComment.originalComment.value.comment.commentId ??
+      article.id ??
+      `${article.author}-${article.timeCreate}`,
+    commentId: comment.commentId ?? `c_${context.accountId}-${Date.now()}`,
+  };
+  newLibCalls.push({
+    functionName: "createComment",
+    key: "createComment",
+    props: {
+      comment,
+      onClick: onClickAddComment,
+      onCommit,
+      onCancel,
+    },
+  });
+  State.update({ libCalls: newLibCalls });
 }
-
-console.log(3, state.libsCalls);
 
 return (
   <ModalCard>
@@ -412,39 +429,30 @@ return (
         </div>
         <CommentFooter>
           <Widget
-            src={widgets.newStyledComponents.Input.Button}
+            src={widgets.styledComponents}
             props={{
-              children: "Cancel",
-              className: "info outline",
-              onClick: onCloseModal,
+              Button: {
+                text: "Cancel",
+                className: "secondary dark",
+                onClick: onCloseModal,
+              },
             }}
           />
           <Widget
-            src={widgets.newStyledComponents.Input.Button}
+            src={widgets.styledComponents}
             props={{
-              children: (
-                <div className="d-flex justify-content-center align-items-center">
-                  <span>{state.showSpinner ? "" : "Submit"}</span>
-                  {state.showSpinner ? renderSpinner() : <></>}
-                </div>
-              ),
-              className: "info",
-              onClick: addCommentListener,
+              Button: {
+                text: state.showSpinner ? "" : "Submit",
+                onClick: !state.showSpinner ? addCommentListener : () => {},
+                icon: state.showSpinner ? renderSpinner() : <></>,
+              },
             }}
           />
         </CommentFooter>
       </Container>
     </CommentCard>
     <CallLibrary>
-      {libSrcArray.map((src) => {
-        return callLibs(
-          src,
-          stateUpdate,
-          state.libsCalls,
-          { baseAction: "sayALotComment" },
-          "Add comment"
-        );
-      })}
+      {callLibs(libSrcArray, stateUpdate, state.libCalls)}
     </CallLibrary>
   </ModalCard>
 );
