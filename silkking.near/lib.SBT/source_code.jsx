@@ -9,7 +9,6 @@ const {
 } = props;
 const libName = "SBT"; // EDIT: set lib name
 const functionsToCall = functionsToCallByLibrary[libName];
-console.log(3, callerWidget);
 
 let resultFunctionsToCallByLibrary = Object.assign(
   {},
@@ -72,7 +71,6 @@ function isValidUser(props) {
     return call.functionName !== "isValidUser";
   });
 
-  console.log(2, usersValidityBySBT);
   // return true;
   return { ...usersValidityBySBT };
 }
