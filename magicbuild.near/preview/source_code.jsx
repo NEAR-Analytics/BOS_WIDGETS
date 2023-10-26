@@ -166,68 +166,119 @@ return (
                       <label>
                         {args.label.length > 0 ? args.label : args.name}
                       </label>
-                      <input
-                        class="form-control"
-                        data-name={args.name}
-                        data-type={
-                          args.type_schema.type == "string" ||
-                          args.type_schema.type[0] == "string"
-                            ? "text"
-                            : args.type_schema.type == "integer" ||
-                              args.type_schema.type[0] == "integer"
-                            ? "number"
-                            : args.type_schema.type == "array"
-                            ? "array"
-                            : args.type_schema.$ref
-                            ? "text"
-                            : "text"
-                        }
-                        type={
-                          args.type_schema.type == "string" ||
-                          args.type_schema.type[0] == "string"
-                            ? "text"
-                            : args.type_schema.type == "integer" ||
-                              args.type_schema.type[0] == "integer"
-                            ? "number"
-                            : args.type_schema.type == "array"
-                            ? "array"
-                            : args.type_schema.$ref
-                            ? "text"
-                            : "text"
-                        }
-                        placeholder={
-                          args.type_schema.type == "string" ||
-                          args.type_schema.type[0] == "string"
-                            ? "string"
-                            : args.type_schema.type == "integer" ||
-                              args.type_schema.type[0] == "integer"
-                            ? "number"
-                            : args.type_schema.type == "array"
-                            ? "array : a|b"
-                            : args.type_schema.$ref
-                            ? "Account Address"
-                            : "text"
-                        }
-                        onChange={(e) =>
-                          onInputChangeContractArg({
-                            functions: functions.name,
-                            name: args.name,
-                            type:
-                              args.type_schema.type == "string" ||
-                              args.type_schema.type[0] == "string"
-                                ? "text"
-                                : args.type_schema.type == "integer" ||
-                                  args.type_schema.type[0] == "integer"
-                                ? "number"
-                                : args.type_schema.type == "array"
-                                ? "array"
-                                : args.type_schema.$ref
-                                ? "text"
-                                : "text",
-                            value: e.target.value,
-                          })
-                        }
-                      />
+                      {args.type_schema.type == "string" ||
+                      args.type_schema.type == "$ref" ||
+                      args.type_schema.type == "integer" ||
+                      args.type_schema.type == "json" ||
+                      args.type_schema.type == "array" ? (
+                        <input
+                          class="form-control"
+                          data-name={args.name}
+                          data-type={
+                            args.type_schema.type == "string" ||
+                            args.type_schema.type[0] == "string"
+                              ? "text"
+                              : args.type_schema.type == "integer" ||
+                                args.type_schema.type[0] == "integer"
+                              ? "number"
+                              : args.type_schema.type == "array"
+                              ? "array"
+                              : args.type_schema.$ref
+                              ? "text"
+                              : "text"
+                          }
+                          type={
+                            args.type_schema.type == "string" ||
+                            args.type_schema.type[0] == "string"
+                              ? "text"
+                              : args.type_schema.type == "integer" ||
+                                args.type_schema.type[0] == "integer"
+                              ? "number"
+                              : args.type_schema.type == "array"
+                              ? "array"
+                              : args.type_schema.$ref
+                              ? "text"
+                              : "text"
+                          }
+                          placeholder={
+                            args.type_schema.type == "string" ||
+                            args.type_schema.type[0] == "string"
+                              ? "string"
+                              : args.type_schema.type == "integer" ||
+                                args.type_schema.type[0] == "integer"
+                              ? "number"
+                              : args.type_schema.type == "array"
+                              ? "array : a|b"
+                              : args.type_schema.$ref
+                              ? "Account Address"
+                              : "text"
+                          }
+                          onChange={(e) =>
+                            onInputChangeContractArg({
+                              functions: functions.name,
+                              name: args.name,
+                              type:
+                                args.type_schema.type == "string" ||
+                                args.type_schema.type[0] == "string"
+                                  ? "text"
+                                  : args.type_schema.type == "json" ||
+                                    args.type_schema.type[0] == "json"
+                                  ? "text"
+                                  : args.type_schema.type == "integer" ||
+                                    args.type_schema.type[0] == "integer"
+                                  ? "number"
+                                  : args.type_schema.type == "array"
+                                  ? "array"
+                                  : args.type_schema.$ref
+                                  ? "text"
+                                  : "text",
+                              value: e.target.value,
+                            })
+                          }
+                        />
+                      ) : (
+                        ""
+                      )}
+                      {args.type_schema.type == "boolean" ? (
+                        <select
+                          defaultValue={args.type_schema.type}
+                          class="form-control"
+                          onChange={(e) =>
+                            onInputChangeContractArg({
+                              functions: functions.name,
+                              name: args.name,
+                              type: "boolean",
+                              value: e.target.value,
+                            })
+                          }
+                        >
+                          <option value="true">True</option>
+                          <option value="false">False</option>
+                        </select>
+                      ) : (
+                        ""
+                      )}
+                      {args.type_schema.type == "enum" ? (
+                        <select
+                          defaultValue={args.type_schema.type}
+                          class="form-control"
+                          onChange={(e) =>
+                            onInputChangeContractArg({
+                              functions: functions.name,
+                              name: args.name,
+                              type: "string",
+                              value: e.target.value,
+                            })
+                          }
+                        >
+                          {args.enum &&
+                            args.enum.map((item, i) => (
+                              <option value={item}>{item}</option>
+                            ))}
+                        </select>
+                      ) : (
+                        ""
+                      )}
                     </div>
                   );
                 })}
@@ -273,68 +324,119 @@ return (
                   return (
                     <div className={`form-group pb-2 ${args.className}`}>
                       <label>{args.name}</label>
-                      <input
-                        class="form-control"
-                        data-name={args.name}
-                        data-type={
-                          args.type_schema.type == "string" ||
-                          args.type_schema.type[0] == "string"
-                            ? "text"
-                            : args.type_schema.type == "integer" ||
-                              args.type_schema.type[0] == "integer"
-                            ? "number"
-                            : args.type_schema.type == "array"
-                            ? "array"
-                            : args.type_schema.$ref
-                            ? "text"
-                            : "text"
-                        }
-                        type={
-                          args.type_schema.type == "string" ||
-                          args.type_schema.type[0] == "string"
-                            ? "text"
-                            : args.type_schema.type == "integer" ||
-                              args.type_schema.type[0] == "integer"
-                            ? "number"
-                            : args.type_schema.type == "array"
-                            ? "array"
-                            : args.type_schema.$ref
-                            ? "text"
-                            : "text"
-                        }
-                        placeholder={
-                          args.type_schema.type == "string" ||
-                          args.type_schema.type[0] == "string"
-                            ? "string"
-                            : args.type_schema.type == "integer" ||
-                              args.type_schema.type[0] == "integer"
-                            ? "number"
-                            : args.type_schema.type == "array"
-                            ? "array : a|b"
-                            : args.type_schema.$ref
-                            ? "Account Address"
-                            : "text"
-                        }
-                        onChange={(e) =>
-                          onInputChangeContractArg({
-                            functions: functions.name,
-                            name: args.name,
-                            type:
-                              args.type_schema.type == "string" ||
-                              args.type_schema.type[0] == "string"
-                                ? "text"
-                                : args.type_schema.type == "integer" ||
-                                  args.type_schema.type[0] == "integer"
-                                ? "number"
-                                : args.type_schema.type == "array"
-                                ? "array"
-                                : args.type_schema.$ref
-                                ? "text"
-                                : "text",
-                            value: e.target.value,
-                          })
-                        }
-                      />
+                      {args.type_schema.type == "string" ||
+                      args.type_schema.type == "$ref" ||
+                      args.type_schema.type == "integer" ||
+                      args.type_schema.type == "json" ||
+                      args.type_schema.type == "array" ? (
+                        <input
+                          class="form-control"
+                          data-name={args.name}
+                          data-type={
+                            args.type_schema.type == "string" ||
+                            args.type_schema.type[0] == "string"
+                              ? "text"
+                              : args.type_schema.type == "integer" ||
+                                args.type_schema.type[0] == "integer"
+                              ? "number"
+                              : args.type_schema.type == "array"
+                              ? "array"
+                              : args.type_schema.$ref
+                              ? "text"
+                              : "text"
+                          }
+                          type={
+                            args.type_schema.type == "string" ||
+                            args.type_schema.type[0] == "string"
+                              ? "text"
+                              : args.type_schema.type == "integer" ||
+                                args.type_schema.type[0] == "integer"
+                              ? "number"
+                              : args.type_schema.type == "array"
+                              ? "array"
+                              : args.type_schema.$ref
+                              ? "text"
+                              : "text"
+                          }
+                          placeholder={
+                            args.type_schema.type == "string" ||
+                            args.type_schema.type[0] == "string"
+                              ? "string"
+                              : args.type_schema.type == "integer" ||
+                                args.type_schema.type[0] == "integer"
+                              ? "number"
+                              : args.type_schema.type == "array"
+                              ? "array : a|b"
+                              : args.type_schema.$ref
+                              ? "Account Address"
+                              : "text"
+                          }
+                          onChange={(e) =>
+                            onInputChangeContractArg({
+                              functions: functions.name,
+                              name: args.name,
+                              type:
+                                args.type_schema.type == "string" ||
+                                args.type_schema.type[0] == "string"
+                                  ? "text"
+                                  : args.type_schema.type == "json" ||
+                                    args.type_schema.type[0] == "json"
+                                  ? "text"
+                                  : args.type_schema.type == "integer" ||
+                                    args.type_schema.type[0] == "integer"
+                                  ? "number"
+                                  : args.type_schema.type == "array"
+                                  ? "array"
+                                  : args.type_schema.$ref
+                                  ? "text"
+                                  : "text",
+                              value: e.target.value,
+                            })
+                          }
+                        />
+                      ) : (
+                        ""
+                      )}
+                      {args.type_schema.type == "boolean" ? (
+                        <select
+                          defaultValue={args.type_schema.type}
+                          class="form-control"
+                          onChange={(e) =>
+                            onInputChangeContractArg({
+                              functions: functions.name,
+                              name: args.name,
+                              type: "boolean",
+                              value: e.target.value,
+                            })
+                          }
+                        >
+                          <option value="true">True</option>
+                          <option value="false">False</option>
+                        </select>
+                      ) : (
+                        ""
+                      )}
+                      {args.type_schema.type == "enum" ? (
+                        <select
+                          defaultValue={args.type_schema.type}
+                          class="form-control"
+                          onChange={(e) =>
+                            onInputChangeContractArg({
+                              functions: functions.name,
+                              name: args.name,
+                              type: "string",
+                              value: e.target.value,
+                            })
+                          }
+                        >
+                          {args.enum &&
+                            args.enum.map((item, i) => (
+                              <option value={item}>{item}</option>
+                            ))}
+                        </select>
+                      ) : (
+                        ""
+                      )}
                     </div>
                   );
                 })}
