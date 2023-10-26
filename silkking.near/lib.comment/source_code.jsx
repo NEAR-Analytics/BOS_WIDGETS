@@ -3,7 +3,7 @@ const {
   isTest,
   stateUpdate,
   functionsToCallByLibrary,
-  callLibs,
+  // callLibs,
   baseAction,
   widgets,
 } = props;
@@ -63,9 +63,8 @@ function canUserCreateComment(props) {
   const { accountId, sbtsNames } = props;
 
   setAreValidUsers([accountId], sbtsNames);
-
   const result =
-    state[`isValidUser-${accountId}`] || sbtsNames.includes("public");
+    state[`isValidUser-${accountId}`]; /* || sbtsNames.includes("public")*/
 
   resultFunctionsToCall = resultFunctionsToCall.filter((call) => {
     const discardCondition =
@@ -321,6 +320,7 @@ function normalizeLibData(libDataByVersion) {
   return libData;
 }
 
+console.log(3, functionsToCall);
 if (functionsToCall && functionsToCall.length > 0) {
   const updateObj = Object.assign({}, functionsToCallByLibrary);
   resultFunctionsToCall = [...functionsToCall];
@@ -331,7 +331,30 @@ if (functionsToCall && functionsToCall.length > 0) {
   resultFunctionsToCallByLibrary[libName] = resultFunctionsToCall;
   // updateObj.functionsToCallByLibrary = resultFunctionsToCallByLibrary;
   updateObj.libsCalls = resultFunctionsToCallByLibrary;
+  console.log(2, updateObj);
   stateUpdate(updateObj);
+}
+
+function callLibs(
+  src,
+  stateUpdate,
+  functionsToCallByLibrary,
+  extraProps,
+  callerWidget
+) {
+  return (
+    <Widget
+      src={src}
+      props={{
+        isTest,
+        stateUpdate,
+        functionsToCallByLibrary,
+        callLibs,
+        widgets,
+        ...extraProps,
+      }}
+    />
+  );
 }
 
 return (
