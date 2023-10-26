@@ -4,7 +4,8 @@ if (state.image === undefined) {
   State.init({
     image: {},
     text: props.initialText || "",
-    nftChainState: "",
+    nftChainState: "Near",
+    isChecked: false,
   });
 
   if (props.onHelper) {
@@ -60,10 +61,6 @@ if (state.image === undefined) {
     });
   }
 }
-State.init({
-  isChecked: false,
-  nftChainState: "Near",
-});
 
 const chains = [
   {
@@ -291,11 +288,6 @@ const onClose = () => {
 //     nftChainState: "Near",
 //   });
 // }
-if (state.isChecked === false) {
-  State.update({
-    nftChainState: "",
-  });
-}
 
 console.log(state.isChecked);
 
