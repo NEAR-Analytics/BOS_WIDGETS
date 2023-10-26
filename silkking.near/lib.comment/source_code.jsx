@@ -109,7 +109,6 @@ function setAreValidUsers(accountIds, sbtsNames) {
 }
 
 function createComment(props) {
-  console.log(2, props);
   const { comment, onClick, onCommit, onCancel } = props;
 
   onClick();
@@ -150,10 +149,10 @@ function saveComment(comment, onCommit, onCancel) {
   }
 }
 
-function getComments(action, id) {
+function getComments(action, id, subscribe) {
   return Social.index(action, id, {
     order: "desc",
-    subscribe: true,
+    subscribe,
   });
 }
 
@@ -161,11 +160,11 @@ function getCommentBlackListByBlockHeight() {
   return [98588599];
 }
 
-function filterInvalidComments(commentIndexes) {
-  return commentIndexes.filter(
-    (commentIndexes) =>
-      commentIndexes.blockHeight &&
-      !getCommentBlackListByBlockHeight().includes(commentIndexes.blockHeight) // Comment is not in blacklist
+function filterInvalidComments(comments) {
+  return comments.filter(
+    (comment) =>
+      comment.blockHeight &&
+      !getCommentBlackListByBlockHeight().includes(comment.blockHeight) // Comment is not in blacklist
   );
 }
 
@@ -184,10 +183,6 @@ function getValidComments(props) {
 
   setAreValidUsers(commentsAuthors, articleSbts);
 
-  // const validAuthors = commentsAuthors.filter((author) => {
-  //   return state[`isValidUser-${author}`][articleSbt];
-  // });
-
   resultFunctionsToCall = resultFunctionsToCall.filter((call) => {
     const discardCondition =
       call.functionName === "getValidComments" &&
@@ -195,7 +190,7 @@ function getValidComments(props) {
     return !discardCondition;
   });
 
-  const finalComments = filterValidComments(normComments);
+  const finalComments = filterValidComments(normComments, articleSbts);
 
   // if (articleSbts.length > 0) {
   // We assume there will only be just one articleSbt
@@ -226,12 +221,12 @@ function getValidComments(props) {
   return finalComments;
 }
 
-function filterValidator(comments) {
+function filterValidator(comments, articleSbts) {
   return comments.filter((comment) => {
     return (
-      comment.sbts.find((commentSbt) => {
+      articleSbts.find((sbt) => {
         return (
-          state[`isValidUser-${comment.accountId}`][commentSbt] ||
+          state[`isValidUser-${comment.accountId}`][sbt] ||
           commentSbt === "public"
         );
       }) !== undefined
@@ -239,18 +234,23 @@ function filterValidator(comments) {
   });
 }
 
-function filterValidComments(comments) {
-  let filteredComments = filterValidator(filteredComments ?? comments);
+function filterValidComments(comments, articleSbts) {
+  let filteredComments = filterValidator(
+    filteredComments ?? comments,
+    articleSbts
+  );
 
   return filteredComments;
 }
 
 function getCommentsNormalized(env, id) {
-  const commentsByVersion = Object.keys(versions).map((version) => {
+  const commentsByVersion = Object.keys(versions).map((version, index, arr) => {
     const action = versions[version].action;
+    const subscribe = index + 1 === arr.length;
 
-    const comments = getComments(action, id);
+    const comments = getComments(action, id, subscribe);
     if (!comments) return [];
+
     const validComments = filterInvalidComments(comments);
 
     return validComments;
@@ -260,16 +260,10 @@ function getCommentsNormalized(env, id) {
 }
 
 function normalizeOldToV_0_0_1(comment) {
-  comment.sbts = ["public"];
-
   return comment;
 }
 
 function normalizeFromV0_0_1ToV0_0_2(comment) {
-  if (comment.sbts[0] !== "public") {
-    comment.sbts[0] = comment.sbts[0] + " - class 1";
-  } // There is only one comment that is not public and only has class 1
-
   return comment;
 }
 
@@ -293,15 +287,15 @@ function callFunction(call) {
 const versions = {
   old: {
     normalizationFunction: normalizeOldToV_0_0_1,
-    action: baseAction,
+    action: props.isTest ? `test_${baseAction}` : baseAction,
   },
   "v1.0.1": {
     normalizationFunction: normalizeFromV0_0_1ToV0_0_2,
-    action: `${baseAction}-v1.0.1`,
+    action: props.isTest ? `test_${baseAction}-v1.0.1` : `${baseAction}-v1.0.1`,
   },
   "v0.0.2": {
     normalizationFunction: normalizeFromV0_0_2ToV0_0_3,
-    action: `${baseAction}-v0.0.2`,
+    action: props.isTest ? `test_${baseAction}_v0.0.2` : `${baseAction}_v0.0.2`,
   },
 };
 
@@ -328,9 +322,7 @@ function normalizeLibData(libDataByVersion) {
 
 if (functionsToCall && functionsToCall.length > 0) {
   const updateObj = Object.assign({}, functionsToCallByLibrary);
-  console.log(11, updateObj);
   resultFunctionsToCall = [...functionsToCall];
-  console.log(9, resultFunctionsToCall);
   functionsToCall.forEach((call) => {
     updateObj[call.key] = callFunction(call);
   });
@@ -338,7 +330,6 @@ if (functionsToCall && functionsToCall.length > 0) {
   resultFunctionsToCallByLibrary[libName] = resultFunctionsToCall;
   // updateObj.functionsToCallByLibrary = resultFunctionsToCallByLibrary;
   updateObj.libsCalls = resultFunctionsToCallByLibrary;
-  console.log(10, updateObj);
   stateUpdate(updateObj);
 }
 
