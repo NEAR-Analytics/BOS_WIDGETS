@@ -51,7 +51,7 @@ const saveClient = () => {
   });
 };
 const openModal = () => {
-  State.update({ clicked: true });
+  State.update({ clicked: false });
   State.update({ export: false });
 };
 const exportForm = () => {
