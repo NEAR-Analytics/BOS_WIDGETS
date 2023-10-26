@@ -52,9 +52,7 @@ const exportForm = () => {
         },
       },
       widgetList: {
-        [Date.now()]: {
-          widgetName: state.widgetName,
-        },
+        [state.widgetName]: {},
       },
     };
     Social.set(data, {
