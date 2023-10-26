@@ -29,7 +29,7 @@ const onInputChangeContractArg = (obj) => {
   State.update({ contractAbiArg: data });
 };
 
-const onBtnClickCall = (fName, action, fIndex) => {
+const onBtnClickCall = (e, fName, action, fIndex) => {
   const argsArr = [];
   const data = state.contractAbiArg;
   data.forEach((item) => {
@@ -111,41 +111,23 @@ const onBtnClickCall = (fName, action, fIndex) => {
 };
 
 const loadData = () => {
-  const abi = {
-    schema_version: "0.3.0",
-    address: props.contractAddress,
-    metadata: {
-      name: "",
-      version: "0.1.0",
-      authors: [""],
-    },
-    body: {
-      functions: [],
-    },
-  };
-
-  if (state.contractAbiArg) {
-    const abiMethod = state.contractAbiArg;
-    abiMethod.forEach((item) => {
-      abi.body.functions.push(item);
+  const abi = state.contractAbi;
+  if (abi.body.functions) {
+    const contractCall = [];
+    const contractView = [];
+    abi.body.functions.forEach((item) => {
+      if (item.kind == "call") {
+        contractCall.push(item);
+      }
+      if (item.kind == "view") {
+        contractView.push(item);
+      }
+      State.update({ contractAbiCall: contractCall });
+      State.update({ contractAbiView: contractView });
     });
-    if (abi.body.functions) {
-      const contractCall = [];
-      const contractView = [];
-      abi.body.functions.forEach((item) => {
-        if (item.kind == "call") {
-          contractCall.push(item);
-        }
-        if (item.kind == "view") {
-          contractView.push(item);
-        }
-        State.update({ contractAbiCall: contractCall });
-        State.update({ contractAbiView: contractView });
-      });
-      State.update({ contractError: null });
-    } else {
-      State.update({ contractError: "Can not parse ABI" });
-    }
+    State.update({ contractError: null });
+  } else {
+    State.update({ contractError: "Can not parse ABI" });
   }
 };
 loadData();
@@ -156,7 +138,10 @@ return (
   <>
     <div class="container">
       {context.accountId ? contractForm : notLoggedInWarning}
-      <h3 class="text-center">{state.contractAddress}</h3>
+      <h3 class="text-center">
+        Address:
+        <span class="text-decoration-underline"> {state.contractAddress} </span>
+      </h3>
       {state.contractError}
       {state.contractAbiView &&
         state.contractAbiView.map((functions) => (
@@ -312,7 +297,7 @@ return (
                 data-action="view"
                 data-name={functions.name}
                 onClick={(e) =>
-                  onBtnClickCall(functions.name, functions.kind, fIndex)
+                  onBtnClickCall(e, functions.name, functions.kind, fIndex)
                 }
               >
                 {functions.button.length > 0 ? functions.button : "View"}
@@ -323,7 +308,7 @@ return (
 
       {state.contractAbiCall &&
         state.contractAbiCall.map((functions, fIndex) => (
-          <div class={`card mb-2 ${functions.className}`}>
+          <div className={`card mb-2 ${functions.className}`}>
             <div class="card-header">
               {functions.label.length > 0 ? functions.label : functions.name}
             </div>
@@ -332,7 +317,9 @@ return (
                 functions.params.args.map((args) => {
                   return (
                     <div className={`form-group pb-2 ${args.className}`}>
-                      <label>{args.name}</label>
+                      <label>
+                        {args.label.length > 0 ? args.label : args.name}
+                      </label>
                       {args.type_schema.type == "string" ||
                       args.type_schema.type == "$ref" ||
                       args.type_schema.type == "integer" ||
@@ -365,7 +352,7 @@ return (
                               : args.type_schema.type == "array"
                               ? "array : a|b"
                               : args.type_schema.type == "json"
-                              ? "json : {}"
+                              ? "json : { }"
                               : args.type_schema.$ref
                               ? "Account Address"
                               : "text"
@@ -448,7 +435,7 @@ return (
                 data-action="call"
                 data-name={functions.name}
                 onClick={(e) =>
-                  onBtnClickCall(functions.name, functions.kind, fIndex)
+                  onBtnClickCall(e, functions.name, functions.kind, fIndex)
                 }
               >
                 {functions.button.length > 0 ? functions.button : "Call"}
