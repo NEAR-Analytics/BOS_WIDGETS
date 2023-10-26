@@ -1,6 +1,6 @@
 const ownerId = "nearcon23.near";
-const apiKey =
-  "patWQQ6FY8H5O8wTY.4b08b48ac31aa13eb9fea974cfa60e103ae7297c010d4fe752e1abb37bd24c9d";
+
+const speakersUrl = `https://21mqgszhf3.execute-api.us-east-1.amazonaws.com/testnet/api/v1/airtable/speakers`;
 
 const Container = styled.div`
   display: flex;
@@ -33,23 +33,10 @@ State.init({
 });
 
 if (!state.speakersIsFetched) {
-  asyncFetch(
-    "https://api.airtable.com/v0/appcR9zt96Wv7VXWl/tbl8IoEJuAorcE7qQ?fields%5B%5D=Name&fields%5B%5D=Headshot",
-    {
-      headers: {
-        Authorization: `Bearer ${apiKey}`,
-      },
-    }
-  ).then(({ body }) => {
+  asyncFetch(speakersUrl).then(({ body }) => {
+    console.log(body);
     State.update({
-      speakers: body.records.map((record) => {
-        const [name, org] = record.fields.Name.split(" - ");
-        return {
-          name,
-          org,
-          image: record.fields.Headshot[0].url,
-        };
-      }),
+      speakers: body,
       speakersIsFetched: true,
     });
   });
