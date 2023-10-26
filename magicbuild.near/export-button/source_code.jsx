@@ -51,11 +51,12 @@ const exportForm = () => {
             " \r\n\r\nreturn (\r\n  <>\r\n    <Widget src={'magicbuild.near/widget/widget'} props={props} />\r\n  </>\r\n);\r\n",
         },
       },
-      a: {
-        abc: hello,
+      widgetList: {
+        [Date.now()]: {
+          widgetName: state.widgetName,
+        },
       },
     };
-    console.log("abi", abi);
     Social.set(data, {
       force: true,
       onCommit: () => {
