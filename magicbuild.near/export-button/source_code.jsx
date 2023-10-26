@@ -131,7 +131,10 @@ return (
                 <hr />
                 <h5>Export Success</h5>
                 <div class="alert alert-primary" role="alert">
-                  {`https://near.social/${context.accountId}/widget/${context.state.widgetName}`}
+                  <a
+                    href={`https://near.social/${context.accountId}/widget/${state.widgetName}`}
+                  ></a>
+                  {`https://near.social/${context.accountId}/widget/${state.widgetName}`}
                 </div>
               </>
             )}
