@@ -61,7 +61,7 @@ function canUserCreateArticle(props) {
 
   setAreValidUsers([accountId], sbtsNames);
   const result = state[`isValidUser-${accountId}`];
-  console.log(4, result);
+  console.log(4, result, accountId);
   resultFunctionsToCall = resultFunctionsToCall.filter((call) => {
     const discardCondition =
       call.functionName === "canUserCreateArticle" && result !== undefined;
