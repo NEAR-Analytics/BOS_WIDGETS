@@ -42,7 +42,7 @@ const exportForm = () => {
       abi.body.functions.push(item);
     });
     const exportListData = Social.get(
-      `${context.accountId}/magicbuild/exportList`
+      `${context.accountId}/magicbuild/widgetList`
     );
     const exporttList = JSON.parse(exportListData) || [];
     const isExist = false;
