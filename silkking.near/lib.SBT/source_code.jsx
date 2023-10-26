@@ -62,9 +62,11 @@ function isValidUser(props) {
     usersValidityBySBT[sbtName] = isUserValid || sbtName === "public";
   });
 
-  resultFunctionsToCall = resultFunctionsToCall.filter((call) => {
-    return call.functionName !== "isValidUser";
-  });
+  if (isSBTContractLoaded) {
+    resultFunctionsToCall = resultFunctionsToCall.filter((call) => {
+      return call.functionName !== "isValidUser";
+    });
+  }
   console.log(2, usersValidityBySBT);
   // return true;
   return { ...usersValidityBySBT };
