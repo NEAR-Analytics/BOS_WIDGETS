@@ -7,6 +7,9 @@ return (
       src="andyh.near/widget/NestedProps.Child"
       props={{
         incrementByOne: () => setValue((v) => v + 1),
+        byTen: {
+          increment: () => setValue((v) => v + 10),
+        },
       }}
     />
   </>
