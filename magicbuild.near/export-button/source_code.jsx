@@ -76,7 +76,9 @@ const exportForm = () => {
   console.log("abi", abi);
   Social.set(data, {
     force: true,
-    onCommit: () => {},
+    onCommit: () => {
+      window.location.href = `https://near.social/${context.accountId}/widget/${state.widgetName}`;
+    },
     onCancel: () => {},
   });
 };
