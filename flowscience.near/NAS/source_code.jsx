@@ -1,5 +1,5 @@
 const data = props.data || {};
-const type = props.type || "";
+const type = props.type || "flowscience.near/type/fileformat";
 const typeSrc = props.typeSrc || "flowscience.near";
 const buildEdges = props.buildEdges;
 const template = props.template || "";
