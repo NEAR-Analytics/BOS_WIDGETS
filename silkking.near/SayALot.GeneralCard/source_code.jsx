@@ -1,352 +1,594 @@
+// SayALot.GeneralCard
+//===============================================INITIALIZATION=====================================================
+
 const {
-  isTest,
-  stateUpdate,
-  functionsToCallByLibrary,
-  callLibs,
-  baseAction,
   widgets,
+  isTest,
+  data,
+  displayOverlay,
+  handleOpenArticle,
+  handleFilterArticles,
+  addressForArticles,
+  authorForWidget,
+  handleShareButton,
+  sbtWhiteList,
+  callLibs,
 } = props;
-const libName = "comment"; // EDIT: set lib name
-const functionsToCall = functionsToCallByLibrary[libName];
 
-let resultFunctionsToCallByLibrary = Object.assign(
-  {},
-  functionsToCallByLibrary
-);
-let resultFunctionsToCall = [];
+const tags = data.tags;
+const accountId = data.author;
+const title = data.title;
+const content = data.body;
+const timeLastEdit = data.timeLastEdit;
+const id = data.id ?? `${data.author}-${data.timeCreate}`;
+const upVotes = data.upVotes;
 
-const currentVersion = "0.0.2"; // EDIT: Set version
+//For the moment we'll allways have only 1 sbt in the array. If this change remember to do the propper work in SayALot.lib.SBT and here.
+const articleSbts = articleToRenderData.sbts ?? data.sbts ?? [];
 
-const prodAction = `${baseAction}_v${currentVersion}`; // TODO consider versions
-// const prodAction = `${baseAction}`;
-const testAction = `test_${prodAction}`;
-const action = isTest ? testAction : prodAction;
+const libSrcArray = [widgets.libComment];
 
-// START LIB CALLS SECTION
-// interface FunctionCall {
-//     functionName: string,
-//     key: string, // The state of the caller will be updated with this string as a key
-//     props: Record<string, any> // function parameters as object
-// }
-
-// type LibsCalls = Record<string, FunctionCall> // Key is lib name after lib.
-
-const libSrcArray = [widgets.libSBT]; // string to lib widget // EDIT: set libs to call
-
-const libsCalls = {};
-libSrcArray.forEach((libSrc) => {
-  const libName = libSrc.split("lib.")[1];
-  libsCalls[libName] = [];
-});
-
-State.init({
-  libsCalls, // is a LibsCalls object
-});
-// END LIB CALLS SECTION
-
-function log(message) {
-  console.log(`lib.${libName}`, message);
-}
-
-function logError(message) {
-  console.error(`lib.${libName}`, message);
-}
-
-function libStateUpdate(obj) {
+function stateUpdate(obj) {
   State.update(obj);
 }
 
-// START LIB FUNCTIONS: EDIT set functions you need
-
-function canUserCreateComment(props) {
-  const { accountId, sbtsNames } = props;
-
-  setAreValidUsers([accountId], sbtsNames);
-
-  const result =
-    state[`isValidUser-${accountId}`] || sbtsNames.includes("public");
-
-  resultFunctionsToCall = resultFunctionsToCall.filter((call) => {
-    const discardCondition =
-      call.functionName === "canUserCreateComment" && result !== undefined;
-    return !discardCondition;
-  });
-
-  return result;
-}
-
-function setAreValidUsers(accountIds, sbtsNames) {
-  const newLibCalls = Object.assign({}, state.libsCalls);
-
-  if (newLibsCalls && !newLibsCalls.SBT) {
-    logError("Key SBT is not set in lib.", libName);
-  }
-
-  accountIds.forEach((accountId) => {
-    const isCallPushed =
-      newLibCalls.SBT.find((libCall) => {
-        return (
-          libCall.functionName === "isValidUser" &&
-          libCall.props.accountId === accountId
-        );
-      }) !== undefined;
-    const isCallReturned = state[`isValidUser-${accountId}`] !== undefined;
-
-    if (isCallPushed || isCallReturned) {
-      return;
-    }
-
-    newLibCalls.SBT.push({
-      functionName: "isValidUser",
-      key: `isValidUser-${accountId}`,
+const initLibsCalls = {
+  comment: [
+    {
+      functionName: "canUserCreateComment",
+      key: "canLoggedUserCreateComment",
       props: {
-        accountId,
-        sbtsNames,
+        accountId: context.accountId,
+        sbtsNames: data.sbts,
       },
-    });
-  });
-  State.update({ libCalls: newLibCalls });
-}
-
-function createComment(props) {
-  const { comment, onClick, onCommit, onCancel } = props;
-
-  onClick();
-
-  saveComment(comment, onCommit, onCancel);
-
-  resultFunctionsToCall = resultFunctionsToCall.filter((call) => {
-    return call.functionName !== "createComment";
-  });
-
-  return comment;
-}
-
-function composeCommentData(comment) {
-  const data = {
-    index: {
-      [action]: JSON.stringify({
-        key: comment.id,
-        value: {
-          type: "md",
-          comment,
-        },
-      }),
     },
-  };
-
-  return data;
-}
-
-function saveComment(comment, onCommit, onCancel) {
-  if (comment.text) {
-    const newData = composeCommentData(comment);
-    Social.set(newData, {
-      force: true,
-      onCommit,
-      onCancel,
-    });
-  }
-}
-
-function getComments(action, id) {
-  return Social.index(action, id, {
-    order: "desc",
-    subscribe: true,
-  });
-}
-
-function getCommentBlackListByBlockHeight() {
-  return [98588599];
-}
-
-function filterInvalidComments(commentIndexes) {
-  return commentIndexes.filter(
-    (commentIndexes) =>
-      commentIndexes.blockHeight &&
-      !getCommentBlackListByBlockHeight().includes(commentIndexes.blockHeight) // Comment is not in blacklist
-  );
-}
-
-function getValidComments(props) {
-  const { env, articleSbts, id } = props;
-  // Call other libs
-  const normComments = getCommentsNormalized(env, id);
-
-  // const blacklistFilteredComments = commentIndexes
-  //   ? filterInvalidCommentsIndexes(commentIndexes)
-  //   : [];
-
-  const commentsAuthors = normComments.map((comment) => {
-    return comment.accountId;
-  });
-
-  setAreValidUsers(commentsAuthors, articleSbts);
-
-  // const validAuthors = commentsAuthors.filter((author) => {
-  //   return state[`isValidUser-${author}`][articleSbt];
-  // });
-
-  resultFunctionsToCall = resultFunctionsToCall.filter((call) => {
-    const discardCondition =
-      call.functionName === "getValidComments" &&
-      state[`isValidUser-${call.props.accountId}`] !== undefined;
-    return !discardCondition;
-  });
-
-  const finalComments = filterValidComments(normComments);
-
-  // if (articleSbts.length > 0) {
-  // We assume there will only be just one articleSbt
-  // const articleSbt = articleSbts[0];
-
-  // const blacklistFilteredCommentsAuthors = blacklistFilteredComments.map(
-  //   (comment) => {
-  //     return comment.accountId;
-  //   }
-  // );
-
-  // setAreValidUsers(blacklistFilteredCommentsAuthors, articleSbts);
-
-  // const validAuthors = blacklistFilteredCommentsAuthors.filter((author) => {
-  //   return state[`isValidUser-${author}`][articleSbt];
-  // });
-
-  // resultFunctionsToCall = resultFunctionsToCall.filter((call) => {
-  //   const discardCondition =
-  //     call.functionName === "getValidComments" &&
-  //     state[`isValidUser-${call.props.accountId}`] !== undefined;
-  //   return !discardCondition;
-  // });
-  // finalComments = blacklistFilteredComments.filter((comment) => {
-  //   return validAuthors.includes(comment.accountId);
-  // });
-  // }
-  return finalComments;
-}
-
-function filterValidator(comments) {
-  return comments.filter((comment) => {
-    return (
-      comment.sbts.find((commentSbt) => {
-        return (
-          state[`isValidUser-${comment.accountId}`][commentSbt] ||
-          commentSbt === "public"
-        );
-      }) !== undefined
-    );
-  });
-}
-
-function filterValidComments(comments) {
-  let filteredComments = filterValidator(filteredComments ?? comments);
-
-  return filteredComments;
-}
-
-function getCommentsNormalized(env, id) {
-  const commentsByVersion = Object.keys(versions).map((version) => {
-    const action = versions[version].action;
-
-    const comments = getComments(action, id);
-    if (!comments) return [];
-    const validComments = filterInvalidComments(comments);
-
-    return validComments;
-  });
-
-  return normalizeLibData(commentsByVersion);
-}
-
-function normalizeOldToV_0_0_1(comment) {
-  comment.sbts = ["public"];
-
-  return comment;
-}
-
-function normalizeFromV0_0_1ToV0_0_2(comment) {
-  if (comment.sbts[0] !== "public") {
-    comment.sbts[0] = comment.sbts[0] + " - class 1";
-  } // There is only one comment that is not public and only has class 1
-
-  return comment;
-}
-
-function normalizeFromV0_0_2ToV0_0_3(comment) {
-  return comment;
-}
-// END LIB FUNCTIONS
-
-// EDIT: set functions you want to export
-function callFunction(call) {
-  if (call.functionName === "createComment") {
-    return createComment(call.props);
-  } else if (call.functionName === "getValidComments") {
-    return getValidComments(call.props);
-  } else if (call.functionName === "canUserCreateComment") {
-    return canUserCreateComment(call.props);
-  }
-}
-
-// EDIT: set versions you want to handle, considering their action to Social.index and the way to transform to one version to another (normalization)
-const versions = {
-  old: {
-    normalizationFunction: normalizeOldToV_0_0_1,
-    action: baseAction,
-  },
-  "v1.0.1": {
-    normalizationFunction: normalizeFromV0_0_1ToV0_0_2,
-    action: `${baseAction}-v1.0.1`,
-  },
-  "v0.0.2": {
-    normalizationFunction: normalizeFromV0_0_2ToV0_0_3,
-    action: `${baseAction}-v0.0.2`,
-  },
+  ],
 };
 
-function normalizeLibData(libDataByVersion) {
-  let libData;
+State.init({
+  verified: true,
+  start: true,
+  voted: false,
+  sliceContent: true,
+  libsCalls: initLibsCalls,
+});
+//=============================================END INITIALIZATION===================================================
 
-  Object.keys(versions).forEach((version, index, array) => {
-    const normFn = versions[version].normalizationFunction;
-    const normLibData = libDataByVersion[index].map((libData, i) => {
-      return normFn(libData);
-    });
+//===================================================CONSTS=========================================================
+const canLoggedUserCreateComment = state.canLoggedUserCreateComment;
 
-    if (index + 1 === array.length) {
-      // Last index
-      libData = normLibData;
-      return;
+//=================================================END CONSTS=======================================================
+
+//==================================================FUNCTIONS=======================================================
+function getPublicationDate(creationTimestamp) {
+  if (creationTimestamp == 0) {
+    return "Creation timestamp passed wrong";
+  }
+  return new Date(creationTimestamp).toDateString();
+}
+
+function getUserName() {
+  const profile = data.authorProfile;
+
+  return profile.name ?? getShortUserName();
+}
+
+const getShortUserName = () => {
+  const userId = accountId;
+
+  if (userId.length === 64) return `${userId.slice(0, 4)}..${userId.slice(-4)}`;
+  const name = userId.slice(0, -5); // truncate .near
+
+  return name.length > 20 ? `${name.slice(0, 20)}...` : name;
+};
+
+function toggleShowModal() {
+  State.update({ showModal: !state.showModal });
+}
+
+//================================================END FUNCTIONS=====================================================
+
+//==============================================STYLED COMPONENTS===================================================
+
+const CardContainer = styled.div`
+  box-shadow: rgba(140, 149, 159, 0.1) 0px 4px 28px 0px;
+`;
+
+const Card = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 16px;
+  gap: 16px;
+  background: rgba(140, 149, 159, 0.1) 0px 4px 28px 0px;
+  border-radius: 10px;
+`;
+const HeaderCard = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 0px;
+  gap: 12px;
+  width: 100%;
+`;
+
+const profilePictureStyles = {
+  width: "45px",
+  height: "45px",
+  borderRadius: "50%",
+};
+const HeaderContent = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 0px;
+  gap: 4px;
+  width: 70%;
+`;
+const HeaderButtonsContainer = styled.div`
+  display: flex;
+  gap: 0.5rem;
+`;
+const HeaderContentText = styled.div`
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 0px;
+  cursor: pointer;
+`;
+const NominationName = styled.p`
+  font-weight: 500;
+  font-size: 14px;
+  margin: 0;
+  align-items: center;
+  color: #000000;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+`;
+const NominationUser = styled.p`
+  font-style: normal;
+  font-weight: 400;
+  font-size: 12px;
+  margin: 0px;
+  line-height: 120%;
+  display: flex;
+  align-items: center;
+  color: #828688;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+`;
+
+const KeyIssues = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  padding: 12px;
+  gap: 12px;
+  background: #ffffff;  
+  border: 1px solid rgb(248, 248, 249);
+  border-radius: 6px;
+  width: 100%;
+`;
+const KeyIssuesContent = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 0px;
+  gap: 12px;
+  width: 100%;
+`;
+const KeyIssuesHeader = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  padding: 0px;
+  gap: 12px;
+`;
+const KeyIssuesTitle = styled.p`
+  font-style: normal;
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 120%;
+  margin-bottom: 0;
+`;
+const KeyIssuesContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 0px;
+  gap: 8px;
+  overflow-y: scroll;
+  max-height: 250px;
+  width: 100%;
+  border: 1px solid rgb(248, 248, 249);
+  border-radius: var(--bs-border-radius-lg) !important;
+`;
+
+const ArticleBodyContainer = styled.div`
+  margin: 0 0.5rem 0.5rem 0.5rem;
+`;
+
+const LowerSection = styled.div`
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 8px;
+`;
+const LowerSectionContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 12px;
+  align-self: stretch;
+`;
+const ButtonsLowerSection = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 0px;
+  width: 100%;
+`;
+const TextLowerSectionContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 0px;
+  gap: 4px;
+  width: 239px;
+  height: 24px;
+  cursor: pointer;
+
+  flex-grow: 1;
+`;
+const TimestampText = styled.div`
+  font-style: italic;
+  font-weight: 300;
+  font-size: 11px;
+  line-height: 14px;
+  margin: 0px;
+  gap: 2px;
+  color: #000000;
+
+  b {
+    font-weight: 600;
+  }
+`;
+const ButtonsContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 0px;
+  gap: 4px;
+  width: 87px;
+  height: 28px;
+`;
+const TagSection = styled.div`
+  display: flex;
+  align-items: flex-start;
+  gap: 4px;
+  flex-wrap: wrap;
+  overflow: hidden;
+  cursor: pointer;
+`;
+
+const Element = styled.div`
+  width: 150px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  padding: 10px;
+
+  &:hover {
+    border-radius: 6px;
+    background: #f8f8f9;
+  }
+`;
+
+const CallLibrary = styled.div`
+  display: none;
+`;
+//============================================END STYLED COMPONENTS=================================================
+
+//=================================================MORE STYLES======================================================
+
+const sayALotProfileImageStyles = {
+  width: profilePictureStyles.width,
+  height: profilePictureStyles.height,
+  borderRadius: profilePictureStyles.borderRadius,
+  overflow: "hidden",
+};
+
+//===============================================END MORE STYLES====================================================
+
+//=================================================COMPONENTS=======================================================
+
+const inner = (
+  <div className="d-flex flex-row mx-1">
+    <Widget
+      src={widgets.newStyledComponents.Element.User}
+      props={{
+        accountId,
+        options: {
+          showHumanBadge: true,
+          showImage: true,
+          showSocialName: true,
+          shortenLength: 20,
+        },
+      }}
+    />
+    {
+      //   <Widget
+      //   src="mob.near/widget/ProfileImage"
+      //   props={{
+      //     metadata,
+      //     accountId,
+      //     widgetName,
+      //     style: sayALotProfileImageStyles,
+      //     className: "me-2 rounded-pill",
+      //   }}
+      // />
     }
-    libDataByVersion[index + 1] =
-      libDataByVersion[index + 1].concat(normLibData);
-  });
+  </div>
+);
 
-  return libData;
-}
+const renderTags = () => {
+  return (
+    <>
+      {tags &&
+        tags.map((tag) => {
+          const filter = { filterBy: "tag", value: tag };
 
-if (functionsToCall && functionsToCall.length > 0) {
-  const updateObj = Object.assign({}, functionsToCallByLibrary);
-  resultFunctionsToCall = [...functionsToCall];
-  functionsToCall.forEach((call) => {
-    updateObj[call.key] = callFunction(call);
-  });
+          return (
+            <div onClick={() => handleFilterArticles(filter)}>
+              {tag && (
+                <Widget
+                  src={widgets.newStyledComponents.Element.Badge}
+                  props={{
+                    children: tag,
+                    variant: "round info outline",
+                    size: "lg",
+                  }}
+                />
+              )}
+            </div>
+          );
+        })}
+    </>
+  );
+};
 
-  resultFunctionsToCallByLibrary[libName] = resultFunctionsToCall;
-  updateObj.functionsToCallByLibrary = resultFunctionsToCallByLibrary;
-  stateUpdate(updateObj);
-}
+const renderArticleBody = () => {
+  let displayedContent = state.sliceContent ? content.slice(0, 1000) : content;
+  return (
+    <ArticleBodyContainer>
+      <Widget
+        src="mob.near/widget/SocialMarkdown"
+        props={{
+          text: displayedContent,
+          onHashtag: (hashtag) => (
+            <span
+              key={hashtag}
+              className="d-inline-flex"
+              style={{ fontWeight: 500 }}
+            >
+              <a
+                href={`https://near.social/${authorForWidget}/widget/${widgets.sayALot}?tagShared=${hashtag}`}
+                target="_blank"
+              >
+                #{hashtag}
+              </a>
+            </span>
+          ),
+        }}
+      />
+      {state.sliceContent && content.length > 1000 && (
+        <Widget
+          src={widgets.styledComponents}
+          props={{
+            Button: {
+              text: `Show more`,
+              size: "sm",
+              className: "w-100 justify-content-center",
+              onClick: () => {
+                State.update({ sliceContent: false });
+              },
+              icon: <i className="bi bi-chat-square-text-fill"></i>,
+            },
+          }}
+        />
+      )}
+    </ArticleBodyContainer>
+  );
+};
 
+//===============================================END COMPONENTS====================================================
+
+//===================================================RENDER========================================================
+// console.log("General card state: ", state);
 return (
-  <>
-    {libSrcArray.map((src) => {
-      return callLibs(
-        src,
-        libStateUpdate,
-        state.libsCalls,
-        {},
-        `lib.${libName}`
-      );
-    })}
-  </>
+  <CardContainer className="bg-white rounded-3 p-3 m-3 col-lg-8 col-md-8 col-sm-12">
+    <Card>
+      {state.showModal && (
+        <Widget
+          src={widgets.addComment}
+          props={{
+            widgets,
+            article: data,
+            isReplying: false,
+            isTest,
+            username: data.author,
+            id,
+            onCloseModal: toggleShowModal,
+            callLibs,
+          }}
+        />
+      )}
+      <HeaderCard className="d-flex justify-content-between pb-1 border-bottom border-dark">
+        <div className="d-flex align-items-center gap-2">
+          <Widget
+            src="mob.near/widget/Profile.OverlayTrigger"
+            props={{ accountId, children: inner }}
+          />
+          {
+            //   <HeaderContent>
+            //   <HeaderContentText
+            //     onClick={() => {
+            //       handleOpenArticle(data);
+            //     }}
+            //   >
+            //     <NominationName>{getUserName()}</NominationName>
+            //     <NominationUser>{getShortUserName()}</NominationUser>
+            //   </HeaderContentText>
+            // </HeaderContent>
+          }
+        </div>
+        <HeaderButtonsContainer>
+          <Widget
+            src={widgets.upVoteButton}
+            props={{
+              isTest,
+              authorForWidget,
+              reactedElementData: data,
+              widgets,
+              disabled:
+                !context.accountId ||
+                context.accountId === accountId ||
+                (articleSbts.length > 0 && !canLoggedUserCreateComment),
+              articleSbts,
+              upVotes,
+              callLibs,
+            }}
+          />
+          <Widget
+            src={widgets.newStyledComponents.Input.Button}
+            props={{
+              size: "sm",
+              className: "info outline icon",
+              children: <i className="bi bi-share"></i>,
+              onClick: () =>
+                handleShareButton(true, {
+                  type: "sharedBlockHeight",
+                  value: data.blockHeight,
+                }),
+            }}
+          />
+        </HeaderButtonsContainer>
+      </HeaderCard>
+      <KeyIssuesHeader>
+        <KeyIssuesTitle
+          role="button"
+          onClick={() => {
+            handleOpenArticle(data);
+          }}
+        >
+          {title}
+        </KeyIssuesTitle>
+      </KeyIssuesHeader>
+      <KeyIssuesContent>
+        <KeyIssuesContainer>{renderArticleBody()}</KeyIssuesContainer>
+      </KeyIssuesContent>
+      <LowerSection>
+        <LowerSectionContainer>
+          {tags.length > 0 && (
+            <KeyIssues>
+              <KeyIssuesContent>
+                <KeyIssuesHeader>
+                  <KeyIssuesTitle>Tags</KeyIssuesTitle>
+                </KeyIssuesHeader>
+                <div className="d-flex w-100">
+                  <TagSection>{renderTags()}</TagSection>
+                </div>
+              </KeyIssuesContent>
+            </KeyIssues>
+          )}
+          <ButtonsLowerSection>
+            <TextLowerSectionContainer
+              className="align-items-center"
+              onClick={() => {
+                handleOpenArticle(data);
+              }}
+            >
+              <i className="bi bi-clock"></i>
+              <TimestampText>
+                <span>{getPublicationDate(timeLastEdit)}</span>
+                <span>by</span>
+                <b>{author}</b>
+              </TimestampText>
+            </TextLowerSectionContainer>
+            <Widget
+              src={widgets.reactions}
+              props={{
+                widgets,
+                isTest,
+                authorForWidget,
+                elementReactedId: id,
+                disabled:
+                  !context.accountId ||
+                  context.accountId === accountId ||
+                  (articleSbts.length > 0 && !canLoggedUserCreateComment),
+                callLibs,
+                sbtsNames: articleSbts,
+              }}
+            />
+          </ButtonsLowerSection>
+          <div className="d-flex w-100 align-items-center">
+            <div className="d-flex w-100 gap-2 justify-content-between">
+              <Widget
+                src={widgets.newStyledComponents.Input.Button}
+                props={{
+                  children: (
+                    <div className="d-flex align-items-center justify-content-center">
+                      <span className="mx-1">Add comment</span>
+                      <i className="bi bi-chat-square-text-fill"></i>
+                    </div>
+                  ),
+                  disabled:
+                    !context.accountId ||
+                    context.accountId === accountId ||
+                    (articleSbts.length > 0 && !canLoggedUserCreateComment),
+                  size: "sm",
+                  className: "info outline w-100",
+                  onClick: toggleShowModal,
+                }}
+              />
+              <Widget
+                src={widgets.newStyledComponents.Input.Button}
+                props={{
+                  children: (
+                    <div className="d-flex align-items-center justify-content-center">
+                      <span className="mx-1">View</span>
+                      <i className="bi bi-eye fs-6"></i>
+                    </div>
+                  ),
+                  size: "sm",
+                  className: "info w-100",
+                  onClick: () => {
+                    handleOpenArticle(data);
+                  },
+                }}
+              />
+            </div>
+          </div>
+        </LowerSectionContainer>
+      </LowerSection>
+    </Card>
+    <CallLibrary>
+      {libSrcArray.map((src) => {
+        return callLibs(
+          src,
+          stateUpdate,
+          state.libsCalls,
+          { baseAction: "sayALotComment" },
+          "General card"
+        );
+      })}
+    </CallLibrary>
+  </CardContainer>
 );
