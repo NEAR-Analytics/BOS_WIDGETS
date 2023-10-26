@@ -3,6 +3,7 @@ State.init({
   clientName: props.clientName ? props.clientName : "",
   contractAddress: props.address ? props.address : "",
   cMethod: props.abi ? props.abi : [],
+  widgetName: props.widgetName,
   rpcUrl: "https://rpc.near.org/",
   archivalRpc: "https://archival-rpc.mainnet.near.org",
   nearBlockRpc: "https://api.nearblocks.io/",
