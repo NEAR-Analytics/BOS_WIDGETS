@@ -33,14 +33,14 @@ const action = isTest ? testAction : prodAction;
 
 const libSrcArray = [widgets.libSBT]; // string to lib widget // EDIT: set libs to call
 
-const libsCalls = {};
+const otherFunctionsToCallByLibrary = {};
 libSrcArray.forEach((libSrc) => {
   const libName = libSrc.split("lib.")[1];
-  libsCalls[libName] = [];
+  otherFunctionsToCallByLibrary[libName] = [];
 });
 
 State.init({
-  libsCalls, // is a LibsCalls object
+  functionsToCallByLibrary: otherFunctionsToCallByLibrary, // is a LibsCalls object
 });
 // END LIB CALLS SECTION
 
@@ -73,7 +73,7 @@ function canUserUpVote(props) {
 }
 
 function setAreValidUsers(accountIds, sbtsNames) {
-  const newLibsCalls = Object.assign({}, state.libsCalls);
+  const newLibsCalls = Object.assign({}, state.functionsToCallByLibrary);
   if (!newLibsCalls.SBT) {
     logError("Key SBT is not set in lib.", libName);
   }
@@ -101,7 +101,7 @@ function setAreValidUsers(accountIds, sbtsNames) {
       },
     });
   });
-  State.update({ libsCalls: newLibsCalls });
+  State.update({ functionsToCallByLibrary: newLibsCalls });
 }
 
 function addVote(props) {
@@ -409,7 +409,7 @@ return (
       return callLibs(
         src,
         libStateUpdate,
-        state.libsCalls,
+        state.functionsToCallByLibrary,
         {},
         `lib.${libName}`
       );
