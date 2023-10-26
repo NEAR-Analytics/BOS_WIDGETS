@@ -1,97 +1,87 @@
 const accountId = "nearcon23.near";
 
 initState({ data: [] });
-const apiKey =
-  "patWQQ6FY8H5O8wTY.4b08b48ac31aa13eb9fea974cfa60e103ae7297c010d4fe752e1abb37bd24c9d";
 
-// Airtable API Url: "https://api.airtable.com/v0/appcR9zt96Wv7VXWl/tblSMeBodnZWPL1vj"
-const airtableId = "appcR9zt96Wv7VXWl";
-const airtableTableId = "tblSMeBodnZWPL1vj";
 
-const airtableApiUrl = `https://api.airtable.com/v0/${airtableId}/${airtableTableId}`;
+const agendaUrl = `https://gqqkd7l7mk.execute-api.us-east-1.amazonaws.com/mainnet/api/v1/airtable/agenda`;
+
+const speakersUrl = `https://gqqkd7l7mk.execute-api.us-east-1.amazonaws.com/mainnet/api/v1/airtable/speakers`;
 const sessionsByDate = {};
-//⚙️ Start Time- get event Data and time
-// ⚙️ End Time Calculated by Duration- get the end time
-//fields.title
-// fields.description
-//fields.track
-//fields.Confirmed Speakers Full Name - if speaker
-//
-//fields.Start Time Formatted for Calendar
-//fields.End Time Formatted for Calendar
 
 const imageLink =
   "https://plus.unsplash.com/premium_photo-1664541336896-b3d5f7dec9a3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTN8fHBlcnNvbnxlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=500&q=60";
 
-asyncFetch(airtableApiUrl, {
-  headers: {
-    Authorization: `Bearer ${apiKey}`,
-  },
-}).then(({ body }) => {
-  const { records } = body;
+asyncFetch(agendaUrl).then(({ body }) => {
+  const records = body;
   const dataToSet = [...records];
   dataToSet.sort((a, b) => {
-    let dateA = new Date(a.fields["⚙️ Start Time"]);
-    let dateB = new Date(b.fields["⚙️ Start Time"]);
+    let dateA = new Date(a["⚙️ Start Time"]);
+    let dateB = new Date(b["⚙️ Start Time"]);
     return dateA - dateB;
   });
 
   // Extract the relevant fields and store them in a new array of objects:
   let allLocations = {};
+  asyncFetch(speakersUrl).then(({ body: speakerBody }) => {
+    const imageData = {};
+    speakerBody.map((item) => {
+      imageData[item.ref] = item.image;
+    });
+    const simplifiedData = dataToSet
+      .filter((_) => {
+        const wps = _["Web Publishing Status"];
 
-  const simplifiedData = dataToSet
-    .filter((data) => {
-      const wps = data.fields["Web Publishing Status"];
+        return (
+          _["Web Publishing Status"]?.length > 0 &&
+          !wps.includes("reczlWVomn8QUBxXF")
+        );
+      })
+      .map((data) => {
+        allLocations[data["Location"]] = true;
 
-      return (
-        data.fields["Web Publishing Status"]?.length > 0 &&
-        !wps.includes("reczlWVomn8QUBxXF")
-      );
-    })
-    .map((data) => {
-      allLocations[data.fields["Location"]] = true;
+        const speakers = [
+          ...(data?.["Confirmed Speakers Full Name"] ?? []),
+          ...(data?.["Confirmed Moderator Full Name"] ?? []),
+        ];
+        const allImages = [];
+        speakers.map((item) => {
+          allImages.push(imageData[item]);
+        });
 
-      const speakers = [
-        ...(data?.fields?.["Confirmed Speakers Full Name"] ?? []),
-        ...(data?.fields?.["Confirmed Moderator Full Name"] ?? []),
-      ];
+        return {
+          startTime: data["⚙️ Start Time"],
+          endTime: data["⚙️ End Time"],
+          title: data["⚙️ Session Name"],
+          description: data["Description"],
+          location: data["Location"],
+          track: data?.["Track"]
+            ? data?.["Track"].map((item) => item.toLowerCase())
+            : null,
+          imageIds: allImages,
+          // Assuming that you want to retrieve some speaker name from a different field:
+          confirmedSpeakers: speakers, // Replace with an actual field name if applicable
+          startTimeFormatted: data["Start Time Formatted for Calendar"],
+          endTimeFormatted: data["End Time Formatted for Calendar"],
+        };
+      });
 
-      const ids = [
-        ...(data?.fields?.["Potential Speakers"] ?? []),
-        ...(data?.fields?.["Confirmed Moderator"] ?? []),
-      ];
-
-      return {
-        startTime: data.fields["⚙️ Start Time"],
-        endTime: data.fields["⚙️ End Time"],
-        title: data.fields["Session Name"],
-        description: data.fields["Description"],
-        location: data.fields["Location"],
-        track: data?.fields?.["Track"]
-          ? data?.fields?.["Track"].map((item) => item.toLowerCase())
-          : null,
-        imageIds: ids,
-        // Assuming that you want to retrieve some speaker name from a different field:
-        confirmedSpeakers: speakers, // Replace with an actual field name if applicable
-        startTimeFormatted: data.fields["Start Time Formatted for Calendar"],
-        endTimeFormatted: data.fields["End Time Formatted for Calendar"],
-      };
+    simplifiedData.forEach((session) => {
+      let date = new Date(session.startTime).toDateString(); // Converts time to a string that represents only the date, not the time
+      sessionsByDate[date] = sessionsByDate[date] || [];
+      sessionsByDate[date].push(session);
     });
 
-  simplifiedData.forEach((session) => {
-    let date = new Date(session.startTime).toDateString(); // Converts time to a string that represents only the date, not the time
-    sessionsByDate[date] = sessionsByDate[date] || [];
-    sessionsByDate[date].push(session);
-  });
+    // Convert the grouped sessions object into an array of session arrays:
+    let groupedSessionsArray = Object.values(sessionsByDate);
 
-  // Convert the grouped sessions object into an array of session arrays:
-  let groupedSessionsArray = Object.values(sessionsByDate);
-
-  State.update({
-    data: groupedSessionsArray,
-    locations: Object.keys(allLocations),
+    State.update({
+      data: groupedSessionsArray,
+      locations: Object.keys(allLocations),
+    });
   });
 });
+
+console.log(state);
 
 return (
   <>
