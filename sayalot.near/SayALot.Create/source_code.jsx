@@ -206,6 +206,7 @@ return (
                     handleFilterArticles: () => {},
                     authorForWidget,
                     handleShareButton: () => {},
+                    callLibs,
                   }}
                 />
               ) : (
