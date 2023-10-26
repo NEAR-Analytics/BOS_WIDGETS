@@ -65,7 +65,7 @@ function isValidUser(props) {
   resultFunctionsToCall = resultFunctionsToCall.filter((call) => {
     return call.functionName !== "isValidUser";
   });
-
+  console.log(2, usersValidityBySBT);
   // return true;
   return { ...usersValidityBySBT };
 }
