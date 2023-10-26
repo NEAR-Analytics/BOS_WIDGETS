@@ -5,13 +5,11 @@ const {
   widgets,
   isTest,
   data,
-  displayOverlay,
   handleOpenArticle,
   handleFilterArticles,
   addressForArticles,
   authorForWidget,
   handleShareButton,
-  sbtWhiteList,
   callLibs,
 } = props;
 
