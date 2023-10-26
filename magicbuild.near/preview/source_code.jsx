@@ -187,19 +187,7 @@ return (
                               ? "text"
                               : "text"
                           }
-                          type={
-                            args.type_schema.type == "string" ||
-                            args.type_schema.type[0] == "string"
-                              ? "text"
-                              : args.type_schema.type == "integer" ||
-                                args.type_schema.type[0] == "integer"
-                              ? "number"
-                              : args.type_schema.type == "array"
-                              ? "array"
-                              : args.type_schema.$ref
-                              ? "text"
-                              : "text"
-                          }
+                          type={"string"}
                           placeholder={
                             args.type_schema.type == "string" ||
                             args.type_schema.type[0] == "string"
@@ -209,6 +197,8 @@ return (
                               ? "number"
                               : args.type_schema.type == "array"
                               ? "array : a|b"
+                              : args.type_schema.type == "json"
+                              ? "json : { }"
                               : args.type_schema.$ref
                               ? "Account Address"
                               : "text"
@@ -221,18 +211,22 @@ return (
                                 args.type_schema.type == "string" ||
                                 args.type_schema.type[0] == "string"
                                   ? "text"
-                                  : args.type_schema.type == "json" ||
-                                    args.type_schema.type[0] == "json"
-                                  ? "text"
                                   : args.type_schema.type == "integer" ||
                                     args.type_schema.type[0] == "integer"
                                   ? "number"
                                   : args.type_schema.type == "array"
                                   ? "array"
+                                  : args.type_schema.type == "json"
+                                  ? "json"
                                   : args.type_schema.$ref
                                   ? "text"
                                   : "text",
-                              value: e.target.value,
+                              value:
+                                args.type_schema.type == "array"
+                                  ? e.target.value.split("|")
+                                  : args.type_schema.type == "json"
+                                  ? JSON.parse(e.target.value)
+                                  : e.target.value,
                             })
                           }
                         />
@@ -248,7 +242,7 @@ return (
                               functions: functions.name,
                               name: args.name,
                               type: "boolean",
-                              value: e.target.value,
+                              value: Boolean(e.target.value),
                             })
                           }
                         >
@@ -345,19 +339,7 @@ return (
                               ? "text"
                               : "text"
                           }
-                          type={
-                            args.type_schema.type == "string" ||
-                            args.type_schema.type[0] == "string"
-                              ? "text"
-                              : args.type_schema.type == "integer" ||
-                                args.type_schema.type[0] == "integer"
-                              ? "number"
-                              : args.type_schema.type == "array"
-                              ? "array"
-                              : args.type_schema.$ref
-                              ? "text"
-                              : "text"
-                          }
+                          type={"string"}
                           placeholder={
                             args.type_schema.type == "string" ||
                             args.type_schema.type[0] == "string"
@@ -367,6 +349,8 @@ return (
                               ? "number"
                               : args.type_schema.type == "array"
                               ? "array : a|b"
+                              : args.type_schema.type == "json"
+                              ? "json : {}"
                               : args.type_schema.$ref
                               ? "Account Address"
                               : "text"
@@ -379,18 +363,22 @@ return (
                                 args.type_schema.type == "string" ||
                                 args.type_schema.type[0] == "string"
                                   ? "text"
-                                  : args.type_schema.type == "json" ||
-                                    args.type_schema.type[0] == "json"
-                                  ? "text"
                                   : args.type_schema.type == "integer" ||
                                     args.type_schema.type[0] == "integer"
                                   ? "number"
                                   : args.type_schema.type == "array"
                                   ? "array"
+                                  : args.type_schema.type == "json"
+                                  ? "json"
                                   : args.type_schema.$ref
                                   ? "text"
                                   : "text",
-                              value: e.target.value,
+                              value:
+                                args.type_schema.type == "array"
+                                  ? e.target.value.split("|")
+                                  : args.type_schema.type == "json"
+                                  ? JSON.parse(e.target.value)
+                                  : e.target.value,
                             })
                           }
                         />
@@ -406,7 +394,7 @@ return (
                               functions: functions.name,
                               name: args.name,
                               type: "boolean",
-                              value: e.target.value,
+                              value: Boolean(e.target.value),
                             })
                           }
                         >
