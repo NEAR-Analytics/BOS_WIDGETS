@@ -112,14 +112,13 @@ function addVote(props) {
     return call.functionName !== "addVote";
   });
 
-  return upVote;
+  // return upVote;
 }
 
 function deleteVote(props) {
   const { id, upVoteId } = props;
 
   saveDeleteVote(id, upVoteId);
-
   resultFunctionsToCall = resultFunctionsToCall.filter((call) => {
     return call.functionName !== "deleteVote";
   });
@@ -199,14 +198,19 @@ function getUpVotesData(action, id, subscribe) {
 function getupVotesNormalized(id) {
   const upVotesByVersion = Object.keys(versions).map((version, index, arr) => {
     const action = versions[version].action;
-    const subscribe = index + 1 === arr.length && false;
+    const subscribe = index + 1 === arr.length;
     const allUpVotes = getUpVotesData(action, id, subscribe);
-    if (!allUpVotes) return [];
+    if (!allUpVotes) return undefined;
 
     const validUpVotes = filterInvalidUpVotes(env, allUpVotes);
+    const latestEdits = getLatestEdits(validUpVotes);
 
-    return getLatestEdits(validUpVotes);
+    const nonDeletedVotes = latestEdits.filter((vote) => {
+      return !vote.value.isDelete;
+    });
+    return nonDeletedVotes;
   });
+  if (upVotesByVersion.includes(undefined)) return undefined;
 
   return normalizeLibData(upVotesByVersion);
 }
@@ -233,27 +237,23 @@ function getUpVotes(props) {
   const { sbtsNames: articleSbts, id } = props;
   // Call other libs
   const normUpVotes = getupVotesNormalized(id);
+  if (!normUpVotes) return undefined;
 
-  // Keep last edit from every upVote
-  const lastUpVotes = normUpVotes.filter((upVote) => {
-    //log(["normUpVotes: ", normUpVotes]);
-    return normUpVotes.find(
-      (compUpVote) => JSON.stringify(compUpVote) === JSON.stringify(upVote)
-    );
-  });
-
-  const lastUpVotesAuthors = lastUpVotes.map((upVote) => {
+  const lastUpVotesAuthors = normUpVotes.map((upVote) => {
     return upVote.accountId;
   });
   setAreValidUsers(lastUpVotesAuthors, articleSbts);
-  resultFunctionsToCall = resultFunctionsToCall.filter((call) => {
-    const discardCondition =
-      call.functionName === "getUpVotes" &&
-      state[`isValidUser-${call.props.accountId}`] !== undefined;
-    return !discardCondition;
+
+  lastUpVotesAuthors.forEach((accountId) => {
+    resultFunctionsToCall = resultFunctionsToCall.filter((call) => {
+      const discardCondition =
+        call.functionName === "getUpVotes" &&
+        state[`isValidUser-${accountId}`] !== undefined;
+      return !discardCondition;
+    });
   });
 
-  const finalUpVotes = filterValidUpVotes(lastUpVotes, articleSbts);
+  const finalUpVotes = filterValidUpVotes(normUpVotes, articleSbts);
   const finalUpVotesMapped = {};
 
   articleSbts.forEach((sbt) => {
