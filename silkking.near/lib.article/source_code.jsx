@@ -61,7 +61,6 @@ function canUserCreateArticle(props) {
 
   setAreValidUsers([accountId], sbtsNames);
   const result = state[`isValidUser-${accountId}`];
-  console.log(4, result, accountId);
   resultFunctionsToCall = resultFunctionsToCall.filter((call) => {
     const discardCondition =
       call.functionName === "canUserCreateArticle" && result !== undefined;
@@ -168,6 +167,18 @@ function getArticleBlackListByRealArticleId() {
     "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb-1691702487944",
     "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb-1691707918243",
     "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb-1691707889297",
+    "blaze.near-1697211386373",
+    "silkking.near-1696797896796",
+    "silkking.near-1696797784589",
+    "silkking.near-1696797350661",
+    "silkking.near-1696797276482",
+    "silkking.near-1696797155012",
+    "silkking.near-1696796793605",
+    "silkking.near-1696796543546",
+    "silkking.near-1696795954175",
+    "silkking.near-1696794571874",
+    "silkking.near-1696792789177",
+    "zarmade.near-1690578803015",
   ];
 }
 
