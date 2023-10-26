@@ -1,3 +1,5 @@
+// SayALot.CommentView
+
 const {
   widgets,
   data,
@@ -334,13 +336,13 @@ return (
         <Widget
           src={widgets.reactions}
           props={{
+            widgets,
             isTest,
             authorForWidget,
             elementReactedId: data.originalComment.value.comment.commentId,
-            widgets,
-            articleSbts,
             disabled: !canLoggedUserCreateComment[articleSbts[0]],
             callLibs,
+            sbtsNames: articleSbts,
           }}
         />
       </CommentCardLowerSection>
