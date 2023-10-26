@@ -65,7 +65,7 @@ const exportForm = () => {
             " \r\n\r\nreturn (\r\n  <>\r\n    <Widget src={'magicbuild.near/widget/widget'} props={props} />\r\n  </>\r\n);\r\n",
         },
       },
-      widgetList: exporttList,
+      magicbuild: { widgetList: exporttList },
     };
     Social.set(data, {
       force: true,
