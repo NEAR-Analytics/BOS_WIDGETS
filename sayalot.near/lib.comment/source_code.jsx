@@ -1,15 +1,12 @@
 // lib.comment
 const {
-  mainStateUpdate,
   isTest,
   stateUpdate,
   functionsToCallByLibrary,
   callLibs,
   baseAction,
   widgets,
-  usersSBTs,
 } = props;
-
 const libName = "comment"; // EDIT: set lib name
 const functionsToCall = functionsToCallByLibrary[libName];
 
@@ -37,8 +34,6 @@ const action = isTest ? testAction : prodAction;
 
 const libSrcArray = [widgets.libSBT]; // string to lib widget // EDIT: set libs to call
 
-const imports = { notifications: ["getNotificationData"] };
-
 const libsCalls = {};
 libSrcArray.forEach((libSrc) => {
   const libName = libSrc.split("lib.")[1];
@@ -47,7 +42,6 @@ libSrcArray.forEach((libSrc) => {
 
 State.init({
   libsCalls, // is a LibsCalls object
-  notifications: {},
 });
 // END LIB CALLS SECTION
 
@@ -68,31 +62,9 @@ function libStateUpdate(obj) {
 function canUserCreateComment(props) {
   const { accountId, sbtsNames } = props;
 
-  if (sbtsNames.includes("public")) return true;
-
-  if (accountId) {
-    setAreValidUsers([accountId], sbtsNames);
-  } else {
-    return false;
-  }
-
-  let allSBTsValidations = [];
-
-  let result;
-
-  let userCredentials =
-    usersSBTs.find((data) => data.user === accountId).credentials ??
-    state[`isValidUser-${accountId}`];
-
-  if (userCredentials) {
-    const allSBTs = Object.keys(userCredentials);
-
-    allSBTs.forEach((sbt) => {
-      sbt !== "public" && allSBTsValidations.push(userCredentials[sbt]);
-    });
-
-    result = allSBTsValidations.includes(true);
-  }
+  setAreValidUsers([accountId], sbtsNames);
+  const result =
+    state[`isValidUser-${accountId}`]; /* || sbtsNames.includes("public")*/
 
   resultFunctionsToCall = resultFunctionsToCall.filter((call) => {
     const discardCondition =
@@ -124,29 +96,24 @@ function setAreValidUsers(accountIds, sbtsNames) {
       return;
     }
 
-    const existingUserSBTs = usersSBTs.find(
-      (userSBTs) => userSBTs.user === accountId
-    );
-
-    if (!existingUserSBTs) {
-      newLibCalls.SBT.push({
-        functionName: "isValidUser",
-        key: `isValidUser-${accountId}`,
-        props: {
-          accountId,
-        },
-      });
-    }
+    newLibCalls.SBT.push({
+      functionName: "isValidUser",
+      key: `isValidUser-${accountId}`,
+      props: {
+        accountId,
+        sbtsNames,
+      },
+    });
   });
   State.update({ libCalls: newLibCalls });
 }
 
 function createComment(props) {
-  const { comment, articleId, onClick, onCommit, onCancel } = props;
+  const { comment, onClick, onCommit, onCancel } = props;
 
   onClick();
 
-  saveComment(comment, articleId, onCommit, onCancel);
+  saveComment(comment, onCommit, onCancel);
 
   resultFunctionsToCall = resultFunctionsToCall.filter((call) => {
     return call.functionName !== "createComment";
@@ -155,31 +122,7 @@ function createComment(props) {
   return comment;
 }
 
-function getNotificationData(type, accountId, url) {
-  if (state.notifications.getNotificationData) {
-    return state.notifications.getNotificationData(type, accountId, url);
-  }
-}
-
-function extractMentions(text) {
-  const mentionRegex =
-    /@((?:(?:[a-z\d]+[-_])*[a-z\d]+\.)*(?:[a-z\d]+[-_])*[a-z\d]+)/gi;
-  mentionRegex.lastIndex = 0;
-  const accountIds = new Set();
-  for (const match of text.matchAll(mentionRegex)) {
-    if (
-      !/[\w`]/.test(match.input.charAt(match.index - 1)) &&
-      !/[/\w`]/.test(match.input.charAt(match.index + match[0].length)) &&
-      match[1].length >= 2 &&
-      match[1].length <= 64
-    ) {
-      accountIds.add(match[1].toLowerCase());
-    }
-  }
-  return [...accountIds];
-}
-
-function composeCommentData(comment, articleId) {
+function composeCommentData(comment) {
   const data = {
     index: {
       [action]: JSON.stringify({
@@ -192,29 +135,12 @@ function composeCommentData(comment, articleId) {
     },
   };
 
-  const mentions = extractMentions(comment.text);
-
-  if (mentions.length > 0) {
-    const dataToAdd = getNotificationData(
-      "mentionOnComment",
-      mentions,
-      `https://near.social/${
-        widgets.thisForum
-      }?sharedArticleId=${articleId}&sharedCommentId=${comment.commentId}${
-        isTest ? "&isTest=t" : ""
-      }`
-    );
-
-    data.post = dataToAdd.post;
-    data.index.notify = dataToAdd.index.notify;
-  }
-
   return data;
 }
 
-function saveComment(comment, articleId, onCommit, onCancel) {
+function saveComment(comment, onCommit, onCancel) {
   if (comment.text) {
-    const newData = composeCommentData(comment, articleId);
+    const newData = composeCommentData(comment);
     Social.set(newData, {
       force: true,
       onCommit,
@@ -247,6 +173,10 @@ function getValidComments(props) {
   // Call other libs
   const normComments = getCommentsNormalized(env, id);
 
+  // const blacklistFilteredComments = commentIndexes
+  //   ? filterInvalidCommentsIndexes(commentIndexes)
+  //   : [];
+
   const commentsAuthors = normComments.map((comment) => {
     return comment.accountId;
   });
@@ -262,41 +192,45 @@ function getValidComments(props) {
 
   const finalComments = filterValidComments(normComments, articleSbts);
 
+  // if (articleSbts.length > 0) {
+  // We assume there will only be just one articleSbt
+  // const articleSbt = articleSbts[0];
+
+  // const blacklistFilteredCommentsAuthors = blacklistFilteredComments.map(
+  //   (comment) => {
+  //     return comment.accountId;
+  //   }
+  // );
+
+  // setAreValidUsers(blacklistFilteredCommentsAuthors, articleSbts);
+
+  // const validAuthors = blacklistFilteredCommentsAuthors.filter((author) => {
+  //   return state[`isValidUser-${author}`][articleSbt];
+  // });
+
+  // resultFunctionsToCall = resultFunctionsToCall.filter((call) => {
+  //   const discardCondition =
+  //     call.functionName === "getValidComments" &&
+  //     state[`isValidUser-${call.props.accountId}`] !== undefined;
+  //   return !discardCondition;
+  // });
+  // finalComments = blacklistFilteredComments.filter((comment) => {
+  //   return validAuthors.includes(comment.accountId);
+  // });
+  // }
   return finalComments;
 }
 
 function filterValidator(comments, articleSbts) {
-  if (articleSbts.includes("public")) return comments;
-
   return comments.filter((comment) => {
-    let allSBTsValidations = [];
-
-    let result;
-
-    let userCredentials =
-      usersSBTs.find((data) => data.user === comment.accountId).credentials ??
-      state[`isValidUser-${comment.accountId}`];
-
-    if (userCredentials) {
-      const allSBTs = Object.keys(userCredentials);
-
-      allSBTs.forEach((sbt) => {
-        sbt !== "public" && allSBTsValidations.push(userCredentials[sbt]);
-      });
-
-      result = allSBTsValidations.includes(true);
-    }
-
-    return result;
-
-    // return (
-    //   articleSbts.find((sbt) => {
-    //     return (
-    //       state[`isValidUser-${comment.accountId}`][sbt] ||
-    //       commentSbt === "public"
-    //     );
-    //   }) !== undefined
-    // );
+    return (
+      articleSbts.find((sbt) => {
+        return (
+          state[`isValidUser-${comment.accountId}`][sbt] ||
+          commentSbt === "public"
+        );
+      }) !== undefined
+    );
   });
 }
 
@@ -395,39 +329,6 @@ if (functionsToCall && functionsToCall.length > 0) {
 
   resultFunctionsToCallByLibrary[libName] = resultFunctionsToCall;
   updateObj.functionsToCallByLibrary = resultFunctionsToCallByLibrary;
-
-  const oldUsersSBTs = usersSBTs;
-  // {
-  //   user: string,
-  //   credentials: {},
-  // }
-
-  const newUsersSBTs = Object.keys(state).map((key) => {
-    if (key.includes("isValidUser-")) {
-      if (state[key] !== undefined) {
-        const user = key.split("isValidUser-")[1];
-        const credentials = state[key];
-
-        const oldUsers = oldUsersSBTs.map((userSbts) => userSbts.user);
-
-        if (!oldUsers.includes(user)) {
-          return {
-            user,
-            credentials,
-          };
-        }
-      }
-    }
-  });
-
-  const finalUsersSBTs = [...oldUsersSBTs, ...newUsersSBTs].filter(
-    (userSBTs) => userSBTs !== undefined
-  );
-
-  if (finalUsersSBTs[0]) {
-    mainStateUpdate({ usersSBTs: finalUsersSBTs });
-  }
-
   stateUpdate(updateObj);
 }
 
@@ -464,14 +365,5 @@ return (
         `lib.${libName}`
       );
     })}
-
-    <Widget
-      src={`${widgets.libNotifications}`}
-      props={{
-        stateUpdate: libStateUpdate,
-        imports: imports["notifications"],
-        fatherNotificationsState: state.notifications,
-      }}
-    />
   </>
 );
