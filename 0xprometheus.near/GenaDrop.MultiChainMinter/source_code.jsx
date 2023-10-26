@@ -77,6 +77,7 @@ const chains = [
 ];
 
 const handleMint = () => {
+  console.log("opo", state.selectedChain);
   console.log("it's here", state.title && state.description && state.image.cid);
   if (!state.image.cid) {
     return;
@@ -231,6 +232,9 @@ State.init({
   showAlert: false,
   toastMessage: "",
   selectIsOpen: false,
+  image: {
+    cid: "",
+  },
 });
 
 //select tag
@@ -305,17 +309,19 @@ const handleChainChange = (chain_id) => {
       selectedChain: chain_id,
     });
   }
-  console.log("encts here", Ethers.send);
+  console.log("encts here", state.image);
   Ethers.send("wallet_switchEthereumChain", [
     {
       chainId: "0x" + Number(chain_id).toString(16),
     },
-  ]).then((data) => console.log("done!!!", data));
+  ]);
   console.log("what happens after");
   State.update({
     selectedChain: chain_id,
   });
   console.log("afters", state.selectedChain);
+  Storage.set("uploadedImage", state.image);
+  console.log("afters setting", Storage.get("uploadedImage"));
 };
 
 const onChangeDesc = (description) => {
@@ -559,15 +565,19 @@ if (!(state.sender || accountId)) {
 }
 
 console.log(
-  "Here 🤔 " +
-    state.selectedChain +
-    " " +
-    chains
-      .filter((chain) => {
-        return state.selectedChain.toString() == chain.id;
-      })
-      .map((c) => c.url)
+  "Here 🤔 " + state.selectedChain + " ",
+  state.image,
+  Storage.get("uploadedImage") || "unavailable"
 );
+
+if (Storage.get("uploadedImage")) {
+  if (!state.image) {
+    State.update({
+      image: Storage.get("uploadedImage"),
+    });
+  }
+  console.log("setter getter....");
+}
 
 return (
   <>
