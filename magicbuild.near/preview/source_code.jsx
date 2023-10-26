@@ -34,11 +34,17 @@ const onBtnClickCall = (fName, action, fIndex) => {
   const data = state.contractAbiArg;
   data.forEach((item) => {
     if (item.functions == fName) {
-      if (item.type == "number") {
+      if (item.type == "number" || item.type == "integer") {
         item.value = parseInt(item.value);
       }
       if (item.type == "array") {
         item.value = item.value.split("|");
+      }
+      if (item.type == "json") {
+        item.value = JSON.parse(item.value);
+      }
+      if (item.type == "boolean") {
+        item.value = Boolean(item.value);
       }
       argsArr.push(item);
     }
@@ -221,14 +227,7 @@ return (
                                   : args.type_schema.$ref
                                   ? "text"
                                   : "text",
-                              value:
-                                args.type_schema.type == "array"
-                                  ? e.target.value.split("|")
-                                  : args.type_schema.type == "integer"
-                                  ? parseInt(e.target.value)
-                                  : args.type_schema.type == "json"
-                                  ? JSON.parse(e.target.value)
-                                  : e.target.value,
+                              value: e.target.value,
                             })
                           }
                         />
@@ -244,7 +243,7 @@ return (
                               functions: functions.name,
                               name: args.name,
                               type: "boolean",
-                              value: Boolean(e.target.value),
+                              value: e.target.value,
                             })
                           }
                         >
@@ -375,14 +374,7 @@ return (
                                   : args.type_schema.$ref
                                   ? "text"
                                   : "text",
-                              value:
-                                args.type_schema.type == "array"
-                                  ? e.target.value.split("|")
-                                  : args.type_schema.type == "integer"
-                                  ? parseInt(e.target.value)
-                                  : args.type_schema.type == "json"
-                                  ? JSON.parse(e.target.value)
-                                  : e.target.value,
+                              value: e.target.value,
                             })
                           }
                         />
@@ -398,7 +390,7 @@ return (
                               functions: functions.name,
                               name: args.name,
                               type: "boolean",
-                              value: Boolean(e.target.value),
+                              value: e.target.value,
                             })
                           }
                         >
