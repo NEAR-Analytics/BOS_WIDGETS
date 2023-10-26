@@ -1,14 +1,20 @@
 State.init({
   cMethod: props.cMethod,
   widgetName: `MagicBuild-widget-form-${Date.now()}`,
+  clicked: false,
+  export: false,
 });
 const onSwitchChangeArgExport = (fIndex) => {
   const abiMethod = state.cMethod;
   abiMethod[fIndex].export = !abiMethod[fIndex].export;
   State.update({ cMethod: abiMethod });
+  State.update({ clicked: false });
+  State.update({ export: false });
 };
 const onInputChangeWidgetName = ({ target }) => {
   State.update({ widgetName: target.value.replaceAll(" ", "-") });
+  State.update({ clicked: false });
+  State.update({ export: false });
 };
 const saveClient = () => {
   const abi = {
@@ -40,52 +46,55 @@ const saveClient = () => {
   };
   Social.set(data, {
     force: true,
-    onCommit: () => {
-      Location.href = "http://google.com";
-    },
+    onCommit: () => {},
     onCancel: () => {},
   });
 };
+const openModal = () => {
+  State.update({ clicked: false });
+  State.update({ export: false });
+};
 const exportForm = () => {
-  const abi = {
-    schema_version: "0.3.0",
-    address: props.contractAddress,
-    metadata: {
-      name: "",
-      version: "0.1.0",
-      authors: [""],
-    },
-    body: {
-      functions: [],
-    },
-  };
+  if (!state.clicked) {
+    State.update({ clicked: true });
 
-  const abiMethod = state.cMethod;
-  abiMethod.forEach((item) => {
-    abi.body.functions.push(item);
-  });
-
-  const data = {
-    widget: {
-      [state.widgetName]: {
-        "":
-          "const user = context.accountId;\r\nconst props = " +
-          JSON.stringify(abi).replaceAll("\\", "") +
-          " \r\n\r\nreturn (\r\n  <>\r\n    <Widget src={'magicbuild.near/widget/widget'} props={props} />\r\n  </>\r\n);\r\n",
+    const abi = {
+      schema_version: "0.3.0",
+      address: props.contractAddress,
+      metadata: {
+        name: "",
+        version: "0.1.0",
+        authors: [""],
       },
-    },
-  };
-  console.log("abi", abi);
-  Social.set(data, {
-    force: true,
-    onCommit: () => {
-      Location();
-      new URL(
-        `https://near.social/${context.accountId}/widget/${state.widgetName}`
-      );
-    },
-    onCancel: () => {},
-  });
+      body: {
+        functions: [],
+      },
+    };
+
+    const abiMethod = state.cMethod;
+    abiMethod.forEach((item) => {
+      abi.body.functions.push(item);
+    });
+
+    const data = {
+      widget: {
+        [state.widgetName]: {
+          "":
+            "const user = context.accountId;\r\nconst props = " +
+            JSON.stringify(abi).replaceAll("\\", "") +
+            " \r\n\r\nreturn (\r\n  <>\r\n    <Widget src={'magicbuild.near/widget/widget'} props={props} />\r\n  </>\r\n);\r\n",
+        },
+      },
+    };
+    console.log("abi", abi);
+    Social.set([data, data], {
+      force: true,
+      onCommit: () => {
+        State.update({ export: true });
+      },
+      onCancel: () => {},
+    });
+  }
 };
 return (
   <>
@@ -94,6 +103,7 @@ return (
       data-bs-toggle="modal"
       data-bs-target="#export"
       class="btn btn-primary form-control "
+      onClick={openModal}
     >
       🔼Export
     </button>
@@ -148,6 +158,15 @@ return (
                   </label>
                 </div>
               ))}
+            {state.export && (
+              <>
+                <hr />
+                <h5>Export Success</h5>
+                <div class="alert alert-primary" role="alert">
+                  {`https://near.social/${context.accountId}/widget/${context.state.widgetName}`}
+                </div>
+              </>
+            )}
           </div>
           <div class="modal-footer">
             <button
@@ -167,7 +186,12 @@ return (
               </button>
             )}
 
-            <button type="button" onClick={exportForm} class="btn btn-primary">
+            <button
+              type="button"
+              disabled={state.clicked}
+              onClick={exportForm}
+              class="btn btn-primary"
+            >
               Export
             </button>
           </div>
