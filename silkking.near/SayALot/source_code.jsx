@@ -157,7 +157,6 @@ const widgets = {
 };
 
 const libSrcArray = [widgets.libArticle];
-console.log(1, state);
 
 const profile = props.profile ?? Social.getr(`${accountId}/profile`);
 if (profile === null) {
@@ -503,7 +502,6 @@ function getLink() {
 }
 
 //===============================================END FUNCTIONS======================================================
-// console.log("articles: ", state.articles);
 if (!context.accountId) {
   return (
     <>
