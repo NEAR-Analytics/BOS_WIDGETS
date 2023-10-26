@@ -3,7 +3,15 @@ const draftKey = props.indexKey ?? "draft";
 const draft = Storage.privateGet(draftKey);
 const groupId = props.groupId;
 
+const show = props.show || false;
 const text = props.text || "";
+const trigger = props.trigger || false;
+
+useEffect(() => {
+  if (trigger) {
+    composeData();
+  }
+}, [trigger]);
 
 const content = {
   type: "md",
