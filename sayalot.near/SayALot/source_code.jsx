@@ -1,3 +1,5 @@
+// SayALot
+
 //===============================================INITIALIZATION=====================================================
 let { sharedBlockHeight, tagShared, isTest, accountId } = props;
 sharedBlockHeight = Number(sharedBlockHeight);
@@ -6,30 +8,34 @@ const sbtWhiteList = [
   "fractal.i-am-human.near - class 1",
   "community.i-am-human.near - class 1",
   "community.i-am-human.near - class 2",
+  "community.i-am-human.near - class 3",
+  "public",
 ];
 
-const initSbtsNames = ["fractal.i-am-human.near - class 1"];
+const initSbtsNames = [sbtWhiteList[0]];
 
 const sbtsNames = state.sbt;
 
-const initLibCalls = [
-  {
-    functionName: "getLastEditArticles",
-    key: "articles",
-    props: {
-      env: isTest ? "test" : "prod",
-      sbtsNames: sbtWhiteList,
+const initLibsCalls = {
+  article: [
+    {
+      functionName: "getArticles",
+      key: "articles",
+      props: {
+        env: isTest ? "test" : "prod",
+        sbtsNames: sbtWhiteList,
+      },
     },
-  },
-  {
-    functionName: "canUserCreateArticle",
-    key: "canLoggedUserCreateArticle",
-    props: {
-      accountId: context.accountId,
-      sbtsNames: sbtWhiteList,
+    {
+      functionName: "canUserCreateArticle",
+      key: "canLoggedUserCreateArticle",
+      props: {
+        accountId: context.accountId,
+        sbtsNames: sbtWhiteList,
+      },
     },
-  },
-];
+  ],
+};
 
 accountId = context.accountId;
 
@@ -76,14 +82,14 @@ State.init({
   articleToRenderData: {},
   filterBy: getInitialFilter(),
   authorsProfiles: [],
-  libCalls: initLibCalls,
+  functionsToCallByLibrary: initLibsCalls,
   sbtsNames: initSbtsNames,
   sbts: initSbtsNames,
 });
 
-let newLibCalls = state.libCalls;
+let newLibsCalls = state.functionsToCallByLibrary;
 
-State.update({ libCalls: newLibCalls });
+State.update({ libsCalls: newLibsCalls });
 
 //=============================================END INITIALIZATION===================================================
 
@@ -93,7 +99,8 @@ const authorForWidget = "sayalot.near";
 // const authorForWidget =
 //   "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb";
 // const authorForWidget = "kenrou-it.near";
-const libSrcArray = [`${authorForWidget}/widget/SayALot.lib.article`];
+// const authorForWidget = "silkking.near";
+
 const thisWidgetName = "SayALot";
 
 const widgets = {
@@ -108,10 +115,11 @@ const widgets = {
   reactions: `${authorForWidget}/widget/SayALot.Reactions`,
   addComment: `${authorForWidget}/widget/SayALot.AddComment`,
   commentView: `${authorForWidget}/widget/SayALot.CommentView`,
-  libComment: `${authorForWidget}/widget/SayALot.lib.comment`,
-  libArticle: `${authorForWidget}/widget/SayALot.lib.article`,
-  libEmojis: `${authorForWidget}/widget/SayALot.lib.emojis`,
-  libUpVotes: `${authorForWidget}/widget/SayALot.lib.upVotes`,
+  libSBT: `${authorForWidget}/widget/lib.SBT`,
+  libComment: `${authorForWidget}/widget/lib.comment`,
+  libArticle: `${authorForWidget}/widget/lib.article`,
+  libEmojis: `${authorForWidget}/widget/lib.emojis`,
+  libUpVotes: `${authorForWidget}/widget/lib.upVotes`,
   upVoteButton: `${authorForWidget}/widget/SayALot.UpVoteButton`,
   styledComponents: "rubycop.near/widget/NDC.StyledComponents",
   newStyledComponents: {
@@ -129,6 +137,8 @@ const widgets = {
     },
   },
 };
+
+const libSrcArray = [widgets.libArticle];
 
 const profile = props.profile ?? Social.getr(`${accountId}/profile`);
 if (profile === null) {
@@ -212,7 +222,7 @@ if (state.filterBy.parameterName === "tag") {
 
 //=============================================STYLED COMPONENTS====================================================
 const CallLibrary = styled.div`
-  display: none;
+  display: block;
 `;
 
 const ShareInteractionGeneralContainer = styled.div`
@@ -332,11 +342,25 @@ function getValidEditArticleDataTags() {
 
 function createSbtOptions() {
   return sbtWhiteList.map((option, i) => {
-    //The first options is always the default one
-    if (i == 0) {
-      return { title: option, default: true, value: option };
+    const title = "";
+
+    if (option === "fractal.i-am-human.near - class 1") {
+      title = "General";
+    } else if (option === "community.i-am-human.near - class 1") {
+      title = "OG";
+    } else if (option === "community.i-am-human.near - class 2") {
+      title = "Contributor";
+    } else if (option === "community.i-am-human.near - class 3") {
+      title = "Core Contributor";
     } else {
-      return { title: option, value: option };
+      title = "Public";
+    }
+
+    if (i == 0) {
+      //The first options is always the default one
+      return { title, default: true, value: option };
+    } else {
+      return { title, value: option };
     }
   });
 }
@@ -345,7 +369,7 @@ const initialCreateState = {
   title: state.editArticleData.title ?? "",
   articleBody: state.editArticleData.body ?? initialBodyAtCreation,
   tags: state.editArticleData.tags ? getValidEditArticleDataTags() : {},
-  libCalls: [],
+  libsCalls: { comment: {}, article: {}, emojis: {}, upVotes: {} },
   sbts: [sbtWhiteList[0]],
 };
 
@@ -415,28 +439,32 @@ function handlePillNavigation(navegateTo) {
   State.update({ displayedTabId: navegateTo, editArticleData: undefined });
 }
 
-function callLibs(srcArray, stateUpdate, libCalls) {
+function callLibs(
+  src,
+  stateUpdate,
+  functionsToCallByLibrary,
+  extraProps,
+  callerWidget
+) {
   return (
-    <>
-      {srcArray.map((src) => {
-        return (
-          <Widget
-            src={src}
-            props={{
-              isTest,
-              stateUpdate,
-              libCalls,
-            }}
-          />
-        );
-      })}
-    </>
+    <Widget
+      src={src}
+      props={{
+        isTest,
+        stateUpdate,
+        functionsToCallByLibrary,
+        callLibs,
+        widgets,
+        callerWidget,
+        ...extraProps,
+      }}
+    />
   );
 }
 
-function handleSbtSelection(string) {
+function handleSbtSelection(selectedSbt) {
   State.update({
-    sbts: [string],
+    sbts: [selectedSbt],
   });
 }
 
@@ -456,9 +484,6 @@ function getLink() {
 }
 
 //===============================================END FUNCTIONS======================================================
-
-// console.log(state);
-
 if (!context.accountId) {
   return (
     <>
@@ -505,17 +530,19 @@ return (
         sbtsNames,
       }}
     />
-    <div className="my-3">
-      <Widget
-        src={widgets.newStyledComponents.Input.Select}
-        props={{
-          label: "Select sbt filter",
-          value: sbts[0],
-          onChange: handleSbtSelection,
-          options: createSbtOptions(),
-        }}
-      />
-    </div>
+    {state.displayedTabId == tabs.SHOW_ARTICLES_LIST.id && (
+      <div className="my-3">
+        <Widget
+          src={widgets.newStyledComponents.Input.Select}
+          props={{
+            label: "Select sbt filter",
+            value: sbts[0],
+            onChange: handleSbtSelection,
+            options: createSbtOptions(),
+          }}
+        />
+      </div>
+    )}
     {articlesToRender && state.displayedTabId == tabs.SHOW_ARTICLES_LIST.id && (
       <Widget
         src={widgets.showArticlesList}
@@ -530,14 +557,14 @@ return (
           authorForWidget,
           initialCreateState,
           editArticleData: state.editArticleData,
-          callLibs,
           handleEditArticle,
           showCreateArticle: canLoggedUserCreateArticle,
           sbtWhiteList,
           sbts,
           handleShareButton,
-          canLoggedUserCreateArticles: state.canLoggedUserCreateArticle,
+          canLoggedUserCreateArticles,
           filterBy: state.filterBy,
+          callLibs,
         }}
       />
     )}
@@ -553,6 +580,7 @@ return (
             authorForWidget,
             handleEditArticle,
             handleShareButton,
+            callLibs,
           }}
         />
       )}
@@ -589,13 +617,21 @@ return (
           handleEditArticle,
           sbtWhiteList,
           sbts,
-          canLoggedUserCreateArticles: state.canLoggedUserCreateArticle,
+          canLoggedUserCreateArticles,
         }}
       />
     )}
 
     <CallLibrary>
-      {callLibs(libSrcArray, stateUpdate, state.libCalls)}
+      {libSrcArray.map((src) => {
+        return callLibs(
+          src,
+          stateUpdate,
+          state.functionsToCallByLibrary,
+          { baseAction: "sayALotArticle" },
+          "SayALot"
+        );
+      })}
     </CallLibrary>
   </>
 );
