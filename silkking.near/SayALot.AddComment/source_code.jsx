@@ -10,6 +10,7 @@ const {
   placement,
   originalComment,
   replyingTo,
+  callLibs,
 } = props;
 
 let id;
@@ -271,28 +272,7 @@ const CallLibrary = styled.div`
   display: none;
 `;
 
-const libCalls = [];
-
 const libSrcArray = [widgets.libComment];
-
-function callLibs(srcArray, stateUpdate, libCalls) {
-  return (
-    <>
-      {srcArray.map((src) => {
-        return (
-          <Widget
-            src={src}
-            props={{
-              isTest,
-              stateUpdate,
-              libCalls,
-            }}
-          />
-        );
-      })}
-    </>
-  );
-}
 
 function stateUpdate(obj) {
   State.update(obj);
@@ -303,7 +283,9 @@ State.init({
   reply: "",
   cancel: false,
   e_message: "",
-  libCalls,
+  functionsToCallByLibrary: {
+    comment: [],
+  },
 });
 
 const SetText = (txt) => {
@@ -328,7 +310,8 @@ function onClickAddComment() {
 }
 
 function addCommentListener() {
-  let newLibCalls = [...libCalls];
+  const newLibCalls = Object.assign({}, state.functionsToCallByLibrary);
+
   const comment = {
     text: state.reply,
     id,
@@ -339,7 +322,7 @@ function addCommentListener() {
       `${article.author}-${article.timeCreate}`,
     commentId: comment.commentId ?? `c_${context.accountId}-${Date.now()}`,
   };
-  newLibCalls.push({
+  newLibCalls.comment.push({
     functionName: "createComment",
     key: "createComment",
     props: {
@@ -349,7 +332,7 @@ function addCommentListener() {
       onCancel,
     },
   });
-  State.update({ libCalls: newLibCalls });
+  State.update({ functionsToCallByLibrary: newLibCalls });
 }
 
 return (
@@ -452,7 +435,15 @@ return (
       </Container>
     </CommentCard>
     <CallLibrary>
-      {callLibs(libSrcArray, stateUpdate, state.libCalls)}
+      {libSrcArray.map((src) => {
+        return callLibs(
+          src,
+          stateUpdate,
+          state.functionsToCallByLibrary,
+          { baseAction: "sayALotComment" },
+          "AddComment"
+        );
+      })}
     </CallLibrary>
   </ModalCard>
 );
