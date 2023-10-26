@@ -43,7 +43,11 @@ const fontsize = props.fontsize;
 const fontweight = props.fontweight;
 
 return (
-  <Button0024 fontsize={fontsize} fontweight={fontweight} data-label="Button0024">
+  <Button0024
+    fontsize={fontsize}
+    fontweight={fontweight}
+    data-label="Button0024"
+  >
     <span className="sp">{text}</span>
   </Button0024>
 );
