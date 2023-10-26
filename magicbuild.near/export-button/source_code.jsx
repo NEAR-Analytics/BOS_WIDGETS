@@ -93,6 +93,22 @@ return (
       tabindex="-2"
       aria-labelledby="exportLabel"
       aria-hidden="true"
-    ></div>
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="exportLabel">
+              Choose Method to Export
+            </h1>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+        </div>
+      </div>
+    </div>
   </>
 );
