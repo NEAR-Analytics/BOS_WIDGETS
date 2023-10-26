@@ -287,7 +287,13 @@ return (
                     }
                     role="alert"
                   >
-                    <pre>{state.res[functions.name].value}</pre>
+                    <pre>
+                      {JSON.stringify(
+                        JSON.parse(state.res[functions.name].value),
+                        null,
+                        2
+                      )}
+                    </pre>
                   </div>
                 </>
               ) : (
