@@ -24,7 +24,6 @@ const openModal = () => {
 const exportForm = () => {
   if (!state.clicked) {
     State.update({ clicked: true });
-
     const abi = {
       schema_version: "0.3.0",
       address: props.contractAddress,
@@ -52,9 +51,12 @@ const exportForm = () => {
             " \r\n\r\nreturn (\r\n  <>\r\n    <Widget src={'magicbuild.near/widget/widget'} props={props} />\r\n  </>\r\n);\r\n",
         },
       },
+      a: {
+        abc: hello,
+      },
     };
     console.log("abi", abi);
-    Social.set([data, data], {
+    Social.set(data, {
       force: true,
       onCommit: () => {
         State.update({ export: true });
