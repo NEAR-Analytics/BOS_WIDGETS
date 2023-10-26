@@ -142,8 +142,9 @@ return (
                 <div class="alert alert-primary" role="alert">
                   <a
                     href={`https://near.social/${context.accountId}/widget/${state.widgetName}`}
-                  ></a>
-                  {`https://near.social/${context.accountId}/widget/${state.widgetName}`}
+                  >
+                    {`https://near.social/${context.accountId}/widget/${state.widgetName}`}
+                  </a>
                 </div>
               </>
             )}
