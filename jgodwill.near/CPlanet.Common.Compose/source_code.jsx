@@ -96,7 +96,7 @@ const chains = [
 ];
 
 const updateChain = (chain) => {
-  State.update({ nftChainState: chain });
+  State.update({ nftChainState: chain, nftTokenId: "", nftContractId: "" });
 };
 
 const content = (state.text ||
