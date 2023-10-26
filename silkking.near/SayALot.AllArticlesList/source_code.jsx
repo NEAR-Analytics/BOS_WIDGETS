@@ -1,227 +1,445 @@
 // SayALot.AllArticlesList
 
-//===============================================INITIALIZATION=====================================================
-
-let {
-  isTest,
-  stateUpdate,
-  articlesToRender,
-  tabs,
-  widgets,
-  addressForArticles,
-  handleFilterArticles,
-  handleOpenArticle,
-  authorForWidget,
-  initialCreateState,
-  editArticleData,
-  handleEditArticle,
-  showCreateArticle,
-  sbtWhiteList,
-  sbts,
-  handleShareButton,
-  canLoggedUserCreateArticles,
-  filterBy,
-  callLibs,
-} = props;
-
-const libSrcArray = [widgets.libUpVotes];
-
-let initLibsCalls = { upVotes: [] };
-
-//For the moment we'll allways have only 1 sbt in the array. If this change remember to do the propper work in SayALot.lib.SBT and here.
-
-initLibsCalls.upVotes = articlesToRender.map((article) => {
-  return {
-    functionName: "getUpVotes",
-    key: `upVotes-${article.id}`,
-    props: {
-      id: article.id ?? `${article.author}-${article.timeCreate}`,
-      sbtsNames: article.sbts ?? [],
-    },
-  };
-});
-
-if (articlesToRender.length > 0) {
-  State.update({ libsCalls: initLibsCalls });
-}
-
-State.init({
-  start: Date.now(),
-  libsCalls: initLibsCalls,
-});
-// console.log(1, "All articles list", state);
-// console.log(2, "All articles list", initLibsCalls);
-
-if (state.upVotesBySBT && Object.keys(state.upVotesBySBT).length > 0) {
-  // console.log(
-  //   "Object.keys(state.upVotesBySBT): ",
-  //   Object.keys(state.upVotesBySBT)
-  // );
-
-  const key = Object.keys(state.upVotesBySBT)[0]; // There should always be one for now
-  // console.log("key: ", key);
-  const newUpvotes = state.upVotesBySBT[key];
-  // console.log("newUpvotes: ", newUpvotes);
-  if (JSON.stringify(state.upVotes) !== JSON.stringify(newUpvotes)) {
-    State.update({ upVotes: newUpvotes });
+const ModalCard = styled.div`
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.7);
+`;
+const CommentCard = styled.div`
+  display: flex;
+  width: 400px;
+  padding: 20px;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 16px;
+  border-radius: 10px;
+  background: #fff;
+  border: 1px solid transparent;
+  margin-left: auto;
+  margin-right: auto;
+  margin-buttom: 50%;
+  @media only screen and (max-width: 480px) {
+    width: 90%;
   }
-}
+`;
+const H1 = styled.h1`
+  color: black;
+  font-size: 14px;
+  font-weight: 500;
+`;
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 20px;
+  align-self: stretch;
+`;
+const CommentBody = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 16px;
+  align-self: stretch;
+`;
+const BComment = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+  align-self: stretch;
+`;
+const BCommentmessage = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+  align-self: stretch;
+`;
+const BCMHeader = styled.div`
+  display: flex;
+  width: 100%;
+  align-items: center;
+  gap: 8px;
+`;
+const BCMProfile = styled.div`
+  width: 28px;
+  height: 28px;
+  flex-shrink: 0;
+  flex-direction: row;
+  border-radius: 29px;
+  background: #d0d6d9;
+  text-align: center;
+`;
+const BCMProfileimg = styled.img`
+  width: 28px;
+  height: 28px;
+  flex-shrink: 0;
+  vertical-align: initial;
+`;
+const BCMProfileUsername = styled.label`
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  justify-content: center;
+  flex-shrink: 0;
+  color: #000;
+  font-size: 14px;
 
-let finalArticlesWithUpVotes = articlesToRender.map((article) => {
-  // console.log(0, state[`upVotes-${article.id}`]);
-  // console.log(article);
-  if (state[`upVotes-${article.id}`]) {
-    const key = Object.keys(state[`upVotes-${article.id}`])[0];
-    const articleUpVotes = state[`upVotes-${article.id}`][key];
-    // article.upVotes = state[`upVotes-${article.id}`];
-    article.upVotes = articleUpVotes;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 120%;
+`;
+const BCMMessage = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-self: stretch;
+  color: #686b6d;
+  font-size: 14px;
 
-    return article;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 120%;
+`;
+const BFooter = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 4px;
+  align-self: stretch;
+`;
+const BFootercont = styled.div`
+  display: flex;
+  align-items: center;
+  align-self: stretch;
+`;
+const BFootercontTime = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex: 1 0 0;
+`;
+const BFCTimetext = styled.div`
+  display: flex;
+  height: 19.394px;
+  flex-direction: column;
+  justify-content: center;
+  flex: 1 0 0;
+  color: #000;
+  font-size: 14px;
+
+  font-style: normal;
+  font-weight: 300;
+  line-height: normal;
+`;
+const BFCButton = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 4px;
+`;
+const BFCButtonitem = styled.button`
+  display: flex;
+  padding: 2px 12px;
+  align-items: center;
+  gap: 6px;
+  border-radius: 4px;
+  border-width: 1px;
+  border: solid 1px #9333ea;
+
+  background-image: linear-gradient(#fff, #fff),
+    radial-gradient(circle at top left, #f0e1ce, #f0e1ce);
+  background-origin: border-box;
+  background-clip: padding-box, border-box;
+`;
+const BFCBIText = styled.label`
+  font-size: 12px;
+
+  font-style: normal;
+  font-weight: 500;
+  line-height: 24px;
+  color: #9333ea;
+  cursor: pointer;
+`;
+const NewComment = styled.textarea`
+  width: 100%;
+  display: flex;
+  height: 100px;
+  padding: 9px 10px 0px 10px;
+  align-items: flex-start;
+
+  gap: 10px;
+  align-self: stretch;
+  border-radius: 8px;
+  border: 1px solid #d0d6d9;
+  background: #fff;
+
+  font-size: 12px;
+
+  font-style: normal;
+  font-weight: 400;
+  line-height: 120%;
+`;
+const CommentFooter = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+  justify-content: end;
+  gap: 16px;
+  align-self: stretch;
+`;
+const CFCancel = styled.button`
+  display: flex;
+  width: 107px;
+  padding: 8px 12px;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  color: #9333ea;
+  border-radius: 10px;
+  border-width: 1px;
+  border: solid 1px #9333ea;
+
+  background-image: linear-gradient(#fff, #fff),
+    radial-gradient(circle at top left, #f0e1ce, #f0e1ce);
+  background-origin: border-box;
+  background-clip: padding-box, border-box;
+  @media only screen and (max-width: 480px) {
+    width: 100%;
   }
-});
+`;
 
-const fiveDaysTimeLapse = 432000000;
+const CFSubmit = styled.button`
+  display: flex;
+  width: 107px;
+  padding: 8px 12px;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  color: #000;
+  display: flex;
+  width: 107px;
+  padding: 8px 12px;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  border-radius: 10px;
+  border-width: 1px;
+  border: solid 1px transparent;
 
-const newestArticlesWithUpVotes = finalArticlesWithUpVotes
-  .filter((article) => article.timeLastEdit > Date.now() - fiveDaysTimeLapse)
-  .sort((a, b) => b.timeLastEdit - a.timeLastEdit);
+  background-image: linear-gradient(#ffd50d, #ffd50d),
+    radial-gradient(circle at top left, #f0e1ce, #f0e1ce);
+  background-origin: border-box;
+  background-clip: padding-box, border-box;
+  @media only screen and (max-width: 480px) {
+    width: 100%;
+  }
+`;
 
-const olderArticlesWithUpVotes = finalArticlesWithUpVotes
-  .filter((article) => article.timeLastEdit < Date.now() - fiveDaysTimeLapse)
-  .sort((a, b) => b.upVotes.length - a.upVotes.length);
-
-const sortedFinalArticlesWithUpVotes = [
-  ...newestArticlesWithUpVotes,
-  ...olderArticlesWithUpVotes,
-];
-
-//=============================================END INITIALIZATION===================================================
-
-//===================================================CONSTS=========================================================
-
-const ArticlesListContainer = styled.div`
-  background-color: rgb(248, 248, 249);
+const Spinner = styled.div`
+  height: 1rem;
+  width: 1rem;
 `;
 
 const CallLibrary = styled.div`
   display: none;
 `;
 
-const IconCursorPointer = styled.i`
-  cursor: pointer;
-`;
+const {
+  widgets,
+  isTest,
+  article,
+  onCloseModal,
+  isReplying,
+  username,
+  placement,
+  originalComment,
+  replyingTo,
+  callLibs,
+} = props;
 
-//=================================================END CONSTS=======================================================
-
-//==================================================FUNCTIONS=======================================================
-
-function getDateLastEdit(timestamp) {
-  const date = new Date(Number(timestamp));
-  const dateString = {
-    date: date.toLocaleDateString(),
-    time: date.toLocaleTimeString(),
-  };
-  return dateString;
+let id;
+if (originalComment) {
+  id = originalComment.originalComment.value.comment.id;
+} else {
+  id = article.id ?? `${article.author}-${article.timeCreate}`;
 }
 
-function allArticlesListStateUpdate(obj) {
+const libsCalls = { comment: [] };
+
+const libSrcArray = [widgets.libComment];
+
+function stateUpdate(obj) {
   State.update(obj);
 }
 
-//================================================END FUNCTIONS=====================================================
+State.init({
+  theme,
+  reply: "",
+  cancel: false,
+  e_message: "",
+  libsCalls,
+});
+
+const SetText = (txt) => {
+  State.update({ shareText: txt });
+};
+
+const renderSpinner = () => {
+  return <Widget src={widgets.newStyledComponents.Feedback.Spinner} />;
+  return <Spinner className="spinner-border" role="status"></Spinner>;
+};
+
+function onCommit() {
+  State.update({ showSpinner: false });
+  onCloseModal();
+}
+
+function onCancel() {
+  State.update({ showSpinner: false });
+}
+
+function onClickAddComment() {
+  State.update({ showSpinner: true });
+}
+
+function addCommentListener() {
+  if (!state.showSpinner) {
+    let newLibsCalls = [...libsCalls];
+    const comment = {
+      text: state.reply,
+      id,
+      timestamp: Date.now(),
+      originalCommentId:
+        originalComment.originalComment.value.comment.commentId ??
+        article.id ??
+        `${article.author}-${article.timeCreate}`,
+      commentId: comment.commentId ?? `c_${context.accountId}-${Date.now()}`,
+    };
+
+    newLibsCalls.comment = {
+      functionName: "createComment",
+      key: "createComment",
+      props: { comment, onClick: onClickAddComment, onCommit, onCancel },
+    };
+
+    State.update({ libsCalls: newLibsCalls });
+  }
+}
+
+console.log(1);
+
 return (
-  <>
-    {
-      // true ? (
-      showCreateArticle ? (
-        <Widget
-          src={widgets.create}
-          props={{
-            isTest,
-            addressForArticles,
-            authorForWidget,
-            stateUpdate,
-            widgets,
-            initialCreateState,
-            editArticleData,
-            callLibs,
-            handleFilterArticles,
-            handleEditArticle,
-            initialBody: "",
-            canLoggedUserCreateArticles,
-            sbts,
-          }}
-        />
-      ) : (
-        <h6>You can't post since you don't own this SBT</h6>
-      )
-    }
-    <div>
-      {filterBy.parameterName === "tag" && (
-        <div className="mt-3">
-          <h6>Filter by tag:</h6>
-          <div className="d-flex align-items-center ">
-            <Widget
-              src={widgets.newStyledComponents.Element.Badge}
-              props={{
-                children: filterBy.parameterValue,
-                variant: "round info",
-                size: "lg",
+  <ModalCard>
+    <CommentCard>
+      <H1>{isReplying ? "Reply to comment" : "Add a Comment"}</H1>
+      <Container>
+        {replyingTo && (
+          <>
+            <CommentBody>
+              <BComment>
+                <BCommentmessage>
+                  <BCMHeader>
+                    <BCMProfile>
+                      <Widget
+                        src="mob.near/widget/ProfileImage"
+                        props={{
+                          accountId: replyingTo,
+                          imageClassName: "rounded-circle w-100 h-100",
+                          style: { width: "25px", height: "25px" },
+                        }}
+                      />
+                    </BCMProfile>
+                    <BCMProfileUsername>
+                      {replyingTo ? "@" + replyingTo : "@user.near"}
+                    </BCMProfileUsername>
+                  </BCMHeader>
+                  <BCMMessage>
+                    {originalComment &&
+                      originalComment.originalComment.value.comment.text}
+                  </BCMMessage>
+                </BCommentmessage>
+              </BComment>
+              <BFooter>
+                <label>{state.e_message}</label>
+                <BFootercont>
+                  <BFootercontTime>
+                    <img
+                      alt="schedule"
+                      src={
+                        "https://emerald-related-swordtail-341.mypinata.cloud/ipfs/QmP3uRUgZtqV3HAgcZoYaDA6JSPpFcpqULvgenWUs3ctSP"
+                      }
+                      style={{ width: "14px", height: "14px" }}
+                    />
+                  </BFootercontTime>
+                </BFootercont>
+              </BFooter>
+            </CommentBody>
+            <hr
+              styled={{
+                width: "100%",
+                height: "0px",
+                border: "1px solid rgba(130, 134, 136, 0.20)",
+                flex: "none",
+                background: "rgba(130, 134, 136, 0.20)",
+                margin: "0px",
+                flexGrow: "0",
               }}
             />
-            <IconCursorPointer
-              className="bi bi-x"
-              onClick={() => handleFilterArticles({ filterBy: "", value: "" })}
-            ></IconCursorPointer>
-          </div>
-        </div>
-      )}
-      <ArticlesListContainer className="row card-group py-3">
-        {sortedFinalArticlesWithUpVotes.length > 0 ? (
-          sortedFinalArticlesWithUpVotes.map((article, i) => {
-            const authorProfileCall = Social.getr(`${article.author}/profile`);
-
-            if (authorProfileCall) {
-              article.authorProfile = authorProfileCall;
-            }
-
-            // If some widget posts data different than an array it will be ignored
-            if (!Array.isArray(article.tags)) article.tags = [];
-            return (
-              <Widget
-                src={widgets.generalCard}
-                props={{
-                  widgets,
-                  isTest,
-                  data: article,
-                  displayOverlay: true,
-                  renderReactions: true,
-                  addressForArticles,
-                  handleOpenArticle,
-                  handleFilterArticles,
-                  authorForWidget,
-                  handleShareButton,
-                  sbtWhiteList,
-                  callLibs,
-                }}
-              />
-            );
-          })
-        ) : (
-          <h5>No articles uploaded using this SBT yet</h5>
+          </>
         )}
-      </ArticlesListContainer>
-    </div>
+        <div className="w-100 col">
+          <Widget
+            src={widgets.styledComponents}
+            props={{
+              TextArea: {
+                placeholder: "Reply here",
+                maxLength: 2000,
+                value: state.reply,
+                handleChange: (e) =>
+                  State.update({
+                    reply: e.target.value.substring(0, 1000),
+                  }),
+              },
+            }}
+          />
+        </div>
+        <CommentFooter>
+          <Widget
+            src={widgets.newStyledComponents.Input.Button}
+            props={{
+              children: "Cancel",
+              className: "info outline",
+              onClick: onCloseModal,
+            }}
+          />
+          <Widget
+            src={widgets.newStyledComponents.Input.Button}
+            props={{
+              children: (
+                <div className="d-flex justify-content-center align-items-center">
+                  <span>{state.showSpinner ? "" : "Submit"}</span>
+                  {state.showSpinner ? renderSpinner() : <></>}
+                </div>
+              ),
+              className: "info",
+              onClick: addCommentListener,
+            }}
+          />
+        </CommentFooter>
+      </Container>
+    </CommentCard>
     <CallLibrary>
       {libSrcArray.map((src) => {
-        return callLibs(
-          src,
-          allArticlesListStateUpdate,
-          state.libsCalls,
-          { baseAction: "sayALotUpVote" },
-          "All articles list"
-        );
+        return callLibs(src, stateUpdate, state.libsCalls, "Add comment");
       })}
     </CallLibrary>
-  </>
+  </ModalCard>
 );
