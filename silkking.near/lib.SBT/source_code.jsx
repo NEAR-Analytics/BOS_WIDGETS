@@ -43,13 +43,17 @@ function isValidUser(props) {
       account: accountId,
     }
   );
+  const isSBTContractLoaded = userSBTs !== null;
+  if (!isSBTContractLoaded) {
+    return undefined;
+  }
+
   const sbtsData = sbtsNames.map((sbt) => {
     const data = sbt.split(" - class ");
     return { name: data[0], classNumber: Number(data[1]) };
   });
   const usersValidityBySBT = {};
   sbtsNames.forEach((sbtName, index) => {
-    const isSBTContractLoaded = userSBTs !== null;
     const isUserValid =
       isSBTContractLoaded &&
       userSBTs.find((userSbt) => {
@@ -64,11 +68,10 @@ function isValidUser(props) {
     usersValidityBySBT[sbtName] = isUserValid || sbtName === "public";
   });
 
-  if (isSBTContractLoaded) {
-    resultFunctionsToCall = resultFunctionsToCall.filter((call) => {
-      return call.functionName !== "isValidUser";
-    });
-  }
+  resultFunctionsToCall = resultFunctionsToCall.filter((call) => {
+    return call.functionName !== "isValidUser";
+  });
+
   console.log(2, usersValidityBySBT);
   // return true;
   return { ...usersValidityBySBT };
