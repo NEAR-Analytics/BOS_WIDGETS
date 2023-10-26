@@ -16,13 +16,35 @@ const addNewMessage = () => {
   });
 };
 
+const userAccountStatus = fetch("https://rpc.mainnet.near.org", {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json",
+  },
+  body: JSON.stringify({
+    jsonrpc: "2.0",
+    id: "dontcare",
+    method: "query",
+    params: {
+      request_type: "view_account",
+      finality: "final",
+      account_id: context.accountId,
+    },
+  }),
+});
+
+const nearAmount = (yocto) => (parseInt(yocto) / Math.pow(10, 24)).toFixed(2);
+
 return (
   <div class="p-3">
     <h3 class="text-center">Relayer Demo</h3>
     <br />
     {context.accountId ? (
       <div class="border border-black p-3">
-        <h3>Add a message</h3>
+        <h3>
+          Add a message as {context.accountId} with a balance of{" "}
+          {nearAmount(userAccountStatus.body.result.amount)} NEAR
+        </h3>
         <div class="row">
           <div>
             <input
