@@ -792,7 +792,7 @@ return (
                       <input
                         placeholder="Method Class"
                         class="form-control"
-                        defaultValue={args.className || ""}
+                        defaultValue={functions.className || ""}
                         onChange={(e) => cMLabel(e, fIndex, "className")}
                       />
                     </div>
@@ -803,10 +803,10 @@ return (
                 <div class="form-group col-md-2">
                   <h6>Arguments</h6>
                 </div>
-                <div class="form-group col-md-1">
+                <div class="form-group col-md-2">
                   <h6>Type</h6>
                 </div>
-                <div class="form-group col-md-4">
+                <div class="form-group col-md-3">
                   <h6>Value</h6>
                 </div>
                 <div class="form-group col-md-2">
@@ -844,7 +844,7 @@ return (
                         />
                       </div>
 
-                      <div class="form-group col-md-1">
+                      <div class="form-group col-md-2">
                         <select
                           defaultValue={args.type_schema.type}
                           class="form-control"
@@ -859,7 +859,7 @@ return (
                           <option value="$ref">AccountID</option>
                         </select>
                       </div>
-                      <div class="form-group col-md-4">
+                      <div class="form-group col-md-3">
                         {args.type_schema.type == "string" ||
                         args.type_schema.type == "$ref" ||
                         args.type_schema.type == "integer" ||
@@ -876,7 +876,7 @@ return (
                         )}
                         {args.type_schema.type == "boolean" ? (
                           <select
-                            defaultValue={args.type_schema.type}
+                            defaultValue={args.value}
                             class="form-control"
                             onChange={(e) => cAD(e, fIndex, argIndex, "value")}
                           >
@@ -888,7 +888,7 @@ return (
                         )}
                         {args.type_schema.type == "enum" ? (
                           <select
-                            defaultValue={args.type_schema.type}
+                            defaultValue={args.value}
                             class="form-control"
                             onChange={(e) => cAD(e, fIndex, argIndex, "value")}
                           >
@@ -1033,7 +1033,7 @@ return (
                   <input
                     placeholder="Button Class"
                     class="form-control"
-                    defaultValue={args.classButton || ""}
+                    defaultValue={functions.classButton || ""}
                     onChange={(e) => cMLabel(e, fIndex, "classButton")}
                   />
                 </div>
