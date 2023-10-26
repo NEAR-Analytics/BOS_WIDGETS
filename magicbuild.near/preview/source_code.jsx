@@ -294,6 +294,14 @@ return (
                         2
                       )}
                     </pre>
+                    <button
+                      class="btn btn-dark btn-sm mt-2"
+                      onClick={() => {
+                        clipboard.writeText(state.res[functions.name].value);
+                      }}
+                    >
+                      Copy
+                    </button>
                   </div>
                 </>
               ) : (
