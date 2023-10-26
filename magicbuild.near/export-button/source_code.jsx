@@ -81,7 +81,7 @@ return (
     <label></label>
     <button
       data-bs-toggle="modal"
-      data-bs-target="#export"
+      data-bs-target={`#export-${Date.now()}`}
       class="btn btn-primary form-control "
       onClick={openModal}
     >
@@ -89,7 +89,7 @@ return (
     </button>
     <div
       class="modal fade"
-      id="export"
+      id={`export-${Date.now()}`}
       tabindex="-2"
       aria-labelledby="exportLabel"
       aria-hidden="true"
