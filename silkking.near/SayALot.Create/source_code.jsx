@@ -22,7 +22,13 @@ const errTextNoBody = "ERROR: no article Body",
   errTextNoId = "ERROR: no article Id",
   errTextDublicatedId = "ERROR: there is article with such name";
 
-State.init({ ...initialCreateState, initialBody: props.initialBody ?? "" });
+State.init({
+  ...initialCreateState,
+  initialBody: props.initialBody ?? "",
+  functionsToCallByLibrary: {
+    article: [],
+  },
+});
 
 function createStateUpdate(obj) {
   State.update(obj);
@@ -83,9 +89,9 @@ function createArticleListener() {
   //To test without commiting use the next line and comment the rest
   // onCommit();
   const article = getArticleData();
-  const newLibsCalls = state.libsCalls;
-
-  newLibCalls.article = {
+  const newLibsCalls = Object.assign({}, state.functionsToCallByLibrary);
+  console.log(1);
+  newLibsCalls.article.push({
     functionName: "createArticle",
     key: "createdArticle",
     props: {
@@ -93,9 +99,9 @@ function createArticleListener() {
       onCommit,
       onCancel,
     },
-  };
+  });
 
-  State.update({ libsCalls: newLibsCalls });
+  State.update({ functionsToCallByLibrary: newLibsCalls });
 }
 
 function switchShowPreview() {
@@ -313,7 +319,7 @@ return (
                 return callLibs(
                   src,
                   createStateUpdate,
-                  state.libsCalls,
+                  state.functionsToCallByLibrary,
                   "Create"
                 );
               })}
