@@ -110,11 +110,7 @@ return (
           <div class="modal-body">
             <div class="form-group">
               <label>Widget Name</label>
-              <input
-                class="form-control"
-                defaultValue={state.widgetName || ""}
-                onChange={(e) => onInputChangeWidgetName(e)}
-              />
+
               <small class="form-text text-muted">
                 A new widget configured with the form will be created.
               </small>
