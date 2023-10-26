@@ -45,9 +45,6 @@ const initLibsCalls = {
   ],
 };
 
-console.log(4, articleSbts);
-console.log(5, state.canLoggedUserCreateComment);
-
 State.init({
   verified: true,
   start: true,
@@ -412,9 +409,9 @@ const renderArticleBody = () => {
 };
 
 //===============================================END COMPONENTS====================================================
-console.log(1, state.canLoggedUserCreateComment);
+
 //===================================================RENDER========================================================
-// console.log("General card state: ", state);
+
 return (
   <CardContainer className="bg-white rounded-3 p-3 m-3 col-lg-8 col-md-8 col-sm-12">
     <Card>
