@@ -320,7 +320,6 @@ function normalizeLibData(libDataByVersion) {
   return libData;
 }
 
-console.log(3, functionsToCall);
 if (functionsToCall && functionsToCall.length > 0) {
   const updateObj = Object.assign({}, functionsToCallByLibrary);
   resultFunctionsToCall = [...functionsToCall];
@@ -331,7 +330,6 @@ if (functionsToCall && functionsToCall.length > 0) {
   resultFunctionsToCallByLibrary[libName] = resultFunctionsToCall;
   // updateObj.functionsToCallByLibrary = resultFunctionsToCallByLibrary;
   updateObj.libsCalls = resultFunctionsToCallByLibrary;
-  console.log(2, updateObj);
   stateUpdate(updateObj);
 }
 
