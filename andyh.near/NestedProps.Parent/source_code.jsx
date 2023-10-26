@@ -4,7 +4,8 @@ return (
   <Widget
     src="andyh.near/widget/NestedProps.Child"
     props={{
-      incrementByOne: () => setValue((v) => v + 1),
+      spaghetti: 1,
+      //   incrementByOne: () => setValue((v) => v + 1),
     }}
   />
 );
