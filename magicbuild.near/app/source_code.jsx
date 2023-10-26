@@ -4,13 +4,15 @@ const loadData = () => {
   const clientListData = Social.get(
     `${context.accountId}/magicbuild/clientList`
   );
-  if (clientList) {
+  console.log(clientListData);
+  if (clientListData) {
     const clientList = JSON.parse(clientListData);
     State.update({ clientList: clientList });
   }
   const exportListData = Social.get(
     `${context.accountId}/magicbuild/widgetList`
   );
+  console.log(exportListData);
   if (exportListData) {
     const exportList = JSON.parse(exportListData);
     State.update({ exportList: exportList });
