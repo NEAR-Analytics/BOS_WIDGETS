@@ -190,7 +190,6 @@ function getUpVoteBlackListByBlockHeight() {
 }
 
 function getUpVotesData(action, id, subscribe) {
-  console.log(1, subscribe, id);
   return Social.index(action, id, {
     order: "desc",
     subscribe,
