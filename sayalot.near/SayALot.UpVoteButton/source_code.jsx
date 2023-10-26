@@ -1,5 +1,3 @@
-//SayALot.UpVoteButton
-
 const {
   isTest,
   authorForWidget,
@@ -115,11 +113,7 @@ return (
           <div className="d-flex">
             <span>{`+${upVotesData.length}`}</span>
             <IconContainer>
-              <Icon
-                className={`bi bi-fast-forward-fill ${
-                  !disabled && "text-success"
-                }`}
-              ></Icon>
+              <Icon className="bi bi-fast-forward-fill"></Icon>
             </IconContainer>
           </div>
         ),
