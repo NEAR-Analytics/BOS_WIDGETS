@@ -41,7 +41,7 @@ const saveClient = () => {
   Social.set(data, {
     force: true,
     onCommit: () => {
-      Location("http://google.com");
+      Location.href = "http://google.com";
     },
     onCancel: () => {},
   });
