@@ -1,5 +1,6 @@
 const data = props.data || {};
 const type = props.type || "flowscience.near/type/fileformat";
+const file = props.file || "flowscience.near/type/file";
 const typeSrc = props.typeSrc || "flowscience.near";
 const buildEdges = props.buildEdges;
 const template = props.template || "";
@@ -201,13 +202,13 @@ return (
     <SidePanel>
       <h1>Near Attestation Service (NAS)</h1>
       <Row style={{ gap: "8px", marginBottom: "16px" }}>
-        <h2>Make a</h2>{" "}
+        <h2>Make a new</h2>{" "}
         <Select
           value={state.view}
           onChange={(e) => State.update({ view: e.target.value })}
         >
-          <option value="CREATE_THING">schema</option>
-          <option value="CREATE_TYPE">attestation</option>
+          <option value="CREATE_THING">attestation</option>
+          <option value="CREATE_TYPE">schema</option>
         </Select>
       </Row>
       {state.view === "CREATE_THING" ? (
