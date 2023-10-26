@@ -3,7 +3,7 @@ const {
   isTest,
   stateUpdate,
   functionsToCallByLibrary,
-  // callLibs,
+  callLibs,
   baseAction,
   widgets,
 } = props;
@@ -328,32 +328,31 @@ if (functionsToCall && functionsToCall.length > 0) {
   });
 
   resultFunctionsToCallByLibrary[libName] = resultFunctionsToCall;
-  // updateObj.functionsToCallByLibrary = resultFunctionsToCallByLibrary;
-  updateObj.libsCalls = resultFunctionsToCallByLibrary;
+  updateObj.functionsToCallByLibrary = resultFunctionsToCallByLibrary;
   stateUpdate(updateObj);
 }
 
-function callLibs(
-  src,
-  stateUpdate,
-  functionsToCallByLibrary,
-  extraProps,
-  callerWidget
-) {
-  return (
-    <Widget
-      src={src}
-      props={{
-        isTest,
-        stateUpdate,
-        functionsToCallByLibrary,
-        callLibs,
-        widgets,
-        ...extraProps,
-      }}
-    />
-  );
-}
+// function callLibs(
+//   src,
+//   stateUpdate,
+//   functionsToCallByLibrary,
+//   extraProps,
+//   callerWidget
+// ) {
+//   return (
+//     <Widget
+//       src={src}
+//       props={{
+//         isTest,
+//         stateUpdate,
+//         functionsToCallByLibrary,
+//         callLibs,
+//         widgets,
+//         ...extraProps,
+//       }}
+//     />
+//   );
+// }
 
 return (
   <>
