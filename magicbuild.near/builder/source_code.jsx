@@ -930,10 +930,11 @@ return (
                   </div>
                 );
               })}
-            <hr />
+
             {functions.kind == "call" ? (
               <>
                 <div class="container pb-1 pt-3">
+                  <hr />
                   <div class="row">
                     <div class="form-group col-md-12">
                       <h6>Options</h6>
