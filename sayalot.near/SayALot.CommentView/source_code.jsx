@@ -306,7 +306,7 @@ return (
                 replyingTo: data.originalComment.accountId,
                 placement: "bottom",
                 onCloseModal: closeModal,
-                // nomination_contract,
+                callLibs,
               }}
             />
           )}
@@ -364,6 +364,9 @@ return (
                   isTest,
                   authorForWidget,
                   isReply: true,
+                  canLoggedUserCreateComment,
+                  articleSbts,
+                  callLibs,
                 }}
               />
             </AnswerContainer>
