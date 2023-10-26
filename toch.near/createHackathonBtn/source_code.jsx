@@ -25,32 +25,32 @@ const composeData = () => {
     },
   };
 
-  const item = {
-    type: "social",
-    path: `${accountId}/post/main`,
-  };
+  // const item = {
+  //   type: "social",
+  //   path: `${context.accountId}/post/main`,
+  // };
 
-  const notifications = state.extractMentionNotifications(
-    state.content.text,
-    item
-  );
+  // const notifications = state.extractMentionNotifications(
+  //   state.content.text,
+  //   item
+  // );
 
-  if (notifications.length) {
-    data.index.notify = JSON.stringify(
-      notifications.length > 1 ? notifications : notifications[0]
-    );
-  }
+  // if (notifications.length) {
+  //   data.index.notify = JSON.stringify(
+  //     notifications.length > 1 ? notifications : notifications[0]
+  //   );
+  // }
 
-  const hashtags = state.extractHashtags(state.content.text);
+  // const hashtags = state.extractHashtags(state.content.text);
 
-  if (hashtags.length) {
-    data.index.hashtag = JSON.stringify(
-      hashtags.map((hashtag) => ({
-        key: hashtag,
-        value: item,
-      }))
-    );
-  }
+  // if (hashtags.length) {
+  //   data.index.hashtag = JSON.stringify(
+  //     hashtags.map((hashtag) => ({
+  //       key: hashtag,
+  //       value: item,
+  //     }))
+  //   );
+  // }
 
   return data;
 };
@@ -68,7 +68,7 @@ return (
       <CommitButton
         disabled={!text}
         force
-        className="btn btn-primary rounded-5 mt-2"
+        className="btn btn-primary rounded-5 mt-2 bg-blue text-white rounded-full"
         data={composeData}
       >
         Create Hackathon
