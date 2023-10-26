@@ -62,6 +62,7 @@ const allSelected = (
           { id: "entrepreneur", label: "Entrepreneur", color: "#0DAEBB" },
           { id: "creative", label: "Creative", color: "#04A46E" },
           { id: "regulator", label: "Regulator", color: "#F44738" },
+          { id: "ai", label: "AI is NEAR", color: "#000000" },
         ],
         onChange: (persona) => {
           const objectToSet = Object.entries(persona)
