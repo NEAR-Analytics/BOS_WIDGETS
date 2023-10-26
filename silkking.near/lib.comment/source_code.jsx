@@ -1,3 +1,4 @@
+// lib.comment
 const {
   isTest,
   stateUpdate,
