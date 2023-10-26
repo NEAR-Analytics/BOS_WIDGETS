@@ -77,7 +77,9 @@ const exportForm = () => {
       onCommit: () => {
         State.update({ export: true });
       },
-      onCancel: () => {},
+      onCancel: () => {
+        State.update({ clicked: false });
+      },
     });
   }
 };
