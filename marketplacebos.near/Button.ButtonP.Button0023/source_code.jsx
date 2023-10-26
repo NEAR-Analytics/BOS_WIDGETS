@@ -1,5 +1,5 @@
 const Button0023 = styled.button`
-  width: ${(props) => props.width ||"110px"};
+  width: ${(props) => props.width || "110px"};
   height:  ${(props) => props.height || "40px"};
   display: flex;
   align-items: center;
