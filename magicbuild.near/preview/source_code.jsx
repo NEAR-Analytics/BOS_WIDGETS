@@ -1,5 +1,5 @@
 State.init({
-  contractAddress: props.address,
+  contractAddress: props.contractAddress,
   contractAbi: props,
   contractError,
   contractAbiCall,
