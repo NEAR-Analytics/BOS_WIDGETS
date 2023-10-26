@@ -157,6 +157,7 @@ const widgets = {
 };
 
 const libSrcArray = [widgets.libArticle];
+console.log(1, state);
 
 const profile = props.profile ?? Social.getr(`${accountId}/profile`);
 if (profile === null) {
