@@ -263,7 +263,7 @@ return (
 
       {state.contractAbiCall &&
         state.contractAbiCall.map((functions, fIndex) => (
-          <div class="card mb-2">
+          <div class={`card mb-2 ${functions.className}`}>
             <div class="card-header">
               {functions.label.length > 0 ? functions.label : functions.name}
             </div>
@@ -271,7 +271,7 @@ return (
               {functions.params.args &&
                 functions.params.args.map((args) => {
                   return (
-                    <div class="form-group pb-2">
+                    <div className={`form-group pb-2 ${args.className}`}>
                       <label>{args.name}</label>
                       <input
                         class="form-control"
@@ -344,7 +344,7 @@ return (
                 ""
               )}
               <button
-                class="btn btn-primary"
+                className={`btn btn-primary ${functions.classButton}`}
                 data-action="call"
                 data-name={functions.name}
                 onClick={(e) =>
