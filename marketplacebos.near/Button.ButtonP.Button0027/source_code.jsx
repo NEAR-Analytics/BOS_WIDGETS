@@ -2,8 +2,8 @@ const Button0027 = styled.button`
  background-color: white;
   color: black;
   border-radius: 10em;
-  font-size: ${(props) => props.fontsize ||"17px"};
-  font-weight: ${(props) => props.fontsize ||"600"};
+  font-size: ${(props) => props.fontsize || "17px"};
+  font-weight: ${(props) => props.fontsize || "600"};
   padding: 1em 2em;
   cursor: pointer;
   transition: all 0.3s ease-in-out;
@@ -25,4 +25,8 @@ const text = props.text || "Button0027";
 const fontsize = props.fontsize;
 const fontweight = props.fontweight;
 
-return (<Button0027 fontsize={fontsize} fontweight={fontweight}>{text}</Button0027>);
+return (
+  <Button0027 fontsize={fontsize} fontweight={fontweight}>
+    {text}
+  </Button0027>
+);
