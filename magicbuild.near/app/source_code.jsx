@@ -85,13 +85,11 @@ return (
                       aria-selected="true"
                       class="nav-link px-3 "
                     >
-                      {" "}
                       <label class="custom-control-label" for="darkSwitch">
                         <span class="fw-bold">Form Builder</span>
                       </label>
                     </span>
                   </li>
-
                   <li>
                     <hr />
                   </li>
@@ -140,7 +138,7 @@ return (
                               aria-controls={`#pills-${widget.widgetName}`}
                               aria-selected="true"
                             >
-                              <span class="fw-bold">{widget.widgetName}</span>
+                              <span class="fw-bold">🪄{widget.widgetName}</span>
                             </a>
                           </li>
                         );
