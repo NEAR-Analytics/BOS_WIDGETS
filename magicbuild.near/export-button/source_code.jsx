@@ -45,13 +45,16 @@ const exportForm = () => {
       `${context.accountId}/magicbuild/exportList`
     );
     const exporttList = JSON.parse(exportListData) || [];
+    const isExist = false;
     exporttList.forEach((item, index) => {
       if (item.widgetName == state.widgetName) {
         exporttList[index].widgetName = state.widgetName;
-      } else {
-        exporttList.push({ widgetName: state.widgetName });
+        isExist = true;
       }
     });
+    if (!isExist) {
+      exporttList.push({ widgetName: state.widgetName });
+    }
 
     const data = {
       widget: {
