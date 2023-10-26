@@ -79,5 +79,20 @@ const exportForm = () => {
 return (
   <>
     <label></label>
+    <button
+      data-bs-toggle="modal"
+      data-bs-target="#export"
+      class="btn btn-primary form-control "
+      onClick={openModal}
+    >
+      🔼Export
+    </button>
+    <div
+      class="modal fade"
+      id="export"
+      tabindex="-2"
+      aria-labelledby="exportLabel"
+      aria-hidden="true"
+    ></div>
   </>
 );
