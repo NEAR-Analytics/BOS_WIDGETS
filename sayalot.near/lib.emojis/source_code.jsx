@@ -1,14 +1,12 @@
 // lib.emojis
 
 const {
-  mainStateUpdate,
   isTest,
   stateUpdate,
   functionsToCallByLibrary,
   callLibs,
   baseAction,
   widgets,
-  usersSBTs,
 } = props;
 
 const libName = "emojis"; // EDIT: set lib name
@@ -36,7 +34,7 @@ const action = isTest ? testAction : prodAction;
 
 // type LibsCalls = Record<string, FunctionCall> // Key is lib name after lib.
 
-const libSrcArray = [widgets.libs.libSBT]; // string to lib widget // EDIT: set libs to call
+const libSrcArray = [widgets.libSBT]; // string to lib widget // EDIT: set libs to call
 
 const libsCalls = {};
 libSrcArray.forEach((libSrc) => {
@@ -65,31 +63,8 @@ function libStateUpdate(obj) {
 function canUserReact(props) {
   const { env, accountId, sbtsNames } = props;
 
-  if (sbtsNames.includes("public")) return true;
-
-  if (accountId) {
-    setAreValidUsers([accountId], sbtsNames);
-  } else {
-    return false;
-  }
-
-  let allSBTsValidations = [];
-
-  let result;
-
-  let userCredentials =
-    usersSBTs.find((data) => data.user === accountId).credentials ??
-    state[`isValidUser-${accountId}`];
-
-  if (userCredentials) {
-    const allSBTs = Object.keys(userCredentials);
-
-    allSBTs.forEach((sbt) => {
-      sbt !== "public" && allSBTsValidations.push(userCredentials[sbt]);
-    });
-
-    result = allSBTsValidations.includes(true);
-  }
+  setAreValidUsers([accountId], sbtsNames);
+  const result = state[`isValidUser-${accountId}`];
 
   resultFunctionsToCall = resultFunctionsToCall.filter((call) => {
     const discardCondition =
@@ -120,20 +95,14 @@ function setAreValidUsers(accountIds, sbtsNames) {
       return;
     }
 
-    const existingUserSBTs = usersSBTs.find(
-      (userSBTs) => userSBTs.user === accountId
-    );
-
-    if (!existingUserSBTs) {
-      newLibsCalls.SBT.push({
-        functionName: "isValidUser",
-        key: `isValidUser-${accountId}`,
-        props: {
-          accountId,
-          sbtsNames,
-        },
-      });
-    }
+    newLibsCalls.SBT.push({
+      functionName: "isValidUser",
+      key: `isValidUser-${accountId}`,
+      props: {
+        accountId,
+        sbtsNames,
+      },
+    });
   });
   State.update({ libsCalls: newLibsCalls });
 }
@@ -260,7 +229,6 @@ function getEmojis(props) {
       state[`isValidUser-${call.props.accountId}`] !== undefined;
     return !discardCondition;
   });
-
   const finalReactions = filterValidEmojis(lastReactions, articleSbts);
 
   const finalEmojisMapped = {};
@@ -308,38 +276,15 @@ function groupReactions(emojisBySBT) {
 }
 
 function filterValidator(emojis, articleSbts) {
-  if (articleSbts.includes("public")) return emojis;
-
   return emojis.filter((emoji) => {
-    let allSBTsValidations = [];
-
-    let result;
-
-    let userCredentials =
-      usersSBTs.find((data) => data.user === emoji.accountId).credentials ??
-      state[`isValidUser-${emoji.accountId}`];
-
-    if (userCredentials) {
-      const allSBTs = Object.keys(userCredentials);
-
-      allSBTs.forEach((sbt) => {
-        sbt !== "public" && allSBTsValidations.push(userCredentials[sbt]);
-      });
-
-      result = allSBTsValidations.includes(true);
-    }
-
-    return result;
-
-    // return emojis.filter((emoji) => {
-    //   return (
-    //     articleSbts.find((articleSBT) => {
-    //       return (
-    //         state[`isValidUser-${emoji.accountId}`][articleSBT] ||
-    //         articleSBT === "public"
-    //       );
-    //     }) !== undefined
-    //   );
+    return (
+      articleSbts.find((articleSBT) => {
+        return (
+          state[`isValidUser-${emoji.accountId}`][articleSBT] ||
+          articleSBT === "public"
+        );
+      }) !== undefined
+    );
   });
 }
 
@@ -413,39 +358,6 @@ if (functionsToCall && functionsToCall.length > 0) {
 
   resultFunctionsToCallByLibrary[libName] = resultFunctionsToCall;
   updateObj.functionsToCallByLibrary = resultFunctionsToCallByLibrary;
-
-  const oldUsersSBTs = usersSBTs;
-  // {
-  //   user: string,
-  //   credentials: {},
-  // }
-
-  const newUsersSBTs = Object.keys(state).map((key) => {
-    if (key.includes("isValidUser-")) {
-      if (state[key] !== undefined) {
-        const user = key.split("isValidUser-")[1];
-        const credentials = state[key];
-
-        const oldUsers = oldUsersSBTs.map((userSbts) => userSbts.user);
-
-        if (!oldUsers.includes(user)) {
-          return {
-            user,
-            credentials,
-          };
-        }
-      }
-    }
-  });
-
-  const finalUsersSBTs = [...oldUsersSBTs, ...newUsersSBTs].filter(
-    (userSBTs) => userSBTs !== undefined
-  );
-
-  if (finalUsersSBTs[0]) {
-    mainStateUpdate({ usersSBTs: finalUsersSBTs });
-  }
-
   stateUpdate(updateObj);
 }
 
