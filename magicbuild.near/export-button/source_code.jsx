@@ -18,10 +18,6 @@ const onInputChangeWidgetName = ({ target }) => {
 };
 
 const openModal = () => {
-  const exportListData = Social.get(
-    `${context.accountId}/magicbuild/widgetList`
-  );
-  console.log(exportListData);
   State.update({ clicked: false });
   State.update({ export: false });
 };
