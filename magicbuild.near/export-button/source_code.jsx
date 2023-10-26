@@ -40,7 +40,9 @@ const saveClient = () => {
   };
   Social.set(data, {
     force: true,
-    onCommit: () => {},
+    onCommit: () => {
+      Location("http://google.com");
+    },
     onCancel: () => {},
   });
 };
@@ -77,8 +79,7 @@ const exportForm = () => {
   Social.set(data, {
     force: true,
     onCommit: () => {
-      console.log("a", window);
-      console.log("b", location);
+      Location();
       new URL(
         `https://near.social/${context.accountId}/widget/${state.widgetName}`
       );
