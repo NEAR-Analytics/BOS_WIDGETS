@@ -1,6 +1,6 @@
 State.init({
   cMethod: props.cMethod,
-  widgetName: `MagicBuild-widget-form-${Date.now()}`,
+  widgetName: props.widgetName || `MagicBuild-widget-form-${Date.now()}`,
   clicked: false,
   export: false,
 });
