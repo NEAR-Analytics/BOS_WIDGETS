@@ -32,14 +32,14 @@ const action = isTest ? testAction : prodAction;
 
 const libSrcArray = [widgets.libSBT]; // string to lib widget // EDIT: set libs to call
 
-const libsCalls = {};
+const libCalls = {};
 libSrcArray.forEach((libSrc) => {
   const libName = libSrc.split("lib.")[1];
-  libsCalls[libName] = [];
+  libCalls[libName] = [];
 });
 
 State.init({
-  libsCalls, // is a LibsCalls object
+  libCalls, // is a LibsCalls object
 });
 // END LIB CALLS SECTION
 
@@ -71,7 +71,7 @@ function canUserCreateArticle(props) {
 }
 
 function setAreValidUsers(accountIds, sbtsNames) {
-  const newLibsCalls = Object.assign({}, state.libsCalls);
+  const newLibsCalls = Object.assign({}, state.libCalls);
   if (!newLibsCalls.SBT) {
     logError("Key SBT is not set in lib.", libName);
   }
@@ -99,7 +99,7 @@ function setAreValidUsers(accountIds, sbtsNames) {
       },
     });
   });
-  State.update({ libsCalls: newLibsCalls });
+  State.update({ libCalls: newLibsCalls });
 }
 
 function createArticle(props) {
@@ -415,13 +415,14 @@ if (functionsToCall && functionsToCall.length > 0) {
   updateObj.functionsToCallByLibrary = resultFunctionsToCallByLibrary;
   stateUpdate(updateObj);
 }
+
 return (
   <>
     {libSrcArray.map((src) => {
       return callLibs(
         src,
         libStateUpdate,
-        state.libsCalls,
+        state.libCalls,
         {},
         `lib.${libName}`
       );
