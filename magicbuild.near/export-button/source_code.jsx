@@ -110,12 +110,34 @@ return (
           <div class="modal-body">
             <div class="form-group">
               <label>Widget Name</label>
-
+              <input
+                class="form-control"
+                defaultValue={state.widgetName || ""}
+                onChange={(e) => onInputChangeWidgetName(e)}
+              />
               <small class="form-text text-muted">
                 A new widget configured with the form will be created.
               </small>
             </div>
-
+            {state.cMethod &&
+              state.cMethod.map((functions, fIndex) => (
+                <div class="form-check form-switch">
+                  <input
+                    class="form-check-input"
+                    type="checkbox"
+                    role="switch"
+                    checked={functions.export}
+                    onChange={() => onSwitchChangeArgExport(fIndex)}
+                    id={`flexSwitchCheckDefaultView${fIndex}`}
+                  />
+                  <label
+                    class="form-check-label"
+                    for={`flexSwitchCheckDefault${fIndex}`}
+                  >
+                    {functions.name}
+                  </label>
+                </div>
+              ))}
             {state.export && state.widgetName && (
               <>
                 <hr />
@@ -138,15 +160,6 @@ return (
             >
               Close
             </button>
-            {props.id && (
-              <button
-                type="button"
-                onClick={saveClient}
-                class="btn btn-primary"
-              >
-                Save Client
-              </button>
-            )}
 
             <button
               type="button"
