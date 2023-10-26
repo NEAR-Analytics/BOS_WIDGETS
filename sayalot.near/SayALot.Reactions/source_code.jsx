@@ -1,5 +1,3 @@
-// SayALot.Reactions
-
 const {
   isTest,
   authorForWidget,
@@ -48,7 +46,7 @@ State.init({
   // reactionsData: {},
   show: false,
   loading: false,
-  libCalls: initLibsCalls,
+  functionsToCallByLibrary: initLibsCalls,
 });
 
 // ================= Mouse Handlers ===============
@@ -76,7 +74,7 @@ function reactListener(emojiToWrite) {
   // const emojiToWrite =
   //   emojiMessage === initialEmoji ? emojiArray[0] : emojiMessage;
 
-  const newLibsCalls = Object.assign({}, state.libCalls);
+  const newLibsCalls = Object.assign({}, state.functionsToCallByLibrary);
 
   newLibsCalls.emojis.push({
     functionName: "createEmoji",
@@ -89,7 +87,7 @@ function reactListener(emojiToWrite) {
       onCancel: onPushEnd,
     },
   });
-  State.update({ libCalls: newLibsCalls, loading: true });
+  State.update({ functionsToCallByLibrary: newLibsCalls, loading: true });
 }
 
 function reactionsStateUpdate(obj) {
@@ -309,7 +307,7 @@ return (
         return callLibs(
           src,
           reactionsStateUpdate,
-          state.libCalls,
+          state.functionsToCallByLibrary,
           { baseAction: "sayALotReaction" },
           "Reactions"
           // initialEmoji,
