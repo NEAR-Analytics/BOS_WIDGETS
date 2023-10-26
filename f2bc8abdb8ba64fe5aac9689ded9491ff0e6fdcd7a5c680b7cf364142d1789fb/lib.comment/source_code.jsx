@@ -15,7 +15,7 @@ let resultFunctionsToCallByLibrary = Object.assign(
 );
 let resultFunctionsToCall = [];
 
-const currentVersion = "0.0.3"; // EDIT: Set version
+const currentVersion = "0.0.2"; // EDIT: Set version
 
 const prodAction = `${baseAction}_v${currentVersion}`; // TODO consider versions
 // const prodAction = `${baseAction}`;
@@ -109,11 +109,11 @@ function setAreValidUsers(accountIds, sbtsNames) {
 }
 
 function createComment(props) {
-  const { comment, articleSbts, onClick, onCommit, onCancel } = props;
+  const { comment, onClick, onCommit, onCancel } = props;
 
   onClick();
 
-  saveComment(comment, articleSbts, onCommit, onCancel);
+  saveComment(comment, onCommit, onCancel);
 
   resultFunctionsToCall = resultFunctionsToCall.filter((call) => {
     return call.functionName !== "createComment";
@@ -138,9 +138,8 @@ function composeCommentData(comment) {
   return data;
 }
 
-function saveComment(comment, articleSbts, onCommit, onCancel) {
+function saveComment(comment, onCommit, onCancel) {
   if (comment.text) {
-    comment.sbts = articleSbts;
     const newData = composeCommentData(comment);
     Social.set(newData, {
       force: true,
@@ -191,7 +190,7 @@ function getValidComments(props) {
     return !discardCondition;
   });
 
-  const finalComments = filterValidComments(normComments);
+  const finalComments = filterValidComments(normComments, articleSbts);
 
   // if (articleSbts.length > 0) {
   // We assume there will only be just one articleSbt
@@ -222,12 +221,12 @@ function getValidComments(props) {
   return finalComments;
 }
 
-function filterValidator(comments) {
+function filterValidator(comments, articleSbts) {
   return comments.filter((comment) => {
     return (
-      comment.sbts.find((commentSbt) => {
+      articleSbts.find((sbt) => {
         return (
-          state[`isValidUser-${comment.accountId}`][commentSbt] ||
+          state[`isValidUser-${comment.accountId}`][sbt] ||
           commentSbt === "public"
         );
       }) !== undefined
@@ -235,8 +234,11 @@ function filterValidator(comments) {
   });
 }
 
-function filterValidComments(comments) {
-  let filteredComments = filterValidator(filteredComments ?? comments);
+function filterValidComments(comments, articleSbts) {
+  let filteredComments = filterValidator(
+    filteredComments ?? comments,
+    articleSbts
+  );
 
   return filteredComments;
 }
@@ -266,16 +268,6 @@ function normalizeFromV0_0_1ToV0_0_2(comment) {
 }
 
 function normalizeFromV0_0_2ToV0_0_3(comment) {
-  if (!comment.sbts) comment.sbts = ["public"];
-  // if (!comment.sbts) comment.sbts = ["fractal.i-am-human.near"];
-  if (comment.sbts[0] !== "public") {
-    comment.sbts[0] = comment.sbts[0] + " - class 1";
-  } // There is only one comment that is not public and only has class 1
-
-  return comment;
-}
-
-function normalizeFromV0_0_3ToV0_0_4(comment) {
   return comment;
 }
 // END LIB FUNCTIONS
@@ -304,10 +296,6 @@ const versions = {
   "v0.0.2": {
     normalizationFunction: normalizeFromV0_0_2ToV0_0_3,
     action: props.isTest ? `test_${baseAction}_v0.0.2` : `${baseAction}_v0.0.2`,
-  },
-  "0.0.3": {
-    normalizationFunction: normalizeFromV0_0_3ToV0_0_4,
-    action: props.isTest ? `test_${baseAction}_v0.0.3` : `${baseAction}_v0.0.3`,
   },
 };
 
