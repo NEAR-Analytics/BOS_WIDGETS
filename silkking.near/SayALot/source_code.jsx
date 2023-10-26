@@ -1,3 +1,5 @@
+// SayALot
+
 //===============================================INITIALIZATION=====================================================
 let { sharedBlockHeight, tagShared, isTest, accountId } = props;
 sharedBlockHeight = Number(sharedBlockHeight);
@@ -113,18 +115,22 @@ const widgets = {
   articlesByAuthorCard: `${authorForWidget}/widget/SayALot.ArticlesByAuthorCard`,
   generalCard: `${authorForWidget}/widget/SayALot.GeneralCard`,
   // generalCard: `${context.accountId}/widget/SayALot.GeneralCard`,
-  articleView: `${authorForWidget}/widget/SayALot.ArticleView`,
+  // generalCard: `f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/SayALot.GeneralCard`,
+  articleView: `${authorForWidget}/widget/SayALot.ArticleView`, //////////////////////////////////////////////////////////////////////////////////////////////////
   // articleView: `${context.accountId}/widget/SayALot.ArticleView`,
+  // articleView: `f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/SayALot.ArticleView`, ////////////////////////////////////////////////////////
   reactions: `${authorForWidget}/widget/SayALot.Reactions`,
   // reactions: `${context.accountId}/widget/SayALot.Reactions`,
   addComment: `${authorForWidget}/widget/SayALot.AddComment`,
   // addComment: `${context.accountId}/widget/SayALot.AddComment`,
+  // addComment: `f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/SayALot.AddComment`,
   commentView: `${authorForWidget}/widget/SayALot.CommentView`,
   // commentView: `${context.accountId}/widget/SayALot.CommentView`,
   libSBT: `${authorForWidget}/widget/lib.SBT`,
   // libSBT: `${context.accountId}/widget/lib.SBT`,
-  libComment: `${authorForWidget}/widget/lib.comment`,
+  libComment: `${authorForWidget}/widget/lib.comment`, //////////////////////////////////////////////////////////////////////////
   // libComment: `${context.accountId}/widget/lib.comment`,
+  // libComment: `f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/lib.comment`, /////////////////////////////////////////
   libArticle: `${authorForWidget}/widget/lib.article`,
   // libArticle: `${context.accountId}/widget/lib.article`,
   libEmojis: `${authorForWidget}/widget/lib.emojis`,
@@ -542,17 +548,19 @@ return (
         sbtsNames,
       }}
     />
-    <div className="my-3">
-      <Widget
-        src={widgets.newStyledComponents.Input.Select}
-        props={{
-          label: "Select sbt filter",
-          value: sbts[0],
-          onChange: handleSbtSelection,
-          options: createSbtOptions(),
-        }}
-      />
-    </div>
+    {state.displayedTabId == tabs.SHOW_ARTICLES_LIST.id && (
+      <div className="my-3">
+        <Widget
+          src={widgets.newStyledComponents.Input.Select}
+          props={{
+            label: "Select sbt filter",
+            value: sbts[0],
+            onChange: handleSbtSelection,
+            options: createSbtOptions(),
+          }}
+        />
+      </div>
+    )}
     {articlesToRender && state.displayedTabId == tabs.SHOW_ARTICLES_LIST.id && (
       <Widget
         src={widgets.showArticlesList}
