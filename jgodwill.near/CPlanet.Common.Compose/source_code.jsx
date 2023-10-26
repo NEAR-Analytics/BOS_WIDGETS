@@ -367,7 +367,38 @@ return (
                       props={{ chains: chains, updateChain }}
                     />
                   </div>
-                  {state.nftChainState && (
+                  {state.nftChainState === "Near" ? (
+                    <div>
+                      <div
+                        className="p-2 rounded mt-3"
+                        style={{
+                          background: "#fdfdfd",
+                          border: "solid 1px #dee2e6",
+                          borderBottomLeftRadius: ".375rem",
+                          borderBottomRightRadius: ".375rem",
+                          minHeight: "9em",
+                        }}
+                      >
+                        <div>
+                          <div className="mt-2">
+                            <Widget
+                              src={`jgodwill.near/widget/genadrop-nft-selector`}
+                              props={{
+                                onChange: ({ contractId, tokenId }) => {
+                                  State.update({
+                                    contractId: contractId,
+                                    tokenId: tokenId,
+                                  });
+                                  onChangeTokenID(tokenId);
+                                  onChangeContractID(contractId);
+                                },
+                              }}
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  ) : (
                     <Card>
                       <h4>Enter the NFT details</h4>
                       <Card>
