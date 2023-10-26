@@ -1,3 +1,24 @@
+// SayALot.AddComment
+
+const {
+  widgets,
+  isTest,
+  article,
+  onCloseModal,
+  isReplying,
+  username,
+  placement,
+  originalComment,
+  replyingTo,
+} = props;
+
+let id;
+if (originalComment) {
+  id = originalComment.originalComment.value.comment.id;
+} else {
+  id = article.id ?? `${article.author}-${article.timeCreate}`;
+}
+
 const ModalCard = styled.div`
   position: fixed;
   z-index: 1;
@@ -250,25 +271,6 @@ const CallLibrary = styled.div`
   display: none;
 `;
 
-const {
-  widgets,
-  isTest,
-  article,
-  onCloseModal,
-  isReplying,
-  username,
-  placement,
-  originalComment,
-  replyingTo,
-} = props;
-
-let id;
-if (originalComment) {
-  id = originalComment.originalComment.value.comment.id;
-} else {
-  id = article.id ?? `${article.author}-${article.timeCreate}`;
-}
-
 const libCalls = [];
 
 const libSrcArray = [widgets.libComment];
@@ -340,7 +342,12 @@ function addCommentListener() {
   newLibCalls.push({
     functionName: "createComment",
     key: "createComment",
-    props: { comment, onClick: onClickAddComment, onCommit, onCancel },
+    props: {
+      comment,
+      onClick: onClickAddComment,
+      onCommit,
+      onCancel,
+    },
   });
   State.update({ libCalls: newLibCalls });
 }
