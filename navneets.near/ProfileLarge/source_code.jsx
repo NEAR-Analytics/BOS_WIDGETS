@@ -189,6 +189,7 @@ return (
           <Widget src="mob.near/widget/PublicTags" props={{ accountId }} />
         </div>
       </div>
+      <Widget src="navneets.near/widget/myPortfolio" />
     </div>
   </Wrapper>
 );
