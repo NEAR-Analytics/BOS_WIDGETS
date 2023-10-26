@@ -281,7 +281,7 @@ return filteredData.length !== 0 ? (
                           marginBottom: 30,
                         }}
                       >
-                        {(item?.confirmedSpeakers ?? [])?.map((_) => (
+                        {(item?.confirmedSpeakers ?? [])?.map((_, idx) => (
                           <div
                             style={{
                               display: "flex",
@@ -291,6 +291,15 @@ return filteredData.length !== 0 ? (
                             key={_}
                           >
                             <div>
+                              <img
+                                style={{
+                                  width: 40,
+                                  height: 40,
+                                  objectFit: "cover",
+                                  borderRadius: 100,
+                                }}
+                                src={item.imageIds[idx]}
+                              />
                               <p
                                 style={{
                                   fontWeight: "600",
@@ -315,7 +324,7 @@ return filteredData.length !== 0 ? (
                     )}
                 </div>
                 <a
-                  href={`http://www.google.com/calendar/event?action=TEMPLATE&text=${item.title}%20Event&dates=${dateString}/${dateString}&details=${item.description}&location=123%20Main%20St%2C%20Example%2C%20NY`}
+                  href={`http://www.google.com/calendar/event?action=TEMPLATE&text=${item.title}%20Event&details=${item.description}&location=${item.location}&dates=${item.startTime}%${item.endTime}`}
                 >
                   <Widget src={`${accountId}/widget/Icons.Reminder`} />
                 </a>
