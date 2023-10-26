@@ -15,7 +15,7 @@ const loadData = () => {
   console.log(exportListData);
   if (exportListData) {
     const exportList = JSON.parse(exportListData);
-    State.update({ exportList: exportList });
+    State.update({ widgetList: exportList });
   }
 };
 
