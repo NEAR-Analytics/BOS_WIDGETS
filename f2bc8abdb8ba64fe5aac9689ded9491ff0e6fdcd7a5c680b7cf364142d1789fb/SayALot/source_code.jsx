@@ -1,3 +1,5 @@
+// SayALot
+
 //===============================================INITIALIZATION=====================================================
 let { sharedBlockHeight, tagShared, isTest, accountId } = props;
 sharedBlockHeight = Number(sharedBlockHeight);
@@ -10,7 +12,7 @@ const sbtWhiteList = [
   "public",
 ];
 
-const initSbtsNames = ["fractal.i-am-human.near - class 1"];
+const initSbtsNames = [sbtWhiteList[0]];
 
 const sbtsNames = state.sbt;
 
@@ -155,6 +157,7 @@ const widgets = {
 };
 
 const libSrcArray = [widgets.libArticle];
+console.log(1, state);
 
 const profile = props.profile ?? Social.getr(`${accountId}/profile`);
 if (profile === null) {
@@ -471,15 +474,16 @@ function callLibs(
         functionsToCallByLibrary,
         callLibs,
         widgets,
+        callerWidget,
         ...extraProps,
       }}
     />
   );
 }
 
-function handleSbtSelection(string) {
+function handleSbtSelection(selectedSbt) {
   State.update({
-    sbts: [string],
+    sbts: [selectedSbt],
   });
 }
 
@@ -499,7 +503,7 @@ function getLink() {
 }
 
 //===============================================END FUNCTIONS======================================================
-// console.log("articles: ", state.articles);
+console.log("articles: ", state.articles);
 if (!context.accountId) {
   return (
     <>
@@ -578,7 +582,7 @@ return (
           sbtWhiteList,
           sbts,
           handleShareButton,
-          canLoggedUserCreateArticles: state.canLoggedUserCreateArticle,
+          canLoggedUserCreateArticles,
           filterBy: state.filterBy,
           callLibs,
         }}
@@ -633,7 +637,7 @@ return (
           handleEditArticle,
           sbtWhiteList,
           sbts,
-          canLoggedUserCreateArticles: state.canLoggedUserCreateArticle,
+          canLoggedUserCreateArticles,
         }}
       />
     )}
