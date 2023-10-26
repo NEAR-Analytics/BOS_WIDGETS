@@ -21,7 +21,7 @@ const height = props.height;
 const fontsize = props.fontsize;
 const fontweight = props.fontweight;
 return (
-  <Button0016 width={width} height={height}>
+  <Button0016 width={width} height={height} fontsize={fontsize} fontweight={fontweight}>
     {text}
   </Button0016>
 );
