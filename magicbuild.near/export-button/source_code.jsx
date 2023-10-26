@@ -18,6 +18,10 @@ const onInputChangeWidgetName = ({ target }) => {
 };
 
 const openModal = () => {
+  const exportListData = Social.get(
+    `${context.accountId}/magicbuild/widgetList`
+  );
+  console.log(exportListData);
   State.update({ clicked: false });
   State.update({ export: false });
 };
@@ -44,6 +48,7 @@ const exportForm = () => {
     const exportListData = Social.get(
       `${context.accountId}/magicbuild/widgetList`
     );
+    console.log(exportListData);
     const exporttList = JSON.parse(exportListData) || [];
     const isExist = false;
     exporttList.forEach((item, index) => {
