@@ -100,43 +100,44 @@ const MoonIcon = (
   </svg>
 );
 
-const ColorText = styled.div`
-  font-family: inherit;
-  position: absolute;
-  padding:1px;
-  background-color: ${(props) => (props.isToggled ? "#ff8408ff" : "#0a1929ff")};
-  border: 1;
-  border-radius:14px;
+const Edit = styled.button`
+  width: 5rem;
+  height: 30px;
+  font-size: 12px;
+  background-color: #0a1929ff;
+  border: none;
+  border-radius: 24px;
   cursor: pointer;
   position: absolute;
-  top: 10px; /* Điều chỉnh vị trí theo y */
+  top: 10px;
   right: 50px;
   display: flex;
   align-items: center;
   justify-content: center;
   font-weight: bold;
   color: white;
-  transition: background-color 300ms;
+   &:hover {
+    background-color: #0a1929ff;
+  }
 `;
 
 const ButtonCopy = styled.button`
-  width: 80px;
+  width: 5rem;
   height: 30px;
-  display: flex;
-  align-items: center;
+  font-size: 12px;
   background-color: #0a1929ff;
-  color: white;
-  border-radius: 2em;
-  padding: 0.5rem;
-  position: absolute; 
+  border: none;
+  border-radius: 24px;
+  cursor: pointer;
+  position: absolute;
   bottom: 10px;
   right: 10px;
-
-  &:hover .text {
-    background-color: #0a1929ff;
-  }
-
-  &:hover .svgIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  color: white;
+   &:hover {
     background-color: #0a1929ff;
   }
 `;
@@ -146,7 +147,7 @@ const TextCopy = styled.span`
   font-size: 12px;
   font: bold;
   width: 70%;
-  height: 100%;
+  height: 80%;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -206,10 +207,22 @@ const SaveIcon = (
   ></i>
 );
 
-let copyBtn = props.copyBtn || "Copy Button";
-props.copyBtn || <></>;
-let component = props.component || <> </>;
-let detailLink = props.detailLink || "notfound";
+const copyBtn = props.copyBtn || "Copy Button";
+const component = props.component || "";
+const detailLink = props.detailLink || "notfound";
+const edit = props.edit || "Edit components";
+
+const [isEditing, setIsEditing] = useState(false);
+const [editedContent, setEditedContent] = useState(edit);
+
+const handleEditClick = () => {
+  setIsEditing(true);
+};
+
+const handleSaveClick = () => {
+  setIsEditing(false);
+  setEditedContent(props.edit);
+};
 
 return (
   <Card isWhiteBackground={!isWhiteBackground1}>
@@ -221,10 +234,69 @@ return (
       </SaveButton>
       <a href={detailLink}>
         <ViewButton>
-          Code<i class="bi bi-code-slash"></i>
+          Code<i className="bi bi-code-slash"></i>
         </ViewButton>
       </a>
-      <ColorText>{isToggleOn1 ? "#FFFFFF" : "#000000"}</ColorText>
+      <Edit
+        onClick={handleEditClick}
+        type="button"
+        className="btn btn-primary"
+        data-bs-toggle="modal"
+        data-bs-target="#exampleModal"
+      >
+        Edit <i className="bi bi-pencil-square"></i>
+      </Edit>
+      <div
+        className={`modal fade ${isEditing ? "show" : ""}`}
+        id="exampleModal"
+        tabIndex="-1"
+        aria-labelledby="exampleModalLabel"
+        aria-hidden={!isEditing}
+      >
+        <div className="modal-dialog">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h1 className="modal-title fs-5" id="exampleModalLabel">
+                Edit component
+              </h1>
+              <button
+                type="button"
+                className="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+                onClick={() => setIsEditing(false)}
+              ></button>
+            </div>
+            <div className="modal-body">
+              {isEditing ? (
+                <input
+                  value={editedContent}
+                  onChange={(e) => setEditedContent(e.target.value)}
+                />
+              ) : (
+                edit
+              )}
+            </div>
+            <div className="modal-footer">
+              <button
+                type="button"
+                className="btn btn-secondary"
+                data-bs-dismiss="modal"
+                onClick={() => setIsEditing(false)}
+              >
+                Close
+              </button>
+              <button
+                type="button"
+                className="btn btn-primary"
+                onClick={handleSaveClick}
+              >
+                Save changes
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
       <ToggleButton onClick={toggleButton1} isToggled={isToggleOn1}>
         {isToggleOn1 ? SunIcon : MoonIcon}
       </ToggleButton>
