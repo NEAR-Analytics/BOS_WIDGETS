@@ -796,6 +796,7 @@ return (
                   </div>
                 </div>
               </div>
+              <hr />
               <div class="row">
                 <div class="form-group col-md-2">
                   <h6>Arguments</h6>
@@ -929,6 +930,7 @@ return (
                   </div>
                 );
               })}
+            <hr />
             {functions.kind == "call" ? (
               <>
                 <div class="container pb-1 pt-3">
