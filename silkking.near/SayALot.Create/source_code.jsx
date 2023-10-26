@@ -90,7 +90,6 @@ function createArticleListener() {
   // onCommit();
   const article = getArticleData();
   const newLibsCalls = Object.assign({}, state.functionsToCallByLibrary);
-  console.log(1);
   newLibsCalls.article.push({
     functionName: "createArticle",
     key: "createdArticle",
