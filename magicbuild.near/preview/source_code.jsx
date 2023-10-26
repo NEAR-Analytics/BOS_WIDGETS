@@ -224,6 +224,8 @@ return (
                               value:
                                 args.type_schema.type == "array"
                                   ? e.target.value.split("|")
+                                  : args.type_schema.type == "integer"
+                                  ? parseInt(e.target.value)
                                   : args.type_schema.type == "json"
                                   ? JSON.parse(e.target.value)
                                   : e.target.value,
@@ -376,6 +378,8 @@ return (
                               value:
                                 args.type_schema.type == "array"
                                   ? e.target.value.split("|")
+                                  : args.type_schema.type == "integer"
+                                  ? parseInt(e.target.value)
                                   : args.type_schema.type == "json"
                                   ? JSON.parse(e.target.value)
                                   : e.target.value,
