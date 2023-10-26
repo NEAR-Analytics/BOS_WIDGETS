@@ -474,6 +474,7 @@ function callLibs(
         functionsToCallByLibrary,
         callLibs,
         widgets,
+        callerWidget,
         ...extraProps,
       }}
     />
