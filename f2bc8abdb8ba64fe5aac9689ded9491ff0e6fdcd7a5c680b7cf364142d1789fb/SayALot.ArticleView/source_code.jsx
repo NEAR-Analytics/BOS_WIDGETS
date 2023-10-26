@@ -605,7 +605,7 @@ return (
                         (articleSbts.length > 0 &&
                           !state.canLoggedUserCreateComment),
                       callLibs,
-                      sbtsNames: articleToRenderData.sbts,
+                      sbtsNames: articleSbts,
                     }}
                   />
                   {context.accountId == accountId && (
