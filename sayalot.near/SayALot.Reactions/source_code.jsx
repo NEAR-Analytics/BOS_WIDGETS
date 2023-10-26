@@ -1,10 +1,13 @@
+// SayALot.Reactions
+
 const {
   isTest,
   authorForWidget,
   elementReactedId,
   widgets,
   disabled,
-  articleSbts,
+  sbtsNames,
+  callLibs,
 } = props;
 // Don't forget to put space between emoji and text -> "❤️ Positive"
 const initialEmoji = "🤍 Like";
@@ -26,43 +29,26 @@ const accountThatIsLoggedIn = context.accountId;
 
 const libSrcArray = [widgets.libEmojis];
 
-function callLibs(srcArray, stateUpdate, libCalls, initialEmoji) {
-  return (
-    <>
-      {srcArray.map((src) => {
-        return (
-          <Widget
-            src={src}
-            props={{
-              isTest,
-              stateUpdate,
-              libCalls,
-              initialEmoji,
-            }}
-          />
-        );
-      })}
-    </>
-  );
-}
-
-const libCalls = [
-  {
-    functionName: "getReactionsData",
-    key: "reactionsData",
-    props: {
-      elementReactedId,
-      articleSbts,
+const initLibsCalls = {
+  emojis: [
+    {
+      functionName: "getEmojis",
+      key: "reactionsData",
+      props: {
+        elementReactedId,
+        sbtsNames,
+      },
     },
-  },
-];
+  ],
+};
 
 State.init({
   emoji: undefined,
   reactionsData: { reactionsStatistics: [], userReaction: undefined },
+  // reactionsData: {},
   show: false,
   loading: false,
-  libCalls,
+  libCalls: initLibsCalls,
 });
 
 // ================= Mouse Handlers ===============
@@ -81,30 +67,29 @@ function onPushEnd() {
   State.update({ loading: false, show: false });
 }
 
-function reactListener(emojiMessage) {
+function reactListener(emojiToWrite) {
   if (state.loading || disabled) {
     return;
   }
 
   // decide to put unique emoji or white heart (unreaction emoji)
-  const emojiToWrite =
-    emojiMessage === initialEmoji &&
-    state.reactionsData.userReaction.value.reaction === initialEmoji
-      ? emojiArray[0]
-      : emojiMessage;
+  // const emojiToWrite =
+  //   emojiMessage === initialEmoji ? emojiArray[0] : emojiMessage;
 
-  const newLibCalls = [...state.libCalls];
-  newLibCalls.push({
-    functionName: "createReaction",
+  const newLibsCalls = Object.assign({}, state.libCalls);
+
+  newLibsCalls.emojis.push({
+    functionName: "createEmoji",
     key: "createReaction",
     props: {
       elementReactedId,
       reaction: emojiToWrite,
+      articleSbts: sbtsNames,
       onCommit: onPushEnd,
       onCancel: onPushEnd,
     },
   });
-  State.update({ libCalls: newLibCalls, loading: true });
+  State.update({ libCalls: newLibsCalls, loading: true });
 }
 
 function reactionsStateUpdate(obj) {
@@ -290,15 +275,7 @@ return (
     <EmojiWrapper>
       {!disabled && (
         <>
-          {!state.reactionsData.userReaction ? (
-            <Button
-              onMouseEnter={handleOnMouseEnter}
-              onMouseLeave={handleOnMouseLeave}
-            >
-              {state.loading && <Spinner />}
-              {initialEmoji}
-            </Button>
-          ) : (
+          {state.reactionsData.userReaction ? (
             <SmallReactButton
               onMouseEnter={handleOnMouseEnter}
               onMouseLeave={handleOnMouseLeave}
@@ -309,6 +286,14 @@ return (
                   renderReaction(item, true)
                 )}
             </SmallReactButton>
+          ) : (
+            <Button
+              onMouseEnter={handleOnMouseEnter}
+              onMouseLeave={handleOnMouseLeave}
+            >
+              {state.loading && <Spinner />}
+              {initialEmoji}
+            </Button>
           )}
         </>
       )}
@@ -320,12 +305,16 @@ return (
     </EmojiWrapper>
 
     <CallLibrary>
-      {callLibs(
-        libSrcArray,
-        reactionsStateUpdate,
-        state.libCalls,
-        initialEmoji
-      )}
+      {libSrcArray.map((src) => {
+        return callLibs(
+          src,
+          reactionsStateUpdate,
+          state.libCalls,
+          { baseAction: "sayALotReaction" },
+          "Reactions"
+          // initialEmoji,
+        );
+      })}
     </CallLibrary>
   </>
 );
