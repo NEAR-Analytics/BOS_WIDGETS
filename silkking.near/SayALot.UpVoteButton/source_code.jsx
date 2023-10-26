@@ -5,10 +5,10 @@ const {
   widgets,
   disabled,
   articleSbts,
-  upVotes,
+  upVotes: articleUpVotes,
   callLibs,
 } = props;
-// console.log("props upVotes: ", upVotes);
+
 const data = reactedElementData;
 
 const libSrcArray = [widgets.libUpVotes];
@@ -27,37 +27,28 @@ const initLibCalls = {
 };
 const initUpVotesBySBT = {};
 
-if (!upVotes) {
+if (!articleUpVotes) {
   State.init({
-    libCalls: initLibCalls,
-    upVotes: [],
+    functionsToCallByLibrary: initLibCalls,
+    articleUpVotes: [],
     upVotesBySBT: initUpVotesBySBT,
   });
 } else {
   State.init({
-    upVotes,
-    libCalls: { upVotes: [] },
+    articleUpVotes,
+    functionsToCallByLibrary: { upVotes: [] },
   });
 }
 
 if (state.upVotesBySBT && Object.keys(state.upVotesBySBT).length > 0) {
-  // console.log(
-  //   "Object.keys(state.upVotesBySBT): ",
-  //   Object.keys(state.upVotesBySBT)
-  // );
-
   const key = Object.keys(state.upVotesBySBT)[0]; // There should always be one for now
-  // console.log("key: ", key);
   const newUpvotes = state.upVotesBySBT[key];
-  // console.log("newUpvotes: ", newUpvotes);
-  if (JSON.stringify(state.upVotes) !== JSON.stringify(newUpvotes)) {
-    State.update({ upVotes: newUpvotes });
+  if (JSON.stringify(state.articleUpVotes) !== JSON.stringify(newUpvotes)) {
+    State.update({ articleUpVotes: newUpvotes });
   }
 }
 
-let upVotesData = state.upVotes;
-
-// console.log("upVotesData: ", upVotesData);
+let upVotesData = state.articleUpVotes;
 
 let userVote = upVotesData.find((vote) => vote.accountId === context.accountId);
 
@@ -76,10 +67,9 @@ function stateUpdate(obj) {
 }
 
 function upVoteButtonListener() {
-  let newLibCalls = Object.assign({}, state.libCalls);
+  let newLibCalls = Object.assign({}, state.functionsToCallByLibrary);
 
   if (!hasUserVoted) {
-    console.log(2, data);
     newLibCalls.upVotes.push({
       functionName: "addVote",
       key: "newVote",
@@ -98,7 +88,7 @@ function upVoteButtonListener() {
       },
     });
   }
-  State.update({ libCalls: newLibCalls });
+  State.update({ functionsToCallByLibrary: newLibCalls });
 }
 
 const IconContainer = styled.div`
@@ -151,7 +141,7 @@ return (
         return callLibs(
           src,
           stateUpdate,
-          state.libCalls,
+          state.functionsToCallByLibrary,
           { baseAction: "sayALotUpVote" },
           "Up vote button"
         );
