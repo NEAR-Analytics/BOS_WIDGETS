@@ -75,7 +75,7 @@ const Container = styled.div`
 return (
   <Container>
     <Widget
-      src="dapdap-dapp.near/widget/Swap.SwapConnector"
+      src="dapdapbos.near/widget/Swap.SwapConnector"
       props={{
         ...props,
         chainId: CHAIN_ID,
