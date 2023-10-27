@@ -42,7 +42,7 @@ scene("game", () => {
 	const SPEED = 320
 	const CEILING = -60
 
-	gravity(0)
+	gravity(4000)
 
 	const bean = add([
 		sprite("bean"),
@@ -59,17 +59,17 @@ scene("game", () => {
 
 	onKeyPress("space", () => {
 		bean.jump(JUMP_FORCE)
-		// play("wooosh")
+		play("wooosh")
 	})
 
 	onClick(() => {
 		bean.jump(JUMP_FORCE)
-		// play("wooosh")
+		play("wooosh")
 	})
 
 	onTouchStart(() => {
 		bean.jump(JUMP_FORCE)
-		// play("wooosh")
+		play("wooosh")
 	})
 
 	function spawnPipe() {
@@ -103,7 +103,7 @@ scene("game", () => {
 
 	bean.onCollide("pipe", () => {
 		go("lose", score)
-		// play("hit")
+		play("hit")
 		addKaboom(bean.pos)
 	})
 
@@ -141,7 +141,7 @@ scene("game", () => {
 	function addScore() {
 		score++
 		scoreLabel.text = score
-		// play("score")
+		play("score")
 	}
 
 })
