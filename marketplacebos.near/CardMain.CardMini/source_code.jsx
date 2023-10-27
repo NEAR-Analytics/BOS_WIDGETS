@@ -247,7 +247,7 @@ return (
         Edit <i className="bi bi-pencil-square"></i>
       </Edit>
       <div
-        className={`modal fade ${isEditing ? "show" : ""}`}
+        className={`modal fade`}
         id="modal"
         tabIndex="-1"
         aria-labelledby="exampleModalLabel"
