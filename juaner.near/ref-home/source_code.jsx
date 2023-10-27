@@ -253,7 +253,7 @@ return (
           }}
         >
           <a
-            href="/rainbow-bridge?source=all-in-one"
+            href="/rainbow-bridge"
             class={`item`}
             style={{
               textDecoration: "none",
