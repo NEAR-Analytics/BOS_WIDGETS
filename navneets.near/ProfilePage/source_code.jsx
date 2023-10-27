@@ -27,7 +27,7 @@ return (
       }}
     />
     <Widget
-      src="navneets.near/widget/portfolio"
+      src="navneets.near/widget/myPortfolio"
       props={{ accountId, profile }}
     />
   </Wrapper>
