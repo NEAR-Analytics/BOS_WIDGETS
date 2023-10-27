@@ -184,10 +184,6 @@ return (
               // <CreationContainer className="container-fluid">
             }
             <SecondContainer className="rounded">
-              <h5 className="mb-1">
-                {editArticleData ? "Edit Article" : "Create Article"}
-              </h5>
-
               {state.showPreview ? (
                 <Widget
                   src={widgets.generalCard}
@@ -218,7 +214,6 @@ return (
               ) : (
                 <div>
                   <div className="d-flex flex-column pt-3">
-                    <label for="inputArticleId">Title (case-sensitive):</label>
                     <label for="inputArticleId" className="small text-danger">
                       {state.errorId}
                     </label>
@@ -229,14 +224,12 @@ return (
                         forceClear: state.clearArticleId,
                         stateUpdate: (obj) => State.update(obj),
                         filterText: (e) => e.target.value,
+                        placeholder: "Post title (case-sensitive)",
                         editable: editArticleData,
                       }}
                     />
                   </div>
                   <div className="d-flex flex-column pt-3">
-                    <label for="textareaArticleBody">
-                      Input article body (in makrdown format):
-                    </label>
                     <label
                       for="textareaArticleBody"
                       className="small text-danger"
@@ -245,9 +238,13 @@ return (
                     </label>
                     <div className="d-flex gap-2">
                       <Widget
-                        src={`${authorForWidget}/widget/MarkdownEditorIframe`}
+                        // src={`${authorForWidget}/widget/MarkdownEditorIframe`}
+                        src={`${context.accountId}/widget/MarkdownEditorIframe`}
                         props={{
-                          initialText: state.initialBody ?? "",
+                          initialText:
+                            state.initialBody == "" || !state.initialBody
+                              ? "Post content (markdown supported)"
+                              : state.initalBody,
                           onChange: (articleBody) =>
                             State.update({
                               articleBody,
