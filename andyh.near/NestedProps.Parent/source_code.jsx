@@ -8,9 +8,9 @@ return (
       props={{
         incrementByOne: () => setValue((v) => v + 1),
         arr: ["oh", "hi", () => "there"],
-        // byTen: {
-        //   increment: () => setValue((v) => v + 10),
-        // },
+        byTen: {
+          increment: () => setValue((v) => v + 10),
+        },
       }}
     />
   </>
