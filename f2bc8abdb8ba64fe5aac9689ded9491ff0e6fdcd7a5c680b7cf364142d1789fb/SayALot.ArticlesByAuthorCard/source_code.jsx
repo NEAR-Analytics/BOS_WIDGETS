@@ -1,3 +1,5 @@
+//SayALot.ArticlesByAuthorCard
+
 const { authorArticlesArray, filter, handleFilterArticles } = props;
 
 const CardContainer = styled.a`
