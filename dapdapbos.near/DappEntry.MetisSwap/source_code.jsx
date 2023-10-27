@@ -1,5 +1,5 @@
 const CHAIN_ID = 1088;
-const { defaultDex } = props.name;
+const { defaultDex } = props;
 
 const Tokens = {
   "0xDeadDeAddeAddEAddeadDEaDDEAdDeaDDeAD0000": {
