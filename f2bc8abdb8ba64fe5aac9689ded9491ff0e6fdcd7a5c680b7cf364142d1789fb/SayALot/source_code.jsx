@@ -105,12 +105,12 @@ const thisWidgetName = "SayALot";
 
 const widgets = {
   sayALot: `${authorForWidget}/widget/${thisWidgetName}`,
-  create: `${authorForWidget}/widget/SayALot.Create`,
+  create: `${context.accountId}/widget/SayALot.Create`, /////////////////////////////////////////////////////////////////////////////////////////////////////
   header: `${authorForWidget}/widget/SayALot.NavBar`,
   showArticlesList: `${authorForWidget}/widget/SayALot.AllArticlesList`,
-  showArticlesListSortedByAuthors: `${authorForWidget}/widget/SayALot.AllArticlesSortByAuthors`,
-  articlesByAuthorCard: `${authorForWidget}/widget/SayALot.ArticlesByAuthorCard`,
-  generalCard: `${context.accountId}/widget/SayALot.GeneralCard`,
+  showArticlesListSortedByAuthors: `${context.accountId}/widget/SayALot.AllArticlesSortByAuthors`, ///////////////////////////////////////////////////////////
+  articlesByAuthorCard: `${context.accountId}/widget/SayALot.ArticlesByAuthorCard`, /////////////////////////////////////////////////////////////////////////
+  generalCard: `${context.accountId}/widget/SayALot.GeneralCard`, ///////////////////////////////////////////////////////////////////////////////////////////
   articleView: `${authorForWidget}/widget/SayALot.ArticleView`,
   reactions: `${authorForWidget}/widget/SayALot.Reactions`,
   addComment: `${authorForWidget}/widget/SayALot.AddComment`,
@@ -120,7 +120,7 @@ const widgets = {
   libArticle: `${authorForWidget}/widget/lib.article`,
   libEmojis: `${authorForWidget}/widget/lib.emojis`,
   libUpVotes: `${authorForWidget}/widget/lib.upVotes`,
-  upVoteButton: `${context.accountId}/widget/SayALot.UpVoteButton`,
+  upVoteButton: `${context.accountId}/widget/SayALot.UpVoteButton`, ////////////////////////////////////////////////////////////////////////////////////////
   styledComponents: "rubycop.near/widget/NDC.StyledComponents",
   newStyledComponents: {
     Element: {
