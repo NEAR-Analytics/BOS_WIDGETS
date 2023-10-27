@@ -331,7 +331,11 @@ height: 100%;
 `;
 
 const handleCheckboxChange = () => {
-  State.update({ isChecked: !state.isChecked, isOpen: true });
+  State.update({
+    isChecked: !state.isChecked,
+    isOpen: true,
+    account: accountId,
+  });
   props.onChange({ isChecked: state.isChecked });
 };
 
