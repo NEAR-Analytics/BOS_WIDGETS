@@ -577,7 +577,7 @@ const changeValue = (value) => {
   State.update({ amount: value });
 };
 function add_action(param_body) {
-  asyncFetch("https://test-api.dapdap.net/api/action/add-action-data", {
+  asyncFetch("https://test-api.dapdap.net/api/action/add", {
     method: "post",
     headers: {
       "Content-Type": "application/json",
