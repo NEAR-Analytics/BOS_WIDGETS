@@ -199,6 +199,37 @@ const ViewButton = styled.button`
   }
 `;
 
+const Modal = styled.div`
+  &.modal.fade {
+    background-color: rgba(0, 0, 0, 0.5); // Đặt màu nền mờ đen
+  }
+`;
+
+const ModalHeader = styled.div`
+  &.modal-header {
+    background-color: #000; // Đặt màu nền đen cho header
+  }
+`;
+
+const ModalTitle = styled.h1`
+  &.modal-title.fs-5 {
+    color: #fff; // Đặt màu chữ trắng cho title
+  }
+`;
+
+const CloseButton = styled.button`
+  &.btn-close {
+    color: #000; // Đặt màu chữ đen cho nút close
+  }
+`;
+
+const SaveChangesButton = styled.button`
+  &.btn.btn-primary {
+    background-color: #ff0000; // Đặt màu đỏ cho nút "Save Changes"
+  }
+`;
+
+
 const SaveIcon = (
   <i
     className={
@@ -242,24 +273,19 @@ return (
       >
         Edit <i className="bi bi-pencil-square"></i>
       </Edit>
-<div className="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div className="modal-dialog">
-    <div className="modal-content">
-      <div className="modal-header">
-        <h1 className="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
-        <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div className="modal-body">
-      <p>hello</p>
-      </div>
-      <div className="modal-footer">
-        <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" className="btn btn-primary">Save changes</button>
-      </div>
-    </div>
-  </div>
-</div>
-
+           <Modal className="modal fade" id="exampleModal" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <ModalHeader className="modal-header">
+          <ModalTitle className="modal-title fs-5" id="exampleModalLabel">Modal title</ModalTitle>
+          <CloseButton type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></CloseButton>
+        </ModalHeader>
+        <div className="modal-body">
+          <p>hello</p>
+        </div>
+        <div className="modal-footer">
+          <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <SaveChangesButton type="button" className="btn btn-primary">Save changes</SaveChangesButton>
+        </div>
+      </Modal>
       <ToggleButton onClick={toggleButton1} isToggled={isToggleOn1}>
         {isToggleOn1 ? SunIcon : MoonIcon}
       </ToggleButton>
