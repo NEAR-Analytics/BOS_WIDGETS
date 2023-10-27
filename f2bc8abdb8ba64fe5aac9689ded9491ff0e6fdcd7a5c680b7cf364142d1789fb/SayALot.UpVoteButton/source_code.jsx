@@ -58,9 +58,9 @@ let hasUserVoted = userVote !== undefined;
 
 function getUpVoteButtonClass() {
   if (hasUserVoted) {
-    return "success";
+    return "info";
   } else {
-    return "success outline";
+    return "info outline";
   }
 }
 
@@ -115,7 +115,11 @@ return (
           <div className="d-flex">
             <span>{`+${upVotesData.length}`}</span>
             <IconContainer>
-              <Icon className="bi bi-fast-forward-fill"></Icon>
+              <Icon
+                className={`bi bi-fast-forward-fill ${
+                  !disabled && "text-success"
+                }`}
+              ></Icon>
             </IconContainer>
           </div>
         ),
