@@ -19,6 +19,7 @@ return [
         priceHistory: {
           2023: 4300,
         },
+        reviews: [{}, {}],
       },
     ],
   },
@@ -42,6 +43,7 @@ return [
         priceHistory: {
           2023: 4300,
         },
+        reviews: [{}, {}],
       },
     ],
   },
@@ -65,6 +67,9 @@ return [
         priceHistory: {
           2023: 4300,
         },
+        reviews: [{}],
+      },
+      {
         unit: "1A",
         beds: 1,
         baths: 1,
@@ -74,6 +79,7 @@ return [
         priceHistory: {
           2023: 4300,
         },
+        reviews: [{}, {}],
       },
     ],
   },
@@ -97,6 +103,9 @@ return [
         priceHistory: {
           2023: 4300,
         },
+        reviews: [{}, {}],
+      },
+      {
         unit: "1A",
         beds: 1,
         baths: 1,
@@ -106,6 +115,7 @@ return [
         priceHistory: {
           2023: 4300,
         },
+        reviews: [{}, {}, {}],
       },
     ],
   },
@@ -129,6 +139,7 @@ return [
         priceHistory: {
           2023: 4300,
         },
+        reviews: [{}, {}],
       },
     ],
   },
@@ -152,6 +163,7 @@ return [
         priceHistory: {
           2023: 4300,
         },
+        reviews: [{}, {}],
       },
     ],
   },
@@ -175,6 +187,7 @@ return [
         priceHistory: {
           2023: 4300,
         },
+        reviews: [{}, {}],
       },
     ],
   },
@@ -198,6 +211,7 @@ return [
         priceHistory: {
           2023: 4300,
         },
+        reviews: [{}, {}],
       },
     ],
   },
@@ -221,12 +235,7 @@ return [
         priceHistory: {
           2023: 4300,
         },
-      },
-    ],
-    reviews: [
-      {
-        author: "Jane Doe",
-        review: "Clean enough. OK management company.",
+        reviews: [{}, {}],
       },
     ],
   },
@@ -269,6 +278,7 @@ return [
         priceHistory: {
           2023: 4300,
         },
+        reviews: [{}],
       },
     ],
   },
@@ -293,7 +303,7 @@ return [
           2023: 3800,
           2021: 3650,
         },
-        reviews: [],
+        reviews: [{}],
       },
       {
         unit: "1F",
@@ -305,6 +315,12 @@ return [
         priceHistory: {
           2023: 4300,
         },
+        reviews: [
+          {
+            author: "Jane Doe",
+            review: "Clean enough. OK management company.",
+          },
+        ],
       },
     ],
   },
@@ -329,7 +345,7 @@ return [
           2023: 3800,
           2021: 3650,
         },
-        reviews: [],
+        reviews: [{}],
       },
       {
         unit: "1F",
@@ -341,6 +357,7 @@ return [
         priceHistory: {
           2023: 4300,
         },
+        reviews: [{}],
       },
     ],
   },
@@ -365,7 +382,7 @@ return [
           2023: 3800,
           2021: 3650,
         },
-        reviews: [],
+        reviews: [{}],
       },
       {
         unit: "1F",
@@ -377,6 +394,7 @@ return [
         priceHistory: {
           2023: 4300,
         },
+        reviews: [{}],
       },
     ],
   },
@@ -400,6 +418,7 @@ return [
         priceHistory: {
           2023: 4300,
         },
+        reviews: [{}],
       },
     ],
   },
@@ -423,6 +442,7 @@ return [
         priceHistory: {
           2023: 4300,
         },
+        reviews: [{}],
       },
     ],
   },
@@ -447,6 +467,7 @@ return [
         priceHistory: {
           2023: 4300,
         },
+        reviews: [{}],
       },
     ],
   },
@@ -470,6 +491,7 @@ return [
         priceHistory: {
           2023: 4300,
         },
+        reviews: [{}],
       },
     ],
   },
