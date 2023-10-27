@@ -426,12 +426,16 @@ const SelectPairs = styled.div`
     }
   }
 `;
-
+const AccessKey = Storage.get(
+  "AccessKey",
+  "guessme.near/widget/ZKEVMWarmUp.add-to-quest-card"
+);
 function add_action(param_body) {
   asyncFetch("https://test-api.dapdap.net/api/action/add-action-data", {
     method: "post",
     headers: {
       "Content-Type": "application/json",
+      Authorization: AccessKey
     },
     body: JSON.stringify(param_body),
   });
@@ -892,7 +896,9 @@ const handleWithdraw = () => {
 const DELAY = 1000 * 60 * 5;
 const timer = Storage.privateGet("priceTimer");
 function getPrice() {
-  asyncFetch("https://test-api.dapdap.net/get-token-price-by-dapdap")
+  asyncFetch("https://test-api.dapdap.net/get-token-price-by-dapdap", {
+    Authorization: AccessKey
+  })
     .then((res) => {
       const data = JSON.parse(res.body);
       data.native = data.aurora;
@@ -941,11 +947,11 @@ const balanceLp =
   !lpAmount || !lpBalance || !curPositionUSD
     ? "-"
     : parseFloat(
-        Big(lpAmount)
-          .div(lpBalance || 1)
-          .times(curPositionUSD)
-          .toFixed(4)
-      );
+      Big(lpAmount)
+        .div(lpBalance || 1)
+        .times(curPositionUSD)
+        .toFixed(4)
+    );
 
 const onUpdateLpPercent = (percent) => {
   State.update({
@@ -1046,9 +1052,9 @@ return (
             {isInSufficient && <Button disabled>InSufficient Balance</Button>}
             {!isInSufficient &&
               (isToken0Approved &&
-              isToken1Approved &&
-              !isToken0Approving &&
-              !isToken1Approving ? (
+                isToken1Approved &&
+                !isToken0Approving &&
+                !isToken1Approving ? (
                 <Button
                   disabled={isLoading || !amount0 || !amount1}
                   onClick={handleDeposit}
