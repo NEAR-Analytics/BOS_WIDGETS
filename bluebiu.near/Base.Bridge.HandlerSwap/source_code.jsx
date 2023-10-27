@@ -9,7 +9,6 @@ const {
   onSuccess,
   onError,
 } = props;
-
 if (!loading) return "";
 const QuoteRouterContract = new ethers.Contract(
   routerAddress,
@@ -169,7 +168,7 @@ QuoteRouterContract.quoteLayerZeroFee(target.dstId, 1, target.address, "0x", {
           ],
           Ethers.provider().getSigner()
         );
-    const method = currency.isNative ? "swapEth" : "swap";
+    const method = currency.isNative ? "swapETH" : "swap";
     const minAmount = ethers.utils.parseUnits(
       Big(amount || 0)
         .mul(0.995)
@@ -181,9 +180,13 @@ QuoteRouterContract.quoteLayerZeroFee(target.dstId, 1, target.address, "0x", {
           target.dstId,
           account,
           account,
-          _amount,
-          minAmount,
-          { value: quoteRes[0] },
+          _amount.toString(),
+          minAmount.toString(),
+          {
+            value: Big(quoteRes[0].toString())
+              .add(_amount.toString())
+              .toString(),
+          },
         ]
       : [
           target.dstId,
