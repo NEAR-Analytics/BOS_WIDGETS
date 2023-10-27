@@ -460,12 +460,16 @@ const {
 } = state;
 
 const { can_add_action } = props;
-
+const AccessKey = Storage.get(
+  "AccessKey",
+  "guessme.near/widget/ZKEVMWarmUp.add-to-quest-card"
+);
 function add_action(param_body) {
   asyncFetch("https://test-api.dapdap.net/api/action/add-action-data", {
     method: "post",
     headers: {
       "Content-Type": "application/json",
+      Authorization: AccessKey
     },
     body: JSON.stringify(param_body),
   });
