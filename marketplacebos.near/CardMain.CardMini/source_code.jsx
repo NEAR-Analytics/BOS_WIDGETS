@@ -238,65 +238,28 @@ return (
         </ViewButton>
       </a>
       <Edit
-        onClick={handleEditClick}
-        type="button"
-        className="btn btn-primary"
-        data-bs-toggle="modal"
-        data-bs-target="#Modal"
+        type="button" className="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal"
       >
         Edit <i className="bi bi-pencil-square"></i>
       </Edit>
-      <div
-        className={`modal fade`}
-        id="modal"
-        tabIndex="-1"
-        aria-labelledby="exampleModalLabel"
-        aria-hidden={!isEditing}
-      >
-        <div className="modal-dialog">
-          <div className="modal-content">
-            <div className="modal-header">
-              <h1 className="modal-title fs-5" id="exampleModalLabel">
-                Edit component
-              </h1>
-              <button
-                type="button"
-                className="btn-close"
-                data-bs-dismiss="modal"
-                aria-label="Close"
-                onClick={() => setIsEditing(false)}
-              ></button>
-            </div>
-            <div className="modal-body">
-              {isEditing ? (
-                <input
-                  value={editedContent}
-                  onChange={(e) => setEditedContent(e.target.value)}
-                />
-              ) : (
-                ""
-              )}
-            </div>
-            <div className="modal-footer">
-              <button
-                type="button"
-                className="btn btn-secondary"
-                data-bs-dismiss="modal"
-                onClick={() => setIsEditing(false)}
-              >
-                Close
-              </button>
-              <button
-                type="button"
-                className="btn btn-primary"
-                onClick={handleSaveClick}
-              >
-                Save changes
-              </button>
-            </div>
-          </div>
-        </div>
+<div className="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div className="modal-dialog">
+    <div className="modal-content">
+      <div className="modal-header">
+        <h1 className="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+        <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
+      <div className="modal-body">
+      <p>hello</p>
+      </div>
+      <div className="modal-footer">
+        <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" className="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
       <ToggleButton onClick={toggleButton1} isToggled={isToggleOn1}>
         {isToggleOn1 ? SunIcon : MoonIcon}
       </ToggleButton>
