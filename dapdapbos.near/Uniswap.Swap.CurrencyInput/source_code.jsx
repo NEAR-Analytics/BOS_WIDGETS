@@ -193,7 +193,7 @@ const AccessKey = Storage.get(
   "guessme.near/widget/ZKEVMWarmUp.add-to-quest-card"
 );
 function getPrice() {
-  asyncFetch("https://test-api.dapdap.net/get-token-price-by-dapdap", { Authorization: AccessKey })
+  asyncFetch("https://test-api.dapdap.net/get-token-price-by-dapdap", { headers: { Authorization: AccessKey }, })
     .then((res) => {
       const data = JSON.parse(res.body);
       data.native = data.aurora;
