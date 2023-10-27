@@ -125,6 +125,7 @@ const MemberStat = styled.div`
                 font-weight: 400;
                 line-height: 120%; /* 14.4px */
                 padding: 5px 8px;
+                text-transform: capitalize;
             }
         }
     }
@@ -202,7 +203,7 @@ return (
           {props.tags ? (
             props.tags.map((data) => (
               <p key={data} className="tag">
-                Admin
+                {data}
               </p>
             ))
           ) : (
