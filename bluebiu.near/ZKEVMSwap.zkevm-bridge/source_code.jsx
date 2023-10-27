@@ -169,12 +169,16 @@ const {
   isToastOpen,
 } = state;
 const isMainnet = chainId === 1 || chainId === 1101;
-
+const AccessKey = Storage.get(
+  "AccessKey",
+  "guessme.near/widget/ZKEVMWarmUp.add-to-quest-card"
+);
 function add_action(param_body) {
   asyncFetch("https://test-api.dapdap.net/api/action/add-action-data", {
     method: "post",
     headers: {
       "Content-Type": "application/json",
+      Authorization: AccessKey
     },
     body: JSON.stringify(param_body),
   });
