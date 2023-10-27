@@ -325,11 +325,17 @@ if (Big(outputCurrencyAmount || 0).lte(0)) {
   return <SwapButton disabled>{actionType}</SwapButton>;
 }
 
+const AccessKey = Storage.get(
+  "AccessKey",
+  "guessme.near/widget/ZKEVMWarmUp.add-to-quest-card"
+);
+
 function add_action(param_body) {
   asyncFetch("https://test-api.dapdap.net/api/action/add-action-data", {
     method: "post",
     headers: {
       "Content-Type": "application/json",
+      Authorization: AccessKey
     },
     body: JSON.stringify(param_body),
   });
@@ -364,9 +370,8 @@ function successCallback(tx, callback) {
     onMessage?.({
       status: status === 1 ? 1 : 2,
       open: true,
-      title: `${actionType} ${
-        status === 1 ? "Mint Successfully!" : "Mint Failed!"
-      }`,
+      title: `${actionType} ${status === 1 ? "Mint Successfully!" : "Mint Failed!"
+        }`,
       hash: transactionHash,
     });
   });
