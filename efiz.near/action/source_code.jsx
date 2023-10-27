@@ -8,4 +8,15 @@ if (action === null) {
   return "Loading";
 }
 
-return <Widget src={action ?? "efiz.near/widget/action.default"} />;
+const Button = styled.button``;
+
+return (
+  <div>
+    <Button
+      onClick={() => Social.set({ settings: { every: { action: null } } })}
+    >
+      reset
+    </Button>
+    <Widget src={action ?? "efiz.near/widget/action.default"} />
+  </div>
+);
