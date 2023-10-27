@@ -337,7 +337,8 @@ const formatedData = (key) => {
   let userTotalSupplyUsd = Big(0);
   let userTotalBorrowUsd = Big(0);
   let totalCollateralUsd = Big(0);
-  const markets = Object.values(_cTokensData).map((market) => {
+  const markets = {};
+  Object.values(_cTokensData).map((market) => {
     const underlyingPrice = _underlyPrice[market.address];
     totalSupplyUsd = totalSupplyUsd.plus(
       Big(market.totalSupply).mul(underlyingPrice)
@@ -373,7 +374,7 @@ const formatedData = (key) => {
       .minus(1)
       .mul(100)
       .toFixed(2);
-    return {
+    markets[market.address] = {
       ...market,
       loanToValue: _loanToValue[market.address],
       liquidity: _liquidity[market.address],
