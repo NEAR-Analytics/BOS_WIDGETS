@@ -1,6 +1,4 @@
-const Layout = styled.div`
-
-`;
+const Layout = styled.div``;
 
 const Container = styled.div`
   width: 100%;
@@ -47,16 +45,16 @@ const MenuContainer = styled.div`
     border-radius: 16px;
     cursor: pointer;
     margin-bottom: 2px;
-    border-right: 3px solid transparent;
+    border-right: "none";
     transition: 0.5s;
     :hover {
-    background: linear-gradient(270deg, #373A53 0%, rgba(55, 58, 83, 0) 100%);
-    color: #ffffff;
+      background: linear-gradient(270deg, #373a53 0%, rgba(55, 58, 83, 0) 100%);
+      color: #ffffff;
     }
   }
   .item.active {
     color: #ffffff;
-    background: linear-gradient(270deg, #373A53 0%, rgba(55, 58, 83, 0) 100%);
+    background: linear-gradient(270deg, #373a53 0%, rgba(55, 58, 83, 0) 100%);
   }
   .item.disable {
     cursor: not-allowed;
@@ -115,7 +113,7 @@ function changeTab(menu) {
     activeMenu: menu,
   });
   Storage.set("activeMenu", menu);
-};
+}
 
 const bridgeIcon = (
   <svg
@@ -189,12 +187,17 @@ const swapIcon = (
 );
 
 const lendingIcon = (
-  <svg width="19"
+  <svg
+    width="19"
     height="18"
     viewBox="0 0 18 18"
     fill="none"
-    xmlns="http://www.w3.org/2000/svg">
-    <path d="M3.25111 5.3989C3.24948 4.69153 3.38798 3.99077 3.6587 3.33662C3.92943 2.68247 4.32708 2.08776 4.82896 1.58642C5.33083 1.08509 5.92709 0.686954 6.58371 0.414755C7.24032 0.142557 7.94442 0.00162261 8.65581 0C11.6415 0 14.0605 2.41768 14.0605 5.3989C14.0615 6.35734 13.806 7.29877 13.3202 8.12656C12.8343 8.95434 12.1357 9.63863 11.296 10.1092C11.0196 10.9003 10.5025 11.5862 9.81645 12.0719C9.13035 12.5576 8.30926 12.8189 7.46706 12.8196H4.7965V10.9311H7.46982C8.66411 10.9311 9.6317 9.96487 9.6317 8.77184V8.63714H1.92275L1.89234 16.1115H13.9168C15.1097 16.1115 16.0786 15.1439 16.0786 13.9522L16.1077 11.3352H13.0902V9.4467H18L17.9696 13.9522C17.9714 15.0232 17.5456 16.0511 16.7857 16.8101C16.0257 17.5691 14.9938 17.9971 13.9168 18H0L0.03041 6.74725H3.42113C3.30789 6.30666 3.25077 5.85366 3.25111 5.3989ZM5.41161 6.74725H11.5213V7.42761C11.929 6.85446 12.1696 6.15486 12.1696 5.3989C12.1706 4.93906 12.0806 4.48351 11.9046 4.05827C11.7286 3.63303 11.4701 3.24644 11.1438 2.92058C10.8175 2.59472 10.4298 2.33598 10.0029 2.15913C9.57602 1.98228 9.11827 1.89079 8.65581 1.88989C8.19336 1.89079 7.73561 1.98228 7.30872 2.15913C6.88183 2.33598 6.49416 2.59472 6.16786 2.92058C5.84156 3.24644 5.58303 3.63303 5.40702 4.05827C5.23101 4.48351 5.14098 4.93906 5.14207 5.3989C5.14207 5.87584 5.23883 6.33354 5.41161 6.74725Z" fill="currentColor" />
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      d="M3.25111 5.3989C3.24948 4.69153 3.38798 3.99077 3.6587 3.33662C3.92943 2.68247 4.32708 2.08776 4.82896 1.58642C5.33083 1.08509 5.92709 0.686954 6.58371 0.414755C7.24032 0.142557 7.94442 0.00162261 8.65581 0C11.6415 0 14.0605 2.41768 14.0605 5.3989C14.0615 6.35734 13.806 7.29877 13.3202 8.12656C12.8343 8.95434 12.1357 9.63863 11.296 10.1092C11.0196 10.9003 10.5025 11.5862 9.81645 12.0719C9.13035 12.5576 8.30926 12.8189 7.46706 12.8196H4.7965V10.9311H7.46982C8.66411 10.9311 9.6317 9.96487 9.6317 8.77184V8.63714H1.92275L1.89234 16.1115H13.9168C15.1097 16.1115 16.0786 15.1439 16.0786 13.9522L16.1077 11.3352H13.0902V9.4467H18L17.9696 13.9522C17.9714 15.0232 17.5456 16.0511 16.7857 16.8101C16.0257 17.5691 14.9938 17.9971 13.9168 18H0L0.03041 6.74725H3.42113C3.30789 6.30666 3.25077 5.85366 3.25111 5.3989ZM5.41161 6.74725H11.5213V7.42761C11.929 6.85446 12.1696 6.15486 12.1696 5.3989C12.1706 4.93906 12.0806 4.48351 11.9046 4.05827C11.7286 3.63303 11.4701 3.24644 11.1438 2.92058C10.8175 2.59472 10.4298 2.33598 10.0029 2.15913C9.57602 1.98228 9.11827 1.89079 8.65581 1.88989C8.19336 1.89079 7.73561 1.98228 7.30872 2.15913C6.88183 2.33598 6.49416 2.59472 6.16786 2.92058C5.84156 3.24644 5.58303 3.63303 5.40702 4.05827C5.23101 4.48351 5.14098 4.93906 5.14207 5.3989C5.14207 5.87584 5.23883 6.33354 5.41161 6.74725Z"
+      fill="currentColor"
+    />
   </svg>
 );
 
@@ -225,25 +228,43 @@ return (
   <Layout>
     <Container>
       <MenuContainer>
-        <div onClick={() => { changeTab("Bridge"); }} className={`item ${activeMenu == "Bridge" ? "active" : ""}`}>
+        <div
+          onClick={() => {
+            changeTab("Bridge");
+          }}
+          className={`item ${activeMenu == "Bridge" ? "active" : ""}`}
+        >
           <span className="icon">{bridgeIcon}</span>Bridge
         </div>
-        <div onClick={() => { changeTab("swap"); }} className={`item ${activeMenu == "swap" ? "active" : ""}`}>
+        <div
+          onClick={() => {
+            changeTab("swap");
+          }}
+          className={`item ${activeMenu == "swap" ? "active" : ""}`}
+        >
           <span className="icon">{swapIcon}</span>Swap
         </div>
-        <div onClick={() => { changeTab("Liquidity"); }} className={`item ${activeMenu == "Liquidity" ? "active" : ""}`}>
+        <div
+          onClick={() => {
+            changeTab("Liquidity");
+          }}
+          className={`item ${activeMenu == "Liquidity" ? "active" : ""}`}
+        >
           <span className="icon">{liquidityIcon}</span>Liquidity
         </div>
-        <div onClick={() => { changeTab("Lending"); }} className={`item ${activeMenu == "Lending" ? "active" : ""}`}>
+        <div
+          onClick={() => {
+            changeTab("Lending");
+          }}
+          className={`item ${activeMenu == "Lending" ? "active" : ""}`}
+        >
           <span className="icon">{lendingIcon}</span>Lending
         </div>
       </MenuContainer>
       <div className="flex-grow contentOut">
         {activeMenu == "Bridge" ? (
           <>
-            <Widget
-              src="bluebiu.near/widget/Arbitrum.Bridge"
-            />
+            <Widget src="bluebiu.near/widget/Arbitrum.Bridge" />
           </>
         ) : null}
         {activeMenu == "swap" ? (
