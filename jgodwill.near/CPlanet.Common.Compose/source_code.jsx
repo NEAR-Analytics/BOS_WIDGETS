@@ -129,14 +129,15 @@ const onChange = (text) => {
   State.update({ text, showAccountAutocomplete });
 };
 
+const isChecked = state.isChecked;
 const jContent = JSON.stringify(content);
 if (props.onChange && jContent !== state.jContent) {
   State.update({
     jContent,
   });
-  const isChecked = state.isChecked;
   props.onChange({ content, isChecked });
 }
+console.log("checked", isChecked);
 
 const onCompose = () => {
   State.update({
