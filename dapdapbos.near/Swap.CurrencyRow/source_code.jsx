@@ -85,7 +85,7 @@ return (
   >
     {display && !state.balanceLoaded && (
       <Widget
-        src="dapdap-dapp.near/widget/Swap.CurrencyBalance"
+        src="dapdapbos.near/widget/Swap.CurrencyBalance"
         props={{
           address: currency.address,
           chainIdNotSupport,
