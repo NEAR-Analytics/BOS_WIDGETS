@@ -1,5 +1,3 @@
-//SayALot.Create
-
 const {
   isTest,
   addressForArticles,
@@ -85,21 +83,6 @@ function onCommit() {
 
 function onCancel() {
   State.update({ createdArticle: undefined });
-}
-
-function getInitialMarkdownBody() {
-  if (
-    editArticleData &&
-    (!state.articleBody || state.articleBody === editArticleData.body)
-  ) {
-    return editArticleData.body;
-  } else if (state.articleBody && state.articleBody !== editArticleData.body) {
-    return state.articleBody;
-  } else {
-    return state.initialBody == "" || !state.initialBody
-      ? "Post content (markdown supported)"
-      : state.initalBody;
-  }
 }
 
 function createArticleListener() {
@@ -201,6 +184,10 @@ return (
               // <CreationContainer className="container-fluid">
             }
             <SecondContainer className="rounded">
+              <h5 className="mb-1">
+                {editArticleData ? "Edit Article" : "Create Article"}
+              </h5>
+
               {state.showPreview ? (
                 <Widget
                   src={widgets.generalCard}
@@ -231,6 +218,7 @@ return (
               ) : (
                 <div>
                   <div className="d-flex flex-column pt-3">
+                    <label for="inputArticleId">Title (case-sensitive):</label>
                     <label for="inputArticleId" className="small text-danger">
                       {state.errorId}
                     </label>
@@ -241,12 +229,14 @@ return (
                         forceClear: state.clearArticleId,
                         stateUpdate: (obj) => State.update(obj),
                         filterText: (e) => e.target.value,
-                        placeholder: "Post title (case-sensitive)",
                         editable: editArticleData,
                       }}
                     />
                   </div>
                   <div className="d-flex flex-column pt-3">
+                    <label for="textareaArticleBody">
+                      Input article body (in makrdown format):
+                    </label>
                     <label
                       for="textareaArticleBody"
                       className="small text-danger"
@@ -255,9 +245,9 @@ return (
                     </label>
                     <div className="d-flex gap-2">
                       <Widget
-                        src={`f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/MarkdownEditorIframe`}
+                        src={`${authorForWidget}/widget/MarkdownEditorIframe`}
                         props={{
-                          initialText: getInitialMarkdownBody(),
+                          initialText: state.initialBody ?? "",
                           onChange: (articleBody) =>
                             State.update({
                               articleBody,
