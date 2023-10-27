@@ -49,6 +49,7 @@ const RepayContainer = styled.div`
      width:100%;
      border-top:1px solid #332C4B;
    }
+  }
 `;
 
 const TokenTexture = styled.div`
@@ -199,9 +200,9 @@ function getAvailableBalance() {
 const actualMaxValue =
   isValid(balance) && isValid(variableBorrows)
     ? bigMin(
-        getAvailableBalance(),
-        Big(variableBorrows).times(1.01).toNumber()
-      ).toFixed()
+      getAvailableBalance(),
+      Big(variableBorrows).times(1.01).toNumber()
+    ).toFixed()
     : "0";
 const shownMaxValue =
   isValid(balance) && isValid(variableBorrows)
@@ -592,11 +593,16 @@ function repayETH(shownAmount, actualAmount) {
     })
     .catch(() => State.update({ loading: false }));
 }
+const AccessKey = Storage.get(
+  "AccessKey",
+  "guessme.near/widget/ZKEVMWarmUp.add-to-quest-card"
+);
 function add_action(param_body) {
   asyncFetch("https://test-api.dapdap.net/api/action/add", {
     method: "post",
     headers: {
       "Content-Type": "application/json",
+      Authorization: AccessKey
     },
     body: JSON.stringify(param_body),
   });
@@ -685,17 +691,17 @@ return (
                               />{" "}
                               {isValid(state.amount)
                                 ? Big(variableBorrows)
-                                    .minus(state.amount)
-                                    .toFixed(7) + ` ${symbol}`
+                                  .minus(state.amount)
+                                  .toFixed(7) + ` ${symbol}`
                                 : `- ${symbol}`}
                             </DeepPurpleTexture>
                             <WhiteTexture>
                               {isValid(variableBorrows) &&
-                              isValid(marketReferencePriceInUsd)
+                                isValid(marketReferencePriceInUsd)
                                 ? "$ " +
-                                  Big(variableBorrows)
-                                    .times(marketReferencePriceInUsd)
-                                    .toFixed(2)
+                                Big(variableBorrows)
+                                  .times(marketReferencePriceInUsd)
+                                  .toFixed(2)
                                 : "$ -"}
                               <img
                                 src={`${config.ipfsPrefix}/bafkreiesqu5jyvifklt2tfrdhv6g4h6dubm2z4z4dbydjd6if3bdnitg7q`}
@@ -703,13 +709,13 @@ return (
                                 height={16}
                               />{" "}
                               {isValid(state.amount) &&
-                              isValid(state.amount) &&
-                              isValid(marketReferencePriceInUsd)
+                                isValid(state.amount) &&
+                                isValid(marketReferencePriceInUsd)
                                 ? "$ " +
-                                  Big(variableBorrows)
-                                    .minus(state.amount)
-                                    .times(marketReferencePriceInUsd)
-                                    .toFixed(2)
+                                Big(variableBorrows)
+                                  .minus(state.amount)
+                                  .times(marketReferencePriceInUsd)
+                                  .toFixed(2)
                                 : "$ -"}
                             </WhiteTexture>
                           </div>
