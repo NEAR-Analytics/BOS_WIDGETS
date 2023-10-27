@@ -1,4 +1,4 @@
-const { defaultDex } = props.name;
+const { defaultDex } = props;
 
 const CHAIN_ID = 56;
 const Tokens = {
