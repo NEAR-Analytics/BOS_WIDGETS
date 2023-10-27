@@ -245,8 +245,7 @@ return (
     <Widget
       src="lord1.near/widget/sidebar"
       props={{
-        headerIcon:
-          "https://yt3.googleusercontent.com/zkArEwljuLKjF7S1rbXoyQWW1VC8QzgVzrFP7KKqOypFtSv0cKgIXbfOBdIFO3ZoBD_wJJUyyw=s900-c-k-c0x00ffffff-no-rj",
+        headerIcon: "https://i.imgur.com/awsrpVz.png",
         headerText: "Flipside",
         footerIcon:
           "https://raw.githubusercontent.com/lordking1234/blockchain-icon/main/house-solid.svg",
