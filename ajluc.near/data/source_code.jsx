@@ -7,6 +7,10 @@ return [
     latitude: 40.7484452,
     longitude: -74.0032123,
     built: 1910,
+    imgSrc: "https://imgur.com/a/SrenBM5",
+    units: 8,
+    stories: 6,
+    owner: null,
     onMarket: false,
     units: [
       {
@@ -14,6 +18,7 @@ return [
         beds: 2,
         baths: 2,
         onMarket: false,
+        price: null,
         verified: false,
         rating: 4.3,
         priceHistory: {
@@ -31,6 +36,10 @@ return [
     latitude: 40.7226818,
     longitude: -73.9890289,
     built: 1900,
+    imgSrc: "https://imgur.com/a/hle3Zow",
+    units: 33,
+    stories: 6,
+    owner: null,
     onMarket: false,
     units: [
       {
@@ -38,6 +47,7 @@ return [
         beds: 3,
         baths: 2,
         onMarket: false,
+        price: null,
         verified: true,
         rating: 2.3,
         priceHistory: {
@@ -55,6 +65,10 @@ return [
     latitude: 40.7289841,
     longitude: -73.985488,
     built: 1900,
+    imgSrc: "https://imgur.com/a/doaKW9b",
+    units: 9,
+    stories: 5,
+    owner: "228 10TH ST LLC",
     onMarket: true,
     units: [
       {
@@ -62,6 +76,7 @@ return [
         beds: 3,
         baths: 2,
         onMarket: false,
+        price: null,
         verified: true,
         rating: 2.3,
         priceHistory: {
@@ -74,6 +89,7 @@ return [
         beds: 1,
         baths: 1,
         onMarket: true,
+        price: 1800,
         verified: true,
         rating: 4.5,
         priceHistory: {
@@ -91,6 +107,10 @@ return [
     latitude: 40.7035127,
     longitude: -74.0109006,
     built: 1880,
+    imgSrc: "https://imgur.com/a/SIGxLeh",
+    units: 42,
+    stories: 6,
+    owner: null,
     onMarket: false,
     units: [
       {
@@ -98,6 +118,7 @@ return [
         beds: 3,
         baths: 2,
         onMarket: false,
+        price: null,
         verified: true,
         rating: 2.3,
         priceHistory: {
@@ -110,6 +131,7 @@ return [
         beds: 1,
         baths: 1,
         onMarket: false,
+        price: null,
         verified: true,
         rating: 4.5,
         priceHistory: {
@@ -126,7 +148,11 @@ return [
     county: 62,
     latitude: 40.705085,
     longitude: -74.0091652,
-    built: 1900,
+    built: 2005,
+    imgSrc: "https://imgur.com/a/CKWI6iw",
+    units: 493,
+    stories: 24,
+    owner: "UDR 10 HANOVER LLC",
     onMarket: false,
     units: [
       {
@@ -134,6 +160,7 @@ return [
         beds: 3,
         baths: 2,
         onMarket: false,
+        price: null,
         verified: false,
         rating: 4.3,
         priceHistory: {
@@ -151,6 +178,10 @@ return [
     latitude: 43.6390742,
     longitude: -79.4176324,
     built: 1900,
+    imgSrc: "https://imgur.com/a/R5OU4VS",
+    units: 21,
+    stories: 13,
+    owner: null,
     onMarket: true,
     units: [
       {
@@ -158,6 +189,7 @@ return [
         beds: 2,
         baths: 2,
         onMarket: true,
+        price: 2400,
         verified: true,
         rating: 3.5,
         priceHistory: {
@@ -175,6 +207,10 @@ return [
     latitude: 40.7145201,
     longitude: -74.0075922,
     built: 1915,
+    imgSrc: "https://imgur.com/a/icnegSF",
+    units: 4,
+    stories: 5,
+    owner: null,
     onMarket: true,
     units: [
       {
@@ -182,6 +218,7 @@ return [
         beds: 2,
         baths: 2,
         onMarket: true,
+        price: 2700,
         verified: true,
         rating: 3.5,
         priceHistory: {
@@ -199,6 +236,10 @@ return [
     latitude: 40.7233826,
     longitude: -73.9879728,
     built: 1900,
+    imgSrc: "https://imgur.com/a/7Jb0akx",
+    units: 8,
+    stories: 5,
+    owner: null,
     onMarket: true,
     units: [
       {
@@ -206,6 +247,7 @@ return [
         beds: 2,
         baths: 1,
         onMarket: true,
+        price: 2300,
         verified: true,
         rating: 3.9,
         priceHistory: {
@@ -222,7 +264,11 @@ return [
     county: 62,
     latitude: 40.7395731,
     longitude: -73.9841793,
-    built: 1900,
+    built: 1998,
+    imgSrc: "https://imgur.com/a/I0GalZD",
+    units: 19,
+    stories: 10,
+    owner: null,
     onMarket: true,
     units: [
       {
@@ -230,6 +276,7 @@ return [
         beds: 2,
         baths: 1,
         onMarket: true,
+        price: 2900,
         verified: true,
         rating: 3.9,
         priceHistory: {
@@ -248,6 +295,10 @@ return [
     latitude: 40.690732,
     longitude: -73.983675,
     built: 2016,
+    imgSrc: "https://imgur.com/a/R882zmt",
+    units: 150,
+    stories: 28,
+    owner: "Myspace NYC Realty LLC",
     onMarket: true,
     units: [
       {
@@ -255,6 +306,7 @@ return [
         beds: 2,
         baths: 1,
         onMarket: true,
+        price: 2250,
         verified: true,
         rating: 4.6,
         priceHistory: {
@@ -273,6 +325,7 @@ return [
         beds: 2,
         baths: 2,
         onMarket: false,
+        price: null,
         verified: false,
         rating: 4.3,
         priceHistory: {
@@ -290,6 +343,10 @@ return [
     latitude: 40.64957,
     longitude: -73.94683,
     built: 1931,
+    imgSrc: "https://imgur.com/a/WhlQDPw",
+    units: 6,
+    stories: 3,
+    owner: null,
     onMarket: false,
     units: [
       {
@@ -297,6 +354,7 @@ return [
         beds: 2,
         baths: 2,
         onMarket: false,
+        price: null,
         verified: true,
         rating: 4.6,
         priceHistory: {
@@ -310,6 +368,7 @@ return [
         beds: 1,
         baths: 1,
         onMarket: false,
+        price: null,
         verified: true,
         rating: 1.5,
         priceHistory: {
@@ -332,6 +391,10 @@ return [
     latitude: 40.6320333,
     longitude: -73.9800672,
     built: 1930,
+    imgSrc: "https://imgur.com/a/iD3lnqE",
+    units: 37,
+    stories: 4,
+    owner: null,
     onMarket: false,
     units: [
       {
@@ -339,6 +402,7 @@ return [
         beds: 2,
         baths: 2,
         onMarket: false,
+        price: null,
         verified: true,
         rating: 4.6,
         priceHistory: {
@@ -352,6 +416,7 @@ return [
         beds: 1,
         baths: 1,
         onMarket: false,
+        price: null,
         verified: true,
         rating: 1.5,
         priceHistory: {
@@ -369,6 +434,10 @@ return [
     latitude: 40.6976823,
     longitude: -73.9729259,
     built: 1905,
+    imgSrc: "https://imgur.com/a/2z8xKiA",
+    units: 6,
+    stories: 4,
+    owner: null,
     onMarket: false,
     units: [
       {
@@ -376,6 +445,7 @@ return [
         beds: 2,
         baths: 2,
         onMarket: false,
+        price: null,
         verified: true,
         rating: 4.6,
         priceHistory: {
@@ -389,6 +459,7 @@ return [
         beds: 1,
         baths: 1,
         onMarket: false,
+        price: null,
         verified: true,
         rating: 1.5,
         priceHistory: {
@@ -405,7 +476,11 @@ return [
     county: 61,
     latitude: 40.6858765,
     longitude: -73.9142539,
-    built: 2004,
+    built: 2019,
+    imgSrc: "https://imgur.com/a/JZiPaAN",
+    units: 8,
+    stories: 4,
+    owner: "ELDERT ASSOCIATES LLC",
     onMarket: true,
     units: [
       {
@@ -413,6 +488,7 @@ return [
         beds: 3,
         baths: 2,
         onMarket: true,
+        price: 3200,
         verified: false,
         rating: 4.75,
         priceHistory: {
@@ -430,6 +506,10 @@ return [
     latitude: 40.6776628,
     longitude: -73.8805298,
     built: 2004,
+    imgSrc: "https://imgur.com/a/nZeoGJT",
+    units: 16,
+    stories: 2,
+    owner: null,
     onMarket: false,
     units: [
       {
@@ -437,6 +517,7 @@ return [
         beds: 2,
         baths: 2,
         onMarket: false,
+        price: null,
         verified: false,
         rating: 4.5,
         priceHistory: {
@@ -455,6 +536,10 @@ return [
     latitude: 40.8204962,
     longitude: -73.9131823,
     built: 2007,
+    imgSrc: "https://imgur.com/a/nZeoGJT",
+    units: 58,
+    stories: 9,
+    owner: null,
     onMarket: false,
     units: [
       {
@@ -462,6 +547,7 @@ return [
         beds: 2,
         baths: 2,
         onMarket: false,
+        price: null,
         verified: false,
         rating: 4.5,
         priceHistory: {
@@ -479,6 +565,10 @@ return [
     latitude: 40.8376961,
     longitude: -73.9185991,
     built: 2012,
+    imgSrc: "https://imgur.com/a/nZeoGJT",
+    units: 33,
+    stories: 13,
+    owner: null,
     onMarket: true,
     units: [
       {
@@ -486,6 +576,7 @@ return [
         beds: 2,
         baths: 2,
         onMarket: true,
+        price: 1750,
         verified: true,
         rating: 3.5,
         priceHistory: {
