@@ -397,10 +397,12 @@ const uuid = Storage.get(
 );
 
 console.log("uuid: ", uuid);
-
-const quest_url = `https://test-api.dapdap.net/api/action/get-action-by-account?account_id=${
-  sender || ""
-}&account_info=${uuid}&action_network_id=zkEVM`;
+const AccessKey = Storage.get(
+  "AccessKey",
+  "guessme.near/widget/ZKEVMWarmUp.add-to-quest-card"
+);
+const quest_url = `https://test-api.dapdap.net/api/action/get-action-by-account?account_id=${sender || ""
+  }&account_info=${uuid}&action_network_id=zkEVM`;
 
 const noQuestTip = (
   <NoQuestWrapper>
@@ -430,7 +432,7 @@ if (!state.fetchDone && !state.quoting) {
   State.update({
     quoting: true,
   });
-  asyncFetch(quest_url).then((res) => {
+  asyncFetch(quest_url, { Authorization: AccessKey }).then((res) => {
     const raw = res.body;
     console.log("raw: ", raw);
     const rawList = raw?.data || [];
@@ -489,6 +491,7 @@ const onDelete = (action_id) => {
     method: "DELETE",
     headers: {
       "Content-Type": "application/json",
+      Authorization: AccessKey
     },
     body: JSON.stringify({
       action_id,
@@ -540,6 +543,7 @@ function handleRemoveAll() {
     method: "delete",
     headers: {
       "Content-Type": "application/json",
+      Authorization: AccessKey
     },
     body: JSON.stringify({ action_id_list }),
   }).then((res) => {
