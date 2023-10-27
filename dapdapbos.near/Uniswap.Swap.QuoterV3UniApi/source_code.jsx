@@ -106,23 +106,23 @@ const quoteSingle = (amountIn, tokenIn, tokenOut, fee, finalList) => {
 
   const inputs = !is02
     ? [
-        tokenIn.address === "native" ? WETH_ADDRESS : tokenIn.address,
-        tokenOut.address === "native" ? WETH_ADDRESS : tokenOut.address,
-        fee,
-        amountInUnit,
-        0,
-      ]
+      tokenIn.address === "native" ? WETH_ADDRESS : tokenIn.address,
+      tokenOut.address === "native" ? WETH_ADDRESS : tokenOut.address,
+      fee,
+      amountInUnit,
+      0,
+    ]
     : [
-        {
-          tokenIn:
-            tokenIn.address === "native" ? WETH_ADDRESS : tokenIn.address,
-          tokenOut:
-            tokenOut.address === "native" ? WETH_ADDRESS : tokenOut.address,
-          amountIn: ethers.utils.parseUnits(amountIn, tokenIn.decimals),
-          fee,
-          sqrtPriceLimitX96: 0,
-        },
-      ];
+      {
+        tokenIn:
+          tokenIn.address === "native" ? WETH_ADDRESS : tokenIn.address,
+        tokenOut:
+          tokenOut.address === "native" ? WETH_ADDRESS : tokenOut.address,
+        amountIn: ethers.utils.parseUnits(amountIn, tokenIn.decimals),
+        fee,
+        sqrtPriceLimitX96: 0,
+      },
+    ];
 
   const encodedData = iface.encodeFunctionData("quoteExactInputSingle", inputs);
 
@@ -204,8 +204,8 @@ const wrapType =
   tokenIn.address === "native" && tokenOut.address === wethAddress
     ? 1
     : tokenIn.address === wethAddress && tokenOut.address === "native"
-    ? 2
-    : 0;
+      ? 2
+      : 0;
 
 const onError = () => {
   loadAmountOut({
@@ -240,8 +240,13 @@ if (wrapType > 0) {
   const realTokenOut =
     tokenOut.address === "native" ? WETH_ADDRESS : tokenOut.address;
 
+  const AccessKey = Storage.get(
+    "AccessKey",
+    "guessme.near/widget/ZKEVMWarmUp.add-to-quest-card"
+  );
+
   asyncFetch(
-    `https://test-api.dapdap.net/api/uniswap/quote?token_in=${realTokenIn}&token_out=${realTokenOut}&amount=${amountInUnit}&chain_id=${chainId}`
+    `https://test-api.dapdap.net/api/uniswap/quote?token_in=${realTokenIn}&token_out=${realTokenOut}&amount=${amountInUnit}&chain_id=${chainId}`, { Authorization: AccessKey }
   )
     .then((res) => {
       const maxAmountOutEstimate = res.body;
@@ -261,7 +266,7 @@ if (wrapType > 0) {
       onError();
       return "";
     })
-    .finally(() => {});
+    .finally(() => { });
 
   // quoteAll();
 }
