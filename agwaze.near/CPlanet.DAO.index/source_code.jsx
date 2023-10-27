@@ -21,6 +21,7 @@ const ImageSection = styled.div`
 const RightProfile = styled.div`
     margin-top: 104px;
     width: 380px;
+    min-width: 300px;
     padding: 0 20px;
     .title {
         color: #000;
@@ -317,7 +318,7 @@ return (
         <>
           <Tabs>
             <TabsButton
-              // href={`${accountUrl}&tab=feed`}
+              onClick={() => State.update({ selectedTab: "feed" })}
               selected={state.selectedTab === "feed"}
             >
               Social Feed
