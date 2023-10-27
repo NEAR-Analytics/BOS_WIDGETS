@@ -11,23 +11,32 @@ const List = styled.div`
     display: block;
   }
 `;
-
-const { display, selectedTokenAddress, onSelect } = props;
+const Layer = styled.div`
+  position: fixed;
+  left: 0px;
+  right: 0px;
+  top: 0px;
+  bottom: 0px;
+`;
+const { display, selectedTokenAddress, onSelect, onClose } = props;
 const tokens = props.tokens || [];
 
 return (
-  <List className={display ? "display" : ""}>
-    {tokens?.map((token) => (
-      <Widget
-        key={token.address}
-        src="bluebiu.near/widget/Base.Bridge.TokenRow"
-        props={{
-          display,
-          currency: token,
-          selectedTokenAddress,
-          onSelect,
-        }}
-      />
-    ))}
-  </List>
+  <>
+    <List className={display ? "display" : ""}>
+      {tokens?.map((token) => (
+        <Widget
+          key={token.address}
+          src="bluebiu.near/widget/Base.Bridge.TokenRow"
+          props={{
+            display,
+            currency: token,
+            selectedTokenAddress,
+            onSelect,
+          }}
+        />
+      ))}
+    </List>
+    {display && <Layer onClick={onClose} />}
+  </>
 );
