@@ -67,6 +67,11 @@ const Root = styled.div`
         border-radius: 0;
         margin-left: 16px;
     }
+    button:hover {
+      background: white;
+      color: black;
+      border-color: black;
+    }
 `;
 
 const MemberStat = styled.div`
