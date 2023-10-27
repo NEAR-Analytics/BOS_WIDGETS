@@ -353,7 +353,7 @@ return (
           </Tabs>
           {state.selectedTab === "members" && (
             <Widget
-              src="agwaze.near/widget/CPlanet.DAO.Members.index"
+              src="agwaze.near/widget/CPlanet.DAO.Members.Index"
               props={{ daoId }}
             />
           )}
