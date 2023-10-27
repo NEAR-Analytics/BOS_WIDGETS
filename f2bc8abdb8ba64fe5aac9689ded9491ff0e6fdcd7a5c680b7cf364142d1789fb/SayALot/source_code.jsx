@@ -95,7 +95,7 @@ State.update({ libsCalls: newLibsCalls });
 
 //==================================================CONSTS==========================================================
 
-//const authorForWidget = "sayalot.near";
+// const authorForWidget = "sayalot.near";
 // const authorForWidget =
 //   "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb";
 // const authorForWidget = "kenrou-it.near";
@@ -106,39 +106,21 @@ const thisWidgetName = "SayALot";
 const widgets = {
   sayALot: `${authorForWidget}/widget/${thisWidgetName}`,
   create: `${authorForWidget}/widget/SayALot.Create`,
-  // create: `${context.accountId}/widget/SayALot.Create`,
   header: `${authorForWidget}/widget/SayALot.NavBar`,
-  // header: `${context.accountId}/widget/SayALot.NavBar`,
   showArticlesList: `${authorForWidget}/widget/SayALot.AllArticlesList`,
-  // showArticlesList: `${context.accountId}/widget/SayALot.AllArticlesList`,
   showArticlesListSortedByAuthors: `${authorForWidget}/widget/SayALot.AllArticlesSortByAuthors`,
   articlesByAuthorCard: `${authorForWidget}/widget/SayALot.ArticlesByAuthorCard`,
-  generalCard: `${authorForWidget}/widget/SayALot.GeneralCard`,
-  // generalCard: `${context.accountId}/widget/SayALot.GeneralCard`,
-  // generalCard: `f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/SayALot.GeneralCard`,
-  articleView: `${authorForWidget}/widget/SayALot.ArticleView`, //////////////////////////////////////////////////////////////////////////////////////////////////
-  // articleView: `${context.accountId}/widget/SayALot.ArticleView`,
-  // articleView: `f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/SayALot.ArticleView`, ////////////////////////////////////////////////////////
+  generalCard: `${context.accountId}/widget/SayALot.GeneralCard`,
+  articleView: `${authorForWidget}/widget/SayALot.ArticleView`,
   reactions: `${authorForWidget}/widget/SayALot.Reactions`,
-  // reactions: `${context.accountId}/widget/SayALot.Reactions`,
   addComment: `${authorForWidget}/widget/SayALot.AddComment`,
-  // addComment: `${context.accountId}/widget/SayALot.AddComment`,
-  // addComment: `f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/SayALot.AddComment`,
   commentView: `${authorForWidget}/widget/SayALot.CommentView`,
-  // commentView: `${context.accountId}/widget/SayALot.CommentView`,
   libSBT: `${authorForWidget}/widget/lib.SBT`,
-  // libSBT: `${context.accountId}/widget/lib.SBT`,
-  libComment: `${authorForWidget}/widget/lib.comment`, //////////////////////////////////////////////////////////////////////////
-  // libComment: `${context.accountId}/widget/lib.comment`,
-  // libComment: `f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/lib.comment`, /////////////////////////////////////////
+  libComment: `${authorForWidget}/widget/lib.comment`,
   libArticle: `${authorForWidget}/widget/lib.article`,
-  // libArticle: `${context.accountId}/widget/lib.article`,
   libEmojis: `${authorForWidget}/widget/lib.emojis`,
-  // libEmojis: `${context.accountId}/widget/lib.emojis`,
   libUpVotes: `${authorForWidget}/widget/lib.upVotes`,
-  // libUpVotes: `${context.accountId}/widget/lib.upVotes`,
-  upVoteButton: `${authorForWidget}/widget/SayALot.UpVoteButton`,
-  // upVoteButton: `${context.accountId}/widget/SayALot.UpVoteButton`,
+  upVoteButton: `${context.accountId}/widget/SayALot.UpVoteButton`,
   styledComponents: "rubycop.near/widget/NDC.StyledComponents",
   newStyledComponents: {
     Element: {
@@ -157,7 +139,6 @@ const widgets = {
 };
 
 const libSrcArray = [widgets.libArticle];
-console.log(1, state);
 
 const profile = props.profile ?? Social.getr(`${accountId}/profile`);
 if (profile === null) {
@@ -310,6 +291,14 @@ const CopiedFeedback = styled.span`
   font-size: 0.7rem;
   color: #6c757d;
 `;
+
+const SmallButton = styled.button`
+position: relative;
+  border: 0;
+  background: transparent;
+  width: 35px;
+  height: 35px;
+`;
 //===========================================END STYLED COMPONENTS==================================================
 
 //================================================COMPONENTS========================================================
@@ -342,6 +331,28 @@ const renderShareInteraction = () => {
         </ShowLinkShared>
       </ShareInteractionMainContainer>
     </ShareInteractionGeneralContainer>
+  );
+};
+
+const renderSelectorLabel = () => {
+  return (
+    <>
+      <span>Post & Filter Topics by SBT</span>
+
+      <SmallButton>
+        <OverlayTrigger
+          placement="top"
+          overlay={
+            <Tooltip>
+              <p className="m-0">Topics for Community SBT Holders.</p>
+              <p className="m-0">Anyone can post to Public.</p>
+            </Tooltip>
+          }
+        >
+          <i className="bi bi-info-circle"></i>
+        </OverlayTrigger>
+      </SmallButton>
+    </>
   );
 };
 //==============================================END COMPONENTS======================================================
@@ -503,7 +514,6 @@ function getLink() {
 }
 
 //===============================================END FUNCTIONS======================================================
-console.log("articles: ", state.articles);
 if (!context.accountId) {
   return (
     <>
@@ -551,11 +561,11 @@ return (
       }}
     />
     {state.displayedTabId == tabs.SHOW_ARTICLES_LIST.id && (
-      <div className="my-3">
+      <div className="my-3 col-lg-8 col-md-8 col-sm-12">
         <Widget
           src={widgets.newStyledComponents.Input.Select}
           props={{
-            label: "Select sbt filter",
+            label: renderSelectorLabel(),
             value: sbts[0],
             onChange: handleSbtSelection,
             options: createSbtOptions(),
