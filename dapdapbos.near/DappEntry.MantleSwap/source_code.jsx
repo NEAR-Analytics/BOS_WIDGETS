@@ -80,7 +80,7 @@ const Container = styled.div`
 return (
   <Container>
     <Widget
-      src="dapdap-dapp.near/widget/Swap.SwapConnector"
+      src="dapdapbos.near/widget/Swap.SwapConnector"
       props={{
         ...props,
         chainId: CHAIN_ID,
@@ -108,7 +108,7 @@ return (
             routerAddress: "0x319B69888b0d11cEC22caA5034e25FfFBDc88421",
             quoterAddress: "0x9488C05a7b75a6FefdcAE4f11a33467bcBA60177",
             uniType: "v3",
-            handler: "dapdap-dapp.near/widget/DappEntry.agniHandler",
+            handler: "dapdapbos.near/widget/DappEntry.agniHandler",
             defaultCurrencies: {
               input: Tokens["0xdEAddEaDdeadDEadDEADDEAddEADDEAddead1111"],
               output: Tokens["0x09Bc4E0D864854c6aFB6eB9A9cdF58aC190D0dF9"],
@@ -127,7 +127,7 @@ return (
             routerAddress: "0x5989FB161568b9F133eDf5Cf6787f5597762797F",
             quoterAddress: "0x90f72244294E7c5028aFd6a96E18CC2c1E913995",
             uniType: "v3",
-            handler: "dapdap-dapp.near/widget/DappEntry.ammosHandler",
+            handler: "dapdapbos.near/widget/DappEntry.ammosHandler",
             defaultCurrencies: {
               input: Tokens["0xdEAddEaDdeadDEadDEADDEAddEADDEAddead1111"],
               output: Tokens["0x09Bc4E0D864854c6aFB6eB9A9cdF58aC190D0dF9"],
@@ -149,7 +149,7 @@ return (
             routerAddress: "0x25C030116Feb2E7BbA054b9de0915E5F51b03e31",
             quoterAddress: "0x032b241De86a8660f1Ae0691a4760B426EA246d7",
             uniType: "v3",
-            handler: "dapdap-dapp.near/widget/DappEntry.iziSwapHandler",
+            handler: "dapdapbos.near/widget/DappEntry.iziSwapHandler",
             defaultCurrencies: {
               input: Tokens["0xdEAddEaDdeadDEadDEADDEAddEADDEAddead1111"],
               output: Tokens["0x09Bc4E0D864854c6aFB6eB9A9cdF58aC190D0dF9"],
@@ -170,7 +170,7 @@ return (
             routerAddress: "0xBa68D459210Fc667a97245F71719a479CAFeB571",
             quoterAddress: "0x42cE770b8B765938De04984e006c1B54F1A567f8",
             uniType: "v3",
-            handler: "dapdap-dapp.near/widget/DappEntry.ammosHandler",
+            handler: "dapdapbos.near/widget/DappEntry.ammosHandler",
             defaultCurrencies: {
               input: Tokens["0xdEAddEaDdeadDEadDEADDEAddEADDEAddead1111"],
               output: Tokens["0x09Bc4E0D864854c6aFB6eB9A9cdF58aC190D0dF9"],
@@ -187,7 +187,7 @@ return (
           },
         },
         amountOutFn: "bluebiu.near/widget/Arbitrum.Swap.AmountOutV2",
-        quoterV3: "dapdap-dapp.near/widget/DappEntry.mantleQuoter",
+        quoterV3: "dapdapbos.near/widget/DappEntry.mantleQuoter",
         handlerV2: "bluebiu.near/widget/Arbitrum.Swap.HandlerV2",
         handlerV3: "bluebiu.near/widget/Arbitrum.Swap.HandlerV3",
       }}
