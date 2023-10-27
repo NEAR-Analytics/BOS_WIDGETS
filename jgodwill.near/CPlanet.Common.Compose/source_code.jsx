@@ -134,7 +134,8 @@ if (props.onChange && jContent !== state.jContent) {
   State.update({
     jContent,
   });
-  props.onChange({ content });
+  const isChecked = state.isChecked;
+  props.onChange({ content, isChecked });
 }
 
 const onCompose = () => {
