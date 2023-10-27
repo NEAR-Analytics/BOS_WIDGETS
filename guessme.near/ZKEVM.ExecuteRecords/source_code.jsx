@@ -662,10 +662,14 @@ const uuid = Storage.get(
   "zkevm-warm-up-uuid",
   "guessme.near/widget/ZKEVMWarmUp.generage-uuid"
 );
+const AccessKey = Storage.get(
+  "AccessKey",
+  "guessme.near/widget/ZKEVMWarmUp.add-to-quest-card"
+);
 function get_my_records_list_by_condition() {
   const params_str = `account_id=${eth_account_id}&page=${state.current_page}&size=${state.page_size}&action_type=${state.search_action}&action_status=${state.search_status}&template=${state.search_template}&account_info=${uuid}&action_network_id=zkEVM`;
   asyncFetch(
-    `https://test-api.dapdap.net/api/action/get-action-records-by-account?${params_str}`
+    `https://test-api.dapdap.net/api/action/get-action-records-by-account?${params_str}`, { Authorization: AccessKey }
   ).then((res) => {
     const { items, page, pages, total } = res.body || {};
 
@@ -789,17 +793,15 @@ function goTxDetail(record) {
   if (record.tx_id) {
     if (record.template == "Ethereum") {
       const isMainnet = true;
-      return `https://${isMainnet ? "" : "goerli."}etherscan.io/tx/${
-        record.tx_id
-      }`;
+      return `https://${isMainnet ? "" : "goerli."}etherscan.io/tx/${record.tx_id
+        }`;
     } else {
       let isMainnet = true;
       if (record.template == "AAVE") {
         isMainnet = false;
       }
-      return `https://${isMainnet ? "" : "testnet-"}zkevm.polygonscan.com/tx/${
-        record.tx_id
-      }`;
+      return `https://${isMainnet ? "" : "testnet-"}zkevm.polygonscan.com/tx/${record.tx_id
+        }`;
     }
   }
   return "";
@@ -886,9 +888,8 @@ return (
                         current_page: 1,
                       });
                     }}
-                    className={`item ${
-                      state.search_action == item.id ? "active" : ""
-                    }`}
+                    className={`item ${state.search_action == item.id ? "active" : ""
+                      }`}
                   >
                     <div className="popups-seleceted_icon">
                       <span className="circle_icon">{circle_icon}</span>
@@ -913,9 +914,8 @@ return (
                         current_page: 1,
                       });
                     }}
-                    className={`item ${
-                      state.search_template == item.id ? "active" : ""
-                    }`}
+                    className={`item ${state.search_template == item.id ? "active" : ""
+                      }`}
                   >
                     <div className="template_item">
                       <div className="popups-seleceted_icon">
@@ -952,9 +952,8 @@ return (
                   {arrow_down_icon}
                 </span>
                 <div
-                  className={`select ${
-                    state.action_select_box_status ? "show" : "hide"
-                  }`}
+                  className={`select ${state.action_select_box_status ? "show" : "hide"
+                    }`}
                 >
                   {select_action_list.map((item) => {
                     return (
@@ -966,9 +965,8 @@ return (
                             current_page: 1,
                           });
                         }}
-                        className={`item ${
-                          state.search_action == item.id ? "active" : ""
-                        }`}
+                        className={`item ${state.search_action == item.id ? "active" : ""
+                          }`}
                       >
                         {item.name}
                         <span className="selected_icon">{selected_icon}</span>
@@ -985,9 +983,8 @@ return (
                   {arrow_down_icon}
                 </span>
                 <div
-                  className={`select ${
-                    state.template_select_box_status ? "show" : "hide"
-                  }`}
+                  className={`select ${state.template_select_box_status ? "show" : "hide"
+                    }`}
                 >
                   {select_template_list.map((item) => {
                     return (
@@ -999,9 +996,8 @@ return (
                             current_page: 1,
                           });
                         }}
-                        className={`item ${
-                          state.search_template == item.id ? "active" : ""
-                        }`}
+                        className={`item ${state.search_template == item.id ? "active" : ""
+                          }`}
                       >
                         <div className="template_item">
                           {item.icon ? (
@@ -1024,9 +1020,8 @@ return (
                   {arrow_down_icon}
                 </span>
                 <div
-                  className={`select ${
-                    state.status_select_box_status ? "show" : "hide"
-                  }`}
+                  className={`select ${state.status_select_box_status ? "show" : "hide"
+                    }`}
                 >
                   {select_status_list.map((item) => {
                     return (
@@ -1038,9 +1033,8 @@ return (
                             current_page: 1,
                           });
                         }}
-                        className={`item ${
-                          state.search_status == item.id ? "active" : ""
-                        }`}
+                        className={`item ${state.search_status == item.id ? "active" : ""
+                          }`}
                       >
                         <div
                           className="template_item"
@@ -1124,17 +1118,15 @@ return (
           {get_current_page_range()} of {state.total_page_size}
         </span>
         <span
-          className={`${
-            state.current_page == state.total_page ? "disabled" : ""
-          }`}
+          className={`${state.current_page == state.total_page ? "disabled" : ""
+            }`}
           onClick={click_right}
         >
           {right_icon}
         </span>
         <span
-          className={`${
-            state.current_page == state.total_page ? "disabled" : ""
-          }`}
+          className={`${state.current_page == state.total_page ? "disabled" : ""
+            }`}
           onClick={click_right_most}
         >
           {right_most_icon}
