@@ -485,7 +485,7 @@ if (state.fetchDone && state.myQuestList.length === 0) {
 const myQuestList = state.myQuestList;
 
 const onDelete = (action_id) => {
-  asyncFetch("https://test-api.dapdap.net/api/action/delete-action-by_id", {
+  asyncFetch("https://test-api.dapdap.net/api/action/delete-action-by-id", {
     method: "DELETE",
     headers: {
       "Content-Type": "application/json",
