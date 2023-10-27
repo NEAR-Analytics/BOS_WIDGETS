@@ -1,5 +1,8 @@
 const ownerId = "nearcon23.near";
 
+const apiKey =
+  "patWQQ6FY8H5O8wTY.4b08b48ac31aa13eb9fea974cfa60e103ae7297c010d4fe752e1abb37bd24c9d";
+
 const speakersUrl = `https://21mqgszhf3.execute-api.us-east-1.amazonaws.com/testnet/api/v1/airtable/speakers`;
 
 const Container = styled.div`
@@ -46,11 +49,11 @@ if (!state.speakersIsFetched) {
 
 return (
   <Container>
-    {state.speakers.map(({ name, org, image }) => (
+    {state.speakers.map(({ name, org, image, title }) => (
       <div key={name}>
         <Widget
           src={`${ownerId}/widget/Speakers.SpeakerCard`}
-          props={{ name, org, image }}
+          props={{ name, org, image, title }}
         />
       </div>
     ))}
