@@ -49,8 +49,8 @@ const composeData = () => {
 };
 
 State.init({
-  onChange: ({ content }) => {
-    State.update({ content });
+  onChange: ({ content, isChecked }) => {
+    State.update({ content, isChecked });
   },
   onHelp: ({ extractMentionNotifications, extractHashtags }) => {
     State.update({ extractMentionNotifications, extractHashtags });
@@ -60,6 +60,8 @@ State.init({
 const onHelp = ({ extractMentionNotifications, extractHashtags }) => {
   State.update({ extractMentionNotifications, extractHashtags });
 };
+
+console.log("checked state: ", state.isChecked);
 
 return (
   <>
@@ -86,7 +88,7 @@ return (
         }}
       />
     </div>
-    {state.content && (
+    {state.content && state.isChecked && (
       <div className="mt-3">
         <Widget
           src="jgodwill.near/widget/MainPage.Post"
