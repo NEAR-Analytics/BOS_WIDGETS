@@ -102,11 +102,11 @@ const storedActiveMenu = Storage.get(
 );
 
 State.init({
-  activeMenu: storedActiveMenu || "Bridge",
+  activeMenu: storedActiveMenu || "swap",
 });
 
 State.init({
-  activeMenu: "Bridge",
+  activeMenu: "swap",
 });
 function changeTab(menu) {
   State.update({
@@ -205,14 +205,14 @@ return (
   <Layout>
     <Container>
       <MenuContainer>
-        <div
+        {/* <div
           onClick={() => {
             changeTab("Bridge");
           }}
           className={`item ${activeMenu == "Bridge" ? "active" : ""}`}
         >
           <span className="icon">{bridgeIcon}</span>Bridge
-        </div>
+        </div> */}
         <div
           onClick={() => {
             changeTab("swap");
