@@ -379,7 +379,7 @@ return (
               <Widget
                 src="bluebiu.near/widget/MetaPool.Alert"
                 props={{
-                  text: `Delayed unstake takes up to 6 days to complete.`,
+                  text: `Delayed unstake takes up to 21 days to complete.`,
                   button: (
                     <Button
                       onClick={() => {
@@ -420,7 +420,7 @@ return (
                     Number(amount) &&
                     !isNaN(Number(balance)) &&
                     !Big(balance).lt(amount) &&
-                    Big(amount).gt(0.01),
+                    !Big(amount).lt(0.01),
                 });
                 utils.formatGetValue(amount);
               },
@@ -441,7 +441,7 @@ return (
               <Widget
                 src="bluebiu.near/widget/MetaPool.Alert"
                 props={{
-                  text: `Fee is 0.3%`,
+                  text: `Fee is 0%`,
                 }}
               />
             </div>
