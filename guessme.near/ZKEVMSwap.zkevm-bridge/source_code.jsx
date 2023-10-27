@@ -172,7 +172,7 @@ const {
 const isMainnet = chainId === 1 || chainId === 1101;
 
 function add_action(param_body) {
-  asyncFetch("https://test-api.dapdap.net/api/action/add-action-data", {
+  asyncFetch("https://test-api.dapdap.net/api/action/add", {
     method: "post",
     headers: {
       "Content-Type": "application/json",
