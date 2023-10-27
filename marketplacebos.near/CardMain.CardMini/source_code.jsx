@@ -242,21 +242,21 @@ return (
         type="button"
         className="btn btn-primary"
         data-bs-toggle="modal"
-        data-bs-target="#exampleModal"
+        data-bs-target="#Modal"
       >
         Edit <i className="bi bi-pencil-square"></i>
       </Edit>
       <div
         className={`modal fade ${isEditing ? "show" : ""}`}
-        id="exampleModal1"
+        id="modal"
         tabIndex="-1"
         aria-labelledby="exampleModalLabel"
         aria-hidden={!isEditing}
       >
         <div className="modal-dialog">
           <div className="modal-content">
-            <div className="modal-header">  
-              <h1 className="modal-title fs-5" id="exampleModalLabel1">
+            <div className="modal-header">
+              <h1 className="modal-title fs-5" id="exampleModalLabel">
                 Edit component
               </h1>
               <button
