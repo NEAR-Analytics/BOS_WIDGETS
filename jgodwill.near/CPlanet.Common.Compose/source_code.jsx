@@ -474,7 +474,7 @@ return (
                                   onChangeContractID(contractId);
                                 },
                                 accountId: state.account,
-                                headingText: "Select an NFT to Preview a post",
+                                headingText: "Select an NFT to embed",
                               }}
                             />
                           </div>
