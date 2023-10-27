@@ -3,8 +3,8 @@ const nft = props.nft ?? {
   tokenId: props.tokenId,
 };
 
-const contractId = props.contractId;
-const tokenId = props.tokenId;
+const contractId = props.contractId || "yuzu.recurforever.near";
+const tokenId = props.tokenId || "92690";
 const className = props.className ?? "img-fluid";
 const style = props.style;
 const alt = props.alt;
@@ -309,8 +309,9 @@ function fetchTokens() {
             title: token[0].name,
             listings: token[0].listings,
             attributes: token[0].attributes,
-            imageUrl: token[0].media_url,
+            imageUrl: token[0].media_ur,
           });
+          console.log("token", token[0]);
         }
       }
     }
@@ -449,10 +450,10 @@ const TopImageContainer = styled.div`
   padding: 1em;
   background: #ffffff;
     width: 50%;
-    min-width: 355px;
+    min-width: 300px;
   // border: 2px solid #cacdd5;
   border: 4px solid rgba(13, 154, 255, 0.317);
-  margin-right: 20px;
+  margin: 20px;
   box-shadow: 2px 7px 22px rgba(28, 27, 28, 0.1);
   border-radius: 0.7em;
   .Top-section{
