@@ -1,3 +1,5 @@
+const daoId = props.daoId ?? "dao.near";
+
 const Root = styled.div`
     width: 296px;
     height: 512px;
@@ -155,6 +157,16 @@ const MemberStat = styled.div`
     }
 `;
 
+const profile = Social.get(`${daoId}/profile/**`, "final");
+function makeAccountIdShorter(accountId) {
+  if (accountId.length > shortenLength) {
+    return accountId.slice(0, shortenLength) + "...";
+  }
+  return accountId;
+}
+
+console.log(profile);
+
 return (
   <Root>
     <div className="topImage">
@@ -170,20 +182,23 @@ return (
     <div className="profile">
       <img
         src={
-          props.profileImage ??
-          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRub7hFLkStCvZiaSeiUGznP4uzqPPcepghhg&usqp=CAU"
+          profile.image
+            ? `https://ipfs.near.social/ipfs/${profile.image.ipfs_cid}`
+            : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRub7hFLkStCvZiaSeiUGznP4uzqPPcepghhg&usqp=CAU"
         }
       />
       <div className="names">
-        <h1>{props.name ?? "OG Badge (SBT) DAO"}</h1>
-        <span>{props.userId ?? "@og-sbt.sputnik-dao.near"}</span>
+        <h1>{makeAccountIdShorter(profile.name) ?? "OG Badge (SBT) DAO"}</h1>
+        <span>
+          @{makeAccountIdShorter(daoId) ?? "@og-sbt.sputnik-dao.near"}
+        </span>
       </div>
     </div>
     <div className="desc">
-      {props.about
-        ? props.about?.length > 100
-          ? `${props.about.substring(0, 100)}...`
-          : props.about
+      {profile.description
+        ? profile.description?.length > 100
+          ? `${profile.description.substring(0, 100)}...`
+          : profile.description
         : "Lorem ipsum dolor sit amet elit, sed do eiusmod tempor incididunt u labore et dolore magna aliqua. Ut enim ad mini quis nostrud labor nisi"}
     </div>
     <MemberStat>
