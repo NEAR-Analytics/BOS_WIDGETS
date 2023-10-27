@@ -238,8 +238,7 @@ return (
                     </label>
                     <div className="d-flex gap-2">
                       <Widget
-                        // src={`${authorForWidget}/widget/MarkdownEditorIframe`}
-                        src={`${context.accountId}/widget/MarkdownEditorIframe`}
+                        src={`${authorForWidget}/widget/MarkdownEditorIframe`}
                         props={{
                           initialText:
                             state.initialBody == "" || !state.initialBody
