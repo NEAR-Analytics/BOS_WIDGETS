@@ -129,13 +129,12 @@ const onChange = (text) => {
   State.update({ text, showAccountAutocomplete });
 };
 
-const isChecked = state.isChecked;
 const jContent = JSON.stringify(content);
 if (props.onChange && jContent !== state.jContent) {
   State.update({
     jContent,
   });
-  props.onChange({ content, isChecked });
+  props.onChange({ content, isChecked: state.isChecked });
 }
 console.log("checked", isChecked);
 
@@ -275,6 +274,7 @@ border-radius: .7em;
 
 const handleCheckboxChange = () => {
   State.update({ isChecked: !state.isChecked, isOpen: true });
+  props.onChange({ isChecked: state.isChecked });
 };
 
 const onClose = () => {
