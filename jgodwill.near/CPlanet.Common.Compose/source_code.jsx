@@ -94,6 +94,30 @@ const chains = [
     url: "https://ipfs.near.social/ipfs/bafkreigv55ubnx3tfhbf56toihekuxvgzfqn5c3ndbfjcg3e4uvaeuy5cm",
   },
 ];
+const accountId = context.accountId;
+
+const data = Social.keys("*/profile", "final");
+
+if (!data) {
+  return "Loading";
+}
+
+State.init({
+  account: accountId,
+});
+const accounts = Object.entries(data);
+
+const allWidgets = [];
+
+for (let i = 0; i < accounts.length; ++i) {
+  const accountId = accounts[i][0];
+  allWidgets.push(accountId);
+}
+const onChangeAccount = (account) => {
+  State.update({
+    account: account[0],
+  });
+};
 
 const updateChain = (chain) => {
   State.update({ nftChainState: chain, nftTokenId: "", nftContractId: "" });
@@ -241,6 +265,29 @@ const Title = styled.h3`
   margin-bottom: 10px;
 `;
 
+const Search = styled.div`
+margin-top: 12px;
+    // justify-content: center;
+display: flex;
+width: 100%;
+flex-wrap: wrap;
+input {
+    border-radius: 32px;
+    flex-shrink: 0;
+    height: 48px;
+    width: 100%;
+    background: #F8F8F8;
+    overflow: hidden;
+    color: #B0B0B0;
+    text-overflow: ellipsis;
+    font-family: Helvetica Neue;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 148%; /* 29.6px */
+}
+`;
+
 const Button = styled.div`
 background: transparent;
 font-weight: 600;
@@ -270,6 +317,17 @@ border: 1px solid #e5e8eb;
 gap: 2em;
 margin: 10px auto;
 border-radius: .7em;
+width: 100%;
+`;
+const SelectCard = styled.div`
+display: flex;
+padding: 1em;
+gap: 2em;
+justify-content: center;
+align-items: center;
+margin: 10px auto;
+border-radius: .7em;
+height: 100%;
 `;
 
 const handleCheckboxChange = () => {
@@ -363,11 +421,32 @@ return (
               <div>
                 <Card>
                   <div className="d-flex align-center text-center gap-2">
-                    <div>Select Chain</div>
-                    <Widget
-                      src="jgodwill.near/widget/GenaDrop.ChainsDropdown"
-                      props={{ chains: chains, updateChain }}
-                    />
+                    <SelectCard>
+                      <Card>
+                        <div>Select Chain</div>
+                        <Widget
+                          src="jgodwill.near/widget/GenaDrop.ChainsDropdown"
+                          props={{ chains: chains, updateChain }}
+                        />
+                      </Card>
+                      {state.nftChainState === "Near" && (
+                        <Card>
+                          Near Address:
+                          <Search>
+                            <Typeahead
+                              id="async-example"
+                              className="type-ahead"
+                              isLoading={isLoading}
+                              labelKey="search"
+                              minLength={1}
+                              options={allWidgets}
+                              onChange={(value) => onChangeAccount(value)}
+                              placeholder={accountId}
+                            />
+                          </Search>
+                        </Card>
+                      )}
+                    </SelectCard>
                   </div>
                   {state.nftChainState === "Near" ? (
                     <div>
@@ -394,6 +473,8 @@ return (
                                   onChangeTokenID(tokenId);
                                   onChangeContractID(contractId);
                                 },
+                                accountId: state.account,
+                                headingText: "Select an NFT to Preview a post",
                               }}
                             />
                           </div>
