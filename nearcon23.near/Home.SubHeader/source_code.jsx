@@ -112,7 +112,7 @@ return (
       </p>
       <ul>
         <li>
-          Join 5,000+ delegates as we explore the power and possibilities of an
+          Join 3,000+ delegates as we explore the power and possibilities of an
           open web
         </li>
         <li>
