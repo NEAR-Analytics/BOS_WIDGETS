@@ -248,15 +248,15 @@ return (
       </Edit>
       <div
         className={`modal fade ${isEditing ? "show" : ""}`}
-        id="exampleModal"
+        id="exampleModal1"
         tabIndex="-1"
         aria-labelledby="exampleModalLabel"
         aria-hidden={!isEditing}
       >
         <div className="modal-dialog">
           <div className="modal-content">
-            <div className="modal-header">
-              <h1 className="modal-title fs-5" id="exampleModalLabel">
+            <div className="modal-header">  
+              <h1 className="modal-title fs-5" id="exampleModalLabel1">
                 Edit component
               </h1>
               <button
@@ -274,7 +274,7 @@ return (
                   onChange={(e) => setEditedContent(e.target.value)}
                 />
               ) : (
-                edit
+                ""
               )}
             </div>
             <div className="modal-footer">
