@@ -1,6 +1,6 @@
 const data = props.data || {};
 const type = props.type || "flowscience.near/type/fileformat";
-const file = props.file || "flowscience.near/type/file";
+const record = props.file || "flowscience.near/type/record";
 const typeSrc = props.typeSrc || "flowscience.near";
 const buildEdges = props.buildEdges;
 const template = props.template || "";
@@ -9,6 +9,11 @@ const defaultView = props.defaultView || "CREATE_THING";
 
 if (type !== "") {
   const parts = type.split("/");
+  typeSrc = parts[0];
+}
+
+if (record !== "") {
+  const parts = record.split("/");
   typeSrc = parts[0];
 }
 
@@ -118,6 +123,7 @@ State.init({
   config: data,
   isModalOpen: false,
   typeSrc,
+  selectedRecord: record,
   selectedType: type,
   view: defaultView,
   preview: "TEMPLATE",
@@ -245,7 +251,7 @@ return (
               src="efiz.near/widget/create"
               props={{
                 item: {
-                  type: state.selectedType,
+                  type: state.selectedRecord,
                   value: state.data,
                 },
                 onChange: handleOnChange,
