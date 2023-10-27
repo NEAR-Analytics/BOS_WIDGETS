@@ -9,20 +9,20 @@ const Container = styled.div`
 
   h3 {
     color: var(--black, #000);
-    font-size: 1.3rem;
     font-family: FK Grotesk;
+    font-size: 24px;
     font-style: normal;
     font-weight: 700;
-    line-height: 2.5rem;
+    line-height: 40px; /* 166.667% */
   }
 
   p {
-    color: var(--green, #00ec97);
-    font-size: 0.875rem;
+    color: var(--green, #00EC97);
     font-family: Mona Sans;
+    font-size: 14px;
     font-style: normal;
     font-weight: 500;
-    line-height: 150%;
+    line-height: 150%; /* 21px */
   }
 
   img {
@@ -43,6 +43,8 @@ return (
   <Container>
     <img src={props.image} alt={props.name} />
     <h3>{props.name}</h3>
-    <p>{props.org}</p>
+
+    <p style={{ color: "#9797FF" }}>{props.title}</p>
+    <p style={{ color: "#00ec97" }}>{props.org}</p>
   </Container>
 );
