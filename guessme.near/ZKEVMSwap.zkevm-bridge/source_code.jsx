@@ -172,7 +172,7 @@ const {
 const isMainnet = chainId === 1 || chainId === 1101;
 
 function add_action(param_body) {
-  asyncFetch("https://bos-api.delink.one/add-action-data", {
+  asyncFetch("https://test-api.dapdap.net/api/action/add", {
     method: "post",
     headers: {
       "Content-Type": "application/json",
@@ -568,11 +568,6 @@ return (
       }}
     >
       <Widget
-        src="guessme.near/widget/ZKEVMSwap.zkevm-bridge-transactions"
-        props={{ tokens }}
-      />
-
-      <Widget
         src="guessme.near/widget/ZKEVMSwap.zkevm-bridge-ui"
         props={{
           ...props,
@@ -589,6 +584,10 @@ return (
       <Widget
         src="ciocan.near/widget/toast"
         props={{ open: isToastOpen, variant, title, description, onOpenChange }}
+      />
+      <Widget
+        src="guessme.near/widget/ZKEVMSwap.zkevm-bridge-transactions"
+        props={{ tokens }}
       />
       <Widget
         src="guessme.near/widget/ZKEVMWarmUp.add-to-quest-card"
