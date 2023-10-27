@@ -1,5 +1,4 @@
-const Layout = styled.div`
-`;
+const Layout = styled.div``;
 
 const Container = styled.div`
   width: 100%;
@@ -45,17 +44,17 @@ const MenuContainer = styled.div`
     color: #7e8a93;
     cursor: pointer;
     margin-bottom: 2px;
-    border-right: 3px solid transparent;
+    border-right: "none";
     transition: 0.5s;
     border-radius: 16px;
     :hover {
-    background: linear-gradient(270deg, #373A53 0%, rgba(55, 58, 83, 0) 100%);
-    color: #ffffff;
+      background: linear-gradient(270deg, #373a53 0%, rgba(55, 58, 83, 0) 100%);
+      color: #ffffff;
     }
   }
   .item.active {
     color: #ffffff;
-    background: linear-gradient(270deg, #373A53 0%, rgba(55, 58, 83, 0) 100%);
+    background: linear-gradient(270deg, #373a53 0%, rgba(55, 58, 83, 0) 100%);
   }
   .item.disable {
     cursor: not-allowed;
