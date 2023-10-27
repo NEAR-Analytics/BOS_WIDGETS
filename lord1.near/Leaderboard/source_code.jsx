@@ -116,12 +116,12 @@ return (
                   themeColor: { table_pagination: themeColor.table_pagination },
                   data: state.data?.hash1?.data,
                   columns: [
-                    { title: "Rank", key: "rank" },
-                    { title: "Wallet", key: "wallet" },
+                    { title: "User", key: "user" },
+                    { title: "Discord", key: "discord" },
                     { title: "Submissions", key: "submissions" },
-                    { title: "Candidates", key: "sbt" },
-                    { title: "# Accepted", key: "number_accepted" },
-                    { title: "% Accepted", key: "percent_accepted" },
+                    { title: "Approved", key: "approved" },
+                    { title: "Already labeled", key: "already_labeled" },
+                    { title: "Denied", key: "denied" },
                   ],
                   rowsCount: 15,
                 }}
