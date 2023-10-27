@@ -1,16 +1,15 @@
+// SayALot.GeneralCard
 //===============================================INITIALIZATION=====================================================
 
 const {
   widgets,
   isTest,
   data,
-  displayOverlay,
   handleOpenArticle,
   handleFilterArticles,
   addressForArticles,
   authorForWidget,
   handleShareButton,
-  sbtWhiteList,
   callLibs,
 } = props;
 
@@ -38,7 +37,7 @@ const initLibsCalls = {
       key: "canLoggedUserCreateComment",
       props: {
         accountId: context.accountId,
-        sbtsNames: data.sbts,
+        sbtsNames: articleSbts,
       },
     },
   ],
@@ -410,7 +409,7 @@ const renderArticleBody = () => {
 //===============================================END COMPONENTS====================================================
 
 //===================================================RENDER========================================================
-// console.log("General card state: ", state);
+
 return (
   <CardContainer className="bg-white rounded-3 p-3 m-3 col-lg-8 col-md-8 col-sm-12">
     <Card>
@@ -538,7 +537,7 @@ return (
             />
           </ButtonsLowerSection>
           <div className="d-flex w-100 align-items-center">
-            <div className="d-flex w-100 gap-2 justify-content-between">
+            <div className="d-flex w-100 gap-2 justify-content-start">
               <Widget
                 src={widgets.newStyledComponents.Input.Button}
                 props={{
@@ -553,7 +552,7 @@ return (
                     context.accountId === accountId ||
                     (articleSbts.length > 0 && !canLoggedUserCreateComment),
                   size: "sm",
-                  className: "info outline w-100",
+                  className: "info outline w-25",
                   onClick: toggleShowModal,
                 }}
               />
@@ -567,7 +566,7 @@ return (
                     </div>
                   ),
                   size: "sm",
-                  className: "info w-100",
+                  className: "info w-25",
                   onClick: () => {
                     handleOpenArticle(data);
                   },
