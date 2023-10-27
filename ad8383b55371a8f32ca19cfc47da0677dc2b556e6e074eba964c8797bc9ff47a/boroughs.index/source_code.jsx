@@ -178,7 +178,9 @@ return (
     )}
     {accountId && state.showForm && (
       <Widget
-        src={"ad8383b55371a8f32ca19cfc47da0677dc2b556e6e074eba964c8797bc9ff47a/widget/boroughs.form"}
+        src={
+          "ad8383b55371a8f32ca19cfc47da0677dc2b556e6e074eba964c8797bc9ff47a/widget/boroughs.form"
+        }
         props={{
           data: (dataMap[accountId] && dataMap[accountId].data) || {},
           handleSave,
@@ -189,7 +191,9 @@ return (
 
     {state.showInspect && (
       <Widget
-        src={"ad8383b55371a8f32ca19cfc47da0677dc2b556e6e074eba964c8797bc9ff47a/widget/boroughs.inspect"}
+        src={
+          "ad8383b55371a8f32ca19cfc47da0677dc2b556e6e074eba964c8797bc9ff47a/widget/boroughs.inspect"
+        }
         props={{
           focusedMarker: state.focusedMarker,
           questions,
