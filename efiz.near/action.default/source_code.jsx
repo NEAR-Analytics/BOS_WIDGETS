@@ -1,5 +1,9 @@
 const [src, setSrc] = useState("");
 
+const Container = styled.div`
+    padding: 20px;
+`;
+
 const Row = styled.div`
     display: flex;
     flex-direction: row;
@@ -19,7 +23,7 @@ const handleSubmit = () => {
 };
 
 return (
-  <div>
+  <Container>
     <Row>
       <p>
         Input a widget src below that you would like to display when the black
@@ -35,5 +39,5 @@ return (
       />
       <Button onClick={handleSubmit}>Submit</Button>
     </Row>
-  </div>
+  </Container>
 );
