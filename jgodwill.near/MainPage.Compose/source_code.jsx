@@ -49,8 +49,8 @@ const composeData = () => {
 };
 
 State.init({
-  onChange: ({ content }) => {
-    State.update({ content });
+  onChange: ({ content, isChecked }) => {
+    State.update({ content, isChecked });
   },
   onHelp: ({ extractMentionNotifications, extractHashtags }) => {
     State.update({ extractMentionNotifications, extractHashtags });
@@ -61,18 +61,20 @@ const onHelp = ({ extractMentionNotifications, extractHashtags }) => {
   State.update({ extractMentionNotifications, extractHashtags });
 };
 
+console.log("checked state: ", state.isChecked);
+
 return (
   <>
     <div style={{ margin: "0 -12px" }}>
       <Widget
-        src="jgodwill.near/widget/Common.Compose"
+        src="jgodwill.near/widget/CPlanet.Common.Compose"
         props={{
           placeholder: "What's happening?",
           onChange: state.onChange,
           onHelper: state.onHelp,
           composeButton: (onCompose) => (
             <CommitButton
-              disabled={!state.content}
+              disabled={!state.content.text}
               force
               className="btn btn-dark rounded-3"
               data={composeData}
@@ -86,7 +88,7 @@ return (
         }}
       />
     </div>
-    {state.content && (
+    {state.content && state.isChecked && (
       <div className="mt-3">
         <Widget
           src="jgodwill.near/widget/MainPage.Post"
