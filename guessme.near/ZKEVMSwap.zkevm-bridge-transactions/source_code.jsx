@@ -241,6 +241,8 @@ function formatDateToLocal(inputDate) {
 }
 
 const getTransactions = (type) => {
+  if (!sender) return;
+
   asyncFetch(
     `https://open-api-v2-staging.polygon.technology/zkevm-${
       isMainnet ? "mainnet" : "testnet"
@@ -264,14 +266,11 @@ const refreshList = () => {
   getTransactions("withdraw");
   getTransactions("deposit");
 };
-const cachedChainId = Storage.privateGet("cachedChainId");
-if (cachedChainId !== chainId) {
-  if (!sender) return;
-  refreshList();
-  Storage.privateSet("cachedChainId", chainId);
-}
+
+refreshList();
 
 const claimTransaction = (tx) => {
+  console.log("chainId", chainId);
   const isPolygonNetwork = chainId === 1101 || chainId === 1442;
   if (isPolygonNetwork) {
     State.update({
