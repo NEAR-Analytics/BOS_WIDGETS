@@ -246,7 +246,7 @@ if (wrapType > 0) {
   );
 
   asyncFetch(
-    `https://test-api.dapdap.net/api/uniswap/quote?token_in=${realTokenIn}&token_out=${realTokenOut}&amount=${amountInUnit}&chain_id=${chainId}`, { Authorization: AccessKey }
+    `https://test-api.dapdap.net/api/uniswap/quote?token_in=${realTokenIn}&token_out=${realTokenOut}&amount=${amountInUnit}&chain_id=${chainId}`,{ headers: { Authorization: AccessKey }, }
   )
     .then((res) => {
       const maxAmountOutEstimate = res.body;
