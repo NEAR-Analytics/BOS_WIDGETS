@@ -358,7 +358,7 @@ return (
         </Tags>
       </CardBody>
       <Button>
-        <a href={`/agwaze.near/widget/CPlanet.DAO.index?`}>
+        <a href={`/agwaze.near/widget/CPlanet.DAO.index?daoId=${daoId}`}>
           <button>View DAO</button>
         </a>
       </Button>
