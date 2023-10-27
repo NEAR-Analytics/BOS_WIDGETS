@@ -1,6 +1,6 @@
 const CHAIN_ID = 100;
 
-const { defaultDex } = props.name;
+const { defaultDex } = props;
 
 const Tokens = {
   native: {
