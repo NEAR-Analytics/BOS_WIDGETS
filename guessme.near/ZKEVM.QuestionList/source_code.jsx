@@ -211,14 +211,17 @@ const AccessKey = Storage.get(
   "guessme.near/widget/ZKEVMWarmUp.add-to-quest-card"
 );
 function get_hot_action_list() {
+  if (!AccessKey) return;
   asyncFetch(
-    "https://test-api.dapdap.net/api/action/get-hot-action?hot_number=20&action_network_id=zkEVM", {
-    headers: {
-      Authorization: AccessKey
-    },
-  }
+    "https://test-api.dapdap.net/api/action/get-hot-action?hot_number=20&action_network_id=zkEVM",
+    {
+      headers: {
+        Authorization: AccessKey,
+      },
+    }
   ).then((res) => {
-    const result = JSON.parse(res.body || {}).data || [];
+    console.log("res: ", res);
+    const result = res.body.data || [];
     State.update({
       hotActionList: result,
       searchActionList: result,
@@ -363,8 +366,9 @@ function get_link(action) {
     link = "/guessme.near/widget/ZKEVMSwap.zkevm-swap?source=question_list";
   }
   if (isLending) {
-    link = `/guessme.near/widget/ZKEVM.AAVE${arr[0].toLowerCase() == "supply" ? "" : "?tab=borrow"
-      }`;
+    link = `/guessme.near/widget/ZKEVM.AAVE${
+      arr[0].toLowerCase() == "supply" ? "" : "?tab=borrow"
+    }`;
   }
   return link;
 }
