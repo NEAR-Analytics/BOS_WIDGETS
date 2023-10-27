@@ -254,7 +254,13 @@ return filteredData.length !== 0 ? (
               >
                 <div style={{ width: "100%" }}>
                   <h5 style={{ fontWeight: "700" }}>{item.title}</h5>
-                  <p style={{ paddingRight: 15 }}>
+                  <p
+                    style={{
+                      paddingRight: 15,
+                      paddingTop: 10,
+                      paddingBottom: 10,
+                    }}
+                  >
                     {item.description === "📝" ? "" : item.description}
                   </p>
                   {!!item.location && (
@@ -281,7 +287,7 @@ return filteredData.length !== 0 ? (
                           marginBottom: 30,
                         }}
                       >
-                        {(item?.confirmedSpeakers ?? [])?.map((_) => (
+                        {(item?.confirmedSpeakers ?? [])?.map((_, idx) => (
                           <div
                             style={{
                               display: "flex",
@@ -291,6 +297,15 @@ return filteredData.length !== 0 ? (
                             key={_}
                           >
                             <div>
+                              <img
+                                style={{
+                                  width: 40,
+                                  height: 40,
+                                  objectFit: "cover",
+                                  borderRadius: 100,
+                                }}
+                                src={item.imageIds[idx]}
+                              />
                               <p
                                 style={{
                                   fontWeight: "600",
