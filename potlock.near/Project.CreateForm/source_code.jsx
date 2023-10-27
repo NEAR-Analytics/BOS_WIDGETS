@@ -1,5 +1,6 @@
 const ownerId = "potlock.near";
-const registryId = "registry.potlock.near"; // TODO: update when registry is deployed
+const registryId = "registry.potlock.near";
+const horizonId = "nearhorizon.near";
 
 const IPFS_BASE_URL = "https://nftstorage.link/ipfs/";
 // const DEFAULT_BANNER_IMAGE_URL =
@@ -26,6 +27,12 @@ if (!context.accountId) {
     />
   );
 }
+
+const existingHorizonProject = Near.view(horizonId, "get_project", {
+  account_id: context.accountId,
+});
+
+const projects = Near.view(registryId, "get_projects", {});
 
 const imageHeightPx = 120;
 const profileImageTranslateYPx = 220;
@@ -431,21 +438,29 @@ const handleCreateProject = (e) => {
       deposit: Big(JSON.stringify(socialArgs).length * 16).mul(Big(10).pow(20)),
       args: socialArgs,
     },
-    // register on NEAR Horizon
-    {
-      contractName: "nearhorizon.near",
-      methodName: "add_project",
-      args: horizonArgs,
-    },
-    // register project on potlock
-    {
-      contractName: registryId,
-      methodName: "register",
-      deposit: Big(JSON.stringify(potlockRegistryArgs).length * 16).mul(Big(10).pow(20)), // TODO: update this, it isn't correct
-      args: potlockRegistryArgs,
-    },
   ];
-  const res = Near.call(transactions);
+  if (!props.edit) {
+    transactions.push(
+      // register project on potlock
+      {
+        contractName: registryId,
+        methodName: "register",
+        deposit: Big(JSON.stringify(potlockRegistryArgs).length * 16).mul(Big(10).pow(20)), // TODO: update this, it isn't correct
+        args: potlockRegistryArgs,
+      }
+    );
+    if (!existingHorizonProject) {
+      transactions.push(
+        // register on NEAR Horizon
+        {
+          contractName: horizonId,
+          methodName: "add_project",
+          args: horizonArgs,
+        }
+      );
+    }
+  }
+  Near.call(transactions);
 };
 
 const registeredProject = state.registeredProjects
@@ -533,9 +548,13 @@ const FormSectionLeft = (title, description, isRequired) => {
   );
 };
 
+if (props.edit && !registeredProject) {
+  return <div style={{ textAlign: "center", paddingTop: "12px" }}>Unauthorized</div>;
+}
+
 return (
   <Container>
-    {!state.socialDataFetched ? (
+    {!state.socialDataFetched || !projects ? (
       <div class="spinner-border text-secondary" role="status" />
     ) : registeredProject ? (
       <Container>
@@ -710,6 +729,9 @@ return (
                     { text: "Climate", value: "climate" },
                     { text: "Public Good", value: "public-good" },
                     { text: "DeSci", value: "de-sci" },
+                    { text: "Open Source", value: "open-source" },
+                    { text: "Community", value: "community" },
+                    { text: "Education", value: "education" },
                   ],
                   value: state.category,
                   onChange: (category) =>
@@ -792,7 +814,7 @@ return (
                 props={{
                   type: "primary",
                   prefix: "https://",
-                  text: "Create new project",
+                  text: props.edit ? "Update your project" : "Create new project",
                   disabled: isCreateProjectDisabled,
                   onClick: handleCreateProject,
                 }}
