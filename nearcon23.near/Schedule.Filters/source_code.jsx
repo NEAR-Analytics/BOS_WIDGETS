@@ -60,8 +60,8 @@ const allSelected = (
         options: [
           { id: "developer", label: "Developer", color: "#7269E1" },
           { id: "entrepreneur", label: "Entrepreneur", color: "#0DAEBB" },
-          { id: "creative", label: "Creative", color: "#04A46E" },
-          { id: "regulator", label: "Regulator", color: "#F44738" },
+          { id: "Creator", label: "Creator", color: "#04A46E" },
+          { id: "Regulatory", label: "Regulatory", color: "#F44738" },
           { id: "AI is NEAR", label: "AI is NEAR", color: "#17d9d4" },
           { id: "Founders Forum", label: "Founders Forum", color: "#000000" },
         ],
