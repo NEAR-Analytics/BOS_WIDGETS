@@ -139,7 +139,7 @@ const AccessKey = Storage.get(
 );
 function get_hot_action_list() {
   asyncFetch(
-    "https://test-api.dapdap.net/api/action/get-hot-action?hot_number=20&action_network_id=zkEVM", { Authorization: AccessKey }
+    "https://test-api.dapdap.net/api/action/get-hot-action?hot_number=20&action_network_id=zkEVM", { headers: { Authorization: AccessKey }, }
   ).then((res) => {
     const result = JSON.parse(res.body || {}).data || [];
     State.update({
