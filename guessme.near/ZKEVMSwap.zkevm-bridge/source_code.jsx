@@ -568,11 +568,6 @@ return (
       }}
     >
       <Widget
-        src="guessme.near/widget/ZKEVMSwap.zkevm-bridge-transactions"
-        props={{ tokens }}
-      />
-
-      <Widget
         src="guessme.near/widget/ZKEVMSwap.zkevm-bridge-ui"
         props={{
           ...props,
@@ -589,6 +584,10 @@ return (
       <Widget
         src="ciocan.near/widget/toast"
         props={{ open: isToastOpen, variant, title, description, onOpenChange }}
+      />
+      <Widget
+        src="guessme.near/widget/ZKEVMSwap.zkevm-bridge-transactions"
+        props={{ tokens }}
       />
       <Widget
         src="guessme.near/widget/ZKEVMWarmUp.add-to-quest-card"
