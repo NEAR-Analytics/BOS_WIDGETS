@@ -110,7 +110,9 @@ if (!finalData) {
 
 return (
   <>
-    <Text className="text-center">Select the NFT you want to list</Text>
+    <Text className="text-center">
+      {props.headingText || "Select the NFT you want to list"}
+    </Text>
     <NFTs>
       {finalData.tokens.map((nft, index) => (
         <NFTImageButton
