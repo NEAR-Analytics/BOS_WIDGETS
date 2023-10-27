@@ -164,6 +164,7 @@ display: flex;
 align-items: center;
 justify-content: center;
 margin-top: 10px;
+
   button {
     border: 1px solid black;
     border-radius: 0;
@@ -180,7 +181,7 @@ margin-top: 10px;
     border: grey;
     cursor: not-allowed;
   }
-  button:hover {
+  button:hover, a:hover {
     background: white;
     color: black;
     border-color: black;
@@ -357,7 +358,7 @@ return (
         </Tags>
       </CardBody>
       <Button>
-        <a>
+        <a href={`/agwaze.near/widget/CPlanet.DAO.index?`}>
           <button>View DAO</button>
         </a>
       </Button>
