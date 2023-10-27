@@ -152,6 +152,7 @@ const onChangeContract = (contractId) => {
   onChangeToken(state.tokenId);
   ownsNFT();
   updateTradeportLink();
+  console.log("contract: ", state.nftMetadata);
 };
 
 const onChangeToken = (tokenId) => {
@@ -164,6 +165,7 @@ const onChangeToken = (tokenId) => {
   });
   ownsNFT();
   updateTradeportLink();
+  console.log("token: ", state.tokenInfo);
 };
 
 const onChangeCustomMarket = (customMarketLink) => {
@@ -390,7 +392,7 @@ return (
         <div>
           <div className="mt-2">
             <Widget
-              src={`jgodwill.near/widget/genadrop-nft-selector`}
+              src={`jgodwill.near/widget/GenaDrop.NFTSelector`}
               props={{
                 onChange: ({ contractId, tokenId }) => {
                   State.update({
