@@ -401,8 +401,9 @@ const AccessKey = Storage.get(
   "AccessKey",
   "guessme.near/widget/ZKEVMWarmUp.add-to-quest-card"
 );
-const quest_url = `https://test-api.dapdap.net/api/action/get-action-by-account?account_id=${sender || ""
-  }&account_info=${uuid}&action_network_id=zkEVM`;
+const quest_url = `https://test-api.dapdap.net/api/action/get-action-by-account?account_id=${
+  sender || ""
+}&account_info=${uuid}&action_network_id=zkEVM`;
 
 const noQuestTip = (
   <NoQuestWrapper>
@@ -432,48 +433,55 @@ if (!state.fetchDone && !state.quoting) {
   State.update({
     quoting: true,
   });
-  asyncFetch(quest_url, { Authorization: AccessKey }).then((res) => {
-    const raw = res.body;
-    console.log("raw: ", raw);
-    const rawList = raw?.data || [];
 
-    if (storeOrderList === undefined) {
-      console.log("storeOrderList111: ", storeOrderList);
-      Storage.privateSet("quest-list-order", rawList);
-    }
+  if (AccessKey) {
+    asyncFetch(quest_url, {
+      headers: {
+        Authorization: AccessKey,
+      },
+    }).then((res) => {
+      const raw = res.body;
+      console.log("raw: ", raw);
+      const rawList = raw?.data || [];
 
-    if (storeOrderList) {
-      rawList.forEach((item) => {
-        if (
-          !storeOrderList.find((sitem) => sitem.action_id === item.action_id)
-        ) {
-          storeOrderList.push(item);
-        }
+      if (storeOrderList === undefined) {
+        console.log("storeOrderList111: ", storeOrderList);
+        Storage.privateSet("quest-list-order", rawList);
+      }
+
+      if (storeOrderList) {
+        rawList.forEach((item) => {
+          if (
+            !storeOrderList.find((sitem) => sitem.action_id === item.action_id)
+          ) {
+            storeOrderList.push(item);
+          }
+        });
+      }
+
+      let displayList = [];
+
+      if (
+        storeOrderList &&
+        storeOrderList.length > 0 &&
+        storeOrderList !== null
+      ) {
+        storeOrderList.forEach((sitem) => {
+          if (rawList.find((ritem) => ritem.action_id === sitem.action_id)) {
+            displayList.push(sitem);
+          }
+        });
+      } else {
+        displayList = rawList;
+      }
+
+      State.update({
+        myQuestList: displayList,
+        fetchDone: true,
+        quoting: false,
       });
-    }
-
-    let displayList = [];
-
-    if (
-      storeOrderList &&
-      storeOrderList.length > 0 &&
-      storeOrderList !== null
-    ) {
-      storeOrderList.forEach((sitem) => {
-        if (rawList.find((ritem) => ritem.action_id === sitem.action_id)) {
-          displayList.push(sitem);
-        }
-      });
-    } else {
-      displayList = rawList;
-    }
-
-    State.update({
-      myQuestList: displayList,
-      fetchDone: true,
-      quoting: false,
     });
-  });
+  }
 }
 
 if (!state.fetchDone) {
@@ -491,7 +499,7 @@ const onDelete = (action_id) => {
     method: "DELETE",
     headers: {
       "Content-Type": "application/json",
-      Authorization: AccessKey
+      Authorization: AccessKey,
     },
     body: JSON.stringify({
       action_id,
@@ -543,7 +551,7 @@ function handleRemoveAll() {
     method: "delete",
     headers: {
       "Content-Type": "application/json",
-      Authorization: AccessKey
+      Authorization: AccessKey,
     },
     body: JSON.stringify({ action_id_list }),
   }).then((res) => {
