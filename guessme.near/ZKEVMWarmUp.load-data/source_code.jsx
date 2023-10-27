@@ -16,10 +16,10 @@ let myQuestList = [];
 
 let trendList = [];
 
-const resQuest = fetch(quest_url, { Authorization: AccessKey }.body);
+const resQuest = fetch(quest_url, { headers: { Authorization: AccessKey }, }.body);
 console.log("resQuest: ", resQuest);
 
-const resTrend = fetch(trend_url, { Authorization: AccessKey }.body);
+const resTrend = fetch(trend_url, { headers: { Authorization: AccessKey }, }.body);
 
 if (Number(resQuest.code) == 0) {
   myQuestList = resQuest.data;
