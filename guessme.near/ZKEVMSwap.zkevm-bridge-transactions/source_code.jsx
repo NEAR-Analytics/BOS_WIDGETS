@@ -171,7 +171,7 @@ const arrowUp = (
 );
 
 function add_action(param_body) {
-  asyncFetch("https://bos-api.delink.one/add-action-data", {
+  asyncFetch("https://test-api.dapdap.net/api/action/add", {
     method: "post",
     headers: {
       "Content-Type": "application/json",
@@ -241,8 +241,6 @@ function formatDateToLocal(inputDate) {
 }
 
 const getTransactions = (type) => {
-  if (!sender) return;
-
   asyncFetch(
     `https://open-api-v2-staging.polygon.technology/zkevm-${
       isMainnet ? "mainnet" : "testnet"
@@ -266,11 +264,14 @@ const refreshList = () => {
   getTransactions("withdraw");
   getTransactions("deposit");
 };
-
-refreshList();
+const cachedChainId = Storage.privateGet("cachedChainId");
+if (cachedChainId !== chainId) {
+  if (!sender) return;
+  refreshList();
+  Storage.privateSet("cachedChainId", chainId);
+}
 
 const claimTransaction = (tx) => {
-  console.log("chainId", chainId);
   const isPolygonNetwork = chainId === 1101 || chainId === 1442;
   if (isPolygonNetwork) {
     State.update({
