@@ -245,25 +245,27 @@ const dataMap = {
   offMarket: [],
 };
 
-dataObj.body.forEach((building) => {
-  const markerObj = {
-    type: "Feature",
-    properties: {
-      ...building,
-    },
-    geometry: {
-      type: "Point",
-      coordinates: [building.latitude, building.longitude],
-    },
-  };
-  dataMap.onMarket = [...dataMap.onMarket, markerObj];
-});
+// dataObj.body.forEach((building) => {
+//   const markerObj = {
+//     type: "Feature",
+//     properties: {
+//       ...building,
+//     },
+//     geometry: {
+//       type: "Point",
+//       coordinates: [Number(building.longitude), Number(building.latitude)],
+//     },
+//   };
+//   dataMap.onMarket = [...dataMap.onMarket, markerObj];
+// });
 
-const newData = {
-  type: "FeatureCollection",
-  crs: {},
-  features: [...dataMap.onMarket],
-};
+// const newData = {
+//   type: "FeatureCollection",
+//   crs: {},
+//   features: [...dataMap.onMarket],
+// };
+
+console.log(newData);
 
 State.init({
   edit: false,
