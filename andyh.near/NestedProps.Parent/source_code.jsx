@@ -11,7 +11,7 @@ return (
         byTen: {
           increment: (fn) => {
             console.log(fn);
-            console.log(fn());
+            fn();
             setValue((v) => v + 10);
           },
         },
