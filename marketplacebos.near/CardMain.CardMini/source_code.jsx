@@ -186,24 +186,7 @@ const SaveIcon = (
   ></i>
 );
 
-const divEdit = styled.div`
-  width: 5rem;
-  height: 30px;
-  font-size: 12px;
-  background-color: #0a1929ff;
-  border: none;
-  border-radius: 24px;
-  cursor: pointer;
-  position: absolute;
-  top: 10px;
-  right: 50px;
 
-  font-weight: bold;
-  color: white;
-   &:hover {
-    background-color: #0a1929ff;
-  }
-`;
 const copyBtn = props.copyBtn || "Copy Button";
 const component = props.component || "";
 const detailLink = props.detailLink || "notfound";
@@ -222,7 +205,7 @@ return (
           Code<i className="bi bi-code-slash"></i>
         </ViewButton>
       </a>
-      <divEdit>{edit}</divEdit>
+      {edit}
       <ToggleButton onClick={toggleButton1} isToggled={isToggleOn1}>
         {isToggleOn1 ? SunIcon : MoonIcon}
       </ToggleButton>
