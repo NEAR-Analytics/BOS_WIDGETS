@@ -362,6 +362,44 @@ border-radius: .7em;
 height: 100%;
 `;
 
+const Actions = styled.div`
+  display: flex;
+  gap: .5rem;
+  .upload-image-button, .mkd-butn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #f1f3f5;
+    color: #11181c;
+    border-radius: 40px;
+    height: 40px;
+    min-width: 40px;
+    font-size: 0;
+    border: none;
+    cursor: pointer;
+    transition: background 200ms, opacity 200ms;
+
+    &::before {
+      font-size: 16px;
+    }
+
+    :hover,
+    :focus {
+      background: #d7dbde;
+      outline: none;
+    }
+
+    &:disabled {
+      opacity: 0.5;
+      pointer-events: none;
+    }
+
+    span {
+      margin-left: 12px;
+    }
+  }
+`;
+
 const handleCheckboxChange = () => {
   State.update({
     isChecked: !state.isChecked,
@@ -451,20 +489,21 @@ return (
       <div className="up-buttons d-flex flex-row">
         <div className="flex-grow-1">
           {!state.isChecked && (
-            <div className="flex-grow-1">
-              <IpfsImageUpload
-                image={state.image}
-                className="btn btn-outline-secondary border-0 rounded-5"
-              />
+            <Actions>
+              {
+                <IpfsImageUpload
+                  image={state.image}
+                  className="upload-image-button bi bi-image"
+                />
+              }
               <button
-                className="btn btn-outline-secondary border-0 rounded-5"
+                className="bi bi-code-square mkd-butn"
                 onClick={() =>
                   setMarkdownEditor(markdownEditor ? false : Date.now())
                 }
               >
-                <i class="bi bi-code-square"></i>
               </button>
-            </div>
+            </Actions>
           )}
           {!state.image.cid && (
             <EmbedNFT>
