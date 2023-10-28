@@ -186,12 +186,11 @@ const SaveIcon = (
   ></i>
 );
 
-
 const copyBtn = props.copyBtn || "Copy Button";
 const component = props.component || "";
 const detailLink = props.detailLink || "notfound";
 const edit = props.edit || <></>;
-
+const text = props.text || "";
 return (
   <Card isWhiteBackground={!isWhiteBackground1}>
     <CardBody>
