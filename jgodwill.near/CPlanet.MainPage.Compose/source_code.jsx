@@ -64,9 +64,6 @@ State.init({
     State.update({ content, isChecked });
     Storage.privateSet(draftKey, content.text || "");
   },
-  onHelp: ({ extractMentionNotifications, extractHashtags }) => {
-    State.update({ extractMentionNotifications, extractHashtags });
-  },
 });
 
 const onHelp = ({ extractMentionNotifications, extractHashtags }) => {
@@ -82,8 +79,11 @@ return (
         src="jgodwill.near/widget/CPlanet.MainPage.Common.Compose"
         props={{
           placeholder: "What's happening?",
+          initialText,
           onChange: state.onChange,
-          onHelper: state.onHelp,
+          onHelper: ({ extractMentionNotifications, extractHashtags }) => {
+            State.update({ extractMentionNotifications, extractHashtags });
+          },
           composeButton: (onCompose) => (
             <CommitButton
               disabled={!state.content.text}
