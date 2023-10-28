@@ -197,9 +197,7 @@ const divEdit = styled.div`
   position: absolute;
   top: 10px;
   right: 50px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+
   font-weight: bold;
   color: white;
    &:hover {
@@ -224,9 +222,7 @@ return (
           Code<i className="bi bi-code-slash"></i>
         </ViewButton>
       </a>
-      <divEdit>
-      {edit}
-        </divEdit>
+      <divEdit>{edit}</divEdit>
       <ToggleButton onClick={toggleButton1} isToggled={isToggleOn1}>
         {isToggleOn1 ? SunIcon : MoonIcon}
       </ToggleButton>
