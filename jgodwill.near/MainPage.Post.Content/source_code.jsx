@@ -42,7 +42,7 @@ return content ? (
           />
         </div>
       ))}
-    {content.embeddedNFT && (
+    {(content.embeddedNFT.contractId || content.embeddedNFT.tokenId) && (
       <div key="content-img" className="mt-2">
         <Widget
           src="jgodwill.near/widget/GenaDrop.NFTEmbedPreview"
