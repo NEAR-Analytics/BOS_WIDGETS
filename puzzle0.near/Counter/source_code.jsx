@@ -46,11 +46,11 @@ const Button0024 = styled.button`
 `;
 
 const getTotalRewards = () => {
-  return count * cost_per_item;
+  return (count * cost_per_item).toFixed(2);
 };
 
 const getBitcoinRewards = () => {
-  return ((count * cost_per_item) / bitcoinPrice()) * 100000000;
+  return (((count * cost_per_item) / bitcoinPrice()) * 100000000).toFixed(0);
 };
 
 function bitcoinPrice() {
@@ -93,6 +93,7 @@ function Page() {
         </div>
       );
     }
+
     case 2: {
       return (
         <div>
