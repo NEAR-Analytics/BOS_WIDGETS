@@ -36,6 +36,7 @@ const code = `
                 margin: 0;
                 padding: 0;
             }
+
             #map {
                 position: absolute;
                 top: 0;
@@ -72,7 +73,7 @@ const code = `
 
             const map = new mapboxgl.Map({
                 container: 'map',
-                style: 'mapbox://styles/mapbox/light-v11',
+                style: 'mapbox://styles/mapbox/navigation-night-v1',
                 center: [
                     -73.9756567, 40.7701070
                 ], // New York City coordinates
@@ -82,16 +83,18 @@ const code = `
 
             const start = [-73.9783516, 40.7871829];
             const instructions = document.getElementById('instructions');
-            let catalog = '';
+            
+            const markers = []; 
+                         
+            function removeAllMarkers() {
+                for (const marker of markers) {
+                    marker.remove(); // Remove the marker from the map
+                }
+                markers.length = 0;
+            }
 
             async function getRoute(end) {
 
-                // make a directions request using cycling profile
-                // an arbitrary start will always be the same
-                // only the end or destination will change
-
-                // const queryurl = 'https://api.mapbox.com/directions/v5/mapbox/cycling/' + start[0] + ',' + start[1]+ ';' + end[0] + ',' + end[1] +'?steps=true&geometries=geojson&access_token='+mapboxgl.accessToken+'}';
-                // console.log(queryurl);
 
                 const query = await fetch('https://api.mapbox.com/directions/v5/mapbox/cycling/' + start[0] + ',' + start[1]+ ';' + end[0] + ',' + end[1] +'?steps=true&geometries=geojson&access_token='+mapboxgl.accessToken);
                 const json = await query.json();
@@ -127,23 +130,24 @@ const code = `
                         'line-cap': 'round'
                     },
                     paint: {
-                        'line-color': '#3887be',
+                        'line-color': '#FFFFCC',
                         'line-width': 5,
                         'line-opacity': 0.75
                     }
                 });
 
 
-                if (map.getSource('route')) {
-                    // const response = await fetch('https://jessiejessje.github.io/hackoween/mydata_clean.json');
-                    // const street_name_data = await response.json();
 
+                if (map.getSource('route')) {
 
                     const bufferDistance = 0.5;
                     const buffer = turf.buffer(geojson, bufferDistance, {units: 'kilometers'});
                     const poly = turf.polygon([buffer.geometry.coordinates[0]])
 
-                    instructions.innerHTML = "<p><strong>NYC Memorial Street Names along the route: </strong></p>";
+                    instructions.innerHTML = "<p><strong>NYC Memorial Street Names along the route: </strong></p><button><h4> + Collect</h4></button><br></br>";
+
+                    removeAllMarkers(); 
+                    console.log(markers, 'markers');
 
                     for (let d of ${street_name_data}) {
                         const spot = {
@@ -155,19 +159,40 @@ const code = `
                         };
 
                         const isNearRoute = turf.booleanPointInPolygon(spot.geometry.coordinates, poly);
+                       
 
                         if (isNearRoute) {
-                            const marker = new mapboxgl.Marker({color: '#ff7518'}).setLngLat([d.long, d.lat]).addTo(map);
+                            const pumpkin = new Image(60,60);
+                            pumpkin.src = ('https://jessiejessje.github.io/hackoween/pumpkin.png');
+
+                            const marker = new mapboxgl.Marker({
+                                    element: pumpkin,
+                                    anchor: 'center',
+                                                               
+                                }).setLngLat([d.long, d.lat]).addTo(map);
+
                             instructions.innerHTML += d.loc_result + "<li>" + d.coname + "</li> <br></br>";
+                            markers.push(marker);
+
                         } else {
-                            const marker = new mapboxgl.Marker({color: '#efefef'}).setLngLat([d.long, d.lat]).addTo(map);
+                            const ghost = new Image(55,55);
+                            ghost.src = ('https://jessiejessje.github.io/hackoween/ghost.png');
+
+                            const marker = new mapboxgl.Marker({
+                                element: ghost,
+                                anchor: 'center',
+
+                            }).setLngLat([d.long, d.lat]).addTo(map);
+                            markers.push(marker);
                         }
+
+                        
                     }
-                    // add turn instructions here at the end
-                    console.log(instructions.innerHTML ,'html')
 
                 } // end of markers
             }
+
+
             
             map.on('load', () => {
                 // make an initial directions request that
@@ -196,7 +221,7 @@ const code = `
                     },
                     paint: {
                         'circle-radius': 10,
-                        'circle-color': '#3887be'
+                        'circle-color': '#ff7518'
                     }
                 });
                 // this is where the code from the next step will go
@@ -240,7 +265,7 @@ const code = `
                             },
                             paint: {
                                 'circle-radius': 10,
-                                'circle-color': '#f30'
+                                'circle-color': '#ffffcc'
                             }
                         });
                     } getRoute(coords);
