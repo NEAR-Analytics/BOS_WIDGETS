@@ -65,8 +65,14 @@ State.init({
   },
 });
 
+const Main = styled.div`
+*{
+  font-family: Helvetica Neue;
+}
+`;
+
 return (
-  <>
+  <Main>
     <div style={{ margin: "0 -12px" }}>
       <Widget
         src="jgodwill.near/widget/CPlanet.MainPage.Common.Compose"
@@ -105,5 +111,5 @@ return (
         />
       </div>
     )}
-  </>
+  </Main>
 );
