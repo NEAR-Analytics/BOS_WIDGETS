@@ -144,11 +144,11 @@ paint: {
 'circle-color': [
 'step',
 ['get', 'point_count'],
-'#51bbd6',
+'#ffeb96',
 100,
-'#f1f075',
+'#ffe578',
 750,
-'#f28cb1'
+'#f9d74a'
 ],
 'circle-radius': [
 'step',
