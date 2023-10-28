@@ -154,11 +154,11 @@ const onChange = (text) => {
 };
 
 const jContent = JSON.stringify(content);
-if (props.onChange && jContent !== state.jContent) {
+if (props.onContentChange && jContent !== state.jContent) {
   State.update({
     jContent,
   });
-  props.onChange({ content, isChecked: state.isChecked });
+  props.onContentChange({ content, isChecked: state.isChecked });
 }
 console.log("checked", isChecked);
 
@@ -357,7 +357,7 @@ const handleCheckboxChange = () => {
     isOpen: true,
     account: accountId,
   });
-  props.onChange({ isChecked: state.isChecked });
+  props.onContentChange({ isChecked: state.isChecked });
 };
 
 const onClose = () => {
