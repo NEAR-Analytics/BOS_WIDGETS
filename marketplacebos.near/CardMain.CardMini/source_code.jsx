@@ -100,8 +100,6 @@ const MoonIcon = (
   </svg>
 );
 
-
-
 const ButtonCopy = styled.button`
   width: 5rem;
   height: 30px;
@@ -188,23 +186,11 @@ const SaveIcon = (
   ></i>
 );
 
-const CloseButton = styled.button`
-  &.btn-close {
-    color: #000; // Đặt màu chữ đen cho nút close
-  }
-`;
-
-const SaveChangesButton = styled.button`
-  &.btn.btn-primary {
-    background-color: #ff0000; // Đặt màu đỏ cho nút "Save Changes"
-  }
-`;
 
 const copyBtn = props.copyBtn || "Copy Button";
 const component = props.component || "";
 const detailLink = props.detailLink || "notfound";
 const edit = props.edit || <></>;
-
 
 return (
   <Card isWhiteBackground={!isWhiteBackground1}>
@@ -219,7 +205,7 @@ return (
           Code<i className="bi bi-code-slash"></i>
         </ViewButton>
       </a>
-        {edit}
+      {edit}
 
       <ToggleButton onClick={toggleButton1} isToggled={isToggleOn1}>
         {isToggleOn1 ? SunIcon : MoonIcon}
