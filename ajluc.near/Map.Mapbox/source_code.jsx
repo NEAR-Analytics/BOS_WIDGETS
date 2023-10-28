@@ -6,7 +6,7 @@ const styleUrl = props.styleUrl || "mapbox://styles/mapbox/streets-v12"; // see 
 const center = props.center || [-87.6298, 41.8781]; // starting position [lng, lat]
 const zoom = props.zoom || 9; // starting zoom
 const accountId = context.accountId;
-const markers = props.markers || [];
+const markers = props.markers || {};
 const onMapClick = props.onMapClick || (() => {});
 const onMarkerClick = props.onMarkerClick || (() => {});
 const edit = props.edit || false;
