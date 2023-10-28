@@ -73,7 +73,7 @@ return (
         props={{
           placeholder: "What's happening?",
           initialText,
-          onChange: state.onChange,
+          onContentChange: state.onChange,
           onHelper: ({ extractMentionNotifications, extractHashtags }) => {
             State.update({ extractMentionNotifications, extractHashtags });
           },
