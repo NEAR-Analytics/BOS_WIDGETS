@@ -83,7 +83,12 @@ function Page() {
           <h2>Bitcoin</h2>
           <p>BTC Rewards Amount: {getBitcoinRewards()} Satoshis</p>
           <p>Displaying LNURL</p>
-          <img src={"http://www.w3.org/2000/svg"} />
+          <a href="https://imgur.com/PnpEJTj">
+            <img
+              src="https://i.imgur.com/PnpEJTjb.png"
+              title="source: imgur.com"
+            />
+          </a>
           <p></p>
           <button onClick={() => setPage(0)}>Print</button>
         </div>
