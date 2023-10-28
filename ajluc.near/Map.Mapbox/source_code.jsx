@@ -124,7 +124,7 @@ const code = `
     map.on('load', () => {
         map.addSource('earthquakes', {
             type: 'geojson',
-            data: 'https://ajluc.github.io/hack-o-ween/markers2.geojson',
+            data: 'https://ajluc.github.io/hack-o-ween/markers3.geojson',
             cluster: true,
             clusterMaxZoom: 14, // Max zoom to cluster points on
             clusterRadius: 50 // Radius of each cluster when clustering points (defaults to 50)
