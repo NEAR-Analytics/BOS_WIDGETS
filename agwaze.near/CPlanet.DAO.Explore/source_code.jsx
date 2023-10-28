@@ -183,6 +183,17 @@ const defaultDaos = [
   "thespians.sputnik-dao.near",
 ];
 
+const seachInputHandler = (e) => {
+  const value = e.target.value.toLowerCase();
+  const searched = defaultDaos.filter((daos) =>
+    daos.includes(value)
+  );
+  State.update({
+    searchTerm: value,
+    filteredNFTData: searched,
+  });
+};
+
 return (
   <Explore>
     <SearchSection>
@@ -211,13 +222,13 @@ return (
           : state.filteredNFTData.map((data, index) => (
               <div key={index}>
                 <Widget
-                  props={{ dao: data }}
+                  props={{ daoId: data }}
                   src="agwaze.near/widget/CPlanet.DAO.Card"
                 />
               </div>
             ))}
       </NFTCards>
-      ) : (<div></div>
+      ) : <div></div>
     </Cards>
   </Explore>
 );
