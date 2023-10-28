@@ -141,7 +141,7 @@ return (
 
     {state.showInspect && (
       <Widget
-        src={"byalbert.near/widget/Map.Inspect"}
+        src={"byalbert.near/widget/Map.inspect"}
         props={{
           focusedMarker: state.focusedMarker,
           children: props.inspect,
