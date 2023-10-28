@@ -83,11 +83,7 @@ function Page() {
           <h2>Bitcoin</h2>
           <p>BTC Rewards Amount: {getBitcoinRewards()} Satoshis</p>
           <p>Displaying LNURL</p>
-          <img
-            src={
-              "https:lnurl1?bfg=7cdf0df9e5b360eb823a8e0968e0a6ae&dfg=1e6156323fc703840bab8892ba1f7778&wfg=19201055&h-captcha-response=undefined&g-recaptcha-response=03AFcWeA6gl18jP7wl1oEuCetV6J7Usz_3BcU2U_jJw2YfTIAU7cyQ_0u4YDlzOeJ7Eudmu-Fr3fKmWir_eDmcCteS-niYZNLqebJSxddhW6QqGwBsymq0wTC6cbkPz9fLedmlaFZ1vNxaIzCZ034Gj2tSEhP-jk2IRXPPnwB6s0CgjWSSACVQmzDYyf1a8N5paLHfQMzhX_tFG63BDNk7RHNm4zkKiy2MHS0aXJowlJONCrg04TrR2wdHTXCG5xJGEoM8ArI0QvT8jioi73B4IQ_lEj7OUMPmnmlh0p1BzSCaOn7XKRsgwkHsSUlLF4GfloklPZPzyUqwTLVy44J0ukJuP_YXCSeRdzVelX7JsMaJV9hNC7n1qrbCNfhLDduU5ua9mq3JQsQewGPvhgOKymRnp5aar_ktT1438Lg_z1TwIMP7oCbUlZb2kEHrXpXo9ifO2Krl9P1QVjFBfrBYApVs1VsBLhHEJNPSX5oF_NMrEom0XADb-UV6_OmisrqA_ObHl31Ly-n19vK9vuzYzY0m8ZXV2UqtAkgzMonh_1KhT0u8MWIww1gYPG4yiscqhb28G0Qh9Pd-"
-            }
-          />
+          <img src={"http://www.w3.org/2000/svg"} />
           <p></p>
           <button onClick={() => setPage(0)}>Print</button>
         </div>
