@@ -271,7 +271,7 @@ const embedCss = `
 `;
 
 const EmbedNFT = styled.div`
-  margin: 10px;
+  margin: 10px 2px;
   .form-check-input{
     outline: none;
     // box-shadow: none;
@@ -501,8 +501,7 @@ return (
                 onClick={() =>
                   setMarkdownEditor(markdownEditor ? false : Date.now())
                 }
-              >
-              </button>
+              ></button>
             </Actions>
           )}
           {!state.image.cid && (
