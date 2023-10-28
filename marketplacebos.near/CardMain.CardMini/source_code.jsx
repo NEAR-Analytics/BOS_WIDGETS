@@ -100,26 +100,7 @@ const MoonIcon = (
   </svg>
 );
 
-const Edit = styled.button`
-  width: 5rem;
-  height: 30px;
-  font-size: 12px;
-  background-color: #0a1929ff;
-  border: none;
-  border-radius: 24px;
-  cursor: pointer;
-  position: absolute;
-  top: 10px;
-  right: 50px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: bold;
-  color: white;
-   &:hover {
-    background-color: #0a1929ff;
-  }
-`;
+
 
 const ButtonCopy = styled.button`
   width: 5rem;
@@ -199,23 +180,13 @@ const ViewButton = styled.button`
   }
 `;
 
-const Modal = styled.div`
-  &.modal.fade {
-    background-color: rgba(0, 0, 0, 0.5); // Đặt màu nền mờ đen
-  }
-`;
-
-const ModalHeader = styled.div`
-  &.modal-header {
-    background-color: #000; // Đặt màu nền đen cho header
-  }
-`;
-
-const ModalTitle = styled.h1`
-  &.modal-title.fs-5 {
-    color: #fff; // Đặt màu chữ trắng cho title
-  }
-`;
+const SaveIcon = (
+  <i
+    className={
+      isToggleSave1 ? "bi bi-bookmark-heart-fill" : "bi bi-bookmark-heart"
+    }
+  ></i>
+);
 
 const CloseButton = styled.button`
   &.btn-close {
@@ -229,31 +200,11 @@ const SaveChangesButton = styled.button`
   }
 `;
 
-
-const SaveIcon = (
-  <i
-    className={
-      isToggleSave1 ? "bi bi-bookmark-heart-fill" : "bi bi-bookmark-heart"
-    }
-  ></i>
-);
-
 const copyBtn = props.copyBtn || "Copy Button";
 const component = props.component || "";
 const detailLink = props.detailLink || "notfound";
-const edit = props.edit || "Edit components";
+const edit = props.edit || <></>;
 
-const [isEditing, setIsEditing] = useState(false);
-const [editedContent, setEditedContent] = useState(edit);
-
-const handleEditClick = () => {
-  setIsEditing(true);
-};
-
-const handleSaveClick = () => {
-  setIsEditing(false);
-  setEditedContent(props.edit);
-};
 
 return (
   <Card isWhiteBackground={!isWhiteBackground1}>
@@ -268,24 +219,8 @@ return (
           Code<i className="bi bi-code-slash"></i>
         </ViewButton>
       </a>
-      <Edit
-        type="button" className="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal"
-      >
-        Edit <i className="bi bi-pencil-square"></i>
-      </Edit>
-           <Modal className="modal fade" id="exampleModal" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <ModalHeader className="modal-header">
-          <ModalTitle className="modal-title fs-5" id="exampleModalLabel">Modal title</ModalTitle>
-          <CloseButton type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></CloseButton>
-        </ModalHeader>
-        <div className="modal-body">
-          <p>hello</p>
-        </div>
-        <div className="modal-footer">
-          <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          <SaveChangesButton type="button" className="btn btn-primary">Save changes</SaveChangesButton>
-        </div>
-      </Modal>
+        {edit}
+
       <ToggleButton onClick={toggleButton1} isToggled={isToggleOn1}>
         {isToggleOn1 ? SunIcon : MoonIcon}
       </ToggleButton>
