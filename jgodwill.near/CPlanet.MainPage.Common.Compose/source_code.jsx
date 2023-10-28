@@ -272,6 +272,17 @@ const embedCss = `
 
 const EmbedNFT = styled.div`
   margin: 10px;
+  .form-check-input{
+    outline: none;
+    // box-shadow: none;
+    filter:gray;
+  -webkit-filter:grayscale(1);
+  filter:grayscale(1);
+  }
+  .form-check-input:checked{
+    border-color: #000;
+    background-color: #000;
+  }
 `;
 
 const Content = styled.div`
@@ -457,7 +468,7 @@ return (
           )}
           {!state.image.cid && (
             <EmbedNFT>
-              <div className="form-check form-switch embed">
+              <div className="form-check form-switch embed btn-dark">
                 <input
                   className="form-check-input"
                   type="checkbox"
