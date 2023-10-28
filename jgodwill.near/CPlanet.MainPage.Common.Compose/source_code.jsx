@@ -53,7 +53,7 @@ if (state.image === undefined) {
           },
         }));
 
-    props?.onHelper({
+    props.onHelper({
       extractHashtags,
       extractMentions,
       extractTagNotifications: extractMentionNotifications,
@@ -125,9 +125,9 @@ const updateChain = (chain) => {
 
 const content = (state.text ||
   state.image.cid ||
-  state?.nftContractId ||
-  state?.nftTokenId ||
-  state?.nftChainState) && {
+  state.nftContractId ||
+  state.nftTokenId ||
+  state.nftChainState) && {
   type: "md",
   text: state.text,
   image: state.image.cid ? { ipfs_cid: state.image.cid } : undefined,
@@ -551,16 +551,6 @@ return (
                             value={state.nftTokenId}
                           />
                         </Card>
-                        {/*state.nftContractId && state.nftTokenId && (
-                      <Widget
-                        src="jgodwill.near/widget/GenaDrop.NFTEmbedPreview"
-                        props={{
-                          contractId: state.nftContractId,
-                          tokenId: state.nftTokenId,
-                          chainState: state.nftChainState.toLowerCase(),
-                        }}
-                      />
-                    )*/}
                       </Card>
                     )}
                   </Card>
