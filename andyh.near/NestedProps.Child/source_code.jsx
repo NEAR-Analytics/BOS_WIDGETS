@@ -1,5 +1,5 @@
 function x() {
-  return 4;
+  console.log(4);
 }
 
 return (
