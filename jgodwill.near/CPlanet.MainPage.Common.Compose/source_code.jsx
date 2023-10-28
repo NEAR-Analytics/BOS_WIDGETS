@@ -487,7 +487,7 @@ return (
                         <Card>
                           <div>Select Chain</div>
                           <Widget
-                            src="jgodwill.near/widget/GenaDrop.ChainsDropdown"
+                            src="jgodwill.near/widget/CPlanet.ChainsDropdown"
                             props={{ chains: chains, updateChain }}
                           />
                         </Card>
