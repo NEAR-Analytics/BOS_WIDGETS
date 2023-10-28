@@ -248,18 +248,20 @@ const dataMap = {
 dataObj.body.forEach((building) => {
   const markerObj = {
     type: "Feature",
+    properties: {
+      ...building,
+    },
     geometry: {
       type: "Point",
       coordinates: [building.latitude, building.longitude],
-    },
-    properties: {
-      ...building,
     },
   };
   dataMap.onMarket = [...dataMap.onMarket, markerObj];
 });
 
 const newData = {
+  type: "FeatureCollection",
+  crs: {},
   features: [...dataMap.onMarket],
 };
 
