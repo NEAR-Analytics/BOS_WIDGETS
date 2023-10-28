@@ -170,6 +170,8 @@ const onCompose = () => {
   });
 };
 
+const [markdownEditor, setMarkdownEditor] = useState(false);
+
 const TextareaWrapper = styled.div`
     display: grid;
   vertical-align: top;
@@ -232,26 +234,45 @@ const TextareaWrapper = styled.div`
   }
 `;
 
+const Wrapper = styled.div`
+  border-bottom: 1px solid #eee;
+  line-height: normal;
+  display: flex;
+  padding: 12px 12px 6px;
+
+  .left {
+    min-width: 40px;
+    margin-right: 12px;
+  }
+  .right {
+    margin-top: -4px;
+    flex-grow: 1;
+    min-width: 0;
+  }
+
+  .up-buttons {
+    margin-top: 6px;
+    margin-left: -12px;
+  }
+`;
+
+const embedCss = `
+.rc-md-editor {
+  border: 0;
+}
+.rc-md-editor .editor-container>.section {
+  border: 0;
+}
+.rc-md-editor .editor-container .sec-md .input {
+  overflow-y: auto;
+  padding: 8px 0 !important;
+  line-height: normal;
+}
+`;
+
 const EmbedNFT = styled.div`
   margin: 10px;
 `;
-
-//
-
-// const Overlay = styled.div`
-//   position: absolute;
-//   top: 0;
-//   left: 0;
-//   right: 0;
-//   bottom: 0;
-//   background-color: rgba(0, 0, 0, 0.5);
-//   display: flex;
-//   align-items: center;
-//   justify-content: center;
-//   z-index: 10;
-//   height: 100vh;
-//   width: 100vw;
-// `;
 
 const Content = styled.div`
   // background-color: white;
@@ -347,11 +368,9 @@ const onClose = () => {
   });
 };
 
-// if (state.isChecked === true) {
-//   State.update({
-//     nftChainState: "Near",
-//   });
-// }
+if (state.isChecked === true) {
+  setMarkdownEditor(false);
+}
 
 console.log(state.isChecked);
 
@@ -366,145 +385,173 @@ const onChangeTokenID = (tokenId) => {
     nftTokenId: tokenId,
   });
 };
-// const onOpen = () =>{
-//   State.update({
-//     isOpen: true
-//   })
-// }
-// console.log(state.isChecked);
 console.log(content);
-return (
-  <div className="text-bg-light rounded-4">
-    <TextareaWrapper className="p-3" data-value={state.text || ""}>
-      <textarea
-        value={state.text || ""}
-        onInput={(event) => onChange(event.target.value)}
-        onKeyUp={(event) => {
-          if (event.key === "Escape") {
-            State.update({ showAccountAutocomplete: false });
-          }
-        }}
-        placeholder={props.placeholder ?? "What's happening?"}
-      />
 
-      {autocompleteEnabled && state?.showAccountAutocomplete && (
-        <div className="pt-1 w-100 overflow-hidden">
+return (
+  <Wrapper>
+    <div className="left">
+      <Widget
+        loading=""
+        src="mob.near/widget/MainPage.N.Post.Left"
+        props={{ accountId: context.accountId }}
+      />
+    </div>
+    <div className="right">
+      <TextareaWrapper
+        className={markdownEditor ? "markdown-editor" : ""}
+        data-value={state.text || ""}
+      >
+        {markdownEditor ? (
           <Widget
-            src="mob.near/widget/AccountAutocomplete"
+            key={`markdown-editor-${markdownEditor}`}
+            src="mob.near/widget/MarkdownEditorIframe"
             props={{
-              term: state.text.split("@").pop(),
-              onSelect: autoCompleteAccountId,
-              onClose: () => State.update({ showAccountAutocomplete: false }),
+              initialText: state.text,
+              onChange,
+              embedCss,
             }}
           />
-        </div>
-      )}
-    </TextareaWrapper>
-    <div className="d-flex flex-row p-2 border-top">
-      <div className="flex-grow-1">
-        {!state.isChecked && (
-          <IpfsImageUpload
-            image={state.image}
-            className="btn btn-outline-secondary border-0 rounded-3"
+        ) : (
+          <textarea
+            key="textarea"
+            value={state.text || ""}
+            onInput={(event) => onChange(event.target.value)}
+            onKeyUp={(event) => {
+              if (event.key === "Escape") {
+                State.update({ showAccountAutocomplete: false });
+              }
+            }}
+            placeholder={props.placeholder ?? "What's happening?"}
           />
         )}
-        {!state.image.cid && (
-          <EmbedNFT>
-            <div className="form-check form-switch embed">
-              <input
-                className="form-check-input"
-                type="checkbox"
-                role="switch"
-                id="embed"
-                checked={state.isChecked}
-                onChange={handleCheckboxChange}
+        {autocompleteEnabled && state.showAccountAutocomplete && (
+          <div className="pt-1 w-100 overflow-hidden">
+            <Widget
+              src="mob.near/widget/AccountAutocomplete"
+              props={{
+                term: state.text.split("@").pop(),
+                onSelect: autoCompleteAccountId,
+                onClose: () => State.update({ showAccountAutocomplete: false }),
+              }}
+            />
+          </div>
+        )}
+      </TextareaWrapper>
+      <div className="up-buttons d-flex flex-row">
+        <div className="flex-grow-1">
+          {!state.isChecked && (
+            <div className="flex-grow-1">
+              <IpfsImageUpload
+                image={state.image}
+                className="btn btn-outline-secondary border-0 rounded-5"
               />
-              <label htmlFor="embed">Embed an NFT</label>
+              <button
+                className="btn btn-outline-secondary border-0 rounded-5"
+                onClick={() =>
+                  setMarkdownEditor(markdownEditor ? false : Date.now())
+                }
+              >
+                <i class="bi bi-code-square"></i>
+              </button>
             </div>
-            {state.isChecked && (
-              <div>
-                <Card>
-                  <div className="d-flex align-center text-center gap-2">
-                    <SelectCard>
-                      <Card>
-                        <div>Select Chain</div>
-                        <Widget
-                          src="jgodwill.near/widget/GenaDrop.ChainsDropdown"
-                          props={{ chains: chains, updateChain }}
-                        />
-                      </Card>
-                      {state.nftChainState === "Near" && (
+          )}
+          {!state.image.cid && (
+            <EmbedNFT>
+              <div className="form-check form-switch embed">
+                <input
+                  className="form-check-input"
+                  type="checkbox"
+                  role="switch"
+                  id="embed"
+                  checked={state.isChecked}
+                  onChange={handleCheckboxChange}
+                />
+                <label htmlFor="embed">Embed an NFT</label>
+              </div>
+              {state.isChecked && (
+                <div>
+                  <Card>
+                    <div className="d-flex align-center text-center gap-2">
+                      <SelectCard>
                         <Card>
-                          Near Address:
-                          <Search>
-                            <Typeahead
-                              id="async-example"
-                              className="type-ahead"
-                              isLoading={isLoading}
-                              labelKey="search"
-                              minLength={1}
-                              options={allWidgets}
-                              onChange={(value) => onChangeAccount(value)}
-                              placeholder={accountId}
-                            />
-                          </Search>
+                          <div>Select Chain</div>
+                          <Widget
+                            src="jgodwill.near/widget/GenaDrop.ChainsDropdown"
+                            props={{ chains: chains, updateChain }}
+                          />
                         </Card>
-                      )}
-                    </SelectCard>
-                  </div>
-                  {state.nftChainState === "Near" ? (
-                    <div>
-                      <div
-                        className="p-2 rounded mt-3"
-                        style={{
-                          background: "#fdfdfd",
-                          border: "solid 1px #dee2e6",
-                          borderBottomLeftRadius: ".375rem",
-                          borderBottomRightRadius: ".375rem",
-                          minHeight: "9em",
-                        }}
-                      >
-                        <div>
-                          <div className="mt-2">
-                            <Widget
-                              src={`jgodwill.near/widget/genadrop-nft-selector`}
-                              props={{
-                                onChange: ({ contractId, tokenId }) => {
-                                  State.update({
-                                    contractId: contractId,
-                                    tokenId: tokenId,
-                                  });
-                                  onChangeTokenID(tokenId);
-                                  onChangeContractID(contractId);
-                                },
-                                accountId: state.account,
-                                headingText: "Select an NFT to embed",
-                              }}
-                            />
+                        {state.nftChainState === "Near" && (
+                          <Card>
+                            Near Address:
+                            <Search>
+                              <Typeahead
+                                id="async-example"
+                                className="type-ahead"
+                                isLoading={isLoading}
+                                labelKey="search"
+                                minLength={1}
+                                options={allWidgets}
+                                onChange={(value) => onChangeAccount(value)}
+                                placeholder={accountId}
+                              />
+                            </Search>
+                          </Card>
+                        )}
+                      </SelectCard>
+                    </div>
+                    {state.nftChainState === "Near" ? (
+                      <div>
+                        <div
+                          className="p-2 rounded mt-3"
+                          style={{
+                            background: "#fdfdfd",
+                            border: "solid 1px #dee2e6",
+                            borderBottomLeftRadius: ".375rem",
+                            borderBottomRightRadius: ".375rem",
+                            minHeight: "9em",
+                          }}
+                        >
+                          <div>
+                            <div className="mt-2">
+                              <Widget
+                                src={`jgodwill.near/widget/genadrop-nft-selector`}
+                                props={{
+                                  onChange: ({ contractId, tokenId }) => {
+                                    State.update({
+                                      contractId: contractId,
+                                      tokenId: tokenId,
+                                    });
+                                    onChangeTokenID(tokenId);
+                                    onChangeContractID(contractId);
+                                  },
+                                  accountId: state.account,
+                                  headingText: "Select an NFT to embed",
+                                }}
+                              />
+                            </div>
                           </div>
                         </div>
                       </div>
-                    </div>
-                  ) : (
-                    <Card>
-                      <h4>Enter the NFT details</h4>
+                    ) : (
                       <Card>
-                        NFT Contract ID:
-                        <Input
-                          type="text"
-                          onChange={(e) => onChangeContractID(e.target.value)}
-                          value={state.nftContractId}
-                        />
-                      </Card>
-                      <Card>
-                        NFT Token Id:
-                        <Input
-                          type="text"
-                          onChange={(e) => onChangeTokenID(e.target.value)}
-                          value={state.nftTokenId}
-                        />
-                      </Card>
-                      {/*state.nftContractId && state.nftTokenId && (
+                        <h4>Enter the NFT details</h4>
+                        <Card>
+                          NFT Contract ID:
+                          <Input
+                            type="text"
+                            onChange={(e) => onChangeContractID(e.target.value)}
+                            value={state.nftContractId}
+                          />
+                        </Card>
+                        <Card>
+                          NFT Token Id:
+                          <Input
+                            type="text"
+                            onChange={(e) => onChangeTokenID(e.target.value)}
+                            value={state.nftTokenId}
+                          />
+                        </Card>
+                        {/*state.nftContractId && state.nftTokenId && (
                       <Widget
                         src="jgodwill.near/widget/GenaDrop.NFTEmbedPreview"
                         props={{
@@ -514,15 +561,16 @@ return (
                         }}
                       />
                     )*/}
-                    </Card>
-                  )}
-                </Card>
-              </div>
-            )}
-          </EmbedNFT>
-        )}
+                      </Card>
+                    )}
+                  </Card>
+                </div>
+              )}
+            </EmbedNFT>
+          )}
+        </div>
+        <div>{props.composeButton && props.composeButton(onCompose)}</div>
       </div>
-      <div>{props.composeButton && props.composeButton(onCompose)}</div>
     </div>
-  </div>
+  </Wrapper>
 );
