@@ -368,9 +368,9 @@ const onClose = () => {
   });
 };
 
-// if (state.isChecked === true) {
-//   setMarkdownEditor(false);
-// }
+if (state.isChecked === true) {
+  setMarkdownEditor(false);
+}
 
 console.log(state.isChecked);
 
