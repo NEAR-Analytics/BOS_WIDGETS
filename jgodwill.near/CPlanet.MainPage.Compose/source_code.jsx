@@ -93,7 +93,7 @@ return (
         }}
       />
     </div>
-    {state.content && state.isChecked && (
+    {(state.content.text || state.isChecked) && (
       <div className="mt-3">
         <Widget
           src="jgodwill.near/widget/MainPage.Post"
