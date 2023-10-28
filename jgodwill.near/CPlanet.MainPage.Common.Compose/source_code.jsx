@@ -78,11 +78,11 @@ const chains = [
     name: "Celo",
     url: "https://ipfs.near.social/ipfs/bafkreifu6ufsdf2ivrs5febt7l25wdys6odzfelgjauzod7owrfug56cxe",
   },
-  {
-    id: "43114",
-    name: "Avax",
-    url: "https://ipfs.near.social/ipfs/bafkreifhu5fytsjcmjluarfnu6kcdhaqz4rgdrbbzf6dlsmggqb7oi3w4e",
-  },
+  // {
+  //   id: "43114",
+  //   name: "Avax",
+  //   url: "https://ipfs.near.social/ipfs/bafkreifhu5fytsjcmjluarfnu6kcdhaqz4rgdrbbzf6dlsmggqb7oi3w4e",
+  // },
   {
     id: "42161",
     name: "Arbitrum",
@@ -439,22 +439,22 @@ return (
       </TextareaWrapper>
       <div className="up-buttons d-flex flex-row">
         <div className="flex-grow-1">
-          {!state.isChecked && (
-            <div className="flex-grow-1">
-              <IpfsImageUpload
-                image={state.image}
-                className="btn btn-outline-secondary border-0 rounded-5"
-              />
-              <button
-                className="btn btn-outline-secondary border-0 rounded-5"
-                onClick={() =>
-                  setMarkdownEditor(markdownEditor ? false : Date.now())
-                }
-              >
-                <i class="bi bi-code-square"></i>
-              </button>
-            </div>
-          )}
+          {/*{!state.isChecked && (*/}
+          <div className="flex-grow-1">
+            <IpfsImageUpload
+              image={state.image}
+              className="btn btn-outline-secondary border-0 rounded-5"
+            />
+            <button
+              className="btn btn-outline-secondary border-0 rounded-5"
+              onClick={() =>
+                setMarkdownEditor(markdownEditor ? false : Date.now())
+              }
+            >
+              <i class="bi bi-code-square"></i>
+            </button>
+          </div>
+          {/*)}*/}
           {!state.image.cid && (
             <EmbedNFT>
               <div className="form-check form-switch embed">
