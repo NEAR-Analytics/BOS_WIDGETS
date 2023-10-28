@@ -419,6 +419,7 @@ const onClose = () => {
 
 if (state.isChecked === true) {
   setMarkdownEditor(false);
+} else {
   State.update({
     nftTokenId: "",
     nftContractId: "",
