@@ -34,17 +34,17 @@ const code = `
       body { margin: 0; padding: 0; }
       #map { position: absolute; top: 0; bottom: 0; width: 100%; }
 
-      .marker {
-        background-image: url('${markerAsset}');
-        background-size: cover;
-        width: 30px;
-        height: 45px;
-        cursor: pointer;
-      }
+    //   .marker {
+    //     background-image: url('${markerAsset}');
+    //     background-size: cover;
+    //     width: 30px;
+    //     height: 45px;
+    //     cursor: pointer;
+    //   }
       
-      #mymarker {
-        background-image: url('${myMarkerAsset}') !important;
-      }
+    //   #mymarker {
+    //     background-image: url('${myMarkerAsset}') !important;
+    //   }
 
       h6 {
         margin:0;
@@ -120,21 +120,17 @@ const code = `
     }
 
     //  NEW Function to populate markers to the map
-map.on('load', () => {
-// Add a new source from our GeoJSON data and
-// set the 'cluster' option to true. GL-JS will
-// add the point_count property to your source data.
-map.addSource('earthquakes', {
-type: 'geojson',
-// Point to GeoJSON data. This example visualizes all M1.0+ earthquakes
-// from 12/22/15 to 1/21/16 as logged by USGS' Earthquake hazards program.
-data: 'https://docs.mapbox.com/mapbox-gl-js/assets/earthquakes.geojson',
-cluster: true,
-clusterMaxZoom: 14, // Max zoom to cluster points on
-clusterRadius: 50 // Radius of each cluster when clustering points (defaults to 50)
-});
- 
-map.addLayer({
+
+    map.on('load', () => {
+        map.addSource('earthquakes', {
+            type: 'geojson',
+            data: 'https://docs.mapbox.com/mapbox-gl-js/assets/earthquakes.geojson',
+            cluster: true,
+            clusterMaxZoom: 14, // Max zoom to cluster points on
+            clusterRadius: 50 // Radius of each cluster when clustering points (defaults to 50)
+        });
+
+        map.addLayer({
 id: 'clusters',
 type: 'circle',
 source: 'earthquakes',
@@ -165,7 +161,7 @@ paint: {
 ]
 }
 });
- 
+
 map.addLayer({
 id: 'cluster-count',
 type: 'symbol',
@@ -190,6 +186,52 @@ paint: {
 'circle-stroke-color': '#fff'
 }
 });
+ 
+// inspect a cluster on click
+map.on('click', 'clusters', (e) => {
+const features = map.queryRenderedFeatures(e.point, {
+layers: ['clusters']
+});
+const clusterId = features[0].properties.cluster_id;
+map.getSource('earthquakes').getClusterExpansionZoom(
+clusterId,
+(err, zoom) => {
+if (err) return;
+ 
+map.easeTo({
+center: features[0].geometry.coordinates,
+zoom: zoom
+});
+}
+);
+});
+
+// inspect a cluster on click
+map.on('click', 'clusters', (e) => {
+const features = map.queryRenderedFeatures(e.point, {
+layers: ['clusters']
+});
+const clusterId = features[0].properties.cluster_id;
+map.getSource('earthquakes').getClusterExpansionZoom(
+clusterId,
+(err, zoom) => {
+if (err) return;
+ 
+map.easeTo({
+center: features[0].geometry.coordinates,
+zoom: zoom
+});
+}
+);
+});
+
+
+
+    });
+
+
+
+
 
 
     // Function to populate markers to the map
