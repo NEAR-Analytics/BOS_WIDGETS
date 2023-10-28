@@ -7,11 +7,10 @@ const fetchAllEvents = () => {
 
 const fetchedEvents = fetchAllEvents();
 
-if (!fetchedEvents) {
+if (!fetchedEvents || !fetchedEvents.ok) {
   return <div>Loading...</div>;
 }
-
-const formattedEvents = fetchedEvents.map((event) => {
+const formattedEvents = (fetchedEvents.body || []).map((event) => {
   return {
     title: event.title,
     start: new Date(`${event.start} ${event.startTime}`),
