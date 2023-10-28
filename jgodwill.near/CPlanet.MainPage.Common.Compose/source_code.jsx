@@ -468,6 +468,7 @@ return (
         ) : (
           <textarea
             key="textarea"
+            className="normal_input"
             value={state.text || ""}
             onInput={(event) => onChange(event.target.value)}
             onKeyUp={(event) => {
@@ -499,10 +500,12 @@ return (
                 <IpfsImageUpload
                   image={state.image}
                   className="upload-image-button bi bi-image"
+                  title="Upload an image"
                 />
               }
               <button
                 className="bi bi-code-square mkd-butn"
+                title="Use the markdown Editor"
                 onClick={() =>
                   setMarkdownEditor(markdownEditor ? false : Date.now())
                 }
