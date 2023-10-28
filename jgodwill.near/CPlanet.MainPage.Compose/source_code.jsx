@@ -79,7 +79,7 @@ return (
   <>
     <div style={{ margin: "0 -12px" }}>
       <Widget
-        src="jgodwill.near/widget/CPlanet.Common.Compose"
+        src="jgodwill.near/widget/CPlanet.MainPage.Common.Compose"
         props={{
           placeholder: "What's happening?",
           onChange: state.onChange,
