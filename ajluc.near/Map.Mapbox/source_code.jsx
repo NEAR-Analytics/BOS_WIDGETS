@@ -6,7 +6,7 @@ const styleUrl = props.styleUrl || "mapbox://styles/mapbox/streets-v12"; // see 
 const center = props.center || [-87.6298, 41.8781]; // starting position [lng, lat]
 const zoom = props.zoom || 9; // starting zoom
 const accountId = context.accountId;
-const markers = props.markers || {};
+const markers = props.markers || [];
 const onMapClick = props.onMapClick || (() => {});
 const onMarkerClick = props.onMarkerClick || (() => {});
 const edit = props.edit || false;
@@ -34,17 +34,17 @@ const code = `
       body { margin: 0; padding: 0; }
       #map { position: absolute; top: 0; bottom: 0; width: 100%; }
 
-    //   .marker {
-    //     background-image: url('${markerAsset}');
-    //     background-size: cover;
-    //     width: 30px;
-    //     height: 45px;
-    //     cursor: pointer;
-    //   }
+      .marker {
+        background-image: url('${markerAsset}');
+        background-size: cover;
+        width: 30px;
+        height: 45px;
+        cursor: pointer;
+      }
       
-    //   #mymarker {
-    //     background-image: url('${myMarkerAsset}') !important;
-    //   }
+      #mymarker {
+        background-image: url('${myMarkerAsset}') !important;
+      }
 
       h6 {
         margin:0;
@@ -120,17 +120,21 @@ const code = `
     }
 
     //  NEW Function to populate markers to the map
-
-    map.on('load', () => {
-        map.addSource('earthquakes', {
-            type: 'geojson',
-            data: 'https://ajluc.github.io/hack-o-ween/markers3.geojson',
-            cluster: true,
-            clusterMaxZoom: 14, // Max zoom to cluster points on
-            clusterRadius: 50 // Radius of each cluster when clustering points (defaults to 50)
-        });
-
-        map.addLayer({
+map.on('load', () => {
+// Add a new source from our GeoJSON data and
+// set the 'cluster' option to true. GL-JS will
+// add the point_count property to your source data.
+map.addSource('earthquakes', {
+type: 'geojson',
+// Point to GeoJSON data. This example visualizes all M1.0+ earthquakes
+// from 12/22/15 to 1/21/16 as logged by USGS' Earthquake hazards program.
+data: 'https://docs.mapbox.com/mapbox-gl-js/assets/earthquakes.geojson',
+cluster: true,
+clusterMaxZoom: 14, // Max zoom to cluster points on
+clusterRadius: 50 // Radius of each cluster when clustering points (defaults to 50)
+});
+ 
+map.addLayer({
 id: 'clusters',
 type: 'circle',
 source: 'earthquakes',
@@ -144,11 +148,11 @@ paint: {
 'circle-color': [
 'step',
 ['get', 'point_count'],
-'#ffeb96',
+'#51bbd6',
 100,
-'#ffe578',
+'#f1f075',
 750,
-'#f9d74a'
+'#f28cb1'
 ],
 'circle-radius': [
 'step',
@@ -161,7 +165,7 @@ paint: {
 ]
 }
 });
-
+ 
 map.addLayer({
 id: 'cluster-count',
 type: 'symbol',
@@ -186,52 +190,6 @@ paint: {
 'circle-stroke-color': '#fff'
 }
 });
- 
-// inspect a cluster on click
-map.on('click', 'clusters', (e) => {
-const features = map.queryRenderedFeatures(e.point, {
-layers: ['clusters']
-});
-const clusterId = features[0].properties.cluster_id;
-map.getSource('earthquakes').getClusterExpansionZoom(
-clusterId,
-(err, zoom) => {
-if (err) return;
- 
-map.easeTo({
-center: features[0].geometry.coordinates,
-zoom: zoom
-});
-}
-);
-});
-
-// inspect a cluster on click
-map.on('click', 'clusters', (e) => {
-const features = map.queryRenderedFeatures(e.point, {
-layers: ['clusters']
-});
-const clusterId = features[0].properties.cluster_id;
-map.getSource('earthquakes').getClusterExpansionZoom(
-clusterId,
-(err, zoom) => {
-if (err) return;
- 
-map.easeTo({
-center: features[0].geometry.coordinates,
-zoom: zoom
-});
-}
-);
-});
-
-
-
-    });
-
-
-
-
 
 
     // Function to populate markers to the map
