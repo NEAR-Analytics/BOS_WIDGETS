@@ -3,14 +3,25 @@ if (!context.accountId) {
 }
 console.log("content here", state.content);
 
+const indexKey = props.indexKey ?? "main";
+const draftKey = props.indexKey ?? "draft";
+const draft = Storage.privateGet(draftKey);
+const groupId = props.groupId;
+
+if (draft === null) {
+  return "";
+}
+
+const [initialText] = useState(draft);
+
 const composeData = () => {
   const data = {
     post: {
-      main: JSON.stringify(state.content),
+      main: JSON.stringify(Object.assign({ groupId }, state.content)),
     },
     index: {
       post: JSON.stringify({
-        key: "main",
+        key: indexKey,
         value: {
           type: "md",
         },
@@ -51,6 +62,7 @@ const composeData = () => {
 State.init({
   onChange: ({ content, isChecked }) => {
     State.update({ content, isChecked });
+    Storage.privateSet(draftKey, content.text || "");
   },
   onHelp: ({ extractMentionNotifications, extractHashtags }) => {
     State.update({ extractMentionNotifications, extractHashtags });
@@ -74,9 +86,9 @@ return (
           onHelper: state.onHelp,
           composeButton: (onCompose) => (
             <CommitButton
-              disabled={!state.content}
+              disabled={!state.content.text}
               force
-              className="btn btn-dark rounded-3"
+              className="btn btn-dark rounded-5"
               data={composeData}
               onCommit={() => {
                 onCompose();
