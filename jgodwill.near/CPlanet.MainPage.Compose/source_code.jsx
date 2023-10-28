@@ -2,7 +2,6 @@ if (!context.accountId) {
   return "";
 }
 console.log("content here", state.content);
-
 const indexKey = props.indexKey ?? "main";
 const draftKey = props.indexKey ?? "draft";
 const draft = Storage.privateGet(draftKey);
@@ -65,12 +64,6 @@ State.init({
     Storage.privateSet(draftKey, content.text || "");
   },
 });
-
-const onHelp = ({ extractMentionNotifications, extractHashtags }) => {
-  State.update({ extractMentionNotifications, extractHashtags });
-};
-
-console.log("checked state: ", state.isChecked);
 
 return (
   <>
