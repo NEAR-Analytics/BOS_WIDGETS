@@ -259,6 +259,10 @@ dataObj.body.forEach((building) => {
   dataMap.onMarket = [...dataMap.onMarket, markerObj];
 });
 
+const newData = {
+  features: [...dataMap.onMarket],
+};
+
 State.init({
   edit: false,
   currentLocation: {},
@@ -340,7 +344,7 @@ return (
           />
         )}
         <Widget
-          src={"efiz.near/widget/Map.Mapbox"}
+          src={"ajluc.near/widget/Map.Mapbox"}
           props={{
             API_URL,
             accessToken: MAP_TOKEN,
@@ -348,7 +352,7 @@ return (
             center,
             zoom,
             markerAsset: "https://i.ibb.co/j464rX1/on.png",
-            markers: dataMap.onMarket,
+            markers: newData,
             edit: state.edit,
             onMapClick: (e) => {
               State.update({
