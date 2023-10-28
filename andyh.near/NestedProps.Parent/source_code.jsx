@@ -9,7 +9,10 @@ return (
         incrementByOne: () => setValue((v) => v + 1),
         arr: ["oh", "hi", () => "there"],
         byTen: {
-          increment: () => setValue((v) => v + 10),
+          increment: (fn) => {
+            console.log(fn());
+            setValue((v) => v + 10);
+          },
         },
       }}
     />
