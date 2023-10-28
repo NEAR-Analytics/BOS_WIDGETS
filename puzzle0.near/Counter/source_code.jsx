@@ -4,53 +4,12 @@ const [payment, setPayment] = useState(0);
 
 let cost_per_item = 0.05;
 
-const Button0024 = styled.button`
-  font-size: 16px;
-  font-weight: 700;
-  color: #ff7576;
-  background-color: #2b3044;
-  border: none;
-  outline: none;
-  cursor: pointer;
-  padding: 12px 24px;
-  position: relative;
-  line-height: 24px;
-  border-radius: 9px;
-  box-shadow: 0px 1px 2px #2b3044, 0px 4px 16px #2b3044;
-  transform-style: preserve-3d;
-  transform: scale(var(--s, 1)) perspective(600px)
-    rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
-  perspective: 600px;
-  transition: transform 0.1s;
-
-  .sp {
-    background: linear-gradient(
-      90deg,
-      #866ee7,
-      #ea60da,
-      #ed8f57,
-      #fbd41d,
-      #2cca91
-    );
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    text-fill-color: transparent;
-    display: block;
-  }
-
-  &:active {
-    transition: 0.3s;
-    transform: scale(0.93);
-  }
-`;
-
 const getTotalRewards = () => {
-  return (count * cost_per_item).toFixed(2);
+  return count * cost_per_item;
 };
 
 const getBitcoinRewards = () => {
-  return (((count * cost_per_item) / bitcoinPrice()) * 100000000).toFixed(0);
+  return ((count * cost_per_item) / bitcoinPrice()) * 100000000;
 };
 
 function bitcoinPrice() {
@@ -73,7 +32,7 @@ function Page() {
       return (
         <div>
           <h1>Start A Recycling Session</h1>
-          <Button0024 onClick={() => handleStartNew()}>Start New</Button0024>
+          <button onClick={() => handleStartNew()}>Start New</button>
         </div>
       );
     }
@@ -83,17 +42,16 @@ function Page() {
           <h1>Recycling for Bitcoin</h1>
           <p>Insert Can or Bottle</p>
           <p>Count: {count}</p>
-          <Button0024 onClick={() => setCount(count + 1)}>+</Button0024>
-          <Button0024 onClick={() => setPage(page - 1)} disabled={page === 0}>
+          <button onClick={() => setCount(count + 1)}>+</button>
+          <button onClick={() => setPage(page - 1)} disabled={page === 0}>
             Back
-          </Button0024>
-          <Button0024 onClick={() => setPage(page + 1)} disabled={count === 0}>
+          </button>
+          <button onClick={() => setPage(page + 1)} disabled={count === 0}>
             Next
-          </Button0024>
+          </button>
         </div>
       );
     }
-
     case 2: {
       return (
         <div>
@@ -104,8 +62,8 @@ function Page() {
           <p>Bitcoin Price: ${bitcoinPrice()}</p>
           <p>BTC Rewards Amount: {getBitcoinRewards()} Satoshis</p>
           <p>Select Payment Type:</p>
-          <Button0024 onClick={() => setPage(page + 1)}>Cash</Button0024>
-          <Button0024 onClick={() => setPage(page + 2)}>Bitcoin</Button0024>
+          <button onClick={() => setPage(page + 1)}>Cash</button>
+          <button onClick={() => setPage(page + 2)}>Bitcoin</button>
         </div>
       );
     }
@@ -115,7 +73,7 @@ function Page() {
           <h2>Cash</h2>
           <p>Bottle Refund Amount: ${getTotalRewards()}</p>
           <p>Printing Receipt</p>
-          <Button0024 onClick={() => setPage(0)}>Complete</Button0024>
+          <button onClick={() => setPage(0)}>Complete</button>
         </div>
       );
     }
@@ -125,14 +83,13 @@ function Page() {
           <h2>Bitcoin</h2>
           <p>BTC Rewards Amount: {getBitcoinRewards()} Satoshis</p>
           <p>Displaying LNURL</p>
-          <a href="https://imgur.com/PnpEJTj">
-            <img
-              src="https://i.imgur.com/PnpEJTjb.png"
-              title="source: imgur.com"
-            />
-          </a>
+          <img
+            src={
+              "https:lnurl1?bfg=7cdf0df9e5b360eb823a8e0968e0a6ae&dfg=1e6156323fc703840bab8892ba1f7778&wfg=19201055&h-captcha-response=undefined&g-recaptcha-response=03AFcWeA6gl18jP7wl1oEuCetV6J7Usz_3BcU2U_jJw2YfTIAU7cyQ_0u4YDlzOeJ7Eudmu-Fr3fKmWir_eDmcCteS-niYZNLqebJSxddhW6QqGwBsymq0wTC6cbkPz9fLedmlaFZ1vNxaIzCZ034Gj2tSEhP-jk2IRXPPnwB6s0CgjWSSACVQmzDYyf1a8N5paLHfQMzhX_tFG63BDNk7RHNm4zkKiy2MHS0aXJowlJONCrg04TrR2wdHTXCG5xJGEoM8ArI0QvT8jioi73B4IQ_lEj7OUMPmnmlh0p1BzSCaOn7XKRsgwkHsSUlLF4GfloklPZPzyUqwTLVy44J0ukJuP_YXCSeRdzVelX7JsMaJV9hNC7n1qrbCNfhLDduU5ua9mq3JQsQewGPvhgOKymRnp5aar_ktT1438Lg_z1TwIMP7oCbUlZb2kEHrXpXo9ifO2Krl9P1QVjFBfrBYApVs1VsBLhHEJNPSX5oF_NMrEom0XADb-UV6_OmisrqA_ObHl31Ly-n19vK9vuzYzY0m8ZXV2UqtAkgzMonh_1KhT0u8MWIww1gYPG4yiscqhb28G0Qh9Pd-"
+            }
+          />
           <p></p>
-          <Button0024 onClick={() => setPage(0)}>Print</Button0024>
+          <button onClick={() => setPage(0)}>Print</button>
         </div>
       );
     }
