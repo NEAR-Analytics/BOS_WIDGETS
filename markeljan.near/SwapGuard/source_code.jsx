@@ -145,18 +145,25 @@ const abiResponse = fetch(
   "https://gist.githubusercontent.com/Markeljan/73299b201d5747a0f6bf89eb8b4b4af2/raw/3f2310a80104b8cfc6dbc4e575cb0e213e170f70/MULTIDEX_ABI.json"
 );
 
+const erc20Response = fetch(
+  "https://gist.githubusercontent.com/Markeljan/f41987a09ba01048309c672e9101802c/raw/b92f08be7b0d7b9506784b911a921bf621105cb3/ERC20.json"
+);
+
+if (!erc20Response.ok) {
+  return "Loading ERC20...";
+}
+
 if (!abiResponse.ok) {
   return "Loading ABI...";
 }
 
 const MULTIDEX_ABI = abiResponse.body;
+const ERC_20_ABI = erc20Response.body;
 
 // RECONNECT TO WALLET
 if (sender === undefined) {
   State.update({ sender: Ethers.send("eth_requestAccounts", [])[0] });
 }
-
-const iface = new ethers.utils.Interface(MULTIDEX_ABI);
 
 // FETCH WALLET BALANCE
 if (sender && balance === undefined) {
@@ -177,10 +184,12 @@ if (sender && balance === undefined) {
     });
 }
 
+const multidexContractAddress = "0x1A4ED2C40db8346C438bEcF99aC9d8512988240d";
+
 const multidexContract =
   sender &&
   new ethers.Contract(
-    "0xa24e3200e1A2FEa4927C30505407e20aFf68ecb7",
+    multidexContractAddress,
     MULTIDEX_ABI,
     Ethers.provider().getSigner()
   );
@@ -192,10 +201,6 @@ const flareOracleData =
     // res is a promise i need res[0] it is in hex but I want to set State to it
     State.update({ payTokenData: res[0] });
   });
-
-console.log("payTokenData", payTokenData);
-
-console.log("flareOracleData", flareOracleData);
 
 const ethTokenData = flareOracleData[0];
 
@@ -226,6 +231,7 @@ if (sender && balance === undefined) {
 }
 const payAmountBigNumber = ethers.utils.parseEther(payAmount || "0");
 /// FUNCTIONS
+
 function swap() {
   multidexContract["swapTokenToToken"](
     // weth
@@ -236,9 +242,7 @@ function swap() {
     payAmountBigNumber,
     //priceGaurd
     0
-  ).then((res) => {
-    console.log("res", res);
-  });
+  );
 }
 
 /// HANDLERS
