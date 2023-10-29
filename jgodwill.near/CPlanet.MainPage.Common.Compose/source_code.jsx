@@ -272,16 +272,18 @@ const embedCss = `
 
 const EmbedNFT = styled.div`
   margin: 10px 2px;
-  .form-check-input{
-    outline: none;
-    // box-shadow: none;
-    filter:gray;
-  -webkit-filter:grayscale(1);
-  filter:grayscale(1);
-  }
-  .form-check-input:checked{
-    border-color: #000;
-    background-color: #000;
+  .attach-nft-label{
+   border-radius: 32px;
+   color: #B0B0B0; ;
+  border: 1px solid #EFEFEF;
+  background: #F8F8F8;
+    :hover,
+    :focus, &:disabled {
+      background: #d7dbde;
+      outline: none;
+      border: 1px solid #EFEFEF;
+      color: #000;
+    }
   }
 `;
 
@@ -514,17 +516,6 @@ return (
           )}
           {!state.image.cid && (
             <EmbedNFT>
-              <div className="form-check form-switch embed btn-dark">
-                <input
-                  className="form-check-input"
-                  type="checkbox"
-                  role="switch"
-                  id="embed"
-                  checked={state.isChecked}
-                  onChange={handleCheckboxChange}
-                />
-                <label htmlFor="embed">Embed an NFT</label>
-              </div>
               {state.isChecked && (
                 <div>
                   <Card>
@@ -613,6 +604,39 @@ return (
                   </Card>
                 </div>
               )}
+              <input
+                type="checkbox"
+                className="btn-check attach-nft-btn"
+                id="btn-check-2"
+                checked={state.isChecked}
+                onChange={handleCheckboxChange}
+                autocomplete="off"
+              />
+              <label
+                className="btn btn-dark attach-nft-label"
+                for="btn-check-2"
+              >
+                {!state.isChecked ? (
+                  <>
+                    <i className="bi bi-paperclip attah-ico"></i> Attach an NFT
+                  </>
+                ) : (
+                  <>
+                    Remove NFT <i className="bi bi-x-lg"></i>
+                  </>
+                )}
+              </label>
+              {/*<div className="form-check form-switch embed btn-dark">
+                <input
+                  className="form-check-input"
+                  type="checkbox"
+                  role="switch"
+                  id="embed"
+                  checked={state.isChecked}
+                  onChange={handleCheckboxChange}
+                />
+                <label htmlFor="embed">Attach an NFT</label>
+              </div>*/}
             </EmbedNFT>
           )}
         </div>
