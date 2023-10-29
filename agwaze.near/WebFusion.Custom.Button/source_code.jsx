@@ -19,7 +19,6 @@ const downArrow = (
 const Root = styled.button`
   width: 197.856px;
   height: 61.398px;
-  margin: 40px;
   flex-shrink: 0;
   background: var(--nearcon-app-medium-purple, #7269E1);
   position: relative;
