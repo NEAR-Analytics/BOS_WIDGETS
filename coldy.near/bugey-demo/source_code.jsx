@@ -2,7 +2,7 @@ State.init({
   projects: [],
 });
 
-const contractId = 'bugeye.learnclub.near';
+const contractId = "bugeye.learnclub.near";
 
 const getProjects = async () => {
   let i = 1;
@@ -32,16 +32,14 @@ const getProjects = async () => {
   return projects;
 };
 
-
-
 const testView = () => {
   State.update({
-    prpjects: await getProjects(),
+    prpjects: getProjects(),
   });
 };
 
 return (
   <div>
-    <button onClick={testCall}>test call</button>
+    <button onClick={testView}>test call</button>
   </div>
 );
