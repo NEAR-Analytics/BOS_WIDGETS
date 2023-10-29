@@ -411,15 +411,6 @@ const TokensBase = {
     name: "Dai Stablecoin",
     icon: "https://ipfs.near.social/ipfs/bafkreieuxntkdzi2mzkzdcbk6kahwxqpftxnipxcwc4oe4p4jm2rhj2xhu",
   },
-
-  "0xA61BeB4A3d02decb01039e378237032B351125B4": {
-    chainId: 8453,
-    address: "0xA61BeB4A3d02decb01039e378237032B351125B4",
-    decimals: 18,
-    symbol: "agEUR",
-    name: "agEUR",
-    icon: "https://ipfs.near.social/ipfs/bafkreihbld7bpsqjnh5uvnosgdwhyc6bze4vbf62rs5vg7xku77ecga4o4",
-  },
 };
 
 const TokensBSC = {
