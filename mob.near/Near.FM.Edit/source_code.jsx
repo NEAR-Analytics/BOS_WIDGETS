@@ -122,7 +122,21 @@ return (
           </div>
         </div>
 
-        <button className="btn btn-primary">Save Changes</button>
+        <CommitButton
+          className="btn btn-primary"
+          data={{
+            custom: {
+              fm: {
+                [suffix]: JSON.stringify({
+                  ...metadata,
+                  url: longURL,
+                }),
+              },
+            },
+          }}
+        >
+          Save Changes
+        </CommitButton>
       </div>
     )}
   </div>
