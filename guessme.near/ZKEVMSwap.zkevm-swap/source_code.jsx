@@ -1,3 +1,6 @@
+const { oneProtocol, defaultDex } = props;
+console.log("defaultDex: ", defaultDex, oneProtocol);
+
 const ethAddress = "0x0000000000000000000000000000000000000000";
 
 const NETWORKS = [
@@ -115,7 +118,7 @@ State.init({
     "0xC5015b9d9161Dca7e18e32f6f25C4aD850731Fd4":
       "0x6b175474e89094c44da98b954eedeac495271d0f",
   },
-  selectedDex: props.dex ?? "QuickSwap",
+  selectedDex: defaultDex || props.dex || "QuickSwap",
   loadRes: (value) => {
     if (value.estimate === "NaN") value.estimate = 0;
     State.update({
@@ -127,6 +130,8 @@ State.init({
   hasGetStorage: false,
   noPool: false,
 });
+
+console.log("selectedDex: ", state.selectedDex);
 
 const refReferralId = props.refReferralId ?? "ukraine";
 
@@ -861,9 +866,12 @@ if (params && selectedChainId === 1101 && state.hasGetStorage === false) {
     });
 
     if (!!params?.dexName) {
-      console.log("toAssetId: ", toAssetId);
-
-      switchNetwork(1101, params.dexName, params.assetId, toAssetId);
+      switchNetwork(
+        1101,
+        defaultDex || params.dexName,
+        params.assetId,
+        toAssetId
+      );
     }
   }
 
@@ -881,7 +889,7 @@ function add_action(param_body) {
     method: "post",
     headers: {
       "Content-Type": "application/json",
-      Authorization: AccessKey
+      Authorization: AccessKey,
     },
     body: JSON.stringify(param_body),
   });
@@ -931,7 +939,7 @@ if (!state.sender || selectedChainId !== 1101) {
     : ` To proceed, kindly switch to zkEVM.`;
 
   if (!!state.sender && selectedChainId !== 1101) {
-    switchNetwork(1101, "QuickSwap");
+    switchNetwork(1101, defaultDex || "QuickSwap");
   }
 
   return (
@@ -1073,7 +1081,7 @@ return (
         justifyContent: layout == "left" ? "start" : "center",
       }}
     >
-      {state.network && state.dexName && (
+      {state.network && state.dexName && !oneProtocol && (
         <div
           className=""
           style={{
