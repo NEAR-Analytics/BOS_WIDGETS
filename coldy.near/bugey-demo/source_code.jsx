@@ -33,11 +33,6 @@ const getProjects = async () => {
 };
 
 
-const testCall = () => {
-  return Near.call("nearsocialexamples.near", "set_greeting", {
-    message: "Hi Near Social",
-  });
-};
 
 const testView = () => {
   State.update({
