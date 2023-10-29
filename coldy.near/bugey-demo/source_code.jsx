@@ -9,14 +9,10 @@ const getProjects = async () => {
   let limit = 20;
   let projects = {};
   while (i >= 1) {
-    const data = Near.view({
-      contractId: contractId,
-      method: "get_projects",
-      args: {
-        page: i,
-        limit: limit,
-        account_id: window.mainWallet.accountId,
-      },
+    const data = Near.view(contractId, "get_projects", {
+      page: i,
+      limit: limit,
+      account_id: window.mainWallet.accountId,
     });
     const arrayAtIndex0 = data[0];
     for (let project of arrayAtIndex0) {
