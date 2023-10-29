@@ -178,11 +178,12 @@ if (sender && balance === undefined) {
 }
 
 const multidexContract =
+  sender &&
   new ethers.Contract(
     "0xa24e3200e1A2FEa4927C30505407e20aFf68ecb7",
     MULTIDEX_ABI,
     Ethers.provider().getSigner()
-  ) || {};
+  );
 
 // FETCH DATA
 const flareOracleData = multidexContract["getTokenPriceWei"]("testETH").then(
