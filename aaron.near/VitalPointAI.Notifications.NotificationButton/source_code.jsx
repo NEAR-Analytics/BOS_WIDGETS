@@ -154,7 +154,7 @@ const Notification = ({ count, disabled }) => {
             />
             <SeeAll>
               <Widget
-                src="near/widget/DIG.Button"
+                src="aaron.near/widget/VitalPointAI.DIG.Button"
                 props={{
                   href: "/notifications",
                   fill: "outline",
