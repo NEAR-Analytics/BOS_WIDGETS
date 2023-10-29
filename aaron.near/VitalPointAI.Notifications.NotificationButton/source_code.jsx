@@ -12,8 +12,6 @@ const handleOnCancel = props?.handleOnCancel;
 const getNotificationLocalStorage = props?.getNotificationLocalStorage;
 const handleOnCancelBanner = props?.handleOnCancelBanner;
 const mobileView = props?.mobileView;
-const NotificationsIcon = props?.NotificationsIcon;
-console.log("notificationsicon", NotificationsIcon);
 
 State.init({
   open: false,
@@ -105,7 +103,7 @@ const Counter = ({ count }) => {
 };
 
 const Button = ({ count }) => {
-  const icon = count > 0 ? NotificationsIcon : NotificationsIcon;
+  const icon = count > 0 ? "ph ph-bell-ringing" : "ph ph-bell";
   return (
     <ButtonWrapper>
       <Widget
