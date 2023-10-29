@@ -186,12 +186,12 @@ const multidexContract =
   );
 
 // FETCH DATA
-const flareOracleData = multidexContract["getTokenPriceWei"]("testETH").then(
-  (res) => {
+const flareOracleData =
+  multidexContract &&
+  multidexContract["getTokenPriceWei"]("testETH").then((res) => {
     // res is a promise i need res[0] it is in hex but I want to set State to it
     State.update({ payTokenData: res[0] });
-  }
-);
+  });
 
 console.log("payTokenData", payTokenData);
 
