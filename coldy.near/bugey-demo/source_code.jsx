@@ -3,7 +3,6 @@ State.init({
 });
 
 const contractId = "bugeye.learnclub.near";
-console.log(Near.view(contractId, "get_projects"));
 
 const testCall = () => {
   return Near.call("nearsocialexamples.near", "set_greeting", {
@@ -13,7 +12,7 @@ const testCall = () => {
 
 const testView = () => {
   State.update({
-    value: Near.view("nearsocialexamples.near", "get_greeting"),
+    value: Near.view(contractId, "get_projects"),
   });
 };
 
