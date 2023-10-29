@@ -110,7 +110,7 @@ const Button = ({ count }) => {
         src="aaron.near/widget/VitalPointAI.DIG.Button"
         props={{
           icon,
-          variant: "primary",
+          variant: "solid",
           style: { width: "45px", height: "45px" },
           href: "/notifications",
           onClick: () => State.update({ open: !!state.open }),
