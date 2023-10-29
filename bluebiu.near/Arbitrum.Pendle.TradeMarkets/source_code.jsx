@@ -8,6 +8,63 @@ const Wrapper = styled.div`
   color: #ffffff;
   font-size: 16px;
   font-weight: 400;
+  .markets-page-list {
+    display: none;
+  }
+
+  @media (max-width: 768px) {
+    width: 100%;
+    padding: 0;
+    .markets-page {
+      .markets-page-table {
+        display: none;
+      }
+      .markets-page-list {
+        display: block;
+        margin-bottom: 16px;
+        .markets-page-list-item {
+          background: linear-gradient(0deg, #181a27, #181a27),
+            linear-gradient(0deg, #2c334b, #2c334b);
+          padding: 10px 10px 20px;
+          border-radius: 10px;
+          border: 1px solid rgb(44, 51, 75);
+          margin-bottom: 20px;
+          .list-item-title {
+            padding-bottom: 10px;
+            border-bottom: 1px solid rgb(44, 51, 75);
+            margin-bottom: 15px;
+            display: flex;
+            -webkit-box-align: center;
+            align-items: center;
+            gap: 6px;
+            img {
+              width: 36px;
+              height: 36px;
+              border-radius: 100%;
+              margin-right: 8px;
+            }
+            .light-value {
+              font-size: 16px;
+              line-height: 19px;
+              letter-spacing: 0em;
+              text-align: left;
+              text-decoration: none;
+              color: white !important;
+            }
+            .gray-value {
+              font-size: 12px;
+              line-height: 14px;
+              letter-spacing: 0em;
+              text-align: left;
+              opacity: 0.5;
+              text-decoration: none;
+              color: white !important;
+            }
+          }
+        }
+      }
+    }
+  }
 
   .yt-area-td {
     display: flex;
@@ -36,6 +93,7 @@ const Wrapper = styled.div`
     text-align: left;
 
     color: #979abe;
+    cursor: pointer;
   }
 
   .active {
@@ -52,10 +110,6 @@ const Wrapper = styled.div`
     background: linear-gradient(270deg, #4978b0 0%, rgba(73, 120, 176, 0) 100%);
     justify-content: space-between;
     cursor: pointer;
-
-    :hover {
-      background: #4978b0;
-    }
   }
 
   .pt-area {
@@ -65,10 +119,8 @@ const Wrapper = styled.div`
     padding: 8px 12px 8px 32px;
     cursor: pointer;
     justify-content: space-between;
+
     background: linear-gradient(90deg, #0ba9a0 0%, rgba(11, 169, 160, 0) 100%);
-    :hover {
-      background: #0ba9a0;
-    }
   }
 
   .art-text {
@@ -80,16 +132,19 @@ const Wrapper = styled.div`
     color: #ffffff;
     opacity: 0.1;
   }
-  .gray-value {
-    font-size: 12px;
-    line-height: 14px;
-    letter-spacing: 0em;
-    text-align: left;
-    opacity: 0.5;
-    color: white !important;
-    text-decoration: none;
-  }
+`;
 
+const Term = styled.div`
+  display: flex;
+  -webkit-box-pack: justify;
+  justify-content: space-between;
+  padding-bottom: 10px;
+  width: 100%;
+  .lable {
+    font-size: 13px;
+    line-height: 15.6px;
+    color: rgb(151, 154, 190);
+  }
   .light-value {
     font-size: 16px;
     line-height: 19px;
@@ -98,22 +153,26 @@ const Wrapper = styled.div`
     text-decoration: none;
     color: white !important;
   }
-  .name {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    .icon {
-      width: 36px;
-      height: 36px;
-      border-radius: 100%;
-    }
+  .gray-value {
+    font-size: 12px;
+    line-height: 14px;
+    letter-spacing: 0em;
+    text-align: left;
+    opacity: 0.5;
+    text-decoration: none;
+    color: white !important;
   }
-  @media (max-width: 768px) {
-    width: 100%;
-    gap: 20px;
-    .title {
-      display: none;
-    }
+  .yt-area {
+    border: 1px solid rgba(44, 51, 75, 1);
+    padding-top: 6px;
+    padding-bottom: 6px;
+    border-radius: 10px;
+  }
+  .pt-area {
+    border: 1px solid rgba(44, 51, 75, 1);
+    padding-top: 6px;
+    padding-bottom: 6px;
+    border-radius: 10px;
   }
 `;
 
@@ -156,6 +215,24 @@ const formateValue = (value, decimals) => {
 
 const Table = styled.table`
   width: 100%;
+  .gray-value {
+    font-size: 12px;
+    line-height: 14px;
+    letter-spacing: 0em;
+    text-align: left;
+    opacity: 0.5;
+    color: white !important;
+    text-decoration: none;
+  }
+
+  .light-value {
+    font-size: 16px;
+    line-height: 19px;
+    letter-spacing: 0em;
+    text-align: left;
+    text-decoration: none;
+    color: white !important;
+  }
 
   thead {
     font-size: 14px;
@@ -170,8 +247,17 @@ const Table = styled.table`
     }
   }
 
-  @media (max-width: 768px) {
-    display: none;
+  tbody {
+    .name {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      .icon {
+        width: 36px;
+        height: 36px;
+        border-radius: 100%;
+      }
+    }
   }
 `;
 
@@ -185,58 +271,71 @@ const TabWrapper = styled.div`
   display: flex;
   align-items: center;
   gap: 36px;
-`;
-const MbTable = styled.div`
-  display: none;
   @media (max-width: 768px) {
-    display: block;
+    width: 108%;
+    border-bottom: 1px #2a3047 solid;
+    margin: 0 -12px;
+    .title {
+      width: 50%;
+      flex: 1;
+      text-align: center;
+      padding: 12px 0;
+    }
+    .active {
+      text-decoration: none;
+      border-bottom: 2px solid #ffffff;
+    }
   }
-`;
-const MbTableRow = styled.div`
-  padding: 10px 10px 20px;
-  border-radius: 10px;
-  border: 1px solid #2c334b;
-  margin-bottom: 20px;
-`;
-const MbTableRowHeader = styled.div`
-  display: flex;
-  padding-bottom: 10px;
-  border-bottom: 1px solid #2c334b;
-  margin-bottom: 15px;
-`;
-const MbTableRowItem = styled.div`
-  display: flex;
-  justify-content: space-between;
-  padding-bottom: 10px;
-  .label {
-    font-size: 13px;
-    line-height: 15.6px;
-    color: #979abe;
-  }
-`;
-const MbTableRowActions = styled.div`
-  display: flex;
-  gap: 10px;
-  color: #fff;
-  margin-top: 10px;
-  .pt-area,
-  .yt-area {
-    width: 50%;
-    text-direction: none;
-    border: 1px solid #2c334b;
-    border-radius: 10px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-`;
-const ThemeContainer = styled.div`
-  --text-color: #7794d3;
-  --button-color: #33549c;
-  --button-text-color: #fff;
 `;
 
-const sender = Ethers.send("eth_requestAccounts", [])[0];
+const BackRoute = styled.div`
+  position: absolute;
+  width: 100vw;
+  left: 0;
+  top: 0;
+  border-bottom: 1px solid #343838;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  .back-icon {
+    padding-left: 100px;
+    padding-right: 8px;
+  }
+
+  .dapp-logo {
+    width: 32px;
+    height: 32px;
+    cursor: pointer;
+  }
+
+  .dapp-name {
+    font-size: 16px;
+    font-style: italic;
+    font-weight: 900;
+    line-height: 24px;
+    letter-spacing: 0em;
+    text-align: left;
+    color: #4982ff;
+  }
+`;
+
+const backIcon = (
+  <svg
+    width="8"
+    height="13"
+    viewBox="0 0 8 13"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      d="M7 12L2 6.5L7 1"
+      stroke="#979ABE"
+      stroke-width="2"
+      stroke-linecap="round"
+    />
+  </svg>
+);
 
 const CHAIN_ID = 42161;
 
@@ -254,277 +353,350 @@ const CONNECT_PROPS = {
   chainId: CHAIN_ID,
   chainName: "Arbitrum One",
 };
-
+const theme = {
+  textColor: "#7794D3",
+  buttonColor: "#33549C",
+};
 State.init({
   markets: [],
-  activeTab: "markets",
+  activeTab: "markets", //markets yours
 });
 
+const storeTab = Storage.privateGet("tab");
+
+if (storeTab !== undefined) {
+  State.update({ activeTab: storeTab || "markets" });
+}
+
+const sender = Ethers.send("eth_requestAccounts", [])[0];
+
 if (sender) {
+  Ethers.provider()
+    .getNetwork()
+    .then(({ chainId }) => {
+      console.log("chainId: ", chainId);
+      State.update({ chainId, sender });
+    })
+    .catch(() => {});
+}
+
+if (sender && !state.sender) {
   State.update({
     sender,
   });
 }
 
-if (!sender) {
+const Container = styled.div`
+  --text-color: #7794d3;
+  --button-color: #33549c;
+  --border-color: #2c334b;
+  --input-border-color: #2c334b;
+  --input-select-bg-color: #222436;
+  --secondary-text-color: #7794d3;
+  --thirdary-text-color: #4f5375;
+  --dex-active-text-color: #fff;
+  --button-text-color: #fff;
+  --dex-hover-bg-color: rgba(51, 84, 156, 0.1);
+`;
+
+if (!state.sender) {
   return (
-    <ThemeContainer>
+    <Container>
       <Widget
         src="bluebiu.near/widget/Arbitrum.Swap.ConnectButton"
         props={{
           ...CONNECT_PROPS,
+          theme,
           isWrongNetwork: false,
         }}
       />
-    </ThemeContainer>
+    </Container>
   );
 }
 
 return (
   <>
     <Wrapper>
+      <BackRoute>
+        <a className="back-icon" href="/">
+          {backIcon}
+        </a>
+
+        <img
+          className="dapp-logo"
+          src={
+            "https://ipfs.near.social/ipfs/bafkreiedaqqpcuw6oj5mao263fizx3gksybdmw5x2p7xeka7wngzip5zeu"
+          }
+        />
+
+        <div className="dapp-name">{"Pendle"}</div>
+      </BackRoute>
+
       <TabWrapper>
         <div
           className={`title ${state.activeTab === "markets" ? "active" : ""}`}
-          style={{
-            textDecoration: "none",
+          // style={{
+          //   textDecoration: "none",
+          // }}
+          onClick={() => {
+            State.update({ activeTab: "markets" });
+            Storage.privateSet("tab", "markets");
           }}
         >
           Market
         </div>
 
-        {/* {state.sender && (
+        {state.sender && (
           <div
             className={`title ${state.activeTab === "yours" ? "active" : ""}`}
+            onClick={() => {
+              State.update({ activeTab: "yours" });
+              Storage.privateSet("tab", "yours");
+            }}
           >
             Yours
           </div>
-        )} */}
+        )}
       </TabWrapper>
 
-      <Table>
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Maturity</th>
+      {state.activeTab === "markets" && (
+        <div className="markets-page">
+          <div className="markets-page-table">
+            <Table>
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Maturity</th>
 
-            <th>Underlying APY/Price</th>
+                  <th>Underlying APY/Price</th>
 
-            <th>Implied APY</th>
-            <th className="long-yield-apy">Long Yield APY</th>
+                  <th>Implied APY</th>
+                  <th className="long-yield-apy">Long Yield APY</th>
 
-            <th className="fixed-yield-apy ">Fixed APY</th>
-          </tr>
-        </thead>
+                  <th className="fixed-yield-apy ">Fixed APY</th>
+                </tr>
+              </thead>
 
-        <tbody>
-          {state.markets.map((m) => {
-            return (
-              <TableRow>
-                <td>
-                  <div className="name">
+              <tbody>
+                {state.markets.map((m) => {
+                  return (
+                    <TableRow>
+                      <td>
+                        <div className="name">
+                          <img className="icon" src={m.proIcon} alt="" />
+
+                          <div>
+                            <div className="light-value">{m.proSymbol}</div>
+
+                            <div className="gray-value">{m.protocol}</div>
+                          </div>
+                        </div>
+                      </td>
+
+                      <td>
+                        <div className="light-value">
+                          {formateTime(m.expiry).formattedDate}
+                        </div>
+
+                        <div className="gray-value">
+                          {formateTime(m.expiry).daysDiff}
+                        </div>
+                      </td>
+
+                      <td>
+                        <div className="light-value">
+                          {formateValue(m.underlyingApy * 100, 3)}%
+                        </div>
+
+                        <div className="gray-value">
+                          ${formateValue(m.accountingAsset.price.usd, 4)}
+                        </div>
+                      </td>
+
+                      <td>
+                        <div className="light-value">
+                          {formateValue(m.impliedApy * 100, 3)}%
+                        </div>
+                      </td>
+
+                      <td className="yt-area-td">
+                        <a
+                          className="yt-area"
+                          style={{
+                            textDecoration: "none",
+                          }}
+                          href={`/bluebiu.near/widget/Arbitrum.Pendle.TradeSwap?market_address=${m.address}&type=yt`}
+                        >
+                          <div
+                            style={{
+                              textDecoration: "none",
+                            }}
+                          >
+                            <div
+                              className="light-value"
+                              style={{
+                                textDecoration: "none",
+                              }}
+                            >
+                              {formateValue(m.ytFloatingApy * 100, 3)}%
+                            </div>
+
+                            <div
+                              className="gray-value"
+                              style={{
+                                textDecoration: "none",
+                              }}
+                            >
+                              ${formateValue(m.yt.price.usd, 4)}
+                            </div>
+                          </div>
+                          <div className="art-text">YT</div>
+                        </a>
+                      </td>
+
+                      <td className="pt-area-td">
+                        <a
+                          className="pt-area"
+                          style={{
+                            textDecoration: "none",
+                          }}
+                          href={`/bluebiu.near/widget/Arbitrum.Pendle.TradeSwap?market_address=${m.address}&type=pt`}
+                        >
+                          <div
+                            style={{
+                              textDecoration: "none",
+                            }}
+                          >
+                            <div
+                              className="light-value"
+                              style={{
+                                textDecoration: "none",
+                              }}
+                            >
+                              {formateValue(m.impliedApy * 100, 3)}%
+                            </div>
+
+                            <div
+                              className="gray-value"
+                              style={{
+                                textDecoration: "none",
+                              }}
+                            >
+                              ${formateValue(m.pt.price.usd, 4)}
+                            </div>
+                          </div>
+
+                          <div className="art-text">PT</div>
+                        </a>
+                      </td>
+                    </TableRow>
+                  );
+                })}
+              </tbody>
+            </Table>
+          </div>
+          <div className="markets-page-list">
+            {state.markets.map((m) => {
+              return (
+                <div className="markets-page-list-item">
+                  <div className="list-item-title">
                     <img className="icon" src={m.proIcon} alt="" />
-
                     <div>
                       <div className="light-value">{m.proSymbol}</div>
-
                       <div className="gray-value">{m.protocol}</div>
                     </div>
                   </div>
-                </td>
-
-                <td>
-                  <div className="light-value">
-                    {formateTime(m.expiry).formattedDate}
-                  </div>
-
-                  <div className="gray-value">
-                    {formateTime(m.expiry).daysDiff}
-                  </div>
-                </td>
-
-                <td>
-                  <div className="light-value">
-                    {formateValue(m.underlyingApy * 100, 3)}%
-                  </div>
-
-                  <div className="gray-value">
-                    ${formateValue(m.accountingAsset.price.usd, 4)}
-                  </div>
-                </td>
-
-                <td>
-                  <div className="light-value">
-                    {formateValue(m.impliedApy * 100, 3)}%
-                  </div>
-                </td>
-
-                <td className="yt-area-td">
-                  <a
-                    className="yt-area"
-                    style={{
-                      textDecoration: "none",
-                    }}
-                    href={`/bluebiu.near/widget/Arbitrum.Pendle.TradeSwap?market_address=${m.address}&type=yt`}
-                  >
-                    <div
-                      style={{
-                        textDecoration: "none",
-                      }}
-                    >
-                      <div
-                        className="light-value"
-                        style={{
-                          textDecoration: "none",
-                        }}
-                      >
-                        {formateValue(m.ytFloatingApy * 100, 3)}%
+                  <Term>
+                    <div className="lable">Maturity</div>
+                    <div>
+                      <div className="light-value">
+                        {formateTime(m.expiry).formattedDate}
                       </div>
-
-                      <div
-                        className="gray-value"
-                        style={{
-                          textDecoration: "none",
-                        }}
-                      >
-                        ${formateValue(m.yt.price.usd, 4)}
+                      <div className="gray-value">
+                        {formateTime(m.expiry).daysDiff}
                       </div>
                     </div>
-                    <div className="art-text">YT</div>
-                  </a>
-                </td>
-
-                <td className="pt-area-td">
-                  <a
-                    className="pt-area"
-                    style={{
-                      textDecoration: "none",
-                    }}
-                    href={`/bluebiu.near/widget/Arbitrum.Pendle.TradeSwap?market_address=${m.address}&type=pt`}
-                  >
-                    <div
-                      style={{
-                        textDecoration: "none",
-                      }}
-                    >
-                      <div
-                        className="light-value"
-                        style={{
-                          textDecoration: "none",
-                        }}
-                      >
+                  </Term>
+                  <Term>
+                    <div className="lable">Underlying APY/Price</div>
+                    <div>
+                      <div className="light-value">
+                        {formateValue(m.underlyingApy * 100, 3)}%
+                      </div>
+                      <div className="gray-value">
+                        ${formateValue(m.accountingAsset.price.usd, 4)}
+                      </div>
+                    </div>
+                  </Term>
+                  <Term>
+                    <div className="lable">Implied APY</div>
+                    <div>
+                      <div className="light-value">
                         {formateValue(m.impliedApy * 100, 3)}%
                       </div>
-
-                      <div
-                        className="gray-value"
+                    </div>
+                  </Term>
+                  <div style={{ display: "flex" }}>
+                    <Term>
+                      <a
+                        className="yt-area"
                         style={{
                           textDecoration: "none",
+                          width: "100%",
                         }}
+                        href={`/bluebiu.near/widget/Arbitrum.Pendle.TradeSwap?market_address=${m.address}&type=yt`}
                       >
-                        ${formateValue(m.pt.price.usd, 4)}
-                      </div>
-                    </div>
-
-                    <div className="art-text">PT</div>
-                  </a>
-                </td>
-              </TableRow>
-            );
-          })}
-        </tbody>
-      </Table>
-      <MbTable>
-        {state.markets.map((m) => {
-          return (
-            <MbTableRow>
-              <MbTableRowHeader className="name">
-                <img className="icon" src={m.proIcon} alt="" />
-                <div>
-                  <div className="light-value">{m.proSymbol}</div>
-                  <div className="gray-value">{m.protocol}</div>
-                </div>
-              </MbTableRowHeader>
-              <MbTableRowItem>
-                <div className="label">Maturity</div>
-                <div>
-                  <div className="light-value">
-                    {formateTime(m.expiry).formattedDate}
-                  </div>
-                  <div className="gray-value">
-                    {formateTime(m.expiry).daysDiff}
-                  </div>
-                </div>
-              </MbTableRowItem>
-              <MbTableRowItem>
-                <div className="label">Underlying APY/Price</div>
-                <div>
-                  <div className="light-value">
-                    {formateValue(m.underlyingApy * 100, 3)}%
-                  </div>
-                  <div className="gray-value">
-                    ${formateValue(m.accountingAsset.price.usd, 4)}
+                        <div>
+                          <div className="light-value">
+                            {formateValue(m.ytFloatingApy * 100, 3)}%
+                          </div>
+                          <div className="gray-value">
+                            ${formateValue(m.yt.price.usd, 4)}
+                          </div>
+                        </div>
+                        <div className="art-text">YT</div>
+                      </a>
+                    </Term>
+                    <Term>
+                      <a
+                        className="pt-area"
+                        style={{
+                          textDecoration: "none",
+                          width: "100%",
+                        }}
+                        href={`/bluebiu.near/widget/Arbitrum.Pendle.TradeSwap?market_address=${m.address}&type=pt`}
+                      >
+                        <div>
+                          <div className="light-value">
+                            {formateValue(m.impliedApy * 100, 3)}%
+                          </div>
+                          <div className="gray-value">
+                            ${formateValue(m.pt.price.usd, 4)}
+                          </div>
+                        </div>
+                        <div className="art-text">PT</div>
+                      </a>
+                    </Term>
                   </div>
                 </div>
-              </MbTableRowItem>
-              <MbTableRowItem>
-                <div className="label">Implied APY</div>
-                <div className="light-value">
-                  {formateValue(m.impliedApy * 100, 3)}%
-                </div>
-              </MbTableRowItem>
-              <MbTableRowActions>
-                <a
-                  className="yt-area"
-                  href={`/bluebiu.near/widget/Arbitrum.Pendle.TradeSwap?market_address=${m.address}&type=yt`}
-                >
-                  <div
-                    style={{
-                      textDecoration: "none",
-                    }}
-                  >
-                    <div
-                      className="light-value"
-                      style={{
-                        textDecoration: "none",
-                      }}
-                    >
-                      {formateValue(m.ytFloatingApy * 100, 3)}%
-                    </div>
+              );
+            })}
+          </div>
+        </div>
+      )}
 
-                    <div
-                      className="gray-value"
-                      style={{
-                        textDecoration: "none",
-                      }}
-                    >
-                      ${formateValue(m.yt.price.usd, 4)}
-                    </div>
-                  </div>
-                  <div className="art-text">YT</div>
-                </a>
-                <a
-                  className="pt-area"
-                  href={`/bluebiu.near/widget/Arbitrum.Pendle.TradeSwap?market_address=${m.address}&type=pt`}
-                >
-                  <div>
-                    <div className="light-value">
-                      {formateValue(m.impliedApy * 100, 3)}%
-                    </div>
-
-                    <div className="gray-value">
-                      ${formateValue(m.pt.price.usd, 4)}
-                    </div>
-                  </div>
-
-                  <div className="art-text">PT</div>
-                </a>
-              </MbTableRowActions>
-            </MbTableRow>
-          );
-        })}
-      </MbTable>
+      {state.activeTab === "yours" && (
+        <Widget
+          src="bluebiu.near/widget/Arbitrum.Pendle.DashBoard.UserDashBoard"
+          props={{
+            markets: state.markets,
+            sender: state.sender,
+            chainId: state.chainId,
+          }}
+        />
+      )}
     </Wrapper>
+
     <Widget
       props={{
         onLoad: (markets) => State.update({ markets }),
