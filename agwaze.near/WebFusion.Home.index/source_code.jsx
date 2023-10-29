@@ -124,6 +124,7 @@ return (
           <button className="speakButton">Apply to Speak {upArrow}</button>
         </div>
       </div>
+      <Widget src="agwaze.near/widget/WebFusion.Home.EventPage" />
     </EventDetails>
   </Root>
 );
