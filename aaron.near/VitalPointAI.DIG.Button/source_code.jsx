@@ -325,7 +325,7 @@ return (
     {loading && <Spinner className="ph-bold ph-circle-notch" />}
     <Inner>
       {icon ? (
-        icon
+        <i className={icon} />
       ) : (
         <>
           {iconLeft && <i className={iconLeft} />}
