@@ -1,15 +1,14 @@
 State.init({
   projects: [],
 });
+const contractId = "bugeye.learnclub.near";
 
 const getProjectsList = (page, limit) => {
-  return Near.view("bugeye.learnclub.near", "get_projects", {
+  return Near.view(contractId, "get_projects", {
     page,
     limit,
   });
 };
-
-const contractId = "bugeye.learnclub.near";
 
 const testView = () => {
   State.update({
