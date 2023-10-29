@@ -156,7 +156,7 @@ const Notification = ({ count, disabled }) => {
               <Widget
                 src="near/widget/DIG.Button"
                 props={{
-                  href: "#/notifications",
+                  href: "/notifications",
                   fill: "outline",
                   variant: "secondary",
                   label: "See all",
