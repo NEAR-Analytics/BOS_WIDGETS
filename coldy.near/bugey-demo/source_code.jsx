@@ -106,6 +106,20 @@ const TabComponent = () => {
     border: "1px solid #ccc",
     borderRadius: "5px",
   };
+  const openTab = (evt, tabName) => {
+    const tabContent = document.getElementsByClassName("tabcontent");
+    for (let i = 0; i < tabContent.length; i++) {
+      tabContent[i].style.display = "none";
+    }
+
+    const tabLinks = document.getElementsByClassName("tablinks");
+    for (let i = 0; i < tabLinks.length; i++) {
+      tabLinks[i].classList.remove("active");
+    }
+
+    document.getElementById(tabName).style.display = "block";
+    evt.currentTarget.classList.add("active");
+  };
 };
 
 const contractId = "bugeye.learnclub.near";
@@ -133,24 +147,36 @@ const testView = () => {
   const proposals = getProposalsByProject(1, 1, 1, 10);
   console.log(proposals);
   console.log(state.projects);
+  openTab({ currentTarget: document.getElementById("pending-tab") }, "pending");
 };
 
 return (
   <div>
     <div id="approvals-block">
-      <h1 id="bug-eye-project-tile">Test</h1>
+      <h1 id="bug-eye-project-title">Test</h1>
       <div style={tabStyle} className="tab">
         <button
           id="pending-tab"
           className="tablinks active"
           style={tabButtonStyle}
+          onClick={(evt) => openTab(evt, "pending")}
         >
           Pending Issues
         </button>
-        <button id="approval-tab" className="tablinks" style={tabButtonStyle}>
+        <button
+          id="approval-tab"
+          className="tablinks"
+          style={tabButtonStyle}
+          onClick={(evt) => openTab(evt, "approved")}
+        >
           Approved Issues
         </button>
-        <button id="declined-tab" className="tablinks" style={tabButtonStyle}>
+        <button
+          id="declined-tab"
+          className="tablinks"
+          style={tabButtonStyle}
+          onClick={(evt) => openTab(evt, "declined")}
+        >
           Declined Issues
         </button>
       </div>
