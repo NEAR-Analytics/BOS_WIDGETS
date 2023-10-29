@@ -12,6 +12,7 @@ const handleOnCancel = props?.handleOnCancel;
 const getNotificationLocalStorage = props?.getNotificationLocalStorage;
 const handleOnCancelBanner = props?.handleOnCancelBanner;
 const mobileView = props?.mobileView;
+const NotificationsIcon = props?.NotificationsIcon;
 
 State.init({
   open: false,
@@ -103,7 +104,7 @@ const Counter = ({ count }) => {
 };
 
 const Button = ({ count }) => {
-  const icon = count > 0 ? <Notifications /> : <Notifications />;
+  const icon = count > 0 ? NotificationsIcon : NotificationsIcon;
   return (
     <ButtonWrapper>
       <Widget
