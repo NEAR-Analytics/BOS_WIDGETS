@@ -23,7 +23,8 @@ const testView = () => {
   State.update({
     projects: getProjectsList(1, 10),
   });
-  console.log(getProposalsByProject(1, 1, 1, 10));
+  const proposals = getProposalsByProject(1, 1, 1, 10);
+  console.log(proposals);
   console.log(state.projects);
 };
 
