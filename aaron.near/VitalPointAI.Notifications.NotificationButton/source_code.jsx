@@ -112,7 +112,7 @@ const Button = ({ count }) => {
         props={{
           icon,
           variant: "secondary",
-          style: { width: "45px", height: "45px" },
+          style: { width: "45px", height: "45px", color: "#FFFFFF" },
           href: "/notifications",
           onClick: () => State.update({ open: !!state.open }),
         }}
