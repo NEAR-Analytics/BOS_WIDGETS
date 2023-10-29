@@ -13,6 +13,7 @@ const getNotificationLocalStorage = props?.getNotificationLocalStorage;
 const handleOnCancelBanner = props?.handleOnCancelBanner;
 const mobileView = props?.mobileView;
 const NotificationsIcon = props?.NotificationsIcon;
+console.log("notificationsicon", NotificationsIcon);
 
 State.init({
   open: false,
