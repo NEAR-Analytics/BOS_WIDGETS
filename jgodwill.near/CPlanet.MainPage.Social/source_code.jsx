@@ -9,14 +9,14 @@ if (!state || state.hashtag !== hashtag) {
 
 const options = [
   {
+    title: "All Posts",
+  },
+  {
     title: "DAOs Feed",
   },
   {
     title: "My Feed",
     disabled: !context.accountId,
-  },
-  {
-    title: "All Posts",
   },
 ];
 
@@ -56,7 +56,7 @@ return (
       </div>
     )}
     <ul className="nav nav-pills mb-3">
-      {options.reverse().map((option, i) => (
+      {options.map((option, i) => (
         <li className="nav-item" key={i}>
           <button
             className={`nav-link ${state.feedIndex === i ? "active" : ""} ${
