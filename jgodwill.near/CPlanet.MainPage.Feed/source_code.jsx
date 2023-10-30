@@ -1,3 +1,4 @@
+const commentAccounts = props.commentAccounts;
 const index = [
   {
     action: "post",
@@ -40,8 +41,13 @@ const renderPost = (a) => {
   return (
     <div key={JSON.stringify(a)} className="mb-3">
       <Widget
+        loading={<div className="w-100" style={{ height: "200px" }} />}
         src="jgodwill.near/widget/CPlanet.MainPage.N.Post"
-        props={{ accountId: a.accountId, blockHeight: a.blockHeight }}
+        props={{
+          accountId: a.accountId,
+          blockHeight: a.blockHeight,
+          commentAccounts,
+        }}
       />
     </div>
   );
@@ -107,8 +113,13 @@ const renderRepost = (a) => {
         />
       </div>
       <Widget
-        src="jgodwill.near/widget/CPlanet.MainPage.Post"
-        props={{ accountId: post.accountId, blockHeight: post.blockHeight }}
+        loading={<div className="w-100" style={{ height: "200px" }} />}
+        src="jgodwill.near/widget/CPlanet.MainPage.N.Post"
+        props={{
+          accountId: post.accountId,
+          blockHeight: post.blockHeight,
+          commentAccounts,
+        }}
       />
     </div>
   );
