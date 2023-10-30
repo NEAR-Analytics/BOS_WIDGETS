@@ -79,7 +79,10 @@ const SocialWrapper = styled.div`
     flex-direction:row;
     gap: 1rem;
     .rhs{
-        width: 300px;
+        flex:1;
+    }
+    .mid{
+        flex: 3;
     }
 `;
 
