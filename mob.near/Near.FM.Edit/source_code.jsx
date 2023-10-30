@@ -7,11 +7,16 @@ const [debounce, setDebounce] = useState(null);
 const [previewUrl, setPreviewUrl] = useState("");
 
 const accountId = context.accountId;
-const premiumTime = Social.get(
-  `premium.social.near/badge/premium/accounts/${accountId}`,
-  "final"
-);
-const data = Social.get(`${accountId}/custom/fm/${props.suffix}`, "final");
+const premiumTime = accountId
+  ? Social.get(
+      `premium.social.near/badge/premium/accounts/${accountId}`,
+      "final"
+    )
+  : null;
+const data =
+  accountId && props.suffix
+    ? Social.get(`${accountId}/custom/fm/${props.suffix}`, "final")
+    : null;
 
 const Status = {
   Loading: 0,
