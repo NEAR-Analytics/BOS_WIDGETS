@@ -1,107 +1,29 @@
-const { title, chainId, theme } = props;
-const WETH_ADDRESS = "0x82aF49447D8a07e3bd95BD0d56f35241523fBab1";
-const DexConfig = {
-  Camelot: {
-    factoryAddress: "0x6EcCab422D763aC031210895C81787E87B43A652",
-    routerAddress: "0xc873fEcbd354f5A56E00E710B90EF4201db2448d",
-    uniType: "v2",
-    defaultCurrencies: {
-      input: {
-        chainId: props.chainId,
-        address: "native",
-        decimals: 18,
-        symbol: "ETH",
-        name: "Ether",
-        icon: "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2/logo.png",
-      },
-      output: {
-        chainId: props.chainId,
-        address: "0x3d9907F9a368ad0a51Be60f7Da3b97cf940982D8",
-        decimals: 18,
-        symbol: "GRAIL",
-        name: "Camelot token",
-        icon: "https://arbiscan.io/token/images/camelotexchange_32.png",
-      },
-    },
-  },
-  Apeswap: {
-    factoryAddress: "0xCf083Be4164828f00cAE704EC15a36D711491284",
-    routerAddress: "0x7d13268144adcdbEBDf94F654085CC15502849Ff",
-    uniType: "v2",
-    defaultCurrencies: {
-      input: {
-        chainId: props.chainId,
-        address: "native",
-        decimals: 18,
-        symbol: "ETH",
-        name: "Ether",
-        icon: "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2/logo.png",
-      },
-      output: {
-        chainId: props.chainId,
-        address: "0xFd086bC7CD5C481DCC9C85ebE478A1C0b69FCbb9",
-        decimals: 6,
-        symbol: "USDT",
-        name: "Tether USD",
-        icon: "https://arbiscan.io/token/images/tether_32.png",
-      },
-    },
-  },
-  Spartadex: {
-    factoryAddress: "0xFe8EC10Fe07A6a6f4A2584f8cD9FE232930eAF55",
-    routerAddress: "0x89AE36E3B567b914a5E97E6488C6EB5b9C5d0231",
-    uniType: "v2",
-    defaultCurrencies: {
-      input: {
-        chainId: props.chainId,
-        address: "native",
-        decimals: 18,
-        symbol: "ETH",
-        name: "Ether",
-        icon: "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2/logo.png",
-      },
-      output: {
-        chainId: props.chainId,
-        address: "0x912CE59144191C1204E64559FE8253a0e49E6548",
-        decimals: 18,
-        symbol: "ARB",
-        name: "Arbitrum",
-        icon: "https://arbiscan.io/token/images/arbitrumone2_32_new.png",
-      },
-    },
-  },
-  "Ramses V2": {
-    factoryAddress: "0xAA2cd7477c451E703f3B9Ba5663334914763edF8",
-    routerAddress: "0xAA23611badAFB62D37E7295A682D21960ac85A90",
-    quoterAddress: "0xAA20EFF7ad2F523590dE6c04918DaAE0904E3b20",
-    uniType: "v3",
-    defaultCurrencies: {
-      input: {
-        chainId: props.chainId,
-        address: "native",
-        decimals: 18,
-        symbol: "ETH",
-        name: "Ether",
-        icon: "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2/logo.png",
-      },
-      output: {
-        chainId: props.chainId,
-        address: "0xaf88d065e77c8cC2239327C5EDb3A432268e5831",
-        decimals: 6,
-        symbol: "USDC",
-        name: "USD Coin",
-        icon: "https://arbiscan.io/token/images/centre-usdc_28.png",
-      },
-    },
-  },
-};
-let initialLoading = false;
-if (Storage.privateGet("prevTitle") !== title || !state.config) {
+const {
+  title,
+  chainId,
+  chainName,
+  wethAddress,
+  dexConfig,
+  amountOutFn,
+  quoterV3,
+  handlerV2,
+  handlerV3,
+  handlerSolidly,
+  QuoterSolidly,
+  handleSyncswap,
+  QuoterSyncswap,
+} = props;
+
+console.log("handleSyncswap: ", handleSyncswap);
+
+console.log("handlerSolidly: ", handlerSolidly);
+
+const prevTitle = Storage.privateGet("prevTitle");
+if (prevTitle !== title || !state.inputCurrency) {
   State.update({
-    config: DexConfig[title],
-    inputCurrency: DexConfig[title].defaultCurrencies.input,
-    outputCurrency: DexConfig[title].defaultCurrencies.output,
-    uniType: DexConfig[title].type,
+    inputCurrency: dexConfig.defaultCurrencies.input,
+    outputCurrency: dexConfig.defaultCurrencies.output,
+    uniType: dexConfig.type,
     inputCurrencyAmount: "1",
     outputCurrencyAmount: "",
     maxInputBalance: "0",
@@ -115,14 +37,20 @@ if (Storage.privateGet("prevTitle") !== title || !state.config) {
     displayCurrencySelect: false,
     selectedTokenAddress: "",
     currencySelectType: 0,
+    debounce: (fn, wait) => {
+      let timer;
+      return () => {
+        clearTimeout(timer);
+        timer = setTimeout(fn, wait);
+      };
+    },
   });
-  initialLoading = true;
   Storage.privateSet("prevTitle", title);
 }
 // styled area
 const SwapContainer = styled.div``;
 const Title = styled.div`
-  color: ${theme.textColor};
+  color: var(--text-color);
   font-size: 18px;
   font-weight: 500;
   line-height: 22px;
@@ -135,7 +63,7 @@ const Title = styled.div`
 const Panel = styled.div`
   width: 100%;
   border-radius: 16px;
-  border: 1px solid #2c334b;
+  border: 1px solid var(--border-color);
   padding: 30px;
   background-color: #181a27;
 `;
@@ -143,18 +71,18 @@ const ExchangeIcon = styled.div`
   width: 60px;
   margin: 20px auto;
   svg {
-    color: ${theme.textColor};
+    color: var(--text-color);
   }
 `;
 const PanelLabel = styled.div`
-  color: ${theme.textColor};
+  color: var(--secondary-text-color);
   font-size: 18px;
   font-weight: 500;
   line-height: 22px;
 `;
 const Price = styled.div`
   font-size: 14px;
-  color: #4f5375;
+  color: var(--thirdary-text-color);
   text-align: right;
   margin-bottom: 30px;
   margin-top: 20px;
@@ -166,7 +94,7 @@ const SwapButton = styled.button`
   width: 100%;
   height: 60px;
   border-radius: 10px;
-  background-color: ${theme.buttonColor};
+  background-color: var(--button-color);
   color: #fff;
   font-size: 18px;
   line-height: 22px;
@@ -183,227 +111,15 @@ const SwapButton = styled.button`
 `;
 // styled area end
 
-const getPairContract = (_pairAddress) =>
-  new ethers.Contract(
-    _pairAddress,
-    [
-      {
-        constant: true,
-        inputs: [],
-        name: "getReserves",
-        outputs: [
-          { internalType: "uint112", name: "_reserve0", type: "uint112" },
-          { internalType: "uint112", name: "_reserve1", type: "uint112" },
-          {
-            internalType: "uint32",
-            name: "_blockTimestampLast",
-            type: "uint32",
-          },
-        ],
-        payable: false,
-        stateMutability: "view",
-        type: "function",
-      },
-      {
-        constant: true,
-        inputs: [],
-        name: "token0",
-        outputs: [{ internalType: "address", name: "", type: "address" }],
-        payable: false,
-        stateMutability: "view",
-        type: "function",
-      },
-    ],
-    Ethers.provider().getSigner()
-  );
-
-const RouterContract = new ethers.Contract(
-  state.config.routerAddress,
-  [
-    {
-      inputs: [
-        {
-          internalType: "uint256",
-          name: "amountOut",
-          type: "uint256",
-        },
-        {
-          internalType: "uint256",
-          name: "reserveIn",
-          type: "uint256",
-        },
-        {
-          internalType: "uint256",
-          name: "reserveOut",
-          type: "uint256",
-        },
-      ],
-      name: "getAmountIn",
-      outputs: [
-        {
-          internalType: "uint256",
-          name: "amountIn",
-          type: "uint256",
-        },
-      ],
-      stateMutability: "pure",
-      type: "function",
-    },
-    {
-      inputs: [
-        {
-          internalType: "uint256",
-          name: "amountIn",
-          type: "uint256",
-        },
-        {
-          internalType: "uint256",
-          name: "reserveIn",
-          type: "uint256",
-        },
-        {
-          internalType: "uint256",
-          name: "reserveOut",
-          type: "uint256",
-        },
-      ],
-      name: "getAmountOut",
-      outputs: [
-        {
-          internalType: "uint256",
-          name: "amountOut",
-          type: "uint256",
-        },
-      ],
-      stateMutability: "pure",
-      type: "function",
-    },
-  ],
-  Ethers.provider().getSigner()
-);
-
-const FactoryContract = new ethers.Contract(
-  state.config.factoryAddress,
-  [
-    {
-      constant: true,
-      inputs: [
-        { internalType: "address", name: "", type: "address" },
-        { internalType: "address", name: "", type: "address" },
-      ],
-      name: "getPair",
-      outputs: [{ internalType: "address", name: "", type: "address" }],
-      payable: false,
-      stateMutability: "view",
-      type: "function",
-    },
-  ],
-  Ethers.provider().getSigner()
-);
 const getBestTrade = () => {
-  const curDexUniType = DexConfig[title].uniType;
-  if (
-    !state.inputCurrency.address ||
-    !state.outputCurrency.address ||
-    curDexUniType === "v3"
-  ) {
-    State.update({
-      loading: false,
-    });
-    return;
-  }
-  const wrapType =
-    state.inputCurrency.address === "native" &&
-    state.outputCurrency.symbol === "WETH"
-      ? 1
-      : state.inputCurrency.symbol === "WETH" &&
-        state.outputCurrency.address === "native"
-      ? 2
-      : 0;
-  if (wrapType) {
-    State.update(
-      state.tradeType === "in"
-        ? {
-            outputCurrencyAmount: state.inputCurrencyAmount,
-            loading: false,
-            noPair: false,
-          }
-        : {
-            inputCurrencyAmount: state.outputCurrencyAmount,
-            loading: false,
-            noPair: false,
-          }
-    );
-    return;
-  }
-  const currentCurrency =
-    state.tradeType === "in" ? state.inputCurrency : state.outputCurrency;
-  const currentAmount = Big(
-    state.tradeType === "in"
-      ? state.inputCurrencyAmount
-      : state.outputCurrencyAmount
-  )
-    .mul(0.995)
-    .toFixed(5);
-  const outCurrency =
-    state.tradeType === "in" ? state.outputCurrency : state.inputCurrency;
-  const RouterContract = new ethers.Contract(
-    state.config.routerAddress,
-    [
-      {
-        inputs: [
-          { internalType: "uint256", name: "amountIn", type: "uint256" },
-          { internalType: "address[]", name: "path", type: "address[]" },
-        ],
-        name: "getAmountsOut",
-        outputs: [
-          { internalType: "uint256[]", name: "amounts", type: "uint256[]" },
-        ],
-        stateMutability: "view",
-        type: "function",
-      },
-    ],
-    Ethers.provider().getSigner()
-  );
-  const path = [
-    currentCurrency.address === "native"
-      ? WETH_ADDRESS
-      : currentCurrency.address,
-    outCurrency.address === "native" ? WETH_ADDRESS : outCurrency.address,
-  ];
-  RouterContract.getAmountsOut(
-    ethers.utils.parseUnits(currentAmount, currentCurrency.decimals),
-    path
-  )
-    .then((res) => {
-      State.update({
-        outputCurrencyAmount: Big(
-          ethers.utils.formatUnits(res[1], outCurrency.decimals)
-        ).toFixed(4),
-        loading: false,
-        noPair: false,
-      });
-    })
-    .catch(() => {
-      State.update({
-        loading: false,
-        noPair: true,
-      });
-    });
+  State.update({
+    loading: true,
+  });
 };
 
-if (initialLoading) {
-  getBestTrade();
-}
+console.log({ state });
 
-function debounce(fn, wait) {
-  let timer;
-  return () => {
-    clearTimeout(timer);
-    timer = setTimeout(fn, wait);
-  };
-}
-const debouncedGetBestTrade = debounce(getBestTrade, 500);
+const debouncedGetBestTrade = state.debounce(getBestTrade, 500);
 
 const getUnitAmount = () => {
   const bigInputAmount = Big(state.inputCurrencyAmount || 0);
@@ -445,11 +161,6 @@ return (
             State.update({
               inputCurrencyAmount: val,
               tradeType: "in",
-              loading:
-                val &&
-                Number(val) &&
-                state.inputCurrency.address &&
-                state.outputCurrency.address,
             });
             if (val && Number(val)) debouncedGetBestTrade();
           },
@@ -473,7 +184,7 @@ return (
           if (Big(state.inputCurrencyAmount || 0).gt(0)) getBestTrade();
         }}
       >
-        <Widget src="bluebiu.near/widget/Base.BaseExchangeIcon" />
+        <Widget src="bluebiu.near/widget/Arbitrum.Swap.ExchangeIcon" />
       </ExchangeIcon>
       <PanelLabel>To</PanelLabel>
       <Widget
@@ -504,14 +215,19 @@ return (
       <Widget
         src="bluebiu.near/widget/Arbitrum.Swap.SwapButton"
         props={{
-          routerAddress: state.config.routerAddress,
-          wethAddress: WETH_ADDRESS,
+          routerAddress: dexConfig.routerAddress,
+          wethAddress,
           title,
+          chainName,
           inputCurrency: state.inputCurrency,
           outputCurrency: state.outputCurrency,
           inputCurrencyAmount: state.inputCurrencyAmount,
           outputCurrencyAmount: state.outputCurrencyAmount,
           maxInputBalance: state.maxInputBalance,
+          handleSyncswap,
+          handlerV2,
+          handlerV3,
+          handlerSolidly,
           onSuccess: () => {
             State.update({
               updateInputTokenBalance: true,
@@ -521,8 +237,9 @@ return (
           noPair: state.noPair,
           loading: state.loading,
           fee: state.v3Fee,
-          uniType: DexConfig[title].uniType,
-          theme: props.theme,
+          stable: state.stable,
+          syncSwapPoolAddress: state.syncSwapPoolAddress,
+          uniType: dexConfig.uniType,
         }}
       />
     </Panel>
@@ -534,6 +251,7 @@ return (
           selectedTokenAddress: state.selectedTokenAddress,
           title: props.title,
           chainId: props.chainId,
+          tokens: dexConfig.tokens,
           onClose: () => {
             State.update({
               displayCurrencySelect: false,
@@ -571,19 +289,86 @@ return (
       />
     )}
 
-    {DexConfig[title].uniType === "v3" && (
+    {dexConfig.uniType === "v3" && (
       <Widget
-        src="bluebiu.near/widget/Arbitrum.Swap.QuoterV3"
+        src={quoterV3}
         props={{
           amountIn: state.inputCurrencyAmount,
           tokenIn: state.inputCurrency,
           tokenOut: state.outputCurrency,
-          quoterContractId: DexConfig[title].quoterAddress,
+          quoterContractId: dexConfig.quoterAddress,
+          wethAddress,
           loadAmountOut: (data) => {
             State.update({
               outputCurrencyAmount: data.amountOut,
               v3Fee: data.fee,
               loading: false,
+            });
+          },
+        }}
+      />
+    )}
+    {dexConfig.uniType === "v2" && (
+      <Widget
+        src={amountOutFn}
+        props={{
+          update: state.loading,
+          routerAddress: dexConfig.routerAddress,
+          inputCurrency: state.inputCurrency,
+          outputCurrency: state.outputCurrency,
+          inputCurrencyAmount: state.inputCurrencyAmount,
+          outputCurrencyAmount: state.outputCurrencyAmount,
+          tradeType: state.tradeType,
+          wethAddress,
+          onLoad: (data) => {
+            State.update({
+              loading: false,
+              ...data,
+            });
+          },
+        }}
+      />
+    )}
+
+    {dexConfig.uniType === "solidly" && (
+      <Widget
+        src={QuoterSolidly}
+        props={{
+          update: state.loading,
+          routerAddress: dexConfig.routerAddress,
+          inputCurrency: state.inputCurrency,
+          outputCurrency: state.outputCurrency,
+          inputCurrencyAmount: state.inputCurrencyAmount,
+          outputCurrencyAmount: state.outputCurrencyAmount,
+          tradeType: state.tradeType,
+          wethAddress,
+          onLoad: (data) => {
+            State.update({
+              loading: false,
+              ...data,
+            });
+          },
+        }}
+      />
+    )}
+
+    {dexConfig.uniType === "Syncswap" && (
+      <Widget
+        src={QuoterSyncswap}
+        props={{
+          ...dexConfig,
+          update: state.loading,
+          routerAddress: dexConfig.routerAddress,
+          inputCurrency: state.inputCurrency,
+          outputCurrency: state.outputCurrency,
+          inputCurrencyAmount: state.inputCurrencyAmount,
+          outputCurrencyAmount: state.outputCurrencyAmount,
+          tradeType: state.tradeType,
+          wethAddress,
+          onLoad: (data) => {
+            State.update({
+              loading: false,
+              ...data,
             });
           },
         }}
