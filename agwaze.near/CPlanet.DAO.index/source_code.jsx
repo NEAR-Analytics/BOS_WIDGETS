@@ -243,7 +243,8 @@ const MiddleContent = styled.div`
 
 const MembersGroup = styled.div`
 margin-top: 40px;
-margin-left: 30px;
+width: 220px;
+margin-left: 20px;
 h1 {
   color: #000;
 font-family: Helvetica Neue;
