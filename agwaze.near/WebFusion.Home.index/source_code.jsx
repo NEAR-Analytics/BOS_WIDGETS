@@ -85,6 +85,24 @@ const EventDetails = styled.div`
       .speakButton:hover {
         opacity: 0.6;
       }
+    @media only screen and (max-width: 800px) {
+      .aboutEvent {
+        width: 90%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 0 17px;
+        margin-bottom: 50px;
+      }
+  }
+  @media only screen and (max-width: 800px) {
+    h1 {
+      font-size: 25px;
+      text-align: center;
+      text-transform: capitalize;
+      line-height: 39px;
+    }
+    }
 `;
 
 return (
@@ -124,7 +142,7 @@ return (
           <button className="speakButton">Apply to Speak {upArrow}</button>
         </div>
       </div>
-      <Widget src="agwaze.near/widget/WebFusion.Home.EventPage" />
+      <Widget src="agwaze.near/widget/WebFusion.Home.EventDetails" />
     </EventDetails>
   </Root>
 );
