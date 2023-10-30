@@ -51,7 +51,7 @@ useEffect(() => {
     if (!premiumTime || parseInt(premiumTime) < Date.now()) {
       return Status.NotPremium;
     }
-    setSuffix(props.suffix);
+    setSuffix(props.suffix || "");
     const parsedData = parseJson(data);
     if (props.url && parsedData?.url !== props.url) {
       setLongURL(props.url);
