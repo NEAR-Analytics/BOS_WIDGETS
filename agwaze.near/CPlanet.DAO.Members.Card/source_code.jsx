@@ -210,7 +210,7 @@ return (
         ? profile.description?.length > 100
           ? `${profile.description.substring(0, 100)}...`
           : profile.description
-        : "Lorem ipsum dolor sit amet elit, sed do eiusmod tempor incididunt u labore et dolore magna aliqua. Ut enim ad mini quis nostrud labor nisi"}
+        : "No Description"}
     </div>
     <MemberStat>
       <div className="date">
