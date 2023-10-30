@@ -109,6 +109,14 @@ useEffect(() => {
   }
 }, [longURL, status]);
 
+const generateRandomSuffix = () => {
+  if (suffix) {
+    return;
+  }
+  const a = nanoid.customAlphabet("1234567890abcdef");
+  setSuffix(a(6));
+};
+
 return status === Status.Loading ? (
   <div>Loading</div>
 ) : status === Status.NoAccountId ? (
@@ -129,36 +137,38 @@ return status === Status.Loading ? (
   </div>
 ) : status === Status.New || status === Status.Existing ? (
   <div>
-    <div key="short-url" className="mb-3">
-      <label className="form-label">Short URL</label>
-      <div className="input-group">
-        <span className="input-group-text">https://{accountId}.fm/</span>
-        <input
-          type="text"
-          placeholder="welcome-to-near"
-          className="form-control"
-          value={suffix}
-          onChange={(e) => {
-            setSuffix(e.target.value);
-            setPreviewUrl("");
-          }}
-          autoFocus
-        />
-      </div>
+    <div key="long-url" className="mb-3">
+      <label className="form-label">Long URL</label>
+      <input
+        type="url"
+        className="form-control"
+        placeholder="Paste you long URL, e.g. https://near.social/mob.near/widget/Near.FM"
+        value={longURL}
+        onChange={(e) => {
+          setStatus(Status.New);
+          setLongURL(e.target.value);
+          generateRandomSuffix();
+        }}
+        autoFocus
+      />
     </div>
 
-    {suffix && (
-      <div key="long-url" className="mb-3">
-        <label className="form-label">Long URL</label>
-        <input
-          type="url"
-          className="form-control"
-          value={longURL}
-          onChange={(e) => {
-            setStatus(Status.New);
-            setLongURL(e.target.value);
-          }}
-        />
+    {longURL && (
+      <div key="short-url" className="mb-3">
+        <label className="form-label">Short URL</label>
+        <div className="input-group">
+          <span className="input-group-text">https://{accountId}.fm/</span>
+          <input
+            type="text"
+            placeholder="welcome-to-near"
+            className="form-control"
+            value={suffix}
+            onChange={(e) => {
+              setSuffix(e.target.value);
+              setPreviewUrl("");
+            }}
+          />
+        </div>
       </div>
     )}
 
