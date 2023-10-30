@@ -16,7 +16,7 @@ const CenteredCardWrapper = styled.div`
 const Card = styled.div`
   padding: 30px;
   background: ${(props) => (props.isWhiteBackground ? "#000000" : "#fffff")};
-  width: 260px;
+  width: 280px;
   height: 270px;
   display: flex;
   flex-direction: column;
