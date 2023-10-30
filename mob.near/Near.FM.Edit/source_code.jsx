@@ -220,17 +220,33 @@ return status === Status.Loading ? (
             )}
           </label>
           <div className="border p-3">
-            {metadata.image && (
-              <img
-                src={metadata.image}
-                alt="Metadata Card Image"
-                className="img-fluid float-start me-3"
-                style={{ maxHeight: "10em", maxWidth: "30%" }}
+            {loading ? (
+              <span
+                key="loading-spin"
+                className="spinner-grow spinner-grow-lg"
+                role="status"
+                aria-hidden="true"
               />
+            ) : (
+              <div key="meta-inner" className="d-flex flex-row overflow-hidden">
+                {metadata.image && (
+                  <img
+                    src={metadata.image}
+                    alt="Metadata Card Image"
+                    className="me-3"
+                    style={{
+                      maxHeight: "10em",
+                      maxWidth: "30%",
+                      objectFit: "contain",
+                    }}
+                  />
+                )}
+                <div className="flex-grow-1" style={{ minHeight: 1 }}>
+                  <h6>{metadata.title}</h6>
+                  <p>{metadata.description}</p>
+                </div>
+              </div>
             )}
-            <h6>{metadata.title}</h6>
-            <p>{metadata.description}</p>
-            <div className="clearfix" />
           </div>
         </div>
 
