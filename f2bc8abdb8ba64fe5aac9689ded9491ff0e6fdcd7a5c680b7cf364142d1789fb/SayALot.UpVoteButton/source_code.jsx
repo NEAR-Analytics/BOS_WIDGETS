@@ -1,4 +1,4 @@
-//SayALot.UpVoteButton
+//CommunityVoice.UpVoteButton
 
 const {
   isTest,
@@ -148,7 +148,7 @@ return (
           src,
           stateUpdate,
           state.functionsToCallByLibrary,
-          { baseAction: "sayALotUpVote" },
+          { baseAction: "communityVoiceUpVote" },
           "Up vote button"
         );
       })}
