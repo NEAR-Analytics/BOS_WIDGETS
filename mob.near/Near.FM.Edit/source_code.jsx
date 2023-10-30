@@ -42,7 +42,7 @@ useEffect(() => {
     if (!accountId) {
       return Status.NoAccountId;
     }
-    if (!accountId.endsWith(".near") || !accountId.split(".").length == 2) {
+    if (!accountId.endsWith(".near") || accountId.split(".").length !== 2) {
       return Status.UnsupportedAccountId;
     }
     if (premiumTime === null || (props.suffix && data === null)) {
