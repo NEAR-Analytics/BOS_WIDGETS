@@ -93,8 +93,23 @@ const setPendingProposals = () => {
 };
 
 const viewProposals = (proposals) => {
+  let content = "";
   if (proposals.length > 0) {
+    for (let proposal of proposals) {
+      content += `<div id="${proposal.id}" class="proposal">
+            <div class="id">Issue Id: <strong>${proposal.id}</strong></div>
+            <div class="reward">Requested Reward: <strong>${proposal.price} Near  <a href="https://explorer.mainnet.near.org/accounts/${proposal.author_wallet}" target="_blank">(by ${proposal.author_wallet})</a></strong></div>
+            <div class="project">
+                Project: <strong>${proposal.project_id}</strong>
+            </div>
+            <div class="description">Proposal: ${proposal.text}</div>
+        </div>`;
+    }
+  } else {
+    content = "No issues";
   }
+  console.log(content);
+  return content;
 };
 
 const setInitial = () => {
@@ -160,7 +175,9 @@ return (
         {state.activeTab === "pending" && (
           <div>
             <h3>Pending Issues</h3>
-            <div id="proposals-pending-content">Content for Pending Issues</div>
+            <div id="proposals-pending-content">
+              {viewProposals(state.pendingProposals.proposals)}
+            </div>
           </div>
         )}
       </div>
