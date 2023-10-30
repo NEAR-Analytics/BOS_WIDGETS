@@ -60,7 +60,7 @@ const Title = styled.div`
 `;
 const CurrencyList = styled.div`
   padding: 0px 30px 20px;
-  max-height: calc(80vh - 120px);
+  max-height: calc(60vh - 120px);
   overflow-x: auto;
   @media (max-width: 900px) {
     max-height: 50vh;
