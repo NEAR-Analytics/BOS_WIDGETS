@@ -178,6 +178,31 @@ function makeAccountIdShorter(accountId) {
   return accountId;
 }
 
+function followUser(user, isFollowing) {
+  if(isFollowing) return
+  const dataToSend = {
+    graph: { follow: { [user]: isFollowing ? null : "" } },
+    index: {
+      graph: JSON.stringify({
+        key: "follow",
+        value: {
+          type,
+          accountId: user,
+        },
+      }),
+      notify: JSON.stringify({
+        key: user,
+        value: {
+          type,
+        },
+      }),
+    },
+  };
+  Social.set(dataToSend, {
+    force: true,
+  });
+}
+
 return (
   <Root>
     <div className="topImage">
@@ -254,6 +279,7 @@ return (
 
     <button
       disabled={props.isFollowing}
+      onClick={() => followUser(daoId, props.isFollowing)}
       className={props.isFollowing ? "following" : "follow"}
     >
       {props.isFollowing ? "Following" : "Follow"}
