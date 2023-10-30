@@ -171,7 +171,8 @@ const MemberStat = styled.div`
 `;
 
 const profile = Social.get(`${daoId}/profile/**`, "final");
-function makeAccountIdShorter(accountId) {
+
+function makeAccountIdShorter(accountId, shortenLength) {
   if (accountId.length > shortenLength) {
     return accountId.slice(0, shortenLength) + "...";
   }
@@ -179,7 +180,7 @@ function makeAccountIdShorter(accountId) {
 }
 
 function followUser(user, isFollowing) {
-  if(isFollowing) return
+  if (isFollowing) return;
   const dataToSend = {
     graph: { follow: { [user]: isFollowing ? null : "" } },
     index: {
@@ -224,7 +225,7 @@ return (
         }
       />
       <div className="names">
-        <h1>{makeAccountIdShorter(profile.name) ?? "OG Badge (SBT) DAO"}</h1>
+        <h1>{makeAccountIdShorter(profile.name, 19) ?? "OG Badge (SBT) DAO"}</h1>
         <span>
           @{makeAccountIdShorter(daoId) ?? "@og-sbt.sputnik-dao.near"}
         </span>
