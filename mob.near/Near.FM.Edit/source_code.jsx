@@ -1,6 +1,7 @@
 const [suffix, setSuffix] = useState("");
 const [longURL, setLongURL] = useState("");
 const [loading, setLoading] = useState(false);
+const [editMetadata, setEditMetadata] = useState(false);
 const [metadata, setMetadata] = useState(false);
 const [debounce, setDebounce] = useState(null);
 const [previewUrl, setPreviewUrl] = useState("");
@@ -150,45 +151,60 @@ return status === Status.Loading ? (
 
     {suffix && longURL && (
       <div key="rest">
-        <div className="mb-3">
-          <label className="form-label">Title</label>
-          <input
-            type="text"
-            className="form-control"
-            disabled={loading}
-            value={metadata.title}
-            onChange={(e) =>
-              setMetadata({ ...metadata, title: e.target.value })
-            }
-          />
-        </div>
-        <div className="mb-3">
-          <label className="form-label">Description</label>
-          <input
-            type="text"
-            className="form-control"
-            disabled={loading}
-            value={metadata.description}
-            onChange={(e) =>
-              setMetadata({ ...metadata, description: e.target.value })
-            }
-          />
-        </div>
-        <div className="mb-3">
-          <label className="form-label">Image URL</label>
-          <input
-            type="url"
-            className="form-control"
-            disabled={loading}
-            value={metadata.image}
-            onChange={(e) =>
-              setMetadata({ ...metadata, image: e.target.value })
-            }
-          />
-        </div>
+        {editMetadata && (
+          <div key="edit-metadata">
+            <div className="mb-3">
+              <label className="form-label">Title</label>
+              <input
+                type="text"
+                className="form-control"
+                disabled={loading}
+                value={metadata.title}
+                onChange={(e) =>
+                  setMetadata({ ...metadata, title: e.target.value })
+                }
+              />
+            </div>
+            <div className="mb-3">
+              <label className="form-label">Description</label>
+              <input
+                type="text"
+                className="form-control"
+                disabled={loading}
+                value={metadata.description}
+                onChange={(e) =>
+                  setMetadata({ ...metadata, description: e.target.value })
+                }
+              />
+            </div>
+            <div className="mb-3">
+              <label className="form-label">Image URL</label>
+              <input
+                type="url"
+                className="form-control"
+                disabled={loading}
+                value={metadata.image}
+                onChange={(e) =>
+                  setMetadata({ ...metadata, image: e.target.value })
+                }
+              />
+            </div>
+          </div>
+        )}
 
         <div className="mb-3">
-          <h5>Metadata Preview</h5>
+          <h5>
+            Metadata Preview{" "}
+            {!editMetadata && (
+              <button
+                key="edit-button"
+                className="btn btn-outline-secondary border-0"
+                onClick={() => setEditMetadata(true)}
+              >
+                Edit
+              </button>
+            )}
+          </h5>
           <div className="border p-3">
             <h6>{metadata.title}</h6>
             <p>{metadata.description}</p>
