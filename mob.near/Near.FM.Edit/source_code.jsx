@@ -17,6 +17,7 @@ const Status = {
   NotPremium: 2,
   New: 3,
   Existing: 4,
+  UnsupportedAccountId: 5,
 };
 
 const parseJson = (json) => {
@@ -33,6 +34,9 @@ useEffect(() => {
   setStatus(() => {
     if (!accountId) {
       return Status.NoAccountId;
+    }
+    if (!accountId.endsWith(".near") || !accountId.split(".").length == 2) {
+      return Status.UnsupportedAccountId;
     }
     if (premiumTime === null || (props.suffix && data === null)) {
       return Status.Loading;
@@ -105,6 +109,8 @@ return status === Status.Loading ? (
   <div>Loading</div>
 ) : status === Status.NoAccountId ? (
   <div>Please sign in to start using URL Shortener</div>
+) : status === Status.UnsupportedAccountId ? (
+  <div>Sorry, only top-level accounts ending with ".near" are supported</div>
 ) : status === Status.NotPremium ? (
   <div>Premium subscription required</div>
 ) : status === Status.New || status === Status.Existing ? (
@@ -138,7 +144,7 @@ return status === Status.Loading ? (
       </div>
     )}
 
-    {longURL && (
+    {suffix && longURL && (
       <div key="rest">
         <div className="mb-3">
           <label className="form-label">Title</label>
@@ -178,14 +184,14 @@ return status === Status.Loading ? (
         </div>
 
         <div className="mb-3">
-          <h5>Twitter Card Preview</h5>
+          <h5>Metadata Preview</h5>
           <div className="border p-3">
             <h6>{metadata.title}</h6>
             <p>{metadata.description}</p>
             {metadata.image && (
               <img
                 src={metadata.image}
-                alt="Twitter Card Image"
+                alt="Metadata Card Image"
                 className="img-fluid"
                 style={{ maxHeight: "10em" }}
               />
