@@ -1,4 +1,4 @@
-//This code comes from NDC.Nomination.Candidate.Page > NDC.Nomination.Candidate.DesktopView
+// CommunityVoice.ArticleView
 
 const {
   widgets,
@@ -16,7 +16,7 @@ const id =
   articleToRenderData.id ??
   `${articleToRenderData.author}-${articleToRenderData.timeCreate}`;
 
-//For the moment we'll allways have only 1 sbt in the array. If this change remember to do the propper work in SayALot.lib.SBT and here.
+//For the moment we'll allways have only 1 sbt in the array. If this change remember to do the propper work in CommunityVoice.lib.SBT and here.
 const articleSbts = articleToRenderData.sbts ?? [];
 
 const libSrcArray = [widgets.libComment];
@@ -28,10 +28,6 @@ const tabs = [
     icon: "bi bi-info-circle",
   },
 ];
-
-const prodAction = "sayALotArticle_v0.0.3";
-const testAction = `test_${prodAction}`;
-const action = isTest ? testAction : prodAction;
 
 const initLibsCalls = {
   comment: [
@@ -647,7 +643,7 @@ return (
                         style={{ fontWeight: 500 }}
                       >
                         <a
-                          href={`https://near.social/${authorForWidget}/widget/${widgets.sayALot}?tagShared=${hashtag}`}
+                          href={`https://near.social/${authorForWidget}/widget/${widgets.communityVoice}?tagShared=${hashtag}`}
                           target="_blank"
                         >
                           #{hashtag}
@@ -796,7 +792,7 @@ return (
           src,
           stateUpdate,
           state.libsCalls,
-          { baseAction: "sayALotComment" },
+          { baseAction: "communityVoiceComment" },
           "Article view"
         );
       })}
