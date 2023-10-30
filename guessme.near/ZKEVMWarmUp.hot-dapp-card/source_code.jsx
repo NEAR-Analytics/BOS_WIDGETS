@@ -27,8 +27,8 @@ const DappCardWrapper = styled.a`
   }
 
   .dapp-name {
-    font-size: 20px;
-    font-weight: 700;
+    font-size: 16px;
+    font-weight: 500;
     line-height: 24px;
     letter-spacing: 0em;
     text-align: left;
@@ -45,8 +45,8 @@ const DappCardWrapper = styled.a`
     color: #979abe;
   }
   @media (max-width:900px) {
-    width: 45%;
-    height: auto;
+    width: 165px;
+    height: 150px;
     display: inline-block;
     text-align: center;
     .icon-wrapper{
