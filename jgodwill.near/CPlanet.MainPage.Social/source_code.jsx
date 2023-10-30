@@ -78,7 +78,7 @@ const SocialWrapper = styled.div`
     display: flex;
     flex-direction:row;
     gap: 2rem;
-    .rhs{
+    .rhs, .lhs{
         width: 360px;
         padding: 16px 24px 476px 24px; 
         border: 1px solid #EFEFEF;
@@ -132,6 +132,7 @@ return (
           />
         )}
       </div>
+      <div className="lhs"></div>
     </SocialWrapper>
   </CPlanetFont>
 );
