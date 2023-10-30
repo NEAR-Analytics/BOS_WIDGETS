@@ -157,24 +157,60 @@ const Resource = ({ title, type, url }) => (
 );
 
 const dapps = [
-  { title: "Arbitrum", type: "DEX", url: "https://near.org/bluebiu.near/widget/Arbitrum.All-in-one" },
-  { title: "Uniswap v2", type: "DEX", url: "https://near.social/zavodil.near/widget/Uniswap" },
-  { title: "Aave V3", type: "Lending", url: "https://near.org/aave-v3.near/widget/AAVE" },
-  { title: "Lido", type: "Staking", url: "https://near.org/zavodil.near/widget/Lido" },
-  { title: "Gamma", type: "Liquidity", url: "https://near.org/bluebiu.near/widget/ZKEVM.GAMMA" },
-  { title: "Pendle", type: "Yield Aggregator", url: "https://near.org/bluebiu.near/widget/Arbitrum.Pendle.TradeMarkets" },
+  {
+    title: "Arbitrum",
+    type: "DEX",
+    url: "https://near.org/bluebiu.near/widget/Arbitrum.All-in-one",
+  },
+  {
+    title: "Uniswap v2",
+    type: "DEX",
+    url: "https://near.social/zavodil.near/widget/Uniswap",
+  },
+  {
+    title: "Aave V3",
+    type: "Lending",
+    url: "https://near.org/aave-v3.near/widget/AAVE",
+  },
+  {
+    title: "Lido",
+    type: "Staking",
+    url: "https://near.org/zavodil.near/widget/Lido",
+  },
+  {
+    title: "Gamma",
+    type: "Liquidity",
+    url: "https://near.org/bluebiu.near/widget/ZKEVM.GAMMA",
+  },
+  {
+    title: "Pendle",
+    type: "Yield Aggregator",
+    url: "https://near.org/bluebiu.near/widget/Arbitrum.Pendle.TradeMarkets",
+  },
 ];
 
 const gateways = [
   { title: "NEAR", type: "near", url: "https://near.org/" },
   { title: "DapDap", type: "Web3 Games", url: "https://alpha.dapdap.net/" },
-  { title: "Polygon zkEVM", type: "zkEVM", url: "https://bos.quickswap.exchange/" },
+  {
+    title: "Polygon zkEVM",
+    type: "zkEVM",
+    url: "https://bos.quickswap.exchange/",
+  },
   { title: "Mantle", type: "zkEVM", url: "https://bos.mantle.xyz/" },
 ];
 
 const resources = [
-  { title: "What is BOS?", type: "Docs", url: "https://docs.near.org/bos/overview" },
-  { title: "BOS Loader", type: "Github Repo", url: "https://github.com/near/bos-loader" },
+  {
+    title: "What is BOS?",
+    type: "Docs",
+    url: "https://docs.near.org/bos/overview",
+  },
+  {
+    title: "BOS Loader",
+    type: "Github Repo",
+    url: "https://github.com/near/bos-loader",
+  },
   {
     title: "BOS Gateway",
     type: "Github Repo",
