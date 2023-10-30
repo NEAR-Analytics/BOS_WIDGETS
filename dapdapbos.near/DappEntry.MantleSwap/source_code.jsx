@@ -75,7 +75,7 @@ const Container = styled.div`
   --thirdary-text-color: #4f5375;
   --dex-active-text-color: #fff;
   --button-text-color: #fff;
-  --dex-hover-bg-color: rgba(51, 84, 156, 0.1);
+  --dex-hover-bg-color: rgba(51, 84, 156, 0.2);
 `;
 return (
   <Container>
