@@ -3,6 +3,7 @@ const [longURL, setLongURL] = useState("");
 const [loading, setLoading] = useState(false);
 const [metadata, setMetadata] = useState(false);
 const [debounce, setDebounce] = useState(null);
+const [previewUrl, setPreviewUrl] = useState("");
 
 const accountId = context.accountId;
 const premiumTime = Social.get(
@@ -124,7 +125,10 @@ return status === Status.Loading ? (
           placeholder="welcome-to-near"
           className="form-control"
           value={suffix}
-          onChange={(e) => setSuffix(e.target.value)}
+          onChange={(e) => {
+            setSuffix(e.target.value);
+            setPreviewUrl("");
+          }}
         />
       </div>
     </div>
@@ -199,21 +203,40 @@ return status === Status.Loading ? (
           </div>
         </div>
 
-        <CommitButton
-          className="btn btn-primary"
-          data={{
-            custom: {
-              fm: {
-                [suffix]: JSON.stringify({
-                  ...metadata,
-                  url: longURL,
-                }),
+        <div className="mb-3">
+          <CommitButton
+            className="btn btn-primary rounded-5"
+            data={{
+              custom: {
+                fm: {
+                  [suffix]: JSON.stringify({
+                    ...metadata,
+                    url: longURL,
+                  }),
+                },
               },
-            },
-          }}
-        >
-          Save Changes
-        </CommitButton>
+            }}
+            onCommit={() => {
+              setPreviewUrl(`https://${accountId}.fm/${suffix}`);
+            }}
+          >
+            Save Changes
+          </CommitButton>
+        </div>
+        {previewUrl && (
+          <div className="mb-3 fs-4">
+            <a href={previewUrl} target="_blank">
+              {previewUrl}
+            </a>
+            <Widget
+              src="mob.near/widget/CopyButton"
+              props={{
+                text: previewUrl,
+                className: "btn btn-outline-primary border-0 fs-4",
+              }}
+            />
+          </div>
+        )}
       </div>
     )}
   </div>
