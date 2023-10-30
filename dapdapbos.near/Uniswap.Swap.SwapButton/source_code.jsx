@@ -164,11 +164,10 @@ if (inputCurrency.address !== "native") {
 const wrapType =
   inputCurrency.address === "native" && outputCurrency.address === wethAddress
     ? 1
-    : outputCurrency.address === wethAddress &&
+    : inputCurrency.address === wethAddress &&
       outputCurrency.address === "native"
     ? 2
     : 0;
-
 const handleApprove = () => {
   State.update({
     approving: true,
