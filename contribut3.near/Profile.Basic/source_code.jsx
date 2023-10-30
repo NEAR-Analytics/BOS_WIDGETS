@@ -47,7 +47,7 @@ if (!state.profileIsFetched) {
       linktree: profile.linktree,
       verticals: profile.verticals ?? { [profile.category]: "" },
       product_type: profile.product_type,
-      company_size: profile.team,
+      company_size: profile.team ?? profile.company_size,
       profileIsFetched: true,
     });
   });
@@ -191,12 +191,12 @@ const data = (
         ) : null,
       }}
     />
-    <Widget
-      src={`${ownerId}/widget/Inputs.LabeledData`}
-      props={{
-        label: "Point of contact",
-      }}
-    />
+    {/* <Widget */}
+    {/*   src={`${ownerId}/widget/Inputs.LabeledData`} */}
+    {/*   props={{ */}
+    {/*     label: "Point of contact", */}
+    {/*   }} */}
+    {/* /> */}
     <Widget
       src={`${ownerId}/widget/Inputs.LabeledData`}
       props={{
