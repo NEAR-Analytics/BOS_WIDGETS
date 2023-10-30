@@ -101,7 +101,7 @@ return (
         ))}
       </ul>
     </Nav>
-    {state.feedIndex === 2 ? (
+    {state.feedIndex === 3 ? (
       <Widget src="mob.near/widget/Hashtag.Feed" props={{ hashtag }} />
     ) : (
       <Widget
