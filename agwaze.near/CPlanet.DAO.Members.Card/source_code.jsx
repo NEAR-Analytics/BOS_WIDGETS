@@ -55,19 +55,27 @@ const Root = styled.div`
         height: 100px;
         line-height: 148%; /* 23.68px */
     }
-    button {
+    .follow, .following {
         display: flex;
         width: 264px;
         padding: 10px 20px;
         justify-content: center;
         align-items: center;
         gap: 10px;
-        background: black;
-        border-color: black;
+        color: white;
         border-radius: 0;
+        transition: 0.3s ease-in-out;
         margin-left: 16px;
     }
-    button:hover {
+    .following: {
+      cursor: not-allowed;
+    }
+    .follow, .following:hover {
+      background: black;
+      color: white;
+      border-color: black;
+    }
+    .following, .follow:hover {
       background: white;
       color: black;
       border-color: black;
@@ -170,8 +178,6 @@ function makeAccountIdShorter(accountId) {
   return accountId;
 }
 
-console.log(profile);
-
 return (
   <Root>
     <div className="topImage">
@@ -245,6 +251,12 @@ return (
         </div>
       </div>
     </MemberStat>
-    <button>Follow</button>
+
+    <button
+      disabled={props.isFollowing}
+      className={props.isFollowing ? "following" : "follow"}
+    >
+      {props.isFollowing ? "Following" : "Follow"}
+    </button>
   </Root>
 );
