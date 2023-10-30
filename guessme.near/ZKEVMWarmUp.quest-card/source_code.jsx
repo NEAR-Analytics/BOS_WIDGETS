@@ -159,7 +159,7 @@ const QuestCardWrapper = styled.div`
       }
 
       .quest-card-info {
-        font-size: 18px;
+        font-size: 16px;
         font-weight: 500;
         text-align: center;
         line-height: 24px;
