@@ -515,6 +515,8 @@ const FAQWrapper = styled.div`
   color: #0f1d40;
   font-size: 1.2rem;
   width: 100%;
+  font-size: 1.5rem;
+  font-weight: 600;
 }
 .FAQCard_container__1Ei5V * {
   transition: color .3s;
@@ -855,35 +857,36 @@ return (
         Frequently Asked Questions
       </H1>
       <div className="FAQ_FQAs__10snz">
-        {state?.faqs.map((faq, index) => (
-          <div className="FAQCard_container__1Ei5V">
-            <div
-              className="FAQCard_question__3a_rG"
-              key={index}
-              onClick={() => faqToggleHandler(index)}
-            >
-              <p className="FAQCard_title__3XC11">{faq.question}</p>
-              <span>
-                <img
-                  src={
-                    !state.isOpen[index]
-                      ? "https://genadrop.io/static/media/open-icon.7ae4273f.svg"
-                      : "https://www.genadrop.io/static/media/close-icon.0a1e748e.svg"
-                  }
-                  alt=""
-                />
-              </span>
-            </div>
-            {state.isOpen[index] && (
+        {state.faqs &&
+          state.faqs.map((faq, index) => (
+            <div className="FAQCard_container__1Ei5V">
               <div
-                className={`FAQCard_answer__3-7tF
-              }`}
+                className="FAQCard_question__3a_rG"
+                key={index}
+                onClick={() => faqToggleHandler(index)}
               >
-                {faq.answer}
+                <p className="FAQCard_title__3XC11">{faq.question}</p>
+                <span>
+                  <img
+                    src={
+                      !state.isOpen[index]
+                        ? "https://genadrop.io/static/media/open-icon.7ae4273f.svg"
+                        : "https://www.genadrop.io/static/media/close-icon.0a1e748e.svg"
+                    }
+                    alt=""
+                  />
+                </span>
               </div>
-            )}
-          </div>
-        ))}
+              {state.isOpen[index] && (
+                <div
+                  className={`FAQCard_answer__3-7tF
+              }`}
+                >
+                  {faq.answer}
+                </div>
+              )}
+            </div>
+          ))}
       </div>
     </FAQWrapper>
     <FeatureContainer>
