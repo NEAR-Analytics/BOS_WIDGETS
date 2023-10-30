@@ -1,4 +1,4 @@
-const daoId = props.daoId ?? "agwaze.near";
+const daoId = props.daoId ?? "marmaj.sputnik-dao.near";
 const Root = styled.div`
 `;
 
@@ -226,6 +226,12 @@ const TabsButton = styled.a`
   }
 `;
 
+State.init({
+  selectedTab: props.tab || "feed",
+});
+
+const [councilMembers, setCouncilMembers] = useState({});
+
 const Contents = styled.div`
   display: flex;
 `;
@@ -235,11 +241,38 @@ const MiddleContent = styled.div`
 
 `;
 
-State.init({
-  selectedTab: props.tab || "feed",
-});
+const MembersGroup = styled.div`
+margin-top: 40px;
+margin-left: 30px;
+h1 {
+  color: #000;
+font-family: Helvetica Neue;
+font-size: 24px;
+font-style: normal;
+font-weight: 500;
+line-height: 120%; /* 28.8px */
+}
+  .members {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    margin: 20px 0;
+  }
+`;
 
 const profile = Social.get(`${daoId}/profile/**`, "final");
+
+// -- Smart Contract
+const policy = Near.view(daoId, "get_policy");
+let members = [];
+policy &&
+  policy.roles.forEach((role) => {
+    if (typeof role.kind.Group === "object") {
+      members = members.concat(role.kind.Group);
+    }
+  });
+members = [...new Set(members)];
+// --
 
 function makeAccountIdShorter(accountId) {
   if (accountId.length > shortenLength) {
@@ -250,6 +283,16 @@ function makeAccountIdShorter(accountId) {
 const background = profile.backgroundImage
   ? `https://ipfs.near.social/ipfs/${profile.backgroundImage.ipfs_cid}`
   : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRub7hFLkStCvZiaSeiUGznP4uzqPPcepghhg&usqp=CAU";
+
+useEffect(() => {
+  setCouncilMembers(
+    policy.roles.filter((data) => data.name === "council")[0]?.kind?.Group
+  );
+}, [policy]);
+
+useEffect(() => {
+  console.log(councilMembers);
+}, [councilMembers]);
 
 return (
   <Root>
@@ -360,6 +403,23 @@ return (
           )}
         </>
       </MiddleContent>
+      <MembersGroup>
+        <h1>Council Members </h1>
+        {councilMembers ? (
+          <div className="members">
+            {councilMembers.map((data) => (
+              <div>
+                <Widget
+                  src="agwaze.near/widget/CPlanet.DAO.Members.SideCard"
+                  props={{ daoId: data }}
+                />
+              </div>
+            ))}
+          </div>
+        ) : (
+          <div> No Council Members </div>
+        )}
+      </MembersGroup>
     </Contents>
   </Root>
 );
