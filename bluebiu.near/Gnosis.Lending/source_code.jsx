@@ -1,3 +1,5 @@
+const { defaultDapp } = props;
+
 const Theme = styled.div`
   --button-text-color: #ffffff;
   --button-color: #04795b;
@@ -43,7 +45,7 @@ return (
           chainId: CHAIN_ID,
           chainName: CHAIN_NAME,
         },
-        defaultDapp: "Agave",
+        defaultDapp: defaultDapp || "Agave",
         dapps: {
           Agave: {
             name: "Agave",
