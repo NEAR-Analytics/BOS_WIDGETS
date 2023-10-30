@@ -172,7 +172,7 @@ return (
               style={{ minHeight: "100px" }}
             />
           }
-          src="mob.near/widget/MainPage.N.Post.Content"
+          src="jgodwill.near/widget/CPlanet.MainPage.Post.Content"
           props={{
             content,
             raw,
