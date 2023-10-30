@@ -95,22 +95,22 @@ State.update({ libsCalls: newLibsCalls });
 
 //==================================================CONSTS==========================================================
 
-// const authorForWidget = "sayalot.near";
+const authorForWidget = "sayalot.near";
 // const authorForWidget =
 //   "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb";
 // const authorForWidget = "kenrou-it.near";
-const authorForWidget = "silkking.near";
+// const authorForWidget = "silkking.near";
 
 const thisWidgetName = "SayALot";
 
 const widgets = {
   sayALot: `${authorForWidget}/widget/${thisWidgetName}`,
-  create: `${context.accountId}/widget/SayALot.Create`, /////////////////////////////////////////////////////////////////////////////////////////////////////
+  create: `${authorForWidget}/widget/SayALot.Create`,
   header: `${authorForWidget}/widget/SayALot.NavBar`,
   showArticlesList: `${authorForWidget}/widget/SayALot.AllArticlesList`,
-  showArticlesListSortedByAuthors: `${context.accountId}/widget/SayALot.AllArticlesSortByAuthors`, ///////////////////////////////////////////////////////////
-  articlesByAuthorCard: `${context.accountId}/widget/SayALot.ArticlesByAuthorCard`, /////////////////////////////////////////////////////////////////////////
-  generalCard: `${context.accountId}/widget/SayALot.GeneralCard`, ///////////////////////////////////////////////////////////////////////////////////////////
+  showArticlesListSortedByAuthors: `${authorForWidget}/widget/SayALot.AllArticlesSortByAuthors`,
+  articlesByAuthorCard: `${authorForWidget}/widget/SayALot.ArticlesByAuthorCard`,
+  generalCard: `${authorForWidget}/widget/SayALot.GeneralCard`,
   articleView: `${authorForWidget}/widget/SayALot.ArticleView`,
   reactions: `${authorForWidget}/widget/SayALot.Reactions`,
   addComment: `${authorForWidget}/widget/SayALot.AddComment`,
@@ -120,7 +120,7 @@ const widgets = {
   libArticle: `${authorForWidget}/widget/lib.article`,
   libEmojis: `${authorForWidget}/widget/lib.emojis`,
   libUpVotes: `${authorForWidget}/widget/lib.upVotes`,
-  upVoteButton: `${context.accountId}/widget/SayALot.UpVoteButton`, ////////////////////////////////////////////////////////////////////////////////////////
+  upVoteButton: `${authorForWidget}/widget/SayALot.UpVoteButton`,
   styledComponents: "rubycop.near/widget/NDC.StyledComponents",
   newStyledComponents: {
     Element: {
