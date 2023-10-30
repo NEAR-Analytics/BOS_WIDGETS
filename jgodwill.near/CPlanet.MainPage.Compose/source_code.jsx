@@ -101,7 +101,7 @@ return (
                 onCompose();
               }}
             >
-              Post
+              Post Now
             </CommitButton>
           ),
         }}
