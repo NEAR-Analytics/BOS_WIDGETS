@@ -202,7 +202,7 @@ return (
       <SectionTitle color="#C751FF">Gateways</SectionTitle>
     </Container>
     <Container>
-      {gateways.map(({ title, type }, index) => (
+      {gateways.map(({ title, type, url }, index) => (
         <Gateway key={index} title={title} type={type} url={url} />
       ))}
     </Container>
@@ -210,7 +210,7 @@ return (
       <SectionTitle color="#767676">Resources</SectionTitle>
     </Container>
     <Container>
-      {resources.map(({ title, type }, index) => (
+      {resources.map(({ title, type, url }, index) => (
         <Resource key={index} title={title} type={type} url={url} />
       ))}
     </Container>
