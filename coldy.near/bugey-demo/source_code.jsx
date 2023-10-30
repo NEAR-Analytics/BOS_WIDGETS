@@ -1,5 +1,6 @@
 State.init({
   projectId: 1,
+  currentProject: null,
   pendingProposals: {
     pages: 1,
     proposals: [],
@@ -34,10 +35,11 @@ const getProposalsByProject = (project_id, status, page, limit) => {
 };
 
 const testView = () => {
-  State.update({
-    projects: getProjectsList(1, 10),
-  });
-  const proposals = getProposalsByProject(state.projectId, 1, 1, 10);
+  const projects = getProjectsList(1, 50);
+  if (projects[0]) {
+    c;
+  }
+  console.log(projects);
 };
 
 const tabStyle = {
@@ -93,23 +95,35 @@ const setPendingProposals = () => {
 };
 
 const viewProposals = (proposals) => {
-  let content = "";
   if (proposals.length > 0) {
-    for (let proposal of proposals) {
-      content += `<div id="${proposal.id}" class="proposal">
-            <div class="id">Issue Id: <strong>${proposal.id}</strong></div>
-            <div class="reward">Requested Reward: <strong>${proposal.price} Near  <a href="https://explorer.mainnet.near.org/accounts/${proposal.author_wallet}" target="_blank">(by ${proposal.author_wallet})</a></strong></div>
-            <div class="project">
-                Project: <strong>${proposal.project_id}</strong>
-            </div>
-            <div class="description">Proposal: ${proposal.text}</div>
-        </div>`;
-    }
+    const proposalElements = proposals.map((proposal) => (
+      <div key={proposal.id} id={proposal.id} className="proposal">
+        <div className="id">
+          Issue Id: <strong>{proposal.id}</strong>
+        </div>
+        <div className="reward">
+          Requested Reward:{" "}
+          <strong>
+            {proposal.price} Near{" "}
+            <a
+              href={`https://explorer.mainnet.near.org/accounts/${proposal.author_wallet}`}
+              target="_blank"
+            >
+              (by {proposal.author_wallet})
+            </a>
+          </strong>
+        </div>
+        <div className="project">
+          Project: <strong>{proposal.project_id}</strong>
+        </div>
+        <div className="description">Proposal: {proposal.text}</div>
+      </div>
+    ));
+
+    return <div>{proposalElements}</div>;
   } else {
-    content = "No issues";
+    return <div>No issues</div>;
   }
-  console.log(content);
-  return content;
 };
 
 const setInitial = () => {
