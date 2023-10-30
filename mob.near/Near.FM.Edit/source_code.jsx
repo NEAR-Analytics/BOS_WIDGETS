@@ -205,7 +205,7 @@ return status === Status.Loading ? (
         )}
 
         <div className="mb-3">
-          <h5>
+          <label className="form-label">
             Metadata Preview{" "}
             {!editMetadata && (
               <button
@@ -216,7 +216,7 @@ return status === Status.Loading ? (
                 Edit
               </button>
             )}
-          </h5>
+          </label>
           <div className="border p-3">
             {metadata.image && (
               <img
