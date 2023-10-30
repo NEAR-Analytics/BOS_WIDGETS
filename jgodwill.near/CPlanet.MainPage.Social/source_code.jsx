@@ -38,11 +38,21 @@ if (state.feedIndex === 0) {
   }
 }
 
+const CPlanetFont = styled.div`
+*, *::before, *::after{
+  font-family: Helvetica Neue;
+  box-sizing: border-box;
+}
+`;
+
 return (
-  <>
+  <CPlanetFont>
     {context.accountId && (
       <div className="mb-3">
-        <Widget src="jgodwill.near/widget/MainPage.Compose" props={{}} />
+        <Widget
+          src="jgodwill.near/widget/CPlanet.MainPage.Compose"
+          props={{}}
+        />
       </div>
     )}
     <ul className="nav nav-pills mb-3">
@@ -64,9 +74,9 @@ return (
       <Widget src="mob.near/widget/Hashtag.Feed" props={{ hashtag }} />
     ) : (
       <Widget
-        src="jgodwill.near/widget/MainPage.Feed.Beta"
+        src="jgodwill.near/widget/CPlanet.MainPage.Feed"
         props={{ accounts }}
       />
     )}
-  </>
+  </CPlanetFont>
 );
