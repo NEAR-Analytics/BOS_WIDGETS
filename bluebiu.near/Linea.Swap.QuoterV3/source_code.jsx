@@ -422,6 +422,7 @@ const quoteAll = () => {
         ...maxAmountOutEstimate,
         quoteDone,
         quoting,
+        noPair: !Big(maxAmountOutEstimate.amountOut).gt(0),
       });
     });
 };
