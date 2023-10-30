@@ -667,10 +667,14 @@ const AccessKey = Storage.get(
   "guessme.near/widget/ZKEVMWarmUp.add-to-quest-card"
 );
 
-console.log("AccessKey: ", AccessKey);
-
 function get_my_records_list_by_condition() {
-  const params_str = `account_id=${eth_account_id}&page=${state.current_page}&size=${state.page_size}&action_type=${state.search_action}&action_status=${state.search_status}&template=${state.search_template}&account_info=${uuid}&action_network_id=zkEVM`;
+  const params_str = `account_id=${eth_account_id}&page=${
+    state.current_page
+  }&size=${state.page_size}&action_type=${state.search_action}&action_status=${
+    state.search_status
+  }&template=${state.search_template}&account_info=${
+    eth_account_id ? "" : uuid
+  }&action_network_id=zkEVM`;
   asyncFetch(
     `https://test-api.dapdap.net/api/action/get-action-records-by-account?${params_str}`,
     {
