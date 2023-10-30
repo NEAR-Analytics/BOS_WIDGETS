@@ -9,25 +9,15 @@ const zoom = 1.7;
 const accountId = context.accountId;
 
 State.init({
-  profileModal: false,
-  filtersModal: false,
+  showModal: false,
   edit: false,
   user: {
     name: "",
     social: "",
     twitter: "",
-    bio: "",
-    role: "",
-    community: "",
   },
-  filters: {
-    role: "developer",
-    community: [],
-  },
-  locations: [],
+  loocations: [],
   humanAlert: true,
-  openInfo: false,
-  loaded: false,
 });
 
 //Styles
@@ -48,25 +38,6 @@ const Header = styled.div`
   width: 100%;
   flex-direction: column;
   position: absolute;
-`;
-
-const Sidebar = styled.div`
-  position: absolute;
-  right: 40px; 
-  height: 100%; 
-  width: 62px; 
-  padding-top:32px;
-  padding-bottom:32px;
-`;
-
-const SidebarContent = styled.div`
-  padding: 40px 16px;
-  display: flex;
-  height: 100%;
-  background: #22272B;
-  color: white;
-  border-radius: 6px;
-  border: 1px solid #FFF;
 `;
 
 const Profile = styled.button`
@@ -119,13 +90,13 @@ const getFirstSBTToken = () => {
 const hasSBTToken = getFirstSBTToken() !== undefined;
 
 const getMyData = () => {
-  return asyncFetch(
-    API_URL + `/auth/account?accountId=${accountId}&hasSBTToken=${hasSBTToken}`
-  ).then((res) => {
-    if (res.ok) {
-      return res.body.user;
+  return asyncFetch(API_URL + `/auth/account?accountId=${accountId}`).then(
+    (res) => {
+      if (res.ok) {
+        return res.body.user;
+      }
     }
-  });
+  );
 };
 
 const getLocations = () => {
@@ -140,7 +111,6 @@ const getMyInfor = async () => {
   getMyData().then((user) => {
     State.update({
       user,
-      loaded: true,
     });
   });
 };
@@ -149,40 +119,16 @@ const getLocationsData = async () => {
   getLocations().then((data) => {
     State.update({
       locations: data,
-      loaded: true,
     });
   });
 };
 
-const onProfileClose = () => {
-  State.update({ profileModal: false });
-};
-
-const onFiltersClose = () => {
-  State.update({ filtersModal: false });
+const onClose = () => {
+  State.update({ showModal: false });
 };
 
 const onHumanClose = () => {
   State.update({ humanAlert: false });
-};
-
-const onFilter = () => {
-  const { locations, filters } = state;
-  const result = locations.filter((row) => {
-    if (row.user.role === filters.role) {
-      if (filters.community.length) {
-        const state = !!filters.community.find(
-          (_row) => _row === row.user.community
-        );
-        if (state) return true;
-      } else return true;
-    }
-    return false;
-  });
-  State.update({
-    ...state,
-    locations: result,
-  });
 };
 
 const handleSaveLocation = () => {
@@ -197,25 +143,8 @@ const handleSaveLocation = () => {
   });
 };
 
-const setOpenInfo = () => {
-  State.update({
-    openInfo: !state.openInfo,
-  });
-};
-
-if (!state.loaded) {
-  getMyInfor();
-  getLocationsData();
-}
-
-const firstLoad = Storage.privateGet("load", "0");
-if (firstLoad === "0") {
-  State.update({
-    ...state,
-    openInfo: true,
-  });
-  Storage.privateSet("load", "1");
-}
+getMyInfor();
+getLocationsData();
 
 return (
   <Wrapper>
@@ -223,20 +152,38 @@ return (
       <Widget src={`${Owner}/widget/Header`} />
     </Header>
     {accountId && hasSBTToken && (
-      <Widget
-        src={`${Owner}/widget/Human-sidebar`}
-        props={{
-          humans: state.locations.length,
-          profileModal: state.profileModal,
-          filtersModal: state.filtersModal,
-          showProfile: () => {
-            State.update({ filtersModal: false, profileModal: true });
-          },
-          showFilters: () => {
-            State.update({ filtersModal: true, profileModal: false });
-          },
-        }}
-      />
+      <div>
+        <Profile
+          class="btn"
+          style={BtnStyle}
+          onClick={() => {
+            State.update({ showModal: true });
+          }}
+        >
+          {`Profile`}
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="20"
+            height="20"
+            viewBox="0 0 48 48"
+          >
+            <mask id="ipSDownOne0">
+              <path
+                fill="#fff"
+                stroke="#fff"
+                stroke-linejoin="round"
+                stroke-width="4"
+                d="M36 19L24 31L12 19h24Z"
+              />
+            </mask>
+            <path
+              fill="currentColor"
+              d="M0 0h48v48H0z"
+              mask="url(#ipSDownOne0)"
+            />
+          </svg>
+        </Profile>
+      </div>
     )}
 
     {accountId && hasSBTToken && (
@@ -262,8 +209,8 @@ return (
             <g
               fill="none"
               stroke="currentColor"
-              strokeLinejoin="round"
-              strokeWidth="2"
+              stroke-linejoin="round"
+              stroke-width="2"
             >
               <path d="M13 9a1 1 0 1 1-2 0a1 1 0 0 1 2 0Z" />
               <path d="M17.5 9.5c0 3.038-2 6.5-5.5 10.5c-3.5-4-5.5-7.462-5.5-10.5a5.5 5.5 0 1 1 11 0Z" />
@@ -273,43 +220,10 @@ return (
       </div>
     )}
 
-    {accountId && hasSBTToken && state.profileModal && (
+    {accountId && hasSBTToken && state.showModal && (
       <Widget
-        src={`${Owner}/widget/Human-Profile-Modal`}
-        props={{
-          onClose: onProfileClose,
-          API_URL,
-          user: state.user,
-          getMyInfor,
-        }}
-      />
-    )}
-
-    {accountId && hasSBTToken && state.filtersModal && (
-      <Widget
-        src={`${Owner}/widget/Human-Filters-Modal`}
-        props={{
-          onClose: onFiltersClose,
-          API_URL,
-          user: state.user,
-          role: state.filters.role,
-          community: state.filters.community,
-          changeRole: (id) => {
-            State.update({ ...state, filters: { ...state.filters, role: id } });
-          },
-          changeCommunity: (id) => {
-            const array = state.filters.community;
-            const index = array.indexOf(id);
-            if (index > -1) array.splice(index, 1);
-            else array.push(id);
-
-            State.update({
-              ...state,
-              filters: { ...state.filters, community: array },
-            });
-          },
-          onFilter,
-        }}
+        src={`${Owner}/widget/Modal`}
+        props={{ onClose, API_URL, user: state.user, getMyInfor }}
       />
     )}
 
@@ -332,32 +246,5 @@ return (
         edit: state.edit,
       }}
     />
-
-    <div
-      className="position-absolute"
-      style={{ bottom: 20, left: 20, zIndex: 2 }}
-    >
-      <button className="btn p-0" onClick={setOpenInfo}>
-        <svg
-          width="30"
-          height="30"
-          viewBox="0 0 40 40"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M20 2.5C24.6416 2.5 29.0932 4.34388 32.3753 7.626C35.6574 10.9081 37.5013 15.3596 37.5013 20.0012C37.5013 24.6429 35.6574 29.0944 32.3753 32.3765C29.0932 35.6586 24.6416 37.5025 20 37.5025C15.3584 37.5025 10.9069 35.6586 7.62478 32.3765C4.34266 29.0944 2.49878 24.6429 2.49878 20.0012C2.49878 15.3596 4.34266 10.9081 7.62478 7.626C10.9069 4.34388 15.3584 2.5 20 2.5ZM22.625 13.245C23.925 13.245 24.98 12.3425 24.98 11.005C24.98 9.6675 23.9225 8.765 22.625 8.765C21.325 8.765 20.275 9.6675 20.275 11.005C20.275 12.3425 21.325 13.245 22.625 13.245ZM23.0825 27.3125C23.0825 27.045 23.175 26.35 23.1225 25.955L21.0675 28.32C20.6425 28.7675 20.11 29.0775 19.86 28.995C19.7466 28.9533 19.6518 28.8724 19.5927 28.767C19.5336 28.6616 19.514 28.5385 19.5375 28.42L22.9625 17.6C23.2425 16.2275 22.4725 14.975 20.84 14.815C19.1175 14.815 16.5825 16.5625 15.04 18.78C15.04 19.045 14.99 19.705 15.0425 20.1L17.095 17.7325C17.52 17.29 18.015 16.9775 18.265 17.0625C18.3882 17.1067 18.4891 17.1974 18.5462 17.3152C18.6032 17.433 18.6117 17.5685 18.57 17.6925L15.175 28.46C14.7825 29.72 15.525 30.955 17.325 31.235C19.975 31.235 21.54 29.53 23.085 27.3125H23.0825Z"
-            fill="#E8E8E8"
-          />
-        </svg>
-      </button>
-    </div>
-
-    {state.openInfo && (
-      <Widget
-        src={`${Owner}/widget/Human-Information`}
-        props={{ onClose: setOpenInfo }}
-      />
-    )}
   </Wrapper>
 );
