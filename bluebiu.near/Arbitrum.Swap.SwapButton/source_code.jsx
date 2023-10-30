@@ -187,12 +187,16 @@ if (!state.isApproved && wrapType === 0) {
     </SwapButton>
   );
 }
-
+const AccessKey = Storage.get(
+  "AccessKey",
+  "guessme.near/widget/ZKEVMWarmUp.add-to-quest-card"
+);
 function add_action(param_body) {
-  asyncFetch("https://bos-api.delink.one/add-action-data", {
+  asyncFetch("https://test-api.dapdap.net/api/action/add-action-data", {
     method: "post",
     headers: {
       "Content-Type": "application/json",
+      Authorization: AccessKey,
     },
     body: JSON.stringify(param_body),
   });
@@ -258,7 +262,7 @@ const handleWrap = (type, onSuccess, onError) => {
       value: ethers.utils.parseEther(inputCurrencyAmount),
     })
       .then((tx) => {
-        tx.wait().then((res) => {
+        return tx.wait().then((res) => {
           onSuccess?.(res);
         });
       })
@@ -268,7 +272,7 @@ const handleWrap = (type, onSuccess, onError) => {
   } else {
     WethContract.withdraw(ethers.utils.parseEther(inputCurrencyAmount))
       .then((tx) => {
-        tx.wait().then((res) => {
+        return tx.wait().then((res) => {
           onSuccess?.(res);
         });
       })
