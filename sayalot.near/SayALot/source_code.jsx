@@ -95,22 +95,22 @@ State.update({ libsCalls: newLibsCalls });
 
 //==================================================CONSTS==========================================================
 
-const authorForWidget = "sayalot.near";
+// const authorForWidget = "sayalot.near";
 // const authorForWidget =
 //   "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb";
 // const authorForWidget = "kenrou-it.near";
-// const authorForWidget = "silkking.near";
+const authorForWidget = "silkking.near";
 
 const thisWidgetName = "SayALot";
 
 const widgets = {
   sayALot: `${authorForWidget}/widget/${thisWidgetName}`,
-  create: `${authorForWidget}/widget/SayALot.Create`,
+  create: `${context.accountId}/widget/SayALot.Create`, /////////////////////////////////////////////////////////////////////////////////////////////////////
   header: `${authorForWidget}/widget/SayALot.NavBar`,
   showArticlesList: `${authorForWidget}/widget/SayALot.AllArticlesList`,
-  showArticlesListSortedByAuthors: `${authorForWidget}/widget/SayALot.AllArticlesSortByAuthors`,
-  articlesByAuthorCard: `${authorForWidget}/widget/SayALot.ArticlesByAuthorCard`,
-  generalCard: `${authorForWidget}/widget/SayALot.GeneralCard`,
+  showArticlesListSortedByAuthors: `${context.accountId}/widget/SayALot.AllArticlesSortByAuthors`, ///////////////////////////////////////////////////////////
+  articlesByAuthorCard: `${context.accountId}/widget/SayALot.ArticlesByAuthorCard`, /////////////////////////////////////////////////////////////////////////
+  generalCard: `${context.accountId}/widget/SayALot.GeneralCard`, ///////////////////////////////////////////////////////////////////////////////////////////
   articleView: `${authorForWidget}/widget/SayALot.ArticleView`,
   reactions: `${authorForWidget}/widget/SayALot.Reactions`,
   addComment: `${authorForWidget}/widget/SayALot.AddComment`,
@@ -120,7 +120,7 @@ const widgets = {
   libArticle: `${authorForWidget}/widget/lib.article`,
   libEmojis: `${authorForWidget}/widget/lib.emojis`,
   libUpVotes: `${authorForWidget}/widget/lib.upVotes`,
-  upVoteButton: `${authorForWidget}/widget/SayALot.UpVoteButton`,
+  upVoteButton: `${context.accountId}/widget/SayALot.UpVoteButton`, ////////////////////////////////////////////////////////////////////////////////////////
   styledComponents: "rubycop.near/widget/NDC.StyledComponents",
   newStyledComponents: {
     Element: {
@@ -291,6 +291,14 @@ const CopiedFeedback = styled.span`
   font-size: 0.7rem;
   color: #6c757d;
 `;
+
+const SmallButton = styled.button`
+position: relative;
+  border: 0;
+  background: transparent;
+  width: 35px;
+  height: 35px;
+`;
 //===========================================END STYLED COMPONENTS==================================================
 
 //================================================COMPONENTS========================================================
@@ -323,6 +331,28 @@ const renderShareInteraction = () => {
         </ShowLinkShared>
       </ShareInteractionMainContainer>
     </ShareInteractionGeneralContainer>
+  );
+};
+
+const renderSelectorLabel = () => {
+  return (
+    <>
+      <span>Post & Filter Topics by SBT</span>
+
+      <SmallButton>
+        <OverlayTrigger
+          placement="top"
+          overlay={
+            <Tooltip>
+              <p className="m-0">Topics for Community SBT Holders.</p>
+              <p className="m-0">Anyone can post to Public.</p>
+            </Tooltip>
+          }
+        >
+          <i className="bi bi-info-circle"></i>
+        </OverlayTrigger>
+      </SmallButton>
+    </>
   );
 };
 //==============================================END COMPONENTS======================================================
@@ -531,11 +561,11 @@ return (
       }}
     />
     {state.displayedTabId == tabs.SHOW_ARTICLES_LIST.id && (
-      <div className="my-3">
+      <div className="my-3 col-lg-8 col-md-8 col-sm-12">
         <Widget
           src={widgets.newStyledComponents.Input.Select}
           props={{
-            label: "Select sbt filter",
+            label: renderSelectorLabel(),
             value: sbts[0],
             onChange: handleSbtSelection,
             options: createSbtOptions(),
