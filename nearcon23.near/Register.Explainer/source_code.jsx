@@ -52,8 +52,6 @@ const Container = styled.div`
   }
 
   & > div {
-    display: flex;
-    flex-direction: column;
     align-items: flex-start;
     padding: 2em;
     gap: 1em;
@@ -68,19 +66,26 @@ const Container = styled.div`
       line-height: 150%;
       color: #a1a09a;
     }
-
-    & > div {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: flex-start;
-      gap: 2em;
-      width: 100%;
-    }
   }
 `;
 
 const mapImage = (src) => `https://ipfs.near.social/ipfs/${src}`;
+
+const ImageFlex = styled.div`
+  display: grid;
+  grid-template-columns: 2fr 2fr;
+  padding-top:20px;
+  a {
+  display:block;
+   margin:10px;
+  }
+  @media only screen and (max-width: 1200px) {
+  a {
+    margin:10px;
+  }
+}
+
+`;
 
 return (
   <Container>
@@ -99,9 +104,7 @@ return (
     </ul>
     <h2>How it works</h2>
     <ol>
-      <li>
-        Complete the form <span className="red">(All fields required)</span>
-      </li>
+      <li>Complete the form</li>
       <li>
         You will be redirected to complete payment (via crypto or fiat currency)
       </li>
@@ -111,31 +114,49 @@ return (
         onboarding experiences)
       </li>
     </ol>
-    <div>
+    <div style={{ margin: "auto" }}>
       <span>Ticketing solutions by</span>
-      <div>
-        <a
-          href="https://veriken.com/"
-          target="_blank"
-          referrerPolicy="unsafe-url"
-        >
-          <Widget src={`${ownerId}/widget/Register.VerikenLogo`} />
-        </a>
-        <a
-          href="https://keypom.xyz/"
-          target="_blank"
-          referrerPolicy="unsafe-url"
-        >
-          <Widget src={`${ownerId}/widget/Register.KeypomLogo`} />
-        </a>
-        <a
-          href="https://www.mintbase.xyz/"
-          target="_blank"
-          referrerPolicy="unsafe-url"
-        >
-          <Widget src={`${ownerId}/widget/Register.MintbaseLogo`} />
-        </a>
-      </div>
+      <ImageFlex>
+        <div>
+          <a
+            href="https://veriken.com/"
+            target="_blank"
+            referrerPolicy="unsafe-url"
+          >
+            <Widget src={`${ownerId}/widget/Register.VerikenLogo`} />
+          </a>
+        </div>
+        <div>
+          <a
+            href="https://keypom.xyz/"
+            target="_blank"
+            referrerPolicy="unsafe-url"
+          >
+            <Widget src={`${ownerId}/widget/Register.KeypomLogo`} />
+          </a>
+        </div>
+        <div>
+          <a
+            href="https://www.mintbase.xyz/"
+            target="_blank"
+            referrerPolicy="unsafe-url"
+          >
+            <Widget src={`${ownerId}/widget/Register.MintbaseLogo`} />
+          </a>
+        </div>
+        <div>
+          <a
+            href="https://www.mintbase.xyz/"
+            target="_blank"
+            referrerPolicy="unsafe-url"
+          >
+            <img
+              style={{ width: "144px" }}
+              src="https://ipfs.near.social/ipfs/bafkreiacvdyffnb245npkf6oym6zgknrrxdid3zwoygksa66uozep4obya"
+            />
+          </a>
+        </div>
+      </ImageFlex>
     </div>
   </Container>
 );
