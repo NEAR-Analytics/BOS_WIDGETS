@@ -1,7 +1,7 @@
 const props = {
   copyBtn: `const props ={
-      fontsize: "180px",
-      fontweight: "17px",
+      fontsize: "17px",
+      fontweight: "1000",
       text:"Button0017"
     };
     return(
@@ -11,8 +11,8 @@ const props = {
     <Widget src="marketplacebos.near/widget/Button.ButtonP.Button0017" />
   ),
   text: `const props ={
-    fontsize: "180px",
-    fontweight: "17px",
+    fontsize: "17px",
+    fontweight: "1000",
     text:"Button0017"
   };
 return(
