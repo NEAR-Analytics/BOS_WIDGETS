@@ -295,6 +295,12 @@ function filterValidator(articles) {
   });
 }
 
+function filterValidArticles(articles) {
+  let filteredArticles = filterValidator(filteredArticles ?? articles);
+
+  return filteredArticles;
+}
+
 function normalizeOldToV_0_0_1(article) {
   if (!Array.isArray(article.tags) && typeof article.tags === "object") {
     article.tags = Object.keys(article.tags);
