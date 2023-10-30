@@ -10,11 +10,11 @@ const {
   onLoad,
 } = props;
 
-if (!update) return;
+if (!update) return "";
 
 if (!inputCurrency.address || !outputCurrency.address || !inputCurrencyAmount) {
   onLoad({});
-  return;
+  return "";
 }
 const wrapType =
   inputCurrency.address === "native" && outputCurrency.address === wethAddress
