@@ -9,8 +9,9 @@ const Wrapper = styled.div`
     justify-content: center;
     flex-direction: column;
     height: 108px;
-    background: linear-gradient(180deg, #373a53 0%, rgba(55, 58, 83, 0) 100%);
-
+    background: linear-gradient(0deg, #181A27, #181A27),
+    linear-gradient(0deg, #332C4B, #332C4B);
+    border: 1px solid #332C4B;
     gap: 8px;
     padding: 0px 12px;
 
@@ -25,7 +26,7 @@ const Wrapper = styled.div`
     }
     .trend-card-text {
       color: white;
-      font-size: 18px;
+      font-size: 16px;
       font-weight: 500;
       line-height: 24px;
       letter-spacing: 0em;
