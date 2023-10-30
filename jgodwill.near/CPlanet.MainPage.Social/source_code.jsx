@@ -74,40 +74,58 @@ const Nav = styled.div`
   margin: 0 -12px;
 `;
 
+const SocialWrapper = styled.div`
+    display: flex;
+    flex-direction:row;
+    gap: 1rem;
+    .rhs{
+        width: 300px;
+    }
+`;
+
 return (
   <CPlanetFont>
-    {context.accountId && (
-      <div className="mb-3">
-        <Widget
-          src="jgodwill.near/widget/CPlanet.MainPage.Compose"
-          props={{}}
-        />
+    <SocialWrapper>
+      <div className="rhs">
+        <Widget src="jgodwill.near/widget/People" props={{}} />
       </div>
-    )}
-    <Nav>
-      <ul className="nav nav-pills nav-fill mb-3">
-        {options.map((option, i) => (
-          <li className="nav-item" key={i}>
-            <button
-              className={`nav-link ${state.feedIndex === i ? "active" : ""} ${
-                option.disabled ? "disabled" : ""
-              }`}
-              aria-disabled={!!option.disabled}
-              onClick={() => !option.disabled && State.update({ feedIndex: i })}
-            >
-              {option.title}
-            </button>
-          </li>
-        ))}
-      </ul>
-    </Nav>
-    {state.feedIndex === 3 ? (
-      <Widget src="mob.near/widget/Hashtag.Feed" props={{ hashtag }} />
-    ) : (
-      <Widget
-        src="jgodwill.near/widget/CPlanet.MainPage.Feed"
-        props={{ accounts }}
-      />
-    )}
+      <div className="mid">
+        {context.accountId && (
+          <div className="mb-3">
+            <Widget
+              src="jgodwill.near/widget/CPlanet.MainPage.Compose"
+              props={{}}
+            />
+          </div>
+        )}
+        <Nav>
+          <ul className="nav nav-pills nav-fill mb-3">
+            {options.map((option, i) => (
+              <li className="nav-item" key={i}>
+                <button
+                  className={`nav-link ${
+                    state.feedIndex === i ? "active" : ""
+                  } ${option.disabled ? "disabled" : ""}`}
+                  aria-disabled={!!option.disabled}
+                  onClick={() =>
+                    !option.disabled && State.update({ feedIndex: i })
+                  }
+                >
+                  {option.title}
+                </button>
+              </li>
+            ))}
+          </ul>
+        </Nav>
+        {state.feedIndex === 3 ? (
+          <Widget src="mob.near/widget/Hashtag.Feed" props={{ hashtag }} />
+        ) : (
+          <Widget
+            src="jgodwill.near/widget/CPlanet.MainPage.Feed"
+            props={{ accounts }}
+          />
+        )}
+      </div>
+    </SocialWrapper>
   </CPlanetFont>
 );
