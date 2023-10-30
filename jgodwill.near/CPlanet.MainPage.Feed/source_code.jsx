@@ -40,7 +40,7 @@ const renderPost = (a) => {
   return (
     <div key={JSON.stringify(a)} className="mb-3">
       <Widget
-        src="jgodwill.near/widget/CPlanet.MainPage.Post"
+        src="jgodwill.near/widget/CPlanet.MainPage.N.Post"
         props={{ accountId: a.accountId, blockHeight: a.blockHeight }}
       />
     </div>
