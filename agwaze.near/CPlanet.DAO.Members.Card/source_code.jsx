@@ -67,10 +67,10 @@ const Root = styled.div`
         transition: 0.3s ease-in-out;
         margin-left: 16px;
     }
-    .following: {
+    .following {
       cursor: not-allowed;
     }
-    .follow, .following:hover {
+    .follow {
       background: black;
       color: white;
       border-color: black;
