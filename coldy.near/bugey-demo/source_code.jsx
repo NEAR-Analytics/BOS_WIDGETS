@@ -1,5 +1,17 @@
 State.init({
-  projects: [],
+  projectId: 1,
+  pendingProposals: {
+    pages: 1,
+    proposals: [],
+  },
+  approvedProposals: {
+    pages: 1,
+    proposals: [],
+  },
+  declinedProposals: {
+    pages: 1,
+    proposals: [],
+  },
   activeTab: "pending",
 });
 
@@ -25,10 +37,7 @@ const testView = () => {
   State.update({
     projects: getProjectsList(1, 10),
   });
-  const proposals = getProposalsByProject(1, 1, 1, 10);
-  console.log(proposals);
-  console.log(state.projects);
-  openTab({ currentTarget: document.getElementById("pending-tab") }, "pending");
+  const proposals = getProposalsByProject(state.projectId, 1, 1, 10);
 };
 
 const tabStyle = {
@@ -70,6 +79,29 @@ const openTab = (tabName) => {
   });
   console.log(state.activeTab);
 };
+
+const setPendingProposals = () => {
+  const pendingProposalsData = getProposalsByProject(state.projectId, 0, 1, 10);
+  if (pendingProposalsData[0] && pendingProposalsData[1]) {
+    State.update({
+      pendingProposals: {
+        pages: pendingProposalsData[1],
+        proposals: pendingProposalsData[0],
+      },
+    });
+  }
+};
+
+const viewProposals = (proposals) => {
+  if (proposals.length > 0) {
+  }
+};
+
+const setInitial = () => {
+  setPendingProposals();
+};
+
+setInitial();
 
 return (
   <div>
