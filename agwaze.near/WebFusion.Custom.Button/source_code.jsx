@@ -30,7 +30,9 @@ const Root = styled.button`
       padding: 12.54px 19.23px 12.002px 20px;
       justify-content: center;
       align-items: center;
-      background: var(--nearcon-app-spring-green, #00EC97); 
+      background: var(--nearcon-app-spring-green, ${
+        props.whiteBg ? "white" : "#00EC97"
+      }); 
       border: 2px dashed #00EC97;
       margin-right: 5px;
       position: absolute;
