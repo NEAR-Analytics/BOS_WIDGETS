@@ -121,7 +121,6 @@ return status === Status.Loading ? (
   <div>
     <Widget
       key="not-premium"
-      loading=""
       src="mob.near/widget/N.NotPremiumCompose"
       props={{
         text: "Premium subscription is required to use near.fm URL shortener!",
