@@ -417,21 +417,6 @@ if (!state.sender) {
 return (
   <>
     <Wrapper>
-      <BackRoute>
-        <a className="back-icon" href="/">
-          {backIcon}
-        </a>
-
-        <img
-          className="dapp-logo"
-          src={
-            "https://ipfs.near.social/ipfs/bafkreiedaqqpcuw6oj5mao263fizx3gksybdmw5x2p7xeka7wngzip5zeu"
-          }
-        />
-
-        <div className="dapp-name">{"Pendle"}</div>
-      </BackRoute>
-
       <TabWrapper>
         <div
           className={`title ${state.activeTab === "markets" ? "active" : ""}`}
