@@ -207,8 +207,8 @@ return (
     </div>
     <div className="desc">
       {profile.description
-        ? profile.description?.length > 100
-          ? `${profile.description.substring(0, 100)}...`
+        ? profile.description?.length > 90
+          ? `${profile.description.substring(0, 90)}...`
           : profile.description
         : "No Description"}
     </div>
