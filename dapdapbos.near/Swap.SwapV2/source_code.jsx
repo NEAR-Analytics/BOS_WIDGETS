@@ -13,6 +13,7 @@ const {
   handleSyncswap,
   QuoterSyncswap,
   account,
+  chainIdNotSupport,
 } = props;
 
 const {
@@ -24,10 +25,6 @@ const {
   chains,
   dappSrc,
 } = props;
-
-const chainIdNotSupport = !CHAIN_LIST.find(
-  (chain) => chain.chainId === curChainId
-);
 
 const defaultChain = CHAIN_LIST.find(
   (chain) => chain.chainId === DEFAULT_CHAIN_ID
@@ -197,16 +194,6 @@ const getUnitAmount = () => {
 
 return (
   <SwapContainer>
-    <BackRoute>
-      <a className="back-icon" href="/">
-        {backIcon}
-      </a>
-
-      <img className="dapp-logo" src={dexConfig.logo} />
-
-      <div className="dapp-name">{dexConfig.name}</div>
-    </BackRoute>
-
     <Panel>
       {chainIdNotSupport && (
         <Widget
