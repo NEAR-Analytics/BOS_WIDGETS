@@ -26,15 +26,6 @@ const Tokens = {
     icon: "https://ipfs.near.social/ipfs/bafkreiemkl7qtrrqnk5mexf7r4cr3mkznna6qvxrzhovlmt4djbkx366ae",
   },
 
-  "0x9560e827aF36c94D2Ac33a39bCE1Fe78631088Db": {
-    chainId: CHAIN_ID,
-    address: "0x9560e827aF36c94D2Ac33a39bCE1Fe78631088Db",
-    decimals: 18,
-    symbol: "VELO",
-    name: "VelodromeV2",
-    icon: "https://ipfs.near.social/ipfs/bafkreig7qwzeff654xvxd476e46ipfimei7jgfwbo27j5jkml6xffouzu4",
-  },
-
   "0x4200000000000000000000000000000000000006": {
     chainId: CHAIN_ID,
     address: "0x4200000000000000000000000000000000000006",
@@ -141,7 +132,7 @@ return (
             tokens: [
               Tokens["0x7F5c764cBc14f9669B88837ca1490cCa17c31607"],
               Tokens["0x4200000000000000000000000000000000000042"],
-              Tokens["0x9560e827aF36c94D2Ac33a39bCE1Fe78631088Db"],
+
               Tokens["0x4200000000000000000000000000000000000006"],
               Tokens["0x1610e3c85dd44Af31eD7f33a63642012Dca0C5A5"],
               Tokens["0x296F55F8Fb28E498B858d0BcDA06D955B2Cb3f97"],
