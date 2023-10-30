@@ -537,7 +537,7 @@ return (
             />
           </ButtonsLowerSection>
           <div className="d-flex w-100 align-items-center">
-            <div className="d-flex w-100 gap-2 justify-content-between">
+            <div className="d-flex w-100 gap-2 justify-content-start">
               <Widget
                 src={widgets.newStyledComponents.Input.Button}
                 props={{
@@ -552,7 +552,7 @@ return (
                     context.accountId === accountId ||
                     (articleSbts.length > 0 && !canLoggedUserCreateComment),
                   size: "sm",
-                  className: "info outline w-100",
+                  className: "info outline w-25",
                   onClick: toggleShowModal,
                 }}
               />
@@ -566,7 +566,7 @@ return (
                     </div>
                   ),
                   size: "sm",
-                  className: "info w-100",
+                  className: "info w-25",
                   onClick: () => {
                     handleOpenArticle(data);
                   },
