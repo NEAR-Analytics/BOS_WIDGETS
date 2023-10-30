@@ -1,3 +1,5 @@
+const { defaultDapp } = props;
+
 const Theme = styled.div`
   --button-text-color: #fff;
   --button-color: #004bfc;
@@ -43,7 +45,7 @@ return (
           chainId: CHAIN_ID,
           chainName: CHAIN_NAME,
         },
-        defaultDapp: "Moonwell",
+        defaultDapp: defaultDapp || "Moonwell",
         dapps: {
           Moonwell: {
             name: "Moonwell",
