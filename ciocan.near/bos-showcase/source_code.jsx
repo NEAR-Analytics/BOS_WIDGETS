@@ -157,32 +157,33 @@ const Resource = ({ title, type, url }) => (
 );
 
 const dapps = [
-  { title: "Uniswap v1", type: "DEX", url: "https://near.org/" },
-  { title: "Uniswap v2", type: "DEX", url: "https://near.org/" },
-  { title: "Aave V3", type: "Lending", url: "https://near.org/" },
-  { title: "Lido", type: "Staking", url: "https://near.org/" },
-  { title: "Gamma", type: "Liquidity", url: "https://near.org/" },
-  { title: "Pendle", type: "Yield Aggregator", url: "https://near.org/" },
+  { title: "Arbitrum", type: "DEX", url: "https://near.org/bluebiu.near/widget/Arbitrum.All-in-one" },
+  { title: "Uniswap v2", type: "DEX", url: "https://near.social/zavodil.near/widget/Uniswap" },
+  { title: "Aave V3", type: "Lending", url: "https://near.org/aave-v3.near/widget/AAVE" },
+  { title: "Lido", type: "Staking", url: "https://near.org/zavodil.near/widget/Lido" },
+  { title: "Gamma", type: "Liquidity", url: "https://near.org/bluebiu.near/widget/ZKEVM.GAMMA" },
+  { title: "Pendle", type: "Yield Aggregator", url: "https://near.org/bluebiu.near/widget/Arbitrum.Pendle.TradeMarkets" },
 ];
 
 const gateways = [
-  { title: "DapDap", type: "Web3 Games", url: "https://near.org/" },
-  { title: "Polygon zkEVM", type: "zkEVM", url: "https://near.org/" },
-  { title: "Mantle", type: "zkEVM", url: "https://near.org/" },
+  { title: "NEAR", type: "near", url: "https://near.org/" },
+  { title: "DapDap", type: "Web3 Games", url: "https://alpha.dapdap.net/" },
+  { title: "Polygon zkEVM", type: "zkEVM", url: "https://bos.quickswap.exchange/" },
+  { title: "Mantle", type: "zkEVM", url: "https://bos.mantle.xyz/" },
 ];
 
 const resources = [
-  { title: "What is BOS?", type: "Docs", url: "https://near.org/" },
-  { title: "BOS Viewer", type: "Github Repo", url: "https://near.org/" },
+  { title: "What is BOS?", type: "Docs", url: "https://docs.near.org/bos/overview" },
+  { title: "BOS Loader", type: "Github Repo", url: "https://github.com/near/bos-loader" },
   {
-    title: "BOS Lightweight Gateway",
+    title: "BOS Gateway",
     type: "Github Repo",
-    url: "https://near.org/",
+    url: "https://github.com/NearDeFi/bos-gateway-template",
   },
   {
     title: "BOS Decentralized Frontends",
-    type: "Telegram Chat",
-    url: "https://near.org/",
+    type: "Telegram",
+    url: "https://t.me/NEARisBOS",
   },
 ];
 
@@ -193,8 +194,8 @@ return (
       <SectionTitle color="#00EC97">Dapps</SectionTitle>
     </Container>
     <Container>
-      {dapps.map(({ title, type }, index) => (
-        <Dapp key={index} title={title} type={type} />
+      {dapps.map(({ title, type, url }, index) => (
+        <Dapp key={index} title={title} type={type} url={url} />
       ))}
     </Container>
     <Container>
@@ -202,7 +203,7 @@ return (
     </Container>
     <Container>
       {gateways.map(({ title, type }, index) => (
-        <Gateway key={index} title={title} type={type} />
+        <Gateway key={index} title={title} type={type} url={url} />
       ))}
     </Container>
     <Container>
@@ -210,7 +211,7 @@ return (
     </Container>
     <Container>
       {resources.map(({ title, type }, index) => (
-        <Resource key={index} title={title} type={type} />
+        <Resource key={index} title={title} type={type} url={url} />
       ))}
     </Container>
   </Main>
