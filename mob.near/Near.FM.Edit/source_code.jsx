@@ -73,7 +73,7 @@ function resetMetadata() {
 
 const loadMetadata = (url) => {
   setLoading(true);
-  asyncFetch(`https://near.fm/api/og?url=${longURL}`, {
+  asyncFetch(`https://near.fm/api/og?url=${url}`, {
     headers: {
       "Content-Type": "application/json",
     },
