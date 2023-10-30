@@ -3,6 +3,54 @@ const [longURL, setLongURL] = useState("");
 const [loading, setLoading] = useState(false);
 const [metadata, setMetadata] = useState(false);
 
+const accountId = context.accountId;
+const premiumTime = Social.get(
+  `premium.social.near/badge/premium/accounts/${accountId}`,
+  "final"
+);
+const data = Social.get(`${accountId}/custom/fm/${path}`, undefined, true);
+
+const Status = {
+  Loading: 0,
+  Ready: 1,
+  NoAccountId: 2,
+  NotPremium: 3,
+};
+
+const parseJson = (json) => {
+  try {
+    return JSON.parse(json);
+  } catch {
+    return null;
+  }
+};
+
+const status = useMemo(() => {
+  if (!accountId) {
+    return Status.NoAccountId;
+  }
+  if (premiumTime === null || (props.suffix && data === null)) {
+    return Status.Loading;
+  }
+  if (!premiumTime || parseInt(premiumTime) < Date.now()) {
+    return Status.NotPremium;
+  }
+  setSuffix(props.suffix);
+  const parsedData = parseJson(data);
+  if (props.url && parsedData?.url !== props.url) {
+    setLongURL(props.url);
+    return Status.Ready;
+  }
+  setLongURL(parsedData?.url || "");
+  setMetadata({
+    title: parsedData?.title || "",
+    description: parsedData?.description || "",
+    image: parsedData?.image || "",
+  });
+
+  return Status.Ready;
+}, [props.suffix, props.url, accountId, premiumTime, data]);
+
 function resetMetadata() {
   setMetadata({
     title: "",
@@ -12,7 +60,7 @@ function resetMetadata() {
 }
 
 useEffect(() => {
-  if (longURL) {
+  if (longURL && status === Status.Ready) {
     setLoading(true);
     asyncFetch(`https://near.fm/api/og?url=${longURL}`, {
       headers: {
@@ -35,16 +83,20 @@ useEffect(() => {
         setLoading(false);
       });
   }
-}, [longURL]);
+}, [longURL, status]);
 
-return (
-  <div className="container mt-5">
-    <div className="mb-3">
+return status === Status.Loading ? (
+  <div>Loading</div>
+) : status === Status.NoAccountId ? (
+  <div>Please sign in to start using URL Shortener</div>
+) : status === Status.NotPremium ? (
+  <div>Premium subscription required</div>
+) : status === Status.Ready ? (
+  <div>
+    <div key="short-url" className="mb-3">
       <label className="form-label">Short URL</label>
       <div className="input-group">
-        <span className="input-group-text">
-          https://{context.accountId}.fm/
-        </span>
+        <span className="input-group-text">https://{accountId}.fm/</span>
         <input
           type="text"
           placeholder="welcome-to-near"
@@ -56,7 +108,7 @@ return (
     </div>
 
     {suffix && (
-      <div className="mb-3">
+      <div key="long-url" className="mb-3">
         <label className="form-label">Long URL</label>
         <input
           type="url"
@@ -68,7 +120,7 @@ return (
     )}
 
     {longURL && (
-      <div>
+      <div key="rest">
         <div className="mb-3">
           <label className="form-label">Title</label>
           <input
@@ -140,4 +192,6 @@ return (
       </div>
     )}
   </div>
+) : (
+  "Unknown status"
 );
