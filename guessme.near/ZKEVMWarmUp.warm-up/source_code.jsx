@@ -122,7 +122,7 @@ const Wrapper = styled.div`
       margin-top: -36px;
     }
     .header-description {
-      font-size: 20px;
+      font-size: 18px;
       font-weight: 500;
       line-height: 24px;
       letter-spacing: 0em;
@@ -160,7 +160,7 @@ const Wrapper = styled.div`
         border: 1px solid #eef3bc;
         text-align: left;
         outline: none;
-        font-size: 20px;
+        font-size: 18px;
         font-weight: 500;
         line-height: 24px;
         padding: 14px;
