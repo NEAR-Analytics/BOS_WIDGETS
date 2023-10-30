@@ -2,19 +2,21 @@ const [suffix, setSuffix] = useState("");
 const [longURL, setLongURL] = useState("");
 const [loading, setLoading] = useState(false);
 const [metadata, setMetadata] = useState(false);
+const [debounce, setDebounce] = useState(null);
 
 const accountId = context.accountId;
 const premiumTime = Social.get(
   `premium.social.near/badge/premium/accounts/${accountId}`,
   "final"
 );
-const data = Social.get(`${accountId}/custom/fm/${path}`, undefined, true);
+const data = Social.get(`${accountId}/custom/fm/${props.suffix}`, "final");
 
 const Status = {
   Loading: 0,
-  Ready: 1,
-  NoAccountId: 2,
-  NotPremium: 3,
+  NoAccountId: 1,
+  NotPremium: 2,
+  New: 3,
+  Existing: 4,
 };
 
 const parseJson = (json) => {
@@ -25,30 +27,34 @@ const parseJson = (json) => {
   }
 };
 
-const status = useMemo(() => {
-  if (!accountId) {
-    return Status.NoAccountId;
-  }
-  if (premiumTime === null || (props.suffix && data === null)) {
-    return Status.Loading;
-  }
-  if (!premiumTime || parseInt(premiumTime) < Date.now()) {
-    return Status.NotPremium;
-  }
-  setSuffix(props.suffix);
-  const parsedData = parseJson(data);
-  if (props.url && parsedData?.url !== props.url) {
-    setLongURL(props.url);
-    return Status.Ready;
-  }
-  setLongURL(parsedData?.url || "");
-  setMetadata({
-    title: parsedData?.title || "",
-    description: parsedData?.description || "",
-    image: parsedData?.image || "",
-  });
+const [status, setStatus] = useState(Status.Loading);
 
-  return Status.Ready;
+useEffect(() => {
+  setStatus(() => {
+    if (!accountId) {
+      return Status.NoAccountId;
+    }
+    if (premiumTime === null || (props.suffix && data === null)) {
+      return Status.Loading;
+    }
+    if (!premiumTime || parseInt(premiumTime) < Date.now()) {
+      return Status.NotPremium;
+    }
+    setSuffix(props.suffix);
+    const parsedData = parseJson(data);
+    if (props.url && parsedData?.url !== props.url) {
+      setLongURL(props.url);
+      return Status.New;
+    }
+    setLongURL(parsedData?.url || "");
+    setMetadata({
+      title: parsedData?.title || "",
+      description: parsedData?.description || "",
+      image: parsedData?.image || "",
+    });
+
+    return Status.Existing;
+  });
 }, [props.suffix, props.url, accountId, premiumTime, data]);
 
 function resetMetadata() {
@@ -59,29 +65,39 @@ function resetMetadata() {
   });
 }
 
-useEffect(() => {
-  if (longURL && status === Status.Ready) {
-    setLoading(true);
-    asyncFetch(`https://near.fm/api/og?url=${longURL}`, {
-      headers: {
-        "Content-Type": "application/json",
-      },
-      responseType: "json",
-    })
-      .then(({ body }) => {
-        setMetadata({
-          title: body.title || "",
-          description: body.description || "",
-          image: body.image || "",
-        });
-      })
-      .catch((e) => {
-        console.error("Failed to load metadata for the URL", e);
-        resetMetadata();
-      })
-      .finally(() => {
-        setLoading(false);
+const loadMetadata = (url) => {
+  setLoading(true);
+  asyncFetch(`https://near.fm/api/og?url=${longURL}`, {
+    headers: {
+      "Content-Type": "application/json",
+    },
+    responseType: "json",
+  })
+    .then(({ body }) => {
+      setMetadata({
+        title: body.title || "",
+        description: body.description || "",
+        image: body.image || "",
       });
+    })
+    .catch((e) => {
+      console.error("Failed to load metadata for the URL", e);
+      resetMetadata();
+    })
+    .finally(() => {
+      setLoading(false);
+    });
+};
+
+useEffect(() => {
+  if (longURL && status === Status.New) {
+    clearTimeout(debounce);
+    setLoading(true);
+    setDebounce(
+      setTimeout(() => {
+        loadMetadata(longURL);
+      }, 1000)
+    );
   }
 }, [longURL, status]);
 
@@ -91,7 +107,7 @@ return status === Status.Loading ? (
   <div>Please sign in to start using URL Shortener</div>
 ) : status === Status.NotPremium ? (
   <div>Premium subscription required</div>
-) : status === Status.Ready ? (
+) : status === Status.New || status === Status.Existing ? (
   <div>
     <div key="short-url" className="mb-3">
       <label className="form-label">Short URL</label>
@@ -114,7 +130,10 @@ return status === Status.Loading ? (
           type="url"
           className="form-control"
           value={longURL}
-          onChange={(e) => setLongURL(e.target.value)}
+          onChange={(e) => {
+            setStatus(Status.New);
+            setLongURL(e.target.value);
+          }}
         />
       </div>
     )}
