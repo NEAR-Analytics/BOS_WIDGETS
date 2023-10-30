@@ -610,10 +610,7 @@ const openNetworkList = (tag) => {
   State.update({ isNetworkSelectOpen: tag, isTokenDialogOpen: false });
 };
 
-const isCorrectNetwork =
-  Object.keys(networks)
-    .map((n) => Number(n))
-    .includes(chainId) || chainId === undefined;
+const isCorrectNetwork = chainId !== 1 || chainId !== 1101;
 
 const getFromNetworkLabel = () => {
   switch (selectedNetwork) {
@@ -1005,20 +1002,12 @@ return (
           <div
             className="alert-button"
             onClick={() => {
-              switchNetwork(1);
+              switchNetwork(1101);
             }}
           >
             <span>Switch Network</span>
           </div>
         </Alert>
-      )}
-      {!isCorrectNetwork && (
-        <div
-          style={{
-            position: "fixed",
-            inset: "0px",
-          }}
-        ></div>
       )}
 
       <div class="container">
