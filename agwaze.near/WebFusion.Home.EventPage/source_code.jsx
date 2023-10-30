@@ -135,7 +135,7 @@ const DateSec = styled.div`
     text-decoration-line: underline;
   }
   
-`
+`;
 
 return (
   <Root>
@@ -166,11 +166,10 @@ return (
         <h1>November 27-30, 2023</h1>
         <a href="#">Add to Calendar</a>
         <div>
-        <span>Venue</span>
-        <h1>ITF Training complex, Iponri, Lagos, Nigeria.</h1>
-        <a href="#">Get Directions to Venue</a>
+          <span>Venue</span>
+          <h1>ITF Training complex, Iponri, Lagos, Nigeria.</h1>
+          <a href="#">Get Directions to Venue</a>
         </div>
-
       </DateSec>
     </div>
   </Root>
