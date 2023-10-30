@@ -1,3 +1,5 @@
+const { defaultDapp } = props;
+
 const Theme = styled.div`
   --button-text-color: #fff;
   --button-color: #56daff;
@@ -43,7 +45,7 @@ return (
           chainId: CHAIN_ID,
           chainName: CHAIN_NAME,
         },
-        defalutDapp: "LayerBank",
+        defaultDapp: defaultDapp || "LayerBank",
         dapps: {
           LayerBank: {
             name: "LayerBank",
