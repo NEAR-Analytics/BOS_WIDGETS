@@ -6,7 +6,7 @@ const copySvg = (
     strokeLinejoin="round"
     strokeWidth="2"
     viewBox="0 0 24 24"
-    style={{ width: "1em" }}
+    style={{ width: "1em", marginTop: "-0.2em" }}
     xmlns="http://www.w3.org/2000/svg"
   >
     <rect height="14" rx="2" ry="2" width="14" x="8" y="8" />
