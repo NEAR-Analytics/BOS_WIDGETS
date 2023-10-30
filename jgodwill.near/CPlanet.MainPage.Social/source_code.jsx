@@ -77,12 +77,15 @@ const Nav = styled.div`
 const SocialWrapper = styled.div`
     display: flex;
     flex-direction:row;
-    gap: 1rem;
+    gap: 2rem;
     .rhs{
-        flex:1;
+        width: 360px;
+        padding: 16px 24px 476px 24px; 
+        border: 1px solid #EFEFEF;
+        background: #F8F8F8;
     }
     .mid{
-        flex: 3;
+        flex: 1;
     }
 `;
 
