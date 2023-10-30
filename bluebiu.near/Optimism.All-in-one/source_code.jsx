@@ -102,7 +102,7 @@ const storedActiveMenu = Storage.get(
 );
 
 State.init({
-  activeMenu: storedActiveMenu || "Bridge",
+  activeMenu: props.defaultTab || storedActiveMenu || "Bridge",
 });
 
 State.init({
