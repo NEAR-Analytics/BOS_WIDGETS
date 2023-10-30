@@ -268,7 +268,7 @@ return (
               Tokens["0xdb89D7b0Dccd0C0e5aC3571133A9aa1a037945cb"],
               Tokens["0x1382628e018010035999A1FF330447a0751aa84f"],
               Tokens["0x496d88D1EFc3E145b7c12d53B78Ce5E7eda7a42c"],
-              Tokens["0x493257fD37EDB34451f62EDf8D2a0C418852bA4C"],
+              Tokens["0x493257fd37edb34451f62edf8d2a0c418852ba4c"],
               Tokens["0x503234F203fC7Eb888EEC8513210612a43Cf6115"],
               Tokens["0x2039bb4116B4EFc145Ec4f0e2eA75012D6C0f181"],
             ],
