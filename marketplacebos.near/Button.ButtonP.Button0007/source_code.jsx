@@ -1,7 +1,7 @@
 const Button0007 = styled.button`
   padding: 0.1em 0.25em;
   width:${(props) => props.width || "13em"};
-  height: ${(props) => props.width ||"4.2em"};
+  height: ${(props) => props.width || "4.2em"};
   background-color: #212121;
   border: 0.08em solid #fff;
   border-radius: 0.3em;
@@ -34,7 +34,7 @@ const text = props.text || "Button0007";
 const width = props.width;
 const height = props.height;
 return (
-  <Button0007>
+  <Button0007 width={width} height={height}>
     <span>{text}</span>
   </Button0007>
 );
