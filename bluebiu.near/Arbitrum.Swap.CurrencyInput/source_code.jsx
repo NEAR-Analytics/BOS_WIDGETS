@@ -126,6 +126,7 @@ const utils = {
   },
   valueFormated: (amount) => {
     const prices = Storage.privateGet("tokensPrice");
+    console.log("prices: ", prices);
     const price = prices[props.currency?.symbol];
     if (!price) return "-";
     const value = Big(price).mul(amount || 0);
@@ -153,6 +154,7 @@ const AccessKey = Storage.get(
   "AccessKey",
   "guessme.near/widget/ZKEVMWarmUp.add-to-quest-card"
 );
+
 function getPrice() {
   asyncFetch("https://test-api.dapdap.net/get-token-price-by-dapdap", {
     Authorization: AccessKey,
