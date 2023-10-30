@@ -309,7 +309,7 @@ function normalizeFromV0_0_2ToV0_0_3(upVote) {
 const versions = {
   old: {
     normalizationFunction: normalizeOldToV_0_0_1,
-    action: props.isTest ? `test_${baseAction}` : baseAction,
+    action: isTest ? testAction : prodAction,
   },
 };
 
