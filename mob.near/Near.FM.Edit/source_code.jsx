@@ -112,9 +112,20 @@ return status === Status.Loading ? (
 ) : status === Status.NoAccountId ? (
   <div>Please sign in to start using URL Shortener</div>
 ) : status === Status.UnsupportedAccountId ? (
-  <div>Sorry, only top-level accounts ending with ".near" are supported</div>
+  <div>
+    Unfortunately, only top-level accounts ending with ".near" are supported
+  </div>
 ) : status === Status.NotPremium ? (
-  <div>Premium subscription required</div>
+  <div>
+    <Widget
+      key="expiring-premium"
+      loading=""
+      src="mob.near/widget/N.NotPremiumCompose"
+      props={{
+        text: "Premium subscription is required to use near.fm shortener!",
+      }}
+    />
+  </div>
 ) : status === Status.New || status === Status.Existing ? (
   <div>
     <div key="short-url" className="mb-3">
@@ -207,16 +218,17 @@ return status === Status.Loading ? (
             )}
           </h5>
           <div className="border p-3">
-            <h6>{metadata.title}</h6>
-            <p>{metadata.description}</p>
             {metadata.image && (
               <img
                 src={metadata.image}
                 alt="Metadata Card Image"
-                className="img-fluid"
-                style={{ maxHeight: "10em" }}
+                className="img-fluid float-start me-3"
+                style={{ maxHeight: "10em", maxWidth: "30%" }}
               />
             )}
+            <h6>{metadata.title}</h6>
+            <p>{metadata.description}</p>
+            <div className="clearfix" />
           </div>
         </div>
 
