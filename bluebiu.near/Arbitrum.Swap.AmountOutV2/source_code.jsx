@@ -16,6 +16,7 @@ if (!inputCurrency.address || !outputCurrency.address || !inputCurrencyAmount) {
   onLoad({});
   return "";
 }
+
 const wrapType =
   inputCurrency.address === "native" && outputCurrency.address === wethAddress
     ? 1
@@ -23,6 +24,7 @@ const wrapType =
       outputCurrency.address === "native"
     ? 2
     : 0;
+
 if (wrapType) {
   onLoad(
     tradeType === "in"
