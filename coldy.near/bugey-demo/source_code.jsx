@@ -81,7 +81,11 @@ return (
           className={`tablinks ${
             state.activeTab === "pending" ? "active" : ""
           }`}
-          style={tabButtonStyle}
+          style={
+            state.activeTab === "pending"
+              ? { ...tabButtonStyle, ...tabButtonActiveStyle }
+              : tabButtonStyle
+          }
           onClick={() => openTab("pending")}
         >
           Pending Issues
@@ -91,7 +95,11 @@ return (
           className={`tablinks ${
             state.activeTab === "approved" ? "active" : ""
           }`}
-          style={tabButtonStyle}
+          style={
+            state.activeTab === "approved"
+              ? { ...tabButtonStyle, ...tabButtonActiveStyle }
+              : tabButtonStyle
+          }
           onClick={() => openTab("approved")}
         >
           Approved Issues
@@ -101,7 +109,11 @@ return (
           className={`tablinks ${
             state.activeTab === "declined" ? "active" : ""
           }`}
-          style={tabButtonStyle}
+          style={
+            state.activeTab === "declined"
+              ? { ...tabButtonStyle, ...tabButtonActiveStyle }
+              : tabButtonStyle
+          }
           onClick={() => openTab("declined")}
         >
           Declined Issues
@@ -109,36 +121,46 @@ return (
       </div>
       <div
         id="pending"
-        className={`tabcontent ${activeTab === "pending" ? "activeTab" : ""}`}
-        style={{
-          ...tabcontentStyle,
-          ...(activeTab === "pending" ? { display: "block" } : {}),
-        }}
+        className={`tabcontent ${
+          state.activeTab === "pending" ? "activeTab" : ""
+        }`}
       >
-        <h3>Pending Issues</h3>
-        <div id="proposals-pending-content">Content for Pending Issues</div>
+        {state.activeTab === "pending" && (
+          <div>
+            <h3>Pending Issues</h3>
+            <div id="proposals-pending-content">Content for Pending Issues</div>
+          </div>
+        )}
       </div>
       <div
         id="approved"
-        className={`tabcontent ${activeTab === "approved" ? "activeTab" : ""}`}
-        style={{
-          ...tabcontentStyle,
-          ...(activeTab === "approved" ? { display: "block" } : {}),
-        }}
+        className={`tabcontent ${
+          state.activeTab === "approved" ? "activeTab" : ""
+        }`}
       >
-        <h3>Approved Issues</h3>
-        <div id="proposals-approved-content">Content for Approved Issues</div>
+        {state.activeTab === "approved" && (
+          <div>
+            <h3>Approved Issues</h3>
+            <div id="proposals-approved-content">
+              Content for Approved Issues
+            </div>
+          </div>
+        )}
       </div>
       <div
         id="declined"
-        className={`tabcontent ${activeTab === "declined" ? "activeTab" : ""}`}
-        style={{
-          ...tabcontentStyle,
-          ...(activeTab === "declined" ? { display: "block" } : {}),
-        }}
+        className={`tabcontent ${
+          state.activeTab === "declined" ? "activeTab" : ""
+        }`}
       >
-        <h3>Declined Issues</h3>
-        <div id="proposals-declined-content">Content for Declined Issues</div>
+        {state.activeTab === "declined" && (
+          <div>
+            <h3>Declined Issues</h3>
+            <div id="proposals-declined-content">
+              Content for Declined Issues
+            </div>
+          </div>
+        )}
       </div>
     </div>
     <button onClick={testView}>test view</button>
