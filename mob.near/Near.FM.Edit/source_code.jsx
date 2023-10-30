@@ -120,7 +120,7 @@ return status === Status.Loading ? (
 ) : status === Status.NotPremium ? (
   <div>
     <Widget
-      key="expiring-premium"
+      key="not-premium"
       loading=""
       src="mob.near/widget/N.NotPremiumCompose"
       props={{
