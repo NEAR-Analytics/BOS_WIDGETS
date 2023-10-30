@@ -69,6 +69,14 @@ const Main = styled.div`
 *{
   font-family: Helvetica Neue;
 }
+.normal_input::placeholder{
+ color: #B0B0B0;
+font-family: Helvetica Neue;
+font-size: 24px;
+font-style: italic;
+font-weight: 400;
+line-height: normal;
+}
 `;
 
 return (
@@ -102,7 +110,7 @@ return (
     {(state.content.text || state.isChecked) && (
       <div className="mt-3">
         <Widget
-          src="jgodwill.near/widget/MainPage.Post"
+          src="jgodwill.near/widget/CPlanet.MainPage.Post"
           props={{
             accountId: context.accountId,
             content: state.content,
