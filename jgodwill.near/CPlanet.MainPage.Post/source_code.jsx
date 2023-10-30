@@ -65,12 +65,11 @@ const postDate = `${date?.toLocaleDateString([], {
   month: "short",
   year: "numeric",
 })}`;
-// const formattedDate = formatDate(timeMs);
+
 console.log("post date", postDate);
 
 const hasImageInPost = content?.image;
-// console.log("content", content);
-// console.log("receiver", receiver.length);
+
 
 const link = `/mob.near/widget/MainPage.Post.Page?accountId=${accountId}&blockHeight=${blockHeight}`;
 State.update({
@@ -111,10 +110,6 @@ const nftMint = () => {
       description: state.description,
       properties: [],
       image: state.imageUrl,
-
-      //   image: `ipfs://${state.image.ipfs_cid}`,
-      //   image: `ipfs://${state.image.cid}`,
-      //   image: `ipfs://${state.imageCid}`,
     };
     console.log("come", metadata);
     asyncFetch("https://ipfs.near.social/add", {
@@ -137,13 +132,8 @@ const nftMint = () => {
             metadata: {
               title: state.title,
               description: state.description,
-              //   media: `https://ipfs.io/ipfs/${state.imageCid}`,
-              // media: `https://ipfs.io/ipfs/${state.image.cid}`,
               media: state.imageUrl,
-
-              //   media: `https://ipfs.io/ipfs/${state.image.ipfs_cid}`,
               reference: `ipfs://${cid}`,
-              //   reference: `ipfs://${state.cid}`,
             },
             receiver_id: accountId,
           },
@@ -155,7 +145,6 @@ const nftMint = () => {
   }
 };
 
-// console.log(content);
 return (
   <>
     {state && (
@@ -174,22 +163,10 @@ return (
         />
         <div className="mt-3 text-break">
           <Widget
-            src="jgodwill.near/widget/MainPage.Post.Content"
+            src="jgodwill.near/widget/CPlanet.MainPage.Post.Content"
             props={{ content, raw }}
           />
         </div>
-        {/*        {content.embeddedNFT && (
-          <div key="content-img" className="mt-2">
-            <Widget
-              src="jgodwill.near/widget/GenaDrop.NFTEmbedPreview"
-              props={{
-                contractId: content.embeddedNFT.contractId,
-                tokenId: content.embeddedNFT.tokenId,
-                chainState: content.embeddedNFT.chain?.toLowerCase(),
-              }}
-            />
-          </div>
-        )}*/}
         {blockHeight !== "now" && (
           <div className="mt-1 d-flex justify-content-between">
             <div className="me-4">
