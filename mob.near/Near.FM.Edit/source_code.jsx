@@ -6,17 +6,17 @@ const [metadata, setMetadata] = useState(false);
 const [debounce, setDebounce] = useState(null);
 const [previewUrl, setPreviewUrl] = useState("");
 
-const accountId = context.accountId;
+const accountId = "agfdg.near" || context.accountId;
 const premiumTime = accountId
   ? Social.get(
       `premium.social.near/badge/premium/accounts/${accountId}`,
       "final"
     )
-  : null;
+  : undefined;
 const data =
   accountId && props.suffix
     ? Social.get(`${accountId}/custom/fm/${props.suffix}`, "final")
-    : null;
+    : undefined;
 
 const Status = {
   Loading: 0,
@@ -127,7 +127,7 @@ return status === Status.Loading ? (
       loading=""
       src="mob.near/widget/N.NotPremiumCompose"
       props={{
-        text: "Premium subscription is required to use near.fm shortener!",
+        text: "Premium subscription is required to use near.fm URL shortener!",
       }}
     />
   </div>
