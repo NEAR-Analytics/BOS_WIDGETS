@@ -6,7 +6,7 @@ const [metadata, setMetadata] = useState(false);
 const [debounce, setDebounce] = useState(null);
 const [previewUrl, setPreviewUrl] = useState("");
 
-const accountId = "gfg.near" || context.accountId;
+const accountId = context.accountId;
 const premiumTime = accountId
   ? Social.get(
       `premium.social.near/badge/premium/accounts/${accountId}`,
