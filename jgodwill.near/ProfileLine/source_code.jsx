@@ -17,7 +17,7 @@ let inner = (
     {!hideImage && (
       <Widget
         key="image"
-        src="mob.near/widget/ProfileImage"
+        src="mob.near/widget/MainPage.N.Post.Left"
         props={{
           fast,
           profile,
