@@ -6,13 +6,13 @@ const [metadata, setMetadata] = useState(false);
 const [debounce, setDebounce] = useState(null);
 const [previewUrl, setPreviewUrl] = useState("");
 
-const accountId = context.accountId;
+const accountId = "gfg.near" || context.accountId;
 const premiumTime = accountId
   ? Social.get(
       `premium.social.near/badge/premium/accounts/${accountId}`,
       "final"
     )
-  : undefined;
+  : null;
 const data =
   accountId && props.suffix
     ? Social.get(`${accountId}/custom/fm/${props.suffix}`, "final")
@@ -44,9 +44,6 @@ useEffect(() => {
     }
     if (!accountId.endsWith(".near") || accountId.split(".").length !== 2) {
       return Status.UnsupportedAccountId;
-    }
-    if (premiumTime === null || (props.suffix && data === null)) {
-      return Status.Loading;
     }
     if (!premiumTime || parseInt(premiumTime) < Date.now()) {
       return Status.NotPremium;
