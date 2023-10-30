@@ -39,7 +39,7 @@ if (state.feedIndex === 2) {
 }
 
 if (state.feedIndex === 1) {
-  accounts = ["creativesdao.sputnik-dao.near"]
+  accounts = ["creativesdao.sputnik-dao.near"];
 }
 
 const CPlanetFont = styled.div`
