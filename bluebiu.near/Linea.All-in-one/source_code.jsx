@@ -102,7 +102,7 @@ const storedActiveMenu = Storage.get(
 );
 
 State.init({
-  activeMenu: storedActiveMenu || "Bridge",
+  activeMenu: props.defaultTab || storedActiveMenu || "Bridge",
 });
 
 State.init({
@@ -289,7 +289,7 @@ return (
         ) : null}
         {activeMenu == "Lending" ? (
           <>
-            <Widget src="bluebiu.near/widget/Linea.Lending" />
+            <Widget src="bluebiu.near/widget/Linea.Lending" props={props} />
           </>
         ) : null}
       </div>
