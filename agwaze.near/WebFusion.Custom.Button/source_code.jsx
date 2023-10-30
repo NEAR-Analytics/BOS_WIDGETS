@@ -33,7 +33,7 @@ const Root = styled.button`
       background: var(--nearcon-app-spring-green, ${
         props.whiteBg ? "white" : "#00EC97"
       }); 
-      border: 2px dashed #00EC97;
+      border: 2px dashed ${props.whiteBg ? "white" : "#00EC97"};
       margin-right: 5px;
       position: absolute;
       right: 2px;
@@ -57,7 +57,7 @@ const Root = styled.button`
   left: -4px;
   right: -4px;
   bottom: -4px;
-  border: 2px dashed #00EC97;
+ border: 2px dashed ${props.whiteBg ? "white" : "#00EC97"};
   }
 `;
 
