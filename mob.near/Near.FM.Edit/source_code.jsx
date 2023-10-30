@@ -130,6 +130,7 @@ return status === Status.Loading ? (
             setSuffix(e.target.value);
             setPreviewUrl("");
           }}
+          autoFocus
         />
       </div>
     </div>
