@@ -52,7 +52,7 @@ return (
           >
             <div className="me-2 text-truncate">
               <a
-                href={`/bos.genadrop.near/widget/DropFlow.ArtistPage?accountId=${accountId}`}
+                href={`#/mob.near/widget/ProfilePage?accountId=${accountId}`}
                 className="text-decoration-none link-dark text-truncate"
               >
                 <Widget
@@ -74,6 +74,6 @@ return (
       </div>
     )}
 
-    <Widget src="jgodwill.near/widget/LastProfiles" props={{ limit: 24 }} />
+    <Widget src="mob.near/widget/LastProfilesImages" props={{ limit: 24 }} />
   </div>
 );
