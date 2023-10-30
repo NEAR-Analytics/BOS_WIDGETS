@@ -102,7 +102,7 @@ const storedActiveMenu = Storage.get(
 );
 
 State.init({
-  activeMenu: storedActiveMenu || "swap",
+  activeMenu: props.defaultTab || storedActiveMenu || "Bridge",
 });
 
 State.init({
@@ -244,7 +244,7 @@ return (
         ) : null}
         {activeMenu == "Lending" ? (
           <>
-            <Widget src="bluebiu.near/widget/zkSync.Lending" />
+            <Widget src="bluebiu.near/widget/zkSync.Lending" props={props} />
           </>
         ) : null}
       </div>
