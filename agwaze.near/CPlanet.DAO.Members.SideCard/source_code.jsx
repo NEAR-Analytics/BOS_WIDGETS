@@ -53,7 +53,6 @@ function makeAccountIdShorter(accountId, shortenLength) {
 
 return (
   <Root>
-    <h1>Council</h1>
     <div className="profile">
       <img
         src={
