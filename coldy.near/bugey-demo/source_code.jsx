@@ -1,126 +1,7 @@
 State.init({
   projects: [],
+  activeTab: "pending",
 });
-
-const TabComponent = () => {
-  const tabStyle = {
-    display: "flex",
-    border: "1px solid #ccc",
-    backgroundColor: "#f1f1f1",
-  };
-
-  const tabButtonStyle = {
-    background: "inherit",
-    border: "none",
-    outline: "none",
-    cursor: "pointer",
-    padding: "14px 16px",
-    transition: "0.3s",
-    fontSize: "17px",
-    flex: "1",
-    boxSizing: "border-box",
-  };
-
-  const tabButtonHoverStyle = {
-    backgroundColor: "#ddd",
-  };
-
-  const tabButtonActiveStyle = {
-    backgroundColor: "#ccc",
-  };
-
-  const tabcontentStyle = {
-    display: "none",
-    padding: "6px 12px",
-    border: "1px solid #ccc",
-    borderTop: "none",
-  };
-
-  const mobileTabcontentStyle = {
-    padding: "6px 8px",
-  };
-
-  const paginationStyle = {
-    display: "inline-block",
-  };
-
-  const paginationLinkStyle = {
-    color: "black",
-    float: "left",
-    padding: "8px 16px",
-    textDecoration: "none",
-    transition: "background-color .3s",
-    border: "1px solid #ddd",
-  };
-
-  const paginationLinkActiveStyle = {
-    backgroundColor: "#4CAF50",
-    color: "white",
-    border: "1px solid #4CAF50",
-  };
-
-  const paginationLinkHoverStyle = {
-    backgroundColor: "#ddd",
-  };
-
-  const mobileTabButtonStyle = {
-    width: "100%",
-  };
-
-  const proposalStyle = {
-    border: "1px solid #ccc",
-    padding: "10px",
-    marginBottom: "10px",
-  };
-
-  const priceStyle = {
-    fontWeight: "bold",
-  };
-
-  const projectStyle = {
-    marginTop: "5px",
-  };
-
-  const descriptionStyle = {
-    marginTop: "10px",
-  };
-
-  const bugReportFormStyle = {
-    marginTop: "20px",
-  };
-
-  const errorMessageStyle = {
-    color: "red",
-    fontSize: "14px",
-    marginTop: "4px",
-  };
-
-  const formGroupStyle = {
-    marginBottom: "20px",
-  };
-
-  const formControlStyle = {
-    width: "100%",
-    padding: "8px",
-    fontSize: "16px",
-    border: "1px solid #ccc",
-    borderRadius: "5px",
-  };
-  const openTab = (evt, tabName) => {
-    const tabContent = document.getElementsByClassName("tabcontent");
-    for (let i = 0; i < tabContent.length; i++) {
-      tabContent[i].style.display = "none";
-    }
-
-    const tabLinks = document.getElementsByClassName("tablinks");
-    for (let i = 0; i < tabLinks.length; i++) {
-      tabLinks[i].classList.remove("active");
-    }
-
-    document.getElementById(tabName).style.display = "block";
-    evt.currentTarget.classList.add("active");
-  };
-};
 
 const contractId = "bugeye.learnclub.near";
 
@@ -150,6 +31,46 @@ const testView = () => {
   openTab({ currentTarget: document.getElementById("pending-tab") }, "pending");
 };
 
+const tabStyle = {
+  display: "flex",
+  border: "1px solid #ccc",
+  backgroundColor: "#f1f1f1",
+};
+
+const tabButtonStyle = {
+  background: "inherit",
+  border: "none",
+  outline: "none",
+  cursor: "pointer",
+  padding: "14px 16px",
+  transition: "0.3s",
+  fontSize: "17px",
+  flex: "1",
+  boxSizing: "border-box",
+};
+
+const tabButtonHoverStyle = {
+  backgroundColor: "#ddd",
+};
+
+const tabButtonActiveStyle = {
+  backgroundColor: "#ccc",
+};
+
+const tabcontentStyle = {
+  display: "none",
+  padding: "6px 12px",
+  border: "1px solid #ccc",
+  borderTop: "none",
+};
+
+const openTab = (tabName) => {
+  State.update({
+    activeTab: tabName,
+  });
+  console.log(state.activeTab);
+};
+
 return (
   <div>
     <div id="approvals-block">
@@ -157,40 +78,67 @@ return (
       <div style={tabStyle} className="tab">
         <button
           id="pending-tab"
-          className="tablinks active"
+          className={`tablinks ${
+            state.activeTab === "pending" ? "active" : ""
+          }`}
           style={tabButtonStyle}
-          onClick={(evt) => openTab(evt, "pending")}
+          onClick={() => openTab("pending")}
         >
           Pending Issues
         </button>
         <button
           id="approval-tab"
-          className="tablinks"
+          className={`tablinks ${
+            state.activeTab === "approved" ? "active" : ""
+          }`}
           style={tabButtonStyle}
-          onClick={(evt) => openTab(evt, "approved")}
+          onClick={() => openTab("approved")}
         >
           Approved Issues
         </button>
         <button
           id="declined-tab"
-          className="tablinks"
+          className={`tablinks ${
+            state.activeTab === "declined" ? "active" : ""
+          }`}
           style={tabButtonStyle}
-          onClick={(evt) => openTab(evt, "declined")}
+          onClick={() => openTab("declined")}
         >
           Declined Issues
         </button>
       </div>
-      <div id="pending" className="tabcontent" style={tabcontentStyle}>
+      <div
+        id="pending"
+        className={`tabcontent ${activeTab === "pending" ? "activeTab" : ""}`}
+        style={{
+          ...tabcontentStyle,
+          ...(activeTab === "pending" ? { display: "block" } : {}),
+        }}
+      >
         <h3>Pending Issues</h3>
-        <div id="proposals-pending-content"></div>
+        <div id="proposals-pending-content">Content for Pending Issues</div>
       </div>
-      <div id="approved" className="tabcontent" style={tabcontentStyle}>
+      <div
+        id="approved"
+        className={`tabcontent ${activeTab === "approved" ? "activeTab" : ""}`}
+        style={{
+          ...tabcontentStyle,
+          ...(activeTab === "approved" ? { display: "block" } : {}),
+        }}
+      >
         <h3>Approved Issues</h3>
-        <div id="proposals-approved-content"></div>
+        <div id="proposals-approved-content">Content for Approved Issues</div>
       </div>
-      <div id="declined" className="tabcontent" style={tabcontentStyle}>
+      <div
+        id="declined"
+        className={`tabcontent ${activeTab === "declined" ? "activeTab" : ""}`}
+        style={{
+          ...tabcontentStyle,
+          ...(activeTab === "declined" ? { display: "block" } : {}),
+        }}
+      >
         <h3>Declined Issues</h3>
-        <div id="proposals-declined-content"></div>
+        <div id="proposals-declined-content">Content for Declined Issues</div>
       </div>
     </div>
     <button onClick={testView}>test view</button>
