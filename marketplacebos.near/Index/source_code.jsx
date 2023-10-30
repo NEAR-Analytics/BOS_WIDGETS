@@ -239,8 +239,7 @@ return (
         {state.selectedTab === "myfavorites" && (
           <>
             {" "}
-                        <Widget src="marketplacebos.near/widget/Page.MyFavouritesPage" />
-
+            <Widget src="marketplacebos.near/widget/Page.MyFavouritesPage" />
             <br />
             <br />
           </>
