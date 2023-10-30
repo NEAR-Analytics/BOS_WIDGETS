@@ -42,15 +42,6 @@ const Container = styled.div`
   background: var(--background-light, #fafafa);
 `;
 
-const ContractsContainer = styled.div`
-  width: 100%;
-
-  & > div {
-    width: 50%;
-    height: 1.5rem;
-  }
-`;
-
 const HalfWidth = styled.div`
   width: 50%;
 
@@ -109,14 +100,17 @@ const data = (
           label: "Team size",
           placeholder: 10,
           value: state.company_size,
-          onChange: (company_size) => State.update({ company_size }),
+          onChange: (company_size) =>
+            State.update({ company_size: `${company_size}` }),
           validate: () => {
-            if (state.team < 1) {
-              State.update({ teamError: "Team size must be at least 1" });
+            if (state.company_size < 1) {
+              State.update({
+                company_sizeError: "Team size must be at least 1",
+              });
               return;
             }
 
-            State.update({ teamError: "" });
+            State.update({ company_sizeError: "" });
           },
         }}
       />
@@ -165,7 +159,7 @@ const data = (
       props={{
         label: "What problem(s) are you solving?",
         placeholder: " ",
-        value: state.description,
+        value: state.problem,
         onChange: (problem) => State.update({ problem }),
         validate: () => {
           if (state.problem.length > 500) {
@@ -259,28 +253,6 @@ const data = (
           State.update({ visionError: "" });
         },
         error: state.visionError,
-      }}
-    />
-    <Widget
-      src={`${ownerId}/widget/Inputs.LabeledData`}
-      props={{
-        label: "What are your contracts?",
-        content: (
-          <ContractsContainer>
-            <Typeahead
-              id="contracts"
-              labelKey="name"
-              onChange={(contracts) => {
-                State.update({ contracts: contracts.map(({ name }) => name) });
-              }}
-              options={[]}
-              selected={state.contracts.map((name) => ({ name }))}
-              positionFixed
-              multiple
-              allowNew
-            />
-          </ContractsContainer>
-        ),
       }}
     />
   </>
