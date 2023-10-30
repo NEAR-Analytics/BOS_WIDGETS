@@ -45,7 +45,7 @@ return content ? (
     {(content.embeddedNFT.contractId || content.embeddedNFT.tokenId) && (
       <div key="content-img" className="mt-2">
         <Widget
-          src="jgodwill.near/widget/GenaDrop.NFTEmbedPreview"
+          src="jgodwill.near/widget/CPlanet.EmbeddedNFT"
           props={{
             contractId: content.embeddedNFT.contractId,
             tokenId: content.embeddedNFT.tokenId,
