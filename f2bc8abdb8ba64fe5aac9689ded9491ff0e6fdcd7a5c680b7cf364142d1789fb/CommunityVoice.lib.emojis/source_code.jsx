@@ -316,7 +316,7 @@ function callFunction(call) {
 const versions = {
   old: {
     normalizationFunction: normalizeOldToV_0_0_1,
-    action: versionsBaseActions,
+    action: isTest ? testAction : prodAction,
   },
 };
 
