@@ -1,3 +1,15 @@
+const CoADaoId = props.dev
+    ? "coa.gwg-testing.near"
+    : "congress-coa-v1.ndc-gwg.near";
+const VotingBodyDaoId = props.dev
+    ? "vb-beta.gwg-testing.near"
+    : "";
+const TCDaoId = props.dev
+    ? "tc.gwg-testing.near"
+    : "congress-tc-v1.ndc-gwg.near";
+const HoMDaoId = props.dev
+    ? "hom.gwg-testing.near"
+    : "congress-hom-v1.ndc-gwg.near";
 const widgetOwner = props.widgetOwner ?? "astraplusplus.ndctools.near";
 
 State.init({
@@ -14,49 +26,95 @@ const constructURL = (paramObj, base) => {
     const baseURL = base ?? `#/${widgetOwner}/widget/home`;
     let params = "";
     for (const [key, value] of Object.entries(paramObj)) {
+        if (key === "dev" && value === false) {
+            continue;
+        }
         params += `${key}=${value}&`;
     }
     params = params.slice(0, -1);
     return `${baseURL}?${params}`;
 };
 
+const isCongressDaoID =
+    props.daoId === HoMDaoId ||
+    props.daoId === CoADaoId ||
+    props.daoId === TCDaoId;
+
 const tabs = {
-    home: {
-        name: "Discussion",
-        widget: "DAO.Discussion",
-        href: constructURL({ tab: "home", daoId: state.daoId })
-    },
     proposals: {
         name: "Proposals",
         widget: "DAO.Proposals.index",
-        href: constructURL({ tab: "proposals", daoId: state.daoId })
+        href: constructURL({
+            tab: "proposals",
+            daoId: state.daoId,
+            dev: props.dev ?? false
+        })
+    },
+    home: {
+        name: "Discussion",
+        widget: "DAO.Discussion",
+        href: constructURL({
+            tab: "home",
+            daoId: state.daoId,
+            dev: props.dev ?? false
+        })
     },
     funds: {
         name: "Fund Flows",
         widget: "DAO.Funds.index",
-        href: constructURL({ tab: "funds", daoId: state.daoId })
+        href: constructURL({
+            tab: "funds",
+            daoId: state.daoId,
+            dev: props.dev ?? false
+        })
     },
     members: {
         name: "Members & Policy",
         widget: "DAO.Members.index",
-        href: constructURL({ tab: "members", daoId: state.daoId })
+        href: constructURL({
+            tab: "members",
+            daoId: state.daoId,
+            dev: props.dev ?? false
+        })
     },
     projects: {
         name: "Projects",
         widget: "DAO.Projects",
-        href: constructURL({ tab: "projects", daoId: state.daoId })
+        href: constructURL({
+            tab: "projects",
+            daoId: state.daoId,
+            dev: props.dev ?? false
+        })
     },
     followers: {
         name: "Followers",
         widget: "DAO.Followers.index",
-        href: constructURL({ tab: "followers", daoId: state.daoId })
+        href: constructURL({
+            tab: "followers",
+            daoId: state.daoId,
+            dev: props.dev ?? false
+        })
     },
     bounties: {
         name: "Bounties",
         widget: "DAO.Bounties",
-        href: constructURL({ tab: "bounties", daoId: state.daoId })
+        href: constructURL({
+            tab: "bounties",
+            daoId: state.daoId,
+            dev: props.dev ?? false
+        })
     }
 };
+
+if (isCongressDaoID || props.daoId === VotingBodyDaoId) {
+    delete tabs["funds"];
+    delete tabs["projects"];
+    delete tabs["bounties"];
+}
+// not showing members page in v1
+if (props.daoId === VotingBodyDaoId) {
+    delete tabs["members"];
+}
 
 if (!props.daoId) {
     // TODO: add a proper error screen
