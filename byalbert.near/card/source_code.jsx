@@ -54,7 +54,7 @@ return (
       }}
     />
     <Widget
-      src="rats.near/widget/voteButton"
+      src="byalbert.near/widget/voteButton"
       props={{ item: JSON.parse(id) }}
     />
   </div>
