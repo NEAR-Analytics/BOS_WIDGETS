@@ -13,10 +13,8 @@ return (
             src="mob.near/widget/ProfileImage"
             loading={<div style={imgWrapperStyle} />}
             props={{
-              fast,
-              profile,
+              fast: true,
               accountId,
-              widgetName,
               style: imgWrapperStyle,
               imageClassName: "rounded-circle w-100 h-100",
             }}
