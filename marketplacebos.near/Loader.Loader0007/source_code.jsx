@@ -97,8 +97,7 @@ const color2 = props.color2 ?? "#4498E0";` +
         <Loader></Loader>
   )`,
   component: <Loader></Loader>,
-    detailLink: "https://near.org/marketplacebos.near/widget/Detail.L0007",
-
+  detailLink: "https://near.org/marketplacebos.near/widget/Detail.L0007",
 };
 return (
   <>
