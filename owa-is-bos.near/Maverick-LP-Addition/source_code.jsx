@@ -87,7 +87,7 @@ const floatToFixed = (num, decimals) => {
 };
 
 const getScale = () => {
-  asyncFetch(`https://api.mav.xyz/api/v3/tokenPrices/5`)
+  asyncFetch(`https://api.mav.xyz/api/v3/tokenPrices/324`)
     .catch((err) => {
       console.log(err);
     })
@@ -121,7 +121,7 @@ const getScale = () => {
 
 const getUserBalances = () => {
   const accounts = Ethers.send("eth_requestAccounts", []);
-  asyncFetch(`https://api.mav.xyz/api/v3/tokenBalances/5/${accounts[0]}`)
+  asyncFetch(`https://api.mav.xyz/api/v3/tokenBalances/324/${accounts[0]}`)
     .catch((err) => {
       console.log(err);
     })
@@ -161,7 +161,7 @@ const setUserBalances = () => {
 
 const getNFTUser = () => {
   const accounts = Ethers.send("eth_requestAccounts", []);
-  asyncFetch(`https://api.mav.xyz/api/v3/user/${accounts[0]}/5`)
+  asyncFetch(`https://api.mav.xyz/api/v3/user/${accounts[0]}/324`)
     .catch((err) => {
       console.log(err);
     })
@@ -174,7 +174,7 @@ const getNFTUser = () => {
 
 const getPools = () => {
   console.log("entra pools");
-  asyncFetch(`https://api.mav.xyz/api/v3/pools/5
+  asyncFetch(`https://api.mav.xyz/api/v3/pools/324
 `)
     .catch((err) => {
       console.log(err);
@@ -486,7 +486,7 @@ const addLiquidity = () => {
 
 const handlePoolSelect = (data) => {
   const pool = state.poolList.find((p) => p.name === data.target.value);
-  asyncFetch(`https://api.mav.xyz/api/v3/pools/5`)
+  asyncFetch(`https://api.mav.xyz/api/v3/pools/324`)
     .catch((err) => {
       console.log(err);
     })
@@ -523,14 +523,14 @@ const handlePoolDistributionSelect = (data) => {
 };
 
 const getNetwork = () => {
-  let chainId = 5;
+  let chainId = 324;
   Ethers.provider()
     .getNetwork()
     .then((res) => {
       if (res.chainId == chainId) {
         State.update({ isZkSync: true });
       } else {
-        switchNetwork(5);
+        switchNetwork(324);
       }
     });
 };
@@ -1656,7 +1656,10 @@ return (
           <span class="text-white">
             To proceed, please switch to the
             <br />
-            <div class="networkNameContainer" onClick={() => switchNetwork(5)}>
+            <div
+              class="networkNameContainer"
+              onClick={() => switchNetwork(324)}
+            >
               <span class="networkName">zkSync Era Network</span>
             </div>
             using your wallet.
