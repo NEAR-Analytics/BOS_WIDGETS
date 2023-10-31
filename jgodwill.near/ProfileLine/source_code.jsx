@@ -12,8 +12,30 @@ const title = props.title ?? `${name} @${accountId}`;
 const tooltip =
   props.tooltip && (props.tooltip === true ? title : props.tooltip);
 
+const Wrapper = styled.span`
+  display: flex;
+  .name{
+     font-size: 16px;
+    font-style: normal;
+    font-weight: 700;
+    margin-bottom: 0;
+    line-height: 120%; /* 19.2px */
+  }
+  .address{
+     overflow: hidden;
+    color: #B0B0B0;
+    text-align: justify;
+    text-overflow: ellipsis;
+    font-family: Helvetica Neue;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 120%; /* 19.2px */
+  }
+  `;
+
 let inner = (
-  <>
+  <Wrapper>
     {!hideImage && (
       <Widget
         key="image"
@@ -28,15 +50,19 @@ let inner = (
       />
     )}
     <span>
-      {!hideName && <span key="name">{name}</span>}
+      {!hideName && (
+        <span className="name" key="name">
+          {name}
+        </span>
+      )}
       <br />
       {!hideAccountId && (
-        <p key="accountId" className="text-muted d-block">
+        <p key="accountId" className="text-muted address d-block">
           @{accountId}
         </p>
       )}
     </span>
-  </>
+  </Wrapper>
 );
 
 inner = link ? (
