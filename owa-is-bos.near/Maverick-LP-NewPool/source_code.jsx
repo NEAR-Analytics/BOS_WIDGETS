@@ -529,3 +529,1012 @@ const floatToFixed = (num, decimals) => {
     ethers.utils.parseUnits(num.toString(), decimals)
   );
 };
+
+const createPool = () => {
+  const router = new ethers.Contract(
+    state.routerContract,
+    routerAbi.body,
+    Ethers.provider().getSigner()
+  );
+
+  let amountInA, amountInB;
+  console.log(state.amountInputTokenA, "tokA");
+  console.log(state.amountInputTokenB, "tokB");
+  let inputA = parseFloat(state.amountInputTokenA).toString();
+  let inputB = parseFloat(state.amountInputTokenB).toString();
+  if (state.poolModeSelected.id == 0) {
+    console.log("Entro a STATIC");
+    if (state.poolDistributionSelected.name == "Single Bin") {
+      amountInA = ethers.utils.parseUnits(inputA, 18);
+      amountInB = ethers.utils.parseUnits(inputB, 18);
+      console.log(amountInA, amountInB);
+    } else {
+      amountInA = ethers.utils.parseUnits(inputA, 18);
+      amountInB = ethers.utils.parseUnits(inputB, 18);
+      console.log(amountInA, amountInB);
+    }
+  } else if (state.poolModeSelected.id == 3) {
+    console.log("Entro a BOTH");
+    amountInA = ethers.utils.parseUnits(inputA, 18);
+    amountInB = ethers.utils.parseUnits(inputB, 18);
+    console.log(amountInA, amountInB);
+  } else if (state.poolModeSelected.id == 1) {
+    console.log("Entro a LEFT");
+    amountInA = ethers.utils.parseUnits(inputA, 18);
+    amountInB = ethers.utils.parseUnits("0", 18);
+    console.log(amountInA, amountInB);
+  } else if (state.poolModeSelected.id == 2) {
+    console.log("Entro a RIGHT");
+    amountInA = ethers.utils.parseUnits("0", 18);
+    amountInB = ethers.utils.parseUnits(inputB, 18);
+    console.log(amountInA, amountInB);
+  }
+
+  let amountIn2 = ethers.utils.parseUnits("0", 18);
+  const overrides = {
+    value: amountIn2,
+    gasLimit: 30000000,
+  };
+
+  let tickSp = Math.ceil(Math.log(1 + state.width / 100) / Math.log(1.0001));
+  let actTick = Math.floor(
+    Math.log(parseInt(state.step1TokenAAmount)) / (Math.log(1.0001) * tickSp)
+  );
+
+  let liquidityParams = [];
+  let position =
+    state.poolModeSelected.id == 0 || state.poolModeSelected.id == 3
+      ? actTick
+      : state.poolModeSelected.id == 1
+      ? actTick - 1
+      : actTick + 1;
+  if (
+    state.poolModeSelected.id == 1 ||
+    state.poolModeSelected.id == 2 ||
+    state.poolModeSelected.id == 3
+  ) {
+    liquidityParams.push({
+      kind: state.poolModeSelected.id,
+      pos: position,
+      isDelta: false,
+      deltaA: amountInA,
+      deltaB: amountInB,
+    });
+  } else {
+    if (state.poolDistributionSelected.name == "Single Bin") {
+      console.log("Single Bin");
+      liquidityParams.push({
+        kind: state.poolModeSelected.id,
+        pos: position,
+        isDelta: false,
+        deltaA: amountInA,
+        deltaB: amountInB,
+      });
+    }
+    if (state.poolDistributionSelected.name == "Flat") {
+      console.log("Flat");
+
+      const leftAmount = (
+        (parseFloat(state.amountInputTokenA) - 0.001) /
+        Math.floor(state.binsToDistribute / 2)
+      ).toString();
+
+      const rightAmount = (
+        (parseFloat(state.amountInputTokenB) - 0.001) /
+        Math.ceil(state.binsToDistribute / 2)
+      ).toString();
+
+      const leftAmountFormated = ethers.utils.parseUnits(leftAmount, 18);
+      const amountInBFormated = ethers.utils.parseUnits(rightAmount, 18);
+
+      for (let i = 0; i < state.binsToDistribute; i++) {
+        const pos = position + i - Math.floor(state.binsToDistribute / 2);
+
+        const newDeltaA = pos < position ? leftAmountFormated : 0;
+        const newDeltaB = pos >= position ? amountInBFormated : 0;
+
+        const param = {
+          kind: state.poolModeSelected.id,
+          pos: pos,
+          isDelta: false,
+          deltaA: newDeltaA,
+          deltaB: newDeltaB,
+        };
+        liquidityParams.push(param);
+      }
+    }
+    if (state.poolDistributionSelected.name == "Exponential") {
+      console.log("Exponential");
+
+      const sigma = state.binsToDistribute / 4;
+      const amplitudeLeft =
+        (parseFloat(state.amountInputTokenA) - 0.001) /
+        (sigma * Math.sqrt(2 * Math.PI));
+      const amplitudeRight =
+        (parseFloat(state.amountInputTokenB) - 0.001) /
+        (sigma * Math.sqrt(2 * Math.PI));
+
+      for (let i = 0; i < state.binsToDistribute; i++) {
+        const pos = position + i - Math.floor(state.binsToDistribute / 2);
+
+        const leftAmountFormated = ethers.utils.parseUnits(
+          (
+            amplitudeLeft *
+            Math.exp(-Math.pow(pos, 2) / (2 * Math.pow(sigma, 2)))
+          ).toString(),
+          18
+        );
+
+        const amountInBFormated = ethers.utils.parseUnits(
+          (
+            amplitudeRight *
+            Math.exp(-Math.pow(pos, 2) / (2 * Math.pow(sigma, 2)))
+          ).toString(),
+          18
+        );
+
+        const newDeltaA = pos < position ? leftAmountFormated : 0;
+        const newDeltaB = pos >= position ? amountInBFormated : 0;
+
+        const param = {
+          kind: state.poolModeSelected.id,
+          pos: pos,
+          isDelta: false,
+          deltaA: newDeltaA,
+          deltaB: newDeltaB,
+        };
+
+        liquidityParams.push(param);
+      }
+    }
+  }
+
+  // const liquidityParams = {
+  //   kind: state.poolModeSelected.id,
+  //   pos:
+  //     state.poolModeSelected.id == 0 || state.poolModeSelected.id == 3
+  //       ? actTick
+  //       : state.poolModeSelected.name == 1
+  //       ? actTick - 1
+  //       : actTick + 1,
+  //   isDelta: false,
+  //   deltaA: amountInA,
+  //   deltaB: amountInB,
+  // };
+  const poolParams = {
+    fee: floatToFixed(state.fee / 100),
+    tickSpacing: tickSp,
+    lookback: "0x0249781bbb25cac00000",
+    activeTick: actTick,
+    tokenA: state.newTokenASelected.address,
+    tokenB: state.newTokenBSelected.address,
+  };
+  console.log({
+    pool: poolParams,
+    nftID: 0,
+    params: liquidityParams,
+    amountInA: 0,
+    amountInB: 0,
+    deadline: 1e13,
+  });
+  try {
+    router
+      .getOrCreatePoolAndAddLiquidity(
+        poolParams,
+        0,
+        liquidityParams,
+        0,
+        0,
+        1e13,
+        overrides
+      )
+      .then((res) => {
+        State.update({
+          creatingPool: true,
+        });
+        setTimeout(() => {
+          State.update({
+            reloadTransactions: true,
+          });
+        }, 5000);
+        setTimeout(() => {
+          State.update({
+            amountInputTokenA: null,
+            amountInputTokenB: null,
+            creatingPool: false,
+            reloadTransactions: true,
+          });
+        }, 15000);
+      });
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+const confirmButton = (
+  <div class="ConfirmButton" onClick={createPool}>
+    <div class={"ConfirmText"}>Confirm</div>
+  </div>
+);
+
+const validateButton = (
+  <div class="validateButton" onClick={validateConfirm}>
+    <div class={"ConfirmText"}>Validate</div>
+  </div>
+);
+
+const validateButtonDisabled = (
+  <div class="validateButtonDisabled" disabled>
+    <div class={"ConfirmText"}>
+      {state.poolModeSelected == 0 || state.poolModeSelected == 3
+        ? state.tokenABalance && state.tokenBBalance
+          ? "Validate"
+          : `You don't have enough balance`
+        : state.poolModeSelected == 1
+        ? state.tokenABalance
+          ? "Validate"
+          : `You don't have enough balance on ${state.selectedPoolOptions.tokenA.symbol}`
+        : state.tokenBBalance
+        ? "Validate"
+        : `You don't have enough balance on ${state.selectedPoolOptions.tokenB.symbol}`}
+    </div>
+  </div>
+);
+
+const confirmButtonDisabled = (
+  <div class="confirmButtonDisabled" disabled>
+    <div class={"ConfirmText"}>Confirm</div>
+  </div>
+);
+
+const allowanceButton = (mode) => {
+  return (
+    <div class="allowanceButton" onClick={() => approveErc20Token(mode)}>
+      <div class={"ConfirmText"}>
+        {mode == "TA"
+          ? "Add more allowance on " + state.poolSelected.tokenA.symbol
+          : "Add more allowance on " + state.poolSelected.tokenB.symbol}
+      </div>
+    </div>
+  );
+};
+
+const allowanceButtonDisabled = () => {
+  return (
+    <div class="allowanceButtonDisabled" disabled>
+      <div class={"ConfirmText"}>
+        {state.moreTokenAAllowance
+          ? "Approving " + state.poolSelected.tokenA.symbol
+          : "Approving " + state.poolSelected.tokenB.symbol}
+      </div>
+    </div>
+  );
+};
+
+const css = fetch(
+  "https://raw.githubusercontent.com/yaairnaavaa/Maverick/main/createPool.css"
+).body;
+
+if (!css) return "";
+
+if (!state.theme) {
+  State.update({
+    theme: styled.div`
+    ${css}
+`,
+  });
+}
+
+const Theme = state.theme;
+return (
+  <Theme>
+    <div class="text-center mt-1">
+      <div class="MainContainer">
+        <div class="ProtocolContainer">
+          <div class="ProtocolNetworkContainet">
+            <div class="ProtocolNetworkTextSection">
+              <div class="ProtocolText">PROTOCOL</div>
+            </div>
+            <div class="ProtocolNetworkSection">
+              <div class="ProtocolNetworkContainer">
+                <img
+                  class="ProtocolImg"
+                  src="https://etherscan.io/token/images/maverick_32.png"
+                />
+                <div class="NetworkText">Maverick</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        {state.isZkSync ? (
+          <>
+            <div class="row" style={{ color: "white", width: "100%" }}>
+              <div
+                class="col-4"
+                style={{
+                  display: "flex",
+                  justifyContent: "end",
+                }}
+              >
+                <div
+                  class="step"
+                  style={{
+                    background:
+                      state.step >= 1 ? "#6400FF" : "rgba(255, 255, 255, 0.1)",
+                  }}
+                >
+                  {state.step <= 1 ? (
+                    1
+                  ) : (
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="20"
+                      height="20"
+                      viewBox="0 0 20 20"
+                      fill="none"
+                    >
+                      <path
+                        d="M1.25 9.375L7.875 16L18.125 4.5"
+                        stroke="#FFFFFF"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
+                    </svg>
+                  )}
+                </div>
+              </div>
+              <div class="col-1">-</div>
+              <div
+                class="col-2"
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                }}
+              >
+                <div
+                  class="step"
+                  style={{
+                    background:
+                      state.step >= 2 ? "#6400FF" : "rgba(255, 255, 255, 0.1)",
+                  }}
+                >
+                  {state.step <= 2 ? (
+                    2
+                  ) : (
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="20"
+                      height="20"
+                      viewBox="0 0 20 20"
+                      fill="none"
+                    >
+                      <path
+                        d="M1.25 9.375L7.875 16L18.125 4.5"
+                        stroke="#FFFFFF"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
+                    </svg>
+                  )}
+                </div>
+              </div>
+              <div class="col-1">-</div>
+              <div
+                class="col-4"
+                style={{
+                  display: "flex",
+                  justifyContent: "start",
+                }}
+              >
+                <div
+                  class="step"
+                  style={{
+                    background:
+                      state.step >= 3 ? "#6400FF" : "rgba(255, 255, 255, 0.1)",
+                  }}
+                >
+                  {state.step <= 3 ? (
+                    3
+                  ) : (
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="20"
+                      height="20"
+                      viewBox="0 0 20 20"
+                      fill="none"
+                    >
+                      <path
+                        d="M1.25 9.375L7.875 16L18.125 4.5"
+                        stroke="#FFFFFF"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
+                    </svg>
+                  )}
+                </div>
+              </div>
+            </div>
+            {state.step == 1 && (
+              <div class="step1Container">
+                <div class="titleSection text-start">Select Token Pair</div>
+                <div>
+                  <div
+                    class="Container"
+                    style={{
+                      height: "50px",
+                      "margin-bottom": "3px",
+                    }}
+                  >
+                    <div class="TokenSection">
+                      {
+                        <img
+                          style={{ width: "30px", height: "30px" }}
+                          src={
+                            state.newTokenASelected
+                              ? state.newTokenASelected.logoURI
+                              : tokensForNEtwork[0].logoURI
+                          }
+                          alt="icon not found"
+                        />
+                      }
+
+                      <div class="TokenNameSection">
+                        <select
+                          class="TokenNameSelect"
+                          value={
+                            state.newTokenASelected
+                              ? state.newTokenASelected.name
+                              : "default"
+                          }
+                          onChange={(e) => {
+                            handleTokenSelect(e, "A");
+                          }}
+                        >
+                          {state.tokenOptionsA.map((p) => {
+                            return <option value={p.name}>{p.name}</option>;
+                          })}
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div
+                    class="Container"
+                    style={{ height: "50px", width: "380px" }}
+                  >
+                    <div class="TokenSection">
+                      <img
+                        style={{ width: "30px", height: "30px" }}
+                        src={
+                          state.newTokenBSelected
+                            ? state.newTokenBSelected.logoURI
+                            : tokensForNEtwork[1].logoURI
+                        }
+                        alt="icon not found"
+                      />{" "}
+                      <div class="TokenNameSection">
+                        <select
+                          class="TokenNameSelect"
+                          value={
+                            state.newTokenBSelected
+                              ? state.newTokenBSelected.name
+                              : "default"
+                          }
+                          onChange={(e) => {
+                            handleTokenSelect(e, "B");
+                          }}
+                        >
+                          {state.tokenOptionsB.map((p) => {
+                            return <option value={p.name}>{p.name}</option>;
+                          })}
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <>
+                  <div class="titleSection">Select Pool Options</div>
+                  <br />
+                  <div
+                    class="Container"
+                    class="Container"
+                    style={{
+                      margin: "auto",
+                      height: "55px",
+                      border: "1px solid #8D8DFD",
+                      justifyContent: "center",
+                    }}
+                  >
+                    <div class="row" style={{ width: "100%" }}>
+                      <div class="col-12">
+                        <div class="TokenNameSection">
+                          <div class="PoolOptionsContainer">
+                            <div
+                              style={{
+                                width: "70%",
+                                display: "flex",
+                                justifyContent: "start",
+                              }}
+                            >
+                              {state.fee > 0 && (
+                                <span class="FeeWidth">
+                                  {formatNumberFee(state.fee) + " Fee"}
+                                </span>
+                              )}
+                              {state.width > 0 && (
+                                <span class="FeeWidth">
+                                  {formatNumberWidth(state.width) + " Width"}
+                                </span>
+                              )}
+                            </div>
+                            <div
+                              style={{
+                                width: "30%",
+                                display: "flex",
+                                justifyContent: "end",
+                              }}
+                            >
+                              <span
+                                class="EditButton"
+                                onClick={() => showPoolOptionsModal()}
+                              >
+                                Edit Options
+                              </span>
+                              {state.showSelectOptionsModal && (
+                                <Widget
+                                  props={{
+                                    setFeeWidth,
+                                    fee: state.fee,
+                                    width: state.width,
+                                    poolName1: `${state.newTokenASelected.name}-${state.newTokenBSelected.name}`,
+                                    poolName2: `${state.newTokenBSelected.name}-${state.newTokenASelected.name}`,
+                                    closeModal,
+                                  }}
+                                  src={
+                                    "owa-is-bos.near/widget/Maverick-LP-NewOptionsModal"
+                                  }
+                                />
+                              )}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </>
+
+                <br />
+                <div
+                  class="Container"
+                  style={{
+                    margin: "auto",
+                    height: "60px",
+                    color: "white",
+                    fontSize: "20px",
+                  }}
+                >
+                  <div class="">
+                    <img
+                      style={{ width: "30px", height: "30px" }}
+                      src={
+                        state.newTokenASelected
+                          ? state.newTokenASelected.logoURI
+                          : tokensForNEtwork[0].logoURI
+                      }
+                      alt="icon not found"
+                    />{" "}
+                    {state.newTokenASelected
+                      ? state.newTokenASelected.name.substring(0, 10) +
+                        (state.newTokenASelected.name.length > 10 ? "..." : "")
+                      : tokensForNEtwork[0].name}
+                  </div>
+                  <div class="  ">
+                    <div class=" text-end  " style={{ "font-size": "14px" }}>
+                      <input
+                        class="TokenAmountInput"
+                        type="number"
+                        placeholder="0"
+                        inputmode="decimal"
+                        min="0"
+                        pattern="^[0-9]*[.]?[0-9]*$"
+                        value={state.step1TokenAAmount}
+                        onChange={(e) => {
+                          State.update({
+                            step1TokenAAmount: e.target.value,
+                          });
+                        }}
+                      />
+                    </div>
+                    <div class=" text-end" style={{ "font-size": "12px" }}>
+                      <span class="UserBalance">
+                        <span
+                          class="text-white"
+                          onClick={async () => {
+                            setMaxBalanceTokenB();
+                          }}
+                        >
+                          per 1{" "}
+                          {state.newTokenBSelected
+                            ? state.newTokenBSelected.name
+                            : tokensForNEtwork[1].name}
+                        </span>
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {state.step == 2 && (
+              <div>
+                <div class="titleSection">Select Mode</div>
+                <br />
+                <div class="step2Container">
+                  <div
+                    class="row"
+                    style={{
+                      width: "100%",
+                      height: "100px",
+                      display: "flex",
+                      margin: "0",
+                    }}
+                  >
+                    <div class="col-6">
+                      <p
+                        style={{
+                          textAlign: "justify",
+                          color: "white",
+                          fontSize: "13px",
+                        }}
+                      >
+                        {state.poolModeSelected.description}
+                      </p>
+                    </div>
+                    <div class="col-6">
+                      <div class="ContainerPoolMode">
+                        <div class="TokenSection">
+                          <div class="TokenNameSection">
+                            <div class="TokenAction">Pool Mode {"->"}</div>
+                            <select
+                              class="TokenNameSelect"
+                              value={
+                                state.poolModeSelected
+                                  ? state.poolModeSelected.name
+                                  : "default"
+                              }
+                              onChange={handlePoolModeSelect}
+                            >
+                              <option
+                                value="default"
+                                disabled={state.poolModeSelected}
+                              >
+                                Select Mode
+                              </option>
+                              {POOLSMODE.map((m) => {
+                                return <option>{m.name}</option>;
+                              })}
+                            </select>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div style={{ overflow: "hidden" }}>
+                  {state.poolModeSelected && (
+                    <img
+                      src={state.poolModeSelected.img}
+                      style={{ height: "166px", transform: "scale(1.3)" }}
+                    ></img>
+                  )}
+                </div>
+              </div>
+            )}
+            {state.step == 3 && (
+              <div class="step3Container">
+                {state.poolModeSelected.name == "Mode Static" && (
+                  <>
+                    <div class="titleSection">Select Distribution</div>
+                    <br />
+                    <div style={{ margin: "auto", width: "380px" }}>
+                      <div
+                        class="row"
+                        style={{
+                          width: "100%",
+                          height: "60px",
+                          display: "flex",
+                        }}
+                      >
+                        <div class="col-6">
+                          <p
+                            style={{
+                              textAlign: "justify",
+                              color: "white",
+                              fontSize: "9px",
+                            }}
+                          >
+                            {state.poolDistributionSelected.description}
+                          </p>
+                        </div>
+                        <div class="col-6">
+                          <div
+                            class="ContainerDistributionMode"
+                            style={{ height: "50px" }}
+                          >
+                            <div class="TokenSection">
+                              <div class="TokenNameSection">
+                                <div class="TokenAction">
+                                  Distribution mode {"->"}
+                                </div>
+                                <select
+                                  class="DistributionNameSelect"
+                                  value={
+                                    state.poolDistributionSelected
+                                      ? state.poolDistributionSelected.name
+                                      : "default"
+                                  }
+                                  onChange={handlePoolDistributionSelect}
+                                >
+                                  <option
+                                    value="default"
+                                    disabled={state.poolModeSelected}
+                                  >
+                                    Select Distribution
+                                  </option>
+                                  {DISTRIBUTIONMODE.map((m) => {
+                                    return <option>{m.name}</option>;
+                                  })}
+                                </select>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </>
+                )}
+                <div class="titleSection mt-3">Required Assets</div>
+                <div
+                  class="ContainerTokenA mt-3"
+                  style={{
+                    margin: "auto",
+
+                    filter:
+                      state.poolModeSelected.name == "Mode Left"
+                        ? "blur(3px)"
+                        : "",
+                  }}
+                >
+                  <div class="TokenSection">
+                    {state.newTokenASelected ? (
+                      <img
+                        class="TokenImg"
+                        style={{ width: "30px", height: "30px" }}
+                        src={state.newTokenASelected.logoURI}
+                      />
+                    ) : null}
+                    <div class="TokenNameSection" style={{ color: "white" }}>
+                      <div class="TokenAction">Token A {"->"}</div>
+                      {state.newTokenASelected.name}
+                    </div>
+                  </div>
+                  {state.poolModeSelected.name != "Mode Left" && (
+                    <div class="TokenAmountSection">
+                      <input
+                        class="TokenAmountInput"
+                        type="number"
+                        placeholder="0"
+                        inputmode="decimal"
+                        min="0"
+                        pattern="^[0-9]*[.]?[0-9]*$"
+                        value={state.amountInputTokenA}
+                        onChange={(e) => handleInputTokenA(e.target.value)}
+                      />
+                      <div class="TokenAmountPreview">
+                        {state.tokenABalance != null ? (
+                          state.tokenABalance.fixed &&
+                          state.tokenABalance.fixed > 0 ? (
+                            <span>
+                              Balance: {state.tokenABalance.fixed}
+                              <span
+                                class="UserBalance"
+                                onClick={async () => {
+                                  setMaxBalanceTokenA();
+                                }}
+                              >
+                                MAX
+                              </span>
+                            </span>
+                          ) : (
+                            "Balance: 0"
+                          )
+                        ) : (
+                          "Balance: 0"
+                        )}
+                      </div>
+                      {false ? (
+                        <div class="TokenInsufficientBalance">
+                          Insufficient Balance
+                        </div>
+                      ) : null}
+                    </div>
+                  )}
+                </div>
+                <div
+                  class="ContainerTokenB mt-3"
+                  style={{
+                    margin: "auto",
+                    filter:
+                      state.poolModeSelected.name == "Mode Right"
+                        ? "blur(3px)"
+                        : "",
+                  }}
+                >
+                  <div class="TokenSection">
+                    {state.newTokenBSelected ? (
+                      <img
+                        class="TokenImg"
+                        style={{ width: "30px", height: "30px" }}
+                        src={state.newTokenBSelected.logoURI}
+                      />
+                    ) : null}
+                    <div class="TokenNameSection" style={{ color: "white" }}>
+                      <div class="TokenAction">Token B {"->"}</div>
+                      {state.newTokenBSelected.name}
+                    </div>
+                  </div>
+                  {state.poolModeSelected.name != "Mode Right" && (
+                    <div class="TokenAmountSection">
+                      <input
+                        class="TokenAmountInput"
+                        type="number"
+                        placeholder="0"
+                        inputmode="decimal"
+                        min="0"
+                        pattern="^[0-9]*[.]?[0-9]*$"
+                        value={state.amountInputTokenB}
+                        onChange={(e) => handleInputTokenB(e.target.value)}
+                      />
+                      <div class="TokenAmountPreview">
+                        {state.tokenBBalance != null ? (
+                          state.tokenBBalance.fixed &&
+                          state.tokenBBalance.fixed > 0 ? (
+                            <span>
+                              Balance: {state.tokenBBalance.fixed}
+                              <span
+                                class="UserBalance"
+                                onClick={async () => {
+                                  setMaxBalanceTokenB();
+                                }}
+                              >
+                                MAX
+                              </span>
+                            </span>
+                          ) : (
+                            "Balance: 0"
+                          )
+                        ) : (
+                          "Balance: 0"
+                        )}
+                      </div>
+                      {false ? (
+                        <div class="TokenInsufficientBalance">
+                          Insufficient Balance
+                        </div>
+                      ) : null}
+                    </div>
+                  )}
+                </div>
+              </div>
+            )}
+            <div class="row" style={{ marginInline: "0px", width: "100%" }}>
+              <div
+                class="col-6"
+                style={{ display: "flex", justifyContent: "left" }}
+              >
+                {state.step > 1 && (
+                  <div class="BackButton" onClick={back}>
+                    <div class={"ConfirmText"}>Back</div>
+                  </div>
+                )}
+              </div>
+              <div
+                class="col-6"
+                style={{ display: "flex", justifyContent: "right" }}
+              >
+                {state.step < 3 && (
+                  <>
+                    <OverlayTrigger
+                      key={"top"}
+                      placement={"top"}
+                      overlay={
+                        state.step1TokenAAmount <= 0 ||
+                        state.fee === 0 ||
+                        state.width === 0 ? (
+                          <Tooltip id={`tooltip-${placement}`}>
+                            {"Increase the "}
+                            {state.step1TokenAAmount <= 0
+                              ? "token"
+                              : state.fee === 0
+                              ? "fee"
+                              : "width"}
+                            {" amount"}.
+                          </Tooltip>
+                        ) : (
+                          <></>
+                        )
+                      }
+                    >
+                      <button class="ConfirmNextButton" onClick={next}>
+                        <div class={"ConfirmText"}>Next</div>
+                      </button>
+                    </OverlayTrigger>
+                  </>
+                )}
+                {state.step == 3
+                  ? state.createPool
+                    ? confirmButtonDisabled
+                    : state.validation == true
+                    ? !state.moreTokenAAllowance
+                      ? !state.moreTokenBAllowance
+                        ? confirmButton
+                        : state.onApprovingToken
+                        ? allowanceButtonDisabled()
+                        : allowanceButton("TB")
+                      : state.onApprovingToken
+                      ? allowanceButtonDisabled()
+                      : allowanceButton("TA")
+                    : state.poolModeSelected.id == 0 ||
+                      state.poolModeSelected.id == 3
+                    ? state.tokenABalance && state.tokenBBalance
+                      ? state.need2Tokens
+                        ? state.amountInputTokenA > 0 &&
+                          state.amountInputTokenB > 0
+                          ? validateButton
+                          : validateButtonDisabled
+                        : state.amountInputTokenB > 0
+                        ? validateButton
+                        : validateButtonDisabled
+                      : validateButtonDisabled
+                    : state.poolModeSelected.id == 1
+                    ? state.tokenABalance
+                      ? state.amountInputTokenA > 0
+                        ? validateButton
+                        : validateButtonDisabled
+                      : validateButtonDisabled
+                    : state.tokenBBalance
+                    ? state.amountInputTokenB > 0
+                      ? validateButton
+                      : validateButtonDisabled
+                    : validateButtonDisabled
+                  : ""}
+              </div>
+            </div>
+          </>
+        ) : state.sender ? (
+          <span class="text-white">
+            To proceed, please switch to the
+            <br />
+            <div class="networkNameContainer" onClick={() => switchNetwork(5)}>
+              <span class="networkName">zkSync Era Network</span>
+            </div>
+            using your wallet.
+          </span>
+        ) : (
+          <>
+            <div>
+              <Web3Connect
+                className="ConfirmButton ConfirmText"
+                connectLabel="Connect Wallet"
+              />
+            </div>
+          </>
+        )}
+      </div>
+    </div>
+  </Theme>
+);
