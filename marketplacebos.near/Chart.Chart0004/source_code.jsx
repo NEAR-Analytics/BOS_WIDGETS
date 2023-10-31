@@ -129,7 +129,6 @@ const chartOptions = props.chartOptions ?? config; // Use your config or fall ba
     />
   ),
   detailLink: "https://near.org/marketplacebos.near/widget/Detail.C0004",
-
 };
 return (
   <>
