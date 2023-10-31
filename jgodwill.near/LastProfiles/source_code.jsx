@@ -28,7 +28,8 @@ for (let i = 0; i < accounts.length; ++i) {
             style={{ width: "3em", height: "3em" }}
           />
         }
-        src="mob.near/widget/Profile.InlineBlock"
+        src="jgodwill.near/widget/ProfileLine"
+        // src="agwaze.near/widget/CPlanet.DAO.Members.SideCard"
         props={{
           accountId,
           tooltip: true,
@@ -42,7 +43,9 @@ for (let i = 0; i < accounts.length; ++i) {
 
 return (
   <div>
-    <div class="d-flex flex-wrap gap-3 placeholder-glow flex-column">{allWidgets}</div>
+    <div class="d-flex flex-wrap gap-3 placeholder-glow flex-column">
+      {allWidgets}
+    </div>
     <div>Total {numAccounts} profiles</div>
   </div>
 );
