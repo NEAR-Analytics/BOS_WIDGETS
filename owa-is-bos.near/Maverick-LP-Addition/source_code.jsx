@@ -1532,6 +1532,27 @@ return (
                 class="col-6"
                 style={{ display: "flex", justifyContent: "left" }}
               >
+                {state.step == 1 && state.poolList.length > 0 && (
+                  <a
+                    href="#/owa-is-bos.near/widget/Maverick-LP-Portfolio"
+                    style={{
+                      width: "110px",
+                      display: "flex",
+                      cursor: "pointer",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      gap: "8px",
+                      borderRadius: "4px",
+                      height: "40px",
+                      border: "1px solid #8D8DFD",
+                      textDecoration: "none",
+                    }}
+                    onClick={back}
+                  >
+                    <div class={"ConfirmText"}>My Portfolio</div>
+                  </a>
+                )}
+
                 {state.step > 1 && (
                   <div
                     style={{
@@ -1555,7 +1576,7 @@ return (
                 class="col-6"
                 style={{ display: "flex", justifyContent: "right" }}
               >
-                {state.step < 3 && (
+                {state.step < 3 && state.poolList.length > 0 && (
                   <div
                     style={{
                       width: "110px",
