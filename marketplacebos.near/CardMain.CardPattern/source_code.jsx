@@ -108,10 +108,32 @@ const SaveIcon = (
   ></i>
 );
 
+const ViewButton = styled.button`
+  width: 5rem;
+  height: 30px;
+  font-size: 12px;
+  background-color: #0a1929ff;
+  border: none;
+  border-radius: 24px;
+  cursor: pointer;
+  position: absolute;
+  bottom: 10px; /* Adjust the vertical position */
+  right: 100px; /* Adjust the horizontal position */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  color: white;
+   &:hover {
+    background-color: #0a1929ff;
+  }
+`;
+
 let copyBtn = props.copyBtn || "Copy Button";
 props.copyBtn || <></>;
 let component = props.component || <> </>;
 let save = props.save || <> </>;
+const detailLink = props.detailLink || "notfound";
 
 return (
   <Card>
@@ -121,6 +143,11 @@ return (
         {SaveIcon}
         {save}
       </SaveButton>
+      <a href={detailLink}>
+        <ViewButton>
+          Code<i className="bi bi-code-slash"></i>
+        </ViewButton>
+      </a>
       <ButtonCopy
         placement="auto"
         overlay={
