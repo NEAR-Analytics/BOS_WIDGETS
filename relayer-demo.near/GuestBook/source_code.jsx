@@ -15,11 +15,9 @@ const addNewMessage = () => {
     return;
   }
 
-  const call = Near.call(contract, "addMessage", {
+  Near.call(contract, "addMessage", {
     text: state.newMessage,
   });
-
-  console.log("call", call);
 };
 
 const userAccountStatus = fetch(
@@ -140,6 +138,14 @@ return (
           </tbody>
         )}
       </table>
+      {messages.length !== 0 && (
+        <a
+          href="https://nearblocks.io/address/patrick1234.near"
+          target="_blank"
+        >
+          View all transactions
+        </a>
+      )}
     </div>
   </div>
 );
