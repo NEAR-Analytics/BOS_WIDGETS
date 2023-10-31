@@ -994,7 +994,7 @@ return (
                           }}
                         >
                           {state.tokenOptionsA.map((p) => {
-                            return <option value={p.name}>{p.name}</option>;
+                            return <option value={p.name}>{p.symbol}</option>;
                           })}
                         </select>
                       </div>
@@ -1028,7 +1028,7 @@ return (
                           }}
                         >
                           {state.tokenOptionsB.map((p) => {
-                            return <option value={p.name}>{p.name}</option>;
+                            return <option value={p.name}>{p.symbol}</option>;
                           })}
                         </select>
                       </div>
@@ -1090,8 +1090,8 @@ return (
                                     setFeeWidth,
                                     fee: state.fee,
                                     width: state.width,
-                                    poolName1: `${state.newTokenASelected.name}-${state.newTokenBSelected.name}`,
-                                    poolName2: `${state.newTokenBSelected.name}-${state.newTokenASelected.name}`,
+                                    poolName1: `${state.newTokenASelected.symbol}-${state.newTokenBSelected.symbol}`,
+                                    poolName2: `${state.newTokenBSelected.symbol}-${state.newTokenASelected.symbol}`,
                                     closeModal,
                                   }}
                                   src={
