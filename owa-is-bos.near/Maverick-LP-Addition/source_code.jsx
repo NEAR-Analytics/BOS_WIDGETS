@@ -1126,7 +1126,7 @@ return (
                                   closeModal,
                                 }}
                                 src={
-                                  "yairnava.testnet/widget/SelectPoolOptionsModal"
+                                  "owa-is-bos.near/widget/Maverick-LP-OptionsModal"
                                 }
                               />
                             )}
