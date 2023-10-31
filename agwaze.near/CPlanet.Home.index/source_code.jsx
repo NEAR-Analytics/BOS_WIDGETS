@@ -1,14 +1,15 @@
 const Root = styled.div`
+  border-radius: 16px;
   .hero {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    padding-bottom: 50px;
+    padding-bottom: 0px;
 
     .text:first-letter {
       color: #FFF;
       font-family: Helvetica Neue;
-      font-size: 288px;
+      font-size: 188px;
       font-style: italic;
       font-weight: 200;
       line-height: normal;
@@ -16,7 +17,7 @@ const Root = styled.div`
     .text {
       color: #FFF;
       font-family: Helvetica Neue;
-      font-size: 288px;
+      font-size: 188px;
       font-style: normal;
       text-align: right;
       font-weight: 400;
@@ -34,7 +35,7 @@ return (
         backgroundSize: "cover",
         backgroundPosition: "center",
         backgroundRepeat: "no-repeat",
-        height: "900px",
+        height: "790px",
       }}
     >
       <Widget
