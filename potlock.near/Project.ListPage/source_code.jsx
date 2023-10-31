@@ -70,7 +70,7 @@ const ProjectsContainer = styled.div`
 
 const HeroContainer = styled.div`
   width: 100%;
-  height: 700px;
+  min-height: 700px;
   position: relative;
 `;
 
@@ -85,6 +85,17 @@ State.init({
   // registeredProjects: sampleProjects,
   getRegisteredProjectsError: "",
 });
+
+const CATEGORY_MAPPINGS = {
+  "social-impact": "Social Impact",
+  "non-profit": "NonProfit",
+  climate: "Climate",
+  "public-good": "Public Good",
+  "de-sci": "DeSci",
+  "open-source": "Open Source",
+  community: "Community",
+  education: "Education",
+};
 
 if (!state.registeredProjects) {
   Near.asyncView(registryId, "get_projects", {})
@@ -118,7 +129,7 @@ if (!state.registeredProjects) {
             description: profileData.description ?? "",
             bannerImageUrl,
             profileImageUrl,
-            tags: [profileData.category.text ?? ""], // TODO: change this to get tags from horizon/social
+            tags: [profileData.category.text ?? CATEGORY_MAPPINGS[profileData.category] ?? ""], // TODO: change this to get tags from horizon/social
           };
           return formatted;
         });
@@ -160,6 +171,7 @@ return (
                 type: "primary",
                 text: "Explore projects",
                 disabled: false,
+                style: { padding: "16px 24px" },
               }}
             />
           ),
@@ -171,6 +183,7 @@ return (
                 text: "Create project",
                 disabled: false,
                 href: `?tab=createproject`,
+                style: { padding: "16px 24px" },
               }}
             />
           ),
