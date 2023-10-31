@@ -1553,7 +1553,6 @@ return (
                       border: "1px solid #8D8DFD",
                       textDecoration: "none",
                     }}
-                    onClick={back}
                   >
                     <div class={"ConfirmText"}>My Portfolio</div>
                   </a>
