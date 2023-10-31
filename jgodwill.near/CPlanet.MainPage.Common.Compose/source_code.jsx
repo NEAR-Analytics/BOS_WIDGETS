@@ -496,24 +496,22 @@ return (
       </TextareaWrapper>
       <div className="up-buttons d-flex flex-row">
         <div className="flex-grow-1">
-          {!state.isChecked && (
-            <Actions>
-              {
-                <IpfsImageUpload
-                  image={state.image}
-                  className="upload-image-button bi bi-image"
-                  title="Upload an image"
-                />
+          <Actions>
+            {!state.isChecked && (
+              <IpfsImageUpload
+                image={state.image}
+                className="upload-image-button bi bi-image"
+                title="Upload an image"
+              />
+            )}
+            <button
+              className="bi bi-code-square mkd-butn"
+              title="Use the markdown Editor"
+              onClick={() =>
+                setMarkdownEditor(markdownEditor ? false : Date.now())
               }
-              <button
-                className="bi bi-code-square mkd-butn"
-                title="Use the markdown Editor"
-                onClick={() =>
-                  setMarkdownEditor(markdownEditor ? false : Date.now())
-                }
-              ></button>
-            </Actions>
-          )}
+            ></button>
+          </Actions>
           {!state.image.cid && (
             <EmbedNFT>
               {state.isChecked && (
