@@ -689,18 +689,6 @@ const createPool = () => {
     }
   }
 
-  // const liquidityParams = {
-  //   kind: state.poolModeSelected.id,
-  //   pos:
-  //     state.poolModeSelected.id == 0 || state.poolModeSelected.id == 3
-  //       ? actTick
-  //       : state.poolModeSelected.name == 1
-  //       ? actTick - 1
-  //       : actTick + 1,
-  //   isDelta: false,
-  //   deltaA: amountInA,
-  //   deltaB: amountInB,
-  // };
   const poolParams = {
     fee: floatToFixed(state.fee / 100),
     tickSpacing: tickSp,
@@ -734,17 +722,18 @@ const createPool = () => {
         });
         setTimeout(() => {
           State.update({
-            reloadTransactions: true,
-          });
-        }, 5000);
-        setTimeout(() => {
-          State.update({
+            step: 1,
+            step1TokenAAmount: 0,
+            refStep1Amount: null,
             amountInputTokenA: null,
             amountInputTokenB: null,
-            creatingPool: false,
-            reloadTransactions: true,
+            fee: 0,
+            width: 0,
+            showSelectOptionsModal: false,
+            show: false,
+            need2Tokens: true,
           });
-        }, 15000);
+        }, 20000);
       });
   } catch (err) {
     console.log(err);
@@ -1263,7 +1252,7 @@ return (
                         <div class="col-6">
                           <div
                             class="ContainerDistributionMode"
-                            style={{ height: "50px" }}
+                            style={{ height: "50px", width: "190px" }}
                           >
                             <div class="TokenSection">
                               <div class="TokenNameSection">
@@ -1325,7 +1314,7 @@ return (
                     ) : null}
                     <div class="TokenNameSection" style={{ color: "white" }}>
                       <div class="TokenAction">Token A {"->"}</div>
-                      {state.newTokenASelected.name}
+                      {state.newTokenASelected.symbol}
                     </div>
                   </div>
                   {state.poolModeSelected.name != "Mode Left" && (
@@ -1390,7 +1379,7 @@ return (
                     ) : null}
                     <div class="TokenNameSection" style={{ color: "white" }}>
                       <div class="TokenAction">Token B {"->"}</div>
-                      {state.newTokenBSelected.name}
+                      {state.newTokenBSelected.symbol}
                     </div>
                   </div>
                   {state.poolModeSelected.name != "Mode Right" && (
