@@ -1,49 +1,20 @@
+// const [Markdown, setMarkdown] = useState(null);
+// const importMarkdown = async () => {
+//   try {
+//     const markdownDyn = await import("https://esm.sh/react-markdown@9?bundle");
+//     setMarkdown(markdownDyn);
+//   } catch (err) {
+//     console.log("markdown import error", err);
+//   }
+// };
+
 const GRAPHQL_ENDPOINT = "https://near-queryapi.api.pagoda.co";
 
-const [sort, setSort] = useState("");
+const [sort, setSort] = useState(null);
 const [loading, setLoading] = useState(false);
-const [posts, setPosts] = useState<Post[]>([]);
+const [posts, setPosts] = useState([]);
 
-interface PostsResponse {
-  data: {
-    dataplatform_near_social_feed_moderated_posts: Post[];
-    dataplatform_near_social_feed_moderated_posts_aggregate: {
-      aggregate: {
-        count: number;
-      };
-    };
-  };
-}
-
-interface Post {
-  account_id: string;
-  block_height: number;
-  block_timestamp: number;
-  content: string;
-  receipt_id: string;
-  accounts_liked: string[];
-  last_comment_timestamp: number;
-  comments: {
-    account_id: string;
-    block_height: number;
-    block_timestamp: string;
-    content: string;
-  }[];
-  verifications: {
-    human_provider: string;
-    human_valid_until: string;
-    human_verification_level: string;
-  }[];
-}
-
-const a = 1;
-console.log(a);
-
-async function fetchGraphQL(
-  operationsDoc,
-  operationName,
-  variables
-): Promise<PostsResponse> {
+async function fetchGraphQL(operationsDoc, operationName, variables) {
   const response = await fetch(`${GRAPHQL_ENDPOINT}/v1/graphql`, {
     method: "POST",
     headers: { "x-hasura-role": "dataplatform_near" },
@@ -53,7 +24,7 @@ async function fetchGraphQL(
       operationName: operationName,
     }),
   });
-  const result: PostsResponse = await response.json();
+  const result = await response.json();
   return result;
 }
 
@@ -160,7 +131,7 @@ const loadMorePosts = () => {
   fetchGraphQL(createQuery(type), queryName, {
     offset: posts.length,
     // limit: LIMIT,
-    limit: 10,
+    limit: 50,
   }).then(({ data }) => {
     // if (result.status === 200 && result.body) {
     // if (result.body.errors) {
@@ -200,50 +171,56 @@ const loadMorePosts = () => {
 };
 
 useEffect(() => {
+  // importMarkdown();
   loadMorePosts();
 }, []);
 
-// @ts-ignore
+console.log("render", posts);
 return (
   <div
     style={{
       display: "flex",
       flexDirection: "row",
-      height: "100%",
-      width: "100%",
+      width: "100vw",
       maxWidth: "1300px",
       margin: "0 auto",
     }}
   >
-    <Widget src="bwe-demos.near/Posts.Sidebar" id="left" />
+    <Widget src="bwetest.near/widget/Posts.Sidebar" id="left" />
     <div
       style={{
         display: "flex",
         flexDirection: "column",
         rowGap: "2rem",
-        padding: "1rem",
+        padding: "3rem",
         flex: "1 1",
         overflowX: "hidden",
       }}
     >
-      {posts?.length ? (
+      {posts?.length &&
+        // Markdown &&
         posts.map((post) => {
+          // debugger;
           return (
-            <div>
+            <div style={{ borderBottom: "1px solid black" }}>
+              {/* <div>{post.account_id}</div> */}
+              {/* <Widget
+                src="bwetest.near/widget/Posts.Content"
+                props={{ content }}
+                id={post.receipt_id}
+              /> */}
               <Widget
-                src="bwe-demos.near/Posts.Post"
+                src="bwetest.near/widget/Posts.Post"
                 props={post}
                 id={post.receipt_id}
               />
               {/* <div>{post.comments?.length}</div> */}
             </div>
           );
-        })
-      ) : (
-        <></>
-      )}
-      {!loading && <button onClick={loadMorePosts}>Load more</button>}
+        })}
+      {/* {JSON.stringify(posts)} */}
+      {/* {Markdown && <Markdown>hello</Markdown>} */}
     </div>
-    <Widget src="bwe-demos.near/Posts.Sidebar" id="right" />
+    <Widget src="bwetest.near/widget/Posts.Sidebar" id="right" />
   </div>
 );
