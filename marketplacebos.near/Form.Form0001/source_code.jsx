@@ -339,7 +339,6 @@ const props = {
     </Container>
   ),
   detailLink: "https://near.org/marketplacebos.near/widget/Detail.F0001",
-
 };
 return (
   <>
