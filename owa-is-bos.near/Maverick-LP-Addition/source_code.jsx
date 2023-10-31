@@ -44,19 +44,19 @@ const POOLSMODE = [
 
 const DISTRIBUTIONMODE = [
   {
-    name: "Exponential",
-    description:
-      "This distribution starts with a high concentration of liquidity around the current pool price and adds exponentially decreasing amounts across the bins to the left and right.",
-  },
-  {
-    name: "Flat",
-    description:
-      "This will distribute your liquidity evenly across bins, centered around the current pool price.",
-  },
-  {
     name: "Single Bin",
     description: "This will distribute your liquidity only in the active bin",
   },
+  //   {
+  //     name: "Flat",
+  //     description:
+  //       "This will distribute your liquidity evenly across bins, centered around the current pool price.",
+  //   },
+  //   {
+  //     name: "Exponential",
+  //     description:
+  //       "This distribution starts with a high concentration of liquidity around the current pool price and adds exponentially decreasing amounts across the bins to the left and right.",
+  //   },
 ];
 
 State.init({
@@ -65,7 +65,7 @@ State.init({
   step: 1,
   poolSelected: undefined,
   poolModeSelected: POOLSMODE[0],
-  poolDistributionSelected: DISTRIBUTIONMODE[2],
+  poolDistributionSelected: DISTRIBUTIONMODE[0],
   needMoreAllowanceTA: false,
   needMoreAllowanceTB: false,
   amountInputTokenA: null,
@@ -1354,6 +1354,12 @@ return (
                                     disabled={state.poolModeSelected}
                                   >
                                     Select Distribution
+                                  </option>
+                                  <option disabled={state.poolModeSelected}>
+                                    Flat (Soon)
+                                  </option>
+                                  <option disabled={state.poolModeSelected}>
+                                    Exponential (Soon)
                                   </option>
                                   {DISTRIBUTIONMODE.map((m) => {
                                     return <option>{m.name}</option>;
