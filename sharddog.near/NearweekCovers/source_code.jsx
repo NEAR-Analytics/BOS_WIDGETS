@@ -33,56 +33,6 @@ const styles = {
   },
 };
 
-function fetchTokens() {
-  asyncFetch("https://graph.mintbase.xyz/mainnet", {
-    method: "POST",
-    headers: {
-      "mb-api-key": "omni-site",
-      "Content-Type": "application/json",
-      "x-hasura-role": "anonymous",
-    },
-    body: JSON.stringify({
-      query: `
-     query MyQuery {
-  mb_views_nft_tokens(
-    where: {nft_contract_id: {_eq: "mint.sharddog.near"}, owner: {_eq: "${accountId}"}, reference: {_eq: "https://nftstorage.link/ipfs/bafkreia7y3fwfr3bwafvggjrztkjjq25crgxpbpgc4vfejcvez4yfshazi"}},
-    order_by: { token_id: asc }
-  ) {
-    title
-    owner
-    minted_timestamp
-    media
-    extra
-    description
-  }
-    }
-        `,
-    }),
-  }).then((res) => {
-    //console.log(res);
-    if (res.ok) {
-      let tokens = res.body.data.mb_views_nft_tokens;
-
-      // Modify each token to include the parsed link
-      tokens = tokens.map((token) => {
-        const link = JSON.parse(token.extra).link;
-        const releaseDate = JSON.parse(token.extra).date;
-        return {
-          ...token,
-          link: link,
-          releaseDate: releaseDate,
-        };
-      });
-
-      // console.log(tokens);
-      State.update({
-        tokens: tokens,
-      });
-    }
-  });
-}
-
-fetchTokens();
 
 const Grid = styled.div`
   display: grid;
@@ -113,96 +63,99 @@ const nfts = Near.view("mint.sharddog.near", "nft_tokens_for_owner", {
   limit: 335,
 });
 
+if (nfts && nfts.length) {
+  if (nfts && nfts.length) {
+    nfts.sort((a, b) => {
+      return b.token_id - a.token_id; // This will sort in descending order
+    });
+  }
+}
+
 if (!nfts) {
   return "";
 }
 console.log(nfts);
-nfts.sort((a, b) => {
-  const dateA = new Date(JSON.parse(a.metadata.extra).date);
-  const dateB = new Date(JSON.parse(b.metadata.extra).date);
-  return dateB - dateA; // This will sort in descending order
-});
 
 // Show the loading state if NFTs have not been fetched yet
 if (accountId) {
-if (!nfts || nfts.length === 0) {
-  return loader;
-}
-return (
-  <>
-    <span style={{ textAlign: "left" }}>
-      <h2>My NEARWEEK Covers</h2>
-    </span>
-    <span style={{ textAlign: "left" }}>
-      <i>Powered by ShardDog</i>
-    </span>
-    <br />
-    <div style={styles.gridContainer}>
-      <Grid>
-        {nfts?.map((nft, i) => {
-          if (
-            nft.metadata.reference ===
-            "https://nftstorage.link/ipfs/bafkreia7y3fwfr3bwafvggjrztkjjq25crgxpbpgc4vfejcvez4yfshazi"
-          ) {
-            return (
-              <div
-                key={i} // It's a good practice to provide a unique key when mapping over items
-                style={styles.gridItem}
-                onMouseOver={() => {
-                  // Define what you want to happen on hover here
-                }}
-              >
-                <Widget
-                  src="sharddog.near/widget/Image.Minted"
-                  title={nft.owner_id}
-                  props={{
-                    title: nft.owner_id,
-                    timestamp: nft.minted_timestamp,
-                    image: {
-                      url: nft.metadata.media,
-                    },
-                    style: {
-                      width: wsize,
-                      height: hsize,
-                      objectFit: "cover",
-                      minWidth: wsize,
-                      minHeight: hsize,
-                      maxWidth: wsize,
-                      maxHeight: hsize,
-                    },
-                  }}
-                />
-                <h4>{nft.title}</h4>
-                <p>Released: {JSON.parse(nft.metadata.extra).date}</p>
-                <p>
-                  <a
-                    href={JSON.parse(nft.metadata.extra).link}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    READ ISSUE
-                  </a>
-                </p>
-              </div>
-            );
-          }
-          return null; // Return null or some fallback JSX if the condition is not met
-        })}
-      </Grid>
-    </div>
-  </>
-);
-}else{
+  if (!nfts || nfts.length === 0) {
+    return loader;
+  }
   return (
-  <>
-    <span style={{ textAlign: "left" }}>
-      <h2>My NEARWEEK Covers</h2>
-    </span>
-    <span style={{ textAlign: "left" }}>
-      <i>Powered by ShardDog</i>
-    </span>
-    <br />
-    <h3>Please login to view</h3>
+    <>
+      <span style={{ textAlign: "left" }}>
+        <h2>My NEARWEEK Covers</h2>
+      </span>
+      <span style={{ textAlign: "left" }}>
+        <i>Powered by ShardDog</i>
+      </span>
+      <br />
+      <div style={styles.gridContainer}>
+        <Grid>
+          {nfts?.map((nft, i) => {
+            if (
+              nft.metadata.reference ===
+              "https://nftstorage.link/ipfs/bafkreia7y3fwfr3bwafvggjrztkjjq25crgxpbpgc4vfejcvez4yfshazi"
+            ) {
+              return (
+                <div
+                  key={i} // It's a good practice to provide a unique key when mapping over items
+                  style={styles.gridItem}
+                  onMouseOver={() => {
+                    // Define what you want to happen on hover here
+                  }}
+                >
+                  <Widget
+                    src="sharddog.near/widget/Image.Minted"
+                    title={nft.owner_id}
+                    props={{
+                      title: nft.owner_id,
+                      timestamp: nft.minted_timestamp,
+                      image: {
+                        url: nft.metadata.media,
+                      },
+                      style: {
+                        width: wsize,
+                        height: hsize,
+                        objectFit: "cover",
+                        minWidth: wsize,
+                        minHeight: hsize,
+                        maxWidth: wsize,
+                        maxHeight: hsize,
+                      },
+                    }}
+                  />
+                  <h4>{nft.title}</h4>
+                  <p>Released: {JSON.parse(nft.metadata.extra).date}</p>
+                  <p>
+                    <a
+                      href={JSON.parse(nft.metadata.extra).link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      READ ISSUE
+                    </a>
+                  </p>
+                </div>
+              );
+            }
+            return null; // Return null or some fallback JSX if the condition is not met
+          })}
+        </Grid>
+      </div>
+    </>
+  );
+} else {
+  return (
+    <>
+      <span style={{ textAlign: "left" }}>
+        <h2>My NEARWEEK Covers</h2>
+      </span>
+      <span style={{ textAlign: "left" }}>
+        <i>Powered by ShardDog</i>
+      </span>
+      <br />
+      <h3>Please login to view</h3>
     </>
   );
 }
