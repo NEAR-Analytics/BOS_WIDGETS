@@ -1,0 +1,226 @@
+// const [Markdown, setMarkdown] = useState(null);
+// const importMarkdown = async () => {
+//   try {
+//     const markdownDyn = await import("https://esm.sh/react-markdown@9?bundle");
+//     setMarkdown(markdownDyn);
+//   } catch (err) {
+//     console.log("markdown import error", err);
+//   }
+// };
+
+const GRAPHQL_ENDPOINT = "https://near-queryapi.api.pagoda.co";
+
+const [sort, setSort] = useState(null);
+const [loading, setLoading] = useState(false);
+const [posts, setPosts] = useState([]);
+
+async function fetchGraphQL(operationsDoc, operationName, variables) {
+  const response = await fetch(`${GRAPHQL_ENDPOINT}/v1/graphql`, {
+    method: "POST",
+    headers: { "x-hasura-role": "dataplatform_near" },
+    body: JSON.stringify({
+      query: operationsDoc,
+      variables: variables,
+      operationName: operationName,
+    }),
+  });
+  const result = await response.json();
+  return result;
+}
+
+const createQuery = (type) => {
+  let querySortOption = "";
+  switch (sort) {
+    case "recentcommentdesc":
+      querySortOption = `{ last_comment_timestamp: desc_nulls_last },`;
+      break;
+    // More options...
+    default:
+      querySortOption = "";
+  }
+
+  let queryFilter = "";
+  // switch (type) {
+  //   case "following":
+  //     let queryAccountsString = accountsFollowing
+  //       .map((account) => `"${account}"`)
+  //       .join(", ");
+  //     queryFilter = `account_id: { _in: [${queryAccountsString}]}`;
+  //     break;
+  //   // More options...
+  //   default:
+  //     queryFilter = "";
+  // }
+
+  const indexerQueries = `
+query GetPostsQuery($offset: Int, $limit: Int) {
+  dataplatform_near_social_feed_moderated_posts(order_by: [${querySortOption} { block_height: desc }], offset: $offset, limit: $limit) {
+    account_id
+    block_height
+    block_timestamp
+    content
+    receipt_id
+    accounts_liked
+    last_comment_timestamp
+    comments(order_by: {block_height: asc}) {
+      account_id
+      block_height
+      block_timestamp
+      content
+    }
+    verifications {
+      human_provider
+      human_valid_until
+      human_verification_level
+    }
+  }
+  dataplatform_near_social_feed_moderated_posts_aggregate {
+    aggregate {
+      count
+    }
+  }
+}
+query GetFollowingPosts($offset: Int, $limit: Int) {
+  dataplatform_near_social_feed_moderated_posts(where: {${queryFilter}}, order_by: [{ block_height: desc }], offset: $offset, limit: $limit) {
+    account_id
+    block_height
+    block_timestamp
+    content
+    receipt_id
+    accounts_liked
+    last_comment_timestamp
+    comments(order_by: {block_height: asc}) {
+      account_id
+      block_height
+      block_timestamp
+      content
+    }
+    verifications {
+      human_provider
+      human_valid_until
+      human_verification_level
+    }
+
+  }
+  dataplatform_near_social_feed_moderated_posts_aggregate(where: {${queryFilter}}) {
+    aggregate {
+      count
+    }
+  }
+}
+`;
+  return indexerQueries;
+};
+
+const loadMorePosts = () => {
+  // const queryName =
+  // state.selectedTab === "following" ? "GetFollowingPosts" : "GetPostsQuery";
+  const queryName = "GetPostsQuery";
+  // const type = state.selectedTab;
+  const type = null;
+
+  // if (state.selectedTab === "following" && !accountsFollowing) {
+  //   return;
+  // }
+
+  // State.update({
+  //   isLoading: true,
+  // });
+  setLoading(true);
+
+  fetchGraphQL(createQuery(type), queryName, {
+    offset: posts.length,
+    // limit: LIMIT,
+    limit: 50,
+  }).then(({ data }) => {
+    // if (result.status === 200 && result.body) {
+    // if (result.body.errors) {
+    //   console.log("error:", result.body.errors);
+    //   return;
+    // }
+    // let data = result.body.data;
+    if (data) {
+      const newPosts = data.dataplatform_near_social_feed_moderated_posts;
+      const postsCountLeft =
+        data.dataplatform_near_social_feed_moderated_posts_aggregate.aggregate
+          .count;
+      if (newPosts.length > 0) {
+        // let filteredPosts = newPosts.filter((i) => !shouldFilter(i));
+        // filteredPosts = filteredPosts.map((post) => {
+        //   const prevComments = post.comments;
+        //   const filteredComments = prevComments.filter(
+        //     (comment) => !shouldFilter(comment)
+        //   );
+        //   post.comments = filteredComments;
+        //   return post;
+        // });
+        let filteredPosts = newPosts;
+
+        // State.update({
+        //   isLoading: false,
+        //   posts: [...state.posts, ...filteredPosts],
+        //   postsCountLeft,
+        // });
+        console.log("filteredPosts", filteredPosts);
+        setPosts([...posts, ...filteredPosts]);
+        setLoading(false);
+      }
+    }
+    // }
+  });
+};
+
+useEffect(() => {
+  // importMarkdown();
+  loadMorePosts();
+}, []);
+
+console.log("render", posts);
+return (
+  <div
+    style={{
+      display: "flex",
+      flexDirection: "row",
+      width: "100vw",
+      maxWidth: "1300px",
+      margin: "0 auto",
+    }}
+  >
+    <Widget src="bwetest.near/widget/Posts.Sidebar" id="left" />
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        rowGap: "2rem",
+        padding: "3rem",
+        flex: "1 1",
+        overflowX: "hidden",
+      }}
+    >
+      {posts?.length &&
+        // Markdown &&
+        posts.map((post) => {
+          // debugger;
+          return (
+            <div style={{ borderBottom: "1px solid black" }}>
+              {/* <div>{post.account_id}</div> */}
+              {/* <Widget
+                src="bwetest.near/widget/Posts.Content"
+                props={{ content }}
+                id={post.receipt_id}
+              /> */}
+              <Widget
+                src="bwetest.near/widget/Posts.Post"
+                props={post}
+                id={post.receipt_id}
+              />
+              {/* <div>{post.comments?.length}</div> */}
+            </div>
+          );
+        })}
+      {/* {JSON.stringify(posts)} */}
+      {/* {Markdown && <Markdown>hello</Markdown>} */}
+    </div>
+    <Widget src="bwetest.near/widget/Posts.Sidebar" id="right" />
+  </div>
+);
