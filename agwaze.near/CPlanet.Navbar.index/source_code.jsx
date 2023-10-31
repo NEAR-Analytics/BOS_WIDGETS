@@ -1,7 +1,7 @@
-const showNavbar = props.showNavbar ?? true
+const showNavbar = props.showNavbar ?? true;
 
 const NavContainer = styled.div`
-  background: white;
+  background: ${() => props.isHome ? "transparent" : "white"};
   height: 100px;
   padding: 20px 40px;
   display: flex;
@@ -14,9 +14,9 @@ const NavContainer = styled.div`
 
 const Logo = styled.div`
   display: flex;
-  color: black;
+  color: ${() => props.isHome ? "white" : "#000"};
   h2 {
-    color: #000;
+    color: ${() => props.isHome ? "white" : "#000"};
 font-family: Helvetica Neue;
 font-size: 32px;
 font-style: italic;
@@ -24,7 +24,7 @@ font-weight: 300;
 line-height: normal;
   }
   h1 {
-    color: #000;
+    color: ${() => props.isHome ? "white" : "#000"};
 font-family: Helvetica Neue;
 font-size: 32px;
 font-style: normal;
@@ -37,7 +37,7 @@ const Routes = styled.div`
     gap: 0.7rem;
     margin-top: 10px;
     a {
-      color: black;
+      color: ${() => props.isHome ? "white" : "#000"};
       font-family: Helvetica Neue;
       font-size: 16px;
       font-style: normal;
@@ -51,7 +51,7 @@ const Join = styled.div`
   button:first-child {
     background: transparent;
     border: none;
-    color: black
+    color: ${() => props.isHome ? "white" : "#000"};
   }
   button:last-child {
     display: flex;
@@ -61,44 +61,44 @@ const Join = styled.div`
     justify-content: center;
     align-items: center;
     border-radius: 32px;
-    background: #000;
-    border: 1px solid black;
-    color: white;
+    background: ${() => props.isHome ? "white" : "#000"};
+    border: 1px solid ${() => props.isHome ? "white" : "#000"};
+    color: ${() => props.isHome ? "black" : "white"};;
   }
   button:last-child:hover {
-    background: white;
+    background: ${() => props.isHome ? "#000" : "white"};
     color: black;
   }
   div {
-    background: black;
-    border: 1px solid black;
+    background: ${() => props.isHome ? "white" : "#000"};
+    border: 1px solid ${() => props.isHome ? "white" : "#000"};
     margin: 0 10px 0 0;
   }
 `;
 
 return (
   <NavContainer>
-  {showNavbar && (
-    <>
-      <Logo>
-      <h2>C</h2>
-      <h1>PLANET</h1>
-    </Logo>
-    <Routes>
-      <a
-        href={`#/agwaze.near/widget/CPlanet.index?tab=explore`}
-        onClick={() => props.update({ tab: "explore" })}
-      >
-        NFTs
-      </a>
-      <a href={`#/agwaze.near/widget/CPlanet.index?tab=community`}>
-        Communities
-      </a>
-      <a href={`#/agwaze.near/widget/CPlanet.index?tab=funding`}>Funding</a>
-    </Routes>
-    </>
-  )}
-    
+    {showNavbar && (
+      <>
+        <Logo>
+          <h2>C</h2>
+          <h1>PLANET</h1>
+        </Logo>
+        <Routes>
+          <a
+            href={`#/agwaze.near/widget/CPlanet.index?tab=explore`}
+            onClick={() => props.update({ tab: "explore" })}
+          >
+            NFTs
+          </a>
+          <a href={`#/agwaze.near/widget/CPlanet.index?tab=community`}>
+            Communities
+          </a>
+          <a href={`#/agwaze.near/widget/CPlanet.index?tab=funding`}>Funding</a>
+        </Routes>
+      </>
+    )}
+
     <Join>
       <button>Connect Wallet</button>
     </Join>
