@@ -238,7 +238,7 @@ const Contents = styled.div`
 
 const MiddleContent = styled.div`
     border-left: 1px solid #eceef0;
-
+    width: 750px;
 `;
 
 const MembersGroup = styled.div`
@@ -291,9 +291,6 @@ useEffect(() => {
   );
 }, [policy]);
 
-useEffect(() => {
-  console.log(councilMembers);
-}, [councilMembers]);
 
 return (
   <Root>
@@ -373,13 +370,6 @@ return (
               selected={state.selectedTab === "proposals"}
             >
               Proposals
-            </TabsButton>
-            <TabsButton
-              href={`#`}
-              onClick={() => State.update({ selectedTab: "discussions" })}
-              selected={state.selectedTab === "discussions"}
-            >
-              Discussions
             </TabsButton>
             <TabsButton
               href={`#`}
