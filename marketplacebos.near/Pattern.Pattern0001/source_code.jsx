@@ -39,6 +39,9 @@ const props = {
 };
 return (
   <>
-    <Widget src="marketplacebos.near/widget/CardMain.CardPattern" props={props} />
+    <Widget
+      src="marketplacebos.near/widget/CardMain.CardPattern"
+      props={props}
+    />
   </>
 );
