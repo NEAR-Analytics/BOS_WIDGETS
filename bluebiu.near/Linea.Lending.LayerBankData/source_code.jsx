@@ -328,7 +328,6 @@ const MulticallContract = new ethers.Contract(
   MULTICALL_ABI,
   Ethers.provider().getSigner()
 );
-console.log(`${dapp}-update`);
 const multicallv2 = (abi, calls, options, onSuccess, onError) => {
   const { requireSuccess, ...overrides } = options || {};
   const itf = new ethers.utils.Interface(abi);
@@ -698,7 +697,7 @@ const getCTokenData = (oToken) => {
       const exchangeRateStored = ethers.utils.formatUnits(res[0][0]._hex, 18);
       const userSupply = ethers.utils.formatUnits(
         res[3][0][0]._hex,
-        oToken.decimals
+        oToken.underlyingToken.decimals
       );
       const totalSupply = ethers.utils.formatUnits(
         res[1][0]._hex,
