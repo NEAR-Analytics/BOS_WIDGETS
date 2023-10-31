@@ -790,7 +790,7 @@ return (
                                     class="confirmRemoveButton"
                                     onClick={() => confirmRemove()}
                                   >
-                                    <div class={"ConfirmText"}>Connfirm</div>
+                                    <div class={"ConfirmText"}>Confirm</div>
                                   </div>
                                 ) : (
                                   <div class="onApprovingNFT">
@@ -815,9 +815,7 @@ return (
                               )
                             ) : (
                               <div class="confirmRemoveButtonDisabled">
-                                <div class={"ConfirmTextDisabled"}>
-                                  Connfirm
-                                </div>
+                                <div class={"ConfirmTextDisabled"}>Confirm</div>
                               </div>
                             )}
                           </>
