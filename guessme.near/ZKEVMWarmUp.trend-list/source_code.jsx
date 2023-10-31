@@ -11,11 +11,18 @@ const CardListWrapper = styled.div`
 
 const sender = Ethers.send("eth_requestAccounts", [])[0];
 
-const trend_url = "https://bos-api.delink.one/get-special-action";
+const AccessKey = Storage.get(
+  "AccessKey",
+  "guessme.near/widget/ZKEVMWarmUp.add-to-quest-card"
+);
+
+const trend_url = "https://test-api.dapdap.net/api/action/get-special-action";
 
 let trendList = [];
 
-const resTrend = JSON.parse(fetch(trend_url).body);
+const resTrend = fetch(trend_url, {
+  headers: { Authorization: AccessKey },
+}).body;
 console.log("resTrend: ", resTrend);
 
 if (Number(resTrend.code) == 0) {
@@ -33,7 +40,11 @@ if (Number(resTrend.code) == 0) {
 
   resTrend.data[2].action_title = "Supply 0.01 ETH on 0vix";
 
+  resTrend.data[2].action_amount = "0.01";
+
   resTrend.data[2].template = "0vix Lending";
+
+  resTrend.data[3].template = "Gamma";
 
   trendList = resTrend.data;
 }
