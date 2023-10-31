@@ -59,7 +59,7 @@ let inner = (
       <br />
       {!hideAccountId && (
         <p key="accountId" className="text-muted address d-block">
-          @{accountId}
+          @{accountId > 25 ? accountId.slice(0, 25) : accountId}
         </p>
       )}
     </span>
