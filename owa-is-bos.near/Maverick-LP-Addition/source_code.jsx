@@ -460,6 +460,9 @@ const addLiquidity = () => {
             overrides
           )
           .then((res) => {
+            State.update({
+              addingLiquidity: true,
+            });
             setTimeout(() => {
               State.update({
                 step: 1,
@@ -474,6 +477,7 @@ const addLiquidity = () => {
                 inputBalanceTokenB: null,
                 binsToDistribute: 3,
                 need2Tokens: true,
+                addingLiquidity: false,
               });
             }, 20000);
           });
@@ -856,7 +860,7 @@ const validateButtonDisabled = (
 
 const confirmButtonDisabled = (
   <div class="confirmButtonDisabled" disabled>
-    <div class={"ConfirmText"}>Confirm</div>
+    <div class={"ConfirmText"}>Adding Liquidity...</div>
   </div>
 );
 
@@ -1623,7 +1627,9 @@ return (
                 )}
 
                 {state.step == 3
-                  ? state.validation == true
+                  ? state.addingLiquidity
+                    ? confirmButtonDisabled
+                    : state.validation == true
                     ? !state.moreTokenAAllowance
                       ? !state.moreTokenBAllowance
                         ? confirmButton
