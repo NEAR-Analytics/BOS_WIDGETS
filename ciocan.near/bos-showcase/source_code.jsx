@@ -1,3 +1,6 @@
+const ipfsUrl =
+  "https://rose-elaborate-scorpion-109.mypinata.cloud/ipfs/QmfVD3m8ZaJpN9jE2WsF7HLyWZ9Ta1VVsoAXMn9SSqHweQ/";
+
 const Main = styled.div`
   display: flex;
   flex-direction: column;
@@ -8,11 +11,7 @@ const Main = styled.div`
 const HeroImage = styled.img`
   display: block;
   width: 100%;
-  height: 400px;
-  object-fit: cover;
-  object-position: center;
-  background-color: #ccc;
-  padding: 0 0.5rem;
+  height: auto;
   border-radius: 0.75rem;
   max-width: 1216px;
   margin: 0 auto;
@@ -94,7 +93,7 @@ const Card = styled.a`
   text-decoration: none !important;
 `;
 
-const Circle = styled.div`
+const Circle = styled.img`
   width: 48px;
   height: 48px;
   background-color: grey;
@@ -120,9 +119,9 @@ const Type = styled.span`
   margin-right: 0.75rem;
 `;
 
-const Dapp = ({ title, type, url }) => (
+const Dapp = ({ title, type, url, iconSrc }) => (
   <Card href={url} target="_blank">
-    <Circle />
+    <Circle src={iconSrc} />
     <Title>{title}</Title>
     <Type color="#0a6846" bg="#b1ffd0">
       {type}
@@ -131,11 +130,11 @@ const Dapp = ({ title, type, url }) => (
   </Card>
 );
 
-const Gateway = ({ title, type, url }) => (
+const Gateway = ({ title, type, url, imgSrc, iconSrc }) => (
   <GatewayCard href={url} target="_blank">
-    <GatewayImg src={url} />
+    <GatewayImg src={imgSrc} />
     <GatewayContainer>
-      <Circle />
+      <Circle src={iconSrc} />
       <Title>{title}</Title>
       <Type color="#4A0A68" bg="#F4D3FF">
         {type}
@@ -145,9 +144,9 @@ const Gateway = ({ title, type, url }) => (
   </GatewayCard>
 );
 
-const Resource = ({ title, type, url }) => (
+const Resource = ({ title, type, url, iconSrc }) => (
   <Card href={url} target="_blank">
-    <Circle />
+    <Circle src={iconSrc} />
     <Title>{title}</Title>
     <Type color="#232323" bg="#EEEEEE">
       {type}
@@ -161,43 +160,69 @@ const dapps = [
     title: "Arbitrum",
     type: "DEX",
     url: "https://near.org/bluebiu.near/widget/Arbitrum.All-in-one",
+    iconSrc: `${ipfsUrl}/icon-arbitrum.jpg`,
   },
   {
     title: "Uniswap v2",
     type: "DEX",
     url: "https://near.social/zavodil.near/widget/Uniswap",
+    iconSrc: `${ipfsUrl}/icon-uniswap.jpg`,
   },
   {
     title: "Aave V3",
     type: "Lending",
     url: "https://near.org/aave-v3.near/widget/AAVE",
+    iconSrc: `${ipfsUrl}/icon-aave.jpg`,
   },
   {
     title: "Lido",
     type: "Staking",
     url: "https://near.org/zavodil.near/widget/Lido",
+    iconSrc: `${ipfsUrl}/icon-lido.jpg`,
   },
   {
     title: "Gamma",
     type: "Liquidity",
     url: "https://near.org/bluebiu.near/widget/ZKEVM.GAMMA",
+    iconSrc: `${ipfsUrl}/icon-gamma.jpg`,
   },
   {
     title: "Pendle",
     type: "Yield Aggregator",
     url: "https://near.org/bluebiu.near/widget/Arbitrum.Pendle.TradeMarkets",
+    iconSrc: `${ipfsUrl}/icon-pendle.jpg`,
   },
 ];
 
 const gateways = [
-  { title: "NEAR", type: "near", url: "https://near.org/" },
-  { title: "DapDap", type: "Web3 Games", url: "https://alpha.dapdap.net/" },
+  {
+    title: "NEAR",
+    type: "near",
+    url: "https://near.org/",
+    imgSrc: `${ipfsUrl}/gateway-near.jpg`,
+    iconSrc: `${ipfsUrl}/icon-near.jpg`,
+  },
+  {
+    title: "DapDap",
+    type: "Web3 Games",
+    url: "https://alpha.dapdap.net/",
+    imgSrc: `${ipfsUrl}/gateway-dapdap.jpg`,
+    iconSrc: `${ipfsUrl}/icon-dapdap.jpg`,
+  },
   {
     title: "Polygon zkEVM",
     type: "zkEVM",
     url: "https://bos.quickswap.exchange/",
+    imgSrc: `${ipfsUrl}/gateway-polygon.jpg`,
+    iconSrc: `${ipfsUrl}/icon-polygon.jpg`,
   },
-  { title: "Mantle", type: "zkEVM", url: "https://bos.mantle.xyz/" },
+  {
+    title: "Mantle",
+    type: "zkEVM",
+    url: "https://bos.mantle.xyz/",
+    imgSrc: `${ipfsUrl}/gateway-mantle.jpg`,
+    iconSrc: `${ipfsUrl}/icon-mantle.jpg`,
+  },
 ];
 
 const resources = [
@@ -205,49 +230,53 @@ const resources = [
     title: "What is BOS?",
     type: "Docs",
     url: "https://docs.near.org/bos/overview",
+    iconSrc: `${ipfsUrl}/icon-bos.jpg`,
   },
   {
     title: "BOS Loader",
     type: "Github Repo",
     url: "https://github.com/near/bos-loader",
+    iconSrc: `${ipfsUrl}/icon-github.jpg`,
   },
   {
     title: "BOS Gateway",
     type: "Github Repo",
     url: "https://github.com/NearDeFi/bos-gateway-template",
+    iconSrc: `${ipfsUrl}/icon-github.jpg`,
   },
   {
     title: "BOS Decentralized Frontends",
     type: "Telegram",
     url: "https://t.me/NEARisBOS",
+    iconSrc: `${ipfsUrl}/icon-telegram.jpg`,
   },
 ];
 
 return (
   <Main>
-    <HeroImage src="" />
+    <HeroImage src={`${ipfsUrl}/hero.jpg`} />
     <Container>
       <SectionTitle color="#00EC97">Dapps</SectionTitle>
     </Container>
     <Container>
-      {dapps.map(({ title, type, url }, index) => (
-        <Dapp key={index} title={title} type={type} url={url} />
+      {dapps.map((props, index) => (
+        <Dapp key={index} {...props} />
       ))}
     </Container>
     <Container>
       <SectionTitle color="#C751FF">Gateways</SectionTitle>
     </Container>
     <Container>
-      {gateways.map(({ title, type, url }, index) => (
-        <Gateway key={index} title={title} type={type} url={url} />
+      {gateways.map((props, index) => (
+        <Gateway key={index} {...props} />
       ))}
     </Container>
     <Container>
       <SectionTitle color="#767676">Resources</SectionTitle>
     </Container>
     <Container>
-      {resources.map(({ title, type, url }, index) => (
-        <Resource key={index} title={title} type={type} url={url} />
+      {resources.map((props, index) => (
+        <Resource key={index} {...props} />
       ))}
     </Container>
   </Main>
