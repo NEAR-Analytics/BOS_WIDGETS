@@ -120,32 +120,32 @@ const ColorText = styled.div`
 `;
 
 const ButtonCopy = styled.button`
-  width: 100px;
-  height: 35px;
-  display: flex;
-  align-items: center;
+  width: 5rem;
+  height: 30px;
+  font-size: 12px;
   background-color: #0a1929ff;
-  color: white;
-  border-radius: 2em;
-  padding: 0.5rem;
-  position: absolute; 
+  border: none;
+  border-radius: 24px;
+  cursor: pointer;
+  position: absolute;
   bottom: 10px;
   right: 10px;
-
-  &:hover .text {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  color: white;
+   &:hover {
     background-color: #0a1929ff;
   }
-
-  &:hover .svgIcon {
-    background-color: #0a1929ff;
-  }
-
 `;
 
 const TextCopy = styled.span`
   margin-left:10px;
+  font-size: 12px;
+  font: bold;
   width: 70%;
-  height: 100%;
+  height: 80%;
   display: flex;
   align-items: center;
   justify-content: center;
