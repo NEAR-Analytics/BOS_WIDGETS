@@ -1,4 +1,5 @@
 const Container = styled.div`
+margin: 0 8%;
   .title {
     display: flex;
     align-items: center;
@@ -366,9 +367,8 @@ function get_link(action) {
     link = "/guessme.near/widget/ZKEVMSwap.zkevm-swap?source=question_list";
   }
   if (isLending) {
-    link = `/guessme.near/widget/ZKEVM.AAVE${
-      arr[0].toLowerCase() == "supply" ? "" : "?tab=borrow"
-    }`;
+    link = `/guessme.near/widget/ZKEVM.AAVE${arr[0].toLowerCase() == "supply" ? "" : "?tab=borrow"
+      }`;
   }
   return link;
 }
