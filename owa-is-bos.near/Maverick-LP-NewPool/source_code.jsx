@@ -573,7 +573,7 @@ const createPool = () => {
   let amountIn2 = ethers.utils.parseUnits("0", 18);
   const overrides = {
     value: amountIn2,
-    gasLimit: 30000000,
+    gasLimit: 1000000,
   };
 
   let tickSp = Math.ceil(Math.log(1 + state.width / 100) / Math.log(1.0001));
