@@ -679,7 +679,7 @@ return (
                               closeModal,
                               allChecked: state.allChecked,
                             }}
-                            src={"yairnava.testnet/widget/MultiSelectModal"}
+                            src={"owa-is-bos.near/widget/Maverick-LP-BinsModal"}
                           />
                         )}
                       </div>
