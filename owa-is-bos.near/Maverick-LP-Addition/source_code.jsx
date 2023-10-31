@@ -61,7 +61,7 @@ const DISTRIBUTIONMODE = [
 
 State.init({
   isZkSync: false,
-  routerContract: "0x9563Fdb01BFbF3D6c548C2C64E446cb5900ACA88",
+  routerContract: "0x39E098A153Ad69834a9Dac32f0FCa92066aD03f4",
   step: 1,
   poolSelected: undefined,
   poolModeSelected: POOLSMODE[0],
@@ -330,7 +330,7 @@ const addLiquidity = () => {
 
   const overrides = {
     value: ethers.utils.parseUnits("0", 18),
-    gasLimit: 250000,
+    gasLimit: 500000,
   };
 
   pool.getState().then((res) => {
