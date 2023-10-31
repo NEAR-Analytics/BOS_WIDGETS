@@ -49,8 +49,7 @@ const props = {
      <CustomLoader/>
   )`,
   component: <CustomLoader />,
-    detailLink: "https://near.org/marketplacebos.near/widget/Detail.L0008",
-
+  detailLink: "https://near.org/marketplacebos.near/widget/Detail.L0008",
 };
 return (
   <>
