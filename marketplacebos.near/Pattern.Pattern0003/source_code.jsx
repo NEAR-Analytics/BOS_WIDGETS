@@ -50,7 +50,7 @@ const props = {
       <Text>Add some text or content here to test!</Text>
     </Container>
   ),
-  detailLink: "https://near.org/marketplacebos.near/widget/Detail.P0003"
+  detailLink: "https://near.org/marketplacebos.near/widget/Detail.P0003",
 };
 return (
   <>
@@ -58,6 +58,5 @@ return (
       src="marketplacebos.near/widget/CardMain.CardPattern"
       props={props}
     />
-
   </>
 );
