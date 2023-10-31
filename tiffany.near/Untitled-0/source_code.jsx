@@ -211,7 +211,7 @@ const ContentGrid = styled.div`
 
 const P1 = styled.p`
   font-weight: 500;
-  font-size: 17px;
+  font-size: 18px;
   margin-bottom: 0;
   padding-bottom: 0.3rem;
 `;
