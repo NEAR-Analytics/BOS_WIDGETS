@@ -117,7 +117,17 @@ if (!nfts) {
   return "";
 }
 console.log(nfts);
+nfts.sort((a, b) => {
+  const dateA = new Date(JSON.parse(a.metadata.extra).date);
+  const dateB = new Date(JSON.parse(b.metadata.extra).date);
+  return dateB - dateA; // This will sort in descending order
+});
 
+// Show the loading state if NFTs have not been fetched yet
+if (accountId) {
+if (!nfts || nfts.length === 0) {
+  return loader;
+}
 return (
   <>
     <span style={{ textAlign: "left" }}>
@@ -182,3 +192,17 @@ return (
     </div>
   </>
 );
+}else{
+  return (
+  <>
+    <span style={{ textAlign: "left" }}>
+      <h2>My NEARWEEK Covers</h2>
+    </span>
+    <span style={{ textAlign: "left" }}>
+      <i>Powered by ShardDog</i>
+    </span>
+    <br />
+    <h3>Please login to view</h3>
+    </>
+  );
+}
