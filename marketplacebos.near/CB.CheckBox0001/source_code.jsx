@@ -85,6 +85,7 @@ const props = {
       </Svg>
     </Container>
   ),
+  detailLink: "https://near.org/marketplacebos.near/widget/Detail.CB0001",
 };
 return (
   <>
