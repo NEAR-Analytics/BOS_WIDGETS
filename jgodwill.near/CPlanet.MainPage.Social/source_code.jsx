@@ -15,7 +15,7 @@ const options = [
     title: "CDAOs Feed",
   },
   {
-    title: "Following",
+    title: "Followed DAOs",
     disabled: !context.accountId,
   },
 ];
@@ -28,11 +28,29 @@ if (hashtag) {
 
 let accounts = undefined;
 
+  const getFollowedDAOs = (accountId) => {
+  let following = Social.keys(`${context.accountId}/graph/follow/*`, "final", {
+    return_type: "BlockHeight",
+  });
+
+  if (following === null) return null;
+
+  following = Object.keys(following[accountId].graph.follow || {}).filter(
+    (account) => account.endsWith(".sputnik-dao.near"),
+  );
+  return following;
+};
+
 if (state.feedIndex === 2) {
   const graph = Social.keys(`${context.accountId}/graph/follow/*`, "final");
+
+
+
+const following = getFollowedDAOs(props.accountId ?? context.accountId ?? "");
   if (graph !== null) {
-    accounts = Object.keys(graph[context.accountId].graph.follow || {});
-    accounts.push(context.accountId);
+    // accounts = Object.keys(graph[context.accountId].graph.follow || {});
+    // accounts.push(context.accountId);
+    accounts = [...following];
   } else {
     accounts = [];
   }
