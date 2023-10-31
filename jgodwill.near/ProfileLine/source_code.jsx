@@ -35,6 +35,22 @@ const Wrapper = styled.span`
   }
   `;
 
+const formattedAccountId =
+  accountId &&
+  `${
+    accountId?.endsWith(".near")
+      ? `@${
+          accountId?.length > 20
+            ? `${accountId?.slice(0, 10)}...${accountId?.slice(
+                accountId?.length - 4
+              )}`
+            : `${accountId}`
+        }`
+      : `@${accountId?.slice(0, 10)}...${accountId?.slice(
+          accountId?.length - 4
+        )}`
+  }`;
+
 let inner = (
   <Wrapper>
     {!hideImage && (
@@ -59,7 +75,7 @@ let inner = (
       <br />
       {!hideAccountId && (
         <p key="accountId" className="text-muted address d-block">
-          @{accountId.length > 25 ? accountId.slice(0, 25) : accountId}
+          {formattedAccountId}
         </p>
       )}
     </span>
