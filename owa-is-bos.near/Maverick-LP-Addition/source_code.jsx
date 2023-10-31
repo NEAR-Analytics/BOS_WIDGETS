@@ -330,7 +330,7 @@ const addLiquidity = () => {
 
   const overrides = {
     value: ethers.utils.parseUnits("0", 18),
-    gasLimit: 30000000,
+    gasLimit: 250000,
   };
 
   pool.getState().then((res) => {
