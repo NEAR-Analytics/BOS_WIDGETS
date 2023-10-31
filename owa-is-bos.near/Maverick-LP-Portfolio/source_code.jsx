@@ -12,8 +12,8 @@ if (!routerAbi.ok || !positionAbi.ok) {
 
 State.init({
   isZkSync: false,
-  routerContract: "0x9563Fdb01BFbF3D6c548C2C64E446cb5900ACA88",
-  positionContract: "0x46040d596fe176A1b88A43be3537d9f6365ccbe1",
+  routerContract: "0x39E098A153Ad69834a9Dac32f0FCa92066aD03f4",
+  positionContract: "0xFd54762D435A490405DDa0fBc92b7168934e8525",
   portfolio: null,
   poolSelected: null,
   isLiquidityRemoved: false,
@@ -338,7 +338,7 @@ const confirmRemove = () => {
 
   try {
     const overrides = {
-      gasLimit: 3000000,
+      gasLimit: 1000000,
     };
     router
       .removeLiquidity(
