@@ -198,7 +198,7 @@ return (
           updateTokenBalance: state.updateInputTokenBalance,
           onCurrencySelectOpen: () => {
             State.update({
-              displayCurrencySelect: true,
+              displayCurrencySelect: !state.displayCurrencySelect,
               selectedTokenAddress: state.currency.address,
             });
           },
