@@ -285,6 +285,15 @@ const EmbedNFT = styled.div`
       color: #000;
     }
   }
+  .bottom-buttons{
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    align-items: center;
+    .compose{
+      justify-self: flex-end;
+    }
+  }
 `;
 
 const Content = styled.div`
@@ -602,40 +611,36 @@ return (
                   </Card>
                 </div>
               )}
-              <input
-                type="checkbox"
-                className="btn-check attach-nft-btn"
-                id="btn-check-2"
-                checked={state.isChecked}
-                onChange={handleCheckboxChange}
-                autocomplete="off"
-              />
-              <label
-                className="btn btn-dark attach-nft-label"
-                for="btn-check-2"
-              >
-                {!state.isChecked ? (
-                  <>
-                    <i className="bi bi-paperclip attah-ico"></i> Attach an NFT
-                  </>
-                ) : (
-                  <>
-                    Remove NFT <i className="bi bi-x-lg"></i>
-                  </>
-                )}
-              </label>
-              {/*<div className="form-check form-switch embed btn-dark">
-                <input
-                  className="form-check-input"
-                  type="checkbox"
-                  role="switch"
-                  id="embed"
-                  checked={state.isChecked}
-                  onChange={handleCheckboxChange}
-                />
-                <label htmlFor="embed">Attach an NFT</label>
-              </div>*/}
-              <div>{props.composeButton && props.composeButton(onCompose)}</div>
+              <div className="bottom-buttons">
+                <div>
+                  <input
+                    type="checkbox"
+                    className="btn-check attach-nft-btn"
+                    id="btn-check-2"
+                    checked={state.isChecked}
+                    onChange={handleCheckboxChange}
+                    autocomplete="off"
+                  />
+                  <label
+                    className="btn btn-dark attach-nft-label"
+                    for="btn-check-2"
+                  >
+                    {!state.isChecked ? (
+                      <>
+                        <i className="bi bi-paperclip attah-ico"></i> Attach an
+                        NFT
+                      </>
+                    ) : (
+                      <>
+                        Remove NFT <i className="bi bi-x-lg"></i>
+                      </>
+                    )}
+                  </label>
+                </div>
+                <div className="compose">
+                  {props.composeButton && props.composeButton(onCompose)}
+                </div>
+              </div>
             </EmbedNFT>
           )}
         </div>
