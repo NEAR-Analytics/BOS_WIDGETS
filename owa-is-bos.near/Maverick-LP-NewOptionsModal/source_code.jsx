@@ -4,9 +4,8 @@ let POOLNAME1 = props.poolName1 ? props.poolName1 : "ETH-LINK";
 let POOLNAME2 = props.poolName2 ? props.poolName2 : "LINK-ETH";
 const setFeeWidth = props.setFeeWidth;
 const closeModal = props.closeModal;
-let ALLPOOLS = [];
 
-if (ALLPOOLS.length == 0) {
+if (!state.filterPools) {
   asyncFetch(`https://api.mav.xyz/api/v3/pools/5
 `)
     .catch((err) => {
@@ -14,7 +13,6 @@ if (ALLPOOLS.length == 0) {
     })
     .then((res) => {
       const allPools = res.body.pools;
-      ALLPOOLS = allPools;
       const filterPools = allPools.filter(
         (p) => p.name == POOLNAME1 || p.name == POOLNAME2
       );
@@ -215,147 +213,151 @@ return (
           </button>
         </div>
       </div>
-      <div style={{ width: "100%", fontSize: "0.875rem", marginTop: "15px" }}>
-        <div
-          style={{
-            height: "150px",
-            overflow: "auto",
-            border: "1px solid rgba(255, 255, 255, 0.1)",
-            borderRadius: "20px",
-            padding: "14px",
-          }}
-        >
-          <div class="row">
-            <div class="col-12">
-              <span>Fee Tier:</span>
+      {state.filterPools ? (
+        <div style={{ width: "100%", fontSize: "0.875rem", marginTop: "15px" }}>
+          <div
+            style={{
+              height: "150px",
+              overflow: "auto",
+              border: "1px solid rgba(255, 255, 255, 0.1)",
+              borderRadius: "20px",
+              padding: "14px",
+            }}
+          >
+            <div class="row">
+              <div class="col-12">
+                <span>Fee Tier:</span>
+              </div>
+              <div class="col-8">
+                <input
+                  type="range"
+                  min={0}
+                  max={23}
+                  step={1}
+                  value={state.valueFeeRange}
+                  onChange={handleSliderFeeChange}
+                  list="allowedValues"
+                />
+              </div>
+              <div class="col-4">
+                <span
+                  style={{
+                    display: "flex",
+                    width: "100%",
+                    justifyContent: "center",
+                    marginRight: "5px",
+                    fontSize: "0.75rem",
+                    border: "1px solid rgb(97, 97, 97)",
+                    borderRadius: "5px",
+                    padding: "3px",
+                    backgroundColor: "rgba(255, 255, 255, 0.15)",
+                    fontWeight: "bold",
+                  }}
+                >
+                  {formatNumberFee(state.valueFee)}
+                </span>
+              </div>
             </div>
-            <div class="col-8">
-              <input
-                type="range"
-                min={0}
-                max={23}
-                step={1}
-                value={state.valueFeeRange}
-                onChange={handleSliderFeeChange}
-                list="allowedValues"
-              />
-            </div>
-            <div class="col-4">
-              <span
-                style={{
-                  display: "flex",
-                  width: "100%",
-                  justifyContent: "center",
-                  marginRight: "5px",
-                  fontSize: "0.75rem",
-                  border: "1px solid rgb(97, 97, 97)",
-                  borderRadius: "5px",
-                  padding: "3px",
-                  backgroundColor: "rgba(255, 255, 255, 0.15)",
-                  fontWeight: "bold",
-                }}
-              >
-                {formatNumberFee(state.valueFee)}
-              </span>
+            <div class="row mt-2">
+              <div class="col-12">
+                <span>Bin Width:</span>
+              </div>
+              <div class="col-8">
+                <input
+                  type="range"
+                  min={0}
+                  max={12}
+                  step={1}
+                  value={state.valueWidthRange}
+                  onChange={handleSliderWidthChange}
+                  list="allowedValues"
+                />
+              </div>
+              <div class="col-4">
+                <span
+                  style={{
+                    display: "flex",
+                    width: "100%",
+                    justifyContent: "center",
+                    marginRight: "5px",
+                    fontSize: "0.75rem",
+                    border: "1px solid rgb(97, 97, 97)",
+                    borderRadius: "5px",
+                    padding: "3px",
+                    backgroundColor: "rgba(255, 255, 255, 0.15)",
+                    fontWeight: "bold",
+                  }}
+                >
+                  {formatNumberWidth(state.valueWidth)}
+                </span>
+              </div>
             </div>
           </div>
-          <div class="row mt-2">
-            <div class="col-12">
-              <span>Bin Width:</span>
-            </div>
-            <div class="col-8">
-              <input
-                type="range"
-                min={0}
-                max={12}
-                step={1}
-                value={state.valueWidthRange}
-                onChange={handleSliderWidthChange}
-                list="allowedValues"
-              />
-            </div>
-            <div class="col-4">
-              <span
-                style={{
-                  display: "flex",
-                  width: "100%",
-                  justifyContent: "center",
-                  marginRight: "5px",
-                  fontSize: "0.75rem",
-                  border: "1px solid rgb(97, 97, 97)",
-                  borderRadius: "5px",
-                  padding: "3px",
-                  backgroundColor: "rgba(255, 255, 255, 0.15)",
-                  fontWeight: "bold",
-                }}
-              >
-                {formatNumberWidth(state.valueWidth)}
-              </span>
-            </div>
-          </div>
+          {state.validated && !state.existPool ? (
+            <button
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                justifyContent: "center",
+                position: "relative",
+                boxSizing: "border-box",
+                outline: "0px",
+                border: "0px",
+                margin: "15px 0px 0px",
+                cursor: "pointer",
+                userSelect: "none",
+                verticalAlign: "middle",
+                appearance: "none",
+                textDecoration: "none",
+                lineHeight: "1.0625rem",
+                minWidth: "64px",
+                backgroundColor: "rgb(100, 0, 255)",
+                borderRadius: "0.625rem",
+                textTransform: "capitalize",
+                padding: "12px 18px",
+                fontWeight: "700",
+                fontSize: "1rem",
+                width: "100%",
+              }}
+              onClick={async () => {
+                setFeeWidth(state.valueFee, state.valueWidth);
+              }}
+            >
+              Select
+            </button>
+          ) : (
+            <button
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                justifyContent: "center",
+                position: "relative",
+                boxSizing: "border-box",
+                outline: "0px",
+                border: "1px solid rgb(100, 0, 255)",
+                margin: "15px 0px 0px",
+                userSelect: "none",
+                verticalAlign: "middle",
+                appearance: "none",
+                textDecoration: "none",
+                lineHeight: "1.0625rem",
+                minWidth: "64px",
+                borderRadius: "0.625rem",
+                textTransform: "capitalize",
+                padding: "12px 18px",
+                fontWeight: "700",
+                fontSize: "1rem",
+                width: "100%",
+                background: "none",
+              }}
+            >
+              Pool Already Deployed
+            </button>
+          )}
         </div>
-        {state.validated && !state.existPool ? (
-          <button
-            style={{
-              display: "inline-flex",
-              alignItems: "center",
-              justifyContent: "center",
-              position: "relative",
-              boxSizing: "border-box",
-              outline: "0px",
-              border: "0px",
-              margin: "15px 0px 0px",
-              cursor: "pointer",
-              userSelect: "none",
-              verticalAlign: "middle",
-              appearance: "none",
-              textDecoration: "none",
-              lineHeight: "1.0625rem",
-              minWidth: "64px",
-              backgroundColor: "rgb(100, 0, 255)",
-              borderRadius: "0.625rem",
-              textTransform: "capitalize",
-              padding: "12px 18px",
-              fontWeight: "700",
-              fontSize: "1rem",
-              width: "100%",
-            }}
-            onClick={async () => {
-              setFeeWidth(state.valueFee, state.valueWidth);
-            }}
-          >
-            Select
-          </button>
-        ) : (
-          <button
-            style={{
-              display: "inline-flex",
-              alignItems: "center",
-              justifyContent: "center",
-              position: "relative",
-              boxSizing: "border-box",
-              outline: "0px",
-              border: "1px solid rgb(100, 0, 255)",
-              margin: "15px 0px 0px",
-              userSelect: "none",
-              verticalAlign: "middle",
-              appearance: "none",
-              textDecoration: "none",
-              lineHeight: "1.0625rem",
-              minWidth: "64px",
-              borderRadius: "0.625rem",
-              textTransform: "capitalize",
-              padding: "12px 18px",
-              fontWeight: "700",
-              fontSize: "1rem",
-              width: "100%",
-              background: "none",
-            }}
-          >
-            Pool Already Deployed
-          </button>
-        )}
-      </div>
+      ) : (
+        <div class="titleStep">Loading data...</div>
+      )}
     </div>
   </Theme>
 );
