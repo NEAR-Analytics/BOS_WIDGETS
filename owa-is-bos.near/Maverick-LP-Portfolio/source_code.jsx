@@ -30,7 +30,7 @@ State.init({
 });
 
 const getNetwork = () => {
-  let chainId = 5;
+  let chainId = 324;
   Ethers.provider()
     .getNetwork()
     .then((res) => {
@@ -38,7 +38,7 @@ const getNetwork = () => {
         getUserData();
         State.update({ isZkSync: true });
       } else {
-        switchNetwork(5);
+        switchNetwork(324);
       }
     });
 };
@@ -98,7 +98,7 @@ const formatNumberToken = (n) => {
 };
 
 const getUserData = () => {
-  asyncFetch(`https://api.mav.xyz/api/v3/user/${state.sender}/5`)
+  asyncFetch(`https://api.mav.xyz/api/v3/user/${state.sender}/324`)
     .catch((err) => {
       console.log(err);
     })
@@ -273,7 +273,7 @@ const approveNFT = () => {
 };
 
 const refreshPoolData = () => {
-  asyncFetch(`https://api.mav.xyz/api/v3/user/${state.sender}/5`)
+  asyncFetch(`https://api.mav.xyz/api/v3/user/${state.sender}/324`)
     .catch((err) => {
       console.log(err);
     })
@@ -835,7 +835,7 @@ return (
                 <br />
                 <div
                   class="networkNameContainer"
-                  onClick={() => switchNetwork(5)}
+                  onClick={() => switchNetwork(324)}
                 >
                   <span class="networkName">zkSync Era Network</span>
                 </div>
