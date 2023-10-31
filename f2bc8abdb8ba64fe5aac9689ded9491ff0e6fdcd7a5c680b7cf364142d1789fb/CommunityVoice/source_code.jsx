@@ -152,11 +152,11 @@ if (state.filterBy.parameterName == "author") {
 
 const brand = {
   homePageId: tabs.SHOW_ARTICLES_LIST.id,
-  brandName: "Say a lot",
+  brandName: "Community Voice",
   logoHref:
-    "https://ipfs.near.social/ipfs/bafkreiaqxa4st4vp4rtq2iyobdgqe5tpfg55mmyvfg25upd2qplcxylyfi",
-  logoRemWidth: 6,
-  logoRemHeight: 6,
+    "https://ipfs.near.social/ipfs/bafkreifhkslni6dlocxya35vjft3fefk2am5uzkagmjjzobdjqlhrnbjz4",
+  logoRemWidth: 12,
+  logoRemHeight: 4,
 };
 
 const navigationPills = [
