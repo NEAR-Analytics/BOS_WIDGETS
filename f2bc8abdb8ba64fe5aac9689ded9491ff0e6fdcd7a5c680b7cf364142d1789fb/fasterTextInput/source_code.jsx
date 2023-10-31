@@ -13,6 +13,7 @@ return (
     readonly={props.editable ? "readonly" : false}
     disabled={props.editable ? "disabled" : false}
     onBlur={() => stateUpdate({ title: state.text })}
+    placeholder={props.placeholder}
     onChange={(e) => {
       State.update({
         text: filterText(e),
