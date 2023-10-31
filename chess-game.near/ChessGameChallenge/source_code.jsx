@@ -304,6 +304,14 @@ const overlayContent = (
 return (
   <GameCreator>
     <h2>PvP:</h2>
+    <span>
+      PvP matches will affect your ELO rating. Only players with a valid{" "}
+      <a href="https://i-am-human.app/" target="_blank">
+        I-AM-HUMAN
+      </a>{" "}
+      SBT have an ELO rating and only matches where both players are verified
+      humans will result in ELO updates. This is to prevent ELO boosting.
+    </span>
     <h3>Open challenges:</h3>
     {state.openChallenges && state.openChallenges.length === 0 ? (
       <span>
