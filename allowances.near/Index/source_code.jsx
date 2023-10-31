@@ -281,7 +281,7 @@ const columnStyles = [
 
 const Theme = styled.div`
     .header {
-        font-weight: bold
+        font-weight: bold;
     }
 `;
 
@@ -305,8 +305,8 @@ return (
   <Theme>
     <div className="container">
       <div className="row">
-        <h2 class="card-title">Find & revoke token allowances</h2>
-        <h6 class="card-subtitle mb-2 text-muted">
+        <h2 class="card-title pt-3">Find & revoke token allowances</h2>
+        <h6 class="card-subtitle mb-3 text-muted">
           This tool scans your EVM-Compatible Blockchain transactions to
           identify approval transactions, which you can then revoke
         </h6>
@@ -318,7 +318,7 @@ return (
         )}
 
         {etherProviderEnabled && (
-          <div class="input-group mb-2 justify-content-end">
+          <div class="input-group mb-2">
             <span class="input-group-text">
               Current chain: {networks[state.chainId].name}
             </span>
@@ -358,10 +358,10 @@ return (
           </div>
         )}
 
-        <div class="card p-0">
-          <div class="card-header ps-3 pe-2">
-            <div class="container">
-              <div class="row">
+        <div class="card p-0 mt-3">
+          <div class="card-header ps-0 pe-0">
+            <div class="container ps-2 pe-2">
+              <div class="row ps-2">
                 <div class={`header ${columnStyles[0]}`}>Token</div>
                 <div class={`header ${columnStyles[1]}`}>Spender</div>
                 <div class={`header ${columnStyles[2]}`}>Allowance</div>
@@ -370,59 +370,65 @@ return (
             </div>
           </div>
 
-          <div class="ps-2 pe-2 overflow-hidden">
+          <div class="overflow-hidden">
             {!etherProviderEnabled && (
-              <div class="row p-2">
-                <div class="col col-12 text-center">
-                  Connect Web3 Wallet to view your transactions
+              <div class="container ps-2 pe-2">
+                <div class="row p-2">
+                  <div class="col col-12 text-center">
+                    Connect Web3 Wallet to view your transactions
+                  </div>
                 </div>
               </div>
             )}
             {(state.allowances == undefined || state.allowances.length == 0) &&
               etherProviderEnabled && (
-                <div class="row p-2">
-                  <div class="col col-12 text-center">No data</div>
+                <div class="container ps-2 pe-2">
+                  <div class="row p-2">
+                    <div class="col col-12 text-center">No data</div>
+                  </div>
                 </div>
               )}
             {Object.keys(state.allowances ?? {}).map((allowanceKey) => {
               const item = state.allowances[allowanceKey];
               return (
-                <div class="row border-bottom pt-1 pb-1 align-items-center">
-                  <div class={columnStyles[0]}>
-                    <a
-                      href={getExporerUrl(item.tokenContractId)}
-                      class="text-dark"
-                      target="_blank"
-                    >
-                      {state.contractNames[item.tokenContractId]}
-                    </a>
-                  </div>
-                  <div class={columnStyles[1]}>
-                    <a
-                      href={getExporerUrl(item.spenderContractId)}
-                      class="text-dark"
-                      target="_blank"
-                    >
-                      {state.contractNames[item.spenderContractId]}
-                    </a>
-                  </div>
-                  <div class={columnStyles[2]}>
-                    {styleAllowance(item.allowance)}
-                  </div>
-                  <div class={columnStyles[3]}>
-                    <button
-                      class="btn btn-outline-primary btn-sm"
-                      disabled={!state.sender}
-                      onClick={() =>
-                        revoke(
-                          item.tokenContractId,
-                          item.spenderContractId,
-                          item.allowanceUnEdited
-                        )
-                      }
-                    >
-                      Revoke
-                    </button>
+                <div class="container ps-2 pe-2">
+                  <div class="row border-bottom ps-2 pt-1 pb-1 align-items-center">
+                    <div class={columnStyles[0]}>
+                      <a
+                        href={getExporerUrl(item.tokenContractId)}
+                        class="text-dark"
+                        target="_blank"
+                      >
+                        {state.contractNames[item.tokenContractId]}
+                      </a>
+                    </div>
+                    <div class={columnStyles[1]}>
+                      <a
+                        href={getExporerUrl(item.spenderContractId)}
+                        class="text-dark"
+                        target="_blank"
+                      >
+                        {state.contractNames[item.spenderContractId]}
+                      </a>
+                    </div>
+                    <div class={columnStyles[2]}>
+                      {styleAllowance(item.allowance)}
+                    </div>
+                    <div class={columnStyles[3]}>
+                      <button
+                        class="btn btn-outline-primary btn-sm"
+                        disabled={!state.sender}
+                        onClick={() =>
+                          revoke(
+                            item.tokenContractId,
+                            item.spenderContractId,
+                            item.allowanceUnEdited
+                          )
+                        }
+                      >
+                        Revoke
+                      </button>
+                    </div>
                   </div>
                 </div>
               );
