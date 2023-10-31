@@ -283,41 +283,18 @@ const refreshPoolData = () => {
         (p) => p.balance !== 0
       );
 
-      console.log("New Portfolio");
-      console.log(newPortfolio);
-      let newPoolSelected = newPortfolio.positions.find(
-        (p) =>
-          p.id == state.poolSelected.id && p.kind == state.poolSelected.kind
-      );
-
-      console.log("New Pool Selected");
-      console.log(newPoolSelected);
-
-      // Verify if the pool has bins to remove from the selected pool
-      if (newPoolSelected.bins.length > 0) {
-        State.update({
-          portfolio: newPortfolio,
-          poolSelected: newPoolSelected,
-          binsToRemove: newPoolSelected.bins,
-          hasSomeBalance: hasSomeBalance,
-          countBinsToRemove: 0,
-          tokenAToWithdraw: 0,
-          tokenBToWithdraw: 0,
-        });
-      } else {
-        State.update({
-          portfolio: newPortfolio,
-          hasSomeBalance: hasSomeBalance,
-          poolSelected: null,
-          binsToRemove: [],
-          allChecked: false,
-          countBinsToRemove: 0,
-          nftId: null,
-          approveNFT: 0,
-          tokenAToWithdraw: 0,
-          tokenBToWithdraw: 0,
-        });
-      }
+      State.update({
+        portfolio: newPortfolio,
+        hasSomeBalance: hasSomeBalance,
+        poolSelected: null,
+        binsToRemove: [],
+        allChecked: false,
+        countBinsToRemove: 0,
+        nftId: null,
+        approveNFT: 0,
+        tokenAToWithdraw: 0,
+        tokenBToWithdraw: 0,
+      });
     });
 };
 
@@ -380,10 +357,6 @@ const confirmRemove = () => {
             onRemovingLiquidity: true,
           });
           setTimeout(() => {
-            State.update({
-              onRemovingLiquidity: false,
-            });
-            // Get new portfolio information
             refreshPoolData();
           }, 30000);
         }
