@@ -186,7 +186,7 @@ return (
       margin: "0 auto",
     }}
   >
-    <Widget src="bwetest.near/widget/Posts.Sidebar" id="left" />
+    <Widget src="bwe-demos.near/widget/Posts.Sidebar" id="left" />
     <div
       style={{
         display: "flex",
@@ -205,12 +205,12 @@ return (
             <div style={{ borderBottom: "1px solid black" }}>
               {/* <div>{post.account_id}</div> */}
               {/* <Widget
-                src="bwetest.near/widget/Posts.Content"
+                src="bwe-demos.near/widget/Posts.Content"
                 props={{ content }}
                 id={post.receipt_id}
               /> */}
               <Widget
-                src="bwetest.near/widget/Posts.Post"
+                src="bwe-demos.near/widget/Posts.Post"
                 props={post}
                 id={post.receipt_id}
               />
@@ -221,6 +221,6 @@ return (
       {/* {JSON.stringify(posts)} */}
       {/* {Markdown && <Markdown>hello</Markdown>} */}
     </div>
-    <Widget src="bwetest.near/widget/Posts.Sidebar" id="right" />
+    <Widget src="bwe-demos.near/widget/Posts.Sidebar" id="right" />
   </div>
 );
