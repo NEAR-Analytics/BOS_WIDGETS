@@ -39,12 +39,11 @@ const CTOKEN_ABI = [
 const { market, actionText, amount, loading, onSuccess, onError } = props;
 const account = Ethers.send("eth_requestAccounts", [])[0];
 if (!loading || !account) return "";
-
 const CNativeTokenContract = new ethers.Contract(
   market.address,
   [
     {
-      inputs: [account],
+      inputs: [],
       name: "supply",
       outputs: [],
       stateMutability: "payable",
@@ -53,7 +52,6 @@ const CNativeTokenContract = new ethers.Contract(
   ],
   Ethers.provider().getSigner()
 );
-
 const CTokenContract = new ethers.Contract(
   market.address,
   CTOKEN_ABI,
@@ -63,7 +61,10 @@ const CTokenContract = new ethers.Contract(
 if (actionText === "Deposit") {
   if (market.underlyingToken.address === "native") {
     CNativeTokenContract.supply(account, 0, {
-      value: ethers.utils.parseUnits(amount, market.underlyingToken.decimals),
+      value: ethers.utils.parseUnits(
+        Big(amount).toFixed(market.underlyingToken.decimals).toString(),
+        market.underlyingToken.decimals
+      ),
     })
       .then((tx) => {
         tx.wait().then((res) => {
@@ -76,7 +77,13 @@ if (actionText === "Deposit") {
   } else {
     CTokenContract.supply(
       account,
-      ethers.utils.parseUnits(amount, market.underlyingToken.decimals)
+      ethers.utils.parseUnits(
+        Big(amount).toFixed(market.underlyingToken.decimals).toString(),
+        market.underlyingToken.decimals
+      ),
+      {
+        gasLimit: 50000,
+      }
     )
       .then((tx) => {
         tx.wait().then((res) => {
