@@ -18,9 +18,6 @@ if (!state.filterPools) {
       const filterPools = allPools.filter(
         (p) => p.name == POOLNAME1 || p.name == POOLNAME2
       );
-      console.log("-----filterPools-----");
-      console.log(filterPools);
-      console.log("-----filterPools-----");
       if (!state.validated) {
         State.update({
           validated: true,
