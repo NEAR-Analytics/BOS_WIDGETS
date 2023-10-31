@@ -521,97 +521,97 @@ return (
               }
             ></button>
           </Actions>
-          {!state.image.cid && (
-            <EmbedNFT>
-              {state.isChecked && (
-                <div>
-                  <Card>
-                    <div className="d-flex align-center text-center gap-2">
-                      <SelectCard>
+          <EmbedNFT>
+            {state.isChecked && (
+              <div>
+                <Card>
+                  <div className="d-flex align-center text-center gap-2">
+                    <SelectCard>
+                      <Card>
+                        <div>Select Chain</div>
+                        <Widget
+                          src="jgodwill.near/widget/CPlanet.ChainsDropdown"
+                          props={{ chains: chains, updateChain }}
+                        />
+                      </Card>
+                      {state.nftChainState === "Near" && (
                         <Card>
-                          <div>Select Chain</div>
-                          <Widget
-                            src="jgodwill.near/widget/CPlanet.ChainsDropdown"
-                            props={{ chains: chains, updateChain }}
-                          />
+                          Near Address:
+                          <Search>
+                            <Typeahead
+                              id="async-example"
+                              className="type-ahead"
+                              isLoading={isLoading}
+                              labelKey="search"
+                              minLength={1}
+                              options={allWidgets}
+                              onChange={(value) => onChangeAccount(value)}
+                              placeholder={accountId}
+                            />
+                          </Search>
                         </Card>
-                        {state.nftChainState === "Near" && (
-                          <Card>
-                            Near Address:
-                            <Search>
-                              <Typeahead
-                                id="async-example"
-                                className="type-ahead"
-                                isLoading={isLoading}
-                                labelKey="search"
-                                minLength={1}
-                                options={allWidgets}
-                                onChange={(value) => onChangeAccount(value)}
-                                placeholder={accountId}
-                              />
-                            </Search>
-                          </Card>
-                        )}
-                      </SelectCard>
-                    </div>
-                    {state.nftChainState === "Near" ? (
-                      <div>
-                        <div
-                          className="p-2 rounded mt-3"
-                          style={{
-                            background: "#fdfdfd",
-                            border: "solid 1px #dee2e6",
-                            borderBottomLeftRadius: ".375rem",
-                            borderBottomRightRadius: ".375rem",
-                            minHeight: "9em",
-                          }}
-                        >
-                          <div>
-                            <div className="mt-2">
-                              <Widget
-                                src={`jgodwill.near/widget/genadrop-nft-selector`}
-                                props={{
-                                  onChange: ({ contractId, tokenId }) => {
-                                    State.update({
-                                      contractId: contractId,
-                                      tokenId: tokenId,
-                                    });
-                                    onChangeTokenID(tokenId);
-                                    onChangeContractID(contractId);
-                                  },
-                                  accountId: state.account,
-                                  headingText: "Select an NFT to embed",
-                                }}
-                              />
-                            </div>
+                      )}
+                    </SelectCard>
+                  </div>
+                  {state.nftChainState === "Near" ? (
+                    <div>
+                      <div
+                        className="p-2 rounded mt-3"
+                        style={{
+                          background: "#fdfdfd",
+                          border: "solid 1px #dee2e6",
+                          borderBottomLeftRadius: ".375rem",
+                          borderBottomRightRadius: ".375rem",
+                          minHeight: "9em",
+                        }}
+                      >
+                        <div>
+                          <div className="mt-2">
+                            <Widget
+                              src={`jgodwill.near/widget/genadrop-nft-selector`}
+                              props={{
+                                onChange: ({ contractId, tokenId }) => {
+                                  State.update({
+                                    contractId: contractId,
+                                    tokenId: tokenId,
+                                  });
+                                  onChangeTokenID(tokenId);
+                                  onChangeContractID(contractId);
+                                },
+                                accountId: state.account,
+                                headingText: "Select an NFT to embed",
+                              }}
+                            />
                           </div>
                         </div>
                       </div>
-                    ) : (
+                    </div>
+                  ) : (
+                    <Card>
+                      <h4>Enter the NFT details</h4>
                       <Card>
-                        <h4>Enter the NFT details</h4>
-                        <Card>
-                          NFT Contract ID:
-                          <Input
-                            type="text"
-                            onChange={(e) => onChangeContractID(e.target.value)}
-                            value={state.nftContractId}
-                          />
-                        </Card>
-                        <Card>
-                          NFT Token Id:
-                          <Input
-                            type="text"
-                            onChange={(e) => onChangeTokenID(e.target.value)}
-                            value={state.nftTokenId}
-                          />
-                        </Card>
+                        NFT Contract ID:
+                        <Input
+                          type="text"
+                          onChange={(e) => onChangeContractID(e.target.value)}
+                          value={state.nftContractId}
+                        />
                       </Card>
-                    )}
-                  </Card>
-                </div>
-              )}
-              <div className="bottom-buttons">
+                      <Card>
+                        NFT Token Id:
+                        <Input
+                          type="text"
+                          onChange={(e) => onChangeTokenID(e.target.value)}
+                          value={state.nftTokenId}
+                        />
+                      </Card>
+                    </Card>
+                  )}
+                </Card>
+              </div>
+            )}
+            <div className="bottom-buttons">
+              {!state.image.cid && (
                 <div>
                   <input
                     type="checkbox"
@@ -637,12 +637,12 @@ return (
                     )}
                   </label>
                 </div>
-                <div className="compose">
-                  {props.composeButton && props.composeButton(onCompose)}
-                </div>
+              )}
+              <div className="compose">
+                {props.composeButton && props.composeButton(onCompose)}
               </div>
-            </EmbedNFT>
-          )}
+            </div>
+          </EmbedNFT>
         </div>
       </div>
     </div>
