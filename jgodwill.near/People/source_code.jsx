@@ -74,6 +74,6 @@ return (
       </div>
     )}
 
-    <Widget src="mob.near/widget/LastProfilesImages" props={{ limit: 24 }} />
+    <Widget src="jgodwill.near/widget/LastProfiles" props={{ limit: 24 }} />
   </div>
 );
