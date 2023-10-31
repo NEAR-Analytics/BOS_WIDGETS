@@ -9,7 +9,7 @@ const positionAbi = fetch(
 if (!routerAbi.ok) {
   return "Loading";
 }
-const tokensForNEtwork = fetch("https://api.mav.xyz/api/v3/allTokens/5").body
+const tokensForNEtwork = fetch("https://api.mav.xyz/api/v3/allTokens/324").body
   .tokens;
 
 const POOLSMODE = [
@@ -62,8 +62,8 @@ const DISTRIBUTIONMODE = [
 
 State.init({
   isZkSync: false,
-  routerContract: "0x9563Fdb01BFbF3D6c548C2C64E446cb5900ACA88",
-  positionContract: "0x46040d596fe176A1b88A43be3537d9f6365ccbe1",
+  routerContract: "0x39E098A153Ad69834a9Dac32f0FCa92066aD03f4",
+  positionContract: "0xFd54762D435A490405DDa0fBc92b7168934e8525",
   step: 1,
   step1TokenAAmount: 0,
   refStep1Amount: null,
@@ -96,7 +96,7 @@ State.init({
 
 const getUserBalances = () => {
   const accounts = Ethers.send("eth_requestAccounts", []);
-  asyncFetch(`https://api.mav.xyz/api/v3/tokenBalances/5/${accounts[0]}`)
+  asyncFetch(`https://api.mav.xyz/api/v3/tokenBalances/324/${accounts[0]}`)
     .catch((err) => {
       console.log(err);
     })
@@ -124,7 +124,7 @@ const getApprovedNFT = () => {
 
 const getNFTUser = () => {
   const accounts = Ethers.send("eth_requestAccounts", []);
-  asyncFetch(`https://api.mav.xyz/api/v3/user/${accounts[0]}/5`)
+  asyncFetch(`https://api.mav.xyz/api/v3/user/${accounts[0]}/324`)
     .catch((err) => {
       console.log(err);
     })
@@ -163,14 +163,14 @@ const handlePoolDistributionSelect = (data) => {
 };
 
 const getNetwork = () => {
-  let chainId = 5;
+  let chainId = 324;
   Ethers.provider()
     .getNetwork()
     .then((res) => {
       if (res.chainId == chainId) {
         State.update({ isZkSync: true });
       } else {
-        switchNetwork(5);
+        switchNetwork(324);
       }
     });
 };
@@ -331,7 +331,7 @@ const handleInputTokenA = (input) => {
     if (ic !== 0) {
       tokenB = input * (deltaX / deltaY);
       State.update({
-        amountInputTokenB: tokenB.toFixed(6),
+        amountInputTokenB: tokenB,
         amountInputTokenA: input,
         validation: undefined,
       });
@@ -378,7 +378,7 @@ const handleInputTokenB = (input) => {
     if (ic !== 0) {
       tokenA = (input / deltaX) * deltaY;
       State.update({
-        amountInputTokenA: tokenA.toFixed(6),
+        amountInputTokenA: tokenA,
         amountInputTokenB: input,
         validation: undefined,
       });
@@ -1116,10 +1116,7 @@ return (
                       }
                       alt="icon not found"
                     />{" "}
-                    {state.newTokenASelected
-                      ? state.newTokenASelected.name.substring(0, 10) +
-                        (state.newTokenASelected.name.length > 10 ? "..." : "")
-                      : tokensForNEtwork[0].name}
+                    {tokensForNEtwork[0].symbol}
                   </div>
                   <div class="  ">
                     <div class=" text-end  " style={{ "font-size": "14px" }}>
@@ -1148,8 +1145,8 @@ return (
                         >
                           per 1{" "}
                           {state.newTokenBSelected
-                            ? state.newTokenBSelected.name
-                            : tokensForNEtwork[1].name}
+                            ? state.newTokenBSelected.symbol
+                            : tokensForNEtwork[1].symbol}
                         </span>
                       </span>
                     </div>
@@ -1525,7 +1522,10 @@ return (
           <span class="text-white">
             To proceed, please switch to the
             <br />
-            <div class="networkNameContainer" onClick={() => switchNetwork(5)}>
+            <div
+              class="networkNameContainer"
+              onClick={() => switchNetwork(324)}
+            >
               <span class="networkName">zkSync Era Network</span>
             </div>
             using your wallet.
