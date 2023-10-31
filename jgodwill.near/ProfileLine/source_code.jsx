@@ -14,6 +14,7 @@ const tooltip =
 
 const Wrapper = styled.span`
   display: flex;
+  gap: .6rem;
   .name{
      font-size: 16px;
     font-style: normal;
