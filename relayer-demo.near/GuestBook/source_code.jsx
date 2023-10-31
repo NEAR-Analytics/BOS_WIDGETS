@@ -1,10 +1,10 @@
 const contract = "guest-book.near";
-const messages = Near.view(
-  contract,
-  "getMessages",
-  {}
-).reverse();
-console.log(messages);
+const relayerAccountId = "relayer.pagodaplatform.near";
+const messages = Near.view(contract, "getMessages", {})
+  .reverse()
+  .filter(
+    (message) => message.sender === context.accountId
+  );
 
 State.init({
   newMessage: "",
@@ -15,9 +15,11 @@ const addNewMessage = () => {
     return;
   }
 
-  Near.call(contract, "addMessage", {
+  const call = Near.call(contract, "addMessage", {
     text: state.newMessage,
   });
+
+  console.log("call", call);
 };
 
 const userAccountStatus = fetch(
@@ -40,13 +42,43 @@ const userAccountStatus = fetch(
   }
 );
 
+const relayerAccountStatus = fetch(
+  "https://rpc.mainnet.near.org",
+  {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      jsonrpc: "2.0",
+      id: "dontcare",
+      method: "query",
+      params: {
+        request_type: "view_account",
+        finality: "final",
+        account_id: relayerAccountId,
+      },
+    }),
+  }
+);
+
 const nearAmount = (yocto) =>
   (parseInt(yocto) / Math.pow(10, 24)).toFixed(2);
 
+// show message if userAccountStatus.body.result.amount is not zero
+
 return (
   <div class="p-3">
-    <h3 class="text-center">Relayer Demo</h3>
+    <h3 class="text-center">
+      Relayer - no crypto no problem
+    </h3>
     <br />
+    <h6>
+      {relayerAccountId} with a balance of{" "}
+      {nearAmount(relayerAccountStatus.body.result.amount)}{" "}
+      NEAR
+    </h6>
+    <h6></h6>
     {context.accountId ? (
       <div class="border border-black p-3">
         <h3>
@@ -89,16 +121,24 @@ return (
             <th>Message</th>
           </tr>
         </thead>
-        <tbody>
-          {messages.map((data, key) => {
-            return (
-              <tr class="text-center" key={key}>
-                <td>{data.sender}</td>
-                <td>{data.text}</td>
-              </tr>
-            );
-          })}
-        </tbody>
+        {messages.length == 0 ? (
+          <tbody>
+            <tr class="text-center">
+              <td colSpan="2">No messages yet</td>
+            </tr>
+          </tbody>
+        ) : (
+          <tbody>
+            {messages.map((data, key) => {
+              return (
+                <tr class="text-center" key={key}>
+                  <td>{data.sender}</td>
+                  <td>{data.text}</td>
+                </tr>
+              );
+            })}
+          </tbody>
+        )}
       </table>
     </div>
   </div>
