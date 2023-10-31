@@ -331,7 +331,7 @@ const handleInputTokenA = (input) => {
     if (ic !== 0) {
       tokenB = input * (deltaX / deltaY);
       State.update({
-        amountInputTokenB: tokenB,
+        amountInputTokenB: tokenB.toFixed(6),
         amountInputTokenA: input,
         validation: undefined,
       });
@@ -378,7 +378,7 @@ const handleInputTokenB = (input) => {
     if (ic !== 0) {
       tokenA = (input / deltaX) * deltaY;
       State.update({
-        amountInputTokenA: tokenA,
+        amountInputTokenA: tokenA.toFixed(6),
         amountInputTokenB: input,
         validation: undefined,
       });
@@ -573,7 +573,7 @@ const createPool = () => {
   let amountIn2 = ethers.utils.parseUnits("0", 18);
   const overrides = {
     value: amountIn2,
-    gasLimit: 1000000,
+    gasLimit: 5500000,
   };
 
   let tickSp = Math.ceil(Math.log(1 + state.width / 100) / Math.log(1.0001));
