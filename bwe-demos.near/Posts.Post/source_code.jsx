@@ -17,7 +17,7 @@ return (
       <span>{new Date(block_timestamp / 1000000).toLocaleString()}</span>
     </div>
     <Widget
-      src="bwetest.near/widget/Posts.Markdown"
+      src="bwe-demos.near/widget/Posts.Markdown"
       props={{ content }}
       // id={post.receipt_id}
     />
