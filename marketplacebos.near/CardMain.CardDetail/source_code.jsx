@@ -236,7 +236,6 @@ const SaveIcon = (
   ></i>
 );
 
-
 const StyledButton = styled.button`
   cursor: pointer;
   border: none;
@@ -257,7 +256,6 @@ const StyledSVG = styled.svg`
   stroke: #4299e1; /* Replace with your desired color */
 `;
 
-
 let copyBtn = props.copyBtn || "Copy Button";
 props.copyBtn || <></>;
 let component = props.component || <> </>;
@@ -266,17 +264,17 @@ let save = props.save || <> </>;
 
 return (
   <>
-  <a href="https://near.org/marketplacebos.near/widget/Index">
-  <StyledButton title="Go Back">
-      <StyledSVG xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-        <path
-          strokeLinejoin="round"
-          strokeLinecap="round"
-          strokeWidth="1.5"
-          d="M11 6L5 12M5 12L11 18M5 12H19"
-        />
-      </StyledSVG>
-    </StyledButton>
+    <a href="https://near.org/marketplacebos.near/widget/Index">
+      <StyledButton title="Go Back">
+        <StyledSVG xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+          <path
+            strokeLinejoin="round"
+            strokeLinecap="round"
+            strokeWidth="1.5"
+            d="M11 6L5 12M5 12L11 18M5 12H19"
+          />
+        </StyledSVG>
+      </StyledButton>
     </a>
     <CardM>
       <div className="container-fluid">
@@ -318,7 +316,9 @@ return (
                       Copy
                       {state.copied ? (
                         <>
-                          {props.copiedIcon ?? <i className="bi bi-check-lg" />}{" "}
+                          {props.copiedIcon ?? (
+                            <i className="bi bi-clipboard2-check-fill" />
+                          )}{" "}
                           {props.copiedLabel ?? props.label}
                         </>
                       ) : (
