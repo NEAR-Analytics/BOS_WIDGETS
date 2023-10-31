@@ -5,6 +5,8 @@ let POOLNAME2 = props.poolName2;
 const setFeeWidth = props.setFeeWidth;
 const closeModal = props.closeModal;
 
+console.log(props);
+
 if (!state.filterPools) {
   asyncFetch(`https://api.mav.xyz/api/v3/pools/5
 `)
@@ -16,6 +18,9 @@ if (!state.filterPools) {
       const filterPools = allPools.filter(
         (p) => p.name == POOLNAME1 || p.name == POOLNAME2
       );
+      console.log("-----filterPools-----");
+      console.log(filterPools);
+      console.log("-----filterPools-----");
       if (!state.validated) {
         State.update({
           validated: true,
