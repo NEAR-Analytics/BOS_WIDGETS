@@ -1067,11 +1067,25 @@ return (
                     </div>
                   </div>
                 </div>
+                <a
+                  href="#/owa-is-bos.near/widget/Maverick-LP-NewPool"
+                  style={{
+                    background: "rgb(141, 141, 253)",
+                    color: "white",
+                    "font-weight": "700",
+                    padding: "2px 10px",
+                    "border-radius": "7px",
+                    border: "none",
+                    fontSize: "12px",
+                    textDecoration: "none",
+                  }}
+                >
+                  Create New Pool
+                </a>
                 <br />
                 <div class="LineContainer">
                   <div class="Line" />
                 </div>
-
                 <div class="titleStep">Select Pool Options</div>
                 <br />
                 <div
