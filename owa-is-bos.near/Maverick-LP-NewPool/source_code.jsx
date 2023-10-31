@@ -45,19 +45,19 @@ const POOLSMODE = [
 
 const DISTRIBUTIONMODE = [
   {
-    name: "Exponential",
-    description:
-      "This distribution starts with a high concentration of liquidity around the current pool price and adds exponentially decreasing amounts across the bins to the left and right.",
-  },
-  {
-    name: "Flat",
-    description:
-      "This will distribute your liquidity evenly across bins, centered around the current pool price.",
-  },
-  {
     name: "Single Bin",
     description: "This will distribute your liquidity only in the active bin",
   },
+  //   {
+  //     name: "Flat",
+  //     description:
+  //       "This will distribute your liquidity evenly across bins, centered around the current pool price.",
+  //   },
+  //   {
+  //     name: "Exponential",
+  //     description:
+  //       "This distribution starts with a high concentration of liquidity around the current pool price and adds exponentially decreasing amounts across the bins to the left and right.",
+  //   },
 ];
 
 State.init({
@@ -1285,6 +1285,12 @@ return (
                                   >
                                     Select Distribution
                                   </option>
+                                  <option disabled={state.poolModeSelected}>
+                                    Flat (Soon)
+                                  </option>
+                                  <option disabled={state.poolModeSelected}>
+                                    Exponential (Soon)
+                                  </option>
                                   {DISTRIBUTIONMODE.map((m) => {
                                     return <option>{m.name}</option>;
                                   })}
@@ -1440,6 +1446,17 @@ return (
                   <div class="BackButton" onClick={back}>
                     <div class={"ConfirmText"}>Back</div>
                   </div>
+                )}
+                {state.step == 1 && (
+                  <a
+                    class="BackButton"
+                    href="#/owa-is-bos.near/widget/Maverick-LP-Portfolio"
+                    style={{
+                      textDecoration: "none",
+                    }}
+                  >
+                    <div class={"ConfirmText"}>My Portfolio</div>
+                  </a>
                 )}
               </div>
               <div
