@@ -1116,7 +1116,9 @@ return (
                       }
                       alt="icon not found"
                     />{" "}
-                    {tokensForNEtwork[0].symbol}
+                    {state.newTokenASelected
+                      ? state.newTokenASelected.symbol
+                      : tokensForNEtwork[0].symbol}
                   </div>
                   <div class="  ">
                     <div class=" text-end  " style={{ "font-size": "14px" }}>
