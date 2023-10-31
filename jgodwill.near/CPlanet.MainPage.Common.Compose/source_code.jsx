@@ -635,10 +635,10 @@ return (
                 />
                 <label htmlFor="embed">Attach an NFT</label>
               </div>*/}
+        <div>{props.composeButton && props.composeButton(onCompose)}</div>
             </EmbedNFT>
           )}
         </div>
-        <div>{props.composeButton && props.composeButton(onCompose)}</div>
       </div>
     </div>
   </Wrapper>
