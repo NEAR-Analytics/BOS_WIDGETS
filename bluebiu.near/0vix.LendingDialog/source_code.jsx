@@ -292,19 +292,21 @@ const handleAmountChange = (amount) => {
         .toFixed(2);
     }
     if (actionText === "Repay") {
+      console.log(userTotalBorrowUsd, amount, marketData.underlyingPrice);
       const _borrowBalance = Big(userTotalBorrowUsd).minus(
         Big(amount).mul(marketData.underlyingPrice)
       );
       params.borrowBalance = _borrowBalance.gt(0)
         ? _borrowBalance.toFixed(2)
         : 0;
+      console.log(302);
     }
     const borromLimit = formatBorrowLimit(6);
     _borrowLimitUsed = params.borrowBalance
       ? Big(params.borrowBalance)
           .div(borromLimit || 1)
           .mul(100)
-      : 0;
+      : Big(0);
   }
   params.borrowLimitUsed = _borrowLimitUsed.gt(100)
     ? ">100"
