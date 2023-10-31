@@ -17,11 +17,23 @@ const {
     proposal,
     policy,
     handleVote,
+    handlePreVoteAction,
     comments,
     isCongressDaoID,
-    daoConfig
+    isVotingBodyDao,
+    daoConfig,
+    isHuman,
+    currentuserCongressHouse
 } = props;
 const accountId = context.accountId;
+
+function checkVotesForCongressDao(value) {
+    if (isCongressDaoID && !props.dev) {
+        return votes[accountId]?.vote === value;
+    } else {
+        return votes[accountId || ";;;"] === value;
+    }
+}
 
 // TODO: implement category
 const category = "";
@@ -62,6 +74,62 @@ const Wrapper = styled.div`
   .text-muted {
         color: #8c8c8c !important;
     }
+
+    /* Tooltip container */
+    .custom-tooltip {
+        position: relative;
+        display: inline-block;
+    }
+
+    /* Tooltip text */
+    .custom-tooltip .tooltiptext {
+        visibility: hidden;
+        width: auto;
+        background-color: #555;
+        color: #fff;
+        text-align: center;
+        padding: 5px 0;
+        border-radius: 6px;
+
+        /* Position the tooltip text */
+        position: absolute;
+        z-index: 1;
+        bottom: 125%;
+        left: 0%;
+
+        /* Fade in tooltip */
+        opacity: 0;
+        transition: opacity 0.3s;
+    }
+
+    /* Tooltip arrow */
+    .custom-tooltip .tooltiptext::after {
+        content: "";
+        position: absolute;
+        top: 100%;
+        left: 50%;
+        margin-left: -5px;
+        border-width: 5px;
+        border-style: solid;
+        border-color: #555 transparent transparent transparent;
+    }
+
+    /* Show the tooltip text when you mouse over the tooltip container */
+    .custom-tooltip:hover .tooltiptext {
+        visibility: visible;
+        opacity: 1;
+    }
+
+    .text-sm {
+        font-size: 14px;
+    }
+
+    .counter-text {
+        font-size: 14px;
+        margin-right: 5px;
+        border-width: 2px;
+        animation-duration: 8s;
+    }
 `;
 
 const cls = (c) => c.join(" ");
@@ -83,6 +151,9 @@ function renderPermission({ isAllowedToVote }) {
 
 const execProposal = ({ daoId, id }) =>
     Near.call(daoId, "execute", { id }, 300000000000000);
+
+const slashPreVoteProposal = ({ id }) =>
+    Near.call(daoId, "slash_prevote_proposal", { id }, 300000000000000);
 
 function renderHeader({ typeName, id, daoId, statusName }) {
     let statusicon;
@@ -127,6 +198,12 @@ function renderHeader({ typeName, id, daoId, statusName }) {
             statustext = "Proposal Rejected";
             statusvariant = "danger";
             break;
+        case "PreVote":
+        case "Pre Vote":
+            statusicon = "bi bi-hourglass-split";
+            statustext = "Pre Vote";
+            statusvariant = "disabled";
+            break;
     }
 
     return (
@@ -144,11 +221,11 @@ function renderHeader({ typeName, id, daoId, statusName }) {
                                     size: "md"
                                 }}
                             />
-                            {isCongressDaoID &&
+                            {(isCongressDaoID || isVotingBodyDao) &&
                                 statusName === "Approved" &&
                                 proposal?.submission_time +
                                     daoConfig?.voting_duration +
-                                    daoConfig?.cooldown <
+                                    (daoConfig?.cooldown ?? 0) < // cooldown is not available in vb
                                     Date.now() && (
                                     <Widget
                                         src="nearui.near/widget/Input.Button"
@@ -162,10 +239,38 @@ function renderHeader({ typeName, id, daoId, statusName }) {
                                         }}
                                     />
                                 )}
+                            {isVotingBodyDao && statusName === "Spam" && (
+                                <Widget
+                                    src="nearui.near/widget/Input.Button"
+                                    props={{
+                                        variant: "danger",
+                                        children: "Slash",
+                                        onClick: () =>
+                                            execProposal({ daoId, id })
+                                    }}
+                                />
+                            )}
+                            {isVotingBodyDao &&
+                                statusName === "PreVote" &&
+                                proposal?.submission_time +
+                                    daoConfig?.pre_vote_duration <
+                                    Date.now() && (
+                                    <Widget
+                                        src="nearui.near/widget/Input.Button"
+                                        props={{
+                                            variant: "danger",
+                                            children: "Slash",
+                                            onClick: () =>
+                                                slashPreVoteProposal({
+                                                    id
+                                                })
+                                        }}
+                                    />
+                                )}
                         </h4>
                     </div>
                 </div>
-                <div>
+                <div className="d-flex gap-2 flex-wrap align-items-center">
                     <Widget
                         src="nearui.near/widget/Element.Badge"
                         props={{
@@ -187,6 +292,57 @@ function renderHeader({ typeName, id, daoId, statusName }) {
                             size: "lg"
                         }}
                     />
+
+                    {(isCongressDaoID || isVotingBodyDao) &&
+                        statusName === "In Progress" && (
+                            <Widget
+                                src="nearui.near/widget/Element.Badge"
+                                props={{
+                                    children: (
+                                        <div className="counter-text">
+                                            <Widget
+                                                src="astraplusplus.ndctools.near/widget/Common.Layout.Countdown"
+                                                props={{
+                                                    timeToCheck:
+                                                        proposal?.submission_time +
+                                                        daoConfig?.voting_duration
+                                                }}
+                                            />
+                                        </div>
+                                    ),
+                                    variant: `info round`,
+                                    size: "lg"
+                                }}
+                            />
+                        )}
+                    {isCongressDaoID &&
+                        statusName !== "In Progress" &&
+                        proposal?.submission_time +
+                            daoConfig?.voting_duration +
+                            daoConfig?.cooldown >
+                            Date.now() && (
+                            <Widget
+                                src="nearui.near/widget/Element.Badge"
+                                props={{
+                                    children: (
+                                        <div className="d-flex gap-1 align-items-center counter-text">
+                                            <div>Cooldown:</div>
+                                            <Widget
+                                                src="astraplusplus.ndctools.near/widget/Common.Layout.Countdown"
+                                                props={{
+                                                    timeToCheck:
+                                                        proposal?.submission_time +
+                                                        daoConfig?.voting_duration +
+                                                        daoConfig?.cooldown
+                                                }}
+                                            />
+                                        </div>
+                                    ),
+                                    variant: `disabled round`,
+                                    size: "lg"
+                                }}
+                            />
+                        )}
                 </div>
             </div>
             <h6 className="text-secondary">{daoId}</h6>
@@ -245,14 +401,26 @@ function renderData({
                     <div>
                         <b>Submission date</b>
                         <p>
-                            <small className="">
-                                {isCongressDaoID
+                            <small>
+                                {isCongressDaoID || isVotingBodyDao
                                     ? new Date(submission_time).toLocaleString()
                                     : new Date(
                                           parseInt(
                                               Big(submission_time).div(1000000)
                                           )
                                       ).toLocaleString()}
+                            </small>
+                        </p>
+                    </div>
+                )}
+                {(isCongressDaoID || isVotingBodyDao) && (
+                    <div>
+                        <b>Expiration date</b>
+                        <p>
+                            <small>
+                                {new Date(
+                                    submission_time + daoConfig?.voting_duration
+                                ).toLocaleString()}
                             </small>
                         </p>
                     </div>
@@ -323,7 +491,13 @@ function renderVoteButtons({
 
     &.spam {
       --vote-button-bg: 245, 197, 24;
+      display :flex;
+      justify-content: center;
     }
+
+    &.abstain {
+        --vote-button-bg: 169, 169, 169;
+      }
 
     &:before {
       content: "";
@@ -336,7 +510,9 @@ function renderVoteButtons({
       z-index: 0;
       background-color: rgb(var(--vote-button-bg));
       ${({ percentage }) => `
-        min-width: ${percentage ? `${percentage}%` : "120px"};
+        min-width: ${
+            percentage && percentage > 25 ? `${percentage}%` : "120px" // with less than 25% the width is less than 120px
+        };
       `}
     }
 
@@ -352,7 +528,7 @@ function renderVoteButtons({
       background-color: var(--vote-button-bg);
 
       min-width: ${({ percentage }) =>
-          percentage ? `${percentage}%` : "120px"};
+          percentage && percentage > 25 ? `${percentage}%` : "120px"};
 
       ${({ finsihed, wins }) =>
           finsihed &&
@@ -392,31 +568,38 @@ function renderVoteButtons({
     const percentages = {
         yes: Math.round((totalVotes.yes / totalVotesNeeded) * 100) || 0,
         no: Math.round((totalVotes.no / totalVotesNeeded) * 100) || 0,
-        spam: Math.round((totalVotes.spam / totalVotesNeeded) * 100) || 0
+        spam: Math.round((totalVotes.spam / totalVotesNeeded) * 100) || 0,
+        abstain: Math.round((totalVotes.abstain / totalVotesNeeded) * 100) || 0
     };
 
     const wins = {
         yes: statusName === "Approved",
         no: statusName === "Rejected",
-        spam: statusName === "Failed"
+        spam: statusName === "Failed" || statusName === "Spam",
+        abstain: statusName === "Failed"
     };
 
     const finsihed = statusName !== "In Progress";
 
     const voted = {
-        yes: votes[accountId || ";;;"] === "Approve",
-        no: votes[accountId || ";;;"] === "Reject",
-        spam: votes[accountId || ";;;"] === "Remove"
+        yes: checkVotesForCongressDao("Approve"),
+        no: checkVotesForCongressDao("Reject"),
+        spam: isVotingBodyDao
+            ? checkVotesForCongressDao("Spam")
+            : checkVotesForCongressDao("Remove"),
+        abstain: checkVotesForCongressDao("Abstain")
     };
 
-    const alreadyVoted = voted.yes || voted.no || voted.spam;
+    const alreadyVoted = voted.yes || voted.no || voted.spam || voted.abstain;
 
     return (
         <div
             className="d-lg-grid d-flex flex-wrap gap-2 align-items-end"
             style={{
-                gridTemplateColumns: isCongressDaoID
-                    ? "1fr 1fr"
+                gridTemplateColumns: isVotingBodyDao
+                    ? "1fr 1fr 1fr 120px"
+                    : isCongressDaoID
+                    ? "1fr 1fr 1fr"
                     : "1fr 1fr 120px"
             }}
         >
@@ -446,7 +629,7 @@ function renderVoteButtons({
                                 <i className="bi bi-check-circle"></i>
                             </span>
                         )}
-                        <span>Yes</span>
+                        <span className="text-sm">Approve</span>
                         <i className="bi bi-hand-thumbs-up"></i>
                     </div>
 
@@ -485,7 +668,7 @@ function renderVoteButtons({
                                 <i className="bi bi-check-circle"></i>
                             </span>
                         )}
-                        <span>No</span>
+                        <span className="text-sm">Reject</span>
                         <i className="bi bi-hand-thumbs-down"></i>
                     </div>
 
@@ -498,6 +681,43 @@ function renderVoteButtons({
                     </div>
                 </VoteButton>
             </div>
+            {(isVotingBodyDao || isCongressDaoID) && (
+                <div className="w-100">
+                    {voted.abstain && (
+                        <Widget
+                            src="nearui.near/widget/Element.Badge"
+                            props={{
+                                size: "sm",
+                                variant: "info outline mb-1",
+                                children: "You voted"
+                            }}
+                        />
+                    )}
+
+                    <VoteButton
+                        className="abstain"
+                        percentage={percentages.abstain}
+                        finsihed={finsihed}
+                        wins={wins.abstain}
+                        myVote={voted.abstain}
+                        onClick={() => handleVote("VoteAbstain")}
+                        disabled={
+                            alreadyVoted || finsihed || !isAllowedToVote[2]
+                        }
+                    >
+                        <div className="d-flex gap-2 align-items-center">
+                            <span>Abstain</span>
+                        </div>
+                        <div>
+                            <span>
+                                {percentages.abstain}
+                                <i className="bi bi-percent"></i>
+                            </span>
+                            <span>{totalVotes.abstain} Votes</span>
+                        </div>
+                    </VoteButton>
+                </div>
+            )}
             {!isCongressDaoID && (
                 <div className="w-100">
                     {voted.spam && (
@@ -517,14 +737,17 @@ function renderVoteButtons({
                         finsihed={finsihed}
                         wins={wins.spam}
                         myVote={voted.spam}
-                        onClick={() => handleVote("VoteRemove")}
+                        onClick={() =>
+                            handleVote(
+                                isVotingBodyDao ? "VoteSpam" : "VoteRemove"
+                            )
+                        }
                         disabled={
                             alreadyVoted || finsihed || !isAllowedToVote[2]
                         }
                     >
                         <div>
                             <span>Spam</span>
-                            <i className="bi bi-exclamation-circle"></i>
                         </div>
                         <div></div>
                     </VoteButton>
@@ -543,9 +766,83 @@ function renderMultiVoteButtons({ daoId, proposal, canVote }) {
                 proposal,
                 canVote,
                 view: "multiVote",
-                isCongressDaoID
+                isCongressDaoID,
+                isVotingBodyDao,
+                dev: props.dev
             }}
         />
+    );
+}
+
+function renderPreVoteButtons({ proposal }) {
+    const voted = proposal?.supported?.includes(accountId);
+    return (
+        <div
+            className="d-lg-grid d-flex flex-wrap gap-2 align-items-end"
+            style={{ gridTemplateColumns: "repeat(3,1fr)" }}
+        >
+            <button
+                class="custom-tooltip btn btn-primary"
+                disabled={currentuserCongressHouse === null}
+                onClick={() =>
+                    handlePreVoteAction({
+                        action: "support_proposal_by_congress",
+                        proposalId: proposal.id
+                    })
+                }
+            >
+                <span class="tooltiptext">
+                    This proposal requires a Congressional member to support in
+                    order to move into the active status.
+                </span>
+                Congress Member UpVote
+            </button>
+            <div className="d-flex flex-column gap-1">
+                <div style={{ width: "fit-content" }}>
+                    {voted && (
+                        <Widget
+                            src="nearui.near/widget/Element.Badge"
+                            props={{
+                                size: "sm",
+                                variant: "info outline mb-1",
+                                children: "You voted"
+                            }}
+                        />
+                    )}
+                </div>
+                <button
+                    class="custom-tooltip btn btn-primary"
+                    disabled={!isHuman || voted}
+                    onClick={() =>
+                        handlePreVoteAction({
+                            action: "support_proposal",
+                            proposalId: proposal.id
+                        })
+                    }
+                >
+                    <span class="tooltiptext">
+                        This proposal requires a minimal support from 50 members
+                        in order to move into the active status.
+                    </span>
+                    Voting Body Support
+                </button>
+            </div>
+            <button
+                class="custom-tooltip btn btn-primary"
+                onClick={() =>
+                    handlePreVoteAction({
+                        action: "top_up_proposal",
+                        proposalId: proposal.id
+                    })
+                }
+            >
+                <span class="tooltiptext">
+                    This proposal requires additional bond to support in order
+                    to move into the active status.
+                </span>
+                Bond to move to Active Status
+            </button>
+        </div>
     );
 }
 
@@ -575,7 +872,9 @@ function renderFooter({ totalVotes, votes, comments, daoId, proposal }) {
             props: {
                 daoId,
                 votes,
-                totalVotes
+                totalVotes,
+                isCongressDaoID,
+                dev: props.dev
             }
         },
         {
@@ -642,10 +941,14 @@ function renderFooter({ totalVotes, votes, comments, daoId, proposal }) {
         </div>
     );
 }
+
 const voted = {
-    yes: votes[accountId || ";;;"] === "Approve",
-    no: votes[accountId || ";;;"] === "Reject",
-    spam: votes[accountId || ";;;"] === "Remove"
+    yes: checkVotesForCongressDao("Approve"),
+    no: checkVotesForCongressDao("Reject"),
+    spam: isVotingBodyDao
+        ? checkVotesForCongressDao("Spam")
+        : checkVotesForCongressDao("Remove"),
+    abstain: checkVotesForCongressDao("Abstain")
 };
 
 const alreadyVoted = voted.yes || voted.no || voted.spam;
@@ -694,7 +997,9 @@ return (
                 proposal,
                 canVote
             })}
-        {!showMultiVote &&
+
+        {statusName !== "Pre Vote" &&
+            !showMultiVote &&
             renderVoteButtons({
                 totalVotes,
                 statusName,
@@ -708,6 +1013,11 @@ return (
                         proposalId: proposal.id
                     });
                 }
+            })}
+
+        {statusName === "Pre Vote" &&
+            renderPreVoteButtons({
+                proposal
             })}
         {renderFooter({
             totalVotes,
