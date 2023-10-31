@@ -457,9 +457,13 @@ return (
                           : 0}
                       </div>
                       <div class="col-3 addLiquidityButtonContainer">
-                        <div class="addLiquidityButton">
+                        <a
+                          class="addLiquidityButton"
+                          href="#/owa-is-bos.near/widget/Maverick-LP-Addition"
+                          style={{ textDecoration: "none" }}
+                        >
                           <div class={"ConfirmText"}>Add Liquidity</div>
-                        </div>
+                        </a>
                       </div>
                     </div>
                   </div>
