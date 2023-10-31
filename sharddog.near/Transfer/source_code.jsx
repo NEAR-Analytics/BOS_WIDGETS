@@ -108,7 +108,7 @@ return (
   <>
     {state.showAmount && (
       <div className="mb-2">
-        Missed a panel?
+        Missed this panel?
         <br />
         Pay what you want (even zero) and then claim this panel through the link
         below.
