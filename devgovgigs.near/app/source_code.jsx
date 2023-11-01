@@ -112,6 +112,15 @@ function Page() {
         />
       );
     }
+    // ?page=blog
+    case "blog": {
+      return (
+        <Widget
+          src={"devgovgigs.near/widget/devhub.page.blog"}
+          props={passProps}
+        />
+      );
+    }
     default: {
       // TODO: 404 page
       return <p>404</p>;
