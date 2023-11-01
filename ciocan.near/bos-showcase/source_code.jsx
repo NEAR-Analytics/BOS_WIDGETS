@@ -1,5 +1,5 @@
 const ipfsUrl =
-  "https://rose-elaborate-scorpion-109.mypinata.cloud/ipfs/QmfVD3m8ZaJpN9jE2WsF7HLyWZ9Ta1VVsoAXMn9SSqHweQ/";
+  "https://rose-elaborate-scorpion-109.mypinata.cloud/ipfs/QmfLcvNac28JMDt8kYYFR3m3yPz1R4ET6whsoGoisExyRw/";
 
 const Main = styled.div`
   display: flex;
