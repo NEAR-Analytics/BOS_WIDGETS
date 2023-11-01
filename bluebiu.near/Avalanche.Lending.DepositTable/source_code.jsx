@@ -8,7 +8,7 @@ return (
           width: "25%",
           name: "Deposit Asset",
         },
-        { key: "apy", width: "18%", name: "APY" },
+        { type: "apy", width: "23%", name: "APY" },
         { type: "collateral", width: "17%", name: "Collateral" },
         {
           type: "total",
@@ -16,7 +16,7 @@ return (
           width: "20%",
           name: "Balance",
         },
-        { type: "button", width: "20%" },
+        { type: "button", width: "15%" },
       ],
       data: props.data,
       buttons: [
@@ -25,6 +25,7 @@ return (
           loading: state.loading,
         },
       ],
+      type: "deposit",
       onButtonClick: props.onButtonClick,
       emptyTips: "You supplied assets will appear here",
     }}
