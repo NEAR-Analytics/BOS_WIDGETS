@@ -110,6 +110,26 @@ const SocialWrapper = styled.div`
     .mid{
         flex: 1;
     }
+    .daos{
+      .title-section{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+          h3{
+            font-size: 24px;
+            font-style: normal;
+            font-weight: 900;
+            line-height: 120%
+          }
+        .all{
+          color: #B0B0B0;
+          font-size: 16px;
+          font-style: normal;
+          font-weight: 400;
+          line-height: 100%; /* 16px */
+        }
+      }
+    }
 `;
 
 const communities = [
@@ -163,6 +183,38 @@ return (
       </div>
       <div className="lhs">
         <div className="daos">
+          <div className="title-section">
+            <h3>Featured DAOs</h3>
+            <a
+              href="#/agwaze.near/widget/CPlanet.index?tab=community"
+              className="all"
+              onClick={() => props.update({ tab: "community" })}
+            >
+              Show more (59)
+              <svg
+                width="10"
+                height="10"
+                viewBox="0 0 10 10"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M1.13672 1C4.20751 1 5.92918 1 8.99997 1V9"
+                  stroke="#B0B0B0"
+                  stroke-width="1.3478"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+                <path
+                  d="M8.99883 1L1 8.7377"
+                  stroke="#B0B0B0"
+                  stroke-width="1.3478"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            </a>
+          </div>
           {communities.map((data, index) => (
             <div key={index}>
               <Widget
