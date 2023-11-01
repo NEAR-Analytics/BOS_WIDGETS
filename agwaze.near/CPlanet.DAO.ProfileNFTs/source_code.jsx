@@ -1,5 +1,18 @@
 const Root = styled.div`
-    
+    .noNfts {
+        span {
+            overflow: hidden;
+            color: #B0B0B0;
+            text-align: center;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            font-family: Helvetica Neue;
+            font-size: 16px;
+            font-style: normal;
+            font-weight: 400;
+            line-height: 148%; /* 23.68px */
+        }
+    }
 `;
 
 const Cards = styled.div`
@@ -63,7 +76,7 @@ const storeNfts = state.storeContracts;
 return (
   <Root>
     <Cards>
-      {storeNfts &&
+      {storeNfts.length ? (
         storeNfts.map((data, index) => (
           <div key={index}>
             <Widget
@@ -85,7 +98,12 @@ return (
               src="jgodwill.near/widget/Mintbase.NFTCard.index"
             />
           </div>
-        ))}
+        ))
+      ) : (
+        <div className="noNfts">
+          <span>No NFTs to display right now</span>
+        </div>
+      )}
     </Cards>
   </Root>
 );
