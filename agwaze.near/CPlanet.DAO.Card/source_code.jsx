@@ -74,8 +74,8 @@ const ImageProfile = styled.div`
 `;
 
 const HeaderText = styled.div`
-  height: 150px;
   margin-top: 32px;
+  height: 140px;
   p {
     margin-bottom: 10px;
     overflow: hidden;
@@ -212,6 +212,16 @@ const Tags = styled.div`
         line-height: 150%; /* 15px */
         padding: 3px 10px;
     }
+    .no-tag {
+      opacity: 0;
+    }
+`;
+
+const Footer = styled.div`
+  height: 100px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
 `;
 
 const fetchApiConfig = {
@@ -349,19 +359,24 @@ return (
             </p>
           </div>
         </AmountSec>
+      </CardBody>
+      <Footer>
         <Tags>
-          {profile.tags &&
+          {profile.tags ? (
             Object.keys(profile.tags).length > 0 &&
             Object.keys(profile.tags)
               .slice(0, 3)
-              .map((data) => <div className="tag">{data}</div>)}
+              .map((data) => <div className="tag">{data}</div>)
+          ) : (
+            <div className="no-tag">man</div>
+          )}
         </Tags>
-      </CardBody>
-      <Button>
-        <a href={`/agwaze.near/widget/CPlanet.DAO.index?daoId=${daoId}`}>
-          <button>View DAO</button>
-        </a>
-      </Button>
+        <Button>
+          <a href={`/agwaze.near/widget/CPlanet.DAO.index?daoId=${daoId}`}>
+            <button>View DAO</button>
+          </a>
+        </Button>
+      </Footer>
     </Bottom>
   </CardRoot>
 );
