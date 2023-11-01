@@ -2,9 +2,10 @@ const ownerId = "nearcon23.near";
 const prefix = props.prefix || "/mobile";
 
 const theme = props.theme;
-const apiUrl = "https://gqqkd7l7mk.execute-api.us-east-1.amazonaws.com/mainnet/api/v1";
+const apiUrl =
+  "https://gqqkd7l7mk.execute-api.us-east-1.amazonaws.com/mainnet/api/v1";
 const socketUrl =
-  "wss://7nnjul56if.execute-api.us-east-1.amazonaws.com/testnet";
+  "wss://bva2os6ai2.execute-api.us-east-1.amazonaws.com/mainnet";
 
 const Container = styled.div`
     width: 100%;
@@ -174,9 +175,7 @@ const storedSecretKey = Storage.get(
 
 const fetchData = () => {
   const key = secretkey ? secretkey : storedSecretKey;
-  asyncFetch(
-    `${apiUrl}/accounts/auth/${key}`
-  ).then(({ body }) => {
+  asyncFetch(`${apiUrl}/accounts/auth/${key}`).then(({ body }) => {
     if (!!storedSecretKey === false) {
       State.update({
         redirectToHome: "redirect",
