@@ -85,6 +85,7 @@ State.init({
   functionsToCallByLibrary: initLibsCalls,
   sbtsNames: initSbtsNames,
   sbts: initSbtsNames,
+  firstRender: sharedBlockHeight,
 });
 
 let newLibsCalls = state.functionsToCallByLibrary;
@@ -95,22 +96,22 @@ State.update({ libsCalls: newLibsCalls });
 
 //==================================================CONSTS==========================================================
 
-// const authorForWidget = "sayalot.near";
+const authorForWidget = "sayalot.near";
 // const authorForWidget =
 //   "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb";
 // const authorForWidget = "kenrou-it.near";
-const authorForWidget = "silkking.near";
+// const authorForWidget = "silkking.near";
 
 const thisWidgetName = "SayALot";
 
 const widgets = {
   sayALot: `${authorForWidget}/widget/${thisWidgetName}`,
-  create: `${context.accountId}/widget/SayALot.Create`, /////////////////////////////////////////////////////////////////////////////////////////////////////
+  create: `${authorForWidget}/widget/SayALot.Create`,
   header: `${authorForWidget}/widget/SayALot.NavBar`,
   showArticlesList: `${authorForWidget}/widget/SayALot.AllArticlesList`,
-  showArticlesListSortedByAuthors: `${context.accountId}/widget/SayALot.AllArticlesSortByAuthors`, ///////////////////////////////////////////////////////////
-  articlesByAuthorCard: `${context.accountId}/widget/SayALot.ArticlesByAuthorCard`, /////////////////////////////////////////////////////////////////////////
-  generalCard: `${context.accountId}/widget/SayALot.GeneralCard`, ///////////////////////////////////////////////////////////////////////////////////////////
+  showArticlesListSortedByAuthors: `${authorForWidget}/widget/SayALot.AllArticlesSortByAuthors`,
+  articlesByAuthorCard: `${authorForWidget}/widget/SayALot.ArticlesByAuthorCard`,
+  generalCard: `${authorForWidget}/widget/SayALot.GeneralCard`,
   articleView: `${authorForWidget}/widget/SayALot.ArticleView`,
   reactions: `${authorForWidget}/widget/SayALot.Reactions`,
   addComment: `${authorForWidget}/widget/SayALot.AddComment`,
@@ -120,7 +121,7 @@ const widgets = {
   libArticle: `${authorForWidget}/widget/lib.article`,
   libEmojis: `${authorForWidget}/widget/lib.emojis`,
   libUpVotes: `${authorForWidget}/widget/lib.upVotes`,
-  upVoteButton: `${context.accountId}/widget/SayALot.UpVoteButton`, ////////////////////////////////////////////////////////////////////////////////////////
+  upVoteButton: `${authorForWidget}/widget/SayALot.UpVoteButton`,
   styledComponents: "rubycop.near/widget/NDC.StyledComponents",
   newStyledComponents: {
     Element: {
@@ -177,7 +178,23 @@ const canLoggedUserCreateArticle = state.canLoggedUserCreateArticle[sbts[0]];
 
 //=================================================GET DATA=========================================================
 const finalArticles = state.articles;
-const articlesToRender = finalArticles[sbts[0]] ?? [];
+
+function getArticlesToRender() {
+  if (sharedBlockHeight && finalArticles && state.firstRender) {
+    let finalArticlesSbts = Object.keys(finalArticles);
+    let allArticles = [];
+
+    finalArticlesSbts.forEach((sbt) => {
+      allArticles = [...allArticles, ...finalArticles[sbt]];
+    });
+
+    return allArticles;
+  } else {
+    return finalArticles[sbts[0]];
+  }
+}
+
+const articlesToRender = getArticlesToRender() ?? [];
 
 function filterArticlesByTag(tag, articles) {
   return articles.filter((article) => {
@@ -443,6 +460,7 @@ function handleBackButton() {
           parameterValue: undefined,
           handleBackClicked: true,
         },
+        firstRender: false,
       })
     : State.update({
         displayedTabId: tabs.SHOW_ARTICLES_LIST.id,
@@ -453,6 +471,7 @@ function handleBackButton() {
           parameterValue: undefined,
           handleBackClicked: true,
         },
+        firstRender: false,
       });
 }
 
@@ -462,6 +481,7 @@ function handleGoHomeButton() {
     articleToRenderData: {},
     filterBy: { parameterName: "", parameterValue: {} },
     editArticleData: undefined,
+    firstRender: false,
   });
 }
 
