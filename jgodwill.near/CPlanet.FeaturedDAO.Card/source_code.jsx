@@ -20,6 +20,9 @@ const CardRoot = styled.div`
     margin-bottom: 20px;
     display: flex;
     flex-direction: column;
+    &>a{
+      text-decoration: none;
+    }
 `;
 const Top = styled.div`
     height: 72.195px;
