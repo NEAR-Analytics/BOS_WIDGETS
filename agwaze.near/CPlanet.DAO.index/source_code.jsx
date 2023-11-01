@@ -1,5 +1,6 @@
 const daoId = props.daoId ?? "marmaj.sputnik-dao.near";
 const Root = styled.div`
+    margin-bottom: 50px;
 `;
 
 const ImageSection = styled.div`
@@ -20,8 +21,8 @@ const ImageSection = styled.div`
 
 const RightProfile = styled.div`
     margin-top: 104px;
-    width: 380px;
-    min-width: 300px;
+    width: 200px;
+    width: 315px;
     padding: 0 20px;
     .title {
         color: #000;
@@ -290,7 +291,6 @@ useEffect(() => {
     policy.roles.filter((data) => data.name === "council")[0]?.kind?.Group
   );
 }, [policy]);
-
 
 return (
   <Root>
