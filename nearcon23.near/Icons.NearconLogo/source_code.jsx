@@ -1,5 +1,11 @@
 return (
-  <svg xmlns="http://www.w3.org/2000/svg" width="179" height="50" fill="none">
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="179"
+    height="50"
+    fill="none"
+    style={{ marginTop: -25 }}
+  >
     <g clip-path="url(#a)">
       <path
         d="m175.694 13.197-55.567-6.18a2.64 2.64 0 0 0-2.501 4.064l29.229 44.722a2.638 2.638 0 0 0 2.8 1.128l.008-.002a2.639 2.639 0 0 0 2.02-2.252l2.875-23.756 22.164-12.818a2.638 2.638 0 0 0-1.029-4.906h.001Z"
@@ -21,7 +27,7 @@ return (
       />
       <mask
         id="b"
-        style={{maskType:"luminance"}}
+        style={{ maskType: "luminance" }}
         maskUnits="userSpaceOnUse"
         x="117"
         y="7"
