@@ -273,21 +273,18 @@ return (
             if (isValid()) {
               setLoading(true);
               console.log(state.userData);
-              asyncFetch(
-                `https://21mqgszhf3.execute-api.us-east-1.amazonaws.com/testnet/api/v1/accounts/transfer`,
-                {
-                  body: JSON.stringify({
-                    accountId: state.userData.nearconId,
-                    secretKey: key,
-                    sendTo: receiverId,
-                    amount: `${parseFloat(value)}`,
-                  }),
-                  headers: {
-                    "Content-Type": "application/json",
-                  },
-                  method: "POST",
-                }
-              ).then((res) => {
+              asyncFetch(`${apiUrl}/accounts/transfer`, {
+                body: JSON.stringify({
+                  accountId: state.userData.nearconId,
+                  secretKey: key,
+                  sendTo: receiverId,
+                  amount: `${parseFloat(value)}`,
+                }),
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                method: "POST",
+              }).then((res) => {
                 const { body } = res;
                 const { newPrivateKey, newPublicKey, accountId } = body;
                 Storage.set("newPrivateKey", newPrivateKey);
