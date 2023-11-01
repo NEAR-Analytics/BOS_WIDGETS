@@ -1,5 +1,12 @@
 return (
-  <div style={{ backgroundColor: "lightgrey", flex: "0 0", width: "10rem" }}>
+  <div
+    style={{
+      backgroundColor: "#e7e7e7",
+      flex: "0 0",
+      width: "15rem",
+      height: "100%",
+    }}
+  >
     Sidebar
   </div>
 );
