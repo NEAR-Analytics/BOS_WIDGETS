@@ -14,8 +14,6 @@ const handleOnCancelBanner = props?.handleOnCancelBanner;
 const mobileView = props?.mobileView;
 const navigate = props?.navigate;
 
-console.log("navigate", navigate);
-
 State.init({
   open: false,
 });
@@ -139,7 +137,7 @@ const Notification = ({ count, disabled }) => {
         {state.open && (
           <PreviewContent>
             <Widget
-              src="near/widget/NearOrg.Notifications.Notifications"
+              src="aaron.near/widget/VitalPointAI.Notifications.Notifications"
               props={{
                 isLocalStorageSupported,
                 isNotificationSupported,
