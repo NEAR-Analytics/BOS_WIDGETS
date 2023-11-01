@@ -675,7 +675,8 @@ const handleInputTokenA = (input) => {
     if (ic !== 0) {
       tokenB = input * (deltaX / deltaY);
       State.update({
-        amountInputTokenB: deltaY > 0 ? tokenB.toFixed(6) : 0,
+        amountInputTokenB: deltaY == 0 ? 0 : tokenB,
+        //amountInputTokenB: deltaY != 0 ? tokenB.toFixed(6) : 0,
         amountInputTokenA: input,
         validation: undefined,
       });
@@ -721,15 +722,18 @@ const handleInputTokenB = (input) => {
     if (ic !== 0) {
       tokenA = (input / deltaX) * deltaY;
       State.update({
-        amountInputTokenA: deltaY > 0 ? tokenA : 0,
-        amountInputTokenB: deltaY > 0 ? input : 0,
+        amountInputTokenA: deltaY == 0 ? 0 : tokenA,
+        amountInputTokenB: input,
+        //amountInputTokenA: deltaY > 0 ? tokenA : 0,
+        //amountInputTokenB: deltaY > 0 ? input : 0,
         validation: undefined,
       });
     } else {
       State.update({
         amountInputTokenA: 0,
         need2Tokens: false,
-        amountInputTokenB: deltaY > 0 ? input : 0,
+        //amountInputTokenB: deltaY > 0 ? input : 0,
+        amountInputTokenB: input,
         validation: undefined,
       });
     }
