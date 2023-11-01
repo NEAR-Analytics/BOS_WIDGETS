@@ -148,7 +148,9 @@ return (
         <button
           className="btn"
           style={{
-            right: 0,
+            top: 43,
+            right: 10,
+            padding: 0,
             position: "absolute",
           }}
           onClick={onClose}
