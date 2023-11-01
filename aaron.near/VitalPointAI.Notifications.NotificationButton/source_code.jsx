@@ -12,6 +12,7 @@ const handleOnCancel = props?.handleOnCancel;
 const getNotificationLocalStorage = props?.getNotificationLocalStorage;
 const handleOnCancelBanner = props?.handleOnCancelBanner;
 const mobileView = props?.mobileView;
+const navigate = props?.navigate;
 
 State.init({
   open: false,
@@ -156,6 +157,7 @@ const Notification = ({ count, disabled }) => {
               <Widget
                 src="aaron.near/widget/VitalPointAI.DIG.Button"
                 props={{
+                  navigate,
                   fill: "outline",
                   variant: "secondary",
                   label: "See all",
