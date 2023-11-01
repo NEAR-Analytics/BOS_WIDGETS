@@ -54,7 +54,7 @@ const components = [
       profile: "Object that holds profile information to display",
       fast: "Render profile picture faster using external cache, default true if the `props.profile` is not provided",
       title:
-        "Optional title when you hover over the profile. Default `name accountId`",
+        'Optional title when you hover over the profile. Default `"${name} ${accountId}"`',
       tooltip:
         "Display overlay tooltip or title when you hover over the profile, default false. Will display a custom title if tooltip is given. If tooltip is true, the full tooltip is displayed. Default false",
     },
@@ -83,7 +83,7 @@ const components = [
       profile: "Object that holds profile information to display",
       fast: "Render profile picture faster using external cache, default true if the `props.profile` is not provided",
       title:
-        "Optional title when you hover over the profile. Default `name accountId`",
+        'Optional title when you hover over the profile. Default `"${name} ${accountId}"`',
       tooltip:
         "Display overlay tooltip or title when you hover over the profile, default false. Will display a custom title if tooltip is given. If tooltip is true, the full tooltip is displayed. Default false",
     },
@@ -99,7 +99,9 @@ const renderProps = (props, optional) => {
             {key}
           </span>
         </td>
-        <td className="prop-desc">{desc}</td>
+        <td className="prop-desc">
+          <Markdown text={desc} />
+        </td>
       </tr>
     );
   });
@@ -215,6 +217,11 @@ const Wrapper = styled.div`
         font-weight: 600;
         &.optional {
           font-weight: normal;
+        }
+      }
+      .prop-desc {
+        p {
+          margin-bottom: 0;
         }
       }
     }
