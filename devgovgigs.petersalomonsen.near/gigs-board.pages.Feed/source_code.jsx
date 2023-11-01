@@ -191,24 +191,15 @@ const banner = (
       <div className="d-flex justify-content-between">
         <h5 className="h5 m-0">Featured Communities</h5>
       </div>
-
       <div className="d-flex gap-4 justify-content-between">
-        {(DevHub.get_all_communities_metadata() ?? [])
-          .filter(({ handle }) =>
-            [
-              "zero-knowledge",
-              "protocol",
-              "contract-standards",
-              "education",
-            ].includes(handle)
-          )
-          .map((community) =>
+        {(Near.view(devHubAccountId, "get_featured_communities") ?? []).map(
+          (community) =>
             widget(
               "entity.community.card",
               { metadata: community, format: "medium" },
               community.handle
             )
-          )}
+        )}
       </div>
     </div>
 
@@ -216,43 +207,17 @@ const banner = (
   </div>
 );
 
-const FeedPage = ({ author, recency, tag }) => {
-  State.init({
-    initial: { author, tag },
-    author,
-    tag,
-  });
-
-  // When rerendered with different props, State will be preserved, so we need to update the state when we detect that the props have changed.
-  if (tag !== state.initial.tag || author !== state.initial.author) {
-    State.update((lastKnownState) => ({
-      ...lastKnownState,
-      initial: { author, tag },
-      author,
-      tag,
-    }));
-  }
-
-  const onTagSearch = (tag) => {
-    State.update((lastKnownState) => ({ ...lastKnownState, tag }));
-  };
-
-  const onAuthorSearch = (author) => {
-    State.update((lastKnownState) => ({ ...lastKnownState, author }));
-  };
-
+const FeedPage = ({ recency, tag }) => {
   return widget("components.template.app-layout", {
     banner,
 
     children: widget("feature.post-search.panel", {
-      author: state.author,
-      authorQuery: { author: state.author },
-      children: widget("components.layout.Controls"),
-      onAuthorSearch,
-      onTagSearch,
+      children: widget("components.layout.Controls", {
+        title: "Post",
+        href: href("Create"),
+      }),
       recency,
-      tag: state.tag,
-      tagQuery: { tag: state.tag },
+      tag,
       transactionHashes: props.transactionHashes,
     }),
   });
