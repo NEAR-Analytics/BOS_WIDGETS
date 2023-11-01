@@ -157,8 +157,8 @@ const brand = {
   brandName: "Community Voice",
   logoHref:
     "https://ipfs.near.social/ipfs/bafkreiaqxa4st4vp4rtq2iyobdgqe5tpfg55mmyvfg25upd2qplcxylyfi",
-  logoRemWidth: 12,
-  logoRemHeight: 4,
+  logoRemWidth: 6,
+  logoRemHeight: 6,
 };
 
 const navigationPills = [
