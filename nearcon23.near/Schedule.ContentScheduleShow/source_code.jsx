@@ -14,7 +14,7 @@ const Grid = styled.div`
   @media only screen and (max-width: 768px) {
     grid-template-columns: 20% 5% 65%;
   }
-  gap: 1rem;
+  gap: 16px;
   width: 100%;
 `;
 
@@ -33,17 +33,17 @@ const ShowInMobile = styled.div`
 
 const Brick = styled.div`
   background-color: black;
-  width: 20px;
+  width: 12px;
   height:100%;
 `;
 
 const Dot = styled.div`
   background-color: black;
   border: 5px solid white;
-  width: 25px;
-  height: 25px;
+  width: 22px;
+  height: 22px;
   margin-top: -20px;
-  transform: translate(-2.8px,20px);
+  transform: translate(-5px,20px);
   border-radius: 100px;
 `;
 
@@ -89,7 +89,7 @@ const colorMapping = {
 };
 
 const filteredData = (props?.dateData ?? [])?.filter((item) => {
-  const { dates, track, venue, search } = props.filter;
+  const { dates, track, venue: venues, search } = props.filter;
   let allConditions = [];
   let isDateIncluded = false;
   let isVenue = false;
@@ -103,12 +103,13 @@ const filteredData = (props?.dateData ?? [])?.filter((item) => {
   } else {
     allConditions.push(true);
   }
-  if (venue) {
-    venue.map((_) => {
-      if (_?.toLowerCase() === item.location?.toLowerCase()) {
+  if (venues) {
+    venues.map((venue) => {
+      if (venue?.toLowerCase?.() === item?.location?.toLowerCase?.()) {
         isVenue = true;
       }
     });
+
     allConditions.push(isVenue);
   } else {
     allConditions.push(true);
@@ -155,7 +156,7 @@ return filteredData.length !== 0 ? (
                 <h3
                   style={{
                     fontWeight: "600",
-                    width: "100vw",
+                    width: "100%",
                     textAlign: "center",
                     left: 0,
                     position: "absolute",
@@ -248,6 +249,7 @@ return filteredData.length !== 0 ? (
               <div
                 style={{
                   padding: 10,
+                  paddingLeft: 0,
                   paddingTop: idx === 0 ? 25 : 0,
                   display: "flex",
                 }}
