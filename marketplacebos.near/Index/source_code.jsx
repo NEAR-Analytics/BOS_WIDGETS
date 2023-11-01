@@ -181,18 +181,16 @@ return (
         )}
         {state.selectedTab === "checkboxes" && (
           <>
-                          <Widget src="marketplacebos.near/widget/Page.CheckBoxPage1" />
+            <Widget src="marketplacebos.near/widget/Page.CheckBoxPage1" />
             <br />
             <br />
-
           </>
         )}
         {state.selectedTab === "toggleswitches" && (
           <>
-                          <Widget src="marketplacebos.near/widget/Page.ToggleSwitchPage1" />
+            <Widget src="marketplacebos.near/widget/Page.ToggleSwitchPage1" />
             <br />
             <br />
-
           </>
         )}
         {state.selectedTab === "cards" && (
@@ -203,22 +201,21 @@ return (
         )}
         {state.selectedTab === "loaders" && (
           <>
-              <Widget src="marketplacebos.near/widget/Page.LoaderPage1" />
+            <Widget src="marketplacebos.near/widget/Page.LoaderPage1" />
             <br />
             <br />
-            
           </>
         )}{" "}
         {state.selectedTab === "inputs" && (
           <>
-                          <Widget src="marketplacebos.near/widget/Page.InputPage1" />
+            <Widget src="marketplacebos.near/widget/Page.InputPage1" />
             <br />
             <br />
           </>
         )}{" "}
         {state.selectedTab === "radiobuttons" && (
           <>
-                          <Widget src="marketplacebos.near/widget/Page.RadioButtonPage1" />
+            <Widget src="marketplacebos.near/widget/Page.RadioButtonPage1" />
             <br />
             <br />
           </>
@@ -226,7 +223,7 @@ return (
         {""}
         {state.selectedTab === "forms" && (
           <>
-                          <Widget src="marketplacebos.near/widget/Page.FormPage1" />
+            <Widget src="marketplacebos.near/widget/Page.FormPage1" />
             <br />
             <br />
           </>
@@ -234,16 +231,15 @@ return (
         {""}
         {state.selectedTab === "charts" && (
           <>
-                       <Widget src="marketplacebos.near/widget/Page.ChartPage1" />
+            <Widget src="marketplacebos.near/widget/Page.ChartPage1" />
             <br />
             <br />
-   
           </>
         )}
         {""}
         {state.selectedTab === "patterns" && (
           <>
-              <Widget src="marketplacebos.near/widget/Page.MyFavouritesPage" />
+            <Widget src="marketplacebos.near/widget/PatternPage1" />
             <br />
             <br />
           </>
