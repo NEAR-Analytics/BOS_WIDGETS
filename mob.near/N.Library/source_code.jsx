@@ -128,7 +128,7 @@ const renderComponent = (c, i) => {
 
 const Wrapper = styled.div`
   .component {
-    padding: 0.5em;
+    padding: 0.5em 0;
     padding-bottom: 0;
     border-bottom: 1px solid #ccc;
     margin-bottom: 3em;
