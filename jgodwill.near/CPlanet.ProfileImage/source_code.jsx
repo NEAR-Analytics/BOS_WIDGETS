@@ -65,7 +65,7 @@ const inner = fast ? (
 return props.tooltip ? (
   <Widget
     loading={inner}
-    src="mob.near/widget/CPlanet.Profile.N.OverlayTrigger"
+    src="jgodwill.near/widget/CPlanet.Profile.N.OverlayTrigger"
     props={{ accountId, children: inner }}
   />
 ) : (
