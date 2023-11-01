@@ -9,6 +9,7 @@ let {
   loading,
   size,
   type,
+  navigate,
   variant,
   ...forwardedProps
 } = props;
