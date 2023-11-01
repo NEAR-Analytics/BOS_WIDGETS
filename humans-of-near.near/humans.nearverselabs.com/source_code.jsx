@@ -144,8 +144,12 @@ const getLocationsData = async () => {
   });
 };
 
-const onClose = () => {
+const onProfileClose = () => {
   State.update({ profileModal: false });
+};
+
+const onFiltersClose = () => {
+  State.update({ filtersModal: false });
 };
 
 const onHumanClose = () => {
@@ -185,10 +189,10 @@ return (
           profileModal: state.profileModal,
           filtersModal: state.filtersModal,
           showProfile: () => {
-            State.update({ profileModal: true });
+            State.update({ filtersModal: false, profileModal: true });
           },
           showFilters: () => {
-            State.update({ filtersModal: true });
+            State.update({ filtersModal: true, profileModal: false });
           },
         }}
       />
@@ -231,7 +235,24 @@ return (
     {accountId && hasSBTToken && state.profileModal && (
       <Widget
         src={`${Owner}/widget/Human-Profile-Modal`}
-        props={{ onClose, API_URL, user: state.user, getMyInfor }}
+        props={{
+          onClose: onProfileClose,
+          API_URL,
+          user: state.user,
+          getMyInfor,
+        }}
+      />
+    )}
+
+    {accountId && hasSBTToken && state.filtersModal && (
+      <Widget
+        src={`${Owner}/widget/Human-Filters-Modal`}
+        props={{
+          onClose: onFiltersClose,
+          API_URL,
+          user: state.user,
+          getMyInfor,
+        }}
       />
     )}
 
