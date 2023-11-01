@@ -28,7 +28,7 @@ variant = variant ?? "primary";
 //       type,
 //       disabled: disabled || loading,
 //     };
-
+const conditionalAttributes
 if (icon) {
   conditionalAttributes["aria-label"] = label;
 }
