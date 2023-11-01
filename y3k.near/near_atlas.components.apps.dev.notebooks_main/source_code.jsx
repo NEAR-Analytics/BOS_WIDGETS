@@ -1,18 +1,20 @@
 const contract = "y3k.near";
 const questions = Near.view(contract, "get_all_questions", {});
 
-console.log(questions[0][1]);
+console.log(questions);
 
 return (
   <div className="container">
-    {questions[0].map((question) =>
-      question &&
-      question.content &&
-      question.description &&
-      question.asker_id &&
-      question.category &&
-      question.answers &&
-      question.timestamp ? (
+    {questions.map((entry) => {
+      const question = entry[1];
+
+      return question &&
+        question.content &&
+        question.description &&
+        question.asker_id &&
+        question.category &&
+        question.answers &&
+        question.timestamp ? (
         <div
           key={question.id}
           className="bg-gray-900 rounded-lg p-6 m-4 shadow-lg max-w-lg"
@@ -47,7 +49,7 @@ return (
             </span>
           </div>
         </div>
-      ) : null
-    )}
+      ) : null;
+    })}
   </div>
 );
