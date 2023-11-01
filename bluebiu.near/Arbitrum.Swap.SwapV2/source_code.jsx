@@ -90,34 +90,12 @@ const Price = styled.div`
     margin-top: 10px;
   }
 `;
-const SwapButton = styled.button`
-  width: 100%;
-  height: 60px;
-  border-radius: 10px;
-  background-color: var(--button-color);
-  color: #fff;
-  font-size: 18px;
-  line-height: 22px;
-  border: none;
-  transition: 0.5s;
-  cursor: pointer;
-  :hover {
-    opacity: 0.8;
-  }
-  &:disabled {
-    opacity: 0.5;
-    pointer-events: none;
-  }
-`;
-// styled area end
 
 const getBestTrade = () => {
   State.update({
     loading: true,
   });
 };
-
-console.log({ state });
 
 const debouncedGetBestTrade = state.debounce(getBestTrade, 500);
 
@@ -270,6 +248,7 @@ return (
             }
             if (state.currencySelectType === 1) {
               updatedParams.outputCurrency = currency;
+              updatedParams.outputCurrencyAmount = "";
               if (currency.address === state.inputCurrency.address) {
                 updatedParams.inputCurrency = null;
                 updatedParams.inputCurrencyAmount = "";
