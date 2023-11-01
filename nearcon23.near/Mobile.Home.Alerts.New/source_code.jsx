@@ -2,18 +2,49 @@ const ownerId = "nearcon23.near";
 const prefix = props.prefix || "/mobile";
 
 const theme = props.theme;
-const apiUrl = "http://localhost:8080";
+const apiUrl = "https://gqqkd7l7mk.execute-api.us-east-1.amazonaws.com/mainnet/api/v1";
+const socketUrl =
+  "wss://7nnjul56if.execute-api.us-east-1.amazonaws.com/testnet";
 
 const Container = styled.div`
     width: 100%;
-        padding: 0 20px;
+    padding: 0 0px;
+`;
+const HeaderStyle = styled.div`
+ height: 64px;
+  display: flex;
+  align-items: flex-end;
+  padding:15px;
+  background: url("https://ipfs.near.social/ipfs/bafkreigmwev6i2ivgz5ampkihov2ub7yenn7hohs34erheclixz2dopwru");
+  
+  // margin-top:-15px;
+
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position:center;
+  p {
+    margin-bottom: 0px;
+    font-size:22px;
+    font-weight: 700;
+    color: black;
+  }
 `;
 const Content = styled.div`
     width: 100%;
     display: flex;
     flex-direction: column;
     gap: 16px;
+    padding:10px 20px;
 `;
+const NavLink = styled.div`
+  * {
+      color: #000000;
+  }
+  a:hover {
+    text-decoration:none;
+  }
+`;
+
 const Header = styled.div`
     width: 100%;
     padding: 20px 0;
@@ -61,7 +92,7 @@ const GridToggle = styled.div`
 
 State.init({
   message: "",
-  showButton: true,
+  showButton: false,
   buttonLabel: "",
   url: "",
   recipients: "allTracks",
@@ -76,24 +107,33 @@ const ShowHideView = styled.div`
   transition: height 0.3s ease-in-out;
 
   &.show {
-    height: 170px;
+    height: 176px;
   }
 `;
 
-// const isValid = () => {
-//   return (
-//     state.message &&
-//     state.messageError === "" &&
-//     state.showButton &&
-//     state.showButtonError === "" &&
-//     state.buttonLabel &&
-//     state.buttonLabelError === "" &&
-//     state.url &&
-//     state.urlError === "" &&
-//     state.recipients &&
-//     state.recipientsError === ""
-//   );
-// };
+const [socket, setSocket] = useState(null);
+
+useEffect(() => {
+  const newSocket = new WebSocket(socketUrl);
+
+  newSocket.onopen = () => {
+    console.log("WebSocket connection opened");
+  };
+
+  newSocket.onmessage = (event) => {
+    console.log("Received a message:", event.data);
+  };
+
+  newSocket.onclose = (event) => {
+    console.log("WebSocket connection closed", event.code, event.reason);
+  };
+
+  setSocket(newSocket);
+
+  return () => {
+    newSocket.close();
+  };
+}, []);
 
 const handleSubmit = async () => {
   State.update({ loading: true });
@@ -104,47 +144,94 @@ const handleSubmit = async () => {
     buttonLabel: state.buttonLabel,
     url: state.url,
     recipients: state.recipients,
+    createdAt: Date.now(),
   };
 
-  // const res =
-  asyncFetch(`${apiUrl}/createNotification`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(data),
-  })
-    .then((res) => {
-      console.log(res);
+  console.log("data : ", data);
 
-      State.update({
-        message: "",
-        showButton: "",
-        buttonLabel: "",
-        url: "",
-        recipients: "allTracks",
-        accountId: context.accountId,
-        loading: false,
-      });
-    })
-    .catch((err) => {
-      console.log(err);
-      State.update({ loading: false });
-    });
+  socket.send(JSON.stringify(data));
+
+  State.update({
+    message: "",
+    showButton: false,
+    buttonLabel: "",
+    url: "",
+    recipients: "allTracks",
+    accountId: context.accountId,
+    loading: false,
+  });
+  State.update({ redirect: true });
 };
+
+const { secretkey } = props;
+
+const storedSecretKey = Storage.get(
+  "newPrivateKey",
+  `${ownerId}/widget/Ticket.Page`
+)
+  ? Storage.get("newPrivateKey", `${ownerId}/widget/Ticket.Page`)
+  : Storage.get("newPrivateKey", `${ownerId}/widget/RegisterMobile.Index`);
+
+const fetchData = () => {
+  const key = secretkey ? secretkey : storedSecretKey;
+  asyncFetch(
+    `${apiUrl}/accounts/auth/${key}`
+  ).then(({ body }) => {
+    if (!!storedSecretKey === false) {
+      State.update({
+        redirectToHome: "redirect",
+      });
+    }
+    State.update({
+      userData: body,
+    });
+  });
+};
+
+useEffect(() => {
+  fetchData();
+}, [secretkey, storedSecretKey]);
+
+if (state.redirect) {
+  return <Redirect to="/admin" />;
+}
 
 return (
   <Container>
-    <Header>
-      <h5>New Alert</h5>
-
-      <Link
-        to={`${prefix}/${ownerId}/widget/Mobile.Home`}
-        style={{ color: theme.textColor }}
+    <Widget
+      props={{
+        nearconId: state.userData.nearconId,
+        cid: state.userData.cid,
+      }}
+      src={`${ownerId}/widget/Navbar`}
+    />
+    <HeaderStyle>
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          width: "100%",
+          justifyContent: "space-between",
+        }}
       >
-        <p>Back</p>
-      </Link>
-    </Header>
+        <p>New Alert</p>
+
+        <NavLink>
+          <Link to="/mobile">
+            <Widget
+              src={`${ownerId}/widget/Inputs.Toggle2`}
+              props={{
+                rightLabel: "Home",
+                value: true,
+                onChange: () => {
+                  props?.closeScannedTicket?.();
+                },
+              }}
+            />
+          </Link>
+        </NavLink>
+      </div>
+    </HeaderStyle>
     <Content>
       <Widget
         src={`${ownerId}/widget/Inputs.TextArea`}
@@ -154,23 +241,6 @@ return (
           error: state.messageError,
           placeholder: "",
           onChange: (message) => State.update({ message }),
-          // validate: () => {
-          //   if (state.message.length < 3) {
-          //     State.update({
-          //       messageError: "message must be at least 3 characters",
-          //     });
-          //     return;
-          //   }
-
-          //   if (state.goal.length > 500) {
-          //     State.update({
-          //       goalError: "Goal must be less than 500 characters",
-          //     });
-          //     return;
-          //   }
-
-          //   State.update({ goalError: "" });
-          // },
         }}
       />
 
@@ -196,29 +266,8 @@ return (
             error: state.buttonLabelError,
             placeholder: "Enter Button Label",
             onChange: (buttonLabel) => State.update({ buttonLabel }),
-            // validate: () => {
-            //   if (state.buttonLabel.length < 3) {
-            //     State.update({
-            //       buttonLabelError:
-            //         "Button Label must be at least 3 characters",
-            //     });
-            //     return;
-            //   }
-
-            //   if (state.buttonLabel.length > 100) {
-            //     State.update({
-            //       buttonLabelError:
-            //         "Button Label must be less than 100 characters",
-            //     });
-            //     return;
-            //   }
-
-            //   State.update({ buttonLabelError: "" });
-            // },
           }}
         />
-
-        <div style={{ marginTop: 16 }} />
 
         <Widget
           src={`${ownerId}/widget/Inputs.Text`}
@@ -228,26 +277,10 @@ return (
             error: state.urlError,
             placeholder: "Enter URL Name",
             onChange: (url) => State.update({ url }),
-            // validate: () => {
-            //   if (state.url.length < 3) {
-            //     State.update({
-            //       urlError: "URL name must be at least 3 characters",
-            //     });
-            //     return;
-            //   }
-
-            //   if (state.url.length > 100) {
-            //     State.update({
-            //       urlError: "URL name must be less than 100 characters",
-            //     });
-            //     return;
-            //   }
-
-            //   State.update({ urlError: "" });
-            // },
           }}
         />
       </ShowHideView>
+      {/*
       <Widget
         src={`${ownerId}/widget/Inputs.Select`}
         props={{
@@ -263,23 +296,18 @@ return (
             { value: "regulators", text: "Regulators" },
           ],
           onChange: (persona) => State.update({ persona }),
-          // validate: () => {
-          //   if (!state.persona) {
-          //     State.update({
-          //       personaError: "Please select a persona",
-          //     });
-          //     return;
-          //   }
-
-          //   State.update({ personaError: "" });
-          // },
         }}
       />
+      */}
       <p style={{ fontSize: 12, fontWeight: 400, color: theme.textColor2 }}>
         By default every NEARCON attendee will receive alerts. You can send
         alerts to a subset based on track preference.
       </p>
-      <Button onClick={() => handleSubmit()}>
+      <Button
+        disabled={state.message === ""}
+        style={{ opacity: state.message === "" ? 0.6 : 1 }}
+        onClick={() => handleSubmit()}
+      >
         {state.loading && (
           <div
             class="spinner-border"
