@@ -185,9 +185,7 @@ const defaultDaos = [
 
 const seachInputHandler = (e) => {
   const value = e.target.value.toLowerCase();
-  const searched = defaultDaos.filter((daos) =>
-    daos.includes(value)
-  );
+  const searched = defaultDaos.filter((daos) => daos.includes(value));
   State.update({
     searchTerm: value,
     filteredNFTData: searched,
@@ -214,7 +212,13 @@ return (
           ? defaultDaos.map((data, index) => (
               <div key={index}>
                 <Widget
-                  props={{ daoId: data }}
+                  props={{
+                    daoId: data,
+                    onButtonClick: () =>
+                      props.update({
+                        tab: "daoProfile",
+                      }),
+                  }}
                   src="agwaze.near/widget/CPlanet.DAO.Card"
                 />
               </div>
