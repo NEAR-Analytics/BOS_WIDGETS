@@ -29,18 +29,18 @@ const ModalOverlay = styled.div`
 `;
 
 const ModalContent = styled.div`
+  gap:20px;
   width: 100%;
   color: white;
-  border-radius: 4px;
   display: flex;
+  border-radius: 4px;
   flex-direction: column;
-  gap:20px;
 `;
 
 const ModalAction = styled.div`
   display: flex;
-  justify-content: center;
   padding: 10px;
+  justify-content: center;
 `;
 
 const ModalTitle = styled.h4`
@@ -49,12 +49,12 @@ const ModalTitle = styled.h4`
 `;
 
 const Button = styled.a`
+  color: #191a1a;
+  font-weight: 600;
   padding: 10px 22px;
+  border-radius: 6px;
   background-color:white;
   text-decoration: none !important;
-  color: #191a1a;
-  border-radius: 6px;
-  font-weight: 600;
   &:hover {
     background-color: grey;
     color: #191a1a;
