@@ -9,7 +9,7 @@ const Items = [
     ),
     description: "Learn the fundamentals of NEAR and build with confidence",
     cta: {
-      href: "#",
+      href: "https://docs.near.org",
       title: "Read ↗",
     },
   },
@@ -23,7 +23,7 @@ const Items = [
       </>
     ),
     cta: {
-      href: "#",
+      href: "https://bit.ly/DevHubOfficeHrs",
       title: "Book a meeting ↗",
     },
   },
@@ -32,7 +32,7 @@ const Items = [
     description:
       "Explore funding opportunities from DevHub to fuel your vision",
     cta: {
-      href: "#",
+      href: "https://www.neardevgov.org/blog/near-developer-governance-funding-guidelines",
       title: "Learn more ↗",
     },
   },
@@ -85,14 +85,27 @@ const Container = styled.div`
   padding: 3rem;
   padding-top: 0;
   margin-top: 1.5rem;
+
+  @media screen and (max-width: 786px) {
+    padding: 1.5rem;
+    padding-top: 0;
+  }
 `;
 
 const ItemsContainer = styled.div`
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
   width: 100%;
+
+  flex-wrap: wrap;
+  gap: 3rem;
+
+  @media screen and (max-width: 768px) {
+    flex-direction: column;
+    gap: 1rem;
+  }
 `;
 
 const Content = (
