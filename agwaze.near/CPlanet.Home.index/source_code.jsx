@@ -1,7 +1,7 @@
 const Root = styled.div`
   .hero {
     display: flex;
-    flex-direction: column;
+    flex-direction: column-reverse;
     justify-content: space-between;
     padding-bottom: 0px;
 
