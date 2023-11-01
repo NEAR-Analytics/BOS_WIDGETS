@@ -316,7 +316,7 @@ display: flex;
 width: 100%;
 flex-wrap: wrap;
 input {
-    border-radius: 32px;
+    border-radius: 8px;
     flex-shrink: 0;
     height: 48px;
     width: 100%;
@@ -529,7 +529,7 @@ return (
                   <div className="d-flex align-center text-center gap-2">
                     <SelectCard>
                       <Card>
-                        <div>Select Chain</div>
+                        <div>Select a Chain</div>
                         <Widget
                           src="jgodwill.near/widget/CPlanet.ChainsDropdown"
                           props={{ chains: chains, updateChain }}
@@ -537,7 +537,7 @@ return (
                       </Card>
                       {state.nftChainState === "Near" && (
                         <Card>
-                          Near Address:
+                          Near Wallet Address:
                           <Search>
                             <Typeahead
                               id="async-example"
