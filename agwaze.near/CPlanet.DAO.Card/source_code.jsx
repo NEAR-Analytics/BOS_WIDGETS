@@ -373,6 +373,7 @@ return (
         <Button>
           <a
             href={`#/agwaze.near/widget/CPlanet.index?tab=daoProfile&daoId=${props.daoId}`}
+            onClick={() => props.update({ tab: "daoProfile" })}
           >
             <button>View DAO</button>
           </a>
