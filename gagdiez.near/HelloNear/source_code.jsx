@@ -1,15 +1,15 @@
-const [greeting, setGreeting] = useState("loading...");
+let storedGreeting = Near.view("hello.near-examples.near", "get_greeting");
+
+const [greeting, setGreeting] = useState(storedGreeting);
 const [activeIndex, setActiveIndex] = useState(0);
+
+if (!greeting || context.loading) {
+  return "Loading...";
+}
 
 const Main = styled.div`
   font-family: -apple-system, BlinkMacSystemFont, Segoe UI
 `;
-
-useEffect(() => {
-  const greeting = Near.view("hello.near-examples.near", "get_greeting");
-  console.log("Got greeting", greeting);
-  setGreeting(greeting);
-}, []);
 
 useEffect(() => {
   setActiveIndex(context.accountId ? 1 : 0);
