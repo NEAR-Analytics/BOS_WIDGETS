@@ -1,7 +1,8 @@
 const theme = props.theme;
 const accountId = props.accountId || context.accountId;
 const ownerId = "nearcon23.near";
-const apiUrl = "https://gqqkd7l7mk.execute-api.us-east-1.amazonaws.com/mainnet/api/v1";
+const apiUrl =
+  "https://gqqkd7l7mk.execute-api.us-east-1.amazonaws.com/mainnet/api/v1";
 
 const [selectedButton, setSelectedButton] = useState("profile");
 
@@ -33,9 +34,7 @@ const storedSecretKey = Storage.get(
 const fetchData = () => {
   const key = secretkey ? secretkey : storedSecretKey;
 
-  asyncFetch(
-    `${apiUrl}/accounts/auth/${key}`
-  ).then(({ body }) => {
+  asyncFetch(`${apiUrl}/accounts/auth/${key}`).then(({ body }) => {
     if (body?._id) {
       // if (!!storedSecretKey === false) { }
       State.update({
