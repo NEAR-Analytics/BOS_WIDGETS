@@ -1,5 +1,4 @@
 const ownerId = "nearcon23.near";
-const receiverId = props.receiverId;
 
 const Container = styled.div`
   width: 100%;
@@ -97,7 +96,7 @@ return (
           alignItems: "center",
         }}
       >
-        <Widget src={`${ownerId}/widget/Icons.NearLogo`} />
+        <Widget src="nearpad.testnet/widget/Icons.NearLogo" />
       </div>
 
       <div
@@ -146,7 +145,7 @@ return (
           </svg>
           <H1>Welcome</H1>
 
-          <H4>{receiverId}</H4>
+          <H4>philsoutside.nearcon23</H4>
         </div>
 
         <SubmitButton
