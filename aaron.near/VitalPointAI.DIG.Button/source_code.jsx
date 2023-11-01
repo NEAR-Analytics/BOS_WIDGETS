@@ -19,19 +19,19 @@ size = size ?? "default";
 type = type ?? "button";
 variant = variant ?? "primary";
 
-const conditionalAttributes = href
-  ? {
-      as: "a",
-      href,
-    }
-  : {
-      type,
-      disabled: disabled || loading,
-    };
+// const conditionalAttributes = href
+//   ? {
+//       as: "a",
+//       href,
+//     }
+//   : {
+//       type,
+//       disabled: disabled || loading,
+//     };
 
-if (icon) {
-  conditionalAttributes["aria-label"] = label;
-}
+// if (icon) {
+//   conditionalAttributes["aria-label"] = label;
+// }
 
 const variants = {
   primary: {
