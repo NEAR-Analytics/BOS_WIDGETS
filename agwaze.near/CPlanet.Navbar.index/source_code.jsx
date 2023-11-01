@@ -86,12 +86,13 @@ return (
         </Logo>
         <Routes>
           <a
-            href={`/agwaze.near/widget/CPlanet.index?tab=explore`}
+            href={`#/agwaze.near/widget/CPlanet.index?tab=explore`}
             onClick={() => props.update({ tab: "explore" })}
           >
             NFTs
           </a>
-          <a href={`/agwaze.near/widget/CPlanet.index?tab=community`}
+          <a
+            href={`#/agwaze.near/widget/CPlanet.index?tab=community`}
             onClick={() => props.update({ tab: "community" })}
           >
             Communities
