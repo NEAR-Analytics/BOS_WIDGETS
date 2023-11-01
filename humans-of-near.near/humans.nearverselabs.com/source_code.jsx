@@ -9,7 +9,8 @@ const zoom = 1.7;
 const accountId = context.accountId;
 
 State.init({
-  showModal: false,
+  profileModal: false,
+  filtersModal: false,
   edit: false,
   user: {
     name: "",
@@ -144,7 +145,7 @@ const getLocationsData = async () => {
 };
 
 const onClose = () => {
-  State.update({ showModal: false });
+  State.update({ profileModal: false });
 };
 
 const onHumanClose = () => {
@@ -178,7 +179,17 @@ return (
       <Widget src={`${Owner}/widget/Header`} />
     </Header>
     {accountId && hasSBTToken && (
-      <Widget src={`${Owner}/widget/Human-sidebar`} />
+      <Widget
+        src={`${Owner}/widget/Human-sidebar`}
+        props={{
+          showProfile: () => {
+            state.update({ profileModal: true });
+          },
+          showFilters: () => {
+            state.update({ filtersModal: true });
+          },
+        }}
+      />
     )}
 
     {accountId && hasSBTToken && (
@@ -215,7 +226,7 @@ return (
       </div>
     )}
 
-    {accountId && hasSBTToken && state.showModal && (
+    {accountId && hasSBTToken && state.profileModal && (
       <Widget
         src={`${Owner}/widget/Modal`}
         props={{ onClose, API_URL, user: state.user, getMyInfor }}
