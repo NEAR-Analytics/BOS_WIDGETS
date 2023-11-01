@@ -98,7 +98,7 @@ const ModalContent = styled.div`
 const ModalAction = styled.div`
   display: flex;
   justify-content: flex-end;
-  padding: 10px;
+  padding: 0 10px;
 `;
 
 const ModalTitle = styled.h4`
@@ -417,7 +417,7 @@ return (
                     fill={item.color}
                   />
                 </svg>
-                <p style={{ fontSize: 12 }}>{item.name}</p>
+                <p style={{ fontSize: 12, margin: 0 }}>{item.name}</p>
               </div>
             ))}
           </div>
