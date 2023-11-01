@@ -217,6 +217,7 @@ return (
                     onButtonClick: () =>
                       props.update({
                         tab: "daoProfile",
+                        daoId: data
                       }),
                   }}
                   src="agwaze.near/widget/CPlanet.DAO.Card"
