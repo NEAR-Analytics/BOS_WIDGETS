@@ -44,7 +44,7 @@ const Input = styled.div`
   gap: 0.5em;
   width: 100%;
   display: flex;
-  color: #121212;
+  color: white;
   font-size: 12px;
   font-weight: 600;
   background: unset;
@@ -157,7 +157,7 @@ return (
               width="12"
               height="8"
               viewBox="0 0 12 8"
-              fill="white"
+              fill="none"
               xmlns="http://www.w3.org/2000/svg"
             >
               <path
