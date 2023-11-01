@@ -101,10 +101,6 @@ return (
         height: "790px",
       }}
     >
-      <Widget
-        src="agwaze.near/widget/CPlanet.Navbar.index"
-        props={{ isHome: true }}
-      />
       <h1 className="text">CPLANET</h1>
     </div>
     <Portals>
