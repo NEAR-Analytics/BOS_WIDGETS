@@ -116,7 +116,6 @@ const Button = ({ count }) => {
           navigate,
           variant: "primary",
           style: { width: "45px", height: "45px" },
-          href: "/notifications",
           onClick: () => State.update({ open: !!state.open }),
         }}
       />
