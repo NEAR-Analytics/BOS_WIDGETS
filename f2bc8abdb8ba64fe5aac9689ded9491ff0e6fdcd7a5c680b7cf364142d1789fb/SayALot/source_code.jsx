@@ -85,7 +85,7 @@ State.init({
   functionsToCallByLibrary: initLibsCalls,
   sbtsNames: initSbtsNames,
   sbts: initSbtsNames,
-  firstRender: sharedBlockHeight,
+  firstRender: !isNaN(sharedBlockHeight),
 });
 
 let newLibsCalls = state.functionsToCallByLibrary;
@@ -481,7 +481,6 @@ function handleGoHomeButton() {
     articleToRenderData: {},
     filterBy: { parameterName: "", parameterValue: {} },
     editArticleData: undefined,
-    firstRender: false,
   });
 }
 
