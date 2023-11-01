@@ -4,7 +4,10 @@ const authorId = "mob.near";
 const components = [
   {
     title: "Profile Block",
+    category: "Profile",
     widgetName: "Profile.InlineBlock",
+    description:
+      "Displays a profile for a given account ID with a picture, name, account ID, a list of tags and the description",
     demoProps: { accountId },
     requiredProps: {
       accountId: "The account ID of the profile",
@@ -16,6 +19,7 @@ const components = [
   },
   {
     title: "Profile Inline",
+    category: "Profile",
     widgetName: "N.ProfileLine",
     demoProps: { accountId },
     requiredProps: {
@@ -28,6 +32,7 @@ const components = [
   },
   {
     title: "Profile Picture",
+    category: "Profile",
     widgetName: "ProfileImage",
     demoProps: { accountId, fast: true },
     requiredProps: {
@@ -68,6 +73,7 @@ const renderComponent = (c, i) => {
       <a href={`#${id}`} id={id}>
         <h3>{c.title}</h3>
       </a>
+      <p>{c.description}</p>
       <label>Preview</label>
       <div className="preview mb-3" style={c.previewStyle}>
         <Widget src={widgetSrc} props={c.demoProps} />
@@ -107,7 +113,7 @@ const renderComponent = (c, i) => {
         </tbody>
       </table>
       <label>Example</label>
-      <div className="embed-code mb-3">
+      <div className="embed-code">
         <Markdown text={`\`\`\`jsx\n${embedCode}\n\`\`\``} />
         <div className="embed-copy">
           <Widget
@@ -116,13 +122,25 @@ const renderComponent = (c, i) => {
           />
         </div>
       </div>
-      <div></div>
     </div>
   );
 };
 
 const Wrapper = styled.div`
   .component {
+    padding: 0.5em;
+    padding-bottom: 0;
+    border-bottom: 1px solid #ccc;
+    margin-bottom: 3em;
+
+    &:hover {
+      background: rgba(0, 0, 0, 0.03); 
+    }
+
+    table {
+      background: white;
+    }
+    
     label {
       font-size: 20px;
     }
@@ -140,9 +158,13 @@ const Wrapper = styled.div`
 
     }
     .preview {
+      background-color: white;
       padding: 12px;
       border: 1px solid #eee;
       border-radius: 12px;
+      pre {
+        margin-bottom: 0;
+      }
     }
     .props {
       .prop-key {
