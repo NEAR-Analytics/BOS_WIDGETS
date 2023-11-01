@@ -76,7 +76,7 @@ const scaleOut = styled.keyframes`
 const Content = styled.div`
   padding: 0;
   gap: 0.5em;
-  width: 300px;
+  width: 320px;
   display: flex;
   font-size: 14px;
   overflow-y: auto;
