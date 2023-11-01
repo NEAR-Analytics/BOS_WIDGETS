@@ -15,16 +15,20 @@ State.init({
 
 const options = [
   {
-    text: "Ended",
+    text: "Developer",
     value: 1,
   },
   {
-    text: "Claimed",
+    text: "Degen",
     value: 2,
   },
   {
-    text: "Unclaimed",
+    text: "Founder",
     value: 3,
+  },
+  {
+    text: "Gamer",
+    value: 4,
   },
 ];
 
