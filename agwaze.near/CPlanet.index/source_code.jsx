@@ -13,7 +13,13 @@ const Contents = styled.div`
 
 `;
 
-const availableTabs = ["explore", "singleNFT", "home", "community"];
+const availableTabs = [
+  "explore",
+  "singleNFT",
+  "home",
+  "community",
+  "daoProfile",
+];
 
 const getTab = (tab) => {
   if (!tab || !availableTabs.includes(tab)) {
@@ -28,6 +34,7 @@ State.init({
   contractId: "",
   tokenId: "",
   chainState: "",
+  daoId: "",
 });
 
 const update = (state) => State.update(state);
@@ -37,6 +44,7 @@ const tabContentWidget = {
   explore: "agwaze.near/widget/CPlanet.Explore.index",
   community: "agwaze.near/widget/CPlanet.DAO.Explore",
   singleNFT: "agwaze.near/widget/CPlanet.Explore.SingleNFT",
+  daoProfile: "agwaze.near/widget/CPlanet.DAO.index",
 }[state.tab];
 
 const tabContent = (
@@ -47,6 +55,7 @@ const tabContent = (
       contractId: state.contractId,
       tokenId: state.tokenId,
       chainState: state.chainState,
+      daoId: state.daoId,
     }}
   />
 );
