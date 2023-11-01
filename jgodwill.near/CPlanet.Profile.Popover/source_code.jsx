@@ -50,26 +50,30 @@ return (
         className="link-dark text-truncate"
       >
         <div className="top_bar"></div>
-        <Widget
-          src="jgodwill.near/widget/ProfileLine"
-          props={{ accountId, hideDescription: true }}
-        />
-      </a>
-      <Description>
-        <Markdown text={description} />
-      </Description>
-      <div className="d-flex">
-        <div className="me-3">
-          <Widget src="mob.near/widget/FollowStats" props={{ accountId }} />
+        <div className="mx-3">
+          <Widget
+            src="jgodwill.near/widget/ProfileLine"
+            props={{ accountId, hideDescription: true }}
+          />
         </div>
-        <Widget src="mob.near/widget/FollowsYouBadge" props={{ accountId }} />
-      </div>
-      <div className="d-flex gap-2">
-        <Widget
-          src="jgodwill.near/widget/CPlanet.FollowButton"
-          props={{ accountId }}
-        />
-        <Widget src="mob.near/widget/PokeButton" props={{ accountId }} />
+      </a>
+      <div className="mx-3">
+        <Description>
+          <Markdown text={description} />
+        </Description>
+        <div className="d-flex">
+          <div className="me-3">
+            <Widget src="mob.near/widget/FollowStats" props={{ accountId }} />
+          </div>
+          <Widget src="mob.near/widget/FollowsYouBadge" props={{ accountId }} />
+        </div>
+        <div className="d-flex gap-2">
+          <Widget
+            src="jgodwill.near/widget/CPlanet.FollowButton"
+            props={{ accountId }}
+          />
+          <Widget src="mob.near/widget/PokeButton" props={{ accountId }} />
+        </div>
       </div>
     </div>
   </Wrapper>
