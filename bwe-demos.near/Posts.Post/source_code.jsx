@@ -11,7 +11,14 @@ try {
 // debugger;
 
 return (
-  <div style={{ display: "flex", flexDirection: "column", maxWidth: "100%" }}>
+  <div
+    style={{
+      display: "flex",
+      flexDirection: "column",
+      maxWidth: "100%",
+      borderBottom: "1px solid #e7e7e7",
+    }}
+  >
     <div style={{ display: "flex", flexDirection: "row", columnGap: "0.5rem" }}>
       <span>{author}</span>
       <span>{new Date(block_timestamp / 1000000).toLocaleString()}</span>
