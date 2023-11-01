@@ -217,7 +217,7 @@ return (
                     onButtonClick: () =>
                       props.update({
                         tab: "daoProfile",
-                        daoId: data
+                        daoId: data,
                       }),
                   }}
                   src="agwaze.near/widget/CPlanet.DAO.Card"
@@ -227,7 +227,14 @@ return (
           : state.filteredNFTData.map((data, index) => (
               <div key={index}>
                 <Widget
-                  props={{ daoId: data }}
+                  props={{
+                    daoId: data,
+                    onButtonClick: () =>
+                      props.update({
+                        tab: "daoProfile",
+                        daoId: data,
+                      }),
+                  }}
                   src="agwaze.near/widget/CPlanet.DAO.Card"
                 />
               </div>
