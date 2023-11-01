@@ -25,14 +25,14 @@ const Label = styled.label`
 `;
 
 const Error = styled.span`
-  display: inline-block;
-  font-style: normal;
+  height: 0;
+  color: #ff4d4f;
+  overflow: hidden;
   font-weight: 400;
   font-size: 0.75em;
+  font-style: normal;
   line-height: 1.25em;
-  color: #ff4d4f;
-  height: 0;
-  overflow: hidden;
+  display: inline-block;
   transition: height 0.3s ease-in-out;
 
   &.show {
@@ -99,12 +99,12 @@ const Content = styled.div`
 `;
 
 const Viewport = styled.div`
+  padding: 0;
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   justify-content: flex-start;
-  padding: 0;
-  width: 100%;
   background: var(--light_95, #F3F3F3);
   box-shadow: 0px 4px 12px 0px rgba(140, 140, 140, 0.27);
 `;
@@ -122,6 +122,7 @@ const Item = styled.button`
   background: transparent;
   justify-content: space-between;
   transition: background 0.2s ease-in-out;
+  
   &:nth-child(n + 1) {
     border-top: 1px solid #d0d5dd;
   }
