@@ -1,1 +1,1 @@
-return <Widget src={`communityvoice.ndctools.near/widget/home`} />;
+return <Widget src={`communityvoice.ndctools.near/widget/CommunityVoice`} />;
