@@ -1,11 +1,11 @@
 let storedGreeting = Near.view("hello.near-examples.near", "get_greeting");
 
-const [greeting, setGreeting] = useState(storedGreeting);
-const [activeIndex, setActiveIndex] = useState(0);
-
-if (!greeting || context.loading) {
+if (!storedGreeting || context.loading) {
   return "Loading...";
 }
+
+const [greeting, setGreeting] = useState(storedGreeting);
+const [activeIndex, setActiveIndex] = useState(0);
 
 const Main = styled.div`
   font-family: -apple-system, BlinkMacSystemFont, Segoe UI
