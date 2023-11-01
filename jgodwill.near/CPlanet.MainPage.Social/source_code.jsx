@@ -162,18 +162,20 @@ return (
         )}
       </div>
       <div className="lhs">
-        {communities.map((data, index) => (
-          <div key={index}>
-            <Widget
-              props={{
-                daoId: data,
-                onButtonClick: () =>
-                  props.update({ tab: "daoProfile", daoId: data }),
-              }}
-              src="jgodwill.near/widget/CPlanet.FeaturedDAO.Card"
-            />
-          </div>
-        ))}
+        <div className="daos">
+          {communities.map((data, index) => (
+            <div key={index}>
+              <Widget
+                props={{
+                  daoId: data,
+                  onButtonClick: () =>
+                    props.update({ tab: "daoProfile", daoId: data }),
+                }}
+                src="jgodwill.near/widget/CPlanet.FeaturedDAO.Card"
+              />
+            </div>
+          ))}
+        </div>
       </div>
     </SocialWrapper>
   </CPlanetFont>
