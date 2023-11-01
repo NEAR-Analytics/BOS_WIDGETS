@@ -164,12 +164,12 @@ return (
                 <Widget
                   props={{
                     daoId: data.daoId,
-                    daoContractId: data.contractid,
+                    daoContractId: data.contractId,
                     onButtonClick: () =>
                       props.update({
                         tab: "daoProfile",
                         daoId: data.daoId,
-                        daoContractId: data.contractid,
+                        daoContractId: data.contractId,
                       }),
                   }}
                   src="agwaze.near/widget/CPlanet.DAO.Card"
@@ -181,12 +181,12 @@ return (
                 <Widget
                   props={{
                     daoId: data.daoId,
-                    daoContractId: data.contractid,
+                    daoContractId: data.contractId,
                     onButtonClick: () =>
                       props.update({
                         tab: "daoProfile",
                         daoId: data.daoId,
-                        daoContractId: data.contractid,
+                        daoContractId: data.contractId,
                       }),
                   }}
                   src="agwaze.near/widget/CPlanet.DAO.Card"
