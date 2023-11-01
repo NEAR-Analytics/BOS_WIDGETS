@@ -132,6 +132,9 @@ return (
       </div>
     </Figures>
     <Widget src="agwaze.near/widget/CPlanet.Home.Partners" />
-    <Widget src="agwaze.near/widget/CPlanet.Home.NFTs" />
+    <Widget
+      src="agwaze.near/widget/CPlanet.Home.NFTs"
+      props={{ update: props.update }}
+    />
   </Root>
 );
