@@ -477,8 +477,7 @@ const loadingAnimation = styled.keyframes`
   75% { content: "Loading..."; }
 `;
 
-const HeaderText = styled.h1`
-  font-size: 1.5rem;
+const HeaderText = styled.p`
 font-family: Helvetica Neue;
 font-size: 18px;
 font-style: normal;
@@ -509,9 +508,9 @@ const Description = styled.div`
     padding: 1em;
     margin-top: 10px;
     box-shadow: 1px 1px 10px 1px rgba(28, 27, 28, 0.1);
-    &>h6{
+    &>.desc{
         font-weight: 700;
-        font-size: 1.5rem;
+        // font-size: 1.5rem;
     }
     
 `;
@@ -629,7 +628,7 @@ return (
           </Description>
           <RightSection>
             <Description>
-              <h6>Description</h6>
+              <p className="desc">Description</p>
               <span>
                 {state.description
                   ? state.description.length > 250
