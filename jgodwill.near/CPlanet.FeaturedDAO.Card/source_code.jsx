@@ -9,8 +9,8 @@ const baseApi = "https://api.pikespeak.ai";
 const publicApiKey = "36f2b87a-7ee6-40d8-80b9-5e68e587a5b5";
 
 const CardRoot = styled.div`
-    max-width: 315px;
-    width: 100%;
+    width: 315px;
+    // width: 100%;
     height: fit-content;
     border: 1px solid #EFEFEF;
     border-radius: 8px;
