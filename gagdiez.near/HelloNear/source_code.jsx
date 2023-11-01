@@ -26,11 +26,18 @@ const onBtnClick = () => {
 // Render
 return (
   <Main>
+    <div class="text-center">
+      <h3 class="font-weight-bold"> Hello NEAR </h3>
+      <p class="small font-weight-light">
+        A greeting stored in
+        <span class="text-danger">hello.near-examples.near</span>
+      </p>
+    </div>
     <div class="container py-4 px-5 text-dark bg-light rounded">
-      <h3 class="text-center">
+      <h2 class="text-center">
         The contract says:
         <span class="text-primary"> {greeting} </span>
-      </h3>
+      </h2>
 
       <div class="p-4">
         <div className="input-group" hidden={activeIndex === 0}>
