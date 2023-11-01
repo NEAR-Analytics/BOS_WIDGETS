@@ -12,7 +12,7 @@ const NavContainer = styled.div`
   margin-bottom: 30px;
 `;
 
-const Logo = styled.div`
+const Logo = styled.a`
   display: flex;
   color: ${() => (props.isHome ? "white" : "#000")};
   h2 {
@@ -80,7 +80,9 @@ return (
   <NavContainer>
     {showNavbar && (
       <>
-        <Logo>
+        <Logo
+          href="#/agwaze.near/widget/CPlanet.index?tab=home"
+         onClick={() => props.update({ tab: "explore" })}>
           <h2>C</h2>
           <h1>PLANET</h1>
         </Logo>
