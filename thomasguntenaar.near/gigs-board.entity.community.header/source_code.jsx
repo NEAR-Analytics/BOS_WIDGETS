@@ -154,24 +154,6 @@ const DevHub = {
   update_community_github: ({ handle, github }) =>
     Near.call(devHubAccountId, "update_community_github", { handle, github }),
 
-  add_community_addon: ({ handle, config }) =>
-    Near.call(devHubAccountId, "add_community_addon", {
-      community_handle: handle,
-      addon_config: config,
-    }),
-
-  update_community_addon: ({ handle, config }) =>
-    Near.call(devHubAccountId, "update_community_addon", {
-      community_handle: handle,
-      addon_config: config,
-    }),
-
-  remove_community_addon: ({ handle, config_id }) =>
-    Near.call(devHubAccountId, "remove_community_addon", {
-      community_handle: handle,
-      config_id,
-    }),
-
   get_access_control_info: () =>
     Near.view(devHubAccountId, "get_access_control_info") ?? null,
 
@@ -179,14 +161,6 @@ const DevHub = {
 
   get_all_communities_metadata: () =>
     Near.view(devHubAccountId, "get_all_communities_metadata") ?? null,
-
-  get_available_addons: () =>
-    Near.view(devHubAccountId, "get_available_addons") ?? null,
-
-  get_community_addons: ({ handle }) =>
-    Near.view(devHubAccountId, "get_community_addons", { handle }),
-  get_community_addon_configs: ({ handle }) =>
-    Near.view(devHubAccountId, "get_community_addon_configs", { handle }),
 
   get_all_labels: () => Near.view(devHubAccountId, "get_all_labels") ?? null,
 
@@ -268,107 +242,6 @@ const CommunityHeader = ({ activeTabTitle, handle }) => {
     return <div>Loading...</div>;
   }
 
-  const availableAddons = DevHub.get_available_addons() || [];
-  const communityAddons = community.addon_list || []; // DevHub.get_community_addons({handle});
-  const communityAddonConfigs =
-    DevHub.get_community_addon_configs({ handle }) || [];
-  console.log({ availableAddons });
-  console.log({ communityAddons });
-  console.log({ communityAddonConfigs });
-  // const availableAddons = [
-  //   {
-  //     "id": "wiki",
-  //     "title": "Wiki",
-  //     "description": "Wiki description",
-  //     "configurator": "entity.addon.wiki-configurator",
-  //     "viewer": "community.wiki",
-  //     "icon": "bi bi-wikipedia"
-  //   },
-  //   {
-  //     id: "github",
-  //     title: "Git Hub",
-  //     description: "Github description",
-  //     configurator: "feature.workspace.github-view-configurator",
-  //     viewer: "community.github",
-  //     icon: "bi bi-github"
-  //   },
-  //   {
-  //     "id": "kanban",
-  //     "title": "Kanban",
-  //     "description": "Kanban description",
-  //     "configurator": "feature.workspace.kanban-view-configurator",
-  //     "viewer": "community.board",
-  //     "icon": "bi bi-kanban"
-  //   },
-  //   {
-  //     "id": "telegram",
-  //     "title": "Telegram",
-  //     "description": "Telegram description",
-  //     "configurator": "",
-  //     "viewer": "community.telegram",
-  //     "icon": "bi bi-telegram"
-  //   },
-  // ];
-
-  // const communityAddons = [
-  //   {
-  //     addon_id: "wiki",
-  //     name: "Wiki1",
-  //     config_id: "wiki",
-  //     parameters: JSON.stringify({
-  //       id: 1,
-  //     }),
-  //     enabled: true,
-  //   },
-  //   {
-  //     addon_id: "wiki",
-  //     name: "Wiki2",
-  //     config_id: "wiki2",
-  //     parameters: JSON.stringify({
-  //       id: 2,
-  //     }),
-  //     enabled: true,
-  //   },
-  //   {
-  //     addon_id: "wiki",
-  //     name: "Wiki3",
-  //     config_id: "wiki3",
-  //     parameters: JSON.stringify({
-  //       id: 3,
-  //     }),
-  //     enabled: true,
-  //   },
-  //   {
-  //     addon_id: "github",
-  //     name: "GitHub", // Tab name
-  //     config_id: "github",
-  //     parameters: JSON.stringify({}),
-  //     enabled: true,
-  //   },
-  //   {
-  //     addon_id: "kanban",
-  //     name: "Kanban", // Tab name
-  //     config_id: "kanban",
-  //     parameters: JSON.stringify({}),
-  //     enabled: true,
-  //   },
-  //   {
-  //     addon_id: "telegram",
-  //     name: "Telegram", // Tab name
-  //     config_id: "telegram",
-  //     parameters: JSON.stringify({}),
-  //     enabled: true,
-  //   },
-  // ];
-
-  var foundAddOn = (config_id) =>
-    communityAddonConfigs?.some((config) => config.config_id === config_id) ||
-    false;
-  console.log(
-    "!community?.github || foundAddOn('github')",
-    !community?.github,
-    foundAddOn("github")
-  );
   const tabs = [
     {
       defaultActive: true,
@@ -393,7 +266,7 @@ const CommunityHeader = ({ activeTabTitle, handle }) => {
       title: "Teams",
     },
 
-    ...(!community?.features.board || foundAddOn("kanban")
+    ...(!community?.features.board
       ? []
       : [
           {
@@ -403,7 +276,7 @@ const CommunityHeader = ({ activeTabTitle, handle }) => {
           },
         ]),
 
-    ...(!community?.github || foundAddOn("github")
+    ...(!community?.features.github
       ? []
       : [
           {
@@ -414,8 +287,7 @@ const CommunityHeader = ({ activeTabTitle, handle }) => {
         ]),
 
     ...(!community?.features.telegram ||
-    (community?.telegram_handle.length ?? 0) === 0 ||
-    foundAddOn("telegram")
+    (community?.telegram_handle.length ?? 0) === 0
       ? []
       : [
           {
@@ -424,17 +296,6 @@ const CommunityHeader = ({ activeTabTitle, handle }) => {
             title: "Telegram",
           },
         ]),
-
-    ...(communityAddonConfigs || []).map((addon) => ({
-      title: addon.name,
-      route: availableAddons.find((it) => it.id === addon.config_id).viewer,
-      iconClass: addon.icon,
-      params: {
-        viewer: availableAddons.find((it) => it.id === addon.config_id).viewer,
-        data: addon.parameters || "", // @elliotBraem not sure which will work better I guess this is needed for the wiki data but we can also add another data object inside the addon's parameters
-        ...JSON.parse(addon.parameters), // this seems to work witht the wiki for now
-      },
-    })),
   ];
 
   const linkCopyStateToggle = (forcedState) =>
