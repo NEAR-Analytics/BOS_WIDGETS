@@ -100,7 +100,7 @@ inner = link ? (
 if (props.tooltip === true) {
   return (
     <Widget
-      src="mob.near/widget/Profile.OverlayTrigger"
+      src="jgodwill.near/widget/CPlanet.Profile.N.OverlayTrigger"
       props={{ accountId, children: inner }}
     />
   );
