@@ -1,52 +1,49 @@
 const contract = "hello.near-examples.near";
-const greeting = Near.view(contract, "get_greeting", {});
+const [greeting, setGreeting] = useState("loading...");
+const [activeIndex, setActiveIndex] = useState(0);
 
-if (!greeting || context.loading) { return "Loading..." }
+const Main = styled.div`
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI
+`;
 
-// Use and manipulate state
-State.init({ greeting });
+useEffect(() => {
+  let greet = Near.view(contract, "get_greeting", {});
+  setGreeting(greet);
+}, []);
+
+useEffect(() => {
+  setActiveIndex(context.accountId ? 1 : 0);
+}, [context.accountId]);
 
 const onInputChange = ({ target }) => {
-  State.update({ greeting: target.value });
+  setGreeting(target.value);
 };
 
 const onBtnClick = () => {
-  Near.call(contract, "set_greeting", {
-    greeting: state.greeting,
-  });
+  Near.call(contract, "set_greeting", { greeting });
 };
-
-// Define components
-const greetingForm = (
-  <>
-    <div class="border border-black p-3">
-      <label>Update greeting</label>
-      <input placeholder="Howdy" onChange={onInputChange} />
-      <button class="btn btn-primary mt-2" onClick={onBtnClick}>
-        Save
-      </button>
-    </div>
-  </>
-);
-
-const notLoggedInWarning = (
-  <p class="text-center py-2"> Login to change the greeting </p>
-);
 
 // Render
 return (
-  <>
-    <div class="container border border-info p-3">
+  <Main>
+    <div class="container py-4 px-5 text-dark">
       <h3 class="text-center">
         The contract says:
-        <span class="text-decoration-underline"> {state.greeting} </span>
+        <span class="text-primary"> {greeting} </span>
       </h3>
 
-      <p class="text-center py-2">
-        Look at that! A greeting stored on the NEAR blockchain.
-      </p>
+      <div class="p-4">
+        <div className="input-group" hidden={activeIndex === 0}>
+          <input placeholder="Store a new greeting" onChange={onInputChange} />
+          <button class="btn btn-primary" onClick={onBtnClick}>
+            Save
+          </button>
+        </div>
 
-      {context.accountId ? greetingForm : notLoggedInWarning}
+        <p class="text-center py-2" hidden={activeIndex === 1}>
+          Login to change the greeting
+        </p>
+      </div>
     </div>
-  </>
+  </Main>
 );
