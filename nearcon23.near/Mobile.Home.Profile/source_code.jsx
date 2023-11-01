@@ -1,9 +1,9 @@
 const ownerId = "nearcon23.near";
-
+const prefix = props.prefix || "";
 const socketUrl =
-  "wss://bva2os6ai2.execute-api.us-east-1.amazonaws.com/mainnet";
+  "wss://7nnjul56if.execute-api.us-east-1.amazonaws.com/testnet";
 const baseUrl =
-  "https://gqqkd7l7mk.execute-api.us-east-1.amazonaws.com/mainnet";
+  "https://gqqkd7l7mk.execute-api.us-east-1.amazonaws.com/mainnet/api/v1";
 
 const theme = props.theme;
 const transactions = props?.state?.transactions;
@@ -148,7 +148,7 @@ const storedSecretKey = Storage.get(
 
 const fetchData = () => {
   const key = secretkey ? secretkey : storedSecretKey;
-  asyncFetch(`${baseUrl}/api/v1/accounts/auth/${key}`).then(({ body }) => {
+  asyncFetch(`${baseUrl}/accounts/auth/${key}`).then(({ body }) => {
     console.log(body);
     State.update({ userData: body });
   });
@@ -351,9 +351,10 @@ return (
           <br /> and are worth no monetary value.
         </p>
       </div>
+
       {(transactions ?? [])?.length !== 0 && (
         <>
-          <div style={{ paddingTop: 10 }}>
+          <div style={{ paddingTop: 10, marginTop: 40 }}>
             <p style={{ color: "#868682", fontSize: 16 }}>
               Recent Transactions
             </p>
