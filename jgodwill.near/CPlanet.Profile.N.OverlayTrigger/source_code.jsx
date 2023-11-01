@@ -9,6 +9,7 @@ return (
           props={{ accountId: props.accountId }}
         />
       ),
+      overlayClassName: "border m-3 pb-3 bg-white shadow",
       ...props,
     }}
   />
