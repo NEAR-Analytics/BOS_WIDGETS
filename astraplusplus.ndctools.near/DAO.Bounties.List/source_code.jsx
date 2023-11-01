@@ -46,7 +46,7 @@ const renderSubheader = () => (
             }}
         />
         <Widget
-            src="nearui.near/widget/Layout.Modal"
+            src="astraplusplus.ndctools.near/widget/Layout.Modal"
             props={{
                 open: state.filtersOpen,
                 onOpenChange: (open) => {
