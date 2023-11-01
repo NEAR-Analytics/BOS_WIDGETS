@@ -135,5 +135,6 @@ return (
         <span>Active DAOs</span>
       </div>
     </Figures>
+    <Widget src="agwaze.near/widget/CPlanet.Home.Partners" />
   </Root>
 );
