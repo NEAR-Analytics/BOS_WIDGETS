@@ -29,9 +29,9 @@ variant = variant ?? "primary";
 //       disabled: disabled || loading,
 //     };
 
-// if (icon) {
-//   conditionalAttributes["aria-label"] = label;
-// }
+if (icon) {
+  conditionalAttributes["aria-label"] = label;
+}
 
 const variants = {
   primary: {
