@@ -1,3 +1,46 @@
+const ownerId = "nearcon23.near";
+const apiUrl = "https://gqqkd7l7mk.execute-api.us-east-1.amazonaws.com/mainnet/api/v1";
+
+const Container = styled.div`
+  background:url("https://ipfs.near.social/ipfs/bafkreiadf32sz4riwsk6gwxrts7qqldhjae7jkgvl5gbhzngj4ekur2iuq");
+   background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
+
+  max-height: 100svh;
+  height: 100%;
+  overflow: hidden;
+`;
+const Body = styled.div`
+  display: flex;
+  text-align: center;
+
+  height: calc(100% - 120px);
+  // height: 100%;
+  flex: 1;
+  flex-direction: column;
+  overflow: auto;
+  position: relative;
+
+  p {
+    text-align:center;
+  }
+`;
+
+/*
+const Container = styled.div`  
+  max-height: 100svh;
+  height: 100%;
+`;
+const Content = styled.div`
+  height: calc(100% - 105px);
+  flex: 1;
+  flex-direction: column;
+  overflow: auto;
+  position: relative;
+`;
+*/
+
 const HeaderStyle = styled.div`
  height: 64px;
   display: flex;
@@ -17,22 +60,7 @@ const HeaderStyle = styled.div`
     color: black;
   }
 `;
-const ownerId = "nearcon23.near";
 
-const Body = styled.div`
-  height: 90vh;
-  display: flex;
-  text-align: center;
-  p {
-    text-align:center;
-  }
-`;
-const Container = styled.div`
-  background:url("https://ipfs.near.social/ipfs/bafkreiadf32sz4riwsk6gwxrts7qqldhjae7jkgvl5gbhzngj4ekur2iuq");
-   background-repeat: no-repeat;
-  background-attachment: fixed;
-  background-size: cover;
-`;
 const NavLink = styled.div`
   * {
       color: #000000;
@@ -41,6 +69,23 @@ const NavLink = styled.div`
     text-decoration:none;
   }
 `;
+
+const styles = {
+  linkItem: {
+    backgroundColor: "#161615",
+    fontWeight: 500,
+    width: "max(90%, 100vw - 40px)",
+    height: 50,
+    borderRadius: 50,
+    // padding: 10,
+    // position: "absolute",
+    // left: "5%",
+    bottom: "50px",
+    paddingTop: 14,
+    color: "white",
+    textDecoration: "none",
+  },
+};
 
 const { secretkey } = props;
 
@@ -54,7 +99,7 @@ const storedSecretKey = Storage.get(
 const fetchData = () => {
   const key = secretkey ? secretkey : storedSecretKey;
   asyncFetch(
-    `https://gqqkd7l7mk.execute-api.us-east-1.amazonaws.com/mainnet/api/v1/accounts/auth/${key}`
+    `${apiUrl}/accounts/auth/${key}`
   ).then(({ body }) => {
     if (!!storedSecretKey === false) {
       State.update({
@@ -151,7 +196,17 @@ return (
       </HeaderStyle>
 
       <Body>
-        <div style={{ width: "100%", margin: "auto" }}>
+        <div
+          style={{
+            width: "100%",
+            margin: "auto",
+
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
           <p
             style={{
               fontSize: 30,
@@ -163,46 +218,31 @@ return (
             <br /> face :D
           </p>
           <p style={{ color: "#9797FF" }}>It’s Go Time baby! </p>
+        </div>
 
+        <div
+          style={{
+            width: "100%",
+            margin: "auto",
+
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            gap: 16,
+            paddingBottom: 32,
+          }}
+        >
           {state.userData?.isSuper && (
             <>
               <Link
-                style={{
-                  backgroundColor: "#161615",
-                  fontWeight: "500",
-                  width: "90%",
-                  height: 50,
-                  padding: 10,
-                  borderRadius: 50,
-                  position: "absolute",
-                  bottom: "230px",
-                  left: "5%",
-                  paddingTop: 14,
-                  color: "white",
-
-                  textDecoration: "none",
-                }}
+                style={styles.linkItem}
                 to={`/super?secretKey=${secretkey || storedSecretKey}`}
               >
                 Manage Users
               </Link>
 
               <Link
-                style={{
-                  backgroundColor: "#161615",
-                  fontWeight: "500",
-                  width: "90%",
-                  height: 50,
-                  padding: 10,
-                  borderRadius: 50,
-                  position: "absolute",
-                  bottom: "170px",
-                  left: "5%",
-                  paddingTop: 14,
-                  color: "white",
-
-                  textDecoration: "none",
-                }}
+                style={styles.linkItem}
                 to={`/admin/campaigns?secretKey=${
                   secretkey || storedSecretKey
                 }`}
@@ -211,21 +251,7 @@ return (
               </Link>
 
               <Link
-                style={{
-                  backgroundColor: "#161615",
-                  fontWeight: "500",
-                  width: "90%",
-                  height: 50,
-                  padding: 10,
-                  borderRadius: 50,
-                  position: "absolute",
-                  bottom: "110px",
-                  left: "5%",
-                  paddingTop: 14,
-                  color: "white",
-
-                  textDecoration: "none",
-                }}
+                style={styles.linkItem}
                 to={`/${ownerId}/widget/Mobile.Home.Alerts.New`}
               >
                 Send an Alert
@@ -234,21 +260,7 @@ return (
           )}
 
           <Link
-            style={{
-              backgroundColor: "#161615",
-              fontWeight: "500",
-              width: "90%",
-              height: 50,
-              padding: 10,
-              borderRadius: 50,
-              position: "absolute",
-              left: "5%",
-              bottom: "50px",
-              paddingTop: 14,
-              color: "white",
-
-              textDecoration: "none",
-            }}
+            style={styles.linkItem}
             to={`/${ownerId}/widget/Mobile.Home.Scan`}
           >
             Scan Tickets
