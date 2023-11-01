@@ -56,7 +56,7 @@ let inner = (
     {!hideImage && (
       <Widget
         key="image"
-        src="mob.near/widget/MainPage.N.Post.Left"
+        src="jgodwill.near/widget/CPlanet.MainPage.N.Post.Left"
         props={{
           fast,
           profile,
