@@ -38,12 +38,13 @@ const Root = styled.div`
         flex-wrap: wrap;
     }
     .daos {
-        margin-top: 20px;
+        margin-top: 40px;
         display: flex;
         align-items: center;
         flex-wrap: wrap;
         justify-content: center;
         gap: 20px;
+        margin-bottom: 20px;
     }
 `;
 
@@ -59,7 +60,7 @@ return (
       <h1>Explore the NFTS</h1>
       <span>DAOs funded by the Creatives DAO</span>
     </div>
-    <div className="nfts">
+    <div className="daos">
       <Widget src="agwaze.near/widget/CPlanet.NFTCard.index" />
       <Widget src="agwaze.near/widget/CPlanet.NFTCard.index" />{" "}
       <Widget src="agwaze.near/widget/CPlanet.NFTCard.index" />
@@ -74,7 +75,8 @@ return (
           <Widget
             props={{
               daoId: data,
-              onButtonClick: () => props.update({ tab: "daoProfile" }),
+              onButtonClick: () =>
+                props.update({ tab: "daoProfile", daoId: data }),
             }}
             src="agwaze.near/widget/CPlanet.DAO.Card"
           />
