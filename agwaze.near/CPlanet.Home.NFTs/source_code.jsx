@@ -5,6 +5,7 @@ const Root = styled.div`
     width: 100%;
     justify-content: center;
     .head, .community {
+        margin-top: 30px;
         display: flex;
         align-items: center;
         flex-direction: column
