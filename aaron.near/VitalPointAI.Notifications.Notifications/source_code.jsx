@@ -34,17 +34,17 @@ const Title = styled.div`
   font-weight: 500;
 `;
 
-// const Settings = styled("Link")`
-//   display: flex;
-//   width: 40px;
-//   height: 40px;
-//   justify-content: center;
-//   align-items: center;
-//   gap: 8px;
-//   border-radius: 50px;
-//   border: 1px solid var(--sand6);
-//   background: var(--sand1);
-// `;
+const Settings = styled("Link")`
+  display: flex;
+  width: 40px;
+  height: 40px;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  border-radius: 50px;
+  border: 1px solid var(--sand6);
+  background: var(--sand1);
+`;
 
 const Card = styled.div`
   display: flex;
@@ -106,7 +106,7 @@ return (
     )}
 
     <Widget
-      src="near/widget/NearOrg.Notifications.NotificationsList"
+      src="aaron.near/widget/VitalPointAI.Notifications.NotificationsList"
       props={{ showLimit, showInBox }}
     />
   </Card>
