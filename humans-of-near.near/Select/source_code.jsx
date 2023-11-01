@@ -74,20 +74,20 @@ const scaleOut = styled.keyframes`
 `;
 
 const Content = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: flex-start;
   padding: 0;
   gap: 0.5em;
   width: 100%;
-  border: 1px solid #d0d5dd;
-  border-radius: 4px;
-  background: #ffffff;
-  z-index: 3 !important;
+  display: flex;
   font-size: 14px;
   overflow-y: auto;
   max-height: 400px;
+  border-radius: 4px;
+  background: #ffffff;
+  z-index: 3 !important;
+  flex-direction: column;
+  align-items: flex-start;
+  border: 1px solid #d0d5dd;
+  justify-content: flex-start;
 
   /* &[data-state="open"] { */
   /*   animation: ${scaleOut} 0.2s ease-in-out; */
