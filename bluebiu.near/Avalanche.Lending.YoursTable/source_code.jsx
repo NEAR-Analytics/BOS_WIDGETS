@@ -122,8 +122,22 @@ const Empty = styled.div`
   color: #7c7f96;
   min-height: 50px;
 `;
+const RewardApyItem = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 4px;
+`;
+const RewardIcon = styled.img`
+  width: 14px;
+  height: 14px;
+`;
+const RewardApy = styled.div`
+  font-weight: 400;
+  line-height: 14px;
+  color: rgba(255, 255, 255, 0.5);
+`;
 
-const { columns, data, buttons, totalReverse, emptyTips, onButtonClick } =
+const { columns, data, buttons, totalReverse, emptyTips, type, onButtonClick } =
   props;
 
 const renderTotal = (record, key, isSpecialKey) => {
@@ -186,7 +200,29 @@ const renderCollateral = (record) => {
     />
   );
 };
-const renderApy = (record) => <div className="apy">{record.apy}</div>;
+const renderApy = (record) => {
+  return (
+    <>
+      <div className="apy">{record.apy}</div>
+      {record.distributionApy &&
+        record.distributionApy
+          .filter((reward) => {
+            const apy = (
+              type === "deposit" ? reward.supply : reward.borrow
+            ).slice(0, -1);
+            return !!Number(apy);
+          })
+          .map((reward) => (
+            <RewardApyItem key={reward.symbol}>
+              <RewardIcon src={reward.icon} />
+              <RewardApy>
+                {type === "deposit" ? reward.supply : reward.borrow} APR
+              </RewardApy>
+            </RewardApyItem>
+          ))}
+    </>
+  );
+};
 
 return (
   <Table>
