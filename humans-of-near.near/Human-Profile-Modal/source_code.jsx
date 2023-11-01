@@ -86,7 +86,7 @@ const Component = styled.div`
 `;
 
 const ModalContent = styled.div`
-  gap:20px;
+  gap:15px;
   width: 100%;
   color: white;
   display: flex;
@@ -127,7 +127,7 @@ const TextField = styled.input`
   color: white;
   font-size: 12px;
   border-radius: 6px;
-  padding: 10px 15px;
+  padding: 7px 15px;
   background-color: unset;
   border: 2px solid rgb(255, 255, 255);
 `;
@@ -274,7 +274,7 @@ return (
           <p
             style={{ marginBottom: 8, fontSize: 14 }}
           >{`Regional Community `}</p>
-          <div className="d-flex" style={{ gap: 10 }}>
+          <div className="d-flex">
             {Commnuities.map((item) => (
               <div
                 key={item.id}
