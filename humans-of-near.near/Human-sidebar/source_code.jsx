@@ -31,6 +31,7 @@ return (
       <div className="d-flex flex-column" style={{ gap: 60 }}>
         <button
           className="btn p-0"
+          onClick={showProfile}
           style={{ width: "fit-content", height: "fit-content" }}
         >
           <svg
@@ -65,6 +66,7 @@ return (
         </button>
         <button
           className="btn p-0"
+          onClick={showFilters}
           style={{ width: "fit-content", height: "fit-content" }}
         >
           <svg
