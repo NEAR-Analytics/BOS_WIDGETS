@@ -6,6 +6,8 @@ const Main = styled.div`
   font-family: -apple-system, BlinkMacSystemFont, Segoe UI
 `;
 
+if (context.loading) return;
+
 useEffect(() => {
   let greet = Near.view(contract, "get_greeting", {});
   setGreeting(greet);
