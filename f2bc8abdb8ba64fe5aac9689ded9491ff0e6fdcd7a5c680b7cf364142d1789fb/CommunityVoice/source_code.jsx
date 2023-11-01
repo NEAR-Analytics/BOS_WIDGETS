@@ -85,7 +85,7 @@ State.init({
   functionsToCallByLibrary: initLibsCalls,
   sbtsNames: initSbtsNames,
   sbts: initSbtsNames,
-  firstRender: sharedBlockHeight,
+  firstRender: !isNaN(sharedBlockHeight),
 });
 
 let newLibsCalls = state.functionsToCallByLibrary;
@@ -96,31 +96,32 @@ State.update({ libsCalls: newLibsCalls });
 
 //==================================================CONSTS==========================================================
 
-// const authorForWidget = "sayalot.near";
-const authorForWidget =
-  "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb";
+const authorForWidget = "communityvoice.ndctools.near";
+// const authorForWidget =
+//   "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb";
 // const authorForWidget = "kenrou-it.near";
 // const authorForWidget = "silkking.near";
+const genericWidgetsAuthor = "sayalot.near";
 
 const thisWidgetName = "CommunityVoice";
 
 const widgets = {
   communityVoice: `${authorForWidget}/widget/${thisWidgetName}`,
   create: `${authorForWidget}/widget/CommunityVoice.Create`,
-  header: `${authorForWidget}/widget/SayALot.NavBar`,
+  header: `${genericWidgetsAuthor}/widget/SayALot.NavBar`,
   showArticlesList: `${authorForWidget}/widget/CommunityVoice.AllArticlesList`,
-  showArticlesListSortedByAuthors: `${authorForWidget}/widget/SayALot.AllArticlesSortByAuthors`,
-  articlesByAuthorCard: `${authorForWidget}/widget/SayALot.ArticlesByAuthorCard`,
+  showArticlesListSortedByAuthors: `${genericWidgetsAuthor}/widget/SayALot.AllArticlesSortByAuthors`,
+  articlesByAuthorCard: `${genericWidgetsAuthor}/widget/SayALot.ArticlesByAuthorCard`,
   generalCard: `${authorForWidget}/widget/CommunityVoice.GeneralCard`,
   articleView: `${authorForWidget}/widget/CommunityVoice.ArticleView`,
   reactions: `${authorForWidget}/widget/CommunityVoice.Reactions`,
   addComment: `${authorForWidget}/widget/CommunityVoice.AddComment`,
-  commentView: `${authorForWidget}/widget/SayALot.CommentView`,
-  libSBT: `${authorForWidget}/widget/lib.SBT`,
-  libComment: `${authorForWidget}/widget/lib.comment`,
-  libArticle: `${authorForWidget}/widget/lib.article`,
-  libEmojis: `${authorForWidget}/widget/lib.emojis`,
-  libUpVotes: `${authorForWidget}/widget/lib.upVotes`,
+  commentView: `${genericWidgetsAuthor}/widget/SayALot.CommentView`,
+  libSBT: `${genericWidgetsAuthor}/widget/lib.SBT`,
+  libComment: `${genericWidgetsAuthor}/widget/lib.comment`,
+  libArticle: `${genericWidgetsAuthor}/widget/lib.article`,
+  libEmojis: `${genericWidgetsAuthor}/widget/lib.emojis`,
+  libUpVotes: `${genericWidgetsAuthor}/widget/lib.upVotes`,
   upVoteButton: `${authorForWidget}/widget/CommunityVoice.UpVoteButton`,
   styledComponents: "rubycop.near/widget/NDC.StyledComponents",
   newStyledComponents: {
@@ -456,23 +457,23 @@ function handleBackButton() {
     ? State.update({
         displayedTabId: tabs.SHOW_ARTICLE.id,
         editArticleData: undefined,
+        firstRender: false,
         filterBy: {
           parameterName: "",
           parameterValue: undefined,
           handleBackClicked: true,
         },
-        firstRender: false,
       })
     : State.update({
         displayedTabId: tabs.SHOW_ARTICLES_LIST.id,
         articleToRenderData: {},
         editArticleData: undefined,
+        firstRender: false,
         filterBy: {
           parameterName: "",
           parameterValue: undefined,
           handleBackClicked: true,
         },
-        firstRender: false,
       });
 }
 
