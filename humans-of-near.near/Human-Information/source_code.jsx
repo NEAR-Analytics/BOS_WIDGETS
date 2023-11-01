@@ -19,7 +19,7 @@ const ModalOverlay = styled.div`
   border: 1px solid rgb(255, 255, 255);
   display: flex;
   flex-direction: column;
-  width: 464px;
+  width: 750px;
   position: relative;
   padding: 40px;
   @media (max-width: 510px) {
@@ -53,11 +53,8 @@ const Button = styled.a`
   text-decoration: none !important;
   color: #191a1a;
   border-radius: 6px;
+  font-weight: 600;
   &:hover {
-    background-color: grey;
-    color: #191a1a;
-  }
-  &:active {
     background-color: grey;
     color: #191a1a;
   }
@@ -67,6 +64,15 @@ return (
   <ModalContainer>
     <ModalOverlay>
       <ModalContent>
+        <div
+          style={{
+            position: "absolute",
+            left: 15,
+            top: 15,
+          }}
+        >
+          <img src="https://humans.nearverselabs.com/Logo_NFT_WG.png" />
+        </div>
         <button
           style={{
             position: "absolute",
@@ -89,15 +95,39 @@ return (
             />
           </svg>
         </button>
-        <ModalTitle>{`505: Human not found!`}</ModalTitle>
-        <p>{`Looks like you haven't signed up for I Am Human. Use the wallet that you used for IAM Human Verification, or use the following link to verify your personhood:`}</p>
+        <ModalTitle>{`Hello Human!`}</ModalTitle>
+        <div>
+          <p style={{ fontSize: 15 }}>
+            Humans of Near is a gamified social directory of Near users powered
+            by the NFT Work Group. You can browse through the map and connect
+            with Near in your region/anywhere in the world using the social
+            links in their profile.
+          </p>
+          <p style={{ fontSize: 15 }}>
+            <b>Caution:</b> We do not expect/want you to give your exact
+            location for privacy purposes.
+          </p>
+          <p>
+            <b>What can you do?</b>
+          </p>
+          <p style={{ fontSize: 15 }}>
+            1. Any Near user can pin their location ‘anywhere’ on the map <br />
+            2. Update your bio, social links, customize your icon by region in
+            your profile.
+            <br />
+            3. Filter the users by regions, user roles (Devs,Founders, etc.)
+            <br />
+            4. Connect with community members’ socials!
+            <br />
+          </p>
+        </div>
       </ModalContent>
       <ModalAction>
         <Button
-          href="https://i-am-human.app/?community=rocketbois&vertical=nft"
+          href="https://linktr.ee/NFTWG"
           target="_blank"
           className="btn"
-        >{`I-AM-Human Verification`}</Button>
+        >{`NFT WG LinkTree`}</Button>
       </ModalAction>
     </ModalOverlay>
   </ModalContainer>
