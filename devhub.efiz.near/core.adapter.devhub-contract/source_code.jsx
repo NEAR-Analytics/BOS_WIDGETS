@@ -120,22 +120,22 @@ function getAvailableAddons() {
       configurator_widget:
         "devhub.efiz.near/widget/devhub.entity.addon.telegram.Configurator",
     },
-    // {
-    //   id: "github",
-    //   title: "Github",
-    //   description: "Connect your github",
-    //   view_widget: "devhub.efiz.near/widget/devhub.entity.addon.github.Viewer",
-    //   configurator_widget:
-    //     "devhub.efiz.near/widget/devhub.entity.addon.github.Configurator",
-    // },
-    // {
-    //   id: "kanban",
-    //   title: "Kanban",
-    //   description: "Connect your github kanban board",
-    //   view_widget: "devhub.efiz.near/widget/devhub.entity.addon.kanban.Viewer",
-    //   configurator_widget:
-    //     "devhub.efiz.near/widget/devhub.entity.addon.kanban.Configurator",
-    // },
+    {
+      id: "github",
+      title: "Github",
+      description: "Connect your github",
+      view_widget: "devhub.efiz.near/widget/devhub.entity.addon.github.Viewer",
+      configurator_widget:
+        "devhub.efiz.near/widget/devhub.entity.addon.github.Configurator",
+    },
+    {
+      id: "kanban",
+      title: "Kanban",
+      description: "Connect your github kanban board",
+      view_widget: "devhub.efiz.near/widget/devhub.entity.addon.kanban.Viewer",
+      configurator_widget:
+        "devhub.efiz.near/widget/devhub.entity.addon.kanban.Configurator",
+    },
     {
       id: "blog",
       title: "Blog",
