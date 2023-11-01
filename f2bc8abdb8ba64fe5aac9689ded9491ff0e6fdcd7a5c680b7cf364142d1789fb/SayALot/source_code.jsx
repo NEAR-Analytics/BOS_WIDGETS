@@ -1,4 +1,4 @@
-// SayALot
+// Community Voice
 
 //===============================================INITIALIZATION=====================================================
 let { sharedBlockHeight, tagShared, isTest, accountId } = props;
@@ -96,32 +96,33 @@ State.update({ libsCalls: newLibsCalls });
 
 //==================================================CONSTS==========================================================
 
-const authorForWidget = "sayalot.near";
+const authorForWidget = "communityvoice.ndctools.near";
 // const authorForWidget =
 //   "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb";
 // const authorForWidget = "kenrou-it.near";
 // const authorForWidget = "silkking.near";
+const genericWidgetsAuthor = "sayalot.near";
 
-const thisWidgetName = "SayALot";
+const thisWidgetName = "CommunityVoice";
 
 const widgets = {
-  sayALot: `${authorForWidget}/widget/${thisWidgetName}`,
-  create: `${authorForWidget}/widget/SayALot.Create`,
-  header: `${authorForWidget}/widget/SayALot.NavBar`,
-  showArticlesList: `${authorForWidget}/widget/SayALot.AllArticlesList`,
-  showArticlesListSortedByAuthors: `${authorForWidget}/widget/SayALot.AllArticlesSortByAuthors`,
-  articlesByAuthorCard: `${authorForWidget}/widget/SayALot.ArticlesByAuthorCard`,
-  generalCard: `${authorForWidget}/widget/SayALot.GeneralCard`,
-  articleView: `${authorForWidget}/widget/SayALot.ArticleView`,
-  reactions: `${authorForWidget}/widget/SayALot.Reactions`,
-  addComment: `${authorForWidget}/widget/SayALot.AddComment`,
-  commentView: `${authorForWidget}/widget/SayALot.CommentView`,
-  libSBT: `${authorForWidget}/widget/lib.SBT`,
-  libComment: `${authorForWidget}/widget/lib.comment`,
-  libArticle: `${authorForWidget}/widget/lib.article`,
-  libEmojis: `${authorForWidget}/widget/lib.emojis`,
-  libUpVotes: `${authorForWidget}/widget/lib.upVotes`,
-  upVoteButton: `${authorForWidget}/widget/SayALot.UpVoteButton`,
+  communityVoice: `${authorForWidget}/widget/${thisWidgetName}`,
+  create: `${authorForWidget}/widget/CommunityVoice.Create`,
+  header: `${genericWidgetsAuthor}/widget/SayALot.NavBar`,
+  showArticlesList: `${authorForWidget}/widget/CommunityVoice.AllArticlesList`,
+  showArticlesListSortedByAuthors: `${genericWidgetsAuthor}/widget/SayALot.AllArticlesSortByAuthors`,
+  articlesByAuthorCard: `${genericWidgetsAuthor}/widget/SayALot.ArticlesByAuthorCard`,
+  generalCard: `${authorForWidget}/widget/CommunityVoice.GeneralCard`,
+  articleView: `${authorForWidget}/widget/CommunityVoice.ArticleView`,
+  reactions: `${authorForWidget}/widget/CommunityVoice.Reactions`,
+  addComment: `${authorForWidget}/widget/CommunityVoice.AddComment`,
+  commentView: `${genericWidgetsAuthor}/widget/SayALot.CommentView`,
+  libSBT: `${genericWidgetsAuthor}/widget/lib.SBT`,
+  libComment: `${genericWidgetsAuthor}/widget/lib.comment`,
+  libArticle: `${genericWidgetsAuthor}/widget/lib.article`,
+  libEmojis: `${genericWidgetsAuthor}/widget/lib.emojis`,
+  libUpVotes: `${genericWidgetsAuthor}/widget/lib.upVotes`,
+  upVoteButton: `${authorForWidget}/widget/CommunityVoice.UpVoteButton`,
   styledComponents: "rubycop.near/widget/NDC.StyledComponents",
   newStyledComponents: {
     Element: {
@@ -153,11 +154,11 @@ if (state.filterBy.parameterName == "author") {
 
 const brand = {
   homePageId: tabs.SHOW_ARTICLES_LIST.id,
-  brandName: "Say a lot",
+  brandName: "Community Voice",
   logoHref:
-    "https://ipfs.near.social/ipfs/bafkreiaqxa4st4vp4rtq2iyobdgqe5tpfg55mmyvfg25upd2qplcxylyfi",
-  logoRemWidth: 6,
-  logoRemHeight: 6,
+    "https://ipfs.near.social/ipfs/bafkreifhkslni6dlocxya35vjft3fefk2am5uzkagmjjzobdjqlhrnbjz4",
+  logoRemWidth: 12,
+  logoRemHeight: 4,
 };
 
 const navigationPills = [
@@ -231,6 +232,7 @@ if (state.filterBy.parameterName === "tag") {
     state.filterBy.parameterValue,
     articlesToRender
   );
+
   if (articlesToRender.length > 0) {
     State.update({ articleToRenderData: articlesToRender[0] });
   }
@@ -455,23 +457,23 @@ function handleBackButton() {
     ? State.update({
         displayedTabId: tabs.SHOW_ARTICLE.id,
         editArticleData: undefined,
+        firstRender: false,
         filterBy: {
           parameterName: "",
           parameterValue: undefined,
           handleBackClicked: true,
         },
-        firstRender: false,
       })
     : State.update({
         displayedTabId: tabs.SHOW_ARTICLES_LIST.id,
         articleToRenderData: {},
         editArticleData: undefined,
+        firstRender: false,
         filterBy: {
           parameterName: "",
           parameterValue: undefined,
           handleBackClicked: true,
         },
-        firstRender: false,
       });
 }
 
@@ -527,9 +529,9 @@ function handleShareButton(showShareModal, sharedElement) {
 }
 
 function getLink() {
-  return `https://near.social/${widgets.sayALot}?${isTest && "isTest=t&"}${
-    state.sharedElement.type
-  }=${state.sharedElement.value}`;
+  return `https://near.social/${widgets.communityVoice}?${
+    isTest && "isTest=t&"
+  }${state.sharedElement.type}=${state.sharedElement.value}`;
 }
 
 //===============================================END FUNCTIONS======================================================
@@ -558,6 +560,7 @@ if (!context.accountId) {
     </>
   );
 }
+
 return (
   <>
     {state.showShareModal && renderShareInteraction()}
@@ -677,8 +680,8 @@ return (
           src,
           stateUpdate,
           state.functionsToCallByLibrary,
-          { baseAction: "sayALotArticle" },
-          "SayALot"
+          { baseAction: "communityVoiceArticle" },
+          "CommunityVoice"
         );
       })}
     </CallLibrary>
