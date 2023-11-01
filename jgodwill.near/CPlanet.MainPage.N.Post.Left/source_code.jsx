@@ -46,7 +46,7 @@ return (
       <GroupLink href={`?groupId=${groupId}`}>
         <Widget
           loading={groupInner}
-          src="mob.near/widget/N.Common.OverlayTrigger"
+          src="jgodwill.near/widget/CPlanet.N.Common.OverlayTrigger"
           props={{
             popup: (
               <Widget
