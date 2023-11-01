@@ -50,6 +50,7 @@ const Root = styled.div`
       color: black;
       cursor: pointer;
       text-decoration: none;
+
       border: 1px solid #000;
       transition: 0.3s ease-in-out;
       padding: 6px;
@@ -57,6 +58,21 @@ const Root = styled.div`
     .all:hover {
       background: black;
       color: white;
+    }
+    .explore {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      justify-content: center;
+      align-items: center;
+       .daos {
+        margin-top: 40px;
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 20px;
+    }
     }
 `;
 
@@ -72,10 +88,19 @@ return (
       <h1>Explore the NFTS</h1>
       <span>DAOs funded by the Creatives DAO</span>
     </div>
-    <div className="daos">
-      <Widget src="agwaze.near/widget/CPlanet.NFTCard.index" />
-      <Widget src="agwaze.near/widget/CPlanet.NFTCard.index" />{" "}
-      <Widget src="agwaze.near/widget/CPlanet.NFTCard.index" />
+    <div className="explore">
+      <div className="daos">
+        <Widget src="agwaze.near/widget/CPlanet.NFTCard.index" />
+        <Widget src="agwaze.near/widget/CPlanet.NFTCard.index" />
+        <Widget src="agwaze.near/widget/CPlanet.NFTCard.index" />
+      </div>
+      <a
+        href="#/agwaze.near/widget/CPlanet.index?tab=explore"
+        className="all"
+        onClick={() => props.update({ tab: "explore" })}
+      >
+        Show All NFTs (50)
+      </a>
     </div>
     <div className="community">
       <h1>Our Communties</h1>
@@ -95,8 +120,12 @@ return (
         </div>
       ))}
     </div>
-      <a href="#/agwaze.near/widget/CPlanet.index?tab=explore" className="all">
-        Show All Communities (59)
-      </a>
+    <a
+      href="#/agwaze.near/widget/CPlanet.index?tab=community"
+      className="all"
+      onClick={() => props.update({ tab: "community" })}
+    >
+      Show All Communities (59)
+    </a>
   </Root>
 );
