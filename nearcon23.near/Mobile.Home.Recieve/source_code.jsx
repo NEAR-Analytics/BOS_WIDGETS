@@ -5,6 +5,7 @@ const prefix = props.prefix || "/mobile";
 const amount = props.amount || context.amount || 0.0;
 
 initState({ qrCodeData: "" });
+
 const Container = styled.div`
   width: 100%;
   display: flex;
@@ -18,9 +19,7 @@ const Content = styled.div`
   position: relative;
   width: 100%;
   max-width: 700px;
-
   overflow: hidden;
-
   height: 100%;
   min-height: 836px;
   div {
@@ -64,7 +63,7 @@ const SubmitButton = styled.button`
   background: #161615;
   border-radius: 50px;
   border: none;
-  color: #ffffff;
+  color: #000000;
   width: 100%;
   min-height: 48px;
   background: #00EC97;
@@ -82,8 +81,44 @@ const SubmitButton = styled.button`
   }
 `;
 
-const qrPayload = `https://jutsu.ai/${ownerId}/widget/Mobile.Home.Send?receiverId=${receiverId}`;
-console.log(qrPayload);
+const { secretkey } = props;
+
+const storedSecretKey = Storage.get(
+  "newPrivateKey",
+  `${ownerId}/widget/Ticket.Page`
+)
+  ? Storage.get("newPrivateKey", `${ownerId}/widget/Ticket.Page`)
+  : Storage.get("newPrivateKey", `${ownerId}/widget/RegisterMobile.Index`);
+
+const [qrPayload, setQrPayload] = useState("");
+
+const fetchData = () => {
+  const key = secretkey ? secretkey : storedSecretKey;
+  asyncFetch(`${baseUrl}/api/v1/accounts/auth/${key}`).then(({ body }) => {
+    console.log(body);
+    if (
+      !!Storage.get(
+        "newPrivateKey",
+        `${ownerId}/widget/RegisterMobile.Index`
+      ) === false
+    ) {
+      State.update({
+        redirectToHome: "redirect",
+      });
+    }
+    State.update({
+      userData: body,
+    });
+
+    setQrPayload(
+      `https://${rootUrl}/${ownerId}/widget/Mobile.Home.Send?receiverId=${body?.nearconId}`
+    );
+  });
+};
+
+useEffect(() => {
+  fetchData();
+}, [secretkey, storedSecretKey]);
 
 const SVG_CONTENT_TYPE = "image/svg+xml";
 
@@ -92,41 +127,38 @@ const imageToBase64 = (data, type) => {
   return `data:${type};base64,` + buff.toString("base64");
 };
 
-const qrCodeParams = {
-  type: "svg",
-  data: qrPayload,
-  dotsOptions: { color: "#403E3E", type: "dots" },
-  cornersSquareOptions: { type: "square" },
-  qrOptions: { errorCorrectionLevel: "M" },
-  backgroundOptions: { color: "#ffffff" },
-};
-
 const srcData = `
 <html>
-<div id="qrcode"></div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-<script type="text/javascript">
-var qrcode = new QRCode(document.getElementById("qrcode"), {
-	text: "${qrPayload}",
-	width: 290,
-	height: 290,
-	colorDark : "#000000",
-	colorLight : "#ffffff",
-	correctLevel : QRCode.CorrectLevel.H
-});
-</script>
+<body>
+  <div id="qrcode" style="display:flex; justify-content:center;"></div>
+  <script src="https://cdn.jsdelivr.net/npm/easyqrcodejs@4.5.0/dist/easy.qrcode.min.js"></script>
+  <script type="text/javascript">
+    new QRCode(document.getElementById("qrcode"), {
+    text: "${qrPayload}",
+    width: 290,
+    height: 290,
+    colorDark: "#000000",
+    colorLight: "#ffffff",
+    correctLevel: QRCode.CorrectLevel.H, // L, M, Q, H
+
+    // backgroundImage: "https://nearpad-images.s3.amazonaws.com/nearcon_small.png",
+    logo: "https://nearpad-images.s3.amazonaws.com/nearcon_small.png",
+    logoBackgroundTransparent: true,
+    logoWidth: 150, 
+    logoHeight: 150,
+    
+    dotScale: .6,
+    dotScaleTiming: .6,
+    dotScaleA:.6,
+  });
+   </script> 
+</body>
 </html>
 `;
 
 return (
   <Container>
     <Content>
-      <div style={{ zIndex: 2 }}>
-        <Widget
-          src={`${ownerId}/widget/Navbar`}
-          // props={{ update, showSidebar, collapsible: state.collapsible }}
-        />
-      </div>
       <div
         style={{
           flex: 1,
@@ -142,25 +174,32 @@ return (
       >
         <div style={{ textAlign: "center" }}>
           <p style={{}}>
-            <span style={{ color: "gray" }}>Receive</span> NCON
+            <span style={{ color: "gray" }}>Receive</span>{" "}
+            <span style={{ fontWeight: 600 }}>NCON</span>
           </p>
-          <div style={{display:'flex', justifyContent:'center', alignItems:'center'}}>
+          {!!state?.userData?.nearconId && (
+            <p>{`@${state?.userData?.nearconId}`}</p>
+          )}
+          <div style={{ width: "fit-content", margin: "auto" }}>
             <iframe
               srcDoc={srcData}
               onMessage={(data) => {
                 console.log(data);
                 State.update({ qrCodeData: data });
               }}
-              style={{ width: 310, height: 310 }}
+              style={{
+                width: 340,
+                height: 350,
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
             />
           </div>
         </div>
-        <Link
-          style={{ width: "100%" }}
-          to={`${prefix}/${ownerId}/widget/Mobile.Home`}
-        >
+        <a style={{ width: "100%" }} href={`/mobile`}>
           <SubmitButton>Home</SubmitButton>
-        </Link>
+        </a>
       </div>
     </Content>
   </Container>
