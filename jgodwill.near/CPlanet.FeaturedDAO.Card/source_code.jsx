@@ -12,14 +12,17 @@ const CardRoot = styled.div`
     width: 315px;
     // width: 100%;
     height: fit-content;
-    border: 1px solid #EFEFEF;
     border-radius: 8px;
     background: #FFF;
     overflow: hidden;
-    box-shadow: 2px 2px 12px 0px rgba(0, 0, 0, 0.05);
     margin-bottom: 20px;
+    box-shadow: 2px 2px 12px 0px rgba(0, 0, 0, 0.05);
     display: flex;
     flex-direction: column;
+    border: 1px solid #EFEFEF;
+    &:hover{
+    box-shadow: 2px 2px 12px 7px rgba(0, 0, 0, 0.05);
+    }
     &>a{
       text-decoration: none;
     }
@@ -273,7 +276,7 @@ const shortenNumber = (n) => {
   if (n >= 1e12) return (n / 1e12).toFixed(1) + "t";
 };
 
-const shortenLength = 22;
+const shortenLength = 25;
 
 function makeAccountIdShorter(accountId) {
   if (accountId.length > shortenLength) {
