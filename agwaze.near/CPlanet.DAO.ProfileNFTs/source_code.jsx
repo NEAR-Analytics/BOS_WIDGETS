@@ -56,10 +56,7 @@ const fetchStoreFrontData = (owner, contractId) => {
   console.log("running2", state.storeContracts);
 };
 
-fetchStoreFrontData(
-  props.ownerId,
-  props.daoId
-);
+fetchStoreFrontData(props.ownerId, props.daoId);
 
 const storeNfts = state.storeContracts;
 
