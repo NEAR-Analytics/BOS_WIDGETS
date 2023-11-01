@@ -510,7 +510,7 @@ const Description = styled.div`
     margin-top: 10px;
     box-shadow: 1px 1px 10px 1px rgba(28, 27, 28, 0.1);
     &>h6{
-        font-weight: 600;
+        font-weight: 700;
         font-size: 1.5rem;
     }
     
