@@ -63,7 +63,10 @@ QuoteRouterContract.quoteLayerZeroFee(target.dstId, 1, target.address, "0x", {
   dstNativeAddr: "0x0000000000000000000000000000000000000001",
 })
   .then((quoteRes) => {
-    const _amount = ethers.utils.parseUnits(amount, currency.decimals);
+    const _amount = ethers.utils.parseUnits(
+      Big(amount).toFixed(currency.decimals).toString(),
+      currency.decimals
+    );
     const RouterContract = currency.isNative
       ? new ethers.Contract(
           routerEthAddress,
@@ -172,7 +175,7 @@ QuoteRouterContract.quoteLayerZeroFee(target.dstId, 1, target.address, "0x", {
     const minAmount = ethers.utils.parseUnits(
       Big(amount || 0)
         .mul(0.995)
-        .toString(),
+        .toFixed(currency.decimals),
       currency.decimals
     );
     const params = currency.isNative
@@ -207,7 +210,6 @@ QuoteRouterContract.quoteLayerZeroFee(target.dstId, 1, target.address, "0x", {
         });
       })
       .catch((err) => {
-        console.log(err);
         onError();
       });
   })
