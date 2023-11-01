@@ -1,8 +1,8 @@
 const { Card } =
-  VM.require("devgovgigs.petersalomonsen.near/widget/devhub.entity.addon.blog.Card") ||
+  VM.require("${REPL_DEVHUB}/widget/devhub.entity.addon.blog.Card") ||
   (() => <></>);
 const { Page } =
-  VM.require("devgovgigs.petersalomonsen.near/widget/devhub.entity.addon.blog.Page") ||
+  VM.require("${REPL_DEVHUB}/widget/devhub.entity.addon.blog.Page") ||
   (() => <></>);
 
 const categories = [
@@ -99,7 +99,7 @@ const hasDataChanged = () => {
 
 const handlePublish = () => {
   Near.call({
-    contractName: "devgovgigs.near",
+    contractName: "${REPL_DEVHUB_CONTRACT}",
     methodName: "add_post",
     args: {
       labels: ["blog", handle],
@@ -216,7 +216,7 @@ return (
             <h5>Title</h5>
             <div className="flex-grow-1">
               <Widget
-                src="devgovgigs.petersalomonsen.near/widget/devhub.components.molecule.Input"
+                src="${REPL_DEVHUB}/widget/devhub.components.molecule.Input"
                 props={{
                   className: "flex-grow-1",
                   onChange: (e) => setTitle(e.target.value),
@@ -230,7 +230,7 @@ return (
             <h5>Subtitle</h5>
             <div className="flex-grow-1">
               <Widget
-                src="devgovgigs.petersalomonsen.near/widget/devhub.components.molecule.Input"
+                src="${REPL_DEVHUB}/widget/devhub.components.molecule.Input"
                 props={{
                   className: "flex-grow-1",
                   onChange: (e) => setSubtitle(e.target.value),
@@ -244,7 +244,7 @@ return (
             <h5>Category</h5>
             <div className="flex-grow-1">
               <Widget
-                src={"near/widget/DIG.InputSelect"}
+                src={"${REPL_NEAR}/widget/DIG.InputSelect"}
                 props={{
                   groups: [
                     {
@@ -267,7 +267,7 @@ return (
             <h5>Description</h5>
             <div className="flex-grow-1">
               <Widget
-                src="devgovgigs.petersalomonsen.near/widget/devhub.components.molecule.Input"
+                src="${REPL_DEVHUB}/widget/devhub.components.molecule.Input"
                 props={{
                   className: "flex-grow-1",
                   onChange: (e) => setDescription(e.target.value),
@@ -281,7 +281,7 @@ return (
             <h5>Author</h5>
             <div className="flex-grow-1">
               <Widget
-                src="devgovgigs.petersalomonsen.near/widget/devhub.components.molecule.Input"
+                src="${REPL_DEVHUB}/widget/devhub.components.molecule.Input"
                 props={{
                   className: "flex-grow-1",
                   onChange: (e) => setAuthor(e.target.value),
@@ -294,7 +294,7 @@ return (
           <div>
             <h5>Content</h5>
             <Widget
-              src="devgovgigs.petersalomonsen.near/widget/devhub.components.molecule.MarkdownEditor"
+              src="${REPL_DEVHUB}/widget/devhub.components.molecule.MarkdownEditor"
               props={{ data: { content }, onChange: setContent }}
             />
           </div>
@@ -311,7 +311,7 @@ return (
           className={"d-flex align-items-center justify-content-end gap-3 mt-4"}
         >
           <Widget
-            src={"devgovgigs.petersalomonsen.near/widget/devhub.components.molecule.Button"}
+            src={"${REPL_DEVHUB}/widget/devhub.components.molecule.Button"}
             props={{
               classNames: { root: "btn-success" },
               disabled: !hasDataChanged(),
@@ -335,7 +335,7 @@ return (
         <div style={{ position: "absolute", top: 10, right: 0 }}>
           <Widget
             // LEGACY
-            src="devgovgigs.petersalomonsen.near/widget/gigs-board.components.molecule.button-switch"
+            src="${REPL_DEVHUB}/widget/gigs-board.components.molecule.button-switch"
             props={{
               currentValue: previewMode,
               key: "previewMode",
