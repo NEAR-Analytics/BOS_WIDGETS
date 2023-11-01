@@ -6,6 +6,7 @@ const Root = styled.div`
     height: max-content;
     border: 1px solid #CDCDCD;
     background: #F8F8F8;
+    border-top: none;
     h1 {
         color: #B0B0B0;
         text-align: center;
