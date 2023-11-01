@@ -13,7 +13,7 @@ const Contents = styled.div`
 
 `;
 
-const availableTabs = ["explore", "singleNFT", "home"];
+const availableTabs = ["explore", "singleNFT", "home", 'community'];
 
 const getTab = (tab) => {
   if (!tab || !availableTabs.includes(tab)) {
