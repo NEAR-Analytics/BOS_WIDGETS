@@ -1,6 +1,8 @@
 const Owner = "humans-of-near.near";
 const API_URL = "https://humans.nearverselabs.com/api";
 
+const { showProfile, showFilters } = props;
+
 const Sidebar = styled.div`
   position: absolute;
   right: 40px; 
