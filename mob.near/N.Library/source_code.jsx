@@ -26,6 +26,18 @@ const components = [
       fast: "Render profile picture faster using external cache, default false",
     },
   },
+  {
+    title: "Profile Picture",
+    widgetName: "ProfileImage",
+    demoProps: { accountId, fast: true },
+    requiredProps: {
+      accountId: "The account ID of the profile",
+    },
+    optionalProps: {
+      profile: "Object that holds profile information to display",
+      fast: "Render profile picture faster using external cache, default false",
+    },
+  },
 ];
 
 const renderProps = (props, optional) => {
