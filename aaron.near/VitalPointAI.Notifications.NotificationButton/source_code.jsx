@@ -14,6 +14,8 @@ const handleOnCancelBanner = props?.handleOnCancelBanner;
 const mobileView = props?.mobileView;
 const navigate = props?.navigate;
 
+console.log("navigate", navigate);
+
 State.init({
   open: false,
 });
@@ -111,6 +113,7 @@ const Button = ({ count }) => {
         src="aaron.near/widget/VitalPointAI.DIG.Button"
         props={{
           icon,
+          navigate,
           variant: "primary",
           style: { width: "45px", height: "45px" },
           href: "/notifications",
