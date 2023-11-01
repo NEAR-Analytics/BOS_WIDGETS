@@ -156,7 +156,7 @@ const brand = {
   homePageId: tabs.SHOW_ARTICLES_LIST.id,
   brandName: "Community Voice",
   logoHref:
-    "https://ipfs.near.social/ipfs/bafkreifhkslni6dlocxya35vjft3fefk2am5uzkagmjjzobdjqlhrnbjz4",
+    "https://ipfs.near.social/ipfs/bafkreiaqxa4st4vp4rtq2iyobdgqe5tpfg55mmyvfg25upd2qplcxylyfi",
   logoRemWidth: 12,
   logoRemHeight: 4,
 };
