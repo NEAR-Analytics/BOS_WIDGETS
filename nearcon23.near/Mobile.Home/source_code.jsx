@@ -1,23 +1,28 @@
 const theme = props.theme;
 const accountId = props.accountId || context.accountId;
 const ownerId = "nearcon23.near";
+const apiUrl = "https://gqqkd7l7mk.execute-api.us-east-1.amazonaws.com/mainnet/api/v1";
+
 const [selectedButton, setSelectedButton] = useState("profile");
 
-initState({});
+// initState({});
+State.init({
+  redirectToHome: "loading",
+});
 
-const Container = styled.div`
-  height:100%;
-  max-height: 100vh;
+const Container = styled.div`  
+  max-height: 100svh;
+  height: 100%;
 `;
 const Content = styled.div`
-  height: calc(100dvh - 106px);
+  height: calc(100% - 105px);
   flex: 1;
   flex-direction: column;
   overflow: auto;
   position: relative;
 `;
 
-const { secretkey, selectedtab } = props;
+const { secretkey } = props;
 
 const storedSecretKey = Storage.get(
   "newPrivateKey",
@@ -25,26 +30,29 @@ const storedSecretKey = Storage.get(
 )
   ? Storage.get("newPrivateKey", `${ownerId}/widget/Ticket.Page`)
   : Storage.get("newPrivateKey", `${ownerId}/widget/RegisterMobile.Index`);
-
 const fetchData = () => {
   const key = secretkey ? secretkey : storedSecretKey;
+
   asyncFetch(
-    `https://21mqgszhf3.execute-api.us-east-1.amazonaws.com/testnet/api/v1/accounts/auth/${key}`
+    `${apiUrl}/accounts/auth/${key}`
   ).then(({ body }) => {
-    if (!key) {
+    if (body?._id) {
+      // if (!!storedSecretKey === false) { }
+      State.update({
+        userData: body,
+        redirectToHome: "",
+      });
+    } else {
       State.update({
         redirectToHome: "redirect",
       });
     }
-    State.update({
-      userData: body,
-    });
   });
 };
 
 const fetchTransaction = () => {
   if (state?.userData?.nearconId) {
-    const apiURL = `https://21mqgszhf3.execute-api.us-east-1.amazonaws.com/testnet/api/v1/transactions/${state.userData.nearconId}`;
+    const apiURL = `${apiUrl}/transactions/${state.userData.nearconId}`;
     asyncFetch(apiURL).then(({ body }) => {
       State.update({ transactions: body });
     });
@@ -56,11 +64,9 @@ useEffect(() => {
   fetchTransaction();
 }, [secretkey, storedSecretKey, state.userData]);
 
-useEffect(() => {
-  if (selectedtab) {
-    setSelectedButton(selectedtab);
-  }
-}, [selectedtab]);
+if (state.redirectToHome === "loading") {
+  return <Widget src={`${ownerId}/widget/Components.LoadingOverlay`} />;
+}
 
 if (state.redirectToHome === "redirect") {
   return <Redirect to="/" />;
@@ -115,6 +121,7 @@ return (
         <Widget src={`${ownerId}/widget/Help`} props={{ theme }} />
       )}
     </Content>
+
     <Widget
       src={`${ownerId}/widget/Mobile.Navbar`}
       props={{
