@@ -30,13 +30,13 @@ const ModalOverlay = styled.div`
 
 const Component = styled.div`
   height: 100%;
-  border-radius: 12px;
-  background-color: #191a1a;
+  border-radius: 6px;
+  background-color: #22272B;
   border: 1px solid rgb(255, 255, 255);
 `;
 
 const ModalContent = styled.div`
-  gap:5px;
+  gap:20px;
   width: 100%;
   color: white;
   display: flex;
@@ -56,10 +56,10 @@ const ModalTitle = styled.h4`
 `;
 
 const Button = styled.button`
-  padding: 10px 22px;
-  background-color:white;
   color: #191a1a;
   border-radius: 6px;
+  padding: 10px 22px;
+  background-color:white;
   &:hover {
     background-color: grey;
     color: #191a1a;
@@ -71,12 +71,28 @@ const Button = styled.button`
 `;
 
 const TextField = styled.input`
-padding: 10px 15px;
-font-size: 16px;
-border-radius: 6px;
-border: 2px solid rgb(255, 255, 255);
-background-color: #191a1a;
-color: white;
+  width: 100%;
+  color: white;
+  font-size: 16px;
+  border-radius: 6px;
+  padding: 10px 15px;
+  background-color: unset;
+  border: 2px solid rgb(255, 255, 255);
+`;
+
+const Textarea = styled.textarea`
+  gap: 0.5em;
+  width: 100%;
+  display: flex;
+  color: white;
+  background: unset;
+  border-radius: 4px;
+  align-items: center;
+  flex-direction: row;
+  padding: 0.5em 0.75em;
+  box-sizing: border-box;
+  border: 1px solid #d0d5dd;
+  box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05);
 `;
 
 const saveMyProfile = () => {
@@ -130,40 +146,64 @@ return (
     <Component>
       <ModalContent>
         <button
+          className="btn"
           style={{
-            width: 40,
+            right: 0,
             position: "absolute",
-            right: 25,
-            background: "unset",
-            borderColor: "white",
           }}
           onClick={onClose}
         >
-          X
+          <svg
+            width="26"
+            height="26"
+            viewBox="0 0 26 26"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M13 1.625C6.6625 1.625 1.625 6.6625 1.625 13C1.625 19.3375 6.6625 24.375 13 24.375C19.3375 24.375 24.375 19.3375 24.375 13C24.375 6.6625 19.3375 1.625 13 1.625ZM17.3875 18.6875L13 14.3L8.6125 18.6875L7.3125 17.3875L11.7 13L7.3125 8.6125L8.6125 7.3125L13 11.7L17.3875 7.3125L18.6875 8.6125L14.3 13L18.6875 17.3875L17.3875 18.6875Z"
+              fill="white"
+            />
+          </svg>
         </button>
         <ModalTitle>{`Your Profile`}</ModalTitle>
-        <p>{`Be careful with your public data.`}</p>
-        <h5>{`Display Name`}</h5>
-        <TextField
-          type="text"
-          placeholder={accountId}
-          value={state.name}
-          onChange={changeName}
-        />
-        <h5>{`Near Social`}</h5>
-        <TextField
-          type="text"
-          placeholder="Near Social"
-          value={state.social}
-          onChange={changeSocial}
-        />
-        <h5>{`Twitter`}</h5>
-        <TextField
-          type="text"
-          placeholder="Twitter Link"
-          value={state.twitter}
-          onChange={changeTwitter}
-        />
+        <div>
+          <p>{`Display Name`}</p>
+          <TextField
+            type="text"
+            placeholder={accountId}
+            value={state.name}
+            onChange={changeName}
+          />
+        </div>
+        <div>
+          <p>{`Near Social`}</p>
+          <TextField
+            type="text"
+            placeholder="Near Social"
+            value={state.social}
+            onChange={changeSocial}
+          />
+        </div>
+        <div>
+          <p>{`Twitter`}</p>
+          <TextField
+            type="text"
+            placeholder="Twitter Link"
+            value={state.twitter}
+            onChange={changeTwitter}
+          />
+        </div>
+        <div>
+          <p>{`Bio`}</p>
+          <Textarea
+            type="text"
+            placeholder="Twitter Link"
+            value={state.twitter}
+            onChange={changeTwitter}
+          />
+        </div>
+        <div></div>
       </ModalContent>
       <ModalAction>
         <Button className="btn" onClick={saveMyProfile}>{`Save`}</Button>
