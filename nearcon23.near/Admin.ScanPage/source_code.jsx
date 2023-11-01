@@ -1,14 +1,15 @@
 const ownerId = "nearcon23.near";
 const baseUrl =
-  "https://gqqkd7l7mk.execute-api.us-east-1.amazonaws.com/mainnet";
+  "https://gqqkd7l7mk.execute-api.us-east-1.amazonaws.com/mainnet/api/v1";
 
 const HeaderStyle = styled.div`
    background: url("https://ipfs.near.social/ipfs/bafkreigmwev6i2ivgz5ampkihov2ub7yenn7hohs34erheclixz2dopwru");
   background-repeat: no-repeat;
   background-size: cover;
   height: 64px;
+  min-height: 64px;
   display: flex;
-  margin-top:-12px;
+  // margin-top:-12px;
   align-items: flex-end;
   padding:15px;
   p {
@@ -45,7 +46,7 @@ const [tikcetData, setTicketData] = useState(null);
 const { privateKey } = props;
 
 const fetchTicketData = () => {
-  const apiURL = `${baseUrl}/api/v1/accounts/${privateKey}/validate`;
+  const apiURL = `${baseUrl}/accounts/${privateKey}/validate`;
   const { body } = fetch(apiURL);
   setTicketData(body.user);
 };
@@ -68,15 +69,18 @@ useEffect(() => {
 
 const confirmId = () => {
   State.update({ loading: true });
-  asyncFetch(`${baseUrl}/api/v1/accounts/claim`, {
-    body: JSON.stringify({
-      secretKey: privateKey,
-    }),
-    headers: {
-      "Content-Type": "application/json",
-    },
-    method: "POST",
-  })
+  asyncFetch(
+    `${baseUrl}/accounts/claim`,
+    {
+      body: JSON.stringify({
+        secretKey: privateKey,
+      }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+      method: "POST",
+    }
+  )
     .then((res) => {
       console.log("SCAN PAGE RES : ", res);
 
@@ -108,7 +112,9 @@ const storedSecretKey = Storage.get(
 
 const fetchData = () => {
   const key = secretkey ? secretkey : storedSecretKey;
-  asyncFetch(`${baseUrl}/api/v1/accounts/auth/${key}`).then(({ body }) => {
+  asyncFetch(
+    `${baseUrl}/accounts/auth/${key}`
+  ).then(({ body }) => {
     if (!!storedSecretKey === false) {
       State.update({
         redirectToHome: "redirect",
@@ -274,7 +280,7 @@ return (
             position: "fixed",
             bottom: 0,
             width: "100%",
-            backgroundColor: "#ffffff4D",
+            backgroundColor: "#ffffffFFf",
             padding: 10,
           }}
         >
