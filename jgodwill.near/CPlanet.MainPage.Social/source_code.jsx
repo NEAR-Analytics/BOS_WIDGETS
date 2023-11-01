@@ -111,6 +111,7 @@ const SocialWrapper = styled.div`
         flex: 1;
     }
     .daos{
+      padding: 20px 0px;
       .title-section{
         display: flex;
         justify-content: space-between;
@@ -261,7 +262,7 @@ return (
               </svg>
             </a>
           </div>
-          {communities.map((data, index) => (
+          {communities.reverse().map((data, index) => (
             <div key={index}>
               <Widget
                 props={{
