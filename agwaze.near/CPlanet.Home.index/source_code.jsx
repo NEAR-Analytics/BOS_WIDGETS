@@ -64,7 +64,7 @@ const Figures = styled.div`
       background: #F8F8F8;
     div {
       min-width: max-content;
-      padding: 35px 61px;
+      padding: 35px 55px;
       border-right: 1px solid #CDCDCD;
     }
     div:last-child {
