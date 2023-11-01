@@ -85,6 +85,7 @@ State.init({
   functionsToCallByLibrary: initLibsCalls,
   sbtsNames: initSbtsNames,
   sbts: initSbtsNames,
+  firstRender: sharedBlockHeight,
 });
 
 let newLibsCalls = state.functionsToCallByLibrary;
@@ -177,7 +178,23 @@ const canLoggedUserCreateArticle = state.canLoggedUserCreateArticle[sbts[0]];
 
 //=================================================GET DATA=========================================================
 const finalArticles = state.articles;
-const articlesToRender = finalArticles[sbts[0]] ?? [];
+
+function getArticlesToRender() {
+  if (sharedBlockHeight && finalArticles && state.firstRender) {
+    let finalArticlesSbts = Object.keys(finalArticles);
+    let allArticles = [];
+
+    finalArticlesSbts.forEach((sbt) => {
+      allArticles = [...allArticles, ...finalArticles[sbt]];
+    });
+
+    return allArticles;
+  } else {
+    return finalArticles[sbts[0]];
+  }
+}
+
+const articlesToRender = getArticlesToRender() ?? [];
 
 function filterArticlesByTag(tag, articles) {
   return articles.filter((article) => {
@@ -214,6 +231,7 @@ if (state.filterBy.parameterName === "tag") {
     state.filterBy.parameterValue,
     articlesToRender
   );
+
   if (articlesToRender.length > 0) {
     State.update({ articleToRenderData: articlesToRender[0] });
   }
@@ -443,6 +461,7 @@ function handleBackButton() {
           parameterValue: undefined,
           handleBackClicked: true,
         },
+        firstRender: false,
       })
     : State.update({
         displayedTabId: tabs.SHOW_ARTICLES_LIST.id,
@@ -453,6 +472,7 @@ function handleBackButton() {
           parameterValue: undefined,
           handleBackClicked: true,
         },
+        firstRender: false,
       });
 }
 
@@ -539,6 +559,7 @@ if (!context.accountId) {
     </>
   );
 }
+
 return (
   <>
     {state.showShareModal && renderShareInteraction()}
