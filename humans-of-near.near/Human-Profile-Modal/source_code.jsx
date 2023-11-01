@@ -102,6 +102,8 @@ const ModalAction = styled.div`
 `;
 
 const ModalTitle = styled.h4`
+  font-size: 16px;
+  font-weight : bold;
   margin-bottom: 10px;
 `;
 
@@ -123,7 +125,7 @@ const Button = styled.button`
 const TextField = styled.input`
   width: 100%;
   color: white;
-  font-size: 16px;
+  font-size: 12px;
   border-radius: 6px;
   padding: 10px 15px;
   background-color: unset;
@@ -220,7 +222,7 @@ return (
         </button>
         <ModalTitle>{`Your Profile`}</ModalTitle>
         <div>
-          <p>{`Display Name`}</p>
+          <p style={{ marginBottom: 8, fontSize: 14 }}>{`Display Name`}</p>
           <TextField
             type="text"
             placeholder={accountId}
@@ -229,7 +231,7 @@ return (
           />
         </div>
         <div>
-          <p>{`Near Social`}</p>
+          <p style={{ marginBottom: 8, fontSize: 14 }}>{`Near Social`}</p>
           <TextField
             type="text"
             placeholder="Near Social"
@@ -238,7 +240,7 @@ return (
           />
         </div>
         <div>
-          <p>{`Twitter`}</p>
+          <p style={{ marginBottom: 8, fontSize: 14 }}>{`Twitter`}</p>
           <TextField
             type="text"
             placeholder="Twitter Link"
@@ -247,7 +249,7 @@ return (
           />
         </div>
         <div>
-          <p>{`Bio`}</p>
+          <p style={{ marginBottom: 8, fontSize: 14 }}>{`Bio`}</p>
           <Textarea
             type="text"
             placeholder="Twitter Link"
@@ -256,7 +258,9 @@ return (
           />
         </div>
         <div>
-          <p>{`What describes you best?`}</p>
+          <p
+            style={{ marginBottom: 8, fontSize: 14 }}
+          >{`What describes you best?`}</p>
           <Widget
             props={{
               noLabel: true,
@@ -267,7 +271,9 @@ return (
           />
         </div>
         <div>
-          <p>{`Regional Community `}</p>
+          <p
+            style={{ marginBottom: 8, fontSize: 14 }}
+          >{`Regional Community `}</p>
           <div className="d-flex" style={{ gap: 10 }}>
             {Commnuities.map((item) => (
               <div
