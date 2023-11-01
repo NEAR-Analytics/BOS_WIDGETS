@@ -74,7 +74,7 @@ const Figures = styled.div`
     h1 {
       color: #000;
       font-family: Helvetica Neue;
-      font-size: 64px;
+      font-size: 55px;
       font-style: normal;
       font-weight: 700;
       line-height: 118.5%; /* 75.84px */
