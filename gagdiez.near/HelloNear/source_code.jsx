@@ -7,8 +7,9 @@ const Main = styled.div`
 
 useEffect(() => {
   const greeting = Near.view("hello.near-examples.near", "get_greeting");
+  console.log("Got greeting", greeting);
   setGreeting(greeting);
-}, [context]);
+}, []);
 
 useEffect(() => {
   setActiveIndex(context.accountId ? 1 : 0);
