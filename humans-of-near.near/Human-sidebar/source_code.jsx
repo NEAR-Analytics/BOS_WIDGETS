@@ -16,7 +16,7 @@ const SidebarContent = styled.div`
   height: 100%;
   display: flex;
   border-radius: 6px;
-  padding: 40px 6px;
+  padding: 30px 6px;
   text-align: center;
   background: #22272B;
   align-items: center;
@@ -28,8 +28,13 @@ const SidebarContent = styled.div`
 return (
   <Sidebar>
     <SidebarContent>
-      <div className="d-flex flex-column" style={{ gap: 60 }}>
-        <div style={{ borderBottom: profileModal ? "1px solid #FFF" : 0 }}>
+      <div className="d-flex flex-column" style={{ gap: 40 }}>
+        <div
+          style={{
+            padding: "10px 0",
+            borderBottom: profileModal ? "1px solid #FFF" : 0,
+          }}
+        >
           <button
             className="btn p-0"
             onClick={showProfile}
@@ -67,7 +72,12 @@ return (
           </button>
         </div>
 
-        <div style={{ borderBottom: filtersModal ? "1px solid #FFF" : 0 }}>
+        <div
+          style={{
+            padding: "10px 0",
+            borderBottom: filtersModal ? "1px solid #FFF" : 0,
+          }}
+        >
           <button
             className="btn p-0"
             onClick={showFilters}
