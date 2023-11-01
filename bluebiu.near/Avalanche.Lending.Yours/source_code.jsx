@@ -91,6 +91,7 @@ const formatData = () => {
             .mul(market.underlyingPrice)
             .toString(),
           address: market.address,
+          distributionApy: market.distributionApy,
         });
         change = change.add(
           Big((Number(market.supplyApy.slice(0, -1)) + rewardSupplyApy) / 100)
@@ -110,6 +111,7 @@ const formatData = () => {
             .mul(market.underlyingPrice)
             .toString(),
           address: market.address,
+          distributionApy: market.distributionApy,
         });
         change = change.minus(
           Big((Number(market.borrowApy.slice(0, -1)) - rewardBorrowApy) / 100)
@@ -140,7 +142,7 @@ const formatData = () => {
       });
     }
   });
-
+  console.log(supplies, borrows);
   State.update({
     userTotalSupplyUsd: userTotalSupplyUsd.toString(),
     userTotalBorrowUsd: userTotalBorrowUsd.toString(),
