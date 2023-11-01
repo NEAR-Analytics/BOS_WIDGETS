@@ -343,6 +343,10 @@ const handleInputTokenA = (input) => {
         need2Tokens: false,
       });
     }
+  } else {
+    State.update({
+      amountInputTokenA: input,
+    });
   }
 };
 
@@ -394,6 +398,10 @@ const handleInputTokenB = (input) => {
         validation: undefined,
       });
     }
+  } else {
+    State.update({
+      amountInputTokenB: input,
+    });
   }
 };
 
