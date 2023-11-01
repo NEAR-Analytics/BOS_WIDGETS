@@ -1,4 +1,3 @@
-const contract = "hello.near-examples.near";
 const [greeting, setGreeting] = useState("loading...");
 const [activeIndex, setActiveIndex] = useState(0);
 
@@ -7,8 +6,8 @@ const Main = styled.div`
 `;
 
 useEffect(() => {
-  let greet = Near.view(contract, "get_greeting", {});
-  setGreeting(greet);
+  const greeting = Near.view("hello.near-examples.near", "get_greeting");
+  setGreeting(greeting);
 }, [context.loading]);
 
 useEffect(() => {
