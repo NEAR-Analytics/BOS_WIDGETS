@@ -110,19 +110,18 @@ const Viewport = styled.div`
 `;
 
 const Item = styled.button`
-  display: flex;
-  flex-direction: row;
-  font-size: 14px;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0.5em 0.75em;
   gap: 0.5em;
   width: 100%;
-  cursor: pointer;
-  background: transparent;
   border: none;
+  display: flex;
+  cursor: pointer;
+  font-size: 14px;
+  align-items: center;
+  flex-direction: row;
+  padding: 0.5em 0.75em;
+  background: transparent;
+  justify-content: space-between;
   transition: background 0.2s ease-in-out;
-  width : ${width}px;
   &:nth-child(n + 1) {
     border-top: 1px solid #d0d5dd;
   }
