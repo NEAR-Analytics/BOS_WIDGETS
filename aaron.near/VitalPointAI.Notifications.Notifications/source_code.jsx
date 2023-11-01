@@ -14,6 +14,7 @@ let {
   iOSDevice,
   iOSVersion,
   recomendedIOSVersion,
+  navigate,
 } = props;
 
 showInBox = showInBox ?? false;
@@ -76,9 +77,9 @@ return (
     <Header showInBox={showInBox}>
       <Title>Notifications</Title>
       <Widget
-        src="near/widget/DIG.Button"
+        src="aaron.near/widget/VitalPointAI.DIG.Button"
         props={{
-          href: "/notifications-settings",
+          navigate,
           icon: "ph-bold ph-gear-six",
           variant: "secondary",
           fill: "outline",
