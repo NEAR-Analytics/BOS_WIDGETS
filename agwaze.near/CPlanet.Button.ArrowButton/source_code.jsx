@@ -40,7 +40,7 @@ const Root = styled.button`
     justify-content: center;
     align-items: center;
     border-radius: 32px;
-    border: 1px solid ${() => (props.whiteBg ? "white" : "black")};
+    border: 1px solid ${() => (props.whiteBg ? "black" : "white")};
     background: ${() => (props.whiteBg ? "white" : "black")};
     color: white;
     margin: 10px;
@@ -59,4 +59,8 @@ const Root = styled.button`
     }
 `;
 
-return <Root>{props.text ?? "Get Funded"} {props.whiteBg ? blackArrow : whiteArrow}</Root>;
+return (
+  <Root>
+    {props.text ?? "Get Funded"} {props.whiteBg ? blackArrow : whiteArrow}
+  </Root>
+);
