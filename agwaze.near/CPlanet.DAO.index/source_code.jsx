@@ -392,6 +392,12 @@ return (
               props={{ daoId }}
             />
           )}
+          {state.selectedTab === "nfts" && (
+            <Widget
+              src="agwaze.near/widget/CPlanet.DAO.ProfileNFTs"
+              props={{ daoId }}
+            />
+          )}
         </>
       </MiddleContent>
       <MembersGroup>
