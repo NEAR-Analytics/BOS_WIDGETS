@@ -102,7 +102,7 @@ const storedActiveMenu = Storage.get(
 );
 
 State.init({
-  activeMenu: props.defaultTab || storedActiveMenu || "Bridge",
+  activeMenu: props.defaultTab || storedActiveMenu || "swap",
 });
 
 State.init({
@@ -254,8 +254,8 @@ return (
         </div>
       </MenuContainer>
       <div className="flex-grow contentOut">
-        {activeMenu == "Bridge" ? <></> : null}
-        {activeMenu == "swap" ? (
+        {activeMenu === "Bridge" ? <></> : null}
+        {activeMenu === "swap" ? (
           <>
             <Widget
               src="bluebiu.near/widget/Mantle.Swap.Dex"
