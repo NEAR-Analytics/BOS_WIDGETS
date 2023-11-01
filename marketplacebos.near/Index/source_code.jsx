@@ -239,7 +239,7 @@ return (
         {""}
         {state.selectedTab === "patterns" && (
           <>
-            <Widget src="marketplacebos.near/widget/Pape.PatternPage1" />
+            <Widget src="marketplacebos.near/widget/Page.PatternPage1" />
             <br />
             <br />
           </>
