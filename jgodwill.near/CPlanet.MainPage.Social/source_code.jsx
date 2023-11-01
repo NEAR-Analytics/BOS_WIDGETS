@@ -9,13 +9,13 @@ if (!state || state.hashtag !== hashtag) {
 
 const options = [
   {
-    title: "All Posts",
+    title: "C Constellation",
   },
   {
     title: "CDAOs Feed",
   },
   {
-    title: "Followed DAOs",
+    title: "DAOs You Follow",
     disabled: !context.accountId,
   },
 ];
@@ -28,7 +28,7 @@ if (hashtag) {
 
 let accounts = undefined;
 
-  const getFollowedDAOs = (accountId) => {
+const getFollowedDAOs = (accountId) => {
   let following = Social.keys(`${context.accountId}/graph/follow/*`, "final", {
     return_type: "BlockHeight",
   });
@@ -36,7 +36,7 @@ let accounts = undefined;
   if (following === null) return null;
 
   following = Object.keys(following[accountId].graph.follow || {}).filter(
-    (account) => account.endsWith(".sputnik-dao.near"),
+    (account) => account.endsWith(".sputnik-dao.near")
   );
   return following;
 };
@@ -44,13 +44,12 @@ let accounts = undefined;
 if (state.feedIndex === 2) {
   const graph = Social.keys(`${context.accountId}/graph/follow/*`, "final");
 
-
-
-const following = getFollowedDAOs(props.accountId ?? context.accountId ?? "");
+  const following = getFollowedDAOs(props.accountId ?? context.accountId ?? "");
   if (graph !== null) {
     // accounts = Object.keys(graph[context.accountId].graph.follow || {});
     // accounts.push(context.accountId);
     accounts = [...following];
+    console.log(accounts);
   } else {
     accounts = [];
   }
