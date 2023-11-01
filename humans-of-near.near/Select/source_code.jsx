@@ -10,6 +10,7 @@ const Container = styled.div`
   gap: 0.45em;
   width: 100%;
   display: flex;
+  background: unset;
   flex-direction: column;
   align-items: flex-start;
   justify-content: flex-start;
