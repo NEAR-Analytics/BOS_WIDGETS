@@ -1,4 +1,4 @@
-const accountId = "sanam1027.near" || props.accountId;
+const accountId = props.accountId;
 if (!accountId) {
   return "Requires accountID prop";
 }
@@ -39,7 +39,6 @@ const Wrapper = styled.div`
         background-color:black;
         height: 64px; 
         margin-bottom: 10px;
-        border-rad
     }
 `;
 return (
