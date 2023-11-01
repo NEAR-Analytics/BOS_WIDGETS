@@ -1,4 +1,5 @@
-let storedGreeting = Near.view("hello.near-examples.near", "get_greeting");
+const CONTRACT = "hello.near-examples.near";
+const storedGreeting = Near.view(CONTRACT, "get_greeting");
 
 if (!storedGreeting || context.loading) {
   return "Loading...";
@@ -20,7 +21,7 @@ const onInputChange = ({ target }) => {
 };
 
 const onBtnClick = () => {
-  Near.call(contract, "set_greeting", { greeting });
+  Near.call(CONTRACT, "set_greeting", { greeting });
 };
 
 // Render
@@ -30,7 +31,7 @@ return (
       <h3 class="font-weight-bold"> Hello Near </h3>
       <p class="small font-weight-light">
         A greeting stored in
-        <span class="text-danger">hello.near-examples.near</span>
+        <span class="text-danger">{CONTRACT}</span>
       </p>
     </div>
     <div class="container py-4 px-5 text-dark bg-light rounded">
