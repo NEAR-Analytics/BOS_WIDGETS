@@ -7,7 +7,7 @@ const components = [
     category: "Profile",
     widgetName: "Profile.InlineBlock",
     description:
-      "Displays a profile for a given account ID with a picture, name, account ID, a list of tags and the description",
+      "Profile block for a given account ID with a picture, name, account ID, a list of tags and the description",
     demoProps: { accountId },
     requiredProps: {
       accountId: "The account ID of the profile",
@@ -18,9 +18,11 @@ const components = [
     },
   },
   {
-    title: "Profile Inline",
+    title: "Profile Line",
     category: "Profile",
     widgetName: "N.ProfileLine",
+    description:
+      "Profile line for a given account ID with a picture, name, account ID. It's useful to embed into a text or a single line",
     demoProps: { accountId },
     requiredProps: {
       accountId: "The account ID of the profile",
@@ -34,6 +36,8 @@ const components = [
     title: "Profile Picture",
     category: "Profile",
     widgetName: "ProfileImage",
+    description:
+      "Profile picture for a given account ID. It's highly customizable with style and classes.",
     demoProps: { accountId, fast: true },
     requiredProps: {
       accountId: "The account ID of the profile",
