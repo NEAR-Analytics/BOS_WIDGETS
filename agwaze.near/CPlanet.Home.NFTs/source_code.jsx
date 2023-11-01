@@ -72,7 +72,10 @@ return (
       {communities.map((data, index) => (
         <div key={index}>
           <Widget
-            props={{ daoId: data }}
+            props={{
+              daoId: data,
+              onButtonClick: () => props.update({ tab: "daoProfile" }),
+            }}
             src="agwaze.near/widget/CPlanet.DAO.Card"
           />
         </div>
