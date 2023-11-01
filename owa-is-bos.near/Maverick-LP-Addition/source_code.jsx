@@ -616,7 +616,7 @@ const setMaxBalanceTokenA = () => {
 
 const setMaxBalanceTokenB = () => {
   if (state.tokenBBalance.fixed > 0) {
-    handleInputTokenA(state.tokenBBalance.fixed);
+    handleInputTokenB(state.tokenBBalance.fixed);
   }
 };
 
