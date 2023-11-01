@@ -479,6 +479,11 @@ const loadingAnimation = styled.keyframes`
 
 const HeaderText = styled.h1`
   font-size: 1.5rem;
+font-family: Helvetica Neue;
+font-size: 18px;
+font-style: normal;
+font-weight: 900;
+line-height: 100%; /* 16px */
 `;
 
 const Logo = styled.div`
