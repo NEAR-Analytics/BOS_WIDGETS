@@ -1,3 +1,5 @@
+const projectsData = Social.get("*/thing/project/**");
+
 const projects = [
   {
     data: JSON.stringify({
@@ -5,8 +7,8 @@ const projects = [
       demo: "devs.near/widget/every.group",
       post: {
         type: "social",
-        accountId: "devs.near",
-        blockHeight: 104402167,
+        accountId: "multi.sputnik-dao.near",
+        blockHeight: 95111895,
       },
     }),
     metadata: {
