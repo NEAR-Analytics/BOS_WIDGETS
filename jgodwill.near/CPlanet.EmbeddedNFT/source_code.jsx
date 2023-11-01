@@ -598,6 +598,7 @@ return (
                   marginBottom: "0.5em",
                   fontSize: "0.85rem",
                   color: "#000",
+                  fontWeight: "700"
                 }}
               >
                 Owner
