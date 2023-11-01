@@ -228,7 +228,7 @@ return (
 
     {accountId && hasSBTToken && state.profileModal && (
       <Widget
-        src={`${Owner}/widget/Modal`}
+        src={`${Owner}/widget/Human-Profile-Modal`}
         props={{ onClose, API_URL, user: state.user, getMyInfor }}
       />
     )}
