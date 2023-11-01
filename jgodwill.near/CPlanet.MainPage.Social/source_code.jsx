@@ -112,6 +112,12 @@ const SocialWrapper = styled.div`
     }
 `;
 
+const communities = [
+  "marmaj.sputnik-dao.near",
+  "daorecords.sputnik-dao.near",
+  "vibes.sputnik-dao.near",
+];
+
 return (
   <CPlanetFont>
     <SocialWrapper>
@@ -155,7 +161,20 @@ return (
           />
         )}
       </div>
-      <div className="lhs"></div>
+      <div className="lhs">
+        {communities.map((data, index) => (
+          <div key={index}>
+            <Widget
+              props={{
+                daoId: data,
+                onButtonClick: () =>
+                  props.update({ tab: "daoProfile", daoId: data }),
+              }}
+              src="jgodwill.near/widget/CPlanet.FeaturedDAO.Card"
+            />
+          </div>
+        ))}
+      </div>
     </SocialWrapper>
   </CPlanetFont>
 );
