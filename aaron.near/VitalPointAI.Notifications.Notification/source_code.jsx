@@ -51,7 +51,7 @@ const Dot = styled.span`
   padding: 0 8px 0 10px;
 `;
 
-const Button = styled.button`
+const Button = styled("Link")`
   display: inline-flex;
   align-items: center;
   justify-content: center;
