@@ -87,24 +87,6 @@ const DevHub = {
   update_community_github: ({ handle, github }) =>
     Near.call(devHubAccountId, "update_community_github", { handle, github }),
 
-  add_community_addon: ({ handle, config }) =>
-    Near.call(devHubAccountId, "add_community_addon", {
-      community_handle: handle,
-      addon_config: config,
-    }),
-
-  update_community_addon: ({ handle, config }) =>
-    Near.call(devHubAccountId, "update_community_addon", {
-      community_handle: handle,
-      addon_config: config,
-    }),
-
-  remove_community_addon: ({ handle, config_id }) =>
-    Near.call(devHubAccountId, "remove_community_addon", {
-      community_handle: handle,
-      config_id,
-    }),
-
   get_access_control_info: () =>
     Near.view(devHubAccountId, "get_access_control_info") ?? null,
 
@@ -112,14 +94,6 @@ const DevHub = {
 
   get_all_communities_metadata: () =>
     Near.view(devHubAccountId, "get_all_communities_metadata") ?? null,
-
-  get_available_addons: () =>
-    Near.view(devHubAccountId, "get_available_addons") ?? null,
-
-  get_community_addons: ({ handle }) =>
-    Near.view(devHubAccountId, "get_community_addons", { handle }),
-  get_community_addon_configs: ({ handle }) =>
-    Near.view(devHubAccountId, "get_community_addon_configs", { handle }),
 
   get_all_labels: () => Near.view(devHubAccountId, "get_all_labels") ?? null,
 
@@ -233,46 +207,17 @@ const banner = (
   </div>
 );
 
-const FeedPage = ({ author, recency, tag }) => {
-  State.init({
-    initial: { author, tag },
-    author,
-    tag,
-  });
-
-  // When rerendered with different props, State will be preserved, so we need to update the state when we detect that the props have changed.
-  if (tag !== state.initial.tag || author !== state.initial.author) {
-    State.update((lastKnownState) => ({
-      ...lastKnownState,
-      initial: { author, tag },
-      author,
-      tag,
-    }));
-  }
-
-  const onTagSearch = (tag) => {
-    State.update((lastKnownState) => ({ ...lastKnownState, tag }));
-  };
-
-  const onAuthorSearch = (author) => {
-    State.update((lastKnownState) => ({ ...lastKnownState, author }));
-  };
-
+const FeedPage = ({ recency, tag }) => {
   return widget("components.template.app-layout", {
     banner,
 
     children: widget("feature.post-search.panel", {
-      author: state.author,
-      authorQuery: { author: state.author },
       children: widget("components.layout.Controls", {
         title: "Post",
         href: href("Create"),
       }),
-      onAuthorSearch,
-      onTagSearch,
       recency,
-      tag: state.tag,
-      tagQuery: { tag: state.tag },
+      tag,
       transactionHashes: props.transactionHashes,
     }),
   });
