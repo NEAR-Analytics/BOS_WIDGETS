@@ -1,14 +1,15 @@
 const contract = "hello.near-examples.near";
-let greet = Near.view(contract, "get_greeting", {});
-
-const [greeting, setGreeting] = useState(greet);
+const [greeting, setGreeting] = useState("loading...");
 const [activeIndex, setActiveIndex] = useState(0);
 
 const Main = styled.div`
   font-family: -apple-system, BlinkMacSystemFont, Segoe UI
 `;
 
-if (context.loading) return;
+useEffect(() => {
+  let greet = Near.view(contract, "get_greeting", {});
+  setGreeting(greet);
+}, []);
 
 useEffect(() => {
   setActiveIndex(context.accountId ? 1 : 0);
