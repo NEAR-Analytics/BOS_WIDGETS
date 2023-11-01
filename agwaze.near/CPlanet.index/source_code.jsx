@@ -12,7 +12,7 @@ const availableTabs = ["explore", "singleNFT", "home"];
 
 const getTab = (tab) => {
   if (!tab || !availableTabs.includes(tab)) {
-    return "explore";
+    return "home";
   }
 
   return tab;
@@ -28,7 +28,9 @@ State.init({
 const update = (state) => State.update(state);
 
 const tabContentWidget = {
+  home: "agwaze.near/widget/CPlanet.Home.index",
   explore: "agwaze.near/widget/CPlanet.Explore.index",
+  community: "agwaze.near/widget/CPlanet.DAO.Explore",
   singleNFT: "agwaze.near/widget/CPlanet.Explore.SingleNFT",
 }[state.tab];
 
@@ -46,10 +48,12 @@ const tabContent = (
 
 return (
   <Root>
-    <Widget
-      src="agwaze.near/widget/CPlanet.Navbar.index"
-      props={{ tab: state.tab, update  }}
-    />
+    {state.tab !== "home" && (
+      <Widget
+        src="agwaze.near/widget/CPlanet.Navbar.index"
+        props={{ tab: state.tab, update }}
+      />
+    )}
     <Contents>{tabContent}</Contents>
     <Widget src="agwaze.near/widget/CPlanet.Footer" />
   </Root>
