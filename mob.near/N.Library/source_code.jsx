@@ -3,8 +3,20 @@ const authorId = "mob.near";
 
 const components = [
   {
-    name: "Profile",
+    title: "Profile Block",
     widgetName: "Profile.InlineBlock",
+    demoProps: { accountId },
+    requiredProps: {
+      accountId: "The account ID of the profile",
+    },
+    optionalProps: {
+      profile: "Object that holds profile information to display",
+      fast: "Render profile picture faster using external cache, default false",
+    },
+  },
+  {
+    title: "Profile Inline",
+    widgetName: "N.ProfileLine",
     demoProps: { accountId },
     requiredProps: {
       accountId: "The account ID of the profile",
@@ -19,12 +31,14 @@ const components = [
 const renderProps = (props, optional) => {
   return Object.entries(props || {}).map(([key, desc]) => {
     return (
-      <li key={key}>
-        <span className={`code prop-key${optional ? " optional" : ""}`}>
-          {key}
-        </span>{" "}
-        - <span className="prop-desc">{desc}</span>
-      </li>
+      <tr key={key}>
+        <td>
+          <span className={`code prop-key${optional ? " optional" : ""}`}>
+            {key}
+          </span>
+        </td>
+        <td className="prop-desc">{desc}</td>
+      </tr>
     );
   });
 };
@@ -36,10 +50,18 @@ const renderComponent = (c, i) => {
     undefined,
     4
   ).slice(1, -1)}  }}\n/>\n`;
+  const id = c.title.toLowerCase().replace(" ", "-");
   return (
     <div className="component" key={i}>
-      <h5>{c.name}</h5>
-      <div className="d-flex flex-row justify-content-between">
+      <a href={`#${id}`} id={id}>
+        <h3>{c.title}</h3>
+      </a>
+      <label>Preview</label>
+      <div className="preview mb-3" style={c.previewStyle}>
+        <Widget src={widgetSrc} props={c.demoProps} />
+      </div>
+      <label>Component</label>
+      <div className="d-flex flex-row justify-content-between mb-3">
         <div className="path font-monospace">
           <Widget
             src="mob.near/widget/CopyButton"
@@ -59,16 +81,21 @@ const renderComponent = (c, i) => {
           </a>
         </div>
       </div>
-      <div className="preview" style={c.previewStyle}>
-        <Widget src={widgetSrc} props={c.demoProps} />
-      </div>
       <label>Props</label>
-      <ul className="props">
-        {renderProps(c.requiredProps)}
-        {renderProps(c.optionalProps, true)}
-      </ul>
+      <table className="props table table-bordered mb-3">
+        <thead>
+          <tr>
+            <th>Key</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          {renderProps(c.requiredProps)}
+          {renderProps(c.optionalProps, true)}
+        </tbody>
+      </table>
       <label>Example</label>
-      <div className="embed-code">
+      <div className="embed-code mb-3">
         <Markdown text={`\`\`\`jsx\n${embedCode}\n\`\`\``} />
         <div className="embed-copy">
           <Widget
@@ -84,6 +111,10 @@ const renderComponent = (c, i) => {
 
 const Wrapper = styled.div`
   .component {
+    label {
+      font-size: 20px;
+    }
+
     .code {
       display: inline-flex;
       line-height: normal;
@@ -97,14 +128,11 @@ const Wrapper = styled.div`
 
     }
     .preview {
-      padding: 12px 0;
-    
+      padding: 12px;
+      border: 1px solid #eee;
+      border-radius: 12px;
     }
     .props {
-      
-      .optional {
-
-      }
       .prop-key {
         font-weight: 600;
         &.optional {
@@ -127,6 +155,9 @@ const Wrapper = styled.div`
 return (
   <Wrapper>
     <h3>Social Components Library</h3>
-    {components.map(renderComponent)}
+    <div className="mb-3">
+      This library contains common social components used by near.social
+    </div>
+    <div>{components.map(renderComponent)}</div>
   </Wrapper>
 );
