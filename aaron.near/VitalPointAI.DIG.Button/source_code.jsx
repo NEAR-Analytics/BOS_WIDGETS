@@ -321,7 +321,12 @@ const Spinner = styled.i`
 `;
 
 return (
-  <Button ref="forwardedRef" {...conditionalAttributes} {...forwardedProps}>
+  <Button
+    ref="forwardedRef"
+    {...conditionalAttributes}
+    {...forwardedProps}
+    onClick={() => navigate("/notifications")}
+  >
     {loading && <Spinner className="ph-bold ph-circle-notch" />}
     <Inner>
       {icon ? (
