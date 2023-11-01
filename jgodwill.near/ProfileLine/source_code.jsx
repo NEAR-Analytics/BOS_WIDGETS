@@ -97,20 +97,20 @@ inner = link ? (
   <span className="text-truncate d-inline-flex">{inner}</span>
 );
 
-if (props.tooltip === true) {
-  return (
-    <Widget
-      src="jgodwill.near/widget/CPlanet.Profile.N.OverlayTrigger"
-      props={{ accountId, children: inner }}
-    />
-  );
-}
-if (tooltip) {
-  inner = (
-    <OverlayTrigger placement="auto" overlay={<Tooltip>{tooltip}</Tooltip>}>
-      {inner}
-    </OverlayTrigger>
-  );
-}
+// if (props.tooltip === true) {
+//   return (
+//     <Widget
+//       src="jgodwill.near/widget/CPlanet.Profile.N.OverlayTrigger"
+//       props={{ accountId, children: inner }}
+//     />
+//   );
+// }
+// if (tooltip) {
+//   inner = (
+//     <OverlayTrigger placement="auto" overlay={<Tooltip>{tooltip}</Tooltip>}>
+//       {inner}
+//     </OverlayTrigger>
+//   );
+// }
 
 return inner;
