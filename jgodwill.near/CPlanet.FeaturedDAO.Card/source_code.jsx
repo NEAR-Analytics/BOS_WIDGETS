@@ -276,7 +276,7 @@ const shortenNumber = (n) => {
   if (n >= 1e12) return (n / 1e12).toFixed(1) + "t";
 };
 
-const shortenLength = 25;
+const shortenLength = 20;
 
 function makeAccountIdShorter(accountId) {
   if (accountId.length > shortenLength) {
