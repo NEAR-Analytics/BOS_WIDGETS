@@ -371,7 +371,9 @@ return (
           )}
         </Tags>
         <Button>
-          <a href={`/agwaze.near/widget/CPlanet.DAO.index?daoId=${daoId}`}>
+          <a
+            href={`#/agwaze.near/widget/CPlanet.index?tab=daoProfile&daoId=${props.daoId}`}
+          >
             <button>View DAO</button>
           </a>
         </Button>
