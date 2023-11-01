@@ -100,8 +100,8 @@ const ModalContent = styled.div`
 
 const ModalAction = styled.div`
   display: flex;
+  padding: 0 10px 10px 10px;
   justify-content: flex-end;
-  padding: 0 10px;
 `;
 
 const ModalTitle = styled.h4`
