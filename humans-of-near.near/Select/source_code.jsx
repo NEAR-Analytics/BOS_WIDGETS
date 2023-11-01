@@ -3,25 +3,24 @@ const noLabel = props.noLabel ?? false;
 const placeholder = props.placeholder ?? "Select an option";
 const value = props.value ?? "";
 const options = props.options ?? [];
-const width = props.width ?? 171;
 const onChange = props.onChange ?? (() => {});
 const error = props.error ?? "";
 
 const Container = styled.div`
+  gap: 0.45em;
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   justify-content: flex-start;
-  gap: 0.45em;
-  width: ${width}px;
 `;
 
 const Label = styled.label`
-  font-style: normal;
+  color: #344054;
   font-weight: 400;
   font-size: 0.95em;
+  font-style: normal;
   line-height: 1.25em;
-  color: #344054;
 `;
 
 const Error = styled.span`
@@ -145,6 +144,7 @@ return (
       onValueChange={(value) =>
         onChange(options.find((option) => option.value === value))
       }
+      style={{ background: "unset" }}
     >
       <Select.Trigger asChild={true}>
         <Input>
