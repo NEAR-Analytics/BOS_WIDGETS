@@ -11,10 +11,23 @@ const components = [
     },
     optionalProps: {
       profile: "Object that holds profile information to display",
-      fast: "Render profile picture faster using external cache, default `false`",
+      fast: "Render profile picture faster using external cache, default false",
     },
   },
 ];
+
+const renderProps = (props, optional) => {
+  return Object.entries(props || {}).map(([key, desc]) => {
+    return (
+      <li key={key}>
+        <span className={`code prop-key${optional ? " optional" : ""}`}>
+          {key}
+        </span>{" "}
+        - <span className="prop-desc">{desc}</span>
+      </li>
+    );
+  });
+};
 
 const renderComponent = (c, i) => {
   const widgetSrc = `${authorId}/widget/${c.widgetName}`;
@@ -49,6 +62,11 @@ const renderComponent = (c, i) => {
       <div className="preview" style={c.previewStyle}>
         <Widget src={widgetSrc} props={c.demoProps} />
       </div>
+      <label>Props</label>
+      <ul className="props">
+        {renderProps(c.requiredProps)}
+        {renderProps(c.optionalProps, true)}
+      </ul>
       <label>Example</label>
       <div className="embed-code">
         <Markdown text={`\`\`\`jsx\n${embedCode}\n\`\`\``} />
@@ -66,12 +84,33 @@ const renderComponent = (c, i) => {
 
 const Wrapper = styled.div`
   .component {
+    .code {
+      display: inline-flex;
+      line-height: normal;
+      border-radius: 0.3em;
+      padding: 0 4px;
+      border: 1px solid #ddd;
+      background: rgba(0, 0, 0, 0.03);
+      font-family: var(--bs-font-monospace);
+    }
     .path {
 
     }
     .preview {
       padding: 12px 0;
     
+    }
+    .props {
+      
+      .optional {
+
+      }
+      .prop-key {
+        font-weight: 600;
+        &.optional {
+          font-weight: normal;
+        }
+      }
     }
     .embed-code {
       position: relative;
