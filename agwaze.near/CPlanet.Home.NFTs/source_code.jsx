@@ -3,6 +3,7 @@ const Root = styled.div`
     flex-direction: column;
     align-items: center;
     width: 100%;
+    margin-bottom: 30px;
     justify-content: center;
     .head, .community {
         margin-top: 30px;
