@@ -27,7 +27,7 @@ const onBtnClick = () => {
 return (
   <Main>
     <div class="text-center">
-      <h3 class="font-weight-bold"> Hello NEAR </h3>
+      <h3 class="font-weight-bold"> Hello Near </h3>
       <p class="small font-weight-light">
         A greeting stored in
         <span class="text-danger">hello.near-examples.near</span>
