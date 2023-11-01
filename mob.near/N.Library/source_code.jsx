@@ -7,14 +7,32 @@ const components = [
     category: "Profile",
     widgetName: "Profile.InlineBlock",
     description:
-      "Profile block for a given account ID with a picture, name, account ID, a list of tags and the description",
+      "Profile block for a given account ID with a picture, name, premium checkmark, account ID, a list of tags and the description",
     demoProps: { accountId },
     requiredProps: {
       accountId: "The account ID of the profile",
     },
     optionalProps: {
       profile: "Object that holds profile information to display",
-      fast: "Render profile picture faster using external cache, default false",
+      fast: "Render profile picture faster using external cache, default true if the `props.profile` is not provided",
+      hideDescription: "Don't show description, default false",
+    },
+  },
+  {
+    title: "Profile Short Block",
+    category: "Profile",
+    widgetName: "Profile.ShortInlineBlock",
+    description:
+      "Short profile block for a given account ID with a picture, name, premium checkmark, account ID",
+    demoProps: { accountId, tooltip: true },
+    requiredProps: {
+      accountId: "The account ID of the profile",
+    },
+    optionalProps: {
+      profile: "Object that holds profile information to display",
+      fast: "Render profile picture faster using external cache, default true if the `props.profile` is not provided",
+      tooltip:
+        "Display overlay tooltip when you hover over the profile, default false",
     },
   },
   {
@@ -22,14 +40,23 @@ const components = [
     category: "Profile",
     widgetName: "N.ProfileLine",
     description:
-      "Profile line for a given account ID with a picture, name, account ID. It's useful to embed into a text or a single line",
-    demoProps: { accountId },
+      "Profile line for a given account ID with a picture, name, premium checkmark, account ID. It's highly customizable and is useful to embed into a text or a single line",
+    demoProps: { accountId, tooltip: true },
     requiredProps: {
       accountId: "The account ID of the profile",
     },
     optionalProps: {
+      link: "Whether to make profile clickable with a link to the profile page, default true.",
+      hideAccountId: "Don't show account ID, default false",
+      hideName: "Don't show profile name, default false",
+      hideImage: "Don't show profile picture, default false",
+      hideCheckmark: "Don't show premium checkmark, default false",
       profile: "Object that holds profile information to display",
-      fast: "Render profile picture faster using external cache, default false",
+      fast: "Render profile picture faster using external cache, default true if the `props.profile` is not provided",
+      title:
+        "Optional title when you hover over the profile. Default `name accountId`",
+      tooltip:
+        "Display overlay tooltip or title when you hover over the profile, default false. Will display a custom title if tooltip is given. If tooltip is true, the full tooltip is displayed. Default false",
     },
   },
   {
@@ -43,8 +70,22 @@ const components = [
       accountId: "The account ID of the profile",
     },
     optionalProps: {
+      className:
+        'HTML class name for the image wrapper, default `"profile-image d-inline-block"`',
+      style:
+        'React DOM styles for the image wrapper, default `{ width: "3em", height: "3em" }`',
+      imageStyle:
+        'React DOM styles for the image, default `{ objectFit: "cover" }`',
+      imageClassName:
+        'HTML class name for the image, default `"rounded-circle w-100 h-100"`',
+      thumbnail:
+        'Thumbnail type, can be `"large"`, `"thumbnail"` or `null`, default is `"thumbnail"`',
       profile: "Object that holds profile information to display",
-      fast: "Render profile picture faster using external cache, default false",
+      fast: "Render profile picture faster using external cache, default true if the `props.profile` is not provided",
+      title:
+        "Optional title when you hover over the profile. Default `name accountId`",
+      tooltip:
+        "Display overlay tooltip or title when you hover over the profile, default false. Will display a custom title if tooltip is given. If tooltip is true, the full tooltip is displayed. Default false",
     },
   },
 ];
@@ -134,7 +175,6 @@ const Wrapper = styled.div`
   .component {
     padding: 0.5em 0;
     padding-bottom: 0;
-    border-bottom: 1px solid #ccc;
     margin-bottom: 3em;
 
     &:hover {
