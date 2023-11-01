@@ -14,7 +14,7 @@ const Overlay = (props) => (
     href={`/mob.near/widget/ProfilePage?accountId=${accountId}`}
   >
     <Widget
-      src="mob.near/widget/Profile.N.OverlayTrigger"
+      src="jgodwill.near/widget/CPlanet.Profile.N.OverlayTrigger"
       loading={props.children}
       props={{
         accountId,
