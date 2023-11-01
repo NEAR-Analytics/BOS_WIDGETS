@@ -82,7 +82,8 @@ return (
       <>
         <Logo
           href="#/agwaze.near/widget/CPlanet.index?tab=home"
-         onClick={() => props.update({ tab: "home" })}>
+          onClick={() => props.update({ tab: "home" })}
+        >
           <h2>C</h2>
           <h1>PLANET</h1>
         </Logo>
