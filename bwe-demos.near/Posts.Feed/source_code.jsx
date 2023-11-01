@@ -121,7 +121,7 @@ const loadMorePosts = () => {
   fetchGraphQL(createQuery(type), queryName, {
     offset: posts.length,
     // limit: LIMIT,
-    limit: 50,
+    limit: 10,
   }).then(({ data }) => {
     // if (result.status === 200 && result.body) {
     // if (result.body.errors) {
@@ -190,7 +190,7 @@ return (
       {posts?.length &&
         posts.map((post) => {
           return (
-            <div style={{ borderBottom: "1px solid black" }}>
+            <div>
               <Widget
                 src="bwe-demos.near/widget/Posts.Post"
                 props={post}
@@ -200,6 +200,7 @@ return (
             </div>
           );
         })}
+      <button onClick={loadMorePosts}>Load more</button>
     </div>
     <Widget src="bwe-demos.near/widget/Posts.Sidebar" id="right" />
   </div>
