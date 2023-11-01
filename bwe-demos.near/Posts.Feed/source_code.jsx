@@ -1,13 +1,3 @@
-// const [Markdown, setMarkdown] = useState(null);
-// const importMarkdown = async () => {
-//   try {
-//     const markdownDyn = await import("https://esm.sh/react-markdown@9?bundle");
-//     setMarkdown(markdownDyn);
-//   } catch (err) {
-//     console.log("markdown import error", err);
-//   }
-// };
-
 const GRAPHQL_ENDPOINT = "https://near-queryapi.api.pagoda.co";
 
 const [sort, setSort] = useState(null);
@@ -171,7 +161,6 @@ const loadMorePosts = () => {
 };
 
 useEffect(() => {
-  // importMarkdown();
   loadMorePosts();
 }, []);
 
@@ -181,7 +170,8 @@ return (
     style={{
       display: "flex",
       flexDirection: "row",
-      width: "100vw",
+      height: "100%",
+      width: "100%",
       maxWidth: "1300px",
       margin: "0 auto",
     }}
@@ -192,23 +182,15 @@ return (
         display: "flex",
         flexDirection: "column",
         rowGap: "2rem",
-        padding: "3rem",
+        padding: "1rem",
         flex: "1 1",
         overflowX: "hidden",
       }}
     >
       {posts?.length &&
-        // Markdown &&
         posts.map((post) => {
-          // debugger;
           return (
             <div style={{ borderBottom: "1px solid black" }}>
-              {/* <div>{post.account_id}</div> */}
-              {/* <Widget
-                src="bwe-demos.near/widget/Posts.Content"
-                props={{ content }}
-                id={post.receipt_id}
-              /> */}
               <Widget
                 src="bwe-demos.near/widget/Posts.Post"
                 props={post}
@@ -218,8 +200,6 @@ return (
             </div>
           );
         })}
-      {/* {JSON.stringify(posts)} */}
-      {/* {Markdown && <Markdown>hello</Markdown>} */}
     </div>
     <Widget src="bwe-demos.near/widget/Posts.Sidebar" id="right" />
   </div>
