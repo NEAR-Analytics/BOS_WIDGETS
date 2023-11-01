@@ -13,16 +13,14 @@ State.init({
 });
 
 const ModalOverlay = styled.div`
-  position: absolute;
   right: 50px;
-  top: 80px;
-  background-color: #191a1a;
-  border-radius: 12px;
-  border: 1px solid rgb(255, 255, 255);
-  display: flex;
-  flex-direction: column;
   z-index: 100;
   width: 400px;
+  height: 100%;
+  display: flex;
+  padding: 32px 0;
+  position: absolute;
+  flex-direction: column;
   @media (max-width: 510px) {
     right: 10px;
     top: 54px;
@@ -30,14 +28,21 @@ const ModalOverlay = styled.div`
   }
 `;
 
+const Component = styled.div`
+  height: 100%;
+  border-radius: 12px;
+  background-color: #191a1a;
+  border: 1px solid rgb(255, 255, 255);
+`;
+
 const ModalContent = styled.div`
-  padding: 20px;
+  gap:5px;
   width: 100%;
   color: white;
-  border-radius: 4px;
   display: flex;
+  padding: 20px;
+  border-radius: 4px;
   flex-direction: column;
-  gap:5px;
 `;
 
 const ModalAction = styled.div`
@@ -122,45 +127,47 @@ const changeTwitter = async (e) => {
 
 return (
   <ModalOverlay>
-    <ModalContent>
-      <button
-        style={{
-          width: 40,
-          position: "absolute",
-          right: 25,
-          background: "unset",
-          borderColor: "white",
-        }}
-        onClick={onClose}
-      >
-        X
-      </button>
-      <ModalTitle>{`Your Profile`}</ModalTitle>
-      <p>{`Be careful with your public data.`}</p>
-      <h5>{`Display Name`}</h5>
-      <TextField
-        type="text"
-        placeholder={accountId}
-        value={state.name}
-        onChange={changeName}
-      />
-      <h5>{`Near Social`}</h5>
-      <TextField
-        type="text"
-        placeholder="Near Social"
-        value={state.social}
-        onChange={changeSocial}
-      />
-      <h5>{`Twitter`}</h5>
-      <TextField
-        type="text"
-        placeholder="Twitter Link"
-        value={state.twitter}
-        onChange={changeTwitter}
-      />
-    </ModalContent>
-    <ModalAction>
-      <Button className="btn" onClick={saveMyProfile}>{`Save`}</Button>
-    </ModalAction>
+    <Component>
+      <ModalContent>
+        <button
+          style={{
+            width: 40,
+            position: "absolute",
+            right: 25,
+            background: "unset",
+            borderColor: "white",
+          }}
+          onClick={onClose}
+        >
+          X
+        </button>
+        <ModalTitle>{`Your Profile`}</ModalTitle>
+        <p>{`Be careful with your public data.`}</p>
+        <h5>{`Display Name`}</h5>
+        <TextField
+          type="text"
+          placeholder={accountId}
+          value={state.name}
+          onChange={changeName}
+        />
+        <h5>{`Near Social`}</h5>
+        <TextField
+          type="text"
+          placeholder="Near Social"
+          value={state.social}
+          onChange={changeSocial}
+        />
+        <h5>{`Twitter`}</h5>
+        <TextField
+          type="text"
+          placeholder="Twitter Link"
+          value={state.twitter}
+          onChange={changeTwitter}
+        />
+      </ModalContent>
+      <ModalAction>
+        <Button className="btn" onClick={saveMyProfile}>{`Save`}</Button>
+      </ModalAction>
+    </Component>
   </ModalOverlay>
 );
