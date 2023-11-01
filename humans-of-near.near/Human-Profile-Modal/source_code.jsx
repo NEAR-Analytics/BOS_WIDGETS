@@ -13,7 +13,7 @@ State.init({
 });
 
 const ModalOverlay = styled.div`
-  right: 50px;
+  right: 110px;
   z-index: 100;
   width: 400px;
   height: 100%;
