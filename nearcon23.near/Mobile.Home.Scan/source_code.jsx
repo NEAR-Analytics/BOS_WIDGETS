@@ -2,7 +2,16 @@ const ownerId = "nearcon23.near";
 const prefix = props.prefix || "/mobile";
 
 const [facingMode, setFacingMode] = useState("environment");
+
+const [cameraError, setCameraError] = useState(false);
+
 const [responce, setResponce] = useState("");
+const [validScan, setValidScan] = useState({
+  privateKey: null,
+  contract: null,
+  receiverId: null,
+  campaignId: null,
+});
 
 const toggleFacingMode = () => {
   setFacingMode((prevMode) =>
@@ -83,7 +92,47 @@ const Button2 = styled.button`
   }
 `;
 
-return (
+// console.log(validScan);
+
+if (validScan?.campaignId !== null) {
+  return <Redirect to={`/campaigns?campaignId=${validScan?.campaignId}`} />;
+}
+
+if (validScan.receiverId) {
+  return (
+    <Widget
+      src={`${ownerId}/widget/Mobile.Home.Send`}
+      props={{ receiverId: validScan.receiverId }}
+    />
+  );
+}
+
+return validScan?.privateKey !== null ? (
+  <>
+    <Widget
+      props={{
+        privateKey: validScan.privateKey,
+        contract: validScan.contract,
+        backToHome: () => {
+          setValidScan({
+            privateKey: null,
+            contract: null,
+            receiverId: null,
+            campaignId: null,
+          });
+        },
+      }}
+      src={`${ownerId}/widget/Admin.ScanPage`}
+    />
+  </>
+) : cameraError ? (
+  <Widget
+    props={{
+      error: cameraError,
+    }}
+    src={`${ownerId}/widget/Admin.ScannedTicket`}
+  />
+) : (
   <div
     style={{
       backgroundColor: "#22FFFF",
@@ -121,7 +170,7 @@ return (
           gap: 8,
           padding: "0 16px",
         }}
-        href={`/${ownerId}/widget/Mobile.Home`}
+        href={`/mobile`}
       >
         Back
       </a>
@@ -180,7 +229,7 @@ return (
 
           <Link
             style={{ flex: 3, width: "100%" }}
-            to={`${prefix}/${ownerId}/widget/Mobile.Home.Send?receiverId=${responce}`}
+            to={`/nearcon23/home/${ownerId}/widget/Mobile.Home.Send?receiverId=${responce}`}
           >
             <Button>Continue</Button>
           </Link>
@@ -203,17 +252,56 @@ return (
           facingMode: facingMode,
         }}
         onResult={(result, error) => {
-          if (!!result) {
-            // console.log(result.text);
-            const receiverId = extractReceiverId(result.text);
+          console.log(result, error);
+          if (result) {
+            if (result?.text?.includes("receiverId")) {
+              const receiverId = result?.text?.split("=")?.[1];
+              setValidScan({ ...validScan, receiverId });
+            } else if (result?.text?.includes("campaignId")) {
+              const campaignId = result?.text?.split("=")?.[1];
+              setValidScan({ ...validScan, campaignId });
+            } else {
+              const url = result.text;
 
-            console.log("Receiver ID:", receiverId);
-            setResponce(receiverId);
+              const privateKey = url.split("privateKey=")[1];
+
+              // console.log("privateKey : ", privateKey);
+              setValidScan({ ...validScan, contract: "", privateKey });
+
+              // const parameterIndex = url.indexOf("secretKey" + "=");
+
+              // if (parameterIndex === -1) {
+              //   return null; // Parameter not found
+              // }
+              // var value = url.slice(parameterIndex + "secretKey".length + 1);
+
+              // console.log("result.text : ", value);
+
+              // function splitAtFirstColon(str) {
+              //   const index = str.indexOf(":");
+              //   if (index === -1) return [str];
+
+              //   return [str.slice(0, index), str.slice(index + 1)];
+              // }
+
+              // const apiURL = result.text;
+              // if (!!result) {
+              //   const replaceLink = apiURL.replace(
+              //     "https://keypom.xyz/nearcon/",
+              //     ""
+              //   );
+              //   const [contract, privateKey] = splitAtFirstColon(replaceLink);
+              //   setValidScan({ contract, privateKey });
+              // }
+            }
           }
 
-          // if (!!error) {
-          //   console.log(error);
-          // }
+          if (
+            error?.name === "NotAllowedError" ||
+            error?.cameraError?.name === "NotAllowedError"
+          ) {
+            setCameraError(error);
+          }
         }}
         containerStyle={{
           width: "100%",
