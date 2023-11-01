@@ -331,7 +331,7 @@ const handleInputTokenA = (input) => {
     if (ic !== 0) {
       tokenB = input * (deltaX / deltaY);
       State.update({
-        amountInputTokenB: tokenB.toFixed(6),
+        amountInputTokenB: deltaY > 0 ? tokenB.toFixed(6) : 0,
         amountInputTokenA: input,
         validation: undefined,
       });
@@ -378,15 +378,15 @@ const handleInputTokenB = (input) => {
     if (ic !== 0) {
       tokenA = (input / deltaX) * deltaY;
       State.update({
-        amountInputTokenA: tokenA.toFixed(6),
-        amountInputTokenB: input,
+        amountInputTokenA: deltaY > 0 ? tokenA : 0,
+        amountInputTokenB: deltaY > 0 ? input : 0,
         validation: undefined,
       });
     } else {
       State.update({
         amountInputTokenA: 0,
         need2Tokens: false,
-        amountInputTokenB: input,
+        amountInputTokenB: deltaY > 0 ? input : 0,
         validation: undefined,
       });
     }
@@ -1117,9 +1117,8 @@ return (
                       alt="icon not found"
                     />{" "}
                     {state.newTokenASelected
-                      ? state.newTokenASelected.name.substring(0, 10) +
-                        (state.newTokenASelected.name.length > 10 ? "..." : "")
-                      : tokensForNEtwork[0].name}
+                      ? state.newTokenASelected.symbol
+                      : tokensForNEtwork[0].symbol}
                   </div>
                   <div class="  ">
                     <div class=" text-end  " style={{ "font-size": "14px" }}>
@@ -1148,8 +1147,8 @@ return (
                         >
                           per 1{" "}
                           {state.newTokenBSelected
-                            ? state.newTokenBSelected.name
-                            : tokensForNEtwork[1].name}
+                            ? state.newTokenBSelected.symbol
+                            : tokensForNEtwork[1].symbol}
                         </span>
                       </span>
                     </div>
