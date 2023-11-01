@@ -9,7 +9,7 @@ const ModalContainer = styled.div`
   z-index: 1000;
   position: absolute;
   align-items: center;
-  background: #5353539c;
+  background: #2f2b2b78;
   flex-direction: column;
   justify-content: center;
 `;
