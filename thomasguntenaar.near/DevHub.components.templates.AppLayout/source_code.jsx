@@ -1,8 +1,7 @@
-const { children, page } = props;
-
 const StyledHeader = styled.div`
   height: 62px;
   background: #181818;
+  margin-top: -25px; // There is a gap on both near.social and near.org
   padding: 16px 20px;
   display: flex;
   justify-content: space-between;
@@ -26,6 +25,14 @@ const Container = styled.div`
   width: 100%;
   height: 100%;
   min-height: 100vh;
+`;
+
+const ContentContainer = styled.div`
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
 `;
 
 function QuestionButton() {
@@ -75,7 +82,7 @@ function QuestionButton() {
 const AppHeader = ({ page }) => {
   return (
     <StyledHeader>
-      <Link to="?page=Feed">
+      <Link to={`/${REPL_DEVHUB}/widget/app`}>
         <Logo
           src="https://ipfs.near.social/ipfs/bafkreibjsn3gswlcc5mvgkfv7ady2lzkd2htm55l472suarbd34qryh2uy"
           alt="DevHub"
@@ -84,7 +91,9 @@ const AppHeader = ({ page }) => {
 
       <HeaderActions>
         {page !== "communities" && (
-          <Link to="?page=communities">Communities</Link>
+          <Link to={`/${REPL_DEVHUB}/widget/app?page=communities`}>
+            Communities
+          </Link>
         )}
 
         <a
@@ -103,7 +112,7 @@ function AppLayout({ page, children }) {
   return (
     <Container>
       <AppHeader page={page} />
-      {children}
+      <ContentContainer>{children}</ContentContainer>
     </Container>
   );
 }
