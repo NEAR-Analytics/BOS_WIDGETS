@@ -39,6 +39,7 @@ const Wrapper = styled.div`
         background-color:black;
         height: 64px; 
         margin-bottom: 10px;
+        border-rad
     }
 `;
 return (
