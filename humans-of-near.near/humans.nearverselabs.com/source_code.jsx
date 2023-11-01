@@ -182,6 +182,8 @@ return (
       <Widget
         src={`${Owner}/widget/Human-sidebar`}
         props={{
+          profileModal: state.profileModal,
+          filtersModal: state.filtersModal,
           showProfile: () => {
             State.update({ profileModal: true });
           },
