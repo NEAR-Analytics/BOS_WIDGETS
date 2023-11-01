@@ -157,7 +157,7 @@ return (
               width="12"
               height="8"
               viewBox="0 0 12 8"
-              fill="none"
+              fill="white"
               xmlns="http://www.w3.org/2000/svg"
             >
               <path
