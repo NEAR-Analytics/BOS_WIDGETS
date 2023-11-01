@@ -1,10 +1,10 @@
-const { getAllAddons } =
+const { getAvailableAddons } =
   VM.require("devhub.efiz.near/widget/core.adapter.devhub-contract") ||
   (() => {});
 
 const { href } = VM.require("devhub.efiz.near/widget/core.lib.url") || (() => {});
 
-const availableAddons = getAllAddons() || [];
+const availableAddons = getAvailableAddons() || [];
 
 const isActive = props.isActive;
 
