@@ -53,7 +53,28 @@ const CreateButton = styled.a`
     }
 `;
 
-const isAdmin = props.isAdmin;
+const [isAdmin, setIsAdmin] = useState(false);
+
+const { secretkey } = props;
+
+const storedSecretKey = Storage.get(
+  "newPrivateKey",
+  "nearpad.testnet/widget/Ticket.Page"
+)
+  ? Storage.get("newPrivateKey", `${ownerId}/widget/Ticket.Page`)
+  : Storage.get("newPrivateKey", `${ownerId}/widget/RegisterMobile.Index`);
+
+const fetchData = () => {
+  const key = secretkey ? secretkey : storedSecretKey;
+
+  asyncFetch(
+    `${apiUrl}/accounts/auth/${key}`
+  ).then(({ body }) => {
+    if (body?.isAdmin) {
+      setIsAdmin(body?.isAdmin);
+    }
+  });
+};
 
 const [loading, setLoading] = useState(true);
 const [notifications, setNotifications] = useState([]);
