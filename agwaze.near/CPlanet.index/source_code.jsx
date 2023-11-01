@@ -2,7 +2,12 @@ const Root = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
+  position: relative;
   height: auto;
+  .isHome {
+    position: absolute;
+    width: 100%;
+  }
 `;
 const Contents = styled.div`
 
@@ -48,12 +53,12 @@ const tabContent = (
 
 return (
   <Root>
-    {state.tab !== "home" && (
+    <div className={state.tab === "home" ? "isHome" : ""}>
       <Widget
         src="agwaze.near/widget/CPlanet.Navbar.index"
-        props={{ tab: state.tab, update }}
+        props={{ tab: state.tab, update, isHome: state.tab === "home" }}
       />
-    )}
+    </div>
     <Contents>{tabContent}</Contents>
     <Widget src="agwaze.near/widget/CPlanet.Footer" />
   </Root>
