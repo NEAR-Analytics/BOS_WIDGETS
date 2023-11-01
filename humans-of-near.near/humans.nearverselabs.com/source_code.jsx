@@ -183,10 +183,10 @@ return (
         src={`${Owner}/widget/Human-sidebar`}
         props={{
           showProfile: () => {
-            state.update({ profileModal: true });
+            State.update({ profileModal: true });
           },
           showFilters: () => {
-            state.update({ filtersModal: true });
+            State.update({ filtersModal: true });
           },
         }}
       />
