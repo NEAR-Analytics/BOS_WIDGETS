@@ -9,7 +9,7 @@ const positionAbi = fetch(
 if (!routerAbi.ok) {
   return "Loading";
 }
-const tokensForNEtwork = fetch("https://api.mav.xyz/api/v3/allTokens/5").body
+const tokensForNEtwork = fetch("https://api.mav.xyz/api/v3/allTokens/324").body
   .tokens;
 
 const POOLSMODE = [
@@ -62,8 +62,8 @@ const DISTRIBUTIONMODE = [
 
 State.init({
   isZkSync: false,
-  routerContract: "0x9563Fdb01BFbF3D6c548C2C64E446cb5900ACA88",
-  positionContract: "0x46040d596fe176A1b88A43be3537d9f6365ccbe1",
+  routerContract: "0x39E098A153Ad69834a9Dac32f0FCa92066aD03f4",
+  positionContract: "0xFd54762D435A490405DDa0fBc92b7168934e8525",
   step: 1,
   step1TokenAAmount: 0,
   refStep1Amount: null,
@@ -96,7 +96,7 @@ State.init({
 
 const getUserBalances = () => {
   const accounts = Ethers.send("eth_requestAccounts", []);
-  asyncFetch(`https://api.mav.xyz/api/v3/tokenBalances/5/${accounts[0]}`)
+  asyncFetch(`https://api.mav.xyz/api/v3/tokenBalances/324/${accounts[0]}`)
     .catch((err) => {
       console.log(err);
     })
@@ -124,7 +124,7 @@ const getApprovedNFT = () => {
 
 const getNFTUser = () => {
   const accounts = Ethers.send("eth_requestAccounts", []);
-  asyncFetch(`https://api.mav.xyz/api/v3/user/${accounts[0]}/5`)
+  asyncFetch(`https://api.mav.xyz/api/v3/user/${accounts[0]}/324`)
     .catch((err) => {
       console.log(err);
     })
@@ -163,14 +163,14 @@ const handlePoolDistributionSelect = (data) => {
 };
 
 const getNetwork = () => {
-  let chainId = 5;
+  let chainId = 324;
   Ethers.provider()
     .getNetwork()
     .then((res) => {
       if (res.chainId == chainId) {
         State.update({ isZkSync: true });
       } else {
-        switchNetwork(5);
+        switchNetwork(324);
       }
     });
 };
@@ -1525,7 +1525,10 @@ return (
           <span class="text-white">
             To proceed, please switch to the
             <br />
-            <div class="networkNameContainer" onClick={() => switchNetwork(5)}>
+            <div
+              class="networkNameContainer"
+              onClick={() => switchNetwork(324)}
+            >
               <span class="networkName">zkSync Era Network</span>
             </div>
             using your wallet.
