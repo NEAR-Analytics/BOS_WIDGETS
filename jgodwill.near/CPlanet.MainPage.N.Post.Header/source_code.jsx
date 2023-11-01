@@ -64,10 +64,10 @@ const Button = styled.div`
 
   &:not([disabled]):hover {
     opacity: 1 !important;
-    color: DeepSkyBlue;
+    color: #000;
 
     .icon:before {
-      background: rgba(0, 191, 255, 0.1);
+      background: rgba(0, 0, 0, 0.1);
     }
   }
 `;
