@@ -59,21 +59,25 @@ const telegram = (
 );
 
 const Root = styled.div`
-    height: 512px;
+    min-height: 512px;
     background: black;
     padding: 4rem;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
     justify-content: space-between;
+     @media only screen and (max-width: 500px) {
+      padding: 2rem
+     }
     
 `;
 const Top = styled.div`
     display: flex;
     flex-direction: row;
     align-items: flex-start;
-    justify-content: space-between;
+    justify-content: center;
     width: 100%;
+    flex-wrap: wrap;
 `;
 
 const Bottom = styled.div`
@@ -85,7 +89,7 @@ const Bottom = styled.div`
 `;
 
 const LeftFoot = styled.div`
-min-width: 50%;
+    min-width: 50%;
      p {
     color: #FFF;
     width: 400px;
@@ -110,6 +114,18 @@ min-width: 50%;
   button:hover {
     background: white;
     color: black;
+  }
+  @media only screen and (max-width: 900px){
+    width: 100%
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 40px;
+    
+    button {
+      margin-top: 10px;
+      align-self: center;
+      margin-left: 70px;
+    }
   }
 `;
 
@@ -136,6 +152,9 @@ const RightFoot = styled.div`
  flex-direction: row;
  align-items: flex-start;
  justify-content: space-between;
+  @media only screen and (max-width: 900px) {
+    width: 100%;
+  }
 `;
 
 const Socials = styled.div`
@@ -161,17 +180,17 @@ margin-bottom: 26px;
     margin: 0;
     padding: 0;
     color: white;
-    color: #FFF;
-font-family: Helvetica Neue;
-font-size: 14px;
-font-style: normal;
-cursor: pointer;
-margin-bottom: 19px;
-font-weight: 400;
-line-height: 150%; /* 21px */
-svg {
-    margin-right: 10px;
-}
+    text-decoration: none;
+    font-family: Helvetica Neue;
+    font-size: 14px;
+    font-style: normal;
+    cursor: pointer;
+    margin-bottom: 19px;
+    font-weight: 400;
+    line-height: 150%; /* 21px */
+    svg {
+        margin-right: 3px;
+    }
   }
 `;
 
@@ -203,42 +222,70 @@ return (
         <Socials>
           <h1>Socials</h1>
           <div>
-            <li>
-              {facebookIcon}
-              Near Social
-            </li>
-            <li>
-              {twitterIcon}
-              Twitter
-            </li>
-            <li>
-              {telegram}
-              Telegram
-            </li>
-            <li>
-              {callIcon}
-              Weekly Call
-            </li>
+            <a target="_blank" href="https://www.creativesdao.org/bos">
+              <li>
+                {facebookIcon}
+                Near Social
+              </li>
+            </a>
+            <a target="_blank" href="https://www.creativesdao.org/twitter">
+              <li>
+                {twitterIcon}
+                Twitter
+              </li>
+            </a>
+            <a target="_blank" href="https://www.creativesdao.org/telegram">
+              <li>
+                {telegram}
+                Telegram
+              </li>
+            </a>
+            <a target="_blank" href="https://www.creativesdao.org/weekly-call">
+              <li>
+                {callIcon}
+                Weekly Call
+              </li>
+            </a>
           </div>
         </Socials>
         <Socials>
           <h1>Our Products</h1>
           <div>
-            <li>Creative DAO</li>
-            <li>Drop Flow</li>
-            <li>Drop.Funds</li>
-            <li>Case Studies</li>
-            <li>Communties</li>
-            <li>SBT</li>
+            <a target="_blank" href="https://www.creativesdao.org/app">
+              <li>Creative DAO</li>
+            </a>
+            <a target="_blank" href="https://dropflow.xyz/">
+              <li>Drop Flow</li>
+            </a>
+            <a target="_blank" href="https://drops.fund/">
+              <li>Drop.Funds</li>
+            </a>
+            <a target="_blank" href="https://www.creativesdao.org/">
+              <li>Case Studies</li>
+            </a>
+            <a target="_blank" href="https://www.creativesdao.org/communities">
+              <li>Communties</li>
+            </a>
+            <a target="_blank" href="https://www.creativesdao.org/sbt">
+              <li>SBT</li>
+            </a>
           </div>
         </Socials>
         <Socials>
           <h1>Deep Dive</h1>
           <div>
-            <li>Charter</li>
-            <li>Council</li>
-            <li>DAO</li>
-            <li>Get Funded</li>
+            <a target="_blank" href="https://www.creativesdao.org/charter">
+              <li>Charter</li>
+            </a>
+            <a target="_blank" href="https://www.creativesdao.org/council">
+              <li>Council</li>
+            </a>
+            <a target="_blank" href="https://www.creativesdao.org/dao">
+              <li>DAO</li>
+            </a>
+            <a target="_blank" href="https://www.creativesdao.org/funding">
+              <li>Get Funded</li>
+            </a>
           </div>
         </Socials>
       </RightFoot>
