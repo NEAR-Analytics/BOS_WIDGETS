@@ -26,7 +26,7 @@ const onBtnClick = () => {
 // Render
 return (
   <Main>
-    <div class="container py-4 px-5 text-dark">
+    <div class="container py-4 px-5 text-dark bg-light rounded">
       <h3 class="text-center">
         The contract says:
         <span class="text-primary"> {greeting} </span>
