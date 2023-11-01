@@ -228,6 +228,52 @@ return (
             </div>
           ))}
         </div>
+        <div className="daos">
+          <div className="title-section">
+            <h3>Top Creators</h3>
+            <a
+              href="#/agwaze.near/widget/CPlanet.index?tab=community"
+              className="all"
+              onClick={() => props.update({ tab: "community" })}
+            >
+              Show more (59)
+              <svg
+                width="10"
+                height="10"
+                viewBox="0 0 10 10"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M1.13672 1C4.20751 1 5.92918 1 8.99997 1V9"
+                  stroke="#B0B0B0"
+                  stroke-width="1.3478"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+                <path
+                  d="M8.99883 1L1 8.7377"
+                  stroke="#B0B0B0"
+                  stroke-width="1.3478"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            </a>
+          </div>
+          {communities.map((data, index) => (
+            <div key={index}>
+              <Widget
+                props={{
+                  daoId: data,
+                  onButtonClick: () =>
+                    props.update({ tab: "daoProfile", daoId: data }),
+                }}
+                src="jgodwill.near/widget/CPlanet.FeaturedDAO.Card"
+              />
+            </div>
+          ))}
+        </div>
       </div>
     </SocialWrapper>
   </CPlanetFont>
