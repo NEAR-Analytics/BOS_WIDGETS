@@ -270,12 +270,14 @@ const setUserBalances = () => {
 const setMaxBalanceTokenA = () => {
   if (state.tokenABalance.fixed > 0) {
     State.update({ amountInputTokenA: state.tokenABalance.fixed });
+    handleInputTokenA(state.tokenABalance.fixed);
   }
 };
 
 const setMaxBalanceTokenB = () => {
   if (state.tokenBBalance.fixed > 0) {
     State.update({ amountInputTokenB: state.tokenBBalance.fixed });
+    handleInputTokenB(state.tokenBBalance.fixed);
   }
 };
 
