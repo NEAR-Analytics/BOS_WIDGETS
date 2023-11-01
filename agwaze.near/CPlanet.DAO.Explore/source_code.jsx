@@ -120,72 +120,22 @@ State.init({
   searchTerm: "",
 });
 
-const defaultDaos = [
-  "marmaj.sputnik-dao.near",
-  "incubadora.sputnik-dao.near",
-  "cudo.sputnik-dao.near",
-  "muti.sputnik-dao.near",
-  "beat-dao.sputnik-dao.near",
-  "nxm.sputnik-dao.near",
-  "gambiarra-dao.sputnik-dao.near",
-  "metaverse-dao.sputnik-dao.near",
-  "nomadelabel.sputnik-dao.near",
-  "mintbase.sputnik-dao.near",
-  "filipino-artist-guild.sputnik-dao.near",
-  "demonstra.sputnik-dao.near",
-  "arrozcriativo.sputnik-dao.near",
-  "thekindao.sputnik-dao.near",
-  "creatives.sputnik-dao.near",
-  "kalakendradao.sputnik-dao.near",
-  "inav2.sputnik-dao.near",
-  "afrostar.sputnik-dao.near",
-  "vr-dao.sputnik-dao.near",
-  "fradao.sputnik-dao.near",
-  "onboarding-dao.sputnik-dao.near",
-  "near-writers-collective.sputnik-dao.near",
-  "goa-dao.sputnik-dao.near",
-  "hype.sputnik-dao.near",
-  "nearhub-dao.sputnik-dao.near",
-  "motiondao.sputnik-dao.near",
-  "spiritual-dao.sputnik-dao.near",
-  "the-philosophers-dao.sputnik-dao.near",
-  "3xr.sputnik-dao.near",
-  "nearxart.sputnik-dao.near",
-  "feminu-dao.sputnik-dao.near",
-  "vn-artists-dao.sputnik-dao.near",
-  "blaqkstereo.sputnik-dao.near",
-  "youngfresh.sputnik-dao.near",
-  "garden-collective.sputnik-dao.near",
-  "the-auction.sputnik-dao.near",
-  "daorecords.sputnik-dao.near",
-  "the-clan.sputnik-dao.near",
-  "octopode-dao.sputnik-dao.near",
-  "55sp.sputnik-dao.near",
-  "svara.sputnik-dao.near",
-  "graffiti.sputnik-dao.near",
-  "free-horses.sputnik-dao.near",
-  "lens.sputnik-dao.near",
-  "jazzdao.sputnik-dao.near",
-  "black-cat-cinema.sputnik-dao.near",
-  "burlesque.sputnik-dao.near",
-  "gruta.sputnik-dao.near",
-  "hypedao.sputnik-dao.near",
-  "vandao.sputnik-dao.near",
-  "dimension.sputnik-dao.near",
-  "c1foundation.sputnik-dao.near",
-  "dedeukwushryne.sputnik-dao.near",
-  "indiaverse.sputnik-dao.near",
-  "master-minds.sputnik-dao.near",
-  "1-million-nfts.sputnik-dao.near",
-  "loozr-dao.sputnik-dao.near",
-  "familydao.sputnik-dao.near",
-  "apex-trybe.sputnik-dao.near",
-  "thespians.sputnik-dao.near",
-];
+const fetchDaos = () => {
+  const res = fetch(
+    "https://raw.githubusercontent.com/GenaDrop/genadrop-bos-widgets/main/data/cdao-nft-contracts.json"
+  );
+  if (res.ok) {
+    State.update({
+      nftData: JSON.parse(res.body).daoContracts,
+    });
+  }
+};
+
+fetchDaos();
 
 const seachInputHandler = (e) => {
   const value = e.target.value.toLowerCase();
-  const searched = defaultDaos.filter((daos) => daos.includes(value));
+  const searched = state.nftData.filter((daos) => daos.daoId.includes(value));
   State.update({
     searchTerm: value,
     filteredNFTData: searched,
@@ -208,16 +158,18 @@ return (
     </SearchSection>
     <Cards>
       <NFTCards>
-        {state.searchTerm === ""
-          ? defaultDaos.map((data, index) => (
+        {state.searchTerm === "" && state.nftData.length
+          ? state.nftData.map((data, index) => (
               <div key={index}>
                 <Widget
                   props={{
-                    daoId: data,
+                    daoId: data.daoId,
+                    daoContractId: data.contractid,
                     onButtonClick: () =>
                       props.update({
                         tab: "daoProfile",
-                        daoId: data,
+                        daoId: data.daoId,
+                        daoContractId: data.contractid,
                       }),
                   }}
                   src="agwaze.near/widget/CPlanet.DAO.Card"
@@ -228,11 +180,13 @@ return (
               <div key={index}>
                 <Widget
                   props={{
-                    daoId: data,
+                    daoId: data.daoId,
+                    daoContractId: data.contractid,
                     onButtonClick: () =>
                       props.update({
                         tab: "daoProfile",
-                        daoId: data,
+                        daoId: data.daoId,
+                        daoContractId: data.contractid,
                       }),
                   }}
                   src="agwaze.near/widget/CPlanet.DAO.Card"
