@@ -1,27 +1,28 @@
 const { onClose } = props;
 
 const ModalContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  position: absolute;
-  z-index: 1000;
-  left: 0;
   top: 0;
+  left: 0;
   width: 100%;
   height: 100%;
-  justify-content: center;
+  display: flex;
+  z-index: 1000;
+  position: absolute;
   align-items: center;
+  background: #5353539c;
+  flex-direction: column;
+  justify-content: center;
 `;
 
 const ModalOverlay = styled.div`
-  background-color: #191a1a;
-  border-radius: 12px;
-  border: 1px solid rgb(255, 255, 255);
-  display: flex;
-  flex-direction: column;
   width: 750px;
-  position: relative;
   padding: 40px;
+  display: flex;
+  position: relative;
+  border-radius: 12px;
+  flex-direction: column;
+  background-color: #191a1a;
+  border: 1px solid rgb(255, 255, 255);
   @media (max-width: 510px) {
     width: 90%;
   }
