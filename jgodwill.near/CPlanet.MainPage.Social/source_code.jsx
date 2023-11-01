@@ -12,10 +12,10 @@ const options = [
     title: "C Constellation",
   },
   {
-    title: "CDAOs Feed",
+    title: "CDAO Feed",
   },
   {
-    title: "DAOs You Follow",
+    title: "DAOs Feed",
     disabled: !context.accountId,
   },
 ];
@@ -41,21 +41,22 @@ const getFollowedDAOs = (accountId) => {
   return following;
 };
 
-if (state.feedIndex === 2) {
-  const graph = Social.keys(`${context.accountId}/graph/follow/*`, "final");
+if (state.feedIndex === 1) {
+  // const graph = Social.keys(`${context.accountId}/graph/follow/*`, "final");
 
-  const following = getFollowedDAOs(props.accountId ?? context.accountId ?? "");
-  if (graph !== null) {
-    // accounts = Object.keys(graph[context.accountId].graph.follow || {});
-    // accounts.push(context.accountId);
-    accounts = [...following];
-    console.log(accounts);
-  } else {
-    accounts = [];
-  }
+  // const following = getFollowedDAOs(props.accountId ?? context.accountId ?? "");
+  // if (graph !== null) {
+  //   // accounts = Object.keys(graph[context.accountId].graph.follow || {});
+  //   // accounts.push(context.accountId);
+  //   accounts = [...following];
+  //   console.log(accounts);
+  // } else {
+  //   accounts = [];
+  // }
+  accounts = ["creativesdao.sputnik-dao.near"];
 }
 
-if (state.feedIndex === 1) {
+if (state.feedIndex === 2) {
   const response = fetch(
     "https://raw.githubusercontent.com/GenaDrop/genadrop-bos-widgets/main/data/cdao-daos.json"
   );
