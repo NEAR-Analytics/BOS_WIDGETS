@@ -11,7 +11,7 @@ const Root = styled.div`
         flex-direction: column
     }
     .community {
-        margin-top: 40px;
+        margin-top: 92px;
     }
     h1 {
         color: #000;
