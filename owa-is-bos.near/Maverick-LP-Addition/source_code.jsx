@@ -610,13 +610,13 @@ const formatNumber = (n) => {
 
 const setMaxBalanceTokenA = () => {
   if (state.tokenABalance.fixed > 0) {
-    State.update({ amountInputTokenA: state.tokenABalance.fixed });
+    handleInputTokenA(state.tokenABalance.fixed);
   }
 };
 
 const setMaxBalanceTokenB = () => {
   if (state.tokenBBalance.fixed > 0) {
-    State.update({ amountInputTokenB: state.tokenBBalance.fixed });
+    handleInputTokenA(state.tokenBBalance.fixed);
   }
 };
 
@@ -675,7 +675,7 @@ const handleInputTokenA = (input) => {
     if (ic !== 0) {
       tokenB = input * (deltaX / deltaY);
       State.update({
-        amountInputTokenB: tokenB,
+        amountInputTokenB: deltaY > 0 ? tokenB.toFixed(6) : 0,
         amountInputTokenA: input,
         validation: undefined,
       });
@@ -721,15 +721,15 @@ const handleInputTokenB = (input) => {
     if (ic !== 0) {
       tokenA = (input / deltaX) * deltaY;
       State.update({
-        amountInputTokenA: tokenA,
-        amountInputTokenB: input,
+        amountInputTokenA: deltaY > 0 ? tokenA : 0,
+        amountInputTokenB: deltaY > 0 ? input : 0,
         validation: undefined,
       });
     } else {
       State.update({
         amountInputTokenA: 0,
         need2Tokens: false,
-        amountInputTokenB: input,
+        amountInputTokenB: deltaY > 0 ? input : 0,
         validation: undefined,
       });
     }
@@ -1455,7 +1455,7 @@ return (
                     <div class="TokenAmountSection">
                       <input
                         class="TokenAmountInput"
-                        type="text"
+                        type="number"
                         placeholder="0"
                         inputmode="decimal"
                         min="0"
@@ -1519,7 +1519,7 @@ return (
                     <div class="TokenAmountSection">
                       <input
                         class="TokenAmountInput"
-                        type="text"
+                        type="number"
                         placeholder="0"
                         inputmode="decimal"
                         min="0"
