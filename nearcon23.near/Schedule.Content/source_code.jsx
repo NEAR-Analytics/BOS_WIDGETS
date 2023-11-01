@@ -23,6 +23,7 @@ asyncFetch(agendaUrl).then(({ body }) => {
 
   // Extract the relevant fields and store them in a new array of objects:
   let allLocations = {};
+
   asyncFetch(speakersUrl).then(({ body: speakerBody }) => {
     const imageData = {};
     speakerBody.map((item) => {
@@ -77,10 +78,13 @@ asyncFetch(agendaUrl).then(({ body }) => {
 
     State.update({
       data: groupedSessionsArray,
-      locations: Object.keys(allLocations),
+      locations: Object.keys(allLocations).filter(
+        (item) => item !== "undefined"
+      ),
     });
   });
 });
+console.log("===>> ", state.filters);
 
 return (
   <>
