@@ -11,8 +11,6 @@ const {
   callLibs,
 } = props;
 
-console.log("articleToRenderData: ", articleToRenderData);
-
 const accountId = articleToRenderData.author;
 const id =
   articleToRenderData.id ??
