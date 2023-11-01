@@ -73,7 +73,7 @@ const path = [
 ];
 RouterContract.getAmountsOut(
   ethers.utils.parseUnits(
-    Big(currentAmount).toFixed(currentCurrency.decimals).toString(),
+    Big(currentAmount).toFixed(currentCurrency.decimals),
     currentCurrency.decimals
   ),
   path
