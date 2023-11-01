@@ -458,7 +458,7 @@ return (
     <div className="left">
       <Widget
         loading=""
-        src="mob.near/widget/MainPage.N.Post.Left"
+        src="jgodwill.near/widget/CPlanet.MainPage.N.Post.Left"
         props={{ accountId: context.accountId }}
       />
     </div>
