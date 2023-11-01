@@ -31,47 +31,40 @@ const Detail = styled.div`
   }
 `;
 
-const {
-  props: { contractId, secretKey },
-} = props;
-
-State.init({
-  isValidTicket: false,
-});
-
-const checkTicketValidity = (secretKey) => {
-  asyncFetch(
-    `https://kb73xf6bzk.execute-api.us-east-1.amazonaws.com/production/api/v1/keypom/${secretKey}`
-  ).then((response) => {
-    if (response.ok) {
-      const keyInfo = Near.view(contractId, "get_key_information", {
-        key: response.body.publicKey,
-      });
-
-      if (keyInfo) {
-        State.update({ isValidTicket: true });
-      }
-    }
-  });
-};
-
-if (contractId && secretKey) {
-  checkTicketValidity(secretKey);
-}
+const { isValidTicket, contractId, secretKey } = props;
 
 return (
   <Container>
-    {state.isValidTicket ? (
+    {isValidTicket === undefined && (
+      <div
+        style={{
+          width: "100%",
+          height: "100%",
+          display: "flex",
+          justifycontent: "center",
+          alignitems: "center",
+        }}
+      >
+        <div class="spinner-border" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+      </div>
+    )}
+
+    {isValidTicket === true && (
       <>
         <Explainer>
-          <Widget src={`${ownerId}/widget/Ticket.QRCode`} props={props} />
+          <Widget
+            src={`${ownerId}/widget/Ticket.QRCode`}
+            props={{ contractId, secretKey }}
+          />
         </Explainer>
         <Detail>
           <Widget src={`${ownerId}/widget/Ticket.Detail`} props={props} />
         </Detail>
       </>
-    ) : (
-      <h2>Invalid Ticket.</h2>
     )}
+
+    {isValidTicket === false && <h2>Invalid Ticket.</h2>}
   </Container>
 );
