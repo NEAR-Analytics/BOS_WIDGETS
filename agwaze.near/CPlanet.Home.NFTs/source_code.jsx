@@ -45,7 +45,18 @@ const Root = styled.div`
         flex-wrap: wrap;
         justify-content: center;
         gap: 20px;
-        margin-bottom: 20px;
+    }
+    .all {
+      color: black;
+      cursor: pointer;
+      text-decoration: none;
+      border: 1px solid #000;
+      transition: 0.3s ease-in-out;
+      padding: 6px;
+    }
+    .all:hover {
+      background: black;
+      color: white;
     }
 `;
 
@@ -84,5 +95,8 @@ return (
         </div>
       ))}
     </div>
+      <a href="#/agwaze.near/widget/CPlanet.index?tab=explore" className="all">
+        Show All Communities (59)
+      </a>
   </Root>
 );
