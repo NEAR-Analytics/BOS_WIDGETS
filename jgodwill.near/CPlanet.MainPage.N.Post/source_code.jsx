@@ -147,14 +147,14 @@ return (
       <div className="left">
         <Widget
           loading=""
-          src="mob.near/widget/MainPage.N.Post.Left"
+          src="jgodwill.near/widget/CPlanet.MainPage.N.Post.Left"
           props={{ accountId, groupId }}
         />
       </div>
       <div className="right">
         <Widget
           loading={<div className="post-header" />}
-          src="mob.near/widget/MainPage.N.Post.Header"
+          src="jgodwill.near/widget/CPlanet.MainPage.N.Post.Header"
           props={{
             accountId,
             blockHeight,
