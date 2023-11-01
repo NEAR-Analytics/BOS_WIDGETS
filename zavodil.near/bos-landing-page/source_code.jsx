@@ -233,21 +233,19 @@ return (
       </div>
       <div class="header-right"></div>
       <div class="header-content-right">
-        {/*
         <div>
           <div>
-            <h1>$10k Bounty</h1>
-            <h2>&#60;Hackathon&#62;</h2>
+            <h1> </h1>
           </div>
           <div>
             <a
-              href="https://ethdubai-sushiswap-hackathon.devpost.com/"
+              href="https://docs.near.org/bos/tutorial/ethers-js"
               target="_blank"
             >
-              <h3>Sign Up For Hackathon -&#62;</h3>
+              <h4>BOS for Ethereum developers -&#62;</h4>
             </a>
           </div>
-        </div>*/}
+        </div>
       </div>
       <div class="noise"></div>
       <div class="noise"></div>
