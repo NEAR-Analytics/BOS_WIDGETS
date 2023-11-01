@@ -41,23 +41,23 @@ const Error = styled.span`
 `;
 
 const Input = styled.div`
-  box-sizing: border-box;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-  padding: 12px 18px 12px 24px;
   gap: 0.5em;
-  background: unset;
-  border: 1px solid var(--Dark, #121212);
-  box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05);
-  border-radius: 6px;
-  color: #121212;
   width: 100%;
+  display: flex;
+  color: #121212;
   font-size: 12px;
   font-weight: 600;
+  background: unset;
+  border-radius: 6px;
   line-height: normal;
+  flex-direction: row;
+  align-items: center;
+  border: 1px solid #FFF;
+  box-sizing: border-box;
   text-transform: capitalize;
+  padding: 12px 18px 12px 24px;
+  justify-content: space-between;
+  box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05);
 `;
 
 const Placeholder = styled.span`
