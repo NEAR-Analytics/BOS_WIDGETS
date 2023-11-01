@@ -40,8 +40,8 @@ const IosNotification = () => (
   <Text>
     <i className="ph-bold ph-info" />
     In order to enable Mobile Browser notifications on iOS, you will also need
-    to add near.org as a icon to your home screen. Click on the share icon, and
-    then tap on <b>"Add to Home Screen"</b>
+    to install Codequity to your home screen. Click on the share icon, and then
+    tap on <b>"Add to Home Screen"</b>
   </Text>
 );
 
@@ -85,7 +85,7 @@ return (
       src="near/widget/NearOrg.Notifications.SettingsHeader"
       props={{
         title: "Notification Settings",
-        text: "Configure your notifications for activity on near.org",
+        text: "Configure your notifications.",
         content: <SettingHeaderContent />,
       }}
     />
