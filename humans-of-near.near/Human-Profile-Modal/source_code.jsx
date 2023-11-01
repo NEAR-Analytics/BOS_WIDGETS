@@ -1,3 +1,4 @@
+const Owner = "humans-of-near.near";
 const accountId = context.accountId;
 if (!accountId) return;
 
@@ -11,6 +12,21 @@ State.init({
   twitter: user.twitter,
   name: user.name,
 });
+
+const options = [
+  {
+    text: "Ended",
+    value: 1,
+  },
+  {
+    text: "Claimed",
+    value: 2,
+  },
+  {
+    text: "Unclaimed",
+    value: 3,
+  },
+];
 
 const ModalOverlay = styled.div`
   right: 110px;
@@ -30,6 +46,7 @@ const ModalOverlay = styled.div`
 
 const Component = styled.div`
   height: 100%;
+  overflow: auto;
   border-radius: 6px;
   background-color: #22272B;
   border: 1px solid rgb(255, 255, 255);
@@ -205,7 +222,17 @@ return (
             onChange={changeTwitter}
           />
         </div>
-        <div></div>
+        <div>
+          <p>{`What describes you best?`}</p>
+          <Widget
+            props={{
+              noLabel: true,
+              placeholder: "Select a role",
+              options,
+            }}
+            src={`${Owner}/widget/Select`}
+          />
+        </div>
       </ModalContent>
       <ModalAction>
         <Button className="btn" onClick={saveMyProfile}>{`Save`}</Button>
