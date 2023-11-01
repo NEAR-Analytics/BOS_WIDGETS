@@ -221,7 +221,6 @@ const Footer = styled.div`
   height: 100px;
   display: flex;
   flex-direction: column;
-  align-items: flex-end;
 `;
 
 const fetchApiConfig = {
