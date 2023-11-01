@@ -8,11 +8,11 @@ const Main = styled.div`
 useEffect(() => {
   const greeting = Near.view("hello.near-examples.near", "get_greeting");
   setGreeting(greeting);
-}, [context.loading]);
+}, [context]);
 
 useEffect(() => {
   setActiveIndex(context.accountId ? 1 : 0);
-}, [context.accountId]);
+}, [context]);
 
 const onInputChange = ({ target }) => {
   setGreeting(target.value);
