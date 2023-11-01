@@ -101,7 +101,7 @@ const storedActiveMenu = Storage.get(
 );
 
 State.init({
-  activeMenu: storedActiveMenu || "swap",
+  activeMenu: props.defaultTab || storedActiveMenu || "swap",
 });
 
 function changeTab(menu) {
@@ -240,7 +240,7 @@ return (
         ) : null}
         {activeMenu == "Lending" ? (
           <>
-            <Widget src="bluebiu.near/widget/Gnosis.Lending" />
+            <Widget src="bluebiu.near/widget/Gnosis.Lending" props={props} />
           </>
         ) : null}
       </div>
