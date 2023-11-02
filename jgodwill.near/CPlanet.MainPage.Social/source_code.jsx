@@ -237,7 +237,7 @@ return (
               className="all"
               onClick={() => props.update({ tab: "community" })}
             >
-              Show more (59)
+              Show more
               <svg
                 width="10"
                 height="10"
