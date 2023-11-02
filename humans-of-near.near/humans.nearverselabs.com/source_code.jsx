@@ -17,7 +17,7 @@ State.init({
     social: "",
     twitter: "",
     bio: "",
-    description: "",
+    role: "",
     community: "",
   },
   locations: [],
