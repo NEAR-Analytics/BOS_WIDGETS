@@ -22,7 +22,7 @@ const addNewMessage = () => {
     text: state.newMessage,
   });
 
-  State.update({ messages: [...state.messages, state.newMessage] });
+  State.update({ messages: [{ text: state.newMessage }, ...state.messages] });
 };
 
 const userAccountStatus = fetch("https://rpc.mainnet.near.org", {
