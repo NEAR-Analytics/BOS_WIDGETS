@@ -16,7 +16,7 @@ const options = [
   },
   {
     title: "DAOs Feed",
-    disabled: !context.accountId,
+    // disabled: !context.accountId,
   },
 ];
 
@@ -27,6 +27,7 @@ if (hashtag) {
 }
 
 let accounts = undefined;
+let creators = undefined;
 
 const getFollowedDAOs = (accountId) => {
   let following = Social.keys(`${context.accountId}/graph/follow/*`, "final", {
@@ -65,6 +66,16 @@ if (state.feedIndex === 2) {
   console.log(accounts);
 }
 
+const fetchTopCreators = () => {
+  const response = fetch(
+    "https://raw.githubusercontent.com/GenaDrop/genadrop-bos-widgets/main/data/cdao-top-creators.json"
+  );
+  const top = response.ok && JSON.parse(response.body);
+  creators = [...top.topCreators];
+  return creators;
+};
+
+console.log("topCretors: ", fetchTopCreators());
 const CPlanetFont = styled.div`
 *, *::before, *::after{
   font-family: Helvetica Neue;
@@ -262,16 +273,32 @@ return (
               </svg>
             </a>
           </div>
-          {communities.reverse().map((data, index) => (
+          {fetchTopCreators().map((data, index) => (
             <div key={index}>
               <Widget
+                loading={
+                  <div
+                    className="placeholder d-inline-block rounded-circle"
+                    style={{ width: "3em", height: "3em" }}
+                  />
+                }
+                src="jgodwill.near/widget/ProfileLine"
+                // src="agwaze.near/widget/CPlanet.DAO.Members.SideCard"
+                props={{
+                  accountId: data,
+                  tooltip: true,
+                  className: "d-inline-block overflow-hidden",
+                  imageClassName: "rounded-circle w-100 h-100",
+                }}
+              />
+              {/*<Widget
                 props={{
                   daoId: data,
                   onButtonClick: () =>
                     props.update({ tab: "daoProfile", daoId: data }),
                 }}
                 src="jgodwill.near/widget/CPlanet.FeaturedDAO.Card"
-              />
+              />*/}
             </div>
           ))}
         </div>
