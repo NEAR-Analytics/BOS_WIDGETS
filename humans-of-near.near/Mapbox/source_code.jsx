@@ -251,7 +251,7 @@ const code = `
           const _com = Commnuities.find((row)=>row.id == marker.user.community);
           el.style="color:"+_com.color+";";
         }
-        console.log(marker, "/", Commnuities, el);
+        console.log(marker.user, "/", Commnuities, el);
         ${
           accountId
             ? `if(marker.user.accountId === "${accountId}") el.id = 'mymarker';`
