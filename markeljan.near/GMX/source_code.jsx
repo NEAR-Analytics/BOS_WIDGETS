@@ -197,9 +197,9 @@ function formatUsd(num) {
 // calculate price with slippage of 0.5%
 function calculatePriceWithSlippage() {
   if (isLong) {
-    return ethers.BigNumber.from(maxPrice).mul(1005).div(1000);
+    return ethers.BigNumber.from(maxPrice).mul(1010).div(1000);
   } else {
-    return ethers.BigNumber.from(minPrice).mul(995).div(1000);
+    return ethers.BigNumber.from(minPrice).mul(990).div(1000);
   }
 }
 
@@ -470,7 +470,7 @@ function handleChangePosition(isLong) {
 
 return (
   <DaisyUIWrapper>
-    <div class="card max-w-2xl mx-auto bg-neutral-focus text-white">
+    <div class="card bg-neutral-focus text-white">
       <div class="px-4 pt-4">
         <div class="relative flex justify-center">
           <LogoGMX />
