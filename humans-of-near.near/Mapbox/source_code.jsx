@@ -46,6 +46,13 @@ const code = `
         font-size: 18px;
       }
 
+      .text-wrap{
+        word-wrap: break-word;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
       .mapboxgl-popup-content{
         background: rgb(25, 26, 26);
         color: white;
@@ -173,13 +180,13 @@ const code = `
               '<img src="'+ profileImageUrl +'" class="logo" />'+
             '</div>'+
             '<div class="gap-14">'+
-              '<h6>'+title+'</h6>'+
+              '<h6 class="text-wrap">'+title+'</h6>'+
               '<div class="role">'+
                 'developer'+
               '</div>'+
             '</div>'+
           '</div>'+
-          '<div>'+
+          '<div >'+
             'Nulla vitae risus lacus. Ut ut libero in est condimentum laoreet. Donec magna justo, finibus ac dapibus nec, euismod non nisi ondimentum laore.'+
           '</div>'+
           '<div class="gap-16">'+
