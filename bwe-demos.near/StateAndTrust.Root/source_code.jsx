@@ -11,7 +11,7 @@ return (
       <div className="col">
         <Widget
           id="trusted"
-          src="bwe-demos.near/widget/StateAndTrust.TrustTree"
+          src="bwe-demos.near/StateAndTrust.TrustTree"
           trust={{ mode: "trusted-author" }}
           props={{ title: "State across Trusted Components" }}
         />
@@ -19,7 +19,7 @@ return (
       <div className="col">
         <Widget
           id="sandboxed"
-          src="bwe-demos.near/widget/StateAndTrust.TrustTree"
+          src="bwe-demos.near/StateAndTrust.TrustTree"
           props={{ title: "State within Sandboxed Components" }}
         />
       </div>
