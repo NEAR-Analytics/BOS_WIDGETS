@@ -105,7 +105,8 @@ const authorForWidget = "sayalot.near";
 const thisWidgetName = "SayALot";
 
 const widgets = {
-  sayALot: `${authorForWidget}/widget/${thisWidgetName}`,
+  //   sayALot: `${authorForWidget}/widget/${thisWidgetName}`,
+  sayALot: `f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/${thisWidgetName}`,
   //   create: `${authorForWidget}/widget/SayALot.Create`,////////////////////////////////////////////////////////////////////////////////
   create: `f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/SayALot.Create`, //////////////////////////////////////////////////////////////////////////////////
   header: `${authorForWidget}/widget/SayALot.NavBar`,
