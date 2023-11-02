@@ -112,8 +112,16 @@ const SocialWrapper = styled.div`
     display: flex;
     flex-direction:row;
     gap: 2rem;
+    .rhs{
+      width: 370px;
+    }
+    ..lsh{
+      width: 360px;
+    }
     .rhs, .lhs{
-        width: 360px;
+      display: flex;
+      flex-direction:column;
+      align-items:center;
         padding: 16px 24px 476px 24px; 
         border: 1px solid #EFEFEF;
         background: #F8F8F8;
@@ -153,7 +161,7 @@ const communities = [
 return (
   <CPlanetFont>
     <SocialWrapper>
-      <div className="rhs">
+      <div className="lhs">
         <Widget src="jgodwill.near/widget/People" props={{}} />
       </div>
       <div className="mid">
@@ -193,7 +201,7 @@ return (
           />
         )}
       </div>
-      <div className="lhs">
+      <div className="rhs">
         <div className="daos">
           <div className="title-section">
             <h3>Featured DAOs</h3>
