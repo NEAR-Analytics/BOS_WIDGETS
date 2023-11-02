@@ -110,6 +110,9 @@ const code = `
       }
 
       .role{
+        color: #22272B;
+        font-size: 12px;
+        font-weight: 500;
         padding: 2px 10px;
         border-radius: 54px;
         background: #E6E6E6;
