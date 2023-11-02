@@ -70,7 +70,7 @@ State.init({
   twitter: user.twitter,
   name: user.name,
   bio: user.bio,
-  description: user.description,
+  role: user.role,
   community: user.community,
   commnuities: Commnuities,
 });
