@@ -16,7 +16,7 @@ const {
   sbtWhiteList,
   sbts,
   canLoggedUserCreateArticles,
-  articlesBaseAction,
+  baseActions,
 } = props;
 
 const libSrcArray = [widgets.libArticle];
@@ -331,7 +331,7 @@ return (
                   src,
                   createStateUpdate,
                   state.functionsToCallByLibrary,
-                  { baseAction: articlesBaseAction },
+                  { baseAction: baseActions.articlesBaseAction },
                   "Create"
                 );
               })}
