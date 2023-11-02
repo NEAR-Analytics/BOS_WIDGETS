@@ -42,7 +42,7 @@ if (!content) {
       <Content>
         <Widget
           src={
-            "${REPL_DEVHUB}/widget/devhub.components.molecule.MarkdownViewer"
+            "devgovgigs.petersalomonsen.near/widget/devhub.components.molecule.MarkdownViewer"
           }
           props={{ text: content }}
         />
