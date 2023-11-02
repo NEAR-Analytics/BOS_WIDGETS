@@ -74,6 +74,8 @@ return (
               <a href={buildUrl("bwe-demos.near/widget/StateAndTrust.Root")}>
                 Sandboxed and Trusted State
               </a>
+            </li>
+            <li>
               <a href={buildUrl("bwe-demos.near/widget/Posts.Feed")}>
                 Social Feed
               </a>
