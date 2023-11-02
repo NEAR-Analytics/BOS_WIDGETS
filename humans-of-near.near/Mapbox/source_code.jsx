@@ -54,7 +54,7 @@ const code = `
       }
 
       .mapboxgl-popup-content{
-        background: rgb(25, 26, 26);
+        background: #22272B;
         color: white;
         border: 1px solid;
         border-radius: 9px;
