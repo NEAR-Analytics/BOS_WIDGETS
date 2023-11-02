@@ -60,6 +60,7 @@ margin-top: 32px;
     justify-content: center;
 display: flex;
 width: 100%;
+gap: 10px;
 flex-wrap: wrap;
 input {
     border-radius: 32px;
