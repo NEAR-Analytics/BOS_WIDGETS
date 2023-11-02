@@ -60,7 +60,7 @@ const StyledContainer = styled.div`
   padding: 40px;
 
   .wrapper {
-    max-width: 800px;
+    max-width: 850px;
     margin: 0 auto;
   }
 
