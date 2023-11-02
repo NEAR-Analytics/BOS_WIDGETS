@@ -87,14 +87,25 @@ const contests = Near.view("cdao-v1.genadrop.near", "get_contests", {
 State.update({
   contests,
 });
-
 const isActive = (date) => {
   let dt = new Date(date * 1000);
   console.log("opera mini v2", date, dt < Date.now());
   return dt > Date.now();
 };
+const viewContest = (id) => {
+  State.update({
+    selectedContest: id,
+  });
+};
 
-return (
+return state.selectedContest ? (
+  <>
+    <Widget
+      src="0xprometheus.near/widget/contest-detail"
+      props={{ contests: state.selectedContest }}
+    />
+  </>
+) : (
   <div>
     <h1>Contest Summary</h1>
     <Summary>
@@ -135,7 +146,9 @@ return (
             ) : (
               ""
             )}
-            <CardButton>View</CardButton>
+            <CardButton onClick={() => viewContest(contest[0])}>
+              View
+            </CardButton>
           </Card>
         ))}
     </CardContainer>
