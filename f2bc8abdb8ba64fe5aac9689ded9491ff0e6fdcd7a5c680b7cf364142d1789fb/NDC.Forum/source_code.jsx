@@ -10,8 +10,7 @@ let {
   authorForWidget,
   widgets,
   brand,
-  articlesBaseAction,
-  forumName,
+  baseActions,
 } = props;
 sharedBlockHeight = Number(sharedBlockHeight);
 
@@ -570,6 +569,7 @@ return (
           canLoggedUserCreateArticles,
           filterBy: state.filterBy,
           callLibs,
+          baseActions,
         }}
       />
     )}
@@ -623,7 +623,7 @@ return (
           sbtWhiteList,
           sbts,
           canLoggedUserCreateArticles,
-          articlesBaseAction,
+          baseActions,
         }}
       />
     )}
@@ -634,8 +634,8 @@ return (
           src,
           stateUpdate,
           state.functionsToCallByLibrary,
-          { baseAction: articlesBaseAction },
-          forumName
+          { baseAction: baseActions.articlesBaseAction },
+          "NDC.Forum"
         );
       })}
     </CallLibrary>
