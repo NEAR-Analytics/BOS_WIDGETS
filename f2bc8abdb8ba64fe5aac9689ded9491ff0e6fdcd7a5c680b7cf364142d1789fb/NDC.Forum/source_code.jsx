@@ -623,6 +623,7 @@ return (
           sbtWhiteList,
           sbts,
           canLoggedUserCreateArticles,
+          articlesBaseAction,
         }}
       />
     )}
@@ -633,7 +634,7 @@ return (
           src,
           stateUpdate,
           state.functionsToCallByLibrary,
-          { articlesBaseAction },
+          { baseAction: articlesBaseAction },
           forumName
         );
       })}
