@@ -1,5 +1,3 @@
-const ownerId = "nearcon23.near";
-
 const desktopImage =
   "https://ipfs.near.social/ipfs/bafkreic2w3bmzfmnc7e6qohtigrclmvnwgmu6xa3iaerzs5rjxxalqo6he";
 
