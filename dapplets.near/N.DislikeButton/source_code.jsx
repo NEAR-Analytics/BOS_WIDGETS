@@ -5,33 +5,33 @@ if (!item) {
 }
 
 useEffect(() => {
-  State.update({ hasLike: null });
+  State.update({ hasDislike: null });
 }, [item]);
 
-const likes = Social.index("like", item);
+const dislikes = Social.index("dislike", item);
 
-const dataLoading = likes === null;
+const dataLoading = dislikes === null;
 
-const likesByUsers = {};
+const dislikesByUsers = {};
 
-(likes || []).forEach((like) => {
-  if (like.value.type === "like") {
-    likesByUsers[like.accountId] = like;
-  } else if (like.value.type === "unlike") {
-    delete likesByUsers[like.accountId];
+(dislikes || []).forEach((dislike) => {
+  if (dislike.value.type === "dislike") {
+    dislikesByUsers[dislike.accountId] = dislike;
+  } else if (dislike.value.type === "undislike") {
+    delete dislikesByUsers[dislike.accountId];
   }
 });
-if (state.hasLike === true) {
-  likesByUsers[context.accountId] = {
+if (state.hasDislike === true) {
+  dislikesByUsers[context.accountId] = {
     accountId: context.accountId,
   };
-} else if (state.hasLike === false) {
-  delete likesByUsers[context.accountId];
+} else if (state.hasDislike === false) {
+  delete dislikesByUsers[context.accountId];
 }
 
-const accountsWithLikes = Object.keys(likesByUsers);
-const likeCount = accountsWithLikes.length;
-const hasLike = context.accountId && !!likesByUsers[context.accountId];
+const accountsWithDislikes = Object.keys(dislikesByUsers);
+const dislikeCount = accountsWithDislikes.length;
+const hasDislike = context.accountId && !!dislikesByUsers[context.accountId];
 
 const heartSvg = (
   <svg
@@ -78,7 +78,7 @@ const heartFillSvg = (
   </svg>
 );
 
-const LikeButton = styled.div`
+const DislikeButton = styled.div`
   line-height: 20px;
   min-height: 20px;
   display: inline-flex;
@@ -117,7 +117,7 @@ const LikeButton = styled.div`
       background: rgba(255, 0, 0, 0.1);
     }
   }
-  .liked {
+  .disliked {
     color: red;
   }
 
@@ -142,7 +142,7 @@ const LikeButton = styled.div`
   }
 `;
 
-const likeClick = () => {
+const dislikeClick = () => {
   if (state.loading || dataLoading || !context.accountId) {
     return;
   }
@@ -151,53 +151,53 @@ const likeClick = () => {
   });
   const data = {
     index: {
-      like: JSON.stringify({
+      dislike: JSON.stringify({
         key: item,
         value: {
-          type: hasLike ? "unlike" : "like",
+          type: hasDislike ? "undislike" : "dislike",
         },
       }),
     },
   };
 
-  if (!hasLike && props.notifyAccountId) {
+  if (!hasDislike && props.notifyAccountId) {
     data.index.notify = JSON.stringify({
       key: props.notifyAccountId,
       value: {
-        type: "like",
+        type: "dislike",
         item,
       },
     });
   }
   Social.set(data, {
-    onCommit: () => State.update({ loading: false, hasLike: !hasLike }),
+    onCommit: () => State.update({ loading: false, hasDislike: !hasDislike }),
     onCancel: () => State.update({ loading: false }),
   });
 };
 
-const title = hasLike ? "Unlike" : "Like";
+const title = hasDislike ? "Undislike" : "Dislike";
 
 return (
   <div className="d-inline-flex align-items-center">
-    <LikeButton
+    <DislikeButton
       disabled={state.loading || dataLoading || !context.accountId}
       title={title}
-      onClick={likeClick}
+      onClick={dislikeClick}
     >
       <span
         className={`icon ${state.loading ? "loading " : ""}${
-          hasLike ? "liked" : ""
+          hasDislike ? "disliked" : ""
         }`}
       >
-        {hasLike ? heartFillSvg : heartSvg}
+        {hasDislike ? heartFillSvg : heartSvg}
       </span>
-      <span className={`count ${hasLike ? "liked" : ""}`}>
+      <span className={`count ${hasDislike ? "disliked" : ""}`}>
         <Widget
-          loading={likeCount || ""}
+          loading={dislikeCount || ""}
           src="mob.near/widget/N.Overlay.Faces"
-          props={{ accounts: likesByUsers, limit: 10 }}
+          props={{ accounts: dislikesByUsers, limit: 10 }}
         />
       </span>
-    </LikeButton>
+    </DislikeButton>
   </div>
 );
