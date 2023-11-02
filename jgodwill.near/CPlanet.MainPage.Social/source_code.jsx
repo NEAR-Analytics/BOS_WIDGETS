@@ -125,6 +125,9 @@ const SocialWrapper = styled.div`
         padding: 16px 24px 476px 24px; 
         border: 1px solid #EFEFEF;
         background: #F8F8F8;
+        @media screen and (max-width: 768px){
+          display: none;
+        }
     }
     .mid{
         flex: 1;
