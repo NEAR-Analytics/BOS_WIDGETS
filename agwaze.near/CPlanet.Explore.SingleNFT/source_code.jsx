@@ -112,7 +112,7 @@ const fewAndFarLogo = (
 const marketPlaceImage = {
   tradeport: tradePortLogo,
   fewandfar: fewAndFarLogo,
-  mintbase: <img src={mintbaseImage} alt="" style={{ width: 10 }} />,
+  mintbase: <img src={mintbaseImage} alt="" style={{ width: 20, height: 20 }} />,
 };
 
 const Right = styled.div`
