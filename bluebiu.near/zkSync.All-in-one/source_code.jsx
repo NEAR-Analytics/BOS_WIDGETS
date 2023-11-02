@@ -94,25 +94,11 @@ const MenuContainer = styled.div`
   }
 `;
 
-const { activeMenu } = state;
+const activeMenu =
+  Storage.privateGet("zksyncCachedActiveMenu") || props.defaultTab || "Bridge";
 
-const storedActiveMenu = Storage.get(
-  "activeMenu",
-  "bluebiu.near/widget/Base.All-in-one"
-);
-
-State.init({
-  activeMenu: props.defaultTab || storedActiveMenu || "swap",
-});
-
-State.init({
-  activeMenu: "swap",
-});
 function changeTab(menu) {
-  State.update({
-    activeMenu: menu,
-  });
-  Storage.set("activeMenu", menu);
+  Storage.privateSet("zksyncCachedActiveMenu", menu);
 }
 
 const bridgeIcon = (
