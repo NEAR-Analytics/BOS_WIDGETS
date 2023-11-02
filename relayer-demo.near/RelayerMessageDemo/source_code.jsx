@@ -20,8 +20,6 @@ const addNewMessage = () => {
 
   Near.call(contract, "addMessage", {
     text: state.newMessage,
-  }).then(() => {
-    console.log("hello there");
   });
 };
 
