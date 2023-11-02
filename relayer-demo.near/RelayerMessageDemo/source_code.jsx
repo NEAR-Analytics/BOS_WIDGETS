@@ -18,11 +18,16 @@ const addNewMessage = () => {
     return;
   }
 
-  Near.call(contract, "addMessage", {
+  const result = Near.call(contract, "addMessage", {
     text: state.newMessage,
   });
 
-  State.update({ messages: [{ text: state.newMessage }, ...state.messages] });
+  console.log("result", result);
+
+  State.update({
+    messages: [{ text: state.newMessage }, ...state.messages],
+    newMessage: "",
+  });
 };
 
 const userAccountStatus = fetch("https://rpc.mainnet.near.org", {
