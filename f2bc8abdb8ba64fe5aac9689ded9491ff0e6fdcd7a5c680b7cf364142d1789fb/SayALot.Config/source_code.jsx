@@ -8,40 +8,37 @@ const sbtWhiteList = [
   "public",
 ];
 
-const authorForWidget = "sayalot.near";
-// const authorForWidget =
-//   "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb";
+// const authorForWidget = "sayalot.near";
+const authorForWidget =
+  "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb";
 // const authorForWidget = "kenrou-it.near";
 // const authorForWidget = "silkking.near";
 
-const forumName = "SayALot";
 const configWidget = "SayALot.Config";
 
 const widgets = {
-  //   sayALot: `${authorForWidget}/widget/${configWidget}`,/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-  thisForum: `f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/${configWidget}`, ////////////////////////////////////////////////////////////////////////////////
-  //   create: `${authorForWidget}/widget/SayALot.Create`,/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-  create: `f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/SayALot.Create`, ///////////////////////////////////////////////////////////////////////////////////
+  thisForum: `${authorForWidget}/widget/${configWidget}`, ////////////////////////////////////////////////////////////////////////////////
+  create: `${authorForWidget}/widget/NDC.Forum.Create`, ///////////////////////////////////////////////////////////////////////////////////
   //   header: `${authorForWidget}/widget/SayALot.NavBar`,//////////////////////////////////////////////////////////////////////////////////////////
-  header: `f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/SayALot.NavBar`, //////////////////////////////////////////////////////////////////////////////////////////
-  //   showArticlesList: `${authorForWidget}/widget/SayALot.AllArticlesList`,//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-  showArticlesList: `f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/SayALot.AllArticlesList`, ////////////////////////////////////////////////////////////////////////////
+  header: `${authorForWidget}/widget/SayALot.NavBar`, //////////////////////////////////////////////////////////////////////////////////////////
+  showArticlesList: `${authorForWidget}/widget/NDC.Forum.AllArticlesList`, ////////////////////////////////////////////////////////////////////////////
   showArticlesListSortedByAuthors: `${authorForWidget}/widget/SayALot.AllArticlesSortByAuthors`,
   articlesByAuthorCard: `${authorForWidget}/widget/SayALot.ArticlesByAuthorCard`,
-  generalCard: `${authorForWidget}/widget/SayALot.GeneralCard`,
+  generalCard: `${authorForWidget}/widget/NDC.GeneralCard`, /////////////////////////////////////////////////////////////////////////
   //   articleView: `${authorForWidget}/widget/SayALot.ArticleView`,///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-  articleView: `f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/SayALot.ArticleView`, /////////////////////////////////////////////////////////////////////////
-  reactions: `${authorForWidget}/widget/SayALot.Reactions`,
-  addComment: `${authorForWidget}/widget/SayALot.AddComment`,
+  articleView: `${authorForWidget}/widget/SayALot.ArticleView`, /////////////////////////////////////////////////////////////////////////
+  reactions: `${authorForWidget}/widget/NDC.Reactions`, //////////////////////////////////////////////////////////////////////////////////////////
+  addComment: `${authorForWidget}/widget/NDC.AddComment`, //////////////////////////////////////////////////////////////////////////////////////////
   commentView: `${authorForWidget}/widget/SayALot.CommentView`,
-  libSBT: `${authorForWidget}/widget/lib.SBT`,
-  libComment: `${authorForWidget}/widget/lib.comment`,
-  libArticle: `${authorForWidget}/widget/lib.article`,
-  libEmojis: `${authorForWidget}/widget/lib.emojis`,
-  libUpVotes: `${authorForWidget}/widget/lib.upVotes`,
-  upVoteButton: `${authorForWidget}/widget/SayALot.UpVoteButton`,
-  styledComponents: "rubycop.near/widget/NDC.StyledComponents",
+  libSBT: `${authorForWidget}/widget/lib.SBT`, //////////////////////////////////////////////////////////////////////////////////////////
+  libComment: `${authorForWidget}/widget/lib.comment`, //////////////////////////////////////////////////////////////////////////////////////////
+  libArticle: `${authorForWidget}/widget/lib.article`, //////////////////////////////////////////////////////////////////////////////////////////
+  libEmojis: `${authorForWidget}/widget/lib.emojis`, //////////////////////////////////////////////////////////////////////////////////////////
+  libUpVotes: `${authorForWidget}/widget/lib.upVotes`, //////////////////////////////////////////////////////////////////////////////////////////
+  upVoteButton: `${authorForWidget}/widget/NDC.UpVoteButton`, //////////////////////////////////////////////////////////////////////////////////////////
+  styledComponents: "rubycop.near/widget/NDC.StyledComponents", //////////////////////////////////////////////////////////////////////////////////////////
   newStyledComponents: {
+    //////////////////////////////////////////////////////////////////////////////////////////
     Element: {
       Badge: "nearui.near/widget/Element.Badge",
       User: "nearui.near/widget/Element.User",
@@ -55,6 +52,13 @@ const widgets = {
       Select: "nearui.near/widget/Input.Select",
     },
   },
+  fasterTextInput: `f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/fasterTextInput`, //////////////////////////////////////////////////////////////////////////////////////////
+  markownEditorIframe: `f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/MarkdownEditorIframe`, //////////////////////////////////////////////////////////////////////////////////////////
+  tagsEditor: `f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/TagsEditor`, //////////////////////////////////////////////////////////////////////////////////////////
+  socialMarkdown: "mob.near/widget/SocialMarkdown", //////////////////////////////////////////////////////////////////////////////////////////
+  profileOverlayTrigger: "mob.near/widget/Profile.OverlayTrigger", //////////////////////////////////////////////////////////////////////////////////////////
+  profileImage: "mob.near/widget/ProfileImage", //////////////////////////////////////////////////////////////////////////////////////////
+  wikiOnSocialDB_TooltipProfiles: `testwiki.near/widget/WikiOnSocialDB_TooltipProfiles`, //////////////////////////////////////////////////////////////////////////////////////////
 };
 
 const brand = {
@@ -65,7 +69,12 @@ const brand = {
   logoRemHeight: 6,
 };
 
-const articlesBaseAction = "sayALotArticle";
+const baseActions = {
+  commentBaseAction: "sayALotComment",
+  articlesBaseAction: "sayALotArticle",
+  upVoteBaseAction: "sayALotUpVote",
+  reactionBaseAction: "sayALotReaction",
+};
 
 return (
   <Widget
@@ -81,8 +90,7 @@ return (
       authorForWidget,
       widgets,
       brand,
-      articlesBaseAction,
-      forumName,
+      baseActions,
     }}
   />
 );
