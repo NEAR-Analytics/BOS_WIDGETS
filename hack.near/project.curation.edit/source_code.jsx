@@ -11,7 +11,7 @@ const newData = fetch(
 );
 
 const handleUpdate = () => {
-  Social.set(`project/${newData.body}`);
+  Social.set(project, `${newData.body}`);
 };
 
 return (
