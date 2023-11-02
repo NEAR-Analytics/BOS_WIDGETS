@@ -1,4 +1,4 @@
-const daoId = props.daoId ?? "marmaj.sputnik-dao.near";
+const daoId = props.daoId ?? "beat-dao.sputnik-dao.near";
 const Root = styled.div`
     margin-bottom: 50px;
 `;
@@ -289,8 +289,9 @@ const background = profile.backgroundImage
   : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRub7hFLkStCvZiaSeiUGznP4uzqPPcepghhg&usqp=CAU";
 
 useEffect(() => {
+  console.log(policy)
   setCouncilMembers(
-    policy.roles.filter((data) => data.name === "council")[0]?.kind?.Group
+    policy.roles.filter((data) => data.name === "council" || data.name === "Council")[0]?.kind?.Group
   );
 }, [policy]);
 
