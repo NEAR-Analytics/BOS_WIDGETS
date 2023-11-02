@@ -1,15 +1,12 @@
-const { Layout, Item } = props;
+const { Item, Layout } = props;
+
+Layout = Layout || (() => <></>);
 
 const Container = styled.div``;
 
 const Loader = styled.div`
   text-align: center;
   padding: 20px;
-`;
-
-const Notification = styled.p`
-  text-align: center;
-  color: #3252a6;
 `;
 
 const QUERYAPI_ENDPOINT = `https://near-queryapi.api.pagoda.co/v1/graphql/`;
@@ -82,21 +79,19 @@ const fetchPostIds = (offset) => {
   if (loading) return;
   setLoading(true);
   const variables = { limit: DISPLAY_COUNT, offset, where: buildWhereClause() };
-  const result = fetchGraphQL(query, "DevhubPostsQuery", variables).then(
-    (result) => {
-      if (result.status === 200) {
-        if (result.body.data) {
-          const data = result.body.data[queryName];
-          const newPostIds = data.map((p) => p.post_id);
-          setPostIds(offset === 0 ? newPostIds : [...postIds, ...newPostIds]);
-          setHasNext(data.length >= variables.limit);
-        } else {
-          console.error("GraphQL Error:", result.errors);
-        }
-        setLoading(false);
+  fetchGraphQL(query, "DevhubPostsQuery", variables).then((result) => {
+    if (result.status === 200) {
+      if (result.body.data) {
+        const data = result.body.data[queryName];
+        const newPostIds = data.map((p) => p.post_id);
+        setPostIds(offset === 0 ? newPostIds : [...postIds, ...newPostIds]);
+        setHasNext(data.length >= variables.limit);
+      } else {
+        console.error("GraphQL Error:", result.errors);
       }
+      setLoading(false);
     }
-  );
+  });
 };
 
 useEffect(() => {
@@ -111,7 +106,7 @@ const handleLoadMore = () => {
 const renderLoader = () => <Loader>Loading...</Loader>;
 
 const renderItem = (postId) => (
-  <div key={postId} style={{ minHeight: "400px" }}>
+  <div key={postId}>
     {(props.renderItem && props.renderItem(postId)) || <div>Post {postId}</div>}
   </div>
 );
