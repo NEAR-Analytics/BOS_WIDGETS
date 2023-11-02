@@ -145,7 +145,7 @@ function timeAgo(timestamp) {
 const deleteNotification = (id) => {
   setLoading(true);
 
-  asyncFetch(`${apiUrl}/api/v1/notifications/${id}`, {
+  asyncFetch(`${apiUrl}/notifications/${id}`, {
     method: "DELETE",
     headers: {
       Accept: "application/json",
