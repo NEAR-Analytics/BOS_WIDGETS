@@ -7,10 +7,18 @@ const messages = Near.view(contract, "getMessages", {})
 State.init({
   newMessage: "",
   messages: [],
+  makeCall: false,
 });
 
 if (messages && state.messages.length === 0) {
   State.update({ messages: messages });
+}
+
+if (state.makeCall) {
+  const result = Near.call(contract, "addMessage", {
+    text: state.newMessage,
+  });
+  console.log("result", result);
 }
 
 const addNewMessage = () => {
@@ -18,15 +26,8 @@ const addNewMessage = () => {
     return;
   }
 
-  const result = Near.call(contract, "addMessage", {
-    text: state.newMessage,
-  });
-
-  console.log("result", result);
-
   State.update({
-    messages: [{ text: state.newMessage }, ...state.messages],
-    newMessage: "",
+    makeCall: true,
   });
 };
 
