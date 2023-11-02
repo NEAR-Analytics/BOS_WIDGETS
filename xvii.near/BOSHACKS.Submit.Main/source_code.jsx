@@ -5,9 +5,9 @@
  */
 return (
   <div>
-    <Widget src="ndcplug.near/widget/BOSHACKS.Home.Countdown" />
+    <Widget src="" />
     <Widget
-      src="ndcplug.near/widget/BOSHACKS.Submit.Create"
+      src=""
       props={{ referral: "boshacks-submission", labels: "boshacks, hackathon" }}
     />
   </div>
