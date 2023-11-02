@@ -1,4 +1,4 @@
-const { href } = VM.require("${REPL_DEVHUB}/widget/core.lib.url");
+const { href } = VM.require("devgovgigs.petersalomonsen.near/widget/core.lib.url");
 
 href || (href = () => {});
 
@@ -186,7 +186,7 @@ return (
         </Lead>
         <Link
           to={href({
-            widgetSrc: "${REPL_DEVHUB}/widget/app",
+            widgetSrc: "devgovgigs.petersalomonsen.near/widget/app",
             params: {
               page: "about",
             },
@@ -203,7 +203,7 @@ return (
       <Lead>Join a vibrant community of innovators shaping the open web.</Lead>
       <Link
         to={href({
-          widgetSrc: "${REPL_DEVHUB}/widget/app",
+          widgetSrc: "devgovgigs.petersalomonsen.near/widget/app",
           params: {
             page: "about",
           },
