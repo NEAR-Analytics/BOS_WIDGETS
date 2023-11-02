@@ -550,6 +550,8 @@ function fetchTokens() {
         owner: token.owner,
         listings: token.listings[0],
         title: token.title,
+        image: token.media,
+        price: token.listings?.length ? token.listings[0]?.price : 0
       });
     } else {
       let response = fetch(currentChainProps[props.chainState]?.subgraph, {
