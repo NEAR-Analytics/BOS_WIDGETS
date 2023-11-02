@@ -17,7 +17,7 @@ State.init({
     social: "",
     twitter: "",
   },
-  loocations: [],
+  locations: [],
   humanAlert: true,
   openInfo: false,
 });
@@ -186,6 +186,7 @@ return (
       <Widget
         src={`${Owner}/widget/Human-sidebar`}
         props={{
+          humans: state.locations.length,
           profileModal: state.profileModal,
           filtersModal: state.filtersModal,
           showProfile: () => {
