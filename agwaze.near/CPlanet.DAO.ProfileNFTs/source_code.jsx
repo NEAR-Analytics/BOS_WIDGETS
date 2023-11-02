@@ -34,37 +34,32 @@ const fetchStoreFrontData = (owner, contractId) => {
     },
     body: JSON.stringify({
       query: `query MyQuery {
-  mb_views_nft_metadata_unburned(
-    where: {nft_contract: {id: {_eq: "${contractId}"}}}
+  mb_views_nft_tokens(
+    where: {owner: {_eq: ${contractId}}}
     offset: 0
     order_by: {minted_timestamp: desc}
   ) {
-    createdAt: minted_timestamp
-    listed: price
-    media
-    storeId: nft_contract_id
-    metadataId: metadata_id
+   minted_timestamp
+    nft_contract_id
     title
-    description
-  }
-  mb_views_nft_metadata_unburned_aggregate(
-    where: {nft_contract: {id: {_eq: "${contractId}"}}}
-  ) {
-    aggregate {
-      count
+    listings {
+      price
     }
+    metadata_id
+    description
+    media
+    last_transfer_receipt_id
   }
 }
 `,
     }),
   });
 
+  console.log(response2)
+
   State.update({
-    storeContracts: response2.body.data.mb_views_nft_metadata_unburned,
-    storeNftsCount:
-      response2.body.data.mb_views_nft_metadata_unburned_aggregate.aggregate
-        .count,
-    ownerId: owner,
+    storeContracts: response2.body.data.mb_views_nft_tokens,
+    
   });
   console.log("running2", state.storeContracts);
 };
