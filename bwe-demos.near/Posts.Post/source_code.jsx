@@ -27,16 +27,13 @@ return (
         alignItems: "center",
       }}
     >
-      <Widget
-        src="bwe-demos.near/widget/Posts.Account"
-        props={{ account: author }}
-      />
+      <Widget src="bwe-demos.near/Posts.Account" props={{ account: author }} />
       <span style={{ color: "gray" }}>
         {new Date(block_timestamp / 1000000).toLocaleString()}
       </span>
     </div>
     <Widget
-      src="bwe-demos.near/widget/Posts.Markdown"
+      src="bwe-demos.near/Posts.Markdown"
       props={{ content }}
       // id={post.receipt_id}
     />
