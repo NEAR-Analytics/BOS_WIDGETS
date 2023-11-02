@@ -159,9 +159,9 @@ const code = `
              (state.twitter? '</a>' : '') +
              '</div>'+
           '</div>'+
-        '</div>'+
-        '<div>'+
-        'Nulla vitae risus lacus. Ut ut libero in est condimentum laoreet. Donec magna justo, finibus ac dapibus nec, euismod non nisi ondimentum laore.'+
+          '<div>'+
+          'Nulla vitae risus lacus. Ut ut libero in est condimentum laoreet. Donec magna justo, finibus ac dapibus nec, euismod non nisi ondimentum laore.'+
+          '</div>'+
         '</div>';
         
         return HTML;
