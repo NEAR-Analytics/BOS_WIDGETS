@@ -21,7 +21,7 @@ const CardRoot = styled.div`
     flex-direction: column;
     border: 1px solid #EFEFEF;
     &:hover{
-    box-shadow: 2px 2px 12px 7px rgba(0, 0, 0, 0.05);
+    border-color:#000;
     }
     &>a{
       text-decoration: none;
