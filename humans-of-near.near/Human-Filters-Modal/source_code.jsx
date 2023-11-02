@@ -10,55 +10,55 @@ const { API_URL, onClose, user, getMyInfor } = props;
 const options = [
   {
     text: "Developer",
-    value: 1,
+    value: "developer",
   },
   {
     text: "Degen",
-    value: 2,
+    value: "degen",
   },
   {
     text: "Founder",
-    value: 3,
+    value: "founder",
   },
   {
     text: "Gamer",
-    value: 4,
+    value: "gamer",
   },
 ];
 
 const Commnuities = [
   {
-    id: 1,
+    id: "south_america",
     name: "South America",
     color: "#0040FF",
     selected: false,
   },
   {
-    id: 2,
+    id: "asia",
     name: "Asia",
     color: "#E311C2",
     selected: false,
   },
   {
-    id: 3,
+    id: "north_america",
     name: "North America",
     color: "#F33E01",
     selected: false,
   },
   {
-    id: 4,
+    id: "africa",
     name: "Africa",
     color: "#00BBEA",
     selected: false,
   },
   {
-    id: 5,
+    id: "europe",
     name: "Europe",
     color: "#008000",
     selected: false,
   },
   {
-    id: 6,
+    id: "anz",
     name: "ANZ",
     color: "#FED52E",
     selected: false,
@@ -178,7 +178,7 @@ const CommnuityBtn = styled.button`
   `}
 `;
 
-const saveMyProfile = () => {
+const handleChangeFilers = () => {
   const data = {
     accountId,
     name: state.name,
@@ -435,7 +435,7 @@ return (
         </div>
       </ModalContent>
       <ModalAction>
-        <Button className="btn" onClick={saveMyProfile}>{`Save`}</Button>
+        <Button className="btn" onClick={handleChangeFilers}>{`Apply`}</Button>
       </ModalAction>
     </Component>
   </ModalOverlay>
