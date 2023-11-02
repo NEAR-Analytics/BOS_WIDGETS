@@ -71,14 +71,12 @@ return (
           </div>
           <ul className="icon-list">
             <li>
-              <a href={buildUrl("bwe-demos.near/widget/StateAndTrust.Root")}>
+              <a href={buildUrl("bwe-demos.near/StateAndTrust.Root")}>
                 Sandboxed and Trusted State
               </a>
             </li>
             <li>
-              <a href={buildUrl("bwe-demos.near/widget/Posts.Feed")}>
-                Social Feed
-              </a>
+              <a href={buildUrl("bwe-demos.near/Posts.Feed")}>Social Feed</a>
             </li>
           </ul>
         </div>
