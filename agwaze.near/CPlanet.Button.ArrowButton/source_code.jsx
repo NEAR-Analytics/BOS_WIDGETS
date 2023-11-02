@@ -32,7 +32,7 @@ const blackArrow = (
   </svg>
 );
 
-const Root = styled.button`
+const Root = styled.a`
     display: flex;
     width: max-content;
     height: 64px;
@@ -47,6 +47,7 @@ const Root = styled.button`
     color: ${() => (props.whiteBg ? "black" : "white")};
     font-family: Helvetica Neue;
     font-size: 24px;
+    text-decoration: none;
     font-style: normal;
     font-weight: 400;
     transition: 0.5 ease-in-out;
@@ -55,12 +56,17 @@ const Root = styled.button`
         margin-left: 10px;
     }
     :hover {
+        color: ${() => (props.whiteBg ? "black" : "white")};
         opacity: 0.8;
+    }
+    @media (max-width: 500px) {
+      font-size: 18px;
+      padding: 8px 25px 8px 25px;
     }
 `;
 
 return (
-  <Root>
+  <Root target={isBlank ?? ""} href={props.href ?? "#"}>
     {props.text ?? "Get Funded"} {props.whiteBg ? blackArrow : whiteArrow}
   </Root>
 );
