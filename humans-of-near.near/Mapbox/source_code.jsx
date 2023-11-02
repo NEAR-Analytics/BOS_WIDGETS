@@ -246,7 +246,7 @@ const code = `
         markersData.forEach(marker => {
           
         const el = document.createElement('div');
-        el.class = 'marker';
+        el.className = 'marker';
         if(marker.user.community){
           const _com = Commnuities.find((row)=>row.id == marker.user.community);
           el.style="color:"+_com.color+";";
