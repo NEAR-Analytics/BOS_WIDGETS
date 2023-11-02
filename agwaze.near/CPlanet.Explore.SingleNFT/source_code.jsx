@@ -551,6 +551,7 @@ function fetchTokens() {
         listings: token.listings[0],
         title: token.title,
       });
+    } else {
       let response = fetch(currentChainProps[props.chainState]?.subgraph, {
         method: "POST",
         headers: {
