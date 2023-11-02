@@ -1,9 +1,10 @@
-const accountId = props.accountId;
+const accountId = props.accountId ?? "nate.near";
 if (!accountId) {
   return "Requires accountID prop";
 }
 
 const description = Social.get(`${accountId}/profile/description`);
+const profile = Social.getr(`${accountId}/profile`);
 
 const Description = styled.div`
   max-height: 8rem;
@@ -36,8 +37,9 @@ const Wrapper = styled.div`
     font-family: Helvetica Neue; 
     }
     .top_bar{
-        background-color:black;
+        // background-color:black;
         height: 64px; 
+        width: 100%
         margin-bottom: 10px;
     }
 `;
@@ -48,7 +50,18 @@ return (
         href={`#/mob.near/widget/ProfilePage?accountId=${accountId}`}
         className="link-dark text-truncate"
       >
-        <div className="top_bar"></div>
+        <div className="top_bar">
+          <img
+            src={
+              profile.backgroundImage
+                ? `https://ipfs.near.social/ipfs/${profile.backgroundImage.ipfs_cid}`
+                : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRub7hFLkStCvZiaSeiUGznP4uzqPPcepghhg&usqp=CAU"
+            }
+            className="w-100 h-100"
+            style={{ objectFit: "cover",}}
+            alt=""
+          />
+        </div>
         <div className="mx-3">
           <Widget
             src="jgodwill.near/widget/ProfileLine"
