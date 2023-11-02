@@ -68,6 +68,10 @@ const code = `
           }
       }
 
+      .d-flex{
+        display: flex;
+      }
+
       .logo{
         width:48px; 
         height:60px;
