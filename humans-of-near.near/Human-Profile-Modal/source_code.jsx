@@ -178,10 +178,8 @@ const CommnuityBtn = styled.button`
 
 const saveMyProfile = () => {
   const data = {
+    ...state,
     accountId,
-    name: state.name,
-    social: state.social,
-    twitter: state.twitter,
   };
 
   return asyncFetch(API_URL + `/auth/account`, {
