@@ -155,17 +155,32 @@ const inner = (
   </a>
 );
 
-const f = fetch(
-  `https://api.kitwallet.app/account/${accountId}/likelyNFTsFromBlock`
-);
-
-if (!f.ok) {
-  return "Loading";
+const response = fetch("https://graph.mintbase.xyz/mainnet", {
+  method: "POST",
+  headers: {
+    "mb-api-key": "anon",
+    "Content-Type": "application/json",
+  },
+  body: JSON.stringify({
+    query: `query counNFTs {
+  mb_views_nft_tokens_aggregate(
+    where: {owner: {_eq: "${accountId}"}}
+  ) {
+    aggregate {
+      count
+    }
+  }
 }
+`,
+  }),
+});
 
-const allNfts = f.body.list;
+const nftCount =
+  response.ok &&
+  response.body.data.mb_views_nft_tokens_aggregate.aggregate.count;
 
-const nftCount = allNfts.length;
+// console.log(fetchedNFTs);
+
 const s = nftCount > 1 ? "s" : "";
 return (
   <CardRoot>
