@@ -66,7 +66,7 @@ const Root = styled.a`
 `;
 
 return (
-  <Root target={isBlank ?? ""} href={props.href ?? "#"}>
+  <Root target={props.isBlank ?? ""} href={props.href ?? "#"}>
     {props.text ?? "Get Funded"} {props.whiteBg ? blackArrow : whiteArrow}
   </Root>
 );
