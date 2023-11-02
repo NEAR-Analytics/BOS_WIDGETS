@@ -41,6 +41,7 @@ const tabContentWidget = {
   people: "BOSHACKS.Members.Main",
   forum: "BOSHACKS.Forum.Main",
   resources: "BOSHACKS.Resources.Main",
+  submit: "BOSHACKS.Submit.Main",
 }[state.tab];
 
 const tabContent = (
