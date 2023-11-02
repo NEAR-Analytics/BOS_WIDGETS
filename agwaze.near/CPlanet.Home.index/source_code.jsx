@@ -4,6 +4,7 @@ const Root = styled.div`
     flex-direction: column-reverse;
     justify-content: space-between;
     padding-bottom: 0px;
+    height: 790px;
 
     .text:first-letter {
       color: #FFF;
@@ -21,6 +22,17 @@ const Root = styled.div`
       text-align: right;
       font-weight: 400;
       line-height: normal;
+    }
+  @media only screen and (max-width: 900px) {
+      .text, .text:first-letter {
+        font-size: 150px;
+      }
+    }
+    @media only screen and (max-width: 500px) {
+      height: 500px;
+      .text, .text:first-letter {
+        font-size: 80px;
+      }
     }
   }
 `;
@@ -46,7 +58,7 @@ const Portals = styled.div`
     width: 100%;
     padding: 0 16px;
     h1 {
-      font-size: 44px;
+      font-size: 40px;
     }
     .buttons {
       justify-content: center;
@@ -98,7 +110,6 @@ return (
         backgroundSize: "cover",
         backgroundPosition: "center",
         backgroundRepeat: "no-repeat",
-        height: "790px",
       }}
     >
       <h1 className="text">CPLANET</h1>
