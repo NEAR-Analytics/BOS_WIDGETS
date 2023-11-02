@@ -70,6 +70,7 @@ const Figures = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
+    flex-wrap-wrap;
     width: 100%;
       border-top: 1px solid #CDCDCD;
       border-bottom: 1px solid #CDCDCD;
@@ -98,6 +99,18 @@ const Figures = styled.div`
       font-style: italic;
       font-weight: 200;
       line-height: 120%; /* 28.8px */
+    }
+    @media only screen and (max-width: 600px) {
+     flex-direction: column;
+     div {
+      border-right: none;
+      border-bottom: 1px solid #CDCDCD;
+      width: 100%;
+      align-items: center;
+      justify-content: center;
+      display: flex;
+      flex-direction: column;
+     }
     }
 `;
 
