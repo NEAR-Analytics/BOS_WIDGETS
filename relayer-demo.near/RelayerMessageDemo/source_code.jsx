@@ -217,10 +217,12 @@ return (
       </a>
       <div className="your-balance">
         Your balance: {nearAmount(userAccountStatus.body.result.amount)} NEAR
-        <div>
-          Uh oh, looks like you have a balance. Try using FasthAuth zero balance
-          account.
-        </div>
+        {nearAmount(userAccountStatus.body.result.amount) !== "0.00" && (
+          <div>
+            Uh oh, looks like you have a balance. Try using FasthAuth zero
+            balance account.
+          </div>
+        )}
       </div>
       <textarea
         name=""
