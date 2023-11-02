@@ -152,15 +152,16 @@ const code = `
 
     function getDetail (row) {
       const user = row.user;
-       var title = "";
-       const near = row.user.accountId.indexOf(".near");
-       if(user.name){
-        title = user.name;
-       } else if(near !== -1){
-        title = user.accountId;
-       } else {
-          title = user.accountId.slice(0, 12);
-       }
+      console.log(user,"==>user");
+      var title = "";
+      const near = row.user.accountId.indexOf(".near");
+      if(user.name){
+      title = user.name;
+      } else if(near !== -1){
+      title = user.accountId;
+      } else {
+        title = user.accountId.slice(0, 12);
+      }
 
       var state = {
         twitter: false,
