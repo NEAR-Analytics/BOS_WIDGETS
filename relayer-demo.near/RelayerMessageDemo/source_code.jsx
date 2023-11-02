@@ -206,7 +206,7 @@ return (
         rows="5"
         placeholder="Add your message to the guest book contract..."
         value={state.newMessage}
-        onChange={(e) => State.update({ newMessage: e.target.value.trim() })}
+        onChange={(e) => State.update({ newMessage: e.target.value })}
       ></textarea>
       <button
         onClick={() => {
