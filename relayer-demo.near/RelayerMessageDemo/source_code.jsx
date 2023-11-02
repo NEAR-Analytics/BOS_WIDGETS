@@ -2,12 +2,11 @@ const contract = "guest-book.near";
 const relayerAccountId = "relayer.pagodaplatform.near";
 const messages = Near.view(contract, "getMessages", undefined, undefined, true)
   .reverse()
-  .filter((message) => message.sender === context.accountId);
+  .filter((message) => message.sender === "patrick1234.near");
 
 State.init({
   newMessage: "",
   inFlightMessage: "",
-  msgLength: null,
 });
 
 const addNewMessage = () => {
@@ -177,6 +176,11 @@ const StyledContainer = styled.div`
   }
 `;
 
+console.log(
+  "messages",
+  messages.map((data) => data.text).includes(inFlightMessage)
+);
+
 return (
   <StyledContainer>
     <div className="wrapper">
@@ -202,13 +206,12 @@ return (
         rows="5"
         placeholder="Add your message to the guest book contract..."
         value={state.newMessage}
-        onChange={(e) => State.update({ newMessage: e.target.value })}
+        onChange={(e) => State.update({ newMessage: e.target.value.trim() })}
       ></textarea>
       <button
         onClick={() => {
           State.update({
             inFlightMessage: state.newMessage,
-            msgLength: messages.length,
           });
           addNewMessage();
         }}
@@ -217,11 +220,14 @@ return (
       </button>
       <div className="messages">
         Subscribed to new messages every 5 seconds
-        {state.inFlightMessage && state.msgLength === messages.length && (
-          <ul style={{ opacity: "0.4" }}>
-            <li>{state.inFlightMessage}</li>
-          </ul>
-        )}
+        {state.inFlightMessage &&
+          !messages
+            .map((data) => data.text)
+            .includes(state.inFlightMessage) && (
+            <ul style={{ opacity: "0.4" }}>
+              <li>{state.inFlightMessage}</li>
+            </ul>
+          )}
         <ul>
           {messages.map((data, key) => {
             return <li key={key}>{data.text}</li>;
