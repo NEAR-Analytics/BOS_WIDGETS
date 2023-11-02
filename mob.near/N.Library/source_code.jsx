@@ -114,7 +114,7 @@ const renderComponent = (c, i) => {
     undefined,
     4
   ).slice(1, -1)}  }}\n/>\n`;
-  const id = c.title.toLowerCase().replace(" ", "-");
+  const id = c.title.toLowerCase().replaceAll(" ", "-");
   return (
     <div className="component" key={i}>
       <a href={`#${id}`} id={id}>
