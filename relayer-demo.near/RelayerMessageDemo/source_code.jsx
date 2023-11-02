@@ -219,12 +219,12 @@ return (
         Add Message
       </button>
       <div className="messages">
-        Subscribed to new messages every 5 seconds
+        New messages confirmed every 5 seconds
         {state.inFlightMessage &&
           !messages
             .map((data) => data.text)
             .includes(state.inFlightMessage) && (
-            <ul style={{ opacity: "0.4" }}>
+            <ul style={{ opacity: "0.3" }}>
               <li>{state.inFlightMessage}</li>
             </ul>
           )}
