@@ -246,8 +246,12 @@ const code = `
         markersData.forEach(marker => {
           
         const el = document.createElement('div');
-        el.className = 'marker';
-        console.log(marker, "/", Commnuities);
+        el.class = 'marker';
+        if(marker.user.community){
+          const _com = Commnuities.find((row)=>row.id == marker.user.community);
+          el.style="color:"+_com.color+";";
+        }
+        console.log(marker, "/", Commnuities, el);
         ${
           accountId
             ? `if(marker.user.accountId === "${accountId}") el.id = 'mymarker';`
