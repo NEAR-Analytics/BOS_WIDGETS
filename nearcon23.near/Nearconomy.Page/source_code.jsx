@@ -27,6 +27,7 @@ const Container = styled.div`
 
 const fetchTransaction = () => {
   asyncFetch(apiURL).then(({ body }) => {
+    console.log("===> ", body);
     State.update(body);
   });
 };
@@ -139,7 +140,7 @@ return (
                 fontWeight: 400,
               }}
             >
-              {state.numberOfTransactions}
+              {state.numberOfTransactions || 0}
             </h2>
             <p
               style={{
@@ -166,7 +167,7 @@ return (
                 fontFamily: "FK Grotesk",
               }}
             >
-              {state.totalNCONTransacted}
+              {state.totalNCONTransacted || 0}
             </h2>
             <p
               style={{
