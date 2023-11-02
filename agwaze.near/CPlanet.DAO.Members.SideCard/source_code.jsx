@@ -54,7 +54,7 @@ function makeAccountIdShorter(accountId, shortenLength) {
 
 return (
   <Root
-    href={`agwaze.near/widget/GenaDrop.Profile.Main?accountId=${props.userId}`}
+    href={`#/agwaze.near/widget/GenaDrop.Profile.Main?accountId=${props.userId}`}
   >
     <div className="profile">
       <img
