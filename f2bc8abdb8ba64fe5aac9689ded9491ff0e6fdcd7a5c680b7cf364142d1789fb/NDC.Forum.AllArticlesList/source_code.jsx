@@ -22,8 +22,7 @@ let {
   canLoggedUserCreateArticles,
   filterBy,
   callLibs,
-  articlesBaseAction,
-  upVoteBaseAction,
+  baseActions,
 } = props;
 
 const libSrcArray = [widgets.libUpVotes];
@@ -140,7 +139,7 @@ return (
             initialBody: "",
             canLoggedUserCreateArticles,
             sbts,
-            articlesBaseAction,
+            baseActions,
           }}
         />
       ) : (
@@ -209,7 +208,7 @@ return (
           src,
           allArticlesListStateUpdate,
           state.libsCalls,
-          { baseAction: upVoteBaseAction },
+          { baseAction: baseActions.upVoteBaseAction },
           "All articles list"
         );
       })}
