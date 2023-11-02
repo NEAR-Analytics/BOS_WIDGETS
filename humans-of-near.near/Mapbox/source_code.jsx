@@ -188,13 +188,11 @@ const code = `
                 '<svg style="width:16px" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#clip0_1_378)"><path fill-rule="evenodd" clip-rule="evenodd" d="M0 8C0 5.87827 0.842855 3.84344 2.34315 2.34315C3.84344 0.842855 5.87827 0 8 0C10.1217 0 12.1566 0.842855 13.6569 2.34315C15.1571 3.84344 16 5.87827 16 8C16 10.1217 15.1571 12.1566 13.6569 13.6569C12.1566 15.1571 10.1217 16 8 16C5.87827 16 3.84344 15.1571 2.34315 13.6569C0.842855 12.1566 0 10.1217 0 8ZM7.54347 11.424L12.1493 5.66613L11.3173 5.00053L7.38987 9.90827L4.608 7.5904L3.92533 8.4096L7.54347 11.4251V11.424Z" fill="#E6E6E6"/></g><defs><clipPath id="clip0_1_378"><rect width="16" height="16" fill="white"/></clipPath></defs></svg>'+
               '</div>'+
               '<div class="role">'+
-                'developer'+
+                user.role+
               '</div>'+
             '</div>'+
           '</div>'+
-          '<div >'+
-            'Nulla vitae risus lacus. Ut ut libero in est condimentum laoreet. Donec magna justo, finibus ac dapibus nec, euismod non nisi ondimentum laore.'+
-          '</div>'+
+          (user.bio ? '<div >'+user.bio.length>150?user.bio.slice(0, 150)+'...':user.bio+'</div>':'')+
           '<div class="gap-16">'+
               (state.social? "<a href='"+user.social+"' target='_blank' onclick='handleLink("+JSON.stringify(user.social)+")'   >  " : '') +
               '<svg width="29" height="12" viewBox="0 0 29 12" fill="'+(state.social?'white':'grey')+'" xmlns="http://www.w3.org/2000/svg"><path d="M0.240133 7.38517V4.85885L10.3454 0.409091V3.31579L3.42674 6.0933L3.52004 5.94258V6.30144L3.42674 6.15072L10.3454 8.92823V11.8349L0.240133 7.38517ZM28.7599 7.38517L18.6546 11.8349V8.92823L25.5733 6.15072L25.48 6.30144V5.94258L25.5733 6.0933L18.6546 3.31579V0.409091L28.7599 4.85885V7.38517Z"></path></svg>'+
