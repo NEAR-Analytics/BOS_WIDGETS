@@ -88,9 +88,12 @@ function onCancel() {
 }
 
 function getInitialMarkdownBody() {
-  if (editArticleData) {
+  if (
+    editArticleData &&
+    (!state.articleBody || state.articleBody === editArticleData.body)
+  ) {
     return editArticleData.body;
-  } else if (state.articleBody) {
+  } else if (state.articleBody && state.articleBody !== editArticleData.body) {
     return state.articleBody;
   } else {
     return state.initialBody == "" || !state.initialBody
