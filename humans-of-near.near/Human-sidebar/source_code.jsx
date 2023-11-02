@@ -1,7 +1,7 @@
 const Owner = "humans-of-near.near";
 const API_URL = "https://humans.nearverselabs.com/api";
 
-const { profileModal, filtersModal, showProfile, showFilters } = props;
+const { humans, profileModal, filtersModal, showProfile, showFilters } = props;
 
 const Sidebar = styled.div`
   position: absolute;
@@ -113,7 +113,7 @@ return (
       </div>
       <div>
         <p style={{ fontSize: 12 }}>Humans</p>
-        <p>500</p>
+        <p>{humans}</p>
       </div>
     </SidebarContent>
   </Sidebar>
