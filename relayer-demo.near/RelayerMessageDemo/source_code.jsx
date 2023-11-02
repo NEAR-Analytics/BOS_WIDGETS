@@ -174,12 +174,31 @@ const StyledContainer = styled.div`
     text-decoration: underline;
     font-size: 22px;
   }
-`;
 
-console.log(
-  "messages",
-  messages.map((data) => data.text).includes(inFlightMessage)
-);
+  .in-flight {
+    position: relative;
+    overflow: hidden;
+    opacity: 0.5;
+
+        :after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.5), transparent);
+            transform: translateX(-100%);
+            animation: shimmer 2s infinite;
+        }
+
+        @keyframes shimmer {
+            100% {
+                transform: translateX(100%);
+            }
+        }
+    }
+`;
 
 return (
   <StyledContainer>
@@ -224,7 +243,7 @@ return (
           !messages
             .map((data) => data.text)
             .includes(state.inFlightMessage) && (
-            <ul style={{ opacity: "0.3" }}>
+            <ul className="in-flight">
               <li>{state.inFlightMessage}</li>
             </ul>
           )}
