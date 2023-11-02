@@ -790,7 +790,7 @@ return (
                         : fewfarlink
                     }
                   >
-                    {marketPlaceImage[matchedKeyWords(key)]}
+                    {marketPlaceImage[matchedKeyWords(data.nft_contract_id)]}
                     <p>
                       {data.price
                         ? (data.price / PRICE_CONVERSION_CONSTANT)?.toFixed(3)
