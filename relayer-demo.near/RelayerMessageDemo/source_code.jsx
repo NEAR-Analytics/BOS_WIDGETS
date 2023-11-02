@@ -22,6 +22,9 @@ const addNewMessage = (numMessages) => {
       messages = Near.view(contract, "getMessages")
         .reverse()
         .filter((message) => message.sender === context.accountId);
+
+      console.log("messages.length", messages.length);
+      console.log("numMessages.length", numMessages.length);
     } else {
       clearInterval(intervalId);
     }
