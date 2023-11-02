@@ -175,7 +175,7 @@ return (
       margin: "0 auto",
     }}
   >
-    <Widget src="bwe-demos.near/widget/Posts.Sidebar" id="left" />
+    <Widget src="bwe-demos.near/Posts.Sidebar" id="left" />
     <div
       style={{
         display: "flex",
@@ -191,7 +191,7 @@ return (
           return (
             <div>
               <Widget
-                src="bwe-demos.near/widget/Posts.Post"
+                src="bwe-demos.near/Posts.Post"
                 props={post}
                 id={post.receipt_id}
               />
@@ -204,6 +204,6 @@ return (
       )}
       {!loading && <button onClick={loadMorePosts}>Load more</button>}
     </div>
-    <Widget src="bwe-demos.near/widget/Posts.Sidebar" id="right" />
+    <Widget src="bwe-demos.near/Posts.Sidebar" id="right" />
   </div>
 );
