@@ -107,13 +107,15 @@ const thisWidgetName = "CommunityVoice";
 
 const widgets = {
   communityVoice: `${authorForWidget}/widget/${thisWidgetName}`,
-  create: `${authorForWidget}/widget/CommunityVoice.Create`,
+  create: `f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/CommunityVoice.Create`, ///////////////////////
+  // create: `${authorForWidget}/widget/CommunityVoice.Create`,//////////////////////////////////////////////////////////////////
   header: `${genericWidgetsAuthor}/widget/SayALot.NavBar`,
   showArticlesList: `${authorForWidget}/widget/CommunityVoice.AllArticlesList`,
   showArticlesListSortedByAuthors: `${genericWidgetsAuthor}/widget/SayALot.AllArticlesSortByAuthors`,
   articlesByAuthorCard: `${genericWidgetsAuthor}/widget/SayALot.ArticlesByAuthorCard`,
   generalCard: `${authorForWidget}/widget/CommunityVoice.GeneralCard`,
-  articleView: `${authorForWidget}/widget/CommunityVoice.ArticleView`,
+  // articleView: `${authorForWidget}/widget/CommunityVoice.ArticleView`,////////////////////////////////////////////////////////
+  articleView: `f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/CommunityVoice.ArticleView`, /////////////
   reactions: `${authorForWidget}/widget/CommunityVoice.Reactions`,
   addComment: `${authorForWidget}/widget/CommunityVoice.AddComment`,
   commentView: `${genericWidgetsAuthor}/widget/SayALot.CommentView`,
