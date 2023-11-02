@@ -10,6 +10,7 @@ const availableTabs = [
   "people",
   "forum",
   "resources",
+  "submit",
 ];
 const memberTab = props.memberTab ?? "";
 const catTab = props.catTab ?? "";
