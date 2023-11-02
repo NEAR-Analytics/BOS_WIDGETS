@@ -48,12 +48,12 @@ const Routes = styled.div`
 
 const Join = styled.div`
   display: flex;
-  button:first-child {
+  .button:first-child {
     background: transparent;
     border: none;
     color: ${() => (props.isHome ? "white" : "#000")};
   }
-  button:last-child {
+  .button:last-child {
     display: flex;
     width: 155px;
     height: 40px;
@@ -65,9 +65,9 @@ const Join = styled.div`
     border: 1px solid ${() => (props.isHome ? "white" : "#000")};
     color: ${() => (props.isHome ? "black" : "white")};;
   }
-  button:last-child:hover {
+  .button:last-child:hover {
     background: ${() => (props.isHome ? "#000" : "white")};
-    color: black;
+    color: ${() => (props.isHome ? "white" : "black")};;
   }
   div {
     background: ${() => (props.isHome ? "white" : "#000")};
@@ -75,6 +75,31 @@ const Join = styled.div`
     margin: 0 10px 0 0;
   }
 `;
+
+const MyAcc = styled.p`
+    margin: 0;
+    margin-left: 8px;
+    color: #0a2830;
+    background: ${() => (props.isHome ? "black" : "white")};
+    border: 1px solid ${() => (props.isHome ? "white" : "black")};
+    padding: 5px;
+    border-radius: 10px;
+`;
+
+const getSender = () => {
+  return !state.sender
+    ? ""
+    : state.sender.substring(0, 6) +
+        "..." +
+        state.sender.substring(state.sender.length - 4, state.sender.length);
+};
+
+if (state.sender === undefined) {
+  const accounts = Ethers.send("eth_requestAccounts", []);
+  if (accounts.length) {
+    State.update({ sender: accounts[0] });
+  }
+}
 
 return (
   <NavContainer>
@@ -100,13 +125,22 @@ return (
           >
             Communities
           </a>
-          <a target="_blank" href={`https://gov.near.org/t/docs-the-creatives-constellation-charter/32878`}>Funding</a>
+          <a
+            target="_blank"
+            href={`https://gov.near.org/t/docs-the-creatives-constellation-charter/32878`}
+          >
+            Funding
+          </a>
         </Routes>
       </>
     )}
 
     <Join>
-      <button>Connect Wallet</button>
+      {state.sender ? (
+        <MyAcc>{state.sender ? getSender() : "0x00..."}</MyAcc>
+      ) : (
+        <Web3Connect connectLabel="Connect Wallet" className="button" />
+      )}
     </Join>
   </NavContainer>
 );
