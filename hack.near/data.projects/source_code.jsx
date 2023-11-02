@@ -1,8 +1,6 @@
 const curatorId = props.curatorId ?? "awesomebos.near";
 
-// const catalog = Social.get(`${curatorId}/catalog/**`);
-
-const projects = [
+const projects = Social.get(`${curatorId}/catalog/**`) || [
   {
     data: JSON.stringify({
       team: [],
