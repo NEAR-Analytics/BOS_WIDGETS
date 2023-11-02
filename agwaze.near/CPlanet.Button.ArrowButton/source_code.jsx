@@ -58,6 +58,7 @@ const Root = styled.a`
     :hover {
         color: ${() => (props.whiteBg ? "black" : "white")};
         opacity: 0.8;
+        text-decoration: none;
     }
     @media (max-width: 500px) {
       font-size: 18px;
