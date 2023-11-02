@@ -335,6 +335,7 @@ const handleAmountChange = (amount) => {
 };
 
 const getAvailable = (_balance) => {
+  if (!_balance) return "-";
   if (actionText !== "Repay") return _balance;
   if (Big(_balance).lt(data.userBorrow || 0)) return _balance;
   if (Big(_balance).gt(data.userBorrow || 0)) return data.userBorrow;
@@ -380,7 +381,7 @@ const getBalance = () => {
   }
   if (actionText === "Withdraw") {
     State.update({
-      balance: data.userSupply,
+      balance: Big(data.userSupply).toFixed(6),
       balanceLoading: false,
     });
     return;
@@ -390,7 +391,7 @@ const getBalance = () => {
       .minus(data.userTotalBorrowUsd)
       .div(data.underlyingPrice || 1);
     State.update({
-      balance: Big(borrowAvailable).toString(),
+      balance: borrowAvailable.gt(0) ? Big(borrowAvailable).toString() : "0.00",
       balanceLoading: false,
     });
     return;
