@@ -1,4 +1,5 @@
-const Root = styled.div`
+const Root = styled.a`
+    cursor: pointer;
     h1 {
         color: #000;
         font-family: Helvetica Neue;
@@ -52,7 +53,7 @@ function makeAccountIdShorter(accountId, shortenLength) {
 }
 
 return (
-  <Root>
+  <Root href="agwaze.near/widget/GenaDrop.Profile.Main" props={{accountId: props.userId}}>
     <div className="profile">
       <img
         src={
