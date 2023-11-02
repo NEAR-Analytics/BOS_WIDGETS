@@ -846,7 +846,7 @@ return (
                 </div>
                 <div
                   className={`form-group col-md-${
-                    state.designMode ? "2" : "2"
+                    state.designMode ? "3" : "3"
                   }`}
                 >
                   <h6>Value</h6>
@@ -912,7 +912,7 @@ return (
                       </div>
                       <div
                         className={`form-group col-md-${
-                          state.designMode ? "2" : "4"
+                          state.designMode ? "3" : "4"
                         }`}
                       >
                         {args.type_schema.type == "string" ||
