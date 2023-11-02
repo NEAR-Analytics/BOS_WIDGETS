@@ -83,6 +83,60 @@ const communities = [
   "vibes.sputnik-dao.near",
 ];
 
+State.init({
+  featuredNFTs: [],
+});
+
+const logo = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTrJuxjGxj4QmyreE6ix4ygqm5pK9Nn_rdc8Ndw6lmJcd0SSnm2zBIc2xJ_My1V0WmK2zg&usqp=CAU"
+
+const fetchStoreFrontData = () => {
+  const response2 = fetch("https://graph.mintbase.xyz/mainnet", {
+    method: "POST",
+    headers: {
+      "mb-api-key": "anon",
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      query: `query MyQuery {
+  mb_views_nft_metadata_unburned(
+    where: {nft_contract: {id: {_eq: "marmaj.mintbase1.near"}}}
+    offset: 0
+    limit: 3
+    order_by: {minted_timestamp: desc}
+  ) {
+    createdAt: minted_timestamp
+    listed: price
+    media
+    storeId: nft_contract_id
+    metadataId: metadata_id
+    title
+    description
+  }
+  mb_views_nft_metadata_unburned_aggregate(
+    where: {nft_contract: {id: {_eq: "marmaj.mintbase1.near"}}}
+    limit: 3
+  ) {
+    aggregate {
+      count
+    }
+  }
+}
+`,
+    }),
+  });
+
+  State.update({
+    featuredNFTs: response2.body.data.mb_views_nft_metadata_unburned,
+    storeNftsCount:
+      response2.body.data.mb_views_nft_metadata_unburned_aggregate.aggregate
+        .count,
+    ownerId: owner,
+  });
+  console.log("running2", state.storeContracts);
+};
+
+fetchStoreFrontData();
+
 return (
   <Root>
     <div className="head">
@@ -91,9 +145,40 @@ return (
     </div>
     <div className="explore">
       <div className="daos">
-        <Widget src="agwaze.near/widget/CPlanet.NFTCard.index" />
-        <Widget src="agwaze.near/widget/CPlanet.NFTCard.index" />
-        <Widget src="agwaze.near/widget/CPlanet.NFTCard.index" />
+        {state.featuredNFTs.length ? (
+          state.featuredNFTs.map((data, index) => (
+            <div key={index}>
+              <Widget
+                props={{
+                  title: data.title,
+                  description: data.description,
+                  image: data.media,
+                  owner: "marmaj.sputnik-dao.near",
+                  chainState: "near",
+                  logo: logo,
+                  onButtonClick: () =>
+                    props.update({
+                      tab: "singleNFT",
+                      contractId: data.contract_id,
+                      tokenId: data.token_id,
+                      chainState: state.chain,
+                    }),
+                  price: data.listed
+                    ? (data.listed / 1000000000000000000000000).toFixed(2)
+                    : null,
+                  isListed: data.listed ? "LISTED" : "NOT LISTED",
+                  tokenId: data.token_id,
+                  contractId: data.storeId,
+                }}
+                src="agwaze.near/widget/CPlanet.NFTCard.index"
+              />
+            </div>
+          ))
+        ) : (
+          <div className="noNfts">
+            <span>No NFTs to display right now</span>
+          </div>
+        )}
       </div>
       <a
         href="#/agwaze.near/widget/CPlanet.index?tab=explore"
@@ -130,3 +215,16 @@ return (
     </a>
   </Root>
 );
+//   title: data.title,
+//   description: data.description,
+//   image: data.media,
+
+//   price: data.listed,
+//   owner: state.ownerId,
+//   price: data.listed
+//     ? (data.listed / 1000000000000000000000000).toFixed(2)
+//     : null,
+//   isListed: data.listed ? "LISTED" : "NOT LISTED",
+//   tokenId: data.token_id,
+//   contractId: data.storeId,
+//   metadataId: data.metadataId,
