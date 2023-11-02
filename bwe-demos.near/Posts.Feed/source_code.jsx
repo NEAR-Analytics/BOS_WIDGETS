@@ -164,7 +164,6 @@ useEffect(() => {
   loadMorePosts();
 }, []);
 
-console.log("render", posts);
 return (
   <div
     style={{
@@ -187,7 +186,7 @@ return (
         overflowX: "hidden",
       }}
     >
-      {posts?.length &&
+      {posts?.length ? (
         posts.map((post) => {
           return (
             <div>
@@ -199,8 +198,11 @@ return (
               {/* <div>{post.comments?.length}</div> */}
             </div>
           );
-        })}
-      <button onClick={loadMorePosts}>Load more</button>
+        })
+      ) : (
+        <></>
+      )}
+      {!loading && <button onClick={loadMorePosts}>Load more</button>}
     </div>
     <Widget src="bwe-demos.near/widget/Posts.Sidebar" id="right" />
   </div>
