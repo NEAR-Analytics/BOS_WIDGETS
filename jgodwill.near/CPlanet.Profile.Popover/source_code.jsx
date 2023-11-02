@@ -37,7 +37,6 @@ const Wrapper = styled.div`
     font-family: Helvetica Neue; 
     }
     .top_bar{
-        // background-color:black;
         height: 64px; 
         width: 100%
         margin-bottom: 10px;
