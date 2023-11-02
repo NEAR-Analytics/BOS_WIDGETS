@@ -79,7 +79,7 @@ const Join = styled.div`
 const MyAcc = styled.p`
     margin: 0;
     margin-left: 8px;
-    color: #0a2830;
+    color: ${() => (props.isHome ? "white" : "black")};
     background: ${() => (props.isHome ? "black" : "white")};
     border: 1px solid ${() => (props.isHome ? "white" : "black")};
     padding: 5px;
