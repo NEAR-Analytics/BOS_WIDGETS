@@ -75,6 +75,7 @@ const code = `
       .logo{
         width:48px; 
         height:60px;
+        border-radius: 5px;
         @media (max-width: 510px) {
           width:36px; 
           height:50px;
@@ -114,6 +115,7 @@ const code = `
         font-size: 12px;
         font-weight: 500;
         padding: 2px 10px;
+        width: fit-content;
         border-radius: 54px;
         background: #E6E6E6;
         text-transform: capitalize;
