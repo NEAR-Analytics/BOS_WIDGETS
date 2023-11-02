@@ -209,7 +209,7 @@ if (profile === null) {
 
 console.log(profile);
 
-const shortenLength = 22;
+const shortenLength = 15;
 
 function makeAccountIdShorter(accountId) {
   if (accountId.length > shortenLength) {
