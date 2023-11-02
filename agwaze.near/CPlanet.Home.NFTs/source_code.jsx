@@ -75,6 +75,15 @@ const Root = styled.div`
         gap: 20px;
     }
     }
+    @media (max-width: 600px) {
+        h1 {
+            font-size: 35px;
+            
+        }
+        span {
+            font-size: 20px;
+        }
+    }
 `;
 
 const communities = [
@@ -87,7 +96,8 @@ State.init({
   featuredNFTs: [],
 });
 
-const logo = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTrJuxjGxj4QmyreE6ix4ygqm5pK9Nn_rdc8Ndw6lmJcd0SSnm2zBIc2xJ_My1V0WmK2zg&usqp=CAU"
+const logo =
+  "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTrJuxjGxj4QmyreE6ix4ygqm5pK9Nn_rdc8Ndw6lmJcd0SSnm2zBIc2xJ_My1V0WmK2zg&usqp=CAU";
 
 const fetchStoreFrontData = () => {
   const response2 = fetch("https://graph.mintbase.xyz/mainnet", {
@@ -132,7 +142,6 @@ const fetchStoreFrontData = () => {
         .count,
     ownerId: owner,
   });
-  console.log("running2", state.storeContracts);
 };
 
 fetchStoreFrontData();
