@@ -137,6 +137,39 @@ const code = `
 
     <script>
 
+      const Commnuities = [
+        {
+          id: "south_america",
+          name: "South America",
+          color: "#0040FF",
+        },
+        {
+          id: "asia",
+          name: "Asia",
+          color: "#E311C2",
+        },
+        {
+          id: "north_america",
+          name: "North America",
+          color: "#F33E01",
+        },
+        {
+          id: "africa",
+          name: "Africa",
+          color: "#00BBEA",
+        },
+        {
+          id: "europe",
+          name: "Europe",
+          color: "#008000",
+        },
+        {
+          id: "anz",
+          name: "ANZ",
+          color: "#FED52E",
+        },
+      ];
+
     mapboxgl.accessToken = "${ACCESS_TOKEN}";
 
     const map = new mapboxgl.Map({
@@ -151,8 +184,9 @@ const code = `
     }
 
     function getDetail (row) {
+      
+
       const user = row.user;
-      console.log(user,"==>user");
       var title = "";
       const near = row.user.accountId.indexOf(".near");
       if(user.name){
@@ -213,6 +247,7 @@ const code = `
           
         const el = document.createElement('div');
         el.className = 'marker';
+        console.log(marker, "/", Communities);
         ${
           accountId
             ? `if(marker.user.accountId === "${accountId}") el.id = 'mymarker';`
