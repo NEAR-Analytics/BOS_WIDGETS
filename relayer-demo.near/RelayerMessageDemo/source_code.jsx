@@ -1,17 +1,12 @@
 const contract = "guest-book.near";
 const relayerAccountId = "relayer.pagodaplatform.near";
-const messages = Near.view(contract, "getMessages", {})
+const messages = Near.view(contract, "getMessages", { subscribe: true })
   .reverse()
   .filter((message) => message.sender === context.accountId);
 
 State.init({
   newMessage: "",
-  messages: [],
 });
-
-if (messages && state.messages.length === 0) {
-  State.update({ messages: messages });
-}
 
 const addNewMessage = () => {
   if (state.newMessage.trim() == "") {
@@ -20,11 +15,6 @@ const addNewMessage = () => {
 
   Near.call(contract, "addMessage", {
     text: state.newMessage,
-  });
-
-  State.update({
-    messages: [{ text: state.newMessage }, ...state.messages],
-    newMessage: "",
   });
 };
 
@@ -216,7 +206,7 @@ return (
       </button>
       <div className="messages">
         <ul>
-          {state.messages.map((data, key) => {
+          {messages.map((data, key) => {
             return <li key={key}>{data.text}</li>;
           })}
         </ul>
