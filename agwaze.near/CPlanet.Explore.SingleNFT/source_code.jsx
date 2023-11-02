@@ -431,9 +431,13 @@ State.init({
   imageUrl: null,
 });
 
-const tokenInfo = Near.view(contractId ??"genadrop-contract.nftgen.near", "nft_token", {
-  token_id: tokenId,
-});
+const tokenInfo = Near.view(
+  contractId ?? "genadrop-contract.nftgen.near",
+  "nft_token",
+  {
+    token_id: tokenId,
+  }
+);
 
 const tradeportLink = `https://www.tradeport.xyz/near/collection/${
   state.contractId
@@ -533,9 +537,12 @@ function fetchTokens() {
                 description
                 title
                 listings {
-                    price
-                    unlisted_at
-                    listed_by
+                   price
+                  unlisted_at
+                  listed_by
+                  market_id
+                  metadata_id
+                  nft_contract_id
                 }
             }
           }
@@ -551,6 +558,7 @@ function fetchTokens() {
         listings: token.listings[0],
         title: token.title,
         imageUrl: token.media,
+        listings: token.listings,
         price: token.listings?.length ? token.listings[0]?.price : 0,
       });
     } else {
@@ -765,6 +773,33 @@ return (
                       {getUsdValue(
                         state.price
                           ? state.price / PRICE_CONVERSION_CONSTANT
+                          : 0
+                      )}
+                    </p>
+                  </a>
+                ))}
+            </MarketRow>
+            <MarketRow>
+              {state.listings.length > 0 &&
+                state.listings.map((data, key) => (
+                  <a
+                    target="_blank"
+                    href={
+                      matchedKeyWords(data.nft_contract_id) === "mintbase"
+                        ? `https://www.mintbase.xyz/meta/${data?.metadata_id}`
+                        : fewfarlink
+                    }
+                  >
+                    {marketPlaceImage[matchedKeyWords(key)]}
+                    <p>
+                      {data.price
+                        ? (data.price / PRICE_CONVERSION_CONSTANT)?.toFixed(3)
+                        : "N/A"}
+                    </p>
+                    <p>
+                      {getUsdValue(
+                        data.price
+                          ? data.price / PRICE_CONVERSION_CONSTANT
                           : 0
                       )}
                     </p>
