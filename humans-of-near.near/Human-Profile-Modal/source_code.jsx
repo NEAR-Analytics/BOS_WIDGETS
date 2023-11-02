@@ -28,32 +28,32 @@ const options = [
 
 const Commnuities = [
   {
-    id: 1,
+    id: "south_america",
     name: "South America",
     color: "#0040FF",
   },
   {
-    id: 2,
+    id: "asia",
     name: "Asia",
     color: "#E311C2",
   },
   {
-    id: 3,
+    id: "north_america",
     name: "North America",
     color: "#F33E01",
   },
   {
-    id: 4,
+    id: "africa",
     name: "Africa",
     color: "#00BBEA",
   },
   {
-    id: 5,
+    id: "europe",
     name: "Europe",
     color: "#008000",
   },
   {
-    id: 6,
+    id: "anz",
     name: "ANZ",
     color: "#FED52E",
   },
