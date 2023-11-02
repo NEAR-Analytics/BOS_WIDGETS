@@ -24,12 +24,6 @@ const addNewMessage = () => {
   });
 };
 
-if (messages.length > state.msgLength) {
-  State.update({
-    inFlightMessage: "",
-  });
-}
-
 const userAccountStatus = fetch("https://rpc.mainnet.near.org", {
   method: "POST",
   headers: {
@@ -223,7 +217,7 @@ return (
       </button>
       <div className="messages">
         Subscribed to new messages every 5 seconds
-        {state.inFlightMessage && (
+        {state.inFlightMessage && state.msgLength === messages.length && (
           <ul style={{ opacity: "0.4" }}>
             <li>{state.inFlightMessage}</li>
           </ul>
