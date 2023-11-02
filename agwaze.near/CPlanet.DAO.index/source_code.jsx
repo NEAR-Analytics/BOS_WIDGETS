@@ -412,6 +412,9 @@ return (
               props={{ daoId: props.daoContractId }}
             />
           )}
+          {state.selectedTab === "proposals" && (
+            <Widget src="sking.near/widget/DAO.Proposals" props={{ daoId }} />
+          )}
         </>
       </MiddleContent>
       <MembersGroup>
