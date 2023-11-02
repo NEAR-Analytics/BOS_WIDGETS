@@ -29,11 +29,8 @@ const code = `
       #map { position: absolute; top: 0; bottom: 0; width: 100%; }
 
       .marker {
-        // background-image: url('https://humans.nearverselabs.com/Human.png');
-        // background-size: cover;
         width: 27px;
         height: 34px;
-        // border-radius: 50%;
         cursor: pointer;
       }
 
@@ -99,9 +96,10 @@ const code = `
       }
 
       .gap-16{
-        display:flex; 
-        align-items:center;
         gap: 16px;
+        display:flex; 
+        padding: 0 10px;
+        align-items:center;
       }
 
       .gap-14{
@@ -253,7 +251,6 @@ const code = `
           const _com = Commnuities.find((row)=>row.id == marker.user.community);
           el.style="color:"+_com.color+";";
         }
-        console.log(marker.user, "/", Commnuities, el);
         ${
           accountId
             ? `if(marker.user.accountId === "${accountId}") el.id = 'mymarker';`
