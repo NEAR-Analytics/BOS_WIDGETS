@@ -59,6 +59,9 @@ if (Big(inputCurrencyAmount || 0).eq(0)) {
 if (!inputCurrency || !outputCurrency) {
   return <SwapButton disabled>Select a token</SwapButton>;
 }
+if (Big(outputCurrencyAmount).lt("0.00000000001")) {
+  return <SwapButton disabled>Insufficient Liquidity</SwapButton>;
+}
 if (Big(inputCurrencyAmount || 0).gt(maxInputBalance)) {
   return (
     <SwapButton disabled>
@@ -122,7 +125,7 @@ if (inputCurrency.address !== "native") {
 const wrapType =
   inputCurrency.address === "native" && outputCurrency.address === wethAddress
     ? 1
-    : outputCurrency.address === wethAddress &&
+    : inputCurrency.address === wethAddress &&
       outputCurrency.address === "native"
     ? 2
     : 0;
@@ -162,7 +165,10 @@ const handleApprove = () => {
   );
   TokenContract.approve(
     routerAddress,
-    ethers.utils.parseUnits(inputCurrencyAmount, inputCurrency.decimals)
+    ethers.utils.parseUnits(
+      Big(inputCurrencyAmount).toFixed(inputCurrency.decimals).toString(),
+      inputCurrency.decimals
+    )
   )
     .then((tx) => {
       tx.wait().then((res) => {
@@ -231,7 +237,7 @@ function successCallback(tx, callback) {
   });
 }
 
-const handleWrap = (type, onSuccess, onError) => {
+const handleWrap = (type, success, onError) => {
   const WethContract = new ethers.Contract(
     wethAddress,
     [
@@ -256,25 +262,24 @@ const handleWrap = (type, onSuccess, onError) => {
     ],
     Ethers.provider().getSigner()
   );
-
   if (type === 1) {
     WethContract.deposit({
-      value: ethers.utils.parseEther(inputCurrencyAmount),
+      value: ethers.utils.parseEther(
+        Big(inputCurrencyAmount).toFixed(18).toString()
+      ),
     })
       .then((tx) => {
-        return tx.wait().then((res) => {
-          onSuccess?.(res);
-        });
+        success?.(tx);
       })
       .catch((err) => {
         onError?.();
       });
   } else {
-    WethContract.withdraw(ethers.utils.parseEther(inputCurrencyAmount))
+    WethContract.withdraw(
+      ethers.utils.parseEther(Big(inputCurrencyAmount).toFixed(18).toString())
+    )
       .then((tx) => {
-        return tx.wait().then((res) => {
-          onSuccess?.(res);
-        });
+        success?.(tx);
       })
       .catch((err) => {
         onError?.();
