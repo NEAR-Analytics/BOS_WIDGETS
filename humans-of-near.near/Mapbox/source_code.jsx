@@ -247,7 +247,7 @@ const code = `
           
         const el = document.createElement('div');
         el.className = 'marker';
-        console.log(marker, "/", Communities);
+        console.log(marker, "/", Commnuities);
         ${
           accountId
             ? `if(marker.user.accountId === "${accountId}") el.id = 'mymarker';`
