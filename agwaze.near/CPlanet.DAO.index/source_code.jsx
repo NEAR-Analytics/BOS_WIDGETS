@@ -289,9 +289,11 @@ const background = profile.backgroundImage
   : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRub7hFLkStCvZiaSeiUGznP4uzqPPcepghhg&usqp=CAU";
 
 useEffect(() => {
-  console.log(policy)
+  console.log(policy);
   setCouncilMembers(
-    policy.roles.filter((data) => data.name === "council" || data.name === "Council")[0]?.kind?.Group
+    policy.roles.filter(
+      (data) => data.name === "council" || data.name === "Council"
+    )[0]?.kind?.Group
   );
 }, [policy]);
 
@@ -420,7 +422,7 @@ return (
               <div>
                 <Widget
                   src="agwaze.near/widget/CPlanet.DAO.Members.SideCard"
-                  props={{ daoId: data }}
+                  props={{ daoId: data, userId: data }}
                 />
               </div>
             ))}
