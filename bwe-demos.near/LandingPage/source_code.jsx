@@ -1,8 +1,7 @@
-const [isDebug, setIsDebug] = useState<bool>(true);
-const [showMonitor, setShowMonitor] = useState<bool>(true);
+State.init({ isDebug: true, showMonitor: true });
 
 const buildUrl = (componentPath) => {
-  return `/${componentPath}?isDebug=${isDebug}&showMonitor=${showMonitor}`;
+  return `/${componentPath}?isDebug=${state.isDebug}&showMonitor=${state.showMonitor}`;
 };
 
 return (
@@ -50,8 +49,8 @@ return (
               type="checkbox"
               value=""
               id="flexCheckDefault"
-              checked={isDebug}
-              onChange={() => setIsDebug(!isDebug)}
+              checked={state.isDebug}
+              onChange={() => State.update({ isDebug: !state.isDebug })}
             />
             <label className="form-check-label" for="flexCheckDefault">
               Enable debug mode
@@ -63,8 +62,8 @@ return (
               type="checkbox"
               value=""
               id="flexCheckChecked"
-              checked={showMonitor}
-              onChange={() => setShowMonitor(!showMonitor)}
+              checked={state.showMonitor}
+              onChange={() => State.update({ showMonitor: !state.showMonitor })}
             />
             <label className="form-check-label" for="flexCheckChecked">
               Display Component monitor
@@ -72,12 +71,9 @@ return (
           </div>
           <ul className="icon-list">
             <li>
-              <a href={buildUrl("bwe-demos.near/StateAndTrust.Root")}>
+              <a href={buildUrl("bwe-demos.near/widget/StateDemo.Root")}>
                 Sandboxed and Trusted State
               </a>
-            </li>
-            <li>
-              <a href={buildUrl("bwe-demos.near/Posts.Feed")}>Social Feed</a>
             </li>
           </ul>
         </div>
