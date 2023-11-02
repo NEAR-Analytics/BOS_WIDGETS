@@ -264,6 +264,8 @@ line-height: 120%; /* 28.8px */
 
 const profile = Social.get(`${daoId}/profile/**`, "final");
 
+const accounts = [daoId];
+
 // -- Smart Contract
 const policy = Near.view(daoId, "get_policy");
 let members = [];
@@ -386,6 +388,15 @@ return (
               Members
             </TabsButton>
           </Tabs>
+          {state.selectedTab === "feed" && (
+            <>
+              <Widget
+                src="jgodwill.near/widget/CPlanet.MainPage.Feed"
+                props={{ accounts }}
+              />
+              <p className="text-center">{daoId} has no post yet</p>
+            </>
+          )}
           {state.selectedTab === "members" && (
             <Widget
               src="agwaze.near/widget/CPlanet.DAO.Members.Index"
