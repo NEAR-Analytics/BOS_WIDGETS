@@ -1,6 +1,9 @@
 // const daoId = props.daoId ?? "dao.near";
 const accountId = props.accountId ?? context.accountId;
 
+const tooltip =
+  props.tooltip && (props.tooltip === true ? accountId : props.tooltip);
+
 if (!accountId) {
   return "Account ID not provided";
 }
@@ -218,7 +221,7 @@ function makeAccountIdShorter(accountId) {
   return accountId;
 }
 
-return (
+const inner = (
   <CardRoot>
     <Top>
       <img
@@ -251,4 +254,14 @@ return (
       </CardBody>
     </Bottom>
   </CardRoot>
+);
+
+return props.tooltip ? (
+  <Widget
+    loading={inner}
+    src="jgodwill.near/widget/CPlanet.Profile.N.OverlayTrigger"
+    props={{ accountId, children: inner }}
+  />
+) : (
+  inner
 );
