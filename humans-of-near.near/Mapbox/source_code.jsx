@@ -54,11 +54,12 @@ const code = `
       }
 
       .mapboxgl-popup-content{
-        background: #22272B;
+        width: 250px;
         color: white;
+        padding: 10px;
         border: 1px solid;
         border-radius: 9px;
-        padding: 10px;
+        background: #22272B;
       }
 
       .mapboxgl-popup-close-button{
