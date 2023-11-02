@@ -1,4 +1,4 @@
-// CommunityVoice.ArticleView
+// SayALot.ArticleView
 
 const {
   widgets,
@@ -16,7 +16,7 @@ const id =
   articleToRenderData.id ??
   `${articleToRenderData.author}-${articleToRenderData.timeCreate}`;
 
-//For the moment we'll allways have only 1 sbt in the array. If this change remember to do the propper work in CommunityVoice.lib.SBT and here.
+//For the moment we'll allways have only 1 sbt in the array. If this change remember to do the propper work in SayALot.lib.SBT and here.
 const articleSbts = articleToRenderData.sbts ?? [];
 
 const libSrcArray = [widgets.libComment];
@@ -643,7 +643,7 @@ return (
                         style={{ fontWeight: 500 }}
                       >
                         <a
-                          href={`https://near.social/${authorForWidget}/widget/${widgets.communityVoice}?tagShared=${hashtag}`}
+                          href={`https://near.social/${authorForWidget}/widget/${widgets.sayALot}?tagShared=${hashtag}`}
                           target="_blank"
                         >
                           #{hashtag}
@@ -792,7 +792,7 @@ return (
           src,
           stateUpdate,
           state.libsCalls,
-          { baseAction: "communityVoiceComment" },
+          { baseAction: "sayALotComment" },
           "Article view"
         );
       })}
