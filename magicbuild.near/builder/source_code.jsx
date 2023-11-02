@@ -6,15 +6,17 @@ State.init({
   rpcUrl: "https://rpc.near.org/",
   archivalRpc: "https://archival-rpc.mainnet.near.org",
   nearBlockRpc: "https://api.nearblocks.io/",
-  fName,
+  fName: "",
   fAction: "view",
-  fLabel,
+  fLabel: "",
   cMerr,
   res,
   cAerr,
   messProccses: "",
   totalProcess: 0,
   endprocess: 1,
+  designMode: false,
+  cssStyle: "",
 });
 
 const header = {
@@ -60,9 +62,7 @@ const clearAsyncInterval = (intervalIndex) => {
     });
   }
 };
-const updateContractAddress = (e) => {
-  State.update({ contractAddress: data.toLowerCase() });
-};
+
 const cFunc = (e, type) => {
   const data = e.target.value;
   if (type == "name") State.update({ fName: data });
@@ -88,6 +88,9 @@ const onCreateArgs = (fName, fIndex) => {
   abiMethod[fIndex].params.args.push(arg);
   State.update({ cMethod: abiMethod });
 };
+const onSwitchChangeDesignMode = () => {
+  State.update({ designMode: !state.designMode });
+};
 const cMLabel = (e, fIdx, type) => {
   const value = e.target.value;
   const a = state.cMethod;
@@ -98,7 +101,6 @@ const cMLabel = (e, fIdx, type) => {
   if (type == "gas") a[fIdx].gas = parseInt(value) || 0;
   if (type == "deposit") a[fIdx].deposit = parseInt(value) || 0;
   if (type == "remove") a.splice(fIdx, 1);
-  console.log("a", a);
   State.update({ cMethod: a });
 };
 const cAD = (e, fIdx, aIdx, type) => {
@@ -113,26 +115,25 @@ const cAD = (e, fIdx, aIdx, type) => {
       a[fIdx].params.args[aIdx].value = parseInt(value);
     }
     if (a[fIdx].params.args[aIdx].type_schema.type == "array") {
-      a[fIdx].params.args[aIdx].value = value.split("|"); //check valid
+      a[fIdx].params.args[aIdx].value = value.split("|");
     }
     if (a[fIdx].params.args[aIdx].type_schema.type == "boolean") {
       a[fIdx].params.args[aIdx].value = Boolean(value);
     }
     if (a[fIdx].params.args[aIdx].type_schema.type == "json") {
-      a[fIdx].params.args[aIdx].value = JSON.parse(value); //check valid
+      a[fIdx].params.args[aIdx].value = JSON.parse(value);
     }
     if (a[fIdx].params.args[aIdx].type_schema.type == "string") {
-      a[fIdx].params.args[aIdx].value = value; //check valid
+      a[fIdx].params.args[aIdx].value = value;
     }
     if (a[fIdx].params.args[aIdx].type_schema.type == "enum") {
-      a[fIdx].params.args[aIdx].value = value; //check valid
+      a[fIdx].params.args[aIdx].value = value;
     }
     if (a[fIdx].params.args[aIdx].type_schema.type == "$ref") {
-      a[fIdx].params.args[aIdx].value = value; //check account valid
+      a[fIdx].params.args[aIdx].value = value;
     }
   }
   if (type == "remove") a[fIdx].params.args.splice(aIdx, 1);
-  console.log(a[fIdx].params.args);
   State.update({ cMethod: a });
 };
 const onCreateMethod = () => {
@@ -543,6 +544,15 @@ const getArgsFromMethod = (fName, fIndex) => {
       }
     });
 };
+const cCSS = (e) => {
+  State.update({ cssStyle: e.target.value });
+};
+const onSwitchChangeArgExport = (fIndex) => {
+  const abiMethod = state.cMethod;
+  abiMethod[fIndex].export = !abiMethod[fIndex].export;
+  State.update({ cMethod: abiMethod });
+  console.log(abiMethod);
+};
 const onBtnClickCall = (fName, action, fIndex) => {
   const abiMethod = state.cMethod;
   const argMap = abiMethod[fIndex].params.args.map(({ name, value }) => ({
@@ -671,7 +681,7 @@ return (
       )}
 
       <div class="row">
-        <div class="form-group col-md-4">
+        <div class="form-group col-md-3">
           {state.cMethod.length > 0 ? (
             <Widget src={`${cep}/widget/export-button`} props={state} />
           ) : (
@@ -681,7 +691,7 @@ return (
             </>
           )}
         </div>
-        <div class="form-group col-md-4">
+        <div class="form-group col-md-3">
           {state.cMethod.length > 0 ? (
             <Widget src={`${cep}/widget/preview-button`} props={state} />
           ) : (
@@ -691,7 +701,7 @@ return (
             </>
           )}
         </div>
-        <div class="form-group col-md-4">
+        <div class="form-group col-md-3">
           {state.cMethod.length > 0 ? (
             <Widget
               src={`${cep}/widget/save-client-button`}
@@ -704,6 +714,71 @@ return (
             </>
           )}
         </div>
+        <div class="form-group col-md-3">
+          <>
+            <label></label>
+            <button
+              class="btn btn-primary form-control "
+              data-bs-toggle="modal"
+              data-bs-target={`#show-${Date.now()}`}
+            >
+              Show
+            </button>
+            <div
+              class="modal fade"
+              id={`show-${Date.now()}`}
+              tabindex="-2"
+              aria-labelledby="showLabel"
+              aria-hidden="true"
+            >
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="showLabel">
+                      Choose Method to Show
+                    </h1>
+                    <button
+                      type="button"
+                      class="btn-close"
+                      data-bs-dismiss="modal"
+                      aria-label="Close"
+                    ></button>
+                  </div>
+                  <div class="modal-body">
+                    {state.cMethod &&
+                      state.cMethod.map((functions, fIndex) => (
+                        <div class="form-check form-switch">
+                          <input
+                            class="form-check-input"
+                            type="checkbox"
+                            role="switch"
+                            checked={functions.export}
+                            onChange={() => onSwitchChangeArgExport(fIndex)}
+                            id={`flexSwitchCheckDefaultView${fIndex}`}
+                          />
+                          <label
+                            class="form-check-label"
+                            for={`flexSwitchCheckDefault${fIndex}`}
+                          >
+                            {functions.name}
+                          </label>
+                        </div>
+                      ))}
+                  </div>
+                  <div class="modal-footer">
+                    <button
+                      type="button"
+                      class="btn btn-secondary"
+                      data-bs-dismiss="modal"
+                    >
+                      Close
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </>
+        </div>
       </div>
       {state.cMerr && (
         <p class="text-danger" role="alert">
@@ -712,6 +787,33 @@ return (
       )}
     </div>
     <br />
+    <div class="row mb-4">
+      <div class="form-group col-md-2">
+        <div class="form-check form-switch">
+          <label class="form-check-label" for="flexSwitchCheckDesginMode">
+            Design
+          </label>
+          <input
+            checked={state.designMode}
+            role="switch"
+            onChange={onSwitchChangeDesignMode}
+            class="form-check-input"
+            type="checkbox"
+            id="flexSwitchCheckDesginMode"
+          />
+        </div>
+      </div>
+      {state.designMode && (
+        <div class="form-group col-md-10">
+          <textarea
+            class="form-control"
+            placeholder="CSS"
+            id="floatingTextarea2"
+            onChange={(e) => cssStyle(e)}
+          ></textarea>
+        </div>
+      )}
+    </div>
     <div class="row mb-4">
       <div class="form-group col-md-4">
         <h6>Method Name</h6>
@@ -746,311 +848,361 @@ return (
       </div>
     </div>
     {state.cMethod &&
-      state.cMethod.map((functions, fIndex) => (
-        <div class="card mt-2">
-          <div class="card-header">
-            <div class="container">
-              <div class="row">
-                <div class="col-sm-8 pt-3">
-                  <h6>
-                    {functions.name}
-                    <span class="text-info">
-                      {"[Custom-Method-Params-Label-Button-Style]"}
-                    </span>
-                  </h6>
-                </div>
-                <div class="col-sm-4 text-end pt-2">
-                  <button
-                    type="button"
-                    onClick={(e) => cMLabel(e, fIndex, "remove")}
-                    class="btn-close"
-                  ></button>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="card-body">
-            <div class="container mb-3">
-              <div class="row mb-3">
-                <div class="form-group col-md-8">
-                  <div class="form-group row mb-2">
-                    <h6 class="col-sm-4 col-form-label">Method Label</h6>
-                    <div class="col-sm-6">
-                      <input
-                        placeholder="Method Label"
-                        class="form-control"
-                        defaultValue={functions.label || ""}
-                        onChange={(e) => cMLabel(e, fIndex, "method")}
-                      />
-                    </div>
-                  </div>
-                  <div class="form-group row">
-                    <h6 class="col-sm-4 col-form-label">Method Class</h6>
-                    <div class="col-sm-6">
-                      <input
-                        placeholder="Boostrap Class"
-                        class="form-control"
-                        defaultValue={functions.className || ""}
-                        onChange={(e) => cMLabel(e, fIndex, "className")}
-                      />
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <hr />
-              <div class="row">
-                <div class="form-group col-md-2">
-                  <h6>Arguments</h6>
-                </div>
-                <div class="form-group col-md-2">
-                  <h6>Type</h6>
-                </div>
-                <div class="form-group col-md-3">
-                  <h6>Value</h6>
-                </div>
-                <div class="form-group col-md-2">
-                  <h6>Label</h6>
-                </div>
-                <div class="form-group col-md-1">
-                  <button
-                    class="btn btn-secondary btn-sm"
-                    onClick={(e) => onCreateArgs(functions.name, fIndex)}
-                  >
-                    Add
-                  </button>
-                </div>
-                <div class="form-group col-md-2">
-                  <button
-                    class="btn btn-secondary btn-sm"
-                    onClick={(e) => getArgsFromMethod(functions.name, fIndex)}
-                  >
-                    Detect
-                  </button>
-                </div>
-              </div>
-            </div>
-            {functions.params.args &&
-              functions.params.args.map((args, argIndex) => {
-                return (
-                  <div class="container pb-2">
-                    <div class="row">
-                      <div class="form-group col-md-2">
-                        <input
-                          placeholder="Name"
-                          class="form-control"
-                          defaultValue={args.name || ""}
-                          value={args.name || ""}
-                          onChange={(e) => cAD(e, fIndex, argIndex, "name")}
-                        />
-                      </div>
-
-                      <div class="form-group col-md-2">
-                        <select
-                          value={args.type_schema.type}
-                          defaultValue={args.type_schema.type}
-                          class="form-control"
-                          onChange={(e) => cAD(e, fIndex, argIndex, "type")}
-                        >
-                          <option value="string">String</option>
-                          <option value="integer">Number</option>
-                          <option value="enum">Enum</option>
-                          <option value="boolean">Boolean</option>
-                          <option value="json">Json</option>
-                          <option value="array">Array</option>
-                          <option value="$ref">AccountID</option>
-                        </select>
-                      </div>
-                      <div class="form-group col-md-3">
-                        {args.type_schema.type == "string" ||
-                        args.type_schema.type == "$ref" ||
-                        args.type_schema.type == "integer" ||
-                        args.type_schema.type == "json" ||
-                        args.type_schema.type == "array" ? (
-                          <input
-                            onChange={(e) => cAD(e, fIndex, argIndex, "value")}
-                            class="form-control"
-                            type="string"
-                            placeholder="Argument value"
-                          />
-                        ) : (
-                          ""
-                        )}
-                        {args.type_schema.type == "boolean" ? (
-                          <select
-                            value={args.value}
-                            defaultValue={args.value}
-                            class="form-control"
-                            onChange={(e) => cAD(e, fIndex, argIndex, "value")}
-                          >
-                            <option value="true">True</option>
-                            <option value="false">False</option>
-                          </select>
-                        ) : (
-                          ""
-                        )}
-                        {args.type_schema.type == "enum" ? (
-                          <select
-                            value={args.value}
-                            defaultValue={args.value}
-                            class="form-control"
-                            onChange={(e) => cAD(e, fIndex, argIndex, "value")}
-                          >
-                            {args.enum &&
-                              args.enum.map((item, i) => (
-                                <option value={item}>{item}</option>
-                              ))}
-                          </select>
-                        ) : (
-                          ""
-                        )}
-                      </div>
-                      <div class="form-group col-md-2">
-                        <input
-                          placeholder="Label"
-                          class="form-control"
-                          value={args.value}
-                          defaultValue={args.label || ""}
-                          onChange={(e) => cAD(e, fIndex, argIndex, "label")}
-                        />
-                      </div>
-                      <div class="form-group col-md-2">
-                        <input
-                          placeholder="Boostrap Class"
-                          class="form-control"
-                          value={args.value}
-                          defaultValue={args.className || ""}
-                          onChange={(e) =>
-                            cAD(e, fIndex, argIndex, "className")
-                          }
-                        />
-                      </div>
-                      <div class="form-group col-md-1">
-                        <button
-                          type="button"
-                          onClick={(e) => cAD(e, fIndex, argIndex, "remove")}
-                          class="btn btn-danger btn-sm"
-                        >
-                          <i class="bi bi-trash"></i>
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                );
-              })}
-
-            {functions.kind == "call" ? (
-              <>
-                <div class="container pb-1 pt-3">
-                  <hr />
-                  <div class="row">
-                    <div class="form-group col-md-12">
-                      <h6>Options</h6>
-                    </div>
-                  </div>
-                </div>
+      state.cMethod.map(
+        (functions, fIndex) =>
+          functions.export && (
+            <div class="card mt-2">
+              <div class="card-header">
                 <div class="container">
                   <div class="row">
-                    <div class="form-group col-md-6">
-                      <label>Attached deposit</label>
-                      <input
-                        type="text"
-                        value={"" + functions.deposit}
-                        defaultValue={"" + functions.deposit}
-                        onChange={(e) => cMLabel(e, fIndex, "deposit")}
-                        class="form-control"
-                      />
+                    <div class="col-sm-8 pt-3">
+                      <h6>
+                        {functions.name}
+                        <span class="text-info">
+                          {"[Custom-Method-Params-Label-Button-Style]"}
+                        </span>
+                      </h6>
                     </div>
-                    <div class="form-group col-md-6">
-                      <label>Gas</label>
-                      <input
-                        type="text"
-                        value={"" + functions.gas}
-                        defaultValue={"" + functions.gas}
-                        onChange={(e) => cMLabel(e, fIndex, "gas")}
-                        class="form-control"
-                      />
+                    <div class="col-sm-4 text-end pt-2">
+                      <button
+                        type="button"
+                        onClick={(e) => cMLabel(e, fIndex, "remove")}
+                        class="btn-close"
+                      ></button>
                     </div>
                   </div>
                 </div>
-              </>
-            ) : (
-              ""
-            )}
-            {state.res[functions.name] && state.res[functions.name] ? (
-              <div
-                className={
-                  state.res[functions.name].error
-                    ? "alert  alert-danger"
-                    : "alert  alert-success"
-                }
-                role="alert"
-              >
-                <pre>
-                  {JSON.stringify(
-                    JSON.parse(state.res[functions.name].value),
-                    null,
-                    2
-                  )}
-                </pre>
-                <button
-                  class="btn btn-dark btn-sm mt-2"
-                  onClick={() => {
-                    clipboard.writeText(state.res[functions.name].value);
-                  }}
-                >
-                  Copy
-                </button>
               </div>
-            ) : (
-              ""
-            )}
-            <div class="container pt-3">
-              <div class="row">
-                <div class="form-group col-md-2">
-                  <h6>Button</h6>
+              <div class="card-body">
+                <div class="container mb-3">
+                  <div class="row mb-3">
+                    {state.designMode && (
+                      <div class="form-group col-md-8">
+                        <div class="form-group row mb-2">
+                          <h6 class="col-sm-4 col-form-label">Method Label</h6>
+                          <div class="col-sm-6">
+                            <input
+                              placeholder="Method Label"
+                              class="form-control"
+                              defaultValue={functions.label || ""}
+                              onChange={(e) => cMLabel(e, fIndex, "method")}
+                            />
+                          </div>
+                        </div>
+                        <div class="form-group row">
+                          <h6 class="col-sm-4 col-form-label">Method Class</h6>
+                          <div class="col-sm-6">
+                            <input
+                              placeholder="Boostrap Class"
+                              class="form-control"
+                              defaultValue={functions.className || ""}
+                              onChange={(e) => cMLabel(e, fIndex, "className")}
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                  {state.designMode && <hr />}
+                  <div class="row">
+                    <div
+                      className={`form-group col-md-${
+                        state.designMode ? "2" : "4"
+                      }`}
+                    >
+                      <h6>Arguments</h6>
+                    </div>
+                    <div class="form-group col-md-2">
+                      <h6>Type</h6>
+                    </div>
+                    <div
+                      className={`form-group col-md-${
+                        state.designMode ? "2" : "2"
+                      }`}
+                    >
+                      <h6>Value</h6>
+                    </div>
+                    {state.designMode && (
+                      <div class="form-group col-md-2">
+                        <h6>Label</h6>
+                      </div>
+                    )}
+
+                    <div class="form-group col-md-1">
+                      <button
+                        class="btn btn-secondary btn-sm"
+                        onClick={(e) => onCreateArgs(functions.name, fIndex)}
+                      >
+                        Add
+                      </button>
+                    </div>
+                    <div class="form-group col-md-2">
+                      <button
+                        class="btn btn-secondary btn-sm"
+                        onClick={(e) =>
+                          getArgsFromMethod(functions.name, fIndex)
+                        }
+                      >
+                        Detect
+                      </button>
+                    </div>
+                  </div>
                 </div>
-                <div class="form-group col-md-4">
-                  <h6>Button Label </h6>
-                </div>
-                <div class="form-group col-md-4">
-                  <h6>Button Class</h6>
-                </div>
-                <div class="form-group col-md-2"></div>
-              </div>
-            </div>
-            <div class="container pb-2">
-              <div class="row">
-                <div class="form-group col-md-2">
-                  <button
-                    class="btn btn-dark btn-sm mt-2"
-                    onClick={(e) =>
-                      onBtnClickCall(functions.name, functions.kind, fIndex)
+                {functions.params.args &&
+                  functions.params.args.map((args, argIndex) => {
+                    return (
+                      <div class="container pb-2">
+                        <div class="row">
+                          <div
+                            className={`form-group col-md-${
+                              state.designMode ? "2" : "4"
+                            }`}
+                          >
+                            <input
+                              placeholder="Name"
+                              class="form-control"
+                              defaultValue={args.name || ""}
+                              value={args.name || ""}
+                              onChange={(e) => cAD(e, fIndex, argIndex, "name")}
+                            />
+                          </div>
+
+                          <div class="form-group col-md-2">
+                            <select
+                              value={args.type_schema.type}
+                              defaultValue={args.type_schema.type}
+                              class="form-control"
+                              onChange={(e) => cAD(e, fIndex, argIndex, "type")}
+                            >
+                              <option value="string">String</option>
+                              <option value="integer">Number</option>
+                              <option value="enum">Enum</option>
+                              <option value="boolean">Boolean</option>
+                              <option value="json">Json</option>
+                              <option value="array">Array</option>
+                              <option value="$ref">AccountID</option>
+                            </select>
+                          </div>
+                          <div
+                            className={`form-group col-md-${
+                              state.designMode ? "2" : "4"
+                            }`}
+                          >
+                            {args.type_schema.type == "string" ||
+                            args.type_schema.type == "$ref" ||
+                            args.type_schema.type == "integer" ||
+                            args.type_schema.type == "json" ||
+                            args.type_schema.type == "array" ? (
+                              <input
+                                onChange={(e) =>
+                                  cAD(e, fIndex, argIndex, "value")
+                                }
+                                class="form-control"
+                                type="string"
+                                placeholder="Argument value"
+                              />
+                            ) : (
+                              ""
+                            )}
+                            {args.type_schema.type == "boolean" ? (
+                              <select
+                                value={args.value}
+                                defaultValue={args.value}
+                                class="form-control"
+                                onChange={(e) =>
+                                  cAD(e, fIndex, argIndex, "value")
+                                }
+                              >
+                                <option value="true">True</option>
+                                <option value="false">False</option>
+                              </select>
+                            ) : (
+                              ""
+                            )}
+                            {args.type_schema.type == "enum" ? (
+                              <select
+                                value={args.value}
+                                defaultValue={args.value}
+                                class="form-control"
+                                onChange={(e) =>
+                                  cAD(e, fIndex, argIndex, "value")
+                                }
+                              >
+                                {args.enum &&
+                                  args.enum.map((item, i) => (
+                                    <option value={item}>{item}</option>
+                                  ))}
+                              </select>
+                            ) : (
+                              ""
+                            )}
+                          </div>
+                          {state.designMode && (
+                            <>
+                              <div class="form-group col-md-2">
+                                <input
+                                  placeholder="Label"
+                                  class="form-control"
+                                  value={args.value}
+                                  defaultValue={args.label || ""}
+                                  onChange={(e) =>
+                                    cAD(e, fIndex, argIndex, "label")
+                                  }
+                                />
+                              </div>
+                              <div class="form-group col-md-2">
+                                <input
+                                  placeholder="Boostrap Class"
+                                  class="form-control"
+                                  value={args.value}
+                                  defaultValue={args.className || ""}
+                                  onChange={(e) =>
+                                    cAD(e, fIndex, argIndex, "className")
+                                  }
+                                />
+                              </div>
+                            </>
+                          )}
+
+                          <div class="form-group col-md-1">
+                            <button
+                              type="button"
+                              onClick={(e) =>
+                                cAD(e, fIndex, argIndex, "remove")
+                              }
+                              class="btn btn-danger btn-sm"
+                            >
+                              <i class="bi bi-trash"></i>
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  })}
+
+                {functions.kind == "call" ? (
+                  <>
+                    <div class="container pb-1 pt-3">
+                      <hr />
+                      <div class="row">
+                        <div class="form-group col-md-12">
+                          <h6>Options</h6>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="container">
+                      <div class="row">
+                        <div class="form-group col-md-6">
+                          <label>Attached deposit</label>
+                          <input
+                            type="text"
+                            value={"" + functions.deposit}
+                            defaultValue={"" + functions.deposit}
+                            onChange={(e) => cMLabel(e, fIndex, "deposit")}
+                            class="form-control"
+                          />
+                        </div>
+                        <div class="form-group col-md-6">
+                          <label>Gas</label>
+                          <input
+                            type="text"
+                            value={"" + functions.gas}
+                            defaultValue={"" + functions.gas}
+                            onChange={(e) => cMLabel(e, fIndex, "gas")}
+                            class="form-control"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </>
+                ) : (
+                  ""
+                )}
+                {state.res[functions.name] && state.res[functions.name] ? (
+                  <div
+                    className={
+                      state.res[functions.name].error
+                        ? "alert  alert-danger"
+                        : "alert  alert-success"
                     }
+                    role="alert"
                   >
-                    {functions.kind == "view" ? "View" : "Call"}
-                  </button>
+                    <pre>
+                      {JSON.stringify(
+                        JSON.parse(state.res[functions.name].value),
+                        null,
+                        2
+                      )}
+                    </pre>
+                    <button
+                      class="btn btn-dark btn-sm mt-2"
+                      onClick={() => {
+                        clipboard.writeText(state.res[functions.name].value);
+                      }}
+                    >
+                      Copy
+                    </button>
+                  </div>
+                ) : (
+                  ""
+                )}
+                <div class="container pt-3">
+                  <div class="row">
+                    <div class="form-group col-md-2">
+                      <h6>Button</h6>
+                    </div>
+                    {state.designMode && (
+                      <>
+                        <div class="form-group col-md-4">
+                          <h6>Button Label </h6>
+                        </div>
+                        <div class="form-group col-md-4">
+                          <h6>Button Class</h6>
+                        </div>
+                      </>
+                    )}
+                    <div class="form-group col-md-2"></div>
+                  </div>
                 </div>
-                <div class="form-group col-md-4">
-                  <input
-                    placeholder="Button Label"
-                    class="form-control"
-                    defaultValue={functions.button || ""}
-                    onChange={(e) => cMLabel(e, fIndex, "button")}
-                  />
+                <div class="container pb-2">
+                  <div class="row">
+                    <div class="form-group col-md-2">
+                      <button
+                        class="btn btn-primary "
+                        onClick={(e) =>
+                          onBtnClickCall(functions.name, functions.kind, fIndex)
+                        }
+                      >
+                        {functions.kind == "view" ? "View" : "Call"}
+                      </button>
+                    </div>
+                    {state.designMode && (
+                      <>
+                        <div class="form-group col-md-4">
+                          <input
+                            placeholder="Button Label"
+                            class="form-control"
+                            defaultValue={functions.button || ""}
+                            onChange={(e) => cMLabel(e, fIndex, "button")}
+                          />
+                        </div>
+                        <div class="form-group col-md-4">
+                          <input
+                            placeholder="Boostrap Class"
+                            class="form-control"
+                            defaultValue={functions.classButton || ""}
+                            onChange={(e) => cMLabel(e, fIndex, "classButton")}
+                          />
+                        </div>
+                      </>
+                    )}
+
+                    <div class="form-group col-md-2"></div>
+                  </div>
                 </div>
-                <div class="form-group col-md-4">
-                  <input
-                    placeholder="Boostrap Class"
-                    class="form-control"
-                    defaultValue={functions.classButton || ""}
-                    onChange={(e) => cMLabel(e, fIndex, "classButton")}
-                  />
-                </div>
-                <div class="form-group col-md-2"></div>
               </div>
             </div>
-          </div>
-        </div>
-      ))}
+          )
+      )}
   </>
 );
