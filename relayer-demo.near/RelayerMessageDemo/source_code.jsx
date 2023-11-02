@@ -1,8 +1,6 @@
 const contract = "guest-book.near";
 const relayerAccountId = "relayer.pagodaplatform.near";
-const messages = Near.view(contract, "getMessages", undefined, undefined, true)
-  .reverse()
-  .filter((message) => message.sender === context.accountId);
+const messages = [];
 
 State.init({
   newMessage: "",
@@ -16,6 +14,18 @@ const addNewMessage = () => {
   Near.call(contract, "addMessage", {
     text: state.newMessage,
   });
+
+  let viewCalls = 0;
+  const intervalId = setInterval(() => {
+    if (viewCalls < 5) {
+      messages = Near.view(contract, "getMessages", undefined, undefined, true)
+        .reverse()
+        .filter((message) => message.sender === context.accountId);
+      viewCalls += 1;
+    } else {
+      clearInterval(intervalId);
+    }
+  }, 1000);
 };
 
 const userAccountStatus = fetch("https://rpc.mainnet.near.org", {
