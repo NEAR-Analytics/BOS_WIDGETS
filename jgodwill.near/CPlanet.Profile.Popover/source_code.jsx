@@ -45,12 +45,12 @@ const Wrapper = styled.div`
 `;
 return (
   <Wrapper>
-    <div className="d-flex flex-column gap-1">
+    <div className="d-flex flex-column gap-2">
       <a
         href={`#/mob.near/widget/ProfilePage?accountId=${accountId}`}
         className="link-dark text-truncate"
       >
-        <div className="top_bar">
+        <div className="top_bar mb-2">
           <img
             src={
               profile.backgroundImage
