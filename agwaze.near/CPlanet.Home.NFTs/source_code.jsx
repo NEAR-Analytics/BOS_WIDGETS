@@ -168,15 +168,15 @@ return (
                   onButtonClick: () =>
                     props.update({
                       tab: "singleNFT",
-                      contractId: data.contract_id,
-                      tokenId: data.token_id,
-                      chainState: state.chain,
+                      contractId: data.storeId,
+                      tokenId: data.metadataId,
+                      chainState: "near",
                     }),
                   price: data.listed
                     ? (data.listed / 1000000000000000000000000).toFixed(2)
                     : null,
                   isListed: data.listed ? "LISTED" : "NOT LISTED",
-                  tokenId: data.token_id,
+                  tokenId: data.metadataId,
                   contractId: data.storeId,
                 }}
                 src="agwaze.near/widget/CPlanet.NFTCard.index"
