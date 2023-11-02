@@ -71,7 +71,7 @@ return (
           </div>
           <ul className="icon-list">
             <li>
-              <a href={buildUrl("bwe-demos.near/widget/StateDemo.Root")}>
+              <a href={buildUrl("bwe-demos.near/widget/StateAndTrust.Root")}>
                 Sandboxed and Trusted State
               </a>
             </li>
