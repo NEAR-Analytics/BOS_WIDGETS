@@ -32,7 +32,7 @@ return (
 
         {state.selectedWidget === "A" ? (
           <Widget
-            src="y3k.near/widget/near_atlas.components.DAAChainComparison"
+            src="y3k.near/widget/near_atlas.components.artemis.ChainComparison.DAA"
             props={{}}
           />
         ) : (
