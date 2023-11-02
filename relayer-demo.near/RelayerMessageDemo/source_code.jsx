@@ -24,7 +24,7 @@ const addNewMessage = () => {
   });
 };
 
-if (messages.length > msgLength) {
+if (messages.length > state.msgLength) {
   State.update({
     inFlightMessage: "",
   });
@@ -224,7 +224,7 @@ return (
       <div className="messages">
         Subscribed to new messages every 5 seconds
         {state.inFlightMessage && (
-          <ul style={{ opacity: "0.3" }}>
+          <ul style={{ opacity: "0.4" }}>
             <li>{state.inFlightMessage}</li>
           </ul>
         )}
