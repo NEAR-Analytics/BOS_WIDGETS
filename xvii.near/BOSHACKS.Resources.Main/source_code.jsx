@@ -22,6 +22,15 @@ const LessonLinks = () => {
       <div style={linkContainerStyle}>
         <a
           style={linkStyle}
+          href="https://hackmd.io/@doulos819/NRC"
+          target="_blank"
+        >
+          Syllabus
+        </a>
+      </div>
+      <div style={linkContainerStyle}>
+        <a
+          style={linkStyle}
           href="https://hackmd.io/23MmiNmXQ6WFW7zq_xYCHg?view"
           target="_blank"
         >
@@ -53,6 +62,33 @@ const LessonLinks = () => {
           target="_blank"
         >
           Lesson 4
+        </a>
+      </div>
+      <div style={linkContainerStyle}>
+        <a
+          style={linkStyle}
+          href="https://hackmd.io/@doulos819/ncr-05"
+          target="_blank"
+        >
+          Lesson 5
+        </a>
+      </div>
+      <div style={linkContainerStyle}>
+        <a
+          style={linkStyle}
+          href="https://hackmd.io/@doulos819/ncr-06"
+          target="_blank"
+        >
+          Lesson 6
+        </a>
+      </div>
+      <div style={linkContainerStyle}>
+        <a
+          style={linkStyle}
+          href="https://hackmd.io/@doulos819/ncr-07"
+          target="_blank"
+        >
+          Lesson 7
         </a>
       </div>
     </div>
