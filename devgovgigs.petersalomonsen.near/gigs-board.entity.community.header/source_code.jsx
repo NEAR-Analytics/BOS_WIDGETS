@@ -387,7 +387,7 @@ const CommunityHeader = ({ activeTabTitle, handle }) => {
       });
     }
 
-    Near.call("devgovgigs.near", "set_community_addons", {
+    Near.call("${REPL_DEVHUB_CONTRACT}", "set_community_addons", {
       handle: community.handle,
       addons,
     });
