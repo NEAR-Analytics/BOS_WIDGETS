@@ -58,7 +58,7 @@ return (
                 : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRub7hFLkStCvZiaSeiUGznP4uzqPPcepghhg&usqp=CAU"
             }
             className="w-100 h-100"
-            style={{ objectFit: "cover",}}
+            style={{ objectFit: "cover" }}
             alt=""
           />
         </div>
@@ -79,12 +79,12 @@ return (
           </div>
           <Widget src="mob.near/widget/FollowsYouBadge" props={{ accountId }} />
         </div>
-        <div className="d-flex gap-2">
+        <div className="d-flex gap-4 mt-2">
           <Widget
             src="jgodwill.near/widget/CPlanet.FollowButton"
             props={{ accountId }}
           />
-          <Widget src="mob.near/widget/PokeButton" props={{ accountId }} />
+          {/* <Widget src="mob.near/widget/PokeButton" props={{ accountId }} />*/}
         </div>
       </div>
     </div>
