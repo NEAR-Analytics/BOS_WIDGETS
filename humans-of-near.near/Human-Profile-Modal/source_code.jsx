@@ -321,7 +321,7 @@ return (
           <Widget
             props={{
               noLabel: true,
-              value: { value: state.role },
+              value: options.find((row) => row.value === state.role),
               placeholder: "Select a role",
               options,
               onChange: changeRole,
