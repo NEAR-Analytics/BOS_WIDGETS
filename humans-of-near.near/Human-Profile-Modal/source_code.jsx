@@ -236,7 +236,10 @@ const changeBio = async (e) => {
 };
 
 const changeRole = async (e) => {
-  console.log(e, "==>e");
+  State.update({
+    ...state,
+    role: e.value,
+  });
 };
 
 const selectComunity = async (id) => {
@@ -318,6 +321,7 @@ return (
           <Widget
             props={{
               noLabel: true,
+              value: { value: state.role },
               placeholder: "Select a role",
               options,
               onChange: changeRole,
