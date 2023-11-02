@@ -96,7 +96,6 @@ State.update({ libsCalls: newLibsCalls });
 
 //==================================================CONSTS==========================================================
 
-// const authorForWidget = "communityvoice.ndctools.near";
 const authorForWidget =
   "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb";
 // const authorForWidget = "kenrou-it.near";
@@ -107,23 +106,23 @@ const genericWidgetsAuthor = "sayalot.near";
 const thisWidgetName = "SayALot";
 
 const widgets = {
-  communityVoice: `${authorForWidget}/widget/${thisWidgetName}`,
-  create: `${authorForWidget}/widget/CommunityVoice.Create`,
+  sayALot: `${authorForWidget}/widget/${thisWidgetName}`,
+  create: `${authorForWidget}/widget/SayALot.Create`,
   header: `${genericWidgetsAuthor}/widget/SayALot.NavBar`,
-  showArticlesList: `${authorForWidget}/widget/CommunityVoice.AllArticlesList`,
+  showArticlesList: `${authorForWidget}/widget/SayALot.AllArticlesList`,
   showArticlesListSortedByAuthors: `${genericWidgetsAuthor}/widget/SayALot.AllArticlesSortByAuthors`,
   articlesByAuthorCard: `${genericWidgetsAuthor}/widget/SayALot.ArticlesByAuthorCard`,
-  generalCard: `${authorForWidget}/widget/CommunityVoice.GeneralCard`,
-  articleView: `${authorForWidget}/widget/CommunityVoice.ArticleView`,
-  reactions: `${authorForWidget}/widget/CommunityVoice.Reactions`,
-  addComment: `${authorForWidget}/widget/CommunityVoice.AddComment`,
+  generalCard: `${authorForWidget}/widget/SayALot.GeneralCard`,
+  articleView: `${authorForWidget}/widget/SayALot.ArticleView`,
+  reactions: `${authorForWidget}/widget/SayALot.Reactions`,
+  addComment: `${authorForWidget}/widget/SayALot.AddComment`,
   commentView: `${genericWidgetsAuthor}/widget/SayALot.CommentView`,
   libSBT: `${genericWidgetsAuthor}/widget/lib.SBT`,
   libComment: `${genericWidgetsAuthor}/widget/lib.comment`,
   libArticle: `${genericWidgetsAuthor}/widget/lib.article`,
   libEmojis: `${genericWidgetsAuthor}/widget/lib.emojis`,
   libUpVotes: `${genericWidgetsAuthor}/widget/lib.upVotes`,
-  upVoteButton: `${authorForWidget}/widget/CommunityVoice.UpVoteButton`,
+  upVoteButton: `${authorForWidget}/widget/SayALot.UpVoteButton`,
   styledComponents: "rubycop.near/widget/NDC.StyledComponents",
   newStyledComponents: {
     Element: {
@@ -530,9 +529,9 @@ function handleShareButton(showShareModal, sharedElement) {
 }
 
 function getLink() {
-  return `https://near.social/${widgets.communityVoice}?${
-    isTest && "isTest=t&"
-  }${state.sharedElement.type}=${state.sharedElement.value}`;
+  return `https://near.social/${widgets.sayALot}?${isTest && "isTest=t&"}${
+    state.sharedElement.type
+  }=${state.sharedElement.value}`;
 }
 
 //===============================================END FUNCTIONS======================================================
@@ -681,8 +680,8 @@ return (
           src,
           stateUpdate,
           state.functionsToCallByLibrary,
-          { baseAction: "communityVoiceArticle" },
-          "CommunityVoice"
+          { baseAction: "sayALotArticle" },
+          "SayALot"
         );
       })}
     </CallLibrary>
