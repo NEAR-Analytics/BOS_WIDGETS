@@ -431,7 +431,7 @@ State.init({
   imageUrl: null,
 });
 
-const tokenInfo = Near.view("genadrop-contract.nftgen.near", "nft_token", {
+const tokenInfo = Near.view(contractId ??"genadrop-contract.nftgen.near", "nft_token", {
   token_id: tokenId,
 });
 
@@ -550,7 +550,7 @@ function fetchTokens() {
         owner: token.owner,
         listings: token.listings[0],
         title: token.title,
-        image: token.media,
+        imageUrl: token.media,
         price: token.listings?.length ? token.listings[0]?.price : 0,
       });
     } else {
