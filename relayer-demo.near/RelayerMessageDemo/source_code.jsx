@@ -76,6 +76,7 @@ const StyledContainer = styled.div`
 
   h4 {
     font-weight: normal;
+    line-height: 150%;
   }
 
   .relayer-balance {
