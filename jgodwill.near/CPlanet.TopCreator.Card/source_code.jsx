@@ -1,12 +1,9 @@
-const daoId = props.daoId ?? "dao.near";
+// const daoId = props.daoId ?? "dao.near";
+const accountId = props.accountId ?? context.accountId;
 
-if (!daoId) {
-  return "DAO ID not provided";
+if (!accountId) {
+  return "Account ID not provided";
 }
-
-// -- Pikespeak API
-const baseApi = "https://api.pikespeak.ai";
-const publicApiKey = "36f2b87a-7ee6-40d8-80b9-5e68e587a5b5";
 
 const CardRoot = styled.div`
     width: 315px;
@@ -80,9 +77,12 @@ const ImageProfile = styled.div`
 `;
 
 const HeaderText = styled.div`
-text-align: right;
-  p {
+margin-top: 40px;
+border-right: 1px dashed #ccc;
     margin-bottom: 10px;
+    flex: 0.5;
+    padding: 20px 40px 10px 0;
+  p {
     overflow: hidden;
     color: #B0B0B0;
     text-overflow: ellipsis;
@@ -95,6 +95,7 @@ text-align: right;
 `;
 
 const CardBody = styled.div`
+display: flex;
 padding: 0 16px;
   h1 {
     color: #000;
@@ -200,78 +201,13 @@ const Footer = styled.div`
   flex-direction: column;
 `;
 
-const fetchApiConfig = {
-  mode: "cors",
-  headers: {
-    "x-api-key": publicApiKey,
-  },
-};
+const profile = props.profile ?? Social.getr(`${accountId}/profile`);
 
-const constructURL = (baseURL, paramObj) => {
-  let params = "";
-  for (const [key, value] of Object.entries(paramObj ?? {})) {
-    params += `${key}=${value}&`;
-  }
-  params = params.slice(0, -1);
-  return `${baseURL}?${params}`;
-};
+if (profile === null) {
+  return "Loading";
+}
 
-const fether = {
-  balances: (accounts) => {
-    return fetch(
-      constructURL(`${baseApi}/account/balances`, { accounts }),
-      fetchApiConfig
-    );
-  },
-  proposalsStatus: (daoId) => {
-    return fetch(
-      constructURL(`${baseApi}/daos/proposals/status/${daoId}`),
-      fetchApiConfig
-    );
-  },
-};
-const balances = fether.balances([daoId]);
-const proposalsStatus = fether.proposalsStatus(daoId);
-
-let activeProposalsCount;
-let totalProposalsCount;
-proposalsStatus.body &&
-  proposalsStatus.body?.forEach((p) => {
-    activeProposalsCount += p["InProgress"] ? parseInt(p["InProgress"]) : 0;
-    totalProposalsCount += p["Total"] ? parseInt(p["Total"]) : 0;
-  });
-// --
-
-// -- Social DB
-const profile = Social.get(`${daoId}/profile/**`, "final");
-// --
-
-// -- Smart Contract
-const policy = Near.view(daoId, "get_policy");
-let members = [];
-policy &&
-  policy.roles.forEach((role) => {
-    if (typeof role.kind.Group === "object") {
-      members = members.concat(role.kind.Group);
-    }
-  });
-members = [...new Set(members)];
-// --
-
-const shorten = (str, len) => {
-  if (str.length <= len) {
-    return str;
-  }
-  return str.slice(0, len) + "...";
-};
-
-const shortenNumber = (n) => {
-  if (n < 1e3) return n;
-  if (n >= 1e3 && n < 1e6) return (n / 1e3).toFixed(1) + "k";
-  if (n >= 1e6 && n < 1e9) return (n / 1e6).toFixed(1) + "m";
-  if (n >= 1e9 && n < 1e12) return (n / 1e9).toFixed(1) + "b";
-  if (n >= 1e12) return (n / 1e12).toFixed(1) + "t";
-};
+console.log(profile);
 
 const shortenLength = 22;
 
@@ -284,57 +220,35 @@ function makeAccountIdShorter(accountId) {
 
 return (
   <CardRoot>
-    <a
-      href={`#/agwaze.near/widget/CPlanet.index?tab=daoProfile&daoId=${props.daoId}`}
-      onClick={() => props.onButtonClick()}
-    >
-      <Top>
+    <Top>
+      <img
+        src={
+          profile.backgroundImage
+            ? `https://ipfs.near.social/ipfs/${profile.backgroundImage.ipfs_cid}`
+            : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRub7hFLkStCvZiaSeiUGznP4uzqPPcepghhg&usqp=CAU"
+        }
+        alt=""
+      />
+      <div>
         <img
           src={
-            profile.backgroundImage
-              ? `https://ipfs.near.social/ipfs/${profile.backgroundImage.ipfs_cid}`
+            profile.image
+              ? `https://ipfs.near.social/ipfs/${profile.image.ipfs_cid}`
               : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRub7hFLkStCvZiaSeiUGznP4uzqPPcepghhg&usqp=CAU"
           }
           alt=""
         />
-        <div>
-          <img
-            src={
-              profile.image
-                ? `https://ipfs.near.social/ipfs/${profile.image.ipfs_cid}`
-                : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRub7hFLkStCvZiaSeiUGznP4uzqPPcepghhg&usqp=CAU"
-            }
-            alt=""
-          />
-        </div>
-      </Top>
-      <Bottom>
-        <CardBody>
-          <HeaderText>
-            <h1>{daoId ? makeAccountIdShorter(daoId) : `DAO Name`}</h1>
-          </HeaderText>
-          <AmountSec>
-            <div>
-              <p>{`${props.totalFunds ?? "0"}N`}</p>
-              <span>Total Funds</span>
-            </div>
-            <div>
-              <p>
-                {members.length ?? "0"}/
-                <span>{policy.roles.length ? policy.roles.length - 1 : 0}</span>
-              </p>
-              <span>Members / Group</span>
-            </div>
-            <div>
-              <p>
-                {activeProposalsCount ?? "0"} /
-                <span>{totalProposalsCount ?? 0}</span>
-              </p>
-              <span>Active / Total Proposal</span>
-            </div>
-          </AmountSec>
-        </CardBody>
-      </Bottom>
-    </a>
+      </div>
+    </Top>
+    <Bottom>
+      <CardBody>
+        <HeaderText>
+          <h1>{accountId ? makeAccountIdShorter(accountId) : `Name`}</h1>
+        </HeaderText>
+        <AmountSec>
+          <div></div>
+        </AmountSec>
+      </CardBody>
+    </Bottom>
   </CardRoot>
 );
