@@ -1,6 +1,6 @@
 const contract = "guest-book.near";
 const relayerAccountId = "relayer.pagodaplatform.near";
-let messages = Near.view(contract, "getMessages", undefined, undefined, true)
+const messages = Near.view(contract, "getMessages", undefined, undefined, true)
   .reverse()
   .filter((message) => message.sender === "patrick1234.near");
 
@@ -8,7 +8,7 @@ State.init({
   newMessage: "",
 });
 
-const addNewMessage = (messagesLength) => {
+const addNewMessage = () => {
   if (state.newMessage.trim() == "") {
     return;
   }
@@ -16,16 +16,6 @@ const addNewMessage = (messagesLength) => {
   Near.call(contract, "addMessage", {
     text: state.newMessage,
   });
-
-  const intervalId = setInterval(() => {
-    if (messages.length === messagesLength) {
-      messages = Near.view(contract, "getMessages")
-        .reverse()
-        .filter((message) => message.sender === context.accountId);
-    } else {
-      clearInterval(intervalId);
-    }
-  }, 1000);
 };
 
 const userAccountStatus = fetch("https://rpc.mainnet.near.org", {
@@ -208,13 +198,14 @@ return (
         onChange={(e) => State.update({ newMessage: e.target.value })}
       ></textarea>
       <button
-        onClick={async () => {
-          addNewMessage(messages.length);
+        onClick={() => {
+          addNewMessage();
         }}
       >
         Add Message
       </button>
       <div className="messages">
+        New messages are fetched every 5 seconds
         <ul>
           {messages.map((data, key) => {
             return <li key={key}>{data.text}</li>;
