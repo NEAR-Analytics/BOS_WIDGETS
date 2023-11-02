@@ -248,7 +248,7 @@ const code = `
         const el = document.createElement('div');
         el.innerHTML = HumanString.trim();
         el.className = 'marker';
-        el.style="color:white;";
+        el.style="color:black;";
         if(marker.user.community){
           const _com = Commnuities.find((row)=>row.id == marker.user.community);
           el.style="color:"+_com.color+";";
