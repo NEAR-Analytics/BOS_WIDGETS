@@ -106,6 +106,7 @@ const code = `
       .gap-14{
         gap: 14px;
         display:flex; 
+        overflow: hidden;
         flex-direction:column;
         justify-content: space-between;
         @media (max-width: 510px) {
