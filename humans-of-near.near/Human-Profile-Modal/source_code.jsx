@@ -221,10 +221,11 @@ const changeTwitter = async (e) => {
 };
 
 const changeBio = async (e) => {
-  State.update({
-    ...state,
-    bio: e.target.value,
-  });
+  if (e.target.value.length <= 50)
+    State.update({
+      ...state,
+      bio: e.target.value,
+    });
 };
 
 const changeRole = async (e) => {
@@ -298,6 +299,7 @@ return (
           <Textarea
             type="text"
             placeholder="Bio"
+            maxlength="50"
             value={state.bio}
             onChange={changeBio}
           />
