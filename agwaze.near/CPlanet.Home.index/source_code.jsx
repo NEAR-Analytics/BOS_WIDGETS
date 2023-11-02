@@ -160,5 +160,8 @@ return (
       src="agwaze.near/widget/CPlanet.Home.NFTs"
       props={{ update: props.update }}
     />
+    <Widget
+      src="agwaze.near/widget/CPlanet.Home.Quest"
+     />
   </Root>
 );
