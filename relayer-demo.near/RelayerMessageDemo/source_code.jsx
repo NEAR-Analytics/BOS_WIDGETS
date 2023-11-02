@@ -214,19 +214,31 @@ return (
     </a>
     <h1>Learn More</h1>
     <div className="learn-more-links-wrapper">
-      <a className="learn-more-links" href="" target="_blank">
+      <a
+        className="learn-more-links"
+        href="https://github.com/near/pagoda-relayer-rs"
+        target="_blank"
+      >
         Pagoda Relayer Github Repo
       </a>
       <i class="ph-bold ph-arrow-up-right"></i>
     </div>
     <div className="learn-more-links-wrapper">
-      <a className="learn-more-links" href="" target="_blank">
+      <a
+        className="learn-more-links"
+        href="https://wiki.near.org/overview/BOS/fast-auth"
+        target="_blank"
+      >
         Learn About FastAuth
       </a>
       <i class="ph-bold ph-arrow-up-right"></i>
     </div>
     <div className="learn-more-links-wrapper">
-      <a className="learn-more-links" href="" target="_blank">
+      <a
+        className="learn-more-links"
+        href="https://github.com/near/NEPs/pull/366"
+        target="_blank"
+      >
         Learn About Meta Transactions
       </a>
       <i class="ph-bold ph-arrow-up-right"></i>
