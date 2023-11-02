@@ -6,6 +6,8 @@ const messages = Near.view(contract, "getMessages", undefined, undefined, true)
 
 State.init({
   newMessage: "",
+  inFlightMessage: "",
+  msgLength: null,
 });
 
 const addNewMessage = () => {
@@ -21,6 +23,12 @@ const addNewMessage = () => {
     newMessage: "",
   });
 };
+
+if (messages.length > msgLength) {
+  State.update({
+    inFlightMessage: "",
+  });
+}
 
 const userAccountStatus = fetch("https://rpc.mainnet.near.org", {
   method: "POST",
@@ -205,12 +213,21 @@ return (
       <button
         onClick={() => {
           addNewMessage();
+          State.update({
+            inFlightMessage: state.newMessage,
+            msgLength: messages.length,
+          });
         }}
       >
         Add Message
       </button>
       <div className="messages">
-        New messages are fetched every 5 seconds
+        Subscribed to new messages every 5 seconds
+        {inFlightMessage.length && (
+          <ul style={{ opacity: "0.3" }}>
+            <li>{inFlightMessage}</li>
+          </ul>
+        )}
         <ul>
           {messages.map((data, key) => {
             return <li key={key}>{data.text}</li>;
