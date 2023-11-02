@@ -187,11 +187,22 @@ const StyledContainer = styled.div`
         }
     }
 }
+
+.disclaimer {
+    a {
+        color: #61e5e2;
+        display: inline;
+    }
+}
 `;
 
 return (
   <StyledContainer>
     <div className="wrapper">
+      <div className="disclaimer">
+        Make sure you're on{" "}
+        <a href="https://near.org/relayer-demo">near.org/relayer-demo</a>
+      </div>
       <h1>Relayer: No crypto no problem</h1>
       <h4>
         Got FastAuth? Got zero balance? Add messages to the guest book contract.
@@ -206,6 +217,10 @@ return (
       </a>
       <div className="your-balance">
         Your balance: {nearAmount(userAccountStatus.body.result.amount)} NEAR
+        <div>
+          Uh oh, looks like you have a balance. Try using FasthAuth zero balance
+          account.
+        </div>
       </div>
       <textarea
         name=""
