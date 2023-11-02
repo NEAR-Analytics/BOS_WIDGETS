@@ -1,6 +1,6 @@
 const ownerId = "nearcon23.near";
 const apiUrl =
-  "https://gqqkd7l7mk.execute-api.us-east-1.amazonaws.com/mainnet/api/v1";
+  "https://gqqkd7l7mk.execute-api.us-east-1.amazonaws.com/mainnet/api/v1/transactions";
 
 const Container = styled.div`
     background-color:#000000;
@@ -26,7 +26,7 @@ const Container = styled.div`
 `;
 
 const fetchTransaction = () => {
-  asyncFetch(`${apiURL}/transactions`).then(({ body }) => {
+  asyncFetch(apiURL).then(({ body }) => {
     State.update(body);
   });
 };
