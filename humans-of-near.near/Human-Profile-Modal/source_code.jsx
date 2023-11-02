@@ -31,37 +31,31 @@ const Commnuities = [
     id: 1,
     name: "South America",
     color: "#0040FF",
-    selected: false,
   },
   {
     id: 2,
     name: "Asia",
     color: "#E311C2",
-    selected: false,
   },
   {
     id: 3,
     name: "North America",
     color: "#F33E01",
-    selected: false,
   },
   {
     id: 4,
     name: "Africa",
     color: "#00BBEA",
-    selected: false,
   },
   {
     id: 5,
     name: "Europe",
     color: "#008000",
-    selected: false,
   },
   {
     id: 6,
     name: "ANZ",
     color: "#FED52E",
-    selected: false,
   },
 ];
 
@@ -243,11 +237,7 @@ const changeRole = async (e) => {
 };
 
 const selectComunity = async (id) => {
-  const newComunities = state.commnuities.map((row) => ({
-    ...row,
-    selected: id === row.id,
-  }));
-  State.update({ commnuities: newComunities });
+  State.update({ community: id });
 };
 
 return (
@@ -282,9 +272,9 @@ return (
           <p style={{ marginBottom: 8, fontSize: 14 }}>{`Display Name`}</p>
           <TextField
             type="text"
-            placeholder={accountId}
             value={state.name}
             onChange={changeName}
+            placeholder={accountId}
           />
         </div>
         <div>
@@ -338,7 +328,7 @@ return (
               <CommnuityBtn
                 key={item.id}
                 color={item.color}
-                active={item.selected}
+                active={item.id === state.community}
                 onClick={() => {
                   selectComunity(item.id);
                 }}
