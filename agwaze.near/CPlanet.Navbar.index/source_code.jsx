@@ -100,7 +100,7 @@ return (
           >
             Communities
           </a>
-          <a href={`#/agwaze.near/widget/CPlanet.index?tab=funding`}>Funding</a>
+          <a target="_blank" href={`https://gov.near.org/t/docs-the-creatives-constellation-charter/32878`}>Funding</a>
         </Routes>
       </>
     )}
