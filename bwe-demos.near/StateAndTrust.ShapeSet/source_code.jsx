@@ -3,7 +3,7 @@ return (
     <div className="col">
       <Widget
         id="circle"
-        src="bwe-demos.near/widget/StateAndTrust.Shape.Circle"
+        src="bwe-demos.near/StateAndTrust.Shape.Circle"
         props={{
           color: "#C1200B",
           iconColor: "white",
@@ -16,7 +16,7 @@ return (
     <div className="col">
       <Widget
         id="square"
-        src="bwe-demos.near/widget/StateAndTrust.Shape.Square"
+        src="bwe-demos.near/StateAndTrust.Shape.Square"
         props={{
           color: "#4A825A",
           iconColor: "white",
@@ -28,7 +28,7 @@ return (
     </div>
     <div className="col">
       <Widget
-        src="bwe-demos.near/widget/StateAndTrust.Shape.Triangle"
+        src="bwe-demos.near/StateAndTrust.Shape.Triangle"
         props={{
           color: "#0A81D1",
           iconColor: "white",
