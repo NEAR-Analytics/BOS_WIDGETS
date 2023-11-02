@@ -212,20 +212,20 @@ return (
       ></textarea>
       <button
         onClick={() => {
-          addNewMessage();
           State.update({
             inFlightMessage: state.newMessage,
             msgLength: messages.length,
           });
+          addNewMessage();
         }}
       >
         Add Message
       </button>
       <div className="messages">
         Subscribed to new messages every 5 seconds
-        {inFlightMessage.length && (
+        {state.inFlightMessage && (
           <ul style={{ opacity: "0.3" }}>
-            <li>{inFlightMessage}</li>
+            <li>{state.inFlightMessage}</li>
           </ul>
         )}
         <ul>
