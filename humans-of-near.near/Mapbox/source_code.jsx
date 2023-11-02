@@ -218,7 +218,7 @@ const code = `
         new mapboxgl.Marker(el)
             .setLngLat([marker.longitude, marker.latitude])
             .setPopup(
-                new mapboxgl.Popup({ offset: 25 }) // add popups
+                new mapboxgl.Popup({ offset: 25, closeButton: false }) // add popups
                   .setHTML(
                     getDetail(marker)
               )
