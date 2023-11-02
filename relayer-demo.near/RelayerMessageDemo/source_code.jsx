@@ -176,27 +176,15 @@ const StyledContainer = styled.div`
   }
 
   .in-flight {
-    position: relative;
-    overflow: hidden;
-    opacity: 0.5;
+    opacity: 0.3;
+    animation: shimmer 1s infinite alternate;
 
-        :after {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.5), transparent);
-            transform: translateX(-100%);
-            animation: shimmer 2s infinite;
-        }
-
-        @keyframes shimmer {
-            100% {
-                transform: translateX(100%);
-            }
-        }
+    @keyframes shimmer {
+    0% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0.3;
     }
 `;
 
