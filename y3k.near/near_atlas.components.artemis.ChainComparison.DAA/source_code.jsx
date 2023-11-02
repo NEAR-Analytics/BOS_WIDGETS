@@ -52,7 +52,7 @@ query_url_obj.forEach((item) => {
   }
 });
 
-console.log(resultObject);
+// console.log(resultObject);
 
 const initialState = {
   selectedDateRange: "1Y",
