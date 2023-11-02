@@ -20,10 +20,11 @@ const addNewMessage = () => {
   let viewCalls = 0;
   const intervalId = setInterval(() => {
     if (viewCalls < 5) {
-      messages = Near.view(contract, "getMessages", undefined, undefined, true)
+      messages = Near.view(contract, "getMessages")
         .reverse()
         .filter((message) => message.sender === context.accountId);
       viewCalls += 1;
+      console.log("setting messages");
     } else {
       clearInterval(intervalId);
     }
