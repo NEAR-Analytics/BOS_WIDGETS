@@ -551,7 +551,7 @@ function fetchTokens() {
         listings: token.listings[0],
         title: token.title,
         image: token.media,
-        price: token.listings?.length ? token.listings[0]?.price : 0
+        price: token.listings?.length ? token.listings[0]?.price : 0,
       });
     } else {
       let response = fetch(currentChainProps[props.chainState]?.subgraph, {
@@ -683,14 +683,16 @@ return (
           </h5>
         </Des>
       </Top>
-      <Widget
-        src="agwaze.near/widget/CPlanet.Explore.NFTInfo"
-        props={{
-          chainState: props.chainState,
-          transactions: state.transactions,
-          owner: state.owner,
-        }}
-      />
+      {state.transactions && (
+        <Widget
+          src="agwaze.near/widget/CPlanet.Explore.NFTInfo"
+          props={{
+            chainState: props.chainState,
+            transactions: state.transactions,
+            owner: state.owner,
+          }}
+        />
+      )}
     </Right>
     <Left>
       <ImageContainer>
