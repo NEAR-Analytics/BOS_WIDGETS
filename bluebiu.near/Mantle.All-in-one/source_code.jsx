@@ -95,7 +95,7 @@ const MenuContainer = styled.div`
 `;
 
 const activeMenu =
-  Storage.privateGet("mantleCachedActiveMenu") || props.defaultTab || "Bridge";
+  Storage.privateGet("mantleCachedActiveMenu") || props.defaultTab || "swap";
 
 function changeTab(menu) {
   Storage.privateSet("mantleCachedActiveMenu", menu);
