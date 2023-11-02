@@ -2,27 +2,27 @@ let query_url_obj = [
   {
     name: "Avalanche",
     url_address:
-      "https://api.artemisxyz.com/data/DAU/?artemisIds=avalanche&startDate=2022-01-01&endDate=2023-01-10",
+      "https://api.artemisxyz.com/data/DAU/?artemisIds=avalanche&startDate=2022-01-01&endDate=2023-10-01",
   },
   {
     name: "Ethereum",
     url_address:
-      "https://api.artemisxyz.com/data/DAU/?artemisIds=ethereum&startDate=2022-01-01&endDate=2023-01-10",
+      "https://api.artemisxyz.com/data/DAU/?artemisIds=ethereum&startDate=2022-01-01&endDate=2023-10-01",
   },
   {
     name: "NEAR",
     url_address:
-      "https://api.artemisxyz.com/data/DAU/?artemisIds=near&startDate=2022-01-01&endDate=2023-01-10",
+      "https://api.artemisxyz.com/data/DAU/?artemisIds=near&startDate=2022-01-01&endDate=2023-10-01",
   },
   {
     name: "Solana",
     url_address:
-      "https://api.artemisxyz.com/data/DAU/?artemisIds=solana&startDate=2022-01-01&endDate=2023-01-10",
+      "https://api.artemisxyz.com/data/DAU/?artemisIds=solana&startDate=2022-01-01&endDate=2023-10-01",
   },
   {
     name: "Bitcoin",
     url_address:
-      "https://api.artemisxyz.com/data/DAU/?artemisIds=bitcoin&startDate=2022-01-01&endDate=2023-01-10",
+      "https://api.artemisxyz.com/data/DAU/?artemisIds=bitcoin&startDate=2022-01-01&endDate=2023-10-01",
   },
 ];
 
@@ -77,8 +77,8 @@ let Style = styled.div``;
 
 const darkColors = [
   "rgb(250,164,58)", // Bright Orange (kept unchanged for reference)
-  "rgb(255,255,0)", // Pure Yellow
   "rgb(200,50,120)", // Deep Pink (different from red and mauve)
+  "rgb(255,255,0)", // Pure Yellow
   "rgb(0,150,150)", // Dark Teal (between green and blue)
   "rgb(220,85,85)", // Rust (redder than orange, more muted than red)
   "rgb(0,120,0)", // Dark Green
