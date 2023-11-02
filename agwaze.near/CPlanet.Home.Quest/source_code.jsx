@@ -67,6 +67,7 @@ const Portal = styled.div`
     text-align: center;
     font-family: Helvetica Neue;
     font-size: 64px;
+    margin-top: 69px;
     font-style: normal;
     font-weight: 500;
   }
@@ -77,7 +78,7 @@ const Portal = styled.div`
     justify-content: center;
     align-items: center
   }
-  @media (max-width: 500px) {
+  @media (max-width: 600px) {
     h2 {
       font-size: 30px;
     }
@@ -97,10 +98,18 @@ return (
     <Portal>
       <h2>The Portal for Creatives in the NEAR Ecosystem</h2>
       <div className="join">
-        <Widget src="agwaze.near/widget/CPlanet.Button.ArrowButton" />
+        <Widget
+          props={{ href: "https://creativesdao.org/funding", isBlank: "_blank" }}
+          src="agwaze.near/widget/CPlanet.Button.ArrowButton"
+        />
         <Widget
           src="agwaze.near/widget/CPlanet.Button.ArrowButton"
-          props={{ whiteBg: true, text: "Join Now" }}
+          props={{
+            whiteBg: true,
+            text: "Join Now",
+            href: "https://creativesdao.org/join",
+            isBlank: "_blank",
+          }}
         />
       </div>
     </Portal>
