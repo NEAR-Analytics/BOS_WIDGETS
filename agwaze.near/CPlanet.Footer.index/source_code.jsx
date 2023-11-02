@@ -99,19 +99,21 @@ const LeftFoot = styled.div`
     font-weight: 300;
     line-height: 135%; /* 32.4px */
   }
-  button {
+  a {
     display: inline-flex;
     padding: 12px 24px;
     margin-top 54px;
     justify-content: center;
     align-items: center;
     gap: 8px;
+    color: white;
+    transition: 0.3s ease-in-out;
     width: 140px;
     border-radius: 60px;
     border: 1px solid #FFF;
     background: transparent;
   }
-  button:hover {
+  a:hover {
     background: white;
     color: black;
   }
@@ -216,7 +218,9 @@ return (
           <h1>Planet</h1>
         </RightHeader>
         <p>CPlanet is the global constellation supporting creatives</p>
-        <button>Join</button>
+        <a target="_blank" href="https://creativesdao.org/join">
+          Join
+        </a>
       </LeftFoot>
       <RightFoot>
         <Socials>
