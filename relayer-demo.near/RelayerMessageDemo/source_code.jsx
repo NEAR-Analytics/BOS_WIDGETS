@@ -2,7 +2,7 @@ const contract = "guest-book.near";
 const relayerAccountId = "relayer.pagodaplatform.near";
 const messages = Near.view(contract, "getMessages", undefined, undefined, true)
   .reverse()
-  .filter((message) => message.sender === "patrick1234.near");
+  .filter((message) => message.sender === context.accountId);
 
 State.init({
   newMessage: "",
