@@ -130,10 +130,21 @@ return (
     <Portals>
       <h1>The Portal for Creatives in the NEAR Ecosystem</h1>
       <div className="buttons">
-        <Widget src="agwaze.near/widget/CPlanet.Button.ArrowButton" />
         <Widget
           src="agwaze.near/widget/CPlanet.Button.ArrowButton"
-          props={{ whiteBg: true, text: "Join Now" }}
+          props={{
+            href: "https://creativesdao.org/funding",
+            isBlank: "_blank",
+          }}
+        />
+        <Widget
+          src="agwaze.near/widget/CPlanet.Button.ArrowButton"
+          props={{
+            whiteBg: true,
+            text: "Join Now",
+            href: "https://creativesdao.org/join",
+            isBlank: "_blank",
+          }}
         />
       </div>
     </Portals>
@@ -160,8 +171,6 @@ return (
       src="agwaze.near/widget/CPlanet.Home.NFTs"
       props={{ update: props.update }}
     />
-    <Widget
-      src="agwaze.near/widget/CPlanet.Home.Quest"
-     />
+    <Widget src="agwaze.near/widget/CPlanet.Home.Quest" />
   </Root>
 );
