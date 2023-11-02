@@ -154,7 +154,7 @@ return (
         <span>NFTS Minted</span>
       </div>
       <div className="amount">
-        <h1>$58,764,505</h1>
+        <h1>$56k</h1>
         <span>Amount of USDC in Treasury</span>
       </div>
       <div className="amount">
