@@ -1,7 +1,7 @@
 const ownerId = "nearcon23.near";
 const prefix = props.prefix || "";
 const socketUrl =
-  "wss://7nnjul56if.execute-api.us-east-1.amazonaws.com/testnet";
+  "wss://bva2os6ai2.execute-api.us-east-1.amazonaws.com/mainnet";
 const baseUrl =
   "https://gqqkd7l7mk.execute-api.us-east-1.amazonaws.com/mainnet/api/v1";
 
