@@ -1,4 +1,4 @@
-const ownerId = "nearpad.testnet";
+const ownerId = "nearcon23.near";
 const apiUrl =
   "https://gqqkd7l7mk.execute-api.us-east-1.amazonaws.com/mainnet/api/v1";
 const socketUrl =
