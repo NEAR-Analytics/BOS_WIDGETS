@@ -95,10 +95,10 @@ const MenuContainer = styled.div`
 `;
 
 const activeMenu =
-  Storage.privateGet("cachedActiveMenu") || props.defaultTab || "Bridge";
+  Storage.privateGet("arbCachedActiveMenu") || props.defaultTab || "Bridge";
 
 function changeTab(menu) {
-  Storage.privateSet("cachedActiveMenu", menu);
+  Storage.privateSet("arbCachedActiveMenu", menu);
 }
 
 const bridgeIcon = (
