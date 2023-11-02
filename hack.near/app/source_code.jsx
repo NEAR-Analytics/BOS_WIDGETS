@@ -55,7 +55,7 @@ return (
           children: (p) => {
             return (
               <Widget
-                src="create.near/widget/blocks.container"
+                src="hack.near/widget/blocks.container"
                 props={{ ...p, project }}
               />
             );
