@@ -1,5 +1,8 @@
 const Root = styled.a`
     cursor: pointer;
+    :hover {
+      text-decoration: none;
+    }
     h1 {
         color: #000;
         font-family: Helvetica Neue;
@@ -54,7 +57,8 @@ function makeAccountIdShorter(accountId, shortenLength) {
 
 return (
   <Root
-    href={`#/agwaze.near/widget/GenaDrop.Profile.Main?accountId=${props.userId}`}
+    target="_blank"
+    href={`https://near.social/agwaze.near/widget/GenaDrop.Profile.Main?accountId=${props.userId}`}
   >
     <div className="profile">
       <img
