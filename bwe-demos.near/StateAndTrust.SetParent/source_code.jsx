@@ -12,7 +12,7 @@ return (
   <div>
     <Widget
       id={id}
-      src="bwe-demos.near/widget/StateAndTrust.ShapeSet"
+      src="bwe-demos.near/StateAndTrust.ShapeSet"
       props={{
         circle,
         square,
