@@ -193,6 +193,7 @@ return (
                   handleShareButton,
                   sbtWhiteList,
                   callLibs,
+                  baseActions,
                 }}
               />
             );
