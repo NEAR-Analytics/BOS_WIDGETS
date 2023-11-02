@@ -183,7 +183,7 @@ const ActionContainer = styled.div`
 return (
   <>
     <Widget
-      src={`${REPL_DEVHUB}/widget/devhub.components.island.banner`}
+      src={`devgovgigs.petersalomonsen.near/widget/devhub.components.island.banner`}
       props={{
         title: (
           <>
