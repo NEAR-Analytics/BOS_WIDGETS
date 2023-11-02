@@ -55,8 +55,6 @@ const fetchStoreFrontData = (owner, contractId) => {
     }),
   });
 
-  console.log(response2);
-
   State.update({
     storeContracts: response2.body.data.mb_views_nft_tokens,
   });
