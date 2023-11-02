@@ -10,19 +10,19 @@ const { API_URL, onClose, user, getMyInfor } = props;
 const options = [
   {
     text: "Developer",
-    value: 1,
+    value: "developer",
   },
   {
     text: "Degen",
-    value: 2,
+    value: "degen",
   },
   {
     text: "Founder",
-    value: 3,
+    value: "founder",
   },
   {
     text: "Gamer",
-    value: 4,
+    value: "gamer",
   },
 ];
 
