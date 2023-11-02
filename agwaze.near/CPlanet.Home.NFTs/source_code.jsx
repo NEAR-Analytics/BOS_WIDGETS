@@ -108,40 +108,34 @@ const fetchStoreFrontData = () => {
     },
     body: JSON.stringify({
       query: `query MyQuery {
-  mb_views_nft_metadata_unburned(
+  mb_views_nft_tokens(
     where: {nft_contract: {id: {_eq: "marmaj.mintbase1.near"}}}
     offset: 0
     limit: 3
-    order_by: {minted_timestamp: desc}
   ) {
-    createdAt: minted_timestamp
-    listed: price
-    media
-    storeId: nft_contract_id
-    metadataId: metadata_id
-    title
-    description
-  }
-  mb_views_nft_metadata_unburned_aggregate(
-    where: {nft_contract: {id: {_eq: "marmaj.mintbase1.near"}}}
-    limit: 3
-  ) {
-    aggregate {
-      count
-    }
-  }
+                media 
+                owner
+                token_id
+                nft_contract_id
+                description
+                title
+                listings {
+                    price
+                    unlisted_at
+                    listed_by
+ 
+            }
+      }
 }
 `,
     }),
   });
-
-  State.update({
-    featuredNFTs: response2.body.data.mb_views_nft_metadata_unburned,
-    storeNftsCount:
-      response2.body.data.mb_views_nft_metadata_unburned_aggregate.aggregate
-        .count,
-    ownerId: owner,
-  });
+  if (response2.ok) {
+    console.log(response2?.body?.data?.mb_views_nft_tokens);
+    State.update({
+      featuredNFTs: response2?.body?.data?.mb_views_nft_tokens,
+    });
+  }
 };
 
 fetchStoreFrontData();
@@ -162,22 +156,24 @@ return (
                   title: data.title,
                   description: data.description,
                   image: data.media,
-                  owner: "marmaj.sputnik-dao.near",
+                  owner: data.owner,
                   chainState: "near",
                   logo: logo,
                   onButtonClick: () =>
                     props.update({
                       tab: "singleNFT",
-                      contractId: data.storeId,
-                      tokenId: data.metadataId.split(":")[1],
+                      contractId: data.nft_contract_id,
+                      tokenId: data.token_id,
                       chainState: "near",
                     }),
-                  price: data.listed
-                    ? (data.listed / 1000000000000000000000000).toFixed(2)
+                  price: data.listings.length
+                    ? (
+                        data.listings.length / 1000000000000000000000000
+                      ).toFixed(2)
                     : null,
                   isListed: data.listed ? "LISTED" : "NOT LISTED",
-                  tokenId: data.metadataId?.split(":")[1],
-                  contractId: data.storeId,
+                  tokenId: data.token_id,
+                  contractId: data.nft_contract_id,
                 }}
                 src="agwaze.near/widget/CPlanet.NFTCard.index"
               />
