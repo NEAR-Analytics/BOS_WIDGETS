@@ -97,9 +97,10 @@ State.update({ libsCalls: newLibsCalls });
 //==================================================CONSTS==========================================================
 
 // const authorForWidget = "communityvoice.ndctools.near";
-const authorForWidget =
-  "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb";
+// const authorForWidget =
+//   "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb";
 // const authorForWidget = "kenrou-it.near";
+const authorForWidget = "sayalot.near";
 // const authorForWidget = "silkking.near";
 const genericWidgetsAuthor = "sayalot.near";
 
