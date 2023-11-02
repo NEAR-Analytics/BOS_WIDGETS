@@ -2,13 +2,13 @@ const contract = "guest-book.near";
 const relayerAccountId = "relayer.pagodaplatform.near";
 let messages = Near.view(contract, "getMessages", undefined, undefined, true)
   .reverse()
-  .filter((message) => message.sender === context.accountId);
+  .filter((message) => message.sender === "patrick1234.near");
 
 State.init({
   newMessage: "",
 });
 
-const addNewMessage = () => {
+const addNewMessage = (numMessages) => {
   if (state.newMessage.trim() == "") {
     return;
   }
@@ -17,14 +17,11 @@ const addNewMessage = () => {
     text: state.newMessage,
   });
 
-  let viewCalls = 0;
   const intervalId = setInterval(() => {
-    if (viewCalls < 5) {
+    if (messages.length === numMessages.length) {
       messages = Near.view(contract, "getMessages")
         .reverse()
         .filter((message) => message.sender === context.accountId);
-      viewCalls += 1;
-      console.log("setting messages");
     } else {
       clearInterval(intervalId);
     }
@@ -212,7 +209,7 @@ return (
       ></textarea>
       <button
         onClick={async () => {
-          addNewMessage();
+          addNewMessage(messages.length);
         }}
       >
         Add Message
