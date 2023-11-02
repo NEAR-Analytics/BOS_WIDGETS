@@ -1,5 +1,5 @@
 const { getAllCommunitiesMetadata, createCommunity } = VM.require(
-  "${REPL_DEVHUB}/widget/core.adapter.devhub-contract"
+  "devgovgigs.petersalomonsen.near/widget/core.adapter.devhub-contract"
 );
 
 if (!getAllCommunitiesMetadata || !createCommunity) {
@@ -138,7 +138,7 @@ const Sort = styled.select`
 return (
   <div className="w-100">
     <Widget
-      src={`${REPL_DEVHUB}/widget/devhub.components.island.banner`}
+      src={`devgovgigs.petersalomonsen.near/widget/devhub.components.island.banner`}
       props={{
         title: (
           <>
@@ -162,7 +162,7 @@ return (
         <div className="d-flex flex-column gap-3 w-100">
           <h1 className="m-0 fs-4">
             <Link
-              to={"/${REPL_DEVHUB}/widget/app?page=communities"}
+              to={"/devgovgigs.petersalomonsen.near/widget/app?page=communities"}
               style={{ color: "#00EC97", fontSize: "1.5rem" }}
             >
               Communities
@@ -202,7 +202,7 @@ return (
       <div className="d-flex flex-wrap align-content-start gap-4 p-4 w-100 h-100">
         {showSpawner && (
           <Widget
-            src="${REPL_DEVHUB}/widget/devhub.entity.community.Spawner"
+            src="devgovgigs.petersalomonsen.near/widget/devhub.entity.community.Spawner"
             props={{
               data: null,
               onSubmit: onCommunitySubmit,
@@ -214,7 +214,7 @@ return (
           {searchKey === "" && sort === ""
             ? (communitiesMetadata ?? []).reverse().map((communityMetadata) => (
                 <Widget
-                  src="${REPL_DEVHUB}/widget/devhub.entity.community.Card"
+                  src="devgovgigs.petersalomonsen.near/widget/devhub.entity.community.Card"
                   props={{
                     format: "small",
                     isBannerEnabled: false,
@@ -224,7 +224,7 @@ return (
               ))
             : SortedAndFiltered(searchKey, sort).map((communityMetadata) => (
                 <Widget
-                  src="${REPL_DEVHUB}/widget/devhub.entity.community.Card"
+                  src="devgovgigs.petersalomonsen.near/widget/devhub.entity.community.Card"
                   props={{
                     format: "small",
                     isBannerEnabled: false,
