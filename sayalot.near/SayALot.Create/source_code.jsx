@@ -1,4 +1,4 @@
-// SayALot.Create
+//SayALot.Create
 
 const {
   isTest,
@@ -85,6 +85,21 @@ function onCommit() {
 
 function onCancel() {
   State.update({ createdArticle: undefined });
+}
+
+function getInitialMarkdownBody() {
+  if (
+    editArticleData &&
+    (!state.articleBody || state.articleBody === editArticleData.body)
+  ) {
+    return editArticleData.body;
+  } else if (state.articleBody && state.articleBody !== editArticleData.body) {
+    return state.articleBody;
+  } else {
+    return state.initialBody == "" || !state.initialBody
+      ? "Post content (markdown supported)"
+      : state.initalBody;
+  }
 }
 
 function createArticleListener() {
@@ -240,12 +255,9 @@ return (
                     </label>
                     <div className="d-flex gap-2">
                       <Widget
-                        src={`${authorForWidget}/widget/MarkdownEditorIframe`}
+                        src={`f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/MarkdownEditorIframe`}
                         props={{
-                          initialText:
-                            state.initialBody == "" || !state.initialBody
-                              ? "Post content (markdown supported)"
-                              : state.initalBody,
+                          initialText: getInitialMarkdownBody(),
                           onChange: (articleBody) =>
                             State.update({
                               articleBody,
