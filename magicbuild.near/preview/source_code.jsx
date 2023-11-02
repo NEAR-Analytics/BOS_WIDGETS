@@ -334,7 +334,9 @@ return (
                 functions.params.args.map((args) => {
                   return (
                     <div className={`form-group pb-2 ${args.className}`}>
-                      <label>{args.name}</label>
+                      <label>
+                        {args.label.length > 0 ? args.label : args.name}
+                      </label>
                       {args.type_schema.type == "string" ||
                       args.type_schema.type == "$ref" ||
                       args.type_schema.type == "integer" ||
