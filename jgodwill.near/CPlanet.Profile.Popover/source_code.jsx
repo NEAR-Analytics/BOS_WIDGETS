@@ -1,4 +1,4 @@
-const accountId = props.accountId ?? "nate.near";
+const accountId = props.accountId ?? context.accountId;
 if (!accountId) {
   return "Requires accountID prop";
 }
