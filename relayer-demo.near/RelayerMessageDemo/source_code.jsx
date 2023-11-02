@@ -176,16 +176,18 @@ const StyledContainer = styled.div`
   }
 
   .in-flight {
-    opacity: 0.3;
-    animation: shimmer 1s infinite alternate;
-
-    @keyframes shimmer {
-    0% {
-        opacity: 1;
-    }
-    100% {
         opacity: 0.3;
+        animation: shimmer 1s infinite alternate;
+
+        @keyframes shimmer {
+        0% {
+            opacity: 1;
+        }
+        100% {
+            opacity: 0.3;
+        }
     }
+}
 `;
 
 return (
