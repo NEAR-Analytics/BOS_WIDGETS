@@ -8,7 +8,7 @@ State.init({
   newMessage: "",
 });
 
-const addNewMessage = (numMessages) => {
+const addNewMessage = (messagesLength) => {
   if (state.newMessage.trim() == "") {
     return;
   }
@@ -18,13 +18,10 @@ const addNewMessage = (numMessages) => {
   });
 
   const intervalId = setInterval(() => {
-    if (messages.length === numMessages.length) {
+    if (messages.length === messagesLength) {
       messages = Near.view(contract, "getMessages")
         .reverse()
         .filter((message) => message.sender === context.accountId);
-
-      console.log("messages.length", messages.length);
-      console.log("numMessages.length", numMessages.length);
     } else {
       clearInterval(intervalId);
     }
