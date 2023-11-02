@@ -1,4 +1,4 @@
-// Community Voice
+// SayALot
 
 //===============================================INITIALIZATION=====================================================
 let { sharedBlockHeight, tagShared, isTest, accountId } = props;
@@ -96,32 +96,31 @@ State.update({ libsCalls: newLibsCalls });
 
 //==================================================CONSTS==========================================================
 
-const authorForWidget =
-  "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb";
+const authorForWidget = "sayalot.near";
+// const authorForWidget =
+//   "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb";
 // const authorForWidget = "kenrou-it.near";
-// const authorForWidget = "sayalot.near";
 // const authorForWidget = "silkking.near";
-const genericWidgetsAuthor = "sayalot.near";
 
 const thisWidgetName = "SayALot";
 
 const widgets = {
   sayALot: `${authorForWidget}/widget/${thisWidgetName}`,
   create: `${authorForWidget}/widget/SayALot.Create`,
-  header: `${genericWidgetsAuthor}/widget/SayALot.NavBar`,
+  header: `${authorForWidget}/widget/SayALot.NavBar`,
   showArticlesList: `${authorForWidget}/widget/SayALot.AllArticlesList`,
-  showArticlesListSortedByAuthors: `${genericWidgetsAuthor}/widget/SayALot.AllArticlesSortByAuthors`,
-  articlesByAuthorCard: `${genericWidgetsAuthor}/widget/SayALot.ArticlesByAuthorCard`,
+  showArticlesListSortedByAuthors: `${authorForWidget}/widget/SayALot.AllArticlesSortByAuthors`,
+  articlesByAuthorCard: `${authorForWidget}/widget/SayALot.ArticlesByAuthorCard`,
   generalCard: `${authorForWidget}/widget/SayALot.GeneralCard`,
   articleView: `${authorForWidget}/widget/SayALot.ArticleView`,
   reactions: `${authorForWidget}/widget/SayALot.Reactions`,
   addComment: `${authorForWidget}/widget/SayALot.AddComment`,
-  commentView: `${genericWidgetsAuthor}/widget/SayALot.CommentView`,
-  libSBT: `${genericWidgetsAuthor}/widget/lib.SBT`,
-  libComment: `${genericWidgetsAuthor}/widget/lib.comment`,
-  libArticle: `${genericWidgetsAuthor}/widget/lib.article`,
-  libEmojis: `${genericWidgetsAuthor}/widget/lib.emojis`,
-  libUpVotes: `${genericWidgetsAuthor}/widget/lib.upVotes`,
+  commentView: `${authorForWidget}/widget/SayALot.CommentView`,
+  libSBT: `${authorForWidget}/widget/lib.SBT`,
+  libComment: `${authorForWidget}/widget/lib.comment`,
+  libArticle: `${authorForWidget}/widget/lib.article`,
+  libEmojis: `${authorForWidget}/widget/lib.emojis`,
+  libUpVotes: `${authorForWidget}/widget/lib.upVotes`,
   upVoteButton: `${authorForWidget}/widget/SayALot.UpVoteButton`,
   styledComponents: "rubycop.near/widget/NDC.StyledComponents",
   newStyledComponents: {
@@ -154,7 +153,7 @@ if (state.filterBy.parameterName == "author") {
 
 const brand = {
   homePageId: tabs.SHOW_ARTICLES_LIST.id,
-  brandName: "Community Voice",
+  brandName: "Say a lot",
   logoHref:
     "https://ipfs.near.social/ipfs/bafkreiaqxa4st4vp4rtq2iyobdgqe5tpfg55mmyvfg25upd2qplcxylyfi",
   logoRemWidth: 6,
