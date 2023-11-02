@@ -132,6 +132,7 @@ const cAD = (e, fIdx, aIdx, type) => {
     }
   }
   if (type == "remove") a[fIdx].params.args.splice(aIdx, 1);
+  console.log(a[fIdx].params.args);
   State.update({ cMethod: a });
 };
 const onCreateMethod = () => {
@@ -838,12 +839,14 @@ return (
                           placeholder="Name"
                           class="form-control"
                           defaultValue={args.name || ""}
+                          value={args.name || ""}
                           onChange={(e) => cAD(e, fIndex, argIndex, "name")}
                         />
                       </div>
 
                       <div class="form-group col-md-2">
                         <select
+                          value={args.type_schema.type}
                           defaultValue={args.type_schema.type}
                           class="form-control"
                           onChange={(e) => cAD(e, fIndex, argIndex, "type")}
@@ -874,6 +877,7 @@ return (
                         )}
                         {args.type_schema.type == "boolean" ? (
                           <select
+                            value={args.value}
                             defaultValue={args.value}
                             class="form-control"
                             onChange={(e) => cAD(e, fIndex, argIndex, "value")}
@@ -886,6 +890,7 @@ return (
                         )}
                         {args.type_schema.type == "enum" ? (
                           <select
+                            value={args.value}
                             defaultValue={args.value}
                             class="form-control"
                             onChange={(e) => cAD(e, fIndex, argIndex, "value")}
@@ -903,6 +908,7 @@ return (
                         <input
                           placeholder="Label"
                           class="form-control"
+                          value={args.value}
                           defaultValue={args.label || ""}
                           onChange={(e) => cAD(e, fIndex, argIndex, "label")}
                         />
@@ -911,6 +917,7 @@ return (
                         <input
                           placeholder="Boostrap Class"
                           class="form-control"
+                          value={args.value}
                           defaultValue={args.className || ""}
                           onChange={(e) =>
                             cAD(e, fIndex, argIndex, "className")
@@ -947,6 +954,7 @@ return (
                       <label>Attached deposit</label>
                       <input
                         type="text"
+                        value={"" + functions.deposit}
                         defaultValue={"" + functions.deposit}
                         onChange={(e) => cMLabel(e, fIndex, "deposit")}
                         class="form-control"
@@ -956,7 +964,8 @@ return (
                       <label>Gas</label>
                       <input
                         type="text"
-                        defaultValue="30000000000000"
+                        value={"" + functions.gas}
+                        defaultValue={"" + functions.gas}
                         onChange={(e) => cMLabel(e, fIndex, "gas")}
                         class="form-control"
                       />
