@@ -104,7 +104,12 @@ return (
       )}
       {selectedButton === "alerts" && (
         <>
-          <Widget src={`${ownerId}/widget/Mobile.Home.Alerts`} />
+          <Widget
+            src={`${ownerId}/widget/Mobile.Home.Alerts`}
+            props={{
+              isAdmin: state?.userData?.isSuper,
+            }}
+          />
         </>
       )}
       {selectedButton === "profile" && (
