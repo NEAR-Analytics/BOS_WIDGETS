@@ -69,6 +69,9 @@ State.init({
   social: user.social,
   twitter: user.twitter,
   name: user.name,
+  bio: user.bio,
+  description: user.description,
+  community: user.community,
   commnuities: Commnuities,
 });
 
@@ -225,6 +228,13 @@ const changeTwitter = async (e) => {
     });
 };
 
+const changeBio = async (e) => {
+  State.update({
+    ...state,
+    bio: e.target.value,
+  });
+};
+
 const selectComunity = async (id) => {
   const newComunities = state.commnuities.map((row) => ({
     ...row,
@@ -292,9 +302,9 @@ return (
           <p style={{ marginBottom: 8, fontSize: 14 }}>{`Bio`}</p>
           <Textarea
             type="text"
-            placeholder="Twitter Link"
-            value={state.twitter}
-            onChange={changeTwitter}
+            placeholder="Bio"
+            value={state.bio}
+            onChange={changeBio}
           />
         </div>
         <div>
