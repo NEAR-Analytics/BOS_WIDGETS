@@ -99,7 +99,7 @@ const code = `
         gap: 14px;
         display:flex; 
         flex-direction:column;
-        justiy-content: space-between;
+        justify-content: space-between;
         @media (max-width: 510px) {
           gap: 3px;
         } 
