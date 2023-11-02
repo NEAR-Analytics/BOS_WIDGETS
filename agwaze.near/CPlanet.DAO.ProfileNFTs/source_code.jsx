@@ -35,7 +35,7 @@ const fetchStoreFrontData = (owner, contractId) => {
     body: JSON.stringify({
       query: `query MyQuery {
   mb_views_nft_tokens(
-    where: {owner: {_eq: ${contractId}}}
+    where: {owner: {_eq: "${contractId}"}}
     offset: 0
     order_by: {minted_timestamp: desc}
   ) {
@@ -55,13 +55,11 @@ const fetchStoreFrontData = (owner, contractId) => {
     }),
   });
 
-  console.log(response2)
+  console.log(response2);
 
   State.update({
     storeContracts: response2.body.data.mb_views_nft_tokens,
-    
   });
-  console.log("running2", state.storeContracts);
 };
 
 fetchStoreFrontData(props.ownerId, props.daoId);
@@ -81,14 +79,16 @@ return (
                 image: data.media,
 
                 price: data.listed,
-                owner: state.ownerId,
-                price: data.listed
-                  ? (data.listed / 1000000000000000000000000).toFixed(2)
+                owner: "",
+                price: data?.listings?.length
+                  ? (data?.listings?.price / 1000000000000000000000000).toFixed(
+                      2
+                    )
                   : null,
-                isListed: data.listed ? "LISTED" : "NOT LISTED",
-                tokenId: data.token_id,
-                contractId: data.storeId,
-                metadataId: data.metadataId,
+                isListed: data?.listings?.price ? "LISTED" : "NOT LISTED",
+                tokenId: data.metadata_id,
+                contractId: data.nft_contract_id,
+                metadataId: data.metadata_id,
               }}
               src="jgodwill.near/widget/Mintbase.NFTCard.index"
             />
