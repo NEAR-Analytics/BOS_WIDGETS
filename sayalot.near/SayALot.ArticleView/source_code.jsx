@@ -29,10 +29,6 @@ const tabs = [
   },
 ];
 
-const prodAction = "sayALotArticle_v0.0.3";
-const testAction = `test_${prodAction}`;
-const action = isTest ? testAction : prodAction;
-
 const initLibsCalls = {
   comment: [
     {
@@ -587,7 +583,7 @@ return (
                         onClick: () =>
                           handleShareButton(true, {
                             type: "sharedBlockHeight",
-                            value: data.blockHeight,
+                            value: articleToRenderData.blockHeight,
                           }),
                       }}
                     />
