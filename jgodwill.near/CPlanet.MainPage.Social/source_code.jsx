@@ -131,6 +131,9 @@ const SocialWrapper = styled.div`
     }
     .mid{
         flex: 1;
+         @media screen and (max-width: 768px){
+          width: 100vw;
+        }
     }
     .daos{
       padding: 20px 0px;
