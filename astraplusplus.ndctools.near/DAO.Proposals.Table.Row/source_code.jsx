@@ -6,7 +6,10 @@ const {
     proposal_id,
     i,
     isAllowedTo,
-    isCongressDaoID
+    isCongressDaoID,
+    daoConfig,
+    isHuman,
+    isVotingBodyDao
 } = props;
 const accountId = context.accountId;
 
@@ -39,28 +42,33 @@ const actions = {
     AddProposal: "AddProposal",
     VoteApprove: "VoteApprove",
     VoteReject: "VoteReject",
-    VoteRemove: "VoteRemove"
+    VoteRemove: "VoteRemove",
+    VoteAbstain: "VoteAbstain"
 };
 
 const kindName =
     typeof proposal.kind === "string"
         ? proposal.kind
-        : isCongressDaoID
+        : isCongressDaoID || isVotingBodyDao
         ? Object.keys(proposal.kind)?.[0]
         : typeof proposal.kind.typeEnum === "string"
         ? proposal.kind.typeEnum
         : Object.keys(proposal.kind)[0];
 
-const isAllowedToVote = [
-    isAllowedTo(proposalKinds[kindName], actions.VoteApprove),
-    isAllowedTo(proposalKinds[kindName], actions.VoteReject),
-    isAllowedTo(proposalKinds[kindName], actions.VoteRemove)
-];
+const isAllowedToVote = isVotingBodyDao
+    ? [isHuman, isHuman, isHuman, isHuman]
+    : [
+          isAllowedTo(proposalKinds[kindName], actions.VoteApprove),
+          isAllowedTo(proposalKinds[kindName], actions.VoteReject),
+          isCongressDaoID
+              ? isAllowedTo(proposalKinds[kindName], actions.VoteAbstain)
+              : isAllowedTo(proposalKinds[kindName], actions.VoteRemove)
+      ];
 
 // --- end check user permissions
 
 const formatDate = (date) => {
-    date = new Date(Date(date));
+    date = new Date(parseInt(`${date}`.slice(0, 13)));
     return `${
         [
             "January",
@@ -79,13 +87,24 @@ const formatDate = (date) => {
     } ${date.getDate()}, ${date.getFullYear()}`;
 };
 
+function checkVotesForCongressDao(value) {
+    if (isCongressDaoID) {
+        return votes[accountId]?.vote === value;
+    } else {
+        return votes[accountId || ";;;"] === value;
+    }
+}
+
 const voted = {
-    yes: proposal.votes[accountId || ";;;"] === "Approve",
-    no: proposal.votes[accountId || ";;;"] === "Reject",
-    spam: proposal.votes[accountId || ";;;"] === "Remove"
+    yes: checkVotesForCongressDao("Approve"),
+    no: checkVotesForCongressDao("Reject"),
+    spam: isVotingBodyDao
+        ? checkVotesForCongressDao("Spam")
+        : checkVotesForCongressDao("Remove"),
+    abstain: checkVotesForCongressDao("Abstain")
 };
 
-const alreadyVoted = voted.yes || voted.no || voted.spam;
+const alreadyVoted = voted.yes || voted.no || voted.spam || voted.abstain;
 
 const canVote =
     isAllowedToVote.every((v) => v) &&
@@ -112,13 +131,14 @@ function renderStatus(statusName) {
             statusvariant = "success";
             break;
         case "In Progress":
+        case "InProgress":
             statusicon = "spinner-border spinner-border-sm";
             statustext = "In Progress";
             statusvariant = "primary";
             break;
         case "Vetoed":
             statusicon = "bi bi-x-circle";
-            statustext = "Expired";
+            statustext = "Vetoed";
             statusvariant = "black";
             break;
         case "Expired":
@@ -135,6 +155,12 @@ function renderStatus(statusName) {
             statusicon = "bi bi-ban";
             statustext = "Rejected";
             statusvariant = "danger";
+            break;
+        case "PreVote":
+        case "Pre Vote":
+            statusicon = "bi bi-hourglass-split";
+            statustext = "Pre Vote";
+            statusvariant = "disabled";
             break;
     }
     return (
@@ -203,25 +229,33 @@ return (
                         canVote,
                         proposal,
                         view: "multiVote",
-                        isCongressDaoID
+                        isCongressDaoID,
+                        isVotingBodyDao,
+                        dev: props.dev
                     }}
                 />
             </td>
         )}
         <td style={{ width: 150 }}>
             <div className="d-flex justify-content-end gap-2">
-                {proposal.status === "Approved" && (
-                    <Widget
-                        src="nearui.near/widget/Input.Button"
-                        props={{
-                            variant: "primary icon",
-                            children: <i class="bi bi-caret-right-fill" />,
-                            onClick: () => execProposal({ daoId, proposal_id })
-                        }}
-                    />
-                )}
+                {(isCongressDaoID || isVotingBodyDao) &&
+                    proposal.status === "Approved" &&
+                    proposal?.submission_time +
+                        daoConfig?.voting_duration +
+                        (daoConfig?.cooldown ?? 0) < // cooldown is not available in vb
+                        Date.now() && (
+                        <Widget
+                            src="nearui.near/widget/Input.Button"
+                            props={{
+                                variant: "primary icon",
+                                children: <i class="bi bi-caret-right-fill" />,
+                                onClick: () =>
+                                    execProposal({ daoId, proposal_id })
+                            }}
+                        />
+                    )}
                 <Widget
-                    src="nearui.near/widget/Layout.Modal"
+                    src="astraplusplus.ndctools.near/widget/Layout.Modal"
                     props={{
                         toggle: (
                             <Widget
@@ -250,7 +284,10 @@ return (
                                         proposalString:
                                             JSON.stringify(proposal),
                                         multiSelectMode: state.multiSelectMode,
-                                        isCongressDaoID
+                                        isCongressDaoID,
+                                        isVotingBodyDao,
+                                        daoConfig,
+                                        dev: props.dev
                                     }}
                                 />
                             </div>
