@@ -10,8 +10,12 @@ const newData = fetch(
   "https://raw.githubusercontent.com/NEARBuilders/discoverbos/data/build/discoverbos/projects.json"
 );
 
+const data = {
+  project: newData.body,
+};
+
 const handleUpdate = () => {
-  Social.set(project, `${newData.body}`);
+  Social.set(`${data}`);
 };
 
 return (
