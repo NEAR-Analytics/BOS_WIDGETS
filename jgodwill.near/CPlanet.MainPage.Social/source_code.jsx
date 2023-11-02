@@ -197,11 +197,7 @@ return (
         <div className="daos">
           <div className="title-section">
             <h3>Featured DAOs</h3>
-            <a
-              href="#/agwaze.near/widget/CPlanet.index?tab=community"
-              className="all"
-              onClick={() => props.update({ tab: "community" })}
-            >
+            <a href="#" className="all">
               Show more (59)
               <svg
                 width="10"
@@ -228,7 +224,11 @@ return (
             </a>
           </div>
           {communities.map((data, index) => (
-            <div key={index}>
+            <a
+              href={`/mob.near/widget/ProfilePage?accountId=${accountId}`}
+              className="text-decoration-none"
+              key={i}
+            >
               <Widget
                 props={{
                   daoId: data,
@@ -237,7 +237,7 @@ return (
                 }}
                 src="jgodwill.near/widget/CPlanet.FeaturedDAO.Card"
               />
-            </div>
+            </a>
           ))}
         </div>
         <div className="daos">
@@ -282,8 +282,7 @@ return (
                     style={{ width: "3em", height: "3em" }}
                   />
                 }
-                src="jgodwill.near/widget/ProfileLine"
-                // src="agwaze.near/widget/CPlanet.DAO.Members.SideCard"
+                src="jgodwill.near/widget/CPlanet.TopCreator.Card"
                 props={{
                   accountId: data,
                   tooltip: true,
