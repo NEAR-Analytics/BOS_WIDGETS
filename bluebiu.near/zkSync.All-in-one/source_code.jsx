@@ -95,7 +95,7 @@ const MenuContainer = styled.div`
 `;
 
 const activeMenu =
-  Storage.privateGet("zksyncCachedActiveMenu") || props.defaultTab || "Bridge";
+  Storage.privateGet("zksyncCachedActiveMenu") || props.defaultTab || "swap";
 
 function changeTab(menu) {
   Storage.privateSet("zksyncCachedActiveMenu", menu);
