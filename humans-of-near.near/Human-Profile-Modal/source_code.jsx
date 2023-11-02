@@ -235,6 +235,10 @@ const changeBio = async (e) => {
   });
 };
 
+const changeRole = async (e) => {
+  console.log(e, "==>e");
+};
+
 const selectComunity = async (id) => {
   const newComunities = state.commnuities.map((row) => ({
     ...row,
@@ -316,6 +320,7 @@ return (
               noLabel: true,
               placeholder: "Select a role",
               options,
+              onChange: changeRole,
             }}
             src={`${Owner}/widget/Select`}
           />
