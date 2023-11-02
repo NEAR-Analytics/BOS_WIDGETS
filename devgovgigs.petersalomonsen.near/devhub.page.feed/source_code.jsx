@@ -1,6 +1,6 @@
 const { author, recency, tag } = props;
 
-const { href } = VM.require("devgovgigs.petersalomonsen.near/widget/core.lib.url");
+const { href } = VM.require("${REPL_DEVHUB}/widget/core.lib.url");
 
 if (!href) {
   return <p>Loading modules...</p>;
@@ -45,7 +45,7 @@ function Banner() {
   return (
     <div className="d-flex flex-column">
       <Widget
-        src={`devgovgigs.petersalomonsen.near/widget/devhub.components.island.banner`}
+        src={`${REPL_DEVHUB}/widget/devhub.components.island.banner`}
         props={{
           title: (
             <>
@@ -69,18 +69,18 @@ const FeedPage = ({ recency, tag }) => {
     <div className="w-100">
       <Banner />
       <Widget
-        src={"devgovgigs.petersalomonsen.near/widget/devhub.feature.post-search.panel"}
+        src={"${REPL_DEVHUB}/widget/devhub.feature.post-search.panel"}
         props={{
           hideHeader: false,
           children: (
             <Widget
               src={
-                "devgovgigs.petersalomonsen.near/widget/devhub.components.molecule.PostControls"
+                "${REPL_DEVHUB}/widget/devhub.components.molecule.PostControls"
               }
               props={{
                 title: "Post",
                 href: href({
-                  widgetSrc: "devgovgigs.petersalomonsen.near/widget/app",
+                  widgetSrc: "${REPL_DEVHUB}/widget/app",
                   params: { page: "create" },
                 }),
               }}
