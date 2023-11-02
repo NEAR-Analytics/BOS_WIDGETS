@@ -1,4 +1,4 @@
-const { href } = VM.require("devgovgigs.petersalomonsen.near/widget/core.lib.url");
+const { href } = VM.require("${REPL_DEVHUB}/widget/core.lib.url");
 
 href || (href = () => {});
 
@@ -9,19 +9,19 @@ const CommunityBoardPage = ({ handle, permissions }) => {
   return (
     <Widget
       // TODO: LEGACY.
-      src="devgovgigs.petersalomonsen.near/widget/gigs-board.entity.workspace.view.kanban.configurator"
+      src="${REPL_DEVHUB}/widget/gigs-board.entity.workspace.view.kanban.configurator"
       props={{
         communityHandle: handle, // rather than fetching again via the handle
         link: href({
           // do we need a link?
           gateway: "near.org",
-          widgetSrc: "devgovgigs.petersalomonsen.near/widget/app",
+          widgetSrc: "${REPL_DEVHUB}/widget/app",
           params: { page: "community", handle },
         }),
         permissions,
         // TODO: REMOVE AFTER MIGRATION.
-        nearDevGovGigsWidgetsAccountId: "devgovgigs.petersalomonsen.near",
-        nearDevGovGigsWidgetsAccountId: "devgovgigs.near",
+        nearDevGovGigsWidgetsAccountId: "${REPL_DEVHUB}",
+        nearDevGovGigsWidgetsAccountId: "${REPL_DEVHUB_CONTRACT}",
       }}
     />
   );
