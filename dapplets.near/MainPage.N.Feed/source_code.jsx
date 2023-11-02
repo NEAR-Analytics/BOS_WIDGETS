@@ -53,7 +53,7 @@ const renderPost = (a) => {
     <div key={JSON.stringify(a)}>
       <Widget
         loading={<div className="w-100" style={{ height: "200px" }} />}
-        src="mob.near/widget/MainPage.N.Post"
+        src="dapplets.near/widget/MainPage.N.Post"
         props={{
           accountId: a.accountId,
           blockHeight: a.blockHeight,
