@@ -80,9 +80,14 @@ const code = `
           height:50px;
         }        
       }
+
+      .logo-container{
+        height: 60px;
+      }
+
       .mapboxgl-ctrl-logo {
-    display: none !important;
-}
+          display: none !important;
+      }
 
       .gap-16{
         display:flex; 
@@ -91,9 +96,10 @@ const code = `
       }
 
       .gap-14{
-        display:flex; 
         gap: 14px;
+        display:flex; 
         flex-direction:column;
+        justiy-content: space-between;
         @media (max-width: 510px) {
           gap: 3px;
         } 
@@ -150,7 +156,7 @@ const code = `
       
       
        const HTML = '<div class="popup">'+
-          '<div class="d-flex" style="gap:15px">'+
+          '<div class="d-flex" style="gap:20px">'+
             '<div class="logo-container">'+
               '<img src="'+ profileImageUrl +'" class="logo" />'+
             '</div>'+
