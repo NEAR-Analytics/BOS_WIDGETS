@@ -53,28 +53,26 @@ const CreateButton = styled.a`
     }
 `;
 
-const [isAdmin, setIsAdmin] = useState(false);
+const isAdmin = props.isAdmin;
 
-const { secretkey } = props;
+// const { secretkey } = props;
 
-const storedSecretKey = Storage.get(
-  "newPrivateKey",
-  "nearpad.testnet/widget/Ticket.Page"
-)
-  ? Storage.get("newPrivateKey", `${ownerId}/widget/Ticket.Page`)
-  : Storage.get("newPrivateKey", `${ownerId}/widget/RegisterMobile.Index`);
+// const storedSecretKey = Storage.get(
+//   "newPrivateKey",
+//   "nearpad.testnet/widget/Ticket.Page"
+// )
+//   ? Storage.get("newPrivateKey", `${ownerId}/widget/Ticket.Page`)
+//   : Storage.get("newPrivateKey", `${ownerId}/widget/RegisterMobile.Index`);
 
-const fetchData = () => {
-  const key = secretkey ? secretkey : storedSecretKey;
+// const fetchData = () => {
+//   const key = secretkey ? secretkey : storedSecretKey;
 
-  asyncFetch(
-    `${apiUrl}/accounts/auth/${key}`
-  ).then(({ body }) => {
-    if (body?.isAdmin) {
-      setIsAdmin(body?.isAdmin);
-    }
-  });
-};
+//   asyncFetch(`${apiUrl}/accounts/auth/${key}`).then(({ body }) => {
+//     if (body?.isAdmin) {
+//       setIsAdmin(body?.isAdmin);
+//     }
+//   });
+// };
 
 const [loading, setLoading] = useState(true);
 const [notifications, setNotifications] = useState([]);
