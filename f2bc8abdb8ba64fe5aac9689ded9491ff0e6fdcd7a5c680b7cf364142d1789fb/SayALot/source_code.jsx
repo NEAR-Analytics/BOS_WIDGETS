@@ -106,13 +106,15 @@ const thisWidgetName = "SayALot";
 
 const widgets = {
   sayALot: `${authorForWidget}/widget/${thisWidgetName}`,
-  create: `${authorForWidget}/widget/SayALot.Create`,
+  //   create: `${authorForWidget}/widget/SayALot.Create`,////////////////////////////////////////////////////////////////////////////////
+  create: `f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/SayALot.Create`, //////////////////////////////////////////////////////////////////////////////////
   header: `${authorForWidget}/widget/SayALot.NavBar`,
   showArticlesList: `${authorForWidget}/widget/SayALot.AllArticlesList`,
   showArticlesListSortedByAuthors: `${authorForWidget}/widget/SayALot.AllArticlesSortByAuthors`,
   articlesByAuthorCard: `${authorForWidget}/widget/SayALot.ArticlesByAuthorCard`,
   generalCard: `${authorForWidget}/widget/SayALot.GeneralCard`,
-  articleView: `${authorForWidget}/widget/SayALot.ArticleView`,
+  //   articleView: `${authorForWidget}/widget/SayALot.ArticleView`,////////////////////////////////////////////////////////////////////////
+  articleView: `f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/SayALot.ArticleView`, /////////////////////////////////////////////////////////////////////////
   reactions: `${authorForWidget}/widget/SayALot.Reactions`,
   addComment: `${authorForWidget}/widget/SayALot.AddComment`,
   commentView: `${authorForWidget}/widget/SayALot.CommentView`,
