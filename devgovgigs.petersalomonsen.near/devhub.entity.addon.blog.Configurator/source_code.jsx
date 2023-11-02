@@ -1,7 +1,7 @@
 const { data, handle, onSubmit } = props;
 
 const { Tile } =
-  VM.require("devgovgigs.petersalomonsen.near/widget/devhub.components.molecule.Tile") ||
+  VM.require("${REPL_DEVHUB}/widget/devhub.components.molecule.Tile") ||
   (() => <></>);
 
 const Container = styled.div`
@@ -123,7 +123,7 @@ return (
               <div className="flex-grow-1">
                 <Widget
                   // TODO: LEGACY.
-                  src="devgovgigs.petersalomonsen.near/widget/gigs-board.components.molecule.text-input"
+                  src="${REPL_DEVHUB}/widget/gigs-board.components.molecule.text-input"
                   props={{
                     className: "flex-grow-1",
                     value: item,
@@ -146,7 +146,7 @@ return (
             <div className="flex-grow-1">
               <Widget
                 // TODO: LEGACY.
-                src="devgovgigs.petersalomonsen.near/widget/gigs-board.components.molecule.text-input"
+                src="${REPL_DEVHUB}/widget/gigs-board.components.molecule.text-input"
                 props={{
                   className: "flex-grow-1",
                   onChange: (e) => setNewIncludeLabel(e.target.value),
@@ -169,7 +169,7 @@ return (
               <div className="flex-grow-1">
                 <Widget
                   // TODO: LEGACY.
-                  src="devgovgigs.petersalomonsen.near/widget/gigs-board.components.molecule.text-input"
+                  src="${REPL_DEVHUB}/widget/gigs-board.components.molecule.text-input"
                   props={{
                     className: "flex-grow-1",
                     value: item,
@@ -192,7 +192,7 @@ return (
             <div className="flex-grow-1">
               <Widget
                 // TODO: LEGACY.
-                src="devgovgigs.petersalomonsen.near/widget/gigs-board.components.molecule.text-input"
+                src="${REPL_DEVHUB}/widget/gigs-board.components.molecule.text-input"
                 props={{
                   className: "flex-grow-1",
                   onChange: (e) => setNewExcludeLabel(e.target.value),
@@ -212,7 +212,7 @@ return (
           <h3>Layout</h3>
           <div className="flex-grow-1">
             <Widget
-              src={"near/widget/DIG.InputSelect"}
+              src={"${REPL_NEAR}/widget/DIG.InputSelect"}
               props={{
                 groups: [
                   {
@@ -242,7 +242,7 @@ return (
             }
           >
             <Widget
-              src={"devgovgigs.petersalomonsen.near/widget/devhub.components.molecule.Button"}
+              src={"${REPL_DEVHUB}/widget/devhub.components.molecule.Button"}
               props={{
                 classNames: { root: "btn-success" },
                 disabled: !hasDataChanged(),
@@ -267,7 +267,7 @@ return (
       >
         <Container>
           <Widget
-            src={"devgovgigs.petersalomonsen.near/widget/devhub.entity.addon.blog.editor.index"}
+            src={"${REPL_DEVHUB}/widget/devhub.entity.addon.blog.editor.index"}
             props={{
               data,
               handle,
