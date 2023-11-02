@@ -470,7 +470,7 @@ function handleChangePosition(isLong) {
 
 return (
   <DaisyUIWrapper>
-    <div class="card bg-neutral-focus text-white">
+    <div class="card max-w-2xl mx-auto bg-neutral-focus text-white">
       <div class="px-4 pt-4">
         <div class="relative flex justify-center">
           <LogoGMX />
