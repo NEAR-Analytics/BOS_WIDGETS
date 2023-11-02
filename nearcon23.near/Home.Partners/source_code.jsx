@@ -51,10 +51,10 @@ return (
     <h2
       style={{
         padding: "3.125rem",
-        paddingBottom: 0
+        paddingBottom: 0,
       }}
     >
-      Media Partners
+      2023 Partners
     </h2>
 
     <MyImage src={desktopImage} />
