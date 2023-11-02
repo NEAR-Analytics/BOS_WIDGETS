@@ -165,6 +165,7 @@ return (
                     src="astraplusplus.ndctools.near/widget/DAO.Proposal.Common.CongressHouseDropdown"
                     props={{
                         daoId: daoId,
+                        house: state.dao,
                         label: "House",
                         placeholder: "Select house account",
                         onUpdate: onChangeDao,
