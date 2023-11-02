@@ -155,7 +155,17 @@ const inner = (
   </a>
 );
 
-const nftCount = 12;
+const f = fetch(
+  `https://api.kitwallet.app/account/${accountId}/likelyNFTsFromBlock`
+);
+
+if (!f.ok) {
+  return "Loading";
+}
+
+const allNfts = f.body.list;
+
+const nftCount = allNfts.length;
 const s = nftCount > 1 ? "s" : "";
 return (
   <CardRoot>
