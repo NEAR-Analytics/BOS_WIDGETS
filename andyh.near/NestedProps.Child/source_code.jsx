@@ -5,12 +5,20 @@ function y() {
   console.log(7);
 }
 
+const [value, setValue] = useState(0);
+
 const [, , hello] = props.arr;
 const helloCb = useComponentCallback(hello);
 
 return (
   <>
-    <button className="btn btn-primary" onClick={() => console.log(helloCb())}>
+    <button
+      className="btn btn-primary"
+      onClick={() => {
+        setValue(value + 1);
+        console.log(helloCb(value));
+      }}
+    >
       hello
     </button>
     <button className="btn btn-warning" onClick={() => props.incrementByOne(y)}>
