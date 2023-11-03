@@ -1,11 +1,12 @@
 const blog_posts = [
   {
-    index: 0,
+    index: 2,
     title: "NEAR Analytics Digests",
-    description: "September 21st 2023",
-    thumbnail: "https://placehold.co/300x200/d1d4ff/352cb5.png?text=NEAR-Sep21",
-    link: "https://docs.google.com/presentation/d/1WAYL7Tohgssnta6pBQB0flb37fdtYZxh2l9zrHOeS9Y/edit#slide=id.g267a5067256_1_273",
+    description: "October 16th 2023",
+    thumbnail: "https://placehold.co/300x200/d1d4ff/352cb5.png?text=NEAR-Oct16",
+    link: "https://docs.google.com/presentation/d/1YgtrCvgHJhAuMD2Qu1vYC5h2q1oCLj1Ib4EgW-YexEs/edit#slide=id.g221fdd5ab52_6_561",
   },
+
   {
     index: 1,
     title: "NEAR Analytics Digests",
@@ -14,11 +15,11 @@ const blog_posts = [
     link: "https://docs.google.com/presentation/d/1aBZgiHnJXLupAGlyDVHOvwSv-mSs6jfM4qkLMhl6B60/edit#slide=id.g221fdd5ab52_6_561",
   },
   {
-    index: 2,
+    index: 0,
     title: "NEAR Analytics Digests",
-    description: "October 16th 2023",
-    thumbnail: "https://placehold.co/300x200/d1d4ff/352cb5.png?text=NEAR-Oct16",
-    link: "https://docs.google.com/presentation/d/1YgtrCvgHJhAuMD2Qu1vYC5h2q1oCLj1Ib4EgW-YexEs/edit#slide=id.g221fdd5ab52_6_561",
+    description: "September 21st 2023",
+    thumbnail: "https://placehold.co/300x200/d1d4ff/352cb5.png?text=NEAR-Sep21",
+    link: "https://docs.google.com/presentation/d/1WAYL7Tohgssnta6pBQB0flb37fdtYZxh2l9zrHOeS9Y/edit#slide=id.g267a5067256_1_273",
   },
   {
     index: 3,
