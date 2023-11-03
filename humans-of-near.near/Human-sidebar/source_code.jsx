@@ -145,9 +145,9 @@ return (
         <path
           d="M6.25 30H33.75M6.25 10H33.75H6.25ZM6.25 20H33.75H6.25Z"
           stroke="white"
-          stroke-width="1.875"
-          stroke-linecap="round"
-          stroke-linejoin="round"
+          strokeWidth="1.875"
+          strokeLinecap="round"
+          strokeLinejoin="round"
         />
       </svg>
     </button>
