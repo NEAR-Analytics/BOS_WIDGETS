@@ -983,7 +983,7 @@ return (
                             <input
                               placeholder="Label"
                               class="form-control"
-                              value={args.value}
+                              value={args.label}
                               defaultValue={args.label || ""}
                               onChange={(e) =>
                                 cAD(e, fIndex, argIndex, "label")
@@ -994,7 +994,7 @@ return (
                             <input
                               placeholder="Boostrap Class"
                               class="form-control"
-                              value={args.value}
+                              value={args.className}
                               defaultValue={args.className || ""}
                               onChange={(e) =>
                                 cAD(e, fIndex, argIndex, "className")
