@@ -14,6 +14,7 @@ const {
   changeRole,
   changeCommunity,
   onFilter,
+  clearFilter,
 } = props;
 
 const options = [
@@ -112,7 +113,7 @@ const ModalContent = styled.div`
 const ModalAction = styled.div`
   display: flex;
   padding: 0 10px 10px 10px;
-  justify-content: flex-end;
+  justify-content: space-between;
 `;
 
 const ModalTitle = styled.h4`
@@ -393,6 +394,7 @@ return (
         </div>
       </ModalContent>
       <ModalAction>
+        <Button className="btn" onClick={clearFilter}>{`Clear`}</Button>
         <Button className="btn" onClick={onFilter}>{`Apply`}</Button>
       </ModalAction>
     </Component>
