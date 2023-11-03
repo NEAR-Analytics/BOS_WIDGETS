@@ -2,27 +2,27 @@ let query_url_obj = [
   {
     name: "Avalanche",
     url_address:
-      "https://api.artemisxyz.com/data/DAILY_TXNS/?artemisIds=avalanche&startDate=2022-01-01&endDate=2023-10-01",
+      "https://api.artemisxyz.com/data/DAILY_TXNS/?artemisIds=avalanche&startDate=2022-01-01&endDate=2023-12-30",
   },
   {
     name: "Ethereum",
     url_address:
-      "https://api.artemisxyz.com/data/DAILY_TXNS/?artemisIds=ethereum&startDate=2022-01-01&endDate=2023-10-01",
+      "https://api.artemisxyz.com/data/DAILY_TXNS/?artemisIds=ethereum&startDate=2022-01-01&endDate=2023-12-30",
   },
   {
     name: "NEAR",
     url_address:
-      "https://api.artemisxyz.com/data/DAILY_TXNS/?artemisIds=near&startDate=2022-01-01&endDate=2023-10-01",
+      "https://api.artemisxyz.com/data/DAILY_TXNS/?artemisIds=near&startDate=2022-01-01&endDate=2023-12-30",
   },
   {
     name: "Solana",
     url_address:
-      "https://api.artemisxyz.com/data/DAILY_TXNS/?artemisIds=solana&startDate=2022-01-01&endDate=2023-10-01",
+      "https://api.artemisxyz.com/data/DAILY_TXNS/?artemisIds=solana&startDate=2022-01-01&endDate=2023-12-30",
   },
   {
     name: "Bitcoin",
     url_address:
-      "https://api.artemisxyz.com/data/DAILY_TXNS/?artemisIds=bitcoin&startDate=2022-01-01&endDate=2023-10-01",
+      "https://api.artemisxyz.com/data/DAILY_TXNS/?artemisIds=bitcoin&startDate=2022-01-01&endDate=2023-12-30",
   },
 ];
 
@@ -44,6 +44,7 @@ query_url_obj.forEach((item) => {
   if (raw_data.body && raw_data.body.data && raw_data.body.data.artemis_ids) {
     let simplifiedData =
       raw_data.body.data.artemis_ids[item.name.toLowerCase()]; // This will fetch "avalanche" or "bitcoin" or any other name you have
+
     resultObject[`${item.name.toLowerCase()}:DAILY_TXNS`] = simplifiedData
       ? simplifiedData.DAILY_TXNS
       : [];
