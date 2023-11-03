@@ -73,7 +73,7 @@ const code = `
       }
 
       .logo{
-        width:48px; 
+        width:60px; 
         height:60px;
         border-radius: 5px;
         @media (max-width: 510px) {
