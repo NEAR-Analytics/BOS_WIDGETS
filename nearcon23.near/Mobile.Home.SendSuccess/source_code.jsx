@@ -181,12 +181,21 @@ return (
                   style={{
                     color: "white",
                     display: "flex",
+                    fontFamily: "FK Grotesk",
                   }}
                 >
-                  {receiverId?.replace?.(".ncon-factory.keypom.testnet", "")}
-                  <p style={{ color: "#868682" }}>
-                    {".ncon-factory.keypom.testnet"}
-                  </p>
+                  {receiverId?.replace?.(`.${ownerId}`, "")}
+                  <span
+                    style={{
+                      fontSize: ".85rem",
+                      fontWeight: 400,
+                      opacity: 0.85,
+                    }}
+                  >
+                    {/*<p style={{ color: "#868682" }}>*/}
+                    {`.${ownerId}`}
+                    {/*</p>*/}
+                  </span>
                 </div>
               )}
               {/*.nearcon23*/}
