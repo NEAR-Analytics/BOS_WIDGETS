@@ -66,7 +66,7 @@ if (state.redirectToHome === "redirect") {
 
 const fetchTransaction = () => {
   if (state?.userData?.nearconId) {
-    const apiURL = `https://21mqgszhf3.execute-api.us-east-1.amazonaws.com/testnet/api/v1/transactions/${state.userData.nearconId}`;
+    const apiURL = `${apiUrl}/v1/transactions/${state.userData.nearconId}`;
     asyncFetch(apiURL).then(({ body }) => {
       State.update({ transactions: body });
     });
