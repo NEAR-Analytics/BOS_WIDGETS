@@ -243,245 +243,200 @@ return loading ? (
   </div>
 ) : (
   <>
-    {state.userData?._id ? (
-      <Content>
+    <Content>
+      <div
+        style={{
+          flex: 1,
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "flex-start",
+          alignItems: "center",
+          margin: 20,
+          width: "calc(100% - 40px)",
+        }}
+      >
+        {notifications?.map((item, index) => (
+          <Alert key={index}>
+            <div style={{ display: "flex", alignItems: "center", gap: "5px" }}>
+              <i class="bi bi-clock" style={{ color: "#7269e1" }}></i>
+              <p style={{ marginBottom: 0, color: "#7269e1" }}>
+                {timeAgo(item?.createdAt || "")}
+              </p>
+            </div>
+            <p style={{ color: "#4d3bc2" }}>{item?.message}</p>
+
+            {item.showButton && (
+              <a href={item.url} target="_blank">
+                <AlertButton>
+                  <i
+                    class="bi bi-map"
+                    style={{
+                      width: "14",
+                      height: "14",
+                      color: "#4d3bc2",
+                    }}
+                  ></i>
+                  {item.buttonLabel}
+                </AlertButton>
+              </a>
+            )}
+          </Alert>
+        ))}
+
         <div
           style={{
-            flex: 1,
+            border: `2px ${theme.borderColor} solid`,
+            borderRadius: 8,
             display: "flex",
             flexDirection: "column",
-            justifyContent: "flex-start",
+            justifyContent: "center",
             alignItems: "center",
-            margin: 20,
-            width: "calc(100% - 40px)",
+
+            aspectRatio: 1 / 1,
           }}
         >
-          {notifications?.map((item, index) => (
-            <Alert key={index}>
-              <div
-                style={{ display: "flex", alignItems: "center", gap: "5px" }}
-              >
-                <i class="bi bi-clock" style={{ color: "#7269e1" }}></i>
-                <p style={{ marginBottom: 0, color: "#7269e1" }}>
-                  {timeAgo(item?.createdAt || "")}
-                </p>
-              </div>
-              <p style={{ color: "#4d3bc2" }}>{item?.message}</p>
-
-              {item.showButton && (
-                <a href={item.url} target="_blank">
-                  <AlertButton>
-                    <i
-                      class="bi bi-map"
-                      style={{
-                        width: "14",
-                        height: "14",
-                        color: "#4d3bc2",
-                      }}
-                    ></i>
-                    {item.buttonLabel}
-                  </AlertButton>
-                </a>
-              )}
-            </Alert>
-          ))}
+          <h1
+            style={{
+              fontSize: 64,
+              fontWeight: 500,
+              margin: 0,
+              letterSpacing: "-5px",
+            }}
+          >
+            {state?.userData?.balance?.replace?.("0000000000000000000000", "")}
+          </h1>
+          <h3
+            style={{
+              fontSize: 30,
+              fontWeight: 500,
+              margin: 0,
+              color: "#00EC97",
+            }}
+          >
+            NCON
+          </h3>
 
           <div
             style={{
-              border: `2px ${theme.borderColor} solid`,
-              borderRadius: 8,
+              marginTop: 24,
+              width: 300,
+              marginBottom: 24,
               display: "flex",
-              flexDirection: "column",
-              justifyContent: "center",
-              alignItems: "center",
-
-              aspectRatio: 1 / 1,
+              justifyContent: "space-around",
             }}
           >
-            <h1
+            <Button
+              href={`/${ownerId}/widget/Mobile.Home.SendAddress`}
               style={{
-                fontSize: 64,
-                fontWeight: 500,
-                margin: 0,
-                letterSpacing: "-5px",
+                textDecoration: "none",
               }}
             >
-              {state?.userData?.balance?.replace?.(
-                "0000000000000000000000",
-                ""
-              )}
-            </h1>
-            <h3
-              style={{
-                fontSize: 30,
-                fontWeight: 500,
-                margin: 0,
-                color: "#00EC97",
-              }}
-            >
-              NCON
-            </h3>
+              <ButtonIcon>
+                <Widget src={`${ownerId}/widget/Icons.SendMoney`} />
+              </ButtonIcon>
 
-            <div
+              <h6 style={{ fontWeight: "400", color: "#000000" }}>Send</h6>
+            </Button>
+
+            <Button
+              href={`/${ownerId}/widget/Mobile.Home.Recieve`}
               style={{
-                marginTop: 24,
-                width: 300,
-                marginBottom: 24,
+                textDecoration: "none",
+              }}
+            >
+              <ButtonIcon>
+                <Widget src={`${ownerId}/widget/Icons.Receive`} />
+              </ButtonIcon>
+
+              <h6 style={{ fontWeight: "400", color: "#000000" }}>Receive</h6>
+            </Button>
+
+            <Link
+              href={`/${ownerId}/widget/Mobile.Home.Scan`}
+              style={{
+                border: "none",
+                backgroundColor: "transparent",
+                color: "#000000",
                 display: "flex",
-                justifyContent: "space-around",
+                justifyContent: "center",
+                alignItems: "center",
+                flexDirection: "column",
+                gap: 8,
+
+                textDecoration: "none",
               }}
             >
-              <Button
-                href={`/${ownerId}/widget/Mobile.Home.SendAddress`}
-                style={{
-                  textDecoration: "none",
-                }}
-              >
-                <ButtonIcon>
-                  <Widget src={`${ownerId}/widget/Icons.SendMoney`} />
-                </ButtonIcon>
+              <ButtonIcon>
+                <Widget src={`${ownerId}/widget/Icons.Scan`} />
+              </ButtonIcon>
 
-                <h6 style={{ fontWeight: "400", color: "#000000" }}>Send</h6>
-              </Button>
-
-              <Button
-                href={`/${ownerId}/widget/Mobile.Home.Recieve`}
-                style={{
-                  textDecoration: "none",
-                }}
-              >
-                <ButtonIcon>
-                  <Widget src={`${ownerId}/widget/Icons.Receive`} />
-                </ButtonIcon>
-
-                <h6 style={{ fontWeight: "400", color: "#000000" }}>Receive</h6>
-              </Button>
-
-              <Link
-                href={`/${ownerId}/widget/Mobile.Home.Scan`}
-                style={{
-                  border: "none",
-                  backgroundColor: "transparent",
-                  color: "#000000",
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  flexDirection: "column",
-                  gap: 8,
-
-                  textDecoration: "none",
-                }}
-              >
-                <ButtonIcon>
-                  <Widget src={`${ownerId}/widget/Icons.Scan`} />
-                </ButtonIcon>
-
-                <h6 style={{ fontWeight: "400", color: "#000000" }}>Scan</h6>
-              </Link>
-            </div>
-
-            <p
-              style={{
-                textAlign: "center",
-                color: theme.textColor3,
-                padding: "0 20px",
-                maxWidth: 425,
-                fontSize: 12,
-                fontWeight: 400,
-              }}
-            >
-              All NCON expire at the end of the conference
-              <br /> and are worth no monetary value.
-            </p>
+              <h6 style={{ fontWeight: "400", color: "#000000" }}>Scan</h6>
+            </Link>
           </div>
 
-          {(transactions ?? [])?.length !== 0 && (
-            <>
-              <div style={{ paddingTop: 10, marginTop: 40 }}>
-                <p style={{ color: "#868682", fontSize: 16 }}>
-                  Recent Transactions
-                </p>
-                {([...transactions.slice(0, 2)] ?? []).map((item) => (
-                  <Widget
-                    props={{
-                      sent: item.senderId === state.userData.nearconId,
-                      amount: item.amount,
-                      image:
-                        item.senderId === state.userData.nearconId
-                          ? item?.receiverCid
-                          : item.senderCid,
-                      accountId:
-                        item.senderId === state.userData.nearconId
-                          ? item.receiverId
-                          : item.senderId,
-                      time: convertToReadableDate(item.createdAt),
-                    }}
-                    src={`${ownerId}/widget/Components.TransactionCard`}
-                  />
-                ))}
-
-                <button
-                  onClick={() => {
-                    State.update({ redirectToTransactions: true });
-                  }}
-                  style={{
-                    backgroundColor: "#E3E3E0",
-                    borderWidth: 0,
-                    borderRadius: 100,
-                    color: "#000",
-                    padding: 10,
-                    marginBottom: 20,
-                    fontWeight: "500",
-                    paddingLeft: 20,
-                    marginTop: 10,
-                    paddingRight: 20,
-                  }}
-                >
-                  Show More
-                </button>
-              </div>
-            </>
-          )}
-        </div>
-      </Content>
-    ) : (
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "center",
-          alignItems: "center",
-          gap: 32,
-
-          height: "calc(100% - 165px)",
-          width: "100%",
-          padding: "0 20px",
-        }}
-      >
-        <h1
-          style={{
-            textAlign: "center",
-
-            fontFamily: "FK Grotesk",
-            fontSize: 32,
-            fontStyle: "normal",
-            fontWeight: 500,
-            lineHeight: "130%",
-          }}
-        >
-          Authenticatetion error
-        </h1>
-        <br /> Please check your ticket link.
-        <Link to="/" style={{ width: "100%" }}>
-          <RedirectButton
+          <p
             style={{
-              width: "100%",
+              textAlign: "center",
+              color: theme.textColor3,
+              padding: "0 20px",
+              maxWidth: 425,
+              fontSize: 12,
+              fontWeight: 400,
             }}
           >
-            Home
-          </RedirectButton>
-        </Link>
+            All NCON expire at the end of the conference
+            <br /> and are worth no monetary value.
+          </p>
+        </div>
+
+        {(transactions ?? [])?.length !== 0 && (
+          <>
+            <div style={{ paddingTop: 10, marginTop: 40 }}>
+              <p style={{ color: "#868682", fontSize: 16 }}>
+                Recent Transactions
+              </p>
+              {([...transactions.slice(0, 2)] ?? []).map((item) => (
+                <Widget
+                  props={{
+                    sent: item.senderId === state.userData.nearconId,
+                    amount: item.amount,
+                    image:
+                      item.senderId === state.userData.nearconId
+                        ? item?.receiverCid
+                        : item.senderCid,
+                    accountId:
+                      item.senderId === state.userData.nearconId
+                        ? item.receiverId
+                        : item.senderId,
+                    time: convertToReadableDate(item.createdAt),
+                  }}
+                  src={`${ownerId}/widget/Components.TransactionCard`}
+                />
+              ))}
+
+              <button
+                onClick={() => {
+                  State.update({ redirectToTransactions: true });
+                }}
+                style={{
+                  backgroundColor: "#E3E3E0",
+                  borderWidth: 0,
+                  borderRadius: 100,
+                  color: "#000",
+                  padding: 10,
+                  marginBottom: 20,
+                  fontWeight: "500",
+                  paddingLeft: 20,
+                  marginTop: 10,
+                  paddingRight: 20,
+                }}
+              >
+                Show More
+              </button>
+            </div>
+          </>
+        )}
       </div>
-    )}
+    </Content>
   </>
 );
