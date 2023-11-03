@@ -322,7 +322,7 @@ return (
                 ""
               )}
               <button
-                className={`btn btn-primary ${functions.classButton}`}
+                className={`btn ${functions.classButton}`}
                 data-action="view"
                 data-name={functions.name}
                 onClick={(e) =>
@@ -477,7 +477,7 @@ return (
                 ""
               )}
               <button
-                className={`btn btn-primary ${functions.classButton}`}
+                className={`btn ${functions.classButton}`}
                 data-action="call"
                 data-name={functions.name}
                 onClick={(e) =>
