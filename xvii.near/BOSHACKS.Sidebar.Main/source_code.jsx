@@ -403,7 +403,7 @@ const content = (
     })}
 
     {navItem({
-      text: "Submit",
+      text: "Research Topics",
       id: "submit",
       icon: submission,
       iconSelected: submissionSelected,
