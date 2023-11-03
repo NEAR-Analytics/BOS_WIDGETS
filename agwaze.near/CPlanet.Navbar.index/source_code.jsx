@@ -239,7 +239,7 @@ const menuToggleHandler = () => {
 
 const tabToggleHanler = (tabStr) => {
   props.update({ tab: tabStr });
-  State.update({ isOpen: !isOpen });
+  State.update({ isOpen: !state.isOpen });
 };
 
 return (
