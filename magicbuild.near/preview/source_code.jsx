@@ -457,7 +457,11 @@ return (
                 })}
               {functions.selfInputDeposit && (
                 <div className={`form-group pb-2`}>
-                  <label>Deposit</label>
+                  <label>
+                    {functions.labelDeposit.length > 0
+                      ? functions.labelDeposit
+                      : "Deposit"}
+                  </label>
                   <input
                     type="text"
                     value={functions.deposit}
