@@ -1,5 +1,5 @@
 return (
   <div>
-    <Widget src="andyh.near/widget/NestedProps.Parent" />
+    <Widget src="andyh.near/NestedProps.Parent" />
   </div>
 );
