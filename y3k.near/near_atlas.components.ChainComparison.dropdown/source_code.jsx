@@ -26,8 +26,8 @@ return (
           onChange={handleDropdownChange}
           className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring focus:border-blue-300 sm:text-sm rounded-md"
         >
-          <option value="A">Daily Active Addresses (90 days)</option>
-          <option value="B">Daily Transactions (90 days)</option>
+          <option value="A">Daily Active Addresses</option>
+          <option value="B">Daily Transactions</option>
         </select>
 
         {state.selectedWidget === "A" ? (
