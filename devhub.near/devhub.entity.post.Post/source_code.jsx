@@ -140,6 +140,7 @@ const shareButton = props.isPreview ? (
   <Link
     class="card-link text-dark"
     to={href({
+      gateway: "near.org",
       widgetSrc: "devhub.near/widget/app",
       params: { page: "post", id: postId },
     })}
