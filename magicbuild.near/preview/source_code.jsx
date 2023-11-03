@@ -162,7 +162,7 @@ loadData();
 const notLoggedInWarning = <p class="text-center py-2"> Login to Use BOS </p>;
 
 const Wrapper = styled.div`
- .abutton {color:"red"}
+ ${state.cssStyle}
 `;
 
 return (
