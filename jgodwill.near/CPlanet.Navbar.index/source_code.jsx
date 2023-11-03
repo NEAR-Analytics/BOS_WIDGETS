@@ -4,7 +4,8 @@ State.init({
 });
 
 const NavContainer = styled.div`
-  background: ${() => (props.isHome && !isOpen ? "transparent" : "white")};
+  background: ${() =>
+    props.isHome && !state.isOpen ? "transparent" : "white"};
   height: 100px;
   padding: 20px 40px;
   display: flex;
@@ -25,9 +26,9 @@ const NavContainer = styled.div`
 
 const Logo = styled.a`
   display: flex;
-  color: ${() => (props.isHome && !isOpen ? "white" : "#000")};
+  color: ${() => (props.isHome && !state.isOpen ? "white" : "#000")};
   h2 {
-    color: ${() => (props.isHome && !isOpen ? "white" : "#000")};
+    color: ${() => (props.isHome && !state.isOpen ? "white" : "#000")};
 font-family: Helvetica Neue;
 font-size: 32px;
 font-style: italic;
@@ -35,7 +36,7 @@ font-weight: 300;
 line-height: normal;
   }
   h1 {
-    color: ${() => (props.isHome ? "white" : "#000")};
+    color: ${() => (props.isHome && !state.isOpen ? "white" : "#000")};
 font-family: Helvetica Neue;
 font-size: 32px;
 font-style: normal;
