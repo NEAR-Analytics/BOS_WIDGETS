@@ -251,7 +251,7 @@ const code = `
 
     function showProfile(row) {
       const HTMLContent = getDetail(row);
-      const el = document.getElementById("jcj");
+      const el = document.getElementById("profile");
       el.innerHTML = HTMLContent.trim();
     };
 
