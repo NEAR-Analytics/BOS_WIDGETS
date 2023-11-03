@@ -119,13 +119,13 @@ const getFirstSBTToken = () => {
 const hasSBTToken = getFirstSBTToken() !== undefined;
 
 const getMyData = () => {
-  return asyncFetch(API_URL + `/auth/account?accountId=${accountId}`).then(
-    (res) => {
-      if (res.ok) {
-        return res.body.user;
-      }
+  return asyncFetch(
+    API_URL + `/auth/account?accountId=${accountId}&hasSBTToken=${hasSBTToken}`
+  ).then((res) => {
+    if (res.ok) {
+      return res.body.user;
     }
-  );
+  });
 };
 
 const getLocations = () => {
@@ -191,7 +191,7 @@ const handleSaveLocation = () => {
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ accountId, hasSBTToken }),
+    body: JSON.stringify({ accountId }),
   }).then((res) => {
     State.update({ edit: !state.edit });
   });
