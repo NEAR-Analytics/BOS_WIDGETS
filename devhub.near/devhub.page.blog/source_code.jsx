@@ -28,7 +28,7 @@ const HeaderContainer = styled.div`
 `;
 
 const Header = styled.h2`
-  color: #04a46e;
+  color: #555555;
   font-size: 24px;
   font-style: normal;
   font-weight: 400;
