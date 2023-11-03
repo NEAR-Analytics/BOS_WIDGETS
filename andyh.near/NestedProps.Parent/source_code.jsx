@@ -7,6 +7,7 @@ return (
       src="andyh.near/widget/NestedProps.Child"
       props={{
         incrementByOne: (fn) => {
+          console.log("incrementByOne(fn)");
           fn();
           setValue((v) => v + 1);
         },
