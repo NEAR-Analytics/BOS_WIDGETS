@@ -1,5 +1,5 @@
 const ownerId = "nearcon23.near";
-const prefix = props.prefix || "/mobile";
+const prefix = props.prefix || "mobile";
 
 const receiverId = props.receiverId || context.receiverId;
 const amount = props.amount || context.amount || 0.0;
