@@ -28,6 +28,6 @@ const Container = styled.div`
 return (
   <Container>
     <h1>Research Topics</h1>
-    <p>NCR Students and the Research Topics Chosen</p>
+    <p>Research Topics Chosen by NCR Students</p>
   </Container>
 );
