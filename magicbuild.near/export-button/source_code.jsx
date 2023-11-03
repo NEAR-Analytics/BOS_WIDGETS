@@ -140,7 +140,7 @@ return (
         <div class="modal-content">
           <div class="modal-header">
             <h1 class="modal-title fs-5" id="exportLabel">
-              Choose Method to Export
+              Export Widget
             </h1>
             <button
               type="button"
