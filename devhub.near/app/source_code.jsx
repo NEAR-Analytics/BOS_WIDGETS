@@ -1,5 +1,6 @@
 /**
- * This is the main entry point for the DevHub application.
+
+* This is the main entry point for the DevHub application.
  * Page route gets passed in through params, along with all other page props.
  */
 
