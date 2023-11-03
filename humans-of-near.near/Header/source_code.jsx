@@ -9,6 +9,9 @@ const LogoContainer = styled.div`
   @media (max-width: 510px) {
     top: 10px;
     left: 15px;
+    & svg {
+      width: 140px;
+    }
   }
 `;
 const Logo = () => (
