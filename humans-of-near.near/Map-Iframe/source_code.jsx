@@ -8,6 +8,7 @@ const zoom = props.zoom || 9;
 const accountId = context.accountId;
 const edit = props.edit || false;
 const markers = props.markers || [];
+const onLink = props.onLink;
 
 const code = `
 <!DOCTYPE html>
@@ -330,12 +331,5 @@ const code = `
   `;
 
 return (
-  <iframe
-    id="myMap"
-    className="w-100 h-100"
-    srcDoc={code}
-    onMessage={(response) => {
-      State.update({ opened: true, url: response });
-    }}
-  />
+  <iframe id="myMap" className="w-100 h-100" srcDoc={code} onMessage={onLink} />
 );
