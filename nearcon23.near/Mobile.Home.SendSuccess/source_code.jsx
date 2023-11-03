@@ -164,8 +164,8 @@ return (
                 fill="white"
               />
             </svg>
-            <H1>{amount}</H1>
-            <H4 style={{ fontSize: 25, marginTop: -10 }}>NCON</H4>
+            <H1 style={{margin: '40px 0 0 0'}}>{amount}</H1>
+            <H4 style={{ fontSize: 25, margin: '0 0 30px 0'}}>NCON</H4>
             <p
               style={{
                 color: "#868682",
