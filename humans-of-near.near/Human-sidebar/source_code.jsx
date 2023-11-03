@@ -301,7 +301,10 @@ return (
             </p>
           </button>
         </div>
-        <div className="d-flex" style={{ gap: 24 }}>
+        <div
+          className="d-flex align-items-center"
+          style={{ gap: 24, marginBottom: "13%" }}
+        >
           <p style={{ fontSize: 20 }}>Humans:</p>
           <p style={{ fontSize: 30, fontWeight: 700 }}>{humans}</p>
         </div>
