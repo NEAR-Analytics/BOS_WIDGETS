@@ -170,26 +170,23 @@ return (
               success: state.username && !state.usernameError,
               onChange: (username) => {
                 State.update({ username: username?.toLowerCase().trim() });
-                const data = valid(
-                  `${username}.ncon-factory.keypom.testnet`,
-                  (d) => {
-                    const inputValid = validateInput();
-                    if (d) {
+                const data = valid(`${username}.nearcon23.near`, (d) => {
+                  const inputValid = validateInput();
+                  if (d) {
+                    State.update({
+                      usernameError: "Username is already taken",
+                      usernameExists: true,
+                    });
+                  } else {
+                    if (inputValid) {
                       State.update({
-                        usernameError: "Username is already taken",
-                        usernameExists: true,
+                        usernameError: "",
+                        usernameExists: false,
                       });
-                    } else {
-                      if (inputValid) {
-                        State.update({
-                          usernameError: "",
-                          usernameExists: false,
-                        });
-                      }
                     }
-                    validateInput();
                   }
-                );
+                  validateInput();
+                });
                 validateInput();
               },
               validate: () => {
