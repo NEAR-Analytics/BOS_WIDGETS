@@ -209,6 +209,7 @@ const tabsData = [
     label: "Economy",
     content: "...",
     widgets: [
+      "y3k.near/widget/near_atlas.components.economy.tiles",
       "y3k.near/widget/near_atlas.vis.total_supply",
       "y3k.near/widget/near_atlas.vis.total_staked",
     ],
