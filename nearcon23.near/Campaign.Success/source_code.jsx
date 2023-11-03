@@ -59,12 +59,14 @@ return (
 
     <Content>
       <img
-        src="https://s3-alpha-sig.figma.com/img/86b8/464e/684b84c48d4527e9295781b13c5b1d77?Expires=1699833600&Signature=PaSJ1CYdV28D1E8LNZ6t7rl9m8sDzz-spzV6X0HsPOmdrjZntXmp6e8nf~QjkNcbc0ooo0qNDhMPbt4tC1kjcS-fD8DjydPdW8E0cRbNhmxutcTD6Pheg3bCqLsccJTMDWLhmYu-bY4dBC2SXQYaWPyv1h9cgd4N9HAY9id9HgWeziIXCNwzzYjFPShDwNQ2DJXzOXAO1eiURvujzkzB9LEOA~9rAh9lo7mYGpTyFsochWzMNtOdzHaFJQyFPL78ariv7bTVpuRsHgwCBGXkrci9ArP~5aQnoif1uOA6USYzitTWvXlFORSEirqds6H0j5IePkSJHbIiEHEO96kvZw__&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4"
+        src="https://nearpad-images.s3.amazonaws.com/nearcon-success.gif"
         alt="Blah"
         style={{
+          minHeight: 500,
+
           height: "100%",
           zIndex: 5,
-          mixBlendMode: "multiply",
+          // mixBlendMode: "multiply",
           position: "absolute",
           bottom: -20,
         }}
