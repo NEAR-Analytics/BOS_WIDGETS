@@ -337,7 +337,10 @@ return (
         </Search>
       </SearchSection>
       {state.filterDisplayId === "0" ? (
-        <Widget src="agwaze.near/widget/CPlanet.Explore.DAONFTs" />
+        <Widget
+          src="agwaze.near/widget/CPlanet.Explore.DAONFTs"
+          props={{ onButtonClick: props.update }}
+        />
       ) : (
         <Cards>
           {state.nftData.length > 0 ? (
