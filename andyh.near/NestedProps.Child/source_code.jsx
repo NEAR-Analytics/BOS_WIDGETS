@@ -15,7 +15,7 @@ return (
     <button
       className="btn btn-primary"
       onClick={() => {
-        setValue(value + 1);
+        setValue((v) => v + 1);
         console.log(helloCb(value));
       }}
     >
