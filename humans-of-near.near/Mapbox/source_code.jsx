@@ -265,7 +265,7 @@ const code = `
             const _com = Commnuities.find((row)=>row.id == marker.user.community);
             el.style="color:"+_com.color+";";
           }
-          el.onclick='showProfile('+JSON.stringify(marker)+')';
+          el.onclick='showProfile';
           console.log(el.onclick);
           ${
             accountId
