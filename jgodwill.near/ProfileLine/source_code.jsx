@@ -69,7 +69,7 @@ let inner = (
     <span>
       {!hideName && (
         <span className="name" key="name">
-          {name.length > 25
+          {name.length > 20
             ? `${name.slice(0, 10)}...${name.slice(name?.length - 4)}`
             : name}
         </span>
