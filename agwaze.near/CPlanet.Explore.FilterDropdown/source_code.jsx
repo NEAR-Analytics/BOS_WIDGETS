@@ -141,6 +141,9 @@ const SelectReplicaContainer = styled.div`
 State.update({ chains: propsChains || chains });
 const handleChainChange = (chain_id) => {
   props.updateChain(chain_id);
+    State.update({
+      selectedChain: chain_id,
+    });
 };
 
 return (
