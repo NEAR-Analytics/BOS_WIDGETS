@@ -79,9 +79,9 @@ const ModalOverlay = styled.div`
   position: absolute;
   flex-direction: column;
   @media (max-width: 510px) {
-    right: 10px;
-    top: 54px;
-    width: 96%;
+    right: 0;
+    padding:0;
+    width: 100%;
   }
 `;
 
