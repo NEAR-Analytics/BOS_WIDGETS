@@ -257,32 +257,32 @@ const code = `
     function populateMarkers() {
         const markersData = ${JSON.stringify(markers)};
         markersData.forEach(marker => {
-          
-        const el = document.createElement('div');
-        el.innerHTML = HumanString.trim();
-        el.className = 'marker';
-        el.style="color:black;";
-        if(marker.user.community){
-          const _com = Commnuities.find((row)=>row.id == marker.user.community);
-          el.style="color:"+_com.color+";";
-        }
-        el.onclick='showProfile(JSON.stringify('+marker+'))';
-        ${
-          accountId
-            ? `if(marker.user.accountId === "${accountId}"){
-              el.id = 'mymarker';
-              el.innerHTML='';
-              }`
-            : ``
-        }
-        new mapboxgl.Marker(el)
-            .setLngLat([marker.longitude, marker.latitude])
-            .setPopup(
+          const el = document.createElement('div');
+          el.innerHTML = HumanString.trim();
+          el.className = 'marker';
+          el.style="color:black;";
+          if(marker.user.community){
+            const _com = Commnuities.find((row)=>row.id == marker.user.community);
+            el.style="color:"+_com.color+";";
+          }
+          el.onclick="showProfile(JSON.stringify("+marker+"))";
+          console.log(el);
+          ${
+            accountId
+              ? `if(marker.user.accountId === "${accountId}"){
+                el.id = 'mymarker';
+                el.innerHTML='';
+                }`
+              : ``
+          }
+            new mapboxgl.Marker(el)
+              .setLngLat([marker.longitude, marker.latitude])
+              .setPopup(
                 new mapboxgl.Popup({ offset: 25, closeButton: false }) // add popups
                   .setHTML(
                     getDetail(marker)
-              )
-            ).addTo(map);
+                  )
+              ).addTo(map);
         });
     }
 
