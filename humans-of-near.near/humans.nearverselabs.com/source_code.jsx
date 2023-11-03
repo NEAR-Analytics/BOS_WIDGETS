@@ -229,7 +229,7 @@ return (
     <Header>
       <Widget src={`${Owner}/widget/Header`} />
     </Header>
-    {accountId && hasSBTToken && (
+    {accountId && (
       <Widget
         src={`${Owner}/widget/Human-sidebar`}
         props={{
@@ -246,7 +246,7 @@ return (
       />
     )}
 
-    {accountId && hasSBTToken && (
+    {accountId && (
       <div
         style={{
           display: "flex",
@@ -282,7 +282,7 @@ return (
       </div>
     )}
 
-    {accountId && hasSBTToken && state.profileModal && (
+    {accountId && state.profileModal && (
       <Widget
         src={`${Owner}/widget/Human-Profile-Modal`}
         props={{
@@ -294,7 +294,7 @@ return (
       />
     )}
 
-    {accountId && hasSBTToken && state.filtersModal && (
+    {accountId && state.filtersModal && (
       <Widget
         src={`${Owner}/widget/Human-Filters-Modal`}
         props={{
@@ -322,12 +322,14 @@ return (
       />
     )}
 
-    {accountId && !hasSBTToken && state.humanAlert && (
-      <Widget
-        src={`${Owner}/widget/HumanAlert`}
-        props={{ onClose: onHumanClose }}
-      />
-    )}
+    {/* 
+     {accountId && !hasSBTToken && state.humanAlert && (
+       <Widget
+         src={`${Owner}/widget/HumanAlert`}
+         props={{ onClose: onHumanClose }}
+       />
+     )} 
+    */}
 
     <Widget
       src={`${Owner}/widget/Mapbox`}
