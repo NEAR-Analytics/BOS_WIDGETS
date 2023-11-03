@@ -98,6 +98,12 @@ const ResearchTopic = styled.div`
   padding: 8px;
   border: 1px solid #ECEEF0;
   border-radius: 8px;
+  text-align: left;
+`;
+
+const BoldLabel = styled.span`
+  font-weight: 600;
+  display: block; // Makes it go on a new line
 `;
 
 return (
@@ -133,7 +139,8 @@ return (
 
     <CardRight>
       <ResearchTopic>
-        Research topic selected: DeFi on NEAR VS ETH
+        <BoldLabel>Research topic selected:</BoldLabel>
+        DeFi on NEAR VS ETH
       </ResearchTopic>
     </CardRight>
   </Card>
