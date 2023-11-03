@@ -130,8 +130,8 @@ const code = `
 
       #profile{
         bottom: 0;
-        width: "100%";
-        height: "20%";
+        width: 100%;
+        height: 20%;
         position: absolute;
         background: #22272B;
       }
