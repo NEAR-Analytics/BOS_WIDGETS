@@ -27,11 +27,11 @@ const HeaderContainer = styled.div`
   }
 `;
 
-const Header = styled.h2`
+const Header = styled.h1`
   color: #555555;
   font-size: 24px;
   font-style: normal;
-  font-weight: 400;
+  font-weight: 500;
   line-height: 120%; /* 28.8px */
   letter-spacing: -0.24px;
   margin: 0;
@@ -53,7 +53,7 @@ return (
   <div className="w-100">
     <Widget src={`devhub.near/widget/devhub.components.island.banner`} />
     <HeaderContainer>
-      <Header>/blog</Header>
+      <Header>Blog</Header>
     </HeaderContainer>
     <BlogContainer>
       <Widget
