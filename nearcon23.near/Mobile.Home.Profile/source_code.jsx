@@ -9,6 +9,9 @@ const theme = props.theme;
 const transactions = props?.transactions;
 const userData = props.userData;
 
+console.log("=============> ", transactions);
+
+
 const [persona, setPersona] = useState("allTracks");
 
 const Content = styled.div`
