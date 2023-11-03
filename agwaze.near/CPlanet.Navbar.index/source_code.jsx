@@ -132,8 +132,8 @@ return (
             Funding
           </a>
           <a
-            href={`#/jgodwill.near/widget/CPlanet.MainPage.Social`}
-           onClick={() => props.update({ tab: "feed" })}
+            href={`#/agwaze.near/widget/CPlanet.index?tab=feed`}
+            onClick={() => props.update({ tab: "feed" })}
           >
             Feeds
           </a>
