@@ -4,13 +4,6 @@ State.init({
   clicked: false,
   export: false,
 });
-const onSwitchChangeArgExport = (fIndex) => {
-  const abiMethod = state.cMethod;
-  abiMethod[fIndex].export = !abiMethod[fIndex].export;
-  State.update({ cMethod: abiMethod });
-  State.update({ clicked: false });
-  State.update({ export: false });
-};
 const onInputChangeWidgetName = ({ target }) => {
   State.update({ widgetName: target.value.replaceAll(" ", "-") });
   State.update({ clicked: false });
@@ -122,25 +115,6 @@ return (
                 A new widget configured with the form will be created.
               </small>
             </div>
-            {state.cMethod &&
-              state.cMethod.map((functions, fIndex) => (
-                <div class="form-check form-switch">
-                  <input
-                    class="form-check-input"
-                    type="checkbox"
-                    role="switch"
-                    checked={functions.export}
-                    onChange={() => onSwitchChangeArgExport(fIndex)}
-                    id={`flexSwitchCheckDefaultView${fIndex}`}
-                  />
-                  <label
-                    class="form-check-label"
-                    for={`flexSwitchCheckDefault${fIndex}`}
-                  >
-                    {functions.name}
-                  </label>
-                </div>
-              ))}
 
             {state.export && state.widgetName && (
               <>
