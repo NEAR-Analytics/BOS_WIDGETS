@@ -163,7 +163,7 @@ const notLoggedInWarning = <p class="text-center py-2"> Login to Use BOS </p>;
 
 const Wrapper = styled.div`
  ${props.cssStyle}
- .ac {color:"red"}
+ .ac {color:"#dc3545"}
 `;
 console.log("state", state.cssStyle);
 console.log("props", props.cssStyle);
