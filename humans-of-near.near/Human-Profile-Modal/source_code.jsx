@@ -176,7 +176,7 @@ const CommnuityBtn = styled.button`
   `}
 `;
 
-const Button = styled.button`
+const CloseButton = styled.button`
   top: 43px;
   right: 10px;
   padding: 0;
