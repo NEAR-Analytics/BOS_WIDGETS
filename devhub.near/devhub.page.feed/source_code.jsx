@@ -41,33 +41,10 @@ const Gradient = styled.div`
   }
 `;
 
-function Banner() {
-  return (
-    <div className="d-flex flex-column">
-      <Widget
-        src={`devhub.near/widget/devhub.components.island.banner`}
-        props={{
-          title: (
-            <>
-              Welcome to /dev/hub,
-              <br />
-              <span style={{ color: "#151515" }}>the home base</span>
-              <br />
-              for developers on NEAR
-            </>
-          ),
-          imageLink:
-            "https://ipfs.near.social/ipfs/bafybeiap2mzwsly4apaldxguiunx4rjwqyadksj5yxuzwrww3kue3ao5qe",
-        }}
-      />
-    </div>
-  );
-}
-
 const FeedPage = ({ recency, tag }) => {
   return (
     <div className="w-100">
-      <Banner />
+      <Widget src={`devhub.near/widget/devhub.components.island.banner`} />
       <Widget
         src={"devhub.near/widget/devhub.feature.post-search.panel"}
         props={{
