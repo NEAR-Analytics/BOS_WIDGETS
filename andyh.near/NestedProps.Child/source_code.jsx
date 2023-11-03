@@ -21,7 +21,13 @@ return (
     >
       hello
     </button>
-    <button className="btn btn-warning" onClick={() => props.incrementByOne(y)}>
+    <button
+      className="btn btn-warning"
+      onClick={() => {
+        console.log("props.incrementByOne(y)");
+        props.incrementByOne(y);
+      }}
+    >
       +1
     </button>
     <button className="btn btn-danger" onClick={() => props.byTen.increment(x)}>
