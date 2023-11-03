@@ -128,6 +128,9 @@ const Button = styled.button`
     background-color: grey;
     color: #191a1a;
   }
+  @media (max-width: 510px) {
+    margin-bottom: 20px;
+  }
 `;
 
 const TextField = styled.input`
