@@ -266,7 +266,7 @@ const code = `
             el.style="color:"+_com.color+";";
           }
           el.onclick="showProfile(JSON.stringify("+marker+"))";
-          console.log(el);
+          console.log(el.onclick);
           ${
             accountId
               ? `if(marker.user.accountId === "${accountId}"){
