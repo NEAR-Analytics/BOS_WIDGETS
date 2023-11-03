@@ -219,10 +219,6 @@ const getUnitAmount = () => {
 
 return (
   <SwapContainer>
-    <DexIconWrapper>
-      <DexIcon src={dexConfig.logo} />
-    </DexIconWrapper>
-
     <div className="borderShadow">
       <Panel className="">
         <PanelLabel>Swap</PanelLabel>
