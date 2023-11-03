@@ -1,5 +1,5 @@
 return (
-  <div className="bg-gradient-to-bl from-blue-900 to-violet-900 flex items-center justify-center lg:h-screen">
+  <div className="bg-gradient-to-bl from-blue-900 to-violet-900 ">
     <div className="container mx-auto p-4">
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4 gap-4">
         <div className="bg-gray-800 rounded-lg border-gray-700 p-4">
