@@ -21,7 +21,7 @@ State.init({
     community: "",
   },
   filters: {
-    role: "developer",
+    role: "",
     community: [],
   },
   locations: [],
