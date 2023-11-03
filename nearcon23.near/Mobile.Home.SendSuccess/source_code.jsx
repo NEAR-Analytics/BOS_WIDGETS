@@ -171,32 +171,34 @@ return (
                 color: "#868682",
                 textAlign: "center",
                 fontFamily: "FK Grotesk",
-                fontWeight: "500",
+                fontWeight: 400,
+                fontSize: 20,
               }}
             >
               Sent to
               <br />
               {!!receiverId && (
-                <div
+                <h4
                   style={{
                     color: "white",
                     display: "flex",
                     fontFamily: "FK Grotesk",
+                    fontSize: 20,
+                    fontWeight: 400,
+                    margin: 0,
                   }}
                 >
                   {receiverId?.replace?.(`.${ownerId}`, "")}
                   <span
                     style={{
-                      fontSize: ".85rem",
-                      fontWeight: 400,
-                      opacity: 0.85,
+                      opacity: 0.5,
                     }}
                   >
                     {/*<p style={{ color: "#868682" }}>*/}
                     {`.${ownerId}`}
                     {/*</p>*/}
                   </span>
-                </div>
+                </h4>
               )}
               {/*.nearcon23*/}
             </p>
