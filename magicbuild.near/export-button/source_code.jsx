@@ -261,16 +261,15 @@ return (
                 </div>
                 <div class="form-group pt-2">
                   <label>Tags</label>
-                  {state.tags.length > 0 && (
-                    <Typeahead
-                      options={state.tags}
-                      multiple
-                      onChange={(value) => {
-                        State.update({ choose: value });
-                      }}
-                      placeholder="Input tag..."
-                    />
-                  )}
+
+                  <Typeahead
+                    options={state.tags}
+                    multiple
+                    onChange={(value) => {
+                      State.update({ choose: value });
+                    }}
+                    placeholder="Input tag..."
+                  />
                 </div>
               </div>
               <div class="modal-footer">
