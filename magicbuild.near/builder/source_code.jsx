@@ -103,7 +103,7 @@ const cMLabel = (e, fIdx, type) => {
   if (type == "remove") a.splice(fIdx, 1);
   if (type == "depositUnit") a[fIdx].depositUnit = value;
   if (type == "gasUnit") a[fIdx].gasUnit = value;
-  if (type == "selfInputDeposit") a[fIdx].selfInputDeposit = value;
+  if (type == "selfInputDeposit") a[fIdx].selfInputDeposit = e.target.checked;
   State.update({ cMethod: a });
 };
 const cAD = (e, fIdx, aIdx, type) => {
@@ -158,7 +158,7 @@ const onCreateMethod = () => {
       depositUnit: "near",
       selfInputDeposit: false,
       gas: 30000000000000,
-      gasUnit: "near",
+      gasUnit: "yoctoNEAR",
     };
     const abiMethod = state.cMethod;
     const isExistFunction = false;
@@ -242,7 +242,7 @@ const getMethodFromSource = () => {
           depositUnit: "near",
           selfInputDeposit: false,
           gas: 30000000000000,
-          gasUnit: "near",
+          gasUnit: "yoctoNEAR",
         };
         if (res.body.txns.length > 0) {
           const isScs = false;
