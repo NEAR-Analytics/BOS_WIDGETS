@@ -119,7 +119,7 @@ const Item = styled.button`
   align-items: center;
   flex-direction: row;
   padding: 0.5em 0.75em;
-  background: transparent;
+  background: #22272b;
   justify-content: space-between;
   transition: background 0.2s ease-in-out;
   
