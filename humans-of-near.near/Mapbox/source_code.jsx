@@ -249,6 +249,10 @@ const code = `
         return HTML;
     };
 
+    function showProfile (row) {
+      console.log(row);
+    };
+
     // Function to populate markers to the map
     function populateMarkers() {
         const markersData = ${JSON.stringify(markers)};
@@ -262,6 +266,7 @@ const code = `
           const _com = Commnuities.find((row)=>row.id == marker.user.community);
           el.style="color:"+_com.color+";";
         }
+        el.onclick='showProfile(JSON.stringify('+marker+'))';
         ${
           accountId
             ? `if(marker.user.accountId === "${accountId}"){
