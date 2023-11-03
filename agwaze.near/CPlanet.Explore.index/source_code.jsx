@@ -308,8 +308,8 @@ return (
           onButtonClick: (contract, token) =>
             props.update({
               tab: "singleNFT",
-              contractId: contract,
-              tokenId: token,
+              contractId: "thekindao.mintbase1.near",
+              tokenId: "6",
               chainState: "near",
             }),
           chainState: "near",
