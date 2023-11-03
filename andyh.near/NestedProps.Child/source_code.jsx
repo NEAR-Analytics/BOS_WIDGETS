@@ -9,7 +9,7 @@ const [, , hello] = props.arr;
 
 return (
   <>
-    <button className="btn btn-primary" onClick={() => hello()}>
+    <button className="btn btn-primary" onClick={() => console.log(hello())}>
       hello
     </button>
     <button className="btn btn-warning" onClick={() => props.incrementByOne(y)}>
