@@ -180,10 +180,16 @@ const onFilter = () => {
     }
     return false;
   });
-  console.log(result, filters);
   State.update({
     ...state,
     locations: result,
+  });
+};
+
+const clearFilter = () => {
+  State.update({
+    filters: { role: "", community: [] },
+    loaded: false,
   });
 };
 
@@ -320,6 +326,7 @@ return (
             });
           },
           onFilter,
+          clearFilter,
         }}
       />
     )}
