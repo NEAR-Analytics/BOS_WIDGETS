@@ -6,7 +6,6 @@ State.init({
   contractAbiView,
   response,
   contractAbiArg: props.cMethod,
-  cssStyle: props.cssStyle,
 });
 
 const onInputChangeContractArg = (obj) => {
