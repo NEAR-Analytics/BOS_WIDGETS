@@ -732,7 +732,7 @@ const createPool = () => {
     }
     if (state.poolDistributionSelected.name == "Flat") {
       console.log("Flat");
-      if (onlyRight) {
+      if (state.onlyRight) {
         const leftAmount = (
           parseFloat(state.amountInputTokenA) /
           Math.floor(state.binsToDistribute / 2)
