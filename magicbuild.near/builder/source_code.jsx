@@ -713,7 +713,7 @@ return (
         </div>
 
         <div class="form-group col-md-4">
-          {state ? (
+          {state.cMethod.length > 0 ? (
             <Widget src={`${cep}/widget/preview-button`} props={state} />
           ) : (
             <>
