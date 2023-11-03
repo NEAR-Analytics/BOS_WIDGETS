@@ -28,7 +28,11 @@ const onInputChangeContractArg = (obj) => {
 
   State.update({ contractAbiArg: data });
 };
-
+const cDeposit = (e, fIndex) => {
+  const data = state.contractAbiArg;
+  data[fIndex].deposit = e.target.value;
+  State.update({ contractAbiArg: data });
+};
 const onBtnClickCall = (e, fName, action, fIndex) => {
   const argsArr = [];
   const data = state.contractAbiArg;
@@ -431,6 +435,18 @@ return (
                     </div>
                   );
                 })}
+              {functions.selfInputDeposit && (
+                <div className={`form-group pb-2`}>
+                  <label>Deposit</label>
+                  <input
+                    type="text"
+                    value={"" + functions.deposit}
+                    defaultValue={"" + functions.deposit}
+                    onChange={(e) => cDeposit(e, fIndex)}
+                    class="form-control "
+                  />
+                </div>
+              )}
               {state.response[functions.name] ? (
                 <p class="card-text">{state.response[functions.name]}</p>
               ) : (
