@@ -52,6 +52,7 @@ const Root = styled.div`
     gap: 30px;
     align-items: center;
     justify-content: center;
+    margin-top: 40px;
 `;
 
 return (
