@@ -218,6 +218,7 @@ return (
               options,
               value: options.find((row) => row.value === role) ?? options[0],
               onchange: (e) => {
+                console.log(e, "==>ee");
                 changeRole(e.value);
               },
             }}
