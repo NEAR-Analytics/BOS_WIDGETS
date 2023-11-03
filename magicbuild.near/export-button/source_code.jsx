@@ -24,10 +24,10 @@ const onInputChangeWidgetTitle = ({ target }) => {
   console.log(state.metadata);
 };
 const onInputChangeWidgetDescription = ({ target }) => {
-  State.update({ linktree: { website: target.value } });
+  State.update({ description: target.value });
 };
 const onInputChangeWidgetWebsite = ({ target }) => {
-  State.update({ description: target.value });
+  State.update({ linktree: { website: target.value } });
 };
 const uploadFileUpdateState = (body) => {
   asyncFetch("https://ipfs.near.social/add", {
