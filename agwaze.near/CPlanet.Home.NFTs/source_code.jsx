@@ -158,7 +158,7 @@ return (
                   image: data.media,
                   owner: data.owner,
                   chainState: "near",
-                  logo: logo,
+                  logo,
                   onButtonClick: () =>
                     props.update({
                       tab: "singleNFT",
@@ -171,7 +171,7 @@ return (
                         data.listings.length / 1000000000000000000000000
                       ).toFixed(2)
                     : null,
-                  isListed: data.listed ? "LISTED" : "NOT LISTED",
+                  isListed: data.listings.length ? "LISTED" : "NOT LISTED",
                   tokenId: data.token_id,
                   contractId: data.nft_contract_id,
                 }}
