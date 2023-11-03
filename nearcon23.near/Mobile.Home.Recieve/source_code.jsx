@@ -1,6 +1,10 @@
 const ownerId = "nearcon23.near";
+const apiUrl =
+  "https://gqqkd7l7mk.execute-api.us-east-1.amazonaws.com/mainnet/api/v1";
+
+const appUrl = "https://nearcon.app";
+
 const receiverId = props.receiverId || context.receiverId || "nearcon23.near";
-const prefix = props.prefix || "/mobile";
 
 const amount = props.amount || context.amount || 0.0;
 
@@ -94,7 +98,7 @@ const [qrPayload, setQrPayload] = useState("");
 
 const fetchData = () => {
   const key = secretkey ? secretkey : storedSecretKey;
-  asyncFetch(`${baseUrl}/api/v1/accounts/auth/${key}`).then(({ body }) => {
+  asyncFetch(`${apiUrl}/accounts/auth/${key}`).then(({ body }) => {
     console.log(body);
     if (
       !!Storage.get(
@@ -111,7 +115,7 @@ const fetchData = () => {
     });
 
     setQrPayload(
-      `https://${rootUrl}/${ownerId}/widget/Mobile.Home.Send?receiverId=${body?.nearconId}`
+      `${appUrl}/${ownerId}/widget/Mobile.Home.Send?receiverId=${body?.nearconId}`
     );
   });
 };
