@@ -305,13 +305,7 @@ return (
     <TopNFTS>
       <Widget
         props={{
-          onButtonClick: (contract, token) =>
-            props.update({
-              tab: "singleNFT",
-              contractId: "thekindao.mintbase1.near",
-              tokenId: "6",
-              chainState: "near",
-            }),
+          onButtonClick: props.update,
           chainState: "near",
         }}
         src="agwaze.near/widget/CPlanet.NFTCard.FeaturedNFT"
