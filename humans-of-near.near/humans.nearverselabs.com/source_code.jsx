@@ -337,10 +337,10 @@ return (
       className="position-absolute"
       style={{ bottom: 20, left: 20, zIndex: 2 }}
     >
-      <button className="btn" onClick={setOpenInfo}>
+      <button className="btn p-0" onClick={setOpenInfo}>
         <svg
-          width="40"
-          height="40"
+          width="30"
+          height="30"
           viewBox="0 0 40 40"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
