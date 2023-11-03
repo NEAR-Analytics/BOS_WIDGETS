@@ -11,6 +11,8 @@ State.init({
   clicked: false,
   export: false,
   img: null,
+  tags,
+  choose,
 });
 const onInputChangeWidgetName = ({ target }) => {
   State.update({ widgetName: target.value.replaceAll(" ", "-") });
@@ -19,7 +21,6 @@ const onInputChangeWidgetName = ({ target }) => {
 };
 const onInputChangeWidgetTitle = ({ target }) => {
   State.update({ name: target.value });
-  console.log(state.metadata);
 };
 const onInputChangeWidgetDescription = ({ target }) => {
   State.update({ description: target.value });
@@ -46,6 +47,21 @@ const filesOnChange = (files) => {
   }
 };
 
+const taggedWidgets = Social.keys(`*/widget/*/metadata/tags/*`, "final");
+
+let tags = [];
+Object.keys(taggedWidgets).forEach((item) => {
+  Object.keys(taggedWidgets[item].widget).forEach((item1) => {
+    Object.keys(taggedWidgets[item].widget[item1].metadata.tags).forEach(
+      (tag) => {
+        tags.push(tag);
+      }
+    );
+  });
+});
+
+State.update({ tags: tags });
+
 const openModal = () => {
   State.update({ clicked: false });
   State.update({ export: false });
@@ -66,7 +82,11 @@ const exportForm = () => {
         functions: [],
       },
     };
-
+    console.log("state.choose", state.choose);
+    const tagsObj = state.choose.reduce((accumulator, value) => {
+      return { ...accumulator, [value]: "" };
+    }, {});
+    console.log(obj);
     const abiMethod = state.cMethod;
     abiMethod.forEach((item) => {
       abi.body.functions.push(item);
@@ -75,6 +95,7 @@ const exportForm = () => {
       `${context.accountId}/magicbuild/widgetList`
     );
     const exporttList = JSON.parse(exportListData) || [];
+
     const isExist = false;
     exporttList.forEach((item, index) => {
       if (item.widgetName == state.widgetName) {
@@ -102,6 +123,7 @@ const exportForm = () => {
             image: {
               ipfs_cid: state.img.cid,
             },
+            tags: tagsObj,
           },
         },
       },
@@ -213,6 +235,17 @@ return (
                 class="form-control"
                 defaultValue={state.website || ""}
                 onChange={(e) => onInputChangeWidgetWebsite(e)}
+              />
+            </div>
+            <div class="form-group pt-2">
+              <label>Tags</label>
+              <Typeahead
+                options={tags}
+                multiple
+                onChange={(value) => {
+                  State.update({ choose: value });
+                }}
+                placeholder="Input tag..."
               />
             </div>
 
