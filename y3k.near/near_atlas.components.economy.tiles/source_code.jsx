@@ -59,93 +59,71 @@ const Card = ({ title, value }) => (
     </div>
   </div>
 );
-
 return (
-  <div className="max-w-full mx-4 py-6 sm:mx-auto sm:px-6 lg:px-8">
-    <div className="sm:flex sm:space-x-4">
-      <div className="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow transform transition-all mb-4 w-full sm:w-1/3 sm:my-8">
-        <div className="bg-white p-5">
-          <div className="sm:flex sm:items-start">
-            <div className="text-center sm:mt-0 sm:ml-2 sm:text-left">
-              <h3 className="text-sm leading-6 font-medium text-gray-400">
-                Total Supply
-              </h3>
-              <p className="text-3xl font-bold text-black">
-                {" "}
-                {resultObject["Total Supply"][0]["Total Supply"].toLocaleString(
-                  "en-US"
-                )}
-              </p>
-            </div>
-          </div>
+  <div className="container mx-auto p-4 bg-gray-900 rounded-lg">
+    <div className="flex space-x-4">
+      <div className="bg-gray-800 shadow-xl rounded-lg p-6 w-1/2">
+        <div className="flex flex-col items-center">
+          <h3 className="text-2xl font-semibold mb-4 text-white">
+            Total Supply
+          </h3>
+          <span className="text-4xl font-bold text-gray-200">
+            {resultObject["Total Supply"][0]["Total Supply"].toLocaleString(
+              "en-US"
+            )}
+          </span>
         </div>
       </div>
 
-      <div className="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow transform transition-all mb-4 w-full sm:w-1/3 sm:my-8">
-        <div className="bg-white p-5">
-          <div className="sm:flex sm:items-start">
-            <div className="text-center sm:mt-0 sm:ml-2 sm:text-left">
-              <h3 className="text-sm leading-6 font-medium text-gray-400">
-                Circulating Supply
-              </h3>
-              <p className="text-3xl font-bold text-black">
-                {resultObject["Circulating Supply"][0][
-                  "Circulating Supply"
-                ].toLocaleString("en-US")}
-              </p>
-            </div>
-          </div>
+      <div className="bg-gray-800 shadow-xl rounded-lg p-6 w-1/2">
+        <div className="flex flex-col items-center">
+          <h3 className="text-2xl font-semibold mb-4 text-white">
+            Circulating Supply
+          </h3>
+          <span className="text-4xl font-bold text-gray-200">
+            {resultObject["Circulating Supply"][0][
+              "Circulating Supply"
+            ].toLocaleString("en-US")}
+          </span>
         </div>
       </div>
 
-      <div className="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow transform transition-all mb-4 w-full sm:w-1/3 sm:my-8">
-        <div className="bg-white p-5">
-          <div className="sm:flex sm:items-start">
-            <div className="text-center sm:mt-0 sm:ml-2 sm:text-left">
-              <h3 className="text-sm leading-6 font-medium text-gray-400">
-                Total Stakes
-              </h3>
-              <p className="text-3xl font-bold text-black">
-                {resultObject["Total Staked"][0]["Total Staked"].toLocaleString(
-                  "en-US"
-                )}
-              </p>
-            </div>
-          </div>
+      <div className="bg-gray-800 shadow-xl rounded-lg p-6 w-1/2">
+        <div className="flex flex-col items-center">
+          <h3 className="text-2xl font-semibold mb-4 text-white">
+            Total Stakes
+          </h3>
+          <span className="text-4xl font-bold text-gray-200">
+            {resultObject["Total Staked"][0]["Total Staked"].toLocaleString(
+              "en-US"
+            )}
+          </span>
         </div>
       </div>
 
-      <div className="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow transform transition-all mb-4 w-full sm:w-1/3 sm:my-8">
-        <div className="bg-white p-5">
-          <div className="sm:flex sm:items-start">
-            <div className="text-center sm:mt-0 sm:ml-2 sm:text-left">
-              <h3 className="text-sm leading-6 font-medium text-gray-400">
-                Active Validators
-              </h3>
-              <p className="text-3xl font-bold text-black">
-                {resultObject["Active Validators"][0][
-                  "Active Validators"
-                ].toLocaleString("en-US")}
-              </p>
-            </div>
-          </div>
+      <div className="bg-gray-800 shadow-xl rounded-lg p-6 w-1/2">
+        <div className="flex flex-col items-center">
+          <h3 className="text-2xl font-semibold mb-4 text-white">
+            Active Validators
+          </h3>
+          <span className="text-4xl font-bold text-gray-200">
+            {resultObject["Active Validators"][0][
+              "Active Validators"
+            ].toLocaleString("en-US")}
+          </span>
         </div>
       </div>
 
-      <div className="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow transform transition-all mb-4 w-full sm:w-1/3 sm:my-8">
-        <div className="bg-white p-5">
-          <div className="sm:flex sm:items-start">
-            <div className="text-center sm:mt-0 sm:ml-2 sm:text-left">
-              <h3 className="text-sm leading-6 font-medium text-gray-400">
-                Nakamoto Coefficient
-              </h3>
-              <p className="text-3xl font-bold text-black">
-                {resultObject["Nakamoto Coefficient"][0][
-                  "Nakamoto Coefficient"
-                ].toLocaleString("en-US")}
-              </p>
-            </div>
-          </div>
+      <div className="bg-gray-800 shadow-xl rounded-lg p-6 w-1/2">
+        <div className="flex flex-col items-center">
+          <h3 className="text-2xl font-semibold mb-4 text-white">
+            Nakamoto Coefficient
+          </h3>
+          <span className="text-4xl font-bold text-gray-200">
+            {resultObject["Nakamoto Coefficient"][0][
+              "Nakamoto Coefficient"
+            ].toLocaleString("en-US")}
+          </span>
         </div>
       </div>
     </div>
