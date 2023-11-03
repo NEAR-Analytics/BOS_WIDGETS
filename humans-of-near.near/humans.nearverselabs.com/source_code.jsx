@@ -195,7 +195,7 @@ const handleSaveLocation = async () => {
     body: JSON.stringify({ accountId }),
   }).then((res) => {
     State.update({ edit: !state.edit });
-    await getLocationsData();
+    getLocationsData();
   });
 };
 
