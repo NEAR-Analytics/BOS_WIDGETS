@@ -169,9 +169,9 @@ function timeAgo(timestamp) {
 //   });
 // };
 
-useEffect(() => {
-  fetchData();
-}, [secretkey, storedSecretKey]);
+// useEffect(() => {
+//   fetchData();
+// }, [secretkey, storedSecretKey]);
 
 const arrayList = [
   { accountId: "phil", sent: true, amount: 0.5 },
