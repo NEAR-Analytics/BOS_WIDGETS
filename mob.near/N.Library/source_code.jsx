@@ -1,6 +1,9 @@
 const accountId = context.accountId || "root.near";
 const authorId = "mob.near";
 
+const itemDescription =
+  'The identifier item. It will be used as a unique identifier of the entity that receives the action. It\'s also used as a key of the action in the index.\nThe item should be an object with the following keys: `type`, `path` and optional `blockHeight`.\n- `type`: If the data is stored in the social DB, then the type is likely `"social"`, other types can be defined in the standards.\n- `path`: The path to the item. For a `"social"` type, it\'s absolute path within SocialDB, e.g. `alice.near/post/main`.\n- `blockHeight`: An optional paremeter to indicate the block when the data was stored. Since SocialDB data can be overwritten to save storage, the exact data should be referenced by the block height (e.g. for a given post). But if the latest data should be used, then `blockHeight` should be ommited.\n\nExamples of `item`:\n- `{type: "social", path: "mob.near/widget/N.Library"}`\n- `{type: "social", path: "mob.near/post/main", blockHeight: 81101335}`\n';
+
 const components = [
   {
     title: "Profile Block",
@@ -88,6 +91,130 @@ const components = [
         "Display overlay tooltip or title when you hover over the profile, default false. Will display a custom title if tooltip is given. If tooltip is true, the full tooltip is displayed. Default false",
     },
   },
+  {
+    title: "Profile Large",
+    category: "Profile",
+    widgetName: "ProfileLarge",
+    description:
+      "Large profile block for a given account ID. It's used to display the top part of the profile page",
+    demoProps: { accountId },
+    requiredProps: {
+      accountId: "The account ID of the profile",
+    },
+    optionalProps: {
+      link: "Whether to make profile name clickable with a given link. Can be `true`, `false` or a string with the URL, default `false`.",
+      showEditButton:
+        "Whether to show the Edit Profile button, default false. But it'll be displayed in case the `profile` object is not given",
+      profile: "Object that holds profile information to display",
+    },
+  },
+  {
+    title: "Like Button",
+    category: "Button",
+    widgetName: "N.LikeButton",
+    description:
+      "A like button for a given item. It automatically keeps track of the number of unique likes and let a signed-in user to like the given item. See definition of the item in props",
+    demoProps: {
+      item: {
+        type: "social",
+        path: "mob.near/widget/N.Library",
+      },
+    },
+    requiredProps: {
+      item: itemDescription,
+    },
+    optionalProps: {
+      notifyAccountId:
+        "Which account ID should be notified when a user likes the item. The user will receive a notification with the item included. Default `undefined`",
+    },
+  },
+  {
+    title: "Repost Button",
+    category: "Button",
+    widgetName: "N.RepostButton",
+    description:
+      "A repost button for a given item (usually a post). It automatically keeps track of the number of reposts and let a signed-in user to repost the given item. See definition of the item in props",
+    demoProps: {
+      item: {
+        type: "social",
+        path: "mob.near/post/main",
+        blockHeight: 81101335,
+      },
+    },
+    requiredProps: {
+      item: itemDescription,
+    },
+    optionalProps: {
+      notifyAccountId:
+        "Which account ID should be notified when a user likes the item. The user will receive a notification with the item included. Default `undefined`",
+    },
+  },
+  {
+    title: "Post",
+    category: "Feed",
+    widgetName: "MainPage.N.Post",
+    description: "TBD",
+    demoProps: {
+      accountId: "mob.near",
+    },
+    requiredProps: {},
+    optionalProps: {},
+  },
+  {
+    title: "Comment",
+    category: "Feed",
+    widgetName: "MainPage.N.Comment",
+    description: "TBD",
+    demoProps: {
+      accountId: "mob.near",
+    },
+    requiredProps: {},
+    optionalProps: {},
+  },
+  {
+    title: "Comment Feed",
+    category: "Feed",
+    widgetName: "MainPage.N.Comment.Feed",
+    description: "TBD TODO WRAPPER",
+    demoProps: {
+      accountId: "mob.near",
+    },
+    requiredProps: {},
+    optionalProps: {},
+  },
+  {
+    title: "Compose",
+    category: "Utils",
+    widgetName: "MainPage.N.Common.Compose",
+    description: "TBD",
+    demoProps: {
+      text: "# Hello",
+    },
+    requiredProps: {},
+    optionalProps: {},
+  },
+  {
+    title: "Social Markdown",
+    category: "Utils",
+    widgetName: "N.SocialMarkdown",
+    description: "TBD",
+    demoProps: {
+      text: "# Hello",
+    },
+    requiredProps: {},
+    optionalProps: {},
+  },
+  {
+    title: "Social Markdown",
+    category: "Utils",
+    widgetName: "N.SocialMarkdown",
+    description: "TBD",
+    demoProps: {
+      text: "# Hello",
+    },
+    requiredProps: {},
+    optionalProps: {},
+  },
 ];
 
 const renderProps = (props, optional) => {
@@ -112,8 +239,12 @@ const renderComponent = (c, i) => {
   const embedCode = `<Widget\n  src="${widgetSrc}"\n  props={{${JSON.stringify(
     c.demoProps,
     undefined,
-    4
-  ).slice(1, -1)}  }}\n/>\n`;
+    2
+  )
+    .slice(1, -1)
+    .split("\n")
+    .map((s) => `  ${s}`)
+    .join("\n")}}}\n/>\n`;
   const id = c.title.toLowerCase().replaceAll(" ", "-");
   return (
     <div className="component" key={i}>
