@@ -252,7 +252,11 @@ const Wrapper = styled.div`
 
   .up-buttons {
     margin-top: 6px;
-    margin-left: -12px;
+    margin-left: -16px;
+
+     @media screen and (max-width: 540px){
+      margin-left: -50px;
+     }
   }
 `;
 
@@ -370,8 +374,12 @@ gap: 2em;
 justify-content: center;
 align-items: center;
 margin: 10px auto;
+width: 100%;
 border-radius: .7em;
 height: 100%;
+  @media screen and (max-width: 540px){
+    flex-wrap: wrap;
+  }
 `;
 
 const Actions = styled.div`
