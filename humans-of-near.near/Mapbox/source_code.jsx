@@ -216,8 +216,6 @@ const code = `
         state.social = true
       }
       const profileImageUrl = "https://i.near.social/magic/large/https://near.social/magic/img/account/"+ user.accountId;
-      
-      
        const HTML = '<div class="popup">'+
           '<div class="d-flex" style="gap:20px">'+
             '<div class="logo-container">'+
@@ -247,13 +245,7 @@ const code = `
         return HTML;
     };
 
-    function showProfile(row) {
-      if(window.innerWidth>510) return;
-      const HTMLContent = getDetail(row);
-      const el = document.getElementById("profile");
-      el.style.display = "block";
-      el.innerHTML = HTMLContent.trim();
-    };
+   
 
     function populateMarkers() {
         const markersData = ${JSON.stringify(markers)};
