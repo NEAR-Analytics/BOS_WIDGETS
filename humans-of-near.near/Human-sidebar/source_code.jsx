@@ -56,6 +56,7 @@ const SidebarMobileContent = styled.div`
   align-items: center;
   border: 1px solid #FFF;
   flex-direction: column;
+  justify-content: space-between;
 `;
 
 const openMobileMenu = () => {
@@ -190,7 +191,7 @@ return (
           <button
             className="btn p-0 position-absolute"
             onClick={openMobileMenu}
-            style={{ top: 29, right: 29 }}
+            style={{ top: 29, right: 29, color: "#FFF" }}
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -254,48 +255,55 @@ return (
             </p>
           </button>
 
-          <div
+          <button
+            className="btn p-0 d-flex justify-content-center align-items-center"
+            onClick={showFilters}
             style={{
-              padding: "10px 0",
-              borderBottom: filtersModal ? "1px solid #FFF" : 0,
+              width: "fit-content",
+              height: "fit-content",
+              gap: 40,
+              color: "white",
             }}
           >
-            <button
-              className="btn p-0"
-              onClick={showFilters}
-              style={{ width: "fit-content", height: "fit-content" }}
+            <svg
+              width="34"
+              height="34"
+              viewBox="0 0 34 34"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
             >
-              <svg
-                width="34"
-                height="34"
-                viewBox="0 0 34 34"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M10.1134 13.542H23.8277M12.3991 16.9706H21.542M14.6848 20.3991H19.2563"
-                  stroke="white"
-                  strokeWidth="1.2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-                <rect
-                  x="1.13137"
-                  y="16.9705"
-                  width="22.4"
-                  height="22.4"
-                  rx="1.2"
-                  transform="rotate(-45 1.13137 16.9705)"
-                  stroke="white"
-                  strokeWidth="1.6"
-                />
-              </svg>
-            </button>
-          </div>
+              <path
+                d="M10.1134 13.542H23.8277M12.3991 16.9706H21.542M14.6848 20.3991H19.2563"
+                stroke="white"
+                strokeWidth="1.2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+              <rect
+                x="1.13137"
+                y="16.9705"
+                width="22.4"
+                height="22.4"
+                rx="1.2"
+                transform="rotate(-45 1.13137 16.9705)"
+                stroke="white"
+                strokeWidth="1.6"
+              />
+            </svg>
+            <p
+              className="m-0"
+              style={{
+                fontSize: 20,
+                fontWeight: 700,
+              }}
+            >
+              Filter
+            </p>
+          </button>
         </div>
-        <div>
-          <p style={{ fontSize: 12 }}>Humans</p>
-          <p>{humans}</p>
+        <div className="d-flex" style={{ gap: 24 }}>
+          <p style={{ fontSize: 20 }}>Humans:</p>
+          <p style={{ fontSize: 30, fontWeight: 700 }}>{humans}</p>
         </div>
       </SidebarMobileContent>
     )}
