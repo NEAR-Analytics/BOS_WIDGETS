@@ -339,7 +339,7 @@ return (
       {state.filterDisplayId === "0" ? (
         <Widget
           src="agwaze.near/widget/CPlanet.Explore.DAONFTs"
-          props={{ onButtonClick: props.update }}
+          props={{ update: props.update }}
         />
       ) : (
         <Cards>
