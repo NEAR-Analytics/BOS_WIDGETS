@@ -45,9 +45,10 @@ const SidebarContent = styled.div`
 `;
 
 const SidebarMobileContent = styled.div`
+  z-index: 2;
+  width: 100%;
   color: white;
   height: 100%;
-  width: 100%;
   display: flex;
   position: absolute;
   text-align: center;
