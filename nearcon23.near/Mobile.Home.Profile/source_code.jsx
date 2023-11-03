@@ -6,7 +6,8 @@ const baseUrl =
   "https://gqqkd7l7mk.execute-api.us-east-1.amazonaws.com/mainnet/api/v1";
 
 const theme = props.theme;
-const transactions = props?.state?.transactions;
+const transactions = props?.transactions;
+const userData = props.userData;
 
 const [persona, setPersona] = useState("allTracks");
 
@@ -149,24 +150,24 @@ function timeAgo(timestamp) {
   return result || "Just now";
 }
 
-const { secretkey } = props;
+// const { secretkey } = props;
 
-const storedSecretKey = Storage.get(
-  "newPrivateKey",
-  `${ownerId}/widget/Ticket.Page`
-)
-  ? Storage.get("newPrivateKey", `${ownerId}/widget/Ticket.Page`)
-  : Storage.get("newPrivateKey", `${ownerId}/widget/RegisterMobile.Index`);
+// const storedSecretKey = Storage.get(
+//   "newPrivateKey",
+//   `${ownerId}/widget/Ticket.Page`
+// )
+//   ? Storage.get("newPrivateKey", `${ownerId}/widget/Ticket.Page`)
+//   : Storage.get("newPrivateKey", `${ownerId}/widget/RegisterMobile.Index`);
 
-const fetchData = () => {
-  setLoading(true);
-  const key = secretkey ? secretkey : storedSecretKey;
-  asyncFetch(`${baseUrl}/accounts/auth/${key}`).then(({ body }) => {
-    console.log(body);
-    State.update({ userData: body });
-    setLoading(false);
-  });
-};
+// const fetchData = () => {
+//   setLoading(true);
+//   const key = secretkey ? secretkey : storedSecretKey;
+//   asyncFetch(`${baseUrl}/accounts/auth/${key}`).then(({ body }) => {
+//     console.log(body);
+//     State.update({ userData: body });
+//     setLoading(false);
+//   });
+// };
 
 useEffect(() => {
   fetchData();
