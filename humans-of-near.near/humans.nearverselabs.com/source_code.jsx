@@ -30,6 +30,7 @@ State.init({
   openInfo: false,
   loaded: false,
   hideInfor: true,
+  alert: "",
 });
 
 //Styles
@@ -119,6 +120,17 @@ const getFirstSBTToken = () => {
 };
 
 const hasSBTToken = getFirstSBTToken() !== undefined;
+
+const showAlert = (text) => {
+  State.update({
+    alert: text,
+  });
+  setTimeout(() => {
+    State.update({
+      alert: "",
+    });
+  }, 2000);
+};
 
 const getMyData = () => {
   return asyncFetch(
@@ -397,6 +409,21 @@ return (
         src={`${Owner}/widget/Human-Information`}
         props={{ onClose: setOpenInfo }}
       />
+    )}
+
+    {state.alert && (
+      <div
+        className="d-flex justify-content-end absolute position-fixed"
+        className="d-flex justify-content-end position-absolute"
+        style={{ right: 10 }}
+      >
+        <Widget
+          props={{
+            text: state.alert,
+          }}
+          src={`${Owner}/widget/Alert`}
+        />
+      </div>
     )}
   </Wrapper>
 );
