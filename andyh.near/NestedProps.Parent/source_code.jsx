@@ -13,7 +13,6 @@ return (
         arr: ["oh", "hi", () => "there"],
         byTen: {
           increment: (fn) => {
-            console.log(fn);
             fn();
             setValue((v) => v + 10);
           },
