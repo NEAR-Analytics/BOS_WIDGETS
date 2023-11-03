@@ -5,10 +5,13 @@ function y() {
   console.log(7);
 }
 
-console.log(props);
+const [, , hello] = props.arr;
 
 return (
   <>
+    <button className="btn btn-primary" onClick={() => hello()}>
+      hello
+    </button>
     <button className="btn btn-warning" onClick={() => props.incrementByOne(y)}>
       +1
     </button>
