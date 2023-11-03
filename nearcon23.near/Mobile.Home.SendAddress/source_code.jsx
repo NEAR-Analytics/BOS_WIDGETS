@@ -122,7 +122,7 @@ if (state.redirectToSend) {
 }
 
 const valid = (username, cb) => {
-  const apiURL = `${ownerId}/accounts/${username}/exists`;
+  const apiURL = `${apiUrl}/accounts/${username}/exists`;
   asyncFetch(apiURL).then(({ body }) => {
     cb(!!body?.block_hash);
   });
@@ -162,7 +162,7 @@ const storedSecretKey = Storage.get(
 const key = secretkey ? secretkey : storedSecretKey;
 const fetchData = () => {
   asyncFetch(
-    `https://21mqgszhf3.execute-api.us-east-1.amazonaws.com/testnet/api/v1/accounts/auth/${key}`
+    `${apiUrl}/accounts/auth/${key}`
   ).then(({ body }) => {
     State.update({ userData: body });
   });
