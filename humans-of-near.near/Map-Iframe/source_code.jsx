@@ -138,12 +138,13 @@ const code = `
       }
 
       .close {
-        position: absolute;
-        background: unset;
         border: 0;
-        padding: 0;
         top: 10px;
+        padding: 0;
         right: 10px;
+        color: white;
+        background: unset;
+        position: absolute;
       }
     </style>
   </head>
