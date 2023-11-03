@@ -17,6 +17,9 @@ const NavContainer = styled.div`
   *{
     font-family: Helvetica Neue;
   }
+   @media screen and (max-width: 769px){
+    margin-bottom: 0px;
+   }
   .desk{
         @media screen and (max-width: 769px){
         display: none
@@ -91,9 +94,10 @@ const Join = styled.div`
 const MyAcc = styled.p`
     margin: 0;
     margin-left: 8px;
-    color: ${() => (props.isHome && !isOpen ? "white" : "black")};
-    background: ${() => (props.isHome && !isOpen ? "black" : "white")};
-    border: 1px solid ${() => (props.isHome && !isOpen ? "white" : "black")};
+    color: ${() => (props.isHome && !state.isOpen ? "white" : "black")};
+    background: ${() => (props.isHome && !state.isOpen ? "black" : "white")};
+    border: 1px solid ${() =>
+      props.isHome && !state.isOpen ? "white" : "black"};
     padding: 5px;
     border-radius: 10px;
 `;
@@ -115,7 +119,7 @@ if (state.sender === undefined) {
 
 const MobileNavOptions = styled.div`
       display: none;
-      background-color: #fff;
+      background-color: ${state.isOpen ? "#fff" : "transparent"};
       *{
     font-family: Helvetica Neue;
   }
@@ -125,7 +129,8 @@ const MobileNavOptions = styled.div`
 `;
 
 const MobileRoutes = styled.div`
-              display: none;
+        display: none;
+        background-color: #fff;
       width: 100%;
       *{
     font-family: Helvetica Neue;
