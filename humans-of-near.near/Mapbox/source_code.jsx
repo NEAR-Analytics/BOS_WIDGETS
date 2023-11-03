@@ -130,10 +130,17 @@ const code = `
 
       #profile{
         bottom: 0;
-        width: 100%;
-        height: 20%;
+        width: 88%;
+        height: 23%;
+        color: white;
+        padding: 20px;
+        display: none;
         position: absolute;
         background: #22272B;
+        font: 12px/20px Helvetica Neue,Arial,Helvetica,sans-serif;
+        .logo-container img {
+          width: 60px;
+        }
       }
     </style>
   </head>
@@ -252,6 +259,7 @@ const code = `
     function showProfile(row) {
       const HTMLContent = getDetail(row);
       const el = document.getElementById("profile");
+      el.display = "block";
       el.innerHTML = HTMLContent.trim();
     };
 
