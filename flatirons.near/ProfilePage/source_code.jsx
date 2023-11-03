@@ -27,7 +27,7 @@ if (props.tab && props.tab !== state.selectedTab) {
 }
 
 const profile = props.profile ?? Social.getr(`${accountId}/profile`);
-const accountUrl = `/${REPL_ACCOUNT}/widget/ProfilePage?accountId=${accountId}`;
+const accountUrl = `/near/widget/ProfilePage?accountId=${accountId}`;
 
 const Wrapper = styled.div`
   padding-bottom: 48px;
@@ -173,7 +173,7 @@ return (
     <BackgroundImage>
       {profile.backgroundImage && (
         <Widget
-          src="${REPL_MOB}/widget/Image"
+          src="mob.near/widget/Image"
           props={{
             image: profile.backgroundImage,
             alt: "profile background image",
@@ -187,7 +187,7 @@ return (
     <Main>
       <SidebarWrapper>
         <Widget
-          src="${REPL_ACCOUNT}/widget/ProfilePage.Sidebar"
+          src="near/widget/ProfilePage.Sidebar"
           props={{
             accountId,
             profile,
@@ -250,7 +250,7 @@ return (
 
                 <Bio>
                   <Widget
-                    src="${REPL_ACCOUNT}/widget/SocialMarkdown"
+                    src="near/widget/SocialMarkdown"
                     props={{ text: profile.description }}
                   />
                 </Bio>
@@ -258,7 +258,7 @@ return (
             )}
 
             <Widget
-              src="${REPL_ACCOUNT}/widget/ActivityFeeds.DetermineActivityFeed"
+              src="near/widget/ActivityFeeds.DetermineActivityFeed"
               props={{
                 filteredAccountIds: accountId,
                 showCompose: false,
@@ -269,36 +269,24 @@ return (
         )}
 
         {state.selectedTab === "nfts" && (
-          <Widget
-            src="${REPL_ACCOUNT}/widget/NFTCollection"
-            props={{ accountId }}
-          />
+          <Widget src="near/widget/NFTCollection" props={{ accountId }} />
         )}
 
         {state.selectedTab === "apps" && (
-          <Widget
-            src="${REPL_ACCOUNT}/widget/ComponentCollection"
-            props={{ accountId }}
-          />
+          <Widget src="near/widget/ComponentCollection" props={{ accountId }} />
         )}
 
         {state.selectedTab === "followers" && (
-          <Widget
-            src="${REPL_ACCOUNT}/widget/FollowersList"
-            props={{ accountId }}
-          />
+          <Widget src="near/widget/FollowersList" props={{ accountId }} />
         )}
 
         {state.selectedTab === "following" && (
-          <Widget
-            src="${REPL_ACCOUNT}/widget/FollowingList"
-            props={{ accountId }}
-          />
+          <Widget src="near/widget/FollowingList" props={{ accountId }} />
         )}
 
         {state.selectedTab === "explorer" && (
           <Widget
-            src="${REPL_ACCOUNT}/widget/Explorer.Account"
+            src="near/widget/Explorer.Account"
             props={{
               accountId,
               network: context.networkId,
