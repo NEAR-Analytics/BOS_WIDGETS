@@ -37,7 +37,7 @@ return (
           />
         ) : (
           <Widget
-            src="y3k.near/widget/near_atlas.components.DTChainComparison"
+            src="y3k.near/widget/near_atlas.components.artemis.ChainCompariosn.DT"
             props={{}}
           />
         )}
