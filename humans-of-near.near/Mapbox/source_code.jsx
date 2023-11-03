@@ -250,7 +250,9 @@ const code = `
     };
 
     function showProfile(row) {
-      console.log(row);
+      const HTMLContent = getDetail(row);
+      const el = document.getElementById("jcj");
+      el.innerHTML = HumanString.trim();
     };
 
     // Function to populate markers to the map
