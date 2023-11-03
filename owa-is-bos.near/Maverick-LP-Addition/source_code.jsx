@@ -47,11 +47,11 @@ const DISTRIBUTIONMODE = [
     name: "Single Bin",
     description: "This will distribute your liquidity only in the active bin",
   },
-  //   {
-  //     name: "Flat",
-  //     description:
-  //       "This will distribute your liquidity evenly across bins, centered around the current pool price.",
-  //   },
+  {
+    name: "Flat",
+    description:
+      "This will distribute your liquidity evenly across bins, centered around the current pool price.",
+  },
   //   {
   //     name: "Exponential",
   //     description:
@@ -371,78 +371,69 @@ const addLiquidity = () => {
         if (state.poolDistributionSelected.name == "Flat") {
           console.log("Flat");
 
-          const leftAmount = (
-            (parseFloat(state.amountInputTokenA) - 0.001) /
-            Math.floor(state.binsToDistribute / 2)
-          ).toString();
+          if (state.onlyRight) {
+            const leftAmount = (
+              parseFloat(state.amountInputTokenA) /
+              Math.floor(state.binsToDistribute / 2)
+            ).toString();
 
-          const rightAmount = (
-            (parseFloat(state.amountInputTokenB) - 0.001) /
-            Math.ceil(state.binsToDistribute / 2)
-          ).toString();
+            const rightAmount = (
+              parseFloat(state.amountInputTokenB) /
+              Math.ceil(state.binsToDistribute / 2)
+            ).toString();
 
-          const leftAmountFormated = ethers.utils.parseUnits(leftAmount, 18);
-          const amountInBFormated = ethers.utils.parseUnits(rightAmount, 18);
+            const amountInAFormated = ethers.utils.parseUnits(leftAmount, 18);
+            const amountInBFormated = ethers.utils.parseUnits(rightAmount, 18);
 
-          for (let i = 0; i < state.binsToDistribute; i++) {
-            const pos = position + i - Math.floor(state.binsToDistribute / 2);
+            for (let i = 0; i < state.binsToDistribute; i++) {
+              const pos = position + i - Math.floor(state.binsToDistribute / 2);
 
-            const newDeltaA = pos < position ? leftAmountFormated : 0;
-            const newDeltaB = pos >= position ? amountInBFormated : 0;
+              let newDeltaA = pos < position ? amountInAFormated : 0;
+              let newDeltaB = pos >= position ? amountInBFormated : 0;
 
-            const param = {
-              kind: state.poolModeSelected.id,
-              pos: pos,
-              isDelta: false,
-              deltaA: newDeltaA,
-              deltaB: newDeltaB,
-            };
-            liquidityParams.push(param);
+              const param = {
+                kind: state.poolModeSelected.id,
+                pos: pos,
+                isDelta: false,
+                deltaA: newDeltaA,
+                deltaB: newDeltaB,
+              };
+              liquidityParams.push(param);
+            }
+          } else {
+            const leftAmount = (
+              (parseFloat(state.amountInputTokenA) - 0.001) /
+              Math.ceil(state.binsToDistribute / 2)
+            ).toString();
+
+            const rightAmount = (
+              (parseFloat(state.amountInputTokenB) - 0.001) /
+              Math.ceil(state.binsToDistribute / 2)
+            ).toString();
+
+            const amountInAFormated = ethers.utils.parseUnits(leftAmount, 18);
+            const amountInBFormated = ethers.utils.parseUnits(rightAmount, 18);
+
+            for (let i = 0; i < state.binsToDistribute; i++) {
+              const pos = position + i - Math.floor(state.binsToDistribute / 2);
+
+              let newDeltaA = pos <= position ? amountInAFormated : 0;
+              let newDeltaB = pos >= position ? amountInBFormated : 0;
+
+              const param = {
+                kind: state.poolModeSelected.id,
+                pos: pos,
+                isDelta: false,
+                deltaA: newDeltaA,
+                deltaB: newDeltaB,
+              };
+              liquidityParams.push(param);
+            }
           }
         }
         if (state.poolDistributionSelected.name == "Exponential") {
           console.log("Exponential");
-
-          const sigma = state.binsToDistribute / 4;
-          const amplitudeLeft =
-            (parseFloat(state.amountInputTokenA) - 0.001) /
-            (sigma * Math.sqrt(2 * Math.PI));
-          const amplitudeRight =
-            (parseFloat(state.amountInputTokenB) - 0.001) /
-            (sigma * Math.sqrt(2 * Math.PI));
-
-          for (let i = 0; i < state.binsToDistribute; i++) {
-            const pos = position + i - Math.floor(state.binsToDistribute / 2);
-
-            const leftAmountFormated = ethers.utils.parseUnits(
-              (
-                amplitudeLeft *
-                Math.exp(-Math.pow(pos, 2) / (2 * Math.pow(sigma, 2)))
-              ).toString(),
-              18
-            );
-
-            const amountInBFormated = ethers.utils.parseUnits(
-              (
-                amplitudeRight *
-                Math.exp(-Math.pow(pos, 2) / (2 * Math.pow(sigma, 2)))
-              ).toString(),
-              18
-            );
-
-            const newDeltaA = pos < position ? leftAmountFormated : 0;
-            const newDeltaB = pos >= position ? amountInBFormated : 0;
-
-            const param = {
-              kind: state.poolModeSelected.id,
-              pos: pos,
-              isDelta: false,
-              deltaA: newDeltaA,
-              deltaB: newDeltaB,
-            };
-
-            liquidityParams.push(param);
-          }
+          // Soon
         }
       }
 
@@ -675,21 +666,52 @@ const handleInputTokenA = (input) => {
     if (ic !== 0) {
       tokenB = input * (deltaX / deltaY);
       State.update({
-        amountInputTokenB: deltaY == 0 ? 0 : tokenB,
-        //amountInputTokenB: deltaY != 0 ? tokenB.toFixed(6) : 0,
+        amountInputTokenB: deltaY == 0 ? 0 : tokenB.toFixed(6),
         amountInputTokenA: input,
         validation: undefined,
+        noBalanceA:
+          parseFloat(state.tokenABalance.fixed) < parseFloat(input)
+            ? true
+            : false,
+        noBalanceB:
+          parseFloat(state.tokenBBalance.fixed) < tokenB ? true : false,
       });
     } else {
-      State.update({
-        amountInputTokenA: 0,
-        validation: undefined,
-        need2Tokens: false,
-      });
+      if (state.poolDistributionSelected.name == "Flat") {
+        const binsL = Math.floor(state.binsToDistribute / 2);
+        const binsR = Math.ceil(state.binsToDistribute / 2);
+        tokenB = (input / binsL) * binsR;
+        State.update({
+          amountInputTokenB: tokenB.toFixed(6),
+          amountInputTokenA: input,
+          validation: undefined,
+          onlyRight: true,
+          noBalanceA:
+            parseFloat(state.tokenABalance.fixed) < parseFloat(input)
+              ? true
+              : false,
+          noBalanceB:
+            parseFloat(state.tokenBBalance.fixed) < tokenB ? true : false,
+        });
+      }
+      if (state.poolDistributionSelected.name == "Exponential") {
+        // Soon
+      }
+      if (state.poolDistributionSelected.name == "Single Bin") {
+        State.update({
+          amountInputTokenA: 0,
+          validation: undefined,
+          need2Tokens: false,
+        });
+      }
     }
   } else {
     State.update({
       amountInputTokenA: input,
+      noBalanceA:
+        parseFloat(state.tokenABalance.fixed) < parseFloat(input)
+          ? true
+          : false,
     });
   }
 };
@@ -726,24 +748,57 @@ const handleInputTokenB = (input) => {
     if (ic !== 0) {
       tokenA = (input / deltaX) * deltaY;
       State.update({
-        amountInputTokenA: deltaY == 0 ? 0 : tokenA,
+        amountInputTokenA: deltaY == 0 ? 0 : tokenA.toFixed(6),
         amountInputTokenB: input,
-        //amountInputTokenA: deltaY > 0 ? tokenA : 0,
-        //amountInputTokenB: deltaY > 0 ? input : 0,
         validation: undefined,
+        noBalanceA:
+          parseFloat(state.tokenABalance.fixed) < tokenA ? true : false,
+        noBalanceB:
+          parseFloat(state.tokenBBalance.fixed) < parseFloat(input)
+            ? true
+            : false,
       });
     } else {
-      State.update({
-        amountInputTokenA: 0,
-        need2Tokens: false,
-        //amountInputTokenB: deltaY > 0 ? input : 0,
-        amountInputTokenB: input,
-        validation: undefined,
-      });
+      if (state.poolDistributionSelected.name == "Flat") {
+        const binsL = Math.floor(state.binsToDistribute / 2);
+        const binsR = Math.ceil(state.binsToDistribute / 2);
+        tokenA = (input / binsR) * binsL;
+        State.update({
+          amountInputTokenB: input,
+          amountInputTokenA: tokenA.toFixed(6),
+          validation: undefined,
+          onlyRight: true,
+          noBalanceA:
+            parseFloat(state.tokenABalance.fixed) < tokenA ? true : false,
+          noBalanceB:
+            parseFloat(state.tokenBBalance.fixed) < parseFloat(input)
+              ? true
+              : false,
+        });
+      }
+      if (state.poolDistributionSelected.name == "Exponential") {
+        // Soon
+      }
+      if (state.poolDistributionSelected.name == "Single Bin") {
+        State.update({
+          amountInputTokenA: 0,
+          need2Tokens: false,
+          amountInputTokenB: input,
+          validation: undefined,
+          noBalanceB:
+            parseFloat(state.tokenBBalance.fixed) < parseFloat(input)
+              ? true
+              : false,
+        });
+      }
     }
   } else {
     State.update({
       amountInputTokenB: input,
+      noBalanceB:
+        parseFloat(state.tokenBBalance.fixed) < parseFloat(input)
+          ? true
+          : false,
     });
   }
 };
@@ -883,6 +938,19 @@ const allowanceButton = (mode) => {
         {mode == "TA"
           ? "Add more allowance on " + state.poolSelected.tokenA.symbol
           : "Add more allowance on " + state.poolSelected.tokenB.symbol}
+      </div>
+    </div>
+  );
+};
+
+const insufficientBalanceButton = (mode) => {
+  console.log("entro modo", mode);
+  return (
+    <div class="allowanceButtonDisabled" disabled>
+      <div class={"ConfirmText"}>
+        {mode == "TA"
+          ? "Insufficient balance on " + state.poolSelected.tokenA.symbol
+          : "Insufficient balance on " + state.poolSelected.tokenB.symbol}
       </div>
     </div>
   );
@@ -1394,9 +1462,6 @@ return (
                                     Select Distribution
                                   </option>
                                   <option disabled={state.poolModeSelected}>
-                                    Flat (Soon)
-                                  </option>
-                                  <option disabled={state.poolModeSelected}>
                                     Exponential (Soon)
                                   </option>
                                   {DISTRIBUTIONMODE.map((m) => {
@@ -1639,7 +1704,11 @@ return (
                 )}
 
                 {state.step == 3
-                  ? state.addingLiquidity
+                  ? state.noBalanceA
+                    ? insufficientBalanceButton("TA")
+                    : state.noBalanceB
+                    ? insufficientBalanceButton("TB")
+                    : state.addingLiquidity
                     ? confirmButtonDisabled
                     : state.validation == true
                     ? !state.moreTokenAAllowance
