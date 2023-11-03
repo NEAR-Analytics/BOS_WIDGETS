@@ -139,7 +139,7 @@ return (
     <div className="col">
       <Widget
         id="root-shapes"
-        src="andyh.near/widget/ShapeSet"
+        src="andyh.near/ShapeSet"
         props={{
           circle,
           square,
@@ -151,7 +151,7 @@ return (
       />
       <Widget
         id="parent-shapes"
-        src="andyh.near/widget/StateDemoParent"
+        src="andyh.near/StateDemoParent"
         props={{
           id: "parent-shapes",
           circle,
