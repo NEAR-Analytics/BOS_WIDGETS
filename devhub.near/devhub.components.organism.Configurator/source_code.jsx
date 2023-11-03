@@ -3,7 +3,7 @@ const Struct = VM.require("devhub.near/widget/core.lib.struct");
 if (!Struct) {
   return <p>Loading modules...</p>;
 }
-
+/* INCLUDE: "core/lib/gui/form" */
 const defaultFieldUpdate = ({
   input,
   lastKnownValue,
@@ -42,13 +42,14 @@ const defaultFieldUpdate = ({
   }
 };
 
-const useForm = ({ initialValues, onUpdate, stateKey }) => {
+const useForm = ({ initialValues, onUpdate, stateKey, uninitialized }) => {
   const initialFormState = {
     hasUnsubmittedChanges: false,
     values: initialValues ?? {},
   };
 
-  const formState = state[stateKey] ?? null;
+  const formState = state[stateKey] ?? null,
+    isSynced = Struct.isEqual(formState?.values ?? {}, initialFormState.values);
 
   const formReset = () =>
     State.update((lastKnownComponentState) => ({
@@ -60,53 +61,58 @@ const useForm = ({ initialValues, onUpdate, stateKey }) => {
   const formUpdate =
     ({ path, via: customFieldUpdate, ...params }) =>
     (fieldInput) => {
-      const transformFn = (node) => {
-        if (typeof customFieldUpdate === "function") {
-          return customFieldUpdate({
-            input: fieldInput?.target?.value ?? fieldInput,
-            lastKnownValue: node,
-            params,
-          });
-        } else {
-          return defaultFieldUpdate({
-            input: fieldInput?.target?.value ?? fieldInput,
-            lastKnownValue: node,
-            params,
-          });
-        }
-      };
       const updatedValues = Struct.deepFieldUpdate(
         formState?.values ?? {},
-        path,
-        (node) => transformFn(node)
+
+        {
+          input: fieldInput?.target?.value ?? fieldInput,
+          params,
+          path,
+
+          via:
+            typeof customFieldUpdate === "function"
+              ? customFieldUpdate
+              : defaultFieldUpdate,
+        }
       );
+
       State.update((lastKnownComponentState) => ({
         ...lastKnownComponentState,
+
         [stateKey]: {
           hasUnsubmittedChanges: !Struct.isEqual(
             updatedValues,
             initialFormState.values
           ),
+
           values: updatedValues,
         },
       }));
 
-      if (typeof onUpdate === "function") {
+      if (
+        typeof onUpdate === "function" &&
+        !Struct.isEqual(updatedValues, initialFormState.values)
+      ) {
         onUpdate(updatedValues);
       }
     };
 
+  if (
+    !uninitialized &&
+    (formState === null || (!formState.hasUnsubmittedChanges && !isSynced))
+  ) {
+    formReset();
+  }
+
   return {
-    hasUnsubmittedChanges: formState?.hasUnsubmittedChanges ?? false,
-    values: {
-      ...(initialValues ?? {}),
-      ...(formState?.values ?? {}),
-    },
+    ...(formState ?? initialFormState),
+    isSynced,
     reset: formReset,
     stateKey,
     update: formUpdate,
   };
 };
+/* END_INCLUDE: "core/lib/gui/form" */
 
 const ValueView = styled.div`
   & > p {
@@ -116,16 +122,16 @@ const ValueView = styled.div`
 
 const fieldParamsByType = {
   array: {
-    name: "components.molecule.Input",
+    name: "components.molecule.text-input",
     inputProps: { type: "text" },
   },
 
   boolean: {
-    name: "components.atom.Toggle",
+    name: "components.atom.toggle",
   },
 
   string: {
-    name: "components.molecule.Input",
+    name: "components.molecule.text-input",
     inputProps: { type: "text" },
   },
 };
@@ -175,6 +181,7 @@ const defaultFieldsRender = ({ schema, form, isEditable }) => (
                   </span>
                 ) : (fieldValue?.length ?? 0) > 0 ? (
                   <Widget
+                    // TODO: LEGACY.
                     src={
                       "devhub.near/widget/devhub.components.molecule.MarkdownViewer"
                     }
@@ -188,9 +195,11 @@ const defaultFieldsRender = ({ schema, form, isEditable }) => (
               </ValueView>
             </div>
             <Widget
-              src={`devhub.near/widget/devhub.${fieldParamsByType[fieldType].name}`}
+              // TODO: LEGACY.
+              src={`devgovgigs.near/widget/gigs-board.${fieldParamsByType[fieldType].name}`}
               props={{
                 ...fieldProps,
+
                 className: [
                   "w-100",
                   fieldProps.className ?? "",
