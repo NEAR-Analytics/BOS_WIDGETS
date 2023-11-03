@@ -19,7 +19,7 @@ const buttonStyle = {
 };
 
 const PageTitle = styled.h5`
-  color: #04a46e;
+  color: #555555;
   font-size: 24px;
   font-style: normal;
   font-weight: 400;
