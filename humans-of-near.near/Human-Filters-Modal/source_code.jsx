@@ -217,8 +217,7 @@ return (
               placeholder: "Select a role",
               options,
               value: options.find((row) => row.value === role) ?? options[0],
-              onchange: (e) => {
-                console.log(e, "==>ee");
+              onChange: (e) => {
                 changeRole(e.value);
               },
             }}
