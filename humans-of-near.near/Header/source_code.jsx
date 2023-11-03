@@ -1,9 +1,10 @@
 const LogoContainer = styled.div`
-  position: absolute;
   top: 20px;
   left:10px;
+  z-index: 99;
   display:block;
   overflow:hidden;
+  position: absolute;
   pointer-events:auto;
   @media (max-width: 510px) {
     width: 280px;
