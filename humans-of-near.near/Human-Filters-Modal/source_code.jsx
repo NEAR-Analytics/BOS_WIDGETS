@@ -5,7 +5,8 @@ if (!accountId) return;
 const SOCIAL = "https://social.near.page/u/";
 const TWITTER = "https://twitter.com/";
 
-const { API_URL, onClose, user, role, community } = props;
+const { API_URL, onClose, user, role, community, changeRole, changeCommunity } =
+  props;
 
 const options = [
   {
@@ -31,37 +32,31 @@ const Commnuities = [
     id: "south_america",
     name: "South America",
     color: "#0040FF",
-    selected: false,
   },
   {
     id: "asia",
     name: "Asia",
     color: "#E311C2",
-    selected: false,
   },
   {
     id: "north_america",
     name: "North America",
     color: "#F33E01",
-    selected: false,
   },
   {
     id: "africa",
     name: "Africa",
     color: "#00BBEA",
-    selected: false,
   },
   {
     id: "europe",
     name: "Europe",
     color: "#008000",
-    selected: false,
   },
   {
     id: "anz",
     name: "ANZ",
     color: "#FED52E",
-    selected: false,
   },
 ];
 
@@ -180,36 +175,8 @@ const CommnuityBtn = styled.button`
 
 const handleChangeFilers = () => {};
 
-const changeName = async (e) => {
-  if (e.target.value.length <= 25)
-    State.update({
-      ...state,
-      name: e.target.value,
-    });
-};
-
-const changeSocial = async (e) => {
-  if (e.target.value.indexOf(SOCIAL) === 0)
-    State.update({
-      ...state,
-      social: e.target.value,
-    });
-};
-
-const changeTwitter = async (e) => {
-  if (e.target.value.indexOf(TWITTER) === 0)
-    State.update({
-      ...state,
-      twitter: e.target.value,
-    });
-};
-
 const selectComunity = async (id) => {
-  const newComunities = state.commnuities.map((row) => ({
-    ...row,
-    selected: id === row.id ? !row.selected : row.selected,
-  }));
-  State.update({ commnuities: newComunities });
+  changeCommunity(id);
 };
 
 return (
@@ -250,6 +217,9 @@ return (
               placeholder: "Select a role",
               options,
               value: options.find((row) => row.value === role) ?? options[0],
+              onchange: (e) => {
+                changeRole(e.value);
+              },
             }}
             src={`${Owner}/widget/Select`}
           />
@@ -263,7 +233,7 @@ return (
               <CommnuityBtn
                 key={item.id}
                 color={item.color}
-                active={item.selected}
+                active={!!community.find((row) => row === item.id)}
                 onClick={() => {
                   selectComunity(item.id);
                 }}
