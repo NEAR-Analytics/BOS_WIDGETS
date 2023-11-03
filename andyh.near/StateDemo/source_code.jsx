@@ -11,7 +11,7 @@ return (
       <div className="col">
         <Widget
           id="trusted"
-          src="andyh.near/widget/StateDemoRoot"
+          src="andyh.near/StateDemoRoot"
           trust={{ mode: "trusted-author" }}
           props={{ title: "State across Trusted Components" }}
         />
@@ -19,7 +19,7 @@ return (
       <div className="col">
         <Widget
           id="sandboxed"
-          src="andyh.near/widget/StateDemoRoot"
+          src="andyh.near/StateDemoRoot"
           props={{ title: "State within Sandboxed Components" }}
         />
       </div>
