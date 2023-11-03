@@ -29,13 +29,7 @@ const blog_posts = [
       "https://placehold.co/300x200/d1d4ff/352cb5.png?text=Reflexivity",
     link: "https://www.reflexivityresearch.com/free-reports/near-q3-overview",
   },
-  {
-    index: 4,
-    title: "NF Transparency",
-    description: "Reports Q1 2023",
-    thumbnail: "https://placehold.co/300x200/d1d4ff/352cb5.png?text=NF-Q1-2023",
-    link: "https://near.org/blog/near-foundation-transparency-report-q1-2023",
-  },
+
   {
     index: 5,
     title: "NF Transparency",
@@ -52,7 +46,13 @@ const blog_posts = [
       "https://placehold.co/300x200/d1d4ff/352cb5.png?text=Messari-NEAR-Q2-2023",
     link: "https://messari.io/report/state-of-near-q2-2023",
   },
-
+  {
+    index: 8,
+    title: "Messari Report on the BOS",
+    description: "Reports Q2 2023",
+    thumbnail: "https://placehold.co/300x200/d1d4ff/352cb5.png?text=BOS",
+    link: "https://messari.io/report/near-is-the-bos",
+  },
   {
     index: 7,
     title: "Messari Report on NEAR",
@@ -61,13 +61,12 @@ const blog_posts = [
       "https://placehold.co/300x200/d1d4ff/352cb5.png?text=Messari-NEAR-Q1-2023",
     link: "https://messari.io/report/state-of-near-q1-2023",
   },
-
   {
-    index: 8,
-    title: "Messari Report on the BOS",
-    description: "Reports Q2 2023",
-    thumbnail: "https://placehold.co/300x200/d1d4ff/352cb5.png?text=BOS",
-    link: "https://messari.io/report/near-is-the-bos",
+    index: 4,
+    title: "NF Transparency",
+    description: "Reports Q1 2023",
+    thumbnail: "https://placehold.co/300x200/d1d4ff/352cb5.png?text=NF-Q1-2023",
+    link: "https://near.org/blog/near-foundation-transparency-report-q1-2023",
   },
 
   {
