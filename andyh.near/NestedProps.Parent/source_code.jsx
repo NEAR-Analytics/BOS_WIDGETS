@@ -10,7 +10,7 @@ return (
           fn();
           setValue((v) => v + 1);
         },
-        arr: ["oh", "hi", (n) => "there, " + n.toString],
+        arr: ["oh", "hi", (n) => "there, " + n?.toString()],
         byTen: {
           increment: (fn) => {
             fn(value);
