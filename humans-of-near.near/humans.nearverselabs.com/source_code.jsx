@@ -186,7 +186,7 @@ const onFilter = () => {
   });
 };
 
-const handleSaveLocation = () => {
+const handleSaveLocation = async () => {
   asyncFetch(`${API_URL}/location/bos`, {
     method: "POST",
     headers: {
@@ -195,6 +195,7 @@ const handleSaveLocation = () => {
     body: JSON.stringify({ accountId }),
   }).then((res) => {
     State.update({ edit: !state.edit });
+    await getLocationsData();
   });
 };
 
