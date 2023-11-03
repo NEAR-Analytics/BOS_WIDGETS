@@ -3,9 +3,7 @@ State.init({
   widgetName: props.widgetName || `MagicBuild-widget-form-${Date.now()}`,
   name: "",
   description: "",
-  linktree: {
-    website: "",
-  },
+  website: "",
   image: {
     ipfs_cid: "",
   },
@@ -27,7 +25,7 @@ const onInputChangeWidgetDescription = ({ target }) => {
   State.update({ description: target.value });
 };
 const onInputChangeWidgetWebsite = ({ target }) => {
-  State.update({ linktree: { website: target.value } });
+  State.update({ website: target.value });
 };
 const uploadFileUpdateState = (body) => {
   asyncFetch("https://ipfs.near.social/add", {
@@ -95,6 +93,16 @@ const exportForm = () => {
             "const user = context.accountId;\r\nconst props = " +
             JSON.stringify(abi).replaceAll("\\", "") +
             " \r\n\r\nreturn (\r\n  <>\r\n    <Widget src={'magicbuild.near/widget/widget'} props={props} />\r\n  </>\r\n);\r\n",
+          metadata: {
+            name: state.name,
+            description: state.description,
+            linktree: {
+              website: state.website,
+            },
+            image: {
+              ipfs_cid: state.image.cid,
+            },
+          },
         },
       },
       magicbuild: { widgetList: exporttList },
@@ -203,7 +211,7 @@ return (
               <label>Website</label>
               <input
                 class="form-control"
-                defaultValue={state.linktree.website || ""}
+                defaultValue={state.website || ""}
                 onChange={(e) => onInputChangeWidgetWebsite(e)}
               />
             </div>
