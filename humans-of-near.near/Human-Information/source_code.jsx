@@ -39,6 +39,7 @@ const ModalContent = styled.div`
   flex-direction: column;
   @media (max-width: 510px) {
     height: 87%;
+    overflow: auto;
   }
 `;
 
