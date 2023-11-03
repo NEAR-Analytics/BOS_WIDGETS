@@ -66,6 +66,16 @@ const openMobileMenu = () => {
   });
 };
 
+const openProfile = () => {
+  openMobileMenu();
+  showProfile();
+};
+
+const openFilters = () => {
+  openMobileMenu();
+  showFilters();
+};
+
 return (
   <>
     <Sidebar>
@@ -207,7 +217,7 @@ return (
           </button>
           <button
             className="btn p-0 d-flex justify-content-center align-items-center"
-            onClick={showProfile}
+            onClick={openProfile}
             style={{
               width: "fit-content",
               height: "fit-content",
@@ -257,7 +267,7 @@ return (
 
           <button
             className="btn p-0 d-flex justify-content-center align-items-center"
-            onClick={showFilters}
+            onClick={openFilters}
             style={{
               width: "fit-content",
               height: "fit-content",
