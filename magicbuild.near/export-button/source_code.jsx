@@ -100,7 +100,7 @@ const exportForm = () => {
               website: state.website,
             },
             image: {
-              ipfs_cid: state.image.cid,
+              ipfs_cid: state.img.cid,
             },
           },
         },
