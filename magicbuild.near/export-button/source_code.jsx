@@ -150,149 +150,151 @@ const exportForm = () => {
 };
 return (
   <>
-    <label></label>
-    <button
-      data-bs-toggle="modal"
-      data-bs-target={`#export-${Date.now()}`}
-      class="btn btn-primary form-control "
-      onClick={openModal}
-    >
-      🔼Export
-    </button>
-    <div
-      class="modal fade"
-      id={`export-${Date.now()}`}
-      tabindex="-2"
-      aria-labelledby="exportLabel"
-      aria-hidden="true"
-    >
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h1 class="modal-title fs-5" id="exportLabel">
-              Export Widget
-            </h1>
-            <button
-              type="button"
-              class="btn-close"
-              data-bs-dismiss="modal"
-              aria-label="Close"
-            ></button>
-          </div>
-          <div class="modal-body">
-            <div class="form-group">
-              <label>Widget URL</label>
-              <input
-                class="form-control"
-                defaultValue={state.widgetName || ""}
-                onChange={(e) => onInputChangeWidgetName(e)}
-              />
-              <small class="form-text text-muted">
-                A new widget configured with the form will be created.
-              </small>
-            </div>
-            <div class="form-group pt-2">
-              <label>Name</label>
-              <input
-                class="form-control"
-                defaultValue={state.name || ""}
-                onChange={(e) => onInputChangeWidgetTitle(e)}
-              />
-            </div>
-            <div class="form-group pt-2">
-              <label>Description</label>
-              <input
-                class="form-control"
-                defaultValue={state.description || ""}
-                onChange={(e) => onInputChangeWidgetDescription(e)}
-              />
-            </div>
-            <div class="form-group pt-2">
-              <label></label>
-              <Files
-                multiple={false}
-                accepts={["image/*"]}
-                minFileSize={1}
-                clickable
-                className="btn btn-outline-primary"
-                onChange={filesOnChange}
-              >
-                {state.img?.uploading ? (
-                  <> Uploading </>
-                ) : (
-                  "Upload Logo Application"
-                )}
-              </Files>
-            </div>
-            <div class="form-group pt-2">
-              <label></label>
-              {state.img && !state.img.uploading ? (
-                <img
-                  class="rounded w-50 h-50"
-                  style={{ objectFit: "cover" }}
-                  src={`https://ipfs.near.social/ipfs/${state.img.cid}`}
-                  alt="upload preview"
-                />
-              ) : (
-                ""
-              )}
-            </div>
-            <div class="form-group pt-2">
-              <label>Website</label>
-              <input
-                class="form-control"
-                defaultValue={state.website || ""}
-                onChange={(e) => onInputChangeWidgetWebsite(e)}
-              />
-            </div>
-            <div class="form-group pt-2">
-              <label>Tags</label>
-              {state.tags.length > 0 && (
-                <Typeahead
-                  options={state.tags}
-                  multiple
-                  onChange={(value) => {
-                    State.update({ choose: value });
-                  }}
-                  placeholder="Input tag..."
-                />
-              )}
-            </div>
-
-            {state.export && state.widgetName && (
-              <>
-                <hr />
-                <h5>Export Success</h5>
-                <div class="alert alert-primary" role="alert">
-                  <a
-                    href={`https://near.social/${context.accountId}/widget/${state.widgetName}`}
-                  >
-                    {`https://near.social/${context.accountId}/widget/${state.widgetName}`}
-                  </a>
+    {state.export && state.widgetName ? (
+      <>
+        <hr />
+        <h5>Export Success</h5>
+        <div class="alert alert-primary" role="alert">
+          <a
+            href={`https://near.social/${context.accountId}/widget/${state.widgetName}`}
+          >
+            {`https://near.social/${context.accountId}/widget/${state.widgetName}`}
+          </a>
+        </div>
+      </>
+    ) : (
+      <>
+        <label></label>
+        <button
+          data-bs-toggle="modal"
+          data-bs-target={`#export-${Date.now()}`}
+          class="btn btn-primary form-control "
+          onClick={openModal}
+        >
+          🔼Export
+        </button>
+        <div
+          class="modal fade"
+          id={`export-${Date.now()}`}
+          tabindex="-2"
+          aria-labelledby="exportLabel"
+          aria-hidden="true"
+        >
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exportLabel">
+                  Export Widget
+                </h1>
+                <button
+                  type="button"
+                  class="btn-close"
+                  data-bs-dismiss="modal"
+                  aria-label="Close"
+                ></button>
+              </div>
+              <div class="modal-body">
+                <div class="form-group">
+                  <label>Widget URL</label>
+                  <input
+                    class="form-control"
+                    defaultValue={state.widgetName || ""}
+                    onChange={(e) => onInputChangeWidgetName(e)}
+                  />
+                  <small class="form-text text-muted">
+                    A new widget configured with the form will be created.
+                  </small>
                 </div>
-              </>
-            )}
-          </div>
-          <div class="modal-footer">
-            <button
-              type="button"
-              class="btn btn-secondary"
-              data-bs-dismiss="modal"
-            >
-              Close
-            </button>
+                <div class="form-group pt-2">
+                  <label>Name</label>
+                  <input
+                    class="form-control"
+                    defaultValue={state.name || ""}
+                    onChange={(e) => onInputChangeWidgetTitle(e)}
+                  />
+                </div>
+                <div class="form-group pt-2">
+                  <label>Description</label>
+                  <input
+                    class="form-control"
+                    defaultValue={state.description || ""}
+                    onChange={(e) => onInputChangeWidgetDescription(e)}
+                  />
+                </div>
+                <div class="form-group pt-2">
+                  <label></label>
+                  <Files
+                    multiple={false}
+                    accepts={["image/*"]}
+                    minFileSize={1}
+                    clickable
+                    className="btn btn-outline-primary"
+                    onChange={filesOnChange}
+                  >
+                    {state.img?.uploading ? (
+                      <> Uploading </>
+                    ) : (
+                      "Upload Logo Application"
+                    )}
+                  </Files>
+                </div>
+                <div class="form-group pt-2">
+                  <label></label>
+                  {state.img && !state.img.uploading ? (
+                    <img
+                      class="rounded w-50 h-50"
+                      style={{ objectFit: "cover" }}
+                      src={`https://ipfs.near.social/ipfs/${state.img.cid}`}
+                      alt="upload preview"
+                    />
+                  ) : (
+                    ""
+                  )}
+                </div>
+                <div class="form-group pt-2">
+                  <label>Website</label>
+                  <input
+                    class="form-control"
+                    defaultValue={state.website || ""}
+                    onChange={(e) => onInputChangeWidgetWebsite(e)}
+                  />
+                </div>
+                <div class="form-group pt-2">
+                  <label>Tags</label>
+                  {state.tags.length > 0 && (
+                    <Typeahead
+                      options={state.tags}
+                      multiple
+                      onChange={(value) => {
+                        State.update({ choose: value });
+                      }}
+                      placeholder="Input tag..."
+                    />
+                  )}
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button
+                  type="button"
+                  class="btn btn-secondary"
+                  data-bs-dismiss="modal"
+                >
+                  Close
+                </button>
 
-            <button
-              type="button"
-              disabled={state.clicked}
-              onClick={exportForm}
-              class="btn btn-primary"
-            >
-              Export
-            </button>
+                <button
+                  type="button"
+                  disabled={state.clicked}
+                  onClick={exportForm}
+                  class="btn btn-primary"
+                >
+                  Export
+                </button>
+              </div>
+            </div>
           </div>
         </div>
-      </div>
-    </div>
+      </>
+    )}
   </>
 );
