@@ -262,7 +262,7 @@ return (
                   <label>Tags</label>
 
                   <Typeahead
-                    options={state.tags}
+                    options={state.tags || []}
                     multiple
                     onChange={(value) => {
                       State.update({ choose: value });
