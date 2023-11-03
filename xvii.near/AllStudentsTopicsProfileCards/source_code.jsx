@@ -6,10 +6,6 @@ const ProfileCard = ({ accountId, topic }) => {
     image: "https://placeimg.com/60/60/people", // Placeholder image URL
   };
 
-  // You can replace this with real tag fetching if necessary
-  const tags = ["tag1", "tag2"];
-
-  // Define your onPointerUp event handler if needed
   const onPointerUp = () => {
     console.log("Avatar clicked for", accountId);
   };
@@ -29,7 +25,7 @@ const ProfileCard = ({ accountId, topic }) => {
           "0px 1px 3px rgba(16, 24, 40, 0.1), 0px 1px 2px rgba(16, 24, 40, 0.06)",
         overflow: "hidden",
         padding: "16px",
-        marginBottom: "10px", // Added space between cards
+        marginBottom: "10px",
       }}
     >
       <div
@@ -51,7 +47,7 @@ const ProfileCard = ({ accountId, topic }) => {
             border: "1px solid #ECEEF0",
             overflow: "hidden",
             borderRadius: "56px",
-            textDecoration: "none", // Remove text decoration on avatar link
+            textDecoration: "none",
           }}
         >
           {/* You would use the Widget component here like before */}
@@ -62,14 +58,26 @@ const ProfileCard = ({ accountId, topic }) => {
           />
         </a>
 
-        <div>
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            width: "100%",
+            minWidth: "0",
+          }}
+        >
           <a
             href={profileUrl}
             onPointerUp={onPointerUp}
             style={{
               textDecoration: "none",
               fontWeight: "600",
+              fontSize: "14px",
+              color: "#11181C",
               marginBottom: "4px",
+              overflow: "hidden",
+              textOverflow: "ellipsis",
+              whiteSpace: "nowrap",
             }}
           >
             {profile.name || accountId.split(".near")[0]}
@@ -77,7 +85,14 @@ const ProfileCard = ({ accountId, topic }) => {
           <a
             href={profileUrl}
             onPointerUp={onPointerUp}
-            style={{ textDecoration: "none", color: "#687076" }}
+            style={{
+              textDecoration: "none",
+              color: "#687076",
+              fontSize: "12px",
+              overflow: "hidden",
+              textOverflow: "ellipsis",
+              whiteSpace: "nowrap",
+            }}
           >
             @{accountId}
           </a>
@@ -85,7 +100,18 @@ const ProfileCard = ({ accountId, topic }) => {
         </div>
       </div>
 
-      <div style={{ fontWeight: "bold" }}>{topic}</div>
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "flex-end",
+        }}
+      >
+        <div style={{ fontWeight: "bold", marginBottom: "4px" }}>
+          Research topic selected:
+        </div>
+        <div>{topic}</div>
+      </div>
 
       {/* Add FollowButton Widget if necessary */}
     </div>
