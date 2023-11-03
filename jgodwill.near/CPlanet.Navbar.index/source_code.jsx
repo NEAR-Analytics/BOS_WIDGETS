@@ -171,6 +171,8 @@ const MobileNavOptions = styled.div`
 const MobileRoutes = styled.div`
         display: none;
         background-color: #fff;
+        height: 100vh;
+        justify-conent:flex-start;
       width: 100%;
       *{
     font-family: Helvetica Neue;
@@ -181,7 +183,6 @@ const MobileRoutes = styled.div`
               }};
             }
       flex-flow: column nowrap;
-          justify-content: center;
           align-items:center;
           gap: 1rem;
       a {
