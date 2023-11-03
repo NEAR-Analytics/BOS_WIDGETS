@@ -11,19 +11,33 @@ justify-content: space-between;
 padding: 16px;
 `;
 
+const Container = styled.div`
+  display: flex;
+  gap: 20px;
+`;
+
 const Content = styled.div`
     display: flex;
-    flex-direction:row;
+    flex-direction: column;
     color: white;
+    padding: 6px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 16px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
     h1 {
-        color: #FFF;
-font-family: Helvetica Neue;
-font-size: 24px;
-font-style: normal;
-font-weight: 700;
-line-height: normal;
-text-transform: uppercase;
-margin-left: 8px;
+        color: black;
+        font-family: Helvetica Neue;
+        font-size: 24px;
+        font-style: normal;
+        font-weight: 700;
+        line-height: normal;
+        text-transform: uppercase;
+    }
+    span {
+      color: black;
     }
 `;
 
@@ -62,35 +76,76 @@ const Tags = styled.div`
     margin-left: 10px;
 `;
 
+initState({
+  featuredNFTs: [],
+});
+
+const fetchStoreFrontData = () => {
+  const response2 = fetch("https://graph.mintbase.xyz/mainnet", {
+    method: "POST",
+    headers: {
+      "mb-api-key": "anon",
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      query: `query MyQuery {
+  mb_views_nft_tokens(
+    where: {nft_contract: {id: {_eq: "thekindao.mintbase1.near"}}}
+    offset: 0
+    limit: 6
+  ) {
+                media 
+                owner
+                token_id
+                nft_contract_id
+                description
+                title
+                listings {
+                    price
+                    unlisted_at
+                    listed_by
+ 
+            }
+      }
+}
+`,
+    }),
+  });
+  if (response2.ok) {
+    State.update({
+      featuredNFTs: response2?.body?.data?.mb_views_nft_tokens,
+    });
+  }
+};
+
+fetchStoreFrontData();
+
 return (
-  <Root
-    href={`#/agwaze.near/widget/CPlanet.index?tab=singleNFT&contractId=${props.contractId}&tokenId=${props.tokenId}&chainState=${props.chainState}`}
-    onClick={() => props.onButtonClick()}
-  >
-    <div />
-    <Content>
-      <ImageContainer>
-        <img
-          src={
-            props.image ??
-            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRub7hFLkStCvZiaSeiUGznP4uzqPPcepghhg&usqp=CAU"
-          }
-        />
-      </ImageContainer>
-      <div>
-        <h1>
-          {props.title
-            ? props.title > 11
-              ? `${props.title.substring(0, 11)}...`
-              : props.title
-            : "MY NFT"}
-        </h1>
-        <Tags>
-          <Tag>Category</Tag>
-          <Tag>Tag</Tag>
-          <Tag>Anything</Tag>
-        </Tags>
-      </div>
-    </Content>
-  </Root>
+  <Container>
+    {state.featuredNFTs.length &&
+      state.featuredNFTs.map((data, index) => (
+        <Root
+          href={`#/agwaze.near/widget/CPlanet.index?tab=singleNFT&contractId=${data.nft_contract_id}&tokenId=${data.token_id}&chainState=near`}
+          onClick={() => data.onButtonClick()}
+          style={{
+            backgroundImage: `url("${data.media}")`,
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+            backgroundRepeat: "no-repeat",
+          }}
+        >
+          <div />
+          <Content>
+            <h1>
+              {data.title
+                ? data.title.length > 15
+                  ? `${data.title.substring(0, 15)}...`
+                  : data.title
+                : "MY NFT"}
+            </h1>
+            <span>{data.owner}</span>
+          </Content>
+        </Root>
+      ))}
+  </Container>
 );
