@@ -446,6 +446,19 @@ return (
                     </div>
                   );
                 })}
+              {props.selfInputDeposit && (
+                <div className={`form-group pb-2`}>
+                  <label>Deposit</label>
+                  <input
+                    type="text"
+                    value={"" + functions.deposit}
+                    defaultValue={"" + functions.deposit}
+                    onChange={(e) => cMLabel(e, fIndex, "deposit")}
+                    class="form-control "
+                  />
+                </div>
+              )}
+
               {state.response[functions.name] ? (
                 <p class="card-text">{state.response[functions.name]}</p>
               ) : (
