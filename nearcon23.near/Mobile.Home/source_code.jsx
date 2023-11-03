@@ -118,7 +118,7 @@ return (
           props={{
             theme,
             userData: state?.userData,
-            transactions: props.transactions,
+            transactions: state?.transactions,
           }}
         />
       )}
