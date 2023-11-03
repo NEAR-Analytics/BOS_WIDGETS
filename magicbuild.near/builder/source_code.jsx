@@ -101,6 +101,9 @@ const cMLabel = (e, fIdx, type) => {
   if (type == "gas") a[fIdx].gas = parseInt(value) || 0;
   if (type == "deposit") a[fIdx].deposit = parseInt(value) || 0;
   if (type == "remove") a.splice(fIdx, 1);
+  if (type == "depositUnit") a[fIdx].depositUnit = value;
+  if (type == "gasUnit") a[fIdx].gasUnit = value;
+  if (type == "selfInputDeposit") a[fIdx].selfInputDeposit = value;
   State.update({ cMethod: a });
 };
 const cAD = (e, fIdx, aIdx, type) => {
@@ -152,7 +155,10 @@ const onCreateMethod = () => {
         args: [],
       },
       deposit: 0,
+      depositUnit: "near",
+      selfInputDeposit: false,
       gas: 30000000000000,
+      gasUnit: "near",
     };
     const abiMethod = state.cMethod;
     const isExistFunction = false;
@@ -221,6 +227,10 @@ const getMethodFromSource = () => {
         const method = {
           name: item,
           kind: "view",
+          label: "",
+          button: "",
+          className: "",
+          classButton: "",
           export: true,
           params: {
             serialization_type: "json",
@@ -228,6 +238,11 @@ const getMethodFromSource = () => {
           },
           deposit: 0,
           gas: 30000000000000,
+          deposit: 0,
+          depositUnit: "near",
+          selfInputDeposit: false,
+          gas: 30000000000000,
+          gasUnit: "near",
         };
         if (res.body.txns.length > 0) {
           const isScs = false;
@@ -608,8 +623,12 @@ const onBtnClickCall = (fName, action, fIndex) => {
         state.contractAddress,
         abiMethod[fIndex].name,
         args,
-        abiMethod[fIndex].gas,
-        abiMethod[fIndex].deposit
+        abiMethod[fIndex].gasUnit == "near"
+          ? abiMethod[fIndex].gas * Math.pow(10, 24)
+          : abiMethod[fIndex].gas,
+        abiMethod[fIndex].depositUnit == "near"
+          ? abiMethod[fIndex].deposit * Math.pow(10, 24)
+          : abiMethod[fIndex].deposit
       );
     }
   }
@@ -1013,23 +1032,65 @@ return (
                   <div class="row">
                     <div class="form-group col-md-6">
                       <label>Attached deposit</label>
-                      <input
-                        type="text"
-                        value={"" + functions.deposit}
-                        defaultValue={"" + functions.deposit}
-                        onChange={(e) => cMLabel(e, fIndex, "deposit")}
-                        class="form-control"
-                      />
+                      <div class="input-group mb-3">
+                        <input
+                          type="text"
+                          value={"" + functions.deposit}
+                          defaultValue={"" + functions.deposit}
+                          onChange={(e) => cMLabel(e, fIndex, "deposit")}
+                          class="form-control "
+                        />
+                        <select
+                          class="form-select"
+                          value={functions.depositUnit}
+                          defaultValue={functions.depositUnit}
+                          onChange={(e) => cMLabel(e, fIndex, "depositUnit")}
+                        >
+                          <option value="near">Near</option>
+                          <option value="yoctoNEAR">yoctoNEAR</option>
+                        </select>
+                      </div>
+
+                      {state.designMode && (
+                        <div class="form-check">
+                          <input
+                            class="form-check-input"
+                            type="checkbox"
+                            checked={functions.selfInputDeposit}
+                            onChange={(e) =>
+                              cMLabel(e, fIndex, "selfInputDeposit")
+                            }
+                            id={`flexCheckDefault-${functions.name}`}
+                          />
+                          <label
+                            class="form-check-label"
+                            for={`flexCheckDefault-${functions.name}`}
+                          >
+                            Self-Input
+                          </label>
+                        </div>
+                      )}
                     </div>
                     <div class="form-group col-md-6">
                       <label>Gas</label>
-                      <input
-                        type="text"
-                        value={"" + functions.gas}
-                        defaultValue={"" + functions.gas}
-                        onChange={(e) => cMLabel(e, fIndex, "gas")}
-                        class="form-control"
-                      />
+                      <div class="input-group mb-3">
+                        <input
+                          type="text"
+                          value={"" + functions.gas}
+                          defaultValue={"" + functions.gas}
+                          onChange={(e) => cMLabel(e, fIndex, "gas")}
+                          class="form-control"
+                        />
+                        <select
+                          class="form-select"
+                          value={"" + functions.gasUnit}
+                          defaultValue={"" + functions.gasUnit}
+                          onChange={(e) => cMLabel(e, fIndex, "gasUnit")}
+                        >
+                          <option value="near">Near</option>
+                          <option value="yoctoNEAR">yoctoNEAR</option>
+                        </select>
+                      </div>
                     </div>
                   </div>
                 </div>
