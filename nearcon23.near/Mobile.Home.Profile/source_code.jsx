@@ -161,7 +161,7 @@ const storedSecretKey = Storage.get(
 const fetchData = () => {
   setLoading(true);
   const key = secretkey ? secretkey : storedSecretKey;
-  asyncFetch(`${baseUrl}/api/v1/accounts/auth/${key}`).then(({ body }) => {
+  asyncFetch(`${baseUrl}/accounts/auth/${key}`).then(({ body }) => {
     console.log(body);
     State.update({ userData: body });
     setLoading(false);
@@ -170,10 +170,7 @@ const fetchData = () => {
 
 useEffect(() => {
   fetchData();
-}, [
-  secretkey,
-  Storage.get("newPrivateKey", `${ownerId}/widget/RegisterMobile.Index`),
-]);
+}, [secretkey, storedSecretKey]);
 
 const arrayList = [
   { accountId: "phil", sent: true, amount: 0.5 },
