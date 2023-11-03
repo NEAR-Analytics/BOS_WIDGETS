@@ -126,5 +126,3 @@ return (
     )}
   </Card>
 );
-// add number of members and recent activity, like time for last proposal using time ago
-// change default dao amount
