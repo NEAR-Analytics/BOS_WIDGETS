@@ -1,7 +1,8 @@
-State.init({ isDebug: true, showMonitor: true });
+const [isDebug, setIsDebug] = useState<bool>(true);
+const [showMonitor, setShowMonitor] = useState<bool>(true);
 
 const buildUrl = (componentPath) => {
-  return `/${componentPath}?isDebug=${state.isDebug}&showMonitor=${state.showMonitor}`;
+  return `/${componentPath}?isDebug=${isDebug}&showMonitor=${showMonitor}`;
 };
 
 return (
@@ -49,8 +50,8 @@ return (
               type="checkbox"
               value=""
               id="flexCheckDefault"
-              checked={state.isDebug}
-              onChange={() => State.update({ isDebug: !state.isDebug })}
+              checked={isDebug}
+              onChange={() => setIsDebug(!isDebug)}
             />
             <label className="form-check-label" for="flexCheckDefault">
               Enable debug mode
@@ -62,8 +63,8 @@ return (
               type="checkbox"
               value=""
               id="flexCheckChecked"
-              checked={state.showMonitor}
-              onChange={() => State.update({ showMonitor: !state.showMonitor })}
+              checked={showMonitor}
+              onChange={() => setShowMonitor(!showMonitor)}
             />
             <label className="form-check-label" for="flexCheckChecked">
               Display Component monitor
