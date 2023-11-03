@@ -1,5 +1,6 @@
 const ownerId = "nearcon23.near";
-const apiUrl = "https://gqqkd7l7mk.execute-api.us-east-1.amazonaws.com/mainnet/api/v1";
+const apiUrl =
+  "https://gqqkd7l7mk.execute-api.us-east-1.amazonaws.com/mainnet/api/v1";
 
 const Container = styled.div`
     width: 100%;
@@ -115,7 +116,7 @@ const SubmitComponent = SubmitButton;
 if (state.redirectToSend) {
   return (
     <Redirect
-      to={`/${ownerId}/widget/Mobile.Home.Send?receiverId=${state.username}.ncon-factory.keypom.testnet`}
+      to={`/${ownerId}/widget/Mobile.Home.Send?receiverId=${state.username}.${ownerId}`}
     />
   );
 }
@@ -231,7 +232,7 @@ return (
                 onChange: (username) => {
                   State.update({ username });
 
-                  valid(`${username}.ncon-factory.keypom.testnet`, (d) => {
+                  valid(`${username}.${ownerId}`, (d) => {
                     const inputValid = validateInput();
                     if (d) {
                       State.update({
@@ -251,14 +252,14 @@ return (
               }}
             />
             {!!state.username && (
-              <p>{state.username}.ncon-factory.keypom.testnet</p>
+              <p>{state.username}.{ownerId}</p>
             )}
             <div style={{ marginTop: 8 }}>
               <SubmitComponent
                 onClick={() => {
                   if (isValid()) {
                     valid(
-                      `${state.username}.ncon-factory.keypom.testnet`,
+                      `${state.username}.${ownerId}`,
                       (d) => {
                         if (d) {
                           State.update({
