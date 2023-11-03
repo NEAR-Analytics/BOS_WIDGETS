@@ -245,7 +245,13 @@ const code = `
         return HTML;
     };
 
-   
+    function showProfile(row) {
+      if(window.innerWidth>510) return;
+      let HTMLContent = getDetail(row);
+      const el = document.getElementById("profile");
+      el.style.display = "block";
+      el.innerHTML = HTMLContent.trim();
+    };
 
     function populateMarkers() {
         const markersData = ${JSON.stringify(markers)};
