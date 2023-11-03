@@ -1,13 +1,5 @@
-const API_URL = props.API_URL || "";
-const ACCESS_TOKEN =
-  props.accessToken ||
-  "pk.eyJ1IjoiZWpsYnJhZW0iLCJhIjoiY2xrbmIwaW53MGE0NTNtbGsydWd2MmpyZSJ9.m1ZfEqv2fGet2zblGknT8A";
-const styleUrl = props.styleUrl || "mapbox://styles/mapbox/streets-v12";
-const center = props.center || [-87.6298, 41.8781];
-const zoom = props.zoom || 9;
+const Owner = "humans-of-near.near";
 const accountId = context.accountId;
-const edit = props.edit || false;
-const markers = props.markers || [];
 
 state = State.init({
   opened: false,
