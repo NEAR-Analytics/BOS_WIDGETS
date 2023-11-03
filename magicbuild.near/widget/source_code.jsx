@@ -103,8 +103,12 @@ const onBtnClickCall = (e, fName, action, fIndex) => {
         state.contractAddress,
         abiCall[fIndex].name,
         args,
-        abiCall[fIndex].gas,
-        abiCall[fIndex].deposit
+        abiCall[fIndex].gasUnit == "near"
+          ? abiCall[fIndex].gas * Math.pow(10, 24)
+          : abiCall[fIndex].gas,
+        abiCall[fIndex].depositUnit == "near"
+          ? abiCall[fIndex].deposit * Math.pow(10, 24)
+          : abiCall[fIndex].deposit
       );
     }
   }
