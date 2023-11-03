@@ -255,7 +255,7 @@ const code = `
     };
 
     function showProfile(row) {
-      console.log(window.innerWidth, "==>www);
+      console.log(window.innerWidth, "==>www");
       if(window.innerWidth>510) return;
       const HTMLContent = getDetail(row);
       const el = document.getElementById("profile");
