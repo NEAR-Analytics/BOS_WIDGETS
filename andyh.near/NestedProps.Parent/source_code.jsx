@@ -3,6 +3,9 @@ const [value, setValue] = useState(null);
 return (
   <>
     <h1>{value + ""}</h1>
+    <button className="btn btn-warning" onClick={() => setValue(0)}>
+      reset
+    </button>
     <Widget
       src="andyh.near/NestedProps.Child"
       props={{
