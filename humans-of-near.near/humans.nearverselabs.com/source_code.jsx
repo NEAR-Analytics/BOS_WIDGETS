@@ -187,6 +187,7 @@ const onFilter = () => {
 };
 
 const handleSaveLocation = async () => {
+  if (!state.edit) return State.update({ edit: !state.edit });
   asyncFetch(`${API_URL}/location/bos`, {
     method: "POST",
     headers: {
