@@ -253,7 +253,10 @@ const code = `
         }
         ${
           accountId
-            ? `if(marker.user.accountId === "${accountId}")el.id = 'mymarker';`
+            ? `if(marker.user.accountId === "${accountId}"){
+              el.id = 'mymarker';
+              el.innerHTML='';
+              }`
             : ``
         }
         new mapboxgl.Marker(el)
