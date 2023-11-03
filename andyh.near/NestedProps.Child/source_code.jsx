@@ -5,6 +5,8 @@ function y() {
   console.log(7);
 }
 
+console.log(props);
+
 return (
   <>
     <button className="btn btn-warning" onClick={() => props.incrementByOne(y)}>
