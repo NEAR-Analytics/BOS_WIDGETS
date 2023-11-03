@@ -95,7 +95,7 @@ return (
             <CommitButton
               disabled={!state.content.text}
               force
-              className="btn btn-dark rounded-5"
+              className="btn btn-dark rounded-5 mx-3"
               data={composeData}
               onCommit={() => {
                 onCompose();
