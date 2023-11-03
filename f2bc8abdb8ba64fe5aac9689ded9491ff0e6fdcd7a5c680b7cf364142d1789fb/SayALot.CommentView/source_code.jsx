@@ -1,3 +1,5 @@
+// NDC.CommentView
+
 const {
   widgets,
   data,
@@ -8,6 +10,7 @@ const {
   canLoggedUserCreateComment,
   articleSbts,
   callLibs,
+  baseActions,
 } = props;
 
 State.init({
@@ -279,7 +282,7 @@ return (
       </CommentCardHeader>
       <CommentCardContent>
         <Widget
-          src="mob.near/widget/SocialMarkdown"
+          src={widgets.socialMarkdown}
           props={{ text: data.originalComment.value.comment.text }}
         />
       </CommentCardContent>
@@ -304,7 +307,8 @@ return (
                 replyingTo: data.originalComment.accountId,
                 placement: "bottom",
                 onCloseModal: closeModal,
-                // nomination_contract,
+                callLibs,
+                baseActions,
               }}
             />
           )}
@@ -340,6 +344,7 @@ return (
             elementReactedId: data.originalComment.value.comment.commentId,
             disabled: !canLoggedUserCreateComment[articleSbts[0]],
             callLibs,
+            baseActions,
             sbtsNames: articleSbts,
           }}
         />
@@ -362,6 +367,10 @@ return (
                   isTest,
                   authorForWidget,
                   isReply: true,
+                  canLoggedUserCreateComment,
+                  articleSbts,
+                  callLibs,
+                  baseActions,
                 }}
               />
             </AnswerContainer>
