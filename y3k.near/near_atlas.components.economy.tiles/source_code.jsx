@@ -47,70 +47,44 @@ console.log(resultObject);
 return (
   <div className="container mx-auto p-4 bg-gray-900 rounded-lg">
     <div className="flex space-x-4">
-      <div className="bg-gray-800 shadow-xl rounded-lg p-6 w-1/2">
-        <div className="flex flex-col items-center">
-          <h3 className="text-xl text-center font-semibold mb-4 text-white">
-            Total Supply
-          </h3>
-          <span className="text-4xl font-bold text-gray-200">
-            {resultObject["Total Supply"][0]["Total Supply"].toLocaleString(
-              "en-US"
-            )}
-          </span>
-        </div>
-      </div>
+      <Widget
+        src="y3k.near/widget/near_atlas.components.tailwind.cardTile"
+        props={{
+          Title: "Total Supply",
+          Stats: resultObject["Total Supply"][0]["Total Supply"],
+        }}
+      />
+      <Widget
+        src="y3k.near/widget/near_atlas.components.tailwind.cardTile"
+        props={{
+          Title: "Circulating Supply",
+          Stats: resultObject["Circulating Supply"][0]["Circulating Supply"],
+        }}
+      />
 
-      <div className="bg-gray-800 shadow-xl rounded-lg p-6 w-1/2">
-        <div className="flex flex-col items-center">
-          <h3 className="text-xl text-center font-semibold mb-4 text-white">
-            Circulating Supply
-          </h3>
-          <span className="text-4xl font-bold text-gray-200">
-            {resultObject["Circulating Supply"][0][
-              "Circulating Supply"
-            ].toLocaleString("en-US")}
-          </span>
-        </div>
-      </div>
+      <Widget
+        src="y3k.near/widget/near_atlas.components.tailwind.cardTile"
+        props={{
+          Title: "Total Staked",
+          Stats: resultObject["Total Staked"][0]["Total Staked"],
+        }}
+      />
 
-      <div className="bg-gray-800 shadow-xl rounded-lg p-6 w-1/2">
-        <div className="flex flex-col items-center">
-          <h3 className="text-xl text-center font-semibold mb-4 text-white">
-            Total Stakes
-          </h3>
-          <span className="text-4xl font-bold text-gray-200">
-            {resultObject["Total Staked"][0]["Total Staked"].toLocaleString(
-              "en-US"
-            )}
-          </span>
-        </div>
-      </div>
-
-      <div className="bg-gray-800 shadow-xl rounded-lg p-6 w-1/2">
-        <div className="flex flex-col items-center">
-          <h3 className="text-xl text-center font-semibold mb-4 text-white">
-            Active Validators
-          </h3>
-          <span className="text-4xl font-bold text-gray-200">
-            {resultObject["Active Validators"][0][
-              "Active Validators"
-            ].toLocaleString("en-US")}
-          </span>
-        </div>
-      </div>
-
-      <div className="bg-gray-800 shadow-xl rounded-lg p-6 w-1/2">
-        <div className="flex flex-col items-center">
-          <h3 className="text-xl text-center font-semibold mb-4 text-white">
-            Nakamoto Coefficient
-          </h3>
-          <span className="text-4xl font-bold text-gray-200">
-            {resultObject["Nakamoto Coefficient"][0][
-              "Nakamoto Coefficient"
-            ].toLocaleString("en-US")}
-          </span>
-        </div>
-      </div>
+      <Widget
+        src="y3k.near/widget/near_atlas.components.tailwind.cardTile"
+        props={{
+          Title: "Active Validators",
+          Stats: resultObject["Active Validators"][0]["Active Validators"],
+        }}
+      />
+      <Widget
+        src="y3k.near/widget/near_atlas.components.tailwind.cardTile"
+        props={{
+          Title: "Nakamoto Coefficient",
+          Stats:
+            resultObject["Nakamoto Coefficient"][0]["Nakamoto Coefficient"],
+        }}
+      />
     </div>
   </div>
 );
