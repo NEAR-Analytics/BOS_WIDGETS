@@ -9,6 +9,9 @@ const Sidebar = styled.div`
   height: 100%; 
   padding-top:32px;
   padding-bottom:32px;
+  & .btn-menu {
+      display: none;
+  }
 
   @media (max-width: 510px) {
     & .menu {
@@ -130,7 +133,7 @@ return (
     <button
       className="btn p-0 btn-menu"
       onClick={showProfile}
-      style={{ width: "fit-content", height: "fit-content", display: "none" }}
+      style={{ width: "fit-content", height: "fit-content" }}
     >
       <svg
         width="30"
