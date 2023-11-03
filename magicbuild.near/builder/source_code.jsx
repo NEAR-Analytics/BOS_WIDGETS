@@ -99,8 +99,8 @@ const cMLabel = (e, fIdx, type) => {
   if (type == "classButton") a[fIdx].classButton = value;
   if (type == "labelDeposit") a[fIdx].labelDeposit = value;
   if (type == "button") a[fIdx].button = value;
-  if (type == "gas") a[fIdx].gas = parseInt(value) || 0;
-  if (type == "deposit") a[fIdx].deposit = parseInt(value) || 0;
+  if (type == "gas") a[fIdx].gas = value || 0;
+  if (type == "deposit") a[fIdx].deposit = value || 0;
   if (type == "remove") a.splice(fIdx, 1);
   if (type == "depositUnit") a[fIdx].depositUnit = value;
   if (type == "gasUnit") a[fIdx].gasUnit = value;
@@ -713,7 +713,7 @@ return (
         </div>
 
         <div class="form-group col-md-4">
-          {state.cMethod.length > 0 ? (
+          {state && state.cMethod.length > 0 ? (
             <Widget src={`${cep}/widget/preview-button`} props={state} />
           ) : (
             <>
@@ -1036,9 +1036,10 @@ return (
                       <label>Attached deposit</label>
                       <div class="input-group mb-3">
                         <input
-                          type="text"
-                          value={"" + functions.deposit}
-                          defaultValue={"" + functions.deposit}
+                          type="number"
+                          min="0"
+                          value={"" + functions.deposit.toString()}
+                          defaultValue={"" + functions.deposit.toString()}
                           onChange={(e) => cMLabel(e, fIndex, "deposit")}
                           class="form-control "
                         />
@@ -1100,7 +1101,8 @@ return (
                       <label>Gas</label>
                       <div class="input-group mb-3">
                         <input
-                          type="text"
+                          type="number"
+                          min="0"
                           value={"" + functions.gas}
                           defaultValue={"" + functions.gas}
                           onChange={(e) => cMLabel(e, fIndex, "gas")}
