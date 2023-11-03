@@ -28,7 +28,11 @@ const onInputChangeContractArg = (obj) => {
 
   State.update({ contractAbiArg: data });
 };
-
+const cDeposit = (e, fIndex) => {
+  const data = state.contractAbiArg;
+  data[fIndex].deposit = e.target.value;
+  State.update({ contractAbiArg: data });
+};
 const onBtnClickCall = (fName, action, fIndex) => {
   const argsArr = [];
   const data = state.contractAbiArg;
@@ -453,7 +457,7 @@ return (
                     type="text"
                     value={"" + functions.deposit}
                     defaultValue={"" + functions.deposit}
-                    onChange={(e) => cMLabel(e, fIndex, "deposit")}
+                    onChange={(e) => cDeposit(e, fIndex)}
                     class="form-control "
                   />
                 </div>
