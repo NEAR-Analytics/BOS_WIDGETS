@@ -1108,15 +1108,6 @@ return (
                           onChange={(e) => cMLabel(e, fIndex, "gas")}
                           class="form-control"
                         />
-                        <select
-                          class="form-select"
-                          value={"" + functions.gasUnit}
-                          defaultValue={"" + functions.gasUnit}
-                          onChange={(e) => cMLabel(e, fIndex, "gasUnit")}
-                        >
-                          <option value="near">Near</option>
-                          <option value="yoctoNEAR">yoctoNEAR</option>
-                        </select>
                       </div>
                     </div>
                   </div>
