@@ -112,7 +112,9 @@ const fewAndFarLogo = (
 const marketPlaceImage = {
   tradeport: tradePortLogo,
   fewandfar: fewAndFarLogo,
-  mintbase: <img src={mintbaseImage} alt="" style={{ width: 20, height: 20 }} />,
+  mintbase: (
+    <img src={mintbaseImage} alt="" style={{ width: 20, height: 20 }} />
+  ),
 };
 
 const Right = styled.div`
@@ -151,6 +153,22 @@ const Top = styled.div`
 
 const Username = styled.div`
     display: flex;
+    a {
+      text:decoration: none;
+       overflow: hidden;
+        color: #B0B0B0;
+        text-overflow: ellipsis;
+        font-family: Helvetica Neue;
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: normal;
+        cursor: pointer;
+    }
+    a:hover {
+      text:decoration: none;
+      opacity: 0.6;
+    }
     svg {
         margin: 7px;
     }
@@ -668,6 +686,31 @@ const matchedKeyWords = (inputString) => {
 const PRICE_CONVERSION_CONSTANT =
   props.chainState == "near" ? 1000000000000000000000000 : 1000000000000000000;
 
+function followUser(user, isFollowing) {
+  if (isFollowing) return;
+  const dataToSend = {
+    graph: { follow: { [user]: isFollowing ? null : "" } },
+    index: {
+      graph: JSON.stringify({
+        key: "follow",
+        value: {
+          type,
+          accountId: user,
+        },
+      }),
+      notify: JSON.stringify({
+        key: user,
+        value: {
+          type,
+        },
+      }),
+    },
+  };
+  Social.set(dataToSend, {
+    force: true,
+  });
+}
+
 return (
   <Root>
     <Right>
@@ -676,7 +719,12 @@ return (
           <TopLeft>
             <h1>{state.title ?? "Lorem Ipsum Header"}</h1>
             <Username>
-              <h2>{state.owner ?? "My User"}</h2>
+              <a
+                target="_blank"
+                href={`#/agwaze.near/widget/GenaDrop.Profile.Main?accountId=${state.owner}`}
+              >
+                {state.owner ?? "My User"}
+              </a>
               <Svg>{verifiedCheck}</Svg>
               {dotSVG}
             </Username>
