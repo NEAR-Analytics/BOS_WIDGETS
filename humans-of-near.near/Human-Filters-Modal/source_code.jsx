@@ -224,7 +224,7 @@ return (
               noLabel: true,
               placeholder: "Select a role",
               options,
-              value: options.find((row) => row.value === role) ?? options[0],
+              value: options.find((row) => row.value === role),
               onChange: (e) => {
                 changeRole(e.value);
               },
