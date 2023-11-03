@@ -25,6 +25,8 @@ const ModalOverlay = styled.div`
   border: 1px solid rgb(255, 255, 255);
   @media (max-width: 510px) {
     width: 90%;
+    height: 95%;
+    padding: 40px 20px 20px 20px;
   }
 `;
 
@@ -35,6 +37,9 @@ const ModalContent = styled.div`
   display: flex;
   border-radius: 4px;
   flex-direction: column;
+  @media (max-width: 510px) {
+    height: 87%;
+  }
 `;
 
 const ModalAction = styled.div`
