@@ -259,7 +259,7 @@ const code = `
     function showProfile(row) {
       const HTMLContent = getDetail(row);
       const el = document.getElementById("profile");
-      el.display = "block";
+      el.style.display = "block";
       el.innerHTML = HTMLContent.trim();
     };
 
