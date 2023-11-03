@@ -98,7 +98,7 @@ const ModalContent = styled.div`
   width: 100%;
   color: white;
   display: flex;
-  padding: 20px;
+  padding: 20px 20px 10px 20px;
   border-radius: 4px;
   flex-direction: column;
 `;
@@ -159,7 +159,7 @@ const Textarea = styled.textarea`
 `;
 
 const CommnuityBtn = styled.button`
-  gap: 10px;
+  gap: 5px;
   width: 16.6%;
   color: white;
   ${({ active, color }) =>
