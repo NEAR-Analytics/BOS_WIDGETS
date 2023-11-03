@@ -1,5 +1,5 @@
-function x() {
-  console.log(3);
+function x(v) {
+  console.log(v);
 }
 function y() {
   console.log(7);
