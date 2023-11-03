@@ -21,12 +21,13 @@ State.init({
     community: "",
   },
   filters: {
-    role: "",
+    role: "developer",
     community: [],
   },
   locations: [],
   humanAlert: true,
   openInfo: false,
+  loaded: false,
 });
 
 //Styles
@@ -139,6 +140,7 @@ const getMyInfor = async () => {
   getMyData().then((user) => {
     State.update({
       user,
+      loaded: true,
     });
   });
 };
@@ -147,6 +149,7 @@ const getLocationsData = async () => {
   getLocations().then((data) => {
     State.update({
       locations: data,
+      loaded: true,
     });
   });
 };
@@ -165,15 +168,16 @@ const onHumanClose = () => {
 
 const onFilter = () => {
   const { locations, filters } = state;
-  const result = locations.map((row) => {
+  const result = locations.filter((row) => {
     if (row.user.role === filters.role) {
       if (filters.community.length) {
         const state = !!filters.community.find(
-          (row) => row === row.user.community
+          (_row) => _row === row.user.community
         );
-        if (state) return row;
-      } else return row;
+        if (state) return true;
+      } else return true;
     }
+    return false;
   });
   State.update({
     ...state,
@@ -199,8 +203,19 @@ const setOpenInfo = () => {
   });
 };
 
-getMyInfor();
-getLocationsData();
+if (!state.loaded) {
+  getMyInfor();
+  getLocationsData();
+}
+
+const firstLoad = Storage.privateGet("load", "0");
+if (firstLoad === "0") {
+  State.update({
+    ...state,
+    openInfo: true,
+  });
+  Storage.privateSet("load", "1");
+}
 
 return (
   <Wrapper>
