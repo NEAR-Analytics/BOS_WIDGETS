@@ -35,6 +35,7 @@ State.init({
   contractId: "",
   tokenId: "",
   chainState: "",
+  state: "",
   daoId: "",
   daoContractId: "",
 });
@@ -48,6 +49,7 @@ const tabContentWidget = {
   singleNFT: "agwaze.near/widget/CPlanet.Explore.SingleNFT",
   daoProfile: "agwaze.near/widget/CPlanet.DAO.index",
   feed: "jgodwill.near/widget/CPlanet.MainPage.Social",
+  profile: "agwaze.near/widget/GenaDrop.Profile.Main",
 }[state.tab];
 
 const tabContent = (
@@ -57,6 +59,7 @@ const tabContent = (
       update,
       contractId: state.contractId,
       tokenId: state.tokenId,
+      accountId: state.accountId,
       chainState: state.chainState,
       daoId: state.daoId,
       daoContractId: state.daoContractId,
