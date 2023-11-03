@@ -249,7 +249,7 @@ const code = `
         return HTML;
     };
 
-    function showProfile (row) {
+    function showProfile(row) {
       console.log(row);
     };
 
@@ -265,7 +265,7 @@ const code = `
             const _com = Commnuities.find((row)=>row.id == marker.user.community);
             el.style="color:"+_com.color+";";
           }
-          el.addEventListener("click", showProfile(marker));
+          el.addEventListener("onclick", ()=>{showProfile(marker)});
           ${
             accountId
               ? `if(marker.user.accountId === "${accountId}"){
