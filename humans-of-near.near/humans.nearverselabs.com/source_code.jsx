@@ -164,8 +164,21 @@ const onHumanClose = () => {
 };
 
 const onFilter = () => {
-  const { locations } = state;
-  console.log(locations);
+  const { locations, filters } = state;
+  const result = locations.map((row) => {
+    if (row.user.role === filters.role) {
+      if (filters.community.length) {
+        const state = !!filters.community.find(
+          (row) => row === row.user.community
+        );
+        if (state) return row;
+      } else return row;
+    }
+  });
+  State.update({
+    ...state,
+    locations: result,
+  });
 };
 
 const handleSaveLocation = () => {
