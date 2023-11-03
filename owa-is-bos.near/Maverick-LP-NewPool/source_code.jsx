@@ -224,7 +224,17 @@ const next = () => {
 };
 
 const back = () => {
-  State.update({ step: state.step - 1 });
+  State.update({
+    step: state.step - 1,
+    amountInputTokenA: null,
+    amountInputTokenB: null,
+    noBalanceA: false,
+    noBalanceB: false,
+  });
+
+  if (state.validation) {
+    State.update({ validation: undefined });
+  }
 };
 
 const formatNumber = (n) => {
