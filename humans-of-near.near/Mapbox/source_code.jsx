@@ -252,7 +252,7 @@ const code = `
     function showProfile(row) {
       const HTMLContent = getDetail(row);
       const el = document.getElementById("jcj");
-      el.innerHTML = HumanString.trim();
+      el.innerHTML = HTMLContent.trim();
     };
 
     // Function to populate markers to the map
