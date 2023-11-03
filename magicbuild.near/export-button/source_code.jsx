@@ -1,13 +1,51 @@
 State.init({
   cMethod: props.cMethod,
   widgetName: props.widgetName || `MagicBuild-widget-form-${Date.now()}`,
+  name: "",
+  description: "",
+  linktree: {
+    website: "",
+  },
+  image: {
+    ipfs_cid: "",
+  },
+  tags: {},
   clicked: false,
   export: false,
+  img: null,
 });
 const onInputChangeWidgetName = ({ target }) => {
   State.update({ widgetName: target.value.replaceAll(" ", "-") });
   State.update({ clicked: false });
   State.update({ export: false });
+};
+const onInputChangeWidgetTitle = ({ target }) => {
+  State.update({ name: target.value });
+  console.log(state.metadata);
+};
+const onInputChangeWidgetDescription = ({ target }) => {
+  State.update({ linktree: { website: target.value } });
+};
+const onInputChangeWidgetWebsite = ({ target }) => {
+  State.update({ description: target.value });
+};
+const uploadFileUpdateState = (body) => {
+  asyncFetch("https://ipfs.near.social/add", {
+    method: "POST",
+    headers: { Accept: "application/json" },
+    body,
+  }).then((res) => {
+    const cid = res.body.cid;
+    State.update({ image: { ipfs_cid: cid } });
+    State.update({ img: { cid } });
+  });
+};
+
+const filesOnChange = (files) => {
+  if (files) {
+    State.update({ img: { uploading: true, cid: null } });
+    uploadFileUpdateState(files[0]);
+  }
 };
 
 const openModal = () => {
@@ -105,7 +143,7 @@ return (
           </div>
           <div class="modal-body">
             <div class="form-group">
-              <label>Widget Name</label>
+              <label>Widget URL</label>
               <input
                 class="form-control"
                 defaultValue={state.widgetName || ""}
@@ -114,6 +152,60 @@ return (
               <small class="form-text text-muted">
                 A new widget configured with the form will be created.
               </small>
+            </div>
+            <div class="form-group pt-2">
+              <label>Name</label>
+              <input
+                class="form-control"
+                defaultValue={state.name || ""}
+                onChange={(e) => onInputChangeWidgetTitle(e)}
+              />
+            </div>
+            <div class="form-group pt-2">
+              <label>Description</label>
+              <input
+                class="form-control"
+                defaultValue={state.description || ""}
+                onChange={(e) => onInputChangeWidgetDescription(e)}
+              />
+            </div>
+            <div class="form-group pt-2">
+              <label></label>
+              <Files
+                multiple={false}
+                accepts={["image/*"]}
+                minFileSize={1}
+                clickable
+                className="btn btn-outline-primary"
+                onChange={filesOnChange}
+              >
+                {state.img?.uploading ? (
+                  <> Uploading </>
+                ) : (
+                  "Upload Logo Application"
+                )}
+              </Files>
+            </div>
+            <div class="form-group pt-2">
+              <label></label>
+              {state.img && !state.img.uploading ? (
+                <img
+                  class="rounded w-50 h-50"
+                  style={{ objectFit: "cover" }}
+                  src={`https://ipfs.near.social/ipfs/${state.img.cid}`}
+                  alt="upload preview"
+                />
+              ) : (
+                ""
+              )}
+            </div>
+            <div class="form-group pt-2">
+              <label>Website</label>
+              <input
+                class="form-control"
+                defaultValue={state.linktree.website || ""}
+                onChange={(e) => onInputChangeWidgetWebsite(e)}
+              />
             </div>
 
             {state.export && state.widgetName && (
