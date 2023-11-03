@@ -4,7 +4,7 @@ return (
   <>
     <h1>{value + ""}</h1>
     <Widget
-      src="andyh.near/widget/NestedProps.Child"
+      src="andyh.near/NestedProps.Child"
       props={{
         incrementByOne: (fn) => {
           console.log("incrementByOne(fn)");
