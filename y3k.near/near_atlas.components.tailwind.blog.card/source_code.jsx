@@ -10,7 +10,11 @@ return (
       <p className="text-gray-300 text-base">{props.description}</p>
     </div>
     <div className="px-1 py-4">
-      <a href={props.link} className="text-blue-400 hover:underline">
+      <a
+        href={props.link}
+        target="_blank"
+        className="text-blue-400 hover:underline"
+      >
         Read More
       </a>
     </div>
