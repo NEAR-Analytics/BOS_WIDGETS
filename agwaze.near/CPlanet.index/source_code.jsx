@@ -18,6 +18,7 @@ const availableTabs = [
   "singleNFT",
   "home",
   "community",
+  "feed",
   "daoProfile",
 ];
 
@@ -46,6 +47,7 @@ const tabContentWidget = {
   community: "agwaze.near/widget/CPlanet.DAO.Explore",
   singleNFT: "agwaze.near/widget/CPlanet.Explore.SingleNFT",
   daoProfile: "agwaze.near/widget/CPlanet.DAO.index",
+  feed: "jgodwill.near/widget/CPlanet.MainPage.Social",
 }[state.tab];
 
 const tabContent = (
