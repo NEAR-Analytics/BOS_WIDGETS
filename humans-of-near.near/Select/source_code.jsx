@@ -111,21 +111,22 @@ const Viewport = styled.div`
 
 const Item = styled.button`
   gap: 0.5em;
+  color: #FFF;
   width: 100%;
   border: none;
   display: flex;
   cursor: pointer;
   font-size: 14px;
+  background: #22272b;
   align-items: center;
   flex-direction: row;
   padding: 0.5em 0.75em;
-  background: #22272b;
   justify-content: space-between;
   transition: background 0.2s ease-in-out;
   
-  &:nth-child(n + 1) {
-    border-top: 1px solid #d0d5dd;
-  }
+  // &:nth-child(n + 1) {
+  //   border-top: 1px solid #d0d5dd;
+  // }
 
   &:hover {
     background: #d0d5dd;
