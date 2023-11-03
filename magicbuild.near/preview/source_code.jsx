@@ -446,7 +446,7 @@ return (
                     </div>
                   );
                 })}
-              {props.selfInputDeposit && (
+              {functions.selfInputDeposit && (
                 <div className={`form-group pb-2`}>
                   <label>Deposit</label>
                   <input
