@@ -1,4 +1,4 @@
-const accountId = props.accountId;
+const accountId = props.accountId ?? context.accountId;
 const link = props.link ?? true;
 const hideAccountId = props.hideAccountId;
 const hideName = props.hideName;
@@ -69,7 +69,11 @@ let inner = (
     <span>
       {!hideName && (
         <span className="name" key="name">
-          {name}
+          {name.length > 25
+            ? `${name.slice(0, 10)}...${accountId?.slice(
+                accountId?.length - 4
+              )}`
+            : name}
         </span>
       )}
       <br />
