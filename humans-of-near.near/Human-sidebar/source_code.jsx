@@ -18,6 +18,8 @@ const Sidebar = styled.div`
   }
 
   @media (max-width: 510px) {
+    padding-top:15px;
+
     & .menu {
       display: none;
     }
