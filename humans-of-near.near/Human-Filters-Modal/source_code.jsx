@@ -84,9 +84,9 @@ const ModalOverlay = styled.div`
   position: absolute;
   flex-direction: column;
   @media (max-width: 510px) {
-    right: 10px;
-    top: 54px;
-    width: 96%;
+    right: 0;
+    padding:0;
+    width: 100%;
   }
 `;
 
@@ -181,6 +181,16 @@ const CommnuityBtn = styled.button`
   `}
 `;
 
+const CloseButton = styled.button`
+  top: 43px;
+  right: 10px;
+  padding: 0;
+  position: absolute;
+  @media (max-width: 510px) {
+    right: 20;
+  }
+`;
+
 const selectComunity = async (id) => {
   changeCommunity(id);
 };
@@ -189,16 +199,7 @@ return (
   <ModalOverlay>
     <Component>
       <ModalContent>
-        <button
-          className="btn"
-          style={{
-            top: 43,
-            right: 10,
-            padding: 0,
-            position: "absolute",
-          }}
-          onClick={onClose}
-        >
+        <CloseButton className="btn" onClick={onClose}>
           <svg
             width="26"
             height="26"
@@ -211,7 +212,7 @@ return (
               fill="white"
             />
           </svg>
-        </button>
+        </CloseButton>
         <ModalTitle>{`Filters`}</ModalTitle>
         <p style={{ fontSize: 14 }}>Add a filter to apply to all the data</p>
 
