@@ -47,22 +47,21 @@ const filesOnChange = (files) => {
   }
 };
 
-const taggedWidgets = Social.keys(`*/widget/*/metadata/tags/*`, "final");
-
-let tags = [];
-Object.keys(taggedWidgets).forEach((item) => {
-  Object.keys(taggedWidgets[item].widget).forEach((item1) => {
-    Object.keys(taggedWidgets[item].widget[item1].metadata.tags).forEach(
-      (tag) => {
-        tags.push(tag);
-      }
-    );
-  });
-});
-
 State.update({ tags: tags });
 
 const openModal = () => {
+  const taggedWidgets = Social.keys(`*/widget/*/metadata/tags/*`, "final");
+
+  let tags = [];
+  Object.keys(taggedWidgets).forEach((item) => {
+    Object.keys(taggedWidgets[item].widget).forEach((item1) => {
+      Object.keys(taggedWidgets[item].widget[item1].metadata.tags).forEach(
+        (tag) => {
+          tags.push(tag);
+        }
+      );
+    });
+  });
   State.update({ clicked: false });
   State.update({ export: false });
 };
@@ -82,11 +81,10 @@ const exportForm = () => {
         functions: [],
       },
     };
-    console.log("state.choose", state.choose);
+
     const tagsObj = state.choose.reduce((accumulator, value) => {
       return { ...accumulator, [value]: "" };
     }, {});
-    console.log(obj);
     const abiMethod = state.cMethod;
     abiMethod.forEach((item) => {
       abi.body.functions.push(item);
