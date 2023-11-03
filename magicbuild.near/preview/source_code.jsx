@@ -168,7 +168,7 @@ console.log("state", state.cssStyle);
 console.log("props", props.cssStyle);
 return (
   <>
-    <Wrapper class="container" style={props.cssStyle}>
+    <Wrapper class="container">
       {context.accountId ? contractForm : notLoggedInWarning}
       <h3 class="text-center">{state.contractAddress}</h3>
       {state.contractError}
