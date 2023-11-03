@@ -245,7 +245,7 @@ return (
                 onClick={() => {
                   selectComunity(item.id);
                 }}
-                className="btn d-flex flex-column text-center align-items-sm-center"
+                className="btn d-flex flex-column text-center align-items-center"
               >
                 <div style={{ color: item.color }}>
                   <svg
