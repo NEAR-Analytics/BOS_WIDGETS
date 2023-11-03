@@ -683,7 +683,9 @@ return (
       <div class="dropdown">
         <Widget
           // TODO: LEGACY.
-          src={"devhub.near/widget/gigs-board.feature.post-search.by-author"}
+          src={
+            "devgovgigs.near/widget/gigs-board.feature.post-search.by-author"
+          }
           props={{
             authorQuery: props.authorQuery,
             onAuthorSearch: props.onAuthorSearch,
@@ -695,7 +697,9 @@ return (
       <div>
         <Widget
           // TODO: LEGACY.
-          src={"devhub.near/widget/gigs-board.feature.post-search.by-tag"}
+          src={
+            "devgovgigs.near/widget/gigs-board.feature.post-search.by-tag"
+          }
           props={{
             tagQuery: props.tagQuery,
             onTagSearch: props.onTagSearch,
