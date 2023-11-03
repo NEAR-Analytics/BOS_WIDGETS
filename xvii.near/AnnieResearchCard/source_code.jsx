@@ -142,7 +142,7 @@ return (
     <CardRight>
       <ResearchTopic>
         <BoldLabel>Research topic selected:</BoldLabel>
-        Cryptography in Blockchain
+        The impacts of musical NFT’s on near ecosystem
       </ResearchTopic>
     </CardRight>
   </Card>
