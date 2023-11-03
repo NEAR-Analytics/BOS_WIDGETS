@@ -6,6 +6,7 @@ State.init({
   contractAbiView,
   response,
   contractAbiArg: props.cMethod,
+  cssStyle: props.cssStyle,
 });
 
 const onInputChangeContractArg = (obj) => {
@@ -160,9 +161,13 @@ loadData();
 
 const notLoggedInWarning = <p class="text-center py-2"> Login to Use BOS </p>;
 
+const Wrapper = styled.div`
+ ${state.cssStyle}
+`;
+
 return (
   <>
-    <div class="container">
+    <Wrapper class="container">
       {context.accountId ? contractForm : notLoggedInWarning}
       <h3 class="text-center">{state.contractAddress}</h3>
       {state.contractError}
@@ -481,6 +486,6 @@ return (
             </div>
           </div>
         ))}
-    </div>
+    </Wrapper>
   </>
 );
