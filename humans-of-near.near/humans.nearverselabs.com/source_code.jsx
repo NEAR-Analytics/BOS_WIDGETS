@@ -333,7 +333,10 @@ return (
       }}
     />
 
-    <div className="position-absolute" style={{ bottom: 20, left: 20 }}>
+    <div
+      className="position-absolute"
+      style={{ bottom: 20, left: 20, zIndex: 2 }}
+    >
       <button className="btn" onClick={setOpenInfo}>
         <svg
           width="40"
