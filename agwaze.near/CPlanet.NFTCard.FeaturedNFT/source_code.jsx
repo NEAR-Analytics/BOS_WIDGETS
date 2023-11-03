@@ -9,6 +9,9 @@ text-decoration: none;
 flex-direction: column;
 justify-content: space-between;
 padding: 16px;
+ :hover {
+  text-decoration: none;
+ }
 `;
 
 const Container = styled.div`
