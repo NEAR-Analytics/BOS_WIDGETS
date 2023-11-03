@@ -253,7 +253,7 @@ return (
   <ModalOverlay>
     <Component>
       <ModalContent>
-        <Button className="btn" onClick={onClose}>
+        <CloseButton className="btn" onClick={onClose}>
           <svg
             width="26"
             height="26"
@@ -266,7 +266,7 @@ return (
               fill="white"
             />
           </svg>
-        </Button>
+        </CloseButton>
         <ModalTitle>{`Your Profile`}</ModalTitle>
         <div>
           <p style={{ marginBottom: 8, fontSize: 14 }}>{`Display Name`}</p>
