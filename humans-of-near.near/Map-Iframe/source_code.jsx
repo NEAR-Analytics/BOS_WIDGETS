@@ -255,6 +255,7 @@ const code = `
     function closeProfile() {
       const el = document.getElementById("profile");
       el.style.display = "none";
+      window.top.postMessage("show", "*");
     };
 
     function showProfile(row) {
