@@ -24,6 +24,7 @@ State.init({
     role: "",
     community: [],
   },
+  old_locations: [],
   locations: [],
   humanAlert: true,
   openInfo: false,
@@ -149,6 +150,7 @@ const getMyInfor = async () => {
 const getLocationsData = async () => {
   getLocations().then((data) => {
     State.update({
+      old_locations: data,
       locations: data,
       loaded: true,
     });
@@ -168,17 +170,27 @@ const onHumanClose = () => {
 };
 
 const onFilter = () => {
-  const { locations, filters } = state;
-  const result = locations.filter((row) => {
-    if (row.user.role === filters.role) {
+  const { old_locations, filters } = state;
+  const result = old_locations.filter((row) => {
+    if (filters.role) {
+      if (row.user.role === filters.role) {
+        if (filters.community.length) {
+          const state = !!filters.community.find(
+            (_row) => _row === row.user.community
+          );
+          if (state) return true;
+          else return false;
+        } else return true;
+      } else return false;
+    } else {
       if (filters.community.length) {
         const state = !!filters.community.find(
           (_row) => _row === row.user.community
         );
         if (state) return true;
+        else return false;
       } else return true;
     }
-    return false;
   });
   State.update({
     ...state,
@@ -189,7 +201,7 @@ const onFilter = () => {
 const clearFilter = () => {
   State.update({
     filters: { role: "", community: [] },
-    loaded: false,
+    locations: state.old_locations,
   });
 };
 
@@ -202,7 +214,11 @@ const handleSaveLocation = async () => {
     },
     body: JSON.stringify({ accountId }),
   }).then((res) => {
-    State.update({ edit: !state.edit, locations: res.body });
+    State.update({
+      edit: !state.edit,
+      locations: res.body,
+      old_locations: res.body,
+    });
   });
 };
 
