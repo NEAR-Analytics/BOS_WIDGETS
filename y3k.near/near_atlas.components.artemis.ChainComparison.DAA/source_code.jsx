@@ -2,27 +2,27 @@ let query_url_obj = [
   {
     name: "Avalanche",
     url_address:
-      "https://api.artemisxyz.com/data/DAU/?artemisIds=avalanche&startDate=2022-01-01&endDate=2023-10-01",
+      "https://api.artemisxyz.com/data/DAU/?artemisIds=avalanche&startDate=2022-01-01&endDate=2023-12-30",
   },
   {
     name: "Ethereum",
     url_address:
-      "https://api.artemisxyz.com/data/DAU/?artemisIds=ethereum&startDate=2022-01-01&endDate=2023-10-01",
+      "https://api.artemisxyz.com/data/DAU/?artemisIds=ethereum&startDate=2022-01-01&endDate=2023-12-30",
   },
   {
     name: "NEAR",
     url_address:
-      "https://api.artemisxyz.com/data/DAU/?artemisIds=near&startDate=2022-01-01&endDate=2023-10-01",
+      "https://api.artemisxyz.com/data/DAU/?artemisIds=near&startDate=2022-01-01&endDate=2023-12-30",
   },
   {
     name: "Solana",
     url_address:
-      "https://api.artemisxyz.com/data/DAU/?artemisIds=solana&startDate=2022-01-01&endDate=2023-10-01",
+      "https://api.artemisxyz.com/data/DAU/?artemisIds=solana&startDate=2022-01-01&endDate=2023-12-30",
   },
   {
     name: "Bitcoin",
     url_address:
-      "https://api.artemisxyz.com/data/DAU/?artemisIds=bitcoin&startDate=2022-01-01&endDate=2023-10-01",
+      "https://api.artemisxyz.com/data/DAU/?artemisIds=bitcoin&startDate=2022-01-01&endDate=2023-12-30",
   },
 ];
 
