@@ -104,6 +104,7 @@ const Circle = styled.img`
 const Title = styled.h4`
   margin: 0;
   margin-right: auto;
+  padding-right: 1rem;
   font-size: 1rem;
   font-weight: semibold;
   color: #000;
@@ -117,6 +118,7 @@ const Type = styled.span`
   font-size: 0.875rem;
   font-weight: semibold;
   margin-right: 0.75rem;
+  text-align: center;
 `;
 
 const Dapp = ({ title, type, url, iconSrc }) => (
@@ -157,8 +159,8 @@ const Resource = ({ title, type, url, iconSrc }) => (
 
 const dapps = [
   {
-    title: "Arbitrum",
-    type: "DEX",
+    title: "Arbitrum DeFi",
+    type: "Aggregator",
     url: "https://near.org/bluebiu.near/widget/Arbitrum.All-in-one",
     iconSrc: `${ipfsUrl}/icon-arbitrum.jpg`,
   },
@@ -188,7 +190,7 @@ const dapps = [
   },
   {
     title: "Pendle",
-    type: "Yield Aggregator",
+    type: "Yield",
     url: "https://near.org/bluebiu.near/widget/Arbitrum.Pendle.TradeMarkets",
     iconSrc: `${ipfsUrl}/icon-pendle.jpg`,
   },
@@ -196,29 +198,29 @@ const dapps = [
 
 const gateways = [
   {
-    title: "NEAR",
-    type: "near",
+    title: "near.org",
+    type: "Omnichain",
     url: "https://near.org/",
     imgSrc: `${ipfsUrl}/gateway-near.jpg`,
     iconSrc: `${ipfsUrl}/icon-near.jpg`,
   },
   {
     title: "DapDap",
-    type: "Web3 Games",
+    type: "DeFi-centric",
     url: "https://alpha.dapdap.net/",
     imgSrc: `${ipfsUrl}/gateway-dapdap.jpg`,
     iconSrc: `${ipfsUrl}/icon-dapdap.jpg`,
   },
   {
     title: "Polygon zkEVM",
-    type: "zkEVM",
+    type: "Ecosystem dashboard",
     url: "https://bos.quickswap.exchange/",
     imgSrc: `${ipfsUrl}/gateway-polygon.jpg`,
     iconSrc: `${ipfsUrl}/icon-polygon.jpg`,
   },
   {
     title: "Mantle",
-    type: "zkEVM",
+    type: "Ecosystem dashboard",
     url: "https://bos.mantle.xyz/",
     imgSrc: `${ipfsUrl}/gateway-mantle.jpg`,
     iconSrc: `${ipfsUrl}/icon-mantle.jpg`,
