@@ -164,7 +164,6 @@ const notLoggedInWarning = <p class="text-center py-2"> Login to Use BOS </p>;
 const Wrapper = styled.div`
  ${props.cssStyle}
 `;
-console.log("css", props.cssStyle);
 return (
   <>
     <Wrapper class="container">
