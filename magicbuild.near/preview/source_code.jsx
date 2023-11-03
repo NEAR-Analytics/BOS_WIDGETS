@@ -30,7 +30,7 @@ const onInputChangeContractArg = (obj) => {
   State.update({ contractAbiArg: data });
 };
 const cDeposit = (e, fIndex) => {
-  const data = state.contractAbiArg;
+  const data = state.contractAbiCall;
   data[fIndex].deposit = e.target.value;
   State.update({ contractAbiArg: data });
 };
@@ -460,8 +460,8 @@ return (
                   <label>Deposit</label>
                   <input
                     type="text"
-                    value={"" + functions.deposit}
-                    defaultValue={"" + functions.deposit}
+                    value={functions.deposit}
+                    defaultValue={functions.deposit}
                     onChange={(e) => cDeposit(e, fIndex)}
                     class="form-control "
                   />
