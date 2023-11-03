@@ -60,6 +60,7 @@ margin-top: 32px;
     justify-content: center;
 display: flex;
 width: 100%;
+gap: 10px;
 flex-wrap: wrap;
 input {
     border-radius: 32px;
@@ -116,6 +117,7 @@ const Explore = styled.div`
 State.init({
   nftData: [],
   chain: "near",
+  filterDisplayId: "0",
   filteredNFTData: [],
   searchTerm: "",
 });
@@ -203,6 +205,10 @@ const defaultProps = [
 
 const updateChain = (chain) => {
   State.update({ chain, currentPage: 1 });
+};
+
+const updateFilter = (id) => {
+  State.update({ filterDisplayId: id });
 };
 
 const fetchData = () => {
@@ -296,42 +302,31 @@ const PRICE_CONVERSION_CONSTANT =
 
 return (
   <Root>
-    {state.nftData.length > 0 ? (
-      <TopNFTS>
-        {state.nftData.slice(0, 6).map((data, index) => (
-          <div key={index}>
-            <Widget
-              props={{
-                title: data.name,
-                contractId: data.contract_id,
-                tokenId: data.token_id,
-                chainState: state.chain,
-                onButtonClick: () =>
-                  props.update({
-                    tab: "singleNFT",
-                    contractId: data.contract_id,
-                    tokenId: data.token_id,
-                    chainState: state.chain,
-                  }),
-                image: data.media_url,
-              }}
-              src="agwaze.near/widget/CPlanet.NFTCard.FeaturedNFT"
-            />
-          </div>
-        ))}
-      </TopNFTS>
-    ) : (
-      <NoData>
-        <Widget src="agwaze.near/widget/CPlanet.NFTCard.FeaturedNFT" />
-        <Widget src="agwaze.near/widget/CPlanet.NFTCard.FeaturedNFT" />
-        <Widget src="agwaze.near/widget/CPlanet.NFTCard.FeaturedNFT" />
-        <Widget src="agwaze.near/widget/CPlanet.NFTCard.FeaturedNFT" />
-        <Widget src="agwaze.near/widget/CPlanet.NFTCard.FeaturedNFT" />
-      </NoData>
-    )}
+    <TopNFTS>
+      <Widget
+        props={{
+          title: data.name,
+          contractId: data.contract_id,
+          tokenId: data.token_id,
+          chainState: state.chain,
+          onButtonClick: () =>
+            props.update({
+              tab: "singleNFT",
+              contractId: data.contract_id,
+              tokenId: data.token_id,
+              chainState: state.chain,
+            }),
+          image: data.media_url,
+        }}
+        src="agwaze.near/widget/CPlanet.NFTCard.FeaturedNFT"
+      />
+    </TopNFTS>
     <Explore>
       <SearchSection>
-        <h1>Explore Creative NFTs</h1>
+        <h1>
+          Explore {state.filterDisplayId === "0" ? "Creative" : "Multi Chain"}{" "}
+          NFTs
+        </h1>
         <Search>
           <input
             value={state.searchTerm}
@@ -340,76 +335,90 @@ return (
             placeholder="Search for NFTs"
           />
           <Widget
-            props={{ chains: defaultProps, updateChain }}
-            src="agwaze.near/widget/CPlanet.Explore.ChainsDropdown"
+            props={{ updateChain: updateFilter }}
+            src="agwaze.near/widget/CPlanet.Explore.FilterDropdown"
           />
+          {state.filterDisplayId === "1" && (
+            <Widget
+              props={{ chains: defaultProps, updateChain }}
+              src="agwaze.near/widget/CPlanet.Explore.ChainsDropdown"
+            />
+          )}
         </Search>
       </SearchSection>
-      <Cards>
-        {state.nftData.length > 0 ? (
-          <NFTCards>
-            {state.searchTerm === ""
-              ? state.nftData.map((data, index) => (
-                  <div key={index}>
-                    <Widget
-                      props={{
-                        title: data.name,
-                        description: data.description,
-                        image: data.media_url,
-                        onButtonClick: () =>
-                          props.update({
-                            tab: "singleNFT",
-                            contractId: data.contract_id,
-                            tokenId: data.token_id,
-                            chainState: state.chain,
-                          }),
-                        price: data.price
-                          ? (data.price / PRICE_CONVERSION_CONSTANT).toFixed(2)
-                          : null,
-                        owner: data.owner,
-                        logo: currentChainProps[state.chain].img,
-                        isListed: data.isListed ? "LISTED" : "NOT LISTED",
-                        tokenId: data.token_id,
-                        contractId: data.contract_id,
-                        chainState: state.chain,
-                      }}
-                      src="agwaze.near/widget/CPlanet.NFTCard.index"
-                    />
-                  </div>
-                ))
-              : state.filteredNFTData.map((data, index) => (
-                  <div key={index}>
-                    <Widget
-                      props={{
-                        title: data.name,
-                        description: data.description,
-                        image: data.media_url,
-                        owner: data.owner,
-                        chainState: state.chainState,
-                        logo: currentChainProps[state.chain].img,
-                        onButtonClick: () =>
-                          props.update({
-                            tab: "singleNFT",
-                            contractId: data.contract_id,
-                            tokenId: data.token_id,
-                            chainState: state.chain,
-                          }),
-                        price: data.price
-                          ? (data.price / PRICE_CONVERSION_CONSTANT).toFixed(2)
-                          : null,
-                        isListed: data.isListed ? "LISTED" : "NOT LISTED",
-                        tokenId: data.token_id,
-                        contractId: data.contract_id,
-                      }}
-                      src="agwaze.near/widget/CPlanet.NFTCard.index"
-                    />
-                  </div>
-                ))}
-          </NFTCards>
-        ) : (
-          <div></div>
-        )}
-      </Cards>
+      {state.filterDisplayId === "0" ? (
+        <Widget src="agwaze.near/widget/CPlanet.Explore.DAONFTs" />
+      ) : (
+        <Cards>
+          {state.nftData.length > 0 ? (
+            <NFTCards>
+              {state.searchTerm === ""
+                ? state.nftData.map((data, index) => (
+                    <div key={index}>
+                      <Widget
+                        props={{
+                          title: data.name,
+                          description: data.description,
+                          image: data.media_url,
+                          onButtonClick: () =>
+                            props.update({
+                              tab: "singleNFT",
+                              contractId: data.contract_id,
+                              tokenId: data.token_id,
+                              chainState: state.chain,
+                            }),
+                          price: data.price
+                            ? (data.price / PRICE_CONVERSION_CONSTANT).toFixed(
+                                2
+                              )
+                            : null,
+                          owner: data.owner,
+                          logo: currentChainProps[state.chain].img,
+                          isListed: data.isListed ? "LISTED" : "NOT LISTED",
+                          tokenId: data.token_id,
+                          contractId: data.contract_id,
+                          chainState: state.chain,
+                        }}
+                        src="agwaze.near/widget/CPlanet.NFTCard.index"
+                      />
+                    </div>
+                  ))
+                : state.filteredNFTData.map((data, index) => (
+                    <div key={index}>
+                      <Widget
+                        props={{
+                          title: data.name,
+                          description: data.description,
+                          image: data.media_url,
+                          owner: data.owner,
+                          chainState: state.chainState,
+                          logo: currentChainProps[state.chain].img,
+                          onButtonClick: () =>
+                            props.update({
+                              tab: "singleNFT",
+                              contractId: data.contract_id,
+                              tokenId: data.token_id,
+                              chainState: state.chain,
+                            }),
+                          price: data.price
+                            ? (data.price / PRICE_CONVERSION_CONSTANT).toFixed(
+                                2
+                              )
+                            : null,
+                          isListed: data.isListed ? "LISTED" : "NOT LISTED",
+                          tokenId: data.token_id,
+                          contractId: data.contract_id,
+                        }}
+                        src="agwaze.near/widget/CPlanet.NFTCard.index"
+                      />
+                    </div>
+                  ))}
+            </NFTCards>
+          ) : (
+            <div></div>
+          )}
+        </Cards>
+      )}
     </Explore>
   </Root>
 );
