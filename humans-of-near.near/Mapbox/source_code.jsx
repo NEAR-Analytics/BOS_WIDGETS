@@ -200,8 +200,6 @@ const code = `
     }
 
     function getDetail (row) {
-      
-
       const user = row.user;
       var title = "";
       const near = row.user.accountId.indexOf(".near");
@@ -257,6 +255,8 @@ const code = `
     };
 
     function showProfile(row) {
+      console.log(window.innerWidth, "==>www);
+      if(window.innerWidth>510) return;
       const HTMLContent = getDetail(row);
       const el = document.getElementById("profile");
       el.style.display = "block";
