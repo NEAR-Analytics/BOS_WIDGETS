@@ -1,6 +1,6 @@
 const showNavbar = props.showNavbar ?? true;
 State.init({
-  isOpen: true,
+  isOpen: false,
 });
 
 const NavContainer = styled.div`
