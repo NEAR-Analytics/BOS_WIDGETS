@@ -226,6 +226,7 @@ const handleSaveLocation = async () => {
     },
     body: JSON.stringify({ accountId }),
   }).then((res) => {
+    showAlert("Location Updated!");
     State.update({
       edit: !state.edit,
       locations: res.body,
