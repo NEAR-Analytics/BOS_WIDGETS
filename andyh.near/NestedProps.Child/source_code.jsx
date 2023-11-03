@@ -6,13 +6,11 @@ function y() {
 }
 
 const [, , hello] = props.arr;
+const helloCb = useComponentCallback(hello);
 
 return (
   <>
-    <button
-      className="btn btn-primary"
-      onClick={() => hello().then(console.log)}
-    >
+    <button className="btn btn-primary" onClick={() => console.log(helloCb())}>
       hello
     </button>
     <button className="btn btn-warning" onClick={() => props.incrementByOne(y)}>
