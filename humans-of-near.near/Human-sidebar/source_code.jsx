@@ -183,7 +183,10 @@ return (
 
     {state.mobileMenu && (
       <SidebarMobileContent>
-        <div className="d-flex flex-column" style={{ gap: 40 }}>
+        <div
+          className="d-flex flex-column"
+          style={{ gap: 40, marginTop: "25%" }}
+        >
           <button
             className="btn p-0 position-absolute"
             onClick={openMobileMenu}
@@ -202,9 +205,14 @@ return (
             </svg>
           </button>
           <button
-            className="btn p-0 justify-content-center align-items-center"
+            className="btn p-0 d-flex justify-content-center align-items-center"
             onClick={showProfile}
-            style={{ width: "fit-content", height: "fit-content", gap: 40 }}
+            style={{
+              width: "fit-content",
+              height: "fit-content",
+              gap: 40,
+              color: "white",
+            }}
           >
             <svg
               width="30"
@@ -235,7 +243,15 @@ return (
                 strokeLinejoin="round"
               />
             </svg>
-            <p>Profile</p>
+            <p
+              className="m-0"
+              style={{
+                fontSize: 20,
+                fontWeight: 700,
+              }}
+            >
+              Profile
+            </p>
           </button>
 
           <div
