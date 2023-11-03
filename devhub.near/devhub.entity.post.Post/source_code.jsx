@@ -2,36 +2,20 @@
 
 const { href } = VM.require("devhub.near/widget/core.lib.url");
 
-const { draftState, onDraftStateChange } = VM.require(
-  "devhub.near/widget/devhub.entity.post.draft"
-);
-
-if (!href) {
-  return <p>Loading modules...</p>;
-}
+href || (href = () => {});
 
 const ButtonWithHover = styled.button`
   background-color: #fff;
-  transition: all 300ms;
-  border-radius: 0.5rem;
-
   &:hover {
     background-color: #e9ecef;
     color: #000;
   }
-
-  &:disabled {
-    background-color: #fff;
-    color: #b7b7b7;
-  }
 `;
 
 const postId = props.post.id ?? (props.id ? parseInt(props.id) : 0);
-
 const post =
   props.post ??
   Near.view("devgovgigs.near", "get_post", { post_id: postId });
-
 if (!post) {
   return <div>Loading ...</div>;
 }
@@ -42,14 +26,12 @@ const compareTimestamp = props.compareTimestamp ?? "";
 const swapTimestamps = currentTimestamp < compareTimestamp;
 
 const snapshotHistory = post.snapshot_history;
-
 const snapshot =
   currentTimestamp === post.snapshot.timestamp
     ? post.snapshot
     : (snapshotHistory &&
         snapshotHistory.find((s) => s.timestamp === currentTimestamp)) ??
       null;
-
 const compareSnapshot =
   compareTimestamp === post.snapshot.timestamp
     ? post.snapshot
@@ -59,7 +41,6 @@ const compareSnapshot =
 
 // If this post is displayed under another post. Used to limit the size.
 const isUnderPost = props.isUnderPost ? true : false;
-
 const parentId = Near.view("devgovgigs.near", "get_parent_id", {
   post_id: postId,
 });
@@ -73,6 +54,8 @@ const childPostIds = props.isPreview ? [] : childPostIdsUnordered.reverse();
 const expandable = props.isPreview ? false : props.expandable ?? false;
 const defaultExpanded = expandable ? props.defaultExpanded : true;
 
+const draftState = props.draftState;
+
 function readableDate(timestamp) {
   var a = new Date(timestamp);
   return a.toDateString() + " " + a.toLocaleTimeString();
@@ -85,7 +68,6 @@ const timestamp = readableDate(
 const postSearchKeywords = props.searchKeywords ? (
   <div style={{ "font-family": "monospace" }} key="post-search-keywords">
     <span>Found keywords: </span>
-
     {props.searchKeywords.map((tag) => (
       <Widget
         src={"devhub.near/widget/devhub.components.atom.Tag"}
@@ -140,7 +122,6 @@ const editControl = allowedToEdit ? (
     >
       <div class="bi bi-pencil-square"></div>
     </a>
-
     <ul class="dropdown-menu">
       {btnEditorWidget("Idea", "Edit as an idea")}
       {btnEditorWidget("Solution", "Edit as a solution")}
@@ -189,14 +170,13 @@ const header = (
               }
               props={{
                 accountId: post.author_id,
+                nearDevGovGigsWidgetsAccountId: "devhub.near",
               }}
             />
           </ProfileCardContainer>
-
           <div class="d-flex ms-auto">
             {editControl}
             {timestamp}
-
             <Widget
               src={"devhub.near/widget/devhub.entity.post.History"}
               props={{
@@ -266,16 +246,13 @@ let grantNotify = Near.view("social.near", "is_write_permission_granted", {
   predecessor_id: "devgovgigs.near",
   key: context.accountId + "/index/notify",
 });
-
 if (grantNotify === null) {
   return;
 }
-
 const onLike = () => {
   if (!context.accountId) {
     return;
   }
-
   let likeTxn = [
     {
       contractName: "devgovgigs.near",
@@ -283,7 +260,8 @@ const onLike = () => {
       args: {
         post_id: postId,
       },
-      gas: Big(10).pow(14),
+      deposit: Big(10).pow(21).mul(2),
+      gas: Big(10).pow(12).mul(100),
     },
   ];
 
@@ -295,11 +273,10 @@ const onLike = () => {
         predecessor_id: "devgovgigs.near",
         keys: [context.accountId + "/index/notify"],
       },
-      gas: Big(10).pow(14),
-      deposit: Big(10).pow(22),
+      deposit: Big(10).pow(23),
+      gas: Big(10).pow(12).mul(30),
     });
   }
-
   Near.call(likeTxn);
 };
 
@@ -317,7 +294,6 @@ const btnCreatorWidget = (postType, icon, name, desc) => {
         <i class={`bi ${icon}`} style={{ fontSize: "1.5rem" }}>
           {" "}
         </i>
-
         <div class="ps-2 text-wrap" style={{ width: "18rem" }}>
           <div>{name}</div>
           <small class="fw-light text-secondary">{desc}</small>
@@ -350,7 +326,8 @@ const buttonsFooter = props.isPreview ? null : (
             "Like"
           ) : (
             <Widget
-              src="devhub.near/widget/devhub.components.layout.LikeButton.Faces"
+              // TODO: LEGACY.
+              src="devgovgigs.near/widget/gigs-board.components.layout.LikeButton.Faces"
               props={{
                 likesByUsers: Object.fromEntries(
                   post.likes.map(({ author_id }) => [author_id, ""])
@@ -359,7 +336,6 @@ const buttonsFooter = props.isPreview ? null : (
             />
           )}
         </ButtonWithHover>
-
         <div class="btn-group" role="group">
           <ButtonWithHover
             type="button"
@@ -406,33 +382,25 @@ const buttonsFooter = props.isPreview ? null : (
             )}
           </ul>
         </div>
-        {childPostIds.length > 0 && (
-          <ButtonWithHover
-            type="button"
-            class="btn"
-            style={{ border: "0px" }}
-            data-bs-toggle="collapse"
-            href={`#collapseChildPosts${postId}`}
-            aria-expanded={defaultExpanded}
-            aria-controls={`collapseChildPosts${postId}`}
-            onClick={() =>
-              State.update({ expandReplies: !state.expandReplies })
-            }
-          >
-            <i
-              class={`bi bi-chevron-${state.expandReplies ? "up" : "down"}`}
-            ></i>{" "}
-            {`${state.expandReplies ? "Collapse" : "Expand"} Replies (${
-              childPostIds.length
-            })`}
-          </ButtonWithHover>
-        )}
+        <ButtonWithHover
+          type="button"
+          class="btn"
+          style={{ border: "0px" }}
+          data-bs-toggle="collapse"
+          href={`#collapseChildPosts${postId}`}
+          aria-expanded={defaultExpanded}
+          aria-controls={`collapseChildPosts${postId}`}
+        >
+          <i class="bi bi-chevron-down"> </i>{" "}
+          {`Expand Replies (${childPostIds.length})`}
+        </ButtonWithHover>
 
         {isUnderPost || !parentId ? (
           <div key="link-to-parent"></div>
         ) : (
           <Link
             to={href({
+              gateway: "near.org",
               widgetSrc: "devhub.near/widget/app",
               params: { page: "post", id: parentId },
             })}
@@ -467,7 +435,7 @@ const CreatorWidget = (postType) => {
         src={"devhub.near/widget/devhub.entity.post.PostEditor"}
         props={{
           postType,
-          onDraftStateChange,
+          onDraftStateChange: props.onDraftStateChange,
           draftState:
             draftState?.parent_post_id == postId ? draftState : undefined,
           parentId: postId,
@@ -541,7 +509,7 @@ const EditorWidget = (postType) => {
           token: tokenResolver(post.snapshot.sponsorship_token),
           supervisor: post.snapshot.supervisor,
           githubLink: post.snapshot.github_link,
-          onDraftStateChange,
+          onDraftStateChange: props.onDraftStateChange,
           draftState:
             draftState?.edit_post_id == postId ? draftState : undefined,
         }}
@@ -556,29 +524,6 @@ const isDraft =
   (draftState?.edit_post_id === postId &&
     draftState?.postType === state.postType);
 
-const toggleEditor = () => {
-  State.update({ showEditor: !state.showEditor });
-};
-
-let amount = null;
-let token = null;
-let supervisor = null;
-
-if (state.postType === "Solution") {
-  const amountMatch = post.snapshot.description.match(
-    /Requested amount: (\d+(\.\d+)?) (\w+)/
-  );
-  amount = amountMatch ? parseFloat(amountMatch[1]) : null;
-  token = amountMatch ? amountMatch[3] : null;
-
-  const sponsorMatch = post.snapshot.description.match(
-    /Requested sponsor: @([^\s]+)/
-  );
-  supervisor = sponsorMatch ? sponsorMatch[1] : null;
-}
-
-const seekingFunding = amount !== null || token !== null || supervisor !== null;
-
 function Editor() {
   return (
     <div class="row" id={`accordion${postId}`} key="editors-footer">
@@ -592,12 +537,11 @@ function Editor() {
               src={"devhub.near/widget/devhub.entity.post.PostEditor"}
               props={{
                 postType: state.postType,
-                onDraftStateChange,
+                onDraftStateChange: props.onDraftStateChange,
                 draftState:
                   draftState?.parent_post_id == postId ? draftState : undefined,
                 parentId: postId,
                 mode: "Create",
-                toggleEditor: toggleEditor,
               }}
             />
           </>
@@ -613,16 +557,13 @@ function Editor() {
                 labels: post.snapshot.labels,
                 name: post.snapshot.name,
                 description: post.snapshot.description,
-                amount: post.snapshot.amount || amount,
-                token: tokenResolver(post.snapshot.sponsorship_token || token),
-                supervisor:
-                  post.snapshot.post.snapshot.supervisor || supervisor,
-                seekingFunding: seekingFunding,
+                amount: post.snapshot.amount,
+                token: tokenResolver(post.snapshot.sponsorship_token),
+                supervisor: post.snapshot.supervisor,
                 githubLink: post.snapshot.github_link,
-                onDraftStateChange,
+                onDraftStateChange: props.onDraftStateChange,
                 draftState:
                   draftState?.edit_post_id == postId ? draftState : undefined,
-                toggleEditor: toggleEditor,
               }}
             />
           </>
@@ -650,11 +591,6 @@ const tags = post.snapshot.labels ? (
           })}
         >
           <div
-            onClick={() => {
-              if (typeof props.updateTagInParent === "function") {
-                props.updateTagInParent(tag);
-              }
-            }}
             className="d-flex gap-3 align-items-center"
             style={{ cursor: "pointer", textDecoration: "none" }}
           >
@@ -742,20 +678,18 @@ const postsList =
         id={`collapseChildPosts${postId}`}
       >
         {childPostIds.map((childId) => (
-          <div key={childId} style={{ marginBottom: "0.5rem" }}>
-            <Widget
-              src="devhub.near/widget/devhub.entity.post.Post"
-              props={{
-                id: childId,
-                isUnderPost: true,
-                onDraftStateChange,
-                draftState,
-                expandParent: () =>
-                  State.update({ childrenOfChildPostsHasDraft: true }),
-                referral: `subpost${childId}of${postId}`,
-              }}
-            />
-          </div>
+          <Widget
+            src="devhub.near/widget/devhub.entity.post.Post"
+            props={{
+              id: childId,
+              isUnderPost: true,
+              onDraftStateChange: props.onDraftStateChange,
+              draftState,
+              expandParent: () =>
+                State.update({ childrenOfChildPostsHasDraft: true }),
+              referral: `subpost${childId}of${postId}`,
+            }}
+          />
         ))}
       </div>
     </div>
@@ -772,7 +706,6 @@ const needClamp = isInList && contentArray.length > 5;
 
 initState({
   clamp: needClamp,
-  expandReplies: defaultExpanded,
 });
 
 const clampedContent = needClamp
@@ -826,6 +759,7 @@ const timestampElement = (_snapshot) => {
     <Link
       class="text-muted"
       href={href({
+        gateway: "near.org",
         widgetSrc: "devhub.near/widget/app",
         params: {
           page: "post",
