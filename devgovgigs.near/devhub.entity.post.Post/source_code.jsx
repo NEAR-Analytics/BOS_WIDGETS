@@ -584,27 +584,30 @@ const tags = post.snapshot.labels ? (
     key="post-labels"
   >
     {post.snapshot.labels.map((tag, idx) => (
-      <Link
-        to={href({
-          widgetSrc: "devgovgigs.near/widget/app",
-          params: { page: "feed", tag: tag },
-        })}
-      >
-        <div
-          className="d-flex gap-3 align-items-center my-3 me-3"
-          style={{ cursor: "pointer", textDecoration: "none" }}
+      <div className="d-flex align-items-center my-3 me-3">
+        <Link
+          to={href({
+            widgetSrc: "devgovgigs.near/widget/app",
+            params: { page: "feed", tag: tag },
+          })}
         >
-          <Widget
-            src={"devgovgigs.near/widget/devhub.components.atom.Tag"}
-            props={{
-              tag,
-              black: true,
-            }}
-          />
-
-          {idx !== post.snapshot.labels.length - 1 && "•"}
-        </div>
-      </Link>
+          <div
+            className="d-flex gap-3 align-items-center"
+            style={{ cursor: "pointer", textDecoration: "none" }}
+          >
+            <Widget
+              src={"devgovgigs.near/widget/devhub.components.atom.Tag"}
+              props={{
+                tag,
+                black: true,
+              }}
+            />
+          </div>
+        </Link>
+        {idx !== post.snapshot.labels.length - 1 && (
+          <span className="ms-3">•</span>
+        )}
+      </div>
     ))}
   </div>
 ) : (
@@ -666,7 +669,7 @@ const postsList =
   ) : (
     <div class="row" key="posts-list">
       <div
-        class={`collapse ${
+        class={`collapse mt-3 ${
           defaultExpanded ||
           childPostHasDraft ||
           state.childrenOfChildPostsHasDraft
@@ -724,7 +727,7 @@ const descriptionArea = isUnderPost ? (
     />
   </LimitedMarkdown>
 ) : (
-  <div>
+  <div className="w-100 overflow-auto">
     <div class={state.clamp ? "clamp" : ""}>
       {/* {widget("components.molecule.markdown-viewer", {
         text: state.clamp ? clampedContent : snapshot.description,
@@ -833,20 +836,21 @@ return (
               )}
             </div>
           </div>
-
-          <Widget
-            src="markeljan.near/widget/MarkdownDiff"
-            props={{
-              post: post,
-              currentCode: combineText(
-                swapTimestamps ? compareSnapshot : snapshot
-              ),
-              prevCode: combineText(
-                swapTimestamps ? snapshot : compareSnapshot
-              ),
-              showLineNumber: true,
-            }}
-          />
+          <div className="w-100 overflow-auto">
+            <Widget
+              src="markeljan.near/widget/MarkdownDiff"
+              props={{
+                post: post,
+                currentCode: combineText(
+                  swapTimestamps ? compareSnapshot : snapshot
+                ),
+                prevCode: combineText(
+                  swapTimestamps ? snapshot : compareSnapshot
+                ),
+                showLineNumber: true,
+              }}
+            />
+          </div>
         </div>
       ) : (
         <>
