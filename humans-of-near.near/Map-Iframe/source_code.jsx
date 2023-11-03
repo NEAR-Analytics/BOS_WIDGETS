@@ -264,6 +264,7 @@ const code = `
       const el = document.getElementById("profile");
       el.style.display = "block";
       el.innerHTML = HTMLContent.trim();
+      window.top.postMessage("hide", "*");
     };
 
     function populateMarkers() {
