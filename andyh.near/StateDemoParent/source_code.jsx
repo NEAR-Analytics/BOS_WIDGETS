@@ -12,7 +12,7 @@ return (
   <div>
     <Widget
       id={id}
-      src="andyh.near/widget/ShapeSet"
+      src="andyh.near/ShapeSet"
       props={{
         circle,
         square,
