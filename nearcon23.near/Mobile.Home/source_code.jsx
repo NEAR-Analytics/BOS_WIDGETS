@@ -115,7 +115,11 @@ return (
       {selectedButton === "profile" && (
         <Widget
           src={`${ownerId}/widget/Mobile.Home.Profile`}
-          props={{ theme, userData: state?.userData }}
+          props={{
+            theme,
+            userData: state?.userData,
+            transactions: props.transactions,
+          }}
         />
       )}
       {selectedButton === "map" && (
