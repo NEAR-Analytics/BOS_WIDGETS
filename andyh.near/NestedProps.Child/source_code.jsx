@@ -1,8 +1,8 @@
 function x() {
-  console.log(4);
+  console.log(3);
 }
 function y() {
-  console.log(4);
+  console.log(7);
 }
 
 return (
