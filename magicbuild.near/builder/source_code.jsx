@@ -761,8 +761,7 @@ return (
           <textarea
             class="form-control"
             placeholder="CSS"
-            id="floatingTextarea2"
-            onChange={(e) => cssStyle(e)}
+            onChange={(e) => cCSS(e)}
           ></textarea>
         </div>
       )}
