@@ -9,6 +9,7 @@ const accountId = context.accountId;
 const edit = props.edit || false;
 const markers = props.markers || [];
 const onLink = props.onLink;
+const setInfoIcon = props.setInfoIcon;
 
 const code = `
 <!DOCTYPE html>
@@ -348,5 +349,14 @@ const code = `
   `;
 
 return (
-  <iframe id="myMap" className="w-100 h-100" srcDoc={code} onMessage={onLink} />
+  <iframe
+    id="myMap"
+    className="w-100 h-100"
+    srcDoc={code}
+    onMessage={(res) => {
+      if (res === "show") setInfoIcon(true);
+      else if (res === "hide") setInfoIcon(false);
+      else onLink(res);
+    }}
+  />
 );
