@@ -1,5 +1,5 @@
-const imageLink =
-  "https://ipfs.near.social/ipfs/bafybeiap2mzwsly4apaldxguiunx4rjwqyadksj5yxuzwrww3kue3ao5qe";
+const imageLink = props.imageLink;
+const bannerTitle = props.title;
 
 const HeroSection = styled.div`
   position: relative;
@@ -16,6 +16,7 @@ const HeroSection = styled.div`
   @media screen and (max-width: 768px) {
     width: 100%;
     padding: 1rem 1.5rem;
+
     clip-path: none;
   }
 `;
@@ -27,11 +28,14 @@ const Title = styled.h1`
   font-weight: 700;
   line-height: 100%; /* 88px */
   letter-spacing: -1.76px;
+  margin: 0;
+
+  width: 80%;
 
   @media screen and (max-width: 768px) {
+    width: 100%;
     font-size: 2.25rem;
     letter-spacing: -0.72px;
-    margin: 0;
   }
 `;
 
@@ -71,7 +75,7 @@ const Image = styled.img`
 const MobileImage = styled.img`
   display: none;
 
-  width: 100%;
+  width: 356.187px;
   height: 196px;
 
   width: 100%;
@@ -86,15 +90,11 @@ const MobileImage = styled.img`
 return (
   <Container>
     <HeroSection>
-      <Title>
-        The decentralized <br />
-        <span style={{ color: "#101820" }}>home base</span> <br />
-        for NEAR builders
-      </Title>
+      <Title>{bannerTitle}</Title>
     </HeroSection>
-    <MobileImage src={imageLink} />
     <ImageContainer>
       <Image src={imageLink} />
     </ImageContainer>
+    <MobileImage src={imageLink} />
   </Container>
 );
