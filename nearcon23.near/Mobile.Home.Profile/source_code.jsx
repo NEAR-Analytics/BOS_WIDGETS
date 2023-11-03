@@ -304,7 +304,7 @@ return loading ? (
               letterSpacing: "-5px",
             }}
           >
-            {state?.userData?.balance?.replace?.("0000000000000000000000", "")}
+            {userData?.balance?.replace?.("0000000000000000000000", "")}
           </h1>
           <h3
             style={{
@@ -399,14 +399,14 @@ return loading ? (
               {([...transactions.slice(0, 2)] ?? []).map((item) => (
                 <Widget
                   props={{
-                    sent: item.senderId === state.userData.nearconId,
+                    sent: item.senderId === userData.nearconId,
                     amount: item.amount,
                     image:
-                      item.senderId === state.userData.nearconId
+                      item.senderId === userData.nearconId
                         ? item?.receiverCid
                         : item.senderCid,
                     accountId:
-                      item.senderId === state.userData.nearconId
+                      item.senderId === userData.nearconId
                         ? item.receiverId
                         : item.senderId,
                     time: convertToReadableDate(item.createdAt),
