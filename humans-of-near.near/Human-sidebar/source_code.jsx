@@ -11,12 +11,11 @@ const Sidebar = styled.div`
   padding-bottom:32px;
 
   @media (max-width: 510px) {
-    display:  none;
-    "& .menu":{
+    & .menu:{
       display: none;
     }
 
-    "& .btn-menu":{
+    & .btn-menu:{
       display: block;
     }
   }
