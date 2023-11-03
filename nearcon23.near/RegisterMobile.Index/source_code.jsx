@@ -65,7 +65,7 @@ const createAccount = () => {
   asyncFetch(`${apiUrl}/accounts/createAccount`, {
     body: JSON.stringify({
       secretKey: props?.secretKey,
-      accountId: `${state.username}`,
+      accountId: `${state.username}.${ownerId}`,
     }),
     headers: {
       "Content-Type": "application/json",
@@ -170,7 +170,7 @@ return (
               success: state.username && !state.usernameError,
               onChange: (username) => {
                 State.update({ username: username?.toLowerCase().trim() });
-                const data = valid(`${username}.nearcon23.near`, (d) => {
+                const data = valid(`${username}.${ownerId}`, (d) => {
                   const inputValid = validateInput();
                   if (d) {
                     State.update({
@@ -195,12 +195,12 @@ return (
             }}
           />
           <p style={{ marginLeft: 2 }}>
-            {state.username ? `${state.username}.nearcon23.near` : ""}
+            {state.username ? `${state.username}.${ownerId}` : ""}
           </p>
         </div>
         <SubmitButton
           onClick={() => {
-            valid(`${state.username}.nearcon23.near`, (d) => {
+            valid(`${state.username}.${ownerId}`, (d) => {
               if (!d && validateInput() === true) {
                 createAccount();
               } else {
