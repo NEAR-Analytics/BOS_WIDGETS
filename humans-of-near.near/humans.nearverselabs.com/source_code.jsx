@@ -204,9 +204,9 @@ const setOpenInfo = () => {
   });
 };
 
-const setInfoIcon = () => {
+const setInfoIcon = (state) => {
   State.update({
-    hideInfor: !state.hideInfor,
+    hideInfor: state,
   });
 };
 
