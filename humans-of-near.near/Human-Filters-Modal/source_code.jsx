@@ -5,7 +5,7 @@ if (!accountId) return;
 const SOCIAL = "https://social.near.page/u/";
 const TWITTER = "https://twitter.com/";
 
-const { API_URL, onClose, user, getMyInfor } = props;
+const { API_URL, onClose, user, role, community } = props;
 
 const options = [
   {
@@ -178,27 +178,7 @@ const CommnuityBtn = styled.button`
   `}
 `;
 
-const handleChangeFilers = () => {
-  const data = {
-    accountId,
-    name: state.name,
-    social: state.social,
-    twitter: state.twitter,
-  };
-
-  return asyncFetch(API_URL + `/auth/account`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(data),
-  }).then((res) => {
-    if (res.ok) {
-      getMyInfor();
-      onClose();
-    }
-  });
-};
+const handleChangeFilers = () => {};
 
 const changeName = async (e) => {
   if (e.target.value.length <= 25)
@@ -269,7 +249,7 @@ return (
               noLabel: true,
               placeholder: "Select a role",
               options,
-              value: options[0],
+              value: options.find((row) => row.value === role) ?? options[0],
             }}
             src={`${Owner}/widget/Select`}
           />
