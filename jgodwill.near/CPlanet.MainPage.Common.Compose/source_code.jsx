@@ -297,6 +297,7 @@ const EmbedNFT = styled.div`
     .compose{
       justify-self: flex-end;
       float: right;
+      margin-right: 8px;
     }
   }
 `;
