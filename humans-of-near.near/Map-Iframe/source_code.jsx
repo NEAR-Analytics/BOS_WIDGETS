@@ -136,6 +136,15 @@ const code = `
           width: 60px;
         }
       }
+
+      .close {
+        position: absolute;
+        background: unset;
+        border: 0;
+        padding: 0;
+        top: 10px;
+        right: 10px;
+      }
     </style>
   </head>
   <body>
@@ -242,10 +251,15 @@ const code = `
         return HTML;
     };
 
+    function closeProfile() {
+      const el = document.getElementById("profile");
+      el.style.display = "none";
+    };
+
     function showProfile(row) {
       if(window.innerWidth>510) return;
       let HTMLContent = getDetail(row);
-      HTMLContent += '<button style="position:absolute;"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M12 2c5.53 0 10 4.47 10 10s-4.47 10-10 10S2 17.53 2 12S6.47 2 12 2m3.59 5L12 10.59L8.41 7L7 8.41L10.59 12L7 15.59L8.41 17L12 13.41L15.59 17L17 15.59L13.41 12L17 8.41L15.59 7Z"/></svg></button>'
+      HTMLContent += '<button class="close" onclick="closeProfile()"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M12 2c5.53 0 10 4.47 10 10s-4.47 10-10 10S2 17.53 2 12S6.47 2 12 2m3.59 5L12 10.59L8.41 7L7 8.41L10.59 12L7 15.59L8.41 17L12 13.41L15.59 17L17 15.59L13.41 12L17 8.41L15.59 7Z"/></svg></button>'
       const el = document.getElementById("profile");
       el.style.display = "block";
       el.innerHTML = HTMLContent.trim();
