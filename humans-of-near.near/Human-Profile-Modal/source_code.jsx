@@ -176,6 +176,16 @@ const CommnuityBtn = styled.button`
   `}
 `;
 
+const Button = styled.button`
+  top: 43px;
+  right: 10px;
+  padding: 0;
+  position: absolute;
+  @media (max-width: 510px) {
+    right: 20;
+  }
+`;
+
 const saveMyProfile = () => {
   const data = {
     ...state,
@@ -243,16 +253,7 @@ return (
   <ModalOverlay>
     <Component>
       <ModalContent>
-        <button
-          className="btn"
-          style={{
-            top: 43,
-            right: 10,
-            padding: 0,
-            position: "absolute",
-          }}
-          onClick={onClose}
-        >
+        <Button className="btn" onClick={onClose}>
           <svg
             width="26"
             height="26"
@@ -265,7 +266,7 @@ return (
               fill="white"
             />
           </svg>
-        </button>
+        </Button>
         <ModalTitle>{`Your Profile`}</ModalTitle>
         <div>
           <p style={{ marginBottom: 8, fontSize: 14 }}>{`Display Name`}</p>
