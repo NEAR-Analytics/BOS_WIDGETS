@@ -5,8 +5,16 @@ if (!accountId) return;
 const SOCIAL = "https://social.near.page/u/";
 const TWITTER = "https://twitter.com/";
 
-const { API_URL, onClose, user, role, community, changeRole, changeCommunity } =
-  props;
+const {
+  API_URL,
+  onClose,
+  user,
+  role,
+  community,
+  changeRole,
+  changeCommunity,
+  onFilter,
+} = props;
 
 const options = [
   {
@@ -172,8 +180,6 @@ const CommnuityBtn = styled.button`
     }
   `}
 `;
-
-const handleChangeFilers = () => {};
 
 const selectComunity = async (id) => {
   changeCommunity(id);
@@ -385,7 +391,7 @@ return (
         </div>
       </ModalContent>
       <ModalAction>
-        <Button className="btn" onClick={handleChangeFilers}>{`Apply`}</Button>
+        <Button className="btn" onClick={onFilter}>{`Apply`}</Button>
       </ModalAction>
     </Component>
   </ModalOverlay>
