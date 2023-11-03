@@ -1,10 +1,49 @@
 const GRAPHQL_ENDPOINT = "https://near-queryapi.api.pagoda.co";
 
-const [sort, setSort] = useState(null);
+const [sort, setSort] = useState("");
 const [loading, setLoading] = useState(false);
-const [posts, setPosts] = useState([]);
+const [posts, setPosts] = useState<Post[]>([]);
 
-async function fetchGraphQL(operationsDoc, operationName, variables) {
+interface PostsResponse {
+  data: {
+    dataplatform_near_social_feed_moderated_posts: Post[];
+    dataplatform_near_social_feed_moderated_posts_aggregate: {
+      aggregate: {
+        count: number;
+      };
+    };
+  };
+}
+
+interface Post {
+  account_id: string;
+  block_height: number;
+  block_timestamp: number;
+  content: string;
+  receipt_id: string;
+  accounts_liked: string[];
+  last_comment_timestamp: number;
+  comments: {
+    account_id: string;
+    block_height: number;
+    block_timestamp: string;
+    content: string;
+  }[];
+  verifications: {
+    human_provider: string;
+    human_valid_until: string;
+    human_verification_level: string;
+  }[];
+}
+
+const a = 1;
+console.log(a);
+
+async function fetchGraphQL(
+  operationsDoc,
+  operationName,
+  variables
+): Promise<PostsResponse> {
   const response = await fetch(`${GRAPHQL_ENDPOINT}/v1/graphql`, {
     method: "POST",
     headers: { "x-hasura-role": "dataplatform_near" },
@@ -14,7 +53,7 @@ async function fetchGraphQL(operationsDoc, operationName, variables) {
       operationName: operationName,
     }),
   });
-  const result = await response.json();
+  const result: PostsResponse = await response.json();
   return result;
 }
 
@@ -164,6 +203,7 @@ useEffect(() => {
   loadMorePosts();
 }, []);
 
+// @ts-ignore
 return (
   <div
     style={{
