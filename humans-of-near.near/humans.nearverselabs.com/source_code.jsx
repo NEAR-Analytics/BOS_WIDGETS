@@ -163,7 +163,10 @@ const onHumanClose = () => {
   State.update({ humanAlert: false });
 };
 
-const onFilter = () => {};
+const onFilter = () => {
+  const { locations } = state;
+  console.log(locations);
+};
 
 const handleSaveLocation = () => {
   asyncFetch(`${API_URL}/location/bos`, {
