@@ -97,6 +97,7 @@ const cMLabel = (e, fIdx, type) => {
   if (type == "method") a[fIdx].label = value;
   if (type == "className") a[fIdx].className = value;
   if (type == "classButton") a[fIdx].classButton = value;
+  if (type == "labelDeposit") a[fIdx].labelDeposit = value;
   if (type == "button") a[fIdx].button = value;
   if (type == "gas") a[fIdx].gas = parseInt(value) || 0;
   if (type == "deposit") a[fIdx].deposit = parseInt(value) || 0;
@@ -149,6 +150,7 @@ const onCreateMethod = () => {
       button: "",
       className: "",
       classButton: "",
+      labelDeposit: "",
       export: true,
       params: {
         serialization_type: "json",
@@ -231,6 +233,7 @@ const getMethodFromSource = () => {
           button: "",
           className: "",
           classButton: "",
+          labelDeposit: "",
           export: true,
           params: {
             serialization_type: "json",
@@ -1052,23 +1055,46 @@ return (
                       </div>
 
                       {state.designMode && (
-                        <div class="form-check">
-                          <input
-                            class="form-check-input"
-                            type="checkbox"
-                            checked={functions.selfInputDeposit}
-                            onChange={(e) =>
-                              cMLabel(e, fIndex, "selfInputDeposit")
-                            }
-                            id={`flexCheckDefault-${functions.name}`}
-                          />
-                          <label
-                            class="form-check-label"
-                            for={`flexCheckDefault-${functions.name}`}
-                          >
-                            Self-Input
-                          </label>
-                        </div>
+                        <>
+                          <div class="form-check">
+                            <input
+                              class="form-check-input"
+                              type="checkbox"
+                              checked={functions.selfInputDeposit}
+                              onChange={(e) =>
+                                cMLabel(e, fIndex, "selfInputDeposit")
+                              }
+                              id={`flexCheckDefault-${functions.name}`}
+                            />
+                            <label
+                              class="form-check-label"
+                              for={`flexCheckDefault-${functions.name}`}
+                            >
+                              Self-Input
+                            </label>
+                          </div>
+
+                          <div class="input-group mb-3">
+                            <span
+                              class="input-group-text"
+                              id={`label-deposit-${functions.name}`}
+                            >
+                              Label Deposit
+                            </span>
+                            <input
+                              type="text"
+                              class="form-control"
+                              value={functions.labelDeposit}
+                              defaultValue={functions.labelDeposit}
+                              placeholder="Label Deposit"
+                              aria-label="Label Deposit"
+                              onChange={(e) =>
+                                cMLabel(e, fIndex, "labelDeposit")
+                              }
+                              aria-describedby={`label-deposit-${functions.name}`}
+                            />
+                          </div>
+                        </>
                       )}
                     </div>
                     <div class="form-group col-md-6">
