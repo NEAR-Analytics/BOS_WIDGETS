@@ -59,7 +59,7 @@ return (
 
     <Content>
       <img
-        src="https://nearpad-images.s3.amazonaws.com/nearcon-success.gif"
+        src="https://nearpad-images.s3.amazonaws.com/near-confetti.gif"
         alt="Blah"
         style={{
           minHeight: 500,
