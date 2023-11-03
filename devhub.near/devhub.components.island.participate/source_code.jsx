@@ -37,17 +37,17 @@ const Links = [
     links: [
       {
         title: "Ideate on Devhub",
-        href: "/devhub.near/widget/app?page=blog&id=2029",
+        href: "https://www.neardevgov.org/blog/how-to-ideate-on-dev-hub",
         count: 1,
       },
       {
         title: "Post a Proposal",
-        href: "/devhub.near/widget/app?page=blog&id=2035",
+        href: "https://www.neardevgov.org/blog/how-to-post-proposals-on-devhub",
         count: 4,
       },
       {
         title: "Host an Event",
-        href: "/devhub.near/widget/app?page=community&handle=hacks&tab=Wiki%202",
+        href: "https://near.social/devgovgigs.near/widget/app?page=community&handle=hacks&tab=Wiki%202",
         count: 7,
       },
     ],
@@ -61,7 +61,7 @@ const Links = [
       },
       {
         title: "Join the Fellowship",
-        href: "/devhub.near/widget/app?page=community&handle=fellowship&tab=Wiki%201",
+        href: "https://near.social/devgovgigs.near/widget/app?page=community&handle=fellowship&tab=Wiki%201",
         count: 5,
       },
     ],
@@ -70,12 +70,12 @@ const Links = [
     links: [
       {
         title: "Join NEAR Campus",
-        href: "/devhub.near/widget/app?page=community&handle=near-campus",
+        href: "https://near.social/devgovgigs.near/widget/app?page=community&handle=near-campus",
         count: 3,
       },
       {
         title: "Dive into Hackbox",
-        href: "/hackbox.near/widget/home",
+        href: "https://near.social/hackbox.near/widget/home",
         count: 6,
       },
     ],
@@ -102,7 +102,7 @@ const CTA = styled.a`
   margin-top: 1.5rem;
 
   &:hover {
-    background: #555555;
+    background: #04a46e;
     text-decoration: none !important;
   }
 
@@ -119,10 +119,10 @@ const CTA = styled.a`
     gap: 8px;
 
     border-radius: 16px;
-    background: #555555;
+    background: #04a46e;
 
     &:hover {
-      //background: #555555;
+      //background: #04A46E;
       text-decoration: none;
     }
   }
@@ -160,8 +160,8 @@ const Content = (
               <div className="d-flex flex-row">
                 <span
                   style={{
-                    color: "#555555",
-                    border: "2px #555555 solid",
+                    color: "#04A46E",
+                    border: "2px #04A46E solid",
                     fontSize: 12,
                     padding: 4,
                     width: 22,
@@ -198,7 +198,7 @@ return (
     src="devhub.near/widget/devhub.components.island.home-section"
     props={{
       title: "/participate",
-      titleColor: "#555555",
+      titleColor: "#04A46E",
       description:
         "There are many ways to start your contribution journey. You can:",
       children: Content,
