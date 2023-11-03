@@ -6,6 +6,14 @@ const apiUrl =
 
 const [selectedButton, setSelectedButton] = useState("profile");
 
+useEffect(() => {
+  if (props.deepLink) {
+    setSelectedButton(props.deepLink || "schedule");
+  }
+}, [props.deepLink]);
+
+console.log({ selectedButton, deepLink: props.deepLink });
+
 // initState({});
 State.init({
   redirectToHome: "loading",
@@ -23,6 +31,7 @@ const Content = styled.div`
   position: relative;
 `;
 
+///////////////
 const { secretkey } = props;
 
 const storedSecretKey = Storage.get(
@@ -31,27 +40,33 @@ const storedSecretKey = Storage.get(
 )
   ? Storage.get("newPrivateKey", `${ownerId}/widget/Ticket.Page`)
   : Storage.get("newPrivateKey", `${ownerId}/widget/RegisterMobile.Index`);
-const fetchData = () => {
+
+const fetchData = async () => {
   const key = secretkey ? secretkey : storedSecretKey;
 
   asyncFetch(`${apiUrl}/accounts/auth/${key}`).then(({ body }) => {
     if (body?._id) {
-      // if (!!storedSecretKey === false) { }
       State.update({
         userData: body,
         redirectToHome: "",
       });
     } else {
-      State.update({
-        redirectToHome: "redirect",
-      });
+      if (!["map", "alerts", "schedule", "help"].includes(props.deepLink)) {
+        State.update({
+          redirectToHome: "redirect",
+        });
+      }
     }
   });
 };
 
+if (state.redirectToHome === "redirect") {
+  return <Redirect to="/" />;
+}
+
 const fetchTransaction = () => {
   if (state?.userData?.nearconId) {
-    const apiURL = `${apiUrl}/transactions/${state.userData.nearconId}`;
+    const apiURL = `https://21mqgszhf3.execute-api.us-east-1.amazonaws.com/testnet/api/v1/transactions/${state.userData.nearconId}`;
     asyncFetch(apiURL).then(({ body }) => {
       State.update({ transactions: body });
     });
@@ -62,14 +77,6 @@ useEffect(() => {
   fetchData();
   fetchTransaction();
 }, [secretkey, storedSecretKey, state.userData]);
-
-if (state.redirectToHome === "loading") {
-  return <Widget src={`${ownerId}/widget/Components.LoadingOverlay`} />;
-}
-
-if (state.redirectToHome === "redirect") {
-  return <Redirect to="/" />;
-}
 
 function capitalizeFirstLetter(str) {
   if (!str) return str;
