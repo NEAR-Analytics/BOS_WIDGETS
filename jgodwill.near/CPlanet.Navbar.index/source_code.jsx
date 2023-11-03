@@ -1,6 +1,6 @@
 const showNavbar = props.showNavbar ?? true;
 State.init({
-  isOpen: false,
+  isOpen: true,
 });
 
 const NavContainer = styled.div`
@@ -19,6 +19,7 @@ const NavContainer = styled.div`
   }
    @media screen and (max-width: 769px){
     margin-bottom: 0px;
+  border-bottom: 1px solid ${!state.isOpen ? "transparent" : "#B0B0B0"};
    }
   .desk{
         @media screen and (max-width: 769px){
@@ -90,14 +91,52 @@ const Join = styled.div`
     margin: 0 10px 0 0;
   }
 `;
+const MobileJoin = styled.div`
+  display: flex;
+  margin-bottom: 30px;
+  .button:first-child {
+    background: transparent;
+    border: none;
+    color: #000;
+  }
+  .button:last-child {
+    display: flex;
+    width: 155px;
+    height: 40px;
+    padding: 8px 15px 8px 14px;
+    justify-content: center;
+    align-items: center;
+    border-radius: 32px;
+    background: #000;
+    border: 1px solid #000;
+    color: white;
+  }
+  .button:last-child:hover {
+    background: white;
+    color: black;
+  }
+  div {
+    background: #000;
+    border: 1px solid #000;
+    margin: 0 10px 0 0;
+  }
+`;
 
+const MobileMyAcc = styled.p`
+    margin: 0;
+    margin-left: 8px;
+    color: black;
+    background: white;
+    border: 1px solid black;
+    padding: 5px;
+    border-radius: 10px;
+`;
 const MyAcc = styled.p`
     margin: 0;
     margin-left: 8px;
-    color: ${() => (props.isHome && !state.isOpen ? "white" : "black")};
-    background: ${() => (props.isHome && !state.isOpen ? "black" : "white")};
-    border: 1px solid ${() =>
-      props.isHome && !state.isOpen ? "white" : "black"};
+    color: ${() => (props.isHome ? "white" : "black")};
+    background: ${() => (props.isHome ? "black" : "white")};
+    border: 1px solid ${() => (props.isHome ? "white" : "black")};
     padding: 5px;
     border-radius: 10px;
 `;
@@ -120,6 +159,7 @@ if (state.sender === undefined) {
 const MobileNavOptions = styled.div`
       display: none;
       background-color: ${state.isOpen ? "#fff" : "transparent"};
+
       *{
     font-family: Helvetica Neue;
   }
@@ -326,13 +366,13 @@ return (
           </svg>
         </a>
       </div>
-      <Join onClick={() => State.update({ isOpen: false })}>
+      <MobileJoin onClick={() => State.update({ isOpen: false })}>
         {state.sender ? (
-          <MyAcc>{state.sender ? getSender() : "0x00..."}</MyAcc>
+          <MobileMyAcc>{state.sender ? getSender() : "0x00..."}</MobileMyAcc>
         ) : (
           <Web3Connect connectLabel="Connect Wallet" className="button" />
         )}
-      </Join>
+      </MobileJoin>
     </MobileRoutes>
   </>
 );
