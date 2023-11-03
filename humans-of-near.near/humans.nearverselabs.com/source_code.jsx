@@ -20,6 +20,10 @@ State.init({
     role: "",
     community: "",
   },
+  filters: {
+    role: "",
+    community: [],
+  },
   locations: [],
   humanAlert: true,
   openInfo: false,
@@ -255,7 +259,22 @@ return (
           onClose: onFiltersClose,
           API_URL,
           user: state.user,
-          getMyInfor,
+          role: state.filters.role,
+          community: state.filters.community,
+          changeRole: (id) => {
+            State.update({ ...state, filters: { ...state.filters, role: id } });
+          },
+          changeCommunity: (id) => {
+            const array = state.filters.community;
+            const index = array.indexOf(id);
+            if (index > -1) array.splice(index, 1);
+            else array.push(id);
+
+            State.update({
+              ...state,
+              filters: { ...state.filters, community: array },
+            });
+          },
         }}
       />
     )}
