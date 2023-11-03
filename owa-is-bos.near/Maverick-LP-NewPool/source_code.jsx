@@ -479,14 +479,7 @@ const handleInputTokenB = (input) => {
         });
       }
       if (state.poolDistributionSelected.name == "Exponential") {
-        const binsR = Math.ceil(state.binsToDistribute / 2);
-        const lambdas = generateExponentialLambdas(binsR);
-        const distribution = generateExponentialDistribution(
-          input,
-          binsR,
-          lambdas
-        );
-        console.log(distribution);
+        // Soon
       }
       if (state.poolDistributionSelected.name == "Single Bin") {
         State.update({
@@ -739,7 +732,6 @@ const createPool = () => {
     }
     if (state.poolDistributionSelected.name == "Flat") {
       console.log("Flat");
-
       if (onlyRight) {
         const leftAmount = (
           parseFloat(state.amountInputTokenA) /
@@ -802,67 +794,7 @@ const createPool = () => {
     }
     if (state.poolDistributionSelected.name == "Exponential") {
       console.log("Exponential");
-
-      if (onlyRight) {
-        const leftAmount = (
-          parseFloat(state.amountInputTokenA) /
-            Math.ceil(state.binsToDistribute / 2) -
-          1
-        ).toString();
-
-        const rightAmount = (
-          parseFloat(state.amountInputTokenB) /
-          Math.ceil(state.binsToDistribute / 2)
-        ).toString();
-
-        const amountInAFormated = ethers.utils.parseUnits(leftAmount, 18);
-        const amountInBFormated = ethers.utils.parseUnits(rightAmount, 18);
-
-        for (let i = 0; i < state.binsToDistribute; i++) {
-          const pos = position + i - Math.floor(state.binsToDistribute / 2);
-
-          let newDeltaA = pos < position ? amountInAFormated : 0;
-          let newDeltaB = pos >= position ? amountInBFormated : 0;
-
-          const param = {
-            kind: state.poolModeSelected.id,
-            pos: pos,
-            isDelta: false,
-            deltaA: newDeltaA,
-            deltaB: newDeltaB,
-          };
-          liquidityParams.push(param);
-        }
-      } else {
-        const leftAmount = (
-          parseFloat(state.amountInputTokenA) /
-          Math.ceil(state.binsToDistribute / 2)
-        ).toString();
-
-        const rightAmount = (
-          parseFloat(state.amountInputTokenB) /
-          Math.ceil(state.binsToDistribute / 2)
-        ).toString();
-
-        const amountInAFormated = ethers.utils.parseUnits(leftAmount, 18);
-        const amountInBFormated = ethers.utils.parseUnits(rightAmount, 18);
-
-        for (let i = 0; i < state.binsToDistribute; i++) {
-          const pos = position + i - Math.floor(state.binsToDistribute / 2);
-
-          let newDeltaA = pos <= position ? amountInAFormated : 0;
-          let newDeltaB = pos >= position ? amountInBFormated : 0;
-
-          const param = {
-            kind: state.poolModeSelected.id,
-            pos: pos,
-            isDelta: false,
-            deltaA: newDeltaA,
-            deltaB: newDeltaB,
-          };
-          liquidityParams.push(param);
-        }
-      }
+      // Soon
     }
   }
 
