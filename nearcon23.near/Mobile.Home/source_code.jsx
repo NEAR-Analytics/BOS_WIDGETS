@@ -35,6 +35,7 @@ const fetchData = () => {
   const key = secretkey ? secretkey : storedSecretKey;
 
   asyncFetch(`${apiUrl}/accounts/auth/${key}`).then(({ body }) => {
+    console.log("===> ", body);
     if (body?._id) {
       // if (!!storedSecretKey === false) { }
       State.update({
@@ -53,6 +54,7 @@ const fetchTransaction = () => {
   if (state?.userData?.nearconId) {
     const apiURL = `${apiUrl}/transactions/${state.userData.nearconId}`;
     asyncFetch(apiURL).then(({ body }) => {
+      console.log("====. ", body);
       State.update({ transactions: body });
     });
   }
