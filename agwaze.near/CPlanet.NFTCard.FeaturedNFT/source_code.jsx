@@ -127,7 +127,7 @@ return (
         <Root
           href={`#/agwaze.near/widget/CPlanet.index?tab=singleNFT&contractId=${data.nft_contract_id}&tokenId=${data.token_id}&chainState=near`}
           onClick={() =>
-            data.onButtonClick(data.nft_contract_id, data.nft.token_id)
+            props.onButtonClick(data.nft_contract_id, data.nft.token_id)
           }
           style={{
             backgroundImage: `url("${data.media}")`,
