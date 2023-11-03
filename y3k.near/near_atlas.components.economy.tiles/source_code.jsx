@@ -44,27 +44,12 @@ query_url_obj.forEach((item) => {
 
 console.log(resultObject);
 
-// Reusable Card Component
-const Card = ({ title, value }) => (
-  <div className="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow transform transition-all mb-4 w-full sm:w-1/3 sm:my-8">
-    <div className="bg-white p-5">
-      <div className="sm:flex sm:items-start">
-        <div className="text-center sm:mt-0 sm:ml-2 sm:text-left">
-          <h3 className="text-sm leading-6 font-medium text-gray-400">
-            {title}
-          </h3>
-          <p className="text-3xl font-bold text-black">{value}</p>
-        </div>
-      </div>
-    </div>
-  </div>
-);
 return (
   <div className="container mx-auto p-4 bg-gray-900 rounded-lg">
     <div className="flex space-x-4">
       <div className="bg-gray-800 shadow-xl rounded-lg p-6 w-1/2">
         <div className="flex flex-col items-center">
-          <h3 className="text-2xl font-semibold mb-4 text-white">
+          <h3 className="text-xl text-center font-semibold mb-4 text-white">
             Total Supply
           </h3>
           <span className="text-4xl font-bold text-gray-200">
@@ -77,7 +62,7 @@ return (
 
       <div className="bg-gray-800 shadow-xl rounded-lg p-6 w-1/2">
         <div className="flex flex-col items-center">
-          <h3 className="text-2xl font-semibold mb-4 text-white">
+          <h3 className="text-xl text-center font-semibold mb-4 text-white">
             Circulating Supply
           </h3>
           <span className="text-4xl font-bold text-gray-200">
@@ -90,7 +75,7 @@ return (
 
       <div className="bg-gray-800 shadow-xl rounded-lg p-6 w-1/2">
         <div className="flex flex-col items-center">
-          <h3 className="text-2xl font-semibold mb-4 text-white">
+          <h3 className="text-xl text-center font-semibold mb-4 text-white">
             Total Stakes
           </h3>
           <span className="text-4xl font-bold text-gray-200">
@@ -103,7 +88,7 @@ return (
 
       <div className="bg-gray-800 shadow-xl rounded-lg p-6 w-1/2">
         <div className="flex flex-col items-center">
-          <h3 className="text-2xl font-semibold mb-4 text-white">
+          <h3 className="text-xl text-center font-semibold mb-4 text-white">
             Active Validators
           </h3>
           <span className="text-4xl font-bold text-gray-200">
@@ -116,7 +101,7 @@ return (
 
       <div className="bg-gray-800 shadow-xl rounded-lg p-6 w-1/2">
         <div className="flex flex-col items-center">
-          <h3 className="text-2xl font-semibold mb-4 text-white">
+          <h3 className="text-xl text-center font-semibold mb-4 text-white">
             Nakamoto Coefficient
           </h3>
           <span className="text-4xl font-bold text-gray-200">
