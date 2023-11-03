@@ -87,6 +87,11 @@ return (
       onMessage={handleChange}
     />
     <Markdown text={state.m} />
-    <button onClick={handleClick}>Comment</button>
+    <button
+      onClick={handleClick}
+      style={{ background: "teal", border: "none" }}
+    >
+      Comment
+    </button>
   </div>
 );
