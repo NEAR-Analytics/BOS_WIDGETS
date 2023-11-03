@@ -50,6 +50,8 @@ const Root = styled.div`
     display: flex;
     flex-wrap: wrap;
     gap: 30px;
+    align-items: center;
+    justify-content: center;
 `;
 
 return (
