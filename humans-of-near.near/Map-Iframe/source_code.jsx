@@ -31,8 +31,10 @@ const code = `
 
       #mymarker {
         background-image: url('https://humans.nearverselabs.com/active.svg') !important;
-        width: 32px !important;
-        height: 40px !important;
+        svg {
+          width: 32px !important;
+          height: 40px !important;
+        }
       }
 
       h6 {
