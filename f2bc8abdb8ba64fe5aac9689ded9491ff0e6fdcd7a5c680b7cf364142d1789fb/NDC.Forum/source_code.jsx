@@ -586,6 +586,7 @@ return (
             handleEditArticle,
             handleShareButton,
             callLibs,
+            baseActions,
           }}
         />
       )}
@@ -617,12 +618,12 @@ return (
           initialBody: initialBodyAtCreation,
           initialCreateState,
           editArticleData: state.editArticleData,
-          callLibs,
           handleFilterArticles,
           handleEditArticle,
           sbtWhiteList,
           sbts,
           canLoggedUserCreateArticles,
+          callLibs,
           baseActions,
         }}
       />
