@@ -31,9 +31,9 @@ return (
             {" "}
             <div className="overlap-group">
               {" "}
-              <button onclick="window.location.href='https://near.org/d2eb98e7b30f1c1b836c7290b973db4cb8896717b9fcacc98d57c8e36d2b1c47/widget/Page2';">
-                CONNECT
-              </button>{" "}
+              <a href="https://www.example.com">
+                Cliquez ici pour accéder au lien HTTP
+              </a>{" "}
             </div>{" "}
           </div>{" "}
         </div>{" "}
