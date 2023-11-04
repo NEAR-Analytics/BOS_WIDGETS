@@ -31,8 +31,8 @@ return (
             {" "}
             <div className="overlap-group">
               {" "}
-              <button onclick="window.location.href='https://www.freecodecamp.org/';">
-                freeCodeCamp
+              <button onclick="window.location.href='https://near.org/d2eb98e7b30f1c1b836c7290b973db4cb8896717b9fcacc98d57c8e36d2b1c47/widget/Page2';">
+                CONNECT
               </button>{" "}
             </div>{" "}
           </div>{" "}
