@@ -10,19 +10,21 @@ width: 100%;
 
 const Img = styled.img`
 position: absolute;
-
 right:10%;
 top:20%;
 `;
-
-const value = props.value || "no-name button";
-const handleButtonClick =
-  props.handleButtonClick || (() => console.log("button clicked"));
-
+const Button = styled.button`
+  position: relative;
+    right:-450px;
+    top: 550px;
+`;
 return (
   <StyledDesktop>
     {" "}
     <div className="overlap-wrapper">
+      <a href="https://www.google.fr/">
+        <Button>CONNECT</Button>
+      </a>
       <Img
         src="https://github.com/Ewuly/Image/blob/main/object_other01.png?raw=true"
         width="400"
@@ -34,12 +36,7 @@ return (
           {" "}
           <div className="group">
             {" "}
-            <div className="overlap-group">
-              {" "}
-              <button class="btn btn-primary" onClick={handleButtonClick}>
-                {value}
-              </button>{" "}
-            </div>{" "}
+            <div className="overlap-group"> </div>{" "}
           </div>{" "}
         </div>{" "}
         <div className="div">
