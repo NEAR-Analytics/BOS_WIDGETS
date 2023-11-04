@@ -2,19 +2,17 @@ const curatorId = props.curatorId ?? context.accountId ?? "discover.near";
 
 const projects = Social.get(`${curatorId}/project/**`);
 
-const hacks = Social.get("hack.near/project");
-
 if (projects == null) {
   return "none found";
 }
 
 const newData = fetch(
-  "https://raw.githubusercontent.com/NEARBuilders/discoverbos/data/build/discoverbos/test.json"
+  "https://raw.githubusercontent.com/NEARBuilders/discoverbos/data/build/discoverbos/projects.json"
 );
 
 const handleUpdate = () => {
   const data = {
-    project: newData.body,
+    project: JSON.parse(newData.body),
   };
 
   Social.set(data);
@@ -22,7 +20,6 @@ const handleUpdate = () => {
 
 return (
   <div className="mb-3">
-    <p>{newData.body}</p>
     <button
       className="btn text-light btn-info m-2"
       disabled={!context.accountId}
