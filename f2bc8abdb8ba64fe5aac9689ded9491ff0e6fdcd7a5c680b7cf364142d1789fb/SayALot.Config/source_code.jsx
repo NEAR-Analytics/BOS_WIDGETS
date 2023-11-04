@@ -21,6 +21,7 @@ const configWidget = "SayALot.Config";
 
 const widgets = {
   thisForum: `${authorForWidget}/widget/${configWidget}`,
+  ndcForum: `${componentsOwner}/widget/NDC.Forum`,
   create: `${componentsOwner}/widget/NDC.Forum.Create`,
   header: `${componentsOwner}/widget/NDC.NavBar`,
   showArticlesList: `${componentsOwner}/widget/NDC.Forum.AllArticlesList`,
@@ -79,9 +80,7 @@ const baseActions = {
 
 return (
   <Widget
-    src={
-      "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/NDC.Forum"
-    }
+    src={widgets.ndcForum}
     props={{
       sharedBlockHeight,
       tagShared,
