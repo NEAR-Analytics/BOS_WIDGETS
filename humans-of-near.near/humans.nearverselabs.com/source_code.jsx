@@ -206,8 +206,10 @@ const onFilter = () => {
   });
   State.update({
     ...state,
+    filtersModal: false,
     locations: result,
   });
+  showAlert("Filters Applied");
 };
 
 const clearFilter = () => {
@@ -215,6 +217,7 @@ const clearFilter = () => {
     filters: { role: "", community: [] },
     locations: state.old_locations,
   });
+  showAlert("Filters Removed");
 };
 
 const handleSaveLocation = async () => {
