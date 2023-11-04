@@ -267,20 +267,6 @@ return (
     {state.showDropdown && (
       <div className="dropdown-pc">
         <div
-          className={`dropdown-pc-item ${chainId == 1 ? "active" : ""}`}
-          onClick={() => {
-            State.update({ showDropdown: false });
-            switchNetwork(1);
-          }}
-        >
-          <div className="left">
-            <EthImage />
-            <div>Ethereum</div>
-          </div>
-          {chainId == 1 && <span className="right">{selected_icon}</span>}
-        </div>
-
-        <div
           className={`dropdown-pc-item ${chainId == 100 ? "active" : ""}`}
           onClick={() => {
             State.update({ showDropdown: false });
@@ -292,6 +278,20 @@ return (
             <div>Gnosis</div>
           </div>
           {chainId == 100 && <span className="right">{selected_icon}</span>}
+        </div>
+
+        <div
+          className={`dropdown-pc-item ${chainId == 1 ? "active" : ""}`}
+          onClick={() => {
+            State.update({ showDropdown: false });
+            switchNetwork(1);
+          }}
+        >
+          <div className="left">
+            <EthImage />
+            <div>Ethereum</div>
+          </div>
+          {chainId == 1 && <span className="right">{selected_icon}</span>}
         </div>
 
         <div
