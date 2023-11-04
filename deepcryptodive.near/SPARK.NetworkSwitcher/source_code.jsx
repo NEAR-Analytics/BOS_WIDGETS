@@ -275,7 +275,7 @@ return (
         >
           <div className="left">
             <GnosisImage />
-            <div>Gnosis</div>
+            <div>Gnosis (Spark)</div>
           </div>
           {chainId == 100 && <span className="right">{selected_icon}</span>}
         </div>
@@ -289,7 +289,7 @@ return (
         >
           <div className="left">
             <EthImage />
-            <div>Ethereum</div>
+            <div>Ethereum (Spark)</div>
           </div>
           {chainId == 1 && <span className="right">{selected_icon}</span>}
         </div>
@@ -303,7 +303,7 @@ return (
         >
           <div className="left">
             <PolygonImage />
-            <div>Polygon</div>
+            <div>Polygon (Aave)</div>
           </div>
           {chainId == 137 && <span className="right">{selected_icon}</span>}
         </div>
