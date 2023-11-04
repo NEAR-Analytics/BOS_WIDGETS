@@ -8,7 +8,6 @@ const {
   initialBody,
   initialCreateState,
   editArticleData,
-  callLibs,
   widgets,
   handleFilterArticles,
   handleEditArticle,
@@ -16,6 +15,7 @@ const {
   sbtWhiteList,
   sbts,
   canLoggedUserCreateArticles,
+  callLibs,
   baseActions,
 } = props;
 
@@ -194,6 +194,7 @@ return (
               authorForWidget,
               handleEditArticle,
               callLibs,
+              baseActions,
             }}
           />
         ) : (
@@ -227,6 +228,7 @@ return (
                     authorForWidget,
                     handleShareButton: () => {},
                     callLibs,
+                    baseActions,
                   }}
                 />
               ) : (
