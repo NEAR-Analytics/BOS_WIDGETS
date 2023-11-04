@@ -3,30 +3,28 @@ const Wrapper = styled.div`
     /* Style for the main container */
 div {
   background-color: #f2f2f2;
-  padding: 250px;
+  padding: 100px;
   border-radius: 5px;
-  weight: 100hv;
-  hight: 100%;
 }
 
 /* Style for the heading */
 h2 {
   color: #333;
   font-size: 25px;
-  margin-bottom: 100px;
+  margin-bottom: 22px;
 }
 
 /* Style for the unordered list */
 ul {
   list-style-type: none;
-  padding: 100;
+  padding: 0;
 }
 
 /* Style for the list items */
 li {
   color: #0066cc;
   font-size: 18px;
-  margin-bottom: 90px;
+  margin-bottom: 10px;
 }
 
 /* Style for the input field */
@@ -60,28 +58,13 @@ return (
         <ul>
           <h2> Blockchain and Crypto-Assets Courses: </h2>
 
-          <li>
-            <a href="https://jutsu.ai/35e3f7be109c2eb05164b3fe483f6e34873745217426ef65c8d51e3b613220e3/widget/blockchainCourse">
-              Introduction to Blockchain{" "}
-            </a>
-          </li>
-          <li>
-            <a href="https://jutsu.ai/35e3f7be109c2eb05164b3fe483f6e34873745217426ef65c8d51e3b613220e3/widget/cryptoCourse">
-              Cryptocurrency Basics
-            </a>
-          </li>
-          <li>
-            <a href="https://jutsu.ai/35e3f7be109c2eb05164b3fe483f6e34873745217426ef65c8d51e3b613220e3/widget/smartcontractsCourse">
-              Smart Contracts and Decentralized Applications
-            </a>
-          </li>
+          <li>Introduction to Blockchain</li>
+          <li>Cryptocurrency Basics</li>
+          <li>Smart Contracts and Decentralized Applications</li>
         </ul>
-        Please click on the course that you want to enroll in
-        <br />
-        <a href="https://jutsu.ai/35e3f7be109c2eb05164b3fe483f6e34873745217426ef65c8d51e3b613220e3/widget/intro">
-          <br />
-          <button> main page</button>
-        </a>
+        Please enter the number of the course you want to enroll in or press '0'
+        to go back: <input />
+        <button>Click Here </button>
       </div>
       <Switch.Thumb className="SwitchThumb" />
     </Switch.Root>
