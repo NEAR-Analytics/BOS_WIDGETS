@@ -1,4 +1,10 @@
-const curatorId = props.accountId ?? context.accountId ?? "hack.near";
+const accountId = props.accountId ?? context.accountId;
+
+if (!accountId) {
+  return "Please connect your NEAR account :)";
+}
+
+const curatorId = props.curatorId ?? "hack.near";
 const curationId = props.curationId ?? "dbos";
 const curationType = props.curationType ?? "projects";
 
