@@ -1,17 +1,21 @@
-const curationId = props?.curationId ?? "dbos";
-const curationType = props?.curationType ?? "projects";
-const accountId = props?.accountId ?? context.accountId ?? "hack.near";
-const isCurator = accountId === context.accountId;
+const curatorId = props.accountId ?? context.accountId ?? "hack.near";
+const curationId = props.curationId ?? "dbos";
+const curationType = props.curationType ?? "projects";
 
-const path = `${accountId}/curation/${curationId}/${curationType}`;
+const path = `${curatorId}/curation/${curationId}/${curationType}`;
 const init = Social.get(path, "optimistic", {
   subscribe: true,
 });
 
 State.init({
+  curatorId,
+  curationId,
+  curationType,
   things: JSON.parse(init) ?? [],
   newThing: "",
 });
+
+const isCurator = state.curatorId === context.accountId;
 
 function addThing(newThing) {
   state.things.push(newThing);
@@ -32,8 +36,8 @@ function removeThing(thingKey) {
 const handleSave = () => {
   const data = {
     curation: {
-      [curationId]: {
-        [curationType]: state.things,
+      [state.curationId]: {
+        [state.curationType]: state.things,
       },
     },
   };
@@ -47,11 +51,27 @@ const handleSave = () => {
 const items = things ? JSON.parse(things) : [];
 
 return (
-  <div className="d-flex flex-column gap-2">
-    <h2>{curationId}</h2>
-    <h5>
-      <i>curated by {accountId}</i>
-    </h5>
+  <div className="d-flex flex-column">
+    <h2>Curation</h2>
+    <h3 className="m-2">{state.curationId}</h3>
+    <input
+      placeholder="title of curation"
+      onChange={(e) => State.update({ curationId: e.target.value })}
+    />
+    <p className="m-2">
+      <b>Who:</b> {state.curatorId}
+    </p>
+    <input
+      placeholder="account ID of curator"
+      onChange={(e) => State.update({ curatorId: e.target.value })}
+    />
+    <p className="m-2">
+      <b>What:</b> {state.curationType}
+    </p>
+    <input
+      placeholder="type of things curated"
+      onChange={(e) => State.update({ curatorType: e.target.value })}
+    />
     <hr />
     <div>
       {isCurator ? (
@@ -60,7 +80,7 @@ return (
         <h4 className="mb-3">propose changes</h4>
       )}
       <input
-        placeholder="project ID goes here"
+        placeholder={`thing ID, to be added to array of ${state.curationType}`}
         onChange={(e) => State.update({ newThing: e.target.value })}
       />
       <div className="d-flex align-items-center mt-2">
