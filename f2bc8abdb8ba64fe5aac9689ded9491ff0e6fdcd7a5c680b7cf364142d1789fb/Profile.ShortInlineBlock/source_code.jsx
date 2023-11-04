@@ -1,11 +1,14 @@
-const { accountId, profile, maxNameLength, name, widgets } = props;
-if (!profile) {
-  profile = Social.getr(`${accountId}/profile`);
-}
+const accountId = props.accountId;
 
-if (!maxWidth) {
-  maxWidth = "60%";
-}
+const profile = props.profile ?? Social.getr(`${accountId}/profile`);
+
+const maxNameLength = props.maxNameLength;
+
+const widgets = props.widgets;
+
+let name = profile.name;
+
+const maxWidth = props.maxWidth ?? "60%";
 
 const inner = (
   <div className="d-flex flex-row" style={{ maxWidth: "100%" }}>
