@@ -145,11 +145,12 @@ const Svg = styled.svg`
 `;
 
 const SvgText = styled.text`
-  animation: stroke 4s infinite alternate;
+  animation: stroke 5s infinite alternate;
   stroke-width: 1;
-  stroke: #ad50a7;
+  stroke: #f04874;
   font-size: 20px;
-  
+  color:#f04874;
+  background:#f04874;
   @keyframes stroke {
     0% {
       fill: rgba(72, 138, 204, 0);
