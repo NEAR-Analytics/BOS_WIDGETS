@@ -1,55 +1,68 @@
-const { isTest, authorForWidget, reactedElementData, widgets } = props;
+//NDC.UpVoteButton
+
+const {
+  isTest,
+  authorForWidget,
+  reactedElementData,
+  widgets,
+  disabled,
+  articleSbts,
+  upVotes: articleUpVotes,
+  callLibs,
+  baseActions,
+} = props;
 
 const data = reactedElementData;
 
 const libSrcArray = [widgets.libUpVotes];
 
-const libCalls = [
-  {
-    functionName: "getUpVotes",
-    key: "upVotes",
-    props: {
-      realArticleId: data.realArticleId ?? `${data.author}-${data.timeCreate}`,
+const initLibCalls = {
+  upVotes: [
+    {
+      functionName: "getUpVotes",
+      key: "upVotesBySBT",
+      props: {
+        id: data.id ?? `${data.author}-${data.timeCreate}`,
+        sbtsNames: articleSbts,
+      },
     },
-  },
-];
+  ],
+};
+const initUpVotesBySBT = {};
 
-State.init({
-  libCalls,
-  upVotes: [],
-});
+if (!articleUpVotes) {
+  State.init({
+    functionsToCallByLibrary: initLibCalls,
+    articleUpVotes: [],
+    upVotesBySBT: initUpVotesBySBT,
+  });
+} else {
+  State.init({
+    articleUpVotes,
+    functionsToCallByLibrary: { upVotes: [] },
+  });
+}
 
-let userVote = state.upVotes.find(
-  (vote) => vote.accountId === context.accountId
-);
+if (state.upVotesBySBT && Object.keys(state.upVotesBySBT).length > 0) {
+  const key = Object.keys(state.upVotesBySBT)[0]; // There should always be one for now
+  const newUpvotes = state.upVotesBySBT[key];
+  if (JSON.stringify(state.articleUpVotes) !== JSON.stringify(newUpvotes)) {
+    State.update({ articleUpVotes: newUpvotes });
+  }
+}
+
+let upVotesData = state.articleUpVotes;
+
+let userVote = upVotesData.find((vote) => vote.accountId === context.accountId);
 
 let hasUserVoted = userVote !== undefined;
 
 function getUpVoteButtonClass() {
   if (hasUserVoted) {
-    return "primary";
+    return "info";
   } else {
-    return "secondary dark";
+    return "info outline";
   }
-}
-
-function callLibs(srcArray, stateUpdate, libCalls) {
-  return (
-    <>
-      {srcArray.map((src) => {
-        return (
-          <Widget
-            src={src}
-            props={{
-              isTest,
-              stateUpdate,
-              libCalls,
-            }}
-          />
-        );
-      })}
-    </>
-  );
 }
 
 function stateUpdate(obj) {
@@ -57,30 +70,37 @@ function stateUpdate(obj) {
 }
 
 function upVoteButtonListener() {
-  let newLibCalls = [...state.libCalls];
+  let newLibCalls = Object.assign({}, state.functionsToCallByLibrary);
 
   if (!hasUserVoted) {
-    newLibCalls.push({
+    newLibCalls.upVotes.push({
       functionName: "addVote",
       key: "newVote",
       props: {
-        realArticleId:
-          data.realArticleId ?? `${data.author}-${data.timeCreate}`,
+        id: data.id ?? `${data.author}-${data.timeCreate}`,
+        articleSbts: data.sbts,
       },
     });
   } else {
-    newLibCalls.push({
+    newLibCalls.upVotes.push({
       functionName: "deleteVote",
       key: "deletedVote",
       props: {
-        realArticleId:
-          data.realArticleId ?? `${data.author}-${data.timeCreate}`,
+        id: data.id ?? `${data.author}-${data.timeCreate}`,
         upVoteId: userVote.value.upVoteId,
       },
     });
   }
-  State.update({ libCalls: newLibCalls });
+  State.update({ functionsToCallByLibrary: newLibCalls });
 }
+
+const IconContainer = styled.div`
+  transform: rotate(-90deg);
+`;
+
+const Icon = styled.i`
+  margin: 0px !important;
+`;
 
 const CallLibrary = styled.div`
   display: none;
@@ -89,20 +109,37 @@ const CallLibrary = styled.div`
 return (
   <>
     <Widget
-      src={widgets.styledComponents}
+      src={widgets.newStyledComponents.Input.Button}
       props={{
-        Button: {
-          text: `+${state.upVotes.length}`,
-          className: `${getUpVoteButtonClass()}`,
-          size: "sm",
-          onClick: upVoteButtonListener,
-          icon: <i className="bi bi-hand-thumbs-up"></i>,
-        },
+        children: (
+          <div className="d-flex">
+            <span>{`+${upVotesData.length}`}</span>
+            <IconContainer>
+              <Icon
+                className={`bi bi-fast-forward-fill ${
+                  !disabled && "text-success"
+                }`}
+              ></Icon>
+            </IconContainer>
+          </div>
+        ),
+        disabled,
+        className: `${getUpVoteButtonClass()}`,
+        size: "sm",
+        onClick: upVoteButtonListener,
       }}
     />
 
     <CallLibrary>
-      {callLibs(libSrcArray, stateUpdate, state.libCalls)}
+      {libSrcArray.map((src) => {
+        return callLibs(
+          src,
+          stateUpdate,
+          state.functionsToCallByLibrary,
+          { baseAction: baseActions.upVoteBaseAction },
+          "Up vote button"
+        );
+      })}
     </CallLibrary>
   </>
 );
