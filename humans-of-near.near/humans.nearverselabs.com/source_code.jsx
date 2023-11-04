@@ -125,11 +125,11 @@ const showAlert = (text) => {
   State.update({
     alert: text,
   });
-  setTimeout(() => {
-    State.update({
-      alert: "",
-    });
-  }, 3000);
+  // setTimeout(() => {
+  //   State.update({
+  //     alert: "",
+  //   });
+  // }, 3000);
 };
 
 const getMyData = () => {
