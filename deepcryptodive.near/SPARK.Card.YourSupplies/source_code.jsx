@@ -74,7 +74,7 @@ return (
                                     height={64}
                                     src={
                                       row.symbol === "GNO"
-                                        ? "https://docs.gnosischain.com/img/tokens/gno.png"
+                                        ? "https://cryptologos.cc/logos/gnosis-gno-gno-logo.svg"
                                         : row.symbol === "WXDAI" ||
                                           row.symbol === "XDAI"
                                         ? "https://ipfs.near.social/ipfs/bafkreieu6n7cav63nwjj5klcsxrk26eo5pqkc4u7xzfle2bjgi5ijm7ipe"
@@ -151,7 +151,7 @@ return (
                               //Hardcoded some URLs for novel tokens in Spark
                               src={
                                 row.symbol === "GNO"
-                                  ? "https://docs.gnosischain.com/img/tokens/gno.png"
+                                  ? "https://cryptologos.cc/logos/gnosis-gno-gno-logo.svg"
                                   : row.symbol === "WXDAI" ||
                                     row.symbol === "XDAI"
                                   ? "https://ipfs.near.social/ipfs/bafkreieu6n7cav63nwjj5klcsxrk26eo5pqkc4u7xzfle2bjgi5ijm7ipe"
