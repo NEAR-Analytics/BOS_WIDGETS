@@ -31,9 +31,9 @@ return (
             {" "}
             <div className="overlap-group">
               {" "}
-              <a class="btn btn-primary" href="https://www.freecodecamp.org/">
+              <button onclick="window.location.href='https://www.freecodecamp.org/';">
                 freeCodeCamp
-              </a>{" "}
+              </button>{" "}
             </div>{" "}
           </div>{" "}
         </div>{" "}
