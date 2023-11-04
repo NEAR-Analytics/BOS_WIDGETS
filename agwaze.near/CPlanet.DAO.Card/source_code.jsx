@@ -340,7 +340,16 @@ return (
           <div>
             <span>Total Funds</span>
             <p>
-              {props.totalFunds ?? "0"}/<span>0</span>
+              {balances.body ? (
+                <>
+                  <b className="me-1">
+                    {shortenNumber(balances.body.totalUsd)}
+                  </b>
+                  USD
+                </>
+              ) : (
+                <p>N/A</p>
+              )}
             </p>
           </div>
           <div>
