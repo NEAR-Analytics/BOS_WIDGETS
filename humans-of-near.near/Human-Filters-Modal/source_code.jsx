@@ -239,7 +239,7 @@ return (
         <p style={{ fontSize: 14 }}>Add a filter to apply to all the data</p>
 
         <div>
-          <p style={{ marginBottom: 8 }}>{`Character`}</p>
+          <p style={{ marginBottom: 8 }}>{`Role`}</p>
           <Widget
             props={{
               noLabel: true,
