@@ -17,7 +17,44 @@ const Button = styled.button`
   position: relative;
     right:-450px;
     top: 550px;
+    z-index: 1;
 `;
+const InputWrapper = styled.div`
+  /* Add a wrapper for positioning and spacing */
+  position: absolute;
+  left: 729px;
+  z-index: 1;
+`;
+
+const InputBox = styled.input`
+  width: 100%;
+  padding: 12px;
+  border: none;
+  background: transparent;
+  color: #ffffff;
+  font-family: "Outfit-SemiBold", Helvetica;
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: 0;
+  line-height: normal;
+  outline: none;
+  text-align: center; /* Center the text */
+  transition: border-color 0.2s ease;
+
+  &::placeholder {
+    color: #ffffff;
+    text-align: center; /* Center the placeholder text */
+  }
+
+  &:hover {
+    border-color: #0078D4;
+  }
+
+  &:focus {
+    border-color: #0078D4;
+  }
+`;
+
 return (
   <StyledDesktop>
     {" "}
@@ -87,14 +124,14 @@ return (
           {" "}
           <div className="overlap-3">
             {" "}
-            <div className="text-wrapper-6">Enter email address</div>{" "}
+            <InputBox type="text" placeholder="Enter email address" />
           </div>{" "}
         </div>{" "}
         <div className="group-2">
           {" "}
           <div className="overlap-3">
             {" "}
-            <div className="text-wrapper-6">Enter password</div>{" "}
+            <InputBox type="password" placeholder="Enter password" />
           </div>{" "}
         </div>{" "}
         <div className="sign-in-2">Sign In</div>{" "}
