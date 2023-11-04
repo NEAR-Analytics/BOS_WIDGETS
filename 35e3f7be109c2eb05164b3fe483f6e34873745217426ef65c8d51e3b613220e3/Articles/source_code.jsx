@@ -9,8 +9,8 @@ const Wrapper = styled.div`
 /* Style for the heading */
 h1 {
   color: #333;
-  font-size: 27px;
-  margin-bottom: 140px;
+  font-size: 24px;
+  margin-bottom: 10px;
 }
 
 /* Style for the unordered list */
@@ -21,8 +21,7 @@ ul {
 
 /* Style for the list items */
 li {
-  font-size: 25px;
-  margin-bottom: 120px;
+  margin-bottom: 10px;
 }
 
 /* Style for the links */
@@ -44,16 +43,13 @@ return (
         <h1>Crypto-Asset Concepts:</h1>
         <ul>
           <li>
-            <a
-              href="https://jutsu.ai/35e3f7be109c2eb05164b3fe483f6e34873745217426ef65c8d51e3b613220e3/widget/article01"
-              onclick="readArticle('What is Bitcoin?')"
-            >
+            <a href="#" onclick="readArticle('What is Bitcoin?')">
               1. What is Bitcoin?
             </a>
           </li>
           <li>
             <a
-              href="https://jutsu.ai/35e3f7be109c2eb05164b3fe483f6e34873745217426ef65c8d51e3b613220e3/widget/Article02"
+              href="#"
               onclick="readArticle('Understanding Blockchain Technology')"
             >
               2. Understanding Blockchain Technology
@@ -61,16 +57,13 @@ return (
           </li>
           <li>
             <a
-              href="https://jutsu.ai/35e3f7be109c2eb05164b3fe483f6e34873745217426ef65c8d51e3b613220e3/widget/Article03"
+              href="#"
               onclick="readArticle('Introduction to Decentralized Finance')"
             >
               3. Introduction to Decentralized Finance
             </a>
           </li>
         </ul>
-        <a href="https://jutsu.ai/35e3f7be109c2eb05164b3fe483f6e34873745217426ef65c8d51e3b613220e3/widget/intro">
-          <button> main page</button>
-        </a>
       </div>
       <Switch.Thumb className="SwitchThumb" />
     </Switch.Root>
