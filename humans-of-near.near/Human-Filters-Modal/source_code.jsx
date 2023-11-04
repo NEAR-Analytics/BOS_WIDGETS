@@ -145,7 +145,7 @@ const ModalTitle = styled.h4`
 const Button = styled.button`
   color: #191a1a;
   border-radius: 6px;
-  padding: 10px 22px;
+  padding: 6px 18px;
   background-color:white;
   &:hover {
     background-color: grey;
