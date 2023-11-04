@@ -3,7 +3,7 @@ const Alert = styled.div`
   padding: 20px;
   display: flex;
   border-radius: 8px;
-
+  color: #fff;
   .icon {
     flex-shrink: 0;
   }
@@ -31,7 +31,7 @@ return (
       xmlns="http://www.w3.org/2000/svg"
       width="20"
       height="20"
-      viewBox="0 0 20 20"
+      viewBox="0 0 48 48"
     >
       <g
         fill="none"
