@@ -1083,7 +1083,12 @@ const approveErc20Token = (mode) => {
 };
 
 const changeBinsToDistribute = (nb) => {
-  State.update({ binsToDistribute: nb, validation: false });
+  State.update({
+    binsToDistribute: nb,
+    validation: false,
+    amountInputTokenA: 0,
+    amountInputTokenB: 0,
+  });
 };
 
 const claculateEquivalentFormula = () => {
