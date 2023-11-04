@@ -292,58 +292,6 @@ return (
         </CloseButton>
         <ModalTitle>{`Your Profile`}</ModalTitle>
         <div>
-          <p style={{ marginBottom: 8, fontSize: 14 }}>{`Display Name`}</p>
-          <TextField
-            type="text"
-            value={state.name}
-            onChange={changeName}
-            placeholder={accountId}
-          />
-        </div>
-        <div>
-          <p style={{ marginBottom: 8, fontSize: 14 }}>{`Near Social`}</p>
-          <TextField
-            type="text"
-            placeholder="Near Social"
-            value={state.social}
-            onChange={changeSocial}
-          />
-        </div>
-        <div>
-          <p style={{ marginBottom: 8, fontSize: 14 }}>{`Twitter`}</p>
-          <TextField
-            type="text"
-            placeholder="Twitter Link"
-            value={state.twitter}
-            onChange={changeTwitter}
-          />
-        </div>
-        <div>
-          <p style={{ marginBottom: 8, fontSize: 14 }}>{`Bio`}</p>
-          <Textarea
-            type="text"
-            placeholder="Bio"
-            maxlength="50"
-            value={state.bio}
-            onChange={changeBio}
-          />
-        </div>
-        <div>
-          <p
-            style={{ marginBottom: 8, fontSize: 14 }}
-          >{`What describes you best?`}</p>
-          <Widget
-            props={{
-              noLabel: true,
-              value: options.find((row) => row.value === state.role),
-              placeholder: "Select a role",
-              options,
-              onChange: changeRole,
-            }}
-            src={`${Owner}/widget/Select`}
-          />
-        </div>
-        <div>
           <p
             style={{ marginBottom: 8, fontSize: 14 }}
           >{`Regional Community `}</p>
@@ -501,6 +449,58 @@ return (
               </CommnuityBtn>
             ))}
           </div>
+        </div>
+        <div>
+          <p style={{ marginBottom: 8, fontSize: 14 }}>{`Display Name`}</p>
+          <TextField
+            type="text"
+            value={state.name}
+            onChange={changeName}
+            placeholder={accountId}
+          />
+        </div>
+        <div>
+          <p style={{ marginBottom: 8, fontSize: 14 }}>{`Near Social`}</p>
+          <TextField
+            type="text"
+            placeholder="Near Social"
+            value={state.social}
+            onChange={changeSocial}
+          />
+        </div>
+        <div>
+          <p style={{ marginBottom: 8, fontSize: 14 }}>{`Twitter`}</p>
+          <TextField
+            type="text"
+            placeholder="Twitter Link"
+            value={state.twitter}
+            onChange={changeTwitter}
+          />
+        </div>
+        <div>
+          <p style={{ marginBottom: 8, fontSize: 14 }}>{`Bio`}</p>
+          <Textarea
+            type="text"
+            placeholder="Bio"
+            maxlength="50"
+            value={state.bio}
+            onChange={changeBio}
+          />
+        </div>
+        <div>
+          <p
+            style={{ marginBottom: 8, fontSize: 14 }}
+          >{`What describes you best?`}</p>
+          <Widget
+            props={{
+              noLabel: true,
+              value: options.find((row) => row.value === state.role),
+              placeholder: "Select a role",
+              options,
+              onChange: changeRole,
+            }}
+            src={`${Owner}/widget/Select`}
+          />
         </div>
       </ModalContent>
       <ModalAction>
