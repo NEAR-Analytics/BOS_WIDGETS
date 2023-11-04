@@ -258,7 +258,7 @@ const renderComponent = (c, i) => {
         <Widget src={widgetSrc} props={c.demoProps} />
       </div>
       <label>Component</label>
-      <div className="d-flex flex-row justify-content-between mb-3">
+      <div className="d-flex flex-row flex-wrap justify-content-between mb-3">
         <div className="path font-monospace">
           <Widget
             src="mob.near/widget/CopyButton"
@@ -325,13 +325,22 @@ const renderMenuItem = (c, i) => {
 };
 
 const Wrapper = styled.div`
+@media(min-width: 992px) {
+  .b-s {
+    border-left: 1px solid #eee;
+  }
+  .b-e {
+    border-right: 1px solid #eee;
+  }
+}
 .category:not(:first-child) {
   margin-top: 1em;
 }
 .component {
-  padding: 0.5em 0;
+  padding: 0.5em 12px;
   padding-bottom: 0;
   margin-bottom: 3em;
+  margin: 0 -12px 3em;
   position: relative;
 
   &:hover {
