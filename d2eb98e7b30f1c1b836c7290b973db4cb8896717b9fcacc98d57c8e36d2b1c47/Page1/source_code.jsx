@@ -31,12 +31,9 @@ return (
             {" "}
             <div className="overlap-group">
               {" "}
-              <button
-                onclick="window.location.href='https://w3docs.com';"
-                className="connect"
-              >
-                CONNECTe
-              </button>{" "}
+              <a class="btn btn-primary" href="https://www.freecodecamp.org/">
+                freeCodeCamp
+              </a>{" "}
             </div>{" "}
           </div>{" "}
         </div>{" "}
