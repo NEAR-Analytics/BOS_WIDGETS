@@ -242,7 +242,7 @@ const Wrapper = styled.div`
 
   .left {
     min-width: 40px;
-    margin-right: 12px;
+    margin-right: 22px;
   }
   .right {
     margin-top: -4px;
