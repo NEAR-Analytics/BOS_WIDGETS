@@ -21,6 +21,8 @@ const configWidget = "CommunityVoice.Config";
 
 const widgets = {
   thisForum: `${authorForWidget}/widget/${configWidget}`,
+
+  //Editable widgets
   ndcForum: `${componentsOwner}/widget/NDC.Forum`,
   create: `${componentsOwner}/widget/NDC.Forum.Create`,
   header: `${componentsOwner}/widget/NDC.NavBar`,
@@ -33,11 +35,19 @@ const widgets = {
   addComment: `${componentsOwner}/widget/NDC.AddComment`,
   commentView: `${componentsOwner}/widget/NDC.CommentView`,
   upVoteButton: `${componentsOwner}/widget/NDC.UpVoteButton`,
+  fasterTextInput: `${componentsOwner}/widget/fasterTextInput`,
+  markownEditorIframe: `${componentsOwner}/widget/MarkdownEditorIframe`,
+  tagsEditor: `${componentsOwner}/widget/TagsEditor`,
+  profileShortInlineBlock: `${componentsOwner}/widget/Profile.ShortInlineBlock`,
+
+  //Libs
   libSBT: `sayalot.near/widget/lib.SBT`,
   libComment: `sayalot.near/widget/lib.comment`,
   libArticle: `sayalot.near/widget/lib.article`,
   libEmojis: `sayalot.near/widget/lib.emojis`,
   libUpVotes: `sayalot.near/widget/lib.upVotes`,
+
+  //Standard widgets
   styledComponents: "rubycop.near/widget/NDC.StyledComponents",
   newStyledComponents: {
     Element: {
@@ -53,14 +63,10 @@ const widgets = {
       Select: "nearui.near/widget/Input.Select",
     },
   },
-  fasterTextInput: `${componentsOwner}/widget/fasterTextInput`,
-  markownEditorIframe: `${componentsOwner}/widget/MarkdownEditorIframe`,
-  tagsEditor: `${componentsOwner}/widget/TagsEditor`,
   socialMarkdown: "mob.near/widget/SocialMarkdown",
   profileOverlayTrigger: "mob.near/widget/Profile.OverlayTrigger",
   profileImage: "mob.near/widget/ProfileImage",
   wikiOnSocialDB_TooltipProfiles: `testwiki.near/widget/WikiOnSocialDB_TooltipProfiles`,
-  profileShortInlineBlock: `${componentsOwner}/widget/Profile.ShortInlineBlock`,
 };
 
 const brand = {
