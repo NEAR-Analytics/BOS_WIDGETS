@@ -14,6 +14,11 @@ position: absolute;
 right:10%;
 top:20%;
 `;
+
+const value = props.value || "no-name button";
+const handleButtonClick =
+  props.handleButtonClick || (() => console.log("button clicked"));
+
 return (
   <StyledDesktop>
     {" "}
@@ -31,9 +36,9 @@ return (
             {" "}
             <div className="overlap-group">
               {" "}
-              <a href="https://www.example.com">
-                Cliquez ici pour accéder au lien HTTP
-              </a>{" "}
+              <button class="btn btn-primary" onClick={handleButtonClick}>
+                {value}
+              </button>{" "}
             </div>{" "}
           </div>{" "}
         </div>{" "}
