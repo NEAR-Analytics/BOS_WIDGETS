@@ -342,26 +342,28 @@ return (
         <AmountSec>
           <div>
             <span>Total Funds</span>
+            <p className="amount">
               {balances.body ? (
                 <span>
                   <b className="me-1">
                     {shortenNumber(balances.body.totalUsd)}
                   </b>
-                  USD
+                  
                 </span>
               ) : (
                 <p>0</p>
               )}
+            </p>
           </div>
           <div>
-            <span>Members/Group</span>
+            <span>Members / Group</span>
             <p>
               {members.length ?? "0"}/
               <span>{policy.roles.length ? policy.roles.length - 1 : 0}</span>
             </p>
           </div>
           <div>
-            <span>Active/Total Proposal</span>
+            <span>Active / Total Proposal</span>
             <p>
               {activeProposalsCount ?? "0"} /
               <span>{totalProposalsCount ?? 0}</span>
