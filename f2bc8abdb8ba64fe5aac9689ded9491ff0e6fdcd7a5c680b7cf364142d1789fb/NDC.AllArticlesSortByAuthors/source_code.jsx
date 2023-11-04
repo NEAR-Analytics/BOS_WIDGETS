@@ -45,7 +45,12 @@ return (
           return (
             <Widget
               src={widgets.articlesByAuthorCard}
-              props={{ authorArticlesArray, filter, handleFilterArticles }}
+              props={{
+                authorArticlesArray,
+                filter,
+                handleFilterArticles,
+                widgets,
+              }}
             />
           );
         })}
