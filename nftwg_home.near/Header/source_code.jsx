@@ -365,18 +365,6 @@ return (
       <home>
         <a>Home</a>
       </home>
-      <aboutUs>
-        <a>About Us</a>
-      </aboutUs>
-      <ourGoals>
-        <a>Our Goals</a>
-      </ourGoals>
-      <ourTeam>
-        <a>Our Team</a>
-      </ourTeam>
-      <nftDappCentral>
-        <a>NFT DApp Central</a>
-      </nftDappCentral>
     </MidWrapper1>
 
     <LastWrapper>
