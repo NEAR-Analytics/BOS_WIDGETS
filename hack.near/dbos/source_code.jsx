@@ -9,7 +9,7 @@ const init = Social.get(path, "optimistic", {
 });
 
 State.init({
-  things: init ?? [],
+  things: JSON.parse(init) ?? [],
   newThing: "",
 });
 
