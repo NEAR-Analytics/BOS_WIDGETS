@@ -6,6 +6,7 @@ if (!storedGreeting || context.loading) {
 }
 
 const [greeting, setGreeting] = useState(storedGreeting);
+const [showSpinner, setShowSpinner] = useState(false);
 const loggedIn = !!context.accountId;
 
 const onInputChange = ({ target }) => {
@@ -13,7 +14,9 @@ const onInputChange = ({ target }) => {
 };
 
 const onBtnClick = () => {
+  setShowSpinner(true);
   Near.call(CONTRACT, "set_greeting", { greeting });
+  setShowSpinner(false);
 };
 
 const Main = styled.div`
@@ -40,7 +43,11 @@ return (
         <div className="input-group" hidden={!loggedIn}>
           <input placeholder="Store a new greeting" onChange={onInputChange} />
           <button class="btn btn-primary" onClick={onBtnClick}>
-            Save
+            <span hidden={showSpinner}>Save</span>
+            <i
+              class="spinner-border spinner-border-sm"
+              hidden={!showSpinner}
+            ></i>
           </button>
         </div>
 
