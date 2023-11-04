@@ -30,7 +30,6 @@ const code = `
       }
 
       #mymarker svg{
-        // background-image: url('https://humans.nearverselabs.com/active.svg') !important;
         width: 32px !important;
         height: 50px !important;
       }
