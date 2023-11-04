@@ -36,6 +36,7 @@ return (
         <Widget
           src={widgets.profileShortInlineBlock}
           props={{
+            widgets,
             accountId: authorArticlesArray[0].author,
             tooltip: true,
             maxWidth: "90%",
