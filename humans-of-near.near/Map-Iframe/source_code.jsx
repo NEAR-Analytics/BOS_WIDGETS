@@ -31,6 +31,8 @@ const code = `
 
       #mymarker {
         background-image: url('https://humans.nearverselabs.com/active.svg') !important;
+        width: 32px !important;
+        height: 40px !important;
       }
 
       h6 {
@@ -287,7 +289,6 @@ const code = `
             accountId
               ? `if(marker.user.accountId === "${accountId}"){
                 el.id = 'mymarker';
-                el.innerHTML='';
                 }`
               : ``
           }
