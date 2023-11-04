@@ -16,7 +16,9 @@ let apr = 0;
 const arbitrumApr = fetch("https://backend-arbitrum.gains.trade/apr");
 
 if (arbitrumApr.ok) {
-  apr = arbitrumApr.body.sssBaseApr.toFixed(2);
+  let nev = arbitrumApr.body.sssApr.toFixed(2);
+  console.log("pparazi ni", nev);
+  apr = nev;
 }
 
 const iface = new ethers.utils.Interface(stakingAbi.body);
