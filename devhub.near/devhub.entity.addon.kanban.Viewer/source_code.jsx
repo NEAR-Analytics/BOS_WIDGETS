@@ -14,7 +14,6 @@ const CommunityBoardPage = ({ handle, permissions }) => {
         communityHandle: handle, // rather than fetching again via the handle
         link: href({
           // do we need a link?
-          gateway: "near.org",
           widgetSrc: "devhub.near/widget/app",
           params: { page: "community", handle },
         }),
