@@ -4,7 +4,7 @@ const Img = styled.img`
 position: absolute;
 
 right:10%;
-top:20%;
+top:5%;
 `;
 
 return (
