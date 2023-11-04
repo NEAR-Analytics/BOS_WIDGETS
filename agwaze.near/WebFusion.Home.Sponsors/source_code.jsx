@@ -1,9 +1,12 @@
 const Root = styled.div`
+    padding: 40px;
     .top {
         display: flex;
         flex-direction: row;
         justify-content: space-between;
         align-items: flex-start;
+        flex-wrap: wrap;
+        gap: 20px;
         h1 {
             color: var(--nearcon-app-black, #000);
             font-family: Inter;
@@ -48,6 +51,12 @@ const Root = styled.div`
         }
         img:hover {
             opacity: 0.4
+        }
+    }
+    @media (max-width: 500px){
+        .top, .images {
+            justify-content: center;
+            margin-bottom: 40px;
         }
     }
 `;
