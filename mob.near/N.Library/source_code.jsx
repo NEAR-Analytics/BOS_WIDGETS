@@ -248,7 +248,8 @@ const renderComponent = (c, i) => {
   const id = c.title.toLowerCase().replaceAll(" ", "-");
   return (
     <div className="component" key={i}>
-      <a href={`#${id}`} id={id}>
+      <div className="anchor" id={id} />
+      <a href={`#${id}`}>
         <h3>{c.title}</h3>
       </a>
       <p>{c.description}</p>
@@ -304,68 +305,96 @@ const renderComponent = (c, i) => {
   );
 };
 
+const renderMenuItem = (c, i) => {
+  const prev = i ? components[i - 1] : null;
+  const res = [];
+  if (!prev || prev.category !== c.category) {
+    res.push(
+      <h5 className="category" key={c.category}>
+        {c.category}
+      </h5>
+    );
+  }
+  const id = c.title.toLowerCase().replaceAll(" ", "-");
+  res.push(
+    <div className="menu-item" key={i}>
+      <a href={`#${id}`}>{c.title}</a>
+    </div>
+  );
+  return res;
+};
+
 const Wrapper = styled.div`
-  .component {
-    padding: 0.5em 0;
-    padding-bottom: 0;
-    margin-bottom: 3em;
+.category:not(:first-child) {
+  margin-top: 1em;
+}
+.component {
+  padding: 0.5em 0;
+  padding-bottom: 0;
+  margin-bottom: 3em;
+  position: relative;
 
-    &:hover {
-      background: rgba(0, 0, 0, 0.03); 
-    }
+  &:hover {
+    background: rgba(0, 0, 0, 0.03);
+  }
 
-    table {
-      background: white;
-    }
-    
-    label {
-      font-size: 20px;
-    }
+  .anchor {
+    position: absolute;
+    top: -70px;
+  }
 
-    .code {
-      display: inline-flex;
-      line-height: normal;
-      border-radius: 0.3em;
-      padding: 0 4px;
-      border: 1px solid #ddd;
-      background: rgba(0, 0, 0, 0.03);
-      font-family: var(--bs-font-monospace);
-    }
-    .path {
+  table {
+    background: white;
+  }
 
+  label {
+    font-size: 20px;
+  }
+
+  .code {
+    display: inline-flex;
+    line-height: normal;
+    border-radius: 0.3em;
+    padding: 0 4px;
+    border: 1px solid #ddd;
+    background: rgba(0, 0, 0, 0.03);
+    font-family: var(--bs-font-monospace);
+  }
+  .path {
+
+  }
+  .preview {
+    background-color: white;
+    padding: 12px;
+    border: 1px solid #eee;
+    border-radius: 12px;
+    pre {
+      margin-bottom: 0;
     }
-    .preview {
-      background-color: white;
-      padding: 12px;
-      border: 1px solid #eee;
-      border-radius: 12px;
-      pre {
+  }
+  .props {
+    .prop-key {
+      font-weight: 600;
+      &.optional {
+        font-weight: normal;
+      }
+    }
+    .prop-desc {
+      p {
         margin-bottom: 0;
       }
     }
-    .props {
-      .prop-key {
-        font-weight: 600;
-        &.optional {
-          font-weight: normal;
-        }
-      }
-      .prop-desc {
-        p {
-          margin-bottom: 0;
-        }
-      }
-    }
-    .embed-code {
-      position: relative;
+  }
+  .embed-code {
+    position: relative;
 
-      .embed-copy {
-        position: absolute;
-        top: 18px;
-        right: 10px;
-      }
+    .embed-copy {
+      position: absolute;
+      top: 18px;
+      right: 10px;
     }
   }
+}
 `;
 
 return (
@@ -374,6 +403,9 @@ return (
     <div className="mb-3">
       This library contains common social components used by near.social
     </div>
-    <div>{components.map(renderComponent)}</div>
+    <div className="row">
+      <div className="col-lg-4 b-e b-s">{components.map(renderMenuItem)}</div>
+      <div className="col-lg-8 b-e">{components.map(renderComponent)}</div>
+    </div>
   </Wrapper>
 );
