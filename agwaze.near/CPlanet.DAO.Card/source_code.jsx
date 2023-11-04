@@ -350,7 +350,7 @@ return (
                   USD
                 </span>
               ) : (
-                <p>12.35k USD</p>
+                <p>0</p>
               )}
           </div>
           <div>
