@@ -1,21 +1,16 @@
-const accountId = props.accountId;
+const { accountId, profile, maxNameLength, name, widgets } = props;
+if (!profile) {
+  profile = Social.getr(`${accountId}/profile`);
+}
 
-const profile = props.profile ?? Social.getr(`${accountId}/profile`);
-
-const maxNameLength = props.maxNameLength;
-
-let name = profile.name;
-
-const maxWidth = props.maxWidth ?? "60%";
-
-const widgetOwner =
-  props.widgetOwner ??
-  "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb";
+if (!maxWidth) {
+  maxWidth = "60%";
+}
 
 const inner = (
   <div className="d-flex flex-row" style={{ maxWidth: "100%" }}>
     <Widget
-      src="mob.near/widget/ProfileImage"
+      src={widgets.profileImage}
       props={{
         metadata,
         accountId,
@@ -56,7 +51,7 @@ return (
   >
     {props.tooltip ? (
       <Widget
-        src={`${widgetOwner}/widget/Profile.OverlayTrigger`}
+        src={widgets.profileOverlayTrigger}
         props={{ accountId, children: inner, maxWidth: `${maxWidth}` }}
       />
     ) : (
