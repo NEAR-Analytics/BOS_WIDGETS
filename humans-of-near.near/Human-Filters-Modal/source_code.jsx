@@ -34,6 +34,26 @@ const options = [
     text: "Gamer",
     value: "gamer",
   },
+  {
+    text: "Designer/Artist",
+    value: "designer",
+  },
+  {
+    text: "Content Creator",
+    value: "content_creator",
+  },
+  {
+    text: "CM/Moderator",
+    value: "moderator",
+  },
+  {
+    text: "Marketing",
+    value: "marketing",
+  },
+  {
+    text: "Potato",
+    value: "potato",
+  },
 ];
 
 const Commnuities = [
