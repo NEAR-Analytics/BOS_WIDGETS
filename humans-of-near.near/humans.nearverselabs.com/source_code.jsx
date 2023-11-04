@@ -419,7 +419,7 @@ return (
       <div
         className="d-flex justify-content-end absolute position-fixed"
         className="d-flex justify-content-end position-absolute"
-        style={{ right: "5%", top: "5%" }}
+        style={{ right: "5%", top: "5%", zIndex: 5 }}
       >
         <Widget
           props={{
