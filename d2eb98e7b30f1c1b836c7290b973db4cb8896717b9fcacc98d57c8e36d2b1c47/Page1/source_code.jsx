@@ -31,7 +31,9 @@ return (
             {" "}
             <div className="overlap-group">
               {" "}
-              <div className="connect">CONNECT</div>{" "}
+              <div HREF="http://www.google.com/" className="connect">
+                CONNECT
+              </div>{" "}
             </div>{" "}
           </div>{" "}
         </div>{" "}
