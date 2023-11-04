@@ -5,7 +5,7 @@ if (!accountId) return;
 const SOCIAL = "https://social.near.page/u/";
 const TWITTER = "https://twitter.com/";
 
-const { API_URL, onClose, user, getMyInfor } = props;
+const { API_URL, onClose, user, getMyInfor, showAlert } = props;
 
 const options = [
   {
@@ -138,7 +138,8 @@ const ModalTitle = styled.h4`
 const Button = styled.button`
   color: #191a1a;
   border-radius: 6px;
-  padding: 10px 22px;
+  padding: 6px 17px;
+  margin-bottom : 5px;
   background-color:white;
   &:hover {
     background-color: grey;
@@ -223,6 +224,7 @@ const saveMyProfile = () => {
     body: JSON.stringify(data),
   }).then((res) => {
     if (res.ok) {
+      showAlert("Profile Updated!");
       getMyInfor();
       onClose();
     }
