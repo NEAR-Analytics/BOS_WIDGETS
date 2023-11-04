@@ -1,4 +1,4 @@
-let greeting = "Have a great day";
+let greeting = "Bom Dia";
 
 return (
   <>
