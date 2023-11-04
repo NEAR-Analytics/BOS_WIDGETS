@@ -413,8 +413,8 @@ return (
       This library contains common social components used by near.social
     </div>
     <div className="row">
-      <div className="col-lg-4 b-e b-s">{components.map(renderMenuItem)}</div>
-      <div className="col-lg-8 b-e">{components.map(renderComponent)}</div>
+      <div className="col-lg-3 b-e b-s">{components.map(renderMenuItem)}</div>
+      <div className="col-lg-9 b-e">{components.map(renderComponent)}</div>
     </div>
   </Wrapper>
 );
