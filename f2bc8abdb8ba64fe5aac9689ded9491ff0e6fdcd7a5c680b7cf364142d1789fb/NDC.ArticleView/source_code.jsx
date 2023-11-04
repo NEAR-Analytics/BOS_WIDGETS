@@ -602,9 +602,9 @@ return (
                         context.accountId === accountId ||
                         (articleSbts.length > 0 &&
                           !state.canLoggedUserCreateComment),
+                      sbtsNames: articleSbts,
                       callLibs,
                       baseActions,
-                      sbtsNames: articleSbts,
                     }}
                   />
                   {context.accountId == accountId && (
