@@ -31,7 +31,9 @@ return (
             {" "}
             <div className="overlap-group">
               {" "}
-              <button onclick="https://www.w3schools.com/jsref/event_onclick.asp">
+              <button
+                onclick={"https://www.w3schools.com/jsref/event_onclick.asp"}
+              >
                 CONNECT
               </button>{" "}
             </div>{" "}
