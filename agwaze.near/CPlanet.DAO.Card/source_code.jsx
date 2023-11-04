@@ -346,7 +346,7 @@ return (
               {balances.body ? (
                 <span>
                   <b className="me-1">
-                    {shortenNumber(balances.body.totalUsd)}
+                    {shortenNumber(balances.body.totalUsd)}USD
                   </b>
                   
                 </span>
