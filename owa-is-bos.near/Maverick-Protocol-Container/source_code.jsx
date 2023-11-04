@@ -3,8 +3,15 @@ const pills = [
   { id: "liquidity", title: "Liquidity" },
 ];
 
+const pillsLiquidity = [
+  { id: "portfolio", title: "Portfolio" },
+  { id: "addLiq", title: "Add liquidity" },
+  { id: "creaPool", title: "Create pool" },
+];
+
 State.init({
   tabSelected: "tokenswap",
+  tabSelectedLiq: "portfolio",
 });
 
 const PillButtonActive = styled.div`
@@ -95,7 +102,49 @@ return (
       {state.tabSelected == "tokenswap" ? (
         <Widget src="owa-is-bos.near/widget/Maverick-Swap" />
       ) : (
-        <Widget src="owa-is-bos.near/widget/Maverick-LP-Portfolio" />
+        <div>
+          <ul
+            className="nav nav-pills nav-fill mb-4"
+            id="pills-tab2"
+            role="tablist2"
+            style={{ "margin-top": "15px" }}
+          >
+            {pillsLiquidity.map(({ id, title }, i) => (
+              <li className="nav-item" role="presentation" key={i}>
+                {state.tabSelectedLiq == id ? (
+                  <PillButtonActive
+                    onClick={() => {
+                      State.update({ tabSelectedLiq: id });
+                    }}
+                  >
+                    {title}
+                  </PillButtonActive>
+                ) : (
+                  <PillButton
+                    onClick={() => {
+                      State.update({ tabSelectedLiq: id });
+                    }}
+                  >
+                    {title}
+                  </PillButton>
+                )}
+              </li>
+            ))}
+          </ul>
+          <div
+            className="tab-content"
+            id="pills-tabContent"
+            style={{ display: "flex", "justify-content": "center" }}
+          >
+            {state.tabSelectedLiq == "portfolio" ? (
+              <Widget src="owa-is-bos.near/widget/Maverick-LP-Portfolio" />
+            ) : state.tabSelectedLiq == "addLiq" ? (
+              <Widget src="owa-is-bos.near/widget/Maverick-LP-Addition" />
+            ) : (
+              <Widget src="owa-is-bos.near/widget/Maverick-LP-NewPool" />
+            )}
+          </div>
+        </div>
       )}
     </div>
   </>
