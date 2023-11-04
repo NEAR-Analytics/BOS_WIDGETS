@@ -8,6 +8,9 @@ const sbtWhiteList = [
   "public",
 ];
 
+const componentsOwner =
+  "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb";
+
 // const authorForWidget = "sayalot.near";
 const authorForWidget =
   "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb";
@@ -17,28 +20,25 @@ const authorForWidget =
 const configWidget = "SayALot.Config";
 
 const widgets = {
-  thisForum: `${authorForWidget}/widget/${configWidget}`, ////////////////////////////////////////////////////////////////////////////////
-  create: `${authorForWidget}/widget/NDC.Forum.Create`, ///////////////////////////////////////////////////////////////////////////////////
-  //   header: `${authorForWidget}/widget/SayALot.NavBar`,//////////////////////////////////////////////////////////////////////////////////////////
-  header: `${authorForWidget}/widget/SayALot.NavBar`, //////////////////////////////////////////////////////////////////////////////////////////
-  showArticlesList: `${authorForWidget}/widget/NDC.Forum.AllArticlesList`, ////////////////////////////////////////////////////////////////////////////
-  showArticlesListSortedByAuthors: `${authorForWidget}/widget/SayALot.AllArticlesSortByAuthors`,
-  articlesByAuthorCard: `${authorForWidget}/widget/SayALot.ArticlesByAuthorCard`,
-  generalCard: `${authorForWidget}/widget/NDC.GeneralCard`, /////////////////////////////////////////////////////////////////////////
-  //   articleView: `${authorForWidget}/widget/SayALot.ArticleView`,///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-  articleView: `${authorForWidget}/widget/SayALot.ArticleView`, /////////////////////////////////////////////////////////////////////////
-  reactions: `${authorForWidget}/widget/NDC.Reactions`, //////////////////////////////////////////////////////////////////////////////////////////
-  addComment: `${authorForWidget}/widget/NDC.AddComment`, //////////////////////////////////////////////////////////////////////////////////////////
-  commentView: `${authorForWidget}/widget/SayALot.CommentView`,
-  libSBT: `${authorForWidget}/widget/lib.SBT`, //////////////////////////////////////////////////////////////////////////////////////////
-  libComment: `${authorForWidget}/widget/lib.comment`, //////////////////////////////////////////////////////////////////////////////////////////
-  libArticle: `${authorForWidget}/widget/lib.article`, //////////////////////////////////////////////////////////////////////////////////////////
-  libEmojis: `${authorForWidget}/widget/lib.emojis`, //////////////////////////////////////////////////////////////////////////////////////////
-  libUpVotes: `${authorForWidget}/widget/lib.upVotes`, //////////////////////////////////////////////////////////////////////////////////////////
-  upVoteButton: `${authorForWidget}/widget/NDC.UpVoteButton`, //////////////////////////////////////////////////////////////////////////////////////////
-  styledComponents: "rubycop.near/widget/NDC.StyledComponents", //////////////////////////////////////////////////////////////////////////////////////////
+  thisForum: `${authorForWidget}/widget/${configWidget}`,
+  create: `${componentsOwner}/widget/NDC.Forum.Create`,
+  header: `${componentsOwner}/widget/NDC.NavBar`,
+  showArticlesList: `${componentsOwner}/widget/NDC.Forum.AllArticlesList`,
+  showArticlesListSortedByAuthors: `${componentsOwner}/widget/NDC.AllArticlesSortByAuthors`,
+  articlesByAuthorCard: `${componentsOwner}/widget/NDC.ArticlesByAuthorCard`,
+  generalCard: `${componentsOwner}/widget/NDC.GeneralCard`,
+  articleView: `${componentsOwner}/widget/NDC.ArticleView`,
+  reactions: `${componentsOwner}/widget/NDC.Reactions`,
+  addComment: `${componentsOwner}/widget/NDC.AddComment`,
+  commentView: `${componentsOwner}/widget/NDC.CommentView`,
+  upVoteButton: `${componentsOwner}/widget/NDC.UpVoteButton`,
+  libSBT: `sayalot.near/widget/lib.SBT`,
+  libComment: `sayalot.near/widget/lib.comment`,
+  libArticle: `sayalot.near/widget/lib.article`,
+  libEmojis: `sayalot.near/widget/lib.emojis`,
+  libUpVotes: `sayalot.near/widget/lib.upVotes`,
+  styledComponents: "rubycop.near/widget/NDC.StyledComponents",
   newStyledComponents: {
-    //////////////////////////////////////////////////////////////////////////////////////////
     Element: {
       Badge: "nearui.near/widget/Element.Badge",
       User: "nearui.near/widget/Element.User",
@@ -52,13 +52,14 @@ const widgets = {
       Select: "nearui.near/widget/Input.Select",
     },
   },
-  fasterTextInput: `f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/fasterTextInput`, //////////////////////////////////////////////////////////////////////////////////////////
-  markownEditorIframe: `f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/MarkdownEditorIframe`, //////////////////////////////////////////////////////////////////////////////////////////
-  tagsEditor: `f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/TagsEditor`, //////////////////////////////////////////////////////////////////////////////////////////
-  socialMarkdown: "mob.near/widget/SocialMarkdown", //////////////////////////////////////////////////////////////////////////////////////////
-  profileOverlayTrigger: "mob.near/widget/Profile.OverlayTrigger", //////////////////////////////////////////////////////////////////////////////////////////
-  profileImage: "mob.near/widget/ProfileImage", //////////////////////////////////////////////////////////////////////////////////////////
-  wikiOnSocialDB_TooltipProfiles: `testwiki.near/widget/WikiOnSocialDB_TooltipProfiles`, //////////////////////////////////////////////////////////////////////////////////////////
+  fasterTextInput: `${componentsOwner}/widget/fasterTextInput`,
+  markownEditorIframe: `${componentsOwner}/widget/MarkdownEditorIframe`,
+  tagsEditor: `${componentsOwner}/widget/TagsEditor`,
+  socialMarkdown: "mob.near/widget/SocialMarkdown",
+  profileOverlayTrigger: "mob.near/widget/Profile.OverlayTrigger",
+  profileImage: "mob.near/widget/ProfileImage",
+  wikiOnSocialDB_TooltipProfiles: `testwiki.near/widget/WikiOnSocialDB_TooltipProfiles`,
+  profileShortInlineBlock: `${componentsOwner}/widget/Profile.ShortInlineBlock`,
 };
 
 const brand = {
