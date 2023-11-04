@@ -50,7 +50,7 @@ const TabsButton = styled.button`
   background: none;
   border: none !important;
   outline: none;
-  text-align: left;
+  text-align: center;
   text-decoration: none !important;
 
   &:hover {
