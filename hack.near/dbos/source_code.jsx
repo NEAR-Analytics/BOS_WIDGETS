@@ -21,7 +21,7 @@ State.init({
   newThing: "",
 });
 
-const isCurator = state.curatorId === context.accountId;
+const isCurator = state.curatorId === accountId;
 
 function addThing(newThing) {
   state.things.push(newThing);
@@ -81,12 +81,12 @@ return (
     <hr />
     <div>
       {isCurator ? (
-        <h4 className="mb-3">update list</h4>
+        <h4 className="mb-3">Update Your List</h4>
       ) : (
-        <h4 className="mb-3">propose changes</h4>
+        <h4 className="mb-3">Propose Updates</h4>
       )}
       <input
-        placeholder={`thing ID, to be added to array of ${state.curationType}`}
+        placeholder={`new thing ID for ${state.curationId} ${state.curationType}`}
         onChange={(e) => State.update({ newThing: e.target.value })}
       />
       <div className="d-flex align-items-center mt-2">
@@ -94,14 +94,33 @@ return (
           className="btn btn-primary m-2"
           onClick={() => addThing(state.newThing)}
         >
-          add
+          Add
         </button>
-        {Object.keys(state.things).length > 0 && (
-          <div className="ml-3">
-            {JSON.stringify(things) !== JSON.stringify(state.things) && (
-              <button className="btn btn-success m-2" onClick={handleSave}>
-                save
-              </button>
+        {isCurator ? (
+          <div>
+            {Object.keys(state.things).length > 0 && (
+              <div className="ml-3">
+                {JSON.stringify(things) !== JSON.stringify(state.things) && (
+                  <button className="btn btn-success m-2" onClick={handleSave}>
+                    Save
+                  </button>
+                )}
+              </div>
+            )}
+          </div>
+        ) : (
+          <div>
+            {Object.keys(state.things).length > 0 && (
+              <div className="ml-3">
+                {JSON.stringify(things) !== JSON.stringify(state.things) && (
+                  <button
+                    className="btn btn-success m-2"
+                    onClick={handleProposal}
+                  >
+                    Submit
+                  </button>
+                )}
+              </div>
             )}
           </div>
         )}
