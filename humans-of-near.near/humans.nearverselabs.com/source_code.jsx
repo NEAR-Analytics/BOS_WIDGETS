@@ -330,6 +330,7 @@ return (
           API_URL,
           user: state.user,
           getMyInfor,
+          showAlert,
         }}
       />
     )}
