@@ -3,8 +3,8 @@
 const HelpComponent = styled.div`
   display: flex;
   justify-content: center;
-  width: 900px;
-  height: 850px;
+  width: 600px;
+  height: 550px;
   border-radius: 2000px;
   border: 0;
   color: white;
