@@ -57,7 +57,6 @@ function makeAccountIdShorter(accountId, shortenLength) {
 
 return (
   <Root
-    target="_blank"
     href={`agwaze.near/widget/CPlanet.index?tab=profile&accountId=${daoId}`}
   >
     <div className="profile">
