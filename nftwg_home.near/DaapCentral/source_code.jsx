@@ -477,8 +477,10 @@ return (
         />
       )}
     </WidgetContainer>
+    //{" "}
     <ListMyAppHereContainer style={{ top: 1000, left: 30 }}>
-      <ListMyAppHereText>List My App Here</ListMyAppHereText>
+      // <ListMyAppHereText>List My App Here</ListMyAppHereText>
+      //{" "}
     </ListMyAppHereContainer>
   </DaapCentralContainer>
 );
