@@ -104,7 +104,7 @@ return (
         </CardContent>
         <CardContent>
           <AppLinkButton style={{ top: 200, left: 20 }}>
-            <a href={item.href}>
+            <a href={item.href} target="_blank">
               {" "}
               <ApplinkText>{item.buttonText}</ApplinkText>
             </a>
