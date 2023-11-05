@@ -11,15 +11,15 @@ const halflife = props.halflife
 
 const [displayCount, setDisplayCount] = useState(initialRenderLimit);
 
-// let rawIndex = Social.index("neddit", subneddit, {
-//   order: "desc",
-//   limit: 200,
-// });
-
-let rawIndex = Social.index("post", "main", {
+let rawIndex = Social.index("neddit", subneddit, {
   order: "desc",
-  limit: fetchLimit,
+  limit: 200,
 });
+
+// let rawIndex = Social.index("post", "main", {
+//   order: "desc",
+//   limit: fetchLimit,
+// });
 
 if (rawIndex === null) {
   return renderLoading();
