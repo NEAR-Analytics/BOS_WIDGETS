@@ -69,6 +69,17 @@ const likeClick = () => {
   });
 };
 
+const loggedIn = (
+  <>
+    You're gonna <span class="text-danger">like it</span> here
+  </>
+);
+const loggedOut = (
+  <>
+    Login to show some <span class="text-danger">love</span>
+  </>
+);
+
 return (
   <Main>
     <div class="text-center">
@@ -76,15 +87,10 @@ return (
 
       <div class="container py-3 text-dark bg-light rounded-3">
         <p class="small font-weight-light">
-          You're gonna
-          <span class="text-danger">like it</span>
-          here
+          {context.accountId ? loggedIn : loggedOut}
         </p>
 
-        <LikeButton
-          disabled={context.loading || dataLoading || !context.accountId}
-          onClick={likeClick}
-        >
+        <LikeButton onClick={likeClick}>
           <i className={`${hasLike ? "bi-heart-fill" : "bi-heart"}`} />
           {totalLikes}
         </LikeButton>
