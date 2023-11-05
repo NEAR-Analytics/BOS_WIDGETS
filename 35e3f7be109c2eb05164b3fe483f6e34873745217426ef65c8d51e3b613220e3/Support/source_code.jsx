@@ -1,9 +1,10 @@
 // modification de <Widget src="socializer.near/widget/HelpCenter" />
+
 const HelpComponent = styled.div`
   display: flex;
   justify-content: center;
-  width: px;
-  height: 555px;
+  width: 1020px;
+  height: 1150px;
   border-radius: 10px;
   border: 0;
   color: white;
@@ -30,7 +31,7 @@ const Question = styled.div`
 `;
 
 const Text = styled.p`
-  margin: 0
+  margin-bottom: 90px;
 `;
 
 const Circle = styled.p`
@@ -50,12 +51,12 @@ const HelpButton = styled.button`
   background: #F3F3F3;
   position: absolute;
   text-align: center;
-  font-size: 12px;
+  font-size: 19px;
   font-style: normal;
   font-weight: 600;
   line-height: normal;
   letter-spacing: -0.24px;
-  bottom: 16px;
+  bottom: 160px;
 `;
 
 const QuestionIcon = () => (
@@ -118,42 +119,51 @@ const QuestionIcon = () => (
 );
 
 return (
-  <HelpComponent>
-    <Question>
-      <QuestionIcon />
-    </Question>
+  <div class="container">
+    <HelpComponent>
+      <Question>
+        <QuestionIcon />
+      </Question>
 
-    <HelpContent>
-      <Circle
-        style={{
-          top: -100,
-          left: -100,
-        }}
-      />
-
-      <Circle
-        style={{
-          bottom: -100,
-          right: -100,
-        }}
-      />
-
-      <Text>Suggestions</Text>
-      <Text
-        style={{
-          fontSize: 12,
-          textAlign: "center",
-          letterSpacing: "-0.24px",
-          marginBottom: 10,
-        }}
-      >
-        Having Trouble in Learning. Please contact us for more questions. if
-        this was a mistake, please go back to the main page.
-      </Text>
-      <HelpButton>contact us</HelpButton>
-      <a href="https://jutsu.ai/35e3f7be109c2eb05164b3fe483f6e34873745217426ef65c8d51e3b613220e3/widget/intro">
-        <button> main page</button>
-      </a>
-    </HelpContent>
-  </HelpComponent>
+      <HelpContent>
+        <Circle
+          style={{
+            top: -100,
+            left: -100,
+          }}
+        />
+        <Circle
+          style={{
+            bottom: -100,
+            right: -100,
+          }}
+        />
+        <Text>Suggestions</Text>
+        <Text
+          style={{
+            fontSize: 18,
+            textAlign: "center",
+            letterSpacing: "-0.24px",
+            marginBottom: 10,
+          }}
+        >
+          Having Trouble in Learning. Please contact us for more questions.
+          <br />
+          <br />
+          <br /> <br />
+          <br />
+          <br />
+          if this was a mistake, please go back to the main page.
+          <br /> <br />
+          <br />
+        </Text>
+        <HelpButton>contact us</HelpButton> <br />
+        <a href="https://jutsu.ai/35e3f7be109c2eb05164b3fe483f6e34873745217426ef65c8d51e3b613220e3/widget/intro">
+          {" "}
+          <br /> <br /> <br />
+          <button> main page</button>
+        </a>
+      </HelpContent>
+    </HelpComponent>
+  </div>
 );
