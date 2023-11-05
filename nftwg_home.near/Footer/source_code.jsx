@@ -131,12 +131,10 @@ display: flex;
 flex-direction: row;
 padding: 70px;
 gap: 24px;
-
 margin: 0 auto;
 width: 580px;
 height: 100px;
-
-
+justify-content:center;
 /* Inside auto layout */
 flex: none;
 order: 1;
@@ -357,20 +355,6 @@ return (
       <home>
         <a> Home </a>
       </home>
-      <aboutUs>
-        {" "}
-        <a>About Us </a>
-      </aboutUs>
-      <ourGoals>
-        <a> Our Goals </a>
-      </ourGoals>
-      <ourTeam>
-        {" "}
-        <a>Our Team</a>{" "}
-      </ourTeam>
-      <nftDappCentral>
-        <a> NFT DApp Central </a>
-      </nftDappCentral>
     </FooterWrapper>
     <FooterRightsWrapper style={{ left: 160 }}>
       <SocialLinksContainer>
