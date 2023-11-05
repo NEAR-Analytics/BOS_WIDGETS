@@ -252,7 +252,7 @@ flex-grow: 0;
 return (
   /*------------NFTStats----------------*/
   <NFTStats>
-    <SecondaryHeadline>NEAR NFT Stats.</SecondaryHeadline>
+    <SecondaryHeadline>NEAR NFT Stats.(Coming Soon)</SecondaryHeadline>
     <StarForStats>
       <svg
         width="80"
@@ -267,18 +267,17 @@ return (
         />
       </svg>
     </StarForStats>
-    <Paragraph>Powered by mintbase</Paragraph>
+    <Paragraph>NFT WG in numbers</Paragraph>
     <StatusContainer>
       <StatusCard>
         <Content>
           <Text>
             <TitleContainer>
-              <Title>Total Transactions</Title>
+              <Title>All Time Wallets Interacted</Title>
               <Badge>
-                <TextForBadge>+2.2%</TextForBadge>
+                <TextForBadge>- 0</TextForBadge>
               </Badge>
             </TitleContainer>
-            <Description>2,764,932</Description>
           </Text>
         </Content>
       </StatusCard>
@@ -286,12 +285,11 @@ return (
         <Content>
           <Text>
             <TitleContainer>
-              <Title>24H Transactions</Title>
+              <Title>1 Week New Wallets</Title>
               <Badge>
-                <TextForBadge>-2.5%</TextForBadge>
+                <TextForBadge>- 0</TextForBadge>
               </Badge>
             </TitleContainer>
-            <Description>2,764,932</Description>
           </Text>
         </Content>
       </StatusCard>
@@ -299,12 +297,11 @@ return (
         <Content>
           <Text>
             <TitleContainer>
-              <Title>24H Minted</Title>
+              <Title>DApps Built</Title>
               <Badge>
-                <TextForBadge>0.0%</TextForBadge>
+                <TextForBadge>- 0</TextForBadge>
               </Badge>
             </TitleContainer>
-            <Description>2,764,932</Description>
           </Text>
         </Content>
       </StatusCard>
