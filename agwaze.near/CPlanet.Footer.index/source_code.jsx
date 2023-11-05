@@ -278,6 +278,9 @@ return (
         <Socials>
           <h1>Deep Dive</h1>
           <div>
+            <a target="_blank" href="https://www.creativesdao.org">
+              <li>Website</li>
+            </a>
             <a target="_blank" href="https://www.creativesdao.org/charter">
               <li>Charter</li>
             </a>
@@ -295,7 +298,9 @@ return (
       </RightFoot>
     </Top>
     <Bottom>
-      <CopyRight>2023 CPlanet - Built with ❤️ by Minority Programmers</CopyRight>
+      <CopyRight>
+        2023 CPlanet - Built with ❤️ by Minority Programmers
+      </CopyRight>
       <Policies>
         <a href="#">Privacy & Policy</a>
         <a href="#">Terms & Conditions</a>
