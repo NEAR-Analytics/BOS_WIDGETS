@@ -26,32 +26,32 @@ const Main = styled.div`
 // Render
 return (
   <Main>
-    <div class="text-center">
-      <h3 class="font-weight-bold"> Hello Near </h3>
-      <p class="small font-weight-light">
+    <div className="text-center">
+      <h3 className="font-weight-bold"> Hello Near </h3>
+      <p className="small font-weight-light">
         A greeting stored in
-        <span class="text-danger">{CONTRACT}</span>
+        <span className="text-danger">{CONTRACT}</span>
       </p>
     </div>
-    <div class="container py-4 px-5 text-dark bg-light rounded">
-      <h2 class="text-center">
+    <div className="container py-4 px-5 text-dark bg-light rounded">
+      <h2 className="text-center">
         The contract says:
-        <span class="text-primary"> {greeting} </span>
+        <span className="text-primary"> {greeting} </span>
       </h2>
 
       <div class="p-4">
         <div className="input-group" hidden={!loggedIn}>
           <input placeholder="Store a new greeting" onChange={onInputChange} />
-          <button class="btn btn-primary" onClick={onBtnClick}>
+          <button className="btn btn-primary" onClick={onBtnClick}>
             <span hidden={showSpinner}>Save</span>
             <i
-              class="spinner-border spinner-border-sm"
+              className="spinner-border spinner-border-sm"
               hidden={!showSpinner}
             ></i>
           </button>
         </div>
 
-        <p class="text-center py-2" hidden={loggedIn}>
+        <p className="text-center py-2" hidden={loggedIn}>
           Login to change the greeting
         </p>
       </div>
