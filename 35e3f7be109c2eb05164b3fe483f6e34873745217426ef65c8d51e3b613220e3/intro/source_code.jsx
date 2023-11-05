@@ -5,6 +5,8 @@ div {
   background-color: #f2f2f2;
   padding: 250px;
   border-radius: 5px;
+  height: 100vh;
+
 }
 
 /* Style for the heading */
@@ -46,7 +48,8 @@ return (
     <Switch.Root className="SwitchRoot">
       <div>
         <ul>
-          <h1> Welcome to our Crypto App!</h1><br />
+          <h1> Welcome to our Crypto App!</h1>
+          <br />
           <li>
             <a href="https://jutsu.ai/35e3f7be109c2eb05164b3fe483f6e34873745217426ef65c8d51e3b613220e3/widget/courses">
               Courses and training
