@@ -295,7 +295,7 @@ return (
       </RightFoot>
     </Top>
     <Bottom>
-      <CopyRight>2023 CPlanet - All right reserved.</CopyRight>
+      <CopyRight>2023 CPlanet - Built with ❤️ by Minority Programmers</CopyRight>
       <Policies>
         <a href="#">Privacy & Policy</a>
         <a href="#">Terms & Conditions</a>
