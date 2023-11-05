@@ -27,7 +27,7 @@ const CheckboxBtn = styled.label`
     left: 0;
     height: 25px;
     width: 25px;
-    border: 2.5px solid #ffffff;
+    border: 2.5px solid black;
     transition: 0.2s linear;
 
     /* Create the checkmark/indicator (hidden when not checked) */
@@ -103,7 +103,7 @@ const props = {
     left: 0;
     height: 25px;
     width: 25px;
-    border: 2.5px solid #ffffff;
+    border: 2.5px solid black;
     transition: 0.2s linear;
 
     /* Create the checkmark/indicator (hidden when not checked) */
