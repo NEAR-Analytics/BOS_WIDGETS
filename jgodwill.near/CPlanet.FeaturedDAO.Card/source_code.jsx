@@ -288,7 +288,7 @@ function makeAccountIdShorter(accountId) {
 return (
   <CardRoot>
     <a
-      href={`#/agwaze.near/widget/CPlanet.index?tab=daoProfile&daoId=${props.daoId}`}
+      href={`#/agwaze.near/widget/CPlanet.DAO.index?daoId=${props.daoId}`}
       onClick={() => props.onButtonClick()}
     >
       <Top>
