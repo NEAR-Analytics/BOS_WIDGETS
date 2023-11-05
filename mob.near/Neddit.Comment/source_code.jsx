@@ -103,7 +103,7 @@ return (
     {state.showReply && (
       <div className="mb-2" key="reply">
         <Widget
-          src="mob.near/widget/MainPage.N.Comment.Compose"
+          src="mob.near/widget/Neddit.Comment.Compose"
           props={{
             initialText: `@${accountId}, `,
             notifyAccountId: extractNotifyAccountId(parentItem),
