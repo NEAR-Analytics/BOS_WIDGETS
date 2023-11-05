@@ -2,7 +2,7 @@ const Wrapper = styled.div`
 .SwitchRoot {
     div {
   background-color: #f2f2f2;
-  padding: 200px;
+  padding: 400px;
   border-radius: 5px;
 }
 
