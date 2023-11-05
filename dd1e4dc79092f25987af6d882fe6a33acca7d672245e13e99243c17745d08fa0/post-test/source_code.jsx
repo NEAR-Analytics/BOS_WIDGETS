@@ -763,7 +763,7 @@ function getAllPostData() {
 
 function callContractFunction() {
   try {
-    const result = contract.tokenData(props.tokenId).then(
+    const result = contract.tokenData(props.tokenID).then(
       (res) =>
         State.update({
           addressOwner: res[0],
@@ -777,12 +777,13 @@ function callContractFunction() {
     console.error("Error calling the function:", error);
   }
 }
-function handleClick(event) {
-  event.preventDefault();
-  // getAllPostData();
-  callContractFunction(4);
-  State.update({ showInfo: "True" });
+function handleClick() {
+  callContractFunction();
 }
+
+useEffect(() => {
+  handleClick();
+}, [props.counter]);
 
 const Wrapper = styled.div`
 width: 100%;
@@ -858,20 +859,6 @@ return (
       </div>
     </div>
     <div>
-      <div>
-        <div>
-          <h2>Token Info</h2>
-          {Object.entries(arrayPost).map(([key, value]) => (
-            <div key={key}>
-              <li>Address: {value[0]}</li>
-              <li>Name: {value[1]}</li>
-              <li>Desc: {value[2]}</li>
-              <li>Img: {value[3]}</li>
-            </div>
-          ))}
-        </div>
-      </div>
-
       <button onClick={handleClick}>Call Contract Function</button>
     </div>
     <div className="nft-text">
