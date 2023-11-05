@@ -189,7 +189,7 @@ const toggleSaveButton1 = () => {
 const SaveButton = styled.button`
   width: 2.3rem;
   height: 30px;
-  background-color: ${(props) => (props.isToggled ? "black" : "black")};
+  background-color: ${(props) => (props.isToggled ? "#f79a55" : "black")};
   border: none;
   border-radius: 24px;
   cursor: pointer;
