@@ -99,7 +99,7 @@ return (
     />
     {state.content && (
       <Widget
-        src="mob.near/widget/MainPage.N.Comment"
+        src="mob.near/widget/Neddit.Comment"
         props={{
           item,
           accountId: context.accountId,
