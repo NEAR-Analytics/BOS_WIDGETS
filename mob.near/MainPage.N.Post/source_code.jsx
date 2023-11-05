@@ -24,7 +24,10 @@ const item = {
   blockHeight,
 };
 
-const link = `/mob.near/widget/MainPage.N.Post.Page?accountId=${accountId}&blockHeight=${blockHeight}`;
+const link =
+  props.link ??
+  props.fullPostLink ??
+  `/mob.near/widget/MainPage.N.Post.Page?accountId=${accountId}&blockHeight=${blockHeight}`;
 
 const Wrapper = styled.div`
   margin: 0 -12px;
