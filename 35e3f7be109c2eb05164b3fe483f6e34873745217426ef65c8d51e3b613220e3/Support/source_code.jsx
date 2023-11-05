@@ -3,13 +3,14 @@
 const HelpComponent = styled.div`
   display: flex;
   justify-content: center;
-  width: 1020px;
-  height: 1150px;
+  width: 1100px;
+  height: 1075px;
   border-radius: 10px;
   border: 0;
   color: white;
   background-color: #1e1e1e;
   position: relative;
+  margin-left: -80px;
 `;
 
 const HelpContent = styled.div`
