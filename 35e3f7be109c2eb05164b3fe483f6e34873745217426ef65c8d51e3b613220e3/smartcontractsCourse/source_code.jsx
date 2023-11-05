@@ -141,8 +141,8 @@ return (
       <button> Register to the online Course </button>
       <button> downald course </button>
       <a href="https://jutsu.ai/35e3f7be109c2eb05164b3fe483f6e34873745217426ef65c8d51e3b613220e3/widget/courses">
-      <button> Courses </button>
-</a>
+        <button> Courses </button>
+      </a>
       <Switch.Thumb className="SwitchThumb" />
     </Switch.Root>
   </Wrapper>
