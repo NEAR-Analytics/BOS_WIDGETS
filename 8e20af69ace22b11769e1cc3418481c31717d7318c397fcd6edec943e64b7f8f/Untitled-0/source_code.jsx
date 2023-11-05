@@ -931,10 +931,10 @@ async function RingSignature(privateKey, Amount) {
     },
     body: JSON.stringify(body),
   }).then((res) => {
-    console.log("test: ", res);
+    console.log("test: ", res.body);
     //const uptime = res.body.uptime_sec;
     //State.update({ signatureData: uptime });
-    State.update({sigData:res.body});
+    State.update({ sigData: JSON.stringify(res.body.message) });
   });
   // return the payload using a state
 }
