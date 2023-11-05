@@ -47,7 +47,7 @@ height: 16px;
 font-family: inherit;
 font-style: normal;
 font-weight: 700;
-font-size: 16px;
+font-size: 18px;
 line-height: 100%;
 /* identical to box height, or 16px */
 color: #DFDFDF;
