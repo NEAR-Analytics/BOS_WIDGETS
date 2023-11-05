@@ -3,8 +3,8 @@
 const HelpComponent = styled.div`
   display: flex;
   justify-content: center;
-  width: 1100px;
-  height: 1075px;
+  width: 900px;
+  height: 850px;
   border-radius: 2000px;
   border: 0;
   color: white;
@@ -12,7 +12,7 @@ const HelpComponent = styled.div`
   position: relative;
   margin-left: -10px;
   margin-top: 15px;
-  margin-right: 15px; 
+  margin-right: 150px; 
 `;
 
 const HelpContent = styled.div`
@@ -151,9 +151,6 @@ return (
           }}
         >
           Having Trouble in Learning. Please contact us for more questions.
-          <br />
-          <br />
-          <br /> <br />
           <br />
           <br />
           if this was a mistake, please go back to the main page.
