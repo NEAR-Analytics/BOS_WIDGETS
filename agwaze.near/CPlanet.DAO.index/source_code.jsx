@@ -154,6 +154,7 @@ const Tags = styled.div`
     display:flex;
     gap: 7px;
     margin-left: 10px;
+    margin-bottom: 10px;
     margin-top: 40px;
     .tag {
          color: #FFF;
@@ -366,13 +367,11 @@ return (
         <AmountSec>
           <div>
             <span>Total Funds</span>
-               {balances.body ? (
-                <b className="me-1">
-                  {shortenNumber(balances.body.totalUsd)}USD
-                </b>
-              ) : (
-                <p>0</p>
-              )}
+            {balances.body ? (
+              <b className="me-1">{shortenNumber(balances.body.totalUsd)}USD</b>
+            ) : (
+              <p>0</p>
+            )}
           </div>
           <div>
             <span>Members / Group</span>
