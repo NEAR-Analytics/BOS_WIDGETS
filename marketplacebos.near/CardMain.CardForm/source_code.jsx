@@ -52,7 +52,7 @@ const ToggleButton = styled.button`
   font-family: inherit;
   width: 1.6rem;
   height: 1.6rem;
-  background-color: ${(props) => (props.isToggled ? "#f79a55" : "#0a1929ff")};
+  background-color: ${(props) => (props.isToggled ? "black" : "black")};
   border: none;
   border-radius: 50%;
   cursor: pointer;
@@ -70,60 +70,35 @@ const ToggleButton = styled.button`
 
 const SunIcon = (
   <svg
-    viewBox="0 0 16 16"
-    fill="currentColor"
-    width="23"
     xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 24 24"
+    fill="currentColor"
+    className="w-6 h-6"
   >
-    <path
-      d="M8 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM8 0a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 0zm0 13a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 13zm8-5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2a.5.5 0 0 1 .5.5zM3 8a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2A.5.5 0 0 1 3 8zm10.657-5.657a.5.5 0 0 1 0 .707l-1.414 1.415a.5.5 0 1 1-.707-.708l1.414-1.414a.5.5 0 0 1 .707 0zm-9.193 9.193a.5.5 0 0 1 0 .707L3.05 13.657a.5.5 0 0 1-.707-.707l1.414-1.414a.5.5 0 0 1 .707 0zm9.193 2.121a.5.5 0 0 1-.707 0l-1.414-1.414a.5.5 0 0 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .707zM4.464 4.465a.5.5 0 0 1-.707 0L2.343 3.05a.5.5 0 1 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .708z"
-      color="red"
-    ></path>
+    <path d="M12 2.25a.75.75 0 01.75.75v2.25a.75.75 0 01-1.5 0V3a.75.75 0 01.75-.75zM7.5 12a4.5 4.5 0 119 0 4.5 4.5 0 01-9 0zM18.894 6.166a.75.75 0 00-1.06-1.06l-1.591 1.59a.75.75 0 101.06 1.061l1.591-1.59zM21.75 12a.75.75 0 01-.75.75h-2.25a.75.75 0 010-1.5H21a.75.75 0 01.75.75zM17.834 18.894a.75.75 0 001.06-1.06l-1.59-1.591a.75.75 0 10-1.061 1.06l1.59 1.591zM12 18a.75.75 0 01.75.75V21a.75.75 0 01-1.5 0v-2.25A.75.75 0 0112 18zM7.758 17.303a.75.75 0 00-1.061-1.06l-1.591 1.59a.75.75 0 001.06 1.061l1.591-1.59zM6 12a.75.75 0 01-.75.75H3a.75.75 0 010-1.5h2.25A.75.75 0 016 12zM6.697 7.757a.75.75 0 001.06-1.06l-1.59-1.591a.75.75 0 00-1.061 1.06l1.59 1.591z" />
   </svg>
 );
 
 const MoonIcon = (
   <svg
-    viewBox="0 0 16 16"
-    fill="currentColor"
-    width="23"
     xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 24 24"
+    fill="currentColor"
+    className="w-6 h-6"
   >
     <path
-      d="M6 .278a.768.768 0 0 1 .08.858 7.208 7.208 0 0 0-.878 3.46c0 4.021 3.278 7.277 7.318 7.277.527 0 1.04-.055 1.533-.16a.787.787 0 0 1 .81.316.733.733 0 0 1-.031.893A8.349 8.349 0 0 1 8.344 16C3.734 16 0 12.286 0 7.71 0 4.266 2.114 1.312 5.124.06A.752.752 0 0 1 6 .278z"
-      color="orange"
-    ></path>
-    <path
-      d="M10.794 3.148a.217.217 0 0 1 .412 0l.387 1.162c.173.518.579.924 1.097 1.097l1.162.387a.217.217 0 0 1 0 .412l-1.162.387a1.734 1.734 0 0 0-1.097 1.097l-.387 1.162a.217.217 0 0 1-.412 0l-.387-1.162A1.734 1.734 0 0 0 9.31 6.593l-1.162-.387a.217.217 0 0 1 0-.412l1.162-.387a1.734 1.734 0 0 0 1.097-1.097l.387-1.162zM13.863.099a.145.145 0 0 1 .274 0l.258.774c.115.346.386.617.732.732l.774.258a.145.145 0 0 1 0 .274l-.774.258a1.156 1.156 0 0 0-.732.732l-.258.774a.145.145 0 0 1-.274 0l-.258-.774a1.156 1.156 0 0 0-.732-.732l-.774-.258a.145.145 0 0 1 0-.274l.774-.258c.346-.115.617-.386.732-.732L13.863.1z"
-      color="black"
-    ></path>
+      fillRule="evenodd"
+      d="M9.528 1.718a.75.75 0 01.162.819A8.97 8.97 0 009 6a9 9 0 009 9 8.97 8.97 0 003.463-.69.75.75 0 01.981.98 10.503 10.503 0 01-9.694 6.46c-5.799 0-10.5-4.701-10.5-10.5 0-4.368 2.667-8.112 6.46-9.694a.75.75 0 01.818.162z"
+      clipRule="evenodd"
+    />
   </svg>
 );
-
-const ColorText = styled.div`
-  font-family: inherit;
-  position: absolute;
-  padding:1px;
-  background-color: ${(props) => (props.isToggled ? "#ff8408ff" : "#0a1929ff")};
-  border: 1;
-  border-radius:14px;
-  cursor: pointer;
-  position: absolute;
-  top: 10px; /* Điều chỉnh vị trí theo y */
-  right: 50px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: bold;
-  color: white;
-  transition: background-color 300ms;
-`;
 
 const ButtonCopy = styled.button`
   width: 5rem;
   height: 30px;
   font-size: 12px;
-  background-color: #0a1929ff;
+  background-color: black;
   border: none;
   border-radius: 24px;
   cursor: pointer;
@@ -135,9 +110,7 @@ const ButtonCopy = styled.button`
   justify-content: center;
   font-weight: bold;
   color: white;
-   &:hover {
-    background-color: #0a1929ff;
-  }
+
 
 `;
 
@@ -151,7 +124,7 @@ const TextCopy = styled.span`
   align-items: center;
   justify-content: center;
   color: white;
-  background-color: #0a1929ff;
+  background-color: black;
 `;
 
 const SvgIconCopy = styled.span`
@@ -170,12 +143,12 @@ const SvgIconCopy = styled.span`
 
 const [isToggleSave1, setIsToggleSave1] = useState(false);
 const toggleSaveButton1 = () => {
-  setIsToggleSave1((prevState) => !prevState); // Toggle the save button state
+  setIsToggleSave1((prevState) => !prevState);
 };
 const SaveButton = styled.button`
   width: 2.3rem;
   height: 30px;
-  background-color: ${(props) => (props.isToggled ? "#f79a55" : "#0a1929ff")};
+  background-color: ${(props) => (props.isToggled ? "#f79a55" : "black")};
   border: none;
   border-radius: 24px;
   cursor: pointer;
@@ -202,7 +175,7 @@ const ViewButton = styled.button`
   width: 5rem;
   height: 30px;
   font-size: 12px;
-  background-color: #0a1929ff;
+  background-color: black;
   border: none;
   border-radius: 24px;
   cursor: pointer;
@@ -214,9 +187,7 @@ const ViewButton = styled.button`
   justify-content: center;
   font-weight: bold;
   color: white;
-   &:hover {
-    background-color: #0a1929ff;
-  }
+
 `;
 
 let copyBtn = props.copyBtn || "Copy Button";
@@ -238,7 +209,6 @@ return (
           Code<i className="bi bi-code-slash"></i>
         </ViewButton>
       </a>
-      <ColorText>{isToggleOn1 ? "#FFFFFF" : "#000000"}</ColorText>
       <ToggleButton onClick={toggleButton1} isToggled={isToggleOn1}>
         {isToggleOn1 ? SunIcon : MoonIcon}
       </ToggleButton>
