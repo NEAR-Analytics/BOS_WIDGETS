@@ -92,6 +92,9 @@ return (
           greater control over their financial activities and opportunities to
           earn passive income.
         </p>
+        <a href="https://jutsu.ai/35e3f7be109c2eb05164b3fe483f6e34873745217426ef65c8d51e3b613220e3/widget/Articles">
+          <button> Articles</button>
+        </a>
       </div>
       <Switch.Thumb className="SwitchThumb" />
     </Switch.Root>
