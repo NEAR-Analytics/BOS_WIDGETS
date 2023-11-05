@@ -191,6 +191,7 @@ return (
         {fullPostLink ? (
           <a
             key="full-post-link"
+            target="_blank"
             href={fullPostLink}
             className="text-decoration-none link-dark"
           >
