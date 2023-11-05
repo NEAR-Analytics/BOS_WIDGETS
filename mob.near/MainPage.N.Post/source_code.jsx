@@ -255,22 +255,24 @@ return (
         />
       </div>
     )}
-    {!props.hideComments && (
-      <Widget
-        key="comments"
-        loading={false}
-        src="mob.near/widget/MainPage.N.Comment.Feed"
-        props={{
-          item,
-          highlightComment: props.highlightComment,
-          limit: props.commentsLimit,
-          subscribe,
-          raw,
-          accounts: props.commentAccounts,
-          groupId,
-          permissions,
-        }}
-      />
-    )}
+    {props.customComments
+      ? props.customComments
+      : !props.hideComments && (
+          <Widget
+            key="comments"
+            loading={false}
+            src="mob.near/widget/MainPage.N.Comment.Feed"
+            props={{
+              item,
+              highlightComment: props.highlightComment,
+              limit: props.commentsLimit,
+              subscribe,
+              raw,
+              accounts: props.commentAccounts,
+              groupId,
+              permissions,
+            }}
+          />
+        )}
   </Wrapper>
 );
