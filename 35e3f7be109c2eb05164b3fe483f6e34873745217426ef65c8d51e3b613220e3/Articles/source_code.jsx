@@ -43,13 +43,16 @@ return (
         <h1>Crypto-Asset Concepts:</h1>
         <ul>
           <li>
-            <a href="#" onclick="readArticle('What is Bitcoin?')">
+            <a
+              href="https://jutsu.ai/35e3f7be109c2eb05164b3fe483f6e34873745217426ef65c8d51e3b613220e3/widget/article01"
+              onclick="readArticle('What is Bitcoin?')"
+            >
               1. What is Bitcoin?
             </a>
           </li>
           <li>
             <a
-              href="#"
+              href="https://jutsu.ai/35e3f7be109c2eb05164b3fe483f6e34873745217426ef65c8d51e3b613220e3/widget/Article02"
               onclick="readArticle('Understanding Blockchain Technology')"
             >
               2. Understanding Blockchain Technology
@@ -57,13 +60,16 @@ return (
           </li>
           <li>
             <a
-              href="#"
+              href="https://jutsu.ai/35e3f7be109c2eb05164b3fe483f6e34873745217426ef65c8d51e3b613220e3/widget/Article03"
               onclick="readArticle('Introduction to Decentralized Finance')"
             >
               3. Introduction to Decentralized Finance
             </a>
           </li>
         </ul>
+        <a href="https://jutsu.ai/35e3f7be109c2eb05164b3fe483f6e34873745217426ef65c8d51e3b613220e3/widget/intro">
+          <button> main page</button>
+        </a>
       </div>
       <Switch.Thumb className="SwitchThumb" />
     </Switch.Root>
