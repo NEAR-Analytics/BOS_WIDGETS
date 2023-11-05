@@ -116,9 +116,11 @@ const fetchMore = displayCount < comments.length && (
   </div>
 );
 
-return (
-  <>
+return comments.length > 0 ? (
+  <div style={{ marginLeft: "52px" }}>
     {order.slice(0, displayCount).map((i) => render(comments[i]))}
     {fetchMore}
-  </>
+  </div>
+) : (
+  ""
 );
