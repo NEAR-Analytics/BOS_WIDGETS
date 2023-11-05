@@ -327,7 +327,7 @@ const fether = {
     );
   },
 };
-// const balances = fether.balances([daoId]);
+const balances = fether.balances([daoId]);
 // const proposalsStatus = fether.proposalsStatus(daoId);
 
 // let activeProposalsCount;
@@ -367,7 +367,7 @@ return (
         <AmountSec>
           <div>
             <span>Total Funds</span>
-            {balances.body ? (
+            {balances?.body ? (
               <b className="me-1">{shortenNumber(balances.body.totalUsd)}USD</b>
             ) : (
               <p>0</p>
