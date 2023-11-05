@@ -59,22 +59,22 @@ return (
       <div>
         <ul>
           <h2> Blockchain and Crypto-Assets Courses: </h2>
-        
+
           <li>
             <a href="https://jutsu.ai/35e3f7be109c2eb05164b3fe483f6e34873745217426ef65c8d51e3b613220e3/widget/blockchainCourse">
               Introduction to Blockchain{" "}
             </a>
           </li>
           <li>
-          <a href="https://jutsu.ai/35e3f7be109c2eb05164b3fe483f6e34873745217426ef65c8d51e3b613220e3/widget/cryptoCourse">
-          Cryptocurrency Basics
-           </a>
+            <a href="https://jutsu.ai/35e3f7be109c2eb05164b3fe483f6e34873745217426ef65c8d51e3b613220e3/widget/cryptoCourse">
+              Cryptocurrency Basics
+            </a>
           </li>
           <li>
-          <a href="https://jutsu.ai/35e3f7be109c2eb05164b3fe483f6e34873745217426ef65c8d51e3b613220e3/widget/smartcontractsCourse">
-          Smart Contracts and Decentralized Applications
-              </a>
-              </li>
+            <a href="https://jutsu.ai/35e3f7be109c2eb05164b3fe483f6e34873745217426ef65c8d51e3b613220e3/widget/smartcontractsCourse">
+              Smart Contracts and Decentralized Applications
+            </a>
+          </li>
         </ul>
         Please click on the course that you want to enroll in
         <a href="https://jutsu.ai/35e3f7be109c2eb05164b3fe483f6e34873745217426ef65c8d51e3b613220e3/widget/intro">
