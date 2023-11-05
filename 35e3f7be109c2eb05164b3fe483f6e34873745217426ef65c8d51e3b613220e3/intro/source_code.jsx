@@ -11,7 +11,7 @@ div {
 h1 {
   color: #333;
   font-size: 36px;
-  margin-bottom: 2px;
+  margin-bottom: 50px;
   text-align: center;
 }
 
@@ -46,7 +46,7 @@ return (
     <Switch.Root className="SwitchRoot">
       <div>
         <ul>
-          <h1> Welcome to our Crypto App!</h1>
+          <h1> Welcome to our Crypto App!</h1><br />
           <li>
             <a href="https://jutsu.ai/35e3f7be109c2eb05164b3fe483f6e34873745217426ef65c8d51e3b613220e3/widget/courses">
               Courses and training
