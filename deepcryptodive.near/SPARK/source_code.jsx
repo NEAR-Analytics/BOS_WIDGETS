@@ -36,10 +36,10 @@ function getNetworkConfig(chainId) {
     FIXED_LIQUIDATION_VALUE: "1.0",
     MAX_UINT_256:
       "0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
-    AAVE_API_BASE_URL: "http://localhost:8080",
+    AAVE_API_BASE_URL: "https://spark-api.pages.dev/",
     // this connects to our custom Spark Protocol Data Service
     // see https://github.com/Deepcryptodive/spark-data-service
-    // URL to be changed to https://spark-api.pages.dev/ once DNS is propagated and domain is up
+    // If you want to run it on localhost, change it to "http://localhost:8080"
   };
 
   switch (chainId) {
