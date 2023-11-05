@@ -32,7 +32,7 @@ const comments = rawIndex
       blockHeight,
       item: {
         type: "social",
-        path: value?.item?.path ?? `${accountId}/comment/main`,
+        path: value?.item?.path ?? `${accountId}/post/comment`,
         blockHeight: value?.item?.blockHeight ?? blockHeight,
       },
     };
