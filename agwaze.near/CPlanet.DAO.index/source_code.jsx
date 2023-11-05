@@ -21,7 +21,7 @@ const ImageSection = styled.div`
 
 const RightProfile = styled.div`
     margin-top: 104px;
-    width: 200px;
+    width: 250px;
     width: 315px;
     padding: 0 20px;
     .title {
