@@ -4,7 +4,8 @@ width: 100%;
 height: auto;
 
 border-radius: 10px;
-background-color: rgb(0, 0, 0);box-shadow: rgba(0, 0, 0, 0.08) 0px 4px 15px;
+background-color:  rgb(7, 8, 20);
+box-shadow: rgba(0, 0, 0, 0.08) 0px 4px 15px;
 display: flex;
 flex-direction: column;
 align-items: center;
@@ -19,7 +20,6 @@ ease-in-out 0s;
   height: 100%;
 
   overflow: hidden;
-
   border: 10px solid white;
 
 }
@@ -794,7 +794,6 @@ return (
     <Widget src="dd1e4dc79092f25987af6d882fe6a33acca7d672245e13e99243c17745d08fa0/widget/Hpost" />
 
     <div>
-      <h2 classname="text">Other Users Posts</h2>
       {loop().map((item) => (
         <div>
           <Widget
