@@ -3,6 +3,7 @@ if (!context.accountId) {
 }
 
 const item = props.item;
+const rootItem = props.rootItem;
 
 if (!context.accountId) {
   return "";
@@ -11,7 +12,7 @@ if (!context.accountId) {
 const composeData = () => {
   const data = {
     post: {
-      comment: JSON.stringify(Object.assign({ item }, state.content)),
+      comment: JSON.stringify(Object.assign({ item, rootItem }, state.content)),
     },
     index: {
       comment: JSON.stringify({
