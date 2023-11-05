@@ -17,7 +17,6 @@ const ArtCard = styled.div`
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   padding: 16px;
   text-align: center;
-  width: 70%; /* Set a fixed width for each art card */
 
   h2 {
     font-size: 1.5rem;
@@ -31,7 +30,13 @@ const ArtCard = styled.div`
 
   img {
     max-width: 100%;
+    max-height: 100%; /* Ensure images do not exceed their container */
+    object-fit: contain; /* Maintain aspect ratio while fitting */
     border-radius: 8px;
+  }
+
+  button {
+    margin-top: auto; /* Push the button to the bottom */
   }
 }`;
 
