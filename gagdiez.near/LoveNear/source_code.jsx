@@ -76,17 +76,17 @@ const loggedIn = (
 );
 const loggedOut = (
   <>
-    Login to show some <span class="text-danger">love</span>
+    Login to show some <span className="text-danger">love</span>
   </>
 );
 
 return (
   <Main>
-    <div class="text-center">
-      <h3 class="font-weight-bold"> Welcome to Near </h3>
+    <div className="text-center">
+      <h3 className="font-weight-bold"> Welcome to Near </h3>
 
-      <div class="container py-3 text-dark bg-light rounded-3">
-        <p class="small font-weight-light">
+      <div className="container py-3 text-dark bg-light rounded-3">
+        <p className="small font-weight-light">
           {context.accountId ? loggedIn : loggedOut}
         </p>
 
