@@ -57,7 +57,7 @@ function makeAccountIdShorter(accountId, shortenLength) {
 
 return (
   <Root
-    href={`agwaze.near/widget/CPlanet.index?tab=profile&accountId=${daoId}`}
+    href={`#/agwaze.near/widget/CPlanet.index?tab=profile&accountId=${daoId}`}
   >
     <div className="profile">
       <img
