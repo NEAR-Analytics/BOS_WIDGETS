@@ -4,7 +4,7 @@ const Wrapper = styled.div`
 body {
   background-color: #f2f2f2;
   padding: 200;
-  margin: 200;
+  margin: 300;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -15,14 +15,14 @@ body {
 h1 {
   color: #333;
   font-size: 28px;
-  margin-bottom: 50px;
+  margin-bottom: 120px;
 }
 
 /* Style for the quiz options */
 p {
   color: #0066cc;
   font-size: 20px;
-  margin-bottom: 10px;
+  margin-bottom: 20px;
 }
 
 /* Style for the input field */
@@ -37,7 +37,7 @@ input {
 button {
   background-color: #0066cc;
   color: #fff;
-  padding: 15px 360px;
+  padding: 16px 360px;
   border-radius: 700px;
   border: none;
   cursor: pointer;
