@@ -1,4 +1,5 @@
 const item = props.item;
+const rootItem = props.rootItem;
 const depth = props.depth ?? 1;
 const renderLoading = () => "Loading";
 const fetchLimit = props.fetchLimit ? parseInt(props.fetchLimit) : 100;
@@ -64,19 +65,24 @@ const score = (i) => {
 const order = [...Array(comments.length).keys()];
 order.sort((a, b) => score(b) - score(a));
 
-const renderItem = (a) =>
-  a.value.type === "md" && (
+const render = (comment) => {
+  const accountId = comment.item.path.split("/")[0];
+  const blockHeight = comment.item.blockHeight;
+
+  return (
     <>
       <Widget
-        key={JSON.stringify(a)}
+        key={JSON.stringify(comment)}
         loading={<div className="w-100" style={{ minHeight: "200px" }} />}
         src="mob.near/widget/Neddit.Comment"
         props={{
-          accountId: a.accountId,
-          blockHeight: a.blockHeight,
-          // highlight:
-          //   a.accountId === props.highlightComment?.accountId &&
-          //   a.blockHeight === props.highlightComment?.blockHeight,
+          accountId,
+          blockHeight,
+          rootItem,
+          item,
+          highlight:
+            accountId === props.highlightComment?.accountId &&
+            blockHeight === props.highlightComment?.blockHeight,
         }}
       />
       <Widget
@@ -84,11 +90,8 @@ const renderItem = (a) =>
         loading={false}
         src="mob.near/widget/Neddit.Comment.Feed"
         props={{
-          item: {
-            type: "social",
-            path: `${a.accountId}/post/comment`,
-            blockHeight: a.blockHeight,
-          },
+          item: comment.item,
+          rootItem,
           depth: depth + 1,
           initialRenderLimit: depth === 1 ? 3 : 0,
           renderLimit: 10,
@@ -96,6 +99,7 @@ const renderItem = (a) =>
       />
     </>
   );
+};
 
 const fetchMore = displayCount < comments.length && (
   <div key={"loader more"}>
