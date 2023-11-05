@@ -58,11 +58,11 @@ return (
       <div>
         <h1>Quizzes:</h1>
         <p>1. Beginner Quiz</p>
-        <button> start quiz  </button>
+        <button> start quiz </button>
         <p>2. Intermediate Quiz</p>
-        <button> start quiz  </button>
+        <button> start quiz </button>
         <p>3. Advanced Quiz</p>
-        <button> start quiz  </button>
+        <button> start quiz </button>
 
         <p> Or you can study more first: </p>
         <a href="https://jutsu.ai/35e3f7be109c2eb05164b3fe483f6e34873745217426ef65c8d51e3b613220e3/widget/intro">
