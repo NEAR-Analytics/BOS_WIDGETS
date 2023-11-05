@@ -2,15 +2,15 @@ const Wrapper = styled.div`
 .SwitchRoot {
     div {
   background-color: #f2f2f2;
-  padding: 400px;
+  padding: 200px;
   border-radius: 5px;
 }
 
 /* Style for the heading */
 h1 {
   color: #333;
-  font-size: 24px;
-  margin-bottom: 10px;
+  font-size: 27px;
+  margin-bottom: 140px;
 }
 
 /* Style for the unordered list */
@@ -21,7 +21,8 @@ ul {
 
 /* Style for the list items */
 li {
-  margin-bottom: 10px;
+  font-size: 25px;
+  margin-bottom: 120px;
 }
 
 /* Style for the links */
