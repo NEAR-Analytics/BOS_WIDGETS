@@ -326,16 +326,16 @@ const fether = {
     );
   },
 };
-const balances = fether.balances([daoId]);
-const proposalsStatus = fether.proposalsStatus(daoId);
+// const balances = fether.balances([daoId]);
+// const proposalsStatus = fether.proposalsStatus(daoId);
 
-let activeProposalsCount;
-let totalProposalsCount;
-proposalsStatus?.body?.length &&
-  proposalsStatus?.body?.forEach((p) => {
-    activeProposalsCount += p["InProgress"] ? parseInt(p["InProgress"]) : 0;
-    totalProposalsCount += p["Total"] ? parseInt(p["Total"]) : 0;
-  });
+// let activeProposalsCount;
+// let totalProposalsCount;
+// proposalsStatus?.body?.length &&
+//   proposalsStatus?.body?.forEach((p) => {
+//     activeProposalsCount += p["InProgress"] ? parseInt(p["InProgress"]) : 0;
+//     totalProposalsCount += p["Total"] ? parseInt(p["Total"]) : 0;
+//   });
 
 return (
   <Root>
