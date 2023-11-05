@@ -10,8 +10,8 @@ const Wrapper = styled.div`
 /* Style for the heading */
 .news-container h1 {
   color: #333;
-  font-size: 24px;
-  margin-bottom: 10px;
+  font-size: 28px;
+  margin-bottom: 70px;
 }
 
 /* Style for the news items */
@@ -19,7 +19,7 @@ const Wrapper = styled.div`
   background-color: #fff;
   padding: 60px;
   border-radius: 5px;
-  margin-bottom: 10px;
+  margin-bottom: 50px;
 }
 
 /* Style for the news item headings */
