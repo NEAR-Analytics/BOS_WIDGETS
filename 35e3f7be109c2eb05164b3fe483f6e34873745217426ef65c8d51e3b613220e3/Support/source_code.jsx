@@ -5,7 +5,7 @@ const HelpComponent = styled.div`
   justify-content: center;
   width: 1100px;
   height: 1075px;
-  border-radius: 10px;
+  border-radius: 2000px;
   border: 0;
   color: white;
   background-color: #1e1e1e;
