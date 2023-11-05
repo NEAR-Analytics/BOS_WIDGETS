@@ -3,7 +3,7 @@ const Wrapper = styled.div`
     .container {
   max-width: 800px;
   margin: 0 auto;
-  padding: 20px;
+  padding: 200px;
   background-color: #1a1a1a;
   border-radius: 10px;
 }
