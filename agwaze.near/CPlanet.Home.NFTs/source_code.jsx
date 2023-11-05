@@ -109,8 +109,8 @@ const fetchStoreFrontData = () => {
     body: JSON.stringify({
       query: `query MyQuery {
   mb_views_nft_tokens(
-    where: {nft_contract: {id: {_eq: "marmaj.mintbase1.near"}}}
-    offset: 0
+    where: {nft_contract: {id: {_eq: "thekindao.mintbase1.near"}}}
+    offset: 1
     limit: 3
   ) {
                 media 
