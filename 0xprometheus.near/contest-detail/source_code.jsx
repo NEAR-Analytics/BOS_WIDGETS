@@ -4,8 +4,9 @@ const ArtGalleryContainer = styled.div`
 `;
 
 const ArtCardContainer = styled.div`
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  display: flex;
+  flex-wrap: wrap; /* Allow the art cards to wrap to the next row */
+  justify-content: center; /* Center the art cards horizontally */
   gap: 20px;
 `;
 
@@ -16,11 +17,7 @@ const ArtCard = styled.div`
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   padding: 16px;
   text-align: center;
-  transition: transform 0.2s ease-in-out;
-  &:hover {
-    position: relative;
-    transform: scale(0.97);
-  }
+  width: 70%; /* Set a fixed width for each art card */
 
   h2 {
     font-size: 1.5rem;
@@ -36,7 +33,7 @@ const ArtCard = styled.div`
     max-width: 100%;
     border-radius: 8px;
   }
-`;
+}`;
 
 const VoteButton = styled.button`
   background-color: #007BFF;
@@ -99,10 +96,10 @@ const handleArtSelection = (nft_data) => {
     "submit_art",
     {
       nft_contract_id: nft_data.contractId,
-      token_id: nft_data.tokenId,
+      token_id: nft_data.tokenId.toString(),
       contest_id: 1,
     },
-    "",
+    "75000000000000",
     "10000000000000000000000"
   );
 };
@@ -119,6 +116,12 @@ return (
     <SubmitArtButton onClick={toggleArtSelection}>
       Make Art Entry
     </SubmitArtButton>
+    {state.showArtSelection && (
+      <Widget
+        src="sainthiago.near/widget/nft-selector"
+        props={{ accountId: context.accountId, onChange: handleArtSelection }}
+      />
+    )}
     <ArtCardContainer>
       {contests.map((art, index) => (
         <ArtCard key={index}>
@@ -138,11 +141,5 @@ return (
         </ArtCard>
       ))}
     </ArtCardContainer>
-    {state.showArtSelection && (
-      <Widget
-        src="sainthiago.near/widget/nft-selector"
-        props={{ accountId: context.accountId, onChange: handleArtSelection }}
-      />
-    )}
   </ArtGalleryContainer>
 );
