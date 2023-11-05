@@ -289,13 +289,53 @@ const background = profile.backgroundImage
   : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRub7hFLkStCvZiaSeiUGznP4uzqPPcepghhg&usqp=CAU";
 
 useEffect(() => {
-  console.log(policy);
   setCouncilMembers(
     policy.roles.filter(
       (data) => data.name === "council" || data.name === "Council"
     )[0]?.kind?.Group
   );
 }, [policy]);
+
+const fetchApiConfig = {
+  mode: "cors",
+  headers: {
+    "x-api-key": publicApiKey,
+  },
+};
+
+const constructURL = (baseURL, paramObj) => {
+  let params = "";
+  for (const [key, value] of Object.entries(paramObj ?? {})) {
+    params += `${key}=${value}&`;
+  }
+  params = params.slice(0, -1);
+  return `${baseURL}?${params}`;
+};
+
+const fether = {
+  balances: (accounts) => {
+    return fetch(
+      constructURL(`${baseApi}/account/balances`, { accounts }),
+      fetchApiConfig
+    );
+  },
+  proposalsStatus: (daoId) => {
+    return fetch(
+      constructURL(`${baseApi}/daos/proposals/status/${daoId}`),
+      fetchApiConfig
+    );
+  },
+};
+const balances = fether.balances([daoId]);
+const proposalsStatus = fether.proposalsStatus(daoId);
+
+let activeProposalsCount;
+let totalProposalsCount;
+proposalsStatus.body &&
+  proposalsStatus.body?.forEach((p) => {
+    activeProposalsCount += p["InProgress"] ? parseInt(p["InProgress"]) : 0;
+    totalProposalsCount += p["Total"] ? parseInt(p["Total"]) : 0;
+  });
 
 return (
   <Root>
@@ -326,9 +366,13 @@ return (
         <AmountSec>
           <div>
             <span>Total Funds</span>
-            <p>
-              {props.totalFunds ?? "0"}/<span>0</span>
-            </p>
+               {balances.body ? (
+                <b className="me-1">
+                  {shortenNumber(balances.body.totalUsd)}USD
+                </b>
+              ) : (
+                <p>0</p>
+              )}
           </div>
           <div>
             <span>Members / Group</span>
