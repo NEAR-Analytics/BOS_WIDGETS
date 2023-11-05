@@ -15,6 +15,7 @@ const raw = !!props.raw;
 const groupId = props.groupId ?? content.groupId;
 const indexKey = props.indexKey;
 const permissions = props.permissions;
+const fullPostLink = props.fullPostLink;
 
 const notifyAccountId = accountId;
 const item = {
@@ -133,6 +134,25 @@ const Wrapper = styled.div`
   }
 `;
 
+const contentWidget = (
+  <Widget
+    key="content"
+    loading={
+      <div
+        className="overflow-hidden w-100 placeholder-glow"
+        style={{ minHeight: "100px" }}
+      />
+    }
+    src="mob.near/widget/MainPage.N.Post.Content"
+    props={{
+      content,
+      raw,
+      truncateContent: props.truncateContent,
+      noEmbed: props.noEmbed,
+    }}
+  />
+);
+
 return (
   <Wrapper
     style={
@@ -165,21 +185,17 @@ return (
             flagItem: item,
           }}
         />
-        <Widget
-          loading={
-            <div
-              className="overflow-hidden w-100 placeholder-glow"
-              style={{ minHeight: "100px" }}
-            />
-          }
-          src="mob.near/widget/MainPage.N.Post.Content"
-          props={{
-            content,
-            raw,
-            truncateContent: props.truncateContent,
-            noEmbed: props.noEmbed,
-          }}
-        />
+        {fullPostLink ? (
+          <a
+            key="full-post-link"
+            href={fullPostLink}
+            className="text-decoration-none link-dark"
+          >
+            {contentWidget}
+          </a>
+        ) : (
+          contentWidget
+        )}
         {!pinned && !hideButtons && blockHeight !== "now" ? (
           <div className="buttons d-flex justify-content-between">
             <Widget
