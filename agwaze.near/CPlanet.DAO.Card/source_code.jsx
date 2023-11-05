@@ -121,7 +121,7 @@ const AmountSec = styled.div`
   align-items: flex-start;
   gap: 10px;
   .amount {
-    font-size: 5px !important;
+    font-size: 14px !important;
   }
   div {
     span {
@@ -344,12 +344,9 @@ return (
             <span>Total Funds</span>
             <p className="amount">
               {balances.body ? (
-                <span>
-                  <b className="me-1">
-                    {shortenNumber(balances.body.totalUsd)}USD
-                  </b>
-                  
-                </span>
+                <b className="me-1">
+                  {shortenNumber(balances.body.totalUsd)}USD
+                </b>
               ) : (
                 <p>0</p>
               )}
