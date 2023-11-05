@@ -965,7 +965,7 @@ function Mint() {
       console.log(transactionHash);
       State.update({
         txHash: transactionHash.hash,
-        valAmount: state.Amount,
+        valAmount: state.btcAmountToProove,
         ring: "14JCLsKRnLZNeYk4SAVmXyXRHxr7ZzHezd <br/> 19ZGQYEBTkY3pErS7DtnPBHkBvpMezgueo <br/> 1M9VJDR7MjvfTMF7Kn8QP8nzRJqrqRGQxz",
       });
     });
