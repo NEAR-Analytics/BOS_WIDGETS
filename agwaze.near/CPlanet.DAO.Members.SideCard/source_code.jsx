@@ -58,7 +58,7 @@ function makeAccountIdShorter(accountId, shortenLength) {
 return (
   <Root
     target="_blank"
-    href={`https://near.social/agwaze.near/widget/GenaDrop.Profile.Main?accountId=${props.userId}`}
+    href={`agwaze.near/widget/CPlanet.index?tab=profile&accountId=${daoId}`}
   >
     <div className="profile">
       <img
@@ -70,7 +70,11 @@ return (
       />
       <div className="name">
         <h2>
-          {makeAccountIdShorter(profile.name, 90) ?? "OG Badge (SBT) DAO"}
+          {props.name
+            ? makeAccountIdShorter(profile.name, 90)
+            : props.userId
+            ? props.userId
+            : "OG Badge (SBT) DAO"}
         </h2>
         <span>{props.userId ?? "@og-sbt.sputnik-dao.near"}</span>
       </div>
