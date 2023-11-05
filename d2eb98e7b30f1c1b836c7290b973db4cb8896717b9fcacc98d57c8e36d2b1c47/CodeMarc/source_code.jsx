@@ -70,9 +70,9 @@ async function proveEli() {
 
 return (
   <>
-    <a href="https://near.org/d2eb98e7b30f1c1b836c7290b973db4cb8896717b9fcacc98d57c8e36d2b1c47/widget/PageInsurance0">
+    <div href="https://near.org/d2eb98e7b30f1c1b836c7290b973db4cb8896717b9fcacc98d57c8e36d2b1c47/widget/PageInsurance0">
       <Button>MintPage</Button>
-    </a>
+    </div>
     <div>
       <Web3Connect
         className="swap-button-enabled swap-button-text p-2"
