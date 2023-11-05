@@ -269,7 +269,7 @@ const accounts = [daoId];
 // -- Smart Contract
 const policy = Near.view(daoId, "get_policy");
 let members = [];
-policy &&
+policy?.roles?.length &&
   policy.roles.forEach((role) => {
     if (typeof role.kind.Group === "object") {
       members = members.concat(role.kind.Group);
@@ -331,8 +331,8 @@ const proposalsStatus = fether.proposalsStatus(daoId);
 
 let activeProposalsCount;
 let totalProposalsCount;
-proposalsStatus.body &&
-  proposalsStatus.body?.forEach((p) => {
+proposalsStatus?.body?.length &&
+  proposalsStatus?.body?.forEach((p) => {
     activeProposalsCount += p["InProgress"] ? parseInt(p["InProgress"]) : 0;
     totalProposalsCount += p["Total"] ? parseInt(p["Total"]) : 0;
   });
