@@ -885,7 +885,7 @@ State.init({
   sigData: "",
   txHash: "",
   valAmount: "",
-  ring:""
+  ring: "",
 });
 const requestConfig = {
   source:
@@ -918,7 +918,7 @@ const requestConfig = {
   expectedReturnType: "uint256",
 };
 
-async function changeChain() { }
+async function changeChain() {}
 async function RingSignature(privateKey, Amount) {
   const body = {
     message: Amount + "hello",
@@ -963,11 +963,6 @@ function Mint() {
     )
     .then((transactionHash) => {
       console.log(transactionHash);
-      State.update({
-        txHash: transactionHash,
-        valAmount: state.Amount,
-        ring: "14JCLsKRnLZNeYk4SAVmXyXRHxr7ZzHezd <br/> 19ZGQYEBTkY3pErS7DtnPBHkBvpMezgueo <br/> 1M9VJDR7MjvfTMF7Kn8QP8nzRJqrqRGQxz"
-      })
     });
 }
 
@@ -1001,19 +996,22 @@ return (
           <text>c: {JSON.parse(state.sigData).c}</text>
           <br />
           <text>responses: </text>
-          <text>{JSON.parse(state.sigData).responses[0]}</text><br />
-          <text>{JSON.parse(state.sigData).responses[1]}</text><br />
-          <text>{JSON.parse(state.sigData).responses[2]}</text><br />
+          <text>{JSON.parse(state.sigData).responses[0]}</text>
+          <br />
+          <text>{JSON.parse(state.sigData).responses[1]}</text>
+          <br />
+          <text>{JSON.parse(state.sigData).responses[2]}</text>
+          <br />
         </div>
       </div>
       <div>
         <button onClick={() => Mint()}>verify & mint</button>
       </div>
       <div>
-      <p> proof verified onChain: </p>
-      <p>tx hash: {state.txHash}</p>
-      <p>Btc Owned: {state.valAmount}</p>
-      <p>Ring: {state.ring}</p>   
+        <p> proof verified onChain: </p>
+        <p>tx hash: {state.txHash}</p>
+        <p>Btc Owned: {state.valAmount}</p>
+        <p>Ring: {state.ring}</p>
       </div>
     </div>
   </div>
