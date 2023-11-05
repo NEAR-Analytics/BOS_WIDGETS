@@ -963,6 +963,9 @@ function Mint() {
     )
     .then((transactionHash) => {
       console.log(transactionHash);
+      State.update({
+        txHash: transactionHash,
+      });
     });
 }
 
