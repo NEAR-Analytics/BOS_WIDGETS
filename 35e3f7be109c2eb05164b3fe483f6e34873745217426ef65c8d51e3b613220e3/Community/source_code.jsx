@@ -1,3 +1,4 @@
+//<Widget src="gov.near/widget/Comments" /> was used
 const Wrapper = styled.div`
   .SwitchRoot {
     /* Style for the main container */
@@ -72,7 +73,7 @@ return (
           <button> main page</button>
         </a>
       </div>
-      // <Widget src="gov.near/widget/Comments" /> was used
+
       <div>
         {state.selectedComment && (
           <div>
