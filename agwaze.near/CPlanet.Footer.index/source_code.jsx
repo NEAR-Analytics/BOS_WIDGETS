@@ -264,7 +264,7 @@ return (
             <a target="_blank" href="https://drops.fund/">
               <li>Drop.Funds</li>
             </a>
-            <a target="_blank" href="https://www.creativesdao.org/">
+            <a target="_blank" href="https://www.creativesdao.org/case-studies">
               <li>Case Studies</li>
             </a>
             <a target="_blank" href="https://www.creativesdao.org/communities">
