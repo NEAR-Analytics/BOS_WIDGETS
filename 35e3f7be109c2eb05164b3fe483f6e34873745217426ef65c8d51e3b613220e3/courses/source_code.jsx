@@ -76,10 +76,10 @@ return (
             </a>
           </li>
         </ul>
-        Please click on the course that you want to enroll in 
+        Please click on the course that you want to enroll in
         <br />
-        <a href="https://jutsu.ai/35e3f7be109c2eb05164b3fe483f6e34873745217426ef65c8d51e3b613220e3/widget/intro"> 
-        <br />
+        <a href="https://jutsu.ai/35e3f7be109c2eb05164b3fe483f6e34873745217426ef65c8d51e3b613220e3/widget/intro">
+          <br />
           <button> main page</button>
         </a>
       </div>
