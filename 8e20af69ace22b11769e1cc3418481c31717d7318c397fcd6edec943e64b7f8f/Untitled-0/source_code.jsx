@@ -743,19 +743,15 @@ const contractABI = [
         name: "subscriptionId",
         type: "uint64",
       },
-      {
-        internalType: "uint32",
-        name: "callbackGasLimit",
-        type: "uint32",
-      },
+    ],
+    name: "sendRequest",
+    outputs: [
       {
         internalType: "bytes32",
-        name: "donId",
+        name: "",
         type: "bytes32",
       },
     ],
-    name: "sendRequest",
-    outputs: [],
     stateMutability: "nonpayable",
     type: "function",
   },
@@ -878,6 +874,7 @@ const contractABI = [
     type: "function",
   },
 ];
+
 const sender = Ethers.send("eth_requestAccounts", [])[0];
 if (!sender) return <Web3Connect connectLabel="Connect with Web3" />;
 console.log(sender);
@@ -885,6 +882,7 @@ State.init({
   btcPrivateKey: "",
   btcAmountToProove: "",
   signatureData: "",
+  sigData: "",
 });
 const requestConfig = {
   source:
@@ -934,35 +932,35 @@ async function RingSignature(privateKey, Amount) {
     body: JSON.stringify(body),
   }).then((res) => {
     console.log("test: ", res);
-    const uptime = res.body.uptime_sec;
-    State.update({ signatureData: uptime });
+    //const uptime = res.body.uptime_sec;
+    //State.update({ signatureData: uptime });
+    //state.sigData = res;
   });
   // return the payload using a state
 }
 
 function Mint() {
-  console.log();
   const consumerContract = new ethers.Contract(
-    "0x4C6Fee11a45D315B5d46a0CD339FF454BA1d82f4",
+    "0xEcc3f2E5E9411D3ba56F403c637d095c353eac6d",
     contractABI,
     Ethers.provider().getSigner()
   );
-  console.log(consumerContract);
-  const a = consumerContract.sendRequest(
-    requestConfig.source,
-    requestConfig.secretsLocation,
-    [],
-    requestConfig.args,
-    [],
-    1573,
-    10000000,
-    "fun-ethereum-sepolia-1"
-    /*"ring message",
-        "ring",
-        "responses",
-        "c"*/
-  );
-  console.log(a);
+  consumerContract
+    .sendRequest(
+      requestConfig.source,
+      requestConfig.secretsLocation,
+      "0x",
+      requestConfig.args,
+      [],
+      1573
+      /*"ring message",
+    "ring",
+    "responses",
+    "c"*/
+    )
+    .then((transactionHash) => {
+      console.log(transactionHash);
+    });
 }
 
 return (
@@ -988,13 +986,9 @@ return (
         Prooooooove it !
       </button>
       <div>
+        <div></div>
         <div>
-          <text>Private Key{state.btcPrivateKey}</text>
-          <div></div>
-          <text>Amount to proove{state.btcAmountToProove}</text>
-        </div>
-        <div>
-          <text>SigData {state.abi}</text>
+          <text>SigData {state.sigData}</text>
         </div>
       </div>
       <div>
