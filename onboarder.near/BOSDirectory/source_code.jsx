@@ -131,6 +131,43 @@ const social = {
       deploy:
         "https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fneardefi%2Fpolygon-bos-gateway&build-command=pnpm%20run%20build&env=NEXT_PUBLIC_NETWORK_ID,NEXT_PUBLIC_HOSTNAME&envDescription=mainnet-near.org&envLink=https%3A%2F%2Fgithub.com%2FNearDeFi%2Fpolygon-bos-gateway%2Fblob%2Fmain%2F.env.example",
       github: "https://github.com/NearDeFi/polygon-bos-gateway",
+      
+    },
+            {
+      key: 5,
+      name: "DiscoverBOS",
+      url: "https://discoverBOS.org/",
+      image:
+        "https://ipfs.near.social/ipfs/bafkreibvkbftan5qp7z3bfhhug4wyylv4jqusagxghaay23ur6h55pxr6a",
+      description:
+        "Discover • Explore • Connect • Learn about the World of BOS",
+      category: ["NEAR", "Ecosystem"],
+      deploy: null,
+      github: "https://github.com/NEARBuilders/discoverbos",
+    },
+                {
+      key: 5,
+      name: "Coin98 dApp Store",
+      url: "https://dapps.coin98.com/menu/bos",
+      image:
+        "https://ipfs.near.social/ipfs/bafkreif2drapmwrnkuesydwvs33oalc5znw3zfhhmccicrsh5fz3ndumg4",
+      description:
+        "r dapp store offers hassle-free interaction with the most exciting L2s in the market.",
+      category: ["DeFi", "EVM"],
+      deploy: null,
+      github: null,
+    },
+        {
+      key: 5,
+      name: "DapDap",
+      url: "https://alpha.dapdap.net/",
+      image:
+        "https://ipfs.near.social/ipfs/bafkreienulavlellluopn6eq7432xjeczfajvdjkdvnsvvsdz52ekodkdm",
+      description:
+        "Your universal entry point to L2s. All of DeFi in one stop.",
+      category: ["DeFi", "EVM"],
+      deploy: null,
+      github: null,
     },
     {
       key: 5,
