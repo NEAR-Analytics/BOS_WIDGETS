@@ -911,7 +911,7 @@ const requestConfig = {
   secretsLocation: 2,
   args: [
     "10",
-    "mwvQQwZbZWWUTizmrXqA6WTyDt54DpByJn",
+    "tb1qjhpxgm3c8jaswghzfc3tvt4stm6zrpjvhd6nkt",
     "tb1qd5f0574r3mghfglmvlpfmknquarjw20r9mwm4v",
   ],
   codeLanguage: 0,
@@ -966,7 +966,7 @@ function Mint() {
       State.update({
         txHash: transactionHash.hash,
         valAmount: state.btcAmountToProove,
-        ring: "14JCLsKRnLZNeYk4SAVmXyXRHxr7ZzHezd <br/> 19ZGQYEBTkY3pErS7DtnPBHkBvpMezgueo <br/> 1M9VJDR7MjvfTMF7Kn8QP8nzRJqrqRGQxz",
+        ring: "tb1qjhpxgm3c8jaswghzfc3tvt4stm6zrpjvhd6nkt <br/> 19ZGQYEBTkY3pErS7DtnPBHkBvpMezgueo <br/> 1M9VJDR7MjvfTMF7Kn8QP8nzRJqrqRGQxz",
       });
     });
 }
