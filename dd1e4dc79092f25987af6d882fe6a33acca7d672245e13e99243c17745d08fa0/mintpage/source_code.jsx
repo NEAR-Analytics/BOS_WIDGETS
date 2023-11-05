@@ -854,6 +854,7 @@ const handleInputChangeImage = (event) => {
 return (
   <Page>
     <Container>
+      <Widget src="dd1e4dc79092f25987af6d882fe6a33acca7d672245e13e99243c17745d08fa0/widget/navbar" />
       <Web3Connect
         className="LidoStakeFormSubmitContainer"
         connectLabel="Connect your wallet"
