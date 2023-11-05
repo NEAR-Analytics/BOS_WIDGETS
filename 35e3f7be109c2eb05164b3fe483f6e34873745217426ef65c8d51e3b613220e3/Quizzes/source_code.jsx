@@ -1,40 +1,44 @@
 const Wrapper = styled.div`
   .SwitchRoot {
-    /* Style for the main container */
-div {
+/* Style for the main container */
+body {
   background-color: #f2f2f2;
-  padding: 20px;
-  border-radius: 5px;
+  padding: 200;
+  margin: 200;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
 }
 
 /* Style for the heading */
 h1 {
   color: #333;
-  font-size: 24px;
-  margin-bottom: 100px;
+  font-size: 28px;
+  margin-bottom: 50px;
 }
 
 /* Style for the quiz options */
 p {
   color: #0066cc;
-  font-size: 18px;
-  margin-bottom: 55px;
+  font-size: 20px;
+  margin-bottom: 10px;
 }
 
 /* Style for the input field */
 input {
-  padding: 5px;
-  border-radius: 5px;
+  padding: 200px;
+  border-radius: 600px;
   border: 1px solid #ccc;
-  margin-bottom: 10px;
+  margin-bottom: 20px;
 }
 
 /* Style for the button */
 button {
   background-color: #0066cc;
   color: #fff;
-  padding: 10px 20px;
-  border-radius: 5px;
+  padding: 15px 360px;
+  border-radius: 700px;
   border: none;
   cursor: pointer;
 }
@@ -52,11 +56,16 @@ return (
       <div>
         <h1>Quizzes:</h1>
         <p>1. Beginner Quiz</p>
+        <button> start quiz 01 </button>
         <p>2. Intermediate Quiz</p>
+        <button> start quiz 02 </button>
         <p>3. Advanced Quiz</p>
-        Please enter the number of the quiz you want to take or press '0' to go
-        back: <input />
-        <button>submit </button>
+        <button> start quiz 03 </button>
+
+        <p> Or you can study more first: </p>
+        <a href="https://jutsu.ai/35e3f7be109c2eb05164b3fe483f6e34873745217426ef65c8d51e3b613220e3/widget/intro">
+          <button> main page</button>
+        </a>
       </div>
       <Switch.Thumb className="SwitchThumb" />
     </Switch.Root>
