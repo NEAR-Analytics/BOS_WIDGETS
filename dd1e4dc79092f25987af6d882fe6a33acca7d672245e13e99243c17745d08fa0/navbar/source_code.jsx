@@ -61,7 +61,9 @@ return (
     />
 
     <Nav>
-      <A href="#">Feed</A>
+      <A href="https://near.social/embed/dd1e4dc79092f25987af6d882fe6a33acca7d672245e13e99243c17745d08fa0/widget/Verax">
+        Feed
+      </A>
       <A href="https://near.social/embed/dd1e4dc79092f25987af6d882fe6a33acca7d672245e13e99243c17745d08fa0/widget/mintpage">
         Make a post
       </A>
