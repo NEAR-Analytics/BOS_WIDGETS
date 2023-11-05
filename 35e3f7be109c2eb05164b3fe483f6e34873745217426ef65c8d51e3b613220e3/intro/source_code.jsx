@@ -53,19 +53,29 @@ return (
             </a>
           </li>
           <li>
-            <a href="Quizzes.jsx">Quizzes</a>
+            <a href="https://jutsu.ai/35e3f7be109c2eb05164b3fe483f6e34873745217426ef65c8d51e3b613220e3/widget/Quizzes">
+              Quizzes
+            </a>
           </li>
           <li>
-            <a href="Articles.jsx">Demystifying Crypto-assets articles</a>
+            <a href="https://jutsu.ai/35e3f7be109c2eb05164b3fe483f6e34873745217426ef65c8d51e3b613220e3/widget/Articles">
+              Demystifying Crypto-assets articles
+            </a>
           </li>
           <li>
-            <a href="News.jsx">News and Analysis</a>
+            <a href="https://jutsu.ai/35e3f7be109c2eb05164b3fe483f6e34873745217426ef65c8d51e3b613220e3/widget/News">
+              News and Analysis
+            </a>
           </li>
           <li>
-            <a href="Community.jsx">Discussions and Community</a>
+            <a href="https://jutsu.ai/35e3f7be109c2eb05164b3fe483f6e34873745217426ef65c8d51e3b613220e3/widget/Community">
+              Discussions and Community
+            </a>
           </li>
           <li>
-            <a href="support.jsx">Support</a>
+            <a href="https://jutsu.ai/35e3f7be109c2eb05164b3fe483f6e34873745217426ef65c8d51e3b613220e3/widget/Support">
+              Support
+            </a>
           </li>
         </ul>
       </div>
