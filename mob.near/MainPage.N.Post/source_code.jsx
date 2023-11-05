@@ -200,7 +200,9 @@ return (
         ) : (
           contentWidget
         )}
-        {!pinned && !hideButtons && blockHeight !== "now" ? (
+        {props.customButtons ? (
+          props.customButtons
+        ) : !pinned && !hideButtons && blockHeight !== "now" ? (
           <div className="buttons d-flex justify-content-between">
             <Widget
               loading=""
