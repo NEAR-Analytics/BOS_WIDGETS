@@ -147,10 +147,13 @@ return (
           marginBottom: 10,
         }}
       >
-        Having Trouble in Learning. Please contact us for more questions.
+        Having Trouble in Learning. Please contact us for more questions. if
+        this was a mistake, please go back to the main page.
       </Text>
-
       <HelpButton>contact us</HelpButton>
+      <a href="https://jutsu.ai/35e3f7be109c2eb05164b3fe483f6e34873745217426ef65c8d51e3b613220e3/widget/intro">
+        <button> main page</button>
+      </a>
     </HelpContent>
   </HelpComponent>
 );
