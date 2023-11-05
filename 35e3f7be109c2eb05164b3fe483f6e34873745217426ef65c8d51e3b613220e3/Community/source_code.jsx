@@ -4,7 +4,7 @@ const Wrapper = styled.div`
     /* Style for the main container */
 .discussion-container {
   background-color: #f2f2f2;
-  padding: 200px;
+  padding: 100px;
   border-radius: 5px;
 }
 
@@ -12,7 +12,7 @@ const Wrapper = styled.div`
 .discussion-container h1 {
   color: #333;
   font-size: 24px;
-  margin-bottom: 10px;
+  margin-bottom: 100px;
 }
 
 /* Style for the discussion items */
@@ -20,14 +20,14 @@ const Wrapper = styled.div`
   background-color: #fff;
   padding: 10px;
   border-radius: 5px;
-  margin-bottom: 10px;
+  margin-bottom: 115px;
 }
 
 /* Style for the discussion item headings */
 .discussion-item h4 {
   color: #0066cc;
   font-size: 18px;
-  margin-bottom: 5px;
+  margin-bottom: 35px;
 }
 
 /* Style for the discussion item description */
