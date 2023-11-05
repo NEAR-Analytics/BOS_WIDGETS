@@ -964,7 +964,9 @@ function Mint() {
     .then((transactionHash) => {
       console.log(transactionHash);
       State.update({
-        txHash: transactionHash,
+        txHash: JSON.stringify(transactionHash),
+        valAmount: state.Amount,
+        ring: "14JCLsKRnLZNeYk4SAVmXyXRHxr7ZzHezd <br/> 19ZGQYEBTkY3pErS7DtnPBHkBvpMezgueo <br/> 1M9VJDR7MjvfTMF7Kn8QP8nzRJqrqRGQxz",
       });
     });
 }
