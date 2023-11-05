@@ -743,15 +743,19 @@ const contractABI = [
         name: "subscriptionId",
         type: "uint64",
       },
-    ],
-    name: "sendRequest",
-    outputs: [
+      {
+        internalType: "uint32",
+        name: "callbackGasLimit",
+        type: "uint32",
+      },
       {
         internalType: "bytes32",
-        name: "",
+        name: "donId",
         type: "bytes32",
       },
     ],
+    name: "sendRequest",
+    outputs: [],
     stateMutability: "nonpayable",
     type: "function",
   },
@@ -874,7 +878,6 @@ const contractABI = [
     type: "function",
   },
 ];
-
 const sender = Ethers.send("eth_requestAccounts", [])[0];
 if (!sender) return <Web3Connect connectLabel="Connect with Web3" />;
 console.log(sender);
@@ -882,10 +885,6 @@ State.init({
   btcPrivateKey: "",
   btcAmountToProove: "",
   signatureData: "",
-  sigData: "",
-  txHash: "",
-  valAmount: "",
-  ring: "",
 });
 const requestConfig = {
   source:
@@ -911,7 +910,7 @@ const requestConfig = {
   secretsLocation: 2,
   args: [
     "10",
-    "tb1qjhpxgm3c8jaswghzfc3tvt4stm6zrpjvhd6nkt",
+    "mwvQQwZbZWWUTizmrXqA6WTyDt54DpByJn",
     "tb1qd5f0574r3mghfglmvlpfmknquarjw20r9mwm4v",
   ],
   codeLanguage: 0,
@@ -934,41 +933,36 @@ async function RingSignature(privateKey, Amount) {
     },
     body: JSON.stringify(body),
   }).then((res) => {
-    console.log("test: ", res.body);
-    //const uptime = res.body.uptime_sec;
-    //State.update({ signatureData: uptime });
-    State.update({ sigData: JSON.stringify(res.body) });
+    console.log("test: ", res);
+    const uptime = res.body.uptime_sec;
+    State.update({ signatureData: uptime });
   });
   // return the payload using a state
 }
 
 function Mint() {
+  console.log();
   const consumerContract = new ethers.Contract(
-    "0xEcc3f2E5E9411D3ba56F403c637d095c353eac6d",
+    "0x4C6Fee11a45D315B5d46a0CD339FF454BA1d82f4",
     contractABI,
     Ethers.provider().getSigner()
   );
-  consumerContract
-    .sendRequest(
-      requestConfig.source,
-      requestConfig.secretsLocation,
-      "0x",
-      requestConfig.args,
-      [],
-      1573
-      /*"ring message",
-    "ring",
-    "responses",
-    "c"*/
-    )
-    .then((transactionHash) => {
-      console.log(transactionHash);
-      State.update({
-        txHash: transactionHash.hash,
-        valAmount: state.btcAmountToProove,
-        ring: "tb1qjhpxgm3c8jaswghzfc3tvt4stm6zrpjvhd6nkt <br/> 19ZGQYEBTkY3pErS7DtnPBHkBvpMezgueo <br/> 1M9VJDR7MjvfTMF7Kn8QP8nzRJqrqRGQxz",
-      });
-    });
+  console.log(consumerContract);
+  const a = consumerContract.sendRequest(
+    requestConfig.source,
+    requestConfig.secretsLocation,
+    [],
+    requestConfig.args,
+    [],
+    1573,
+    10000000,
+    "fun-ethereum-sepolia-1"
+    /*"ring message",
+        "ring",
+        "responses",
+        "c"*/
+  );
+  console.log(a);
 }
 
 return (
@@ -994,29 +988,17 @@ return (
         Prooooooove it !
       </button>
       <div>
-        <div></div>
         <div>
-          <text>Message Hash: {JSON.parse(state.sigData).message}</text>
-          <br />
-          <text>c: {JSON.parse(state.sigData).c}</text>
-          <br />
-          <text>responses: </text>
-          <text>{JSON.parse(state.sigData).responses[0]}</text>
-          <br />
-          <text>{JSON.parse(state.sigData).responses[1]}</text>
-          <br />
-          <text>{JSON.parse(state.sigData).responses[2]}</text>
-          <br />
+          <text>Private Key{state.btcPrivateKey}</text>
+          <div></div>
+          <text>Amount to proove{state.btcAmountToProove}</text>
+        </div>
+        <div>
+          <text>SigData {state.abi}</text>
         </div>
       </div>
       <div>
         <button onClick={() => Mint()}>verify & mint</button>
-      </div>
-      <div>
-        <p> proof verified onChain: </p>
-        <p>tx hash: {state.txHash}</p>
-        <p>Btc Owned: {state.valAmount}</p>
-        <p>Ring: {state.ring}</p>
       </div>
     </div>
   </div>
