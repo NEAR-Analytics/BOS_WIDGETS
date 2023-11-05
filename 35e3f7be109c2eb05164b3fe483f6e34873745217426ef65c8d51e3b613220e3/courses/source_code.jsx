@@ -3,21 +3,23 @@ const Wrapper = styled.div`
     /* Style for the main container */
 div {
   background-color: #f2f2f2;
-  padding: 100px;
+  padding: 200px;
   border-radius: 5px;
+  weight: 100hv;
+  hight: 100%;
 }
 
 /* Style for the heading */
 h2 {
   color: #333;
   font-size: 25px;
-  margin-bottom: 22px;
+  margin-bottom: 50px;
 }
 
 /* Style for the unordered list */
 ul {
   list-style-type: none;
-  padding: 0;
+  padding: 100;
 }
 
 /* Style for the list items */
@@ -62,9 +64,10 @@ return (
           <li>Cryptocurrency Basics</li>
           <li>Smart Contracts and Decentralized Applications</li>
         </ul>
-        Please enter the number of the course you want to enroll in or press '0'
-        to go back: <input />
-        <button>Click Here </button>
+        Please click on the course that you want to enroll in
+        <a href="https://jutsu.ai/35e3f7be109c2eb05164b3fe483f6e34873745217426ef65c8d51e3b613220e3/widget/intro">
+          <button> main page</button>
+        </a>
       </div>
       <Switch.Thumb className="SwitchThumb" />
     </Switch.Root>
