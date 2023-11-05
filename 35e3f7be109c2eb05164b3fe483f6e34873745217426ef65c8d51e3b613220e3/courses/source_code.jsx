@@ -3,7 +3,7 @@ const Wrapper = styled.div`
     /* Style for the main container */
 div {
   background-color: #f2f2f2;
-  padding: 200px;
+  padding: 250px;
   border-radius: 5px;
   weight: 100hv;
   hight: 100%;
