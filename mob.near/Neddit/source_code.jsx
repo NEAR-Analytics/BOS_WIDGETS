@@ -69,14 +69,37 @@ const order = [...Array(posts.length).keys()];
 order.sort((a, b) => score(b) - score(a));
 
 const render = (post) => {
+  const accountId = post.item.path.split("/")[0];
+  const blockHeight = post.item.blockHeight;
+  const link = `/mob.near/widget/Neddit.Post.Page?accountId=${accountId}&blockHeight=${blockHeight}`;
   return (
     <div key={JSON.stringify(post)}>
       <Widget
         loading={<div className="w-100" style={{ height: "200px" }} />}
         src="mob.near/widget/MainPage.N.Post"
         props={{
-          accountId: post.item.path.split("/")[0],
-          blockHeight: post.item.blockHeight,
+          accountId,
+          blockHeight,
+          fullPostLink: link,
+          hideComments: true,
+          hideButtons: true,
+          customButtons: (
+            <div className="buttons d-flex justify-content-between">
+              <Widget
+                loading=""
+                src="mob.near/widget/N.LikeButton"
+                props={{
+                  notifyAccountId: accountId,
+                  item: post.item,
+                }}
+              />
+              <Widget
+                loading=""
+                src="mob.near/widget/MainPage.N.Post.ShareButton"
+                props={{ accountId, blockHeight, postType: "post", link }}
+              />
+            </div>
+          ),
         }}
       />
     </div>
