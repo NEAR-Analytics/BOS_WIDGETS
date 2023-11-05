@@ -1,6 +1,7 @@
 const Page = styled.div`
 background-color: #070814;
 height: 100%;
+width: 100%;
 `;
 
 const Container = styled.div`
