@@ -58,6 +58,12 @@ function makeAccountIdShorter(accountId, shortenLength) {
 return (
   <Root
     href={`#/agwaze.near/widget/CPlanet.index?tab=profile&accountId=${daoId}`}
+    onClick={() =>
+      props.update({
+        tab: "profile",
+        accountId: daoId,
+      })
+    }
   >
     <div className="profile">
       <img
