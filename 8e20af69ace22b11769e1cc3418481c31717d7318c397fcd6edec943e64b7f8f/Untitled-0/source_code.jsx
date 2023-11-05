@@ -992,7 +992,7 @@ return (
           <br />
           <text>c: {JSON.parse(state.sigData).c}</text>
           <br />
-          <text>Message Hash: {JSON.parse(state.sigData).responses}</text>
+          <text>responses: {JSON.parse(state.sigData).responses}</text>
         </div>
       </div>
       <div>
