@@ -17,6 +17,7 @@ const ArtCard = styled.div`
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   padding: 16px;
   text-align: center;
+  width: 300px; /* Set a fixed width for each art card */
 
   h2 {
     font-size: 1.5rem;
