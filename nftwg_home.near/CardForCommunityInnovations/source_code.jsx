@@ -2,13 +2,14 @@ const Owner = "nftwg_home.near";
 
 const props = [
   {
-    title: "NFT Transfer",
+    title: "ABC",
     imageSrc:
       "https://imgtr.ee/images/2023/10/23/3227f22904a3234f639efe364b217422.png",
-    description: "Trasnfer NFT using ContractID and TokenID to a ReceiverID",
-    buttonText: "Goto App",
+    description:
+      "Humans of Near is a Map of IAM Human SBT holders. Built by the NFT Workgroup.",
+    buttonText: "Completed",
     fontSize: 20,
-    href: "https://near.org/onboarder.near/widget/NFT-Transfer",
+    href: "https://near.org/humans-of-near.near/widget/humans.nearverselabs.com",
   },
   {
     title: "XYZ",
@@ -135,7 +136,7 @@ return (
           </CardContent>
           <CardContent>
             <AppLinkButton style={{ top: 200, left: 20 }}>
-              <a href={item.href}>
+              <a href={item.href} target="_blank">
                 {" "}
                 <ApplinkText>{item.buttonText}</ApplinkText>
               </a>
