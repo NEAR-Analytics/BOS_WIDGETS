@@ -8,6 +8,7 @@ const likes = Social.index("like", elementToLike, { subscribe: true });
 const userLike = context.accountId
   ? Social.index("like", elementToLike, {
       accountId: context.accountId,
+      subscribe: true,
     })
   : [];
 
