@@ -131,9 +131,8 @@ const social = {
       deploy:
         "https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fneardefi%2Fpolygon-bos-gateway&build-command=pnpm%20run%20build&env=NEXT_PUBLIC_NETWORK_ID,NEXT_PUBLIC_HOSTNAME&envDescription=mainnet-near.org&envLink=https%3A%2F%2Fgithub.com%2FNearDeFi%2Fpolygon-bos-gateway%2Fblob%2Fmain%2F.env.example",
       github: "https://github.com/NearDeFi/polygon-bos-gateway",
-      
     },
-            {
+    {
       key: 5,
       name: "DiscoverBOS",
       url: "https://discoverBOS.org/",
@@ -145,7 +144,7 @@ const social = {
       deploy: null,
       github: "https://github.com/NEARBuilders/discoverbos",
     },
-                {
+    {
       key: 5,
       name: "Coin98 dApp Store",
       url: "https://dapps.coin98.com/menu/bos",
@@ -157,7 +156,7 @@ const social = {
       deploy: null,
       github: null,
     },
-        {
+    {
       key: 5,
       name: "DapDap",
       url: "https://alpha.dapdap.net/",
@@ -242,6 +241,18 @@ const social = {
       category: ["DeFi", "EVM", "Canto"],
       deploy: null,
       github: null,
+    },
+        {
+      key: 3,
+      name: "CPlanet",
+      url: "https://cplanet.org/",
+      image:
+        "https://ipfs.near.social/ipfs/bafybeia3q6ea377j5zuvtzedjjbm6kin4dtecmwkbbpkujh7srhpsy2b2q",
+      description:
+        "The portal for creatives in the NEAR Ecosystem",
+      category: ["Art", "NEAR", "NFT"],
+      deploy: null,
+      github: "https://github.com/Jikugodwill/bos-cplanet",
     },
     {
       key: 6,
