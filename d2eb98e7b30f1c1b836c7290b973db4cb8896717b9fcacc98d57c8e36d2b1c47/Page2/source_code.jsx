@@ -56,6 +56,11 @@ const Button = styled.button`
       top: 750px; 
       width: 345px;
 `;
+const Img = styled.img`
+position: absolute;
+right:10%;
+top:20%;
+`;
 
 return (
   <StyledDesktop>
@@ -64,6 +69,11 @@ return (
       <a href="https://near.org/d2eb98e7b30f1c1b836c7290b973db4cb8896717b9fcacc98d57c8e36d2b1c47/widget/Page3">
         <Button>SUBSCRIBE INSURANCE</Button>
       </a>{" "}
+      <Img
+        src="https://github.com/Ewuly/Image/blob/main/Other%2021.png?raw=true"
+        width="400"
+        border-top="100px"
+      ></Img>
       <div className="overlap">
         {" "}
         <div className="overlap-group">
