@@ -46,7 +46,7 @@ const ButtonCopy = styled.button`
   width: 5rem;
   height: 30px;
   font-size: 12px;
-  background-color: #0a1929ff;
+  background-color: black;
   border: none;
   border-radius: 24px;
   cursor: pointer;
@@ -58,10 +58,6 @@ const ButtonCopy = styled.button`
   justify-content: center;
   font-weight: bold;
   color: white;
-   &:hover {
-    background-color: #0a1929ff;
-  }
-
 `;
 
 const TextCopy = styled.span`
@@ -74,7 +70,7 @@ const TextCopy = styled.span`
   align-items: center;
   justify-content: center;
   color: white;
-  background-color: #0a1929ff;
+  background-color: black;
 `;
 
 const [isToggleSave1, setIsToggleSave1] = useState(false);
@@ -85,7 +81,7 @@ const toggleSaveButton1 = () => {
 const SaveButton = styled.button`
   width: 2.3rem;
   height: 30px;
-  background-color: ${(props) => (props.isToggled ? "#f79a55" : "#0a1929ff")};
+  background-color: ${(props) => (props.isToggled ? "#f79a55" : "black")};
   border: none;
   border-radius: 24px;
   cursor: pointer;
@@ -112,7 +108,7 @@ const ViewButton = styled.button`
   width: 5rem;
   height: 30px;
   font-size: 12px;
-  background-color: #0a1929ff;
+  background-color: black;
   border: none;
   border-radius: 24px;
   cursor: pointer;
@@ -124,9 +120,6 @@ const ViewButton = styled.button`
   justify-content: center;
   font-weight: bold;
   color: white;
-   &:hover {
-    background-color: #0a1929ff;
-  }
 `;
 
 let copyBtn = props.copyBtn || "Copy Button";
