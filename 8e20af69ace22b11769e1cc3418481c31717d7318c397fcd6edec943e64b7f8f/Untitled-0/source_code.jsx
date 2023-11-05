@@ -992,7 +992,10 @@ return (
           <br />
           <text>c: {JSON.parse(state.sigData).c}</text>
           <br />
-          <text>responses: {JSON.parse(state.sigData).responses}</text>
+          <text>responses: </text>
+          <text>{JSON.parse(state.sigData).responses[0]}</text><br/>
+          <text>{JSON.parse(state.sigData).responses[1]}</text><br/>
+          <text>{JSON.parse(state.sigData).responses[2]}</text><br/>
         </div>
       </div>
       <div>
