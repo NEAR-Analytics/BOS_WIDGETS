@@ -24,10 +24,7 @@ const item = {
   blockHeight,
 };
 
-const link =
-  props.link ??
-  props.fullPostLink ??
-  `/mob.near/widget/MainPage.N.Post.Page?accountId=${accountId}&blockHeight=${blockHeight}`;
+const link = `/mob.near/widget/MainPage.N.Post.Page?accountId=${accountId}&blockHeight=${blockHeight}`;
 
 const Wrapper = styled.div`
   margin: 0 -12px;
@@ -191,7 +188,6 @@ return (
         {fullPostLink ? (
           <a
             key="full-post-link"
-            target="_blank"
             href={fullPostLink}
             className="text-decoration-none link-dark"
           >
@@ -200,9 +196,7 @@ return (
         ) : (
           contentWidget
         )}
-        {props.customButtons ? (
-          props.customButtons
-        ) : !pinned && !hideButtons && blockHeight !== "now" ? (
+        {!pinned && !hideButtons && blockHeight !== "now" ? (
           <div className="buttons d-flex justify-content-between">
             <Widget
               loading=""
@@ -255,24 +249,22 @@ return (
         />
       </div>
     )}
-    {props.customComments
-      ? props.customComments
-      : !props.hideComments && (
-          <Widget
-            key="comments"
-            loading={false}
-            src="mob.near/widget/MainPage.N.Comment.Feed"
-            props={{
-              item,
-              highlightComment: props.highlightComment,
-              limit: props.commentsLimit,
-              subscribe,
-              raw,
-              accounts: props.commentAccounts,
-              groupId,
-              permissions,
-            }}
-          />
-        )}
+    {!props.hideComments && (
+      <Widget
+        key="comments"
+        loading={false}
+        src="mob.near/widget/MainPage.N.Comment.Feed"
+        props={{
+          item,
+          highlightComment: props.highlightComment,
+          limit: props.commentsLimit,
+          subscribe,
+          raw,
+          accounts: props.commentAccounts,
+          groupId,
+          permissions,
+        }}
+      />
+    )}
   </Wrapper>
 );
