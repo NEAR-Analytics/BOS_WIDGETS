@@ -1,9 +1,15 @@
 const subneddit = props.n || "all";
 const renderLoading = () => "Loading";
-const limit = props.limit ? parseInt(props.limit) : 200;
+const fetchLimit = props.fetchLimit ? parseInt(props.fetchLimit) : 500;
+const renderLimit = props.renderLimit ? parseInt(props.renderLimit) : 10;
+const initialRenderLimit = props.initialRenderLimit
+  ? parseInt(props.initialRenderLimit)
+  : renderLimit;
 const halflife = props.halflife
   ? parseFloat(props.halflife)
   : (24 * 60 * 60) / 1.3;
+
+const [displayCount, setDisplayCount] = useState(initialRenderLimit);
 
 // let rawIndex = Social.index("neddit", subneddit, {
 //   order: "desc",
@@ -12,7 +18,7 @@ const halflife = props.halflife
 
 let rawIndex = Social.index("post", "main", {
   order: "desc",
-  limit,
+  limit: fetchLimit,
 });
 
 if (rawIndex === null) {
@@ -55,11 +61,11 @@ const lastBlockHeight = posts[0].blockHeight ?? 0;
 const score = (i) => {
   const post = posts[i];
   const age = lastBlockHeight - post.blockHeight;
-  const numLikes = likes[i].length + 1;
+  const numLikes = likes[i].length + 0.1;
   return numLikes / Math.exp(1 + age / halflife);
 };
 
-const order = [...Array(limit).keys()];
+const order = [...Array(posts.length).keys()];
 order.sort((a, b) => score(b) - score(a));
 
 const render = (post) => {
@@ -77,4 +83,16 @@ const render = (post) => {
   );
 };
 
-return <div>{order.slice(0, 10).map((i) => render(posts[i]))}</div>;
+return (
+  <InfiniteScroll
+    pageStart={0}
+    loadMore={() => {
+      setDisplayCount(displayCount + renderLimit);
+    }}
+    threshold={props.threshold ?? 800}
+    hasMore={displayCount <= posts.length}
+    loader={loader}
+  >
+    {order.slice(0, displayCount).map((i) => render(posts[i]))}
+  </InfiniteScroll>
+);
