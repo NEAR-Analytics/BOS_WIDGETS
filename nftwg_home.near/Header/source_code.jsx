@@ -191,12 +191,12 @@ const btn2 = styled.div`
 /* Auto layout */
 display: flex;
 flex-direction: row;
-justify-content: flex-end;
+justify-content: center ;
 align-items: center;
 padding: 16px 24px;
-gap: 10px;
+gap: 20px;
 cursor:pointer;
-width: 194px;
+width: 192px;
 height: 48px;
 background: #6333DD;
 border-radius: 4px;
@@ -380,11 +380,11 @@ return (
       <btn2>
         <a
           style={{ textDecoration: "none", color: "#FFFFFF" }}
-          href="https://t.me/+mOAOaAYnAbs3ZmIx "
+          href="https://forms.gle/8s2A7EN1Ax2EQkcW7 "
           target="_blank"
         >
           {" "}
-          Join Our Community
+          Submit a Proposal
         </a>
       </btn2>
     </LastWrapper>
