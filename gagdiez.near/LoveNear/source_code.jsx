@@ -54,6 +54,7 @@ const likeClick = () => {
     index: {
       like: JSON.stringify({
         key: elementToLike,
+        value: "liked",
       }),
     },
   };
