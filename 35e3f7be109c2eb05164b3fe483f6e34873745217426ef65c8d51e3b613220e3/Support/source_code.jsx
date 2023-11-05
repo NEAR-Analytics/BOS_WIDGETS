@@ -10,8 +10,8 @@ const HelpComponent = styled.div`
   color: white;
   background-color: #1e1e1e;
   position: relative;
-  margin-left: -10px;
-  margin-top: 15px;
+  margin-left: 55px;
+  margin-top: 190px;
   margin-right: 150px; 
 `;
 
