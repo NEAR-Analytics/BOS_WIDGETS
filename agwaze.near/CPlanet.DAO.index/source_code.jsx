@@ -477,7 +477,7 @@ return (
               <div>
                 <Widget
                   src="agwaze.near/widget/CPlanet.DAO.Members.SideCard"
-                  props={{ daoId: data, userId: data }}
+                  props={{ daoId: data, userId: data, update: props.update }}
                 />
               </div>
             ))}
