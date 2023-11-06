@@ -1,4 +1,5 @@
 const cep = "magicbuild.near";
+State.init(props);
 return (
   <>
     <label></label>
