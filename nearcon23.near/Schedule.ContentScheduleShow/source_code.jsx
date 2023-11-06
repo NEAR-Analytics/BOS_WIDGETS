@@ -1,6 +1,6 @@
 const accountId = "nearcon23.near";
 
-  // border:10px solid black;
+// border:10px solid black;
 const BorderDiv = styled.div`
   background-color: #000000;
   padding:10px;
@@ -150,207 +150,209 @@ const filteredData = (props?.dateData ?? [])?.filter((item) => {
 return filteredData.length !== 0 ? (
   <>
     <BorderDiv>
-      {filteredData?.map((item, idx) => (
-        <>
-          {idx === 0 && (
-            <>
-              <ShowInMobile>
-                <h3
-                  style={{
-                    fontWeight: "600",
-                    width: "100%",
-                    textAlign: "center",
-                    left: 0,
-                    position: "absolute",
-                    marginTop: 30,
-                  }}
-                >
-                  {formatDate(item.startTime)}
-                </h3>
-              </ShowInMobile>
-              {props.index !== 0 ? (
+      <div style={{ backgroundColor: "#FFFFFF", borderRadius: 8 }}>
+        {filteredData?.map((item, idx) => (
+          <>
+            {idx === 0 && (
+              <>
                 <ShowInMobile>
-                  <Grid>
-                    <div></div>
-                    <div
-                      style={{
-                        display: "flex",
-                      }}
-                    >
-                      <Brick style={{ height: 70 }} />
-                    </div>
-                    <div></div>
-                  </Grid>
-                </ShowInMobile>
-              ) : (
-                <ShowInMobile style={{ marginTop: 80 }} />
-              )}
-            </>
-          )}
-          <div style={{ position: "relative" }}>
-            <Grid>
-              <div style={{ paddingTop: idx === 0 ? 25 : 0 }}>
-                {idx === 0 && (
-                  <HideInMobile>
-                    <h3 style={{ fontWeight: "600", textAlign: "center" }}>
-                      {formatDate(item.startTime)}
-                    </h3>
-                  </HideInMobile>
-                )}
-                <ShowInMobile>
-                  <h6
+                  <h3
                     style={{
-                      fontWeight: "400",
-                      fontSize: 10,
-                      padding: 4,
+                      fontWeight: "600",
+                      width: "100%",
                       textAlign: "center",
+                      left: 0,
+                      position: "absolute",
+                      marginTop: 30,
                     }}
                   >
-                    {item.startTimeFormatted} - {item.endTimeFormatted}
-                  </h6>
+                    {formatDate(item.startTime)}
+                  </h3>
                 </ShowInMobile>
-              </div>
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  paddingTop: idx === 0 ? 25 : 0,
-                }}
-              >
-                <HideInMobile>
-                  <h6 style={{ marginTop: 8, fontWeight: "400" }}>
-                    {item.startTimeFormatted} - {item.endTimeFormatted}
-                  </h6>
-                </HideInMobile>
-                <div>
-                  {props.index !== 0 && idx === 0 && (
-                    <Brick
-                      style={{
-                        position: "absolute",
-                        top: 0,
-                        height: 30,
-                      }}
-                    />
-                  )}
-                  <Dot
-                    style={
-                      item?.track
-                        ? { backgroundColor: colorMapping[item.track[0]] }
-                        : {}
-                    }
-                  />
-                  <Brick
-                    style={
-                      item?.track
-                        ? { backgroundColor: colorMapping[item.track[0]] }
-                        : {}
-                    }
-                  />
-                </div>
-              </div>
-              <div
-                style={{
-                  padding: 10,
-                  paddingLeft: 0,
-                  paddingTop: idx === 0 ? 25 : 0,
-                  display: "flex",
-                }}
-              >
-                <div style={{ width: "100%" }}>
-                  <h5 style={{ fontWeight: "700" }}>{item.title}</h5>
-                  <p
-                    style={{
-                      paddingRight: 15,
-                      paddingTop: 10,
-                      paddingBottom: 10,
-                    }}
-                  >
-                    {item.description === "📝" ? "" : item.description}
-                  </p>
-                  {!!item.location && (
-                    <div
-                      style={{
-                        display: "flex",
-                        gap: "6px",
-                        marginBottom: 10,
-                      }}
-                    >
-                      <Widget src={`${accountId}/widget/Icons.Location`} />
-                      <p style={{ color: "#90908C", marginBottom: 0 }}>
-                        {item.location}
-                      </p>
-                    </div>
-                  )}
-                  {item?.confirmedSpeakers &&
-                    item?.confirmedSpeakers?.length !== 0 && (
-                      <PeopleGrid
+                {props.index !== 0 ? (
+                  <ShowInMobile>
+                    <Grid>
+                      <div></div>
+                      <div
                         style={{
-                          display: "grid",
-                          gridTemplateColumns: "repeat(3,1fr)",
-                          gap: "13px",
-                          marginBottom: 30,
+                          display: "flex",
                         }}
                       >
-                        {(item?.confirmedSpeakers ?? [])?.map((_, idx) => (
-                          <div
-                            style={{
-                              display: "flex",
-                              alignItems: "center",
-                              gap: "10px",
-                            }}
-                            key={_}
-                          >
-                            <div>
-                              <img
-                                style={{
-                                  width: 40,
-                                  height: 40,
-                                  objectFit: "cover",
-                                  borderRadius: 100,
-                                }}
-                                src={item.imageIds[idx]}
-                              />
-                              <p
-                                style={{
-                                  fontWeight: "600",
-                                  marginBottom: 0,
-                                  fontSize: 14,
-                                }}
-                              >
-                                {_.split("-")[0]}
-                              </p>
-                              <p
-                                style={{
-                                  marginBottom: 0,
-                                  fontSize: 14,
-                                }}
-                              >
-                                {_.split("-")[1]}
-                              </p>
-                            </div>
-                          </div>
-                        ))}
-                      </PeopleGrid>
-                    )}
+                        <Brick style={{ height: 70 }} />
+                      </div>
+                      <div></div>
+                    </Grid>
+                  </ShowInMobile>
+                ) : (
+                  <ShowInMobile style={{ marginTop: 80 }} />
+                )}
+              </>
+            )}
+            <div style={{ position: "relative" }}>
+              <Grid>
+                <div style={{ paddingTop: idx === 0 ? 25 : 0 }}>
+                  {idx === 0 && (
+                    <HideInMobile>
+                      <h3 style={{ fontWeight: "600", textAlign: "center" }}>
+                        {formatDate(item.startTime)}
+                      </h3>
+                    </HideInMobile>
+                  )}
+                  <ShowInMobile>
+                    <h6
+                      style={{
+                        fontWeight: "400",
+                        fontSize: 10,
+                        padding: 4,
+                        textAlign: "center",
+                      }}
+                    >
+                      {item.startTimeFormatted} - {item.endTimeFormatted}
+                    </h6>
+                  </ShowInMobile>
                 </div>
-                <a
-                  href={`http://www.google.com/calendar/event?action=TEMPLATE&text=${
-                    item.title
-                  }%20Event&details=${item.description}&location=${
-                    item.location
-                  }&dates=${new Date(item.startTime)
-                    .toISOString()
-                    .replace(/[-:]/g, "")}/${new Date(item.endTime)
-                    .toISOString()
-                    .replace(/[-:]/g, "")}`}
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    paddingTop: idx === 0 ? 25 : 0,
+                  }}
                 >
-                  <Widget src={`${accountId}/widget/Icons.Reminder`} />
-                </a>
-              </div>
-            </Grid>
-          </div>
-        </>
-      ))}
+                  <HideInMobile>
+                    <h6 style={{ marginTop: 8, fontWeight: "400" }}>
+                      {item.startTimeFormatted} - {item.endTimeFormatted}
+                    </h6>
+                  </HideInMobile>
+                  <div>
+                    {props.index !== 0 && idx === 0 && (
+                      <Brick
+                        style={{
+                          position: "absolute",
+                          top: 0,
+                          height: 30,
+                        }}
+                      />
+                    )}
+                    <Dot
+                      style={
+                        item?.track
+                          ? { backgroundColor: colorMapping[item.track[0]] }
+                          : {}
+                      }
+                    />
+                    <Brick
+                      style={
+                        item?.track
+                          ? { backgroundColor: colorMapping[item.track[0]] }
+                          : {}
+                      }
+                    />
+                  </div>
+                </div>
+                <div
+                  style={{
+                    padding: 10,
+                    paddingLeft: 0,
+                    paddingTop: idx === 0 ? 25 : 0,
+                    display: "flex",
+                  }}
+                >
+                  <div style={{ width: "100%" }}>
+                    <h5 style={{ fontWeight: "700" }}>{item.title}</h5>
+                    <p
+                      style={{
+                        paddingRight: 15,
+                        paddingTop: 10,
+                        paddingBottom: 10,
+                      }}
+                    >
+                      {item.description === "📝" ? "" : item.description}
+                    </p>
+                    {!!item.location && (
+                      <div
+                        style={{
+                          display: "flex",
+                          gap: "6px",
+                          marginBottom: 10,
+                        }}
+                      >
+                        <Widget src={`${accountId}/widget/Icons.Location`} />
+                        <p style={{ color: "#90908C", marginBottom: 0 }}>
+                          {item.location}
+                        </p>
+                      </div>
+                    )}
+                    {item?.confirmedSpeakers &&
+                      item?.confirmedSpeakers?.length !== 0 && (
+                        <PeopleGrid
+                          style={{
+                            display: "grid",
+                            gridTemplateColumns: "repeat(3,1fr)",
+                            gap: "13px",
+                            marginBottom: 30,
+                          }}
+                        >
+                          {(item?.confirmedSpeakers ?? [])?.map((_, idx) => (
+                            <div
+                              style={{
+                                display: "flex",
+                                alignItems: "center",
+                                gap: "10px",
+                              }}
+                              key={_}
+                            >
+                              <div>
+                                <img
+                                  style={{
+                                    width: 40,
+                                    height: 40,
+                                    objectFit: "cover",
+                                    borderRadius: 100,
+                                  }}
+                                  src={item.imageIds[idx]}
+                                />
+                                <p
+                                  style={{
+                                    fontWeight: "600",
+                                    marginBottom: 0,
+                                    fontSize: 14,
+                                  }}
+                                >
+                                  {_.split("-")[0]}
+                                </p>
+                                <p
+                                  style={{
+                                    marginBottom: 0,
+                                    fontSize: 14,
+                                  }}
+                                >
+                                  {_.split("-")[1]}
+                                </p>
+                              </div>
+                            </div>
+                          ))}
+                        </PeopleGrid>
+                      )}
+                  </div>
+                  <a
+                    href={`http://www.google.com/calendar/event?action=TEMPLATE&text=${
+                      item.title
+                    }%20Event&details=${item.description}&location=${
+                      item.location
+                    }&dates=${new Date(item.startTime)
+                      .toISOString()
+                      .replace(/[-:]/g, "")}/${new Date(item.endTime)
+                      .toISOString()
+                      .replace(/[-:]/g, "")}`}
+                  >
+                    <Widget src={`${accountId}/widget/Icons.Reminder`} />
+                  </a>
+                </div>
+              </Grid>
+            </div>
+          </>
+        ))}
+      </div>
     </BorderDiv>
   </>
 ) : (
