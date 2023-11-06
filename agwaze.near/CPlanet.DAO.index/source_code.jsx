@@ -236,6 +236,11 @@ const [councilMembers, setCouncilMembers] = useState({});
 
 const Contents = styled.div`
   display: flex;
+  width: 100%;
+  margin-right: auto;
+  margin-left: auto;
+  align-items: flex-start;
+  max-width: 1200px;
 `;
 
 const MiddleContent = styled.div`
