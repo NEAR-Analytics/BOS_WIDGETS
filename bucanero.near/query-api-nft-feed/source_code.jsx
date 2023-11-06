@@ -126,13 +126,14 @@ State.init({
 
 const widgetActivitySubscription = `
   subscription IndexerQuery {
-    bucanero_near_nft_v3_nfts(order_by: {block_timestamp: desc}, limit: ${LIMIT}) {
+    bucanero_near_nft_v4_nfts(order_by: {block_timestamp: desc}, limit: ${LIMIT}) {
       block_height
       block_timestamp
       id
       marketplace
       nft_data
       receipt_id
+      receiver_id
     }
   }
 `;
@@ -201,7 +202,7 @@ function startWebSocketWidgetActivity(processWidgetActivities) {
 
 function processWidgetActivities(incoming_data) {
   let incoming_widgetActivities =
-    incoming_data.bucanero_near_nft_v3_nfts.flatMap(processWidgetActivity);
+    incoming_data.bucanero_near_nft_v4_nfts.flatMap(processWidgetActivity);
   const newActivities = [
     ...incoming_widgetActivities.filter((activity) => {
       return (
@@ -211,8 +212,6 @@ function processWidgetActivities(incoming_data) {
     }),
   ];
   if (newActivities.length > 0 && state.widgetActivities.length > 0) {
-    const sound = new Audio(state.soundEffect);
-    sound.play();
   }
   const prevActivities = state.prevActivities || [];
   State.update({ widgetActivities: [...newActivities, ...prevActivities] });
@@ -247,6 +246,11 @@ return (
           <CardBody>
             <div key={i}>
               <Text bold>NFT Marketplace: {activity.marketplace}</Text>
+              <TextLink
+                href={`https://nearblocks.io/address/${activity.receiver_id}`}
+              >
+                {activity.receiver_id}
+              </TextLink>
               <Text bold>Receipt ID: {activity.receipt_id}</Text>
             </div>
           </CardBody>
