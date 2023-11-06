@@ -35,6 +35,7 @@ const TitleBarText = styled.h3`
   font-family: FK Grotesk;
   font-weight: 600;
   margin: 0;
+  font-size:20px;
 `;
 
 const trimName = (nearconId) => {
@@ -59,6 +60,7 @@ return (
             fontSize: ".85rem",
             fontWeight: 400,
             opacity: 0.85,
+            marginLeft: -4,
           }}
         >
           .nearcon23.near
@@ -75,6 +77,9 @@ return (
           <Widget
             src={`${ownerId}/widget/Inputs.Toggle2`}
             props={{
+              style: {
+                fontSize: 14,
+              },
               rightLabel: inAdminPage ? "Mobile" : "Admin",
               value: inAdminPage,
               onChange: () => {},
