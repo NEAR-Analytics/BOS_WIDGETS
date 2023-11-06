@@ -1,12 +1,12 @@
 const accountId = "nearcon23.near";
 
 // border: 10px solid black;
-  // border-top-width:5px
+// border-top-width:5px
+  // border: none;
 const BorderDiv = styled.div`
-  border: none;
   width: 100%;
-  z-index:0;
-  position:relative;
+  z-index: 0;
+  position: relative;
 `;
 
 const Grid = styled.div`
