@@ -39,11 +39,12 @@ const Icon = styled.div`
 `;
 const H5 = styled.h6`
     background-color: transparent;
-    color: currentColor;
+    color: ${selectedButton ? '#00EC97' : '#04A46E'};
     border: none;
 
     font-size: 13px;
     font-weight: 500;
+
 `;
 
 return (
@@ -67,7 +68,7 @@ return (
             />
           </svg>
         </Icon>
-        <H5>Me</H5>
+        <H5 selectedButton={selectedButton === "profile" ? true : false}>Me</H5>
       </Button>
     </Link>
 
@@ -94,7 +95,9 @@ return (
             </svg>
           )}
         </Icon>
-        <H5>Alerts</H5>
+        <H5 selectedButton={selectedButton === "alerts" ? true : false}>
+          Alerts
+        </H5>
       </Button>
     </Link>
 
@@ -132,7 +135,7 @@ return (
             </svg>
           )}
         </Icon>
-        <H5>Map</H5>
+        <H5 selectedButton={selectedButton === "map" ? true : false}>Map</H5>
       </Button>
     </Link>
 
@@ -159,7 +162,9 @@ return (
             </svg>
           )}
         </Icon>
-        <H5>Schedule</H5>
+        <H5 selectedButton={selectedButton === "schedule" ? true : false}>
+          Schedule
+        </H5>
       </Button>
     </Link>
 
@@ -189,7 +194,7 @@ return (
             </svg>
           )}
         </Icon>
-        <H5>Help</H5>
+        <H5 selectedButton={selectedButton === "help" ? true : false}>Help</H5>
       </Button>
     </Link>
   </Container>
