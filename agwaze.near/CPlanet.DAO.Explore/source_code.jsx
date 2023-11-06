@@ -19,6 +19,7 @@ const NFTCards = styled.div`
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   justify-content: center;
   padding: 20px 3rem 1rem 3rem;
+  justify-items: center;
   width:100%;
 `;
 
@@ -154,7 +155,6 @@ return (
           onChange={seachInputHandler}
           placeholder="Search for DAOs"
         />
-        <FilterDropdown>Filter/Dropdown</FilterDropdown>
       </Search>
     </SearchSection>
     <Cards>
@@ -183,6 +183,7 @@ return (
                   props={{
                     daoId: data.daoId,
                     daoContractId: data.contractId,
+                    isGateway: props.isGateway,
                     onButtonClick: () =>
                       props.update({
                         tab: "daoProfile",
