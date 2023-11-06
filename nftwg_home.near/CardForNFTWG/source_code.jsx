@@ -8,15 +8,16 @@ const Card = styled.div`
   border: 1px solid #A0A0A0;
   border-radius: 10px;
   margin: 10px; /* Add margin for spacing between cards */
-  position: relative;
-  font-family: inherit;
+ position: relative;
+ font-family:inherit;
 `;
 
 const CardContent = styled.div`
   width: 400px;
   height: 13px;
-  display: flex;
+  display:flex;
   position: relative;
+  
 `;
 
 const AppLinkButton = styled.div`
@@ -30,7 +31,7 @@ const AppLinkButton = styled.div`
   cursor: pointer;
   width: 352px;
   height: 48px;
-  background: #D9D9D9;
+ background: #D9D9D9;
   border: 1px solid #F0F0F0;
   border-radius: 79px;
   position: relative;
@@ -50,47 +51,47 @@ const ApplinkText = styled.div`
   flex-grow: 0;
   position: relative;
 `;
-
 const Line = styled.div`
-  /* Line 6 */
-  position: absolute;
-  width: 399px;
-  height: 0px;
-  border: 1px solid #A0A0A0;
-`;
+/* Line 6 */
+position: absolute;
+width: 399px;
+height: 0px;
+border: 1px solid #A0A0A0;
 
-const renderCard = (item, index) => (
-  <Card key={index}>
-    <CardContent style={{ top: 10, left: 10 }}>
-      <img
-        style={{ width: 80, height: 80 }}
-        src={item.imageSrc}
-        alt={item.title}
-      />
-    </CardContent>
-    <CardContent style={{ fontSize: 24, top: 50, left: 170, fontWeight: 700 }}>
-      {item.title}
-    </CardContent>
-    <CardContent style={{ fontSize: 16, top: 100, left: 10 }}>
-      {item.description}
-    </CardContent>
-    <CardContent style={{ top: 180 }}>
-      <Line />
-    </CardContent>
-    <CardContent>
-      <AppLinkButton style={{ top: 200, left: 20 }}>
-        <a href={item.href} target="_blank">
-          {" "}
-          <ApplinkText>{item.buttonText}</ApplinkText>
-        </a>
-      </AppLinkButton>
-    </CardContent>
-  </Card>
-);
+`;
 
 return (
   <div style={{ display: "flex" }}>
-    {renderCard(props[0], 0)}
-    {renderCard(props[1], 1)}
+    {props.map((item, index) => (
+      <Card key={index}>
+        <CardContent style={{ top: 10, left: 10 }}>
+          <img
+            style={{ width: 80, height: 80 }}
+            src={item.imageSrc}
+            alt={item.title}
+          />
+        </CardContent>
+        <CardContent
+          style={{ fontSize: 24, top: 50, left: 170, fontWeight: 700 }}
+        >
+          {item.title}
+        </CardContent>
+
+        <CardContent style={{ fontSize: 16, top: 100, left: 10 }}>
+          {item.description}
+        </CardContent>
+        <CardContent style={{ top: 180 }}>
+          <Line />
+        </CardContent>
+        <CardContent>
+          <AppLinkButton style={{ top: 200, left: 20 }}>
+            <a href={item.href} target="_blank">
+              {" "}
+              <ApplinkText>{item.buttonText}</ApplinkText>
+            </a>
+          </AppLinkButton>
+        </CardContent>
+      </Card>
+    ))}
   </div>
 );
