@@ -32,7 +32,7 @@ const ImageCss = styled.div`
 width: 1250px;
 height: 500px;
 
-background: url('https://i.ibb.co/qRHzxvw/Rectangle-23798.png'), #D9D9D9;
+background: url('https://drive.google.com/file/d/197BymTAsofbayic4pBVjhv-BUHDkuVs-/view?usp=drive_link'), #D9D9D9;
 
 /* Inside auto layout */
 flex: none;
