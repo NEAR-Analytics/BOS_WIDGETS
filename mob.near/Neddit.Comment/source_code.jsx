@@ -60,35 +60,38 @@ return (
         />
         {blockHeight !== "now" ? (
           <div className="buttons d-flex justify-content-between">
-            {parentItem && (
-              <div key="comment">
-                <Widget
-                  loading=""
-                  src="mob.near/widget/N.CommentButton"
-                  props={{
-                    disabled: permissions.disableComment,
-                    onClick: () =>
-                      !state.showReply && State.update({ showReply: true }),
-                  }}
-                />
-              </div>
-            )}
-            <Widget
-              loading=""
-              src="mob.near/widget/N.RepostButton"
-              props={{
-                item,
-                disabled: true,
-              }}
-            />
-            <Widget
-              loading=""
-              src="mob.near/widget/N.LikeButton"
-              props={{
-                notifyAccountId,
-                item,
-              }}
-            />
+            <div className="flex-grow-1 d-flex flex-row gap-3">
+              <Widget
+                loading=""
+                src="mob.near/widget/N.LikeButton"
+                props={{
+                  notifyAccountId,
+                  item,
+                }}
+              />
+              {parentItem && (
+                <div key="comment">
+                  <Widget
+                    loading=""
+                    src="mob.near/widget/N.CommentButton"
+                    props={{
+                      onClick: () =>
+                        !state.showReply && State.update({ showReply: true }),
+                      text: (
+                        <span
+                          style={{
+                            marginLeft: "-4px",
+                            fontSize: 14,
+                          }}
+                        >
+                          Reply
+                        </span>
+                      ),
+                    }}
+                  />
+                </div>
+              )}
+            </div>
             <Widget
               loading=""
               src="mob.near/widget/MainPage.N.Post.ShareButton"
@@ -101,7 +104,7 @@ return (
       </div>
     </div>
     {state.showReply && (
-      <div className="mb-2" key="reply">
+      <div className="mb-2" key="reply" style={{ marginLeft: "52px" }}>
         <Widget
           src="mob.near/widget/Neddit.Comment.Compose"
           props={{
