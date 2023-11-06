@@ -312,7 +312,8 @@ return loading ? (
             style={{
               fontSize: 30,
               fontWeight: 500,
-              margin: "14px 0 0 0",
+              // margin: "14px 0 0 0",
+              margin: 0,
               color: "#00EC97",
             }}
           >
