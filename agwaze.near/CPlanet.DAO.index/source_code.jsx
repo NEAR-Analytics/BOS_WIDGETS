@@ -78,6 +78,7 @@ const RightProfile = styled.div`
 `;
 
 const AmountSec = styled.div`
+  max-width: 300px;
   width: 100%;
   display: flex;
   flex-direction: row;
