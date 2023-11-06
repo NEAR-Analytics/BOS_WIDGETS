@@ -177,14 +177,16 @@ const trimName = (nearconId) => {
 return (
   <Container>
     <Content>
-      <Widget
-        props={{
-          nearconId: state.userData.nearconId,
-          cid: state.userData.cid,
-        }}
-        src={`${ownerId}/widget/Navbar`}
-      />
-
+      <div style={{ width: "100%" }}>
+        <Widget
+          props={{
+            nearconId: state.userData.nearconId,
+            cid: state.userData.cid,
+          }}
+          src={`${ownerId}/widget/Navbar`}
+        />
+      </div>
+      
       <div
         style={{
           flex: 1,
@@ -229,7 +231,7 @@ return (
               </span>
             </p>
           )}
-          
+
           <div style={{ width: "fit-content", margin: "auto" }}>
             <iframe
               srcDoc={srcData}
