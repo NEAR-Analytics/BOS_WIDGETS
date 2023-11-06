@@ -332,7 +332,7 @@ const social = {
       name: "Welldone Gateway",
       url: "https://welldone-gateway.vercel.app/",
       image:
-        " https://ipfs.near.social/ipfs/bafkreiapxpmwjsfjy23nvdlnlrza5xp3trvdhk5am3tnpnjnpl6pbctuia",
+        "https://ipfs.near.social/ipfs/bafkreiayw3qfvtg7sspgs3vquvrkqa467ju7vwkudyxlkkvu7nv5r6p2ka",
       description:
         "Welldone Gateway uses the Welldone Wallet to Swap on Sui, Aptos, NEAR and ETH (currently on testnet)",
       category: ["NEAR", "Sui", "Aptos"],
