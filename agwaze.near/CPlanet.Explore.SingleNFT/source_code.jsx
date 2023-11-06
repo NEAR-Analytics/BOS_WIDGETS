@@ -80,7 +80,11 @@ const Root = styled.div`
     max-width: 1400px;
     margin-left: auto;
     margin-right: auto;
-    justify-content: center;
+    justify-content: space-between;
+    align-items: center;
+    @media (max-width: 900px) {
+      justify-content: center;
+    }
 `;
 
 const fewAndFarLogo = (
