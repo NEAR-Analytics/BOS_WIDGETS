@@ -81,7 +81,7 @@ const Root = styled.div`
     margin-left: auto;
     margin-right: auto;
     justify-content: space-between;
-    align-items: center;
+    align-items: flex-start;
     @media (max-width: 900px) {
       justify-content: center;
     }
