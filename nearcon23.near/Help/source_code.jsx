@@ -55,7 +55,7 @@ return (
       }}
     >
       <CreateButton
-        href="https://nearpad-images.s3.amazonaws.com/help-map.png"
+        href="https://shortlink.near.foundation/nearcon23faq"
         target="_blank"
       >
         View FAQs
