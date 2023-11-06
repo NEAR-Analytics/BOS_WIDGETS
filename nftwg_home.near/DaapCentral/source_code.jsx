@@ -17,10 +17,18 @@ const handleToggleClick = () => {
   });
 };
 
+const applicationNames = ["Humans Of Near", "Socializer", "App Name 3"]; // Add your application names here
+
 const handleSearchChange = (event) => {
   const searchQuery = event.target.value.toLowerCase();
+  const filteredCards = state.cards.filter((card) => {
+    return applicationNames.some((appName) =>
+      card.name.toLowerCase().includes(appName.toLowerCase())
+    );
+  });
   State.update({
     searchQuery,
+    filteredCards,
   });
 };
 
@@ -448,6 +456,7 @@ return (
           style={{ width: 800, height: 56 }}
           type="search"
           placeholder="Search by card title"
+          value={state.searchQuery}
           onChange={handleSearchChange}
         />
       </SearchBar>
