@@ -36,7 +36,7 @@ State.init({
   tokenId: "",
   chainState: "",
   state: "",
-  onGateway: "",
+  onGateway: false,
   daoId: "",
   daoContractId: "",
 });
