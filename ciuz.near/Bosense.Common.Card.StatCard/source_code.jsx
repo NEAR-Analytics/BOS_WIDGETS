@@ -5,7 +5,7 @@ if (!title) {
 }
 
 if (!quantity) {
-  quantity = "123";
+  quantity = 12322;
 }
 
 if (!stat_pc) {
@@ -64,6 +64,21 @@ const Card = styled.div`
   }
 `;
 
+const calQuantity = () => {
+  if (quantity > 1000) {
+    return (quantity / 1000).toFixed(2) + "K";
+  }
+  if (quantity > 1000000) {
+    return (quantity / 1000000).toFixed(2) + "M";
+  }
+
+  if (quantity > 1000000000) {
+    return (quantity / 1000000000).toFixed(2) + "B";
+  }
+
+  return quantity;
+};
+
 const renderGraph = () => {
   if (stat_pc > 10) {
     return (
@@ -92,7 +107,7 @@ const renderGraph = () => {
 return (
   <Card className="col">
     <div>{title}</div>
-    <div className="quantity">{quantity}</div>
+    <div className="quantity">{calQuantity()}</div>
     <div>{renderGraph()}</div>
   </Card>
 );
