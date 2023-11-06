@@ -131,7 +131,6 @@ const fetchStoreFrontData = () => {
     }),
   });
   if (response2.ok) {
-    console.log(response2?.body?.data?.mb_views_nft_tokens);
     State.update({
       featuredNFTs: response2?.body?.data?.mb_views_nft_tokens,
     });
@@ -158,6 +157,7 @@ return (
                   image: data.media,
                   owner: data.owner,
                   chainState: "near",
+                  isGateway: props.isGateway,
                   logo,
                   onButtonClick: () =>
                     props.update({
