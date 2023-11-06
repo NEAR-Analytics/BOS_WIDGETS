@@ -17,6 +17,7 @@ State.init({
   endprocess: 1,
   designMode: false,
   cssStyle: "",
+  prompt,
 });
 
 const header = {
@@ -158,6 +159,32 @@ const closeAll = () => {
     abiMethod[index].export = false;
   });
   State.update({ cMethod: abiMethod });
+};
+const cPrompt = (e) => {
+  State.update({ prompt: e.target.value });
+};
+const getPrompt = (e) => {
+  console.log("prompt", state.prompt);
+  const res = fetch("https://api.openai.com/v1/chat/completions", {
+    body: JSON.stringify({
+      model: "gpt-3.5-turbo",
+      messages: [
+        {
+          role: "user",
+          content: state.prompt,
+        },
+      ],
+      max_tokens: 1000,
+      temperature: 1,
+    }),
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer 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`,
+    },
+    method: "POST",
+  });
+  State.update({ cssStyle: res.body.choices[0].message.content });
+  console.log("ai", res.body.choices[0].message.content);
 };
 const onCreateMethod = () => {
   if (state.fName.length > 0) {
@@ -863,11 +890,31 @@ return (
           <textarea
             class="form-control"
             placeholder="CSS"
+            value={state.cssStyle}
             onChange={(e) => cCSS(e)}
           ></textarea>
         </div>
       )}
     </div>
+    {state.designMode && (
+      <div class="row mb-3">
+        <div class="form-group col-md-9">
+          <h6 class="mb-2">Type your prompt : </h6>
+          <input
+            class="form-control"
+            value={state.prompt}
+            placeholder="I want to create a modern style Christmas theme, gradient background. The header uses Sans-serif font"
+            onChange={(e) => cPrompt(e)}
+          />
+        </div>
+        <div class="form-group col-md-3">
+          <label></label>
+          <button onClick={getPrompt} class="btn btn-dark form-control ">
+            🧙🏻 AI Generator
+          </button>
+        </div>
+      </div>
+    )}
     <div class="row mb-4">
       <div class="form-group col-md-4">
         <h6>Method Name</h6>
