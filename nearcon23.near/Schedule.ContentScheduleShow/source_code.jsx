@@ -2,7 +2,7 @@ const accountId = "nearcon23.near";
 
 // border: 10px solid black;
 // border-top-width:5px
-  // border: none;
+// border: none;
 const BorderDiv = styled.div`
   width: 100%;
   z-index: 0;
@@ -161,12 +161,13 @@ return filteredData.length !== 0 ? (
                     textAlign: "center",
                     left: 0,
                     position: "absolute",
-                    marginTop: 30,
+                    // marginTop: 30,
                   }}
                 >
                   {formatDate(item.startTime)}
                 </h3>
               </ShowInMobile>
+
               {props.index !== 0 ? (
                 <ShowInMobile>
                   <Grid>
