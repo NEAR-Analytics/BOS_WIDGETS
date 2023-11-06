@@ -161,7 +161,7 @@ const dapps = [
   {
     title: "Arbitrum DeFi",
     type: "Aggregator",
-    url: "https://near.org/bluebiu.near/widget/Arbitrum.All-in-one",
+    url: "https://near.org/ciocan.near/widget/Arbitrum.All-in-one",
     iconSrc: `${ipfsUrl}/icon-arbitrum.jpg`,
   },
   {
