@@ -15,7 +15,7 @@ const HoMDaoId = props.dev
     ? "hom.gwg-testing.near"
     : "congress-hom-v1.ndc-gwg.near";
 const registry = props.dev
-    ? "registry-unstable-v2.i-am-human.testnet"
+    ? "registry-v1.gwg-testing.near"
     : "registry.i-am-human.near";
 
 const isCongressDaoID =
@@ -25,7 +25,6 @@ const isCongressDaoID =
 
 let permissions = [];
 const isVotingBodyDao = props.daoId === VotingBodyDaoId;
-
 const defaultProposalTypes = [
     {
         text: "Text",
