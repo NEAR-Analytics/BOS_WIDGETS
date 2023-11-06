@@ -825,7 +825,7 @@ return (
           )}
         </div>
         <div class="form-group col-md-3">
-          {state.cMethod.length > 0 ? (
+          {state && state.cMethod.length > 0 ? (
             <Widget src={`${cep}/widget/export-button`} props={state} />
           ) : (
             <>
