@@ -103,9 +103,11 @@ const exportForm = () => {
     }
 
     const abiMethod = state.cMethod;
-    abiMethod.forEach((item) => {
-      abi.body.functions.push(item);
-    });
+    abiMethod
+      .filter((functions) => functions.export == true)
+      .forEach((item) => {
+        abi.body.functions.push(item);
+      });
     const exportListData = Social.get(
       `${context.accountId}/magicbuild/widgetList`
     );
