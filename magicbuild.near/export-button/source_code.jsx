@@ -1,6 +1,6 @@
 State.init({
   cMethod: props.cMethod,
-  widgetName: props.widgetName || `MagicBuild-${props.address}`,
+  widgetName: props.widgetName || `MagicBuild-${props.contractAddress}`,
   name: "",
   description: "",
   website: "",
