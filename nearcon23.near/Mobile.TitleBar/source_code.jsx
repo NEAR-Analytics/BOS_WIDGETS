@@ -77,7 +77,7 @@ return (
           <Widget
             src={`${ownerId}/widget/Inputs.Toggle2`}
             props={{
-              style: {
+              labelStyle: {
                 fontSize: 14,
               },
               rightLabel: inAdminPage ? "Mobile" : "Admin",
