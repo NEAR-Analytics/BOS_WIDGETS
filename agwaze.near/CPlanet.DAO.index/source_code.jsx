@@ -245,7 +245,6 @@ const Contents = styled.div`
 `;
 
 const MiddleContent = styled.div`
-    border-left: 1px solid #eceef0;
     width: 750px;
 `;
 
