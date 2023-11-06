@@ -228,7 +228,7 @@ return (
           <div>
             <a target="_blank" href="https://www.creativesdao.org/bos">
               <li>
-                {facebookIcon}
+                <img src="https://ipfs.near.social/ipfs/bafkreibbnvp7u3syjnjoxst7jjuyutsygblxrttdx2aaqiylozj4bvah2a" />
                 Near Social
               </li>
             </a>
