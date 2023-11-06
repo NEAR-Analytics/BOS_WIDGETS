@@ -4,16 +4,29 @@ State.init({
   isToggleActive: true,
   isWidgetVisible: true,
   toggleBoxLeft: "50px",
-  filteredCards: [], // Initially, set it to data1
+  filteredCards: [],
+  filteredCards2: [],
   searchQuery: "",
   searchBarClicked: false,
+  isCommunityInnovationsActive: false,
+  isCommunityInnovationsSearchEmpty: false,
+  isNFTWGActive: false,
+  isNFTWGSearchEmpty: false,
 });
 
 const handleToggleClick = () => {
   State.update({
     isToggleActive: !state.isToggleActive,
     toggleBoxLeft: state.isToggleActive ? "200px" : "50px",
-    cards: state.isToggleActive ? data2 : data1,
+    isCommunityInnovationsActive: false,
+    isCommunityInnovationsSearchEmpty: !state.searchQuery,
+  });
+};
+
+const handleCommunityInnovationsClick = () => {
+  State.update({
+    isToggleActive: false,
+    isCommunityInnovationsActive: true,
   });
 };
 const data1 = [
@@ -37,12 +50,47 @@ const data1 = [
   },
 ];
 
+const data2 = [
+  {
+    title: "All",
+    imageSrc:
+      "https://imgtr.ee/images/2023/10/23/3227f22904a3234f639efe364b217422.png",
+    description:
+      "Humans of Near is a Map of IAM Human SBT holders. Built by the NFT Workgroup.",
+    buttonText: "Completed",
+    fontSize: 20,
+    href: "https://near.org/humans-of-near.near/widget/humans.nearverselabs.com",
+  },
+  {
+    title: "Is",
+    imageSrc:
+      "https://imgtr.ee/images/2023/10/23/c406744cb2519c3ff347cd46806db29e.png",
+    description: "Socializer is an interactive rewards portal for Near Social.",
+    buttonText: "In Progress",
+    fontSize: 20,
+  },
+  {
+    title: "Well",
+    imageSrc:
+      "https://imgtr.ee/images/2023/10/23/697a7cad796ad704def8540d940ce25e.png",
+    description: "Socializer is an interactive rewards portal for Near Social.",
+    buttonText: "In Progress",
+    fontSize: 20,
+  },
+];
+
 const handleSearchChange = (event) => {
   const searchQuery = event.target.value.toLowerCase();
-  let filteredCards = data1; // Initialize with all cards
+  let filteredCards = data1;
+  let filteredCards2 = data2;
   if (searchQuery) {
     filteredCards = data1.filter((card) => {
       // Implement your search logic here; e.g., check if card title includes the searchQuery
+      return card.title.toLowerCase().includes(searchQuery);
+    });
+
+    filteredCards2 = data2.filter((card) => {
+      // Implement your search logic here for filteredCards2
       return card.title.toLowerCase().includes(searchQuery);
     });
   }
@@ -50,6 +98,7 @@ const handleSearchChange = (event) => {
   State.update({
     searchQuery: searchQuery,
     filteredCards: filteredCards,
+    filteredCards2: filteredCards2,
     searchBarClicked: true,
   });
 };
@@ -522,8 +571,53 @@ return (
             </CardContent>
           </Card>
         ))
+      ) : state.searchBarClicked && state.searchQuery ? (
+        state.filteredCards2.map((card, index) => (
+          <Card key={index}>
+            <CardContent style={{ top: 10, left: 10 }}>
+              <img
+                style={{ width: "80px", height: "80px" }}
+                src={card.imageSrc}
+                alt={card.title}
+              />
+            </CardContent>
+            <CardContent
+              style={{
+                fontSize: "24px",
+                top: "50px",
+                left: "170px",
+                fontWeight: 700,
+              }}
+            >
+              {card.title}
+            </CardContent>
+
+            <CardContent
+              style={{ fontSize: "16px", top: "100px", left: "10px" }}
+            >
+              {card.description}
+            </CardContent>
+            <CardContent style={{ top: "180px" }}>
+              <Line style={{ width: "100%" }} />
+            </CardContent>
+            <CardContent>
+              <AppLinkButton style={{ top: "200px", left: "20px" }}>
+                <a href={card.href} target="_blank">
+                  <ApplinkText>{card.buttonText}</ApplinkText>
+                </a>
+              </AppLinkButton>
+            </CardContent>
+          </Card>
+        ))
       ) : (
-        <Widget src={`${Owner}/widget/CardForNFTWG`} props={props} />
+        <Widget
+          src={
+            state.isToggleActive
+              ? `${Owner}/widget/CardForNFTWG`
+              : `${Owner}/widget/CardForCommunityInnovations`
+          }
+          props={props}
+        />
       )}
     </WidgetContainer>
   </DaapCentralContainer>
