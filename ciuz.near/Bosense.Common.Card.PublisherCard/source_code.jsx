@@ -19,8 +19,7 @@ const PublisherCard = styled.div`
   justify-content: space-between;
   width: 100%;  
   .user {
-    width: 40%;
-    border: 1px solid #000;
+    width: 40%;    
   }
 
   .income {
