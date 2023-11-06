@@ -240,7 +240,7 @@ const Contents = styled.div`
   margin-right: auto;
   margin-left: auto;
   align-items: flex-start;
-  max-width: 1200px;
+  max-width: 1400px;
 `;
 
 const MiddleContent = styled.div`
@@ -413,7 +413,7 @@ return (
         <AmountSec>
           <div>
             <span>TotalFunds</span>
-            {balances?.body ? (
+            {balances?.body.totalUsd ? (
               <b className="me-1">{shortenNumber(balances.body.totalUsd)}USD</b>
             ) : (
               <p>0</p>
