@@ -29,10 +29,10 @@ background-repeat: no-repeat;
 const ImageCss = styled.div`
 /* Rectangle 23798 */
 
-width: 1250px;
-height: 500px;
+width: 1290px;
+height: 700px;
 
-background: url('https://drive.google.com/file/d/197BymTAsofbayic4pBVjhv-BUHDkuVs-/view?usp=drive_link'), #D9D9D9;
+background: url('https://media.giphy.com/media/rZvBIMY6P8LUJxxsVq/giphy.gif'), #D9D9D9;
 
 /* Inside auto layout */
 flex: none;
