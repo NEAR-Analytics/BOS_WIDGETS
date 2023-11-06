@@ -88,7 +88,7 @@ const Wrapper = styled.div`
     }
   }
 
-  .post:not(:last-child):before {
+  .rootPost:not(:last-child):before {
     content: "";
     position: absolute;
     left: 30px;
@@ -99,7 +99,7 @@ const Wrapper = styled.div`
     z-index: -1;
   }
 
-  .post:not(:first-child):after {
+  .rootPost:not(:first-child):after {
     content: "";
     position: absolute;
     left: 30px;
@@ -136,6 +136,59 @@ const Wrapper = styled.div`
   .reposted {
     padding-top: 30px;
   }
+
+  .comments-step {
+    margin-left: 52px;
+    position: relative;
+
+    :before {
+      content: "";
+      position: absolute;
+      left: -22px;
+      top: 0px;
+      bottom: 0;
+      width: 2px;
+      background-color: #ddd;
+      z-index: -2;
+    }
+
+    .comment:first-child:not(:last-child):before {
+      content: "";
+      position: absolute;
+      left: 30px;
+      top: 56px;
+      bottom: 0;
+      width: 2px;
+      background-color: #ddd;
+      z-index: -1;
+    }
+
+    .comment:last-child:after {
+      content: "";
+      position: absolute;
+      left: -22px;
+      top: 32px;
+      bottom: 0;
+      width: 2px;
+      background-color: white;
+      z-index: -1;
+    }
+  }
+
+  .comment {
+    position: relative;
+
+    .line {
+      position: absolute;
+      left: -22px;
+      width: 30px;
+      top: 30px;
+      bottom: 30px;
+      height: 2px;
+      background-color: #ddd;
+      z-index: -1;
+    }
+  }
 `;
 
 const contentWidget = (
@@ -167,7 +220,7 @@ return (
           }
     }
   >
-    <div className={`post ${props.reposted ? "reposted" : ""}`}>
+    <div className={`rootPost post ${props.reposted ? "reposted" : ""}`}>
       <div className="left">
         <Widget
           loading=""
