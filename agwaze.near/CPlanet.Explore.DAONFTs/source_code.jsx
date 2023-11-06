@@ -69,12 +69,14 @@ return (
             chainState: "near",
             logo: logo,
             onButtonClick: () =>
-              props.update({
-                tab: "singleNFT",
-                contractId: data.nft_contract_id,
-                tokenId: data.token_id,
-                chainState: "near",
-              }),
+              !props.isGateway
+                ? props.update({
+                    tab: "singleNFT",
+                    contractId: data.nft_contract_id,
+                    tokenId: data.token_id,
+                    chainState: "near",
+                  })
+                : {},
             price: data.listings.length
               ? (data.listings.length / 1000000000000000000000000).toFixed(2)
               : null,
