@@ -107,15 +107,26 @@ const render = (post) => {
 };
 
 return (
-  <InfiniteScroll
-    pageStart={0}
-    loadMore={() => {
-      setDisplayCount(displayCount + renderLimit);
-    }}
-    threshold={props.threshold ?? 800}
-    hasMore={displayCount <= posts.length}
-    loader={loader}
-  >
-    {order.slice(0, displayCount).map((i) => render(posts[i]))}
-  </InfiniteScroll>
+  <div>
+    {subneddit === "all" ? (
+      <div>Select a subneddit to be able to post</div>
+    ) : (
+      <Widget
+        key="compose"
+        src="mob.near/widget/Neddit.Compose"
+        props={{ subneddit }}
+      />
+    )}
+    <InfiniteScroll
+      pageStart={0}
+      loadMore={() => {
+        setDisplayCount(displayCount + renderLimit);
+      }}
+      threshold={props.threshold ?? 800}
+      hasMore={displayCount <= posts.length}
+      loader={loader}
+    >
+      {order.slice(0, displayCount).map((i) => render(posts[i]))}
+    </InfiniteScroll>
+  </div>
 );
