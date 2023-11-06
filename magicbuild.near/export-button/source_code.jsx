@@ -91,10 +91,13 @@ const exportForm = () => {
         functions: [],
       },
     };
+    let tagsObj = null;
+    if (state.choose) {
+      tagsObj = state.choose.reduce((accumulator, value) => {
+        return { ...accumulator, [value]: "" };
+      }, {});
+    }
 
-    const tagsObj = state.choose.reduce((accumulator, value) => {
-      return { ...accumulator, [value]: "" };
-    }, {});
     const abiMethod = state.cMethod;
     abiMethod.forEach((item) => {
       abi.body.functions.push(item);
