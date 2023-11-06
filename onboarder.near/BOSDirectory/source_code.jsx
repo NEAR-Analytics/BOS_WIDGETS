@@ -144,6 +144,18 @@ const social = {
       deploy: null,
       github: "https://github.com/NEARBuilders/discoverbos",
     },
+        {
+      key: 5,
+      name: "Calimero Chat",
+      url: "https://portal.calimero.network/",
+      image:
+        "https://ipfs.near.social/ipfs/bafkreid3dxlktgfofh5quqozhpjodbcwz35tr7mmfym324qckssaizqkgy",
+      description:
+        "Decentralized slack on Calimero's community shard",
+      category: ["Chat", "Social", "NEAR"],
+      deploy: null,
+      github: null,
+    },
     {
       key: 5,
       name: "Coin98 dApp Store",
@@ -242,14 +254,13 @@ const social = {
       deploy: null,
       github: null,
     },
-        {
+    {
       key: 3,
       name: "CPlanet",
       url: "https://cplanet.org/",
       image:
         "https://ipfs.near.social/ipfs/bafybeia3q6ea377j5zuvtzedjjbm6kin4dtecmwkbbpkujh7srhpsy2b2q",
-      description:
-        "The portal for creatives in the NEAR Ecosystem",
+      description: "The portal for creatives in the NEAR Ecosystem",
       category: ["Art", "NEAR", "NFT"],
       deploy: null,
       github: "https://github.com/Jikugodwill/bos-cplanet",
