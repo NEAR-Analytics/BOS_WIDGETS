@@ -39,7 +39,7 @@ return (
       </div>
       <div className="right">
         <Widget
-          src="mob.near/widget/MainPage.N.Post.Header"
+          src="mob.near/widget/Neddit.Common.Header"
           props={{
             accountId,
             blockHeight,
@@ -106,8 +106,8 @@ return (
           src="mob.near/widget/Neddit.Comment.Compose"
           props={{
             initialText: `@${accountId}, `,
-            notifyAccountId: extractNotifyAccountId(parentItem),
-            item: parentItem,
+            notifyAccountId: extractNotifyAccountId(item),
+            item,
             rootItem,
             onComment: () => State.update({ showReply: false }),
           }}
