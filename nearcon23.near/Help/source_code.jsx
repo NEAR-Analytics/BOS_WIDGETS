@@ -26,7 +26,11 @@ const CreateButton = styled.a`
 
 return (
   <div
-    style={{ backgroundColor: "#3D434D", height: "100%", position: "relative" }}
+    style={{
+      backgroundColor: "#3D434D",
+      height: "calc(100vh - 96px)",
+      position: "relative",
+    }}
   >
     <img
       style={{
