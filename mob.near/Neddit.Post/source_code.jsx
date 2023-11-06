@@ -99,16 +99,16 @@ const Wrapper = styled.div`
     z-index: -1;
   }
 
-  .rootPost:not(:first-child):after {
-    content: "";
-    position: absolute;
-    left: 30px;
-    top: 0;
-    width: 2px;
-    height: 8px;
-    background-color: #ddd;
-    z-index: -1;
-  }
+//   .rootPost:not(:first-child):after {
+//     content: "";
+//     position: absolute;
+//     left: 30px;
+//     top: 0;
+//     width: 2px;
+//     height: 8px;
+//     background-color: #ddd;
+//     z-index: -1;
+//   }
   
   .left {
     margin-right: 12px;
@@ -136,49 +136,56 @@ const Wrapper = styled.div`
   .reposted {
     padding-top: 30px;
   }
-
-  .comments-step {
-    margin-left: 52px;
-    position: relative;
-
-    :before {
+        
+  .compose-line {
+    &:before {
       content: "";
       position: absolute;
-      left: -22px;
+      left: 30px;
       top: 0px;
-      bottom: 0;
+      bottom: -30px;
       width: 2px;
       background-color: #ddd;
       z-index: -2;
     }
+  }
 
-    .comment:first-child:not(:last-child):before {
-      content: "";
-      position: absolute;
-      left: 30px;
-      top: 56px;
-      bottom: 0;
-      width: 2px;
-      background-color: #ddd;
-      z-index: -1;
+
+  .comments-step {
+    padding-left: 52px;
+    position: relative;
+
+    .comment-section {
+      position: relative;
     }
 
-    > :last-child:after {
+    > *:not(:last-child):before {
       content: "";
       position: absolute;
       left: -22px;
-      top: 32px;
-      bottom: 0;
+      top: 0px;
+      bottom: -30px;
       width: 2px;
-      background-color: white;
-      z-index: -1;
+      background-color: #ddd;
+      z-index: -2;
     }
   }
 
   .comment {
     position: relative;
 
-    .line {
+    &:first-child:not(:last-child) > .left:before {
+      content: "";
+      position: absolute;
+      left: 30px;
+      top: 56px;
+      bottom: -30px;
+      width: 2px;
+      background-color: #ddd;
+      z-index: -1;
+    }
+
+    > .h-line {
       position: absolute;
       left: -22px;
       width: 30px;
