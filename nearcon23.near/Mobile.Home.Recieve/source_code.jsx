@@ -167,6 +167,14 @@ const srcData = `
 return (
   <Container>
     <Content>
+      <Widget
+        props={{
+          nearconId: state.userData.nearconId,
+          cid: state.userData.cid,
+        }}
+        src={`${ownerId}/widget/Navbar`}
+      />
+
       <div
         style={{
           flex: 1,
