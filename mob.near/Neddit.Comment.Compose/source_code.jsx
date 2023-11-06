@@ -71,8 +71,9 @@ State.init({
 });
 
 return (
-  <>
+  <div className="comment-section">
     <div className="comment">
+      <div className="h-line" />
       <Widget
         src="mob.near/widget/MainPage.N.Common.Compose"
         props={{
@@ -110,5 +111,5 @@ return (
         }}
       />
     )}
-  </>
+  </div>
 );
