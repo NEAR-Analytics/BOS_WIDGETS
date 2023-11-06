@@ -1,3 +1,5 @@
+const [showReply, setShowReply] = useState(false);
+
 const accountId = props.accountId;
 if (!accountId) {
   return "No accountId";
@@ -270,8 +272,7 @@ return (
               loading=""
               src="mob.near/widget/N.CommentButton"
               props={{
-                disabled: permissions.disableComment,
-                onClick: () => State.update({ showReply: !state.showReply }),
+                onClick: () => setShowReply(!showReply),
               }}
             />
             <Widget
@@ -314,7 +315,7 @@ return (
           rootItem: item,
           depth: 1,
           renderLimit: 10,
-          prefix: state.showReply && (
+          prefix: showReply && (
             <Widget
               loading=""
               src="mob.near/widget/Neddit.Comment.Compose"
@@ -322,7 +323,7 @@ return (
                 notifyAccountId,
                 item,
                 rootItem: item,
-                onComment: () => State.update({ showReply: false }),
+                onComment: () => setShowReply(false),
               }}
             />
           ),
