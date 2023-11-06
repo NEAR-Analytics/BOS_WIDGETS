@@ -104,7 +104,7 @@ return (
         }}
       />
 
-      <div style={{ backgroundColor: "red", padding: 10 }}>
+      <div style={{ backgroundColor: "#000", padding: 10 }}>
         <div
           style={{
             backgroundColor: "#FFFFFF",
