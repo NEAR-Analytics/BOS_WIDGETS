@@ -4,7 +4,6 @@ const loadData = () => {
   const clientListData = Social.get(
     `${context.accountId}/magicbuild/clientList`
   );
-  console.log(clientListData);
   if (clientListData) {
     const clientList = JSON.parse(clientListData);
     State.update({ clientList: clientList });
