@@ -108,8 +108,9 @@ return (
     {state.content && (
       <Widget
         key="post-preview"
-        src="mob.near/widget/MainPage.N.Post"
+        src="mob.near/widget/Neddit.Post"
         props={{
+          subneddit,
           accountId: context.accountId,
           content: state.content,
           blockHeight: "now",
