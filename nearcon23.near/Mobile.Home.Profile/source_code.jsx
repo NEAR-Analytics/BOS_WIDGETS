@@ -306,13 +306,13 @@ return loading ? (
               letterSpacing: "-5px",
             }}
           >
-            00{userData?.balance?.replace?.("0000000000000000000000", "")}
+            {userData?.balance}
           </h1>
           <h3
             style={{
               fontSize: 30,
               fontWeight: 500,
-              margin: '14px 0 0 0',
+              margin: "14px 0 0 0",
               color: "#00EC97",
             }}
           >
