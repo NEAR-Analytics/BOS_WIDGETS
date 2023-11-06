@@ -1,12 +1,12 @@
 const Owner = "nftwg_home.near";
-
+const SearchInput = "nearhorizon.near";
 State.init({
   isToggleActive: true,
   isWidgetVisible: true,
   toggleBoxLeft: "50px",
+  filteredCards: [], // Initially, set it to data1
   searchQuery: "",
-  cards: data1,
-  filteredCards: [],
+  searchBarClicked: false,
 });
 
 const handleToggleClick = () => {
@@ -16,19 +16,41 @@ const handleToggleClick = () => {
     cards: state.isToggleActive ? data2 : data1,
   });
 };
-
-const applicationNames = ["Humans Of Near", "Socializer", "App Name 3"]; // Add your application names here
+const data1 = [
+  {
+    title: "Humans Of Near",
+    imageSrc:
+      "https://imgtr.ee/images/2023/10/23/c406744cb2519c3ff347cd46806db29e.png",
+    description:
+      "Humans of Near is a Map of IAM Human SBT holders. Built by the NFT Workgroup.",
+    buttonText: "Completed",
+    fontSize: 20,
+    href: "https://near.org/humans-of-near.near/widget/humans.nearverselabs.com",
+  },
+  {
+    title: "Socializer",
+    imageSrc:
+      "https://imgtr.ee/images/2023/10/23/57b442df1ce536dbf207c6ed36bfae63.png",
+    description: "Socializer is an interactive rewards portal for Near Social.",
+    buttonText: "In Progress",
+    fontSize: 20,
+  },
+];
 
 const handleSearchChange = (event) => {
   const searchQuery = event.target.value.toLowerCase();
-  const filteredCards = state.cards.filter((card) => {
-    return applicationNames.some((appName) =>
-      card.name.toLowerCase().includes(appName.toLowerCase())
-    );
-  });
+  let filteredCards = data1; // Initialize with all cards
+  if (searchQuery) {
+    filteredCards = data1.filter((card) => {
+      // Implement your search logic here; e.g., check if card title includes the searchQuery
+      return card.title.toLowerCase().includes(searchQuery);
+    });
+  }
+
   State.update({
-    searchQuery,
-    filteredCards,
+    searchQuery: searchQuery,
+    filteredCards: filteredCards,
+    searchBarClicked: true,
   });
 };
 
@@ -156,7 +178,7 @@ const SearchContainer = styled.div`
 /* Group 1000004191 */
 
 position: absolute;
-width: 1200px;
+width: 780px;
 height: 56px;
 
 
@@ -349,7 +371,7 @@ height: 313px;
 background: #FFFFFF;
 border: 1px solid #A0A0A0;
 border-radius: 10px;
-background: #D9D9D9;
+
 
 
 `;
@@ -377,7 +399,7 @@ width: 352px;
 height: 48px;
 
 
-background: #FFFFFF;
+background: #D9D9D9;
 border: 1px solid #F0F0F0;
 border-radius: 79px;
 `;
@@ -412,6 +434,14 @@ const WidgetContainer = styled.div`
   left: 40px;
   display: ${state.isWidgetVisible ? "block" : "none"};
   overflow-y: scroll;
+`;
+const Line = styled.div`
+/* Line 6 */
+position: absolute;
+width: 399px;
+height: 0px;
+border: 1px solid #A0A0A0;
+
 `;
 
 return (
@@ -451,24 +481,49 @@ return (
       </ToggleText2>
     </ToggleContainer>
     <SearchContainer style={{ top: 300, left: 250 }}>
-      <SearchBar>
-        <input
-          style={{ width: 800, height: 56 }}
-          type="search"
-          placeholder="Search by card title"
-          value={state.searchQuery}
-          onChange={handleSearchChange}
-        />
-      </SearchBar>
+      <input type="search" onChange={handleSearchChange} />
     </SearchContainer>
     <WidgetContainer style={{ left: 200 }}>
-      {state.isToggleActive ? (
-        <Widget src={`${Owner}/widget/CardForNFTWG`} props={props} />
+      {state.isToggleActive && state.searchBarClicked && state.searchQuery ? (
+        state.filteredCards.map((card, index) => (
+          <Card key={index}>
+            <CardContent style={{ top: 10, left: 10 }}>
+              <img
+                style={{ width: "80px", height: "80px" }}
+                src={card.imageSrc}
+                alt={card.title}
+              />
+            </CardContent>
+            <CardContent
+              style={{
+                fontSize: "24px",
+                top: "50px",
+                left: "170px",
+                fontWeight: 700,
+              }}
+            >
+              {card.title}
+            </CardContent>
+
+            <CardContent
+              style={{ fontSize: "16px", top: "100px", left: "10px" }}
+            >
+              {card.description}
+            </CardContent>
+            <CardContent style={{ top: "180px" }}>
+              <Line style={{ width: "100%" }} />
+            </CardContent>
+            <CardContent>
+              <AppLinkButton style={{ top: "200px", left: "20px" }}>
+                <a href={card.href} target="_blank">
+                  <ApplinkText>{card.buttonText}</ApplinkText>
+                </a>
+              </AppLinkButton>
+            </CardContent>
+          </Card>
+        ))
       ) : (
-        <Widget
-          src={`${Owner}/widget/CardForCommunityInnovations`}
-          props={props}
-        />
+        <Widget src={`${Owner}/widget/CardForNFTWG`} props={props} />
       )}
     </WidgetContainer>
   </DaapCentralContainer>
