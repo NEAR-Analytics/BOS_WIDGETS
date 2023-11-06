@@ -76,7 +76,7 @@ const render = (post) => {
     <div key={JSON.stringify(post)}>
       <Widget
         loading={<div className="w-100" style={{ height: "200px" }} />}
-        src="mob.near/widget/MainPage.N.Post"
+        src="mob.near/widget/Neddit.Post"
         props={{
           accountId,
           blockHeight,
