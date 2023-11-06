@@ -93,7 +93,7 @@ return (
                 props.onComment && props.onComment(state.content);
               }}
             >
-              Comment
+              Reply
             </CommitButton>
           ),
         }}
