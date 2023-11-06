@@ -83,7 +83,7 @@ const Wrapper = styled.div`
 
 return (
   <Wrapper className="post-header">
-    <div className="d-flex flex-row align-items-center">
+    <div className="d-flex flex-row align-items-top">
       <div
         className="flex-grow-1 d-lg-flex gap-1"
         style={{ minWidth: 0, overflow: "hidden" }}
