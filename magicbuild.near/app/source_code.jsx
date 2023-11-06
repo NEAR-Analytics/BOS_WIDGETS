@@ -1,266 +1,363 @@
-State.init({ clientList: [], widgetList: [] });
-const loadData = () => {
-  const clientListData = Social.get(
-    `${context.accountId}/magicbuild/clientList`
-  );
-  if (clientListData) {
-    const clientList = JSON.parse(clientListData);
-    State.update({ clientList: clientList });
-  }
-  const exportListData = Social.get(
-    `${context.accountId}/magicbuild/widgetList`
-  );
-  console.log(exportListData);
-  if (exportListData) {
-    const exportList = JSON.parse(exportListData);
-    State.update({ widgetList: exportList });
-  }
+// comment to update
+State.init({ clientName: "", clientContract: "", clientList: [], error });
+const onInputChangeClientName = ({ target }) => {
+  State.update({ clientName: target.value });
+};
+const onInputChangeClientContract = ({ target }) => {
+  State.update({ error: null });
+  State.update({ clientContract: target.value });
 };
 
+const loadData = () => {
+  const clientList = Social.get(`${context.accountId}/magicbuild/clientlist`);
+  if (clientList) {
+    const clientListData = JSON.parse(clientList);
+    clientListData.forEach((item, index) => {
+      const abiRes = Social.get(
+        `${context.accountId}/magicbuild/client/${item.id}/abi`
+      );
+      if (abiRes) {
+        const abi = JSON.parse(abiRes);
+        clientListData[index].abi = abi;
+      }
+    });
+    State.update({ clientList: clientListData });
+  }
+};
 loadData();
+const saveClient = () => {
+  if (state.clientName.length < 5) {
+    State.update({
+      error: "Name requires more than 5 characters",
+    });
+  } else {
+    asyncFetch("https://rpc.near.org/", {
+      body: JSON.stringify({
+        method: "query",
+        params: {
+          request_type: "view_code",
+          account_id: state.clientContract,
+          finality: "final",
+        },
+        id: 154,
+        jsonrpc: "2.0",
+      }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+      method: "POST",
+    }).then((res) => {
+      if (res.body.result.code_base64) {
+        const data = state.clientList;
+        const clientData = {
+          id: Date.now(),
+          name: state.clientName,
+          address: state.clientContract,
+          archived: false,
+          abi: null,
+        };
+        data.push(clientData);
+        const saveData = {
+          magicbuild: {
+            clientlist: data,
+          },
+        };
+        Social.set(saveData, {
+          force: true,
+          onCommit: () => {},
+          onCancel: () => {},
+        });
+      } else {
+        State.update({
+          error:
+            "Unable to save Account ID because the contract has not been deployed yet!",
+        });
+      }
+    });
+  }
+};
 const Wrapper = styled.div`
 .nav-pills .nav-link.active, .nav-pills .show>.nav-link {
   color: #fff;
     background-color: #000000;
 }
+.nav-link {
+  color: #000000;
+}
 `;
 return (
   <Wrapper>
-    <div class="navbar navbar-icon-top navbar-expand-lg navbar-dark bg-dark">
-      <a class="navbar-brand" href="#"></a>
-      <button
-        class="navbar-toggler"
-        type="button"
-        data-toggle="collapse"
-        data-target="#navbarSupportedContent"
-        aria-controls="navbarSupportedContent"
-        aria-expanded="false"
-        aria-label="Toggle navigation"
-      >
-        <span class="navbar-toggler-icon"></span>
-      </button>
-
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav nav-pills mr-auto" id="pills-tab" role="tablist">
-          <li class="nav-item" role="presentation">
-            <span
-              class="nav-link px-3 active"
-              id="pills-tab-home"
-              data-bs-toggle="pill"
-              data-bs-target="#pills-home"
-              type="button"
-              role="tab"
-              aria-controls="pills-home"
-              aria-selected="true"
-            >
-              <span class="fw-bold">🪄 Magic Build</span>
-            </span>
-          </li>
-          <li class="nav-item" role="presentation">
-            <span
-              class="nav-link active"
-              id="pills-tab-builder"
-              data-bs-toggle="pill"
-              data-bs-target="#pills-builder"
-              type="button"
-              role="tab"
-              aria-controls="pills-builder"
-              aria-selected="true"
-              class="nav-link px-3 "
-            >
-              <label class="custom-control-label" for="darkSwitch">
-                <span class="fw-bold">Form Builder</span>
-              </label>
-            </span>
-          </li>
-          <li class="nav-item" role="presentation">
-            <span
-              class="nav-link active"
-              id="pills-tab-ui"
-              data-bs-toggle="pill"
-              data-bs-target="#pills-ui"
-              type="button"
-              role="tab"
-              aria-controls="pills-ui"
-              aria-selected="true"
-              class="nav-link px-3 "
-            >
-              <label class="custom-control-label" for="darkSwitch">
-                <span class="fw-bold">BOS Composer</span>
-              </label>
-            </span>
-          </li>
-          <li class="nav-item" role="presentation">
-            <span
-              class="nav-link "
-              id="pills-tab-block"
-              data-bs-toggle="pill"
-              data-bs-target="#pills-block"
-              type="button"
-              role="tab"
-              aria-controls="pills-block"
-              aria-selected="true"
-              class="nav-link px-3 "
-            >
-              <label class="custom-control-label" for="darkSwitch">
-                <span class="fw-bold">Block Builder</span>
-              </label>
-            </span>
-          </li>
-          <li class="nav-item dropdown">
-            <a
-              class="nav-link dropdown-toggle"
-              href="#"
-              id="dropdown03"
-              data-bs-toggle="dropdown"
-              aria-expanded="true"
-            >
-              <span class="fw-bold">Client</span>
-            </a>
-            <ul
-              class="dropdown-menu "
-              aria-labelledby="dropdown03"
-              data-bs-popper="none"
-            >
-              {state.clientList &&
-                state.clientList.map((client, index) => {
-                  if (client.archived == false) {
-                    return (
-                      <li>
-                        <a
-                          href="#"
-                          class="dropdown-item"
-                          id={`pills-tab-${client.clientId}`}
-                          data-bs-toggle="pill"
-                          data-bs-target={`#pills-${client.clientId}`}
+    <div class="container">
+      <div class="row">
+        <div class="col-md-2">
+          <div
+            class="side-bar"
+            data-bs-scroll="true"
+            tabindex="-1"
+            id="offcanvas"
+            aria-labelledby="offcanvas"
+          >
+            <div class="offcanvas-body p-0">
+              <div>
+                <ul
+                  class="nav flex-column nav-pills  navbar-dark "
+                  id="pills-tab"
+                  role="tablist"
+                >
+                  <li class="mb-1">
+                    <div class=" small fw-bold text-uppercase px-3"></div>
+                  </li>
+                  <li class="nav-item" role="presentation">
+                    <span
+                      class="nav-link px-3 active"
+                      id="pills-tab-home"
+                      data-bs-toggle="pill"
+                      data-bs-target="#pills-home"
+                      type="button"
+                      role="tab"
+                      aria-controls="pills-home"
+                      aria-selected="true"
+                    >
+                      <span class="fw-bold">🪄 Magic Build</span>
+                    </span>
+                  </li>
+                  <li>
+                    <hr />
+                  </li>
+                  <li class="mb-1">
+                    <div class="small fw-bold text-uppercase d-flex  px-3 align-items-center justify-content-between">
+                      <span>Client</span>
+                      {state.clientList.length > 0 && (
+                        <button
                           type="button"
-                          role="tab"
-                          aria-controls={`#pills-${client.clientId}`}
-                          aria-selected="true"
+                          class="btn btn-sm"
+                          data-bs-toggle="modal"
+                          data-bs-target="#createClient"
                         >
-                          <span class="fw-bold">✨{client.clientName}</span>
-                        </a>
-                      </li>
-                    );
-                  }
-                })}
-            </ul>
-          </li>
-          <li class="nav-item dropdown">
-            <a
-              class="nav-link dropdown-toggle"
-              href="#"
-              id="dropdown03"
-              data-bs-toggle="dropdown"
-              aria-expanded="true"
-            >
-              <span class="fw-bold">Widget</span>
-            </a>
-            <ul
-              class="dropdown-menu"
-              aria-labelledby="dropdown03"
-              data-bs-popper="none"
-            >
-              {state.widgetList &&
-                state.widgetList.map((widget, index) => {
-                  return (
+                          Add
+                          <i class="bi bi-file-earmark-plus"></i>
+                        </button>
+                      )}
+                    </div>
+                    <div
+                      class="modal fade"
+                      id="createClient"
+                      tabindex="-1"
+                      aria-labelledby="createClientLabel"
+                      aria-hidden="true"
+                    >
+                      <div class="modal-dialog">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="createClientLabel">
+                              Create Client
+                            </h1>
+                            <button
+                              type="button"
+                              class="btn-close"
+                              data-bs-dismiss="modal"
+                              aria-label="Close"
+                            ></button>
+                          </div>
+                          <div class="modal-body">
+                            <div class="form-group">
+                              <label>Name</label>
+                              <input
+                                class="form-control"
+                                onChange={(e) => onInputChangeClientName(e)}
+                              />
+                            </div>
+                            <div class="form-group">
+                              <label>Address</label>
+                              <input
+                                class="form-control"
+                                onChange={(e) => onInputChangeClientContract(e)}
+                              />
+                            </div>
+                            <div class="form-group">
+                              <label>Chain</label>
+                              <select class="form-control">
+                                <option selected>Near Chain</option>
+                                <option disabled>Ethereum Chain</option>
+                                <option disabled>AVAX Chain</option>
+                              </select>
+                            </div>
+                            {!state.error && (
+                              <small class="form-text text-muted">
+                                A new Client will be created.
+                              </small>
+                            )}
+
+                            {state.error && (
+                              <p class="text-danger" role="alert">
+                                {state.error}
+                              </p>
+                            )}
+                          </div>
+                          <div class="modal-footer">
+                            <button
+                              type="button"
+                              class="btn btn-secondary"
+                              data-bs-dismiss="modal"
+                            >
+                              Close
+                            </button>
+                            <button
+                              type="button"
+                              onClick={saveClient}
+                              class="btn btn-primary"
+                            >
+                              Create
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </li>
+                  {state.clientList.length == 0 && (
+                    <button
+                      type="button"
+                      class="btn btn-sm"
+                      data-bs-toggle="modal"
+                      data-bs-target="#createClient"
+                    >
+                      Add Your First Contract
+                      <i class="bi bi-file-earmark-plus"></i>
+                    </button>
+                  )}
+                  {state.clientList &&
+                    state.clientList.map((client, index) => {
+                      if (client.archived == false) {
+                        return (
+                          <li role="presentation">
+                            <span
+                              class="nav-link px-3"
+                              id={`pills-tab-${client.id}`}
+                              data-bs-toggle="pill"
+                              data-bs-target={`#pills-${client.id}`}
+                              type="button"
+                              role="tab"
+                              aria-controls={`#pills-${client.id}`}
+                              aria-selected="true"
+                            >
+                              <span class="fw-bold">✨{client.name}</span>
+                            </span>
+                          </li>
+                        );
+                      }
+                    })}
+                  {state.clientList.length > 0 && (
                     <li>
                       <a
-                        class="dropdown-item"
-                        id={`pills-tab-${widget.widgetName}`}
-                        data-bs-toggle="pill"
-                        data-bs-target={`#pills-${widget.widgetName}`}
-                        type="button"
-                        role="tab"
-                        aria-controls={`#pills-${widget.widgetName}`}
-                        aria-selected="true"
+                        class="nav-link px-3 sidebar-link"
+                        data-bs-toggle="collapse"
+                        href="#collapseArchive"
+                        role="button"
+                        aria-expanded="false"
+                        aria-controls="collapseArchive"
                       >
-                        <span class="fw-bold">🪄{widget.widgetName}</span>
+                        <span class="fw-bold">📦Archive</span>
+                        <span class="right-icon ms-auto">
+                          <i class="bi bi-chevron-down"></i>
+                        </span>
                       </a>
+
+                      <div class="collapse" id="collapseArchive">
+                        <div>
+                          <ul class="navbar-nav ps-3">
+                            {state.clientList &&
+                              state.clientList.map((client, index) => {
+                                if (client.archived == true) {
+                                  return (
+                                    <li>
+                                      <a
+                                        href="#"
+                                        class="nav-link px-3"
+                                        id={`pills-tab-${client.id}`}
+                                        data-bs-toggle="pill"
+                                        data-bs-target={`#pills-${client.id}`}
+                                        type="button"
+                                        role="tab"
+                                        aria-controls={`#pills-${client.id}`}
+                                        aria-selected="true"
+                                      >
+                                        <span class="fw-bold">
+                                          ✨{client.name}
+                                        </span>
+                                      </a>
+                                    </li>
+                                  );
+                                }
+                              })}
+                          </ul>
+                        </div>
+                      </div>
                     </li>
-                  );
-                })}
-            </ul>
-          </li>
+                  )}
 
-          <li class="nav-item" role="presentation">
-            <span
-              class="nav-link active"
-              id="pills-tab-help"
-              data-bs-toggle="pill"
-              data-bs-target="#pills-help"
-              type="button"
-              role="tab"
-              aria-controls="pills-help"
-              aria-selected="true"
-              class="nav-link px-3 "
-            >
-              <label class="custom-control-label" for="darkSwitch">
-                <a
-                  href="https://magic-build.gitbook.io/magicbuild.ai"
-                  class="fw-bold"
-                >
-                  🛟 Help
-                </a>
-              </label>
-            </span>
-          </li>
+                  <li>
+                    <hr />
+                  </li>
+                  <li class="mb-3">
+                    <div class=" small fw-bold text-uppercase px-3">Addons</div>
+                  </li>
+                  <li>
+                    <a href="#" class="nav-link px-3">
+                      <span class="me-2">
+                        <i class="bi bi-activity"></i>
+                      </span>
+                      <span class="fw-bold">Activity</span>
+                    </a>
+                  </li>
+                  <li>
+                    <a href="#" class="nav-link px-3">
+                      <span class="me-2">
+                        <i class="bi bi-clipboard2-data"></i>
+                      </span>
+                      <span class="fw-bold">Data</span>
+                    </a>
+                  </li>
+                  <li>
+                    <hr />
+                  </li>
+                  <li class="nav-item" role="presentation">
+                    <span
+                      class="nav-link active"
+                      id="pills-tab-help"
+                      data-bs-toggle="pill"
+                      data-bs-target="#pills-help"
+                      type="button"
+                      role="tab"
+                      aria-controls="pills-help"
+                      aria-selected="true"
+                      class="nav-link px-3 "
+                    >
+                      {" "}
+                      <label class="custom-control-label" for="darkSwitch">
+                        <span class="fw-bold">🛟 Help</span>
+                      </label>
+                    </span>
+                  </li>
 
-          <li class="nav-item" role="presentation">
-            <span
-              class="nav-link active"
-              id="pills-tab-help"
-              data-bs-toggle="pill"
-              data-bs-target="#pills-help"
-              type="button"
-              role="tab"
-              aria-controls="pills-help"
-              aria-selected="true"
-              class="nav-link px-3 "
-            >
-              <label class="custom-control-label" for="darkSwitch">
-                <a href="https://www.minorityprogrammers.com/" class="fw-bold">
-                  {" "}
-                  ℹ Built with ❤️ by
-                  <span class="fw-bold">Minority Programmers</span>
-                </a>
-              </label>
-            </span>
-          </li>
-        </ul>
-      </div>
-    </div>
-    <div class="container mt-2">
-      <div class="row">
-        <div class="col-md-12">
+                  <li>
+                    <hr />
+                  </li>
+                  <li>
+                    <a
+                      href="https://www.minorityprogrammers.com/"
+                      class="nav-link px-3"
+                    >
+                      ℹ Built with ❤️ by
+                      <span class="fw-bold">Minority Programmers</span>
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-10">
           <div class="tab-content" id="pills-tabContent">
-            <div
-              class="tab-pane fade "
-              id={`pills-builder`}
-              role="tabpanel"
-              aria-labelledby={`pills-tab-builder`}
-              tabindex="0"
-            >
-              <Widget src={"magicbuild.near/widget/builder"} />
-            </div>
-            <div
-              class="tab-pane fade "
-              id={`pills-ui`}
-              role="tabpanel"
-              aria-labelledby={`pills-tab-ui`}
-              tabindex="0"
-            >
-              <Widget src={"magicbuild.near/widget/ui"} />
-            </div>
-            <div
-              class="tab-pane fade "
-              id={`pills-block`}
-              role="tabpanel"
-              aria-labelledby={`pills-tab-block`}
-              tabindex="0"
-            >
-              <Widget src={"magicbuild.near/widget/block"} />
-            </div>
             <div
               class="tab-pane fade show active"
               id={`pills-home`}
@@ -270,7 +367,6 @@ return (
             >
               <Widget src={"magicbuild.near/widget/welcome"} />
             </div>
-
             <div
               class="tab-pane fade"
               id={`pills-help`}
@@ -282,30 +378,14 @@ return (
               state.clientList.map((client, index) => (
                 <div
                   class="tab-pane fade "
-                  id={`pills-${client.clientId}`}
+                  id={`pills-${client.id}`}
                   role="tabpanel"
-                  aria-labelledby={`pills-tab-${client.clientId}`}
+                  aria-labelledby={`pills-tab-${client.id}`}
                   tabindex="0"
                 >
                   <Widget
                     src={"magicbuild.near/widget/builder"}
                     props={client}
-                  />
-                </div>
-              ))}
-
-            {state.widgetList &&
-              state.widgetList.map((widget, index) => (
-                <div
-                  class="tab-pane fade "
-                  id={`pills-${widget.widgetName}`}
-                  role="tabpanel"
-                  aria-labelledby={`pills-tab-${widget.widgetName}`}
-                  tabindex="0"
-                >
-                  <Widget
-                    src={`${context.accountId}/widget/${widget.widgetName}`}
-                    props={widget}
                   />
                 </div>
               ))}
