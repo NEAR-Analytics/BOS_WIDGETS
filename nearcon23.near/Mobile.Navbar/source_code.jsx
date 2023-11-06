@@ -5,6 +5,7 @@ const ownerId = "nearcon23.near";
 
 const Container = styled.div`
   width: 100%;
+  height: 96px;
   background-color: #000000;
   padding: 20px;
 
