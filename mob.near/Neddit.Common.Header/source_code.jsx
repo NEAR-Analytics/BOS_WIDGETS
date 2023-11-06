@@ -133,7 +133,7 @@ return (
         {subneddit && (
           <div className="sub">
             <a
-              href={`/mob.near/widget/Widget?n=${subneddit}`}
+              href={`/mob.near/widget/Neddit?n=${subneddit}`}
               className="subneddit"
             >
               n/{subneddit}
