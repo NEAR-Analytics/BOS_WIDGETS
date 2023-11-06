@@ -6,6 +6,7 @@ State.init({
   toggleBoxLeft: "50px",
   searchQuery: "",
   cards: data1,
+  filteredCards: [],
 });
 
 const handleToggleClick = () => {
@@ -15,9 +16,11 @@ const handleToggleClick = () => {
     cards: state.isToggleActive ? data2 : data1,
   });
 };
+
 const handleSearchChange = (event) => {
+  const searchQuery = event.target.value.toLowerCase();
   State.update({
-    searchQuery: event.target.value,
+    searchQuery,
   });
 };
 
@@ -445,7 +448,6 @@ return (
           style={{ width: 800, height: 56 }}
           type="search"
           placeholder="Search by card title"
-          value={state.searchQuery}
           onChange={handleSearchChange}
         />
       </SearchBar>
