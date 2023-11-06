@@ -1,6 +1,9 @@
 const Root = styled.div`
     padding: 20px;
     width: 100%;
+    max-width: 1400px;
+    margin-left: auto;
+    margin-right: auto;
     h1 {
         color: var(--Black, #000);
         leading-trim: both;
