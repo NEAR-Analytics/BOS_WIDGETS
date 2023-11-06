@@ -169,7 +169,7 @@ return (
     <Widget src="agwaze.near/widget/CPlanet.Home.Partners" />
     <Widget
       src="agwaze.near/widget/CPlanet.Home.NFTs"
-      props={{ update: props.update }}
+      props={{ update: props.update, isGateway: props.isGateway }}
     />
     <Widget src="agwaze.near/widget/CPlanet.Home.Quest" />
   </Root>
