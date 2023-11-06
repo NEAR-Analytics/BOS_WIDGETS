@@ -40,6 +40,7 @@ return (
         maxWidth: 400,
         // height: "80vh",
         // padding: 10,
+        position: "absolute",
       }}
       src="https://nearpad-images.s3.amazonaws.com/help-map.png"
     />
@@ -48,6 +49,7 @@ return (
       style={{
         position: "absolute",
         width: "100%",
+        bottom: 40,
       }}
     >
       <CreateButton>
