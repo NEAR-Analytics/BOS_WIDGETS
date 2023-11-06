@@ -27,11 +27,14 @@ const item = {
   blockHeight,
 };
 
+const subCommentsProps = props.subCommentsProps;
+
 return (
   <>
     <div
       className={`comment post ${highlight ? "bg-warning bg-opacity-10" : ""}`}
     >
+      <div className="h-line" />
       <div className="left">
         <Widget
           loading=""
@@ -105,15 +108,25 @@ return (
         )}
       </div>
     </div>
-    {state.showReply && (
+    {props.subCommentsProps && (
       <Widget
-        src="mob.near/widget/Neddit.Comment.Compose"
+        key="sub-comments"
+        loading={false}
+        src="mob.near/widget/Neddit.Comment.Feed"
         props={{
-          initialText: `@${accountId}, `,
-          notifyAccountId: extractNotifyAccountId(item),
-          item,
-          rootItem,
-          onComment: () => State.update({ showReply: false }),
+          prefix: state.showReply && (
+            <Widget
+              src="mob.near/widget/Neddit.Comment.Compose"
+              props={{
+                initialText: "",
+                notifyAccountId: extractNotifyAccountId(item),
+                item,
+                rootItem,
+                onComment: () => State.update({ showReply: false }),
+              }}
+            />
+          ),
+          ...props.subCommentsProps,
         }}
       />
     )}
