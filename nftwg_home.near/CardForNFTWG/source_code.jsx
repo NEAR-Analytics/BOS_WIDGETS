@@ -1,5 +1,24 @@
 const Owner = "nftwg_home.near";
-
+const props = [
+  {
+    title: "Humans Of Near",
+    imageSrc:
+      "https://imgtr.ee/images/2023/10/23/c406744cb2519c3ff347cd46806db29e.png",
+    description:
+      "Humans of Near is a Map of IAM Human SBT holders. Built by the NFT Workgroup.",
+    buttonText: "Completed",
+    fontSize: 20,
+    href: "https://near.org/humans-of-near.near/widget/humans.nearverselabs.com",
+  },
+  {
+    title: "Socializer",
+    imageSrc:
+      "https://imgtr.ee/images/2023/10/23/57b442df1ce536dbf207c6ed36bfae63.png",
+    description: "Socializer is an interactive rewards portal for Near Social.",
+    buttonText: "In Progress",
+    fontSize: 20,
+  },
+];
 const Card = styled.div`
   box-sizing: border-box;
   width: 400px;
