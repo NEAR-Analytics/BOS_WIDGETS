@@ -17,6 +17,11 @@ const PublisherCard = styled.div`
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
+  width: 100%;  
+  .user {
+    width: 40%;
+    border: 1px solid #000;
+  }
 
   .income {
     font-size: 24px;
@@ -51,7 +56,7 @@ const convertDate = (date) => {
 
 return (
   <PublisherCard>
-    <div>
+    <div className="user overflow-x-hidden">
       <Widget
         src="nearui.near/widget/Element.User"
         props={{
