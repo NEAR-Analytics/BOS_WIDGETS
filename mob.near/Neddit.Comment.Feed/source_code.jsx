@@ -70,34 +70,27 @@ const render = (comment) => {
   const blockHeight = comment.item.blockHeight;
 
   return (
-    <>
+    <div key={JSON.stringify(comment)} className="comment-section">
       <Widget
-        key={JSON.stringify(comment)}
         loading={<div className="w-100" style={{ minHeight: "200px" }} />}
         src="mob.near/widget/Neddit.Comment"
         props={{
           accountId,
           blockHeight,
           rootItem,
-          item,
           highlight:
             accountId === props.highlightComment?.accountId &&
             blockHeight === props.highlightComment?.blockHeight,
+          subCommentsProps: {
+            item: comment.item,
+            rootItem,
+            depth: depth + 1,
+            initialRenderLimit: depth === 1 ? 3 : 0,
+            renderLimit: 10,
+          },
         }}
       />
-      <Widget
-        key="sub-comments"
-        loading={false}
-        src="mob.near/widget/Neddit.Comment.Feed"
-        props={{
-          item: comment.item,
-          rootItem,
-          depth: depth + 1,
-          initialRenderLimit: depth === 1 ? 3 : 0,
-          renderLimit: 10,
-        }}
-      />
-    </>
+    </div>
   );
 };
 
@@ -116,8 +109,9 @@ const fetchMore = displayCount < comments.length && (
   </div>
 );
 
-return comments.length > 0 ? (
-  <div style={{ marginLeft: "52px" }}>
+return props.prefix || comments.length > 0 ? (
+  <div className="comments-step">
+    {props.prefix}
     {order.slice(0, displayCount).map((i) => render(comments[i]))}
     {fetchMore}
   </div>
