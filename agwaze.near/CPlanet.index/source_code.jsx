@@ -36,7 +36,6 @@ State.init({
   tokenId: "",
   chainState: "",
   state: "",
-  onGateway: false,
   daoId: "",
   daoContractId: "",
 });
@@ -63,7 +62,7 @@ const tabContent = (
       accountId: state.accountId,
       chainState: state.chainState,
       daoId: state.daoId,
-      isGateway: state.onGateway,
+      isGateway: props.onGateway,
       daoContractId: state.daoContractId,
     }}
   />
@@ -77,7 +76,7 @@ return (
         props={{
           tab: state.tab,
           update,
-          isGateway: state.onGateway,
+          isGateway: props.isGateway,
           isHome: state.tab === "home",
         }}
       />
