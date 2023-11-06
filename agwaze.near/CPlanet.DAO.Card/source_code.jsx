@@ -381,7 +381,11 @@ return (
         </Tags>
         <Button>
           <a
-            href={`#/agwaze.near/widget/CPlanet.index?tab=daoProfile&daoId=${props.daoId}`}
+            href={
+              props.isGateway
+                ? `#/agwaze.near/widget/CPlanet.DAO.index?daoId=${props.daoId}`
+                : `#/agwaze.near/widget/CPlanet.index?tab=daoProfile&daoId=${props.daoId}`
+            }
             onClick={() => props.onButtonClick()}
           >
             <button>View DAO</button>
