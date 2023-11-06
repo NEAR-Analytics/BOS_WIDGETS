@@ -6,7 +6,7 @@ const CoADaoId = props.dev
     ? "coa.gwg-testing.near"
     : "congress-coa-v1.ndc-gwg.near";
 const VotingBodyDaoId = props.dev
-    ? "voting-body-v1.gwg-testing.near"
+    ? "vb-beta.gwg-testing.near"
     : "";
 const TCDaoId = props.dev
     ? "tc.gwg-testing.near"
@@ -15,7 +15,7 @@ const HoMDaoId = props.dev
     ? "hom.gwg-testing.near"
     : "congress-hom-v1.ndc-gwg.near";
 const registry = props.dev
-    ? "registry-unstable-v2.i-am-human.testnet"
+    ? "registry-v1.gwg-testing.near"
     : "registry.i-am-human.near";
 
 const isCongressDaoID =
