@@ -18,9 +18,11 @@ const CreateButton = styled.a`
 
     :hover {
       background-color: #000000dd;
+      color: #FFFFFF;
     }
     :active {
       background-color: #000000aa;
+      color: #FFFFFF;
     }
 `;
 
