@@ -10,6 +10,7 @@ const hideButtons = !!props.hideButtons;
 const content =
   props.content ??
   JSON.parse(Social.get(`${accountId}/post/main`, blockHeight) ?? "null");
+const subneddit = props.subneddit ?? content.subneddit;
 const subscribe = !!props.subscribe;
 const raw = !!props.raw;
 const groupId = props.groupId ?? content.groupId;
@@ -177,10 +178,11 @@ return (
       <div className="right">
         <Widget
           loading={<div className="post-header" />}
-          src="mob.near/widget/MainPage.N.Post.Header"
+          src="mob.near/widget/Neddit.Common.Header"
           props={{
             accountId,
             blockHeight,
+            subneddit,
             pinned,
             hideMenu,
             link,
