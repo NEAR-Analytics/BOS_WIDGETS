@@ -70,10 +70,9 @@ function sendSolution() {
   // FIXME: use the correct method name.
   // Hint: you can replay mainnet transactions from your previous submissions with era-test-node, with --show-calls=user --resolve-hashes
 
-  // FIXME: use the proper payload - it will be the keccak of the solution, your address and number of attempts.
-  //let answerHash = ethers.utils.solidityKeccak256(["string", "address", "uint16"], [ANSWER, ADDRESS, attempts]);
+  // FIXME: use the proper payload - it will be the keccak something. Might worth looking in the HTML code of the original frontend.
 
-  // FIXME: oh, and the answer - is the private key of the 'rich' account from era-test-node (including the 0x prefix).
+  // FIXME: oh, and the answer - is the private key of the first 'rich' account from era-test-node (including the 0x prefix).
 
   questContract
     .submitInvalid(QUEST_NAME, { gasLimit: 1000000 })
