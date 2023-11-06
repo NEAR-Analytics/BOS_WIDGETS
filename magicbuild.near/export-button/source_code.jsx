@@ -124,6 +124,7 @@ const exportForm = () => {
     if (!isExist) {
       exporttList.push({ widgetName: state.widgetName });
     }
+    console.log("cssStyle", abi.cssStyle);
 
     const data = {
       widget: {
