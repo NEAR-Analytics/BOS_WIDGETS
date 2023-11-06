@@ -103,20 +103,32 @@ return (
           locations: state.locations,
         }}
       />
-      {state.data.map((dateData, index) => {
-        return (
-          <div key={index}>
-            <Widget
-              src={`${accountId}/widget/Schedule.ContentScheduleShow`}
-              props={{
-                dateData,
-                index,
-                filter: state.filters,
-              }}
-            />
-          </div>
-        );
-      })}
+
+      <div style={{ backgroundColor: "red", padding: 10 }}>
+        <div
+          style={{
+            backgroundColor: "#FFFFFF",
+            padding: 0,
+            borderRadius: 8,
+            overflow: "hidden",
+          }}
+        >
+          {state.data.map((dateData, index) => {
+            return (
+              <div key={index}>
+                <Widget
+                  src={`${accountId}/widget/Schedule.ContentScheduleShow`}
+                  props={{
+                    dateData,
+                    index,
+                    filter: state.filters,
+                  }}
+                />
+              </div>
+            );
+          })}
+        </div>
+      </div>
     </div>
   </>
 );
