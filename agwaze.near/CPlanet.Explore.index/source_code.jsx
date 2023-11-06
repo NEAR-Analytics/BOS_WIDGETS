@@ -353,6 +353,7 @@ return (
                           title: data.name,
                           description: data.description,
                           image: data.media_url,
+                          isGateway: props.isGateway,
                           onButtonClick: () =>
                             props.update({
                               tab: "singleNFT",
