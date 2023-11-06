@@ -161,9 +161,7 @@ const storedSecretKey = Storage.get(
   : Storage.get("newPrivateKey", `${ownerId}/widget/RegisterMobile.Index`);
 const key = secretkey ? secretkey : storedSecretKey;
 const fetchData = () => {
-  asyncFetch(
-    `${apiUrl}/accounts/auth/${key}`
-  ).then(({ body }) => {
+  asyncFetch(`${apiUrl}/accounts/auth/${key}`).then(({ body }) => {
     State.update({ userData: body });
   });
 };
@@ -230,7 +228,7 @@ return (
                 success: state.username && !state.usernameError,
                 placeholder: "johndoe",
                 onChange: (username) => {
-                  State.update({ username });
+                  State.update({ username: username?.toLowerCase().trim() });
 
                   valid(`${username}.${ownerId}`, (d) => {
                     const inputValid = validateInput();
@@ -252,30 +250,29 @@ return (
               }}
             />
             {!!state.username && (
-              <p>{state.username}.{ownerId}</p>
+              <p>
+                {state.username}.{ownerId}
+              </p>
             )}
             <div style={{ marginTop: 8 }}>
               <SubmitComponent
                 onClick={() => {
                   if (isValid()) {
-                    valid(
-                      `${state.username}.${ownerId}`,
-                      (d) => {
-                        if (d) {
-                          State.update({
-                            usernameError: "",
-                            usernameExists: false,
-                            redirectToSend: true,
-                          });
-                        } else {
-                          State.update({
-                            usernameError: "Username is invalid",
-                            usernameExists: true,
-                          });
-                        }
-                        validateInput();
+                    valid(`${state.username}.${ownerId}`, (d) => {
+                      if (d) {
+                        State.update({
+                          usernameError: "",
+                          usernameExists: false,
+                          redirectToSend: true,
+                        });
+                      } else {
+                        State.update({
+                          usernameError: "Username is invalid",
+                          usernameExists: true,
+                        });
                       }
-                    );
+                      validateInput();
+                    });
                   }
                 }}
                 className={isValid() ? "" : "disabled"}
