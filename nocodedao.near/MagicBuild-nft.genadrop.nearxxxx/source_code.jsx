@@ -1,0 +1,8 @@
+const user = context.accountId;
+const props = {"schema_version":"0.3.0","address":"nft.genadrop.near","cssStyle":".card {  background: linear-gradient(to bottom right, #ff8080, #00bfff); /* Gradient background */  padding: 20px;}.card-header {  text-align: center;  font-family: sans-serif; /* Sans-serif font */  font-weight: bold;  font-size: 50px;}.card-header button {  /* Button styles */  background-color: #00bfff; /* Complementary color to the background */  color: #ffffff; /* Text color */  border: none;  padding: 10px 20px;  font-size: 20px;  cursor: pointer;  transition: background-color 0.3s ease;}.card-header button:hover {  background-color: #0080ff; /* Button hover effect */}.card input {  /* Input styles */  background-color: #ffffff; /* Complementary color to the background */  color: #000000; /* Text color */  border: 1px solid #dddddd;  padding: 10px;  font-size: 16px;}.card label {  /* Label styles */  font-size: 30px;  color: #ffffff; /* Text color */}","metadata":{"name":"","version":"0.1.0","authors":[""]},"body":{"functions":[{"name":"nft_mint","kind":"call","label":"","button":"","className":"","classButton":"","labelDeposit":"","export":true,"params":{"serialization_type":"json","args":[{"name":"owner_id","type_schema":{"type":"string"},"value":""},{"name":"token_ids","type_schema":{"type":"json"},"value":""},{"name":"memo","type_schema":{"type":"string"},"value":""}]},"deposit":0,"gas":30000000000000,"depositUnit":"near","selfInputDeposit":false,"gasUnit":"yoctoNEAR"}]}} 
+
+return (
+  <>
+    <Widget src={'magicbuild.near/widget/widget'} props={props} />
+  </>
+);
