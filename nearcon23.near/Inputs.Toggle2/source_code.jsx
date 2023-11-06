@@ -61,7 +61,7 @@ return (
     >
       <Switch.Thumb className="thumb" />
     </Switch.Root>
-    
+
     {props?.rightLabel && (
       <Label style={{ ...props.labelStyle }} htmlFor={props.id}>
         {props?.rightLabel ?? "Right Label"}
