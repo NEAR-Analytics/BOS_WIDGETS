@@ -146,7 +146,7 @@ const Wrapper = styled.div`
 `;
 return (
   <>
-    <div class="container">
+    <Wrapper class="container">
       {context.accountId ? contractForm : notLoggedInWarning}
       <h3 class="text-center">
         Address:
@@ -472,6 +472,6 @@ return (
             </div>
           </div>
         ))}
-    </div>
+    </Wrapper>
   </>
 );
