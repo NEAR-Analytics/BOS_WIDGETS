@@ -60,6 +60,6 @@ return (
     onClick={props.onClick}
   >
     <span className="icon">{CommentIcon}</span>
-    <span className="count" />
+    <span className="count">{props.text}</span>
   </Button>
 );
