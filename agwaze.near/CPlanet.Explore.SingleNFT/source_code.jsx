@@ -77,7 +77,10 @@ const Root = styled.div`
     flex-wrap: wrap;
     width: 100%;
     margin-bottom: 30px;
-    justify-content: space-between;
+    max-width: 1400px;
+    margin-left: auto;
+    margin-right: auto;
+    justify-content: center;
 `;
 
 const fewAndFarLogo = (
@@ -712,7 +715,7 @@ function followUser(user, isFollowing) {
 }
 
 return (
-  <Root>
+  <Root style={{ marginTop: props.isGateway ? 100 : 10 }}>
     <Right>
       <Top>
         <div>
