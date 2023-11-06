@@ -17,32 +17,32 @@ const PublisherCard = styled.div`
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  
+
   .income {
     font-size: 24px;
     font-weight: 600;
     color: #000;
   }
 
-  .title{
+  .title {
     font-size: 12px;
     font-weight: 600;
-    color: #6149cd;    
+    color: #6149cd;
   }
 `;
 
-const calIncome = () =>{
-    if(total_income>1000){        
-        return (total_income/1000).toFixed(2) + "K";
-    }
-    if(total_income>1000000){        
-        return (total_income/1000000).toFixed(2) + "M";
-    }
-    if(total_income>1000000000){        
-        return (total_income/1000000000).toFixed(2) + "B";
-    }
-    return total_income;
-}
+const calIncome = () => {
+  if (total_income > 1000000000) {
+    return (total_income / 1000000000).toFixed(2) + "B";
+  }
+  if (total_income > 1000000) {
+    return (total_income / 1000000).toFixed(2) + "M";
+  }
+  if (total_income > 1000) {
+    return (total_income / 1000).toFixed(2) + "K";
+  }
+  return total_income;
+};
 
 const convertDate = (date) => {
   const d = new Date(date);
@@ -61,8 +61,8 @@ return (
       <span>Join at: {convertDate(join_at)}</span>
     </div>
     <div className="d-flex row px-4">
-      <span className = "income">{calIncome(total_income)} N</span>
-      <span className = "title">Total Income</span>
+      <span className="income">{calIncome(total_income)} N</span>
+      <span className="title">Total Income</span>
     </div>
   </PublisherCard>
 );
