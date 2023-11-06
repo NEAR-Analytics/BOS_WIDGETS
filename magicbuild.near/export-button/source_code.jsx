@@ -14,6 +14,7 @@ State.init({
   tags,
   choose,
 });
+console.log(props);
 const onInputChangeWidgetName = ({ target }) => {
   State.update({ widgetName: target.value.replaceAll(" ", "-") });
   State.update({ clicked: false });
