@@ -53,6 +53,9 @@ const Root = styled.div`
     align-items: center;
     justify-content: center;
     margin-top: 40px;
+    max-width: 1400px;
+    margin-left: auto;
+    margin-right: auto;
 `;
 
 return (
