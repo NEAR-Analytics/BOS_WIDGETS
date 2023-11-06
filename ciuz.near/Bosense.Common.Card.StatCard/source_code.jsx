@@ -5,7 +5,7 @@ if (!title) {
 }
 
 if (!quantity) {
-  quantity = 12322;
+  quantity = 1200930;
 }
 
 if (!stat_pc) {
@@ -65,15 +65,14 @@ const Card = styled.div`
 `;
 
 const calQuantity = () => {
-  if (quantity > 1000) {
-    return (quantity / 1000).toFixed(2) + "K";
+  if (quantity > 1000000000) {
+    return (quantity / 1000000000).toFixed(2) + "B";
   }
   if (quantity > 1000000) {
     return (quantity / 1000000).toFixed(2) + "M";
   }
-
-  if (quantity > 1000000000) {
-    return (quantity / 1000000000).toFixed(2) + "B";
+  if (quantity > 1000) {
+    return (quantity / 1000).toFixed(2) + "K";
   }
 
   return quantity;
