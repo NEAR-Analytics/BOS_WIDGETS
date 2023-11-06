@@ -29,7 +29,9 @@ const item = {
 
 return (
   <>
-    <div className={`post ${highlight ? "bg-warning bg-opacity-10" : ""}`}>
+    <div
+      className={`comment post ${highlight ? "bg-warning bg-opacity-10" : ""}`}
+    >
       <div className="left">
         <Widget
           loading=""
@@ -104,18 +106,16 @@ return (
       </div>
     </div>
     {state.showReply && (
-      <div className="mb-2" key="reply" style={{ marginLeft: "52px" }}>
-        <Widget
-          src="mob.near/widget/Neddit.Comment.Compose"
-          props={{
-            initialText: `@${accountId}, `,
-            notifyAccountId: extractNotifyAccountId(item),
-            item,
-            rootItem,
-            onComment: () => State.update({ showReply: false }),
-          }}
-        />
-      </div>
+      <Widget
+        src="mob.near/widget/Neddit.Comment.Compose"
+        props={{
+          initialText: `@${accountId}, `,
+          notifyAccountId: extractNotifyAccountId(item),
+          item,
+          rootItem,
+          onComment: () => State.update({ showReply: false }),
+        }}
+      />
     )}
   </>
 );
