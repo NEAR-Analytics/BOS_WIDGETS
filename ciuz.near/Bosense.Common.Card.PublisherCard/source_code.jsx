@@ -16,10 +16,10 @@ const PublisherCard = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: space-between;
+  
 
   .user {
-    width: 40%;
+    width: 60%;
   }
 
   .income {
