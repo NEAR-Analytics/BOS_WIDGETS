@@ -6,7 +6,7 @@ const CoADaoId = props.dev
     ? "coa.gwg-testing.near"
     : "congress-coa-v1.ndc-gwg.near";
 const VotingBodyDaoId = props.dev
-    ? "vb-beta.gwg-testing.near"
+    ? "voting-body-v1.gwg-testing.near"
     : "";
 const TCDaoId = props.dev
     ? "tc.gwg-testing.near"
@@ -14,10 +14,10 @@ const TCDaoId = props.dev
 const HoMDaoId = props.dev
     ? "hom.gwg-testing.near"
     : "congress-hom-v1.ndc-gwg.near";
-
 const registry = props.dev
     ? "registry-v1.gwg-testing.near"
     : "registry.i-am-human.near";
+
 const isCongressDaoID =
     daoId === HoMDaoId || daoId === CoADaoId || daoId === TCDaoId;
 
@@ -119,14 +119,13 @@ if (!proposalString && proposalId && daoId) {
                 <Widget src="astraplusplus.ndctools.near/widget/DAO.Proposals.Card.skeleton" />
             );
         } else {
-            console.log(resp);
             new_proposal = {
                 id: resp.id,
                 kind: resp.kind,
                 votes:
                     resp.status === "PreVote"
                         ? getPreVoteVotes(resp.supported)
-                        : resp.votes,
+                        : resp.votes ?? {},
                 status: resp.status,
                 proposer: resp?.proposer,
                 description: resp.description,
@@ -452,14 +451,20 @@ const handleVote = ({ action, proposalId, daoId }) => {
         args["prop_id"] = parseInt(proposalId);
         args["caller"] = accountId;
         args["vote"] = action.replace("Vote", "");
+
         Near.call([
             {
                 contractName: registry,
-                methodName: "is_human_call",
+                methodName: "is_human_call_lock",
                 args: {
                     ctr: daoId,
                     function: "vote",
-                    payload: JSON.stringify(args)
+                    payload: JSON.stringify(args),
+                    lock_duration:
+                        proposal?.submission_time +
+                        daoConfig?.voting_duration +
+                        1,
+                    with_proof: false
                 },
                 gas: 200000000000000,
                 deposit: 170000000000000000000
@@ -503,14 +508,16 @@ const handlePreVoteAction = ({ action, proposalId }) => {
             Near.call([
                 {
                     contractName: registry,
-                    methodName: "is_human_call",
+                    methodName: "is_human_call_lock",
                     args: {
                         ctr: daoId,
                         function: "support_proposal",
-                        payload: JSON.stringify({
-                            caller: accountId,
-                            prop_id: parseInt(proposalId)
-                        })
+                        payload: JSON.stringify(parseInt(proposalId)),
+                        lock_duration:
+                            proposal?.submission_time +
+                            daoConfig?.pre_vote_duration +
+                            1,
+                        with_proof: false
                     },
                     gas: 200000000000000
                 }
