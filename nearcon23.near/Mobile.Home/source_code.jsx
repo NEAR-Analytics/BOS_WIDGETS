@@ -15,8 +15,9 @@ const Container = styled.div`
   max-height: 100svh;
   height: 100%;
 `;
+  // height: calc(100% - 105px);
 const Content = styled.div`
-  height: calc(100% - 105px);
+  height: calc(100% - 96px);
   flex: 1;
   flex-direction: column;
   overflow: auto;
