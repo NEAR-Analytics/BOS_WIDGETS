@@ -15,8 +15,6 @@ if (!init) {
   return <p>Loading...</p>;
 }
 
-console.log("init", init);
-
 State.init({
   curatorId,
   curationId,
