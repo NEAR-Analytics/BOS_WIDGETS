@@ -251,7 +251,7 @@ return (
       <Button>
         <a
           href={
-            props.price && props.isGateway
+            props.isGateway
               ? `#/agwaze.near/widget/CPlanet.Explore.SingleNFT?contractId=${props.contractId}&tokenId=${props.tokenId}&chainState=${props.chainState}`
               : props.price
               ? `#/agwaze.near/widget/CPlanet.index?tab=singleNFT&contractId=${props.contractId}&tokenId=${props.tokenId}&chainState=${props.chainState}`
