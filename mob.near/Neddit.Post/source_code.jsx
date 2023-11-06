@@ -95,7 +95,7 @@ const Wrapper = styled.div`
     position: absolute;
     left: 30px;
     top: 56px;
-    bottom: 0;
+    bottom: -30px;
     width: 2px;
     background-color: #ddd;
     z-index: -1;
