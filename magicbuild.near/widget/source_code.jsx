@@ -8,7 +8,6 @@ State.init({
   contractAbiArg: [],
 });
 
-console.log(props.cssStyle);
 const onInputChangeContractArg = (obj) => {
   const data = state.contractAbiArg;
   const isExist = false;
