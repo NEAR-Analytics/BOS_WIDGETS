@@ -92,6 +92,7 @@ const exportForm = () => {
       },
     };
     let tagsObj = null;
+    console.log(state.choose);
     if (state.choose) {
       tagsObj = state.choose.reduce((accumulator, value) => {
         return { ...accumulator, [value]: "" };
