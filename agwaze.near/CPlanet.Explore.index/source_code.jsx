@@ -339,7 +339,7 @@ return (
       {state.filterDisplayId === "0" ? (
         <Widget
           src="agwaze.near/widget/CPlanet.Explore.DAONFTs"
-          props={{ update: props.update }}
+          props={{ update: props.update, isGateway: props.isGateway }}
         />
       ) : (
         <Cards>
