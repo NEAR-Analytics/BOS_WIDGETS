@@ -21,6 +21,9 @@ const NFTCards = styled.div`
   padding: 20px 3rem 1rem 3rem;
   justify-items: center;
   width:100%;
+  max-width: 1400px;
+  margin-left: auto;
+  margin-right: auto;
 `;
 
 const NoNFTLoading = styled.div`
