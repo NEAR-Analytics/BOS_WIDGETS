@@ -7,6 +7,7 @@ const content =
 const parentItem = content.item;
 const rootItem = content.rootItem;
 const highlight = !!props.highlight;
+const [showReply, setShowReply] = useState(false);
 
 const extractNotifyAccountId = (item) => {
   if (!item || item.type !== "social" || !item.path) {
@@ -80,8 +81,7 @@ return (
                     loading=""
                     src="mob.near/widget/N.CommentButton"
                     props={{
-                      onClick: () =>
-                        !state.showReply && State.update({ showReply: true }),
+                      onClick: () => setShowReply(!showReply),
                       text: (
                         <span
                           style={{
@@ -114,7 +114,7 @@ return (
         loading={false}
         src="mob.near/widget/Neddit.Comment.Feed"
         props={{
-          prefix: state.showReply && (
+          prefix: showReply && (
             <Widget
               src="mob.near/widget/Neddit.Comment.Compose"
               props={{
@@ -122,7 +122,7 @@ return (
                 notifyAccountId: extractNotifyAccountId(item),
                 item,
                 rootItem,
-                onComment: () => State.update({ showReply: false }),
+                onComment: () => setShowReply(false),
               }}
             />
           ),
