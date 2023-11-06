@@ -14,7 +14,7 @@ State.init({
   tags,
   choose,
 });
-console.log(props);
+
 const onInputChangeWidgetName = ({ target }) => {
   State.update({ widgetName: target.value.replaceAll(" ", "-") });
   State.update({ clicked: false });
@@ -51,26 +51,29 @@ const filesOnChange = (files) => {
 const openModal = () => {
   const taggedWidgets = Social.keys(`*/widget/*/metadata/tags/*`, "final");
   let tags = [];
-  Object.keys(taggedWidgets).forEach((item) => {
-    if (taggedWidgets[item].widget) {
-      if (Object.keys(taggedWidgets[item].widget).length > 0) {
-        Object.keys(taggedWidgets[item].widget).forEach((item1) => {
-          if (taggedWidgets[item].widget[item1].metadata.tags) {
-            if (
-              Object.keys(taggedWidgets[item].widget[item1].metadata.tags)
-                .length > 0
-            ) {
-              Object.keys(
-                taggedWidgets[item].widget[item1].metadata.tags
-              ).forEach((tag) => {
-                tags.push(tag);
-              });
+  if (Object.keys(taggedWidgets)) {
+    Object.keys(taggedWidgets).forEach((item) => {
+      if (taggedWidgets[item].widget) {
+        if (Object.keys(taggedWidgets[item].widget).length > 0) {
+          Object.keys(taggedWidgets[item].widget).forEach((item1) => {
+            if (taggedWidgets[item].widget[item1].metadata.tags) {
+              if (
+                Object.keys(taggedWidgets[item].widget[item1].metadata.tags)
+                  .length > 0
+              ) {
+                Object.keys(
+                  taggedWidgets[item].widget[item1].metadata.tags
+                ).forEach((tag) => {
+                  tags.push(tag);
+                });
+              }
             }
-          }
-        });
+          });
+        }
       }
-    }
-  });
+    });
+  }
+
   State.update({ tags: tags });
   State.update({ clicked: false });
   State.update({ export: false });
@@ -92,7 +95,7 @@ const exportForm = () => {
       },
     };
     let tagsObj = null;
-    console.log(state.choose);
+
     if (state.choose) {
       tagsObj = state.choose.reduce((accumulator, value) => {
         return { ...accumulator, [value]: "" };
@@ -106,6 +109,7 @@ const exportForm = () => {
     const exportListData = Social.get(
       `${context.accountId}/magicbuild/widgetList`
     );
+
     const exporttList = JSON.parse(exportListData) || [];
 
     const isExist = false;
