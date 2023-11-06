@@ -17,7 +17,7 @@ const fetchDaos = () => {
         query: `query MyQuery {
   mb_views_nft_tokens(
     where: {nft_contract: {id: {_in: ["marmaj.mintbase1.near"]}}}
-  ) {
+  limit: 50) {
         media 
         owner
         token_id
