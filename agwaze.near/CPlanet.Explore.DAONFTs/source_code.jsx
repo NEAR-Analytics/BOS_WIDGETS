@@ -65,6 +65,7 @@ return (
             description: data.description,
             image: data.media,
             owner: data.owner,
+            isGateway: props.isGateway,
             chainState: "near",
             logo: logo,
             onButtonClick: () =>
