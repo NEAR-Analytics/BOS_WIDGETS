@@ -154,7 +154,7 @@ return filteredData.length !== 0 ? (
         style={{
           backgroundColor: "#FFFFFF",
           borderRadius: 8,
-          borderTopWidth: 5,
+          borderTopWidth: 0,
           width: "100%",
           zIndex: 0,
           position: "relative",
