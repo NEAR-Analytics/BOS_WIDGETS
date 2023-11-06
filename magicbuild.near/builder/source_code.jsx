@@ -145,6 +145,20 @@ const onSwitchChangeArgExport = (fIndex) => {
   abiMethod[fIndex].export = !abiMethod[fIndex].export;
   State.update({ cMethod: abiMethod });
 };
+const selectAll = () => {
+  const abiMethod = state.cMethod;
+  abiMethod.forEach((item, index) => {
+    abiMethod[index].export = true;
+  });
+  State.update({ cMethod: abiMethod });
+};
+const closeAll = () => {
+  const abiMethod = state.cMethod;
+  abiMethod.forEach((item, index) => {
+    abiMethod[index].export = false;
+  });
+  State.update({ cMethod: abiMethod });
+};
 const onCreateMethod = () => {
   if (state.fName.length > 0) {
     State.update({ cMerr: null });
@@ -766,10 +780,18 @@ return (
                   <button
                     type="button"
                     disabled={state.clicked}
-                    onClick={exportForm}
+                    onClick={closeAll}
                     class="btn btn-primary"
                   >
-                    Export
+                    Close all
+                  </button>
+                  <button
+                    type="button"
+                    disabled={state.clicked}
+                    onClick={selectAll}
+                    class="btn btn-success"
+                  >
+                    Select all
                   </button>
                 </div>
               </div>
