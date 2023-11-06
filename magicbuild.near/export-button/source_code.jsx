@@ -84,7 +84,7 @@ const exportForm = () => {
     const abi = {
       schema_version: "0.3.0",
       address: props.contractAddress,
-      cssStyle: JSON.stringify(props.cssStyle),
+      cssStyle: props.cssStyle.replaceAll("\n", ""),
       metadata: {
         name: "",
         version: "0.1.0",
@@ -124,7 +124,7 @@ const exportForm = () => {
     if (!isExist) {
       exporttList.push({ widgetName: state.widgetName });
     }
-    console.log("cssStyle", abi.cssStyle);
+    console.log("cssStyle", abi.cssStyle.replaceAll("\n", ""));
 
     const data = {
       widget: {
