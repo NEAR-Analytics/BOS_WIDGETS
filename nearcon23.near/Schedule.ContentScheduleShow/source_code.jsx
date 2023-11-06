@@ -1,9 +1,9 @@
 const accountId = "nearcon23.near";
 
 // border: 10px solid black;
+  // border-top-width:5px
 const BorderDiv = styled.div`
-  border: 10px solid black;
-  border-top-width:5px
+  border: none;
   width: 100%;
   z-index:0;
   position:relative;
