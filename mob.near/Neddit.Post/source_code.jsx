@@ -163,7 +163,7 @@ const Wrapper = styled.div`
       z-index: -1;
     }
 
-    .comment:last-child:after {
+    > :last-child:after {
       content: "";
       position: absolute;
       left: -22px;
