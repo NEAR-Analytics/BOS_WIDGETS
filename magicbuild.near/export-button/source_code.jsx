@@ -1,6 +1,6 @@
 State.init({
   cMethod: props.cMethod,
-  widgetName: props.widgetName || `MagicBuild-widget-form-${Date.now()}`,
+  widgetName: props.widgetName || `MagicBuild-${props.address}`,
   name: "",
   description: "",
   website: "",
