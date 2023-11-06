@@ -186,7 +186,11 @@ return (
         )}
       </div>
       <a
-        href="#/agwaze.near/widget/CPlanet.index?tab=explore"
+        href={
+          props.isGateway
+            ? "#/agwaze.near/widget/CPlanet.Explore.index"
+            : "#/agwaze.near/widget/CPlanet.index?tab=explore"
+        }
         className="all"
         onClick={() => props.update({ tab: "explore" })}
       >
@@ -203,6 +207,7 @@ return (
           <Widget
             props={{
               daoId: data,
+              isGateway: props.isGateway,
               onButtonClick: () =>
                 props.update({ tab: "daoProfile", daoId: data }),
             }}
@@ -212,7 +217,11 @@ return (
       ))}
     </div>
     <a
-      href="#/agwaze.near/widget/CPlanet.index?tab=community"
+      href={
+        props.isGateway
+          ? "#/agwaze.near/widget/CPlanet.DAO.Explore"
+          : "#/agwaze.near/widget/CPlanet.index?tab=community"
+      }
       className="all"
       onClick={() => props.update({ tab: "community" })}
     >
@@ -220,16 +229,3 @@ return (
     </a>
   </Root>
 );
-//   title: data.title,
-//   description: data.description,
-//   image: data.media,
-
-//   price: data.listed,
-//   owner: state.ownerId,
-//   price: data.listed
-//     ? (data.listed / 1000000000000000000000000).toFixed(2)
-//     : null,
-//   isListed: data.listed ? "LISTED" : "NOT LISTED",
-//   tokenId: data.token_id,
-//   contractId: data.storeId,
-//   metadataId: data.metadataId,
