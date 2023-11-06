@@ -62,7 +62,7 @@ const tabContent = (
       accountId: state.accountId,
       chainState: state.chainState,
       daoId: state.daoId,
-      isGateway: props.onGateway,
+      isGateway: props.isGateway,
       daoContractId: state.daoContractId,
     }}
   />
