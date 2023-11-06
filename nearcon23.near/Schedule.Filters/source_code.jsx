@@ -6,7 +6,8 @@ initState({
 });
 
 const Filter = styled.div`
-  border: 10px solid black;
+  // border: 10px solid black;
+  border-radius: 8px;
   width: 100%;
   padding: 10px;
   padding-top:15px;
@@ -184,8 +185,13 @@ const allSelected = (
 );
 
 return (
-  <div>
-    <HideInMobile>
+  <div
+    style={{
+      padding: 10,
+      backgroundColor: "black",
+    }}
+  >
+    <HideInMobile style={{ backgroundColor: "white" }}>
       <Filter>
         <div style={{ display: "flex", alignItems: "center" }}>
           <Widget
@@ -203,8 +209,8 @@ return (
         {allSelected}
       </Filter>
     </HideInMobile>
-    <ShowInMobile>
-      <Filter style={{ width: "100%" }}>
+    <ShowInMobile style={{ borderRadius: 8, backgroundColor: "white" }}>
+      <Filter style={{ width: "100%", borderRadius: 8 }}>
         <div
           style={{
             display: "flex",
