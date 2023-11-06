@@ -7,7 +7,7 @@ State.init({
   response,
   contractAbiArg: props.cMethod,
 });
-console.log("hello");
+console.log("hello", contractAbiView);
 const onInputChangeContractArg = (obj) => {
   const data = state.contractAbiArg;
   const isExist = false;
