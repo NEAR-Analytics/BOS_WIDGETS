@@ -78,7 +78,7 @@ const contest_id = props.contests;
 
 const contests =
   Near.view("cdao-v2.genadrop.near", "get_contest_arts", {
-    contest_id: 1,
+    contest_id: contest_id,
     subscribe: true,
   }) || [];
 
@@ -120,7 +120,7 @@ const toggleArtSelection = () => {
 return (
   <ArtGalleryContainer>
     <SubmitArtButton onClick={toggleArtSelection}>
-      Make Art Entry
+      {state.showArtSelection ? "close arts selection" : "Make Art Entry"}
     </SubmitArtButton>
     {state.showArtSelection && (
       <Widget
