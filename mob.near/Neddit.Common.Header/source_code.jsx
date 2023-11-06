@@ -2,7 +2,7 @@ const accountId = props.accountId;
 const blockHeight = props.blockHeight;
 const pinned = !!props.pinned;
 const hideMenu = !!props.hideMenu;
-const subneddit = props.n;
+const subneddit = props.subneddit;
 const name = Social.get(`${accountId}/profile/name`);
 
 const postType = props.postType ?? "post";
