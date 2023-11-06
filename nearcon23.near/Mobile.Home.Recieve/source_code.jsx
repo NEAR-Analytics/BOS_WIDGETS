@@ -15,6 +15,10 @@ const Container = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+
+  min-height: 500px;
+  height: 100%;
+  max-height: 100vh;
 `;
 
 const Content = styled.div`
@@ -25,7 +29,7 @@ const Content = styled.div`
   max-width: 700px;
   overflow: hidden;
   height: 100%;
-  min-height: 836px;
+  // min-height: 836px;
   div {
     width: 100%;
   }
