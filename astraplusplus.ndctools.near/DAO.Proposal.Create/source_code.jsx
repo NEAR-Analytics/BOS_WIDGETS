@@ -25,66 +25,119 @@ const isCongressDaoID =
 
 let permissions = [];
 const isVotingBodyDao = props.daoId === VotingBodyDaoId;
+const defaultProposalTypes = [
+    {
+        text: "Text",
+        value: "Vote"
+    },
+    {
+        text: "Transfer",
+        value: "Transfer"
+    },
+    {
+        text: "Function Call",
+        value: "FunctionCall"
+    },
+    {
+        text: "Add Member To Role",
+        value: "AddMemberToRole"
+    },
+    {
+        text: "Remove Member From Role",
+        value: "RemoveMemberFromRole"
+    }
+];
 
-const proposalTypes = isVotingBodyDao
-    ? [
-          {
-              text: "Text",
-              value: "Text"
-          },
-          {
-              text: "Dismiss",
-              value: "Dismiss"
-          },
-          {
-              text: "Approve Budget",
-              value: "ApproveBudget"
-          },
-          {
-              text: "Veto big budget item",
-              value: "Veto"
-          },
-          {
-              text: "Dissolve House",
-              value: "Dissolve"
-          },
-          {
-              text: "Function Call",
-              value: "FunctionCall"
-          },
-          {
-              text: "Update Bonds",
-              value: "UpdateBonds"
-          }
-      ]
-    : [
-          {
-              text: "Text",
-              value: "Vote"
-          },
-          {
-              text: "Transfer",
-              value: "Transfer"
-          },
-          {
-              text: "Function Call",
-              value: "FunctionCall"
-          },
-          {
-              text: "Add Member To Role",
-              value: "AddMemberToRole"
-          },
-          {
-              text: "Remove Member From Role",
-              value: "RemoveMemberFromRole"
-          }
-      ];
+const congressProposalTypes = {
+    [HoMDaoId]: [
+        {
+            text: "Text",
+            value: "Text"
+        },
+        {
+            text: "Function Call",
+            value: "FunctionCall"
+        },
+        {
+            text: "Budget Request",
+            value: "Budget"
+        },
+        {
+            text: "Motion Request",
+            value: "Motion"
+        },
+        {
+            text: "Funding Request (Single)",
+            value: "FundingRequest"
+        },
+        {
+            text: "Funding Request (Recurrent)",
+            value: "RecurrentFundingRequest"
+        }
+    ],
+    [CoADaoId]: [
+        {
+            text: "Text",
+            value: "Text"
+        },
+        {
+            text: "Veto House of Merit proposal",
+            value: "Veto"
+        },
+        {
+            text: "Unban previously banned member",
+            value: "FunctionCall",
+            powerType: "Unban"
+        }
+    ],
+    [TCDaoId]: [
+        {
+            text: "Text",
+            value: "Text"
+        },
+        {
+            text: "Dismiss member from the house",
+            value: "Dismiss"
+        }
+    ],
+    [VotingBodyDaoId]: [
+        {
+            text: "Text",
+            value: "Text"
+        },
+        {
+            text: "Dismiss",
+            value: "Dismiss"
+        },
+        {
+            text: "Approve Budget",
+            value: "ApproveBudget"
+        },
+        {
+            text: "Veto big budget item",
+            value: "Veto"
+        },
+        {
+            text: "Dissolve House",
+            value: "Dissolve"
+        },
+        {
+            text: "Function Call",
+            value: "FunctionCall"
+        },
+        {
+            text: "Update Bonds",
+            value: "UpdateBonds"
+        }
+    ]
+};
 
-State.init({
-    members: [],
-    proposalTypes: proposalTypes,
-    daoId
-});
+const proposalTypes =
+    isCongressDaoID || isVotingBodyDao
+        ? congressProposalTypes[props.daoId]
+        : defaultProposalTypes;
+
+State.init({ members: [], proposalTypes, daoId });
 
 function convertCapitalLetterToSpace(inputString) {
     var resultString = inputString.replace(/([A-Z])/g, " $1");
@@ -102,19 +155,11 @@ if (isCongressDaoID) {
         daoId + "-processed_congress_members",
         { subscribe: false }
     );
-    if (policy === null) {
-        return;
-    }
-    const type = policy?.permissions?.map((item) => {
-        return {
-            text: convertCapitalLetterToSpace(item),
-            value: item
-        };
-    });
+    if (policy === null) return;
+
     State.update({
-        members: policy?.members,
-        proposalTypes: type,
-        showCreateProposal: policy?.members?.includes(accountId)
+        members: policy.members,
+        showCreateProposal: policy.members?.includes(accountId)
     });
 }
 
@@ -175,6 +220,22 @@ const CloseButton = styled.button`
 
 return (
     <Wrapper>
+        <div className="d-flex gap-3 flex-wrap">
+            <div>
+                <h5>DAO</h5>
+                <Widget
+                    src="mob.near/widget/Profile.ShortInlineBlock"
+                    props={{ accountId: daoId, tooltip: true }}
+                />
+            </div>
+            <div>
+                <h5>Proposer</h5>
+                <Widget
+                    src="mob.near/widget/Profile.ShortInlineBlock"
+                    props={{ accountId: accountId, tooltip: true }}
+                />
+            </div>
+        </div>
         <Widget
             src={`sking.near/widget/Common.Inputs.Select`}
             props={{
@@ -205,26 +266,11 @@ return (
                 error: undefined
             }}
         />
-        <div className="d-flex gap-3 flex-wrap">
-            <div>
-                <h5>DAO</h5>
-                <Widget
-                    src="mob.near/widget/Profile.ShortInlineBlock"
-                    props={{ accountId: daoId, tooltip: true }}
-                />
-            </div>
-            <div>
-                <h5>Proposer</h5>
-                <Widget
-                    src="mob.near/widget/Profile.ShortInlineBlock"
-                    props={{ accountId: accountId, tooltip: true }}
-                />
-            </div>
-        </div>
 
         <div className="d-flex flex-column gap-2">
-            {(state.proposalType.value === "Vote" ||
-                state.proposalType.value === "Text") && (
+            {["Text", "Vote", "Budget", "Motion"].includes(
+                state.proposalType.value
+            ) && (
                 <Widget
                     src="astraplusplus.ndctools.near/widget/DAO.Proposal.Create.Text"
                     props={{
@@ -233,7 +279,8 @@ return (
                         isCongressDaoID,
                         isVotingBodyDao,
                         registry,
-                        dev: props.dev
+                        dev: props.dev,
+                        powerType: state.proposalType.powerType
                     }}
                 />
             )}
@@ -264,7 +311,8 @@ return (
                         isCongressDaoID,
                         registry,
                         isVotingBodyDao,
-                        dev: props.dev
+                        dev: props.dev,
+                        powerType: state.proposalType.powerType
                     }}
                 />
             )}
@@ -279,25 +327,14 @@ return (
                     }}
                 />
             )}
-            {state.proposalType.value === "DismissAndBan" && (
-                <Widget
-                    src="astraplusplus.ndctools.near/widget/DAO.Proposal.Create.FunctionCall"
-                    props={{
-                        daoId,
-                        onClose,
-                        powerType: "DismissAndBan",
-                        showPowers: false,
-                        isCongressDaoID
-                    }}
-                />
-            )}
             {state.proposalType.value === "Veto" && (
                 <Widget
                     src="astraplusplus.ndctools.near/widget/DAO.Proposal.Create.Veto"
                     props={{
                         daoId,
                         dev: props.dev,
-                        registry
+                        registry,
+                        isHookCall: props.daoId === CoADaoId
                     }}
                 />
             )}
@@ -307,7 +344,8 @@ return (
                     props={{
                         daoId,
                         dev: props.dev,
-                        registry
+                        registry,
+                        isHookCall: props.daoId === TCDaoId
                     }}
                 />
             )}
