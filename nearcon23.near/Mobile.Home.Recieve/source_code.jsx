@@ -164,6 +164,16 @@ const srcData = `
 </html>
 `;
 
+const trimName = (nearconId) => {
+  let name = (nearconId || "")?.replace(".nearcon23.near", "");
+
+  if (name.length > 12) {
+    name = name.substring(0, 15) + "...";
+  }
+
+  return "@" + name;
+};
+
 return (
   <Container>
     <Content>
@@ -189,13 +199,37 @@ return (
         }}
       >
         <div style={{ textAlign: "center" }}>
-          <p style={{}}>
+          <p style={{ fontSize: 20 }}>
             <span style={{ color: "gray" }}>Receive</span>{" "}
             <span style={{ fontWeight: 600 }}>NCON</span>
           </p>
+          {/*{!!state?.userData?.nearconId && (
+          <p
+            style={{
+              fontFamily: "FK Grotesk",
+            }}
+          >{`@saidulbadhon.near${state?.userData?.nearconId}`}</p>
+          )}*/}
+
           {!!state?.userData?.nearconId && (
-            <p>{`@${state?.userData?.nearconId}`}</p>
+            <p
+              style={{
+                fontFamily: "FK Grotesk",
+              }}
+            >
+              {trimName(state?.userData?.nearconId)}
+              <span
+                style={{
+                  fontWeight: 400,
+                  marginLeft: -4,
+                  color: "#868682",
+                }}
+              >
+                .nearcon23.near
+              </span>
+            </p>
           )}
+          
           <div style={{ width: "fit-content", margin: "auto" }}>
             <iframe
               srcDoc={srcData}
