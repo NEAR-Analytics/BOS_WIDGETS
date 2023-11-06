@@ -304,20 +304,6 @@ return (
         )}
       </div>
     </div>
-    {state.showReply && (
-      <div className="border-top">
-        <Widget
-          loading=""
-          src="mob.near/widget/Neddit.Comment.Compose"
-          props={{
-            notifyAccountId,
-            item,
-            rootItem: item,
-            onComment: () => State.update({ showReply: false }),
-          }}
-        />
-      </div>
-    )}
     {!props.hideComments && (
       <Widget
         key="comments"
@@ -328,6 +314,18 @@ return (
           rootItem: item,
           depth: 1,
           renderLimit: 10,
+          prefix: state.showReply && (
+            <Widget
+              loading=""
+              src="mob.near/widget/Neddit.Comment.Compose"
+              props={{
+                notifyAccountId,
+                item,
+                rootItem: item,
+                onComment: () => State.update({ showReply: false }),
+              }}
+            />
+          ),
         }}
       />
     )}
