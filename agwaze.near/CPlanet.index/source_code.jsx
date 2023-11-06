@@ -36,6 +36,7 @@ State.init({
   tokenId: "",
   chainState: "",
   state: "",
+  onGateway: "",
   daoId: "",
   daoContractId: "",
 });
@@ -62,6 +63,7 @@ const tabContent = (
       accountId: state.accountId,
       chainState: state.chainState,
       daoId: state.daoId,
+      isGateway: state.onGateway,
       daoContractId: state.daoContractId,
     }}
   />
@@ -72,7 +74,12 @@ return (
     <div className={state.tab === "home" ? "isHome" : ""}>
       <Widget
         src="agwaze.near/widget/CPlanet.Navbar.index"
-        props={{ tab: state.tab, update, isHome: state.tab === "home" }}
+        props={{
+          tab: state.tab,
+          update,
+          isGateway: state.onGateway,
+          isHome: state.tab === "home",
+        }}
       />
     </div>
     <Contents>{tabContent}</Contents>
