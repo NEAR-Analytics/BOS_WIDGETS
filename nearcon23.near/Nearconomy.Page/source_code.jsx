@@ -26,8 +26,7 @@ const Container = styled.div`
 `;
 
 const fetchTransaction = () => {
-  asyncFetch(apiURL).then(({ body }) => {
-    console.log("===> ", body);
+  asyncFetch(apiUrl).then(({ body }) => {
     State.update(body);
   });
 };
