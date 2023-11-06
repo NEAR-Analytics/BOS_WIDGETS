@@ -903,7 +903,7 @@ return (
           <input
             class="form-control"
             value={state.prompt}
-            placeholder="I want to create a modern style Christmas theme, gradient background. The header uses Sans-serif font"
+            placeholder="Act as a UI developer, users will fill out a prompt about their frontend ideas, and your role is to create a css style. To describe the projects, It is the card that has a title as .card-header, inside has label{}, input{} and 1 Button. Select a different colour background that matches the user's theme. Find the colour of the label, input, button that is complementary with the background. Create button effects. Don’t fix the width of the card, the card-header text aligns on the centre, bold and the font size is 50, the label font size 30. User prompt:{“I want to create a modern style Christmas theme, gradient background. The header uses Sans-serif font, the border is about 1.5 inch and striped red and white”}. Answer as the Following format: .card{} .card-header button{} input{} label{} "
             onChange={(e) => cPrompt(e)}
           />
         </div>
