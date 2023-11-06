@@ -11,7 +11,6 @@ const userData = props.userData;
 
 console.log("=============> ", transactions);
 
-
 const [persona, setPersona] = useState("allTracks");
 
 const Content = styled.div`
@@ -307,13 +306,13 @@ return loading ? (
               letterSpacing: "-5px",
             }}
           >
-            {userData?.balance?.replace?.("0000000000000000000000", "")}
+            00{userData?.balance?.replace?.("0000000000000000000000", "")}
           </h1>
           <h3
             style={{
               fontSize: 30,
               fontWeight: 500,
-              margin: 0,
+              margin: '14px 0 0 0',
               color: "#00EC97",
             }}
           >
@@ -382,7 +381,7 @@ return loading ? (
             style={{
               textAlign: "center",
               color: theme.textColor3,
-              padding: "0 20px",
+              padding: "0 24px",
               maxWidth: 425,
               fontSize: 12,
               fontWeight: 400,
