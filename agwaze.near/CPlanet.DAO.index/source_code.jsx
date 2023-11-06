@@ -337,6 +337,41 @@ const shortenNumber = (n) => {
   if (n >= 1e12) return (n / 1e12).toFixed(1) + "t";
 };
 
+// Account follows you:
+const accountFollowsYouData = Social.keys(
+  `${accountId}/graph/follow/${context.accountId}`,
+  undefined,
+  {
+    values_only: true,
+  }
+);
+const accountFollowsYou = Object.keys(accountFollowsYouData || {}).length > 0;
+
+function followUser(user, isFollowing) {
+  if (isFollowing) return;
+  const dataToSend = {
+    graph: { follow: { [user]: isFollowing ? null : "" } },
+    index: {
+      graph: JSON.stringify({
+        key: "follow",
+        value: {
+          type,
+          accountId: user,
+        },
+      }),
+      notify: JSON.stringify({
+        key: user,
+        value: {
+          type,
+        },
+      }),
+    },
+  };
+  Social.set(dataToSend, {
+    force: true,
+  });
+}
+
 // const proposalsStatus = fether.proposalsStatus(daoId);
 
 // let activeProposalsCount;
@@ -369,10 +404,7 @@ return (
       <RightProfile>
         <h1 className="title">{profile.name ?? daoId}</h1>
         <span className="username">@{daoId ?? "lorem.ipsum.dono"}</span>
-        <p className="description">
-          {profile.description ??
-            "No Description"}
-        </p>
+        <p className="description">{profile.description ?? "No Description"}</p>
         <AmountSec>
           <div>
             <span>TotalFunds</span>
@@ -405,11 +437,12 @@ return (
               .map((data) => <div className="tag">{data}</div>)}
         </Tags>
         <div className="buttons">
-          <button className="follow">Follow</button>
-          <div className="joinButton">
-            <button>Ask To Join</button>
-            <button>Share</button>
-          </div>
+          <button
+            onClick={() => followUser(daoId, accountFollowsYou)}
+            className="follow"
+          >
+            {accountFollowsYou ? "Following" : "Follow"}
+          </button>
         </div>
       </RightProfile>
       <MiddleContent>
