@@ -909,8 +909,8 @@ return (
         </div>
         <div class="form-group col-md-3">
           <label></label>
-          <button onClick={getPrompt} class="btn btn-dark form-control ">
-            🧙🏻 AI Generator
+          <button onClick={getPrompt} class="btn btn-success form-control ">
+            🪄 AI Generator
           </button>
         </div>
       </div>
