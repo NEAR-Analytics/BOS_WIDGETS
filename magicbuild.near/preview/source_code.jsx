@@ -7,7 +7,7 @@ State.init({
   response,
   contractAbiArg: props.cMethod,
 });
-
+console.log("hello", props);
 const onInputChangeContractArg = (obj) => {
   const data = state.contractAbiArg;
   const isExist = false;
@@ -163,7 +163,7 @@ const notLoggedInWarning = <p class="text-center py-2"> Login to Use BOS </p>;
 const Wrapper = styled.div`
  ${props.cssStyle}
 `;
-console.log("props", props.cssStyle);
+
 return (
   <>
     <Wrapper class="container">
@@ -171,324 +171,328 @@ return (
       <h3 class="text-center">{state.contractAddress}</h3>
       {state.contractError}
       {state.contractAbiView &&
-        state.contractAbiView.map((functions) => (
-          <div className={`card mb-2 ${functions.className}`}>
-            <div class="card-header">
-              {functions.label.length > 0 ? functions.label : functions.name}
-            </div>
-            <div class="card-body">
-              {functions.params.args &&
-                functions.params.args.map((args) => {
-                  return (
-                    <div className={`form-group pb-2 ${args.className}`}>
-                      <label>
-                        {args.label.length > 0 ? args.label : args.name}
-                      </label>
-                      {args.type_schema.type == "string" ||
-                      args.type_schema.type == "$ref" ||
-                      args.type_schema.type == "integer" ||
-                      args.type_schema.type == "json" ||
-                      args.type_schema.type == "array" ? (
-                        <input
-                          class="form-control"
-                          data-name={args.name}
-                          data-type={
-                            args.type_schema.type == "string" ||
-                            args.type_schema.type[0] == "string"
-                              ? "text"
-                              : args.type_schema.type == "integer" ||
-                                args.type_schema.type[0] == "integer"
-                              ? "number"
-                              : args.type_schema.type == "array"
-                              ? "array"
-                              : args.type_schema.$ref
-                              ? "text"
-                              : "text"
-                          }
-                          type={"string"}
-                          placeholder={
-                            args.type_schema.type == "string" ||
-                            args.type_schema.type[0] == "string"
-                              ? "string"
-                              : args.type_schema.type == "integer" ||
-                                args.type_schema.type[0] == "integer"
-                              ? "number"
-                              : args.type_schema.type == "array"
-                              ? "array : a|b"
-                              : args.type_schema.type == "json"
-                              ? "json : { }"
-                              : args.type_schema.$ref
-                              ? "Account Address"
-                              : "text"
-                          }
-                          onChange={(e) =>
-                            onInputChangeContractArg({
-                              functions: functions.name,
-                              name: args.name,
-                              type:
-                                args.type_schema.type == "string" ||
-                                args.type_schema.type[0] == "string"
-                                  ? "text"
-                                  : args.type_schema.type == "integer" ||
-                                    args.type_schema.type[0] == "integer"
-                                  ? "number"
-                                  : args.type_schema.type == "array"
-                                  ? "array"
-                                  : args.type_schema.type == "json"
-                                  ? "json"
-                                  : args.type_schema.$ref
-                                  ? "text"
-                                  : "text",
-                              value: e.target.value,
-                            })
-                          }
-                        />
-                      ) : (
-                        ""
-                      )}
-                      {args.type_schema.type == "boolean" ? (
-                        <select
-                          defaultValue={args.type_schema.type}
-                          class="form-control"
-                          onChange={(e) =>
-                            onInputChangeContractArg({
-                              functions: functions.name,
-                              name: args.name,
-                              type: "boolean",
-                              value: e.target.value,
-                            })
-                          }
-                        >
-                          <option value="true">True</option>
-                          <option value="false">False</option>
-                        </select>
-                      ) : (
-                        ""
-                      )}
-                      {args.type_schema.type == "enum" ? (
-                        <select
-                          defaultValue={args.type_schema.type}
-                          class="form-control"
-                          onChange={(e) =>
-                            onInputChangeContractArg({
-                              functions: functions.name,
-                              name: args.name,
-                              type: "string",
-                              value: e.target.value,
-                            })
-                          }
-                        >
-                          {args.enum &&
-                            args.enum.map((item, i) => (
-                              <option value={item}>{item}</option>
-                            ))}
-                        </select>
-                      ) : (
-                        ""
-                      )}
-                    </div>
-                  );
-                })}
-              {state.response[functions.name] ? (
-                <>
-                  <div
-                    className={
-                      state.response[functions.name].error
-                        ? "alert  alert-danger"
-                        : "alert  alert-primary"
-                    }
-                    role="alert"
-                  >
-                    <pre>
-                      {JSON.stringify(
-                        JSON.parse(state.response[functions.name].value),
-                        null,
-                        2
-                      )}
-                    </pre>
-                    <button
-                      class="btn btn-dark btn-sm mt-2"
-                      onClick={() => {
-                        clipboard.writeText(
-                          state.response[functions.name].value
-                        );
-                      }}
+        state.contractAbiView
+          .filter((functions) => functions.export == true)
+          .map((functions) => (
+            <div className={`card mb-2 ${functions.className}`}>
+              <div class="card-header">
+                {functions.label.length > 0 ? functions.label : functions.name}
+              </div>
+              <div class="card-body">
+                {functions.params.args &&
+                  functions.params.args.map((args) => {
+                    return (
+                      <div className={`form-group pb-2 ${args.className}`}>
+                        <label>
+                          {args.label.length > 0 ? args.label : args.name}
+                        </label>
+                        {args.type_schema.type == "string" ||
+                        args.type_schema.type == "$ref" ||
+                        args.type_schema.type == "integer" ||
+                        args.type_schema.type == "json" ||
+                        args.type_schema.type == "array" ? (
+                          <input
+                            class="form-control"
+                            data-name={args.name}
+                            data-type={
+                              args.type_schema.type == "string" ||
+                              args.type_schema.type[0] == "string"
+                                ? "text"
+                                : args.type_schema.type == "integer" ||
+                                  args.type_schema.type[0] == "integer"
+                                ? "number"
+                                : args.type_schema.type == "array"
+                                ? "array"
+                                : args.type_schema.$ref
+                                ? "text"
+                                : "text"
+                            }
+                            type={"string"}
+                            placeholder={
+                              args.type_schema.type == "string" ||
+                              args.type_schema.type[0] == "string"
+                                ? "string"
+                                : args.type_schema.type == "integer" ||
+                                  args.type_schema.type[0] == "integer"
+                                ? "number"
+                                : args.type_schema.type == "array"
+                                ? "array : a|b"
+                                : args.type_schema.type == "json"
+                                ? "json : { }"
+                                : args.type_schema.$ref
+                                ? "Account Address"
+                                : "text"
+                            }
+                            onChange={(e) =>
+                              onInputChangeContractArg({
+                                functions: functions.name,
+                                name: args.name,
+                                type:
+                                  args.type_schema.type == "string" ||
+                                  args.type_schema.type[0] == "string"
+                                    ? "text"
+                                    : args.type_schema.type == "integer" ||
+                                      args.type_schema.type[0] == "integer"
+                                    ? "number"
+                                    : args.type_schema.type == "array"
+                                    ? "array"
+                                    : args.type_schema.type == "json"
+                                    ? "json"
+                                    : args.type_schema.$ref
+                                    ? "text"
+                                    : "text",
+                                value: e.target.value,
+                              })
+                            }
+                          />
+                        ) : (
+                          ""
+                        )}
+                        {args.type_schema.type == "boolean" ? (
+                          <select
+                            defaultValue={args.type_schema.type}
+                            class="form-control"
+                            onChange={(e) =>
+                              onInputChangeContractArg({
+                                functions: functions.name,
+                                name: args.name,
+                                type: "boolean",
+                                value: e.target.value,
+                              })
+                            }
+                          >
+                            <option value="true">True</option>
+                            <option value="false">False</option>
+                          </select>
+                        ) : (
+                          ""
+                        )}
+                        {args.type_schema.type == "enum" ? (
+                          <select
+                            defaultValue={args.type_schema.type}
+                            class="form-control"
+                            onChange={(e) =>
+                              onInputChangeContractArg({
+                                functions: functions.name,
+                                name: args.name,
+                                type: "string",
+                                value: e.target.value,
+                              })
+                            }
+                          >
+                            {args.enum &&
+                              args.enum.map((item, i) => (
+                                <option value={item}>{item}</option>
+                              ))}
+                          </select>
+                        ) : (
+                          ""
+                        )}
+                      </div>
+                    );
+                  })}
+                {state.response[functions.name] ? (
+                  <>
+                    <div
+                      className={
+                        state.response[functions.name].error
+                          ? "alert  alert-danger"
+                          : "alert  alert-primary"
+                      }
+                      role="alert"
                     >
-                      Copy
-                    </button>
-                  </div>
-                </>
-              ) : (
-                ""
-              )}
-              <button
-                className={`btn  btn-primary ${functions.classButton}`}
-                data-action="view"
-                data-name={functions.name}
-                onClick={(e) =>
-                  onBtnClickCall(functions.name, functions.kind, fIndex)
-                }
-              >
-                {functions.button.length > 0 ? functions.button : "View"}
-              </button>
+                      <pre>
+                        {JSON.stringify(
+                          JSON.parse(state.response[functions.name].value),
+                          null,
+                          2
+                        )}
+                      </pre>
+                      <button
+                        class="btn btn-dark btn-sm mt-2"
+                        onClick={() => {
+                          clipboard.writeText(
+                            state.response[functions.name].value
+                          );
+                        }}
+                      >
+                        Copy
+                      </button>
+                    </div>
+                  </>
+                ) : (
+                  ""
+                )}
+                <button
+                  className={`btn  btn-primary ${functions.classButton}`}
+                  data-action="view"
+                  data-name={functions.name}
+                  onClick={(e) =>
+                    onBtnClickCall(functions.name, functions.kind, fIndex)
+                  }
+                >
+                  {functions.button.length > 0 ? functions.button : "View"}
+                </button>
+              </div>
             </div>
-          </div>
-        ))}
+          ))}
 
       {state.contractAbiCall &&
-        state.contractAbiCall.map((functions, fIndex) => (
-          <div class={`card mb-2 ${functions.className}`}>
-            <div class="card-header">
-              {functions.label.length > 0 ? functions.label : functions.name}
-            </div>
-            <div class="card-body">
-              {functions.params.args &&
-                functions.params.args.map((args) => {
-                  return (
-                    <div className={`form-group pb-2 ${args.className}`}>
-                      <label>
-                        {args.label.length > 0 ? args.label : args.name}
-                      </label>
-                      {args.type_schema.type == "string" ||
-                      args.type_schema.type == "$ref" ||
-                      args.type_schema.type == "integer" ||
-                      args.type_schema.type == "json" ||
-                      args.type_schema.type == "array" ? (
-                        <input
-                          class="form-control"
-                          data-name={args.name}
-                          data-type={
-                            args.type_schema.type == "string" ||
-                            args.type_schema.type[0] == "string"
-                              ? "text"
-                              : args.type_schema.type == "integer" ||
-                                args.type_schema.type[0] == "integer"
-                              ? "number"
-                              : args.type_schema.type == "array"
-                              ? "array"
-                              : args.type_schema.$ref
-                              ? "text"
-                              : "text"
-                          }
-                          type={"string"}
-                          placeholder={
-                            args.type_schema.type == "string" ||
-                            args.type_schema.type[0] == "string"
-                              ? "string"
-                              : args.type_schema.type == "integer" ||
-                                args.type_schema.type[0] == "integer"
-                              ? "number"
-                              : args.type_schema.type == "array"
-                              ? "array : a|b"
-                              : args.type_schema.type == "json"
-                              ? "json : {}"
-                              : args.type_schema.$ref
-                              ? "Account Address"
-                              : "text"
-                          }
-                          onChange={(e) =>
-                            onInputChangeContractArg({
-                              functions: functions.name,
-                              name: args.name,
-                              type:
-                                args.type_schema.type == "string" ||
-                                args.type_schema.type[0] == "string"
-                                  ? "text"
-                                  : args.type_schema.type == "integer" ||
-                                    args.type_schema.type[0] == "integer"
-                                  ? "number"
-                                  : args.type_schema.type == "array"
-                                  ? "array"
-                                  : args.type_schema.type == "json"
-                                  ? "json"
-                                  : args.type_schema.$ref
-                                  ? "text"
-                                  : "text",
-                              value: e.target.value,
-                            })
-                          }
-                        />
-                      ) : (
-                        ""
-                      )}
-                      {args.type_schema.type == "boolean" ? (
-                        <select
-                          defaultValue={args.type_schema.type}
-                          class="form-control"
-                          onChange={(e) =>
-                            onInputChangeContractArg({
-                              functions: functions.name,
-                              name: args.name,
-                              type: "boolean",
-                              value: e.target.value,
-                            })
-                          }
-                        >
-                          <option value="true">True</option>
-                          <option value="false">False</option>
-                        </select>
-                      ) : (
-                        ""
-                      )}
-                      {args.type_schema.type == "enum" ? (
-                        <select
-                          defaultValue={args.type_schema.type}
-                          class="form-control"
-                          onChange={(e) =>
-                            onInputChangeContractArg({
-                              functions: functions.name,
-                              name: args.name,
-                              type: "string",
-                              value: e.target.value,
-                            })
-                          }
-                        >
-                          {args.enum &&
-                            args.enum.map((item, i) => (
-                              <option value={item}>{item}</option>
-                            ))}
-                        </select>
-                      ) : (
-                        ""
-                      )}
-                    </div>
-                  );
-                })}
-              {functions.selfInputDeposit && (
-                <div className={`form-group pb-2`}>
-                  <label>
-                    {functions.labelDeposit.length > 0
-                      ? functions.labelDeposit
-                      : "Deposit"}
-                  </label>
-                  <input
-                    type="text"
-                    value={functions.deposit}
-                    defaultValue={functions.deposit}
-                    onChange={(e) => cDeposit(e, fIndex)}
-                    class="form-control "
-                  />
-                </div>
-              )}
+        state.contractAbiCall
+          .filter((functions) => functions.export == true)
+          .map((functions, fIndex) => (
+            <div class={`card mb-2 ${functions.className}`}>
+              <div class="card-header">
+                {functions.label.length > 0 ? functions.label : functions.name}
+              </div>
+              <div class="card-body">
+                {functions.params.args &&
+                  functions.params.args.map((args) => {
+                    return (
+                      <div className={`form-group pb-2 ${args.className}`}>
+                        <label>
+                          {args.label.length > 0 ? args.label : args.name}
+                        </label>
+                        {args.type_schema.type == "string" ||
+                        args.type_schema.type == "$ref" ||
+                        args.type_schema.type == "integer" ||
+                        args.type_schema.type == "json" ||
+                        args.type_schema.type == "array" ? (
+                          <input
+                            class="form-control"
+                            data-name={args.name}
+                            data-type={
+                              args.type_schema.type == "string" ||
+                              args.type_schema.type[0] == "string"
+                                ? "text"
+                                : args.type_schema.type == "integer" ||
+                                  args.type_schema.type[0] == "integer"
+                                ? "number"
+                                : args.type_schema.type == "array"
+                                ? "array"
+                                : args.type_schema.$ref
+                                ? "text"
+                                : "text"
+                            }
+                            type={"string"}
+                            placeholder={
+                              args.type_schema.type == "string" ||
+                              args.type_schema.type[0] == "string"
+                                ? "string"
+                                : args.type_schema.type == "integer" ||
+                                  args.type_schema.type[0] == "integer"
+                                ? "number"
+                                : args.type_schema.type == "array"
+                                ? "array : a|b"
+                                : args.type_schema.type == "json"
+                                ? "json : {}"
+                                : args.type_schema.$ref
+                                ? "Account Address"
+                                : "text"
+                            }
+                            onChange={(e) =>
+                              onInputChangeContractArg({
+                                functions: functions.name,
+                                name: args.name,
+                                type:
+                                  args.type_schema.type == "string" ||
+                                  args.type_schema.type[0] == "string"
+                                    ? "text"
+                                    : args.type_schema.type == "integer" ||
+                                      args.type_schema.type[0] == "integer"
+                                    ? "number"
+                                    : args.type_schema.type == "array"
+                                    ? "array"
+                                    : args.type_schema.type == "json"
+                                    ? "json"
+                                    : args.type_schema.$ref
+                                    ? "text"
+                                    : "text",
+                                value: e.target.value,
+                              })
+                            }
+                          />
+                        ) : (
+                          ""
+                        )}
+                        {args.type_schema.type == "boolean" ? (
+                          <select
+                            defaultValue={args.type_schema.type}
+                            class="form-control"
+                            onChange={(e) =>
+                              onInputChangeContractArg({
+                                functions: functions.name,
+                                name: args.name,
+                                type: "boolean",
+                                value: e.target.value,
+                              })
+                            }
+                          >
+                            <option value="true">True</option>
+                            <option value="false">False</option>
+                          </select>
+                        ) : (
+                          ""
+                        )}
+                        {args.type_schema.type == "enum" ? (
+                          <select
+                            defaultValue={args.type_schema.type}
+                            class="form-control"
+                            onChange={(e) =>
+                              onInputChangeContractArg({
+                                functions: functions.name,
+                                name: args.name,
+                                type: "string",
+                                value: e.target.value,
+                              })
+                            }
+                          >
+                            {args.enum &&
+                              args.enum.map((item, i) => (
+                                <option value={item}>{item}</option>
+                              ))}
+                          </select>
+                        ) : (
+                          ""
+                        )}
+                      </div>
+                    );
+                  })}
+                {functions.selfInputDeposit && (
+                  <div className={`form-group pb-2`}>
+                    <label>
+                      {functions.labelDeposit.length > 0
+                        ? functions.labelDeposit
+                        : "Deposit"}
+                    </label>
+                    <input
+                      type="text"
+                      value={functions.deposit}
+                      defaultValue={functions.deposit}
+                      onChange={(e) => cDeposit(e, fIndex)}
+                      class="form-control "
+                    />
+                  </div>
+                )}
 
-              {state.response[functions.name] ? (
-                <p class="card-text">{state.response[functions.name]}</p>
-              ) : (
-                ""
-              )}
-              <button
-                className={`btn btn-primary ${functions.classButton}`}
-                data-action="call"
-                data-name={functions.name}
-                onClick={(e) =>
-                  onBtnClickCall(functions.name, functions.kind, fIndex)
-                }
-              >
-                {functions.button.length > 0 ? functions.button : "Call"}
-              </button>
+                {state.response[functions.name] ? (
+                  <p class="card-text">{state.response[functions.name]}</p>
+                ) : (
+                  ""
+                )}
+                <button
+                  className={`btn btn-primary ${functions.classButton}`}
+                  data-action="call"
+                  data-name={functions.name}
+                  onClick={(e) =>
+                    onBtnClickCall(functions.name, functions.kind, fIndex)
+                  }
+                >
+                  {functions.button.length > 0 ? functions.button : "Call"}
+                </button>
+              </div>
             </div>
-          </div>
-        ))}
+          ))}
     </Wrapper>
   </>
 );
