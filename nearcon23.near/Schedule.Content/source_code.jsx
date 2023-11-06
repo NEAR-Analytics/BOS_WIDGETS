@@ -2,9 +2,11 @@ const accountId = "nearcon23.near";
 
 initState({ data: [] });
 
-const agendaUrl = `https://gqqkd7l7mk.execute-api.us-east-1.amazonaws.com/mainnet/api/v1/airtable/agenda`;
+// Airtable API Url: "https://api.airtable.com/v0/appcR9zt96Wv7VXWl/tblSMeBodnZWPL1vj"
 
-const speakersUrl = `https://gqqkd7l7mk.execute-api.us-east-1.amazonaws.com/mainnet/api/v1/airtable/speakers`;
+const agendaUrl = `https://21mqgszhf3.execute-api.us-east-1.amazonaws.com/testnet/api/v1/airtable/agenda`;
+
+const speakersUrl = `https://21mqgszhf3.execute-api.us-east-1.amazonaws.com/testnet/api/v1/airtable/speakers`;
 const sessionsByDate = {};
 
 const imageLink =
