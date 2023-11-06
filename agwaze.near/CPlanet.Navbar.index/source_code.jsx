@@ -244,7 +244,7 @@ const tabToggleHanler = (tabStr) => {
 
 return (
   <>
-    {props.isGateway && (
+    {!props.isGateway && (
       <>
         <NavContainer>
           {showNavbar && (
