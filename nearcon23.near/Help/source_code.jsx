@@ -52,7 +52,10 @@ return (
         bottom: 40,
       }}
     >
-      <CreateButton>
+      <CreateButton
+        href="https://nearpad-images.s3.amazonaws.com/help-map.png"
+        target="_blank"
+      >
         View FAQs
         <svg
           style={{ marginLeft: 10 }}
