@@ -172,12 +172,15 @@ if (state.redirectToSuccess) {
 }
 
 const isValid = () => {
-  console.log("state?.userData?.balance : ", state?.userData?.balance);
-  console.log("parseFloat(value) : ", parseFloat(value));
-  
+  // console.log("state?.userData?.balance : ", state?.userData?.balance);
+  // console.log("parseFloat(value) : ", parseFloat(value));
+
+  // const balance = state?.userData?.balance
+  //   ? parseFloat(state?.userData?.balance?.replace(/,/g, ''))
+  //   : 0;
 
   const balance = state?.userData?.balance
-    ? parseFloat(state?.userData?.balance)
+    ? parseFloat(state?.userData?.balance?.replace(/,/g, ""))
     : 0;
   if (balance >= parseFloat(value)) {
     return true;
