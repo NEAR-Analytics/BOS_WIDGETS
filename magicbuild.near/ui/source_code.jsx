@@ -16,12 +16,12 @@ return (
               <li class="nav-item" role="presentation">
                 <span
                   class="nav-link px-3 active"
-                  id="block-tab-home"
+                  id="block-list-tab-home"
                   data-bs-toggle="pill"
-                  data-bs-target="#pills-block"
+                  data-bs-target="#pills-block-list"
                   type="button"
                   role="tab"
-                  aria-controls="pills-block"
+                  aria-controls="pills-block-list"
                   aria-selected="true"
                 >
                   Block
@@ -32,10 +32,10 @@ return (
                   class="nav-link px-3 "
                   id="layout-tab-home"
                   data-bs-toggle="pill"
-                  data-bs-target="#pills-layout"
+                  data-bs-target="#pills-layout-list"
                   type="button"
                   role="tab"
-                  aria-controls="pills-layout"
+                  aria-controls="pills-layout-list"
                   aria-selected="true"
                 >
                   Layout
@@ -46,18 +46,18 @@ return (
             <div class="tab-content">
               <div
                 class="tab-pane fade show active "
-                id={`pills-block-ui`}
+                id={`pills-block-list`}
                 role="tabpanel"
-                aria-labelledby={`pills-tab-block-ui`}
+                aria-labelledby={`pills-tab-block-list`}
                 tabindex="0"
               >
                 1
               </div>
               <div
                 class="tab-pane fade "
-                id={`pills-layout`}
+                id={`pills-layout-list`}
                 role="tabpanel"
-                aria-labelledby={`pills-tab-layout`}
+                aria-labelledby={`pills-tab-layout-list`}
                 tabindex="0"
               >
                 2
