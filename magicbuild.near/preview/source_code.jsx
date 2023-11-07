@@ -13,7 +13,7 @@ const cArg = (e, functions, aIdx) => {
   abiMethod.forEach((item, fIndex) => {
     if (item.name == functions.name) {
       console.log(abiMethod[fIndex]);
-      abiMethod[fIndex].params[aIdx].args.value = e.target.value;
+      abiMethod[fIndex].params.args[aIdx].value = e.target.value;
       State.update({ cMethod: abiMethod });
     }
   });
