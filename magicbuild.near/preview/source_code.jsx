@@ -28,16 +28,20 @@ const onInputChangeContractArg = (obj) => {
 
   State.update({ contractAbiArg: data });
 };
-const cDeposit = (e, fIndex) => {
+const cDeposit = (functions, e) => {
   const data = state.contractAbiCall;
-  data[fIndex].deposit = e.target.value;
-  State.update({ contractAbiArg: data });
+  data.forEach((item, fIndex) => {
+    if (item.name == functions.name) {
+      data[fIndex].deposit = e.target.value;
+      State.update({ contractAbiArg: data });
+    }
+  });
 };
-const onBtnClickCall = (fName, action, fIndex) => {
+const onBtnClickCall = (functions, action) => {
   const argsArr = [];
   const data = state.contractAbiArg;
   data.forEach((item) => {
-    if (item.functions == fName) {
+    if (item.name == functions.name) {
       if (item.type == "number" || item.type == "integer") {
         item.value = parseInt(item.value);
       }
@@ -66,7 +70,7 @@ const onBtnClickCall = (fName, action, fIndex) => {
         params: {
           request_type: "call_function",
           account_id: state.contractAddress,
-          method_name: fName,
+          method_name: functions.name,
           args_base64: new Buffer.from(JSON.stringify(args)).toString("base64"),
           finality: "final",
         },
@@ -82,7 +86,7 @@ const onBtnClickCall = (fName, action, fIndex) => {
         const result = new Buffer.from(res.body.result.result).toString();
         State.update({
           response: {
-            [fName]: { value: result, error: false },
+            [functions.name]: { value: result, error: false },
           },
         });
       }
@@ -90,7 +94,7 @@ const onBtnClickCall = (fName, action, fIndex) => {
         const error = res.body.result.error;
         State.update({
           response: {
-            [fName]: { value: error, error: true },
+            [functions.name]: { value: error, error: true },
           },
         });
       }
@@ -98,21 +102,21 @@ const onBtnClickCall = (fName, action, fIndex) => {
   }
   if (action == "call") {
     const abiCall = state.contractAbiCall;
-    Near.call(state.contractAddress, fName, args);
-    if (abiCall[fIndex].deposit == 0 && abiCall[fIndex].gas == 30000000000000) {
-      Near.call(state.contractAddress, abiCall[fIndex].name, args);
+    Near.call(state.contractAddress, functions.name, args);
+    if (functions.deposit == 0 && functions.gas == 30000000000000) {
+      Near.call(state.contractAddress, functions.name, args);
     }
-    if (abiCall[fIndex].deposit > 0 || abiCall[fIndex].gas > 30000000000000) {
+    if (functions.deposit > 0 || functions.gas > 30000000000000) {
       Near.call(
         state.contractAddress,
-        abiCall[fIndex].name,
+        functions.name,
         args,
-        abiCall[fIndex].gasUnit == "near"
-          ? abiCall[fIndex].gas * Math.pow(10, 24)
-          : abiCall[fIndex].gas,
-        abiCall[fIndex].depositUnit == "near"
-          ? abiCall[fIndex].deposit * Math.pow(10, 24)
-          : abiCall[fIndex].deposit
+        functions.gasUnit == "near"
+          ? functions.gas * Math.pow(10, 24)
+          : functions.gas,
+        functions.depositUnit == "near"
+          ? functions.deposit * Math.pow(10, 24)
+          : functions.deposit
       );
     }
   }
@@ -327,9 +331,7 @@ return (
                   className={`btn  btn-primary ${functions.classButton}`}
                   data-action="view"
                   data-name={functions.name}
-                  onClick={(e) =>
-                    onBtnClickCall(functions.name, functions.kind, fIndex)
-                  }
+                  onClick={(e) => onBtnClickCall(functions, functions.kind)}
                 >
                   {functions.button.length > 0 ? functions.button : "View"}
                 </button>
@@ -469,7 +471,7 @@ return (
                       type="text"
                       value={functions.deposit}
                       defaultValue={functions.deposit}
-                      onChange={(e) => cDeposit(e, fIndex)}
+                      onChange={(e) => cDeposit(functions, e)}
                       class="form-control "
                     />
                   </div>
@@ -484,9 +486,7 @@ return (
                   className={`btn btn-primary ${functions.classButton}`}
                   data-action="call"
                   data-name={functions.name}
-                  onClick={(e) =>
-                    onBtnClickCall(functions.name, functions.kind, fIndex)
-                  }
+                  onClick={(e) => onBtnClickCall(functions, functions.kind)}
                 >
                   {functions.button.length > 0 ? functions.button : "Call"}
                 </button>
