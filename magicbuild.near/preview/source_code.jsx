@@ -236,7 +236,6 @@ return (
                                 ? "Account Address"
                                 : "text"
                             }
-                            value={args.value}
                             onChange={(e) => cArg(e, functions, argIndex)}
                           />
                         ) : (
