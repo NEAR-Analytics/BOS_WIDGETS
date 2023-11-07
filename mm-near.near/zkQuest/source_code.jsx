@@ -8,8 +8,8 @@
 
 // There are 3 steps to this quest - look at FIXMEs in the code below.
 
-const DESTINATION_CHAIN = 260;
-const QUEST_ADDRESS = "0x60Aa68f9D0D736B9a0a716d04323Ba3b22602840";
+const DESTINATION_CHAIN = 280;
+const QUEST_ADDRESS = "0x55b6BA72330ce98946956CC3dfb38dEb6D784058";
 const QUEST_ID = 7;
 const QUEST_NAME = "008";
 
@@ -67,10 +67,11 @@ function sendSolution() {
 
   let transactionHash = "";
 
-  // FIXME: use the correct method name.
+  // FIXME: find and use the correct method name.
   // Hint: you can replay mainnet transactions from your previous submissions with era-test-node, with --show-calls=user --resolve-hashes
 
-  // FIXME: use the proper payload - it will be the keccak something. Might worth looking in the HTML code of the original frontend.
+  // FIXME: use the proper payload - it will be the keccak of the answer, your address and number of attempts.
+  //let answerHash = ethers.utils.solidityKeccak256(["string", "address", "uint16"], [ANSWER, ADDRESS, attempts]);
 
   // FIXME: oh, and the answer - is the private key of the first 'rich' account from era-test-node (including the 0x prefix).
 
