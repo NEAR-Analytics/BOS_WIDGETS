@@ -1,9 +1,19 @@
-State.init({ blockList: [], openModalBlock: false, clickedModalBlock: false });
+State.init({
+  blockList: [],
+  openModalBlock: false,
+  clickedModalBlock: false,
+  widgetUrl,
+  widgetProps,
+});
 const addBlock = () => {
   const blockList = state.blockList;
-  const block = { id: Date.now(), widget: "", props: {} };
+  const block = {
+    id: Date.now(),
+    widget: state.widgetUrl,
+    props: state.widgetProps,
+  };
   blockList.push(block);
-  State.update({ blockList: blockList });
+  State.update({ blockList: blockList, openModalBlock: false });
 };
 const removeBlock = (index) => {
   const blockList = state.blockList;
@@ -18,7 +28,12 @@ const openModalBlock = (e, type) => {
     State.update({ openModalBlock: false });
   }
 };
-
+const onInputChangeWidgetUrl = (e) => {
+  State.update({ widgetUrl: e.target.value });
+};
+const onInputChangeWidgetProps = (e) => {
+  State.update({ widgetPropst: e.target.value });
+};
 return (
   <div class="container ">
     {state.openModalBlock && (
@@ -42,7 +57,24 @@ return (
                   onClick={(e) => openModalBlock(e, "close")}
                 ></button>
               </div>
-              <div class="modal-body"></div>
+              <div class="modal-body">
+                <div class="form-group">
+                  <label>Widget Url:</label>
+                  <input
+                    class="form-control"
+                    value={state.widgetUrl}
+                    onChange={(e) => onInputChangeWidgetUrl(e)}
+                  />
+                </div>
+                <div class="form-group">
+                  <label>Props:</label>
+                  <input
+                    class="form-control"
+                    value={state.widgetProps}
+                    onChange={(e) => onInputChangeWidgetProps(e)}
+                  />
+                </div>
+              </div>
               <div class="modal-footer">
                 <button
                   type="button"
@@ -53,8 +85,7 @@ return (
                 </button>
                 <button
                   type="button"
-                  disabled={state.clicked}
-                  onClick={(e) => addBlock(e)}
+                  onClick={addBlock}
                   class="btn btn-primary"
                 >
                   Add
@@ -134,8 +165,7 @@ return (
                 <div class="row pb-2">
                   <div class="col-sm-11 ">
                     <h6>
-                      {functions.name}
-                      <span class="text-info">{"widget url"}</span>
+                      <span class="text-info">{block.url}</span>
                     </h6>
                   </div>
                   <div class="col-sm-1 ">
@@ -146,11 +176,7 @@ return (
                     ></button>
                   </div>
                 </div>
-                <Widget
-                  src={`magicbuild.near/widget/preview-button`}
-                  props={state}
-                />
-                {"<Widget src={`${block.url}`} props={block.props} /> "}
+                <Widget src={widget.url} props={widget.props} />
               </div>
             ))}
         </div>
