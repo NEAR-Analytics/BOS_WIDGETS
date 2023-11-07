@@ -165,7 +165,7 @@ const cPrompt = (e) => {
 };
 const getPrompt = () => {
   console.log("prompt", state.prompt);
-  const res = fetch("https://api.openai.com/v1/chat/completions", {
+  asyncFetch("https://api.openai.com/v1/chat/completions", {
     body: JSON.stringify({
       model: "gpt-3.5-turbo",
       messages: [
@@ -182,9 +182,10 @@ const getPrompt = () => {
       Authorization: `Bearer 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`,
     },
     method: "POST",
+  }).then((res) => {
+    console.log("ai", res);
+    State.update({ cssStyle: res.body.choices[0].message.content });
   });
-  console.log("ai", res);
-  State.update({ cssStyle: res.body.choices[0].message.content });
 };
 const onCreateMethod = () => {
   if (state.fName.length > 0) {
