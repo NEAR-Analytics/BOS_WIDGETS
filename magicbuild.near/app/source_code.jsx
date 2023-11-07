@@ -92,6 +92,40 @@ return (
               </label>
             </span>
           </li>
+          <li class="nav-item" role="presentation">
+            <span
+              class="nav-link active"
+              id="pills-tab-block"
+              data-bs-toggle="pill"
+              data-bs-target="#pills-block"
+              type="button"
+              role="tab"
+              aria-controls="pills-block"
+              aria-selected="true"
+              class="nav-link px-3 "
+            >
+              <label class="custom-control-label" for="darkSwitch">
+                <span class="fw-bold">UI Builder</span>
+              </label>
+            </span>
+          </li>
+          <li class="nav-item" role="presentation">
+            <span
+              class="nav-link active"
+              id="pills-tab-UI"
+              data-bs-toggle="pill"
+              data-bs-target="#pills-block"
+              type="button"
+              role="tab"
+              aria-controls="pills-block"
+              aria-selected="true"
+              class="nav-link px-3 "
+            >
+              <label class="custom-control-label" for="darkSwitch">
+                <span class="fw-bold">Block Builder</span>
+              </label>
+            </span>
+          </li>
           <li class="nav-item dropdown">
             <a
               class="nav-link dropdown-toggle"
