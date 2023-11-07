@@ -567,7 +567,6 @@ return (
                         widgets,
                         disabled:
                           !context.accountId ||
-                          context.accountId === accountId ||
                           (articleSbts.length > 0 &&
                             !state.canLoggedUserCreateComment),
                         articleSbts,
@@ -599,7 +598,6 @@ return (
                       elementReactedId: id,
                       disabled:
                         !context.accountId ||
-                        context.accountId === accountId ||
                         (articleSbts.length > 0 &&
                           !state.canLoggedUserCreateComment),
                       sbtsNames: articleSbts,
@@ -712,7 +710,6 @@ return (
                 ),
                 disabled:
                   !context.accountId ||
-                  context.accountId === accountId ||
                   (articleSbts.length > 0 && !state.canLoggedUserCreateComment),
                 className: "info outline w-100 mt-4 mb-2",
                 onClick: () => {
