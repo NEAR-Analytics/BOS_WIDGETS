@@ -116,38 +116,43 @@ const cMLabel = (e, functions, type) => {
     }
   });
 };
-const cAD = (e, fIdx, aIdx, type) => {
+const cAD = (e, functions, aIdx, type) => {
   const value = e.target.value;
   const a = state.cMethod;
-  if (type == "name") a[fIdx].params.args[aIdx].name = value;
-  if (type == "label") a[fIdx].params.args[aIdx].label = value;
-  if (type == "className") a[fIdx].params.args[aIdx].className = value;
-  if (type == "type") a[fIdx].params.args[aIdx].type_schema.type = value;
-  if (type == "value") {
-    if (a[fIdx].params.args[aIdx].type_schema.type == "integer") {
-      a[fIdx].params.args[aIdx].value = parseInt(value);
+
+  a.forEach(item, (fIdx) => {
+    if (functions.name == item.name) {
+      if (type == "name") a[fIdx].params.args[aIdx].name = value;
+      if (type == "label") a[fIdx].params.args[aIdx].label = value;
+      if (type == "className") a[fIdx].params.args[aIdx].className = value;
+      if (type == "type") a[fIdx].params.args[aIdx].type_schema.type = value;
+      if (type == "value") {
+        if (a[fIdx].params.args[aIdx].type_schema.type == "integer") {
+          a[fIdx].params.args[aIdx].value = parseInt(value);
+        }
+        if (a[fIdx].params.args[aIdx].type_schema.type == "array") {
+          a[fIdx].params.args[aIdx].value = value.split("|");
+        }
+        if (a[fIdx].params.args[aIdx].type_schema.type == "boolean") {
+          a[fIdx].params.args[aIdx].value = Boolean(value);
+        }
+        if (a[fIdx].params.args[aIdx].type_schema.type == "json") {
+          a[fIdx].params.args[aIdx].value = JSON.parse(value);
+        }
+        if (a[fIdx].params.args[aIdx].type_schema.type == "string") {
+          a[fIdx].params.args[aIdx].value = value;
+        }
+        if (a[fIdx].params.args[aIdx].type_schema.type == "enum") {
+          a[fIdx].params.args[aIdx].value = value;
+        }
+        if (a[fIdx].params.args[aIdx].type_schema.type == "$ref") {
+          a[fIdx].params.args[aIdx].value = value;
+        }
+      }
+      if (type == "remove") a[fIdx].params.args.splice(aIdx, 1);
+      State.update({ cMethod: a });
     }
-    if (a[fIdx].params.args[aIdx].type_schema.type == "array") {
-      a[fIdx].params.args[aIdx].value = value.split("|");
-    }
-    if (a[fIdx].params.args[aIdx].type_schema.type == "boolean") {
-      a[fIdx].params.args[aIdx].value = Boolean(value);
-    }
-    if (a[fIdx].params.args[aIdx].type_schema.type == "json") {
-      a[fIdx].params.args[aIdx].value = JSON.parse(value);
-    }
-    if (a[fIdx].params.args[aIdx].type_schema.type == "string") {
-      a[fIdx].params.args[aIdx].value = value;
-    }
-    if (a[fIdx].params.args[aIdx].type_schema.type == "enum") {
-      a[fIdx].params.args[aIdx].value = value;
-    }
-    if (a[fIdx].params.args[aIdx].type_schema.type == "$ref") {
-      a[fIdx].params.args[aIdx].value = value;
-    }
-  }
-  if (type == "remove") a[fIdx].params.args.splice(aIdx, 1);
-  State.update({ cMethod: a });
+  });
 };
 const onSwitchChangeArgExport = (fIndex) => {
   const abiMethod = state.cMethod;
@@ -1060,7 +1065,7 @@ return (
                   <div class="col-sm-4 text-end pt-2">
                     <button
                       type="button"
-                      onClick={(e) => cMLabel(e, fIndex, "remove")}
+                      onClick={(e) => cMLabel(e, functions, "remove")}
                       class="btn-close"
                     ></button>
                   </div>
@@ -1079,7 +1084,7 @@ return (
                             placeholder="Method Label"
                             class="form-control"
                             defaultValue={functions.label || ""}
-                            onChange={(e) => cMLabel(e, fIndex, "method")}
+                            onChange={(e) => cMLabel(e, functions, "method")}
                           />
                         </div>
                       </div>
@@ -1090,7 +1095,7 @@ return (
                             placeholder="Boostrap Class"
                             class="form-control"
                             defaultValue={functions.className || ""}
-                            onChange={(e) => cMLabel(e, fIndex, "className")}
+                            onChange={(e) => cMLabel(e, functions, "className")}
                           />
                         </div>
                       </div>
@@ -1155,7 +1160,9 @@ return (
                             class="form-control"
                             defaultValue={args.name || ""}
                             value={args.name || ""}
-                            onChange={(e) => cAD(e, fIndex, argIndex, "name")}
+                            onChange={(e) =>
+                              cAD(e, functions, argIndex, "name")
+                            }
                           />
                         </div>
 
@@ -1164,7 +1171,9 @@ return (
                             value={args.type_schema.type}
                             defaultValue={args.type_schema.type}
                             class="form-control"
-                            onChange={(e) => cAD(e, fIndex, argIndex, "type")}
+                            onChange={(e) =>
+                              cAD(e, functions, argIndex, "type")
+                            }
                           >
                             <option value="string">String</option>
                             <option value="integer">Number</option>
@@ -1187,7 +1196,7 @@ return (
                           args.type_schema.type == "array" ? (
                             <input
                               onChange={(e) =>
-                                cAD(e, fIndex, argIndex, "value")
+                                cAD(e, functions, argIndex, "value")
                               }
                               class="form-control"
                               type="string"
@@ -1202,7 +1211,7 @@ return (
                               defaultValue={args.value}
                               class="form-control"
                               onChange={(e) =>
-                                cAD(e, fIndex, argIndex, "value")
+                                cAD(e, functions, argIndex, "value")
                               }
                             >
                               <option value="true">True</option>
@@ -1217,7 +1226,7 @@ return (
                               defaultValue={args.value}
                               class="form-control"
                               onChange={(e) =>
-                                cAD(e, fIndex, argIndex, "value")
+                                cAD(e, functions, argIndex, "value")
                               }
                             >
                               {args.enum &&
@@ -1238,7 +1247,7 @@ return (
                                 value={args.label}
                                 defaultValue={args.label || ""}
                                 onChange={(e) =>
-                                  cAD(e, fIndex, argIndex, "label")
+                                  cAD(e, functions, argIndex, "label")
                                 }
                               />
                             </div>
@@ -1249,7 +1258,7 @@ return (
                                 value={args.className}
                                 defaultValue={args.className || ""}
                                 onChange={(e) =>
-                                  cAD(e, fIndex, argIndex, "className")
+                                  cAD(e, functions, argIndex, "className")
                                 }
                               />
                             </div>
@@ -1259,7 +1268,9 @@ return (
                         <div class="form-group col-md-1">
                           <button
                             type="button"
-                            onClick={(e) => cAD(e, fIndex, argIndex, "remove")}
+                            onClick={(e) =>
+                              cAD(e, functions, argIndex, "remove")
+                            }
                             class="btn btn-danger btn-sm"
                           >
                             <i class="bi bi-trash"></i>
@@ -1290,14 +1301,16 @@ return (
                             min="0"
                             value={"" + functions.deposit.toString()}
                             defaultValue={"" + functions.deposit.toString()}
-                            onChange={(e) => cMLabel(e, fIndex, "deposit")}
+                            onChange={(e) => cMLabel(e, functions, "deposit")}
                             class="form-control "
                           />
                           <select
                             class="form-select"
                             value={functions.depositUnit}
                             defaultValue={functions.depositUnit}
-                            onChange={(e) => cMLabel(e, fIndex, "depositUnit")}
+                            onChange={(e) =>
+                              cMLabel(e, functions, "depositUnit")
+                            }
                           >
                             <option value="near">Near</option>
                             <option value="yoctoNEAR">yoctoNEAR</option>
@@ -1312,7 +1325,7 @@ return (
                                 type="checkbox"
                                 checked={functions.selfInputDeposit}
                                 onChange={(e) =>
-                                  cMLabel(e, fIndex, "selfInputDeposit")
+                                  cMLabel(e, functions, "selfInputDeposit")
                                 }
                                 id={`flexCheckDefault-${functions.name}`}
                               />
@@ -1339,7 +1352,7 @@ return (
                                 placeholder="Label Deposit"
                                 aria-label="Label Deposit"
                                 onChange={(e) =>
-                                  cMLabel(e, fIndex, "labelDeposit")
+                                  cMLabel(e, functions, "labelDeposit")
                                 }
                                 aria-describedby={`label-deposit-${functions.name}`}
                               />
@@ -1355,7 +1368,7 @@ return (
                             min="0"
                             value={"" + functions.gas}
                             defaultValue={"" + functions.gas}
-                            onChange={(e) => cMLabel(e, fIndex, "gas")}
+                            onChange={(e) => cMLabel(e, functions, "gas")}
                             class="form-control"
                           />
                         </div>
@@ -1429,7 +1442,7 @@ return (
                           placeholder="Button Label"
                           class="form-control"
                           defaultValue={functions.button || ""}
-                          onChange={(e) => cMLabel(e, fIndex, "button")}
+                          onChange={(e) => cMLabel(e, functions, "button")}
                         />
                       </div>
                       <div class="form-group col-md-4">
@@ -1437,7 +1450,7 @@ return (
                           placeholder="Boostrap Class"
                           class="form-control"
                           defaultValue={functions.classButton || ""}
-                          onChange={(e) => cMLabel(e, fIndex, "classButton")}
+                          onChange={(e) => cMLabel(e, functions, "classButton")}
                         />
                       </div>
                     </>
