@@ -172,6 +172,10 @@ if (state.redirectToSuccess) {
 }
 
 const isValid = () => {
+  console.log("state?.userData?.balance : ", state?.userData?.balance);
+  console.log("parseFloat(value) : ", parseFloat(value));
+  
+
   const balance = state?.userData?.balance
     ? parseFloat(state?.userData?.balance)
     : 0;
