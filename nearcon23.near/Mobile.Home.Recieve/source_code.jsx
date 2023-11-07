@@ -16,7 +16,7 @@ const Container = styled.div`
   justify-content: center;
   align-items: center;
 
-  height: max(calc(100vh - 96px), 600px);
+  height: max(calc(100vh - 106px), 00px);
 `;
   // min-height: 500px;
   // height: 100%;
