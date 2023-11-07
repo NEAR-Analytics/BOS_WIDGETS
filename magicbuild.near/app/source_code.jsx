@@ -197,7 +197,6 @@ return (
               aria-selected="true"
               class="nav-link px-3 "
             >
-              {" "}
               <label class="custom-control-label" for="darkSwitch">
                 <a
                   href="https://magic-build.gitbook.io/magicbuild.ai"
@@ -232,6 +231,15 @@ return (
               tabindex="0"
             >
               <Widget src={"magicbuild.near/widget/ui"} />
+            </div>
+            <div
+              class="tab-pane fade "
+              id={`pills-block`}
+              role="tabpanel"
+              aria-labelledby={`pills-tab-block`}
+              tabindex="0"
+            >
+              <Widget src={"magicbuild.near/widget/block"} />
             </div>
             <div
               class="tab-pane fade show active"
