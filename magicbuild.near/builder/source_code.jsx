@@ -95,21 +95,26 @@ const onCreateArgs = (fName, fIndex) => {
 const onSwitchChangeDesignMode = () => {
   State.update({ designMode: !state.designMode });
 };
-const cMLabel = (e, fIdx, type) => {
+const cMLabel = (e, functions, type) => {
   const value = e.target.value;
   const a = state.cMethod;
-  if (type == "method") a[fIdx].label = value;
-  if (type == "className") a[fIdx].className = value;
-  if (type == "classButton") a[fIdx].classButton = value;
-  if (type == "labelDeposit") a[fIdx].labelDeposit = value;
-  if (type == "button") a[fIdx].button = value;
-  if (type == "gas") a[fIdx].gas = value || 0;
-  if (type == "deposit") a[fIdx].deposit = value || 0;
-  if (type == "remove") a.splice(fIdx, 1);
-  if (type == "depositUnit") a[fIdx].depositUnit = value;
-  if (type == "gasUnit") a[fIdx].gasUnit = value;
-  if (type == "selfInputDeposit") a[fIdx].selfInputDeposit = e.target.checked;
-  State.update({ cMethod: a });
+  a.forEach(item, (fIdx) => {
+    if (functions.name == item.name) {
+      if (type == "method") a[fIdx].label = value;
+      if (type == "className") a[fIdx].className = value;
+      if (type == "classButton") a[fIdx].classButton = value;
+      if (type == "labelDeposit") a[fIdx].labelDeposit = value;
+      if (type == "button") a[fIdx].button = value;
+      if (type == "gas") a[fIdx].gas = value || 0;
+      if (type == "deposit") a[fIdx].deposit = value || 0;
+      if (type == "remove") a.splice(fIdx, 1);
+      if (type == "depositUnit") a[fIdx].depositUnit = value;
+      if (type == "gasUnit") a[fIdx].gasUnit = value;
+      if (type == "selfInputDeposit")
+        a[fIdx].selfInputDeposit = e.target.checked;
+      State.update({ cMethod: a });
+    }
+  });
 };
 const cAD = (e, fIdx, aIdx, type) => {
   const value = e.target.value;
