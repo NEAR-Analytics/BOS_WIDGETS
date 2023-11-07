@@ -114,7 +114,7 @@ return (
           <li class="nav-item dropdown">
             <a
               class="nav-link dropdown-toggle"
-              id="navbarDropdown"
+              id="navbarDropdown1"
               role="button"
               data-toggle="dropdown"
               aria-haspopup="true"
@@ -122,7 +122,7 @@ return (
             >
               <span class="fw-bold">Widget</span>
             </a>
-            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdown1">
               {state.widgetList &&
                 state.widgetList.map((widget, index) => {
                   return (
