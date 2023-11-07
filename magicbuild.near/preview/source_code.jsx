@@ -192,13 +192,33 @@ return (
                 {functions.label.length > 0 ? functions.label : functions.name}
               </div>
               <div class="card-body">
-                {functions.params.args.type_schema.type &&
+                {functions.params.args &&
                   functions.params.args.map((args, argIndex) => {
                     return (
                       <div className={`form-group pb-2 ${args.className}`}>
                         <label>
                           {args.label.length > 0 ? args.label : args.name}
                         </label>
+                        <input
+                          class="form-control"
+                          placeholder={
+                            args.type_schema.type == "string" ||
+                            args.type_schema.type[0] == "string"
+                              ? "string"
+                              : args.type_schema.type == "integer" ||
+                                args.type_schema.type[0] == "integer"
+                              ? "number"
+                              : args.type_schema.type == "array"
+                              ? "array : a|b"
+                              : args.type_schema.type == "json"
+                              ? "json : { }"
+                              : args.type_schema.$ref
+                              ? "Account Address"
+                              : "text"
+                          }
+                          defaultValue={args.value}
+                          onChange={(e) => cArg(e, functions, argIndex, args)}
+                        />
                         {args.type_schema.type == "string" ||
                         args.type_schema.type == "$ref" ||
                         args.type_schema.type == "integer" ||
