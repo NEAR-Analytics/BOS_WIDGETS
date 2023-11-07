@@ -13,13 +13,8 @@ const [displayCount, setDisplayCount] = useState(initialRenderLimit);
 
 let rawIndex = Social.index("neddit", subneddit, {
   order: "desc",
-  limit: 200,
+  limit: fetchLimit,
 });
-
-// let rawIndex = Social.index("post", "main", {
-//   order: "desc",
-//   limit: fetchLimit,
-// });
 
 if (rawIndex === null) {
   return renderLoading();
@@ -56,11 +51,11 @@ if (!likes) {
   return renderLoading();
 }
 
-const lastBlockHeight = posts[0].blockHeight ?? 0;
+const latestBlockHeight = posts[0].blockHeight ?? 0;
 
 const score = (i) => {
   const post = posts[i];
-  const age = lastBlockHeight - post.blockHeight;
+  const age = latestBlockHeight - post.blockHeight;
   const numLikes = likes[i].length + 0.1;
   return numLikes / Math.exp(1 + age / halflife);
 };
