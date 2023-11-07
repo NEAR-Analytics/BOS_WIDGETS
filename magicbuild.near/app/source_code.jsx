@@ -86,7 +86,7 @@ return (
             >
               <span class="fw-bold">Client</span>
             </a>
-            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
               {state.clientList &&
                 state.clientList.map((client, index) => {
                   if (client.archived == false) {
@@ -94,7 +94,7 @@ return (
                       <li>
                         <a
                           href="#"
-                          class="nav-link px-3"
+                          class="dropdown-item"
                           id={`pills-tab-${client.clientId}`}
                           data-bs-toggle="pill"
                           data-bs-target={`#pills-${client.clientId}`}
@@ -109,7 +109,7 @@ return (
                     );
                   }
                 })}
-            </div>
+            </ul>
           </li>
           <li class="nav-item dropdown">
             <a
@@ -122,13 +122,13 @@ return (
             >
               <span class="fw-bold">Widget</span>
             </a>
-            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
               {state.widgetList &&
                 state.widgetList.map((widget, index) => {
                   return (
                     <li>
                       <a
-                        class="nav-link px-3"
+                        class="dropdown-item"
                         id={`pills-tab-${widget.widgetName}`}
                         data-bs-toggle="pill"
                         data-bs-target={`#pills-${widget.widgetName}`}
@@ -142,7 +142,7 @@ return (
                     </li>
                   );
                 })}
-            </div>
+            </ul>
           </li>
           <li class="nav-item" role="presentation">
             <span
