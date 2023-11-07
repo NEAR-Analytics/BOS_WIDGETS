@@ -171,7 +171,7 @@ const getPrompt = (e) => {
       messages: [
         {
           role: "user",
-          content: `Act as a UI developer, users will fill out a prompt about their frontend ideas, and your role is to create a css style. To describe the projects, It is the card that has a title as .card-header, inside has label{}, input{} and 1 Button. Select a different color background that matches the user's theme. Find the color of the label, input, button that is complementary to the background. Create button effects. Don't fix the width of the card, the card-header text aligns in the center, bold and the font size is 40, and the label and button font size 30. User prompt:{${state.prompt}}. Answer as the Following format: .card{} .card-header button{} input{} label{}`,
+          content: `Act as a UI developer, users will fill out a prompt about their frontend ideas, and your role is to create a css style. To describe the projects, It is the card that has a title as .card-header, inside has label{}, input{} and 1 Button. Select a different color background that matches the user's theme. Find the color of the label, input, button that is complementary to the background. Create button effects. Don't fix the width of the card, the card-header text aligns in the center, bold and the font size is 40, and the label and button font size 30. User prompt:{"${state.prompt}"}. Answer as the Following format: .card{} .card-header button{} input{} label{}`,
         },
       ],
       max_tokens: 1000,
