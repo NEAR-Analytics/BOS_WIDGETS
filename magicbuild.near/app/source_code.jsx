@@ -150,73 +150,7 @@ return (
                 })}
             </ul>
           </li>
-          <li class="nav-item dropdown">
-            <a
-              href="#"
-              class="nav-link dropdown-toggle"
-              id="navbarDropdown"
-              role="button"
-              data-toggle="dropdown"
-              aria-haspopup="true"
-              aria-expanded="false"
-            >
-              <span class="fw-bold">Widget</span>
-            </a>
-            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-              {state.widgetList &&
-                state.widgetList.map((widget, index) => {
-                  return (
-                    <li>
-                      <a
-                        class="dropdown-item"
-                        id={`pills-tab-${widget.widgetName}`}
-                        data-bs-toggle="pill"
-                        data-bs-target={`#pills-${widget.widgetName}`}
-                        type="button"
-                        role="tab"
-                        aria-controls={`#pills-${widget.widgetName}`}
-                        aria-selected="true"
-                      >
-                        <span class="fw-bold">🪄{widget.widgetName}</span>
-                      </a>
-                    </li>
-                  );
-                })}
-            </ul>
-          </li>
-          <li class="nav-item dropdown">
-            <a
-              class="nav-link dropdown-toggle"
-              id="navbarDropdown1"
-              role="button"
-              data-toggle="dropdown"
-              aria-haspopup="true"
-              aria-expanded="false"
-            >
-              <span class="fw-bold">Widget</span>
-            </a>
-            <ul class="dropdown-menu" aria-labelledby="navbarDropdown1">
-              {state.widgetList &&
-                state.widgetList.map((widget, index) => {
-                  return (
-                    <li>
-                      <a
-                        class="dropdown-item"
-                        id={`pills-tab-${widget.widgetName}`}
-                        data-bs-toggle="pill"
-                        data-bs-target={`#pills-${widget.widgetName}`}
-                        type="button"
-                        role="tab"
-                        aria-controls={`#pills-${widget.widgetName}`}
-                        aria-selected="true"
-                      >
-                        <span class="fw-bold">🪄{widget.widgetName}</span>
-                      </a>
-                    </li>
-                  );
-                })}
-            </ul>
-          </li>
+
           <li class="nav-item" role="presentation">
             <span
               class="nav-link active"
