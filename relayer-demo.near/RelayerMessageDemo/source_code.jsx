@@ -60,7 +60,6 @@ const relayerAccountStatus = fetch("https://rpc.mainnet.near.org", {
 const nearAmount = (yocto) => (parseInt(yocto) / Math.pow(10, 24)).toFixed(2);
 
 const StyledContainer = styled.div`
-  background-color: #f2f1ea;
   border-radius: 10px;
   padding: 40px;
 
