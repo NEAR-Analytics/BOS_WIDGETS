@@ -3,7 +3,7 @@ const CoADaoId = props.dev
     : "congress-coa-v1.ndc-gwg.near";
 const VotingBodyDaoId = props.dev
     ? "voting-body-v1.gwg-testing.near"
-    : "";
+    : "voting-body-v1.ndc-gwg.near";
 const TCDaoId = props.dev
     ? "tc.gwg-testing.near"
     : "congress-tc-v1.ndc-gwg.near";
