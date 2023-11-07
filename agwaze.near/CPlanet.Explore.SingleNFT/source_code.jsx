@@ -203,6 +203,18 @@ const TopRight = styled.div`
     justify-content: center;
     align-items: center;
     background: #FFF;
+    .disabled {
+      background-color: #B0B0B0;
+      color: white;
+      border: none;
+      cursor: not-allowed;
+    }
+    .disabled:hover {
+        background-color: #B0B0B0;
+        color: white;
+        border: none;
+        cursor: not-allowed;
+    }
      p {
         border: 1px solid #000;
         border-radius: 32px;
@@ -718,6 +730,15 @@ function followUser(user, isFollowing) {
   });
 }
 
+const accountFollowsYouData = Social.keys(
+  `${context.accountId}/graph/follow/${daoId}`,
+  undefined,
+  {
+    values_only: true,
+  }
+);
+const accountFollowsYou = Object.keys(accountFollowsYouData || {}).length > 0;
+
 return (
   <Root style={{ marginTop: props.isGateway ? 100 : 10 }}>
     <Right>
@@ -737,7 +758,14 @@ return (
           </TopLeft>
 
           <TopRight>
-            <p>Follow Artist</p>
+            {props.chainState !== "near" && (
+              <p
+                className={!accountFollowsYou ? "disabled" : ""}
+                onClick={() => followUser(owner, accountFollowsYou)}
+              >
+                {accountFollowsYou ? "Following Artist" : " Follow Artist"}
+              </p>
+            )}
             <Share>{trippleDots}</Share>
           </TopRight>
         </div>
@@ -797,8 +825,9 @@ return (
         </Owner>
       </PriceSection>
       <Buttons>
-        <button>Buy Now</button>
-        {props.chainState === "near" && <button>Trade NFT</button>}
+        // <button>Buy Now</button>
+        // {props.chainState === "near" && <button>Trade NFT</button>}
+        //{" "}
       </Buttons>
       {props.chainState === "near" && (
         <Others>
