@@ -9,7 +9,7 @@
 // There are 3 steps to this quest - look at FIXMEs in the code below.
 
 const DESTINATION_CHAIN = 280;
-const QUEST_ADDRESS = "0x55b6BA72330ce98946956CC3dfb38dEb6D784058";
+const QUEST_ADDRESS = "0x69790562986B15D868B8d5b0c83A57e04DE74E21";
 const QUEST_ID = 7;
 const QUEST_NAME = "008";
 
