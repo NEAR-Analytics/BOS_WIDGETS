@@ -1,4 +1,4 @@
-const daoId = props.daoId ?? "beat-dao.sputnik-dao.near";
+const daoId = props.daoId ?? "marmaj.sputnik-dao.near";
 const Root = styled.div`
     margin-bottom: 50px;
 `;
@@ -59,6 +59,14 @@ const RightProfile = styled.div`
         background: #000;
         color: white;
         margin-bottom: 10px;
+      }
+      .following {
+         width: 90%;
+        height: 32px;
+        color: #B0B0B0;
+        border: 1px solid #B0B0B0 !important;
+        margin-bottom: 10px;
+        cursor: not-allowed;
       }
       width: 100%;
     }
@@ -245,7 +253,7 @@ const Contents = styled.div`
 `;
 
 const MiddleContent = styled.div`
-    width: 750px;
+    width: 950px;
 `;
 
 const MembersGroup = styled.div`
@@ -344,7 +352,7 @@ const shortenNumber = (n) => {
 
 // Account follows you:
 const accountFollowsYouData = Social.keys(
-  `${accountId}/graph/follow/${context.accountId}`,
+  `${context.accountId}/graph/follow/${daoId}`,
   undefined,
   {
     values_only: true,
@@ -444,7 +452,7 @@ return (
         <div className="buttons">
           <button
             onClick={() => followUser(daoId, accountFollowsYou)}
-            className="follow"
+            className={accountFollowsYou ? "following" : "follow"}
           >
             {accountFollowsYou ? "Following" : "Follow"}
           </button>
