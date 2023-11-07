@@ -77,12 +77,12 @@ return (
           <li class="nav-item" role="presentation">
             <span
               class="nav-link active"
-              id="pills-tab-UI"
+              id="pills-tab-ui"
               data-bs-toggle="pill"
-              data-bs-target="#pills-UI"
+              data-bs-target="#pills-ui"
               type="button"
               role="tab"
-              aria-controls="pills-UI"
+              aria-controls="pills-ui"
               aria-selected="true"
               class="nav-link px-3 "
             >
