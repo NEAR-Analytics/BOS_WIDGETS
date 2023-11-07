@@ -59,7 +59,7 @@ return (
   <Root
     href={
       props.isGateway
-        ? `#/agwaze.near/widget/GenaDrop.Profile.Main=${daoId}`
+        ? `#/agwaze.near/widget/GenaDrop.Profile.Main?accountId=${daoId}`
         : `#/agwaze.near/widget/CPlanet.index?tab=profile&accountId=${daoId}`
     }
     onClick={() =>
