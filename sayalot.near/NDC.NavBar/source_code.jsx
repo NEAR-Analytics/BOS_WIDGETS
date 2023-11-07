@@ -1,3 +1,5 @@
+// NDC.NavBar
+
 const {
   handleGoHomeButton,
   handlePillNavigation,
@@ -11,32 +13,11 @@ const {
   filterParameter,
   handleBackButton,
   tabs,
+  sbtsNames,
 } = props;
 
 function stateUpdate(obj) {
   State.update(obj);
-}
-const libSrcArray = [
-  "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/SayALot.lib.article",
-];
-
-function callLibs(srcArray, stateUpdate, libCalls) {
-  return (
-    <>
-      {srcArray.map((src) => {
-        return (
-          <Widget
-            src={src}
-            props={{
-              isTest,
-              stateUpdate,
-              libCalls,
-            }}
-          />
-        );
-      })}
-    </>
-  );
 }
 /*
 ======================================================PILLS EXAMPLE====================================================
@@ -61,22 +42,10 @@ function callLibs(srcArray, stateUpdate, libCalls) {
 
 const loggedUserAccountId = context.accountId;
 
-const initLibCalls = [
-  {
-    functionName: "canUserCreateArticle",
-    key: "canLoggedUserCreateArticle",
-    props: {
-      accountId: loggedUserAccountId,
-      env: isTest ? "test" : "prod",
-    },
-  },
-];
-
 State.init({
   selectedPillIndex: 0,
-  libCalls: initLibCalls,
 });
-const canLoggedUserCreateArticle = state.canLoggedUserCreateArticle;
+// const canLoggedUserCreateArticle = state.canLoggedUserCreateArticle;
 
 const logoRemWidth = brand.logoRemWidth
   ? brand.logoRemWidth + "rem"
@@ -290,16 +259,18 @@ return (
             })*/}
           </ul>
         </div>
-        {navigationButtons &&
-          loggedUserAccountId &&
-          canLoggedUserCreateArticle &&
-          navigationButtons.map((button, i) => {
-            return !(button.id + "") || !button.title ? (
-              <p className="text-danger border">Button passed wrong</p>
-            ) : (
-              <div className="d-none d-md-block">{renderButton(button, i)}</div>
-            );
-          })}
+        {
+          // navigationButtons &&
+          // loggedUserAccountId &&
+          // canLoggedUserCreateArticle &&
+          // navigationButtons.map((button, i) => {
+          //   return !(button.id + "") || !button.title ? (
+          //     <p className="text-danger border">Button passed wrong</p>
+          //   ) : (
+          //     <div className="d-none d-md-block">{renderButton(button, i)}</div>
+          //   );
+          // })
+        }
       </div>
     </div>
 
@@ -322,9 +293,5 @@ return (
         Back
       </BackButton>
     )}
-
-    <CallLibrary>
-      {callLibs(libSrcArray, stateUpdate, state.libCalls)}
-    </CallLibrary>
   </>
 );
