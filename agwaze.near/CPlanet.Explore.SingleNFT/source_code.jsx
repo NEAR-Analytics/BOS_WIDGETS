@@ -552,7 +552,7 @@ function fetchTokens() {
       query: `
           query MyQuery {
               mb_views_nft_tokens(
-              where: { nft_contract_id: { _eq: "${contractId}" }, token_id: {_eq: "${tokenId}"}}
+              where: { nft_contract_id: { _eq: "nft.genadrop.near" }, token_id: {_eq: "1664317496314"}}
               order_by: {minted_timestamp: desc}
             ) {
                 attributes {
@@ -578,7 +578,7 @@ function fetchTokens() {
         `,
     }),
   }).then((res) => {
-    if (res.ok) {
+    if (res.body.data.mb_views_nft_tokens.length) {
       const tokens = res.body.data.mb_views_nft_tokens;
       const token = tokens[0];
       State.update({
@@ -727,7 +727,6 @@ return (
             <h1>{state.title ?? "Lorem Ipsum Header"}</h1>
             <Username>
               <a
-                target="_blank"
                 href={`#/agwaze.near/widget/GenaDrop.Profile.Main?accountId=${state.owner}`}
               >
                 {state.owner ?? "My User"}
