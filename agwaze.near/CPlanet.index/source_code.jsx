@@ -82,6 +82,9 @@ return (
       />
     </div>
     <Contents>{tabContent}</Contents>
-    <Widget src="agwaze.near/widget/CPlanet.Footer.index" />
+    <Widget
+      props={{ isGateway: props.isGateway }}
+      src="agwaze.near/widget/CPlanet.Footer.index"
+    />
   </Root>
 );
