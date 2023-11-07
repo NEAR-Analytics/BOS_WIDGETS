@@ -636,7 +636,7 @@ const cCSS = (e) => {
 };
 
 const onBtnClickCall = (functions, action) => {
-  const argMap = functions.name.params.args.map(({ name, value }) => ({
+  const argMap = functions.params.args.map(({ name, value }) => ({
     [name]: value,
   }));
   const args = {};
