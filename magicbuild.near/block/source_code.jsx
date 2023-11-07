@@ -66,7 +66,7 @@ const getPrompt = () => {
       const htmlElement =
         "const Wrapper = styled.div`" +
         dataHtml.CSS +
-        "` \nreturn <Wrapper>\n" +
+        "` \nreturn \n<Wrapper>\n" +
         dataHtml.HTML +
         "\n</Wrapper>";
       State.update({ htmlElement: htmlElement });
@@ -379,10 +379,11 @@ return (
       </div>
     </div>
     <div class="row mb-3">
-      <div class="form-group col-md-5">
+      <div class="form-group col-md-6">
         <h6 class="mb-2">Html Element </h6>
         <textarea
-          class="form-control"
+          style={{ height: "400px" }}
+          class="form-control w-100"
           placeholder="HTML"
           value={state.htmlElement}
           onChange={(e) => cHTML(e)}
@@ -390,11 +391,15 @@ return (
       </div>
 
       <div
-        class="form-group col-md-5"
+        class="form-group col-md-6"
         dangerouslySetInnerHTML={{ __html: state.htmlElement }}
       >
         <h6 class="mb-2">Preview</h6>
-        <iframe className="w-100 border" srcDoc={state.htmlDocs} />
+        <iframe
+          style={{ height: "400px" }}
+          className="w-100 border"
+          srcDoc={state.htmlDocs}
+        />
       </div>
     </div>
   </>
