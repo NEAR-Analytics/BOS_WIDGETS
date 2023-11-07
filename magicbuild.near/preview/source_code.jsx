@@ -12,9 +12,9 @@ const cArg = (e, functions, aIdx) => {
   const abiMethod = state.cMethod;
   abiMethod.forEach((item, fIndex) => {
     if (item.name == functions.name) {
-      abiMethod[index].params.args[aIdx] = e.target.value;
+      console.log(abiMethod[fIndex]);
+      abiMethod[fIndex].params[aIdx].args.value = e.target.value;
       State.update({ cMethod: abiMethod });
-      console.log(abiMethod[fIndex].params.args[aIdx]);
     }
   });
 };
