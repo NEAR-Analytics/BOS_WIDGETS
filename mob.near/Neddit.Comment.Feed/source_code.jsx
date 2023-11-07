@@ -2,11 +2,14 @@ const item = props.item;
 const rootItem = props.rootItem;
 const depth = props.depth ?? 1;
 const renderLoading = () => "Loading";
-const fetchLimit = props.fetchLimit ? parseInt(props.fetchLimit) : 100;
-const renderLimit = props.renderLimit ? parseInt(props.renderLimit) : 3;
-const initialRenderLimit = props.initialRenderLimit
-  ? parseInt(props.initialRenderLimit)
-  : renderLimit;
+const fetchLimit =
+  props.fetchLimit !== undefined ? parseInt(props.fetchLimit) : 100;
+const renderLimit =
+  props.renderLimit !== undefined ? parseInt(props.renderLimit) : 3;
+const initialRenderLimit =
+  props.initialRenderLimit !== undefined
+    ? parseInt(props.initialRenderLimit)
+    : renderLimit;
 const halflife = props.halflife
   ? parseFloat(props.halflife)
   : (24 * 60 * 60) / 1.3;
@@ -94,18 +97,32 @@ const render = (comment) => {
   );
 };
 
-const fetchMore = displayCount < comments.length && (
-  <div key={"loader more"}>
-    <a
-      className=""
-      style={{ cursor: "pointer" }}
-      onClick={(e) => {
-        e.preventDefault && e.preventDefault();
-        setDisplayCount(displayCount + renderLimit);
-      }}
-    >
-      More comments ({comments.length - displayCount})
-    </a>
+const moreReplies = comments.length - displayCount;
+
+const fetchMore = moreReplies > 0 && (
+  <div key={"loader more"} className="comment-section">
+    <div className="post comment">
+      <div className="h-line" />
+      <div className="left" />
+      <div
+        style={{
+          marginLeft: "-40px",
+          paddingTop: "8px",
+          paddingBottom: "10px",
+        }}
+      >
+        <a
+          className="stretched-link"
+          style={{ cursor: "pointer" }}
+          onClick={(e) => {
+            e.preventDefault && e.preventDefault();
+            setDisplayCount(displayCount + renderLimit);
+          }}
+        >
+          {`${moreReplies} more ${moreReplies > 1 ? "replies" : "reply"}`}
+        </a>
+      </div>
+    </div>
   </div>
 );
 
