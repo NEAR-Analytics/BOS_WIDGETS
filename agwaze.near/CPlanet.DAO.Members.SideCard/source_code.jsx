@@ -57,7 +57,11 @@ function makeAccountIdShorter(accountId, shortenLength) {
 
 return (
   <Root
-    href={`#/agwaze.near/widget/CPlanet.index?tab=profile&accountId=${daoId}`}
+    href={
+      props.isGateway
+        ? `#/agwaze.near/widget/GenaDrop.Profile.Main=${daoId}`
+        : `#/agwaze.near/widget/CPlanet.index?tab=profile&accountId=${daoId}`
+    }
     onClick={() =>
       props.update({
         tab: "profile",
