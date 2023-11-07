@@ -24,7 +24,6 @@ const Wrapper = styled.div`
   color: #fff;
     background-color: #000000;
 }
-
 `;
 return (
   <Wrapper>
@@ -94,8 +93,8 @@ return (
           </li>
           <li class="nav-item" role="presentation">
             <span
-              class="nav-link active"
-              id="pills-tab-UI"
+              class="nav-link "
+              id="pills-tab-block"
               data-bs-toggle="pill"
               data-bs-target="#pills-block"
               type="button"
