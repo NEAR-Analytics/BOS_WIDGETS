@@ -77,6 +77,60 @@ return (
           </li>
           <li class="nav-item dropdown">
             <a
+              class="nav-link dropdown-toggle"
+              href="#"
+              id="dropdown03"
+              data-bs-toggle="dropdown"
+              aria-expanded="true"
+            >
+              Dropdown
+            </a>
+            <ul
+              class="dropdown-menu show"
+              aria-labelledby="dropdown03"
+              data-bs-popper="none"
+            >
+              {state.clientList &&
+                state.clientList.map((client, index) => {
+                  if (client.archived == false) {
+                    return (
+                      <li>
+                        <a
+                          href="#"
+                          class="dropdown-item"
+                          id={`pills-tab-${client.clientId}`}
+                          data-bs-toggle="pill"
+                          data-bs-target={`#pills-${client.clientId}`}
+                          type="button"
+                          role="tab"
+                          aria-controls={`#pills-${client.clientId}`}
+                          aria-selected="true"
+                        >
+                          <span class="fw-bold">✨{client.clientName}</span>
+                        </a>
+                      </li>
+                    );
+                  }
+                })}
+              <li>
+                <a class="dropdown-item" href="#">
+                  Action
+                </a>
+              </li>
+              <li>
+                <a class="dropdown-item" href="#">
+                  Another action
+                </a>
+              </li>
+              <li>
+                <a class="dropdown-item" href="#">
+                  Something else here
+                </a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-item dropdown">
+            <a
               href="#"
               class="nav-link dropdown-toggle"
               id="navbarDropdown"
