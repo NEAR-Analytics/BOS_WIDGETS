@@ -163,7 +163,7 @@ const closeAll = () => {
 const cPrompt = (e) => {
   State.update({ prompt: e.target.value });
 };
-const getPrompt = (e) => {
+const getPrompt = () => {
   console.log("prompt", state.prompt);
   const res = fetch("https://api.openai.com/v1/chat/completions", {
     body: JSON.stringify({
