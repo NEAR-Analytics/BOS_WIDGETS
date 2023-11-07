@@ -225,23 +225,17 @@ return (
           <>
             {profile.description && (
               <>
-                <Title as="h2" size="19px" margin>
-                  About
-                </Title>
+                <Title as="h2" size="19px" margin></Title>
 
-                <Bio>
+                <>
                   <Widget
-                    src="near/widget/SocialMarkdown"
-                    props={{ text: profile.description }}
+                    src="jgodwill.near/widget/CPlanet.MainPage.Feed"
+                    props={{ accounts: [accountId] }}
                   />
-                </Bio>
+                  <p className="text-center">{accountId} has no post yet</p>
+                </>
               </>
             )}
-
-            <Widget
-              src="near/widget/Posts.Feed"
-              props={{ accounts: [accountId] }}
-            />
           </>
         )}
 
