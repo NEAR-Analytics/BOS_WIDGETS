@@ -81,11 +81,15 @@ function onCommit() {
     initalBody: "",
     showCreatedArticle: true,
     showPreview: false,
+    saving: false,
   });
 }
 
 function onCancel() {
-  State.update({ createdArticle: undefined });
+  State.update({
+    createdArticle: undefined,
+    saving: false,
+  });
 }
 
 function getInitialMarkdownBody() {
@@ -106,6 +110,7 @@ function getInitialMarkdownBody() {
 function createArticleListener() {
   //To test without commiting use the next line and comment the rest
   // onCommit();
+  State.update({ saving: true });
   const article = getArticleData();
   const newLibsCalls = Object.assign({}, state.functionsToCallByLibrary);
   newLibsCalls.article.push({
@@ -171,6 +176,20 @@ const SecondContainer = styled.div`
 const BoxShadow = styled.div`
   box-shadow: rgba(140, 149, 159, 0.1) 0px 4px 28px 0px;
 `;
+
+const SpinnerContainer = styled.div`
+  height: 1rem;
+  width: 1rem;
+  marginTop: 2px;
+`;
+
+const Spinner = () => {
+  return (
+    <SpinnerContainer className="spinner-border text-secondary" role="status">
+      <span className="sr-only" title="Loading..."></span>
+    </SpinnerContainer>
+  );
+};
 
 const initialTagsObject = {};
 
@@ -319,8 +338,16 @@ return (
                     onClick: createArticleListener,
                     children: (
                       <div className="d-flex justify-conten-center align-items-center">
-                        <span>{editArticleData ? "Save edition" : "Post"}</span>
-                        <i className="bi bi-check2"></i>
+                        {state.saving ? (
+                          <Spinner />
+                        ) : (
+                          <>
+                            <span>
+                              {editArticleData ? "Save edition" : "Post"}
+                            </span>
+                            <i className="bi bi-check2"></i>
+                          </>
+                        )}
                       </div>
                     ),
                   }}
