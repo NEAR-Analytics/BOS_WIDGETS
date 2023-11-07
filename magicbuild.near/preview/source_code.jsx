@@ -216,6 +216,7 @@ return (
                               ? "Account Address"
                               : "text"
                           }
+                          defaultValue={args.value || ""}
                           onChange={(e) => cArg(e, functions, argIndex, args)}
                         />
                         {args.type_schema.type == "string" ||
