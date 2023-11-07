@@ -253,7 +253,7 @@ const Contents = styled.div`
 `;
 
 const MiddleContent = styled.div`
-    width: 950px;
+    width: 900px;
 `;
 
 const MembersGroup = styled.div`
@@ -523,7 +523,12 @@ return (
               <div>
                 <Widget
                   src="agwaze.near/widget/CPlanet.DAO.Members.SideCard"
-                  props={{ daoId: data, userId: data, update: props.update }}
+                  props={{
+                    daoId: data,
+                    userId: data,
+                    update: props.update,
+                    isGateway: props.isGateway,
+                  }}
                 />
               </div>
             ))}
