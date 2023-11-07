@@ -39,7 +39,8 @@ const Icon = styled.div`
 `;
 const H5 = styled.h6`
     background-color: transparent;
-    color: ${selectedButton ? '#00EC97' : '#04A46E'};
+    // color: ${selectedButton ? '#00EC97' : '#04A46E'};
+    color: currentColor;
     border: none;
 
     font-size: 13px;
