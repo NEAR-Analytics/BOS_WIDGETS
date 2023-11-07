@@ -165,7 +165,12 @@ return (
             >
               {" "}
               <label class="custom-control-label" for="darkSwitch">
-                <span class="fw-bold">🛟 Help</span>
+                <a
+                  href="https://magic-build.gitbook.io/magicbuild.ai"
+                  class="fw-bold"
+                >
+                  🛟 Help
+                </a>
               </label>
             </span>
           </li>
