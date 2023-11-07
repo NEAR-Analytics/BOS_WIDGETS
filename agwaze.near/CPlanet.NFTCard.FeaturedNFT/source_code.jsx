@@ -128,7 +128,11 @@ return (
     {state.featuredNFTs.length &&
       state.featuredNFTs.map((data, index) => (
         <Root
-          href={`#/agwaze.near/widget/CPlanet.index?tab=singleNFT&contractId=${data.nft_contract_id}&tokenId=${data.token_id}&chainState=near`}
+          href={
+            props.isGateway
+              ? `#/agwaze.near/widget/CPlanet.Explore.SingleNFT?contractId=${data.nft_contract_id}&tokenId=${data.token_id}&chainState=near`
+              : `#/agwaze.near/widget/CPlanet.index?tab=singleNFT&contractId=${data.nft_contract_id}&tokenId=${data.token_id}&chainState=near`
+          }
           onClick={() =>
             props.onButtonClick({
               tab: "singleNFT",
