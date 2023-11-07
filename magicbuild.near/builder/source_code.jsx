@@ -635,9 +635,8 @@ const cCSS = (e) => {
   State.update({ cssStyle: e.target.value });
 };
 
-const onBtnClickCall = (fName, action, fIndex) => {
-  const abiMethod = state.cMethod;
-  const argMap = abiMethod[fIndex].params.args.map(({ name, value }) => ({
+const onBtnClickCall = (functions, action) => {
+  const argMap = functions.name.params.args.map(({ name, value }) => ({
     [name]: value,
   }));
   const args = {};
@@ -651,7 +650,7 @@ const onBtnClickCall = (fName, action, fIndex) => {
         params: {
           request_type: "call_function",
           account_id: state.contractAddress,
-          method_name: abiMethod[fIndex].name,
+          method_name: functions.name,
           args_base64: new Buffer.from(JSON.stringify(args)).toString("base64"),
           finality: "final",
         },
@@ -666,7 +665,7 @@ const onBtnClickCall = (fName, action, fIndex) => {
         const result = new Buffer.from(resb.result).toString();
         State.update({
           res: {
-            [fName]: { value: result, error: false },
+            [functions.name]: { value: result, error: false },
           },
         });
       }
@@ -674,33 +673,27 @@ const onBtnClickCall = (fName, action, fIndex) => {
         const error = resb.error;
         State.update({
           res: {
-            [fName]: { value: error, error: true },
+            [functions.name]: { value: error, error: true },
           },
         });
       }
     });
   }
   if (action === "call") {
-    if (
-      abiMethod[fIndex].deposit == 0 &&
-      abiMethod[fIndex].gas == 30000000000000
-    ) {
-      Near.call(state.contractAddress, abiMethod[fIndex].name, args);
+    if (functions.deposit == 0 && functions.gas == 30000000000000) {
+      Near.call(state.contractAddress, functions.name, args);
     }
-    if (
-      abiMethod[fIndex].deposit > 0 ||
-      abiMethod[fIndex].gas > 30000000000000
-    ) {
+    if (functions.deposit > 0 || functions.gas > 30000000000000) {
       Near.call(
         state.contractAddress,
-        abiMethod[fIndex].name,
+        functions.name,
         args,
-        abiMethod[fIndex].gasUnit == "near"
-          ? abiMethod[fIndex].gas * Math.pow(10, 24)
-          : abiMethod[fIndex].gas,
-        abiMethod[fIndex].depositUnit == "near"
-          ? abiMethod[fIndex].deposit * Math.pow(10, 24)
-          : abiMethod[fIndex].deposit
+        functions.gasUnit == "near"
+          ? functions.gas * Math.pow(10, 24)
+          : functions.gas,
+        functions.depositUnit == "near"
+          ? functions.deposit * Math.pow(10, 24)
+          : functions.deposit
       );
     }
   }
@@ -1419,9 +1412,7 @@ return (
                   <div class="form-group col-md-2">
                     <button
                       class="btn btn-primary "
-                      onClick={(e) =>
-                        onBtnClickCall(functions.name, functions.kind, fIndex)
-                      }
+                      onClick={(e) => onBtnClickCall(functions, functions.kind)}
                     >
                       {functions.kind == "view" ? "View" : "Call"}
                     </button>
