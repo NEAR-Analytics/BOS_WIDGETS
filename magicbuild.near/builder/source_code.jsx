@@ -19,6 +19,8 @@ State.init({
   cssStyle: "",
   prompt,
   promptLoading: false,
+  openModalCSS: false,
+  clickedModalCSS: false,
 });
 
 const header = {
@@ -181,7 +183,7 @@ const getPrompt = () => {
       messages: [
         {
           role: "user",
-          content: `Act as a UI developer, users will fill out a prompt about their frontend ideas, and your role is to create a css style. To describe the projects, It is the card that has a title as .card-header, inside has label{}, input{} and 1 Button. Select a different color background that matches the user's theme. Find the color of the label, input, button that is complementary to the background. Create button effects. Don't fix the width of the card, the card-header text aligns in the center, bold and the font size is 40, and the label and button font size 30. User prompt:{"${state.prompt}"}. Answer as the Following format: .card{} .card-header button{} input{} label{}`,
+          content: `Act as a UI developer, users will fill out a prompt about their frontend ideas, and your role is to create a css style. To describe the projects, It is the card that has a title as .card-header, inside has label{}, input{} and 1 Button. Select a different color background that matches the user's theme. Find the color of the label, input, button that is complementary to the background. Create button effects. Don't fix the width of the card, the card-header text aligns in the center, bold and the font size is 40, and the label and button font size 30. User prompt:{"${state.prompt}"}. Answer as the Following format: .card{} .card-header button{} input{} label{} and no more explaination`,
         },
       ],
       max_tokens: 1000,
@@ -196,7 +198,16 @@ const getPrompt = () => {
     console.log("ai", res);
     State.update({ promptLoading: false });
     State.update({ cssStyle: res.body.choices[0].message.content });
+    State.update({ openModalCSS: true, clickedModalCSS: false });
   });
+};
+const openModalCSS = (e, type) => {
+  if (type == "show") {
+    State.update({ openModalCSS: true, clickedModalCSS: false });
+  }
+  if (type == "close") {
+    State.update({ openModalCSS: false });
+  }
 };
 const onCreateMethod = () => {
   if (state.fName.length > 0) {
@@ -929,6 +940,57 @@ return (
           >
             {state.promptLoading ? promptLoadingUI : "🪄"} AI Generator
           </button>
+          {state.openModalCSS && (
+            <>
+              <div
+                style={{ display: "block" }}
+                className={`modal fade show`}
+                id="showCSS"
+                tabindex="-1"
+                aria-labelledby="showCSSLabel"
+              >
+                <div class="modal-dialog">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h1 class="modal-title fs-5" id="showCSSLabel">
+                        CSS View
+                      </h1>
+                      <button
+                        type="button"
+                        class="btn-close"
+                        onClick={(e) => showModal(e, "close")}
+                      ></button>
+                    </div>
+                    <div class="modal-body">
+                      <textarea
+                        style={{ height: "500px" }}
+                        class="form-control"
+                        value={state.cssStyle}
+                      ></textarea>
+                    </div>
+                    <div class="modal-footer">
+                      <button
+                        type="button"
+                        class="btn btn-secondary"
+                        onClick={(e) => openModalCSS(e, "close")}
+                      >
+                        Close
+                      </button>
+                      <button
+                        type="button"
+                        disabled={state.clickedModalCSS}
+                        class="btn btn-primary"
+                      >
+                        Save
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="modal-backdrop fade show"></div>
+            </>
+          )}
         </div>
       </div>
     )}
