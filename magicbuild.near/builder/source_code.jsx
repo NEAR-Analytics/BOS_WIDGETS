@@ -1004,39 +1004,45 @@ return (
         </div>
       </div>
     )}
-    <div class="row mb-4">
-      <div class="form-group col-md-4">
-        <h6>Method Name</h6>
-        <input
-          type="text"
-          onChange={(e) => cFunc(e, "name")}
-          class="form-control"
-        />
+    {!state.designMode && (
+      <div class="row mb-4">
+        <div class="form-group col-md-4">
+          <h6>Method Name</h6>
+          <input
+            type="text"
+            onChange={(e) => cFunc(e, "name")}
+            class="form-control"
+          />
+        </div>
+        <div class="form-group col-md-4">
+          <h6>Label</h6>
+          <input
+            type="text"
+            onChange={(e) => cFunc(e, "label")}
+            class="form-control"
+          />
+        </div>
+        <div class="form-group col-md-2">
+          <h6>Action</h6>
+          <select class="form-control" onChange={(e) => cFunc(e, "action")}>
+            <option value="view" selected>
+              View
+            </option>
+            <option value="call">Call</option>
+          </select>
+        </div>
+        <div class="form-group col-md-2">
+          <label></label>
+          <button
+            onClick={onCreateMethod}
+            class="btn btn-primary form-control "
+          >
+            Create
+          </button>
+        </div>
       </div>
-      <div class="form-group col-md-4">
-        <h6>Label</h6>
-        <input
-          type="text"
-          onChange={(e) => cFunc(e, "label")}
-          class="form-control"
-        />
-      </div>
-      <div class="form-group col-md-2">
-        <h6>Action</h6>
-        <select class="form-control" onChange={(e) => cFunc(e, "action")}>
-          <option value="view" selected>
-            View
-          </option>
-          <option value="call">Call</option>
-        </select>
-      </div>
-      <div class="form-group col-md-2">
-        <label></label>
-        <button onClick={onCreateMethod} class="btn btn-primary form-control ">
-          Create
-        </button>
-      </div>
-    </div>
+    )}
+
     {state.cMethod &&
       state.cMethod
         .filter((functions) => functions.export == true)
