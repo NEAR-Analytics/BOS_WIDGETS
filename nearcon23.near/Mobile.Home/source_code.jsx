@@ -20,7 +20,7 @@ const Container = styled.div`
 // height: calc(100% - 105px);
 const Content = styled.div`
   // height: calc(100% - 96px);
-  height: calc(100vh - 160px);
+  height: calc(100vh - 165px);
   height: calc(100dvh - 105px);
 
   flex: 1;
