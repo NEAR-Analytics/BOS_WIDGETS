@@ -1,15 +1,19 @@
+// Get Abi of Maverick router contract
 const routerAbi = fetch(
   "https://raw.githubusercontent.com/yaairnaavaa/Maverick/main/maverick-router.txt"
 );
 
+// Get Abi of Maverick position contract
 const positionAbi = fetch(
   "https://raw.githubusercontent.com/yaairnaavaa/Maverick/main/maverick-position.txt"
 );
 
+// Validate that the abi are loaded
 if (!routerAbi.ok || !positionAbi.ok) {
   return "Loading";
 }
 
+// State initialization
 State.init({
   isZkSync: false,
   routerContract: "0x39E098A153Ad69834a9Dac32f0FCa92066aD03f4",
@@ -29,6 +33,7 @@ State.init({
   hasSomeBalance: 0,
 });
 
+// Method to get network
 const getNetwork = () => {
   let chainId = 324;
   Ethers.provider()
@@ -43,12 +48,14 @@ const getNetwork = () => {
     });
 };
 
+// Method to change network
 const switchNetwork = (chainId) => {
   Ethers.provider().send("wallet_switchEthereumChain", [
     { chainId: `0x${chainId.toString(16)}` },
   ]);
 };
 
+// Validation to get user account
 if (state.sender === undefined) {
   const accounts = Ethers.send("eth_requestAccounts", []);
   if (accounts.length) {
@@ -57,14 +64,7 @@ if (state.sender === undefined) {
   }
 }
 
-const getRecipient = () => {
-  return (
-    state.sender.substring(0, 5) +
-    "..." +
-    state.sender.substring(state.sender.length - 4, state.sender.length)
-  ).toUpperCase();
-};
-
+// Method to format number (M and K)
 const formatNumber = (n) => {
   if (n >= 1000000) {
     return "$" + (n / 1000000).toFixed(2) + "m";
@@ -75,6 +75,7 @@ const formatNumber = (n) => {
   }
 };
 
+// Method to format token amount
 const formatNumberToken = (n) => {
   let result;
 
@@ -97,6 +98,7 @@ const formatNumberToken = (n) => {
   return result;
 };
 
+// Method to get user data from maverick api
 const getUserData = () => {
   asyncFetch(`https://api.mav.xyz/api/v3/user/${state.sender}/324`)
     .catch((err) => {
@@ -106,7 +108,6 @@ const getUserData = () => {
       const hasSomeBalance = res.body.user.positions.filter(
         (p) => p.balance !== 0
       );
-      console.log(hasSomeBalance);
       State.update({
         portfolio: res.body.user,
         hasSomeBalance: hasSomeBalance,
@@ -114,21 +115,7 @@ const getUserData = () => {
     });
 };
 
-const binsFormat = () => {
-  return {
-    tokenId: data[0],
-    image: data[1],
-    name: data[2],
-    happiness: data[3].toNumber(),
-    hunger: data[4].toNumber(),
-    sleep: data[5].toNumber(),
-    currentActivity: data[6],
-    isHungry: data[7],
-    isSleepy: data[8],
-    isBored: data[9],
-  };
-};
-
+// Method to get pool mode img
 const getModeImg = (k) => {
   if (k == 0) {
     return "https://raw.githubusercontent.com/yaairnaavaa/Maverick/main/ModeStatic.gif";
@@ -144,6 +131,7 @@ const getModeImg = (k) => {
   }
 };
 
+// Method to get pool mode name
 const getMode = (k) => {
   if (k == 0) {
     return "Static";
@@ -159,21 +147,24 @@ const getMode = (k) => {
   }
 };
 
+// Method to format width
 const getFeeWidthFormat = (n) => {
   var format = (n * 100).toFixed(2);
   return format + "%";
 };
 
+// Method to set pool selected
 const manage = (p) => {
-  console.log(p);
   State.update({ poolSelected: p, binsToRemove: p.bins, nftId: p.nftId });
 };
 
+// Method to indicate that liquidity will be removed
 const remove = () => {
   State.update({ isLiquidityRemoved: true });
   getApprovedNFT();
 };
 
+// Method to step back
 const back = () => {
   State.update({
     poolSelected: null,
@@ -183,6 +174,7 @@ const back = () => {
   });
 };
 
+// Method to return to pool details
 const backToDetail = () => {
   State.update({
     isLiquidityRemoved: false,
@@ -195,14 +187,17 @@ const backToDetail = () => {
   });
 };
 
+// Method to show bins selected modal
 const selectBins = () => {
   State.update({ showSelectBinsModal: true });
 };
 
+// Method to close bins selected modal
 const closeModal = () => {
   State.update({ showSelectBinsModal: false });
 };
 
+// Method to set bins selected in modal
 const setBins = (btr, checked) => {
   const countBinsToRemove = btr.filter((b) => b.selected);
   const { sumReserveA, sumReserveB } = countBinsToRemove.reduce(
@@ -222,13 +217,7 @@ const setBins = (btr, checked) => {
   });
 };
 
-const toFixedString = (n, d) => {
-  let stringNumber = n.toString();
-  let positionDecimalPoint = stringNumber.indexOf(".");
-  let truncatedNumber = stringNumber.substring(0, positionDecimalPoint + d + 1);
-  return truncatedNumber;
-};
-
+// Method to get approved nft
 const getApprovedNFT = () => {
   const position = new ethers.Contract(
     state.positionContract,
@@ -238,7 +227,6 @@ const getApprovedNFT = () => {
 
   try {
     position.getApproved(state.poolSelected.nftId).then((res) => {
-      console.log("approvedNFT: " + parseInt(res, 16));
       State.update({ approveNFT: parseInt(res, 16) });
     });
   } catch (err) {
@@ -246,6 +234,7 @@ const getApprovedNFT = () => {
   }
 };
 
+// Method to approve nft
 const approveNFT = () => {
   const position = new ethers.Contract(
     state.positionContract,
@@ -272,6 +261,7 @@ const approveNFT = () => {
   }
 };
 
+// Method to refresh pool data
 const refreshPoolData = () => {
   asyncFetch(`https://api.mav.xyz/api/v3/user/${state.sender}/324`)
     .catch((err) => {
@@ -298,6 +288,7 @@ const refreshPoolData = () => {
     });
 };
 
+// Method to fixed float number
 const floatToFixed = (num, decimals) => {
   decimals ? decimals : 18;
   return ethers.BigNumber.from(
@@ -305,6 +296,7 @@ const floatToFixed = (num, decimals) => {
   );
 };
 
+// Method to confirm remove liquidity
 const confirmRemove = () => {
   const router = new ethers.Contract(
     state.routerContract,
@@ -312,7 +304,6 @@ const confirmRemove = () => {
     Ethers.provider().getSigner()
   );
 
-  console.log(state.poolSelected);
   let tuple = [];
   state.binsToRemove.forEach((elemento) => {
     const reserveA = elemento.reserveA;
@@ -333,8 +324,6 @@ const confirmRemove = () => {
       }
     }
   });
-
-  console.log(tuple);
 
   try {
     const overrides = {
