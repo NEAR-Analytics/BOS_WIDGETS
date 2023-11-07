@@ -171,6 +171,26 @@ return (
           </li>
         </ul>
       </div>
+      <div class="collapse navbar-collapse" id="navbarsExample02">
+        <ul class="navbar-nav me-auto">
+          <span
+            class="nav-link active"
+            id="pills-tab-help"
+            data-bs-toggle="pill"
+            data-bs-target="#pills-help"
+            type="button"
+            role="tab"
+            aria-controls="pills-help"
+            aria-selected="true"
+            class="nav-link px-3 "
+          >
+            {" "}
+            <label class="custom-control-label" for="darkSwitch">
+              <span class="fw-bold">🛟 Help</span>
+            </label>
+          </span>
+        </ul>
+      </div>
     </div>
     <div class="container mt-2">
       <div class="row">
