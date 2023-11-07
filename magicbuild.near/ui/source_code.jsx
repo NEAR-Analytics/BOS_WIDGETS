@@ -46,9 +46,9 @@ return (
             <div class="tab-content">
               <div
                 class="tab-pane fade show active "
-                id={`pills-block`}
+                id={`pills-block-ui`}
                 role="tabpanel"
-                aria-labelledby={`pills-tab-block`}
+                aria-labelledby={`pills-tab-block-ui`}
                 tabindex="0"
               >
                 1
