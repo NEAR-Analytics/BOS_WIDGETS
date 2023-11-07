@@ -227,7 +227,7 @@ return (
                                 ? "Account Address"
                                 : "text"
                             }
-                            value={args.name}
+                            value={args.value}
                             onChange={(e) =>
                               onInputChangeContractArg({
                                 functions: functions.name,
