@@ -564,7 +564,7 @@ function fetchTokens() {
       query: `
           query MyQuery {
               mb_views_nft_tokens(
-              where: { nft_contract_id: { _eq: "nft.genadrop.near" }, token_id: {_eq: "1664317496314"}}
+              where: { nft_contract_id: { _eq: "${contractId}" }, token_id: {_eq: "${tokenId}"}}
               order_by: {minted_timestamp: desc}
             ) {
                 attributes {
@@ -758,9 +758,9 @@ return (
           </TopLeft>
 
           <TopRight>
-            {props.chainState !== "near" && (
+            {props.chainState === "near" && (
               <p
-                className={!accountFollowsYou ? "disabled" : ""}
+                className={accountFollowsYou ? "disabled" : ""}
                 onClick={() => followUser(owner, accountFollowsYou)}
               >
                 {accountFollowsYou ? "Following Artist" : " Follow Artist"}
