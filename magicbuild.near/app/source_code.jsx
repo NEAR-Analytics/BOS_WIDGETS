@@ -83,10 +83,10 @@ return (
               data-bs-toggle="dropdown"
               aria-expanded="true"
             >
-              Dropdown
+              <span class="fw-bold">Client</span>
             </a>
             <ul
-              class="dropdown-menu show"
+              class="dropdown-menu "
               aria-labelledby="dropdown03"
               data-bs-popper="none"
             >
@@ -112,36 +112,23 @@ return (
                     );
                   }
                 })}
-              <li>
-                <a class="dropdown-item" href="#">
-                  Action
-                </a>
-              </li>
-              <li>
-                <a class="dropdown-item" href="#">
-                  Another action
-                </a>
-              </li>
-              <li>
-                <a class="dropdown-item" href="#">
-                  Something else here
-                </a>
-              </li>
             </ul>
           </li>
           <li class="nav-item dropdown">
             <a
-              href="#"
               class="nav-link dropdown-toggle"
-              id="navbarDropdown"
-              role="button"
-              data-toggle="dropdown"
-              aria-haspopup="true"
-              aria-expanded="false"
+              href="#"
+              id="dropdown03"
+              data-bs-toggle="dropdown"
+              aria-expanded="true"
             >
               <span class="fw-bold">Client</span>
             </a>
-            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <ul
+              class="dropdown-menu"
+              aria-labelledby="dropdown03"
+              data-bs-popper="none"
+            >
               {state.clientList &&
                 state.clientList.map((client, index) => {
                   if (client.archived == false) {
@@ -163,6 +150,40 @@ return (
                       </li>
                     );
                   }
+                })}
+            </ul>
+          </li>
+          <li class="nav-item dropdown">
+            <a
+              href="#"
+              class="nav-link dropdown-toggle"
+              id="navbarDropdown"
+              role="button"
+              data-toggle="dropdown"
+              aria-haspopup="true"
+              aria-expanded="false"
+            >
+              <span class="fw-bold">Widget</span>
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+              {state.widgetList &&
+                state.widgetList.map((widget, index) => {
+                  return (
+                    <li>
+                      <a
+                        class="dropdown-item"
+                        id={`pills-tab-${widget.widgetName}`}
+                        data-bs-toggle="pill"
+                        data-bs-target={`#pills-${widget.widgetName}`}
+                        type="button"
+                        role="tab"
+                        aria-controls={`#pills-${widget.widgetName}`}
+                        aria-selected="true"
+                      >
+                        <span class="fw-bold">🪄{widget.widgetName}</span>
+                      </a>
+                    </li>
+                  );
                 })}
             </ul>
           </li>
@@ -225,7 +246,7 @@ return (
         <div class="col-md-12">
           <div class="tab-content" id="pills-tabContent">
             <div
-              class="tab-pane fade show"
+              class="tab-pane fade "
               id={`pills-builder`}
               role="tabpanel"
               aria-labelledby={`pills-tab-builder`}
