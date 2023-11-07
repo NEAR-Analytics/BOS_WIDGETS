@@ -321,6 +321,10 @@ const code = `
             const myel = _el ? _el : document.createElement('div');
             myel.className = 'marker';
             myel.id = 'mymarker';
+            if(!_el){
+                myel.innerHTML = HumanString.trim();
+                myel.style="color:black;";
+            }
             
             new mapboxgl.Marker(myel)
                 .setLngLat([lngLat.lng, lngLat.lat])
