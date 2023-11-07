@@ -90,12 +90,13 @@ const sortedFinalArticlesWithUpVotes = [
 
 const AcordionContainer = styled.div`--bs-accordion-border-width: 0px!important;`;
 
-const NoMargin = styled.div`margin: 0;`;
+const NoMargin = styled.div`margin: 0 0.75rem;`;
 
 const AccordionBody = styled.div`padding: 0;`;
 
 const ArticlesListContainer = styled.div`
   background-color: rgb(248, 248, 249);
+  margin: 0;
 `;
 
 const CallLibrary = styled.div`
