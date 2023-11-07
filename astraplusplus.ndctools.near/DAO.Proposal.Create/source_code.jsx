@@ -7,7 +7,7 @@ const CoADaoId = props.dev
     : "congress-coa-v1.ndc-gwg.near";
 const VotingBodyDaoId = props.dev
     ? "voting-body-v1.gwg-testing.near"
-    : "";
+    : "voting-body-v1.ndc-gwg.near";
 const TCDaoId = props.dev
     ? "tc.gwg-testing.near"
     : "congress-tc-v1.ndc-gwg.near";
@@ -128,6 +128,10 @@ const congressProposalTypes = {
         {
             text: "Update Bonds",
             value: "UpdateBonds"
+        },
+        {
+            text: "Update Vote Duration",
+            value: "UpdateVoteDuration"
         }
     ]
 };
@@ -372,6 +376,16 @@ return (
             {state.proposalType.value === "UpdateBonds" && (
                 <Widget
                     src="astraplusplus.ndctools.near/widget/DAO.Proposal.Create.UpdateBonds"
+                    props={{
+                        daoId,
+                        dev: props.dev,
+                        registry
+                    }}
+                />
+            )}
+            {state.proposalType.value === "UpdateVoteDuration" && (
+                <Widget
+                    src="astraplusplus.ndctools.near/widget/DAO.Proposal.Create.UpdateVoteDuration"
                     props={{
                         daoId,
                         dev: props.dev,
