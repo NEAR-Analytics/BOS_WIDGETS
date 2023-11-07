@@ -512,11 +512,6 @@ return (
         )}
       </ButtonLink>
 
-      <ButtonLink href={`${detailsUrl}&tab=source`}>
-        <i className="bi bi-code-square"></i>
-        View Source
-      </ButtonLink>
-
       <OverlayTrigger
         placement="top"
         overlay={<Tooltip>Copy URL to clipboard</Tooltip>}
