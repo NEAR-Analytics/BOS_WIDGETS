@@ -309,6 +309,7 @@ return (
       <Widget
         props={{
           onButtonClick: props.update,
+          isGateway: props.isGateway,
           chainState: "near",
         }}
         src="agwaze.near/widget/CPlanet.NFTCard.FeaturedNFT"
