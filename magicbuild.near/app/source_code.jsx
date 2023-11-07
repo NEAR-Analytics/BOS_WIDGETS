@@ -77,6 +77,7 @@ return (
           </li>
           <li class="nav-item dropdown">
             <a
+              href="#"
               class="nav-link dropdown-toggle"
               id="navbarDropdown"
               role="button"
