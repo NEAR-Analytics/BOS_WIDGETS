@@ -102,7 +102,6 @@ const onBtnClickCall = (functions, action) => {
     });
   }
   if (action == "call") {
-    const abiCall = state.contractAbiCall;
     Near.call(state.contractAddress, functions.name, args);
     if (functions.deposit == 0 && functions.gas == 30000000000000) {
       Near.call(state.contractAddress, functions.name, args);
