@@ -14,7 +14,7 @@ if (props.tab && props.tab !== state.selectedTab) {
 }
 
 const profile = props.profile ?? Social.getr(`${accountId}/profile`);
-const accountUrl = `#/genadrop.near/widget/GenaDrop.Profile.Main?accountId=${accountId}`;
+const accountUrl = `#/agwaze.near/widget/GenaDrop.Profile.Main?accountId=${accountId}`;
 
 const Wrapper = styled.div`
   padding-bottom: 48px;
