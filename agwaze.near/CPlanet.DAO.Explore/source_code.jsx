@@ -125,22 +125,29 @@ State.init({
   searchTerm: "",
 });
 
-const fetchDaos = () => {
-  const res = fetch(
-    "https://raw.githubusercontent.com/GenaDrop/genadrop-bos-widgets/main/data/cdao-nft-contracts.json"
+const fetchingState = () => {
+  const fetchDAOs = useCache(
+    () =>
+      asyncFetch(
+        "https://raw.githubusercontent.com/GenaDrop/genadrop-bos-widgets/main/data/cdao-daos.json"
+      ).then((data) => JSON.parse(data.body).daos),
+    "mainnetRpcStatus",
+    { subscribe: true }
   );
-  if (res.ok) {
+  console.log(fetchDAOs);
+  if (fetchDAOs.length) {
     State.update({
-      nftData: JSON.parse(res.body).daoContracts,
+      nftData: fetchDAOs,
     });
   }
 };
 
-fetchDaos();
+
+fetchingState();
 
 const seachInputHandler = (e) => {
   const value = e.target.value.toLowerCase();
-  const searched = state.nftData.filter((daos) => daos.daoId.includes(value));
+  const searched = state.nftData.filter((daos) => daos.includes(value));
   State.update({
     searchTerm: value,
     filteredNFTData: searched,
@@ -167,14 +174,14 @@ return (
               <div key={index}>
                 <Widget
                   props={{
-                    daoId: data.daoId,
-                    daoContractId: data.contractId,
+                    daoId: data,
+                    daoContractId: data,
                     isGateway: props.isGateway,
                     onButtonClick: () =>
                       props.update({
                         tab: "daoProfile",
-                        daoId: data.daoId,
-                        daoContractId: data.contractId,
+                        daoId: data,
+                        daoContractId: data,
                       }),
                   }}
                   src="agwaze.near/widget/CPlanet.DAO.Card"
@@ -185,14 +192,14 @@ return (
               <div key={index}>
                 <Widget
                   props={{
-                    daoId: data.daoId,
-                    daoContractId: data.contractId,
+                    daoId: data,
+                    daoContractId: data,
                     isGateway: props.isGateway,
                     onButtonClick: () =>
                       props.update({
                         tab: "daoProfile",
-                        daoId: data.daoId,
-                        daoContractId: data.contractId,
+                        daoId: data,
+                        daoContractId: data,
                       }),
                   }}
                   src="agwaze.near/widget/CPlanet.DAO.Card"
