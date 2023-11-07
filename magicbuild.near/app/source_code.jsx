@@ -122,34 +122,31 @@ return (
               data-bs-toggle="dropdown"
               aria-expanded="true"
             >
-              <span class="fw-bold">Client</span>
+              <span class="fw-bold">Widget</span>
             </a>
             <ul
               class="dropdown-menu"
               aria-labelledby="dropdown03"
               data-bs-popper="none"
             >
-              {state.clientList &&
-                state.clientList.map((client, index) => {
-                  if (client.archived == false) {
-                    return (
-                      <li>
-                        <a
-                          href="#"
-                          class="dropdown-item"
-                          id={`pills-tab-${client.clientId}`}
-                          data-bs-toggle="pill"
-                          data-bs-target={`#pills-${client.clientId}`}
-                          type="button"
-                          role="tab"
-                          aria-controls={`#pills-${client.clientId}`}
-                          aria-selected="true"
-                        >
-                          <span class="fw-bold">✨{client.clientName}</span>
-                        </a>
-                      </li>
-                    );
-                  }
+              {state.widgetList &&
+                state.widgetList.map((widget, index) => {
+                  return (
+                    <li>
+                      <a
+                        class="dropdown-item"
+                        id={`pills-tab-${widget.widgetName}`}
+                        data-bs-toggle="pill"
+                        data-bs-target={`#pills-${widget.widgetName}`}
+                        type="button"
+                        role="tab"
+                        aria-controls={`#pills-${widget.widgetName}`}
+                        aria-selected="true"
+                      >
+                        <span class="fw-bold">🪄{widget.widgetName}</span>
+                      </a>
+                    </li>
+                  );
                 })}
             </ul>
           </li>
