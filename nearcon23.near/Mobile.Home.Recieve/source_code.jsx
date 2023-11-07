@@ -16,10 +16,11 @@ const Container = styled.div`
   justify-content: center;
   align-items: center;
 
-  min-height: 500px;
-  height: 100%;
-  max-height: 100vh;
+  height: max(calc(100vh - 96px), 600px);
 `;
+  // min-height: 500px;
+  // height: 100%;
+  // max-height: calc(100vh - 96px);
 
 const Content = styled.div`
   display: flex;
@@ -175,37 +176,36 @@ const trimName = (nearconId) => {
 };
 
 return (
-  <Container>
-    <Content>
-      <div style={{ width: "100%", backgroundColor:'red' }}>
-        <Widget
-          props={{
-            nearconId: state?.userData?.nearconId,
-            cid: state?.userData?.cid,
+  <>
+    <Widget
+      props={{
+        nearconId: state?.userData?.nearconId || props?.userData?.nearconId,
+        cid: state?.userData?.cid,
+      }}
+      src={`${ownerId}/widget/Navbar`}
+    />
+    <Container>
+      <Content>
+
+        <div
+          style={{
+            flex: 1,
+            zIndex: 3,
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "space-between",
+            alignItems: "center",
+
+            margin: 20,
+            width: "calc(100% - 40px)",
           }}
-          src={`${ownerId}/widget/Navbar`}
-        />
-      </div>
-
-      <div
-        style={{
-          flex: 1,
-          zIndex: 3,
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "space-between",
-          alignItems: "center",
-
-          margin: 20,
-          width: "calc(100% - 40px)",
-        }}
-      >
-        <div style={{ textAlign: "center" }}>
-          <p style={{ fontSize: 20 }}>
-            <span style={{ color: "gray" }}>Receive</span>{" "}
-            <span style={{ fontWeight: 600 }}>NCON</span>
-          </p>
-          {/*{!!state?.userData?.nearconId && (
+        >
+          <div style={{ textAlign: "center" }}>
+            <p style={{ fontSize: 20 }}>
+              <span style={{ color: "gray" }}>Receive</span>{" "}
+              <span style={{ fontWeight: 600 }}>NCON</span>
+            </p>
+            {/*{!!state?.userData?.nearconId && (
           <p
             style={{
               fontFamily: "FK Grotesk",
@@ -213,46 +213,47 @@ return (
           >{`@saidulbadhon.near${state?.userData?.nearconId}`}</p>
           )}*/}
 
-          {!!state?.userData?.nearconId && (
-            <p
-              style={{
-                fontFamily: "FK Grotesk",
-              }}
-            >
-              {trimName(state?.userData?.nearconId)}
-              <span
+            {!!state?.userData?.nearconId && (
+              <p
                 style={{
-                  fontWeight: 400,
-                  marginLeft: -4,
-                  color: "#868682",
+                  fontFamily: "FK Grotesk",
                 }}
               >
-                .nearcon23.near
-              </span>
-            </p>
-          )}
+                {trimName(state?.userData?.nearconId)}
+                <span
+                  style={{
+                    fontWeight: 400,
+                    marginLeft: -4,
+                    color: "#868682",
+                  }}
+                >
+                  .nearcon23.near
+                </span>
+              </p>
+            )}
 
-          <div style={{ width: "fit-content", margin: "auto" }}>
-            <iframe
-              srcDoc={srcData}
-              onMessage={(data) => {
-                console.log(data);
-                State.update({ qrCodeData: data });
-              }}
-              style={{
-                width: 340,
-                height: 350,
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            />
+            <div style={{ width: "fit-content", margin: "auto" }}>
+              <iframe
+                srcDoc={srcData}
+                onMessage={(data) => {
+                  console.log(data);
+                  State.update({ qrCodeData: data });
+                }}
+                style={{
+                  width: 340,
+                  height: 350,
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              />
+            </div>
           </div>
+          <a style={{ width: "100%" }} href={`/mobile`}>
+            <SubmitButton>Home</SubmitButton>
+          </a>
         </div>
-        <a style={{ width: "100%" }} href={`/mobile`}>
-          <SubmitButton>Home</SubmitButton>
-        </a>
-      </div>
-    </Content>
-  </Container>
+      </Content>
+    </Container>
+  </>
 );
