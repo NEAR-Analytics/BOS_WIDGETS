@@ -250,6 +250,13 @@ const currentChainProps = {
 const PRICE_CONVERSION_CONSTANT =
   props.chainState == "near" ? 1000000000000000000000000 : 1000000000000000000;
 
+const getNearHash = (txId) => {
+  const res = fetch(`https://api.nearblocks.io/v1/search/?keyword=${txId}`);
+  if (res.ok) {
+    return `https://nearblocks.io/txns/${res.body.receipts[0].originated_from_transaction_hash}`;
+  }
+};
+
 return (
   <Root>
     <Header>
@@ -308,9 +315,13 @@ return (
           props.transactions &&
           props?.transactions?.map((data, index) => (
             <Row
-              href={`${currentChainProps[props.chainState].explorerTx}${
-                data.txId
-              }`}
+              href={
+                props.chainState === "near"
+                  ? getNearHash(data.txId)
+                  : `${currentChainProps[props.chainState].explorerTx}${
+                      data.txId
+                    }`
+              }
               target="_blank"
               key={data}
             >
