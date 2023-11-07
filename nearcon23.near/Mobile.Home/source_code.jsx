@@ -12,12 +12,17 @@ State.init({
 });
 
 const Container = styled.div`  
-  max-height: 100svh;
-  height: 100%;
+  // max-height: 100svh;
+  // height: 100%;
+  height:100%;
+
 `;
-  // height: calc(100% - 105px);
+// height: calc(100% - 105px);
 const Content = styled.div`
-  height: calc(100% - 96px);
+  // height: calc(100% - 96px);
+  height: calc(100vh - 160px);
+  height: calc(100dvh - 105px);
+
   flex: 1;
   flex-direction: column;
   overflow: auto;
