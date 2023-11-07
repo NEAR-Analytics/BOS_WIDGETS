@@ -18,6 +18,7 @@ State.init({
   designMode: false,
   cssStyle: "",
   prompt,
+  promptLoading: false,
 });
 
 const header = {
@@ -163,7 +164,16 @@ const closeAll = () => {
 const cPrompt = (e) => {
   State.update({ prompt: e.target.value });
 };
+const promptLoadingUI = (
+  <span
+    className="spinner-grow spinner-grow-sm me-1"
+    role="status"
+    aria-hidden="true"
+  />
+);
+
 const getPrompt = () => {
+  State.update({ promptLoading: true });
   console.log("prompt", state.prompt);
   asyncFetch("https://api.openai.com/v1/chat/completions", {
     body: JSON.stringify({
@@ -897,6 +907,7 @@ return (
         </div>
       )}
     </div>
+
     {state.designMode && (
       <div class="row mb-3">
         <div class="form-group col-md-9">
@@ -910,8 +921,12 @@ return (
         </div>
         <div class="form-group col-md-3">
           <label></label>
-          <button onClick={getPrompt} class="btn btn-success form-control ">
-            🪄 AI Generator
+          <button
+            disabled={state.promptLoading}
+            onClick={getPrompt}
+            class="btn btn-success form-control "
+          >
+            {state.promptLoading ? promptLoadingUI : "🪄"} AI Generator
           </button>
         </div>
       </div>
