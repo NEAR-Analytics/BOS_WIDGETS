@@ -5,14 +5,21 @@ State.init({
   contractAbiCall,
   contractAbiView,
   response,
-  contractAbiArg: props.cMethod,
+  cMethod: props.cMethod,
 });
 
 const cArg = (e, functions, aIdx) => {
-  console.log(e, functions, aIdx);
+  const abiMethod = state.cMethod;
+  abiMethod.forEach((item, index) => {
+    if (item.name == functions.name) {
+      abiMethod[index].params.args[aIdx] = e.target.value;
+      State.update({ cMethod: abiMethod });
+      console.log(abiMethod[index].params.args[aIdx]);
+    }
+  });
 };
 const onInputChangeContractArg = (obj) => {
-  const data = state.contractAbiArg;
+  const data = state.cMethod;
   const isExist = false;
   const indexData = null;
 
@@ -29,20 +36,20 @@ const onInputChangeContractArg = (obj) => {
     data.push(obj);
   }
 
-  State.update({ contractAbiArg: data });
+  State.update({ cMethod: data });
 };
 const cDeposit = (functions, e) => {
   const data = state.contractAbiCall;
   data.forEach((item, fIndex) => {
     if (item.name == functions.name) {
       data[fIndex].deposit = e.target.value;
-      State.update({ contractAbiArg: data });
+      State.update({ cMethod: data });
     }
   });
 };
 const onBtnClickCall = (functions, action) => {
   const argsArr = [];
-  const data = state.contractAbiArg;
+  const data = state.cMethod;
   data.forEach((item) => {
     if (item.name == functions.name) {
       if (item.type == "number" || item.type == "integer") {
@@ -138,8 +145,8 @@ const loadData = () => {
     },
   };
 
-  if (state.contractAbiArg) {
-    const abiMethod = state.contractAbiArg;
+  if (state.cMethod) {
+    const abiMethod = state.cMethod;
     abiMethod.forEach((item) => {
       abi.body.functions.push(item);
     });
