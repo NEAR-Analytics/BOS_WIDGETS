@@ -8,13 +8,15 @@ State.init({
   contractAbiArg: props.cMethod,
 });
 
+const cArg = (e, functions, aIdx) => {
+  console.log(e, functions, aIdx);
+};
 const onInputChangeContractArg = (obj) => {
   const data = state.contractAbiArg;
   const isExist = false;
   const indexData = null;
 
   data.forEach((item, index) => {
-    console.log(item);
     if (item.functions == obj.functions && item.name == obj.name) {
       isExist = true;
       indexData = index;
@@ -184,7 +186,7 @@ return (
               </div>
               <div class="card-body">
                 {functions.params.args &&
-                  functions.params.args.map((args) => {
+                  functions.params.args.map((args, argIndex) => {
                     return (
                       <div className={`form-group pb-2 ${args.className}`}>
                         <label>
@@ -228,27 +230,7 @@ return (
                                 : "text"
                             }
                             value={args.value}
-                            onChange={(e) =>
-                              onInputChangeContractArg({
-                                functions: functions.name,
-                                name: args.name,
-                                type:
-                                  args.type_schema.type == "string" ||
-                                  args.type_schema.type[0] == "string"
-                                    ? "text"
-                                    : args.type_schema.type == "integer" ||
-                                      args.type_schema.type[0] == "integer"
-                                    ? "number"
-                                    : args.type_schema.type == "array"
-                                    ? "array"
-                                    : args.type_schema.type == "json"
-                                    ? "json"
-                                    : args.type_schema.$ref
-                                    ? "text"
-                                    : "text",
-                                value: e.target.value,
-                              })
-                            }
+                            onChange={(e) => cArg(e, functions, argIndex)}
                           />
                         ) : (
                           ""
