@@ -177,16 +177,16 @@ const trimName = (nearconId) => {
 return (
   <Container>
     <Content>
-      <div style={{ width: "100%" }}>
+      <div style={{ width: "100%", backgroundColor:'red' }}>
         <Widget
           props={{
-            nearconId: state.userData.nearconId,
-            cid: state.userData.cid,
+            nearconId: state?.userData?.nearconId,
+            cid: state?.userData?.cid,
           }}
           src={`${ownerId}/widget/Navbar`}
         />
       </div>
-      
+
       <div
         style={{
           flex: 1,
