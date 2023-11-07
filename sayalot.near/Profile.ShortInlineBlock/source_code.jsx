@@ -13,7 +13,7 @@ const maxWidth = props.maxWidth ?? "60%";
 const inner = (
   <div className="d-flex flex-row" style={{ maxWidth: "100%" }}>
     <Widget
-      src={widgets.views.standardWidgets.profileImage}
+      src={widgets.profileImage}
       props={{
         metadata,
         accountId,
@@ -54,7 +54,7 @@ return (
   >
     {props.tooltip ? (
       <Widget
-        src={widgets.standardWidgets.profileOverlayTrigger}
+        src={widgets.profileOverlayTrigger}
         props={{ accountId, children: inner, maxWidth: `${maxWidth}` }}
       />
     ) : (
