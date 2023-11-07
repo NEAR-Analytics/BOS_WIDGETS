@@ -194,6 +194,7 @@ const getPrompt = () => {
     method: "POST",
   }).then((res) => {
     console.log("ai", res);
+    State.update({ promptLoading: false });
     State.update({ cssStyle: res.body.choices[0].message.content });
   });
 };
