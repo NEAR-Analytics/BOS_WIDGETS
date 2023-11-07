@@ -5,6 +5,11 @@ const addBlock = () => {
   blockList.push(block);
   State.update({ blockList: blockList });
 };
+const removeBlock = (index) => {
+  const blockList = state.blockList;
+  blockList.splice(index, 1);
+  State.update({ blockList: blockList });
+};
 return (
   <div class="container ">
     <div class="row mb-3">
@@ -70,7 +75,22 @@ return (
         <div>
           {state.blockList &&
             state.blockList.map((block, index) => (
-              <div class="row">
+              <div class="row border rounded p-3 border-2 m-2 ">
+                <div class="row pb-2">
+                  <div class="col-sm-11 ">
+                    <h6>
+                      {functions.name}
+                      <span class="text-info">{"widget url"}</span>
+                    </h6>
+                  </div>
+                  <div class="col-sm-1 ">
+                    <button
+                      type="button"
+                      onClick={(e) => removeBlock(index)}
+                      class="btn-close"
+                    ></button>
+                  </div>
+                </div>
                 <Widget
                   src={`magicbuild.near/widget/preview-button`}
                   props={state}
@@ -82,7 +102,7 @@ return (
         <button
           type="button"
           onClick={addBlock}
-          class="btn btn-outline-primary btn-lg  w-100"
+          class="btn btn-outline-primary btn-lg btn-block"
         >
           Add Block +
         </button>
