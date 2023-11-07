@@ -192,7 +192,7 @@ return (
                 {functions.label.length > 0 ? functions.label : functions.name}
               </div>
               <div class="card-body">
-                {functions.params.args &&
+                {functions.params.args.type_schema.type &&
                   functions.params.args.map((args, argIndex) => {
                     return (
                       <div className={`form-group pb-2 ${args.className}`}>
@@ -206,21 +206,6 @@ return (
                         args.type_schema.type == "array" ? (
                           <input
                             class="form-control"
-                            data-name={args.name}
-                            data-type={
-                              args.type_schema.type == "string" ||
-                              args.type_schema.type[0] == "string"
-                                ? "text"
-                                : args.type_schema.type == "integer" ||
-                                  args.type_schema.type[0] == "integer"
-                                ? "number"
-                                : args.type_schema.type == "array"
-                                ? "array"
-                                : args.type_schema.$ref
-                                ? "text"
-                                : "text"
-                            }
-                            type={"string"}
                             placeholder={
                               args.type_schema.type == "string" ||
                               args.type_schema.type[0] == "string"
@@ -237,7 +222,7 @@ return (
                                 : "text"
                             }
                             defaultValue={args.value}
-                            onChange={(e) => cArg(e, functions, argIndex)}
+                            onChange={(e) => cArg(e, functions, argIndex, args)}
                           />
                         ) : (
                           ""
@@ -320,7 +305,6 @@ return (
                 <button
                   className={`btn  btn-primary ${functions.classButton}`}
                   data-action="view"
-                  data-name={functions.name}
                   onClick={(e) => onBtnClickCall(functions, functions.kind)}
                 >
                   {functions.button.length > 0 ? functions.button : "View"}
@@ -352,20 +336,6 @@ return (
                         args.type_schema.type == "array" ? (
                           <input
                             class="form-control"
-                            data-name={args.name}
-                            data-type={
-                              args.type_schema.type == "string" ||
-                              args.type_schema.type[0] == "string"
-                                ? "text"
-                                : args.type_schema.type == "integer" ||
-                                  args.type_schema.type[0] == "integer"
-                                ? "number"
-                                : args.type_schema.type == "array"
-                                ? "array"
-                                : args.type_schema.$ref
-                                ? "text"
-                                : "text"
-                            }
                             type={"string"}
                             placeholder={
                               args.type_schema.type == "string" ||
@@ -475,7 +445,6 @@ return (
                 <button
                   className={`btn btn-primary ${functions.classButton}`}
                   data-action="call"
-                  data-name={functions.name}
                   onClick={(e) => onBtnClickCall(functions, functions.kind)}
                 >
                   {functions.button.length > 0 ? functions.button : "Call"}
