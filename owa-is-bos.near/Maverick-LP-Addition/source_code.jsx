@@ -1,16 +1,21 @@
+// Get Abi of Maverick router contract
 const routerAbi = fetch(
   "https://raw.githubusercontent.com/yaairnaavaa/Maverick/main/maverick-router.txt"
 );
 
+// Get Abi of Maverick pool contract
 const poolAbi = fetch(
   "https://raw.githubusercontent.com/yaairnaavaa/Maverick/main/IPoolABI.txt"
 );
 
+// Validate that the abi are loaded
 if (!routerAbi.ok || !poolAbi.ok) {
   return "Loading";
 }
 
 let pools;
+
+// Const with pool modes
 const POOLSMODE = [
   {
     id: 0,
@@ -42,6 +47,7 @@ const POOLSMODE = [
   },
 ];
 
+// Const with distribution modes
 const DISTRIBUTIONMODE = [
   {
     name: "Single Bin",
@@ -59,6 +65,7 @@ const DISTRIBUTIONMODE = [
   },
 ];
 
+// State initialization
 State.init({
   isZkSync: false,
   routerContract: "0x39E098A153Ad69834a9Dac32f0FCa92066aD03f4",
@@ -80,6 +87,7 @@ State.init({
   onlyRight: false,
 });
 
+// Method to fixed float number
 const floatToFixed = (num, decimals) => {
   decimals ? decimals : 18;
   return ethers.BigNumber.from(
@@ -87,13 +95,13 @@ const floatToFixed = (num, decimals) => {
   );
 };
 
+// Method to get token prices
 const getScale = () => {
   asyncFetch(`https://api.mav.xyz/api/v3/tokenPrices/324`)
     .catch((err) => {
       console.log(err);
     })
     .then((res) => {
-      console.log(res.body);
       let priceTokenA, priceTokenB;
       Object.entries(res.body.prices).forEach(([key, value]) => {
         if (
@@ -115,11 +123,11 @@ const getScale = () => {
         scaleTokAToTokB: priceTokenA.usd / priceTokenB.usd,
         scaleTokBToTokA: priceTokenB.usd / priceTokenA.usd,
       };
-      console.log(scalesObj);
       State.update({ tokScales: scalesObj });
     });
 };
 
+// Method to get user balances
 const getUserBalances = () => {
   const accounts = Ethers.send("eth_requestAccounts", []);
   asyncFetch(`https://api.mav.xyz/api/v3/tokenBalances/324/${accounts[0]}`)
@@ -131,6 +139,7 @@ const getUserBalances = () => {
     });
 };
 
+// Method to set user balances
 const setUserBalances = () => {
   const tokABalance = state.userBalances.find(
     (token) => token.symbol == state.selectedPoolOptions.tokenA.symbol
@@ -160,6 +169,7 @@ const setUserBalances = () => {
     : State.update({ tokBBalance: undefined });
 };
 
+// Method to get user NFT
 const getNFTUser = () => {
   const accounts = Ethers.send("eth_requestAccounts", []);
   asyncFetch(`https://api.mav.xyz/api/v3/user/${accounts[0]}/324`)
@@ -173,8 +183,8 @@ const getNFTUser = () => {
     });
 };
 
+// Method to get pools
 const getPools = () => {
-  console.log("entra pools");
   asyncFetch(`https://api.mav.xyz/api/v3/pools/324
 `)
     .catch((err) => {
@@ -194,12 +204,14 @@ const getPools = () => {
     });
 };
 
+// Method to set pool options
 const getPoolOptions = (selPool, pools) => {
   State.update({
     poolOptions: pools.filter((pool) => pool.name == selPool),
   });
 };
 
+// Format width and fee
 const getFeeWidthFormat = (n) => {
   const decimalPart = (n % 1).toFixed(20).substring(2);
   const zeroCount = decimalPart.match(/^0*/)[0].length;
@@ -207,6 +219,7 @@ const getFeeWidthFormat = (n) => {
   return format + "%";
 };
 
+// Format token balance
 const formatNumberBalanceToken = (n) => {
   if (n >= 1000000) {
     return "$" + (n / 1000000).toFixed(2) + "m";
@@ -217,6 +230,7 @@ const formatNumberBalanceToken = (n) => {
   }
 };
 
+// Format APR
 const formatAPR = (n) => {
   if (n == 0) {
     return null;
@@ -228,27 +242,26 @@ const formatAPR = (n) => {
   return formattedNumber;
 };
 
+// Method to show pool options modal
 const showPoolOptionsModal = () => {
   State.update({ showSelectPoolOptionModal: true });
 };
 
+// Method to close pool options modal
 const closeModal = () => {
   State.update({ showSelectPoolOptionModal: false });
 };
 
+// Method to set pool options modal
 const setPoolOption = (allPoolOptions, poolOptionSelected) => {
-  console.log("Todas");
-  console.log(allPoolOptions);
-  console.log("Seleccionada");
-  console.log(poolOptionSelected);
   State.update({
     selectedPoolOptions: poolOptionSelected,
     showSelectPoolOptionModal: false,
   });
 };
 
+// Method to get account allowance
 const getAccountAllowance = (data) => {
-  console.log(data);
   let token = data.token;
   if (token.symbol == "ETH") {
     if (data.mode == "TA") {
@@ -273,14 +286,12 @@ const getAccountAllowance = (data) => {
           } else {
             State.update({ tokenBAllowance: parseInt(res.toString()) });
           }
-          console.log(
-            "actual allowance " + data.mode + ": " + parseInt(res.toString())
-          );
         });
     });
   }
 };
 
+// Method to add liquidity
 const addLiquidity = () => {
   const router = new ethers.Contract(
     state.routerContract,
@@ -295,38 +306,28 @@ const addLiquidity = () => {
   );
 
   let bins = state.selectedPoolOptions.bins;
-  console.log(bins);
 
   let amountInA, amountInB;
   let inputA = parseFloat(state.amountInputTokenA).toString();
   let inputB = parseFloat(state.amountInputTokenB).toString();
 
   if (state.poolModeSelected.id == 0) {
-    console.log("Entro a STATIC");
     if (state.poolDistributionSelected.name == "Single Bin") {
       amountInA = ethers.utils.parseUnits(inputA, 18);
       amountInB = ethers.utils.parseUnits(inputB, 18);
-      console.log(amountInA, amountInB);
     } else {
       amountInA = ethers.utils.parseUnits(inputA, 18);
       amountInB = ethers.utils.parseUnits(inputB, 18);
-      console.log(amountInA, amountInB);
     }
   } else if (state.poolModeSelected.id == 3) {
-    console.log("Entro a BOTH");
     amountInA = ethers.utils.parseUnits(inputA, 18);
     amountInB = ethers.utils.parseUnits(inputB, 18);
-    console.log(amountInA, amountInB);
   } else if (state.poolModeSelected.id == 1) {
-    console.log("Entro a LEFT");
     amountInA = ethers.utils.parseUnits(inputA, 18);
     amountInB = ethers.utils.parseUnits("0", 18);
-    console.log(amountInA, amountInB);
   } else if (state.poolModeSelected.id == 2) {
-    console.log("Entro a RIGHT");
     amountInA = ethers.utils.parseUnits("0", 18);
     amountInB = ethers.utils.parseUnits(inputB, 18);
-    console.log(amountInA, amountInB);
   }
 
   const overrides = {
@@ -335,7 +336,6 @@ const addLiquidity = () => {
   };
 
   pool.getState().then((res) => {
-    console.log(res);
     let lowerTick = res[0];
     let position =
       state.poolModeSelected.id == 0 || state.poolModeSelected.id == 3
@@ -344,7 +344,6 @@ const addLiquidity = () => {
         ? lowerTick - 1
         : lowerTick + 1;
     pool.binPositions(res[0], state.poolModeSelected.id).then((res) => {
-      console.log("Position", res);
       let liquidityParams = [];
       if (
         state.poolModeSelected.id == 1 ||
@@ -360,7 +359,6 @@ const addLiquidity = () => {
         });
       } else {
         if (state.poolDistributionSelected.name == "Single Bin") {
-          console.log("Single Bin");
           liquidityParams.push({
             kind: state.poolModeSelected.id,
             pos: position,
@@ -370,8 +368,6 @@ const addLiquidity = () => {
           });
         }
         if (state.poolDistributionSelected.name == "Flat") {
-          console.log("Flat");
-
           if (state.onlyRight) {
             const leftAmount = (
               parseFloat(state.amountInputTokenA) /
@@ -433,7 +429,6 @@ const addLiquidity = () => {
           }
         }
         if (state.poolDistributionSelected.name == "Exponential") {
-          console.log("Exponential");
           if (state.onlyRight) {
             const binsL = Math.floor(state.binsToDistribute / 2);
             const binsR = Math.ceil(state.binsToDistribute / 2);
@@ -566,9 +561,6 @@ const addLiquidity = () => {
           }
         }
       }
-
-      console.log(liquidityParams);
-
       try {
         router
           .addLiquidityToPool(
@@ -610,6 +602,7 @@ const addLiquidity = () => {
   });
 };
 
+// Method to set pool
 const handlePoolSelect = (data) => {
   const pool = state.poolList.find((p) => p.name === data.target.value);
   asyncFetch(`https://api.mav.xyz/api/v3/pools/324`)
@@ -631,6 +624,7 @@ const handlePoolSelect = (data) => {
   });
 };
 
+// Method to set pool options selected
 const handlePoolOptionsSelect = (data) => {
   const poolOptions = state.poolOptions.find(
     (po) => po.id === data.target.value
@@ -638,16 +632,19 @@ const handlePoolOptionsSelect = (data) => {
   State.update({ selectedPoolOptions: poolOptions });
 };
 
+// Method to set pool mode
 const handlePoolModeSelect = (data) => {
   const mode = POOLSMODE.find((m) => m.name === data.target.value);
   State.update({ poolModeSelected: mode });
 };
 
+// Method to set pool distribution mode
 const handlePoolDistributionSelect = (data) => {
   const mode = DISTRIBUTIONMODE.find((m) => m.name === data.target.value);
   State.update({ poolDistributionSelected: mode });
 };
 
+// Method to get network
 const getNetwork = () => {
   let chainId = 324;
   Ethers.provider()
@@ -661,6 +658,7 @@ const getNetwork = () => {
     });
 };
 
+// Method to change network
 const switchNetwork = (chainId) => {
   Ethers.provider().send("wallet_switchEthereumChain", [
     { chainId: `0x${chainId.toString(16)}` },
@@ -678,14 +676,7 @@ if (state.sender === undefined) {
   }
 }
 
-const getRecipient = () => {
-  return (
-    state.sender.substring(0, 5) +
-    "..." +
-    state.sender.substring(state.sender.length - 4, state.sender.length)
-  ).toUpperCase();
-};
-
+// Method to next step
 const next = () => {
   if (state.step + 1 == 2) {
     if (!(state.tokenABalance || state.tokenBBalance)) {
@@ -709,6 +700,7 @@ const next = () => {
   State.update({ step: state.step + 1 });
 };
 
+// Method to back step
 const back = () => {
   if (state.validation) {
     State.update({ validation: undefined });
@@ -721,6 +713,7 @@ const back = () => {
   });
 };
 
+// Method to format number (M and K)
 const formatNumber = (n) => {
   if (n >= 1000000) {
     return "$" + (n / 1000000).toFixed(2) + "m";
@@ -731,18 +724,21 @@ const formatNumber = (n) => {
   }
 };
 
+// Method to set max of token A
 const setMaxBalanceTokenA = () => {
   if (state.tokenABalance.fixed > 0) {
     handleInputTokenA(state.tokenABalance.fixed);
   }
 };
 
+// Method to set max of token B
 const setMaxBalanceTokenB = () => {
   if (state.tokenBBalance.fixed > 0) {
     handleInputTokenB(state.tokenBBalance.fixed);
   }
 };
 
+// Method to validate token allowance
 const validateAllowance = (input, mode) => {
   let divider, tokenAllowance;
   if (mode == "TA") {
@@ -766,8 +762,8 @@ const validateAllowance = (input, mode) => {
   }
 };
 
+// Handle to set token A
 const handleInputTokenA = (input) => {
-  console.log("entra handle input A", state.poolModeSelected.id);
   if (state.poolModeSelected.id == 0 || state.poolModeSelected.id == 3) {
     const step1TokenAAmount = state.selectedPoolOptions.price;
     const tickSpacing = state.selectedPoolOptions.tickSpacing;
@@ -851,7 +847,6 @@ const handleInputTokenA = (input) => {
 
         amountExpA.reverse().push(nextValue);
         amountExpA.reverse();
-        console.log(amountExpA);
 
         let amountExpB = [].concat(amountExpA.reverse());
         tokenB = amountExpB.reduce((a, b) => a + b, 0);
@@ -887,8 +882,8 @@ const handleInputTokenA = (input) => {
   }
 };
 
+// Handle to set token B
 const handleInputTokenB = (input) => {
-  console.log("entra handle input B", state.poolModeSelected.id);
   if (state.poolModeSelected.id == 0 || state.poolModeSelected.id == 3) {
     const step1TokenAAmount = state.selectedPoolOptions.price;
     const tickSpacing = state.selectedPoolOptions.tickSpacing;
@@ -970,12 +965,6 @@ const handleInputTokenB = (input) => {
         amountExpA.pop();
         tokenA = amountExpA.reduce((a, b) => a + b, 0);
 
-        console.log("Result Exponential en B");
-        console.log(amountExpB);
-
-        console.log("Result Exponential en A");
-        console.log(amountExpA);
-
         State.update({
           amountInputTokenB: input,
           amountInputTokenA: tokenA.toFixed(6),
@@ -1012,6 +1001,7 @@ const handleInputTokenB = (input) => {
   }
 };
 
+// Method to validate data
 const validateConfirm = () => {
   let bins = state.binsToDistribute;
   if (bins % 2 !== 1) {
@@ -1032,6 +1022,7 @@ const validateConfirm = () => {
   }
 };
 
+// Method to approve ERC20 token
 const approveErc20Token = (mode) => {
   asyncFetch(
     "https://gist.githubusercontent.com/veox/8800debbf56e24718f9f483e1e40c35c/raw/f853187315486225002ba56e5283c1dba0556e6f/erc20.abi.json"
@@ -1082,6 +1073,7 @@ const approveErc20Token = (mode) => {
   });
 };
 
+// Method to change bins number to distribute liquidity
 const changeBinsToDistribute = (nb) => {
   State.update({
     binsToDistribute: nb,
@@ -1091,24 +1083,7 @@ const changeBinsToDistribute = (nb) => {
   });
 };
 
-const claculateEquivalentFormula = () => {
-  const ratio = "Token A per B";
-  const width = "0.2%";
-  const deltaL = 1;
-
-  // =CEILING.MATH(LOG(1+(width/100))/LOG(1.0001))
-  const tickSpacing = Math.ceil(Math.log(width / 100));
-};
-
-const getTokenAFromB = () => {};
-
-const getTokenBFromA = () => {};
-
-/*
-Cosas a validar
-
- */
-
+// The next section contains the validation buttons //
 const confirmButton = (
   <div class="ConfirmButton" onClick={addLiquidity}>
     <div class={"ConfirmText"}>Confirm</div>
@@ -1158,7 +1133,6 @@ const allowanceButton = (mode) => {
 };
 
 const insufficientBalanceButton = (mode) => {
-  console.log("entro modo", mode);
   return (
     <div class="allowanceButtonDisabled" disabled>
       <div class={"ConfirmText"}>
@@ -1182,6 +1156,7 @@ const allowanceButtonDisabled = () => {
   );
 };
 
+// Get css file
 const css = fetch(
   "https://raw.githubusercontent.com/yaairnaavaa/Maverick/main/addLiquidity.css"
 ).body;
