@@ -210,102 +210,115 @@ const Policies = styled.div`
 `;
 
 return (
-  <Root>
-    <Top>
-      <LeftFoot>
-        <RightHeader>
-          <h1>C</h1>
-          <h1>Planet</h1>
-        </RightHeader>
-        <p>CPlanet is the global constellation supporting creatives</p>
-        <a target="_blank" href="https://creativesdao.org/join">
-          Join
-        </a>
-      </LeftFoot>
-      <RightFoot>
-        <Socials>
-          <h1>Socials</h1>
-          <div>
-            <a target="_blank" href="https://www.creativesdao.org/bos">
-              <li>
-                <img src="https://ipfs.near.social/ipfs/bafkreibbnvp7u3syjnjoxst7jjuyutsygblxrttdx2aaqiylozj4bvah2a" />
-                Near Social
-              </li>
+  <>
+    {!props.isGateway && (
+      <Root>
+        <Top>
+          <LeftFoot>
+            <RightHeader>
+              <h1>C</h1>
+              <h1>Planet</h1>
+            </RightHeader>
+            <p>CPlanet is the global constellation supporting creatives</p>
+            <a target="_blank" href="https://creativesdao.org/join">
+              Join
             </a>
-            <a target="_blank" href="https://www.creativesdao.org/twitter">
-              <li>
-                {twitterIcon}
-                Twitter
-              </li>
-            </a>
-            <a target="_blank" href="https://www.creativesdao.org/telegram">
-              <li>
-                {telegram}
-                Telegram
-              </li>
-            </a>
-            <a target="_blank" href="https://www.creativesdao.org/weekly-call">
-              <li>
-                {callIcon}
-                Weekly Call
-              </li>
-            </a>
-          </div>
-        </Socials>
-        <Socials>
-          <h1>Our Products</h1>
-          <div>
-            <a target="_blank" href="https://www.creativesdao.org/app">
-              <li>Creative DAO</li>
-            </a>
-            <a target="_blank" href="https://dropflow.xyz/">
-              <li>Drop Flow</li>
-            </a>
-            <a target="_blank" href="https://drops.fund/">
-              <li>Drop.Funds</li>
-            </a>
-            <a target="_blank" href="https://www.creativesdao.org/case-studies">
-              <li>Case Studies</li>
-            </a>
-            <a target="_blank" href="https://www.creativesdao.org/communities">
-              <li>Communties</li>
-            </a>
-            <a target="_blank" href="https://www.creativesdao.org/sbt">
-              <li>SBT</li>
-            </a>
-          </div>
-        </Socials>
-        <Socials>
-          <h1>Deep Dive</h1>
-          <div>
-            <a target="_blank" href="https://www.creativesdao.org">
-              <li>Website</li>
-            </a>
-            <a target="_blank" href="https://www.creativesdao.org/charter">
-              <li>Charter</li>
-            </a>
-            <a target="_blank" href="https://www.creativesdao.org/council">
-              <li>Council</li>
-            </a>
-            <a target="_blank" href="https://www.creativesdao.org/dao">
-              <li>DAO</li>
-            </a>
-            <a target="_blank" href="https://www.creativesdao.org/funding">
-              <li>Get Funded</li>
-            </a>
-          </div>
-        </Socials>
-      </RightFoot>
-    </Top>
-    <Bottom>
-      <CopyRight>
-        2023 CPlanet - Built with ❤️ by Minority Programmers
-      </CopyRight>
-      <Policies>
-        <a href="#">Privacy & Policy</a>
-        <a href="#">Terms & Conditions</a>
-        <a href="#">Cookies Settings</a>
-      </Policies>
-    </Bottom>
-  </Root>
+          </LeftFoot>
+          <RightFoot>
+            <Socials>
+              <h1>Socials</h1>
+              <div>
+                <a target="_blank" href="https://www.creativesdao.org/bos">
+                  <li>
+                    <img src="https://ipfs.near.social/ipfs/bafkreibbnvp7u3syjnjoxst7jjuyutsygblxrttdx2aaqiylozj4bvah2a" />
+                    Near Social
+                  </li>
+                </a>
+                <a target="_blank" href="https://www.creativesdao.org/twitter">
+                  <li>
+                    {twitterIcon}
+                    Twitter
+                  </li>
+                </a>
+                <a target="_blank" href="https://www.creativesdao.org/telegram">
+                  <li>
+                    {telegram}
+                    Telegram
+                  </li>
+                </a>
+                <a
+                  target="_blank"
+                  href="https://www.creativesdao.org/weekly-call"
+                >
+                  <li>
+                    {callIcon}
+                    Weekly Call
+                  </li>
+                </a>
+              </div>
+            </Socials>
+            <Socials>
+              <h1>Our Products</h1>
+              <div>
+                <a target="_blank" href="https://www.creativesdao.org/app">
+                  <li>Creative DAO</li>
+                </a>
+                <a target="_blank" href="https://dropflow.xyz/">
+                  <li>Drop Flow</li>
+                </a>
+                <a target="_blank" href="https://drops.fund/">
+                  <li>Drop.Funds</li>
+                </a>
+                <a
+                  target="_blank"
+                  href="https://www.creativesdao.org/case-studies"
+                >
+                  <li>Case Studies</li>
+                </a>
+                <a
+                  target="_blank"
+                  href="https://www.creativesdao.org/communities"
+                >
+                  <li>Communties</li>
+                </a>
+                <a target="_blank" href="https://www.creativesdao.org/sbt">
+                  <li>SBT</li>
+                </a>
+              </div>
+            </Socials>
+            <Socials>
+              <h1>Deep Dive</h1>
+              <div>
+                <a target="_blank" href="https://www.creativesdao.org">
+                  <li>Website</li>
+                </a>
+                <a target="_blank" href="https://www.creativesdao.org/charter">
+                  <li>Charter</li>
+                </a>
+                <a target="_blank" href="https://www.creativesdao.org/council">
+                  <li>Council</li>
+                </a>
+                <a target="_blank" href="https://www.creativesdao.org/dao">
+                  <li>DAO</li>
+                </a>
+                <a target="_blank" href="https://www.creativesdao.org/funding">
+                  <li>Get Funded</li>
+                </a>
+              </div>
+            </Socials>
+          </RightFoot>
+        </Top>
+        <Bottom>
+          <CopyRight>
+            2023 CPlanet - Built with ❤️ by Minority Programmers
+          </CopyRight>
+          <Policies>
+            <a href="#">Privacy & Policy</a>
+            <a href="#">Terms & Conditions</a>
+            <a href="#">Cookies Settings</a>
+          </Policies>
+        </Bottom>
+      </Root>
+    )}
+  </>
 );
