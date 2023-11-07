@@ -36,9 +36,7 @@ const widgets = {
   addComment: `${componentsOwner}/widget/NDC.AddComment`,
   commentView: `${componentsOwner}/widget/NDC.CommentView`,
   upVoteButton: `${componentsOwner}/widget/NDC.UpVoteButton`,
-  fasterTextInput: `${componentsOwner}/widget/fasterTextInput`,
   profileShortInlineBlock: `${componentsOwner}/widget/Profile.ShortInlineBlock`,
-  markownEditorIframe: `${componentsOwner}/widget/MarkdownEditorIframe`,
   tagsEditor: `${componentsOwner}/widget/TagsEditor`,
 
   //Libs
@@ -49,6 +47,8 @@ const widgets = {
   libUpVotes: `sayalot.near/widget/lib.upVotes`,
 
   //Standard widgets
+  fasterTextInput: `f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/fasterTextInput`,
+  markownEditorIframe: `f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/MarkdownEditorIframe`,
   styledComponents: "rubycop.near/widget/NDC.StyledComponents",
   newStyledComponents: {
     Element: {
