@@ -75,6 +75,23 @@ return (
               </label>
             </span>
           </li>
+          <li class="nav-item" role="presentation">
+            <span
+              class="nav-link active"
+              id="pills-tab-UI"
+              data-bs-toggle="pill"
+              data-bs-target="#pills-UI"
+              type="button"
+              role="tab"
+              aria-controls="pills-UI"
+              aria-selected="true"
+              class="nav-link px-3 "
+            >
+              <label class="custom-control-label" for="darkSwitch">
+                <span class="fw-bold">UI Builder</span>
+              </label>
+            </span>
+          </li>
           <li class="nav-item dropdown">
             <a
               class="nav-link dropdown-toggle"
@@ -189,6 +206,15 @@ return (
               tabindex="0"
             >
               <Widget src={"magicbuild.near/widget/builder"} />
+            </div>
+            <div
+              class="tab-pane fade "
+              id={`pills-ui`}
+              role="tabpanel"
+              aria-labelledby={`pills-tab-ui`}
+              tabindex="0"
+            >
+              <Widget src={"magicbuild.near/widget/ui"} />
             </div>
             <div
               class="tab-pane fade show active"
