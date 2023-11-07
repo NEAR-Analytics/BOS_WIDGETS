@@ -10,11 +10,11 @@ State.init({
 
 const cArg = (e, functions, aIdx) => {
   const abiMethod = state.cMethod;
-  abiMethod.forEach((item, index) => {
+  abiMethod.forEach((item, fIndex) => {
     if (item.name == functions.name) {
       abiMethod[index].params.args[aIdx] = e.target.value;
       State.update({ cMethod: abiMethod });
-      console.log(abiMethod[index].params.args[aIdx]);
+      console.log(abiMethod[fIndex].params.args[aIdx]);
     }
   });
 };
@@ -236,7 +236,7 @@ return (
                                 ? "Account Address"
                                 : "text"
                             }
-                            value={args.value}
+                            //value={args.params].}
                             onChange={(e) => cArg(e, functions, argIndex)}
                           />
                         ) : (
