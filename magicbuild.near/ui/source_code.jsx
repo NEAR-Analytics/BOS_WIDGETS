@@ -1,4 +1,4 @@
-State.init({ blockList: [] });
+State.init({ blockList: [], openModalBlock: false, clickedModalBlock: false });
 const addBlock = () => {
   const blockList = state.blockList;
   const block = { id: Date.now(), widget: "", props: {} };
@@ -10,8 +10,63 @@ const removeBlock = (index) => {
   blockList.splice(index, 1);
   State.update({ blockList: blockList });
 };
+const openModalBlock = (e, type) => {
+  if (type == "show") {
+    State.update({ openModalBlock: true, clicked: false });
+  }
+  if (type == "close") {
+    State.update({ openModalBlock: false });
+  }
+};
+
 return (
   <div class="container ">
+    {state.openModalBlock && (
+      <>
+        <div
+          style={{ display: "block" }}
+          className={`modal fade show`}
+          id="createClient"
+          tabindex="-1"
+          aria-labelledby="createClientLabel"
+        >
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h1 class="modal-title fs-5" id="createClientLabel">
+                  Choose Block
+                </h1>
+                <button
+                  type="button"
+                  class="btn-close"
+                  onClick={(e) => openModalBlock(e, "close")}
+                ></button>
+              </div>
+              <div class="modal-body"></div>
+              <div class="modal-footer">
+                <button
+                  type="button"
+                  class="btn btn-secondary"
+                  onClick={(e) => openModalBlock(e, "close")}
+                >
+                  Close
+                </button>
+                <button
+                  type="button"
+                  disabled={state.clicked}
+                  onClick={(e) => addBlock(e)}
+                  class="btn btn-primary"
+                >
+                  Add
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-backdrop fade show"></div>
+      </>
+    )}
     <div class="row mb-3">
       <div class="form-group col-md-3 ">
         <div class="card">
@@ -101,7 +156,7 @@ return (
         </div>
         <button
           type="button"
-          onClick={addBlock}
+          onClick={(e) => openModalBlock(e, "show")}
           class="btn btn-outline-primary btn-lg btn-block"
         >
           Add Block +
