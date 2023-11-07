@@ -98,7 +98,7 @@ const onSwitchChangeDesignMode = () => {
 const cMLabel = (e, functions, type) => {
   const value = e.target.value;
   const a = state.cMethod;
-  a.forEach(item, (fIdx) => {
+  a.forEach((item, fIdx) => {
     if (functions.name == item.name) {
       if (type == "method") a[fIdx].label = value;
       if (type == "className") a[fIdx].className = value;
@@ -120,7 +120,7 @@ const cAD = (e, functions, aIdx, type) => {
   const value = e.target.value;
   const a = state.cMethod;
 
-  a.forEach(item, (fIdx) => {
+  a.forEach((item, fIdx) => {
     if (functions.name == item.name) {
       if (type == "name") a[fIdx].params.args[aIdx].name = value;
       if (type == "label") a[fIdx].params.args[aIdx].label = value;
