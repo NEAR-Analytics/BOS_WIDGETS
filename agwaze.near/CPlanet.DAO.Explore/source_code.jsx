@@ -169,6 +169,7 @@ return (
                   props={{
                     daoId: data.daoId,
                     daoContractId: data.contractId,
+                    isGateway: props.isGateway,
                     onButtonClick: () =>
                       props.update({
                         tab: "daoProfile",
