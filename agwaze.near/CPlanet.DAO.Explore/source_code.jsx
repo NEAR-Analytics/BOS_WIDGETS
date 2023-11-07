@@ -132,7 +132,7 @@ const fetchingState = () => {
         "https://raw.githubusercontent.com/GenaDrop/genadrop-bos-widgets/main/data/cdao-daos.json"
       ).then((data) => JSON.parse(data.body).daos),
     "mainnetRpcStatus",
-    { subscribe: true }
+    { subscribe: false }
   );
   console.log(fetchDAOs);
   if (fetchDAOs.length) {
