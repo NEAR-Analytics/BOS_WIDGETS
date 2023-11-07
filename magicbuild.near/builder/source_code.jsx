@@ -183,8 +183,8 @@ const getPrompt = (e) => {
     },
     method: "POST",
   });
+  console.log("ai", res);
   State.update({ cssStyle: res.body.choices[0].message.content });
-  console.log("ai", res.body.choices[0].message.content);
 };
 const onCreateMethod = () => {
   if (state.fName.length > 0) {
