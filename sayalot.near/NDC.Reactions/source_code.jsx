@@ -1,4 +1,15 @@
-const { isTest, authorForWidget, elementReactedId } = props;
+// NDC.Reactions
+
+const {
+  isTest,
+  authorForWidget,
+  elementReactedId,
+  widgets,
+  disabled,
+  sbtsNames,
+  callLibs,
+  baseActions,
+} = props;
 // Don't forget to put space between emoji and text -> "❤️ Positive"
 const initialEmoji = "🤍 Like";
 // It is important that 'Heart' Positive emoji is first
@@ -17,158 +28,36 @@ const emojiArray = [
 
 const accountThatIsLoggedIn = context.accountId;
 
-const libSrcArray = [`${authorForWidget}/widget/SayALot.lib.emojis`];
+const libSrcArray = [widgets.libEmojis];
 
-function callLibs(srcArray, stateUpdate, libCalls, initialEmoji) {
-  return (
-    <>
-      {srcArray.map((src) => {
-        return (
-          <Widget
-            src={src}
-            props={{
-              isTest,
-              stateUpdate,
-              libCalls,
-              initialEmoji,
-            }}
-          />
-        );
-      })}
-    </>
-  );
-}
-
-const prodAction = "sayALotArticle";
-const testAction = `test_${prodAction}`;
-const action = isTest ? testAction : prodAction;
-
-// const libCalls = !state.updatedReactions
-//   ?
-const libCalls = [
-  {
-    functionName: "getReactionsData",
-    key: "reactionsData",
-    props: {
-      elementReactedId,
+const initLibsCalls = {
+  emojis: [
+    {
+      functionName: "getEmojis",
+      key: "reactionsData",
+      props: {
+        elementReactedId,
+        sbtsNames,
+      },
     },
-  },
-];
-
-// props: {
-//   elementReactedId,
-//   // createdReaction: state.createReaction,
-// },
-// : [];
+  ],
+};
 
 State.init({
   emoji: undefined,
   reactionsData: { reactionsStatistics: [], userReaction: undefined },
+  // reactionsData: {},
   show: false,
   loading: false,
-  libCalls,
+  functionsToCallByLibrary: initLibsCalls,
 });
-
-if (
-  elementReactedId ==
-  "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb-1691530843649"
-) {
-  console.log("reactionsData: ", state.reactionsData);
-}
-
-// ========= UPDATE REACTION STATISTICS IF USER VOTED RIGHT NOW=========
-// function updateReactionsStatisticsIfUserVoted(newEmoji) {
-//   let currentReactionsStatistics = state.reactionsData.reactionsStatistics;
-
-//   const oldReactionStat = currentReactionsStatistics.find((item) =>
-//     item.accounts.includes(accountThatIsLoggedIn)
-//   ); //Get the previous reaction of the user.
-
-//   let reactedStat = currentReactionsStatistics.find((item) => {
-//     newEmoji.includes(item.text);
-//   }); //Get the previous value of the emoji the user just uploaded
-
-//   let everyOtherReactionStat = currentReactionsStatistics.filter((item) => {
-//     return (
-//       !item.accounts.includes(accountThatIsLoggedIn) &&
-//       !newEmoji.includes(item.text)
-//     );
-//   }); //Get every other reaction
-
-//   let newReactionsStatistics;
-
-//   function getNewStatForEmojiReacted() {
-//     //Change the stats of the emoji that was used considering the selection of the user
-//     //If that type of reaction was not found previously just add it.
-//     return {
-//       accounts: reactedStat
-//         ? [...reactedStat.accounts, accountThatIsLoggedIn]
-//         : [accountThatIsLoggedIn],
-//       emoji: reactedStat ? reactedStat.emoji : newEmoji.slice(0, 2),
-//       quantity: reactedStat ? reactedStat.quantity++ : 1,
-//       text: reactedStat ? reactedStat.text : newEmoji.slice(2),
-//     };
-//   }
-
-//   //If the user has reacted before and is changing it
-//   if (oldReactionStat) {
-//     //Take out the user's previous reaction from the list of users that have reacted like that
-//     let newAccountsForOldReactionStat = oldReactionStat.accounts.filter(
-//       (acc) => {
-//         acc != accountThatIsLoggedIn;
-//       }
-//     );
-
-//     //Change the stats
-//     let newValueForOldReactionStat = {
-//       accounts: newAccountsForOldReactionStat,
-//       emoji: oldReactionStat.emoji,
-//       quantity: oldReactionStat.quantity - 1,
-//       text: oldReactionStat.text,
-//     };
-
-//     //Set the new statistics value. If it's the first reaction to the post just add it. If not consider the previous reaction stats.
-//     newReactionsStatistics = everyOtherReactionStat
-//       ? [
-//           ...everyOtherReactionStat,
-//           getNewStatForEmojiReacted(),
-//           newValueForOldReactionStat,
-//         ]
-//       : [getNewStatForEmojiReacted(), newValueForOldReactionStat];
-
-//     //If it's the first reaction of this user
-//   } else {
-//     //If is the fisrt reaction to the post just add it, if not consider the previous values
-//     newReactionsStatistics = everyOtherReactionStat
-//       ? [...everyOtherReactionStat, getNewStatForEmojiReacted()]
-//       : [getNewStatForEmojiReacted()];
-//   }
-
-//   //Only keep reactions with at least 1 person using it
-//   newReactionsStatistics = newReactionsStatistics.filter((statistic) => {
-//     return statistic.quantity > 0;
-//   });
-
-//   //When update the data considering the existing data format
-//   State.update({
-//     reactionsData: {
-//       reactionsStatistics: newReactionsStatistics,
-//       userReaction: {
-//         accountId: accountThatIsLoggedIn,
-//         blockHeight: 0,
-//         value: { reaction: newEmoji, type: "md" },
-//       },
-//     },
-//     loading: false,
-//     show: false,
-//     updatedReactions: true,
-//   });
-// }
 
 // ================= Mouse Handlers ===============
 
 function handleOnMouseEnter() {
-  State.update({ show: true });
+  if (!disabled) {
+    State.update({ show: true });
+  }
 }
 
 function handleOnMouseLeave() {
@@ -179,34 +68,29 @@ function onPushEnd() {
   State.update({ loading: false, show: false });
 }
 
-function reactListener(emojiMessage) {
-  if (state.loading) {
+function reactListener(emojiToWrite) {
+  if (state.loading || disabled) {
     return;
   }
 
   // decide to put unique emoji or white heart (unreaction emoji)
-  const emojiToWrite =
-    emojiMessage === initialEmoji &&
-    state.reactionsData.userReaction.value.reaction === initialEmoji
-      ? emojiArray[0]
-      : emojiMessage;
+  // const emojiToWrite =
+  //   emojiMessage === initialEmoji ? emojiArray[0] : emojiMessage;
 
-  // function onCommit() {
-  //   updateReactionsStatisticsIfUserVoted(emojiToWrite);
-  // }
+  const newLibsCalls = Object.assign({}, state.functionsToCallByLibrary);
 
-  const newLibCalls = [...state.libCalls];
-  newLibCalls.push({
-    functionName: "createReaction",
+  newLibsCalls.emojis.push({
+    functionName: "createEmoji",
     key: "createReaction",
     props: {
       elementReactedId,
       reaction: emojiToWrite,
+      articleSbts: sbtsNames,
       onCommit: onPushEnd,
       onCancel: onPushEnd,
     },
   });
-  State.update({ libCalls: newLibCalls, loading: true });
+  State.update({ functionsToCallByLibrary: newLibsCalls, loading: true });
 }
 
 function reactionsStateUpdate(obj) {
@@ -225,10 +109,14 @@ const Button = styled.button`
   margin: 2px 0;
   border: 0;
   border-radius: .375rem;
-  :hover {
+  ${
+    !disabled &&
+    `:hover {
     background: #EBEBEB; 
     outline: 1px solid #C6C7C8;
+    }`
   }
+  
 `;
 
 const SmallReactButton = styled.button`
@@ -242,9 +130,12 @@ const SmallReactButton = styled.button`
   margin: 2px 0;
   border: 0;
   border-radius: .375rem;
-  :hover {
+  ${
+    !disabled &&
+    `:hover {
     background: #EBEBEB; 
     outline: 1px solid #C6C7C8;
+    }`
   }
 `;
 
@@ -371,8 +262,8 @@ const renderReaction = (item, isInButton) => {
       (!item.accounts.includes(context.accountId) && !isInButton)) && (
       <span>
         <Widget
+          src={widgets.wikiOnSocialDB_TooltipProfiles}
           className={isInButton ? "ps-3" : ""}
-          src={`testwiki.near/widget/WikiOnSocialDB_TooltipProfiles`}
           props={{ accounts: item.accounts, emoji: item.emoji }}
         />
       </span>
@@ -383,25 +274,29 @@ const renderReaction = (item, isInButton) => {
 return (
   <>
     <EmojiWrapper>
-      {!state.reactionsData.userReaction ? (
-        <Button
-          onMouseEnter={handleOnMouseEnter}
-          onMouseLeave={handleOnMouseLeave}
-        >
-          {state.loading && <Spinner />}
-          {initialEmoji}
-        </Button>
-      ) : (
-        <SmallReactButton
-          onMouseEnter={handleOnMouseEnter}
-          onMouseLeave={handleOnMouseLeave}
-        >
-          {state.loading && <Spinner />}
-          {state.reactionsData.reactionsStatistics &&
-            state.reactionsData.reactionsStatistics.map((item) =>
-              renderReaction(item, true)
-            )}
-        </SmallReactButton>
+      {!disabled && (
+        <>
+          {state.reactionsData.userReaction ? (
+            <SmallReactButton
+              onMouseEnter={handleOnMouseEnter}
+              onMouseLeave={handleOnMouseLeave}
+            >
+              {state.loading && <Spinner />}
+              {state.reactionsData.reactionsStatistics &&
+                state.reactionsData.reactionsStatistics.map((item) =>
+                  renderReaction(item, true)
+                )}
+            </SmallReactButton>
+          ) : (
+            <Button
+              onMouseEnter={handleOnMouseEnter}
+              onMouseLeave={handleOnMouseLeave}
+            >
+              {state.loading && <Spinner />}
+              {initialEmoji}
+            </Button>
+          )}
+        </>
       )}
       <Overlay />
       {state.reactionsData.reactionsStatistics &&
@@ -411,12 +306,15 @@ return (
     </EmojiWrapper>
 
     <CallLibrary>
-      {callLibs(
-        libSrcArray,
-        reactionsStateUpdate,
-        state.libCalls,
-        initialEmoji
-      )}
+      {libSrcArray.map((src) => {
+        return callLibs(
+          src,
+          reactionsStateUpdate,
+          state.functionsToCallByLibrary,
+          { baseAction: baseActions.reactionBaseAction },
+          "Reactions"
+        );
+      })}
     </CallLibrary>
   </>
 );
