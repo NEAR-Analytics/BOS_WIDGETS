@@ -315,6 +315,7 @@ return (
           props.transactions &&
           props?.transactions?.map((data, index) => (
             <Row
+              onClick={() => getNearHash(data.txId)}
               href={
                 props.chainState === "near"
                   ? getNearHash(data.txId)
