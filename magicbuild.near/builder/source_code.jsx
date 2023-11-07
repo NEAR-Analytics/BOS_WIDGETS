@@ -908,89 +908,99 @@ return (
           />
         </div>
       </div>
-      {state.designMode && (
-        <div class="form-group col-md-10">
-          <textarea
-            class="form-control"
-            placeholder="CSS"
-            value={state.cssStyle}
-            onChange={(e) => cCSS(e)}
-          ></textarea>
-        </div>
-      )}
     </div>
 
     {state.designMode && (
-      <div class="row mb-3">
-        <div class="form-group col-md-9">
-          <h6 class="mb-2">Type your prompt : </h6>
-          <input
-            class="form-control"
-            value={state.prompt}
-            placeholder="I want to create a modern style Christmas vibe frontend with gradient background"
-            onChange={(e) => cPrompt(e)}
-          />
-        </div>
-        <div class="form-group col-md-3">
-          <label></label>
-          <button
-            disabled={state.promptLoading}
-            onClick={getPrompt}
-            class="btn btn-success form-control "
-          >
-            {state.promptLoading ? promptLoadingUI : "🪄"} AI Generator
-          </button>
-          {state.openModalCSS && (
-            <>
-              <div
-                style={{ display: "block" }}
-                className={`modal fade show`}
-                id="showCSS"
-                tabindex="-1"
-                aria-labelledby="showCSSLabel"
-              >
-                <div class="modal-dialog">
-                  <div class="modal-content">
-                    <div class="modal-header">
-                      <h1 class="modal-title fs-5" id="showCSSLabel">
-                        CSS View
-                      </h1>
-                      <button
-                        type="button"
-                        class="btn-close"
-                        onClick={(e) => showModal(e, "close")}
-                      ></button>
-                    </div>
-                    <div class="modal-body">
-                      <textarea
-                        style={{ height: "500px" }}
-                        class="form-control"
-                        value={state.cssStyle}
-                      ></textarea>
-                    </div>
-                    <div class="modal-footer">
-                      <button
-                        type="button"
-                        class="btn btn-secondary"
-                        onClick={(e) => openModalCSS(e, "close")}
-                      >
-                        Close
-                      </button>
-                      <button
-                        type="button"
-                        disabled={state.clickedModalCSS}
-                        class="btn btn-primary"
-                      >
-                        Save
-                      </button>
+      <div class="container border rounded p-3 border-2 mb-3">
+        <div class="row ">
+          <div class="form-group col-md-9 ">
+            <h6 class="mb-2">Type your prompt : </h6>
+            <input
+              class="form-control"
+              value={state.prompt}
+              placeholder="I want to create a modern style Christmas vibe frontend with gradient background"
+              onChange={(e) => cPrompt(e)}
+            />
+          </div>
+          <div class="form-group col-md-3">
+            <label></label>
+            <button
+              disabled={state.promptLoading}
+              onClick={getPrompt}
+              class="btn btn-success form-control "
+            >
+              {state.promptLoading ? promptLoadingUI : "🪄"} Magic Style
+            </button>
+            {state.openModalCSS && (
+              <>
+                <div
+                  style={{ display: "block" }}
+                  className={`modal fade show`}
+                  id="showCSS"
+                  tabindex="-1"
+                  aria-labelledby="showCSSLabel"
+                >
+                  <div class="modal-dialog">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="showCSSLabel">
+                          CSS View
+                        </h1>
+                        <button
+                          type="button"
+                          class="btn-close"
+                          onClick={(e) => openModalCSS(e, "close")}
+                        ></button>
+                      </div>
+                      <div class="modal-body">
+                        <textarea
+                          style={{ height: "500px" }}
+                          class="form-control"
+                          value={state.cssStyle}
+                          onChange={(e) => cCSS(e)}
+                        ></textarea>
+                      </div>
+                      <div class="modal-footer">
+                        <button
+                          type="button"
+                          class="btn btn-secondary"
+                          onClick={(e) => openModalCSS(e, "close")}
+                        >
+                          Close
+                        </button>
+                        <button
+                          type="button"
+                          onClick={(e) => {
+                            openModalCSS(e, "close");
+                          }}
+                          class="btn btn-primary"
+                        >
+                          Save
+                        </button>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
 
-              <div class="modal-backdrop fade show"></div>
-            </>
-          )}
+                <div class="modal-backdrop fade show"></div>
+              </>
+            )}
+          </div>
+        </div>
+        <div class="row">
+          <div class="form-group col-md-4"></div>
+          <div class="form-group col-md-4">
+            <label></label>
+            <button
+              class="btn btn-primary form-control "
+              onClick={(e) => {
+                openModalCSS(e, "show");
+              }}
+            >
+              Custom CSS
+            </button>
+          </div>
+          <div class="form-group col-md-4"></div>
         </div>
       </div>
     )}
