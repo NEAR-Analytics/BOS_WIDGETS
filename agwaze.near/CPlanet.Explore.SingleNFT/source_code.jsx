@@ -824,11 +824,7 @@ return (
           </h2>
         </Owner>
       </PriceSection>
-      <Buttons>
-        // <button>Buy Now</button>
-        // {props.chainState === "near" && <button>Trade NFT</button>}
-        //{" "}
-      </Buttons>
+      <Buttons></Buttons>
       {props.chainState === "near" && (
         <Others>
           <h1>OTHER LISTINGS</h1>
@@ -896,3 +892,7 @@ return (
     </Left>
   </Root>
 );
+
+// <button>Buy Now</button>
+// {props.chainState === "near" && <button>Trade NFT</button>}
+//{" "}
