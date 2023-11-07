@@ -4,6 +4,9 @@ const Root = styled.div`
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    .quest-top {
+      background: #F8F8F8;
+    }
     h1 {
         color: #000;
         text-align: center;
@@ -52,8 +55,32 @@ const Root = styled.div`
       h3 {
         font-size: 35px;
       }
+      .dropfund {
+      }
     } 
     .dropfund {
+      background: #F8F8F8;
+      padding: 40px 0;
+      margin-top: 214px;
+      h2 {
+        color: #000;
+        font-family: Helvetica Neue;
+        font-size: 64px;
+        text-align: center;
+        font-style: normal;
+        font-weight: 500;
+        width: 60%;
+        margin-right: auto;
+        margin-left: auto;
+        line-height: 96%; /* 61.44px */
+      }
+      @media (max-width: 480px) {
+        h2 {
+        font-size: 30px;
+        width: 90%;
+        }
+
+      }
         img {
             width: 100%;
         }
@@ -87,19 +114,23 @@ const Portal = styled.div`
 
 return (
   <Root>
-    <h1>Explore our Quests</h1>
-    <p>
-      Complete on chain quests to get deeper into the Creatives Constellation
-    </p>
-    <h3>Coming Soon</h3>
-    <div className="dropfund">
-      <img src="https://ipfs.near.social/ipfs/bafybeigxh5ey3x5x37egpi46obkedid2jhh5miqaetrxeftvxst6xr27oa" />
+      <h1>Explore our Quests</h1>
+      <p>
+        Complete on chain quests to get deeper into the Creatives Constellation
+      </p>
+      <h3>Coming Soon</h3>
+      <div className="dropfund">
+      <h2>DropFlow.xyz & Drops.Fund Coming Soon</h2>
+        <img src="https://ipfs.near.social/ipfs/bafybeigxh5ey3x5x37egpi46obkedid2jhh5miqaetrxeftvxst6xr27oa" />
     </div>
     <Portal>
       <h2>The Portal for Creatives in the NEAR Ecosystem</h2>
       <div className="join">
         <Widget
-          props={{ href: "https://creativesdao.org/funding", isBlank: "_blank" }}
+          props={{
+            href: "https://creativesdao.org/funding",
+            isBlank: "_blank",
+          }}
           src="agwaze.near/widget/CPlanet.Button.ArrowButton"
         />
         <Widget
