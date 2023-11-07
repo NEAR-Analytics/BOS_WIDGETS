@@ -9,8 +9,6 @@ const TableRow = styled.tr`
     &:nth-child(odd) {
         background: ${OddBackground};
     }
-`
+`;
 
-return (
-    <TableRow>{children}</TableRow>
-)
+return <TableRow>{children}</TableRow>;
