@@ -223,7 +223,7 @@ const fetchData = () => {
     body: JSON.stringify({
       query: `
             query MyQuery {
-             nfts( orderBy: createdAtTimestamp, ${
+             nfts(first: 40, orderBy: createdAtTimestamp, ${
                state.chain !== "near" ? "orderDirection: desc" : ""
              }) {
                 category
