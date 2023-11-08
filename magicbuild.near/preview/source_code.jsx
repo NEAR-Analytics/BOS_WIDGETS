@@ -8,7 +8,7 @@ State.init({
 });
 
 const onInputChangeContractArg = (obj) => {
-  const data = state.newcontractAbiArg;
+  const data = state.cMethod;
   const isExist = false;
   const indexData = null;
 
