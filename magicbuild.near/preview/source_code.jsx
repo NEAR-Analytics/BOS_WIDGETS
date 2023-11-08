@@ -224,21 +224,6 @@ return (
                         </label>
                         <input
                           class="form-control"
-                          placeholder={
-                            args.type_schema.type == "string" ||
-                            args.type_schema.type[0] == "string"
-                              ? "string"
-                              : args.type_schema.type == "integer" ||
-                                args.type_schema.type[0] == "integer"
-                              ? "number"
-                              : args.type_schema.type == "array"
-                              ? "array : a|b"
-                              : args.type_schema.type == "json"
-                              ? "json : { }"
-                              : args.type_schema.$ref
-                              ? "Account Address"
-                              : "text"
-                          }
                           onChange={(e) => cAD(e, functions, argIndex)}
                         />
                         {args.type_schema.type == "string" ||
