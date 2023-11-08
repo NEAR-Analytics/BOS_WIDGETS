@@ -20,6 +20,7 @@ const onInputChangeContractArg = (obj) => {
     if (item.kind) {
       //mỗi lần bấm là tăng lên 1 đơn vị
       if (item.functions == obj.functions && item.name == obj.name) {
+      } else {
         isExist = true;
         indexData = index;
       }
