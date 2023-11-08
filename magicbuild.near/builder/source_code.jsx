@@ -1008,7 +1008,7 @@ return (
                 <div class="modal-backdrop fade show"></div>
               </>
             )}
-            {state.openModalPreview && (
+            {state.openModalPreview && state.cMethod.length > 0 && (
               <>
                 <div
                   style={{ display: "block" }}
@@ -1030,8 +1030,8 @@ return (
                         ></button>
                       </div>
                       <div class="modal-body">
-                        {state && (
-                          <Widget src={`${cep}/widget/preview`} props={props} />
+                        {state.cMethod.length > 0 && (
+                          <Widget src={`${cep}/widget/preview`} props={state} />
                         )}
                       </div>
                       <div class="modal-footer">
