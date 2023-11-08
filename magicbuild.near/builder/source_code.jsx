@@ -1503,7 +1503,7 @@ return (
                           placeholder="Button Label"
                           class="form-control"
                           defaultValue={functions.button || ""}
-                          onChange={(e) => cMLabel(e, functions, "button")}
+                          onBlur={(e) => cMLabel(e, functions, "button")}
                         />
                       </div>
                       <div class="form-group col-md-4">
@@ -1511,7 +1511,7 @@ return (
                           placeholder="Boostrap Class"
                           class="form-control"
                           defaultValue={functions.classButton || ""}
-                          onChange={(e) => cMLabel(e, functions, "classButton")}
+                          onBlur={(e) => cMLabel(e, functions, "classButton")}
                         />
                       </div>
                     </>
