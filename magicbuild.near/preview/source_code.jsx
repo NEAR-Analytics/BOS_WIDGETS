@@ -6,18 +6,18 @@ State.init({
   cMethod: props.cMethod,
   newcontractAbiArg: {},
 });
-const onInputChangeContractArg = (obj) => {
+const onInputChangeContractArg = (e, fName) => {
   const data = state.newcontractAbiArg;
   const isExist = true;
   if (data) {
     Object.keys(data).forEach((item) => {
-      if (item == obj.name) {
-        data[item] = obj.value;
+      if (item == fName) {
+        data[item] = e.target.value;
         isExist = false;
       }
     });
     if (isExist) {
-      Object.assign(data, { [obj.functions]: obj.value });
+      Object.assign(data, { [fName]: e.target.value });
     }
   } else {
     console.log("hello");
@@ -187,12 +187,9 @@ return (
 
                       <input
                         class="form-control"
-                        defaultValue={state.newcontractAbiArg[functions.name]}
+                        value={state.newcontractAbiArg[functions.name]}
                         onChange={(e) =>
-                          onInputChangeContractArg({
-                            functions: functions.name,
-                            value: e.target.value,
-                          })
+                          onInputChangeContractArg(functions.name, e)
                         }
                       />
                       {args.type_schema.type == "string" ||
