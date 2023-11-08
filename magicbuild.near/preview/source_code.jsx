@@ -42,6 +42,7 @@ const cDeposit = (functions, e) => {
 const onBtnClickCall = (functions, action) => {
   const argsArr = [];
   const data = state.contractAbiArg;
+  console.log("hellodata", data);
   data.forEach((item) => {
     if (item.name == functions.name) {
       if (item.type == "number" || item.type == "integer") {
@@ -314,7 +315,7 @@ return (
       {state.contractAbiCall &&
         state.contractAbiCall
           .filter((functions) => functions.export == true)
-          .map((functions, fIndex) => (
+          .map((functions) => (
             <div class={`card mb-2 ${functions.className}`}>
               <div class="card-header">
                 {functions.label.length > 0 ? functions.label : functions.name}
