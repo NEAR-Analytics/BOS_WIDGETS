@@ -9,18 +9,6 @@ State.init({
   cssStyle: props.cssStyle,
 });
 
-const cArg = (e, functions, aIdx) => {
-  const abiMethod = state.cMethod;
-  const fIndex = 0;
-  abiMethod.forEach((item, fIndex) => {
-    if (item.name == functions.name) {
-      fIndex = fIndex;
-    }
-  });
-  console.log(abiMethod[fIndex]);
-  abiMethod[fIndex].params.args[aIdx].value = e.target.value;
-  State.update({ cMethod: abiMethod });
-};
 const onInputChangeContractArg = (obj) => {
   const data = state.cMethod;
   const isExist = false;
@@ -227,24 +215,25 @@ return (
                                 ? "Account Address"
                                 : "text"
                             }
-                            defaultValue={args.value}
-                            onChange={onInputChangeContractArg({
-                              functions: functions.name,
-                              name: args.name,
-                              type:
-                                args.type_schema.type == "string" ||
-                                args.type_schema.type[0] == "string"
-                                  ? "text"
-                                  : args.type_schema.type == "integer" ||
-                                    args.type_schema.type[0] == "integer"
-                                  ? "number"
-                                  : args.type_schema.type == "array"
-                                  ? "array"
-                                  : args.type_schema.$ref
-                                  ? "text"
-                                  : "text",
-                              value: e.target.value,
-                            })}
+                            onChange={(e) =>
+                              onInputChangeContractArg({
+                                functions: functions.name,
+                                name: args.name,
+                                type:
+                                  args.type_schema.type == "string" ||
+                                  args.type_schema.type[0] == "string"
+                                    ? "text"
+                                    : args.type_schema.type == "integer" ||
+                                      args.type_schema.type[0] == "integer"
+                                    ? "number"
+                                    : args.type_schema.type == "array"
+                                    ? "array"
+                                    : args.type_schema.$ref
+                                    ? "text"
+                                    : "text",
+                                value: e.target.value,
+                              })
+                            }
                           />
                         ) : (
                           ""
