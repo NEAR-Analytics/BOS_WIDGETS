@@ -18,13 +18,13 @@ return (
               },
             },
           },
-          // deposit: 1, yocto
+          // deposit: 1, yocto N = 0.000000000000000000000001 N
           deposit: Big(10).pow(24).mul(0.1), // 0.1 NEAR
           gas: Big(10).pow(12).mul(150),
         },
       ]);
     }}
   >
-    Add proposal
+    Add proposal {Big(10).pow(24).mul(0.1)}
   </button>
 );
