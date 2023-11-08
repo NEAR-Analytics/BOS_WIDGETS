@@ -1,4 +1,3 @@
-
 const accountId = props.accountId || context.accountId;
 const contracts = props.contracts ||
   context.contracts || [
