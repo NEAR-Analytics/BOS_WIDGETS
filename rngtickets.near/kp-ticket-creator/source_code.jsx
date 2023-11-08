@@ -3,15 +3,15 @@ if (!accountId) {
   return "U need to login first or create new NEAR account here:https://shard.dog/go";
 }
 State.init({
-  amount: "0.001",
-  drops: "1",
+  amount: "0.01",
+  drops: "2",
   name: "",
-  poapTitle: "NEAR Toronto Rooftop Rendezvous",
+  poapTitle: "NEAR WORLDWIDE",
   poapDesc:
-    "Welcome to the 🦩NEAR Toronto: Rooftop Rendezvous🦩, a chill community event that concludes the Blockchain Futurist Conference. Join us as we celebrate the intersection of innovation, technology, and community, immersed in a social atmosphere filled with great people and creativity (more info below). In collaboration with: NEAR Foundation, TENAMINT, Seahorse Social, KPW Comms, Proof of Vibes, Marma J Foundation, NEAR Foundation, Music Feast, GDS Consulting, Brothers Grimm Ultra Premium Vodka, CreativesDAO.",
+    "NEAR WORLDWIDE is an electrifying event bridging the gap between the many regional communities that represent the NEAR ecosystem worldwide. This event is a transformative experience focused on global connectivity, innovation, and community growth. Join us in celebrating the global community with this immersive experience and be ready to be amazed, inspired, and connected like never before.",
   img: null,
   desc: "",
-  pw: "nt2rr",
+  pw: "nww",
   publicKeys: [],
   privKeys: [],
   allPws: [],
