@@ -13,6 +13,7 @@ const onInputChangeContractArg = (e, fName, argName, type) => {
   const argsData = state.argData;
   Object.assign(argsData, { [fName]: { [argName]: e.target.value } });
   State.update({ argData: argsData });
+  console.log(state.argData[functions.name][args.name]);
 };
 const cDeposit = (functions, e) => {
   const data = state.contractAbiCall;
