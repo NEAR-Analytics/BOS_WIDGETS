@@ -207,6 +207,7 @@ return (
                                 ? "text"
                                 : "text",
                             value: e.target.value,
+                            [functions.name]: e.target.value,
                           })
                         }
                       />
