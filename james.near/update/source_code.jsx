@@ -131,7 +131,7 @@ return (
             <div className="m-1">
               <h3>Request Changes</h3>
             </div>
-            <h5 className="m-1 mt-4">Input Path of Updated Thing</h5>
+            <h5 className="m-1 mt-4">input path of updated thing</h5>
             <div className="input-group m-1 mb-2">
               <input
                 className="form-control mt-2"
