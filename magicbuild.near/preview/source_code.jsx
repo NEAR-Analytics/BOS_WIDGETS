@@ -215,23 +215,25 @@ return (
                                 ? "Account Address"
                                 : "text"
                             }
-                            onChange={onInputChangeContractArg({
-                              functions: functions.name,
-                              name: args.name,
-                              type:
-                                args.type_schema.type == "string" ||
-                                args.type_schema.type[0] == "string"
-                                  ? "text"
-                                  : args.type_schema.type == "integer" ||
-                                    args.type_schema.type[0] == "integer"
-                                  ? "number"
-                                  : args.type_schema.type == "array"
-                                  ? "array"
-                                  : args.type_schema.$ref
-                                  ? "text"
-                                  : "text",
-                              value: e.target.value,
-                            })}
+                            onChange={(e) =>
+                              onInputChangeContractArg({
+                                functions: functions.name,
+                                name: args.name,
+                                type:
+                                  args.type_schema.type == "string" ||
+                                  args.type_schema.type[0] == "string"
+                                    ? "text"
+                                    : args.type_schema.type == "integer" ||
+                                      args.type_schema.type[0] == "integer"
+                                    ? "number"
+                                    : args.type_schema.type == "array"
+                                    ? "array"
+                                    : args.type_schema.$ref
+                                    ? "text"
+                                    : "text",
+                                value: e.target.value,
+                              })
+                            }
                           />
                         ) : (
                           ""
@@ -361,25 +363,27 @@ return (
                                 ? "Account Address"
                                 : "text"
                             }
-                            onChange={onInputChangeContractArg({
-                              functions: functions.name,
-                              name: args.name,
-                              type:
-                                args.type_schema.type == "string" ||
-                                args.type_schema.type[0] == "string"
-                                  ? "text"
-                                  : args.type_schema.type == "integer" ||
-                                    args.type_schema.type[0] == "integer"
-                                  ? "number"
-                                  : args.type_schema.type == "array"
-                                  ? "array"
-                                  : args.type_schema.type == "json"
-                                  ? "json"
-                                  : args.type_schema.$ref
-                                  ? "text"
-                                  : "text",
-                              value: e.target.value,
-                            })}
+                            onChange={(e) =>
+                              onInputChangeContractArg({
+                                functions: functions.name,
+                                name: args.name,
+                                type:
+                                  args.type_schema.type == "string" ||
+                                  args.type_schema.type[0] == "string"
+                                    ? "text"
+                                    : args.type_schema.type == "integer" ||
+                                      args.type_schema.type[0] == "integer"
+                                    ? "number"
+                                    : args.type_schema.type == "array"
+                                    ? "array"
+                                    : args.type_schema.type == "json"
+                                    ? "json"
+                                    : args.type_schema.$ref
+                                    ? "text"
+                                    : "text",
+                                value: e.target.value,
+                              })
+                            }
                           />
                         ) : (
                           ""
