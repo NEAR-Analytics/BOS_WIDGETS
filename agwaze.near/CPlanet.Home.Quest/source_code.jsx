@@ -96,7 +96,7 @@ const Portal = styled.div`
     font-size: 64px;
     margin-top: 69px;
     font-style: normal;
-    width: 75%;
+    width: 70%;
     margin-left: auto;
     margin-right: auto;
     font-weight: 500;
