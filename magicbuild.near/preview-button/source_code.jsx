@@ -31,7 +31,7 @@ return (
             ></button>
           </div>
           <div class="modal-body">
-            {props && (
+            {props.cMethod && (
               <Widget
                 src={`${cep}/widget/preview`}
                 props={{
