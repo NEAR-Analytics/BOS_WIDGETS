@@ -16,12 +16,11 @@ const onInputChangeContractArg = (obj) => {
   const indexData = null;
 
   data.forEach((item, index) => {
-    if (item.kind) {
-      if (item.name == obj.name) {
-        isExist = true;
-        indexData = index;
-      } else {
-      }
+    console.log("item", item);
+    if (item.name == obj.name) {
+      isExist = true;
+      indexData = index;
+    } else {
     }
   });
 
