@@ -215,8 +215,6 @@ return (
                                 ? "Account Address"
                                 : "text"
                             }
-                            value={args.value}
-                            defaultValue={args.value}
                             onBlur={(e) =>
                               onInputChangeContractArg(
                                 e,
