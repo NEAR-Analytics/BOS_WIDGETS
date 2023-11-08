@@ -7,7 +7,7 @@ return (
           methodName: "add_proposal",
           args: {
             proposal: {
-              description: "Convert to CAD$$$$",
+              description: "Convert to NEAR$$$$",
               kind: {
                 Transfer: {
                   token_id:
