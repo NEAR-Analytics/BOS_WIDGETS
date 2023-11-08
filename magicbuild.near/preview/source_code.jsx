@@ -182,7 +182,7 @@ const WrapperPreview = styled.div`
 
 return (
   <>
-    <WrapperPreview class="container">
+    <div class="container">
       {context.accountId ? contractForm : notLoggedInWarning}
       <h3 class="text-center">{state.contractAddress}</h3>
       {state.contractError}
@@ -472,6 +472,6 @@ return (
               </div>
             </div>
           ))}
-    </WrapperPreview>
+    </div>
   </>
 );
