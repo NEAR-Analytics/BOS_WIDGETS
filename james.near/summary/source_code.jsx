@@ -5,7 +5,7 @@ State.init({
   showVoteButton: false,
 });
 
-const src = props.src;
+const src = props.src ?? "hack.near/widget/community";
 const primaryAction = props.primaryAction || "viewDetails";
 const [accountId, type, name] = src.split("/");
 const metadata = Social.get(`${accountId}/${type}/${name}/metadata/**`) || {};
@@ -27,6 +27,10 @@ if (props.showDesc && metadata.description) {
 
 const handleCloseMenu = () => {
   props.onCloseMenu();
+};
+
+const handleClose = () => {
+  State.update;
 };
 
 const primaryActions = {
@@ -449,6 +453,31 @@ function normalizeMarkdown(text) {
   return text.trim();
 }
 
+const data = {
+  index: {
+    graph: JSON.stringify({
+      key: "request",
+      value: {
+        type: "merge",
+        src: state.src,
+        update: state.update,
+      },
+    }),
+    notify: JSON.stringify({
+      key: creatorId,
+      value: {
+        type: "request",
+        template: "hack.near/widget/notification",
+        data: {
+          type: "merge",
+          src: state.src,
+          update: state.update,
+        },
+      },
+    }),
+  },
+};
+
 return (
   <Wrapper>
     <Header size={size}>
@@ -512,6 +541,32 @@ return (
         )}
       </ButtonLink>
 
+      <ButtonLink>
+        {context.accountId === accountId ? (
+          <Widget
+            src="james.near/widget/styling"
+            props={{
+              Button: {
+                text: "Update",
+                onClick: () => State.update({ showModal: true }),
+                icon: <i class="bi bi-tsunami"></i>,
+              },
+            }}
+          />
+        ) : (
+          <Widget
+            src="james.near/widget/styling"
+            props={{
+              Button: {
+                text: "Request",
+                onClick: () => State.update({ showModal: true }),
+                icon: <i class="bi bi-stars"></i>,
+              },
+            }}
+          />
+        )}
+      </ButtonLink>
+
       <OverlayTrigger
         placement="top"
         overlay={<Tooltip>Copy URL to clipboard</Tooltip>}
@@ -542,5 +597,16 @@ return (
         </Button>
       )}
     </Actions>
+    <>
+      {state.showModal && (
+        <Widget
+          src="james.near/widget/update"
+          props={{
+            handleClose: () => State.update({ showModal: false }),
+            src,
+          }}
+        />
+      )}
+    </>
   </Wrapper>
 );
