@@ -17,7 +17,6 @@ const onInputChangeContractArg = (obj) => {
 
   data.forEach((item, index) => {
     if (item.name == obj.fName) {
-      isExist = true;
       data[index].params.args[obj.argIndex].value;
       State.update({ contractAbiArg: data });
     }
