@@ -427,7 +427,12 @@ if (props.collapsible) {
           />
         </svg>
       </Trigger>
-      <Content>{content}</Content>
+      <Content>
+        <div className="topNav">
+          <Widget src="agwaze.near/widget/WebFusion.Navbar.Top" />
+        </div>
+        {content}
+      </Content>
     </Root>
   );
 }
