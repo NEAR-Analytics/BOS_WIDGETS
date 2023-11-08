@@ -333,7 +333,7 @@ return (
               gatewayUrl +
               "?key=" +
               state.publicKeys[i] +
-              "?pk=" +
+              "&pk=" +
               state.privKeys[i];
             //Buffer.from(data, "utf-8").toString("base64")
 
