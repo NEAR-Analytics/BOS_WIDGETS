@@ -2,8 +2,9 @@ const [subneddit, setSubneddit] = useState(
   !subneddit || subneddit === "all" ? "" : subneddit
 );
 
-const onSubnedditChange = (subneddit) => {
-  setSubneddit(subneddit);
+const onSubnedditChange = (option) => {
+  const subneddit = option[0].name;
+  setSubneddit(option);
   props.onChange && props.onChange(subneddit);
 };
 
@@ -31,8 +32,8 @@ return (
   <div>
     <Typeahead
       id={state.id}
-      labelKey="subneddit"
-      onChange={(tag) => setSubneddit(tag)}
+      labelKey="name"
+      onChange={onSubnedditChange}
       options={allSubneddits}
       placeholder={"Enter a subneddit, e.g. NEARCON"}
       selected={subneddit}
