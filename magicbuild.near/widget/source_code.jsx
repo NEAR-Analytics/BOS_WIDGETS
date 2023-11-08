@@ -397,7 +397,7 @@ return (
                       type="text"
                       value={functions.deposit}
                       defaultValue={functions.deposit}
-                      onChange={(e) => cDeposit(functions, e)}
+                      onBlur={(e) => cDeposit(functions, e)}
                       class="form-control "
                     />
                   </div>
