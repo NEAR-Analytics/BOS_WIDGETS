@@ -100,6 +100,14 @@ const Portal = styled.div`
     margin-left: auto;
     margin-right: auto;
     font-weight: 500;
+    span {
+      color: #000;
+      font-family: Helvetica Neue;
+      font-size: 64px;
+      font-style: italic;
+      font-weight: 400;
+      line-height: 0%;
+    }
   }
   .join {
     display: flex;
@@ -128,7 +136,9 @@ return (
       <img src="https://ipfs.near.social/ipfs/bafybeigxh5ey3x5x37egpi46obkedid2jhh5miqaetrxeftvxst6xr27oa" />
     </div>
     <Portal>
-      <h2>The Portal for Creatives in the NEAR Ecosystem</h2>
+      <h2>
+        The Portal for Creatives in the <span>NEAR</span> Ecosystem
+      </h2>
       <div className="join">
         <Widget
           props={{
