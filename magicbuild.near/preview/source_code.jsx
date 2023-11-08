@@ -321,7 +321,7 @@ return (
               </div>
               <div class="card-body">
                 {functions.params.args &&
-                  functions.params.args.map((args) => {
+                  functions.params.args.map((args, argIndex) => {
                     return (
                       <div className={`form-group pb-2 ${args.className}`}>
                         <label>
