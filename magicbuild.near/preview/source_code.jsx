@@ -189,7 +189,7 @@ return (
                         class="form-control"
                         value={state.newcontractAbiArg[functions.name]}
                         onChange={(e) =>
-                          onInputChangeContractArg(functions.name, e)
+                          onInputChangeContractArg(e, functions.name)
                         }
                       />
                       {args.type_schema.type == "string" ||
