@@ -15,14 +15,6 @@ const [creatorId, type, name] = src.split("/");
 
 const data = {
   index: {
-    graph: JSON.stringify({
-      key: "request",
-      value: {
-        type: "merge",
-        src: state.src,
-        update: state.update,
-      },
-    }),
     notify: JSON.stringify({
       key: creatorId,
       value: {
