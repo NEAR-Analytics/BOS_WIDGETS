@@ -2,11 +2,9 @@ if (!context.accountId) {
   return "";
 }
 
-const subneddit = props.subneddit;
-
-if (!subneddit || subneddit === "all") {
-  return "";
-}
+const [subneddit, setSubneddit] = useState(
+  !subneddit || subneddit === "all" ? "" : subneddit
+);
 
 const draftKey = subneddit;
 const draft = Storage.privateGet(draftKey);
@@ -34,6 +32,12 @@ const composeData = () => {
           key: "all",
           value: {
             type: "md",
+          },
+        },
+        {
+          key: "subneddits",
+          value: {
+            subneddit,
           },
         },
       ]),
