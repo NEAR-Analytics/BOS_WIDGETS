@@ -37,8 +37,9 @@ if (state.keyUse == 1) {
       />
       <div className="content">
         <h1>NEAR WORLDWIDE</h1>
-        <p>November 9, 19:30 - 20:00</p>
         <p>
+          November 9th, 2023, from 7:30 - 10 PM
+          <br />
           Community HQ
           <br />
           Rua Pereira Henriques
@@ -76,8 +77,9 @@ if (state.keyUse == 1) {
   return (
     <div className="content">
       <h1>NEAR WORLDWIDE</h1>
-      <p>November 9, 19:30 - 20:00</p>
       <p>
+        November 9th, 2023, from 7:30 - 10 PM
+        <br />
         Community HQ
         <br />
         Rua Pereira Henriques
