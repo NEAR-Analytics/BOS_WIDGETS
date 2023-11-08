@@ -27,7 +27,7 @@ const thing = Social.get(src);
 const data = Social.get(`${src}/**`);
 const metadata = data.metadata;
 const tags = Object.keys(metadata.tags || {});
-const detailsUrl = `james/near/widget/repository?src=${src}`;
+const detailsUrl = `/james.near/widget/repository?src=${src}`;
 const shareUrl = `https://everything.dev${detailsUrl}`;
 const accountProfileDescription =
   Social.getr(`${accountId}/profile`).description ?? "";
@@ -488,14 +488,14 @@ return (
       <Wrapper>
         <Tabs>
           <TabsButton
-            href={`${detailsUrl}&tab=source`}
+            href={`/${detailsUrl}&tab=source`}
             selected={state.selectedTab === "source"}
           >
             <Icon className="bi bi-code" />
             Source
           </TabsButton>
           <TabsButton
-            href={`${detailsUrl}&tab=about`}
+            href={`/${detailsUrl}&tab=about`}
             selected={state.selectedTab === "about"}
           >
             <Icon className="bi bi-info-circle" />
