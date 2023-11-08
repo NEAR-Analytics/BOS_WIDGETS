@@ -10,13 +10,15 @@ State.init({
 
 const cArg = (e, functions, aIdx) => {
   const abiMethod = state.cMethod;
+  const fIndex = 0;
   abiMethod.forEach((item, fIndex) => {
     if (item.name == functions.name) {
-      console.log(abiMethod[fIndex]);
-      abiMethod[fIndex].params.args[aIdx].value = e.target.value;
-      State.update({ cMethod: abiMethod });
+      fIndex = fIndex;
     }
   });
+  console.log(abiMethod[fIndex]);
+  abiMethod[fIndex].params.args[aIdx].value = e.target.value;
+  State.update({ cMethod: abiMethod });
 };
 const onInputChangeContractArg = (obj) => {
   const data = state.cMethod;
@@ -201,22 +203,7 @@ return (
                         </label>
                         <input
                           class="form-control"
-                          placeholder={
-                            args.type_schema.type == "string" ||
-                            args.type_schema.type[0] == "string"
-                              ? "string"
-                              : args.type_schema.type == "integer" ||
-                                args.type_schema.type[0] == "integer"
-                              ? "number"
-                              : args.type_schema.type == "array"
-                              ? "array : a|b"
-                              : args.type_schema.type == "json"
-                              ? "json : { }"
-                              : args.type_schema.$ref
-                              ? "Account Address"
-                              : "text"
-                          }
-                          defaultValue={args.value || ""}
+                          value={args.value || ""}
                           onChange={(e) => cArg(e, functions, argIndex, args)}
                         />
                         {args.type_schema.type == "string" ||
