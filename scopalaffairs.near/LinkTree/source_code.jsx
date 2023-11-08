@@ -1,29 +1,15 @@
 const profile = {
+  avatar:
+    "https://media.licdn.com/dms/image/D4E03AQEWB5trS40OMw/profile-displayphoto-shrink_400_400/0/1672349229160?e=1704931200&v=beta&t=62w0lviOJ69S1bZ59d6-t2TyQ7ShJkKNU3DwS-ETOrA",
   title: "Daniel Herrmann",
   subtitle: "Data Scientist | Software Engineer | Artist",
-  claim:
-    "Blending technology and art to mirror the intricate growth of natural systems and the web of consciousness.",
   links: [
     { title: "github", url: "https://github.com/scopalaffairs" },
-    { title: "linkedin", url: "https://www.linkedin.com/in/daniel-herrmann/" },
-    { title: "instagram", url: "https://www.instagram.com/nother_land/" },
-    {
-      title: "spotify",
-      url: "https://open.spotify.com/track/0WDPVuGA4IjUxOFRLoILPo",
-    },
+    { title: "linkedin", url: "https://linkedin.com/daniel-herrmann" },
   ],
   socials: [
     { title: "github", url: "https://github.com/scopalaffairs" },
-    { title: "linkedin", url: "https://www.linkedin.com/in/daniel-herrmann/" },
-    { title: "instagram", url: "https://www.instagram.com/nother_land/" },
-    {
-      title: "spotify",
-      url: "https://open.spotify.com/track/0WDPVuGA4IjUxOFRLoILPo",
-    },
-    {
-      title: "telegram",
-      url: "https://t.me/scopalaffairs",
-    },
+    { title: "linkedin", url: "https://linkedin.com/daniel-herrmann" },
   ],
 };
 
@@ -33,16 +19,16 @@ const titleToIcon = [
     icon: <i class="bi bi-github"></i>,
   },
   {
-    title: "instagram",
-    icon: <i class="bi bi-instagram"></i>,
+    title: "twitter",
+    icon: <i class="bi bi-twitter"></i>,
   },
   {
-    title: "spotify",
-    icon: <i class="bi bi-spotify"></i>,
+    title: "facebook",
+    icon: <i class="bi bi-facebook"></i>,
   },
   {
-    title: "telegram",
-    icon: <i class="bi bi-telegram"></i>,
+    title: "whatsapp",
+    icon: <i class="bi bi-whatsapp"></i>,
   },
   {
     title: "linkedin",
@@ -57,11 +43,23 @@ return (
       flexDirection: "column",
       justifyContent: "center",
       alignItems: "center",
-      gap: 36,
+      gap: 16,
       height: "100%",
       padding: "0 8px",
     }}
   >
+    <img
+      style={{
+        height: "100%",
+        maxHeight: 200,
+        borderRadius: "50%",
+        aspectRatio: 1 / 1,
+        objectFit: "cover",
+      }}
+      src={profile.avatar}
+      alt={profile.title}
+    />
+
     <div
       style={{
         display: "flex",
@@ -69,9 +67,7 @@ return (
         alignItems: "center",
       }}
     >
-      <h2 style={{ color: props.theme.textColor, marginBottom: "30px" }}>
-        {profile.title}
-      </h2>
+      <h2 style={{ color: props.theme.textColor }}>{profile.title}</h2>
       <h5 style={{ color: props.theme.textColor2 }}>{profile.subtitle}</h5>
     </div>
     <div
@@ -83,14 +79,14 @@ return (
         maxWidth: 400,
       }}
     >
-      {profile.claim && (
-        <p style={{ width: "100%", color: props.theme.textColor }}>
-          {profile.claim}
-        </p>
-      )}
+      {profile.links?.map((link) => (
+        <a href={link.url} target="_blank">
+          <button style={{ width: "100%" }}>{link.title}</button>
+        </a>
+      ))}
     </div>
 
-    <div style={{ display: "flex", gap: 42 }}>
+    <div style={{ display: "flex", gap: 16 }}>
       {profile.socials?.map((link) => (
         <a href={link.url} target="_blank" style={{ fontSize: "1.5rem" }}>
           {titleToIcon.find((ti) => ti.title === link.title).icon}
