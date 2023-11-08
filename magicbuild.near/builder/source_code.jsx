@@ -1030,8 +1030,11 @@ return (
                         ></button>
                       </div>
                       <div class="modal-body">
-                        {state.openModalPreview && (
-                          <Widget src={`${cep}/widget/preview`} props={props} />
+                        {state && (
+                          <Widget
+                            src={`magicbuild/widget/preview`}
+                            props={props}
+                          />
                         )}
                       </div>
                       <div class="modal-footer">
