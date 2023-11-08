@@ -52,16 +52,19 @@ const onBtnClickCall = (functions, action) => {
   }
   for (const item of data[indexData].params.args) {
     console.log(item);
-    if (item.type == "number" || item.type == "integer") {
+    if (
+      item.type_schema.type == "number" ||
+      item.type_schema.type == "integer"
+    ) {
       item.value = parseInt(item.value);
     }
-    if (item.type == "array") {
+    if (item.type_schema.type == "array") {
       item.value = item.value.split("|");
     }
-    if (item.type == "json") {
+    if (item.type_schema.type == "json") {
       item.value = JSON.parse(item.value);
     }
-    if (item.type == "boolean") {
+    if (item.type_schema.type == "boolean") {
       item.value = Boolean(item.value);
     }
     argsArr.push(item);
