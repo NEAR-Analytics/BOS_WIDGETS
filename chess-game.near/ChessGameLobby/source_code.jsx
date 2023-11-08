@@ -1,5 +1,6 @@
 const { accountId } = context;
 
+const src = "chess-game.near/widget/ChessGameLobby";
 const contractId = "app.chess-game.near";
 const buttonWidget = "chess-game.near/widget/ChessGameButton";
 const loadingWidget = "chess-game.near/widget/ChessGameLoading";
@@ -214,11 +215,7 @@ if (state.showVoteButton === null || state.showVoteButton === undefined) {
   const showVoteButton = checkNearConEventDate();
 
   apps.sort((a, b) => b.num_votes - a.num_votes);
-  const rank =
-    1 +
-    apps.findIndex(
-      (app) => app.widget_name === "chess-game.near/widget/ChessGameLobby"
-    );
+  const rank = 1 + apps.findIndex((app) => app.widget_name === src);
   const numVotes = apps[rank - 1].num_votes;
 
   State.update({
@@ -230,7 +227,7 @@ if (state.showVoteButton === null || state.showVoteButton === undefined) {
   return <Widget src={loadingWidget} />;
 }
 
-const votes = Social.index("vote", "chess-game.near/widget/ChessGameLobby");
+const votes = Social.index("vote", src);
 
 const dataLoading = votes === null;
 const votesByUsers = {};
@@ -251,6 +248,51 @@ if (state.hasVote === true) {
   delete votesByUsers[context.accountId];
 }
 const hasVote = context.accountId && !!votesByUsers[context.accountId];
+
+const voteClick = () => {
+  if (state.loading || !context.accountId) {
+    return;
+  }
+  State.update({
+    loading: true,
+  });
+  const type = hasVote ? "unvote" : "vote";
+  const data = {
+    index: {
+      vote: JSON.stringify({
+        key: src,
+        value: {
+          type,
+        },
+      }),
+      nearConAppQuest2023: JSON.stringify({
+        key: src,
+        value: {
+          type,
+        },
+      }),
+    },
+  };
+
+  if (item.type === "social" && typeof item.path === "string") {
+    const keys = item.path.split("/");
+    if (keys.length > 0) {
+      data.graph = {
+        vote: {},
+      };
+      let root = data.graph.vote;
+      keys.slice(0, -1).forEach((key) => {
+        root = root[key] = {};
+      });
+      root[keys[keys.length - 1]] = hasVote ? null : "";
+    }
+  }
+
+  Social.set(data, {
+    onCommit: () => State.update({ loading: false, hasVote: !hasVote }),
+    onCancel: () => State.update({ loading: false }),
+  });
+};
 
 const updateIsRegistered = () => {
   Near.asyncView(contractId, "storage_balance_of", {
