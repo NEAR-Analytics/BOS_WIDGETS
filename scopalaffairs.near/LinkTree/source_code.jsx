@@ -71,8 +71,6 @@ return (
           {profile.claim}
         </p>
       )}
-
-
     </div>
 
     <div style={{ display: "flex", gap: 42 }}>
