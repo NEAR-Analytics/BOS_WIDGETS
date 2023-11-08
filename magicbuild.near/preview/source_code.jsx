@@ -6,39 +6,11 @@ State.init({
   contractAbiView,
   response,
   cMethod: props.cMethod,
+  newA,
 });
 
 const cAD = (e, functions, aIdx, type) => {
-  const value = e.target.value;
-  const a = state.contractAbiView;
-
-  a.forEach((item, fIdx) => {
-    if (functions.name == item.name) {
-      if (a[fIdx].params.args[aIdx].type_schema.type == "integer") {
-        a[fIdx].params.args[aIdx].value = parseInt(value);
-      }
-      if (a[fIdx].params.args[aIdx].type_schema.type == "array") {
-        a[fIdx].params.args[aIdx].value = value.split("|");
-      }
-      if (a[fIdx].params.args[aIdx].type_schema.type == "boolean") {
-        a[fIdx].params.args[aIdx].value = Boolean(value);
-      }
-      if (a[fIdx].params.args[aIdx].type_schema.type == "json") {
-        a[fIdx].params.args[aIdx].value = JSON.parse(value);
-      }
-      if (a[fIdx].params.args[aIdx].type_schema.type == "string") {
-        a[fIdx].params.args[aIdx].value = value;
-      }
-      if (a[fIdx].params.args[aIdx].type_schema.type == "enum") {
-        a[fIdx].params.args[aIdx].value = value;
-      }
-      if (a[fIdx].params.args[aIdx].type_schema.type == "$ref") {
-        a[fIdx].params.args[aIdx].value = value;
-      }
-      State.update({ contractAbiView: a });
-      console.log(a[fIdx]);
-    }
-  });
+  State.update({ newA: functions });
 };
 const onInputChangeContractArg = (obj) => {
   const data = state.cMethod;
