@@ -14,9 +14,9 @@ const onInputChangeContractArg = (obj) => {
 
   const isExist = false;
   const indexData = null;
-
+  console.log("obj", obj);
   data.forEach((item, index) => {
-    console.log("item", item);
+    // console.log("item", item);
     if (item.name == obj.name) {
       isExist = true;
       indexData = index;
