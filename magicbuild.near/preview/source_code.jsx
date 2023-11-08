@@ -187,7 +187,7 @@ return (
 
                       <input
                         class="form-control"
-                        value={[state.newcontractAbiArg[functions.name]]}
+                        defaultValue={state.newcontractAbiArg[functions.name]}
                         onChange={(e) =>
                           onInputChangeContractArg({
                             functions: functions.name,
