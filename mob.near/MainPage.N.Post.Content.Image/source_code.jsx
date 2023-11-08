@@ -65,7 +65,10 @@ return (
     <div
       key="c-img"
       className="img-wrapper"
-      onClick={() => setShowLightbox(true)}
+      onClick={(e) => {
+        e?.preventDefault && e.preventDefault();
+        setShowLightbox(true);
+      }}
     >
       {innerImage}
     </div>
