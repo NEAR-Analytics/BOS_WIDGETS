@@ -260,7 +260,7 @@ return validScan?.privateKey !== null ? (
             } else if (result?.text?.includes("campaignId")) {
               const campaignId = result?.text?.split("=")?.[1];
               setValidScan({ ...validScan, campaignId });
-            } else {
+            } else if (result?.text?.includes("privateKey")) {
               const url = result.text;
 
               const privateKey = url.split("privateKey=")[1];
