@@ -56,17 +56,16 @@ const onBtnClickCall = (functions, action) => {
           item.value = Boolean(item.value);
         }
         argsArr.push(item);
-        console.log("aaaaa", argsArr);
       }
     }
   }
-  console.log("aaaaa", argsArr);
 
   const argMap = argsArr.map(({ name, value }) => ({ [name]: value }));
   const args = {};
   argMap.forEach((item) => {
     Object.assign(args, item);
   });
+  console.log("argmap", argMap);
   if (action == "view") {
     asyncFetch("https://rpc.near.org/", {
       body: JSON.stringify({
