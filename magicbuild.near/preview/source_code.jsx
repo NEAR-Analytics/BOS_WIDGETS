@@ -26,7 +26,7 @@ const onInputChangeContractArg = (obj) => {
     data.push(obj);
   }
 
-  State.update({ contractAbiArg: data });
+  // State.update({ contractAbiArg: data });
 };
 const cDeposit = (e, fIndex) => {
   const data = state.contractAbiCall;
@@ -163,7 +163,7 @@ const notLoggedInWarning = <p class="text-center py-2"> Login to Use BOS </p>;
 const Wrapper = styled.div`
  ${props.cssStyle}
 `;
-console.log("props", props.cssStyle);
+
 return (
   <>
     <Wrapper class="container">
@@ -248,7 +248,7 @@ return (
                       )}
                       {args.type_schema.type == "boolean" ? (
                         <select
-                          defaultValue={args.type_schema.type}
+                          defaultValue={args.value}
                           class="form-control"
                           onChange={(e) =>
                             onInputChangeContractArg({
