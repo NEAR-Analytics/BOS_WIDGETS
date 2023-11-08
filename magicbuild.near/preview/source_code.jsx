@@ -6,7 +6,7 @@ State.init({
   contractAbiView,
   response,
   contractAbiArg: props.cMethod,
-  newcontractAbiArg,
+  newcontractAbiArg: [],
 });
 
 const onInputChangeContractArg = (obj) => {
