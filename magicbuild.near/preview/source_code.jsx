@@ -40,30 +40,28 @@ const cDeposit = (functions, e) => {
 const onBtnClickCall = (functions, action) => {
   let argsArr = [];
   let i = 0;
+  let index = 0;
   const data = state.contractAbiArg;
   for (const item of data) {
-    console.log("item", item);
-
     if (item.name == functions.name) {
-      console.log(data[i].params.args);
-      if (
-        data[i].params.args.type == "number" ||
-        data[i].params.args.type == "integer"
-      ) {
-        data[i].params.args.value = parseInt(item.value);
-      }
-      if (data[i].params.args.type == "array") {
-        data[i].params.args.value = data[i].params.args.value.split("|");
-      }
-      if (data[i].params.args.type == "json") {
-        data[i].params.args.value = JSON.parse(data[i].params.args.value);
-      }
-      if (data[i].params.args.type == "boolean") {
-        data[i].params.args.value = Boolean(item.value);
-      }
-      argsArr.push(data[i].params.args);
+      index = i;
     }
     i++;
+  }
+  for (const item of data[i].params.args) {
+    if (item.type == "number" || item.type == "integer") {
+      item.value = parseInt(item.value);
+    }
+    if (item.type == "array") {
+      item.value = item.value.split("|");
+    }
+    if (item.type == "json") {
+      item.value = JSON.parse(item.value);
+    }
+    if (item.type == "boolean") {
+      item.value = Boolean(item.value);
+    }
+    argsArr.push(item);
   }
 
   const argMap = argsArr.map(({ name, value }) => ({ [name]: value }));
