@@ -11,14 +11,17 @@ State.init({
 
 const onInputChangeContractArg = (obj) => {
   const data = state.cMethod;
-  console.log(data);
+
   const isExist = false;
   const indexData = null;
 
   data.forEach((item, index) => {
-    if (item.functions == obj.functions && item.name == obj.name) {
-      isExist = true;
-      indexData = index;
+    if (item.kind) {
+      console.log(data);
+      if (item.functions == obj.functions && item.name == obj.name) {
+        isExist = true;
+        indexData = index;
+      }
     }
   });
 
