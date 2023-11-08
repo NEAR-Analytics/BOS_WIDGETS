@@ -4,29 +4,10 @@ State.init({
   contractAbiView,
   response,
   cMethod: props.cMethod,
-  newcontractAbiArg: [],
+  newcontractAbiArg,
 });
-
 const onInputChangeContractArg = (obj) => {
-  console.log(obj);
-  const data = state.newcontractAbiArg;
-  const isExist = false;
-  const indexData = null;
-
-  if (data) {
-    data.forEach((item, index) => {
-      if (item.functions == obj.functions && item.name == obj.name) {
-        isExist = true;
-        indexData = index;
-      }
-    });
-  }
-
-  if (isExist) {
-    data[indexData].value = obj.value;
-  } else {
-    data.push(obj);
-  }
+  data = { [obj.functions]: value };
 
   State.update({ newcontractAbiArg: data });
   console.log(state.newcontractAbiArg);
