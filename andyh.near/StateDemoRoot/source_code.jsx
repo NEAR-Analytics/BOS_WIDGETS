@@ -147,7 +147,7 @@ return (
           updateCircle: () => setCircle(getRandomIcon()),
           updateSquare: () => setSquare(getRandomIcon()),
           updateTriangle: () => {
-            console.log(setTriangle);
+            console.log(triangle, setTriangle);
             setTriangle(getRandomIcon());
           },
         }}
