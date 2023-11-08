@@ -31,7 +31,7 @@ return (
             ></button>
           </div>
           <div class="modal-body">
-            {<Widget src={`${cep}/widget/preview`} props={props} />}
+            {props && <Widget src={`${cep}/widget/preview`} props={props} />}
           </div>
           <div class="modal-footer">
             <button
