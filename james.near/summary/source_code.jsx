@@ -453,31 +453,6 @@ function normalizeMarkdown(text) {
   return text.trim();
 }
 
-const data = {
-  index: {
-    graph: JSON.stringify({
-      key: "request",
-      value: {
-        type: "merge",
-        src: state.src,
-        update: state.update,
-      },
-    }),
-    notify: JSON.stringify({
-      key: creatorId,
-      value: {
-        type: "request",
-        template: "hack.near/widget/notification",
-        data: {
-          type: "merge",
-          src: state.src,
-          update: state.update,
-        },
-      },
-    }),
-  },
-};
-
 return (
   <Wrapper>
     <Header size={size}>
