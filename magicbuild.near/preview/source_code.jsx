@@ -219,6 +219,7 @@ return (
                     return (
                       <div className={`form-group pb-2 ${args.className}`}>
                         <label>
+                          {args.value}
                           {args.label.length > 0 ? args.label : args.name}
                         </label>
                         <input
