@@ -22,8 +22,8 @@ const onInputChangeContractArg = (e, fName, argIndex) => {
     }
   });
   if (check) {
-    data[index].params.args[argIndex].value = e.target.value;
     console.log("index", index);
+    data[index].params.args[argIndex].value = e.target.value;
     console.log("aaa", data[index].params.args[argIndex]);
     State.update({ contractAbiArg: data });
   }
