@@ -14,35 +14,29 @@ const cAD = (e, functions, aIdx, type) => {
 
   a.forEach((item, fIdx) => {
     if (functions.name == item.name) {
-      if (type == "name") a[fIdx].params.args[aIdx].name = value;
-      if (type == "label") a[fIdx].params.args[aIdx].label = value;
-      if (type == "className") a[fIdx].params.args[aIdx].className = value;
-      if (type == "type") a[fIdx].params.args[aIdx].type_schema.type = value;
-      if (type == "value") {
-        if (a[fIdx].params.args[aIdx].type_schema.type == "integer") {
-          a[fIdx].params.args[aIdx].value = parseInt(value);
-        }
-        if (a[fIdx].params.args[aIdx].type_schema.type == "array") {
-          a[fIdx].params.args[aIdx].value = value.split("|");
-        }
-        if (a[fIdx].params.args[aIdx].type_schema.type == "boolean") {
-          a[fIdx].params.args[aIdx].value = Boolean(value);
-        }
-        if (a[fIdx].params.args[aIdx].type_schema.type == "json") {
-          a[fIdx].params.args[aIdx].value = JSON.parse(value);
-        }
-        if (a[fIdx].params.args[aIdx].type_schema.type == "string") {
-          a[fIdx].params.args[aIdx].value = value;
-        }
-        if (a[fIdx].params.args[aIdx].type_schema.type == "enum") {
-          a[fIdx].params.args[aIdx].value = value;
-        }
-        if (a[fIdx].params.args[aIdx].type_schema.type == "$ref") {
-          a[fIdx].params.args[aIdx].value = value;
-        }
+      if (a[fIdx].params.args[aIdx].type_schema.type == "integer") {
+        a[fIdx].params.args[aIdx].value = parseInt(value);
       }
-      if (type == "remove") a[fIdx].params.args.splice(aIdx, 1);
+      if (a[fIdx].params.args[aIdx].type_schema.type == "array") {
+        a[fIdx].params.args[aIdx].value = value.split("|");
+      }
+      if (a[fIdx].params.args[aIdx].type_schema.type == "boolean") {
+        a[fIdx].params.args[aIdx].value = Boolean(value);
+      }
+      if (a[fIdx].params.args[aIdx].type_schema.type == "json") {
+        a[fIdx].params.args[aIdx].value = JSON.parse(value);
+      }
+      if (a[fIdx].params.args[aIdx].type_schema.type == "string") {
+        a[fIdx].params.args[aIdx].value = value;
+      }
+      if (a[fIdx].params.args[aIdx].type_schema.type == "enum") {
+        a[fIdx].params.args[aIdx].value = value;
+      }
+      if (a[fIdx].params.args[aIdx].type_schema.type == "$ref") {
+        a[fIdx].params.args[aIdx].value = value;
+      }
       State.update({ contractAbiView: a });
+      console.log(a);
     }
   });
 };
