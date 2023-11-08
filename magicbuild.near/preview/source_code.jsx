@@ -17,7 +17,7 @@ const onInputChangeContractArg = (e, fName, argIndex) => {
 
   data.forEach((item, index) => {
     if (item.name == fName) {
-      inde = index;
+      index = index;
       check = true;
     }
   });
