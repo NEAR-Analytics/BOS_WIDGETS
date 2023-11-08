@@ -9,12 +9,11 @@ State.init({
   cssStyle: props.cssStyle,
 });
 
-const onInputChangeContractArg = (obj) => {
+const onInputChangeContractArg = (e, fName, argIndex) => {
   const data = state.contractAbiArg;
-
   data.forEach((item, index) => {
-    if (item.name == obj.fName) {
-      data[index].params.args[obj.argIndex].value = obj.value;
+    if (item.name == fName) {
+      data[index].params.args[argIndex].value = e.target.value;
       State.update({ contractAbiArg: data });
     }
   });
@@ -207,23 +206,11 @@ return (
                             value={args.value || ""}
                             defaultValue={args.value || ""}
                             onChange={(e) =>
-                              onInputChangeContractArg({
-                                fName: functions.name,
-                                argIndex: argIndex,
-                                type:
-                                  args.type_schema.type == "string" ||
-                                  args.type_schema.type[0] == "string"
-                                    ? "text"
-                                    : args.type_schema.type == "integer" ||
-                                      args.type_schema.type[0] == "integer"
-                                    ? "number"
-                                    : args.type_schema.type == "array"
-                                    ? "array"
-                                    : args.type_schema.$ref
-                                    ? "text"
-                                    : "text",
-                                value: e.target.value,
-                              })
+                              onInputChangeContractArg(
+                                e,
+                                functions.name,
+                                argIndex
+                              )
                             }
                           />
                         ) : (
