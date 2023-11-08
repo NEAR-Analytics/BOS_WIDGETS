@@ -36,7 +36,7 @@ const cAD = (e, functions, aIdx, type) => {
         a[fIdx].params.args[aIdx].value = value;
       }
       State.update({ contractAbiView: a });
-      console.log(a[fIdx].params.args[aIdx].value);
+      console.log(a[fIdx]);
     }
   });
 };
