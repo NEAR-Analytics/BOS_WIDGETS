@@ -19,8 +19,8 @@ return (
             },
           },
           // deposit: 1, yocto
-          deposit: Big(10).pow(23), // 0.1 NEAR
-          //   gas: Big(10).pow(12).mul(50),
+          deposit: Big(10).pow(24).mul(0.1), // 0.1 NEAR
+          gas: Big(10).pow(12).mul(150),
         },
       ]);
     }}
