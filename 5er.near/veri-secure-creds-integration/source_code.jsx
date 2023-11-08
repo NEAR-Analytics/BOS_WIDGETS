@@ -48,7 +48,7 @@ return (
       display: "flex",
       flexFlow: "column nowrap",
       gap: "10px",
-      backgroundColor: "#E9BD38",
+      backgroundColor: "#fde030",
       padding: "10px",
       borderRadius: "10px",
       maxWidth: "400px",
