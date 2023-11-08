@@ -5,11 +5,12 @@ State.init({
   contractAbiCall,
   contractAbiView,
   response,
-  contractAbiArg: [],
+  contractAbiArg: props.cMethod,
+  newcontractAbiArg: [],
 });
 
 const onInputChangeContractArg = (obj) => {
-  const data = state.contractAbiArg;
+  const data = state.newcontractAbiArg;
   const isExist = false;
   const indexData = null;
 
@@ -26,7 +27,7 @@ const onInputChangeContractArg = (obj) => {
     data.push(obj);
   }
 
-  State.update({ contractAbiArg: data });
+  State.update({ newcontractAbiArg: data });
 };
 const cDeposit = (e, fIndex) => {
   const data = state.contractAbiCall;
