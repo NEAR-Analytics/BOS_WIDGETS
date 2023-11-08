@@ -499,16 +499,6 @@ return (
       </div>
     </Header>
 
-    {props.showDesc && (
-      <div style={{ paddingBottom: "10px" }}>
-        {metadata.description ? (
-          <Text>{normalizeMarkdown(metadata.description)}</Text>
-        ) : (
-          <Text>This has no description.</Text>
-        )}
-      </div>
-    )}
-
     {props.showTags && tags.length > 0 && (
       <TagsWrapper>
         <Widget
