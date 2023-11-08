@@ -176,13 +176,13 @@ loadData();
 
 const notLoggedInWarning = <p class="text-center py-2"> Login to Use BOS </p>;
 
-const Wrapper = styled.div`
+const Wrapper1 = styled.div`
  ${state.cssStyle}
 `;
 
 return (
   <>
-    <Wrapper class="container">
+    <Wrapper1 class="container">
       {context.accountId ? contractForm : notLoggedInWarning}
       <h3 class="text-center">{state.contractAddress}</h3>
       {state.contractError}
@@ -460,6 +460,6 @@ return (
               </div>
             </div>
           ))}
-    </Wrapper>
+    </Wrapper1>
   </>
 );
