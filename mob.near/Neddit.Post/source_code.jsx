@@ -19,11 +19,6 @@ const groupId = props.groupId ?? content.groupId;
 const indexKey = props.indexKey;
 const permissions = props.permissions;
 const fullPostLink = props.fullPostLink;
-const onSubneddit = props.onSubneddit;
-
-useEffect(() => {
-  onSubneddit && onSubneddit(subneddit);
-}, [subneddit]);
 
 const notifyAccountId = accountId;
 const item = {
