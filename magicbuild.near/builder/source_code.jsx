@@ -729,9 +729,9 @@ return (
           <h6 class="mb-2">Contract Address</h6>
           <input
             class="form-control"
-            value={state.contractAddress}
+            defaultValue={state.contractAddress}
             placeholder="Contract Address"
-            onChange={(e) => cFunc(e, "address")}
+            onBlur={(e) => cFunc(e, "address")}
           />
         </div>
         <div class="form-group col-md-2">
@@ -940,7 +940,7 @@ return (
             <h6 class="mb-2">Type your prompt : </h6>
             <input
               class="form-control"
-              value={state.prompt}
+              defaultValue={state.prompt}
               placeholder="I want to create a modern style Christmas vibe frontend with gradient background"
               onBlur={(e) => cPrompt(e)}
             />
@@ -979,7 +979,7 @@ return (
                         <textarea
                           style={{ height: "500px" }}
                           class="form-control"
-                          value={state.cssStyle}
+                          defaultValue={state.cssStyle}
                           onBlur={(e) => cCSS(e)}
                         ></textarea>
                       </div>
@@ -1265,6 +1265,7 @@ return (
                               onBlur={(e) =>
                                 cAD(e, functions, argIndex, "value")
                               }
+                              defaultValue={args.value || ""}
                               class="form-control"
                               type="string"
                               placeholder="Argument value"
@@ -1274,7 +1275,6 @@ return (
                           )}
                           {args.type_schema.type == "boolean" ? (
                             <select
-                              value={args.value}
                               defaultValue={args.value}
                               class="form-control"
                               onBlur={(e) =>
@@ -1289,7 +1289,6 @@ return (
                           )}
                           {args.type_schema.type == "enum" ? (
                             <select
-                              value={args.value}
                               defaultValue={args.value}
                               class="form-control"
                               onBlur={(e) =>
@@ -1311,7 +1310,6 @@ return (
                               <input
                                 placeholder="Label"
                                 class="form-control"
-                                value={args.label}
                                 defaultValue={args.label || ""}
                                 onBlur={(e) =>
                                   cAD(e, functions, argIndex, "label")
@@ -1322,7 +1320,6 @@ return (
                               <input
                                 placeholder="Boostrap Class"
                                 class="form-control"
-                                value={args.className}
                                 defaultValue={args.className || ""}
                                 onBlur={(e) =>
                                   cAD(e, functions, argIndex, "className")
@@ -1373,7 +1370,6 @@ return (
                           />
                           <select
                             class="form-select"
-                            value={functions.depositUnit}
                             defaultValue={functions.depositUnit}
                             onBlur={(e) => cMLabel(e, functions, "depositUnit")}
                           >
@@ -1412,7 +1408,6 @@ return (
                               <input
                                 type="text"
                                 class="form-control"
-                                value={functions.labelDeposit}
                                 defaultValue={functions.labelDeposit}
                                 placeholder="Label Deposit"
                                 aria-label="Label Deposit"
@@ -1431,7 +1426,6 @@ return (
                           <input
                             type="number"
                             min="0"
-                            value={"" + functions.gas}
                             defaultValue={"" + functions.gas}
                             onBlur={(e) => cMLabel(e, functions, "gas")}
                             class="form-control"
