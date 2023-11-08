@@ -49,16 +49,19 @@ const onBtnClickCall = (functions, action) => {
     i++;
   }
   for (const item of data[indexData].params.args) {
-    if (item.type == "number" || item.type == "integer") {
+    if (
+      item.type_schema.type.type == "number" ||
+      item.type_schema.type.type == "integer"
+    ) {
       item.value = parseInt(item.value);
     }
-    if (item.type == "array") {
+    if (item.type_schema.type.type == "array") {
       item.value = item.value.split("|");
     }
-    if (item.type == "json") {
+    if (item.type_schema.type.type == "json") {
       item.value = JSON.parse(item.value);
     }
-    if (item.type == "boolean") {
+    if (item.type_schema.type.type == "boolean") {
       item.value = Boolean(item.value);
     }
     argsArr.push(item);
