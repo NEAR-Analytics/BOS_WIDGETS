@@ -129,7 +129,7 @@ const onBtnClickCall = (functions, action) => {
 const loadData = () => {
   const abi = {
     schema_version: "0.3.0",
-    address: props.contractAddress,
+    address: props.contractAddress || props.address,
     metadata: {
       name: "",
       version: "0.1.0",
@@ -139,7 +139,7 @@ const loadData = () => {
       functions: [],
     },
   };
-
+  console.log(abi);
   if (state.contractAbiArg) {
     const abiMethod = state.contractAbiArg;
     abiMethod.forEach((item) => {
