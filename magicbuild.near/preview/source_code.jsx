@@ -6,28 +6,14 @@ State.init({
   contractAbiView,
   response,
   cMethod: props.cMethod,
+  argData: {},
 });
 
-const onInputChangeContractArg = (obj) => {
-  const data = state.cMethod;
-  const isExist = false;
-  const indexData = null;
-
-  data.forEach((item, index) => {
-    if (item.functions == obj.functions && item.name == obj.name) {
-      isExist = true;
-      indexData = index;
-    }
-  });
-
-  if (isExist) {
-    data[indexData].value = obj.value;
-  } else {
-    data.push(obj);
-  }
-
-  State.update({ cMethod: data });
-  console.log(state.cMethod);
+const onInputChangeContractArg = (e, fName, argName) => {
+  const argsData = state.argData;
+  Object.assign(argsData, { [fName]: { argName: e.target.value } });
+  State.update({ argData: argsData });
+  console.log(state.argData);
 };
 const cDeposit = (functions, e) => {
   const data = state.contractAbiCall;
@@ -215,25 +201,11 @@ return (
                             }
                             defaultValue={args.value}
                             onBlur={(e) =>
-                              onInputChangeContractArg({
-                                functions: functions.name,
-                                name: args.name,
-                                type:
-                                  args.type_schema.type == "string" ||
-                                  args.type_schema.type[0] == "string"
-                                    ? "text"
-                                    : args.type_schema.type == "integer" ||
-                                      args.type_schema.type[0] == "integer"
-                                    ? "number"
-                                    : args.type_schema.type == "array"
-                                    ? "array"
-                                    : args.type_schema.type == "json"
-                                    ? "json"
-                                    : args.type_schema.$ref
-                                    ? "text"
-                                    : "text",
-                                value: e.target.value,
-                              })
+                              onInputChangeContractArg(
+                                e,
+                                functions.name,
+                                args.name
+                              )
                             }
                           />
                         ) : (
