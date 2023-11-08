@@ -1031,7 +1031,7 @@ return (
                         ></button>
                       </div>
                       <div class="modal-body">
-                        {props && (
+                        {state && (
                           <Widget src={`${cep}/widget/preview`} props={props} />
                         )}
                       </div>
