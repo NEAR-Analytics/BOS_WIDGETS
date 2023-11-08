@@ -199,6 +199,9 @@ return (
                                 ? "Account Address"
                                 : "text"
                             }
+                            defaultValue={
+                              state.argData[functions.name][args.name]
+                            }
                             value={state.argData[functions.name][args.name]}
                             onBlur={(e) =>
                               onInputChangeContractArg(
