@@ -40,15 +40,15 @@ const cDeposit = (functions, e) => {
 const onBtnClickCall = (functions, action) => {
   let argsArr = [];
   let i = 0;
-  let index = 0;
+  let indexData = 0;
   const data = state.contractAbiArg;
-  for (const item of data) {
-    if (item.name == functions.name) {
-      index = i;
+  for (const datacheck of data) {
+    if (datacheck.name == functions.name) {
+      indexData = i;
     }
     i++;
   }
-  for (const item of data[i].params.args) {
+  for (const item of data[indexData].params.args) {
     if (item.type == "number" || item.type == "integer") {
       item.value = parseInt(item.value);
     }
