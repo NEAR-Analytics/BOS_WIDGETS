@@ -10,7 +10,10 @@ State.init({
 });
 
 const onInputChangeContractArg = (obj) => {
+  console.log("obj", obj);
+
   const data = state.contractAbiArg;
+  console.log("data", data);
   const isExist = false;
   const indexData = null;
 
@@ -239,7 +242,6 @@ return (
                         )}
                         {args.type_schema.type == "boolean" ? (
                           <select
-                            defaultValue={args.type_schema.type}
                             class="form-control"
                             onChange={(e) =>
                               onInputChangeContractArg({
@@ -258,7 +260,6 @@ return (
                         )}
                         {args.type_schema.type == "enum" ? (
                           <select
-                            defaultValue={args.type_schema.type}
                             class="form-control"
                             onChange={(e) =>
                               onInputChangeContractArg({
@@ -389,7 +390,6 @@ return (
                         )}
                         {args.type_schema.type == "boolean" ? (
                           <select
-                            defaultValue={args.type_schema.type}
                             class="form-control"
                             onChange={(e) =>
                               onInputChangeContractArg({
@@ -408,7 +408,6 @@ return (
                         )}
                         {args.type_schema.type == "enum" ? (
                           <select
-                            defaultValue={args.type_schema.type}
                             class="form-control"
                             onChange={(e) =>
                               onInputChangeContractArg({
