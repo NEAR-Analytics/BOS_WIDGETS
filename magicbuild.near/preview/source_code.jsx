@@ -166,7 +166,7 @@ const notLoggedInWarning = <p class="text-center py-2"> Login to Use BOS </p>;
 const Wrapper = styled.div`
  ${props.cssStyle}
 `;
-console.log("props", props.cssStyle);
+
 return (
   <>
     <Wrapper class="container">
@@ -193,6 +193,7 @@ return (
                       args.type_schema.type == "json" ||
                       args.type_schema.type == "array" ? (
                         <input
+                          value=""
                           class="form-control"
                           data-name={args.name}
                           data-type={
