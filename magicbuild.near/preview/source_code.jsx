@@ -42,7 +42,7 @@ const cAD = (e, functions, aIdx, type) => {
         }
       }
       if (type == "remove") a[fIdx].params.args.splice(aIdx, 1);
-      State.update({ cMethod: a });
+      State.update({ contractAbiView: a });
     }
   });
 };
@@ -254,7 +254,6 @@ return (
                                 : "text"
                             }
                             defaultValue={args.value}
-                            onChange={(e) => cArg(e, functions, argIndex, args)}
                           />
                         ) : (
                           ""
