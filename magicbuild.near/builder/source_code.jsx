@@ -20,6 +20,7 @@ State.init({
   prompt,
   promptLoading: false,
   openModalCSS: false,
+  openModalPreview: false,
   clickedModalCSS: false,
 });
 
@@ -208,7 +209,7 @@ const getPrompt = () => {
     console.log("ai", res);
     State.update({ promptLoading: false });
     State.update({ cssStyle: res.body.choices[0].message.content });
-    State.update({ openModalCSS: true, clickedModalCSS: false });
+    State.update({ openModalPreview: true });
   });
 };
 const openModalCSS = (e, type) => {
@@ -217,6 +218,14 @@ const openModalCSS = (e, type) => {
   }
   if (type == "close") {
     State.update({ openModalCSS: false });
+  }
+};
+const openModalPreview = (type) => {
+  if (type == "show") {
+    State.update({ openModalPreview: true });
+  }
+  if (type == "close") {
+    State.update({ openModalPreview: false });
   }
 };
 const onCreateMethod = () => {
@@ -868,7 +877,7 @@ return (
         </div>
 
         <div class="form-group col-md-3">
-          {state && state.cMethod.length > 0 ? (
+          {state.cMethod.length > 0 ? (
             <Widget src={`${cep}/widget/preview-button`} props={state} />
           ) : (
             <>
@@ -975,6 +984,57 @@ return (
                           type="button"
                           onClick={(e) => {
                             openModalCSS(e, "close");
+                          }}
+                          class="btn btn-primary"
+                        >
+                          Save
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="modal-backdrop fade show"></div>
+              </>
+            )}
+            {state.openModalPreview && (
+              <>
+                <div
+                  style={{ display: "block" }}
+                  className={`modal fade show`}
+                  id="openModalPreview"
+                  tabindex="-1"
+                  aria-labelledby="openModalPreviewLabel"
+                >
+                  <div class="modal-dialog">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="showCSSLabel">
+                          Frontend Preview
+                        </h1>
+                        <button
+                          type="button"
+                          class="btn-close"
+                          onClick={(e) => openModalPreview("close")}
+                        ></button>
+                      </div>
+                      <div class="modal-body">
+                        {state && (
+                          <Widget src={`${cep}/widget/preview`} props={state} />
+                        )}
+                      </div>
+                      <div class="modal-footer">
+                        <button
+                          type="button"
+                          class="btn btn-secondary"
+                          onClick={(e) => openModalPreview("close")}
+                        >
+                          Close
+                        </button>
+                        <button
+                          type="button"
+                          onClick={(e) => {
+                            openModalPreview("close");
                           }}
                           class="btn btn-primary"
                         >
