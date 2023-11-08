@@ -90,7 +90,6 @@ const onCreateArgs = (fName) => {
     value: "",
   };
   const abiMethod = state.cMethod;
-  console.log("helllo", abiMethod);
   abiMethod.forEach((item, index) => {
     if (item.name == fName && item.kind) {
       abiMethod[index].params.args.push(arg);
@@ -1031,7 +1030,7 @@ return (
                         ></button>
                       </div>
                       <div class="modal-body">
-                        {state && (
+                        {state.openModalPreview && (
                           <Widget src={`${cep}/widget/preview`} props={props} />
                         )}
                       </div>
