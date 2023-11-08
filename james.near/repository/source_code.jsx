@@ -488,7 +488,7 @@ return (
       <Wrapper>
         <Tabs>
           <TabsButton
-            href={`/${detailsUrl}&tab=source`}
+            href={`${detailsUrl}&tab=source`}
             selected={state.selectedTab === "source"}
           >
             <Icon className="bi bi-code" />
