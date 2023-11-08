@@ -1,5 +1,5 @@
 State.init({
-  contractAddress: props.contractAddress,
+  contractAddress: props.address,
   contractAbi: props,
   contractError,
   contractAbiCall,
@@ -22,8 +22,6 @@ const onInputChangeContractArg = (e, fName, argIndex) => {
     i++;
   }
   if (check) {
-    console.log("index", index);
-    console.log("aaa", e.target);
     data[index].params.args[argIndex].value = e.target.value;
     State.update({ contractAbiArg: data });
   }
