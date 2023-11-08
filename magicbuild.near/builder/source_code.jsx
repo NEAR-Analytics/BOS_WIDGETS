@@ -126,7 +126,7 @@ const cAD = (e, functions, aIdx, type) => {
   const value = e.target.value;
   const a = state.cMethod;
   a.forEach((item, fIdx) => {
-    if (functions.name == item.name) {
+    if (functions.name == item.name && item.kind) {
       console.log("a", a[fIdx].params.args[aIdx]);
       if (type == "name") a[fIdx].params.args[aIdx].name = value;
       if (type == "label") a[fIdx].params.args[aIdx].label = value;
