@@ -881,15 +881,8 @@ return (
         </div>
 
         <div class="form-group col-md-3">
-          {state.cMethod && state.cMethod.length > 0 ? (
-            <Widget
-              src={`${cep}/widget/preview-button`}
-              props={{
-                contractAddress: state.contractAddress,
-                cMethod: state.cMethod,
-                cssStyle: state.cssStyle,
-              }}
-            />
+          {state && state.cMethod.length > 0 ? (
+            <Widget src={`${cep}/widget/preview-button`} props={state} />
           ) : (
             <>
               <label></label>
