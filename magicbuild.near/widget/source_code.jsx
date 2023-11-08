@@ -8,7 +8,8 @@ State.init({
 });
 
 const onInputChangeContractArg = (e, fName, argIndex) => {
-  const data = state.contractAbiArg;
+  const abi = state.contractAbi;
+  const data = abi.body.functions;
   let check = false;
   let index = null;
   let i = 0;
@@ -21,7 +22,8 @@ const onInputChangeContractArg = (e, fName, argIndex) => {
   }
   if (check) {
     data[index].params.args[argIndex].value = e.target.value;
-    State.update({ contractAbiArg: data });
+    abi.body.functions = data;
+    State.update({ contractAbi: abi });
   }
 };
 const cDeposit = (functions, e) => {
