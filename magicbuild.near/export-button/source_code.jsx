@@ -84,7 +84,7 @@ const exportForm = () => {
     const abi = {
       schema_version: "0.3.0",
       address: props.contractAddress,
-      cssStyle: props.cssStyle.replaceAll("\n", ""),
+      cssStyle: props.cssStyle.replaceAll("\n", "").replaceAll('"', ""),
       metadata: {
         name: "",
         version: "0.1.0",
