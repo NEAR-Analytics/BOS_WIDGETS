@@ -221,6 +221,8 @@ return (
                               ? "Account Address"
                               : "text"
                           }
+                          value={args.value}
+                          defaultValue={args.value}
                           onChange={(e) =>
                             onInputChangeContractArg({
                               functions: functions.name,
