@@ -161,6 +161,7 @@ const cAD = (e, functions, aIdx, type) => {
 };
 const onSwitchChangeArgExport = (fIndex) => {
   const abiMethod = state.cMethod;
+  console.log(abiMethod);
   abiMethod[fIndex].export = !abiMethod[fIndex].export;
   State.update({ cMethod: abiMethod });
 };
@@ -191,7 +192,6 @@ const promptLoadingUI = (
 
 const getPrompt = () => {
   State.update({ promptLoading: true });
-  console.log("prompt", state.prompt);
   asyncFetch("https://api.openai.com/v1/chat/completions", {
     body: JSON.stringify({
       model: "gpt-3.5-turbo",
@@ -210,7 +210,6 @@ const getPrompt = () => {
     },
     method: "POST",
   }).then((res) => {
-    console.log("ai", res);
     State.update({ promptLoading: false });
     State.update({ cssStyle: res.body.choices[0].message.content });
     State.update({ openModalPreview: true });
@@ -352,7 +351,6 @@ const getMethodFromSource = () => {
           }
         }
         abiMethod.push(method);
-        console.log("d", abiMethod);
       });
       State.update({ cMethod: abiMethod });
       abiMethod.forEach((item, index) => {
@@ -379,7 +377,6 @@ const getArgsFromMethod = (fName, fIndex) => {
 
         const args = argsData.data[0] || argsData;
         const abiMethod = state.cMethod;
-
         abiMethod[fIndex].params.args = [];
         if (Object.keys(args).length > 0) {
           Object.keys(args).forEach((item) => {
@@ -396,9 +393,7 @@ const getArgsFromMethod = (fName, fIndex) => {
               value: "",
             };
             abiMethod[fIndex].kind = "call";
-
             abiMethod[fIndex].params.args.push(arg);
-
             State.update({ cMethod: abiMethod });
           });
         }
@@ -819,23 +814,25 @@ return (
                 </div>
                 <div class="modal-body">
                   {state.cMethod &&
-                    state.cMethod.map((functions, fIndex) => (
-                      <div class="form-check form-switch">
-                        <input
-                          class="form-check-input"
-                          type="checkbox"
-                          role="switch"
-                          checked={functions.export}
-                          onChange={() => onSwitchChangeArgExport(fIndex)}
-                        />
-                        <label
-                          class="form-check-label"
-                          for={`flexSwitcFilter${fIndex}`}
-                        >
-                          {functions.name}
-                        </label>
-                      </div>
-                    ))}
+                    state.cMethod
+                      .filter((functions) => functions.kind)
+                      .map((functions, fIndex) => (
+                        <div class="form-check form-switch">
+                          <input
+                            class="form-check-input"
+                            type="checkbox"
+                            role="switch"
+                            checked={functions.export}
+                            onChange={() => onSwitchChangeArgExport(fIndex)}
+                          />
+                          <label
+                            class="form-check-label"
+                            for={`flexSwitcFilter${fIndex}`}
+                          >
+                            {functions.name}
+                          </label>
+                        </div>
+                      ))}
                 </div>
                 <div class="modal-footer">
                   <button
