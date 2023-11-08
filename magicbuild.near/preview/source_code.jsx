@@ -7,7 +7,17 @@ State.init({
   newcontractAbiArg,
 });
 const onInputChangeContractArg = (obj) => {
-  data = { [obj.functions]: value };
+  const data = state.newcontractAbiArg;
+  const isExist = true;
+  Object.keys(data).forEach((item) => {
+    if (item == obj.name) {
+      data[item] = obj.value;
+      isExist = false;
+    }
+  });
+  if (isExist) {
+    Object.assign(data, { [functions.name]: value });
+  }
 
   State.update({ newcontractAbiArg: data });
   console.log(state.newcontractAbiArg);
