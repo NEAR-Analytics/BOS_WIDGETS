@@ -16,15 +16,15 @@ const onInputChangeContractArg = (e, fName, argIndex) => {
   let index = null;
   let i = 0;
   for (const item of data) {
-    i++;
     if (item.name == fName) {
       index = i;
       check = true;
     }
+    i++;
   }
   if (check) {
     console.log("index", index);
-    console.log("aaa", data[index]);
+    console.log("aaa", data[index].params.args[argIndex]);
     data[index].params.args[argIndex].value = e.target.value;
 
     State.update({ contractAbiArg: data });
