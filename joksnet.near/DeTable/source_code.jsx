@@ -13,6 +13,9 @@ if (!state.chainId && signer) {
 }
 
 function connectWallet() {
+  if (window.ethereum) {
+    window.ethereum.enable();
+  }
   const accounts = Ethers.send("eth_requestAccounts", []);
   console.log("accounts", accounts);
   if (!accounts || accounts.length === 0) {
@@ -23,11 +26,18 @@ function connectWallet() {
   }
 }
 
+function retry() {
+  State.update({ error: undefined });
+}
+
 if (state.error) {
   return (
-    <p style={{ backgroundColor: "red", color: "white" }}>
-      Something happen: {state.error}
-    </p>
+    <>
+      <p style={{ backgroundColor: "red", color: "white" }}>
+        Something happen: {state.error}
+      </p>
+      <button onClick={retry}>Retry</button>
+    </>
   );
 }
 
