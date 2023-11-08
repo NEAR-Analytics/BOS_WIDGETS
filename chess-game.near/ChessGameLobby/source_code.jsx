@@ -375,7 +375,7 @@ const pageContent = activePage ? (
       <>
         <Disclaimer>
           Protocol Pawns is currently ranked <b>{state.rank}</b> in the App
-          Upcoting Event. By giving us your vote you support visibility and make
+          Upvoting Event. By giving us your vote you support visibility and make
           me happy. More infos{" "}
           <a
             href="https://twitter.com/ProtocolPawns/status/1721934391943762140"
