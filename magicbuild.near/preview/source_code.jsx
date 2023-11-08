@@ -14,6 +14,7 @@ const onInputChangeContractArg = (e, fName, argIndex) => {
   data.forEach((item, index) => {
     if (item.name == fName) {
       data[index].params.args[argIndex].value = e.target.value;
+      console.log("aaa", data[index].params.args[argIndex]);
       State.update({ contractAbiArg: data });
     }
   });
