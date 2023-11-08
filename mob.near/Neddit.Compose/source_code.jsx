@@ -2,11 +2,9 @@ if (!context.accountId) {
   return "";
 }
 
-const [subneddit, setSubneddit] = useState(
-  !subneddit || subneddit === "all" ? "" : subneddit
-);
+const subneddit = props.subneddit;
 
-const draftKey = subneddit;
+const draftKey = "neddit";
 const draft = Storage.privateGet(draftKey);
 
 if (draft === null) {
@@ -34,13 +32,13 @@ const composeData = () => {
             type: "md",
           },
         },
-        {
-          key: "subneddits",
-          value: {
-            subneddit,
-          },
-        },
       ]),
+      subneddits: JSON.stringify({
+        key: "all",
+        value: {
+          subneddit,
+        },
+      }),
     },
   };
 
@@ -87,7 +85,9 @@ return (
       <Widget
         src="mob.near/widget/MainPage.N.Common.Compose"
         props={{
-          placeholder: `What's happening in n/${subneddit}?`,
+          placeholder: subneddit
+            ? `What's happening in n/${subneddit}?`
+            : `Select a subneddit to post`,
           onChange: state.onChange,
           initialText,
           onHelper: ({ extractMentionNotifications, extractHashtags }) => {
@@ -95,7 +95,7 @@ return (
           },
           composeButton: (onCompose) => (
             <CommitButton
-              disabled={!state.content}
+              disabled={!state.content || !subneddit}
               force
               className="btn btn-primary rounded-5"
               data={composeData}
@@ -103,7 +103,7 @@ return (
                 onCompose();
               }}
             >
-              Post to n/{subneddit}
+              Post <span className="d-none d-lg-inline">{subneddit}</span>
             </CommitButton>
           ),
         }}
