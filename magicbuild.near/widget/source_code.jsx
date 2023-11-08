@@ -68,7 +68,6 @@ const onBtnClickCall = (functions, action) => {
   argMap.forEach((item) => {
     Object.assign(args, item);
   });
-  console.log("argmap", argMap);
   if (action == "view") {
     asyncFetch("https://rpc.near.org/", {
       body: JSON.stringify({
@@ -155,7 +154,6 @@ const WrapperPreview = styled.div`
  ${props.cssStyle}
 `;
 
-console.log("style", props.cssStyle);
 return (
   <>
     <WrapperPreview class="container">
