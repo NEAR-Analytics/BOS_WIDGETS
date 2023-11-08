@@ -731,7 +731,7 @@ return (
             class="form-control"
             value={state.contractAddress}
             placeholder="Contract Address"
-            onBlur={(e) => cFunc(e, "address")}
+            onChange={(e) => cFunc(e, "address")}
           />
         </div>
         <div class="form-group col-md-2">
