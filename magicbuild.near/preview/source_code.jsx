@@ -177,10 +177,10 @@ loadData();
 const notLoggedInWarning = <p class="text-center py-2"> Login to Use BOS </p>;
 
 const WrapperPreview = styled.div`
- ${state.cssStyle}
+ ${props.cssStyle}
 `;
 
-console.log("style", state.cssStyle);
+console.log("style", props.cssStyle);
 return (
   <>
     <WrapperPreview class="container">
