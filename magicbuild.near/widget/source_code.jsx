@@ -51,6 +51,7 @@ const onBtnClickCall = (functions, action) => {
     i++;
   }
   for (const item of data[indexData].params.args) {
+    console.log(item);
     if (item.type == "number" || item.type == "integer") {
       item.value = parseInt(item.value);
     }
