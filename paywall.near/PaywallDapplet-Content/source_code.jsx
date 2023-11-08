@@ -1,4 +1,6 @@
-const { contentId, accountId, onBuy, onConnect, loading, basic } = props;
+let { contentId, accountId, onBuy, onConnect, loading, basic } = props;
+
+if (!contentId) contentId = "1694994895662977529"; // for demo
 
 function getContentById(contentId) {
   const S3_STORAGE_URL =
