@@ -1,5 +1,4 @@
 const cep = "magicbuild.near";
-State.init(props);
 return (
   <>
     <label></label>
@@ -31,16 +30,7 @@ return (
             ></button>
           </div>
           <div class="modal-body">
-            {props.cMethod.length > 0 && (
-              <Widget
-                src={`${cep}/widget/preview`}
-                props={{
-                  contractAddress: props.contractAddress,
-                  cMethod: props.cMethod,
-                  cssStyle: props.cssStyle,
-                }}
-              />
-            )}
+            {props && <Widget src={`${cep}/widget/preview`} props={props} />}
           </div>
           <div class="modal-footer">
             <button
