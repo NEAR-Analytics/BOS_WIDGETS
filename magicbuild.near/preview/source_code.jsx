@@ -6,11 +6,12 @@ State.init({
   contractAbiView,
   response,
   cMethod: props.cMethod,
+  g,
 });
 
 const cAD = (e, functions, aIdx) => {
   const value = e.target.value;
-  const a = state.cMethod;
+  const a = state.g;
 
   a.forEach((item, fIdx) => {
     if (functions.name == item.name) {
@@ -37,7 +38,7 @@ const cAD = (e, functions, aIdx) => {
       }
       console.log(e, functions, aIdx);
       console.log(a[fIdx].params.args[aIdx].value);
-      State.update({ cMethod: a });
+      State.update({ g: a });
     }
   });
 };
