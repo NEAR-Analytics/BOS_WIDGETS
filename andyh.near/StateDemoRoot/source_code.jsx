@@ -146,7 +146,10 @@ return (
           triangle,
           updateCircle: () => setCircle(getRandomIcon()),
           updateSquare: () => setSquare(getRandomIcon()),
-          updateTriangle: () => setTriangle(getRandomIcon()),
+          updateTriangle: () => {
+            console.log(setTriangle);
+            setTriangle(getRandomIcon());
+          },
         }}
       />
       <Widget
