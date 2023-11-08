@@ -28,11 +28,13 @@ const onInputChangeContractArg = (e, fName, argIndex) => {
   }
 };
 const cDeposit = (functions, e) => {
-  const data = state.contractAbi;
+  const abi = state.contractAbi;
+  const data = abi.body.functions;
   data.forEach((item, fIndex) => {
     if (item.name == functions.name) {
       data[fIndex].deposit = e.target.value;
-      State.update({ contractAbi: data });
+      abi.body.functions = data;
+      State.update({ contractAbi: abi });
     }
   });
 };
