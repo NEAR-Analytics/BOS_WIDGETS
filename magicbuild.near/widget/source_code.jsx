@@ -5,7 +5,6 @@ State.init({
   contractAbiView,
   response,
   contractAbiArg: props.body.functions,
-  cssStyle: props.cssStyle,
 });
 
 const onInputChangeContractArg = (e, fName, argIndex) => {
