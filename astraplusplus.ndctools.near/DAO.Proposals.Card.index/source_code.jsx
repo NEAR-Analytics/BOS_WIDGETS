@@ -7,7 +7,7 @@ const CoADaoId = props.dev
     : "congress-coa-v1.ndc-gwg.near";
 const VotingBodyDaoId = props.dev
     ? "voting-body-v1.gwg-testing.near"
-    : "";
+    : "voting-body-v1.ndc-gwg.near";
 const TCDaoId = props.dev
     ? "tc.gwg-testing.near"
     : "congress-tc-v1.ndc-gwg.near";
@@ -131,7 +131,11 @@ if (!proposalString && proposalId && daoId) {
                 description: resp.description,
                 vote_counts: {},
                 submission_time: resp?.submission_time ?? resp?.start, // for vb it's start
-                supported: resp?.supported ?? [] // for vb
+                supported: resp?.supported ?? [], // for vb
+                approve: resp?.approve ?? 0,
+                reject: resp?.reject ?? 0,
+                spam: resp?.spam ?? 0,
+                abstain: resp?.abstain ?? 0
             };
         }
     } else {
@@ -341,18 +345,18 @@ const expensiveWork = () => {
             }
         });
     }
-
+    my_proposal.typeName = kindName.replace(/([A-Z])/g, " $1").trim(); // Add spaces between camelCase
     if (isCongressDaoID) {
         totalVotesNeeded = daoConfig?.threshold;
     }
 
     if (isVotingBodyDao) {
         if (
-            my_proposal.status === "ApproveBudget" ||
-            my_proposal.status === "Dissolve"
+            my_proposal.typeName === "Approve Budget" ||
+            my_proposal.typeName === "Dissolve"
         ) {
             totalVotesNeeded = daoConfig?.super_consent?.threshold;
-        } else if (my_proposal.status === "PreVote") {
+        } else if (my_proposal.typeName === "Pre Vote") {
             totalVotesNeeded = daoConfig?.pre_vote_support;
         } else {
             totalVotesNeeded = daoConfig?.simple_consent?.threshold;
@@ -374,17 +378,10 @@ const expensiveWork = () => {
     });
 
     if (isVotingBodyDao) {
-        for (const value of Object.values(my_proposal.votes)) {
-            if (value === "Approve") {
-                totalVotes.yes++;
-            } else if (value === "Reject") {
-                totalVotes.no++;
-            } else if (value === "Abstain") {
-                totalVotes.abstain++;
-            } else if (value === "Spam") {
-                totalVotes.spam++;
-            }
-        }
+        totalVotes.yes = my_proposal?.approve ?? 0;
+        totalVotes.no = my_proposal?.reject ?? 0;
+        totalVotes.abstain = my_proposal?.abstain ?? 0;
+        totalVotes.spam = my_proposal?.spam ?? 0;
     }
 
     if (isCongressDaoID) {
@@ -404,14 +401,13 @@ const expensiveWork = () => {
         totalVotes.yes + totalVotes.no + totalVotes.spam + totalVotes.abstain;
 
     if (my_proposal.status === "PreVote") {
-        totalVotes.total = my_proposal?.supported?.length;
+        totalVotes.total = my_proposal?.support ?? 0;
     }
 
     my_proposal.totalVotesNeeded = totalVotesNeeded;
     my_proposal.totalVotes = totalVotes;
     // --- end Votes required
 
-    my_proposal.typeName = kindName.replace(/([A-Z])/g, " $1").trim(); // Add spaces between camelCase
     my_proposal.statusName = my_proposal.status
         .replace(/([A-Z])/g, " $1")
         .trim();
@@ -462,7 +458,8 @@ const handleVote = ({ action, proposalId, daoId }) => {
                     payload: JSON.stringify(args),
                     lock_duration:
                         proposal?.submission_time +
-                        daoConfig?.voting_duration +
+                        daoConfig?.vote_duration -
+                        Date.now() +
                         1,
                     with_proof: false
                 },
@@ -515,12 +512,12 @@ const handlePreVoteAction = ({ action, proposalId }) => {
                         payload: JSON.stringify(parseInt(proposalId)),
                         lock_duration:
                             proposal?.submission_time +
-                            daoConfig?.pre_vote_duration +
+                            daoConfig?.pre_vote_duration -
+                            Date.now() +
                             1,
                         with_proof: false
                     },
-                    gas: 200000000000000,
-                    deposit: 700000000000000000000
+                    gas: 200000000000000
                 }
             ]);
             break;
