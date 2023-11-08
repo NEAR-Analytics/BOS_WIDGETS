@@ -4,11 +4,11 @@ const profile = {
   claim: "Exploring the intersection of technology, art, and organic growth.",
   links: [
     { title: "github", url: "https://github.com/scopalaffairs" },
-    { title: "linkedin", url: "https://linkedin.com/daniel-herrmann" },
+    { title: "linkedin", url: "https://www.linkedin.com/in/daniel-herrmann/" },
   ],
   socials: [
     { title: "github", url: "https://github.com/scopalaffairs" },
-    { title: "linkedin", url: "https://linkedin.com/daniel-herrmann" },
+    { title: "linkedin", url: "https://www.linkedin.com/in/daniel-herrmann/" },
   ],
 };
 
