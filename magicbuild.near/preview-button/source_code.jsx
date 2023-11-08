@@ -37,6 +37,7 @@ return (
                 props={{
                   contractAddress: props.contractAddress,
                   cMethod: props.cMethod,
+                  cssStyle: props.cssStyle,
                 }}
               />
             )}
