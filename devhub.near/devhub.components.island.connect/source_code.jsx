@@ -1,17 +1,3 @@
-const { getFeaturedCommunities } = VM.require(
-  "devhub.near/widget/core.adapter.devhub-contract"
-);
-
-if (!getFeaturedCommunities) {
-  return <p>Loading modules...</p>;
-}
-
-const communities = getFeaturedCommunities();
-
-if (!communities) {
-  return <p>Loading communities...</p>;
-}
-
 const [startIndex, setStartIndex] = useState(0);
 const [endIndex, setEndIndex] = useState(2);
 
@@ -102,13 +88,33 @@ const Card = ({ title, description, href }) => {
   );
 };
 
-const Cards = communities.map((com) => {
-  return {
-    title: com.name,
-    description: com.description,
-    href: "/devhub.near/widget/app?page=community&handle=" + com.handle,
-  };
-});
+const Cards = [
+  {
+    title: "DevHub Hacks",
+    description: "Host and support developer focused events around the globe.",
+    href: "/devhub.near/widget/app?page=community&handle=hacks",
+  },
+  {
+    title: "NEAR Platform Fellowship",
+    description: "Improve the NEAR dev experience with guidance & funding.",
+    href: "/devhub.near/widget/app?page=community&handle=fellowship",
+  },
+  {
+    title: "Protocol",
+    description: "Support the ongoing innovation of the NEAR protocol.",
+    href: "/devhub.near/widget/app?page=community&handle=protocol",
+  },
+  {
+    title: "Zero Knowledge",
+    description: "Build a Zero Knowledge ecosystem on NEAR.",
+    href: "/devhub.near/widget/app?page=community&handle=zero-knowledge",
+  },
+  {
+    title: "Contract Standards",
+    description: "Coordinate the contribution to the NEAR dapp standards.",
+    href: "/devhub.near/widget/app?page=community&handle=contract-standards",
+  },
+];
 
 const ForwardButton = styled.button`
   all: unset;
