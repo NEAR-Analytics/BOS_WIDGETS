@@ -52,12 +52,27 @@ const Root = styled.button`
   }
   .buttonElement:before {
     content: '';
-  position: absolute;
-  top: -4px; /* Adjust these values as needed to position the border outside the container */
-  left: -4px;
-  right: -4px;
-  bottom: -4px;
- border: 2px dashed ${props.whiteBg ? "white" : "#00EC97"};
+    position: absolute;
+    top: -4px; /* Adjust these values as needed to position the border outside the container */
+    left: -4px;
+    right: -4px;
+    bottom: -4px;
+  border: 2px dashed ${props.whiteBg ? "white" : "#00EC97"};
+  }
+  @media (max-width: 768px) {
+    width: 147px;
+      height: 50px;
+
+    .buttonElement {
+      width: 170px;
+      height: 50px;
+      h1 {
+        font-size: 14px;
+      }
+      svg {
+        width: 18px;
+      }
+    }
   }
 `;
 
