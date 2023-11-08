@@ -230,6 +230,28 @@ if (state.showVoteButton === null || state.showVoteButton === undefined) {
   return <Widget src={loadingWidget} />;
 }
 
+const votes = Social.index("vote", "chess-game.near/widget/ChessGameLobby");
+
+const dataLoading = votes === null;
+const votesByUsers = {};
+
+(votes || []).forEach((vote) => {
+  if (vote.value.type === "vote") {
+    votesByUsers[vote.accountId] = vote;
+  } else if (vote.value.type === "unvote") {
+    delete votesByUsers[vote.accountId];
+  }
+});
+
+if (state.hasVote === true) {
+  votesByUsers[context.accountId] = {
+    accountId: context.accountId,
+  };
+} else if (state.hasVote === false) {
+  delete votesByUsers[context.accountId];
+}
+const hasVote = context.accountId && !!votesByUsers[context.accountId];
+
 const updateIsRegistered = () => {
   Near.asyncView(contractId, "storage_balance_of", {
     account_id: accountId,
@@ -256,7 +278,6 @@ if (showHumanBadge) {
   const userSBTs = Near.view("registry.i-am-human.near", "is_human", {
     account: accountId,
   });
-  console.log("userSBTs", userSBTs);
   isHuman = userSBTs.length > 0;
 }
 
