@@ -1,6 +1,6 @@
 const accountId = context.accountId ?? props.accountId;
 if (!accountId) {
-  return "U need to login first or create new NEAR account here:https://shard.dog/go";
+  return "You need to login first or create new NEAR account here: https://shard.dog/go";
 }
 State.init({
   amount: "0.01",
@@ -25,7 +25,7 @@ if (Storage.privateGet("key_list")) {
 }
 
 const keypomContract = "v2.keypom.near";
-const gatewayUrl = "https://near.org/mintlu.near/widget/kp-ticket-handler";
+const gatewayUrl = "https://near.org/rngtickets.near/widget/kp-ticket-handler";
 
 const Yocto2Near = (amount) =>
   new Big(amount).div(new Big(10).pow(24)).toString();
@@ -154,7 +154,7 @@ const createDrop = () => {
             media: `https://ipfs.near.social/ipfs/${
               state.img
                 ? state.img.cid
-                : "bafkreigkja2hmcudxmxm2nsaee3madvkzjj2wttzr7wiijwgf3hbtaznzy"
+                : "bafkreigxtbjuqr34ztpuqxlcw4mptj6of3sqsowyxxte6i6ev4brmwr42q"
             }`,
             description: `${state.poapDesc}`,
             copies: parseInt(`${state.drops}`),
