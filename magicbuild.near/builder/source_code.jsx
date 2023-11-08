@@ -1230,7 +1230,6 @@ return (
                             placeholder="Name"
                             class="form-control"
                             defaultValue={args.name || ""}
-                            value={args.name || ""}
                             onBlur={(e) => cAD(e, functions, argIndex, "name")}
                           />
                         </div>
@@ -1240,7 +1239,9 @@ return (
                             value={args.type_schema.type}
                             defaultValue={args.type_schema.type}
                             class="form-control"
-                            onBlur={(e) => cAD(e, functions, argIndex, "type")}
+                            onChange={(e) =>
+                              cAD(e, functions, argIndex, "type")
+                            }
                           >
                             <option value="string">String</option>
                             <option value="integer">Number</option>
@@ -1277,7 +1278,7 @@ return (
                             <select
                               defaultValue={args.value}
                               class="form-control"
-                              onBlur={(e) =>
+                              onChange={(e) =>
                                 cAD(e, functions, argIndex, "value")
                               }
                             >
@@ -1291,7 +1292,7 @@ return (
                             <select
                               defaultValue={args.value}
                               class="form-control"
-                              onBlur={(e) =>
+                              onChange={(e) =>
                                 cAD(e, functions, argIndex, "value")
                               }
                             >
@@ -1363,7 +1364,6 @@ return (
                           <input
                             type="number"
                             min="0"
-                            value={"" + functions.deposit.toString()}
                             defaultValue={"" + functions.deposit.toString()}
                             onBlur={(e) => cMLabel(e, functions, "deposit")}
                             class="form-control "
@@ -1371,7 +1371,9 @@ return (
                           <select
                             class="form-select"
                             defaultValue={functions.depositUnit}
-                            onBlur={(e) => cMLabel(e, functions, "depositUnit")}
+                            onChange={(e) =>
+                              cMLabel(e, functions, "depositUnit")
+                            }
                           >
                             <option value="near">Near</option>
                             <option value="yoctoNEAR">yoctoNEAR</option>
@@ -1385,7 +1387,7 @@ return (
                                 class="form-check-input"
                                 type="checkbox"
                                 checked={functions.selfInputDeposit}
-                                onBlur={(e) =>
+                                onChange={(e) =>
                                   cMLabel(e, functions, "selfInputDeposit")
                                 }
                                 id={`flexCheckDefault-${functions.name}`}
