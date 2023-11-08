@@ -29,9 +29,9 @@ const onInputChangeContractArg = (e, fName, argIndex) => {
   }
 };
 const cDeposit = (functions, e) => {
-  const data = state.contractAbiCall;
+  const data = state.contractAbiArg;
   data.forEach((item, fIndex) => {
-    if (item.name == functions.name) {
+    if (item.name == functions.name && item.kind) {
       data[fIndex].deposit = e.target.value;
       State.update({ contractAbiArg: data });
     }
