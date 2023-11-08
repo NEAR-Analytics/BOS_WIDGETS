@@ -1031,10 +1031,7 @@ return (
                       </div>
                       <div class="modal-body">
                         {state && (
-                          <Widget
-                            src={`magicbuild/widget/preview`}
-                            props={props}
-                          />
+                          <Widget src={`${cep}/widget/preview`} props={props} />
                         )}
                       </div>
                       <div class="modal-footer">
