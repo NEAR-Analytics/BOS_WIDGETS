@@ -29,6 +29,7 @@ const onInputChangeContractArg = (obj) => {
   }
 
   State.update({ newcontractAbiArg: data });
+  console.log(state.newcontractAbiArg);
 };
 const cDeposit = (e, fIndex) => {
   const data = state.contractAbiCall;
