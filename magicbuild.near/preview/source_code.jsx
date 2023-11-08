@@ -20,6 +20,7 @@ const onInputChangeContractArg = (obj) => {
       Object.assign(data, { [functions.name]: value });
     }
   } else {
+    console.log("hello");
     data = {};
     Object.assign(data, { [functions.name]: value });
   }
