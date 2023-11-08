@@ -24,6 +24,7 @@ const cDeposit = (functions, e) => {
   });
 };
 const onBtnClickCall = (functions, action) => {
+  console.log(state.argData);
   const argsArr = [];
   const data = state.cMethod;
   data.forEach((item) => {
