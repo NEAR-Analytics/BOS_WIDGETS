@@ -11,7 +11,7 @@ State.init({
 
 const onInputChangeContractArg = (e, fName, argName) => {
   const argsData = state.argData;
-  Object.assign(argsData, { [fName]: { argName: e.target.value } });
+  Object.assign(argsData, { [fName]: { [argName]: e.target.value } });
   State.update({ argData: argsData });
   console.log(state.argData);
 };
@@ -199,7 +199,9 @@ return (
                                 ? "Account Address"
                                 : "text"
                             }
-                            defaultValue={args.value}
+                            defaultValue={
+                              state.argData[functions.name][args.name]
+                            }
                             onBlur={(e) =>
                               onInputChangeContractArg(
                                 e,
