@@ -495,7 +495,7 @@ return (
             Source
           </TabsButton>
           <TabsButton
-            href={`/${detailsUrl}&tab=about`}
+            href={`${detailsUrl}&tab=about`}
             selected={state.selectedTab === "about"}
           >
             <Icon className="bi bi-info-circle" />
