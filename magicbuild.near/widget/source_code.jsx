@@ -5,7 +5,7 @@ State.init({
   contractAbiCall,
   contractAbiView,
   response,
-  contractAbiArg: props.cMethod,
+  contractAbiArg: props.body.functions,
   cssStyle: props.cssStyle,
 });
 
@@ -139,7 +139,7 @@ const loadData = () => {
       functions: [],
     },
   };
-  console.log(abi);
+  console.log(state.contractAbiArg);
   if (state.contractAbiArg) {
     const abiMethod = state.contractAbiArg;
     abiMethod.forEach((item) => {
