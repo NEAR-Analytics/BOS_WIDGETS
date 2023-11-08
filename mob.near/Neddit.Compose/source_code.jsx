@@ -2,7 +2,8 @@ if (!context.accountId) {
   return "";
 }
 
-const subneddit = props.subneddit;
+const subneddit =
+  !props.subneddit || props.subneddit === "all" ? "" : props.subneddit;
 
 const draftKey = "neddit";
 const draft = Storage.privateGet(draftKey);
