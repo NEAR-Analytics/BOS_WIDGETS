@@ -81,7 +81,7 @@ const onBtnClickCall = (functions, action) => {
         method: "query",
         params: {
           request_type: "call_function",
-          account_id: state.contractAddress,
+          account_id: state.contractAbi.address,
           method_name: functions.name,
           args_base64: new Buffer.from(JSON.stringify(args)).toString("base64"),
           finality: "final",
@@ -119,7 +119,7 @@ const onBtnClickCall = (functions, action) => {
     }
     if (functions.deposit > 0 || functions.gas > 30000000000000) {
       Near.call(
-        state.contractAddress,
+        state.contractAbi.address,
         functions.name,
         args,
         functions.gasUnit == "near"
