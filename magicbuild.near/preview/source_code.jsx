@@ -180,9 +180,10 @@ const WrapperPreview = styled.div`
  ${state.cssStyle}
 `;
 
+console.log("style", state.cssStyle);
 return (
   <>
-    <div class="container">
+    <WrapperPreview class="container">
       {context.accountId ? contractForm : notLoggedInWarning}
       <h3 class="text-center">{state.contractAddress}</h3>
       {state.contractError}
@@ -472,6 +473,6 @@ return (
               </div>
             </div>
           ))}
-    </div>
+    </WrapperPreview>
   </>
 );
