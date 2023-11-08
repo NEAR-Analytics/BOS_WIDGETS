@@ -188,7 +188,6 @@ return (
 
                       <input
                         class="form-control"
-                        defaultValue={""}
                         onChange={(e) =>
                           onInputChangeContractArg({
                             functions: functions.name,
