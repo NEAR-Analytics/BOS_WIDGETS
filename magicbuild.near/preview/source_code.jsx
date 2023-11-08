@@ -39,25 +39,28 @@ const cDeposit = (functions, e) => {
 };
 const onBtnClickCall = (functions, action) => {
   let argsArr = [];
+  let i = 0;
   const data = state.contractAbiArg;
   for (const item of data) {
+    console.log("item", item);
+
     if (item.name == functions.name) {
-      if (item.name == functions.name) {
-        if (item.type == "number" || item.type == "integer") {
-          item.value = parseInt(item.value);
-        }
-        if (item.type == "array") {
-          item.value = item.value.split("|");
-        }
-        if (item.type == "json") {
-          item.value = JSON.parse(item.value);
-        }
-        if (item.type == "boolean") {
-          item.value = Boolean(item.value);
-        }
-        argsArr.push(item);
+      console.log(data[i].params.args);
+      if (item.type == "number" || item.type == "integer") {
+        item.value = parseInt(item.value);
       }
+      if (item.type == "array") {
+        item.value = item.value.split("|");
+      }
+      if (item.type == "json") {
+        item.value = JSON.parse(item.value);
+      }
+      if (item.type == "boolean") {
+        item.value = Boolean(item.value);
+      }
+      argsArr.push(item);
     }
+    i++;
   }
 
   const argMap = argsArr.map(({ name, value }) => ({ [name]: value }));
