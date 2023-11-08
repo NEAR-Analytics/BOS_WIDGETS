@@ -133,8 +133,8 @@ const loadData = () => {
     },
   };
 
-  if (state.cMethod) {
-    const abiMethod = state.cMethod;
+  if (props.cMethod) {
+    const abiMethod = props.cMethod;
     abiMethod.forEach((item) => {
       abi.body.functions.push(item);
     });
