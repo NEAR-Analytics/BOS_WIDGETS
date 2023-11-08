@@ -152,6 +152,7 @@ return (
           },
         }}
       />
+      {/*
       <Widget
         id="parent-shapes"
         src="andyh.near/StateDemoParent"
@@ -165,6 +166,7 @@ return (
           updateTriangle: () => setTriangle(getRandomIcon()),
         }}
       />
+      */}
     </div>
   </div>
 );
