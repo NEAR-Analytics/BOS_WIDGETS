@@ -3,6 +3,7 @@ const profile = {
     "https://media.licdn.com/dms/image/D4E03AQEWB5trS40OMw/profile-displayphoto-shrink_400_400/0/1672349229160?e=1704931200&v=beta&t=62w0lviOJ69S1bZ59d6-t2TyQ7ShJkKNU3DwS-ETOrA",
   title: "Daniel Herrmann",
   subtitle: "Data Scientist | Software Engineer | Artist",
+  claim: "Exploring the intersection of technology, art, and organic growth.",
   links: [
     { title: "github", url: "https://github.com/scopalaffairs" },
     { title: "linkedin", url: "https://linkedin.com/daniel-herrmann" },
@@ -79,6 +80,12 @@ return (
         maxWidth: 400,
       }}
     >
+      {profile.claim && (
+        <p style={{ width: "100%", color: props.theme.textColor }}>
+          {profile.claim}
+        </p>
+      )}
+
       {profile.links?.map((link) => (
         <a href={link.url} target="_blank">
           <button style={{ width: "100%" }}>{link.title}</button>
