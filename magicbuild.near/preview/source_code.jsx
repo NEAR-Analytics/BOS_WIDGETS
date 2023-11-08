@@ -11,6 +11,7 @@ State.init({
 
 const onInputChangeContractArg = (obj) => {
   const data = state.cMethod.filter((functions) => functions.kind);
+  console.log(data);
   const isExist = false;
   const indexData = null;
 
@@ -26,7 +27,7 @@ const onInputChangeContractArg = (obj) => {
   } else {
     data.push(obj);
   }
-  console.log(state.cMethod);
+
   State.update({ cMethod: data });
 };
 const cDeposit = (functions, e) => {
