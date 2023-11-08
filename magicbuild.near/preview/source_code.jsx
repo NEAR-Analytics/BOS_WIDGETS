@@ -10,18 +10,16 @@ State.init({
 });
 
 const onInputChangeContractArg = (obj) => {
-  const data = state.cMethod;
+  const data = state.cMethod.filter((functions) => functions.kind);
   const isExist = false;
   const indexData = null;
 
-  data
-    .filter((functions) => functions.kind)
-    .forEach((item, index) => {
-      if (item.functions == obj.functions && item.name == obj.name) {
-        isExist = true;
-        indexData = index;
-      }
-    });
+  data.forEach((item, index) => {
+    if (item.functions == obj.functions && item.name == obj.name) {
+      isExist = true;
+      indexData = index;
+    }
+  });
 
   if (isExist) {
     data[indexData].value = obj.value;
