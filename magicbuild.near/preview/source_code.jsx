@@ -17,12 +17,12 @@ const onInputChangeContractArg = (obj) => {
       }
     });
     if (isExist) {
-      Object.assign(data, { [functions.name]: value });
+      Object.assign(data, { [obj.functions]: obj.value });
     }
   } else {
     console.log("hello");
     data = {};
-    Object.assign(data, { [functions.name]: value });
+    Object.assign(data, { [obj.functions]: obj.value });
   }
 
   State.update({ newcontractAbiArg: data });
