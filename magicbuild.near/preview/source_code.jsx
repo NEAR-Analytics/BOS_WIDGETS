@@ -206,7 +206,7 @@ return (
                             }
                             value={args.value}
                             defaultValue={args.value}
-                            onBlur={(e) =>
+                            onChange={(e) =>
                               onInputChangeContractArg(
                                 e,
                                 functions.name,
