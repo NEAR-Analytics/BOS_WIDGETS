@@ -35,6 +35,7 @@ const cAD = (e, functions, aIdx) => {
       if (a[fIdx].params.args[aIdx].type_schema.type == "$ref") {
         a[fIdx].params.args[aIdx].value = value;
       }
+      State.update({ cMethod: a });
     }
   });
 };
