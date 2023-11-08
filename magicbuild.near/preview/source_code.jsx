@@ -215,7 +215,7 @@ return (
                                 ? "Account Address"
                                 : "text"
                             }
-                            defaultValue={args.value}
+                            defaultValue={args.value || ""}
                             onBlur={(e) =>
                               onInputChangeContractArg(
                                 e,
@@ -230,7 +230,7 @@ return (
                         {args.type_schema.type == "boolean" ? (
                           <select
                             class="form-control"
-                            defaultValue={args.value}
+                            defaultValue={args.value || ""}
                             onBlur={(e) =>
                               onInputChangeContractArg(
                                 e,
@@ -248,7 +248,7 @@ return (
                         {args.type_schema.type == "enum" ? (
                           <select
                             class="form-control"
-                            defaultValue={args.value}
+                            defaultValue={args.value || ""}
                             onBlur={(e) =>
                               onInputChangeContractArg(
                                 e,
@@ -350,7 +350,7 @@ return (
                                 ? "Account Address"
                                 : "text"
                             }
-                            defaultValue={args.value}
+                            defaultValue={args.value || ""}
                             onBlur={(e) =>
                               onInputChangeContractArg(
                                 e,
@@ -365,7 +365,7 @@ return (
                         {args.type_schema.type == "boolean" ? (
                           <select
                             class="form-control"
-                            defaultValue={args.value}
+                            defaultValue={args.value || ""}
                             onBlur={(e) =>
                               onInputChangeContractArg(
                                 e,
@@ -383,7 +383,7 @@ return (
                         {args.type_schema.type == "enum" ? (
                           <select
                             class="form-control"
-                            defaultValue={args.value}
+                            defaultValue={args.value || ""}
                             onBlur={(e) =>
                               onInputChangeContractArg(
                                 e,
