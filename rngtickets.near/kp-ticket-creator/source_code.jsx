@@ -6,9 +6,9 @@ State.init({
   amount: "0.01",
   drops: "2",
   name: "",
-  poapTitle: "NEAR WORLDWIDE",
+  poapTitle: "Sunset Soiree by NEAR Toronto",
   poapDesc:
-    "NEAR WORLDWIDE is an electrifying event bridging the gap between the many regional communities that represent the NEAR ecosystem worldwide. This event is a transformative experience focused on global connectivity, innovation, and community growth. Join us in celebrating the global community with this immersive experience and be ready to be amazed, inspired, and connected like never before.",
+    "Elevate your weekend at the stunning Sunset Soiree. Nestled high above the city, the event offers breathtaking panoramic views of Lisbon, setting the stage for relaxed networking and unwinding. Guests can enjoy vibrant conversations, eclectic tunes, and the opportunity to connect with like-minded individuals, all while being inspired by the city's energy and Lisbon's captivating skyline charm.",
   img: null,
   desc: "",
   pw: "nww",
@@ -154,7 +154,7 @@ const createDrop = () => {
             media: `https://ipfs.near.social/ipfs/${
               state.img
                 ? state.img.cid
-                : "bafkreigxtbjuqr34ztpuqxlcw4mptj6of3sqsowyxxte6i6ev4brmwr42q"
+                : "bafkreibqmnq7rlq2r2ov2a6yfkdwgr5gcgsiihnbr54g4ylrvdsnlym4pe"
             }`,
             description: `${state.poapDesc}`,
             copies: parseInt(`${state.drops}`),
