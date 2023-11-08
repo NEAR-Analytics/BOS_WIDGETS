@@ -1,5 +1,5 @@
 const Root = styled.div`
-    margin: 40px 0;
+    margin: 100px 0;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -96,6 +96,9 @@ const Portal = styled.div`
     font-size: 64px;
     margin-top: 69px;
     font-style: normal;
+    width: 75%;
+    margin-left: auto;
+    margin-right: auto;
     font-weight: 500;
   }
   .join {
@@ -108,6 +111,7 @@ const Portal = styled.div`
   @media (max-width: 600px) {
     h2 {
       font-size: 30px;
+      width: 100%;
     }
   }
 `;
