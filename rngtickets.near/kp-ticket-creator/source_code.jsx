@@ -4,14 +4,14 @@ if (!accountId) {
 }
 State.init({
   amount: "0.01",
-  drops: "2",
+  drops: "1",
   name: "",
   poapTitle: "Sunset Soiree by NEAR Toronto",
   poapDesc:
     "Elevate your weekend at the stunning Sunset Soiree. Nestled high above the city, the event offers breathtaking panoramic views of Lisbon, setting the stage for relaxed networking and unwinding. Guests can enjoy vibrant conversations, eclectic tunes, and the opportunity to connect with like-minded individuals, all while being inspired by the city's energy and Lisbon's captivating skyline charm.",
   img: null,
   desc: "",
-  pw: "nww",
+  pw: "ssnt",
   publicKeys: [],
   privKeys: [],
   allPws: [],
