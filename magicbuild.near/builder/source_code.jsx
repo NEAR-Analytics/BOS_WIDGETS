@@ -90,8 +90,9 @@ const onCreateArgs = (fName) => {
     value: "",
   };
   const abiMethod = state.cMethod;
+  console.log("helllo", abiMethod);
   abiMethod.forEach((item, index) => {
-    if (item.name == fName) {
+    if (item.name == fName && item.kind) {
       abiMethod[index].params.args.push(arg);
       State.update({ cMethod: abiMethod });
     }
@@ -124,9 +125,9 @@ const cMLabel = (e, functions, type) => {
 const cAD = (e, functions, aIdx, type) => {
   const value = e.target.value;
   const a = state.cMethod;
-
   a.forEach((item, fIdx) => {
     if (functions.name == item.name) {
+      console.log("a", a[fIdx].params.args[aIdx]);
       if (type == "name") a[fIdx].params.args[aIdx].name = value;
       if (type == "label") a[fIdx].params.args[aIdx].label = value;
       if (type == "className") a[fIdx].params.args[aIdx].className = value;
@@ -161,7 +162,6 @@ const cAD = (e, functions, aIdx, type) => {
 };
 const onSwitchChangeArgExport = (fIndex) => {
   const abiMethod = state.cMethod;
-  console.log(abiMethod);
   abiMethod[fIndex].export = !abiMethod[fIndex].export;
   State.update({ cMethod: abiMethod });
 };
@@ -255,6 +255,7 @@ const onCreateMethod = () => {
     };
     const abiMethod = state.cMethod;
     const isExistFunction = false;
+
     abiMethod.forEach((item) => {
       if (item.name == state.fName) {
         isExistFunction = true;
