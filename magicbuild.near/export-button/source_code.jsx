@@ -50,6 +50,7 @@ const filesOnChange = (files) => {
 
 const openModal = () => {
   const taggedWidgets = Social.keys(`*/widget/*/metadata/tags/*`, "final");
+  console.log(taggedWidgets);
   let tags = [];
   if (Object.keys(taggedWidgets)) {
     Object.keys(taggedWidgets).forEach((item) => {
