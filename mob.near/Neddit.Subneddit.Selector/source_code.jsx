@@ -12,7 +12,11 @@ const rawAllSubneddits = Social.index("subneddits", "all", {
   limit: 10000,
   order: "desc",
 });
+
 const allSubneddits = useMemo(() => {
+  if (!rawAllSubneddits) {
+    return [];
+  }
   const counts = new Map();
   rawAllSubneddits.forEach(({ value }) => {
     const subneddit = value?.subneddit;
@@ -20,7 +24,7 @@ const allSubneddits = useMemo(() => {
       counts.set(subneddit, (counts.get(subneddit) || 0) + 1);
     }
   });
-  const allSubneddits = [...counts.entries()].map((name, count) => ({
+  const allSubneddits = [...counts.entries()].map(([name, count]) => ({
     name,
     count,
   }));
