@@ -22,14 +22,6 @@ const titleToIcon = [
     icon: <i class="bi bi-github"></i>,
   },
   {
-    title: "twitter",
-    icon: <i class="bi bi-twitter"></i>,
-  },
-  {
-    title: "facebook",
-    icon: <i class="bi bi-facebook"></i>,
-  },
-  {
     title: "instagram",
     icon: <i class="bi bi-instagram"></i>,
   },
