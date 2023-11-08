@@ -36,19 +36,19 @@ if (state.keyUse == 1) {
         props={{ key: props.key, pk: props.pk }}
       />
       <div className="content">
-        <h1>NEAR Toronto: Rooftop Rendezvous🦩</h1>
+        <h1>Sunset Soiree</h1>
+        <p>November 11th, 2023, 5PM - 9PM</p>
+        <a href="https://maps.app.goo.gl/wc82qiLkiiSAULQJ6" target="_blank">
+          TOPO MARTIM MONIZ
+        </a>
+        , Lisbon
         <p>
-          Welcome to the 🦩NEAR Toronto: Rooftop Rendezvous🦩, a chill community
-          event that concludes the Blockchain Futurist Conference. Join us as we
-          celebrate the intersection of innovation, technology, and community,
-          immersed in a social atmosphere filled with great people and
-          creativity (more info below).
-        </p>
-        <p>
-          In collaboration with: NEAR Foundation, TENAMINT, Seahorse Social, KPW
-          Comms, Proof of Vibes, Marma J Foundation, NEAR Foundation, Music
-          Feast, GDS Consulting, Brothers Grimm Ultra Premium Vodka,
-          CreativesDAO.
+          Elevate your weekend at the stunning Sunset Soiree. Nestled high above
+          the city, the event offers breathtaking panoramic views of Lisbon,
+          setting the stage for relaxed networking and unwinding. Guests can
+          enjoy vibrant conversations, eclectic tunes, and the opportunity to
+          connect with like-minded individuals, all while being inspired by the
+          city's energy and Lisbon's captivating skyline charm.
         </p>
       </div>
     </>
@@ -70,18 +70,19 @@ if (state.keyUse == 1) {
   // Event Landing Page
   return (
     <div className="content">
-      <h1>NEAR Toronto: Rooftop Rendezvous🦩</h1>
+      <h1>Sunset Soiree</h1>
+      <p>November 11th, 2023, 5PM - 9PM</p>
+      <a href="https://maps.app.goo.gl/wc82qiLkiiSAULQJ6" target="_blank">
+        TOPO MARTIM MONIZ
+      </a>
+      , Lisbon
       <p>
-        Welcome to the 🦩NEAR Toronto: Rooftop Rendezvous🦩, a chill community
-        event that concludes the Blockchain Futurist Conference. Join us as we
-        celebrate the intersection of innovation, technology, and community,
-        immersed in a social atmosphere filled with great people and creativity
-        (more info below).
-      </p>
-      <p>
-        In collaboration with: NEAR Foundation, TENAMINT, Seahorse Social, KPW
-        Comms, Proof of Vibes, Marma J Foundation, NEAR Foundation, Music Feast,
-        GDS Consulting, Brothers Grimm Ultra Premium Vodka, CreativesDAO.
+        Elevate your weekend at the stunning Sunset Soiree. Nestled high above
+        the city, the event offers breathtaking panoramic views of Lisbon,
+        setting the stage for relaxed networking and unwinding. Guests can enjoy
+        vibrant conversations, eclectic tunes, and the opportunity to connect
+        with like-minded individuals, all while being inspired by the city's
+        energy and Lisbon's captivating skyline charm.
       </p>
     </div>
   );
