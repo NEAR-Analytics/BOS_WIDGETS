@@ -189,7 +189,7 @@ return (
                         class="form-control"
                         value={state.newcontractAbiArg[functions.name]}
                         defaultValue={state.newcontractAbiArg[functions.name]}
-                        onChange={(e) =>
+                        onBlur={(e) =>
                           onInputChangeContractArg(e, functions.name)
                         }
                       />
