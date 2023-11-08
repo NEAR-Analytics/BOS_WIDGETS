@@ -9,7 +9,10 @@ State.init({
   newA,
 });
 
-const cAD = (e, functions, aIdx, type) => {
+const cAD = (e, functions, args, type) => {
+  const a = state.newA;
+  a[functions.name][args.name].value = e.target.value;
+  console.log(a);
   State.update({ newA: functions });
 };
 const onInputChangeContractArg = (obj) => {
@@ -196,7 +199,7 @@ return (
                         </label>
                         <input
                           class="form-control"
-                          onChange={(e) => cAD(e, functions, argIndex, "value")}
+                          onChange={(e) => cAD(e, functions, args, "value")}
                         />
                         {args.type_schema.type == "string" ||
                         args.type_schema.type == "$ref" ||
