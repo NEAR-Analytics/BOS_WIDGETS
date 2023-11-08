@@ -11,7 +11,7 @@ State.init({
 
 const cAD = (e, functions, args, type) => {
   const a = state.newA;
-  a[functions.name][args.name].value = e.target.value;
+  a[functions.name][args.name] = e.target.value;
   console.log(a);
   State.update({ newA: functions });
 };
