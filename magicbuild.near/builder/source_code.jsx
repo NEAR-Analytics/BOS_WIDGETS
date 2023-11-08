@@ -1018,11 +1018,7 @@ return (
                           onClick={(e) => openModalPreview("close")}
                         ></button>
                       </div>
-                      <div class="modal-body">
-                        {state && (
-                          <Widget src={`${cep}/widget/preview`} props={state} />
-                        )}
-                      </div>
+                      <div class="modal-body"></div>
                       <div class="modal-footer">
                         <button
                           type="button"
