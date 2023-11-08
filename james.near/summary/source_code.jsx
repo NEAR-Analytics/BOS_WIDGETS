@@ -541,29 +541,15 @@ return (
         )}
       </ButtonLink>
 
-      <ButtonLink>
+      <ButtonLink onClick={() => State.update({ showModal: true })}>
         {context.accountId === accountId ? (
-          <Widget
-            src="james.near/widget/styling"
-            props={{
-              Button: {
-                text: "Update",
-                onClick: () => State.update({ showModal: true }),
-                icon: <i class="bi bi-tsunami"></i>,
-              },
-            }}
-          />
+          <>
+            <i class="bi bi-tsunami"></i> Update
+          </>
         ) : (
-          <Widget
-            src="james.near/widget/styling"
-            props={{
-              Button: {
-                text: "Request",
-                onClick: () => State.update({ showModal: true }),
-                icon: <i class="bi bi-stars"></i>,
-              },
-            }}
-          />
+          <>
+            <i class="bi bi-stars"></i> Request
+          </>
         )}
       </ButtonLink>
 
