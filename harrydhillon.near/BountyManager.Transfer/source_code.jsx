@@ -16,7 +16,7 @@ return (
             label: "Token",
             options: [
               { text: "USDC", value: "usdc" },
-              { text: "Ethereum", value: "ethereum" },
+              { text: "NEAR", value: "near" },
             ],
           }}
         />
