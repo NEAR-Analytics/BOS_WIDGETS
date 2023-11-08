@@ -731,7 +731,7 @@ return (
             class="form-control"
             value={state.contractAddress}
             placeholder="Contract Address"
-            onChange={(e) => cFunc(e, "address")}
+            onBlur={(e) => cFunc(e, "address")}
           />
         </div>
         <div class="form-group col-md-2">
@@ -942,7 +942,7 @@ return (
               class="form-control"
               value={state.prompt}
               placeholder="I want to create a modern style Christmas vibe frontend with gradient background"
-              onChange={(e) => cPrompt(e)}
+              onBlur={(e) => cPrompt(e)}
             />
           </div>
           <div class="form-group col-md-3">
@@ -980,7 +980,7 @@ return (
                           style={{ height: "500px" }}
                           class="form-control"
                           value={state.cssStyle}
-                          onChange={(e) => cCSS(e)}
+                          onBlur={(e) => cCSS(e)}
                         ></textarea>
                       </div>
                       <div class="modal-footer">
@@ -1084,7 +1084,7 @@ return (
           <h6>Method Name</h6>
           <input
             type="text"
-            onChange={(e) => cFunc(e, "name")}
+            onBlur={(e) => cFunc(e, "name")}
             class="form-control"
           />
         </div>
@@ -1092,7 +1092,7 @@ return (
           <h6>Label</h6>
           <input
             type="text"
-            onChange={(e) => cFunc(e, "label")}
+            onBlur={(e) => cFunc(e, "label")}
             class="form-control"
           />
         </div>
@@ -1155,7 +1155,7 @@ return (
                             placeholder="Method Label"
                             class="form-control"
                             defaultValue={functions.label || ""}
-                            onChange={(e) => cMLabel(e, functions, "method")}
+                            onBlur={(e) => cMLabel(e, functions, "method")}
                           />
                         </div>
                       </div>
@@ -1166,7 +1166,7 @@ return (
                             placeholder="Boostrap Class"
                             class="form-control"
                             defaultValue={functions.className || ""}
-                            onChange={(e) => cMLabel(e, functions, "className")}
+                            onBlur={(e) => cMLabel(e, functions, "className")}
                           />
                         </div>
                       </div>
@@ -1231,9 +1231,7 @@ return (
                             class="form-control"
                             defaultValue={args.name || ""}
                             value={args.name || ""}
-                            onChange={(e) =>
-                              cAD(e, functions, argIndex, "name")
-                            }
+                            onBlur={(e) => cAD(e, functions, argIndex, "name")}
                           />
                         </div>
 
@@ -1242,9 +1240,7 @@ return (
                             value={args.type_schema.type}
                             defaultValue={args.type_schema.type}
                             class="form-control"
-                            onChange={(e) =>
-                              cAD(e, functions, argIndex, "type")
-                            }
+                            onBlur={(e) => cAD(e, functions, argIndex, "type")}
                           >
                             <option value="string">String</option>
                             <option value="integer">Number</option>
@@ -1266,7 +1262,7 @@ return (
                           args.type_schema.type == "json" ||
                           args.type_schema.type == "array" ? (
                             <input
-                              onChange={(e) =>
+                              onBlur={(e) =>
                                 cAD(e, functions, argIndex, "value")
                               }
                               class="form-control"
@@ -1281,7 +1277,7 @@ return (
                               value={args.value}
                               defaultValue={args.value}
                               class="form-control"
-                              onChange={(e) =>
+                              onBlur={(e) =>
                                 cAD(e, functions, argIndex, "value")
                               }
                             >
@@ -1296,7 +1292,7 @@ return (
                               value={args.value}
                               defaultValue={args.value}
                               class="form-control"
-                              onChange={(e) =>
+                              onBlur={(e) =>
                                 cAD(e, functions, argIndex, "value")
                               }
                             >
@@ -1317,7 +1313,7 @@ return (
                                 class="form-control"
                                 value={args.label}
                                 defaultValue={args.label || ""}
-                                onChange={(e) =>
+                                onBlur={(e) =>
                                   cAD(e, functions, argIndex, "label")
                                 }
                               />
@@ -1328,7 +1324,7 @@ return (
                                 class="form-control"
                                 value={args.className}
                                 defaultValue={args.className || ""}
-                                onChange={(e) =>
+                                onBlur={(e) =>
                                   cAD(e, functions, argIndex, "className")
                                 }
                               />
@@ -1372,16 +1368,14 @@ return (
                             min="0"
                             value={"" + functions.deposit.toString()}
                             defaultValue={"" + functions.deposit.toString()}
-                            onChange={(e) => cMLabel(e, functions, "deposit")}
+                            onBlur={(e) => cMLabel(e, functions, "deposit")}
                             class="form-control "
                           />
                           <select
                             class="form-select"
                             value={functions.depositUnit}
                             defaultValue={functions.depositUnit}
-                            onChange={(e) =>
-                              cMLabel(e, functions, "depositUnit")
-                            }
+                            onBlur={(e) => cMLabel(e, functions, "depositUnit")}
                           >
                             <option value="near">Near</option>
                             <option value="yoctoNEAR">yoctoNEAR</option>
@@ -1395,7 +1389,7 @@ return (
                                 class="form-check-input"
                                 type="checkbox"
                                 checked={functions.selfInputDeposit}
-                                onChange={(e) =>
+                                onBlur={(e) =>
                                   cMLabel(e, functions, "selfInputDeposit")
                                 }
                                 id={`flexCheckDefault-${functions.name}`}
@@ -1422,7 +1416,7 @@ return (
                                 defaultValue={functions.labelDeposit}
                                 placeholder="Label Deposit"
                                 aria-label="Label Deposit"
-                                onChange={(e) =>
+                                onBlur={(e) =>
                                   cMLabel(e, functions, "labelDeposit")
                                 }
                                 aria-describedby={`label-deposit-${functions.name}`}
@@ -1439,7 +1433,7 @@ return (
                             min="0"
                             value={"" + functions.gas}
                             defaultValue={"" + functions.gas}
-                            onChange={(e) => cMLabel(e, functions, "gas")}
+                            onBlur={(e) => cMLabel(e, functions, "gas")}
                             class="form-control"
                           />
                         </div>
