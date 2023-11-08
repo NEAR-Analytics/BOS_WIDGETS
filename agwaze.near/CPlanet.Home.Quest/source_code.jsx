@@ -114,14 +114,14 @@ const Portal = styled.div`
 
 return (
   <Root>
-      <h1>Explore our Quests</h1>
-      <p>
-        Complete on chain quests to get deeper into the Creatives Constellation
-      </p>
-      <h3>Coming Soon</h3>
-      <div className="dropfund">
+    <h1>Explore our Quests</h1>
+    <p>
+      Complete on chain quests to get deeper into the Creatives Constellation
+    </p>
+    <h3>Coming Soon</h3>
+    <div className="dropfund">
       <h2>DropFlow.xyz & Drops.Fund Coming Soon</h2>
-        <img src="https://ipfs.near.social/ipfs/bafybeigxh5ey3x5x37egpi46obkedid2jhh5miqaetrxeftvxst6xr27oa" />
+      <img src="https://ipfs.near.social/ipfs/bafybeigxh5ey3x5x37egpi46obkedid2jhh5miqaetrxeftvxst6xr27oa" />
     </div>
     <Portal>
       <h2>The Portal for Creatives in the NEAR Ecosystem</h2>
