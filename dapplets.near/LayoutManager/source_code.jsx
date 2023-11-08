@@ -1,9 +1,9 @@
-console.log({ components: props.components });
+const { components, ...propsProps } = props;
 
 return (
   <>
-    {props.components.map(({ src, props }, i) => (
-      <Widget key={i} src={src} props={props} />
+    {components.map(({ src, props }, i) => (
+      <Widget key={i} src={src} props={{ ...propsProps, ...props }} />
     ))}
   </>
 );
