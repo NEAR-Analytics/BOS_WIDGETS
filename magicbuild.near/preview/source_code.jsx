@@ -14,23 +14,14 @@ const onInputChangeContractArg = (obj) => {
 
   const data = state.contractAbiArg;
   console.log("data", data);
-  const isExist = false;
-  const indexData = null;
 
   data.forEach((item, index) => {
-    if (item.functions == obj.functions && item.name == obj.name) {
+    if (item.name == obj.fName) {
       isExist = true;
-      indexData = index;
+      data[index].params.args[obj.argIndex].value;
+      State.update({ contractAbiArg: data });
     }
   });
-
-  if (isExist) {
-    data[indexData].value = obj.value;
-  } else {
-    data.push(obj);
-  }
-
-  State.update({ contractAbiArg: data });
 };
 const cDeposit = (functions, e) => {
   const data = state.contractAbiCall;
@@ -217,10 +208,12 @@ return (
                                 ? "Account Address"
                                 : "text"
                             }
+                            value={args.value || ""}
+                            defaultValue={args.value || ""}
                             onChange={(e) =>
                               onInputChangeContractArg({
-                                functions: functions.name,
-                                name: args.name,
+                                fName: functions.name,
+                                argIndex: argIndex,
                                 type:
                                   args.type_schema.type == "string" ||
                                   args.type_schema.type[0] == "string"
