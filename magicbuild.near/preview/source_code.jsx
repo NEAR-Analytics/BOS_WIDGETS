@@ -14,15 +14,13 @@ const onInputChangeContractArg = (obj) => {
 
   const isExist = false;
   const indexData = null;
-  console.log("obj", obj);
+
   data.forEach((item, index) => {
-    console.log("item", item);
     if (item.kind) {
-      //mỗi lần bấm là tăng lên 1 đơn vị
-      if (item.functions == obj.functions && item.name == obj.name) {
-      } else {
+      if (item.name == obj.name) {
         isExist = true;
         indexData = index;
+      } else {
       }
     }
   });
