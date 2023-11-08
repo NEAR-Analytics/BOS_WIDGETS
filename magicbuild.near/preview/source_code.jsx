@@ -245,8 +245,8 @@ return (
                                 ? "Account Address"
                                 : "text"
                             }
-                            value={args[argIndex].value || ""}
-                            defaultValue={args[argIndex].value || ""}
+                            value={args.value || ""}
+                            defaultValue={args.value || ""}
                             onChange={(e) => cADa(e, functions, argIndex)}
                           />
                         ) : (
