@@ -105,7 +105,7 @@ const cMLabel = (e, functions, type) => {
   const value = e.target.value;
   const a = state.cMethod;
   a.forEach((item, fIdx) => {
-    if (functions.name == item.name) {
+    if (functions.name == item.name && item.kind) {
       if (type == "method") a[fIdx].label = value;
       if (type == "className") a[fIdx].className = value;
       if (type == "classButton") a[fIdx].classButton = value;
