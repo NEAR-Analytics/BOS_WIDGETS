@@ -188,7 +188,6 @@ return (
                               ? "text"
                               : "text"
                           }
-                          type={"string"}
                           placeholder={
                             args.type_schema.type == "string" ||
                             args.type_schema.type[0] == "string"
@@ -250,7 +249,7 @@ return (
                       )}
                       {args.type_schema.type == "enum" ? (
                         <select
-                          defaultValue={args.type_schema.type}
+                          defaultValue={args.type_schema.enum[0]}
                           class="form-control"
                           onChange={(e) =>
                             onInputChangeContractArg({
