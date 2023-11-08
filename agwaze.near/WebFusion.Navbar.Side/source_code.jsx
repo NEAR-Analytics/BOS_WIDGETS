@@ -225,7 +225,6 @@ const NavItem = styled.a`
 `;
 
 const NavSelected = styled.div`
-    color: #0d99ff;
      display: flex;
     align-items: center;
     justify-content: center;
@@ -390,18 +389,6 @@ const content = (
       id: "about",
       icon: aboutSelected,
       iconSelected: about,
-    })}
-    {navItem({
-      text: "Feeds",
-      id: "socials",
-      icon: feed,
-      iconSelected: feedSelected,
-    })}
-    {navItem({
-      text: "Community",
-      id: "community",
-      icon: people,
-      iconSelected: peopleSelected,
     })}
     <Divider />
   </NavContainer>
