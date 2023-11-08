@@ -166,7 +166,7 @@ return (
                 fontFamily: "FK Grotesk",
               }}
             >
-              {state.totalNCONTransacted || 0}
+              {parseFloat(state.totalNCONTransacted || 0).toFixed(2)}
             </h2>
             <p
               style={{
