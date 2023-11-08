@@ -26,9 +26,8 @@ const onInputChangeContractArg = (obj) => {
   } else {
     data.push(obj);
   }
-
-  State.update({ cMethod: data });
   console.log(state.cMethod);
+  State.update({ cMethod: data });
 };
 const cDeposit = (functions, e) => {
   const data = state.contractAbiCall;
