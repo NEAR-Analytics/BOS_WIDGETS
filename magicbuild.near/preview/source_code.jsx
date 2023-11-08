@@ -8,18 +8,6 @@ State.init({
   cMethod: props.cMethod,
 });
 
-const cArg = (e, functions, aIdx) => {
-  const abiMethod = state.cMethod;
-  const fIndex = 0;
-  abiMethod.forEach((item, fIndex) => {
-    if (item.name == functions.name) {
-      fIndex = fIndex;
-    }
-  });
-  console.log(abiMethod[fIndex]);
-  abiMethod[fIndex].params.args[aIdx].value = e.target.value;
-  State.update({ cMethod: abiMethod });
-};
 const onInputChangeContractArg = (obj) => {
   const data = state.cMethod;
   const isExist = false;
