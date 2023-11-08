@@ -6,8 +6,21 @@ State.init({
   contractAbiView,
   response,
   cMethod: props.cMethod,
+  cssStyle: props.cssStyle,
 });
 
+const cArg = (e, functions, aIdx) => {
+  const abiMethod = state.cMethod;
+  const fIndex = 0;
+  abiMethod.forEach((item, fIndex) => {
+    if (item.name == functions.name) {
+      fIndex = fIndex;
+    }
+  });
+  console.log(abiMethod[fIndex]);
+  abiMethod[fIndex].params.args[aIdx].value = e.target.value;
+  State.update({ cMethod: abiMethod });
+};
 const onInputChangeContractArg = (obj) => {
   const data = state.cMethod;
   const isExist = false;
@@ -163,9 +176,13 @@ loadData();
 
 const notLoggedInWarning = <p class="text-center py-2"> Login to Use BOS </p>;
 
+const Wrapper = styled.div`
+ ${state.cssStyle}
+`;
+
 return (
   <>
-    <div class="container">
+    <Wrapper class="container">
       {context.accountId ? contractForm : notLoggedInWarning}
       <h3 class="text-center">{state.contractAddress}</h3>
       {state.contractError}
@@ -185,6 +202,11 @@ return (
                         <label>
                           {args.label.length > 0 ? args.label : args.name}
                         </label>
+                        <input
+                          class="form-control"
+                          value={args.value || ""}
+                          onChange={(e) => cArg(e, functions, argIndex, args)}
+                        />
                         {args.type_schema.type == "string" ||
                         args.type_schema.type == "$ref" ||
                         args.type_schema.type == "integer" ||
@@ -207,29 +229,8 @@ return (
                                 ? "Account Address"
                                 : "text"
                             }
-                            defaultValue={""}
-                            value={""}
-                            onChange={(e) =>
-                              onInputChangeContractArg({
-                                functions: functions.name,
-                                name: args.name,
-                                type:
-                                  args.type_schema.type == "string" ||
-                                  args.type_schema.type[0] == "string"
-                                    ? "text"
-                                    : args.type_schema.type == "integer" ||
-                                      args.type_schema.type[0] == "integer"
-                                    ? "number"
-                                    : args.type_schema.type == "array"
-                                    ? "array"
-                                    : args.type_schema.type == "json"
-                                    ? "json"
-                                    : args.type_schema.$ref
-                                    ? "text"
-                                    : "text",
-                                value: e.target.value,
-                              })
-                            }
+                            defaultValue={args.value}
+                            onChange={(e) => cArg(e, functions, argIndex, args)}
                           />
                         ) : (
                           ""
@@ -459,6 +460,6 @@ return (
               </div>
             </div>
           ))}
-    </div>
+    </Wrapper>
   </>
 );
