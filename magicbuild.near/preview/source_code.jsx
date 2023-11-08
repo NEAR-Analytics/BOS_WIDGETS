@@ -11,13 +11,22 @@ State.init({
 
 const onInputChangeContractArg = (e, fName, argIndex) => {
   const data = state.contractAbiArg;
+  let check = false;
+
+  let index = null;
+
   data.forEach((item, index) => {
     if (item.name == fName) {
-      data[index].params.args[argIndex].value = e.target.value;
-      console.log("aaa", data[index].params.args[argIndex]);
-      State.update({ contractAbiArg: data });
+      inde = index;
+      check = true;
     }
   });
+  if (check) {
+    data[index].params.args[argIndex].value = e.target.value;
+    console.log("index", index);
+    console.log("aaa", data[index].params.args[argIndex]);
+    State.update({ contractAbiArg: data });
+  }
 };
 const cDeposit = (functions, e) => {
   const data = state.contractAbiCall;
