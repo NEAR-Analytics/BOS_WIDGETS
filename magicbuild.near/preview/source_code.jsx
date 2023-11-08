@@ -8,7 +8,7 @@ State.init({
 });
 
 const onInputChangeContractArg = (obj) => {
-  const data = state.cMethod;
+  const data = state.newcontractAbiArg;
   const isExist = false;
   const indexData = null;
 
@@ -221,8 +221,6 @@ return (
                               ? "Account Address"
                               : "text"
                           }
-                          value={args.value || ""}
-                          defaultValue={args.value || ""}
                           onChange={(e) =>
                             onInputChangeContractArg({
                               functions: functions.name,
