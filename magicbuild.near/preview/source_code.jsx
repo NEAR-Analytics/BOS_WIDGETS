@@ -189,6 +189,7 @@ return (
 
                       <input
                         class="form-control"
+                        value={[newcontractAbiArg[functions.name]]}
                         onChange={(e) =>
                           onInputChangeContractArg({
                             functions: functions.name,
