@@ -417,7 +417,6 @@ return (
                     </label>
                     <input
                       type="text"
-                      value={functions.deposit}
                       defaultValue={functions.deposit}
                       onBlur={(e) => cDeposit(functions, e)}
                       class="form-control "
