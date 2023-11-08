@@ -12,17 +12,24 @@ if (!state.chainId && signer) {
     });
 }
 
-function connectWallet() {
-  if (window.ethereum) {
-    window.ethereum.enable();
-  }
+function isConnected() {
   const accounts = Ethers.send("eth_requestAccounts", []);
   console.log("accounts", accounts);
   if (!accounts || accounts.length === 0) {
-    State.update({ error: "Could not connect to wallet" });
+    State.update({
+      error: "Could not connect to wallet",
+    });
   } else {
     const account = accounts[0];
     State.update({ account });
+  }
+}
+
+function connectWallet() {
+  if (window.ethereum) {
+    ethereum.enable().then(isConnected);
+  } else {
+    isConnected();
   }
 }
 
@@ -44,7 +51,6 @@ if (state.error) {
 if (!state.chainId || !signer) {
   return (
     <p>
-      Please signin:
       <button onClick={connectWallet}>Connect Wallet</button>
     </p>
   );
