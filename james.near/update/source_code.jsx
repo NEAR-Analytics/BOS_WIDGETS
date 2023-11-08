@@ -15,6 +15,14 @@ const [creatorId, type, name] = src.split("/");
 
 const data = {
   index: {
+    graph: JSON.stringify({
+      key: "request",
+      value: {
+        type: "merge",
+        src: state.src,
+        update: state.update,
+      },
+    }),
     notify: JSON.stringify({
       key: creatorId,
       value: {
@@ -103,7 +111,7 @@ return (
           <Container>
             <div className="d-flex flex-wrap justify-content-between mb-3">
               <div className="m-1">
-                <h3>Request Changes</h3>
+                <h1>GitBos</h1>
               </div>
               <div className="ms-auto me-0 me-md-2 d-flex align-items-center">
                 <div className="top-right">
@@ -120,7 +128,10 @@ return (
                 </div>
               </div>
             </div>
-            <h5 className="m-1 mt-4">input path of updated thing</h5>
+            <div className="m-1">
+              <h3>Request Changes</h3>
+            </div>
+            <h5 className="m-1 mt-4">Input Path of Updated Thing</h5>
             <div className="input-group m-1 mb-2">
               <input
                 className="form-control mt-2"
