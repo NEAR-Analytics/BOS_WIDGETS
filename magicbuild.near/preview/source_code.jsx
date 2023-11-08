@@ -10,14 +10,11 @@ State.init({
 });
 
 const onInputChangeContractArg = (obj) => {
-  console.log("obj", obj);
-
   const data = state.contractAbiArg;
-  console.log("data", data);
 
   data.forEach((item, index) => {
     if (item.name == obj.fName) {
-      data[index].params.args[obj.argIndex].value;
+      data[index].params.args[obj.argIndex].value = obj.value;
       State.update({ contractAbiArg: data });
     }
   });
