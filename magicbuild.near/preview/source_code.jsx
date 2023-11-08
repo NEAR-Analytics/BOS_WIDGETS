@@ -8,7 +8,7 @@ State.init({
   cMethod: props.cMethod,
 });
 
-const cADa = (e, functions, aIdx) => {
+const cAD = (e, functions, aIdx) => {
   const value = e.target.value;
   const a = state.cMethod;
 
@@ -222,7 +222,27 @@ return (
                         <label>
                           {args.label.length > 0 ? args.label : args.name}
                         </label>
-
+                        <input
+                          class="form-control"
+                          placeholder={
+                            args.type_schema.type == "string" ||
+                            args.type_schema.type[0] == "string"
+                              ? "string"
+                              : args.type_schema.type == "integer" ||
+                                args.type_schema.type[0] == "integer"
+                              ? "number"
+                              : args.type_schema.type == "array"
+                              ? "array : a|b"
+                              : args.type_schema.type == "json"
+                              ? "json : { }"
+                              : args.type_schema.$ref
+                              ? "Account Address"
+                              : "text"
+                          }
+                          value={args.value || ""}
+                          defaultValue={args.value || ""}
+                          onChange={(e) => cAD(e, functions, argIndex)}
+                        />
                         {args.type_schema.type == "string" ||
                         args.type_schema.type == "$ref" ||
                         args.type_schema.type == "integer" ||
@@ -247,7 +267,7 @@ return (
                             }
                             value={args.value || ""}
                             defaultValue={args.value || ""}
-                            onChange={(e) => cADa(e, functions, argIndex)}
+                            onChange={(e) => cAD(e, functions, argIndex)}
                           />
                         ) : (
                           ""
