@@ -143,8 +143,9 @@ return (
         </div>
       </div>
       <Widget src="agwaze.near/widget/WebFusion.Home.EventDetails" />
-      <Widget src="agwaze.near/widget/WebFusion.Home.Sponsors" />
+      <Widget src="agwaze.near/widget/WebFusion.Home.EventPrice" />
 
+      <Widget src="agwaze.near/widget/WebFusion.Home.Sponsors" />
     </EventDetails>
   </Root>
 );
