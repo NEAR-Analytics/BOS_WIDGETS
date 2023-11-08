@@ -191,7 +191,6 @@ return (
                       args.type_schema.type == "json" ||
                       args.type_schema.type == "array" ? (
                         <input
-                          value=""
                           class="form-control"
                           data-name={args.name}
                           data-type={
@@ -207,7 +206,6 @@ return (
                               ? "text"
                               : "text"
                           }
-                          type={"string"}
                           placeholder={
                             args.type_schema.type == "string" ||
                             args.type_schema.type[0] == "string"
