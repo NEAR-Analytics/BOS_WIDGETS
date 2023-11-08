@@ -187,6 +187,9 @@ if (state.showVoteButton === null || state.showVoteButton === undefined) {
   const appRes = fetch(
     "https://storage.googleapis.com/databricks-near-query-runner/output/nearcon_apps/apps_qualified.json"
   );
+  if (!appRes) {
+    return <Widget src={loadingWidget} />;
+  }
   const apps = JSON.parse(appRes.body).data.map((app_raw) => {
     const app = JSON.parse(app_raw);
     return { ...app };
