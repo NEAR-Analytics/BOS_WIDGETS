@@ -46,19 +46,22 @@ const onBtnClickCall = (functions, action) => {
 
     if (item.name == functions.name) {
       console.log(data[i].params.args);
-      if (item.type == "number" || item.type == "integer") {
-        item.value = parseInt(item.value);
+      if (
+        data[i].params.args.type == "number" ||
+        data[i].params.args.type == "integer"
+      ) {
+        data[i].params.args.value = parseInt(item.value);
       }
-      if (item.type == "array") {
-        item.value = item.value.split("|");
+      if (data[i].params.args.type == "array") {
+        data[i].params.args.value = data[i].params.args.value.split("|");
       }
-      if (item.type == "json") {
-        item.value = JSON.parse(item.value);
+      if (data[i].params.args.type == "json") {
+        data[i].params.args.value = JSON.parse(data[i].params.args.value);
       }
-      if (item.type == "boolean") {
-        item.value = Boolean(item.value);
+      if (data[i].params.args.type == "boolean") {
+        data[i].params.args.value = Boolean(item.value);
       }
-      argsArr.push(item);
+      argsArr.push(data[i].params.args);
     }
     i++;
   }
