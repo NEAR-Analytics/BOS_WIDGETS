@@ -9,11 +9,12 @@ const addBlock = () => {
   const blockList = state.blockList;
   const block = {
     id: Date.now(),
-    widget: state.widgetUrl,
-    props: state.widgetProps,
+    widgetUrl: state.widgetUrl,
+    props: state.widgetProps || {},
   };
   blockList.push(block);
   State.update({ blockList: blockList, openModalBlock: false });
+  console.log(blockList);
 };
 const removeBlock = (index) => {
   const blockList = state.blockList;
@@ -41,14 +42,14 @@ return (
         <div
           style={{ display: "block" }}
           className={`modal fade show`}
-          id="createClient"
+          id="addBlock"
           tabindex="-1"
-          aria-labelledby="createClientLabel"
+          aria-labelledby="addBlockLabel"
         >
-          <div class="modal-dialog">
+          <div class="modal-dialog modal-lg">
             <div class="modal-content">
               <div class="modal-header">
-                <h1 class="modal-title fs-5" id="createClientLabel">
+                <h1 class="modal-title fs-5" id="addBlockLabel">
                   Choose Block
                 </h1>
                 <button
@@ -58,21 +59,129 @@ return (
                 ></button>
               </div>
               <div class="modal-body">
-                <div class="form-group">
-                  <label>Widget Url:</label>
-                  <input
-                    class="form-control"
-                    value={state.widgetUrl}
-                    onChange={(e) => onInputChangeWidgetUrl(e)}
-                  />
-                </div>
-                <div class="form-group">
-                  <label>Props:</label>
-                  <input
-                    class="form-control"
-                    value={state.widgetProps}
-                    onChange={(e) => onInputChangeWidgetProps(e)}
-                  />
+                <ul class="nav nav-tabs" role="tablistBlock">
+                  <li class="nav-item" role="presentation">
+                    <span
+                      class="nav-link px-3 active"
+                      id="block-list-tab-home"
+                      data-bs-toggle="pill"
+                      data-bs-target="#pills-block-list"
+                      type="button"
+                      role="tab"
+                      aria-controls="pills-block-list"
+                      aria-selected="true"
+                    >
+                      Block
+                    </span>
+                  </li>
+
+                  <li class="nav-item" role="presentation">
+                    <span
+                      class="nav-link px-3 "
+                      id="layout-tab-home"
+                      data-bs-toggle="pill"
+                      data-bs-target="#pills-layout-list"
+                      type="button"
+                      role="tab"
+                      aria-controls="pills-layout-list"
+                      aria-selected="true"
+                    >
+                      Layout
+                    </span>
+                  </li>
+                  <li class="nav-item" role="presentation">
+                    <span
+                      class="nav-link px-3"
+                      id="export-list-tab-home"
+                      data-bs-toggle="pill"
+                      data-bs-target="#pills-export-list"
+                      type="button"
+                      role="tab"
+                      aria-controls="pills-export-list"
+                      aria-selected="true"
+                    >
+                      Exported
+                    </span>
+                  </li>
+                  <li class="nav-item" role="presentation">
+                    <span
+                      class="nav-link px-3"
+                      id="export-self-customize-tab"
+                      data-bs-toggle="pill"
+                      data-bs-target="#pills-self-customize-list"
+                      type="button"
+                      role="tab"
+                      aria-controls="pills-self-customize-list"
+                      aria-selected="true"
+                    >
+                      Self-customize
+                    </span>
+                  </li>
+                </ul>
+
+                <div class="tab-content">
+                  <div
+                    class="tab-pane fade show active "
+                    id={`pills-block-list`}
+                    role="tabpanel"
+                    aria-labelledby={`pills-tab-block-list`}
+                    tabindex="0"
+                  >
+                    1
+                  </div>
+                  <div
+                    class="tab-pane fade "
+                    id={`pills-self-customize-list`}
+                    role="tabpanel"
+                    aria-labelledby={`pills-tab-self-customize-list`}
+                    tabindex="0"
+                  >
+                    <div class="row m-3">
+                      <div class="form-group col-md-12 ">
+                        <div class="card mb-2">
+                          <div class="card-header">Block</div>
+                          <div class="card-body">
+                            <div class="form-group">
+                              <label>Widget Url:</label>
+                              <input
+                                class="form-control"
+                                value={state.widgetUrl}
+                                onChange={(e) => onInputChangeWidgetUrl(e)}
+                              />
+                            </div>
+                            <div class="form-group">
+                              <label>Props:</label>
+                              <input
+                                class="form-control"
+                                value={state.widgetProps}
+                                onChange={(e) => onInputChangeWidgetProps(e)}
+                              />
+                            </div>
+                          </div>
+                        </div>
+                        <div class="card">
+                          <div class="card-header" id="headingOne">
+                            <h5 class="mb-0">
+                              <button class="btn btn-link">Preview</button>
+                            </h5>
+                          </div>
+
+                          <div id="collapseOne" class="collapse show">
+                            <div class="card-body">
+                              {state.widgetUrl ? (
+                                <Widget
+                                  src={state.widgetUrl}
+                                  props={state.props || null}
+                                />
+                              ) : (
+                                ""
+                              )}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
               <div class="modal-footer">
@@ -165,7 +274,7 @@ return (
                 <div class="row pb-2">
                   <div class="col-sm-11 ">
                     <h6>
-                      <span class="text-info">{block.url}</span>
+                      <span class="text-info">{block.widgetUrl}</span>
                     </h6>
                   </div>
                   <div class="col-sm-1 ">
@@ -176,7 +285,7 @@ return (
                     ></button>
                   </div>
                 </div>
-                <Widget src={widget.url} props={widget.props} />
+                <Widget src={block.widgetUrl} props={block.props} />
               </div>
             ))}
         </div>
