@@ -1,11 +1,9 @@
 State.init({
-  contractAddress: props.contractAddress,
-  contractAbi: props,
   contractError,
   contractAbiCall,
   contractAbiView,
   response,
-  contractAbiArg: props.cMethod,
+  cMethod: props.cMethod,
   newcontractAbiArg: [],
 });
 
@@ -34,11 +32,11 @@ const onInputChangeContractArg = (obj) => {
 const cDeposit = (e, fIndex) => {
   const data = state.contractAbiCall;
   data[fIndex].deposit = e.target.value;
-  State.update({ contractAbiArg: data });
+  State.update({ contractAbiCall: data });
 };
 const onBtnClickCall = (fName, action, fIndex) => {
   const argsArr = [];
-  const data = state.contractAbiArg;
+  const data = state.cMethod;
   data.forEach((item) => {
     if (item.functions == fName) {
       if (item.type == "number" || item.type == "integer") {
@@ -68,7 +66,7 @@ const onBtnClickCall = (fName, action, fIndex) => {
         method: "query",
         params: {
           request_type: "call_function",
-          account_id: state.contractAddress,
+          account_id: props.contractAddress,
           method_name: fName,
           args_base64: new Buffer.from(JSON.stringify(args)).toString("base64"),
           finality: "final",
@@ -101,13 +99,13 @@ const onBtnClickCall = (fName, action, fIndex) => {
   }
   if (action == "call") {
     const abiCall = state.contractAbiCall;
-    Near.call(state.contractAddress, fName, args);
+    Near.call(props.contractAddress, fName, args);
     if (abiCall[fIndex].deposit == 0 && abiCall[fIndex].gas == 30000000000000) {
-      Near.call(state.contractAddress, abiCall[fIndex].name, args);
+      Near.call(props.contractAddress, abiCall[fIndex].name, args);
     }
     if (abiCall[fIndex].deposit > 0 || abiCall[fIndex].gas > 30000000000000) {
       Near.call(
-        state.contractAddress,
+        props.contractAddress,
         abiCall[fIndex].name,
         args,
         abiCall[fIndex].gasUnit == "near"
@@ -135,8 +133,8 @@ const loadData = () => {
     },
   };
 
-  if (state.contractAbiArg) {
-    const abiMethod = state.contractAbiArg;
+  if (state.cMethod) {
+    const abiMethod = state.cMethod;
     abiMethod.forEach((item) => {
       abi.body.functions.push(item);
     });
@@ -171,7 +169,7 @@ return (
   <>
     <Wrapper class="container">
       {context.accountId ? contractForm : notLoggedInWarning}
-      <h3 class="text-center">{state.contractAddress}</h3>
+      <h3 class="text-center">{props.contractAddress}</h3>
       {state.contractError}
       {state.contractAbiView &&
         state.contractAbiView.map((functions) => (
