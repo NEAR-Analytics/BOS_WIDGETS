@@ -224,8 +224,6 @@ return (
                         </label>
                         <input
                           class="form-control"
-                          value={args.value || ""}
-                          defaulValue={args.value || ""}
                           onChange={(e) => cAD(e, functions, argIndex, "value")}
                         />
                         {args.type_schema.type == "string" ||
