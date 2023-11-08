@@ -8,7 +8,7 @@ State.init({
   cMethod: props.cMethod,
 });
 
-const cAD = (e, functions, aIdx, type) => {
+const cAD = (e, functions, aIdx) => {
   const value = e.target.value;
   const a = state.cMethod;
 
@@ -219,10 +219,7 @@ return (
                         <label>
                           {args.label.length > 0 ? args.label : args.name}
                         </label>
-                        <input
-                          class="form-control"
-                          onChange={(e) => cAD(e, functions, argIndex, "value")}
-                        />
+
                         {args.type_schema.type == "string" ||
                         args.type_schema.type == "$ref" ||
                         args.type_schema.type == "integer" ||
@@ -245,8 +242,7 @@ return (
                                 ? "Account Address"
                                 : "text"
                             }
-                            defaultValue={args.value}
-                            onChange={(e) => cArg(e, functions, argIndex, args)}
+                            onChange={(e) => cAD(e, functions, argIndex)}
                           />
                         ) : (
                           ""
