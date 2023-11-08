@@ -50,18 +50,18 @@ const onBtnClickCall = (functions, action) => {
   }
   for (const item of data[indexData].params.args) {
     if (
-      item.type_schema.type.type == "number" ||
-      item.type_schema.type.type == "integer"
+      item.type_schema.type == "number" ||
+      item.type_schema.type == "integer"
     ) {
       item.value = parseInt(item.value);
     }
-    if (item.type_schema.type.type == "array") {
+    if (item.type_schema.type == "array") {
       item.value = item.value.split("|");
     }
-    if (item.type_schema.type.type == "json") {
+    if (item.type_schema.type == "json") {
       item.value = JSON.parse(item.value);
     }
-    if (item.type_schema.type.type == "boolean") {
+    if (item.type_schema.type == "boolean") {
       item.value = Boolean(item.value);
     }
     argsArr.push(item);
