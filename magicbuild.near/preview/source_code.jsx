@@ -14,19 +14,14 @@ const onInputChangeContractArg = (e, fName, argIndex) => {
   let check = false;
 
   let index = null;
-
+  let i = 0;
   for (const item of data) {
+    i++;
     if (item.name == fName) {
-      index = index;
+      index = i;
       check = true;
     }
   }
-  data.forEach((item, index) => {
-    if (item.name == fName) {
-      index = index;
-      check = true;
-    }
-  });
   if (check) {
     console.log("index", index);
     data[index].params.args[argIndex].value = e.target.value;
