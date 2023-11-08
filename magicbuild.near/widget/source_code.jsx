@@ -189,29 +189,26 @@ return (
 
                       <input
                         class="form-control"
-                        value={[newcontractAbiArg[functions.name]]}
-                        onChange={(e) =>
-                          onInputChangeContractArg({
-                            functions: functions.name,
-                            name: args.name,
-                            type:
-                              args.type_schema.type == "string" ||
-                              args.type_schema.type[0] == "string"
-                                ? "text"
-                                : args.type_schema.type == "integer" ||
-                                  args.type_schema.type[0] == "integer"
-                                ? "number"
-                                : args.type_schema.type == "array"
-                                ? "array"
-                                : args.type_schema.type == "json"
-                                ? "json"
-                                : args.type_schema.$ref
-                                ? "text"
-                                : "text",
-                            value: e.target.value,
-                            [functions.name]: e.target.value,
-                          })
-                        }
+                        onChange={onInputChangeContractArg({
+                          functions: functions.name,
+                          name: args.name,
+                          type:
+                            args.type_schema.type == "string" ||
+                            args.type_schema.type[0] == "string"
+                              ? "text"
+                              : args.type_schema.type == "integer" ||
+                                args.type_schema.type[0] == "integer"
+                              ? "number"
+                              : args.type_schema.type == "array"
+                              ? "array"
+                              : args.type_schema.type == "json"
+                              ? "json"
+                              : args.type_schema.$ref
+                              ? "text"
+                              : "text",
+                          value: e.target.value,
+                          [functions.name]: e.target.value,
+                        })}
                       />
                       {args.type_schema.type == "string" ||
                       args.type_schema.type == "$ref" ||
@@ -249,27 +246,25 @@ return (
                               ? "Account Address"
                               : "text"
                           }
-                          onChange={(e) =>
-                            onInputChangeContractArg({
-                              functions: functions.name,
-                              name: args.name,
-                              type:
-                                args.type_schema.type == "string" ||
-                                args.type_schema.type[0] == "string"
-                                  ? "text"
-                                  : args.type_schema.type == "integer" ||
-                                    args.type_schema.type[0] == "integer"
-                                  ? "number"
-                                  : args.type_schema.type == "array"
-                                  ? "array"
-                                  : args.type_schema.type == "json"
-                                  ? "json"
-                                  : args.type_schema.$ref
-                                  ? "text"
-                                  : "text",
-                              value: e.target.value,
-                            })
-                          }
+                          onChange={onInputChangeContractArg({
+                            functions: functions.name,
+                            name: args.name,
+                            type:
+                              args.type_schema.type == "string" ||
+                              args.type_schema.type[0] == "string"
+                                ? "text"
+                                : args.type_schema.type == "integer" ||
+                                  args.type_schema.type[0] == "integer"
+                                ? "number"
+                                : args.type_schema.type == "array"
+                                ? "array"
+                                : args.type_schema.type == "json"
+                                ? "json"
+                                : args.type_schema.$ref
+                                ? "text"
+                                : "text",
+                            value: e.target.value,
+                          })}
                         />
                       ) : (
                         ""
@@ -278,14 +273,12 @@ return (
                         <select
                           defaultValue={args.type_schema.type}
                           class="form-control"
-                          onChange={(e) =>
-                            onInputChangeContractArg({
-                              functions: functions.name,
-                              name: args.name,
-                              type: "boolean",
-                              value: e.target.value,
-                            })
-                          }
+                          onChange={onInputChangeContractArg({
+                            functions: functions.name,
+                            name: args.name,
+                            type: "boolean",
+                            value: e.target.value,
+                          })}
                         >
                           <option value="true">True</option>
                           <option value="false">False</option>
@@ -297,14 +290,12 @@ return (
                         <select
                           defaultValue={args.type_schema.type}
                           class="form-control"
-                          onChange={(e) =>
-                            onInputChangeContractArg({
-                              functions: functions.name,
-                              name: args.name,
-                              type: "string",
-                              value: e.target.value,
-                            })
-                          }
+                          onChange={onInputChangeContractArg({
+                            functions: functions.name,
+                            name: args.name,
+                            type: "string",
+                            value: e.target.value,
+                          })}
                         >
                           {args.enum &&
                             args.enum.map((item, i) => (
@@ -414,27 +405,25 @@ return (
                               ? "Account Address"
                               : "text"
                           }
-                          onChange={(e) =>
-                            onInputChangeContractArg({
-                              functions: functions.name,
-                              name: args.name,
-                              type:
-                                args.type_schema.type == "string" ||
-                                args.type_schema.type[0] == "string"
-                                  ? "text"
-                                  : args.type_schema.type == "integer" ||
-                                    args.type_schema.type[0] == "integer"
-                                  ? "number"
-                                  : args.type_schema.type == "array"
-                                  ? "array"
-                                  : args.type_schema.type == "json"
-                                  ? "json"
-                                  : args.type_schema.$ref
-                                  ? "text"
-                                  : "text",
-                              value: e.target.value,
-                            })
-                          }
+                          onChange={onInputChangeContractArg({
+                            functions: functions.name,
+                            name: args.name,
+                            type:
+                              args.type_schema.type == "string" ||
+                              args.type_schema.type[0] == "string"
+                                ? "text"
+                                : args.type_schema.type == "integer" ||
+                                  args.type_schema.type[0] == "integer"
+                                ? "number"
+                                : args.type_schema.type == "array"
+                                ? "array"
+                                : args.type_schema.type == "json"
+                                ? "json"
+                                : args.type_schema.$ref
+                                ? "text"
+                                : "text",
+                            value: e.target.value,
+                          })}
                         />
                       ) : (
                         ""
@@ -443,14 +432,12 @@ return (
                         <select
                           defaultValue={args.type_schema.type}
                           class="form-control"
-                          onChange={(e) =>
-                            onInputChangeContractArg({
-                              functions: functions.name,
-                              name: args.name,
-                              type: "boolean",
-                              value: e.target.value,
-                            })
-                          }
+                          onChange={onInputChangeContractArg({
+                            functions: functions.name,
+                            name: args.name,
+                            type: "boolean",
+                            value: e.target.value,
+                          })}
                         >
                           <option value="true">True</option>
                           <option value="false">False</option>
@@ -462,14 +449,12 @@ return (
                         <select
                           defaultValue={args.type_schema.type}
                           class="form-control"
-                          onChange={(e) =>
-                            onInputChangeContractArg({
-                              functions: functions.name,
-                              name: args.name,
-                              type: "string",
-                              value: e.target.value,
-                            })
-                          }
+                          onChange={onInputChangeContractArg({
+                            functions: functions.name,
+                            name: args.name,
+                            type: "string",
+                            value: e.target.value,
+                          })}
                         >
                           {args.enum &&
                             args.enum.map((item, i) => (
