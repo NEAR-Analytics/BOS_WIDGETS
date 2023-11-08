@@ -56,9 +56,11 @@ const onBtnClickCall = (functions, action) => {
           item.value = Boolean(item.value);
         }
         argsArr.push(item);
+        console.log("aaaaa", argsArr);
       }
     }
   }
+  console.log("aaaaa", argsArr);
 
   const argMap = argsArr.map(({ name, value }) => ({ [name]: value }));
   const args = {};
