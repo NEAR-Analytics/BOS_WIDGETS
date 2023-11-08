@@ -42,7 +42,8 @@ const onBtnClickCall = (functions, action) => {
   let argsArr = [];
   let i = 0;
   let indexData = 0;
-  const data = state.contractAbiArg;
+  const abi = state.contractAbi;
+  const data = abi.body.functions;
   for (const datacheck of data) {
     if (datacheck.name == functions.name) {
       indexData = i;
