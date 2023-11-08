@@ -11,22 +11,22 @@ State.init({
 
 const onInputChangeContractArg = (obj) => {
   const data = state.cMethod;
-
   const isExist = false;
   const indexData = null;
-  console.log("obj", obj);
+
   data.forEach((item, index) => {
-    // console.log("item", item);
-    if (item.name == obj.name) {
+    if (item.functions == obj.functions && item.name == obj.name) {
       isExist = true;
       indexData = index;
-    } else {
     }
   });
-  if (!isExist) {
+
+  if (isExist) {
+    data[indexData].value = obj.value;
+  } else {
     data.push(obj);
   }
-  console.log("data", data[indexData]);
+
   State.update({ cMethod: data });
 };
 const cDeposit = (functions, e) => {
@@ -214,8 +214,6 @@ return (
                                 ? "Account Address"
                                 : "text"
                             }
-                            value={args.value || ""}
-                            defaultValue={args.value || ""}
                             onChange={(e) =>
                               onInputChangeContractArg({
                                 functions: functions.name,
