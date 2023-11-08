@@ -10,7 +10,7 @@ State.init({
 
 const cAD = (e, functions, aIdx) => {
   const value = e.target.value;
-  const a = props.cMethod;
+  const a = state.cMethod;
 
   a.forEach((item, fIdx) => {
     if (functions.name == item.name) {
