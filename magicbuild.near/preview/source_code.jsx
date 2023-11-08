@@ -245,6 +245,7 @@ return (
                                 ? "Account Address"
                                 : "text"
                             }
+                            value={args.value || ""}
                             onChange={(e) => cAD(e, functions, argIndex)}
                           />
                         ) : (
