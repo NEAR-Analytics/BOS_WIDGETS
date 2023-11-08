@@ -5,7 +5,7 @@ const Heading = styled.h1`
 `;
 
 const SubHeading = styled.h2`
-  color: grey; // Color adjusted to a light grey to approximate the screenshot
+  color: grey; // Color adjusted to a light grey 
   margin-top: 10px; // Reduced margin-top
   text-align: center;
   font-size: 18px;
@@ -14,7 +14,7 @@ const SubHeading = styled.h2`
 const LoginContainer = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: center; // Changed to center to match the screenshot layout
+  justify-content: center; // Changed to center 
   align-items: center;
   height: 80vh;
   background-color: white; // Background color changed to white
@@ -25,11 +25,11 @@ const ButtonContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  // Removed the border from ButtonContainer as it is not present in the screenshot
+  
 `;
 
 const Button = styled.button`
-  // Styles for the button as seen in the screenshot
+  // Styles for the button 
   background-color: #90EE90; // Light green background
   color: white; // White text
   border: none; // No border
@@ -53,7 +53,7 @@ const Footer = styled.div`
 `;
 
 const HorizontalLine = styled.hr`
-  width: 80%; // Adjusted width to match the screenshot
+  width: 80%; // Adjusted width 
   border: none;
   border-top: 1px solid black; // Border color changed to black
   margin-bottom: 10px;
@@ -66,16 +66,13 @@ const FooterText = styled.p`
 
 return (
   <LoginContainer>
-    <Heading>Contract Management Enterprise</Heading>{" "}
-    {/* Text changed to match the screenshot */}
-    <HorizontalLine /> {/* Moved line here to match the screenshot */}
+    <Heading>Contract Management Enterprise</Heading> {/* Text changed  */}
+    <HorizontalLine /> {/* Moved line  */}
     <SubHeading>please log in to see this page !</SubHeading>{" "}
     {/* Text changed */}
     <ButtonContainer>
       <Button>Login</Button> {/* Using the new Button styled component */}
     </ButtonContainer>
-    <Footer>
-      {/* Horizontal line and footer text removed to match the screenshot */}
-    </Footer>
+    <Footer>{/* Horizontal line and footer text removed */}</Footer>
   </LoginContainer>
 );
