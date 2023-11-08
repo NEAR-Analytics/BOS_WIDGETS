@@ -12,7 +12,6 @@ State.init({
 const onInputChangeContractArg = (e, fName, argIndex) => {
   const data = state.contractAbiArg;
   let check = false;
-
   let index = null;
   let i = 0;
   for (const item of data) {
@@ -39,26 +38,27 @@ const cDeposit = (functions, e) => {
   });
 };
 const onBtnClickCall = (functions, action) => {
-  const argsArr = [];
+  let argsArr = [];
   const data = state.contractAbiArg;
-  console.log("hellodata", data);
-  data.forEach((item) => {
+  for (const item of data) {
     if (item.name == functions.name) {
-      if (item.type == "number" || item.type == "integer") {
-        item.value = parseInt(item.value);
+      if (item.name == functions.name) {
+        if (item.type == "number" || item.type == "integer") {
+          item.value = parseInt(item.value);
+        }
+        if (item.type == "array") {
+          item.value = item.value.split("|");
+        }
+        if (item.type == "json") {
+          item.value = JSON.parse(item.value);
+        }
+        if (item.type == "boolean") {
+          item.value = Boolean(item.value);
+        }
+        argsArr.push(item);
       }
-      if (item.type == "array") {
-        item.value = item.value.split("|");
-      }
-      if (item.type == "json") {
-        item.value = JSON.parse(item.value);
-      }
-      if (item.type == "boolean") {
-        item.value = Boolean(item.value);
-      }
-      argsArr.push(item);
     }
-  });
+  }
 
   const argMap = argsArr.map(({ name, value }) => ({ [name]: value }));
   const args = {};
