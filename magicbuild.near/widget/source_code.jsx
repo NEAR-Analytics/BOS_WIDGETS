@@ -1,5 +1,4 @@
 State.init({
-  contractAddress: props.address,
   contractAbi: props,
   contractError,
   contractAbiCall,
@@ -127,41 +126,23 @@ const onBtnClickCall = (functions, action) => {
 };
 
 const loadData = () => {
-  const abi = {
-    schema_version: "0.3.0",
-    address: props.contractAddress || props.address,
-    metadata: {
-      name: "",
-      version: "0.1.0",
-      authors: [""],
-    },
-    body: {
-      functions: [],
-    },
-  };
-  console.log(state.contractAbiArg);
-  if (state.contractAbiArg) {
-    const abiMethod = state.contractAbiArg;
-    abiMethod.forEach((item) => {
-      abi.body.functions.push(item);
+  const abi = state.contractAbi;
+  if (abi.body.functions) {
+    const contractCall = [];
+    const contractView = [];
+    abi.body.functions.forEach((item) => {
+      if (item.kind == "call") {
+        contractCall.push(item);
+      }
+      if (item.kind == "view") {
+        contractView.push(item);
+      }
+      State.update({ contractAbiCall: contractCall });
+      State.update({ contractAbiView: contractView });
     });
-    if (abi.body.functions) {
-      const contractCall = [];
-      const contractView = [];
-      abi.body.functions.forEach((item) => {
-        if (item.kind == "call") {
-          contractCall.push(item);
-        }
-        if (item.kind == "view") {
-          contractView.push(item);
-        }
-        State.update({ contractAbiCall: contractCall });
-        State.update({ contractAbiView: contractView });
-      });
-      State.update({ contractError: null });
-    } else {
-      State.update({ contractError: "Can not parse ABI" });
-    }
+    State.update({ contractError: null });
+  } else {
+    State.update({ contractError: "Can not parse ABI" });
   }
 };
 loadData();
