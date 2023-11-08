@@ -20,13 +20,11 @@ const onInputChangeContractArg = (obj) => {
     if (item.name == obj.name) {
       isExist = true;
       indexData = index;
+      data[indexData].value = obj.value;
     } else {
     }
   });
-
-  if (isExist) {
-    data[indexData].value = obj.value;
-  } else {
+  if (!isExist) {
     data.push(obj);
   }
 
