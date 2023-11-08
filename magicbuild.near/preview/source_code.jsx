@@ -8,7 +8,7 @@ State.init({
   cMethod: props.cMethod,
 });
 
-const cAD = (e, functions, aIdx) => {
+const cADa = (e, functions, aIdx) => {
   const value = e.target.value;
   const a = state.cMethod;
 
@@ -245,8 +245,9 @@ return (
                                 ? "Account Address"
                                 : "text"
                             }
+                            value={args.value || ""}
                             defaultValue={args.value || ""}
-                            onChange={(e) => cAD(e, functions, argIndex)}
+                            onChange={(e) => cADa(e, functions, argIndex)}
                           />
                         ) : (
                           ""
