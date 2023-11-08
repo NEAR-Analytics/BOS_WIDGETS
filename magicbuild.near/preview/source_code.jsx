@@ -185,6 +185,32 @@ return (
                       <label>
                         {args.label.length > 0 ? args.label : args.name}
                       </label>
+
+                      <input
+                        class="form-control"
+                        defaultValue={""}
+                        onChange={(e) =>
+                          onInputChangeContractArg({
+                            functions: functions.name,
+                            name: args.name,
+                            type:
+                              args.type_schema.type == "string" ||
+                              args.type_schema.type[0] == "string"
+                                ? "text"
+                                : args.type_schema.type == "integer" ||
+                                  args.type_schema.type[0] == "integer"
+                                ? "number"
+                                : args.type_schema.type == "array"
+                                ? "array"
+                                : args.type_schema.type == "json"
+                                ? "json"
+                                : args.type_schema.$ref
+                                ? "text"
+                                : "text",
+                            value: e.target.value,
+                          })
+                        }
+                      />
                       {args.type_schema.type == "string" ||
                       args.type_schema.type == "$ref" ||
                       args.type_schema.type == "integer" ||
