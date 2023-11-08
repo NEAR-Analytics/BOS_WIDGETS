@@ -9,13 +9,18 @@ State.init({
 const onInputChangeContractArg = (obj) => {
   const data = state.newcontractAbiArg;
   const isExist = true;
-  Object.keys(data).forEach((item) => {
-    if (item == obj.name) {
-      data[item] = obj.value;
-      isExist = false;
+  if (data) {
+    Object.keys(data).forEach((item) => {
+      if (item == obj.name) {
+        data[item] = obj.value;
+        isExist = false;
+      }
+    });
+    if (isExist) {
+      Object.assign(data, { [functions.name]: value });
     }
-  });
-  if (isExist) {
+  } else {
+    data = {};
     Object.assign(data, { [functions.name]: value });
   }
 
