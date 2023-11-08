@@ -9,6 +9,7 @@ State.init({
 
 const onInputChangeContractArg = (e, fName, argIndex) => {
   const abi = state.contractAbi;
+  console.log(abi);
   const data = abi.body.functions;
   let check = false;
   let index = null;
