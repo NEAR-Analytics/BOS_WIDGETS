@@ -76,7 +76,7 @@ const cFunc = (e, type) => {
   if (type == "address") State.update({ contractAddress: data.toLowerCase() });
 };
 const cep = "magicbuild.near";
-const onCreateArgs = (fName, fIndex) => {
+const onCreateArgs = (fName) => {
   State.update({ cAerr: { [fName]: null } });
   const arg = {
     name: "",
@@ -90,8 +90,12 @@ const onCreateArgs = (fName, fIndex) => {
     value: "",
   };
   const abiMethod = state.cMethod;
-  abiMethod[fIndex].params.args.push(arg);
-  State.update({ cMethod: abiMethod });
+  abiMethod.forEach((item, index) => {
+    if (item.name == fName) {
+      abiMethod[index].params.args.push(arg);
+      State.update({ cMethod: abiMethod });
+    }
+  });
 };
 const onSwitchChangeDesignMode = () => {
   State.update({ designMode: !state.designMode });
@@ -301,6 +305,7 @@ const getMethodFromSource = () => {
         .replace(/[^\w ]/g, " ")
         .split(" ");
       const filterFunction = [];
+
       functionsData.forEach((item, index) => {
         if (index > 0 && item.length > 1) {
           if (!/^[A-Z]+(?:_[A-Z]+)*$/m.test(item) && !/^[0-9]*$/.test(string)) {
@@ -822,7 +827,7 @@ return (
                         />
                         <label
                           class="form-check-label"
-                          for={`flexSwitchCheckDefault${fIndex}`}
+                          for={`flexSwitcFilter${fIndex}`}
                         >
                           {functions.name}
                         </label>
@@ -1192,7 +1197,7 @@ return (
                   <div class="form-group col-md-1">
                     <button
                       class="btn btn-secondary btn-sm"
-                      onClick={(e) => onCreateArgs(functions.name, fIndex)}
+                      onClick={(e) => onCreateArgs(functions.name)}
                     >
                       Add
                     </button>
