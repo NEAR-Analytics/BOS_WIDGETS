@@ -819,7 +819,6 @@ return (
                           role="switch"
                           checked={functions.export}
                           onChange={() => onSwitchChangeArgExport(fIndex)}
-                          id={`flexSwitchCheckDefaultView${fIndex}`}
                         />
                         <label
                           class="form-check-label"
