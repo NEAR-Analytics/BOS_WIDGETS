@@ -138,7 +138,7 @@ useEffect(() => {
 
 let isWidget = false;
 
-if (type === "widget") {
+if (type === widget) {
   isWidget = true;
 }
 
