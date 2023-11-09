@@ -4,7 +4,7 @@ State.init({
   clickedModalBlock: false,
   clientName: props.clientName ? props.clientName : "",
   clientId: props.clientId ? props.clientId : null,
-  clientContract: props.clientContract ? props.clientContract : "",
+  showModalClient: false,
   widgetUrl,
   widgetProps,
   widgetName: "",
@@ -65,16 +65,20 @@ const onInputChangeClientName = ({ target }) => {
   State.update({ clientName: target.value });
   State.update({ clicked: false });
 };
-const onInputChangeClientContract = ({ target }) => {
-  State.update({ error: null, clicked: false });
-  State.update({ clientContract: target.value });
-};
 const showModal = (e, type) => {
   if (type == "show") {
     State.update({ displayModal: true, clicked: false });
   }
   if (type == "close") {
     State.update({ displayModal: false });
+  }
+};
+const showModalClient = (e, type) => {
+  if (type == "show") {
+    State.update({ showModalClient: true, clicked: false });
+  }
+  if (type == "close") {
+    State.update({ showModalClient: false });
   }
 };
 const saveClient = (e) => {
@@ -85,7 +89,12 @@ const saveClient = (e) => {
         error: "Name requires more than 5 characters",
       });
     } else {
-      Social.set(blockList, {
+      const saveData = {
+        magicbuild: {
+          blockList: blockList,
+        },
+      };
+      Social.set(saveData, {
         force: true,
         onCommit: () => {
           State.update({ displayModal: false });
@@ -96,7 +105,7 @@ const saveClient = (e) => {
   }
 };
 const loadData = () => {
-  const clientList = Social.get(`${context.accountId}/magicbuild/clientList`);
+  const clientList = Social.get(`${context.accountId}/magicbuild/blockList`);
   if (clientList) {
     const clientListData = JSON.parse(clientList);
     State.update({ clientList: clientListData });
@@ -666,9 +675,88 @@ return (
                       </div>
                     </div>
                   </div>
-                  <button type="button" class="btn btn-success btn-block m-1">
+                  <button
+                    type="button"
+                    onClick={(e) => showModalClient(e, "show")}
+                    class="btn btn-success btn-block m-1"
+                  >
                     Save Client
                   </button>
+                  {state.showModalClient && (
+                    <>
+                      <div
+                        style={{ display: "block" }}
+                        className={`modal fade show`}
+                        id="createClient"
+                        tabindex="-1"
+                        aria-labelledby="createClientLabel"
+                      >
+                        <div class="modal-dialog">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <h1
+                                class="modal-title fs-5"
+                                id="createClientLabel"
+                              >
+                                Save Client
+                              </h1>
+                              <button
+                                type="button"
+                                class="btn-close"
+                                onClick={(e) => showModalClient(e, "close")}
+                              ></button>
+                            </div>
+                            <div class="modal-body">
+                              <div class="form-group">
+                                <label>Name</label>
+                                <input
+                                  class="form-control"
+                                  value={state.clientName}
+                                  onChange={(e) => onInputChangeClientName(e)}
+                                />
+                              </div>
+                              <div class="form-group">
+                                <label>Chain</label>
+                                <select class="form-control">
+                                  <option selected>Near Chain</option>
+                                  <option disabled>Ethereum Chain</option>
+                                  <option disabled>AVAX Chain</option>
+                                </select>
+                              </div>
+                              <small class="form-text text-muted">
+                                A new Client will be created.
+                              </small>
+
+                              {state.error && (
+                                <p class="text-danger" role="alert">
+                                  {state.error}
+                                </p>
+                              )}
+                            </div>
+                            <div class="modal-footer">
+                              <button
+                                type="button"
+                                class="btn btn-secondary"
+                                onClick={(e) => showModalClient(e, "close")}
+                              >
+                                Close
+                              </button>
+                              <button
+                                type="button"
+                                disabled={state.clicked}
+                                onClick={(e) => saveClient(e)}
+                                class="btn btn-primary"
+                              >
+                                Save
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="modal-backdrop fade show"></div>
+                    </>
+                  )}
                 </div>
               </div>
             </div>
