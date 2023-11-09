@@ -1,1 +1,1 @@
-return 
+return <Widget src={"kurodenjiro.near/widget/MagicBuild-Check"} props={JSON.parse({})} />
