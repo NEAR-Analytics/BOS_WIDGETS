@@ -93,10 +93,15 @@ const tags = series && Object.keys(series.tags ?? {});
 const dateTaken = series.dateTaken;
 const location = series.location;
 const verified = series.verified;
-console.log("media", image)
-const donationsForProject = Near.view(donationContractId, "get_total_donations", {
-  recipient_id: id,
-});
+const seriesId = series.series_id
+console.log("media", image);
+const donationsForProject = Near.view(
+  donationContractId,
+  "get_total_donations",
+  {
+    recipient_id: id,
+  }
+);
 
 const [totalAmount, totalDonors] = useMemo(() => {
   if (!donationsForProject) return [null, null];
@@ -107,7 +112,7 @@ const [totalAmount, totalDonors] = useMemo(() => {
       donors.push(donation.donor_id);
     }
     totalDonationAmount = totalDonationAmount.plus(
-      new Big(donation.total_amount),
+      new Big(donation.total_amount)
     );
   }
   return [
@@ -164,7 +169,7 @@ const [totalAmount, totalDonors] = useMemo(() => {
 
 return (
   <>
-    <Card href={`?tab=post&seriesId=${id}`} key={id}>
+    <Card href={`?tab=post&seriesId=${seriesId}`} key={id}>
       <Info>
         <img
           className={className}
@@ -194,7 +199,7 @@ return (
           <SubTitle>{location}</SubTitle>
         </DonationsInfoItem>
       </Info>
-      
+
       <DonationsInfoContainer>
         <DonationsInfoItem>
           <Title>{totalDonors || totalDonors === 0 ? totalDonors : "-"}</Title>
