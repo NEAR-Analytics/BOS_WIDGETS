@@ -147,7 +147,7 @@ return (
                   >
                     <div
                       class="row m-3 overflow-auto "
-                      style={{ width: "600px" }}
+                      style={{ height: "600px" }}
                     >
                       {state.exportList &&
                         state.exportList.map((widget, index) => (
