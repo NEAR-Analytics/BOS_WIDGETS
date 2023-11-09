@@ -1342,7 +1342,7 @@ return (
                                   selectBlock: blockId,
                                 });
                                 State.update({
-                                  selectPositionBlock: 2,
+                                  selectPositionBlock: 1,
                                 });
                               }}
                               class="btn btn-outline-primary btn-lg btn-block"
@@ -1393,7 +1393,7 @@ return (
                                   selectBlock: blockId,
                                 });
                                 State.update({
-                                  selectPositionBlock: 3,
+                                  selectPositionBlock: 2,
                                 });
                               }}
                               class="btn btn-outline-primary btn-lg btn-block"
@@ -1444,7 +1444,7 @@ return (
                                   selectBlock: blockId,
                                 });
                                 State.update({
-                                  selectPositionBlock: 2,
+                                  selectPositionBlock: 3,
                                 });
                               }}
                               class="btn btn-outline-primary btn-lg btn-block"
