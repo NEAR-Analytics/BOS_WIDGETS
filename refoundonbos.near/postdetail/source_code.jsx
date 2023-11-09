@@ -1,7 +1,18 @@
-const { handleCreateProject, projects, navigate } = props;
+const { seriesId } = props;
+const contractId = "refoundjournalism.near";
+State.init({
+  post: null,
+  postIsFetched: false,
+});
 
-/*__@import:QoL/widget__*/
+if (!state.postIsFetched) {
+  Near.asyncView(contractId, "get_series_details", { id: 0}).then((post) =>
+    State.update({ post, postIsFetched: true })
+  );
+}
 
+if (!state.postIsFetched) return "Loading...";
+console.log("post", state.post)
 const Projects = styled.div`
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
@@ -113,19 +124,18 @@ const IB = "nearui.near/widget/Input.Button";
 // projects = null;
 return (
   <>
-  
     <div style={{ marginTop: "5%" }}>
-      <h3>Title</h3>
-      <p>{accountId}</p>
+      <h3>{state.post.metadata.title}</h3>
+      <p>by {state.post.owner_id}</p>
       <img
         src={
-          ipfsLink ||
+          state.post.metadata.media ||
           "https://ipfs.near.social/ipfs/bafkreibmiy4ozblcgv3fm3gc6q62s55em33vconbavfd2ekkuliznaq3zm"
         }
       ></img>
-      <p>{description}</p>
-      <p>Location: {location}</p>
-      <p>Date Taken: {dateTaken}</p>
+      <p>{state.post.metadata.description}</p>
+      <p>Location: {state.post.metadata.extra && JSON.parse(state.post.metadata.extra).locationTaken}</p>
+      <p>Date Taken: {state.post.metadata.extra && JSON.parse(state.post.metadata.extra).dateTaken}</p>
       <p>Tags: {tags}</p>
       <button style={{ backgroundColor: "black", borderColor: "black" }}>
         Up Vote
@@ -136,7 +146,7 @@ return (
       <button>Purchase License</button>
       <div style={{ padding: "20px" }}></div>
       <button style={{ backgroundColor: "#A2733B", borderColor: "#A2733B" }}>
-        Donate to this Cause
+        Fund Relief
       </button>
       <div style={{ padding: "5%" }}></div>
     </div>
