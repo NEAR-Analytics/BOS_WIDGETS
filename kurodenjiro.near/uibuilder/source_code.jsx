@@ -26,11 +26,9 @@ State.init({
 const addBlock = (widgetUrl, widgetProps) => {
   const blockList = state.blockList;
   const block = {
-    id: Date.now(),
-    widgetUrl: widgetUrl,
-    props: widgetProps || {},
+    id: { widgetUrl: widgetUrl, props: widgetProps || {} },
   };
-  blockList.push(block);
+  Object.assign(blockList, block);
   State.update({ blockList: blockList, openModalBlock: false });
 };
 const selectWidget = (e, widgetUrl) => {
@@ -477,24 +475,29 @@ return (
     <div class="row mb-3">
       <div class="form-group col-md-9 border rounded p-3 border-2">
         <div>
-          {state.blockList &&
-            state.blockList.map((block, index) => (
+          {Object.keys(state.blockList) &&
+            Object.keys(state.blockList).map((blockId, index) => (
               <div class="row border rounded p-3 border-2 m-2 ">
                 <div class="row pb-2">
                   <div class="col-sm-11 ">
                     <h6>
-                      <span class="text-info">{block.widgetUrl}</span>
+                      <span class="text-info">
+                        {state.blockList[blockId].widgetUrl}
+                      </span>
                     </h6>
                   </div>
                   <div class="col-sm-1 ">
                     <button
                       type="button"
-                      onClick={(e) => removeBlock(index)}
+                      onClick={(e) => removeBlock(blockId)}
                       class="btn-close"
                     ></button>
                   </div>
                 </div>
-                <Widget src={block.widgetUrl} props={block.props} />
+                <Widget
+                  src={state.blockList[blockId].widgetUrl}
+                  props={state.blockList[blockId].props}
+                />
               </div>
             ))}
         </div>
