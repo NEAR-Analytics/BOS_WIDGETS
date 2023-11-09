@@ -256,11 +256,11 @@ return (
             </div>
             <div className="text-center col">
               <img
-                src="https://bafybeia4tdck43wycoyl7yafq2thqzjb4adidfgys4x3qznzfmpcbnsl3u.ipfs.w3s.link/landing_hero.png"
+                src="https://bafybeiecmpwrncojjrvt6hmll5qieea3yee3ushuzdeocovo7erq4d3g6a.ipfs.w3s.link/landing_hero.png"
                 style={{
                   borderRadius: "84px",
                   width: "100%",
-                  marginTop: "-20%",
+                  marginTop: "-15%",
                   marginLeft: "10%",
                 }}
               ></img>
