@@ -150,10 +150,6 @@ return (
                         {state.exportList &&
                           state.exportList.map((widget, index) => (
                             <div class="card" style={{ width: "18rem;" }}>
-                              <Widget
-                                src={`${context.accountId}/widget/${widget.widgetName}`}
-                                props={widget}
-                              />
                               <div class="card-body">
                                 <p class="card-text">{widget.widgetName}</p>
                               </div>
