@@ -219,7 +219,7 @@ return (
                     display: "block",
                   }}
                 >
-                  {state.result.journal.result.toString()}
+                  {state.result.journal.result ? "true" : "false"}
                 </b>
               </div>
               {state.result.journal.error_msg !== "" && (
