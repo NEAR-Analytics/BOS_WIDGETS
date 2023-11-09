@@ -11,7 +11,7 @@ const listAcc = [
 
 const addToList = (accountId, whitelist) => {
   Near.call(
-    "dev-1699476584572-68521106200929",
+    "dev-1699495192192-17943453778107",
     whitelist ? "whitelist" : "blacklist",
     {
       accounts: [accountId],
@@ -71,7 +71,7 @@ return (
           />
           <button
             onClick={() => {
-              addToList(state.whitelist, false);
+              addToList(state.blacklist, false);
             }}
           >
             Add
