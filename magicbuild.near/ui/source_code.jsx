@@ -302,21 +302,21 @@ return (
       </div>
       <div class="form-group col-md-3 ">
         <div class="card">
-          <div class="card-header">Block</div>
+          <div class="card-header">Custom</div>
           <div class="card-body">
             <ul class="nav nav-tabs" role="tablistBlock">
               <li class="nav-item" role="presentation">
                 <span
                   class="nav-link px-3 active"
-                  id="block-list-tab-home"
+                  id="export-button"
                   data-bs-toggle="pill"
-                  data-bs-target="#pills-block-list"
+                  data-bs-target="#export-button"
                   type="button"
                   role="tab"
-                  aria-controls="pills-block-list"
+                  aria-controls="export-button"
                   aria-selected="true"
                 >
-                  Block
+                  Export to Widget
                 </span>
               </li>
               <li class="nav-item" role="presentation">
@@ -330,7 +330,7 @@ return (
                   aria-controls="pills-layout-list"
                   aria-selected="true"
                 >
-                  Layout
+                  CSS
                 </span>
               </li>
             </ul>
@@ -338,21 +338,19 @@ return (
             <div class="tab-content">
               <div
                 class="tab-pane fade show active "
-                id={`pills-block-list`}
+                id={`export-button`}
                 role="tabpanel"
-                aria-labelledby={`pills-tab-block-list`}
+                aria-labelledby={`export-buttont`}
                 tabindex="0"
               >
-                1
-              </div>
-              <div
-                class="tab-pane fade "
-                id={`pills-layout-list`}
-                role="tabpanel"
-                aria-labelledby={`pills-tab-layout-list`}
-                tabindex="0"
-              >
-                2
+                <div class="row m-1">
+                  <button type="button" class="btn btn-primary btn-block m-1">
+                    Export
+                  </button>
+                  <button type="button" class="btn btn-success btn-block m-1">
+                    Save Client
+                  </button>
+                </div>
               </div>
             </div>
           </div>
