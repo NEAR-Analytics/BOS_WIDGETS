@@ -23,6 +23,7 @@ State.init({
   img: null,
   tags,
   choose,
+  blockWidgetPattern,
 });
 
 const addBlock = (widgetUrl, widgetProps) => {
