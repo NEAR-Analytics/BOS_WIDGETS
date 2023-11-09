@@ -86,7 +86,7 @@ return (
               class="nav-link px-3 "
             >
               <label class="custom-control-label" for="darkSwitch">
-                <span class="fw-bold">UI Builder</span>
+                <span class="fw-bold">BOS Composer</span>
               </label>
             </span>
           </li>
