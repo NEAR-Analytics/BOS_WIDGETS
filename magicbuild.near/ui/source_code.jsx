@@ -2,10 +2,26 @@ State.init({
   blockList: [],
   openModalBlock: false,
   clickedModalBlock: false,
+  clientName: props.clientName ? props.clientName : "",
+  clientId: props.clientId ? props.clientId : null,
+  clientContract: props.clientContract ? props.clientContract : "",
   widgetUrl,
   widgetProps,
+  widgetName: "",
+  name: "",
+  description: "",
+  website: "",
+  image: {
+    ipfs_cid: "",
+  },
   exportList,
+  clicked: false,
+  export: false,
+  img: null,
+  tags,
+  choose,
 });
+
 const addBlock = (widgetUrl, widgetProps) => {
   const blockList = state.blockList;
   const block = {
@@ -19,17 +35,6 @@ const addBlock = (widgetUrl, widgetProps) => {
 const selectWidget = (e, widgetUrl) => {
   addBlock(widgetUrl, {});
 };
-const loadWidgetList = () => {
-  const exportListData = Social.get(
-    `${context.accountId}/magicbuild/widgetList`
-  );
-  if (exportListData) {
-    const exportList = JSON.parse(exportListData);
-    State.update({ exportList: exportList });
-  }
-};
-
-loadWidgetList();
 const removeBlock = (index) => {
   const blockList = state.blockList;
   blockList.splice(index, 1);
@@ -43,11 +48,180 @@ const openModalBlock = (e, type) => {
     State.update({ openModalBlock: false });
   }
 };
+
+const loadWidgetList = () => {
+  const exportListData = Social.get(
+    `${context.accountId}/magicbuild/widgetList`
+  );
+  if (exportListData) {
+    const exportList = JSON.parse(exportListData);
+    State.update({ exportList: exportList });
+  }
+};
+
+loadWidgetList();
+
+const onInputChangeClientName = ({ target }) => {
+  State.update({ clientName: target.value });
+  State.update({ clicked: false });
+};
+const onInputChangeClientContract = ({ target }) => {
+  State.update({ error: null, clicked: false });
+  State.update({ clientContract: target.value });
+};
+const showModal = (e, type) => {
+  if (type == "show") {
+    State.update({ displayModal: true, clicked: false });
+  }
+  if (type == "close") {
+    State.update({ displayModal: false });
+  }
+};
+const saveClient = (e) => {
+  if (!state.clicked) {
+    State.update({ clicked: true });
+    if (state.clientName.length < 5) {
+      State.update({
+        error: "Name requires more than 5 characters",
+      });
+    } else {
+      Social.set(blockList, {
+        force: true,
+        onCommit: () => {
+          State.update({ displayModal: false });
+        },
+        onCancel: () => {},
+      });
+    }
+  }
+};
+const loadData = () => {
+  const clientList = Social.get(`${context.accountId}/magicbuild/clientList`);
+  if (clientList) {
+    const clientListData = JSON.parse(clientList);
+    State.update({ clientList: clientListData });
+  }
+};
 const onInputChangeWidgetUrl = (e) => {
   State.update({ widgetUrl: e.target.value });
 };
 const onInputChangeWidgetProps = (e) => {
   State.update({ widgetPropst: e.target.value });
+};
+
+const onInputChangeWidgetName = ({ target }) => {
+  State.update({ widgetName: target.value });
+  State.update({ clicked: false });
+  State.update({ export: false });
+};
+const onInputChangeWidgetTitle = ({ target }) => {
+  State.update({ name: target.value });
+};
+const onInputChangeWidgetDescription = ({ target }) => {
+  State.update({ description: target.value });
+};
+const onInputChangeWidgetWebsite = ({ target }) => {
+  State.update({ website: target.value });
+};
+const uploadFileUpdateState = (body) => {
+  asyncFetch("https://ipfs.near.social/add", {
+    method: "POST",
+    headers: { Accept: "application/json" },
+    body,
+  }).then((res) => {
+    const cid = res.body.cid;
+    State.update({ image: { ipfs_cid: cid } });
+    State.update({ img: { cid } });
+  });
+};
+
+const filesOnChange = (files) => {
+  if (files) {
+    State.update({ img: { uploading: true, cid: null } });
+    uploadFileUpdateState(files[0]);
+  }
+};
+const taggedWidgets = Social.keys(`*/widget/*/metadata/tags/*`, "final");
+let tags = [];
+if (Object.keys(taggedWidgets)) {
+  Object.keys(taggedWidgets).forEach((item) => {
+    if (taggedWidgets[item].widget) {
+      if (Object.keys(taggedWidgets[item].widget).length > 0) {
+        Object.keys(taggedWidgets[item].widget).forEach((item1) => {
+          if (taggedWidgets[item].widget[item1].metadata.tags) {
+            if (
+              Object.keys(taggedWidgets[item].widget[item1].metadata.tags)
+                .length > 0
+            ) {
+              Object.keys(
+                taggedWidgets[item].widget[item1].metadata.tags
+              ).forEach((tag) => {
+                tags.push(tag);
+              });
+            }
+          }
+        });
+      }
+    }
+  });
+}
+
+State.update({ tags: tags });
+const openModal = () => {
+  State.update({ clicked: false });
+  State.update({ export: false });
+};
+
+const exportForm = () => {
+  if (!state.clicked) {
+    State.update({ clicked: true });
+
+    const exportListData = Social.get(
+      `${context.accountId}/magicbuild/widgetList`
+    );
+
+    const exporttList = JSON.parse(exportListData) || [];
+
+    const isExist = false;
+    exporttList.forEach((item, index) => {
+      if (item.widgetName == state.widgetName) {
+        exporttList[index].widgetName = state.widgetName;
+        isExist = true;
+      }
+    });
+    if (!isExist) {
+      exporttList.push({ widgetName: state.widgetName });
+    }
+
+    const data = {
+      widget: {
+        [state.widgetName]: {
+          "": state.htmlElement,
+          metadata: {
+            name: state.name,
+            description: state.description,
+            linktree: {
+              website: state.website,
+            },
+            image: {
+              ipfs_cid: state.img.cid,
+            },
+            tags: tagsObj,
+          },
+        },
+      },
+      magicbuild: { widgetList: exporttList },
+    };
+    Social.set(data, {
+      force: true,
+      onCommit: () => {
+        State.update({ export: true });
+      },
+      onCancel: () => {
+        State.update({ clicked: false });
+      },
+    });
+  }
 };
 return (
   <div class="container ">
@@ -344,9 +518,154 @@ return (
                 tabindex="0"
               >
                 <div class="row m-1">
-                  <button type="button" class="btn btn-primary btn-block m-1">
+                  <button
+                    type="button"
+                    class="btn btn-primary btn-block m-1"
+                    data-bs-toggle="modal"
+                    data-bs-target={`#export-${Date.now()}`}
+                    onClick={openModal}
+                  >
                     Export
                   </button>
+                  <div
+                    class="modal fade"
+                    id={`export-${Date.now()}`}
+                    tabindex="-2"
+                    aria-labelledby="exportLabel"
+                    aria-hidden="true"
+                  >
+                    <div class="modal-dialog">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h1 class="modal-title fs-5" id="exportLabel">
+                            Export Widget
+                          </h1>
+                          <button
+                            type="button"
+                            class="btn-close"
+                            data-bs-dismiss="modal"
+                            aria-label="Close"
+                          ></button>
+                        </div>
+                        <div class="modal-body">
+                          {state.export && state.widgetName ? (
+                            <>
+                              <div class="alert alert-primary" role="alert">
+                                <a
+                                  href={`https://near.social/${context.accountId}/widget/${state.widgetName}`}
+                                >
+                                  {`https://near.social/${context.accountId}/widget/${state.widgetName}`}
+                                </a>
+                              </div>
+                            </>
+                          ) : (
+                            <>
+                              <div class="form-group">
+                                <label>Widget URL</label>
+                                <input
+                                  class="form-control"
+                                  defaultValue={state.widgetName || ""}
+                                  onChange={(e) => onInputChangeWidgetName(e)}
+                                />
+                                <small class="form-text text-muted">
+                                  A new widget configured with the form will be
+                                  created.
+                                </small>
+                              </div>
+                              <div class="form-group pt-2">
+                                <label>Name</label>
+                                <input
+                                  class="form-control"
+                                  defaultValue={state.name || ""}
+                                  onChange={(e) => onInputChangeWidgetTitle(e)}
+                                />
+                              </div>
+                              <div class="form-group pt-2">
+                                <label>Description</label>
+                                <input
+                                  class="form-control"
+                                  defaultValue={state.description || ""}
+                                  onChange={(e) =>
+                                    onInputChangeWidgetDescription(e)
+                                  }
+                                />
+                              </div>
+                              <div class="form-group pt-2">
+                                <label></label>
+                                <Files
+                                  multiple={false}
+                                  accepts={["image/*"]}
+                                  minFileSize={1}
+                                  clickable
+                                  className="btn btn-outline-primary"
+                                  onChange={filesOnChange}
+                                >
+                                  {state.img?.uploading ? (
+                                    <> Uploading </>
+                                  ) : (
+                                    "Upload Logo Application"
+                                  )}
+                                </Files>
+                              </div>
+                              <div class="form-group pt-2">
+                                <label></label>
+                                {state.img && !state.img.uploading ? (
+                                  <img
+                                    class="rounded w-50 h-50"
+                                    style={{ objectFit: "cover" }}
+                                    src={`https://ipfs.near.social/ipfs/${state.img.cid}`}
+                                    alt="upload preview"
+                                  />
+                                ) : (
+                                  ""
+                                )}
+                              </div>
+                              <div class="form-group pt-2">
+                                <label>Website</label>
+                                <input
+                                  class="form-control"
+                                  defaultValue={state.website || ""}
+                                  onChange={(e) =>
+                                    onInputChangeWidgetWebsite(e)
+                                  }
+                                />
+                              </div>
+                              <div class="form-group pt-2">
+                                <label>Tags</label>
+
+                                <Typeahead
+                                  options={state.tags || []}
+                                  multiple
+                                  onChange={(value) => {
+                                    State.update({ choose: value });
+                                  }}
+                                  placeholder="Input tag..."
+                                />
+                              </div>
+                            </>
+                          )}
+                        </div>
+                        <div class="modal-footer">
+                          <button
+                            type="button"
+                            class="btn btn-secondary"
+                            data-bs-dismiss="modal"
+                          >
+                            Close
+                          </button>
+
+                          <button
+                            type="button"
+                            disabled={state.clicked}
+                            onClick={exportForm}
+                            class="btn btn-primary"
+                          >
+                            Export
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                   <button type="button" class="btn btn-success btn-block m-1">
                     Save Client
                   </button>
