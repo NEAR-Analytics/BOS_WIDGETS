@@ -149,14 +149,16 @@ return (
                       <div class="form-group col-md-12 ">
                         {state.exportList &&
                           state.exportList.map((widget, index) => (
-                            <div class="card" style={{ width: "50px" }}>
+                            <div class="card" style={{ width: "200px" }}>
                               <img
                                 src="https://ipfs.near.social/ipfs/bafkreido7gsk4dlb63z3s5yirkkgrjs2nmyar5bxyet66chakt2h5jve6e"
                                 class="card-img-top"
                                 alt="..."
                               />
                               <div class="card-body">
-                                <p class="card-text">{widget.widgetName}</p>
+                                <p class="card-text d-inline-block text-truncate">
+                                  {widget.widgetName}
+                                </p>
                               </div>
                             </div>
                           ))}
