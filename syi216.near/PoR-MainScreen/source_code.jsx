@@ -249,49 +249,55 @@ if (
 
 return (
   <div class="m-10">
-    <div class="d-flex justify-content-between">
-      <div class="d-flex flex-row gap-4 px-2">
-        <img
-          src={`https://ipfs.near.social/ipfs/bafkreib23axs6i6qwtxmc3qrbcvbe4uegf2rhjx6qpvz7swe4mrc466q4m`}
-          style={{ height: "50px", width: "50px", "object-fit": "cover" }}
-          class="my-auto"
-        />
-        <a
-          class="btn bg-info bg-gradient my-auto fw-semibold shadow bg-opacity-50"
-          href="#/syi216.near/widget/PoR-Loan"
-        >
-          Apply for loan
-        </a>
-      </div>
-      <div class="d-flex flex-row bg-secondary bg-opacity-25 rounded-4 py-2 px-3 shadow-sm gap-2">
-        <img
-          src={`https://ipfs.near.social/ipfs/${state.profile.image.ipfs_cid}`}
-          style={{ height: "40px", width: "40px", "object-fit": "cover" }}
-          class="rounded-circle my-auto"
-        />
-        <div class="d-flex flex-row gap-3">
-          <div class="my-auto fw-bold">{context.accountId}</div>
-          <div class="my-auto">
-            <div class="fw-semibold">Score</div>
-            <div>{state.userScore ? state.userScore : 0}</div>
+    {context.accountId ? (
+      <>
+        <div class="d-flex justify-content-between">
+          <div class="d-flex flex-row gap-4 px-2">
+            <img
+              src={`https://ipfs.near.social/ipfs/bafkreib23axs6i6qwtxmc3qrbcvbe4uegf2rhjx6qpvz7swe4mrc466q4m`}
+              style={{ height: "50px", width: "50px", "object-fit": "cover" }}
+              class="my-auto"
+            />
+            <a
+              class="btn bg-info bg-gradient my-auto fw-semibold shadow bg-opacity-50"
+              href="#/syi216.near/widget/PoR-Loan"
+            >
+              Apply for loan
+            </a>
+          </div>
+          <div class="d-flex flex-row bg-secondary bg-opacity-25 rounded-4 py-2 px-3 shadow-sm gap-2">
+            <img
+              src={`https://ipfs.near.social/ipfs/${state.profile.image.ipfs_cid}`}
+              style={{ height: "40px", width: "40px", "object-fit": "cover" }}
+              class="rounded-circle my-auto"
+            />
+            <div class="d-flex flex-row gap-3">
+              <div class="my-auto fw-bold">{context.accountId}</div>
+              <div class="my-auto">
+                <div class="fw-semibold">Score</div>
+                <div>{state.userScore ? state.userScore : 0}</div>
+              </div>
+            </div>
           </div>
         </div>
-      </div>
-    </div>
-    <div class="px-2 my-4">
-      <p class="h2 fw-semibold pb-2">Quest</p>
-      <div class="d-flex flex-row bg-secondary bg-opacity-10 rounded-2 shadow-sm p-4 gap-4 flex-wrap justify-content-around">
-        {state.loadedCompleted &&
-          questList.map((quest) =>
-            state.claimedQuests.some((data) => data == quest.id.toString())
-              ? claimedCard(quest)
-              : state.completedQuests.some(
-                  (data) => data == quest.id.toString()
-                )
-              ? unclaimedCard(quest)
-              : incompleteCard(quest)
-          )}
-      </div>
-    </div>
+        <div class="px-2 my-4">
+          <p class="h2 fw-semibold pb-2">Quest</p>
+          <div class="d-flex flex-row bg-secondary bg-opacity-10 rounded-2 shadow-sm p-4 gap-4 flex-wrap justify-content-around">
+            {state.loadedCompleted &&
+              questList.map((quest) =>
+                state.claimedQuests.some((data) => data == quest.id.toString())
+                  ? claimedCard(quest)
+                  : state.completedQuests.some(
+                      (data) => data == quest.id.toString()
+                    )
+                  ? unclaimedCard(quest)
+                  : incompleteCard(quest)
+              )}
+          </div>
+        </div>
+      </>
+    ) : (
+      <h1>Log in with your NEAR account</h1>
+    )}
   </div>
 );
