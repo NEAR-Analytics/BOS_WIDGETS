@@ -6,22 +6,20 @@ State.init({
   widgetProps,
   exportList,
 });
-const addBlock = () => {
+const addBlock = (widgetUrl, widgetProps) => {
   const blockList = state.blockList;
   const block = {
     id: Date.now(),
-    widgetUrl: state.widgetUrl,
-    props: state.widgetProps || {},
+    widgetUrl: widgetUrl,
+    props: widgetProps || {},
   };
   blockList.push(block);
   State.update({ blockList: blockList, openModalBlock: false });
-  console.log(blockList);
 };
 const loadWidgetList = () => {
   const exportListData = Social.get(
     `${context.accountId}/magicbuild/widgetList`
   );
-  console.log(exportListData);
   if (exportListData) {
     const exportList = JSON.parse(exportListData);
     State.update({ exportList: exportList });
@@ -141,10 +139,10 @@ return (
                     tabindex="0"
                   ></div>
                   <div
-                    class="tab-pane fade show active "
+                    class="tab-pane fade  "
                     id={`pills-export-list`}
                     role="tabpanel"
-                    aria-labelledby={`pills-tab-export-list`}
+                    aria-labelledby={`pills-export-list`}
                     tabindex="0"
                   >
                     {state.exportList &&
@@ -217,6 +215,17 @@ return (
                             </div>
                           </div>
                         </div>
+                        <div class="text-mute pt-2">
+                          <button
+                            type="button"
+                            onClick={(e) => {
+                              addBlock(state.widgetUrl, state.widgetProps);
+                            }}
+                            class="btn btn-primary"
+                          >
+                            Add
+                          </button>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -229,13 +238,6 @@ return (
                   onClick={(e) => openModalBlock(e, "close")}
                 >
                   Close
-                </button>
-                <button
-                  type="button"
-                  onClick={addBlock}
-                  class="btn btn-primary"
-                >
-                  Add
                 </button>
               </div>
             </div>
