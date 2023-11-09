@@ -152,19 +152,22 @@ return (
                       {state.exportList &&
                         state.exportList.map((widget, index) => (
                           <div class="col">
-                            <div class="card" style={{ width: "200px" }}>
+                            <div class="card p-2" style={{ width: "150px" }}>
                               <img
                                 src="https://ipfs.near.social/ipfs/bafkreido7gsk4dlb63z3s5yirkkgrjs2nmyar5bxyet66chakt2h5jve6e"
                                 class="card-img-top"
                                 alt="..."
                               />
                               <div class="card-body ">
-                                <h5
+                                <span
                                   class="card-text  d-inline-block text-truncate "
-                                  style={{ maxWidth: "180px" }}
+                                  style={{
+                                    maxWidth: "130px",
+                                    fontWeight: "bold",
+                                  }}
                                 >
                                   {widget.widgetName}
-                                </h5>
+                                </span>
                               </div>
                             </div>
                           </div>
