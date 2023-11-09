@@ -9,23 +9,22 @@ return (
     </div>
     <div className="row">
       <div className="col">
-        <h2>trusted</h2>
         <Widget
           id="trusted"
-          src="andyh.near/widget/StateDemoRoot2"
+          src="andyh.near/StateDemoRoot"
           trust={{ mode: "trusted-author" }}
-          props={{ title: "State within Trusted Components" }}
+          props={{ title: "State across Trusted Components" }}
         />
       </div>
+      {/*
       <div className="col">
-        <h2>sandboxed</h2>
         <Widget
-          id="sandboed"
-          src="andyh.near/widget/StateDemoRoot2"
-          trust={{ mode: "sandboxed" }}
-          props={{ title: "State across Sandboxed Components" }}
+          id="sandboxed"
+          src="andyh.near/StateDemoRoot"
+          props={{ title: "State within Sandboxed Components" }}
         />
       </div>
+      */}
     </div>
   </>
 );
