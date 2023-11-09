@@ -40,7 +40,7 @@ return (
         />
         <a
           class="btn bg-info bg-gradient my-auto fw-semibold shadow bg-opacity-50"
-          href="#/owa-is-bos.near/widget/PoR-MainScreen"
+          href="#/syi216.near/widget/PoR-MainScreen"
         >
           Go to my quests
         </a>
