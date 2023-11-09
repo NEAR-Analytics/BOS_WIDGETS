@@ -17,14 +17,7 @@ const addBlock = (widgetUrl, widgetProps) => {
   State.update({ blockList: blockList, openModalBlock: false });
 };
 const selectWidget = (e, widgetUrl) => {
-  console.log(e);
-  switch (e.detail) {
-    case 1:
-      break;
-    case 2:
-      addBlock(widgetUrl, {});
-      break;
-  }
+  addBlock(widgetUrl, {});
 };
 const loadWidgetList = () => {
   const exportListData = Social.get(
