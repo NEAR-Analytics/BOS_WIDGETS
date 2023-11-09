@@ -44,7 +44,10 @@ return profile ? (
       }}
     >
       <img
-        src={`https://ipfs.near.social/ipfs/${profile.image.ipfs_cid}`}
+        src={`https://ipfs.near.social/ipfs/${
+          profile.image.ipfs_cid ||
+          "bafkreibiyqabm3kl24gcb2oegb7pmwdi6wwrpui62iwb44l7uomnn3lhbi"
+        }`}
         style={{
           objectFit: "cover",
           width: "100%",
