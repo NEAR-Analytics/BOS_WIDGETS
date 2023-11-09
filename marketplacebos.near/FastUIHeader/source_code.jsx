@@ -147,7 +147,7 @@ const Svg = styled.svg`
 const SvgText = styled.text`
   animation: stroke 5s infinite alternate;
   stroke-width: 1;
-  stroke: #f04874;
+  stroke: #fe66c2;
   font-size: 20px;
   color:#f04874;
   background:#f04874;
