@@ -368,56 +368,6 @@ function normalizeMarkdown(text) {
   return text.trim();
 }
 
-const source = Social.get(`${src}`);
-
-const forkClick = () => {
-  if (state.loading) {
-    return;
-  }
-
-  State.update({
-    loading: true,
-  });
-
-  const data = {
-    index: {
-      fork: JSON.stringify({
-        key: {
-          type: "social",
-          path: src,
-        },
-        value: {
-          type: "fork",
-        },
-      }),
-    },
-    [`${type}`]: {
-      [`${name}`]: {
-        "": `${source}`,
-        metadata: {
-          origin: src,
-        },
-      },
-    },
-  };
-
-  data.index.notify = JSON.stringify({
-    key: accountId,
-    value: {
-      type: "fork",
-      src,
-    },
-  });
-
-  Social.set(data, {
-    onCommit: () => State.update({ loading: false }),
-    onCancel: () =>
-      State.update({
-        loading: false,
-      }),
-  });
-};
-
 return (
   <Wrapper>
     <Header size={size}>
@@ -466,13 +416,13 @@ return (
           </>
         </ButtonLink>
       ) : (
-        <ButtonLink onClick={forkClick}>
+        <ButtonLink onClick={() => State.update({ showForkModal: true })}>
           <>
             <i className="bi bi-git"></i> Fork
           </>
         </ButtonLink>
       )}
-      <ButtonLink onClick={() => State.update({ showModal: true })}>
+      <ButtonLink onClick={() => State.update({ showUpdateModal: true })}>
         {context.accountId === accountId ? (
           <>
             <i class="bi bi-tsunami"></i> Update
@@ -483,7 +433,10 @@ return (
           </>
         )}
       </ButtonLink>
-
+      <Button type="button" onClick={voteClick}>
+        {inner}
+        {context.accountId == accountId ? `(${voteCount})` : null}
+      </Button>
       <OverlayTrigger
         placement="top"
         overlay={<Tooltip>Copy URL to clipboard</Tooltip>}
@@ -507,17 +460,24 @@ return (
           Share
         </Button>
       </OverlayTrigger>
-      <Button type="button" onClick={voteClick}>
-        {inner}
-        {context.accountId == accountId ? `(${voteCount})` : null}
-      </Button>
     </Actions>
     <>
-      {state.showModal && (
+      {state.showUpdateModal && (
         <Widget
           src="james.near/widget/update"
           props={{
-            handleClose: () => State.update({ showModal: false }),
+            handleClose: () => State.update({ showUpdateModal: false }),
+            src,
+          }}
+        />
+      )}
+    </>
+    <>
+      {state.showForkModal && (
+        <Widget
+          src="james.near/widget/fork"
+          props={{
+            handleClose: () => State.update({ showForkModal: false }),
             src,
           }}
         />
