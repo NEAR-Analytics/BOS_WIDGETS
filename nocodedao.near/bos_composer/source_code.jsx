@@ -1,0 +1,2 @@
+return <><Widget src={"frichard5.near/widget/NDC-Banner"}  /><div class="row mb-3"><div class="col-md-3 p-2"><Widget src={"nearhorizon.near/widget/Sidebar"}  /> </div><div class="col-md-9 p-2"><Widget src={"nocodedao.near/widget/Rainbow-NFT-Minter"}  /> </div>
+          </div><Widget src={"nearcon23.near/widget/Footer"}  /> </>
