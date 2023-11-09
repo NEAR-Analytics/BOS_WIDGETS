@@ -46,9 +46,9 @@ function createSbtOptions() {
 //   "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb";
 const componentsOwner = "sayalot.near";
 
-const authorForWidget = "communityvoice.ndctools.near";
-// const authorForWidget =
-//   "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb";
+// const authorForWidget = "communityvoice.ndctools.near";
+const authorForWidget =
+  "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb";
 // const authorForWidget = "kenrou-it.near";
 // const authorForWidget = "silkking.near";
 
@@ -58,27 +58,28 @@ const widgets = {
   thisForum: `${authorForWidget}/widget/${configWidget}`,
 
   //Editable widgets
-  ndcForum: `${componentsOwner}/widget/NDC.Forum`,
-  create: `${componentsOwner}/widget/NDC.Forum.Create`,
+  ndcForum: `f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/NDC.Forum`, ///////////////////////////////////////////////////
+  create: `f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/NDC.Forum.Create`, ///////////////////////////////////////////////////
   header: `${componentsOwner}/widget/NDC.NavBar`,
-  showArticlesList: `${componentsOwner}/widget/NDC.Forum.AllArticlesList`,
+  showArticlesList: `f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/NDC.Forum.AllArticlesList`, /////////////////////////////////
   showArticlesListSortedByAuthors: `${componentsOwner}/widget/NDC.AllArticlesSortByAuthors`,
   articlesByAuthorCard: `${componentsOwner}/widget/NDC.ArticlesByAuthorCard`,
-  generalCard: `${componentsOwner}/widget/NDC.GeneralCard`,
-  articleView: `${componentsOwner}/widget/NDC.ArticleView`,
+  generalCard: `f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/NDC.GeneralCard`, ///////////////////////////////////////////////
+  articleView: `f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/NDC.ArticleView`, ///////////////////////////////////////////////
   reactions: `${componentsOwner}/widget/NDC.Reactions`,
   addComment: `${componentsOwner}/widget/NDC.AddComment`,
   commentView: `${componentsOwner}/widget/NDC.CommentView`,
   upVoteButton: `${componentsOwner}/widget/NDC.UpVoteButton`,
-  tagsEditor: `${componentsOwner}/widget/TagsEditor`,
   profileShortInlineBlock: `${componentsOwner}/widget/Profile.ShortInlineBlock`,
+  tagsEditor: `${componentsOwner}/widget/TagsEditor`,
 
   //Libs
-  libSBT: `${componentsOwner}/widget/lib.SBT`,
-  libComment: `${componentsOwner}/widget/lib.comment`,
-  libArticle: `${componentsOwner}/widget/lib.article`,
-  libEmojis: `${componentsOwner}/widget/lib.emojis`,
-  libUpVotes: `${componentsOwner}/widget/lib.upVotes`,
+  // libSBT: `sayalot.near/widget/lib.SBT`,
+  libSBT: `sayalot.near/widget/lib.SBT`,
+  libComment: `sayalot.near/widget/lib.comment`,
+  libArticle: `sayalot.near/widget/lib.article`,
+  libEmojis: `sayalot.near/widget/lib.emojis`,
+  libUpVotes: `sayalot.near/widget/lib.upVotes`,
 
   //Standard widgets
   fasterTextInput: `f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/fasterTextInput`,
