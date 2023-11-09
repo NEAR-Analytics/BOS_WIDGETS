@@ -155,10 +155,8 @@ return (
                                 class="card-img-top"
                                 alt="..."
                               />
-                              <div class="card-body">
-                                <p class="card-text d-inline-block text-truncate">
-                                  {widget.widgetName}
-                                </p>
+                              <div class="card-body d-inline-block text-truncate">
+                                <p class="card-text ">{widget.widgetName}</p>
                               </div>
                             </div>
                           ))}
