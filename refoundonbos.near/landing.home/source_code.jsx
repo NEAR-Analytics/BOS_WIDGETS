@@ -1,4 +1,3 @@
-
 const { handleCreateProject, projects, navigate } = props;
 const Projects = styled.div`
   display: grid;
@@ -109,7 +108,6 @@ const NavTab = styled.a`
 // projects = null;
 return (
   <div style={{ minHeight: "100vh", overflow: "hidden" }}>
-   
     {
       <div>
         <div
@@ -120,25 +118,74 @@ return (
             borderBottomRightRadius: "85px",
           }}
         >
-        <div className="row">
-        <Nav>
-          <NavLeft>
-            <NavLogo href={"https://near.org/refoundonbos.near/widget/landing.home"}>refound</NavLogo>
-          </NavLeft>
-          <NavRight>
-            <NavTabs >
-             <Link href="https://near.org/refoundonbos.near/widget/create.post.home" style={{textDecoration:"none", color:"grey", marginRight:"10px"}}>Create</Link>
-              <Link href="https://near.org/refoundonbos.near/widget/home" style={{textDecoration:"none", color:"grey", marginRight:"10px"}}>Discover</Link>
-              <Link href="https://near.org/refoundonbos.near/widget/features.home" style={{textDecoration:"none", color:"grey", marginRight:"10px"}}>Features</Link>
-              <Link href="https://near.org/refoundonbos.near/widget/create.campaign.home" style={{textDecoration:"none", color:"grey", marginRight:"10px"}}>Funding Relief</Link>
-              <Link href="https://refound.app/waitlist" style={{textDecoration:"none", color:"grey", marginRight:"10px"}}>Waitlist</Link>
-            </NavTabs>
-          </NavRight>
-        
-        </Nav>
-      </div>
+          <div className="row">
+            <Nav>
+              <NavLeft>
+                <NavLogo
+                  href={
+                    "https://near.org/refoundonbos.near/widget/landing.home"
+                  }
+                >
+                  refound
+                </NavLogo>
+              </NavLeft>
+              <NavRight>
+                <NavTabs>
+                  <Link
+                    href="https://near.org/refoundonbos.near/widget/create.post.home"
+                    style={{
+                      textDecoration: "none",
+                      color: "grey",
+                      marginRight: "10px",
+                    }}
+                  >
+                    Create
+                  </Link>
+                  <Link
+                    href="https://near.org/refoundonbos.near/widget/home"
+                    style={{
+                      textDecoration: "none",
+                      color: "grey",
+                      marginRight: "10px",
+                    }}
+                  >
+                    Discover
+                  </Link>
+                  <Link
+                    href="https://near.org/refoundonbos.near/widget/features.home"
+                    style={{
+                      textDecoration: "none",
+                      color: "grey",
+                      marginRight: "10px",
+                    }}
+                  >
+                    Features
+                  </Link>
+                  <Link
+                    href="https://near.org/refoundonbos.near/widget/create.campaign.home"
+                    style={{
+                      textDecoration: "none",
+                      color: "grey",
+                      marginRight: "10px",
+                    }}
+                  >
+                    Funding Relief
+                  </Link>
+                  <Link
+                    href="https://refound.app/waitlist"
+                    style={{
+                      textDecoration: "none",
+                      color: "grey",
+                      marginRight: "10px",
+                    }}
+                  >
+                    Waitlist
+                  </Link>
+                </NavTabs>
+              </NavRight>
+            </Nav>
+          </div>
           <div className="text-left row p-5">
-         
             <div className="col">
               <h1
                 style={{
@@ -238,9 +285,17 @@ return (
             <div className="col">
               <img
                 src="https://bafybeihafilg264onmncqyp5zmkmut46dwcce6byuu7fxzelur4ljf4ode.ipfs.w3s.link/map.jpg"
-                style={{ height: "auto", width: "100%", borderRadius:"222px" }}
+                style={{ height: "auto", width: "100%", borderRadius: "222px" }}
               ></img>
-              <p style={{ fontSize: "0.8em", marginTop:"2%", marginLeft:"20%", width: "60%",textAlign:"center" }}>
+              <p
+                style={{
+                  fontSize: "0.8em",
+                  marginTop: "2%",
+                  marginLeft: "20%",
+                  width: "60%",
+                  textAlign: "center",
+                }}
+              >
                 Our decentralized application provides journalists a platform to
                 share their content, monetize it, and maintain anonymity and
                 safety by using a wallet sign-in.
@@ -422,14 +477,13 @@ return (
             </p>
           </div>
           <div className="col p-5">
-            <a href="https://near.org/refound_app.near/widget/home">
+            <a href="https://near.org/refoundonbos.near/widget/home">
               <button
                 style={{
                   backgroundColor: "#616161",
                   borderColor: "#616161",
                   borderRadius: "39.5px",
                 }}
-              
               >
                 This Way{" "}
                 <svg
