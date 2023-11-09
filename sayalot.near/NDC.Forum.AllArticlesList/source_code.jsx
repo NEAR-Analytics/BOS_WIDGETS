@@ -88,8 +88,15 @@ const sortedFinalArticlesWithUpVotes = [
 
 //===================================================CONSTS=========================================================
 
+const AcordionContainer = styled.div`--bs-accordion-border-width: 0px!important;`;
+
+const NoMargin = styled.div`margin: 0 0.75rem;`;
+
+const AccordionBody = styled.div`padding: 0;`;
+
 const ArticlesListContainer = styled.div`
   background-color: rgb(248, 248, 249);
+  margin: 0;
 `;
 
 const CallLibrary = styled.div`
@@ -120,33 +127,57 @@ function allArticlesListStateUpdate(obj) {
 //================================================END FUNCTIONS=====================================================
 return (
   <>
-    {
-      // true ? (
-      showCreateArticle ? (
-        <Widget
-          src={widgets.create}
-          props={{
-            isTest,
-            addressForArticles,
-            authorForWidget,
-            stateUpdate,
-            widgets,
-            initialCreateState,
-            editArticleData,
-            callLibs,
-            handleFilterArticles,
-            handleEditArticle,
-            initialBody: "",
-            canLoggedUserCreateArticles,
-            sbts,
-            baseActions,
-          }}
-        />
-      ) : (
-        <h6>You can't post since you don't own this SBT</h6>
-      )
-    }
-    <div>
+    {showCreateArticle ? (
+      <>
+        <AcordionContainer className="accordion" id="accordionExample">
+          <NoMargin className="accordion-item">
+            <h2 className="accordion-header" id="headingOne">
+              <button
+                className="accordion-button collapsed"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#collapseOne"
+                aria-expanded="true"
+                aria-controls="collapseOne"
+              >
+                <h6 className="m-0">+ Create post</h6>
+              </button>
+            </h2>
+            <div
+              id="collapseOne"
+              className="accordion-collapse collapse"
+              aria-labelledby="headingOne"
+              data-bs-parent="#accordionExample"
+            >
+              <AccordionBody className="accordion-body">
+                <Widget
+                  src={widgets.create}
+                  props={{
+                    isTest,
+                    addressForArticles,
+                    authorForWidget,
+                    stateUpdate,
+                    widgets,
+                    initialCreateState,
+                    editArticleData,
+                    callLibs,
+                    handleFilterArticles,
+                    handleEditArticle,
+                    initialBody: "",
+                    canLoggedUserCreateArticles,
+                    sbts,
+                    baseActions,
+                  }}
+                />
+              </AccordionBody>
+            </div>
+          </NoMargin>
+        </AcordionContainer>
+      </>
+    ) : (
+      <h6>You can't post since you don't own this SBT</h6>
+    )}
+    <NoMargin>
       {filterBy.parameterName === "tag" && (
         <div className="mt-3">
           <h6>Filter by tag:</h6>
@@ -202,7 +233,7 @@ return (
           <h5>No articles uploaded using this SBT yet</h5>
         )}
       </ArticlesListContainer>
-    </div>
+    </NoMargin>
     <CallLibrary>
       {libSrcArray.map((src) => {
         return callLibs(
