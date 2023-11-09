@@ -134,7 +134,7 @@ return (
         <Header>
           <Title>Select a token</Title>
           <Widget
-            src="0xfafa.near/widget/Base.BaseCloseIcon"
+            src="0xfafa.near/widget/.CloseIcon"
             props={{ onClose: props.onClose }}
           />
         </Header>
