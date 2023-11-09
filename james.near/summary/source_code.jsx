@@ -475,7 +475,7 @@ const forkClick = () => {
     },
     [`${type}`]: {
       [`${name}`]: {
-        "": `${source}`,
+        "": [`${source}`],
       },
     },
   };
@@ -496,15 +496,6 @@ const forkClick = () => {
       }),
   });
 };
-
-const handleCreate = () =>
-  Social.set({
-    [`${type}`]: {
-      [`${name}`]: {
-        "": `${newVersion}`,
-      },
-    },
-  });
 
 return (
   <Wrapper>
