@@ -219,10 +219,8 @@ return (
               class="nav-link px-3 "
             >
               <label class="custom-control-label" for="darkSwitch">
-                <a
-                  href="https://www.minorityprogrammers.com/"
-                  class="nav-link px-3"
-                >
+                <a href="https://www.minorityprogrammers.com/" class="fw-bold">
+                  {" "}
                   ℹ Built with ❤️ by
                   <span class="fw-bold">Minority Programmers</span>
                 </a>
