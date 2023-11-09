@@ -1,4 +1,5 @@
 const accountId = context.accountId;
+const communityId = props.communityId ?? "nearhausa.near";
 const memId1 = props.memId1 ?? "yousouf.near";
 const memId2 = props.memId2 ?? "msageerdao.near";
 const memId3 = props.memId3 ?? "smdanpullo.near";
@@ -208,7 +209,7 @@ return (
                   letterSpacing: "0.15em",
                 }}
               >
-                Community Members
+                Community Developers
               </Text>
               <Widget
                 src="near/widget/AccountProfileCard"
@@ -239,6 +240,19 @@ return (
         </div>
       )}
     </Flex>
+    <hr />
+    <Text
+      size="23px"
+      weight="555"
+      style={{
+        textAlign: "center",
+        textTransform: "uppercase",
+        letterSpacing: "0.15em",
+      }}
+    >
+      Community Members
+    </Text>
+    <Widget src="hack.near/widget/dao.people" props={{ daoId: communityId }} />
     <hr />
     <Widget src="hack.near/widget/dev.Badge" />
   </Container>
