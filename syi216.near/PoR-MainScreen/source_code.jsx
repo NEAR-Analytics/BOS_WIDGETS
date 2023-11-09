@@ -283,7 +283,7 @@ return (
           </div>
         </div>
         <div class="px-2 my-4">
-          <p class="h2 fw-semibold pb-2">Quest</p>
+          <p class="h2 fw-semibold pb-2">Proof of Reputation Quests</p>
           <div class="d-flex flex-row bg-secondary bg-opacity-10 rounded-2 shadow-sm p-4 gap-4 flex-wrap justify-content-around">
             {state.loadedCompleted &&
               questList.map((quest) =>
