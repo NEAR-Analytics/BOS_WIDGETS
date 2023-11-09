@@ -24,10 +24,20 @@ return show ? (
       aria-modal="true"
       className="fade modal show lightbox"
       style={{ display: "block" }}
-      onClick={() => hide()}
+      onClick={(e) => {
+        e?.preventDefault && e.preventDefault();
+        hide();
+      }}
     >
       <div className="position-absolute top-0 end-0">
-        <button className="btn border-0" title="Close" onClick={() => hide()}>
+        <button
+          className="btn border-0"
+          title="Close"
+          onClick={(e) => {
+            e?.preventDefault && e.preventDefault();
+            hide();
+          }}
+        >
           {closeSvg}
         </button>
       </div>
