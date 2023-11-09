@@ -201,9 +201,11 @@ const mintQuest = (quest) => {
   ]);
 };
 
-verifyMetapool();
-verifyNDC();
-getClaimedQuest();
+if (context.accountId) {
+  verifyMetapool();
+  verifyNDC();
+  getClaimedQuest();
+}
 console.log(state);
 if (
   state.ndcComplete != null &&
