@@ -3,10 +3,10 @@ State.init({
   hasBeenFlagged: false,
 });
 
-const accountId = props.accountId || "jgodwill.near";
+const accountId = props.accountId ?? context.accountId;
 const profile =
   props.profile || Social.get(`${accountId}/profile/**`, "final") || {};
-const profileUrl = `/near/widget/ProfilePage?accountId=${accountId}`;
+const profileUrl = `/jgodwill.near/widget/CPlanet.ProfileEditor?accountId=${accountId}`;
 
 if (!accountId) {
   return "";
@@ -15,7 +15,7 @@ if (!accountId) {
 // Profile Data:
 const tags = Object.keys(profile.tags || {});
 const viewingOwnAccount = accountId === context.accountId;
-const accountUrl = `/near/widget/ProfilePage?accountId=${accountId}`;
+const accountUrl = `/jgodwill.near/widget/CPlanet.ProfileEditor?accountId=${accountId}`;
 const shareUrl = `https://near.org${accountUrl}`;
 
 // Follower Count:
