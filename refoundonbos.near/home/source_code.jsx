@@ -3,7 +3,7 @@ const contractId = "refoundjournalism.near";
 const CREATE_POST_TAB = "createpost";
 const EDIT_POST_TAB = "editpost";
 const POSTS_LIST_TAB = "posts";
-const POST_DETAIL_TAB = "post";
+const POST_DETAIL_TAB = "project";
 
 const Theme = styled.div`
   * {
@@ -82,7 +82,7 @@ const tabContentWidget = {
   [CREATE_POST_TAB]: "create",
   [EDIT_POST_TAB]: "create",
   [POSTS_LIST_TAB]: "discover",
-  [POST_DETAIL_TAB]: "postdetail",
+  [POST_DETAIL_TAB]: "detail",
 };
 
 const getWidget = (props) => {
