@@ -1014,7 +1014,7 @@ return (
                     <div class="row m-3">
                       <div class="form-group col-md-12 ">
                         <div class="card mb-2">
-                          <div class="card-header">Block</div>
+                          <div class="card-header">Widget</div>
                           <div class="card-body">
                             <div class="form-group">
                               <label>Widget Url:</label>
@@ -1058,7 +1058,7 @@ return (
                           <button
                             type="button"
                             onClick={(e) => {
-                              addBlock(state.widgetUrl, state.widgetProps);
+                              selectWidget(state.widgetUrl);
                             }}
                             class="btn btn-primary"
                           >
