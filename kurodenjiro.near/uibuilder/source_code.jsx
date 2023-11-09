@@ -811,7 +811,7 @@ return (
                       <div class="col-sm-11 ">
                         <h6>
                           <span class="text-info">
-                            state.blockList[blockId].layoutType
+                            {state.blockList[blockId].layoutType}
                           </span>
                         </h6>
                       </div>
