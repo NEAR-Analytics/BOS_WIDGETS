@@ -476,6 +476,9 @@ const forkClick = () => {
     [`${type}`]: {
       [`${name}`]: {
         "": `${source}`,
+        metadata: {
+          origin: src,
+        },
       },
     },
   };
@@ -586,12 +589,10 @@ return (
           Share
         </Button>
       </OverlayTrigger>
-      {state.showVoteButton && (
-        <Button type="button" onClick={voteClick}>
-          {inner}
-          {context.accountId == accountId ? `(${voteCount})` : null}
-        </Button>
-      )}
+      <Button type="button" onClick={voteClick}>
+        {inner}
+        {context.accountId == accountId ? `(${voteCount})` : null}
+      </Button>
     </Actions>
     <>
       {state.showModal && (
