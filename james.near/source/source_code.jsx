@@ -191,6 +191,16 @@ if (!blocksChanges) {
   return "incorrect path";
 }
 
+const oldVersion = {
+  [name]: {
+    [type]: current,
+  },
+};
+
+const handleRevert = () => {
+  Social.set(oldVersion);
+};
+
 return (
   <Wrapper>
     <Sidebar>
@@ -273,10 +283,16 @@ return (
             selected={state.selectedTab === "render"}
           >
             <i className="ph-bold ph-eye"></i>
-            Preview
+            View
           </PillSelectButton>
         </PillSelect>
       </Header>
+
+      {blocksChanges[0] !== state.blockHeight && (
+        <div className="mb-3">
+          <button onClick={handleRevert}>Revert</button>
+        </div>
+      )}
 
       {state.selectedTab == "data" && (
         <Widget
