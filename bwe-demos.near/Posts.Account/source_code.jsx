@@ -1,4 +1,21 @@
-const [profile, setProfile] = useState(null);
+interface Profile {
+  description?: string;
+  name?: string;
+  image?: {
+    ipfs_cid?: string;
+    url?: string;
+  };
+  tags?: string[];
+}
+
+const defaults = {
+  name: props.account,
+  image: {
+    ipfs_cid: "bafkreibiyqabm3kl24gcb2oegb7pmwdi6wwrpui62iwb44l7uomnn3lhbi",
+  },
+};
+
+const [profile, setProfile] = useState<Profile>();
 
 const fetchProfile = async () => {
   try {
@@ -11,18 +28,20 @@ const fetchProfile = async () => {
         keys: [`${props.account}/profile/**`],
       }),
     });
-    let p = (await response.json())?.[props.account]?.profile;
-    if (!p && response.ok) {
-      // defaults
-      p = {
-        name: props.account,
-        image: {
-          ipfs_cid:
-            "bafkreibiyqabm3kl24gcb2oegb7pmwdi6wwrpui62iwb44l7uomnn3lhbi",
-        },
-      };
-    }
+    if (!response.ok) throw new Error("profile fetch error");
+
+    let p: Profile = (await response.json())?.[props.account]?.profile;
+    // if (!p && response.ok) {
+    //   // defaults
+    //   p = {
+    //     name: props.account,
+    //     image: defaultImage,
+    //   };
+    // }
     // debugger;
+
+    p = { ...defaults, ...p };
+    console.log(p);
     setProfile(p);
   } catch (err) {
     console.log("profile fetch error", err);
@@ -33,6 +52,7 @@ useEffect(() => {
   fetchProfile();
 }, []);
 
+// @ts-expect-error
 return profile ? (
   <div
     style={{
@@ -54,7 +74,10 @@ return profile ? (
       }}
     >
       <img
-        src={`https://ipfs.near.social/ipfs/${profile.image.ipfs_cid}`}
+        src={
+          profile.image?.url ||
+          `https://ipfs.near.social/ipfs/${profile.image?.ipfs_cid}`
+        }
         style={{
           objectFit: "cover",
           width: "100%",
