@@ -5,6 +5,8 @@ State.init({
   clientName: props.clientName ? props.clientName : "",
   clientId: props.clientId ? props.clientId : null,
   showModalClient: false,
+  selectBlock,
+  selectPositionBlock,
   widgetUrl,
   widgetProps,
   widgetName: "",
@@ -27,17 +29,51 @@ const addBlock = (widgetUrl, widgetProps) => {
   const blockList = state.blockList;
   const id = Date.now();
   const block = {
-    [id]: { widgetUrl: widgetUrl, props: widgetProps || {} },
+    [id]: {
+      widgetUrl: widgetUrl,
+      props: widgetProps || {},
+      type: "block",
+    },
   };
   Object.assign(blockList, block);
   State.update({ blockList: blockList, openModalBlock: false });
 };
-const selectWidget = (e, widgetUrl) => {
-  addBlock(widgetUrl, {});
+const selectWidget = (widgetUrl) => {
+  if (state.selectBlock) {
+    const blockList = state.blockList;
+    const selectBlock = state.selectBlock;
+    const block = {
+      ["block-" + state.selectPositionBlock]: {
+        widgetUrl: widgetUrl,
+        props: widgetProps || {},
+        type: "block",
+      },
+    };
+    Object.assign(blockList[selectBlock], block);
+    console.log(blockList);
+    State.update({ blockList: blockList, openModalBlock: false });
+  } else {
+    addBlock(widgetUrl, {});
+  }
+  State.update({ selectBlock: null, selectPositionBlock: null });
 };
-const removeBlock = (index) => {
+const selectLayout = (layoutType) => {
   const blockList = state.blockList;
-  blockList.splice(index, 1);
+  const id = Date.now();
+  const block = {
+    [id]: { layoutType: layoutType, type: "layout" },
+  };
+  Object.assign(blockList, block);
+  State.update({ blockList: blockList, openModalBlock: false });
+};
+const removeBlock = (blockId) => {
+  const blockList = state.blockList;
+  delete blockList[blockId];
+  State.update({ blockList: blockList });
+};
+const removeBlockLayout = (blockId, PositionBlock) => {
+  const blockList = state.blockList;
+  delete blockList[blockId][PositionBlock];
   State.update({ blockList: blockList });
 };
 const openModalBlock = (e, type) => {
@@ -212,11 +248,34 @@ const exportForm = () => {
     }
     const exportSource = "return <>";
     for (const blockId of Object.keys(state.blockList)) {
-      exportSource += `<Widget src={"${
-        state.blockList[blockId].widgetUrl
-      }"} props={JSON.parse(${JSON.stringify(
-        state.blockList[blockId].props
-      )})} />`;
+      console.log(state.blockList[blockId]);
+      if (state.blockList[blockId].type == "block") {
+        exportSource += `<Widget src={"${
+          state.blockList[blockId].widgetUrl
+        }"} props={JSON.parse(${JSON.stringify(
+          state.blockList[blockId].props
+        )})} />`;
+      }
+      if (state.blockList[blockId].type == "layout") {
+        if (state.blockList[blockId].layoutType == "50-50") {
+          exportSource += `<div class="row mb-3">
+          <div class="col-md-6 p-2">`;
+          exportSource += `<Widget src={"${
+            state.blockList[blockId]["block-1"].widgetUrl
+          }"} props={JSON.parse(${JSON.stringify(
+            state.blockList[blockId]["block-1"].props
+          )})} /> `;
+          exportSource += `</div>`;
+
+          exportSource += `<div class="col-md-6 p-2">`;
+          exportSource += `<Widget src={"${
+            state.blockList[blockId]["block-2"].widgetUrl
+          }"} props={JSON.parse(${JSON.stringify(
+            state.blockList[blockId]["block-2"].props
+          )})} /> `;
+          exportSource += `</div></div>`;
+        }
+      }
     }
     exportSource += " </>";
     console.log(state.blockList);
@@ -289,21 +348,23 @@ return (
                       Block
                     </span>
                   </li>
+                  {!state.selectBlock && (
+                    <li class="nav-item" role="presentation">
+                      <span
+                        class="nav-link px-3 "
+                        id="layout-tab"
+                        data-bs-toggle="pill"
+                        data-bs-target="#pills-layout-list"
+                        type="button"
+                        role="tab"
+                        aria-controls="pills-layout-list"
+                        aria-selected="true"
+                      >
+                        Layout
+                      </span>
+                    </li>
+                  )}
 
-                  <li class="nav-item" role="presentation">
-                    <span
-                      class="nav-link px-3 "
-                      id="layout-tab"
-                      data-bs-toggle="pill"
-                      data-bs-target="#pills-layout-list"
-                      type="button"
-                      role="tab"
-                      aria-controls="pills-layout-list"
-                      aria-selected="true"
-                    >
-                      Layout
-                    </span>
-                  </li>
                   <li class="nav-item" role="presentation">
                     <span
                       class="nav-link px-3"
@@ -336,12 +397,179 @@ return (
 
                 <div class="tab-content">
                   <div
-                    class="tab-pane fade show active "
-                    id={`pills-block-list`}
+                    class="tab-pane fade "
+                    id={`pills-layout-list`}
                     role="tabpanel"
-                    aria-labelledby={`pills-tab-block-list`}
+                    aria-labelledby={`pills-tab-layout-list`}
                     tabindex="0"
-                  ></div>
+                  >
+                    <div class="row m-3 overflow-auto ">
+                      <div class="col m-2">
+                        <div
+                          class="card p-2 align-items-center"
+                          style={{ width: "130px" }}
+                          onClick={(e) => selectLayout("50-50")}
+                        >
+                          <svg
+                            width="48"
+                            height="48"
+                            viewBox="0 0 48 48"
+                            xmlns="http://www.w3.org/2000/svg"
+                            aria-hidden="true"
+                            focusable="false"
+                          >
+                            <path
+                              fill-rule="evenodd"
+                              clip-rule="evenodd"
+                              d="M39 12C40.1046 12 41 12.8954 41 14V34C41 35.1046 40.1046 36 39 36H9C7.89543 36 7 35.1046 7 34V14C7 12.8954 7.89543 12 9 12H39ZM39 34V14H25V34H39ZM23 34H9V14H23V34Z"
+                            ></path>
+                          </svg>
+                          <div class="card-body p-0">
+                            <span
+                              class="card-text  d-inline-block text-truncate "
+                              style={{
+                                maxWidth: "120px",
+                                fontWeight: "bold",
+                              }}
+                            >
+                              50/50
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col m-2">
+                        <div
+                          class="card p-2 align-items-center"
+                          style={{ width: "130px" }}
+                          onClick={(e) => selectLayout("33-66")}
+                        >
+                          <svg
+                            width="48"
+                            height="48"
+                            viewBox="0 0 48 48"
+                            xmlns="http://www.w3.org/2000/svg"
+                            aria-hidden="true"
+                            focusable="false"
+                          >
+                            <path
+                              fill-rule="evenodd"
+                              clip-rule="evenodd"
+                              d="M39 12C40.1046 12 41 12.8954 41 14V34C41 35.1046 40.1046 36 39 36H9C7.89543 36 7 35.1046 7 34V14C7 12.8954 7.89543 12 9 12H39ZM39 34V14H20V34H39ZM18 34H9V14H18V34Z"
+                            ></path>
+                          </svg>
+                          <div class="card-body p-0">
+                            <span
+                              class="card-text  d-inline-block text-truncate "
+                              style={{
+                                maxWidth: "120px",
+                                fontWeight: "bold",
+                              }}
+                            >
+                              33/66
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col m-2 ">
+                        <div
+                          class="card p-2 align-items-center"
+                          style={{ width: "130px" }}
+                          onClick={(e) => selectLayout("66-33")}
+                        >
+                          <svg
+                            width="48"
+                            height="48"
+                            viewBox="0 0 48 48"
+                            xmlns="http://www.w3.org/2000/svg"
+                            aria-hidden="true"
+                            focusable="false"
+                          >
+                            <path
+                              fill-rule="evenodd"
+                              clip-rule="evenodd"
+                              d="M39 12C40.1046 12 41 12.8954 41 14V34C41 35.1046 40.1046 36 39 36H9C7.89543 36 7 35.1046 7 34V14C7 12.8954 7.89543 12 9 12H39ZM39 34V14H30V34H39ZM28 34H9V14H28V34Z"
+                            ></path>
+                          </svg>
+                          <div class="card-body p-0">
+                            <span
+                              class="card-text  d-inline-block text-truncate "
+                              style={{
+                                maxWidth: "120px",
+                                fontWeight: "bold",
+                              }}
+                            >
+                              66/33
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col m-2 ">
+                        <div
+                          class="card p-2 align-items-center"
+                          style={{ width: "130px" }}
+                          onClick={(e) => selectLayout("33-33-33")}
+                        >
+                          <svg
+                            width="48"
+                            height="48"
+                            viewBox="0 0 48 48"
+                            xmlns="http://www.w3.org/2000/svg"
+                            aria-hidden="true"
+                            focusable="false"
+                          >
+                            <path
+                              fill-rule="evenodd"
+                              d="M41 14a2 2 0 0 0-2-2H9a2 2 0 0 0-2 2v20a2 2 0 0 0 2 2h30a2 2 0 0 0 2-2V14zM28.5 34h-9V14h9v20zm2 0V14H39v20h-8.5zm-13 0H9V14h8.5v20z"
+                            ></path>
+                          </svg>
+                          <div class="card-body p-0">
+                            <span
+                              class="card-text  d-inline-block text-truncate "
+                              style={{
+                                maxWidth: "120px",
+                                fontWeight: "bold",
+                              }}
+                            >
+                              33/33/33
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="col m-2 ">
+                        <div
+                          class="card p-2 align-items-center"
+                          style={{ width: "130px" }}
+                          onClick={(e) => selectLayout("25-50-25")}
+                        >
+                          <svg
+                            width="48"
+                            height="48"
+                            viewBox="0 0 48 48"
+                            xmlns="http://www.w3.org/2000/svg"
+                            aria-hidden="true"
+                            focusable="false"
+                          >
+                            <path
+                              fill-rule="evenodd"
+                              d="M41 14a2 2 0 0 0-2-2H9a2 2 0 0 0-2 2v20a2 2 0 0 0 2 2h30a2 2 0 0 0 2-2V14zM31 34H17V14h14v20zm2 0V14h6v20h-6zm-18 0H9V14h6v20z"
+                            ></path>
+                          </svg>
+                          <div class="card-body p-0">
+                            <span
+                              class="card-text  d-inline-block text-truncate "
+                              style={{
+                                maxWidth: "120px",
+                                fontWeight: "bold",
+                              }}
+                            >
+                              25/50/25
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                   <div
                     class="tab-pane fade  "
                     id={`pills-export-list`}
@@ -357,11 +585,10 @@ return (
                         state.exportList.map((widget, index) => (
                           <div class="col m-2">
                             <div
-                              class="card p-2"
-                              style={{ width: "130px" }}
+                              class="card p-2 align-items-center"
+                              style={{ width: "130px", height: "180px" }}
                               onClick={(e) =>
                                 selectWidget(
-                                  e,
                                   `${context.accountId}/widget/${widget.widgetName}`
                                 )
                               }
@@ -481,26 +708,666 @@ return (
           {Object.keys(state.blockList) &&
             Object.keys(state.blockList).map((blockId, index) => (
               <div class="row border rounded p-3 border-2 m-2 ">
-                <div class="row pb-2">
-                  <div class="col-sm-11 ">
-                    <h6>
-                      <span class="text-info">
-                        {state.blockList[blockId].widgetUrl}
-                      </span>
-                    </h6>
-                  </div>
-                  <div class="col-sm-1 ">
-                    <button
-                      type="button"
-                      onClick={(e) => removeBlock(blockId)}
-                      class="btn-close"
-                    ></button>
-                  </div>
-                </div>
-                <Widget
-                  src={state.blockList[blockId].widgetUrl}
-                  props={state.blockList[blockId].props}
-                />
+                {state.blockList[blockId].type == "block" && (
+                  <>
+                    <Widget
+                      src={state.blockList[blockId].widgetUrl}
+                      props={state.blockList[blockId].props}
+                    />
+                  </>
+                )}
+                {state.blockList[blockId].type == "layout" && (
+                  <>
+                    <div class="row pb-2">
+                      <div class="col-sm-11 ">
+                        <h6>
+                          <span class="text-info">
+                            state.blockList[blockId].layoutType
+                          </span>
+                        </h6>
+                      </div>
+                      <div class="col-sm-1 ">
+                        <button
+                          type="button"
+                          onClick={(e) => removeBlock(blockId)}
+                          class="btn-close"
+                        ></button>
+                      </div>
+                    </div>
+                    {state.blockList[blockId].layoutType == "50-50" && (
+                      <div class="row align-items-center">
+                        <div class="col-sm-6 border rounded p-3 border-2  ">
+                          {state.blockList[blockId]["block-1"] ? (
+                            <>
+                              <div class="row pb-2">
+                                <div class="col-sm-11 ">
+                                  <h6>
+                                    <span class="text-info">
+                                      {
+                                        state.blockList[blockId]["block-1"]
+                                          .widgetUrl
+                                      }
+                                    </span>
+                                  </h6>
+                                </div>
+                                <div class="col-sm-1 ">
+                                  <button
+                                    type="button"
+                                    onClick={(e) =>
+                                      removeBlockLayout(blockId, "block-1")
+                                    }
+                                    class="btn-close"
+                                  ></button>
+                                </div>
+                              </div>
+                              <Widget
+                                src={
+                                  state.blockList[blockId]["block-1"].widgetUrl
+                                }
+                                props={
+                                  state.blockList[blockId]["block-1"].props
+                                }
+                              />
+                            </>
+                          ) : (
+                            <button
+                              type="button"
+                              onClick={(e) => {
+                                openModalBlock(e, "show");
+                                State.update({
+                                  selectBlock: blockId,
+                                });
+                                State.update({
+                                  selectPositionBlock: 1,
+                                });
+                              }}
+                              class="btn btn-outline-primary btn-lg btn-block"
+                            >
+                              Add Block +
+                            </button>
+                          )}
+                        </div>
+                        <div class="col-sm-6 border rounded p-3 border-2  ">
+                          {state.blockList[blockId]["block-2"] ? (
+                            <>
+                              <div class="row pb-2">
+                                <div class="col-sm-11 ">
+                                  <h6>
+                                    <span class="text-info">
+                                      {
+                                        state.blockList[blockId]["block-2"]
+                                          .widgetUrl
+                                      }
+                                    </span>
+                                  </h6>
+                                </div>
+                                <div class="col-sm-1 ">
+                                  <button
+                                    type="button"
+                                    onClick={(e) =>
+                                      removeBlockLayout(blockId, "block-2")
+                                    }
+                                    class="btn-close"
+                                  ></button>
+                                </div>
+                              </div>
+                              <Widget
+                                src={
+                                  state.blockList[blockId]["block-2"].widgetUrl
+                                }
+                                props={
+                                  state.blockList[blockId]["block-2"].props
+                                }
+                              />
+                            </>
+                          ) : (
+                            <button
+                              type="button"
+                              onClick={(e) => {
+                                openModalBlock(e, "show");
+                                State.update({
+                                  selectBlock: blockId,
+                                });
+                                State.update({
+                                  selectPositionBlock: 2,
+                                });
+                              }}
+                              class="btn btn-outline-primary btn-lg btn-block"
+                            >
+                              Add Block +
+                            </button>
+                          )}
+                        </div>
+                      </div>
+                    )}
+                    {state.blockList[blockId].layoutType == "33-66" && (
+                      <div class="row align-items-center">
+                        <div class="col-sm-3 border rounded p-3 border-2  ">
+                          {state.blockList[blockId]["block-1"] ? (
+                            <>
+                              <div class="row pb-2">
+                                <div class="col-sm-11 ">
+                                  <h6>
+                                    <span class="text-info">
+                                      {
+                                        state.blockList[blockId]["block-1"]
+                                          .widgetUrl
+                                      }
+                                    </span>
+                                  </h6>
+                                </div>
+                                <div class="col-sm-1 ">
+                                  <button
+                                    type="button"
+                                    onClick={(e) =>
+                                      removeBlockLayout(blockId, "block-1")
+                                    }
+                                    class="btn-close"
+                                  ></button>
+                                </div>
+                              </div>
+                              <Widget
+                                src={
+                                  state.blockList[blockId]["block-1"].widgetUrl
+                                }
+                                props={
+                                  state.blockList[blockId]["block-1"].props
+                                }
+                              />
+                            </>
+                          ) : (
+                            <button
+                              type="button"
+                              onClick={(e) => {
+                                openModalBlock(e, "show");
+                                State.update({
+                                  selectBlock: blockId,
+                                });
+                                State.update({
+                                  selectPositionBlock: 1,
+                                });
+                              }}
+                              class="btn btn-outline-primary btn-lg btn-block"
+                            >
+                              Add Block +
+                            </button>
+                          )}
+                        </div>
+                        <div class="col-sm-9 border rounded p-3 border-2  ">
+                          {state.blockList[blockId]["block-2"] ? (
+                            <>
+                              <div class="row pb-2">
+                                <div class="col-sm-11 ">
+                                  <h6>
+                                    <span class="text-info">
+                                      {
+                                        state.blockList[blockId]["block-2"]
+                                          .widgetUrl
+                                      }
+                                    </span>
+                                  </h6>
+                                </div>
+                                <div class="col-sm-1 ">
+                                  <button
+                                    type="button"
+                                    onClick={(e) =>
+                                      removeBlockLayout(blockId, "block-2")
+                                    }
+                                    class="btn-close"
+                                  ></button>
+                                </div>
+                              </div>
+                              <Widget
+                                src={
+                                  state.blockList[blockId]["block-2"].widgetUrl
+                                }
+                                props={
+                                  state.blockList[blockId]["block-2"].props
+                                }
+                              />
+                            </>
+                          ) : (
+                            <button
+                              type="button"
+                              onClick={(e) => {
+                                openModalBlock(e, "show");
+                                State.update({
+                                  selectBlock: blockId,
+                                });
+                                State.update({
+                                  selectPositionBlock: 2,
+                                });
+                              }}
+                              class="btn btn-outline-primary btn-lg btn-block"
+                            >
+                              Add Block +
+                            </button>
+                          )}
+                        </div>
+                      </div>
+                    )}
+                    {state.blockList[blockId].layoutType == "66-33" && (
+                      <div class="row align-items-center">
+                        <div class="col-sm-9 border rounded p-3 border-2  ">
+                          {state.blockList[blockId]["block-1"] ? (
+                            <>
+                              <div class="row pb-2">
+                                <div class="col-sm-11 ">
+                                  <h6>
+                                    <span class="text-info">
+                                      {
+                                        state.blockList[blockId]["block-1"]
+                                          .widgetUrl
+                                      }
+                                    </span>
+                                  </h6>
+                                </div>
+                                <div class="col-sm-1 ">
+                                  <button
+                                    type="button"
+                                    onClick={(e) =>
+                                      removeBlockLayout(blockId, "block-1")
+                                    }
+                                    class="btn-close"
+                                  ></button>
+                                </div>
+                              </div>
+                              <Widget
+                                src={
+                                  state.blockList[blockId]["block-1"].widgetUrl
+                                }
+                                props={
+                                  state.blockList[blockId]["block-1"].props
+                                }
+                              />
+                            </>
+                          ) : (
+                            <button
+                              type="button"
+                              onClick={(e) => {
+                                openModalBlock(e, "show");
+                                State.update({
+                                  selectBlock: blockId,
+                                });
+                                State.update({
+                                  selectPositionBlock: 1,
+                                });
+                              }}
+                              class="btn btn-outline-primary btn-lg btn-block"
+                            >
+                              Add Block +
+                            </button>
+                          )}
+                        </div>
+                        <div class="col-sm-3 border rounded p-3 border-2  ">
+                          {state.blockList[blockId]["block-2"] ? (
+                            <>
+                              <div class="row pb-2">
+                                <div class="col-sm-11 ">
+                                  <h6>
+                                    <span class="text-info">
+                                      {
+                                        state.blockList[blockId]["block-2"]
+                                          .widgetUrl
+                                      }
+                                    </span>
+                                  </h6>
+                                </div>
+                                <div class="col-sm-1 ">
+                                  <button
+                                    type="button"
+                                    onClick={(e) =>
+                                      removeBlockLayout(blockId, "block-2")
+                                    }
+                                    class="btn-close"
+                                  ></button>
+                                </div>
+                              </div>
+                              <Widget
+                                src={
+                                  state.blockList[blockId]["block-2"].widgetUrl
+                                }
+                                props={
+                                  state.blockList[blockId]["block-2"].props
+                                }
+                              />
+                            </>
+                          ) : (
+                            <button
+                              type="button"
+                              onClick={(e) => {
+                                openModalBlock(e, "show");
+                                State.update({
+                                  selectBlock: blockId,
+                                });
+                                State.update({
+                                  selectPositionBlock: 2,
+                                });
+                              }}
+                              class="btn btn-outline-primary btn-lg btn-block"
+                            >
+                              Add Block +
+                            </button>
+                          )}
+                        </div>
+                      </div>
+                    )}
+                    {state.blockList[blockId].layoutType == "33-33-33" && (
+                      <div class="row align-items-center">
+                        <div class="col-sm-4 border rounded p-3 border-2  ">
+                          {state.blockList[blockId]["block-1"] ? (
+                            <>
+                              <div class="row pb-2">
+                                <div class="col-sm-11 ">
+                                  <h6>
+                                    <span class="text-info">
+                                      {
+                                        state.blockList[blockId]["block-1"]
+                                          .widgetUrl
+                                      }
+                                    </span>
+                                  </h6>
+                                </div>
+                                <div class="col-sm-1 ">
+                                  <button
+                                    type="button"
+                                    onClick={(e) =>
+                                      removeBlockLayout(blockId, "block-1")
+                                    }
+                                    class="btn-close"
+                                  ></button>
+                                </div>
+                              </div>
+                              <Widget
+                                src={
+                                  state.blockList[blockId]["block-1"].widgetUrl
+                                }
+                                props={
+                                  state.blockList[blockId]["block-1"].props
+                                }
+                              />
+                            </>
+                          ) : (
+                            <button
+                              type="button"
+                              onClick={(e) => {
+                                openModalBlock(e, "show");
+                                State.update({
+                                  selectBlock: blockId,
+                                });
+                                State.update({
+                                  selectPositionBlock: 1,
+                                });
+                              }}
+                              class="btn btn-outline-primary btn-lg btn-block"
+                            >
+                              Add Block +
+                            </button>
+                          )}
+                        </div>
+                        <div class="col-sm-4 border rounded p-3 border-2  ">
+                          {state.blockList[blockId]["block-2"] ? (
+                            <>
+                              <div class="row pb-2">
+                                <div class="col-sm-11 ">
+                                  <h6>
+                                    <span class="text-info">
+                                      {
+                                        state.blockList[blockId]["block-2"]
+                                          .widgetUrl
+                                      }
+                                    </span>
+                                  </h6>
+                                </div>
+                                <div class="col-sm-1 ">
+                                  <button
+                                    type="button"
+                                    onClick={(e) =>
+                                      removeBlockLayout(blockId, "block-2")
+                                    }
+                                    class="btn-close"
+                                  ></button>
+                                </div>
+                              </div>
+                              <Widget
+                                src={
+                                  state.blockList[blockId]["block-2"].widgetUrl
+                                }
+                                props={
+                                  state.blockList[blockId]["block-2"].props
+                                }
+                              />
+                            </>
+                          ) : (
+                            <button
+                              type="button"
+                              onClick={(e) => {
+                                openModalBlock(e, "show");
+                                State.update({
+                                  selectBlock: blockId,
+                                });
+                                State.update({
+                                  selectPositionBlock: 2,
+                                });
+                              }}
+                              class="btn btn-outline-primary btn-lg btn-block"
+                            >
+                              Add Block +
+                            </button>
+                          )}
+                        </div>
+                        <div class="col-sm-4 border rounded p-3 border-2  ">
+                          {state.blockList[blockId]["block-3"] ? (
+                            <>
+                              <div class="row pb-2">
+                                <div class="col-sm-11 ">
+                                  <h6>
+                                    <span class="text-info">
+                                      {
+                                        state.blockList[blockId]["block-3"]
+                                          .widgetUrl
+                                      }
+                                    </span>
+                                  </h6>
+                                </div>
+                                <div class="col-sm-1 ">
+                                  <button
+                                    type="button"
+                                    onClick={(e) =>
+                                      removeBlockLayout(blockId, "block-3")
+                                    }
+                                    class="btn-close"
+                                  ></button>
+                                </div>
+                              </div>
+                              <Widget
+                                src={
+                                  state.blockList[blockId]["block-3"].widgetUrl
+                                }
+                                props={
+                                  state.blockList[blockId]["block-3"].props
+                                }
+                              />
+                            </>
+                          ) : (
+                            <button
+                              type="button"
+                              onClick={(e) => {
+                                openModalBlock(e, "show");
+                                State.update({
+                                  selectBlock: blockId,
+                                });
+                                State.update({
+                                  selectPositionBlock: 2,
+                                });
+                              }}
+                              class="btn btn-outline-primary btn-lg btn-block"
+                            >
+                              Add Block +
+                            </button>
+                          )}
+                        </div>
+                      </div>
+                    )}
+                    {state.blockList[blockId].layoutType == "25-50-25" && (
+                      <div class="row align-items-center">
+                        <div class="col-sm-3 border rounded p-3 border-2  ">
+                          {state.blockList[blockId]["block-1"] ? (
+                            <>
+                              <div class="row pb-2">
+                                <div class="col-sm-11 ">
+                                  <h6>
+                                    <span class="text-info">
+                                      {
+                                        state.blockList[blockId]["block-1"]
+                                          .widgetUrl
+                                      }
+                                    </span>
+                                  </h6>
+                                </div>
+                                <div class="col-sm-1 ">
+                                  <button
+                                    type="button"
+                                    onClick={(e) =>
+                                      removeBlockLayout(blockId, "block-1")
+                                    }
+                                    class="btn-close"
+                                  ></button>
+                                </div>
+                              </div>
+                              <Widget
+                                src={
+                                  state.blockList[blockId]["block-1"].widgetUrl
+                                }
+                                props={
+                                  state.blockList[blockId]["block-1"].props
+                                }
+                              />
+                            </>
+                          ) : (
+                            <button
+                              type="button"
+                              onClick={(e) => {
+                                openModalBlock(e, "show");
+                                State.update({
+                                  selectBlock: blockId,
+                                });
+                                State.update({
+                                  selectPositionBlock: 1,
+                                });
+                              }}
+                              class="btn btn-outline-primary btn-lg btn-block"
+                            >
+                              Add Block +
+                            </button>
+                          )}
+                        </div>
+                        <div class="col-sm-6 border rounded p-3 border-2  ">
+                          {state.blockList[blockId]["block-2"] ? (
+                            <>
+                              <div class="row pb-2">
+                                <div class="col-sm-11 ">
+                                  <h6>
+                                    <span class="text-info">
+                                      {
+                                        state.blockList[blockId]["block-2"]
+                                          .widgetUrl
+                                      }
+                                    </span>
+                                  </h6>
+                                </div>
+                                <div class="col-sm-1 ">
+                                  <button
+                                    type="button"
+                                    onClick={(e) =>
+                                      removeBlockLayout(blockId, "block-2")
+                                    }
+                                    class="btn-close"
+                                  ></button>
+                                </div>
+                              </div>
+                              <Widget
+                                src={
+                                  state.blockList[blockId]["block-2"].widgetUrl
+                                }
+                                props={
+                                  state.blockList[blockId]["block-2"].props
+                                }
+                              />
+                            </>
+                          ) : (
+                            <button
+                              type="button"
+                              onClick={(e) => {
+                                openModalBlock(e, "show");
+                                State.update({
+                                  selectBlock: blockId,
+                                });
+                                State.update({
+                                  selectPositionBlock: 2,
+                                });
+                              }}
+                              class="btn btn-outline-primary btn-lg btn-block"
+                            >
+                              Add Block +
+                            </button>
+                          )}
+                        </div>
+                        <div class="col-sm-3 border rounded p-3 border-2  ">
+                          {state.blockList[blockId]["block-3"] ? (
+                            <>
+                              <div class="row pb-2">
+                                <div class="col-sm-11 ">
+                                  <h6>
+                                    <span class="text-info">
+                                      {
+                                        state.blockList[blockId]["block-3"]
+                                          .widgetUrl
+                                      }
+                                    </span>
+                                  </h6>
+                                </div>
+                                <div class="col-sm-1 ">
+                                  <button
+                                    type="button"
+                                    onClick={(e) =>
+                                      removeBlockLayout(blockId, "block-3")
+                                    }
+                                    class="btn-close"
+                                  ></button>
+                                </div>
+                              </div>
+                              <Widget
+                                src={
+                                  state.blockList[blockId]["block-3"].widgetUrl
+                                }
+                                props={
+                                  state.blockList[blockId]["block-3"].props
+                                }
+                              />
+                            </>
+                          ) : (
+                            <button
+                              type="button"
+                              onClick={(e) => {
+                                openModalBlock(e, "show");
+                                State.update({
+                                  selectBlock: blockId,
+                                });
+                                State.update({
+                                  selectPositionBlock: 2,
+                                });
+                              }}
+                              class="btn btn-outline-primary btn-lg btn-block"
+                            >
+                              Add Block +
+                            </button>
+                          )}
+                        </div>
+                      </div>
+                    )}
+                  </>
+                )}
               </div>
             ))}
         </div>
