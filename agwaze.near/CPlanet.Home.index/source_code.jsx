@@ -29,7 +29,7 @@ const Root = styled.div`
       }
     }
     @media only screen and (max-width: 500px) {
-      height: 500px;
+      height: 700px;
       .text, .text:first-letter {
         font-size: 80px;
       }
@@ -116,9 +116,13 @@ const Figures = styled.div`
 
 const CTA = styled.div`
   margin-top: 120px;
+  margin-left: 40px;
+  @media (max-width: 500px) {
+    margin-top: 30px;
+  }
   img {
-     width: 200px;
-      height: 200px;
+     width: 250px;
+      height: 250px;
       object-fit: cover; /* Maintain image aspect ratio */
        border-radius: 50%;
       animation: rotateImage 5s linear infinite; /* Adjust the duration (5s) and timing function (linear) as needed */
@@ -134,6 +138,13 @@ const CTA = styled.div`
     transform: rotate(360deg);
   }
 }
+ @media (max-width: 500px) {
+    margin-top: 70px;
+    img {
+      width: 150px;
+      height: 150px;
+    }
+  }
 `;
 
 return (
