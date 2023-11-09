@@ -1,9 +1,12 @@
 const widgetPath = props.widgetPath;
 const onChange = props.onChange;
+
 let metadata = Social.getr(`${widgetPath}/metadata`);
+
 if (metadata === null) {
   return "Loading";
 }
+
 return (
   <Widget
     key={widgetPath}
