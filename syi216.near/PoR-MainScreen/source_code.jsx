@@ -258,7 +258,7 @@ return (
         />
         <a
           class="btn bg-info bg-gradient my-auto fw-semibold shadow bg-opacity-50"
-          href="#/owa-is-bos.near/widget/PoR-Loan"
+          href="#/syi216.near/widget/PoR-Loan"
         >
           Apply for loan
         </a>
