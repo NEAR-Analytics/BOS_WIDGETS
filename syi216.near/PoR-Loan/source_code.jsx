@@ -19,11 +19,10 @@ getProfile();
 getClaimedQuest();
 
 if (state.nftsUser != null) {
-  let json = state.nftsUser
-    .find((quest) => quest.metadata.title == "Proof Of Reputation NFT")
-    .metadata.extra.split(",")[0]
-    .split(":")[1];
-  console.log(json);
+  let json = state.nftsUser.find(
+    (quest) => quest.metadata.title == "Proof Of Reputation NFT"
+  ).metadata.extra;
+  console.log("score", json);
 
   if (json) {
     json = json.split(",")[0].split(":")[1];
