@@ -15,7 +15,7 @@ return (
         h1: "EVERY",
         h2: "ONE",
 
-        tagline: "Build a Community Page",
+        tagline: "Build Community Pages",
         taglineFont: "Courier",
 
         h1Color: "#000",
