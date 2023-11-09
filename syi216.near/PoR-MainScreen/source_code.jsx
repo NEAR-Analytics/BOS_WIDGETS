@@ -218,10 +218,12 @@ if (
   } else {
     State.update({ completedQuests: [] });
   }
-  let json = state.nftsUser
-    .find((quest) => quest.metadata.title == "Proof Of Reputation NFT")
-    .metadata.extra.split(",")[0]
-    .split(":")[1];
+  let json = state.nftsUser.find(
+    (quest) => quest.metadata.title == "Proof Of Reputation NFT"
+  ).metadata.extra;
+  if (json) {
+    json = data.split(",")[0].split(":")[1];
+  }
   let titleArr = ["I'm Human", "stNEAR", "Meta Token", "Voting Power"];
   let claimedID = [];
   titleArr.map((title) => {
