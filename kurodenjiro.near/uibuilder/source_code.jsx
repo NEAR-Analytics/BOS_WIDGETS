@@ -1,5 +1,5 @@
 State.init({
-  blockList: [],
+  blockList: {},
   openModalBlock: false,
   clickedModalBlock: false,
   clientName: props.clientName ? props.clientName : "",
@@ -25,8 +25,9 @@ State.init({
 
 const addBlock = (widgetUrl, widgetProps) => {
   const blockList = state.blockList;
+  const id = Date.now();
   const block = {
-    id: { widgetUrl: widgetUrl, props: widgetProps || {} },
+    [id]: { widgetUrl: widgetUrl, props: widgetProps || {} },
   };
   Object.assign(blockList, block);
   State.update({ blockList: blockList, openModalBlock: false });
@@ -210,10 +211,12 @@ const exportForm = () => {
       exporttList.push({ widgetName: state.widgetName });
     }
     const exportSource = "return <>";
-    for (const block of state.blockList) {
+    for (const blockId of Object.keys(state.blockList)) {
       exportSource += `<Widget src={"${
-        block.widgetUrl
-      }"} props={JSON.parse(${JSON.stringify(block.props)})} />`;
+        state.blockList[blockId].widgetUrl
+      }"} props={JSON.parse(${JSON.stringify(
+        state.blockList[blockId].props
+      )})} />`;
     }
     exportSource += " </>";
     console.log(state.blockList);
