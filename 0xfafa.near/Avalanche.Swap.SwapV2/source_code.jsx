@@ -321,7 +321,7 @@ return (
           if (Big(state.inputCurrencyAmount || 0).gt(0)) getBestTrade();
         }}
       >
-        <Widget src="0xfafa.near/widget/Avalanche.Swap.ExchangeIcon" />
+        <Widget src="bluebiu.near/widget/Base.BaseExchangeIcon" />
       </ExchangeIcon>
       <PanelLabel>To</PanelLabel>
       <Widget
