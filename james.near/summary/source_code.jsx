@@ -453,7 +453,7 @@ function normalizeMarkdown(text) {
   return text.trim();
 }
 
-const source = Social.get(`${state.src}`);
+const source = Social.get(`${src}`);
 
 const forkClick = () => {
   if (state.loading) {
@@ -475,7 +475,7 @@ const forkClick = () => {
     },
     [`${type}`]: {
       [`${name}`]: {
-        "": [`${source}`],
+        "": `${source}`,
       },
     },
   };
