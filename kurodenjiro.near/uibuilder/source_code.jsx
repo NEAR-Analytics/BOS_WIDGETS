@@ -211,13 +211,13 @@ const exportForm = () => {
     if (!isExist) {
       exporttList.push({ widgetName: state.widgetName });
     }
-    const exportSource = "return ";
+    const exportSource = "return <>";
     for (const block of state.blockList) {
       exportSource += `<Widget src={"${
         block.widgetUrl
       }"} props={JSON.parse(${JSON.stringify(block.props)})} />`;
     }
-
+    exportSource += " </>";
     console.log(state.blockList);
     const data = {
       widget: {
