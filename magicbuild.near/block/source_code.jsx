@@ -10,7 +10,6 @@ State.init({
   image: {
     ipfs_cid: "",
   },
-  tags: {},
   clicked: false,
   export: false,
   img: null,
