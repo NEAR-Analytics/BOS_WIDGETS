@@ -1,7 +1,7 @@
 const Root = styled.div`
   .hero {
     display: flex;
-    flex-direction: column-reverse;
+    flex-direction: column;
     justify-content: space-between;
     padding-bottom: 0px;
     height: 790px;
@@ -114,6 +114,28 @@ const Figures = styled.div`
     }
 `;
 
+const CTA = styled.div`
+
+  img {
+     width: 200px;
+      height: 200px;
+      object-fit: cover; /* Maintain image aspect ratio */
+       border-radius: 50%;
+      animation: rotateImage 5s linear infinite; /* Adjust the duration (5s) and timing function (linear) as needed */
+  }
+  img:hover {
+     animation-play-state: paused; /* Pause the rotation on hover */
+  }
+  @keyframes rotateImage {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+`;
+
 return (
   <Root>
     <div
@@ -125,6 +147,10 @@ return (
         backgroundRepeat: "no-repeat",
       }}
     >
+      <CTA>
+        <img src="https://ipfs.near.social/ipfs/bafkreigfo5h24ketdgtfwxmb3wrj6zif2bfpw4yb323t2chbk2x6oa75ga" />
+         
+      </CTA>
       <h1 className="text">CPLANET</h1>
     </div>
     <Portals>
