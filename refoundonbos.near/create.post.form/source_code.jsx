@@ -4,7 +4,6 @@ const { handleCreateProject, defaultProject, buttonChildren, buttonProps } =
 State.init({
   error: undefined,
   project: defaultProject ?? {
-    id: UUID.generate(),
     logo: undefined,
     title: undefined,
     description: undefined,
