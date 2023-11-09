@@ -116,34 +116,33 @@ const filesOnChange = (files) => {
     uploadFileUpdateState(files[0]);
   }
 };
-
-const openModal = () => {
-  const taggedWidgets = Social.keys(`*/widget/*/metadata/tags/*`, "final");
-  let tags = [];
-  if (Object.keys(taggedWidgets)) {
-    Object.keys(taggedWidgets).forEach((item) => {
-      if (taggedWidgets[item].widget) {
-        if (Object.keys(taggedWidgets[item].widget).length > 0) {
-          Object.keys(taggedWidgets[item].widget).forEach((item1) => {
-            if (taggedWidgets[item].widget[item1].metadata.tags) {
-              if (
-                Object.keys(taggedWidgets[item].widget[item1].metadata.tags)
-                  .length > 0
-              ) {
-                Object.keys(
-                  taggedWidgets[item].widget[item1].metadata.tags
-                ).forEach((tag) => {
-                  tags.push(tag);
-                });
-              }
+const taggedWidgets = Social.keys(`*/widget/*/metadata/tags/*`, "final");
+let tags = [];
+if (Object.keys(taggedWidgets)) {
+  Object.keys(taggedWidgets).forEach((item) => {
+    if (taggedWidgets[item].widget) {
+      if (Object.keys(taggedWidgets[item].widget).length > 0) {
+        Object.keys(taggedWidgets[item].widget).forEach((item1) => {
+          if (taggedWidgets[item].widget[item1].metadata.tags) {
+            if (
+              Object.keys(taggedWidgets[item].widget[item1].metadata.tags)
+                .length > 0
+            ) {
+              Object.keys(
+                taggedWidgets[item].widget[item1].metadata.tags
+              ).forEach((tag) => {
+                tags.push(tag);
+              });
             }
-          });
-        }
+          }
+        });
       }
-    });
-  }
+    }
+  });
+}
 
-  State.update({ tags: tags });
+State.update({ tags: tags });
+const openModal = () => {
   State.update({ clicked: false });
   State.update({ export: false });
 };
