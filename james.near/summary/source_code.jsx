@@ -188,6 +188,47 @@ const Text = styled.p`
   }
 `;
 
+const Container = styled.div`
+  .profile-image {
+    width: 120px;
+    height: 120px;
+  }
+
+  .top-right {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+  }
+
+  .envelope-icon {
+    font-size: 28px;
+    color: #000;
+    margin-left: 8px;
+    text-decoration: none;
+    transition: color 0.3s ease-in-out;
+  }
+
+  .envelope-icon:hover {
+    color: #000;
+  }
+
+  .envelope-icon .bi-envelope {
+    display: inline;
+  }
+
+  .envelope-icon .bi-envelope-fill {
+    display: none;
+  }
+
+  .envelope-icon:hover .bi-envelope {
+    display: none;
+  }
+
+  .envelope-icon:hover .bi-envelope-fill {
+    display: inline;
+  }
+`;
+
 const votes = Social.index("vote", src);
 
 const dataLoading = votes === null;
@@ -371,21 +412,42 @@ function normalizeMarkdown(text) {
 return (
   <Wrapper>
     <Header size={size}>
-      <Thumbnail size={size}>
-        <Widget
-          src="mob.near/widget/Image"
-          props={{
-            image: metadata.image,
-            fallbackUrl:
-              "https://ipfs.near.social/ipfs/bafkreifc4burlk35hxom3klq4mysmslfirj7slueenbj7ddwg7pc6ixomu",
-            alt: metadata.name,
-          }}
-        />
-      </Thumbnail>
+      <div className="d-flex flex-wrap align-items-center">
+        <Thumbnail size={size}>
+          <Widget
+            src="mob.near/widget/Image"
+            props={{
+              image: metadata.image,
+              fallbackUrl:
+                "https://ipfs.near.social/ipfs/bafkreifc4burlk35hxom3klq4mysmslfirj7slueenbj7ddwg7pc6ixomu",
+              alt: metadata.name,
+            }}
+          />
+        </Thumbnail>
 
-      <div>
-        <Title size={size}>{metadata.name || name}</Title>
-        <Text ellipsis>{src}</Text>
+        <div>
+          <Title size={size}>{metadata.name || name}</Title>
+          <Text ellipsis>{src}</Text>
+        </div>
+        <div className="ms-auto me-0 me-md-2 d-flex align-items-center">
+          <div className="top-right">
+            <a
+              href="/hack.near/widget/request.index"
+              className="envelope-icon me-2"
+            >
+              <i className="bi bi-envelope"></i>
+              <i className="bi bi-envelope-fill"></i>
+            </a>
+
+            <a href="https://nearbuilders.org" className="text-muted m-2">
+              <Widget
+                src="mob.near/widget/ProfileImage"
+                props={{ accountId: "build.sputnik-dao.near" }}
+                className="profile-image"
+              />
+            </a>
+          </div>
+        </div>
       </div>
     </Header>
 
