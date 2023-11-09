@@ -161,12 +161,6 @@ const loadData = () => {
   }
 
   const blockWidgetPattern = {
-    button1: {
-      widgetName: "Button 1",
-      widgetUrl: "marketplacebos.near/widget/Button.ButtonP.Button0001",
-      props: "button",
-      type: "block",
-    },
     button2: {
       widgetName: "Button 2",
       widgetUrl: "marketplacebos.near/widget/Button.ButtonP.Button0002",
