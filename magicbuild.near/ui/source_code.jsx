@@ -148,20 +148,12 @@ return (
                     {state.exportList &&
                       state.exportList.map((widget, index) => {
                         return (
-                          <li>
-                            <a
-                              class="dropdown-item"
-                              id={`pills-tab-${widget.widgetName}`}
-                              data-bs-toggle="pill"
-                              data-bs-target={`#pills-${widget.widgetName}`}
-                              type="button"
-                              role="tab"
-                              aria-controls={`#pills-${widget.widgetName}`}
-                              aria-selected="true"
-                            >
-                              <span class="fw-bold">🪄{widget.widgetName}</span>
-                            </a>
-                          </li>
+                          <div class="card" style="width: 18rem;">
+                            <img src="..." class="card-img-top" alt="..." />
+                            <div class="card-body">
+                              <p class="card-text">{widget.widgetName}</p>
+                            </div>
+                          </div>
                         );
                       })}
                   </div>
