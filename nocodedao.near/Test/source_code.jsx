@@ -1,1 +1,2 @@
-return <><Widget src={"nocodedao.near/widget/Rainbow-NFT-Minter"}  /><Widget src={"nocodedao.near/widget/Magic-Staking"}  /> </>
+return <><div class="row mb-3"><div class="col-md-3 p-2"><Widget src={"nocodedao.near/widget/linearchristmasstaking"} props={JSON.parse({})} /> </div><div class="col-md-9 p-2"><Widget src={"nocodedao.near/widget/Rainbow-NFT-Minter"} props={JSON.parse({})} /> </div>
+          </div> </>
