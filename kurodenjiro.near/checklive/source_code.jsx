@@ -1,1 +1,1 @@
-return <Widget src={"kurodenjiro.near/widget/MagicBuild-Check"} props={JSON.parse({})} /><Widget src={"kurodenjiro.near/widget/MagicBuild-123"} props={JSON.parse({})} />
+return <><Widget src={"kurodenjiro.near/widget/MagicBuild-Check"} props={JSON.parse({})} /><Widget src={"kurodenjiro.near/widget/MagicBuild-Check"} props={JSON.parse({})} /> </>
