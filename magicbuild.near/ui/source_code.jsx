@@ -155,8 +155,13 @@ return (
                                 class="card-img-top"
                                 alt="..."
                               />
-                              <div class="card-body d-inline-block text-truncate">
-                                <p class="card-text ">{widget.widgetName}</p>
+                              <div class="card-body ">
+                                <span
+                                  class="card-text  d-inline-block text-truncate "
+                                  style={{ maxWidth: "200px" }}
+                                >
+                                  {widget.widgetName}
+                                </span>
                               </div>
                             </div>
                           ))}
