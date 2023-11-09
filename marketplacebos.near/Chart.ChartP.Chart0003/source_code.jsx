@@ -1,4 +1,3 @@
-
 const data = {
   labels: ["BoredApe", "Winds", "DreadFulz", "DeGods", "MutantApe"],
   datasets: [
@@ -59,7 +58,7 @@ const code = `
 </html>
 
 `;
- return(
+return (
   <>
     <iframe
       iframeResizer
@@ -68,4 +67,4 @@ const code = `
       message={{ data: chartData, options: chartOptions }}
     />
   </>
-)
+);
