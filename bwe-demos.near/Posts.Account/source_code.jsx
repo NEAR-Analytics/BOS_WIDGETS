@@ -11,7 +11,17 @@ const fetchProfile = async () => {
         keys: [`${props.account}/profile/**`],
       }),
     });
-    const p = (await response.json())?.[props.account]?.profile;
+    let p = (await response.json())?.[props.account]?.profile;
+    if (!p && response.ok) {
+      // defaults
+      p = {
+        name: props.account,
+        image: {
+          ipfs_cid:
+            "bafkreibiyqabm3kl24gcb2oegb7pmwdi6wwrpui62iwb44l7uomnn3lhbi",
+        },
+      };
+    }
     // debugger;
     setProfile(p);
   } catch (err) {
@@ -44,10 +54,7 @@ return profile ? (
       }}
     >
       <img
-        src={`https://ipfs.near.social/ipfs/${
-          profile.image.ipfs_cid ||
-          "bafkreibiyqabm3kl24gcb2oegb7pmwdi6wwrpui62iwb44l7uomnn3lhbi"
-        }`}
+        src={`https://ipfs.near.social/ipfs/${profile.image.ipfs_cid}`}
         style={{
           objectFit: "cover",
           width: "100%",
