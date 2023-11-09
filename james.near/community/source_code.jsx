@@ -12,10 +12,10 @@ return (
         communityId: "every.near",
         contractId: "mint.sharddog.near",
 
-        h1: "EVERY",
-        h2: "ONE",
+        h1: "BUILD",
+        h2: "HUB",
 
-        tagline: "Build Community Pages",
+        tagline: "Decentralized Community Pages",
         taglineFont: "Courier",
 
         h1Color: "#000",
