@@ -724,7 +724,7 @@ return (
                       aria-controls="pills-self-customize-list"
                       aria-selected="true"
                     >
-                      Self-customize
+                      Import Widget
                     </span>
                   </li>
                 </ul>
