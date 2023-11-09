@@ -4,6 +4,7 @@ State.init({
   clickedModalBlock: false,
   widgetUrl,
   widgetProps,
+  exportList,
 });
 const addBlock = () => {
   const blockList = state.blockList;
@@ -16,6 +17,18 @@ const addBlock = () => {
   State.update({ blockList: blockList, openModalBlock: false });
   console.log(blockList);
 };
+const loadWidgetList = () => {
+  const exportListData = Social.get(
+    `${context.accountId}/magicbuild/widgetList`
+  );
+  console.log(exportListData);
+  if (exportListData) {
+    const exportList = JSON.parse(exportListData);
+    State.update({ exportList: exportList });
+  }
+};
+
+loadWidgetList();
 const removeBlock = (index) => {
   const blockList = state.blockList;
   blockList.splice(index, 1);
@@ -63,7 +76,7 @@ return (
                   <li class="nav-item" role="presentation">
                     <span
                       class="nav-link px-3 active"
-                      id="block-list-tab-home"
+                      id="block-list-tab"
                       data-bs-toggle="pill"
                       data-bs-target="#pills-block-list"
                       type="button"
@@ -78,7 +91,7 @@ return (
                   <li class="nav-item" role="presentation">
                     <span
                       class="nav-link px-3 "
-                      id="layout-tab-home"
+                      id="layout-tab"
                       data-bs-toggle="pill"
                       data-bs-target="#pills-layout-list"
                       type="button"
@@ -92,7 +105,7 @@ return (
                   <li class="nav-item" role="presentation">
                     <span
                       class="nav-link px-3"
-                      id="export-list-tab-home"
+                      id="export-list-tab"
                       data-bs-toggle="pill"
                       data-bs-target="#pills-export-list"
                       type="button"
@@ -100,7 +113,7 @@ return (
                       aria-controls="pills-export-list"
                       aria-selected="true"
                     >
-                      Exported
+                      Your Exported
                     </span>
                   </li>
                   <li class="nav-item" role="presentation">
@@ -126,8 +139,33 @@ return (
                     role="tabpanel"
                     aria-labelledby={`pills-tab-block-list`}
                     tabindex="0"
+                  ></div>
+                  <div
+                    class="tab-pane fade show active "
+                    id={`pills-export-list`}
+                    role="tabpanel"
+                    aria-labelledby={`pills-tab-export-list`}
+                    tabindex="0"
                   >
-                    1
+                    {state.exportList &&
+                      state.exportList.map((widget, index) => {
+                        return (
+                          <li>
+                            <a
+                              class="dropdown-item"
+                              id={`pills-tab-${widget.widgetName}`}
+                              data-bs-toggle="pill"
+                              data-bs-target={`#pills-${widget.widgetName}`}
+                              type="button"
+                              role="tab"
+                              aria-controls={`#pills-${widget.widgetName}`}
+                              aria-selected="true"
+                            >
+                              <span class="fw-bold">🪄{widget.widgetName}</span>
+                            </a>
+                          </li>
+                        );
+                      })}
                   </div>
                   <div
                     class="tab-pane fade "
