@@ -64,10 +64,11 @@ const forkClick = () => {
 
 return (
   <div className="m-1 row">
-    <div className="m-1 col-3">
-      <p className="m-2">{`${context.accountId}/${type}/`}</p>
+    <h5>Rename:</h5>
+    <div className="m-1 col-auto">
+      <p className="m-1">{`${context.accountId}/${type}/`}</p>
     </div>
-    <div className="m-1 col-5">
+    <div className="m-1 col-auto">
       <input
         className="form-control"
         defaultValue={state.name}
@@ -78,10 +79,16 @@ return (
         }}
       />
     </div>
-    <div className="m-1 col-3">
+    <div className="m-1 col-auto">
       <button className="btn btn-outline-secondary" onClick={forkClick}>
         <i className="bi bi-feather"></i>
         Submit
+      </button>
+    </div>
+    <div className="m-1 col-auto">
+      <button className="btn btn-outline-danger" onClick={handleClose}>
+        <i className="bi bi-feather"></i>
+        Close
       </button>
     </div>
   </div>
