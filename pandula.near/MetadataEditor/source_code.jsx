@@ -32,7 +32,7 @@ const metadata = {
       : undefined,
   tags: options.tags ? state.metadata.tags : undefined,
   screenshots: options.screenshots ? state.metadata.screenshots : undefined,
-  forkOf: options.forkOf ? state.metadata.forkOf : undefined,
+  forkOf: initialMetadata.forkOf ? initialMetadata.forkOf : undefined,
 };
 
 if (
