@@ -531,13 +531,9 @@ return (
         {state.selectedTab === "discussion" && (
           <Content noSidebar>
             <Widget
-              src="near/widget/NestedDiscussions"
+              src="james.near/widget/discussion"
               props={{
-                identifier: src,
-                notifyAccountId: accountId,
-                parentComponent: "james.near/widget/repository",
-                parentParams: { tab: "discussion", src },
-                highlightComment: props.highlightComment,
+                src,
               }}
             />
           </Content>
@@ -550,7 +546,7 @@ return (
           <Widget
             src="near/widget/AccountProfile"
             props={{
-              accountId: accountId,
+              accountId,
             }}
           />
 
