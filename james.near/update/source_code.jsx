@@ -103,7 +103,7 @@ return (
           <Container>
             <div className="d-flex flex-wrap justify-content-between mb-3">
               <div className="m-1">
-                <h1>GitBos</h1>
+                <h3>Request Changes</h3>
               </div>
               <div className="ms-auto me-0 me-md-2 d-flex align-items-center">
                 <div className="top-right">
@@ -119,9 +119,6 @@ return (
                   />
                 </div>
               </div>
-            </div>
-            <div className="m-1">
-              <h3>Request Changes</h3>
             </div>
             <h5 className="m-1 mt-4">input path of updated thing</h5>
             <div className="input-group m-1 mb-2">
