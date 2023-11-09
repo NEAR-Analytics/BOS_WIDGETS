@@ -143,17 +143,11 @@ async function befriend(rpAddress, usedSchemata) {
     }
 
     // cred_call(rpAddress, results.proof, usedSchemata)
-    Near.call(
-      REGISTRY_CONTRACT_ADDRESS,
-      "cred_call",
-      {
-        receiver: rpAddress,
-        proof: result.proof,
-        used_schemata: usedSchemata,
-      },
-      "300000000000000",
-      0
-    ).then((receipt) => {
+    Near.call(REGISTRY_CONTRACT_ADDRESS, "cred_call", {
+      receiver: rpAddress,
+      proof: result.proof,
+      used_schemata: usedSchemata,
+    }).then((receipt) => {
       console.log(receipt);
       State.update({ waitingBefriend: false });
     });
@@ -225,7 +219,7 @@ return (
                     display: "block",
                   }}
                 >
-                  {state.result.journal.result ? "true" : "false"}
+                  {state.result.journal.result.toString()}
                 </b>
               </div>
               {state.result.journal.error_msg !== "" && (
