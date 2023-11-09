@@ -15,8 +15,10 @@ const getClaimedQuest = () => {
   });
   State.update({ nftsUser: data });
 };
-getProfile();
-getClaimedQuest();
+if (context.accountId) {
+  getProfile();
+  getClaimedQuest();
+}
 
 if (state.nftsUser != null) {
   let json = state.nftsUser.find(
