@@ -1,6 +1,7 @@
 const ownerId = "refoundonbos.near";
 const registryId = "refoundjournalism.near";
-const mapImage = "https://bafybeibhpayxcnfjbq53jdx53yllvk6j7hlzifxnrs7cizrkcoc45qtps4.ipfs.w3s.link/map_transparent.png";
+const mapImage =
+  "https://bafybeibhpayxcnfjbq53jdx53yllvk6j7hlzifxnrs7cizrkcoc45qtps4.ipfs.w3s.link/map_transparent.png";
 const IPFS_BASE_URL = "https://nftstorage.link/ipfs/";
 const DEFAULT_BANNER_IMAGE_URL =
   IPFS_BASE_URL + "bafkreih4i6kftb34wpdzcuvgafozxz6tk6u4f5kcr2gwvtvxikvwriteci";
@@ -140,10 +141,7 @@ const projects = state.registeredPosts;
 return (
   <>
     <Wrapper style={{ backgroundColor: "#3C4DF2" }}>
-      <img
-        src={mapImage}
-        alt="Map"
-      />
+      <img src={mapImage} alt="Map" />
     </Wrapper>
 
     <ProjectsContainer>
