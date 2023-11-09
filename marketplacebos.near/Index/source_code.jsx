@@ -165,6 +165,12 @@ return (
             >
               <Title>Patterns</Title>
             </TabsButton>
+             <TabsButton
+              onClick={() => handleTabClick("fonts")}
+              selected={state.selectedTab === "fonts"}
+            >
+              <Title>Fonts Style</Title>
+            </TabsButton>
             <TabsButton
               onClick={() => handleTabClick("myfavorites")}
               selected={state.selectedTab === "myfavorites"}
@@ -198,6 +204,8 @@ return (
         )}
         {state.selectedTab === "cards" && (
           <>
+            <Widget src="marketplacebos.near/widget/Page.CardPage1" />
+
             <br />
             <br />
           </>
@@ -243,6 +251,14 @@ return (
         {state.selectedTab === "patterns" && (
           <>
             <Widget src="marketplacebos.near/widget/Page.PatternPage1" />
+            <br />
+            <br />
+          </>
+        )}
+        {""}
+        {state.selectedTab === "fonts" && (
+          <>
+            <Widget src="marketplacebos.near/widget/Page.FontPage1" />
             <br />
             <br />
           </>
