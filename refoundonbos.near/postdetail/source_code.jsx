@@ -6,7 +6,7 @@ State.init({
 });
 
 if (!state.postIsFetched) {
-  Near.asyncView(contractId, "get_series_details", { id: 0}).then((post) =>
+  Near.asyncView(contractId, "get_series_details", { id: seriesId }).then((post) =>
     State.update({ post, postIsFetched: true })
   );
 }
