@@ -17,6 +17,7 @@ const addBlock = (widgetUrl, widgetProps) => {
   State.update({ blockList: blockList, openModalBlock: false });
 };
 const selectWidget = (e, widgetUrl) => {
+  console.log(e.detail);
   switch (e.detail) {
     case 1:
       break;
