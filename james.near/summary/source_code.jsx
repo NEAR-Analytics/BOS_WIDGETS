@@ -453,6 +453,59 @@ function normalizeMarkdown(text) {
   return text.trim();
 }
 
+const source = Social.get(`${state.src}`);
+
+const forkClick = () => {
+  if (state.loading) {
+    return;
+  }
+
+  State.update({
+    loading: true,
+  });
+
+  const data = {
+    index: {
+      fork: JSON.stringify({
+        key: src,
+        value: {
+          type: "fork",
+        },
+      }),
+    },
+    [`${type}`]: {
+      [`${name}`]: {
+        "": `${source}`,
+      },
+    },
+  };
+
+  data.index.notify = JSON.stringify({
+    key: accountId,
+    value: {
+      type: "fork",
+      src,
+    },
+  });
+
+  Social.set(data, {
+    onCommit: () => State.update({ loading: false }),
+    onCancel: () =>
+      State.update({
+        loading: false,
+      }),
+  });
+};
+
+const handleCreate = () =>
+  Social.set({
+    [`${type}`]: {
+      [`${name}`]: {
+        "": `${newVersion}`,
+      },
+    },
+  });
+
 return (
   <Wrapper>
     <Header size={size}>
@@ -494,18 +547,19 @@ return (
         {primaryActions[primaryAction].display}
       </ButtonLink>
 
-      <ButtonLink href={`/edit/${src}`}>
-        {context.accountId === accountId ? (
+      {context.accountId === accountId ? (
+        <ButtonLink href={`/edit/${src}`}>
           <>
             <i className="bi bi-pencil-fill"></i> Edit
           </>
-        ) : (
+        </ButtonLink>
+      ) : (
+        <ButtonLink onClick={forkClick}>
           <>
             <i className="bi bi-git"></i> Fork
           </>
-        )}
-      </ButtonLink>
-
+        </ButtonLink>
+      )}
       <ButtonLink onClick={() => State.update({ showModal: true })}>
         {context.accountId === accountId ? (
           <>
