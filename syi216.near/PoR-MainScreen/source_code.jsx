@@ -222,7 +222,7 @@ if (
     (quest) => quest.metadata.title == "Proof Of Reputation NFT"
   ).metadata.extra;
   if (json) {
-    json = data.split(",")[0].split(":")[1];
+    json = json.split(",")[0].split(":")[1];
   }
   let titleArr = ["I'm Human", "stNEAR", "Meta Token", "Voting Power"];
   let claimedID = [];
