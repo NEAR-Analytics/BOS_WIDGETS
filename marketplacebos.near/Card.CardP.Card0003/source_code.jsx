@@ -52,20 +52,20 @@ const Box = styled.div`
   }
 
 `;
-const title = props.title ||`GLASS EFFECT`;
-const strong = props.strong ||`JOE WATSON SBF`;
-const p = props.p ||`0000 000 000 0000`;
-const span = props.span ||`01/28`;
+const title = props.title || `GLASS EFFECT`;
+const strong = props.strong || `JOE WATSON SBF`;
+const p = props.p || `0000 000 000 0000`;
+const span = props.span || `01/28`;
 
- return(
-         <ContainerBox>
-            <Box>
-            <span className="title">{title}</span>
-            <div>
-                <strong>{strong}</strong>
-                <p>{p}</p>
-                <span>{span}</span>
-            </div>
-            </Box>
-        </ContainerBox>
-  )
+return (
+  <ContainerBox>
+    <Box>
+      <span className="title">{title}</span>
+      <div>
+        <strong>{strong}</strong>
+        <p>{p}</p>
+        <span>{span}</span>
+      </div>
+    </Box>
+  </ContainerBox>
+);
