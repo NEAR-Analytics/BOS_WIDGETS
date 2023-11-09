@@ -9,7 +9,7 @@ const [response, setResponse] = useState("");
 
 const [messages, setMessages] = useState([
   {
-    role: "ai",
+    role: "system",
     content: "Hi, I'm CEO of Near AI",
   },
 ]);
@@ -18,6 +18,7 @@ useEffect(() => {
   if (messages.length === 0 || messages[messages.length - 1].role !== "user") {
     return;
   }
+  console.log(messages);
   setLoading(true);
   asyncFetch(`https://ai.near.social/api`, {
     method: "POST",
@@ -27,11 +28,11 @@ useEffect(() => {
     responseType: "json",
     body: JSON.stringify([
       { role: "system", content: systemPrompt },
-      ...messages.filter(({ role }) => role === "user"),
+      ...messages.slice(-1),
     ]),
   })
     .then(({ body }) => {
-      setMessages([...messages, { role: "ai", content: body.response }]);
+      setMessages([...messages, { role: "system", content: body.response }]);
     })
     .finally(() => {
       setLoading(false);
@@ -50,11 +51,11 @@ const Wrapper = styled.div`
   padding: 1em;
   margin-bottom: 1em;
 
-  &.ai {
+  &.system {
     margin-right: 5em;
   }
 
-  &.ai:before {
+  &.system:before {
     content: "AI";
     color: #999;
   }
@@ -63,14 +64,9 @@ const Wrapper = styled.div`
     margin-left: 5em;
   }
 
-  &.user:before {
-    content: "User";
-    color: #999;
-  }
-
 
   p:last-child {
-      margin-bottom: 0;
+    margin-bottom: 0;
   }
 }
 `;
@@ -90,11 +86,12 @@ return (
           value={question}
           onChange={(e) => setQuestion(e.target.value)}
           onKeyPress={(e) => {
-            if (event.key === "Enter") {
+            if (e.key === "Enter") {
               submitQuestion();
             }
           }}
           placeholder="What's your question?"
+          autoFocus
         />
         <button
           className="btn btn-primary"
@@ -112,12 +109,18 @@ return (
       {messages.map(({ role, content }, i) => {
         return (
           <div key={i} className={`message ${role}`}>
+            {role === "user" && (
+              <Widget
+                src="mob.near/widget/N.ProfileLine"
+                props={{ accountId: context.accountId }}
+              />
+            )}
             <Markdown text={content} />
           </div>
         );
       })}
       {loading && (
-        <div key="loading" className={`message ai`}>
+        <div key="loading" className={`message system`}>
           <div>
             <span
               className="spinner-grow spinner-grow-sm me-1"
