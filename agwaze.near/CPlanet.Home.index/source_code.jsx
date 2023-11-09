@@ -4,7 +4,7 @@ const Root = styled.div`
     flex-direction: column;
     justify-content: space-between;
     padding-bottom: 0px;
-    height: 790px;
+    height: 950px;
 
     .text:first-letter {
       color: #FFF;
@@ -115,7 +115,7 @@ const Figures = styled.div`
 `;
 
 const CTA = styled.div`
-
+  margin-top: 120px;
   img {
      width: 200px;
       height: 200px;
