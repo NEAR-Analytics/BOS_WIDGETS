@@ -81,6 +81,7 @@ const openModalBlock = (e, type) => {
     State.update({ openModalBlock: true, clicked: false });
   }
   if (type == "close") {
+    State.update({ selectBlock: null, selectPositionBlock: null });
     State.update({ openModalBlock: false });
   }
 };
