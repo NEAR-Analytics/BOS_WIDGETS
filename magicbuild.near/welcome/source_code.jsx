@@ -12,7 +12,7 @@ return (
         </p>
         <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
           <a
-            href="https://magicbuild.ai/telegram"
+            href="https://t.me/+nMYG3jXnH0A4Njcx"
             type="button"
             class="btn btn-dark btn-lg px-4"
           >
