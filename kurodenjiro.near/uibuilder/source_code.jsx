@@ -1342,7 +1342,7 @@ return (
                                   selectBlock: blockId,
                                 });
                                 State.update({
-                                  selectPositionBlock: 1,
+                                  selectPositionBlock: 2,
                                 });
                               }}
                               class="btn btn-outline-primary btn-lg btn-block"
