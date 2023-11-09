@@ -269,6 +269,37 @@ return (
       </>
     )}
     <div class="row mb-3">
+      <div class="form-group col-md-9 border rounded p-3 border-2">
+        <div>
+          {state.blockList &&
+            state.blockList.map((block, index) => (
+              <div class="row border rounded p-3 border-2 m-2 ">
+                <div class="row pb-2">
+                  <div class="col-sm-11 ">
+                    <h6>
+                      <span class="text-info">{block.widgetUrl}</span>
+                    </h6>
+                  </div>
+                  <div class="col-sm-1 ">
+                    <button
+                      type="button"
+                      onClick={(e) => removeBlock(index)}
+                      class="btn-close"
+                    ></button>
+                  </div>
+                </div>
+                <Widget src={block.widgetUrl} props={block.props} />
+              </div>
+            ))}
+        </div>
+        <button
+          type="button"
+          onClick={(e) => openModalBlock(e, "show")}
+          class="btn btn-outline-primary btn-lg btn-block"
+        >
+          Add Block +
+        </button>
+      </div>
       <div class="form-group col-md-3 ">
         <div class="card">
           <div class="card-header">Block</div>
@@ -325,43 +356,6 @@ return (
               </div>
             </div>
           </div>
-        </div>
-      </div>
-      <div class="form-group col-md-7 border rounded p-3 border-2">
-        <div>
-          {state.blockList &&
-            state.blockList.map((block, index) => (
-              <div class="row border rounded p-3 border-2 m-2 ">
-                <div class="row pb-2">
-                  <div class="col-sm-11 ">
-                    <h6>
-                      <span class="text-info">{block.widgetUrl}</span>
-                    </h6>
-                  </div>
-                  <div class="col-sm-1 ">
-                    <button
-                      type="button"
-                      onClick={(e) => removeBlock(index)}
-                      class="btn-close"
-                    ></button>
-                  </div>
-                </div>
-                <Widget src={block.widgetUrl} props={block.props} />
-              </div>
-            ))}
-        </div>
-        <button
-          type="button"
-          onClick={(e) => openModalBlock(e, "show")}
-          class="btn btn-outline-primary btn-lg btn-block"
-        >
-          Add Block +
-        </button>
-      </div>
-      <div class="form-group col-md-2 ">
-        <div class="card">
-          <div class="card-header">Edit</div>
-          <div class="card-body"></div>
         </div>
       </div>
     </div>
