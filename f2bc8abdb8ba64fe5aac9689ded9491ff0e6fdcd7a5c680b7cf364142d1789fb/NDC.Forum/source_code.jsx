@@ -11,6 +11,7 @@ let {
   widgets,
   brand,
   baseActions,
+  createSbtOptions,
 } = props;
 sharedBlockHeight = Number(sharedBlockHeight);
 
@@ -336,31 +337,6 @@ function getValidEditArticleDataTags() {
       newFormatTags[tag] = "";
     });
   return newFormatTags;
-}
-
-function createSbtOptions() {
-  return sbtWhiteList.map((option, i) => {
-    const title = "";
-
-    if (option === "fractal.i-am-human.near - class 1") {
-      title = "General";
-    } else if (option === "community.i-am-human.near - class 1") {
-      title = "OG";
-    } else if (option === "community.i-am-human.near - class 2") {
-      title = "Contributor";
-    } else if (option === "community.i-am-human.near - class 3") {
-      title = "Core Contributor";
-    } else {
-      title = "Public";
-    }
-
-    if (i == 0) {
-      //The first options is always the default one
-      return { title, default: true, value: option };
-    } else {
-      return { title, value: option };
-    }
-  });
 }
 
 const initialCreateState = {
