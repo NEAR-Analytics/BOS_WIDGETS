@@ -1,5 +1,4 @@
 State.init({ clientList: [], widgetList: [] });
-
 const loadData = () => {
   const clientListData = Social.get(
     `${context.accountId}/magicbuild/clientList`
