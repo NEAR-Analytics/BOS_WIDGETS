@@ -145,15 +145,22 @@ return (
                     aria-labelledby={`pills-export-list`}
                     tabindex="0"
                   >
-                    {state.exportList &&
-                      state.exportList.map((widget, index) => (
-                        <div class="card" style={{ width: "18rem;" }}>
-                          <img src="..." class="card-img-top" alt="..." />
-                          <div class="card-body">
-                            <p class="card-text">{widget.widgetName}</p>
-                          </div>
-                        </div>
-                      ))}
+                    <div class="row m-3">
+                      <div class="form-group col-md-12 ">
+                        {state.exportList &&
+                          state.exportList.map((widget, index) => (
+                            <div class="card" style={{ width: "18rem;" }}>
+                              <Widget
+                                src={`${context.accountId}/widget/${widget.widgetName}`}
+                                props={widget}
+                              />
+                              <div class="card-body">
+                                <p class="card-text">{widget.widgetName}</p>
+                              </div>
+                            </div>
+                          ))}
+                      </div>
+                    </div>
                   </div>
                   <div
                     class="tab-pane fade "
