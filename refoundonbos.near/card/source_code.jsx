@@ -93,7 +93,7 @@ const tags = series && Object.keys(series.tags ?? {});
 const dateTaken = series.dateTaken;
 const location = series.location;
 const verified = series.verified;
-const seriesId = series.series_id
+const seriesId = series.seriesId;
 console.log("media", image);
 const donationsForProject = Near.view(
   donationContractId,
