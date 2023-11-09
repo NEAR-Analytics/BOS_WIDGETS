@@ -62,7 +62,7 @@ return (
         <img src="https://ipfs.near.social/ipfs/bafkreia63u3nw7mb4ex5r74v4y6gfef2gj6x54mpjlh54f4swbyafao42i" />
       </a>
       <a target="_blank" href="http://genadrop.io/">
-        <img src="https://ipfs.near.social/ipfs/bafkreifat2nwrnxsplscad6pqktksctqvbf4ub6ior4nbnnb3utjdf666y" />
+        <img src="https://ipfs.near.social/ipfs/bafkreifnesrqk4v5cxez6iaku5ntzibdtzt4p27a5zjloeijzztjy4cesq" />
       </a>
       <a target="_blank" href="http://ethmilan.xyz/">
         <img src="https://ipfs.near.social/ipfs/bafkreibcmjcwfetvhy7o4rkjrhcpgaupgn25y4mkqqt7g7ehmfegvn4uim" />
