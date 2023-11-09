@@ -9,6 +9,16 @@ const listAcc = [
   "stainslaw.near",
 ];
 
+const addToList = (accountId, whitelist) => {
+  Near.call(
+    "dev-1699476584572-68521106200929",
+    whitelist ? "whitelist" : "blacklist",
+    {
+      accounts: [accountId],
+    }
+  );
+};
+
 return (
   <div style={{ padding: 20 }}>
     <p style={{ fontSize: 30, fontWeight: "500" }}>Manage Account</p>
@@ -52,8 +62,20 @@ return (
           </div>
         </div>
         <div style={{ display: "flex", gap: "10px", paddingTop: 10 }}>
-          <input placeholder="Add Account to whitelist" />
-          <button>Add</button>
+          <input
+            value={state.whitelist}
+            onChange={(e) => {
+              State.update({ whitelist: e.target.value });
+            }}
+            placeholder="Add Account to whitelist"
+          />
+          <button
+            onClick={() => {
+              addToList(state.whitelist, false);
+            }}
+          >
+            Add
+          </button>
         </div>
       </>
     )}
@@ -88,8 +110,20 @@ return (
           </div>
         </div>
         <div style={{ display: "flex", gap: "10px", paddingTop: 10 }}>
-          <input placeholder="Add Account to blacklist" />
-          <button>Add</button>
+          <input
+            value={state.blacklist}
+            onChange={(e) => {
+              State.update({ blacklist: e.target.value });
+            }}
+            placeholder="Add Account to blacklist"
+          />
+          <button
+            onClick={() => {
+              addToList(state.blacklist, false);
+            }}
+          >
+            Add
+          </button>
         </div>
       </>
     )}
