@@ -300,7 +300,7 @@ return (
         {viewingOwnAccount ? (
           <Link
             className="button button--primary"
-            href="/near/widget/ProfileEditor"
+            href="/jgodwill.near/widget/CPlanet.ProfileEditor"
           >
             <i className="bi bi-pencil"></i>
             Edit Profile
