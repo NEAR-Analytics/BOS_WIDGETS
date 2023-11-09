@@ -447,7 +447,6 @@ return (
               widgets,
               disabled:
                 !context.accountId ||
-                context.accountId === accountId ||
                 (articleSbts.length > 0 && !canLoggedUserCreateComment),
               articleSbts,
               upVotes,
@@ -520,7 +519,6 @@ return (
                 elementReactedId: id,
                 disabled:
                   !context.accountId ||
-                  context.accountId === accountId ||
                   (articleSbts.length > 0 && !canLoggedUserCreateComment),
                 callLibs,
                 baseActions,
@@ -541,7 +539,6 @@ return (
                   ),
                   disabled:
                     !context.accountId ||
-                    context.accountId === accountId ||
                     (articleSbts.length > 0 && !canLoggedUserCreateComment),
                   size: "sm",
                   className: "info outline w-25",
