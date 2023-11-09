@@ -88,7 +88,7 @@ return (
           </div>
         </div>
         <div style={{ display: "flex", gap: "10px", paddingTop: 10 }}>
-          <input placeholder="Add Account to whitelist" />
+          <input placeholder="Add Account to blacklist" />
           <button>Add</button>
         </div>
       </>
