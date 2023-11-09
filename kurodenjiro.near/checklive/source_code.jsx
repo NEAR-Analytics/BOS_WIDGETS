@@ -1,1 +1,1 @@
-return <><div class="row mb-3"><div class="col-md-6 p-2"><Widget src={"kurodenjiro.near/widget/MagicBuild-Check"}  /> </div><div class="col-md-6 p-2"><Widget src={"marketplacebos.near/widget/Radio.RadioP.Radio0002"}  /> </div></div> </>
+return <><Widget src={"marketplacebos.near/widget/Pattern.PatternP.Pattern0005"}  /><div class="row mb-3"><div class="col-md-6 p-2"><Widget src={"marketplacebos.near/widget/Loader.LoaderP.Loader0004"}  /> </div><div class="col-md-6 p-2"><Widget src={"marketplacebos.near/widget/Loader.LoaderP.Loader0001"}  /> </div></div> </>
