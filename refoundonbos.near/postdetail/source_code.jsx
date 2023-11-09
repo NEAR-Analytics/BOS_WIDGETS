@@ -6,13 +6,13 @@ State.init({
 });
 
 if (!state.postIsFetched) {
-  Near.asyncView(contractId, "get_series_details", { id: seriesId }).then((post) =>
-    State.update({ post, postIsFetched: true })
-  );
+  Near.asyncView(contractId, "get_series_details", {
+    id: parseInt(seriesId),
+  }).then((post) => State.update({ post, postIsFetched: true }));
 }
 
 if (!state.postIsFetched) return "Loading...";
-console.log("post", state.post)
+console.log("post", state.post);
 const Projects = styled.div`
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
@@ -134,8 +134,16 @@ return (
         }
       ></img>
       <p>{state.post.metadata.description}</p>
-      <p>Location: {state.post.metadata.extra && JSON.parse(state.post.metadata.extra).locationTaken}</p>
-      <p>Date Taken: {state.post.metadata.extra && JSON.parse(state.post.metadata.extra).dateTaken}</p>
+      <p>
+        Location:{" "}
+        {state.post.metadata.extra &&
+          JSON.parse(state.post.metadata.extra).locationTaken}
+      </p>
+      <p>
+        Date Taken:{" "}
+        {state.post.metadata.extra &&
+          JSON.parse(state.post.metadata.extra).dateTaken}
+      </p>
       <p>Tags: {tags}</p>
       <button style={{ backgroundColor: "black", borderColor: "black" }}>
         Up Vote
