@@ -38,7 +38,7 @@ const getPrompt = () => {
         {
           role: "user",
           content:
-            "Act as a UI developer, users will fill out a prompt about their frontend ideas, and your role is to create a css style animation of the Button , Label , Sidebar , Card , Form , Accordion . Create button effects, Button , Label , Sidebar , Nav, Form , Spiner Button , Loading , Tab font size 30. User prompt:{" +
+            "Act as a UI developer, users will fill out a prompt about their frontend ideas, and your role is to create a css style animation of the Button , Label , Sidebar , Card , Form , Accordion , Pagination. Create button effects, Button , Label , Sidebar , Nav, Form , Spiner Button , Loading , Tab font size 30. User prompt:{" +
             state.prompt +
             "}. Give me the JSON for an object : {HTML:`Code`, CSS: `Code`} and no more explaination",
         },
