@@ -715,14 +715,6 @@ return (
                                   onChange={(e) => onInputChangeClientName(e)}
                                 />
                               </div>
-                              <div class="form-group">
-                                <label>Chain</label>
-                                <select class="form-control">
-                                  <option selected>Near Chain</option>
-                                  <option disabled>Ethereum Chain</option>
-                                  <option disabled>AVAX Chain</option>
-                                </select>
-                              </div>
                               <small class="form-text text-muted">
                                 A new Client will be created.
                               </small>
