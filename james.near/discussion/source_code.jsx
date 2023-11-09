@@ -16,8 +16,8 @@ return (
           post: JSON.stringify([
             {
               key: {
-                type: "thing",
-                path: `${src}`,
+                type: "social",
+                path: src,
               },
               value: {
                 type: "md",
@@ -33,7 +33,7 @@ return (
           action: "post",
           key: {
             type: "social",
-            path: `${src}`,
+            path: src,
           },
           options: {
             limit: 10,
