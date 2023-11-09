@@ -258,8 +258,44 @@ const exportForm = () => {
       }
       if (state.blockList[blockId].type == "layout") {
         if (state.blockList[blockId].layoutType == "50-50") {
-          exportSource += `<div class="row mb-3">
-          <div class="col-md-6 p-2">`;
+          exportSource += `<div class="row mb-3">`;
+          exportSource += `<div class="col-md-6 p-2">`;
+          exportSource += `<Widget src={"${
+            state.blockList[blockId]["block-1"].widgetUrl
+          }"} props={JSON.parse(${JSON.stringify(
+            state.blockList[blockId]["block-1"].props
+          )})} /> `;
+          exportSource += `</div>`;
+          exportSource += `<div class="col-md-6 p-2">`;
+          exportSource += `<Widget src={"${
+            state.blockList[blockId]["block-2"].widgetUrl
+          }"} props={JSON.parse(${JSON.stringify(
+            state.blockList[blockId]["block-2"].props
+          )})} /> `;
+          exportSource += `</div>`;
+          exportSource += `</div>`;
+        }
+        if (state.blockList[blockId].layoutType == "33-66") {
+          exportSource += `<div class="row mb-3">`;
+          exportSource += `<div class="col-md-3 p-2">`;
+          exportSource += `<Widget src={"${
+            state.blockList[blockId]["block-1"].widgetUrl
+          }"} props={JSON.parse(${JSON.stringify(
+            state.blockList[blockId]["block-1"].props
+          )})} /> `;
+          exportSource += `</div>`;
+          exportSource += `<div class="col-md-9 p-2">`;
+          exportSource += `<Widget src={"${
+            state.blockList[blockId]["block-2"].widgetUrl
+          }"} props={JSON.parse(${JSON.stringify(
+            state.blockList[blockId]["block-2"].props
+          )})} /> `;
+          exportSource += `</div>
+          </div>`;
+        }
+        if (state.blockList[blockId].layoutType == "66-33") {
+          exportSource += `<div class="row mb-3">`;
+          exportSource += `<div class="col-md-9 p-2">`;
           exportSource += `<Widget src={"${
             state.blockList[blockId]["block-1"].widgetUrl
           }"} props={JSON.parse(${JSON.stringify(
@@ -267,13 +303,65 @@ const exportForm = () => {
           )})} /> `;
           exportSource += `</div>`;
 
+          exportSource += `<div class="col-md-3 p-2">`;
+          exportSource += `<Widget src={"${
+            state.blockList[blockId]["block-2"].widgetUrl
+          }"} props={JSON.parse(${JSON.stringify(
+            state.blockList[blockId]["block-2"].props
+          )})} /> `;
+          exportSource += `</div>`;
+          exportSource += `</div>`;
+        }
+        if (state.blockList[blockId].layoutType == "33-33-33") {
+          exportSource += `<div class="row mb-3">`;
+          exportSource += ` <div class="col-md-4 p-2">`;
+          exportSource += `<Widget src={"${
+            state.blockList[blockId]["block-1"].widgetUrl
+          }"} props={JSON.parse(${JSON.stringify(
+            state.blockList[blockId]["block-1"].props
+          )})} /> `;
+          exportSource += `</div>`;
+          exportSource += `<div class="col-md-4 p-2">`;
+          exportSource += `<Widget src={"${
+            state.blockList[blockId]["block-2"].widgetUrl
+          }"} props={JSON.parse(${JSON.stringify(
+            state.blockList[blockId]["block-2"].props
+          )})} /> `;
+          exportSource += `</div>`;
+
+          exportSource += `<div class="col-md-4 p-2">`;
+          exportSource += `<Widget src={"${
+            state.blockList[blockId]["block-3"].widgetUrl
+          }"} props={JSON.parse(${JSON.stringify(
+            state.blockList[blockId]["block-3"].props
+          )})} /> `;
+          exportSource += `</div>`;
+          exportSource += `</div>`;
+        }
+        if (state.blockList[blockId].layoutType == "25-50-25") {
+          exportSource += `<div class="row mb-3">`;
+          exportSource += ` <div class="col-md-3 p-2">`;
+          exportSource += `<Widget src={"${
+            state.blockList[blockId]["block-1"].widgetUrl
+          }"} props={JSON.parse(${JSON.stringify(
+            state.blockList[blockId]["block-1"].props
+          )})} /> `;
+          exportSource += `</div>`;
           exportSource += `<div class="col-md-6 p-2">`;
           exportSource += `<Widget src={"${
             state.blockList[blockId]["block-2"].widgetUrl
           }"} props={JSON.parse(${JSON.stringify(
             state.blockList[blockId]["block-2"].props
           )})} /> `;
-          exportSource += `</div></div>`;
+          exportSource += `</div>`;
+          exportSource += `<div class="col-md-3 p-2">`;
+          exportSource += `<Widget src={"${
+            state.blockList[blockId]["block-3"].widgetUrl
+          }"} props={JSON.parse(${JSON.stringify(
+            state.blockList[blockId]["block-3"].props
+          )})} /> `;
+          exportSource += `</div>`;
+          exportSource += `</div>`;
         }
       }
     }
