@@ -16,6 +16,15 @@ const addBlock = (widgetUrl, widgetProps) => {
   blockList.push(block);
   State.update({ blockList: blockList, openModalBlock: false });
 };
+const selectWidget = (e, widgetUrl) => {
+  switch (e.detail) {
+    case 1:
+      break;
+    case 2:
+      addBlock(widgetUrl, {});
+      break;
+  }
+};
 const loadWidgetList = () => {
   const exportListData = Social.get(
     `${context.accountId}/magicbuild/widgetList`
@@ -152,7 +161,16 @@ return (
                       {state.exportList &&
                         state.exportList.map((widget, index) => (
                           <div class="col m-2">
-                            <div class="card p-2" style={{ width: "130px" }}>
+                            <div
+                              class="card p-2"
+                              style={{ width: "130px" }}
+                              onClick={(e) =>
+                                selectWidget(
+                                  e,
+                                  `${context.accountId}/widget/${widget.widgetName}`
+                                )
+                              }
+                            >
                               <img
                                 src="https://ipfs.near.social/ipfs/bafkreido7gsk4dlb63z3s5yirkkgrjs2nmyar5bxyet66chakt2h5jve6e"
                                 class="card-img-top"
