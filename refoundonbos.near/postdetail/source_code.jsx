@@ -113,69 +113,7 @@ const IB = "nearui.near/widget/Input.Button";
 // projects = null;
 return (
   <>
-    <div className="row">
-      <Nav>
-        <NavLeft>
-          <NavLogo href={"https://near.org/refound-landing.near/widget/home"}>
-            refound
-          </NavLogo>
-        </NavLeft>
-        <NavRight>
-          <NavTabs>
-            <Link
-              href="https://near.org/refound-create-post.near/widget/home"
-              style={{
-                textDecoration: "none",
-                color: "grey",
-                marginRight: "10px",
-              }}
-            >
-              Create
-            </Link>
-            <Link
-              href="https://near.org/refoundonbos.near/widget/home"
-              style={{
-                textDecoration: "none",
-                color: "grey",
-                marginRight: "10px",
-              }}
-            >
-              Discover
-            </Link>
-            <Link
-              href="https://near.org/refound-features.near/widget/home"
-              style={{
-                textDecoration: "none",
-                color: "grey",
-                marginRight: "10px",
-              }}
-            >
-              Features
-            </Link>
-            <Link
-              href="https://near.org/refound-create-campaign.near/widget/home"
-              style={{
-                textDecoration: "none",
-                color: "grey",
-                marginRight: "10px",
-              }}
-            >
-              Funding Relief
-            </Link>
-            <Link
-              href="https://refound.app/waitlist"
-              style={{
-                textDecoration: "none",
-                color: "grey",
-                marginRight: "10px",
-              }}
-            >
-              Waitlist
-            </Link>
-          </NavTabs>
-        </NavRight>
-      </Nav>
-    </div>
+  
     <div style={{ marginTop: "5%" }}>
       <h3>Title</h3>
       <p>{accountId}</p>
