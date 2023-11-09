@@ -62,7 +62,7 @@ return (
   >
     {display && !state.balanceLoaded && (
       <Widget
-        src="wgb5445.testnet/widget/Avalanche.Swap.CurrencyBalance"
+        src="0xfafa.near/widget/Avalanche.Swap.CurrencyBalance"
         props={{
           address: currency.address,
           onLoad: (balance) => {
