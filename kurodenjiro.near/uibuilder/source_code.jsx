@@ -158,6 +158,244 @@ const loadData = () => {
     State.update({ widgetLogo: widgetLogo });
     State.update({ clientList: clientListData });
   }
+  const blockWidgetPattern = {
+    button1: {
+      widgetUrl: "marketplacebos.near/widget/Button.ButtonP.Button0001",
+      props: "button",
+      type: "block",
+    },
+    button2: {
+      widgetUrl: "marketplacebos.near/widget/Button.ButtonP.Button0002",
+      props: { text: "button" },
+      type: "block",
+    },
+    button3: {
+      widgetUrl: "marketplacebos.near/widget/Button.ButtonP.Button0003",
+      props: { text: "button" },
+      type: "block",
+    },
+    button4: {
+      widgetUrl: "marketplacebos.near/widget/Button.ButtonP.Button0004",
+      props: { text: "button" },
+      type: "block",
+    },
+    button5: {
+      widgetUrl: "marketplacebos.near/widget/Button.ButtonP.Button0005",
+      props: { text: "button" },
+      type: "block",
+    },
+    button6: {
+      widgetUrl: "marketplacebos.near/widget/Button.ButtonP.Button0006",
+      props: { text: "button" },
+      type: "block",
+    },
+    button7: {
+      widgetUrl: "marketplacebos.near/widget/Button.ButtonP.Button0007",
+      props: { text: "button" },
+      type: "block",
+    },
+    button8: {
+      widgetUrl: "marketplacebos.near/widget/Button.ButtonP.Button0008",
+      props: { text: "button" },
+      type: "block",
+    },
+    button9: {
+      widgetUrl: "marketplacebos.near/widget/Button.ButtonP.Button0009",
+      props: { text: "button" },
+      type: "block",
+    },
+    button10: {
+      widgetUrl: "marketplacebos.near/widget/Button.ButtonP.Button0010",
+      props: { text: "button" },
+      type: "block",
+    },
+    button11: {
+      widgetUrl: "marketplacebos.near/widget/Button.ButtonP.Button0011",
+      props: { text: "button" },
+      type: "block",
+    },
+    cbd1: {
+      widgetUrl: "marketplacebos.near/widget/CB.CBP.CB0001",
+      props: {},
+      type: "block",
+    },
+    cbd2: {
+      widgetUrl: "marketplacebos.near/widget/CB.CBP.CB0002",
+      props: {},
+      type: "block",
+    },
+    cbd3: {
+      widgetUrl: "marketplacebos.near/widget/CB.CBP.CB0003",
+      props: {},
+      type: "block",
+    },
+    cbd4: {
+      widgetUrl: "marketplacebos.near/widget/CB.CBP.CB0004",
+      props: {},
+      type: "block",
+    },
+    cbd5: {
+      widgetUrl: "marketplacebos.near/widget/CB.CBP.CB0005",
+      props: {},
+      type: "block",
+    },
+    cbd6: {
+      widgetUrl: "marketplacebos.near/widget/CB.CBP.CB0006",
+      props: {},
+      type: "block",
+    },
+    card1: {
+      widgetUrl: "marketplacebos.near/widget/Card.CardP.Card0001",
+      props: {},
+      type: "block",
+    },
+    card2: {
+      widgetUrl: "marketplacebos.near/widget/Card.CardP.Card0002",
+      props: {},
+      type: "block",
+    },
+    card3: {
+      widgetUrl: "marketplacebos.near/widget/Card.CardP.Card0003",
+      props: {},
+      type: "block",
+    },
+    card4: {
+      widgetUrl: "marketplacebos.near/widget/Card.CardP.Card0004",
+      props: {},
+      type: "block",
+    },
+    card5: {
+      widgetUrl: "marketplacebos.near/widget/Card.CardP.Card0005",
+      props: {},
+      type: "block",
+    },
+    card6: {
+      widgetUrl: "marketplacebos.near/widget/Card.CardP.Card0006",
+      props: {},
+      type: "block",
+    },
+    input1: {
+      widgetUrl: "marketplacebos.near/widget/Input.InputP.Input0001",
+      props: {},
+      type: "block",
+    },
+    input2: {
+      widgetUrl: "marketplacebos.near/widget/Input.InputP.Input0002",
+      props: {},
+      type: "block",
+    },
+    input3: {
+      widgetUrl: "marketplacebos.near/widget/Input.InputP.Input0003",
+      props: {},
+      type: "block",
+    },
+    loader1: {
+      widgetUrl: "marketplacebos.near/widget/Loader.LoaderP.Loader0001",
+      props: {},
+      type: "block",
+    },
+    loader2: {
+      widgetUrl: "marketplacebos.near/widget/Loader.LoaderP.Loader0002",
+      props: {},
+      type: "block",
+    },
+    loader3: {
+      widgetUrl: "marketplacebos.near/widget/Loader.LoaderP.Loader0003",
+      props: {},
+      type: "block",
+    },
+    loader4: {
+      widgetUrl: "marketplacebos.near/widget/Loader.LoaderP.Loader0004",
+      props: {},
+      type: "block",
+    },
+    loader5: {
+      widgetUrl: "marketplacebos.near/widget/Input.InputP.Input0005",
+      props: {},
+      type: "block",
+    },
+    loader6: {
+      widgetUrl: "marketplacebos.near/widget/Input.InputP.Input0006",
+      props: {},
+      type: "block",
+    },
+    loader7: {
+      widgetUrl: "marketplacebos.near/widget/Input.InputP.Input0007",
+      props: {},
+      type: "block",
+    },
+    loader8: {
+      widgetUrl: "marketplacebos.near/widget/Input.InputP.Input0008",
+      props: {},
+      type: "block",
+    },
+    radio1: {
+      widgetUrl: "marketplacebos.near/widget/Radio.RadioP.Radio0001",
+      props: {},
+      type: "block",
+    },
+    radio2: {
+      widgetUrl: "marketplacebos.near/widget/Radio.RadioP.Radio0002",
+      props: {},
+      type: "block",
+    },
+    pattern1: {
+      widgetUrl: "marketplacebos.near/widget/Pattern.PatternP.Pattern0001",
+      props: { text: "text" },
+      type: "block",
+    },
+    pattern2: {
+      widgetUrl: "marketplacebos.near/widget/Pattern.PatternP.Pattern0002",
+      props: { text: "text" },
+      type: "block",
+    },
+    pattern3: {
+      widgetUrl: "marketplacebos.near/widget/Pattern.PatternP.Pattern0003",
+      props: { text: "text" },
+      type: "block",
+    },
+    pattern4: {
+      widgetUrl: "marketplacebos.near/widget/Pattern.PatternP.Pattern0004",
+      props: { text: "text" },
+      type: "block",
+    },
+    pattern5: {
+      widgetUrl: "marketplacebos.near/widget/Pattern.PatternP.Pattern0005",
+      props: { text: "text" },
+      type: "block",
+    },
+    pattern6: {
+      widgetUrl: "marketplacebos.near/widget/Pattern.PatternP.Pattern0006",
+      props: { text: "text" },
+      type: "block",
+    },
+    pattern7: {
+      widgetUrl: "marketplacebos.near/widget/Pattern.PatternP.Pattern0006",
+      props: { text: "text" },
+      type: "block",
+    },
+    chart1: {
+      widgetUrl: "marketplacebos.near/widget/Chart.ChartP.Chart0001",
+      props: { text: "text" },
+      type: "block",
+    },
+    chart2: {
+      widgetUrl: "marketplacebos.near/widget/Chart.ChartP.Chart0002",
+      props: { text: "text" },
+      type: "block",
+    },
+    chart3: {
+      widgetUrl: "marketplacebos.near/widget/Chart.ChartP.Chart0003",
+      props: { text: "text" },
+      type: "block",
+    },
+    chart4: {
+      widgetUrl: "marketplacebos.near/widget/Chart.ChartP.Chart0004",
+      props: { text: "text" },
+      type: "block",
+    },
+  };
+  State.update({ blockWidgetPattern: blockWidgetPattern });
 };
 loadData();
 const onInputChangeWidgetUrl = (e) => {
