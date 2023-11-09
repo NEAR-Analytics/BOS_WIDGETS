@@ -1,3 +1,5 @@
+const saveData = props.saveData;
+
 State.init({
   m: "",
 });
@@ -61,6 +63,7 @@ const composeData = {
 };
 
 const handleClick = () => {
+  saveData(state.m);
   Social.set(composeData);
 };
 
