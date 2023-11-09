@@ -467,7 +467,10 @@ const forkClick = () => {
   const data = {
     index: {
       fork: JSON.stringify({
-        key: src,
+        key: {
+          type: "social",
+          path: src,
+        },
         value: {
           type: "fork",
         },
