@@ -1,6 +1,6 @@
 const ownerId = "refoundonbos.near";
 const registryId = "refoundjournalism.near";
-
+const mapImage = "https://bafybeibhpayxcnfjbq53jdx53yllvk6j7hlzifxnrs7cizrkcoc45qtps4.ipfs.w3s.link/map_transparent.png";
 const IPFS_BASE_URL = "https://nftstorage.link/ipfs/";
 const DEFAULT_BANNER_IMAGE_URL =
   IPFS_BASE_URL + "bafkreih4i6kftb34wpdzcuvgafozxz6tk6u4f5kcr2gwvtvxikvwriteci";
@@ -103,27 +103,31 @@ State.init({
 });
 
 if (!state.registeredPosts) {
-  Near.asyncView(registryId, "get_series", {})
-    .then((posts) => {
-        const formattedPosts = posts.map((series) => {
-          const formatted = {
-            seriesId: series.series_id,
-            ownerId: series.owner_id,
-            title: series.metadata.title ?? "",
-            description: series.metadata.description ?? "",
-            media: series.metadata.media,
-            dateTaken: series.metadata.extra && JSON.parse(series.metadata.extra).dateTaken,
-            location: series.metadata.extra && JSON.parse(series.metadata.extra).locationTaken,
-            tags: series.metadata.tags || [],
-            verified: series.verified
-          };
-          console.log("series omn discover", series)
-          return formatted;
-        });
-        State.update({
-          registeredPosts: formattedPosts.filter((p) => p.seriesId !== 0 && p.seriesId !== 1 && p.seriesId !== 4) ,
-        });
-      });
+  Near.asyncView(registryId, "get_series", {}).then((posts) => {
+    const formattedPosts = posts.map((series) => {
+      const formatted = {
+        seriesId: series.series_id,
+        ownerId: series.owner_id,
+        title: series.metadata.title ?? "",
+        description: series.metadata.description ?? "",
+        media: series.metadata.media,
+        dateTaken:
+          series.metadata.extra && JSON.parse(series.metadata.extra).dateTaken,
+        location:
+          series.metadata.extra &&
+          JSON.parse(series.metadata.extra).locationTaken,
+        tags: series.metadata.tags || [],
+        verified: series.verified,
+      };
+      console.log("series omn discover", series);
+      return formatted;
+    });
+    State.update({
+      registeredPosts: formattedPosts.filter(
+        (p) => p.seriesId !== 0 && p.seriesId !== 1 && p.seriesId !== 4
+      ),
+    });
+  });
 }
 
 if (!state.registeredPosts) return "";
@@ -135,12 +139,13 @@ const projects = state.registeredPosts;
 
 return (
   <>
-  <Wrapper style={{backgroundColor:"#3C4DF2"}}>
+    <Wrapper style={{ backgroundColor: "#3C4DF2" }}>
+      <img
+        src={mapImage}
+        alt="Map"
+      />
+    </Wrapper>
 
-  <img src="https://bafybeiatw7f5qy565cwkl43ctaonpzbbsmmjioleumsspkk3ajgk3u27h4.ipfs.w3s.link/map.png" alt="Map" />
-
-</Wrapper>
-    
     <ProjectsContainer>
       <SectionHeader>
         <SectionTitle>All posts</SectionTitle>
