@@ -460,6 +460,15 @@ return (
           Share
         </Button>
       </OverlayTrigger>
+      {state.showForkModal && (
+        <Widget
+          src="james.near/widget/fork"
+          props={{
+            handleClose: () => State.update({ showForkModal: false }),
+            src,
+          }}
+        />
+      )}
     </Actions>
     <>
       {state.showUpdateModal && (
@@ -467,17 +476,6 @@ return (
           src="james.near/widget/update"
           props={{
             handleClose: () => State.update({ showUpdateModal: false }),
-            src,
-          }}
-        />
-      )}
-    </>
-    <>
-      {state.showForkModal && (
-        <Widget
-          src="james.near/widget/fork"
-          props={{
-            handleClose: () => State.update({ showForkModal: false }),
             src,
           }}
         />
