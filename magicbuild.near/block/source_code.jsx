@@ -27,11 +27,7 @@ const promptLoadingUI = (
 const cPrompt = (e) => {
   State.update({ prompt: e.target.value });
 };
-const loadHtmlElements = () => {
-  const htmlInnerContent =
-    '<p><b>Hellow World</b> this is from dangerouslySetInnerHTML tag "htmlInnerContent"</p>';
-  return htmlInnerContent;
-};
+
 const getPrompt = () => {
   State.update({ promptLoading: true });
   console.log("prompt", state.prompt);
