@@ -150,7 +150,7 @@ const DELAY = 1000 * 60 * 5;
 const timer = Storage.privateGet("priceTimer");
 function getPrice() {
   asyncFetch(
-    "https://mainnet-indexer.ref-finance.com/get-token-price-by-dapdap",
+    "https://mainnet-indexer.ref-finance.com/get-token-price-by-dapdap"
   )
     .then((res) => {
       const data = JSON.parse(res.body);
@@ -176,14 +176,14 @@ return (
   <Wrapper>
     {(props.updateTokenBalance || !state.balanceLoaded) && (
       <Widget
-        src="wgb5445.testnet/widget/Avalanche.Swap.CurrencyBalance"
+        src="0xfafa.near/widget/Avalanche.Swap.CurrencyBalance"
         props={{
           address: props.currency?.address,
           onLoad: (balance) => {
             State.update({
               balance: ethers.utils.formatUnits(
                 balance,
-                props.currency.decimals,
+                props.currency.decimals
               ),
               balanceLoaded: true,
             });
@@ -212,7 +212,7 @@ return (
             )}
           </CurrencySymbol>
         </CurrencyWrapper>
-        <Widget src="wgb5445.testnet/widget/Avalanche.Swap.ArrowIcon" />
+        <Widget src="0xfafa.near/widget/Avalanche.Swap.ArrowIcon" />
       </CurrencySelect>
       <Amount
         onClick={() => {
