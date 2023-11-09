@@ -977,7 +977,7 @@ return (
                             <div class="col m-2">
                               <div
                                 class="card p-2 align-items-center"
-                                style={{ width: "200px", height: "200px" }}
+                                style={{ width: "150px", height: "150px" }}
                                 onClick={(e) =>
                                   selectWidget(
                                     `${state.blockWidgetPattern[widget].widgetUrl}`
