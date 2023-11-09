@@ -85,21 +85,18 @@ const series = props.post;
 
 const title = (series && series.title) || "Untitled";
 const description = (series && series.description) || "";
-let image = series.media || "";
+let image =
+  series.media ||
+  "https://ipfs.near.social/ipfs/bafkreibmiy4ozblcgv3fm3gc6q62s55em33vconbavfd2ekkuliznaq3zm";
 
 const tags = series && Object.keys(series.tags ?? {});
 const dateTaken = series.dateTaken;
 const location = series.location;
 const verified = series.verified;
-const seriesId = series.seriesId;
-console.log("media", image);
-const donationsForProject = Near.view(
-  donationContractId,
-  "get_total_donations",
-  {
-    recipient_id: id,
-  }
-);
+console.log("media", image)
+const donationsForProject = Near.view(donationContractId, "get_total_donations", {
+  recipient_id: id,
+});
 
 const [totalAmount, totalDonors] = useMemo(() => {
   if (!donationsForProject) return [null, null];
@@ -110,7 +107,7 @@ const [totalAmount, totalDonors] = useMemo(() => {
       donors.push(donation.donor_id);
     }
     totalDonationAmount = totalDonationAmount.plus(
-      new Big(donation.total_amount)
+      new Big(donation.total_amount),
     );
   }
   return [
@@ -167,16 +164,14 @@ const [totalAmount, totalDonors] = useMemo(() => {
 
 return (
   <>
-    <Card href={`?tab=post&seriesId=${seriesId}`} key={id}>
+    <Card href={`?tab=post&seriesId=${id}`} key={id}>
       <Info>
-        {image && (
-          <img
-            className={className}
-            style={style}
-            src={image}
-            alt={"post image"}
-          />
-        )}
+        <img
+          className={className}
+          style={style}
+          src={image}
+          alt={"post image"}
+        />
         <Title>{title}</Title>
         <SubTitle>
           {description.length > MAX_DESCRIPTION_LENGTH
@@ -199,7 +194,7 @@ return (
           <SubTitle>{location}</SubTitle>
         </DonationsInfoItem>
       </Info>
-
+      
       <DonationsInfoContainer>
         <DonationsInfoItem>
           <Title>{totalDonors || totalDonors === 0 ? totalDonors : "-"}</Title>
