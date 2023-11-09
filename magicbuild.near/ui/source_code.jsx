@@ -1141,14 +1141,7 @@ return (
                             <>
                               <div class="row pb-2">
                                 <div class="col-sm-11 ">
-                                  <h6>
-                                    <span class="text-info">
-                                      {
-                                        state.blockList[blockId]["block-1"]
-                                          .widgetUrl
-                                      }
-                                    </span>
-                                  </h6>
+                                  <h6></h6>
                                 </div>
                                 <div class="col-sm-1 ">
                                   <button
@@ -1192,14 +1185,7 @@ return (
                             <>
                               <div class="row pb-2">
                                 <div class="col-sm-11 ">
-                                  <h6>
-                                    <span class="text-info">
-                                      {
-                                        state.blockList[blockId]["block-2"]
-                                          .widgetUrl
-                                      }
-                                    </span>
-                                  </h6>
+                                  <h6></h6>
                                 </div>
                                 <div class="col-sm-1 ">
                                   <button
@@ -1247,14 +1233,7 @@ return (
                             <>
                               <div class="row pb-2">
                                 <div class="col-sm-11 ">
-                                  <h6>
-                                    <span class="text-info">
-                                      {
-                                        state.blockList[blockId]["block-1"]
-                                          .widgetUrl
-                                      }
-                                    </span>
-                                  </h6>
+                                  <h6></h6>
                                 </div>
                                 <div class="col-sm-1 ">
                                   <button
@@ -1298,14 +1277,7 @@ return (
                             <>
                               <div class="row pb-2">
                                 <div class="col-sm-11 ">
-                                  <h6>
-                                    <span class="text-info">
-                                      {
-                                        state.blockList[blockId]["block-2"]
-                                          .widgetUrl
-                                      }
-                                    </span>
-                                  </h6>
+                                  <h6></h6>
                                 </div>
                                 <div class="col-sm-1 ">
                                   <button
@@ -1353,14 +1325,7 @@ return (
                             <>
                               <div class="row pb-2">
                                 <div class="col-sm-11 ">
-                                  <h6>
-                                    <span class="text-info">
-                                      {
-                                        state.blockList[blockId]["block-1"]
-                                          .widgetUrl
-                                      }
-                                    </span>
-                                  </h6>
+                                  <h6></h6>
                                 </div>
                                 <div class="col-sm-1 ">
                                   <button
@@ -1404,14 +1369,7 @@ return (
                             <>
                               <div class="row pb-2">
                                 <div class="col-sm-11 ">
-                                  <h6>
-                                    <span class="text-info">
-                                      {
-                                        state.blockList[blockId]["block-2"]
-                                          .widgetUrl
-                                      }
-                                    </span>
-                                  </h6>
+                                  <h6></h6>
                                 </div>
                                 <div class="col-sm-1 ">
                                   <button
@@ -1459,14 +1417,7 @@ return (
                             <>
                               <div class="row pb-2">
                                 <div class="col-sm-11 ">
-                                  <h6>
-                                    <span class="text-info">
-                                      {
-                                        state.blockList[blockId]["block-1"]
-                                          .widgetUrl
-                                      }
-                                    </span>
-                                  </h6>
+                                  <h6></h6>
                                 </div>
                                 <div class="col-sm-1 ">
                                   <button
@@ -1510,14 +1461,7 @@ return (
                             <>
                               <div class="row pb-2">
                                 <div class="col-sm-11 ">
-                                  <h6>
-                                    <span class="text-info">
-                                      {
-                                        state.blockList[blockId]["block-2"]
-                                          .widgetUrl
-                                      }
-                                    </span>
-                                  </h6>
+                                  <h6></h6>
                                 </div>
                                 <div class="col-sm-1 ">
                                   <button
@@ -1561,14 +1505,7 @@ return (
                             <>
                               <div class="row pb-2">
                                 <div class="col-sm-11 ">
-                                  <h6>
-                                    <span class="text-info">
-                                      {
-                                        state.blockList[blockId]["block-3"]
-                                          .widgetUrl
-                                      }
-                                    </span>
-                                  </h6>
+                                  <h6></h6>
                                 </div>
                                 <div class="col-sm-1 ">
                                   <button
@@ -1616,14 +1553,7 @@ return (
                             <>
                               <div class="row pb-2">
                                 <div class="col-sm-11 ">
-                                  <h6>
-                                    <span class="text-info">
-                                      {
-                                        state.blockList[blockId]["block-1"]
-                                          .widgetUrl
-                                      }
-                                    </span>
-                                  </h6>
+                                  <h6></h6>
                                 </div>
                                 <div class="col-sm-1 ">
                                   <button
@@ -1667,14 +1597,7 @@ return (
                             <>
                               <div class="row pb-2">
                                 <div class="col-sm-11 ">
-                                  <h6>
-                                    <span class="text-info">
-                                      {
-                                        state.blockList[blockId]["block-2"]
-                                          .widgetUrl
-                                      }
-                                    </span>
-                                  </h6>
+                                  <h6></h6>
                                 </div>
                                 <div class="col-sm-1 ">
                                   <button
@@ -1718,14 +1641,7 @@ return (
                             <>
                               <div class="row pb-2">
                                 <div class="col-sm-11 ">
-                                  <h6>
-                                    <span class="text-info">
-                                      {
-                                        state.blockList[blockId]["block-3"]
-                                          .widgetUrl
-                                      }
-                                    </span>
-                                  </h6>
+                                  <h6></h6>
                                 </div>
                                 <div class="col-sm-1 ">
                                   <button
