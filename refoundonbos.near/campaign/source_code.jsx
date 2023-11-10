@@ -162,67 +162,69 @@ const IT = "nearui.near/widget/Input.ExperimentalText";
 return (
   <>
     <div className="row">
-      <Nav>
-        <NavLeft>
-          <NavLogo href={"https://near.org/refound-landing.near/widget/home"}>
-            refound
-          </NavLogo>
-        </NavLeft>
-        <NavRight>
-          <NavTabs>
-            <Link
-              href="https://near.org/refound-create-post.near/widget/home"
-              style={{
-                textDecoration: "none",
-                color: "grey",
-                marginRight: "10px",
-              }}
-            >
-              Create
-            </Link>
-            <Link
-              href="https://near.org/refoundonbos.near/widget/home"
-              style={{
-                textDecoration: "none",
-                color: "grey",
-                marginRight: "10px",
-              }}
-            >
-              Discover
-            </Link>
-            <Link
-              href="https://near.org/refound-features.near/widget/home"
-              style={{
-                textDecoration: "none",
-                color: "grey",
-                marginRight: "10px",
-              }}
-            >
-              Features
-            </Link>
-            <Link
-              href="https://near.org/refound-create-campaign.near/widget/home"
-              style={{
-                textDecoration: "none",
-                color: "grey",
-                marginRight: "10px",
-              }}
-            >
-              Funding Relief
-            </Link>
-            <Link
-              href="https://refound.app/waitlist"
-              style={{
-                textDecoration: "none",
-                color: "grey",
-                marginRight: "10px",
-              }}
-            >
-              Waitlist
-            </Link>
-          </NavTabs>
-        </NavRight>
-      </Nav>
+       <Nav>
+      <NavLeft>
+        <NavLogo
+          href={"https://near.org/refoundonbos.near/widget/landing.home"}
+        >
+          refound
+        </NavLogo>
+      </NavLeft>
+      <NavRight>
+        <NavTabs>
+          <Link
+            href="https://near.org/refoundonbos.near/widget/create.post.home"
+            style={{
+              textDecoration: "none",
+              color: "grey",
+              marginRight: "10px",
+            }}
+          >
+            Create
+          </Link>
+          <Link
+            href="https://near.org/refoundonbos.near/widget/home"
+            style={{
+              textDecoration: "none",
+              color: "grey",
+              marginRight: "10px",
+            }}
+          >
+            Discover
+          </Link>
+          <Link
+            href="https://near.org/refoundonbos.near/widget/features.home"
+            style={{
+              textDecoration: "none",
+              color: "grey",
+              marginRight: "10px",
+            }}
+          >
+            Features
+          </Link>
+          <Link
+            href="https://near.org/refoundonbos.near/widget/create.campaign.home"
+            style={{
+              textDecoration: "none",
+              color: "grey",
+              marginRight: "10px",
+            }}
+          >
+            Funding Relief
+          </Link>
+          <Link
+            href="https://refound.app/waitlist"
+            style={{
+              textDecoration: "none",
+              color: "grey",
+              marginRight: "10px",
+            }}
+          >
+            Waitlist
+          </Link>
+        </NavTabs>
+      </NavRight>
+    </Nav>
     </div>
     <div className="text-start row" style={{ marginTop: "5%" }}>
       <div className="col w-50">
