@@ -117,24 +117,15 @@ return (
         <h1>Who is the Hackathon for?</h1>
         <p>Developer</p>
         <span>
-          NEAR is constantly pushing boundaries, so are our speakers. Hear from
-          leading voices about the BOS, AI, the future of Web3, why an open web
-          matters, user-experience, governance, sustainability, NFTs, DeFI,
-          gaming, and much more.
+          This event promises to be an exciting developer experience for non
+          native blockchain developers. Hear from DevHub DevRel and NEAR Africa
+          about navigating the BOS, Publishing composable apps, Building widgets
+          with JSX , BOS API integration and more 
         </span>
-        <p>Designer</p>
+        <p>Technical Writer</p>
         <span>
-          NEAR is constantly pushing boundaries, so are our speakers. Hear from
-          leading voices about the BOS, AI, the future of Web3, why an open web
-          matters, user-experience, governance, sustainability, NFTs, DeFI,
-          gaming, and much more.
-        </span>
-        <p>Developer</p>
-        <span>
-          NEAR is constantly pushing boundaries, so are our speakers. Hear from
-          leading voices about the BOS, AI, the future of Web3, why an open web
-          matters, user-experience, governance, sustainability, NFTs, DeFI,
-          gaming, and much more.
+          Join us if you’re a technical writer passionate about simplifying
+          complex ideas and documenting projects 
         </span>
       </div>
     </ForWho>
