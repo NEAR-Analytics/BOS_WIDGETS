@@ -51,7 +51,7 @@ const Root = styled.div`
       color: black;
       cursor: pointer;
       text-decoration: none;
-
+      margin-top: 30px;
       border: 1px solid #000;
       transition: 0.3s ease-in-out;
       padding: 6px;
@@ -217,6 +217,7 @@ const fetchStoreFrontData = () => {
 fetchStoreFrontData();
 
 const posts = [
+  "https://ipfs.near.social/ipfs/bafkreia2uqpz2krj574gpufd372ms6oaqvzssnlu4yogyhdi4g6wg6gpfe",
   "https://ipfs.near.social/ipfs/bafkreigb57p7hyymzudyg2oapuf422fi7fhbbdgu2tnimpf7pl4pepg5wy",
   "https://ipfs.near.social/ipfs/bafkreihganq76y6aos4thhyd5w5myy5n3timlyrmo2xm2b5bq7zupjer2u",
   "https://ipfs.near.social/ipfs/bafkreihbb76hyo3g6xfkyszitl5xevuevcdxbngvvsrpuwlzyllyuv55gi",
@@ -347,5 +348,16 @@ return (
         </div>
       </div>
     </Posts>
+    <a
+      href={
+        props.isGateway
+          ? "#/jgodwill.near/widget/CPlanet.MainPage.Social"
+          : "#/agwaze.near/widget/CPlanet.index?tab=feed"
+      }
+      className="all"
+      onClick={() => props.update({ tab: "community" })}
+    >
+      Check out the Social Feed
+    </a>
   </Root>
 );
