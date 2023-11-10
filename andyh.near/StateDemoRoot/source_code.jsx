@@ -130,7 +130,7 @@ const icons = [
 ];
 
 const getRandomIcon = () => icons[Math.floor(Math.random() * icons.length)];
-
+console.log("re-render", { circle, square, triangle });
 return (
   <div>
     <div className="col">
@@ -145,7 +145,6 @@ return (
           square,
           triangle,
           updateCircle: () => {
-            console.log("cricle!");
             setCircle(getRandomIcon());
           },
           updateSquare: () => setSquare(getRandomIcon()),
