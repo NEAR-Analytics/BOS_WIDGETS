@@ -1,8 +1,21 @@
 const ownerId = "potlock.near";
+const donationContractId = "donate.potlock.near";
 
 const IPFS_BASE_URL = "https://nftstorage.link/ipfs/";
 const TRASH_ICON_URL =
   IPFS_BASE_URL + "bafkreicwtubzlywmtvoxc4tqjfturyi5oqxtbpezceosiw3juv2d4uf7om";
+
+const DEFAULT_GATEWAY = "https://near.social/potlock.near";
+const POTLOCK_TWITTER_ACCOUNT_ID = "PotLock_";
+
+// const Wrapper = styled.div`
+//   display: flex;
+//   flex-direction: row;
+
+//   @media screen and (max-width: 768px) {
+//     flex-direction: column;
+//   }
+// `;
 
 const Container = styled.div`
   background: #fafafa;
@@ -10,6 +23,10 @@ const Container = styled.div`
   flex-direction: row;
   height: 100%;
   min-height: 100vh;
+
+  @media screen and (max-width: 768px) {
+    flex-direction: column;
+  }
 `;
 
 const SuccessContainer = styled.div`
@@ -39,6 +56,11 @@ const ColumnLeft = styled.div`
   //   background: pink;
   padding: 48px 40px 48px 64px;
   gap: 48px;
+
+  @media screen and (max-width: 768px) {
+    width: 100%;
+    padding: 24px 16px 24px 16px;
+  }
 `;
 
 const ColumnRight = styled.div`
@@ -46,6 +68,12 @@ const ColumnRight = styled.div`
   flex: 1;
   padding: 152px 148px 152px 84px;
   border-left: 1px #c7c7c7 solid;
+
+  @media screen and (max-width: 768px) {
+    padding: 24px 16px 24px 16px;
+    border-left: none;
+    border-top: 1px #c7c7c7 solid;
+  }
 `;
 
 const Title = styled.div`
@@ -55,7 +83,7 @@ const Title = styled.div`
   font-weight: 500;
   line-height: 56px;
   word-wrap: break-word;
-  //   margin-bottom: 64px;
+  text-align: center;
 `;
 
 const Icon = styled.img`
@@ -91,187 +119,213 @@ const SubTitle = styled.div`
   font-size: 14px;
 `;
 
-const ItemContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-  width: 100%;
-  height: 200px;
-  background: white;
-  border: 1px solid #dbdbdb;
-  box-shadow: 0px -2px 0px #dbdbdb inset;
-  border-radius: 6px;
-  overflow: hidden;
-  justify-content: flex-start;
-  align-items: flex-start;
-  display: inline-flex;
-`;
+const TxLink = styled.a`
+  color: #2e2e2e;
+  cursor: pointer;
 
-const ItemLeft = styled.div`
-  height: 100%;
-  padding: 24px 16px;
-  border-right: 1px solid #dbdbdb;
-`;
-
-const ItemRight = styled.div`
-  padding: 24px 24px 24px 16px;
-`;
-
-const ImageContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-  gap: 32px;
-`;
-
-const DetailsContainer = styled.div`
-  display: flex;
-  flex-direction: column;
+  &:hover {
+    text-decoration: none;
+  }
 `;
 
 State.init({
   selectedProjectIds: [],
   masterSelectorSelected: false,
+  successfulDonationRecipientId: null,
+  successfulDonationRecipientProfile: null,
 });
 
 const allSelected =
   state.selectedProjectIds.length !== 0 &&
   state.selectedProjectIds.length === Object.keys(props.cart).length;
+// const twitterSuccessText = `I just donated to this project on @potlock_!`;
+
+// console.log("props in Checkout: ", props);
+
+const txInfo = useMemo(() => {
+  if (props.transactionHashes && props.registeredProjects) {
+    const body = JSON.stringify({
+      jsonrpc: "2.0",
+      id: "dontcare",
+      method: "tx",
+      params: [props.transactionHashes, context.accountId],
+    });
+    const res = fetch("https://rpc.mainnet.near.org", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body,
+    });
+    if (res.ok) {
+      const successVal = res.body.result.status?.SuccessValue;
+      let decoded = Buffer.from(successVal, "base64").toString("utf-8"); // atob not working
+      decoded = JSON.parse(decoded);
+      const recipientId = decoded.recipient_id;
+      if (recipientId) {
+        State.update({ successfulDonationRecipientId: recipientId });
+      }
+    }
+  }
+}, [props.transactionHashes]);
+
+if (state.successfulDonationRecipientId && !state.successfulDonationRecipientProfile) {
+  const profile = Social.getr(`${state.successfulDonationRecipientId}/profile`);
+  if (profile) {
+    State.update({ successfulDonationRecipientProfile: profile });
+  }
+}
+
+const twitterIntent = useMemo(() => {
+  if (!state.successfulDonationRecipientId) return;
+  const twitterIntentBase = "https://twitter.com/intent/tweet?text=";
+  let url =
+    DEFAULT_GATEWAY +
+    `${ownerId}/widget/Index?tab=project&projectId=${state.successfulDonationRecipientId}&referrerId=${context.accountId}`;
+  let text = `I just donated to ${
+    state.successfulDonationRecipientProfile
+      ? state.successfulDonationRecipientProfile.name
+      : state.successfulDonationRecipientId
+  } on @${POTLOCK_TWITTER_ACCOUNT_ID}! Support public goods at `;
+  text = encodeURIComponent(text);
+  url = encodeURIComponent(url);
+  return twitterIntentBase + text + `&url=${url}`;
+}, [state.successfulDonationRecipientId, state.successfulDonationRecipientProfile]);
+
+// console.log(encodeURIComponent("https://twitter.com/intent/tweet?text=Hello%20world"));
+
+// const donationsForDonor = useMemo(() => {
+//   const donations = Near.view(donationContractId, "get_donations_for_donor", {
+//     donor_id: context.accountId,
+//   });
+//   console.log("donations: ", donations);
+// }, []);
 
 return (
-  <div>
-    <Container>
-      {props.checkoutSuccess ? (
-        <SuccessContainer>
-          <Title>Thanks for donating!</Title>
-          {/* <ButtonsContainer> */}
-          <Widget
-            src={`${ownerId}/widget/Buttons.NavigationButton`}
-            props={{
-              href: `https://nearblocks.io/txns/${props.checkoutSuccessTxHash}`,
-              target: "_blank",
-              type: "secondary",
-              text: "View transaction",
-              disabled: !props.checkoutSuccessTxHash,
-              style: {
-                width: "300px",
-              },
-            }}
-          />
-          <Widget
-            src={`${ownerId}/widget/Buttons.NavigationButton`}
-            props={{
-              href: `?tab=projects`,
-              type: "primary",
-              text: "Explore projects",
-              style: {
-                width: "300px",
-              },
-            }}
-          />
-          {/* </ButtonsContainer> */}
-        </SuccessContainer>
-      ) : (
-        <>
-          <ColumnLeft>
-            <Title>Donation Cart</Title>
-            <ActionsContainer>
-              <InnerContainer>
+  // <div>
+  <Container>
+    {props.checkoutSuccess ? (
+      <SuccessContainer>
+        <Title>Thanks for donating!</Title>
+        <Widget
+          src={`${ownerId}/widget/Buttons.NavigationButton`}
+          props={{
+            href: twitterIntent,
+            target: "_blank",
+            type: "primary",
+            text: "Share to Twitter",
+            disabled: !twitterIntent,
+            style: {
+              width: "300px",
+            },
+          }}
+        />
+        <Widget
+          src={`${ownerId}/widget/Buttons.NavigationButton`}
+          props={{
+            href: `?tab=projects`,
+            type: "secondary",
+            text: "Explore projects",
+            style: {
+              width: "300px",
+            },
+          }}
+        />
+        <TxLink>View transaction</TxLink>
+      </SuccessContainer>
+    ) : (
+      <>
+        <ColumnLeft>
+          <Title>Donation Cart</Title>
+          <ActionsContainer>
+            <InnerContainer>
+              <Widget
+                src={`${ownerId}/widget/Inputs.Checkbox`}
+                props={{
+                  id: "masterSelector",
+                  disabled: Object.keys(props.cart).length === 0,
+                  checked: state.masterSelectorSelected,
+                  onClick: (e) => {
+                    // if allSelected, then deselect all
+                    // if not allSelected, then select all
+                    const selectedProjectIds = Object.keys(props.cart).filter((_) => {
+                      if (allSelected) {
+                        return false;
+                      }
+                      return true;
+                    });
+                    State.update({
+                      selectedProjectIds,
+                      masterSelectorSelected: !allSelected,
+                    });
+                  },
+                }}
+              />
+              <SubTitle>Select all</SubTitle>
+            </InnerContainer>
+            <InnerContainer
+              style={{ cursor: "pointer" }}
+              onClick={() => {
+                // doesn't do anything if nothing selected
+                if (state.selectedProjectIds.length === 0) return;
+                // delete selected projects
+                props.removeProjectsFromCart(state.selectedProjectIds);
+                // uncheck box
+                State.update({ selectedProjectIds: [], masterSelectorSelected: false });
+              }}
+            >
+              <Icon src={TRASH_ICON_URL} />
+              <SubTitle>Delete</SubTitle>
+            </InnerContainer>
+          </ActionsContainer>
+          {Object.keys(props.cart).length === 0 ? (
+            <div>No items in cart</div>
+          ) : (
+            Object.keys(props.cart).map((projectId) => {
+              const checked = state.selectedProjectIds.includes(projectId);
+              return (
                 <Widget
-                  src={`${ownerId}/widget/Inputs.Checkbox`}
+                  src={`${ownerId}/widget/Cart.CheckoutItem`}
                   props={{
-                    id: "masterSelector",
-                    disabled: Object.keys(props.cart).length === 0,
-                    checked: state.masterSelectorSelected,
-                    onClick: (e) => {
-                      // if allSelected, then deselect all
-                      // if not allSelected, then select all
-                      const selectedProjectIds = Object.keys(props.cart).filter((_) => {
-                        if (allSelected) {
-                          return false;
-                        }
-                        return true;
-                      });
-                      State.update({
+                    ...props,
+                    projectId,
+                    checked,
+                    handleCheckboxClick: (e) => {
+                      // if selected, then deselect
+                      // else, select
+                      let selectedProjectIds = state.selectedProjectIds;
+                      if (checked) {
+                        selectedProjectIds = selectedProjectIds.filter((id) => id !== projectId);
+                      } else {
+                        selectedProjectIds.push(projectId);
+                      }
+                      const updatedState = {
                         selectedProjectIds,
-                        masterSelectorSelected: !allSelected,
-                      });
+                      };
+                      if (
+                        selectedProjectIds.length !== 0 &&
+                        selectedProjectIds.length !== Object.keys(props.cart).length
+                      ) {
+                        updatedState.masterSelectorSelected = false;
+                      }
+                      State.update(updatedState);
                     },
                   }}
                 />
-                <SubTitle>Select all</SubTitle>
-              </InnerContainer>
-              <InnerContainer
-                style={{ cursor: "pointer" }}
-                onClick={() => {
-                  // doesn't do anything if nothing selected
-                  if (state.selectedProjectIds.length === 0) return;
-                  // delete selected projects
-                  props.removeProjectsFromCart(state.selectedProjectIds);
-                  // uncheck box
-                  State.update({ selectedProjectIds: [], masterSelectorSelected: false });
-                }}
-              >
-                <Icon
-                  src={TRASH_ICON_URL}
-                  //   onClick={() => {
-                  //     // doesn't do anything if nothing selected
-                  //     if (state.selectedProjectIds.length === 0) return;
-                  //     // delete selected projects
-                  //     props.removeProjectsFromCart(state.selectedProjectIds);
-                  //     // uncheck box
-                  //     State.update({ selectedProjectIds: [], masterSelectorSelected: false });
-                  //   }}
-                />
-                <SubTitle>Delete</SubTitle>
-              </InnerContainer>
-            </ActionsContainer>
-            {Object.keys(props.cart).length === 0 ? (
-              <div>No items in cart</div>
-            ) : (
-              Object.keys(props.cart).map((projectId) => {
-                const checked = state.selectedProjectIds.includes(projectId);
-                return (
-                  <Widget
-                    src={`${ownerId}/widget/Cart.CheckoutItem`}
-                    props={{
-                      ...props,
-                      projectId,
-                      checked,
-                      handleCheckboxClick: (e) => {
-                        // if selected, then deselect
-                        // else, select
-                        let selectedProjectIds = state.selectedProjectIds;
-                        if (checked) {
-                          selectedProjectIds = selectedProjectIds.filter((id) => id !== projectId);
-                        } else {
-                          selectedProjectIds.push(projectId);
-                        }
-                        const updatedState = {
-                          selectedProjectIds,
-                        };
-                        if (
-                          selectedProjectIds.length !== 0 &&
-                          selectedProjectIds.length !== Object.keys(props.cart).length
-                        ) {
-                          updatedState.masterSelectorSelected = false;
-                        }
-                        State.update(updatedState);
-                      },
-                    }}
-                  />
-                );
-              })
-            )}
-          </ColumnLeft>
-          <ColumnRight>
-            <Widget
-              src={`${ownerId}/widget/Cart.BreakdownSummary`}
-              props={{
-                ...props,
-              }}
-            />
-          </ColumnRight>
-        </>
-      )}
-    </Container>
-  </div>
+              );
+            })
+          )}
+        </ColumnLeft>
+        <ColumnRight>
+          <Widget
+            src={`${ownerId}/widget/Cart.BreakdownSummary`}
+            props={{
+              ...props,
+            }}
+          />
+        </ColumnRight>
+      </>
+    )}
+  </Container>
+  // </div>
 );
