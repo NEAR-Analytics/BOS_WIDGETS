@@ -17,6 +17,7 @@ const CurrencyRow = styled.div`
 const CurrencyLabel = styled.div`
   display: flex;
   align-items: center;
+  gap: 6px;
 `;
 const CurrencySymbol = styled.div`
   font-size: 18px;
