@@ -1,5 +1,5 @@
 const { Tile } =
-  VM.require("${REPL_DEVHUB}/widget/devhub.components.molecule.Tile") ||
+  VM.require("devhub.jass.near/widget/devhub.components.molecule.Tile") ||
   (() => <></>);
 
 const { data, onSubmit } = props;
@@ -51,7 +51,7 @@ return (
           <div className="flex-grow-1">
             <Widget
               // TODO: LEGACY.
-              src="${REPL_DEVHUB_LEGACY}/widget/gigs-board.components.molecule.text-input"
+              src="devgovgigs.near/widget/gigs-board.components.molecule.text-input"
               props={{
                 className: "flex-grow-1",
                 value: item,
@@ -75,7 +75,7 @@ return (
         <div className="flex-grow-1">
           <Widget
             // TODO: LEGACY.
-            src="${REPL_DEVHUB_LEGACY}/widget/gigs-board.components.molecule.text-input"
+            src="devgovgigs.near/widget/gigs-board.components.molecule.text-input"
             props={{
               className: "flex-grow-1",
               onChange: (e) => setNewItem(e.target.value),
@@ -99,7 +99,7 @@ return (
         className={"d-flex align-items-center justify-content-end gap-3 mt-4"}
       >
         <Widget
-          src={"${REPL_DEVHUB}/widget/devhub.components.molecule.Button"}
+          src={"devhub.jass.near/widget/devhub.components.molecule.Button"}
           props={{
             classNames: { root: "btn-success" },
             disabled: initialData === handles,
