@@ -227,6 +227,7 @@ return (
             amount: state.inputCurrencyAmount,
             updateTokenBalance: state.updateInputTokenBalance,
             isCorrectNetwork: state.currentChainId === chainId,
+            labelText: "You pay",
             onCurrencySelectOpen: () => {
               if (chainId !== state.currentChainId) return;
               State.update({
@@ -290,6 +291,7 @@ return (
           src="dapdapbos.near/widget/Linea.Uniswap.Swap.CurrencyInput"
           props={{
             currency: state.outputCurrency,
+            labelText: "You receive",
             amount:
               state.inputCurrency && state.outputCurrency
                 ? state.outputCurrencyAmount
@@ -363,14 +365,16 @@ return (
           }}
         />
       </Panel>
-      <Widget
-        src="dapdapbos.near/widget/Linea.Uniswap.Swap.BridegeTips"
-        props={{
-          onClick: () => {
-            props.onOpenBridge();
-          },
-        }}
-      />
+      {account && (
+        <Widget
+          src="dapdapbos.near/widget/Linea.Uniswap.Swap.BridegeTips"
+          props={{
+            onClick: () => {
+              props.onOpenBridge();
+            },
+          }}
+        />
+      )}
       <Power>
         <div
           className="view-code"
