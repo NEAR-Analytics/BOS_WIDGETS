@@ -1,6 +1,5 @@
-const { handleCreateProject, defaultProject, buttonChildren, buttonProps } =
-  props;
-
+const { defaultProject, buttonChildren, buttonProps } = props;
+const contractId = "refoundjournalism.near";
 State.init({
   error: undefined,
   project: defaultProject ?? {
@@ -13,6 +12,21 @@ State.init({
 
 const update = (k, v) => State.update({ [k]: v });
 const updateP = (k, v) => update("project", { ...state.project, [k]: v });
+
+const handleCreateProject = (project) => {
+  Near.call(contractId, "create_series", {
+    series_id: "8",
+    metadata: {
+      title: project.title,
+      description: project.description,
+      media: project.image,
+      extra: JSON.stringify({
+        locationTaken: project.location,
+        dateTaken: project.dateTaken,
+      }),
+    },
+  });
+};
 
 const beforeHandleCreateProject = () => {
   update("error", undefined);
@@ -47,7 +61,7 @@ return (
         src={IT}
         props={{
           label: "Title",
-          placeholder: "My project",
+          placeholder: "My post",
           inputProps: {
             defaultValue: state.project.title,
           },
@@ -105,7 +119,7 @@ return (
         src={IT}
         props={{
           label: "Description",
-          placeholder: "Describe your project",
+          placeholder: "Describe your post",
           textarea: true,
           inputProps: {
             defaultValue: state.project.description,
@@ -146,7 +160,7 @@ return (
             }}
           /> */}
           <Link href="https://near.org/refoundonbos.near/widget/create.post.success">
-            <button>Create Project</button>
+            <button>Create Post</button>
           </Link>
         </div>
       </div>
