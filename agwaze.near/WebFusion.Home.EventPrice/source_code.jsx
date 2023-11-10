@@ -6,8 +6,10 @@ const Prices = styled.div`
     background: #00EC97;
     padding: 50px;
     display: flex;
+    justify-content: center;
     flex-direction: row;
     align-items: flex-start;
+    flex-wrap: wrap;
     width: 100%;
     gap: 30px;
     h1 {
@@ -36,10 +38,20 @@ const Prices = styled.div`
         margin-bottom: 26px;
     }
     .right {
-        width: 40%;
+        width: 35%;
     }
     .left {
         width: 60%;
+    }
+    @media (max-width: 900px) {
+      .right, .left {
+        width: 100%;
+      }
+      .left {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
     }
 `;
 
@@ -78,10 +90,11 @@ return (
   <Root>
     <Prices>
       <div className="right">
-        <h1>Price(s)</h1>
+        <h1>Community</h1>
         <span>
-          Three beautiful venues just down the street from each other will offer
-          a unique and focused experience.
+          Kickstart your journey within the NEAR Ecosystem and access to our
+          official telegram group. Become a valued member of a thriving
+          community, consisting of developers and creators…Just like you.
         </span>
         <p>
           Join the official telegram channel, and drop into the spirit before
