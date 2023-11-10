@@ -84,23 +84,6 @@ const CurrencyName = styled.a`
   color: #8e8e8e;
   opacity: 0.5;
 `;
-const CurrencyIcon = styled.img`
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  margin-right: 20px;
-`;
-const CurrencyEmptyIcon = styled.div`
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  margin-right: 20px;
-  background-color: #8e8e8e;
-  color: #fff;
-  text-align: center;
-  font-size: 22px;
-  line-height: 36px;
-`;
 const Button = styled.button`
   border-radius: 18px;
   background: #5ee0ff;
@@ -162,11 +145,10 @@ return (
           before trading.
         </Text>
         <CurrencyLabel>
-          {currency.icon ? (
-            <CurrencyIcon src={currency.icon} />
-          ) : (
-            <CurrencyEmptyIcon>?</CurrencyEmptyIcon>
-          )}
+          <Widget
+            src="dapdapbos.near/widget/Linea.Uniswap.Swap.TokenIcon"
+            props={{ size: 36, token: currency }}
+          />
           <div>
             <CurrencySymbol>{currency.symbol}</CurrencySymbol>
             <CurrencyName
