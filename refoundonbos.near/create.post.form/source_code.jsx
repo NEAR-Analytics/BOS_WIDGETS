@@ -1,10 +1,24 @@
-const { defaultProject, buttonChildren, buttonProps } = props;
-const contractId = "refoundjournalism.near";
+const UUID = {
+  generate: (template) => {
+    if (typeof template !== "string") {
+      template = "xxxxxxxx-xxxx-xxxx-yxxx-xxxxxxxxxxxx";
+    }
+    return template.replace(/[xy]/g, (c) => {
+      var r = (Math.random() * 16) | 0;
+      var v = c === "x" ? r : (r & 0x3) | 0x8;
+      return v.toString(16);
+    });
+  },
+};
+
+
+const { handleCreateProject, defaultProject, buttonChildren, buttonProps } =
+  props;
+
 State.init({
   error: undefined,
-  lastSeries: null,
-  lastSeriesIsFetched: false,
   project: defaultProject ?? {
+    id: UUID.generate(),
     logo: undefined,
     title: undefined,
     description: undefined,
@@ -14,33 +28,6 @@ State.init({
 
 const update = (k, v) => State.update({ [k]: v });
 const updateP = (k, v) => update("project", { ...state.project, [k]: v });
-
-if (!state.lastSeriesIsFetched) {
-  Near.asyncView(contractId, "get_series").then((seriess) =>
-    State.update({ lastSeries: seriess.length, lastSeriesIsFetched: true })
-  );
-}
-
-const handleCreateProject = (project) => {
-  Near.call(
-    contractId,
-    "create_series",
-    {
-      series_id: state.lastSeries.toString(),
-      metadata: {
-        title: project.title,
-        description: project.description,
-        media: project.image,
-        extra: JSON.stringify({
-          locationTaken: project.location,
-          dateTaken: project.dateTaken,
-        }),
-      },
-    },
-    "300000000000000",
-    "7570000000000000000000"
-  );
-};
 
 const beforeHandleCreateProject = () => {
   update("error", undefined);
@@ -59,7 +46,7 @@ return (
   <div className="p-4 bg-white rounded-4 row">
     <div className="d-flex flex-column gap-3 col">
       <h3>{buttonChildren}</h3>
-      <h6 className="mb-0">Images(Up To 5)</h6>
+      <h6 className="mb-0" style={{textAlign:"initial"}}>Images(Up To 5)</h6>
       {state.project.image && (
         <img src={state.project.image} alt="" height={100} width={100} />
       )}
@@ -75,7 +62,7 @@ return (
         src={IT}
         props={{
           label: "Title",
-          placeholder: "My post",
+          placeholder: "My project",
           inputProps: {
             defaultValue: state.project.title,
           },
@@ -109,7 +96,7 @@ return (
               (v || "")
                 .split(",")
                 .filter((v) => v !== "")
-                .map((v) => v.trim())
+                .map((v) => v.trim()),
             ),
         }}
       />
@@ -126,14 +113,15 @@ return (
         }}
       />
     </div>
-    <div className="d-flex flex-column gap-2 col">
-      <br></br>
-      <button>Take a Photo</button>
+    <div className="d-flex flex-column gap-2 col" >
+    
+      {/* <button>Take a Photo</button> */}
+      <div style={{height:"110px"}}></div>
       <Widget
         src={IT}
         props={{
           label: "Description",
-          placeholder: "Describe your post",
+          placeholder: "Describe your project",
           textarea: true,
           inputProps: {
             defaultValue: state.project.description,
@@ -155,7 +143,7 @@ return (
       />
       <div className="row">
         <div className="col">
-          <Widget
+          {/* <Widget
             src={IB}
             props={{
               children: buttonChildren ?? "Cancel",
@@ -163,19 +151,20 @@ return (
               onClick: () => beforeHandleCreateProject(),
             }}
           />
+           */}
+ <Link href="https://near.org/refound_create_success.near/widget/home"><button style={{backgroundColor:"grey"}}>Cancel</button></Link>
+
         </div>
         <div className="col">
-          <Widget
+          {/* <Widget
             src={IB}
             props={{
-              children: buttonChildren ?? "Create Post",
+              children: buttonChildren ?? "Create Project",
               variant: "success",
               onClick: () => beforeHandleCreateProject(),
             }}
-          />
-          {/*<Link href="https://near.org/refoundonbos.near/widget/create.post.success">
-            <button>Create Post</button>
-          </Link>*/}
+          /> */}
+          <Link href="https://near.org/refound_create_success.near/widget/home"><button>Create Project</button></Link>
         </div>
       </div>
     </div>
