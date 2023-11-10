@@ -12,7 +12,7 @@ const Root = styled.div`
 `;
 
 const ownerId = "agwaze.near";
-const availableTabs = ["home", "event", "team", "about", "project"];
+const availableTabs = ["home", "event", "teams", "about", "project"];
 
 const getTab = (tab) => {
   if (!tab || !availableTabs.includes(tab)) {
@@ -89,6 +89,7 @@ const ContentContainer = styled.div`
 
 const tabContentWidget = {
   home: "agwaze.near/widget/WebFusion.Home.index",
+  teams: "agwaze.near/widget/WebFusion.Team.index",
 }[state.tab];
 
 const tabContent = <Widget src={tabContentWidget} props={{ update }} />;
