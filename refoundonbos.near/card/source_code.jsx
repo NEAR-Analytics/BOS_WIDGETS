@@ -85,9 +85,7 @@ const series = props.post;
 
 const title = (series && series.title) || "Untitled";
 const description = (series && series.description) || "";
-let image =
-  series.media ||
-  "https://ipfs.near.social/ipfs/bafkreibmiy4ozblcgv3fm3gc6q62s55em33vconbavfd2ekkuliznaq3zm";
+let image = series.media || "";
 
 const tags = series && Object.keys(series.tags ?? {});
 const dateTaken = series.dateTaken;
@@ -171,12 +169,14 @@ return (
   <>
     <Card href={`?tab=post&seriesId=${seriesId}`} key={id}>
       <Info>
-        <img
-          className={className}
-          style={style}
-          src={image}
-          alt={"post image"}
-        />
+        {image && (
+          <img
+            className={className}
+            style={style}
+            src={image}
+            alt={"post image"}
+          />
+        )}
         <Title>{title}</Title>
         <SubTitle>
           {description.length > MAX_DESCRIPTION_LENGTH
