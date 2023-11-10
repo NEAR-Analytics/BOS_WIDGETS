@@ -1,8 +1,8 @@
 const { Card } =
-  VM.require("${REPL_DEVHUB}/widget/devhub.entity.addon.blog.Card") ||
+  VM.require("devhub.jass.near/widget/devhub.entity.addon.blog.Card") ||
   (() => <></>);
 const { Page } =
-  VM.require("${REPL_DEVHUB}/widget/devhub.entity.addon.blog.Page") ||
+  VM.require("devhub.jass.near/widget/devhub.entity.addon.blog.Page") ||
   (() => <></>);
 
 const categories = [
@@ -194,7 +194,7 @@ return (
         aria-labelledby="edit-tab"
       >
         <Widget
-          src="${REPL_DEVHUB}/widget/devhub.entity.addon.blog.editor.form"
+          src="devhub.jass.near/widget/devhub.entity.addon.blog.editor.form"
           props={{
             title,
             setTitle,
@@ -217,7 +217,7 @@ return (
           className={"d-flex align-items-center justify-content-end gap-3 mt-4"}
         >
           <Widget
-            src={"${REPL_DEVHUB}/widget/devhub.components.molecule.Button"}
+            src={"devhub.jass.near/widget/devhub.components.molecule.Button"}
             props={{
               classNames: { root: "btn-success" },
               disabled: !hasDataChanged(),
@@ -241,7 +241,7 @@ return (
         <div style={{ position: "absolute", top: 10, right: 0 }}>
           <Widget
             // LEGACY
-            src="${REPL_DEVHUB_LEGACY}/widget/gigs-board.components.molecule.button-switch"
+            src="devgovgigs.near/widget/gigs-board.components.molecule.button-switch"
             props={{
               currentValue: previewMode,
               key: "previewMode",
