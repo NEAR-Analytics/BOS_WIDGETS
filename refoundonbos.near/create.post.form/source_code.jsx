@@ -160,14 +160,14 @@ return (
           <Widget
             src={IB}
             props={{
-              children: buttonChildren ?? "Create Project",
+              children: buttonChildren ?? "Create Post",
               variant: "success",
               onClick: () => beforeHandleCreateProject(),
             }}
           /> 
-          // <Link href="https://near.org/refoundonbos.near/widget/create.post.success">
-          //   <button>Create Post</button>
-          // </Link>
+          {/*<Link href="https://near.org/refoundonbos.near/widget/create.post.success">
+            <button>Create Post</button>
+          </Link>*/}
         </div>
       </div>
     </div>
