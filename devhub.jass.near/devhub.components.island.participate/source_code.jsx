@@ -1,4 +1,4 @@
-const { href } = VM.require("${REPL_DEVHUB}/widget/core.lib.url");
+const { href } = VM.require("devhub.jass.near/widget/core.lib.url");
 
 href || (href = () => {});
 
@@ -183,7 +183,7 @@ const Content = (
 
     <Link
       to={href({
-        widgetSrc: "${REPL_DEVHUB}/widget/app",
+        widgetSrc: "devhub.jass.near/widget/app",
         params: { page: "contribute" },
       })}
       style={{ textDecoration: "none" }}
@@ -195,7 +195,7 @@ const Content = (
 
 return (
   <Widget
-    src="${REPL_DEVHUB}/widget/devhub.components.island.home-section"
+    src="devhub.jass.near/widget/devhub.components.island.home-section"
     props={{
       title: "/participate",
       titleColor: "#555555",
