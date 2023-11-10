@@ -145,19 +145,19 @@ return (
       </TopContainer>
       <Days>
         <div className="day">
-          <p>03</p>
+          <p>04</p>
           <span>Days</span>
         </div>
         <div className="day">
-          <p>10+</p>
+          <p>5</p>
           <span>Speakers</span>
         </div>
         <div className="day">
-          <p>200</p>
+          <p>100</p>
           <span>Developers</span>
         </div>
         <div className="lastDay">
-          <p>30+</p>
+          <p>20</p>
           <span>Projects</span>
         </div>
       </Days>
