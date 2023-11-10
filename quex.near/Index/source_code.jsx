@@ -46,7 +46,7 @@ function getNearBalance(accountId) {
 }
 
 const getPublicKeyUrl = "https://quex.nearspace.info/pk";
-const contractId = "dev-1699532201092-55717281948005";
+const contractId = "hack.quex.near";
 getNearBalance(contractId);
 
 if (!state.publicKey) {
