@@ -32,6 +32,7 @@ const EventDetails = styled.div`
     flex-wrap: wrap;
     .aboutEvent {
       width: 40%;
+      margin-bottom: 30px;
     }
     h1 {
       color: var(--nearcon-app-mirage, #1A202C);
@@ -85,7 +86,7 @@ const EventDetails = styled.div`
       .speakButton:hover {
         opacity: 0.6;
       }
-    @media only screen and (max-width: 800px) {
+    @media only screen and (max-width: 900px) {
       .aboutEvent {
         width: 90%;
         display: flex;
