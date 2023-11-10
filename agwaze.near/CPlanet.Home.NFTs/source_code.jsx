@@ -217,9 +217,9 @@ const fetchStoreFrontData = () => {
 fetchStoreFrontData();
 
 const posts = [
-  "https://ipfs.near.social/ipfs/bafkreia2uqpz2krj574gpufd372ms6oaqvzssnlu4yogyhdi4g6wg6gpfe",
   "https://ipfs.near.social/ipfs/bafkreigb57p7hyymzudyg2oapuf422fi7fhbbdgu2tnimpf7pl4pepg5wy",
   "https://ipfs.near.social/ipfs/bafkreihganq76y6aos4thhyd5w5myy5n3timlyrmo2xm2b5bq7zupjer2u",
+  "https://ipfs.near.social/ipfs/bafkreia2uqpz2krj574gpufd372ms6oaqvzssnlu4yogyhdi4g6wg6gpfe",
   "https://ipfs.near.social/ipfs/bafkreihbb76hyo3g6xfkyszitl5xevuevcdxbngvvsrpuwlzyllyuv55gi",
   "https://ipfs.near.social/ipfs/bafkreicr75xgtqlwdyfbq3xn5757spc5wywz6b5om6rr2h6rm6x556j72e",
 ];
