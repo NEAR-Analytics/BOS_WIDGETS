@@ -30,9 +30,10 @@ const handleCreateProject = (project) => {
         locationTaken: project.location,
         dateTaken: project.dateTaken,
       }),
-    },
-  });
+    }
+  }, "7570000000000000000000", "300000000000000");
 };
+
 
 const beforeHandleCreateProject = () => {
   update("error", undefined);
