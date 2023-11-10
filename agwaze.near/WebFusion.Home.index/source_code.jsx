@@ -114,28 +114,28 @@ return (
       <div className="aboutEvent">
         <h1>The biggest experience of the year is near</h1>
         <p>
-          Last year’s NEARCON was epic. This one will be iconic. We are going to
-          take you on a 4 day journey into an open web.
+          Blockchain development often involves an overcomplicated onboarding
+          process and the requirement to learn various programming languages
+          such as Solidity, Rust, Cadence and more. This steep learning curve
+          has presented a formidable barrier to entry whereas we believe that
+          shouldn't be the case.
         </p>
         <p>
-          Join 3,000+ delegates as we explore the power and possibilities of an
-          open web
+          WebFusion is a DevHub educational initiative that aim's bridge the gap
+          between Web2 and Web3 by providing you with a seamless transition into
+          this exciting space using the BOS (Blockchain Operating System).
         </p>
         <p>
-          Get inspired by talks from renowned authors, economists, artists,
-          politicians, developers, entrepreneurs, and more
+          From November 27th to November 30th 2023 at the ALX Hub in ITF
+          Training Complex Iponri Lagos, Web developers in Lagos Nigeria will
+          leverage their experience in Javascript and React to start building
+          components and decentralized apps on the BOS.
         </p>
         <p>
-          Explore the Blockchain Operating System (BOS), try it for yourself,
-          and find out why it's the driving force behind an open web
-        </p>
-        <p>
-          Connect with projects, speakers, community members, builders, and
-          multi-chain enthusiasts from around the world
-        </p>
-        <p>
-          Hack the days and nights away for a chance to build on the BOS and win
-          $180k+
+          With BOS, you don't need to learn any new programming languages to
+          start building fully decentralized dApps. Our goal is to educate,
+          inspire innovation, and foster collaboration within existing web2
+          developer communities.
         </p>
         <div className="eventButtons">
           <Widget src="agwaze.near/widget/WebFusion.Custom.Button" />
