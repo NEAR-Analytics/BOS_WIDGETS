@@ -2,6 +2,8 @@ const { defaultProject, buttonChildren, buttonProps } = props;
 const contractId = "refoundjournalism.near";
 State.init({
   error: undefined,
+  lastSeries: null,
+  lastSeriesIsFetched: false,
   project: defaultProject ?? {
     logo: undefined,
     title: undefined,
@@ -13,9 +15,13 @@ State.init({
 const update = (k, v) => State.update({ [k]: v });
 const updateP = (k, v) => update("project", { ...state.project, [k]: v });
 
+if (!state.lastSeriesIsFetched) {
+  Near.asyncView(contractId, "get_series").then((seriess) => State.update({lastSeries: seriess.length, lastSeriesIsFetched: true}))
+}
+
 const handleCreateProject = (project) => {
   Near.call(contractId, "create_series", {
-    series_id: "8",
+    series_id: state.lastSeries.toString(),
     metadata: {
       title: project.title,
       description: project.description,
