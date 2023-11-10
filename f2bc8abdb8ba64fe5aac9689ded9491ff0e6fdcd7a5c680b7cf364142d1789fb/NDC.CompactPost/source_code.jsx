@@ -253,7 +253,7 @@ const articleTags = article.tags ? (
 const articleTitle = (
   <div className="card-text">
     <div className="row justify-content-between">
-      <div className="col-9">{article.title}</div>
+      <h6 className="col-9">{article.title}</h6>
     </div>
   </div>
 );
