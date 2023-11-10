@@ -16,24 +16,31 @@ const update = (k, v) => State.update({ [k]: v });
 const updateP = (k, v) => update("project", { ...state.project, [k]: v });
 
 if (!state.lastSeriesIsFetched) {
-  Near.asyncView(contractId, "get_series").then((seriess) => State.update({lastSeries: seriess.length, lastSeriesIsFetched: true}))
+  Near.asyncView(contractId, "get_series").then((seriess) =>
+    State.update({ lastSeries: seriess.length, lastSeriesIsFetched: true })
+  );
 }
 
 const handleCreateProject = (project) => {
-  Near.call(contractId, "create_series", {
-    series_id: state.lastSeries.toString(),
-    metadata: {
-      title: project.title,
-      description: project.description,
-      media: project.image,
-      extra: JSON.stringify({
-        locationTaken: project.location,
-        dateTaken: project.dateTaken,
-      }),
-    }
-  }, "7570000000000000000000", "300000000000000");
+  Near.call(
+    contractId,
+    "create_series",
+    {
+      series_id: state.lastSeries.toString(),
+      metadata: {
+        title: project.title,
+        description: project.description,
+        media: project.image,
+        extra: JSON.stringify({
+          locationTaken: project.location,
+          dateTaken: project.dateTaken,
+        }),
+      },
+    },
+    "300000000000000",
+    "7570000000000000000000"
+  );
 };
-
 
 const beforeHandleCreateProject = () => {
   update("error", undefined);
@@ -165,7 +172,7 @@ return (
               variant: "success",
               onClick: () => beforeHandleCreateProject(),
             }}
-          /> 
+          />
           {/*<Link href="https://near.org/refoundonbos.near/widget/create.post.success">
             <button>Create Post</button>
           </Link>*/}
