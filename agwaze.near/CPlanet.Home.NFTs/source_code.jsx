@@ -86,6 +86,83 @@ const Root = styled.div`
     }
 `;
 
+const Posts = styled.div`
+  margin-top: 92px;
+  h1 {
+    color: #000;
+    text-align: center;
+    font-family: Helvetica Neue;
+    font-size: 64px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    margin-bottom: 12px;
+  }
+  div {
+   .splide.is-initialized, .splide.is-rendered {
+  visibility: visible;
+  overflow: hidden;
+  transform: translate3d(0, 0, 0);
+}
+.splide__list {
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  display: -ms-flexbox;
+  display: flex;
+  justify-content: center;
+ position: 0 -200px;
+  height: 100%;
+  width: 100%;
+  margin: 0 !important;
+  padding: 0 !important;
+   animation: moveSlideshow 30s linear infinite;
+   transform: translate3d(0, 0, 0);
+   &:hover{
+    animation-play-state: paused;
+   }
+}
+li{
+    list-style: none;
+}
+.MediaBar_slide{
+  display: flex;
+  position: relative;
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+  z-index: 2;
+}
+img {
+  width: 600px;
+  height: 450px;
+  margin-right: 20px;
+  border-radius: 12px;
+  background: #FFF;
+  box-shadow: 0px 4px 20px 0px rgba(0, 0, 0, 0.10);
+}
+
+.MediaBar_slide img {
+  aspect-ratio: 3/2;
+  object-fit: contain;
+  filter:gray;
+  -webkit-filter:grayscale(1);
+  filter:grayscale(1);
+  transition:all 0.2s;
+}
+.MediaBar_slide img:hover {
+  filter:none;
+  -webkit-filter:grayscale(0);
+  filter:grayscale(0)
+}
+@keyframes moveSlideshow {  
+  100% { 
+    transform: translateX(-200%);  
+    transform: translateX(-66.6666%);  
+  }
+}
+  }
+`;
+
 const communities = [
   "marmaj.sputnik-dao.near",
   "daorecords.sputnik-dao.near",
@@ -138,6 +215,12 @@ const fetchStoreFrontData = () => {
 };
 
 fetchStoreFrontData();
+
+const posts = [
+  "https://ipfs.near.social/ipfs/bafkreigb57p7hyymzudyg2oapuf422fi7fhbbdgu2tnimpf7pl4pepg5wy",
+  "https://ipfs.near.social/ipfs/bafkreihbb76hyo3g6xfkyszitl5xevuevcdxbngvvsrpuwlzyllyuv55gi",
+  "https://ipfs.near.social/ipfs/bafkreicr75xgtqlwdyfbq3xn5757spc5wywz6b5om6rr2h6rm6x556j72e",
+];
 
 return (
   <Root>
@@ -227,5 +310,41 @@ return (
     >
       Show All Communities (59)
     </a>
+    <Posts>
+      <h1>Featured Posts</h1>
+      <div
+        className="splide is-initialized splide--loop splide--ltr splide--draggable is-active"
+        id="splide01"
+        role="region"
+        aria-roledescription="carousel"
+      >
+        <div
+          className="splide__track splide__track--loop splide__track--ltr splide__track--draggable"
+          id="splide01-track"
+          style={{ paddingLeft: "0px", paddingRight: "0px" }}
+          aria-live="off"
+          aria-relevant="additions"
+        >
+          <ul className="splide__list" id="splide01-list" role="presentation">
+            {posts.map((data, index) => (
+              <div key={index}>
+                <img
+                  className="splide__slide splide__slide--clone"
+                  id={`splide01-clone${
+                    index + 1 > 9 ? index + 1 : "0" + index + 1
+                  }`}
+                  role="group"
+                  aria-roledescription="slide"
+                  aria-label={`${index + 1} of ${posts.length}`}
+                  style={{ marginRight: "2rem" }}
+                  aria-hidden="true"
+                  src={data}
+                />
+              </div>
+            ))}
+          </ul>
+        </div>
+      </div>
+    </Posts>
   </Root>
 );
