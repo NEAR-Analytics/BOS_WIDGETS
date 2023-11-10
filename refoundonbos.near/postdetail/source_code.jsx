@@ -7,7 +7,7 @@ State.init({
 
 if (!state.postIsFetched) {
   Near.asyncView(contractId, "get_series_details", {
-    id: parseInt(seriesId),
+    id: parseInt("3"),
   }).then((post) => State.update({ post, postIsFetched: true }));
 }
 
@@ -153,9 +153,9 @@ return (
       </button>
       <button>Purchase License</button>
       <div style={{ padding: "20px" }}></div>
-      <button style={{ backgroundColor: "#A2733B", borderColor: "#A2733B" }}>
+      <a href="https://near.org/refoundonbos.near/widget/campaign"><button style={{ backgroundColor: "#A2733B", borderColor: "#A2733B" }}>
         Fund Relief
-      </button>
+      </button></a>
       <div style={{ padding: "5%" }}></div>
     </div>
   </>
