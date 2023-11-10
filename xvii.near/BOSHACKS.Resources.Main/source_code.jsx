@@ -14,7 +14,7 @@ const LessonLinks = () => {
     textAlign: "center",
   };
 
-  const ownerId = "xvii.near"; // Replace this with your actual ownerId
+  const ownerId = "xvii.near";
 
   return (
     <div>
@@ -91,11 +91,19 @@ const LessonLinks = () => {
           Lesson 7
         </a>
       </div>
+      <div style={linkContainerStyle}>
+        <a
+          style={linkStyle}
+          href="https://hackmd.io/@doulos819/ncr-08"
+          target="_blank"
+        >
+          Lesson 8
+        </a>
+      </div>
     </div>
   );
 };
 
-// Usage in your main function or another component
 return (
   <div>
     <LessonLinks />
