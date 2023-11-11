@@ -9,7 +9,6 @@ const Container = styled.div`
   gap: 40px;
   width: 100%;
   border-top: 2px #dbdbdb solid;
-
   background: #fafafa;
 `;
 
