@@ -186,18 +186,6 @@ return (
                   }}
                 />
                 <hr />
-                <button
-                  onClick={
-                    <Widget
-                      src="rc-dao.near/widget/rc.profile.card"
-                      props={{
-                        accountId: "near-hausa.sputnik-dao.near",
-                      }}
-                    />
-                  }
-                >
-                  CONNECT DAO
-                </button>
               </div>
               <br />
               <Text
@@ -254,6 +242,7 @@ return (
     </Text>
     <Widget src="hack.near/widget/dao.people" props={{ daoId: communityId }} />
     <hr />
+    <Widget src="yousouf.near/widget/Post" />
     <Widget src="hack.near/widget/dev.Badge" />
   </Container>
 );
