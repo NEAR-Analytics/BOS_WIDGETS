@@ -72,8 +72,7 @@ const _amountIn = Big(inputCurrencyAmount)
   .toFixed();
 const fetchTradeInfo = () => {
   asyncFetch(
-    `https://api.dapdap.net/api/uniswap/v2/quote?token_in=${realTokenIn}&token_out=${realTokenOut}&chain_id=${chainId}&amount=${_amountIn}`,
-    { headers: { Authorization: AccessKey } }
+    `https://api.dapdap.net/api/uniswap/v2/quote?token_in=${realTokenIn}&token_out=${realTokenOut}&chain_id=${chainId}&amount=${_amountIn}`
   )
     .then((res) => {
       if (res?.body && res.body.code === "0" && res.body.data?.quote) {
