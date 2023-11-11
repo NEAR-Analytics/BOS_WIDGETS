@@ -7,7 +7,7 @@ const AccessKey = Storage.get(
 );
 
 function getPrice() {
-  asyncFetch("https://test-api.dapdap.net/get-token-price-by-dapdap", {
+  asyncFetch("https://api.dapdap.net/get-token-price-by-dapdap", {
     headers: { Authorization: AccessKey },
   })
     .then((res) => {
