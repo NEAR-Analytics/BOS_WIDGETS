@@ -1,15 +1,14 @@
 // Welcome to quest 7.
 //
-// In this quest, you'll help zkSync team, by fixing the alternative frontend.
-// BOS.gg allows you to edit this code live, and execute it, when you click preview.
+// Oh no, looks like there's a mix-up with our code! Your mission is to sort out the right contract function,
+// whip up the proper hash, and get that transaction flying straight.
+// Check out the details in the sendSolution() function and let's get this sorted!
 //
-// OPTIONAL: If you want to save your work, you need to have NEAR account - but no worries, as a part of the zkQuest
-// you can create a NEAR account with some free NEAR - just follow this link: XXXX
+// BOS.gg allows you to edit this code live, and execute it, when you click "Preview" button.
+//
 
-// There are 3 steps to this quest - look at FIXMEs in the code below.
-
-const DESTINATION_CHAIN = 280;
-const QUEST_ADDRESS = "0x69790562986B15D868B8d5b0c83A57e04DE74E21";
+const DESTINATION_CHAIN = 324;
+const QUEST_ADDRESS = "0xeD6ade662726D7f595D4fa55D5EDEB5d2B7F730E";
 const QUEST_ID = 7;
 const QUEST_NAME = "008";
 
@@ -67,13 +66,17 @@ function sendSolution() {
 
   let transactionHash = "";
 
-  // FIXME: find and use the correct method name.
-  // Hint: you can replay mainnet transactions from your previous submissions with era-test-node, with --show-calls=user --resolve-hashes
+  // 1. Oops! We've been calling the wrong contract function all this time.
+  //    Tip: You can use era-test-node to replay transactions from your previous submissions, with --show-calls=user --resolve-hashes
 
-  // FIXME: use the proper payload - it will be the keccak of the answer, your address and number of attempts.
-  //let answerHash = ethers.utils.solidityKeccak256(["string", "address", "uint16"], [ANSWER, ADDRESS, attempts]);
+  // 2. And then there's the payload... Some of it seems to have gone missing!
+  //    - Don't forget to include `QUEST_NAME`.
+  //    - A keccak hash generated from a combination of specific elements: answer, your zkQuest account address, and the number of attempts.
+  //
+  //    let answerHash = ethers.utils.solidityKeccak256(["string", "address", "uint16"], [ANSWER, ADDRESS, attempts]);
+  //    Oh, and the answer is the private key of the first 'rich' account from era-test-node (with '0x' prefix)
 
-  // FIXME: oh, and the answer - is the private key of the first 'rich' account from era-test-node (including the 0x prefix).
+  // 3. Call the identified contract function with the constructed payload.
 
   questContract
     .submitInvalid(QUEST_NAME, { gasLimit: 1000000 })
