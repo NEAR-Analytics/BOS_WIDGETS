@@ -3,12 +3,12 @@ const props = [
   {
     title: "Humans Of Near",
     imageSrc:
-      "https://imgtr.ee/images/2023/10/23/c406744cb2519c3ff347cd46806db29e.png",
+      "https://lime-imaginative-gayal-58.mypinata.cloud/ipfs/QmZQhoDHrsexmHj8enmuzSwrGMiARVomMRzVCMThtK7UQn",
     description:
-      "Humans of Near is a Map of IAM Human SBT holders. Built by the NFT Workgroup.",
-    buttonText: "Completed",
+      "Humans of Near is a Map of IAM Human SBT holders. Powered by the NFT Workgroup.",
+    buttonText: "GoTo DApp",
     fontSize: 20,
-    href: "https://near.org/humans-of-near.near/widget/humans.nearverselabs.com",
+    href: "https://lime-imaginative-gayal-58.mypinata.cloud/ipfs/QmVZ6YDedH4TfwkJYZEcSGExzZxpfmgQPP5WhpQWQGZbeo",
   },
   {
     title: "Socializer",
