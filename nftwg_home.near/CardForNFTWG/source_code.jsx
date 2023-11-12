@@ -6,7 +6,7 @@ const props = [
       "https://lime-imaginative-gayal-58.mypinata.cloud/ipfs/QmVZ6YDedH4TfwkJYZEcSGExzZxpfmgQPP5WhpQWQGZbeo",
     description:
       "Humans of Near is a Map of IAM Human SBT holders. Powered by the NFT Workgroup.",
-    buttonText: "GoTo DApp",
+    buttonText: "Goto DApp",
     fontSize: 20,
     href: "https://near.org/humans-of-near.near/widget/humans.nearverselabs.com",
   },
