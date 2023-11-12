@@ -2,30 +2,43 @@ const Owner = "nftwg_home.near";
 
 const props = [
   {
-    title: "All",
+    title: "NFT Swap",
     imageSrc:
-      "https://imgtr.ee/images/2023/10/23/3227f22904a3234f639efe364b217422.png",
+      "https://dweb.link/ipfs/QmfVUkdAnQSmPARCKutHdMFBTu2dnsinGmBxji4ha8JjmF",
     description:
-      "Humans of Near is a Map of IAM Human SBT holders. Built by the NFT Workgroup.",
-    buttonText: "Completed",
+      "Trade NFTs directly with other Near Users. Powered by Genadrop",
+    buttonText: "Goto DApp",
     fontSize: 20,
-    href: "https://near.org/humans-of-near.near/widget/humans.nearverselabs.com",
+    href: "https://near.org/harrydhillon.near/widget/NFTSwap.NFT-Trade",
   },
   {
-    title: "Is",
+    title: "NFT Transfer",
     imageSrc:
-      "https://imgtr.ee/images/2023/10/23/c406744cb2519c3ff347cd46806db29e.png",
-    description: "Socializer is an interactive rewards portal for Near Social.",
-    buttonText: "In Progress",
+      "https://dweb.link/ipfs/QmfVUkdAnQSmPARCKutHdMFBTu2dnsinGmBxji4ha8JjmF",
+    description:
+      "Transfer NFTs using ContractID and TokenID. Powered by Genadrop",
+    buttonText: "Goto DApp",
     fontSize: 20,
+    href: "https://near.org/onboarder.near/widget/NFT-Transfer",
   },
   {
-    title: "Well",
-    imageSrc:
-      "https://imgtr.ee/images/2023/10/23/697a7cad796ad704def8540d940ce25e.png",
-    description: "Socializer is an  rewards portal for Near Social.",
-    buttonText: "In Progress",
+    title: "Holder Snapshot",
+    imageSrc: "https://www.indexer.xyz/indexer-logo-icon.svg",
+    description:
+      "Input contract ID to get NFT Collection holder snapshot. Powered by Indexer.xyz",
+    buttonText: "Goto DApp",
     fontSize: 20,
+    href: "https://near.org/9c461db4ac11b66ed1167ff969042ac278eaf2d571712585424be00171a63884/widget/NFT-Collection-Holder-Snapshot",
+  },
+  {
+    title: "LinkDrop+",
+    imageSrc:
+      "https://ipfs.near.social/ipfs/bafkreicck7fsu7j26qr5wpzjad4xumocgqmowwuie5ilhrdlnkssjriyyq",
+    description:
+      "Linkdrop plus powered by Keypom! Create and customize linkdrops for onboarding new users to web3!",
+    buttonText: "Goto DApp",
+    fontSize: 20,
+    href: "https://near.org/cuongdcdev.near/widget/linkdrop_plus",
   },
 ];
 
