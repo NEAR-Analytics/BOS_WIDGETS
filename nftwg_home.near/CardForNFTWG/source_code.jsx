@@ -3,17 +3,17 @@ const props = [
   {
     title: "Humans Of Near",
     imageSrc:
-      "https://lime-imaginative-gayal-58.mypinata.cloud/ipfs/QmZQhoDHrsexmHj8enmuzSwrGMiARVomMRzVCMThtK7UQn",
+      "https://lime-imaginative-gayal-58.mypinata.cloud/ipfs/QmVZ6YDedH4TfwkJYZEcSGExzZxpfmgQPP5WhpQWQGZbeo",
     description:
       "Humans of Near is a Map of IAM Human SBT holders. Powered by the NFT Workgroup.",
     buttonText: "GoTo DApp",
     fontSize: 20,
-    href: "https://lime-imaginative-gayal-58.mypinata.cloud/ipfs/QmVZ6YDedH4TfwkJYZEcSGExzZxpfmgQPP5WhpQWQGZbeo",
+    href: "https://near.org/humans-of-near.near/widget/humans.nearverselabs.com",
   },
   {
     title: "Socializer",
     imageSrc:
-      "https://imgtr.ee/images/2023/10/23/57b442df1ce536dbf207c6ed36bfae63.png",
+      "https://lime-imaginative-gayal-58.mypinata.cloud/ipfs/Qmekd5zzin54BMc6fJmG6F1LAq3P7CTsaEAfLCqbgA1HoU",
     description: "Socializer is an interactive rewards portal for Near Social.",
     buttonText: "In Progress",
     fontSize: 20,
