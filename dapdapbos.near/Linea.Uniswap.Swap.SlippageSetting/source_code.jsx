@@ -1,5 +1,5 @@
 const Layer = styled.div`
-  position: absolute;
+  position: fixed;
   left: 0px;
   top: 0px;
   right: 0px;
@@ -78,7 +78,6 @@ State.init({
 const types = ["Auto", "Custom"];
 
 const { slippage, onSetSlippage } = props;
-
 return (
   <>
     <Layer
@@ -88,8 +87,8 @@ return (
     />
     <StyledContainer
       style={{
-        left: props.clientX - 260 + "px",
-        top: props.clientY + 20 + "px",
+        right: "-100px",
+        top: "100px",
       }}
     >
       <Label>Slippage Setting</Label>
