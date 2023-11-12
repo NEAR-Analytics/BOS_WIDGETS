@@ -95,11 +95,28 @@ const fetchTradeInfo = () => {
             fetching: false,
           });
         }, 500);
-      } else {
-        setTimeout(() => {
-          fetchTradeInfo();
-        }, 2000);
+        return;
       }
+      if (
+        res.body &&
+        res.body.data === null &&
+        res.body.msg === "no pair exist"
+      ) {
+        loadAmountOut({
+          outputCurrencyAmount: 0,
+          noPair: true,
+          loading: false,
+        });
+        setTimeout(() => {
+          State.update({
+            fetching: false,
+          });
+        }, 500);
+        return;
+      }
+      setTimeout(() => {
+        fetchTradeInfo();
+      }, 2000);
     })
     .catch(() => {
       onError();
