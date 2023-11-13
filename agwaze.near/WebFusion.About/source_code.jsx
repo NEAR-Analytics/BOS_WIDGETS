@@ -41,6 +41,24 @@ const hackBox = (
   </svg>
 );
 
+const arrow = (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="31"
+    height="31"
+    viewBox="0 0 31 31"
+    fill="none"
+  >
+    <path
+      d="M8.65723 23.7888L24.7194 7.72656M24.7194 7.72656V23.1463M24.7194 7.72656H9.29972"
+      stroke="black"
+      stroke-width="1.14051"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    />
+  </svg>
+);
+
 const Root = styled.div`
     .hero {
         img {
@@ -95,6 +113,7 @@ const Root = styled.div`
         display: flex;
         flex-direction: row;
         align-items: center;
+        margin-top: 50px;
         h1 {
             color: var(--near-org-black, #000);
             font-family: Inter;
@@ -107,6 +126,69 @@ const Root = styled.div`
          svg {
             height: 40px;
          }
+    }
+    .bottom {
+        p {
+             color: var(--near-org-black, #000);
+            font-family: Inter;
+            font-size: 15.3px;
+            font-style: normal;
+            font-weight: 400;
+            line-height: 33px; /* 215.686% */
+            margin-top: 8px;
+        }
+    }
+    .buttons {
+        margin-top: 88px;
+        margin-bottom: 169px;
+        button:first-child {
+            background: var(--near-org-spring-green, #00EC97);
+            color: var(--solana-com-black-russian, #010102);
+            text-align: center;
+            font-family: Inter;
+            font-size: 19.5px;
+            font-style: normal;
+            height: 69px;
+            font-weight: 700;
+            width: 271px;
+            line-height: 32px; /* 164.103% */
+            border-radius: 0;
+            transition: 0.3s ease-in-out;
+            border-color: #00EC97;
+        }
+        button:first-child:hover {
+            opacity: 0.7;
+        }
+        button:last-child {
+            background: var(--near-org-spring-green, #fff);
+            color: var(--solana-com-black-russian, #010102);
+            text-align: center;
+            font-family: Inter;
+            font-size: 19.5px;
+            font-style: normal;
+            width: 271px;
+            height: 69px;
+            margin-left: 20px;
+            font-weight: 700;
+            line-height: 32px; /* 164.103% */
+            border-radius: 0;
+            transition: 0.3s ease-in-out;
+            border-color: #00EC97;
+        }
+        button:last-child:hover {
+            opacity: 0.7;
+        }
+        @media (max-width: 600px) {
+            display: flex;
+            flex-wrap: wrap;
+
+            align-items: center;
+            justify-content: center;
+            button:last-child {
+                margin-left: 0;
+                margin-top: 20px;
+            }
+        }
     }
 `;
 
@@ -131,6 +213,18 @@ return (
     </div>
     <div className="middle">
       <h1>POWERED BY:</h1> {hackBox}
+    </div>
+    <div className="bottom">
+      <p>
+        Hackbox is a revolutionary plug-and-play solution designed to empower
+        local leads and community stewards to host hackathons easily and
+        efficiently. Hackbox is powered by NEAR DevHub, the central hub that
+        connects developers on NEAR.
+      </p>
+      <div className="buttons">
+        <button>LEARN ABOUT BOS {arrow}</button>
+        <button>REGISTER NOW {arrow}</button>
+      </div>
     </div>
   </Root>
 );
