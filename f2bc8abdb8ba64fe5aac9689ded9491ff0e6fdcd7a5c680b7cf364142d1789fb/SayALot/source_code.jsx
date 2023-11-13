@@ -72,6 +72,8 @@ const widgets = {
   upVoteButton: `${componentsOwner}/widget/NDC.UpVoteButton`,
   profileShortInlineBlock: `${componentsOwner}/widget/Profile.ShortInlineBlock`,
   tagsEditor: `${componentsOwner}/widget/TagsEditor`,
+  kanbanBoard: `f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/NDC.KanbanBoard`, ///////////////////////////////////////////////////////////
+  compactPost: `f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/NDC.CompactPost`, /////////////////////////////////////////////////////////////
 
   //Libs
   // libSBT: `sayalot.near/widget/lib.SBT`,
@@ -120,6 +122,11 @@ const baseActions = {
   reactionBaseAction: "sayALotReaction",
 };
 
+const kanbanColumns = ["Open", "Claimed", "In Work", "Closed"];
+
+const kanbanRequiredTags = [];
+const kanbanExcludedTags = [];
+
 return (
   <Widget
     src={widgets.ndcForum}
@@ -134,6 +141,9 @@ return (
       brand,
       baseActions,
       createSbtOptions,
+      kanbanColumns,
+      kanbanRequiredLabels,
+      kanbanExcludedLabels,
     }}
   />
 );
