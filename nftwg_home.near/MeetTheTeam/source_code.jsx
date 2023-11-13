@@ -305,6 +305,12 @@ return (
             src="https://cdn.discordapp.com/attachments/932622483662733332/1161374194144133190/1651673561336.jpeg?ex=65381101&is=65259c01&hm=b17f6e79be503b9c50ad09e5ee774f4055698f198f5dae68d71f7a4cf41cc32f&"
           />
         </ImageContainer>
+        <ImageContainer style={{ top: 450, left: 1142 }}>
+          <img
+            style={{ width: 140, height: 140 }}
+            src="https://svgshare.com/i/zd3.svg"
+          />
+        </ImageContainer>
 
         <SocialContainer style={{ top: 620, left: 115 }}>
           <SocialIcon>
