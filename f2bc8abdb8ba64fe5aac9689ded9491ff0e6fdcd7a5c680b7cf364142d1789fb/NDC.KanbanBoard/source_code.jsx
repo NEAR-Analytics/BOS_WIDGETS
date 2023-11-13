@@ -12,7 +12,7 @@ const {
   kanbanRequiredTags,
   kanbanExcludedTags,
   sbts,
-  baseAction,
+  baseActions,
   callLibs,
 } = props;
 
@@ -186,7 +186,7 @@ return (
                         handleFilterArticles,
                         handleShareButton,
                         colLabel: col.label,
-                        baseAction,
+                        baseActions,
                         callLibs,
                       }}
                     />
