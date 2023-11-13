@@ -42,9 +42,6 @@ function stateUpdate(obj) {
 
 const loggedUserAccountId = context.accountId;
 
-State.init({
-  selectedPillIndex: 0,
-});
 // const canLoggedUserCreateArticle = state.canLoggedUserCreateArticle;
 
 const logoRemWidth = brand.logoRemWidth
@@ -135,7 +132,6 @@ const renderButton = (button, i) => {
           onClick: () => {
             handlePillNavigation(button.id);
             State.update({
-              selectedPillIndex: undefined,
               selectedButtonIndex: i,
             });
           },
@@ -153,7 +149,6 @@ const renderButton = (button, i) => {
 
 function realHandleBackButton() {
   State.update({
-    selectedPillIndex: 0,
     selectedButtonIndex: undefined,
   });
 
@@ -162,7 +157,6 @@ function realHandleBackButton() {
 
 function realHandleGoHome() {
   State.update({
-    selectedPillIndex: 0,
     selectedButtonIndex: undefined,
   });
   handleGoHomeButton();
@@ -228,7 +222,6 @@ return (
                           handlePillNavigation(pill.id);
                         }
                         State.update({
-                          selectedPillIndex: i,
                           selectedButtonIndex: undefined,
                         });
                       }}
