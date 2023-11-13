@@ -192,6 +192,11 @@ color: #F2F2F2;
 
 
 `;
+const Wid = styled.div`
+display:flex;
+flex-direction:row;
+align-items:space-between;
+`;
 
 return (
   <MainContainer id="ourteam">
@@ -430,6 +435,7 @@ return (
         </SocialContainer>
         <SocialContainer style={{ top: 620, left: 1165 }}>
           <NameContainer style={{ left: 10, top: -20 }}>NDC Plug</NameContainer>
+          <SocialIcon></SocialIcon>
         </SocialContainer>
       </ContentContainer>
     </BackgroundContainer>
