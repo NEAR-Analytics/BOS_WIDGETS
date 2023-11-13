@@ -8,7 +8,7 @@ const Container = styled.div`
 position: absolute;
 width: 100px;
 height: 30px;
-top: 40px;
+top: 10px;
 display: flex;
 justify-content: space-between; /* Use 'justify-content' for spacing between flex items */
 flex-direction: row;
