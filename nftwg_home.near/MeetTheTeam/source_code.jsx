@@ -440,6 +440,8 @@ return (
               href="https://near.social/mob.near/widget/ProfilePage?accountId=ndcplug.near"
               target="blank"
             >
+             <img/>
+               
           
           </SocialIcon>
         </SocialContainer>
