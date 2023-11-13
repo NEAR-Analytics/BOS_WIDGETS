@@ -16,13 +16,13 @@ if (!href) {
 const QUERYAPI_ENDPOINT = `https://near-queryapi.api.pagoda.co/v1/graphql/`;
 
 const queryName =
-  props.queryName ?? `bo_near_devhub_v36_posts_with_latest_snapshot`;
+  props.queryName ?? `bo_near_devhub_v17_posts_with_latest_snapshot`;
 
 const query = `query DevhubPostsQuery($limit: Int = 100, $offset: Int = 0, $where: ${queryName}_bool_exp = {}) {
     ${queryName}(
       limit: $limit
       offset: $offset
-      order_by: {ts: desc}
+      order_by: {block_height: desc}
       where: $where
     ) {
       post_id
@@ -61,13 +61,14 @@ function updateSearchCondition() {
   });
 }
 
-function getPostIds(tag) {
+function getPostIds() {
   if (searchConditionChanged()) {
     updateSearchCondition();
+    return;
   }
   let where = {};
   let authorId = props.author;
-  let label = tag || props.tag;
+  let label = props.tag;
   if (authorId) {
     where = { author_id: { _eq: authorId }, ...where };
   }
@@ -93,22 +94,13 @@ function getPostIds(tag) {
     where = { parent_id: { _is_null: true }, ...where };
   }
 
-  // Don't show blog and devhub-test posts
+  // Don't show blog
   where = {
-    _and: [
-      {
-        _not: {
-          labels: { _contains: "blog" },
-          parent_id: { _is_null: true },
-          post_type: { _eq: "Comment" },
-        },
-      },
-      {
-        _not: {
-          labels: { _contains: "devhub-test" },
-        },
-      },
-    ],
+    _not: {
+      labels: { _contains: "blog" },
+      parent_id: { _is_null: true },
+      post_type: { _eq: "Comment" },
+    },
     ...where,
   };
 
@@ -140,9 +132,7 @@ State.init({
   period: "week",
 });
 
-if (!state.items || searchConditionChanged()) {
-  getPostIds();
-}
+getPostIds();
 
 function defaultRenderItem(postId, additionalProps) {
   if (!additionalProps) {
@@ -163,13 +153,6 @@ function defaultRenderItem(postId, additionalProps) {
           onDraftStateChange,
           ...additionalProps,
           referral: postId,
-          updateTagInParent: (tag) => {
-            if (typeof props.updateTagInput === "function") {
-              props.updateTagInput(tag);
-            }
-            getPostIds(tag);
-          },
-          transactionHashes: props.transactionHashes,
         }}
       />
     </div>
