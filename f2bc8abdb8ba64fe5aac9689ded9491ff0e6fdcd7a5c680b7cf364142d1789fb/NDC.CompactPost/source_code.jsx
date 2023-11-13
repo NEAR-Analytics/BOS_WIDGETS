@@ -8,7 +8,7 @@ const {
   handleFilterArticles,
   handleShareButton,
   colLabel,
-  baseAction,
+  baseActions,
   callLibs,
 } = props;
 
@@ -227,15 +227,9 @@ function toggleShowModal() {
 const articleTags = article.tags ? (
   <div className="card-title">
     {article.tags.map((tag) => {
+      const filter = { filterBy: "tag", value: tag };
       return (
-        <CursorPointer
-          onClick={() =>
-            handleFilterArticles({
-              filterBy: "tag",
-              value: { tag },
-            })
-          }
-        >
+        <CursorPointer onClick={() => handleFilterArticles(filter)}>
           <Widget
             src={widgets.newStyledComponents.Element.Badge}
             props={{
