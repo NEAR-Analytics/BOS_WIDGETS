@@ -78,7 +78,6 @@ const { selectedItem } = props;
 const [activeView, setActiveView] = useState("post");
 
 function PostContent({ data }) {
-  data = data.post;
   return (
     <div key={JSON.stringify(data)}>
       <Widget
@@ -131,61 +130,7 @@ const getEmojiForPrize = (name) => {
   }
 };
 
-const StyledPre = styled.pre`
-  background-color: #333;
-  color: #fff;
-  padding: 15px;
-  border-radius: 8px;
-  white-space: pre-wrap;
-`;
-
-
-const formatPrizes = (prizes) => {
-  const prizeLines = prizes.tracks.map((track) => 
-    `${getEmojiForPrize(track.name)} ${track.name}: $${track.amount}`
-  );
-
-  const totalAmount = prizes.tracks.reduce((total, track) => total + parseInt(track.amount, 10), 0);
-  prizeLines.push(`Total: $${totalAmount}`);
-
-  return prizeLines.join('\n');
-};
-
-const TextPost = ({ data, metadata }) => {
-  const parsedData = JSON.parse(data);
-  const team = parsedData.team.join(", ");
-  const prizesText = formatPrizes(parsedData.prizes);
-  const nearSocialPost = metadata.linktree.nearsocial;
-
-  return (
-    <>
-      <button
-        className="classic"
-        onClick={() => {
-          clipboard.writeText(`
-**Team**: ${team}
-          
-**Prizes**:
-          ${prizesText}
-
-**Near Social Post**: ${nearSocialPost}
-        `);
-        }}
-      >
-        Copy to clipboard
-      </button>
-      <StyledPre>
-**Team**: {team}
-**Prizes**:
-{prizesText}
-**Near Social Post**: {nearSocialPost}
-      </StyledPre>
-    </>
-  );
-};
-
 function PrizesContent({ data }) {
-  data = data.prizes;
   if (!data.tracks) {
     return <h3>No Prizes Won</h3>;
   }
@@ -222,15 +167,12 @@ function PrizesContent({ data }) {
             >
               Original Hackathon Proposal Post
             </a>{" "}
-            as a "Solution" with the following content:
-            
-            <TextPost
-              data={selectedItem.data}
-              metadata={selectedItem.metadata}
-            />
-            
-            Once this is done, the NEAR DevHub team will be getting in touch
-            with you to remit your payments.
+            as a "Solution" with the name of your team/projects, your prizes,
+            the bounties associated, and a link to your NEAR Social Post. All
+            this information is in the Hack-o-ween Prize Breakdown listed in
+            point 1 so copy your section/row from there. Once this is done, the
+            NEAR DevHub team will be getting in touch with you to remit your
+            payments.
           </p>
         )
       )}
@@ -283,13 +225,13 @@ return (
     </Header>
     <Content>
       {activeView === "post" && (
-        <PostContent data={JSON.parse(selectedItem.data)} />
+        <PostContent data={JSON.parse(selectedItem.data).post} />
       )}
       {activeView === "demo" && (
         <Widget src={JSON.parse(selectedItem.data).demo} />
       )}
       {activeView === "prizes" && (
-        <PrizesContent data={JSON.parse(selectedItem.data)} />
+        <PrizesContent data={JSON.parse(selectedItem.data).prizes} />
       )}
       {activeView === "data" && (
         <pre>{JSON.stringify(selectedItem, null, 2)}</pre>
