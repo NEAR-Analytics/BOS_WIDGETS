@@ -3,7 +3,7 @@ left:20;
 width:20;
 height:20;
 `;
-const SocialContainer1 = styled.div`
+const Container = styled.div`
 
 position: absolute;
 width: 100px;
@@ -12,11 +12,11 @@ top: 40px;
 display: flex;
 justify-content: space-between; /* Use 'justify-content' for spacing between flex items */
 flex-direction: row;
-top: 620px;
-left: 1165px; 
+top: 500px;
+left: 1175px; 
 `;
 return (
-  <SocialContainer1>
+  <Container>
     <SocialIcon>
       <a
         href="https://near.social/mob.near/widget/ProfilePage?accountId=ndcplug.near"
@@ -39,5 +39,5 @@ return (
         />
       </a>
     </SocialIcon>
-  </SocialContainer1>
+  </Container>
 );
