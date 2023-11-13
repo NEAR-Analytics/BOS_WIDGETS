@@ -3,7 +3,7 @@ left:20;
 width:20;
 height:20;
 `;
-const SocialContainer = styled.div`
+const SocialContainer1 = styled.div`
 
 position: absolute;
 width: 100px;
@@ -16,7 +16,7 @@ top: 620px;
 left: 1165px; 
 `;
 return (
-  <SocialContainer>
+  <SocialContainer1>
     <SocialIcon>
       <a
         href="https://near.social/mob.near/widget/ProfilePage?accountId=ndcplug.near"
@@ -39,5 +39,5 @@ return (
         />
       </a>
     </SocialIcon>
-  </SocialContainer>
+  </SocialContainer1>
 );
