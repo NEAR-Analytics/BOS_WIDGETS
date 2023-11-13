@@ -32,7 +32,7 @@ const ImageCss = styled.div`
 width: 1290px;
 height: 700px;
 
-background: url('https://media.giphy.com/media/rZvBIMY6P8LUJxxsVq/giphy.gif'), #D9D9D9;
+background: url('https://i.postimg.cc/nh65BDdX/NFT-WG-COMIC.jpg'), #D9D9D9;
 
 /* Inside auto layout */
 flex: none;
