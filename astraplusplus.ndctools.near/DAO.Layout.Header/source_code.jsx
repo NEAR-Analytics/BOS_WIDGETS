@@ -3,6 +3,23 @@ const profile = daoId ? Social.get(`${daoId}/profile/**`, "final") : {};
 const currentLink = `#/astraplusplus.ndctools.near/widget/home?page=dao&daoId=${daoId}`;
 const accountId = context.accountId;
 
+const CoADaoId = props.dev
+    ? "coa.gwg-testing.near"
+    : "congress-coa-v1.ndc-gwg.near";
+const VotingBodyDaoId = props.dev
+    ? "voting-body-v1.gwg-testing.near"
+    : "voting-body-v1.ndc-gwg.near";
+const TCDaoId = props.dev
+    ? "tc.gwg-testing.near"
+    : "congress-tc-v1.ndc-gwg.near";
+const HoMDaoId = props.dev
+    ? "hom.gwg-testing.near"
+    : "congress-hom-v1.ndc-gwg.near";
+
+const isCongressDaoID =
+    daoId === HoMDaoId || daoId === CoADaoId || daoId === TCDaoId;
+
+const isVotingBodyDao = daoId === VotingBodyDaoId;
 State.init({
     joinRole: "council"
 });
@@ -304,56 +321,76 @@ return (
                         className: "w-100"
                     }}
                 />
-                <Widget
-                    src="astraplusplus.ndctools.near/widget/Layout.Modal"
-                    props={{
-                        toggleContainerProps: {
-                            className: "w-100"
-                        },
-                        toggle: (
-                            <Widget
-                                src="nearui.near/widget/Input.Button"
-                                props={{
-                                    variant: "info outline",
-                                    className: "w-100",
-                                    children: "Ask to Join"
-                                }}
-                            />
-                        ),
-                        content: (
-                            <div className="ndc-card p-4">
-                                <Widget
-                                    src="nearui.near/widget/Input.Select"
-                                    props={{
-                                        label: "Role you want to join as",
-                                        options: roles.map((r) => {
-                                            return {
-                                                title: r,
-                                                value: r
-                                            };
-                                        }),
-                                        onChange: (v) =>
-                                            State.update({ joinRole: v }),
-                                        value: state.joinRole
-                                    }}
-                                />
+                {isVotingBodyDao && (
+                    <Widget
+                        src="nearui.near/widget/Input.Button"
+                        props={{
+                            children: (
+                                <a
+                                    href={`https://i-am-human.app/`}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    style={{ color: "rgb(68, 152, 224)" }}
+                                >
+                                    Join by proving your humanity
+                                </a>
+                            ),
+                            variant: "info outline"
+                        }}
+                    />
+                )}
+                {!isCongressDaoID && !isVotingBodyDao && (
+                    <Widget
+                        src="astraplusplus.ndctools.near/widget/Layout.Modal"
+                        props={{
+                            toggleContainerProps: {
+                                className: "w-100"
+                            },
+                            toggle: (
                                 <Widget
                                     src="nearui.near/widget/Input.Button"
                                     props={{
-                                        children: "Propose to Join",
-                                        variant: ["info"],
-                                        className: "w-100 mt-3",
-                                        onClick: () =>
-                                            onAddUserProposal(
-                                                accountId,
-                                                state.joinRole
-                                            )
+                                        variant: "info outline",
+                                        className: "w-100",
+                                        children: "Ask to Join"
                                     }}
                                 />
-                            </div>
-                        )
-                    }}
-                />
+                            ),
+                            content: (
+                                <div className="ndc-card p-4">
+                                    <Widget
+                                        src="nearui.near/widget/Input.Select"
+                                        props={{
+                                            label: "Role you want to join as",
+                                            options: roles.map((r) => {
+                                                return {
+                                                    title: r,
+                                                    value: r
+                                                };
+                                            }),
+                                            onChange: (v) =>
+                                                State.update({ joinRole: v }),
+                                            value: state.joinRole
+                                        }}
+                                    />
+                                    <Widget
+                                        src="nearui.near/widget/Input.Button"
+                                        props={{
+                                            children: "Propose to Join",
+                                            variant: ["info"],
+                                            className: "w-100 mt-3",
+                                            onClick: () =>
+                                                onAddUserProposal(
+                                                    accountId,
+                                                    state.joinRole
+                                                )
+                                        }}
+                                    />
+                                </div>
+                            )
+                        }}
+                    />
+                )}
                 <Popover.Root>
                     <Popover.Trigger asChild>
                         <div className="w-100">
