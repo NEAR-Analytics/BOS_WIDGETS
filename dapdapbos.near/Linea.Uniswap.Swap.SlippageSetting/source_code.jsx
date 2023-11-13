@@ -73,11 +73,12 @@ const Input = styled.input`
 `;
 
 State.init({
-  type: "Custom",
+  type: slippage === "" ? "Auto" : "Custom",
 });
 const types = ["Auto", "Custom"];
 
 const { slippage, onSetSlippage } = props;
+
 return (
   <>
     <Layer
@@ -116,10 +117,15 @@ return (
             placeholder="0.5"
             value={slippage}
             onChange={(ev) => {
-              onSetSlippage(ev.target.value || "0.5");
+              onSetSlippage(ev.target.value);
               if (state.type === "Auto") {
                 State.update({
                   type: "Custom",
+                });
+              }
+              if (ev.target.value === "") {
+                State.update({
+                  type: "Auto",
                 });
               }
             }}
