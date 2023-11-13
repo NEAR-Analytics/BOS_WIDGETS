@@ -12,6 +12,8 @@ top: 40px;
 display: flex;
 justify-content: space-between; /* Use 'justify-content' for spacing between flex items */
 flex-direction: row;
+top: 620, 
+left: 1165 
 `;
 return (
   <SocialContainer>
