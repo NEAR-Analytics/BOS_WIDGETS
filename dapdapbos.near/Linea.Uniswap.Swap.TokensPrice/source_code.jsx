@@ -5,6 +5,9 @@ function getPrice() {
   asyncFetch("https://api.dapdap.net/get-token-price-by-dapdap")
     .then((res) => {
       const data = res?.body?.data;
+      if (data.WETH && !data.ETH) {
+        data.ETH = data.WETH;
+      }
       Storage.set("tokensPrice", data || {});
       setTimeout(getPrice, DELAY);
     })
