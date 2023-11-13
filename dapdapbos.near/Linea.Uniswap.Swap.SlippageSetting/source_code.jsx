@@ -73,7 +73,7 @@ const Input = styled.input`
 `;
 
 State.init({
-  type: "Auto",
+  type: "Custom",
 });
 const types = ["Auto", "Custom"];
 
@@ -102,6 +102,9 @@ return (
                 State.update({
                   type,
                 });
+                if (type === "Auto") {
+                  onSetSlippage("0.5");
+                }
               }}
             >
               {type}
