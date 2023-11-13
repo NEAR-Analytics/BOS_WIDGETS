@@ -626,7 +626,7 @@ return (
           sbts,
           kanbanRequiredTags,
           kanbanExcludedTags,
-          baseAction,
+          baseActions,
           callLibs,
         }}
       />
