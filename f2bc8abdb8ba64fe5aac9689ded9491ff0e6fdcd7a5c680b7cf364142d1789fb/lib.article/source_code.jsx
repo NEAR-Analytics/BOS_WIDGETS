@@ -1,17 +1,11 @@
-// lib.article
-
 const {
-  mainStateUpdate,
   isTest,
   stateUpdate,
   functionsToCallByLibrary,
   callLibs,
   baseAction,
-  kanbanColumns,
   widgets,
-  usersSBTs,
 } = props;
-
 const libName = "article"; // EDIT: set lib name
 const functionsToCall = functionsToCallByLibrary[libName];
 
@@ -38,8 +32,6 @@ const action = isTest ? testAction : prodAction;
 
 const libSrcArray = [widgets.libSBT]; // string to lib widget // EDIT: set libs to call
 
-const imports = { notifications: ["getNotificationData"] };
-
 const libCalls = {};
 libSrcArray.forEach((libSrc) => {
   const libName = libSrc.split("lib.")[1];
@@ -48,7 +40,6 @@ libSrcArray.forEach((libSrc) => {
 
 State.init({
   libCalls, // is a LibsCalls object
-  notifications: {},
 });
 // END LIB CALLS SECTION
 
@@ -68,12 +59,7 @@ function libStateUpdate(obj) {
 function canUserCreateArticle(props) {
   const { env, accountId, sbtsNames } = props;
 
-  if (accountId) {
-    setAreValidUsers([accountId], sbtsNames);
-  } else {
-    return false;
-  }
-
+  setAreValidUsers([accountId], sbtsNames);
   const result = state[`isValidUser-${accountId}`];
   resultFunctionsToCall = resultFunctionsToCall.filter((call) => {
     const discardCondition =
@@ -104,20 +90,14 @@ function setAreValidUsers(accountIds, sbtsNames) {
       return;
     }
 
-    const existingUserSBTs = usersSBTs.find(
-      (userSBTs) => userSBTs.user === accountId
-    );
-
-    if (!existingUserSBTs) {
-      newLibsCalls.SBT.push({
-        functionName: "isValidUser",
-        key: `isValidUser-${accountId}`,
-        props: {
-          accountId,
-          sbtsNames,
-        },
-      });
-    }
+    newLibsCalls.SBT.push({
+      functionName: "isValidUser",
+      key: `isValidUser-${accountId}`,
+      props: {
+        accountId,
+        sbtsNames,
+      },
+    });
   });
   State.update({ libCalls: newLibsCalls });
 }
@@ -148,32 +128,9 @@ const saveHandler = (article, onCommit, onCancel) => {
   }
 };
 
-function getNotificationData(type, accountId, url) {
-  if (state.notifications.getNotificationData) {
-    return state.notifications.getNotificationData(type, accountId, url);
-  }
-}
-
-function extractMentions(text) {
-  const mentionRegex =
-    /@((?:(?:[a-z\d]+[-_])*[a-z\d]+\.)*(?:[a-z\d]+[-_])*[a-z\d]+)/gi;
-  mentionRegex.lastIndex = 0;
-  const accountIds = new Set();
-  for (const match of text.matchAll(mentionRegex)) {
-    if (
-      !/[\w`]/.test(match.input.charAt(match.index - 1)) &&
-      !/[/\w`]/.test(match.input.charAt(match.index + match[0].length)) &&
-      match[1].length >= 2 &&
-      match[1].length <= 64
-    ) {
-      accountIds.add(match[1].toLowerCase());
-    }
-  }
-  return [...accountIds];
-}
-
 function composeData(article) {
-  let data = {
+  let data;
+  data = {
     [action]: {
       main: JSON.stringify(article),
     },
@@ -188,28 +145,13 @@ function composeData(article) {
     },
   };
 
-  const mentions = extractMentions(article.body);
-
-  if (mentions.length > 0) {
-    const dataToAdd = getNotificationData(
-      "mention",
-      mentions,
-      `https://near.social/${widgets.thisForum}?sharedArticleId=${article.id}${
-        isTest ? "&isTest=t" : ""
-      }`
-    );
-
-    data.post = dataToAdd.post;
-    data.index.notify = dataToAdd.index.notify;
-  }
-
   return data;
 }
 
 function getArticleBlackListByBlockHeight() {
   return [
     91092435, 91092174, 91051228, 91092223, 91051203, 98372095, 96414482,
-    96412953, 103131250, 106941548,
+    96412953, 103131250,
   ];
 }
 
@@ -254,17 +196,12 @@ function getArticlesIndexes(action, subscribe) {
   });
 }
 
-function filterFakeAuthors(articleData, articleIndexData) {
-  if (articleData.author === articleIndexData.accountId) {
-    return articleData;
-  }
-}
-
 function getArticlesNormalized(env) {
   const articlesByVersion = Object.keys(versions).map((version, index, arr) => {
     const action = versions[version].action;
     const subscribe = index + 1 === arr.length;
     const articlesIndexes = getArticlesIndexes(action, subscribe);
+
     if (!articlesIndexes) return [];
     const validArticlesIndexes = filterInvalidArticlesIndexes(
       env,
@@ -275,7 +212,7 @@ function getArticlesNormalized(env) {
 
     const articles = validLatestEdits
       .map((article) => {
-        return filterFakeAuthors(getArticle(article, action), article);
+        return getArticle(article, action);
       })
       .filter((article) => {
         return article !== undefined;
@@ -306,9 +243,19 @@ function getArticle(articleIndex, action) {
 
 function getLatestEdits(newFormatArticlesIndexes) {
   return newFormatArticlesIndexes.filter((articleIndex) => {
+    if (
+      articleIndex.value.id ===
+      "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb-1699900545422"
+    )
+      console.log("articleIndex: ", articleIndex);
     const latestEditForThisArticle = newFormatArticlesIndexes.find(
       (newArticleData) => newArticleData.value.id === articleIndex.value.id
     );
+    if (
+      latestEditForThisArticle.value.id ===
+      "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb-1699900545422"
+    )
+      console.log("latestEditForThisArticle: ", latestEditForThisArticle);
     return (
       JSON.stringify(articleIndex) === JSON.stringify(latestEditForThisArticle)
     );
@@ -389,25 +336,6 @@ function filterValidArticles(articles) {
   return filteredArticles;
 }
 
-function filterMultipleKanbanTags(articleTags, kanbanTags) {
-  const normalizedKanbanTag = [];
-  kanbanTags.forEach((tag) => {
-    normalizedKanbanTag.push(tag.replace(` `, "-"));
-  });
-
-  const kanbanTagsInArticleTags = articleTags.filter((tag) =>
-    normalizedKanbanTag.includes(tag.toLowerCase().replace(` `, "-"))
-  );
-
-  const nonKanbanTags = articleTags.filter(
-    (tag) => !normalizedKanbanTag.includes(tag.toLowerCase().replace(` `, "-"))
-  );
-
-  const result = [...nonKanbanTags, kanbanTagsInArticleTags[0]];
-
-  return result;
-}
-
 function normalizeOldToV_0_0_1(article) {
   article.realArticleId = `${article.author}-${article.timeCreate}`;
   article.sbts = ["public"];
@@ -432,28 +360,6 @@ function normalizeFromV0_0_2ToV0_0_3(article) {
   if (!Array.isArray(article.tags) && typeof article.tags === "object") {
     article.tags = Object.keys(article.tags);
   }
-
-  if (article.tags) {
-    article.tags = article.tags.filter(
-      (tag) => tag !== undefined && tag !== null
-    );
-  } else {
-    article.tags = [];
-  }
-
-  if (kanbanColumns) {
-    const lowerCaseColumns = [];
-    kanbanColumns.forEach((cl) => {
-      lowerCaseColumns.push(cl.toLowerCase());
-    });
-
-    article.tags = filterMultipleKanbanTags(article.tags, lowerCaseColumns);
-  }
-
-  if (article.blockHeight < 105654020 && article.sbts.includes("public")) {
-    article.sbts = ["fractal.i-am-human.near - class 1"];
-  }
-
   return article;
 }
 
@@ -477,17 +383,14 @@ const versions = {
   old: {
     normalizationFunction: normalizeOldToV_0_0_1,
     action: versionsBaseActions,
-    validBlockHeightRange: [0, 102530777],
   },
   "v0.0.1": {
     normalizationFunction: normalizeFromV0_0_1ToV0_0_2,
     action: `${versionsBaseActions}_v0.0.1`,
-    validBlockHeightRange: [102530777, 103053147],
   },
   "v0.0.2": {
     normalizationFunction: normalizeFromV0_0_2ToV0_0_3,
     action: `${versionsBaseActions}_v0.0.2`,
-    validBlockHeightRange: [103053147, undefined],
   },
 };
 
@@ -496,21 +399,9 @@ function normalizeLibData(libDataByVersion) {
 
   Object.keys(versions).forEach((version, index, array) => {
     const normFn = versions[version].normalizationFunction;
-    const validBlockHeightRange = versions[version].validBlockHeightRange;
-    const normLibData = libDataByVersion[index]
-      .filter((libData) => {
-        if (validBlockHeightRange[1] === undefined) {
-          return true;
-        }
-
-        return (
-          validBlockHeightRange[0] < libData.blockHeight &&
-          libData.blockHeight < validBlockHeightRange[1]
-        );
-      })
-      .map((libData, i) => {
-        if (libData) return normFn(libData);
-      });
+    const normLibData = libDataByVersion[index].map((libData, i) => {
+      return normFn(libData);
+    });
 
     if (index + 1 === array.length) {
       // Last index
@@ -533,39 +424,6 @@ if (functionsToCall && functionsToCall.length > 0) {
 
   resultFunctionsToCallByLibrary[libName] = resultFunctionsToCall;
   updateObj.functionsToCallByLibrary = resultFunctionsToCallByLibrary;
-
-  const oldUsersSBTs = usersSBTs;
-  // {
-  //   user: string,
-  //   credentials: {},
-  // }
-
-  const newUsersSBTs = Object.keys(state).map((key) => {
-    if (key.includes("isValidUser-")) {
-      if (state[key] !== undefined) {
-        const user = key.split("isValidUser-")[1];
-        const credentials = state[key];
-
-        const oldUsers = oldUsersSBTs.map((userSbts) => userSbts.user);
-
-        if (!oldUsers.includes(user)) {
-          return {
-            user,
-            credentials,
-          };
-        }
-      }
-    }
-  });
-
-  const finalUsersSBTs = [...oldUsersSBTs, ...newUsersSBTs].filter(
-    (userSBTs) => userSBTs !== undefined
-  );
-
-  if (finalUsersSBTs[0]) {
-    mainStateUpdate({ usersSBTs: finalUsersSBTs });
-  }
-
   stateUpdate(updateObj);
 }
 
@@ -580,14 +438,5 @@ return (
         `lib.${libName}`
       );
     })}
-
-    <Widget
-      src={`${widgets.libNotifications}`}
-      props={{
-        stateUpdate: libStateUpdate,
-        imports: imports["notifications"],
-        fatherNotificationsState: state.notifications,
-      }}
-    />
   </>
 );
