@@ -65,7 +65,7 @@ function getArticleData() {
     return !lowercaseLabels.includes(lowerCaseTag);
   });
 
-  newTags.push(state.newLabel);
+  newTags.push(state.newLabel.toLowerCase());
 
   let newArticleData = article;
   newArticleData.tags = newTags;
@@ -133,7 +133,7 @@ const modal = (
         props={{
           label: "Select new label",
           placeholder: kanbanColumns[0],
-          value: colLabel,
+          value: state.newLabel ?? colLabel,
           options: kanbanColumns.map((label) => {
             return { title: label, value: col };
           }),
