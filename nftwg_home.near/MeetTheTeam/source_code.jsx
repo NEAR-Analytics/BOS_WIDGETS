@@ -1,3 +1,4 @@
+const Owner = "nftwg_home.near";
 const MainContainer = styled.div`
   position: absolute;
   width: 1320px;
@@ -435,15 +436,7 @@ return (
         </SocialContainer>
         <SocialContainer style={{ top: 620, left: 1165 }}>
           <NameContainer style={{ left: 10, top: -20 }}>NDC Plug</NameContainer>
-          <SocialIcon>
-          <a
-              href="https://near.social/mob.near/widget/ProfilePage?accountId=ndcplug.near"
-              target="blank"
-            >
-             <img/>
-               
-          
-          </SocialIcon>
+          <Widget src={`${Owner}/widget/Person-4-portfolio`} />
         </SocialContainer>
       </ContentContainer>
     </BackgroundContainer>
