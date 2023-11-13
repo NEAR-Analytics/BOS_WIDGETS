@@ -32,14 +32,14 @@ const action = isTest ? testAction : prodAction;
 
 const libSrcArray = [widgets.libSBT]; // string to lib widget // EDIT: set libs to call
 
-const libsCalls = {};
+const libCalls = {};
 libSrcArray.forEach((libSrc) => {
   const libName = libSrc.split("lib.")[1];
-  libsCalls[libName] = [];
+  libCalls[libName] = [];
 });
 
 State.init({
-  libsCalls, // is a LibsCalls object
+  libCalls, // is a LibsCalls object
 });
 // END LIB CALLS SECTION
 
@@ -61,7 +61,6 @@ function canUserCreateArticle(props) {
 
   setAreValidUsers([accountId], sbtsNames);
   const result = state[`isValidUser-${accountId}`];
-
   resultFunctionsToCall = resultFunctionsToCall.filter((call) => {
     const discardCondition =
       call.functionName === "canUserCreateArticle" && result !== undefined;
@@ -72,7 +71,7 @@ function canUserCreateArticle(props) {
 }
 
 function setAreValidUsers(accountIds, sbtsNames) {
-  const newLibsCalls = Object.assign({}, state.libsCalls);
+  const newLibsCalls = Object.assign({}, state.libCalls);
   if (!newLibsCalls.SBT) {
     logError("Key SBT is not set in lib.", libName);
   }
@@ -100,7 +99,7 @@ function setAreValidUsers(accountIds, sbtsNames) {
       },
     });
   });
-  State.update({ libsCalls: newLibsCalls });
+  State.update({ libCalls: newLibsCalls });
 }
 
 function createArticle(props) {
@@ -168,6 +167,18 @@ function getArticleBlackListByRealArticleId() {
     "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb-1691702487944",
     "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb-1691707918243",
     "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb-1691707889297",
+    "blaze.near-1697211386373",
+    "silkking.near-1696797896796",
+    "silkking.near-1696797784589",
+    "silkking.near-1696797350661",
+    "silkking.near-1696797276482",
+    "silkking.near-1696797155012",
+    "silkking.near-1696796793605",
+    "silkking.near-1696796543546",
+    "silkking.near-1696795954175",
+    "silkking.near-1696794571874",
+    "silkking.near-1696792789177",
+    "zarmade.near-1690578803015",
   ];
 }
 
@@ -181,7 +192,7 @@ function getArticlesIndexes(action, subscribe) {
   return Social.index(action, "main", {
     order: "desc",
     subscribe,
-    limit: 5,
+    // limit: 10,
   });
 }
 
@@ -190,6 +201,7 @@ function getArticlesNormalized(env) {
     const action = versions[version].action;
     const subscribe = index + 1 === arr.length;
     const articlesIndexes = getArticlesIndexes(action, subscribe);
+
     if (!articlesIndexes) return [];
     const validArticlesIndexes = filterInvalidArticlesIndexes(
       env,
@@ -231,9 +243,19 @@ function getArticle(articleIndex, action) {
 
 function getLatestEdits(newFormatArticlesIndexes) {
   return newFormatArticlesIndexes.filter((articleIndex) => {
+    if (
+      articleIndex.value.id ===
+      "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb-1699900545422"
+    )
+      console.log("articleIndex: ", articleIndex);
     const latestEditForThisArticle = newFormatArticlesIndexes.find(
       (newArticleData) => newArticleData.value.id === articleIndex.value.id
     );
+    if (
+      latestEditForThisArticle.value.id ===
+      "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb-1699900545422"
+    )
+      console.log("latestEditForThisArticle: ", latestEditForThisArticle);
     return (
       JSON.stringify(articleIndex) === JSON.stringify(latestEditForThisArticle)
     );
@@ -404,13 +426,14 @@ if (functionsToCall && functionsToCall.length > 0) {
   updateObj.functionsToCallByLibrary = resultFunctionsToCallByLibrary;
   stateUpdate(updateObj);
 }
+
 return (
   <>
     {libSrcArray.map((src) => {
       return callLibs(
         src,
         libStateUpdate,
-        state.libsCalls,
+        state.libCalls,
         {},
         `lib.${libName}`
       );
