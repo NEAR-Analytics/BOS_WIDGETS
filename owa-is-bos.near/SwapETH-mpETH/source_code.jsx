@@ -88,7 +88,7 @@ const cssFont = fetch(
   "https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800"
 ).body;
 const css = fetch(
-  "https://ipfs.near.social/ipfs/QmY1vEGq8a9e3n25g9A57eLd7bMWdVKipYHJYRpx1R5yij"
+  "https://raw.githubusercontent.com/yaairnaavaa/Maverick/main/cssLido.css"
 ).body;
 
 if (!cssFont || !css) return "no css";
