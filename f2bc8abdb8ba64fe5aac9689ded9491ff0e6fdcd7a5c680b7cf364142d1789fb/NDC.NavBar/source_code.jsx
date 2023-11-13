@@ -217,9 +217,7 @@ return (
                   <li className="nav-item">
                     <Pill
                       style={
-                        state.selectedPillIndex == i
-                          ? { color: activeColor }
-                          : {}
+                        pill.id === displayedTabId ? { color: activeColor } : {}
                       }
                       onClick={() => {
                         //First one is set to be de "Home" one
