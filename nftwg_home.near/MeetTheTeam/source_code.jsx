@@ -5,7 +5,6 @@ const MainContainer = styled.div`
   left: 0px;
   top: 3300px;
 `;
-
 const BackgroundContainer = styled.div`
   position: absolute;
   width: 1320px;
@@ -128,7 +127,7 @@ const Star7 = styled.div`
   width: 45px;
   height: 65px;
   left: 10px;
-  top: 380px;
+  top: 300px;
   
 `;
 const Star8 = styled.div`
@@ -287,27 +286,27 @@ return (
           </svg>
         </Star8>
         <MeetTheTeamText style={{ top: 340 }}>Meet The Team</MeetTheTeamText>
-        <ImageContainer style={{ top: 450, left: 190 }}>
+        <ImageContainer style={{ top: 450, left: 100 }}>
           <img
             style={{ width: 140, height: 150 }}
             src="https://cdn.discordapp.com/attachments/1132232613210357780/1160924867080753203/Aurobot.webp?ex=65366e89&is=6523f989&hm=de32abee5e8d7a308c515a7f4913978ad81230286594124230f51a977f7960ab&"
           />
         </ImageContainer>
 
-        <ImageContainer style={{ top: 450, left: 540 }}>
+        <ImageContainer style={{ top: 450, left: 480 }}>
           <img
             style={{ width: 140, height: 140 }}
             src="https://cdn.discordapp.com/attachments/1132232613210357780/1160922786118766703/bafkreihsi6z7t2g2blipzzfgmbamfaqjfiifoyfrc47qjt3a3u7p3rbpce.png?ex=65366c99&is=6523f799&hm=532962b74dfd141d6879d8fb0e3a2ac6abdc6389936e998fc9430069c8c3f1fa&"
           />
         </ImageContainer>
-        <ImageContainer style={{ top: 450, left: 880 }}>
+        <ImageContainer style={{ top: 450, left: 850 }}>
           <img
             style={{ width: 140, height: 140 }}
             src="https://cdn.discordapp.com/attachments/932622483662733332/1161374194144133190/1651673561336.jpeg?ex=65381101&is=65259c01&hm=b17f6e79be503b9c50ad09e5ee774f4055698f198f5dae68d71f7a4cf41cc32f&"
           />
         </ImageContainer>
 
-        <SocialContainer style={{ top: 620, left: 205 }}>
+        <SocialContainer style={{ top: 620, left: 115 }}>
           <SocialIcon>
             <NameContainer style={{ left: 35, top: -10 }}>Kirk</NameContainer>
             <a
@@ -333,8 +332,8 @@ return (
             </a>
           </SocialIcon>
         </SocialContainer>
-        <SocialContainer style={{ top: 620, left: 560 }}>
-          <NameContainer style={{ left: 15, top: -20 }}>Aescobar</NameContainer>
+        <SocialContainer style={{ top: 620, left: 500 }}>
+          <NameContainer style={{ left: 20, top: -20 }}>Aescobar</NameContainer>
           <SocialIcon>
             <a
               href="https://near.social/mob.near/widget/ProfilePage?accountId=escobarindo.near"
@@ -377,8 +376,8 @@ return (
             </a>
           </SocialIcon>
         </SocialContainer>
-        <SocialContainer style={{ top: 620, left: 890 }}>
-          <NameContainer style={{ left: 0, top: -20 }}>
+        <SocialContainer style={{ top: 620, left: 870 }}>
+          <NameContainer style={{ left: -5, top: -20 }}>
             Tej (aka Punter)
           </NameContainer>
           <SocialIcon>
