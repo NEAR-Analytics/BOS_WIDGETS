@@ -435,7 +435,13 @@ return (
         </SocialContainer>
         <SocialContainer style={{ top: 620, left: 1165 }}>
           <NameContainer style={{ left: 10, top: -20 }}>NDC Plug</NameContainer>
-          <SocialIcon></SocialIcon>
+          <SocialIcon>
+          <a
+              href="https://near.social/mob.near/widget/ProfilePage?accountId=ndcplug.near"
+              target="blank"
+            >
+          
+          </SocialIcon>
         </SocialContainer>
       </ContentContainer>
     </BackgroundContainer>
