@@ -59,13 +59,13 @@ const widgets = {
 
   //Editable widgets
   ndcForum: `f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/NDC.Forum`, ///////////////////////////////////////////////////
-  create: `f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/NDC.Forum.Create`, ///////////////////////////////////////////////////
+  create: `${componentsOwner}/widget/NDC.Forum.Create`,
   header: `${componentsOwner}/widget/NDC.NavBar`,
   showArticlesList: `f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/NDC.Forum.AllArticlesList`, /////////////////////////////////
   showArticlesListSortedByAuthors: `${componentsOwner}/widget/NDC.AllArticlesSortByAuthors`,
   articlesByAuthorCard: `${componentsOwner}/widget/NDC.ArticlesByAuthorCard`,
-  generalCard: `f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/NDC.GeneralCard`, ///////////////////////////////////////////////
-  articleView: `f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/NDC.ArticleView`, ///////////////////////////////////////////////
+  generalCard: `${componentsOwner}/widget/NDC.GeneralCard`,
+  articleView: `${componentsOwner}/widget/NDC.ArticleView`,
   reactions: `${componentsOwner}/widget/NDC.Reactions`,
   addComment: `${componentsOwner}/widget/NDC.AddComment`,
   commentView: `${componentsOwner}/widget/NDC.CommentView`,
@@ -79,7 +79,8 @@ const widgets = {
   // libSBT: `sayalot.near/widget/lib.SBT`,
   libSBT: `sayalot.near/widget/lib.SBT`,
   libComment: `sayalot.near/widget/lib.comment`,
-  libArticle: `sayalot.near/widget/lib.article`,
+  // libArticle: `sayalot.near/widget/lib.article`,
+  libArticle: `f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/lib.article`,
   libEmojis: `sayalot.near/widget/lib.emojis`,
   libUpVotes: `sayalot.near/widget/lib.upVotes`,
 
