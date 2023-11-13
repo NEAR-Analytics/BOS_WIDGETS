@@ -258,7 +258,8 @@ return (
         <ExchangeIconWrapper>
           <ExchangeIcon
             onClick={() => {
-              if (!state.outputCurrency || state.loading) return;
+              if (!state.outputCurrency || state.loading || state.pending)
+                return;
               const [inputCurrency, outputCurrency] = [
                 state.outputCurrency,
                 state.inputCurrency,
@@ -354,6 +355,11 @@ return (
               onAddHistoryToken?.({
                 [state.inputCurrency.address]: state.inputCurrency,
                 [state.outputCurrency.address]: state.outputCurrency,
+              });
+            },
+            onPending: (pending) => {
+              State.update({
+                pending,
               });
             },
             noPair: state.noPair,
