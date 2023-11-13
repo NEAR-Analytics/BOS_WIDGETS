@@ -44,7 +44,6 @@ const projects = [
         blockHeight: 104402605,
       },
       prizes: {
-        postId: 2088,
         tracks: [
           { name: "Runner Up", amount: "500" },
           { name: "Build City", amount: "100" },
@@ -352,7 +351,9 @@ const projects = [
         blockHeight: 104414928,
       },
       prizes: {
-        tracks: [{ name: "Build City", amount: "100" }],
+        tracks: [
+          { name: "Build City", amount: "100" },
+        ],
       },
     }),
     metadata: {
@@ -405,7 +406,9 @@ const projects = [
         blockHeight: 104404885,
       },
       prizes: {
-        tracks: [{ name: "Build City", amount: "100" }],
+        tracks: [
+          { name: "Build City", amount: "100" },
+        ],
       },
     }),
     metadata: {
@@ -458,8 +461,9 @@ const projects = [
         blockHeight: 104403595,
       },
       prizes: {
-        postId: 2087,
-        tracks: [{ name: "Build City", amount: "100" }],
+        tracks: [
+          { name: "Build City", amount: "100" },
+        ],
       },
     }),
     metadata: {
@@ -483,8 +487,9 @@ const projects = [
         blockHeight: 104402860,
       },
       prizes: {
-        postId: 2087,
-        tracks: [{ name: "Build City", amount: "100" }],
+        tracks: [
+          { name: "Build City", amount: "100" },
+        ],
       },
     }),
     metadata: {
@@ -543,7 +548,9 @@ const projects = [
       },
       prizes: {
         postId: 1983,
-        tracks: [{ name: "Build City", amount: "100" }],
+        tracks: [
+          { name: "Build City", amount: "100" },
+        ],
       },
     }),
     metadata: {
@@ -576,7 +583,9 @@ const projects = [
       },
       prizes: {
         postId: 1983,
-        tracks: [{ name: "Data Citizens", amount: "250" }],
+        tracks: [
+          { name: "Data Citizens", amount: "250" },
+        ],
       },
     }),
     metadata: {
@@ -641,7 +650,9 @@ const projects = [
       },
       prizes: {
         postId: 1983,
-        tracks: [{ name: "Everything", amount: "300" }],
+        tracks: [
+          { name: "Everything", amount: "300" },
+        ],
       },
     }),
     metadata: {
@@ -672,7 +683,9 @@ const projects = [
         blockHeight: 104359001,
       },
       prizes: {
-        tracks: [{ name: "Build City", amount: "100" }],
+        tracks: [
+          { name: "Build City", amount: "100" },
+        ],
       },
     }),
     metadata: {
@@ -735,7 +748,9 @@ const projects = [
         blockHeight: 104344362,
       },
       prizes: {
-        tracks: [{ name: "Builders Badge", amount: 0 }],
+        tracks: [
+          { name: "Builders Badge", amount: 0 },
+        ],
       },
     }),
     metadata: {
@@ -759,7 +774,9 @@ const projects = [
         blockHeight: 104287352,
       },
       prizes: {
-        tracks: [{ name: "Builders Badge", amount: 0 }],
+        tracks: [
+          { name: "Builders Badge", amount: 0 },
+        ],
       },
     }),
     metadata: {
