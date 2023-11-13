@@ -1,36 +1,3 @@
-const cleanDescription = (description) => {
-  return description
-    ? description.replace(
-        /###### Requested amount: .+?\n###### Requested sponsor: @[^\s]+\n/g,
-        ""
-      )
-    : description;
-};
-
-initState({
-  seekingFunding: props.seekingFunding ?? false,
-  author_id: context.accountId,
-  // Should be a list of objects with field "name".
-  labels,
-  // Should be a list of labels as strings.
-  // Both of the label structures should be modified together.
-  labelStrings: [],
-  postType,
-  name: props.name ?? "",
-  description:
-    (props.postType === "Solution"
-      ? cleanDescription(props.description)
-      : props.description) ?? "",
-  amount: props.amount ?? "0",
-  token: props.token ?? "USDT",
-  supervisor: props.supervisor ?? "neardevdao.near",
-  githubLink: props.githubLink ?? "",
-  warning: "",
-  draftStateApplied: false,
-  mentionInput: "", // text next to @ tag
-  mentionsArray: [], // all the mentions in the description
-});
-
 /* INCLUDE: "core/lib/autocomplete" */
 const autocompleteEnabled = true;
 
@@ -43,59 +10,54 @@ const AutoComplete = styled.div`
 `;
 
 function textareaInputHandler(value) {
-  const words = value.split(/\s+/);
-  const allMentiones = words
-    .filter((word) => word.startsWith("@"))
-    .map((mention) => mention.slice(1));
-  const newMentiones = allMentiones.filter(
-    (item) => !state.mentionsArray.includes(item)
-  );
-
+  const showAccountAutocomplete = /@[\w][^\s]*$/.test(value);
   State.update((lastKnownState) => ({
     ...lastKnownState,
     text: value,
-    showAccountAutocomplete: newMentiones?.length > 0,
-    mentionsArray: allMentiones,
-    mentionInput: newMentiones?.[0] ?? "",
+    showAccountAutocomplete,
   }));
 }
 
 function autoCompleteAccountId(id) {
-  // to make sure we update the @ at correct index
-  let currentIndex = 0;
-  const updatedDescription = state.description.replace(
-    /(?:^|\s)(@[^\s]*)/g,
-    (match) => {
-      if (currentIndex === state.mentionsArray.indexOf(state.mentionInput)) {
-        currentIndex++;
-        return ` @${id}`;
-      } else {
-        currentIndex++;
-        return match;
-      }
-    }
-  );
+  let description = state.description.replace(/[\s]{0,1}@[^\s]*$/, "");
+  description = `${description} @${id}`.trim() + " ";
   State.update((lastKnownState) => ({
     ...lastKnownState,
-    handler: "autocompleteSelected",
-    description: updatedDescription,
+    description,
     showAccountAutocomplete: false,
   }));
 }
-
 /* END_INCLUDE: "core/lib/autocomplete" */
 
 const postType = props.postType ?? "Sponsorship";
 const parentId = props.parentId ?? null;
 const postId = props.postId ?? null;
 const mode = props.mode ?? "Create";
-const toggleEditor = props.toggleEditor;
 
 const referralLabels = props.referral ? [`referral:${props.referral}`] : [];
 const labelStrings = (props.labels ?? []).concat(referralLabels);
 
 const labels = labelStrings.map((s) => {
   return { name: s };
+});
+
+initState({
+  seekingFunding: false,
+  author_id: context.accountId,
+  // Should be a list of objects with field "name".
+  labels,
+  // Should be a list of labels as strings.
+  // Both of the label structures should be modified together.
+  labelStrings,
+  postType,
+  name: props.name ?? "",
+  description: props.description ?? "",
+  amount: props.amount ?? "0",
+  token: props.token ?? "USDT",
+  supervisor: props.supervisor ?? "neardevdao.near",
+  githubLink: props.githubLink ?? "",
+  warning: "",
+  draftStateApplied: false,
 });
 
 if (!state.draftStateApplied && props.draftState) {
@@ -199,7 +161,8 @@ const onSubmit = () => {
         labels,
         body,
       },
-      gas: Big(10).pow(14),
+      deposit: Big(10).pow(21).mul(2),
+      gas: Big(10).pow(12).mul(100),
     });
   } else if (mode == "Edit") {
     props.onDraftStateChange(
@@ -213,7 +176,8 @@ const onSubmit = () => {
         labels,
         body,
       },
-      gas: Big(10).pow(14),
+      deposit: Big(10).pow(21).mul(2),
+      gas: Big(10).pow(12).mul(100),
     });
   }
   if (mode == "Create" || mode == "Edit") {
@@ -225,7 +189,8 @@ const onSubmit = () => {
           predecessor_id: "devgovgigs.near",
           keys: [context.accountId + "/index/notify"],
         },
-        gas: Big(10).pow(14),
+        deposit: Big(10).pow(23),
+        gas: Big(10).pow(12).mul(30),
       });
     }
     Near.call(txn);
@@ -413,9 +378,9 @@ const callDescriptionDiv = () => {
       {autocompleteEnabled && state.showAccountAutocomplete && (
         <AutoComplete>
           <Widget
-            src="devhub.near/widget/devhub.components.molecule.AccountAutocomplete"
+            src="near/widget/AccountAutocomplete"
             props={{
-              term: state.mentionInput,
+              term: state.text.split("@").pop(),
               onSelect: autoCompleteAccountId,
               onClose: () => State.update({ showAccountAutocomplete: false }),
             }}
@@ -546,142 +511,101 @@ function generateDescription(text, amount, token, supervisor, seekingFunding) {
   return seekingFunding ? `${fundingText}${supervisorText}${text}` : text;
 }
 
-const [tab, setTab] = useState("editor");
-
 const renamedPostType = postType == "Submission" ? "Solution" : postType;
 // Below there is a weird code with fields.includes("githubLink") ternary operator.
 // This is to hack around rendering bug of near.social.
 return (
   <div className="card">
     <div className="card-header">
-      <div>
-        <ul class="nav nav-tabs">
-          <li class="nav-item">
-            <button
-              class={`nav-link ${tab === "editor" ? "active" : ""}`}
-              onClick={() => setTab("editor")}
-            >
-              Editor
-            </button>
-          </li>
-          <li class="nav-item">
-            <button
-              class={`nav-link ${tab === "preview" ? "active" : ""}`}
-              onClick={() => setTab("preview")}
-            >
-              Preview
-            </button>
-          </li>
-        </ul>
-      </div>
-      {tab === "editor" && (
-        <div className="my-3">
-          {mode} {renamedPostType}
-        </div>
-      )}
-      {tab === "preview" && <div className="my-3">Post Preview</div>}
+      {mode} {renamedPostType}
     </div>
 
-    {tab === "editor" && (
-      <div class="card-body">
-        {state.warning && (
-          <div
-            class="alert alert-warning alert-dismissible fade show"
-            role="alert"
-          >
-            {state.warning}
-            <button
-              type="button"
-              class="btn-close"
-              data-bs-dismiss="alert"
-              aria-label="Close"
-              onClick={() => State.update({ warning: "" })}
-            ></button>
-          </div>
-        )}
-        {/* This statement around the githubLinkDiv creates a weird render bug
+    <div class="card-body">
+      {state.warning && (
+        <div
+          class="alert alert-warning alert-dismissible fade show"
+          role="alert"
+        >
+          {state.warning}
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="alert"
+            aria-label="Close"
+            onClick={() => State.update({ warning: "" })}
+          ></button>
+        </div>
+      )}
+      {/* This statement around the githubLinkDiv creates a weird render bug
       where the title renders extra on state change. */}
-        {fields.includes("githubLink") ? (
-          <div className="row">
-            {fields.includes("githubLink") && githubLinkDiv}
-            {labelEditor}
-            {fields.includes("name") && nameDiv}
-            {fields.includes("description") && callDescriptionDiv()}
-          </div>
-        ) : (
-          <div className="row">
-            {labelEditor}
-            {fields.includes("name") && nameDiv}
-            {fields.includes("amount") && amountDiv}
-            {fields.includes("sponsorship_token") && tokenDiv}
-            {fields.includes("supervisor") && supervisorDiv}
-            {fields.includes("description") && callDescriptionDiv()}
-            {fields.includes("fund_raising") && isFundraisingDiv}
-            {state.seekingFunding &&
-              fields.includes("fund_raising") &&
-              fundraisingDiv}
-          </div>
-        )}
-        <button
-          style={{
-            width: "7rem",
-            backgroundColor: "#0C7283",
-            color: "#f3f3f3",
-          }}
-          disabled={state.seekingFunding && (!state.amount || state.amount < 1)}
-          className="btn btn-light mb-2 p-3"
-          onClick={onSubmit}
-        >
-          Submit
-        </button>
-        <button
-          style={{
-            width: "7rem",
-            backgroundColor: "#fff",
-            color: "#000",
-          }}
-          className="btn btn-light mb-2 p-3"
-          onClick={toggleEditor}
-        >
-          Cancel
-        </button>
-        {disclaimer}
-      </div>
-    )}
-    {tab === "preview" && (
-      <div class="card-body">
-        <Widget
-          src="devhub.near/widget/devhub.entity.post.Post"
-          props={{
-            isPreview: true,
-            id: 0, // irrelevant
-            post: {
-              author_id: state.author_id,
-              likes: [],
-              snapshot: {
-                editor_id: state.editor_id,
-                labels: state.labelStrings,
-                post_type: postType,
-                name: state.name,
-                description:
-                  postType == "Solution"
-                    ? generateDescription(
-                        state.description,
-                        state.amount,
-                        state.token,
-                        state.supervisor,
-                        state.seekingFunding
-                      )
-                    : state.description,
-                amount: state.amount,
-                sponsorship_token: state.token,
-                supervisor: state.supervisor,
-                github_link: state.githubLink,
-              },
+      {fields.includes("githubLink") ? (
+        <div className="row">
+          {fields.includes("githubLink") && githubLinkDiv}
+          {labelEditor}
+          {fields.includes("name") && nameDiv}
+          {fields.includes("description") && callDescriptionDiv()}
+        </div>
+      ) : (
+        <div className="row">
+          {labelEditor}
+          {fields.includes("name") && nameDiv}
+          {fields.includes("amount") && amountDiv}
+          {fields.includes("sponsorship_token") && tokenDiv}
+          {fields.includes("supervisor") && supervisorDiv}
+          {fields.includes("description") && callDescriptionDiv()}
+          {fields.includes("fund_raising") && isFundraisingDiv}
+          {state.seekingFunding &&
+            fields.includes("fund_raising") &&
+            fundraisingDiv}
+        </div>
+      )}
+      <button
+        style={{
+          width: "7rem",
+          backgroundColor: "#0C7283",
+          color: "#f3f3f3",
+        }}
+        disabled={state.seekingFunding && (!state.amount || state.amount < 1)}
+        className="btn btn-light mb-2 p-3"
+        onClick={onSubmit}
+      >
+        Submit
+      </button>
+      {disclaimer}
+    </div>
+    <div class="card-footer">
+      Preview:
+      <Widget
+        src="devhub.near/widget/devhub.entity.post.Post"
+        props={{
+          isPreview: true,
+          id: 0, // irrelevant
+          post: {
+            author_id: state.author_id,
+            likes: [],
+            snapshot: {
+              editor_id: state.editor_id,
+              labels: state.labelStrings,
+              post_type: postType,
+              name: state.name,
+              description:
+                postType == "Solution"
+                  ? generateDescription(
+                      state.description,
+                      state.amount,
+                      state.token,
+                      state.supervisor,
+                      state.seekingFunding
+                    )
+                  : state.description,
+              amount: state.amount,
+              sponsorship_token: state.token,
+              supervisor: state.supervisor,
+              github_link: state.githubLink,
             },
-          }}
-        />
-      </div>
-    )}
+          },
+        }}
+      />
+    </div>
   </div>
 );
