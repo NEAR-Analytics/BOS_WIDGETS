@@ -55,4 +55,4 @@ const createPostProposal = ({ daoId, content }) => {
   ]);
 };
 
-return { createProposal };
+return { createPostProposal };
