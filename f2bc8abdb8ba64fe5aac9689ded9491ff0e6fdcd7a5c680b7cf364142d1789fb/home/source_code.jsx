@@ -68,7 +68,6 @@ const widgets = {
   articlesByAuthorCard: `${componentsOwner}/widget/NDC.ArticlesByAuthorCard`,
   //   generalCard: `${componentsOwner}/widget/NDC.GeneralCard`, ////////////////////////////////////////////////////
   generalCard: `f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/NDC.GeneralCard`, ////////////////////////////////////////////////////
-  generalCard: `${componentsOwner}/widget/NDC.GeneralCard`,
   // articleView: `${componentsOwner}/widget/NDC.ArticleView`, ////////////////////////////////////////////////////
   articleView: `f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/NDC.ArticleView`, ////////////////////////////////////////////////////
   reactions: `${componentsOwner}/widget/NDC.Reactions`,
