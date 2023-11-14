@@ -329,11 +329,18 @@ function filterValidArticles(articles) {
 }
 
 function filterMultipleKanbanTags(articleTags, kanbanTags) {
+  const normalizedKanbanTag = [];
+
+  kanbanTags.forEach((tag) => {
+    normalizedKanbanTag.push(tag.replace(` `, "-"));
+  });
+
   const kanbanTagsInArticleTags = articleTags.filter((tag) =>
-    kanbanTags.includes(tag.toLowerCase())
+    normalizedKanbanTag.includes(tag.toLowerCase().replace(` `, "-"))
   );
+
   const nonKanbanTags = articleTags.filter(
-    (tag) => !kanbanTags.includes(tag.toLowerCase())
+    (tag) => !normalizedKanbanTag.includes(tag.toLowerCase().replace(` `, "-"))
   );
 
   const result = [...nonKanbanTags, kanbanTagsInArticleTags[0]];
