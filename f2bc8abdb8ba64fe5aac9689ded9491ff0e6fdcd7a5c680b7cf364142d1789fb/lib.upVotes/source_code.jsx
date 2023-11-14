@@ -35,9 +35,7 @@ const action = isTest ? testAction : prodAction;
 
 // type LibsCalls = Record<string, FunctionCall> // Key is lib name after lib.
 
-const libSrcArray = [widgets.libs.libSBT]; // string to lib widget // EDIT: set libs to call
-
-const imports = { notifications: ["getNotificationData"] };
+const libSrcArray = [widgets.libSBT]; // string to lib widget // EDIT: set libs to call
 
 const otherFunctionsToCallByLibrary = {};
 libSrcArray.forEach((libSrc) => {
@@ -47,7 +45,6 @@ libSrcArray.forEach((libSrc) => {
 
 State.init({
   functionsToCallByLibrary: otherFunctionsToCallByLibrary, // is a LibsCalls object
-  notifications: {},
 });
 // END LIB CALLS SECTION
 
@@ -67,31 +64,8 @@ function libStateUpdate(obj) {
 function canUserUpVote(props) {
   const { env, accountId, sbtsNames } = props;
 
-  if (sbtsNames.includes("public")) return true;
-
-  if (accountId) {
-    setAreValidUsers([accountId], sbtsNames);
-  } else {
-    return false;
-  }
-
-  let allSBTsValidations = [];
-
-  let result;
-
-  let userCredentials =
-    usersSBTs.find((data) => data.user === accountId).credentials ??
-    state[`isValidUser-${accountId}`];
-
-  if (userCredentials) {
-    const allSBTs = Object.keys(userCredentials);
-
-    allSBTs.forEach((sbt) => {
-      sbt !== "public" && allSBTsValidations.push(userCredentials[sbt]);
-    });
-
-    result = allSBTsValidations.includes(true);
-  }
+  setAreValidUsers([accountId], sbtsNames);
+  const result = state[`isValidUser-${accountId}`];
 
   resultFunctionsToCall = resultFunctionsToCall.filter((call) => {
     const discardCondition =
@@ -104,7 +78,6 @@ function canUserUpVote(props) {
 
 function setAreValidUsers(accountIds, sbtsNames) {
   const newLibsCalls = Object.assign({}, state.functionsToCallByLibrary);
-
   if (!newLibsCalls.SBT) {
     logError("Key SBT is not set in lib.", libName);
   }
@@ -138,13 +111,12 @@ function setAreValidUsers(accountIds, sbtsNames) {
       });
     }
   });
-
   State.update({ functionsToCallByLibrary: newLibsCalls });
 }
 
 function addVote(props) {
-  const { id, articleSbts, articleAuthor } = props;
-  saveUpVote(id, articleSbts, articleAuthor);
+  const { id, articleSbts } = props;
+  saveUpVote(id, articleSbts);
 
   resultFunctionsToCall = resultFunctionsToCall.filter((call) => {
     return call.functionName !== "addVote";
@@ -160,12 +132,6 @@ function deleteVote(props) {
   resultFunctionsToCall = resultFunctionsToCall.filter((call) => {
     return call.functionName !== "deleteVote";
   });
-}
-
-function getNotificationData(type, accountId, url) {
-  if (state.notifications.getNotificationData) {
-    return state.notifications.getNotificationData(type, accountId, url);
-  }
 }
 
 const saveDeleteVote = (id, upVoteId, onCommit, onCancel) => {
@@ -198,9 +164,9 @@ function composeDeleteUpVoteData(id, upVoteId) {
   return data;
 }
 
-const saveUpVote = (id, articleSbts, articleAuthor, onCommit, onCancel) => {
+const saveUpVote = (id, articleSbts, onCommit, onCancel) => {
   if (id) {
-    const newData = composeUpVoteData(id, articleSbts, articleAuthor);
+    const newData = composeUpVoteData(id, articleSbts);
 
     Social.set(newData, {
       force: true,
@@ -212,7 +178,7 @@ const saveUpVote = (id, articleSbts, articleAuthor, onCommit, onCancel) => {
   }
 };
 
-function composeUpVoteData(id, articleSbts, articleAuthor) {
+function composeUpVoteData(id, articleSbts) {
   const data = {
     index: {
       [action]: JSON.stringify({
@@ -224,17 +190,6 @@ function composeUpVoteData(id, articleSbts, articleAuthor) {
       }),
     },
   };
-
-  const dataToAdd = getNotificationData(
-    "upVote",
-    [articleAuthor],
-    `https://near.social/${widgets.thisForum}?sharedArticleId=${id}${
-      isTest ? "&isTest=t" : ""
-    }`
-  );
-
-  data.post = dataToAdd.post;
-  data.index.notify = dataToAdd.index.notify;
 
   return data;
 }
@@ -319,36 +274,14 @@ function getUpVotes(props) {
 }
 
 function filterValidator(upVotes, articleSbts) {
-  if (articleSbts.includes("public")) return upVotes;
-
   return upVotes.filter((upVote) => {
-    let allSBTsValidations = [];
-
-    let result;
-
-    let userCredentials =
-      usersSBTs.find((data) => data.user === upVote.accountId).credentials ??
-      state[`isValidUser-${upVote.accountId}`];
-
-    if (userCredentials) {
-      const allSBTs = Object.keys(userCredentials);
-
-      allSBTs.forEach((sbt) => {
-        sbt !== "public" && allSBTsValidations.push(userCredentials[sbt]);
-      });
-
-      result = allSBTsValidations.includes(true);
-    }
-
-    return result;
-
-    // return (
-    //   articleSbts.find((sbt) => {
-    //     return (
-    //       state[`isValidUser-${upVote.accountId}`][sbt] || sbt === "public"
-    //     );
-    //   }) !== undefined
-    // );
+    return (
+      articleSbts.find((sbt) => {
+        return (
+          state[`isValidUser-${upVote.accountId}`][sbt] || sbt === "public"
+        );
+      }) !== undefined
+    );
   });
 }
 
@@ -482,14 +415,5 @@ return (
         `lib.${libName}`
       );
     })}
-
-    <Widget
-      src={`${widgets.libs.libNotifications}`}
-      props={{
-        stateUpdate: libStateUpdate,
-        imports: imports["notifications"],
-        fatherNotificationsState: state.notifications,
-      }}
-    />
   </>
 );
