@@ -1,7 +1,7 @@
 const accountId = context?.accountId;
 
 const proxyMinter = "proxy2.minsta.near";
-const nftContractId = "minsta.mintbase1.near";
+const nftContractId = "mintick.near";
 const mbGraphEndpoint = "https://graph.mintbase.xyz";
 
 const ipfsUrl = (cid) => `https://ipfs.near.social/ipfs/${cid}`;
@@ -18,7 +18,7 @@ const data = fetch(mbGraphEndpoint, {
   body: JSON.stringify({
     query: `
   query FetchFeedMintedThings {
-  nft_activities(where: {kind: {_eq: "mint"}, nft_contract_id: {_eq: "minsta.mintbase1.near"}}, limit: 10, order_by: {timestamp: desc}) {
+  nft_activities(where: {kind: {_eq: "mint"}, nft_contract_id: {_eq: "mintickt.near"}}, limit: 5, order_by: {timestamp: desc}) {
       nft_contract_id
       action_receiver
       token_id
@@ -96,36 +96,12 @@ if (data?.body?.data?.nft_activities) {
   posts = data?.body?.data?.nft_activities;
 }
 
-const size = "8em";
+const size = "6em";
 
 return (
   <div class="text-black p-2 container-fluid d-flex flex-column w-100 text-center justify-content-center align-items-center">
-    <div class="flex justify-content-between">
-      <div>
-        <a
-          href={`https://shard.dog/go?url=https://near.social/#${context.widgetSrc}`}
-        >
-          Create account
-        </a>
-      </div>
-      <div class="flex gap-8">
-        <a
-          href="https://blog.mintbase.xyz/ethdenver-photo-book-mints-on-near-social-minsta-and-mintbase-baec3f49bd4c"
-          target="_blank"
-        >
-          Learn more
-        </a>
-        |
-        <a href="https://minsta.me/" target="_blank">
-          Minsta
-        </a>
-        |
-        <a href="https://minsta.me/leaderboard" target="_blank">
-          Leaderboard
-        </a>
-      </div>
-    </div>
-
+    <h4>Mintickt</h4>
+    <p style={{ fontSize: 12 }}>Capture, mint and share moments with others.</p>
     <div class="container-fluid text-center d-flex flex-column justify-content-center align-items-center">
       <Files
         multiple={false}
@@ -138,7 +114,7 @@ return (
         }}
         class="text-center d-flex justify-content-center align-items-center"
       >
-        <div class="d-flex m-4 px-4 py-3 rounded bg-black text-white justify-content-center align-items-center">
+        <div class="d-flex m-4 px-2 py-1 rounded bg-black text-white justify-content-center align-items-center">
           {state.img?.uploading ? (
             <>...</>
           ) : state.img?.cid ? (
@@ -212,8 +188,22 @@ return (
         })}
       </div>
     </div>
-    <div class="py-4">
-      <Widget src="mintbase.near/widget/BuiltWithMintbase" />
+
+    <div class="flex my-4 gap-8">
+      <a
+        href="https://blog.mintbase.xyz/ethdenver-photo-book-mints-on-near-social-minsta-and-mintbase-baec3f49bd4c"
+        target="_blank"
+      >
+        Learn more
+      </a>
+      |
+      <a href="https://ethdenver2023.minsta.me/" target="_blank">
+        Minsta
+      </a>
+      |
+      <a href="https://ethdenver2023.minsta.me/leaderboard" target="_blank">
+        Leaderboard
+      </a>
     </div>
   </div>
 );
