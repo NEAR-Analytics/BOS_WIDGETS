@@ -1,3 +1,9 @@
+const ThemedText = styled.div`
+    color:blue;
+    font-weight:bold;
+    font-size: 50px;
+`;
+
 const signer = Ethers.send("eth_requestAccounts", [])[0];
 
 if (!signer) {
@@ -5,16 +11,10 @@ if (!signer) {
     <div>
       <h3>Please connect your wallet</h3>
       <Web3Connect />
-      <TeamText>BY TEAM FINX</TeamText>
+      <ThemedText>BY TEAM FINX</ThemedText>
     </div>
   );
 }
-
-const TeamText = styled.div`
-    color:blue;
-    font-weight:bold;
-    font-size: 50px;
-`;
 
 const FlexDiv = styled.div`
     display flex;
@@ -65,6 +65,6 @@ return (
       />
       <Btn onClick={updateMessage}>Send</Btn>
     </FlexDiv>
-    <TeamText>BY TEAM FINX</TeamText>
+    <ThemedText>BY TEAM FINX</ThemedText>
   </div>
 );
