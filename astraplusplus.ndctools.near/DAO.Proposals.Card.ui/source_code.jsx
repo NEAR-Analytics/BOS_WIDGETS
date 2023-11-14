@@ -33,9 +33,18 @@ const accountId = context.accountId;
 function checkVotesForCongressDao(value) {
     if (isCongressDaoID) {
         return votes[accountId]?.vote === value;
-    } else {
-        return votes[accountId || ";;;"] === value;
-    }
+    } else if (isVotingBodyDao) {
+        const userVote = useCache(
+            () =>
+                Near.asyncView(daoId, "get_vote", {
+                    id: proposal.id,
+                    voter: accountId
+                }).then((vote) => vote),
+            proposal.id + "vote",
+            { subscribe: false }
+        );
+        return userVote.vote === value;
+    } else return votes[accountId || ";;;"] === value;
 }
 
 // TODO: implement category
@@ -51,7 +60,9 @@ const Wrapper = styled.div`
     min-height: 500px;
     width: 100%;
     border: 1px solid #fff;
-
+    a {
+        color: rgb(68, 152, 224) !important;
+    }
     .word-wrap {
         word-wrap: break-word;
     }
@@ -73,10 +84,6 @@ const Wrapper = styled.div`
         `
     border-color: #C23F38;
   `}
-
-  .text-muted {
-        color: #8c8c8c !important;
-    }
 
     /* Tooltip container */
     .custom-tooltip {
@@ -138,6 +145,20 @@ const Wrapper = styled.div`
         text-align: center;
     }
 
+    .info_section {
+        border-right: 1px solid #dee2e6;
+        padding-right: 15px;
+        margin: 10px 15px 10px 0;
+
+        &.no-border {
+            border: 0;
+        }
+
+        @media (max-width: 768px) {
+            border: 0;
+        }
+    }
+
     .veto-btn {
         padding: 10px;
         padding-inline: 40px;
@@ -149,6 +170,19 @@ const Wrapper = styled.div`
 `;
 
 const cls = (c) => c.join(" ");
+
+const YouVotedBadge = () => {
+    return (
+        <Widget
+            src="nearui.near/widget/Element.Badge"
+            props={{
+                size: "sm",
+                variant: "info outline mb-1",
+                children: "You voted"
+            }}
+        />
+    );
+};
 
 function renderPermission({ isAllowedToVote }) {
     return (
@@ -180,38 +214,38 @@ function renderHeader({ typeName, id, daoId, statusName }) {
         case "Approved":
         case "Accepted":
             statusicon = "bi bi-check-circle";
-            statustext = "Proposal " + statusName;
+            statustext = statusName;
             statusvariant = "success";
             break;
         case "Executed":
             statusicon = "bi bi-play-fill";
-            statustext = "Proposal " + statusName;
+            statustext = statusName;
             statusvariant = "success";
             break;
         case "In Progress":
         case "InProgress":
             statusicon = "spinner-border spinner-border-sm";
-            statustext = "Proposal In Progress";
+            statustext = "In Progress";
             statusvariant = "primary";
             break;
         case "Vetoed":
             statusicon = "bi bi-x-circle";
-            statustext = "Proposal Vetoed";
+            statustext = statusName;
             statusvariant = "black";
             break;
         case "Expired":
             statusicon = "bi bi-clock";
-            statustext = "Proposal Expired";
+            statustext = statusName;
             statusvariant = "black";
             break;
         case "Failed":
             statusicon = "bi bi-x-circle";
-            statustext = "Proposal Failed";
+            statustext = statusName;
             statusvariant = "black";
             break;
         case "Rejected":
             statusicon = "bi bi-ban";
-            statustext = "Proposal Rejected";
+            statustext = statusName;
             statusvariant = "danger";
             break;
         case "PreVote":
@@ -224,73 +258,66 @@ function renderHeader({ typeName, id, daoId, statusName }) {
 
     return (
         <div className="card__header">
-            <div className="d-flex flex-wrap justify-content-between align-items-center gap-3">
-                <div>
-                    <div className="d-flex gap-2">
-                        <h4 className="h4 d-flex align-items-center gap-2">
-                            <div>
-                                <p className="mb-1">{typeName}</p>
-                                <h6 className="text-secondary">{daoId}</h6>
-                            </div>
-
+            <div className="d-flex flex-column gap-2">
+                <div className="d-flex align-items-center justify-content-between">
+                    <h4>{typeName}</h4>
+                    <div className="d-flex align-items-center gap-2">
+                        {(isCongressDaoID || isVotingBodyDao) &&
+                            statusName === "Approved" &&
+                            proposal?.submission_time +
+                                daoConfig?.vote_duration +
+                                (daoConfig?.cooldown ?? 0) < // cooldown is not available in vb
+                                Date.now() && (
+                                <Widget
+                                    src="nearui.near/widget/Input.Button"
+                                    props={{
+                                        variant: "primary icon",
+                                        children: (
+                                            <i class="bi bi-caret-right-fill" />
+                                        ),
+                                        onClick: () =>
+                                            execProposal({ daoId, id })
+                                    }}
+                                />
+                            )}
+                        {isVotingBodyDao && statusName === "Spam" && (
                             <Widget
-                                src="nearui.near/widget/Element.Badge"
+                                src="nearui.near/widget/Input.Button"
                                 props={{
-                                    children: `Proposal ID #${id}`,
-                                    variant: `outline info round`,
-                                    size: "md"
+                                    variant: "danger",
+                                    children: "Slash",
+                                    onClick: () => execProposal({ daoId, id })
                                 }}
                             />
-                            {(isCongressDaoID || isVotingBodyDao) &&
-                                statusName === "Approved" &&
-                                proposal?.submission_time +
-                                    daoConfig?.voting_duration +
-                                    (daoConfig?.cooldown ?? 0) < // cooldown is not available in vb
-                                    Date.now() && (
-                                    <Widget
-                                        src="nearui.near/widget/Input.Button"
-                                        props={{
-                                            variant: "primary icon",
-                                            children: (
-                                                <i class="bi bi-caret-right-fill" />
-                                            ),
-                                            onClick: () =>
-                                                execProposal({ daoId, id })
-                                        }}
-                                    />
-                                )}
-                            {isVotingBodyDao && statusName === "Spam" && (
+                        )}
+                        {isVotingBodyDao &&
+                            statusName === "Pre Vote" &&
+                            proposal?.submission_time +
+                                daoConfig?.pre_vote_duration <
+                                Date.now() && (
                                 <Widget
                                     src="nearui.near/widget/Input.Button"
                                     props={{
                                         variant: "danger",
                                         children: "Slash",
                                         onClick: () =>
-                                            execProposal({ daoId, id })
+                                            slashPreVoteProposal({
+                                                id
+                                            })
                                     }}
                                 />
                             )}
-                            {isVotingBodyDao &&
-                                statusName === "PreVote" &&
-                                proposal?.submission_time +
-                                    daoConfig?.pre_vote_duration <
-                                    Date.now() && (
-                                    <Widget
-                                        src="nearui.near/widget/Input.Button"
-                                        props={{
-                                            variant: "danger",
-                                            children: "Slash",
-                                            onClick: () =>
-                                                slashPreVoteProposal({
-                                                    id
-                                                })
-                                        }}
-                                    />
-                                )}
-                        </h4>
                     </div>
                 </div>
                 <div className="d-flex gap-2 flex-wrap align-items-center">
+                    <Widget
+                        src="nearui.near/widget/Element.Badge"
+                        props={{
+                            children: `Proposal ID #${id}`,
+                            variant: `outline info round`,
+                            size: "lg"
+                        }}
+                    />
                     <Widget
                         src="nearui.near/widget/Element.Badge"
                         props={{
@@ -299,10 +326,10 @@ function renderHeader({ typeName, id, daoId, statusName }) {
                                     <i
                                         className={statusicon}
                                         style={{
-                                            fontSize: "18px",
+                                            fontSize: "16px",
                                             marginRight: "5px",
                                             borderWidth: "2px",
-                                            animationDuration: "8s"
+                                            animationDuration: "3s"
                                         }}
                                     ></i>
                                     {statustext}
@@ -314,7 +341,9 @@ function renderHeader({ typeName, id, daoId, statusName }) {
                     />
 
                     {(isCongressDaoID || isVotingBodyDao) &&
-                        statusName === "In Progress" && (
+                        statusName === "In Progress" &&
+                        proposal?.submission_time + daoConfig?.vote_duration >
+                            Date.now() && (
                             <Widget
                                 src="nearui.near/widget/Element.Badge"
                                 props={{
@@ -325,7 +354,7 @@ function renderHeader({ typeName, id, daoId, statusName }) {
                                                 props={{
                                                     timeToCheck:
                                                         proposal?.submission_time +
-                                                        daoConfig?.voting_duration
+                                                        daoConfig?.vote_duration
                                                 }}
                                             />
                                         </div>
@@ -336,9 +365,10 @@ function renderHeader({ typeName, id, daoId, statusName }) {
                             />
                         )}
                     {isCongressDaoID &&
+                        daoConfig?.cooldown !== 0 &&
                         statusName !== "In Progress" &&
                         proposal?.submission_time +
-                            daoConfig?.voting_duration +
+                            daoConfig?.vote_duration +
                             daoConfig?.cooldown >
                             Date.now() && (
                             <Widget
@@ -352,7 +382,7 @@ function renderHeader({ typeName, id, daoId, statusName }) {
                                                 props={{
                                                     timeToCheck:
                                                         proposal?.submission_time +
-                                                        daoConfig?.voting_duration +
+                                                        daoConfig?.vote_duration +
                                                         daoConfig?.cooldown
                                                 }}
                                             />
@@ -377,15 +407,15 @@ function renderData({
     totalVotesNeeded
 }) {
     return (
-        <div className="d-flex gap-3 flex-column">
-            <div className="d-flex gap-3">
+        <div className="d-flex gap-2 flex-column">
+            <div className="d-flex gap-2">
                 <div className="w-50">
                     <div className="mb-2">
                         <b>Proposer</b>
                     </div>
                     <Widget
-                        src="nearui.near/widget/Element.User"
-                        props={{ accountId: proposer }}
+                        src="mob.near/widget/Profile.ShortInlineBlock"
+                        props={{ accountId: proposer, tooltip: true }}
                     />
                 </div>
                 {category && (
@@ -402,25 +432,22 @@ function renderData({
                     </div>
                 )}
             </div>
-            <div className="mt-4 word-wrap">
+            <div className="mt-3 word-wrap">
                 <b>Description</b>
                 <Markdown text={description} />
             </div>
-            <div>
-                <Widget
-                    src="astraplusplus.ndctools.near/widget/Common.Modals.ProposalArguments"
-                    props={{
-                        daoId,
-                        proposal
-                    }}
-                />
-            </div>
-            <div className="d-flex gap-5 flex-wrap">
+
+            <Widget
+                src="astraplusplus.ndctools.near/widget/Common.Modals.ProposalArguments"
+                props={{ daoId, proposal }}
+            />
+
+            <div className="d-flex flex-wrap">
                 {submission_time && (
-                    <div>
-                        <b>Submission date</b>
-                        <p>
-                            <small>
+                    <div className="info_section">
+                        <b>Submitted at</b>
+                        <div>
+                            <small className="text-muted">
                                 {isCongressDaoID || isVotingBodyDao
                                     ? new Date(submission_time).toLocaleString()
                                     : new Date(
@@ -429,27 +456,30 @@ function renderData({
                                           )
                                       ).toLocaleString()}
                             </small>
-                        </p>
+                        </div>
                     </div>
                 )}
                 {(isCongressDaoID || isVotingBodyDao) && (
-                    <div>
-                        <b>Expiration date</b>
-                        <p>
-                            <small>
+                    <div className="info_section">
+                        <b>Expired at</b>
+                        <div>
+                            <small className="text-muted">
                                 {new Date(
-                                    submission_time + daoConfig?.voting_duration
+                                    submission_time +
+                                        (daoConfig?.vote_duration ?? 0)
                                 ).toLocaleString()}
                             </small>
-                        </p>
+                        </div>
                     </div>
                 )}
                 {totalVotesNeeded && (
-                    <div>
-                        <b>Total Votes Required</b>
-                        <p>
-                            <small>{totalVotesNeeded}</small>
-                        </p>
+                    <div className="info_section no-border">
+                        <b>Required Votes</b>
+                        <div>
+                            <small className="text-muted">
+                                {totalVotesNeeded}
+                            </small>
+                        </div>
                     </div>
                 )}
             </div>
@@ -483,7 +513,6 @@ function renderVoteButtons({
 
     &.no {
       --vote-button-bg: 194, 63, 56;
-      --vote-button-color: 255, 255, 255;
     }
 
     &.no > div:last-child {
@@ -510,8 +539,6 @@ function renderVoteButtons({
 
     &.spam {
       --vote-button-bg: 245, 197, 24;
-      display :flex;
-      justify-content: center;
     }
 
     &.abstain {
@@ -529,9 +556,7 @@ function renderVoteButtons({
       z-index: 0;
       background-color: rgb(var(--vote-button-bg));
       ${({ percentage }) => `
-        min-width: ${
-            percentage && percentage > 25 ? `${percentage}%` : "120px" // with less than 25% the width is less than 120px
-        };
+        min-width: ${percentage && percentage > 5 ? `${percentage}%` : "5px"};
       `}
     }
 
@@ -547,7 +572,7 @@ function renderVoteButtons({
       background-color: var(--vote-button-bg);
 
       min-width: ${({ percentage }) =>
-          percentage && percentage > 25 ? `${percentage}%` : "120px"};
+          percentage && percentage > 5 ? `${percentage}%` : "5px"};
 
       ${({ finsihed, wins }) =>
           finsihed &&
@@ -584,11 +609,16 @@ function renderVoteButtons({
     }
   `;
 
+    const getPercentage = (vote) => {
+        const percentage = Math.round((vote / totalVotesNeeded) * 100);
+        return percentage > 100 ? 100 : percentage || 0;
+    };
+
     const percentages = {
-        yes: Math.round((totalVotes.yes / totalVotesNeeded) * 100) || 0,
-        no: Math.round((totalVotes.no / totalVotesNeeded) * 100) || 0,
-        spam: Math.round((totalVotes.spam / totalVotesNeeded) * 100) || 0,
-        abstain: Math.round((totalVotes.abstain / totalVotesNeeded) * 100) || 0
+        yes: getPercentage(totalVotes.yes),
+        no: getPercentage(totalVotes.no),
+        spam: getPercentage(totalVotes.spam),
+        abstain: getPercentage(totalVotes.abstain)
     };
 
     const wins = {
@@ -609,36 +639,40 @@ function renderVoteButtons({
         abstain: checkVotesForCongressDao("Abstain")
     };
 
-    const alreadyVoted = voted.yes || voted.no || voted.spam || voted.abstain;
+    const alreadyVoted = isVotingBodyDao
+        ? false // allow revote
+        : voted.yes || voted.no || voted.spam || voted.abstain;
     const showVeto =
         daoId === HoMDaoId && currentuserCongressHouse === CoADaoId
             ? // (isHuman && proposal.typeName === "Recurrent Funding Request")) // add after voting body contract is ready
               true
             : false;
+
+    const VotePercentage = ({ vote }) => (
+        <div>
+            <span>
+                {percentages[vote]}
+                <i className="bi bi-percent"></i>
+            </span>
+            <span>
+                {totalVotes[vote]} {totalVotes[vote] === 1 ? "Vote" : "Votes"}
+            </span>
+        </div>
+    );
+
     return (
         <div
             className="d-lg-grid d-flex flex-wrap gap-2 align-items-end"
             style={{
                 gridTemplateColumns: showVeto
-                    ? "1fr 1fr 1fr 120px"
+                    ? "repeat(3,1fr) 120px"
                     : isVotingBodyDao
-                    ? "1fr 1fr 1fr 120px"
-                    : isCongressDaoID
-                    ? "1fr 1fr 1fr"
-                    : "1fr 1fr 120px"
+                    ? "repeat(4,1fr)"
+                    : "repeat(3,1fr)"
             }}
         >
             <div className="w-100">
-                {voted.yes && (
-                    <Widget
-                        src="nearui.near/widget/Element.Badge"
-                        props={{
-                            size: "sm",
-                            variant: "info outline mb-1",
-                            children: "You voted"
-                        }}
-                    />
-                )}
+                {voted.yes && <YouVotedBadge />}
                 <VoteButton
                     className="yes"
                     percentage={percentages.yes}
@@ -655,29 +689,12 @@ function renderVoteButtons({
                             </span>
                         )}
                         <span className="text-sm">Approve</span>
-                        <i className="bi bi-hand-thumbs-up"></i>
                     </div>
-
-                    <div>
-                        <span>
-                            {percentages.yes}
-                            <i className="bi bi-percent"></i>
-                        </span>
-                        <span>{totalVotes.yes} Votes</span>
-                    </div>
+                    <VotePercentage vote="yes" />
                 </VoteButton>
             </div>
             <div className="w-100">
-                {voted.no && (
-                    <Widget
-                        src="nearui.near/widget/Element.Badge"
-                        props={{
-                            size: "sm",
-                            variant: "info outline mb-1",
-                            children: "You voted"
-                        }}
-                    />
-                )}
+                {voted.no && <YouVotedBadge />}
                 <VoteButton
                     className="no"
                     percentage={percentages.no}
@@ -694,30 +711,13 @@ function renderVoteButtons({
                             </span>
                         )}
                         <span className="text-sm">Reject</span>
-                        <i className="bi bi-hand-thumbs-down"></i>
                     </div>
-
-                    <div>
-                        <span>
-                            {percentages.no}
-                            <i className="bi bi-percent"></i>
-                        </span>
-                        <span>{totalVotes.no} Votes</span>
-                    </div>
+                    <VotePercentage vote="no" />
                 </VoteButton>
             </div>
             {(isVotingBodyDao || isCongressDaoID) && (
                 <div className="w-100">
-                    {voted.abstain && (
-                        <Widget
-                            src="nearui.near/widget/Element.Badge"
-                            props={{
-                                size: "sm",
-                                variant: "info outline mb-1",
-                                children: "You voted"
-                            }}
-                        />
-                    )}
+                    {voted.abstain && <YouVotedBadge />}
 
                     <VoteButton
                         className="abstain"
@@ -733,32 +733,17 @@ function renderVoteButtons({
                         <div className="d-flex gap-2 align-items-center">
                             <span>Abstain</span>
                         </div>
-                        <div>
-                            <span>
-                                {percentages.abstain}
-                                <i className="bi bi-percent"></i>
-                            </span>
-                            <span>{totalVotes.abstain} Votes</span>
-                        </div>
+                        <VotePercentage vote="abstain" />
                     </VoteButton>
                 </div>
             )}
             {!isCongressDaoID && (
                 <div className="w-100">
-                    {voted.spam && (
-                        <Widget
-                            src="nearui.near/widget/Element.Badge"
-                            props={{
-                                size: "sm",
-                                variant: "info outline mb-1",
-                                children: "You voted"
-                            }}
-                        />
-                    )}
+                    {voted.spam && <YouVotedBadge />}
 
                     <VoteButton
                         className="spam"
-                        // percentage={percentages.spam}
+                        percentage={percentages.spam}
                         finsihed={finsihed}
                         wins={wins.spam}
                         myVote={voted.spam}
@@ -771,10 +756,10 @@ function renderVoteButtons({
                             alreadyVoted || finsihed || !isAllowedToVote[2]
                         }
                     >
-                        <div>
+                        <div className="d-flex gap-2 align-items-center">
                             <span>Spam</span>
                         </div>
-                        <div></div>
+                        <VotePercentage vote="spam" />
                     </VoteButton>
                 </div>
             )}
@@ -845,16 +830,7 @@ function renderPreVoteButtons({ proposal }) {
             </button>
             <div className="d-flex flex-column gap-1">
                 <div style={{ width: "fit-content" }}>
-                    {voted && (
-                        <Widget
-                            src="nearui.near/widget/Element.Badge"
-                            props={{
-                                size: "sm",
-                                variant: "info outline mb-1",
-                                children: "You voted"
-                            }}
-                        />
-                    )}
+                    {voted && <YouVotedBadge />}
                 </div>
                 <button
                     class="custom-tooltip btn btn-primary"
@@ -910,7 +886,22 @@ function renderFooter({ totalVotes, votes, comments, daoId, proposal }) {
                 }
             }
         },
+
         {
+            title: "Share",
+            icon: "bi bi-share",
+            widget: "Common.Modals.Share",
+            props: {
+                url: `https://near.org/astraplusplus.ndctools.near/widget/home?page=dao&tab=proposals&daoId=${daoId}&proposalId=${
+                    proposal.id
+                }${props.dev ? "&dev=true" : ""}`,
+                text: "Explore this new proposal from our DAO! Your support and feedback are essential as we work towards a decentralized future. Review the details and join the discussion here:"
+            }
+        }
+    ];
+
+    if (!isVotingBodyDao) {
+        items.push({
             title: "Voters",
             icon: "bi bi-people",
             count: totalVotes.total,
@@ -922,17 +913,8 @@ function renderFooter({ totalVotes, votes, comments, daoId, proposal }) {
                 isCongressDaoID,
                 dev: props.dev
             }
-        },
-        {
-            title: "Share",
-            icon: "bi bi-share",
-            widget: "Common.Modals.Share",
-            props: {
-                url: `https://near.org/astraplusplus.ndctools.near/widget/home?page=dao&tab=proposals&daoId=${daoId}&proposalId=${proposal.id}`,
-                text: "Explore this new proposal from our DAO! Your support and feedback are essential as we work towards a decentralized future. Review the details and join the discussion here:"
-            }
-        }
-    ];
+        });
+    }
 
     if (proposal.typeName !== "Text") {
         items.push({
@@ -950,7 +932,7 @@ function renderFooter({ totalVotes, votes, comments, daoId, proposal }) {
     const renderModal = (item, index) => {
         return (
             <Widget
-                src="nearui.near/widget/Layout.Modal"
+                src="astraplusplus.ndctools.near/widget/Layout.Modal"
                 props={{
                     content: (
                         <Widget
