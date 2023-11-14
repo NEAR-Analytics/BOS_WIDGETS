@@ -1,11 +1,15 @@
+// lib.comment
 const {
+  mainStateUpdate,
   isTest,
   stateUpdate,
   functionsToCallByLibrary,
   callLibs,
   baseAction,
   widgets,
+  usersSBTs,
 } = props;
+
 const libName = "comment"; // EDIT: set lib name
 const functionsToCall = functionsToCallByLibrary[libName];
 
@@ -62,9 +66,7 @@ function canUserCreateComment(props) {
   const { accountId, sbtsNames } = props;
 
   setAreValidUsers([accountId], sbtsNames);
-
-  const result =
-    state[`isValidUser-${accountId}`] || sbtsNames.includes("public");
+  const result = state[`isValidUser-${accountId}`];
 
   resultFunctionsToCall = resultFunctionsToCall.filter((call) => {
     const discardCondition =
@@ -96,14 +98,20 @@ function setAreValidUsers(accountIds, sbtsNames) {
       return;
     }
 
-    newLibCalls.SBT.push({
-      functionName: "isValidUser",
-      key: `isValidUser-${accountId}`,
-      props: {
-        accountId,
-        sbtsNames,
-      },
-    });
+    const existingUserSBTs = usersSBTs.find(
+      (userSBTs) => userSBTs.user === accountId
+    );
+
+    if (!existingUserSBTs) {
+      newLibCalls.SBT.push({
+        functionName: "isValidUser",
+        key: `isValidUser-${accountId}`,
+        props: {
+          accountId,
+          sbtsNames,
+        },
+      });
+    }
   });
   State.update({ libCalls: newLibCalls });
 }
@@ -173,10 +181,6 @@ function getValidComments(props) {
   // Call other libs
   const normComments = getCommentsNormalized(env, id);
 
-  // const blacklistFilteredComments = commentIndexes
-  //   ? filterInvalidCommentsIndexes(commentIndexes)
-  //   : [];
-
   const commentsAuthors = normComments.map((comment) => {
     return comment.accountId;
   });
@@ -192,32 +196,6 @@ function getValidComments(props) {
 
   const finalComments = filterValidComments(normComments, articleSbts);
 
-  // if (articleSbts.length > 0) {
-  // We assume there will only be just one articleSbt
-  // const articleSbt = articleSbts[0];
-
-  // const blacklistFilteredCommentsAuthors = blacklistFilteredComments.map(
-  //   (comment) => {
-  //     return comment.accountId;
-  //   }
-  // );
-
-  // setAreValidUsers(blacklistFilteredCommentsAuthors, articleSbts);
-
-  // const validAuthors = blacklistFilteredCommentsAuthors.filter((author) => {
-  //   return state[`isValidUser-${author}`][articleSbt];
-  // });
-
-  // resultFunctionsToCall = resultFunctionsToCall.filter((call) => {
-  //   const discardCondition =
-  //     call.functionName === "getValidComments" &&
-  //     state[`isValidUser-${call.props.accountId}`] !== undefined;
-  //   return !discardCondition;
-  // });
-  // finalComments = blacklistFilteredComments.filter((comment) => {
-  //   return validAuthors.includes(comment.accountId);
-  // });
-  // }
   return finalComments;
 }
 
@@ -328,10 +306,64 @@ if (functionsToCall && functionsToCall.length > 0) {
   });
 
   resultFunctionsToCallByLibrary[libName] = resultFunctionsToCall;
-  // updateObj.functionsToCallByLibrary = resultFunctionsToCallByLibrary;
-  updateObj.libsCalls = resultFunctionsToCallByLibrary;
+  updateObj.functionsToCallByLibrary = resultFunctionsToCallByLibrary;
+
+  const oldUsersSBTs = usersSBTs;
+  // {
+  //   user: string,
+  //   credentials: {},
+  // }
+
+  const newUsersSBTs = Object.keys(state).map((key) => {
+    if (key.includes("isValidUser-")) {
+      if (state[key] !== undefined) {
+        const user = key.split("isValidUser-")[1];
+        const credentials = state[key];
+
+        const oldUsers = oldUsersSBTs.map((userSbts) => userSbts.user);
+
+        if (!oldUsers.includes(user)) {
+          return {
+            user,
+            credentials,
+          };
+        }
+      }
+    }
+  });
+
+  const finalUsersSBTs = [...oldUsersSBTs, ...newUsersSBTs].filter(
+    (userSBTs) => userSBTs !== undefined
+  );
+
+  if (finalUsersSBTs[0]) {
+    mainStateUpdate({ usersSBTs: finalUsersSBTs });
+  }
+
   stateUpdate(updateObj);
 }
+
+// function callLibs(
+//   src,
+//   stateUpdate,
+//   functionsToCallByLibrary,
+//   extraProps,
+//   callerWidget
+// ) {
+//   return (
+//     <Widget
+//       src={src}
+//       props={{
+//         isTest,
+//         stateUpdate,
+//         functionsToCallByLibrary,
+//         callLibs,
+//         widgets,
+//         ...extraProps,
+//       }}
+//     />
+//   );
+// }
 
 return (
   <>
