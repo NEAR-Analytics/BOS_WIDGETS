@@ -484,7 +484,6 @@ if (functionsToCall && functionsToCall.length > 0) {
     (userSBTs) => userSBTs !== undefined
   );
 
-  // console.log("finalUsersSBTs: ", finalUsersSBTs);
   if (finalUsersSBTs[0]) {
     mainStateUpdate({ usersSBTs: finalUsersSBTs });
   }
