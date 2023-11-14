@@ -86,12 +86,9 @@ const CursorPointer = styled.p`
 
 const articlesPerLabel = kanbanColumns.map((cl) => {
   let articlesOnThisColumn = articles.filter((article) => {
-    const lowercaseTags = [];
-    article.tags.forEach((tag) => lowercaseTags.push(tag.toLowerCase()));
-
     const lowerCaseCL = cl.toLocaleLowerCase();
 
-    return lowercaseTags.includes(lowerCaseCL);
+    return article.tags.includes(lowerCaseCL);
   });
   return { label: cl, articles: articlesOnThisColumn };
 });
