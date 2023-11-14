@@ -10,7 +10,6 @@ const {
   handleShareButton,
   callLibs,
   baseActions,
-  kanbanColumns,
 } = props;
 
 const accountId = articleToRenderData.author;
@@ -55,6 +54,9 @@ State.init({
   sliceContent: true,
   libsCalls: initLibsCalls,
 });
+
+const canLoggedUserCreateComment =
+  state.canLoggedUserCreateComment[articleSbts];
 
 const timeLastEdit = new Date(articleToRenderData.timeLastEdit);
 
@@ -569,7 +571,7 @@ return (
                         disabled:
                           !context.accountId ||
                           (articleSbts.length > 0 &&
-                            !state.canLoggedUserCreateComment),
+                            !canLoggedUserCreateComment),
                         articleSbts,
                         upVotes: articleToRenderData.upVotes,
                         callLibs,
@@ -599,8 +601,7 @@ return (
                       elementReactedId: id,
                       disabled:
                         !context.accountId ||
-                        (articleSbts.length > 0 &&
-                          !state.canLoggedUserCreateComment),
+                        (articleSbts.length > 0 && !canLoggedUserCreateComment),
                       sbtsNames: articleSbts,
                       callLibs,
                       baseActions,
@@ -711,7 +712,7 @@ return (
                 ),
                 disabled:
                   !context.accountId ||
-                  (articleSbts.length > 0 && !state.canLoggedUserCreateComment),
+                  (articleSbts.length > 0 && !canLoggedUserCreateComment),
                 className: "info outline w-100 mt-4 mb-2",
                 onClick: () => {
                   State.update({ showModal: true });
@@ -727,7 +728,7 @@ return (
                   isTest,
                   authorForWidget,
                   isReply: false,
-                  canLoggedUserCreateComment: state.canLoggedUserCreateComment,
+                  canLoggedUserCreateComment: canLoggedUserCreateComment,
                   articleSbts,
                   callLibs,
                   baseActions,
@@ -795,7 +796,7 @@ return (
           src,
           stateUpdate,
           state.libsCalls,
-          { baseAction: baseActions.commentBaseAction, kanbanColumns },
+          { baseAction: baseActions.commentBaseAction },
           "Article view"
         );
       })}
