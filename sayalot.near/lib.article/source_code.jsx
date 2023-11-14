@@ -1,9 +1,12 @@
+// lib.article
+
 const {
   isTest,
   stateUpdate,
   functionsToCallByLibrary,
   callLibs,
   baseAction,
+  kanbanColumns,
   widgets,
 } = props;
 const libName = "article"; // EDIT: set lib name
@@ -325,6 +328,26 @@ function filterValidArticles(articles) {
   return filteredArticles;
 }
 
+function filterMultipleKanbanTags(articleTags, kanbanTags) {
+  const normalizedKanbanTag = [];
+
+  kanbanTags.forEach((tag) => {
+    normalizedKanbanTag.push(tag.replace(` `, "-"));
+  });
+
+  const kanbanTagsInArticleTags = articleTags.filter((tag) =>
+    normalizedKanbanTag.includes(tag.toLowerCase().replace(` `, "-"))
+  );
+
+  const nonKanbanTags = articleTags.filter(
+    (tag) => !normalizedKanbanTag.includes(tag.toLowerCase().replace(` `, "-"))
+  );
+
+  const result = [...nonKanbanTags, kanbanTagsInArticleTags[0]];
+
+  return result;
+}
+
 function normalizeOldToV_0_0_1(article) {
   article.realArticleId = `${article.author}-${article.timeCreate}`;
   article.sbts = ["public"];
@@ -349,6 +372,16 @@ function normalizeFromV0_0_2ToV0_0_3(article) {
   if (!Array.isArray(article.tags) && typeof article.tags === "object") {
     article.tags = Object.keys(article.tags);
   }
+
+  if (kanbanColumns) {
+    const lowerCaseColumns = [];
+    kanbanColumns.forEach((cl) => {
+      lowerCaseColumns.push(cl.toLowerCase());
+    });
+
+    article.tags = filterMultipleKanbanTags(article.tags, lowerCaseColumns);
+  }
+
   return article;
 }
 
