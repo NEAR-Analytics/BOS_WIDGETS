@@ -1,9 +1,12 @@
+// lib.article
+
 const {
   isTest,
   stateUpdate,
   functionsToCallByLibrary,
   callLibs,
   baseAction,
+  kanbanColumns,
   widgets,
 } = props;
 const libName = "article"; // EDIT: set lib name
@@ -201,7 +204,6 @@ function getArticlesNormalized(env) {
     const action = versions[version].action;
     const subscribe = index + 1 === arr.length;
     const articlesIndexes = getArticlesIndexes(action, subscribe);
-
     if (!articlesIndexes) return [];
     const validArticlesIndexes = filterInvalidArticlesIndexes(
       env,
@@ -243,19 +245,9 @@ function getArticle(articleIndex, action) {
 
 function getLatestEdits(newFormatArticlesIndexes) {
   return newFormatArticlesIndexes.filter((articleIndex) => {
-    if (
-      articleIndex.value.id ===
-      "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb-1699900545422"
-    )
-      console.log("articleIndex: ", articleIndex);
     const latestEditForThisArticle = newFormatArticlesIndexes.find(
       (newArticleData) => newArticleData.value.id === articleIndex.value.id
     );
-    if (
-      latestEditForThisArticle.value.id ===
-      "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb-1699900545422"
-    )
-      console.log("latestEditForThisArticle: ", latestEditForThisArticle);
     return (
       JSON.stringify(articleIndex) === JSON.stringify(latestEditForThisArticle)
     );
@@ -336,6 +328,19 @@ function filterValidArticles(articles) {
   return filteredArticles;
 }
 
+function filterMultipleKanbanTags(articleTags, kanbanTags) {
+  const kanbanTagsInArticleTags = articleTags.filter((tag) =>
+    kanbanTags.includes(tag.toLowerCase())
+  );
+  const nonKanbanTags = articleTags.filter(
+    (tag) => !kanbanTags.includes(tag.toLowerCase())
+  );
+
+  const result = [...nonKanbanTags, kanbanTagsInArticleTags[0]];
+
+  return result;
+}
+
 function normalizeOldToV_0_0_1(article) {
   article.realArticleId = `${article.author}-${article.timeCreate}`;
   article.sbts = ["public"];
@@ -360,6 +365,16 @@ function normalizeFromV0_0_2ToV0_0_3(article) {
   if (!Array.isArray(article.tags) && typeof article.tags === "object") {
     article.tags = Object.keys(article.tags);
   }
+
+  if (kanbanColumns) {
+    const lowerCaseColumns = [];
+    kanbanColumns.forEach((cl) => {
+      lowerCaseColumns.push(cl.toLowerCase());
+    });
+
+    article.tags = filterMultipleKanbanTags(article.tags, lowerCaseColumns);
+  }
+
   return article;
 }
 
