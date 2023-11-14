@@ -54,7 +54,8 @@ State.init({
 //=============================================END INITIALIZATION===================================================
 
 //===================================================CONSTS=========================================================
-const canLoggedUserCreateComment = state.canLoggedUserCreateComment;
+const canLoggedUserCreateComment =
+  state.canLoggedUserCreateComment[articleSbts];
 
 //=================================================END CONSTS=======================================================
 
