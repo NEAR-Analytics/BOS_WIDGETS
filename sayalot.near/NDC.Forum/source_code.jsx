@@ -12,6 +12,9 @@ let {
   brand,
   baseActions,
   createSbtOptions,
+  kanbanColumns,
+  kanbanRequiredTags,
+  kanbanExcludedTags,
 } = props;
 sharedBlockHeight = Number(sharedBlockHeight);
 
@@ -47,6 +50,7 @@ const tabs = {
   SHOW_ARTICLE: { id: 1 },
   ARTICLE_WORKSHOP: { id: 2 },
   SHOW_ARTICLES_LIST_BY_AUTHORS: { id: 3 },
+  SHOW_KANBAN_VIEW: { id: 4 },
 };
 
 function getInitialFilter() {
@@ -114,6 +118,7 @@ if (state.filterBy.parameterName == "author") {
 const navigationPills = [
   { id: tabs.SHOW_ARTICLES_LIST.id, title: "Articles" },
   { id: tabs.SHOW_ARTICLES_LIST_BY_AUTHORS.id, title: "Authors" },
+  { id: tabs.SHOW_KANBAN_VIEW.id, title: "Kanban view" },
 ];
 
 const navigationButtons = [
@@ -510,7 +515,8 @@ return (
         sbtsNames,
       }}
     />
-    {state.displayedTabId == tabs.SHOW_ARTICLES_LIST.id && (
+    {(state.displayedTabId == tabs.SHOW_ARTICLES_LIST.id ||
+      state.displayedTabId == tabs.SHOW_KANBAN_VIEW.id) && (
       <div className="my-3 col-lg-8 col-md-8 col-sm-12">
         <Widget
           src={widgets.newStyledComponents.Input.Select}
@@ -605,13 +611,34 @@ return (
       />
     )}
 
+    {state.displayedTabId === tabs.SHOW_KANBAN_VIEW.id && (
+      <Widget
+        src={widgets.kanbanBoard}
+        props={{
+          isTest,
+          widgets,
+          kanbanColumns,
+          handleOpenArticle,
+          handleFilterArticles,
+          handleShareButton,
+          authorForWidget,
+          finalArticles,
+          sbts,
+          kanbanRequiredTags,
+          kanbanExcludedTags,
+          baseActions,
+          callLibs,
+        }}
+      />
+    )}
+
     <CallLibrary>
       {libSrcArray.map((src) => {
         return callLibs(
           src,
           stateUpdate,
           state.functionsToCallByLibrary,
-          { baseAction: baseActions.articlesBaseAction },
+          { baseAction: baseActions.articlesBaseAction, kanbanColumns },
           "NDC.Forum"
         );
       })}
