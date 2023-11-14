@@ -10,6 +10,7 @@ const {
   handleShareButton,
   callLibs,
   baseActions,
+  kanbanColumns,
 } = props;
 
 const accountId = articleToRenderData.author;
@@ -794,7 +795,7 @@ return (
           src,
           stateUpdate,
           state.libsCalls,
-          { baseAction: baseActions.commentBaseAction },
+          { baseAction: baseActions.commentBaseAction, kanbanColumns },
           "Article view"
         );
       })}
