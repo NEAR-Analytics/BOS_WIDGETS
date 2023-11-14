@@ -391,6 +391,8 @@ function normalizeFromV0_0_2ToV0_0_3(article) {
     article.tags = filterMultipleKanbanTags(article.tags, lowerCaseColumns);
   }
 
+  article.tags = article.tags.filter((tag) => tag !== undefined);
+
   return article;
 }
 
