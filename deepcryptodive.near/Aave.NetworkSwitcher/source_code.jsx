@@ -320,7 +320,7 @@ return (
         >
           <div className="left">
             <GnosisImage />
-            <div>Gnosis)</div>
+            <div>Gnosis</div>
           </div>
           {chainId == 100 && <span className="right">{selected_icon}</span>}
         </div>
