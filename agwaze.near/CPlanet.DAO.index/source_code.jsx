@@ -1,6 +1,20 @@
 const daoId = props.daoId ?? "marmaj.sputnik-dao.near";
 const Root = styled.div`
     margin-bottom: 50px;
+    .proposeButton {
+      width: 100%;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: center;
+      margin-top: 20px;
+      button {
+        background: black;
+        border-radius: 0;
+        width: 250px;
+        border-color: black;
+      }
+    }
 `;
 
 const ImageSection = styled.div`
@@ -79,7 +93,7 @@ const RightProfile = styled.div`
       background: black;
       border: 0;
       border-radius: 0;
-        width: 48%
+        width: 100%
 
       }
     }
@@ -239,6 +253,8 @@ const TabsButton = styled.a`
 
 State.init({
   selectedTab: props.tab || "feed",
+  toggle: false,
+  joinRole: "",
 });
 
 const [councilMembers, setCouncilMembers] = useState({});
@@ -385,15 +401,27 @@ function followUser(user, isFollowing) {
   });
 }
 
-// const proposalsStatus = fether.proposalsStatus(daoId);
-
-// let activeProposalsCount;
-// let totalProposalsCount;
-// proposalsStatus?.body?.length &&
-//   proposalsStatus?.body?.forEach((p) => {
-//     activeProposalsCount += p["InProgress"] ? parseInt(p["InProgress"]) : 0;
-//     totalProposalsCount += p["Total"] ? parseInt(p["Total"]) : 0;
-//   });
+const onAddUserProposal = (memberId, roleId) => {
+  Near.call([
+    {
+      contractName: daoId,
+      methodName: "add_proposal",
+      args: {
+        proposal: {
+          description: "Potential member",
+          kind: {
+            AddMemberToRole: {
+              member_id: memberId,
+              role: roleId ?? "council",
+            },
+          },
+        },
+      },
+      gas: 219000000000000,
+      deposit: policy?.policy?.proposal_bond || 100000000000000000000000,
+    },
+  ]);
+};
 
 return (
   <Root>
@@ -456,6 +484,49 @@ return (
           >
             {accountFollowsYou ? "Following" : "Follow"}
           </button>
+
+          <Widget
+            src="astraplusplus.ndctools.near/widget/Layout.Modal"
+            props={{
+              toggleContainerProps: {
+                className: "w-100",
+              },
+              toggle: (
+                <div className="joinButton">
+                  <button onClick={() => State.update({ toggle: true })}>
+                    Ask To Join
+                  </button>
+                </div>
+              ),
+              content: (
+                <div className="ndc-card p-4">
+                  <Widget
+                    src="nearui.near/widget/Input.Select"
+                    props={{
+                      label: "Role you want to join as",
+                      options: policy.roles?.map((r) => {
+                        return {
+                          title: r.name,
+                          value: r.name,
+                        };
+                      }),
+                      onChange: (v) => State.update({ joinRole: v }),
+                      value: state.joinRole,
+                    }}
+                  />
+                  <div className="proposeButton">
+                    <button
+                      onClick={() =>
+                        onAddUserProposal(context?.accountId, state.joinRole)
+                      }
+                    >
+                      Propose To Join
+                    </button>
+                  </div>
+                </div>
+              ),
+            }}
+          />
         </div>
       </RightProfile>
       <MiddleContent>
