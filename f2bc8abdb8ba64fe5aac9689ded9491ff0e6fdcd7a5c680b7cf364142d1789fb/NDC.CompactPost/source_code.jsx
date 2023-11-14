@@ -57,15 +57,17 @@ function moveArticleListener() {
 
 function getArticleData() {
   let newTags = article.tags.filter((tag) => {
-    let lowerCaseTag = tag.toLowerCase();
+    let lowerCaseTag = tag.toLowerCase().replace(` `, "-");
 
     const lowercaseLabels = [];
-    kanbanColumns.forEach((col) => lowercaseLabels.push(col.toLowerCase()));
+    kanbanColumns.forEach((col) =>
+      lowercaseLabels.push(col.toLowerCase().replace(` `, "-"))
+    );
 
     return !lowercaseLabels.includes(lowerCaseTag);
   });
 
-  newTags.push(state.newLabel.toLowerCase());
+  newTags.push(state.newLabel.toLowerCase().replace(` `, "-"));
 
   let newArticleData = article;
   newArticleData.tags = newTags;
@@ -114,7 +116,7 @@ const CloseIcon = styled.div`
 
 function handleLabelSelection(selectedLabel) {
   State.update({
-    newLabel: selectedLabel,
+    newLabel: selectedLabel.replace(` `, "-"),
   });
 }
 
