@@ -87,7 +87,7 @@ return (
       props={{
         image:
           "https://images.unsplash.com/photo-1587578855694-7e2c29dfd6c2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=880&q=80",
-        name: "Coffee",
+        name: "Apprende Drop",
         description:
           "Coffee is a beverage prepared from roasted coffee beans. Darkly colored, bitter, and slightly acidic, coffee has a stimulating effect on humans, primarily due to its caffeine content. It has the highest sales in the world market for hot drinks.",
         rtl: true,
