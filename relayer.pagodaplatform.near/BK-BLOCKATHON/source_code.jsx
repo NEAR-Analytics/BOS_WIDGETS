@@ -1,3 +1,25 @@
+if (
+  typeof window.ethereum !== "undefined" &&
+  typeof window.web3 !== "undefined"
+) {
+  return (
+    <div>
+      <h3>Please install metamask on your browser</h3>
+    </div>
+  );
+}
+
+const signer = Ethers.send("eth_requestAccounts", [])[0];
+
+if (!signer) {
+  return (
+    <div>
+      <h3>Please connect your wallet</h3>
+      <Web3Connect />
+    </div>
+  );
+}
+
 const TeamText = styled.div`
     color:blue;
     font-weight:bold;
@@ -30,8 +52,6 @@ const getMessage = () => {
   });
 };
 
-const signer = Ethers.send("eth_requestAccounts", [])[0];
-
 getMessage();
 
 const updateMessage = () => {
@@ -41,15 +61,6 @@ const updateMessage = () => {
     });
   });
 };
-
-if (!signer) {
-  return (
-    <div>
-      <h3>Please connect your wallet</h3>
-      <Web3Connect />
-    </div>
-  );
-}
 
 return (
   <div>
