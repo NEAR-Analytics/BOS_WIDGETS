@@ -638,7 +638,7 @@ return (
           src,
           stateUpdate,
           state.functionsToCallByLibrary,
-          { baseAction: baseActions.articlesBaseAction },
+          { baseAction: baseActions.articlesBaseAction, kanbanColumns },
           "NDC.Forum"
         );
       })}
