@@ -187,7 +187,7 @@ return (
     <Wrapper>
       <Svg>
         <SvgText x="60%" y="50%" dy=".35em" text-anchor="middle">
-          <a href={`${url}/fastui.near/widget/Index`}>FastUI</a>{" "}
+          <a href={`${url}/fastui.near/widget/FastUI`}>FastUI</a>{" "}
         </SvgText>
       </Svg>
     </Wrapper>
