@@ -165,15 +165,13 @@ const GnosisImage = () => (
   />
 );
 
-//TO ADJUST URL
-const OptimisImage = () => (
+const OptimismImage = () => (
   <img
     className="network-img"
     src={`${config.ipfsPrefix}/bafkreih2tj74xd54wt7egai5mmo3pa7rcg4v6q6dimuwlxgxokxmiej2sy`}
   />
 );
 
-//TO ADJUST URL
 const BaseImage = () => (
   <img
     className="network-img"
@@ -181,7 +179,6 @@ const BaseImage = () => (
   />
 );
 
-//TO ADJUST URL
 const AvaxImage = () => (
   <img
     className="network-img"
@@ -189,7 +186,6 @@ const AvaxImage = () => (
   />
 );
 
-//TO ADJUST URL
 const MetisImage = () => (
   <img
     className="network-img"
@@ -197,7 +193,6 @@ const MetisImage = () => (
   />
 );
 
-//TO ADJUST URL
 const ArbiImage = () => (
   <img
     className="network-img"
