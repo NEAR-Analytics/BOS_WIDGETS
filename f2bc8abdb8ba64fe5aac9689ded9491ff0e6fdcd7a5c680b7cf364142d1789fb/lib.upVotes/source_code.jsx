@@ -1,10 +1,14 @@
+// lib.upVotes
+
 const {
+  mainStateUpdate,
   isTest,
   stateUpdate,
   functionsToCallByLibrary,
   callLibs,
   baseAction,
   widgets,
+  usersSBTs,
 } = props;
 
 const libName = "upVotes"; // EDIT: set lib name
@@ -33,14 +37,14 @@ const action = isTest ? testAction : prodAction;
 
 const libSrcArray = [widgets.libSBT]; // string to lib widget // EDIT: set libs to call
 
-const libsCalls = {};
+const otherFunctionsToCallByLibrary = {};
 libSrcArray.forEach((libSrc) => {
   const libName = libSrc.split("lib.")[1];
-  libsCalls[libName] = [];
+  otherFunctionsToCallByLibrary[libName] = [];
 });
 
 State.init({
-  libsCalls, // is a LibsCalls object
+  functionsToCallByLibrary: otherFunctionsToCallByLibrary, // is a LibsCalls object
 });
 // END LIB CALLS SECTION
 
@@ -73,7 +77,7 @@ function canUserUpVote(props) {
 }
 
 function setAreValidUsers(accountIds, sbtsNames) {
-  const newLibsCalls = Object.assign({}, state.libsCalls);
+  const newLibsCalls = Object.assign({}, state.functionsToCallByLibrary);
   if (!newLibsCalls.SBT) {
     logError("Key SBT is not set in lib.", libName);
   }
@@ -92,16 +96,22 @@ function setAreValidUsers(accountIds, sbtsNames) {
       return;
     }
 
-    newLibsCalls.SBT.push({
-      functionName: "isValidUser",
-      key: `isValidUser-${accountId}`,
-      props: {
-        accountId,
-        sbtsNames,
-      },
-    });
+    const existingUserSBTs = usersSBTs.find(
+      (userSBTs) => userSBTs.user === accountId
+    );
+
+    if (!existingUserSBTs) {
+      newLibsCalls.SBT.push({
+        functionName: "isValidUser",
+        key: `isValidUser-${accountId}`,
+        props: {
+          accountId,
+          sbtsNames,
+        },
+      });
+    }
   });
-  State.update({ libsCalls: newLibsCalls });
+  State.update({ functionsToCallByLibrary: newLibsCalls });
 }
 
 function addVote(props) {
@@ -112,14 +122,13 @@ function addVote(props) {
     return call.functionName !== "addVote";
   });
 
-  return upVote;
+  // return upVote;
 }
 
 function deleteVote(props) {
   const { id, upVoteId } = props;
 
   saveDeleteVote(id, upVoteId);
-
   resultFunctionsToCall = resultFunctionsToCall.filter((call) => {
     return call.functionName !== "deleteVote";
   });
@@ -201,12 +210,17 @@ function getupVotesNormalized(id) {
     const action = versions[version].action;
     const subscribe = index + 1 === arr.length;
     const allUpVotes = getUpVotesData(action, id, subscribe);
-    if (!allUpVotes) return [];
+    if (!allUpVotes) return undefined;
 
     const validUpVotes = filterInvalidUpVotes(env, allUpVotes);
+    const latestEdits = getLatestEdits(validUpVotes);
 
-    return getLatestEdits(validUpVotes);
+    const nonDeletedVotes = latestEdits.filter((vote) => {
+      return !vote.value.isDelete;
+    });
+    return nonDeletedVotes;
   });
+  if (upVotesByVersion.includes(undefined)) return undefined;
 
   return normalizeLibData(upVotesByVersion);
 }
@@ -230,59 +244,52 @@ function filterInvalidUpVotes(env, upVotes) {
 }
 
 function getUpVotes(props) {
-  const { sbtsNames, id } = props;
+  const { sbtsNames: articleSbts, id } = props;
   // Call other libs
   const normUpVotes = getupVotesNormalized(id);
+  if (!normUpVotes) return undefined;
 
-  // Keep last edit from every upVote
-  const lastUpVotes = normUpVotes.filter((upVote) => {
-    //log(["normUpVotes: ", normUpVotes]);
-    return normUpVotes.find(
-      (compUpVote) => JSON.stringify(compUpVote) === JSON.stringify(upVote)
-    );
-  });
-
-  const lastUpVotesAuthors = lastUpVotes.map((upVote) => {
+  const lastUpVotesAuthors = normUpVotes.map((upVote) => {
     return upVote.accountId;
   });
-  setAreValidUsers(lastUpVotesAuthors, sbtsNames);
-  resultFunctionsToCall = resultFunctionsToCall.filter((call) => {
-    const discardCondition =
-      call.functionName === "getUpVotes" &&
-      state[`isValidUser-${call.props.accountId}`] !== undefined;
-    return !discardCondition;
+  setAreValidUsers(lastUpVotesAuthors, articleSbts);
+
+  lastUpVotesAuthors.forEach((accountId) => {
+    resultFunctionsToCall = resultFunctionsToCall.filter((call) => {
+      const discardCondition =
+        call.functionName === "getUpVotes" &&
+        state[`isValidUser-${accountId}`] !== undefined;
+      return !discardCondition;
+    });
   });
 
-  const finalUpVotes = filterValidUpVotes(lastUpVotes);
+  const finalUpVotes = filterValidUpVotes(normUpVotes, articleSbts);
   const finalUpVotesMapped = {};
 
-  sbtsNames.forEach((sbtName) => {
-    const sbtUpVotes = finalUpVotes.filter((upVote) => {
-      if (!upVote.value.sbts) return false;
-      return upVote.value.sbts.indexOf(sbtName) !== -1;
-    });
-    finalUpVotesMapped[sbtName] = sbtUpVotes;
+  articleSbts.forEach((sbt) => {
+    finalUpVotesMapped[sbt] = finalUpVotes;
   });
 
   return finalUpVotesMapped;
 }
 
-function filterValidator(upVotes) {
+function filterValidator(upVotes, articleSbts) {
   return upVotes.filter((upVote) => {
-    //log(["upVote.sbts: ", upVote.sbts]);
     return (
-      upVote.value.sbts.find((upVoteSBT) => {
+      articleSbts.find((sbt) => {
         return (
-          state[`isValidUser-${upVote.accountId}`][upVoteSBT] ||
-          upVoteSBT === "public"
+          state[`isValidUser-${upVote.accountId}`][sbt] || sbt === "public"
         );
       }) !== undefined
     );
   });
 }
 
-function filterValidUpVotes(upVotes) {
-  let filteredUpVotes = filterValidator(filteredUpVotes ?? upVotes);
+function filterValidUpVotes(upVotes, articleSbts) {
+  let filteredUpVotes = filterValidator(
+    filteredUpVotes ?? upVotes,
+    articleSbts
+  );
 
   return filteredUpVotes;
 }
@@ -361,47 +368,41 @@ if (functionsToCall && functionsToCall.length > 0) {
 
   resultFunctionsToCallByLibrary[libName] = resultFunctionsToCall;
   updateObj.functionsToCallByLibrary = resultFunctionsToCallByLibrary;
+
+  const oldUsersSBTs = usersSBTs;
+  // {
+  //   user: string,
+  //   credentials: {},
+  // }
+
+  const newUsersSBTs = Object.keys(state).map((key) => {
+    if (key.includes("isValidUser-")) {
+      if (state[key] !== undefined) {
+        const user = key.split("isValidUser-")[1];
+        const credentials = state[key];
+
+        const oldUsers = oldUsersSBTs.map((userSbts) => userSbts.user);
+
+        if (!oldUsers.includes(user)) {
+          return {
+            user,
+            credentials,
+          };
+        }
+      }
+    }
+  });
+
+  const finalUsersSBTs = [...oldUsersSBTs, ...newUsersSBTs].filter(
+    (userSBTs) => userSBTs !== undefined
+  );
+
+  if (finalUsersSBTs[0]) {
+    mainStateUpdate({ usersSBTs: finalUsersSBTs });
+  }
+
   stateUpdate(updateObj);
 }
-
-// function callLibs(
-//   src,
-//   stateUpdate,
-//   functionsToCallByLibrary,
-//   extraProps,
-//   callerWidget
-// ) {
-//   // if (callerWidget === "lib.upVotes") {
-//   // console.log(
-//   //   -1,
-//   //   `Call libs props ${callerWidget}: `,
-//   //   src,
-//   //   functionsToCallByLibrary,
-//   //   callLibs
-//   // );
-//   // }
-
-//   return (
-//     <Widget
-//       src={src}
-//       props={{
-//         isTest,
-//         stateUpdate,
-//         functionsToCallByLibrary,
-//         callLibs,
-//         widgets,
-//         ...extraProps,
-//       }}
-//     />
-//   );
-// }
-
-// const a = getUpVotes({
-//   sbtsNames: ["fractal.i-am-human.near - class 1"],
-//   id: "silkking.near-1696976701328",
-// });
-
-// console.log(a);
 
 return (
   <>
@@ -409,7 +410,7 @@ return (
       return callLibs(
         src,
         libStateUpdate,
-        state.libsCalls,
+        state.functionsToCallByLibrary,
         {},
         `lib.${libName}`
       );
