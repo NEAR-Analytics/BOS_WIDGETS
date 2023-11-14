@@ -19,7 +19,7 @@ let resultFunctionsToCallByLibrary = Object.assign(
 );
 let resultFunctionsToCall = [];
 
-const currentVersion = "0.0.3"; // EDIT: Set version
+const currentVersion = "0.0.2"; // EDIT: Set version
 
 const prodAction = `${baseAction}_v${currentVersion}`; // TODO consider versions
 // const prodAction = `${baseAction}`;
@@ -35,9 +35,7 @@ const action = isTest ? testAction : prodAction;
 
 // type LibsCalls = Record<string, FunctionCall> // Key is lib name after lib.
 
-const libSrcArray = [widgets.libs.libSBT]; // string to lib widget // EDIT: set libs to call
-
-const imports = { notifications: ["getNotificationData"] };
+const libSrcArray = [widgets.libSBT]; // string to lib widget // EDIT: set libs to call
 
 const libsCalls = {};
 libSrcArray.forEach((libSrc) => {
@@ -47,7 +45,6 @@ libSrcArray.forEach((libSrc) => {
 
 State.init({
   libsCalls, // is a LibsCalls object
-  notifications: {},
 });
 // END LIB CALLS SECTION
 
@@ -68,31 +65,8 @@ function libStateUpdate(obj) {
 function canUserCreateComment(props) {
   const { accountId, sbtsNames } = props;
 
-  if (sbtsNames.includes("public")) return true;
-
-  if (accountId) {
-    setAreValidUsers([accountId], sbtsNames);
-  } else {
-    return false;
-  }
-
-  let allSBTsValidations = [];
-
-  let result;
-
-  let userCredentials =
-    usersSBTs.find((data) => data.user === accountId).credentials ??
-    state[`isValidUser-${accountId}`];
-
-  if (userCredentials) {
-    const allSBTs = Object.keys(userCredentials);
-
-    allSBTs.forEach((sbt) => {
-      sbt !== "public" && allSBTsValidations.push(userCredentials[sbt]);
-    });
-
-    result = allSBTsValidations.includes(true);
-  }
+  setAreValidUsers([accountId], sbtsNames);
+  const result = state[`isValidUser-${accountId}`];
 
   resultFunctionsToCall = resultFunctionsToCall.filter((call) => {
     const discardCondition =
@@ -134,6 +108,7 @@ function setAreValidUsers(accountIds, sbtsNames) {
         key: `isValidUser-${accountId}`,
         props: {
           accountId,
+          sbtsNames,
         },
       });
     }
@@ -142,22 +117,11 @@ function setAreValidUsers(accountIds, sbtsNames) {
 }
 
 function createComment(props) {
-  const { comment, replyingTo, articleId, onClick, onCommit, onCancel } = props;
-
-  if (comment.commentId) {
-    console.error(
-      "comment.commentId should not be provided when creating comment"
-    );
-    return;
-  }
-
-  const commentId = `c_${context.accountId}-${Date.now()}`;
-
-  comment.commentId = commentId;
+  const { comment, onClick, onCommit, onCancel } = props;
 
   onClick();
 
-  saveComment(comment, replyingTo, articleId, onCommit, onCancel, false);
+  saveComment(comment, onCommit, onCancel);
 
   resultFunctionsToCall = resultFunctionsToCall.filter((call) => {
     return call.functionName !== "createComment";
@@ -166,82 +130,11 @@ function createComment(props) {
   return comment;
 }
 
-function deleteComment(props) {
-  const { comment, articleId, onCommit, onCancel } = props;
-
-  if (!comment.commentId) {
-    console.error("comment.commentId should be provided when editing comment");
-    return;
-  }
-
-  const replyingTo = undefined;
-
-  comment.isDeleted = true;
-
-  saveComment(comment, replyingTo, articleId, onCommit, onCancel, true);
-
-  resultFunctionsToCall = resultFunctionsToCall.filter((call) => {
-    return call.functionName !== "deleteComment";
-  });
-
-  return comment;
-}
-
-function editComment(props) {
-  const { comment, articleId, onClick, onCommit, onCancel } = props;
-
-  if (!comment.commentId) {
-    console.error("comment.commentId should be provided when editing comment");
-    return;
-  }
-
-  const replyingTo = undefined;
-
-  onClick();
-
-  saveComment(comment, replyingTo, articleId, onCommit, onCancel, false);
-
-  resultFunctionsToCall = resultFunctionsToCall.filter((call) => {
-    return call.functionName !== "editComment";
-  });
-
-  return comment;
-}
-
-function getNotificationData(type, accountId, url) {
-  if (state.notifications.getNotificationData) {
-    return state.notifications.getNotificationData(type, accountId, url);
-  }
-}
-
-function extractMentions(text) {
-  const mentionRegex =
-    /@((?:(?:[a-z\d]+[-_])*[a-z\d]+\.)*(?:[a-z\d]+[-_])*[a-z\d]+)/gi;
-  mentionRegex.lastIndex = 0;
-  const accountIds = new Set();
-  for (const match of text.matchAll(mentionRegex)) {
-    if (
-      !/[\w`]/.test(match.input.charAt(match.index - 1)) &&
-      !/[/\w`]/.test(match.input.charAt(match.index + match[0].length)) &&
-      match[1].length >= 2 &&
-      match[1].length <= 64
-    ) {
-      accountIds.add(match[1].toLowerCase());
-    }
-  }
-  return [...accountIds];
-}
-
-function composeCommentData(comment, replyingTo, articleId, isDelete) {
-  if (replyingTo) {
-    //We add the following so the user been replied get's a notification
-    comment.text = `@${replyingTo} ${comment.text}`;
-  }
-
+function composeCommentData(comment) {
   const data = {
     index: {
       [action]: JSON.stringify({
-        key: articleId,
+        key: comment.id,
         value: {
           type: "md",
           comment,
@@ -250,41 +143,12 @@ function composeCommentData(comment, replyingTo, articleId, isDelete) {
     },
   };
 
-  const mentions = isDelete ? [] : extractMentions(comment.text);
-
-  if (mentions.length > 0) {
-    const dataToAdd = getNotificationData(
-      "mentionOnComment",
-      mentions,
-      `https://near.social/${
-        widgets.thisForum
-      }?sharedArticleId=${articleId}&sharedCommentId=${comment.commentId}${
-        isTest ? "&isTest=t" : ""
-      }`
-    );
-
-    data.post = dataToAdd.post;
-    data.index.notify = dataToAdd.index.notify;
-  }
-
   return data;
 }
 
-function saveComment(
-  comment,
-  replyingTo,
-  articleId,
-  onCommit,
-  onCancel,
-  isDelete
-) {
+function saveComment(comment, onCommit, onCancel) {
   if (comment.text) {
-    const newData = composeCommentData(
-      comment,
-      replyingTo,
-      articleId,
-      isDelete
-    );
+    const newData = composeCommentData(comment);
     Social.set(newData, {
       force: true,
       onCommit,
@@ -304,30 +168,12 @@ function getCommentBlackListByBlockHeight() {
   return [98588599];
 }
 
-function getUserNameFromCommentId(commentId) {
-  const userNamePlusTimestamp = commentId.split("c_")[1];
-
-  const splittedUserNamePlusTimestamp = userNamePlusTimestamp.split("-");
-
-  splittedUserNamePlusTimestamp.pop();
-
-  const userName = splittedUserNamePlusTimestamp.join("-");
-
-  return userName;
-}
-
 function filterInvalidComments(comments) {
-  return comments
-    .filter(
-      (comment) =>
-        comment.blockHeight &&
-        !getCommentBlackListByBlockHeight().includes(comment.blockHeight) // Comment is not in blacklist
-    )
-    .filter(
-      (comment) =>
-        comment.accountId ===
-        getUserNameFromCommentId(comment.value.comment.commentId)
-    );
+  return comments.filter(
+    (comment) =>
+      comment.blockHeight &&
+      !getCommentBlackListByBlockHeight().includes(comment.blockHeight) // Comment is not in blacklist
+  );
 }
 
 function getValidComments(props) {
@@ -335,40 +181,7 @@ function getValidComments(props) {
   // Call other libs
   const normComments = getCommentsNormalized(env, id);
 
-  // Keep last edit from every article
-  const lastEditionComments = normComments.filter((comment) => {
-    const firstCommentWithThisCommentId = normComments.find((compComment) => {
-      return (
-        compComment.value.comment.commentId === comment.value.comment.commentId
-      );
-    });
-
-    return (
-      JSON.stringify(firstCommentWithThisCommentId) === JSON.stringify(comment)
-    );
-  });
-
-  const lastEditionCommentsWithoutDeletedOnes = lastEditionComments.filter(
-    (comment) => !comment.value.comment.isDeleted
-  );
-
-  const lastEditionCommentsWithEditionMark =
-    lastEditionCommentsWithoutDeletedOnes.map((comment) => {
-      const commentsWithThisCommentId = normComments.filter((compComment) => {
-        return (
-          comment.value.comment.commentId ===
-          compComment.value.comment.commentId
-        );
-      });
-
-      if (commentsWithThisCommentId.length > 1) {
-        comment.isEdition = true;
-      }
-
-      return comment;
-    });
-
-  const commentsAuthors = lastEditionCommentsWithEditionMark.map((comment) => {
+  const commentsAuthors = normComments.map((comment) => {
     return comment.accountId;
   });
 
@@ -381,37 +194,21 @@ function getValidComments(props) {
     return !discardCondition;
   });
 
-  const finalComments = filterValidComments(
-    lastEditionCommentsWithEditionMark,
-    articleSbts
-  );
+  const finalComments = filterValidComments(normComments, articleSbts);
 
-  return sortComments(finalComments);
+  return finalComments;
 }
 
 function filterValidator(comments, articleSbts) {
-  if (articleSbts.includes("public")) return comments;
-
   return comments.filter((comment) => {
-    let allSBTsValidations = [];
-
-    let result;
-
-    let userCredentials =
-      usersSBTs.find((data) => data.user === comment.accountId).credentials ??
-      state[`isValidUser-${comment.accountId}`];
-
-    if (userCredentials) {
-      const allSBTs = Object.keys(userCredentials);
-
-      allSBTs.forEach((sbt) => {
-        sbt !== "public" && allSBTsValidations.push(userCredentials[sbt]);
-      });
-
-      result = allSBTsValidations.includes(true);
-    }
-
-    return result;
+    return (
+      articleSbts.find((sbt) => {
+        return (
+          state[`isValidUser-${comment.accountId}`][sbt] ||
+          commentSbt === "public"
+        );
+      }) !== undefined
+    );
   });
 }
 
@@ -422,14 +219,6 @@ function filterValidComments(comments, articleSbts) {
   );
 
   return filteredComments;
-}
-
-function sortComments(comments) {
-  comments.sort((c1, c2) => {
-    return c1.value.comment.timestamp - c2.value.comment.timestamp;
-  });
-
-  return comments;
 }
 
 function getCommentsNormalized(env, id) {
@@ -457,14 +246,6 @@ function normalizeFromV0_0_1ToV0_0_2(comment) {
 }
 
 function normalizeFromV0_0_2ToV0_0_3(comment) {
-  comment.value.comment.rootId = comment.value.comment.originalCommentId;
-  delete comment.value.comment.originalCommentId;
-  delete comment.value.comment.id;
-
-  return comment;
-}
-
-function normalizeFromV0_0_3ToV0_0_4(comment) {
   return comment;
 }
 // END LIB FUNCTIONS
@@ -473,10 +254,6 @@ function normalizeFromV0_0_3ToV0_0_4(comment) {
 function callFunction(call) {
   if (call.functionName === "createComment") {
     return createComment(call.props);
-  } else if (call.functionName === "editComment") {
-    return editComment(call.props);
-  } else if (call.functionName === "deleteComment") {
-    return deleteComment(call.props);
   } else if (call.functionName === "getValidComments") {
     return getValidComments(call.props);
   } else if (call.functionName === "canUserCreateComment") {
@@ -497,10 +274,6 @@ const versions = {
   "v0.0.2": {
     normalizationFunction: normalizeFromV0_0_2ToV0_0_3,
     action: props.isTest ? `test_${baseAction}_v0.0.2` : `${baseAction}_v0.0.2`,
-  },
-  "v0.0.3": {
-    normalizationFunction: normalizeFromV0_0_3ToV0_0_4,
-    action: props.isTest ? `test_${baseAction}_v0.0.3` : `${baseAction}_v0.0.3`,
   },
 };
 
@@ -603,14 +376,5 @@ return (
         `lib.${libName}`
       );
     })}
-
-    <Widget
-      src={`${widgets.libs.libNotifications}`}
-      props={{
-        stateUpdate: libStateUpdate,
-        imports: imports["notifications"],
-        fatherNotificationsState: state.notifications,
-      }}
-    />
   </>
 );
