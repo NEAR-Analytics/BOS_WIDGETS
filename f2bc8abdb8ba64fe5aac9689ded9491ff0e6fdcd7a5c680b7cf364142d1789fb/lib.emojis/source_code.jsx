@@ -1,10 +1,14 @@
+// lib.emojis
+
 const {
+  mainStateUpdate,
   isTest,
   stateUpdate,
   functionsToCallByLibrary,
   callLibs,
   baseAction,
   widgets,
+  usersSBTs,
 } = props;
 
 const libName = "emojis"; // EDIT: set lib name
@@ -93,14 +97,20 @@ function setAreValidUsers(accountIds, sbtsNames) {
       return;
     }
 
-    newLibsCalls.SBT.push({
-      functionName: "isValidUser",
-      key: `isValidUser-${accountId}`,
-      props: {
-        accountId,
-        sbtsNames,
-      },
-    });
+    const existingUserSBTs = usersSBTs.find(
+      (userSBTs) => userSBTs.user === accountId
+    );
+
+    if (!existingUserSBTs) {
+      newLibsCalls.SBT.push({
+        functionName: "isValidUser",
+        key: `isValidUser-${accountId}`,
+        props: {
+          accountId,
+          sbtsNames,
+        },
+      });
+    }
   });
   State.update({ libsCalls: newLibsCalls });
 }
@@ -356,54 +366,41 @@ if (functionsToCall && functionsToCall.length > 0) {
 
   resultFunctionsToCallByLibrary[libName] = resultFunctionsToCall;
   updateObj.functionsToCallByLibrary = resultFunctionsToCallByLibrary;
+
+  const oldUsersSBTs = usersSBTs;
+  // {
+  //   user: string,
+  //   credentials: {},
+  // }
+
+  const newUsersSBTs = Object.keys(state).map((key) => {
+    if (key.includes("isValidUser-")) {
+      if (state[key] !== undefined) {
+        const user = key.split("isValidUser-")[1];
+        const credentials = state[key];
+
+        const oldUsers = oldUsersSBTs.map((userSbts) => userSbts.user);
+
+        if (!oldUsers.includes(user)) {
+          return {
+            user,
+            credentials,
+          };
+        }
+      }
+    }
+  });
+
+  const finalUsersSBTs = [...oldUsersSBTs, ...newUsersSBTs].filter(
+    (userSBTs) => userSBTs !== undefined
+  );
+
+  if (finalUsersSBTs[0]) {
+    mainStateUpdate({ usersSBTs: finalUsersSBTs });
+  }
+
   stateUpdate(updateObj);
 }
-
-// function callLibs(
-//   src,
-//   stateUpdate,
-//   functionsToCallByLibrary,
-//   extraProps,
-//   callerWidget
-// ) {
-//   // if (callerWidget === "lib.emojis") {
-//   // console.log(
-//   //   -1,
-//   //   `Call libs props ${callerWidget}: `,
-//   //   src,
-//   //   functionsToCallByLibrary,
-//   //   callLibs
-//   // );
-//   // }
-
-//   return (
-//     <Widget
-//       src={src}
-//       props={{
-//         isTest,
-//         stateUpdate,
-//         functionsToCallByLibrary,
-//         callLibs,
-//         widgets,
-//         ...extraProps,
-//       }}
-//     />
-//   );
-// }
-
-// const a = getEmojis({
-//   env: undefined,
-//   sbtsNames: [
-//     "fractal.i-am-human.near - class 1",
-//     "community.i-am-human.near - class 1",
-//     "community.i-am-human.near - class 2",
-//     "community.i-am-human.near - class 3",
-//     "public",
-//   ],
-//   elementReactedId: "silkking.near-1696976701328",
-// });
-
-// console.log(a);
 
 return (
   <>
