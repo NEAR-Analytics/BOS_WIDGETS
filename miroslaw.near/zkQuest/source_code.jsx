@@ -227,8 +227,8 @@ return (
     <div class="container border border-info p-3 text-center">
       <h1>Welcome to zkQuest - The Other frontend</h1>
       <br />
-      In this quest, we'll be using zkSync Javascript SDK to interact with the
-      blockchain.
+      In this quest, we'll be usssssing zkSync Javascript SDK to interact with
+      the blockchain.
       <br />
       The code that you see right now is hosted on NEAR blockchain - via BOS
       (Blockchain Operating System).
