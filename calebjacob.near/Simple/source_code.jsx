@@ -1,6 +1,6 @@
 const Wrapper = styled.div`
   button span {
-    color: white;
+    color: aqua;
     background: black;
     font-family: sans-serif;
   }
