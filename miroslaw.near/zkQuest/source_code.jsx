@@ -15,6 +15,7 @@ const QUEST_NAME = "008";
 const QUEST_ABI = [
   "function submitInvalid(string memory questId)",
   "function getQuests() public view returns (tuple(string, string, string, uint256, uint16, address, bool, uint16 attempts)[])",
+  "function submitAnswerForQuest(string, bytes32)",
 ];
 
 State.init({
