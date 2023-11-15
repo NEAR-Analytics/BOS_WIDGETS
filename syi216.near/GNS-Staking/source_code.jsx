@@ -1,5 +1,5 @@
 // FETCH LIDO ABI
-State.init({ strEther: "0", polygonApr: undefined });
+
 const lidoContract = "0xd9e1cE17f2641f24aE83637ab66a2cca9C378B9F";
 
 //Contrato de gains bridge
@@ -14,6 +14,7 @@ const tokenDecimals = 18;
 const contract = "0x6B3595068778DD592e39A122f4f5a5cF09C90fE2";
 
 const polygonApr = fetch("https://backend-polygon.gains.trade/apr");
+console.log("APR", polygonApr);
 
 const gnsTokenAbi = fetch(
   "https://raw.githubusercontent.com/yaairnaavaa/Maverick/main/gnsTokenABI.json"
@@ -22,13 +23,6 @@ const gnsTokenAbi = fetch(
 const gnsStakingAbi = fetch(
   "https://raw.githubusercontent.com/yaairnaavaa/Maverick/main/gnsStakingABI.json"
 );
-
-if (!gnsStakingAbi.ok && !gnsTokenAbi.ok && !polygonApr.ok) {
-  State.update({polygonApr: polygonApr})
-  return "Loading";
-}
-
-console.log("APR", polygonApr);
 
 // HELPER FUNCTIONS
 
@@ -81,7 +75,7 @@ const approveGNS = (strEther, _referral) => {
       console.log("transaction Hash: ", th);
     });
 };
-
+//
 // DETECT SENDER
 
 if (state.sender === undefined) {
@@ -101,7 +95,6 @@ if (state.balance === undefined && state.sender) {
     Ethers.provider().getSigner()
   );
   contractGNSTOK.balanceOf(state.sender).then((res) => {
-    console.log("unfixed",res.toHexString())
     console.log("balance GNS", Big(res).div(Big(10).pow(18)).toFixed(2));
     State.update({ balanceUnfixed: res.toHexString() });
     State.update({ balance: Big(res).div(Big(10).pow(18)).toFixed(2) });
@@ -110,7 +103,6 @@ if (state.balance === undefined && state.sender) {
 
 // FETCH SENDER STETH BALANCE
 
-
 if (state.stakedBalance === undefined && state.sender) {
   const contractGNSStaking = new ethers.Contract(
     gnsStaking,
@@ -118,7 +110,7 @@ if (state.stakedBalance === undefined && state.sender) {
     Ethers.provider().getSigner()
   );
   contractGNSStaking
-    .users(state.sender)
+    .users(Ethers.provider().getSigner().getAddress())
     .then((res) => {
       console.log(res[0]);
       State.update({
@@ -221,7 +213,7 @@ return (
             <div class="LidoAprContainer">
               <div class="LidoAprTitle">GNS APR</div>
               <div class="LidoAprValue">
-                {polygonApr.body.sssApr.toFixed(4) ?? "...."}%
+                {polygonApr.body.sssBaseApr.toFixed(4) ?? "...."}%
               </div>
             </div>
           </div>
@@ -241,14 +233,17 @@ return (
               disabled={!state.sender}
               class="LidoStakeFormInputContainerSpan2Input"
               value={state.strEther}
-              //onChange={(e) => State.update({ strEther: e.target.value })}
+              onChange={(e) => State.update({ strEther: e.target.value })}
               placeholder="Amount"
             />
           </span>
           <span
             class="LidoStakeFormInputContainerSpan3"
             onClick={() => {
-              
+              State.update({
+                //strEther: (parseFloat(state.balance) - 0.05).toFixed(2),
+                strEther: parseFloat(state.balance).toFixed(2),
+              });
             }}
           >
             <button
@@ -263,13 +258,13 @@ return (
           <div>
             <button
               class="LidoStakeFormSubmitContainer mb-2"
-              //onClick={() => approveGNS(state.strEther, state.sender)}
+              onClick={() => approveGNS(state.strEther, state.sender)}
             >
               <span>Approve use of GNS</span>
             </button>
             <button
               class="LidoStakeFormSubmitContainer"
-              //onClick={() => submitEthers(state.strEther, state.sender)}
+              onClick={() => submitEthers(state.strEther, state.sender)}
             >
               <span>Stake</span>
             </button>
