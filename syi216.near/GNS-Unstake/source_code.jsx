@@ -13,29 +13,25 @@ const gorliLidoContract = "0x1b02dA8Cb0d097eB8D57A175b88c7D8b47997506";
 const tokenDecimals = 18;
 const contract = "0x6B3595068778DD592e39A122f4f5a5cF09C90fE2";
 
-const lidoAbi = fetch(
-  "https://nativonft.mypinata.cloud/ipfs/QmawuBDkx1w56AFpZ2hiph1gaVrnq3gyAMRnSH2c9S54TY"
-);
 
-const gnsLZEndAbi = fetch(
-  "https://nativonft.mypinata.cloud/ipfs/Qmd3xkYoDxS7ATdvoDzTgF1ojLog7kTqoTeWBhJQfUZ4F9"
-);
+
+// const gnsLZEndAbi = fetch(
+//   "https://nativonft.mypinata.cloud/ipfs/Qmd3xkYoDxS7ATdvoDzTgF1ojLog7kTqoTeWBhJQfUZ4F9"
+// );
 
 const gnsTokenAbi = fetch(
-  "https://nativonft.mypinata.cloud/ipfs/QmRNckfDbxxjHBhHqMWewKg2dxfUXpoCumxS6YGRW4uAhq"
+  "https://raw.githubusercontent.com/yaairnaavaa/Maverick/main/gnsTokenABI.json"
 );
 
 const gnsStakingAbi = fetch(
-  "https://nativonft.mypinata.cloud/ipfs/QmXj2sEUz2RNubsnnAt5hpBBeHtRzhVMZvJ8vVG5WwTcND"
+  "https://raw.githubusercontent.com/yaairnaavaa/Maverick/main/gnsStakingABI.json"
 );
 
-console.log(lidoAbi);
 
-if (!lidoAbi.ok) {
+if (!gnsTokenAbi.ok && !gnsStakingAbi.ok) {
   return "Loading";
 }
 
-const iface = new ethers.utils.Interface(lidoAbi.body);
 
 // HELPER FUNCTIONS
 
@@ -145,7 +141,7 @@ const cssFont = fetch(
   "https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800"
 ).body;
 const css = fetch(
-  "https://nativonft.mypinata.cloud/ipfs/Qmdpe64Mm46fvWNVaCroSGa2JKgauUUUE5251Cx9nTKNrs"
+  "https://raw.githubusercontent.com/yaairnaavaa/Maverick/main/gnsCSS.css"
 ).body;
 
 if (!cssFont || !css) return "";
