@@ -144,14 +144,13 @@ const social = {
       deploy: null,
       github: "https://github.com/NEARBuilders/discoverbos",
     },
-        {
+    {
       key: 5,
       name: "Calimero Chat",
       url: "https://portal.calimero.network/",
       image:
         "https://ipfs.near.social/ipfs/bafkreid3dxlktgfofh5quqozhpjodbcwz35tr7mmfym324qckssaizqkgy",
-      description:
-        "Decentralized slack on Calimero's community shard",
+      description: "Decentralized slack on Calimero's community shard",
       category: ["Chat", "Social", "NEAR"],
       deploy: null,
       github: null,
@@ -216,6 +215,19 @@ const social = {
       deploy:
         "https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fcodingshot%2Fneardc-gateway&build-command=npm%20run%20build&install-command=npm%20--force%20install&output-directory=dist",
       github: "https://github.com/codingshot/neardc-gateway",
+    },
+        {
+      key: 5,
+      name: "BuildDAO",
+      url: "https://nearbuilders.org/",
+      image:
+        "https://ipfs.near.social/ipfs/bafybeiesuksvxvmsuv4cjqe4xb42zufidgarw6otdvpc7xxn6pd7kc4f6u",
+      description:
+        "Empowering builders for a multichain ecosystem",
+      category: ["Social", "NEAR"],
+      deploy:
+        null,
+      github: null,
     },
 
     {
