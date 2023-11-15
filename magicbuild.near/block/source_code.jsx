@@ -48,7 +48,7 @@ const getPrompt = () => {
     }),
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Bearer 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`,
+      Authorization: `Bearer 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`,
     },
     method: "POST",
   }).then((res) => {
