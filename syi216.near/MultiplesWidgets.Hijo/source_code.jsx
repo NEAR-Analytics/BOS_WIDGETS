@@ -9,7 +9,7 @@ return (
           onChange={(e) => State.update({ boton: e.target.value })}
         />
       </div>
-      <button onClick={()=>props.sendMessage(boton)}>
+      <button onClick={() => props.sendMessage(state.boton)}>
         Enviar informacion al padre
       </button>
     </div>
