@@ -609,9 +609,14 @@ function renderVoteButtons({
     }
   `;
 
+    const denominator =
+        isCongressDaoID || isVotingBodyDao
+            ? totalVotes.total
+            : totalVotesNeeded;
+
     const getPercentage = (vote) => {
-        const percentage = Math.round((vote / totalVotesNeeded) * 100);
-        return percentage > 100 ? 100 : percentage || 0;
+        const percentage = Math.round((vote / denominator) * 100);
+        return percentage || 0;
     };
 
     const percentages = {
@@ -807,6 +812,8 @@ function renderMultiVoteButtons({ daoId, proposal, canVote }) {
 
 function renderPreVoteButtons({ proposal }) {
     const voted = proposal?.supported?.includes(accountId);
+    const slashActive =
+        proposal?.submission_time + daoConfig?.pre_vote_duration < Date.now();
     return (
         <div
             className="d-lg-grid d-flex flex-wrap gap-2 align-items-end"
@@ -814,7 +821,7 @@ function renderPreVoteButtons({ proposal }) {
         >
             <button
                 class="custom-tooltip btn btn-primary"
-                disabled={currentuserCongressHouse === null}
+                disabled={currentuserCongressHouse === null || slashActive}
                 onClick={() =>
                     handlePreVoteAction({
                         action: "support_proposal_by_congress",
@@ -834,7 +841,7 @@ function renderPreVoteButtons({ proposal }) {
                 </div>
                 <button
                     class="custom-tooltip btn btn-primary"
-                    disabled={!isHuman || voted}
+                    disabled={!isHuman || voted || slashActive}
                     onClick={() =>
                         handlePreVoteAction({
                             action: "support_proposal",
@@ -850,6 +857,7 @@ function renderPreVoteButtons({ proposal }) {
                 </button>
             </div>
             <button
+                disabled={slashActive}
                 class="custom-tooltip btn btn-primary"
                 onClick={() =>
                     handlePreVoteAction({
@@ -916,7 +924,7 @@ function renderFooter({ totalVotes, votes, comments, daoId, proposal }) {
         });
     }
 
-    if (proposal.typeName !== "Text") {
+    if (proposal.typeName !== "Text" && proposal.typeName !== "TextSuper") {
         items.push({
             title: "More details",
             icon: "bi bi-three-dots",
