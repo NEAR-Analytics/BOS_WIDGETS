@@ -435,7 +435,9 @@ return (
           </SocialIcon>
         </SocialContainer>
         <SocialContainer style={{ top: 620, left: 1165 }}>
-          <NameContainer style={{ left: 10, top: -20 }}>NDC Plug</NameContainer>
+          <NameContainer style={{ left: 10, top: -20 }}>
+            Web3 Plug
+          </NameContainer>
           <Widget src={`${Owner}/widget/Person-4-portfolio`} />
         </SocialContainer>
       </ContentContainer>
