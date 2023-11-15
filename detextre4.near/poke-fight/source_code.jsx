@@ -151,25 +151,23 @@ const API = "https://pokeapi.co/api/v2",
 function getPokemons() {
   if (state.started) return;
 
-  try {
-    const { body } = fetch(`${API}/pokemon?limit=${LIMIT}&offset=${OFFSET}`);
+  asyncFetch(`${API}/pokemon?limit=${LIMIT}&offset=${OFFSET}`)
+    .then(({ body }) => {
+      let pokemons = [];
 
-    let pokemons = [];
+      for (const item of body.results) {
+        const { body } = fetch(item.url);
 
-    for (const item of body.results) {
-      const { body } = fetch(item.url);
+        pokemons.push({
+          name: body.name,
+          image: body.sprites.other["official-artwork"].front_default,
+          health: [1, 2, 3, 4],
+        });
+      }
 
-      pokemons.push({
-        name: body.name,
-        image: body.sprites.other["official-artwork"].front_default,
-        health: [1, 2, 3, 4],
-      });
-    }
-
-    State.update({ pokemons, started: true });
-  } catch (error) {
-    console.error(error);
-  }
+      State.update({ pokemons, started: true });
+    })
+    .catch((error) => console.error(error));
 }
 getPokemons();
 
