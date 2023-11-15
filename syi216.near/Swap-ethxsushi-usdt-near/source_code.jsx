@@ -1,55 +1,4 @@
-const routerAbi = fetch(
-  "https://raw.githubusercontent.com/yaairnaavaa/Maverick/main/ArbitrumSushiSwapRouter.txt"
-);
-if (!routerAbi.ok) {
-  return "Loading";
-}
-
 State.init({});
-
-const swap = () => {
-  const router = new ethers.Contract(
-    "0x09bD2A33c47746fF03b86BCe4E885D03C74a8E8C",
-    routerAbi.body,
-    Ethers.provider().getSigner()
-  );
-
-  let amountIn = ethers.utils.parseUnits("500000000000000", 18);
-
-  console.log(amountIn);
-
-  let paramsv2 = {
-    tokenIn: "0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE",
-    amountIn: amountIn,
-    tokenOut: "0x60B42e0DE164d18fE6822C115DAf2e0F18867aE7",
-    amountOutMin: 0,
-    to: "0x34149390029Bbf4f4D9E7AdEa715D7055e145C05",
-    route:
-      "0x0301ffff020109bd2a33c47746ff03b86bce4e885d03c74a8e8c82af49447d8a07e3bd95bd0d56f35241523fbab10182af49447d8a07e3bd95bd0d56f35241523fbab101ffff019c657a4140ed352f86dc6d3a8825991431db22010034149390029bbf4f4d9e7adea715d7055e145c05",
-  };
-
-  console.log(paramsv2);
-
-  let amountIn2 = ethers.utils.parseUnits(
-    "0",
-    state.tokenSendSelected.decimals
-  );
-
-  console.log(amountIn2);
-
-  const overrides = {
-    value: amountIn2,
-    gasLimit: 2303039,
-  };
-
-  console.log(overrides);
-
-  try {
-    router.processRoute(paramsv2, overrides).then((res) => {});
-  } catch (err) {
-    console.log(err);
-  }
-};
 
 const lidoContract = "0xd9e1cE17f2641f24aE83637ab66a2cca9C378B9F";
 
@@ -295,7 +244,7 @@ return (
           </span>
         </div>
         {!!state.sender ? (
-          <button class="LidoStakeFormSubmitContainer" onClick={() => swap()}>
+          <button class="LidoStakeFormSubmitContainer" onClick={() => submitEthers()}>
             <span>Swap</span>
           </button>
         ) : (
