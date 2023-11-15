@@ -1,11 +1,11 @@
-console.log(props.item);
-
+const Wrapper = styled.div`
+  button span {
+    color: red;
+    background: black;
+  }
+`;
 return (
-  <div>
-    <p>Hello World: {props.item.id}</p>
-    <Widget
-      src="calebjacob.near/widget/NestedSimple"
-      props={{ item: props.item }}
-    />
-  </div>
+  <Wrapper>
+    <Widget src="near/widget/DIG.Button" props={{ label: "Click Me!" }} />
+  </Wrapper>
 );
