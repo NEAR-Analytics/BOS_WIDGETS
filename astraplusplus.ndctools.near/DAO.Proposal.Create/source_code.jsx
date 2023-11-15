@@ -7,7 +7,7 @@ const CoADaoId = props.dev
     : "congress-coa-v1.ndc-gwg.near";
 const VotingBodyDaoId = props.dev
     ? "voting-body-v1.gwg-testing.near"
-    : "";
+    : "voting-body-v1.ndc-gwg.near";
 const TCDaoId = props.dev
     ? "tc.gwg-testing.near"
     : "congress-tc-v1.ndc-gwg.near";
@@ -102,8 +102,12 @@ const congressProposalTypes = {
     ],
     [VotingBodyDaoId]: [
         {
-            text: "Text",
+            text: "Text (Near Consent)",
             value: "Text"
+        },
+        {
+            text: "Text Super (Near Supermajority Consent)",
+            value: "TextSuper"
         },
         {
             text: "Dismiss",
@@ -128,6 +132,10 @@ const congressProposalTypes = {
         {
             text: "Update Bonds",
             value: "UpdateBonds"
+        },
+        {
+            text: "Update Vote Duration",
+            value: "UpdateVoteDuration"
         }
     ]
 };
@@ -268,7 +276,7 @@ return (
         />
 
         <div className="d-flex flex-column gap-2">
-            {["Text", "Vote", "Budget", "Motion"].includes(
+            {["Text", "TextSuper", "Vote", "Budget", "Motion"].includes(
                 state.proposalType.value
             ) && (
                 <Widget
@@ -280,7 +288,8 @@ return (
                         isVotingBodyDao,
                         registry,
                         dev: props.dev,
-                        powerType: state.proposalType.powerType
+                        powerType: state.proposalType.powerType,
+                        kind: state.proposalType.value
                     }}
                 />
             )}
@@ -372,6 +381,16 @@ return (
             {state.proposalType.value === "UpdateBonds" && (
                 <Widget
                     src="astraplusplus.ndctools.near/widget/DAO.Proposal.Create.UpdateBonds"
+                    props={{
+                        daoId,
+                        dev: props.dev,
+                        registry
+                    }}
+                />
+            )}
+            {state.proposalType.value === "UpdateVoteDuration" && (
+                <Widget
+                    src="astraplusplus.ndctools.near/widget/DAO.Proposal.Create.UpdateVoteDuration"
                     props={{
                         daoId,
                         dev: props.dev,
