@@ -1,5 +1,6 @@
 const path = props.path || "query-api-editor";
 const tab = props.tab || "";
+const activeView = props.activeView || "editor";
 let accountId = props.accountId || context.accountId;
 let externalAppUrl = `https://queryapi-frontend-vcqilefdcq-ew.a.run.app/${path}?accountId=${accountId}`;
 
@@ -7,13 +8,11 @@ if (props.indexerName) {
   externalAppUrl += `&indexerName=${props.indexerName}`;
 }
 const initialViewHeight = 1000;
-if (!context.accountId) {
-  return "Please sign in to use this widget.";
-}
 
 const initialPayload = {
   height: Near.block("optimistic").header.height,
   selectedTab: tab,
+  activeView,
   currentUserAccountId: context.accountId,
 };
 
