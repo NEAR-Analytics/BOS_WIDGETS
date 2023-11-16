@@ -221,6 +221,9 @@ const getFeeWidthFormat = (n) => {
 
 // Format token balance
 const formatNumberBalanceToken = (n) => {
+  if(n < 0.01) {
+    return "< 0.01";
+  }
   if (n >= 1000000) {
     return "$" + (n / 1000000).toFixed(2) + "m";
   } else if (n >= 1000) {
