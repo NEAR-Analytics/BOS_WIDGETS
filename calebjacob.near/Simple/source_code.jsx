@@ -3,8 +3,12 @@ const Wrapper = styled.div`
     color: pink;
     background: black;
     font-family: sans-serif;
+    border-radius: 10px;
+    border: 1px solid purple;
   }
 `;
+
+console.log("Hello!");
 
 return (
   <Wrapper>
