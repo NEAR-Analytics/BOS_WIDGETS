@@ -117,6 +117,7 @@ const PanelLabel = styled.div`
   .setting-btn {
     cursor: pointer;
     position: relative;
+    margin-right: 16px;
   }
 `;
 const SwapButton = styled.button`
