@@ -6,7 +6,7 @@ const Container = styled.div`
 const depth = props.depth ?? 5;
 
 if (depth == 0) {
-  return null;
+  return props.children;
 }
 
 return (
