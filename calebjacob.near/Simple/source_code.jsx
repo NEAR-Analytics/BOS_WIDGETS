@@ -9,7 +9,7 @@ const Wrapper = styled.div`
 `;
 
 console.log("Hello!");
-console.log("Bye!");
+console.log("Bye!!!");
 
 return (
   <Wrapper>
