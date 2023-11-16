@@ -19,7 +19,7 @@ if (
   !outputCurrency.address ||
   state.fetching
 ) {
-  return;
+  return "";
 }
 
 const WETH_ADDRESS = props.wethAddress;
