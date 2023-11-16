@@ -418,14 +418,7 @@ return (
                           ? formatNumber(state.portfolio.tvl)
                           : 0}
                       </div>
-                      <div class="col-3 addLiquidityButtonContainer">
-                        <a
-                          class="addLiquidityButton"
-                          href="#/owa-is-bos.near/widget/Maverick-LP-Addition"
-                          style={{ textDecoration: "none" }}
-                        >
-                          <div class={"ConfirmText"}>Add Liquidity</div>
-                        </a>
+                      <div class="col-3" style={{width: "110px"}}>
                       </div>
                     </div>
                   </div>
