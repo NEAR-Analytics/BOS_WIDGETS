@@ -79,10 +79,8 @@ const fetchTradeInfo = () => {
     }),
   })
     .then((res) => {
-      console.log(res.body);
       if (res.body.data?.result?.quote) {
         const data = res.body.data.result.quote;
-
         loadAmountOut({
           ...data,
           outputCurrencyAmount: data.quoteDecimals,
@@ -103,11 +101,7 @@ const fetchTradeInfo = () => {
         }, 500);
         return;
       }
-      if (
-        res.body &&
-        res.body.data === null &&
-        res.body.msg === "no pair exist"
-      ) {
+      if (res.body && res.body.error.message === "no pair exist") {
         loadAmountOut({
           outputCurrencyAmount: 0,
           noPair: true,
