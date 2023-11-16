@@ -4,7 +4,7 @@ const Wrapper = styled.div`
     background: black;
     font-family: sans-serif;
     border-radius: 10px;
-    border: 1px solid orange;
+    border: 1px solid yellow;
   }
 `;
 
