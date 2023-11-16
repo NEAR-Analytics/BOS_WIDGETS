@@ -154,12 +154,16 @@ const Power = styled.div`
   align-items: center;
   .view-code {
     display: flex;
+    align-items: center;
     gap: 5px;
     cursor: pointer;
   }
   .view-code-icon {
     width: 15px;
     height: 15px;
+  }
+  .view-code-text {
+    text-decoration: underline;
   }
 `;
 
@@ -230,7 +234,7 @@ return (
             isCorrectNetwork: state.currentChainId === chainId,
             labelText: "You pay",
             onCurrencySelectOpen: () => {
-              if (chainId !== state.currentChainId) return;
+              if (chainId !== state.currentChainId && account) return;
               State.update({
                 displayCurrencySelect: true,
                 currencySelectType: 0,
@@ -302,7 +306,7 @@ return (
             updateTokenBalance: state.updateOutputTokenBalance,
             disabled: true,
             onCurrencySelectOpen: () => {
-              if (chainId !== state.currentChainId) return;
+              if (chainId !== state.currentChainId && account) return;
               State.update({
                 displayCurrencySelect: true,
                 currencySelectType: 1,
@@ -408,8 +412,7 @@ return (
               </clipPath>
             </defs>
           </svg>
-
-          <div>View Code</div>
+          <div className="view-code-text">View Code</div>
         </div>
         <div>Powered by DapDap & BOS</div>
       </Power>
