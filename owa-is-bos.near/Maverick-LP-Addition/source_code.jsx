@@ -1102,17 +1102,17 @@ const validateButton = (
 const validateButtonDisabled = (
   <div class="validateButtonDisabled" disabled>
     <div class={"ConfirmText"}>
-      {state.poolModeSelected == 0 || state.poolModeSelected == 3
+      {state.poolModeSelected.id == 0 || state.poolModeSelected.id == 3
         ? state.tokenABalance && state.tokenBBalance
           ? "Validate"
           : `You don't have enough balance`
-        : state.poolModeSelected == 1
-        ? state.tokenABalance
-          ? "Validate"
-          : `You don't have enough balance on ${state.selectedPoolOptions.tokenA.symbol}`
-        : state.tokenBBalance
-        ? "Validate"
-        : `You don't have enough balance on ${state.selectedPoolOptions.tokenB.symbol}`}
+        : state.poolModeSelected.id == 1
+          ? state.tokenABalance
+            ? "Validate"
+            : `You don't have enough balance on ${state.selectedPoolOptions.tokenA.symbol}`
+          : state.tokenBBalance
+            ? "Validate"
+            : `You don't have enough balance on ${state.selectedPoolOptions.tokenB.symbol}`}
     </div>
   </div>
 );
@@ -1858,11 +1858,7 @@ return (
                 )}
 
                 {state.step == 3
-                  ? state.noBalanceA
-                    ? insufficientBalanceButton("TA")
-                    : state.noBalanceB
-                    ? insufficientBalanceButton("TB")
-                    : state.addingLiquidity
+                  ? state.addingLiquidity
                     ? confirmButtonDisabled
                     : state.validation == true
                     ? !state.moreTokenAAllowance
