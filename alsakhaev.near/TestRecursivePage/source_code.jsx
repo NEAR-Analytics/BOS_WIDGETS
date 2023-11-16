@@ -11,12 +11,17 @@ return (
                 <>
                   <Widget
                     src="alsakhaev.near/widget/TestContainer"
-                    props={{ children: <>1</> }}
+                    props={{
+                      children: <Widget src="dapplets.near/widget/Cat" />,
+                    }}
                   />
                   <Widget
                     src="alsakhaev.near/widget/TestContainer"
-                    props={{ children: <>2</> }}
+                    props={{
+                      children: <Widget src="dapplets.near/widget/Cat" />,
+                    }}
                   />
+                  <Widget src="dapplets.near/widget/Cat" />
                 </>
               ),
             }}
@@ -28,16 +33,22 @@ return (
                 <>
                   <Widget
                     src="alsakhaev.near/widget/TestContainer"
-                    props={{ children: <>3</> }}
+                    props={{
+                      children: <Widget src="dapplets.near/widget/Cat" />,
+                    }}
                   />
                   <Widget
                     src="alsakhaev.near/widget/TestContainer"
-                    props={{ children: <>4</> }}
+                    props={{
+                      children: <Widget src="dapplets.near/widget/Cat" />,
+                    }}
                   />
+                  <Widget src="dapplets.near/widget/Cat" />
                 </>
               ),
             }}
           />
+          <Widget src="dapplets.near/widget/Cat" />
         </>
       ),
     }}
