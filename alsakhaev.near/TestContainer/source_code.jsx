@@ -3,4 +3,11 @@ const Container = styled.div`
     padding: 10px;
 `;
 
-return <Container>{props.children}</Container>;
+return (
+  <Container>
+    <Widget
+      src="alsakhaev.near/widget/TestContainer"
+      props={{ children: props.children }}
+    />
+  </Container>
+);
