@@ -3,11 +3,17 @@ const Container = styled.div`
     padding: 10px;
 `;
 
+const depth = props.depth ?? 5;
+
+if (depth == 0) {
+  return null;
+}
+
 return (
   <Container>
     <Widget
       src="alsakhaev.near/widget/TestContainer"
-      props={{ children: props.children }}
+      props={{ children: props.children, depth: depth - 1 }}
     />
   </Container>
 );
