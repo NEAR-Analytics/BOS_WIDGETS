@@ -37,13 +37,14 @@ const Input = styled.input`
 `;
 const Value = styled.div`
   padding-top: 10px;
-  color: var(--thirdary-text-color);
+  color: #8e8e8e;
   font-size: 14px;
   line-height: 16px;
 `;
 const CurrencyField = styled.div`
   max-width: 150px;
   flex-shrink: 0;
+  --button-color: #fff;
 `;
 const CurrencySelect = styled.div`
   display: flex;
@@ -91,6 +92,9 @@ const CurrencySelectNoToken = styled.div`
       width: 12px !important;
     }
     padding: 0px 12px 0px 6px;
+  }
+  &.disabled {
+    opacity: 0.3;
   }
 `;
 
@@ -226,12 +230,14 @@ return (
             <Widget src="dapdapbos.near/widget/Uniswap.Swap.ArrowIcon" />
           </CurrencySelect>
         ) : (
-          <CurrencySelectNoToken onClick={handlers.handleDisplayCurrencySelect}>
+          <CurrencySelectNoToken
+            onClick={handlers.handleDisplayCurrencySelect}
+            className={`${account && !props.isCorrectNetwork && "disabled"}`}
+          >
             <span
               className="fz-14"
               style={{
                 whiteSpace: "nowrap",
-                opacity: account && !props.isCorrectNetwork ? "0.2" : "1",
               }}
             >
               Select a token
@@ -240,24 +246,22 @@ return (
             <Widget src="dapdapbos.near/widget/Uniswap.Swap.ArrowIcon" />
           </CurrencySelectNoToken>
         )}
-        {account && !props.isCorrectNetwork && (
-          <Amount
-            onClick={() => {
-              const formatedBalance = utils.balanceFormated();
-              if (!["-", "Loading", "0"].includes(formatedBalance))
-                props.onAmountChange?.(state.balance);
+        <Amount
+          onClick={() => {
+            const formatedBalance = utils.balanceFormated();
+            if (!["-", "Loading", "0"].includes(formatedBalance))
+              props.onAmountChange?.(state.balance);
+          }}
+        >
+          Balance:{" "}
+          <span
+            style={{
+              textDecoration: props.disabled ? "none" : "underline",
             }}
           >
-            Balance:{" "}
-            <span
-              style={{
-                textDecoration: props.disabled ? "none" : "underline",
-              }}
-            >
-              {utils.balanceFormated()}
-            </span>
-          </Amount>
-        )}
+            {utils.balanceFormated()}
+          </span>
+        </Amount>
       </CurrencyField>
     </Main>
   </Wrapper>
