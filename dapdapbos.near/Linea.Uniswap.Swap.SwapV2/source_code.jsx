@@ -320,21 +320,19 @@ return (
             },
           }}
         />
-        {state.trade && state.inputCurrencyAmount && (
-          <Widget
-            src="dapdapbos.near/widget/Linea.Uniswap.Swap.Result"
-            props={{
-              trade: {
-                ...state.trade,
-                inputCurrency: state.inputCurrency,
-                outputCurrency: state.outputCurrency,
-                inputCurrencyAmount: state.inputCurrencyAmount,
-                outputCurrencyAmount: state.outputCurrencyAmount,
-                slippage,
-              },
-            }}
-          />
-        )}
+        <Widget
+          src="dapdapbos.near/widget/Linea.Uniswap.Swap.Result"
+          props={{
+            trade: {
+              ...state.trade,
+              inputCurrency: state.inputCurrency,
+              outputCurrency: state.outputCurrency,
+              inputCurrencyAmount: state.inputCurrencyAmount,
+              outputCurrencyAmount: state.outputCurrencyAmount,
+              slippage,
+            },
+          }}
+        />
         <Widget
           src="dapdapbos.near/widget/Linea.Uniswap.Swap.SwapButton"
           props={{
