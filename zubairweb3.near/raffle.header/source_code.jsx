@@ -15,6 +15,7 @@ const LoginBtn = styled.button`
   border-width: 1px;
   border-radius: 0.5rem;
   cursor: pointer;
+  
 `;
 
 const logo =
