@@ -4,11 +4,12 @@ const Wrapper = styled.div`
     background: black;
     font-family: sans-serif;
     border-radius: 10px;
-    border: 1px solid yellow;
+    border: 1px solid pink;
   }
 `;
 
 console.log("Hello!");
+console.log("Bye!");
 
 return (
   <Wrapper>
