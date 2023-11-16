@@ -18,11 +18,11 @@ return (
         />
       </div>
       <div className="col">
-        {/*<Widget
+        <Widget
           id="sandboxed"
           src="andyh.near/StateDemoRoot"
           props={{ title: "State within Sandboxed Components" }}
-        />*/}
+        />
       </div>
     </div>
   </>
