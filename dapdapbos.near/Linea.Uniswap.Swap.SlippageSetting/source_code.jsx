@@ -73,7 +73,7 @@ const Input = styled.input`
 `;
 
 State.init({
-  type: slippage === "" ? "Auto" : "Custom",
+  type: props.slippage === "" ? "Auto" : "Custom",
 });
 const types = ["Auto", "Custom"];
 
@@ -103,9 +103,7 @@ return (
                 State.update({
                   type,
                 });
-                if (type === "Auto") {
-                  onSetSlippage("0.5");
-                }
+                onSetSlippage(state.type === "Auto" ? "" : "0.5");
               }}
             >
               {type}
