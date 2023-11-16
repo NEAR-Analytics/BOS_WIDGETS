@@ -53,11 +53,11 @@ const DISTRIBUTIONMODE = [
     description:
       "This will distribute your liquidity evenly across bins, centered around the current pool price.",
   },
-  {
-    name: "Exponential",
-    description:
-      "This distribution starts with a high concentration of liquidity around the current pool price and adds exponentially decreasing amounts across the bins to the left and right.",
-  },
+  //   {
+  //     name: "Exponential",
+  //     description:
+  //       "This distribution starts with a high concentration of liquidity around the current pool price and adds exponentially decreasing amounts across the bins to the left and right.",
+  //   },
 ];
 
 State.init({
@@ -228,7 +228,6 @@ const back = () => {
     step: state.step - 1,
     amountInputTokenA: null,
     amountInputTokenB: null,
-    onlyRight: false,
     noBalanceA: false,
     noBalanceB: false,
   });
@@ -371,7 +370,6 @@ const handleInputTokenA = (input) => {
         amountInputTokenB: deltaY == 0 ? 0 : tokenB.toFixed(6),
         amountInputTokenA: input,
         validation: undefined,
-        onlyRight: false,
         noBalanceA:
           parseFloat(state.tokenABalance.fixed) < parseFloat(input)
             ? true
@@ -398,45 +396,7 @@ const handleInputTokenA = (input) => {
         });
       }
       if (state.poolDistributionSelected.name == "Exponential") {
-        const binsL = Math.floor(state.binsToDistribute / 2);
-
-        const lambdas = [0.1];
-        for (let i = 1; i < binsL; i++) {
-          const lambda = 0.1 + i / 2;
-          lambdas.push(lambda);
-        }
-
-        const sumExp = lambdas.reduce(
-          (acc, lambda) => acc + Math.exp(lambda),
-          0
-        );
-
-        const nextLambda =
-          lambdas.length > 0 ? lambdas[lambdas.length - 1] + 0.5 : 0.1;
-        const nextValue = (input / sumExp) * Math.exp(nextLambda);
-
-        let amountExpA = lambdas
-          .map((lambda) => (input / sumExp) * Math.exp(lambda))
-          .reverse();
-
-        amountExpA.reverse().push(nextValue);
-        amountExpA.reverse();
-        console.log(amountExpA);
-
-        let amountExpB = [].concat(amountExpA.reverse());
-        tokenB = amountExpB.reduce((a, b) => a + b, 0);
-
-        State.update({
-          amountInputTokenA: input,
-          amountInputTokenB: tokenB.toFixed(6),
-          onlyRight: true,
-          noBalanceA:
-            parseFloat(state.tokenABalance.fixed) < parseFloat(input)
-              ? true
-              : false,
-          noBalanceB:
-            parseFloat(state.tokenBBalance.fixed) < tokenB ? true : false,
-        });
+        // Soon
       }
       if (state.poolDistributionSelected.name == "Single Bin") {
         State.update({
@@ -493,7 +453,6 @@ const handleInputTokenB = (input) => {
         amountInputTokenA: deltaY == 0 ? 0 : tokenA.toFixed(6),
         amountInputTokenB: input,
         validation: undefined,
-        onlyRight: false,
         noBalanceA:
           parseFloat(state.tokenABalance.fixed) < tokenA ? true : false,
         noBalanceB:
@@ -520,44 +479,7 @@ const handleInputTokenB = (input) => {
         });
       }
       if (state.poolDistributionSelected.name == "Exponential") {
-        const binsR = Math.ceil(state.binsToDistribute / 2);
-
-        const lambdas = [0.1];
-        for (let i = 1; i < binsR; i++) {
-          const lambda = 0.1 + i / 2;
-          lambdas.push(lambda);
-        }
-
-        const sumExp = lambdas.reduce(
-          (acc, lambda) => acc + Math.exp(lambda),
-          0
-        );
-
-        const amountExpB = lambdas
-          .map((lambda) => (input / sumExp) * Math.exp(lambda))
-          .reverse();
-
-        let amountExpA = [].concat(amountExpB.reverse());
-        amountExpA.pop();
-        tokenA = amountExpA.reduce((a, b) => a + b, 0);
-
-        console.log("Result Exponential en B");
-        console.log(amountExpB);
-
-        console.log("Result Exponential en A");
-        console.log(amountExpA);
-
-        State.update({
-          amountInputTokenB: input,
-          amountInputTokenA: tokenA.toFixed(6),
-          onlyRight: true,
-          noBalanceA:
-            parseFloat(state.tokenABalance.fixed) < tokenA ? true : false,
-          noBalanceB:
-            parseFloat(state.tokenBBalance.fixed) < parseFloat(input)
-              ? true
-              : false,
-        });
+        // Soon
       }
       if (state.poolDistributionSelected.name == "Single Bin") {
         State.update({
@@ -611,16 +533,10 @@ const approveErc20Token = (mode) => {
   ).then((res) => {
     let value, token;
     if (mode == "TA") {
-      value = floatToFixed(
-        state.tokenABalance.fixed,
-        state.poolSelected.tokenA.decimals
-      );
+      value = state.tokenABalance.unfixed;
       token = state.newTokenASelected;
     } else {
-      value = floatToFixed(
-        state.tokenBBalance.fixed,
-        state.poolSelected.tokenB.decimals
-      );
+      value = state.tokenBBalance.unfixed;
       token = state.newTokenBSelected;
     }
     const approveContract = new ethers.Contract(
@@ -878,132 +794,7 @@ const createPool = () => {
     }
     if (state.poolDistributionSelected.name == "Exponential") {
       console.log("Exponential");
-      if (state.onlyRight) {
-        const binsL = Math.floor(state.binsToDistribute / 2);
-        const binsR = Math.ceil(state.binsToDistribute / 2);
-
-        const lambdasL = [0.1];
-        const lambdasR = [0.1];
-        for (let i = 1; i < binsL; i++) {
-          const lambda = 0.1 + i / 2;
-          lambdasL.push(lambda);
-        }
-        for (let i = 1; i < binsR; i++) {
-          const lambda = 0.1 + i / 2;
-          lambdasR.push(lambda);
-        }
-
-        const sumExpL = lambdasL.reduce(
-          (acc, lambda) => acc + Math.exp(lambda),
-          0
-        );
-        const sumExpR = lambdasR.reduce(
-          (acc, lambda) => acc + Math.exp(lambda),
-          0
-        );
-
-        let amountExpL = lambdasL
-          .map(
-            (lambda) => (state.amountInputTokenA / sumExpL) * Math.exp(lambda)
-          )
-          .reverse();
-        amountExpL.unshift(0);
-        amountExpL.reverse();
-
-        const amountExpR = lambdasR
-          .map(
-            (lambda) => (state.amountInputTokenB / sumExpR) * Math.exp(lambda)
-          )
-          .reverse();
-
-        for (let i = 0; i < state.binsToDistribute; i++) {
-          const pos = position + i - Math.floor(state.binsToDistribute / 2);
-          let newDeltaA =
-            pos <= position
-              ? ethers.utils.parseUnits(amountExpL[i].toString(), 18)
-              : 0;
-          let newDeltaB =
-            pos >= position
-              ? ethers.utils.parseUnits(
-                  amountExpR[
-                    i - Math.floor(state.binsToDistribute / 2)
-                  ].toString(),
-                  18
-                )
-              : 0;
-
-          const param = {
-            kind: state.poolModeSelected.id,
-            pos: pos,
-            isDelta: false,
-            deltaA: newDeltaA,
-            deltaB: newDeltaB,
-          };
-          liquidityParams.push(param);
-        }
-      } else {
-        const binsL = Math.ceil(state.binsToDistribute / 2);
-        const binsR = Math.ceil(state.binsToDistribute / 2);
-
-        const lambdasL = [0.1];
-        const lambdasR = [0.1];
-        for (let i = 1; i < binsL; i++) {
-          const lambda = 0.1 + i / 2;
-          lambdasL.push(lambda);
-        }
-        for (let i = 1; i < binsR; i++) {
-          const lambda = 0.1 + i / 2;
-          lambdasR.push(lambda);
-        }
-
-        const sumExpL = lambdasL.reduce(
-          (acc, lambda) => acc + Math.exp(lambda),
-          0
-        );
-        const sumExpR = lambdasR.reduce(
-          (acc, lambda) => acc + Math.exp(lambda),
-          0
-        );
-
-        let amountExpL = lambdasL
-          .map(
-            (lambda) => (state.amountInputTokenA / sumExpL) * Math.exp(lambda)
-          )
-          .reverse();
-        amountExpL.reverse();
-
-        const amountExpR = lambdasR
-          .map(
-            (lambda) => (state.amountInputTokenB / sumExpR) * Math.exp(lambda)
-          )
-          .reverse();
-
-        for (let i = 0; i < state.binsToDistribute; i++) {
-          const pos = position + i - Math.floor(state.binsToDistribute / 2);
-          let newDeltaA =
-            pos <= position
-              ? ethers.utils.parseUnits(amountExpL[i].toString(), 18)
-              : 0;
-          let newDeltaB =
-            pos >= position
-              ? ethers.utils.parseUnits(
-                  amountExpR[
-                    i - Math.floor(state.binsToDistribute / 2)
-                  ].toString(),
-                  18
-                )
-              : 0;
-
-          const param = {
-            kind: state.poolModeSelected.id,
-            pos: pos,
-            isDelta: false,
-            deltaA: newDeltaA,
-            deltaB: newDeltaB,
-          };
-          liquidityParams.push(param);
-        }
-      }
+      // Soon
     }
   }
 
@@ -1052,7 +843,6 @@ const createPool = () => {
             binsToDistribute: 3,
             need2Tokens: true,
             creatingPool: false,
-            onlyRight: false,
           });
         }, 20000);
       });
@@ -1595,6 +1385,9 @@ return (
                                   >
                                     Select Distribution
                                   </option>
+                                  <option disabled={state.poolModeSelected}>
+                                    Exponential (Soon)
+                                  </option>
                                   {DISTRIBUTIONMODE.map((m) => {
                                     return <option>{m.name}</option>;
                                   })}
@@ -1778,17 +1571,6 @@ return (
                   <div class="BackButton" onClick={back}>
                     <div class={"ConfirmText"}>Back</div>
                   </div>
-                )}
-                {state.step == 1 && (
-                  <a
-                    class="BackButton"
-                    href="#/owa-is-bos.near/widget/Maverick-LP-Portfolio"
-                    style={{
-                      textDecoration: "none",
-                    }}
-                  >
-                    <div class={"ConfirmText"}>My Portfolio</div>
-                  </a>
                 )}
               </div>
               <div
