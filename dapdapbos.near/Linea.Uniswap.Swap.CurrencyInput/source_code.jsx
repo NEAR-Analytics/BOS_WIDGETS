@@ -127,7 +127,7 @@ const CurrencySymbol = styled.div`
 `;
 const Amount = styled.div`
   padding-top: 18px;
-  color: var(--thirdary-text-color);
+  color: #8e8e8e;
   font-size: 14px;
   line-height: 16px;
   text-align: right;
@@ -232,7 +232,9 @@ return (
         ) : (
           <CurrencySelectNoToken
             onClick={handlers.handleDisplayCurrencySelect}
-            className={`${account && !props.isCorrectNetwork && "disabled"}`}
+            className={`${
+              account ? !props.isCorrectNetwork && "disabled" : ""
+            }`}
           >
             <span
               className="fz-14"
@@ -257,6 +259,7 @@ return (
           <span
             style={{
               textDecoration: props.disabled ? "none" : "underline",
+              color: "#fff",
             }}
           >
             {utils.balanceFormated()}
