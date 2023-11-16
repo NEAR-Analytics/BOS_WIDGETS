@@ -129,9 +129,7 @@ const icons = [
   "x-octagon-fill",
 ];
 
-const getRandomIcon = useCallback(
-  () => icons[Math.floor(Math.random() * icons.length)]
-);
+const getRandomIcon = () => icons[Math.floor(Math.random() * icons.length)];
 console.log("re-raunder", { circle, square, triangle });
 return (
   <div>
