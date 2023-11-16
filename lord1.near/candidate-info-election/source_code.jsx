@@ -7,7 +7,7 @@ const daotheme = {
   brand: "Candidate",
   fontsize: "30px",
   fontweight: "30px",
-  afterbrand: "Inforamations",
+  afterbrand: "Informations",
   afterbrandcolor: themeColor?.dynamic_header?.afterbrandcolor || "#789efb",
   fontbrand: " Arial, sans-serif",
   color1brand: themeColor?.dynamic_header?.color1brand || "#000",
