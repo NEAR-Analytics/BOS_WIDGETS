@@ -59,11 +59,6 @@ const realTokenIn =
 
 const realTokenOut =
   outputCurrency.address === "native" ? WETH_ADDRESS : outputCurrency.address;
-
-const AccessKey = Storage.get(
-  "AccessKey",
-  "guessme.near/widget/ZKEVMWarmUp.add-to-quest-card"
-);
 State.update({
   fetching: true,
 });
@@ -71,12 +66,23 @@ const _amountIn = Big(inputCurrencyAmount)
   .mul(Big(10).pow(inputCurrency.decimals))
   .toFixed();
 const fetchTradeInfo = () => {
-  asyncFetch(
-    `https://api.dapdap.net/api/uniswap/v2/quote?token_in=${realTokenIn}&token_out=${realTokenOut}&chain_id=${chainId}&amount=${_amountIn}`
-  )
+  asyncFetch(`https://api.dapdap.net/api/uniswap/v2/quote`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      token_in: realTokenIn,
+      token_out: realTokenOut,
+      amount: _amountIn,
+      chain_id: chainId,
+    }),
+  })
     .then((res) => {
-      if (res?.body && res.body.code === "0" && res.body.data?.quote) {
-        const data = res.body.data.quote;
+      console.log(res.body);
+      if (res.body.data?.result?.quote) {
+        const data = res.body.data.result.quote;
+
         loadAmountOut({
           ...data,
           outputCurrencyAmount: data.quoteDecimals,
