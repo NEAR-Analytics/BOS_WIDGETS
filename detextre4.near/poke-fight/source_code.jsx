@@ -1,36 +1,51 @@
 // * STYLES
 const Wrapper = styled.div`
-    * {
-        padding: 0;
-        margin: 0;
-        box-sizing: border-box;
-        font-family: Fantasy;
-    }
+  --size: 220px;
+  
+  min-height: 100vh;
+  background-image: linear-gradient(#ffffff 1.1rem, #ccc 1.2rem);
+  background-size: 100% 1.2rem;
 
+  &.finished {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr));
-    gap: 40px;
-`;
+    place-content: center;
+  }
 
-const Pokeball = styled.div`
+  * {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: Fantasy;
+  }
+
+  h2 {
+    text-align: center;
+    margin-bottom: 14px;
+  }
+`,
+  Grid = styled.div`
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, var(--size)), 1fr));
+  place-items: center;
+  gap: 40px;`,
+  Pokeball = styled.div`
 --primary: #f71b1b;
 --accent: #000;
 --bg: #f7f7f7;
---br: 60%;
---h: 270px;
+--br: 50%;
 
   position: relative;
-  height: var(--h);
+  width: var(--size);
+  height: var(--size);
   background: var(--bg);
   box-shadow: 2px 2px 6px 2px rgba(0, 0, 0, .4);
   display: grid;
   place-items: center;
-  grid-template-areas: "stack";
   font-size: 25px;
   font-weight: bold;
   border-radius: var(--br);
   isolation: isolate;
-  transition: all .2s ease;
+  transition: all var(--animationDuration) ease;
 
   &.deleted {
     translate: 0 -100px;
@@ -78,7 +93,7 @@ const Pokeball = styled.div`
     border: 4px solid var(--accent);
     border-radius: 50%;
     z-index: 1;
-    transition: all 0.2s;
+    transition: all var(--animationDuration);
   }
   &:hover:after, &.opened:after {
     opacity: 0;
@@ -87,27 +102,30 @@ const Pokeball = styled.div`
   }
 
   * {
-    grid-area: stack;
     z-index: -1;
+    pointer-events: none;
+    user-select: none;
   }
-  &.opened * { pointer-events: none }
+  &:hover * { pointer-events: all }
 
   img {
     width: 60%;
+    object-fit: cover;
     cursor: grab;
   }
 
   h5 {
-    translate: 0 90px;
+    position: absolute;
+    bottom: 10%;
     pointer-events: none;
   }
 
   .health-bar {
-    position: relative;
+    position: absolute;
+    right: 10%;
     width: 20px;
     height: 50%;
     background: var(--accent);
-    translate: 100px 0;
     border-radius: 5px;
   }
 
@@ -141,7 +159,7 @@ const Pokeball = styled.div`
 `;
 
 // * SCRIPT
-State.init({ pokemons: [], started: false, currentDrag: "" });
+State.init({ pokemons: [], started: false, currentDrag: null });
 
 const API = "https://pokeapi.co/api/v2",
   LIMIT = props.limit,
@@ -161,6 +179,7 @@ function getPokemons() {
         pokemons.push({
           name: body.name,
           image: body.sprites.other["official-artwork"].front_default,
+          moves: body.moves?.map((item) => item.move.name),
           health: [1, 2, 3, 4],
         });
       }
@@ -171,8 +190,21 @@ function getPokemons() {
 }
 getPokemons();
 
+function getRandomInt(max) {
+  const min = 0;
+  max = Math.floor(max);
+
+  return Math.floor(Math.random() * (max - min + 1) + min);
+}
+
 function onDragStart(pokemonIndex) {
-  State.update({ currentDrag: pokemonIndex });
+  const pokemons = state.pokemons;
+  if (pokemons[state.currentDrag]) {
+    pokemons[state.currentDrag].opened = false;
+    pokemons[state.currentDrag].attack = null;
+  }
+
+  State.update({ pokemons, currentDrag: pokemonIndex });
 }
 
 function openPokeball(event, pokemonIndex) {
@@ -186,21 +218,31 @@ function openPokeball(event, pokemonIndex) {
 }
 
 function closePokeball(pokemonIndex) {
+  if (state.currentDrag == pokemonIndex) return;
+
   const pokemons = state.pokemons;
   pokemons[pokemonIndex].opened = false;
+  pokemons[state.currentDrag].attack = null;
   State.update({ pokemons });
 }
 
 function attack(pokemonIndex) {
   if (state.currentDrag == pokemonIndex) return;
+  const pokemons = state.pokemons;
+
+  // show attack dialog
+  if (pokemons[state.currentDrag])
+    pokemons[state.currentDrag].attack =
+      pokemons[state.currentDrag].moves[
+        getRandomInt(pokemons[state.currentDrag].moves.length)
+      ];
 
   // animation decrease helath
-  const pokemons = state.pokemons;
   pokemons[pokemonIndex].health[0] = 0;
   State.update({ pokemons });
 
   // decrease helath
-  setTimeout(() => decreaseHealth(pokemons, pokemonIndex), 200);
+  setTimeout(() => decreaseHealth(pokemons, pokemonIndex), animationDuration);
 }
 
 function decreaseHealth(pokemons, pokemonIndex) {
@@ -212,6 +254,8 @@ function decreaseHealth(pokemons, pokemonIndex) {
 }
 
 function deletePokemon(pokemons, pokemonIndex) {
+  pokemons[state.currentDrag].attack = null;
+
   // animation delete pokemon
   pokemons[pokemonIndex].deleted = true;
   State.update({ pokemons });
@@ -220,40 +264,52 @@ function deletePokemon(pokemons, pokemonIndex) {
   setTimeout(() => {
     pokemons.splice(pokemonIndex, 1);
     State.update({ pokemons });
-  }, 200);
+  }, animationDuration);
 }
 
 // * TEMPLATE RENDER
 return (
-  <Wrapper>
-    {state.pokemons.map((pokemon, index) => (
-      <Pokeball
-        className={`${pokemon.deleted ? "deleted" : ""} ${
-          pokemon.opened ? "opened" : ""
-        }`}
-        onDrop={(_) => attack(index)}
-        onDragOver={(event) => openPokeball(event, index)}
-        onDragEnd={(_) => closePokeball(index)}
-        onDragLeave={(_) => closePokeball(index)}
-        onMouseLeave={(_) => closePokeball(index)}
-      >
-        <div className="health-bar">
-          {pokemon.health.map((health, i) => (
-            <div
-              className={`bar-${health} ${health != i + 1 ? "hide" : ""}`}
-              style={{ "--n": health }}
-            ></div>
-          ))}
-        </div>
+  <Wrapper className={state.pokemons.length > 1 ? "" : "finished"}>
+    <h2>
+      {state.pokemons.length > 1
+        ? "Drag pokemons to attack"
+        : `${state.pokemons[0].name} won !!`}
+    </h2>
+    <Grid>
+      {state.pokemons.map((pokemon, index) => (
+        <Pokeball
+          className={`${pokemon.deleted ? "deleted" : ""} ${
+            pokemon.opened ? "opened" : ""
+          }`}
+          style={{ "--animationDuration": `${animationDuration}ms` }}
+          onDrop={(_) => attack(index)}
+          onDragOver={(event) => openPokeball(event, index)}
+          onDragLeave={(_) => closePokeball(index)}
+          onMouseLeave={(_) => closePokeball(index)}
+        >
+          <div className="health-bar">
+            {pokemon.health.map((health, i) => (
+              <div
+                className={`bar-${health} ${health != i + 1 ? "hide" : ""}`}
+                style={{ "--n": health }}
+              ></div>
+            ))}
+          </div>
 
-        <img
-          style={{ objectFit: "cover" }}
-          src={pokemon.image}
-          alt="upload preview"
-          onDragStart={(_) => onDragStart(index)}
-        />
-        <h5>{pokemon.name}</h5>
-      </Pokeball>
-    ))}
+          <OverlayTrigger
+            placement="top"
+            show={!!pokemon.attack}
+            overlay={<Tooltip>{pokemon.attack}</Tooltip>}
+          >
+            <img
+              src={pokemon.image}
+              alt={`${pokemon.name}'s image`}
+              onDragStart={(_) => onDragStart(index)}
+            />
+          </OverlayTrigger>
+          <h5>{pokemon.name}</h5>
+        </Pokeball>
+      ))}
+    </Grid>
   </Wrapper>
 );
