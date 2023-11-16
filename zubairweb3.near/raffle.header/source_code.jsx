@@ -9,7 +9,12 @@ const Nav = styled.div`
 const LoginBtn = styled.button`
   color: #000;
   background: #fff;
-  
+  box-shadow: 0 4px 4px 0 #003C8C inset, 0 4px 4px 0 #003C8C;
+  padding: 0.5rem 1.25rem;
+  border: rgb(59 130 246 0.5)
+  border-width: 1px;
+  border-radius: 0.5rem;
+  cursor: pointer;
 `;
 
 const logo =
