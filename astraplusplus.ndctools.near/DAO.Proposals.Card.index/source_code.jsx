@@ -70,16 +70,11 @@ if (isVotingBodyDao || daoId === HoMDaoId) {
 
 const isHuman = useCache(
     () =>
-        asyncFetch(
-            `https://api.pikespeak.ai/sbt/sbt-by-owner?holder=${accountId}&registry=registry.i-am-human.near`,
-            {
-                method: "GET",
-                headers: {
-                    "Content-Type": "application/json",
-                    "x-api-key": "36f2b87a-7ee6-40d8-80b9-5e68e587a5b5"
-                }
+        Near.asyncView(registry, "is_human", { account: accountId }).then(
+            (sbts) => {
+                return sbts.length > 0;
             }
-        ).then((res) => res?.body?.length > 0),
+        ),
     daoId + "-is-voting-allowed",
     { subscribe: false }
 );
