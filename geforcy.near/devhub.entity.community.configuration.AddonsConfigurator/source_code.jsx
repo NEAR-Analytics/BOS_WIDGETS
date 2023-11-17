@@ -1,5 +1,6 @@
 const { getAllAddons } =
-  VM.require("geforcy.near/widget/core.adapter.devhub-contract") || (() => {});
+  VM.require("geforcy.near/widget/core.adapter.devhub-contract") ||
+  (() => {});
 
 const { href } = VM.require("geforcy.near/widget/core.lib.url") || (() => {});
 
