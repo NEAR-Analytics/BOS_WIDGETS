@@ -1,7 +1,7 @@
 const Hello = () => <span>hello</span>;
 const World = () => (
   <>
-    <span>
+    <span id="hello-parent-span">
       <Hello />
     </span>
     world
@@ -9,7 +9,7 @@ const World = () => (
 );
 
 return (
-  <div>
-    <World />
+  <div id="r">
+    <World id="world-component" />
   </div>
 );
