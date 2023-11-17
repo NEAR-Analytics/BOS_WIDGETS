@@ -20,6 +20,7 @@ const addSheet = async () => {
 
   const userIdx = await ppd.getUserIdx();
 
+  console.log(userIdx);
   const daraUri = state.img.cid ?? "";
 
   ppd.addSheet(sheetName, composerIdx, userIdx, difficulty, daraUri);
