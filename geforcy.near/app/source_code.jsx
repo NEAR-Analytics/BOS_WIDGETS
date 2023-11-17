@@ -42,7 +42,10 @@ function Page() {
   switch (routes[0]) {
     case "home": {
       return (
-        <Widget src="geforcy.near/widget/devhub.page.home" props={passProps} />
+        <Widget
+          src="geforcy.near/widget/devhub.page.home"
+          props={passProps}
+        />
       );
     }
     // ?page=communities
