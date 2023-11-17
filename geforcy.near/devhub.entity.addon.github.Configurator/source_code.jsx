@@ -336,7 +336,7 @@ function Form() {
             onChange: form.update({ path: ["metadata", "ticket", "features"] }),
             schema: GithubKanbanBoardTicketFeaturesSchema,
             nearDevGovGigsWidgetsAccountId: "geforcy.near",
-            nearDevGovGigsContractAccountId: "geforcy.near",
+            nearDevGovGigsContractAccountId: "devgovgigs.near",
           }}
         />
       </div>
