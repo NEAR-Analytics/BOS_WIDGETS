@@ -147,7 +147,7 @@ function loadBond() {
   ).then((resp) => {
     if (resp.body) {
       const amount = resp.body.bond ? parseFloat(resp.body.bond) : 0;
-      console.log(amount);
+
       State.update({ isBonded: amount });
     }
   });
@@ -392,7 +392,6 @@ return (
                   props={{
                     Button: {
                       className: "primary w-100 justify-content-center",
-                      disabled: !state.isBonded,
                       text: "Unbond & Mint I Voted SBT",
                       onClick: handleUnbond,
                     },
