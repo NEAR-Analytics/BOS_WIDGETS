@@ -365,6 +365,9 @@ return (
                 pending,
               });
             },
+            openRequestModal: props.openRequestModal,
+            toast: props.toast,
+            addTransaction: props.addTransaction,
             noPair: state.noPair,
             loading: state.loading,
             stable: state.stable,
