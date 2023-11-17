@@ -318,7 +318,7 @@ return (
             <div class="d-flex">
               <Web3Connect
                 className="ConnectButton "
-                connectLabel="Conetar Billetera"
+                connectLabel="Conectar Billetera"
               />
             </div>
           </div>
