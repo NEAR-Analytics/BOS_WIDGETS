@@ -1,10 +1,10 @@
-const Hello = () => <span>hello</span>;
+const Hello = () => <span id="hello-span">hello</span>;
 const World = () => (
   <>
     <span id="hello-parent-span">
-      <Hello />
+      <Hello id="hello-component" />
     </span>
-    world
+    <h2>world</h2>
   </>
 );
 
