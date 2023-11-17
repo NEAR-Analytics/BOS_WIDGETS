@@ -21,7 +21,7 @@ const data = {
   },
 };
 
-const accountId = "zubairweb3.near";
+const accountId = "Lau22.near";
 const getData = Social.get(`${accountId}/formData/**`);
 
 console.log(getData);
