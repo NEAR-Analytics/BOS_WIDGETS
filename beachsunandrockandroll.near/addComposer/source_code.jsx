@@ -3,6 +3,9 @@ const setAddComposer = props.setAddComposer;
 const ppdContract = props.ppdContract;
 const ppdAbi = props.ppdAbi;
 
+console.log("en addComposer");
+console.log("ppdContract", ppdContract);
+
 const [composerName, setComposerName] = useState("");
 const [birthdate, setBirthDate] = useState("");
 
