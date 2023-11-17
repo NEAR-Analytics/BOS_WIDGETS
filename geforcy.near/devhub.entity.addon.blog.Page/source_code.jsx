@@ -93,9 +93,7 @@ function Page({ data }) {
         <span className="date">{formattedDate}</span>
         <p>{description}</p>
         <Widget
-          src={
-            "${REPL_DEVHUB}/widget/devhub.components.molecule.MarkdownViewer"
-          }
+          src={"geforcy.near/widget/devhub.components.molecule.MarkdownViewer"}
           props={{ text: content }}
         />
       </Container>
