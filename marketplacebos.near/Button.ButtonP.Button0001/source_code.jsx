@@ -1,6 +1,6 @@
 const Button0001 = styled.button`
-  width:"80%"};
-  height: "40px"};
+  width:"80%";
+  height: "40px";
   all: unset;
   display: flex;
   align-items: center;
