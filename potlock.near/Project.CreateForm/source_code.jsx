@@ -19,7 +19,7 @@ const MAX_TEAM_MEMBERS_DISPLAY_COUNT = 5;
 if (!context.accountId) {
   return (
     <Widget
-      src={`${ownerId}/widget/InfoSegment`}
+      src={`${ownerId}/widget/Components.InfoSegment`}
       props={{
         title: "Not logged in!",
         description: "You must log in to create a new project!",
@@ -42,16 +42,26 @@ const Container = styled.div`
   flex-direction: column;
   width: 100%;
   padding: 72px 64px 72px 64px;
+
+  @media screen and (max-width: 768px) {
+    padding: 0px;
+  }
 `;
 
 const LowerBannerContainer = styled.div`
   position: absolute;
-  bottom: -210px;
+  bottom: -250px;
   left: 0px;
   display: flex;
   align-items: stretch; /* Ensuring child elements stretch to full height */
   justify-content: space-between;
   width: 100%;
+
+  // background: green;
+
+  @media screen and (max-width: 768px) {
+    bottom: -310px;
+  }
 `;
 
 const LowerBannerContainerLeft = styled.div`
@@ -59,6 +69,11 @@ const LowerBannerContainerLeft = styled.div`
   flex-direction: row;
   align-items: flex-end;
   margin-left: 190px;
+  // background: yellow;
+
+  @media screen and (max-width: 768px) {
+    margin-left: 0px;
+  }
 `;
 
 const LowerBannerContainerRight = styled.div`
@@ -67,7 +82,6 @@ const LowerBannerContainerRight = styled.div`
   align-items: flex-end;
   justify-content: flex-end; /* Pushes TeamContainer to the bottom */
   flex: 1;
-  // background: yellow;
 `;
 
 const TeamContainer = styled.div`
@@ -95,8 +109,12 @@ const AddTeamMembers = styled.a`
 const FormBody = styled.div`
   display: flex;
   flex-direction: column;
-  padding: 0 148px 0 148px;
+  padding: 260px 68px 32px 68px;
   width: 100%;
+
+  @media screen and (max-width: 768px) {
+    padding: 320px 32px 32px 32px;
+  }
 `;
 
 const FormDivider = styled.div`
@@ -110,6 +128,11 @@ const FormSectionContainer = styled.div`
   flex-direction: row;
   gap: 160px;
   margin: 48px 0 48px 0;
+
+  @media screen and (max-width: 768px) {
+    flex-direction: column;
+    gap: 32px;
+  }
 `;
 
 const FormSectionLeftDiv = styled.div`
@@ -187,7 +210,6 @@ const ModalContent = styled.div`
   background: white;
   border-radius: 10px;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-  // z-index: 1000;
 `;
 
 const ModalHeader = styled.div`
@@ -309,6 +331,20 @@ const MoreTeamMembersText = styled.div`
   text-align: center;
 `;
 
+const InputPrefix = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  text-align: center;
+  padding: 14px 16px;
+  border-right: 1px #f0f0f0 solid;
+  color: #7b7b7b;
+  font-size: 16px;
+  font-weight: 400;
+  box-shadow: 0px -2px 0px rgba(93, 93, 93, 0.24) inset;
+`;
+
 State.init({
   name: "",
   nameError: "",
@@ -332,6 +368,7 @@ State.init({
   teamMember: "",
   teamMembers: [],
   nearAccountIdError: "",
+  registrationSuccess: false,
 });
 
 const getImageUrlFromSocialImage = (image) => {
@@ -468,6 +505,21 @@ const handleCreateProject = (e) => {
     }
   }
   Near.call(transactions);
+  // NB: we won't get here if user used a web wallet, as it will redirect to the wallet
+  // <---- EXTENSION WALLET HANDLING ---->
+  // poll for updates
+  const pollIntervalMs = 1000;
+  // const totalPollTimeMs = 60000; // consider adding in to make sure interval doesn't run indefinitely
+  const pollId = setInterval(() => {
+    Near.asyncView(registryId, "get_project_by_id", {
+      project_id: context.accountId,
+      // TODO: implement pagination (should be OK without until there are 500+ donations from this user)
+    }).then((_project) => {
+      // won't get here unless project exists
+      clearInterval(pollId);
+      State.update({ registrationSuccess: true });
+    });
+  }, pollIntervalMs);
 };
 
 const registeredProject = state.registeredProjects
@@ -488,7 +540,6 @@ const handleAddTeamMember = () => {
     });
     return;
   }
-  // TODO:
   if (!state.teamMembers.find((tm) => tm.accountId == state.teamMember)) {
     // get data from social.near
     const profileImageUrl = DEFAULT_PROFILE_IMAGE_URL;
@@ -574,21 +625,21 @@ return (
   <Container>
     {!state.socialDataFetched || !projects ? (
       <div class="spinner-border text-secondary" role="status" />
-    ) : !props.edit && registeredProject ? (
-      <Container>
+    ) : !props.edit && (registeredProject || state.registrationSuccess) ? (
+      <>
         <h1 style={{ textAlign: "center" }}>You've successfully registered!</h1>
         <ButtonsContainer>
           <Widget
-            src={`${ownerId}/widget/Buttons.NavigationButton`}
+            src={`${ownerId}/widget/Components.Button`}
             props={{
               type: "primary",
               text: "View your project",
               disabled: false,
-              href: `?tab=project&projectId=${registeredProject.id}`,
+              href: `?tab=project&projectId=${registeredProject?.id || context.accountId}`,
             }}
           />
           <Widget
-            src={`${ownerId}/widget/Buttons.NavigationButton`}
+            src={`${ownerId}/widget/Components.Button`}
             props={{
               type: "secondary",
               text: "View all projects",
@@ -597,7 +648,7 @@ return (
             }}
           />
         </ButtonsContainer>
-      </Container>
+      </>
     ) : (
       <>
         <Widget
@@ -605,21 +656,21 @@ return (
           props={{
             ...props,
             projectId: context.accountId,
-            profileImageTranslateYPx,
-            containerStyle: {
-              paddingLeft: "64px",
-            },
+            // profileImageTranslateYPx,
+            // containerStyle: {
+            //   paddingLeft: "64px",
+            // },
             backgroundStyle: {
               objectFit: "cover",
               left: 0,
               top: 0,
               height: "280px",
-              borderRadius: "6px",
             },
-            imageStyle: {
-              width: `${imageHeightPx}px`,
-              height: `${imageHeightPx}px`,
-            },
+            // imageStyle: {
+            //   width: `${imageHeightPx}px`,
+            //   height: `${imageHeightPx}px`,
+            // },
+            // TODO: ADD BACK IN
             children: (
               <LowerBannerContainer>
                 <LowerBannerContainerLeft>
@@ -648,7 +699,7 @@ return (
                               style: {
                                 width: "28px",
                                 height: "28px",
-                                zIndex: state.teamMembers.length - idx,
+                                zIndex: state.isModalOpen ? 0 : state.teamMembers.length - idx,
                                 margin: "0 -8px 0 0",
                                 border: "2px solid white",
                                 borderRadius: "50%",
@@ -668,7 +719,7 @@ return (
             ),
           }}
         />
-        <FormBody style={{ padding: `${profileImageTranslateYPx + 40}px 68px` }}>
+        <FormBody>
           <FormDivider />
           <FormSectionContainer>
             {FormSectionLeft(
@@ -745,17 +796,6 @@ return (
                     value,
                     text,
                   })),
-                  // options: [
-                  // Social Impact, NonProfit, Climate, Public Good
-                  // { text: "Social Impact", value: "social-impact" },
-                  // { text: "NonProfit", value: "non-profit" },
-                  // { text: "Climate", value: "climate" },
-                  // { text: "Public Good", value: "public-good" },
-                  // { text: "DeSci", value: "de-sci" },
-                  // { text: "Open Source", value: "open-source" },
-                  // { text: "Community", value: "community" },
-                  // { text: "Education", value: "education" },
-                  // ],
                   value: { text: CATEGORY_MAPPINGS[state.category] || "", value: state.category },
                   onChange: (category) => {
                     State.update({
@@ -786,8 +826,8 @@ return (
                 src={`${ownerId}/widget/Inputs.Text`}
                 props={{
                   label: "Twitter",
-                  prefix: "twitter.com/",
-                  // placeholder: "your-twitter-username",
+                  preInputChildren: <InputPrefix>twitter.com/</InputPrefix>,
+                  inputStyles: { borderRadius: "0px 4px 4px 0px" },
                   value: state.twitter,
                   onChange: (twitter) => State.update({ twitter }),
                   validate: () => {
@@ -807,12 +847,12 @@ return (
                 src={`${ownerId}/widget/Inputs.Text`}
                 props={{
                   label: "Telegram",
-                  prefix: "t.me/",
-                  // placeholder: "your-telegram-id",
+                  preInputChildren: <InputPrefix>t.me/</InputPrefix>,
+                  inputStyles: { borderRadius: "0px 4px 4px 0px" },
                   value: state.telegram,
                   onChange: (telegram) => State.update({ telegram }),
                   validate: () => {
-                    // TODO: add validation
+                    // TODO: add validation?
                   },
                   error: state.telegramError,
                 }}
@@ -822,8 +862,8 @@ return (
                 src={`${ownerId}/widget/Inputs.Text`}
                 props={{
                   label: "GitHub",
-                  prefix: "github.com/",
-                  // placeholder: "your-github-",
+                  preInputChildren: <InputPrefix>github.com/</InputPrefix>,
+                  inputStyles: { borderRadius: "0px 4px 4px 0px" },
                   value: state.github,
                   onChange: (github) => State.update({ github }),
                   validate: () => {
@@ -834,7 +874,7 @@ return (
               />
               <Space height={24} />
               <Widget
-                src={`${ownerId}/widget/Buttons.ActionButton`}
+                src={`${ownerId}/widget/Components.Button`}
                 props={{
                   type: "primary",
                   prefix: "https://",
@@ -865,15 +905,23 @@ return (
           <Widget
             src={`${ownerId}/widget/Inputs.Text`}
             props={{
-              // label: "Project name *",
               placeholder: "NEAR account ID",
               value: state.teamMember,
               onChange: (teamMember) => {
                 State.update({ teamMember, nearAccountIdError: "" });
               },
-              buttonText: "Add",
-              submit: true,
-              onClick: handleAddTeamMember,
+              postInputChildren: (
+                <Widget
+                  src={`${ownerId}/widget/Components.Button`}
+                  props={{
+                    type: "primary",
+                    text: "Add",
+                    onClick: handleAddTeamMember,
+                    style: { borderRadius: `0px 4px 4px 0px` },
+                    submit: true,
+                  }}
+                />
+              ),
               handleKeyPress: (e) => {
                 if (e.key === "Enter") {
                   handleAddTeamMember();
