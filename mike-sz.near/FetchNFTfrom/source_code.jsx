@@ -46,9 +46,7 @@ const data = (
             <Widget
               key={i}
               src={
-                thumbnails
-                  ? "mike-sz.near/widget/NftCollectionThumbs"
-                  : "mike-sz.near/widget/NftCollection"
+                   "mike-sz.near/widget/NftCollection"
               }
               props={{ accountId, contractId }}
             />
