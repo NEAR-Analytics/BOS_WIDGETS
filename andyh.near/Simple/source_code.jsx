@@ -1,7 +1,7 @@
 const Hello = () => <span>hello</span>;
 const World = () => (
   <span>
-    <Hello /> world
+    <Hello />
   </span>
 );
 
