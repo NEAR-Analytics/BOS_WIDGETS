@@ -82,7 +82,7 @@ function editTeam({
       if (!membersAndTeams.includes(member)) {
         // Contract panic member does not exist in the members_list yet.
         txn.push({
-          contractName: "",
+          contractName: "geforcy.near",
           methodName: "add_member",
           args: {
             member: member,
@@ -121,7 +121,7 @@ function editTeam({
   Near.call([
     ...txn,
     {
-      contractName: "",
+      contractName: "geforcy.near",
       methodName: "edit_member",
       args: {
         member: `team:${tmnm}`,
