@@ -9,9 +9,9 @@ const [difficulty, setDifficulty] = useState(0);
 console.log(ppdContract);
 console.log(props);
 
-State.init({
-  img: null,
-});
+// State.init({
+//   img: null,
+// });
 
 const addSheet = () => {
   console.log("entrando a addSheet");
@@ -26,7 +26,7 @@ const addSheet = () => {
   ppd.getUserIdx().then((userIdx) => {
     console.log("userIdx", userIdx);
     console.log("composerIdx", composerIdx);
-    const daraUri = state.img.cid ?? "";
+    const daraUri = "";
 
     ppd
       .addSheet(sheetName, composerIdx, userIdx, difficulty, daraUri)
@@ -37,6 +37,8 @@ const addSheet = () => {
 };
 
 const getComposers = () => {
+  if (ppdContract == undefined) return;
+
   const ppd = new ethers.Contract(
     ppdContract,
     ppdAbi.body,
@@ -53,7 +55,7 @@ const getComposers = () => {
 
 useEffect(() => {
   getComposers();
-}, [ppdContract]);
+}, []);
 
 return (
   <>
@@ -69,20 +71,6 @@ return (
           setSheetName(event.target.value);
         }}
       />
-      <Typeahead
-        className="p-2"
-        options={state.composers}
-        // multiple
-        onChange={(value) => {
-          console.log("elcomposer", value);
-          setComposerIdx(value);
-        }}
-        placeholder="Choose a tag to filter..."
-      />
-      <div>
-        Sheet upload: <br />
-        <IpfsImageUpload image={state.img} />
-      </div>
 
       <input
         className="form-control m-2 p-2"
