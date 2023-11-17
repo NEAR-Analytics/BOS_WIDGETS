@@ -1,5 +1,6 @@
 const { getPost } =
-  VM.require("geforcy.near/widget/core.adapter.devhub-contract") || (() => {});
+  VM.require("geforcy.near/widget/core.adapter.devhub-contract") ||
+  (() => {});
 
 const { postKey, template } = props;
 
