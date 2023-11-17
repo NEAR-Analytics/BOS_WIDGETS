@@ -84,6 +84,12 @@ function getInitialTabId() {
   }
 }
 
+// userSBTs object type
+// {
+//   user: string,
+//   credentials: {}
+// }
+
 State.init({
   displayedTabId: getInitialTabId(),
   articleToRenderData: {},
@@ -93,7 +99,10 @@ State.init({
   sbtsNames: initSbtsNames,
   sbts: initSbtsNames,
   firstRender: !isNaN(sharedBlockHeight),
+  usersSBTs: [],
 });
+
+const usersSBTs = state.usersSBTs;
 
 let newLibsCalls = state.functionsToCallByLibrary;
 
@@ -352,7 +361,7 @@ const initialCreateState = {
   sbts: [sbtWhiteList[0]],
 };
 
-function stateUpdate(obj) {
+function mainStateUpdate(obj) {
   State.update(obj);
 }
 
@@ -431,6 +440,7 @@ function callLibs(
     <Widget
       src={src}
       props={{
+        mainStateUpdate,
         isTest,
         stateUpdate,
         functionsToCallByLibrary,
@@ -438,6 +448,7 @@ function callLibs(
         widgets,
         callerWidget,
         ...extraProps,
+        usersSBTs,
       }}
     />
   );
@@ -464,9 +475,6 @@ function getLink() {
   }=${state.sharedElement.value}`;
 }
 
-// console.log(0, props);
-// console.log(1, state);
-
 //===============================================END FUNCTIONS======================================================
 if (!context.accountId) {
   return (
@@ -475,7 +483,7 @@ if (!context.accountId) {
         src={widgets.header}
         props={{
           isTest,
-          stateUpdate,
+          mainStateUpdate,
           handleGoHomeButton,
           handlePillNavigation,
           brand,
@@ -501,7 +509,7 @@ return (
       src={widgets.header}
       props={{
         isTest,
-        stateUpdate,
+        mainStateUpdate,
         handleGoHomeButton,
         handlePillNavigation,
         brand,
@@ -595,7 +603,7 @@ return (
           isTest,
           addressForArticles,
           authorForWidget,
-          stateUpdate,
+          mainStateUpdate,
           widgets,
           initialBody: initialBodyAtCreation,
           initialCreateState,
@@ -636,7 +644,7 @@ return (
       {libSrcArray.map((src) => {
         return callLibs(
           src,
-          stateUpdate,
+          mainStateUpdate,
           state.functionsToCallByLibrary,
           { baseAction: baseActions.articlesBaseAction, kanbanColumns },
           "NDC.Forum"
