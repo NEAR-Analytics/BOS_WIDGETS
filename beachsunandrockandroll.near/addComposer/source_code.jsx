@@ -1,10 +1,7 @@
 const setAddComposer = props.setAddComposer;
 
-const ppdContract = "0x6962FC3a4Bc379107d4a512e91DC227Fe04889Ad";
-
-const ppdAbi = fetch(
-  "https://raw.githubusercontent.com/gonzalobarria/testpub/master/abis/abitest.json"
-);
+const ppdContract = props.ppdContract;
+const ppdAbi = props.ppdAbi;
 
 const [composerName, setComposerName] = useState("");
 const [birthdate, setBirthDate] = useState("");
