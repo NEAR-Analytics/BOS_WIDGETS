@@ -1,11 +1,11 @@
 const { handle } = props;
 
 const { Tile } =
-  VM.require("${REPL_DEVHUB}/widget/devhub.components.molecule.Tile") ||
+  VM.require("geforcy.near/widget/devhub.components.molecule.Tile") ||
   (() => <></>);
 
 const { getCommunity } = VM.require(
-  "${REPL_DEVHUB}/widget/core.adapter.devhub-contract"
+  "geforcy.near/widget/core.adapter.devhub-contract"
 );
 
 const communityData = getCommunity({ handle });
