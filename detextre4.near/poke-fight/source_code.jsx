@@ -108,10 +108,18 @@ const Wrapper = styled.div`
   }
   &:hover * { pointer-events: all }
 
-  img {
+  .pokemon {
     width: 60%;
     object-fit: cover;
     cursor: grab;
+  }
+
+  .pokemon-element-type {
+    position: absolute;
+    object-fit: cover;
+    top: 5%;
+    width: 50px;
+    height: 50px;
   }
 
   h5 {
@@ -125,50 +133,33 @@ const Wrapper = styled.div`
     right: 10%;
     width: 20px;
     height: 50%;
-    background: var(--accent);
-    border-radius: 5px;
-  }
-
-  .health-bar div {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    border: 2px solid var(--accent);
-    border-radius: 5px;
-    transition: all .2s ease;
-    &.hide { height: 0% }
-
-    &.bar-1 {
-      height: 100%;
-      background: green;
-    }
-    &.bar-2 {
-      height: 65%;
-      background: blue;
-    }
-    &.bar-3 {
-      height: 45%;
-      background: yellow;
-    }
-    &.bar-4 {
-      height: 25%;
-      background: red;
-    }
   }
 `;
 
 // * SCRIPT
-State.init({ pokemons: [], started: false, currentDrag: null });
+State.init({
+  pokemons: [],
+  loading: true,
+  splashLoaded: false,
+  currentDrag: null,
+});
 
+// config constants
 const API = "https://pokeapi.co/api/v2",
   LIMIT = props.limit,
   OFFSET = props.offset,
   animationDuration = 200;
 
+// initial fetch to get all pokemons.
+// the const `loading` is used to excecute once
 function getPokemons() {
-  if (state.started) return;
+  if (!state.loading) return;
 
+  setTimeout(() => State.update({ splashLoaded: true }), 2000);
+
+  // fetch data based on `LIMIT` which corresponds to pokemons amount
+  // and `OFFSET` which corresponds to index of complete collection from
+  // which the data is brought
   asyncFetch(`${API}/pokemon?limit=${LIMIT}&offset=${OFFSET}`)
     .then(({ body }) => {
       let pokemons = [];
@@ -180,15 +171,27 @@ function getPokemons() {
           name: body.name,
           image: body.sprites.other["official-artwork"].front_default,
           moves: body.moves?.map((item) => item.move.name),
+          type: body.types[0].type.name,
           health: [1, 2, 3, 4],
         });
       }
 
-      State.update({ pokemons, started: true });
+      State.update({ pokemons: shuffleArray(pokemons), loading: false });
     })
     .catch((error) => console.error(error));
 }
 getPokemons();
+
+/* Randomize array in-place using Durstenfeld shuffle algorithm */
+function shuffleArray(array) {
+  for (var i = array.length - 1; i > 0; i--) {
+    var j = Math.floor(Math.random() * (i + 1));
+    var temp = array[i];
+    array[i] = array[j];
+    array[j] = temp;
+  }
+  return array;
+}
 
 function getRandomInt(max) {
   const min = 0;
@@ -198,47 +201,57 @@ function getRandomInt(max) {
 }
 
 function onDragStart(pokemonIndex) {
-  const pokemons = state.pokemons;
-  if (pokemons[state.currentDrag]) {
-    pokemons[state.currentDrag].opened = false;
-    pokemons[state.currentDrag].attack = null;
+  const pokemons = state.pokemons,
+    pokemon = pokemons[state.currentDrag];
+
+  // validate if current element exists
+  if (pokemon) {
+    pokemon.opened = false;
+    pokemon.attack = null;
   }
 
   State.update({ pokemons, currentDrag: pokemonIndex });
 }
 
 function openPokeball(event, pokemonIndex) {
+  // prevent vanilla events to can drop elements inside
   event.preventDefault();
 
-  const pokemons = state.pokemons;
-  if (pokemons[pokemonIndex].opened) return;
+  const pokemons = state.pokemons,
+    pokemon = pokemons[pokemonIndex];
 
-  pokemons[pokemonIndex].opened = true;
+  if (pokemon.opened) return;
+
+  pokemon.opened = true;
   State.update({ pokemons });
 }
 
 function closePokeball(pokemonIndex) {
+  // prevent execution in other pokeballs than the objective
   if (state.currentDrag == pokemonIndex) return;
 
-  const pokemons = state.pokemons;
-  pokemons[pokemonIndex].opened = false;
-  pokemons[state.currentDrag].attack = null;
+  const pokemons = state.pokemons,
+    currentPokemon = pokemons[state.currentDrag],
+    pokemon = pokemons[pokemonIndex];
+
+  pokemon.opened = false;
+  currentPokemon.attack = null;
   State.update({ pokemons });
 }
 
 function attack(pokemonIndex) {
   if (state.currentDrag == pokemonIndex) return;
-  const pokemons = state.pokemons;
+  const pokemons = state.pokemons,
+    currentPokemon = pokemons[state.currentDrag],
+    pokemon = pokemons[pokemonIndex];
 
   // show attack dialog
-  if (pokemons[state.currentDrag])
-    pokemons[state.currentDrag].attack =
-      pokemons[state.currentDrag].moves[
-        getRandomInt(pokemons[state.currentDrag].moves.length)
-      ];
+  if (currentPokemon)
+    currentPokemon.attack =
+      currentPokemon.moves[getRandomInt(currentPokemon.moves.length)];
 
   // animation decrease helath
-  pokemons[pokemonIndex].health[0] = 0;
+  pokemon.health[0] = 0;
   State.update({ pokemons });
 
   // decrease helath
@@ -246,18 +259,24 @@ function attack(pokemonIndex) {
 }
 
 function decreaseHealth(pokemons, pokemonIndex) {
-  if (pokemons[pokemonIndex].health.length <= 1)
-    return deletePokemon(pokemons, pokemonIndex);
+  const pokemon = pokemons[pokemonIndex];
 
-  pokemons[pokemonIndex].health.shift();
+  // delete pokemon if health goes too low.
+  if (pokemon.health.length <= 1) return deletePokemon(pokemons, pokemonIndex);
+
+  pokemon.health.shift();
   State.update({ pokemons });
 }
 
 function deletePokemon(pokemons, pokemonIndex) {
-  pokemons[state.currentDrag].attack = null;
+  const currentPokemon = pokemons[state.currentDrag],
+    pokemon = pokemons[pokemonIndex];
+
+  // clear attack dialog showed on pokemon
+  currentPokemon.attack = null;
 
   // animation delete pokemon
-  pokemons[pokemonIndex].deleted = true;
+  pokemon.deleted = true;
   State.update({ pokemons });
 
   // delete pokemon
@@ -268,48 +287,61 @@ function deletePokemon(pokemons, pokemonIndex) {
 }
 
 // * TEMPLATE RENDER
-return (
-  <Wrapper className={state.pokemons.length > 1 ? "" : "finished"}>
-    <h2>
-      {state.pokemons.length > 1
-        ? "Drag pokemons to attack"
-        : `${state.pokemons[0].name} won !!`}
-    </h2>
-    <Grid>
-      {state.pokemons.map((pokemon, index) => (
-        <Pokeball
-          className={`${pokemon.deleted ? "deleted" : ""} ${
-            pokemon.opened ? "opened" : ""
-          }`}
-          style={{ "--animationDuration": `${animationDuration}ms` }}
-          onDrop={(_) => attack(index)}
-          onDragOver={(event) => openPokeball(event, index)}
-          onDragLeave={(_) => closePokeball(index)}
-          onMouseLeave={(_) => closePokeball(index)}
-        >
-          <div className="health-bar">
-            {pokemon.health.map((health, i) => (
-              <div
-                className={`bar-${health} ${health != i + 1 ? "hide" : ""}`}
-                style={{ "--n": health }}
-              ></div>
-            ))}
-          </div>
-
-          <OverlayTrigger
-            placement="top"
-            show={!!pokemon.attack}
-            overlay={<Tooltip>{pokemon.attack}</Tooltip>}
+const splashScreen = <Widget src="detextre4.near/widget/splash-screen" />,
+  minigame = (
+    <Wrapper className={state.pokemons.length > 1 ? "" : "finished"}>
+      <h2>
+        {/* validate if game is culminated */}
+        {state.pokemons.length > 1
+          ? "Drag pokemons to attack"
+          : `${state.pokemons[0].name} won !!`}
+      </h2>
+      <Grid>
+        {state.pokemons.map((pokemon, index) => (
+          <Pokeball
+            // pass classes and custom properties dynamically
+            className={`${pokemon.deleted ? "deleted" : ""} ${
+              pokemon.opened ? "opened" : ""
+            }`}
+            style={{ "--animationDuration": `${animationDuration}ms` }}
+            onDrop={(_) => attack(index)}
+            onDragOver={(event) => openPokeball(event, index)}
+            onDragLeave={(_) => closePokeball(index)}
+            onMouseLeave={(_) => closePokeball(index)}
           >
-            <img
-              src={pokemon.image}
-              alt={`${pokemon.name}'s image`}
-              onDragStart={(_) => onDragStart(index)}
+            {/* pokemon element type widget */}
+            <Widget
+              src="detextre4.near/widget/pokemon-element-types"
+              props={{
+                type: pokemon.type,
+                alt: `type ${pokemon.type}`,
+              }}
             />
-          </OverlayTrigger>
-          <h5>{pokemon.name}</h5>
-        </Pokeball>
-      ))}
-    </Grid>
-  </Wrapper>
-);
+            {/* health bar widget */}
+            <Widget
+              src="detextre4.near/widget/health-bar"
+              props={{ healthBars: pokemon.health, bg: "#000" }}
+            />
+            <OverlayTrigger
+              // show attack dialog when pokemon is attacking
+              show={!!pokemon.attack}
+              overlay={<Tooltip>{pokemon.attack}</Tooltip>}
+              placement="top"
+            >
+              <img
+                className="pokemon"
+                src={pokemon.image}
+                alt={`${pokemon.name}'s image`}
+                onDragStart={(_) => onDragStart(index)}
+              />
+            </OverlayTrigger>
+            <h5>{pokemon.name}</h5>
+          </Pokeball>
+        ))}
+      </Grid>
+    </Wrapper>
+  );
+
+// show splash page while data is loading
+if (state.loading || !state.splashLoaded) return splashScreen;
+return minigame;
