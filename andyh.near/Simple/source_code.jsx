@@ -14,5 +14,6 @@ return (
   <div id="r">
     <Hello id="hello-root-component" />
     <World id="world-component" />
+    <World id="world-component-2" />
   </div>
 );
