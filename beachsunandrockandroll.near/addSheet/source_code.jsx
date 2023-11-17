@@ -7,12 +7,16 @@ const [composerIdx, setComposerIdx] = useState("");
 const [difficulty, setDifficulty] = useState(0);
 
 console.log(ppdContract);
+console.log(props);
 
 State.init({
   img: null,
 });
 
 const addSheet = () => {
+  console.log("entrando a addSheet");
+  console.log("ppdContract", ppdContract);
+
   const ppd = new ethers.Contract(
     ppdContract,
     ppdAbi.body,
@@ -70,6 +74,7 @@ return (
         options={state.composers}
         // multiple
         onChange={(value) => {
+          console.log("elcomposer", value);
           setComposerIdx(value);
         }}
         placeholder="Choose a tag to filter..."
