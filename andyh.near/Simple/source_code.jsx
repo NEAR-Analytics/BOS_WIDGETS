@@ -1,6 +1,8 @@
+const World = () => <span>world</span>;
+
 return (
   <div>
     <span>hello</span>
-    <span>world</span>
+    <World />
   </div>
 );
