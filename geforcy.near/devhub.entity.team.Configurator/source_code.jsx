@@ -1,5 +1,5 @@
 const { Tile } =
-  VM.require("geforcy.near/widget/devhub.components.molecule.Tile") ||
+  VM.require("${REPL_DEVHUB}/widget/devhub.components.molecule.Tile") ||
   (() => <></>);
 
 const { data, onSubmit, onCancel } = props;
@@ -45,8 +45,8 @@ const [label, setLabel] = useState(data.label || "");
 const [labelType, setLabelType] = useState(
   (data.label || "").startsWith("starts-with:") ? "starts-with:" : ""
 );
-const [editPost, setEditPost] = useState(data.editPost || true);
-const [useLabels, setUseLabels] = useState(data.useLabels || true);
+const [editPost, setEditPost] = useState(data.editPost || false);
+const [useLabels, setUseLabels] = useState(data.useLabels || false);
 const [members, setMembers] = useState(initialData || []);
 
 const [showPreview, setShowPreview] = useState(data.showPreview || []);
@@ -133,7 +133,7 @@ return (
         <div className="flex-grow-1">
           <span>Team name</span>
           <Widget
-            src="geforcy.near/widget/devhub.components.molecule.Input"
+            src="${REPL_DEVHUB}/widget/devhub.components.molecule.Input"
             props={{
               className: "flex-grow-1",
               skipPaddingGap: true,
@@ -147,7 +147,7 @@ return (
       <div className="flex-grow-1">
         <span>Team description</span>
         <Widget
-          src="geforcy.near/widget/devhub.components.molecule.MarkdownEditor"
+          src="${REPL_DEVHUB}/widget/devhub.components.molecule.MarkdownEditor"
           props={{ data: { content: description }, onChange: setDescription }}
         />
       </div>
@@ -172,7 +172,7 @@ return (
             </select>
             <div>What would you like the restricted label to be?</div>
             <Widget
-              src="geforcy.near/widget/devhub.components.molecule.Input"
+              src="${REPL_DEVHUB}/widget/devhub.components.molecule.Input"
               props={{
                 className: "flex-grow-1",
                 onChange: (e) => setLabel(e.target.value),
@@ -187,7 +187,7 @@ return (
             />
             <div>Select label permissions</div>
             <Widget
-              src="geforcy.near/widget/devhub.entity.team.LabelPermissions"
+              src="${REPL_DEVHUB}/widget/devhub.entity.team.LabelPermissions"
               props={{
                 identifier: data.teamName,
                 editPost,
@@ -204,7 +204,7 @@ return (
         <Item key={index}>
           <div className="flex-grow-1">
             <Widget
-              src="geforcy.near/widget/devhub.components.molecule.Input"
+              src="${REPL_DEVHUB}/widget/devhub.components.molecule.Input"
               props={{
                 className: "flex-grow-1",
                 value: item,
@@ -228,7 +228,7 @@ return (
       <Item>
         <div className="flex-grow-1">
           <Widget
-            src="geforcy.near/widget/devhub.components.molecule.Input"
+            src="${REPL_DEVHUB}/widget/devhub.components.molecule.Input"
             props={{
               className: "flex-grow-1",
               skipPaddingGap: true,
@@ -253,7 +253,7 @@ return (
         className={"d-flex align-items-center justify-content-end gap-3 mt-4"}
       >
         <Widget
-          src={"geforcy.near/widget/devhub.components.molecule.Button"}
+          src={"${REPL_DEVHUB}/widget/devhub.components.molecule.Button"}
           props={{
             classNames: { root: "btn-outline-danger shadow-none border-0" },
             label: "Cancel",
@@ -261,7 +261,7 @@ return (
           }}
         />
         <Widget
-          src={"geforcy.near/widget/devhub.components.molecule.Button"}
+          src={"${REPL_DEVHUB}/widget/devhub.components.molecule.Button"}
           props={{
             classNames: { root: "btn-success" },
             // disabled
