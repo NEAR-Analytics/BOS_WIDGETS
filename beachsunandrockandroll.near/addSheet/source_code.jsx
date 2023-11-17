@@ -1,3 +1,4 @@
+const setAddSheet = props.setAddSheet;
 const ppdContract = props.ppdContract;
 const ppdAbi = props.ppdAbi;
 
@@ -25,7 +26,11 @@ const addSheet = async () => {
   console.log(userIdx);
   const daraUri = state.img.cid ?? "";
 
-  ppd.addSheet(sheetName, composerIdx, userIdx, difficulty, daraUri);
+  ppd
+    .addSheet(sheetName, composerIdx, userIdx, difficulty, daraUri)
+    .then(() => {
+      setAddSheet(false);
+    });
 };
 
 const getComposers = () => {
