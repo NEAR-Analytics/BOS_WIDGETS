@@ -34,7 +34,8 @@ const Container = styled.div`
   gap: 2rem;
   border-radius: 0.5rem;
   border: 1px solid var(--ui-elements-light, #eceef0);
-  background: var(--background-light, #fafafa);
+  background: rgb(128,125,176);
+  background: linear-gradient(180deg, rgba(128,125,176,1) 0%, rgba(255,255,255,1) 58%);
 `;
 
 const TitlePage = styled.h3`
@@ -42,6 +43,28 @@ const TitlePage = styled.h3`
   font-size: 3.75rem;
   font-weight: 700;
   margin: 20px 0 20px 0;
+`;
+
+const CommitButton = styled.a`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: 0.5em 1.5em;
+  gap: 0.5em;
+  background: #898fc8;
+  border-radius: 150px;
+  border: none;
+  color: #ffffff; 
+
+  &:hover,
+  &:focus,
+  &:active {
+    background: #6b75a6; 
+    text-decoration: none;
+    color: #ffffff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
 `;
 
 // Corruption proof
@@ -141,7 +164,7 @@ return (
         </Files>
       </div>
       &nbsp;
-      <CommitButton data={{ postEvidenceData: entry }}>
+      <CommitButton data={{ postEvidenceData: entry }} class="styled.a">
         Post evidence
       </CommitButton>
     </div>
