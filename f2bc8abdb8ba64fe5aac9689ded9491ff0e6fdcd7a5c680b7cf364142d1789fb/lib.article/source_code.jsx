@@ -382,6 +382,10 @@ function normalizeFromV0_0_2ToV0_0_3(article) {
     article.tags = Object.keys(article.tags);
   }
 
+  article.tags = article.tags.filter(
+    (tag) => tag !== undefined && tag !== null
+  );
+
   if (kanbanColumns) {
     const lowerCaseColumns = [];
     kanbanColumns.forEach((cl) => {
@@ -390,8 +394,6 @@ function normalizeFromV0_0_2ToV0_0_3(article) {
 
     article.tags = filterMultipleKanbanTags(article.tags, lowerCaseColumns);
   }
-
-  article.tags = article.tags.filter((tag) => tag !== undefined);
 
   return article;
 }
