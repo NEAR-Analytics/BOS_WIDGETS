@@ -1,3 +1,5 @@
+const setAddComposer = props.setAddComposer;
+
 const ppdContract = "0x6962FC3a4Bc379107d4a512e91DC227Fe04889Ad";
 
 const ppdAbi = fetch(
@@ -15,6 +17,7 @@ const addComposer = () => {
   );
 
   ppd.addComposer(composerName, birthdate);
+  setAddComposer(false);
 };
 
 return (
