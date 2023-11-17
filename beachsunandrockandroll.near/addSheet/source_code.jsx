@@ -13,8 +13,6 @@ State.init({
 });
 
 const addSheet = async () => {
-  if (!Ethers.provider()) return;
-
   const ppd = new ethers.Contract(
     ppdContract,
     ppdAbi.body,
