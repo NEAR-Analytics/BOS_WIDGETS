@@ -1,9 +1,9 @@
-const HelloC = () => <span id="hello-span">hello</span>;
-const WorldC = () => (
+const Hello = () => <span id="hello-span">hello</span>;
+const World = () => (
   <>
     <div id="hello-parent-div">
       <span id="hello-parent-span">
-        <HelloC id="hello-component" />!<span>subspan!</span>
+        <Hello id="hello-component" />!<span>subspan!</span>
       </span>
     </div>
     <h2>world</h2>
@@ -12,6 +12,7 @@ const WorldC = () => (
 
 return (
   <div id="r">
-    <WorldC id="world-component" />
+    <Hello id="hello-root-component" />
+    <World id="world-component" />
   </div>
 );
