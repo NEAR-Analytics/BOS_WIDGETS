@@ -22,7 +22,7 @@ initState({
 
 // Constants to save in Entry
 const timestamp = Date.now();
-const applicationId = "IntegrityVault-333";
+const applicationId = "IntegrityVault";
 const ipfsUrl = (cid) => `https://ipfs.near.social/ipfs/${cid}`;
 
 const Container = styled.div`
@@ -45,26 +45,15 @@ const TitlePage = styled.h3`
   margin: 20px 0 20px 0;
 `;
 
-const CommitButton = styled.a`
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  padding: 0.5em 1.5em;
-  gap: 0.5em;
-  background: #898fc8;
-  border-radius: 150px;
-  border: none;
-  color: #ffffff; 
-
-  &:hover,
-  &:focus,
-  &:active {
-    background: #6b75a6; 
-    text-decoration: none;
-    color: #ffffff;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  }
+const CommitButton = styled.button`
+  display: inline-block;
+  color: #BF4F74;
+  font-size: 1em;
+  margin: 1em;
+  padding: 0.25em 1em;
+  border: 2px solid #BF4F74;
+  border-radius: 3px;
+  display: block;
 `;
 
 // Corruption proof
@@ -164,7 +153,7 @@ return (
         </Files>
       </div>
       &nbsp;
-      <CommitButton data={{ postEvidenceData: entry }} class="styled.a">
+      <CommitButton data={{ postEvidenceData: entry }}>
         Post evidence
       </CommitButton>
     </div>
