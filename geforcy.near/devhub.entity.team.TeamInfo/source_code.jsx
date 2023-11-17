@@ -1,9 +1,9 @@
 const { Tile } =
-  VM.require("geforcy.near/widget/devhub.components.molecule.Tile") ||
+  VM.require("${REPL_DEVHUB}/widget/devhub.components.molecule.Tile") ||
   (() => <></>);
 
 const { getAccessControlInfo, getRootMembers } = VM.require(
-  "geforcy.near/widget/core.adapter.devhub-contract"
+  "${REPL_DEVHUB}/widget/core.adapter.devhub-contract"
 );
 
 if (!getAccessControlInfo || !getRootMembers) {
@@ -12,12 +12,14 @@ if (!getAccessControlInfo || !getRootMembers) {
 
 const accessControlInfo = getAccessControlInfo();
 const rootMembers = getRootMembers();
+const allTeamNames = Object.keys(rootMembers || {});
 
 if (!accessControlInfo || !rootMembers) {
   return <p>Loading access control info...</p>;
 }
 
 const { teamName } = props;
+const teamModerators = teamName == "team:moderators";
 const label = Object.keys(rootMembers[teamName].permissions)[0] || "";
 const metadata = accessControlInfo.members_list[teamName];
 const editPost = rootMembers[teamName].permissions[label].includes("edit-post");
@@ -62,13 +64,23 @@ function editTeam({
   let txn = [];
   let numberOfChanges = 0;
 
-  if (
-    teamName !== tmnm ||
-    description !== dscrptn ||
-    label !== lbl ||
-    editPost !== edtpst ||
-    useLabels !== uslbls
-  ) {
+  if (teamName !== tmnm) {
+    numberOfChanges++;
+    if (allTeamNames.includes(`team:${tmnm}`)) {
+      // Error team already exists
+      return;
+    }
+  }
+
+  if (label !== lbl) {
+    const allLabels = Object.keys(accessControlInfo.rules_list);
+    if (allLabels.includes(lbl)) {
+      // Error label already exists
+      return;
+    }
+  }
+
+  if (description !== dscrptn || editPost !== edtpst || useLabels !== uslbls) {
     numberOfChanges++;
   }
 
@@ -82,7 +94,7 @@ function editTeam({
       if (!membersAndTeams.includes(member)) {
         // Contract panic member does not exist in the members_list yet.
         txn.push({
-          contractName: "geforcy.near",
+          contractName: "${REPL_DEVHUB_CONTRACT}",
           methodName: "add_member",
           args: {
             member: member,
@@ -102,26 +114,16 @@ function editTeam({
   }
 
   if (numberOfChanges < 1) {
-    // TODO error
+    // Error nothing changed
     return "";
   }
-  // TODO check dit later
-  // If team name changed check if already exists.
-  // Team does not exist green light
 
-  // If label changed check if already exists.
-  // Label must not exist green light
-
-  // Deploy contract on testnet and test what happens with members that do not exist
   // Deploy preview also / check Elliot his message for Peter in telegram how to and read the contribution README
-
-  // Once tested with if the members work
-  // Green light add preview to issue
 
   Near.call([
     ...txn,
     {
-      contractName: "geforcy.near",
+      contractName: "${REPL_DEVHUB_CONTRACT}",
       methodName: "edit_member",
       args: {
         member: `team:${tmnm}`,
@@ -147,7 +149,7 @@ const backwardsCompatibleTeam = (oldTeam) =>
   oldTeam.startsWith("team:") ? oldTeam.slice(5) : oldTeam;
 return editMode ? (
   <Widget
-    src={"geforcy.near/widget/devhub.entity.team.Configurator"}
+    src={"${REPL_DEVHUB}/widget/devhub.entity.team.Configurator"}
     props={{
       data: configuratorData,
       onCancel: () => setEditMode(false),
@@ -160,7 +162,7 @@ return editMode ? (
       <div class="d-flex justify-content-between">
         <h3>{backwardsCompatibleTeam(teamName)}</h3>
         <Widget
-          src={"geforcy.near/widget/devhub.components.molecule.Button"}
+          src={"${REPL_DEVHUB}/widget/devhub.components.molecule.Button"}
           props={{
             classNames: { root: "btn-outline-light text-dark" },
             icon: {
@@ -179,7 +181,7 @@ return editMode ? (
         <p class="card-text" key="description">
           <Widget
             src={
-              "geforcy.near/widget/devhub.components.molecule.MarkdownViewer"
+              "${REPL_DEVHUB}/widget/devhub.components.molecule.MarkdownViewer"
             }
             props={{
               text: metadata.description,
@@ -187,31 +189,36 @@ return editMode ? (
           />
         </p>
       }
-      <span>
-        Restricted label:{" "}
-        <Widget
-          src={"geforcy.near/widget/devhub.components.atom.Tag"}
-          props={{
-            tag: label,
-          }}
-        />
-      </span>
+      {/* Hide this case of the moderators */}
+      {!teamModerators && (
+        <>
+          <span class="pt-4">
+            Restricted label:
+            <Widget
+              src={"${REPL_DEVHUB}/widget/devhub.components.atom.Tag"}
+              props={{
+                tag: label,
+              }}
+            />
+          </span>
 
-      <div>Permissions associated with that label</div>
+          <div class="pt-4">Permissions associated with that label</div>
 
-      <Widget
-        src="geforcy.near/widget/devhub.entity.team.LabelPermissions"
-        props={{
-          identifier: teamName,
-          editPost,
-          useLabels,
-          setEditPost: console.log,
-          setUseLabels: console.log,
-          disabled: true,
-        }}
-      />
+          <Widget
+            src="${REPL_DEVHUB}/widget/devhub.entity.team.LabelPermissions"
+            props={{
+              identifier: teamName,
+              editPost,
+              useLabels,
+              setEditPost: console.log,
+              setUseLabels: console.log,
+              disabled: true,
+            }}
+          />
+        </>
+      )}
 
-      <div>Members</div>
+      <div class="pt-4">Members</div>
 
       {metadata.children && (
         <div class="vstack">
