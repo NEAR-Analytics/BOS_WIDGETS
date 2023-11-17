@@ -1,4 +1,4 @@
-const accountId = props.accountId2;
+const accountId = props.accountId;
 const contractId = props.contractId;
 
 if (!contractId) {
@@ -29,7 +29,7 @@ return (
         href={`#mob.near/widget/NftImage?tokenId=${nft.token_id}&contractId=${contractId}`}
       >
         <Widget
-          src="mob.near/widget/NftImage"
+          src="mike-sz.near/widget/NftImage"
           props={{
             nft: { tokenId: nft.token_id, contractId },
             style: {
