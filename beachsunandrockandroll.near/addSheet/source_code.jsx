@@ -12,28 +12,27 @@ State.init({
   img: null,
 });
 
-const addSheet = async () => {
+const addSheet = () => {
   const ppd = new ethers.Contract(
     ppdContract,
     ppdAbi.body,
     Ethers.provider().getSigner()
   );
 
-  const userIdx = await ppd.getUserIdx();
+  ppd.getUserIdx().then((userIdx) => {
+    console.log("userIdx", userIdx);
+    console.log("composerIdx", composerIdx);
+    const daraUri = state.img.cid ?? "";
 
-  console.log(userIdx);
-  const daraUri = state.img.cid ?? "";
-
-  ppd
-    .addSheet(sheetName, composerIdx, userIdx, difficulty, daraUri)
-    .then(() => {
-      setAddSheet(false);
-    });
+    ppd
+      .addSheet(sheetName, composerIdx, userIdx, difficulty, daraUri)
+      .then(() => {
+        setAddSheet(false);
+      });
+  });
 };
 
 const getComposers = () => {
-  if (!Ethers.provider()) return;
-
   const ppd = new ethers.Contract(
     ppdContract,
     ppdAbi.body,
