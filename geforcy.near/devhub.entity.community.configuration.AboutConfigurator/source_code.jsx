@@ -52,7 +52,7 @@ function handleOnSubmit(v) {
 
 return (
   <Widget
-    src={"geforcy.near/widget/devhub.components.organism.Configurator"}
+    src={"${REPL_DEVHUB}/widget/devhub.components.organism.Configurator"}
     props={{
       externalState: data,
       schema: CommunityAboutSchema,
