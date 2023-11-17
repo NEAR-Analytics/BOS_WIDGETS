@@ -3,7 +3,7 @@ const WorldC = () => (
   <>
     <div id="hello-parent-div">
       <span id="hello-parent-span">
-        <HelloC id="hello-component" />
+        <HelloC id="hello-component" />!
       </span>
     </div>
     <h2>world</h2>
