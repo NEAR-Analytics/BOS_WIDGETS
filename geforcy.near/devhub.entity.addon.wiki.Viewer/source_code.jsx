@@ -84,9 +84,7 @@ if (!content) {
       <p className="subtitle">{subtitle}</p>
       <Content>
         <Widget
-          src={
-            "${REPL_DEVHUB}/widget/devhub.components.molecule.MarkdownViewer"
-          }
+          src={"geforcy.near/widget/devhub.components.molecule.MarkdownViewer"}
           props={{ text: content }}
         />
       </Content>
