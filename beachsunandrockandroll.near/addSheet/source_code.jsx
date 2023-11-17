@@ -5,6 +5,8 @@ const [sheetName, setSheetName] = useState("");
 const [composerIdx, setComposerIdx] = useState("");
 const [difficulty, setDifficulty] = useState(0);
 
+console.log(ppdContract);
+
 State.init({
   img: null,
 });
@@ -37,8 +39,9 @@ const getComposers = () => {
 
   ppd.getComposers().then((res) => {
     console.log(res);
-    // const comp = res && res.map((r) => r[0]);
-    // State.update({ composers: comp });
+    console.log("co");
+    const comp = res && res.map((r) => r[0]);
+    State.update({ composers: comp });
   });
 };
 
