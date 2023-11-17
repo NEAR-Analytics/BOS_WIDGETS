@@ -1,13 +1,13 @@
 const { id } = props;
 
 const { Page } =
-  VM.require("geforcy.near/widget/devhub.entity.addon.blog.Page") ||
+  VM.require("${REPL_DEVHUB}/widget/devhub.entity.addon.blog.Page") ||
   (() => <></>);
 
 if (id) {
   return (
     <Widget
-      src="geforcy.near/widget/devhub.entity.post.Postv2"
+      src="${REPL_DEVHUB}/widget/devhub.entity.post.Postv2"
       props={{ postKey: id, template: (p) => <Page {...(p || {})} /> }}
     />
   );
@@ -51,13 +51,13 @@ const BlogContainer = styled.div`
 // generic feed component.
 return (
   <div className="w-100">
-    <Widget src={`geforcy.near/widget/devhub.components.island.banner`} />
+    <Widget src={`${REPL_DEVHUB}/widget/devhub.components.island.banner`} />
     <HeaderContainer>
       <Header>Blog</Header>
     </HeaderContainer>
     <BlogContainer>
       <Widget
-        src={"geforcy.near/widget/devhub.entity.addon.blog.Viewer"}
+        src={"${REPL_DEVHUB}/widget/devhub.entity.addon.blog.Viewer"}
         props={{
           handle: "developer-dao",
           hideTitle: true,
