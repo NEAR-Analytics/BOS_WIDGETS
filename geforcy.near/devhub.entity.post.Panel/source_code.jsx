@@ -521,7 +521,7 @@ const search = (processedQueryArray, index) => {
 const amountOfResultsToShowFirst = 5;
 
 const buildPostsIndex = () => {
-  return Near.asyncView("geforcy.near", "get_posts").then(
+  return Near.asyncView("${REPL_DEVHUB_CONTRACT}", "get_posts").then(
     (posts) => {
       const index = buildIndex(posts);
       const data = posts.reduce((acc, post) => {
@@ -684,7 +684,7 @@ return (
         <Widget
           // TODO: LEGACY.
           src={
-            "devgovgigs.near/widget/gigs-board.feature.post-search.by-author"
+            "${REPL_DEVHUB_LEGACY}/widget/gigs-board.feature.post-search.by-author"
           }
           props={{
             authorQuery: props.authorQuery,
@@ -698,7 +698,7 @@ return (
         <Widget
           // TODO: LEGACY.
           src={
-            "devgovgigs.near/widget/gigs-board.feature.post-search.by-tag"
+            "${REPL_DEVHUB_LEGACY}/widget/gigs-board.feature.post-search.by-tag"
           }
           props={{
             tagQuery: props.tagQuery,
@@ -722,7 +722,7 @@ return (
       )}
     {state.term && state.term.length > 1 && state.searchResult ? (
       <Widget
-        src={"geforcy.near/widget/devhub.entity.post.List"}
+        src={"${REPL_DEVHUB}/widget/devhub.entity.post.List"}
         props={{
           searchResult: {
             postIds: state.searchResult,
@@ -740,7 +740,7 @@ return (
       />
     ) : (
       <Widget
-        src={"geforcy.near/widget/devhub.entity.post.List"}
+        src={"${REPL_DEVHUB}/widget/devhub.entity.post.List"}
         props={{
           recency: props.recency,
           tag: props.tag,
