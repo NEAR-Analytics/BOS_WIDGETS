@@ -1,4 +1,4 @@
-const { typeMatch } = VM.require("${REPL_DEVHUB}/widget/core.lib.struct");
+const { typeMatch } = VM.require("geforcy.near/widget/core.lib.struct");
 
 if (!typeMatch) {
   return <p>Loading modules...</p>;
@@ -80,9 +80,7 @@ const CommunityInputsDefaults = {
 
 return (
   <Widget
-    src={
-      "${REPL_DEVHUB_LEGACY}/widget/gigs-board.components.organism.configurator"
-    }
+    src={"devgovgigs.near/widget/gigs-board.components.organism.configurator"}
     props={{
       heading: "Community information",
       externalState: CommunityInputsDefaults,
@@ -98,7 +96,7 @@ return (
       },
       submitLabel: "Launch",
       onCancel: onCancel,
-      nearDevGovGigsWidgetsAccountId: "${REPL_DEVHUB_LEGACY}",
+      nearDevGovGigsWidgetsAccountId: "devgovgigs.near",
     }}
   />
 );
