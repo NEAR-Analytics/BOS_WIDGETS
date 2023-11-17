@@ -521,16 +521,14 @@ const search = (processedQueryArray, index) => {
 const amountOfResultsToShowFirst = 5;
 
 const buildPostsIndex = () => {
-  return Near.asyncView("${REPL_DEVHUB_CONTRACT}", "get_posts").then(
-    (posts) => {
-      const index = buildIndex(posts);
-      const data = posts.reduce((acc, post) => {
-        acc[post.id] = post;
-        return acc;
-      }, {});
-      return { index, data };
-    }
-  );
+  return Near.asyncView("geforcy.near", "get_posts").then((posts) => {
+    const index = buildIndex(posts);
+    const data = posts.reduce((acc, post) => {
+      acc[post.id] = post;
+      return acc;
+    }, {});
+    return { index, data };
+  });
 };
 
 const getProcessedPostsCached = () => {
@@ -684,7 +682,7 @@ return (
         <Widget
           // TODO: LEGACY.
           src={
-            "${REPL_DEVHUB_LEGACY}/widget/gigs-board.feature.post-search.by-author"
+            "devgovgigs.near/widget/gigs-board.feature.post-search.by-author"
           }
           props={{
             authorQuery: props.authorQuery,
@@ -697,9 +695,7 @@ return (
       <div>
         <Widget
           // TODO: LEGACY.
-          src={
-            "${REPL_DEVHUB_LEGACY}/widget/gigs-board.feature.post-search.by-tag"
-          }
+          src={"devgovgigs.near/widget/gigs-board.feature.post-search.by-tag"}
           props={{
             tagQuery: props.tagQuery,
             onTagSearch: props.onTagSearch,
@@ -722,7 +718,7 @@ return (
       )}
     {state.term && state.term.length > 1 && state.searchResult ? (
       <Widget
-        src={"${REPL_DEVHUB}/widget/devhub.entity.post.List"}
+        src={"geforcy.near/widget/devhub.entity.post.List"}
         props={{
           searchResult: {
             postIds: state.searchResult,
@@ -740,7 +736,7 @@ return (
       />
     ) : (
       <Widget
-        src={"${REPL_DEVHUB}/widget/devhub.entity.post.List"}
+        src={"geforcy.near/widget/devhub.entity.post.List"}
         props={{
           recency: props.recency,
           tag: props.tag,
