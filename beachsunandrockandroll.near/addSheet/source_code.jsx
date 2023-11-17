@@ -51,7 +51,7 @@ const getComposers = () => {
 };
 
 useEffect(() => {
-  if (ppdContract) getComposers();
+  getComposers();
 }, [ppdContract]);
 
 return (
