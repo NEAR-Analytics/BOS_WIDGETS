@@ -14,7 +14,7 @@ const LessonLinks = () => {
     textAlign: "center",
   };
 
-  const ownerId = "xvii.near"; // Replace this with your actual ownerId
+  const ownerId = "xvii.near";
 
   return (
     <div>
@@ -45,7 +45,6 @@ const LessonLinks = () => {
   );
 };
 
-// Usage in your main function or another component
 return (
   <div>
     <LessonLinks />
