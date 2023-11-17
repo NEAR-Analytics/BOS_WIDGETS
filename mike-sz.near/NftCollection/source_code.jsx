@@ -22,9 +22,13 @@ if (!nfts) {
 return (
   <>
     {nfts.map((nft, i) => (
-      <a key={i} className="text-decoration-none">
+      <a
+        key={i}
+        className="text-decoration-none"
+        href={`#mob.near/widget/NftImage?tokenId=${nft.token_id}&contractId=${contractId}`}
+      >
         <Widget
-          src="mike-sz.near/widget/NftImage"
+          src="mob.near/widget/NftImage"
           props={{
             nft: { tokenId: nft.token_id, contractId },
             style: {
