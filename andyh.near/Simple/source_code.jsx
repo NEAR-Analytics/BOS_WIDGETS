@@ -1,8 +1,12 @@
-const World = () => <span>world</span>;
+const Hello = () => <span>hello</span>;
+const World = () => (
+  <span>
+    <Hello /> world
+  </span>
+);
 
 return (
   <div>
-    <World />
     <World />
   </div>
 );
