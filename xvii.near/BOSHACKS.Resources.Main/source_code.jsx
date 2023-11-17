@@ -28,7 +28,7 @@ const LessonLinks = () => {
           Syllabus
         </a>
       </div>
-      {[...Array(10).keys()].map((num) => (
+      {[...Array(9).keys()].map((num) => (
         <div style={linkContainerStyle} key={num}>
           <a
             style={linkStyle}
