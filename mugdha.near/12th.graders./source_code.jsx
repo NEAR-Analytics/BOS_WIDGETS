@@ -159,7 +159,7 @@ const Flex = styled.div`
 return (
   <>
     {context.accountId ? (
-      // When the user is logged in
+      // Render the following content only if the user is logged in
       <Content>
         <H2>Post</H2>
         <ComposeWrapper>
@@ -193,7 +193,7 @@ return (
         </FeedWrapper>
       </Content>
     ) : (
-      // When the user is not logged in
+      // When the user is not logged in, they see only the login prompt
       <Container>
         <Flex>
           <TextLarge>
