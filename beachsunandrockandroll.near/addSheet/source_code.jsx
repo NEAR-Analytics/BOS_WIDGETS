@@ -13,6 +13,8 @@ State.init({
 });
 
 const addSheet = () => {
+  if (ppdContract == undefined) return;
+
   const ppd = new ethers.Contract(
     ppdContract,
     ppdAbi.body,
