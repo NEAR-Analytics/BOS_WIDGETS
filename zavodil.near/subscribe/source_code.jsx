@@ -63,7 +63,7 @@ if (state.previousTimestamp != previousTimestamp) {
 
 if (state.theme === undefined) {
   const css = fetch(
-    "https://ipfs.near.social/ipfs/bafkreiaglrponkowprlfu2y7kcxmpxbnca224aj7zqgaea3c7k7j55b73a"
+    "https://ipfs.near.social/ipfs/bafkreigdsigbyfwdig762a2tltaaeeikfvaebb7cazsupnnszic3usnv5e"
   ).body;
   if (!css) return "";
 
@@ -223,7 +223,7 @@ return (
           </div>
         </div>
 
-        <div class="mx-auto" style={{ width: "150px" }}>
+        <div class="mx-auto" style={{ width: "190px" }}>
           <div class="purchase-options">
             <div class="form-check">
               <input
@@ -235,7 +235,7 @@ return (
                 onClick={updateBuyOption}
               />
               <label class="form-check-label" for="myself">
-                Buy for myself
+                Purchase for myself
               </label>
             </div>
             <div class="form-check">
@@ -248,7 +248,7 @@ return (
                 onClick={updateBuyOption}
               />
               <label class="form-check-label" for="gift">
-                Buy as a gift
+                Gift premium
               </label>
             </div>
           </div>
