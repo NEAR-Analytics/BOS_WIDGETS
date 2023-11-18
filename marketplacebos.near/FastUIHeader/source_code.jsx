@@ -109,7 +109,7 @@ const Blink = styled.div`
     content: "✨✨✨✨✨✨✨✨"; 
     font-size: 24px;
     position: absolute;
-  left: 20%; 
+  left: 13%; 
   top: 50%;
     transform: translate(-50%, -50%);
     opacity: 0;
@@ -131,7 +131,7 @@ const BlinkRight = styled.div`
     content: "✨✨✨✨✨✨✨✨"; 
     font-size: 24px;
     position: absolute;
-  left: 80%; 
+  left: 87%; 
   top: 50%;
     transform: translate(-50%, -50%);
     opacity: 0;
