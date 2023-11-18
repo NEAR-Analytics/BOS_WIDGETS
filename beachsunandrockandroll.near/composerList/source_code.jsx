@@ -62,9 +62,9 @@ return (
         props={{ setAddComposer }}
       />
     ) : (
-      state.composers.map((composer, i) => (
-        <GridWrap>
-          <div class="grid gap-4 grid-cols-2">
+      <GridWrap>
+        <div class="grid gap-4 grid-cols-2">
+          {state.composers.map((composer, i) => (
             <Widget
               src={`beachsunandrockandroll.near/widget/card`}
               props={{
@@ -76,9 +76,9 @@ return (
                 // },
               }}
             />
-          </div>
-        </GridWrap>
-      ))
+          ))}
+        </div>
+      </GridWrap>
     )}
   </>
 );
