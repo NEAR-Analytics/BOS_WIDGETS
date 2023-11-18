@@ -16,6 +16,30 @@ if (previousSelectedTab && previousSelectedTab !== state.selectedTab) {
   });
 }
 
+let daoFollowers = Social.keys(`*/graph/follow/${daoId}`, "final", {
+  return_type: "BlockHeight",
+  values_only: true,
+});
+
+let accounts = undefined;
+
+const graph = Social.keys(`${context.accountId}/graph/follow/*`, "final");
+if (graph !== null) {
+  daoFollowers = Object.entries(daoFollowers || {}).map(
+    ([accountId]) => accountId
+  );
+  const followings = Object.entries(graph || {}).map(
+    ([accountId]) => accountId
+  );
+  const daoFollowings = daoFollowers.filter((accountId) =>
+    followings.includes(accountId)
+  );
+  accounts = Object.keys(daoFollowings || {});
+  accounts.push(context.accountId);
+} else {
+  accounts = [];
+}
+
 accounts = Object.keys(accounts || {});
 
 function selectTab(selectedTab) {
