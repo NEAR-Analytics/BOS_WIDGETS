@@ -1,9 +1,18 @@
-const ppdContract = props.ppdContract;
-const ppdAbi = props.ppdAbi;
+// const ppdContract = props.ppdContract;
+// const ppdAbi = props.ppdAbi;
+
+const ppdContract = "0x4D8354Eda3c1Cd9D85E44C63535468Ec3EaF876C";
+
+const ppdAbi = fetch(
+  "https://raw.githubusercontent.com/gonzalobarria/testpub/master/abis/abitest.json"
+);
 
 State.init({
   userSheets: [],
 });
+
+const getNormalDate = (value) =>
+  new Date(parseInt(value.toString() + "000")).toLocaleString();
 
 const getUserSheets = () => {
   if (ppdContract == undefined) return;
@@ -23,10 +32,11 @@ const getUserSheets = () => {
   });
 };
 
-if (state.sender != undefined) {
+if (state.sender === undefined) {
   const accounts = Ethers.send("eth_requestAccounts", []);
   if (accounts.length) {
     State.update({ sender: accounts[0] });
+    console.log("asa");
     getUserSheets();
   }
 }
