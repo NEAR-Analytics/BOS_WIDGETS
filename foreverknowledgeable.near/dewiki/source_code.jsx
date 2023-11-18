@@ -60,47 +60,27 @@ const content = (
   </div>
 );
 
+const res = fetch(
+  "https://ipfs.io/ipfs/bafkreiacbg75gszys54j2fsupjt4zv7sgkaz2gvnphwje6psga62dq7gtm"
+);
+
+
 return (
   <div>
     {header}
-    {content}
     {templateLandingPageContent}
+    
+
 
     {/* Edit this Widget at https://jutsu.ai/editor/saidulbadhon.near/widget/Template.LandingPage.ContentItem */}
     <Widget
       src="saidulbadhon.near/widget/Template.LandingPage.ContentItem"
       props={{
         image:
-          "https://images.unsplash.com/flagged/photo-1587302164675-820fe61bbd55?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=880&q=80",
-        name: "orange (fruit)",
+          res.body.image,
+        name: res.body.title,
         description:
-          "An orange is a fruit of various citrus species in the family Rutaceae (see list of plants known as orange); it primarily refers to Citrus sinensis, which is also called sweet orange, to distinguish it from the related Citrus aurantium, referred to as bitter orange. The sweet orange reproduces asexually (apomixis through nucellar embryony); varieties of the sweet orange arise through mutations.",
-        rtl: false,
-      }}
-    />
-
-    {/* Edit this Widget at https://jutsu.ai/editor/saidulbadhon.near/widget/Template.LandingPage.ContentItem */}
-    <Widget
-      src="saidulbadhon.near/widget/Template.LandingPage.ContentItem"
-      props={{
-        image:
-          "https://images.unsplash.com/photo-1587578855694-7e2c29dfd6c2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=880&q=80",
-        name: "Coffee",
-        description:
-          "Coffee is a beverage prepared from roasted coffee beans. Darkly colored, bitter, and slightly acidic, coffee has a stimulating effect on humans, primarily due to its caffeine content. It has the highest sales in the world market for hot drinks.",
-        rtl: true,
-      }}
-    />
-
-    {/* Edit this Widget at https://jutsu.ai/editor/saidulbadhon.near/widget/Template.LandingPage.ContentItem */}
-    <Widget
-      src="saidulbadhon.near/widget/Template.LandingPage.ContentItem"
-      props={{
-        image:
-          "https://images.unsplash.com/photo-1587132117816-061b35073a4e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=880&q=80",
-        name: "Trunk",
-        description:
-          "In botany, the trunk is the stem and main wooden axis of a tree, which is an important feature in tree identification, and which often differs markedly from the bottom of the trunk to the top, depending on the species. The trunk is the most important part of the tree for timber production. ",
+          res.body.markdown,
         rtl: false,
       }}
     />
