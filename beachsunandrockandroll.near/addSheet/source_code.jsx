@@ -3,7 +3,7 @@ const ppdContract = props.ppdContract;
 const ppdAbi = props.ppdAbi;
 
 const [sheetName, setSheetName] = useState("");
-const [composerIdx, setComposerIdx] = useState("");
+const [composerIdx, setComposerIdx] = useState(0);
 const [difficulty, setDifficulty] = useState(0);
 
 // State.init({
@@ -23,17 +23,16 @@ const addSheet = () => {
   ppd.getUserIdx().then((userIdx) => {
     const dataUri = "";
 
-    ppd
-      .addSheet(
-        sheetName,
-        composerIdx,
-        parseInt(userIdx.toString()),
-        parseInt(difficulty),
-        dataUri
-      )
-      .then(() => {
-        setAddSheet(false);
-      });
+    ppd.addSheet(
+      sheetName,
+      composerIdx,
+      parseInt(userIdx.toString()),
+      parseInt(difficulty),
+      dataUri
+    );
+    // .then(() => {
+    //   setAddSheet(false);
+    // });
   });
 };
 
