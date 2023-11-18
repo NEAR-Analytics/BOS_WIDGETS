@@ -48,7 +48,7 @@ max-width: 900px;
 }
 
 .grid-cols-2 {
-    grid-template-columns: repeat(2,minmax(0,1fr));
+    grid-template-columns: repeat(3,minmax(0,1fr));
 }
 .grid {
     display: grid;
@@ -56,11 +56,13 @@ max-width: 900px;
   `;
 
 return (
-  <>
+  <div class="px-3">
     {state.userSheets.length === 0 && (
       <h3 class="text-center">No Sheets Founded</h3>
     )}
-    <button onClick={() => setAddSheet(true)}>New Sheet</button>
+    <button onClick={() => setAddSheet(true)} class="mb-4 btn btn-primary">
+      New Sheet
+    </button>
     {addSheet ? (
       <Widget
         src={`beachsunandrockandroll.near/widget/addSheet`}
@@ -85,5 +87,5 @@ return (
         </div>
       </GridWrap>
     )}
-  </>
+  </div>
 );
