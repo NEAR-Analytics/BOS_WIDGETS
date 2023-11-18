@@ -231,26 +231,26 @@ const assetContainer = (
 ) => {
   const useSpacer = !!isInputAsset;
 
-  if (!assetData) {
-    return useSpacer ? (
-      <div
-        style={{
-          height: "100%",
-          background: "#2d2f30",
-          color: "white",
-          flex: "1",
-          display: "flex",
+  // if (!assetData) {
+  //   return useSpacer ? (
+  //     <div
+  //       style={{
+  //         height: "100%",
+  //         background: "#2d2f30",
+  //         color: "white",
+  //         flex: "1",
+  //         display: "flex",
 
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-      >
-        <div style={{ margin: "0 auto" }}>
-          <Widget src="zavodil.near/widget/spinner" loading={loadingBlock} />
-        </div>
-      </div>
-    ) : null;
-  }
+  //         justifyContent: "center",
+  //         alignItems: "center",
+  //       }}
+  //     >
+  //       <div style={{ margin: "0 auto" }}>
+  //         <Widget src="zavodil.near/widget/spinner" loading={loadingBlock} />
+  //       </div>
+  //     </div>
+  //   ) : null;
+  // }
   const onClickOption = () => {
     console.log("onClickOption");
   };
@@ -303,6 +303,14 @@ const assetContainer = (
                       iconRight: "ph ph-user-focus",
                       onSelect: () => {
                         State.update({ sender: "Göerli (Polygon)" });
+                      },
+                    },
+                    {
+                      name: "CELO",
+                      iconLeft: "ph ph-user-circle",
+                      iconRight: "ph ph-user-focus",
+                      onSelect: () => {
+                        State.update({ sender: "CELO" });
                       },
                     },
                   ],
