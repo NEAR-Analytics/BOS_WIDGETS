@@ -56,7 +56,7 @@ max-width: 900px;
   `;
 
 return (
-  <div class="px-3">
+  <div class="px-3 py-5">
     {state.userSheets.length === 0 && (
       <h3 class="text-center">No Sheets Founded</h3>
     )}
