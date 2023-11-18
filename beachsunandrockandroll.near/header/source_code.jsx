@@ -26,7 +26,20 @@ const Header = styled.div`
       padding-top: 15px;
       height: 100%;
     }
+
+    .option-links {
+      height: 100%; 
+      padding-top:22px;
+    }
+    .option-links a {
+      color: #fff;
+      text-decoration: underline;
+      font-size: 14px;
+    }
 `;
+
+const linkSheets = props.linkSheets;
+const linkComposer = props.linkComposer;
 
 if (state.sender === undefined) {
   const accounts = Ethers.send("eth_requestAccounts", []);
@@ -37,22 +50,35 @@ if (state.sender === undefined) {
 
 return (
   <Header>
-    <div class="logo">
-      <img
-        src="https://raw.githubusercontent.com/gonzalobarria/prodigy-piano-diary/master/public/images/ppd-mini-logo-black.jpg"
-        class="img"
-      />
-    </div>
-    <div class="connect">
-      {!!state.sender ? (
-        <div class="user">{`${state.sender.slice(0, 4)}...${state.sender.slice(
-          -4
-        )}`}</div>
-      ) : (
-        <div class="conn-button">
-          <Web3Connect connectLabel="Connect with Web3" />
+    <div class="container">
+      <div class="row">
+        <div class="logo col">
+          <img
+            src="https://raw.githubusercontent.com/gonzalobarria/prodigy-piano-diary/master/public/images/ppd-mini-logo-black.jpg"
+            class="img"
+          />
         </div>
-      )}
+        <div class="d-flex gap-5 justify-center col option-links">
+          <a href="#" onClick={linkSheets}>
+            My Sheets
+          </a>
+          <a href="#" onClick={linkComposer}>
+            Composer List
+          </a>
+        </div>
+        <div class="col connect">
+          {!!state.sender ? (
+            <div class="user">{`${state.sender.slice(
+              0,
+              4
+            )}...${state.sender.slice(-4)}`}</div>
+          ) : (
+            <div class="conn-button">
+              <Web3Connect connectLabel="Connect with Web3" />
+            </div>
+          )}
+        </div>
+      </div>
     </div>
   </Header>
 );
