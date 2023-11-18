@@ -21,25 +21,6 @@ const getUsers = () => {
   });
 };
 
-// const getComposerSheets = () => {
-//   const ppd = new ethers.Contract(
-//     ppdContract,
-//     ppdAbi.body,
-//     Ethers.provider().getSigner()
-//   );
-//   console.log("llamando cs");
-//   try {
-//     ppd.getComposerSheets(0).then((res) => {
-//       console.log("en composer sheets");
-//       console.log(res);
-//       // const comp = res && res.map((r) => r[0]);
-//       // State.update({ composers: comp });
-//     });
-//   } catch (e) {
-//     console.log(e);
-//   }
-// };
-
 const isUserRegistered = () => {
   if (!state.users) return false;
 
@@ -62,6 +43,15 @@ if (state.sender === undefined) {
 
 return (
   <>
+    {!!state.sender ? (
+      <>
+        {!isUserRegistered() && (
+          <Widget src={`beachsunandrockandroll.near/widget/registerUser`} />
+        )}
+      </>
+    ) : (
+      <Web3Connect connectLabel="Connect with Web3" />
+    )}
     {user !== "" && (
       <div class="mt-4 p-3">
         <button
@@ -81,15 +71,6 @@ return (
       </div>
     )}
 
-    {!!state.sender ? (
-      <>
-        {!isUserRegistered() && (
-          <Widget src={`beachsunandrockandroll.near/widget/registerUser`} />
-        )}
-      </>
-    ) : (
-      <Web3Connect connectLabel="Connect with Web3" />
-    )}
     {/*{user && <>{user[1]}</>}
 
     */}
