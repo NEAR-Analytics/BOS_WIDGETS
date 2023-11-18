@@ -161,7 +161,7 @@ const Flex = styled.div`
 return (
   <>
     {context.accountId ? (
-      // When the user is logged in
+      // This block will render when the user is logged in
       <Content>
         <H2>Post</H2>
         <ComposeWrapper>
@@ -188,7 +188,7 @@ return (
           <Widget
             src="hack.near/widget/view.posts"
             props={{
-              accounts, // Pass null or appropriate value to fetch posts for logged-in users
+              accounts,
               domains: state.choose,
               hashtags: state.hashtags,
             }}
@@ -196,7 +196,7 @@ return (
         </FeedWrapper>
       </Content>
     ) : (
-      // When the user is not logged in
+      // This block will render when the user is not logged in
       <Container>
         <Flex>
           <TextLarge>
