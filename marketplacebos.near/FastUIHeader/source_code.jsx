@@ -177,7 +177,7 @@ if (!accountId) {
 
 const addEllipsisIfNeeded = (text, maxLength) => {
   if (text.length > maxLength) {
-    return text.slice(0, maxLength) + '...';
+    return text.slice(0, maxLength) + "...";
   }
   return text;
 };
@@ -199,16 +199,16 @@ return (
           </NavListItem>
         </WrapperDiv>
         <NavListItem>
-          <NavLink href="#">Docs</NavLink>
+          <NavLink href="https://trans-organization-12.gitbook.io/fastui/">Docs</NavLink>
         </NavListItem>
         <NavListItem>
-          <NavLink href="#">About</NavLink>
+          <NavLink href="https://github.com/pichtranst123/FastUI/issues">Helps</NavLink>
         </NavListItem>
         <NavListItem>
-      <EllipsisNavLink href="#" title={accountId}>
-        {addEllipsisIfNeeded(accountId, 10)}
-      </EllipsisNavLink>
-                  </NavListItem>
+          <EllipsisNavLink href="#" title={accountId}>
+            {addEllipsisIfNeeded(accountId, 10)}
+          </EllipsisNavLink>
+        </NavListItem>
         <BlinkRight></BlinkRight>
       </NavList>
     </MainContainer>
