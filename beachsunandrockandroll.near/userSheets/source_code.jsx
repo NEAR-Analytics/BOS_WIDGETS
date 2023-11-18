@@ -14,7 +14,6 @@ const getUserSheets = () => {
     Ethers.provider().getSigner()
   );
 
-
   ppd.getUserIdx().then((userIdx) => {
     ppd.getUserSheets(parseInt(userIdx.toString())).then((res) => {
       console.log(res);
