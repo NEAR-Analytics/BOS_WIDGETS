@@ -13,9 +13,8 @@ const Card = styled.div`
   display: flex;
   flex-direction: column;
   background: white;
-  border: 0.1rem solid rgba(0, 0, 0, 0.3);
+  border: 0.1rem solid #000000;
   border-radius: 1em;
-  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
   overflow: hidden;
   position: relative;
   justify-content: center;
