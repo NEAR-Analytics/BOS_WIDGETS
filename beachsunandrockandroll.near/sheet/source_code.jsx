@@ -1,4 +1,5 @@
 const sheetIdx = props.sheetIdx || 0;
+const back = props.back;
 
 const { getNormalDate, ppdContract, ppdAbi } = VM.require(
   "beachsunandrockandroll.near/widget/utils"
@@ -45,5 +46,6 @@ if (state.sender === undefined) {
 return (
   <>
     <h2>{state.sheet.name}</h2>
+    <button onClick={back}>Back</button>
   </>
 );
