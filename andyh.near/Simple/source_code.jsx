@@ -12,7 +12,6 @@ const World = () => (
 
 return (
   <div id="r">
-    <Hello id="hello-root-component" />
     <World id="world-component" />
   </div>
 );
