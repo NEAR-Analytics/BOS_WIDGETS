@@ -74,9 +74,11 @@ return (
   <>
     <h2>{state.sheet.name}</h2>
     <p>Created At: {state.sheet.createdAt}</p>
-    <a href="#" onClick={() => setShowImg(!showImg)}>
-      Show/Hide Sheet
-    </a>
+    {state.sheet.dataUri && (
+      <a href="#" onClick={() => setShowImg(!showImg)}>
+        Show/Hide Sheet
+      </a>
+    )}
     <div className="mt-2">
       {showImg && state.sheet.dataUri && (
         <img
