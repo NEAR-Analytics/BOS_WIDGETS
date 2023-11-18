@@ -1,5 +1,3 @@
-const styled = require("styled-components");
-
 State.init({
   selectedTab: Storage.privateGet("selectedTab") || "all",
 });
