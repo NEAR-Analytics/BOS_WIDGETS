@@ -1,7 +1,7 @@
 const sheetIdx = props.sheetIdx || 0;
 const back = props.back;
 
-const { getNormalDate, ppdContract, ppdAbi } = VM.require(
+const { getNormalDate, ppdContract, ppdAbi, studyType, focusType } = VM.require(
   "beachsunandrockandroll.near/widget/utils"
 );
 const [addRecord, setAddRecord] = useState(false);
@@ -93,21 +93,42 @@ return (
         />
       </>
     ) : (
-      state.records &&
-      state.records.map((record) => {
-        return (
-          <>
-            <div>Phrase Number: {record.phraseNum}</div>
-            <div>SubPhrase Number: {record.subPhraseNum}</div>
-            <div>Qty Minutes: {record.qtyMinutes}</div>
-            <div>Study Type: {record.studyType}</div>
-            <div>Focus Type: {record.focusType}</div>
-            <div>is all sheet?: {record.isAllSheet ? "yes" : "no"}</div>
+      state.records && (
+        <>
+          <h4 class="text-center">Record List</h4>
+          <div class="mt-4">
+            <table className="table table-bordered table-hover table-responsive bg-light p-3 shadow-lg rounded">
+              <thead className="thead-dark">
+                <tr>
+                  <th scope="col">Phrase Number</th>
+                  <th scope="col">SubPhrase Number</th>
+                  <th scope="col">Qty Minutes</th>
+                  <th scope="col">Mensaje</th>
+                  <th scope="col">Study Type</th>
+                  <th scope="col">Focus Type</th>
+                  <th scope="col">Created at</th>
+                </tr>
+              </thead>
+              <tbody>
+                {state.records.sort((a,b)=> b.createdAt - a.createdAt).map((record) => {
+                  return (
+                    <tr>
+                      <td>{record.phraseNum}</td>
+                      <td>{record.subPhraseNum}</td>
+                      <td>{record.qtyMinutes}</td>
+                      <td>{studyType[record.studyType]}</td>
+                      <td>{focusType[record.focusType]}</td>
+                      <td>{record.isAllSheet ? "Yes" : "No"}</td>
+                      <td>{getNormalDate(record.createdAt)}</td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
+        </>
+      )
 
-            <div>Created at: {getNormalDate(record.createdAt)}</div>
-          </>
-        );
-      })
     )}
   </>
 );
