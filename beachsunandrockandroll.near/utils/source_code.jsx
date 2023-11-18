@@ -10,4 +10,13 @@ const ppdAbi = fetch(
 const studyType = ["Fingers", "Rhythm", "Memorization", "Dynamics"];
 const focusType = ["Study", "Practice"];
 
-return { getNormalDate, ppdContract, ppdAbi, studyType, focusType };
+const getIdxFromArray = (array, value) => array.findIndex((a) => a === value);
+
+return {
+  getNormalDate,
+  ppdContract,
+  ppdAbi,
+  studyType,
+  focusType,
+  getIdxFromArray,
+};
