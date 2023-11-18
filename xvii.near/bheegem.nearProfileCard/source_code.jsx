@@ -1,4 +1,4 @@
-const accountId = props.accountId ?? "jeffgold.near";
+const accountId = props.accountId ?? "bheegem.near";
 const profile = props.profile || Social.get(`${accountId}/profile/**`, "final");
 const tags = Object.keys(profile.tags || {});
 const profileUrl = `/ndcplug.near/widget/DAO.main?daoId=${accountId}`;
