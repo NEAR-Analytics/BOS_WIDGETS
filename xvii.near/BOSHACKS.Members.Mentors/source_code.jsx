@@ -5,5 +5,6 @@ return (
     <Widget src="xvii.near/widget/jeffgold.nearProfileCard" />
     <Widget src="xvii.near/widget/fiftycent.nearProfileCard" />
     <Widget src="xvii.near/widget/alan777.nearProfileCard" />
+    <Widget src="xvii.near/widget/bheegem.nearProfileCard" />
   </div>
 );
