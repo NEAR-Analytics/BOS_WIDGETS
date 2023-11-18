@@ -1,8 +1,9 @@
 const setAddRecord = props.setAddRecord;
 const sheetIdx = props.sheetIdx;
 
-const ppdContract = props.ppdContract;
-const ppdAbi = props.ppdAbi;
+const { ppdContract, ppdAbi } = VM.require(
+  "beachsunandrockandroll.near/widget/utils"
+);
 
 const [sheetName, setSheetName] = useState("");
 const [phraseNumber, setPhraseNumber] = useState(0);
