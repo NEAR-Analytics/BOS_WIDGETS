@@ -23,27 +23,24 @@ let daoFollowers = Social.keys(`*/graph/follow/${daoId}`, "final", {
 
 let accounts = undefined;
 
-if (state.selectedTab === "following" && context.accountId) {
-  const graph = Social.keys(`${context.accountId}/graph/follow/*`, "final");
-  if (graph !== null) {
-    daoFollowers = Object.entries(daoFollowers || {}).map(
-      ([accountId]) => accountId
-    );
-    const followings = Object.entries(graph || {}).map(
-      ([accountId]) => accountId
-    );
-    const daoFollowings = daoFollowers.filter((accountId) =>
-      followings.includes(accountId)
-    );
-    accounts = Object.keys(daoFollowings || {});
-    accounts.push(context.accountId);
-  } else {
-    accounts = [];
-  }
-} else {
-  accounts = Object.keys(daoFollowers || {});
+const graph = Social.keys(`${context.accountId}/graph/follow/*`, "final");
+if (graph !== null) {
+  daoFollowers = Object.entries(daoFollowers || {}).map(
+    ([accountId]) => accountId
+  );
+  const followings = Object.entries(graph || {}).map(
+    ([accountId]) => accountId
+  );
+  const daoFollowings = daoFollowers.filter((accountId) =>
+    followings.includes(accountId)
+  );
+  accounts = Object.keys(daoFollowings || {});
   accounts.push(context.accountId);
+} else {
+  accounts = [];
 }
+
+accounts = Object.keys(accounts || {});
 
 function selectTab(selectedTab) {
   Storage.privateSet("selectedTab", selectedTab);
