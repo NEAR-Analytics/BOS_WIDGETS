@@ -102,11 +102,11 @@ const SvgText = styled.text`
 
 const Blink = styled.div`
   &::before {
-    content: "✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨"; 
+    content: "✨"; 
     font-size: 24px;
     position: absolute;
     top: 50%;
-    left: 50%;
+  left: 20%;
     transform: translate(-50%, -50%);
     opacity: 0;
     animation: sparkle 1s infinite;
@@ -131,9 +131,9 @@ return (
   <>
     <GlobalStyle />
     <MainContainer className="main">
+      <NavList>
         <Blink></Blink>
 
-      <NavList>
         <NavListItem>
           <Svg>
             <SvgText x="60%" y="50%" dy=".35em" text-anchor="middle">
