@@ -70,7 +70,7 @@ return (
               props={{
                 title: composer.name,
                 desc: composer.birtdate,
-                // buttonTitle: "View Composer",
+                // buttonTitle: "View Sheets",
                 // action: () => {
                 //   action(i);
                 // },
