@@ -3,7 +3,7 @@ const { getNormalDate, ppdContract, ppdAbi } = VM.require(
 );
 const [addComposer, setAddComposer] = useState(false);
 
-const action = props.action;
+const back = props.back;
 
 State.init({
   composers: [],
@@ -55,6 +55,7 @@ return (
       <h2 class="text-center">No Composers Founded</h2>
     )}
     <button onClick={() => setAddComposer(true)}>New Composer</button>
+    <button onClick={back}>Back</button>
     {addComposer ? (
       <Widget
         src={`beachsunandrockandroll.near/widget/addComposer`}
