@@ -6,9 +6,9 @@ const [sheetName, setSheetName] = useState("");
 const [composerIdx, setComposerIdx] = useState(0);
 const [difficulty, setDifficulty] = useState(0);
 
-// State.init({
-//   img: null,
-// });
+State.init({
+  img: null,
+});
 
 const addSheet = () => {
   console.log("entrando a addSheet");
@@ -21,7 +21,9 @@ const addSheet = () => {
   );
 
   ppd.getUserIdx().then((userIdx) => {
-    const dataUri = "";
+    let dataUri = "";
+
+    if (state.img.cid) dataUri = state.img.cid;
 
     ppd
       .addSheet(
@@ -81,6 +83,10 @@ return (
         }}
         placeholder="Choose a tag to filter..."
       />
+      <div>
+        Sheet upload: <br />
+        <IpfsImageUpload image={state.img} />
+      </div>
       <input
         className="form-control m-2 p-2"
         type="number"
