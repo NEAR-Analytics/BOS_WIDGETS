@@ -2,7 +2,7 @@ State.init({
   selectedTab: Storage.privateGet("selectedTab") || "all",
 });
 
-const daoId = props.daoId || "12th graders";
+const daoId = props.daoId ?? "12th graders";
 const domains = ["stress", "chem", "phy", "bio", "math", "fun", "memes"];
 const hashtags = ["fun", "study"];
 
@@ -10,8 +10,6 @@ function selectTab(selectedTab) {
   Storage.privateSet("selectedTab", selectedTab);
   State.update({ selectedTab });
 }
-
-let accounts = null;
 
 // Styled components
 const H2 = styled.h2`
@@ -161,7 +159,7 @@ const Flex = styled.div`
 return (
   <>
     {context.accountId ? (
-      // This block will render when the user is logged in
+      // When the user is logged in
       <Content>
         <H2>Post</H2>
         <ComposeWrapper>
@@ -188,7 +186,6 @@ return (
           <Widget
             src="hack.near/widget/view.posts"
             props={{
-              accounts,
               domains: state.choose,
               hashtags: state.hashtags,
             }}
@@ -196,7 +193,7 @@ return (
         </FeedWrapper>
       </Content>
     ) : (
-      // This block will render when the user is not logged in
+      // When the user is not logged in
       <Container>
         <Flex>
           <TextLarge>
