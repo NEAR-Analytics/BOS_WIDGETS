@@ -1,9 +1,60 @@
 const accountId = props.accountId ?? context.accountId;
-
 const url = "https://near.org";
+const MainContainer = styled.div`
+  width:100%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
 
-const width = "35px";
-const height = "35px";
+const NavList = styled.ul`
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+  align-items: center;
+  width: 100%;
+  height: 60px;
+  border-bottom: 5px solid #ff10d9;
+  border-top: 5px solid #ff10d9;
+  background-color: #ffd840;
+`;
+
+const NavListItem = styled.li`
+  display: inline;
+  list-style-type: none;
+`;
+
+const NavLink = styled.a`
+  text-decoration: none;
+  font-size: 20px;
+  text-transform: capitalize;
+  font-family: var(--font), Arial;
+  font-weight: 700;
+  margin-right: 1em;
+  color: black;
+  position: relative;
+  border-bottom: 2px solid #000;
+
+  &:hover {
+    color:#ed43c3;
+    top: -0.16em;
+    transition: padding 0.5s, top 0.35s, box-shadow 0.4s;
+    box-shadow: 0 0.4rem 0 -0.2rem #ff10d9;
+  }
+`;
+
+const GlobalStyle = styled.div`
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  :root {
+    --font: 'Kalam', 'Source Code Pro', monospace;
+  }
+`;
 
 const GradientText = styled.h4`
   font-weight: 800;
@@ -134,23 +185,21 @@ background: radial-gradient(circle, rgba(63,94,251,1) 0%, rgba(252,70,107,1) 100
   }
 `;
 
-const Wrapper = styled.div`
-  background-color: #FFFFFF;
-`;
-
 const Svg = styled.svg`
   font-family: 'Russo One', sans-serif;
   width: 100%;
   height: 100%;
+  margin-right: auto;
+  margin-left: 0; 
 `;
 
 const SvgText = styled.text`
   animation: stroke 5s infinite alternate;
   stroke-width: 1;
-  stroke: #fe66c2;
+  stroke: #ed43c3;
   font-size: 20px;
-  color:#f04874;
-  background:#f04874;
+  color:#ed43c3;
+  background:#ff10d9;
   @keyframes stroke {
     0% {
       fill: rgba(72, 138, 204, 0);
@@ -183,28 +232,27 @@ if (!accountId) {
 }
 
 return (
-  <div className="mw-120 d-flex justify-content-between align-items-center p-2 border-bottom">
-    <Wrapper>
-      <Svg>
-        <SvgText x="60%" y="50%" dy=".35em" text-anchor="middle">
-          <a href={`${url}/fastui.near/widget/FastUI`}>FastUI</a>{" "}
-        </SvgText>
-      </Svg>
-    </Wrapper>
-
-    <div className="w-25 mw-100 d-flex justify-content-end align-items-center">
-      <a className="mx-2 text-dark fs-6" href="#">
-        <HeaderBtn>About</HeaderBtn>
-      </a>
-
-      <a className="mx-2 text-dark fs-6" href="#">
-        <HeaderBtn>Docs</HeaderBtn>
-      </a>
-      <a className="mx-2 text-dark fs-6" href="#">
-        <AcountID>
-          <span>{accountId}</span>
-        </AcountID>
-      </a>
-    </div>
-  </div>
+  <>
+    <GlobalStyle />
+    <MainContainer className="main">
+      <NavList>
+        <NavListItem>
+          <Svg>
+            <SvgText x="60%" y="50%" dy=".35em" text-anchor="middle">
+              <a href={`${url}/fastui.near/widget/FastUI`}>FastUI</a>{" "}
+            </SvgText>
+          </Svg>{" "}
+        </NavListItem>
+        <NavListItem>
+          <NavLink href="#">Docs</NavLink>
+        </NavListItem>
+        <NavListItem>
+          <NavLink href="#">About</NavLink>
+        </NavListItem>
+        <NavListItem>
+          <NavLink href="#">{accountId}</NavLink>
+        </NavListItem>
+      </NavList>
+    </MainContainer>
+  </>
 );
