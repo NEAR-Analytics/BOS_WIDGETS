@@ -10,6 +10,28 @@ const WrapperDiv = styled.div`
   display: flex;
   align-items: center;
 `;
+
+const EllipsisNavLink = styled.a`
+  text-decoration: none;
+  font-size: 20px;
+  text-transform: capitalize;
+  font-family: var(--font), Arial;
+  font-weight: 700;
+  margin-right: 1em;
+  color: black;
+  position: relative;
+  border-bottom: 2px solid #000;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+
+  &:hover {
+    color: #ed43c3;
+    top: -0.16em;
+    transition: padding 0.5s, top 0.35s, box-shadow 0.4s;
+    box-shadow: 0 0.4rem 0 -0.2rem #ff10d9;
+  }
+`;
 const NavList = styled.ul`
   display: flex;
   justify-content: center;
@@ -158,16 +180,16 @@ return (
     <GlobalStyle />
     <MainContainer className="main">
       <NavList>
-      <WrapperDiv>
-        <Blink></Blink>
+        <WrapperDiv>
+          <Blink></Blink>
 
-        <NavListItem>
-          <Svg>
-            <SvgText x="60%" y="50%" dy=".35em" text-anchor="middle">
-              <a href={`${url}/fastui.near/widget/FastUI`}>FastUI</a>{" "}
-            </SvgText>
-          </Svg>{" "}
-        </NavListItem>
+          <NavListItem>
+            <Svg>
+              <SvgText x="60%" y="50%" dy=".35em" text-anchor="middle">
+                <a href={`${url}/fastui.near/widget/FastUI`}>FastUI</a>{" "}
+              </SvgText>
+            </Svg>{" "}
+          </NavListItem>
         </WrapperDiv>
         <NavListItem>
           <NavLink href="#">Docs</NavLink>
@@ -176,10 +198,11 @@ return (
           <NavLink href="#">About</NavLink>
         </NavListItem>
         <NavListItem>
-          <NavLink href="#">{accountId}</NavLink>
-        </NavListItem>
-                <BlinkRight></BlinkRight>
-
+ <EllipsisNavLink ellipsis={accountId.length > 10} href="#" title={accountId}>
+            {accountId}
+          </EllipsisNavLink>
+                  </NavListItem>
+        <BlinkRight></BlinkRight>
       </NavList>
     </MainContainer>
   </>
