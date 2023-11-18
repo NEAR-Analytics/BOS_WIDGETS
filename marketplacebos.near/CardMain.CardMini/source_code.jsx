@@ -20,9 +20,8 @@ const Card = styled.div`
   height: 270px;
   display: flex;
   flex-direction: column;
-  border: 0.1rem solid rgba(0, 0, 0, 0.3);
+  border: 0.1rem solid #000000;
   border-radius: 1em;
-  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
   overflow: hidden;
   position: relative;
   justify-content: center;
@@ -174,6 +173,27 @@ const ViewButton = styled.button`
 
 `;
 
+const Edit = styled.button`
+  width: 5rem;
+  height: 30px;
+  font-size: 12px;
+  background-color: #0a1929ff;
+  border: none;
+  border-radius: 24px;
+  cursor: pointer;
+  position: absolute;
+  top: 10px;
+  right: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  color: white;
+   &:hover {
+    background-color: #0a1929ff;
+  }
+`;
+
 const SaveIcon = (
   <i
     className={
@@ -185,8 +205,9 @@ const SaveIcon = (
 const copyBtn = props.copyBtn || "Copy Button";
 const component = props.component || "";
 const detailLink = props.detailLink || "notfound";
-const edit = props.edit || <></>;
 const text = props.text || "";
+const edit = props.edit || "notfound";
+
 return (
   <Card isWhiteBackground={!isWhiteBackground1}>
     <CardBody>
@@ -195,12 +216,21 @@ return (
         {SaveIcon}
         {save}
       </SaveButton>
+      <a href={edit}>
+        <Edit
+          type="button"
+          className="btn btn-primary"
+          data-bs-toggle="modal"
+          data-bs-target="#exampleModal"
+        >
+          Edit <i className="bi bi-pencil-square"></i>
+        </Edit>
+      </a>
       <a href={detailLink}>
         <ViewButton>
           Code<i className="bi bi-code-slash"></i>
         </ViewButton>
       </a>
-      {edit}
       <ToggleButton onClick={toggleButton1} isToggled={isToggleOn1}>
         {isToggleOn1 ? SunIcon : MoonIcon}
       </ToggleButton>
