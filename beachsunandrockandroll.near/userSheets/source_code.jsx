@@ -63,7 +63,10 @@ return (
                 title: userSheet[0],
                 desc: getNormalDate(userSheet[1]),
                 buttonTitle: "View Sheet",
-                action: () => action(i),
+                action: () => {
+                  console.log("va a pasar", i);
+                  action(i);
+                },
               }}
             />
 
