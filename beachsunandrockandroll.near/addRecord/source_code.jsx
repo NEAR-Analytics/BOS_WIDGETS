@@ -1,7 +1,7 @@
 const setAddRecord = props.setAddRecord;
 const sheetIdx = props.sheetIdx;
 
-const { ppdContract, ppdAbi } = VM.require(
+const { ppdContract, ppdAbi, studyType, focusType } = VM.require(
   "beachsunandrockandroll.near/widget/utils"
 );
 
@@ -9,23 +9,12 @@ const [sheetName, setSheetName] = useState("");
 const [phraseNumber, setPhraseNumber] = useState(0);
 const [subPhraseNumber, setSubPhraseNumber] = useState(0);
 const [minutes, setMinutes] = useState(0);
-const [studyType, setStudyType] = useState(0);
-const [focusType, setFocusType] = useState(0);
+const [studyT, setStudyT] = useState(-1);
+const [focusT, setFocusT] = useState(-1);
 
-State.init({
-  studyType: ["Fingers", "Rhythm", "Memorization", "Dynamics"],
-  focusType: ["Study", "Practice"],
-});
+State.init({ studyType, focusType });
 
-const settingStudyType = (value) => {
-  const sType = state.studyType.find((st, i) => {
-    if (st === value[0]) return i;
-  });
-
-  console.log(sType);
-
-  setStudyType(sType);
-};
+const getIdxFromArray = (array, value) => array.findIndex((a) => a === value);
 
 const addRecord = () => {
   const ppd = new ethers.Contract(
@@ -42,8 +31,8 @@ const addRecord = () => {
         phraseNumber,
         subPhraseNumber,
         minutes,
-        studyType,
-        focusType,
+        studyT,
+        focusT,
         false
       )
       .then(() => {
@@ -83,7 +72,10 @@ return (
         options={state.studyType}
         // multiple
         onChange={(value) => {
-          setStudyType(0);
+          setStudyT(getIdxFromArray(state.studyType, value[0]));
+          // State.update({
+          //   studyType: getIdxFromArray(state.studyType, value[0]),
+          // });
         }}
         placeholder="Select Type of Study"
       />
@@ -92,7 +84,10 @@ return (
         options={state.focusType}
         // multiple
         onChange={(value) => {
-          setFocusType(0);
+          setFocusT(getIdxFromArray(state.focusType, value[0]));
+          // State.update({
+          //   focusType: getIdxFromArray(state.focusType, value[0]),
+          // });
         }}
         placeholder="Select Type of Focus"
       />
