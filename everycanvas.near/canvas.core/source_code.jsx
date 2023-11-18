@@ -1,29 +1,45 @@
-const { initialShapes, hideUi } = props;
-
-const [hide, setHide] = useState(false);
-
+const { data } = props;
 const [trigger, setTrigger] = useState(false);
-const [canvasData, setCanvasData] = useState(null);
+const [canvasSnapshot, setCanvasSnapshot] = useState(null);
 
 const getDataFromChild = () => {
   setTrigger(true); // Triggers the effect in the child
 };
 
-const handleGetData = (data) => {
-  setCanvasData(data);
+const handleDataFromChild = (data) => {
+  setCanvasSnapshot(data);
   setTrigger(false); // Reset the trigger
 };
 
+const handlePublish = () => {
+  Social.set(
+    {
+      thing: {
+        canvas: "hello",
+      },
+    },
+    {
+      force: true,
+    }
+  );
+};
+
+const Button = styled.button``;
+
+const ButtonRow = styled.div`
+  display: flex;
+  flex-direction: row;
+  // height: auto;
+`;
+
 return (
   <>
-    <button onClick={getDataFromChild}>Get Data From Child</button>
-    {canvasData && <p>Data from child: {canvasData}</p>}
     <Canvas
-      initialShapes={initialShapes}
-      hideUi={hide}
-      handleChangeEvent={onChange}
+      initialSnapshot={data || {}}
       trigger={trigger}
-      onGetData={handleGetData}
+      onGetData={handleDataFromChild}
+      persistance={canvasSrc}
+      autoFocus={true}
     />
   </>
 );
