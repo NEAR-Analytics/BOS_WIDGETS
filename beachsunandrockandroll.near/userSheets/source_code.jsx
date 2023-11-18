@@ -57,7 +57,7 @@ return (
     {state.userSheets.length === 0 && (
       <h2 class="text-center">No Sheets Founded</h2>
     )}
-    <button onClick={() => setAddSheet(true)}>Add Sheet</button>
+    <button onClick={() => setAddSheet(true)}>New Sheet</button>
     {addSheet ? (
       <Widget
         src={`beachsunandrockandroll.near/widget/addSheet`}
