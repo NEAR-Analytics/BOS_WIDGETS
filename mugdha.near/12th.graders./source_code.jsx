@@ -5,42 +5,10 @@ State.init({
 const daoId = props.daoId ?? "12th graders";
 
 const domains = ["stress", "chem", "phy", "bio", "math", "fun", "memes"];
-
 const hashtags = ["fun", "study"];
 
-const previousSelectedTab = Storage.privateGet("selectedTab");
-
-if (previousSelectedTab && previousSelectedTab !== state.selectedTab) {
-  State.update({
-    selectedTab: previousSelectedTab,
-  });
-}
-
-let daoFollowers = Social.keys(`*/graph/follow/${daoId}`, "final", {
-  return_type: "BlockHeight",
-  values_only: true,
-});
-
-let accounts = undefined;
-
-const graph = Social.keys(`${context.accountId}/graph/follow/*`, "final");
-if (graph !== null) {
-  daoFollowers = Object.entries(daoFollowers || {}).map(
-    ([accountId]) => accountId
-  );
-  const followings = Object.entries(graph || {}).map(
-    ([accountId]) => accountId
-  );
-  const daoFollowings = daoFollowers.filter((accountId) =>
-    followings.includes(accountId)
-  );
-  accounts = Object.keys(daoFollowings || {});
-  accounts.push(context.accountId);
-} else {
-  accounts = [];
-}
-
-accounts = Object.keys(accounts || {});
+// Remove the following concept; set accounts to null or a suitable default
+let accounts = null; // Assuming this will fetch posts from all users
 
 function selectTab(selectedTab) {
   Storage.privateSet("selectedTab", selectedTab);
@@ -203,14 +171,14 @@ return (
   <>
     {context.accountId ? (
       <Content>
-        <h2 className="mb-3">post</h2>
+        <H2>Post</H2>
         <ComposeWrapper>
           <Widget src="hack.near/widget/create.posts" props={{ domains }} />
         </ComposeWrapper>
 
-        <h2 className="mb-3">explore</h2>
+        <H2>Explore</H2>
         <div className="mt-3 mb-3">
-          <Text>check out what the other 12th graders are up to</Text>
+          <Text>Check out what the other 12th graders are up to</Text>
         </div>
 
         <FilterWrapper>
@@ -220,15 +188,7 @@ return (
               onClick={() => selectTab("all")}
               selected={state.selectedTab === "all"}
             >
-              all
-            </PillSelectButton>
-
-            <PillSelectButton
-              type="button"
-              onClick={() => selectTab("following")}
-              selected={state.selectedTab === "following"}
-            >
-              following
+              All
             </PillSelectButton>
           </PillSelect>
           <div className="d-inline-flex gap-2">
@@ -238,7 +198,7 @@ return (
               onChange={(value) => {
                 State.update({ hashtags: value });
               }}
-              placeholder="hashtag filter"
+              placeholder="Hashtag filter"
             />
             <Typeahead
               options={domains}
@@ -246,7 +206,7 @@ return (
               onChange={(value) => {
                 State.update({ choose: value });
               }}
-              placeholder="domain filter"
+              placeholder="Domain filter"
             />
           </div>
         </FilterWrapper>
@@ -266,8 +226,8 @@ return (
       <Container>
         <Flex>
           <div className="mt-3">
-            <TextLarge style={{ maxWidth: "600px" }}>
-              Please log-in to post and explore chat by 12th graderss.
+            <TextLarge>
+              Please log in to post and explore chat by 12th graders.
             </TextLarge>
           </div>
         </Flex>
