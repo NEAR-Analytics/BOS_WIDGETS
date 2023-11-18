@@ -20,6 +20,12 @@ const Header = styled.div`
       padding-top: 22px;
       height: 100%;
     }
+
+    .conn-button {
+      padding-right: 10px;
+      padding-top: 15px;
+      height: 100%;
+    }
 `;
 
 if (state.sender === undefined) {
@@ -39,9 +45,13 @@ return (
     </div>
     <div class="connect">
       {!!state.sender ? (
-        <div class="user">{`${state.sender.slice(0,4)}...${state.sender.slice(-4)}`}</div>
+        <div class="user">{`${state.sender.slice(0, 4)}...${state.sender.slice(
+          -4
+        )}`}</div>
       ) : (
-        <Web3Connect connectLabel="Connect with Web3" />
+        <div class="conn-button">
+          <Web3Connect connectLabel="Connect with Web3" />
+        </div>
       )}
     </div>
   </Header>
