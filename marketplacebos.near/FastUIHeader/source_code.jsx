@@ -6,7 +6,10 @@ const MainContainer = styled.div`
   flex-direction: column;
   align-items: center;
 `;
-
+const WrapperDiv = styled.div`
+  display: flex;
+  align-items: center;
+`;
 const NavList = styled.ul`
   display: flex;
   justify-content: center;
@@ -105,8 +108,8 @@ const Blink = styled.div`
     content: "✨"; 
     font-size: 24px;
     position: absolute;
-    top: 50%;
-  left: 20%;
+  left: 0; 
+  top: 50%;
     transform: translate(-50%, -50%);
     opacity: 0;
     animation: sparkle 1s infinite;
@@ -132,6 +135,7 @@ return (
     <GlobalStyle />
     <MainContainer className="main">
       <NavList>
+      <WrapperDiv>
         <Blink></Blink>
 
         <NavListItem>
@@ -141,6 +145,7 @@ return (
             </SvgText>
           </Svg>{" "}
         </NavListItem>
+        </WrapperDiv>
         <NavListItem>
           <NavLink href="#">Docs</NavLink>
         </NavListItem>
