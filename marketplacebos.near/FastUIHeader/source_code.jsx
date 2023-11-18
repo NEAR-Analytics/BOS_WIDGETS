@@ -158,7 +158,7 @@ const Blink = styled.div`
 `;
 const BlinkRight = styled.div`
   &::before {
-    content: "✨"; 
+    content: ""; 
     font-size: 24px;
     position: absolute;
   left: 87%; 
