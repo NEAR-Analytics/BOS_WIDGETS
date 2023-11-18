@@ -7,6 +7,7 @@ const action = props.action;
 
 State.init({
   userSheets: [],
+  visibleObj: "userSheets",
 });
 
 const getUserSheets = () => {
