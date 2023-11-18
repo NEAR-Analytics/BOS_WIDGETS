@@ -39,6 +39,7 @@ const Tabs = styled.div`
 `;
 
 const TabsButton = styled.button`
+  border-radius:18px;
   display: inline-flex;
   align-items: center;
   justify-content: flex-start;
@@ -47,14 +48,14 @@ const TabsButton = styled.button`
   padding: 12px 0;
   position: relative;
   color: white;
-  background: none;
+  background-image: linear-gradient(90deg, rgba(251,136,255,1) 0%, rgba(252,176,69,1) 100%);
   border: none !important;
   outline: none;
   text-align: center;
   text-decoration: none !important;
 
   &:hover {
-    background: #f04874;
+    background: #ffd83e;
     cursor: pointer;
     border-radius:18px;
     color:white;
@@ -69,24 +70,8 @@ const TabsButton = styled.button`
     right: 0;
     bottom: 0;
     width: 6px;
-    background: orange;
-    background: 
-      radial-gradient(rgba(63,94,251,1), rgba(63,94,251,1) 40%, rgba(63,94,251,1) 40%, rgba(252,70,107,1) 60%, rgba(252,70,107,1)100%), 
-      linear-gradient(to right, rgb(255, 217, 0), rgb(255, 217, 0), rgb(255, 217, 0) 10%, rgb(230, 54, 97), rgb(157, 0, 253), rgb(230, 54, 97), rgb(255, 217, 0) 90%, rgb(255, 217, 0), rgb(255, 217, 0));
-    background-color: rgba(255, 255, 255, 0.5);
-    background-size: 200% 100%, 200% 100%;
-    background-position: 100% 0, 100% 0;
-
-    animation: moveLines 3s linear infinite;
-
-    @keyframes moveLines {
-      0% {
-        background-position: 200% 0, 200% 0;
-      }
-      100% {
-        background-position: -200% 0, -200% 0;
-      }
-    }
+    background: #ffd83e;
+   
 }
 `;
 const handleTabClick = (tab) => {
@@ -101,7 +86,7 @@ return (
     </>
     <div class="row">
       <div class="col-md-3">
-        <Wrapper>
+        <Wrapper style={{ cursor: "pointer" }}>
           <Tabs>
             <TabsButton
               onClick={() => handleTabClick("buttons")}
@@ -165,7 +150,7 @@ return (
             >
               <Title>Patterns</Title>
             </TabsButton>
-             <TabsButton
+            <TabsButton
               onClick={() => handleTabClick("fonts")}
               selected={state.selectedTab === "fonts"}
             >
