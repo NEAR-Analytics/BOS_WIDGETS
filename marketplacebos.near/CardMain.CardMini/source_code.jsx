@@ -154,8 +154,6 @@ const SaveButton = styled.button`
   transition: background-color 300ms;
 `;
 
-
-
 const ViewButton = styled.button`
   width: 5rem;
   height: 30px;
@@ -179,7 +177,7 @@ const Edit = styled.button`
   width: 5rem;
   height: 30px;
   font-size: 12px;
-  background-color: #0a1929ff;
+  background-color: black;
   border: none;
   border-radius: 24px;
   cursor: pointer;
@@ -192,7 +190,7 @@ const Edit = styled.button`
   font-weight: bold;
   color: white;
    &:hover {
-    background-color: #0a1929ff;
+    background-color: black;
   }
 `;
 
