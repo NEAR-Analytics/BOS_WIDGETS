@@ -63,7 +63,7 @@ if (state.previousTimestamp != previousTimestamp) {
 
 if (state.theme === undefined) {
   const css = fetch(
-    "https://ipfs.near.social/ipfs/bafkreigeio43tyxow7akm3il5j7iyvvpbg7nm4jn77ugmmxkmiipma6n2e"
+    "https://ipfs.near.social/ipfs/bafkreiaglrponkowprlfu2y7kcxmpxbnca224aj7zqgaea3c7k7j55b73a"
   ).body;
   if (!css) return "";
 
@@ -72,6 +72,14 @@ if (state.theme === undefined) {
   `,
   });
 }
+
+const check = (
+  <svg viewBox="0 0 24 24" aria-hidden="true">
+    <g>
+      <path d="M9.64 18.952l-5.55-4.861 1.317-1.504 3.951 3.459 8.459-10.948L19.4 6.32 9.64 18.952z"></path>
+    </g>
+  </svg>
+);
 
 const Theme = state.theme;
 
@@ -136,6 +144,19 @@ const SaveToClipboard = () => {
   });
 };
 
+const features = [
+  "Premium blue checkmark",
+  "Posts featured in the default feed",
+  <>
+    Access to the link shortener{" "}
+    <a href="https://near.fm/" target="_black">
+      near.fm
+    </a>
+  </>,
+  "Increased referral commission",
+  "Transfer of premium subscription between accounts",
+];
+
 return (
   <Theme>
     <div class="container">
@@ -150,6 +171,16 @@ return (
               src="https://ipfs.near.social/ipfs/bafkreihfjwfijsedf4r75iwn77yua5ey3ufv6swgcjupqeigh2fw4wqm4a"
             />
           </div>
+        </div>
+
+        <div class="premium-description">
+          <h6>Enhanced Experience</h6>
+          {features.map((item) => (
+            <div class="d-flex flex-row">
+              <div class="flex-grow-1">{item}</div>
+              <div>{check}</div>
+            </div>
+          ))}
         </div>
 
         <div class="radiogroup">
