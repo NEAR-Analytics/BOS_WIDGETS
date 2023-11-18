@@ -19,9 +19,13 @@ const getUserSheets = () => {
 
   ppd.getUserIdx().then((userIdx) => {
     ppd.getUserSheets(parseInt(userIdx.toString())).then((res) => {
-      console.log(res);
-      // const comp = res && res.map((r) => r[0]);
-      State.update({ userSheets: res });
+      let sheets = res.map((userSheet, i) => ({
+        name: userSheet[0],
+        createdAt: getNormalDate(userSheet[1]),
+        difficulty: userSheet[2],
+        dataUri: userSheet[3],
+      }));
+      State.update({ userSheets: sheets });
     });
   });
 };
@@ -30,7 +34,6 @@ if (state.sender === undefined) {
   const accounts = Ethers.send("eth_requestAccounts", []);
   if (accounts.length) {
     State.update({ sender: accounts[0] });
-    console.log("asa");
     getUserSheets();
   }
 }
@@ -60,11 +63,10 @@ return (
             <Widget
               src={`beachsunandrockandroll.near/widget/card`}
               props={{
-                title: userSheet[0],
-                desc: getNormalDate(userSheet[1]),
+                title: userSheet.name,
+                desc: userSheet.createdAt,
                 buttonTitle: "View Sheet",
                 action: () => {
-                  console.log("va a pasar", i);
                   action(i);
                 },
               }}
