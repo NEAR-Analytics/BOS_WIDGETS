@@ -5,6 +5,7 @@ const { getNormalDate, ppdContract, ppdAbi, studyType, focusType } = VM.require(
   "beachsunandrockandroll.near/widget/utils"
 );
 const [addRecord, setAddRecord] = useState(false);
+const [showImg, setShowImg] = useState(false);
 
 State.init({
   userSheets: [],
@@ -72,6 +73,18 @@ if (state.sender === undefined) {
 return (
   <>
     <h2>{state.sheet.name}</h2>
+    <p>Created At: {state.sheet.createdAt}</p>
+    <a href="#" onClick={() => setShowImg(!showImg)}>
+      Show/Hide Sheet
+    </a>
+    <div className="mt-2">
+      {showImg && state.sheet.dataUri && (
+        <img
+          src={`https://ipfs.near.social/ipfs/${state.sheet.dataUri}`}
+          alt="uploaded"
+        />
+      )}
+    </div>
     <button onClick={back}>Back</button>
     <button
       onClick={() => {
@@ -110,25 +123,26 @@ return (
                 </tr>
               </thead>
               <tbody>
-                {state.records.sort((a,b)=> b.createdAt - a.createdAt).map((record) => {
-                  return (
-                    <tr>
-                      <td>{record.phraseNum}</td>
-                      <td>{record.subPhraseNum}</td>
-                      <td>{record.qtyMinutes}</td>
-                      <td>{studyType[record.studyType]}</td>
-                      <td>{focusType[record.focusType]}</td>
-                      <td>{record.isAllSheet ? "Yes" : "No"}</td>
-                      <td>{getNormalDate(record.createdAt)}</td>
-                    </tr>
-                  );
-                })}
+                {state.records
+                  .sort((a, b) => b.createdAt - a.createdAt)
+                  .map((record) => {
+                    return (
+                      <tr>
+                        <td>{record.phraseNum}</td>
+                        <td>{record.subPhraseNum}</td>
+                        <td>{record.qtyMinutes}</td>
+                        <td>{studyType[record.studyType]}</td>
+                        <td>{focusType[record.focusType]}</td>
+                        <td>{record.isAllSheet ? "Yes" : "No"}</td>
+                        <td>{getNormalDate(record.createdAt)}</td>
+                      </tr>
+                    );
+                  })}
               </tbody>
             </table>
           </div>
         </>
       )
-
     )}
   </>
 );
