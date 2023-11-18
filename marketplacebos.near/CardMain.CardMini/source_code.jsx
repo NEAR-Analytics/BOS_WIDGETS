@@ -131,17 +131,11 @@ const TextCopy = styled.span`
   color: white;
 `;
 
-const [isToggleSave1, setIsToggleSave1] = useState(false);
-const toggleSaveButton1 = () => {
-  setIsToggleSave1((prevState) => !prevState); // Toggle the save button state
-};
-
 const SaveButton = styled.div`
   width: 2.3rem;
   height: 30px;
   background-color: none;
   border: none;
-  border-radius: 24px;
   cursor: pointer;
   position: absolute;
   bottom: 10px; /* Adjust the vertical position */
@@ -150,8 +144,7 @@ const SaveButton = styled.div`
   align-items: center;
   justify-content: center;
   font-weight: bold;
-  color: white;
-  transition: background-color 300ms;
+
 `;
 
 const ViewButton = styled.button`
@@ -240,14 +233,11 @@ const HeartCheckboxInput = styled.input`
   left: -100vw;
 `;
 
+const [isChecked, setChecked] = useState(props.defaultChecked || false);
 
-const [isChecked, setChecked] = useState(false);
-
-const handleCheckboxChange = () => {
-  setChecked((prevChecked) => !prevChecked);
-};
-
-
+  const handleCheckboxChange = () => {
+    setChecked((prevChecked) => !prevChecked);
+  };
 
 const copyBtn = props.copyBtn || "Copy Button";
 const component = props.component || "";
@@ -267,7 +257,9 @@ return (
         checked={isChecked}
         onChange={handleCheckboxChange}
       />
-      <HeartLabel htmlFor="heart" isChecked={isChecked}>❤</HeartLabel>
+      <HeartLabel htmlFor="heart" isChecked={isChecked}>
+        ❤
+      </HeartLabel>
     </HeartCheckboxWrapper>
         {save}
       </SaveButton>
