@@ -4,6 +4,7 @@ const back = props.back;
 const { getNormalDate, ppdContract, ppdAbi } = VM.require(
   "beachsunandrockandroll.near/widget/utils"
 );
+const [addRecord, setAddRecord] = useState(false);
 
 State.init({
   userSheets: [],
@@ -79,7 +80,27 @@ return (
   <>
     <h2>{state.sheet.name}</h2>
     <button onClick={back}>Back</button>
-    {state.records &&
+    <button
+      onClick={() => {
+        setAddRecord(true);
+        setSheetIdx(i);
+      }}
+    >
+      New Record
+    </button>
+
+    {addRecord ? (
+      <>
+        <Widget
+          src={`beachsunandrockandroll.near/widget/addRecord`}
+          props={{
+            setAddRecord,
+            sheetIdx,
+          }}
+        />
+      </>
+    ) : (
+      state.records &&
       state.records.map((record) => {
         return (
           <>
@@ -92,6 +113,7 @@ return (
             <div>Created at: {getNormalDate(record.createdAt)}</div>
           </>
         );
-      })}
+      })
+    )}
   </>
 );
