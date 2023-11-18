@@ -23,16 +23,17 @@ const addSheet = () => {
   ppd.getUserIdx().then((userIdx) => {
     const dataUri = "";
 
-    ppd.addSheet(
-      sheetName,
-      composerIdx,
-      parseInt(userIdx.toString()),
-      parseInt(difficulty),
-      dataUri
-    );
-    // .then(() => {
-    //   setAddSheet(false);
-    // });
+    ppd
+      .addSheet(
+        sheetName,
+        composerIdx,
+        parseInt(userIdx.toString()),
+        parseInt(difficulty),
+        dataUri
+      )
+      .then(() => {
+        setAddSheet(false);
+      });
   });
 };
 
