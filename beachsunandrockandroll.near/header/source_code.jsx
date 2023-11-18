@@ -41,10 +41,35 @@ const Header = styled.div`
 const linkSheets = props.linkSheets;
 const linkComposer = props.linkComposer;
 
+const getUsers = () => {
+  const ppd = new ethers.Contract(
+    ppdContract,
+    ppdAbi.body,
+    Ethers.provider().getSigner()
+  );
+
+  ppd.getUsers().then((res) => {
+    State.update({ users: res });
+  });
+};
+
+const isUserRegistered = () => {
+  if (!state.users) return false;
+
+  const userTmp = state.users.find(
+    (user) => user[0].toLowerCase() === state.sender
+  );
+
+  if (userTmp != undefined) setUser(userTmp);
+
+  return userTmp != undefined;
+};
+
 if (state.sender === undefined) {
   const accounts = Ethers.send("eth_requestAccounts", []);
   if (accounts.length) {
     State.update({ sender: accounts[0] });
+    getUsers();
   }
 }
 
@@ -59,12 +84,16 @@ return (
           />
         </div>
         <div class="d-flex gap-5 justify-center col option-links">
-          <a href="#" onClick={linkSheets}>
-            My Sheets
-          </a>
-          <a href="#" onClick={linkComposer}>
-            Composer List
-          </a>
+          {!!state.sender && isUserRegistered() && (
+            <>
+              <a href="#" onClick={linkSheets}>
+                My Sheets
+              </a>
+              <a href="#" onClick={linkComposer}>
+                Composer List
+              </a>
+            </>
+          )}
         </div>
         <div class="col connect">
           {!!state.sender ? (
