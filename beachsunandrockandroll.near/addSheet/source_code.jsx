@@ -6,9 +6,6 @@ const [sheetName, setSheetName] = useState("");
 const [composerIdx, setComposerIdx] = useState("");
 const [difficulty, setDifficulty] = useState(0);
 
-console.log(ppdContract);
-console.log(props);
-
 // State.init({
 //   img: null,
 // });
@@ -24,12 +21,16 @@ const addSheet = () => {
   );
 
   ppd.getUserIdx().then((userIdx) => {
-    console.log("userIdx", userIdx);
-    console.log("composerIdx", composerIdx);
-    const daraUri = "";
+    const dataUri = "";
 
     ppd
-      .addSheet(sheetName, composerIdx, userIdx, difficulty, daraUri)
+      .addSheet(
+        sheetName,
+        composerIdx,
+        parseInt(userIdx.toString()),
+        parseInt(difficulty),
+        dataUri
+      )
       .then(() => {
         setAddSheet(false);
       });
@@ -55,7 +56,7 @@ const getComposers = () => {
 
 useEffect(() => {
   getComposers();
-}, []);
+}, [ppdContract]);
 
 return (
   <>
@@ -71,10 +72,18 @@ return (
           setSheetName(event.target.value);
         }}
       />
-
+      <Typeahead
+        className="p-2"
+        options={state.composers}
+        // multiple
+        onChange={(value) => {
+          setComposerIdx(0);
+        }}
+        placeholder="Choose a tag to filter..."
+      />
       <input
         className="form-control m-2 p-2"
-        type="text"
+        type="number"
         id="difficulty"
         name="difficulty"
         required
@@ -83,7 +92,7 @@ return (
           setDifficulty(event.target.value);
         }}
       />
-      <button onClick={addSheet}>Add Sheet</button>
+      <button onClick={addingSheet}>Add Sheet</button>
     </div>
   </>
 );
