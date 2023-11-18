@@ -1,6 +1,8 @@
 const setAddSheet = props.setAddSheet;
-const ppdContract = props.ppdContract;
-const ppdAbi = props.ppdAbi;
+
+const { ppdContract, ppdAbi } = VM.require(
+  "beachsunandrockandroll.near/widget/utils"
+);
 
 const [sheetName, setSheetName] = useState("");
 const [composerIdx, setComposerIdx] = useState(0);
@@ -11,9 +13,6 @@ State.init({
 });
 
 const addSheet = () => {
-  console.log("entrando a addSheet");
-  console.log("ppdContract", ppdContract);
-
   const ppd = new ethers.Contract(
     ppdContract,
     ppdAbi.body,
