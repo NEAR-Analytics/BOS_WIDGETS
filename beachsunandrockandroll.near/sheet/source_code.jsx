@@ -44,26 +44,19 @@ const getRecordsBySheet = () => {
   );
 
   ppd.getUserIdx().then((userIdx) => {
-    ppd
-      .getRecordsBySheet(parseInt(userIdx.toString()), sheetIdx)
-      .then((res) => {
-        console.log(res);
-        let records = [];
-        res.map((r) => {
-          console.log(r[5] === false);
-          records.push({
-            phraseNum: parseInt(r[0].toString()),
-            subPhraseNum: parseInt(r[1].toString()),
-            qtyMinutes: r[2],
-            studyType: r[3],
-            focusType: r[4],
-            isAllSheet: r[5] === true,
-            createdAt: parseInt(r[6].toString()),
-          });
-        });
-        // const comp = res && res.map((r) => r[0]);
-        State.update({ records });
-      });
+    ppd.getRecordsBySheet(Big(userIdx).toFixed(), sheetIdx).then((res) => {
+      const records = res.map((r) => ({
+        phraseNum: Big(r[0]).toFixed(),
+        subPhraseNum: Big(r[1]).toFixed(),
+        qtyMinutes: r[2],
+        studyType: r[3],
+        focusType: r[4],
+        isAllSheet: r[5],
+        createdAt: r[6],
+      }));
+
+      State.update({ records });
+    });
   });
 };
 
@@ -105,11 +98,12 @@ return (
         return (
           <>
             <div>Phrase Number: {record.phraseNum}</div>
+            <div>SubPhrase Number: {record.subPhraseNum}</div>
             <div>Qty Minutes: {record.qtyMinutes}</div>
             <div>Study Type: {record.studyType}</div>
             <div>Focus Type: {record.focusType}</div>
             <div>is all sheet?: {record.isAllSheet ? "yes" : "no"}</div>
-            <div>SubPhrase Number: {record.subPhraseNum}</div>
+
             <div>Created at: {getNormalDate(record.createdAt)}</div>
           </>
         );
