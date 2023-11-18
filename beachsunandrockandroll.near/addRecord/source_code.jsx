@@ -16,8 +16,6 @@ State.init({
   focusType: ["Study", "Practice"],
 });
 
-console.log("sheetIdx", sheetIdx);
-
 const addRecord = () => {
   const ppd = new ethers.Contract(
     ppdContract,
@@ -46,6 +44,7 @@ const addRecord = () => {
 return (
   <>
     <div>
+      <div>{sheetIdx}</div>
       <input
         className="form-control m-2 p-2"
         type="number"
