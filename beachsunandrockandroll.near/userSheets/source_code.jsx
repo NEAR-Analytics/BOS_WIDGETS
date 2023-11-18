@@ -58,7 +58,7 @@ max-width: 900px;
 return (
   <>
     {state.userSheets.length === 0 && (
-      <h2 class="text-center">No Sheets Founded</h2>
+      <h3 class="text-center">No Sheets Founded</h3>
     )}
     <button onClick={() => setAddSheet(true)}>New Sheet</button>
     {addSheet ? (
