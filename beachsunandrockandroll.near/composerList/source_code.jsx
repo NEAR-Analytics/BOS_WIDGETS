@@ -50,10 +50,10 @@ const GridWrap = styled.div`
   `;
 
 return (
-  <>
-    {state.composers.length === 0 && (
-      <h2 class="text-center">No Composers Founded</h2>
-    )}
+  <div class="px-3 py-5">
+    <h3 class="text-center">
+      {state.composers.length === 0 ? "No Composers Founded" : "Composer List"}
+    </h3>
     <button onClick={() => setAddComposer(true)}>New Composer</button>
     <button onClick={back}>Back</button>
     {addComposer ? (
@@ -80,5 +80,5 @@ return (
         </div>
       </GridWrap>
     )}
-  </>
+  </div>
 );
