@@ -1,12 +1,12 @@
 const Hello = () => <span id="hello-span">hello</span>;
 const World = () => (
   <>
-    <div id="hello-parent-div">
-      <span id="hello-parent-span">
+    <div id="world-parent-div">
+      <span id="world-parent-span">
         <Hello id="hello-component" />
       </span>
     </div>
-    <h2>world</h2>
+    <h2 id="world-h2">world</h2>
   </>
 );
 
