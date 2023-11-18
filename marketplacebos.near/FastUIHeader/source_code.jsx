@@ -175,6 +175,13 @@ if (!accountId) {
   return "Please sign in with NEAR wallet to save this UI";
 }
 
+const addEllipsisIfNeeded = (text, maxLength) => {
+  if (text.length > maxLength) {
+    return text.slice(0, maxLength) + '...';
+  }
+  return text;
+};
+
 return (
   <>
     <GlobalStyle />
@@ -198,9 +205,9 @@ return (
           <NavLink href="#">About</NavLink>
         </NavListItem>
         <NavListItem>
- <EllipsisNavLink ellipsis={accountId.length > 10} href="#" title={accountId}>
-            {accountId}
-          </EllipsisNavLink>
+      <EllipsisNavLink href="#" title={accountId}>
+        {addEllipsisIfNeeded(accountId, 10)}
+      </EllipsisNavLink>
                   </NavListItem>
         <BlinkRight></BlinkRight>
       </NavList>
