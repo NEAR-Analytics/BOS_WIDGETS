@@ -51,7 +51,7 @@ return (
     <Widget
       src={`beachsunandrockandroll.near/widget/header`}
       props={{
-        linkSheet: () => State.update({ visibleObj: "userSheets" }),
+        linkSheets: () => State.update({ visibleObj: "userSheets" }),
         linkComposer: () => State.update({ visibleObj: "composerList" }),
       }}
     />
