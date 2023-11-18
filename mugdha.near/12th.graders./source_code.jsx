@@ -1,4 +1,5 @@
-const styled = require("styled-components");
+const styled = require("styled-components").default;
+
 const { State, Storage, Widget } = require("..."); // Replace '...' with the actual path
 
 State.init({
