@@ -103,7 +103,7 @@ return (
         <div class="col connect">
           {!!state.sender ? (
             <div class="user">
-              {user && (<div>Hi {user[1]}!</div>)}
+              {user && <div>Hi {user[1]}!</div>}
               <div>{`${state.sender.slice(0, 4)}...${state.sender.slice(
                 -4
               )}`}</div>
