@@ -57,9 +57,9 @@ max-width: 900px;
 
 return (
   <div class="px-3 py-5">
-    {state.userSheets.length === 0 && (
-      <h3 class="text-center">No Sheets Founded</h3>
-    )}
+    <h3 class="text-center">
+      {state.userSheets.length === 0 ? "No Sheets Founded" : "My Sheets"}
+    </h3>
     <button onClick={() => setAddSheet(true)} class="mb-4 btn btn-primary">
       New Sheet
     </button>
