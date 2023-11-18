@@ -72,28 +72,7 @@ return (
         />
       </div>
     )}
-    {user !== "" && (
-      <div class="mt-4 p-3">
-        <button
-          onClick={() => {
-            State.update({ visibleObj: "composerList" });
-          }}
-        >
-          Get composer List
-        </button>
-        <button
-          onClick={() => {
-            State.update({ visibleObj: "userSheets" });
-          }}
-        >
-          Get my Sheets
-        </button>
-      </div>
-    )}
 
-    {/*{user && <>{user[1]}</>}
-
-    */}
     {!!state.sender &&
       isUserRegistered() &&
       state.visibleObj === "userSheets" && (
