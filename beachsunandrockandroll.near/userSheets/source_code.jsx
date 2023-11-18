@@ -2,6 +2,8 @@ const { getNormalDate, ppdContract, ppdAbi } = VM.require(
   "beachsunandrockandroll.near/widget/utils"
 );
 
+const action = props.action;
+
 State.init({
   userSheets: [],
 });
@@ -61,7 +63,7 @@ return (
                 title: userSheet[0],
                 desc: getNormalDate(userSheet[1]),
                 buttonTitle: "View Sheet",
-                // action:
+                action,
               }}
             />
 
