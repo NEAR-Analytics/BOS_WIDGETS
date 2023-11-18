@@ -11,12 +11,7 @@ function selectTab(selectedTab) {
   State.update({ selectedTab });
 }
 
-// Fetch posts from all users
-let accounts = Social.keys(`*/graph/follow/*`, "final", {
-  return_type: "BlockHeight",
-  values_only: true,
-});
-accounts = Object.keys(accounts || {});
+let accounts = null;
 
 // Styled components
 const H2 = styled.h2`
@@ -163,10 +158,10 @@ const Flex = styled.div`
   }
 `;
 
-// Component return
 return (
   <>
     {context.accountId ? (
+      // When the user is logged in
       <Content>
         <H2>Post</H2>
         <ComposeWrapper>
@@ -193,7 +188,7 @@ return (
           <Widget
             src="hack.near/widget/view.posts"
             props={{
-              accounts,
+              accounts, // Pass null or appropriate value to fetch posts for logged-in users
               domains: state.choose,
               hashtags: state.hashtags,
             }}
@@ -201,6 +196,7 @@ return (
         </FeedWrapper>
       </Content>
     ) : (
+      // When the user is not logged in
       <Container>
         <Flex>
           <TextLarge>
