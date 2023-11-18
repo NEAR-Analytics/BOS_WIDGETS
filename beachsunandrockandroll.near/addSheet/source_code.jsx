@@ -92,7 +92,7 @@ return (
           setDifficulty(event.target.value);
         }}
       />
-      <button onClick={addingSheet}>Add Sheet</button>
+      <button onClick={addSheet}>Add Sheet</button>
     </div>
   </>
 );
