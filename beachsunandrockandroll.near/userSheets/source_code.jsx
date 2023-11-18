@@ -1,6 +1,7 @@
 const { getNormalDate, ppdContract, ppdAbi } = VM.require(
   "beachsunandrockandroll.near/widget/utils"
 );
+const [addSheet, setAddSheet] = useState(false);
 
 const action = props.action;
 
@@ -56,8 +57,14 @@ return (
     {state.userSheets.length === 0 && (
       <h2 class="text-center">No Sheets Founded</h2>
     )}
-    {state.userSheets.map((userSheet, i) => {
-      return (
+    <button onClick={() => setAddSheet(true)}>Add Sheet</button>
+    {addSheet ? (
+      <Widget
+        src={`beachsunandrockandroll.near/widget/addSheet`}
+        props={{ setAddSheet }}
+      />
+    ) : (
+      state.userSheets.map((userSheet, i) => (
         <GridWrap>
           <div class="grid gap-4 grid-cols-2">
             <Widget
@@ -73,7 +80,7 @@ return (
             />
           </div>
         </GridWrap>
-      );
-    })}
+      ))
+    )}
   </>
 );
