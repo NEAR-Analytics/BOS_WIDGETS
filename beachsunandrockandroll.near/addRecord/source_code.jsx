@@ -37,7 +37,7 @@ const addRecord = () => {
   ppd.getUserIdx().then((userIdx) => {
     ppd
       .addRecord(
-        parseInt(userIdx.toString()),
+        Big(userIdx).toFixed(),
         sheetIdx,
         phraseNumber,
         subPhraseNumber,
