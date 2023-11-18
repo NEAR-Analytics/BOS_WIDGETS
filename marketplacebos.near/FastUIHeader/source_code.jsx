@@ -31,6 +31,10 @@ const EllipsisNavLink = styled.a`
     transition: padding 0.5s, top 0.35s, box-shadow 0.4s;
     box-shadow: 0 0.4rem 0 -0.2rem #ff10d9;
   }
+    @media (max-width: 768px) {
+    font-size: 16px; /* Adjust the font size for smaller screens */
+    margin-right: 0.5em;
+  }
 `;
 const NavList = styled.ul`
   display: flex;
@@ -66,6 +70,10 @@ const NavLink = styled.a`
     top: -0.16em;
     transition: padding 0.5s, top 0.35s, box-shadow 0.4s;
     box-shadow: 0 0.4rem 0 -0.2rem #ff10d9;
+  }
+    @media (max-width: 768px) {
+    font-size: 16px; /* Adjust the font size for smaller screens */
+    margin-right: 0.5em;
   }
 `;
 
@@ -128,7 +136,7 @@ const SvgText = styled.text`
 
 const Blink = styled.div`
   &::before {
-    content: "✨✨✨✨✨✨✨✨"; 
+    content: "✨✨✨"; 
     font-size: 24px;
     position: absolute;
   left: 13%; 
@@ -150,7 +158,7 @@ const Blink = styled.div`
 `;
 const BlinkRight = styled.div`
   &::before {
-    content: "✨✨✨✨✨✨✨✨"; 
+    content: "✨✨✨"; 
     font-size: 24px;
     position: absolute;
   left: 87%; 
@@ -199,10 +207,14 @@ return (
           </NavListItem>
         </WrapperDiv>
         <NavListItem>
-          <NavLink href="https://trans-organization-12.gitbook.io/fastui/">Docs</NavLink>
+          <NavLink href="https://trans-organization-12.gitbook.io/fastui/">
+            Docs
+          </NavLink>
         </NavListItem>
         <NavListItem>
-          <NavLink href="https://github.com/pichtranst123/FastUI/issues">Helps</NavLink>
+          <NavLink href="https://github.com/pichtranst123/FastUI/issues">
+            Helps
+          </NavLink>
         </NavListItem>
         <NavListItem>
           <EllipsisNavLink href="#" title={accountId}>
