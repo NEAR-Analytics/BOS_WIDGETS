@@ -251,7 +251,9 @@ const assetContainer = (
       </div>
     ) : null;
   }
-
+  const onClickOption = () => {
+    console.log("onClickOption");
+  };
   const assetContainerClass = useSpacer
     ? "asset-container-top"
     : "asset-container-bottom";
@@ -291,11 +293,17 @@ const assetContainer = (
                       name: "USDC (Polygon)",
                       iconLeft: "ph ph-user-circle",
                       iconRight: "ph ph-user-focus",
+                      onSelect: () => {
+                        State.update({ sender: "USDC (Polygon)" });
+                      },
                     },
                     {
                       name: "Göerli (Polygon)",
                       iconLeft: "ph ph-user-circle",
                       iconRight: "ph ph-user-focus",
+                      onSelect: () => {
+                        State.update({ sender: "Göerli (Polygon)" });
+                      },
                     },
                   ],
                   onSelect: onPickOption,
@@ -1031,7 +1039,7 @@ return (
               {!openSender && (
                 <div style={{ height: "100%", flex: 1 }}>
                   {assetContainer(
-                    fasle,
+                    false,
                     state.outputAsset,
                     "outputAssetAmount",
                     () => {
