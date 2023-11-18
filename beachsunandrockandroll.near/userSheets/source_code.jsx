@@ -71,15 +71,6 @@ return (
                 },
               }}
             />
-
-            {/* <button
-              onClick={() => {
-                setAddRecord(true);
-                setSheetIdx(i);
-              }}
-            >
-              New Record
-            </button>*/}
           </div>
         </GridWrap>
       );
