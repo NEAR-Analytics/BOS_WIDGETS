@@ -17,11 +17,12 @@ const NavList = styled.ul`
   border-bottom: 5px solid #ff10d9;
   border-top: 5px solid #ff10d9;
   background-color: #ffd840;
+  position: relative;
 `;
 
 const NavListItem = styled.li`
   display: inline;
-  list-style-type: none;
+  
 `;
 
 const NavLink = styled.a`
@@ -55,141 +56,13 @@ const GlobalStyle = styled.div`
   }
 `;
 
-const GradientText = styled.h4`
-  font-weight: 800;
-  margin: 0 0 0 20px;
-  color: linear-gradient(to right, rgb(255, 217, 0), rgb(255, 217, 0), rgb(255, 217, 0) 10%, rgb(230, 54, 97), rgb(157, 0, 253), rgb(230, 54, 97), rgb(255, 217, 0) 90%, rgb(255, 217, 0), rgb(255, 217, 0));
-  display: inline;
-`;
-
-const HeaderBtn = styled.button`
-  position: relative;
-  border: none;
-  font-size: 14px;
-  font-family: inherit;
-  color: black;
-  width: 7em;
-  height: 2.5em;
-  line-height: 2em;
-  text-align: center;
-  background: radial-gradient(circle, rgba(63,94,251,1) 0%, rgba(252,70,107,1) 100%);
-
-  display: inline;
-  background-size: 300%;
-  border-radius: 30px;
-  z-index: 1;
-  cursor: pointer;
-
-  &:hover {
-    animation: ani 8s linear infinite;
-    border: none;
-  }
-
-  &::before {
-    content: '';
-    position: absolute;
-    top: -5px;
-    left: -5px;
-    right: -5px;
-    bottom: -5px;
-    z-index: -1;
-background: radial-gradient(circle, rgba(63,94,251,1) 0%, rgba(252,70,107,1) 100%);
-
-
-  display: inline;
-    background-size: 400%;
-    border-radius: 35px;
-    transition: 1s;
-  }
-
-  &:hover::before {
-    filter: blur(20px);
-  }
-
-  &:active {
-background: radial-gradient(circle, rgba(63,94,251,1) 0%, rgba(252,70,107,1) 100%);
-
-  display: inline;
-  }
-
-  @keyframes ani {
-    0% {
-      background-position: 0%;
-    }
-
-    100% {
-      background-position: 400%;
-    }
-  }
-`;
-
-const AcountID = styled.p`
-  height:35px;
-  position: relative;
-  border: none;
-  font-size: 14px;
-  font-family: inherit;
-  color: black;
-  width: 9em;
-  height: 3em;
-  line-height: 2em;
-  text-align: center;
-background: radial-gradient(circle, rgba(63,94,251,1) 0%, rgba(252,70,107,1) 100%);
-
-  display: inline;
-  background-size: 300%;
-  border-radius: 30px;
-  z-index: 1;
-  cursor: pointer;
-
-  &:hover {
-    animation: ani 8s linear infinite;
-    border: none;
-  }
-
-  &::before {
-    content: '';
-    position: absolute;
-    top: -5px;
-    left: -5px;
-    right: -5px;
-    bottom: -5px;
-    z-index: -1;
-background: radial-gradient(circle, rgba(63,94,251,1) 0%, rgba(252,70,107,1) 100%);
-
-  display: inline;
-    background-size: 400%;
-    border-radius: 35px;
-    transition: 1s;
-  }
-
-  &:hover::before {
-    filter: blur(20px);
-  }
-
-  &:active {
-background: radial-gradient(circle, rgba(63,94,251,1) 0%, rgba(252,70,107,1) 100%);
-
-  display: inline;
-  }
-
-  @keyframes ani {
-    0% {
-      background-position: 0%;
-    }
-
-    100% {
-      background-position: 400%;
-    }
-  }
-`;
-
 const Svg = styled.svg`
   font-family: 'Russo One', sans-serif;
   width: 100%;
   height: 100%;
   margin-right: auto;
   margin-left: 0; 
+  
 `;
 
 const SvgText = styled.text`
@@ -224,6 +97,30 @@ const SvgText = styled.text`
       stroke-width: 0;
     }
   }
+  
+`;
+
+const Blink = styled.div`
+  &::before {
+    content: "✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨"; 
+    font-size: 24px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    opacity: 0;
+    animation: sparkle 1s infinite;
+  }
+
+  @keyframes sparkle {
+    0%, 100% {
+      opacity: 0;
+    }
+    50% {
+      opacity: 1;
+    }
+  }
+
 `;
 
 if (!accountId) {
@@ -253,5 +150,6 @@ return (
         </NavListItem>
       </NavList>
     </MainContainer>
+    <Blink></Blink>
   </>
 );
