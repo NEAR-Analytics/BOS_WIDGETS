@@ -41,6 +41,8 @@ if (state.sender === undefined) {
 }
 
 const GridWrap = styled.div`
+max-width: 900px;
+
 .gap-4 {
     gap: 1rem;
 }
@@ -65,9 +67,9 @@ return (
         props={{ setAddSheet }}
       />
     ) : (
-      state.userSheets.map((userSheet, i) => (
-        <GridWrap>
-          <div class="grid gap-4 grid-cols-2">
+      <GridWrap>
+        <div class="grid gap-4 grid-cols-2">
+          {state.userSheets.map((userSheet, i) => (
             <Widget
               src={`beachsunandrockandroll.near/widget/card`}
               props={{
@@ -79,9 +81,9 @@ return (
                 },
               }}
             />
-          </div>
-        </GridWrap>
-      ))
+          ))}
+        </div>
+      </GridWrap>
     )}
   </>
 );
