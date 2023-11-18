@@ -1,6 +1,5 @@
-Copy code
-const styled = require('styled-components');
-const { State, Storage, Widget } = require('...'); // Replace '...' with the actual path
+const styled = require("styled-components");
+const { State, Storage, Widget } = require("..."); // Replace '...' with the actual path
 
 State.init({
   selectedTab: Storage.privateGet("selectedTab") || "all",
@@ -10,13 +9,12 @@ const daoId = props.daoId || "12th graders";
 const domains = ["stress", "chem", "phy", "bio", "math", "fun", "memes"];
 const hashtags = ["fun", "study"];
 
-let accounts = null;  // Fetch posts from all users
+let accounts = null; // Fetch posts from all users
 
 function selectTab(selectedTab) {
   Storage.privateSet("selectedTab", selectedTab);
   State.update({ selectedTab });
 }
-
 
 // Styled components
 const H2 = styled.h2`
