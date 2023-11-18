@@ -136,7 +136,7 @@ const SvgText = styled.text`
 
 const Blink = styled.div`
   &::before {
-    content: "✨✨✨"; 
+    content: "✨"; 
     font-size: 24px;
     position: absolute;
   left: 13%; 
@@ -158,7 +158,7 @@ const Blink = styled.div`
 `;
 const BlinkRight = styled.div`
   &::before {
-    content: "✨✨✨"; 
+    content: "✨"; 
     font-size: 24px;
     position: absolute;
   left: 87%; 
@@ -176,6 +176,7 @@ const BlinkRight = styled.div`
       opacity: 1;
     }
   }
+  
 
 `;
 
