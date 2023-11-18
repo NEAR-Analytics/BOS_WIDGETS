@@ -27,7 +27,7 @@ const addSheet = () => {
       .addSheet(
         sheetName,
         composerIdx,
-        parseInt(userIdx.toString()),
+        Big(userIdx).toFixed(),
         parseInt(difficulty),
         dataUri
       )
@@ -47,8 +47,6 @@ const getComposers = () => {
   );
 
   ppd.getComposers().then((res) => {
-    console.log(res);
-    console.log("co");
     const comp = res && res.map((r) => r[0]);
     State.update({ composers: comp });
   });
