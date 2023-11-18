@@ -7,4 +7,7 @@ const ppdAbi = fetch(
   "https://raw.githubusercontent.com/gonzalobarria/testpub/master/abis/abitest.json"
 );
 
-return { getNormalDate, ppdContract, ppdAbi };
+const studyType = ["Fingers", "Rhythm", "Memorization", "Dynamics"];
+const focusType = ["Study", "Practice"];
+
+return { getNormalDate, ppdContract, ppdAbi, studyType, focusType };
