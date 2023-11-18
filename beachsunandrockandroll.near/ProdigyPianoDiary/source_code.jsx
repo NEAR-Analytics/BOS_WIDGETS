@@ -48,7 +48,13 @@ if (state.sender === undefined) {
 
 return (
   <Wrapper>
-    <Widget src={`beachsunandrockandroll.near/widget/header`} />
+    <Widget
+      src={`beachsunandrockandroll.near/widget/header`}
+      props={{
+        linkSheet: () => State.update({ visibleObj: "userSheets" }),
+        linkComposer: () => State.update({ visibleObj: "composerList" }),
+      }}
+    />
     {!!state.sender ? (
       <>
         {!isUserRegistered() && (
