@@ -16,6 +16,16 @@ State.init({
   focusType: ["Study", "Practice"],
 });
 
+const settingStudyType = (value) => {
+  const sType = state.studyType.find((st, i) => {
+    if (st === value[0]) return i;
+  });
+
+  console.log(sType);
+
+  setStudyType(sType);
+};
+
 const addRecord = () => {
   const ppd = new ethers.Contract(
     ppdContract,
@@ -94,7 +104,7 @@ return (
         required
         placeholder="How many minutes do you study?"
         onChange={(event) => {
-          setDifficulty(event.target.value);
+          setMinutes(event.target.value);
         }}
       />
       <button onClick={addRecord}>Add Record</button>
