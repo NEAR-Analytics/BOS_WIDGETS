@@ -131,6 +131,8 @@ return (
   <>
     <GlobalStyle />
     <MainContainer className="main">
+        <Blink></Blink>
+
       <NavList>
         <NavListItem>
           <Svg>
@@ -150,6 +152,5 @@ return (
         </NavListItem>
       </NavList>
     </MainContainer>
-    <Blink></Blink>
   </>
 );
