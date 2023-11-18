@@ -16,6 +16,8 @@ State.init({
   focusType: ["Study", "Practice"],
 });
 
+console.log("sheetIdx", sheetIdx);
+
 const addRecord = () => {
   const ppd = new ethers.Contract(
     ppdContract,
