@@ -106,10 +106,32 @@ const SvgText = styled.text`
 
 const Blink = styled.div`
   &::before {
-    content: "✨"; 
+    content: "✨✨✨✨✨✨✨✨"; 
     font-size: 24px;
     position: absolute;
-  left: 50%; 
+  left: 20%; 
+  top: 50%;
+    transform: translate(-50%, -50%);
+    opacity: 0;
+    animation: sparkle 1s infinite;
+  }
+
+  @keyframes sparkle {
+    0%, 100% {
+      opacity: 0;
+    }
+    50% {
+      opacity: 1;
+    }
+  }
+
+`;
+const BlinkRight = styled.div`
+  &::before {
+    content: "✨✨✨✨✨✨✨✨"; 
+    font-size: 24px;
+    position: absolute;
+  left: 80%; 
   top: 50%;
     transform: translate(-50%, -50%);
     opacity: 0;
@@ -156,6 +178,8 @@ return (
         <NavListItem>
           <NavLink href="#">{accountId}</NavLink>
         </NavListItem>
+                <BlinkRight></BlinkRight>
+
       </NavList>
     </MainContainer>
   </>
