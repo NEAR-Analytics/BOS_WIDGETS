@@ -99,7 +99,6 @@ const MoonIcon = (
   </svg>
 );
 
-
 const ColorText = styled.div`
   font-family: inherit;
   position: absolute;
@@ -260,7 +259,7 @@ let save = props.save || <> </>;
 
 return (
   <>
-    <a href="https://near.org/marketplacebos.near/widget/Index">
+    <a href="https://near.social/fastui.near/widget/FastUI">
       <StyledButton title="Go Back">
         <StyledSVG xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
           <path
