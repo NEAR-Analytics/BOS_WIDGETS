@@ -17,7 +17,7 @@ const Header = styled.div`
 
     .user {
       padding-right: 10px;
-      padding-top: 22px;
+      padding-top: 10px;
       height: 100%;
     }
 
@@ -102,10 +102,12 @@ return (
         </div>
         <div class="col connect">
           {!!state.sender ? (
-            <div class="user">{`${state.sender.slice(
-              0,
-              4
-            )}...${state.sender.slice(-4)}`}</div>
+            <div class="user">
+              {user && (<div>Hi {user[1]}!</div>)}
+              <div>{`${state.sender.slice(0, 4)}...${state.sender.slice(
+                -4
+              )}`}</div>
+            </div>
           ) : (
             <div class="conn-button">
               <Web3Connect connectLabel="Connect with Web3" />
