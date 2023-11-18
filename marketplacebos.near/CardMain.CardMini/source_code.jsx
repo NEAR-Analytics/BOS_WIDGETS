@@ -247,14 +247,6 @@ const SaveButton = styled.div`
   transition: background-color 300ms;
 `;
 
-const SaveIcon = (
-  <i
-    className={
-      isToggleSave1 ? "bi bi-bookmark-heart-fill" : "bi bi-bookmark-heart"
-    }
-  ></i>
-);
-
 return (
   <Card isWhiteBackground={!isWhiteBackground1}>
     <CardBody>
