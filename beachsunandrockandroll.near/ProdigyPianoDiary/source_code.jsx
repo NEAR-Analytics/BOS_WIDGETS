@@ -62,6 +62,7 @@ return (
         <img
           src="https://raw.githubusercontent.com/gonzalobarria/prodigy-piano-diary/master/public/images/piano-hand.png"
           alt="PPD"
+          class="pt-3 pb-5"
         />
       </div>
     )}
