@@ -9,7 +9,7 @@ const desc = props.desc || "Description";
 const idx = props.idx || 0;
 const imgURL =
   props.imgURL ||
-  "https://raw.githubusercontent.com/gonzalobarria/testpub/master/images/ppd-lila.jpg";
+  "https://raw.githubusercontent.com/gonzalobarria/prodigy-piano-diary/master/public/images/ppd-lila-mini.jpg";
 const action = props.action;
 
 return (
