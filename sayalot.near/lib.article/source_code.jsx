@@ -1,6 +1,7 @@
 // lib.article
 
 const {
+  mainStateUpdate,
   isTest,
   stateUpdate,
   functionsToCallByLibrary,
@@ -8,7 +9,9 @@ const {
   baseAction,
   kanbanColumns,
   widgets,
+  usersSBTs,
 } = props;
+
 const libName = "article"; // EDIT: set lib name
 const functionsToCall = functionsToCallByLibrary[libName];
 
@@ -93,14 +96,20 @@ function setAreValidUsers(accountIds, sbtsNames) {
       return;
     }
 
-    newLibsCalls.SBT.push({
-      functionName: "isValidUser",
-      key: `isValidUser-${accountId}`,
-      props: {
-        accountId,
-        sbtsNames,
-      },
-    });
+    const existingUserSBTs = usersSBTs.find(
+      (userSBTs) => userSBTs.user === accountId
+    );
+
+    if (!existingUserSBTs) {
+      newLibsCalls.SBT.push({
+        functionName: "isValidUser",
+        key: `isValidUser-${accountId}`,
+        props: {
+          accountId,
+          sbtsNames,
+        },
+      });
+    }
   });
   State.update({ libCalls: newLibsCalls });
 }
@@ -373,6 +382,10 @@ function normalizeFromV0_0_2ToV0_0_3(article) {
     article.tags = Object.keys(article.tags);
   }
 
+  article.tags = article.tags.filter(
+    (tag) => tag !== undefined && tag !== null
+  );
+
   if (kanbanColumns) {
     const lowerCaseColumns = [];
     kanbanColumns.forEach((cl) => {
@@ -446,6 +459,39 @@ if (functionsToCall && functionsToCall.length > 0) {
 
   resultFunctionsToCallByLibrary[libName] = resultFunctionsToCall;
   updateObj.functionsToCallByLibrary = resultFunctionsToCallByLibrary;
+
+  const oldUsersSBTs = usersSBTs;
+  // {
+  //   user: string,
+  //   credentials: {},
+  // }
+
+  const newUsersSBTs = Object.keys(state).map((key) => {
+    if (key.includes("isValidUser-")) {
+      if (state[key] !== undefined) {
+        const user = key.split("isValidUser-")[1];
+        const credentials = state[key];
+
+        const oldUsers = oldUsersSBTs.map((userSbts) => userSbts.user);
+
+        if (!oldUsers.includes(user)) {
+          return {
+            user,
+            credentials,
+          };
+        }
+      }
+    }
+  });
+
+  const finalUsersSBTs = [...oldUsersSBTs, ...newUsersSBTs].filter(
+    (userSBTs) => userSBTs !== undefined
+  );
+
+  if (finalUsersSBTs[0]) {
+    mainStateUpdate({ usersSBTs: finalUsersSBTs });
+  }
+
   stateUpdate(updateObj);
 }
 
