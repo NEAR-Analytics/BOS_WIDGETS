@@ -22,7 +22,6 @@ const addSheet = () => {
 
   ppd.getUserIdx().then((userIdx) => {
     let dataUri = "";
-
     if (state.img.cid) dataUri = state.img.cid;
 
     ppd
@@ -99,6 +98,13 @@ return (
         }}
       />
       <button onClick={addSheet}>Add Sheet</button>
+      <button
+        onClick={() => {
+          setAddSheet(false);
+        }}
+      >
+        Close
+      </button>
     </div>
   </>
 );
