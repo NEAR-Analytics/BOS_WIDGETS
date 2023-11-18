@@ -4,9 +4,6 @@ const { ppdContract, ppdAbi } = VM.require(
   "beachsunandrockandroll.near/widget/utils"
 );
 
-console.log("en addComposer");
-console.log("ppdContract", ppdContract);
-
 const [composerName, setComposerName] = useState("");
 const [birthdate, setBirthDate] = useState("");
 
@@ -17,8 +14,7 @@ const addComposer = () => {
     Ethers.provider().getSigner()
   );
 
-  ppd.addComposer(composerName, birthdate);
-  setAddComposer(false);
+  ppd.addComposer(composerName, birthdate).then(() => setAddComposer(false));
 };
 
 return (
