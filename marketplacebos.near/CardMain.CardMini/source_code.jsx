@@ -233,8 +233,6 @@ const SaveButton = styled.div`
   width: 2.3rem;
   height: 30px;
   background-color: none;
-  border: none;
-  border-radius: 24px;
   cursor: pointer;
   position: absolute;
   bottom: 10px; /* Adjust the vertical position */
@@ -242,9 +240,7 @@ const SaveButton = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  font-weight: bold;
-  color: white;
-  transition: background-color 300ms;
+
 `;
 
 return (
