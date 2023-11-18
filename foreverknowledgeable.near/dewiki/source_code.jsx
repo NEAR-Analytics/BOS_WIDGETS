@@ -24,12 +24,10 @@ const Nav = styled.div`
 
 const header = (
   <HeaderContainer>
-    <h4 style={{ fontWeight: 700 }}>MO#</h4>
+    <h4 style={{ fontWeight: 700 }}>Forever Knowledgable</h4>
 
     <Nav>
-      <a href="#">Home</a>
-      <a href="#">FAQs</a>
-      <a href="#">Login</a>
+      <a href="#">Profile</a>
       <a
         href="#"
         style={{
