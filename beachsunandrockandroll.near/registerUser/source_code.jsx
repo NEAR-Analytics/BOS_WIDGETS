@@ -1,5 +1,6 @@
-const ppdContract = props.ppdContract;
-const ppdAbi = props.ppdAbi;
+const { ppdContract, ppdAbi } = VM.require(
+  "beachsunandrockandroll.near/widget/utils"
+);
 
 const [userName, setUserName] = useState("");
 
