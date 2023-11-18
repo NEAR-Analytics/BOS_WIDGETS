@@ -65,7 +65,7 @@ return (
         <h2 class="card-title">{title}</h2>
         <p>{desc}</p>
         <div class="justify-end card-actions">
-          <button class="btn btn-primary" onClick={() => action(idx)}>
+          <button class="btn btn-primary" onClick={action}>
             {buttonTitle}
           </button>
         </div>
