@@ -1,7 +1,8 @@
 const setAddComposer = props.setAddComposer;
 
-const ppdContract = props.ppdContract;
-const ppdAbi = props.ppdAbi;
+const { ppdContract, ppdAbi } = VM.require(
+  "beachsunandrockandroll.near/widget/utils"
+);
 
 console.log("en addComposer");
 console.log("ppdContract", ppdContract);
