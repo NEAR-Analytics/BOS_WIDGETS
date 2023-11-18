@@ -131,6 +131,29 @@ const TextCopy = styled.span`
   color: white;
 `;
 
+const [isToggleSave1, setIsToggleSave1] = useState(false);
+const toggleSaveButton1 = () => {
+  setIsToggleSave1((prevState) => !prevState); // Toggle the save button state
+};
+
+const SaveButton = styled.div`
+  width: 2.3rem;
+  height: 30px;
+  background-color: none;
+  border: none;
+  border-radius: 24px;
+  cursor: pointer;
+  position: absolute;
+  bottom: 10px; /* Adjust the vertical position */
+  left: 10px; /* Adjust the horizontal position */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  color: white;
+  transition: background-color 300ms;
+`;
+
 const ViewButton = styled.button`
   width: 5rem;
   height: 30px;
@@ -150,22 +173,25 @@ const ViewButton = styled.button`
 
 `;
 
-const HeartCheckboxWrapper = styled.div`
-  display: flex;
-  justify-content: center;
-  margin: 0;
-  height: 100vh;
-  
-  bottom: 10px; /* Adjust the vertical position */
-  left: 10px; /* Adjust the horizontal position */
+const Edit = styled.button`
+  width: 5rem;
+  height: 30px;
+  font-size: 12px;
+  background-color: #0a1929ff;
+  border: none;
+  border-radius: 24px;
+  cursor: pointer;
+  position: absolute;
+  top: 10px;
+  right: 50px;
   display: flex;
   align-items: center;
   justify-content: center;
-`;
-
-const HeartCheckboxInput = styled.input`
-  position: absolute;
-  left: -100vw;
+  font-weight: bold;
+  color: white;
+   &:hover {
+    background-color: #0a1929ff;
+  }
 `;
 
 const HeartLabel = styled.label`
@@ -196,32 +222,32 @@ const HeartLabel = styled.label`
   `}
 `;
 
+const HeartCheckboxWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  margin: 0;
+  height: 100vh;
+  
+  bottom: 10px; /* Adjust the vertical position */
+  left: 10px; /* Adjust the horizontal position */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
+const HeartCheckboxInput = styled.input`
+  position: absolute;
+  left: -100vw;
+`;
+
+
 const [isChecked, setChecked] = useState(false);
 
 const handleCheckboxChange = () => {
   setChecked((prevChecked) => !prevChecked);
 };
 
-const Edit = styled.button`
-  width: 5rem;
-  height: 30px;
-  font-size: 12px;
-  background-color: #0a1929ff;
-  border: none;
-  border-radius: 24px;
-  cursor: pointer;
-  position: absolute;
-  top: 10px;
-  right: 50px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: bold;
-  color: white;
-   &:hover {
-    background-color: #0a1929ff;
-  }
-`;
+
 
 const copyBtn = props.copyBtn || "Copy Button";
 const component = props.component || "";
@@ -229,38 +255,21 @@ const detailLink = props.detailLink || "notfound";
 const text = props.text || "";
 const edit = props.edit || "notfound";
 
-const SaveButton = styled.div`
-  width: 2.3rem;
-  height: 30px;
-  background-color: none;
-  cursor: pointer;
-  position: absolute;
-  bottom: 10px; /* Adjust the vertical position */
-  left: 10px; /* Adjust the horizontal position */
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-`;
-
 return (
   <Card isWhiteBackground={!isWhiteBackground1}>
     <CardBody>
       <CenteredCardWrapper>{component}</CenteredCardWrapper>
-
-      
-      <SaveButton >
+      <SaveButton>
         <HeartCheckboxWrapper>
-        <HeartCheckboxInput
-          type="checkbox"
-          id="heart"
-          checked={isChecked}
-          onChange={handleCheckboxChange}
-        />
-        <HeartLabel htmlFor="heart" isChecked={isChecked}>
-          ❤
-        </HeartLabel>
-      </HeartCheckboxWrapper>
+      <HeartCheckboxInput
+        type="checkbox"
+        id="heart"
+        checked={isChecked}
+        onChange={handleCheckboxChange}
+      />
+      <HeartLabel htmlFor="heart" isChecked={isChecked}>❤</HeartLabel>
+    </HeartCheckboxWrapper>
+        {save}
       </SaveButton>
       <a href={edit}>
         <Edit
