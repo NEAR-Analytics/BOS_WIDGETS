@@ -40,6 +40,11 @@ const Header = styled.div`
 
 const linkSheets = props.linkSheets;
 const linkComposer = props.linkComposer;
+const [user, setUser] = useState("");
+
+const { ppdContract, ppdAbi } = VM.require(
+  "beachsunandrockandroll.near/widget/utils"
+);
 
 const getUsers = () => {
   const ppd = new ethers.Contract(
