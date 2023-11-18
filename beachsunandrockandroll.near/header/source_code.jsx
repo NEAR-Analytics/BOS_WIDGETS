@@ -14,6 +14,12 @@ const Header = styled.div`
         text-align: right;
         height: 70px;
     }
+
+    .user {
+      padding-right: 10px;
+      padding-top: 22px;
+      height: 100%;
+    }
 `;
 
 if (state.sender === undefined) {
@@ -33,7 +39,7 @@ return (
     </div>
     <div class="connect">
       {!!state.sender ? (
-        <>{state.sender}</>
+        <div class="user">{`${state.sender.slice(0,4)}...${state.sender.slice(-4)}`}</div>
       ) : (
         <Web3Connect connectLabel="Connect with Web3" />
       )}
