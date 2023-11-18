@@ -43,6 +43,7 @@ if (state.sender === undefined) {
 
 return (
   <>
+    <Widget src={`beachsunandrockandroll.near/widget/header`} />
     {!!state.sender ? (
       <>
         {!isUserRegistered() && (
@@ -50,7 +51,7 @@ return (
         )}
       </>
     ) : (
-      <Web3Connect connectLabel="Connect with Web3" />
+      <h1 class="text-center p-5">Welcome to Prodigy Piano Diary</h1>
     )}
     {user !== "" && (
       <div class="mt-4 p-3">
