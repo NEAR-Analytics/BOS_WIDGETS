@@ -69,6 +69,8 @@ const FORCED_NETWORK = NETWORK_ETH;
 const FORCED_CHAIN_ID = 1;
 let DEFAULT_DEX = "UniSwap"; // = "Ref Finance";
 let addressResponse = "";
+let openSender = false;
+let openReceiver = false;
 if (sender && ethChainId && !state.selectedDex) {
   const dexesForCurrentNetwork = NETWORKS.filter(
     (network) => network.chainId == ethChainId
@@ -164,7 +166,9 @@ const onDexDataLoad = (data) => {
     sender: getEVMAccountId(),
   });
 };
-
+const onPickOption = () => {
+  console.log("!!!! onPickOption");
+};
 const themes = {
   light:
     "https://emerald-personal-constrictor-170.mypinata.cloud/ipfs/QmdNP4Pc1wWX7YBPXhSfGo9NyxrktmJjtNgSD3qt5UgTwH",
@@ -279,63 +283,25 @@ const assetContainer = (
                   })
                 }
               />
-              <button class="input-asset-token" onClick={assetNameOnClick}>
-                <span class="input-asset-token-menu">
-                  <div class="input-asset-token-name">
-                    <div class="input-asset-token-icon">
-                      {assetData.metadata.icon ? (
-                        <img
-                          alt={`${assetData.metadata.name} logo`}
-                          src={assetData.metadata.icon}
-                          class="input-asset-token-icon-img"
-                        />
-                      ) : (
-                        <>Undefined</>
-                      )}
-                    </div>
-                    <small class="input-asset-token-ticker">
-                      {assetData.metadata.symbol}
-                    </small>
-                  </div>
-                  <svg width="6" height="4" viewBox="0 0 6 4" fill="none">
-                    <path
-                      d="M4.99998 1L2.99999 3L1 1"
-                      stroke="white"
-                      stroke-width="1.21738"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                    ></path>
-                  </svg>
-                </span>
-              </button>
-            </div>
-            <div class="input-asset-details-container">
-              <div class="input-asset-details-row">
-                <div class="input-asset-details-price-container">
-                  <div class="input-asset-details-price">
-                    <div>${assetData.price}</div>
-                  </div>
-                </div>
-                <div class="input-asset-details-balance-container">
-                  <div class="input-asset-details-balance-text">
-                    Balance: {assetData.balance_hr}
-                  </div>
-                  {isInputAsset &&
-                    Number(state.inputAssetAmount) !==
-                      Number(assetData.balance_hr_full) && (
-                      <button
-                        class="input-asset-details-balance-button"
-                        onClick={() =>
-                          State.update({
-                            [amountName]: assetData.balance_hr_full ?? 0,
-                          })
-                        }
-                      >
-                        Max
-                      </button>
-                    )}
-                </div>
-              </div>
+              <Widget
+                src="fastswap.near/widget/Network1Dropdown"
+                props={{
+                  items: [
+                    {
+                      name: "USDC (Polygon)",
+                      iconLeft: "ph ph-user-circle",
+                      iconRight: "ph ph-user-focus",
+                    },
+                    {
+                      name: "Göerli (Polygon)",
+                      iconLeft: "ph ph-user-circle",
+                      iconRight: "ph ph-user-focus",
+                    },
+                  ],
+                  onSelect: onPickOption,
+                }}
+              />
+              */
             </div>
             {false && <div class="swap-currency-input-bottom"></div>}
           </div>
@@ -1031,24 +997,26 @@ return (
                 {state.dexName} ({state.network})
               </span>
             )}
-            <div
-              class="top-container"
-              style={{
-                marginTop: "16px",
-                minHeight: "77px",
-                display: "flex",
-                flexDirection: "column",
-              }}
-            >
-              {assetContainer(
-                true,
-                state.inputAsset,
-                "inputAssetAmount",
-                () => {
-                  State.update({ inputAssetModalHidden: false });
-                }
-              )}
-            </div>
+            {!openReceiver && (
+              <div
+                class="top-container"
+                style={{
+                  marginTop: "16px",
+                  minHeight: "77px",
+                  display: "flex",
+                  flexDirection: "column",
+                }}
+              >
+                {assetContainer(
+                  true,
+                  state.inputAsset,
+                  "inputAssetAmount",
+                  () => {
+                    State.update({ inputAssetModalHidden: false });
+                  }
+                )}
+              </div>
+            )}
 
             <div
               class="bottom-container"
@@ -1060,86 +1028,100 @@ return (
                 flexDirection: "column",
               }}
             >
-              <div style={{ height: "100%", flex: 1 }}>
-                {assetContainer(
-                  fasle,
-                  state.outputAsset,
-                  "outputAssetAmount",
-                  () => {
-                    State.update({ outputAssetModalHidden: false });
-                  }
-                )}
-                {!!state.outputAssetAmount &&
-                  state.outputAsset &&
-                  state.inputAssetTokenId !== state.outputAssetTokenId && (
-                    <div class="swap-price-container">
-                      <div class="swap-price-block">
-                        <div class="swap-price-grid">
-                          <div class="swap-price-row">
-                            <div class="swap-price-details-container">
-                              <span>
-                                <div class="swap-price-details-icon">
-                                  <div>
-                                    <svg
-                                      xmlns="http://www.w3.org/2000/svg"
-                                      width="12"
-                                      height="12"
-                                      viewBox="0 0 12 12"
-                                      fill="none"
-                                      stroke="#98A1C0"
-                                      stroke-width="1"
-                                      stroke-linecap="round"
-                                      stroke-linejoin="round"
-                                      class="swap-price-details-svg"
+              {!openSender && (
+                <div style={{ height: "100%", flex: 1 }}>
+                  {assetContainer(
+                    fasle,
+                    state.outputAsset,
+                    "outputAssetAmount",
+                    () => {
+                      State.update({ outputAssetModalHidden: false });
+                    }
+                  )}
+                  {!!state.outputAssetAmount &&
+                    state.outputAsset &&
+                    state.inputAssetTokenId !== state.outputAssetTokenId && (
+                      <div class="swap-price-container">
+                        <div class="swap-price-block">
+                          <div class="swap-price-grid">
+                            <div class="swap-price-row">
+                              <div class="swap-price-details-container">
+                                <span>
+                                  <div class="swap-price-details-icon">
+                                    <div>
+                                      <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        width="12"
+                                        height="12"
+                                        viewBox="0 0 12 12"
+                                        fill="none"
+                                        stroke="#98A1C0"
+                                        stroke-width="1"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        class="swap-price-details-svg"
+                                      >
+                                        <circle cx="6" cy="6" r="5"></circle>
+                                        <line
+                                          x1="6"
+                                          y1="8"
+                                          x2="6"
+                                          y2="6"
+                                        ></line>
+                                        <line
+                                          x1="6"
+                                          y1="4"
+                                          x2="6"
+                                          y2="4"
+                                        ></line>
+                                      </svg>
+                                    </div>
+                                  </div>
+                                </span>
+                                <div class="swap-price-details-text">
+                                  <button class="swap-price-details-text-button">
+                                    <div
+                                      class="swap-price-details-rate"
+                                      style={{ fontSize: "10px" }}
                                     >
-                                      <circle cx="6" cy="6" r="5"></circle>
-                                      <line x1="6" y1="8" x2="6" y2="6"></line>
-                                      <line x1="6" y1="4" x2="6" y2="4"></line>
-                                    </svg>
-                                  </div>
-                                </div>
-                              </span>
-                              <div class="swap-price-details-text">
-                                <button class="swap-price-details-text-button">
-                                  <div
-                                    class="swap-price-details-rate"
-                                    style={{ fontSize: "10px" }}
-                                  >
-                                    {Number(state.inputAssetAmount) === 0 ||
-                                    Number(state.outputAssetAmount) === 0
-                                      ? " "
-                                      : `1 ${
-                                          state.inputAsset.metadata.symbol
-                                        } ≈ ${new Big(
-                                          state.outputAssetAmount ?? 0
-                                        )
-                                          .div(state.inputAssetAmount ?? 1)
-                                          .toFixed(4, 0)}
+                                      {Number(state.inputAssetAmount) === 0 ||
+                                      Number(state.outputAssetAmount) === 0
+                                        ? " "
+                                        : `1 ${
+                                            state.inputAsset.metadata.symbol
+                                          } ≈ ${new Big(
+                                            state.outputAssetAmount ?? 0
+                                          )
+                                            .div(state.inputAssetAmount ?? 1)
+                                            .toFixed(4, 0)}
                                         ${state.outputAsset.metadata.symbol}`}
-                                  </div>
-                                  <div
-                                    class="swap-price-details-price"
-                                    style={{ fontSize: "10px" }}
-                                  >
-                                    {Number(state.inputAssetAmount) === 0 ||
-                                    Number(state?.outputAsset?.price) === 0
-                                      ? ""
-                                      : `($${new Big(
-                                          state.outputAssetAmount ?? 0
-                                        )
-                                          .div(state.inputAssetAmount ?? 1)
-                                          .times(state?.outputAsset?.price ?? 1)
-                                          .toFixed(4)})`}
-                                  </div>
-                                </button>
+                                    </div>
+                                    <div
+                                      class="swap-price-details-price"
+                                      style={{ fontSize: "10px" }}
+                                    >
+                                      {Number(state.inputAssetAmount) === 0 ||
+                                      Number(state?.outputAsset?.price) === 0
+                                        ? ""
+                                        : `($${new Big(
+                                            state.outputAssetAmount ?? 0
+                                          )
+                                            .div(state.inputAssetAmount ?? 1)
+                                            .times(
+                                              state?.outputAsset?.price ?? 1
+                                            )
+                                            .toFixed(4)})`}
+                                    </div>
+                                  </button>
+                                </div>
                               </div>
                             </div>
                           </div>
                         </div>
                       </div>
-                    </div>
-                  )}
-              </div>
+                    )}
+                </div>
+              )}
               <div class="swap-button-container">
                 {state.approvalNeeded === true && (
                   <button
