@@ -24,7 +24,11 @@ const getUserSheets = () => {
 };
 
 if (state.sender != undefined) {
-  getUserSheets();
+  const accounts = Ethers.send("eth_requestAccounts", []);
+  if (accounts.length) {
+    State.update({ sender: accounts[0] });
+    getUserSheets();
+  }
 }
 
 const GridWrap = styled.div`
