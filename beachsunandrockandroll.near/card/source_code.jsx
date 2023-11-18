@@ -48,7 +48,7 @@ const Wrapper = styled.div`
 
 `;
 
-const buttonTitle = props.buttonTitle || "Button Title";
+const buttonTitle = props.buttonTitle;
 const title = props.title || "Title";
 const desc = props.desc || "Description";
 const idx = props.idx || 0;
@@ -64,11 +64,13 @@ return (
       <div class="card-body">
         <h2 class="card-title">{title}</h2>
         <p>{desc}</p>
-        <div class="justify-end card-actions">
-          <button class="btn btn-primary" onClick={action}>
-            {buttonTitle}
-          </button>
-        </div>
+        {buttonTitle && (
+          <div class="justify-end card-actions">
+            <button class="btn btn-primary" onClick={action}>
+              {buttonTitle}
+            </button>
+          </div>
+        )}
       </div>
     </div>
   </Wrapper>
