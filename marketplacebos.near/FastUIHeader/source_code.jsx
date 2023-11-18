@@ -63,8 +63,7 @@ const Svg = styled.svg`
   font-family: 'Russo One', sans-serif;
   width: 100%;
   height: 100%;
-  margin-right: auto;
-  margin-left: 0; 
+
   
 `;
 
@@ -73,6 +72,8 @@ const SvgText = styled.text`
   stroke-width: 1;
   stroke: #ed43c3;
   font-size: 20px;
+  left:0;
+  top:50%;
   color:#ed43c3;
   background:#ff10d9;
   @keyframes stroke {
@@ -108,7 +109,7 @@ const Blink = styled.div`
     content: "✨"; 
     font-size: 24px;
     position: absolute;
-  left: 0; 
+  left: 50%; 
   top: 50%;
     transform: translate(-50%, -50%);
     opacity: 0;
