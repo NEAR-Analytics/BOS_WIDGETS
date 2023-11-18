@@ -295,6 +295,7 @@ const assetContainer = (
                       iconRight: "ph ph-user-focus",
                       onSelect: () => {
                         State.update({ sender: "USDC (Polygon)" });
+                        console.log("");
                       },
                     },
                     {
@@ -311,10 +312,12 @@ const assetContainer = (
                       iconRight: "ph ph-user-focus",
                       onSelect: () => {
                         State.update({ sender: "CELO" });
+                        console.log(state.sender);
                       },
                     },
                   ],
                   onSelect: onPickOption,
+                  selected: state.sender,
                 }}
               />
               */
