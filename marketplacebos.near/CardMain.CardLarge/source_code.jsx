@@ -20,7 +20,8 @@ const Card = styled.div`
   height: 470px;
   display: flex;
   flex-direction: column;
-  border: 0.1rem solid #000000;
+  border: 0.2rem solid #fff4b0ff;
+  box-shadow:0 0 4px 0px red;
   border-radius: 1em;
   overflow: hidden;
   position: relative;
