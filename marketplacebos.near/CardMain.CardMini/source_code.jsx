@@ -27,7 +27,7 @@ const Card = styled.div`
   justify-content: center;
   align-items: center;
   transition: background 500ms;
-  box-shadow: 0 0 40px 1px pink, 0 0 40px 1px #FFD700;
+  box-shadow: 0 0 14px 0px pink, 0 0 14px 0px #FFD700;
 `;
 
 const CardBody = styled.div`
