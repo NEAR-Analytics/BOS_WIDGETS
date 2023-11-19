@@ -14,7 +14,7 @@ const Container = styled.label`
   cursor: pointer;
   user-select: none;
   position: absolute;
-  bottom: 2px; 
+  bottom: 20px; 
   left: 10px; 
   display: flex;
   align-items: center;
@@ -142,7 +142,7 @@ const ColorText = styled.div`
   font-family: inherit;
   position: absolute;
   padding:1px;
-  background-color: ${(props) => (props.isToggled ? "#ff8408ff" : "#0a1929ff")};
+  background-color: ${(props) => (props.isToggled ? "#ff8408ff" : "black")};
   border: 1;
   border-radius:14px;
   cursor: pointer;
@@ -160,7 +160,7 @@ const ButtonCopy = styled.button`
   width: 5rem;
   height: 30px;
   font-size: 12px;
-  background-color: #0a1929ff;
+  background-color: black;
   border: none;
   border-radius: 24px;
   cursor: pointer;
@@ -173,7 +173,7 @@ const ButtonCopy = styled.button`
   font-weight: bold;
   color: white;
    &:hover {
-    background-color: #0a1929ff;
+    background-color: black;
   }
 
 `;
@@ -188,7 +188,7 @@ const TextCopy = styled.span`
   align-items: center;
   justify-content: center;
   color: white;
-  background-color: #0a1929ff;
+  background-color: black;
 `;
 
 const SvgIconCopy = styled.span`
@@ -198,7 +198,7 @@ const SvgIconCopy = styled.span`
   align-items: center;
   justify-content: center;
   color: white;
-  background-color: #0a1929ff;
+  background-color: black;
 
   svg {
     fill: white;
@@ -286,18 +286,18 @@ return (
               <Card isWhiteBackground={!isWhiteBackground1}>
                 <CardBody>
                   <CenteredCardWrapper>{component}</CenteredCardWrapper>
-                       <Container>
-        <input type="checkbox" />
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="20"
-          height="20"
-          viewBox="0 0 24 24"
-        >
-          <path d="M12 4.435c-1.989-5.399-12-4.597-12 3.568 0 4.068 3.06 9.481 12 14.997 8.94-5.516 12-10.929 12-14.997 0-8.118-10-8.999-12-3.568z" />
-          <path d="M16.4,4C14.6,4,13,4.9,12,6.3C11,4.9,9.4,4,7.6,4C4.5,4,2,6.5,2,9.6C2,14,12,22,12,22s10-8,10-12.4C22,6.5,19.5,4,16.4,4z"></path>
-        </svg>
-      </Container>
+                  <Container>
+                    <input type="checkbox" />
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="20"
+                      height="20"
+                      viewBox="0 0 24 24"
+                    >
+                      <path d="M12 4.435c-1.989-5.399-12-4.597-12 3.568 0 4.068 3.06 9.481 12 14.997 8.94-5.516 12-10.929 12-14.997 0-8.118-10-8.999-12-3.568z" />
+                      <path d="M16.4,4C14.6,4,13,4.9,12,6.3C11,4.9,9.4,4,7.6,4C4.5,4,2,6.5,2,9.6C2,14,12,22,12,22s10-8,10-12.4C22,6.5,19.5,4,16.4,4z"></path>
+                    </svg>
+                  </Container>
                   <ColorText>{isToggleOn1 ? "#FFFFFF" : "#000000"}</ColorText>
                   <ToggleButton onClick={toggleButton1} isToggled={isToggleOn1}>
                     {isToggleOn1 ? SunIcon : MoonIcon}
