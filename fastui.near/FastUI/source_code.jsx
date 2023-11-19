@@ -22,10 +22,10 @@ const Tabs = styled.div`
   border-right: 1px solid #eceef0;
   padding-right: 24px;
   overflow-y: auto;
-  max-height: 700px;
+  max-height: 900px;
   position: sticky;
   top: 0; 
-  @media (max-width: 1200px) {
+  @media (max-width: 400px) {
     background: #f8f9fa;
     border: none;
     margin: 0;
