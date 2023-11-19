@@ -72,7 +72,9 @@ if (state.sender === undefined) {
 
 return (
   <div class="px-3 py-5">
-    <a href="#" onClick={back} class="text-underline pb-4">&lt;- Back</a>
+    <a href="#" onClick={back} class="text-underline pb-4">
+      &lt;- Back
+    </a>
     <h2>{state.sheet.name}</h2>
     <p>Created At: {state.sheet.createdAt}</p>
     {!addRecord && (
