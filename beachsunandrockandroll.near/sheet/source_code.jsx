@@ -71,7 +71,7 @@ if (state.sender === undefined) {
 }
 
 return (
-  <>
+  <div class="px-3 py-5">
     <h2>{state.sheet.name}</h2>
     <p>Created At: {state.sheet.createdAt}</p>
     {state.sheet.dataUri && (
@@ -146,5 +146,5 @@ return (
         </>
       )
     )}
-  </>
+  </div>
 );
