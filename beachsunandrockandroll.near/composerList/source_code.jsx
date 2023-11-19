@@ -55,15 +55,20 @@ return (
     <h3 class="text-center">
       {state.composers.length === 0 ? "No Composers Found" : "Composer List"}
     </h3>
-    <button onClick={() => setAddComposer(true)} class="mb-4 btn btn-primary">
-      New Composer
-    </button>
+    {!addComposer && (
+      <button onClick={() => setAddComposer(true)} class="mb-4 btn btn-primary">
+        New Composer
+      </button>
+    )}
 
     {addComposer ? (
-      <Widget
-        src={`beachsunandrockandroll.near/widget/addComposer`}
-        props={{ setAddComposer }}
-      />
+      <div class="pt-2 pb-2">
+        <h5 class="text-center pb-2">Fill the Form to Add a Composer</h5>
+        <Widget
+          src={`beachsunandrockandroll.near/widget/addComposer`}
+          props={{ setAddComposer }}
+        />
+      </div>
     ) : (
       <GridWrap>
         <div class="grid gap-4 grid-cols-2">
