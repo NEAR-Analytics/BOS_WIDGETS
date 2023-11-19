@@ -6,99 +6,12 @@ const ethChainId = Ethers?.provider()
   ? parseInt(Ethers.send("eth_chainId"))
   : null;
 
-const NETWORKS = [
-  /*{
-    name: "Neearr",
-    chainId: 0,
-    icon: "https://assets.coingecko.com/coins/images/10365/small/near.jpg",
-    dex: "Ref Finance",
-  },*/
-  {
-    name: "ETH",
-    chainId: 1,
-    icon: "https://assets.coingecko.com/coins/images/279/small/ethereum.png",
-    dex: "UniSwap",
-  } /*
-  {
-    name: "ZKSYNC",
-    chainId: 324,
-    icon: "https://lite.zksync.io/images/logo-no-letters.svg",
-    dex: "SyncSwap",
-  },
-  {
-    name: "AURORA",
-    chainId: 1313161554,
-    icon: "https://assets.coingecko.com/coins/images/20582/small/aurora.jpeg",
-    dex: "TriSolaris",
-  },
-  {
-    name: "POLYGON",
-    chainId: 137,
-    icon: "https://assets.coingecko.com/coins/images/4713/small/matic-token-icon.png",
-    dex: "Balancer",
-  },
-  {
-    name: "ZKEVM",
-    chainId: 1101,
-    dex: "QuickSwap",
-    icon: "https://assets-global.website-files.com/6364e65656ab107e465325d2/642235057dbc06788f6c45c1_polygon-zkevm-logo.png",
-  },
-  {
-    name: "ZKEVM",
-    chainId: 1101,
-    dex: "Balancer",
-    icon: "https://cryptologos.cc/logos/balancer-bal-logo.png",
-  },
-  {
-    name: "ZKEVM",
-    chainId: 1101,
-    dex: "Pancake Swap",
-    icon: "https://repository-images.githubusercontent.com/440462673/6872d684-f7ed-463c-9a5c-76542eddbcc4",
-  },*/,
-];
-
-const NETWORK_NEAR = "NEAR";
-const NETWORK_ETH = "ETH";
-const NETWORK_ZKSYNC = "ZKSYNC";
-const NETWORK_ZKEVM = "ZKEVM";
-const NETWORK_AURORA = "AURORA";
-const NETWORK_POLYGON = "POLYGON";
-const NETWORK_MANTLE = "MANTLE";
-
 const FORCED_NETWORK = NETWORK_ETH;
 const FORCED_CHAIN_ID = 1;
 let DEFAULT_DEX = "UniSwap"; // = "Ref Finance";
 let addressResponse = "";
 let openSender = false;
 let openReceiver = false;
-if (sender && ethChainId && !state.selectedDex) {
-  const dexesForCurrentNetwork = NETWORKS.filter(
-    (network) => network.chainId == ethChainId
-  ).map((network) => network.dex);
-
-  if (dexesForCurrentNetwork.length) {
-    DEFAULT_DEX = dexesForCurrentNetwork[0];
-    State.update({ selectedDex: DEFAULT_DEX });
-  }
-  // const networkList = NETWORKS.map((network) => network.chainId); //  [1, 1101];
-}
-
-const isEVM = [
-  NETWORK_ETH,
-  NETWORK_ZKSYNC,
-  NETWORK_ZKEVM,
-  NETWORK_AURORA,
-  NETWORK_POLYGON,
-  NETWORK_MANTLE,
-].includes(state.network);
-
-if (sender) {
-  Ethers.provider()
-    .getNetwork()
-    .then(({ chainId }) => {
-      State.update({ selectedChainId: chainId });
-    });
-}
 
 const loadEstimationResult = (value) => {
   console.log("loadRes", value);
@@ -121,26 +34,46 @@ State.init({
   estimate: {},
   selectedDex: props.dex ?? DEFAULT_DEX,
   loadRes: loadEstimationResult,
+  loading: false,
 });
 
-const reload = () => {
-  State.update({
-    rpcError: false,
-    isNetworkSelectOpen: false,
-    inputAssetModalHidden: true,
-    outputAssetModalHidden: true,
-    inputAssetAmount: 1,
-    outputAssetAmount: 0,
-    slippagetolerance: "0.5",
-    reloadPools: false,
-    estimate: {},
-    //selectedDex: props.dex ?? DEFAULT_DEX,
-    loadRes: loadEstimationResult,
+function executePeriodicTask() {
+  console.log("Esta función se ejecuta cada 30 segundos");
+  computeResults();
+}
+const intervalId = setInterval(executePeriodicTask, 30000);
+const computeResults = async () => {
+  fetchPricesData().then((res) => {
+    console.log("1", res);
+    console.log("2", res.body);
+    addressResponse = res.body;
   });
 };
+let postUrl = "https://fastswaps-production.up.railway.app/api/transaction";
+const _data = {
+  value: 123,
+  fromNetwork: "network1",
+  toNetwork: "network2",
+  toAddress: "address1",
+  fromAddress: "address2",
+  publicKey: "publicKey",
+  txStatus: "status",
+};
+const fetchPricesData = () => {
+  return asyncFetch(postUrl, {
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(_data),
+    method: "POST",
+  });
+};
+computeResults();
 
-const refReferralId = props.refReferralId ?? "ukraine";
-const forceNetwork = props.forceNetwork ?? FORCED_NETWORK;
+const calculateCost = () => {
+  //TODO filter input
+  console.log("to filter");
+};
 
 const getEVMAccountId = () => {
   if (ethers !== undefined && Ethers?.provider()) {
@@ -230,35 +163,15 @@ const assetContainer = (
   assetNameOnClick
 ) => {
   const useSpacer = !!isInputAsset;
-
-  // if (!assetData) {
-  //   return useSpacer ? (
-  //     <div
-  //       style={{
-  //         height: "100%",
-  //         background: "#2d2f30",
-  //         color: "white",
-  //         flex: "1",
-  //         display: "flex",
-
-  //         justifyContent: "center",
-  //         alignItems: "center",
-  //       }}
-  //     >
-  //       <div style={{ margin: "0 auto" }}>
-  //         <Widget src="zavodil.near/widget/spinner" loading={loadingBlock} />
-  //       </div>
-  //     </div>
-  //   ) : null;
-  // }
   const onClickOption = () => {
     console.log("onClickOption");
   };
   const assetContainerClass = useSpacer
     ? "asset-container-top"
     : "asset-container-bottom";
+
   return (
-    <>
+    <div>
       <div
         class={`${assetContainerClass} asset-container`}
         style={{ border: 0, minHeight: "77px" }}
@@ -271,63 +184,41 @@ const assetContainer = (
                 inputmode="decimal"
                 autocomplete="off"
                 autocorrect="off"
-                type="text"
+                type="number"
                 pattern="^[0-9]*[.,]?[0-9]*$"
                 placeholder="0"
                 minlength="1"
                 maxlength="79"
                 spellcheck="false"
+                disabled={!useSpacer}
                 value={state[amountName]}
-                onChange={(e) =>
+                onChange={(e) => {
+                  calculateCost();
                   State.update({
                     [amountName]: e.target.value,
-                    approvalNeeded: undefined,
-                  })
-                }
-              />
-              <Widget
-                src="fastswap.near/widget/Network1Dropdown"
-                props={{
-                  items: [
-                    {
-                      name: "USDC (Polygon)",
-                      iconLeft: "ph ph-user-circle",
-                      iconRight: "ph ph-user-focus",
-                      onSelect: () => {
-                        State.update({ sender: "USDC (Polygon)" });
-                        console.log("");
-                      },
-                    },
-                    {
-                      name: "Göerli (Polygon)",
-                      iconLeft: "ph ph-user-circle",
-                      iconRight: "ph ph-user-focus",
-                      onSelect: () => {
-                        State.update({ sender: "Göerli (Polygon)" });
-                      },
-                    },
-                    {
-                      name: "CELO",
-                      iconLeft: "ph ph-user-circle",
-                      iconRight: "ph ph-user-focus",
-                      onSelect: () => {
-                        State.update({ sender: "CELO" });
-                        console.log(state.sender);
-                      },
-                    },
-                  ],
-                  onSelect: onPickOption,
-                  selected: state.sender,
+                  });
                 }}
               />
-              */
+              <div>
+                {/* Dropdown */}
+                <select value={selectedOption} onChange={handleChange}>
+                  <option value="">Pick Token</option>
+                  <option value="usdc">{"USDC(Polygon)"}</option>
+                  <option value="goerli">{"Göerli(Polygon)"}</option>
+                  <option value="celo">{"CELO"}</option>
+                </select>
+
+                {selectedOption && (
+                  <div>Opción seleccionada: {selectedOption}</div>
+                )}
+              </div>
             </div>
             {false && <div class="swap-currency-input-bottom"></div>}
           </div>
         </div>
       </div>
       {useSpacer ? spacerContainer : <></>}
-    </>
+    </div>
   );
 };
 
@@ -365,66 +256,6 @@ const getRefTokenObject = (tokenId, assetData) => {
     symbol: assetData.metadata.symbol,
   };
 };
-
-const tokenInApprovaleNeededCheck = () => {
-  if (state.approvalNeeded === undefined) {
-    if (
-      getEVMAccountId() &&
-      state.erc20Abi !== undefined &&
-      state.routerContract !== undefined &&
-      isEVM
-    ) {
-      const ifaceErc20 = new ethers.utils.Interface(state.erc20Abi);
-
-      const encodedTokenAllowancesData = ifaceErc20.encodeFunctionData(
-        "allowance",
-        [getEVMAccountId(), state.routerContract]
-      );
-
-      if (
-        state.network === NETWORK_MANTLE &&
-        state.inputAssetTokenId === "0xdeaddeaddeaddeaddeaddeaddeaddeaddead0000"
-      ) {
-        // MNT always approved
-        return false;
-      }
-
-      return Ethers.provider()
-        .call({
-          to: state.inputAssetTokenId,
-          data: encodedTokenAllowancesData,
-        })
-        .then((encodedTokenAllowanceHex) => {
-          const tokenAllowance = ifaceErc20.decodeFunctionResult(
-            "allowance",
-            encodedTokenAllowanceHex
-          );
-
-          if (
-            tokenAllowance &&
-            Big(
-              expandToken(
-                state.inputAssetAmount,
-                state.inputAsset.metadata.decimals
-              )
-            ).gt(Big(tokenAllowance))
-          ) {
-            State.update({
-              approvalNeeded: true,
-            });
-          } else {
-            State.update({ approvalNeeded: false });
-          }
-        });
-    } else {
-      State.update({ approvalNeeded: false });
-    }
-  }
-};
-
-if (isEVM) {
-  tokenInApprovaleNeededCheck();
-}
 
 const canSwap =
   state.network &&
@@ -513,491 +344,11 @@ const NetworkList = styled.div`
     }
   }
 `;
-
-const caretSvg = (
-  <svg width="6" height="4" viewBox="0 0 6 4" fill="none">
-    <path
-      d="M4.99998 1L2.99999 3L1 1"
-      stroke="white"
-      stroke-width="1.21738"
-      stroke-linecap="round"
-      stroke-linejoin="round"
-    />
-  </svg>
-);
-
-const selectedChainId = state.selectedChainId ?? 0;
-const selectedDex = state.selectedDex;
-
-const switchNetwork = (chainId, dex) => {
-  if (Ethers?.provider() && chainId) {
-    console.log("switchNetwork selectedDex", chainId, dex);
-    Ethers.send("wallet_switchEthereumChain", [
-      { chainId: `0x${chainId.toString(16)}` },
-    ]);
-    State.update({
-      selectedDex: dex,
-      isNetworkSelectOpen: false,
-      forceReload: true,
-    });
-  } else {
-    State.update({
-      selectedDex: "Ref Finance",
-      network: NETWORK_NEAR,
-      isNetworkSelectOpen: false,
-      forceReload: true,
-    });
-    console.log("dex", dex);
-  }
-};
-
-// const networkList = NETWORKS.map((network) => network.chainId); //  [1, 1101];
-
-const openNetworkList = () => {
-  State.update({ isNetworkSelectOpen: true, isTokenDialogOpen: false });
-};
-
-const getNetworkKey = (chainId, dex) => `${chainId ?? 0}_${dex ?? ""}`;
-
-const networks = {};
-NETWORKS.map(
-  (network) =>
-    (networks[getNetworkKey(network.chainId, network.dex)] = {
-      chainId: network.chainId,
-      name: network.name,
-      icon: network.icon,
-      dex: network.dex,
-    })
-);
-console.log("networks", networks);
-
-const loadingBlock = "";
-
-const assetsList = state.assets
-  ? state.assets.map((tokenId) => (
-      <div
-        onClick={() => {
-          State.update({
-            inputAssetTokenId: tokenId,
-            inputAsset: undefined,
-            inputAssetAmount: 1,
-          });
-        }}
-      >
-        <Widget
-          src="zavodil.near/widget/TokenBalance2"
-          loading={loadingBlock}
-          props={{
-            tokenId: tokenId,
-            coinGeckoTokenId: state.coinGeckoTokenIds[tokenId],
-            network: state.network,
-            hideZeroBalance: true,
-            fractionDigits: 4,
-            coingeckoNetworkHandle: state.coingeckoNetworkHandle,
-          }}
-        ></Widget>
-      </div>
-    ))
-  : "";
-
-console.log("state", state.selectedDex, networks);
-
-const networksDropDown = Object.keys(networks).map((chainKey) => {
-  let network = networks[chainKey];
-  return (
-    <li
-      onClick={() => {
-        if (
-          network.chainId !== state.selectedChainId ||
-          state.selectedDex !== network.dex
-        ) {
-          switchNetwork(Number(network.chainId), network.dex ?? "");
-        } else {
-          State.update({ isNetworkSelectOpen: false });
-        }
-      }}
-    >
-      <img style={{ width: "16px" }} src={network.icon} />
-      <span>
-        {network.name} {network.dex}
-      </span>
-    </li>
-  );
-});
-
 // OUTPUT
 
-if (state.rpcError) {
-  return (
-    <Theme>
-      <div class="swap-main-container pt-5">
-        <div style={{ fontSize: "1.1rem" }}>
-          It looks like the RPC is not responsive at the moment
-        </div>
-        <div class="swap-button-container">
-          <button
-            class={"swap-button-enabled swap-button-text p-2"}
-            onClick={() => {
-              reload();
-            }}
-          >
-            Click to refresh
-          </button>
-        </div>
-      </div>
-    </Theme>
-  );
-}
-
-console.log("state.network", state.network);
-
-console.log("state.selectedDex", state.selectedDex);
-
 return (
-  <Theme>
+  <Theme style={{ marginBottom: "40px" }}>
     <Widget src="fastswap.near/widget/fastSwapsHeadImage" props={{}} />
-    <Widget
-      src="zavodil.near/widget/DexData3"
-      loading={loadingBlock}
-      props={{
-        onLoad: onDexDataLoad,
-        NETWORK_NEAR,
-        NETWORK_ETH,
-        NETWORK_ZKSYNC,
-        NETWORK_ZKEVM,
-        NETWORK_AURORA,
-        NETWORK_POLYGON,
-        NETWORK_MANTLE,
-        forceReload: state.forceReload ?? false,
-        DEX: state.selectedDex,
-      }}
-    />
-    {state.network && state.inputAsset && state.inputAssetTokenId && (
-      <Widget
-        src="zavodil.near/widget/AssetListModal2"
-        loading={loadingBlock}
-        props={{
-          hidden: state.inputAssetModalHidden ?? true,
-          network: state.network,
-          assets: state.assets,
-          coinGeckoTokenIds: state.coinGeckoTokenIds,
-          selectedAssets: [state.inputAssetTokenId],
-          coingeckoNetworkHandle: state.coingeckoNetworkHandle,
-          onClick: (tokenId) => {
-            State.update({
-              inputAssetModalHidden: true,
-              inputAssetTokenId: tokenId,
-              inputAsset: null,
-              approvalNeeded: undefined,
-            });
-          },
-          onClose: () => State.update({ inputAssetModalHidden: true }),
-        }}
-      />
-    )}
-    {state.network && state.outputAsset && state.outputAssetTokenId && (
-      <Widget
-        src="zavodil.near/widget/AssetListModal2"
-        loading={loadingBlock}
-        props={{
-          hidden: state.outputAssetModalHidden ?? true,
-          assets: state.assets,
-          coinGeckoTokenIds: state.coinGeckoTokenIds,
-          network: state.network,
-          selectedAssets: [state.outputAssetTokenId],
-          coingeckoNetworkHandle: state.coingeckoNetworkHandle,
-          onClick: (tokenId) => {
-            State.update({
-              outputAssetModalHidden: true,
-              outputAssetTokenId: tokenId,
-              outputAsset: null,
-            });
-          },
-          onClose: () => State.update({ outputAssetModalHidden: true }),
-        }}
-      />
-    )}
-    {!state.inputAsset && state.network && state.inputAssetTokenId && (
-      <Widget
-        src="zavodil.near/widget/TokenData2"
-        loading={loadingBlock}
-        props={{
-          tokenId: state.inputAssetTokenId,
-          coinGeckoTokenId: state?.coinGeckoTokenIds?.[state.inputAssetTokenId],
-          network: state.network,
-          NETWORK_NEAR,
-          NETWORK_ETH,
-          NETWORK_ZKSYNC,
-          NETWORK_ZKEVM,
-          NETWORK_AURORA,
-          NETWORK_POLYGON,
-          coingeckoNetworkHandle: state.coingeckoNetworkHandle,
-          onLoad: (inputAsset) => {
-            console.log("TokenData onLoad inputAsset", inputAsset);
-            inputAsset.metadata.symbol =
-              inputAsset.metadata.symbol.toUpperCase();
-            State.update({ inputAsset });
-          },
-        }}
-      />
-    )}
-    {!state.outputAsset && state.network && state.outputAssetTokenId && (
-      <Widget
-        src="zavodil.near/widget/TokenData2"
-        loading={loadingBlock}
-        props={{
-          tokenId: state.outputAssetTokenId,
-          coinGeckoTokenId:
-            state?.coinGeckoTokenIds?.[state.outputAssetTokenId],
-          network: state.network,
-          NETWORK_NEAR,
-          NETWORK_ETH,
-          NETWORK_ZKSYNC,
-          NETWORK_ZKEVM,
-          NETWORK_AURORA,
-          NETWORK_POLYGON,
-          coingeckoNetworkHandle: state.coingeckoNetworkHandle,
-          onLoad: (outputAsset) => {
-            console.log("TokenData onLoad outputAsset", outputAsset);
-            outputAsset.metadata.symbol =
-              outputAsset.metadata.symbol.toUpperCase();
-            State.update({ outputAsset });
-          },
-        }}
-      />
-    )}
-    {state.network === NETWORK_NEAR &&
-      state.inputAsset &&
-      state.outputAsset && (
-        <Widget
-          src="weige.near/widget/ref-swap-getEstimate"
-          loading={loadingBlock}
-          props={{
-            loadRes: state.loadRes,
-            tokenIn: getRefTokenObject(
-              state.inputAssetTokenId,
-              state.inputAsset
-            ),
-            tokenOut: getRefTokenObject(
-              state.outputAssetTokenId,
-              state.outputAsset
-            ),
-            amountIn: state.inputAssetAmount ?? 0,
-            reloadPools: state.reloadPools,
-            setReloadPools: (value) =>
-              State.update({
-                reloadPools: value,
-              }),
-          }}
-        />
-      )}
-    {state.network === NETWORK_ZKEVM &&
-      state.inputAssetTokenId &&
-      state.outputAssetTokenId &&
-      state.inputAssetTokenId !== state.outputAssetTokenId &&
-      state.inputAssetAmount &&
-      state.inputAsset &&
-      state.inputAsset.metadata?.decimals &&
-      state.outputAsset &&
-      state.outputAsset.metadata?.decimals && (
-        <>
-          <Widget
-            src="zavodil.near/widget/quickswap-v3-getEstimate"
-            loading={loadingBlock}
-            props={{
-              loadRes: state.loadRes,
-              tokenIn: state.inputAssetTokenId,
-              tokenOut: state.outputAssetTokenId,
-              tokenOutDecimals: state.outputAsset.metadata.decimals,
-              amountIn: expandToken(
-                state.inputAssetAmount,
-                state.inputAsset.metadata.decimals
-              ).toFixed(0),
-              reloadPools: state.reloadPools,
-              setReloadPools: (value) =>
-                State.update({
-                  reloadPools: value,
-                }),
-            }}
-          />
-        </>
-      )}
-    {state.network === NETWORK_MANTLE &&
-      state.selectedDex == "Agni" &&
-      state.inputAssetTokenId &&
-      state.outputAssetTokenId &&
-      state.inputAssetTokenId !== state.outputAssetTokenId &&
-      state.inputAssetAmount &&
-      state.inputAsset &&
-      state.inputAsset.metadata?.decimals &&
-      state.outputAsset &&
-      state.outputAsset.metadata?.decimals && (
-        <>
-          <Widget
-            src="zavodil.near/widget/mantle-getEstimate"
-            loading={loadingBlock}
-            props={{
-              loadRes: state.loadRes,
-              tokenIn: state.inputAssetTokenId,
-              tokenOut: state.outputAssetTokenId,
-              tokenOutDecimals: state.outputAsset.metadata.decimals,
-              quoterContractId: state.quoterContract,
-              amountIn: expandToken(
-                state.inputAssetAmount,
-                state.inputAsset.metadata.decimals
-              ).toFixed(0),
-              reloadPools: state.reloadPools,
-              setReloadPools: (value) =>
-                State.update({
-                  reloadPools: value,
-                }),
-            }}
-          />
-        </>
-      )}
-    {state.network === NETWORK_MANTLE &&
-      ["FusionX V3", "Ammos Finance"].includes(state.selectedDex) &&
-      state.inputAssetTokenId &&
-      state.outputAssetTokenId &&
-      state.inputAssetTokenId !== state.outputAssetTokenId &&
-      state.inputAssetAmount &&
-      state.inputAsset &&
-      state.inputAsset.metadata?.decimals &&
-      state.outputAsset &&
-      state.outputAsset.metadata?.decimals && (
-        <>
-          <Widget
-            src="zavodil.near/widget/ammos-getEstimate"
-            loading={loadingBlock}
-            props={{
-              loadRes: state.loadRes,
-              tokenIn: state.inputAssetTokenId,
-              tokenOut: state.outputAssetTokenId,
-              tokenOutDecimals: state.outputAsset.metadata.decimals,
-              quoterContractId: state.quoterContract,
-              amountIn: expandToken(
-                state.inputAssetAmount,
-                state.inputAsset.metadata.decimals
-              ).toFixed(0),
-              reloadPools: state.reloadPools,
-              setReloadPools: (value) =>
-                State.update({
-                  reloadPools: value,
-                }),
-            }}
-          />
-        </>
-      )}
-    {state.network === NETWORK_MANTLE &&
-      state.selectedDex == "iZiSwap" &&
-      state.inputAssetTokenId &&
-      state.outputAssetTokenId &&
-      state.inputAssetTokenId !== state.outputAssetTokenId &&
-      state.inputAssetAmount &&
-      state.inputAsset &&
-      state.inputAsset.metadata?.decimals &&
-      state.outputAsset &&
-      state.outputAsset.metadata?.decimals && (
-        <>
-          <Widget
-            src="zavodil.near/widget/iziSwap-getEstimate"
-            loading={loadingBlock}
-            props={{
-              loadRes: state.loadRes,
-              tokenIn: state.inputAssetTokenId,
-              tokenOut: state.outputAssetTokenId,
-              tokenInDecimals: state.inputAsset.metadata.decimals,
-              tokenOutDecimals: state.outputAsset.metadata.decimals,
-              quoterContractId: state.quoterContract,
-              amountIn: state.inputAssetAmount,
-              reloadPools: state.reloadPools,
-              setReloadPools: (value) =>
-                State.update({
-                  reloadPools: value,
-                }),
-            }}
-          />
-        </>
-      )}
-    {state.network === NETWORK_ETH &&
-      state.inputAssetTokenId &&
-      state.outputAssetTokenId &&
-      state.inputAssetTokenId !== state.outputAssetTokenId &&
-      state.inputAssetAmount &&
-      state.inputAsset &&
-      state.inputAsset.metadata?.decimals &&
-      state.outputAsset &&
-      state.outputAsset.metadata?.decimals && (
-        <>
-          <Widget
-            src="zavodil.near/widget/uni-v3-getEstimate"
-            loading={loadingBlock}
-            props={{
-              loadRes: state.loadRes,
-              tokenIn: state.inputAssetTokenId,
-              tokenOut: state.outputAssetTokenId,
-              tokenOutDecimals: state.outputAsset.metadata.decimals,
-              amountIn: expandToken(
-                state.inputAssetAmount,
-                state.inputAsset.metadata.decimals
-              ).toFixed(0),
-              reloadPools: state.reloadPools,
-              setReloadPools: (value) =>
-                State.update({
-                  reloadPools: value,
-                }),
-            }}
-          />
-        </>
-      )}
-    {state.network === NETWORK_POLYGON &&
-      state.sender &&
-      state.inputAssetTokenId &&
-      state.outputAssetTokenId &&
-      state.inputAssetTokenId !== state.outputAssetTokenId &&
-      state.inputAssetAmount &&
-      state.inputAsset &&
-      state.inputAsset.metadata?.decimals &&
-      state.outputAsset &&
-      state.outputAsset.metadata?.decimals && (
-        <>
-          <Widget
-            src="zavodil.near/widget/balancer-queryBatchSwap"
-            loading={loadingBlock}
-            props={{
-              loadRes: state.loadRes,
-              tokenIn: state.inputAssetTokenId,
-              tokenOut: state.outputAssetTokenId,
-              inputAsset: state.inputAsset,
-              outputAsset: state.outputAsset,
-              sender: state.sender,
-              quoterContractId: state.routerContract,
-              amountIn: expandToken(
-                state.inputAssetAmount,
-                state.inputAsset.metadata.decimals
-              ).toFixed(0),
-              reloadPools: state.reloadPools,
-              setReloadPools: (value) =>
-                State.update({
-                  reloadPools: value,
-                }),
-            }}
-          />
-        </>
-      )}
-    {[NETWORK_ZKSYNC, NETWORK_AURORA].includes(state.network) &&
-      state.inputAsset &&
-      state.outputAsset &&
-      state.inputAssetAmount &&
-      state.outputAsset.price &&
-      state.inputAsset.price &&
-      state.loadRes({
-        estimate: (
-          (parseFloat(state.inputAssetAmount) *
-            parseFloat(state.inputAsset.price)) /
-          parseFloat(state.outputAsset.price)
-        ).toFixed(18),
-      })}
     <div class="swap-root">
       <div class="swap-main-container">
         <div class="swap-main-column">
@@ -1013,7 +364,7 @@ return (
           >
             {false && state.network && state.dexName && (
               <span class="swap-header">
-                {state.dexName} ({state.network})
+                {"state.dexName"} ('{state.network}')
               </span>
             )}
             {!openReceiver && (
@@ -1142,43 +493,6 @@ return (
                 </div>
               )}
               <div class="swap-button-container">
-                {state.approvalNeeded === true && (
-                  <button
-                    class={"swap-button-enabled"}
-                    onClick={() => {
-                      if ([NETWORK_POLYGON].includes(state.network)) {
-                        state.callTokenApproval(state, () => {
-                          onCallTxComple();
-                          tokenInApprovaleNeededCheck();
-                        });
-                      } else {
-                        Ethers.provider()
-                          .getFeeData()
-                          .then((data) => {
-                            const gasPrice = ethers.utils.formatUnits(
-                              Big(data.gasPrice).toFixed(0),
-                              "gwei"
-                            );
-
-                            state.callTokenApproval(
-                              state,
-                              () => {
-                                onCallTxComple();
-                                tokenInApprovaleNeededCheck();
-                              },
-                              gasPrice,
-                              100000
-                            );
-                          });
-                      }
-                    }}
-                  >
-                    <div class="swap-button-text">
-                      Approve {state.inputAsset.metadata.symbol}
-                    </div>
-                  </button>
-                )}
-
                 <div
                   class="top-container"
                   style={{
@@ -1252,52 +566,53 @@ return (
                   </>
                 </div>
 
-                {state.approvalNeeded !== true && (
-                  <button
-                    class={canSwap ? "swap-button-enabled" : "swap-button"}
-                    style={{ backgroundColor: canSwap ? "ffdc00" : "#ffdc00" }}
-                    onClick={() => {
-                      console.log("click");
+                <button
+                  class={"swap-button-enabled"}
+                  style={{ backgroundColor: canSwap ? "ffdc00" : "#ffdc00" }}
+                  onClick={() => {
+                    console.log("click");
 
-                      //TODO call swap
+                    //TODO call swap
 
-                      const computeResults = async () => {
-                        fetchAlgoliaData().then((res) => {
-                          console.log("1", res);
-                          console.log("2", res.body);
-                          addressResponse = res.body;
-                        });
-                      };
-                      let postUrl =
-                        "https://fastswaps-production.up.railway.app/api/transaction";
-                      const _data = {
-                        value: 123,
-                        fromNetwork: "network1",
-                        toNetwork: "network2",
-                        toAddress: "address1",
-                        fromAddress: "address2",
-                        publicKey: "publicKey",
-                        txStatus: "status",
-                      };
-                      const fetchAlgoliaData = () => {
-                        return asyncFetch(postUrl, {
-                          headers: {
-                            "Content-Type": "application/json",
-                          },
-                          body: JSON.stringify(_data),
-                          method: "POST",
-                        });
-                      };
-                      computeResults();
-                    }}
-                  >
-                    <div class="swap-button-text">Swap</div>
-                  </button>
-                )}
+                    const computeResults = async () => {
+                      fetchAlgoliaData().then((res) => {
+                        console.log("1", res);
+                        console.log("2", res.body);
+                        addressResponse = res.body;
+                      });
+                    };
+                    let postUrl =
+                      "https://fastswaps-production.up.railway.app/api/transaction";
+                    const _data = {
+                      value: 123,
+                      fromNetwork: "network1",
+                      toNetwork: "network2",
+                      toAddress: "address1",
+                      fromAddress: "address2",
+                      publicKey: "publicKey",
+                      txStatus: "status",
+                    };
+                    const fetchAlgoliaData = () => {
+                      return asyncFetch(postUrl, {
+                        headers: {
+                          "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify(_data),
+                        method: "POST",
+                      });
+                    };
+                    computeResults();
+                  }}
+                >
+                  <div class="swap-button-text" style={{ color: "black" }}>
+                    Swap
+                  </div>
+                </button>
               </div>
             </div>
           </div>
         </div>
+        )
       </div>
     </div>
   </Theme>
