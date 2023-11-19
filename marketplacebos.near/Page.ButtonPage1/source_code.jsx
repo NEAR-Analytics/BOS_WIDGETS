@@ -3,6 +3,7 @@ const CardGrid = styled.div`
   grid-template-columns: repeat(3, 1fr);
   gap: 20px;
   margin: 20px;
+  padding:10px;
   overflow-x: auto;
   padding-bottom: 20px;
   white-space: nowrap;
