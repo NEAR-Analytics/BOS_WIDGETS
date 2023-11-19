@@ -30,6 +30,7 @@ const Header = styled.div`
     .option-links {
       height: 100%; 
       padding-top:22px;
+      justify-content: center;
     }
     .option-links a {
       color: #fff;
