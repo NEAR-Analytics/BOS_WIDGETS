@@ -1,6 +1,6 @@
 props.fileType ||
   initState({
-    json: "json",
+    json: "upload json to ipfs",
   });
 const Wrapper = styled.div`
   display: flex;
