@@ -44,7 +44,6 @@ const addRecord = () => {
 return (
   <>
     <div>
-      <div>ShhetIdx: --{sheetIdx}--</div>
       <input
         className="form-control m-2 p-2"
         type="number"
