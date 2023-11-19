@@ -251,7 +251,7 @@ return (
   <Card isWhiteBackground={!isWhiteBackground1}>
     <CardBody>
       <CenteredCardWrapper>{component}</CenteredCardWrapper>
-           <Container>
+      <Container>
         <input type="checkbox" />
         <svg
           xmlns="http://www.w3.org/2000/svg"
