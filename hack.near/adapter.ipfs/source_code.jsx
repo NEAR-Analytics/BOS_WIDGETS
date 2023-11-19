@@ -52,6 +52,8 @@ const handleCreate = () => {
     thing: {
       [thingId]: {
         "": JSON.stringify({
+          type: props.type,
+          fileformat: props.format,
           source: "IPFS",
           adapter: "hack.near/widget/adapter.ipfs",
           reference: {
