@@ -167,6 +167,12 @@ return (
               <Title>Quizz</Title>
             </TabsButton>
             <TabsButton
+              onClick={() => handleTabClick("slides")}
+              selected={state.selectedTab === "slides"}
+            >
+              <Title>Slides by scottie.near</Title>
+            </TabsButton>
+            <TabsButton
               onClick={() => handleTabClick("myfavorites")}
               selected={state.selectedTab === "myfavorites"}
             >
@@ -270,6 +276,14 @@ return (
         {state.selectedTab === "quizz" && (
           <>
             <Widget src="marketplacebos.near/widget/BOSGame.Quiz.Home" />
+            <br />
+            <br />
+          </>
+        )}
+        {""}
+        {state.selectedTab === "slides" && (
+          <>
+            <Widget src="scottie.near/widget/Slides" />
             <br />
             <br />
           </>
