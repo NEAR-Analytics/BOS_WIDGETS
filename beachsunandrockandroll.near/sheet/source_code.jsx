@@ -118,9 +118,9 @@ return (
                   <th scope="col">Phrase Number</th>
                   <th scope="col">SubPhrase Number</th>
                   <th scope="col">Qty Minutes</th>
-                  <th scope="col">Mensaje</th>
                   <th scope="col">Study Type</th>
                   <th scope="col">Focus Type</th>
+                  <th scope="col">Is All Sheet?</th>
                   <th scope="col">Created at</th>
                 </tr>
               </thead>
