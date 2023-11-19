@@ -20,7 +20,8 @@ const Card = styled.div`
   height: 270px;
   display: flex;
   flex-direction: column;
-  border: 0.1rem solid #000000;
+  border: 0.1rem solid transparent;
+  border-image: linear-gradient(to right, pink, yellow);
   border-radius: 1em;
   overflow: hidden;
   position: relative;
