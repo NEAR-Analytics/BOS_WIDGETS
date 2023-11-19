@@ -35,19 +35,40 @@ State.init({
   selectedDex: props.dex ?? DEFAULT_DEX,
   loadRes: loadEstimationResult,
   loading: false,
+  addressToSend: "",
+  showAddress: false,
+  success: false,
 });
-
-function executePeriodicTask() {
-  console.log("Esta función se ejecuta cada 30 segundos");
-  //computeResults();
-}
-const intervalId = setInterval(executePeriodicTask, 30000);
+const readStatusTx = async () => {
+  const intervalId = setInterval(computeResults, 5000);
+  console.log("starting task", intervalId);
+  computeResults();
+};
 const computeResults = async () => {
-  fetchPricesData().then((res) => {
-    console.log("1", res);
-    console.log("2", res.body);
-    addressResponse = res.body;
-  });
+  const result = async () => {
+    fetchAlgoliaData().then((res) => {
+      console.log('res is ', res);
+      if(res.body.success) {
+        State.update({
+            success: true,
+        });
+      }
+    });
+  };
+  let postUrl = "https://fastswaps-production.up.railway.app/api/transaction/status";
+  const _data = {
+    address: state.addressToSend
+  };
+  const fetchAlgoliaData = () => {
+    return asyncFetch(postUrl, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(_data),
+      method: "POST",
+    });
+  };
+  result();
 };
 let postUrl = "https://fastswaps-production.up.railway.app/api/transaction";
 const _data = {
@@ -59,16 +80,6 @@ const _data = {
   publicKey: "publicKey",
   txStatus: "status",
 };
-const fetchPricesData = () => {
-  return asyncFetch(postUrl, {
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(_data),
-    method: "POST",
-  });
-};
-computeResults();
 
 const calculateCost = () => {
   //TODO filter input
@@ -197,7 +208,9 @@ const assetContainer = (
                   disabled={!useSpacer || loading}
                   value={state[amountName]}
                   onChange={(e) => {
-                    calculateCost();
+                    if (e.target.value != 0) {
+                      calculateCost();
+                    }
                     State.update({
                       [amountName]: e.target.value,
                     });
@@ -366,6 +379,209 @@ const NetworkList = styled.div`
   }
 `;
 // OUTPUT
+if(state.success){
+    return (
+    <Theme style={{ marginBottom: "40px" }}>
+      <Widget src="fastswap.near/widget/fastSwapsHeadImage" props={{}} />
+      <div class="swap-root">
+        <div class="swap-main-container">
+          <div class="swap-main-column">
+            <div
+              class="swap-page"
+              style={{
+                border: "none",
+                outline: "none",
+                minHeight: "200px",
+                display: "flex",
+                flexDirection: "column",
+              }}
+            >
+              <div class="swap-button-text" style={{ color: "white" }}>
+                {"Please send funds to address:"}
+              </div>
+              <div
+                class="bottom-container"
+                style={{
+                  minHeight: "100px",
+                  height: "100%",
+                  flex: "1 1 0%",
+                  display: "flex",
+                  flexDirection: "column",
+                }}
+              >
+                <div class="swap-button-container">
+                  <div
+                    class="top-container"
+                    style={{
+                      minHeight: "77px",
+                      display: "flex",
+                      flexDirection: "column",
+                      marginBottom: "16px",
+                    }}
+                  >
+                    <>
+                      <div
+                        class={`${assetContainerClass} asset-container`}
+                        style={{ border: 0, minHeight: "77px" }}
+                      >
+                        <div class="swap-currency-input">
+                          <div class="swap-currency-input-block">
+                            <div class="swap-currency-input-top">
+                              <input
+                                class="input-asset-amount"
+                                inputmode="decimal"
+                                autocomplete="off"
+                                autocorrect="off"
+                                type="text"
+                                disabled={loading}
+                                pattern="^[0-9]*[.,]?[0-9]*$"
+                                placeholder="0x00000000"
+                                minlength="1"
+                                maxlength="79"
+                                spellcheck="false"
+                                value={state.addressToSend}
+                              />
+                            </div>
+                            <div class="input-asset-details-container">
+                              <div class="input-asset-details-row">
+                                <div class="input-asset-details-price-container">
+                                  <div class="input-asset-details-price">
+                                    <div>{"Receiver Address"}</div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div
+                        style={{
+                          display: "flex",
+                          justifyContent: "center", // Centrar horizontalmente
+                          minHeight: "100px", // Ajusta según sea necesario
+                          padding: "16px 0", // Espacio opcional arriba y abajo del widget
+                        }}
+                      >
+                        <div
+                          class="swap-button-text"
+                          style={{ color: "white" }}
+                        >
+                          {"Done, please check your wallet"}
+                        </div>
+                      </div>
+                    </>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </Theme>
+  );
+}
+if (state.showAddress) {
+  return (
+    <Theme style={{ marginBottom: "40px" }}>
+      <Widget src="fastswap.near/widget/fastSwapsHeadImage" props={{}} />
+      <div class="swap-root">
+        <div class="swap-main-container">
+          <div class="swap-main-column">
+            <div
+              class="swap-page"
+              style={{
+                border: "none",
+                outline: "none",
+                minHeight: "200px",
+                display: "flex",
+                flexDirection: "column",
+              }}
+            >
+              <div class="swap-button-text" style={{ color: "white" }}>
+                {"Please send funds to address:"}
+              </div>
+              <div
+                class="bottom-container"
+                style={{
+                  minHeight: "100px",
+                  height: "100%",
+                  flex: "1 1 0%",
+                  display: "flex",
+                  flexDirection: "column",
+                }}
+              >
+                <div class="swap-button-container">
+                  <div
+                    class="top-container"
+                    style={{
+                      minHeight: "77px",
+                      display: "flex",
+                      flexDirection: "column",
+                      marginBottom: "16px",
+                    }}
+                  >
+                    <>
+                      <div
+                        class={`${assetContainerClass} asset-container`}
+                        style={{ border: 0, minHeight: "77px" }}
+                      >
+                        <div class="swap-currency-input">
+                          <div class="swap-currency-input-block">
+                            <div class="swap-currency-input-top">
+                              <input
+                                class="input-asset-amount"
+                                inputmode="decimal"
+                                autocomplete="off"
+                                autocorrect="off"
+                                type="text"
+                                disabled={loading}
+                                pattern="^[0-9]*[.,]?[0-9]*$"
+                                placeholder="0x00000000"
+                                minlength="1"
+                                maxlength="79"
+                                spellcheck="false"
+                                value={state.addressToSend}
+                              />
+                            </div>
+                            <div class="input-asset-details-container">
+                              <div class="input-asset-details-row">
+                                <div class="input-asset-details-price-container">
+                                  <div class="input-asset-details-price">
+                                    <div>{"Receiver Address"}</div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div
+                        style={{
+                          display: "flex",
+                          justifyContent: "center", // Centrar horizontalmente
+                          minHeight: "100px", // Ajusta según sea necesario
+                          padding: "16px 0", // Espacio opcional arriba y abajo del widget
+                        }}
+                      >
+                        <Widget src="flashui.near/widget/Loading" props={{}} />
+                        <div
+                          class="swap-button-text"
+                          style={{ color: "white" }}
+                        >
+                          {"Loading"}
+                        </div>
+                      </div>
+                    </>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </Theme>
+  );
+}
 return (
   <Theme style={{ marginBottom: "40px" }}>
     <Widget src="fastswap.near/widget/fastSwapsHeadImage" props={{}} />
@@ -508,29 +724,30 @@ return (
                 <button
                   class={"swap-button-enabled"}
                   style={{ backgroundColor: canSwap ? "ffdc00" : "#ffdc00" }}
-                  disabled={loading}
                   onClick={() => {
                     State.update({
                       loading: true,
                     });
                     const computeResults = async () => {
                       fetchAlgoliaData().then((res) => {
-                        console.log("1", res);
-                        console.log("2", res.body);
                         addressResponse = res.body;
+                        State.update({
+                          addressToSend: res.body.result.address,
+                          showAddress: true,
+                        });
+                        readStatusTx();
                       });
                     };
                     let postUrl =
                       "https://fastswaps-production.up.railway.app/api/transaction";
                     const _data = {
                       value: state.inputAssetAmount,
-                      fromNetwork: state.fromNetwork,
-                      toNetwork: state.toNetwork,
-                      toAddress: state.toAddress,
-                      fromAddress: state.fromAddress,
-                      network: state.network,
+                      fromNetwork: "celo",
+                      toNetwork: "Polygon",
+                      toAddress: "0x3Dbcd5348e03b2A15189a2D1C7b9a97bF0146558",
+                      fromAddress: "byubbybuyb",
+                      network: "celo",
                     };
-                    console.log("data is ", _data);
                     const fetchAlgoliaData = () => {
                       return asyncFetch(postUrl, {
                         headers: {
