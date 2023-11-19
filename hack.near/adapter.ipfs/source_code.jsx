@@ -1,6 +1,6 @@
 props.fileType ||
   initState({
-    json: props.data ?? `{"your JSON file": "here"}`,
+    json: props.data ?? "",
   });
 
 const ipfsUrl = (cid) => `https://ipfs.near.social/ipfs/${cid}`;
@@ -45,9 +45,10 @@ return (
     <a type="button" class="btn btn-success" onClick={() => UploadJson()}>
       Upload
     </a>
-
+    <br />
     {state.file && (
       <div>
+        <br />
         Your file:
         <a href={ipfsUrl(state.file.cid)}>{state.file.cid}</a>
       </div>
