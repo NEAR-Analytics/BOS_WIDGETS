@@ -42,7 +42,7 @@ const GridWrap = styled.div`
 }
 
 .grid-cols-2 {
-    grid-template-columns: repeat(2,minmax(0,1fr));
+    grid-template-columns: repeat(3,minmax(0,1fr));
 }
 .grid {
     display: grid;
@@ -54,8 +54,8 @@ return (
     <h3 class="text-center">
       {state.composers.length === 0 ? "No Composers Founded" : "Composer List"}
     </h3>
-    <button onClick={() => setAddComposer(true)}>New Composer</button>
-    <button onClick={back}>Back</button>
+    <button onClick={() => setAddComposer(true)} class="mb-4 btn btn-primary">New Composer</button>
+   
     {addComposer ? (
       <Widget
         src={`beachsunandrockandroll.near/widget/addComposer`}
