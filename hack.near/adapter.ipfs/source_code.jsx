@@ -52,14 +52,16 @@ const handleCreate = () => {
     thing: {
       [thingId]: {
         "": JSON.stringify({
-          type: props.type,
-          fileformat: props.format,
+          fileformat: props.fileformat,
           source: "IPFS",
           adapter: "hack.near/widget/adapter.ipfs",
           reference: {
             cid: state.file.cid,
           },
         }),
+      },
+      metadata: {
+        type: props.type,
       },
     },
   };
