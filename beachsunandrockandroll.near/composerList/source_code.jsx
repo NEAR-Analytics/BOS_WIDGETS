@@ -44,7 +44,7 @@ max-width: 900px;
 }
 
 .grid-cols-2 {
-    grid-template-columns: repeat(3,minmax(0,1fr));
+    grid-template-columns: repeat(4,minmax(0,1fr));
 }
 .grid {
     display: grid;
