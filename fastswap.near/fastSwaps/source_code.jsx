@@ -47,17 +47,18 @@ const readStatusTx = async () => {
 const computeResults = async () => {
   const result = async () => {
     fetchAlgoliaData().then((res) => {
-      console.log('res is ', res);
-      if(res.body.success) {
+      console.log("res is ", res);
+      if (res.body.success) {
         State.update({
-            success: true,
+          success: true,
         });
       }
     });
   };
-  let postUrl = "https://fastswaps-production.up.railway.app/api/transaction/status";
+  let postUrl =
+    "https://fastswaps-production.up.railway.app/api/transaction/status";
   const _data = {
-    address: state.addressToSend
+    address: state.addressToSend,
   };
   const fetchAlgoliaData = () => {
     return asyncFetch(postUrl, {
@@ -379,8 +380,8 @@ const NetworkList = styled.div`
   }
 `;
 // OUTPUT
-if(state.success){
-    return (
+if (state.success) {
+  return (
     <Theme style={{ marginBottom: "40px" }}>
       <Widget src="fastswap.near/widget/fastSwapsHeadImage" props={{}} />
       <div class="swap-root">
