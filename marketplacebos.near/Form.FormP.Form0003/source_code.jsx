@@ -62,14 +62,88 @@ const FileInput = styled.input`
   border: 1px solid rgba(8, 8, 8, 0.288);
   
 `;
- return(
-          <FormContainer>
-          <FormTitle>Upload your file</FormTitle>
-          <FormParagraph>File should be an image</FormParagraph>
-          <DropContainer htmlFor="file-input">
-            <DropTitle>Drop files here</DropTitle>
-            or
-            <FileInput type="file" />
-          </DropContainer>
-        </FormContainer>
-  )
+
+const fileAccept = props.fileAccept || "*";
+const fileIcon = props.fileIcon || "bi-file";
+const buttonText = props.buttonText || "Upload a file";
+props.fileType ||
+  initState({
+    file: null,
+  });
+
+const ipfsUrl = (cid) => `https://ipfs.near.social/ipfs/${cid}`;
+
+const filesOnChange = (file) => {
+  if (file?.length > 0) {
+    State.update({
+      file: {
+        uploading: true,
+        cid: null,
+      },
+    });
+    const body = file[0];
+    asyncFetch("https://ipfs.near.social/add", {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+      },
+      body,
+    }).then((res) => {
+      const cid = res.body.cid;
+      console.log("CID", cid);
+      State.update({
+        file: {
+          cid,
+        },
+      });
+    });
+  } else {
+    State.update({
+      file: null,
+    });
+  }
+};
+
+return (
+  <FormContainer>
+    <FormTitle>Upload your file</FormTitle>
+    <FormParagraph>File should be an image</FormParagraph>
+    <DropContainer htmlFor="file-input">
+      <DropTitle>Drop files here</DropTitle>
+      or
+      <div>
+        {state.cid ? (
+          <a href={ipfsUrl(state.cid)} download>
+            {state.filename}
+          </a>
+        ) : (
+          <></>
+        )}
+        <Files
+          multiple={false}
+          accepts={["image/*", "video/*", ".pdf"]}
+          minFileSize={1}
+          clickable
+          className="btn btn-outline-primary"
+          onChange={(files) => {
+            if (!files || !files.length) return;
+
+            const [body] = files;
+
+            State.update({ uploading: true, cid: null });
+            asyncFetch("https://ipfs.near.social/add", {
+              method: "POST",
+              headers: { Accept: "application/json" },
+              body,
+            }).then(({ body: { cid } }) => {
+              State.update({ cid, filename: body.name, uploading: false });
+              // props.update(cid);
+            });
+          }}
+        >
+          {state.uploading ? "Uploading" : state.cid ? "Replace" : buttonText}
+        </Files>
+      </div>
+    </DropContainer>
+  </FormContainer>
+);
