@@ -4,25 +4,33 @@ if (!accountId) {
   return "please connect your NEAR account";
 }
 
+const { data, onSubmit } = props;
+
 const options = [
   {
-    title: "GitHub",
-    value: "hack.near/widget/adapter.github",
+    title: "IPFS",
+    value: "everycanvas.near/widget/adapter.ipfs",
   },
-  {
-    title: "Obsidian",
-    value: "hack.near/widget/adapter.obsidian",
-  },
-  {
-    title: "Tldraw",
-    value: "hack.near/widget/adapter.tldraw",
-  },
+  // {
+  //   title: "GitHub",
+  //   value: "hack.near/widget/adapter.github",
+  // },
+  // {
+  //   title: "Obsidian",
+  //   value: "hack.near/widget/adapter.obsidian",
+  // },
+  // {
+  //   title: "Tldraw",
+  //   value: "hack.near/widget/adapter.tldraw",
+  // },
 ];
 
+const defaultOption = options[0];
+
 State.init({
-  source: "",
-  adapter: "hack.near/widget/adapter.github",
-  reference: "",
+  source: defaultOption.title,
+  adapter: defaultOption.value,
+  reference: data,
 });
 
 const Wrapper = styled.div`
@@ -72,29 +80,29 @@ const onChangeReference = (reference) => {
   });
 };
 
-function generateUID() {
-  return (
-    Math.random().toString(16).slice(2) +
-    Date.now().toString(36) +
-    Math.random().toString(16).slice(2)
-  );
-}
+// function generateUID() {
+//   return (
+//     Math.random().toString(16).slice(2) +
+//     Date.now().toString(36) +
+//     Math.random().toString(16).slice(2)
+//   );
+// }
 
-const thingId = generateUID();
+// const thingId = generateUID();
 
-const handleCreate = () => {
-  const data = {
-    thing: {
-      [thingId]: {
-        source: state.source,
-        adapter: state.adapter,
-        reference: state.reference,
-      },
-    },
-  };
+// const handleCreate = () => {
+//   const data = {
+//     thing: {
+//       [thingId]: {
+//         source: state.source,
+//         adapter: state.adapter,
+//         reference: state.reference,
+//       },
+//     },
+//   };
 
-  Social.set(data);
-};
+//   Social.set(data);
+// };
 
 return (
   <Wrapper>
@@ -102,12 +110,12 @@ return (
       <b>hyperfile creator</b>
     </h4>
     <Form>
-      <Label>source</Label>
+      {/* <Label>source</Label>
       <Input
         type="text"
         value={state.source}
         onChange={(e) => onChangeSource(e.target.value)}
-      />
+      /> */}
       <Label>adapter</Label>
       <Select
         placeholder={placeholder}
@@ -125,7 +133,7 @@ return (
         value={state.reference}
         onChange={(e) => onChangeReference(e.target.value)}
       />
-      <button className="btn btn-outline-success mt-3" onClick={handleCreate}>
+      <button className="btn btn-success mt-3" onClick={() => onSubmit(state)}>
         create
       </button>
     </Form>
