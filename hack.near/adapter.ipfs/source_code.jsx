@@ -31,6 +31,32 @@ const UploadJson = () => {
   }
 };
 
+function generateUID() {
+  return (
+    Math.random().toString(16).slice(2) +
+    Date.now().toString(36) +
+    Math.random().toString(16).slice(2)
+  );
+}
+
+const thingId = generateUID();
+
+const handleCreate = () => {
+  const hyperfile = {
+    thing: {
+      [thingId]: {
+        source: "ipfs",
+        adapter: "hack.near/widget/adapter.ipfs",
+        reference: {
+          cid: state.file.cid,
+        },
+      },
+    },
+  };
+
+  Social.set(hyperfile);
+};
+
 return (
   <>
     <textarea
@@ -51,6 +77,10 @@ return (
         <br />
         Your file:
         <a href={ipfsUrl(state.file.cid)}>{state.file.cid}</a>
+        <br />
+        <button className="btn btn-outline-success mt-3" onClick={handleCreate}>
+          Create
+        </button>
       </div>
     )}
   </>
