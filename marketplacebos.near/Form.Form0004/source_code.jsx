@@ -137,10 +137,8 @@ const props = {
           State.update();
         }}
       />
-      
       <Toggle onClick={() => UploadJson()}>Save</Toggle>
-            <br />
-
+      <br />
       <br />
       Your file:
       {state.file && (
