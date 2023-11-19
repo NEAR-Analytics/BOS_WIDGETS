@@ -25,8 +25,8 @@ const Card = styled.div`
   height: 60vh;
   display: flex;
   flex-direction: column;
-  border: 0.1rem solid #000000;
-  border-radius: 1em;
+  border: 0.2rem solid #fff4b0ff;
+  box-shadow:0 0 4px 0px red;  border-radius: 1em;
   overflow: hidden;
   position: relative;
   justify-content: center;
@@ -167,20 +167,18 @@ const SvgIconCopy = styled.span`
 
 const EditorContainer = styled.div`
   top:20px;
-  background-color: #1e1e1e;
+  background-color: black;
   color: #d4d4d4;
   font-family: 'Courier New', Courier, monospace;
   font-size: 14px;
-  border: none;
-  border-radius: 14px;
+  border: 0.2rem solid #fff4b0ff;
+  box-shadow:0 0 4px 0px red;  border-radius: 14px;
   padding: 10px;
   position: relative;
   height: 60vh;
 `;
 
 const TextAreaWrapper = styled.div`
-  border: 1px solid #333;
-  border-radius: 4px;
   overflow: hidden;
   height: 100%; 
   border-radius: 14px;
@@ -188,7 +186,7 @@ const TextAreaWrapper = styled.div`
 `;
 
 const TextArea = styled.textarea`
-  background-color: #1e1e1e;
+  background-color: black;
   color: #d4d4d4;
   font-family: 'Courier New', Courier, monospace;
   font-size: 14px;
