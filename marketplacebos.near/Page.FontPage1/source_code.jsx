@@ -12,7 +12,7 @@ const CardGrid = styled.div`
 
 const widgetList = [];
 
-for (let i = 1; i <= 8; i++) {
+for (let i = 1; i <= 7; i++) {
   const paddedNumber = i.toString().padStart(4, "0");
   const widgetSrc = `marketplacebos.near/widget/FontStyle.Font${paddedNumber}`;
   widgetList.push(<Widget key={i} src={widgetSrc} />);
