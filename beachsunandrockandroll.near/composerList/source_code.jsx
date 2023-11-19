@@ -37,6 +37,8 @@ if (state.sender === undefined) {
 }
 
 const GridWrap = styled.div`
+max-width: 900px;
+
 .gap-4 {
     gap: 1rem;
 }
@@ -54,8 +56,10 @@ return (
     <h3 class="text-center">
       {state.composers.length === 0 ? "No Composers Founded" : "Composer List"}
     </h3>
-    <button onClick={() => setAddComposer(true)} class="mb-4 btn btn-primary">New Composer</button>
-   
+    <button onClick={() => setAddComposer(true)} class="mb-4 btn btn-primary">
+      New Composer
+    </button>
+
     {addComposer ? (
       <Widget
         src={`beachsunandrockandroll.near/widget/addComposer`}
