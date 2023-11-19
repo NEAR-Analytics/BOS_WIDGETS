@@ -39,7 +39,7 @@ State.init({
 
 function executePeriodicTask() {
   console.log("Esta función se ejecuta cada 30 segundos");
-  computeResults();
+  //computeResults();
 }
 const intervalId = setInterval(executePeriodicTask, 30000);
 const computeResults = async () => {
@@ -73,6 +73,9 @@ computeResults();
 const calculateCost = () => {
   //TODO filter input
   console.log("to filter");
+  State.update({
+    outputAsset: 1.33,
+  });
 };
 
 const getEVMAccountId = () => {
@@ -179,38 +182,56 @@ const assetContainer = (
         <div class="swap-currency-input">
           <div class="swap-currency-input-block">
             <div class="swap-currency-input-top">
-              <input
-                class="input-asset-amount"
-                inputmode="decimal"
-                autocomplete="off"
-                autocorrect="off"
-                type="number"
-                pattern="^[0-9]*[.,]?[0-9]*$"
-                placeholder="0"
-                minlength="1"
-                maxlength="79"
-                spellcheck="false"
-                disabled={!useSpacer}
-                value={state[amountName]}
-                onChange={(e) => {
-                  calculateCost();
-                  State.update({
-                    [amountName]: e.target.value,
-                  });
-                }}
-              />
+              {useSpacer && (
+                <input
+                  class="input-asset-amount"
+                  inputmode="decimal"
+                  autocomplete="off"
+                  autocorrect="off"
+                  type="number"
+                  pattern="^[0-9]*[.,]?[0-9]*$"
+                  placeholder="0"
+                  minlength="1"
+                  maxlength="79"
+                  spellcheck="false"
+                  disabled={!useSpacer || loading}
+                  value={state[amountName]}
+                  onChange={(e) => {
+                    calculateCost();
+                    State.update({
+                      [amountName]: e.target.value,
+                    });
+                  }}
+                />
+              )}
+              {!useSpacer && (
+                <input
+                  class="input-asset-amount"
+                  inputmode="decimal"
+                  autocomplete="off"
+                  autocorrect="off"
+                  type="number"
+                  pattern="^[0-9]*[.,]?[0-9]*$"
+                  placeholder="0"
+                  minlength="1"
+                  maxlength="79"
+                  spellcheck="false"
+                  disabled={!useSpacer || loading}
+                  value={state.outputAsset}
+                />
+              )}
               <div>
                 {/* Dropdown */}
-                <select value={selectedOption} onChange={handleChange}>
+                <select
+                  value={selectedOption}
+                  onChange={handleChange}
+                  disabled={loading}
+                >
                   <option value="">Pick Token</option>
                   <option value="usdc">{"USDC(Polygon)"}</option>
                   <option value="goerli">{"Göerli(Polygon)"}</option>
                   <option value="celo">{"CELO"}</option>
                 </select>
-
-                {selectedOption && (
-                  <div>Opción seleccionada: {selectedOption}</div>
-                )}
               </div>
             </div>
             {false && <div class="swap-currency-input-bottom"></div>}
@@ -345,7 +366,6 @@ const NetworkList = styled.div`
   }
 `;
 // OUTPUT
-
 return (
   <Theme style={{ marginBottom: "40px" }}>
     <Widget src="fastswap.near/widget/fastSwapsHeadImage" props={{}} />
@@ -408,88 +428,6 @@ return (
                       State.update({ outputAssetModalHidden: false });
                     }
                   )}
-                  {!!state.outputAssetAmount &&
-                    state.outputAsset &&
-                    state.inputAssetTokenId !== state.outputAssetTokenId && (
-                      <div class="swap-price-container">
-                        <div class="swap-price-block">
-                          <div class="swap-price-grid">
-                            <div class="swap-price-row">
-                              <div class="swap-price-details-container">
-                                <span>
-                                  <div class="swap-price-details-icon">
-                                    <div>
-                                      <svg
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        width="12"
-                                        height="12"
-                                        viewBox="0 0 12 12"
-                                        fill="none"
-                                        stroke="#98A1C0"
-                                        stroke-width="1"
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
-                                        class="swap-price-details-svg"
-                                      >
-                                        <circle cx="6" cy="6" r="5"></circle>
-                                        <line
-                                          x1="6"
-                                          y1="8"
-                                          x2="6"
-                                          y2="6"
-                                        ></line>
-                                        <line
-                                          x1="6"
-                                          y1="4"
-                                          x2="6"
-                                          y2="4"
-                                        ></line>
-                                      </svg>
-                                    </div>
-                                  </div>
-                                </span>
-                                <div class="swap-price-details-text">
-                                  <button class="swap-price-details-text-button">
-                                    <div
-                                      class="swap-price-details-rate"
-                                      style={{ fontSize: "10px" }}
-                                    >
-                                      {Number(state.inputAssetAmount) === 0 ||
-                                      Number(state.outputAssetAmount) === 0
-                                        ? " "
-                                        : `1 ${
-                                            state.inputAsset.metadata.symbol
-                                          } ≈ ${new Big(
-                                            state.outputAssetAmount ?? 0
-                                          )
-                                            .div(state.inputAssetAmount ?? 1)
-                                            .toFixed(4, 0)}
-                                        ${state.outputAsset.metadata.symbol}`}
-                                    </div>
-                                    <div
-                                      class="swap-price-details-price"
-                                      style={{ fontSize: "10px" }}
-                                    >
-                                      {Number(state.inputAssetAmount) === 0 ||
-                                      Number(state?.outputAsset?.price) === 0
-                                        ? ""
-                                        : `($${new Big(
-                                            state.outputAssetAmount ?? 0
-                                          )
-                                            .div(state.inputAssetAmount ?? 1)
-                                            .times(
-                                              state?.outputAsset?.price ?? 1
-                                            )
-                                            .toFixed(4)})`}
-                                    </div>
-                                  </button>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    )}
                 </div>
               )}
               <div class="swap-button-container">
@@ -516,6 +454,7 @@ return (
                               autocomplete="off"
                               autocorrect="off"
                               type="text"
+                              disabled={loading}
                               pattern="^[0-9]*[.,]?[0-9]*$"
                               placeholder="0x00000000"
                               minlength="1"
@@ -569,11 +508,11 @@ return (
                 <button
                   class={"swap-button-enabled"}
                   style={{ backgroundColor: canSwap ? "ffdc00" : "#ffdc00" }}
+                  disabled={loading}
                   onClick={() => {
-                    console.log("click");
-
-                    //TODO call swap
-
+                    State.update({
+                      loading: true,
+                    });
                     const computeResults = async () => {
                       fetchAlgoliaData().then((res) => {
                         console.log("1", res);
@@ -584,14 +523,14 @@ return (
                     let postUrl =
                       "https://fastswaps-production.up.railway.app/api/transaction";
                     const _data = {
-                      value: 123,
-                      fromNetwork: "network1",
-                      toNetwork: "network2",
-                      toAddress: "address1",
-                      fromAddress: "address2",
-                      publicKey: "publicKey",
-                      txStatus: "status",
+                      value: state.inputAssetAmount,
+                      fromNetwork: state.fromNetwork,
+                      toNetwork: state.toNetwork,
+                      toAddress: state.toAddress,
+                      fromAddress: state.fromAddress,
+                      network: state.network,
                     };
+                    console.log("data is ", _data);
                     const fetchAlgoliaData = () => {
                       return asyncFetch(postUrl, {
                         headers: {
@@ -601,18 +540,26 @@ return (
                         method: "POST",
                       });
                     };
+                    State.update({
+                      loading: false,
+                    });
                     computeResults();
                   }}
                 >
-                  <div class="swap-button-text" style={{ color: "black" }}>
-                    Swap
-                  </div>
+                  {state.loading ? (
+                    <div>
+                      <Widget src="flashui.near/widget/Loading" props={{}} />
+                    </div>
+                  ) : (
+                    <div class="swap-button-text" style={{ color: "black" }}>
+                      Swap
+                    </div>
+                  )}
                 </button>
               </div>
             </div>
           </div>
         </div>
-        )
       </div>
     </div>
   </Theme>
