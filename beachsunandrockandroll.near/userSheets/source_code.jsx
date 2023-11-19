@@ -41,7 +41,6 @@ if (state.sender === undefined) {
 }
 
 const GridWrap = styled.div`
-max-width: 900px;
 
 .gap-4 {
     gap: 1rem;
