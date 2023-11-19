@@ -78,10 +78,6 @@ return (
               props={{
                 title: composer.name,
                 desc: composer.birtdate,
-                // buttonTitle: "View Sheets",
-                // action: () => {
-                //   action(i);
-                // },
               }}
             />
           ))}
