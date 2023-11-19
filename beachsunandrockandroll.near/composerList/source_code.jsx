@@ -53,7 +53,7 @@ const GridWrap = styled.div`
 return (
   <div class="px-3 py-5">
     <h3 class="text-center">
-      {state.composers.length === 0 ? "No Composers Founded" : "Composer List"}
+      {state.composers.length === 0 ? "No Composers Found" : "Composer List"}
     </h3>
     <button onClick={() => setAddComposer(true)} class="mb-4 btn btn-primary">
       New Composer
