@@ -31,6 +31,12 @@ const UploadJson = () => {
   }
 };
 
+const onChangeName = (name) => {
+  State.update({
+    name,
+  });
+};
+
 function generateUID() {
   return (
     Math.random().toString(16).slice(2) +
@@ -39,17 +45,19 @@ function generateUID() {
   );
 }
 
-const thingId = generateUID();
+const thingId = state.name ?? generateUID();
 
 const handleCreate = () => {
   const hyperfile = {
     thing: {
       [thingId]: {
-        source: "ipfs",
-        adapter: "hack.near/widget/adapter.ipfs",
-        reference: {
-          cid: state.file.cid,
-        },
+        "": JSON.stringify({
+          source: "IPFS",
+          adapter: "hack.near/widget/adapter.ipfs",
+          reference: {
+            cid: state.file.cid,
+          },
+        }),
       },
     },
   };
@@ -60,7 +68,7 @@ const handleCreate = () => {
 return (
   <>
     <textarea
-      class="form-control mb-2"
+      className="form-control mb-3"
       rows={5}
       value={state.json}
       onChange={(e) => {
@@ -78,6 +86,12 @@ return (
         Your file:
         <a href={ipfsUrl(state.file.cid)}>{state.file.cid}</a>
         <br />
+        <h5 className="mt-3">Name</h5>
+        <input
+          type="text"
+          value={state.name}
+          onChange={(e) => onChangeName(e.target.value)}
+        />
         <button className="btn btn-outline-success mt-3" onClick={handleCreate}>
           Create
         </button>
