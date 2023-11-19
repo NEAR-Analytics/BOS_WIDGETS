@@ -20,15 +20,14 @@ const Card = styled.div`
   height: 270px;
   display: flex;
   flex-direction: column;
-  border: 0.1rem solid transparent;
-  border-image: linear-gradient(to right, pink, yellow);
+  border: 0.2rem solid #fff4b0ff;
   border-radius: 1em;
   overflow: hidden;
   position: relative;
   justify-content: center;
   align-items: center;
   transition: background 500ms;
-  box-shadow:0 0 4px 0px #FFD700;
+  box-shadow:0 0 4px 0px red;
 `;
 
 const CardBody = styled.div`
