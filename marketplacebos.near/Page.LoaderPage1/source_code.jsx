@@ -6,6 +6,8 @@ const CardGrid = styled.div`
   overflow-x: auto;
   padding-bottom: 20px;
   white-space: nowrap;
+    padding:10px;
+
 `;
 
 const Text = styled.p`
