@@ -155,6 +155,18 @@ return (
               <Title>Fonts Style</Title>
             </TabsButton>
             <TabsButton
+              onClick={() => handleTabClick("tiktactoe")}
+              selected={state.selectedTab === "tiktactoe"}
+            >
+              <Title>Tik Tac Toe</Title>
+            </TabsButton>
+            <TabsButton
+              onClick={() => handleTabClick("quizz")}
+              selected={state.selectedTab === "quizz"}
+            >
+              <Title>Quizz</Title>
+            </TabsButton>
+            <TabsButton
               onClick={() => handleTabClick("myfavorites")}
               selected={state.selectedTab === "myfavorites"}
             >
@@ -242,6 +254,22 @@ return (
         {state.selectedTab === "fonts" && (
           <>
             <Widget src="marketplacebos.near/widget/Page.FontPage1" />
+            <br />
+            <br />
+          </>
+        )}
+        {""}
+        {state.selectedTab === "tiktactoe" && (
+          <>
+            <Widget src="marketplacebos.near/widget/BOSGame.TicTacToe.Box" />
+            <br />
+            <br />
+          </>
+        )}
+        {""}
+        {state.selectedTab === "quizz" && (
+          <>
+            <Widget src="marketplacebos.near/widget/BOSGame.Quiz.Home" />
             <br />
             <br />
           </>
