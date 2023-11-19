@@ -27,6 +27,7 @@ const Card = styled.div`
   justify-content: center;
   align-items: center;
   transition: background 500ms;
+  box-shadow: 0 0 40px 1px pink, 0 0 40px 1px #FFD700;
 `;
 
 const CardBody = styled.div`
@@ -136,7 +137,6 @@ const toggleSaveButton1 = () => {
   setIsToggleSave1((prevState) => !prevState); // Toggle the save button state
 };
 
-
 const ViewButton = styled.button`
   width: 5rem;
   height: 30px;
@@ -227,13 +227,18 @@ return (
   <Card isWhiteBackground={!isWhiteBackground1}>
     <CardBody>
       <CenteredCardWrapper>{component}</CenteredCardWrapper>
-         <Container>
-            <input type="checkbox" />
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"><path d="M12 4.435c-1.989-5.399-12-4.597-12 3.568 0 4.068 3.06 9.481 12 14.997 8.94-5.516 12-10.929 12-14.997 0-8.118-10-8.999-12-3.568z"/>
-            <path d="M16.4,4C14.6,4,13,4.9,12,6.3C11,4.9,9.4,4,7.6,4C4.5,4,2,6.5,2,9.6C2,14,12,22,12,22s10-8,10-12.4C22,6.5,19.5,4,16.4,4z"></path>
-            </svg>
-            
-        </Container>
+      <Container>
+        <input type="checkbox" />
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="20"
+          height="20"
+          viewBox="0 0 24 24"
+        >
+          <path d="M12 4.435c-1.989-5.399-12-4.597-12 3.568 0 4.068 3.06 9.481 12 14.997 8.94-5.516 12-10.929 12-14.997 0-8.118-10-8.999-12-3.568z" />
+          <path d="M16.4,4C14.6,4,13,4.9,12,6.3C11,4.9,9.4,4,7.6,4C4.5,4,2,6.5,2,9.6C2,14,12,22,12,22s10-8,10-12.4C22,6.5,19.5,4,16.4,4z"></path>
+        </svg>
+      </Container>
       <a href={edit}>
         <Edit
           type="button"
