@@ -272,19 +272,21 @@ State.init({ creators: [] });
 // TODO: stop the flicker
 let updating = false;
 function reverseEnsLookup(address, i) {
-  Ethers.provider()
-    .lookupAddress(address)
-    .then((name) => {
-      if (name) {
-        const newCreators = Array.from(state.creators);
-        newCreators[i] = name;
-        State.update({ creators: newCreators }).then(() => (updating = false));
-      } else {
-        const newCreators = Array.from(state.creators);
-        newCreators[i] = address;
-        State.update({ creators: newCreators }).then(() => (updating = false));
-      }
-    });
+  if (Ethers.provider()) {
+    Ethers.provider()
+      .lookupAddress(address)
+      .then((name) => {
+        if (name) {
+          const newCreators = Array.from(state.creators);
+          newCreators[i] = name;
+          State.update({ creators: newCreators }).then(() => (updating = false));
+        } else {
+          const newCreators = Array.from(state.creators);
+          newCreators[i] = address;
+          State.update({ creators: newCreators }).then(() => (updating = false));
+        }
+      });
+  }
 }
 
 useEffect(() => {
