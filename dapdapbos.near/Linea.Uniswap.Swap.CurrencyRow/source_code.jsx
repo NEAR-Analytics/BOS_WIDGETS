@@ -38,18 +38,30 @@ const CurrencyLabel = styled.div`
 `;
 const CurrencySymbol = styled.div`
   font-size: 18px;
-  font-weight: 500px;
+  font-weight: 500;
   color: #fff;
+  @media (max-width: 768px) {
+    font-size: 16px;
+    font-weight: 400;
+  }
 `;
 const CurrencyName = styled.div`
   font-size: 14px;
   color: #fff;
   opacity: 0.5;
+  @media (max-width: 768px) {
+    font-size: 12px;
+    font-weight: 400;
+  }
 `;
 const CurrencyAmount = styled.div`
   font-size: 18px;
   font-weight: 500px;
   color: #fff;
+  @media (max-width: 768px) {
+    font-size: 14px;
+    font-weight: 400;
+  }
 `;
 
 State.init({
@@ -94,8 +106,8 @@ return (
         props={{ size: 36, token: currency }}
       />
       <div>
-        <CurrencySymbol>{currency.symbol}</CurrencySymbol>
-        <CurrencyName>{currency.name}</CurrencyName>
+        <CurrencySymbol>{currency.name}</CurrencySymbol>
+        <CurrencyName>{currency.symbol}</CurrencyName>
       </div>
     </CurrencyLabel>
     <CurrencyAmount>
