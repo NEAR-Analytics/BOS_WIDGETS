@@ -119,6 +119,11 @@ const PanelLabel = styled.div`
     position: relative;
     margin-right: 16px;
   }
+  @media (max-width: 768px) {
+    font-size: 16px;
+    font-weight: 400;
+    line-height: normal;
+  }
 `;
 const SwapButton = styled.button`
   width: 100%;
