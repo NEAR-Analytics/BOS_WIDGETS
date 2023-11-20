@@ -7,5 +7,8 @@ return (
     <Widget src="xvii.near/widget/NedlarResearchCard" />
     <Widget src="xvii.near/widget/AnnieResearchCard" />
     <Widget src="xvii.near/widget/xviiResearchCard" />
+    <Widget src="xvii.near/widget/RachelResearchCard" />
+    <Widget src="xvii.near/widget/BGemResearchCard" />
+    <Widget src="xvii.near/widget/RhodaResearchCard" />
   </div>
 );
