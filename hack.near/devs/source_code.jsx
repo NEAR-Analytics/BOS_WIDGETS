@@ -2,7 +2,6 @@ const data = Social.get("*/graph/star/**", "final");
 
 const starCountsByAccount = {};
 
-// Calculate star counts for each widget within each account
 Object.keys(data).forEach((user) => {
   const userData = data[user];
   const widgetData = userData?.graph?.star;
@@ -21,7 +20,6 @@ Object.keys(data).forEach((user) => {
             starCountsByAccount[widgetUser][widgetName] = 0;
           }
 
-          // Check if the widgetName is valid before incrementing stars
           if (
             typeof starCountsByAccount[widgetUser][widgetName] !== "undefined"
           ) {
@@ -33,7 +31,6 @@ Object.keys(data).forEach((user) => {
   }
 });
 
-// Calculate total stars received by each account
 const totalStarsByAccount = {};
 Object.keys(starCountsByAccount).forEach((account) => {
   const widgets = starCountsByAccount[account];
@@ -44,7 +41,6 @@ Object.keys(starCountsByAccount).forEach((account) => {
   totalStarsByAccount[account] = totalStars;
 });
 
-// Convert the object to an array and sort it by total stars in descending order
 const rankedAccounts = Object.entries(totalStarsByAccount)
   .filter(([account, totalStars]) => typeof totalStars !== "undefined")
   .sort((a, b) => b[1] - a[1]);
@@ -56,14 +52,24 @@ return (
       {rankedAccounts.map(([account, totalStars], index) => (
         <div key={account}>
           <h5>
-            {index + 1}. {account} ({totalStars} total stars)
+            {index + 1}.{" "}
+            <a href={`/near/widget/ProfilePage?accountId=${account}`}>
+              {account}
+            </a>{" "}
+            ({totalStars} total stars)
           </h5>
           <ul className="m-3">
             {Object.entries(starCountsByAccount[account])
               .sort((a, b) => b[1] - a[1])
               .map(([widgetName, widgetStars]) => (
                 <li key={widgetName}>
-                  {widgetName} ({widgetStars} stars)
+                  <a
+                    href={`/near/widget/ComponentDetailsPage?src=${account}/widget/${widgetName}`}
+                  >
+                    {widgetName}
+                  </a>{" "}
+                  ({widgetStars}
+                  stars)
                 </li>
               ))}
           </ul>
