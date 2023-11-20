@@ -90,6 +90,13 @@ const trendImgUrl =
 const hotImgUrl =
   "https://ipfs.near.social/ipfs/bafkreida3fifpbsbadyny242ol6tmha2lpl32kwnxthzeokwqh3c5n733y";
 
+
+const newUIbg = 'https://ipfs.near.social/ipfs/bafkreifua4bxuylicypouz6ng3pstjam4zvr3nifvchutndwlo5zuklxtu'
+
+const syncIcon = 'https://ipfs.near.social/ipfs/bafkreidvtwihnl2ggpdxz6y5odaghigvap42p2lqdyxgex5gnl6fo4qxie';
+const gold = 'https://ipfs.near.social/ipfs/bafkreidegqrrzlwh4wlfrquhd6n3n7dczefy32hu5locsx5yj6hllqfkuq';
+const diagonaltop = 'https://ipfs.near.social/ipfs/bafkreiewy27itzs3bq2et7bxmnv3dlt6rtwofiszkms3baroobjqq6wh5a';
+
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
@@ -97,6 +104,10 @@ const Wrapper = styled.div`
   width: 100%;
   gap: 28px;
   color: white;
+  padding: 32px 120px;
+  background-image: url(${newUIbg});
+  background-repeat: no-repeat;
+  background-size: 100%;
 
   font-family: "Gantari";
 
@@ -128,6 +139,43 @@ const Wrapper = styled.div`
       letter-spacing: 0em;
       text-align: left;
       color: #979abe;
+    }
+  }
+
+  .new-head {
+    display: flex;
+    .details-body-left {
+      .body-left-detailed {
+        display: flex;
+        img {
+          width: 72px;
+          height: 72px;
+          margin-right: 24px;
+        }
+        .left-detailed-text {
+          h1 {
+            font-size: 32px;
+            font-weight: 700;
+            color: #ffffff;
+          }
+          p {
+            border: 1px solid #373a53;
+            background: rgba(0, 0, 0, 0.3);
+            color: #979abe;
+            border-radius: 8px;
+            padding: 6px 12px;
+            font-weight: 300;
+            height: 30px;
+            line-height: 16px;
+            width: fit-content;
+            img {
+              width: 12px;
+              height: 12px;
+              margin: 0;
+            }
+          }
+        }
+      }
     }
   }
 
@@ -483,6 +531,25 @@ const Seperator = styled.div`
   margin: 20px 0px;
 `;
 
+const Golds = styled.div`
+  float: right;
+  background: linear-gradient(180deg, #ffe98b 0%, #ffdd4d 100%);
+  border-radius: 16px;
+  padding: 4px 8px;
+  font-size: 14px;
+  font-weight: 700;
+  color: #000000;
+  width: auto;
+  margin-left: 12px;
+  height: 26px;
+  line-height: 18px;
+  img {
+    width: 18px !important;
+    height: 18px !important;
+    margin-right: 2px !important;
+  }
+`;
+
 const sender = Ethers.send("eth_requestAccounts", [])[0];
 
 const { activeMenu, showPopup, showTip } = state;
@@ -540,7 +607,7 @@ return (
     <Wrapper>
       <Widget src="guessme.near/widget/ZKEVMWarmUp.generage-uuid" />
 
-      <div className="header">
+      {/* <div className="header">
         <div className="header-title header-title-pc">
           Participate In Polygon zkEVM easily
         </div>
@@ -554,6 +621,29 @@ return (
         <div className="header-description">
           Keep track of your activity and loyalty, make sure we are ready for
           any airdrop
+        </div>
+      </div> */}
+
+      <div className="new-head">
+        <div className="details-body-left">
+          <div className="body-left-detailed">
+            <img src={syncIcon} alt="" />
+            <div className="left-detailed-text">
+              <h1>
+                Polygon zkEVM
+                <Golds>
+                  <img src={gold} alt="" />
+                  <span>20</span>
+                </Golds>
+              </h1>
+              <p>
+                Add to MetaMask <img src={diagonaltop} alt="" />
+              </p>
+            </div>
+          </div>
+        </div>
+        <div className="details-body-right">
+          {/* 11 */}
         </div>
       </div>
 
