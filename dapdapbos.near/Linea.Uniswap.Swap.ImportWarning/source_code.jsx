@@ -55,6 +55,7 @@ const Content = styled.div`
   @media (max-width: 900px) {
     width: 100%;
     border-radius: 16px 16px 0px 0px;
+    background: #2b2b2b;
   }
 `;
 const Text = styled.div`
