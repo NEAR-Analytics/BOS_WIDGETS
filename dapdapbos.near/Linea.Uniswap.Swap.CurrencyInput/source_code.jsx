@@ -9,14 +9,12 @@ const Wrapper = styled.div`
 `;
 const InputField = styled.div`
   margin-right: 8px;
-  @media (max-width: 768px) {
-    width: calc(100% - 165px);
-  }
+  width: calc(100% - 165px);
 `;
 const InputWarpper = styled.div`
   height: 46px;
   padding: 10px 0px;
-  @media (max-width: 900px) {
+  @media (max-width: 768px) {
     height: 40px;
   }
 `;
@@ -24,15 +22,15 @@ const Input = styled.input`
   font-size: 32px;
   color: #fff;
   font-weight: 500;
-  width: 248px;
   background-color: transparent;
   outline: none;
   border: none;
   height: 40px;
   vertical-align: bottom;
-  @media (max-width: 900px) {
-    font-size: 20px;
-    height: 34px;
+  width: 100%;
+  @media (max-width: 768px) {
+    font-size: 32px;
+    line-height: normal;
   }
 `;
 const Value = styled.div`
@@ -42,10 +40,10 @@ const Value = styled.div`
   line-height: 16px;
 `;
 const CurrencyField = styled.div`
-  max-width: 150px;
   flex-shrink: 0;
   --button-color: #fff;
 `;
+
 const CurrencySelect = styled.div`
   display: flex;
   justify-content: space-between;
@@ -91,7 +89,7 @@ const CurrencySelectNoToken = styled.div`
     svg {
       width: 12px !important;
     }
-    padding: 0px 12px 0px 6px;
+    padding: 4px 14px 4px 17px;
   }
   &.disabled {
     opacity: 0.3;
