@@ -225,9 +225,7 @@ return (
         <BlinkRight></BlinkRight>
       </NavList>
     </MainContainer>
-    <br/>
-        <br/>
-    <br/>
-
+    <br />
+    <br />
   </>
 );
