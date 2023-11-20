@@ -6,7 +6,7 @@ const World = () => (
         <Hello id="hello-component" />
       </span>
     </div>
-    <h2 id="world-h2">world</h2>
+    {/*<h2 id="world-h2">world</h2>*/}
   </>
 );
 
