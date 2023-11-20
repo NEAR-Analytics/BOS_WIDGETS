@@ -14,6 +14,14 @@ const StyledContainer = styled.div`
   padding: 20px;
   position: absolute;
   z-index: 20;
+  right: -100px;
+  top: 100px;
+
+  @media (max-width: 768px) {
+    right: 8px;
+    top: 64px;
+    background: #2b2b2b;
+  }
 `;
 const Label = styled.div`
   font-size: 16px;
@@ -34,6 +42,9 @@ const SlippageActions = styled.div`
   font-size: 16px;
   font-weight: 500;
   color: #fff;
+  @media (max-width: 768px) {
+    background-color: #1b1b1b;
+  }
 `;
 const SlippageAction = styled.div`
   padding: 6px;
@@ -45,6 +56,12 @@ const SlippageAction = styled.div`
   &.active {
     color: #8e8e8e;
     background-color: #262626;
+  }
+  @media (max-width: 768px) {
+    &.active {
+      color: #fff;
+      background: #3f3f3f;
+    }
   }
 `;
 const InputWrapper = styled.div`
@@ -86,12 +103,7 @@ return (
         props.onClose?.();
       }}
     />
-    <StyledContainer
-      style={{
-        right: "-100px",
-        top: "100px",
-      }}
-    >
+    <StyledContainer>
       <Label>Slippage Setting</Label>
       <Inputs>
         <SlippageActions>
