@@ -10,6 +10,10 @@ useEffect(() => {
   })();
 }, [Markdown]);
 
+if (!Markdown) {
+  return <div>Markdown loading...</div>;
+}
+
 return (
   <div id="r">
     <Markdown id="a">{"# does this *work*?"}</Markdown>
