@@ -3,10 +3,11 @@ const [Markdown, setMarkdown] = useState(null);
 useEffect(() => {
   console.log("efft!");
   (async () => {
-    const md = await import(
-      "https://esm.sh/react-markdown@9.0.1?alias=react:preact/compat"
+    setMarkdown(
+      await import(
+        "https://esm.sh/react-markdown@9.0.1?alias=react:preact/compat"
+      )
     );
-    console.log(md);
   })();
 }, []);
 
