@@ -263,10 +263,21 @@ const pages = {
       }}
     />
   ),
-  upload: (
+  verify: (
     <Widget
-      src={`${state.config.ownerId}/widget/SourceScan.Upload.Github`}
+      src={`${state.config.ownerId}/widget/SourceScan.Verify.Page`}
       props={{
+        rpcUrl: state.config.rpcUrl,
+        theme: useTheme(light, dark),
+        apiHost: state.config.apiHost,
+      }}
+    />
+  ),
+  docs: (
+    <Widget
+      src={`${state.config.ownerId}/widget/SourceScan.Docs.Page`}
+      props={{
+        rpcUrl: state.config.rpcUrl,
         theme: useTheme(light, dark),
         apiHost: state.config.apiHost,
       }}
