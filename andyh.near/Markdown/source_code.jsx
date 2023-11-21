@@ -6,11 +6,11 @@ useEffect(() => {
     const mod = await import(
       "https://esm.sh/react-markdown@9.0.1?alias=react:preact/compat"
     );
-    debugger;
     setMarkdown(mod.default);
   })();
 }, [Markdown]);
 
+debugger;
 console.log(Markdown);
 if (!Markdown) {
   return <div>Markdown loading...</div>;
