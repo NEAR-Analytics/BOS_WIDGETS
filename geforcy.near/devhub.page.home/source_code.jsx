@@ -4,7 +4,7 @@ return (
   <>
     {HomeSections.map((it) => (
       <Widget
-        src={`geforcy.near/widget/devhub.components.island.${it}`}
+        src={`${REPL_DEVHUB}/widget/devhub.components.island.${it}`}
         props={{ ...props }}
       />
     ))}
