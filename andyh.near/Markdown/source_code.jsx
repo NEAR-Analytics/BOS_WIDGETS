@@ -4,8 +4,7 @@ const loadMarkdown = async () => {
   const mod = await import(
     "https://esm.sh/react-markdown@9.0.1?alias=react:preact/compat"
   );
-  setMarkdown(mod.default);
-  debugger;
+  setMarkdown(mod.default({}));
 };
 
 useEffect(() => {
