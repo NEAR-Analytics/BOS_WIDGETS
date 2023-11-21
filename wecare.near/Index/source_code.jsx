@@ -167,7 +167,7 @@ const dapps = [
   {
     title: "Uniswap v2",
     type: "DEX",
-    url: "https://near.social/zavodil.near/widget/Uniswap",
+    url: "https://near.org/zavodil.near/widget/Uniswap",
     iconSrc: `${ipfsUrl}/icon-uniswap.jpg`,
   },
   {
@@ -213,14 +213,14 @@ const gateways = [
   },
   {
     title: "Polygon zkEVM",
-    type: "Ecosystem dashboard",
+    type: "Ecosystem",
     url: "https://bos.quickswap.exchange/",
     imgSrc: `${ipfsUrl}/gateway-polygon.jpg`,
     iconSrc: `${ipfsUrl}/icon-polygon.jpg`,
   },
   {
     title: "Mantle",
-    type: "Ecosystem dashboard",
+    type: "Ecosystem",
     url: "https://bos.mantle.xyz/",
     imgSrc: `${ipfsUrl}/gateway-mantle.jpg`,
     iconSrc: `${ipfsUrl}/icon-mantle.jpg`,
