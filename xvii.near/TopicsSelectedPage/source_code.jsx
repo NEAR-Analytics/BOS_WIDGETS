@@ -236,10 +236,7 @@ const renderCard = (account) => {
         />
       )}
       {!!context.accountId && context.accountId !== accountId && (
-        <Widget
-          src="near/widget/FollowButton"
-          props={{ accountId: accountId }}
-        />
+        <Widget src="near/widget/FollowButton" props={{ accountId: id }} />
       )}
     </Card>
   );
