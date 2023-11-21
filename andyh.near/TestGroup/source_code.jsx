@@ -12,8 +12,6 @@ return (
       <div className="col">
         <Widget src="andyh.near/BearFacts" />
       </div>
-    </div>
-    <div className="row">
       <div className="col">
         <Widget src="andyh.near/StateDemo" />
       </div>
