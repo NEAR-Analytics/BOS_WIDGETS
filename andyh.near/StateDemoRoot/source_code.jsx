@@ -132,7 +132,10 @@ const icons = [
 const getRandomIcon = useCallback(
   () => icons[Math.floor(Math.random() * icons.length)]
 );
-console.log("re-render", { circle, square, triangle });
+const setCircleMemo = useCallback(() => setCircle(getRandomIcon()));
+const setSquareMemo = useCallback(() => setSquare(getRandomIcon()));
+const setTriangleMemo = useCallback(() => setTriangle(getRandomIcon()));
+
 return (
   <div>
     <div className="col">
@@ -146,7 +149,7 @@ return (
           circle,
           square,
           triangle,
-          updateCircle: () => setCircle(getRandomIcon()),
+          updateCircle: setCircleMemo,
           updateSquare: () => setSquare(getRandomIcon()),
           updateTriangle: () => setTriangle(getRandomIcon()),
         }}
@@ -159,7 +162,7 @@ return (
           circle,
           square,
           triangle,
-          updateCircle: () => setCircle(getRandomIcon()),
+          updateCircle: setCircleMemo,
           updateSquare: () => setSquare(getRandomIcon()),
           updateTriangle: () => setTriangle(getRandomIcon()),
         }}
