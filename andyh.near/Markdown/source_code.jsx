@@ -7,7 +7,7 @@ useEffect(() => {
     );
     console.log(md);
   })();
-}, [Markdown]);
+}, []);
 
 if (!Markdown) {
   return <div>Markdown loading...</div>;
