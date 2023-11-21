@@ -150,8 +150,8 @@ return (
           square,
           triangle,
           updateCircle: setCircleMemo,
-          updateSquare: () => setSquare(getRandomIcon()),
-          updateTriangle: () => setTriangle(getRandomIcon()),
+          updateSquare: setSquareMemo,
+          updateTriangle: setTriangleMemo,
         }}
       />
       <Widget
@@ -163,8 +163,8 @@ return (
           square,
           triangle,
           updateCircle: setCircleMemo,
-          updateSquare: () => setSquare(getRandomIcon()),
-          updateTriangle: () => setTriangle(getRandomIcon()),
+          updateSquare: setSquareMemo,
+          updateTriangle: setTriangleMemo,
         }}
       />
     </div>
