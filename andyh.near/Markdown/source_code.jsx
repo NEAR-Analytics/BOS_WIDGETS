@@ -10,7 +10,7 @@ useEffect(() => {
   })();
 }, [Markdown]);
 
-console.log(Markdown?.default);
+console.log(Markdown);
 if (!Markdown) {
   return <div>Markdown loading...</div>;
 }
