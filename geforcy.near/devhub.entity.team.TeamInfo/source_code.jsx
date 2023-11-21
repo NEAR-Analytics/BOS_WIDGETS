@@ -1,9 +1,9 @@
 const { Tile } =
-  VM.require("${REPL_DEVHUB}/widget/devhub.components.molecule.Tile") ||
+  VM.require("geforcy.near/widget/devhub.components.molecule.Tile") ||
   (() => <></>);
 
 const { getAccessControlInfo, getRootMembers } = VM.require(
-  "${REPL_DEVHUB}/widget/core.adapter.devhub-contract"
+  "geforcy.near/widget/core.adapter.devhub-contract"
 );
 
 if (!getAccessControlInfo || !getRootMembers) {
@@ -93,7 +93,7 @@ function editTeam({
       if (!membersAndTeams.includes(member)) {
         // Contract panic member does not exist in the members_list yet.
         txn.push({
-          contractName: "${REPL_DEVHUB_CONTRACT}",
+          contractName: "geforcy.near",
           methodName: "add_member",
           args: {
             member: member,
@@ -119,7 +119,7 @@ function editTeam({
   Near.call([
     ...txn,
     {
-      contractName: "${REPL_DEVHUB_CONTRACT}",
+      contractName: "geforcy.near",
       methodName: "edit_member",
       args: {
         member: `team:${tmnm}`,
@@ -146,7 +146,7 @@ const backwardsCompatibleTeam = (oldTeam) =>
 return editMode ? (
   <>
     <Widget
-      src={"${REPL_DEVHUB}/widget/devhub.entity.team.Configurator"}
+      src={"geforcy.near/widget/devhub.entity.team.Configurator"}
       props={{
         data: configuratorData,
         onCancel: () => setEditMode(false),
@@ -154,7 +154,7 @@ return editMode ? (
       }}
     />
     <Widget
-      src="${REPL_DEVHUB}/widget/devhub.components.atom.Alert"
+      src="geforcy.near/widget/devhub.components.atom.Alert"
       props={{
         onClose: () => setAlertMessage(""),
         message: alertMessage,
@@ -167,7 +167,7 @@ return editMode ? (
       <div class="d-flex justify-content-between">
         <h3>{backwardsCompatibleTeam(teamName)}</h3>
         <Widget
-          src={"${REPL_DEVHUB}/widget/devhub.components.molecule.Button"}
+          src={"geforcy.near/widget/devhub.components.molecule.Button"}
           props={{
             classNames: { root: "btn-outline-light text-dark" },
             icon: {
@@ -187,7 +187,7 @@ return editMode ? (
           {!teamModerators ? (
             <Widget
               src={
-                "${REPL_DEVHUB}/widget/devhub.components.molecule.MarkdownViewer"
+                "geforcy.near/widget/devhub.components.molecule.MarkdownViewer"
               }
               props={{
                 text: metadata.description,
@@ -204,7 +204,7 @@ return editMode ? (
           <span class="pt-4">
             Restricted label:
             <Widget
-              src={"${REPL_DEVHUB}/widget/devhub.components.atom.Tag"}
+              src={"geforcy.near/widget/devhub.components.atom.Tag"}
               props={{
                 tag: label,
               }}
@@ -214,7 +214,7 @@ return editMode ? (
           <div class="pt-4">Permissions associated with that label</div>
 
           <Widget
-            src="${REPL_DEVHUB}/widget/devhub.entity.team.LabelPermissions"
+            src="geforcy.near/widget/devhub.entity.team.LabelPermissions"
             props={{
               identifier: teamName,
               editPost,
