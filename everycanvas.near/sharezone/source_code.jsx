@@ -73,24 +73,27 @@ const {
 const [isModalOpen, setModalOpen] = useState(false);
 
 const save = (v) => {
-  Social.set({
-    thing: {
-      canvas: {
-        "": v.reference,
-        metadata: {
-          type: "canvas",
+  Social.set(
+    {
+      thing: {
+        canvas: {
+          "": v.reference,
+          metadata: {
+            type: "canvas",
+          },
         },
       },
     },
-  }, {
-    force: true,
-    onCommit: () => {
-      setModalOpen(false);
-    },
-    onCancel: () => {
-      setModalOpen(false);
+    {
+      force: true,
+      onCommit: () => {
+        setModalOpen(false);
+      },
+      onCancel: () => {
+        setModalOpen(false);
+      },
     }
-  });
+  );
 };
 
 const Button = styled.button`
@@ -115,7 +118,11 @@ return (
         <div className="w-100">
           <Widget
             src="everycanvas.near/widget/create.hyperfile"
-            props={{ data: snapshot, onSubmit: save }}
+            props={{
+              data: snapshot,
+              fileformat: "canvas.tldraw",
+              type: "canvas",
+            }}
           />
         </div>
         {/* Attributions should be a plugin */}
