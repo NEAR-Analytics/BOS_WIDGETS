@@ -2,7 +2,7 @@ const [Markdown, setMarkdown] = useState(null);
 
 const loadMarkdown = async () => {
   const mod = await import(
-    "https://esm.sh/react-markdown@9.0.1?alias=react:preact/compat"
+    "https://esm.sh/marked-react?alias=react:preact/compat"
   );
   const pkg = mod.default;
   setMarkdown(pkg);
