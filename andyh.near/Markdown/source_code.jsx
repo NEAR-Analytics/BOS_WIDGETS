@@ -1,5 +1,12 @@
 const [Markdown, setMarkdown] = useState(null);
 
+const loadMarkdown = async () => {
+  const mod = await import(
+    "https://esm.sh/react-markdown@9.0.1?alias=react:preact/compat"
+  );
+  setMarkdown(mod.default);
+};
+
 useEffect(() => {
   console.log("efft!");
   (async () => {
@@ -7,10 +14,10 @@ useEffect(() => {
       "https://esm.sh/react-markdown@9.0.1?alias=react:preact/compat"
     );
     setMarkdown(mod.default);
+    debugger;
   })();
 }, [Markdown]);
 
-debugger;
 console.log(Markdown);
 if (!Markdown) {
   return <div>Markdown loading...</div>;
