@@ -360,9 +360,23 @@ const TOKENS = {
 const CONTRACTS = {
   [ZKSYNC_MAINNET]: {
     Reader: "0xb46d1A66941a755649c240D447598BB43F1c3514",
+    PythReader: "0x439B5A74C44E33f2C95fe77F8330496cC1a4a676",
+    Vault: "0xBC918775C20959332c503d51a9251C2405d9cF88",
+    PositionRouter: "0x33d339e9922cc296Cbc52BB8BEd1165ab628Bc06",
+    NativeToken: "0x5AEa5775959fBC2557Cc8789bC1bf90A239D9a91",
+    ZlpManager: "0x76FC5695b0D310151f9c9363C537a7456Cb114b5",
+    Zlp: "0x9e5a36eE37925325FEf6FF62171Cd675c0F9fDc2",
+    RewardTracker: "0x2dF5B3bdDf75bF4aE6dd825092f67372f66551cb",
   },
   [ZKSYNC_TESTNET]: {
     Reader: "0x45F4d76009D8C89bA688329145E89364300b19bb",
+    PythReader: "0x84476f650B7C5e06cDa8E7eCc85aC3ccd6fDa8A1",
+    Vault: "0xaB597d260C868770867A2d1dBb960075C291aF7F",
+    PositionRouter: "0xbf46e3D1005f19c3428EC132ebDEc5975CB0DF69",
+    NativeToken: "0xc023d6bAE4DbA3E2cB0575be2A5C2Ba6571DFfcf",
+    ZlpManager: "0x0c22158E9D537b2ad8E2F7BA177c4ff06c7B88E8",
+    Zlp: "0x58E0E14E4E5F909C07b39CaE8C2d226550e99Ba1",
+    RewardTracker: "0x99F3251beF877EF2a11c29b943534940f074493d",
   },
 };
 
@@ -443,12 +457,125 @@ function convertToDecimals(rawPrice, conf, expo, targetDecimals) {
   return [rawPrice.mul(powerOfTen), conf.mul(powerOfTen)];
 }
 
-function bigNumberify(priceStruct) {
+function bigNumberifyStruct(priceStruct) {
   const conf = ethers.BigNumber.from(priceStruct.conf);
   const expo = ethers.BigNumber.from(priceStruct.expo);
   const price = ethers.BigNumber.from(priceStruct.price);
 
   return [conf, expo, price];
+}
+
+function bigNumberify(n) {
+  try {
+    return ethers.BigNumber.from(n);
+  } catch (e) {
+    console.log("bigNumberify error", e);
+    return undefined;
+  }
+}
+
+function expandDecimals(n, decimals) {
+  return bigNumberify(n).mul(bigNumberify(10).pow(decimals));
+}
+
+function getTokenAddress(token, nativeTokenAddress) {
+  if (token.address === AddressZero) {
+    return nativeTokenAddress;
+  }
+  return token.address;
+}
+
+// NUMBERS
+
+function limitDecimals(amount, maxDecimals) {
+  let amountStr = amount.toString();
+  if (maxDecimals === undefined) {
+    return amountStr;
+  }
+  if (maxDecimals === 0) {
+    return amountStr.split(".")[0];
+  }
+  const dotIndex = amountStr.indexOf(".");
+  if (dotIndex !== -1) {
+    let decimals = amountStr.length - dotIndex - 1;
+    if (decimals > maxDecimals) {
+      amountStr = amountStr.substr(
+        0,
+        amountStr.length - (decimals - maxDecimals)
+      );
+    }
+  }
+  return amountStr;
+}
+
+function padDecimals(amount, minDecimals) {
+  let amountStr = amount.toString();
+  const dotIndex = amountStr.indexOf(".");
+  if (dotIndex !== -1) {
+    const decimals = amountStr.length - dotIndex - 1;
+    if (decimals < minDecimals) {
+      amountStr = amountStr.padEnd(
+        amountStr.length + (minDecimals - decimals),
+        "0"
+      );
+    }
+  } else {
+    amountStr = amountStr + ".0000";
+  }
+  return amountStr;
+}
+
+function numberWithCommas(x) {
+  if (!x) {
+    return "...";
+  }
+
+  const parts = x.toString().split(".");
+  parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  return parts.join(".");
+}
+
+function trimZeroDecimals(amount) {
+  if (parseFloat(amount) === parseInt(amount)) {
+    return parseInt(amount).toString();
+  }
+  return amount;
+}
+
+function formatAmountFree(amount, tokenDecimals, displayDecimals) {
+  if (!amount) {
+    return "";
+  }
+  let amountStr = ethers.utils.formatUnits(amount, tokenDecimals);
+  amountStr = limitDecimals(amountStr, displayDecimals);
+  return trimZeroDecimals(amountStr);
+}
+
+function formatAmount(
+  amount,
+  tokenDecimals,
+  displayDecimals,
+  useCommas,
+  defaultValue
+) {
+  if (!defaultValue) {
+    defaultValue = "...";
+  }
+  if (amount === undefined || amount.toString().length === 0) {
+    return defaultValue;
+  }
+  if (displayDecimals === undefined) {
+    displayDecimals = 4;
+  }
+  let amountStr = ethers.utils.formatUnits(amount, tokenDecimals);
+  amountStr = limitDecimals(amountStr, displayDecimals);
+  if (displayDecimals !== 0) {
+    amountStr = padDecimals(amountStr, displayDecimals);
+  }
+  if (useCommas) {
+    return numberWithCommas(amountStr);
+  }
+  return amountStr;
 }
 
 // LEGACY
@@ -459,7 +586,7 @@ function usePythPrices(pricesStruct, tokens) {
   let indexPrices = {};
 
   for (let i = 0; i < tokens.length; i++) {
-    const [conf, expo, price] = bigNumberify(pricesStruct[i].price);
+    const [conf, expo, price] = bigNumberifyStruct(pricesStruct[i].price);
     if (price.lt(0) || expo.gt(0) || expo.lt(-255)) {
       console.log("invalid priceStruct");
     }
@@ -483,6 +610,128 @@ function usePythPrices(pricesStruct, tokens) {
   return { minPrices, maxPrices, indexPrices };
 }
 
+function getSpread(p) {
+  const diff = p.maxPrice.sub(p.minPrice);
+
+  return diff.mul(expandDecimals(1, 30)).div(p.maxPrice.add(p.minPrice).div(2));
+}
+
+function useInfoTokens(tokens, tokenBalances, indexPrices, vaultTokenInfo) {
+  return {
+    infoTokens: getInfoTokens(
+      tokens,
+      tokenBalances,
+      vaultTokenInfo,
+      indexPrices
+    ),
+  };
+}
+
+function getInfoTokens(tokens, tokenBalances, vaultTokenInfo, indexPrices) {
+  const vaultPropsLength = 15;
+  const infoTokens = {};
+
+  for (let i = 0; i < tokens.length; i++) {
+    const token = JSON.parse(JSON.stringify(tokens[i]));
+
+    if (vaultTokenInfo && indexPrices) {
+      token.balance = tokenBalances[i];
+      token.poolAmount = vaultTokenInfo[i * vaultPropsLength];
+      token.reservedAmount = vaultTokenInfo[i * vaultPropsLength + 1];
+      token.availableAmount = token.poolAmount.sub(token.reservedAmount);
+      token.usdgAmount = vaultTokenInfo[i * vaultPropsLength + 2];
+      token.redemptionAmount = vaultTokenInfo[i * vaultPropsLength + 3];
+      token.weight = vaultTokenInfo[i * vaultPropsLength + 4];
+      token.bufferAmount = vaultTokenInfo[i * vaultPropsLength + 5];
+      token.maxUsdgAmount = vaultTokenInfo[i * vaultPropsLength + 6];
+      token.globalShortSize = vaultTokenInfo[i * vaultPropsLength + 7];
+      token.maxGlobalShortSize = vaultTokenInfo[i * vaultPropsLength + 8];
+      token.maxGlobalLongSize = vaultTokenInfo[i * vaultPropsLength + 9];
+      token.minPrice = vaultTokenInfo[i * vaultPropsLength + 10];
+      token.maxPrice = vaultTokenInfo[i * vaultPropsLength + 11];
+      token.spread = getSpread({
+        minPrice: token.minPrice,
+        maxPrice: token.maxPrice,
+      });
+      token.guaranteedUsd = vaultTokenInfo[i * vaultPropsLength + 12];
+      token.maxPrimaryPrice = vaultTokenInfo[i * vaultPropsLength + 13];
+      token.minPrimaryPrice = vaultTokenInfo[i * vaultPropsLength + 14];
+
+      token.contractMinPrice = token.minPrice;
+      token.contractMaxPrice = token.maxPrice;
+
+      token.maxAvailableShort = bigNumberify(0);
+
+      token.hasMaxAvailableShort = false;
+      if (token.maxGlobalShortSize.gt(0)) {
+        token.hasMaxAvailableShort = true;
+        if (token.maxGlobalShortSize.gt(token.globalShortSize)) {
+          token.maxAvailableShort = token.maxGlobalShortSize.sub(
+            token.globalShortSize
+          );
+        }
+      } else {
+        token.maxAvailableShort = token.poolAmount.sub(token.reservedAmount);
+      }
+
+      if (token.maxAvailableShort && token.maxAvailableShort.gt(0)) {
+        token.maxAvailableShort = token.maxAvailableShort.mul(95).div(100);
+      }
+
+      if (token.maxUsdgAmount.eq(0)) {
+        token.maxUsdgAmount = expandDecimals(200 * 1000 * 1000, 18);
+      }
+
+      token.availableUsd = token.isStable
+        ? token.poolAmount
+            .mul(token.minPrice)
+            .div(expandDecimals(1, token.decimals))
+        : token.availableAmount
+            .mul(token.minPrice)
+            .div(expandDecimals(1, token.decimals));
+
+      token.maxAvailableLong = bigNumberify(0);
+      token.hasMaxAvailableLong = false;
+      if (token.maxGlobalLongSize.gt(0)) {
+        token.hasMaxAvailableLong = true;
+
+        if (token.maxGlobalLongSize.gt(token.guaranteedUsd)) {
+          const remainingLongSize = token.maxGlobalLongSize.sub(
+            token.guaranteedUsd
+          );
+
+          token.maxAvailableLong = remainingLongSize.lt(token.availableUsd)
+            ? remainingLongSize
+            : token.availableUsd;
+        }
+      } else {
+        token.maxAvailableLong = token.availableUsd;
+      }
+
+      if (token.maxAvailableLong && token.maxAvailableLong.gt(0)) {
+        token.maxAvailableLong = token.maxAvailableLong.mul(95).div(100);
+      }
+
+      token.maxLongCapacity =
+        token.maxGlobalLongSize.gt(0) &&
+        token.maxGlobalLongSize.lt(token.availableUsd.add(token.guaranteedUsd))
+          ? token.maxGlobalLongSize
+          : token.availableUsd.add(token.guaranteedUsd);
+
+      token.managedUsd = token.availableUsd.add(token.guaranteedUsd);
+      token.managedAmount = token.managedUsd
+        .mul(expandDecimals(1, token.decimals))
+        .div(token.minPrice);
+
+      // setTokenUsingIndexPrices(token, indexPrices, nativeTokenAddress);
+    }
+
+    infoTokens[token.address] = token;
+  }
+
+  return infoTokens;
+}
+
 // STATE
 
 State.init({
@@ -490,22 +739,28 @@ State.init({
   payTokenData: undefined,
   isLong: true,
   sender: undefined,
-  balance: undefined,
+  zlpBalance: undefined,
   network: undefined,
   chainId: undefined,
   showSettings: false,
   tokenBalances: undefined,
+  vaultTokenInfo: undefined,
+  zlpPrice: undefined,
+  fromToken: undefined,
 });
 const {
   payAmount,
   payTokenData,
   isLong,
   sender,
-  balance,
+  zlpBalance,
   network,
   chainId,
   showSettings,
   tokenBalances,
+  vaultTokenInfo,
+  zlpPrice,
+  fromToken,
 } = state;
 
 // RECONNECT TO WALLET
@@ -526,31 +781,45 @@ if (sender === undefined && Ethers.provider()) {
 const readerAbiResponse = fetch(
   "https://gist.githubusercontent.com/af4n/e1b6c199110dd1885107cadb02563fc0/raw/c809ee9754a20bc4b6542cfd27ef54f278bb87e5/reader.json"
 );
+const pythReaderAbiResponse = fetch(
+  "https://gist.githubusercontent.com/af4n/1d21d7de80ad485f10c221d4e5969e71/raw/5a5124e451e6876be99fb55445942b838647bc20/pythReader.json"
+);
+const erc20AbiResponse = fetch(
+  "https://gist.githubusercontent.com/af4n/85f257a83b79061c3b6ba7f9797b02d9/raw/7a8c2264d55c791c21327f43e82fcfbaddfb325d/erc20.json"
+);
+const rewardTrackerAbiResponse = fetch(
+  "https://gist.githubusercontent.com/af4n/e463be8c84945782973ca8c5648584b6/raw/b322e147975e428a70c9c9e616de4a3b3fba7244/rewardTracker.json"
+);
 
-if (!readerAbiResponse.ok) "Loading ABI...";
+if (
+  !readerAbiResponse.ok ||
+  !pythReaderAbiResponse.ok ||
+  !erc20AbiResponse.ok ||
+  !rewardTrackerAbiResponse.ok
+)
+  "Loading ABI...";
 
 const readerAbi = readerAbiResponse.body;
+const pythReaderAbi = pythReaderAbiResponse.body;
+const erc20Abi = erc20AbiResponse.body;
+const rewardTrackerAbi = rewardTrackerAbiResponse.body;
 
 // DATA
 
+const readerAddress = getContract(chainId, "Reader");
+const pythReaderAddress = getContract(chainId, "PythReader");
+const vaultAddress = getContract(chainId, "Vault");
+const positionRouterAddress = getContract(chainId, "PositionRouter");
+const nativeTokenAddress = getContract(chainId, "NativeToken");
+const zlpManagerAddress = getContract(chainId, "ZlpManager");
+const zlpAddress = getContract(chainId, "Zlp");
+const rewardTrackerAddress = getContract(chainId, "RewardTracker");
+
 const tokens = getTokens(chainId);
 const tokenAddresses = tokens.map((token) => token.address);
-
-const readerAddress = getContract(chainId, "Reader");
-
-const contract = new ethers.Contract(
-  readerAddress,
-  readerAbi,
-  Ethers.provider() && Ethers.provider().getSigner()
+const whitelistedTokenAddresses = tokens.map((token) =>
+  getTokenAddress(token, nativeTokenAddress.value)
 );
-
-contract
-  .getTokenBalances(sender, tokenAddresses, {
-    value: 0,
-  })
-  .then((result) => {
-    State.update({ tokenBalances: result });
-  });
 
 // Pyth price feed
 
@@ -570,6 +839,66 @@ const { minPrices, maxPrices, indexPrices } = usePythPrices(
   pricesStruct.body,
   tokens
 );
+
+// LOAD DATA
+
+const readerContract = new ethers.Contract(
+  readerAddress,
+  readerAbi,
+  Ethers.provider() && Ethers.provider().getSigner()
+);
+
+readerContract.getTokenBalances(sender, tokenAddresses).then((result) => {
+  State.update({ tokenBalances: result });
+});
+
+const rewardTrackerContract = new ethers.Contract(
+  rewardTrackerAddress,
+  rewardTrackerAbi,
+  Ethers.provider() && Ethers.provider().getSigner()
+);
+
+rewardTrackerContract.stakedAmounts(sender).then((result) => {
+  State.update({ zlpBalance: result });
+});
+
+const pythReaderContract = new ethers.Contract(
+  pythReaderAddress,
+  pythReaderAbi,
+  Ethers.provider() && Ethers.provider().getSigner()
+);
+
+pythReaderContract
+  .getVaultTokenInfoV5(
+    vaultAddress,
+    positionRouterAddress,
+    nativeTokenAddress,
+    expandDecimals(1, 18),
+    whitelistedTokenAddresses,
+    minPrices,
+    maxPrices
+  )
+  .then((result) => {
+    State.update({ vaultTokenInfo: result });
+  });
+
+pythReaderContract
+  .getPrice(zlpManagerAddress, whitelistedTokenAddresses, maxPrices)
+  .then((result) => {
+    State.update({ zlpPrice: result });
+  });
+
+const { infoTokens } = useInfoTokens(
+  tokens,
+  tokenBalances,
+  indexPrices,
+  vaultTokenInfo
+);
+console.log("infoTokens", infoTokens);
+if (infoTokens[ADDRESS_ZERO].balance && !fromToken) {
+  State.update({ fromToken: infoTokens[ADDRESS_ZERO] });
+}
+const tokensInfo = Object.values(infoTokens);
 
 const { maxPrice, minPrice, tokenSymbol } = payTokenData;
 
@@ -613,24 +942,20 @@ const primaryButtonText =
     ? "Switch network"
     : payAmount <= 0
     ? "Enter an amount"
-    : Number(payAmount) > Number(balance)
-    ? "Insufficient ETH balance"
+    : Number(payAmount) >
+      Number(formatAmountFree(fromToken.balance, fromToken.decimals, 18))
+    ? `Insufficient ${fromToken.symbol} balance`
     : isLong
     ? "Long ETH"
     : "Short ETH";
 const primaryButtonDisabled =
   chainId === "unsupported"
     ? false
-    : Number(payAmount) > Number(balance) || payAmount <= 0;
+    : Number(payAmount) >
+        Number(formatAmountFree(fromToken.balance, fromToken.decimals, 18)) ||
+      payAmount <= 0;
 
-// FETCH WALLET BALANCE
-if (sender && balance === undefined) {
-  Ethers.provider()
-    .getBalance(sender)
-    .then((balance) => {
-      State.update({ balance: Big(balance).div(Big(10).pow(18)).toFixed(12) });
-    });
-
+if (sender) {
   Ethers.provider()
     .getNetwork()
     .then((network) => {
@@ -723,9 +1048,15 @@ function handleClickSubmitOrder() {
   multicall(calls, ethers.utils.parseUnits(payAmount, 18));
 }
 
+function setFromToken(address) {
+  State.update({
+    fromToken: infoTokens[address],
+  });
+}
+
 function handleClickMax() {
   State.update({
-    payAmount: (balance * 0.95).toFixed(4) || "0.0",
+    payAmount: formatAmountFree(fromToken.balance, fromToken.decimals, 18),
   });
 }
 
@@ -820,7 +1151,9 @@ return (
             <span class="label-text text-gray-400">Pay{payValueDisplay}</span>
             <span class="label-text text-gray-400">
               Balance:
-              <span class="text-white">{Number(balance || 0).toFixed(4)}</span>
+              <span class="text-white">
+                {formatAmount(fromToken.balance, fromToken.decimals, 4, true)}
+              </span>
             </span>
           </label>
           <div class="flex">
@@ -831,19 +1164,22 @@ return (
               placeholder="0.0"
             />
             <div class="flex items-center space-x-1">
-              {balance > 0 && (
-                <button
-                  style={{ background: "#43f574" }}
-                  class="btn btn-sm border-none font-normal rounded-4 px-2 mx-1 hover:bg-green-600 focus:bg-green-600 text-black"
-                  onClick={handleClickMax}
-                >
-                  MAX
-                </button>
-              )}
+              <button
+                style={{ background: "#43f574" }}
+                class="btn btn-sm border-none font-normal rounded-4 px-2 mx-1 hover:bg-green-600 focus:bg-green-600 text-black"
+                onClick={handleClickMax}
+              >
+                MAX
+              </button>
               <IconETH />
-              <select class="select-ghost bg-gray-800 text-2xl">
-                {tokens.map((token) => (
-                  <option>{token.symbol}</option>
+              <select
+                onChange={(e) => {
+                  setFromToken(e.target.value);
+                }}
+                class="select-ghost bg-gray-800 text-2xl"
+              >
+                {tokensInfo.map((token) => (
+                  <option value={token.address}>{token.symbol}</option>
                 ))}
               </select>
             </div>
@@ -856,7 +1192,9 @@ return (
             <span class="label-text">
               <span class="label-text text-gray-400">
                 Balance:
-                <span class="text-white">0.0000</span>
+                <span class="text-white">
+                  {formatAmount(zlpBalance, 18, 4, true)}
+                </span>
               </span>
             </span>
           </label>
