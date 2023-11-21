@@ -6,7 +6,7 @@ useEffect(() => {
     setMarkdown(
       await import(
         "https://esm.sh/react-markdown@9.0.1?alias=react:preact/compat"
-      )
+      ).default
     );
   })();
 }, [Markdown]);
