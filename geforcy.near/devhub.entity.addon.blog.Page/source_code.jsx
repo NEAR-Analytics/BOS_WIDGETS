@@ -94,7 +94,7 @@ function Page({ data }) {
         <p>{description}</p>
         <Widget
           src={
-            "geforcy.near/widget/devhub.components.molecule.MarkdownViewer"
+            "${REPL_DEVHUB}/widget/devhub.components.molecule.MarkdownViewer"
           }
           props={{ text: content }}
         />
