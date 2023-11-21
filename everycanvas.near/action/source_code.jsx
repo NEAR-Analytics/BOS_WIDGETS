@@ -74,6 +74,7 @@ const { plugin } = props;
 
 const [isModalOpen, setModalOpen] = useState(false);
 
+
 const Button = styled.button`
   padding: 10px 20px;
 `;
