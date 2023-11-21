@@ -199,10 +199,10 @@ const renderCard = (account) => {
 
         <div>
           <TextLink href={profileUrl} ellipsis bold>
-            {profile.name || accountId.split(".near")[0]}
+            {profile.name || id.split(".near")[0]}
           </TextLink>
           <TextLink href={profileUrl} ellipsis>
-            @{accountId}
+            @{id}
           </TextLink>
 
           {tags.length > 0 && (
