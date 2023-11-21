@@ -1,5 +1,5 @@
 const { Tile } =
-  VM.require("geforcy.near/widget/devhub.components.molecule.Tile") ||
+  VM.require("${REPL_DEVHUB}/widget/devhub.components.molecule.Tile") ||
   (() => <></>);
 
 const { data, onSubmit, onCancel } = props;
@@ -17,10 +17,6 @@ const Item = styled.div`
   align-items: center;
   flex-direction: row;
   gap: 10px;
-`;
-
-const EditableField = styled.input`
-  flex: 1;
 `;
 
 // Should be done with types and tsc
@@ -55,30 +51,15 @@ const [warning, setWarning] = useState("");
 
 const teamModerators = teamName == "moderators";
 const moderatorsWarning = teamModerators && (
-  <div class="alert alert-warning alert-dismissible fade show" role="alert">
-    It's only possible to edit the description and members of team moderators
-    through the UI.
-    <button
-      type="button"
-      class="btn-close"
-      data-bs-dismiss="alert"
-      aria-label="Close"
-      onClick={() => State.update({ permissionError: "" })}
-    ></button>
-  </div>
-);
-
-const customWarning = warning && (
-  <div class="alert alert-warning alert-dismissible fade show" role="alert">
-    {warning}
-    <button
-      type="button"
-      class="btn-close"
-      data-bs-dismiss="alert"
-      aria-label="Close"
-      onClick={() => setWarning("")}
-    ></button>
-  </div>
+  <Widget
+    src="${REPL_DEVHUB}/widget/devhub.components.atom.Alert"
+    props={{
+      onClose: () => null,
+      message:
+        "It's only possible to edit the description and members \
+        of team moderators through the UI.",
+    }}
+  />
 );
 
 const handleAddItem = () => {
@@ -98,7 +79,6 @@ const handleSubmit = () => {
   if (newItem !== "") {
     return setWarning("Do you add the newest member or clear the field?");
   }
-  // validate
   if (teamName && teamName.startsWith("team:")) {
     return setWarning("The team name can't start with 'team:'");
   }
@@ -128,83 +108,92 @@ return (
     <Container>
       <h3>{data.teamName ? "Edit" : "Create"} team</h3>
       {moderatorsWarning}
-      {customWarning}
+      <Widget
+        src="${REPL_DEVHUB}/widget/devhub.components.atom.Alert"
+        props={{
+          onClose: () => setWarning(""),
+          message: warning,
+        }}
+      />
+      {/* Moderators is only editable through the CLI except for the members property */}
       {!teamModerators && (
-        <div className="flex-grow-1">
-          <span>Team name</span>
-          <Widget
-            src="geforcy.near/widget/devhub.components.molecule.Input"
-            props={{
-              className: "flex-grow-1",
-              skipPaddingGap: true,
-              onChange: (e) => setTeamName(e.target.value),
-              value: teamName,
-              placeholder: "Team name",
-            }}
-          />
-        </div>
-      )}
-      <div className="flex-grow-1">
-        <span>Team description</span>
-        <Widget
-          src="geforcy.near/widget/devhub.components.molecule.MarkdownEditor"
-          props={{ data: { content: description }, onChange: setDescription }}
-        />
-      </div>
-      {!teamModerators && (
-        <div className="flex-grow-1">
-          <div>
-            Would you like this team to limit their restrictions to a single
-            label, or would you prefer them to restrict it with any label that
-            follows a similar convention?
-          </div>
-          <div className="col-lg-6 mb-2">
-            <select
-              onChange={(event) => setLabelType(event.target.value)}
-              class="form-select"
-              aria-label="Select type"
-              value={labelType}
-            >
-              <option value="starts-with:">
-                Restrict multiple labels with a common prefix
-              </option>
-              <option value="">Restrict a single label</option>
-            </select>
-            <div>What would you like the restricted label to be?</div>
+        <>
+          <div className="flex-grow-1">
+            <span>Team name</span>
             <Widget
-              src="geforcy.near/widget/devhub.components.molecule.Input"
+              src="${REPL_DEVHUB}/widget/devhub.components.molecule.Input"
               props={{
                 className: "flex-grow-1",
-                onChange: (e) => setLabel(e.target.value),
-                // This is to make it backwards compatible
-                value: backwardsCompatibleLabel(label),
                 skipPaddingGap: true,
-                placeholder: "label",
-                inputProps: {
-                  prefix: labelType,
-                },
-              }}
-            />
-            <div>Select label permissions</div>
-            <Widget
-              src="geforcy.near/widget/devhub.entity.team.LabelPermissions"
-              props={{
-                identifier: data.teamName,
-                editPost,
-                setEditPost,
-                useLabels,
-                setUseLabels,
-                disabled: false,
+                onChange: (e) => setTeamName(e.target.value),
+                value: teamName,
+                placeholder: "Team name",
               }}
             />
           </div>
-        </div>
+          <div className="flex-grow-1">
+            <span>Team description</span>
+            <Widget
+              src="${REPL_DEVHUB}/widget/devhub.components.molecule.MarkdownEditor"
+              props={{
+                data: { content: description },
+                onChange: setDescription,
+              }}
+            />
+          </div>
+          <div className="flex-grow-1">
+            <div>
+              Would you like this team to limit their restrictions to a single
+              label, or would you prefer them to restrict it with any label that
+              follows a similar convention?
+            </div>
+            <div className="col-lg-6 mb-2">
+              <select
+                onChange={(event) => setLabelType(event.target.value)}
+                class="form-select"
+                aria-label="Select type"
+                value={labelType}
+              >
+                <option value="starts-with:">
+                  Restrict multiple labels with a common prefix
+                </option>
+                <option value="">Restrict a single label</option>
+              </select>
+              <div>What would you like the restricted label to be?</div>
+              <Widget
+                src="${REPL_DEVHUB}/widget/devhub.components.molecule.Input"
+                props={{
+                  className: "flex-grow-1",
+                  onChange: (e) => setLabel(e.target.value),
+                  value: backwardsCompatibleLabel(label),
+                  skipPaddingGap: true,
+                  placeholder: "label",
+                  inputProps: {
+                    prefix: labelType,
+                  },
+                }}
+              />
+              <div>Select label permissions</div>
+              <Widget
+                src="${REPL_DEVHUB}/widget/devhub.entity.team.LabelPermissions"
+                props={{
+                  identifier: data.teamName,
+                  editPost,
+                  setEditPost,
+                  useLabels,
+                  setUseLabels,
+                  disabled: false,
+                }}
+              />
+            </div>
+          </div>
+        </>
       )}
       {members.map((item, index) => (
         <Item key={index}>
           <div className="flex-grow-1">
             <Widget
-              src="geforcy.near/widget/devhub.components.molecule.Input"
+              src="${REPL_DEVHUB}/widget/devhub.components.molecule.Input"
               props={{
                 className: "flex-grow-1",
                 value: item,
@@ -228,7 +217,7 @@ return (
       <Item>
         <div className="flex-grow-1">
           <Widget
-            src="geforcy.near/widget/devhub.components.molecule.Input"
+            src="${REPL_DEVHUB}/widget/devhub.components.molecule.Input"
             props={{
               className: "flex-grow-1",
               skipPaddingGap: true,
@@ -242,7 +231,7 @@ return (
           />
         </div>
         <button
-          className="btn btn-success"
+          className="btn btn-success add-member"
           onClick={handleAddItem}
           disabled={newItem === ""}
         >
@@ -253,7 +242,7 @@ return (
         className={"d-flex align-items-center justify-content-end gap-3 mt-4"}
       >
         <Widget
-          src={"geforcy.near/widget/devhub.components.molecule.Button"}
+          src={"${REPL_DEVHUB}/widget/devhub.components.molecule.Button"}
           props={{
             classNames: { root: "btn-outline-danger shadow-none border-0" },
             label: "Cancel",
@@ -261,10 +250,9 @@ return (
           }}
         />
         <Widget
-          src={"geforcy.near/widget/devhub.components.molecule.Button"}
+          src={"${REPL_DEVHUB}/widget/devhub.components.molecule.Button"}
           props={{
             classNames: { root: "btn-success" },
-            // disabled
             icon: {
               type: "bootstrap_icon",
               variant: "bi-check-circle-fill",
