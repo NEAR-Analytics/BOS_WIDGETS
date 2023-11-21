@@ -194,11 +194,6 @@ const COLUMNS = [
     renderCell: (item) => formatNumber(item["AvgTxnperMAU"]),
     sort: { sortKey: "AvgTxnperMAU" },
   },
-  {
-    label: <p className="text-center text-white text-wrap ">Gas Burnt</p>,
-    renderCell: (item) => formatNumber(item["GasBurnt"]),
-    sort: { sortKey: "GasBurnt" },
-  },
 ];
 
 function sort_update(sortKey, direction) {
