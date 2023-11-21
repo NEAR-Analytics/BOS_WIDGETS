@@ -1,33 +1,9 @@
 State.init({
-  chainId: 1, // For Ethereum Mainnet, for instance
+  chainId: props.chainId, // For Ethereum Mainnet, for instance
   baseUrl: "https://api.yourapp.com",
   safeAddress: "0x1234567890abcdef1234567890abcdef12345678",
   sender: "0xabcdef1234567890abcdef1234567890abcdef12",
-  transactions: [
-    {
-      safeTxHash:
-        "0xabcdef1234567890abcdef1234567890abcdef1234567890abcdef1234567890abc1",
-      isSell: true,
-      nftAddress: "0xaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-      tokenId: 1,
-      tokenAddress: "0xbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
-      price: 40000000,
-      expiry: 86400,
-      nonce: 42,
-    },
-    {
-      safeTxHash:
-        "0xabcdef1234567890abcdef1234567890abcdef1234567890abcdef1234567890abc2",
-      isSell: true,
-      nftAddress: "0xaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-      tokenId: 2,
-      tokenAddress: "0xbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
-      price: 40000000,
-      expiry: 86400,
-      nonce: 43,
-    },
-  ],
-  // Mock a selected transaction, could be null initially
+  transactions: props.transactions,
   selectedTransaction: null,
 });
 // connect account
@@ -58,7 +34,6 @@ if (state.sender === null) {
 }
 
 //EIP712
-
 const domain = {
   name: "MyApp",
   version: "1.0",
@@ -128,16 +103,30 @@ const signTransaction = () => {
   }
 };
 
+function createListItems(transaction) {
+  return Object.entries(transaction).map(([key, value]) => {
+    // Check if value is a BigNumber object
+    if (value && typeof value.toString === "function") {
+      value = value.toString();
+    }
+
+    if (value !== undefined && value !== null) {
+      return <li key={key}>{`${key}: ${value}`}</li>;
+    }
+    return null;
+  });
+}
+
 const Selection = styled.button`
     background: ${(tx) =>
-      state.selectedTransaction == tx ? "palevioletred" : "white"};
+      state.selectedTransaction == tx.safeTxHash ? "palevioletred" : "white"};
     color: ${(props) => (props.primary ? "white" : "palevioletred")};
-  
     font-size: 1em;
     margin: 1em;
     padding: 0.25em 1em;
     border: 2px solid palevioletred;
     border-radius: 10px;
+    text-align: left;
   `;
 
 return (
@@ -154,19 +143,10 @@ return (
         <li key={index} onClick={() => selectTransaction(tx)}>
           <Selection>
             <span>
-              From Safe Address: {state.safeAddress}
-              <br />
-              Type:
-              {`---
-                isSell: ${tx.isSell} 
-                tokenId: ${tx.tokenId} 
-                  `}
-              <br />
-              {
-                state.selectedTransaction.safeTxHash == tx.safeTxHash
-                  ? "!!!!!!THIS ONE IS SELECTED RIGHT NOW!!!!!!"
-                  : "" /** Again I don't know css */
-              }
+              <ul>{createListItems(tx)}</ul>
+              {state.selectedTransaction.safeTxHash == tx.safeTxHash
+                ? `!!!!!!THIS ONE IS SELECTED RIGHT NOW!!!!!!`
+                : ""}
             </span>
           </Selection>
         </li>
