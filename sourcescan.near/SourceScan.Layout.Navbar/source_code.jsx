@@ -8,13 +8,18 @@ const useThemeName = (light, dark) => {
 
 const pages = [
   {
-    label: "SourceScan",
-    href: `#/${state.ownerId}/widget/SourceScan?page=upload`,
+    label: "Verify",
+    href: `#/${state.ownerId}/widget/SourceScan?page=verify`,
     target: "_self",
   },
   {
-    label: "Contracts",
+    label: "Scan",
     href: `#/${state.ownerId}/widget/SourceScan`,
+    target: "_self",
+  },
+  {
+    label: "Docs",
+    href: `#/${state.ownerId}/widget/SourceScan?page=docs`,
     target: "_self",
   },
 ];
@@ -62,8 +67,10 @@ const HStack = styled.div`
 const NavButton = styled.button`
   font-weight: 600;
   font-size: 18px;
-  width: 140px;
-  height: 40px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  padding-left: 15px;
+  padding-right: 15px;
   border-radius: 40px;
   border: 1px solid transparent;
   color: ${state.theme.color};
@@ -131,10 +138,7 @@ return (
       </NetworkSwitcherContainer>
       <RStack>
         <Mobile>
-          <a
-            href={`#/${state.ownerId}/widget/SourceScan?page=upload`}
-            target={"_self"}
-          >
+          <a href={`#/${state.ownerId}/widget/SourceScan`} target={"_self"}>
             <Logo
               src={
                 "https://ipfs.io/ipfs/bafkreibfot4vz22olyjagjtr5qk7m4rpybwy3jb2x3bjfvjl5zzv3biluq"
@@ -145,10 +149,7 @@ return (
         </Mobile>
         <HStack>
           <Desktop>
-            <a
-              href={`#/${state.ownerId}/widget/SourceScan?page=upload`}
-              target={"_self"}
-            >
+            <a href={`#/${state.ownerId}/widget/SourceScan`} target={"_self"}>
               <Logo
                 src={
                   "https://ipfs.io/ipfs/bafkreibfot4vz22olyjagjtr5qk7m4rpybwy3jb2x3bjfvjl5zzv3biluq"
