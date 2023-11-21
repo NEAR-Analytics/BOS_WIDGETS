@@ -53,7 +53,7 @@ const Content = styled.div`
 
   background: linear-gradient(0deg, #131313, #131313);
   @media (max-width: 768px) {
-    width: 100%;
+    width: 100vw;
     border-radius: 16px 16px 0px 0px;
     background: #2b2b2b;
   }
