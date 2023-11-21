@@ -1,3 +1,15 @@
+const [Markdown, setMarkdown] = useState(null);
+
+useEffect(() => {
+  (async () => {
+    setMarkdown(
+      await import(
+        "https://esm.sh/react-markdown@9.0.1?alias=react:preact/compat"
+      )
+    );
+  })();
+}, [Markdown]);
+
 return (
   <div id="r">
     <Markdown id="a">{"# does this *work*?"}</Markdown>
