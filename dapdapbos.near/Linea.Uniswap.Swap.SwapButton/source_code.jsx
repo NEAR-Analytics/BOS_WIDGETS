@@ -539,10 +539,7 @@ return (
             openRequestModal?.({ open: false });
             if (err.code !== "ACTION_REJECTED") {
               openRequestModal?.({
-                data: {
-                  text: tradeText,
-                  status: 3,
-                },
+                status: 3,
                 open: true,
               });
             } else {
