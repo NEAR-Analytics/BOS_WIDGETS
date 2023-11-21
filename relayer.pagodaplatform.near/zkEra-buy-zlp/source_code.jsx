@@ -221,47 +221,6 @@ const LogoZkEra = () => {
   );
 };
 
-// PYTH
-
-const PYTH_CONFIG = {
-  [ZKSYNC_MAINNET]: {
-    PythEndpoint: "https://xc-mainnet.pyth.network",
-    EthPriceFeedId:
-      "0xff61491a931112ddf1bd8147cd1b641375f79f5825126d665480874634fd0ace",
-    UsdcPriceFeedId:
-      "0xeaa020c61cc479712813461ce153894a96a6c00b21ed0cfc2798d1f9a9e9c94a",
-    BtcPriceFeedId:
-      "0xe62df6c8b4a85fe1a67db44dc12de5db330f7ac66b72dc658afedf0f4a415b43",
-  },
-  [ZKSYNC_TESTNET]: {
-    PythEndpoint: "https://hermes-beta.pyth.network", // https://xc-testnet.pyth.network
-    EthPriceFeedId:
-      "0xca80ba6dc32e08d06f1aa886011eed1d77c77be9eb761cc10d72b7d0a2fd57a6",
-    UsdcPriceFeedId:
-      "0x41f3625971ca2ed2263e78573fe5ce23e13d2558ed3f2e47ab0f84fb9e7ae722",
-    BtcPriceFeedId:
-      "0xf9c0172ba10dfa4d19088d94f5bf61d3b54d5bd7483a322a982e1373ee8ea31b",
-  },
-  [GOERLI]: {
-    PythEndpoint: "https://hermes-beta.pyth.network",
-    EthPriceFeedId:
-      "0xca80ba6dc32e08d06f1aa886011eed1d77c77be9eb761cc10d72b7d0a2fd57a6",
-    UsdcPriceFeedId:
-      "0x41f3625971ca2ed2263e78573fe5ce23e13d2558ed3f2e47ab0f84fb9e7ae722",
-    BtcPriceFeedId:
-      "0xf9c0172ba10dfa4d19088d94f5bf61d3b54d5bd7483a322a982e1373ee8ea31b",
-  },
-  [BSC_TESTNET]: {
-    PythEndpoint: "https://hermes-beta.pyth.network",
-    EthPriceFeedId:
-      "0xca80ba6dc32e08d06f1aa886011eed1d77c77be9eb761cc10d72b7d0a2fd57a6",
-    UsdcPriceFeedId:
-      "0x41f3625971ca2ed2263e78573fe5ce23e13d2558ed3f2e47ab0f84fb9e7ae722",
-    BtcPriceFeedId:
-      "0xf9c0172ba10dfa4d19088d94f5bf61d3b54d5bd7483a322a982e1373ee8ea31b",
-  },
-};
-
 /// CONSTANTS
 
 const ZKSYNC_MAINNET = 324;
@@ -270,6 +229,8 @@ const ZKSYNC_MAINNET_CHAIN_ID_HEX = "0x144";
 const ZKSYNC_TESTNET_CHAIN_ID_HEX = "0x118";
 const ADDRESS_ZERO = "0x0000000000000000000000000000000000000000";
 const USD_DECIMALS = 30;
+
+// CONFIG
 
 const CONFIG = {
   [ZKSYNC_MAINNET]: {
@@ -398,64 +359,33 @@ const TOKENS = {
 
 const CONTRACTS = {
   [ZKSYNC_MAINNET]: {
-    RewardRouter: "0xf05bd35Ab2Ce4Ab1639D5a895B6E5563c7c6d254",
-    ZKE: "0x7b3e1236c39ddD2e61cF6Da6ac6D11193238ccB0",
-    EsZKE: "0xa27f240028de1af4c08fbd220f310ea5769aE3aD",
-    ZLP: "0x9e5a36eE37925325FEf6FF62171Cd675c0F9fDc2",
-    StakedZkeTracker: "0xA258D1CfeCaDD96C763dfa50284525f1529cfB35",
-    StakedZlpTracker: "0xB13a8400e0a75aDa3d6393CedbD7f6AC723Ac6Da",
-    ZKEVester: "0x2F71B856E99C36eAF6daBece012e857741255536",
-    ZLPVester: "0xc157F0732c9d5403d3Ab59Ce2b4b93Eea5d6ccf8",
-    BnZKE: "0xb05603B0636DcAb5a025Fa300aA54da9AC9c5191",
-    BonusZkeTracker: "0x02C3c24739022135Dd0Bf26E2260C46E8D3faEC0",
-    FeeZkeTracker: "0xBD5e034b37c696F3E1E46ab7fb52672fcbFd06fb",
-    FeeZlpTracker: "0x2dF5B3bdDf75bF4aE6dd825092f67372f66551cb",
     Reader: "0xb46d1A66941a755649c240D447598BB43F1c3514",
-    RewardReader: "0x7e94820D7a4161c5d2F79D6A0Bd32B6B307432a1",
-    ZLPManager: "0x76FC5695b0D310151f9c9363C537a7456Cb114b5",
-    Vault: "0xBC918775C20959332c503d51a9251C2405d9cF88",
-    NativeToken: "0x5AEa5775959fBC2557Cc8789bC1bf90A239D9a91",
-    StakedZkeDistributor: "0xDa6f18361088F8250Fd8F391519666D7Ff0b0491",
-    StakedZlpDistributor: "0x07E96A6259EDf90325d0DbaD95a853f3652ed4f0",
-    USDG: "0x5f90c37eC885fca36fBBd035650eb6B3DF10c55c",
-    PositionRouter: "0x33d339e9922cc296Cbc52BB8BEd1165ab628Bc06",
-    Router: "0x086Ba5bE16Ce53Ce8a9FDCd9C16735569FC07E99",
-    OrderBook: "0xFd262bE6BA3D5144ea2BFdDB26fDFC630c72387e",
-    OrderBookReader: "0x0eFE2191A99042C9676442F3e74D194d8f723025",
-    USDC: "0x3355df6D4c9C3035724Fd0e3914dE96A5a83aaf4",
-    Pyth: "0xf087c864AEccFb6A2Bf1Af6A0382B0d0f6c5D834",
-    PythReader: "0x439B5A74C44E33f2C95fe77F8330496cC1a4a676",
-    WBTC: "0xBBeB516fb02a01611cBBE0453Fe3c580D7281011",
   },
   [ZKSYNC_TESTNET]: {
-    RewardRouter: "0xC16d813fA94526a40160893002A03d4BbC70FaB7",
-    ZKE: "0x5ef18ab13506Fbdbe9470c61A4A3c226A3F90baC",
-    EsZKE: "0x7BA5fb8970228d344e4dD96600A1bEfE9Ba377C7",
-    ZLP: "0x58E0E14E4E5F909C07b39CaE8C2d226550e99Ba1",
-    StakedZkeTracker: "0x3FBC6FB8D2D78C442bd6E5DF993920F431996a40",
-    StakedZlpTracker: "0x2ae067eEDB90738072bbE71b07DA6932ffDB253C",
-    ZKEVester: "0x1EE061702D70a6e1b7E053d8DAd3eAdFeA42188E",
-    ZLPVester: "0x8305adb48392B62A2693687023455736d64EbD9E",
-    BnZKE: "0x6202fd4Bbb5F073ACc740aCA7580b11Be03FFe63",
-    BonusZkeTracker: "0x061854e75da80aF0670BdC2b40532309c3e2335f",
-    FeeZkeTracker: "0x9bd1c38bc5A8e68304789176876Acaa9Cd98AC7c",
-    FeeZlpTracker: "0x99F3251beF877EF2a11c29b943534940f074493d",
     Reader: "0x45F4d76009D8C89bA688329145E89364300b19bb",
-    RewardReader: "0xC8bfc1559afc3e27b747a88D3a83C5D29519CFF2",
-    ZLPManager: "0x0c22158E9D537b2ad8E2F7BA177c4ff06c7B88E8",
-    Vault: "0xaB597d260C868770867A2d1dBb960075C291aF7F",
-    NativeToken: "0xc023d6bAE4DbA3E2cB0575be2A5C2Ba6571DFfcf",
-    StakedZkeDistributor: "0xc853C98dc75De47dDc7a1885857c3B38dB7fB8e4",
-    StakedZlpDistributor: "0x52D20584b3FcD3076A28ee1c03de8c58B00de8a7",
-    USDG: "0xaAEfAC305118Bbe4292d534f96DF12431318353D",
-    PositionRouter: "0xbf46e3D1005f19c3428EC132ebDEc5975CB0DF69",
-    Router: "0x50B0f4f4DAaF18b43Def9EA5E176C1652DE52843",
-    OrderBook: "0x7e43226C7C71f9399E8f9f387cE53B2D700b4FbB",
-    OrderBookReader: "0x29Bd88b6827c683cD583FFd7a3339Ab8e9C4Dd18",
-    USDC: "0xbb30022950dc346136b4286628C1a6bcf93C1AAb",
-    Pyth: "0xC38B1dd611889Abc95d4E0a472A667c3671c08DE",
-    PythReader: "0x84476f650B7C5e06cDa8E7eCc85aC3ccd6fDa8A1",
-    WBTC: "0x5796F3E984eCF25C2Da3601D27830fA6131Cfded",
+  },
+};
+
+// PYTH
+
+const PYTH_CONFIG = {
+  [ZKSYNC_MAINNET]: {
+    PythEndpoint: "https://hermes.pyth.network",
+    EthPriceFeedId:
+      "0xff61491a931112ddf1bd8147cd1b641375f79f5825126d665480874634fd0ace",
+    UsdcPriceFeedId:
+      "0xeaa020c61cc479712813461ce153894a96a6c00b21ed0cfc2798d1f9a9e9c94a",
+    BtcPriceFeedId:
+      "0xe62df6c8b4a85fe1a67db44dc12de5db330f7ac66b72dc658afedf0f4a415b43",
+  },
+  [ZKSYNC_TESTNET]: {
+    PythEndpoint: "https://hermes-beta.pyth.network",
+    EthPriceFeedId:
+      "0xca80ba6dc32e08d06f1aa886011eed1d77c77be9eb761cc10d72b7d0a2fd57a6",
+    UsdcPriceFeedId:
+      "0x41f3625971ca2ed2263e78573fe5ce23e13d2558ed3f2e47ab0f84fb9e7ae722",
+    BtcPriceFeedId:
+      "0xf9c0172ba10dfa4d19088d94f5bf61d3b54d5bd7483a322a982e1373ee8ea31b",
   },
 };
 
@@ -475,6 +405,11 @@ function getContract(chainId, name) {
   return CONTRACTS[chainId][name];
 }
 
+function getPythConfig(chainId, name) {
+  if (!chainId) chainId = ZKSYNC_MAINNET;
+  return PYTH_CONFIG[chainId][name];
+}
+
 // calculate price with slippage of 0.5%
 function calculatePriceWithSlippage() {
   if (isLong) {
@@ -482,6 +417,70 @@ function calculatePriceWithSlippage() {
   } else {
     return ethers.BigNumber.from(minPrice).mul(990).div(1000);
   }
+}
+
+function getPriceIdsConfig(chainId) {
+  const ethPriceFeedId = getPythConfig(chainId, "EthPriceFeedId");
+  const usdcPriceFeedId = getPythConfig(chainId, "UsdcPriceFeedId");
+  const btcPriceFeedId = getPythConfig(chainId, "BtcPriceFeedId");
+  return [ethPriceFeedId, usdcPriceFeedId, btcPriceFeedId];
+}
+
+function convertToDecimals(rawPrice, conf, expo, targetDecimals) {
+  const priceDecimals = expo.mul(-1);
+  let powerOfTen;
+
+  if (priceDecimals.lte(targetDecimals)) {
+    powerOfTen = ethers.BigNumber.from(10).pow(
+      priceDecimals.add(targetDecimals)
+    );
+  } else {
+    powerOfTen = ethers.BigNumber.from(10).pow(
+      priceDecimals.sub(targetDecimals)
+    );
+  }
+
+  return [rawPrice.mul(powerOfTen), conf.mul(powerOfTen)];
+}
+
+function bigNumberify(priceStruct) {
+  const conf = ethers.BigNumber.from(priceStruct.conf);
+  const expo = ethers.BigNumber.from(priceStruct.expo);
+  const price = ethers.BigNumber.from(priceStruct.price);
+
+  return [conf, expo, price];
+}
+
+// LEGACY
+
+function usePythPrices(pricesStruct, tokens) {
+  let minPrices = [];
+  let maxPrices = [];
+  let indexPrices = {};
+
+  for (let i = 0; i < tokens.length; i++) {
+    const [conf, expo, price] = bigNumberify(pricesStruct[i].price);
+    if (price.lt(0) || expo.gt(0) || expo.lt(-255)) {
+      console.log("invalid priceStruct");
+    }
+
+    const DECIMALS = 14;
+    let [convertedPrice, convertedConf] = convertToDecimals(
+      price,
+      conf,
+      expo,
+      DECIMALS
+    );
+
+    const maxPrice = convertedPrice.add(convertedConf);
+    const minPrice = convertedPrice.sub(convertedConf);
+
+    minPrices.push(minPrice);
+    maxPrices.push(maxPrice);
+    indexPrices[tokens[i].address] = { minPrice, maxPrice };
+  }
+
+  return { minPrices, maxPrices, indexPrices };
 }
 
 // STATE
@@ -510,26 +509,17 @@ const {
 } = state;
 
 // RECONNECT TO WALLET
-if (sender === undefined) {
-  State.update({ sender: Ethers.send("eth_requestAccounts", [])[0] });
+
+if (sender === undefined && Ethers.provider()) {
+  Ethers.provider()
+    .send("eth_requestAccounts", [])
+    .then((accounts) => {
+      if (accounts.length) {
+        // save sender address to the state
+        State.update({ sender: accounts[0] });
+      }
+    });
 }
-
-// CONNECTION
-
-function getConfig(chainId, name) {
-  if (!chainId) {
-    chainId = 280;
-  }
-  return PYTH_CONFIG[chainId][name];
-}
-
-function getEndpointEvmPriceService(chainId) {
-  return getConfig(chainId, "PythEndpoint");
-}
-
-// const connection = new EvmPriceServiceConnection(
-//   getEndpointEvmPriceService(chainId)
-// );
 
 // FETCH ABI
 
@@ -551,7 +541,7 @@ const readerAddress = getContract(chainId, "Reader");
 const contract = new ethers.Contract(
   readerAddress,
   readerAbi,
-  Ethers.provider().getSigner()
+  Ethers.provider() && Ethers.provider().getSigner()
 );
 
 contract
@@ -562,7 +552,24 @@ contract
     State.update({ tokenBalances: result });
   });
 
-console.log("tokenBalances", tokenBalances);
+// Pyth price feed
+
+const priceIdsConfig = getPriceIdsConfig(chainId);
+
+const idsParam = priceIdsConfig.map((id) => `ids[]=${id}`).join("&");
+
+const pricesStruct = fetch(
+  `${getPythConfig(chainId, "PythEndpoint")}/api/latest_price_feeds?${idsParam}`
+);
+
+if (!pricesStruct.ok) {
+  return "Loading Price...";
+}
+
+const { minPrices, maxPrices, indexPrices } = usePythPrices(
+  pricesStruct.body,
+  tokens
+);
 
 const { maxPrice, minPrice, tokenSymbol } = payTokenData;
 
@@ -593,10 +600,10 @@ const gmxPriceOracleResponse = fetch(
   currentConfig.GMX_PRICE_ORACLE_URL + "/prices/tickers"
 );
 if (!gmxPriceOracleResponse.ok) {
-  throw new Error("Error fetching ETH price.");
+  console.log("Error fetching ETH price.");
 }
-const gmxPriceData = gmxPriceOracleResponse.body;
-const ethTokenData = gmxPriceData.find((item) => item.tokenSymbol === "ETH");
+// const gmxPriceData = gmxPriceOracleResponse.body;
+// const ethTokenData = gmxPriceData.find((item) => item.tokenSymbol === "ETH");
 State.update({
   payTokenData: ethTokenData,
 });
@@ -782,10 +789,10 @@ return (
                   onClick={() => {
                     chainId === ZKSYNC_MAINNET
                       ? State.update({ showSettings: false })
-                      : handleClickSwitchNetwork(chainId);
+                      : handleClickSwitchNetwork(ZKSYNC_MAINNET);
                   }}
                 >
-                  {CONFIG[chainId].NETWORK_INFO.chainName}
+                  {CONFIG[ZKSYNC_MAINNET].NETWORK_INFO.chainName}
                 </button>
                 <button
                   class={`btn btn-xs btn-outline${
@@ -794,10 +801,10 @@ return (
                   onClick={() => {
                     chainId === ZKSYNC_TESTNET
                       ? State.update({ showSettings: false })
-                      : handleClickSwitchNetwork(chainId);
+                      : handleClickSwitchNetwork(ZKSYNC_TESTNET);
                   }}
                 >
-                  {CONFIG[chainId].NETWORK_INFO.chainName}
+                  {CONFIG[ZKSYNC_TESTNET].NETWORK_INFO.chainName}
                 </button>
               </div>
             </div>
