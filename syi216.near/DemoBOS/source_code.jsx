@@ -3,7 +3,7 @@ const messages = Near.view(contract, "getMessages", {}).reverse();
 
 console.log(messages);
 // Use and manipulate state
-State.init({ new_message: "" });
+State.init({ new_message: "Mensaje1" });
 
 const onInputChange = ({ target }) => {
   State.update({ new_message: target.value });
