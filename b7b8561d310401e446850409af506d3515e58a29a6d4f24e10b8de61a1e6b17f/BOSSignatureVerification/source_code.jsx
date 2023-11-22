@@ -1,9 +1,32 @@
 State.init({
-  chainId: props.chainId, // For Ethereum Mainnet, for instance
+  chainId: 1, // For Ethereum Mainnet, for instance
   baseUrl: "https://api.yourapp.com",
   safeAddress: "0x1234567890abcdef1234567890abcdef12345678",
   sender: "0xabcdef1234567890abcdef1234567890abcdef12",
-  transactions: props.transactions,
+  transactions: [
+    {
+      safeTxHash:
+        "0xabcdef1234567890abcdef1234567890abcdef1234567890abcdef1234567890abc1",
+      isSell: true,
+      nftAddress: "0xaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      tokenId: 1,
+      tokenAddress: "0xbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      price: 40000000,
+      expiry: 86400,
+      nonce: 43,
+    },
+    {
+      safeTxHash:
+        "0xabcdef1234567890abcdef1234567890abcdef1234567890abcdef1234567890abc2",
+      isSell: true,
+      nftAddress: "0xaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      tokenId: 2,
+      tokenAddress: "0xbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      price: 40000000,
+      expiry: 86400,
+      nonce: 43,
+    },
+  ],
   selectedTransaction: null,
 });
 // connect account
