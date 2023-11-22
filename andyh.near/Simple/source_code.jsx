@@ -5,6 +5,7 @@ const World = (props) => (
       <span id="world-parent-span">{props.renderComponent()}</span>
     </div>
     <h2 id="world-h2">world</h2>
+    <div id="markdown">{props.rendermd()}</div>
   </>
 );
 
@@ -12,7 +13,8 @@ return (
   <div id="r">
     <World
       id="world-component"
-      renderComponent={() => <Hello id="hello-render-component" />}
+      rendercomponent={() => <Hello id="hello-render-component" />}
+      rendermd={() => <Widget src="andyh.near/Markdown" />}
     />
   </div>
 );
