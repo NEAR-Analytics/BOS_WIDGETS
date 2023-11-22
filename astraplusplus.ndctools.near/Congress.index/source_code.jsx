@@ -376,7 +376,7 @@ const DropdownContainer = styled.div`
 `;
 State.init({
     selectedHouse: router.params.house ?? "hom",
-    selectedTab: "powers",
+    selectedTab: "proposals",
     copied: false,
     proposals: [],
     members: [],
@@ -399,7 +399,7 @@ const getProposalsCount = () => {
 const changeHouse = (house) => {
     State.update({
         selectedHouse: house,
-        selectedTab: "powers",
+        selectedTab: "proposals",
         showPowerChecksDescription: false
     });
 };
@@ -534,11 +534,10 @@ const ContentBlock = ({ title, abbr, address, description, metadata }) => (
                 </div>
             </div>
             <div>
-                <div className="d-flex justify-content-between">
+                <div className="d-flex">
                     <h4>
                         <b>{title}</b>
                     </h4>
-
                     <div className="mt-1 px-2">
                         <Widget
                             src="near/widget/DIG.DropdownMenu"
