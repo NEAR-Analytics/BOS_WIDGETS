@@ -6,7 +6,7 @@ const nearDevGovGigsContractAccountId =
 
 const nearDevGovGigsWidgetsAccountId =
   props.nearDevGovGigsWidgetsAccountId || "devgovgigs.near".split("/", 1)[0];
-const prependTitle = "BOSHACKS Submission: ";
+const prependTitle = "Project : ";
 
 function widget(widgetName, widgetProps, key) {
   widgetProps = {
@@ -125,23 +125,23 @@ const handleSelect = (id) => {
       (elementId) => elementId !== id
     );
     // update in local storage so it can be picked up by the cart
-    const bountyString = JSON.stringify(updatedElements);
-    console.log("Bounty String: " + bountyString);
+    const categoryString = JSON.stringify(updatedElements);
+    console.log("Category String: " + categoryString);
     // update in state, so there is a smooth experience
     State.update({
       selectedElements: updatedElements,
-      bounty: bountyString,
+      category: categoryString,
     });
   } else {
     // not selected, so add to array
     const updatedElements = [...state.selectedElements, id];
     // update in local storage so it can be picked up by the cart
-    const bountyString = JSON.stringify(updatedElements);
-    console.log("Bounty String: " + bountyString);
+    const categoryString = JSON.stringify(updatedElements);
+    console.log("Category String: " + categoryString);
     // update in state, so there is a smooth experience
     State.update({
       selectedElements: updatedElements,
-      bounty: bountyString,
+      category: categoryString,
     });
   }
 };
@@ -150,7 +150,7 @@ initState({
   seekingFunding: false,
   selectedElements: [],
   projectUrl: "",
-  demoUrl: "",
+  locationUrl: "",
 
   //
   author_id: context.accountId,
@@ -159,10 +159,10 @@ initState({
   // Should be a list of labels as strings.
   // Both of the label structures should be modified together.
   labelStrings,
-  postType: "Solution",
+  //postType: "Solution",
   name: props.name ?? "",
   description: props.description ?? "",
-  bounty: props.bounty ?? "",
+  category: props.category ?? "",
   teammates: "",
   amount: props.amount ?? "",
   token: props.token ?? "USDT",
@@ -212,10 +212,10 @@ const onSubmit = () => {
       state.amount,
       state.token,
       state.supervisor,
-      state.bounty,
+      state.category,
       state.teammates,
       state.projectUrl,
-      state.demoUrl
+      state.locationUrl
     ),
   };
 
@@ -481,14 +481,14 @@ const projectDiv = (
     />
   </div>
 );
-const demoDiv = (
+const locationDiv = (
   <div className="col-lg-12 mb-2">
     <p className="fs-4 fw-bold mb-1">
       Where will your project have the most impact?
     </p>
     <p class="text-muted w-75 my-1">Location </p>
     <textarea
-      value={state.demoUrl}
+      value={state.locationUrl}
       type="text"
       rows={1}
       className="form-control"
@@ -498,7 +498,7 @@ const demoDiv = (
           State.update({ showAccountAutocomplete: false });
         }
       }}
-      onChange={(event) => State.update({ demoUrl: event.target.value })}
+      onChange={(event) => State.update({ locationUrl: event.target.value })}
     />
   </div>
 );
@@ -627,22 +627,22 @@ function generateDescription(
   amount,
   token,
   supervisor,
-  bounty,
+  category,
   teammates,
   projectUrl,
-  demoUrl
+  locationUrl
 ) {
-  const bountyLine = `\n###### 💸 Bounties:\n ${bounty}\n`;
-  const teammateLine = `\n###### 👭 Teammates:\n ${teammates}\n`;
+  const categoryLine = `\n###### 💰 Category:  ${category}\n`;
+  const teammateLine = `\n###### 👭 Teammates:  ${teammates}\n`;
 
-  const projectLine = `\n###### 🔗 Project Link:\n ${projectUrl}\n`;
-  const demoLine = `\n###### 🎥 Demo Link:\n ${demoUrl}\n`;
+  const projectLine = `\n###### 🔗 Project Link:  ${projectUrl}\n`;
+  const locationLine = `\n###### 🗺️ Location:  ${locationUrl}\n`;
   const newText = text;
-  if (bounty.length > 0) newText += bountyLine;
+  if (category.length > 0) newText += categoryLine;
 
   if (teammates.length > 0) newText += teammateLine;
   if (projectUrl.length > 0) newText += projectLine;
-  if (demoUrl.length > 0) newText += demoLine;
+  if (locationUrl.length > 0) newText += locationLine;
 
   const funding = `###### Requested amount: ${amount} ${token}\n###### Requested sponsor: @${supervisor}\n`;
   if (amount > 0 && token && supervisor) return funding + text;
@@ -670,7 +670,7 @@ return (
           <p>{state.seekingFunding}</p>
           <div class="card border-light">
             <div class="card-body">
-              <h1 class="card-title fw-bold fs-1">Submit BOS HACKS Project</h1>
+              <h1 class="card-title fw-bold fs-1">Donation HUB</h1>
 
               {state.warning && (
                 <div
@@ -693,7 +693,7 @@ return (
                 {bountiesDiv}
                 {teamDiv}
                 {projectDiv}
-                {demoDiv}
+                {locationDiv}
                 {labelEditor}
 
                 {state.seekingFunding && fundraisingDiv}
@@ -730,10 +730,10 @@ return (
                         state.amount,
                         state.token,
                         state.supervisor,
-                        state.bounty,
+                        state.category,
                         state.teammates,
                         state.projectUrl,
-                        state.demoUrl
+                        state.locationUrl
                       ),
                       github_link: state.githubLink,
                     },
