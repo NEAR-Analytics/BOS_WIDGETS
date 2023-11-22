@@ -2,7 +2,7 @@ const [Markdown, setMarkdown] = useState(null);
 
 const loadMarkdown = useCallback(async () => {
   const mod = await import("https://esm.sh/react-markdown");
-  const pkg = mod.default;
+  const pkg = mod.default({});
   setMarkdown(pkg);
 });
 
