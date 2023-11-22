@@ -27,7 +27,7 @@ const Description = styled.p`
 `;
 
 const imageSource =
-  "https://github.com/nearuaguild/.github/blob/main/images/validator.png";
+  "https://github.com/nearuaguild/.github/blob/main/images/validator.png?raw=true";
 
 const CardBody = styled.div`
   border-radius: 1rem;
