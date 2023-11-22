@@ -27,7 +27,7 @@ const Description = styled.p`
 `;
 
 const imageSource =
-  "https://ipfs.near.social/ipfs/bafkreic7wxhocbnxoo63uh6n2ur3otykbzouymobt3ebgd2b4dmdiu3764";
+  "https://github.com/nearuaguild/.github/blob/main/images/validator.png";
 
 const CardBody = styled.div`
   border-radius: 1rem;
@@ -282,45 +282,22 @@ const Content = (
     <Container>
       <DescriptionContainer>
         <DescriptionHeader>
-          Communities are the lifeblood of /dev/hub
+          Delegate to our community validator and win the prizes
         </DescriptionHeader>
-        <Description>
-          We believe that communities are the foundation of a decentralized
-          ecosystem. Explore and engage with our diverse range of communities
-          today.
-        </Description>
+        <Description></Description>
       </DescriptionContainer>
       <ImageContainer>
         <Image src={imageSource} />
       </ImageContainer>
     </Container>
-    <Subheading>Featured Communities</Subheading>
-    <CardsContainer>
-      {Cards.slice(startIndex, endIndex + 1).map((card, idx) => (
-        <Card
-          title={card.title}
-          description={card.description}
-          href={card.href}
-          key={`project-card-${idx}`}
-        />
-      ))}
-      <ForwardButton onClick={handleForward}>
-        <ArrowIcon />
-      </ForwardButton>
-    </CardsContainer>
-    <MobileCards>
-      {Cards.map((card, idx) => (
-        <Card
-          title={card.title}
-          description={card.description}
-          href={card.href}
-          key={`mobile-card-${idx}`}
-        />
-      ))}
-    </MobileCards>
+    <Subheading>Our validator</Subheading>
+    <DescriptionContainer>
+      <DescriptionHeader>nearuaguild.poolv1.near </DescriptionHeader>
+      <Description>Stats, percentage, metapool voting</Description>
+    </DescriptionContainer>
     <CTAContainer>
       <CTA href="/devgovgigs.near/widget/app?page=communities">
-        Explore all communities →
+        Delegate to our validator →
       </CTA>
     </CTAContainer>
   </>
@@ -330,7 +307,7 @@ return (
   <Widget
     src="devgovgigs.near/widget/devhub.components.island.home-section"
     props={{
-      title: "/connect",
+      title: "/delegate",
       children: Content,
       background: true,
     }}
