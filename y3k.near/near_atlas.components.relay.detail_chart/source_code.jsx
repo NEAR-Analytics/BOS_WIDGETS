@@ -1,5 +1,5 @@
 const initialState = {
-  selectedMetric: "MAU",
+  selectedMetric: "mau",
   processedData: processedData,
   metric_period: "Monthly",
   project_name: props.project_name || "Sweat Economy",
