@@ -20,7 +20,7 @@ const CommunityBoardPage = ({ handle, permissions }) => {
         permissions,
         // TODO: REMOVE AFTER MIGRATION.
         nearDevGovGigsWidgetsAccountId: "megha19.near",
-        nearDevGovGigsWidgetsAccountId: "",
+        nearDevGovGigsWidgetsAccountId: "devgovgigs.near",
       }}
     />
   );
