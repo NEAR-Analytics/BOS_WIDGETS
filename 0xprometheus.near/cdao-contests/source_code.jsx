@@ -80,7 +80,7 @@ const Summary = styled.div`
   margin-bottom: 20px;
 `;
 
-const contests = Near.view("cdao-v2.genadrop.near", "get_contests", {
+const contests = Near.view("cdao.genadrop.near", "get_contests", {
   subscribe: true,
 });
 
