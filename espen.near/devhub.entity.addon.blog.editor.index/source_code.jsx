@@ -37,7 +37,7 @@ return (
     {/* Get any layout */}
     <Container>
       <Widget
-        src="${REPL_DEVHUB}/widget/devhub.entity.addon.blog.editor.provider"
+        src="espen.near/widget/devhub.entity.addon.blog.editor.provider"
         props={{
           handle: props.handle,
           Layout: (providerProps) => {
@@ -45,18 +45,18 @@ return (
               providerProps;
             return (
               <Widget
-                src="${REPL_DEVHUB}/widget/devhub.entity.addon.blog.editor.layout"
+                src="espen.near/widget/devhub.entity.addon.blog.editor.layout"
                 props={{
                   getData,
                   Sidebar: (p) => (
                     <Widget
-                      src="${REPL_DEVHUB}/widget/devhub.entity.addon.blog.editor.sidebar"
+                      src="espen.near/widget/devhub.entity.addon.blog.editor.sidebar"
                       props={{ items: data, ...p }}
                     />
                   ),
                   Content: (p) => (
                     <Widget
-                      src="${REPL_DEVHUB}/widget/devhub.entity.addon.blog.editor.content"
+                      src="espen.near/widget/devhub.entity.addon.blog.editor.content"
                       props={{ onChange, onCancel, onSubmit, ...p }}
                     />
                   ),
