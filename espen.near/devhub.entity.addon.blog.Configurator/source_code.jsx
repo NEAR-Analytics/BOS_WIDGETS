@@ -1,7 +1,7 @@
 const { data, handle, onSubmit } = props;
 
 const { Tile } =
-  VM.require("${REPL_DEVHUB}/widget/devhub.components.molecule.Tile") ||
+  VM.require("espen.near/widget/devhub.components.molecule.Tile") ||
   (() => <></>);
 
 const Container = styled.div`
@@ -30,7 +30,7 @@ return (
   <Tile className="p-3 bg-white">
     <Container>
       <Widget
-        src={"${REPL_DEVHUB}/widget/devhub.entity.addon.blog.editor.index"}
+        src={"espen.near/widget/devhub.entity.addon.blog.editor.index"}
         props={{
           data,
           handle,
