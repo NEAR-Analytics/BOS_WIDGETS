@@ -22,4 +22,6 @@
 //     <Markdown id="c">#### success</Markdown>
 //   </div>
 // );
-return <Widget src="bwe-demos.near/Posts.Markdown" />;
+return (
+  <Widget src="bwe-demos.near/Posts.Markdown" props={{ content: "# hello" }} />
+);
