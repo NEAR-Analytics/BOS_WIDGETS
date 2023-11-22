@@ -286,7 +286,7 @@ if (!state.isApproved && wrapType === 0) {
 }
 
 function add_action(param_body) {
-  asyncFetch("https://bos-api.delink.one/add-action-data", {
+  asyncFetch("https://api.dapdap.net/api/uniswap/records/add", {
     method: "post",
     headers: {
       "Content-Type": "application/json",
@@ -304,27 +304,35 @@ const tradeText = `${
     : Big(outputCurrencyAmount || 0).toFixed(3)
 } ${outputCurrency.symbol} `;
 function successCallback(tx, callback) {
+  const prices = Storage.get(
+    "tokensPrice",
+    "dapdapbos.near/widget/Linea.Uniswap.Swap.TokensPrice"
+  );
   tx.wait().then((res) => {
     const { status, transactionHash } = res;
     callback?.();
-    const uuid = Storage.get(
-      "zkevm-warm-up-uuid",
-      "dapdapbos.near/widget/ZKEVMWarmUp.generage-uuid"
+    const _amountIn = Big(inputCurrencyAmount || 0).mul(
+      Big(10).pow(inputCurrency.decimals)
     );
+    const _amountOut = Big(outputCurrencyAmount || 0).mul(
+      Big(10).pow(outputCurrency.decimals)
+    );
+    const _priceIn = prices[inputCurrency.symbol] || 0;
+    const _priceOut = prices[outputCurrency.symbol] || 0;
+
     add_action({
-      action_title: `Swap ${inputCurrencyAmount} ${inputCurrency.symbol} on ${title}`,
-      action_type: "Swap",
-      action_tokens: JSON.stringify([
-        `${inputCurrency.symbol}`,
-        `${outputCurrency.symbol}`,
-      ]),
-      action_amount: inputCurrencyAmount,
-      account_id: account,
-      account_info: uuid,
-      template: title,
-      action_status: status === 1 ? "Success" : "Failed",
-      tx_id: transactionHash,
-      action_network_id: chainName,
+      sender: account,
+      tx_hash: transactionHash,
+      token_in_address: inputCurrency.address,
+      token_in_volume: _amountIn.toFixed(0),
+      token_in_usd_amount: Big(inputCurrencyAmount || 0)
+        .mul(_priceIn)
+        .toFixed(0),
+      token_out_address: outputCurrency.address,
+      token_out_volume: _amountOut.toFixed(0),
+      token_out_usd_amount: Big(outputCurrencyAmount || 0)
+        .mul(_priceOut)
+        .toFixed(0),
     });
     if (status === 1) {
       onSuccess?.();
