@@ -9,10 +9,10 @@ if (!state || state.hashtag !== hashtag) {
 
 const options = [
   {
-    title: "C Constellation",
+    title: "All",
   },
   {
-    title: "CDAO Feed",
+    title: "C Constellation",
   },
   {
     title: "DAOs Feed",
@@ -125,7 +125,7 @@ const SocialWrapper = styled.div`
         padding: 16px 24px 476px 24px; 
         border: 1px solid #EFEFEF;
         background: #F8F8F8;
-        @media screen and (max-width: 990px){
+        @media screen and (max-width: 992px){
           display: none;
         }
     }
