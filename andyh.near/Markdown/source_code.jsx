@@ -31,8 +31,6 @@ return (
         "_slanty words_",
         "**angry letters**",
         "***wait you can do both?***",
-        `> trapped words
->> double trapped`,
       ].join("\n\n"),
     }}
   />
