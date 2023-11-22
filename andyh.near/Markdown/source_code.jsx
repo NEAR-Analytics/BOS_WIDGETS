@@ -25,6 +25,8 @@
 return (
   <Widget
     src="bwe-demos.near/Posts.Markdown"
-    props={{ content: ["# content!", "_slanty words_"].join("\n") }}
+    props={{
+      content: ["# content!", "_slanty words_", "**angry letters**"].join("\n"),
+    }}
   />
 );
