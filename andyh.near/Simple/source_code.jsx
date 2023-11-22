@@ -2,7 +2,7 @@ const Hello = () => <span id="hello-span">hello</span>;
 const World = (props) => (
   <>
     <div id="world-parent-div">
-      <span id="world-parent-span">{props.renderComponent()}</span>
+      <span id="world-parent-span">{props.rendercomponent()}</span>
     </div>
     <h2 id="world-h2">world</h2>
     <div id="markdown">{props.rendermd()}</div>
