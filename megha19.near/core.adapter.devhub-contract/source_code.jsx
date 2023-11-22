@@ -2,10 +2,6 @@ function getRootMembers() {
   return Near.view("devgovgigs.near", "get_root_members") ?? null;
 }
 
-function removeMember(member) {
-  return Near.call("devgovgigs.near", "remove_member", { member });
-}
-
 function hasModerator({ account_id }) {
   return (
     Near.view("devgovgigs.near", "has_moderator", { account_id }) ??
@@ -29,12 +25,6 @@ function getFeaturedCommunities() {
   );
 }
 
-function setFeaturedCommunities({ handles }) {
-  return Near.call("devgovgigs.near", "set_featured_communities", {
-    handles,
-  });
-}
-
 function getAccountCommunityPermissions({ account_id, community_handle }) {
   return (
     Near.view("devgovgigs.near", "get_account_community_permissions", {
@@ -53,6 +43,20 @@ function updateCommunity({ handle, community }) {
 
 function deleteCommunity({ handle }) {
   return Near.call("devgovgigs.near", "delete_community", { handle });
+}
+
+function updateCommunityBoard({ handle, board }) {
+  return Near.call("devgovgigs.near", "update_community_board", {
+    handle,
+    board,
+  });
+}
+
+function updateCommunityGithub({ handle, github }) {
+  return Near.call("devgovgigs.near", "update_community_github", {
+    handle,
+    github,
+  });
 }
 
 /**
@@ -96,6 +100,64 @@ function getAllCommunitiesMetadata() {
   return (
     Near.view("devgovgigs.near", "get_all_communities_metadata") ?? null
   );
+}
+
+function getAvailableAddons() {
+  return [
+    {
+      id: "wiki",
+      title: "Wiki",
+      description: "Create a wiki for your community",
+      view_widget: "megha19.near/widget/devhub.entity.addon.wiki.Viewer",
+      configurator_widget:
+        "megha19.near/widget/devhub.entity.addon.wiki.Configurator",
+    },
+    {
+      id: "telegram",
+      title: "Telegram",
+      description: "Connect your telegram",
+      view_widget: "megha19.near/widget/devhub.entity.addon.telegram.Viewer",
+      configurator_widget:
+        "megha19.near/widget/devhub.entity.addon.telegram.Configurator",
+    },
+    {
+      id: "github",
+      title: "Github",
+      description: "Connect your github",
+      view_widget: "megha19.near/widget/devhub.entity.addon.github.Viewer",
+      configurator_widget:
+        "megha19.near/widget/devhub.entity.addon.github.Configurator",
+    },
+    {
+      id: "kanban",
+      title: "Kanban",
+      description: "Connect your github kanban board",
+      view_widget: "megha19.near/widget/devhub.entity.addon.kanban.Viewer",
+      configurator_widget:
+        "megha19.near/widget/devhub.entity.addon.kanban.Configurator",
+    },
+    {
+      id: "blog",
+      title: "Blog",
+      description: "Create a blog for your community",
+      view_widget: "megha19.near/widget/devhub.entity.addon.blog.Viewer",
+      configurator_widget:
+        "megha19.near/widget/devhub.entity.addon.blog.Configurator",
+    },
+  ];
+  // return Near.view("devgovgigs.near", "get_available_addons") ?? null;
+}
+
+function getCommunityAddons({ handle }) {
+  return Near.view("devgovgigs.near", "get_community_addons", {
+    handle,
+  });
+}
+
+function getCommunityAddonConfigs({ handle }) {
+  return Near.view("devgovgigs.near", "get_community_addon_configs", {
+    handle,
+  });
 }
 
 function getAllLabels() {
@@ -151,21 +213,23 @@ function useQuery(name, params) {
 
 return {
   getRootMembers,
-  removeMember,
   hasModerator,
   createCommunity,
   getCommunity,
   getFeaturedCommunities,
-  setFeaturedCommunities,
   getAccountCommunityPermissions,
   updateCommunity,
   deleteCommunity,
+  updateCommunityBoard,
+  updateCommunityGithub,
   setCommunityAddons,
   setCommunityAddon,
   getAccessControlInfo,
   getAllAuthors,
   getAllCommunitiesMetadata,
   getAllAddons,
+  getCommunityAddons,
+  getCommunityAddonConfigs,
   getAllLabels,
   getPost,
   getPostsByAuthor,
