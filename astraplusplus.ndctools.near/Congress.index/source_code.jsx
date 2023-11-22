@@ -504,7 +504,15 @@ const ContentBlock = ({ title, abbr, address, description, metadata }) => (
                             }}
                         />
                     )}
-                    <div className="mt-1 px-2">
+                    <Widget
+                        src="nearui.near/widget/Social.FollowButton"
+                        props={{
+                            variant: "info outline",
+                            accountId: state.selectedHouse,
+                            size: "sm"
+                        }}
+                    />
+                    <div className="px-2">
                         <Widget
                             src="near/widget/DIG.DropdownMenu"
                             props={{
@@ -526,10 +534,11 @@ const ContentBlock = ({ title, abbr, address, description, metadata }) => (
                 </div>
             </div>
             <div>
-                <div className="d-flex">
+                <div className="d-flex justify-content-between">
                     <h4>
                         <b>{title}</b>
                     </h4>
+
                     <div className="mt-1 px-2">
                         <Widget
                             src="near/widget/DIG.DropdownMenu"
@@ -611,6 +620,17 @@ const ContentBlock = ({ title, abbr, address, description, metadata }) => (
             <Tabs className="flex-column mb-4">
                 <div className="d-flex flex-column flex-sm-row gap-3">
                     <Tab
+                        onClick={() =>
+                            State.update({ selectedTab: "proposals" })
+                        }
+                        selected={state.selectedTab === "proposals"}
+                    >
+                        <div>Proposals</div>
+                        <div className="circle d-flex justify-content-center align-items-center">
+                            <div>{state.proposalsCount}</div>
+                        </div>
+                    </Tab>
+                    <Tab
                         onClick={() => State.update({ selectedTab: "powers" })}
                         selected={state.selectedTab === "powers"}
                     >
@@ -634,17 +654,6 @@ const ContentBlock = ({ title, abbr, address, description, metadata }) => (
                             </div>
                         </Tab>
                     )}
-                    <Tab
-                        onClick={() =>
-                            State.update({ selectedTab: "proposals" })
-                        }
-                        selected={state.selectedTab === "proposals"}
-                    >
-                        <div>Proposals</div>
-                        <div className="circle d-flex justify-content-center align-items-center">
-                            <div>{state.proposalsCount}</div>
-                        </div>
-                    </Tab>
                 </div>
                 <div className="d-flex flex-column gap-4 p-3">
                     {state.selectedTab === "powers" &&
@@ -682,14 +691,6 @@ const ContentBlock = ({ title, abbr, address, description, metadata }) => (
         </div>
 
         <div className="d-flex justify-content-end gap-2">
-            <Widget
-                src="nearui.near/widget/Social.FollowButton"
-                props={{
-                    variant: "info outline",
-                    accountId: state.selectedHouse,
-                    size: "sm"
-                }}
-            />
             <Widget
                 src="nearui.near/widget/Input.Button"
                 props={{
