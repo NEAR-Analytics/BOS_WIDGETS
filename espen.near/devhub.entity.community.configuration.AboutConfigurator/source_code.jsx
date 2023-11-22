@@ -37,7 +37,7 @@ const CommunityAboutSchema = {
   },
 
   website_url: {
-    inputProps: { prefix: "https://", min: 2, max: 60 },
+    inputProps: { prefix: "https://", min: 2, max: 60, validUrl: true },
     label: "Website",
     order: 5,
   },
