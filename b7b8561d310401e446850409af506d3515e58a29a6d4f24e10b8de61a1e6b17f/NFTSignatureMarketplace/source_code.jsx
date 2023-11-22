@@ -1,0 +1,181 @@
+State.init({
+  chainId: 96, // For Ethereum Mainnet, for instance
+  baseUrl: "https://api.yourapp.com",
+  safeAddress: "0x1234567890abcdef1234567890abcdef12345678",
+  sender: "0xabcdef1234567890abcdef1234567890abcdef12",
+  signature: "1",
+  transactions: [
+    {
+      safeTxHash:
+        "0xabcdef1234567890abcdef1234567890abcdef1234567890abcdef1234567890abc1",
+      isSell: true,
+      nftAddress: "0xaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      tokenId: 1,
+      tokenAddress: "0xbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      price: 40000000,
+      expiry: 86400,
+      nonce: 43,
+    },
+    {
+      safeTxHash:
+        "0xabcdef1234567890abcdef1234567890abcdef1234567890abcdef1234567890abc2",
+      isSell: true,
+      nftAddress: "0xaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      tokenId: 2,
+      tokenAddress: "0xbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      price: 40000000,
+      expiry: 86400,
+      nonce: 43,
+    },
+  ],
+  selectedTransaction: null,
+});
+// connect account
+if (state.sender === null) {
+  const accounts = Ethers.send("eth_requestAccounts", []);
+  const checksummedAddr = ethers.utils.getAddress(accounts[0]);
+  if (accounts.length) {
+    State.update({ sender: checksummedAddr });
+
+    Ethers.provider()
+      .getNetwork()
+      .then((chainIdData) => {
+        if (chainIdData?.chainId == 1) {
+          State.update({
+            chainId: "mainnet",
+          });
+        } else if (chainIdData?.chainId == 5) {
+          State.update({
+            chainId: "goerli",
+          });
+        } else if (chainIdData?.chainId == 100) {
+          State.update({
+            chainId: "gnosis-chain",
+          });
+        }
+      });
+  }
+}
+
+//EIP712
+const domain = {
+  name: "MyApp",
+  version: "1.0",
+  chainId: 96,
+  verifyingContract: "0xCcCCccccCCCCcCCCCCCcCcCccCcCCCcCcccccccC",
+};
+
+const types = {
+  Offer: [
+    { name: "isSell", type: "bool" },
+    { name: "nftAddress", type: "address" },
+    { name: "tokenId", type: "uint256" },
+    { name: "tokenAddress", type: "address" },
+    { name: "price", type: "uint256" },
+    { name: "expiry", type: "uint256" },
+    { name: "nonce", type: "uint256" },
+  ],
+};
+
+// choose relevant transaction to sign and confirm
+const selectTransaction = (tx) => {
+  State.update({ selectedTransaction: tx });
+};
+
+const createEIP712Message = (transaction) => {
+  return {
+    isSell: transaction.isSell,
+    nftAddress: transaction.nftAddress,
+    tokenId: transaction.tokenId,
+    tokenAddress: transaction.tokenAddress,
+    price: transaction.price,
+    expiry: transaction.expiry,
+    nonce: transaction.nonce,
+  };
+};
+
+const signTransaction = () => {
+  if (state.selectedTransaction) {
+    // Assuming createEIP712Message is defined as shown previously
+    const message = createEIP712Message(state.selectedTransaction);
+    console.log(message);
+    const signer = Ethers.provider().getSigner();
+
+    // Use _signTypedData for EIP-712 compliant signing
+    signer._signTypedData(domain, types, message).then((signature) => {
+      // Process and send the signature as you did previously
+      // You might need to adjust how you handle the signature based on your backend's requirements
+
+      const selectedTxHash = state.selectedTransaction.safeTxHash;
+      const url = `${state.baseUrl}/v1/multisig-transactions/${selectedTxHash}/confirmations/`;
+      const params = JSON.stringify({ signature: signature });
+      console.log(signature);
+      State.update({ signature: signature });
+      console.log(params);
+      const options = {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: params,
+      };
+
+      // Post confirmed signature to the backend
+      asyncFetch(url, options).then((res) => {
+        console.log(res);
+      });
+    });
+  } else {
+    console.log("Please select a transaction to sign.");
+  }
+};
+
+function createListItems(transaction) {
+  return Object.entries(transaction).map(([key, value]) => {
+    // Check if value is a BigNumber object
+    if (value && typeof value.toString === "function") {
+      value = value.toString();
+    }
+
+    if (value !== undefined && value !== null) {
+      return <li key={key}>{`${key}: ${value}`}</li>;
+    }
+    return null;
+  });
+}
+
+const Selection = styled.button`
+    background: ${(tx) =>
+      state.selectedTransaction == tx.safeTxHash ? "palevioletred" : "white"};
+    color: ${(props) => (props.primary ? "white" : "palevioletred")};
+    font-size: 1em;
+    margin: 1em;
+    padding: 0.25em 1em;
+    border: 2px solid palevioletred;
+    border-radius: 10px;
+    text-align: left;
+  `;
+
+return (
+  <div>
+    <ul>
+      {state.transactions.map((tx, index) => (
+        <li key={index} onClick={() => selectTransaction(tx)}>
+          <Selection>
+            <span>
+              <ul>{createListItems(tx)}</ul>
+              {state.selectedTransaction.safeTxHash == tx.safeTxHash
+                ? `!!!!!!THIS ONE IS SELECTED RIGHT NOW!!!!!!`
+                : ""}
+            </span>
+          </Selection>
+        </li>
+      ))}
+    </ul>
+    <div>signature : {state.signature}</div>
+    <button onClick={() => signTransaction()} label="SignButton">
+      <span>Sign Selected Transaction</span>
+    </button>
+    <Web3Connect className="web3-connect" connectLabel="Connect Wallet" />
+  </div>
+);
