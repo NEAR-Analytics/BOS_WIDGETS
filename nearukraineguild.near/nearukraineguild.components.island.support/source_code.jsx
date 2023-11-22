@@ -2,37 +2,37 @@ const Items = [
   {
     heading: (
       <>
-        Developer
+        Marketing
         <br />
-        Resources
+        Support
       </>
     ),
-    description: "Learn the fundamentals of NEAR and build with confidence",
+    description:
+      "Recieve the marketing support from 20+ guilds and 50k users coverage from Near ecosystem",
     cta: {
-      href: "https://docs.near.org",
+      href: "https://t.me/nearprotocolua",
       title: "Read ↗",
     },
   },
   {
-    heading: <>Office Hours</>,
+    heading: <>Talents</>,
     description: (
       <>
-        Need some help?
-        <br /> DevRel contributors are available to answer your technical
-        questions
+        Need to find developers, builders, designers, community managers,
+        product managers?
       </>
     ),
     cta: {
-      href: "https://bit.ly/DevHubOfficeHrs",
+      href: "https://t.me/nearprotocolua",
       title: "Book a meeting ↗",
     },
   },
   {
-    heading: <>Get Funding</>,
+    heading: <>Funding support</>,
     description:
-      "Explore funding opportunities from DevHub to fuel your vision",
+      "Explore funding opportunities from the Near Protocol ecosystem",
     cta: {
-      href: "https://near.social/devgovgigs.near/widget/app?page=community&handle=developer-dao&tab=Funding",
+      href: "https://t.me/nearprotocolua",
       title: "Learn more ↗",
     },
   },
