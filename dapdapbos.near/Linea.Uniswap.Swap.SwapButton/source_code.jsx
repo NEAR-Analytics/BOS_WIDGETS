@@ -324,12 +324,12 @@ function successCallback(tx, callback) {
       sender: account,
       tx_hash: transactionHash,
       token_in_address: inputCurrency.address,
-      token_in_volume: _amountIn.toFixed(0),
+      token_in_volume: _amountIn.toString(),
       token_in_usd_amount: Big(inputCurrencyAmount || 0)
         .mul(_priceIn)
         .toFixed(0),
       token_out_address: outputCurrency.address,
-      token_out_volume: _amountOut.toFixed(0),
+      token_out_volume: _amountOut.toString(),
       token_out_usd_amount: Big(outputCurrencyAmount || 0)
         .mul(_priceOut)
         .toFixed(0),
