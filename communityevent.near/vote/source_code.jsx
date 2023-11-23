@@ -34,7 +34,7 @@ return (
     <button
       className="btn-no"
       onClick={() => handleClickNo()}
-      disabled={!isSignedIn}
+      disabled={isSignedIn}
     >
       {" "}
       NO{" "}
