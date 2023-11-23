@@ -27,7 +27,7 @@ return (
       />
       <input
         type="submit"
-        value="Submit city/yes"
+        value="SUBMIT / YES"
         onClick={handleClickYes}
         disabled={!isSignedIn}
       />
