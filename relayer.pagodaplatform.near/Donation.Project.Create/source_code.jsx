@@ -103,19 +103,7 @@ const labels = labelStrings.map((s) => {
   return { name: s };
 });
 
-const elements = [
-  "Charity",
-  "Tuition",
-  "Funding",
-  "Research",
-  /*"CreativesDAO",
-  "GenaDrop",
-  "NDC GWG",
-  "Mailchain",
-  "Indexer.xyz",
-  "NEAR ReFI",
-  "ProofOfVibes"*/
-];
+const elements = ["Charity", "Tuition", "Funding", "Research"];
 
 const handleSelect = (id) => {
   // check if already selected
@@ -362,6 +350,42 @@ const existingLabels = existingLabelStrings.map((s) => {
 });
 
 const labelEditor = (
+  /*<div className="col-lg-12 mb-2">
+    <p className="fs-6 fw-bold mb-1">Labels</p>
+    <Typeahead
+      multiple
+      labelKey="name"
+      onInputChange={checkLabel}
+      onChange={setLabels}
+      options={[
+        "boshacks",
+        "submission",
+        "team-formation",
+        "Charity",
+        "Tuition",
+        "Funding",
+        "Research",
+        // Add more labels as needed
+      ]}
+      placeholder="Enter labels..."
+      selected={state.labels}
+      positionFixed
+      allowNew={(results, props) => {
+        return (
+          !existingLabelSet.has(props.text) &&
+          props.selected.filter((selected) => selected.name === props.text)
+            .length === 0 &&
+          Near.view(
+            nearDevGovGigsContractAccountId,
+            "is_allowed_to_use_labels",
+            { editor: context.accountId, labels: [props.text] }
+          )
+        );
+      }}
+    />
+  </div>
+);*/
+
   <div className="col-lg-12 mb-2">
     <p className="fs-4 fw-bold mb-1">Labels</p>
     <Typeahead
@@ -370,7 +394,15 @@ const labelEditor = (
       onInputChange={checkLabel}
       onChange={setLabels}
       options={existingLabels}
-      placeholder="boshacks, submission, team-formation"
+      /////////
+      /*options={[
+        "Charity",
+        "Tuition",
+        "Funding",
+        "Research",
+        // Add more labels as needed
+      ]}*/
+      placeholder="Charity, Tuition, Funding, Research"
       selected={state.labels}
       positionFixed
       allowNew={(results, props) => {
@@ -486,7 +518,9 @@ const locationDiv = (
     <p className="fs-4 fw-bold mb-1">
       Where will your project have the most impact?
     </p>
-    <p class="text-muted w-75 my-1">Location </p>
+    <p class="text-muted w-75 my-1">
+      Location (URL by copy from googlemap or any map ){" "}
+    </p>
     <textarea
       value={state.locationUrl}
       type="text"
@@ -502,7 +536,7 @@ const locationDiv = (
     />
   </div>
 );
-const bountiesDiv = (
+const categoryDiv = (
   <div className="col-lg-12 mb-2">
     <p className="fs-4 fw-bold mb-1">Please select a category</p>
     <p class="text-muted w-75 my-1"> </p>
@@ -634,10 +668,11 @@ function generateDescription(
 ) {
   const categoryLine = `\n###### 💰 Category:  ${category}\n`;
   const teammateLine = `\n###### 👭 Teammates:  ${teammates}\n`;
-
   const projectLine = `\n###### 🔗 Project Link:  ${projectUrl}\n`;
   const locationLine = `\n###### 🗺️ Location:  ${locationUrl}\n`;
+  //const locationmap =
   const newText = text;
+
   if (category.length > 0) newText += categoryLine;
 
   if (teammates.length > 0) newText += teammateLine;
@@ -690,7 +725,7 @@ return (
               <div className="row">
                 {nameDiv}
                 {descriptionDiv}
-                {bountiesDiv}
+                {categoryDiv}
                 {teamDiv}
                 {projectDiv}
                 {locationDiv}
