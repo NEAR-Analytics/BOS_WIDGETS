@@ -7,13 +7,14 @@ const AbsoluteContainer = styled.div`
   padding: 30px 24px 20px 24px;
   border-bottom: 1px #292c42 solid;
   display: flex;
+  gap: 10px;
   .icon {
     line-height: 56px;
   }
   img {
     width: 52px;
     height: 52px;
-    margin: 0 14px 0 30px;
+    margin: 0 4px 0 20px;
   }
   .container-text {
     img {
@@ -109,7 +110,7 @@ return (
     <Link className="icon" href={props.toUrl}>
       {GoBackIcon}
     </Link>
-    <img src={imgSrc} alt="" className="logo" />
+    {imgSrc && <img src={imgSrc} alt="" className="logo" />}
     <div className="container-text">
       {/* <h3 className="widget-name">{metadata.name || widgetName}</h3> */}
       {metadata.name || widgetName}
