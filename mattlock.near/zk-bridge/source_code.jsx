@@ -27,13 +27,41 @@ if (!zkAbi.ok || !erc20Abi.ok) {
 
 const iface = new ethers.utils.Interface(zkAbi.body);
 
+const ifaceWithdraw = new ethers.utils.Interface([
+  {
+    inputs: [
+      {
+        type: "address",
+      },
+      {
+        type: "address",
+      },
+      {
+        type: "uint256",
+      },
+    ],
+    name: "withdraw",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    type: "function",
+    stateMutability: true,
+  },
+]);
+
 const chainId = state.chainId || "testnet";
 
 if (sender) {
   Ethers.provider()
     .getNetwork()
     .then(({ chainId }) => {
-      State.update({ chainId: chainId === 5 ? "testnet" : "mainnet" });
+      State.update({
+        chainId: chainId === 5 || chainId === 280 ? "testnet" : "mainnet",
+      });
     });
 }
 
@@ -47,11 +75,13 @@ const contracts = {
     weth: {
       deposit: "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48", // l1 token
       withdraw: "0x5AEa5775959fBC2557Cc8789bC1bf90A239D9a91", // l2 token
+      decimals: 18,
     },
     usdc: {
       //deposit: "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2", // l1 token
       deposit: "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48", // l1 token
       withdraw: "0x3355df6D4c9C3035724Fd0e3914dE96A5a83aaf4", // l2 token
+      decimals: 6,
     },
   },
   testnet: {
@@ -63,18 +93,28 @@ const contracts = {
       // deposit: "0xB4FBF271143F4FBf7B91A5ded31805e42b2208d6",
       deposit: "0xd35CCeEAD182dcee0F148EbaC9447DA2c4D449c4",
       withdraw: undefined, // not found yet
+      decimals: 18,
     },
     usdc: {
       // deposit: "0x07865c6e87b9f70255377e024ace6630c1eaa37f",
       deposit: "0xd35CCeEAD182dcee0F148EbaC9447DA2c4D449c4",
-      withdraw: undefined, // not found yet
+      withdraw: "0x0faF6df7054946141266420b43783387A78d82A9",
+      decimals: 6,
     },
   },
 };
 
 const l2TxGasLimit = "900000";
 const l2TxGasPerPubdataByte = "800";
-const tokenDecimals = 18;
+
+const tokens = {
+  weth: {
+    decimals: 18,
+  },
+  usdc: {
+    decimals: 6,
+  },
+};
 
 const onAction = (data) => {
   if (!data.amount) return;
@@ -86,8 +126,14 @@ const handleDeposit = (data) => {
   console.log("handleDeposit", data);
   State.update({ isLoading: true, log: undefined, explorerLink: undefined });
   const l1Token = contracts[chainId][data.assetId].deposit;
-  const amountBig = ethers.utils.parseUnits(data.amount, 6);
-  const ethTransferCost = ethers.utils.parseUnits("0.000581642", 18);
+  const amountBig = ethers.utils.parseUnits(
+    data.amount,
+    tokens[data.assetId].decimals
+  );
+  const ethTransferCost = ethers.utils.parseUnits(
+    "0.000581642",
+    tokens.weth.decimals
+  );
 
   console.log(
     "encodedData",
@@ -150,11 +196,14 @@ const handleWithdraw = (data) => {
   console.log("handleWithdraw", data);
   State.update({ isLoading: true, log: undefined, explorerLink: undefined });
   const l2Token = contracts[chainId][data.assetId].withdraw;
-  const amountBig = ethers.utils.parseUnits(data.amount, tokenDecimals);
-
-  const encodedData = iface.encodeFunctionData(
-    "finalizeWithdrawal(address,address,uint256,uint256,uint256,address)",
-    [sender, l2Token, amountBig, l2TxGasLimit, l2TxGasPerPubdataByte, sender]
+  const amountBig = ethers.utils.parseUnits(
+    data.amount,
+    tokens[data.assetId].decimals
+  );
+  console.log("encodedData", sender, l2Token, amountBig);
+  const encodedData = ifaceWithdraw.encodeFunctionData(
+    "withdraw(address,address,uint256)",
+    [sender, l2Token, amountBig]
   );
 
   Ethers.provider()
@@ -162,7 +211,6 @@ const handleWithdraw = (data) => {
     .sendTransaction({
       to: contracts[chainId].bridge.L2ERC20Bridge,
       data: encodedData,
-      value: amountBig,
       gasLimit: ethers.BigNumber.from("500000"),
     })
     .then((d) => {
@@ -174,7 +222,9 @@ const handleWithdraw = (data) => {
     });
 };
 
-const getTokenBalance = (sender, tokenAddress, callback) => {
+const getTokenBalance = (sender, tokenAddress, decimals, callback) => {
+  console.log(chainId, sender, tokenAddress);
+
   if (!sender || !tokenAddress) return;
   const erc20Abi = ["function balanceOf(address) view returns (uint256)"];
   const iface = new ethers.utils.Interface(erc20Abi);
@@ -190,9 +240,11 @@ const getTokenBalance = (sender, tokenAddress, callback) => {
         rawBalance
       );
       const balance = Big(receiverBalanceHex.toString())
-        .div(Big(10).pow(tokenDecimals))
+        .div(Big(10).pow(decimals))
         .toFixed(2)
         .replace(/\d(?=(\d{3})+\.)/g, "$&,");
+
+      console.log("balance", tokenAddress, balance.toString());
       if (callback) callback(balance);
     });
 };
@@ -256,34 +308,44 @@ initState({
 
 // update token balances
 // l1
-getTokenBalance(sender, contracts[chainId].weth.deposit, (balance) => {
-  if (!deposit) return;
-  const cloned = clone(deposit);
-  cloned.assets[0].balance = balance;
-  State.update({ deposit: cloned });
-});
+// getTokenBalance(sender, contracts[chainId].weth.deposit, tokens.weth.decimals, (balance) => {
+//   if (!deposit) return;
+//   const cloned = clone(deposit);
+//   cloned.assets[0].balance = balance;
+//   State.update({ deposit: cloned });
+// });
 
-getTokenBalance(sender, contracts[chainId].usdc.deposit, (balance) => {
-  if (!deposit) return;
-  const cloned = clone(deposit);
-  cloned.assets[1].balance = balance;
-  State.update({ deposit: cloned });
-});
+getTokenBalance(
+  sender,
+  contracts[chainId].usdc.deposit,
+  tokens.usdc.decimals,
+  (balance) => {
+    if (!deposit) return;
+    const cloned = clone(deposit);
+    cloned.assets[1].balance = balance;
+    State.update({ deposit: cloned });
+  }
+);
 
 //l2;
-getTokenBalance(sender, contracts[chainId].weth.withdraw, (balance) => {
-  if (!withdraw) return;
-  const cloned = clone(withdraw);
-  cloned.assets[0].balance = balance;
-  State.update({ withdraw: cloned });
-});
+// getTokenBalance(sender, contracts[chainId].weth.withdraw, tokens.weth.decimals, (balance) => {
+//   if (!withdraw) return;
+//   const cloned = clone(withdraw);
+//   cloned.assets[0].balance = balance;
+//   State.update({ withdraw: cloned });
+// });
 
-getTokenBalance(sender, contracts[chainId].usdc.withdraw, (balance) => {
-  if (!withdraw || !contracts[chainId].usdc.withdraw) return;
-  const cloned = clone(withdraw);
-  cloned.assets[1].balance = balance;
-  State.update({ withdraw: cloned });
-});
+getTokenBalance(
+  sender,
+  contracts[chainId].usdc.withdraw,
+  tokens.usdc.decimals,
+  (balance) => {
+    if (!withdraw || !contracts[chainId].usdc.withdraw) return;
+    const cloned = clone(withdraw);
+    cloned.assets[1].balance = balance;
+    State.update({ withdraw: cloned });
+  }
+);
 
 const onTabChange = (tab) => {
   // console.log("onTabChange", deposit, withdraw);
