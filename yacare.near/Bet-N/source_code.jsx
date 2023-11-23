@@ -28,6 +28,6 @@ function bet() {
 
 return (
   <div>
-    <button onClick={() => bet()}>Bet {amount}N</button>
+    <button onClick={() => bet()}>Bet {amount}Ⓝ</button>
   </div>
 );
