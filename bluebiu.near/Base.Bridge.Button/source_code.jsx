@@ -209,7 +209,7 @@ return (
           }}
         />
       )}
-      Confrim
+      Confirm
     </Button>
   </>
 );
