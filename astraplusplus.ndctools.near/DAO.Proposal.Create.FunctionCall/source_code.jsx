@@ -12,8 +12,8 @@ const CoADaoId = props.dev
     ? "coa.gwg-testing.near"
     : "congress-coa-v1.ndc-gwg.near";
 const VotingBodyDaoId = props.dev
-    ? "vb-beta.gwg-testing.near"
-    : "";
+    ? "voting-body-v1.gwg-testing.near"
+    : "voting-body-v1.ndc-gwg.near";
 const TCDaoId = props.dev
     ? "tc.gwg-testing.near"
     : "congress-tc-v1.ndc-gwg.near";
@@ -38,7 +38,7 @@ State.init({
     error: undefined,
     receiver_id: null,
     description: null,
-    powerType: powerType,
+    powerType,
     member: null, // for dismiss and ban hook
     house: null, // for dismiss and ban hook
     accounts: null, // for unban hook
@@ -48,30 +48,6 @@ State.init({
     attachDeposit: 0,
     proposalQueue: null
 });
-
-// only for UI
-const powerTypes =
-    daoId === CoADaoId
-        ? [
-              {
-                  text: "Veto House of Merit motion",
-                  value: "Veto"
-              },
-              {
-                  text: "Unban member previously banned",
-                  value: "Unban"
-              }
-          ]
-        : daoId === TCDaoId
-        ? [
-              {
-                  text: "Dismiss member from an house",
-                  value: "Dismiss"
-              }
-          ]
-        : daoId === VotingBodyDaoId
-        ? [] // TODO :  after VB contract is ready
-        : [];
 
 const fc_args = Buffer.from(state.args, "utf-8").toString("base64");
 
@@ -285,12 +261,27 @@ const handleFunctionCall = () => {
         } else {
             Near.call([
                 {
-                    contractName: state.contractId,
-                    methodName: state.method_name,
+                    contractName: daoId,
+                    methodName: "add_proposal",
                     args: {
-                        Arguments: fc_args
+                        proposal: {
+                            description: state.description,
+                            kind: {
+                                FunctionCall: {
+                                    receiver_id: state.contractId,
+                                    actions: [
+                                        {
+                                            method_name: state.method_name,
+                                            args: fc_args,
+                                            deposit: deposit,
+                                            gas: state.gas ?? "200000000000000"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
                     },
-                    deposit: deposit,
+                    deposit: 100000000000000000000000,
                     gas: state.gas ?? "200000000000000"
                 }
             ]);
@@ -378,55 +369,8 @@ const onChangeMemo = (memo) => {
 const onChangeQueue = ({ amount, queue }) => {
     State.update({
         attachDeposit: amount,
-        proposalQueue: queue,
-        error: undefined
+        proposalQueue: queue
     });
-};
-
-const onChangePowerType = (power) => {
-    switch (power?.value) {
-        case "Dismiss": {
-            State.update({
-                method_name: "dismiss_hook",
-                args: JSON.stringify({
-                    member: null
-                }),
-                showReceiverAsOptions: true
-            });
-            break;
-        }
-        case "Veto": {
-            State.update({
-                method_name: "veto_hook",
-                args: JSON.stringify({
-                    id: null
-                }),
-                receiver_id: HoMDaoId,
-                disableReceiverField: true
-            });
-            break;
-        }
-        case "Ban": {
-            break;
-        }
-        case "Unban": {
-            State.update({
-                accounts: null,
-                memo: null
-            });
-            break;
-        }
-        case "DismissAndBan": {
-            State.update({
-                house: null,
-                member: null
-            });
-            break;
-        }
-        default: {
-            break;
-        }
-    }
 };
 
 const defaultDescription =
@@ -442,29 +386,6 @@ return (
                 dev: props.dev
             }}
         />
-        {(daoId === CoADaoId || daoId === TCDaoId) && showPowers && (
-            <div className="mb-3">
-                <Widget
-                    src={`sking.near/widget/Common.Inputs.Select`}
-                    props={{
-                        label: "Power",
-                        noLabel: false,
-                        placeholder: "Can propose motion",
-                        options: powerTypes,
-                        value: state.powerType,
-                        onChange: (powerType) => {
-                            State.update({
-                                ...state,
-                                powerType: powerType.value
-                            });
-                            onChangePowerType(powerType);
-                        },
-
-                        error: undefined
-                    }}
-                />
-            </div>
-        )}
 
         {state.powerType === "DismissAndBan" ? (
             <>
@@ -513,8 +434,8 @@ return (
                                 props={{
                                     value: state.memo,
                                     onChange: (value) => onChangeMemo(value),
-                                    height: "270px",
-                                    initialText: defaultDescription
+                                    height: "160px",
+                                    initialText: ""
                                 }}
                             />
                         </div>
@@ -615,20 +536,18 @@ return (
                 </div>
             </>
         )}
-        {(isCongressDaoID || isVotingBodyDao) && (
-            <div className="mb-3">
-                <h5>Description</h5>
-                <Widget
-                    src="sking.near/widget/Common.Inputs.Markdown"
-                    props={{
-                        value: state.description,
-                        onChange: (value) => onChangeDescription(value),
-                        height: "270px",
-                        initialText: defaultDescription
-                    }}
-                />
-            </div>
-        )}
+        <div className="mb-3">
+            <h5>Description</h5>
+            <Widget
+                src="sking.near/widget/Common.Inputs.Markdown"
+                props={{
+                    value: state.description,
+                    onChange: (value) => onChangeDescription(value),
+                    height: "270px",
+                    initialText: defaultDescription
+                }}
+            />
+        </div>
         {state.error && <div className="text-danger">{state.error}</div>}
         <div className="ms-auto">
             <Widget
