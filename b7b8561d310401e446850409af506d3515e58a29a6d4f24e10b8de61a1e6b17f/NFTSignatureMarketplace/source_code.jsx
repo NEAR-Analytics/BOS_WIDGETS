@@ -3,23 +3,22 @@ State.init({
   baseUrl: "https://api.yourapp.com",
   safeAddress: "0x1234567890abcdef1234567890abcdef12345678",
   sender: "0xabcdef1234567890abcdef1234567890abcdef12",
-  signature: "1",
-  transactions: [
+  signature: "",
+  hashMessage: "",
+  scenarios: [
     {
-      safeTxHash:
-        "0xabcdef1234567890abcdef1234567890abcdef1234567890abcdef1234567890abc1",
+      scenario: "User offer sell NFT",
       isSell: true,
       nftAddress: "0xaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
       tokenId: 1,
       tokenAddress: "0xbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
       price: 40000000,
       expiry: 86400,
-      nonce: 43,
+      nonce: 42,
     },
     {
-      safeTxHash:
-        "0xabcdef1234567890abcdef1234567890abcdef1234567890abcdef1234567890abc2",
-      isSell: true,
+      scenario: "Users offer buy NFT",
+      isSell: false,
       nftAddress: "0xaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
       tokenId: 2,
       tokenAddress: "0xbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
@@ -30,6 +29,7 @@ State.init({
   ],
   selectedTransaction: null,
 });
+
 // connect account
 if (state.sender === null) {
   const accounts = Ethers.send("eth_requestAccounts", []);
@@ -80,6 +80,8 @@ const types = {
 // choose relevant transaction to sign and confirm
 const selectTransaction = (tx) => {
   State.update({ selectedTransaction: tx });
+
+  State.update({ selectedTransaction: tx });
 };
 
 const createEIP712Message = (transaction) => {
@@ -96,20 +98,16 @@ const createEIP712Message = (transaction) => {
 
 const signTransaction = () => {
   if (state.selectedTransaction) {
-    // Assuming createEIP712Message is defined as shown previously
     const message = createEIP712Message(state.selectedTransaction);
-    console.log(message);
+    console.log("message", message);
     const signer = Ethers.provider().getSigner();
-
-    // Use _signTypedData for EIP-712 compliant signing
     signer._signTypedData(domain, types, message).then((signature) => {
-      // Process and send the signature as you did previously
-      // You might need to adjust how you handle the signature based on your backend's requirements
-
-      const selectedTxHash = state.selectedTransaction.safeTxHash;
-      const url = `${state.baseUrl}/v1/multisig-transactions/${selectedTxHash}/confirmations/`;
+      const messageHash = ethers.utils.id(message);
+      console.log("messageHash", messageHash);
+      const selectedTxHash = state.selectedTransaction.scenario;
+      const url = `${state.baseUrl}/v1/multisig-scenarios/${selectedTxHash}/confirmations/`;
       const params = JSON.stringify({ signature: signature });
-      console.log(signature);
+      console.log("signature", signature);
       State.update({ signature: signature });
       console.log(params);
       const options = {
@@ -119,7 +117,37 @@ const signTransaction = () => {
         },
         body: params,
       };
+      // Post confirmed signature to the backend
+      asyncFetch(url, options).then((res) => {
+        console.log(res);
+      });
+    });
+  } else {
+    console.log("Please select a transaction to sign.");
+  }
+};
 
+const signTransaction712 = () => {
+  if (state.selectedTransaction) {
+    const message = createEIP712Message(state.selectedTransaction);
+    console.log("message", message);
+    const signer = Ethers.provider().getSigner();
+    signer._signTypedData(domain, types, message).then((signature) => {
+      const messageHash = ethers.utils.id(message);
+      console.log("messageHash", messageHash);
+      const selectedTxHash = state.selectedTransaction.scenario;
+      const url = `${state.baseUrl}/v1/multisig-scenarios/${selectedTxHash}/confirmations/`;
+      const params = JSON.stringify({ signature: signature });
+      console.log("signature", signature);
+      State.update({ signature: signature });
+      console.log(params);
+      const options = {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: params,
+      };
       // Post confirmed signature to the backend
       asyncFetch(url, options).then((res) => {
         console.log(res);
@@ -144,9 +172,26 @@ function createListItems(transaction) {
   });
 }
 
+const verifySignature = async (originalMessage, signature) => {
+  const signerAddress = ethers.utils.verifyMessage(originalMessage, signature);
+  console.log("originalMessage", originalMessage);
+  console.log("signature", signature);
+  console.log("signerAddress", signerAddress);
+  return signerAddress;
+};
+
 const Selection = styled.button`
-    background: ${(tx) =>
-      state.selectedTransaction == tx.safeTxHash ? "palevioletred" : "white"};
+    background: ${(props) => {
+      console.log(
+        "Current state in styled component:",
+        props.tx,
+        state.selectedTransaction
+      );
+      return state.selectedTransaction &&
+        state.selectedTransaction.scenario === props.tx.scenario
+        ? "palevioletred"
+        : "white";
+    }};
     color: ${(props) => (props.primary ? "white" : "palevioletred")};
     font-size: 1em;
     margin: 1em;
@@ -154,18 +199,34 @@ const Selection = styled.button`
     border: 2px solid palevioletred;
     border-radius: 10px;
     text-align: left;
-  `;
+`;
+
+// const Selection = styled.button`
+//     background: ${(tx) =>
+//       state.selectedTransaction &&
+//       state.selectedTransaction.scenario === tx.scenario
+//         ? "palevioletred"
+//         : "white"};
+//     color: ${(props) => (props.primary ? "white" : "palevioletred")};
+//     font-size: 1em;
+//     margin: 1em;
+//     padding: 0.25em 1em;
+//     border: 2px solid palevioletred;
+//     border-radius: 10px;
+//     text-align: left;
+// `;
 
 return (
   <div>
     <ul>
-      {state.transactions.map((tx, index) => (
+      {state.scenarios.map((tx, index) => (
         <li key={index} onClick={() => selectTransaction(tx)}>
           <Selection>
             <span>
               <ul>{createListItems(tx)}</ul>
-              {state.selectedTransaction.safeTxHash == tx.safeTxHash
-                ? `!!!!!!THIS ONE IS SELECTED RIGHT NOW!!!!!!`
+              {state.selectedTransaction.scenario == tx.scenario
+                ? `!!!!!!THIS ONE IS SELECTED RIGHT NOW!!!!!!
+                  )}`
                 : ""}
             </span>
           </Selection>
@@ -176,6 +237,17 @@ return (
     <button onClick={() => signTransaction()} label="SignButton">
       <span>Sign Selected Transaction</span>
     </button>
+    <button onClick={() => signTransaction712()} label="SignButton">
+      <span>Sign Selected Transaction With EIP712</span>
+    </button>
     <Web3Connect className="web3-connect" connectLabel="Connect Wallet" />
+    <button
+      onClick={() =>
+        verifySignature(JSON.stringify(state.hashMessage), state.signature)
+      }
+      label="SignButton"
+    >
+      <span> Verify Signature </span>
+    </button>
   </div>
 );
