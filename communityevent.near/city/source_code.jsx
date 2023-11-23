@@ -1,3 +1,3 @@
 const city = props.city;
 
-return <div>{city}</div>;
+return <div>{city[0]}</div>;
