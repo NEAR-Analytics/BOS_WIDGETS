@@ -103,7 +103,7 @@ const handleArtSelection = (nft_data) => {
     {
       nft_contract_id: nft_data.contractId,
       token_id: nft_data.tokenId.toString(),
-      contest_id: 1,
+      contest_id: contest_id,
     },
     "75000000000000",
     "10000000000000000000000"
