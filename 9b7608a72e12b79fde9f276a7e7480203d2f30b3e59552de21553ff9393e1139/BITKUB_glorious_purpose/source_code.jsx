@@ -1,1 +1,1 @@
-return <div>Glorious Purpose</div>;
+return <div>BITKUB BLOCKATHON apply_for Glorious Purpose</div>;
