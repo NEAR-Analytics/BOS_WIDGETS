@@ -32,11 +32,11 @@ function bet() {
 let Style = styled.div`
 .container {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     align-items: center;
     gap: 20px;
     width: 80%;
-    max-width: 300px;
+    max-width: 400px;
     margin: auto;
 }
 
@@ -59,7 +59,7 @@ return (
           }}
         />
         <button id="submit-bet" onClick={() => bet()}>
-          Bet
+          Bet {state.value ?? defaultValue}Ⓝ
         </button>
       </div>
     </Style>
