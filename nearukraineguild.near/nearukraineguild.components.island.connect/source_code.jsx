@@ -277,6 +277,36 @@ const MobileCards = styled.div`
   }
 `;
 
+State.init({
+  delegators: 0,
+  delegatorsCount: 0,
+  commision: 0,
+  poolSize: 0,
+  blocks: 0,
+  chunks: 0,
+  fee: 0,
+  totalStake: 0,
+});
+
+const delegators = Near.view("nearuaguild.poolv1.near", "get_accounts", {
+  from_index: 0,
+  limit: 500,
+});
+
+const fee = Near.view("nearuaguild.poolv1.near", "get_reward_fee_fraction");
+
+const totalStake = Near.view(
+  "nearuaguild.poolv1.near",
+  "get_total_staked_balance"
+);
+
+State.update({
+  delegators,
+  delegatorsCount: delegators.length,
+  totalStake: Big(totalStake).div(1e24).toFixed(2),
+  fee: fee.numerator,
+});
+
 const Content = (
   <>
     <Container>
@@ -293,7 +323,10 @@ const Content = (
     <Subheading>Our validator</Subheading>
     <DescriptionContainer>
       <DescriptionHeader>nearuaguild.poolv1.near </DescriptionHeader>
-      <Description>Stats, percentage, metapool voting</Description>
+      <div>Commision: {state.fee}%</div>
+      <div>Pool size: {state.totalStake} Near</div>
+      <div>Delegators: {state.delegatorsCount}</div>
+      <DescriptionHeader>Stake with us</DescriptionHeader>
     </DescriptionContainer>
     <CTAContainer>
       <CTA href="/devgovgigs.near/widget/app?page=communities">
