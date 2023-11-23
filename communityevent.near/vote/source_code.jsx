@@ -27,7 +27,7 @@ return (
         type="submit"
         value="Submit city/yes"
         onClick={handleClickYes}
-        disabled={!isSignedIn}
+        disabled={isSignedIn}
       />
     </div>
 
