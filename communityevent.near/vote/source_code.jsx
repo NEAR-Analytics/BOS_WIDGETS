@@ -12,6 +12,8 @@ const handleClickYes = () => {
   Near.call(contract, "vote_yes", { city_name: state.city_name });
 };
 
+const isSignedIn = context.accountId;
+
 return (
   <div>
     <div>
@@ -27,14 +29,14 @@ return (
         type="submit"
         value="Submit city/yes"
         onClick={handleClickYes}
-        disabled={isSignedIn}
+        disabled={!isSignedIn}
       />
     </div>
 
     <button
       className="btn-no"
       onClick={() => handleClickNo()}
-      disabled={isSignedIn}
+      disabled={!isSignedIn}
     >
       {" "}
       NO{" "}
