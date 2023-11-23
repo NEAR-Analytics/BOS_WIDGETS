@@ -21,7 +21,7 @@ return (
     >
       View voters
     </button>
-    <div>{state.show_voters && <p>{city[1].accounts.join("\n")} </p>}</div>
+    <div>{state.show_voters && <p>{city[1].accounts.join("\n\n")} </p>}</div>
 
     <button
       className="btn-yes"
