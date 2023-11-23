@@ -154,7 +154,7 @@ return (
         type="text"
       />
       <CommentConponent type="text" onChange={onInputComment} />
-      <CommentButton onClick={addComment}>Submit Rating</CommentButton>
+      <CommentButton onClick={addComment}>Send</CommentButton>
     </CommentBox>
   </CommentContainer>
 );
