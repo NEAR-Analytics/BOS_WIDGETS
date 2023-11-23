@@ -7,7 +7,7 @@ return (
     </p>
 
     <Widget src="communityevent.near/widget/vote_count" />
-
     <Widget src="communityevent.near/widget/vote" />
+    <Widget src="communityevent.near/widget/city_list" />
   </div>
 );
