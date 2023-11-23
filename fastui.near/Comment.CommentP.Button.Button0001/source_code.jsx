@@ -142,7 +142,7 @@ const EllipsisNavLink = styled.a`
 return (
   <CommentContainer>
     <RateList>
-      <>Rate list</>
+      <>Comment list</>
       <></>
       <Comment></Comment>
     </RateList>
