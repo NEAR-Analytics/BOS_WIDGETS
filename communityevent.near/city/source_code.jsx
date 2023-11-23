@@ -1,7 +1,7 @@
 const city = props.city;
 
 State.init({
-  show_voters: false,
+  showVoters: false,
 });
 
 const contract = "communityevent.near";
@@ -22,10 +22,10 @@ return (
       View voters
     </button>
     <div>
-      {state.show_voters && (
+      {state.showVoters && (
         <p>
-          {city[1].accounts.map((word, index) => (
-            <div key={index}>{word}</div>
+          {city[1].accounts.map((account, index) => (
+            <div key={index}>{account}</div>
           ))}
         </p>
       )}
