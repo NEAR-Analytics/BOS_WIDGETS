@@ -7,7 +7,7 @@ return (
       SUBMIT.
     </p>
     <p>If NO: Click NO</p>
-    <p>You may enter multiple cities.</p>
+    <p>You may enter multiple cities and browse existing votes.</p>
     <Widget src="communityevent.near/widget/vote_count" />
     <Widget src="communityevent.near/widget/vote" />
     <Widget src="communityevent.near/widget/city_list" />
