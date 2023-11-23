@@ -3,6 +3,8 @@ const policy = props.policy;
 const currentPage = props.page ?? 1;
 const resPerPage = props.resPerPage ?? 20;
 const isCongressDaoID = props.isCongressDaoID ?? false;
+const isVotingBodyDao = props.isVotingBodyDao ?? false;
+const accountId = props.accountId ?? context.accountId;
 
 const EVERYONE = "Everyone";
 
@@ -137,7 +139,7 @@ const Wrapper = styled.div`
 
     table {
         overflow-x: auto;
-        font-size: 13px;
+        font-size: 14px;
         width: 100%;
         box-sizing: border-box;
     }
@@ -203,6 +205,19 @@ const Wrapper = styled.div`
 
     .gap-y-3 {
         row-gap: 1rem !important;
+    }
+
+    .opacity-low {
+        opacity: 0.4;
+        background-color: rgba(0, 0, 0, 0.03);
+    }
+
+    .overlay-head {
+        position: absolute;
+        top: 45%;
+        left: 45%;
+        font-size: 28px;
+        zindex: 1000;
     }
 `;
 
@@ -372,20 +387,22 @@ const Table = ({ title, tableData, showExpand }) => {
                             </th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody style={{ position: "relative" }}>
+                        {isCongressDaoID && (
+                            <div className="overlay-head">Coming Soon</div>
+                        )}
+
                         {tableData?.map((item) => {
                             return (
-                                <tr>
+                                <tr
+                                    className={isCongressDaoID && "opacity-low"}
+                                >
                                     <td>
                                         <Widget
-                                            src="nearui.near/widget/Element.User"
+                                            src="mob.near/widget/Profile.ShortInlineBlock"
                                             props={{
                                                 accountId: item.account,
-                                                options: {
-                                                    showHumanBadge: true,
-                                                    showImage: true,
-                                                    showSocialName: true
-                                                }
+                                                tooltip: true
                                             }}
                                         />
                                     </td>
@@ -406,29 +423,37 @@ const Table = ({ title, tableData, showExpand }) => {
                                         {item.totalProposals}
                                     </td>
                                     <td className="d-flex gap-2 align-items-center">
-                                        <FollowBtn itemDetails={item} />
                                         <Widget
                                             src="nearui.near/widget/Input.Button"
                                             props={{
                                                 children: (
-                                                    <i class="bi bi-clock-history"></i>
+                                                    <a
+                                                        href={`#/astraplusplus.ndctools.near/widget/home?page=votinghistory`}
+                                                        target="_blank"
+                                                        rel="noopener noreferrer"
+                                                        style={{
+                                                            color: "rgb(68, 152, 224)"
+                                                        }}
+                                                    >
+                                                        <i class="bi bi-clock-history"></i>
+                                                    </a>
                                                 ),
                                                 size: "sm",
-                                                variant: "icon info outline",
-                                                onClick: () => {}
+                                                variant: "icon info outline"
                                             }}
                                         />
                                         {/* we don't show propose to mint and remove for congress dao */}
-                                        {!isCongressDaoID && (
-                                            <div className="d-flex gap-2 align-items-center">
-                                                <ProposeToMintSBT
-                                                    itemDetails={item}
-                                                />
-                                                <ProposeToRemove
-                                                    user={item.account}
-                                                />
-                                            </div>
-                                        )}
+                                        {!isCongressDaoID &&
+                                            !isVotingBodyDao && (
+                                                <div className="d-flex gap-2 align-items-center">
+                                                    <ProposeToMintSBT
+                                                        itemDetails={item}
+                                                    />
+                                                    <ProposeToRemove
+                                                        user={item.account}
+                                                    />
+                                                </div>
+                                            )}
                                     </td>
                                 </tr>
                             );
@@ -564,7 +589,7 @@ const ProposeToRemove = ({ user }) => {
     )
         return (
             <Widget
-                src="nearui.near/widget/Layout.Modal"
+                src="astraplusplus.ndctools.near/widget/Layout.Modal"
                 props={{
                     toggle: (
                         <Widget
@@ -814,7 +839,7 @@ return (
                         />
 
                         <Widget
-                            src="nearui.near/widget/Layout.Modal"
+                            src="astraplusplus.ndctools.near/widget/Layout.Modal"
                             props={{
                                 open: state.filtersOpen,
                                 onOpenChange: (open) => {
@@ -962,20 +987,21 @@ return (
                                                 <div className="ndc-card p-4 d-flex flex-column gap-2">
                                                     <div className="d-flex justify-content-between align-items-center">
                                                         <Widget
-                                                            src="nearui.near/widget/Element.User"
+                                                            src="mob.near/widget/Profile.ShortInlineBlock"
                                                             props={{
                                                                 accountId:
                                                                     item.account,
-                                                                options: {
-                                                                    showHumanBadge: true,
-                                                                    showImage: true,
-                                                                    showSocialName: true
-                                                                }
+                                                                tooltip: true
                                                             }}
                                                         />
-                                                        <FollowBtn
-                                                            itemDetails={item}
-                                                        />
+                                                        {accountId !==
+                                                            item.account && (
+                                                            <FollowBtn
+                                                                itemDetails={
+                                                                    item
+                                                                }
+                                                            />
+                                                        )}
                                                     </div>
                                                     <div className="mt-3">
                                                         <RoleTag
@@ -988,20 +1014,21 @@ return (
                                                             height: "4rem"
                                                         }}
                                                     ></div>
-                                                    {!isCongressDaoID && (
-                                                        <div className="d-flex justify-content-between">
-                                                            <ProposeToMintSBT
-                                                                itemDetails={
-                                                                    item
-                                                                }
-                                                            />
-                                                            <ProposeToRemove
-                                                                user={
-                                                                    item.account
-                                                                }
-                                                            />
-                                                        </div>
-                                                    )}
+                                                    {!isCongressDaoID &&
+                                                        !isVotingBodyDao && (
+                                                            <div className="d-flex justify-content-between">
+                                                                <ProposeToMintSBT
+                                                                    itemDetails={
+                                                                        item
+                                                                    }
+                                                                />
+                                                                <ProposeToRemove
+                                                                    user={
+                                                                        item.account
+                                                                    }
+                                                                />
+                                                            </div>
+                                                        )}
                                                     <Widget
                                                         src="nearui.near/widget/Input.Button"
                                                         props={{
@@ -1010,12 +1037,22 @@ return (
                                                                     width: "inherit"
                                                                 }
                                                             },
-                                                            children:
-                                                                "View Voting History",
+                                                            children: (
+                                                                <a
+                                                                    href={`#/astraplusplus.ndctools.near/widget/home?page=votinghistory`}
+                                                                    target="_blank"
+                                                                    rel="noopener noreferrer"
+                                                                    style={{
+                                                                        color: "rgb(68, 152, 224)"
+                                                                    }}
+                                                                >
+                                                                    View Voting
+                                                                    History
+                                                                </a>
+                                                            ),
                                                             variant:
                                                                 "info outline",
-                                                            size: "sm",
-                                                            onClick: () => {}
+                                                            size: "sm"
                                                         }}
                                                     />
                                                 </div>
