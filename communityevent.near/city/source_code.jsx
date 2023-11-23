@@ -17,7 +17,7 @@ return (
     <p>votes: {city[1].votes} </p>
     <button
       className="btn-view"
-      onClick={() => State.update({ showVoters: !state.show_voters })}
+      onClick={() => State.update({ showVoters: !state.showVoters })}
     >
       View voters
     </button>
