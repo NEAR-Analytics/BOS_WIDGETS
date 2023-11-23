@@ -19,7 +19,7 @@ return (
     <div>
       <input
         type="text"
-        id="name"
+        id="cityName"
         value={state.cityName}
         onChange={(e) => {
           State.update({ [e.target.id]: e.target.value });
