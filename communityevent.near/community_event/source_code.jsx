@@ -5,7 +5,6 @@ return (
       Would you go to a monthly NEAR community event? If yes where would you
       like to see the event take place?
     </p>
-
     <Widget src="communityevent.near/widget/vote_count" />
     <Widget src="communityevent.near/widget/vote" />
     <Widget src="communityevent.near/widget/city_list" />
