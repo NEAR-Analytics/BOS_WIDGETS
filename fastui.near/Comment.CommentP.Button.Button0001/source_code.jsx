@@ -142,10 +142,32 @@ const EllipsisNavLink = styled.a`
 return (
   <CommentContainer>
     <RateList>
-      <>Comment list</>
-      <></>
-      <Comment></Comment>
-    </RateList>
+  <>Rate list</>
+  <>
+    <div class="row mt-3">
+      {Array.isArray(messList) && messList
+        .filter((item) => item.component_id === "button0001")
+        .map((item, index) => (
+          <div class="col" key={index}>
+            <div className="card" style={{ width: "18rem" }}>
+              <div className="card-body">
+                <div class="row g-2">
+                  <div class="col-8">
+                    <h5 className="card-title">{item.mess}</h5>
+                  </div>
+                  <div class="col-4">
+                    {/* Add any additional content you want to display */}
+                  </div>
+                </div>
+              </div>
+            </div>
+            <br />
+          </div>
+        ))}
+    </div>
+  </>
+  <Comment></Comment>
+</RateList>
     <CommentBox>
       <br />
       <CommentTextarea
@@ -154,7 +176,7 @@ return (
         type="text"
       />
       <CommentConponent type="text" onChange={onInputComment} />
-      <CommentButton onClick={addComment}>Send</CommentButton>
+      <CommentButton onClick={addComment}>Submit Rating</CommentButton>
     </CommentBox>
   </CommentContainer>
 );
