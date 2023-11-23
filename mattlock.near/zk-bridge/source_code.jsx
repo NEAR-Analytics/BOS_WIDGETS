@@ -60,11 +60,13 @@ const contracts = {
       L2ERC20Bridge: "0x00ff932A6d70E2B8f1Eb4919e1e09C1923E7e57b",
     },
     weth: {
-      deposit: "0xB4FBF271143F4FBf7B91A5ded31805e42b2208d6",
+      // deposit: "0xB4FBF271143F4FBf7B91A5ded31805e42b2208d6",
+      deposit: "0xd35CCeEAD182dcee0F148EbaC9447DA2c4D449c4",
       withdraw: undefined, // not found yet
     },
     usdc: {
-      deposit: "0x07865c6e87b9f70255377e024ace6630c1eaa37f",
+      // deposit: "0x07865c6e87b9f70255377e024ace6630c1eaa37f",
+      deposit: "0xd35CCeEAD182dcee0F148EbaC9447DA2c4D449c4",
       withdraw: undefined, // not found yet
     },
   },
@@ -84,7 +86,8 @@ const handleDeposit = (data) => {
   console.log("handleDeposit", data);
   State.update({ isLoading: true, log: undefined, explorerLink: undefined });
   const l1Token = contracts[chainId][data.assetId].deposit;
-  const amountBig = ethers.utils.parseUnits(data.amount, tokenDecimals);
+  const amountBig = ethers.utils.parseUnits(data.amount, 6);
+  const ethTransferCost = ethers.utils.parseUnits("0.000581642", 18);
 
   console.log(
     "encodedData",
@@ -104,14 +107,14 @@ const handleDeposit = (data) => {
     .sendTransaction({
       to: contracts[chainId].bridge.L1ERC20BridgeProxy,
       data: encodedData,
-      value: amountBig,
+      value: ethTransferCost,
       gasLimit: ethers.BigNumber.from("500000"),
-    })
-    .then(() => handleApprove(data))
-    .catch((e) => {
-      console.error("deposit error:", e);
-      State.update({ isLoading: false });
     });
+  // .then(() => handleApprove(data))
+  // .catch((e) => {
+  //   console.error("deposit error:", e);
+  //   State.update({ isLoading: false });
+  // });
 };
 
 const handleApprove = (data) => {
