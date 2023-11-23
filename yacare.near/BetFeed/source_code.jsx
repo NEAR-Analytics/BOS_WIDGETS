@@ -45,15 +45,8 @@ function humanizeDelta(when) {
   return `${Math.round(delta)} days ago`;
 }
 
-function styledResult(result) {
-  if (result === "Lose") {
-    return "🔻";
-  } else {
-    return "🌟";
-  }
-}
-
 let events = getEvents();
+events = events.reverse();
 
 const Wrapper = styled.div`
   margin: 0 -12px;
@@ -163,6 +156,22 @@ const Wrapper = styled.div`
   }
 `;
 
+function styledResult(result, amount) {
+  if (result === "Lose") {
+    return `💸 Lost ${amount} Ⓝ`;
+  } else {
+    return `🤑 Won ${amount} Ⓝ`;
+  }
+}
+
+function color(result) {
+  if (result === "Lose") {
+    return "red";
+  } else {
+    return "green";
+  }
+}
+
 return (
   <>
     {events.map(({ bettor, result, bet, timestamp }) => (
@@ -186,17 +195,16 @@ return (
           <div className="right">
             <Widget
               loading={<div className="post-header" />}
-              src="mob.near/widget/MainPage.N.Post.Header"
+              src="yacare.near/widget/MainPage.N.Post.Header"
               props={{
                 accountId: bettor,
                 hideMenu: true,
+                timeMs: timestamp / 1000000,
               }}
             />
-            <p>{styledResult(result)}</p>
-            <p color="green">
-              <strong>{toNear(bet)} Ⓝ</strong>
+            <p style={{ color: color(result) }}>
+              <strong>{styledResult(result, toNear(bet))}</strong>
             </p>
-            <p>{humanizeDelta(timestamp)}</p>
           </div>
         </div>
       </Wrapper>
