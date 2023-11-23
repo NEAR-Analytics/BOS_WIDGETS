@@ -36,49 +36,66 @@ const Links = [
   {
     links: [
       {
-        title: "Ideate on DevHub",
-        href: "/devhub.near/widget/app?page=blog&id=2029",
+        title: "Participate in Zealy Onchain Quests",
+        href: "/zealy/onchain-quests",
         count: 1,
       },
       {
-        title: "Post a Proposal",
-        href: "/devhub.near/widget/app?page=blog&id=2035",
+        title: "Each month 500$ total pool",
+        href: "/zealy/onchain-quests",
         count: 2,
       },
+    ],
+  },
+  {
+    links: [
       {
-        title: "Host an Event",
-        href: "/devhub.near/widget/app?page=community&handle=hacks&tab=Wiki%202",
+        title: "100+ participants",
+        href: "/zealy/onchain-quests",
         count: 3,
       },
-    ],
-  },
-  {
-    links: [
       {
-        title: "Improve NEAR Docs",
-        href: "https://github.com/near/docs",
+        title: "Mystery Boxes",
+        href: "/zealy/mystery-boxes",
         count: 4,
       },
-      {
-        title: "Join the Fellowship",
-        href: "/devhub.near/widget/app?page=community&handle=fellowship&tab=Wiki%201",
-        count: 5,
-      },
-      {
-        title: "Join NEAR Campus",
-        href: "/devhub.near/widget/app?page=community&handle=near-campus",
-        count: 6,
-      },
     ],
   },
   {
     links: [
       {
-        title: "Dive into Hackbox",
-        href: "/hackbox.near/widget/home",
-        count: 7,
+        title: "Partner with us",
+        href: "/zealy/onchain-quests",
+        count: 5,
       },
     ],
+  },
+];
+
+const Partnerships = [
+  {
+    title: "Here Wallet",
+    placeholder: "/images/here-wallet-placeholder.jpg",
+  },
+  {
+    title: "Veax",
+    placeholder: "/images/veax-placeholder.jpg",
+  },
+  {
+    title: "Zomland",
+    placeholder: "/images/zomland-placeholder.jpg",
+  },
+  {
+    title: "Opact",
+    placeholder: "/images/opact-placeholder.jpg",
+  },
+  {
+    title: "Meteor Wallet",
+    placeholder: "/images/meteor-wallet-placeholder.jpg",
+  },
+  {
+    title: "PembRock",
+    placeholder: "/images/pembrock-placeholder.jpg",
   },
 ];
 
@@ -176,6 +193,21 @@ const Content = (
                 </LinkItem>
               </div>
             ))}
+          </div>
+        </LinksContainer>
+      ))}
+    </Container>
+
+    <Container>
+      {Partnerships.map((link) => (
+        <LinksContainer key={Math.random()}>
+          <div className="d-flex flex-column gap-3 gap-md-2">
+            <div className="d-flex flex-row">
+              {link.count}{" "}
+              <LinkItem href={link.href} target="no_blank">
+                {link.title}
+              </LinkItem>
+            </div>
           </div>
         </LinksContainer>
       ))}
