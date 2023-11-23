@@ -4,7 +4,7 @@ return (
   <>
     {HomeSections.map((it) => (
       <Widget
-        src={`devgovgigs.near/widget/nearukraineguild.components.island.${it}`}
+        src={`nearukraineguild.near/widget/nearukraineguild.components.island.${it}`}
         props={{ ...props }}
       />
     ))}
