@@ -1,4 +1,5 @@
 const WrapperContainer = styled.div`
+max-width: 800px;
   margin: 0 auto;
   padding: 20px;
   background-color: #f4f4f4;
