@@ -3,10 +3,18 @@ const CardGrid = styled.div`
   grid-template-columns: repeat(3, 1fr);
   gap: 20px;
   margin: 20px;
+  padding:10px;
   overflow-x: auto;
   padding-bottom: 20px;
   white-space: nowrap;
-    padding:10px;
+
+      @media screen and (max-width: 768px) {
+    grid-template-columns: repeat(2, 1fr); 
+  }
+
+  @media screen and (max-width: 480px) {
+    grid-template-columns: 1fr; 
+  }
 
 `;
 
