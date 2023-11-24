@@ -6,11 +6,17 @@ const Input = styled.input`
 const Button = styled.button`
   margin: 5px;
   padding: 8px;
-  width: 150px; /* Set a fixed width for the buttons */
-  background-color: #00EC97; /* Set the background color to green for both buttons */
+  width: 150px;
+  background-color: #00EC97;
   color: #151515;
   cursor: pointer;
   border: none;
+`;
+
+const Container = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
 State.init({
@@ -30,7 +36,7 @@ const handleClickYes = () => {
 const isSignedIn = context.accountId;
 
 return (
-  <div style={{ display: "flex", alignItems: "center" }}>
+  <Container>
     <Input
       type="text"
       id="cityName"
@@ -42,7 +48,6 @@ return (
     <Button type="submit" onClick={handleClickYes} disabled={!isSignedIn}>
       SUBMIT / YES
     </Button>
-
     <Button
       className="btn-no"
       onClick={() => handleClickNo()}
@@ -50,5 +55,5 @@ return (
     >
       NO
     </Button>
-  </div>
+  </Container>
 );
