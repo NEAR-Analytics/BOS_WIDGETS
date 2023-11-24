@@ -26,6 +26,10 @@ const VotesText = styled.p`
   margin: 5px;
 `;
 
+const Voters = styled.p`
+  margin: 5px;
+`;
+
 const city = props.city;
 
 State.init({
@@ -50,7 +54,7 @@ return (
       >
         View voters
       </Button>
-      <div>
+      <Voters>
         {state.showVoters && (
           <p>
             {city[1].accounts.map((account, index) => (
@@ -58,7 +62,7 @@ return (
             ))}
           </p>
         )}
-      </div>
+      </Voters>
     </CityInfo>
 
     <ButtonsContainer>
