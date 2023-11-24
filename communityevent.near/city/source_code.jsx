@@ -1,78 +1,67 @@
-const Container = styled.div`
+const CityContainer = styled.div`
+  display: flex;
   border: 1px solid #ccc;
-  padding: 20px;
-  margin-bottom: 20px;
-  background-color: #f9f9f9;
 `;
 
-const Title = styled.h2`
-  color: #333;
+const CityInfo = styled.div`
+  flex: 1;
+  padding: 10px;
 `;
 
-const Votes = styled.p`
-  color: #555;
+const ButtonsContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  padding: 10px;
 `;
 
-const ViewButton = styled.button`
-  background-color: #007bff;
-  color: #fff;
-  padding: 8px 16px;
-  margin-top: 10px;
-  cursor: pointer;
+const Button = styled.button`
+  margin: 5px;
 `;
 
-const VotersList = styled.p`
-  margin-top: 10px;
-`;
+const city = props.city;
 
-const VoterItem = styled.div`
-  margin-bottom: 5px;
-`;
+State.init({
+  showVoters: false,
+});
 
-const UpvoteButton = styled.button`
-  background-color: #28a745;
-  color: #fff;
-  padding: 8px 16px;
-  margin-top: 10px;
-  cursor: pointer;
-`;
+const contract = "communityevent.near";
+const handleClickYes = () => {
+  Near.call(contract, "vote_yes", { city_name: city[0] });
+};
 
-const YourComponent = (props) => {
-  const city = props.city;
+const isSignedIn = context.accountId;
 
-  State.init({
-    showVoters: false,
-  });
-
-  const contract = "communityevent.near";
-
-  const handleClickYes = () => {
-    Near.call(contract, "vote_yes", { city_name: city[0] });
-  };
-
-  const isSignedIn = context.accountId;
-
-  return (
-    <Container>
-      <Title>{city[0]}</Title>
-      <Votes>votes: {city[1].votes}</Votes>
-      <ViewButton
+return (
+  <CityContainer>
+    <CityInfo>
+      <h2>{city[0]}</h2>
+      <p>votes: {city[1].votes}</p>
+      <button
+        className="btn-view"
         onClick={() => State.update({ showVoters: !state.showVoters })}
       >
         View voters
-      </ViewButton>
+      </button>
       <div>
         {state.showVoters && (
-          <VotersList>
+          <p>
             {city[1].accounts.map((account, index) => (
-              <VoterItem key={index}>{account}</VoterItem>
+              <div key={index}>{account}</div>
             ))}
-          </VotersList>
+          </p>
         )}
       </div>
-      <UpvoteButton onClick={() => handleClickYes()} disabled={!isSignedIn}>
+    </CityInfo>
+
+    <ButtonsContainer>
+      <Button
+        className="btn-yes"
+        onClick={() => handleClickYes()}
+        disabled={!isSignedIn}
+      >
         Upvote
-      </UpvoteButton>
-    </Container>
-  );
-};
+      </Button>
+    </ButtonsContainer>
+  </CityContainer>
+);
