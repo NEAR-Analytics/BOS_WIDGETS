@@ -72,7 +72,7 @@ return (
       </p>
       <p>
         <small>
-          If you play any amout higher than the maximum bet allowed, the
+          If you play any amount higher than the maximum bet allowed, the
           difference will be refunded to you.
         </small>
       </p>
