@@ -165,7 +165,7 @@ function Page() {
     case "admin": {
       return (
         <Widget
-          src={"geforcy.near/widget/devhub.page.admin"}
+          src={"geforcy.near/widget/devhub.page.admin.index"}
           props={passProps}
         />
       );
