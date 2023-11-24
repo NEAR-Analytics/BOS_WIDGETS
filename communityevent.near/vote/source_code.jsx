@@ -6,8 +6,8 @@ const Input = styled.input`
 const Button = styled.button`
   margin: 5px;
   padding: 8px;
-  width: 150px;
-  background-color: #00EC97;
+  width: 150px; /* Set a fixed width for the buttons */
+  background-color: #00EC97; /* Set the background color to green for both buttons */
   color: #151515;
   cursor: pointer;
   border: none;
@@ -24,26 +24,24 @@ const handleClickNo = () => {
 };
 
 const handleClickYes = () => {
-  Near.call(contract, "vote_yes", { city_name: state.cityName });
+  Near.call(contract, "vote_yes", { city_name: State.cityName });
 };
 
 const isSignedIn = context.accountId;
 
 return (
-  <div>
-    <div>
-      <Input
-        type="text"
-        id="cityName"
-        value={state.cityName}
-        onChange={(e) => {
-          State.update({ [e.target.id]: e.target.value });
-        }}
-      />
-      <Button type="submit" onClick={handleClickYes} disabled={!isSignedIn}>
-        SUBMIT / YES
-      </Button>
-    </div>
+  <div style={{ display: "flex", alignItems: "center" }}>
+    <Input
+      type="text"
+      id="cityName"
+      value={State.cityName}
+      onChange={(e) => {
+        State.update({ cityName: e.target.value });
+      }}
+    />
+    <Button type="submit" onClick={handleClickYes} disabled={!isSignedIn}>
+      SUBMIT / YES
+    </Button>
 
     <Button
       className="btn-no"
