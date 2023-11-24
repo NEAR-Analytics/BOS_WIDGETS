@@ -20,7 +20,7 @@ const ContentContainer = styled.div`
 
 const AppHeader = ({ page }) => (
   <Widget
-    src="devhub.near/widget/devhub.components.organism.Navbar"
+    src="devhub.near/widget/devhub.components.organism.Navbar" //change to Donation Navbar
     props={{
       page: page,
       ...props,
@@ -31,7 +31,7 @@ const AppHeader = ({ page }) => (
 const Footer = (props) => {
   return (
     <Widget
-      src="devhub.near/widget/devhub.components.organism.NewsLetter"
+      src="lucus.near/widget/DonationHub.components.organism.NewsLetter"
       props={{
         ...props,
       }}
