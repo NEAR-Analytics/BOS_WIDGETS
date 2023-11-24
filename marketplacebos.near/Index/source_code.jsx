@@ -2,6 +2,28 @@ State.init({
   selectedTab: props.tab || "buttons",
 });
 
+const CardGrid = styled.div`
+  width:80%;
+  height:80%
+    @media screen and (max-width: 868px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+      @media screen and (max-width: 768px) {
+  width:70%;
+  height:70%
+  }
+
+  @media screen and (max-width: 480px) {
+  width:55%;
+  height:55%
+  }
+    @media screen and (max-width: 580px) {
+  width:55%;
+  height:55%
+  }
+`;
+
+
 const Wrapper = styled.div`
   padding-bottom: 48px;
 `;
@@ -39,7 +61,6 @@ const Tabs = styled.div`
 `;
 
 const TabsButton = styled.button`
-  border-radius:18px;
   display: inline-flex;
   align-items: center;
   justify-content: flex-start;
@@ -49,7 +70,7 @@ const TabsButton = styled.button`
   position: relative;
   color: white;
   background-image: linear-gradient(90deg, rgba(251,136,255,1) 0%, rgba(252,176,69,1) 100%);
-  border: none !important;
+  border: #ffac32ff;
   outline: none;
   text-align: center;
   text-decoration: none !important;
@@ -57,7 +78,6 @@ const TabsButton = styled.button`
   &:hover {
     background: #ffd83e;
     cursor: pointer;
-    border-radius:18px;
     color:white;
 
   }
