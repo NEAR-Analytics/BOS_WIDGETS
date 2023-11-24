@@ -19,7 +19,6 @@ const Item = styled.div`
   gap: 10px;
 `;
 
-// Should be done with types and tsc
 const backwardsCompatibleLabel = (oldLabel) => {
   if (typeof oldLabel === "string")
     return oldLabel.startsWith("starts-with:") ? oldLabel.slice(12) : oldLabel;
@@ -36,7 +35,6 @@ const [newItem, setNewItem] = useState("");
 const [teamName, setTeamName] = useState(
   backwardsCompatibleTeam(data.teamName) || ""
 );
-const [description, setDescription] = useState(data.description || "");
 const [label, setLabel] = useState(data.label || "");
 const [labelType, setLabelType] = useState(
   (data.label || "").startsWith("starts-with:") ? "starts-with:" : ""
@@ -48,19 +46,6 @@ const [members, setMembers] = useState(initialData || []);
 const [showPreview, setShowPreview] = useState(data.showPreview || []);
 
 const [warning, setWarning] = useState("");
-
-const teamModerators = teamName == "moderators";
-const moderatorsWarning = teamModerators && (
-  <Widget
-    src="geforcy.near/widget/devhub.components.atom.Alert"
-    props={{
-      onClose: () => null,
-      message:
-        "It's only possible to edit the description and members \
-        of team moderators through the UI.",
-    }}
-  />
-);
 
 const handleAddItem = () => {
   if (newItem) {
@@ -77,7 +62,9 @@ const handleDeleteItem = (index) => {
 
 const handleSubmit = () => {
   if (newItem !== "") {
-    return setWarning("Do you add the newest member or clear the field?");
+    return setWarning(
+      "Don't forget to add the last member or clear the field to get rid of this warning."
+    );
   }
   if (teamName && teamName.startsWith("team:")) {
     return setWarning("The team name can't start with 'team:'");
@@ -95,7 +82,6 @@ const handleSubmit = () => {
 
   onSubmit({
     teamName,
-    description,
     label: labelType + backwardsCompatibleLabel(label),
     editPost,
     useLabels,
@@ -106,8 +92,7 @@ const handleSubmit = () => {
 return (
   <Tile className="p-3">
     <Container>
-      <h3>{data.teamName ? "Edit" : "Create"} team</h3>
-      {moderatorsWarning}
+      <h3>{data.teamName == "" ? "Edit label" : "Create label"}</h3>
       <Widget
         src="geforcy.near/widget/devhub.components.atom.Alert"
         props={{
@@ -116,10 +101,10 @@ return (
         }}
       />
       {/* Moderators is only editable through the CLI except for the members property */}
-      {!teamModerators && (
+      {teamName !== "moderators" && (
         <>
           <div className="flex-grow-1">
-            <span>Team name</span>
+            <span>Group name</span>
             <Widget
               src="geforcy.near/widget/devhub.components.molecule.Input"
               props={{
@@ -131,19 +116,10 @@ return (
               }}
             />
           </div>
-          <div className="flex-grow-1">
-            <span>Team description</span>
-            <Widget
-              src="geforcy.near/widget/devhub.components.molecule.MarkdownEditor"
-              props={{
-                data: { content: description },
-                onChange: setDescription,
-              }}
-            />
-          </div>
+
           <div className="flex-grow-1">
             <div>
-              Would you like this team to limit their restrictions to a single
+              Would you like this group to limit their restrictions to a single
               label, or would you prefer them to restrict it with any label that
               follows a similar convention?
             </div>
