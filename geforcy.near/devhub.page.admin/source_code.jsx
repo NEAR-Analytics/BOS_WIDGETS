@@ -33,6 +33,11 @@ if (!fc) {
 const featuredCommunityList = fc || [];
 const allMetadata = getAllCommunitiesMetadata();
 const accessControlInfo = getAccessControlInfo();
+
+if (!accessControlInfo.members_list) {
+  return <p>Loading members list...</p>;
+}
+
 const rootMembers = getRootMembers();
 const teamNames = Object.keys(rootMembers || {});
 
@@ -46,9 +51,11 @@ const [createTeam, setCreateTeam] = useState(false);
 const [communityHandles, setCommunityHandles] = useState(
   featuredCommunityList.map(({ handle }) => handle)
 );
-const [newItem, setNewItem] = useState("");
-const [editMode, setEditMode] = useState(false);
 const [previewConnect, setPreviewConnect] = useState(false);
+const [editModerators, setEditModerators] = useState(false);
+const [moderators, setModerators] = useState(
+  accessControlInfo.members_list["team:moderators"].children || []
+);
 
 const handleResetItems = () => {
   setCommunityHandles(featuredCommunityList.map(({ handle }) => handle));
@@ -95,25 +102,31 @@ function handleSubmit() {
   setFeaturedCommunities({ handles: communityHandles });
 }
 
-function createNewTeam({
+function createEditTeam({
   teamName,
   description,
   label,
   editPost,
   useLabels,
   members,
+  contractCall, // TODO typescript edit_member || add_member
 }) {
   let txn = [];
-
-  if (rootMembers.includes(`team:${teamName}`)) {
+  console.log("createEditTeam..", rootMembers);
+  if (
+    rootMembers.includes(`team:${teamName}`) &&
+    contractCall === "add_member"
+  ) {
     return setAlertMessage("This team name already exists");
   }
   const allLabels = Object.keys(accessControlInfo.rules_list);
-  if (allLabels.includes(label)) {
+  console.log("🚀 ~ file: admin.jsx:123 ~ allLabels:", allLabels);
+  if (allLabels.includes(label) && contractCall === "add_member") {
     return setAlertMessage("This label is already restricted by another team");
   }
 
-  let membersAndTeams = Object.keys(accessControlInfo.members_list);
+  const membersAndTeams = Object.keys(accessControlInfo.members_list);
+  console.log("🚀 ~ file: admin.jsx:129 ~ membersAndTeams:", membersAndTeams);
   members.forEach((member) => {
     // if Contract panic member does not exist in the members_list
     if (!membersAndTeams.includes(member)) {
@@ -142,7 +155,7 @@ function createNewTeam({
     ...txn,
     {
       contractName: "geforcy.near",
-      methodName: "add_member",
+      methodName: contractCall, // add_member || edit_member
       args: {
         member: `team:${teamName}`,
         metadata: {
@@ -163,6 +176,19 @@ function createNewTeam({
     },
   ]);
 }
+
+const handleEditModerators = () => {
+  createEditTeam({
+    teamName: "team:moderators",
+    description:
+      "The moderator group has permissions to edit any posts and apply all labels, including restricted ones.",
+    label: "any",
+    editPost: true,
+    useLabels: true,
+    members: moderators,
+    contractCall: "edit_member",
+  });
+};
 
 const Item = styled.div`
   padding: 10px;
@@ -198,70 +224,189 @@ const CardGrid = styled.div`
 return (
   <Container>
     <div className="d-flex flex-column gap-4 p-4">
-      {featuredCommunityList && (
-        <>
-          {editMode ? (
-            <>
+      <ul class="nav nav-tabs" id="myTab" role="tablist">
+        <li class="nav-item" role="presentation">
+          <button
+            class="nav-link active"
+            id="home-tab"
+            data-bs-toggle="tab"
+            data-bs-target="#home"
+            type="button"
+            role="tab"
+            aria-controls="home"
+            aria-selected="true"
+          >
+            Home page settings
+          </button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button
+            class="nav-link"
+            id="profile-tab"
+            data-bs-toggle="tab"
+            data-bs-target="#profile"
+            type="button"
+            role="tab"
+            aria-controls="profile"
+            aria-selected="false"
+          >
+            Moderators
+          </button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button
+            class="nav-link"
+            id="contact-tab"
+            data-bs-toggle="tab"
+            data-bs-target="#contact"
+            type="button"
+            role="tab"
+            aria-controls="contact"
+            aria-selected="false"
+          >
+            Restricted labels
+          </button>
+        </li>
+      </ul>
+      <div class="tab-content" id="myTabContent">
+        <div
+          class="tab-pane fade show active"
+          id="home"
+          role="tabpanel"
+          aria-labelledby="home-tab"
+        >
+          <Widget
+            src="geforcy.near/widget/devhub.components.atom.Alert"
+            props={{
+              onClose: () => setCommunityMessage(""),
+              message: communityMessage,
+            }}
+          />
+          <Tile className="p-3 mb-3">
+            <h3> Manage featured communities</h3>
+            <Widget
+              src="geforcy.near/widget/devhub.components.molecule.ListEditor"
+              props={{
+                data: {
+                  maxLength: 5,
+                  placeholder: "Community handle",
+                  prefix: "Community handle",
+                  list: communityHandles,
+                },
+                setList: setCommunityHandles,
+                // validate
+                validate: (newItem) => {
+                  console.log(
+                    "🚀 ~ file: admin.jsx:303 ~ allMetadata:",
+                    allMetadata
+                  );
+
+                  return !allMetadata
+                    .map(({ handle }) => handle)
+                    .includes(newItem);
+                },
+                //
+                invalidate: () =>
+                  setCommunityMessage(
+                    "This community handle does not exist, make sure you use an existing handle."
+                  ),
+              }}
+            />
+            <div
+              className={
+                "d-flex align-items-center justify-content-end gap-3 mt-4"
+              }
+            >
               <Widget
-                src="geforcy.near/widget/devhub.components.atom.Alert"
+                src={"geforcy.near/widget/devhub.components.molecule.Button"}
                 props={{
-                  onClose: () => setCommunityMessage(""),
-                  message: communityMessage,
+                  classNames: {
+                    root: "btn-outline-danger shadow-none border-0",
+                  },
+                  label: "Cancel",
+                  onClick: () => {
+                    handleResetItems();
+                  },
                 }}
               />
-              <Tile className="p-3">
-                <h3> Manage featured communities</h3>
-                {communityHandles.map((item, index) => (
-                  <Item key={index}>
-                    <div className="flex-grow-1">
-                      <Widget
-                        src="geforcy.near/widget/devhub.components.molecule.Input"
-                        props={{
-                          className: "flex-grow-1",
-                          value: item,
-                          skipPaddingGap: true,
-                          placeholder: "Community handle",
-                          inputProps: {
-                            prefix: "Community handle",
-                            disabled: true,
-                          },
-                        }}
-                      />
-                    </div>
-                    <button
-                      className="btn btn-outline-danger"
-                      onClick={() => handleDeleteItem(index)}
-                    >
-                      <i className="bi bi-trash-fill" />
-                    </button>
-                  </Item>
-                ))}
-                {communityHandles.length < 5 && (
-                  <Item>
-                    <div className="flex-grow-1">
-                      <Widget
-                        src="geforcy.near/widget/devhub.components.molecule.Input"
-                        props={{
-                          className: "flex-grow-1",
-                          skipPaddingGap: true,
-                          onChange: (e) => setNewItem(e.target.value),
-                          value: newItem,
-                          placeholder: "zero-knowledge",
-                          inputProps: {
-                            prefix: "Community handle",
-                          },
-                        }}
-                      />
-                    </div>
-                    <button
-                      className="btn btn-success add-member"
-                      onClick={handleAddItem}
-                      disabled={newItem === ""}
-                    >
-                      <i className="bi bi-plus" />
-                    </button>
-                  </Item>
-                )}
+              <Widget
+                src={"geforcy.near/widget/devhub.components.molecule.Button"}
+                props={{
+                  classNames: { root: "btn" },
+                  icon: {
+                    type: "bootstrap_icon",
+                    variant: "bi-check-circle-fill",
+                  },
+                  label: "Submit",
+                  onClick: () => handleSubmit(),
+                }}
+              />
+            </div>
+          </Tile>
+          <Widget
+            src={
+              "geforcy.near/widget/devhub.components.molecule.PostControls"
+            }
+            props={{
+              onClick: () => setPreviewConnect(!previewConnect),
+              icon: previewConnect ? "bi bi-toggle-on" : "bi bi-toggle-off",
+              title: "Preview homepage",
+              testId: "preview-homepage",
+            }}
+          />
+          <div class="mt-3">
+            {previewConnect && (
+              <Widget
+                src="geforcy.near/widget/devhub.components.island.connect"
+                props={{ ...props }}
+              />
+            )}
+          </div>
+        </div>
+        <div
+          class="tab-pane fade"
+          id="profile"
+          role="tabpanel"
+          aria-labelledby="profile-tab"
+        >
+          <h1>Moderators</h1>
+          <div className="card-body">
+            <h5>
+              The moderator group has permissions to edit any posts and apply
+              all labels, including restricted ones.
+            </h5>
+            <Widget
+              src={
+                "geforcy.near/widget/devhub.components.molecule.PostControls"
+              }
+              props={{
+                icon: "bi bi-gear-wide-connected",
+                className: "mb-3",
+
+                title: "Edit members",
+                onClick: () => setEditModerators(!editModerators),
+                testId: "edit-members",
+              }}
+            />
+          </div>
+          <Tile className="p-3">
+            {editModerators ? (
+              <>
+                <Widget
+                  src="geforcy.near/widget/devhub.components.molecule.ListEditor"
+                  props={{
+                    data: {
+                      maxLength: 100,
+                      placeholder: "member.near",
+                      prefix: "member",
+                      list: moderators,
+                    },
+                    setList: setModerators,
+
+                    validate: (newItem) => true,
+                    invalidate: () => null, // TODO check if id exists on near
+                  }}
+                />
                 <div
                   className={
                     "d-flex align-items-center justify-content-end gap-3 mt-4"
@@ -277,7 +422,6 @@ return (
                       },
                       label: "Cancel",
                       onClick: () => {
-                        setEditMode(false);
                         handleResetItems();
                       },
                     }}
@@ -293,93 +437,98 @@ return (
                         variant: "bi-check-circle-fill",
                       },
                       label: "Submit",
-                      onClick: () => handleSubmit(),
+                      onClick: handleEditModerators,
                     }}
                   />
                 </div>
-              </Tile>
-              <Widget
-                src={
-                  "geforcy.near/widget/devhub.components.molecule.PostControls"
-                }
-                props={{
-                  onClick: () => setPreviewConnect(!previewConnect),
-                  icon: previewConnect ? "bi bi-toggle-on" : "bi bi-toggle-off",
-                  title: "Preview homepage",
-                  testId: "preview-homepage",
-                }}
-              />
-            </>
-          ) : (
+              </>
+            ) : (
+              <>
+                <div class="pt-4">Members</div>
+
+                {moderators && (
+                  <div class="vstack">
+                    {moderators.length ? (
+                      moderators.map((child) => (
+                        <Tile className="w-25 p-3 m-1" minHeight={10}>
+                          <Widget
+                            src={`neardevgov.near/widget/ProfileLine`}
+                            props={{ accountId: child }}
+                          />
+                        </Tile>
+                      ))
+                    ) : (
+                      <div>No moderators</div>
+                    )}
+                  </div>
+                )}
+              </>
+            )}
+          </Tile>
+        </div>
+        <div
+          class="tab-pane fade"
+          id="contact"
+          role="tabpanel"
+          aria-labelledby="contact-tab"
+        >
+          <h1>Restricted Labels</h1>
+          <h5>
+            Create special labels and control who can use and edit posts with
+            those labels.
+          </h5>
+          {!createTeam ? (
             <Widget
               src={
                 "geforcy.near/widget/devhub.components.molecule.PostControls"
               }
               props={{
-                onClick: () => setEditMode(true),
-                icon: "bi bi-gear-wide-connected",
-                title: "Manage featured communities",
-                testId: "manage-featured",
+                onClick: () => setCreateTeam(true),
+                title: "Create label",
+                testId: "create-team",
+              }}
+            />
+          ) : (
+            <Widget
+              src={"geforcy.near/widget/devhub.entity.team.Configurator"}
+              props={{
+                onCancel: () => setCreateTeam(false),
+                onSubmit: (params) =>
+                  createEditTeam({ ...params, contractCall: "add_member" }),
               }}
             />
           )}
-        </>
-      )}
-      {previewConnect && (
-        <Widget
-          src="geforcy.near/widget/devhub.components.island.connect"
-          props={{ ...props }}
-        />
-      )}
-      <h1>Admin group</h1>
-      {teamNames.includes("team:moderators") && (
-        <>
-          <Widget
-            src={"geforcy.near/widget/devhub.entity.team.TeamInfo"}
-            props={{
-              teamName: "team:moderators",
-            }}
-          />
-          <Widget
-            src="geforcy.near/widget/devhub.components.atom.Alert"
-            props={{
-              onClose: () => setAlertMessage(""),
-              message: alertMessage,
-            }}
-          />
-        </>
-      )}
-      <h1>Other groups</h1>
-      {(teamNames || []).sort().map((teamName) => {
-        if (teamName === "team:moderators") return;
-        return (
-          <Widget
-            src={"geforcy.near/widget/devhub.entity.team.TeamInfo"}
-            props={{
-              teamName,
-            }}
-          />
-        );
-      })}
 
-      {!createTeam ? (
-        <Widget
-          src={"geforcy.near/widget/devhub.components.molecule.PostControls"}
-          props={{
-            onClick: () => setCreateTeam(true),
-            title: "Create team",
-            testId: "create-team",
-          }}
-        />
-      ) : (
-        <Widget
-          src={"geforcy.near/widget/devhub.entity.team.Configurator"}
-          props={{
-            onCancel: () => setCreateTeam(false),
-            onSubmit: (params) => createNewTeam(params),
-          }}
-        />
-      )}
+          <div class="table-responsive mt-3">
+            <table class="table table-hover table-sm table-bordered table-striped">
+              <thead class="thead-dark">
+                <tr>
+                  <th scope="col">label name</th>
+                  <th scope="col">Type</th>
+                  <th scope="col">Members</th>
+                  <th scope="col">Only allow members to use label</th>
+                  <th scope="col">Allow members to edit any post with label</th>
+                  <th scope="col">Actions</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                {(teamNames || []).sort().map((teamName) => {
+                  if (teamName === "team:moderators") return;
+                  return (
+                    <Widget
+                      src={"geforcy.near/widget/devhub.entity.team.LabelRow"}
+                      props={{
+                        teamName,
+                      }}
+                    />
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
     </div>
   </Container>
 );
