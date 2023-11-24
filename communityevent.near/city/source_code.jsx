@@ -1,5 +1,5 @@
 const Button = styled.button`
-  margin: 5px;
+  margin: 2px;
   background-color: #00EC97;
   color: #151515;
 `;
@@ -23,11 +23,11 @@ const ButtonsContainer = styled.div`
 `;
 
 const VotesText = styled.p`
-  margin: 5px;
+  margin: 2px;
 `;
 
 const Voters = styled.p`
-  margin: 5px;
+  margin: 2px;
 `;
 
 const city = props.city;
