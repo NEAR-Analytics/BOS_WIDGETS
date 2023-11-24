@@ -8,7 +8,7 @@ const CityContainer = styled.div`
   display: flex;
   border: 1px solid #151515;
   background-color: #F4F4F4;
-  align-items: flex-start; /* Align items to the start (left) */
+  align-items: left;
 `;
 
 const CityInfo = styled.div`
