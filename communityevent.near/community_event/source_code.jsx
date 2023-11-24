@@ -1,21 +1,22 @@
 const WrapperContainer = styled.div`
-max-width: 800px;
+  max-width: 800px;
   margin: 0 auto;
   padding: 20px;
   background-color: #f4f4f4;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  text-align: center;
 `;
 
 const Title = styled.h1`
   color: #00EC97;
   margin-bottom: 10px;
+  text-align: center; /* Align only the title to the center */
 `;
 
 const Description = styled.p`
   margin: 10px 0;
   color: #151515;
+  text-align: center; /* Align the other descriptions to the left */
 `;
 
 const WidgetContainer = styled.div`
