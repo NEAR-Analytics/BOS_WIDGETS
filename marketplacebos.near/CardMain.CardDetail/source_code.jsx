@@ -61,8 +61,6 @@ const Card = styled.div`
   top:20px;
   padding: 30px;
   background: ${(props) => (props.isWhiteBackground ? "#000000" : "#fffff")};
-  width: 100%;
-  height: 60vh;
   display: flex;
   flex-direction: column;
   border: 0.2rem solid #fff4b0ff;
@@ -72,9 +70,11 @@ const Card = styled.div`
   justify-content: center;
   align-items: center;
   transition: background 500ms;
+  width: 430px;
+  height: 340px;
   @media screen and (max-width: 768px) and (max-height: 1024px) {
-    width: 80%; 
-    height: 45vh;
+    width: 380px;
+    height: 290px;
     padding: 10px; 
   }
 `;
@@ -220,13 +220,13 @@ const EditorContainer = styled.div`
   box-shadow:0 0 4px 0px red;  border-radius: 14px;
   padding: 10px;
   position: relative;
-  height: 60vh;
-    width: 100%;
-
-          @media screen and (max-width: 768px) and (max-height: 1024px) {
-    width: 80%; 
-    height: 45vh;
+  width: 430px;
+  height: 340px;
+  @media screen and (max-width: 768px) and (max-height: 1024px) {
+    width: 380px;
+    height: 290px;
     padding: 10px; 
+  }
   }
 `;
 
@@ -249,9 +249,11 @@ const TextArea = styled.textarea`
     height: 45vh;
   resize: none;
   outline: none;
-          @media screen and (max-width: 768px) and (max-height: 1024px) {
-    width: 80%; 
-    height: 45vh;
+  width: 430px;
+  height: 340px;
+  @media screen and (max-width: 768px) and (max-height: 1024px) {
+    width: 380px;
+    height: 290px;
     padding: 10px; 
   }
 `;
