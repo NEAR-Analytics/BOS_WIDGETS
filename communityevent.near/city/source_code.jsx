@@ -1,6 +1,13 @@
+const Button = styled.button`
+  margin: 5px;
+  background-color: #00EC97;
+  color: #151515;
+`;
+
 const CityContainer = styled.div`
   display: flex;
-  border: 1px solid #ccc;
+  border: 1px solid #151515;
+  background-color: #F4F4F4;
 `;
 
 const CityInfo = styled.div`
@@ -13,10 +20,6 @@ const ButtonsContainer = styled.div`
   flex-direction: column;
   align-items: flex-end;
   padding: 10px;
-`;
-
-const Button = styled.button`
-  margin: 5px;
 `;
 
 const city = props.city;
@@ -37,12 +40,12 @@ return (
     <CityInfo>
       <h2>{city[0]}</h2>
       <p>votes: {city[1].votes}</p>
-      <button
+      <Button
         className="btn-view"
         onClick={() => State.update({ showVoters: !state.showVoters })}
       >
         View voters
-      </button>
+      </Button>
       <div>
         {state.showVoters && (
           <p>
