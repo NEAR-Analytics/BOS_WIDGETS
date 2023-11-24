@@ -72,6 +72,11 @@ const Card = styled.div`
   justify-content: center;
   align-items: center;
   transition: background 500ms;
+        @media screen and (max-width: 768px) and (max-height: 1024px) {
+    width: 80%; 
+    height: 45vh;
+    padding: 10px; 
+  }
 `;
 
 const CardBody = styled.div`
@@ -216,12 +221,20 @@ const EditorContainer = styled.div`
   padding: 10px;
   position: relative;
   height: 60vh;
+    width: 100%;
+
+          @media screen and (max-width: 768px) and (max-height: 1024px) {
+    width: 80%; 
+    height: 45vh;
+    padding: 10px; 
+  }
 `;
 
 const TextAreaWrapper = styled.div`
   overflow: hidden;
   height: 100%; 
   border-radius: 14px;
+  
 
 `;
 
@@ -233,9 +246,14 @@ const TextArea = styled.textarea`
   border: none;
   padding: 10px;
   width: 100%;
-  height: 100%;
+    height: 45vh;
   resize: none;
   outline: none;
+          @media screen and (max-width: 768px) and (max-height: 1024px) {
+    width: 80%; 
+    height: 45vh;
+    padding: 10px; 
+  }
 `;
 
 const StyledButton = styled.button`
