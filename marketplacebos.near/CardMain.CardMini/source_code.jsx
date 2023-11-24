@@ -29,8 +29,8 @@ const Card = styled.div`
   align-items: center;
   transition: background 500ms;
     @media screen and (max-width: 768px) and (max-height: 1024px) {
-    width: 240px; 
-    height: 230px;
+    width: 220px; 
+    height: 210px;
     padding: 10px; 
   }
 `;
