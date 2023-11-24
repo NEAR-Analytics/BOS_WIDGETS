@@ -1,3 +1,32 @@
+const first =
+  "https://res.cloudinary.com/dfbqtfoxu/image/upload/v1700588104/rafflestore/arm_ztddgz.jpg";
+const second =
+  "https://res.cloudinary.com/dfbqtfoxu/image/upload/v1700588104/rafflestore/second_kyzzas.png";
+const third =
+  "https://res.cloudinary.com/dfbqtfoxu/image/upload/v1700588122/rafflestore/third_kfbwtw.jpg";
+const fourth =
+  "https://res.cloudinary.com/dfbqtfoxu/image/upload/v1700588111/rafflestore/fourth_rjhmaz.png";
+const fifth =
+  "https://res.cloudinary.com/dfbqtfoxu/image/upload/v1700588106/rafflestore/fifth_ezz3ox.jpg";
+const sixth =
+  "https://res.cloudinary.com/dfbqtfoxu/image/upload/v1700588106/rafflestore/sixth_ulpy9d.png";
+const seven =
+  "https://res.cloudinary.com/dfbqtfoxu/image/upload/v1700588102/rafflestore/seven_c7elf0.jpg";
+const eight =
+  "https://res.cloudinary.com/dfbqtfoxu/image/upload/v1700588097/rafflestore/eight_i2lrlt.jpg";
+const close =
+  "https://res.cloudinary.com/dfbqtfoxu/image/upload/v1700588097/rafflestore/closenft_slzdzg.jpg";
+
+const newspaper =
+  "https://res.cloudinary.com/dfbqtfoxu/image/upload/v1700588107/rafflestore/newspaper_kf09vu.png";
+const event =
+  "https://res.cloudinary.com/dfbqtfoxu/image/upload/v1700588117/rafflestore/event_tq6dhm.png";
+
+const hat =
+  "https://res.cloudinary.com/dfbqtfoxu/image/upload/v1700588114/rafflestore/hat_szxoc2.png";
+const dog =
+  "https://res.cloudinary.com/dfbqtfoxu/image/upload/v1700588119/rafflestore/sharddog_jcqsvi.jpg";
+
 const nftData = [
   {
     id: 1,
@@ -51,7 +80,7 @@ const nftData = [
         name: "META-TK #7",
         status: "open",
         unit: 2,
-        image: seventh,
+        image: seven,
       },
       {
         title: "SharDog Raffle",
@@ -182,14 +211,13 @@ const nftData = [
   },
 ];
 
-const dog =
-  "https://res.cloudinary.com/dfbqtfoxu/image/upload/v1700588098/rafflestore/dog_osurck.jpg";
+const Collection = styled.div`
+`;
 
 State.init({ selectedRaffle: undefined });
 
 const handleRaffleClick = (raffleId) => {
   State.update({ selectedRaffle: raffleId });
-  console.log(state.selectedRaffle);
 };
 
 const Heading = styled.h1`
@@ -219,11 +247,15 @@ return (
       {(state.selectedRaffle !== null) &
         (state.selectedRaffle !== undefined) && (
         <div>
-          <h2>{nftData[state.selectedRaffle - 1].name}</h2>
-
+          <h2>{nftData[selectedRaffle - 1].name}</h2>
+          <img
+            src={nftData[state.selectedRaffle - 1].image}
+            alt={nftData[state.selectedRaffle - 1].name}
+          />
           <ul>
             {nftData[state.selectedRaffle - 1].nft.map((nft, index) => (
               <li key={index}>
+                <img src={nft.image} alt={nft.name} />
                 <p>{nft.name}</p>
                 <p>Status: {nft.status}</p>
                 <p>Units: {nft.unit}</p>
