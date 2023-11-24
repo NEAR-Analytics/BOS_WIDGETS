@@ -10,13 +10,13 @@ const WrapperContainer = styled.div`
 const Title = styled.h1`
   color: #00EC97;
   margin-bottom: 10px;
-  text-align: center; /* Align only the title to the center */
+  text-align: center;
 `;
 
 const Description = styled.p`
   margin: 10px 0;
   color: #151515;
-  text-align: center; /* Align the other descriptions to the left */
+  text-align: center;
 `;
 
 const WidgetContainer = styled.div`
