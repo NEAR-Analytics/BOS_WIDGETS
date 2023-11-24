@@ -261,27 +261,12 @@ const handleFunctionCall = () => {
         } else {
             Near.call([
                 {
-                    contractName: daoId,
-                    methodName: "add_proposal",
+                    contractName: state.contractId,
+                    methodName: state.method_name,
                     args: {
-                        proposal: {
-                            description: state.description,
-                            kind: {
-                                FunctionCall: {
-                                    receiver_id: state.contractId,
-                                    actions: [
-                                        {
-                                            method_name: state.method_name,
-                                            args: fc_args,
-                                            deposit: deposit,
-                                            gas: state.gas ?? "200000000000000"
-                                        }
-                                    ]
-                                }
-                            }
-                        }
+                        Arguments: fc_args
                     },
-                    deposit: 100000000000000000000000,
+                    deposit: deposit,
                     gas: state.gas ?? "200000000000000"
                 }
             ]);
@@ -536,18 +521,20 @@ return (
                 </div>
             </>
         )}
-        <div className="mb-3">
-            <h5>Description</h5>
-            <Widget
-                src="sking.near/widget/Common.Inputs.Markdown"
-                props={{
-                    value: state.description,
-                    onChange: (value) => onChangeDescription(value),
-                    height: "270px",
-                    initialText: defaultDescription
-                }}
-            />
-        </div>
+        {(isCongressDaoID || isVotingBodyDao) && (
+            <div className="mb-3">
+                <h5>Description</h5>
+                <Widget
+                    src="sking.near/widget/Common.Inputs.Markdown"
+                    props={{
+                        value: state.description,
+                        onChange: (value) => onChangeDescription(value),
+                        height: "270px",
+                        initialText: defaultDescription
+                    }}
+                />
+            </div>
+        )}
         {state.error && <div className="text-danger">{state.error}</div>}
         <div className="ms-auto">
             <Widget
