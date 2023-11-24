@@ -6,8 +6,8 @@ const Input = styled.input`
 const Button = styled.button`
   margin: 5px;
   padding: 8px;
-  width: 150px; /* Set a fixed width for the buttons */
-  background-color: #00EC97; /* Set the background color to green for both buttons */
+  width: 150px;
+  background-color: #00EC97;
   color: #151515;
   cursor: pointer;
   border: none;
