@@ -185,10 +185,11 @@ const nftData = [
 const dog =
   "https://res.cloudinary.com/dfbqtfoxu/image/upload/v1700588098/rafflestore/dog_osurck.jpg";
 
-State.init({ selectedRaffle: "null" });
+State.init({ selectedRaffle: undefined });
 
 const handleRaffleClick = (raffleId) => {
-  State.update({ selectedTab: raffleId });
+  State.update({ selectedRaffle: raffleId });
+  console.log(state.selectedRaffle);
 };
 
 const Heading = styled.h1`
@@ -215,17 +216,14 @@ return (
         ))}
       </ul>
 
-      {selectedRaffle !== null && (
+      {(state.selectedRaffle !== null) &
+        (state.selectedRaffle !== undefined) && (
         <div>
-          <h2>{nftData[selectedRaffle - 1].name}</h2>
-          <img
-            src={nftData[selectedRaffle - 1].image}
-            alt={nftData[selectedRaffle - 1].name}
-          />
+          <h2>{nftData[state.selectedRaffle - 1].name}</h2>
+
           <ul>
-            {nftData[selectedRaffle - 1].nft.map((nft, index) => (
+            {nftData[state.selectedRaffle - 1].nft.map((nft, index) => (
               <li key={index}>
-                <img src={nft.image} alt={nft.name} />
                 <p>{nft.name}</p>
                 <p>Status: {nft.status}</p>
                 <p>Units: {nft.unit}</p>
