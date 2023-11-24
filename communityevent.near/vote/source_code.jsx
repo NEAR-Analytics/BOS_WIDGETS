@@ -43,7 +43,7 @@ return (
       id="cityName"
       value={State.cityName}
       onChange={(e) => {
-        State.update({ cityName: e.target.value });
+        State.update({ [e.target.id]: e.target.value });
       }}
     />
     <Button type="submit" onClick={handleClickYes} disabled={!isSignedIn}>
