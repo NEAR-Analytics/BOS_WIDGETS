@@ -22,6 +22,10 @@ const ButtonsContainer = styled.div`
   padding: 10px;
 `;
 
+const VotesText = styled.p`
+  margin: 5px;
+`;
+
 const city = props.city;
 
 State.init({
@@ -39,7 +43,7 @@ return (
   <CityContainer>
     <CityInfo>
       <h2>{city[0]}</h2>
-      <p>votes: {city[1].votes}</p>
+      <VotesText>votes: {city[1].votes}</VotesText>
       <Button
         className="btn-view"
         onClick={() => State.update({ showVoters: !state.showVoters })}
