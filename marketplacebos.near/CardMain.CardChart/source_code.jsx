@@ -68,6 +68,11 @@ const Card = styled.div`
   justify-content: center;
   align-items: center;
   transition: background 500ms;
+      @media screen and (max-width: 768px) and (max-height: 1024px) {
+    width: 420px; 
+    height: 480px;
+    padding: 10px; 
+  }
 `;
 
 const CardBody = styled.div`
@@ -197,7 +202,7 @@ return (
   <Card isWhiteBackground={!isWhiteBackground1}>
     <CardBody>
       {component}
-         <Container>
+      <Container>
         <input type="checkbox" />
         <svg
           xmlns="http://www.w3.org/2000/svg"
