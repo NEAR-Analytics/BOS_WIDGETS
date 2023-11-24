@@ -21,13 +21,18 @@ const Card = styled.div`
   display: flex;
   flex-direction: column;
   border: 0.2rem solid #fff4b0ff;
+  box-shadow:0 0 4px 0px red;
   border-radius: 1em;
   overflow: hidden;
   position: relative;
   justify-content: center;
   align-items: center;
   transition: background 500ms;
-  box-shadow:0 0 4px 0px red;
+    @media screen and (max-width: 768px) and (max-height: 1024px) {
+    width: 240px; 
+    height: 230px;
+    padding: 10px; 
+  }
 `;
 
 const CardBody = styled.div`
