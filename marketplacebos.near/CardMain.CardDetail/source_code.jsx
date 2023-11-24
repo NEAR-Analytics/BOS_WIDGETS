@@ -72,7 +72,7 @@ const Card = styled.div`
   justify-content: center;
   align-items: center;
   transition: background 500ms;
-        @media screen and (max-width: 768px) and (max-height: 1024px) {
+  @media screen and (max-width: 768px) and (max-height: 1024px) {
     width: 80%; 
     height: 45vh;
     padding: 10px; 
