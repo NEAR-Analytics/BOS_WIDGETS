@@ -1,3 +1,10 @@
+const [inputText, setInputText] = useState("");
+
+const handleTextChange = (event) => {
+  const newTextValue = event.target.value;
+  setInputText(newTextValue);
+};
+
 const Button0001 = styled.button`
   width: 80%;
   height: 40px;
@@ -136,6 +143,7 @@ const props = {
 )`,
   component: <Button0001>Button0001</Button0001>,
   detailLink: "https://near.org/marketplacebos.near/widget/Detail.Button0001",
+   edit: "https://near.org/marketplacebos.near/widget/Button.ButtonEdit.Button0001",
 };
 
 return (
