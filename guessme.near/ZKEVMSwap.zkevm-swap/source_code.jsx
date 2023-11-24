@@ -1023,7 +1023,7 @@ return (
         network: state.network,
         NETWORK_ZKEVM,
         onLoad: (inputAsset) => {
-          inputAsset.metadata.symbol = inputAsset.metadata.symbol.toUpperCase();
+          console.log("TokenData onLoad inputAsset", inputAsset);
           State.update({ inputAsset });
         },
       }}
@@ -1039,8 +1039,6 @@ return (
         NETWORK_POLYGON,
         onLoad: (outputAsset) => {
           console.log("TokenData onLoad outputAsset", outputAsset);
-          outputAsset.metadata.symbol =
-            outputAsset.metadata.symbol.toUpperCase();
           State.update({ outputAsset });
         },
       }}
