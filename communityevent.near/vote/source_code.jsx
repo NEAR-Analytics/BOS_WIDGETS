@@ -31,7 +31,7 @@ const handleClickNo = () => {
 };
 
 const handleClickYes = () => {
-  Near.call(contract, "vote_yes", { city_name: State.cityName });
+  Near.call(contract, "vote_yes", { city_name: state.cityName });
 };
 
 const isSignedIn = context.accountId;
@@ -41,7 +41,7 @@ return (
     <Input
       type="text"
       id="cityName"
-      value={State.cityName}
+      value={state.cityName}
       onChange={(e) => {
         State.update({ [e.target.id]: e.target.value });
       }}
