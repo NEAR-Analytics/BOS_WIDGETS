@@ -114,13 +114,13 @@ const tokenMetas = {
     icon: "https://assets.coingecko.com/coins/images/7598/small/wrapped_bitcoin_wbtc.png?1548822744",
   },
   "0xa2036f0538221a77a3937f1379699f44945018d0": {
-    symbol: "Matic",
+    symbol: "MATIC",
     name: "Matic Token",
     decimals: 18,
     icon: "https://assets.coingecko.com/coins/images/4713/small/matic-token-icon.png?1624446912",
   },
   "0xC5015b9d9161Dca7e18e32f6f25C4aD850731Fd4": {
-    symbol: "Dai",
+    symbol: "DAI",
     name: "Dai Stablecoin",
     decimals: 18,
     icon: "https://assets.coingecko.com/coins/images/9956/small/Badge_Dai.png?1687143508",
