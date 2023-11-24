@@ -1,6 +1,7 @@
 const Input = styled.input`
   margin: 5px;
   padding: 8px;
+  height: 40px;
 `;
 
 const Button = styled.button`
