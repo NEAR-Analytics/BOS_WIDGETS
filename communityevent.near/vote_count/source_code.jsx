@@ -5,7 +5,7 @@ const StatsContainer = styled.div`
 `;
 
 const StatBox = styled.div`
-  width: 120px; /* Set a fixed width */
+  width: 120px;
   padding: 15px;
   background-color: #00EC97;
   color: #151515;
