@@ -182,6 +182,9 @@ const Container = styled.div`
     }
 `;
 
+console.log("selectedAsset", selectedAsset);
+console.log("selectedAssetWithdraw", selectedAssetWithdraw);
+
 return (
   <Container>
     <div className="d-flex gap-4 align-items-center mb-3 justify-content-center">
