@@ -63,8 +63,7 @@ const { assets } = deposit;
 const isDeposit = !action || action === "deposit";
 const actionTitle = isDeposit ? "Deposit" : "Withdraw";
 
-if (assets) {
-  // && !selectedAsset) {
+if (assets && !selectedAsset) {
   initState({
     selectedAsset: assets.find((a) => a.selected) || assets?.[0],
   });
@@ -183,7 +182,6 @@ const Container = styled.div`
 
 console.log("deposit", deposit);
 console.log("withdraw", withdraw);
-console.log("assets", assets);
 console.log("selectedAsset", selectedAsset);
 console.log("selectedAssetWithdraw", selectedAssetWithdraw);
 
