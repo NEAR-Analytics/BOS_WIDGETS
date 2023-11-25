@@ -56,25 +56,23 @@ const {
   isLoading,
   log,
   explorerLink,
+  defaultSelectedAsset,
 } = props;
-const { action, amount } = state;
+const { action, amount, selectedAsset } = state;
 const { assets } = deposit;
 
 const isDeposit = !action || action === "deposit";
 const actionTitle = isDeposit ? "Deposit" : "Withdraw";
 
-if (assets && !state.selectedAsset) {
+if (assets && !selectedAsset) {
   initState({
-    selectedAsset: assets.find((a) => a.selected) || assets?.[0],
+    selectedAsset:
+      assets.find((a) => a.selected) || assets?.[defaultSelectedAsset || 0],
   });
 }
 
-const selectedAsset = state.selectedAsset
-  ? assets?.find((a) => a.id === state.selectedAsset.id)
-  : undefined;
-
-const selectedAssetWithdraw = state.selectedAsset
-  ? withdraw?.assets?.find((a) => a.id === state.selectedAsset.id)
+const selectedAssetWithdraw = selectedAsset
+  ? withdraw?.assets?.find((a) => a.id === selectedAsset.id)
   : undefined;
 
 const handleAction = () => {
@@ -182,16 +180,7 @@ const Container = styled.div`
         color: black;
       }
     }
-
-    .alert {
-      word-break: break-word;
-    }
 `;
-
-// console.log("deposit", deposit);
-// console.log("withdraw", withdraw);
-// console.log("selectedAsset", selectedAsset);
-// console.log("selectedAssetWithdraw", selectedAssetWithdraw);
 
 return (
   <Container>
@@ -280,12 +269,12 @@ return (
       </button>
       {log && (
         <div className="alert alert-success" role="alert">
-          <div>{log}</div>
-          {explorerLink && (
-            <a href={explorerLink} className="alert-link" target="_blank">
-              Block Explorer Link
-            </a>
-          )}
+          <div className="text-truncate" style={{ maxWidth: 300 }}>
+            {log}
+          </div>
+          <a href={explorerLink} className="alert-link" target="_blank">
+            Etherscan
+          </a>
         </div>
       )}
     </div>
