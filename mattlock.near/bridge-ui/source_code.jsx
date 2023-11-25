@@ -181,6 +181,7 @@ const Container = styled.div`
 `;
 
 console.log("deposit", deposit);
+console.log("assets", assets);
 console.log("selectedAsset", selectedAsset);
 console.log("selectedAssetWithdraw", selectedAssetWithdraw);
 
