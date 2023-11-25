@@ -28,7 +28,10 @@ const Button = styled.button`
 return (
   <div className={`d-flex flex-row-reverse ${props.className}`}>
     {props.href ? (
-      <Link to={props.href} style={{ textDecoration: "none" }}>
+      <Link
+        to={prop.href || "kanapitch.near/widget/Donation.Project.Create"}
+        style={{ textDecoration: "none" }}
+      >
         <Button>
           <i className={props.icon ? props.icon : "bi bi-plus-circle-fill"}></i>
           {props.title}
