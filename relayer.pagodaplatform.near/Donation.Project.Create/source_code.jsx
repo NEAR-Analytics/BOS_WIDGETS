@@ -154,7 +154,7 @@ initState({
   teammates: "",
   amount: props.amount ?? "",
   token: props.token ?? "USDT",
-  supervisor: props.supervisor ?? "neardevgov.near",
+  supervisor: props.supervisor ?? ".near",
   githubLink: props.githubLink ?? "",
   warning: "",
   waitForDraftStateRestore: true,
@@ -761,7 +761,6 @@ return (
                     snapshot: {
                       editor_id: state.editor_id,
                       labels: state.labelStrings,
-                      post_type: state.postType,
                       name: prependTitle + state.name,
                       description: generateDescription(
                         state.description,
