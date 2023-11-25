@@ -186,6 +186,11 @@ const code = `
           name: "ANZ",
           color: "#FED52E",
         },
+        {
+          id: "she",
+          name: "SHE is NEAR",
+          color: "#c3b5ff",
+        },
       ];
 
     mapboxgl.accessToken = "${ACCESS_TOKEN}";
