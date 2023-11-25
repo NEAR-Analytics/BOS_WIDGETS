@@ -1,6 +1,37 @@
+const API_KEY = "6d48c4c0-eb41-4e4b-ae4d-ba1148f01fb8";
+const queries = [
+  {
+    hash: null,
+    firstReqTime: 20,
+    id: 1,
+    query: `select 
+            ft.TX_HASH as "hash" ,
+            ft.BLOCK_TIMESTAMP::date as "date",
+            fw.SIGNER_ID as singer,
+            fw.WIDGET_NAME as "name",
+            case when STATUS='false' then '✅' else '❌' end as "status",
+            round(TRANSACTION_FEE/pow(10,24),4) as "fee",
+            METADATA:name as name ,
+            row_number() over (partition by singer order by "date" asc )::int as "rank",
+            1 as "total"
+            from near.social.fact_widget_deployments as fw left join 
+            near.core.fact_transfers  as ft
+            on ft.tx_hash=fw.tx_hash
+            where singer='{{singer}}'
+            order by fw.BLOCK_ID desc`,
+  },
+  {
+    hash: "4fd2820b-b877-46f5-bdf1-b0c3cd9f64a6",
+    firstReqTime: 15,
+    id: 2,
+    query: null,
+  },
+];
 const themeColor = props.themeColor;
+const searchedSinger = props.singer || "mob.near";
 
-const firsttheme = {
+// header theme ######################################
+const table_componentScan_theme = {
   height: "110px",
   align: "center",
   description: `Track the activity of Users in BOS development process`,
@@ -19,11 +50,11 @@ const firsttheme = {
     "radial-gradient(circle, rgba(210,202,250,1) 0%, rgba(230,230,231,0.01) 0%, rgba(235,238,255,1) 100%, rgba(235,231,253,1) 100%, rgba(255,241,241,1) 100%, rgba(46,52,90,1) 100%);",
 };
 
-const no_data = {
+const activity_of_user_theme = {
   height: "90px",
   align: "center",
   description: "",
-  brand: "No data",
+  brand: "Activity of user",
   fontsize: "75",
   fontweight: "25px",
   afterbrand: "available",
@@ -37,7 +68,192 @@ const no_data = {
     themeColor?.dynamic_header?.background ||
     "radial-gradient(circle, rgba(210,202,250,1) 0%, rgba(230,230,231,0.01) 0%, rgba(235,238,255,1) 100%, rgba(235,231,253,1) 100%, rgba(255,241,241,1) 100%, rgba(46,52,90,1) 100%);",
 };
+// state ####################################
+State.init({
+  result: {},
+  loader: false,
+  isLoading: true,
+  error: [],
+  queriesRuned: false,
+});
 
+// handle hashed data #############################
+const handleHasedData = ({ hash, id }) => {
+  if (state.result["query" + id].isDone) return;
+  const result = fetchData(hash);
+  if (result.isLoading) {
+    State.update({
+      isLoading: true,
+      result: {
+        ...state.result,
+        ["query" + id]: { isLoading: true, error: false, data: null },
+      },
+    });
+  }
+  if (result.error) {
+    const errors = state.error;
+    errors.push(`query ${id}: ${result.error}`);
+    State.update({
+      error: errors,
+      result: {
+        ...state.result,
+        ["query" + id]: {
+          isLoading: false,
+          error: true,
+          data: null,
+          isDone: true,
+        },
+      },
+    });
+  }
+  if (result.data) {
+    State.update({
+      result: {
+        ...state.result,
+        ["query" + id]: {
+          isLoading: false,
+          error: false,
+          data: result.data,
+          isDone: true,
+        },
+      },
+    });
+  }
+};
+const fetchData = (hash) => {
+  const data = fetch(
+    `https://api.flipsidecrypto.com/api/v2/queries/${hash}/data/latest`,
+    {
+      subscribe: true,
+      method: "GET",
+      headers: {
+        Accept: "*/*",
+      },
+    }
+  );
+  const result = {
+    data: (data && data.body) || null,
+    error: (data && !data.ok && (data.status || data.error)) || null,
+    isLoading: !data && !error,
+  };
+  console.log(result);
+  return result;
+};
+// handle runed data ###################################
+const createQuery = (queries, singer) => {
+  const queriesArr = queries.map((q) => {
+    const queryWithSinger = q.query.replaceAll("{{singer}}", singer);
+    q.query = queryWithSinger;
+    return q;
+  });
+  return queriesArr;
+};
+const isAllDataLoaded = () => {
+  const resultArr = Object.entries(state.result);
+  if (resultArr.length === 0) return false;
+  return resultArr.every((query) => {
+    return !query[1].isLoading;
+  });
+};
+
+const updateResultState = ({ data, error, isLoading, queryRunId, id }) => {
+  State.update(({ result }) => {
+    const newResult = {
+      ...result,
+      [`query${id}`]: {
+        data:
+          data?.rows === undefined ? null : data.rows === null ? [] : data.rows,
+        error: !!error,
+        isLoading: isLoading,
+        queryRunId: queryRunId,
+        id: id,
+      },
+    };
+    if (error) {
+      const queryError = `query${id} : ${error}`;
+      return {
+        ...state,
+        result: { ...newResult },
+        error: [...state.error, queryError],
+      };
+    } else {
+      return {
+        ...state,
+        result: { ...newResult },
+      };
+    }
+  });
+};
+
+const runqueries = (queries) => {
+  if (searchedSinger.length === 0) {
+    State.update({
+      isLoading: false,
+      error: [...state.error, "singer is not provided"],
+    });
+    return;
+  }
+
+  const queriesArr = createQuery(queries, searchedSinger);
+  const loader = queriesArr.map((q) => {
+    const props = {
+      apiKey: API_KEY,
+      id: q.id,
+      query: q.query,
+      onResult: updateResultState,
+      firstReqTime: q.firstReqTime,
+      queryOption: {
+        page: {
+          number: 1,
+          size: 1000,
+        },
+        cacheTime: 60,
+        ...q?.queryOption,
+      },
+    };
+
+    return <Widget src="lord1.near/widget/api-flipside" props={props} />;
+  });
+  State.update({
+    loader: loader,
+    isLoading: true,
+    queriesRuned: true,
+  });
+};
+
+if (isAllDataLoaded()) {
+  State.update({ isLoading: false });
+}
+
+if (state.isLoading) {
+  const withHashQueries = [];
+  const withoutHashQueries = [];
+  queries.forEach(({ hash, id, query, ...other }) => {
+    if (hash) {
+      withHashQueries.push({ hash, id });
+    }
+    if (query) {
+      withoutHashQueries.push({ query, hash, id, ...other });
+    }
+  });
+  withHashQueries.forEach((query) => handleHasedData(query));
+  if (!state.queriesRuned) {
+    runqueries(withoutHashQueries);
+  }
+}
+
+// error managment #######################
+if (state.error.length > 0) {
+  function hide() {
+    const errors = state.error;
+    errors.shift();
+    if (errors.length > 0) setTimeout(hide, 2500);
+    State.update({ error: errors });
+  }
+  setTimeout(hide, 2500);
+}
+
+// get props charts #######################################
 const getMixProps = (data, dateKey, serieses, colors, chartOption) => {
   data = data || [];
   serieses = serieses || [{ key: "", seriesName: "", type: "", id: 1 }];
@@ -116,124 +332,167 @@ const getPieProps = (data, [key, value], colors, chartOption) => {
   return props;
 };
 
+// dom sections ##############################################
 const noData = <div className="w-100 py-4 text-center"> No data available</div>;
+const ChartIsLoading = (queryId) => (
+  <div
+    className={`w-100 ${
+      state.result?.[`query${queryId}`]?.isLoading ? "d-block" : "d-none"
+    }`}
+  >
+    <Widget
+      src={`easypoll-v0.ndc-widgets.near/widget/Common.Spinner`}
+      props={{ ...spinnerColors }}
+    />
+  </div>
+);
+const ChartHasError = (queryId) =>
+  state.result?.[`query${queryId}`]?.error && (
+    <div className="py-4 text-center">An error occurred for this section</div>
+  );
 
-let third = (
+const CardIsLoading = (queryId) =>
+  state.result?.[`query${queryId}`]?.isLoading && (
+    <div className="text-center p-4 pb-1">
+      <div className="spinner-border spinner-border-sm" role="status">
+        <span className="visually-hidden">Loading...</span>
+      </div>
+    </div>
+  );
+const CardHasError = (queryId) =>
+  state.result?.[`query${queryId}`]?.error && (
+    <div className="d-flex justify-content-center align-items-center h-100 p-4 pb-1">
+      An error occurred for this section
+    </div>
+  );
+
+let ChartSections = (
   <div className=" col-12 col-md-12">
-    <span className=" col-12 col-md-4">
+    <div className=" col-12 ">
       <div
         style={{ background: themeColor?.sbt_area?.card_bg }}
-        className="w-100 mx-auto shadow-sm rounded-4"
+        className="w-100 mx-auto shadow-sm rounded-4 p-2"
       >
-        <h6
-          style={{ color: themeColor?.sbt_area?.card_title_color }}
-          className="pt-4 ps-4"
-        >
-          <i>Activity of User</i>
-        </h6>
         <Widget
-          src="lord1.near/widget/Pie-chart"
-          props={getPieProps(
-            props.secondData,
-            ["name", "total"],
-            themeColor.chartColor,
-            {
-              title: "",
-              type: "pie",
-              connector: true,
-              legend: true,
-            }
-          )}
+          src="lord1.near/widget/header-dynamic"
+          props={activity_of_user_theme}
         />
+        {ChartIsLoading(1)}
+        {ChartHasError(1)}
+        {state.result["query" + 1]?.data && (
+          <Widget
+            src="lord1.near/widget/Pie-chart"
+            props={getPieProps(
+              state.result["query" + 1]?.data,
+              ["name", "total"],
+              themeColor.chartColor,
+              {
+                title: "",
+                type: "pie",
+                connector: true,
+                legend: true,
+              }
+            )}
+          />
+        )}
       </div>
-    </span>
+    </div>
     <div className="py-2"></div>
-    <span className=" col-12 col-md-8">
+    <div className=" col-12">
       <div
         style={{ background: themeColor?.sbt_area?.card_bg }}
         className="shadow-sm rounded-2"
       >
-        <Widget
-          src="lord1.near/widget/mix-chart"
-          props={getMixProps(
-            props.thirdData,
-            "date",
-            [
+        {ChartIsLoading(2)}
+        {ChartHasError(2)}
+        {state.result["query" + 2]?.data && (
+          <Widget
+            src="lord1.near/widget/mix-chart"
+            props={getMixProps(
+              state.result["query" + 2]?.data,
+              "date",
+              [
+                {
+                  key: "total_trxs",
+                  seriesName: "Daily Transaction",
+                  type: "column",
+                  id: 1,
+                },
+                {
+                  key: "build_trxs",
+                  seriesName: "Daily Build Transaction",
+                  type: "column",
+                  id: 1,
+                },
+                {
+                  key: "update_trxs",
+                  seriesName: "Daily Update Transaction",
+                  type: "column",
+                  id: 1,
+                },
+                {
+                  key: "widget",
+                  seriesName: "Components",
+                  type: "column",
+                  id: 1,
+                },
+                {
+                  key: "cum_total_trxs",
+                  seriesName: "Total Transactions",
+                  type: "column",
+                  id: 2,
+                },
+                {
+                  key: "cum_update_trxs",
+                  seriesName: "Total Update Transaction",
+                  type: "column",
+                  id: 2,
+                },
+                {
+                  key: "cum_build_trxs",
+                  seriesName: "Total Build Transaction",
+                  type: "spline",
+                  id: 2,
+                },
+                {
+                  key: "cum_widget",
+                  seriesName: "Total Components",
+                  type: "spline",
+                  id: 2,
+                },
+              ],
+              themeColor.chartColor,
               {
-                key: "total_trxs",
-                seriesName: "Daily Transaction",
-                type: "column",
-                id: 1,
-              },
-              {
-                key: "build_trxs",
-                seriesName: "Daily Build Transaction",
-                type: "column",
-                id: 1,
-              },
-              {
-                key: "update_trxs",
-                seriesName: "Daily Update Transaction",
-                type: "column",
-                id: 1,
-              },
-              {
-                key: "widget",
-                seriesName: "Components",
-                type: "column",
-                id: 1,
-              },
-              {
-                key: "cum_total_trxs",
-                seriesName: "Total Transactions",
-                type: "column",
-                id: 2,
-              },
-              {
-                key: "cum_update_trxs",
-                seriesName: "Total Update Transaction",
-                type: "column",
-                id: 2,
-              },
-              {
-                key: "cum_build_trxs",
-                seriesName: "Total Build Transaction",
-                type: "spline",
-                id: 2,
-              },
-              {
-                key: "cum_widget",
-                seriesName: "Total Components",
-                type: "spline",
-                id: 2,
-              },
-            ],
-            themeColor.chartColor,
-            {
-              title: "Daily Dev Activity",
-              subtitle: `Number of daily transactions `,
-              stacking: "normal",
-            }
-          )}
-        />
+                title: "Daily Dev Activity",
+                subtitle: `Number of daily transactions `,
+                stacking: "normal",
+              }
+            )}
+          />
+        )}
       </div>
-    </span>
+    </div>
   </div>
 );
 
-let second = (
+let TableSection = (
   <div
     style={{ background: themeColor?.sbt_area?.section_bg }}
-    className="shadow-sm rounded-2 overflow-auto"
+    className="shadow-sm rounded-2 overflow-auto p-2"
   >
-    <Widget src="lord1.near/widget/header-dynamic" props={firsttheme} />
+    <Widget
+      src="lord1.near/widget/header-dynamic"
+      props={table_componentScan_theme}
+    />
     <div className="p-2 rounded-4 overflow-auto">
-      {props.secondData.length > 0 ? (
+      {CardIsLoading(1)}
+      {CardHasError(1)}
+      {state.result["query" + 1]?.data && (
         <Widget
           src="lord1.near/widget/table-pagination"
           props={{
             themeColor: { table_pagination: themeColor.table_pagination },
-            data: props.secondData,
+            data: state.result["query" + 1]?.data,
             rowsCount: 10,
             columns: [
               { title: "Number", key: "rank", colors: "#806ce1" },
@@ -271,26 +530,39 @@ let second = (
             ],
           }}
         />
-      ) : (
-        noData
       )}
     </div>
   </div>
 );
 
+console.log("state000", state);
 return (
-  <div
-    style={{ backgroundColor: themeColor?.search_sbt?.table_bg }}
-    className="table-responsive"
-  >
-    {props.thirdData.length > 0 && props.secondData.length > 0 ? (
-      <div className="">
-        {third}
+  <>
+    {state.loader && <div className="d-none">{state.loader}</div>}
+    <div className="toast-container position-fixed bottom-0 end-0 p-3">
+      {state.error.length > 0 &&
+        state.error.map((er) => (
+          <div
+            className="toast show align-items-center text-bg-danger border-0"
+            role="alert"
+            aria-live="assertive"
+            aria-atomic="true"
+          >
+            <div className="d-flex">
+              <div className="toast-body">{er}</div>
+            </div>
+          </div>
+        ))}
+    </div>
+    <div
+      className="w-100"
+      style={{ backgroundColor: themeColor?.search_sbt?.table_bg }}
+    >
+      <div className="w-100">
+        {ChartSections}
         <div className="w-100 py-2"></div>
-        {second}
+        {TableSection}
       </div>
-    ) : (
-      <Widget src="lord1.near/widget/header-dynamic" props={no_data} />
-    )}
-  </div>
+    </div>
+  </>
 );
