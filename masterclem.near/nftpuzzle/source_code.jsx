@@ -9,19 +9,18 @@ return (
       <div class="row">
         {context.accountId ? (
           <div class="col-md-12">
-           
             <div class="p-5 text-center">
-              {level?
-              <> 
-              <h1>CLAIM YOUR NFT REWARD</h1>
-              <img src={baseurl + level + ".jpg"} />
-              <br />
+              {level ? (
+                <>
+                  <h1>CLAIM YOUR NFT REWARD</h1>
+                  <img width="100%" src={baseurl + level + ".jpg"} />
+                  <br />
 
-              <button class=" btn btn-primary m-5">Mint Reward</button>
-              </>
-              :
-<p>REWARD NOT FOUND</p>
-              }
+                  <button class=" btn btn-primary m-5">Mint Reward</button>
+                </>
+              ) : (
+                <p>REWARD NOT FOUND</p>
+              )}
             </div>
           </div>
         ) : (
