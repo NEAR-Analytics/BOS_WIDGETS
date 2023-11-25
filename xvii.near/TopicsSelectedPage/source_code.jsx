@@ -1,4 +1,4 @@
-// Define an array of accounts with their topics and links
+// Array of accounts with their topics and links
 const accounts = [
   {
     id: "cripteros.near",
@@ -176,7 +176,6 @@ const renderCard = (account) => {
   const profile = Social.get(`${id}/profile/**`, "final");
   const tags = Object.keys(profile.tags || {});
   const profileUrl = `#/near/widget/ProfilePage?accountId=${id}`;
-  // ... other existing variables ...
   const daoId = "hacks.sputnik-dao.near";
   const role = "boshacks";
   const image =
@@ -235,7 +234,6 @@ const renderCard = (account) => {
           src="ndcplug.near/widget/ProfileCard.DAOButton"
           props={{
             receiver: accountId,
-            //   buttonName: "NFT Partner Request",
           }}
         />
       )}
