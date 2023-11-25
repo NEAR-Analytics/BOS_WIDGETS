@@ -63,7 +63,8 @@ const { assets } = deposit;
 const isDeposit = !action || action === "deposit";
 const actionTitle = isDeposit ? "Deposit" : "Withdraw";
 
-if (assets && !selectedAsset) {
+if (assets) {
+  // && !selectedAsset) {
   initState({
     selectedAsset: assets.find((a) => a.selected) || assets?.[0],
   });
