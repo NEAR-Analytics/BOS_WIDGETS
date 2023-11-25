@@ -2,11 +2,11 @@
  * Require a project link
  */
 const nearDevGovGigsContractAccountId =
-  props.nearDevGovGigsContractAccountId || "devgovgigs.near".split("/", 1)[0];
+  props.nearDevGovGigsContractAccountId || "devgovgigs.near".split("/", 1)[0]; // nearDevGovGigsContractAccountID = devgovgigs.near (Contract Filter of Indexer)
 
 const nearDevGovGigsWidgetsAccountId =
   props.nearDevGovGigsWidgetsAccountId || "devgovgigs.near".split("/", 1)[0];
-const prependTitle = "Project : ";
+// const prependTitle = "Project : ";
 
 function widget(widgetName, widgetProps, key) {
   widgetProps = {
@@ -64,8 +64,8 @@ const AutoComplete = styled.div`
 `;
 
 function textareaInputHandler(value) {
-  const showAccountAutocomplete = /@[\w][^\s]*$/.test(value);
-  State.update({ text: value, showAccountAutocomplete });
+  const showAccountAutocomplete = /@[\w][^\s]*$/.test(value); // check value in email pattern
+  State.update({ text: value, showAccountAutocomplete }); // state.text = [value, showAccountAutocomplete] value maybe string and showAccountAutocomplete is a boolean
 }
 function textareaInputHandlerTeam(value) {
   const showAccountAutocompleteTeam = /@[\w][^\s]*$/.test(value);
@@ -135,7 +135,7 @@ const handleSelect = (id) => {
 };
 
 initState({
-  seekingFunding: false,
+  seekingFunding: true,
   selectedElements: [],
   projectUrl: "",
   locationUrl: "",
@@ -194,33 +194,33 @@ const onSubmit = () => {
   let labels = state.labelStrings;
 
   let body = {
-    name: prependTitle + state.name,
+    name: state.name,
     description: generateDescription(
       state.description,
       state.amount,
       state.token,
-      state.supervisor,
-      state.category,
-      state.teammates,
-      state.projectUrl,
-      state.locationUrl
+      //   state.supervisor,
+      state.category
+      //   state.teammates,
+      //   state.projectUrl,
+      //   state.locationUrl
     ),
   };
 
-  if (state.postType === "Solution") {
-    body = {
-      ...body,
-      post_type: "Submission",
-      submission_version: "V1",
-    };
-  } else {
-    // Idea
-    body = {
-      ...body,
-      post_type: "Idea",
-      idea_version: "V1",
-    };
-  }
+  //   if (state.postType === "Solution") {
+  //     body = {
+  //       ...body,
+  //       post_type: "Submission",
+  //       submission_version: "V1",
+  //     };
+  //   } else {
+  //     // Idea
+  //     body = {
+  //       ...body,
+  //       post_type: "Idea",
+  //       idea_version: "V1",
+  //     };
+  //   }
 
   if (!context.accountId) return;
 
@@ -228,7 +228,7 @@ const onSubmit = () => {
   if (mode == "Create") {
     txn.push({
       contractName: nearDevGovGigsContractAccountId,
-      methodName: "add_post",
+      methodName: "add_post", // method of Indexer in IndexerLogic.js (https://near.org/dataplatform.near/widget/QueryApi.App?selectedIndexerPath=bo.near/devhub_v36&view=editor-window)
       args: {
         parent_id: parentId,
         labels,
@@ -237,6 +237,7 @@ const onSubmit = () => {
       deposit: Big(10).pow(21).mul(3),
       gas: Big(10).pow(12).mul(100),
     });
+    //NO edit
   } else if (mode == "Edit") {
     txn.push({
       contractName: nearDevGovGigsContractAccountId,
@@ -263,19 +264,21 @@ const onSubmit = () => {
         gas: Big(10).pow(12).mul(30),
       });
     }
-    Near.call(txn);
+    Near.call(txn); // setData / send data
   }
 };
 
-const onIdeaClick = () => {
-  State.update({ postType: "Idea", seekingFunding: false });
-};
+// const onIdeaClick = () => {
+//   State.update({ postType: "Idea", seekingFunding: false });
+// };
 
-const onSolutionClick = () => {
-  State.update({ postType: "Solution" });
-};
+// const onSolutionClick = () => {
+//   State.update({ postType: "Solution" });
+// };
 
-const normalizeLabel = (label) =>
+const normalizeLabel = (
+  label // just normalize to "lowercase-lowercase" sequence
+) =>
   label
     .replaceAll(/[- \.]/g, "_")
     .replaceAll(/[^\w]+/g, "")
@@ -350,42 +353,6 @@ const existingLabels = existingLabelStrings.map((s) => {
 });
 
 const labelEditor = (
-  /*<div className="col-lg-12 mb-2">
-    <p className="fs-6 fw-bold mb-1">Labels</p>
-    <Typeahead
-      multiple
-      labelKey="name"
-      onInputChange={checkLabel}
-      onChange={setLabels}
-      options={[
-        "boshacks",
-        "submission",
-        "team-formation",
-        "Charity",
-        "Tuition",
-        "Funding",
-        "Research",
-        // Add more labels as needed
-      ]}
-      placeholder="Enter labels..."
-      selected={state.labels}
-      positionFixed
-      allowNew={(results, props) => {
-        return (
-          !existingLabelSet.has(props.text) &&
-          props.selected.filter((selected) => selected.name === props.text)
-            .length === 0 &&
-          Near.view(
-            nearDevGovGigsContractAccountId,
-            "is_allowed_to_use_labels",
-            { editor: context.accountId, labels: [props.text] }
-          )
-        );
-      }}
-    />
-  </div>
-);*/
-
   <div className="col-lg-12 mb-2">
     <p className="fs-4 fw-bold mb-1">Labels</p>
     <Typeahead
@@ -463,79 +430,7 @@ const descriptionDiv = (
     )}
   </div>
 );
-const teamDiv = (
-  <div className="col-lg-12 mb-2">
-    <p className="fs-4 fw-bold mb-1">Teammates</p>
-    <p class="text-muted w-75 my-1"> @ the near addresses of your teammates</p>
-    <textarea
-      value={state.teammates}
-      type="text"
-      rows={2}
-      className="form-control"
-      onInput={(event) => textareaInputHandlerTeam(event.target.value)}
-      onKeyUp={(event) => {
-        if (event.key === "Escape") {
-          State.update({ showAccountAutocomplete: false });
-        }
-      }}
-      onChange={(event) => State.update({ teammates: event.target.value })}
-    />
-    {autocompleteEnabled && state.showAccountAutocompleteTeam && (
-      <AutoComplete>
-        <Widget
-          src="near/widget/AccountAutocomplete"
-          props={{
-            term: state.text1.split("@").pop(),
-            onSelect: autoCompleteAccountIdTeam,
-            onClose: () => State.update({ showAccountAutocomplete: false }),
-          }}
-        />
-      </AutoComplete>
-    )}
-  </div>
-);
-const projectDiv = (
-  <div className="col-lg-12 mb-2">
-    <p className="fs-4 fw-bold mb-1">Project Link</p>
-    <p class="text-muted w-75 my-1"> Put a URL of your project </p>
-    <textarea
-      value={state.projectUrl}
-      type="text"
-      rows={1}
-      className="form-control"
-      onInput={(event) => textareaInputHandlerTeam(event.target.value)}
-      onKeyUp={(event) => {
-        if (event.key === "Escape") {
-          State.update({ showAccountAutocomplete: false });
-        }
-      }}
-      onChange={(event) => State.update({ projectUrl: event.target.value })}
-    />
-  </div>
-);
-const locationDiv = (
-  <div className="col-lg-12 mb-2">
-    <p className="fs-4 fw-bold mb-1">
-      Where will your project have the most impact?
-    </p>
-    <p class="text-muted w-75 my-1">
-      Location (URL by copy from googlemap or any map ){" "}
-    </p>
-    <textarea
-      value={state.locationUrl}
-      type="text"
-      rows={1}
-      className="form-control"
-      onInput={(event) => textareaInputHandlerTeam(event.target.value)}
-      onKeyUp={(event) => {
-        if (event.key === "Escape") {
-          State.update({ showAccountAutocomplete: false });
-        }
-      }}
-      onChange={(event) => State.update({ locationUrl: event.target.value })}
-    />
-  </div>
-);
+
 const categoryDiv = (
   <div className="col-lg-12 mb-2">
     <p className="fs-4 fw-bold mb-1">Please select a category</p>
@@ -556,51 +451,51 @@ const categoryDiv = (
   </div>
 );
 
-const isFundraisingDiv = (
-  // This is jank with just btns and not radios. But the radios were glitchy af
-  <>
-    <div class="mb-2">
-      <p class="fs-6 fw-bold mb-1">
-        Are you seeking funding for your solution?
-        <span class="text-muted fw-normal">(Optional)</span>
-      </p>
-      <div class="form-check form-check-inline">
-        <label class="form-check-label">
-          <button
-            className="btn btn-light p-0"
-            style={{
-              backgroundColor: state.seekingFunding ? "#0C7283" : "inherit",
-              color: "#f3f3f3",
-              border: "solid #D9D9D9",
-              borderRadius: "100%",
-              height: "20px",
-              width: "20px",
-            }}
-            onClick={() => State.update({ seekingFunding: true })}
-          />
-          Yes
-        </label>
-      </div>
-      <div class="form-check form-check-inline">
-        <label class="form-check-label">
-          <button
-            className="btn btn-light p-0"
-            style={{
-              backgroundColor: !state.seekingFunding ? "#0C7283" : "inherit",
-              color: "#f3f3f3",
-              border: "solid #D9D9D9",
-              borderRadius: "100%",
-              height: "20px",
-              width: "20px",
-            }}
-            onClick={() => State.update({ seekingFunding: false })}
-          />
-          No
-        </label>
-      </div>
-    </div>
-  </>
-);
+// const isFundraisingDiv = (
+//   // This is jank with just btns and not radios. But the radios were glitchy af
+//   <>
+//     <div class="mb-2">
+//       <p class="fs-6 fw-bold mb-1">
+//         Are you seeking funding for your solution?
+//         <span class="text-muted fw-normal">(Optional)</span>
+//       </p>
+//       <div class="form-check form-check-inline">
+//         <label class="form-check-label">
+//           <button
+//             className="btn btn-light p-0"
+//             style={{
+//               backgroundColor: state.seekingFunding ? "#0C7283" : "inherit",
+//               color: "#f3f3f3",
+//               border: "solid #D9D9D9",
+//               borderRadius: "100%",
+//               height: "20px",
+//               width: "20px",
+//             }}
+//             onClick={() => State.update({ seekingFunding: true })}
+//           />
+//           Yes
+//         </label>
+//       </div>
+//       <div class="form-check form-check-inline">
+//         <label class="form-check-label">
+//           <button
+//             className="btn btn-light p-0"
+//             style={{
+//               backgroundColor: !state.seekingFunding ? "#0C7283" : "inherit",
+//               color: "#f3f3f3",
+//               border: "solid #D9D9D9",
+//               borderRadius: "100%",
+//               height: "20px",
+//               width: "20px",
+//             }}
+//             onClick={() => State.update({ seekingFunding: false })}
+//           />
+//           No
+//         </label>
+//       </div>
+//     </div>
+//   </>
+// );
 
 const fundraisingDiv = (
   <div class="d-flex flex-column mb-2">
@@ -632,27 +527,6 @@ const fundraisingDiv = (
         }
       />
     </div>
-    <div className="col-lg-6 mb-2">
-      <p class="mb-1">
-        Requested sponsor <span class="text-muted fw-normal">(Optional)</span>
-      </p>
-      <p style={{ fontSize: "13px" }} class="m-0 text-muted fw-light">
-        If you are requesting funding from a specific sponsor, please enter
-        their username.
-      </p>
-      <div class="input-group flex-nowrap">
-        <span class="input-group-text" id="addon-wrapping">
-          @
-        </span>
-        <input
-          type="text"
-          class="form-control"
-          placeholder="Enter username"
-          value={state.supervisor}
-          onChange={(event) => State.update({ supervisor: event.target.value })}
-        />
-      </div>
-    </div>
   </div>
 );
 
@@ -661,23 +535,23 @@ function generateDescription(
   amount,
   token,
   supervisor,
-  category,
-  teammates,
-  projectUrl,
-  locationUrl
+  category
+  //   teammates,
+  //   projectUrl
+  //   locationUrl
 ) {
   const categoryLine = `\n###### 💰 Category:  ${category}\n`;
-  const teammateLine = `\n###### 👭 Teammates:  ${teammates}\n`;
-  const projectLine = `\n###### 🔗 Project Link:  ${projectUrl}\n`;
-  const locationLine = `\n###### 🗺️ Location:  ${locationUrl}\n`;
+  //   const teammateLine = `\n###### 👭 Teammates:  ${teammates}\n`;
+  //   const projectLine = `\n###### 🔗 Project Link:  ${projectUrl}\n`;
+  //   const locationLine = `\n###### 🗺️ Location:  ${locationUrl}\n`;
   //const locationmap =
   const newText = text;
 
   if (category.length > 0) newText += categoryLine;
 
-  if (teammates.length > 0) newText += teammateLine;
-  if (projectUrl.length > 0) newText += projectLine;
-  if (locationUrl.length > 0) newText += locationLine;
+  //   if (teammates.length > 0) newText += teammateLine;
+  //   if (projectUrl.length > 0) newText += projectLine;
+  //   if (locationUrl.length > 0) newText += locationLine;
 
   const funding = `###### Requested amount: ${amount} ${token}\n###### Requested sponsor: @${supervisor}\n`;
   if (amount > 0 && token && supervisor) return funding + text;
@@ -726,12 +600,7 @@ return (
                 {nameDiv}
                 {descriptionDiv}
                 {categoryDiv}
-                {teamDiv}
-                {projectDiv}
-                {locationDiv}
-                {labelEditor}
-
-                {state.seekingFunding && fundraisingDiv}
+                {fundraisingDiv}
               </div>
               <button
                 style={{
@@ -744,37 +613,6 @@ return (
               >
                 Post
               </button>
-            </div>
-            <div class="bg-light d-flex flex-row p-1 border-bottom"></div>
-            <div class="card-body">
-              <p class="text-muted m-0">Preview</p>
-              <div>
-                {widget("entity.post.Post", {
-                  isPreview: true,
-                  id: 0, // irrelevant
-                  post: {
-                    author_id: state.author_id,
-                    likes: [],
-                    snapshot: {
-                      editor_id: state.editor_id,
-                      labels: state.labelStrings,
-                      post_type: state.postType,
-                      name: prependTitle + state.name,
-                      description: generateDescription(
-                        state.description,
-                        state.amount,
-                        state.token,
-                        state.supervisor,
-                        state.category,
-                        state.teammates,
-                        state.projectUrl,
-                        state.locationUrl
-                      ),
-                      github_link: state.githubLink,
-                    },
-                  },
-                })}
-              </div>
             </div>
           </div>
         </>
