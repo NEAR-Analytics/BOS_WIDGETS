@@ -1,0 +1,28 @@
+const contract = "nftpuzzle.masterclem.near";
+const level = props.level;
+const baseurl =
+  "https://ipfs.io/ipfs/QmXWX64AtfcmF5ch5xDeAASWsz6VAFQ3YXAmAFx8oUfEhe/puzzle/";
+
+return (
+  <>
+    <div class="container-fluid">
+      <div class="row">
+        {context.accountId ? (
+          <div class="col-md-12">
+            <h1>CLAIM YOUR NFT REWARD</h1>
+            <div class="p-5 text-center">
+              <img src={baseurl + level + ".jpg"} />
+              <br />
+
+              <button class=" btn btn-primary m-5">Mint Reward</button>
+            </div>
+          </div>
+        ) : (
+          <div class="col-md-12 text-center">
+            Sign in to Claim your NFT Reward
+          </div>
+        )}
+      </div>
+    </div>
+  </>
+);
