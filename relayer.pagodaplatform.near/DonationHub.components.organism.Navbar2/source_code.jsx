@@ -98,38 +98,10 @@ const LinksContainer = styled.div`
   }
 `;
 
-const links = [
-  {
-    title: "Donation feed",
-    href: "feed",
-    links: [],
-  },
-  {
-    title: "about",
-    links: [
-      { title: "mission", href: "about" },
-      { title: "blog", href: "blog" },
-    ],
-  },
-];
-
 return (
   <Navbar className="position-relative">
     <Logo />
     <div className="d-flex gap-3 align-items-center">
-      <LinksContainer>
-        {links.map((link) => (
-          <Widget
-            src="devhub.near/widget/devhub.components.molecule.NavbarDropdown"
-            props={{
-              title: link.title,
-              href: link.href,
-              links: link.links,
-              page: page,
-            }}
-          />
-        ))}
-      </LinksContainer>
       {context.accountId && <ProfileIcon />}
     </div>
   </Navbar>
