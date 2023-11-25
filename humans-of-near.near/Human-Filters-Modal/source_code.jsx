@@ -189,7 +189,7 @@ const Textarea = styled.textarea`
 
 const CommnuityBtn = styled.button`
   gap: 10px;
-  width: 16.6%;
+  width: 14.25%;
   color: white;
   ${({ active, color }) =>
     active
