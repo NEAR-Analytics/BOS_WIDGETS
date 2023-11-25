@@ -40,7 +40,11 @@ const accounts = [
     topic: "DeFi projects on Near",
     link: "https://docs.google.com/document/d/1y_GsDrA_VG8kQubplRqjy8ddIL_Fnjl7IkkNt5YpPbU/edit?usp=drivesdk",
   },
-  { id: "trojanhorse15.near", topic: "NDC Election", link: "" },
+  {
+    id: "trojanhorse15.near",
+    topic: "NDC Election",
+    link: "https://docs.google.com/document/d/1alFrnJ5cQBVouCG5kGytOSZOpd8-sjP1pAdjatTm_UY/edit?usp=drivesdk",
+  },
 ];
 
 // -- Get all the roles from the DAO policy
