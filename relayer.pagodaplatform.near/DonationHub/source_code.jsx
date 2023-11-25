@@ -42,19 +42,27 @@ function Page() {
   switch (routes[0]) {
     case "home": {
       return (
-        <Widget src="devhub.near/widget/devhub.page.feed" props={passProps} />
+        <Widget
+          src={"lucus.near/widget/DoantionHub.page.feed"}
+          props={passProps}
+        />
       );
     }
+
+    // ?page=feed
     case "feed": {
       return (
-        <Widget src={"devhub.near/widget/devhub.page.feed"} props={passProps} />
+        <Widget
+          src={"lucus.near/widget/DonationHub.page.feed"}
+          props={passProps}
+        />
       );
     }
     // ?page=create
     case "create": {
       return (
         <Widget
-          src={"devhub.near/widget/devhub.page.create"}
+          src={"lucus.near/widget/Donation.Project.create"}
           props={passProps}
         />
       );
