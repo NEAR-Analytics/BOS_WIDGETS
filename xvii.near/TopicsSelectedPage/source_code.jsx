@@ -215,8 +215,6 @@ const renderCard = (account) => {
           )}
         </div>
       </CardLeft>
-
-      {/* New Section for Research Topic */}
       <div>
         <strong>Research Topic Selected:</strong>
         <br />
