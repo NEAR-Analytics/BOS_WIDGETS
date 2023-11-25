@@ -62,7 +62,7 @@ function Page() {
     case "create": {
       return (
         <Widget
-          src={"lucus.near/widget/Donation.Project.create"}
+          src={"lucus.near/widget/Donation.Project.Create"}
           props={passProps}
         />
       );
