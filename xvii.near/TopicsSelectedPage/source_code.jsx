@@ -3,7 +3,7 @@ const accounts = [
   {
     id: "cripteros.near",
     topic: "NEAR UX for Spanish speaking contributors",
-    link: "",
+    link: "https://docs.google.com/document/d/10eAXOIFTyCjEcHs9Izs2uC61OXFV43Q23uhC7SpqH3k/edit?usp=sharing",
   },
   {
     id: "dabbie3229.near",
