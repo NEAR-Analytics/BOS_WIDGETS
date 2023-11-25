@@ -135,6 +135,7 @@ const ModalAction = styled.div`
 `;
 
 const ModalTitle = styled.h4`
+  margin: 0;
   font-size: 16px;
   font-weight : bold;
 `;
