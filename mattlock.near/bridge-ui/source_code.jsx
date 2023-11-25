@@ -57,20 +57,24 @@ const {
   log,
   explorerLink,
 } = props;
-const { action, amount, selectedAsset } = state;
+const { action, amount } = state;
 const { assets } = deposit;
 
 const isDeposit = !action || action === "deposit";
 const actionTitle = isDeposit ? "Deposit" : "Withdraw";
 
-if (assets && !selectedAsset) {
+if (assets && !state.selectedAsset) {
   initState({
     selectedAsset: assets.find((a) => a.selected) || assets?.[0],
   });
 }
 
-const selectedAssetWithdraw = selectedAsset
-  ? withdraw?.assets?.find((a) => a.id === selectedAsset.id)
+const selectedAsset = state.selectedAsset
+  ? assets?.find((a) => a.id === state.selectedAsset.id)
+  : undefined;
+
+const selectedAssetWithdraw = state.selectedAsset
+  ? withdraw?.assets?.find((a) => a.id === state.selectedAsset.id)
   : undefined;
 
 const handleAction = () => {
