@@ -261,7 +261,7 @@ return (
         <div>
           <p
             style={{ marginBottom: 8, fontSize: 14 }}
-          >{`Regional Community `}</p>
+          >{`Filter by Community `}</p>
           <div className="d-flex">
             {state.commnuities.map((item) => (
               <CommnuityBtn
