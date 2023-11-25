@@ -1,7 +1,25 @@
 const contract = "nftpuzzle.masterclem.near";
-const level = props.level;
+const level = (props.level = 1);
 const baseurl =
   "https://ipfs.io/ipfs/QmXWX64AtfcmF5ch5xDeAASWsz6VAFQ3YXAmAFx8oUfEhe/puzzle/";
+const claimNFT = () => {
+  Near.call(
+    contract,
+    "nft_mint",
+    {
+      token_id: context.accountId + " - " + level,
+      receiver_id: context.accountId,
+      token_metadata: {
+        title: "NFT REWARD",
+        description: "Puzzle reward for level " + level,
+        media: baseurl + level + ".jpg",
+        copies: 1,
+      },
+    },
+    null,
+    0.1
+  );
+};
 
 return (
   <>
@@ -16,7 +34,12 @@ return (
                   <img width="100%" src={baseurl + level + ".jpg"} />
                   <br />
 
-                  <button class=" btn btn-primary m-5">Mint Reward</button>
+                  <button
+                    class=" btn btn-primary m-5"
+                    onClick={() => claimNFT()}
+                  >
+                    Mint Reward
+                  </button>
                 </>
               ) : (
                 <p>REWARD NOT FOUND</p>
