@@ -56,7 +56,6 @@ const {
   isLoading,
   log,
   explorerLink,
-  defaultSelectedAsset,
 } = props;
 const { action, amount, selectedAsset } = state;
 const { assets } = deposit;
@@ -66,8 +65,7 @@ const actionTitle = isDeposit ? "Deposit" : "Withdraw";
 
 if (assets && !selectedAsset) {
   initState({
-    selectedAsset:
-      assets.find((a) => a.selected) || assets?.[defaultSelectedAsset || 0],
+    selectedAsset: assets.find((a) => a.selected) || assets?.[0],
   });
 }
 
@@ -182,6 +180,7 @@ const Container = styled.div`
     }
 `;
 
+console.log("deposit", deposit);
 console.log("selectedAsset", selectedAsset);
 console.log("selectedAssetWithdraw", selectedAssetWithdraw);
 
