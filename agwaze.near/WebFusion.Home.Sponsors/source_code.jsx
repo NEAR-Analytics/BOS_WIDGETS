@@ -42,14 +42,21 @@ const Root = styled.div`
         }
     }
     .images {
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        flex-wrap: wrap;
-        justify-content: space-evenly;
-        @media (max-width: 450px) {
+      margin-top: 40px;
+      padding: 20px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      width: 100%;
+      img {
+        height: max-conntent;
+        width: max-content;
+      }
+        @media (max-width: 600px) {
+          display: flex;
           flex-direction: column;
           margin-top: 40px;
+          align-items: center;
           gap: 20px;
         }
         img {
@@ -57,7 +64,7 @@ const Root = styled.div`
             transition: 0.5s ease-in-out;
         }
         img:hover {
-            opacity: 0.4
+            opacity: 0.4;
         }
     }
 `;
