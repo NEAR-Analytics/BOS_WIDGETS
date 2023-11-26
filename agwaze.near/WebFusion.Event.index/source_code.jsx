@@ -17,7 +17,7 @@ const Root = styled.div`
 `;
 
 const Day = styled.div`
-              display: flex;
+            display: flex;
             width: 230px;
             padding: 17px 46.4px 17px 46.6px;
             flex-direction: column;
@@ -37,6 +37,12 @@ const Day = styled.div`
                 font-weight: 700;
                 line-height: 20.7px;
                 text-transform: uppercase;
+            }
+            @media (max-width: 800px) {
+                width: 80px;
+                p {
+                    font-size: 12px;
+                }
             }
 `;
 
