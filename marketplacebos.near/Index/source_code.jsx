@@ -2,28 +2,6 @@ State.init({
   selectedTab: props.tab || "buttons",
 });
 
-const CardGrid = styled.div`
-  width:80%;
-  height:80%
-    @media screen and (max-width: 868px) {
-    grid-template-columns: repeat(2, 1fr);
-  }
-      @media screen and (max-width: 768px) {
-  width:70%;
-  height:70%
-  }
-
-  @media screen and (max-width: 480px) {
-  width:55%;
-  height:55%
-  }
-    @media screen and (max-width: 580px) {
-  width:55%;
-  height:55%
-  }
-`;
-
-
 const Wrapper = styled.div`
   padding-bottom: 48px;
 `;
@@ -44,7 +22,7 @@ const Tabs = styled.div`
   border-right: 1px solid #eceef0;
   padding-right: 24px;
   overflow-y: auto;
-  max-height: 700px;
+  max-height: 1000px;
   position: sticky;
   top: 0; 
   @media (max-width: 1200px) {
@@ -171,10 +149,23 @@ return (
               <Title>Patterns</Title>
             </TabsButton>
             <TabsButton
+              onClick={() => handleTabClick("feedbacks")}
+              selected={state.selectedTab === "feedbacks"}
+            >
+              <Title>Feedback Apps</Title>
+            </TabsButton>
+            
+            <TabsButton
               onClick={() => handleTabClick("fonts")}
               selected={state.selectedTab === "fonts"}
             >
               <Title>Fonts Style</Title>
+            </TabsButton>
+            <TabsButton
+              onClick={() => handleTabClick("IPFS")}
+              selected={state.selectedTab === "IPFS"}
+            >
+              <Title>IPFS uploads</Title>
             </TabsButton>
             <TabsButton
               onClick={() => handleTabClick("myfavorites")}
@@ -189,8 +180,6 @@ return (
         {state.selectedTab === "buttons" && (
           <>
             <Widget src="marketplacebos.near/widget/Page.ButtonPage1" />
-            <br />
-            <br />
           </>
         )}
         {state.selectedTab === "checkboxes" && (
@@ -248,6 +237,14 @@ return (
         {state.selectedTab === "charts" && (
           <>
             <Widget src="marketplacebos.near/widget/Page.ChartPage1" />
+            <br />
+            <br />
+          </>
+        )}
+        {""}
+        {state.selectedTab === "feedbacks" && (
+          <>
+            <Widget src="marketplacebos.near/widget/Feedback.Widget.Index" />
             <br />
             <br />
           </>
