@@ -48,9 +48,9 @@ const Root = styled.div`
       grid-template-columns: repeat(3, 1fr);
       gap: 10px;
       width: 100%;
-      img {
-        height: max-conntent;
-        width: max-content;
+      img:nth-child(2) {
+        height: 100px;
+        margin-left: 20px;
       }
         @media (max-width: 600px) {
           display: flex;
