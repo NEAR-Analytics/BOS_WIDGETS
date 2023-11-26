@@ -122,7 +122,6 @@ const addStar = () => {
   // Use the selectedStars value as needed (e.g., send it to your addStar function)
   console.log("Selected Stars:", selectedStars);
 };
-const [showDiv4, setShowDiv4] = useState(true);
 
 function MyComponent() {
   return (
@@ -142,7 +141,7 @@ function MyComponent() {
       <Div>
         <Div2>
           <Div3 href={`${social}${widget_link}`}>{widget_name}</Div3>
-          {showDiv4 && (
+         
             <Div4>
               Get
               {state.get_starList &&
@@ -150,7 +149,7 @@ function MyComponent() {
                   <Div17 key={index}>{item}/5★</Div17>
                 ))}{" "}
             </Div4>
-          )}
+         
         </Div2>
         <Div8 />
         <div>
