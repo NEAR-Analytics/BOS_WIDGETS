@@ -1,5 +1,5 @@
 const contract = "nftpuzzle.masterclem.near";
-const level = (props.level = 1);
+const level = props.level;
 const baseurl =
   "https://ipfs.io/ipfs/QmXWX64AtfcmF5ch5xDeAASWsz6VAFQ3YXAmAFx8oUfEhe/puzzle/";
 const claimNFT = () => {
