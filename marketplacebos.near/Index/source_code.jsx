@@ -72,6 +72,42 @@ const TabsButton = styled.button`
    
 }
 `;
+
+const Game = styled.button`
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-start;
+  font-weight: 600;
+  font-size: 23px;
+  padding: 12px 0;
+  position: relative;
+  color: white;
+  background-image: linear-gradient(90deg, rgba(251,136,255,1) 0%, rgba(252,176,69,1) 100%);
+  border: #ffac32ff;
+  outline: none;
+  text-align: center;
+  text-decoration: none !important;
+
+  &:hover {
+    background: #ffd83e;
+    cursor: pointer;
+    color:white;
+
+  }
+
+  &::after {
+    content: "";
+    display: ${(p) => (p.selected ? "block" : "none")};
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 6px;
+    background: #ffd83e;
+   
+}
+`;
+
 const handleTabClick = (tab) => {
   State.update({
     selectedTab: tab,
@@ -154,7 +190,7 @@ return (
             >
               <Title>Feedback Apps</Title>
             </TabsButton>
-            
+
             <TabsButton
               onClick={() => handleTabClick("fonts")}
               selected={state.selectedTab === "fonts"}
@@ -166,6 +202,12 @@ return (
               selected={state.selectedTab === "IPFS"}
             >
               <Title>IPFS uploads</Title>
+            </TabsButton>
+            <TabsButton
+              onClick={() => handleTabClick("games")}
+              selected={state.selectedTab === "games"}
+            >
+              <Title>BOS Games</Title>
             </TabsButton>
             <TabsButton
               onClick={() => handleTabClick("myfavorites")}
