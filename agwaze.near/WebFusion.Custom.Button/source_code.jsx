@@ -57,10 +57,24 @@ const CustomButtonRoot = styled.button`
   left: -4px;
   right: -4px;
   bottom: -4px;
- border: 2px dashed ${props.whiteBg ? "white" : "#00EC97"};
+  border: 2px dashed ${props.whiteBg ? "white" : "#00EC97"};
+  }
+
+  @media (max-width: 500px) {
+    width: 150px !important;
+    height: 40px !important;
+    .buttonElement {
+      width: 153px !important;
+      height: 40px !important;
+      svg {
+        width: 15px;
+      }
+      h1 {
+        font-size: 13px;
+      }
+    }
   }
 `;
-
 
 return (
   <CustomButtonRoot>
