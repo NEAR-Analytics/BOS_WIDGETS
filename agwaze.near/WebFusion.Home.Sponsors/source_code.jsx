@@ -79,7 +79,7 @@ return (
       <img src="https://ipfs.near.social/ipfs/bafkreicss3ajslchhvnwmm232xalxxzcpbqficfqmewb6wkh36klfhpj4u" />
       <img src="https://ipfs.near.social/ipfs/bafkreihy52w3qldkzzb4tlmlr2hijn6lgof4xqmcav444lf4zgqn43ghdi" />
       <img src="https://ipfs.near.social/ipfs/bafkreidbmunwjyz2cuvt75uqn7numxyuudpr74uecitx4h77f7x3fojpgy" />
-      <img src="https://ipfs.near.social/ipfs/bafkreibplakyzszxaiijqoo4ns4jkaokdvndyrpinkkg7qiawcu5j4loi4" />
+      <img src="https://ipfs.near.social/ipfs/bafkreigcbm6lfb7fr5tg6ghwqerdml5uxksslmmdrnaocb2zbh774kv7mi" />
       <img src="https://ipfs.near.social/ipfs/bafkreidui7kvc5kmxgf5bhbtwcr6mcc2v3kqms2xd7pyozijp5dc2rcjoq" />
       <img src="https://ipfs.near.social/ipfs/bafkreihneahtfo7dbfc3zdf63m7ztmnxqyzdwnwezctk2na6xr6szqwfoq" />
     </div>
