@@ -1,7 +1,7 @@
 const contract = "nftpuzzle.masterclem.near";
 const level = props.level;
 const baseurl =
-  "https://ipfs.io/ipfs/QmXWX64AtfcmF5ch5xDeAASWsz6VAFQ3YXAmAFx8oUfEhe/puzzle/";
+  "https://ipfs.io/ipfs/QmfHHBc7WUankAywSqjzBo2wsjW2FgiK8M6tnyLkYt2cUy/puzzle/";
 const claimNFT = () => {
   Near.call(
     contract,
