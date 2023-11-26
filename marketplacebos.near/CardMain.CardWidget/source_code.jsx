@@ -39,13 +39,13 @@ const CardMain = styled.div`
   background: #f5f5f5;
   position: relative;
   padding: 1.8rem;
-  border: 2px solid #c3c6ce;
-  transition: 0.5s ease-out;
+  border: 0.2rem solid #fff4b0ff;
+  box-shadow:0 0 4px 0px red;  transition: 0.5s ease-out;
   overflow: visible;
 
   &:hover {
     border-color: #008bf8;
-    box-shadow: 0 4px 18px 0 rgba(0, 0, 0, 0.25);
+    box-shadow:0 4 14px 0px red;
   }
 
 `;
