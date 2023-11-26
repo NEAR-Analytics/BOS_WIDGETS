@@ -16,7 +16,7 @@ const downArrow = (
   </svg>
 );
 
-const Root = styled.button`
+const CustomButtonRoot = styled.button`
   width: 197.856px;
   height: 61.398px;
   flex-shrink: 0;
@@ -52,38 +52,20 @@ const Root = styled.button`
   }
   .buttonElement:before {
     content: '';
-    position: absolute;
-    top: -4px; /* Adjust these values as needed to position the border outside the container */
-    left: -4px;
-    right: -4px;
-    bottom: -4px;
-  border: 2px dashed ${props.whiteBg ? "white" : "#00EC97"};
-  }
-  @media (max-width: 768px) {
-    width: 147px;
-      height: 50px;
-
-    .buttonElement {
-      width: 170px;
-      height: 50px;
-      h1 {
-        font-size: 14px;
-      }
-      svg {
-        width: 18px;
-      }
-    }
+  position: absolute;
+  top: -4px; /* Adjust these values as needed to position the border outside the container */
+  left: -4px;
+  right: -4px;
+  bottom: -4px;
+ border: 2px dashed ${props.whiteBg ? "white" : "#00EC97"};
   }
 `;
 
-const ButtonElement = styled.div`
- 
-`;
 
 return (
-  <Root>
+  <CustomButtonRoot>
     <div className="buttonElement">
       <h1>{props.title ?? "Register Now"}</h1> {downArrow}
     </div>
-  </Root>
+  </CustomButtonRoot>
 );
