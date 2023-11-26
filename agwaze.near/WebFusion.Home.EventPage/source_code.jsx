@@ -26,9 +26,9 @@ const Root = styled.div`
     bottom: -4px;
   }
   @media only screen and (max-width: 450px) {
-    width: 380px;
+    width: 350px;
     .topContainer {
-      width: 380px;
+      width: 350px;
     }
   }
 `;
@@ -149,15 +149,15 @@ return (
           <span>Days</span>
         </div>
         <div className="day">
-          <p>5</p>
+          <p>10+</p>
           <span>Speakers</span>
         </div>
         <div className="day">
-          <p>100</p>
+          <p>200</p>
           <span>Developers</span>
         </div>
         <div className="lastDay">
-          <p>20+</p>
+          <p>30+</p>
           <span>Projects</span>
         </div>
       </Days>
