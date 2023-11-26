@@ -1,12 +1,9 @@
 const Root = styled.div`
-    padding: 40px;
     .top {
         display: flex;
         flex-direction: row;
         justify-content: space-between;
         align-items: flex-start;
-        flex-wrap: wrap;
-        gap: 20px;
         h1 {
             color: var(--nearcon-app-black, #000);
             font-family: Inter;
@@ -14,6 +11,11 @@ const Root = styled.div`
             font-style: normal;
             font-weight: 500;
             line-height: 38.4px; /* 120% */
+            @media (max-width: 450px) {
+              font-size: 25px;
+              margin-right: 20px;
+              padding: 10px;
+            }
         }
         button {
             color: var(--near-org-black, #000);
@@ -44,19 +46,17 @@ const Root = styled.div`
         flex-direction: row;
         align-items: center;
         flex-wrap: wrap;
-        justify-content: space-between;
+        gap: 40px;
+        @media (max-width: 450px) {
+          flex-direction: column;
+          margin-top: 40px;
+        }
         img {
             cursor: pointer;
             transition: 0.5s ease-in-out;
         }
         img:hover {
             opacity: 0.4
-        }
-    }
-    @media (max-width: 500px){
-        .top, .images {
-            justify-content: center;
-            margin-bottom: 40px;
         }
     }
 `;
