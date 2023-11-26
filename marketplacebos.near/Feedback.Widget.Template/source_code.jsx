@@ -1,4 +1,3 @@
-
 State.init({
   feedback: "",
   widget_id: props.widget_id,
