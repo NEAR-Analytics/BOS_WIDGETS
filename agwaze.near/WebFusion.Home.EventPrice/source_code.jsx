@@ -42,6 +42,8 @@ const Prices = styled.div`
     }
     .left {
         width: 60%;
+        display: flex;
+        gap: 20px;
     }
     @media (max-width: 900px) {
       .right, .left {
@@ -100,15 +102,11 @@ return (
           Join the official telegram channel, and drop into the spirit before
           the event.
         </p>
-        <Widget
-          src="agwaze.near/widget/WebFusion.Custom.Button"
-          props={{ whiteBg: true }}
-        />
       </div>
       <div className="left">
-        <img src="https://ipfs.near.social/ipfs/bafkreid7d23utn7mmt5apawscdwufnpylzsotexfjiq66gf7u5k542onva" />
-        <img src="https://ipfs.near.social/ipfs/bafkreih4hmt44bjy4zbx6scoialdedhonqybeb6gedjznqypvrns7p6um4" />
-        <img src="https://ipfs.near.social/ipfs/bafkreihlnpqj4352l7xapyducldvbpkdct5wmcdqtsuzenhx5qgkluk2we" />
+        <img src="https://ipfs.near.social/ipfs/bafkreihyhtspk7hhvxj2jqyqtkaact3ynes23dbhle3jkxmy2wthfc6p4e" />
+        <img src="https://ipfs.near.social/ipfs/bafkreiaxmtimsgitqwsrmt3jvpoa2y44u7pt5kg7xfbzyy5misnpp5v5ey" />
+        <img src="https://ipfs.near.social/ipfs/bafkreib445zbn3jgjogopg35ddzh27znvlvrd3zag7mq7aajgzcgqtgw6q" />
       </div>
     </Prices>
     <ForWho>
@@ -117,15 +115,24 @@ return (
         <h1>Who is the Hackathon for?</h1>
         <p>Developer</p>
         <span>
-          This event promises to be an exciting developer experience for non
-          native blockchain developers. Hear from DevHub DevRel and NEAR Africa
-          about navigating the BOS, Publishing composable apps, Building widgets
-          with JSX , BOS API integration and more 
+          NEAR is constantly pushing boundaries, so are our speakers. Hear from
+          leading voices about the BOS, AI, the future of Web3, why an open web
+          matters, user-experience, governance, sustainability, NFTs, DeFI,
+          gaming, and much more.
         </span>
-        <p>Technical Writer</p>
+        <p>Designer</p>
         <span>
-          Join us if you’re a technical writer passionate about simplifying
-          complex ideas and documenting projects 
+          NEAR is constantly pushing boundaries, so are our speakers. Hear from
+          leading voices about the BOS, AI, the future of Web3, why an open web
+          matters, user-experience, governance, sustainability, NFTs, DeFI,
+          gaming, and much more.
+        </span>
+        <p>Developer</p>
+        <span>
+          NEAR is constantly pushing boundaries, so are our speakers. Hear from
+          leading voices about the BOS, AI, the future of Web3, why an open web
+          matters, user-experience, governance, sustainability, NFTs, DeFI,
+          gaming, and much more.
         </span>
       </div>
     </ForWho>
