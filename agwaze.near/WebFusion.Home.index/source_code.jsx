@@ -82,6 +82,12 @@ const EventDetails = styled.div`
       svg {
         margin-left: 5px;
       }
+      @media (max-width: 600px) {
+        width: 160px;
+        font-size: 12px;
+        height: 40px;
+        
+      }
     }
       .speakButton:hover {
         opacity: 0.6;
