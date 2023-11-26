@@ -158,7 +158,7 @@ function MyComponent() {
                 state.get_feedbacksList.map((item) => (
                   <>
                     <Div16
-                      href={`https://near.org/widget/ProfilePage?accountId=${
+                      href={`https://near.org/near/widget/ProfilePage?accountId=${
                         item.split(" said ")[0]
                       }`}
                     >
