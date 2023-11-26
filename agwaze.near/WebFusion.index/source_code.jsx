@@ -90,7 +90,8 @@ const ContentContainer = styled.div`
 const tabContentWidget = {
   home: "agwaze.near/widget/WebFusion.Home.index",
   team: "agwaze.near/widget/WebFusion.Team.index",
-  event: "agwaze.near/widget/WebFusion.Event.index"
+  event: "agwaze.near/widget/WebFusion.Event.index",
+  about: "agwaze.near/widget/WebFusion.About"
 }[state.tab];
 
 const tabContent = <Widget src={tabContentWidget} props={{ update }} />;
