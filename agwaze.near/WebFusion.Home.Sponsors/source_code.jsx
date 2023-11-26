@@ -1,9 +1,14 @@
 const Root = styled.div`
+  margin: 20px 0;
     .top {
         display: flex;
         flex-direction: row;
+        flex-wrap: wrap;
         justify-content: space-between;
         align-items: flex-start;
+        @media (max-width: 600px) {
+          justify-content: center;
+        }
         h1 {
             color: var(--nearcon-app-black, #000);
             font-family: Inter;
