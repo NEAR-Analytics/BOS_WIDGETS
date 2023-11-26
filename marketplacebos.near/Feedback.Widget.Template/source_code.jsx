@@ -141,15 +141,14 @@ function MyComponent() {
       <Div>
         <Div2>
           <Div3 href={`${social}${widget_link}`}>{widget_name}</Div3>
-         
-            <Div4>
-              Get
-              {state.get_starList &&
-                state.get_starList.map((item, index) => (
-                  <Div17 key={index}>{item}/5★</Div17>
-                ))}{" "}
-            </Div4>
-         
+
+          <Div4>
+            Get
+            {state.get_starList &&
+              state.get_starList.map((item, index) => (
+                <Div17 key={index}>{item}/5★</Div17>
+              ))}{" "}
+          </Div4>
         </Div2>
         <Div8 />
         <div>
@@ -159,7 +158,7 @@ function MyComponent() {
                 state.get_feedbacksList.map((item) => (
                   <>
                     <Div16
-                      href={`https://near/widget/ProfilePage?accountId=${
+                      href={`https://near.org/widget/ProfilePage?accountId=${
                         item.split(" said ")[0]
                       }`}
                     >
