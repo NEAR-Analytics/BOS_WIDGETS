@@ -205,45 +205,30 @@ const verifySignature = async (originalMessage, signature) => {
   return signerAddress;
 };
 
-const Selection = styled.button`
-    background: ${(props) => {
-      console.log(
-        "Current state in styled component:",
-        props.tx,
-        state.selectedTransaction
-      );
-      return state.selectedTransaction &&
-        state.selectedTransaction.scenario === props.tx.scenario
-        ? "palevioletred"
-        : "white";
-    }};
-
-    color: ${(props) => {
-      console.log(
-        "Current state in styled component:",
-        props.tx,
-        state.selectedTransaction
-      );
-      return state.selectedTransaction &&
-        state.selectedTransaction.scenario === props.tx.scenario
-        ? "white"
-        : "palevioletred";
-    }};
-    font-size: 1em;
-    margin: 1em;
-    padding: 0.25em 1em;
-    border: 2px solid palevioletred;
-    border-radius: 10px;
-    text-align: left;
-`;
-
 // const Selection = styled.button`
-//     background: ${(tx) =>
-//       state.selectedTransaction &&
-//       state.selectedTransaction.scenario === tx.scenario
+//     background: ${(props) => {
+//       console.log(
+//         "Current state in styled component:",
+//         props.tx,
+//         state.selectedTransaction
+//       );
+//       return state.selectedTransaction &&
+//         state.selectedTransaction.scenario === props.tx.scenario
 //         ? "palevioletred"
-//         : "white"};
-//     color: ${(props) => (props.primary ? "white" : "palevioletred")};
+//         : "white";
+//     }};
+
+//     color: ${(props) => {
+//       console.log(
+//         "Current state in styled component:",
+//         props.tx,
+//         state.selectedTransaction
+//       );
+//       return state.selectedTransaction &&
+//         state.selectedTransaction.scenario === props.tx.scenario
+//         ? "white"
+//         : "palevioletred";
+//     }};
 //     font-size: 1em;
 //     margin: 1em;
 //     padding: 0.25em 1em;
@@ -251,6 +236,15 @@ const Selection = styled.button`
 //     border-radius: 10px;
 //     text-align: left;
 // `;
+
+const Selection = styled.button`
+    font-size: 1em;
+    margin: 1em;
+    padding: 0.25em 1em;
+    border: 2px solid palevioletred;
+    border-radius: 10px;
+    text-align: left;
+`;
 
 return (
   <div>
