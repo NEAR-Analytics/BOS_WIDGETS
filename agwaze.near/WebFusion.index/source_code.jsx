@@ -118,8 +118,10 @@ return (
           }}
         />
       </Sidebar>
-      <ContentContainer>{tabContent}</ContentContainer>
+      <ContentContainer>
+        {tabContent}
+        <Widget src="agwaze.near/widget/WebFusion.Footer" />
+      </ContentContainer>
     </Content>
-      <Widget src="agwaze.near/widget/WebFusion.Footer" />
   </Root>
 );
