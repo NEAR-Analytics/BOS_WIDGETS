@@ -268,6 +268,27 @@ const SaveIcon = (
   ></i>
 );
 
+const StyledButton = styled.button`
+  cursor: pointer;
+  border: none;
+  background: none;
+  transition: transform 0.2s;
+  &:hover {
+    transform: scale(1.25);
+  }
+  &:active {
+    transform: scale(1);
+  }
+`;
+
+const StyledSVG = styled.svg`
+  width: 50px;
+  height: 50px;
+  fill: none; /* You can use fill instead of stroke in styled-components */
+  stroke: #4299e1; /* Replace with your desired color */
+`;
+
+
 let copyBtn = props.copyBtn || "Copy Button";
 props.copyBtn || <></>;
 let component = props.component || <> </>;
@@ -282,6 +303,18 @@ let editInput = props.editInput || <> </>;
 
 return (
   <>
+    <a href="https://near.social/fastui.near/widget/FastUI">
+      <StyledButton title="Go Back">
+        <StyledSVG xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+          <path
+            strokeLinejoin="round"
+            strokeLinecap="round"
+            strokeWidth="1.5"
+            d="M11 6L5 12M5 12L11 18M5 12H19"
+          />
+        </StyledSVG>
+      </StyledButton>
+    </a>
     <CardM>
       <div className="container-fluid">
         <div className="row">
