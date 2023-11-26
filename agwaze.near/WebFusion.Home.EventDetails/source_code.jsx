@@ -26,9 +26,9 @@ const EventRootDetails = styled.div`
     bottom: -4px;
   }
   @media only screen and (max-width: 450px) {
-    width: 380px;
+    width: 340px;
     .topContainer {
-      width: 380px;
+      width: 340px;
     }
   }
 `;
