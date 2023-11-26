@@ -46,10 +46,11 @@ const Root = styled.div`
         flex-direction: row;
         align-items: center;
         flex-wrap: wrap;
-        gap: 40px;
+        justify-content: space-evenly;
         @media (max-width: 450px) {
           flex-direction: column;
           margin-top: 40px;
+          gap: 20px;
         }
         img {
             cursor: pointer;
