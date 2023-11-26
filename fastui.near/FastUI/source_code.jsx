@@ -22,10 +22,10 @@ const Tabs = styled.div`
   border-right: 1px solid #eceef0;
   padding-right: 24px;
   overflow-y: auto;
-  max-height: 900px;
+  max-height: 1000px;
   position: sticky;
   top: 0; 
-  @media (max-width: 400px) {
+  @media (max-width: 1200px) {
     background: #f8f9fa;
     border: none;
     margin: 0;
@@ -72,6 +72,42 @@ const TabsButton = styled.button`
    
 }
 `;
+
+const Game = styled.button`
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-start;
+  font-weight: 600;
+  font-size: 23px;
+  padding: 12px 0;
+  position: relative;
+  color: white;
+  background-image: linear-gradient(90deg, rgba(251,136,255,1) 0%, rgba(252,176,69,1) 100%);
+  border: #ffac32ff;
+  outline: none;
+  text-align: center;
+  text-decoration: none !important;
+
+  &:hover {
+    background: #ffd83e;
+    cursor: pointer;
+    color:white;
+
+  }
+
+  &::after {
+    content: "";
+    display: ${(p) => (p.selected ? "block" : "none")};
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 6px;
+    background: #ffd83e;
+   
+}
+`;
+
 const handleTabClick = (tab) => {
   State.update({
     selectedTab: tab,
@@ -149,28 +185,29 @@ return (
               <Title>Patterns</Title>
             </TabsButton>
             <TabsButton
+              onClick={() => handleTabClick("feedbacks")}
+              selected={state.selectedTab === "feedbacks"}
+            >
+              <Title>Feedback Apps</Title>
+            </TabsButton>
+
+            <TabsButton
               onClick={() => handleTabClick("fonts")}
               selected={state.selectedTab === "fonts"}
             >
               <Title>Fonts Style</Title>
             </TabsButton>
             <TabsButton
-              onClick={() => handleTabClick("tiktactoe")}
-              selected={state.selectedTab === "tiktactoe"}
+              onClick={() => handleTabClick("IPFS")}
+              selected={state.selectedTab === "IPFS"}
             >
-              <Title>Tik Tac Toe</Title>
+              <Title>IPFS uploads</Title>
             </TabsButton>
             <TabsButton
-              onClick={() => handleTabClick("quizz")}
-              selected={state.selectedTab === "quizz"}
+              onClick={() => handleTabClick("games")}
+              selected={state.selectedTab === "games"}
             >
-              <Title>Quizz</Title>
-            </TabsButton>
-            <TabsButton
-              onClick={() => handleTabClick("slides")}
-              selected={state.selectedTab === "slides"}
-            >
-              <Title>Slides by scottie.near</Title>
+              <Title>BOS Games</Title>
             </TabsButton>
             <TabsButton
               onClick={() => handleTabClick("myfavorites")}
@@ -185,8 +222,6 @@ return (
         {state.selectedTab === "buttons" && (
           <>
             <Widget src="marketplacebos.near/widget/Page.ButtonPage1" />
-            <br />
-            <br />
           </>
         )}
         {state.selectedTab === "checkboxes" && (
@@ -249,6 +284,14 @@ return (
           </>
         )}
         {""}
+        {state.selectedTab === "feedbacks" && (
+          <>
+            <Widget src="marketplacebos.near/widget/Feedback.Widget.Index" />
+            <br />
+            <br />
+          </>
+        )}
+        {""}
         {state.selectedTab === "patterns" && (
           <>
             <Widget src="marketplacebos.near/widget/Page.PatternPage1" />
@@ -260,30 +303,6 @@ return (
         {state.selectedTab === "fonts" && (
           <>
             <Widget src="marketplacebos.near/widget/Page.FontPage1" />
-            <br />
-            <br />
-          </>
-        )}
-        {""}
-        {state.selectedTab === "tiktactoe" && (
-          <>
-            <Widget src="marketplacebos.near/widget/BOSGame.TicTacToe.Box" />
-            <br />
-            <br />
-          </>
-        )}
-        {""}
-        {state.selectedTab === "quizz" && (
-          <>
-            <Widget src="marketplacebos.near/widget/BOSGame.Quiz.Home" />
-            <br />
-            <br />
-          </>
-        )}
-        {""}
-        {state.selectedTab === "slides" && (
-          <>
-            <Widget src="scottie.near/widget/Slides" />
             <br />
             <br />
           </>
