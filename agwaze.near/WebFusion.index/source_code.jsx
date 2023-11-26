@@ -119,7 +119,7 @@ return (
         />
       </Sidebar>
       <ContentContainer>{tabContent}</ContentContainer>
-      <Widget src="agwaze.near/widget/WebFusion.Footer" />
     </Content>
+      <Widget src="agwaze.near/widget/WebFusion.Footer" />
   </Root>
 );
