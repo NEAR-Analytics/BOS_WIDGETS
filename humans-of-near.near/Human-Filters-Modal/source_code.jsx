@@ -90,7 +90,7 @@ const Commnuities = [
   {
     id: "she",
     name: "SHE is NEAR",
-    color: "#c3b5ff",
+    color: "#7013CA",
   },
 ];
 
