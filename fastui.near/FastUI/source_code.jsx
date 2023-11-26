@@ -73,15 +73,14 @@ const TabsButton = styled.button`
 }
 `;
 
-const Game = styled.button`
+const Select = styled.select`
   display: inline-flex;
-  align-items: center;
   justify-content: flex-start;
   font-weight: 600;
   font-size: 23px;
   padding: 12px 0;
   position: relative;
-  color: white;
+  color: black;
   background-image: linear-gradient(90deg, rgba(251,136,255,1) 0%, rgba(252,176,69,1) 100%);
   border: #ffac32ff;
   outline: none;
@@ -91,7 +90,7 @@ const Game = styled.button`
   &:hover {
     background: #ffd83e;
     cursor: pointer;
-    color:white;
+    color:black;
 
   }
 
@@ -105,8 +104,46 @@ const Game = styled.button`
     width: 6px;
     background: #ffd83e;
    
-}
-`;
+}`;
+const Option = styled.option`
+  display: inline-flex;
+  justify-content: flex-start;
+  font-weight: 600;
+  font-size: 23px;
+  padding: 12px 0;
+  position: relative;
+  color: black;
+  background-image: linear-gradient(90deg, rgba(251,136,255,1) 0%, rgba(252,176,69,1) 100%);
+  border: #ffac32ff;
+  outline: none;
+  text-align: center;
+  text-decoration: none !important;
+
+  &:hover {
+    background: #ffd83e;
+    cursor: pointer;
+    color:black;
+
+  }
+
+  &::after {
+    content: "";
+    display: ${(p) => (p.selected ? "block" : "none")};
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 6px;
+    background: #ffd83e;
+   
+}`;
+
+const handleSelectChange = (event) => {
+  const selectedTab = event.target.value;
+  State.update({
+    selectedTab: selectedTab,
+  });
+};
 
 const handleTabClick = (tab) => {
   State.update({
@@ -203,11 +240,16 @@ return (
             >
               <Title>IPFS uploads</Title>
             </TabsButton>
+            <Select onChange={handleSelectChange}>
+              <Option value="someOption">BOS Games</Option>
+              <Option value="tiktactoe">Tiktactoe</Option>
+              <Option value="quiz">QuizGame</Option>
+            </Select>
             <TabsButton
-              onClick={() => handleTabClick("games")}
-              selected={state.selectedTab === "games"}
+              onClick={() => handleTabClick("treding")}
+              selected={state.selectedTab === "treding"}
             >
-              <Title>BOS Games</Title>
+              <Title>Trending Post</Title>
             </TabsButton>
             <TabsButton
               onClick={() => handleTabClick("myfavorites")}
@@ -291,6 +333,29 @@ return (
             <br />
           </>
         )}
+        {state.selectedTab === "tiktactoe" && (
+          <>
+            <Widget src="marketplacebos.near/widget/BOSGame.TicTacToe.Box" />
+            <br />
+            <br />
+          </>
+        )}
+        {state.selectedTab === "quiz" && (
+          <>
+            <Widget src="marketplacebos.near/widget/BOSGame.Quiz.Home" />
+            <br />
+            <br />
+          </>
+        )}
+        {""}
+        {state.selectedTab === "IPFS" && (
+          <>
+            <Widget src="marketplacebos.near/widget/Page.IPFS" />
+            <br />
+            <br />
+          </>
+        )}
+        {""}
         {""}
         {state.selectedTab === "patterns" && (
           <>
