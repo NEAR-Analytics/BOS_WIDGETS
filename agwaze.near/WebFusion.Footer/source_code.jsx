@@ -105,16 +105,20 @@ background: var(--nearcon-app-pampas, #F2F1EA);
  }
  .text {
     display: flex;
-    gap: 30px;
     margin-top: 20px;
     p {
         color: var(--nearcon-app-silver-chalice, #A7A7A7);
         font-family: Segoe UI;
         font-size: 15.75px;
         font-style: normal;
+        padding: 0 15px;
         font-weight: 400;
         line-height: 24px;
+        border-right: 1px solid #D1D1D1;
         cursor: pointer;
+    }
+    p:last-child {
+        border-right: none;
     }
  }
 `;
