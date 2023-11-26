@@ -1,4 +1,4 @@
-const Root = styled.div`
+const EventRootDetails = styled.div`
     width: 505.226px;
     height: 557.438px;
     background: var(--near-org-medium-purple, #7269E1);
@@ -138,7 +138,7 @@ const DateSec = styled.div`
 `;
 
 return (
-  <Root>
+  <EventRootDetails>
     <div className="topContainer">
       <TopContainer>
         <h1>Event Details</h1>
@@ -172,5 +172,5 @@ return (
         </div>
       </DateSec>
     </div>
-  </Root>
+  </EventRootDetails>
 );
