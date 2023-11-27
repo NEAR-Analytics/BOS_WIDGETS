@@ -91,8 +91,9 @@ const addFeedback = () => {
 const social = "https://near.social/";
 const widget_name = props.widget_name || "Magicbuild";
 const widget_link = props.widget_link || "magicbuild.near/widget/app";
-  const logo_linkPP = prop.logo_linkPP ||
-  "https://ipfs.near.social/ipfs/bafkreic4fqr5zanjr4ffe6cunq7tukbmqhcr47or3fmur2bzlvrmd7gdse";
+const logo_linkPP =
+  prop.logo_linkPP ||
+  "https://ipfs.near.social/ipfs/bafkreiblpi7qtk33rtifluuicjk2e27d6unopkdd3ndckfwwfqes4djay4";
 
 const StyledButton = styled.button`
   cursor: pointer;
@@ -131,8 +132,6 @@ const addStar = () => {
   // Use the selectedStars value as needed (e.g., send it to your addStar function)
   console.log("Selected Stars:", selectedStars);
 };
-
-
 
 function MyComponent() {
   return (
