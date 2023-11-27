@@ -91,6 +91,8 @@ const addFeedback = () => {
 const social = "https://near.social/";
 const widget_name = props.widget_name || "Magicbuild";
 const widget_link = props.widget_link || "magicbuild.near/widget/app";
+  const logo_linkPP = prop.logo_linkPP ||
+  "https://ipfs.near.social/ipfs/bafkreic4fqr5zanjr4ffe6cunq7tukbmqhcr47or3fmur2bzlvrmd7gdse";
 
 const StyledButton = styled.button`
   cursor: pointer;
@@ -130,7 +132,7 @@ const addStar = () => {
   console.log("Selected Stars:", selectedStars);
 };
 
-const logo_links = prop.logo_links || "https://ipfs.near.social/ipfs/bafkreic4fqr5zanjr4ffe6cunq7tukbmqhcr47or3fmur2bzlvrmd7gdse";
+
 
 function MyComponent() {
   return (
@@ -206,7 +208,7 @@ function MyComponent() {
           ></Div10>
         </Div9>
         <Div11>
-                  <IMG src={logo_links} />
+          <IMG src={logo_linkPP} />
 
           <Div13 onClick={addFeedback}>Post</Div13>
         </Div11>
