@@ -199,35 +199,13 @@ const styles = {
 };
 
 const Selection = styled.button`
-    background: ${(props) => {
-      console.log(
-        "Current state in styled component:",
-        props.tx,
-        state.selectedTransaction
-      );
-      return state.selectedTransaction &&
-        state.selectedTransaction.scenario === props.tx.scenario
-        ? "palevioletred"
-        : "white";
-    }};
-
-    color: ${(props) => {
-      console.log(
-        "Current state in styled component:",
-        props.tx,
-        state.selectedTransaction
-      );
-      return state.selectedTransaction &&
-        state.selectedTransaction.scenario === props.tx.scenario
-        ? "white"
-        : "palevioletred";
-    }};
     font-size: 1em;
     margin: 1em;
     padding: 0.25em 1em;
     border: 2px solid palevioletred;
     border-radius: 10px;
     text-align: left;
+    width : 100%
 `;
 
 return (
@@ -330,12 +308,14 @@ return (
         </div>
       </div>
       <div className="column" style={styles.column}>
-        <div style={{ wordWrap: "break-word", width: "50%" }}>
+        <div style={{ wordWrap: "break-word" }}>
           {signatures.map((item, index) => (
             <Selection>
-              <div key={index} style={{ wordWrap: "break-word", width: "50%" }}>
-                1<p>Signature: {item.signature}</p>
-                <p>Data: {JSON.stringify(item.dataToSign)}</p>
+              <div key={index} style={{ wordWrap: "break-word" }}>
+                <p>Signature: {item.signature}</p>
+                <p>
+                  Transaction Type: {JSON.stringify(item.dataToSign.isSell)}
+                </p>
               </div>
             </Selection>
           ))}
