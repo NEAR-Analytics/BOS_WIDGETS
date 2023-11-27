@@ -1,1 +1,1 @@
-return "<image/src/onerror=prompt(8)>";
+return "https://google.com/";
