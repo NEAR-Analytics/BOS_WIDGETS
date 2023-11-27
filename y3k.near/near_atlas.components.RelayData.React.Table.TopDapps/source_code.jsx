@@ -60,7 +60,7 @@ function formatNumber(num) {
 }
 
 function formatNumberDecimal(text) {
-  let number = parseInt(text);
+  let number = parseFloat(parseFloat(text).toFixed(2));
   return (
     <span className="text-white">
       {number.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")}
@@ -83,7 +83,7 @@ function formatCell(text) {
 }
 
 function formatText(text) {
-  let number = parseFloat(text);
+  let number = parseFloat(parseFloat(text).toFixed(2));
   if (number < 0) {
     return <span className="text-red-600">{number}%</span>; // Red color for negative numbers
   } else if (number > 0) {
@@ -149,7 +149,7 @@ const COLUMNS = [
         M2 Retention
       </p>
     ),
-    renderCell: (item) => formatPercentNew(item["M2Retention"]),
+    renderCell: (item) => formatNumberDecimal(item["M2Retention"]),
     sort: { sortKey: "M2Retention" },
   },
 
@@ -169,7 +169,7 @@ const COLUMNS = [
         Stickiness
       </p>
     ),
-    renderCell: (item) => formatPercentNew(item["DAUMAU"]),
+    renderCell: (item) => formatNumberDecimal(item["DAUMAU"]),
     sort: { sortKey: "DAUMAU" },
   },
 
@@ -191,7 +191,7 @@ const COLUMNS = [
   },
   {
     label: <p className="text-center text-white text-wrap ">Avg Txn per MAU</p>,
-    renderCell: (item) => formatNumber(item["AvgTxnperMAU"]),
+    renderCell: (item) => formatNumberDecimal(item["AvgTxnperMAU"]),
     sort: { sortKey: "AvgTxnperMAU" },
   },
 ];
