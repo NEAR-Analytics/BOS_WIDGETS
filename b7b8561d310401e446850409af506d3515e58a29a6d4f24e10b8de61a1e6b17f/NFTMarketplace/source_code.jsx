@@ -192,7 +192,8 @@ const styles = {
   },
   column: {
     flex: "1", // ให้ทั้งสองคอลัมน์มีขนาดเท่ากัน
-    padding: "10px", // หรือตามความต้องการ
+    padding: "5px", // หรือตามความต้องการ
+    width: "50%",
     // สไตล์อื่นๆ ตามความต้องการ
   },
 };
@@ -307,23 +308,33 @@ return (
               onChange={handleChange}
             />
           </div>
-          <div>
-            <div>signature : {state.signature}</div>
-            <button onClick={() => signTransaction()} label="SignButton">
+          <div style={{ margin: 10, alignItems: "center" }}>
+            <div style={{ wordWrap: "break-word", width: "100%" }}>
+              signature : {state.signature}
+            </div>
+            <button
+              onClick={() => signTransaction()}
+              label="SignButton"
+              style={{ margin: 10, alignItems: "center" }}
+            >
               <span>Sign Selected Transaction</span>
             </button>
-            <button onClick={() => signTransaction712()} label="SignButton">
+            <button
+              onClick={() => signTransaction712()}
+              label="SignButton"
+              style={{ margin: 10 }}
+            >
               <span>Sign Selected Transaction With EIP712</span>
             </button>
           </div>
         </div>
       </div>
       <div className="column" style={styles.column}>
-        <div>
+        <div style={{ wordWrap: "break-word", width: "50%" }}>
           {signatures.map((item, index) => (
             <Selection>
-              <div key={index}>
-                <p>Signature: {item.signature}</p>
+              <div key={index} style={{ wordWrap: "break-word", width: "50%" }}>
+                1<p>Signature: {item.signature}</p>
                 <p>Data: {JSON.stringify(item.dataToSign)}</p>
               </div>
             </Selection>
