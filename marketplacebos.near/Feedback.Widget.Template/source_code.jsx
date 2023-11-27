@@ -131,7 +131,7 @@ const addStar = () => {
   console.log("Selected Stars:", selectedStars);
 };
 
-const logo_links = prop.logo_links || "https://ipfs.near.social/ipfs/bafkreic4fqr5zanjr4ffe6cunq7tukbmqhcr47or3fmur2bzlvrmd7gdse";
+const logo_links = prop.logo_links || "notfound";
 function MyComponent() {
   return (
     <>
@@ -149,8 +149,11 @@ function MyComponent() {
       </a>
       <Div>
         <Div2>
-          <Div3 href={`${social}${widget_link}`}>        <IMG src={logo_links} />
-{widget_name}</Div3>
+          <Div3 href={`${social}${widget_link}`}>
+            {" "}
+            <IMG src={logo_links} />
+            {widget_name}
+          </Div3>
 
           <Div4>
             Get
