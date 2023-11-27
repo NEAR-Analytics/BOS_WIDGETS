@@ -55,6 +55,7 @@ const CardDetails = styled.div`
   gap: 0.5em;
   display: grid;
   place-content: center;
+  
 
 `;
 const TextTitle = styled.p`
@@ -84,11 +85,24 @@ const CardButton = styled.button`
     opacity: 1;
   }
 `;
+
+const IMG = styled.img`
+  width: 80px;
+  height: 80px; /* Set the height to the same value as the width to make it a perfect circle */
+  border-radius: 50%; /* Make it round */
+  object-fit: cover; /* Maintain aspect ratio and cover the container */
+  margin: 0 auto; /* Center the image horizontally */
+  display: block; /* Remove default inline display */
+`;
 const widget_name = props.widget_name || "MagicBuild";
 const widget_name_link = props.widget_name_link || "magicbuild.near/widget/app";
+const logo_link = props.logo_link || "https://ipfs.near.social/ipfs/bafybeibfd2jqmeknux4n6ojbhnzdsdyhwagcq2cyi6zriutpmirol7sa2e";
+
 
 return (
   <CardMain>
+    <IMG src={logo_link} />
+
     <CardDetails>
       <TextTitle>{widget_name}</TextTitle>
       <TextBody>
