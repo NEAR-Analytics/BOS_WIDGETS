@@ -228,7 +228,7 @@ max-width: 80%;
 margin: 5rem auto;
 `;
 
-const Raffles = styled.h1`
+const RaffleMain = styled.h1`
 display: flex;
 gap: 0.5rem;
 justify-content: space-between;
@@ -241,7 +241,7 @@ width: 100%;
 }
 `;
 
-const raffleContent = styled.div`
+const RaffleContent = styled.div`
 display: flex;
 flex-direction: column;
 width: 22%;
@@ -274,45 +274,128 @@ font-weight: 700;
 font-size: 36px;
 margin-bottom: 1.5rem;
 text-align: center;
+`;
 
+const NewRaffleBtn = styled.button`
+  color: white;
+  padding: 1.2rem 1.5rem;
+  cursor: pointer;
+  border-width: 1px;
+  border-radius: 0.75rem;
+  background: #003C8C;
+  font-size: 1rem;
+`;
+
+const ClosedRaffleBtn = styled.button`
+  color: #000;
+  padding: 1.2rem 1.5rem;
+  cursor: pointer;
+  border-radius: 0.75rem;
+   font-size: 1rem;
+`;
+
+const RaffleListContainer = styled.div`
+ text-align: center;
+ display: flex;
+ justify-content: center;
+ flex-direction: column;
+`;
+
+const RaffleList = styled.div`
+ display: flex;
+ width: 100%;
+ margin: 0 auto;
+  flex-wrap: wrap;
+  gap: 1rem;
+`;
+
+const RaffleListItem = styled.div`
+display: flex;
+width: 20%;
+margin: 1rem;
+border-radius: 1rem;
+border: 1px solid #e5e7eb;
+flex-direction: column;
+overflow: hidden;
+@media screen and (max-width: 768px){
+ width: 100%;
+}
+ 
+`;
+
+const RaffleListImg = styled.img`
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  display: block;
+  margin: 0;
+  padding: 0;
+`;
+const RaffleBtnGroup = styled.div`
+ text-align: center;
+ margin-bottom: 1rem;
+`;
+
+const RaffleListContent = styled.div`
+ 
+`;
+
+const RaffleListTitle = styled.h3`
+ 
+`;
+
+const RaffleListBtn = styled.div`
+ 
+`;
+
+const RaffleListStatus = styled.div`
+ 
+`;
+
+const RaffleListUnit = styled.div`
+ 
 `;
 console.log(nftData);
 
 return (
   <>
     <Collection>
-      <Raffles>
+      <RaffleMain>
         {nftData.map((raffle) => (
-          <raffleContent key={raffle.id}>
+          <RaffleContent key={raffle.id}>
             <RaffleTitle>{raffle.name}</RaffleTitle>
             <StyledImage
               onClick={() => handleRaffleClick(raffle.id)}
               src={raffle.image}
               alt={raffle.name}
             />
-          </raffleContent>
+          </RaffleContent>
         ))}
-      </Raffles>
+      </RaffleMain>
 
-      <RaffleName>
-        {nftData[state.selectedRaffle].name || nftData[0].name}
-      </RaffleName>
+      <RaffleListContainer>
+        <RaffleName>
+          {nftData[state.selectedRaffle].name || nftData[0].name}
+        </RaffleName>
+        <RaffleBtnGroup>
+          <NewRaffleBtn>New Raffles</NewRaffleBtn>
+          <ClosedRaffleBtn>Closed Raffles</ClosedRaffleBtn>
+        </RaffleBtnGroup>
 
-      {(state.selectedRaffle !== null) &
-        (state.selectedRaffle !== undefined) && (
-        <div>
-          <ul>
+        {(state.selectedRaffle !== null) &
+          (state.selectedRaffle !== undefined) && (
+          <RaffleList>
             {nftData[state.selectedRaffle - 1].nft.map((nft, index) => (
-              <li key={index}>
-                <img src={nft.image} alt={nft.name} />
+              <RaffleListItem key={index}>
+                <RaffleListImg src={nft.image} alt={nft.name} />
                 <p>{nft.name}</p>
                 <p>Status: {nft.status}</p>
                 <p>Units: {nft.unit}</p>
-              </li>
+              </RaffleListItem>
             ))}
-          </ul>
-        </div>
-      )}
+          </RaffleList>
+        )}
+      </RaffleListContainer>
     </Collection>
   </>
 );
