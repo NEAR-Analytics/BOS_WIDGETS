@@ -246,6 +246,9 @@ display: flex;
 flex-direction: column;
 width: 22%;
 margin-bottom: 4rem;
+@media screen and (max-width: 768px){
+ width: 100%;
+}
  transition: transform 0.3s ease-in-out;
    &:hover {
     transform: scale(1.1);
