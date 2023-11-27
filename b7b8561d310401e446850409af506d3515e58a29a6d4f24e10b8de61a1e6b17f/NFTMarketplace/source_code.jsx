@@ -171,7 +171,7 @@ const signTransaction712 = () => {
   console.log("message", message);
   const signer = Ethers.provider().getSigner();
   signer._signTypedData(domain, types, message).then((signature) => {
-    updateSignature(signature);
+    updateSignature(signature, dataToSign);
 
     console.log("Signature:", signature);
   });
@@ -201,29 +201,69 @@ const styles = {
     alignItems: "flex-start", // หรือ 'center' ตามความต้องการ
     width: "100%", // หรือขนาดที่ต้องการ
   },
-  column: {
-    flex: "1", // ให้ทั้งสองคอลัมน์มีขนาดเท่ากัน
-    padding: "5px", // หรือตามความต้องการ
-    width: "50%",
-    // สไตล์อื่นๆ ตามความต้องการ
+  column25: {
+    flex: "0 0 25%", // คอลัมน์นี้จะมีขนาดคงที่ 25%
+    padding: "5px",
+    width: "25%", // กำหนดความกว้าง 25%
+  },
+  column75: {
+    flex: "0 0 75%", // คอลัมน์นี้จะมีขนาดคงที่ 75%
+    padding: "5px",
+    width: "75%", // กำหนดความกว้าง 75%
+  },
+  navbar: {
+    backgroundColor: "#000",
+    color: "white",
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+    padding: "10px 20px",
+  },
+  navList: {
+    listStyleType: "none",
+    display: "flex",
+    margin: 0,
+    padding: 0,
+  },
+  navItem: {
+    margin: "0 10px",
+  },
+  navLink: {
+    color: "white",
+    textDecoration: "none",
+    fontSize: "1.2em",
   },
 };
 
 const Selection = styled.button`
     font-size: 1em;
-    margin: 1em;
-    padding: 0.25em 1em;
+    margin: 0.1em;
+    padding: 0.5em 0.3em;
     border: 2px solid palevioletred;
-    border-radius: 10px;
+    border-radius: 5px;
     text-align: left;
     width : 100%
 `;
 
 return (
   <>
-    <Web3Connect className="web3-connect" connectLabel="Connect Wallet" />
+    <div style={styles.navbar}>
+      <ul style={styles.navList}>
+        <li style={styles.navItem}>
+          <a href="/" style={styles.navLink}>
+            Home
+          </a>
+        </li>
+      </ul>
+      <ul style={styles.navList}>
+        <li style={styles.navItem}>
+          <Web3Connect className="web3-connect" connectLabel="Connect Wallet" />
+        </li>
+      </ul>
+    </div>
+
     <div className="container" style={styles.container}>
-      <div className="column" style={styles.column}>
+      <div className="column25" style={styles.column}>
         <div style={styles.div}>
           <div>
             <label htmlFor="isSell">Transaction Type:</label>
@@ -318,7 +358,7 @@ return (
           </div>
         </div>
       </div>
-      <div className="column" style={styles.column}>
+      <div className="column75" style={styles.column}>
         <div style={{ wordWrap: "break-word" }}>
           {signatures.map((item, index) => (
             <Selection>
