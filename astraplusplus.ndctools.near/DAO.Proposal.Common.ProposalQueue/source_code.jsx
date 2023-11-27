@@ -44,25 +44,27 @@ if (isVotingBodyDao) {
     return (
         <div className="mb-3">
             <div>
-                Draft Proposals are not in active queue.
+                To reduce a risk of spam, proposals require pre-vote community
+                support, or one congress member support, to move a proposal to
+                the active queue.{" "}
                 <a
                     href={`https://github.com/near-ndc/voting-v1/tree/master/voting_body#pre-vote-queue`}
                     target="_blank"
                     rel="noopener noreferrer"
                     style={{ color: "rgb(68, 152, 224)" }}
                 >
-                    More details.
-                </a>
+                    More details
+                </a>{" "}
             </div>
             <Widget
                 src="nearui.near/widget/Input.Checkbox"
                 props={{
-                    checked: state.proposalQueue === "draft",
+                    checked: state.proposalQueue === "active",
                     onChange: (checked) =>
                         checked
-                            ? onChangeProposalQueue("draft")
-                            : onChangeProposalQueue("active"),
-                    label: "Draft",
+                            ? onChangeProposalQueue("active")
+                            : onChangeProposalQueue("draft"),
+                    label: "Bond 300N for a fast track ",
                     id: "draft-proposal"
                 }}
             />
