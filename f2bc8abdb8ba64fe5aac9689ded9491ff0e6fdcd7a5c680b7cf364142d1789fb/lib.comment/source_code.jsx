@@ -66,7 +66,24 @@ function canUserCreateComment(props) {
   const { accountId, sbtsNames } = props;
 
   setAreValidUsers([accountId], sbtsNames);
-  const result = state[`isValidUser-${accountId}`];
+
+  let allSBTsValidations = [];
+
+  let result;
+
+  let userCredentials =
+    usersSBTs.find((data) => data.user === accountId).credentials ??
+    state[`isValidUser-${accountId}`];
+
+  if (userCredentials) {
+    const allSBTs = Object.keys(userCredentials);
+
+    allSBTs.forEach((sbt) => {
+      sbt !== "public" && allSBTsValidations.push(userCredentials[sbt]);
+    });
+
+    result = allSBTsValidations.includes(true);
+  }
 
   resultFunctionsToCall = resultFunctionsToCall.filter((call) => {
     const discardCondition =
@@ -108,7 +125,6 @@ function setAreValidUsers(accountIds, sbtsNames) {
         key: `isValidUser-${accountId}`,
         props: {
           accountId,
-          sbtsNames,
         },
       });
     }
