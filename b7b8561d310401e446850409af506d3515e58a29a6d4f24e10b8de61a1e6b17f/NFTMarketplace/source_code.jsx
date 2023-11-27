@@ -358,7 +358,7 @@ return (
           </div>
         </div>
       </div>
-      <div className="column75" style={styles.column}>
+      <div className="column75" style={styles.column75}>
         <div style={{ wordWrap: "break-word" }}>
           {signatures.map((item, index) => (
             <Selection>
