@@ -299,9 +299,7 @@ return (
         </CloseButton>
         <ModalTitle>{`Your Profile`}</ModalTitle>
         <div>
-          <p
-            style={{ marginBottom: 8, fontSize: 14 }}
-          >{`Regional Community `}</p>
+          <p style={{ marginBottom: 8, fontSize: 14 }}>{`Community`}</p>
           <div className="d-flex">
             {state.commnuities.map((item) => (
               <CommnuityBtn
