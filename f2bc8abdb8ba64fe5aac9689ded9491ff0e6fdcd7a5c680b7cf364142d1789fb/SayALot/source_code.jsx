@@ -2,6 +2,7 @@
 
 let { sharedBlockHeight, tagShared, isTest, accountId } = props;
 
+//Duplicated(lib.SBT)
 const sbtWhiteList = [
   "fractal.i-am-human.near - class 1",
   "community.i-am-human.near - class 1",
@@ -60,15 +61,16 @@ const widgets = {
   thisForum: `${authorForWidget}/widget/${configWidget}`,
 
   //Editable widgets
-  // ndcForum: `${componentsOwner}/widget/NDC.Forum`, ///////////////////////////////////////////////////
-  ndcForum: `f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/NDC.Forum`, ///////////////////////////////////////////////////
+  ndcForum: `${componentsOwner}/widget/NDC.Forum`,
   create: `${componentsOwner}/widget/NDC.Forum.Create`,
   header: `${componentsOwner}/widget/NDC.NavBar`,
   showArticlesList: `${componentsOwner}/widget/NDC.Forum.AllArticlesList`,
   showArticlesListSortedByAuthors: `${componentsOwner}/widget/NDC.AllArticlesSortByAuthors`,
   articlesByAuthorCard: `${componentsOwner}/widget/NDC.ArticlesByAuthorCard`,
-  generalCard: `${componentsOwner}/widget/NDC.GeneralCard`,
-  articleView: `${componentsOwner}/widget/NDC.ArticleView`,
+  // generalCard: `${componentsOwner}/widget/NDC.GeneralCard`, ///////////////////////////////////////////////////
+  generalCard: `f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/NDC.GeneralCard`, ///////////////////////////////////////////////////
+  // articleView: `${componentsOwner}/widget/NDC.ArticleView`, ///////////////////////////////////////////////////
+  articleView: `f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/NDC.ArticleView`, ///////////////////////////////////////////////////
   reactions: `${componentsOwner}/widget/NDC.Reactions`,
   addComment: `${componentsOwner}/widget/NDC.AddComment`,
   commentView: `${componentsOwner}/widget/NDC.CommentView`,
@@ -79,15 +81,12 @@ const widgets = {
   compactPost: `${componentsOwner}/widget/NDC.CompactPost`,
 
   //Libs
-  libSBT: `sayalot.near/widget/lib.SBT`, ///////////////////////////////////////////////////////////
-  // libComment: `sayalot.near/widget/lib.comment`, ///////////////////////////////////////////////////////////
-  libComment: `f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/lib.comment`, ///////////////////////////////////////////////////////////
-  // libArticle: `sayalot.near/widget/lib.article`, ///////////////////////////////////////////////////////////
-  libArticle: `f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/lib.article`, ///////////////////////////////////////////////////////////
-  // libEmojis: `sayalot.near/widget/lib.emojis`, ///////////////////////////////////////////////////////////
-  libEmojis: `f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/lib.emojis`, ///////////////////////////////////////////////////////////
-  // libUpVotes: `sayalot.near/widget/lib.upVotes`, ///////////////////////////////////////////////////////////
-  libUpVotes: `f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/lib.upVotes`, ///////////////////////////////////////////////////////////
+  libSBT: `sayalot.near/widget/lib.SBT`,
+  // libComment: `sayalot.near/widget/lib.comment`, ///////////////////////////////////////////////////
+  libComment: `f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/lib.comment`, ///////////////////////////////////////////////////
+  libArticle: `sayalot.near/widget/lib.article`,
+  libEmojis: `sayalot.near/widget/lib.emojis`,
+  libUpVotes: `sayalot.near/widget/lib.upVotes`,
 
   //Standard widgets
   fasterTextInput: `f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/fasterTextInput`,
