@@ -20,6 +20,10 @@ const [formData, setFormData] = useState({
 
 const [signatures, setSignatures] = useState([]);
 
+const selectTransaction = (tx) => {
+  State.update({ selectedTransaction: tx });
+};
+
 // จัดการกับการเปลี่ยนแปลงในฟอร์ม
 const handleChange = (e) => {
   const { id, value } = e.target;
@@ -92,8 +96,19 @@ const createEIP712Message = (transaction) => {
   };
 };
 
-const updateSignature = (_signature) => {
-  State.update({ signature: _signature });
+const updateSignature = (signature, dataToSign) => {
+  State.update({ signature: signature });
+  const isSignatureExist = signatures.some(
+    (item) => item.signature === signature
+  );
+  if (!isSignatureExist) {
+    setSignatures((prevSignatures) => [
+      ...prevSignatures,
+      { dataToSign, signature },
+    ]);
+  } else {
+    console.log("Signature already exists");
+  }
 };
 
 const signTransaction = () => {
@@ -113,9 +128,11 @@ const signTransaction = () => {
     expiry: formData.expiry,
     nonce: formData.nonce,
   };
+  console.log("dataToSign", dataToSign);
+  const dataString = JSON.stringify(dataToSign); // แปลง object เป็น string
 
   // แปลงสตริงเป็น byte array
-  const dataBytes = ethers.utils.toUtf8Bytes(dataToSign);
+  const dataBytes = ethers.utils.toUtf8Bytes(dataString);
   // ทำ hash ข้อมูล
   const hashedData = ethers.utils.keccak256(dataBytes);
 
@@ -125,12 +142,7 @@ const signTransaction = () => {
   signer
     .signMessage(ethers.utils.arrayify(hashedData))
     .then((signature) => {
-      updateSignature(signature);
-      console.log("Signature:", signature);
-      setSignatures((prevSignatures) => [
-        ...prevSignatures,
-        { dataToSign, signature },
-      ]);
+      updateSignature(signature, dataToSign);
     })
     .catch((error) => {
       console.error("Error signing data:", error);
@@ -154,7 +166,6 @@ const signTransaction712 = () => {
     expiry: formData.expiry,
     nonce: formData.nonce,
   };
-  console.log("dataToSign", dataToSign);
 
   const message = createEIP712Message(dataToSign);
   console.log("message", message);
@@ -222,8 +233,8 @@ return (
               value={formData.isSell}
               onChange={handleChange}
             >
-              <option value="true">Sell</option>
-              <option value="false">Buy</option>
+              <option value={true}>Sell</option>
+              <option value={false}>Buy</option>
             </select>
           </div>
           <div>
@@ -311,11 +322,28 @@ return (
         <div style={{ wordWrap: "break-word" }}>
           {signatures.map((item, index) => (
             <Selection>
-              <div key={index} style={{ wordWrap: "break-word" }}>
-                <p>Signature: {item.signature}</p>
+              <div
+                key={index}
+                style={{ wordWrap: "break-word" }}
+                onClick={() => selectTransaction(item.signature)}
+              >
+                <p>Signature: {item.signature.slice(0, 30)}...</p>
                 <p>
                   Transaction Type: {JSON.stringify(item.dataToSign.isSell)}
                 </p>
+                {state.selectedTransaction == item.signature ? (
+                  <>
+                    <button
+                      onClick={() => alert()}
+                      label="SignButton"
+                      style={{ margin: 10 }}
+                    >
+                      <span> Accept Offer </span>
+                    </button>
+                  </>
+                ) : (
+                  ""
+                )}
               </div>
             </Selection>
           ))}
