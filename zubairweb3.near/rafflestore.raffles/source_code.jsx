@@ -25,7 +25,7 @@ const event =
 const hat =
   "https://res.cloudinary.com/dfbqtfoxu/image/upload/v1700588114/rafflestore/hat_szxoc2.png";
 const dog =
-  "https://res.cloudinary.com/dfbqtfoxu/image/upload/v1700588119/rafflestore/sharddog_jcqsvi.jpg";
+  "https://res.cloudinary.com/dfbqtfoxu/image/upload/v1700588097/rafflestore/dog_f1ptbq.png";
 
 const nftData = [
   {
@@ -101,7 +101,7 @@ const nftData = [
   {
     id: 2,
     name: "NearWeek Raffles",
-    image: dog,
+    image: newspaper,
     nft: [
       {
         name: "Default",
@@ -138,7 +138,7 @@ const nftData = [
   {
     id: 3,
     name: "Community Rafflest",
-    image: dog,
+    image: event,
     nft: [
       {
         name: "Default",
@@ -175,7 +175,7 @@ const nftData = [
   {
     id: 4,
     name: "El Café Cartel Raffles",
-    image: dog,
+    image: hat,
     nft: [
       {
         name: "Default",
@@ -211,9 +211,6 @@ const nftData = [
   },
 ];
 
-const Collection = styled.div`
-`;
-
 State.init({ selectedRaffle: undefined });
 
 const handleRaffleClick = (raffleId) => {
@@ -226,32 +223,76 @@ text-align: center;
 font-size: 3em;
 `;
 
+const Collection = styled.h1`
+max-width: 80%;
+margin: 5rem auto;
+`;
+
+const Raffles = styled.h1`
+display: flex;
+gap: 0.5rem;
+justify-content: space-between;
+align-items: center;
+width: 100%;
+`;
+
+const raffleContent = styled.div`
+display: flex;
+flex-direction: column;
+width: 22%;
+margin-bottom: 4rem;
+ transition: transform 0.3s ease-in-out;
+   &:hover {
+    transform: scale(1.1);
+  }
+`;
+
+const RaffleTitle = styled.h3`
+font-size: 1.1rem;
+margin-bottom: 1rem;
+`;
+
+const StyledImage = styled.img`
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  margin: 0;
+  padding: 0;
+`;
+
+const RaffleName = styled.h1`
+font-weight: 700;
+font-size: 36px;
+margin-bottom: 1.5rem;
+text-align: center;
+
+`;
 console.log(nftData);
 
 return (
   <>
-    <div>
-      <Heading>NFT DATA</Heading>
-    </div>
-    <div>
-      <ul>
+    <Collection>
+      <Raffles>
         {nftData.map((raffle) => (
-          <li key={raffle.id}>
-            <button onClick={() => handleRaffleClick(raffle.id)}>
-              {raffle.name}
-            </button>
-          </li>
+          <raffleContent key={raffle.id}>
+            <RaffleTitle>{raffle.name}</RaffleTitle>
+            <StyledImage
+              onClick={() => handleRaffleClick(raffle.id)}
+              src={raffle.image}
+              alt={raffle.name}
+            />
+          </raffleContent>
         ))}
-      </ul>
+      </Raffles>
+
+      <RaffleName>
+        {nftData[state.selectedRaffle].name || nftData[0].name}
+      </RaffleName>
 
       {(state.selectedRaffle !== null) &
         (state.selectedRaffle !== undefined) && (
         <div>
-          <h2>{nftData[selectedRaffle - 1].name}</h2>
-          <img
-            src={nftData[state.selectedRaffle - 1].image}
-            alt={nftData[state.selectedRaffle - 1].name}
-          />
           <ul>
             {nftData[state.selectedRaffle - 1].nft.map((nft, index) => (
               <li key={index}>
@@ -264,6 +305,6 @@ return (
           </ul>
         </div>
       )}
-    </div>
+    </Collection>
   </>
 );
