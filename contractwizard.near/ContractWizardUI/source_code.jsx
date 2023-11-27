@@ -6,10 +6,9 @@ const AUTH_OPTION = {
 
 State.init({
   fungibleToken: true,
-  tokenName: "NearToken",
-  tokenSymbol: "NTK",
+  tokenName: "MyToken",
+  tokenSymbol: "MTK",
   ftDecimals: 24,
-  ftDecimalsError: false,
   ftPremint: null,
   ftPremintReceiver: "",
   nftBaseURI: "",
@@ -34,16 +33,12 @@ const StyledWrapper = styled.div`
     background-size: 30px 30px;
     border-radius: 6px;
 
-    @media(max-width: 800px) {
-        padding: 20px;
-    }
-
   > button {
     margin: 20px 10px 20px 0;
   }
 
   a {
-    color: var(--violet8);
+    color: var(--violet7);
     :hover {
         color: var(--violet10);
     }
@@ -83,12 +78,11 @@ const StyledWrapper = styled.div`
     @media(max-width: 800px) {
         flex-direction: column;
         
-        .left-side {
+        .left-side, .right-side {
             width: 100%;
         }
-        > pre {
+        .right-side {
             margin-top: 30px;
-            width: 100%;
         }
     }
   }
@@ -109,13 +103,17 @@ const StyledWrapper = styled.div`
     margin: 0 0 30px 0;
   }
 
+  .access-control-input {
+    z-index: 1000;
+  }
+
   button[role="checkbox"][data-state="unchecked"] {
     background-color: white;
   }
 
-  div[data-radix-content-popper-wrapper] {
-    z-index: 100000;
-  }
+  input:invalid {
+  border-color: red;
+}
 `;
 
 const AuthLayer = () => (
@@ -143,12 +141,16 @@ const AuthLayer = () => (
             ],
           },
         ],
+        className: "access-control-input",
         placeholder: "Select an option",
         rootProps: {
           value: state.authOption,
           onValueChange: (value) => {
             State.update({ authOption: value });
           },
+        },
+        contentProps: {
+          className: "select-dropdown",
         },
       }}
     />
@@ -269,14 +271,9 @@ return (
             config: {
               name: state.tokenName,
               symbol: state.tokenSymbol,
-              baseUri: !state.fungibleToken ? state.nftBaseURI : null,
-              decimals: state.fungibleToken ? state.ftDecimals : null,
-              preMint: state.fungibleToken ? state.ftPremint : null,
-              preMintReceiver: state.fungibleToken
-                ? state.ftPremintReceiver
-                : null,
-              mintable:
-                state.authOption !== AUTH_OPTION.NO_AUTH && state.mintable,
+              decimals: state.ftDecimals,
+              preMint: state.ftPremint,
+              mintable: state.mintable,
               burnable: state.burnable,
             },
           },
@@ -284,9 +281,7 @@ return (
             ...(state.authOption === AUTH_OPTION.OWNERSHIP
               ? { owner: { accountId: state.owner } }
               : {}),
-            ...(state.pausable && state.authOption !== AUTH_OPTION.NO_AUTH
-              ? { pause: {} }
-              : {}),
+            ...(state.pausable ? { pause: {} } : {}),
             ...(state.authOption === AUTH_OPTION.ROLE_BASED
               ? { rbac: { accountId: state.owner } }
               : {}),
@@ -303,7 +298,7 @@ return (
           Token Wizard <i class="ph-bold ph-magic-wand"></i>
         </h1>
         <h5>
-          Generate complete Rust code snippets for your fungible and
+          Easily generate complete code snippets for your fungible and
           non-fungible NEAR token contracts.
         </h5>
         <Widget
@@ -409,28 +404,13 @@ return (
                       type="number"
                       props={{
                         label: "Decimals",
-                        assistiveText: state.ftDecimalsError
-                          ? "A fungible token can have max 38 decimals"
-                          : "",
                         placeholder: 24,
-                        onInput: (e) => {
-                          const v = e.target.value.trim();
-                          if (v === 0 || isNaN(v) || v < 0 || v > 38) {
-                            State.update({ ftDecimalsError: true });
-                            setTimeout(() => {
-                              State.update({ ftDecimalsError: false });
-                            }, 2000);
-                            return;
-                          } else {
-                            State.update({ ftDecimals: v });
-                            if (state.ftDecimalsError) {
-                              State.update({ ftDecimalsError: false });
-                            }
-                          }
-                        },
+                        onInput: (e) =>
+                          State.update({ ftDecimals: e.target.value }),
                         value: state.ftDecimals,
                       }}
                     />
+                    <input type="number" pattern="^[0-3]?[0-8]?$" />
                   </>
                 )}
                 {!state.fungibleToken && (
