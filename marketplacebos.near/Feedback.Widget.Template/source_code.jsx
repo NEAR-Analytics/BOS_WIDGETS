@@ -14,9 +14,8 @@ const acc = "marketplacebos.near";
 const contract = "marketplacebos.near";
 
 const IMG = styled.img`
-  width: 80px;
-  height: 80px; /* Set the height to the same value as the width to make it a perfect circle */
-  border-radius: 50%; /* Make it round */
+  width: 280px;
+  height: 80px;
   object-fit: cover; /* Maintain aspect ratio and cover the container */
   margin: 0 auto; /* Center the image horizontally */
   display: block; /* Remove default inline display */
@@ -149,11 +148,12 @@ function MyComponent() {
       </a>
       <Div>
         <Div2>
+        
           <Div3 href={`${social}${widget_link}`}>
             {" "}
-            <IMG src={logo_links} />
             {widget_name}
           </Div3>
+            <IMG src={logo_links} />
 
           <Div4>
             Get
