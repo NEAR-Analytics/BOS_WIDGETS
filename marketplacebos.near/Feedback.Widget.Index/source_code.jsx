@@ -33,7 +33,6 @@ const FeedbackWidgetList = [
 const widgetList = [];
 
 for (let i = 0; i < FeedbackWidgetList.length; i++) {
-  const paddedNumber = (i + 1).toString().padStart(4, "0");
   const widgetSrc = `marketplacebos.near/widget/Feedback.CardWidget.${FeedbackWidgetList[i]}`;
   widgetList.push(<Widget key={i} src={widgetSrc} />);
 }
