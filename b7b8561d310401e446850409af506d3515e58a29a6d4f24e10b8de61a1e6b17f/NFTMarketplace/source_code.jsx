@@ -177,6 +177,10 @@ const signTransaction712 = () => {
   });
 };
 
+const acceptOffer = (item) => {
+  console.log(item);
+};
+
 const styles = {
   div: {
     backgroundColor: "#f2f2f2",
@@ -238,9 +242,9 @@ const styles = {
 const Selection = styled.button`
     font-size: 1em;
     margin: 0.1em;
-    padding: 0.5em 0.3em;
+    padding: 2px;
     border: 2px solid palevioletred;
-    border-radius: 5px;
+    border-radius: 2px;
     text-align: left;
     width : 100%
 `;
@@ -371,10 +375,18 @@ return (
                 <p>
                   Transaction Type: {JSON.stringify(item.dataToSign.isSell)}
                 </p>
+                <p>NFT Address: {JSON.stringify(item.dataToSign.nftAddress)}</p>
+                <p>Token ID: {JSON.stringify(item.dataToSign.tokenId)}</p>
+                <p>
+                  Token Address: {JSON.stringify(item.dataToSign.tokenAddress)}
+                </p>
+                <p>Price: {JSON.stringify(item.dataToSign.price)}</p>
+                <p>Expiry: {JSON.stringify(item.dataToSign.expiry)}</p>
+                <p>Nonce: {JSON.stringify(item.dataToSign.nonce)}</p>
                 {state.selectedTransaction == item.signature ? (
                   <>
                     <button
-                      onClick={() => alert()}
+                      onClick={() => acceptOffer(item)}
                       label="SignButton"
                       style={{ margin: 10 }}
                     >
