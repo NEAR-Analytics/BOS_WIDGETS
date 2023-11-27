@@ -213,7 +213,7 @@ a.text-gray:visited{color:#959595;}
 `;
 
 
-const owner = "cuongdcdev.near";
+const owner = "nearcatalog.near";
 const componentPath = `${owner}/widget/NearCatalog`;
 
 
