@@ -14,8 +14,8 @@ const acc = "marketplacebos.near";
 const contract = "marketplacebos.near";
 
 const IMG = styled.img`
-  width: 280px;
-  height: 80px;
+  width: 100%;
+  height: 120px;
   object-fit: cover; /* Maintain aspect ratio and cover the container */
   margin: 0 auto; /* Center the image horizontally */
   display: block; /* Remove default inline display */
@@ -130,7 +130,8 @@ const addStar = () => {
   console.log("Selected Stars:", selectedStars);
 };
 
-const logo_links = prop.logo_links || "notfound";
+const logo_links = prop.logo_links || "https://ipfs.near.social/ipfs/bafkreic4fqr5zanjr4ffe6cunq7tukbmqhcr47or3fmur2bzlvrmd7gdse";
+
 function MyComponent() {
   return (
     <>
@@ -148,12 +149,7 @@ function MyComponent() {
       </a>
       <Div>
         <Div2>
-        
-          <Div3 href={`${social}${widget_link}`}>
-            {" "}
-            {widget_name}
-          </Div3>
-            <IMG src={logo_links} />
+          <Div3 href={`${social}${widget_link}`}> {widget_name}</Div3>
 
           <Div4>
             Get
@@ -210,6 +206,8 @@ function MyComponent() {
           ></Div10>
         </Div9>
         <Div11>
+                  <IMG src={logo_links} />
+
           <Div13 onClick={addFeedback}>Post</Div13>
         </Div11>
 
@@ -310,7 +308,6 @@ const Div10 = styled.textarea`
 const Div11 = styled.div`
   width: 100%;
   border: 1px solid rgba(45, 57, 76, 0.1);
-  background-color: #fff4b0ff;
   align-self: center;
   display: flex;
   max-width: 497px;
