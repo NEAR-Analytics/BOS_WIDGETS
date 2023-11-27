@@ -1,5 +1,5 @@
 
-const owner = "cuongdcdev.near";
+const owner = "nearcatalog.near";
 const componentPath = `${owner}/widget/NearCatalog`;
 
 const Css = styled.div`
