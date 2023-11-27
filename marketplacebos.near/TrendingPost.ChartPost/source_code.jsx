@@ -1,5 +1,5 @@
-const dataP = props.dataP || [1,2,3,4,5,5,6,6,6,6,4,5]
-  const data = {
+const dataP = props.dataP || [1, 2, 3, 4, 5, 5, 6, 6, 6, 6, 4, 5];
+const data = {
   labels: [
     "Jan",
     "Feb",
@@ -21,7 +21,7 @@ const dataP = props.dataP || [1,2,3,4,5,5,6,6,6,6,4,5]
       backgroundColor: [
         "rgba(255, 205, 86, 0.2)",
         "#00e592",
-                "#00e592",
+        "#00e592",
 
         "#00e592",
         "#00e592",
@@ -36,8 +36,8 @@ const dataP = props.dataP || [1,2,3,4,5,5,6,6,6,6,4,5]
       ],
       borderColor: [
         "rgb(255, 99, 132)",
-         "#00e592",
-                 "#00e592",
+        "#00e592",
+        "#00e592",
 
         "#00e592",
         "#00e592",
@@ -104,7 +104,7 @@ const code = `
 </html>
 
 `;
- return(
+return (
   <>
     <iframe
       iframeResizer
@@ -113,4 +113,4 @@ const code = `
       message={{ data: chartData, options: chartOptions }}
     />
   </>
-)
+);
