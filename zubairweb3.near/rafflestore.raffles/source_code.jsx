@@ -234,6 +234,11 @@ gap: 0.5rem;
 justify-content: space-between;
 align-items: center;
 width: 100%;
+@media screen and (max-width: 768px){
+  flex-direction: column;
+  margin-bottom: 20px;
+  gap: 0;
+}
 `;
 
 const raffleContent = styled.div`
