@@ -15,7 +15,5 @@ return (
       <h1>NFT Poll </h1>
       <p>Vote for your best NFT's </p>
     </HeaderContent>
-
-
   </div>
 );
