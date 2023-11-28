@@ -178,12 +178,7 @@ return (
           }
     }
   >
-    <div style={imgWrapperStyle}>
-      <img
-        src={`https://ipfs.near.social/ipfs/${image.ipfs_cid}`}
-        alt={`Group icon: ${groupId}`}
-      />
-    </div>
+
     <div className={`post ${props.reposted ? "reposted" : ""}`}>
       <div className="left">
         <Widget
