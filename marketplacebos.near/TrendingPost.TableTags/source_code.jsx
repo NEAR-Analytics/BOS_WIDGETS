@@ -1,3 +1,30 @@
+const allPost = Social.get("*/post/main/", "final");
+
+function findHashtags(str) {
+  const regexp = /\B\#\w\w+\b/g;
+  let match;
+  let tags = [];
+  while ((match = regexp.exec(str)) !== null) {
+    tags.push(match[0]);
+  }
+  return tags;
+}
+
+const tagCount = {};
+Object.keys(allPost).forEach((item) => {
+  const tags = findHashtags(JSON.parse(allPost[item].post.main).text);
+  if (tags.length > 0) {
+    tags.forEach((tag) => {
+      tagCount[tag] = tagCount[tag] + 1 || 1;
+    });
+  }
+});
+
+
+let entries = Object.entries(tagCount);
+
+let sorted = entries.sort((b, a) => a[1] - b[1]);
+
 let totalItems = 0;
 
 // Sum the values in the sorted array
@@ -53,33 +80,7 @@ const borderColorP = [
   "blue",
 ];
 
-const allPost = Social.get("*/post/main/", "final");
 
-function findHashtags(str) {
-  const regexp = /\B\#\w\w+\b/g;
-  let match;
-  let tags = [];
-  while ((match = regexp.exec(str)) !== null) {
-    tags.push(match[0]);
-  }
-  return tags;
-}
-
-const tagCount = {};
-Object.keys(allPost).forEach((item) => {
-  const tags = findHashtags(JSON.parse(allPost[item].post.main).text);
-  if (tags.length > 0) {
-    tags.forEach((tag) => {
-      tagCount[tag] = tagCount[tag] + 1 || 1;
-    });
-  }
-});
-
-console.log(tagCount);
-
-let entries = Object.entries(tagCount);
-
-let sorted = entries.sort((b, a) => a[1] - b[1]);
 const dataP = sorted.slice(0, 20).map((item) => parseInt(item[1], 10));
 const labelP = sorted.slice(0, 20).map((item) => item[0]);
 
@@ -131,7 +132,7 @@ const Table = () => {
         }}
       />
       <br />
-            <br />
+      <br />
       <br />
       <br />
 
