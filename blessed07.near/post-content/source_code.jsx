@@ -122,7 +122,7 @@ return (
           <Img src={`https://ipfs.near.social/ipfs/${image.ipfs_cid}`} />
         ) : (
           <div style={{ fontSize: "40px", margin: "auto" }}>
-            {myName[0].toUpperCase()}
+            {myName ? myName[0]?.toUpperCase() : "U"}
           </div>
         )}
       </ImageContainer>
