@@ -27,6 +27,9 @@ const hat =
 const dog =
   "https://res.cloudinary.com/dfbqtfoxu/image/upload/v1700588097/rafflestore/dog_f1ptbq.png";
 
+const defaultnft =
+  "https://res.cloudinary.com/dfbqtfoxu/image/upload/v1700588097/rafflestore/defaultnft_hrzyyp.jpg";
+
 const nftData = [
   {
     id: 1,
@@ -212,6 +215,7 @@ const nftData = [
 ];
 
 State.init({ selectedRaffle: undefined });
+State.init({ nftStatus: "open" });
 
 const handleRaffleClick = (raffleId) => {
   State.update({ selectedRaffle: raffleId });
@@ -325,7 +329,7 @@ overflow: hidden;
 
 const RaffleListImg = styled.img`
   width: 100%;
-  height: auto;
+  height: 100%;
   object-fit: cover;
   display: block;
   margin: 0;
@@ -336,27 +340,43 @@ const RaffleBtnGroup = styled.div`
  margin-bottom: 1rem;
 `;
 
-const RaffleListContent = styled.div`
+const NftListContent = styled.div`
  
 `;
 
-const RaffleListTitle = styled.h3`
- 
+const NftTitle = styled.h3`
+ font-weight: 700;
+font-size: 0.8rem;
+margin-top: 15px;
+`;
+const NftName = styled.h3`
+font-size: 0.8rem;
 `;
 
-const RaffleListBtn = styled.div`
- 
+const NfttBtn = styled.button`
+ color: white;
+ background: #003C8C;
+ font-weight: 700;
+ font-size: 12px;
+ padding: 0.25rem 1rem;
+ border: 1px solid #e5e7eb;
+ cursor: pointer;
+ border-radius: 0.5rem;
+ margin: auto;
+ width: 40%;
 `;
 
-const RaffleListStatus = styled.div`
- 
+const RaffleStatus = styled.h6`
+ font-weight: 700;
+ font-size: 0.8rem;
 `;
 
-const RaffleListUnit = styled.div`
- 
+const NftRaffleUnits = styled.div`
+ font-size: 6px;
+ margin-bottom: 15px;
 `;
 console.log(nftData);
-
+console.log(state.nftStatus);
 return (
   <>
     <Collection>
@@ -378,8 +398,12 @@ return (
           {nftData[state.selectedRaffle].name || nftData[0].name}
         </RaffleName>
         <RaffleBtnGroup>
-          <NewRaffleBtn>New Raffles</NewRaffleBtn>
-          <ClosedRaffleBtn>Closed Raffles</ClosedRaffleBtn>
+          <NewRaffleBtn onClick={() => State.update({ nftStatus: "open" })}>
+            New Raffles
+          </NewRaffleBtn>
+          <ClosedRaffleBtn onClick={() => State.update({ nftStatus: "close" })}>
+            Closed Raffles
+          </ClosedRaffleBtn>
         </RaffleBtnGroup>
 
         {(state.selectedRaffle !== null) &
@@ -388,9 +412,11 @@ return (
             {nftData[state.selectedRaffle - 1].nft.map((nft, index) => (
               <RaffleListItem key={index}>
                 <RaffleListImg src={nft.image} alt={nft.name} />
-                <p>{nft.name}</p>
-                <p>Status: {nft.status}</p>
-                <p>Units: {nft.unit}</p>
+                <NftTitle>{nft.title}</NftTitle>
+                <NftName>{nft.name}</NftName>
+                <NfttBtn>Enter</NfttBtn>
+                <RaffleStatus>{nft.status}</RaffleStatus>
+                <NftRaffleUnits>Units: {nft.unit}</NftRaffleUnits>
               </RaffleListItem>
             ))}
           </RaffleList>
