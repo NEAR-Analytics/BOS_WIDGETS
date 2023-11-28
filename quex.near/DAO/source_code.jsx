@@ -67,6 +67,7 @@ const ChatBox = styled.div`
 .message {
   position: relative;
   width: 100%;
+  display: inline-block;
 }
 
 .message br {
@@ -84,27 +85,6 @@ const ChatBox = styled.div`
   margin: 0 5px 20px 15px;
   color: #788288;
 }
-
-.message:after {
-  content: "";
-  position: absolute;
-  top: 11px;
-  left: 63px;
-  float: left;
-  z-index: 100;
-  border-left: none;
- }
-
-.message:before {
-  content: "";
-  position: absolute;
-  top: 10px;
-  left: 62px;
-  float: left;
-  z-index: 99;
-  
-  border-left: none;
-  }
 
 .message .medium-image {
   float: left;
@@ -154,34 +134,6 @@ const ChatBox = styled.div`
 .message.my-message .message-body {
   float: right;
   margin: 0 15px 20px 5px;
-}
-
-.message.my-message:after {
-  content: "";
-  position: absolute;
-  top: 11px;
-  left: auto;
-  right: 63px;
-  float: left;
-  z-index: 100;
-  border-top: 10px solid transparent;
-  border-left: 13px solid #fff;
-  border-bottom: 10px solid transparent;
-  border-right: none;
-}
-
-.message.my-message:before {
-  content: "";
-  position: absolute;
-  top: 10px;
-  left: auto;
-  right: 62px;
-  float: left;
-  z-index: 99;
-  border-top: 11px solid transparent;
-  border-left: 13px solid #dbe3e8;
-  border-bottom: 11px solid transparent;
-  border-right: none;
 }
 
 .message.my-message .medium-image {
