@@ -20,7 +20,6 @@ Object.keys(allPost).forEach((item) => {
   }
 });
 
-
 let entries = Object.entries(tagCount);
 
 let sorted = entries.sort((b, a) => a[1] - b[1]);
@@ -31,6 +30,7 @@ let totalItems = 0;
 for (let i = 0; i < sorted.length; i++) {
   totalItems += sorted[i][1];
 }
+
 
 const labelN = "Top 20 trending tags on NEAR Social";
 
@@ -80,7 +80,6 @@ const borderColorP = [
   "blue",
 ];
 
-
 const dataP = sorted.slice(0, 20).map((item) => parseInt(item[1], 10));
 const labelP = sorted.slice(0, 20).map((item) => item[0]);
 
@@ -112,6 +111,25 @@ const StyledTd = styled.td`
   text-align: center;
 `;
 
+const StyledTotalContainer = styled.div`
+  border: 4px solid blue;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 20px;
+`;
+
+const StyledTotalLabel = styled.div`
+  font-weight: bold;
+  font-size: 18px;
+`;
+
+const StyledTotalValue = styled.div`
+  font-weight: bold;
+  font-size: 24px;
+  margin-top: 8px;
+`;
+
 const Table = () => {
   const [searchTerm, setSearchTerm] = useState("");
 
@@ -121,6 +139,10 @@ const Table = () => {
 
   return (
     <>
+    <StyledTotalContainer>
+        <StyledTotalLabel>Total Posts</StyledTotalLabel>
+        <StyledTotalValue>{totalItems}</StyledTotalValue>
+      </StyledTotalContainer>
       <Widget
         src="marketplacebos.near/widget/TrendingPost.ChartPost"
         props={{
@@ -156,6 +178,7 @@ const Table = () => {
               <StyledTd>{item[1]}</StyledTd>
             </tr>
           ))}
+      
         </tbody>
       </StyledTable>
     </>
