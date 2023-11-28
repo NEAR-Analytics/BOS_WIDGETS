@@ -44,7 +44,10 @@ height: 64px;
 left: 602px;
 border-radius: 40px;
 padding-left:30px;
-
+border-color:#69B5FF;
+border:2px;
+outline-color:
+#69B5FF;
 `;
 
 const Connect = styled.button`
@@ -72,8 +75,7 @@ return (
       <HTest>Trend Feed</HTest>
 
       <SearchBar type="text" placeholder="search" />
-  
-    
+
       <Widget src="tvh050423.near/widget/ConnectButton" props={{}} />
     </MainNav>
   </Navbar>
