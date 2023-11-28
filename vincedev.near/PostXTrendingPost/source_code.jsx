@@ -73,19 +73,18 @@ return (
   <bodyWrapper>
     <mainHeader>Trending Post</mainHeader>
 
-    <AllTrends>{
-
-      data?.map((d) =>{
-        return(
-      <MajorTrends>
-        <SingleTrends>
-          <div>1.</div>
-          <span>#BOS </span>
-        </SingleTrends>
-        <span>15 Posts</span>
-      </MajorTrends>
-      )})
-    }
+    <AllTrends>
+      {data?.map((d, i) => {
+        return (
+          <MajorTrends>
+            <SingleTrends>
+              <div>{i}.</div>
+              <span>#{d[0]}</span>
+            </SingleTrends>
+            <span>{d[1]} Posts</span>
+          </MajorTrends>
+        );
+      })}
     </AllTrends>
   </bodyWrapper>
 );
