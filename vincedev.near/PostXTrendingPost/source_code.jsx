@@ -32,6 +32,8 @@ line-height: 20px;
 letter-spacing: 0.1em;
 text-align: left;
 color:#696969;
+margin-top:0px;
+padding-left:10px;
 
 }
 `;
@@ -82,7 +84,9 @@ return (
               <div>{i + 1}.</div>
               <span>#{d[0]}</span>
             </SingleTrends>
-            <span>{d[1]} {d[1]>1 ? 'Posts' : 'Post'}</span>
+            <span>
+              {d[1]} {d[1] > 1 ? "Posts" : "Post"}
+            </span>
           </MajorTrends>
         );
       })}
