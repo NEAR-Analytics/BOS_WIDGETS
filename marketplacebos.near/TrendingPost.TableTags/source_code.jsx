@@ -111,7 +111,7 @@ const StyledTd = styled.td`
 `;
 
 const StyledTotalContainer = styled.div`
-  border: 4px solid blue;
+  border: 4px solid black;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -142,7 +142,7 @@ const Table = () => {
         <StyledTotalLabel>Total Posts</StyledTotalLabel>
         <StyledTotalValue>{totalItems}</StyledTotalValue>
       </StyledTotalContainer>
-            <br />
+      <br />
       <br />
       <br />
 
