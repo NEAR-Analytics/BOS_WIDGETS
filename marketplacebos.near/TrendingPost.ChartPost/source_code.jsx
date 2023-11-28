@@ -58,11 +58,12 @@ const labelP = props.labelP || [
   "dsa",
 ];
 
+const labelN = props.labelN || "test"
 const data = {
   labels: labelP,
   datasets: [
     {
-      label: "Top 20 trending tags on BOS NEAR",
+      label: labelN,
       data: dataP,
       backgroundColor: backgroundcolorP,
       borderColor: bordercolorP,
