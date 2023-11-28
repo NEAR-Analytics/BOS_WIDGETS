@@ -110,7 +110,7 @@ const image = profile.image;
 
 // Push contents to the parent state
 if (content) {
-  props.pushToArray(content);
+  props.pushToArray([content]);
 }
 
 // Function to formatAccountId if accountId is not a `.near` account
