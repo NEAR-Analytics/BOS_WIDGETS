@@ -56,7 +56,7 @@ text-align: left;
 color: #696969;
 }
 
-h2{
+span{
   display: flex;
  
 font-size: 20px;
