@@ -72,7 +72,7 @@ const sortedHashList = data?.sort((a, b) => b[1] - a[1]);
 
 return (
   <bodyWrapper>
-    <mainHeader>Trending Post</mainHeader>
+    <mainHeader>Trending Tag</mainHeader>
 
     <AllTrends>
       {sortedHashList?.map((d, i) => {
@@ -82,7 +82,7 @@ return (
               <div>{i + 1}.</div>
               <span>#{d[0]}</span>
             </SingleTrends>
-            <span>{d[1]} Posts</span>
+            <span>{d[1]} {d[1]>1 ? 'Posts' : 'Post'}</span>
           </MajorTrends>
         );
       })}
