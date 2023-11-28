@@ -17,7 +17,7 @@ const CommunityInputsPartialSchema = {
       required: true,
     },
 
-    label: "URL handlee",
+    label: "URL handle",
     order: 3,
   },
 
@@ -79,7 +79,9 @@ const CommunityInputsDefaults = {
 
 return (
   <Widget
-    src={"espen.near/widget/devhub.components.organism.Configurator"}
+    src={
+      "devgovgigs.near/widget/gigs-board.components.organism.configurator"
+    }
     props={{
       heading: "Community information",
       externalState: CommunityInputsDefaults,
