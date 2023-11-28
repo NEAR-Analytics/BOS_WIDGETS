@@ -60,7 +60,7 @@ const StyledTd = styled.td`
 
 const StyledContainer = styled.div`
   display: flex;
-  justify-content: space-around; /* Chia thành hai bên */
+  justify-content: space-around;
   margin-top: 20px;
     border: 4px solid blue;
 
@@ -96,8 +96,12 @@ const Table = () => {
           <StyledTotalValue>Account Posts</StyledTotalValue>
         </StyledTotalContainer>
         <StyledTotalContainer>
-          <StyledTotalLabel>Total Replies</StyledTotalLabel>
-          <StyledTotalValue>Replied</StyledTotalValue>
+          <StyledTotalLabel>Total Likes</StyledTotalLabel>
+          <StyledTotalValue>Likes</StyledTotalValue>
+        </StyledTotalContainer>
+        <StyledTotalContainer>
+          <StyledTotalLabel>Total Comments</StyledTotalLabel>
+          <StyledTotalValue>Comments</StyledTotalValue>
         </StyledTotalContainer>
         <StyledTotalContainer>
           <StyledTotalLabel>Total Reposts</StyledTotalLabel>
@@ -114,9 +118,9 @@ const Table = () => {
           <tr>
             <StyledTh>POST ID</StyledTh>
             <StyledTh>TOTAL POSTED</StyledTh>
-            <StyledTh>TOTAL REPLIES</StyledTh>
-            <StyledTh>TOTAL LIKES_RECEIVED</StyledTh>
-            <StyledTh>TOTAL LIKES_GIVEN</StyledTh>
+            <StyledTh>TOTAL COMMENTS</StyledTh>
+            <StyledTh>TOTAL LIKES</StyledTh>
+            <StyledTh>TOTAL REPOSTS</StyledTh>
           </tr>
         </thead>
         <tbody>
