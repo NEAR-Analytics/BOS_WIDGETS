@@ -61,7 +61,8 @@ const widgets = {
   thisForum: `${authorForWidget}/widget/${configWidget}`,
 
   //Editable widgets
-  ndcForum: `${componentsOwner}/widget/NDC.Forum`,
+  // ndcForum: `${componentsOwner}/widget/NDC.Forum`, ///////////////////////////////////////////////////
+  ndcForum: `f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/NDC.Forum`, ///////////////////////////////////////////////////
   create: `${componentsOwner}/widget/NDC.Forum.Create`,
   header: `${componentsOwner}/widget/NDC.NavBar`,
   showArticlesList: `${componentsOwner}/widget/NDC.Forum.AllArticlesList`,
@@ -84,9 +85,12 @@ const widgets = {
   libSBT: `sayalot.near/widget/lib.SBT`,
   // libComment: `sayalot.near/widget/lib.comment`, ///////////////////////////////////////////////////
   libComment: `f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/lib.comment`, ///////////////////////////////////////////////////
-  libArticle: `sayalot.near/widget/lib.article`,
-  libEmojis: `sayalot.near/widget/lib.emojis`,
-  libUpVotes: `sayalot.near/widget/lib.upVotes`,
+  // libArticle: `sayalot.near/widget/lib.article`, ///////////////////////////////////////////////////
+  libArticle: `f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/lib.article`, ///////////////////////////////////////////////////
+  // libEmojis: `sayalot.near/widget/lib.emojis`, ///////////////////////////////////////////////////
+  libEmojis: `f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/lib.emojis`, ///////////////////////////////////////////////////
+  // libUpVotes: `sayalot.near/widget/lib.upVotes`, ///////////////////////////////////////////////////
+  libUpVotes: `f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/lib.upVotes`, ///////////////////////////////////////////////////
 
   //Standard widgets
   fasterTextInput: `f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/fasterTextInput`,
