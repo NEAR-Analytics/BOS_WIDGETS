@@ -244,7 +244,7 @@ const Table = () => {
         <tbody>
           {day3PostSorted &&
             day3PostSorted
-              .filter((item, index) => index <= 10)
+              .filter((item, index) => index <= 20)
               .map((item) => (
                 <tr>
                   <StyledTd>
