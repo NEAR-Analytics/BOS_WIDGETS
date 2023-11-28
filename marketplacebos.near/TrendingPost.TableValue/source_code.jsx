@@ -246,7 +246,7 @@ const StyledTotalValue = styled.div`
   margin-top: 8px;
 `;
 
-const labelN = "Top 24h trending posts on NEAR Social";
+const labelN = "Top trending posts on NEAR Social";
 
 const backgroundcolorP = [
   "blue",
