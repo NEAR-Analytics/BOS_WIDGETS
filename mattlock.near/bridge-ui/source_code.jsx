@@ -184,10 +184,10 @@ const Container = styled.div`
     }
 `;
 
-console.log("deposit", deposit);
-console.log("withdraw", withdraw);
-console.log("selectedAsset", selectedAsset);
-console.log("selectedAssetWithdraw", selectedAssetWithdraw);
+// console.log("deposit", deposit);
+// console.log("withdraw", withdraw);
+// console.log("selectedAsset", selectedAsset);
+// console.log("selectedAssetWithdraw", selectedAssetWithdraw);
 
 return (
   <Container>
