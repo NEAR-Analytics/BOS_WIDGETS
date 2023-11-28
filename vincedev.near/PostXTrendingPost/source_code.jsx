@@ -25,7 +25,7 @@ gap:4px;
 const MajorTrends = styled.div`
 font-family: Space Grotesk;
 
-span{
+p{
 font-size: 16px;
 font-weight: 500;
 line-height: 20px;
@@ -82,11 +82,11 @@ return (
           <MajorTrends>
             <SingleTrends>
               <div>{i + 1}.</div>
-              <h2>#{d[0]}</h2>
+              <span>#{d[0]}</span>
             </SingleTrends>
-            <span>
+            <p>
               {d[1]} {d[1] > 1 ? "Posts" : "Post"}
-            </span>
+            </p>
           </MajorTrends>
         );
       })}
