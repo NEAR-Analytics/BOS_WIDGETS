@@ -420,8 +420,7 @@ return (
           </ClosedRaffleBtn>
         </RaffleBtnGroup>
 
-        {(state.selectedRaffle !== null) &
-          (state.selectedRaffle !== undefined) && (
+        {state.selectedRaffle && (
           <RaffleList>
             {nftData[state.selectedRaffle - 1].nft.map((nft, index) => (
               <RaffleListItem key={index}>
