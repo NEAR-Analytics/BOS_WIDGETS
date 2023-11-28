@@ -177,7 +177,13 @@ const Table = () => {
         <tbody>
           {filteredTags.map((item) => (
             <tr key={item[0]}>
-              <StyledTd>{item[0]}</StyledTd>
+              <StyledTd>
+                {" "}
+                      <a href={`https://near.social/?hashtag=${encodeURIComponent(item[0].replace("#", ""))}`}>
+
+                  {item[0]}
+                </a>
+              </StyledTd>
               <StyledTd>{item[1]}</StyledTd>
             </tr>
           ))}
