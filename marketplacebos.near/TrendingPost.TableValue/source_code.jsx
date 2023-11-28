@@ -267,6 +267,18 @@ const backgroundcolorP = [
   "blue",
   "blue",
   "blue",
+    "blue",
+  "blue",
+  "blue",
+  "blue",
+  "blue",
+  "blue",
+  "blue",
+  "blue",
+  "blue",
+  "blue",
+  "blue",
+  "blue",
   "blue",
   "blue",
 ];
@@ -292,6 +304,18 @@ const borderColorP = [
   "blue",
   "blue",
   "blue",
+    "blue",
+  "blue",
+  "blue",
+  "blue",
+  "blue",
+  "blue",
+  "blue",
+  "blue",
+  "blue",
+  "blue",
+  "blue",
+  "blue",
 ];
 
 let dataP = [];
@@ -301,7 +325,11 @@ let labelP = [];
 postEngagement.forEach((item) => {
   if (item.accountId) {
     dataP.push(item.EP || 0); // Assuming EP is the ENCOURAGE POINT
-    labelP.push(item.dateCreated || ""); // Assuming dateCreated is the date
+   labelP.push(
+      new Date(item.dateCreated).toLocaleString("en-GB", {
+        hour12: false,
+      }) || ""
+    ); // Assuming dateCreated is the date
   }
 });
 // Check if item.accountId is defined and not null
