@@ -420,7 +420,7 @@ return (
           </ClosedRaffleBtn>
         </RaffleBtnGroup>
 
-        {state.selectedRaffle && (
+        {state.selectedRaffle ? (
           <RaffleList>
             {nftData[state.selectedRaffle - 1].nft.map((nft, index) => (
               <RaffleListItem key={index}>
@@ -433,7 +433,21 @@ return (
               </RaffleListItem>
             ))}
           </RaffleList>
+        ) : (
+          <RaffleList>
+            {nftData[0].nft.map((nft, index) => (
+              <RaffleListItem key={index}>
+                <RaffleListImg src={nft.image} alt={nft.name} />
+                <NftTitle>{nft.title}</NftTitle>
+                <NftName>{nft.name}</NftName>
+                <NfttBtn>Enter</NfttBtn>
+                <RaffleStatus>{nft.status}</RaffleStatus>
+                <NftRaffleUnits>Units: {nft.unit}</NftRaffleUnits>
+              </RaffleListItem>
+            ))}
+          </RaffleList>
         )}
+
         <MoreBtn>More</MoreBtn>
       </RaffleListContainer>
     </Collection>
