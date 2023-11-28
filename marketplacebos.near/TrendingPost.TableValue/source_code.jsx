@@ -12,7 +12,7 @@ const newBlock7Days = Math.round(
   parseInt(respBlock.body.stats[0].block) -
     (7 * 24 * 3600) / parseInt(respBlock.body.stats[0].avg_block_time)
 );
-const allPost = Social.index("hashtag", props.hashtag ||"near", {
+const allPost = Social.index("hashtag", props.hashtag || "near", {
   from: newBlock,
   limit: 300,
   order: "asc",
@@ -246,6 +246,12 @@ const StyledTotalValue = styled.div`
   margin-top: 8px;
 `;
 
+const Wap = styled.div`
+  padding: 30px;
+  align-items: center;
+  text-align: center;
+`;
+
 const labelN = "Top trending posts on NEAR Social";
 
 const backgroundcolorP = [
@@ -337,6 +343,7 @@ postEngagement.forEach((item) => {
 const Table = () => {
   return (
     <>
+    <Wap>
       <StyledContainer>
         <StyledTotalContainer>
           <StyledTotalLabel>Total Posts</StyledTotalLabel>
@@ -427,6 +434,7 @@ const Table = () => {
           ))}
         </tbody>
       </StyledTable>
+      </Wap>
     </>
   );
 };
