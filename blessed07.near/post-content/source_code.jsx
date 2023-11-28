@@ -3,18 +3,31 @@ const PostContainer = styled.div`
   display: flex;
   justify-content: flex-start;
   align-items: flex-start;
-  padding-inline: 8px;
+  padding: 16px;
   gap: 8px;
+  margin: .8rem 0;
 `;
 
-const ImageContainer = styled.img`
+const ImageContainer = styled.div`
     position: relative;
-    display: block;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: center;
+    align-items: center;
+    width: 100px;
     min-width: 100px;
     max-width: 100px;
     height: 100px;
     background: #D9D9D9;
     border-radius: 50% 50%;
+`;
+
+const Img = styled.img`
+    border-radius: 50% 50%;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
 `;
 
 const PostContentContainer = styled.div`
@@ -32,6 +45,7 @@ const PostTopContainer = styled.div`
     display: flex;
     flex-flow: row nowrap;
     justify-content: space-between;
+    padding: 8px 0;
 `;
 
 const PostContent = styled.div`
