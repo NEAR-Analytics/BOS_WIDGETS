@@ -62,7 +62,8 @@ const getProposalState = (mpip_id) => {
   const state = Near.view(contractId, "get_proposal_state", {
     mpip_id,
   });
-  return formatStatus(state);
+  // for MPIP #1, overwrite to Accepted
+  return formatStatus(mpip_id == 1 ? "Accepted" : state);
 };
 
 const getProposalStateColor = (mpip_id) => {
