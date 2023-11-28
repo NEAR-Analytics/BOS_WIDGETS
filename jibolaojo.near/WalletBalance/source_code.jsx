@@ -9,4 +9,4 @@ const spendable_balance = native_balance - unspendable_balance;
 const balance =
   props.balance_type === "spendable" ? spendable_balance : native_balance;
 
-return balance.toFixed(props.decimal_places);
+return balance.toFixed(props.decimal_places ?? 2);
