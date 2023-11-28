@@ -58,12 +58,18 @@ const StyledTd = styled.td`
   text-align: center;
 `;
 
+const StyledContainer = styled.div`
+  display: flex;
+  justify-content: space-around; /* Chia thành hai bên */
+  margin-top: 20px;
+    border: 4px solid blue;
+
+`;
+
 const StyledTotalContainer = styled.div`
-  border: 4px solid blue;
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 20px;
 `;
 
 const StyledTotalLabel = styled.div`
@@ -80,10 +86,16 @@ const StyledTotalValue = styled.div`
 const Table = () => {
   return (
     <>
-      <StyledTotalContainer>
-        <StyledTotalLabel>Total Posts</StyledTotalLabel>
-        <StyledTotalValue>{totalItems}</StyledTotalValue>
-      </StyledTotalContainer>
+      <StyledContainer>
+        <StyledTotalContainer>
+          <StyledTotalLabel>Total Posts</StyledTotalLabel>
+          <StyledTotalValue>{totalItems}</StyledTotalValue>
+        </StyledTotalContainer>
+        <StyledTotalContainer>
+          <StyledTotalLabel>Total Account Posted</StyledTotalLabel>
+          <StyledTotalValue>account id</StyledTotalValue>
+        </StyledTotalContainer>
+      </StyledContainer>
       <br />
       <br />
       <br />
