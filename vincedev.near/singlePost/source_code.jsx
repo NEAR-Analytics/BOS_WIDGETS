@@ -1,7 +1,7 @@
 const [data, setData] = useState({});
 
 const path = props.path;
-
+console.log(path);
 function fetchPost(path) {
   const res = fetch(path);
   console.log(res);
@@ -11,4 +11,6 @@ function fetchPost(path) {
 useEffect(() => {
   fetchPost(path);
 }, []);
-return <div>Hello WorldMe</div>;
+
+
+return <div>{path}</div>;
