@@ -248,8 +248,9 @@ const Table = () => {
                 <tr>
                   <StyledTd>
                     <a
-                      href={`https://near.social/?hashtag=${encodeURIComponent(
-                        item[0].replace("#", "")
+                      href={`https://near.social/marketplacebos.near/widget/TrendingPost.TableValue?hashtag=${item[0].replace(
+                        "#",
+                        ""
                       )}`}
                     >
                       {item[0]}
