@@ -15,7 +15,7 @@ const [formData, setFormData] = useState({
   tokenId: 1,
   tokenAddress: "0xbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbcbb",
   price: 40000000,
-  expiry: 86400,
+  expiry: Math.floor(Date.now() / 1000) + 86400,
   nonce: 1,
 });
 
