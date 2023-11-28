@@ -148,7 +148,6 @@ for (let i = 0; i < 20; i++) {
   }
 }
 
-
 // ... (rest of the code remains unchanged)
 
 const StyledTable = styled.table`
@@ -246,7 +245,7 @@ const Table = () => {
         <tbody>
           {day1PostSorted &&
             day1PostSorted
-              .filter((item, index) => index <= 10)
+              .filter((item, index) => index <= 20)
               .map((item) => (
                 <tr>
                   <StyledTd>
