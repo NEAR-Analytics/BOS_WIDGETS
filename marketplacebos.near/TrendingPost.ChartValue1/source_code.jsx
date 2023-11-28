@@ -140,11 +140,14 @@ const borderColorP = [
 let dataP = [];
 let labelP = [];
 
-// Assuming you have an array named allPostSorted
-allPostSorted.forEach((item) => {
-  dataP.push(item[1]); // Assuming item[1] contains the data for dataP
-  labelP.push(item[0]); // Assuming item[0] contains the data for labelP
-});
+// Assuming allPostSorted has at least 20 items
+for (let i = 0; i < 20; i++) {
+  if (day1PostSorted[i]) {
+    dataP.push(day1PostSorted[i][1]); // Assuming item[1] contains the data for dataP
+    labelP.push(day1PostSorted[i][0]); // Assuming item[0] contains the data for labelP
+  }
+}
+
 
 // ... (rest of the code remains unchanged)
 
