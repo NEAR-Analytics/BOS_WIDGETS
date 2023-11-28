@@ -16,7 +16,7 @@ const [formData, setFormData] = useState({
   tokenAddress: "0xbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbcbb",
   price: 40000000,
   expiry: 86400,
-  nonce: 42,
+  nonce: 1,
 });
 
 const [signatures, setSignatures] = useState([]);
@@ -26,16 +26,23 @@ const selectTransaction = (tx) => {
 
 const handleChange = (e) => {
   const { id, value } = e.target;
+  let finalValue = value;
+  if (id === "isSell") {
+    finalValue = value === "true";
+  }
   setFormData((prevFormData) => ({
     ...prevFormData,
-    [id]: value,
+    [id]: finalValue,
   }));
 };
+
+const [nonceMapping, setNonceMapping] = useState({});
 
 useEffect(() => {
   if (state.sender === null) {
     const accounts = Ethers.send("eth_requestAccounts", []);
     const checksummedAddr = ethers.utils.getAddress(accounts[0]);
+
     if (accounts.length) {
       State.update({ sender: checksummedAddr });
       Ethers.provider()
@@ -138,9 +145,21 @@ const updateSignature = (signature, dataToSign) => {
   }));
 };
 
-const createNonceFromSigner = async (signer) => {
-  const signerAddress = await signer.getAddress();
-  const nonceFromSigner = ethers.utils.keccak256(signerAddress);
+const createNonceFromSigner = (signer) => {
+  const dataBytes = ethers.utils.toUtf8Bytes(signer);
+  const nonceFromSigner = ethers.utils.keccak256(dataBytes);
+
+  // ตรวจสอบและอัปเดต nonce สำหรับ signer นี้
+  const existingNonce = nonceMapping[signer] || 0;
+  const updatedNonce = existingNonce + 1;
+
+  // อัปเดต mapping ด้วย nonce ใหม่
+  setNonceMapping((prevMapping) => ({
+    ...prevMapping,
+    [signer]: updatedNonce,
+  }));
+
+  console.log(nonceFromSigner, updatedNonce);
   return nonceFromSigner;
 };
 
@@ -309,14 +328,13 @@ return (
           <div>
             <label htmlFor="isSell">Transaction Type:</label>
             <select
-              name="isSell"
               id="isSell"
-              value={formData.isSell}
+              value={String(formData.isSell)}
               onChange={handleChange}
               style={styles.select}
             >
-              <option value={true}>Sell</option>
-              <option value={false}>Buy</option>
+              <option value="true">Sell</option>
+              <option value="false">Buy</option>
             </select>
           </div>
           <div>
@@ -411,7 +429,8 @@ return (
               >
                 <p>Signature: {item.signature.slice(0, 30)}...</p>
                 <p>
-                  Transaction Type: {JSON.stringify(item.dataToSign.isSell)}
+                  Transaction Type:
+                  {item.dataToSign.isSell ? "Sell" : "Buy"}
                 </p>
                 <p>NFT Address: {JSON.stringify(item.dataToSign.nftAddress)}</p>
                 <p>Token ID: {JSON.stringify(item.dataToSign.tokenId)}</p>
@@ -440,5 +459,12 @@ return (
         </div>
       </div>
     </div>
+    <button
+      onClick={() => createNonceFromSigner(state.sender)}
+      label="SignButton"
+      style={{ margin: 10 }}
+    >
+      <span> Accept Offer </span>
+    </button>
   </>
 );
