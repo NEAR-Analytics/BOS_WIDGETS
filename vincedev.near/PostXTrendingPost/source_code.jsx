@@ -27,13 +27,13 @@ font-family: Space Grotesk;
 
 span{
 font-size: 16px;
-font-weight: 600;
+font-weight: 500;
 line-height: 20px;
 letter-spacing: 0.1em;
 text-align: left;
 color:#696969;
-margin-top:0px;
-padding-left:10px;
+margin-top:-8px;
+padding-left:30px;
 
 }
 `;
