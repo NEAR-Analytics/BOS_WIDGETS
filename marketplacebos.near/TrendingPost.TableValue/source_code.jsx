@@ -294,7 +294,6 @@ const borderColorP = [
   "blue",
 ];
 
-
 let dataP = [];
 let labelP = [];
 
@@ -303,9 +302,9 @@ postEngagement.forEach((item) => {
   if (item.accountId) {
     dataP.push(item.EP || 0); // Assuming EP is the ENCOURAGE POINT
     labelP.push(item.dateCreated || ""); // Assuming dateCreated is the date
-  }});
+  }
+});
 // Check if item.accountId is defined and not null
-
 
 const Table = () => {
   return (
@@ -373,16 +372,18 @@ const Table = () => {
                   {item.blockHeight}
                 </a>
               </StyledTd>
-             <StyledTd maxWidth="100px">
-  {typeof item.accountId === 'string' && item.accountId.includes(".near")
-    ? item.accountId
-    : typeof item.accountId === 'string' && item.accountId.slice(0, 7) +
-      "..." +
-      item.accountId.slice(
-        item.accountId.length - 10,
-        item.accountId.length - 1
-      )}
-</StyledTd>
+              <StyledTd maxWidth="100px">
+                {typeof item.accountId === "string" &&
+                item.accountId.includes(".near")
+                  ? item.accountId
+                  : typeof item.accountId === "string" &&
+                    item.accountId.slice(0, 7) +
+                      "..." +
+                      item.accountId.slice(
+                        item.accountId.length - 10,
+                        item.accountId.length - 1
+                      )}
+              </StyledTd>
               <StyledTd>{item.EP && item.EP.toFixed(4)}</StyledTd>
               <StyledTd>{item.EP3D && item.EP3D.toFixed(4)}</StyledTd>
               <StyledTd>{item.EP7D && item.EP7D.toFixed(4)}</StyledTd>
