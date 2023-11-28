@@ -3,8 +3,7 @@ const backgroundImage =
 
 const Container = styled.div`
     background-size: cover;
-    background-color: red;
-    position: relative;
+    background-repeat: no-repeat;
     padding-bottom: 8px;
     height: 80%;
     display: flex;
