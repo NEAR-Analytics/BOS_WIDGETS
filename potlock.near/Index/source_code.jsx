@@ -1,5 +1,6 @@
 const ownerId = "potlock.near";
 const registryContractId = "registry.potlock.near";
+const donationContractId = "donate.potlock.near";
 
 const CREATE_PROJECT_TAB = "createproject";
 const EDIT_PROJECT_TAB = "editproject";
@@ -44,9 +45,14 @@ const Theme = styled.div`
   }
 `;
 
+const NEAR_ACCOUNT_ID_REGEX = /^(?=.{2,64}$)(?!.*\.\.)(?!.*-$)(?!.*_$)[a-z\d._-]+$/i;
+
 State.init({
   registeredProjects: null,
   cart: null,
+  checkoutSuccess: false,
+  checkoutSuccessTxHash: null,
+  donations: null,
   // previousCart: null,
   nearToUsd: null,
   isCartModalOpen: false,
@@ -73,6 +79,12 @@ if (!state.registeredProjects) {
 
 if (!state.registeredProjects) return "";
 
+if (!state.donations) {
+  State.update({
+    donations: Near.view(donationContractId, "get_donations", {}), // TODO: ADD PAGINATION
+  });
+}
+
 const IPFS_BASE_URL = "https://nftstorage.link/ipfs/";
 
 const getImageUrlFromSocialImage = (image) => {
@@ -87,12 +99,6 @@ if (!state.registeredProjects) {
   Near.asyncView(registryContractId, "get_projects", {})
     .then((projects) => {
       // get social data for each project
-      // name
-      // description
-      // bannerImage
-      // profileImage
-      // category
-      // horizon stuff, e.g. tags
       Near.asyncView("social.near", "get", {
         keys: projects.map((project) => `${project.id}/profile/**`),
       }).then((socialData) => {
@@ -116,7 +122,7 @@ if (!state.registeredProjects) {
             bannerImageUrl,
             profileImageUrl,
             status: project.status,
-            tags: [profileData.category.text ?? CATEGORY_MAPPINGS[profileData.category] ?? ""], // TODO: change this to get tags from horizon/social
+            tags: [profileData.category.text ?? CATEGORY_MAPPINGS[profileData.category] ?? ""],
           };
           return formatted;
         });
@@ -142,14 +148,14 @@ const tabContentWidget = {
   [PROJECTS_LIST_TAB]: "Project.ListPage",
   [PROJECT_DETAIL_TAB]: "Project.Detail",
   [CART_TAB]: "Cart.Checkout",
-  [FEED_TAB]: "Feed",
+  [FEED_TAB]: "Components.Feed",
 };
 
 const getWidget = (props) => {
   if (props.tab in tabContentWidget) {
     return tabContentWidget[props.tab];
   }
-  // backup (TODO: review)
+  // default tab is projects list
   return tabContentWidget[PROJECTS_LIST_TAB];
 };
 
@@ -160,6 +166,12 @@ const getTabWidget = (tab) => {
 
   return tabContentWidget[PROJECTS_LIST_TAB];
 };
+
+const CART_KEY = "cart";
+// const PREVIOUS_CART_KEY = "previousCart";
+const storageCart = Storage.get(CART_KEY);
+// const storagePreviousCart = Storage.get(PREVIOUS_CART_KEY);
+const DEFAULT_CART = {};
 
 const props = {
   ...props,
@@ -191,13 +203,26 @@ const props = {
     State.update({ cart });
     Storage.set(CART_KEY, JSON.stringify(cart));
   },
-  checkoutSuccess: props.tab === CART_TAB && props.transactionHashes,
-  checkoutSuccessTxHash: props.tab === CART_TAB ? props.transactionHashes : "",
+  clearCart: () => {
+    State.update({ cart: {} });
+    Storage.set(CART_KEY, JSON.stringify(DEFAULT_CART));
+  },
+  setCheckoutSuccess: (checkoutSuccess) => {
+    State.update({ checkoutSuccess });
+  },
   setIsCartModalOpen: (isOpen) => {
     State.update({ isCartModalOpen: isOpen });
   },
   setIsNavMenuOpen: (isOpen) => {
     State.update({ isNavMenuOpen: isOpen });
+  },
+  validateNearAddress: (address) => {
+    let isValid = NEAR_ACCOUNT_ID_REGEX.test(address);
+    // Additional ".near" check for IDs less than 64 characters
+    if (address.length < 64 && !address.endsWith(".near")) {
+      isValid = false;
+    }
+    return isValid;
   },
   CATEGORY_MAPPINGS: {
     "social-impact": "Social Impact",
@@ -209,13 +234,21 @@ const props = {
     community: "Community",
     education: "Education",
   },
+  SUPPORTED_FTS: {
+    // TODO: move this to state to handle selected FT once we support multiple FTs
+    NEAR: {
+      iconUrl: IPFS_BASE_URL + "bafkreicwkm5y7ojxnnfnmuqcs6ykftq2jvzg6nfeqznzbhctgl4w3n6eja",
+      toIndivisible: (amount) => new Big(amount).mul(new Big(10).pow(24)),
+      fromIndivisible: (amount) => amount / 10e24,
+    },
+  },
 };
 
-const CART_KEY = "cart";
-// const PREVIOUS_CART_KEY = "previousCart";
-const storageCart = Storage.get(CART_KEY);
-// const storagePreviousCart = Storage.get(PREVIOUS_CART_KEY);
-const DEFAULT_CART = {};
+if (props.transactionHashes && props.tab === CART_TAB) {
+  // if transaction hashes are in URL but haven't been added to props, override state:
+  props.checkoutSuccessTxHash = props.transactionHashes;
+  props.checkoutSuccess = true;
+}
 
 if (state.cart === null && storageCart !== null) {
   // cart hasn't been set on state yet, and storageCart has been fetched
@@ -239,13 +272,11 @@ if (state.cart === null && storageCart !== null) {
 
 // console.log("state in Index: ", state);
 
-if (props.checkoutSuccess && state.cart && Object.keys(state.cart).length > 0) {
-  // if checkout was successful, clear cart
+if (state.checkoutSuccessTxHash && state.cart && Object.keys(state.cart).length > 0) {
+  // if checkout was successful after wallet redirect, clear cart
   // store previous cart in local storage to show success message
   // console.log("previous cart: ", state.cart);
-  State.update({ cart: {} });
-  Storage.set(CART_KEY, JSON.stringify(DEFAULT_CART));
-  // Storage.set(PREVIOUS_CART_KEY, JSON.stringify(state.cart));
+  props.clearCart();
 }
 
 if (props.tab === EDIT_PROJECT_TAB) {
@@ -277,7 +308,7 @@ if (!state.cart || !state.registeredProjects) {
 
 return (
   <Theme>
-    <Widget src={`${ownerId}/widget/Nav`} props={props} />
+    <Widget src={`${ownerId}/widget/Components.Nav`} props={props} />
     <Content className={isForm ? "form" : ""}>{tabContent}</Content>
   </Theme>
 );
