@@ -178,13 +178,17 @@ return (
   >
     <div style={imgWrapperStyle}>
       <img
-        src={`https://i.near.social/magic/thumbnail/https://near.social/magic/img/nft/${groupId}`}
+        src={`https://near.social/magic/img/account/${accountId}`}
         alt={`Group icon: ${groupId}`}
       />
     </div>
     <div className={`post ${props.reposted ? "reposted" : ""}`}>
       <div className="left">
-      
+        <Widget
+          loading=""
+          src="mob.near/widget/MainPage.N.Post.Left"
+          props={{ accountId, groupId }}
+        />
       </div>
       <div className="right">
         <Widget
