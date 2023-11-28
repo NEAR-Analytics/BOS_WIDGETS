@@ -21,7 +21,15 @@ const TextInput = styled.input`
   width: 100%;
 `;
 
-const WidgetList = styled.li`
+const WidgetList = styled.ul`
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  max-height: 400px;
+  overflow-y: scroll;
+`
+
+const WidgetItem = styled.li`
   // background-color: grey;
   text-align: center;
   cursor: pointer;
@@ -71,18 +79,18 @@ return (
           },
         }}
       />
-      <ul
-        style={{
-          "list-style-type": "none",
-          padding: "0",
-          margin: "0",
-          maxHeight: "10",
-        }}
-      >
-        {state.apps && (
+     {state.apps && (
+        <WidgetList
+          style={{
+            "list-style-type": "none",
+            padding: "0",
+            margin: "0",
+            maxHeight: "10",
+          }}
+        >
           <div className="mb-2">
             {state.apps.map((app, i) => (
-              <WidgetList key={i} onClick={(e) => handleClick(app)}>
+              <WidgetItem key={i} onClick={(e) => handleClick(app)}>
                 <Widget
                   src="littlelace.near/widget/ComponentItem"
                   props={{
@@ -92,11 +100,11 @@ return (
                     onHide: () => State.update({ apps: null }),
                   }}
                 />
-              </WidgetList>
+              </WidgetItem>
             ))}
           </div>
-        )}
-      </ul>
+        </WidgetList>
+      )}
     </Container>
   </WidgetApp>
 );
