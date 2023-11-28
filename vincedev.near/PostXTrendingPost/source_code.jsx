@@ -56,7 +56,7 @@ text-align: left;
 color: #696969;
 }
 
-span{
+h2{
   display: flex;
  
 font-size: 20px;
@@ -82,7 +82,7 @@ return (
           <MajorTrends>
             <SingleTrends>
               <div>{i + 1}.</div>
-              <span>#{d[0]}</span>
+              <h2>#{d[0]}</h2>
             </SingleTrends>
             <span>
               {d[1]} {d[1] > 1 ? "Posts" : "Post"}
