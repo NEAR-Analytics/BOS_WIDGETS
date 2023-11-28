@@ -281,11 +281,11 @@ return (
             <br />
           </>
         )}
-        {state.selectedTab === "chartspost" && (
+        {state.selectedTab === "filter" && (
           <>
             <div>
               <Widget
-                src="marketplacebos.near/widget/TrendingPost.ChartPost"
+                src="marketplacebos.near/widget/TrendingPost.TableValue"
                 props={props}
               />
             </div>
