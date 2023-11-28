@@ -3,6 +3,7 @@ const accountId = context.accountId;
 
 state = State.init({
   opened: false,
+  url: "",
 });
 
 const Container = styled.div`
