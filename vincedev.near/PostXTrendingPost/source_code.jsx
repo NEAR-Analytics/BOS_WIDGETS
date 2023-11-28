@@ -33,7 +33,7 @@ letter-spacing: 0.1em;
 text-align: left;
 color:#696969;
 margin-top:-8px;
-padding-left:30px;
+padding-left:20px;
 
 }
 `;
