@@ -147,10 +147,11 @@ const extractImages = (text) => {
 };
 
 const postImages = extractImages(content?.text);
+const arrm = props.pushToArray
 
 // Push contents to the parent state
 if (content.text) {
-  props.pushToArray(content?.text);
+  arrm(content?.text);
 }
 
 return (
