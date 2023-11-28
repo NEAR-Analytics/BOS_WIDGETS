@@ -132,7 +132,7 @@ const extractHashtags = (text) => {
   return [...hashtags];
 };
 
-extractHashtags(content?.text);
+// extractHashtags(content?.text);
 
 // Function to extractImages
 const extractImages = (text) => {
