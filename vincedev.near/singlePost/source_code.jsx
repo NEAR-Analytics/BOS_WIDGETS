@@ -191,19 +191,7 @@ return (
         />
       </div>
       <div className="right">
-        // <Widget
-        //   loading={<div className="post-header" />}
-        //   src="mob.near/widget/MainPage.N.Post.Header"
-        //   props={{
-        //     accountId,
-        //     blockHeight,
-        //     pinned,
-        //     hideMenu,
-        //     link,
-        //     postType: "post",
-        //     flagItem: item,
-        //   }}
-        // />
+      
         {fullPostLink ? (
           <a
             key="full-post-link"
