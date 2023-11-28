@@ -1,4 +1,4 @@
-const allPost = Social.get("*/post/main/", "final");
+const allPostss = Social.get("*/post/main/", "final");
 
 function findHashtags(str) {
   const regexp = /\B\#\w\w+\b/g;
@@ -11,8 +11,8 @@ function findHashtags(str) {
 }
 
 const tagCount = {};
-Object.keys(allPost).forEach((item) => {
-  const tags = findHashtags(JSON.parse(allPost[item].post.main).text);
+Object.keys(allPostss).forEach((item) => {
+  const tags = findHashtags(JSON.parse(allPostss[item].post.main).text);
   if (tags.length > 0) {
     tags.forEach((tag) => {
       tagCount[tag] = tagCount[tag] + 1 || 1;
@@ -20,16 +20,199 @@ Object.keys(allPost).forEach((item) => {
   }
 });
 
+let totalItems = 0;
+
+for (let i = 0; i < sorted.length; i++) {
+  totalItems += sorted[i][1];
+}
+
 let entries = Object.entries(tagCount);
 
 let sorted = entries.sort((b, a) => a[1] - b[1]);
 
-let totalItems = 0;
+const respBlock = fetch("https://api.nearblocks.io/v1/stats");
 
-// Sum the values in the sorted array
-for (let i = 0; i < sorted.length; i++) {
-  totalItems += sorted[i][1];
+const newBlock = Math.round(
+  parseInt(respBlock.body.stats[0].block) -
+    (30 * 24 * 3600) / parseInt(respBlock.body.stats[0].avg_block_time)
+);
+const newBlock3Days = Math.round(
+  parseInt(respBlock.body.stats[0].block) -
+    (3 * 24 * 3600) / parseInt(respBlock.body.stats[0].avg_block_time)
+);
+const newBlock7Days = Math.round(
+  parseInt(respBlock.body.stats[0].block) -
+    (7 * 24 * 3600) / parseInt(respBlock.body.stats[0].avg_block_time)
+);
+const allPost = Social.index("hashtag", "near", {
+  from: newBlock,
+  limit: 300,
+  order: "asc",
+});
+
+let postEngagement = [];
+
+if (allPost.length > 0) {
+  allPost.forEach((item) => {
+    const allComment = Social.index(
+      "comment",
+      {
+        type: "social",
+        path: `${item.accountId}/post/main`,
+        blockHeight: item.blockHeight,
+      },
+      {
+        limit: 9999,
+        order: "desc",
+      }
+    );
+    const allLike = Social.index("like", {
+      type: "social",
+      path: `${item.accountId}/post/main`,
+      blockHeight: item.blockHeight,
+    });
+    const allRepost = Social.index(
+      "repost",
+      {
+        type: "social",
+        path: `${item.accountId}/post/main`,
+        blockHeight: item.blockHeight,
+      },
+      {
+        limit: 9999,
+        order: "desc",
+      }
+    );
+
+    const allComment3Days = Social.index(
+      "comment",
+      {
+        type: "social",
+        path: `${item.accountId}/post/main`,
+        blockHeight: item.blockHeight,
+      },
+      {
+        from: newBlock3Days,
+        limit: 9999,
+        order: "asc",
+      }
+    );
+    const allLike3Days = Social.index(
+      "like",
+      {
+        type: "social",
+        path: `${item.accountId}/post/main`,
+        blockHeight: item.blockHeight,
+      },
+      {
+        from: newBlock3Days,
+        limit: 9999,
+        order: "asc",
+      }
+    );
+    const allRepost3Days = Social.index(
+      "repost",
+      {
+        type: "social",
+        path: `${item.accountId}/post/main`,
+        blockHeight: item.blockHeight,
+      },
+      { from: newBlock3Days, limit: 9999, order: "asc" }
+    );
+
+    const allComment7Days = Social.index(
+      "comment",
+      {
+        type: "social",
+        path: `${item.accountId}/post/main`,
+        blockHeight: item.blockHeight,
+      },
+      {
+        from: newBlock7Days,
+        limit: 9999,
+        order: "asc",
+      }
+    );
+    const allLike7Days = Social.index(
+      "like",
+      {
+        type: "social",
+        path: `${item.accountId}/post/main`,
+        blockHeight: item.blockHeight,
+      },
+      {
+        from: newBlock7Days,
+        limit: 9999,
+        order: "asc",
+      }
+    );
+    const allRepost7Days = Social.index(
+      "repost",
+      {
+        type: "social",
+        path: `${item.accountId}/post/main`,
+        blockHeight: item.blockHeight,
+      },
+      { from: newBlock7Days, limit: 9999, order: "asc" }
+    );
+
+    const res = fetch(
+      `https://api.near.social/time?blockHeight=${item.blockHeight}`
+    );
+    const dateCreated = res.body;
+
+    if (allComment.length + allLike.length + allRepost.length > 0) {
+      postEngagement.push({
+        accountId: item.accountId,
+        blockHeight: item.blockHeight,
+        allLike: allLike.length,
+        allComment: allComment.length,
+        allRepost: allRepost.length,
+        EP:
+          (allComment.length * 3 + allLike.length + allRepost.length * 2) /
+            Math.floor(
+              (Date.now() - new Date(dateCreated)) / 1000 / (3600 * 24)
+            ) || 0,
+        EP3D:
+          (allComment3Days.length * 3 +
+            allLike3Days.length +
+            allRepost3Days.length * 2) /
+            3 || 0,
+        EP7D:
+          (allComment7Days.length * 3 +
+            allLike7Days.length +
+            allRepost7Days.length * 2) /
+            7 || 0,
+        dateCreated: dateCreated,
+      });
+    }
+  });
 }
+
+const compare = (b, a) => {
+  if (a.EP < b.EP) {
+    return -1;
+  }
+  if (a.EP > b.EP) {
+    return 1;
+  }
+  return 0;
+};
+const sort = postEngagement.sort(compare);
+
+let totalAccountPosts = 0;
+let totalLikes = 0;
+let totalComments = 0;
+let totalReposts = 0;
+
+// Iterate over postEngagement array to count totals
+postEngagement.forEach((item) => {
+  totalItems += 1; // Assuming each item represents a post
+  totalAccountPosts += 1; // Assuming each item represents an account post
+  totalLikes += item.allLike || 0;
+  totalComments += item.allComment || 0;
+  totalReposts += item.allRepost || 0;
+});
 
 const StyledTable = styled.table`
   width: 100%;
@@ -93,7 +276,6 @@ const StyledTotalValue = styled.div`
   margin-top: 8px;
 `;
 
-
 const Table = () => {
   return (
     <>
@@ -104,19 +286,19 @@ const Table = () => {
         </StyledTotalContainer>
         <StyledTotalContainer>
           <StyledTotalLabel>Total Account Posts</StyledTotalLabel>
-          <StyledTotalValue>Account Posts</StyledTotalValue>
+          <StyledTotalValue>{totalAccountPosts}</StyledTotalValue>
         </StyledTotalContainer>
         <StyledTotalContainer>
           <StyledTotalLabel>Total Likes</StyledTotalLabel>
-          <StyledTotalValue>Likes</StyledTotalValue>
+          <StyledTotalValue>{totalLikes}</StyledTotalValue>
         </StyledTotalContainer>
         <StyledTotalContainer>
           <StyledTotalLabel>Total Comments</StyledTotalLabel>
-          <StyledTotalValue>Comments</StyledTotalValue>
+          <StyledTotalValue>{totalComments}</StyledTotalValue>
         </StyledTotalContainer>
         <StyledTotalContainer>
           <StyledTotalLabel>Total Reposts</StyledTotalLabel>
-          <StyledTotalValue>Repost</StyledTotalValue>
+          <StyledTotalValue>{totalReposts}</StyledTotalValue>
         </StyledTotalContainer>
       </StyledContainer>
       <br />
@@ -128,20 +310,49 @@ const Table = () => {
         <thead>
           <tr>
             <StyledTh>POST ID</StyledTh>
-            <StyledTh>TOTAL POSTED</StyledTh>
-            <StyledTh>TOTAL COMMENTS</StyledTh>
+            <StyledTh>ACCOUNT_ID</StyledTh>
+            <StyledTh>ENCOURAGE POINT</StyledTh>
+            <StyledTh>ENCOURAGE POINT_3Days</StyledTh>
+            <StyledTh>ENCOURAGE POINT_7Days</StyledTh>
             <StyledTh>TOTAL LIKES</StyledTh>
+            <StyledTh>TOTAL COMMENTS</StyledTh>
             <StyledTh>TOTAL REPOSTS</StyledTh>
+            <StyledTh>CREATED</StyledTh>
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <StyledTd>1</StyledTd>
-            <StyledTd>2</StyledTd>
-            <StyledTd>1</StyledTd>
-            <StyledTd>2</StyledTd>
-            <StyledTd>1</StyledTd>
-          </tr>
+          {sort.map((item) => (
+            <tr>
+              <StyledTd scope="row">
+                <a
+                  href={`https://near.social/mob.near/widget/MainPage.N.Post.Page?accountId=${item.accountId}&blockHeight=${item.blockHeight}`}
+                >
+                  {item.blockHeight}
+                </a>
+              </StyledTd>
+              <StyledTd maxWidth="100px">
+                {item.accountId.includes(".near")
+                  ? item.accountId
+                  : item.accountId.slice(0, 7) +
+                    "..." +
+                    item.accountId.slice(
+                      item.accountId.length - 10,
+                      item.accountId.length - 1
+                    )}
+              </StyledTd>
+              <StyledTd>{item.EP && item.EP.toFixed(4)}</StyledTd>
+              <StyledTd>{item.EP3D && item.EP3D.toFixed(4)}</StyledTd>
+              <StyledTd>{item.EP7D && item.EP7D.toFixed(4)}</StyledTd>
+              <StyledTd>{item.allLike}</StyledTd>
+              <StyledTd>{item.allComment}</StyledTd>
+              <StyledTd>{item.allRepost}</StyledTd>
+              <StyledTd>
+                {new Date(item.dateCreated).toLocaleString("en-GB", {
+                  hour12: false,
+                })}
+              </StyledTd>
+            </tr>
+          ))}
         </tbody>
       </StyledTable>
     </>
