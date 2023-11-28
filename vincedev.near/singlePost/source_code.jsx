@@ -137,6 +137,8 @@ const Wrapper = styled.div`
   }
 `;
 
+console.log(content);
+
 const contentWidget = (
   <Widget
     key="content"
@@ -242,37 +244,5 @@ return (
         )}
       </div>
     </div>
-    {state.showReply && (
-      <div className="border-top">
-        <Widget
-          loading=""
-          src="mob.near/widget/MainPage.N.Comment.Compose"
-          props={{
-            notifyAccountId,
-            item,
-            onComment: () => State.update({ showReply: false }),
-          }}
-        />
-      </div>
-    )}
-    {props.customComments
-      ? props.customComments
-      : !props.hideComments && (
-          <Widget
-            key="comments"
-            loading={false}
-            src="mob.near/widget/MainPage.N.Comment.Feed"
-            props={{
-              item,
-              highlightComment: props.highlightComment,
-              limit: props.commentsLimit,
-              subscribe,
-              raw,
-              accounts: props.commentAccounts,
-              groupId,
-              permissions,
-            }}
-          />
-        )}
   </Wrapper>
 );
