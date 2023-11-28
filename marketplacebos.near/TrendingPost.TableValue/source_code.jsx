@@ -60,16 +60,26 @@ const StyledTd = styled.td`
 
 const StyledContainer = styled.div`
   display: flex;
-  justify-content: space-around;
+  flex-direction: column; /* Change to column on small screens */
+  align-items: center;
   margin-top: 20px;
-    border: 4px solid blue;
+  border: 4px solid blue;
 
+  @media (min-width: 768px) {
+    flex-direction: row; /* Use row layout on screens wider than 768px */
+    justify-content: space-around;
+  }
 `;
 
 const StyledTotalContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  text-align: center;
+
+  @media (min-width: 768px) {
+    margin: 0 10px; /* Add some spacing between the two containers on wider screens */
+  }
 `;
 
 const StyledTotalLabel = styled.div`
@@ -82,6 +92,7 @@ const StyledTotalValue = styled.div`
   font-size: 24px;
   margin-top: 8px;
 `;
+
 
 const Table = () => {
   return (
