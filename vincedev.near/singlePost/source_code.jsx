@@ -146,6 +146,8 @@ console.log(content);
 console.log(raw);
 console.log(accountId);
 console.log(Myname);
+const profile = props.profile ?? Social.getr(`${accountId}/profile`);
+const image = profile.image;
 
 const contentWidget = (
   <Widget
@@ -178,7 +180,7 @@ return (
   >
     <div style={imgWrapperStyle}>
       <img
-        src={`https://near.social/magic/img/account/3edd9a30f726eca4bffaa9996fce3d290a475e71b8aa64819d0ea5387472136b`}
+        src={image}
         alt={`Group icon: ${groupId}`}
       />
     </div>
