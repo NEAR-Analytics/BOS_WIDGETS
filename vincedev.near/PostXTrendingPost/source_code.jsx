@@ -68,17 +68,18 @@ color: #010101;
 }
 `;
 const data = props.hashList;
+const sortedHashList = data?.sort((a, b) => b[1] - a[1]);
 
 return (
   <bodyWrapper>
     <mainHeader>Trending Post</mainHeader>
 
     <AllTrends>
-      {data?.map((d, i) => {
+      {sortedHashList?.map((d, i) => {
         return (
           <MajorTrends>
             <SingleTrends>
-              <div>{i}.</div>
+              <div>{i + 1}.</div>
               <span>#{d[0]}</span>
             </SingleTrends>
             <span>{d[1]} Posts</span>
