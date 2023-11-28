@@ -1,9 +1,13 @@
 const accountId = props.accountId;
+// const accountId =
+//   "3edd9a30f726eca4bffaa9996fce3d290a475e71b8aa64819d0ea5387472136b";
 if (!accountId) {
   return "No accountId";
 }
 const blockHeight =
   props.blockHeight === "now" ? "now" : parseInt(props.blockHeight);
+const Myname = Social.get(`${accountId}/profile/name`);
+// const blockHeight = 106729980;
 const pinned = !!props.pinned;
 const hideMenu = !!props.hideMenu;
 const hideButtons = !!props.hideButtons;
@@ -138,7 +142,9 @@ const Wrapper = styled.div`
 `;
 
 console.log(content);
-console.log(groupId);
+console.log(raw);
+console.log(accountId);
+console.log(Myname);
 
 const contentWidget = (
   <Widget
@@ -169,6 +175,10 @@ return (
           }
     }
   >
+    <img
+      src={`https://i.near.social/magic/thumbnail/https://near.social/magic/img/nft/${groupId}`}
+      alt=""
+    />
     <div className={`post ${props.reposted ? "reposted" : ""}`}>
       <div className="left">
         <Widget
