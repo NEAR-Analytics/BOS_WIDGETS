@@ -65,8 +65,27 @@ function libStateUpdate(obj) {
 function canUserReact(props) {
   const { env, accountId, sbtsNames } = props;
 
+  if (sbtsNames.includes("public")) return true;
+
   setAreValidUsers([accountId], sbtsNames);
-  const result = state[`isValidUser-${accountId}`];
+
+  let allSBTsValidations = [];
+
+  let result;
+
+  let userCredentials =
+    usersSBTs.find((data) => data.user === accountId).credentials ??
+    state[`isValidUser-${accountId}`];
+
+  if (userCredentials) {
+    const allSBTs = Object.keys(userCredentials);
+
+    allSBTs.forEach((sbt) => {
+      sbt !== "public" && allSBTsValidations.push(userCredentials[sbt]);
+    });
+
+    result = allSBTsValidations.includes(true);
+  }
 
   resultFunctionsToCall = resultFunctionsToCall.filter((call) => {
     const discardCondition =
@@ -237,6 +256,7 @@ function getEmojis(props) {
       state[`isValidUser-${call.props.accountId}`] !== undefined;
     return !discardCondition;
   });
+
   const finalReactions = filterValidEmojis(lastReactions, articleSbts);
 
   const finalEmojisMapped = {};
@@ -284,15 +304,38 @@ function groupReactions(emojisBySBT) {
 }
 
 function filterValidator(emojis, articleSbts) {
+  if (articleSbts.includes("public")) return emojis;
+
   return emojis.filter((emoji) => {
-    return (
-      articleSbts.find((articleSBT) => {
-        return (
-          state[`isValidUser-${emoji.accountId}`][articleSBT] ||
-          articleSBT === "public"
-        );
-      }) !== undefined
-    );
+    let allSBTsValidations = [];
+
+    let result;
+
+    let userCredentials =
+      usersSBTs.find((data) => data.user === emoji.accountId).credentials ??
+      state[`isValidUser-${emoji.accountId}`];
+
+    if (userCredentials) {
+      const allSBTs = Object.keys(userCredentials);
+
+      allSBTs.forEach((sbt) => {
+        sbt !== "public" && allSBTsValidations.push(userCredentials[sbt]);
+      });
+
+      result = allSBTsValidations.includes(true);
+    }
+
+    return result;
+
+    // return emojis.filter((emoji) => {
+    //   return (
+    //     articleSbts.find((articleSBT) => {
+    //       return (
+    //         state[`isValidUser-${emoji.accountId}`][articleSBT] ||
+    //         articleSBT === "public"
+    //       );
+    //     }) !== undefined
+    //   );
   });
 }
 
