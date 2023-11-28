@@ -141,12 +141,11 @@ let labelP = [];
 
 // Assuming allPostSorted has at least 20 items
 for (let i = 0; i < 20; i++) {
-  if (allPostSorted[i]) {
-    dataP.push(allPostSorted[i][1]); // Assuming item[1] contains the data for dataP
-    labelP.push(allPostSorted[i][0]); // Assuming item[0] contains the data for labelP
+  if (day7PostSorted[i]) {
+    dataP.push(day7PostSorted[i][1]); // Assuming item[1] contains the data for dataP
+    labelP.push(day7PostSorted[i][0]); // Assuming item[0] contains the data for labelP
   }
 }
-
 
 // ... (rest of the code remains unchanged)
 
