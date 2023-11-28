@@ -93,17 +93,6 @@ const TabsButton = styled.button`
 }
 `;
 const handleTabClick = (tab) => {
-  let link = `https://near.social/marketplacebos.near/widget/${tab}.Index`;
-
-  if (tab === "trendings") {
-    const hashtags = "bos"; // Change this to your desired hashtags
-    link += `?hashtags=${hashtags}`;
-  }
-
-  // Update the link or perform any other logic based on the selected tab
-  window.location.href = link;
-
-  // Update the selectedTab state
   State.update({
     selectedTab: tab,
   });
@@ -120,10 +109,36 @@ return (
               selected={state.selectedTab === "trendings"}
             >
               <Title>
-                <i class="bi bi-trophy"></i> Trending
+                <i class="bi bi-trophy"></i> Trending Now
               </Title>
             </TabsButton>
 
+            <TabsButton
+              onClick={() => handleTabClick("trending3days")}
+              selected={state.selectedTab === "trending3days"}
+            >
+              <Title>
+                <i class="bi bi-3-square"></i>
+                Trending 3days
+              </Title>
+            </TabsButton>
+            <TabsButton
+              onClick={() => handleTabClick("trending7days")}
+              selected={state.selectedTab === "trending7days"}
+            >
+              <Title>
+                <i class="bi bi-7-square"></i>
+                Trending 7days
+              </Title>
+            </TabsButton>
+            <TabsButton
+              onClick={() => handleTabClick("trendingalltime")}
+              selected={state.selectedTab === "trendingalltime"}
+            >
+              <Title>
+                <i class="bi bi-circle-square"></i> Trending AllTime
+              </Title>
+            </TabsButton>
             <TabsButton
               onClick={() => handleTabClick("charts")}
               selected={state.selectedTab === "charts"}
@@ -140,6 +155,26 @@ return (
           <>
             <Widget
               src="marketplacebos.near/widget/TrendingPost.TableValue"
+              props={props}
+            />
+            <br />
+            <br />
+          </>
+        )}
+         {state.selectedTab === "trending3days" && (
+          <>
+            <Widget
+              src="marketplacebos.near/widget/TrendingPost.ChartValue3"
+              props={props}
+            />
+            <br />
+            <br />
+          </>
+        )}
+         {state.selectedTab === "trending7days" && (
+          <>
+            <Widget
+              src="marketplacebos.near/widget/TrendingPost.ChartValue7"
               props={props}
             />
             <br />
