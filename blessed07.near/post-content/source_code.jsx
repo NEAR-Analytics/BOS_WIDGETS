@@ -52,6 +52,26 @@ const PostContent = styled.div`
     position: relative;
 `;
 
+const Grid = styled.div`
+  box-spacing: border-box;
+  display: grid;
+  grid-template-columns: repeat(${gridData?.columns || 2}, 1fr);
+  padding: 10px;
+  gap: 8px;
+  width: 100%;
+
+  @media (hover: none) {
+    grid-template-columns: repeat(1, 1fr);
+  }
+`;
+
+const PostImage = styled.img`
+    border-radius: 8px 8px;
+    position: relative;
+    width: 400px;
+    height: 400px;
+`;
+
 const accountId = props.accountId;
 if (!accountId) {
   return "No accountId";
@@ -114,6 +134,20 @@ const extractHashtags = (text) => {
 
 extractHashtags(content?.text);
 
+// Function to extractImages
+const extractImages = (text) => {
+  // Define the regex pattern
+  const regex = /!\[\]\((https?:\/\/[^\)]+)\)/g;
+  const matches = [...text.matchAll(regex)];
+
+  const imageUrls = matches.map((match) => match[1]);
+  console.log(imageUrls);
+
+  return imageUrls;
+};
+
+const postImages = extractImages(content?.text);
+
 return (
   <>
     <PostContainer>
@@ -143,6 +177,12 @@ return (
         </PostTopContainer>
         <PostContent>
           <div>{content?.text}</div>
+          <Grid>
+            {postImages &&
+              postImages.map((eachPostImage) => (
+                <PostImage src={eachPostImage} />
+              ))}
+          </Grid>
         </PostContent>
       </PostContentContainer>
     </PostContainer>
