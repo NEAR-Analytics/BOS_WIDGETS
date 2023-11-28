@@ -65,6 +65,8 @@ function libStateUpdate(obj) {
 function canUserCreateComment(props) {
   const { accountId, sbtsNames } = props;
 
+  if (sbtsNames.includes("public")) return true;
+
   setAreValidUsers([accountId], sbtsNames);
 
   let allSBTsValidations = [];
@@ -216,6 +218,8 @@ function getValidComments(props) {
 }
 
 function filterValidator(comments, articleSbts) {
+  if (articleSbts.includes("public")) return comments;
+
   return comments.filter((comment) => {
     let allSBTsValidations = [];
 
