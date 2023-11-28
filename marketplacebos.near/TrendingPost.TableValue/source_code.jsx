@@ -189,6 +189,8 @@ const StyledTable = styled.table`
   border-collapse: collapse;
   margin-bottom: 20px;
   border: none;
+      font-size: 10px;
+
   @media (max-width: 1268px) {
     font-size: 8px;
   }
@@ -343,97 +345,97 @@ postEngagement.forEach((item) => {
 const Table = () => {
   return (
     <>
-    <Wap>
-      <StyledContainer>
-        <StyledTotalContainer>
-          <StyledTotalLabel>Total Posts</StyledTotalLabel>
-          <StyledTotalValue>{totalItems}</StyledTotalValue>
-        </StyledTotalContainer>
-        <StyledTotalContainer>
-          <StyledTotalLabel>Total Account Posts</StyledTotalLabel>
-          <StyledTotalValue>{totalAccountPosts}</StyledTotalValue>
-        </StyledTotalContainer>
-        <StyledTotalContainer>
-          <StyledTotalLabel>Total Likes</StyledTotalLabel>
-          <StyledTotalValue>{totalLikes}</StyledTotalValue>
-        </StyledTotalContainer>
-        <StyledTotalContainer>
-          <StyledTotalLabel>Total Comments</StyledTotalLabel>
-          <StyledTotalValue>{totalComments}</StyledTotalValue>
-        </StyledTotalContainer>
-        <StyledTotalContainer>
-          <StyledTotalLabel>Total Reposts</StyledTotalLabel>
-          <StyledTotalValue>{totalReposts}</StyledTotalValue>
-        </StyledTotalContainer>
-      </StyledContainer>
-      <br />
-      <br />
-      <br />
-      <br />
-      <Widget
-        src="marketplacebos.near/widget/TrendingPost.ChartPost"
-        props={{
-          dataP: dataP,
-          labelP: labelP,
-          backgroundcolorP: backgroundcolorP,
-          borderColorP: borderColorP,
-          labelN: labelN,
-        }}
-      />
-      <br />
-      <br />
-      <br />
-      <StyledTable>
-        <thead>
-          <tr>
-            <StyledTh>POST ID</StyledTh>
-            <StyledTh>ACCOUNT_ID</StyledTh>
-            <StyledTh>ENCOURAGE POINT</StyledTh>
-            <StyledTh>ENCOURAGE POINT_3Days</StyledTh>
-            <StyledTh>ENCOURAGE POINT_7Days</StyledTh>
-            <StyledTh>TOTAL LIKES</StyledTh>
-            <StyledTh>TOTAL COMMENTS</StyledTh>
-            <StyledTh>TOTAL REPOSTS</StyledTh>
-            <StyledTh>CREATED</StyledTh>
-          </tr>
-        </thead>
-        <tbody>
-          {sort.map((item) => (
+      <Wap>
+        <StyledContainer>
+          <StyledTotalContainer>
+            <StyledTotalLabel>Total Posts</StyledTotalLabel>
+            <StyledTotalValue>{totalItems}</StyledTotalValue>
+          </StyledTotalContainer>
+          <StyledTotalContainer>
+            <StyledTotalLabel>Total Account Posts</StyledTotalLabel>
+            <StyledTotalValue>{totalAccountPosts}</StyledTotalValue>
+          </StyledTotalContainer>
+          <StyledTotalContainer>
+            <StyledTotalLabel>Total Likes</StyledTotalLabel>
+            <StyledTotalValue>{totalLikes}</StyledTotalValue>
+          </StyledTotalContainer>
+          <StyledTotalContainer>
+            <StyledTotalLabel>Total Comments</StyledTotalLabel>
+            <StyledTotalValue>{totalComments}</StyledTotalValue>
+          </StyledTotalContainer>
+          <StyledTotalContainer>
+            <StyledTotalLabel>Total Reposts</StyledTotalLabel>
+            <StyledTotalValue>{totalReposts}</StyledTotalValue>
+          </StyledTotalContainer>
+        </StyledContainer>
+        <br />
+        <br />
+        <br />
+        <br />
+        <Widget
+          src="marketplacebos.near/widget/TrendingPost.ChartPost"
+          props={{
+            dataP: dataP,
+            labelP: labelP,
+            backgroundcolorP: backgroundcolorP,
+            borderColorP: borderColorP,
+            labelN: labelN,
+          }}
+        />
+        <br />
+        <br />
+        <br />
+        <StyledTable>
+          <thead>
             <tr>
-              <StyledTd scope="row">
-                <a
-                  href={`https://near.social/mob.near/widget/MainPage.N.Post.Page?accountId=${item.accountId}&blockHeight=${item.blockHeight}`}
-                >
-                  {item.blockHeight}
-                </a>
-              </StyledTd>
-              <StyledTd maxWidth="100px">
-                {typeof item.accountId === "string" &&
-                item.accountId.includes(".near")
-                  ? item.accountId
-                  : typeof item.accountId === "string" &&
-                    item.accountId.slice(0, 7) +
-                      "..." +
-                      item.accountId.slice(
-                        item.accountId.length - 10,
-                        item.accountId.length - 1
-                      )}
-              </StyledTd>
-              <StyledTd>{item.EP && item.EP.toFixed(4)}</StyledTd>
-              <StyledTd>{item.EP3D && item.EP3D.toFixed(4)}</StyledTd>
-              <StyledTd>{item.EP7D && item.EP7D.toFixed(4)}</StyledTd>
-              <StyledTd>{item.allLike}</StyledTd>
-              <StyledTd>{item.allComment}</StyledTd>
-              <StyledTd>{item.allRepost}</StyledTd>
-              <StyledTd>
-                {new Date(item.dateCreated).toLocaleString("en-GB", {
-                  hour12: false,
-                })}
-              </StyledTd>
+              <StyledTh>POST ID</StyledTh>
+              <StyledTh>ACCOUNT_ID</StyledTh>
+              <StyledTh>ENCOURAGE POINT</StyledTh>
+              <StyledTh>ENCOURAGE POINT_3Days</StyledTh>
+              <StyledTh>ENCOURAGE POINT_7Days</StyledTh>
+              <StyledTh>TOTAL LIKES</StyledTh>
+              <StyledTh>TOTAL COMMENTS</StyledTh>
+              <StyledTh>TOTAL REPOSTS</StyledTh>
+              <StyledTh>CREATED</StyledTh>
             </tr>
-          ))}
-        </tbody>
-      </StyledTable>
+          </thead>
+          <tbody>
+            {sort.map((item) => (
+              <tr>
+                <StyledTd scope="row">
+                  <a
+                    href={`https://near.social/mob.near/widget/MainPage.N.Post.Page?accountId=${item.accountId}&blockHeight=${item.blockHeight}`}
+                  >
+                    {item.blockHeight}
+                  </a>
+                </StyledTd>
+                <StyledTd maxWidth="100px">
+                  {typeof item.accountId === "string" &&
+                  item.accountId.includes(".near")
+                    ? item.accountId
+                    : typeof item.accountId === "string" &&
+                      item.accountId.slice(0, 7) +
+                        "..." +
+                        item.accountId.slice(
+                          item.accountId.length - 10,
+                          item.accountId.length - 1
+                        )}
+                </StyledTd>
+                <StyledTd>{item.EP && item.EP.toFixed(4)}</StyledTd>
+                <StyledTd>{item.EP3D && item.EP3D.toFixed(4)}</StyledTd>
+                <StyledTd>{item.EP7D && item.EP7D.toFixed(4)}</StyledTd>
+                <StyledTd>{item.allLike}</StyledTd>
+                <StyledTd>{item.allComment}</StyledTd>
+                <StyledTd>{item.allRepost}</StyledTd>
+                <StyledTd>
+                  {new Date(item.dateCreated).toLocaleString("en-GB", {
+                    hour12: false,
+                  })}
+                </StyledTd>
+              </tr>
+            ))}
+          </tbody>
+        </StyledTable>
       </Wap>
     </>
   );
