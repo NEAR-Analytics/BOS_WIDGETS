@@ -58,7 +58,7 @@ const labelP = props.labelP || [
   "dsa",
 ];
 
-const labelN = props.labelN || "test"
+const labelN = props.labelN || "test";
 const data = {
   labels: labelP,
   datasets: [
