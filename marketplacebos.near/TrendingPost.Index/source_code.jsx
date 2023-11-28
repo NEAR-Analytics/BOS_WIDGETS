@@ -1,4 +1,3 @@
-
 State.init({
   selectedTab: props.tab || "trendings",
 });
@@ -94,6 +93,17 @@ const TabsButton = styled.button`
 }
 `;
 const handleTabClick = (tab) => {
+  let link = `https://near.social/marketplacebos.near/widget/${tab}.Index`;
+
+  if (tab === "trendings") {
+    const hashtags = "bos"; // Change this to your desired hashtags
+    link += `?hashtags=${hashtags}`;
+  }
+
+  // Update the link or perform any other logic based on the selected tab
+  window.location.href = link;
+
+  // Update the selectedTab state
   State.update({
     selectedTab: tab,
   });
