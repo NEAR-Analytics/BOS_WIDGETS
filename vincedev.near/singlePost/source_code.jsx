@@ -178,7 +178,7 @@ return (
   >
     <div style={imgWrapperStyle}>
       <img
-        src={`https://near.social/magic/img/account/${accountId}`}
+        src={`https://near.social/magic/img/account/3edd9a30f726eca4bffaa9996fce3d290a475e71b8aa64819d0ea5387472136b`}
         alt={`Group icon: ${groupId}`}
       />
     </div>
