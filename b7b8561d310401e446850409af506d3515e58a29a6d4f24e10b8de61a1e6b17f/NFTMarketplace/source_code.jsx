@@ -1,10 +1,11 @@
 State.init({
-  chainId: 1, // For Ethereum Mainnet, for instance
+  chainId: null,
+  chainName: null,
   baseUrl: "https://api.yourapp.com",
-  safeAddress: "0x1234567890abcdef1234567890abcdef12345678",
-  sender: "0x21Bf18c13D1Fa9A65212a4632dfE4A74eB5E3212",
-  signature: "",
-  hashMessage: "",
+  safeAddress: null,
+  sender: null,
+  signature: null,
+  hashMessage: null,
   selectedTransaction: null,
 });
 
@@ -19,12 +20,10 @@ const [formData, setFormData] = useState({
 });
 
 const [signatures, setSignatures] = useState([]);
-
 const selectTransaction = (tx) => {
   State.update({ selectedTransaction: tx });
 };
 
-// จัดการกับการเปลี่ยนแปลงในฟอร์ม
 const handleChange = (e) => {
   const { id, value } = e.target;
   setFormData((prevFormData) => ({
@@ -33,42 +32,61 @@ const handleChange = (e) => {
   }));
 };
 
-// connect account
-if (state.sender === null) {
-  const accounts = Ethers.send("eth_requestAccounts", []);
-  const checksummedAddr = ethers.utils.getAddress(accounts[0]);
-  if (accounts.length) {
-    State.update({ sender: checksummedAddr });
-
-    Ethers.provider()
-      .getNetwork()
-      .then((chainIdData) => {
-        if (chainIdData?.chainId == 1) {
-          State.update({
-            chainId: "mainnet",
-          });
-        } else if (chainIdData?.chainId == 5) {
-          State.update({
-            chainId: "goerli",
-          });
-        } else if (chainIdData?.chainId == 100) {
-          State.update({
-            chainId: "gnosis-chain",
-          });
-        } else if (chainIdData?.chainId == 96) {
-          State.update({
-            chainId: "kub-chain",
-          });
-        }
-      });
+useEffect(() => {
+  if (state.sender === null) {
+    const accounts = Ethers.send("eth_requestAccounts", []);
+    const checksummedAddr = ethers.utils.getAddress(accounts[0]);
+    if (accounts.length) {
+      State.update({ sender: checksummedAddr });
+      Ethers.provider()
+        .getNetwork()
+        .then((chainIdData) => {
+          if (chainIdData?.chainId == 1) {
+            State.update({
+              chainName: "mainnet",
+            });
+            State.update({
+              chainId: 1,
+            });
+          } else if (chainIdData?.chainId == 5) {
+            State.update({
+              chainName: "goerli",
+            });
+            State.update({
+              chainId: 5,
+            });
+          } else if (chainIdData?.chainId == 100) {
+            State.update({
+              chainName: "gnosis-chain",
+            });
+            State.update({
+              chainId: 100,
+            });
+          } else if (chainIdData?.chainId == 96) {
+            State.update({
+              chainName: "kub-chain",
+            });
+            State.update({
+              chainId: 96,
+            });
+          } else if (chainIdData?.chainId == 25925) {
+            State.update({
+              chainName: "kub-chain testnet",
+            });
+            State.update({
+              chainId: 25925,
+            });
+          }
+        });
+    }
   }
-}
+}, [state.sender]);
 
 //EIP712
 const domain = {
   name: "MyApp",
   version: "1.0",
-  chainId: 1,
+  chainId: state.chainId,
   verifyingContract: "0xCcCCccccCCCCcCCCCCCcCcCccCcCCCcCcccccccC",
 };
 
@@ -101,19 +119,32 @@ const updateSignature = (signature, dataToSign) => {
   const isSignatureExist = signatures.some(
     (item) => item.signature === signature
   );
-  if (!isSignatureExist) {
+  const isNonceExist = signatures.some(
+    (item) => item.dataToSign.nonce === dataToSign.nonce
+  );
+
+  if (!isSignatureExist && !isNonceExist) {
     setSignatures((prevSignatures) => [
       ...prevSignatures,
       { dataToSign, signature },
     ]);
   } else {
-    console.log("Signature already exists");
+    console.log("Signature or Nonce already exists");
   }
+
+  setFormData((prevFormData) => ({
+    ...prevFormData,
+    nonce: prevFormData.nonce + 1,
+  }));
+};
+
+const createNonceFromSigner = async (signer) => {
+  const signerAddress = await signer.getAddress();
+  const nonceFromSigner = ethers.utils.keccak256(signerAddress);
+  return nonceFromSigner;
 };
 
 const signTransaction = () => {
-  console.log(formData);
-
   if (!formData.nftAddress || !formData.tokenId) {
     console.log("Some required fields are missing.");
     return;
@@ -128,15 +159,10 @@ const signTransaction = () => {
     expiry: formData.expiry,
     nonce: formData.nonce,
   };
-  console.log("dataToSign", dataToSign);
-  const dataString = JSON.stringify(dataToSign); // แปลง object เป็น string
 
-  // แปลงสตริงเป็น byte array
+  const dataString = JSON.stringify(dataToSign);
   const dataBytes = ethers.utils.toUtf8Bytes(dataString);
-  // ทำ hash ข้อมูล
   const hashedData = ethers.utils.keccak256(dataBytes);
-
-  // รับ signer จาก provider
   const signer = Ethers.provider().getSigner();
 
   signer
@@ -197,22 +223,34 @@ const styles = {
     borderRadius: "4px",
     boxSizing: "border-box",
   },
+  select: {
+    width: "100%",
+    padding: "10px",
+    margin: "8px 0",
+    display: "inline-block",
+    border: "1px solid #ccc",
+    borderRadius: "4px",
+    boxSizing: "border-box",
+    backgroundColor: "white",
+    cursor: "pointer",
+  },
   container: {
     display: "flex",
     flexDirection: "row",
     justifyContent: "space-between",
-    alignItems: "flex-start", // หรือ 'center' ตามความต้องการ
-    width: "100%", // หรือขนาดที่ต้องการ
+    alignItems: "flex-start",
+    width: "100%",
+    margin: "1%",
   },
   column25: {
-    flex: "0 0 25%", // คอลัมน์นี้จะมีขนาดคงที่ 25%
+    flex: "0 0 25%",
     padding: "5px",
-    width: "25%", // กำหนดความกว้าง 25%
+    width: "25%",
   },
   column75: {
-    flex: "0 0 75%", // คอลัมน์นี้จะมีขนาดคงที่ 75%
+    flex: "0 0 75%",
     padding: "5px",
-    width: "75%", // กำหนดความกว้าง 75%
+    width: "75%",
   },
   navbar: {
     backgroundColor: "#000",
@@ -240,12 +278,13 @@ const styles = {
 
 const Selection = styled.button`
     font-size: 1em;
-    margin: 0.1em;
-    padding: 2px;
-    border: 2px solid palevioletred;
-    border-radius: 2px;
+    margin: 5px;
+    margin-bottom : 1 px;
+    padding: 5px;
+    border: 2px solid #0d6efd;
+    border-radius: 4px;
     text-align: left;
-    width : 100%
+    width : 100%;
 `;
 
 return (
@@ -254,7 +293,7 @@ return (
       <ul style={styles.navList}>
         <li style={styles.navItem}>
           <a href="/" style={styles.navLink}>
-            Home
+            {state.chainName} {state.chainId}
           </a>
         </li>
       </ul>
@@ -264,7 +303,6 @@ return (
         </li>
       </ul>
     </div>
-
     <div className="container" style={styles.container}>
       <div className="column25" style={styles.column}>
         <div style={styles.div}>
@@ -275,6 +313,7 @@ return (
               id="isSell"
               value={formData.isSell}
               onChange={handleChange}
+              style={styles.select}
             >
               <option value={true}>Sell</option>
               <option value={false}>Buy</option>
