@@ -73,7 +73,7 @@ const Table = () => {
         <thead>
           <tr>
             <StyledTh>TAG NAME</StyledTh>
-            <StyledTh>TOTAL TAG</StyledTh>
+            <StyledTh>TOTAL POST</StyledTh>
           </tr>
         </thead>
         <tbody>
