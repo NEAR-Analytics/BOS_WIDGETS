@@ -2,8 +2,8 @@ State.init({
   chainId: 25925,
   chainName: "kub-chain testnet",
   baseUrl: "https://api.yourapp.com",
-  safeAddress: "0x21bf18c13d1fa9a65212a4632dfe4a74eb5e3212",
-  sender: "0x21bf18c13d1fa9a65212a4632dfe4a74eb5e3212",
+  safeAddress: 0x21bf18c13d1fa9a65212a4632dfe4a74eb5e3212,
+  sender: 0x21bf18c13d1fa9a65212a4632dfe4a74eb5e3212,
   signature: null,
   hashMessage: null,
   selectedTransaction: null,
@@ -31,6 +31,56 @@ const handleChange = (e) => {
     [id]: value,
   }));
 };
+
+useEffect(() => {
+  if (state.sender === null) {
+    const accounts = Ethers.send("eth_requestAccounts", []);
+    const checksummedAddr = ethers.utils.getAddress(accounts[0]);
+    if (accounts.length) {
+      State.update({ sender: checksummedAddr });
+      Ethers.provider()
+        .getNetwork()
+        .then((chainIdData) => {
+          if (chainIdData?.chainId == 1) {
+            State.update({
+              chainName: "mainnet",
+            });
+            State.update({
+              chainId: 1,
+            });
+          } else if (chainIdData?.chainId == 5) {
+            State.update({
+              chainName: "goerli",
+            });
+            State.update({
+              chainId: 5,
+            });
+          } else if (chainIdData?.chainId == 100) {
+            State.update({
+              chainName: "gnosis-chain",
+            });
+            State.update({
+              chainId: 100,
+            });
+          } else if (chainIdData?.chainId == 96) {
+            State.update({
+              chainName: "kub-chain",
+            });
+            State.update({
+              chainId: 96,
+            });
+          } else if (chainIdData?.chainId == 25925) {
+            State.update({
+              chainName: "kub-chain testnet",
+            });
+            State.update({
+              chainId: 25925,
+            });
+          }
+        });
+    }
+  }
+}, [state.sender]);
 
 //EIP712
 const domain = {
