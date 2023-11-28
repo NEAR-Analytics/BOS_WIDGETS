@@ -10,7 +10,6 @@ const Container = styled.div`
     flex-direction: column;
     align-items: center;
     background-position: center;
-    overflow: hidden;
 `;
 
 const Header = styled.div`
@@ -49,6 +48,12 @@ const Title = styled.div`
     text-align: center;
     margin: 2.5rem 0;
 `;
+
+const Wrapper = styled.div`
+  overflow: hidden;
+  width: 100%;
+  height: auto;
+`;
 const RaffleButton = styled.button`
     box-shadow: 0 4px 4px 0 #003C8C inset, 0 4px 4px 0 #003C8C;
     padding: 1rem 5rem;
@@ -60,7 +65,7 @@ const RaffleButton = styled.button`
 `;
 
 return (
-  <>
+  <Wrapper>
     <Widget src="zubairweb3.near/widget/rafflestore.header" />
     <Container style={{ backgroundImage: `url(${backgroundImage})` }}>
       <Header>
@@ -75,5 +80,5 @@ return (
     </Container>
     <Widget src="zubairweb3.near/widget/rafflestore.raffles" />
     <Widget src="zubairweb3.near/widget/rafflestore.footer" />
-  </>
+  </Wrapper>
 );
