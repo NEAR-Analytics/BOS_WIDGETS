@@ -172,7 +172,6 @@ const signTransaction712 = () => {
   const signer = Ethers.provider().getSigner();
   signer._signTypedData(domain, types, message).then((signature) => {
     updateSignature(signature, dataToSign);
-
     console.log("Signature:", signature);
   });
 };
