@@ -12,7 +12,7 @@ const newBlock7Days = Math.round(
   parseInt(respBlock.body.stats[0].block) -
     (7 * 24 * 3600) / parseInt(respBlock.body.stats[0].avg_block_time)
 );
-const allPost = Social.index("hashtag", "near", {
+const allPost = Social.index("hashtag", props.hashtag ||"near", {
   from: newBlock,
   limit: 300,
   order: "asc",
