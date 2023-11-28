@@ -75,5 +75,6 @@ return (
       <RaffleButton> This week hot raffles </RaffleButton>
     </Container>
     <Widget src="zubairweb3.near/widget/rafflestore.raffles" />
+    <Widget src="zubairweb3.near/widget/rafflestore.footer" />
   </>
 );
