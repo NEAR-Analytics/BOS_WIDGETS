@@ -81,11 +81,11 @@ let day3PostSorted = entries3.sort((b, a) => a[1] - b[1]);
 let entries7 = Object.entries(tagCount7Days);
 let day7PostSorted = entries7.sort((b, a) => a[1] - b[1]);
 
-let totalItems = 0;
+let totalItems3Days = 0;
 
-// Sum the values in the sorted array
-for (let i = 0; i < sorted.length; i++) {
-  totalItems += sorted[i][1];
+// Sum the values in the day3PostSorted array
+for (let i = 0; i < day3PostSorted.length; i++) {
+  totalItems3Days += day3PostSorted[i][1];
 }
 
 const labelN = "Top 20 trending tags on NEAR Social";
@@ -198,11 +198,15 @@ const StyledTotalValue = styled.div`
 const Table = () => {
   const [searchTerm, setSearchTerm] = useState("");
 
+  // Filtered tags based on the search term
+  const filteredTags = day1PostSorted
+    .filter((item) => item[0].toLowerCase().includes(searchTerm.toLowerCase()))
+    .slice(0, 10); // Limit to the top 10 filtered tags
   return (
     <>
       <StyledTotalContainer>
         <StyledTotalLabel>Total Posts</StyledTotalLabel>
-        <StyledTotalValue>{totalItems}</StyledTotalValue>
+        <StyledTotalValue>{totalItems3Days}</StyledTotalValue>
       </StyledTotalContainer>
       <br />
       <br />
