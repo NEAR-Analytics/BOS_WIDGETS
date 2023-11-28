@@ -279,7 +279,7 @@ const styles = {
 const Selection = styled.button`
     font-size: 1em;
     margin: 5px;
-    margin-bottom : 1 px;
+    margin-bottom : 0.5 px;
     padding: 5px;
     border: 2px solid #0d6efd;
     border-radius: 4px;
