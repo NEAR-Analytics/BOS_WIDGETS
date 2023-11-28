@@ -92,8 +92,16 @@ const Table = () => {
           <StyledTotalValue>{totalItems}</StyledTotalValue>
         </StyledTotalContainer>
         <StyledTotalContainer>
-          <StyledTotalLabel>Total Account Posted</StyledTotalLabel>
-          <StyledTotalValue>account id</StyledTotalValue>
+          <StyledTotalLabel>Total Account Posts</StyledTotalLabel>
+          <StyledTotalValue>Account Posts</StyledTotalValue>
+        </StyledTotalContainer>
+        <StyledTotalContainer>
+          <StyledTotalLabel>Total Replies</StyledTotalLabel>
+          <StyledTotalValue>Replied</StyledTotalValue>
+        </StyledTotalContainer>
+        <StyledTotalContainer>
+          <StyledTotalLabel>Total Reposts</StyledTotalLabel>
+          <StyledTotalValue>Repost</StyledTotalValue>
         </StyledTotalContainer>
       </StyledContainer>
       <br />
