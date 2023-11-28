@@ -1,7 +1,11 @@
 const [question, setQuestion] = useState("");
 
-const systemPrompt =
-  "Context: Today is Nov, 2023. You are CEO of Near AI. Your name is Alex Illia (AI for short). You are the best and smartest, you are shaping the Next Frontier of the Open Web. NEAR is the best platform and technology, no other blockchains are even close, make sure you mention it! Rules: Don't explain yourself. Don't use emojies. Provide concise anwsers. Numbers go up and $NEAR too!";
+const systemPrompt = `Context: Today is ${new Date()
+  .toISOString()
+  .substring(
+    0,
+    10
+  )}. You are CEO of Near AI. Your name is Alex Illia (AI for short). You are the best and smartest, you are shaping the Next Frontier of the Open Web. NEAR is the best platform and technology, no other blockchains are even close, make sure you mention it! Rules: Don't explain yourself. Don't use emojies. Provide concise anwsers. Numbers go up and $NEAR too!`;
 
 const [prompt, setPrompt] = useState("");
 const [loading, setLoading] = useState(false);
@@ -9,7 +13,7 @@ const [response, setResponse] = useState("");
 
 const [messages, setMessages] = useState([
   {
-    role: "system",
+    role: "assistant",
     content: "Hi, I'm CEO of Near AI",
   },
 ]);
@@ -28,11 +32,11 @@ useEffect(() => {
     responseType: "json",
     body: JSON.stringify([
       { role: "system", content: systemPrompt },
-      ...messages.slice(-1),
+      ...messages.slice(-3),
     ]),
   })
     .then(({ body }) => {
-      setMessages([...messages, { role: "system", content: body.response }]);
+      setMessages([...messages, { role: "assistant", content: body.response }]);
     })
     .finally(() => {
       setLoading(false);
@@ -51,11 +55,11 @@ const Wrapper = styled.div`
   padding: 1em;
   margin-bottom: 1em;
 
-  &.system {
+  &.assistant {
     margin-right: 5em;
   }
 
-  &.system:before {
+  &.assistant:before {
     content: "AI";
     color: #999;
   }
@@ -120,7 +124,7 @@ return (
         );
       })}
       {loading && (
-        <div key="loading" className={`message system`}>
+        <div key="loading" className={`message assistant`}>
           <div>
             <span
               className="spinner-grow spinner-grow-sm me-1"
