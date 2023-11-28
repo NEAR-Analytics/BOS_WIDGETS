@@ -146,7 +146,7 @@ console.log(content);
 console.log(raw);
 console.log(accountId);
 console.log(Myname);
-const profile = Social.get(`${accountId}/profile`);
+const profile = Social.getr(`${accountId}/profile`);
 const image = profile.image;
 
 const contentWidget = (
@@ -179,7 +179,10 @@ return (
     }
   >
     <div style={imgWrapperStyle}>
-      <img src={image} alt={`Group icon: ${groupId}`} />
+      <img
+        src={`https://ipfs.near.social/ipfs/${image.ipfs_cid}`}
+        alt={`Group icon: ${groupId}`}
+      />
     </div>
     <div className={`post ${props.reposted ? "reposted" : ""}`}>
       <div className="left">
