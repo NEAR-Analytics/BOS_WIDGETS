@@ -112,7 +112,15 @@ return (
                 <i class="bi bi-trophy"></i> Trending Now
               </Title>
             </TabsButton>
-
+            <TabsButton
+              onClick={() => handleTabClick("trending1day")}
+              selected={state.selectedTab === "trending1day"}
+            >
+              <Title>
+                <i class="bi bi-1-square"></i>
+                Trending 1day
+              </Title>
+            </TabsButton>
             <TabsButton
               onClick={() => handleTabClick("trending3days")}
               selected={state.selectedTab === "trending3days"}
