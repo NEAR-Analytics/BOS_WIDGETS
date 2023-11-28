@@ -182,7 +182,7 @@ return (
           </div>
         </div>
         <div
-          className="w-100 p-2 rounded-4"
+          className="w-100 p-2 shadow-sm rounded-2 overflow-auto"
           style={{ "border-radius": "100px" }}
         >
           <Widget
