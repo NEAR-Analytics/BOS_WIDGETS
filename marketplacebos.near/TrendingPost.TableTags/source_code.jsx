@@ -5,6 +5,8 @@ for (let i = 0; i < sorted.length; i++) {
   totalItems += sorted[i][1];
 }
 
+const labelN = "Top 20 trending tags on NEAR Social";
+
 const backgroundcolorP = [
   "blue",
   "blue",
@@ -26,8 +28,6 @@ const backgroundcolorP = [
   "blue",
   "blue",
   "blue",
-
-
 ];
 
 const borderColorP = [
@@ -127,9 +127,14 @@ const Table = () => {
           labelP: labelP,
           backgroundcolorP: backgroundcolorP,
           borderColorP: borderColorP,
+          labelN: labelN,
         }}
       />
       <br />
+            <br />
+      <br />
+      <br />
+
       <input
         type="text"
         placeholder="Search tags..."
