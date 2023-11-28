@@ -55,7 +55,7 @@ const StyledTd = styled.td`
 `;
 
 const Table = () => {
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState("");
 
   const filteredTags = sorted.filter((item) =>
     item[0].toLowerCase().includes(searchTerm.toLowerCase())
@@ -89,6 +89,8 @@ const Table = () => {
   );
 };
 
-return (<>
-<Table />
-</>)
+return (
+  <>
+    <Table />
+  </>
+);
