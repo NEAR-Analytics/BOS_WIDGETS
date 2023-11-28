@@ -22,13 +22,26 @@ flex-flow:column;
 gap:4px;
 
 `;
+const MajorTrends = styled.div`
+font-family: Space Grotesk;
+
+span{
+font-size: 16px;
+font-weight: 600;
+line-height: 20px;
+letter-spacing: 0.1em;
+text-align: left;
+color:#696969;
+
+}
+`;
 
 const SingleTrends = styled.div`
 display: flex;
 flex-flow: row nowrap;
 gap:2px;
 align-items: center;
-font-family: Space Grotesk;
+
 
 div{
   display: flex;
@@ -60,14 +73,21 @@ return (
     <mainHeader>Trending Post</mainHeader>
 
     <AllTrends>
-      <SingleTrends>
-        <div>1.</div>
-        <span>#BOS </span>
-      </SingleTrends>
-      <SingleTrends>
-        <div>2.</div>
-        <span>#Space</span>
-      </SingleTrends>
+      <MajorTrends>
+        <SingleTrends>
+          <div>1.</div>
+          <span>#BOS </span>
+        </SingleTrends>
+        <span>15 Posts</span>
+      </MajorTrends>
+      <MajorTrends>
+        <SingleTrends>
+          <div>2.</div>
+          <span>#BOS </span>
+        </SingleTrends>
+        <span>15 Posts</span>
+      </MajorTrends>
+
     </AllTrends>
   </bodyWrapper>
 );
