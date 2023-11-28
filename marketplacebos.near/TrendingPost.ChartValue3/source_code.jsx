@@ -1,199 +1,96 @@
+const findHashtags = (str) => {
+  const regexp = /\B\#\w\w+\b/g;
+  let match;
+  let tags = [];
+  while ((match = regexp.exec(str)) !== null) {
+    tags.push(match[0]);
+  }
+  return tags;
+};
 const respBlock = fetch("https://api.nearblocks.io/v1/stats");
 
+const newBlock = Math.round(
+  parseInt(respBlock.body.stats[0].block) -
+    (30 * 24 * 3600) / parseInt(respBlock.body.stats[0].avg_block_time)
+);
+const newBlock1Days = Math.round(
+  parseInt(respBlock.body.stats[0].block) -
+    (1 * 24 * 3600) / parseInt(respBlock.body.stats[0].avg_block_time)
+);
 const newBlock3Days = Math.round(
   parseInt(respBlock.body.stats[0].block) -
     (3 * 24 * 3600) / parseInt(respBlock.body.stats[0].avg_block_time)
 );
+const newBlock7Days = Math.round(
+  parseInt(respBlock.body.stats[0].block) -
+    (7 * 24 * 3600) / parseInt(respBlock.body.stats[0].avg_block_time)
+);
+const allPost = Social.get("*/post/main/", "final");
 
-const allPost = Social.index("hashtag", props.hashtag || "near", {
-  from: newBlock3Days,
-  limit: 300,
-  order: "asc",
+const tagCountAll = {};
+const tagCount1Days = {};
+const tagCount3Days = {};
+const tagCount7Days = {};
+Object.keys(allPost).forEach((item) => {
+  const tags = findHashtags(JSON.parse(allPost[item].post.main).text);
+  if (tags.length > 0) {
+    tags.forEach((tag) => {
+      tagCountAll[tag] = 0;
+      tagCount1Days[tag] = 0;
+      tagCount3Days[tag] = 0;
+      tagCount7Days[tag] = 0;
+    });
+  }
+});
+Object.keys(tagCountAll).forEach((tag) => {
+  const countAllPost = Social.index("hashtag", tag.replace("#", ""), {
+    from: newBlock,
+    limit: 999,
+    order: "asc",
+  });
+  const count1DaysPost = Social.index("hashtag", tag.replace("#", ""), {
+    from: newBlock1Days,
+    limit: 999,
+    order: "asc",
+  });
+  const count3DaysPost = Social.index("hashtag", tag.replace("#", ""), {
+    from: newBlock3Days,
+    limit: 999,
+    order: "asc",
+  });
+  const count7DaysPost = Social.index("hashtag", tag.replace("#", ""), {
+    from: newBlock7Days,
+    limit: 999,
+    order: "asc",
+  });
+  tagCountAll[tag] = countAllPost.length || 0;
+  tagCount1Days[tag] = count1DaysPost.length || 0;
+  tagCount3Days[tag] = count3DaysPost.length || 0;
+  tagCount7Days[tag] = count7DaysPost.length || 0;
 });
 
-let postEngagement = [];
+let entriesALL = Object.entries(tagCountAll);
+let allPostSorted = entriesALL.sort((b, a) => a[1] - b[1]);
 
-if (allPost.length > 0) {
-  allPost.forEach((item) => {
-    const allComment3Days = Social.index(
-      "comment",
-      {
-        type: "social",
-        path: `${item.accountId}/post/main`,
-        blockHeight: item.blockHeight,
-      },
-      {
-        from: newBlock3Days,
-        limit: 9999,
-        order: "asc",
-      }
-    );
-    const allLike3Days = Social.index(
-      "like",
-      {
-        type: "social",
-        path: `${item.accountId}/post/main`,
-        blockHeight: item.blockHeight,
-      },
-      {
-        from: newBlock3Days,
-        limit: 9999,
-        order: "asc",
-      }
-    );
-    const allRepost3Days = Social.index(
-      "repost",
-      {
-        type: "social",
-        path: `${item.accountId}/post/main`,
-        blockHeight: item.blockHeight,
-      },
-      { from: newBlock3Days, limit: 9999, order: "asc" }
-    );
+let entries1 = Object.entries(tagCount1Days);
+let day1PostSorted = entries1.sort((b, a) => a[1] - b[1]);
 
-    const res = fetch(
-      `https://api.near.social/time?blockHeight=${item.blockHeight}`
-    );
-    const dateCreated = res.body;
+let entries3 = Object.entries(tagCount3Days);
+let day3PostSorted = entries3.sort((b, a) => a[1] - b[1]);
 
-    if (allComment3Days.length + allLike3Days.length + allRepost3Days.length > 0) {
-      postEngagement.push({
-        accountId: item.accountId,
-        blockHeight: item.blockHeight,
-        allLike: allLike3Days.length,
-        allComment: allComment3Days.length,
-        allRepost: allRepost3Days.length,
-        EP:
-          (allComment3Days.length * 3 + allLike3Days.length + allRepost3Days.length * 2) /
-          Math.floor(
-            (Date.now() - new Date(dateCreated)) / 1000 / (3600 * 24)
-          ) || 0,
-        EP3D:
-          (allComment3Days.length * 3 +
-            allLike3Days.length +
-            allRepost3Days.length * 2) /
-          3 || 0,
-        dateCreated: dateCreated,
-      });
-    }
-  });
-}
-const compare = (b, a) => {
-  if (a.EP < b.EP) {
-    return -1;
-  }
-  if (a.EP > b.EP) {
-    return 1;
-  }
-  return 0;
-};
-const sort = postEngagement.sort(compare);
+let entries7 = Object.entries(tagCount7Days);
+let day7PostSorted = entries7.sort((b, a) => a[1] - b[1]);
 
 let totalItems = 0;
 
-let totalAccountPosts = 0;
-let totalLikes = 0;
-let totalComments = 0;
-let totalReposts = 0;
+// Sum the values in the sorted array
+for (let i = 0; i < sorted.length; i++) {
+  totalItems += sorted[i][1];
+}
 
-// Iterate over postEngagement array to count totals
-postEngagement.forEach((item) => {
-  totalItems += 1; // Assuming each item represents a post
-  totalAccountPosts += 1; // Assuming each item represents an account post
-  totalLikes += item.allLike || 0;
-  totalComments += item.allComment || 0;
-  totalReposts += item.allRepost || 0;
-});
-
-const StyledTable = styled.table`
-  width: 100%;
-  border-collapse: collapse;
-  margin-bottom: 20px;
-  border: none;
-      font-size: 10px;
-
-  @media (max-width: 1268px) {
-    font-size: 8px;
-  }
-  @media (max-width: 768px) {
-    font-size: 8px;
-  }
-`;
-
-const StyledTh = styled.th`
-  padding: 12px;
-  text-align: left;
-  background-color: #f2f2f2;
-  border: none;
-  text-align: center;
-`;
-
-const StyledTd = styled.td`
-  padding: 12px;
-  border: none;
-  text-align: center;
-`;
-
-const StyledContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-top: 20px;
-  border: 4px solid black;
-   border-right: 2px solid black;
-  padding-right: 10px; 
-  &:last-child {
-    border-right: none; 
-  }
-  @media (min-width: 768px) {
-    flex-direction: row;
-    justify-content: space-around;
-  }
-`;
-
-const StyledTotalContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-
-  @media (min-width: 768px) {
-    margin: 0 10px; /* Add some spacing between the two containers on wider screens */
-  }
-`;
-
-const StyledTotalLabel = styled.div`
-  font-weight: bold;
-  font-size: 18px;
-`;
-
-const StyledTotalValue = styled.div`
-  font-weight: bold;
-  font-size: 24px;
-  margin-top: 8px;
-`;
-
-const Wap = styled.div`
-  padding: 30px;
-  align-items: center;
-  text-align: center;
-`;
-
-const labelN = "Top trending posts on NEAR Social";
+const labelN = "Top 20 trending tags on NEAR Social";
 
 const backgroundcolorP = [
-  "blue",
-  "blue",
-  "blue",
-  "blue",
-  "blue",
-  "blue",
-  "blue",
-  "blue",
-  "blue",
-  "blue",
-  "blue",
-  "blue",
   "blue",
   "blue",
   "blue",
@@ -237,132 +134,132 @@ const borderColorP = [
   "blue",
   "blue",
   "blue",
-  "blue",
-  "blue",
-  "blue",
-  "blue",
-  "blue",
-  "blue",
-  "blue",
-  "blue",
-  "blue",
-  "blue",
-  "blue",
-  "blue",
 ];
 
+// Assuming item1 and item2 are properties of the objects in the 'sorted' array
 let dataP = [];
 let labelP = [];
 
-// Check if item.accountId is defined and not null
-postEngagement.forEach((item) => {
-  if (item.accountId) {
-    dataP.push(item.EP || 0); // Assuming EP is the ENCOURAGE POINT
-    labelP.push(
-      new Date(item.dateCreated).toLocaleString("en-GB", {
-        hour12: false,
-      }) || ""
-    ); // Assuming dateCreated is the date
-  }
+// Assuming you have an array named allPostSorted
+allPostSorted.forEach((item) => {
+  dataP.push(item[1]); // Assuming item[1] contains the data for dataP
+  labelP.push(item[0]); // Assuming item[0] contains the data for labelP
 });
-// Check if item.accountId is defined and not null
+
+// ... (rest of the code remains unchanged)
+
+const StyledTable = styled.table`
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+  border: none;
+  overflow: auto;
+  @media (max-width: 968px) {
+    font-size: 8px;
+  }
+  @media (max-width: 768px) {
+    font-size: 8px;
+  }
+`;
+
+const StyledTh = styled.th`
+  padding: 12px;
+  text-align: left;
+  background-color: #f2f2f2;
+  border: none;
+  text-align: center;
+`;
+
+const StyledTd = styled.td`
+  padding: 12px;
+  border: none;
+  text-align: center;
+`;
+
+const StyledTotalContainer = styled.div`
+  border: 4px solid black;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 20px;
+`;
+
+const StyledTotalLabel = styled.div`
+  font-weight: bold;
+  font-size: 18px;
+`;
+
+const StyledTotalValue = styled.div`
+  font-weight: bold;
+  font-size: 24px;
+  margin-top: 8px;
+`;
 
 const Table = () => {
+  const [searchTerm, setSearchTerm] = useState("");
+
   return (
     <>
-      <Wap>
-        <StyledContainer>
-          <StyledTotalContainer>
-            <StyledTotalLabel>Total Posts</StyledTotalLabel>
-            <StyledTotalValue>{totalItems}</StyledTotalValue>
-          </StyledTotalContainer>
-          <StyledTotalContainer>
-            <StyledTotalLabel>Total Account Posts</StyledTotalLabel>
-            <StyledTotalValue>{totalAccountPosts}</StyledTotalValue>
-          </StyledTotalContainer>
-          <StyledTotalContainer>
-            <StyledTotalLabel>Total Likes</StyledTotalLabel>
-            <StyledTotalValue>{totalLikes}</StyledTotalValue>
-          </StyledTotalContainer>
-          <StyledTotalContainer>
-            <StyledTotalLabel>Total Comments</StyledTotalLabel>
-            <StyledTotalValue>{totalComments}</StyledTotalValue>
-          </StyledTotalContainer>
-          <StyledTotalContainer>
-            <StyledTotalLabel>Total Reposts</StyledTotalLabel>
-            <StyledTotalValue>{totalReposts}</StyledTotalValue>
-          </StyledTotalContainer>
-        </StyledContainer>
-        <br />
-        <br />
-        <br />
-        <br />
-        <Widget
-          src="marketplacebos.near/widget/TrendingPost.ChartPost"
-          props={{
-            dataP: dataP,
-            labelP: labelP,
-            backgroundcolorP: backgroundcolorP,
-            borderColorP: borderColorP,
-            labelN: labelN,
-          }}
-        />
-        <br />
-        <br />
-        <br />
-        <StyledTable>
-          <thead>
-            <tr>
-              <StyledTh>POST ID</StyledTh>
-              <StyledTh>ACCOUNT_ID</StyledTh>
-              <StyledTh>ENCOURAGE POINT</StyledTh>
-              <StyledTh>ENCOURAGE POINT_3Days</StyledTh>
-              <StyledTh>TOTAL LIKES</StyledTh>
-              <StyledTh>TOTAL COMMENTS</StyledTh>
-              <StyledTh>TOTAL REPOSTS</StyledTh>
-              <StyledTh>CREATED</StyledTh>
-            </tr>
-          </thead>
-          <tbody>
-            {sort.map((item) => (
-              <tr>
-                <StyledTd scope="row">
-                  <a
-                    href={`https://near.social/mob.near/widget/MainPage.N.Post.Page?accountId=${item.accountId}&blockHeight=${item.blockHeight}`}
-                  >
-                    {item.blockHeight}
-                  </a>
-                </StyledTd>
-                <StyledTd maxWidth="100px">
-                  {typeof item.accountId === "string" &&
-                  item.accountId.includes(".near")
-                    ? item.accountId
-                    : typeof item.accountId === "string" &&
-                      item.accountId.slice(0, 7) +
-                        "..." +
-                        item.accountId.slice(
-                          item.accountId.length - 10,
-                          item.accountId.length - 1
-                        )}
-                </StyledTd>
-                <StyledTd>{item.EP && item.EP.toFixed(4)}</StyledTd>
-                <StyledTd>{item.EP3D && item.EP3D.toFixed(4)}</StyledTd>
-                <StyledTd>{item.allLike}</StyledTd>
-                <StyledTd>{item.allComment}</StyledTd>
-                <StyledTd>{item.allRepost}</StyledTd>
-                <StyledTd>
-                  {new Date(item.dateCreated).toLocaleString("en-GB", {
-                    hour12: false,
-                  })}
-                </StyledTd>
-              </tr>
-            ))}
-          </tbody>
-        </StyledTable>
-      </Wap>
+      <StyledTotalContainer>
+        <StyledTotalLabel>Total Posts</StyledTotalLabel>
+        <StyledTotalValue>{totalItems}</StyledTotalValue>
+      </StyledTotalContainer>
+      <br />
+      <br />
+      <br />
+
+      <Widget
+        src="marketplacebos.near/widget/TrendingPost.ChartPost"
+        props={{
+          dataP: dataP,
+          labelP: labelP,
+          backgroundcolorP: backgroundcolorP,
+          borderColorP: borderColorP,
+          labelN: labelN,
+        }}
+      />
+      <br />
+      <br />
+      <br />
+      <br />
+
+      <input
+        type="text"
+        placeholder="Search tags..."
+        value={searchTerm}
+        onChange={(e) => setSearchTerm(e.target.value)}
+      />
+      <StyledTable>
+        <thead>
+          <tr>
+            <StyledTh>TAG NAME</StyledTh>
+            <StyledTh>TOTAL POST</StyledTh>
+          </tr>
+        </thead>
+        <tbody>
+          {day3PostSorted &&
+            day3PostSorted
+              .filter((item, index) => index <= 10)
+              .map((item) => (
+                <tr>
+                  <StyledTd>
+                    <a
+                      href={`https://near.social/?hashtag=${encodeURIComponent(
+                        item[0].replace("#", "")
+                      )}`}
+                    >
+                      {item[0]}
+                    </a>
+                  </StyledTd>
+                  <StyledTd>{item[1]}</StyledTd>
+                </tr>
+              ))}
+        </tbody>
+      </StyledTable>
     </>
   );
 };
+
 return (
   <>
     <Table />
