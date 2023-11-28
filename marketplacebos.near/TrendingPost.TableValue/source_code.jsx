@@ -218,7 +218,7 @@ const StyledContainer = styled.div`
   flex-direction: column; /* Change to column on small screens */
   align-items: center;
   margin-top: 20px;
-  border: 4px solid blue;
+  border: 4px solid black;
 
   @media (min-width: 768px) {
     flex-direction: row; /* Use row layout on screens wider than 768px */
