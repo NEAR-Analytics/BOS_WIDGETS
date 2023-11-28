@@ -161,7 +161,17 @@ return (
             <br />
           </>
         )}
-         {state.selectedTab === "trending3days" && (
+        {state.selectedTab === "trending1day" && (
+          <>
+            <Widget
+              src="marketplacebos.near/widget/TrendingPost.ChartValue1"
+              props={props}
+            />
+            <br />
+            <br />
+          </>
+        )}
+        {state.selectedTab === "trending3days" && (
           <>
             <Widget
               src="marketplacebos.near/widget/TrendingPost.ChartValue3"
@@ -171,10 +181,20 @@ return (
             <br />
           </>
         )}
-         {state.selectedTab === "trending7days" && (
+        {state.selectedTab === "trending7days" && (
           <>
             <Widget
               src="marketplacebos.near/widget/TrendingPost.ChartValue7"
+              props={props}
+            />
+            <br />
+            <br />
+          </>
+        )}
+        {state.selectedTab === "trendingalltime" && (
+          <>
+            <Widget
+              src="marketplacebos.near/widget/TrendingPost.ChartValueAll"
               props={props}
             />
             <br />
