@@ -85,8 +85,8 @@ const widgets = {
   libSBT: `sayalot.near/widget/lib.SBT`,
   // libComment: `sayalot.near/widget/lib.comment`, ///////////////////////////////////////////////////
   libComment: `f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/lib.comment`, ///////////////////////////////////////////////////
-  // libArticle: `sayalot.near/widget/lib.article`, ///////////////////////////////////////////////////
-  libArticle: `f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/lib.article`, ///////////////////////////////////////////////////
+  libArticle: `sayalot.near/widget/lib.article`, ///////////////////////////////////////////////////
+  // libArticle: `f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/lib.article`, ///////////////////////////////////////////////////
   // libEmojis: `sayalot.near/widget/lib.emojis`, ///////////////////////////////////////////////////
   libEmojis: `f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/lib.emojis`, ///////////////////////////////////////////////////
   // libUpVotes: `sayalot.near/widget/lib.upVotes`, ///////////////////////////////////////////////////
