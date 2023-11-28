@@ -217,14 +217,34 @@ function getValidComments(props) {
 
 function filterValidator(comments, articleSbts) {
   return comments.filter((comment) => {
-    return (
-      articleSbts.find((sbt) => {
-        return (
-          state[`isValidUser-${comment.accountId}`][sbt] ||
-          commentSbt === "public"
-        );
-      }) !== undefined
-    );
+    let allSBTsValidations = [];
+
+    let result;
+
+    let userCredentials =
+      usersSBTs.find((data) => data.user === comment.accountId).credentials ??
+      state[`isValidUser-${comment.accountId}`];
+
+    if (userCredentials) {
+      const allSBTs = Object.keys(userCredentials);
+
+      allSBTs.forEach((sbt) => {
+        sbt !== "public" && allSBTsValidations.push(userCredentials[sbt]);
+      });
+
+      result = allSBTsValidations.includes(true);
+    }
+
+    return result;
+
+    // return (
+    //   articleSbts.find((sbt) => {
+    //     return (
+    //       state[`isValidUser-${comment.accountId}`][sbt] ||
+    //       commentSbt === "public"
+    //     );
+    //   }) !== undefined
+    // );
   });
 }
 
