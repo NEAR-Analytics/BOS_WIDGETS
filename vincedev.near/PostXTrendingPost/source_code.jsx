@@ -32,8 +32,8 @@ line-height: 20px;
 letter-spacing: 0.1em;
 text-align: left;
 color:#696969;
-margin-top:-8px;
-padding-left:20px;
+margin-top:-4px;
+padding-left:18px;
 
 }
 `;
