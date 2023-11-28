@@ -68,7 +68,7 @@ if (!state.statusIsFetched) {
     { mpip_id },
     "final",
     false
-  ).then((status) => State.update({ status, statusIsFetched: true }));
+  ).then((status) => State.update({ status: mpip_id == 1 ? "Accepted" : status, statusIsFetched: true }));
 }
 
 if (!state.proposalVotesAreFetched) {
