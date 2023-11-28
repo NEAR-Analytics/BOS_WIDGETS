@@ -1,3 +1,5 @@
+// Renders widget name and icon
+
 const accountId = props.accountId;
 const widgetName = props.widgetName;
 const widgetPath = `${accountId}/widget/${widgetName}`;
