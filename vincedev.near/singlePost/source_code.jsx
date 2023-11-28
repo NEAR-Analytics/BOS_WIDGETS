@@ -138,6 +138,7 @@ const Wrapper = styled.div`
 `;
 
 console.log(content);
+console.log(groupId);
 
 const contentWidget = (
   <Widget
