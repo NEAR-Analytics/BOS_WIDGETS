@@ -108,6 +108,11 @@ const link =
 const profile = Social.getr(`${accountId}/profile`);
 const image = profile.image;
 
+// Push contents to the parent state
+if (content) {
+  props.pushToArray(content);
+}
+
 // Function to formatAccountId if accountId is not a `.near` account
 const formatAccountId = (acctId) => {
   if (acctId.split(".near").length == 2) {
