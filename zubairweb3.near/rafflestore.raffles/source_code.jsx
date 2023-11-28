@@ -309,15 +309,15 @@ const RaffleListContainer = styled.div`
 const RaffleList = styled.div`
  display: flex;
  width: 100%;
- margin: 0 auto;
   flex-wrap: wrap;
-  gap: 1rem;
+  justify-content: space-between;
+  gap: 0.5rem;
 `;
 
 const RaffleListItem = styled.div`
 display: flex;
-width: 21%;
-margin: 1rem;
+width: 20%;
+margin: 1rem 0;
 border-radius: 1rem;
 border: 1px solid #e5e7eb;
 flex-direction: column;
