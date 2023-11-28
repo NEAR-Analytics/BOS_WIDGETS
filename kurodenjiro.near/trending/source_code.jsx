@@ -54,11 +54,10 @@ Object.keys(tagCountAll).forEach((tag) => {
   State.update({ hastag: tagCount1Days });
 });
 
-console.log(state.hastag);
 return (
   <>
     <div>
-      {state.hastag &&
+      {Object.keys(state.hastag) &&
         Object.keys(state.hastag)
           .filter((item, index) => state.hastag[item] !== 0)
           .map((item) => (
