@@ -251,7 +251,7 @@ return (
                 <i class="bi bi-trophy"></i> Trending
               </Title>
             </TabsButton>
-           
+
             <TabsButton
               onClick={() => handleTabClick("charts")}
               selected={state.selectedTab === "charts"}
@@ -267,24 +267,14 @@ return (
         {state.selectedTab === "trendings" && (
           <>
             <Widget
-                src="marketplacebos.near/widget/TrendingPost.TableValue"
-                props={props}
-              />
+              src="marketplacebos.near/widget/TrendingPost.TableValue"
+              props={props}
+            />
             <br />
             <br />
           </>
         )}
-        {state.selectedTab === "filter" && (
-          <>
-            <div>
-              <Widget
-                src="marketplacebos.near/widget/TrendingPost.TableValue"
-                props={props}
-              />
-            </div>
-            <br />
-          </>
-        )}
+
         {state.selectedTab === "charts" && (
           <>
             <div>
