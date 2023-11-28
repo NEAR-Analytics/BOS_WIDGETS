@@ -375,6 +375,20 @@ const NftRaffleUnits = styled.div`
  font-size: 6px;
  margin-bottom: 15px;
 `;
+
+const MoreBtn = styled.button`
+background: #003C8C;
+color: #fff;
+padding: 0.5rem 0;
+border: none;
+border-radius: 0.75rem;
+text-align: center;
+width: 6rem;
+cursor: pointer;
+font-size: 1rem;
+margin: 0 auto;
+`;
+
 console.log(nftData);
 console.log(state.nftStatus);
 return (
@@ -421,6 +435,7 @@ return (
             ))}
           </RaffleList>
         )}
+        <MoreBtn>More</MoreBtn>
       </RaffleListContainer>
     </Collection>
   </>
