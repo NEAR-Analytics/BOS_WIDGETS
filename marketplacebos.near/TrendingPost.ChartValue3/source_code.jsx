@@ -136,15 +136,16 @@ const borderColorP = [
   "blue",
 ];
 
-// Assuming item1 and item2 are properties of the objects in the 'sorted' array
 let dataP = [];
 let labelP = [];
 
-// Assuming you have an array named allPostSorted
-allPostSorted.forEach((item) => {
-  dataP.push(item[1]); // Assuming item[1] contains the data for dataP
-  labelP.push(item[0]); // Assuming item[0] contains the data for labelP
-});
+// Assuming allPostSorted has at least 20 items
+for (let i = 0; i < 20; i++) {
+  if (day3PostSorted[i]) {
+    dataP.push(day3PostSorted[i][1]); // Assuming item[1] contains the data for dataP
+    labelP.push(day3PostSorted[i][0]); // Assuming item[0] contains the data for labelP
+  }
+}
 
 // ... (rest of the code remains unchanged)
 
@@ -199,7 +200,7 @@ const Table = () => {
   const [searchTerm, setSearchTerm] = useState("");
 
   // Filtered tags based on the search term
-  const filteredTags = day1PostSorted
+  const filteredTags = day3PostSorted
     .filter((item) => item[0].toLowerCase().includes(searchTerm.toLowerCase()))
     .slice(0, 10); // Limit to the top 10 filtered tags
   return (
