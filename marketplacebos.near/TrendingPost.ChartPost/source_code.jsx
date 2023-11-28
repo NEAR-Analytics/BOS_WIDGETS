@@ -1,6 +1,7 @@
-const dataP = (props.dataP && Array.isArray(props.dataP))
-  ? props.dataP.map(item => parseFloat(item) || 0)
-  : [1, 2, 3, 4, 5, 5, 6, 6, 6, 6, 4, 5, 4, 4, 5];
+const dataP =
+  props.dataP && Array.isArray(props.dataP)
+    ? props.dataP.map((item) => parseFloat(item) || 0)
+    : [1, 2, 3, 4, 5, 5, 6, 6, 6, 6, 4, 5, 4, 4, 5];
 
 const backgroundcolorP = props.backgroundcolorP || [
   "blue",
@@ -61,7 +62,7 @@ const data = {
   labels: labelP,
   datasets: [
     {
-      label: "Trending Post on BOS NEAR",
+      label: "Top 20 trending tags on BOS NEAR",
       data: dataP,
       backgroundColor: backgroundcolorP,
       borderColor: bordercolorP,
