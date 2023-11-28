@@ -32,6 +32,7 @@ const link =
   props.link ??
   props.fullPostLink ??
   `/mob.near/widget/MainPage.N.Post.Page?accountId=${accountId}&blockHeight=${blockHeight}`;
+const imgWrapperStyle = { width: "40px", height: "40px" };
 
 const Wrapper = styled.div`
   margin: 0 -12px;
@@ -175,10 +176,12 @@ return (
           }
     }
   >
-    <img
-      src={`https://i.near.social/magic/thumbnail/https://near.social/magic/img/nft/${groupId}`}
-      alt=""
-    />
+    <div style={imgWrapperStyle}>
+      <img
+        src={`https://i.near.social/magic/thumbnail/https://near.social/magic/img/nft/${groupId}`}
+        alt={`Group icon: ${groupId}`}
+      />
+    </div>
     <div className={`post ${props.reposted ? "reposted" : ""}`}>
       <div className="left">
         <Widget
