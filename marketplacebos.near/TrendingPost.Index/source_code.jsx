@@ -1,5 +1,5 @@
 State.init({
-  selectedTab: props.tab || "trendings",
+  selectedTab: props.tab || "trending1day",
 });
 
 const Wrapper = styled.div`
@@ -105,20 +105,12 @@ return (
         <Wrapper>
           <Tabs>
             <TabsButton
-              onClick={() => handleTabClick("trendings")}
-              selected={state.selectedTab === "trendings"}
-            >
-              <Title>
-                <i class="bi bi-trophy"></i> Trending Now
-              </Title>
-            </TabsButton>
-            <TabsButton
               onClick={() => handleTabClick("trending1day")}
               selected={state.selectedTab === "trending1day"}
             >
               <Title>
                 <i class="bi bi-1-square"></i>
-                Trending 1day
+                Trending Now
               </Title>
             </TabsButton>
             <TabsButton
@@ -159,16 +151,6 @@ return (
         </Wrapper>
       </div>
       <div class="col-md-9">
-        {state.selectedTab === "trendings" && (
-          <>
-            <Widget
-              src="marketplacebos.near/widget/TrendingPost.TableValue"
-              props={props}
-            />
-            <br />
-            <br />
-          </>
-        )}
         {state.selectedTab === "trending1day" && (
           <>
             <Widget
