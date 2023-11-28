@@ -1,4 +1,6 @@
-const dataP = props.dataP || [1, 2, 3, 4, 5, 5, 6, 6, 6, 6, 4, 5, 4, 4, 5];
+const dataP = (props.dataP && Array.isArray(props.dataP))
+  ? props.dataP.map(item => parseFloat(item) || 0)
+  : [1, 2, 3, 4, 5, 5, 6, 6, 6, 6, 4, 5, 4, 4, 5];
 
 const backgroundcolorP = props.backgroundcolorP || [
   "blue",
