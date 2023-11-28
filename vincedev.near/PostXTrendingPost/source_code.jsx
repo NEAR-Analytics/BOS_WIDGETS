@@ -67,12 +67,16 @@ color: #010101;
 
 }
 `;
+const data = props.hashList;
 
 return (
   <bodyWrapper>
     <mainHeader>Trending Post</mainHeader>
 
-    <AllTrends>
+    <AllTrends>{
+
+      data?.map((d) =>{
+        return(
       <MajorTrends>
         <SingleTrends>
           <div>1.</div>
@@ -80,14 +84,8 @@ return (
         </SingleTrends>
         <span>15 Posts</span>
       </MajorTrends>
-      <MajorTrends>
-        <SingleTrends>
-          <div>2.</div>
-          <span>#BOS </span>
-        </SingleTrends>
-        <span>15 Posts</span>
-      </MajorTrends>
-
+      )})
+    }
     </AllTrends>
   </bodyWrapper>
 );
