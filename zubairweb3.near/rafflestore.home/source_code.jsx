@@ -74,5 +74,6 @@ return (
       <Title>Every week we pick onchain activities worth celebrating</Title>
       <RaffleButton> This week hot raffles </RaffleButton>
     </Container>
+    <Widget src="zubairweb3.near/widget/rafflestore.raffles" />
   </>
 );
