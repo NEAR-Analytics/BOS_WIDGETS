@@ -103,7 +103,15 @@ extractHashtags(content?.text);
 return (
   <>
     <PostContainer>
-      <ImageContainer src={`https://ipfs.near.social/ipfs/${image.ipfs_cid}`} />
+      <ImageContainer>
+        {image ? (
+          <Img src={`https://ipfs.near.social/ipfs/${image.ipfs_cid}`} />
+        ) : (
+          <div style={{ fontSize: "40px", margin: "auto" }}>
+            {myName[0].toUpperCase()}
+          </div>
+        )}
+      </ImageContainer>
       <PostContentContainer>
         <PostTopContainer>
           <div
