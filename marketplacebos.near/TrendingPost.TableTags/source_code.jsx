@@ -31,7 +31,6 @@ for (let i = 0; i < sorted.length; i++) {
   totalItems += sorted[i][1];
 }
 
-
 const labelN = "Top 20 trending tags on NEAR Social";
 
 const backgroundcolorP = [
@@ -139,10 +138,14 @@ const Table = () => {
 
   return (
     <>
-    <StyledTotalContainer>
+      <StyledTotalContainer>
         <StyledTotalLabel>Total Posts</StyledTotalLabel>
         <StyledTotalValue>{totalItems}</StyledTotalValue>
       </StyledTotalContainer>
+            <br />
+      <br />
+      <br />
+
       <Widget
         src="marketplacebos.near/widget/TrendingPost.ChartPost"
         props={{
@@ -178,7 +181,6 @@ const Table = () => {
               <StyledTd>{item[1]}</StyledTd>
             </tr>
           ))}
-      
         </tbody>
       </StyledTable>
     </>
