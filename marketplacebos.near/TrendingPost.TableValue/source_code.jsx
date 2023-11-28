@@ -215,13 +215,17 @@ const StyledTd = styled.td`
 
 const StyledContainer = styled.div`
   display: flex;
-  flex-direction: column; /* Change to column on small screens */
+  flex-direction: column;
   align-items: center;
   margin-top: 20px;
   border: 4px solid black;
-
+   border-right: 2px solid black;
+  padding-right: 10px; 
+  &:last-child {
+    border-right: none; 
+  }
   @media (min-width: 768px) {
-    flex-direction: row; /* Use row layout on screens wider than 768px */
+    flex-direction: row;
     justify-content: space-around;
   }
 `;
