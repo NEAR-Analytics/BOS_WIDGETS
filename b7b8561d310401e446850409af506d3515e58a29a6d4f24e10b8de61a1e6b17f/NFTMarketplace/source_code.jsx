@@ -2,7 +2,7 @@ State.init({
   chainId: 25925,
   chainName: "kub-chain testnet",
   baseUrl: "https://api.yourapp.com",
-  safeAddress: 0x21bf18c13d1fa9a65212a4632dfe4a74eb5e3212,
+  marketplace2CompleteAddress: "0x74cdd0966E8533b9a64e0fc847474E6A0a12743c",
   sender: 0x21bf18c13d1fa9a65212a4632dfe4a74eb5e3212,
   signature: null,
   hashMessage: null,
@@ -221,8 +221,279 @@ const signTransaction712 = () => {
   });
 };
 
-const acceptOffer = (item) => {
-  console.log(item);
+const acceptOffer = (formData) => {
+  const abi = [
+    {
+      anonymous: false,
+      inputs: [
+        {
+          indexed: false,
+          internalType: "address",
+          name: "buyer",
+          type: "address",
+        },
+        {
+          indexed: false,
+          internalType: "address",
+          name: "seller",
+          type: "address",
+        },
+        {
+          indexed: false,
+          internalType: "address",
+          name: "nftAddress",
+          type: "address",
+        },
+        {
+          indexed: false,
+          internalType: "uint256",
+          name: "tokenId",
+          type: "uint256",
+        },
+        {
+          indexed: false,
+          internalType: "address",
+          name: "tokenAddress",
+          type: "address",
+        },
+        {
+          indexed: false,
+          internalType: "uint256",
+          name: "price",
+          type: "uint256",
+        },
+      ],
+      name: "NFTSold",
+      type: "event",
+    },
+    {
+      inputs: [
+        {
+          components: [
+            {
+              internalType: "bool",
+              name: "isSell",
+              type: "bool",
+            },
+            {
+              internalType: "address",
+              name: "nftAddress",
+              type: "address",
+            },
+            {
+              internalType: "uint256",
+              name: "tokenId",
+              type: "uint256",
+            },
+            {
+              internalType: "address",
+              name: "tokenAddress",
+              type: "address",
+            },
+            {
+              internalType: "uint256",
+              name: "price",
+              type: "uint256",
+            },
+            {
+              internalType: "uint256",
+              name: "expiry",
+              type: "uint256",
+            },
+            {
+              internalType: "uint256",
+              name: "nonce",
+              type: "uint256",
+            },
+          ],
+          internalType: "struct Marketplace2Complete.Offer",
+          name: "_offer",
+          type: "tuple",
+        },
+        {
+          internalType: "bytes",
+          name: "_signature",
+          type: "bytes",
+        },
+      ],
+      name: "acceptOffer",
+      outputs: [],
+      stateMutability: "nonpayable",
+      type: "function",
+    },
+    {
+      inputs: [
+        {
+          internalType: "uint256",
+          name: "_nonce",
+          type: "uint256",
+        },
+      ],
+      name: "cancelListing",
+      outputs: [],
+      stateMutability: "nonpayable",
+      type: "function",
+    },
+    {
+      inputs: [],
+      name: "getChainId",
+      outputs: [
+        {
+          internalType: "uint256",
+          name: "",
+          type: "uint256",
+        },
+      ],
+      stateMutability: "view",
+      type: "function",
+    },
+    {
+      inputs: [
+        {
+          internalType: "bytes32",
+          name: "hash",
+          type: "bytes32",
+        },
+      ],
+      name: "getEthSignedMessageHash",
+      outputs: [
+        {
+          internalType: "bytes32",
+          name: "message",
+          type: "bytes32",
+        },
+      ],
+      stateMutability: "pure",
+      type: "function",
+    },
+    {
+      inputs: [
+        {
+          components: [
+            {
+              internalType: "bool",
+              name: "isSell",
+              type: "bool",
+            },
+            {
+              internalType: "address",
+              name: "nftAddress",
+              type: "address",
+            },
+            {
+              internalType: "uint256",
+              name: "tokenId",
+              type: "uint256",
+            },
+            {
+              internalType: "address",
+              name: "tokenAddress",
+              type: "address",
+            },
+            {
+              internalType: "uint256",
+              name: "price",
+              type: "uint256",
+            },
+            {
+              internalType: "uint256",
+              name: "expiry",
+              type: "uint256",
+            },
+            {
+              internalType: "uint256",
+              name: "nonce",
+              type: "uint256",
+            },
+          ],
+          internalType: "struct Marketplace2Complete.Offer",
+          name: "_offer",
+          type: "tuple",
+        },
+      ],
+      name: "getMessageHashEncode",
+      outputs: [
+        {
+          internalType: "bytes32",
+          name: "",
+          type: "bytes32",
+        },
+      ],
+      stateMutability: "view",
+      type: "function",
+    },
+    {
+      inputs: [
+        {
+          internalType: "address",
+          name: "",
+          type: "address",
+        },
+        {
+          internalType: "uint256",
+          name: "",
+          type: "uint256",
+        },
+      ],
+      name: "usedNonce",
+      outputs: [
+        {
+          internalType: "bool",
+          name: "",
+          type: "bool",
+        },
+      ],
+      stateMutability: "view",
+      type: "function",
+    },
+  ];
+
+  console.log(abi);
+  console.log(formData);
+
+  const iface = new ethers.utils.Interface(abi);
+
+  const encodedBalanceData = iface.encodeFunctionData("getMessageHashEncode", [
+    formData,
+  ]);
+
+  // perform a call
+  Ethers.provider()
+    .call({
+      to: "0x74cdd0966E8533b9a64e0fc847474E6A0a12743c",
+      data: encodedBalanceData,
+    })
+    .then((rawBalance) => {
+      try {
+        const result = iface.decodeFunctionResult(
+          "getMessageHashEncode",
+          rawBalance
+        );
+        console.log(result);
+      } catch (error) {
+        console.error("Error decoding data:", error);
+      }
+    });
+
+  // create a contract instance
+  const wEthContract = new ethers.Contract(
+    "0x74cdd0966E8533b9a64e0fc847474E6A0a12743c",
+    abi,
+    Ethers.provider().getSigner()
+  );
+
+  // perform a given method (withdraw in this case)
+
+  console.log("result", result);
+  wEthContract
+    .acceptOffer(
+      formData,
+      "0x2c3a61fa3d5b5cdc6a1e8c658fa656f50faf92e398b37fa729651777fa491890",
+      { gasLimit: 500000 }
+    )
+    .then((transactionHash) => {
+      console.log(transactionHash);
+    });
 };
 
 const styles = {
@@ -460,7 +731,7 @@ return (
       </div>
     </div>
     <button
-      onClick={() => createNonceFromSigner(state.sender)}
+      onClick={() => acceptOffer(formData)}
       label="SignButton"
       style={{ margin: 10 }}
     >
