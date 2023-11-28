@@ -117,20 +117,20 @@ const formatAccountId = (acctId) => {
 };
 
 // Function to extractHashtags
-const extractHashtags = (text) => {
-  const hashtagRegex = /#(\w+)/gi;
-  hashtagRegex.lastIndex = 0;
-  const hashtags = new Set();
-  for (const match of text.matchAll(hashtagRegex)) {
-    if (
-      !/[\w`]/.test(match.input.charAt(match.index - 1)) &&
-      !/[/\w`]/.test(match.input.charAt(match.index + match[0].length))
-    ) {
-      hashtags.add(match[1].toLowerCase());
-    }
-  }
-  return [...hashtags];
-};
+// const extractHashtags = (text) => {
+//   const hashtagRegex = /#(\w+)/gi;
+//   hashtagRegex.lastIndex = 0;
+//   const hashtags = new Set();
+//   for (const match of text.matchAll(hashtagRegex)) {
+//     if (
+//       !/[\w`]/.test(match.input.charAt(match.index - 1)) &&
+//       !/[/\w`]/.test(match.input.charAt(match.index + match[0].length))
+//     ) {
+//       hashtags.add(match[1].toLowerCase());
+//     }
+//   }
+//   return [...hashtags];
+// };
 
 // extractHashtags(content?.text);
 
