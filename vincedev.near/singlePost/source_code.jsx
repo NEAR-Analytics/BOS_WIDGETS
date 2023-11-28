@@ -184,14 +184,22 @@ return (
     </div>
     <div className={`post ${props.reposted ? "reposted" : ""}`}>
       <div className="left">
-        <Widget
-          loading=""
-          src="mob.near/widget/MainPage.N.Post.Left"
-          props={{ accountId, groupId }}
-        />
+      
       </div>
       <div className="right">
-      
+        <Widget
+          loading={<div className="post-header" />}
+          src="mob.near/widget/MainPage.N.Post.Header"
+          props={{
+            accountId,
+            blockHeight,
+            pinned,
+            hideMenu,
+            link,
+            postType: "post",
+            flagItem: item,
+          }}
+        />
         {fullPostLink ? (
           <a
             key="full-post-link"
