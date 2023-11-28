@@ -181,7 +181,7 @@ return (
             </div>
           </div>
         </div>
-        <div className="w-100 p-2" style={{ "border-radius": "100px" }}>
+        <div className="w-100 p-2 round-4" style={{ "border-radius": "100px" }}>
           <Widget
             src="lord1.near/widget/table-pagination"
             props={{
