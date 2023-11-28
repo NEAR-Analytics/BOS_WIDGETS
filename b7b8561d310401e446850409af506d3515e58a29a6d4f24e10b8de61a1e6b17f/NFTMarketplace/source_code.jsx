@@ -32,54 +32,6 @@ const handleChange = (e) => {
   }));
 };
 
-useEffect(() => {
-  const accounts = Ethers.send("eth_requestAccounts", []);
-  const checksummedAddr = ethers.utils.getAddress(accounts[0]);
-  if (accounts.length) {
-    State.update({ sender: checksummedAddr });
-    Ethers.provider()
-      .getNetwork()
-      .then((chainIdData) => {
-        if (chainIdData?.chainId == 1) {
-          State.update({
-            chainName: "mainnet",
-          });
-          State.update({
-            chainId: 1,
-          });
-        } else if (chainIdData?.chainId == 5) {
-          State.update({
-            chainName: "goerli",
-          });
-          State.update({
-            chainId: 5,
-          });
-        } else if (chainIdData?.chainId == 100) {
-          State.update({
-            chainName: "gnosis-chain",
-          });
-          State.update({
-            chainId: 100,
-          });
-        } else if (chainIdData?.chainId == 96) {
-          State.update({
-            chainName: "kub-chain",
-          });
-          State.update({
-            chainId: 96,
-          });
-        } else if (chainIdData?.chainId == 25925) {
-          State.update({
-            chainName: "kub-chain testnet",
-          });
-          State.update({
-            chainId: 25925,
-          });
-        }
-      });
-  }
-}, [state.sender]);
-
 //EIP712
 const domain = {
   name: "MyApp",
