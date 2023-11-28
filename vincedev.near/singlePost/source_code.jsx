@@ -8,4 +8,7 @@ function fetchPost(path) {
   console.log(path);
   return res.body;
 }
+useEffect(() => {
+  fetchPost(path);
+}, []);
 return <div>Hello World</div>;
