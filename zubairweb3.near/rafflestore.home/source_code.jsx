@@ -10,6 +10,7 @@ const Container = styled.div`
     flex-direction: column;
     align-items: center;
     background-position: center;
+    overflow: hidden;
 `;
 
 const Header = styled.div`
