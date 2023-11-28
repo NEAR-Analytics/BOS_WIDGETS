@@ -64,8 +64,27 @@ function libStateUpdate(obj) {
 function canUserUpVote(props) {
   const { env, accountId, sbtsNames } = props;
 
+  if (sbtsNames.includes("public")) return true;
+
   setAreValidUsers([accountId], sbtsNames);
-  const result = state[`isValidUser-${accountId}`];
+
+  let allSBTsValidations = [];
+
+  let result;
+
+  let userCredentials =
+    usersSBTs.find((data) => data.user === accountId).credentials ??
+    state[`isValidUser-${accountId}`];
+
+  if (userCredentials) {
+    const allSBTs = Object.keys(userCredentials);
+
+    allSBTs.forEach((sbt) => {
+      sbt !== "public" && allSBTsValidations.push(userCredentials[sbt]);
+    });
+
+    result = allSBTsValidations.includes(true);
+  }
 
   resultFunctionsToCall = resultFunctionsToCall.filter((call) => {
     const discardCondition =
@@ -78,6 +97,7 @@ function canUserUpVote(props) {
 
 function setAreValidUsers(accountIds, sbtsNames) {
   const newLibsCalls = Object.assign({}, state.functionsToCallByLibrary);
+
   if (!newLibsCalls.SBT) {
     logError("Key SBT is not set in lib.", libName);
   }
@@ -111,6 +131,7 @@ function setAreValidUsers(accountIds, sbtsNames) {
       });
     }
   });
+
   State.update({ functionsToCallByLibrary: newLibsCalls });
 }
 
@@ -274,14 +295,36 @@ function getUpVotes(props) {
 }
 
 function filterValidator(upVotes, articleSbts) {
+  if (articleSbts.includes("public")) return upVotes;
+
   return upVotes.filter((upVote) => {
-    return (
-      articleSbts.find((sbt) => {
-        return (
-          state[`isValidUser-${upVote.accountId}`][sbt] || sbt === "public"
-        );
-      }) !== undefined
-    );
+    let allSBTsValidations = [];
+
+    let result;
+
+    let userCredentials =
+      usersSBTs.find((data) => data.user === upVote.accountId).credentials ??
+      state[`isValidUser-${upVote.accountId}`];
+
+    if (userCredentials) {
+      const allSBTs = Object.keys(userCredentials);
+
+      allSBTs.forEach((sbt) => {
+        sbt !== "public" && allSBTsValidations.push(userCredentials[sbt]);
+      });
+
+      result = allSBTsValidations.includes(true);
+    }
+
+    return result;
+
+    // return (
+    //   articleSbts.find((sbt) => {
+    //     return (
+    //       state[`isValidUser-${upVote.accountId}`][sbt] || sbt === "public"
+    //     );
+    //   }) !== undefined
+    // );
   });
 }
 
