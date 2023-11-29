@@ -72,6 +72,9 @@ border-color:#69B5FF;
 border:2px;
 outline-color:
 #69B5FF;
+@media (max-width: 768px) {
+width: 397px;
+  }
 `;
 
 const Connect = styled.button`
