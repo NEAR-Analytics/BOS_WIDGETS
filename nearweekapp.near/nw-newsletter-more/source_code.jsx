@@ -2,6 +2,8 @@ const rootUser = "nearweekapp.near";
 const breakpoints = { md: "768px", lg: "1100px", xl: "1300px" };
 
 function NewsletterCard() {
+  const nwSite = "https://nearweek.com";
+
   const cssFont = fetch("https://fonts.cdnfonts.com/css/hubot-sans").body;
   if (!cssFont) return "";
   if (!state.theme) {
