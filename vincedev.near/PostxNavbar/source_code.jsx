@@ -3,6 +3,7 @@ background: #F3F9FF;
 height: 110px;
 width:100%;
 
+
 `;
 const MainNav = styled.div`
 width: 90%;
@@ -13,10 +14,17 @@ display: flex;
 align-items:center;
 justify-content: space-between;
 padding-top:20px;
+@media (max-width: 768px) {
+gap:10px;
+  }
 
 `;
 const Logo = styled.img`
-
+width: 180px;
+@media (max-width: 768px) {
+width: 100px;
+height:20px
+  }
 `;
 const HTest = styled.h2`
 font-family: Space Grotesk;
@@ -63,6 +71,7 @@ border-bottom: ${props.active ? "4px solid #061D33" : "0px solid #061D33"};
 
 `;
 const SearchBar = styled.input`
+display:block;
 width: 597px;
 height: 64px;
 left: 602px;
@@ -74,6 +83,9 @@ outline-color:
 #69B5FF;
 @media (max-width: 768px) {
 width: 397px;
+  }
+@media (max-width: 414px) {
+display:none;
   }
 `;
 
@@ -93,7 +105,7 @@ color:white;
 return (
   <Navbar>
     <MainNav>
-      <img
+      <Logo
         src={`https://ipfs.near.social/ipfs/bafkreifgocan6s5hfavl3g6k4hfmwzynpxzrkgzjqok6p6hufl24mzw3iu`}
         alt=""
       />
