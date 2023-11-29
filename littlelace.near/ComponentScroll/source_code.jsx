@@ -8,7 +8,7 @@ const ScrollBar = styled.div`
   border-radius: 7px;
   bottom: 0px;
   background-color: rgba(0, 0, 0, 0.35);
-  opacity: ${(props) => (props.hovering ? 1 : 0)};
+  opacity: 1;
   align-self: center;
   justify-self: center;
 `;
