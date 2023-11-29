@@ -24,6 +24,7 @@ gap:4px;
 `;
 const MajorTrends = styled.div`
 font-family: Space Grotesk;
+cursor:pointer;
 
 p{
 font-size: 16px;
