@@ -1,11 +1,12 @@
 const accountId = "near";
 State.init({ page: 1 });
 let posts = [];
+const limit = 12;
 let mediumPosts = [];
 
 const indexedPosts = Social.index("post", "main", {
   accountId,
-  limit: 20,
+  limit,
   order: "desc",
 });
 
