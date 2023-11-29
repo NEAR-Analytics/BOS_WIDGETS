@@ -95,7 +95,7 @@ function NewsletterCard() {
         flex-direction: row-reverse;
       }
     `;
-
+  console.log("props", props);
   const audioDetails = props.audioDetails;
   const updateAudioDetails = props.updateAudioDetails;
 
