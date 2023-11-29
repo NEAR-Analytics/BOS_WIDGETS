@@ -53,8 +53,6 @@ const LandingPage = styled.div`
     }
 `;
 
-const [connectSectionActive, SetConnectSectionActive] = useState(false);
-
 return (
   <>
     <LandingPage>
@@ -75,14 +73,5 @@ return (
         alt="31133574-iso0101-ai-1"
       />
     </LandingPage>
-    {connectSectionActive && (
-      <Widget src="segunojo1.near/widget/LinkETHAccountsToNearAccount.ConnectWallet" />
-    )}
   </>
 );
-
-{
-  connectSectionActive && (
-    <Widget src="segunojo1.near/widget/LinkETHAccountsToNearAccount.ConnectWallet" />
-  );
-}
