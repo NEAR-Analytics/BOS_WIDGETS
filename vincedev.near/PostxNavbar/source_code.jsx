@@ -74,7 +74,7 @@ return (
       <HTest>Top Post</HTest>
       <HTest>Trend Feed</HTest>
 
-      <SearchBar type="text" placeholder="search" />
+      <SearchBar type="text" placeholder="search" onChange={(e)=>props.getSearch(e.target.value)} />
 
       <Widget src="tvh050423.near/widget/ConnectButton" props={{}} />
     </MainNav>
