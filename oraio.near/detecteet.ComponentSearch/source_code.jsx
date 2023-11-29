@@ -109,8 +109,8 @@ function handleChange(value) {
   // console.log(filteredWidgets)
 }
 function handleClick(widget) {
-  setInput(widget.widgetName);
-  console.log(widget.widgetSrc);
+  // setInput(widget.widgetName);
+  // console.log(widget.widgetSrc);
 
   props.handleSubmit("sourcescan.near/widget/SourceScan.Contracts.Info");
 }
@@ -155,7 +155,7 @@ return (
           </WidgetList>
         )}
       </SearchContainer>
-      <SubmitButton onClick={() => handleSubmit()}>Check Widget</SubmitButton>
+      <SubmitButton onClick={() => handleClick()}>Check Widget</SubmitButton>
     </Container>
   </WidgetApp>
 );
