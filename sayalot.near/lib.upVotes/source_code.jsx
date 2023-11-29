@@ -1,10 +1,14 @@
+// lib.upVotes
+
 const {
+  mainStateUpdate,
   isTest,
   stateUpdate,
   functionsToCallByLibrary,
   callLibs,
   baseAction,
   widgets,
+  usersSBTs,
 } = props;
 
 const libName = "upVotes"; // EDIT: set lib name
@@ -60,8 +64,27 @@ function libStateUpdate(obj) {
 function canUserUpVote(props) {
   const { env, accountId, sbtsNames } = props;
 
+  if (sbtsNames.includes("public")) return true;
+
   setAreValidUsers([accountId], sbtsNames);
-  const result = state[`isValidUser-${accountId}`];
+
+  let allSBTsValidations = [];
+
+  let result;
+
+  let userCredentials =
+    usersSBTs.find((data) => data.user === accountId).credentials ??
+    state[`isValidUser-${accountId}`];
+
+  if (userCredentials) {
+    const allSBTs = Object.keys(userCredentials);
+
+    allSBTs.forEach((sbt) => {
+      sbt !== "public" && allSBTsValidations.push(userCredentials[sbt]);
+    });
+
+    result = allSBTsValidations.includes(true);
+  }
 
   resultFunctionsToCall = resultFunctionsToCall.filter((call) => {
     const discardCondition =
@@ -74,6 +97,7 @@ function canUserUpVote(props) {
 
 function setAreValidUsers(accountIds, sbtsNames) {
   const newLibsCalls = Object.assign({}, state.functionsToCallByLibrary);
+
   if (!newLibsCalls.SBT) {
     logError("Key SBT is not set in lib.", libName);
   }
@@ -92,15 +116,22 @@ function setAreValidUsers(accountIds, sbtsNames) {
       return;
     }
 
-    newLibsCalls.SBT.push({
-      functionName: "isValidUser",
-      key: `isValidUser-${accountId}`,
-      props: {
-        accountId,
-        sbtsNames,
-      },
-    });
+    const existingUserSBTs = usersSBTs.find(
+      (userSBTs) => userSBTs.user === accountId
+    );
+
+    if (!existingUserSBTs) {
+      newLibsCalls.SBT.push({
+        functionName: "isValidUser",
+        key: `isValidUser-${accountId}`,
+        props: {
+          accountId,
+          sbtsNames,
+        },
+      });
+    }
   });
+
   State.update({ functionsToCallByLibrary: newLibsCalls });
 }
 
@@ -264,14 +295,36 @@ function getUpVotes(props) {
 }
 
 function filterValidator(upVotes, articleSbts) {
+  if (articleSbts.includes("public")) return upVotes;
+
   return upVotes.filter((upVote) => {
-    return (
-      articleSbts.find((sbt) => {
-        return (
-          state[`isValidUser-${upVote.accountId}`][sbt] || sbt === "public"
-        );
-      }) !== undefined
-    );
+    let allSBTsValidations = [];
+
+    let result;
+
+    let userCredentials =
+      usersSBTs.find((data) => data.user === upVote.accountId).credentials ??
+      state[`isValidUser-${upVote.accountId}`];
+
+    if (userCredentials) {
+      const allSBTs = Object.keys(userCredentials);
+
+      allSBTs.forEach((sbt) => {
+        sbt !== "public" && allSBTsValidations.push(userCredentials[sbt]);
+      });
+
+      result = allSBTsValidations.includes(true);
+    }
+
+    return result;
+
+    // return (
+    //   articleSbts.find((sbt) => {
+    //     return (
+    //       state[`isValidUser-${upVote.accountId}`][sbt] || sbt === "public"
+    //     );
+    //   }) !== undefined
+    // );
   });
 }
 
@@ -358,6 +411,39 @@ if (functionsToCall && functionsToCall.length > 0) {
 
   resultFunctionsToCallByLibrary[libName] = resultFunctionsToCall;
   updateObj.functionsToCallByLibrary = resultFunctionsToCallByLibrary;
+
+  const oldUsersSBTs = usersSBTs;
+  // {
+  //   user: string,
+  //   credentials: {},
+  // }
+
+  const newUsersSBTs = Object.keys(state).map((key) => {
+    if (key.includes("isValidUser-")) {
+      if (state[key] !== undefined) {
+        const user = key.split("isValidUser-")[1];
+        const credentials = state[key];
+
+        const oldUsers = oldUsersSBTs.map((userSbts) => userSbts.user);
+
+        if (!oldUsers.includes(user)) {
+          return {
+            user,
+            credentials,
+          };
+        }
+      }
+    }
+  });
+
+  const finalUsersSBTs = [...oldUsersSBTs, ...newUsersSBTs].filter(
+    (userSBTs) => userSBTs !== undefined
+  );
+
+  if (finalUsersSBTs[0]) {
+    mainStateUpdate({ usersSBTs: finalUsersSBTs });
+  }
+
   stateUpdate(updateObj);
 }
 
