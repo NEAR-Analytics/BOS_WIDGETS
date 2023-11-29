@@ -212,6 +212,7 @@ fetchAllData();
 
 
 
+const inscriptionsAmount = 50;
 return (
   <FormContainer>
     <FormTitle>The First Inscription Token on NEAR Blockchain</FormTitle>
@@ -232,14 +233,14 @@ return (
         </FormButton>
         <FormButton
           onClick={() => {
-            Near.call(Array(100).fill(tx));
+            Near.call(Array(inscriptionsAmount).fill(tx));
           }}
         >
-          Mint 100 Inscriptions by one click
+          Mint {inscriptionsAmount} Inscriptions by one click
         </FormButton>
         <TipText>
-          * Mint 100 inscriptions will take around 10 minutes in your wallet.
-          Please be patient.{" "}
+          * Mint {inscriptionsAmount} inscriptions will take around 5 minutes in
+          your wallet. Please be patient.{" "}
         </TipText>
       </FormButtonGroup>
     </FormBody>
