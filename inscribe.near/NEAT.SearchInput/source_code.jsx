@@ -82,11 +82,17 @@ const SearchInput = styled.input`
     color: #ffffff59;
   }
 `;
+
+const { value, setValue } = props;
 return (
   <SearchInputContainer>
     <SearchImg
       src={`${ipfsPrefix}/bafkreih5hkojsnvueri63sn42e5zff4dcabzi7grctluyurmh5u3yw7gaa`}
     />
-    <SearchInput placeholder="Search ID/NO." />
+    <SearchInput
+      placeholder="Search ID/NO."
+      value={value}
+      onChange={(e) => setValue && setValue(e.target.value)}
+    />
   </SearchInputContainer>
 );
