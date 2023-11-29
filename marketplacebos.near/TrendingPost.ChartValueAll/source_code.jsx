@@ -227,12 +227,7 @@ const Table = () => {
       <br />
       <br />
 
-      <input
-        type="text"
-        placeholder="Search tags..."
-        value={searchTerm}
-        onChange={(e) => setSearchTerm(e.target.value)}
-      />
+
       <StyledTable>
         <thead>
           <tr>
@@ -241,24 +236,24 @@ const Table = () => {
           </tr>
         </thead>
         <tbody>
-  {allPostSorted &&
-        allPostSorted
-          .filter((item, index) => index <= 10)
-          .map((item) => (
-                        <tr>
-              <StyledTd>
-                <a
-                  href={`https://near.social/marketplacebos.near/widget/TrendingPost.TableValue?hashtag=${item[0].replace(
-                    "#",
-                    ""
-                  )}`}
-                >
-                  {item[0]}
-                </a>
-              </StyledTd>
-              <StyledTd>{item[1]}</StyledTd>
-            </tr>
-          ))}
+          {allPostSorted &&
+            allPostSorted
+              .filter((item, index) => index <= 10)
+              .map((item) => (
+                <tr>
+                  <StyledTd>
+                    <a
+                      href={`https://near.social/marketplacebos.near/widget/TrendingPost.TableValue?hashtag=${item[0].replace(
+                        "#",
+                        ""
+                      )}`}
+                    >
+                      {item[0]}
+                    </a>
+                  </StyledTd>
+                  <StyledTd>{item[1]}</StyledTd>
+                </tr>
+              ))}
         </tbody>
       </StyledTable>
     </>
