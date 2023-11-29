@@ -15,10 +15,10 @@ return (
       props={connectSectionActivee}
       src="mitchyugan.near/widget/LinkETHAccountsToNearAccount.LandingPage"
     />
-    <Widget src="mitchyugan.near/widget/LinkETHAccountsToNearAccount.ConnectedAccount" />
+    {item.accountId == accountId ? (
+      <Widget src="mitchyugan.near/widget/LinkETHAccountsToNearAccount.ConnectedAccount" />
+    ) : (
+      <div></div>
+    )}
   </Home>
 );
-
-{
-  <Widget src="segunojo1.near/widget/LinkETHAccountsToNearAccount.ConnectWallet" />;
-}
