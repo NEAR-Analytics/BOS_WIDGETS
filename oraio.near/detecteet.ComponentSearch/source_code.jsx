@@ -1,16 +1,149 @@
+const detectExternalAPI = (componentCode) => {
+  const externalAPICallRegex = /fetch\(|axios\(|http\(|ajax\(/g;
+  return componentCode.match(externalAPICallRegex);
+};
+
+const detectNearAPI = (componentCode) => {
+  const nearAPICallRegex = /Near\.[a-zA-Z]+\.?\w*\(/g;
+  return componentCode.match(nearAPICallRegex);
+};
+
+const detectEtherAPI = (componentCode) => {
+  const etherAPICallRegex = /web3\.[a-zA-Z]+\.?\w*\(/g;
+  return componentCode.match(etherAPICallRegex);
+};
+
+const cleanUp = (htmlText) => {
+  // get the code from the first noscript in body
+  const startRgxp = /<noscript/;
+  const endRgxp = /<\/noscript>/;
+  const startTwoRgxp = />/;
+  let start, end, code;
+
+  start = htmlText.match(startRgxp).index;
+  end = htmlText.match(endRgxp).index;
+  code = htmlText.substring(start, end + endRgxp.toString().length);
+
+  // isolate from the noscript tags
+  start = code.match(startTwoRgxp).index;
+  end = code.match(endRgxp).index;
+  code = code.substring(start + 1, end);
+
+  return code;
+};
+
+const scrape = (url) => {
+  const page = fetch(url);
+  return cleanUp(page.body);
+};
+
+const getDependencyComponents = (htmlCode) => {
+  const srcValues = [];
+  const regex = /&lt;Widget\s*src\s*=\s*["']([^"']+)["']/g;
+  let match;
+
+  while ((match = regex.exec(htmlCode)) !== null) srcValues.push(match[1]);
+
+  return srcValues;
+};
+
+State.init({
+  theme:
+    typeof props.theme === "string"
+      ? JSON.parse(customDecodeURIComponent(props.theme))
+      : props.theme || {
+          bg: "#e3e8ef",
+          color: "#4c5566",
+          border: "1px dashed #748094",
+          text: {
+            fontSize: "16px",
+          },
+          heading: {
+            fontSize: "18px",
+            fontWeight: "600",
+            underline: true,
+          },
+        },
+  // contract: null,
+  // wasm: { value: null, error: false },
+  // tx: { value: null, error: false },
+});
+
+const search = (component, hasNear, hasEther, hasExternal) => {
+  const urlPrefix = "https://near.social/mob.near/widget/WidgetSource?src=";
+  const response = {
+    external: {},
+    near: {},
+    ether: {},
+  };
+  const componentSrcQueue = [];
+
+  const handleClassAPI = (htmlCode, apiClass, component, apiDetector) => {
+    const classAPICalls = apiDetector(htmlCode);
+    const classMap = response[`${apiClass}`];
+
+    if (classAPICalls.length) {
+      if (component in classMap)
+        classMap[`${component}`].push(...classAPICalls);
+      else classMap[`${component}`] = [...classAPICalls];
+    }
+  };
+
+  componentSrcQueue.push(component);
+  while (componentSrcQueue.length) {
+    const componentSrcPageUrl = urlPrefix + componentSrcQueue[0];
+
+    // Scrape the component src page for plain text of its source code.
+    const htmlCode = scrape(componentSrcPageUrl);
+
+    // Check for all selected class api calls.
+    if (htmlCode != "The source code is not available.") {
+      if (hasNear) handleClassAPI(htmlCode, "near", component, detectNearAPI);
+
+      if (hasEther)
+        handleClassAPI(htmlCode, "ether", component, detectEtherAPI);
+
+      if (hasExternal)
+        handleClassAPI(htmlCode, "external", component, detectEtherAPI);
+    }
+
+    // Enqueue all dependency component src
+    componentSrcQueue.push(...getDependencyComponents(htmlCode));
+
+    // Dequeue the already checked (current) component src
+    componentSrcQueue.shift();
+  }
+
+  return response;
+};
+
 // At this point of deployment. this widget display list of widget that matches search input
+// placeholder: "Search",
+// theme: useTheme(light, dark),
+// handleSubmit: handleSubmit,
+// // value: state.search,
 
 const WidgetApp = styled.div`
   display: flex;
   // align-items: center;
   justify-content: center;
-  padding-top: 20px;
+  // padding-top: 20px;
   // background-color: black;
   height: 100vh;
+  * {
+    box-sizing: border-box;
+  }
 `;
 
 const Container = styled.div`
-  width: 300px;
+  min-width: 370px;
+  width: 100%;
+  display: flex;
+  flex: 1;
+  // background-color: grey;
+  height: 54px;
+  gap: 1rem;
+  // flow: wrap;
 `;
 
 const TextInput = styled.input`
@@ -22,22 +155,62 @@ const TextInput = styled.input`
 `;
 
 const WidgetList = styled.ul`
+  display: flex;
+  flex-direction: column;
   list-style-type: none;
-  padding: 0;
-  margin: 0;
-  max-height: 400px;
-  overflow-y: scroll;
+  padding: 15px;
+  margin-top: 1rem;
+  max-height: 300px;
+  height: 300px;
+  // overflow-y: auto;
+  box-shadow: 0px 0px 8px #ddd;
+  border-radius: 10px;
+  position: relative;
+  // &::-webkit-scrollbar {
+  //   display: none;
+  // }
 `;
 
 const WidgetItem = styled.li`
   // background-color: grey;
-  text-align: center;
   cursor: pointer;
   padding: 10px;
   border-radius: 4px;
   &:hover {
     background-color: #adb5bd;
   }
+`;
+
+// search container
+const SearchContainer = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  height: 100%;
+  gap: 1rem;
+  .input-group {
+    height: 100%;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    outline: none;
+    width: 100%;
+  }
+`;
+
+const SubmitButton = styled.button`
+  white-space: nowrap;
+  wordWrap: 'break-word';
+  display: inline-flex;
+  padding: 1.1rem 1.5rem;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background: #8D61EE;
+  color: #fff;
+  border-radius: 10px;
+  // width:40%;
+  width: 150px;
 `;
 
 const [input, setInput] = useState("");
@@ -52,62 +225,58 @@ function handleChange(value) {
       value && widget.username.toLowerCase().includes(value.toLowerCase())
   );
   setWidgets(filteredWidgets);
+  // console.log(filteredWidgets)
 }
-
 function handleClick(widget) {
   setInput(widget.widgetName);
   console.log(widget.widgetSrc);
-  props.handleSubmit(widget.widgetSrc);
+  props.handleSubmit(widget.widgetSrc, search);
 }
-// placeholder: "Search",
-// theme: useTheme(light, dark),
-// handleSubmit: handleSubmit,
-// // value: state.search,
+
+function handleSubmit() {
+  console.log("clicked check widget");
+}
 return (
   <WidgetApp>
     <Container>
-      <Widget
-        loading={
-          <div className="input-group">
-            <input type="text" className="form-control" />
-          </div>
-        }
-        src="mob.near/widget/ComponentSearch"
-        props={{
-          boostedTag: "app",
-          placeholder: "Search Applications",
-          limit: 10,
-          onChange: ({ result }) => {
-            State.update({ apps: result });
-          },
-        }}
-      />
-      {state.apps && (
-        <WidgetList
-          style={{
-            "list-style-type": "none",
-            padding: "0",
-            margin: "0",
-            maxHeight: "10",
+      <SearchContainer>
+        <Widget
+          loading={
+            <div className="input-group">
+              <input type="text" className="form-control" />
+            </div>
+          }
+          src="mob.near/widget/ComponentSearch"
+          props={{
+            boostedTag: "app",
+            placeholder: "Search Applications",
+            limit: 10,
+            onChange: ({ result }) => {
+              State.update({ apps: result });
+            },
           }}
-        >
-          <div className="mb-2">
-            {state.apps.map((app, i) => (
-              <WidgetItem key={i} onClick={(e) => handleClick(app)}>
-                <Widget
-                  src="littlelace.near/widget/ComponentItem"
-                  props={{
-                    link: `/${app.widgetSrc}`,
-                    accountId: app.accountId,
-                    widgetName: app.widgetName,
-                    onHide: () => State.update({ apps: null }),
-                  }}
-                />
-              </WidgetItem>
-            ))}
-          </div>
-        </WidgetList>
-      )}
+        />
+        {state.apps && (
+          <WidgetList>
+            <div className="mb-2">
+              {state.apps.map((app, i) => (
+                <WidgetItem key={i} onClick={(e) => handleClick(app)}>
+                  <Widget
+                    src="littlelace.near/widget/ComponentItem"
+                    props={{
+                      link: `/${app.widgetSrc}`,
+                      accountId: app.accountId,
+                      widgetName: app.widgetName,
+                      onHide: () => State.update({ apps: null }),
+                    }}
+                  />
+                </WidgetItem>
+              ))}
+            </div>
+          </WidgetList>
+        )}
+      </SearchContainer>
+      <SubmitButton onClick={() => handleSubmit()}>Check Widget</SubmitButton>
     </Container>
   </WidgetApp>
 );
