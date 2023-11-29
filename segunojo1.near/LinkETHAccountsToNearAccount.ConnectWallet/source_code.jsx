@@ -21,6 +21,8 @@ const connectedAccountId = [
 
 const Main = styled.div`
   @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@700&display=swap');
+  width:90%;
+  margin: auto;
   h1{
     font-family: 'Space Grotesk', sans-serif;
     text-align: center;
