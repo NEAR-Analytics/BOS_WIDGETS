@@ -93,8 +93,6 @@ const TabItem = styled.div`
   ${(props) => !props.selected && "opacity: 0.4;"}
 `;
 
-
-
 State.init({
   tab: "Mint", // Mint / Indexer
 });
@@ -115,7 +113,7 @@ return (
           Mint
         </TabItem>
         <TabItem
-          style={{ cursor: "not-allowed" }}
+          style={{ cursor: "allowed" }}
           // selected={tab === "Indexer"}
           // onClick={() => State.update({ tab: "Indexer" })}
         >
