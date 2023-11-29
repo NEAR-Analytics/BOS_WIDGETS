@@ -14,7 +14,7 @@ useEffect(() => {
   if (Ethers.provider()) {
     SetConnectSectionActive(false);
   }
-}, [Ethers.provider()]);
+}, []);
 
 return (
   <Home>
