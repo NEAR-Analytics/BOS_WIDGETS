@@ -65,6 +65,12 @@ const FormFragment = styled.div`
   align-items: center;
 `;
 
+const TipText = styled.div`
+  color: #fffffff0;
+  font-size: 12px;
+  font-weight: 600;
+`;
+
 const TGas = Big(10).pow(12);
 const MaxGasPerTransaction = TGas.mul(250);
 const GasPerTransaction = MaxGasPerTransaction.plus(TGas);
@@ -153,28 +159,31 @@ State.init({
   ],
 });
 
-function fetchAllData() {
-  const response = fetch(config.graphUrl, {
+function fetchFromGraph(query) {
+  return fetch(config.graphUrl, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      query: `
-        query {
-          tokenInfo (id: "NEAT") {
-            ticker
-            maxSupply
-            totalSupply
-            limit
-          }
-          holderCount (id: "HolderCount") {
-            count
-          }
-        }
-      `,
+      query,
     }),
   });
+}
+function fetchAllData() {
+  const response = fetchFromGraph(`
+    query {
+      tokenInfo (id: "NEAT") {
+        ticker
+        maxSupply
+        totalSupply
+        limit
+      }
+      holderCount (id: "HolderCount") {
+        count
+      }
+    }
+  `);
 
   if (response) {
     const tokenInfo = response.body.data.tokenInfo;
@@ -182,6 +191,7 @@ function fetchAllData() {
     State.update({
       tickerRawData: {
         display_name: tokenInfo.ticker,
+        holderCount,
       },
       ticker: [
         {
@@ -233,11 +243,28 @@ function fetchAllData() {
     });
   }
   const accountId = props.accountId || context.accountId;
-  const balancesResponse = fetch(`${config.indexerUrl}/balances/${accountId}`, {
-    method: "GET",
-  });
-  const balance = balancesResponse.body[0]?.balance ?? "0";
-  State.update({ balance });
+
+  const balanceResponse = fetchFromGraph(`
+    query {
+      holderInfos(
+        where: {
+          accountId: "${accountId}"
+          ticker: "neat"
+        }
+      ) {
+        accountId
+        amount
+      }
+    }
+  `);
+  if (balanceResponse) {
+    const holder = balanceResponse.body.data.holderInfos[0];
+    if (holder) {
+      State.update({ balance: holder.amount });
+    } else {
+      State.update({ balance: "0" });
+    }
+  }
 }
 
 fetchAllData();
@@ -246,14 +273,14 @@ fetchAllData();
 
 const yourNeatData = [
   {
-    title: "Token amount",
+    title: "Token Amount",
     value: state.balance ? Number(state.balance).toLocaleString() : "-",
   },
 ];
 return (
   <FormFragment>
     <FormContainer>
-      <FormTitle>Your $Neat</FormTitle>
+      <FormTitle>Your $NEAT</FormTitle>
       <FormBody>
         {yourNeatData.map((row) => (
           <FormRowContainer key={row.title}>
@@ -265,9 +292,21 @@ return (
     </FormContainer>
     <FormContainer>
       <FormTitle>Minted address rank</FormTitle>
+      <TipText>* Only top 5000 addresses are listed.</TipText>
       <FormBody>
-        <Widget src={`${config.ownerId}/widget/NEAT.SearchInput`} />
-        <Widget src={`${config.ownerId}/widget/NEAT.IndexTable`} />
+        {/* <Widget
+          src={`${config.ownerId}/widget/NEAT.SearchInput`}
+          props={{
+            value: state.searchValue,
+            setValue: (value) => State.update({ searchValue: value }),
+          }}
+        /> */}
+        <Widget
+          src={`${config.ownerId}/widget/NEAT.IndexTable`}
+          props={{
+            searchValue: state.searchValue,
+          }}
+        />
       </FormBody>
     </FormContainer>
   </FormFragment>
