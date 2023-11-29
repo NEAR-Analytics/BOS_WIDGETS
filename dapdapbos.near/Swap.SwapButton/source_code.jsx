@@ -227,7 +227,7 @@ if (!state.isApproved && wrapType === 0) {
 }
 
 function add_action(param_body) {
-  asyncFetch("https://test-api.dapdap.net/api/action/add-action-data", {
+  asyncFetch("/dapdap/api/action/add", {
     method: "post",
     headers: {
       "Content-Type": "application/json",
