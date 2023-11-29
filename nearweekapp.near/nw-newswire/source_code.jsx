@@ -1,12 +1,11 @@
 const accountId = "near";
-State.init({ active: 0 });
-const limit = 10;
+State.init({ page: 1 });
 let posts = [];
 let mediumPosts = [];
 
 const indexedPosts = Social.index("post", "main", {
   accountId,
-  limit,
+  limit: 20,
   order: "desc",
 });
 
@@ -47,7 +46,9 @@ if (indexedPosts?.length > 0) {
 }
 
 const data = fetch(
-  "https://nearweek.com/api/md/dao-news?populate=deep&sort=createdAt:desc&pagination[pageSize]=5",
+  `https://nearweek.com/api/md/dao-news?populate=deep&sort=createdAt:desc&pagination[pageSize]=${
+    state.page * 13
+  }`,
   {
     //subscribe: true,
     method: "GET",
@@ -66,7 +67,7 @@ if (!cssFont) return "";
 if (!state.theme) {
   State.update({
     theme: styled.div`
-    font-family: 'Mona Sans', sans-serif;
+    font-family: Inter;
     ${cssFont}
 `,
   });
@@ -95,7 +96,7 @@ const Content = styled.div`
   gap: 10px;
   width: 100%;`;
 
-const Card = styled.div`
+const Card = styled.a`
     position: relative;
     width: 100%;
     border-radius: 12px;
@@ -106,6 +107,7 @@ const Card = styled.div`
     display:flex !important;
     flex-direction: column;
     gap:10px;
+    text-decoration: none !important;
   `;
 
 const CardHeader = styled.div`
@@ -126,6 +128,7 @@ const CardUser = styled.div`
     font-weight: 500;
     line-height: 8.5px;
 }
+
 `;
 
 const TwitterBage = styled.div`
@@ -204,27 +207,29 @@ const Badge = styled.span`
 `;
 
 const ButtonLink = styled.a`
-  display: block;
-  width: 100%;
+   width: 180px;
   padding: 8px;
-  height: 32px;
-  background: #FBFCFD;
-  border: 1px solid #D7DBDF;
-  border-radius: 50px;
-  font-weight: 600;
+  height: 31px;
+  background: transparent;
+  margin: 0 auto;
+  border: 1px solid #d7dbdf;
+  border-radius: 100px;
+  font-weight: 500;
   font-size: 12px;
-  line-height: 15px;
+  line-height: 22px;
+  letter-spacing: -0.03em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   text-align: center;
   cursor: pointer;
-  color: #11181C !important;
-  margin: 0;
-
+  white-space: nowrap;
+  color: hsla(204, 22%, 9%, 1);
   &:hover,
   &:focus {
-    background: #ECEDEE;
     text-decoration: none;
     outline: none;
-  }
+    }
 `;
 const AuthorNDate = styled.div`
     display: flex;
@@ -302,6 +307,8 @@ function extractUsernameFromURL(url) {
       }
     }
   }
+
+  // if near.org usr = NEAR
   if (!username && url.includes("near.org")) {
     username = "NEAR";
   }
@@ -317,7 +324,7 @@ function NewswireCard() {
           <H2>Newswire</H2>
           <Content>
             {news.map((item, index) => (
-              <Card index={index}>
+              <Card index={index} href={item.url} target="_blank">
                 <div class="d-flex flex-grow-1">
                   <CardContent>
                     <CardHeader>
@@ -361,6 +368,7 @@ function NewswireCard() {
                         </svg>
                       </TwitterBage>
                     </CardHeader>
+
                     <CardTitle>
                       <a
                         href={item.url}
@@ -387,6 +395,9 @@ function NewswireCard() {
       ) : (
         <div>Loading ...</div>
       )}
+      <ButtonLink onClick={() => State.update({ page: state.page + 1 })}>
+        Load more
+      </ButtonLink>
     </Theme>
   );
 }
