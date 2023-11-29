@@ -140,7 +140,7 @@ let dataP = [];
 let labelP = [];
 
 // Assuming allPostSorted has at least 20 items
-for (let i = 0; i < 20; i++) {
+for (let i = 0; i < 10; i++) {
   if (day7PostSorted[i]) {
     dataP.push(day7PostSorted[i][1]); // Assuming item[1] contains the data for dataP
     labelP.push(day7PostSorted[i][0]); // Assuming item[0] contains the data for labelP
@@ -224,7 +224,6 @@ const Table = () => {
       <br />
       <br />
 
-
       <StyledTable>
         <thead>
           <tr>
@@ -235,7 +234,7 @@ const Table = () => {
         <tbody>
           {day7PostSorted &&
             day7PostSorted
-              .filter((item, index) => index <= 20)
+              .filter((item, index) => index <= 10)
               .map((item) => (
                 <tr key={item[0]}>
                   <StyledTd>
