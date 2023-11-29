@@ -1,16 +1,51 @@
-const res = fetch(
-  `https://api.nearblocks.io/v1/account/${
-    props.wallet_id || context.accountId
-  }/inventory`
-);
+const operationsDoc = `
+  query MyQuery {
+    mb_views_nft_tokens(
+      order_by: {last_transfer_timestamp: desc}
+      where: {owner: {_eq: "${
+        props.wallet_id || context.accountId
+      }"}, _and: {burned_timestamp: {_is_null: true}, last_transfer_timestamp: {}}}
+    ) {
+      nft_contract_id
+      title
+      description
+      media
+      last_transfer_receipt_id
+      metadata_id
+      token_id
+      nft_contract_name
+      nft_contract_icon
+    }
+  }
+`;
+
+function fetchGraphQL() {
+  const result = fetch("https://graph.mintbase.xyz/mainnet", {
+    method: "POST",
+    headers: {
+      "mb-api-key": "anon",
+      "content-type": "application/json",
+    },
+    body: JSON.stringify({
+      query: operationsDoc,
+      variables: {},
+      operationName: "MyQuery",
+    }),
+  });
+  console.log("result", result);
+  return result;
+}
+
+const res = fetchGraphQL();
 
 if (!(res && res.body)) return "...";
-// return res.body.inventory.nfts
+
+const nfts = res.body.data.mb_views_nft_tokens;
 return (
   <>
-    {res.body.inventory.nfts.map((nft) => (
+    {nfts.map((nft) => (
       <div
-        key={ft.contract}
+        key={nft.contract_id + nft.token_id}
         style={{
           display: "flex",
           flexDirection: "column",
@@ -22,12 +57,12 @@ return (
         }}
       >
         <img
-          style={{marginBottom: "1rem"}}
+          style={{ marginBottom: "1rem" }}
           height={60}
           width={60}
           layout="intrinsic"
           src={
-            nft.nft_meta.icon ??
+            nft.media ??
             "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
           }
         />
@@ -35,9 +70,11 @@ return (
           style={{
             fontWeight: 500,
             fontSize: "1.125rem",
+            textAlign: "center",
           }}
         >
-          {nft.quantity > 1 && nft.quantity} {nft.nft_meta.name ? `${nft.nft_meta.name} NFT${nft.quantity > 1 ? 's' : ''}` : nft.contract }
+          <div>{nft.title}</div>
+          <div>[{nft.token_id}]</div>
         </div>
       </div>
     ))}
