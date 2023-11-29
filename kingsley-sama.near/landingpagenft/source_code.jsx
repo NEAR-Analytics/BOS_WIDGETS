@@ -19,14 +19,14 @@ const ImageContainer = styled.div`
 `;
 
 const StyledImage = styled.img`
-  width: 300px;
-  height: 250px;
+  width: 200px;
+  height: 180px;
   object-cover;
 `;
 
 const FormContainer = styled.div`
   flex: auto;
-  padding: 1rem;
+  padding: 0 30px;
 
 `;
 
