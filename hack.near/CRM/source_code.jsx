@@ -37,6 +37,8 @@ const totalPages = Math.ceil(
 
 const accounts = displayedProfiles.map((accountId) => (
   <div className="m-2" key={accountId}>
+    <hr />
+
     <Widget src="hack.near/widget/profile.linktree" props={{ accountId }} />
   </div>
 ));
@@ -44,7 +46,12 @@ const accounts = displayedProfiles.map((accountId) => (
 return (
   <div>
     <h3 className="m-2 mb-3">Near Social Profiles</h3>
-    <div className="flex-row mb-3">
+    <div className="flex-row m-2">
+      <Widget src="mob.near/widget/People" />
+    </div>
+    <br />
+    <div className="flex-row m-2">
+      <h5>Filter By Available Linktree Data:</h5>
       <button
         onClick={() => setFilterBy(withTwitter)}
         disabled={filterBy === withTwitter}
@@ -76,9 +83,11 @@ return (
         Reset
       </button>
     </div>
+    <br />
     <h5 className="m-2 mb-3">{[...filterBy].length} total</h5>
     <div className="m-2">{accounts}</div>
     <div className="m-3">
+      <hr />
       <button
         onClick={() => handlePageChange(currentPage - 1)}
         disabled={currentPage === 1}
