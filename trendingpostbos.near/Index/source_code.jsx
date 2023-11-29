@@ -92,7 +92,7 @@ const TabsButton = styled.button`
     }
 }
 `;
-const I = styled.I`
+const I = styled.i`
   padding:20px;
 `;
 const handleTabClick = (tab) => {
