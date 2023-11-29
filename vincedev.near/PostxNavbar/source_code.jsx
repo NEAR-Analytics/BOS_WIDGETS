@@ -71,7 +71,7 @@ return (
         alt=""
       />
 
-      <HTest>Top Post</HTest>
+      <HTest onClick={props.fetchAllPost}>Top Post</HTest>
       <HTest onClick={props.fetchTrendFeed}>Trend Feed</HTest>
 
       <SearchBar
