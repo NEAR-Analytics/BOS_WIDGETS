@@ -13,6 +13,7 @@ const queries = [
             round(TRANSACTION_FEE/pow(10,24),4) as "fee",
             --METADATA:name as name ,
             row_number() over (partition by singer order by "date" asc )::int as "rank",
+            singer||'/widget/'||"name" as links,
             '1' as "total"
 
       from near.social.fact_widget_deployments as fw left join 
@@ -548,11 +549,10 @@ let TableSection = (
               { title: "Component ", key: "name" },
               {
                 title: "Conponent Link",
-                key: "name",
+                key: "links",
                 link: "yes",
-                beforehref: `https://bos.flipsidecrypto.xyz/${state.singer}/widget/`,
+                beforehref: `https://bos.flipsidecrypto.xyz/`,
                 afterhref: "",
-                hyperlink: "yes",
               },
               { title: "Fee(Near)", key: "fee" },
 
