@@ -36,6 +36,7 @@ border-bottom: 4px solid #061D33;
 height:90px;
 
 }
+border-bottom: ${props.active ? '4px solid #061D33' : '4px solid #061D33'};
 
 `;
 const SearchBar = styled.input`
@@ -72,7 +73,7 @@ return (
       />
 
       <HTest onClick={props.fetchAllPost}>Top Post</HTest>
-      <HTest onClick={props.fetchTrendFeed}>Trend Feed</HTest>
+      <HTest onClick={props.fetchTrendFeed} >Trend Feed</HTest>
 
       <SearchBar
         type="text"
