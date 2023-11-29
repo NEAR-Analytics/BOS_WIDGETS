@@ -28,7 +28,6 @@ width: 90%;
 const MajorTrends = styled.div`
 font-family: Space Grotesk;
 cursor:pointer;
-background-color: ${props.activeTag ? "white" : ""};
 
 &:hover{
  
@@ -92,7 +91,10 @@ return (
       {sortedHashList?.map((d, i) => {
         return (
           <MajorTrends>
-            <SingleTrends onClick={() => props.singlePosthashTag(d[0])}>
+            <SingleTrends
+              style={{ backgroundColor: `${props.activeTags} ? "white": ""` }}
+              onClick={() => props.singlePosthashTag(d[0])}
+            >
               <div>{i + 1}.</div>
               <span>#{d[0]}</span>
             </SingleTrends>
