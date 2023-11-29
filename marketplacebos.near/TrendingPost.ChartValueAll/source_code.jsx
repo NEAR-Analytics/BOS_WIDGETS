@@ -227,7 +227,6 @@ const Table = () => {
       <br />
       <br />
 
-
       <StyledTable>
         <thead>
           <tr>
