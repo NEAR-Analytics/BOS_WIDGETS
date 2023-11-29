@@ -3,36 +3,6 @@ const MaxGasPerTransaction = TGas.mul(250);
 const GasPerTransaction = MaxGasPerTransaction.plus(TGas);
 const pageAmountOfPage = 5;
 const ipfsPrefix = "https://ipfs.near.social/ipfs";
-
-function toLocaleString(source, decimals, rm) {
-  if (typeof source === "string") {
-    return toLocaleString(Number(source), decimals);
-  } else if (typeof source === "number") {
-    return decimals !== undefined
-      ? source.toLocaleString(undefined, {
-          maximumFractionDigits: decimals,
-          minimumFractionDigits: decimals,
-        })
-      : source.toLocaleString();
-  } else {
-    // Big type
-    return toLocaleString(
-      decimals !== undefined
-        ? Number(source.toFixed(decimals, rm))
-        : source.toNumber(),
-      decimals
-    );
-  }
-}
-
-function formatAmount(balance, decimal) {
-  if (!decimal) decimal = 8;
-  return toLocaleString(
-    Big(balance).div(Big(10).pow(decimal)).toFixed(),
-    decimal
-  );
-}
-
 // Config for Bos app
 function getConfig(network) {
   switch (network) {
@@ -42,6 +12,7 @@ function getConfig(network) {
         graphUrl:
           "https://api.thegraph.com/subgraphs/name/inscriptionnear/neat",
         nodeUrl: "https://rpc.mainnet.near.org",
+        indexerUrl: "https://inscription-indexer-a16497da251b.herokuapp.com/v1",
         contractName: "inscription.near",
         methodName: "inscribe",
         args: {
@@ -50,20 +21,14 @@ function getConfig(network) {
           tick: "neat",
           amt: "100000000",
         },
-        transferArgs: {
-          p: "nrc-20",
-          op: "transfer",
-          tick: "neat",
-        },
-        ftWrapper: "neat.nrc-20.near",
-        refFinance: "https://app.ref.finance/",
       };
     case "testnet":
       return {
         ownerId: "inscribe.testnet",
         graphUrl:
-          "https://api.thegraph.com/subgraphs/name/inscriptionnear/neat-test",
+          "https://api.thegraph.com/subgraphs/name/inscriptionnear/neat",
         nodeUrl: "https://rpc.testnet.near.org",
+        indexerUrl: "https://inscription-indexer-a16497da251b.herokuapp.com/v1",
         contractName: "inscription.testnet",
         methodName: "inscribe",
         args: {
@@ -72,13 +37,6 @@ function getConfig(network) {
           tick: "neat",
           amt: "100000000",
         },
-        transferArgs: {
-          p: "nrc-20",
-          op: "transfer",
-          tick: "neat",
-        },
-        ftWrapper: "neat.nrc-20.testnet",
-        refFinance: "https://testnet.ref-finance.com/",
       };
     default:
       throw Error(`Unconfigured environment '${network}'.`);
@@ -94,12 +52,9 @@ const tx = {
 
 const Main = styled.div`
   width: 100%;
-  min-height: 90vh;
-  overflow: hidden;
+  height: 100vh;
   background: #101010;
   background-image: url(${ipfsPrefix}/bafkreiak6rio66kqjsobw25gtmy5a7fwwsa4hjn3d25a4tppfylbdepbjq);
-  background-repeat: no-repeat;
-  background-size: cover;
   padding: 0 16px;
   color: white;
   @media (min-width: 640px) {
@@ -113,17 +68,7 @@ const BodyContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  flex-direction: column;
-  gap: 20px;
-  margin: 40px 0;
-`;
-
-const NeatLink = styled.a`
-  color: rgb(0, 214, 175);
-  font-size: 18px;
-  font-weight: 600;
-  display: inline-block;
-  text-decoration: underline;
+  margin-top: 80px;
 `;
 
 const HeaderContainer = styled.div`
@@ -143,57 +88,22 @@ const TabContainer = styled.div`
   justify-content: center;
   align-items: center;
   gap: 56px;
-
-  @media (max-width: 768px) {
-    gap: 20px;
-  }
 `;
 
-const TabItem = styled("Link")`
-  color: white;
+const TabItem = styled.div`
   cursor: pointer;
   font-size: 18px;
   font-weight: 600;
   ${(props) => !props.selected && "opacity: 0.4;"}
-  &:hover {
-    color: white;
-    text-decoration: none;
-    opacity: 0.8;
-  }
-  @media (max-width: 768px) {
-    font-size: 16px;
-  }
-`;
-
-const FormContainer = styled.div`
-  max-width: 650px;
-  width: 100%;
-  background: #141414;
-  border-radius: 4px;
-  border: 1px solid #ffffff1a;
-  display: flex;
-  flex-direction: column;
-  gap: 36px;
-
-  padding: 16px;
-  @media (min-width: 640px) {
-    padding: 24px;
-  }
 `;
 
 
 
-function getTab() {
-  const tab = props.tab;
-  if (["transfer", "wrap", "indexer", "mint"].includes(tab)) {
-    return tab;
-  } else {
-    return "transfer";
-  }
-}
+State.init({
+  tab: "Mint", // Mint / Indexer
+});
 
-const tab = getTab();
-
+const { tab } = state;
 return (
   <Main>
     <HeaderContainer>
@@ -203,41 +113,25 @@ return (
       />
       <TabContainer>
         <TabItem
-          selected={tab === "transfer"}
-          href={`/${config.ownerId}/widget/NEAT?tab=transfer`}
-        >
-          Transfer
-        </TabItem>
-        <TabItem
-          selected={tab === "wrap"}
-          href={`/${config.ownerId}/widget/NEAT?tab=wrap`}
-        >
-          Wrap
-        </TabItem>
-        <TabItem
-          selected={tab === "indexer"}
-          href={`/${config.ownerId}/widget/NEAT?tab=indexer`}
-        >
-          Indexer
-        </TabItem>
-        <TabItem
-          selected={tab === "mint"}
-          href={`/${config.ownerId}/widget/NEAT?tab=mint`}
+          selected={tab === "Mint"}
+          onClick={() => State.update({ tab: "Mint" })}
         >
           Mint
+        </TabItem>
+        <TabItem
+          selected={tab === "Indexer"}
+          onClick={() => State.update({ tab: "Indexer" })}
+        >
+          Indexer
         </TabItem>
       </TabContainer>
       <Spacer />
     </HeaderContainer>
     <BodyContainer>
-      {tab === "mint" && <Widget src={`${config.ownerId}/widget/NEAT.Mint`} />}
-      {tab === "indexer" && (
+      {tab === "Mint" && <Widget src={`${config.ownerId}/widget/NEAT.Mint`} />}
+      {tab === "Indexer" && (
         <Widget src={`${config.ownerId}/widget/NEAT.Indexer`} />
       )}
-      {tab === "transfer" && (
-        <Widget src={`${config.ownerId}/widget/NEAT.Transfer`} />
-      )}
-      {tab === "wrap" && <Widget src={`${config.ownerId}/widget/NEAT.Wrap`} />}
     </BodyContainer>
   </Main>
 );
