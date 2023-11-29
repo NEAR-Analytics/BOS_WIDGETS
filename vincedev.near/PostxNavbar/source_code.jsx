@@ -27,7 +27,7 @@ height:20px
   }
 `;
 const HTest = styled.h2`
-font-family: Space Grotesk;
+// font-family: Space Grotesk;
 font-size: 17px;
 font-weight: 500;
 line-height: 26px;
@@ -48,7 +48,7 @@ border-bottom: ${props.trendActive ? "4px solid #061D33" : "0px solid #061D33"};
 
 `;
 const HTest2 = styled.h2`
-font-family: Space Grotesk;
+// font-family: Space Grotesk;
 font-size: 17px;
 font-weight: 500;
 line-height: 26px;
