@@ -5,8 +5,6 @@ display: flex;
 justify-content: space-between;
 align-items: center;
 height: 74px;
-width: 90%;
-margin: auto;
 
 div{
   display: flex;
