@@ -1,6 +1,8 @@
 const bodyWrapper = styled.div`
 background: #F3F9FF;
 min-height: 560px;
+max-height: 640px;
+overflow-y:scroll;
 width: 100%;
 border-radius:8px;
 padding:20px;
@@ -86,6 +88,15 @@ return (
     <mainHeader>Trending Tag</mainHeader>
 
     <AllTrends>
+      <MajorTrends>
+        <SingleTrends onClick={() => props.singlePosthashTag("hello")}>
+          <div>1.</div>
+          <span>
+            #BOSADADAFAFAGAHHSHHSHSHHSHSSBSBBBXBXBBBXBXBXBXBXBBXBXBXBXBXBBXBXBXBXBX
+          </span>
+        </SingleTrends>
+        <p>1 Post</p>
+      </MajorTrends>
       {sortedHashList?.map((d, i) => {
         return (
           <MajorTrends>
