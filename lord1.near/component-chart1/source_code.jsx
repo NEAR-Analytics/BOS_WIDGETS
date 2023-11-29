@@ -6,20 +6,20 @@ const queries = [
     id: 1,
     query: `select 
             ft.TX_HASH as "hash" ,
-            split(ft.BLOCK_TIMESTAMP::date,'T')[0] as "date",
+            split(ft.BLOCK_TIMESTAMP::date,'T') as "date",
             fw.SIGNER_ID as singer,
             fw.WIDGET_NAME as "name",
             case when STATUS='false' then '❌' else '✅' end as "status",
             round(TRANSACTION_FEE/pow(10,24),4) as "fee",
             --METADATA:name as name ,
-            row_number() over (partition by singer order by "date" asc ) as "rank",
+            row_number() over (partition by singer order by fw.block_id  asc )::int as "rank",
             '1' as "total"
 
       from near.social.fact_widget_deployments as fw left join 
 near.core.fact_transfers  as ft
 on ft.tx_hash=fw.tx_hash
 where singer='{{singer}}'
-order by "date" desc`,
+order by "rank"::int desc`,
   },
   {
     hash: "4fd2820b-b877-46f5-bdf1-b0c3cd9f64a6",
