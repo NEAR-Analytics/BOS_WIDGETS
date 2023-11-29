@@ -25,7 +25,7 @@ gap:4px;
 const MajorTrends = styled.div`
 font-family: Space Grotesk;
 cursor:pointer;
-background: ${props.activeTag ? "white" : ''};
+
 &:hover{
  
   background-color:white;
