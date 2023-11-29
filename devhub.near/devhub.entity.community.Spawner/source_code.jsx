@@ -80,7 +80,9 @@ const CommunityInputsDefaults = {
 
 return (
   <Widget
-    src="devhub.near/widget/devhub.components.organism.Configurator"
+    src={
+      "devgovgigs.near/widget/gigs-board.components.organism.configurator"
+    }
     props={{
       heading: "Community information",
       externalState: CommunityInputsDefaults,
@@ -96,6 +98,7 @@ return (
       },
       submitLabel: "Launch",
       onCancel: onCancel,
+      nearDevGovGigsWidgetsAccountId: "devgovgigs.near",
     }}
   />
 );
