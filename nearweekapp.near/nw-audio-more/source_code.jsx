@@ -1,4 +1,5 @@
 const rootUser = "nearweekapp.near";
+console.log("props", props);
 const breakpoints = { md: "768px", lg: "1100px", xl: "1300px" };
 
 function NewsletterCard() {
@@ -95,7 +96,7 @@ function NewsletterCard() {
         flex-direction: row-reverse;
       }
     `;
-  console.log("props", props);
+
   const audioDetails = props.audioDetails;
   const updateAudioDetails = props.updateAudioDetails;
 
