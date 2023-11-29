@@ -1,6 +1,4 @@
 const hash = "fe16224c-e176-4479-a40f-2e720e1b8cdf";
-const searchedSinger = props.singer || "";
-
 const columnNamesFinall = [
   "Transactions",
   "Components",
@@ -18,10 +16,19 @@ const columnImg = {
     "https://raw.githubusercontent.com/lordking1234/blockchain-icon/main/file-contract-solid.svg",
 };
 State.init({
+  searchedSinger: "",
   data: [],
   isLoading: true,
   error: [],
 });
+const checkNewSinger = () => {
+  if (state.searchedSinger === props.singer) {
+    return;
+  } else {
+    State.update({ searchedSinger: props.singer, isLoading: true });
+  }
+};
+checkNewSinger();
 const handleData = () => {
   const result = fetchData(hash);
   if (result.isLoading) {
@@ -34,7 +41,7 @@ const handleData = () => {
   }
   if (result.data) {
     const signerData = result.data.find(
-      ({ singer }) => singer === searchedSinger
+      ({ singer }) => singer === state.searchedSinger
     );
     State.update({ data: signerData ? [signerData] : [], isLoading: false });
   }
@@ -69,8 +76,6 @@ if (state.error.length > 0) {
   }
   setTimeout(hide, 2500);
 }
-
-console.log(state);
 
 const formatNumber = (num) => {
   if (num >= 1000000000) {
