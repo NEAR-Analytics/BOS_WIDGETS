@@ -151,7 +151,9 @@ const arrm = props.pushToArray;
 
 // Push contents to the parent state
 if (content.text) {
-  arrm([{ ...content, accountId, blockHeight }]);
+  if (!forSearch) {
+    arrm([{ ...content, accountId, blockHeight }]);
+  }
 }
 
 return (
