@@ -28,6 +28,7 @@ width: 90%;
 const MajorTrends = styled.div`
 font-family: Space Grotesk;
 cursor:pointer;
+background: ${prop.active ? 'white': ''}
 
 &:hover{
  
@@ -88,7 +89,6 @@ return (
     <mainHeader>Trending Tag</mainHeader>
 
     <AllTrends>
-   
       {sortedHashList?.map((d, i) => {
         return (
           <MajorTrends>
