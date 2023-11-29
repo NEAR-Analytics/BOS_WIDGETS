@@ -57,9 +57,9 @@ const table_componentList_theme = {
 };
 const table_starSent_theme = {
   height: "80px",
-  align: "left",
-  description: "",
-  brand: "Star ",
+  align: "center",
+  description: "( Star: 50 | UnStar: 45 )",
+  brand: "Un/Star ",
   fontsize: "25px",
   fontweight: "25px",
   afterbrand: "Sent",
@@ -74,29 +74,11 @@ const table_starSent_theme = {
     "radial-gradient(circle, rgba(210,202,250,1) 0%, rgba(230,230,231,0.01) 0%, rgba(235,238,255,1) 100%, rgba(235,231,253,1) 100%, rgba(255,241,241,1) 100%, rgba(46,52,90,1) 100%);",
 };
 
-const table_received_theme = {
-  height: "80px",
-  align: "left",
-  description: "",
-  brand: " ",
-  fontsize: "25px",
-  fontweight: "25px",
-  afterbrand: "Received",
-  afterbrandcolor: themeColor?.dynamic_header?.afterbrandcolor || "#789efb",
-  fontbrand: " Arial, sans-serif",
-  color1brand: themeColor?.dynamic_header?.color1brand || "#000",
-  color2brand: themeColor?.dynamic_header?.color2brand || "#806ce1",
-  colordescription: themeColor?.dynamic_header?.colordescription || "#806ce1",
-  fontsubtitle: " Arial, sans-serif",
-  background:
-    themeColor?.dynamic_header?.background ||
-    "radial-gradient(circle, rgba(210,202,250,1) 0%, rgba(230,230,231,0.01) 0%, rgba(235,238,255,1) 100%, rgba(235,231,253,1) 100%, rgba(255,241,241,1) 100%, rgba(46,52,90,1) 100%);",
-};
 const table_starReceived_theme = {
   height: "80px",
-  align: "left",
-  description: "",
-  brand: "Star ",
+  align: "center",
+  description: "( Star: 50 | UnStar: 45 )",
+  brand: "Un/Star ",
   fontsize: "25px",
   fontweight: "25px",
   afterbrand: "Received",
@@ -110,32 +92,129 @@ const table_starReceived_theme = {
     themeColor?.dynamic_header?.background ||
     "radial-gradient(circle, rgba(210,202,250,1) 0%, rgba(230,230,231,0.01) 0%, rgba(235,238,255,1) 100%, rgba(235,231,253,1) 100%, rgba(255,241,241,1) 100%, rgba(46,52,90,1) 100%);",
 };
-
+const table_creditSent_theme = {
+  height: "80px",
+  align: "left",
+  description: "",
+  brand: "Credit",
+  fontsize: "25px",
+  fontweight: "25px",
+  afterbrand: "Sent",
+  afterbrandcolor: themeColor?.dynamic_header?.afterbrandcolor || "#789efb",
+  fontbrand: " Arial, sans-serif",
+  color1brand: themeColor?.dynamic_header?.color1brand || "#000",
+  color2brand: themeColor?.dynamic_header?.color2brand || "#806ce1",
+  colordescription: themeColor?.dynamic_header?.colordescription || "#806ce1",
+  fontsubtitle: " Arial, sans-serif",
+  background:
+    themeColor?.dynamic_header?.background ||
+    "radial-gradient(circle, rgba(210,202,250,1) 0%, rgba(230,230,231,0.01) 0%, rgba(235,238,255,1) 100%, rgba(235,231,253,1) 100%, rgba(255,241,241,1) 100%, rgba(46,52,90,1) 100%);",
+};
+const table_creditSentTab1_theme = {
+  height: "80px",
+  align: "center",
+  description: "45",
+  brand: `widgets`,
+  fontsize: "15px",
+  fontweight: "10px",
+  afterbrand: "",
+  afterbrandcolor: themeColor?.dynamic_header?.afterbrandcolor || "#789efb",
+  fontbrand: " Arial, sans-serif",
+  color1brand: themeColor?.dynamic_header?.color1brand || "#000",
+  color2brand: themeColor?.dynamic_header?.color2brand || "#806ce1",
+  colordescription: themeColor?.dynamic_header?.colordescription || "#806ce1",
+  fontsubtitle: " Arial, sans-serif",
+  background:
+    themeColor?.dynamic_header?.background ||
+    "radial-gradient(circle, rgba(210,202,250,1) 0%, rgba(230,230,231,0.01) 0%, rgba(235,238,255,1) 100%, rgba(235,231,253,1) 100%, rgba(255,241,241,1) 100%, rgba(46,52,90,1) 100%);",
+};
+const table_creditSentTab2_theme = {
+  height: "80px",
+  align: "center",
+  description: "30",
+  brand: `Devs`,
+  fontsize: "15px",
+  fontweight: "10px",
+  afterbrand: "",
+  afterbrandcolor: themeColor?.dynamic_header?.afterbrandcolor || "#789efb",
+  fontbrand: " Arial, sans-serif",
+  color1brand: themeColor?.dynamic_header?.color1brand || "#000",
+  color2brand: themeColor?.dynamic_header?.color2brand || "#806ce1",
+  colordescription: themeColor?.dynamic_header?.colordescription || "#806ce1",
+  fontsubtitle: " Arial, sans-serif",
+  background:
+    themeColor?.dynamic_header?.background ||
+    "radial-gradient(circle, rgba(210,202,250,1) 0%, rgba(230,230,231,0.01) 0%, rgba(235,238,255,1) 100%, rgba(235,231,253,1) 100%, rgba(255,241,241,1) 100%, rgba(46,52,90,1) 100%);",
+};
+const table_creditReceived_theme = {
+  height: "80px",
+  align: "left",
+  description: "",
+  brand: "Credit ",
+  fontsize: "25px",
+  fontweight: "25px",
+  afterbrand: "Received",
+  afterbrandcolor: themeColor?.dynamic_header?.afterbrandcolor || "#789efb",
+  fontbrand: " Arial, sans-serif",
+  color1brand: themeColor?.dynamic_header?.color1brand || "#000",
+  color2brand: themeColor?.dynamic_header?.color2brand || "#806ce1",
+  colordescription: themeColor?.dynamic_header?.colordescription || "#806ce1",
+  fontsubtitle: " Arial, sans-serif",
+  background:
+    themeColor?.dynamic_header?.background ||
+    "radial-gradient(circle, rgba(210,202,250,1) 0%, rgba(230,230,231,0.01) 0%, rgba(235,238,255,1) 100%, rgba(235,231,253,1) 100%, rgba(255,241,241,1) 100%, rgba(46,52,90,1) 100%);",
+};
+const table_creditReceivedTab1_theme = {
+  height: "80px",
+  align: "center",
+  description: "45",
+  brand: `widgets`,
+  fontsize: "15px",
+  fontweight: "10px",
+  afterbrand: "",
+  afterbrandcolor: themeColor?.dynamic_header?.afterbrandcolor || "#789efb",
+  fontbrand: " Arial, sans-serif",
+  color1brand: themeColor?.dynamic_header?.color1brand || "#000",
+  color2brand: themeColor?.dynamic_header?.color2brand || "#806ce1",
+  colordescription: themeColor?.dynamic_header?.colordescription || "#806ce1",
+  fontsubtitle: " Arial, sans-serif",
+  background:
+    themeColor?.dynamic_header?.background ||
+    "radial-gradient(circle, rgba(210,202,250,1) 0%, rgba(230,230,231,0.01) 0%, rgba(235,238,255,1) 100%, rgba(235,231,253,1) 100%, rgba(255,241,241,1) 100%, rgba(46,52,90,1) 100%);",
+};
+const table_creditReceivedTab2_theme = {
+  height: "80px",
+  align: "center",
+  description: "30",
+  brand: `Devs`,
+  fontsize: "15px",
+  fontweight: "10px",
+  afterbrand: "",
+  afterbrandcolor: themeColor?.dynamic_header?.afterbrandcolor || "#789efb",
+  fontbrand: " Arial, sans-serif",
+  color1brand: themeColor?.dynamic_header?.color1brand || "#000",
+  color2brand: themeColor?.dynamic_header?.color2brand || "#806ce1",
+  colordescription: themeColor?.dynamic_header?.colordescription || "#806ce1",
+  fontsubtitle: " Arial, sans-serif",
+  background:
+    themeColor?.dynamic_header?.background ||
+    "radial-gradient(circle, rgba(210,202,250,1) 0%, rgba(230,230,231,0.01) 0%, rgba(235,238,255,1) 100%, rgba(235,231,253,1) 100%, rgba(255,241,241,1) 100%, rgba(46,52,90,1) 100%);",
+};
 //----------------------------------------------------------------------------------
 const queryHashes = [
-  { id: 1, hash: "4a3e0435-a756-47e4-996a-5f5fc790b504" },
-  { id: 2, hash: "ed99d1a8-f3a2-4613-b94c-4ac5f9160c88" },
-  { id: 3, hash: "4fd2820b-b877-46f5-bdf1-b0c3cd9f64a6" },
-  { id: 4, hash: "c7a65d89-6b47-44b2-b0d5-b080594e3af5" },
-  { id: 5, hash: "ee065234-4fea-4c86-98a8-294238a86b04" }, //
-  { id: 6, hash: "6e049a37-5a2b-4828-88bb-616ab9477c21" }, //
-  { id: 7, hash: "87d193b0-5cd4-4d6d-ab2d-6ace1016d611" },
-  { id: 8, hash: "87d193b0-5cd4-4d6d-ab2d-6ace1016d611" }, //
-  { id: 9, hash: "5fcb3937-cb3c-440c-896f-3ce6748fceff" },
-  { id: 10, hash: "ed99d1a8-f3a2-4613-b94c-4ac5f9160c88" },
-  { id: 11, hash: "fbd78c9a-d988-4ff0-b14c-501276bba85f" }, //
-  { id: 12, hash: "4a3e0435-a756-47e4-996a-5f5fc790b504" },
+  { id: "0", hash: "a113783a-564f-41b1-8384-3782db3ea43c" }, //
+  { id: "1", hash: "7400ea51-97ba-4773-b125-6c77a6933f35" }, //
+  { id: "2", hash: "ee065234-4fea-4c86-98a8-294238a86b04" }, //
+  { id: "3", hash: "6e049a37-5a2b-4828-88bb-616ab9477c21" }, //
+  { id: "4", hash: "87d193b0-5cd4-4d6d-ab2d-6ace1016d611" }, //
+  { id: "5", hash: "a113783a-564f-41b1-8384-3782db3ea43c" }, //
+  { id: "6", hash: "7400ea51-97ba-4773-b125-6c77a6933f35" }, //
 ];
 
 State.init({
+  result: {},
   singer: "",
   data: null,
-  componentListTableData: [],
-  starSentTableData: [],
-  starReceivedTableData: [],
-  receivedTableData: [],
-
-  tab: "first",
   isLoading: false,
   error: [],
 });
@@ -172,7 +251,7 @@ const onHandelDate = (inputDate) => {
 };
 
 //------------------------------------------------------------------------------------------------
-//1
+
 const handleData = () => {
   if (!state.singer.length) {
     State.update({ error: [...state.error, "please insert an address"] });
@@ -182,103 +261,49 @@ const handleData = () => {
     State.update({ error: [...state.error, "please insert a new address"] });
     return;
   }
-
-  //--------------------------------------------------------------------------
-  const componentListTableResult = fetchData(queryHashes[5].hash);
-  if (componentListTableResult.isLoading) {
-    State.update({ isLoading: true, componentListTableFilterData: [] });
-  }
-  if (componentListTableResult.error) {
-    const errors = state.error;
-    errors.push(`error message is : "${componentListTableResult.error}"`);
-    State.update({ error: errors, isLoading: false });
-  }
-  if (componentListTableResult.data) {
-    const componentListTableData = componentListTableFilterData(
-      componentListTableResult.data
-    );
-
-    State.update({
-      data: state.singer,
-      componentListTableData,
-      isLoading: false,
-    });
-  }
-  //--------------------------------------------------------------------------
-  const starSentTableResult = fetchData(queryHashes[6].hash);
-  if (starSentTableResult.isLoading) {
-    State.update({ isLoading: true, starSentTableFilterData: [] });
-  }
-  if (starSentTableResult.error) {
-    const errors = state.error;
-    errors.push(`error message is : "${starSentTableResult.error}"`);
-    State.update({ error: errors, isLoading: false });
-  }
-  if (starSentTableResult.data) {
-    const starSentTableData = starSentTableFilterData(starSentTableResult.data);
-
-    State.update({ data: state.singer, starSentTableData, isLoading: false });
-  }
-  //-----------------------------------------------
-  const starReceivedTableResult = fetchData(queryHashes[8].hash);
-  if (starReceivedTableResult.isLoading) {
-    State.update({ isLoading: true, starReceivedTableFilterData: [] });
-  }
-  if (starReceivedTableResult.error) {
-    const errors = state.error;
-    errors.push(`error message is : "${starReceivedTableResult.error}"`);
-    State.update({ error: errors, isLoading: false });
-  }
-  if (starReceivedTableResult.data) {
-    const starReceivedTableData = starReceivedTableFilterData(
-      starReceivedTableResult.data
-    );
-
-    State.update({
-      data: state.singer,
-      starReceivedTableData,
-      isLoading: false,
-    });
-  } //-----------------------------------------------
-  const receivedTableResult = fetchData(queryHashes[11].hash);
-  if (receivedTableResult.isLoading) {
-    State.update({ isLoading: true, receivedTableFilterData: [] });
-  }
-  if (receivedTableResult.error) {
-    const errors = state.error;
-    errors.push(`error message is : "${receivedTableResult.error}"`);
-    State.update({ error: errors, isLoading: false });
-  }
-  if (receivedTableResult.data) {
-    const receivedTableData = receivedTableFilterData(receivedTableResult.data);
-
-    State.update({
-      data: state.singer,
-      receivedTableData,
-      isLoading: false,
-    });
-  }
-};
-//------------------------------------------------------------------------------------------------
-
-//6
-const componentListTableFilterData = (data) => {
-  return data.filter((row) => row.SINGER === state.singer);
-};
-//------------------------------------------------------------------------------------------------
-//7
-const starSentTableFilterData = (data) => {
-  return data.filter((row) => row.SINGER === state.singer);
-};
-//------------------------------------------------------------------------------------------------
-//8
-const starReceivedTableFilterData = (data) => {
-  return data.filter((row) => row.SINGER === state.singer);
-};
-//------------------------------------------------------------------------------------------------
-//11
-const receivedTableFilterData = (data) => {
-  return data.filter((row) => row.SINGER === state.singer);
+  State.update({ data: state.singer });
+  queryHashes.forEach(({ hash, id }) => {
+    if (state.result["hash" + id]?.isDone) return;
+    const result = fetchData(hash);
+    if (result.isLoading) {
+      State.update({
+        isLoading: true,
+        result: { ...state.result, ["hash" + id]: { loading: true } },
+      });
+    }
+    if (result.error) {
+      const errors = state.error;
+      errors.push(`query ${id} : "${result.error}"`);
+      State.update({
+        error: errors,
+        result: {
+          ...state.result,
+          ["hash" + id]: {
+            loading: false,
+            error: true,
+            data: null,
+            isDone: true,
+          },
+        },
+      });
+    }
+    if (result.data) {
+      const filteredData = result.data.filter(
+        (row) => row.SINGER === state.data
+      );
+      State.update({
+        result: {
+          ...state.result,
+          ["hash" + id]: {
+            loading: false,
+            error: false,
+            data: filteredData,
+            isDone: true,
+          },
+        },
+      });
+    }
+  });
 };
 //------------------------------------------------------------------------------------------------
 //---------------------------------------------------------------------------
@@ -300,6 +325,17 @@ const fetchData = (hash) => {
   };
   return result;
 };
+const isAllDataLoaded = () => {
+  const resultArr = Object.entries(state.result);
+
+  if (resultArr.length === 0) return false;
+  return resultArr.every((query) => {
+    return !query[1].loading;
+  });
+};
+if (isAllDataLoaded()) {
+  State.update({ isLoading: false });
+}
 if (state.isLoading) {
   handleData();
 }
@@ -430,7 +466,7 @@ let firstSection = (
     >
       <Widget
         src="mob.near/widget/ProfileLarge"
-        props={{ accountId: state.singer }}
+        props={{ accountId: state.data }}
       />
     </div>
   </div>
@@ -445,15 +481,15 @@ let secondSection = (
       src="lord1.near/widget/header-dynamic"
       props={developer_activity_theme}
     />
-    <div className="w-100 mx-auto shadow-sm rounded-4 overflow-auto px-2 mb-2">
+    <div className="w-100 mx-auto shadow-sm rounded-4  px-2 mb-2">
       <Widget
-        props={{ singer: state.singer }}
+        props={{ singer: state.data }}
         src="lord1.near/widget/component-tab"
       />
     </div>
     <div className="container">
       <div className="row">
-        <div className="col-md-8">
+        <div className=" col-lg-8">
           <Widget
             src="lord1.near/widget/header-dynamic"
             props={table_componentList_theme}
@@ -462,15 +498,15 @@ let secondSection = (
             style={{ background: themeColor?.sbt_area?.card_bg }}
             className="w-100 mx-auto shadow-sm rounded-4 overflow-auto"
           >
-            {state.componentListTableData.length > 0 ? (
+            {state.result["hash" + 2]?.length > 0 ? (
               <Widget
                 src="lord1.near/widget/table-pagination"
                 props={{
                   themeColor: {
                     table_pagination: themeColor.table_pagination,
                   },
-                  data: state.componentListTableData,
-                  rowsCount: "5",
+                  data: state.result["hash" + 2],
+                  rowsCount: "10",
                   columns: [
                     {
                       title: "Component Name",
@@ -500,7 +536,7 @@ let secondSection = (
                       title: "Link",
                       key: "widget",
                       link: "yes",
-                      beforehref: `https://bos.flipsidecrypto.xyz/${state.singer}/widget/`,
+                      beforehref: `https://bos.flipsidecrypto.xyz/${state.data}/widget/`,
                       hyperlink: "no",
                     },
                   ],
@@ -511,51 +547,103 @@ let secondSection = (
             )}
           </div>
         </div>
-        <div className="col-md-4">
-          <Widget
-            src="lord1.near/widget/header-dynamic"
-            props={table_starSent_theme}
-          />
-          <div
-            style={{ background: themeColor?.sbt_area?.card_bg }}
-            className="w-100 mx-auto shadow-sm rounded-4 overflow-auto"
-          >
-            {state.starSentTableData.length > 0 ? (
+        <div className="col-lg-4">
+          <div className="row">
+            <div className="col-md col-lg-12">
               <Widget
-                src="lord1.near/widget/table-pagination"
-                props={{
-                  themeColor: {
-                    table_pagination: themeColor.table_pagination,
-                  },
-                  data: state.starSentTableData,
-                  rowsCount: "5",
-                  columns: [
-                    {
-                      title: "Action",
-                      key: "action",
-                    },
-                    {
-                      title: "Receiver",
-                      key: "target",
-                      link: "yes",
-                      beforehref:
-                        "https://near.social/mob.near/widget/ProfilePage?accountId=",
-                      hyperlink: "yes",
-                    },
-
-                    {
-                      title: "Widget",
-                      key: "widget",
-                      link: "yes",
-                      beforehref: `https://bos.flipsidecrypto.xyz/${state.target}/widget/`,
-                      hyperlink: "no",
-                    },
-                  ],
-                }}
+                src="lord1.near/widget/header-dynamic"
+                props={table_starSent_theme}
               />
-            ) : (
-              noData
-            )}
+
+              <div
+                style={{ background: themeColor?.sbt_area?.card_bg }}
+                className="w-100 mx-auto shadow-sm rounded-4 overflow-auto"
+              >
+                {state.result["hash" + 6].length > 0 ? (
+                  <Widget
+                    src="lord1.near/widget/table-pagination"
+                    props={{
+                      themeColor: {
+                        table_pagination: themeColor.table_pagination,
+                      },
+                      data: state.result["hash" + 6],
+                      rowsCount: "5",
+                      columns: [
+                        {
+                          title: "Action",
+                          key: "action",
+                        },
+                        {
+                          title: "Receiver",
+                          key: "target",
+                          link: "yes",
+                          beforehref:
+                            "https://near.social/mob.near/widget/ProfilePage?accountId=",
+                          hyperlink: "yes",
+                        },
+
+                        {
+                          title: "Widget",
+                          key: "widget",
+                          link: "yes",
+                          beforehref: `https://bos.flipsidecrypto.xyz/${state.target}/widget/`,
+                          hyperlink: "no",
+                        },
+                      ],
+                    }}
+                  />
+                ) : (
+                  noData
+                )}
+              </div>
+            </div>
+            <div className="col-md col-lg-12">
+              <Widget
+                src="lord1.near/widget/header-dynamic"
+                props={table_starReceived_theme}
+              />
+              <div
+                style={{ background: themeColor?.sbt_area?.card_bg }}
+                className="w-100 mx-auto shadow-sm rounded-4 overflow-auto"
+              >
+                {state.result["hash" + 4].length > 0 ? (
+                  <Widget
+                    src="lord1.near/widget/table-pagination"
+                    props={{
+                      themeColor: {
+                        table_pagination: themeColor.table_pagination,
+                      },
+                      data: state.result["hash" + 4],
+                      rowsCount: "5",
+                      columns: [
+                        {
+                          title: "Sender",
+                          key: "singer",
+                          link: "yes",
+                          beforehref:
+                            "https://near.social/mob.near/widget/ProfilePage?accountId=",
+                          hyperlink: "yes",
+                        },
+                        {
+                          title: "Action",
+                          key: "action",
+                        },
+
+                        {
+                          title: "Widget",
+                          key: "widget",
+                          link: "yes",
+                          beforehref: `https://bos.flipsidecrypto.xyz/${state.data}/widget/`,
+                          hyperlink: "no",
+                        },
+                      ],
+                    }}
+                  />
+                ) : (
+                  noData
+                )}
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -570,42 +658,61 @@ let thirdSection = (
   >
     <div className="container">
       <div className="row">
-        <div className="col-md-8">
-          <Widget
-            src="lord1.near/widget/header-dynamic"
-            props={table_received_theme}
-          />
+        <div className="col-md-6">
+          <div className="row">
+            <div className="col-md-6">
+              <Widget
+                src="lord1.near/widget/header-dynamic"
+                props={table_creditSent_theme}
+              />
+            </div>
+            <div className="col-md-3">
+              <Widget
+                src="lord1.near/widget/header-dynamic"
+                props={table_creditSentTab1_theme}
+              />
+            </div>{" "}
+            <div className="col-md-3">
+              <Widget
+                src="lord1.near/widget/header-dynamic"
+                props={table_creditSentTab2_theme}
+              />
+            </div>{" "}
+          </div>
           <div
             style={{ background: themeColor?.sbt_area?.card_bg }}
-            className="w-100 mx-auto shadow-sm rounded-4 "
+            className="w-100 mx-auto shadow-sm rounded-4 overflow-auto"
           >
-            {state.receivedTableData.length > 0 ? (
+            {state.result["hash" + 6].length > 0 ? (
               <Widget
                 src="lord1.near/widget/table-pagination"
                 props={{
                   themeColor: {
                     table_pagination: themeColor.table_pagination,
                   },
-                  data: state.receivedTableData,
+                  data: state.result["hash" + 6],
                   rowsCount: "5",
                   columns: [
                     {
-                      title: "Voter",
-                      key: "VOTER",
+                      title: "Source widget",
+                      key: "source_widget",
                       link: "yes",
-                      beforehref:
-                        "https://near.social/mob.near/widget/ProfilePage?accountId=",
-                      afterhref: "",
+                      beforehref: `https://bos.flipsidecrypto.xyz/${state.source_account}/widget/`,
                       hyperlink: "yes",
                     },
                     {
-                      title: "Candidate",
-                      key: "SINGER",
-                      description: "Candidate",
+                      title: "Destination widget",
+                      key: "destination_widget",
                       link: "yes",
-                      beforehref:
-                        "https://near.social/mob.near/widget/ProfilePage?accountId=",
-                      afterhref: "",
+                      beforehref: `https://bos.flipsidecrypto.xyz/${state.data}/widget/`,
+                      hyperlink: "yes",
+                    },
+
+                    {
+                      title: "User",
+                      key: "source_account",
+                      link: "yes",
+                      beforehref: `https://near.social/mob.near/widget/ProfilePage?accountId=`,
                       hyperlink: "yes",
                     },
                   ],
@@ -616,44 +723,63 @@ let thirdSection = (
             )}
           </div>
         </div>
-        <div className="col-md-4">
-          <Widget
-            src="lord1.near/widget/header-dynamic"
-            props={table_starReceived_theme}
-          />
+        <div className="col-md-6">
+          {" "}
+          <div className="row">
+            <div className="col-md-6">
+              <Widget
+                src="lord1.near/widget/header-dynamic"
+                props={table_creditReceived_theme}
+              />
+            </div>
+            <div className="col-md-3">
+              <Widget
+                src="lord1.near/widget/header-dynamic"
+                props={table_creditReceivedTab1_theme}
+              />
+            </div>{" "}
+            <div className="col-md-3">
+              <Widget
+                src="lord1.near/widget/header-dynamic"
+                props={table_creditReceivedTab2_theme}
+              />
+            </div>{" "}
+          </div>
           <div
             style={{ background: themeColor?.sbt_area?.card_bg }}
             className="w-100 mx-auto shadow-sm rounded-4 overflow-auto"
           >
-            {state.starReceivedTableData.length > 0 ? (
+            {state.result["hash" + 5].length > 0 ? (
               <Widget
                 src="lord1.near/widget/table-pagination"
                 props={{
                   themeColor: {
                     table_pagination: themeColor.table_pagination,
                   },
-                  data: state.starReceivedTableData,
+                  data: state.result["hash" + 5],
                   rowsCount: "5",
                   columns: [
                     {
-                      title: "Sender",
-                      key: "singer",
+                      title: "Source widget",
+                      key: "source_widget",
                       link: "yes",
-                      beforehref:
-                        "https://near.social/mob.near/widget/ProfilePage?accountId=",
+                      beforehref: `https://bos.flipsidecrypto.xyz/${state.data}/widget/`,
                       hyperlink: "yes",
                     },
                     {
-                      title: "Action",
-                      key: "action",
+                      title: "Destination widget",
+                      key: "destination_widget",
+                      link: "yes",
+                      beforehref: `https://bos.flipsidecrypto.xyz/${state.source_account}/widget/`,
+                      hyperlink: "yes",
                     },
 
                     {
-                      title: "Widget",
-                      key: "widget",
+                      title: "User",
+                      key: "source_account",
                       link: "yes",
-                      beforehref: `https://bos.flipsidecrypto.xyz/${state.SINGER}/widget/`,
-                      hyperlink: "no",
+                      beforehref: `https://near.social/mob.near/widget/ProfilePage?accountId=`,
+                      hyperlink: "yes",
                     },
                   ],
                 }}
@@ -667,7 +793,6 @@ let thirdSection = (
     </div>
   </div>
 );
-
 return (
   <div
     style={{ backgroundColor: themeColor.page_bg }}
@@ -700,7 +825,7 @@ return (
         <div className="col-8 ">
           <Input
             onBlur={inputHandler}
-            defaultValue={state.singer}
+            defaultValue={state.data}
             type="input"
             className="form-control form-control-lg rounded-4"
             id="address"
@@ -742,7 +867,7 @@ return (
           <Widget
             src="lord1.near/widget/component-chart1"
             props={{
-              singer: state.singer,
+              singer: state.data,
               themeColor,
             }}
           />
@@ -751,33 +876,3 @@ return (
     </div>
   </div>
 );
-// const props = {
-//   themeColor: {
-//     dynamic_header: {
-//       afterbrandcolor: "#789efb",
-//       color1brand: "#000",
-//       color2brand: "#806ce1",
-//       colordescription: "#806ce1",
-//       background:
-//         "radial-gradient(circle, rgba(210,202,250,1) 0%, rgba(230,230,231,0.01) 0%, rgba(235,238,255,1) 100%, rgba(235,231,253,1) 100%, rgba(255,241,241,1) 100%, rgba(46,52,90,1) 100%);",
-//     },
-//     search_sbt: {
-//       card_bg: "rgb(49, 62, 89)",
-//       search_btn_bg: "rgb(49,62,89)",
-//       search_btn_bg_hover: "rgba(49,62,89,0.8)",
-//       search_btn_text: "rgb(255,255,255)",
-//       input_bg: "rgb(49,62,89)",
-//       input_bg_hover: "rgba(49,62,89,0.8)",
-//       input_text_color: "rgb(255,255,255)",
-//       input_border: "rgba(49,62,89,0.8)",
-//       table_bg: "transparent",
-//       table_color: "rgb(255,255,255)",
-//       table_border_color: "",
-//       table_accent_bg: "",
-//       table_striped_color: "rgb(255,255,255)",
-//       table_striped_bg: "",
-//       table_hover_color: "rgb(255,255,255)",
-//       table_hover_bg: "",
-//     },
-//   },
-// };
