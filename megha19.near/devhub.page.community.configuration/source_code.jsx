@@ -107,7 +107,7 @@ return (
           "megha19.near/widget/devhub.entity.community.configuration.ConfigurationSection"
         }
         props={{
-          title: "Access Control",
+          title: "Community Admins",
           hasConfigurePermissions,
           Configurator: (p) => (
             <Widget
