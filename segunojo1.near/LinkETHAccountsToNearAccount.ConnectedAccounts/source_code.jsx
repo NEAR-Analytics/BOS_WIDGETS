@@ -46,7 +46,9 @@ align-items: flex-start;
 max-width: 600px;
 border-radius: 12px;
 border: 1px solid rgba(0, 0, 0, 0.22);
-
+span{
+  font-weight: 600;
+}
 `;
 const Main = styled.div`
 display: flex;
@@ -54,12 +56,12 @@ flex-direction: column;
 gap: 12px;
 `;
 
-const Status =  styled.div`
+const Status = styled.div`
 display: flex;
 justify-content: center;
 align-items: center;
 gap: 10px;
-`
+`;
 
 const Acct = styled.div`
 width: 100%;
@@ -69,7 +71,7 @@ margin-bottom: 10px;
 p{
   margin: 0;
 }
-`
+`;
 
 const header = (
   <Header>
@@ -94,35 +96,35 @@ const main = (
   <Main>
     <Accounts>
       <Acct>
-        <p>Account 1</p>
+        <span>Account 1</span>
         <Status>
           <img src="https://i.ibb.co/RypQPsn/Group-3.png" />
-          <p>Connected</p>
+          <span>Connected</span>
         </Status>
       </Acct>
-      <p>Account ID: 0x8Efd7b62Aff059615FB26b2CDb474C888C799D84</p>
+      <p><span>Account ID</span>: 0x8Efd7b62Aff059615FB26b2CDb474C888C799D84</p>
       <button>Disconnect</button>
     </Accounts>
     <Accounts>
       <Acct>
-        <p>Account 1</p>
+        <span>Account 1</span>
         <Status>
           <img src="https://i.ibb.co/RypQPsn/Group-3.png" />
-          <p>Connected</p>
+          <span>Connected</span>
         </Status>
       </Acct>
-      <p>Account ID: 0x8Efd7b62Aff059615FB26b2CDb474C888C799D84</p>
+      <p><span>Account ID</span>: 0x8Efd7b62Aff059615FB26b2CDb474C888C799D84</p>
       <button>Disconnect</button>
     </Accounts>
     <Accounts>
       <Acct>
-        <p>Account 1</p>
+        <span>Account 1</span>
         <Status>
           <img src="https://i.ibb.co/RypQPsn/Group-3.png" />
-          <p>Connected</p>
+          <span>Connected</span>
         </Status>
       </Acct>
-      <p>Account ID: 0x8Efd7b62Aff059615FB26b2CDb474C888C799D84</p>
+      <p><span>Account ID</span>: 0x8Efd7b62Aff059615FB26b2CDb474C888C799D84</p>
       <button>Disconnect</button>
     </Accounts>
   </Main>
