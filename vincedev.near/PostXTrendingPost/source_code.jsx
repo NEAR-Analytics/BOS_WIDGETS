@@ -29,6 +29,7 @@ const MajorTrends = styled.div`
 display: flex;
 flex-flow: column nowrap;
 justify-content: center;
+align-items: center;
 font-family: Space Grotesk;
 cursor:pointer;
 
@@ -38,17 +39,6 @@ cursor:pointer;
 
 }
 
-p{
-font-size: 16px;
-font-weight: 500;
-line-height: 20px;
-letter-spacing: 0.1em;
-text-align: left;
-color:#696969;
-margin-top:-4px;
-padding-left:18px;
-
-}
 `;
 
 const SingleTrends = styled.div`
@@ -97,8 +87,9 @@ return (
             style={{
               backgroundColor: `${props.activeTag === d[0] ? "white" : ""}`,
             }}
+            onClick={() => props.singlePosthashTag(d[0])}
           >
-            <SingleTrends onClick={() => props.singlePosthashTag(d[0])}>
+            <SingleTrends>
               <div>{i + 1}.</div>
               <span>#{d[0]}</span>
             </SingleTrends>
