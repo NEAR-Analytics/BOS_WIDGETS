@@ -85,15 +85,13 @@ return (
     <mainHeader>Trending Tag</mainHeader>
 
     <AllTrends>
-     <MajorTrends>
-            <SingleTrends onClick={() => props.singlePosthashTag('hello')}>
-              <div>1.</div>
-              <span>#BOS</span>
-            </SingleTrends>
-            <p>
-            1 Post
-            </p>
-          </MajorTrends>
+      <MajorTrends>
+        <SingleTrends onClick={() => props.singlePosthashTag("hello")}>
+          <div>1.</div>
+          <span>#BOSADADAFAFAGAHHSHHSHSHHSHSSBSBBBXBXBBBXBXBXBXBXBBXBXBXBXBXBBXBXBXBXBX</span>
+        </SingleTrends>
+        <p>1 Post</p>
+      </MajorTrends>
       {sortedHashList?.map((d, i) => {
         return (
           <MajorTrends>
