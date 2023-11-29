@@ -26,7 +26,7 @@ const MajorTrends = styled.div`
 font-family: Space Grotesk;
 cursor:pointer;
 &:hover{
-  border-bottom: 2px solid;
+  border-bottom: 2px solid #061D33;
 }
 
 p{
