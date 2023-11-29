@@ -1,11 +1,51 @@
 const rootUser = "nearweekapp.near";
 const breakpoints = { md: "768px", lg: "1100px", xl: "1300px" };
 
-console.log("props", props);
-
 function NewsletterCard() {
-  State.init({ active: 0 });
+  const accountId = "near";
+  articles;
   const nwSite = "https://nearweek.com";
+  let posts = [];
+  const indexedPosts = Social.index("post", "main", {
+    accountId,
+    limit: 20,
+    order: "desc",
+  });
+  if (indexedPosts?.length > 0) {
+    posts = indexedPosts
+      .map((post) => {
+        const data = Social.get(
+          `${post.accountId}/post/main`,
+          post.blockHeight
+        );
+        if (!data) return;
+        const json = JSON.parse(data);
+        const content = json.text.split("\n");
+        const title = content[0] || "";
+        const url = content[1] || content[2] || "";
+        const lastLine = content.pop() || "";
+        const hasNewsTag = lastLine.includes("#news");
+        const isValid = hasNewsTag && url.includes("https://");
+        if (isValid) {
+          const block = Near.block(post.blockHeight);
+          const createdAt = block
+            ? new Date(
+                parseFloat(block.header.timestamp_nanosec) / 1e6
+              ).toISOString()
+            : "";
+          return {
+            blockHeight: post.blockHeight,
+            title,
+            url,
+            thumbnail: "https://near.org/favicon.png",
+            createdAt,
+            categories: ["Near ORG", "blog"],
+          };
+        }
+      })
+      .filter(Boolean);
+    posts.sort((a, b) => b.blockHeight - a.blockHeight);
+  }
 
   const cssFont = fetch("https://fonts.cdnfonts.com/css/hubot-sans").body;
   if (!cssFont) return "";
@@ -150,7 +190,7 @@ function NewsletterCard() {
           <div>
             <TopCardTitle>
               <ReturnButton onClick={() => updateDetailsPage(null)}>
-                <Widget src={`${rootUser}/widget/nw-details-return`} />
+                <Widget src={`${rootUser}/widget/details-return`} />
               </ReturnButton>
               {"Edition"} {detailsPage?.Number ? detailsPage.Number : ""}
             </TopCardTitle>
@@ -206,7 +246,7 @@ function NewsletterCard() {
         props={{
           updateDetailsPage,
         }}
-        src={`${rootUser}/widget/nw-details-bottom`}
+        src={`${rootUser}/widget/details-bottom`}
       />
     );
   }
