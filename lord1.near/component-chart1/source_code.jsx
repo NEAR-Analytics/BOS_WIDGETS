@@ -29,7 +29,6 @@ order by fw.BLOCK_ID desc`,
   },
 ];
 const themeColor = props.themeColor;
-const searchedSinger = props.singer;
 
 // header theme ######################################
 const table_componentScan_theme = {
@@ -71,13 +70,26 @@ const activity_of_user_theme = {
 };
 // state ####################################
 State.init({
+  searchedSinger: "",
   result: {},
   loader: false,
-  isLoading: true,
+  isLoading: false,
   error: [],
   queriesRuned: false,
 });
 
+const checkNewSinger = () => {
+  if (state.searchedSinger === props.singer) {
+    return;
+  } else {
+    State.update({
+      searchedSinger: props.singer,
+      isLoading: true,
+      queriesRuned: false,
+    });
+  }
+};
+checkNewSinger();
 // handle hashed data #############################
 const handleHasedData = ({ hash, id }) => {
   if (state.result["query" + id].isDone) return;
@@ -186,7 +198,7 @@ const updateResultState = ({ data, error, isLoading, queryRunId, id }) => {
 };
 
 const runqueries = (queries) => {
-  if (searchedSinger.length === 0) {
+  if (state.searchedSinger.length === 0) {
     State.update({
       isLoading: false,
       error: [...state.error, "singer is not provided"],
@@ -194,7 +206,7 @@ const runqueries = (queries) => {
     return;
   }
 
-  const queriesArr = createQuery(queries, searchedSinger);
+  const queriesArr = createQuery(queries, state.searchedSinger);
   const loader = queriesArr.map((q) => {
     const props = {
       apiKey: API_KEY,
@@ -475,7 +487,6 @@ let ChartSections = (
     </div>
   </div>
 );
-
 let TableSection = (
   <div
     style={{ background: themeColor?.sbt_area?.section_bg }}
