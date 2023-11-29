@@ -1,6 +1,6 @@
 const ConnectedAccount = styled.div`
   width: 90%;
-`
+`;
 
 const Header = styled.div`
 display: flex;
@@ -23,6 +23,27 @@ font-size: 19px;
 font-style: normal;
 font-weight: 400;
 }
+
+.welcome{
+
+    .welcomeNearId{
+      color: #000;
+
+    font-family: Space Grotesk;
+    font-size: 48px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 120%;
+    }
+    }
+
+    p{
+      color: #7C7C7C;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    }
 `;
 
 const Chain = styled.div`
@@ -262,25 +283,26 @@ useEffect(() => {
 return (
   <ConnectedAccount>
     <Header>
-      <div>
-        <h1>Welcome 0x301</h1>
+      <div class="welcome">
+        <h2 class="welcomeNearId">Welcome {context.accountId}</h2>
         <p>Here's your onchain activity history</p>
       </div>
       <div>
-      {   networkName == "unknown" ?
-        <Chain>
-         {/* <img src="" /> */}
-          <h4>Chain Not Supported</h4>
-        </Chain> :
+        {networkName == "unknown" ? (
           <Chain>
-          <img
-            src="https://i.ibb.co/j68BJpr/matic-logo-1.png"
-            alt="matic-logo-1"
-            border="0"
-          />
-          <h3>{networkName}</h3>
-        </Chain>
-      }
+            {/* <img src="" /> */}
+            <h4>Chain Not Supported</h4>
+          </Chain>
+        ) : (
+          <Chain>
+            <img
+              src="https://i.ibb.co/j68BJpr/matic-logo-1.png"
+              alt="matic-logo-1"
+              border="0"
+            />
+            <h3>{networkName}</h3>
+          </Chain>
+        )}
       </div>
     </Header>
     <Accounts>
