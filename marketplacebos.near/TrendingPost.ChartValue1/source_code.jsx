@@ -201,9 +201,7 @@ const Table = () => {
   const [searchTerm, setSearchTerm] = useState("");
 
   // Filtered tags based on the search term
-  const filteredTags = day1PostSorted
-    .filter((item) => item[0].toLowerCase().includes(searchTerm.toLowerCase()))
-    .slice(0, 10); // Limit to the top 10 filtered tags
+  // Limit to the top 10 filtered tags
   return (
     <>
       <StyledTotalContainer>
@@ -243,8 +241,11 @@ const Table = () => {
           </tr>
         </thead>
         <tbody>
-          {filteredTags.map((item) => (
-            <tr key={item[0]}>
+{day1PostSorted &&
+        day1PostSorted
+          .filter((item, index) => index <= 20)
+          .map((item) => (
+                        <tr >
               <StyledTd>
                 <a
                   href={`https://near.social/marketplacebos.near/widget/TrendingPost.TableValue?hashtag=${item[0].replace(
