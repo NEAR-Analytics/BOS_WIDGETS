@@ -156,6 +156,15 @@ if (content.text) {
   }
 }
 
+const removeMarkdownImages = (text) => {
+  // Regular expression to match markdown images
+  const regex = /!\[.*?\]\((.*?)\)/g;
+
+  // Remove markdown images from the text
+  const outputText = text.replace(regex, "");
+  return outputText;
+};
+
 return (
   <>
     <PostContainer>
@@ -184,7 +193,7 @@ return (
           </div>
         </PostTopContainer>
         <PostContent>
-          <div>{content?.text}</div>
+          <div>{removeMarkdownImages(content?.text)}</div>
           <Grid>
             {postImages &&
               postImages.map((eachPostImage) => (
