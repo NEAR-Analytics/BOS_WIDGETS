@@ -198,9 +198,16 @@ const StyledTotalValue = styled.div`
 
 const Table = () => {
   const [searchTerm, setSearchTerm] = useState("");
+  const isLoading = !day7PostSorted || day7PostSorted.length === 0;
 
   return (
     <>
+      {isLoading ? (
+        <p>Loading...</p>
+      ) : (
+
+    <>
+
       <StyledTotalContainer>
         <StyledTotalLabel>Total Posts</StyledTotalLabel>
         <StyledTotalValue>{totalItems7Days}</StyledTotalValue>
@@ -252,6 +259,8 @@ const Table = () => {
               ))}
         </tbody>
       </StyledTable>
+    </>
+   )}
     </>
   );
 };
