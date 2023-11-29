@@ -52,14 +52,17 @@ function handleChange(value) {
       value && widget.username.toLowerCase().includes(value.toLowerCase())
   );
   setWidgets(filteredWidgets);
-  // console.log(filteredWidgets)
 }
 
 function handleClick(widget) {
   setInput(widget.widgetName);
   console.log(widget.widgetSrc);
+  props.handleSubmit(widget.widgetSrc);
 }
-
+// placeholder: "Search",
+// theme: useTheme(light, dark),
+// handleSubmit: handleSubmit,
+// // value: state.search,
 return (
   <WidgetApp>
     <Container>
