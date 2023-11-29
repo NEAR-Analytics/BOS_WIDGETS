@@ -8,17 +8,22 @@ const Home = styled.div`
     margin-bottom: 100px;
 `;
 
+const [connectSectionActive, SetConnectSectionActive] = useState(true);
+
+useEffect(() => {
+  if (Ethers.provider()) {
+    SetConnectSectionActive(false);
+  }
+}, []);
+
 return (
   <Home>
     <Widget src="segunojo1.near/widget/LinkETHAccountsToNearAccount.Navbar" />
-    <Widget
-      props={connectSectionActivee}
-      src="mitchyugan.near/widget/LinkETHAccountsToNearAccount.LandingPage"
-    />
-    {item.accountId == accountId ? (
-      <Widget src="mitchyugan.near/widget/LinkETHAccountsToNearAccount.ConnectedAccount" />
+    <Widget src="mitchyugan.near/widget/LinkETHAccountsToNearAccount.LandingPage" />
+    {connectSectionActive ? (
+      <Widget src="segunojo1.near/widget/LinkETHAccountsToNearAccount.ConnectWallet" />
     ) : (
-      <div></div>
+      <Widget src="mitchyugan.near/widget/LinkETHAccountsToNearAccount.ConnectedAccount" />
     )}
   </Home>
 );
