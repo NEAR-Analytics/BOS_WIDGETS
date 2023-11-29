@@ -65,7 +65,7 @@ border-bottom: 4px solid #061D33;
 height:90px;
 
 }
-border-bottom: ${props.trendActive ? "4px solid #061D33" : "0px solid #061D33"};
+border-bottom: ${props.postActive ? "4px solid #061D33" : "0px solid #061D33"};
 
 `;
 const SearchBar = styled.input`
