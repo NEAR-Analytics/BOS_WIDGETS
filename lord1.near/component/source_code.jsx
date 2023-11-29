@@ -252,16 +252,7 @@ const onHandelDate = (inputDate) => {
 
 //------------------------------------------------------------------------------------------------
 
-const handleData = () => {
-  if (!state.singer.length) {
-    State.update({ error: [...state.error, "please insert an address"] });
-    return;
-  }
-  if (state.data === state.singer) {
-    State.update({ error: [...state.error, "please insert a new address"] });
-    return;
-  }
-  State.update({ data: state.singer });
+const runQueries = () => {
   queryHashes.forEach(({ hash, id }) => {
     if (state.result["hash" + id]?.isDone) return;
     const result = fetchData(hash);
@@ -305,6 +296,18 @@ const handleData = () => {
     }
   });
 };
+const handleData = () => {
+  if (!state.singer.length) {
+    State.update({ error: [...state.error, "please insert an address"] });
+    return;
+  }
+  if (state.data === state.singer) {
+    State.update({ error: [...state.error, "please insert a new address"] });
+    return;
+  }
+  State.update({ data: state.singer });
+  runQueries();
+};
 //------------------------------------------------------------------------------------------------
 //---------------------------------------------------------------------------
 const fetchData = (hash) => {
@@ -337,7 +340,7 @@ if (isAllDataLoaded()) {
   State.update({ isLoading: false });
 }
 if (state.isLoading) {
-  handleData();
+  runQueries();
 }
 
 if (state.error.length > 0) {
@@ -483,8 +486,8 @@ let secondSection = (
     />
     <div className="w-100 mx-auto shadow-sm rounded-4  px-2 mb-2">
       <Widget
-        props={{ singer: state.data }}
         src="lord1.near/widget/component-tab"
+        props={{ singer: state.data }}
       />
     </div>
     <div className="container">
@@ -724,7 +727,6 @@ let thirdSection = (
           </div>
         </div>
         <div className="col-md-6">
-          {" "}
           <div className="row">
             <div className="col-md-6">
               <Widget
@@ -793,6 +795,7 @@ let thirdSection = (
     </div>
   </div>
 );
+console.log(state);
 return (
   <div
     style={{ backgroundColor: themeColor.page_bg }}
@@ -825,7 +828,7 @@ return (
         <div className="col-8 ">
           <Input
             onBlur={inputHandler}
-            defaultValue={state.data}
+            defaultValue={state.singer}
             type="input"
             className="form-control form-control-lg rounded-4"
             id="address"
