@@ -150,28 +150,31 @@ State.init({
   ],
 });
 
-function fetchAllData() {
-  const response = fetch(config.graphUrl, {
+function fetchFromGraph(query) {
+  return fetch(config.graphUrl, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      query: `
-        query {
-          tokenInfo (id: "NEAT") {
-            ticker
-            maxSupply
-            totalSupply
-            limit
-          }
-          holderCount (id: "HolderCount") {
-            count
-          }
-        }
-      `,
+      query,
     }),
   });
+}
+function fetchAllData() {
+  const response = fetchFromGraph(`
+    query {
+      tokenInfo (id: "NEAT") {
+        ticker
+        maxSupply
+        totalSupply
+        limit
+      }
+      holderCount (id: "HolderCount") {
+        count
+      }
+    }
+  `);
 
   if (response) {
     const tokenInfo = response.body.data.tokenInfo;
@@ -179,6 +182,7 @@ function fetchAllData() {
     State.update({
       tickerRawData: {
         display_name: tokenInfo.ticker,
+        holderCount,
       },
       ticker: [
         {
@@ -230,11 +234,28 @@ function fetchAllData() {
     });
   }
   const accountId = props.accountId || context.accountId;
-  const balancesResponse = fetch(`${config.indexerUrl}/balances/${accountId}`, {
-    method: "GET",
-  });
-  const balance = balancesResponse.body[0]?.balance ?? "0";
-  State.update({ balance });
+
+  const balanceResponse = fetchFromGraph(`
+    query {
+      holderInfos(
+        where: {
+          accountId: "${accountId}"
+          ticker: "neat"
+        }
+      ) {
+        accountId
+        amount
+      }
+    }
+  `);
+  if (balanceResponse) {
+    const holder = balanceResponse.body.data.holderInfos[0];
+    if (holder) {
+      State.update({ balance: holder.amount });
+    } else {
+      State.update({ balance: "0" });
+    }
+  }
 }
 
 fetchAllData();
