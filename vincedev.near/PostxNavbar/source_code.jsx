@@ -36,7 +36,28 @@ border-bottom: 4px solid #061D33;
 height:90px;
 
 }
-border-bottom: ${props.active ? '4px solid #061D33' : '4px solid #061D33'};
+border-bottom: ${props.active ? "4px solid #061D33" : "4px solid #061D33"};
+
+`;
+const HTest2 = styled.h2`
+font-family: Space Grotesk;
+font-size: 17px;
+font-weight: 500;
+line-height: 26px;
+letter-spacing: 0.005em;
+text-align: left;
+color: #061D33;
+cursor:pointer;
+height:90px; 
+padding-top:35px;
+
+&:hover {
+
+border-bottom: 4px solid #061D33;
+height:90px;
+
+}
+border-bottom: ${props.active ? "4px solid #061D33" : "4px solid #061D33"};
 
 `;
 const SearchBar = styled.input`
@@ -72,8 +93,8 @@ return (
         alt=""
       />
 
-      <HTest onClick={props.fetchAllPost}>Top Post</HTest>
-      <HTest onClick={props.fetchTrendFeed} >Trend Feed</HTest>
+      <HTest2 onClick={props.fetchAllPost}>All Post</HTest2>
+      <HTest onClick={props.fetchTrendFeed}>Trending Feed</HTest>
 
       <SearchBar
         type="text"
