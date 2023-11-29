@@ -27,6 +27,8 @@ font-family: Space Grotesk;
 cursor:pointer;
 &:hover{
   border-bottom: 2px solid #061D33;
+  background-color:navajowhite;
+
 }
 
 p{
