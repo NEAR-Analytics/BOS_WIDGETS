@@ -114,7 +114,16 @@ const titleToIcon = [
     icon: <i class="bi bi-linkedin"></i>,
   },
 ];
-
+const headerStyle = {
+  display: "flex",
+  flexDirection: "column",
+  justifyContent: "center",
+  alignItems: "center",
+  height: "fit-content",
+  padding: "0 8px",
+  width: "100%",
+  background: "white",
+};
 return (
   <div
     style={{
@@ -128,6 +137,24 @@ return (
       width: "100%",
     }}
   >
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "row",
+        justifyContent: "center",
+        alignItems: "center",
+        padding: "10px",
+        height: "fit-content",
+        padding: "0 8px",
+        width: "100vw",
+        height: "60px",
+        color: "white",
+        background: "black",
+      }}
+    >
+      <h3 style={{ margin: "10px" }}>Poll Dart</h3>
+      <Web3Connect />
+    </div>
     <img
       style={{
         height: "100%",
