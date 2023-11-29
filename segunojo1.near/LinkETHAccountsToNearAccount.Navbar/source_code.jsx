@@ -5,14 +5,12 @@ display: flex;
 justify-content: space-between;
 align-items: center;
 height: 74px;
-margin: 56px 101px 59px 100px;
 
 div{
   display: flex;
   justify-content:center;
   align-items: center;
   gap: 24px;
-  padding: 13px 72px 13px 38px;
   border-radius: 12px;
   
 }
