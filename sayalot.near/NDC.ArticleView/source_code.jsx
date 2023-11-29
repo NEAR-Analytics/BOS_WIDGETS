@@ -55,8 +55,7 @@ State.init({
   libsCalls: initLibsCalls,
 });
 
-const canLoggedUserCreateComment =
-  state.canLoggedUserCreateComment[articleSbts];
+const canLoggedUserCreateComment = state.canLoggedUserCreateComment;
 
 const timeLastEdit = new Date(articleToRenderData.timeLastEdit);
 
