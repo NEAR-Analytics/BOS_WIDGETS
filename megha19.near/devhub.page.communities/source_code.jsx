@@ -107,8 +107,8 @@ return (
             Communities
           </h1>
 
-          <div className="d-flex flex-column-reverse flex-lg-row gap-3 justify-content-between align-items-center">
-            <div className="d-flex flex-column flex-lg-row col-12 col-md-6 mt-3 mt-lg-0 align-items-center gap-4 col-lg-6">
+          <div className="d-flex flex-column-reverse flex-sm-row gap-3 justify-content-between align-items-center">
+            <div className="d-flex flex-column flex-sm-row col-12 col-sm-6 mt-3 mt-lg-0 align-items-center gap-4">
               <input
                 type="text"
                 placeholder="🔍 Search Communities"
