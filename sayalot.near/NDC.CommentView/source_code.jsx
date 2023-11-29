@@ -323,11 +323,11 @@ return (
                       <i className="bi bi bi-reply"></i>
                     </div>
                   ),
-                  disabled: !canLoggedUserCreateComment[articleSbts[0]],
+                  disabled: !canLoggedUserCreateComment,
                   size: "sm",
                   className: "info outline",
                   onClick: () => {
-                    canLoggedUserCreateComment[articleSbts[0]] &&
+                    canLoggedUserCreateComment &&
                       State.update({ showModal: true });
                   },
                 }}
@@ -342,7 +342,7 @@ return (
             isTest,
             authorForWidget,
             elementReactedId: data.originalComment.value.comment.commentId,
-            disabled: !canLoggedUserCreateComment[articleSbts[0]],
+            disabled: !canLoggedUserCreateComment,
             callLibs,
             baseActions,
             sbtsNames: articleSbts,
