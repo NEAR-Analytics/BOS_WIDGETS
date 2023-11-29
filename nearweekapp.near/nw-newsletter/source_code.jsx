@@ -1,8 +1,11 @@
 const rootUser = "nearweekapp.near";
 
 function NewsletterCard() {
+  State.init({ page: 1 });
   const data = fetch(
-    "https://nearweek.com/api/editions?populate=deep&sort=createdAt:desc&pagination[pageSize]=7",
+    `https://nearweek.com/api/editions?populate=deep&sort=createdAt:desc&pagination[pageSize]=${
+      state.page * 9
+    }`,
     {
       method: "GET",
       headers: {
@@ -33,7 +36,7 @@ function NewsletterCard() {
     width: 100%;
     border: 1px solid #d7dbdf;
     border-radius: 100px;
-    font-weight: 600;
+    font-weight: 500;
     font-size: 12px;
     line-height: 15px;
     text-align: center;
@@ -56,7 +59,7 @@ function NewsletterCard() {
     width: 100%;
     border: 1px solid #2A6BD5;
     border-radius: 100px;
-    font-weight: 600;
+    font-weight: 500;
     font-size: 12px;
     line-height: 15px;
     text-align: center;
@@ -77,6 +80,7 @@ function NewsletterCard() {
 
   const Card = styled.div`
     position: relative;
+    cursor: pointer;
     width: 100%;
     border-radius: 12px;
     background: #fff;
@@ -110,7 +114,7 @@ function NewsletterCard() {
     margin-bottom:0;
   `;
 
-  const CardDate = styled.p`
+  const CordDate = styled.p`
     color: rgba(28, 31, 65, 0.45);
     text-align: right;
     font-family: Inter;
@@ -210,6 +214,31 @@ function NewsletterCard() {
     line-height: 15px;
     margin-bottom: 15px;
 `;
+  const ButtonLoadMore = styled.button`
+  width: 180px;
+  padding: 8px;
+  height: 31px;
+  background: transparent;
+  margin: 0 auto;
+  border: 1px solid #d7dbdf;
+  border-radius: 100px;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 22px;
+  letter-spacing: -0.03em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  cursor: pointer;
+  white-space: nowrap;
+  color: hsla(204, 22%, 9%, 1);
+  &:hover,
+  &:focus {
+    text-decoration: none;
+    outline: none;
+    }
+  `;
 
   function formatDate(dateString) {
     const date = new Date(dateString);
@@ -259,6 +288,7 @@ function NewsletterCard() {
       {issues !== null && issues.length > 0 ? (
         issues.map((issue, index) => (
           <div key={index}>
+            {/* Display the top card with unique styling */}
             {index === 0 && (
               <TopCard>
                 <TopCardBody>
@@ -272,6 +302,7 @@ function NewsletterCard() {
                     />
                   </CardContent>
                 </TopCardBody>
+                {/* Display "Read" and "Subscribe" buttons only for the top card */}
                 {index === 0 && (
                   <CardFooter>
                     <TopCardTitleContainer>
@@ -297,12 +328,14 @@ function NewsletterCard() {
               </TopCard>
             )}
 
+            {/* Display bage */}
             {index === 0 && (
-              <Widget src={`${rootUser}/widget/nw-newsletter-badge`} />
+              <Widget src={`${rootUser}/widget/nw-newsletter-bage`} />
             )}
 
+            {/* Display the other three cards with the same styling */}
             {index > 0 && (
-              <Card>
+              <Card onClick={() => updateDetailsPage(issue)}>
                 <CardBody>
                   <CardContent>
                     <div class="d-flex clearfix">
@@ -315,12 +348,14 @@ function NewsletterCard() {
                           alt={issue.Thumbnail.alternativeText}
                         />
                         <div class="d-flex flex-column ms-3 mt-0">
-                          <CardTitle onClick={() => updateDetailsPage(issue)}>
+                          {/* Display "Edition -" followed by the number */}
+                          <CardTitle>
                             {"Edition"} {issue.Number ? issue.Number : ""}
                           </CardTitle>
-                          <CardDate>{`${calculateTimeDifference(
+                          {/* Display time elapsed since creation date */}
+                          <CordDate>{`${calculateTimeDifference(
                             issue.createdAt
-                          )}`}</CardDate>
+                          )}`}</CordDate>
                         </div>
                       </div>
                     </div>
@@ -333,6 +368,9 @@ function NewsletterCard() {
       ) : (
         <div>Loading ...</div>
       )}
+      <ButtonLoadMore onClick={() => State.update({ page: state.page + 1 })}>
+        Load more
+      </ButtonLoadMore>
     </Theme>
   );
 }
