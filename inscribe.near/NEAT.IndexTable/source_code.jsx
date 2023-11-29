@@ -142,28 +142,31 @@ State.init({
   ],
 });
 
-function fetchAllData() {
-  const response = fetch(config.graphUrl, {
+function fetchFromGraph(query) {
+  return fetch(config.graphUrl, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      query: `
-        query {
-          tokenInfo (id: "NEAT") {
-            ticker
-            maxSupply
-            totalSupply
-            limit
-          }
-          holderCount (id: "HolderCount") {
-            count
-          }
-        }
-      `,
+      query,
     }),
   });
+}
+function fetchAllData() {
+  const response = fetchFromGraph(`
+    query {
+      tokenInfo (id: "NEAT") {
+        ticker
+        maxSupply
+        totalSupply
+        limit
+      }
+      holderCount (id: "HolderCount") {
+        count
+      }
+    }
+  `);
 
   if (response) {
     const tokenInfo = response.body.data.tokenInfo;
@@ -171,6 +174,7 @@ function fetchAllData() {
     State.update({
       tickerRawData: {
         display_name: tokenInfo.ticker,
+        holderCount,
       },
       ticker: [
         {
@@ -222,30 +226,71 @@ function fetchAllData() {
     });
   }
   const accountId = props.accountId || context.accountId;
-  const balancesResponse = fetch(`${config.indexerUrl}/balances/${accountId}`, {
-    method: "GET",
-  });
-  const balance = balancesResponse.body[0]?.balance ?? "0";
-  State.update({ balance });
+
+  const balanceResponse = fetchFromGraph(`
+    query {
+      holderInfos(
+        where: {
+          accountId: "${accountId}"
+          ticker: "neat"
+        }
+      ) {
+        accountId
+        amount
+      }
+    }
+  `);
+  if (balanceResponse) {
+    const holder = balanceResponse.body.data.holderInfos[0];
+    if (holder) {
+      State.update({ balance: holder.amount });
+    } else {
+      State.update({ balance: "0" });
+    }
+  }
 }
 
 fetchAllData();
 
 
 
-const headers = ["Rank", "Address", "Amount"];
+const headers = ["Rank", "Account ID", "Amount"];
 const current = String(state.current ?? "1");
-const totalPage = String(Math.ceil(state.holders.length / pageAmountOfPage));
-const data = state.holders
-  .slice(
-    (Number(current) - 1) * pageAmountOfPage,
-    Number(current) * pageAmountOfPage
-  )
-  .map((row, idx) => ({
-    rank: String(Number(idx) + 1),
-    address: row.account,
-    amount: Number(row.balance).toLocaleString(),
-  }));
+const totalPage = String(
+  5000 / pageAmountOfPage
+  // Math.ceil(Number(state.tickerRawData.holderCount ?? 0) / pageAmountOfPage)
+);
+const { searchValue } = props;
+const holdersResponse = fetchFromGraph(`
+  query {
+    holderInfos(
+      skip: ${(current - 1) * pageAmountOfPage}
+      first: ${pageAmountOfPage}
+      where: {
+        ticker: "neat"
+      }
+      orderBy: amount
+      orderDirection: desc
+    ) {
+      accountId
+      amount
+    }
+  }
+`);
+if (holdersResponse) {
+  if (holdersResponse.body.errors) {
+    State.update({ holderInfos: [] });
+  } else {
+    const holderInfos = holdersResponse.body.data.holderInfos.map(
+      (row, idx) => ({
+        rank: (current - 1) * pageAmountOfPage + Number(idx) + 1,
+        address: row.accountId,
+        amount: Number(row.amount).toLocaleString(),
+      })
+    );
+    State.update({ holderInfos });
+  }
+}
 return (
   <TableOuter>
     <TableContainer>
@@ -256,21 +301,22 @@ return (
           ))}
         </IndexHeaderTr>
         <IndexTableBody>
-          {data.map((row) => (
-            <IndexDataTr key={row.rank}>
-              <IndexTd>{row.rank}</IndexTd>
-              <IndexTd style={{ paddingRight: "24px" }}>
-                <AddressData>{row.address}</AddressData>
-              </IndexTd>
-              <IndexTd>{row.amount}</IndexTd>
-            </IndexDataTr>
-          ))}
+          {state.holderInfos &&
+            state.holderInfos.map((row) => (
+              <IndexDataTr key={row.rank}>
+                <IndexTd>{row.rank}</IndexTd>
+                <IndexTd style={{ paddingRight: "24px" }}>
+                  <AddressData>{row.address}</AddressData>
+                </IndexTd>
+                <IndexTd>{row.amount}</IndexTd>
+              </IndexDataTr>
+            ))}
         </IndexTableBody>
       </IndexTable>
     </TableContainer>
     <TableFooter>
       <TableRowsAmount>
-        {state.holders.length.toLocaleString()} rows
+        {state.tickerRawData.holderCount ?? "-"} holders in total
       </TableRowsAmount>
       <Widget
         src={`${config.ownerId}/widget/NEAT.Pagination`}
