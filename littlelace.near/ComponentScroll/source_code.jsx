@@ -8,7 +8,7 @@ const ScrollBar = styled.div`
   border-radius: 7px;
   bottom: 0px;
   background-color: rgba(0, 0, 0, 0.35);
-  opacity: 1;
+  opacity: ${props.hovering ? 1 : 0};
   align-self: center;
   justify-self: center;
 `;
@@ -34,13 +34,13 @@ const handleScroll = (event) => {
   const calculatedHeight = (clientHeight / scrollHeight) * clientHeight;
   const calculatedTop = (scrollTop / scrollHeight) * 100;
 
-  console.log(props)
+  console.log(props);
   setScrollbarHeight(calculatedHeight);
   setThumbTop(calculatedTop);
 };
 
 return (
-  <ScrollBar >
+  <ScrollBar>
     <ScrollBarTrack>
       <ScrollBarThumb
         scrollbarHeight={scrollbarHeight}
