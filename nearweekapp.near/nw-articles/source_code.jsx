@@ -6,8 +6,7 @@ const breakpoints = {
 
 function Articles() {
   const accountId = "near";
-  State.init({ active: 0 });
-  const nwSite = "https://nearweek.com";
+  State.init({ page: 1 });
   let posts = [];
   let mediumPosts = [];
 
@@ -56,7 +55,7 @@ function Articles() {
   const Post = (props) => {
     const { key, post } = props;
     return (
-      <Card key={key} index={props.index}>
+      <Card key={key} index={props.index} href={post.url} target="_blank">
         <CardImage src={post.thumbnail} alt="" />
         <CardContent>
           <CardTitle>
@@ -75,7 +74,7 @@ function Articles() {
                   ))}
             </Badges>
             <AuthorNDate>
-              {post.author && (
+              {post.author && ( // Check if author is available
                 <Author>
                   <span>@{post.author}</span>
                 </Author>
@@ -92,7 +91,7 @@ function Articles() {
   };
 
   const fetchMedium = fetch(
-    "https://api.rss2json.com/v1/api.json?rss_url=https://medium.com/feed/nearprotocol/tagged/near-protocol",
+    "https://api.rss2json.com/v1/api.json?rss_url=https://medium.com/feed/nearprotocol",
     { method: "GET" }
   );
 
@@ -183,7 +182,9 @@ function Articles() {
 
 `;
 
-  const Card = styled.div`
+  const Card = styled.a`
+    color: #1C1F41;
+    text-decoration: none !important;
     display: flex;
     flex-direction: column;
     border-radius: 8px;
