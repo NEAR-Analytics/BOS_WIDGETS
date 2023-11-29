@@ -92,9 +92,7 @@ const TabsButton = styled.button`
     }
 }
 `;
-const I = styled.i`
-  padding:20px;
-`;
+
 const handleTabClick = (tab) => {
   State.update({
     selectedTab: tab,
@@ -116,7 +114,7 @@ return (
                 selected={state.selectedTab === "trending1day"}
               >
                 <Title>
-                  <I class="bi bi-1-square"></I>
+                  <i class="bi bi-1-square"></i>
                   Trending Now
                 </Title>
               </TabsButton>
@@ -125,7 +123,7 @@ return (
                 selected={state.selectedTab === "trending3days"}
               >
                 <Title>
-                  <I class="bi bi-3-square"></I>
+                  <i class="bi bi-3-square"></i>
                   Trending 3days
                 </Title>
               </TabsButton>
@@ -134,7 +132,7 @@ return (
                 selected={state.selectedTab === "trending7days"}
               >
                 <Title>
-                  <I class="bi bi-7-square"></I>
+                  <i class="bi bi-7-square"></i>
                   Trending 7days
                 </Title>
               </TabsButton>
@@ -143,7 +141,7 @@ return (
                 selected={state.selectedTab === "trendingalltime"}
               >
                 <Title>
-                  <I class="bi bi-circle-square"></I> Trending AllTime
+                  <i class="bi bi-circle-square"></i> Trending AllTime
                 </Title>
               </TabsButton>
               <TabsButton
@@ -151,7 +149,7 @@ return (
                 selected={state.selectedTab === "charts"}
               >
                 <Title>
-                  <I class="bi bi-bar-chart"></I> Charts Data
+                  <i class="bi bi-bar-chart"></i> Charts Data
                 </Title>
               </TabsButton>
             </Tabs>
