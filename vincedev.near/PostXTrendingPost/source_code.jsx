@@ -26,6 +26,9 @@ width: 90%;
 
 `;
 const MajorTrends = styled.div`
+display: flex;
+flex-flow: column nowrap;
+justify-content: center;
 font-family: Space Grotesk;
 cursor:pointer;
 
