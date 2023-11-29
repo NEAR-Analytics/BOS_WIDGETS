@@ -5,6 +5,7 @@ const Container = styled.div`
   justify-content: center;
   background-color: #f0f4f8; /* Use your desired background color */
   margin:10px;
+   width: fit-content;
 `;
 
 const FlexContainer = styled.div`
@@ -15,12 +16,12 @@ const FlexContainer = styled.div`
 const ImageContainer = styled.div`
   flex: none;
   display:flex; 
-  width: 30%;
+  width: fit-content;
 `;
 
 const StyledImage = styled.img`
   width: 200px;
-  height: 180px;
+  height: 200px;
   object-cover;
 `;
 
@@ -154,6 +155,7 @@ return (
         display: "flex",
         flexDirection: "column",
         width: "100%",
+        alignItems:"center",
         maxWidth: "100vw",
       }}
     >
