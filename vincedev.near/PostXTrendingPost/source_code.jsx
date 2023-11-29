@@ -90,13 +90,12 @@ return (
     <AllTrends>
       {sortedHashList?.map((d, i) => {
         return (
-          <MajorTrends>
-            <SingleTrends
-              style={{
-                backgroundColor: `${props.activeTag == d[0]} ? "white": ""`,
-              }}
-              onClick={() => props.singlePosthashTag(d[0])}
-            >
+          <MajorTrends
+            style={{
+              backgroundColor: `${props.activeTag === d[0]} ? "white": ""`,
+            }}
+          >
+            <SingleTrends onClick={() => props.singlePosthashTag(d[0])}>
               <div>{i + 1}.</div>
               <span>#{d[0]}</span>
             </SingleTrends>
