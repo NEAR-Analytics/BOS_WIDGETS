@@ -436,6 +436,16 @@ const Table = () => {
                   </a>
                 </StyledTd>
                 <StyledTd maxWidth="100px">
+                <a href={`https://near.social/mob.near/widget/ProfilePage?accountId=${typeof item.accountId === "string" &&
+                  item.accountId.includes(".near")
+                    ? item.accountId
+                    : typeof item.accountId === "string" &&
+                      item.accountId.slice(0, 7) +
+                        "..." +
+                        item.accountId.slice(
+                          item.accountId.length - 10,
+                          item.accountId.length - 1
+                        )}`}>
                   {typeof item.accountId === "string" &&
                   item.accountId.includes(".near")
                     ? item.accountId
@@ -446,6 +456,7 @@ const Table = () => {
                           item.accountId.length - 10,
                           item.accountId.length - 1
                         )}
+                        </a>
                 </StyledTd>
                 <StyledTd>{item.EP && item.EP.toFixed(4)}</StyledTd>
                 <StyledTd>{item.EP3D && item.EP3D.toFixed(4)}</StyledTd>
