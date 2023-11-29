@@ -5,19 +5,22 @@ const queries = [
     firstReqTime: 20,
     id: 1,
     query: `select 
+      
             ft.TX_HASH as "hash" ,
             ft.BLOCK_TIMESTAMP::date as "date",
             fw.SIGNER_ID as singer,
             fw.WIDGET_NAME as "name",
             case when STATUS='false' then '✅' else '❌' end as "status",
             round(TRANSACTION_FEE/pow(10,24),4) as "fee",
+            --METADATA:name as name ,
             row_number() over (partition by singer order by "date" asc )::int as "rank",
-            1 as "total"
-            from near.social.fact_widget_deployments as fw left join 
-            near.core.fact_transfers  as ft
-            on ft.tx_hash=fw.tx_hash
-            where singer='{{singer}}'
-            order by fw.BLOCK_ID desc`,
+            '1' as "total"
+
+      from near.social.fact_widget_deployments as fw left join 
+near.core.fact_transfers  as ft
+on ft.tx_hash=fw.tx_hash
+where singer='mob.near'
+order by fw.BLOCK_ID desc`,
   },
   {
     hash: "4fd2820b-b877-46f5-bdf1-b0c3cd9f64a6",
@@ -27,7 +30,7 @@ const queries = [
   },
 ];
 const themeColor = props.themeColor;
-const searchedSinger = props.singer || "mob.near";
+const searchedSinger = props.singer;
 
 // header theme ######################################
 const table_componentScan_theme = {
@@ -135,7 +138,6 @@ const fetchData = (hash) => {
     error: (data && !data.ok && (data.status || data.error)) || null,
     isLoading: !data && !error,
   };
-  console.log(result);
   return result;
 };
 // handle runed data ###################################
@@ -356,6 +358,7 @@ const CardIsLoading = (queryId) =>
       <div className="spinner-border spinner-border-sm" role="status">
         <span className="visually-hidden">Loading...</span>
       </div>
+      <span className="p-2">Loading...</span>
     </div>
   );
 const CardHasError = (queryId) =>
@@ -502,7 +505,7 @@ let TableSection = (
               { title: "Timestamp", key: "date" },
               {
                 title: "Signer",
-                key: "SINGER",
+                key: "singer",
                 link: "yes",
                 beforehref:
                   "https://near.social/mob.near/widget/ProfilePage?accountId=",
@@ -534,7 +537,6 @@ let TableSection = (
   </div>
 );
 
-console.log("state000", state);
 return (
   <>
     {state.loader && <div className="d-none">{state.loader}</div>}
