@@ -224,12 +224,7 @@ const Table = () => {
       <br />
       <br />
 
-      <input
-        type="text"
-        placeholder="Search tags..."
-        value={searchTerm}
-        onChange={(e) => setSearchTerm(e.target.value)}
-      />
+
       <StyledTable>
         <thead>
           <tr>
