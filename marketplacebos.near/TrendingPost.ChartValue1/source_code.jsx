@@ -205,60 +205,60 @@ const Table = () => {
       {isLoading ? (
         <p>Loading...</p>
       ) : (
-    <>
-      <StyledTotalContainer>
-        <StyledTotalLabel>Total Posts</StyledTotalLabel>
-        <StyledTotalValue>{totalItems1Day}</StyledTotalValue>
-      </StyledTotalContainer>
-      <br />
-      <br />
-      <br />
+        <>
+          <StyledTotalContainer>
+            <StyledTotalLabel>Total Posts</StyledTotalLabel>
+            <StyledTotalValue>{totalItems1Day}</StyledTotalValue>
+          </StyledTotalContainer>
+          <br />
+          <br />
+          <br />
 
-      <Widget
-        src="marketplacebos.near/widget/TrendingPost.ChartPost"
-        props={{
-          dataP: dataP,
-          labelP: labelP,
-          backgroundcolorP: backgroundcolorP,
-          borderColorP: borderColorP,
-          labelN: labelN,
-        }}
-      />
-      <br />
-      <br />
-      <br />
-      <br />
+          <Widget
+            src="marketplacebos.near/widget/TrendingPost.ChartPost"
+            props={{
+              dataP: dataP,
+              labelP: labelP,
+              backgroundcolorP: backgroundcolorP,
+              borderColorP: borderColorP,
+              labelN: labelN,
+            }}
+          />
+          <br />
+          <br />
+          <br />
+          <br />
 
-      <StyledTable>
-        <thead>
-          <tr>
-            <StyledTh>TAG NAME</StyledTh>
-            <StyledTh>TOTAL POST</StyledTh>
-          </tr>
-        </thead>
-        <tbody>
-          {day1PostSorted &&
-            day1PostSorted
-              .filter((item, index) => index <= 10)
-              .map((item) => (
-                <tr>
-                  <StyledTd>
-                    <a
-                      href={`https://near.social/marketplacebos.near/widget/TrendingPost.TableValue?hashtag=${item[0].replace(
-                        "#",
-                        ""
-                      )}`}
-                    >
-                      {item[0]}
-                    </a>
-                  </StyledTd>
-                  <StyledTd>{item[1]}</StyledTd>
-                </tr>
-              ))}
-        </tbody>
-      </StyledTable>
-    </>
-          )}
+          <StyledTable>
+            <thead>
+              <tr>
+                <StyledTh>TAG NAME</StyledTh>
+                <StyledTh>TOTAL POST</StyledTh>
+              </tr>
+            </thead>
+            <tbody>
+              {day1PostSorted &&
+                day1PostSorted
+                  .filter((item, index) => index <= 10)
+                  .map((item) => (
+                    <tr>
+                      <StyledTd>
+                        <a
+                          href={`https://near.social/marketplacebos.near/widget/TrendingPost.TableValue?hashtag=${item[0].replace(
+                            "#",
+                            ""
+                          )}`}
+                        >
+                          {item[0]}
+                        </a>
+                      </StyledTd>
+                      <StyledTd>{item[1]}</StyledTd>
+                    </tr>
+                  ))}
+            </tbody>
+          </StyledTable>
+        </>
+      )}
     </>
   );
 };
