@@ -208,8 +208,7 @@ const bb = {
   },
   100: {
     name: "Gnosis",
-    image:
-      "https://i.ibb.co/nPZWrs4/gnosislogo.png",
+    image: "https://i.ibb.co/nPZWrs4/gnosislogo.png",
     blockUrl: "https://gnosisscan.io/address/",
   },
   324: {
@@ -352,12 +351,16 @@ return (
       <div>
         {bb[`${chainId}`] == undefined ? (
           <Chain>
-            <img class="chainsimages" src="https://i.ibb.co/G5BdF6F/notsupportedimg.png" />
+            <img
+              class="chainsimages"
+              src="https://i.ibb.co/G5BdF6F/notsupportedimg.png"
+            />
             <h4>Chain Not Supported</h4>
           </Chain>
         ) : (
           <Chain>
-            <img class="chainsimages"
+            <img
+              class="chainsimages"
               src={bb[`${chainId}`].image}
               alt="matic-logo-1"
               border="0"
@@ -373,7 +376,7 @@ return (
           <div key={index}>
             <Account>
               <div class="accountHeader">
-                <h4>Account{index + 1}</h4>
+                <h4>Account {index + 1}</h4>
                 <Status>
                   {item.accountId == accountId ? (
                     <img src="https://i.ibb.co/RypQPsn/Group-3.png" />
@@ -394,7 +397,10 @@ return (
                 <strong>Account ID: </strong> {item.accountId}
               </h6>
               {bb[`${chainId}`] && (
-                <a class="explorerBtn" href={bb[`${chainId}`].blockUrl + item.accountId}>
+                <a
+                  class="explorerBtn"
+                  href={bb[`${chainId}`].blockUrl + item.accountId}
+                >
                   Explorer URL
                 </a>
               )}
