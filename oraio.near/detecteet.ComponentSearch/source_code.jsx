@@ -70,6 +70,7 @@ State.init({
 });
 
 const search = (component, hasNear, hasEther, hasExternal) => {
+  console.log("search is called");
   const urlPrefix = "https://near.social/mob.near/widget/WidgetSource?src=";
   const response = {
     external: {},
