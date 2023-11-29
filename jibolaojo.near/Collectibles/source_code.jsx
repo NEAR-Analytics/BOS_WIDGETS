@@ -74,7 +74,15 @@ return (
           }}
         >
           <div>{nft.title}</div>
-          <div>[{nft.token_id}]</div>
+          <div
+            style={{
+              overflowWrap: "break-word",
+              wordWrap: "break-word",
+              wordBreak: "break-word",
+            }}
+          >
+            [{nft.token_id}]
+          </div>
         </div>
       </div>
     ))}
