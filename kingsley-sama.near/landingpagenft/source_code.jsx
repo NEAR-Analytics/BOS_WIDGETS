@@ -77,8 +77,8 @@ const ShippingText = styled.p`
 const profile = {
   avatar:
     "https://images.unsplash.com/photo-1600486913747-55e5470d6f40?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80",
-  title: "Jon Dow",
-  subtitle: "Frontend Developer",
+  title: "Ape Fest Poll",
+  subtitle: "Discove Polls",
   links: [
     { title: "Portfolio", url: "#" },
     { title: "Blogs", url: "#" },
@@ -155,7 +155,7 @@ return (
         display: "flex",
         flexDirection: "column",
         width: "100%",
-        alignItems:"center",
+        alignItems: "center",
         maxWidth: "100vw",
       }}
     >
