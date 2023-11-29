@@ -169,7 +169,6 @@ const compare = (b, a) => {
 const sort = postEngagement.sort(compare);
 
 let totalItems = 0;
-
 let totalAccountPosts = 0;
 let totalLikes = 0;
 let totalComments = 0;
@@ -388,6 +387,9 @@ const Table = () => {
         />
         <br />
         <br />
+        <div>Trending Tag: {props.hashtag || "near"}</div>
+        <br />
+
         <br />
         <StyledTable>
           <thead>
