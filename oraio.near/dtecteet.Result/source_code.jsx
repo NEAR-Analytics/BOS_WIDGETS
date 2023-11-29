@@ -122,9 +122,7 @@ padding: 10px 20%;
 `;
 
 const near = props.near;
-
 const ether = props.ether;
-
 const external = props.external;
 
 return (
