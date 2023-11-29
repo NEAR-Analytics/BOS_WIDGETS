@@ -242,7 +242,7 @@ const Table = () => {
             <StyledTh>TOTAL POST</StyledTh>
           </tr>
         </thead>
-   <tbody>
+        <tbody>
           {filteredTags.map((item) => (
             <tr key={item[0]}>
               <StyledTd>
