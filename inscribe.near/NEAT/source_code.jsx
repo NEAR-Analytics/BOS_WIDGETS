@@ -119,9 +119,8 @@ return (
           Mint
         </TabItem>
         <TabItem
-          style={{ cursor: "not-allowed" }}
-          // selected={tab === "Indexer"}
-          // onClick={() => State.update({ tab: "Indexer" })}
+          selected={tab === "Indexer"}
+          onClick={() => State.update({ tab: "Indexer" })}
         >
           Indexer
         </TabItem>
@@ -130,9 +129,9 @@ return (
     </HeaderContainer>
     <BodyContainer>
       {tab === "Mint" && <Widget src={`${config.ownerId}/widget/NEAT.Mint`} />}
-      {/* {tab === "Indexer" && (
+      {tab === "Indexer" && (
         <Widget src={`${config.ownerId}/widget/NEAT.Indexer`} />
-      )} */}
+      )}
     </BodyContainer>
   </Main>
 );
