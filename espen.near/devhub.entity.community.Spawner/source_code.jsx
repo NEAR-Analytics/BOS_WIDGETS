@@ -79,9 +79,7 @@ const CommunityInputsDefaults = {
 
 return (
   <Widget
-    src={
-      "devgovgigs.near/widget/gigs-board.components.organism.configurator"
-    }
+    src={"espen.near/widget/devhub.components.organism.Configurator"}
     props={{
       heading: "Community information",
       externalState: CommunityInputsDefaults,
