@@ -4,6 +4,14 @@ const queries = [
     hash: null,
     firstReqTime: 20,
     id: 1,
+    queryOption: {
+      sortBy: [
+        {
+          column: "rank",
+          direction: "desc",
+        },
+      ],
+    },
     query: `select 
             ft.TX_HASH as "hash" ,
             split(ft.BLOCK_TIMESTAMP::date,'T') as "date",
@@ -12,14 +20,14 @@ const queries = [
             case when STATUS  !='false' then '✅' else '❌' end as "status",
             round(TRANSACTION_FEE/pow(10,24),4) as "fee",
             --METADATA:name as name ,
-            row_number() over (partition by singer order by "date" asc )::int as "rank",
+            row_number() over (partition by singer order by "date" asc ) as "rank",
             singer||'/widget/'||"name" as links,
             '1' as "total"
 
       from near.social.fact_widget_deployments as fw left join 
 near.core.fact_transfers  as ft
 on ft.tx_hash=fw.tx_hash
-where singer='lord1.near' --  {{singer}}
+where singer='{{singer}}'  
 order by fw.BLOCK_ID desc`,
   },
   {
@@ -27,12 +35,6 @@ order by fw.BLOCK_ID desc`,
     firstReqTime: 15,
     id: 2,
     query: null,
-    sortBy: [
-      {
-        column: "date",
-        direction: "desc",
-      },
-    ],
   },
 ];
 const themeColor = props.themeColor;
