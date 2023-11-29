@@ -16,11 +16,16 @@ div{
 }
 p{
   margin: 0;
+  font-size: 24px;
+font-style: normal;
+font-weight: 500;
+line-height: 120%;
 }
 `;
 
 const Wallet = styled.div`
   border: 1px solid rgba(0, 0, 0, 0.22);
+  padding: 10px 25px;
 `;
 
 return (
