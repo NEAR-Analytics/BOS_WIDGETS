@@ -72,9 +72,13 @@ return (
       />
 
       <HTest>Top Post</HTest>
-      <HTest>Trend Feed</HTest>
+      <HTest onClick={props.fetchTrendFeed}>Trend Feed</HTest>
 
-      <SearchBar type="text" placeholder="search" onChange={(e)=>props.getSearch(e.target.value)} />
+      <SearchBar
+        type="text"
+        placeholder="search"
+        onChange={(e) => props.getSearch(e.target.value)}
+      />
 
       <Widget src="tvh050423.near/widget/ConnectButton" props={{}} />
     </MainNav>
