@@ -111,12 +111,10 @@ function handleChange(value) {
 function handleClick(widget) {
   setInput(widget.widgetName);
   console.log(widget.widgetSrc);
-  props.handleSubmit(widget.widgetSrc, search);
+
+  props.handleSubmit("sourcescan.near/widget/SourceScan.Contracts.Info");
 }
 
-function handleSubmit() {
-  console.log("clicked check widget");
-}
 return (
   <WidgetApp>
     <Container>
