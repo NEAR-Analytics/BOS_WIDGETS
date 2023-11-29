@@ -1,5 +1,10 @@
 // At this point of deployment. this widget display list of widget that matches search input
 
+const [widgets, setWidgets] = useState([]);
+const [input, setInput] = useState("");
+
+const [buttonClicked, setButtonClicked] = useState(false);
+
 const WidgetApp = styled.div`
   display: flex;
   // align-items: center;
@@ -78,14 +83,12 @@ const SubmitButton = styled.button`
   justify-content: center;
   border: none;
   background: #8D61EE;
+  opacity: ${buttonClicked ? 1 : 0.5};
   color: #fff;
   border-radius: 10px;
   // width:30%;
   height: 100%;
 `;
-
-const [input, setInput] = useState("");
-const [widgets, setWidgets] = useState([]);
 
 function handleClick(widget) {
   setInput(widget.widgetName);
@@ -93,6 +96,7 @@ function handleClick(widget) {
 }
 
 function handleSubmit() {
+  setButtonClicked(true);
   console.log("clicked check widget");
 }
 return (
