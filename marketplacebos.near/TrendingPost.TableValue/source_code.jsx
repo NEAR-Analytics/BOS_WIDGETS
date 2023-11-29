@@ -474,6 +474,7 @@ const Table = () => {
             />
           </StyledSVG>
         </StyledButton>
+        Back to data tag
       </a>
     </>
   );
