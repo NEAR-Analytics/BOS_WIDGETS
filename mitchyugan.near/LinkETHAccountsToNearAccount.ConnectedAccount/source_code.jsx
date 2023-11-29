@@ -58,6 +58,10 @@ gap: 12px;
 font-style: normal;
 font-weight: 600;
  }
+
+ .chainsimages{
+  width: 30px;
+ }
 `;
 
 const Accounts = styled.div`
@@ -156,12 +160,75 @@ const [accountDetails, setAccountDetails] = useState(null);
 // };
 
 const bb = {
-  11155111: "https://sepolia.etherscan.io/address/",
-  5: "https://goerli.etherscan.io/address/",
-  1: "https://etherscan.io/address/",
-  80001: "https://mumbai.polygonscan.com/address/",
-  137: "https://polygonscan.com/address/",
-  43114: "https://snowtrace.io/address/",
+  11155111: {
+    name: "Sepolia",
+    image:
+      "https://w7.pngwing.com/pngs/268/1013/png-transparent-ethereum-eth-hd-logo-thumbnail.png",
+    blockUrl: "https://sepolia.etherscan.io/address/",
+  },
+  5: {
+    name: "Goerli",
+    image:
+      "https://w7.pngwing.com/pngs/268/1013/png-transparent-ethereum-eth-hd-logo-thumbnail.png",
+    blockUrl: "https://goerli.etherscan.io/address/",
+  },
+  1: {
+    name: "Ethereum",
+    image:
+      "https://w7.pngwing.com/pngs/268/1013/png-transparent-ethereum-eth-hd-logo-thumbnail.png",
+    blockUrl: "https://etherscan.io/address/",
+  },
+  80001: {
+    name: "Mumbai",
+    image:
+      "https://seeklogo.com/images/P/polygon-matic-logo-1DFDA3A3A8-seeklogo.com.png",
+    blockUrl: "https://mumbai.polygonscan.com/address/",
+  },
+  137: {
+    name: "Polygon",
+    image:
+      "https://seeklogo.com/images/P/polygon-matic-logo-1DFDA3A3A8-seeklogo.com.png",
+    blockUrl: "https://polygonscan.com/address/",
+  },
+  43114: {
+    name: "Avalanche",
+    image: "https://cryptologos.cc/logos/avalanche-avax-logo.png",
+    blockUrl: "https://snowtrace.io/address/",
+  },
+  59144: {
+    name: "Linea",
+    image:
+      "https://images.ctfassets.net/6g6hg01fg28j/2XZ3qN4qlcorV9RJPxwBlO/b15c5985cc31dded61273bbec7f5f696/Infura_Linea-Hero-Image.svg",
+    blockUrl: "https://lineascan.build/address/",
+  },
+  1313161554: {
+    name: "Aurora",
+    image: "https://s2.coinmarketcap.com/static/img/coins/200x200/14803.png",
+    blockUrl: "https://explorer.aurora.dev/address/",
+  },
+  100: {
+    name: "Gnosis",
+    image:
+      "https://i.ibb.co/nPZWrs4/gnosislogo.png",
+    blockUrl: "https://gnosisscan.io/address/",
+  },
+  324: {
+    name: "Zsync",
+    image: "https://lite.zksync.io/images/logo-no-letters.svg",
+    blockUrl: "https://explorer.zksync.io/address/",
+  },
+  42161: {
+    name: "Arbitrum",
+    image:
+      "https://strapi.mewapi.io/uploads/large_arbitrum_shield_3f24102a28.png",
+    blockUrl: "https://arbiscan.io/address/",
+  },
+  56: {
+    name: "BNB",
+    image:
+      "https://seeklogo.com/images/B/binance-coin-bnb-logo-97F9D55608-seeklogo.com.png",
+    blockUrl: "https://bscscan.com/address/",
+  },
 };
 
 useEffect(() => {
@@ -283,19 +350,19 @@ return (
         <p>Here's your onchain activity history</p>
       </div>
       <div>
-        {networkName == "unknown" ? (
+        {bb[`${chainId}`] == undefined ? (
           <Chain>
-            {/* <img src="" /> */}
+            <img class="chainsimages" src="https://i.ibb.co/G5BdF6F/notsupportedimg.png" />
             <h4>Chain Not Supported</h4>
           </Chain>
         ) : (
           <Chain>
-            <img
-              src="https://i.ibb.co/j68BJpr/matic-logo-1.png"
+            <img class="chainsimages"
+              src={bb[`${chainId}`].image}
               alt="matic-logo-1"
               border="0"
             />
-            <h3>{networkName}</h3>
+            <h3>{bb[`${chainId}`].name}</h3>
           </Chain>
         )}
       </div>
@@ -327,7 +394,7 @@ return (
                 <strong>Account ID: </strong> {item.accountId}
               </h6>
               {bb[`${chainId}`] && (
-                <a class="explorerBtn" href={bb[`${chainId}`] + item.accountId}>
+                <a class="explorerBtn" href={bb[`${chainId}`].blockUrl + item.accountId}>
                   Explorer URL
                 </a>
               )}
