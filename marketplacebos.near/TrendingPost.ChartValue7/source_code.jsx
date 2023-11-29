@@ -200,7 +200,7 @@ const Table = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const filteredTags = day7PostSorted
     .filter((item) => item[0].toLowerCase().includes(searchTerm.toLowerCase()))
-    .slice(0, 10); 
+    .slice(0, 10);
   return (
     <>
       <StyledTotalContainer>
@@ -240,21 +240,24 @@ const Table = () => {
           </tr>
         </thead>
         <tbody>
-          {filteredTags.map((item) => (
-            <tr key={item[0]}>
-              <StyledTd>
-                <a
-                  href={`https://near.social/marketplacebos.near/widget/TrendingPost.TableValue?hashtag=${item[0].replace(
-                    "#",
-                    ""
-                  )}`}
-                >
-                  {item[0]}
-                </a>
-              </StyledTd>
-              <StyledTd>{item[1]}</StyledTd>
-            </tr>
-          ))}
+          {day7PostSorted &&
+            day7PostSorted
+              .filter((item, index) => index <= 10)
+              .map((item) => (
+                <tr>
+                  <StyledTd>
+                    <a
+                      href={`https://near.social/marketplacebos.near/widget/TrendingPost.TableValue?hashtag=${item[0].replace(
+                        "#",
+                        ""
+                      )}`}
+                    >
+                      {item[0]}
+                    </a>
+                  </StyledTd>
+                  <StyledTd>{item[1]}</StyledTd>
+                </tr>
+              ))}
         </tbody>
       </StyledTable>
     </>
