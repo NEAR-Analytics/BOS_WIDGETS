@@ -116,16 +116,16 @@ const ValueView = styled.div`
 
 const fieldParamsByType = {
   array: {
-    name: "components.molecule.Input",
+    name: "components.molecule.text-input",
     inputProps: { type: "text" },
   },
 
   boolean: {
-    name: "components.atom.Toggle",
+    name: "components.atom.toggle",
   },
 
   string: {
-    name: "components.molecule.Input",
+    name: "components.molecule.text-input",
     inputProps: { type: "text" },
   },
 };
@@ -175,6 +175,7 @@ const defaultFieldsRender = ({ schema, form, isEditable }) => (
                   </span>
                 ) : (fieldValue?.length ?? 0) > 0 ? (
                   <Widget
+                    // TODO: LEGACY.
                     src={
                       "devhub.near/widget/devhub.components.molecule.MarkdownViewer"
                     }
@@ -188,9 +189,11 @@ const defaultFieldsRender = ({ schema, form, isEditable }) => (
               </ValueView>
             </div>
             <Widget
-              src={`devhub.near/widget/devhub.${fieldParamsByType[fieldType].name}`}
+              // TODO: LEGACY.
+              src={`devgovgigs.near/widget/gigs-board.${fieldParamsByType[fieldType].name}`}
               props={{
                 ...fieldProps,
+
                 className: [
                   "w-100",
                   fieldProps.className ?? "",
