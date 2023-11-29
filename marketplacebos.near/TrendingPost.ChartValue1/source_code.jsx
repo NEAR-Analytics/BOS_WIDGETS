@@ -140,11 +140,10 @@ const borderColorP = [
 let dataP = [];
 let labelP = [];
 
-// Assuming allPostSorted has at least 20 items
-for (let i = 0; i < 20; i++) {
+for (let i = 0; i < 10; i++) {
   if (day1PostSorted[i]) {
-    dataP.push(day1PostSorted[i][1]); // Assuming item[1] contains the data for dataP
-    labelP.push(day1PostSorted[i][0]); // Assuming item[0] contains the data for labelP
+    dataP.push(day1PostSorted[i][1]);
+    labelP.push(day1PostSorted[i][0]);
   }
 }
 
@@ -200,8 +199,6 @@ const StyledTotalValue = styled.div`
 const Table = () => {
   const [searchTerm, setSearchTerm] = useState("");
 
-  // Filtered tags based on the search term
-  // Limit to the top 10 filtered tags
   return (
     <>
       <StyledTotalContainer>
@@ -241,24 +238,24 @@ const Table = () => {
           </tr>
         </thead>
         <tbody>
-{day1PostSorted &&
-        day1PostSorted
-          .filter((item, index) => index <= 20)
-          .map((item) => (
-                        <tr >
-              <StyledTd>
-                <a
-                  href={`https://near.social/marketplacebos.near/widget/TrendingPost.TableValue?hashtag=${item[0].replace(
-                    "#",
-                    ""
-                  )}`}
-                >
-                  {item[0]}
-                </a>
-              </StyledTd>
-              <StyledTd>{item[1]}</StyledTd>
-            </tr>
-          ))}
+          {day1PostSorted &&
+            day1PostSorted
+              .filter((item, index) => index <= 10)
+              .map((item) => (
+                <tr>
+                  <StyledTd>
+                    <a
+                      href={`https://near.social/marketplacebos.near/widget/TrendingPost.TableValue?hashtag=${item[0].replace(
+                        "#",
+                        ""
+                      )}`}
+                    >
+                      {item[0]}
+                    </a>
+                  </StyledTd>
+                  <StyledTd>{item[1]}</StyledTd>
+                </tr>
+              ))}
         </tbody>
       </StyledTable>
     </>
