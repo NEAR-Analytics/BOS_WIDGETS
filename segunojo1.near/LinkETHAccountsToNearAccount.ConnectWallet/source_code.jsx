@@ -66,12 +66,7 @@ const main = (
     </Wallets>
   </Main>
 );
-return (
-  <div>
-    <Widget src="segunojo1.near/widget/LinkETHAccountsToNearAccount.Navbar" />
-    {main}
-  </div>
-);
+return <div>{main}</div>;
 <div>
   <p>Here are all the accounts you've interacted with:</p>
   <div>
