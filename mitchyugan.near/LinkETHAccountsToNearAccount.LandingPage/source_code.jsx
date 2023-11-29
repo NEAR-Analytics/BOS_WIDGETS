@@ -57,9 +57,7 @@ const [connectSectionActive, SetConnectSectionActive] = useState(false);
 
 return (
   <>
-    <LandingPage
-      props={(props.connectSectionActivee = { connectSectionActive })}
-    >
+    <LandingPage>
       <div class="landingpagecontents">
         <div class="landingpagecontentstexts">
           <h1>Your EVM Gateway to the NEAR ecosystem</h1>
