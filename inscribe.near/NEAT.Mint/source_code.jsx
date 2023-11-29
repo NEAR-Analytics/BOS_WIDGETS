@@ -9,6 +9,8 @@ function getConfig(network) {
     case "mainnet":
       return {
         ownerId: "inscribe.near",
+        graphUrl:
+          "https://api.thegraph.com/subgraphs/name/inscriptionnear/neat",
         nodeUrl: "https://rpc.mainnet.near.org",
         indexerUrl: "https://inscription-indexer-a16497da251b.herokuapp.com/v1",
         contractName: "inscription.near",
@@ -23,6 +25,8 @@ function getConfig(network) {
     case "testnet":
       return {
         ownerId: "inscribe.testnet",
+        graphUrl:
+          "https://api.thegraph.com/subgraphs/name/inscriptionnear/neat",
         nodeUrl: "https://rpc.testnet.near.org",
         indexerUrl: "https://inscription-indexer-a16497da251b.herokuapp.com/v1",
         contractName: "inscription.testnet",
@@ -147,47 +151,72 @@ State.init({
 });
 
 function fetchAllData() {
-  const result = fetch(`${config.indexerUrl}/tickers`, {
-    method: "GET",
+  const response = fetch(config.graphUrl, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      query: `
+        query {
+          tokenInfo (id: "NEAT") {
+            ticker
+            maxSupply
+            totalSupply
+            limit
+          }
+          holderCount (id: "HolderCount") {
+            count
+          }
+        }
+      `,
+    }),
   });
-  const data = result.body[0];
-  State.update({
-    tickerRawData: data,
-    ticker: [
-      {
-        title: "Token:",
-        value: data.display_name,
+
+  if (response) {
+    const tokenInfo = response.body.data.tokenInfo;
+    const holderCount = response.body.data.holderCount.count;
+    State.update({
+      tickerRawData: {
+        display_name: tokenInfo.ticker,
       },
-      {
-        title: "Protocol:",
-        value: "NRC-20",
-      },
-      {
-        title: "Total Supply:",
-        value: Number(data.max_supply ?? 0).toLocaleString(),
-      },
-      {
-        title: "Total Minted:",
-        value: Number(data.total_supply ?? 0).toLocaleString(),
-      },
-      {
-        title: "Minted%:",
-        value:
-          Big(data.total_supply ?? 0)
-            .div(data.max_supply ?? 1)
-            .times(100)
-            .toFixed(2) + "%",
-      },
-      {
-        title: "Mint Limit:",
-        value: Number(data.limit).toLocaleString(),
-      },
-      {
-        title: "Holders:",
-        value: Number(data.holders).toLocaleString(),
-      },
-    ],
-  });
+      ticker: [
+        {
+          title: "Token:",
+          value: tokenInfo.ticker,
+        },
+        {
+          title: "Protocol:",
+          value: "NRC-20",
+        },
+        {
+          title: "Total Supply:",
+          value: Number(tokenInfo.maxSupply ?? 0).toLocaleString(),
+        },
+        {
+          title: "Total Minted:",
+          value: Number(tokenInfo.totalSupply ?? 0).toLocaleString(),
+        },
+        {
+          title: "Minted%:",
+          value:
+            Big(tokenInfo.totalSupply ?? 0)
+              .div(tokenInfo.maxSupply ?? 1)
+              .times(100)
+              .toFixed(2) + "%",
+        },
+        {
+          title: "Mint Limit:",
+          value: Number(tokenInfo.limit).toLocaleString(),
+        },
+        {
+          title: "Holders:",
+          value: Number(holderCount).toLocaleString(),
+        },
+      ],
+    });
+  }
+
   const displayName = state.tickerRawData.display_name;
   if (displayName) {
     const holdersResult = fetch(
@@ -212,7 +241,6 @@ fetchAllData();
 
 
 
-const inscriptionsAmount = 50;
 return (
   <FormContainer>
     <FormTitle>The First Inscription Token on NEAR Blockchain</FormTitle>
@@ -233,14 +261,21 @@ return (
         </FormButton>
         <FormButton
           onClick={() => {
-            Near.call(Array(inscriptionsAmount).fill(tx));
+            Near.call(Array(10).fill(tx));
           }}
         >
-          Mint {inscriptionsAmount} Inscriptions by one click
+          Mint 10 Inscriptions by one click
+        </FormButton>
+        <FormButton
+          onClick={() => {
+            Near.call(Array(50).fill(tx));
+          }}
+        >
+          Mint 50 Inscriptions by one click
         </FormButton>
         <TipText>
-          * Mint {inscriptionsAmount} inscriptions will take around 5 minutes in
-          your wallet. Please be patient.{" "}
+          * Mint every 10 inscriptions will take around 1 minute in your wallet.
+          Please be patient.{" "}
         </TipText>
       </FormButtonGroup>
     </FormBody>
