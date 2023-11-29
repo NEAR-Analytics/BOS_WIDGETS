@@ -20,6 +20,7 @@ const AllTrends = styled.div`
 display: flex;
 flex-flow:column;
 gap:4px;
+width: 90%;
 
 `;
 const MajorTrends = styled.div`
@@ -84,6 +85,15 @@ return (
     <mainHeader>Trending Tag</mainHeader>
 
     <AllTrends>
+     <MajorTrends>
+            <SingleTrends onClick={() => props.singlePosthashTag('hello')}>
+              <div>1.</div>
+              <span>#BOS</span>
+            </SingleTrends>
+            <p>
+            1 Post
+            </p>
+          </MajorTrends>
       {sortedHashList?.map((d, i) => {
         return (
           <MajorTrends>
