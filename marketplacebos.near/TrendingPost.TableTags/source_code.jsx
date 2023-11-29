@@ -179,8 +179,12 @@ const Table = () => {
             <tr key={item[0]}>
               <StyledTd>
                 {" "}
-                      <a href={`https://near.social/?hashtag=${encodeURIComponent(item[0].replace("#", ""))}`}>
-
+              <a
+                      href={`https://near.social/marketplacebos.near/widget/TrendingPost.TableValue?hashtag=${item[0].replace(
+                        "#",
+                        ""
+                      )}`}
+                >
                   {item[0]}
                 </a>
               </StyledTd>
