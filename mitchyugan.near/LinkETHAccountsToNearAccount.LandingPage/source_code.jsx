@@ -30,7 +30,7 @@ const LandingPage = styled.div`
 
         p{
             color: #000;
-            font-family: 'Inter', sans-serif;
+            font-family: taoma;
             font-size: 20px;
             font-style: normal;
             font-weight: 300;
