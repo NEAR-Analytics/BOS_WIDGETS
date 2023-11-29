@@ -134,7 +134,6 @@ return (
             console.log("state in cancel: ", state);
             State.update({
               term: "",
-              apps: "",
             });
             computeResults("");
           }}
