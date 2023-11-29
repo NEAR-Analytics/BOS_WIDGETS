@@ -9,23 +9,29 @@ const queries = [
             split(ft.BLOCK_TIMESTAMP::date,'T') as "date",
             fw.SIGNER_ID as singer,
             fw.WIDGET_NAME as "name",
-            case when STATUS='false' then '❌' else '✅' end as "status",
+            case when STATUS  !='false' then '✅' else '❌' end as "status",
             round(TRANSACTION_FEE/pow(10,24),4) as "fee",
             --METADATA:name as name ,
-            row_number() over (partition by singer order by fw.block_id  asc )::int as "rank",
+            row_number() over (partition by singer order by "date" asc )::int as "rank",
             '1' as "total"
 
       from near.social.fact_widget_deployments as fw left join 
 near.core.fact_transfers  as ft
 on ft.tx_hash=fw.tx_hash
-where singer='{{singer}}'
-order by "rank" desc`,
+where singer='lord1.near' --  {{singer}}
+order by fw.BLOCK_ID desc`,
   },
   {
     hash: "4fd2820b-b877-46f5-bdf1-b0c3cd9f64a6",
     firstReqTime: 15,
     id: 2,
     query: null,
+    sortBy: [
+      {
+        column: "date",
+        direction: "desc",
+      },
+    ],
   },
 ];
 const themeColor = props.themeColor;
@@ -365,11 +371,28 @@ const ChartHasError = (queryId) =>
 
 const CardIsLoading = (queryId) =>
   state.result?.[`query${queryId}`]?.isLoading && (
-    <div className="text-center p-4 pb-1">
-      <div className="spinner-border spinner-border-sm" role="status">
-        <span className="visually-hidden">Loading...</span>
-      </div>
-      <span className="p-2">Loading...</span>
+    <div
+      className="d-flex flex-column gap-1"
+      style={{
+        padding: "60px 12px",
+      }}
+    >
+      <Widget
+        src={`easypoll-v0.ndc-widgets.near/widget/Common.Spinner`}
+        props={{
+          ...spinnerColors,
+        }}
+      />
+      <span
+        style={{
+          fontWeight: "bold",
+          fontsize: 15,
+          color: "#4f46e5",
+          textAlign: "center",
+        }}
+      >
+        Loading...
+      </span>
     </div>
   );
 const CardHasError = (queryId) =>
@@ -410,6 +433,7 @@ let ChartSections = (
         )}
       </div>
     </div>
+
     <div className="py-2"></div>
     <div className=" col-12">
       <div
@@ -452,13 +476,13 @@ let ChartSections = (
                 {
                   key: "cum_total_trxs",
                   seriesName: "Total Transactions",
-                  type: "column",
+                  type: "spline",
                   id: 2,
                 },
                 {
                   key: "cum_update_trxs",
                   seriesName: "Total Update Transaction",
-                  type: "column",
+                  type: "spline",
                   id: 2,
                 },
                 {
@@ -471,7 +495,7 @@ let ChartSections = (
                   key: "cum_widget",
                   seriesName: "Total Components",
                   type: "spline",
-                  id: 2,
+                  id: 1,
                 },
               ],
               themeColor.chartColor,
@@ -526,7 +550,7 @@ let TableSection = (
                 title: "Conponent Link",
                 key: "name",
                 link: "yes",
-                beforehref: `https://bos.flipsidecrypto.xyz/${state.SIGNER}/widget/`,
+                beforehref: `https://bos.flipsidecrypto.xyz/${state.singer}/widget/`,
                 afterhref: "",
                 hyperlink: "yes",
               },
