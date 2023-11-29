@@ -1,7 +1,12 @@
 const res = fetch(
   `https://api.nearblocks.io/v1/account/${
     props.wallet_id || context.accountId
-  }/inventory`
+  }/inventory`,
+  {
+    headers: {
+      Authorization: `Bearer 0BBF00F813124314A1B372A2ED1A6100`,
+    },
+  }
 );
 
 if (!(res && res.body)) return "...";
