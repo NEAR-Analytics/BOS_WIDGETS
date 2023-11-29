@@ -241,25 +241,22 @@ const Table = () => {
             <StyledTh>TOTAL POST</StyledTh>
           </tr>
         </thead>
-        <tbody>
-          {day3PostSorted &&
-            day3PostSorted
-              .filter((item, index) => index <= 20)
-              .map((item) => (
-                <tr>
-                  <StyledTd>
-                    <a
-                      href={`https://near.social/marketplacebos.near/widget/TrendingPost.TableValue?hashtag=${item[0].replace(
-                        "#",
-                        ""
-                      )}`}
-                    >
-                      {item[0]}
-                    </a>
-                  </StyledTd>
-                  <StyledTd>{item[1]}</StyledTd>
-                </tr>
-              ))}
+              <tbody>
+          {filteredTags.map((item) => (
+            <tr key={item[0]}>
+              <StyledTd>
+                <a
+                  href={`https://near.social/marketplacebos.near/widget/TrendingPost.TableValue?hashtag=${item[0].replace(
+                    "#",
+                    ""
+                  )}`}
+                >
+                  {item[0]}
+                </a>
+              </StyledTd>
+              <StyledTd>{item[1]}</StyledTd>
+            </tr>
+          ))}
         </tbody>
       </StyledTable>
     </>
