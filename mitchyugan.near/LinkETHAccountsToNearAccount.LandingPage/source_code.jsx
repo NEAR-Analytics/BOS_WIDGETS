@@ -1,4 +1,6 @@
 const LandingPage = styled.div`
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;700&display=swap');
+
     width: 90%;
     display: flex;
     align-items: center;
@@ -20,7 +22,6 @@ const LandingPage = styled.div`
 
         h1{
             color: #000;
-            font-family: Space Grotesk;
             font-size: 64px;
             font-style: normal;
             font-weight: 700;
@@ -29,7 +30,7 @@ const LandingPage = styled.div`
 
         p{
             color: #000;
-            // font-family: Inter;
+            font-family: 'Inter', sans-serif;
             font-size: 20px;
             font-style: normal;
             font-weight: 300;
@@ -48,21 +49,38 @@ const LandingPage = styled.div`
     }
 `;
 
+const [connectSectionActive, SetConnectSectionActive] = useState(false);
+
 return (
-  <LandingPage>
-    <div class="landingpagecontents">
-      <div class="landingpagecontentstexts">
-        <h1>Your EVM Gateway to the NEAR ecosystem</h1>
-        <p>
-          Seamlessly connect your ethereum wallets to a NEAR account securely
-          and access multiple EVM chains
-        </p>
+  <>
+    <LandingPage
+      props={(props.connectSectionActivee = { connectSectionActive })}
+    >
+      <div class="landingpagecontents">
+        <div class="landingpagecontentstexts">
+          <h1>Your EVM Gateway to the NEAR ecosystem</h1>
+          <p>
+            Seamlessly connect your ethereum wallets to a NEAR account securely
+            and access multiple EVM chains
+          </p>
+        </div>
+        <button onClick={() => SetConnectSectionActive(true)}>
+          Get Started {connectSectionActive}
+        </button>
       </div>
-      <button>Get Started</button>
-    </div>
-    <img
-      src="https://i.ibb.co/Rvfppv3/31133574-iso0101-ai-1.png"
-      alt="31133574-iso0101-ai-1"
-    />
-  </LandingPage>
+      <img
+        src="https://i.ibb.co/Rvfppv3/31133574-iso0101-ai-1.png"
+        alt="31133574-iso0101-ai-1"
+      />
+    </LandingPage>
+    {connectSectionActive && (
+      <Widget src="segunojo1.near/widget/LinkETHAccountsToNearAccount.ConnectWallet" />
+    )}
+  </>
 );
+
+{
+  connectSectionActive && (
+    <Widget src="segunojo1.near/widget/LinkETHAccountsToNearAccount.ConnectWallet" />
+  );
+}
