@@ -50,6 +50,8 @@ const SingleTrends = styled.div`
 display: flex;
 flex-flow: row nowrap;
 gap:2px;
+width: 100%;
+overflow-x: auto;
 align-items: center;
 
 
@@ -88,7 +90,9 @@ return (
       <MajorTrends>
         <SingleTrends onClick={() => props.singlePosthashTag("hello")}>
           <div>1.</div>
-          <span>#BOSADADAFAFAGAHHSHHSHSHHSHSSBSBBBXBXBBBXBXBXBXBXBBXBXBXBXBXBBXBXBXBXBX</span>
+          <span>
+            #BOSADADAFAFAGAHHSHHSHSHHSHSSBSBBBXBXBBBXBXBXBXBXBBXBXBXBXBXBBXBXBXBXBX
+          </span>
         </SingleTrends>
         <p>1 Post</p>
       </MajorTrends>
