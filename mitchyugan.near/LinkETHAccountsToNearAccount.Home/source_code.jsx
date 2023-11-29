@@ -15,8 +15,6 @@ return (
       props={connectSectionActivee}
       src="mitchyugan.near/widget/LinkETHAccountsToNearAccount.LandingPage"
     />
-    {/* <p>Text{connectSectionActivee}</p> */}
-    <Widget src="segunojo1.near/widget/LinkETHAccountsToNearAccount.ConnectWallet" />
     <Widget src="mitchyugan.near/widget/LinkETHAccountsToNearAccount.ConnectedAccount" />
   </Home>
 );
