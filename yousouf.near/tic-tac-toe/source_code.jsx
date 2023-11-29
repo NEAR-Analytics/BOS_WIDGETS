@@ -20,11 +20,15 @@ const calculateWinner = (squares) => {
   return null;
 };
 
+const isBoardFull = (squares) => {
+  return squares.every((square) => square !== null);
+};
+
 const [squares, setSquares] = useState(Array(9).fill(null));
 const [xIsNext, setXIsNext] = useState(true);
 
 const handleClick = (index) => {
-  if (squares[index] || calculateWinner(squares)) {
+  if (squares[index] || calculateWinner(squares) || isBoardFull(squares)) {
     return;
   }
 
@@ -35,9 +39,16 @@ const handleClick = (index) => {
 };
 
 const winner = calculateWinner(squares);
-const status = winner
-  ? `Winner: ${winner}`
-  : `Next player: ${xIsNext ? "PLAYER 1" : "PLAYER 2"}`;
+const isFull = isBoardFull(squares);
+
+let status;
+if (winner) {
+  status = `Winner: ${winner === "X" ? "PLAYER 1" : "PLAYER 2"}`;
+} else if (isFull) {
+  status = "It's a draw!";
+} else {
+  status = `Next player: ${xIsNext ? "PLAYER 1" : "PLAYER 2"}`;
+}
 
 return (
   <div
@@ -51,7 +62,7 @@ return (
   >
     <div
       style={{
-        backgroundColor: "#f5f5f5",
+        backgroundColor: winner ? "#8eff8e" : "#fff",
         border: "1px solid #ccc",
         borderRadius: "8px",
         boxShadow: "0px 0px 10px 0px rgba(0, 0, 0, 0.2)",
@@ -59,6 +70,11 @@ return (
         display: "grid",
         gridTemplateColumns: "repeat(3, 1fr)",
         gap: "10px",
+        fontSize: "24px",
+        fontWeight: "bold",
+        textAlign: "center",
+        cursor: "pointer",
+        transition: "background-color 0.3s ease-in-out",
       }}
     >
       <div
@@ -66,14 +82,14 @@ return (
       >
         {status}
       </div>
+
       {squares.map((value, index) => (
         <button
           key={index}
           className="square"
           onClick={() => handleClick(index)}
           style={{
-            backgroundColor:
-              winner && winner.includes(index) ? "#8eff8e" : "#fff",
+            backgroundColor: winner ? "#8eff8e" : "#fff",
             border: "1px solid #ccc",
             fontSize: "24px",
             fontWeight: "bold",
