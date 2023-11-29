@@ -180,9 +180,7 @@ const BlinkRight = styled.div`
 
 `;
 
-if (!accountId) {
-  return "Please sign in with NEAR wallet to save this UI";
-}
+
 
 const addEllipsisIfNeeded = (text, maxLength) => {
   if (text.length > maxLength) {
@@ -222,6 +220,7 @@ return (
         <BlinkRight></BlinkRight>
       </NavList>
     </MainContainer>
+
     <br />
     <br />
   </>
