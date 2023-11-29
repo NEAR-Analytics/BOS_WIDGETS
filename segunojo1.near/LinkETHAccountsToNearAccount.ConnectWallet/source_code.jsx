@@ -27,10 +27,10 @@ const Main = styled.div`
     font-size: 64px;
 font-weight: 700;
 line-height: 120%;
-margin-bottom: 42px;
+margin-bottom: 16px;
   }
   p{
-    margin: 0;
+    text-align: center;
   }
 `;
 
@@ -52,13 +52,13 @@ width: 594px;
 background: #FAFAFA;
 margin: auto;
 border-radius: 12px;
-padding: 93px 60px 93px 52px;
 gap: 32px;
 `;
 
 const main = (
   <Main>
-    <h1>Connect your wallet</h1>
+    <h1>Connect multiple ethereum wallets to a NEAR wallet</h1>
+    <p>Connect an ethereum wallet now</p>
     <Wallets>
       <ConnectWallet>
         <Web3Connect />
