@@ -61,7 +61,7 @@ const ButtonLink = styled.a`
   height: 32px;
   border: 1px solid #d7dbdf;
   border-radius: 100px;
-  font-weight: 600;
+  font-weight: 500;
   font-size: 12px;
   line-height: 22px;
   letter-spacing: -0.03em;
@@ -111,10 +111,10 @@ const AudioButtonLink = styled.a`
   width: 65%;
   padding: 8px;
   height: 31px;
-  margin-bottom:24px;
+  margin-bottom: 10x;
   border: 1px solid #d7dbdf;
   border-radius: 100px;
-  font-weight: 600;
+  font-weight: 500;
   font-size: 12px;
   line-height: 22px;
   letter-spacing: -0.03em;
@@ -133,11 +133,15 @@ const AudioButtonLink = styled.a`
 function Articles() {
   return <Widget src={`${rootUser}/widget/nw-articles`} />;
 }
-
-State.init({ detailsPage: null });
+/*Newsletter*/
+State.init({ detailsPage: null, audioDetails: null });
 function updateDetailsPage(value) {
   State.update({ detailsPage: value });
 }
+function updateAudioDetails(value) {
+  State.update({ audioDetails: value });
+}
+
 function NewsletterCard() {
   return (
     <Widget
@@ -159,14 +163,33 @@ if (state.detailsPage) {
     />
   );
 }
+if (state.audioDetails) {
+  return (
+    <Widget
+      src={`${rootUser}/widget/nw-audio-more`}
+      props={{
+        audioDetails: state.audioDetails,
+        updateAudioDetails,
+      }}
+    />
+  );
+}
 /* NEWSWIRE */
 function NewswireCard() {
   return <Widget src={`${rootUser}/widget/nw-newswire`} />;
 }
 /* AUDIO */
 function AudioCard() {
-  return <Widget src={`${rootUser}/widget/nw-audio`} />;
+  return (
+    <Widget
+      props={{
+        updateAudioDetails,
+      }}
+      src={`${rootUser}/widget/nw-audio`}
+    />
+  );
 }
+/* final return */
 
 const FooterDiv = styled.div``;
 const Footer = styled.div`
@@ -183,7 +206,8 @@ const FooterContent = styled.div`
 `;
 const Container = styled.div`
     background: #FAF9F9;
-    margin:0;
+    margin: 0;
+    font-family: Inter;
 `;
 
 const PriceContainer = styled.div`
@@ -204,29 +228,10 @@ return (
         {/*Newsletter div */}
         <MainSection>
           <NewsletterCard />
-          <TabContentFooter>
-            <ButtonLink href="https://nearweek.com/newsletters" target="_blank">
-              Load more
-            </ButtonLink>
-          </TabContentFooter>
         </MainSection>
         {/*Audio Div */}
         <div class="d-none d-md-block">
-          <MainSection class="border border-danger">
-            <AudioCard />
-            <TabContentFooter>
-              {/* This part remains the same */}
-              <AudioButtonLink href={nwSite + "/audio"} target="_blank">
-                Load more
-              </AudioButtonLink>
-            </TabContentFooter>
-            <AudioBage>
-              <div className="text-container">
-                <h3>Submit Your Audio</h3>
-                <p>Share your podcast, Spaces or interview and get featured</p>
-              </div>
-            </AudioBage>
-          </MainSection>
+          <AudioCard />
         </div>
       </div>
       {/*Articles div */}
@@ -241,30 +246,11 @@ return (
       {/*Newswire div */}
       <MainSection>
         <NewswireCard />
-        <TabContentFooter>
-          <ButtonLink
-            href="https://near.org/nearweekapp.near/widget/nearweek-news"
-            target="_blank"
-          >
-            Load more
-          </ButtonLink>
-        </TabContentFooter>
       </MainSection>
       {/*Audio Div */}
       <div class="d-block d-md-none">
         <MainSection>
           <AudioCard />
-          <TabContentFooter>
-            <AudioButtonLink href={nwSite + "/audio"} target="_blank">
-              Load more
-            </AudioButtonLink>
-          </TabContentFooter>
-          <AudioBage>
-            <div className="text-container">
-              <h3>Submit Your Audio</h3>
-              <p>Share your podcast, Spaces or interview and get featured</p>
-            </div>
-          </AudioBage>
         </MainSection>
       </div>
     </ContentContainer>
