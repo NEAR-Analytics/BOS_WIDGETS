@@ -9,7 +9,7 @@ padding:20px;
 `;
 
 const mainHeader = styled.h2`
-font-family: Space Grotesk;
+// font-family: Space Grotesk;
 font-size: 28px;
 font-weight: 700;
 line-height: 36px;
@@ -29,8 +29,8 @@ const MajorTrends = styled.div`
 display: flex;
 flex-flow: column nowrap;
 justify-content: center;
-padding: 16px 0 0 8px;
-font-family: Space Grotesk;
+padding:16px 0 0 8px;
+// font-family: Space Grotesk;
 cursor:pointer;
 
 &:hover{
