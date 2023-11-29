@@ -111,13 +111,13 @@ function handleClick(widget) {
   setShowBtn(true);
 }
 
-function handleSubmit() {
-  // console.log("clicked check widget");
-  // props.handleSubmit();
-  console.log(input.widgetSrc);
-  props.handleSubmit(input.widgetSrc);
-  setShowBtn(false);
-}
+// function handleSubmit() {
+//   // console.log("clicked check widget");
+//   // props.handleSubmit();
+//   console.log(input.widgetSrc);
+//   props.handleSubmit(input.widgetSrc);
+//   setShowBtn(false);
+// }
 
 return (
   <WidgetApp>
@@ -162,7 +162,7 @@ return (
         )}
       </SearchContainer>
       {showBtn && (
-        <SubmitButton onClick={() => handleSubmit()}>Check Widget</SubmitButton>
+        <SubmitButton onClick={() => props.handleSubmit(input.widgetSrc)}>Check Widget</SubmitButton>
       )}
     </Container>
   </WidgetApp>
