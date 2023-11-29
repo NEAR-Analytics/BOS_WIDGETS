@@ -1,4 +1,3 @@
-
 const owner = "nearcatalog.near";
 const componentPath = `${owner}/widget/NearCatalog`;
 
@@ -198,7 +197,13 @@ html{font-size:20px;}
 
 // const projects = Social.getr("legacy-awesome.near/project", "final");
 
-const query = props?.cat.length > 0 ? fetch("https://nearcatalog.sctuts.com/wp-json/nearcatalog/v1/projects-by-category?cid=" + props.cat) : fetch("https://nearcatalog.sctuts.com/wp-json/nearcatalog/v1/projects");
+const query =
+  props?.cat.length > 0
+    ? fetch(
+        "https://nearcatalog.sctuts.com/wp-json/nearcatalog/v1/projects-by-category?cid=" +
+          props.cat
+      )
+    : fetch("https://nearcatalog.sctuts.com/wp-json/nearcatalog/v1/projects");
 
 if (!query || !query.body) {
   console.log(" loading.....");
@@ -207,17 +212,18 @@ if (!query || !query.body) {
 const projects = query.body;
 console.log("projects", projects);
 
-
 return (
   <>
     <Css>
-      <Widget src={`${componentPath}.Layout.AppGrid`} props={{
-        componentPath: componentPath,
-        projects: projects,
-        title: props?.cat.length > 0 ? props.cat : "",
-        desc: ""
-      }} />
+      <Widget
+        src={`${componentPath}.Layout.AppGrid`}
+        props={{
+          componentPath: componentPath,
+          projects: projects,
+          title: props?.cat.length > 0 ? props.cat : "",
+          desc: "",
+        }}
+      />
     </Css>
-
   </>
 );
