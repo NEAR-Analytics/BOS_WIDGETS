@@ -335,7 +335,6 @@ return (
           </div>
         ))}
     </Accounts>
-    {networkName ? <div></div> : <Web3Connect />}
   </ConnectedAccount>
 );
 
