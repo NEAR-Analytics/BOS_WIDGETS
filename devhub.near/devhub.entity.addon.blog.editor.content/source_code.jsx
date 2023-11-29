@@ -240,7 +240,8 @@ return (
       >
         <div style={{ position: "absolute", top: 10, right: 0 }}>
           <Widget
-            src="devhub.near/widget/devhub.components.molecule.Switch"
+            // LEGACY
+            src="devgovgigs.near/widget/gigs-board.components.molecule.button-switch"
             props={{
               currentValue: previewMode,
               key: "previewMode",
