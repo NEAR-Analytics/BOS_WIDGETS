@@ -120,61 +120,12 @@ padding: 10px 20%;
 
   }
 `;
-/*Handle api call */
 
-// const fetchData = async () => {
-//   try {
-//     const response = await fetch("API URL");
-//     const data = await response.json();
-//     setData(data);
-//   } catch (error) {
-//     console.error("Error fetching data:", error);
-//   }
-// };
-// const [data, setData] = useState([]);
+const near = props.near;
 
-// useEffect(() => {
-//   fetchData();
-// }, []);
+const ether = props.ether;
 
-/*Array of objects */
-const nearData = {
-  name: "#Near.all",
-  age: "#Near.view",
-  city: "#Near.call",
-  url: "little.near/widget/ComponentSearch",
-};
-const ethersData = {
-  name: "#Ether.next",
-  age: "#Ether.call",
-  city: "#Ether.catch",
-  url: "little.ether/widget/ComponentSearch",
-};
-const externalData = {
-  name: "#External.api",
-  age: "#External.call",
-  city: "#External.caught",
-  url: "little.external/widget/ComponentSearch",
-};
-
-// const [near, setNear] = useState(nearData);
-// const [ethers, setEthers] = useState(ethersData);
-// const [external, setExternal] = useState(externalData);
-
-const near = {
-  url: ["near.a", "near.b"],
-  url2: ["near.c", "near.d"],
-};
-
-const ether = {
-  url: ["near.a", "near.b"],
-  url2: ["near.c", "near.d"],
-};
-
-const external = {
-  url: ["near.a", "near.b"],
-  url2: ["near.c", "near.d"],
-};
+const external = props.external;
 
 return (
   <Globalstyle>
