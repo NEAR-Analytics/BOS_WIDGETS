@@ -47,6 +47,10 @@ const LandingPage = styled.div`
             color: white;
         }
     }
+
+    img{
+        width: 650px;
+    }
 `;
 
 const [connectSectionActive, SetConnectSectionActive] = useState(false);
