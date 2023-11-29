@@ -75,7 +75,7 @@ line-height: 26px;
 letter-spacing: 0.1em;
 text-align: left;
 color: #010101;
-
+word-break: break-word;
 
 }
 `;
