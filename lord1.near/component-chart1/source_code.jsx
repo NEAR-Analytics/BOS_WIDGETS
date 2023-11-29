@@ -526,7 +526,7 @@ let TableSection = (
                 title: "Conponent Link",
                 key: "name",
                 link: "yes",
-                beforehref: `https://bos.flipsidecrypto.xyz/${state.singer}/widget/`,
+                beforehref: `https://bos.flipsidecrypto.xyz/${SIGNER}/widget/`,
                 afterhref: "",
                 hyperlink: "yes",
               },
