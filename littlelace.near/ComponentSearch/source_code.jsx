@@ -11,7 +11,7 @@ const WidgetApp = styled.div`
   justify-content: center;
   // padding-top: 20px;
   // background-color: black;
-  height: 100vh;
+  height: 0;
 
   * {
     padding: 0;
