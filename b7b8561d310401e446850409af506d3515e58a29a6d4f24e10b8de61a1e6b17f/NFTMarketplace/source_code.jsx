@@ -2,7 +2,7 @@ State.init({
   chainId: 25925,
   chainName: "kub-chain testnet",
   baseUrl: "https://api.yourapp.com",
-  marketplace2CompleteAddress: "0x74cdd0966E8533b9a64e0fc847474E6A0a12743c",
+  marketplace2CompleteAddress: "0x2F32C5cad9357fB6F2c0775438C1589A020099f1",
   sender: 0x21bf18c13d1fa9a65212a4632dfe4a74eb5e3212,
   signature: null,
   hashMessage: null,
@@ -11,9 +11,9 @@ State.init({
 
 const [formData, setFormData] = useState({
   isSell: true,
-  nftAddress: "0x5D2778967b847Da6AfeBAdc0ED4083b5245B87F1",
+  nftAddress: "0x431b3E0D8d9408DF3F90BfA5d893098e93Cdb372",
   tokenId: 1,
-  tokenAddress: "0x313Cc26b584d5D5Dd8BFe98420CC21E49ba6E0DC",
+  tokenAddress: "0x520Ea5ad4d60602ae6f33EBBc99ea8F253655924",
   price: 40000000,
   expiry: Math.floor(Date.now() / 1000) + 86400,
   nonce: 1,
@@ -221,7 +221,7 @@ const signTransaction712 = () => {
   });
 };
 
-const acceptOffer = (formData) => {
+const acceptOffer = (formData, signature) => {
   const abi = [
     {
       anonymous: false,
@@ -460,7 +460,7 @@ const acceptOffer = (formData) => {
   // perform a call
   Ethers.provider()
     .call({
-      to: "0x74cdd0966E8533b9a64e0fc847474E6A0a12743c",
+      to: "0x2F32C5cad9357fB6F2c0775438C1589A020099f1",
       data: encodedBalanceData,
     })
     .then((rawBalance) => {
@@ -477,7 +477,7 @@ const acceptOffer = (formData) => {
 
   // create a contract instance
   const wEthContract = new ethers.Contract(
-    "0x74cdd0966E8533b9a64e0fc847474E6A0a12743c",
+    "0x2F32C5cad9357fB6F2c0775438C1589A020099f1",
     abi,
     Ethers.provider().getSigner()
   );
@@ -486,11 +486,7 @@ const acceptOffer = (formData) => {
 
   console.log("result", result);
   wEthContract
-    .acceptOffer(
-      formData,
-      "0x2c3a61fa3d5b5cdc6a1e8c658fa656f50faf92e398b37fa729651777fa491890",
-      { gasLimit: 500000 }
-    )
+    .acceptOffer(formData, signature, { gasLimit: 500000 })
     .then((transactionHash) => {
       console.log(transactionHash);
     });
@@ -714,7 +710,9 @@ return (
                 {state.selectedTransaction == item.signature ? (
                   <>
                     <button
-                      onClick={() => acceptOffer(item)}
+                      onClick={() =>
+                        acceptOffer(item.dataToSign, item.signature)
+                      }
                       label="SignButton"
                       style={{ margin: 10 }}
                     >
@@ -731,7 +729,12 @@ return (
       </div>
     </div>
     <button
-      onClick={() => acceptOffer(formData)}
+      onClick={() =>
+        acceptOffer(
+          formData,
+          "0x76675cbbd6381174c95658ecfd49b400cdb14da27ab84aa1bc367c91f88cdf4f798a409ccd6defdfb7e73ce2d6dab1764e2da564b0dba98ba367e16a0fbb858c1c"
+        )
+      }
       label="SignButton"
       style={{ margin: 10 }}
     >
