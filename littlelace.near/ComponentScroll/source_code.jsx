@@ -34,12 +34,13 @@ const handleScroll = (event) => {
   const calculatedHeight = (clientHeight / scrollHeight) * clientHeight;
   const calculatedTop = (scrollTop / scrollHeight) * 100;
 
+  console.log(props)
   setScrollbarHeight(calculatedHeight);
   setThumbTop(calculatedTop);
 };
 
 return (
-  <ScrollBar>
+  <ScrollBar >
     <ScrollBarTrack>
       <ScrollBarThumb
         scrollbarHeight={scrollbarHeight}
