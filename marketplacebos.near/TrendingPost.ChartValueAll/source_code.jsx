@@ -241,8 +241,11 @@ const Table = () => {
           </tr>
         </thead>
         <tbody>
-          {filteredTags.map((item) => (
-            <tr key={item[0]}>
+  {allPostSorted &&
+        allPostSorted
+          .filter((item, index) => index <= 10)
+          .map((item) => (
+                        <tr>
               <StyledTd>
                 <a
                   href={`https://near.social/marketplacebos.near/widget/TrendingPost.TableValue?hashtag=${item[0].replace(
