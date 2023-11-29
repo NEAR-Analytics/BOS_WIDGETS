@@ -25,6 +25,9 @@ gap:4px;
 const MajorTrends = styled.div`
 font-family: Space Grotesk;
 cursor:pointer;
+&:hover{
+  border-bottom: 2px solid;
+}
 
 p{
 font-size: 16px;
