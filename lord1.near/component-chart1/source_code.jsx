@@ -5,7 +5,6 @@ const queries = [
     firstReqTime: 20,
     id: 1,
     query: `select 
-      
             ft.TX_HASH as "hash" ,
             ft.BLOCK_TIMESTAMP::date as "date",
             fw.SIGNER_ID as singer,
@@ -19,7 +18,7 @@ const queries = [
       from near.social.fact_widget_deployments as fw left join 
 near.core.fact_transfers  as ft
 on ft.tx_hash=fw.tx_hash
-where singer='mob.near'
+where singer='{{singer}}'
 order by fw.BLOCK_ID desc`,
   },
   {
