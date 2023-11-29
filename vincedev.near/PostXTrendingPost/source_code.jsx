@@ -29,7 +29,7 @@ const MajorTrends = styled.div`
 display: flex;
 flex-flow: column nowrap;
 justify-content: center;
-align-items: center;
+padding-top:8px;
 font-family: Space Grotesk;
 cursor:pointer;
 
