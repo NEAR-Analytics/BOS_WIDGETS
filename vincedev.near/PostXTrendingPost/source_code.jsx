@@ -28,7 +28,7 @@ width: 90%;
 const MajorTrends = styled.div`
 font-family: Space Grotesk;
 cursor:pointer;
-background-color: ${props.active ? "white" : ""};
+background-color: ${props.activeTag ? "white" : ""};
 
 &:hover{
  
