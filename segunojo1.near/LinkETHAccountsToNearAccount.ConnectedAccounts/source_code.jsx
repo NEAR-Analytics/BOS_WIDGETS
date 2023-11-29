@@ -49,6 +49,9 @@ border: 1px solid rgba(0, 0, 0, 0.22);
 span{
   font-weight: 600;
 }
+h1{
+  font-size: 24px;
+}
 `;
 const Main = styled.div`
 display: flex;
@@ -96,7 +99,7 @@ const main = (
   <Main>
     <Accounts>
       <Acct>
-        <span>Account 1</span>
+        <h1>Account 1</h1>
         <Status>
           <img src="https://i.ibb.co/RypQPsn/Group-3.png" />
           <span>Connected</span>
@@ -107,7 +110,7 @@ const main = (
     </Accounts>
     <Accounts>
       <Acct>
-        <span>Account 1</span>
+        <h1>Account 1</h1>
         <Status>
           <img src="https://i.ibb.co/RypQPsn/Group-3.png" />
           <span>Connected</span>
@@ -118,7 +121,7 @@ const main = (
     </Accounts>
     <Accounts>
       <Acct>
-        <span>Account 1</span>
+        <h1>Account 1</h1>
         <Status>
           <img src="https://i.ibb.co/RypQPsn/Group-3.png" />
           <span>Connected</span>
