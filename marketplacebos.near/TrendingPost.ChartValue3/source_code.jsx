@@ -88,7 +88,7 @@ for (let i = 0; i < day3PostSorted.length; i++) {
   totalItems3Days += day3PostSorted[i][1];
 }
 
-const labelN = "Top 20 trending tags on NEAR Social in 3 days";
+const labelN = "Top 10 trending tags on NEAR Social in 3 days";
 
 const backgroundcolorP = [
   "blue",
