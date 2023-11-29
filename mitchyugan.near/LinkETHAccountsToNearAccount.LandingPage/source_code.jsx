@@ -49,7 +49,7 @@ const LandingPage = styled.div`
     }
 
     img{
-        width: 650px;
+        width: 50px;
     }
 `;
 
