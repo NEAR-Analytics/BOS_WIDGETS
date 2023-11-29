@@ -1,5 +1,5 @@
 const LandingPage = styled.div`
-    width: 80%;
+    width: 85%;
     display: flex;
     align-items: center;
     justify-content: space-between;
