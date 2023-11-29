@@ -1,8 +1,7 @@
 // At this point of deployment. this widget display list of widget that matches search input
-// placeholder: "Search",
-// theme: useTheme(light, dark),
-// handleSubmit: handleSubmit,
-// // value: state.search,
+const [widgets, setWidgets] = useState([]);
+const [input, setInput] = useState({});
+const [showBtn, setShowBtn] = useState(false);
 
 const WidgetApp = styled.div`
   display: flex;
@@ -11,28 +10,20 @@ const WidgetApp = styled.div`
   // padding-top: 20px;
   // background-color: black;
   height: 100vh;
+
   * {
+    padding: 0;
+    margin: 0;
     box-sizing: border-box;
   }
 `;
 
 const Container = styled.div`
-  min-width: 370px;
   width: 100%;
   display: flex;
-  flex: 1;
-  // background-color: grey;
+  justify-content: center;
   height: 54px;
   gap: 1rem;
-  // flow: wrap;
-`;
-
-const TextInput = styled.input`
-  padding: 8px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  outline: none;
-  width: 100%;
 `;
 
 const WidgetList = styled.ul`
@@ -42,14 +33,16 @@ const WidgetList = styled.ul`
   padding: 15px;
   margin-top: 1rem;
   max-height: 300px;
-  height: 300px;
-  // overflow-y: auto;
+  overflow-y: auto;
   box-shadow: 0px 0px 8px #ddd;
   border-radius: 10px;
-  position: relative;
-  // &::-webkit-scrollbar {
-  //   display: none;
-  // }
+  // background-color: #fff;
+  width: 100%;
+  
+  @media only screen and (max-width: 500px)
+  {
+    width: 270px;
+  }
 `;
 
 const WidgetItem = styled.li`
@@ -64,12 +57,12 @@ const WidgetItem = styled.li`
 
 // search container
 const SearchContainer = styled.div`
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  flex: 1;
+  width: 350px;
+  // display: flex;
+  // flex-direction: column;
   height: 100%;
   gap: 1rem;
+  font-size: 1rem;
   .input-group {
     height: 100%;
     border: 1px solid #ccc;
@@ -88,31 +81,42 @@ const SubmitButton = styled.button`
   justify-content: center;
   border: none;
   background: #8D61EE;
+  opacity: 1;
   color: #fff;
   border-radius: 10px;
-  // width:40%;
-  width: 150px;
+  // width:30%;
+  height: 100%;
 `;
 
-const [input, setInput] = useState("");
-const [widgets, setWidgets] = useState([]);
+// function handleChange(value) {
+//   setInput(value);
+//   const fetchWidgets = fetch("https://jsonplaceholder.typicode.com/users").body;
 
-function handleChange(value) {
-  setInput(value);
-  const fetchWidgets = fetch("https://jsonplaceholder.typicode.com/users").body;
+//   const filteredWidgets = fetchWidgets.filter(
+//     (widget) =>
+//       value && widget.username.toLowerCase().includes(value.toLowerCase())
+//   );
+//   setWidgets(filteredWidgets);
+//   // console.log(filteredWidgets)
+// }
 
-  const filteredWidgets = fetchWidgets.filter(
-    (widget) =>
-      value && widget.username.toLowerCase().includes(value.toLowerCase())
-  );
-  setWidgets(filteredWidgets);
-  // console.log(filteredWidgets)
-}
+// function handleClick(widget) {
+//   // setInput(widget.widgetName);
+//   // console.log(widget.widgetSrc);
+
+// }
 function handleClick(widget) {
-  // setInput(widget.widgetName);
-  // console.log(widget.widgetSrc);
+  setInput(widget);
+  console.log("Input: ", input);
+  setShowBtn(true);
+}
 
-  props.handleSubmit("sourcescan.near/widget/SourceScan.Contracts.Info");
+function handleSubmit() {
+  // console.log("clicked check widget");
+  // props.handleSubmit();
+  console.log(input.widgetSrc);
+  props.handleSubmit(input.widgetSrc);
+  setShowBtn(false);
 }
 
 return (
@@ -125,12 +129,13 @@ return (
               <input type="text" className="form-control" />
             </div>
           }
-          src="mob.near/widget/ComponentSearch"
+          src="littlelace.near/widget/ComponentSearchInput"
           props={{
             boostedTag: "app",
-            placeholder: "Search Applications",
+            placeholder: "   Search Applications",
             limit: 10,
             onChange: ({ result }) => {
+              if (!result.length) result = "";
               State.update({ apps: result });
             },
           }}
@@ -152,10 +157,13 @@ return (
                 </WidgetItem>
               ))}
             </div>
+            {console.log()}
           </WidgetList>
         )}
       </SearchContainer>
-      <SubmitButton onClick={() => handleClick()}>Check Widget</SubmitButton>
+      {showBtn && (
+        <SubmitButton onClick={() => handleSubmit()}>Check Widget</SubmitButton>
+      )}
     </Container>
   </WidgetApp>
 );
