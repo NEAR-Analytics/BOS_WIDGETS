@@ -22,7 +22,7 @@ const LandingPage = styled.div`
 
         h1{
             color: #000;
-            font-size: 64px;
+            font-size: 55px;
             font-style: normal;
             font-weight: 700;
             line-height: 120%;
