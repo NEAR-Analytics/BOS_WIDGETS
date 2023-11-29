@@ -137,27 +137,27 @@ letter-spacing: 0.15px;
 `;
 
 /*This section handles the screen size respinsiveness at maximum of 750px (Mobile first design) */
-const Main = styled.div`
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  background-color: #fff;
-  overflow-y: auto;
-  height: 100vh;
-  padding-bottom: 80px;
-  background-image: url('https://bit.ly/dtect-app');
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-position: center;
+// const Main = styled.div`
+//   width: 100%;
+//   display: flex;
+//   flex-direction: column;
+//   background-color: #fff;
+//   overflow-y: auto;
+//   height: 100vh;
+//   padding-bottom: 80px;
+//   background-image: url('https://bit.ly/dtect-app');
+//   background-repeat: no-repeat;
+//   background-size: cover;
+//   background-position: center;
 
-  @media only screen and (max-width: 750px) {
-    padding-bottom: 160px;
-  }
-`;
+//   @media only screen and (max-width: 750px) {
+//     padding-bottom: 160px;
+//   }
+// `;
 
 return (
   <NavStyle>
-    <Main>
+    
       <Header>
         <Titlediv>
           <Title1>DTEC</Title1> <Title2>TEET</Title2>
@@ -171,6 +171,6 @@ return (
           </Navspan2>
         </Navdiv>
       </Header>
-    </Main>
+  
   </NavStyle>
 );
