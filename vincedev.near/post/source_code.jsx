@@ -90,11 +90,13 @@ const fetchTrendFeed = () => {
 
   setPostActive(false);
   setTrendActive(true);
+  setActiveTag("");
 };
 const fetchAllPost = () => {
   setTrendList([]);
   setPostActive(true);
   setTrendActive(false);
+  setActiveTag("");
 };
 
 useEffect(() => {
@@ -110,7 +112,6 @@ const singlePosthashTag = (text) => {
   setTrendActive(false);
   setTrendList([]);
   setSearch("");
-  console.log(text);
 };
 
 return (
