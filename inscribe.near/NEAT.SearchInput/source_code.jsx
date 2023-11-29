@@ -9,6 +9,8 @@ function getConfig(network) {
     case "mainnet":
       return {
         ownerId: "inscribe.near",
+        graphUrl:
+          "https://api.thegraph.com/subgraphs/name/inscriptionnear/neat",
         nodeUrl: "https://rpc.mainnet.near.org",
         indexerUrl: "https://inscription-indexer-a16497da251b.herokuapp.com/v1",
         contractName: "inscription.near",
@@ -23,6 +25,8 @@ function getConfig(network) {
     case "testnet":
       return {
         ownerId: "inscribe.testnet",
+        graphUrl:
+          "https://api.thegraph.com/subgraphs/name/inscriptionnear/neat",
         nodeUrl: "https://rpc.testnet.near.org",
         indexerUrl: "https://inscription-indexer-a16497da251b.herokuapp.com/v1",
         contractName: "inscription.testnet",
