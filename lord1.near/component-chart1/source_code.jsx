@@ -19,7 +19,7 @@ const queries = [
 near.core.fact_transfers  as ft
 on ft.tx_hash=fw.tx_hash
 where singer='{{singer}}'
-order by "rank"::int desc`,
+order by "rank" desc`,
   },
   {
     hash: "4fd2820b-b877-46f5-bdf1-b0c3cd9f64a6",
@@ -526,7 +526,7 @@ let TableSection = (
                 title: "Conponent Link",
                 key: "name",
                 link: "yes",
-                beforehref: `https://bos.flipsidecrypto.xyz/${state.SIGNER}/widget/`,
+                beforehref: `https://bos.flipsidecrypto.xyz/${state.singer}/widget/`,
                 afterhref: "",
                 hyperlink: "yes",
               },
