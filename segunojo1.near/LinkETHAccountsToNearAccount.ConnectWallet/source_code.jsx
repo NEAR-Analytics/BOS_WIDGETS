@@ -30,6 +30,8 @@ const Main = styled.div`
 font-weight: 700;
 line-height: 120%;
 margin-bottom: 16px;
+max-width: 880px;
+margin:  auto;
   }
   p{
     text-align: center;
