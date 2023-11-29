@@ -18,7 +18,6 @@ const StyledSVG = styled.svg`
   stroke: #4299e1; /* Replace with your desired color */
 `;
 
-
 const respBlock = fetch("https://api.nearblocks.io/v1/stats");
 
 const newBlock = Math.round(
@@ -463,20 +462,19 @@ const Table = () => {
             ))}
           </tbody>
         </StyledTable>
-       
       </Wap>
-       <a href="https://near.social/trendingpostbos.near/widget/Index">
-          <StyledButton title="Go Back">
-            <StyledSVG xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-              <path
-                strokeLinejoin="round"
-                strokeLinecap="round"
-                strokeWidth="1.5"
-                d="M11 6L5 12M5 12L11 18M5 12H19"
-              />
-            </StyledSVG>
-          </StyledButton>
-        </a>
+      <a href="https://near.social/trendingpostbos.near/widget/Index">
+        <StyledButton title="Go Back">
+          <StyledSVG xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path
+              strokeLinejoin="round"
+              strokeLinecap="round"
+              strokeWidth="1.5"
+              d="M11 6L5 12M5 12L11 18M5 12H19"
+            />
+          </StyledSVG>
+        </StyledButton>
+      </a>
     </>
   );
 };
