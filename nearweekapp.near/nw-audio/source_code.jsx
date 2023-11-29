@@ -1,9 +1,9 @@
+const updateAudioDetails = props.updateAudioDetails;
+const audioCardFullWidth = props.audioCardFullWidth;
+
 function AudioCard() {
-  const accountId = "near";
-  articles;
-  State.init({ active: 0 });
+  State.init({ page: 1 });
   const nwSite = "https://nearweek.com";
-  let posts = [];
 
   const fetchData = (url) => {
     return fetch(url, {
@@ -17,9 +17,11 @@ function AudioCard() {
   };
 
   const fetchAudio = fetchData(
-    "https://nearweek.com/api/show-audio?populate=deep&sort=createdAt:desc&pagination[pageSize]=5"
+    `https://nearweek.com/api/show-audio?populate=deep&sort=createdAt:desc&pagination[pageSize]=${
+      state.page * 5
+    }`
   );
-
+  console.log(fetchAudio, "fetchAudio1");
   function formatPodcastDate(dateString) {
     const timeAgo = (diffSec) =>
       diffSec < 60000
@@ -43,6 +45,9 @@ function AudioCard() {
       categories: categories.slice(0, 2), // Slice the first two categories
       createdAt: formatPodcastDate(item.createdAt),
       url: nwSite + "/audio/" + item.slug,
+      frame: item.frame,
+      frameSrc: item.frameSrc,
+      description: item.Description,
     };
   });
 
@@ -63,15 +68,15 @@ function AudioCard() {
 
   const AudioCard = styled.div`
     position: relative;
-    width:100%;
-    padding:12px;
+    cursor: pointer;
+    width: 100%;
+    padding: 12px;
     border-radius: 12px;
     background: #fff;
     display:flex;
-    justify-content: center;
     border: 1px solid #eceef0;
     overflow: hidden;
-    margin-bottom:24px;
+    margin-bottom: 10px;
   `;
 
   const AudioThumbnail = styled.img`
@@ -82,20 +87,19 @@ function AudioCard() {
 
   const AudioTitle = styled.div`
   height: 41px;
-  width: 181px;
   owerflow: hidden;
   text-overflow: elipsis;
   whitespace: nowrap;
   text-decoration: none;
   cursor: pointer;
-  grid-area: 1 / 1 / 2 / 3;
-  & :hover {
+  &:hover {
     color: black;
     text-decoration: none;
-    cursor: pointer;}
-    `;
+    cursor: pointer;
+    }
+  `;
 
-  const AudioTitleLink = styled.a`
+  const AudioTitleText = styled.h4`
   color: black;  `;
 
   const AudioTitleLinkContent = styled.p`
@@ -111,7 +115,7 @@ function AudioCard() {
   `;
 
   const AudioCategoriesContent = styled.p`
-  font-weight: 600;
+  font-weight: 500;
   font-size: 10px;
   line-height: 8.5px;
   color: #9C9C9C;
@@ -138,6 +142,7 @@ margin-top:2.5px;
     margin:0;
   `;
   const AudioCardDescription = styled.div`
+    width: 100%;
     margin-left:15px
   `;
 
@@ -151,27 +156,95 @@ line-height: 15px;
 margin-bottom: 15px;
 `;
 
+  const AudioButtonLoad = styled.button`
+  width: 180px;
+  padding: 8px;
+  height: 31px;
+  background: transparent;
+  margin: 8px auto 0px auto;
+  border: 1px solid #d7dbdf;
+  border-radius: 100px;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 22px;
+  letter-spacing: -0.03em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  cursor: pointer;
+  white-space: nowrap;
+  color: hsla(204, 22%, 9%, 1);
+  &:hover,
+  &:focus {
+    text-decoration: none;
+    outline: none;
+    }
+  `;
+
+  const AudioBage = styled.div`
+max-width: 300px;
+width: 100%;
+border-radius: 12px;
+background: linear-gradient(0deg, #101010, #101010), linear-gradient(180.95deg, #FFD225 -3.64%, rgba(255, 255, 255, 0) 58.09%);
+box-shadow: 0px 2px 12px 0px #00000040;
+background: darkcyan;
+margin: 2rem auto 0 auto; 
+padding: 10px 15px;
+display:flex;
+flex-direction: column;
+& .text-container {
+  width: 160px;
+  & p {
+    color: rgba(255, 255, 255, 0.80);
+    font-family: Inter;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 14px;
+    margin:0;
+    }
+    & h3 {
+      color: #FFF;
+      font-family: Inter;
+      font-size: 16px;
+      font-style: normal;
+      font-weight: 500;
+      line-height: 20px;
+      margin-bottom:4xp;
+}}`;
+
+  const MainSection = styled.div`
+    border: 1px solid var(--bs-border-color);
+    border-radius: 20px;
+    padding: 20px 15px;
+    margin-bottom: 24px;
+    height: fit-content;
+    width: ${(props) => (props.fullWidth ? "100%" : "341px")};
+    background: white;
+    @media screen and (min-width: ${breakpoints.lg}) {
+      max-width: 700px;
+    }
+`;
+
   return (
-    <div>
-      <H2>Audio</H2>
+    <MainSection fullWidth={audioCardFullWidth} class="border border-danger">
+      <H2>{audioCardFullWidth ? "Related Audio" : "Audio"}</H2>
       {audio.length > 0 ? (
         audio.map((podcast, index) => (
           <div key={index}>
-            <AudioCard>
+            <AudioCard onClick={() => updateAudioDetails(podcast)}>
               <AudioThumbnail src={podcast.thumbnail} alt={podcast.title} />
               <AudioCardDescription>
                 {/* Display the podcast title as a link */}
                 <AudioTitle>
-                  <AudioTitleLink
-                    href={podcast.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
+                  <AudioTitleText>
                     <AudioTitleLinkContent>
                       {podcast.title}
                     </AudioTitleLinkContent>
-                  </AudioTitleLink>
+                  </AudioTitleText>
                 </AudioTitle>
+                {/* Display categories */}
                 <div className="d-flex align-items-center gap-1 mt-1 justify-content-between">
                   <div className="d-flex flex-wrap align-items-center gap-2">
                     {podcast.categories.map((c) => {
@@ -181,6 +254,7 @@ margin-bottom: 15px;
                         </AudioCategories>
                       );
                     })}
+                    {/* Display creation date */}
                   </div>
                   <AudioDate>{podcast.createdAt}</AudioDate>
                 </div>
@@ -191,7 +265,10 @@ margin-bottom: 15px;
       ) : (
         <div>Loading ...</div>
       )}
-    </div>
+      <AudioButtonLoad onClick={() => State.update({ page: state.page + 1 })}>
+        Load more
+      </AudioButtonLoad>
+    </MainSection>
   );
 }
 
