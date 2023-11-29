@@ -213,9 +213,7 @@ return (
         </NavListItem>
         <NavListItem>
           <EllipsisNavLink
-            href={
-              `https://near.org/near/widget/ProfilePage?accountId=${accountId}`
-            }
+            href={`https://near.org/near/widget/ProfilePage?accountId=${accountId}`}
             title={accountId}
           >
             {addEllipsisIfNeeded(accountId, 10)}
