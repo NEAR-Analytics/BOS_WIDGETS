@@ -4,7 +4,7 @@ const allMetadata =
     "final"
   ) || {};
 const keys = Social.keys(["*/widget/*"], "final", { values_only: true }) || {};
-console.log(props.input);
+
 const requiredTag = props.filterTag;
 const boostedTag = props.boostedTag;
 const inputTerm = props.term;
@@ -116,8 +116,6 @@ return (
         value={state.term ?? ""}
         onChange={(e) => {
           const term = e.target.value;
-          // props.setInput(e.target.value);
-          console.log(props.input);
           clearTimeout(state.debounce);
           State.update({
             term,
@@ -133,6 +131,7 @@ return (
           type="button"
           onClick={() => {
             clearTimeout(state.debounce);
+            console.log("state in cancel: ", state);
             State.update({
               term: "",
               apps: "",
