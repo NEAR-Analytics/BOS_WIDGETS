@@ -1,7 +1,7 @@
 const LandingPage = styled.div`
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;700&display=swap');
 
-    width: 90%;
+    width: 100%;
     display: flex;
     align-items: center;
     justify-content: space-between;
