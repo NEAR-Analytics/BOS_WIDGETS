@@ -1,14 +1,14 @@
-State.init({
-  theme: props.theme || {
-    name: "light",
-    bg: "#e3e8ef",
-    color: "#4c5566",
-    border: "#748094",
-    hover: {
-      bg: "#eef2f6",
-    },
-  },
-});
+/*This is for the screen design*/
+
+/*This fetches the google poppins, Monteserrat, and Orbitron fonts*/
+const font = fetch(
+  "https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Montserrat+Alternates:wght@400;600;800&family=Orbitron:wght@400;600&family=Poppins:wght@100;200;700&display=swap"
+).body;
+
+/*This checks wether the google font is returned, if not, it returns null*/
+if (!font) {
+  return null;
+}
 
 /*Here is the global font style to be used */
 const Globalstyle = styled.div`
@@ -25,101 +25,93 @@ const Main = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column;
-  background-color: ${state.theme.bg};
+  background-color: #fff;
   overflow-y: auto;
+  height: 100vh;
   padding-bottom: 80px;
 
   @media only screen and (max-width: 750px) {
     padding-bottom: 160px;
+
   }
+`;
+
+const Maincontent = styled.div`
+  width: 100%;
+`;
+
+const Section1 = styled.div`
+  width: 100%;
+  height: auto;
 `;
 
 const Section2 = styled.div`
   width: 100%;
-  
+  height: auto;
 `;
 const Resultdiv = styled.div`
-    display: flex;
-    align-items: flex-start;
-    justify-content: center;
-    gap: 20px;
-    width: 100%;
-    color: ${state.theme.color};
-    text-align: left;
-    font-family: Poppins, 'sans-serif';
-    font-size: 20px;
-    font-style: normal;
-    font-weight: 500;
-    padding: 10px 0;
-    
+display: flex;
+align-items: flex-start;
+justify-content: center;
+width: 100vw;
+color: rgba(0, 0, 0, 0.74);
+text-align: left;
+font-family: Poppins, 'sans-serif';
+font-size: 20px;
+font-style: normal;
+font-weight: 500;
+line-height: 211.496%; /* 42.299px */
+padding: 10px 20%;
     .resultWrapper{
-        // border: 2px solid ${state.theme.border};
-        flex: 1;
+        width: 45%; 
+        flex-shrink: 0;
         border-radius: 10px;
         padding: 15px;
+        margin-right: 20px;
     }
-    
     .result{
-        width: 100%;
-        margin-top: 10px;
-        border-radius: 10px;
-        background: ${state.theme.bg};
-        border: 1px solid ${state.theme.border};
-    }
-    
-    .list-result {
         display: flex;
         flex-direction: column;
         justify-content: center;
-        gap: 10px;
-        padding: 8px;
+        padding: 30px;
         width: 100%;
-        margin-bottom: 10px;
-
+        height: auto;
+        flex-shrink: 0;
+        border-radius: 10px;
+        background: rgb(255,255,255);
+        border: 3px solid rgb(246,246,246);
+    }
+    .list-result {
+        width: 100%;
     }
     .list-result p{
         font-size: 13px;
         word-wrap: break-word;
-    }
-    
-    .list-result > div{
-        border: 0.5px dashed ${state.theme.border};
-        padding: 8px;
-
-    }
-    .list-result div div{
-        display: flex;
-        flex-wrap: wrap;
-        gap: 2px;
-    }
-
-   
-    .list-result div div span{
-        display: inline-flex;
-        padding: 5px;
+        margin: 10px 0;
     }
     .list{
-        background: ${state.theme.bg};
-        border: 1px solid ${state.theme.border};
+        background: rgb(248,249,250);
+        border: 1px solid #000;
         width: auto;
         border-radius: 5px;
-        padding: 2px;
+        padding: 4px;
         text-align: center;
         font-size: 12px;
 
     }
-    
-  @media only screen and (max-width: 1000px) {
+  @media only screen and (max-width: 750px) {
+    font-size: 12px;
     padding: 5px 10%;
+    display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    
+
     .resultWrapper{
         width: 90%; 
     }
 
-    .result{
+        .result{
         width: auto;
         height: auto;
         flex-shrink: 0;
@@ -127,93 +119,126 @@ const Resultdiv = styled.div`
     }
 
   }
-  
-  @media only screen and (max-width: 750px) {
-    font-size: 12px;
-  }
-  
 `;
+/*Handle api call */
 
-const near = props.near;
-const ether = props.ether;
-const external = props.external;
+// const fetchData = async () => {
+//   try {
+//     const response = await fetch("API URL");
+//     const data = await response.json();
+//     setData(data);
+//   } catch (error) {
+//     console.error("Error fetching data:", error);
+//   }
+// };
+// const [data, setData] = useState([]);
+
+// useEffect(() => {
+//   fetchData();
+// }, []);
+
+/*Array of objects */
+const nearData = {
+  name: "#Near.all",
+  age: "#Near.view",
+  city: "#Near.call",
+  url: "little.near/widget/ComponentSearch",
+};
+const ethersData = {
+  name: "#Ether.next",
+  age: "#Ether.call",
+  city: "#Ether.catch",
+  url: "little.ether/widget/ComponentSearch",
+};
+const externalData = {
+  name: "#External.api",
+  age: "#External.call",
+  city: "#External.caught",
+  url: "little.external/widget/ComponentSearch",
+};
+
+// const [near, setNear] = useState(nearData);
+// const [ethers, setEthers] = useState(ethersData);
+// const [external, setExternal] = useState(externalData);
+
+const near = {
+  url: ["near.a", "near.b"],
+  url2: ["near.c", "near.d"],
+};
+
+const ether = {
+  url: ["near.a", "near.b"],
+  url2: ["near.c", "near.d"],
+};
+
+const external = {
+  url: ["near.a", "near.b"],
+  url2: ["near.c", "near.d"],
+};
 
 return (
-  <>
-    {near || ether || external ? (
-      <Globalstyle>
-        <Main>
-          <Section2>
-            <Resultdiv>
-              <div className="resultWrapper">
-                <h3>NEAR APIs</h3>
-                <div className="result">
-                  <div className="list-result">
-                    {Object.keys(near).length ? (
-                      Object.entries(near).map(([url, apis]) => (
+  <Globalstyle>
+    <Main>
+      <Widget />
+      <Maincontent>
+        <Section1></Section1>
+
+        <Section2>
+          <Resultdiv>
+            <div className="resultWrapper">
+              <h3>NEAR APIs</h3>
+              <div className="result">
+                <div className="list-result">
+                  {near
+                    ? Object.entries(near).map(([url, apis]) => (
                         <div>
                           <p>{url}</p>
-                          <div>
-                            {[...new Set(apis)].map((api) => (
-                              <span className="list">{api}</span>
-                            ))}
-                          </div>
+                          {apis.map((api) => (
+                            <span className="list">{api}</span>
+                          ))}
                         </div>
                       ))
-                    ) : (
-                      <div>No Near APIs found</div>
-                    )}
-                  </div>
+                    : "No Near APIs found"}
                 </div>
               </div>
-              <div className="resultWrapper">
-                <h3>Etherjs APIs</h3>
-                <div className="result">
-                  <div className="list-result">
-                    {Object.keys(ether).length ? (
-                      Object.entries(ether).map(([url, apis]) => (
+            </div>
+            <div className="resultWrapper">
+              <h3>Etherjs APIs</h3>
+              <div className="result">
+                <div className="list-result">
+                  {near
+                    ? Object.entries(near).map(([url, apis]) => (
                         <div>
                           <p>{url}</p>
-                          <div>
-                            {[...new Set(apis)].map((api) => (
-                              <span className="list">{api}</span>
-                            ))}
-                          </div>
+                          {apis.map((api) => (
+                            <span className="list">{api}</span>
+                          ))}
                         </div>
                       ))
-                    ) : (
-                      <div>No Etherjs APIs found</div>
-                    )}
-                  </div>
+                    : "No Etherjs APIs found"}
                 </div>
               </div>
-              <div className="resultWrapper">
-                <h3>External APIs</h3>
-                <div className="result">
-                  <div className="list-result">
-                    {Object.keys(external).length ? (
-                      Object.entries(external).map(([url, apis]) => (
+            </div>
+            <div className="resultWrapper">
+              <h3>External APIs</h3>
+              <div className="result">
+                <div className="list-result">
+                  {near
+                    ? Object.entries(external).map(([url, apis]) => (
                         <div>
                           <p>{url}</p>
-                          <div>
-                            {[...new Set(apis)].map((api) => (
-                              <span className="list">{api}</span>
-                            ))}
-                          </div>
+                          {apis.map((api) => (
+                            <span className="list">{api}</span>
+                          ))}
                         </div>
                       ))
-                    ) : (
-                      <div>No External APIs found</div>
-                    )}
-                  </div>
+                    : "No External APIs found"}
                 </div>
               </div>
-            </Resultdiv>
-          </Section2>
-        </Main>
-      </Globalstyle>
-    ) : (
-      ""
-    )}
-  </>
+            </div>
+          </Resultdiv>
+        </Section2>
+      </Maincontent>
+    </Main>
+  </Globalstyle>
 );
