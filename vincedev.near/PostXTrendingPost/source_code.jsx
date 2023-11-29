@@ -92,7 +92,7 @@ return (
         return (
           <MajorTrends
             style={{
-              backgroundColor: `${props.activeTag === d[0]} ? "white": ""`,
+              backgroundColor: `${props.activeTag === d[0] ? "white" : ""}`,
             }}
           >
             <SingleTrends onClick={() => props.singlePosthashTag(d[0])}>
