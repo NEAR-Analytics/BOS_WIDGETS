@@ -80,7 +80,7 @@ return (
       {sortedHashList?.map((d, i) => {
         return (
           <MajorTrends>
-            <SingleTrends>
+            <SingleTrends onClick={props.singlePosthashTag(d[0])}>
               <div>{i + 1}.</div>
               <span>#{d[0]}</span>
             </SingleTrends>
