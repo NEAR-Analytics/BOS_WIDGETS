@@ -5,11 +5,11 @@ return (
       columns: [
         {
           type: "name",
-          width: "25%",
+          width: "27%",
           name: "Deposit Asset",
         },
         { type: "apy", width: "23%", name: "APY" },
-        { type: "collateral", width: "17%", name: "Collateral" },
+        { type: "collateral", width: "15%", name: "Collateral" },
         {
           type: "total",
           key: "balance",
