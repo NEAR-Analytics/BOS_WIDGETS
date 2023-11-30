@@ -386,7 +386,7 @@ const Table = () => {
           }}
         />
         <br />
-          <div>
+        <div>
           Trending Tag:{" "}
           <a href={`https://near.social/?hashtag=${props.hashtag || "near"}`}>
             {props.hashtag || "near"}
