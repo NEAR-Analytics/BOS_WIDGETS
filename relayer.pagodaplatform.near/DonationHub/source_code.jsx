@@ -33,84 +33,31 @@ const Theme = styled.div`
 
 if (!page) {
   // If no page is specified, we default to the feed page TEMP
-  page = "home";
+  page = "feed";
 }
 
 // This is our navigation, rendering the page based on the page parameter
 function Page() {
   const routes = page.split(".");
   switch (routes[0]) {
-    case "home": {
-      return (
-        <Widget
-          src={"lucus.near/widget/DoantionHub.page.feed"}
-          props={passProps}
-        />
-      );
-    }
-
-    // ?page=feed
     case "feed": {
       return (
         <Widget
-          src={"lucus.near/widget/DonationHub.page.feed"}
+          src={"natapat.near/widget/Donationhub.page.feed"}
           props={passProps}
         />
       );
     }
-    // ?page=create
     case "create": {
       return (
         <Widget
-          src={"lucus.near/widget/Donation.Project.Create"}
+          src={"natapat.near/widget/Donation.Project.Create"}
           props={passProps}
         />
       );
-    }
-    // ?page=about
-    case "about": {
-      return (
-        <Widget
-          src={"devhub.near/widget/devhub.page.about"}
-          props={passProps}
-        />
-      );
-    }
-    case "contribute": {
-      return (
-        <Widget
-          src={"devhub.near/widget/devhub.page.contribute"}
-          props={passProps}
-        />
-      );
-    }
-    case "profile": {
-      return (
-        <Widget
-          src={"devhub.near/widget/devhub.page.profile"}
-          props={passProps}
-        />
-      );
-    }
-    // ?page=blog
-    case "blog": {
-      return (
-        <Widget src={"devhub.near/widget/devhub.page.blog"} props={passProps} />
-      );
-    }
-    case "post": {
-      return (
-        <Widget src={"devhub.near/widget/devhub.page.post"} props={passProps} />
-      );
-    }
-
-    default: {
-      // TODO: 404 page
-      return <p>404</p>;
     }
   }
 }
-
 return (
   <Theme>
     <AppLayout page={page}>
