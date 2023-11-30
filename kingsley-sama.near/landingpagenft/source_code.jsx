@@ -4,9 +4,10 @@ const Container = styled.div`
   min-height: fit-content;
   align-items: center;
   justify-content: center;
-  background-color: #f0f4f8; /* Use your desired background color */
+  background-color: #f0f4f8;
   margin:10px;
    width: fit-content;
+   border-radius: 10px;
 `;
 
 const FlexContainer = styled.div`
@@ -57,13 +58,17 @@ const Stock = styled.div`
 const Button = styled.button`
   height: 2rem;
   padding: 0 1rem;
-  font-semibold;
+  font-bold;
   rounded-md;
-  background:blue;
-  border-radious: 5px;
+  background:black;
+  border-radius: 5px;
   width:100px;
   border: none; /* Use your desired border color */
-  color: #2d3748; /* Use your desired text color */
+  color: white; /* Use your desired text color */
+   &:hover {
+    background-color: grey;
+    color: "black";
+  }
 `;
 const HeartIcon = styled.svg`
   width: 20px;
@@ -104,7 +109,7 @@ const profile = {
     },
     {
       id: 3,
-      nftName: "Marilyn Monroe Toy Face",
+      nftName: "Toy Face",
       nftURL:
         "https://ipfs.near.social/ipfs/bafkreihlizxfb7hywefw22nkiwaoubo6mwyabgr5dozfbmdhmuo2es3xnu",
       artistName: "Marilyn Monroe",
@@ -137,7 +142,7 @@ const profile = {
       id: 6,
       nftName: "RetroRadio 40",
       nftURL:
-        " Rabiu https://ipfs.near.social/ipfs/bafkreib7o6ix7yojgctob3adigb6jjveoxqlseip5iip5gv6d6ecp3i6my",
+        "https://ipfs.near.social/ipfs/bafkreidac2uf7v7hj3xi4hzx22bzmtcaq76w7n4xfvngn6w4366pwglm34",
       artistName: "RetroRadio",
       numberOfVotes: 0,
       status: true,
@@ -146,7 +151,7 @@ const profile = {
 
     {
       id: 7,
-      nftName: "Alhaji Atiku Abubakar",
+      nftName: "Tale Nft",
       nftURL:
         "Alhaji https://ipfs.near.social/ipfs/bafkreiaqvbnejqvoaqulvgcyyqfqedo5jep4ppx7vppxiscnrca6ytyufa",
       artistName: "Alhaji Atiku Abubakar",
@@ -313,7 +318,7 @@ return (
             <FormContainer role="form">
               <div>
                 <Title>{link.nftName}</Title>
-                <Price>Vote Count</Price>
+                <Price>Vote Count: {link.status}</Price>
                 <Stock>Artist: {link.artistName} </Stock>
               </div>
               <div>
