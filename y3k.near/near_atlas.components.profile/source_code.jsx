@@ -17,7 +17,7 @@ const Wrapper = styled.div`
 return (
   <Wrapper>
     <Widget
-      src="mob.near/widget/ProfileLarge"
+      src="y3k.near/widget/near_atlas.components.profileDesktop"
       props={{
         accountId,
         profile,
