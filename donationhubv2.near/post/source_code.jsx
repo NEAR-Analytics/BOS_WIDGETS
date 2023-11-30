@@ -27,28 +27,14 @@ State.init({
 
 let des = state.description.split("~");
 
-function convertTimestampToReadableDate(timestamp) {
-  // Multiply by 1000 to convert seconds to milliseconds
-  const date = new Date(timestamp * 1000);
-
-  // Options for formatting the date
-  const options = {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-    hour: "numeric",
-    minute: "numeric",
-    second: "numeric",
-    timeZoneName: "short",
-  };
-
-  // Format the date according to the options
-  const formattedDate = date.toLocaleDateString("en-US", options);
-
-  return formattedDate;
+function readableDate(timestamp) {
+  var a = new Date(timestamp);
+  return a.toDateString() + " " + a.toLocaleTimeString();
 }
 
-const readableDate = convertTimestampToReadableDate(state.timestamp);
+const timestamp = readableDate(
+  state.timestamp ? state.timestamp / 1000000 : Date.now()
+);
 
 return (
   <CityContainer>
@@ -58,7 +44,7 @@ return (
       <VotesText>{des[0]}</VotesText>
       <VotesText>{des[1]}</VotesText>
       <VotesText>Posted By: {state.authorId}</VotesText>
-      <VotesText>Published: {readableDate}</VotesText>
+      <VotesText>Published: {timestamp}</VotesText>
     </CityInfo>
   </CityContainer>
 );
