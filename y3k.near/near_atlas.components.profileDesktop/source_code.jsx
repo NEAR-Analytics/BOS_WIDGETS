@@ -127,9 +127,20 @@ return (
                 </div>
               </div>
             </div>
-            <button className="py-2 px-4 bg-blue-600 hover:bg-blue-700 rounded transition duration-300">
-              Edit profile
-            </button>
+            {showEditButton && (
+              <div>
+                <a
+                  href="#/mob.near/widget/ProfileEditor"
+                  className="btn btn-outline-secondary rounded-5"
+                >
+                  <button className="py-2 px-4 bg-blue-600 hover:bg-blue-700 rounded transition duration-300">
+                    Edit profile
+                  </button>
+                </a>
+              </div>
+            )}
+
+            <Widget src="mob.near/widget/FollowButton" props={{ accountId }} />
           </div>
 
           <div className="flex space-x-4 mt-8 justify-end">
