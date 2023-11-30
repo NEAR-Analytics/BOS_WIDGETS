@@ -9,6 +9,7 @@ function sanitizeJsonString(str) {
   return str
     .replace(/\\/g, "\\\\") // Escape backslashes
     .replace(/"/g, '\\"') // Escape double quotes
+    .replace(/'/g, "\\'") // Escape apostrophes
     .replace(/\n/g, "\\n") // Replace newlines with \n
     .replace(/\r/g, "\\r") // Replace carriage returns with \r
     .replace(/\t/g, "\\t"); // Replace tabs with \t
