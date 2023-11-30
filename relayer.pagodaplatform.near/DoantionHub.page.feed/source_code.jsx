@@ -46,7 +46,7 @@ const FeedPage = ({ recency, tag }) => {
     <div className="w-100">
       <Widget src={`lucus.near/widget/DonationHub.components.island.banner`} />
       <Widget
-        src={"devhub.near/widget/devhub.feature.post-search.panel"}
+        src={"natapat.near/widget/Donationhub.feature.post-search.panel"}
         props={{
           hideHeader: false,
           children: (
