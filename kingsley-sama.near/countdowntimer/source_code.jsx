@@ -17,6 +17,7 @@ const Container = styled.div`
   justify-content: center;
   margin: 0 5px;
   height: 200px;
+  width:"90%";
 `;
 
 const Card = styled.div`
