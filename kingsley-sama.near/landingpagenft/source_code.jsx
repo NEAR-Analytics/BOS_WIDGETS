@@ -291,6 +291,12 @@ if (state.sender == undefined && Ethers.provider()) {
       }
     });
 }
+setOverallCount(overallCount + 1);
+
+// Update the count for the clicked button
+const updatedArray = arrayOfObjects.map((obj) =>
+  obj.id === id ? { ...obj, count: obj.count + 1 } : obj
+);
 
 // Create contract interface
 const iPollDart = new ethers.utils.Interface(PollABI);
@@ -304,6 +310,13 @@ const vote = (nftId) => {
   );
 
   pollDartContract.vote(nftId);
+  setCount(count + 1);
+
+  // Update the count for the clicked button
+  const updatedArray = arrayOfObjects.map((obj) =>
+    obj.id === id ? { ...obj, count: obj.count + 1 } : obj
+  );
+
   console.log("Voting is Successful");
 };
 
@@ -392,7 +405,7 @@ const profile = {
   avatar:
     "https://ipfs.near.social/ipfs/bafkreic6f6cwyn2loqcln6itukuipl72grqzqqhkmwy6ea3zwqoolgbzxu",
   title: "Ape Fest Poll",
-  subtitle: "Discover Polls",
+  subtitle: "The Current Poll Ends",
   links: [
     {
       id: 1,
@@ -630,10 +643,7 @@ return (
                 <Stock>Artist: {link.artistName} </Stock>
               </div>
               <div>
-                <Button
-                  onClick={() => handleButtonClick(link.id)}
-                  type="button"
-                >
+                <Button onClick={() => vote(link.id)} type="button">
                   Vote
                 </Button>
               </div>
