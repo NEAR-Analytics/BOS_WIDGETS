@@ -254,8 +254,9 @@ if (actionText.includes("Collateral")) {
           onMessage?.({
             status: 3,
             open: true,
-            text: `Submitting ${tokenSymbol} ${isEnter ? "enable" : "disable"
-              } as collateral request...`,
+            text: `Submitting ${tokenSymbol} ${
+              isEnter ? "enable" : "disable"
+            } as collateral request...`,
           });
           const isEnter = actionText === "Enable as Collateral";
           const CollateralContract = new ethers.Contract(
@@ -280,9 +281,11 @@ if (actionText.includes("Collateral")) {
                 onMessage?.({
                   status: status === 1 ? 1 : 2,
                   open: true,
-                  text: `${tokenSymbol} ${isEnter ? "enable" : "disable"
-                    } as collateral request ${status === 1 ? "successed!" : "failed!"
-                    }`,
+                  text: `${tokenSymbol} ${
+                    isEnter ? "enable" : "disable"
+                  } as collateral request ${
+                    status === 1 ? "successed!" : "failed!"
+                  }`,
                 });
               });
             })
@@ -293,8 +296,9 @@ if (actionText.includes("Collateral")) {
               onMessage?.({
                 status: 2,
                 open: true,
-                text: `${tokenSymbol} ${isEnter ? "enable" : "disable"
-                  } as collateral request failed!
+                text: `${tokenSymbol} ${
+                  isEnter ? "enable" : "disable"
+                } as collateral request failed!
                 `,
               });
             });
@@ -355,11 +359,11 @@ const AccessKey = Storage.get(
 );
 
 function add_action(param_body) {
-  asyncFetch("https://test-api.dapdap.net/api/action/add-action-data", {
+  asyncFetch("/dapdap/api/action/add ", {
     method: "post",
     headers: {
       "Content-Type": "application/json",
-      Authorization: AccessKey
+      Authorization: AccessKey,
     },
     body: JSON.stringify(param_body),
   });
@@ -396,8 +400,9 @@ return (
             onMessage?.({
               status: status === 1 ? 1 : 2,
               open: true,
-              text: `${tokenSymbol} ${actionText.toLowerCase()} request ${status === 1 ? " successed!" : " failed!"
-                }`,
+              text: `${tokenSymbol} ${actionText.toLowerCase()} request ${
+                status === 1 ? " successed!" : " failed!"
+              }`,
             });
 
             if (status === 1) {
