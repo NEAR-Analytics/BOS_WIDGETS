@@ -584,12 +584,15 @@ const getTokenReserveData = (
 
 const getUserReverveData = (market) => {
   const address = market[1];
+
   return dataProviderContract
     .getUserReserveData(address, account)
     .then((data) => {
       const underlyingAsset = Tokens[address];
-      const scaledATokenBalanceUsd = Big(data[0].toString())
-        .div(Big(10).pow(underlyingAsset.decimals))
+      const userSupply = Big(data[0].toString()).div(
+        Big(10).pow(underlyingAsset.decimals)
+      );
+      const scaledATokenBalanceUsd = userSupply
         .times(state.tokensPrice[address])
         .toFixed(4);
 
@@ -613,6 +616,7 @@ const getUserReverveData = (market) => {
         address,
         underlyingAsset,
         scaledATokenBalanceUsd,
+        userSupply: userSupply.toFixed(4),
         usageAsCollateralEnabledOnUser,
         scaledVariableDebt,
         scaledVariableDebtUsd,
@@ -721,10 +725,12 @@ if (
   let userTotalSupplyUsd = Big(0);
   let userTotalBorrowUsd = Big(0);
   let totalCollateralUsd = Big(0);
-
   parsedData.forEach((data) => {
     if (data.usageAsCollateralEnabledOnUser) {
-      totalCollateralUsd = totalCollateralUsd.plus(data.scaledATokenBalanceUsd);
+      const loanToValue = marketData[data.address].loanToValue;
+      totalCollateralUsd = totalCollateralUsd.plus(
+        Big(data.scaledATokenBalanceUsd).mul(loanToValue / 100)
+      );
     }
 
     userTotalSupplyUsd = userTotalSupplyUsd.plus(data.scaledATokenBalanceUsd);
@@ -767,7 +773,7 @@ if (
     marketData[address] = {
       ...marketData[address],
       ...d,
-      userSupply: d.scaledATokenBalanceUsd,
+      userSupply: d.userSupply,
       userBorrow: d.scaledVariableDebt,
     };
   });
@@ -826,7 +832,7 @@ if (
       ];
     }
   });
-
+  console.log("userData", userData);
   onLoad({
     ...{ ...userData, ...props },
     markets: parsedMarketData,
