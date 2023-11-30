@@ -153,15 +153,15 @@ const profile = {
       id: 7,
       nftName: "Tale Nft",
       nftURL:
-        "Alhaji https://ipfs.near.social/ipfs/bafkreiaqvbnejqvoaqulvgcyyqfqedo5jep4ppx7vppxiscnrca6ytyufa",
-      artistName: "Alhaji Atiku Abubakar",
+        "https://ipfs.near.social/ipfs/bafkreiaqvbnejqvoaqulvgcyyqfqedo5jep4ppx7vppxiscnrca6ytyufa",
+      artistName: "Mode Nova",
       numberOfVotes: 0,
       status: true,
       voteCount: 0,
     },
     {
       id: 8,
-      nftName: "Nwanyanwu Daniel",
+      nftName: "Cranial",
       nftURL:
         "https://ipfs.near.social/ipfs/bafkreiaqvbnejqvoaqulvgcyyqfqedo5jep4ppx7vppxiscnrca6ytyufa",
       artistName: "Nwanyanwu Daniel",
@@ -181,10 +181,10 @@ const profile = {
     },
     {
       id: 10,
-      nftName: "Nwanyanwu Daniel",
+      nftName: "Cranial Earth Maps",
       nftURL:
         "https://ipfs.near.social/ipfs/bafkreiaqvbnejqvoaqulvgcyyqfqedo5jep4ppx7vppxiscnrca6ytyufa",
-      artistName: "Nwanyanwu Daniel",
+      artistName: "Map Finder",
       numberOfVotes: 0,
       status: true,
       voteCount: 0,
