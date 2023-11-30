@@ -90,10 +90,6 @@ const profile = {
     { title: "Whatsapp", url: "#" },
     { title: "Linkedin", url: "#" },
   ],
-  Polls: [
-    { title: "Github", url: "#" },
-    { title: "Twitter", url: "#" },
-  ],
 };
 
 const titleToIcon = [
@@ -145,7 +141,7 @@ return (
       style={{
         display: "flex",
         flexDirection: "row",
-        justifyContent: "center",
+        justifyContent: "space-evenly",
         alignItems: "center",
         padding: "10px",
         height: "fit-content",
@@ -156,6 +152,12 @@ return (
         background: "black",
       }}
     >
+      <img
+        style={{ aspectRatio: 1 / 1, maxHeight: "60px" }}
+        src={
+          "https://ipfs.near.social/ipfs/bafkreicxfp5vicqzbnlu75ottkkfghmm3snhlevg373rjtwym72do5ortm"
+        }
+      ></img>
       <h3 style={{ margin: "10px" }}>Poll Dart</h3>
       <Web3Connect />
     </div>
@@ -164,7 +166,7 @@ return (
         height: "100%",
         maxHeight: 200,
         borderRadius: "10px",
-        aspectRatio: 2 / 1,
+        width: "80vw",
         objectFit: "cover",
       }}
       src={profile.avatar}
@@ -176,6 +178,11 @@ return (
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
+        background: "rgba(250, 250, 250, 0.1)",
+        width: "80vw",
+        borderRadius: "10px",
+        border: "1px solid white",
+        padding: "10px",
       }}
     >
       <h2 style={{ color: props.theme.textColor }}>{profile.title}</h2>
@@ -214,14 +221,6 @@ return (
             </FormContainer>
           </FlexContainer>
         </Container>
-      ))}
-    </div>
-
-    <div style={{ display: "flex", gap: 16 }}>
-      {profile.socials?.map((link) => (
-        <a href={link.url} target="_blank" style={{ fontSize: "1.5rem" }}>
-          {titleToIcon.find((ti) => ti.title === link.title).icon}
-        </a>
       ))}
     </div>
   </div>
