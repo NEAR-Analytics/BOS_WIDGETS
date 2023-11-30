@@ -40,14 +40,23 @@ const [hints, setHints] = useState(3);
 const [displayWord, setDisplayWord] = useState(false);
 const [gameOver, setGameOver] = useState(false);
 const [wrongGuesses, setWrongGuesses] = useState(0);
-
+const [countdown, setCountdown] = useState(60);
 useEffect(() => {
   if (wrongGuesses >= 3) {
     // Code to show the popup or message for game over
     setMsg("Game Over! You made too many wrong guesses.");
-    restartGameFunction();
   }
 }, [wrongGuesses]);
+useEffect(() => {
+  if (countdown > 0) {
+    const timer = setTimeout(() => {
+      setCountdown(countdown - 1);
+    }, 1000);
+    return () => clearTimeout(timer);
+  } else {
+    setMsg("Game Over! Time's up.");
+  }
+}, [countdown]);
 
 const letterSelectFunction = (letter) => {
   if (!chosenLetters.includes(letter)) {
@@ -107,6 +116,8 @@ const checkWordGuessedFunction = () => {
 const guessFunction = () => {
   if (checkWordGuessedFunction()) {
     setMsg("Kayi Nasara, ka/kin rubuta kalmar dai dai!   🔥 ");
+    sleep(2);
+    restartGameFunction();
   } else {
     setMsg("Anyi kuskure!. A kara gwadawa!");
     setDisplayWord(true);
@@ -121,6 +132,7 @@ const restartGameFunction = () => {
   setDisplayWord(false);
   setGameOver(false);
   setWrongGuesses(0);
+  setCountdown(60);
 };
 
 return (
@@ -143,6 +155,7 @@ return (
     >
       Wasan Kalmomi akan BOS
     </h1>
+    <h5>Time Remaining: {countdown} seconds</h5>
     <div
       style={{
         display: "flex",
@@ -200,6 +213,7 @@ return (
         {displayWord && <p>Correct word was: {wordData.word}</p>}
       </div>
     )}
+
     <div
       className="button-section"
       style={{ display: "flex", flexDirection: "column", alignItems: "center" }}
@@ -222,6 +236,15 @@ return (
         >
           Fara daga farko
         </button>
+        <div
+          style={{
+            marginBottom: "20px",
+            fontSize: "20px",
+            fontWeight: "bold",
+            color: "#333",
+          }}
+        ></div>
+
         <button
           onClick={removeCharacterFunction}
           disabled={!chosenLetters.length}
