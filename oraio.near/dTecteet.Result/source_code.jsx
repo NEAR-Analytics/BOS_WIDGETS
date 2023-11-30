@@ -27,7 +27,6 @@ const Main = styled.div`
   flex-direction: column;
   background-color: ${state.theme.bg};
   overflow-y: auto;
-//   height: 100vh;
   padding-bottom: 80px;
 
   @media only screen and (max-width: 750px) {
@@ -84,7 +83,7 @@ padding: 10px 20%;
     }
     .list-result p{
         font-size: 13px;
-        word-wrap: break-word;
+        // word-wrap: break-word;
         margin: 10px 0;
     }
     .list{
