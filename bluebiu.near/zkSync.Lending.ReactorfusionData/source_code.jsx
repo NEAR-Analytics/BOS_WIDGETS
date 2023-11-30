@@ -522,10 +522,7 @@ const getCTokenData = (oToken) => {
     {},
     (res) => {
       oTokensLength--;
-      const exchangeRateStored = ethers.utils.formatUnits(
-        res[0][0]._hex,
-        10 + oToken.underlyingToken.decimals
-      );
+      const exchangeRateStored = ethers.utils.formatUnits(res[0][0]._hex, 18);
       const userSupply = ethers.utils.formatUnits(
         res[5][1]._hex,
         oToken.decimals
