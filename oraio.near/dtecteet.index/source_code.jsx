@@ -26,7 +26,7 @@ const detectNearAPI = (componentCode) => {
 };
 
 const detectEtherAPI = (componentCode) => {
-  const etherAPICallRegex = /web3\.[a-zA-Z]+\.?\w*\(/g;
+  const etherAPICallRegex = /ethers\.[a-zA-Z]+\.?\w*\(/g;
   return componentCode.match(etherAPICallRegex);
 };
 
