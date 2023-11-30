@@ -148,7 +148,7 @@ const fundraisingDiv = (
 );
 
 function generateDescription(text, amount, token, supervisor) {
-  const funding = `Requested amount: ${amount} ${token}~Requested sponsor: @${supervisor}\n`;
+  const funding = `Requested amount: ${amount} ${token}~Requested sponsor: @${supervisor}~`;
   if (amount > 0 && token && supervisor) return funding + text;
   return newText;
 }
