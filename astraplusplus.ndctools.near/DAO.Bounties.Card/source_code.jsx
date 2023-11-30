@@ -116,7 +116,6 @@ const getStatusVariant = (bounty, claim) => {
     const prop = bounty?.bountyDoneProposals.find(
         (doneProp) => doneProp.bountyClaimId === claim.id
     );
-    console.log(bounty)
 
     switch (prop.status) {
         case "Approved":
