@@ -207,14 +207,14 @@ return (
         >
           <span className="icon">{swapIcon}</span>Swap
         </div>
-        <div
+        {/* <div
           onClick={() => {
             changeTab("Lending");
           }}
           className={`item ${activeMenu == "Lending" ? "active" : ""}`}
         >
           <span className="icon">{lendingIcon}</span>Lending
-        </div>
+        </div> */}
       </MenuContainer>
       <div className="flex-grow contentOut">
         {activeMenu == "Bridge" ? (
@@ -237,7 +237,7 @@ return (
             />
           </>
         ) : null}
-        {activeMenu == "Lending" ? <></> : null}
+        {/* {activeMenu == "Lending" ? <></> : null} */}
       </div>
     </Container>
   </Layout>
