@@ -257,7 +257,7 @@ const Wap = styled.div`
   text-align: center;
 `;
 
-const labelN = "Top trending posts on NEAR Social";
+const labelN = "Top trending posts in 3days on NEAR Social";
 
 const backgroundcolorP = [
   "blue",
@@ -335,7 +335,7 @@ let labelP = [];
 // Check if item.accountId is defined and not null
 postEngagement.forEach((item) => {
   if (item.accountId) {
-    dataP.push(item.EP || 0); // Assuming EP is the ENCOURAGE POINT
+    dataP.push(item.EP3D || 0); // Assuming EP is the ENCOURAGE POINT
     labelP.push(
       new Date(item.dateCreated).toLocaleString("en-GB", {
         hour12: false,
@@ -386,6 +386,13 @@ const Table = () => {
           }}
         />
         <br />
+          <div>
+          Trending Tag:{" "}
+          <a href={`https://near.social/?hashtag=${props.hashtag || "near"}`}>
+            {props.hashtag || "near"}
+          </a>
+        </div>
+        <br />
         <br />
         <br />
         <StyledTable>
@@ -413,16 +420,31 @@ const Table = () => {
                   </a>
                 </StyledTd>
                 <StyledTd maxWidth="100px">
-                  {typeof item.accountId === "string" &&
-                  item.accountId.includes(".near")
-                    ? item.accountId
-                    : typeof item.accountId === "string" &&
-                      item.accountId.slice(0, 7) +
-                        "..." +
-                        item.accountId.slice(
-                          item.accountId.length - 10,
-                          item.accountId.length - 1
-                        )}
+                  <a
+                    href={`https://near.social/mob.near/widget/ProfilePage?accountId=${
+                      typeof item.accountId === "string" &&
+                      item.accountId.includes(".near")
+                        ? item.accountId
+                        : typeof item.accountId === "string" &&
+                          item.accountId.slice(0, 7) +
+                            "..." +
+                            item.accountId.slice(
+                              item.accountId.length - 10,
+                              item.accountId.length - 1
+                            )
+                    }`}
+                  >
+                    {typeof item.accountId === "string" &&
+                    item.accountId.includes(".near")
+                      ? item.accountId
+                      : typeof item.accountId === "string" &&
+                        item.accountId.slice(0, 7) +
+                          "..." +
+                          item.accountId.slice(
+                            item.accountId.length - 10,
+                            item.accountId.length - 1
+                          )}
+                  </a>
                 </StyledTd>
                 <StyledTd>{item.EP && item.EP.toFixed(4)}</StyledTd>
                 <StyledTd>{item.EP3D && item.EP3D.toFixed(4)}</StyledTd>
