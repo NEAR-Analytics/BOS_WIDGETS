@@ -186,7 +186,6 @@ const lendingIcon = (
     />
   </svg>
 );
-
 return (
   <Layout>
     <Container>
@@ -199,14 +198,14 @@ return (
         >
           <span className="icon">{bridgeIcon}</span>Bridge
         </div>
-        <div
+        {/* <div
           onClick={() => {
             changeTab("swap");
           }}
           className={`item ${activeMenu == "swap" ? "active" : ""}`}
         >
           <span className="icon">{swapIcon}</span>Swap
-        </div>
+        </div> */}
         <div
           onClick={() => {
             changeTab("Lending");
@@ -222,7 +221,7 @@ return (
             <Widget src="bluebiu.near/widget/Avalanche.Bridge" />
           </>
         ) : null}
-        {activeMenu == "swap" ? <></> : null}
+        {/* {activeMenu == "swap" ? <></> : null} */}
         {activeMenu == "Lending" ? (
           <>
             <Widget src="bluebiu.near/widget/Avalanche.Lending" props={props} />
