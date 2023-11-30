@@ -102,7 +102,7 @@ const renderTag = (tag, tagBadge) => (
 const renderItem = (a) => {
   return (
     <div
-      className="mb-3 bg-white"
+      className="mb-3 bg-white px-2 py-2"
       key={JSON.stringify(a)}
       style={{ minHeight: "10em" }}
     >
