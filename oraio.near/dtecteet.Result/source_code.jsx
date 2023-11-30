@@ -139,7 +139,7 @@ return (
               <div className="result">
                 <div className="list-result">
                   {near
-                    ? Object.entries(near).map(([url, apis]) => (
+                    ? Object.entries(ether).map(([url, apis]) => (
                         <div>
                           <p>{url}</p>
                           {apis.map((api) => (
