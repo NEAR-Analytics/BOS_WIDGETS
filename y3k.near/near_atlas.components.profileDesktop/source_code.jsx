@@ -65,7 +65,6 @@ return (
             }}
           />
         )}
-        <div className="absolute top-0 left-0 w-full h-full bg-black bg-opacity-50"></div>
 
         <div className="relative p-4">
           <div className="flex justify-between items-end">
