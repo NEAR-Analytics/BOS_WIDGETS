@@ -9,7 +9,7 @@ State.init({
   selectedTransaction: null,
 });
 
-const [formData, setFormData] = useState({
+const [offerData, setFormData] = useState({
   isSell: true,
   nftAddress: "0x431b3E0D8d9408DF3F90BfA5d893098e93Cdb372",
   tokenId: 1,
@@ -164,19 +164,19 @@ const createNonceFromSigner = (signer) => {
 };
 
 const signTransaction = () => {
-  if (!formData.nftAddress || !formData.tokenId) {
+  if (!offerData.nftAddress || !offerData.tokenId) {
     console.log("Some required fields are missing.");
     return;
   }
 
   const dataToSign = {
-    isSell: formData.isSell,
-    nftAddress: formData.nftAddress,
-    tokenId: formData.tokenId,
-    tokenAddress: formData.tokenAddress,
-    price: formData.price,
-    expiry: formData.expiry,
-    nonce: formData.nonce,
+    isSell: offerData.isSell,
+    nftAddress: offerData.nftAddress,
+    tokenId: offerData.tokenId,
+    tokenAddress: offerData.tokenAddress,
+    price: offerData.price,
+    expiry: offerData.expiry,
+    nonce: offerData.nonce,
   };
 
   const dataString = JSON.stringify(dataToSign);
@@ -195,21 +195,21 @@ const signTransaction = () => {
 };
 
 const signTransaction712 = () => {
-  console.log(formData);
+  console.log(offerData);
 
-  if (!formData.nftAddress || !formData.tokenId) {
+  if (!offerData.nftAddress || !offerData.tokenId) {
     console.log("Some required fields are missing.");
     return;
   }
 
   const dataToSign = {
-    isSell: formData.isSell,
-    nftAddress: formData.nftAddress,
-    tokenId: formData.tokenId,
-    tokenAddress: formData.tokenAddress,
-    price: formData.price,
-    expiry: formData.expiry,
-    nonce: formData.nonce,
+    isSell: offerData.isSell,
+    nftAddress: offerData.nftAddress,
+    tokenId: offerData.tokenId,
+    tokenAddress: offerData.tokenAddress,
+    price: offerData.price,
+    expiry: offerData.expiry,
+    nonce: offerData.nonce,
   };
 
   const message = createEIP712Message(dataToSign);
@@ -221,7 +221,7 @@ const signTransaction712 = () => {
   });
 };
 
-const acceptOffer = (formData, signature) => {
+const acceptOffer = (offerData, signature) => {
   const abi = [
     {
       anonymous: false,
@@ -449,12 +449,12 @@ const acceptOffer = (formData, signature) => {
   ];
 
   console.log(abi);
-  console.log(formData);
+  console.log(offerData);
 
   const iface = new ethers.utils.Interface(abi);
 
   const encodedBalanceData = iface.encodeFunctionData("getMessageHashEncode", [
-    formData,
+    offerData,
   ]);
 
   // perform a call
@@ -486,7 +486,7 @@ const acceptOffer = (formData, signature) => {
 
   console.log("result", result);
   wEthContract
-    .acceptOffer(formData, signature, { gasLimit: 500000 })
+    .acceptOffer(offerData, signature, { gasLimit: 500000 })
     .then((transactionHash) => {
       console.log(transactionHash);
     });
@@ -596,7 +596,7 @@ return (
             <label htmlFor="isSell">Transaction Type:</label>
             <select
               id="isSell"
-              value={String(formData.isSell)}
+              value={String(offerData.isSell)}
               onChange={handleChange}
               style={styles.select}
             >
@@ -610,7 +610,7 @@ return (
               type="text"
               name="nftAddress"
               id="nftAddress"
-              value={formData.nftAddress}
+              value={offerData.nftAddress}
               onChange={handleChange}
             />
           </div>
@@ -620,7 +620,7 @@ return (
               type="number"
               name="tokenId"
               id="tokenId"
-              value={formData.tokenId}
+              value={offerData.tokenId}
               onChange={handleChange}
             />
           </div>
@@ -630,7 +630,7 @@ return (
               type="text"
               name="tokenAddress"
               id="tokenAddress"
-              value={formData.tokenAddress}
+              value={offerData.tokenAddress}
               onChange={handleChange}
             />
           </div>
@@ -640,7 +640,7 @@ return (
               type="number"
               name="price"
               id="price"
-              value={formData.price}
+              value={offerData.price}
               onChange={handleChange}
             />
           </div>
@@ -650,7 +650,7 @@ return (
               type="number"
               name="expiry"
               id="expiry"
-              value={formData.expiry}
+              value={offerData.expiry}
               onChange={handleChange}
             />
           </div>
@@ -660,7 +660,7 @@ return (
               type="number"
               name="nonce"
               id="nonce"
-              value={formData.nonce}
+              value={offerData.nonce}
               onChange={handleChange}
             />
           </div>
@@ -731,7 +731,7 @@ return (
     <button
       onClick={() =>
         acceptOffer(
-          formData,
+          offerData,
           "0x76675cbbd6381174c95658ecfd49b400cdb14da27ab84aa1bc367c91f88cdf4f798a409ccd6defdfb7e73ce2d6dab1764e2da564b0dba98ba367e16a0fbb858c1c"
         )
       }
