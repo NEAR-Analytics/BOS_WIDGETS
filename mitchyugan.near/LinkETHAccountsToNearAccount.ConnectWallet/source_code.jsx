@@ -43,10 +43,9 @@ return (
       <p>Connect an ethereum wallet now</p>
       <Wallets>
         <ConnectWallet>
-          <Web3Connect class="connectweb3btn" />
+          <Web3Connect />
         </ConnectWallet>
       </Wallets>
     </Main>
   </>
 );
-
