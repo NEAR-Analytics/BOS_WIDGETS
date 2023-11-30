@@ -1,8 +1,5 @@
 const submissionDeadline = new Date("2023-12-31T23:59:59");
 
-// State for the countdown timer
-const [timeRemaining, setTimeRemaining] = useState;
-
 // Calculate the time remaining until the submission deadline
 function getTimeRemaining() {
   const now = new Date();
@@ -16,8 +13,10 @@ function getTimeRemaining() {
   return { days, hours, minutes, seconds };
 }
 
-// Update the countdown timer every second
+// State for the countdown timer
+const [timeRemaining, setTimeRemaining] = useState(getTimeRemaining());
 
+// Update the countdown timer every second
 useEffect(() => {
   const intervalId = setInterval(() => {
     setTimeRemaining(getTimeRemaining());
@@ -26,14 +25,12 @@ useEffect(() => {
   // Clear the interval when the component is unmounted
   return () => clearInterval(intervalId);
 }, []);
-const { days, hours, minutes, seconds } = getTimeRemaining();
-
 const sharedCardStyles = `
   background: linear-gradient(to right, #4b5563, #1f2937);
   flex: auto;
   width: 42%;
   height: 42%;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.1);
   border-radius: 10px;
   display: flex;
   justify-content: center;
@@ -46,8 +43,7 @@ const Container = styled.div`
   align-items: center;
   justify-content: center;
   margin: 0 5px;
-  height: 200px;
-  width:"90%";
+  height: 100vh;
 `;
 
 const Card = styled.div`
@@ -92,7 +88,7 @@ const LocationCard = styled.div`
     color: #d1d5db;
   }
 `;
-
+const { days, hours, minutes, seconds } = getTimeRemaining();
 return (
   <Container>
     <Card>
@@ -107,7 +103,7 @@ return (
       >
         <PriceCard>
           <div>
-            <h3>Days Left: </h3>
+            <h3>Days Left :</h3>
             <h2>{days}</h2>
           </div>
         </PriceCard>
@@ -117,7 +113,8 @@ return (
             <h2>{hours}</h2>
           </div>
         </PriceCard>
-        <TimeCard>
+
+        <LocationCard>
           <PriceCard>
             <div>
               <h3>Mins Left:</h3>
@@ -130,7 +127,7 @@ return (
               <h2>{seconds}</h2>
             </div>
           </PriceCard>
-        </TimeCard>
+        </LocationCard>
       </div>
     </Card>
   </Container>
