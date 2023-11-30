@@ -1,3 +1,32 @@
+const submissionDeadline = new Date("2023-12-31T23:59:59");
+
+// State for the countdown timer
+const [timeRemaining, setTimeRemaining] = useState;
+
+// Calculate the time remaining until the submission deadline
+function getTimeRemaining() {
+  const now = new Date();
+  const difference = submissionDeadline - now;
+  const days = Math.floor(difference / (1000 * 60 * 60 * 24));
+  const hours = Math.floor(
+    (difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+  );
+  const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+  const seconds = Math.floor((difference % (1000 * 60)) / 1000);
+  return { days, hours, minutes, seconds };
+}
+
+// Update the countdown timer every second
+
+useEffect(() => {
+  const intervalId = setInterval(() => {
+    setTimeRemaining(getTimeRemaining());
+  }, 1000);
+
+  // Clear the interval when the component is unmounted
+  return () => clearInterval(intervalId);
+}, []);
+const { days, hours, minutes, seconds } = getTimeRemaining();
 const sharedCardStyles = `
   background: linear-gradient(to right, #4b5563, #1f2937);
   flex: auto;
@@ -77,27 +106,27 @@ return (
       >
         <PriceCard>
           <div>
-            <h2>10</h2>
-            <h3>delivery cost</h3>
+            <h3>Days Left: </h3>
+            <h2>{days}</h2>
           </div>
         </PriceCard>
         <PriceCard>
           <div>
-            <h3>Secs Left:</h3>
-            <h2>30</h2>
+            <h3>Hours Left:</h3>
+            <h2>{hours}</h2>
           </div>
         </PriceCard>
         <TimeCard>
           <PriceCard>
             <div>
               <h3>Mins Left:</h3>
-              <h2>30</h2>
+              <h2>{minutes}</h2>
             </div>
           </PriceCard>
           <PriceCard>
             <div>
               <h3>Secs Left:</h3>
-              <h2>30</h2>
+              <h2>{seconds}</h2>
             </div>
           </PriceCard>
         </TimeCard>
