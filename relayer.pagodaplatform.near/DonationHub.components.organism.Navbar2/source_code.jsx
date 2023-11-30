@@ -63,12 +63,7 @@ const ProfileIcon = () => {
         widgetSrc: "natapat.near/widget/DoantionHub",
         params: { page: "profile", accountId: context.accountId },
       })}
-    >
-      <Widget
-        src="devhub.near/widget/devhub.components.molecule.ProfileCard"
-        props={{ iconOnly: true, accountId: context.accountId || null }}
-      />
-    </Link>
+    ></Link>
   );
 };
 
