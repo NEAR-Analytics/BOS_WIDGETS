@@ -21,7 +21,10 @@ return (
   <Home>
     <Widget src="mitchyugan.near/widget/LinkETHAccountsToNearAccount.Navbar" />
     <Widget src="mitchyugan.near/widget/LinkETHAccountsToNearAccount.LandingPage" />
-    {connectSectionActive ? (
+    {
+    
+    }
+    {user && connectSectionActive ? (
       <Widget src="segunojo1.near/widget/LinkETHAccountsToNearAccount.ConnectWallet" />
     ) : (
       <Widget src="mitchyugan.near/widget/LinkETHAccountsToNearAccount.ConnectedAccount" />
