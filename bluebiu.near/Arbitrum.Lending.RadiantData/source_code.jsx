@@ -1132,19 +1132,17 @@ if (
 
       reduceDailyRewards = reduceDailyRewards.plus(Big(dailyRewards));
     }
-
     if (userData.parsedData[i]) {
       const data = userData.parsedData[i];
       if (data.usageAsCollateralEnabledOnUser) {
-        totalCollateralUsd = totalCollateralUsd
-          .plus(data.scaledATokenBalanceUsd)
-          .times(market.loanToValue / 100);
+        totalCollateralUsd = totalCollateralUsd.plus(
+          Big(data.scaledATokenBalanceUsd).times(market.loanToValue / 100)
+        );
       }
     }
 
     const { netApy: netApyRaw } = market;
     netApy = netApy.plus(netApyRaw);
-    console.log("netApy: ", netApy);
 
     market.userUnderlyingBalance = market.aTokenBalance;
 
@@ -1177,7 +1175,7 @@ if (
       price: rewardPrice,
     },
   ];
-
+  console.log("userData", userData);
   onLoad({
     ...{ ...userData, ...props },
     markets: parsedMarketData,
