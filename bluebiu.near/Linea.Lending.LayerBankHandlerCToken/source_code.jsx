@@ -1,7 +1,7 @@
 const CTOKEN_ABI = [
   {
     inputs: [
-      { internalType: "address", name: "account", type: "address" },
+      { internalType: "address", name: "gToken", type: "address" },
       { internalType: "uint256", name: "uAmount", type: "uint256" },
     ],
     name: "supply",
@@ -11,16 +11,18 @@ const CTOKEN_ABI = [
   },
   {
     inputs: [
-      { internalType: "uint256", name: "redeemAmount", type: "uint256" },
+      { internalType: "address", name: "gToken", type: "address" },
+      { internalType: "uint256", name: "uAmount", type: "uint256" },
     ],
     name: "redeemUnderlying",
-    outputs: [],
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
     stateMutability: "nonpayable",
     type: "function",
   },
   {
     inputs: [
-      { internalType: "uint256", name: "borrowAmount", type: "uint256" },
+      { internalType: "address", name: "gToken", type: "address" },
+      { internalType: "uint256", name: "amount", type: "uint256" },
     ],
     name: "borrow",
     outputs: [],
@@ -28,10 +30,13 @@ const CTOKEN_ABI = [
     type: "function",
   },
   {
-    inputs: [{ internalType: "uint256", name: "repayAmount", type: "uint256" }],
+    inputs: [
+      { internalType: "address", name: "gToken", type: "address" },
+      { internalType: "uint256", name: "amount", type: "uint256" },
+    ],
     name: "repayBorrow",
     outputs: [],
-    stateMutability: "nonpayable",
+    stateMutability: "payable",
     type: "function",
   },
 ];
@@ -40,7 +45,7 @@ const { market, actionText, amount, loading, onSuccess, onError } = props;
 const account = Ethers.send("eth_requestAccounts", [])[0];
 if (!loading || !account) return "";
 const CNativeTokenContract = new ethers.Contract(
-  market.address,
+  "0x009a0b7C38B542208936F1179151CD08E2943833",
   [
     {
       inputs: [],
@@ -53,14 +58,14 @@ const CNativeTokenContract = new ethers.Contract(
   Ethers.provider().getSigner()
 );
 const CTokenContract = new ethers.Contract(
-  market.address,
+  "0x009a0b7C38B542208936F1179151CD08E2943833",
   CTOKEN_ABI,
   Ethers.provider().getSigner()
 );
 
 if (actionText === "Deposit") {
   if (market.underlyingToken.address === "native") {
-    CNativeTokenContract.supply(account, 0, {
+    CNativeTokenContract.supply(market.address, 0, {
       value: ethers.utils.parseUnits(
         Big(amount).toFixed(market.underlyingToken.decimals).toString(),
         market.underlyingToken.decimals
@@ -76,7 +81,7 @@ if (actionText === "Deposit") {
       });
   } else {
     CTokenContract.supply(
-      account,
+      market.address,
       ethers.utils.parseUnits(
         Big(amount).toFixed(market.underlyingToken.decimals).toString(),
         market.underlyingToken.decimals
@@ -98,6 +103,7 @@ if (actionText === "Deposit") {
 }
 if (actionText === "Withdraw") {
   CTokenContract.redeemUnderlying(
+    market.address,
     ethers.utils.parseUnits(amount, market.underlyingToken.decimals)
   )
     .then((tx) => {
@@ -110,8 +116,10 @@ if (actionText === "Withdraw") {
     });
   return "";
 }
+
 if (actionText === "Borrow") {
   CTokenContract.borrow(
+    market.address,
     ethers.utils.parseUnits(amount, market.underlyingToken.decimals)
   )
     .then((tx) => {
@@ -127,6 +135,7 @@ if (actionText === "Borrow") {
 }
 if (actionText === "Repay") {
   CTokenContract.repayBorrow(
+    market.address,
     ethers.utils.parseUnits(amount, market.underlyingToken.decimals)
   )
     .then((tx) => {
