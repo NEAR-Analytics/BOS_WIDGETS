@@ -184,9 +184,9 @@ const AccessKey = Storage.get(
   "guessme.near/widget/ZKEVMWarmUp.add-to-quest-card"
 );
 if (!state.priceMap) {
-  const price = fetch(
-    "https://test-api.dapdap.net/get-token-price-by-dapdap"
-    , { headers: { Authorization: AccessKey }, }).body;
+  const price = fetch("/dapdap/get-token-price-by-dapdap", {
+    headers: { Authorization: AccessKey },
+  }).body;
 
   State.update({
     priceMap: JSON.parse(price),
