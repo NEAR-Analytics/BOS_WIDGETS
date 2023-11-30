@@ -141,7 +141,7 @@ return (
                   <div className="result">
                     <div className="list-result">
                       {near
-                        ? Object.entries(ether).map(([url, apis]) => (
+                        ? Object.entries(near).map(([url, apis]) => (
                             <div>
                               <p>{url}</p>
                               {apis.map((api) => (
@@ -157,8 +157,8 @@ return (
                   <h3>Etherjs APIs</h3>
                   <div className="result">
                     <div className="list-result">
-                      {near
-                        ? Object.entries(near).map(([url, apis]) => (
+                      {ether
+                        ? Object.entries(ether).map(([url, apis]) => (
                             <div>
                               <p>{url}</p>
                               {apis.map((api) => (
@@ -174,7 +174,7 @@ return (
                   <h3>External APIs</h3>
                   <div className="result">
                     <div className="list-result">
-                      {near
+                      {external
                         ? Object.entries(external).map(([url, apis]) => (
                             <div>
                               <p>{url}</p>
