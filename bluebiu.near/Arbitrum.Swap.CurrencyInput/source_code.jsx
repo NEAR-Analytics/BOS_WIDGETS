@@ -156,7 +156,7 @@ const AccessKey = Storage.get(
 );
 
 function getPrice() {
-  asyncFetch("https://test-api.dapdap.net/get-token-price-by-dapdap", {
+  asyncFetch("/dapdap/get-token-price-by-dapdap", {
     Authorization: AccessKey,
   })
     .then((res) => {
