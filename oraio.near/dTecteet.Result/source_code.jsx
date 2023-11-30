@@ -154,7 +154,7 @@ return (
                         <div>
                           <p>{url}</p>
                           <div>
-                            {apis.map((api) => (
+                            {[...new Set(apis)].map((api) => (
                               <span className="list">{api}</span>
                             ))}
                           </div>
@@ -175,13 +175,13 @@ return (
                           <div>
                             <p>{url}</p>
                             <div>
-                              {apis.map((api) => (
+                              {[...new Set(apis)].map((api) => (
                                 <span className="list">{api}</span>
                               ))}
                             </div>
                           </div>
                         ))
-                      : "No Etherjs APIs found"}
+                      : <div>No Etherjs APIs found</div>}
                   </div>
                 </div>
               </div>
@@ -194,13 +194,13 @@ return (
                           <div>
                             <p>{url}</p>
                             <div>
-                              {apis.map((api) => (
+                              {[...new Set(apis)].map((api) => (
                                 <span className="list">{api}</span>
                               ))}
                             </div>
                           </div>
                         ))
-                      : "No External APIs found"}
+                      : <div>No External APIs found</div>}
                   </div>
                 </div>
               </div>
