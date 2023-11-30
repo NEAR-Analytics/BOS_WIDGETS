@@ -147,6 +147,7 @@ const Main = styled.div`
 //   background: blue;
   @media only screen and (max-width: 750px) {
     padding-bottom: 160px;
+    height: 100%;
   }
 `;
 
