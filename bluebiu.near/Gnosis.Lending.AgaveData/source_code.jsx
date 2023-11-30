@@ -547,7 +547,10 @@ if (
 
   parsedData.forEach((data) => {
     if (data.usageAsCollateralEnabledOnUser) {
-      totalCollateralUsd = totalCollateralUsd.plus(data.scaledATokenBalanceUsd);
+      const loanToValue = marketData[data.address].loanToValue;
+      totalCollateralUsd = totalCollateralUsd.plus(
+        Big(data.scaledATokenBalanceUsd).mul(loanToValue / 100)
+      );
     }
 
     userTotalSupplyUsd = userTotalSupplyUsd.plus(data.scaledATokenBalanceUsd);
