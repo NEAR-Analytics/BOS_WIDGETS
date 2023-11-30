@@ -78,7 +78,7 @@ const profile = {
   avatar:
     "https://ipfs.near.social/ipfs/bafkreic6f6cwyn2loqcln6itukuipl72grqzqqhkmwy6ea3zwqoolgbzxu",
   title: "Ape Fest Poll",
-  subtitle: "Discove Polls",
+  subtitle: "Discover Polls",
   links: [
     { title: "Portfolio", url: "#" },
     { title: "Blogs", url: "#" },
@@ -89,6 +89,10 @@ const profile = {
     { title: "Facebook", url: "#" },
     { title: "Whatsapp", url: "#" },
     { title: "Linkedin", url: "#" },
+  ],
+  Polls: [
+    { title: "Github", url: "#" },
+    { title: "Twitter", url: "#" },
   ],
 };
 
