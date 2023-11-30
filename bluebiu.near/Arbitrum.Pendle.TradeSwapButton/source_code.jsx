@@ -331,11 +331,11 @@ const AccessKey = Storage.get(
 );
 
 function add_action(param_body) {
-  asyncFetch("https://test-api.dapdap.net/api/action/add-action-data", {
+  asyncFetch("/dapdap/api/action/add ", {
     method: "post",
     headers: {
       "Content-Type": "application/json",
-      Authorization: AccessKey
+      Authorization: AccessKey,
     },
     body: JSON.stringify(param_body),
   });
@@ -370,8 +370,9 @@ function successCallback(tx, callback) {
     onMessage?.({
       status: status === 1 ? 1 : 2,
       open: true,
-      title: `${actionType} ${status === 1 ? "Mint Successfully!" : "Mint Failed!"
-        }`,
+      title: `${actionType} ${
+        status === 1 ? "Mint Successfully!" : "Mint Failed!"
+      }`,
       hash: transactionHash,
     });
   });
