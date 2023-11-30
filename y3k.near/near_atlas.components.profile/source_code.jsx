@@ -26,5 +26,10 @@ return (
         showEditButton: !props.profile,
       }}
     />
+
+    <Widget
+      src="y3k.near/widget/near_atlas.components.GetWidgets"
+      props={{ accountId }}
+    />
   </Wrapper>
 );
