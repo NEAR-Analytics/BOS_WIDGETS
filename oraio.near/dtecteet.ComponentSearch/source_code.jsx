@@ -37,7 +37,7 @@ const WidgetList = styled.ul`
   overflow-y: auto;
   box-shadow: 0px 0px 8px #ddd;
   border-radius: 10px;
-  // background-color: #fff;
+  background-color: #fff;
   width: 100%;
   
   @media only screen and (max-width: 500px)
