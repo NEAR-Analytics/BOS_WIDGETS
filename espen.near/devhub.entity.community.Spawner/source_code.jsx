@@ -79,7 +79,7 @@ const CommunityInputsDefaults = {
 
 return (
   <Widget
-    src={"espen.near/widget/devhub.components.organism.Configurator"}
+    src="espen.near/widget/devhub.components.organism.Configurator"
     props={{
       heading: "Community information",
       externalState: CommunityInputsDefaults,
@@ -95,7 +95,6 @@ return (
       },
       submitLabel: "Launch",
       onCancel: onCancel,
-      nearDevGovGigsWidgetsAccountId: "devgovgigs.near",
     }}
   />
 );
