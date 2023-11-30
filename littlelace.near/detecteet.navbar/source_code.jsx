@@ -143,7 +143,7 @@ const Main = styled.div`
   width:100wv;
   display: flex;
   justify-content: center;
-  height: 100vh;
+  height: 100%;
 //   background: blue;
   @media only screen and (max-width: 750px) {
     padding-bottom: 160px;
