@@ -35,30 +35,26 @@ const Main = styled.div`
   }
 `;
 
-const Maincontent = styled.div`
-  width: 100%;
-`;
-
-const Section1 = styled.div`
-  width: 100%;
-`;
+// const Maincontent = styled.div`
+//   width: 100%;
+// `;
 
 const Section2 = styled.div`
   width: 100%;
 `;
 const Resultdiv = styled.div`
-display: flex;
-align-items: flex-start;
-justify-content: center;
-width: 100vw;
-color: ${state.theme.color};
-text-align: left;
-font-family: Poppins, 'sans-serif';
-font-size: 20px;
-font-style: normal;
-font-weight: 500;
-line-height: 211.496%; /* 42.299px */
-padding: 10px 20%;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    width: 100vw;
+    color: ${state.theme.color};
+    text-align: left;
+    font-family: Poppins, 'sans-serif';
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 500;
+    padding: 10px 20%;
+    
     .resultWrapper{
         width: 45%; 
         flex-shrink: 0;
@@ -67,10 +63,7 @@ padding: 10px 20%;
         margin-right: 20px;
     }
     .result{
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        padding: 16px;
+
         width: 100%;
         // height: auto;
         flex-shrink: 0;
@@ -79,20 +72,36 @@ padding: 10px 20%;
         border: 1px solid ${state.theme.border};
     }
     .list-result {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 10px;
+        padding: 8px;
         width: 100%;
+        margin-bottom: 10px;
+
     }
     .list-result p{
         font-size: 13px;
         word-wrap: break-word;
-        margin: 5px 0;
     }
     
+    .list-result > div{
+        border: 0.5px dashed ${state.theme.border};
+        padding: 8px;
+
+    }
     .list-result div div{
         display: flex;
         flex-wrap: wrap;
         gap: 2px;
     }
 
+   
+    .list-result div div span{
+        display: inline-flex;
+        padding: 5px;
+    }
     .list{
         background: ${state.theme.bg};
         border: 1px solid ${state.theme.border};
@@ -134,72 +143,69 @@ return (
     {near || ether || external ? (
       <Globalstyle>
         <Main>
-          <Widget />
-          <Maincontent>
-            <Section1></Section1>
-
-            <Section2>
-              <Resultdiv>
-                <div className="resultWrapper">
-                  <h3>NEAR APIs</h3>
-                  <div className="result">
-                    <div className="list-result">
-                      {near
-                        ? Object.entries(near).map(([url, apis]) => (
-                            <div>
-                              <p>{url}</p>
-                              <div>
-                                {apis.map((api) => (
-                                  <span className="list">{api}</span>
-                                ))}
-                              </div>
-                            </div>
-                          ))
-                        : "No Near APIs found"}
-                    </div>
+          <Section2>
+            <Resultdiv>
+              <div className="resultWrapper">
+                <h3>NEAR APIs</h3>
+                <div className="result">
+                  <div className="list-result">
+                    {near ? (
+                      Object.entries(near).map(([url, apis]) => (
+                        <div>
+                          <p>{url}</p>
+                          <div>
+                            {apis.map((api) => (
+                              <span className="list">{api}</span>
+                            ))}
+                          </div>
+                        </div>
+                      ))
+                    ) : (
+                      <div>No Near APIs found</div>
+                    )}
                   </div>
                 </div>
-                <div className="resultWrapper">
-                  <h3>Etherjs APIs</h3>
-                  <div className="result">
-                    <div className="list-result">
-                      {ether
-                        ? Object.entries(ether).map(([url, apis]) => (
+              </div>
+              <div className="resultWrapper">
+                <h3>Etherjs APIs</h3>
+                <div className="result">
+                  <div className="list-result">
+                    {ether
+                      ? Object.entries(ether).map(([url, apis]) => (
+                          <div>
+                            <p>{url}</p>
                             <div>
-                              <p>{url}</p>
-                              <div>
-                                {apis.map((api) => (
-                                  <span className="list">{api}</span>
-                                ))}
-                              </div>
+                              {apis.map((api) => (
+                                <span className="list">{api}</span>
+                              ))}
                             </div>
-                          ))
-                        : "No Etherjs APIs found"}
-                    </div>
+                          </div>
+                        ))
+                      : "No Etherjs APIs found"}
                   </div>
                 </div>
-                <div className="resultWrapper">
-                  <h3>External APIs</h3>
-                  <div className="result">
-                    <div className="list-result">
-                      {external
-                        ? Object.entries(external).map(([url, apis]) => (
+              </div>
+              <div className="resultWrapper">
+                <h3>External APIs</h3>
+                <div className="result">
+                  <div className="list-result">
+                    {external
+                      ? Object.entries(external).map(([url, apis]) => (
+                          <div>
+                            <p>{url}</p>
                             <div>
-                              <p>{url}</p>
-                              <div>
-                                {apis.map((api) => (
-                                  <span className="list">{api}</span>
-                                ))}
-                              </div>
+                              {apis.map((api) => (
+                                <span className="list">{api}</span>
+                              ))}
                             </div>
-                          ))
-                        : "No External APIs found"}
-                    </div>
+                          </div>
+                        ))
+                      : "No External APIs found"}
                   </div>
                 </div>
-              </Resultdiv>
-            </Section2>
-          </Maincontent>
+              </div>
+            </Resultdiv>
+          </Section2>
         </Main>
       </Globalstyle>
     ) : (
