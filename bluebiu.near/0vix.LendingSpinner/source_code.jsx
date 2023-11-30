@@ -1,11 +1,11 @@
 const Spinner = styled.div`
-  position: absolute;
+  position: fixed;
   z-index: 8001;
   left: 0px;
   top: 0px;
   right: 0px;
   bottom: 0px;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(0, 0, 0, 0.6);
 `;
 const SpinnerContainer = styled.div`
   display: flex;
