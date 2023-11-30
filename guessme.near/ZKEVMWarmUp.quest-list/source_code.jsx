@@ -401,7 +401,7 @@ const AccessKey = Storage.get(
   "AccessKey",
   "guessme.near/widget/ZKEVMWarmUp.add-to-quest-card"
 );
-const quest_url = `https://test-api.dapdap.net/api/action/get-action-by-account?account_id=${
+const quest_url = `/dapdap/api/action/get-action-by-account?account_id=${
   sender || ""
 }&account_info=${uuid}&action_network_id=zkEVM`;
 
@@ -495,7 +495,7 @@ if (state.fetchDone && state.myQuestList.length === 0) {
 const myQuestList = state.myQuestList;
 
 const onDelete = (action_id) => {
-  asyncFetch("https://test-api.dapdap.net/api/action/delete-action-by-id", {
+  asyncFetch("/dapdap/api/action/delete-action-by-id", {
     method: "DELETE",
     headers: {
       "Content-Type": "application/json",
@@ -547,7 +547,7 @@ function handleRemoveAll() {
     item.action_id.toString()
   );
 
-  asyncFetch("https://test-api.dapdap.net/api/action/batch-delete-action", {
+  asyncFetch("/dapdap/api/action/batch-delete-action", {
     method: "delete",
     headers: {
       "Content-Type": "application/json",
