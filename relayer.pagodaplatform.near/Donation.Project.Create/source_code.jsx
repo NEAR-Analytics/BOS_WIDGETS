@@ -148,13 +148,7 @@ const fundraisingDiv = (
 );
 
 function generateDescription(text, amount, token, supervisor) {
-  const categoryLine = `\n###### 💰 Category:  ${category}\n`;
-  //const locationmap =
-  const newText = text;
-
-  if (category.length > 0) newText += categoryLine;
-
-  const funding = `###### Requested amount: ${amount} ${token}\n###### Requested sponsor: @${supervisor}\n`;
+  const funding = `Requested amount: ${amount} ${token}~Requested sponsor: @${supervisor}\n`;
   if (amount > 0 && token && supervisor) return funding + text;
   return newText;
 }
