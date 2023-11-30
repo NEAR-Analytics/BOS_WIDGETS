@@ -142,7 +142,7 @@ const formatData = () => {
       });
     }
   });
-  console.log(supplies, borrows);
+
   State.update({
     userTotalSupplyUsd: userTotalSupplyUsd.toString(),
     userTotalBorrowUsd: userTotalBorrowUsd.toString(),
