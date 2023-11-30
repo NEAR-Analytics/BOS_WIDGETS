@@ -6,13 +6,8 @@ return (
     {information.map((info) => (
       <div>
         <Widget
-          src="communityevent.near/widget/city"
-          props={{
-            name: info[0],
-            description: info[1],
-            authorId: info[2],
-            timestamp: info[3],
-          }}
+          src="kanapitch.near/widget/postv2"
+          props={{ information: info }}
         />
       </div>
     ))}
