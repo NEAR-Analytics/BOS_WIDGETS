@@ -7,11 +7,11 @@ const { Tile } =
   VM.require("geforcy.near/widget/devhub.components.molecule.Tile") ||
   (() => <></>);
 
-const { getAccessControlInfo, getRootMembers } = VM.require(
+const { getAccessControlInfo, getRootMembers, removeMember } = VM.require(
   "geforcy.near/widget/core.adapter.devhub-contract"
 );
 
-if (!getAccessControlInfo || !getRootMembers) {
+if (!getAccessControlInfo || !getRootMembers || !removeMember) {
   return <p>Loading modules...</p>;
 }
 
@@ -146,6 +146,11 @@ function editTeam({
   ]);
 }
 
+function deleteLabel() {
+  // contract side this is called a team / member
+  removeMember(teamName);
+}
+
 const backwardsCompatibleLabel = (oldLabel) => {
   if (typeof oldLabel === "string")
     return oldLabel.startsWith("starts-with:") ? oldLabel.slice(12) : oldLabel;
@@ -210,18 +215,33 @@ return (
         </div>
       </td>
       <td class=" justify-content-center align-items-center p-3">
-        <Widget
-          src={"geforcy.near/widget/devhub.components.molecule.Button"}
-          props={{
-            classNames: { root: "btn-outline-light text-dark" },
-            icon: {
-              type: "bootstrap_icon",
-              variant: "bi-gear-wide-connected",
-            },
-            label: "Edit",
-            onClick: () => setEditMode(true),
-          }}
-        />
+        {editMode ? (
+          <Widget
+            src={"geforcy.near/widget/devhub.components.molecule.Button"}
+            props={{
+              classNames: { root: "btn-outline-danger" },
+              icon: {
+                type: "bootstrap_icon",
+                variant: "bi-trash",
+              },
+              label: "Delete",
+              onClick: deleteLabel,
+            }}
+          />
+        ) : (
+          <Widget
+            src={"geforcy.near/widget/devhub.components.molecule.Button"}
+            props={{
+              classNames: { root: "btn-outline-light text-dark" },
+              icon: {
+                type: "bootstrap_icon",
+                variant: "bi-gear-wide-connected",
+              },
+              label: "Edit",
+              onClick: () => setEditMode(true),
+            }}
+          />
+        )}
       </td>
     </tr>
     {editMode && (
