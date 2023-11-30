@@ -476,9 +476,8 @@ const code = `
     displayData("https://api.flipsidecrypto.com/api/v2/queries/557a8f29-833f-45ae-bcae-89f251698b8f/data/latest", "tabel3","Monthly Commit Stats");
     displayData("https://api.flipsidecrypto.com/api/v2/queries/551b5ea9-a7ab-4d55-abbc-7cacf806387e/data/latest", "tabel4","Monthly Dev Stats");
     displayData("https://api.flipsidecrypto.com/api/v2/queries/4af27116-754d-4f99-a9ea-cea237969bad/data/latest", "tabel5","Activity Transactions Global");
-    displayData("https://api.flipsidecrypto.com/api/v2/queries/210578f5-8691-443c-80bf-3513b016cf47/data/latest", "tabel5","Activity Transactions Near Social");
-    displayData("https://api.flipsidecrypto.com/api/v2/queries/ab7beb14-e49a-41fc-bcae-5f9e7ecce91f/data/latest", "tabel6","Github Account");
-  
+    displayData("https://api.flipsidecrypto.com/api/v2/queries/210578f5-8691-443c-80bf-3513b016cf47/data/latest", "tabel6","Activity Transactions Near Social");
+    displayData("https://api.flipsidecrypto.com/api/v2/queries/ab7beb14-e49a-41fc-bcae-5f9e7ecce91f/data/latest", "tabel7","Github Account");
   
   </script>
   
