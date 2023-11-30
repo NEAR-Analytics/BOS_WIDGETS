@@ -291,12 +291,12 @@ if (state.sender == undefined && Ethers.provider()) {
       }
     });
 }
-setOverallCount(overallCount + 1);
+// setOverallCount(overallCount + 1);
 
-// Update the count for the clicked button
-const updatedArray = arrayOfObjects.map((obj) =>
-  obj.id === id ? { ...obj, count: obj.count + 1 } : obj
-);
+// // Update the count for the clicked button
+// const updatedArray = arrayOfObjects.map((obj) =>
+//   obj.id === id ? { ...obj, count: obj.count + 1 } : obj
+// );
 
 // Create contract interface
 const iPollDart = new ethers.utils.Interface(PollABI);
@@ -310,7 +310,7 @@ const vote = (nftId) => {
   );
 
   pollDartContract.vote(nftId);
-  setCount(count + 1);
+  //   setCount(count + 1);
 
   // Update the count for the clicked button
   const updatedArray = arrayOfObjects.map((obj) =>
