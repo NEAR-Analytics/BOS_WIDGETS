@@ -39,7 +39,9 @@ const timestamp = readableDate(
 return (
   <PostContainer>
     <PostInfo>
-      <h2>{state.name}</h2>
+      <h2>
+        <b>{state.name}</b>
+      </h2>
       <PostText>
         <b>Description:</b> {des[2]}
       </PostText>
