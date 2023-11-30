@@ -107,7 +107,7 @@ const renderItem = (a) => {
       style={{ minHeight: "10em" }}
     >
       <Widget
-        src="mob.near/widget/WidgetMetadata"
+        src="y3k.near/widget/near_atlas.components.WidgetMetadata"
         props={{
           accountId: a.accountId,
           widgetName: a.widgetName,
