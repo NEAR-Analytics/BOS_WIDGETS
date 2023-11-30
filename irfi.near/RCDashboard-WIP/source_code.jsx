@@ -7,7 +7,7 @@ State.init({
 
 const communityAccounts = [
   { text: "Indonesia - indonesiaguild.near", value: "indonesiaguild.near" },
-  { text: "Test DAO - irfi.near", value: "irfi.near" },
+  { text: "Test Account - irfi.near", value: "irfi.near" },
 ];
 
 const getMembers = (accountId) => {
@@ -34,7 +34,24 @@ const getMembers = (accountId) => {
   return members;
 };
 
-const generateChartCode = (data, valueLabel) => `
+const getTotalWidgetByMembers = (members) => {
+  if (!members) return 0;
+
+  const total = members
+    .map((accountId) => {
+      return Object.keys(
+        Social.keys(`${accountId}/widget/*`, "final", {
+          return_type: "BlockHeight",
+          values_only: false,
+        })[accountId].widget || []
+      ).length;
+    })
+    .reduce((a, b) => a + b, 0);
+  return total;
+};
+
+const generateChartCode = (data, valueLabel, label, barColor) => {
+  return `
 <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
 <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -50,11 +67,11 @@ const sortedData = ${data}.sort((a, b) => {
 
 const ${valueLabel} = {};
 
-${data}.map((entry) => {
+sortedData.map((entry) => {
   ${valueLabel}[entry["year_month"]] = entry["${valueLabel}"];
 });
 
-const dates = ${data}.map((entry) => entry["year_month"]);
+const dates = sortedData.map((entry) => entry["year_month"]);
 
 
   var ctx = document.getElementById('myChart').getContext('2d');
@@ -64,9 +81,9 @@ const dates = ${data}.map((entry) => entry["year_month"]);
           labels: dates,
           datasets: [
    {
-      label: "${valueLabel}".toUpperCase(),
+      label: "${label}",
       data: ${valueLabel},
-        backgroundColor: "rgb(75, 192, 192)",
+        backgroundColor: "${barColor}",
       },
           ]
       },
@@ -99,35 +116,9 @@ const dates = ${data}.map((entry) => entry["year_month"]);
 fetchData();
 </script>
 `;
+};
 
-const generateMAU = (members) => {
-  if (members.length === 0) return [];
-  const formattedMembers = JSON.stringify(members)
-    .replaceAll("[", "(")
-    .replaceAll("]", ")")
-    .replaceAll('"', "'");
-
-  const query = `
-    SELECT
-        date_trunc('month', a.block_timestamp) AS "date",
-        concat(
-            date_part(year, "date"),
-            '-',
-            date_part(month, "date")
-        ) as year_month,
-        count(DISTINCT a.tx_signer) AS mau
-    FROM
-        near.core.fact_transactions a
-    WHERE
-        a.tx_signer != a.tx_receiver
-    AND a.tx_signer IN ${formattedMembers}
-    AND "date" > dateadd('month', -12, current_date)
-    GROUP BY
-        1
-    ORDER BY
-        1 DESC 
-    `;
-
+const doQueryToFlipside = (query, queryResultKey) => {
   // create run (https://docs.flipsidecrypto.com/flipside-api/rest-api)
   const headers = {};
   headers["Content-Type"] = "application/json";
@@ -160,7 +151,7 @@ const generateMAU = (members) => {
 
     const queryResultId = requestResult.body.result.queryRun.id;
 
-    State.update({ queryResultIdMAU: queryResultId });
+    State.update({ [queryResultKey]: queryResultId });
   } else {
     // get results from query run
 
@@ -172,7 +163,7 @@ const generateMAU = (members) => {
         method: "getQueryRunResults",
         params: [
           {
-            queryRunId: state.queryResultIdMAU,
+            queryRunId: state[queryResultKey],
             format: "json",
             page: {
               number: 1,
@@ -188,8 +179,76 @@ const generateMAU = (members) => {
   }
 };
 
+const generateMAU = (members) => {
+  if (members.length === 0) return [];
+  const formattedMembers = JSON.stringify(members)
+    .replaceAll("[", "(")
+    .replaceAll("]", ")")
+    .replaceAll('"', "'");
+
+  const query = `
+    SELECT
+        date_trunc('month', a.block_timestamp) AS "date",
+        concat(
+            date_part(year, "date"),
+            '-',
+            date_part(month, "date")
+        ) as year_month,
+        count(DISTINCT a.tx_signer) AS mau
+    FROM
+        near.core.fact_transactions a
+    WHERE
+        a.tx_signer != a.tx_receiver
+    AND a.tx_signer IN ${formattedMembers}
+    AND "date" > dateadd('month', -12, current_date)
+    GROUP BY
+        1
+    ORDER BY
+        1 DESC 
+    `;
+
+  return doQueryToFlipside(query, "queryResultIdMAU");
+};
+
+const generateGithubActivities = (members) => {
+  if (members.length === 0) return [];
+  const formattedMembers = JSON.stringify(members)
+    .replaceAll("[", "(")
+    .replaceAll("]", ")")
+    .replaceAll('"', "'");
+
+  const query = `
+    WITH github_accounts AS (
+      SELECT signer_id AS account,
+      JSON_EXTRACT_PATH_TEXT(profile_data, 'github') AS github_account
+      FROM
+        near.social.fact_profile_changes
+      WHERE
+        profile_section = 'linktree'
+        AND github_account != ''
+        AND account IN ${formattedMembers}
+    )
+    SELECT
+      date_trunc('month', ga.createdat) AS "date",
+      concat(
+        date_part(year, "date"),
+        '-',
+        date_part(month, "date")
+      ) AS YEAR_MONTH,
+      count(*) AS total_issues_and_pr
+    FROM
+      github_accounts a
+      JOIN near.beta.github_activity ga ON a.github_account = ga.author
+    GROUP BY
+      1
+    ORDER BY
+      1 DESC;
+    `;
+
+  return doQueryToFlipside(query, "queryResultIdDevActivities");
+};
 return (
-  <div className="container m-auto">
+  <div className="container">
     <h1>Regional Community Dashboard WIP</h1>
     <Widget
       src="near/widget/Select"
@@ -207,14 +266,77 @@ return (
       }}
     />
     {/* Members: {JSON.stringify(state.selectedCommunityAccountMembers)} */}
-    <iframe
-      className="w-100"
-      style={{ height: "300px" }}
-      srcDoc={generateChartCode(
-        JSON.stringify(generateMAU(state.selectedCommunityAccountMembers)),
-        "mau"
-      )}
-    />
+
+    <div>
+      <Widget
+        src="contribut3.near/widget/Card"
+        props={{
+          header: <b>Github Activities Members</b>,
+          body: (
+            <iframe
+              className="w-100"
+              style={{ height: "300px" }}
+              srcDoc={generateChartCode(
+                JSON.stringify(
+                  generateGithubActivities(
+                    state.selectedCommunityAccountMembers
+                  )
+                ),
+                "total_issues_and_pr",
+                "Total Issues And PR Activities",
+                "rgb(85, 192, 192)"
+              )}
+            />
+          ),
+        }}
+      />
+    </div>
+    <div style={{ display: "flex", flexFlow: "row wrap" }}>
+      <div style={{ width: "calc(50%)" }}>
+        <Widget
+          src="contribut3.near/widget/Card"
+          props={{
+            header: <b>Total Widgets by Members</b>,
+            body: (
+              <p>
+                {getTotalWidgetByMembers(state.selectedCommunityAccountMembers)}
+              </p>
+            ),
+          }}
+        />
+      </div>
+      <div style={{ width: "calc(50%)" }}>
+        <Widget
+          src="contribut3.near/widget/Card"
+          props={{
+            header: <b>Placeholder</b>,
+            body: <p>1000</p>,
+          }}
+        />
+      </div>
+    </div>
+    <div>
+      <Widget
+        src="contribut3.near/widget/Card"
+        props={{
+          header: <b>Monthly Active Members</b>,
+          body: (
+            <iframe
+              className="w-100"
+              style={{ height: "300px" }}
+              srcDoc={generateChartCode(
+                JSON.stringify(
+                  generateMAU(state.selectedCommunityAccountMembers)
+                ),
+                "mau",
+                "MAU (Members)",
+                "rgb(192, 85, 85)"
+              )}
+            />
+          ),
+        }}
+      />
+    </div>
     {/*MAU Result: {JSON.stringify(generateMAU(state.selectedCommunityAccountMembers))} */}
   </div>
 );
