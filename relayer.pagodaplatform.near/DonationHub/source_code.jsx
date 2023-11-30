@@ -7,7 +7,7 @@ const { page, ...passProps } = props;
 
 // Import our modules
 const { AppLayout } = VM.require(
-  "natapat.near/widget/DonationHub.components.templates.AppLayout"
+  "lucus.near/widget/DonationHub.components.templates.AppLayout"
 );
 
 if (!AppLayout) {
@@ -43,7 +43,7 @@ function Page() {
     case "home": {
       return (
         <Widget
-          src={"natapat.near/widget/Donationhub.page.feed"}
+          src={"natapat.near/widget/DoantionHub.page.feed"}
           props={passProps}
         />
       );
@@ -68,7 +68,22 @@ function Page() {
       );
     }
     // ?page=about
-
+    case "about": {
+      return (
+        <Widget
+          src={"devhub.near/widget/devhub.page.about"}
+          props={passProps}
+        />
+      );
+    }
+    case "contribute": {
+      return (
+        <Widget
+          src={"devhub.near/widget/devhub.page.contribute"}
+          props={passProps}
+        />
+      );
+    }
     case "profile": {
       return (
         <Widget
@@ -78,12 +93,24 @@ function Page() {
       );
     }
     // ?page=blog
+    case "blog": {
+      return (
+        <Widget src={"devhub.near/widget/devhub.page.blog"} props={passProps} />
+      );
+    }
+    case "post": {
+      return (
+        <Widget src={"devhub.near/widget/devhub.page.post"} props={passProps} />
+      );
+    }
+
     default: {
       // TODO: 404 page
       return <p>404</p>;
     }
   }
 }
+
 return (
   <Theme>
     <AppLayout page={page}>
