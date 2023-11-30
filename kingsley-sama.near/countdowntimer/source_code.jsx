@@ -43,7 +43,7 @@ const Container = styled.div`
   align-items: center;
   justify-content: center;
   margin: 0 5px;
-  height: 100vh;
+  height: 200px;
 `;
 
 const Card = styled.div`
@@ -55,6 +55,7 @@ const Card = styled.div`
   color: #fff;
   padding: 15px;
   text-align: center;
+  background:transparent;
 `;
 
 const PriceCard = styled.div`
