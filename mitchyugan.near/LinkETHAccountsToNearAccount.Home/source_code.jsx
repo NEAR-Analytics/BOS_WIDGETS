@@ -17,6 +17,8 @@ useEffect(() => {
   }
 }, []);
 
+console.log("Ethers", Ethers.provider());
+
 return (
   <Home>
     <Widget src="mitchyugan.near/widget/LinkETHAccountsToNearAccount.Navbar" />
