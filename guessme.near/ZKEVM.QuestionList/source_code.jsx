@@ -1,5 +1,5 @@
 const Container = styled.div`
-margin: 0 8%;
+  margin: 0 8%;
   .title {
     display: flex;
     align-items: center;
@@ -214,7 +214,7 @@ const AccessKey = Storage.get(
 function get_hot_action_list() {
   if (!AccessKey) return;
   asyncFetch(
-    "https://test-api.dapdap.net/api/action/get-hot-action?hot_number=20&action_network_id=zkEVM",
+    "/dapdap/api/action/get-hot-action?hot_number=20&action_network_id=zkEVM",
     {
       headers: {
         Authorization: AccessKey,
@@ -367,8 +367,9 @@ function get_link(action) {
     link = "/guessme.near/widget/ZKEVMSwap.zkevm-swap?source=question_list";
   }
   if (isLending) {
-    link = `/guessme.near/widget/ZKEVM.AAVE${arr[0].toLowerCase() == "supply" ? "" : "?tab=borrow"
-      }`;
+    link = `/guessme.near/widget/ZKEVM.AAVE${
+      arr[0].toLowerCase() == "supply" ? "" : "?tab=borrow"
+    }`;
   }
   return link;
 }
