@@ -4,11 +4,11 @@ const Wrapper = styled.div`
     background: black;
     font-family: sans-serif;
     border-radius: 10px;
-    border: 1px solid red;
+    border: 1px solid blue;
   }
 `;
 
-console.log("Hello!!!");
+console.log("Hello");
 console.log("Bye!!!");
 
 return (
