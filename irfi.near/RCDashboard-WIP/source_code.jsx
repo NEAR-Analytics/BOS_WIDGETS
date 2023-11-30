@@ -18,15 +18,19 @@ const getMembers = (accountId) => {
       Social.keys(`*/graph/follow/${accountId}`, "final", {
         return_type: "BlockHeight",
         values_only: true,
-      })
+      }) || {}
     )
   );
 
   let following = Object.keys(
-    Social.keys(`${accountId}/graph/follow/*`, "final", {
-      return_type: "BlockHeight",
-      values_only: true,
-    })[accountId].graph.follow
+    Social.keys(
+      `${accountId}/graph/follow/*`,
+      "final",
+      {
+        return_type: "BlockHeight",
+        values_only: true,
+      } || {}
+    )?.[accountId]?.graph?.follow || {}
   );
 
   let members = [...new Set(following.filter((item) => followers.has(item)))];
@@ -43,7 +47,7 @@ const getTotalWidgetByMembers = (members) => {
         Social.keys(`${accountId}/widget/*`, "final", {
           return_type: "BlockHeight",
           values_only: false,
-        })[accountId].widget || []
+        })[accountId].widget || {}
       ).length;
     })
     .reduce((a, b) => a + b, 0);
@@ -255,7 +259,6 @@ return (
       props={{
         label: "Select your regional community account:",
         options: communityAccounts,
-        value: state.selectedCommunityAccount,
         onChange: (value) =>
           State.update({
             selectedCommunityAccount: value.value,
