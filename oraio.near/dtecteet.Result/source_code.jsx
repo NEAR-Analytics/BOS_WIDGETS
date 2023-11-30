@@ -126,68 +126,74 @@ const ether = props.ether;
 const external = props.external;
 
 return (
-  <Globalstyle>
-    <Main>
-      <Widget />
-      <Maincontent>
-        <Section1></Section1>
+  <>
+    {near || ether || external ? (
+      <Globalstyle>
+        <Main>
+          <Widget />
+          <Maincontent>
+            <Section1></Section1>
 
-        <Section2>
-          <Resultdiv>
-            <div className="resultWrapper">
-              <h3>NEAR APIs</h3>
-              <div className="result">
-                <div className="list-result">
-                  {near
-                    ? Object.entries(ether).map(([url, apis]) => (
-                        <div>
-                          <p>{url}</p>
-                          {apis.map((api) => (
-                            <span className="list">{api}</span>
-                          ))}
-                        </div>
-                      ))
-                    : "No Near APIs found"}
+            <Section2>
+              <Resultdiv>
+                <div className="resultWrapper">
+                  <h3>NEAR APIs</h3>
+                  <div className="result">
+                    <div className="list-result">
+                      {near
+                        ? Object.entries(ether).map(([url, apis]) => (
+                            <div>
+                              <p>{url}</p>
+                              {apis.map((api) => (
+                                <span className="list">{api}</span>
+                              ))}
+                            </div>
+                          ))
+                        : "No Near APIs found"}
+                    </div>
+                  </div>
                 </div>
-              </div>
-            </div>
-            <div className="resultWrapper">
-              <h3>Etherjs APIs</h3>
-              <div className="result">
-                <div className="list-result">
-                  {near
-                    ? Object.entries(near).map(([url, apis]) => (
-                        <div>
-                          <p>{url}</p>
-                          {apis.map((api) => (
-                            <span className="list">{api}</span>
-                          ))}
-                        </div>
-                      ))
-                    : "No Etherjs APIs found"}
+                <div className="resultWrapper">
+                  <h3>Etherjs APIs</h3>
+                  <div className="result">
+                    <div className="list-result">
+                      {near
+                        ? Object.entries(near).map(([url, apis]) => (
+                            <div>
+                              <p>{url}</p>
+                              {apis.map((api) => (
+                                <span className="list">{api}</span>
+                              ))}
+                            </div>
+                          ))
+                        : "No Etherjs APIs found"}
+                    </div>
+                  </div>
                 </div>
-              </div>
-            </div>
-            <div className="resultWrapper">
-              <h3>External APIs</h3>
-              <div className="result">
-                <div className="list-result">
-                  {near
-                    ? Object.entries(external).map(([url, apis]) => (
-                        <div>
-                          <p>{url}</p>
-                          {apis.map((api) => (
-                            <span className="list">{api}</span>
-                          ))}
-                        </div>
-                      ))
-                    : "No External APIs found"}
+                <div className="resultWrapper">
+                  <h3>External APIs</h3>
+                  <div className="result">
+                    <div className="list-result">
+                      {near
+                        ? Object.entries(external).map(([url, apis]) => (
+                            <div>
+                              <p>{url}</p>
+                              {apis.map((api) => (
+                                <span className="list">{api}</span>
+                              ))}
+                            </div>
+                          ))
+                        : "No External APIs found"}
+                    </div>
+                  </div>
                 </div>
-              </div>
-            </div>
-          </Resultdiv>
-        </Section2>
-      </Maincontent>
-    </Main>
-  </Globalstyle>
+              </Resultdiv>
+            </Section2>
+          </Maincontent>
+        </Main>
+      </Globalstyle>
+    ) : (
+      ""
+    )}
+  </>
 );
