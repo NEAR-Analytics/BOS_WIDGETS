@@ -8,7 +8,7 @@ const ModalWrapper = styled.div`
   height: 100vh;
   overflow: hidden;
 
-  background: rgba(0, 0, 0, 0.73);
+  background: rgba(0, 0, 0, 0.6);
 
   display: flex;
   justify-content: center;
@@ -18,11 +18,11 @@ const ModalWrapper = styled.div`
 `;
 
 const ModalContainer = styled.div`
-  position:relative;
+  position: relative;
   width: 100%;
-  background: #181A27;
+  background: #181a27;
   border-radius: 16px;
-  border:1px solid #332C4B;
+  border: 1px solid #332c4b;
 
   @media (min-width: 640px) {
     width: 400px;
@@ -51,8 +51,8 @@ const CloseImage = () => (
 const Title = styled.div`
   font-size: 18px;
   font-weight: bold;
-  color:#fff;
-  font-size:18px;
+  color: #fff;
+  font-size: 18px;
 `;
 
 const ModalBody = styled.div`
