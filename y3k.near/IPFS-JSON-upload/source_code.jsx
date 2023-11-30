@@ -4,20 +4,19 @@ props.fileType ||
   });
 
 const ipfsUrl = (cid) => `https://ipfs.near.social/ipfs/${cid}`;
+function convertToJSON(text) {
+  // Replace newline characters and tabs for proper formatting
+  const formattedText = text.replace(/\n/g, "\\n").replace(/\t/g, "\\t");
 
-function sanitizeJsonString(str) {
-  return str
-    .replace(/\\/g, "\\\\") // Escape backslashes
-    .replace(/"/g, '\\"') // Escape double quotes
-    .replace(/'/g, "\\'") // Escape apostrophes
-    .replace(/\n/g, "\\n") // Replace newlines with \n
-    .replace(/\r/g, "\\r") // Replace carriage returns with \r
-    .replace(/\t/g, "\\t"); // Replace tabs with \t
+  // Convert to JSON string
+  const jsonString = JSON.stringify({ content: formattedText });
+
+  return jsonString;
 }
 
 const UploadJson = () => {
   if (state.json.length) {
-    const sanitizedJson = sanitizeJsonString(state.json);
+    const sanitizedJson = convertToJSON(state.json);
 
     const body = new Blob([sanitizedJson], { type: "application/json" });
     console.log(body);
