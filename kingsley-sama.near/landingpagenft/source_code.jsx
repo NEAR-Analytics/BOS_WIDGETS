@@ -76,7 +76,7 @@ const ShippingText = styled.p`
 `;
 const profile = {
   avatar:
-    "https://images.unsplash.com/photo-1600486913747-55e5470d6f40?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80",
+    "https://ipfs.near.social/ipfs/bafkreic6f6cwyn2loqcln6itukuipl72grqzqqhkmwy6ea3zwqoolgbzxu",
   title: "Ape Fest Poll",
   subtitle: "Discove Polls",
   links: [
@@ -159,8 +159,8 @@ return (
       style={{
         height: "100%",
         maxHeight: 200,
-        borderRadius: "50%",
-        aspectRatio: 1 / 1,
+        borderRadius: "10px",
+        aspectRatio: 2 / 1,
         objectFit: "cover",
       }}
       src={profile.avatar}
