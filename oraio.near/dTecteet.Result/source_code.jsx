@@ -70,9 +70,9 @@ padding: 10px 20%;
         display: flex;
         flex-direction: column;
         justify-content: center;
-        padding: 30px;
+        padding: 16px;
         width: 100%;
-        height: auto;
+        // height: auto;
         flex-shrink: 0;
         border-radius: 10px;
         background: ${state.theme.bg};
@@ -83,9 +83,15 @@ padding: 10px 20%;
     }
     .list-result p{
         font-size: 13px;
-        // word-wrap: break-word;
-        margin: 10px 0;
+        word-wrap: break-word;
+        margin: 5px 0;
     }
+    
+    .list-result div div{
+        display: flex;
+        flex-wrap: wrap;
+    }
+
     .list{
         background: ${state.theme.bg};
         border: 1px solid ${state.theme.border};
@@ -141,9 +147,11 @@ return (
                         ? Object.entries(near).map(([url, apis]) => (
                             <div>
                               <p>{url}</p>
+                              <div>
                               {apis.map((api) => (
                                 <span className="list">{api}</span>
                               ))}
+                              </div>
                             </div>
                           ))
                         : "No Near APIs found"}
@@ -158,9 +166,11 @@ return (
                         ? Object.entries(ether).map(([url, apis]) => (
                             <div>
                               <p>{url}</p>
+                              <div>
                               {apis.map((api) => (
                                 <span className="list">{api}</span>
                               ))}
+                              </div>
                             </div>
                           ))
                         : "No Etherjs APIs found"}
@@ -175,9 +185,11 @@ return (
                         ? Object.entries(external).map(([url, apis]) => (
                             <div>
                               <p>{url}</p>
+                              <div>
                               {apis.map((api) => (
                                 <span className="list">{api}</span>
                               ))}
+                              </div>
                             </div>
                           ))
                         : "No External APIs found"}
