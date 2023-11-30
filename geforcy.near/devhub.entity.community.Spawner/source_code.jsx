@@ -80,9 +80,7 @@ const CommunityInputsDefaults = {
 
 return (
   <Widget
-    src={
-      "devgovgigs.near/widget/gigs-board.components.organism.configurator"
-    }
+    src="geforcy.near/widget/devhub.components.organism.Configurator"
     props={{
       heading: "Community information",
       externalState: CommunityInputsDefaults,
@@ -98,7 +96,6 @@ return (
       },
       submitLabel: "Launch",
       onCancel: onCancel,
-      nearDevGovGigsWidgetsAccountId: "devgovgigs.near",
     }}
   />
 );
