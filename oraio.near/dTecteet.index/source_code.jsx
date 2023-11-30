@@ -107,7 +107,12 @@ const search = (component, hasNear, hasEther, hasExternal) => {
             if (hasEther)
               handleClassAPI(htmlCode, "ether", component, detectEtherAPI);
             if (hasExternal)
-              handleClassAPI(htmlCode, "external", component, detectExternalAPI);
+              handleClassAPI(
+                htmlCode,
+                "external",
+                component,
+                detectExternalAPI
+              );
           }
 
           // Enqueue all dependency component src
