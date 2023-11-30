@@ -10,11 +10,12 @@ if (!todolistAbi.ok) {
 
 const iface = new ethers.utils.Interface(todolistAbi.body);
 
-const contract = new ethers.Contract(
-  todolistContract,
-  todolistAbi.body,
-  Ethers.provider().getSigner()
-);
+if (state.sender === undefined) {
+  const accounts = Ethers.send("eth_requestAccounts", []);
+  if (accounts.length) {
+    State.update({ sender: accounts[0] });
+  }
+}
 
 State.init({
   getTasks: true,
@@ -26,6 +27,12 @@ const submitTask = () => {
     return console.log("El nombre de la tarea no debe estar vacia");
   }
 
+  const contract = new ethers.Contract(
+    todolistContract,
+    todolistAbi.body,
+    Ethers.provider().getSigner()
+  );
+
   contract.addTask(state.strTask).then((transactionHash) => {
     setTimeout(() => {
       getTasks();
@@ -34,7 +41,12 @@ const submitTask = () => {
 };
 
 const finishTask = (task) => {
-  console.log(task);
+  const contract = new ethers.Contract(
+    todolistContract,
+    todolistAbi.body,
+    Ethers.provider().getSigner()
+  );
+
   contract.updateStatus(task.id, true).then((transactionHash) => {
     setTimeout(() => {
       getTasks();
@@ -43,6 +55,12 @@ const finishTask = (task) => {
 };
 
 const getTasks = () => {
+  const contract = new ethers.Contract(
+    todolistContract,
+    todolistAbi.body,
+    Ethers.provider().getSigner()
+  );
+
   contract.getTaskCount().then((res) => {
     const countTasks = res.toNumber();
     let tasks = [];
