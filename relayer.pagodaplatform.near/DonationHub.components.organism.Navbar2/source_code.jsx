@@ -37,7 +37,7 @@ const Logo = () => {
     <Wrapper>
       <Link
         to={linkHref({
-          widgetSrc: "lucus.near/widget/DonationHub",
+          widgetSrc: "natapat.near/widget/DonationHub",
           params: { page: "home" },
         })}
       >
@@ -60,7 +60,7 @@ const ProfileIcon = () => {
   return (
     <Link
       to={linkHref({
-        widgetSrc: "lucus.near/widget/DoantionHub",
+        widgetSrc: "natapat.near/widget/DoantionHub",
         params: { page: "profile", accountId: context.accountId },
       })}
     >
