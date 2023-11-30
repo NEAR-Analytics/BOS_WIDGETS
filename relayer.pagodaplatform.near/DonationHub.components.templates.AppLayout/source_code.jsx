@@ -20,7 +20,7 @@ const ContentContainer = styled.div`
 
 const AppHeader = ({ page }) => (
   <Widget
-    src="lucus21.near/widget/DonationHub.components.organism.Navbar2"
+    src="natapat.near/widget/DonationHub.components.organism.Navbar2"
     props={{
       page: page,
       ...props,
