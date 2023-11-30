@@ -948,7 +948,7 @@ const balanceLp =
     ? "-"
     : parseFloat(
         Big(lpAmount)
-          .div(lpBalance || 1)
+          .div(Big(lpBalance).gt(0) ? lpBalance : 1)
           .times(curPositionUSD)
           .toFixed(4)
       );
@@ -968,6 +968,12 @@ const onChangeSlider = (percent) => {
 
   handleLPChange(newLpValue);
 };
+
+useEffect(() => {
+  if (amount0) {
+    handleToken0Change(amount0);
+  }
+}, [pair]);
 
 return (
   <VStack>
@@ -1120,7 +1126,7 @@ return (
 
                   if (value && Big(value).gt(0)) {
                     const newSliderPercent = Big(value || 0)
-                      .div(lpBalance || 1)
+                      .div(Big(lpBalance).gt(0) ? lpBalance : 1)
                       .times(100)
                       .toFixed(0);
                     onUpdateLpPercent(newSliderPercent);
@@ -1155,7 +1161,7 @@ return (
                 <span
                   onClick={() => {
                     const newSliderPercent = Big(lpBalance || 0)
-                      .div(lpBalance || 1)
+                      .div(Big(lpBalance).gt(0) ? lpBalance : 1)
                       .times(100)
                       .toFixed(0);
 
