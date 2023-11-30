@@ -258,7 +258,7 @@ const pages = {
   main: (
     <>
       <Widget
-        src="oraio.near/widget/detecteet.ComponentSearch"
+        src="littlelace.near/widget/ComponentSearch"
         props={{
           placeholder: "Search",
           theme: useTheme(light, dark),
@@ -266,6 +266,7 @@ const pages = {
           value: state.search,
         }}
       />
+ 
       <Widget
         src="oraio.near/widget/dtecteet.Result"
         props={{
