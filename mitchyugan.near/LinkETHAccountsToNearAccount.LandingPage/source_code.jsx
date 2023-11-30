@@ -30,7 +30,6 @@ const LandingPage = styled.div`
 
         p{
             color: #000;
-            font-family: taoma;
             font-size: 20px;
             font-style: normal;
             font-weight: 300;
@@ -64,9 +63,7 @@ return (
             and access multiple EVM chains
           </p>
         </div>
-        <button onClick={() => SetConnectSectionActive(true)}>
-          Get Started {connectSectionActive}
-        </button>
+        <button>Get Started</button>
       </div>
       <img
         src="https://i.ibb.co/Rvfppv3/31133574-iso0101-ai-1.png"
