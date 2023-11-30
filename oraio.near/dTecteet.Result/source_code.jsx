@@ -19,9 +19,7 @@ const Globalstyle = styled.div`
   font-family: Poppins, 'sans-serif';
 }.body;
 `;
-//   border: 1px solid ${state.theme.border};
-//   background-color: ${state.theme.bg};
-//   color: ${state.theme.color};
+
 /*This section handles the screen size respinsiveness at maximum of 750px (Mobile first design) */
 const Main = styled.div`
   width: 100%;
@@ -29,7 +27,7 @@ const Main = styled.div`
   flex-direction: column;
   background-color: ${state.theme.bg};
   overflow-y: auto;
-  height: 100vh;
+//   height: 100vh;
   padding-bottom: 80px;
 
   @media only screen and (max-width: 750px) {
@@ -44,12 +42,10 @@ const Maincontent = styled.div`
 
 const Section1 = styled.div`
   width: 100%;
-  height: auto;
 `;
 
 const Section2 = styled.div`
   width: 100%;
-  height: auto;
 `;
 const Resultdiv = styled.div`
 display: flex;
