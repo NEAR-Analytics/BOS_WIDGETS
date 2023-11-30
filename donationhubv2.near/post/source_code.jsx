@@ -46,7 +46,7 @@ return (
       <PostText>{des[0]}</PostText>
       <PostText>{des[1]}</PostText>
       <PostText>
-        <b>Posted By:</b> {state.authorId} {timestamp}
+        <b>Posted By:</b> {state.authorId} · {timestamp}
       </PostText>
     </PostInfo>
   </PostContainer>
