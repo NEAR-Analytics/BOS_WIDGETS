@@ -79,7 +79,7 @@ return (
         />
       </div>
     </div>
-    <div className="px-4 pb-4">
+    <div className="px-4 pb-4 bg-white">
       <div
         className="flex justify-end items-center h-16"
         style={{ height: "4rem" }}
