@@ -107,7 +107,7 @@ return (
                 </p>
                 <div className="flex space-x-2 mt-2">
                   <Widget
-                    src="mob.near/widget/FollowsYouBadge"
+                    src="mob.near/widget/FollowStats"
                     props={{ accountId }}
                   />
                 </div>
