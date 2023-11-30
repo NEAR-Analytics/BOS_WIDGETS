@@ -21,13 +21,12 @@ return (
   <Home>
     <Widget src="mitchyugan.near/widget/LinkETHAccountsToNearAccount.Navbar" />
     <Widget src="mitchyugan.near/widget/LinkETHAccountsToNearAccount.LandingPage" />
-    {
-    
-    }
-    {user && connectSectionActive ? (
-      <Widget src="segunojo1.near/widget/LinkETHAccountsToNearAccount.ConnectWallet" />
-    ) : (
-      <Widget src="mitchyugan.near/widget/LinkETHAccountsToNearAccount.ConnectedAccount" />
-    )}
+    {}
+    {user &&
+      (connectSectionActive ? (
+        <Widget src="segunojo1.near/widget/LinkETHAccountsToNearAccount.ConnectWallet" />
+      ) : (
+        <Widget src="mitchyugan.near/widget/LinkETHAccountsToNearAccount.ConnectedAccount" />
+      ))}
   </Home>
 );
