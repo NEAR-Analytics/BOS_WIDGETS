@@ -45,7 +45,7 @@ const ModalContainer = styled.div`
 const ModalBackdrop = styled.div`
   position: absolute;
   inset: 0;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(0, 0, 0, 0.6);
   opacity: 0.4;
 `;
 
