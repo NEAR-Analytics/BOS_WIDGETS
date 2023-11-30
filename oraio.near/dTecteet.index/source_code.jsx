@@ -107,7 +107,7 @@ const search = (component, hasNear, hasEther, hasExternal) => {
             if (hasEther)
               handleClassAPI(htmlCode, "ether", component, detectEtherAPI);
             if (hasExternal)
-              handleClassAPI(htmlCode, "external", component, detectEtherAPI);
+              handleClassAPI(htmlCode, "external", component, detectExternalAPI);
           }
 
           // Enqueue all dependency component src
@@ -277,29 +277,7 @@ const pages = {
       />
     </>
   ),
-  contract: (
-    <Widget
-      src={`${state.config.ownerId}/widget/SourceScan.Contracts.Info`}
-      props={{
-        apiHost: state.config.apiHost,
-        contractId: props.contractId,
-        theme: useTheme(
-          {
-            ...light,
-            border: `1px dashed ${light.border}`,
-            heading: {
-              ...light.heading,
-              underline: true,
-            },
-          },
-          {
-            ...dark,
-            border: `1px dashed ${dark.border}`,
-          }
-        ),
-      }}
-    />
-  ),
+
   blog: <a href="#"></a>,
   docs: (
     <Widget
