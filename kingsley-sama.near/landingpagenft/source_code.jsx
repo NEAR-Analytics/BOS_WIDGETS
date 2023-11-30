@@ -1,3 +1,4 @@
+const ownerId = "kingsley-sama.near";
 const Container = styled.div`
   display: flex;
   min-height: fit-content;
@@ -80,8 +81,109 @@ const profile = {
   title: "Ape Fest Poll",
   subtitle: "Discover Polls",
   links: [
-    { title: "Portfolio", url: "#" },
-    { title: "Blogs", url: "#" },
+    {
+      id: 1,
+      nftName: "ALMUSTAPHA HAMZA",
+      nftURL:
+        "https://ipfs.near.social/ipfs/bafkreiaqvbnejqvoaqulvgcyyqfqedo5jep4ppx7vppxiscnrca6ytyufa",
+      artistName: "ALMUSTAPHA HAMZA",
+      numberOfVotes: 0,
+      isOpen: false,
+      voteCount: "assets/images/Actionalliance.jpeg",
+    },
+
+    {
+      id: 2,
+      nftName: "Cleopatra Toy Face",
+      nftURL:
+        "https://ipfs.near.social/ipfs/bafkreibdrpr7jsjzspemhab6ew6tucjarqdlriq6reobmwo55x4q5tdmqa",
+      artistName: "Cleopatra",
+      numberOfVotes: 0,
+      isOpen: false,
+      voteCount: "assets/images/adclogo.jpeg",
+    },
+    {
+      id: 3,
+      nftName: "Marilyn Monroe Toy Face",
+      nftURL:
+        "https://ipfs.near.social/ipfs/bafkreihlizxfb7hywefw22nkiwaoubo6mwyabgr5dozfbmdhmuo2es3xnu",
+      artistName: "Marilyn Monroe",
+      numberOfVotes: 0,
+      isOpen: false,
+      voteCount: "assets/images/APC.jpeg",
+    },
+
+    {
+      id: 4,
+      nftName: "RetroRadio 17",
+      nftURL:
+        "https://ipfs.near.social/ipfs/bafkreig77zdurphnig3l47o2pwkqlcu3rcajgt7b6jiig5rnukp7hvpska",
+      artistName: "RetroRadio",
+      numberOfVotes: 0,
+      status: true,
+      voteCount: 0,
+    },
+    {
+      id: 5,
+      nftName: "RetroRadio 23",
+      nftURL:
+        " https://ipfs.near.social/ipfs/bafkreidac2uf7v7hj3xi4hzx22bzmtcaq76w7n4xfvngn6w4366pwglm34",
+      artistName: "RetroRadio",
+      numberOfVotes: 0,
+      status: true,
+      voteCount: 0,
+    },
+    {
+      id: 6,
+      nftName: "RetroRadio 40",
+      nftURL:
+        " Rabiu https://ipfs.near.social/ipfs/bafkreib7o6ix7yojgctob3adigb6jjveoxqlseip5iip5gv6d6ecp3i6my",
+      artistName: "RetroRadio",
+      numberOfVotes: 0,
+      status: true,
+      voteCount: 0,
+    },
+
+    {
+      id: 7,
+      nftName: "Alhaji Atiku Abubakar",
+      nftURL:
+        "Alhaji https://ipfs.near.social/ipfs/bafkreiaqvbnejqvoaqulvgcyyqfqedo5jep4ppx7vppxiscnrca6ytyufa",
+      artistName: "Alhaji Atiku Abubakar",
+      numberOfVotes: 0,
+      status: true,
+      voteCount: 0,
+    },
+    {
+      id: 8,
+      nftName: "Nwanyanwu Daniel",
+      nftURL:
+        "https://ipfs.near.social/ipfs/bafkreiaqvbnejqvoaqulvgcyyqfqedo5jep4ppx7vppxiscnrca6ytyufa",
+      artistName: "Nwanyanwu Daniel",
+      numberOfVotes: 0,
+      status: true,
+      voteCount: 0,
+    },
+    {
+      id: 9,
+      nftName: "Panoramic Potraits",
+      nftURL:
+        "https://ipfs.near.social/ipfs/bafkreiecv5kvztl3afdpzv2gwfluae5rcm6yjmqaex3ebqbil6m423m3li",
+      artistName: "BlueGM.eth",
+      numberOfVotes: 0,
+      status: true,
+      voteCount: 0,
+    },
+    {
+      id: 10,
+      nftName: "Nwanyanwu Daniel",
+      nftURL:
+        "https://ipfs.near.social/ipfs/bafkreiaqvbnejqvoaqulvgcyyqfqedo5jep4ppx7vppxiscnrca6ytyufa",
+      artistName: "Nwanyanwu Daniel",
+      numberOfVotes: 0,
+      status: true,
+      voteCount: 0,
+    },
   ],
   socials: [
     { title: "Github", url: "#" },
@@ -179,14 +281,15 @@ return (
         flexDirection: "column",
         alignItems: "center",
         background: "rgba(250, 250, 250, 0.1)",
-        width: "80vw",
+        width: "100vw",
         borderRadius: "10px",
-        border: "1px solid white",
         padding: "10px",
+        height: "500p",
       }}
     >
       <h2 style={{ color: props.theme.textColor }}>{profile.title}</h2>
       <h5 style={{ color: props.theme.textColor2 }}>{profile.subtitle}</h5>
+      <Widget src="kingsley-sama.near/widget/countdowntimer" />
     </div>
     <div
       style={{
@@ -202,22 +305,22 @@ return (
           <FlexContainer>
             <ImageContainer>
               <StyledImage
-                src="https://images.unsplash.com/photo-1699412958387-2fe86d46d394?q=80&w=3329&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                alt=""
+                src={link.nftURL}
+                alt={link.artistName}
                 loading="lazy"
               />
             </ImageContainer>
             <FormContainer role="form">
               <div>
-                <Title>Pullover Unisex</Title>
+                <Title>{link.nftName}</Title>
                 <Price>Vote Count</Price>
-                <Stock>Artist: </Stock>
+                <Stock>Artist: {link.artistName} </Stock>
               </div>
               <div>
                 <Button type="button">Vote </Button>
               </div>
               <div></div>
-              <ShippingText>Status : </ShippingText>
+              <ShippingText>Status :{link.status}</ShippingText>
             </FormContainer>
           </FlexContainer>
         </Container>
