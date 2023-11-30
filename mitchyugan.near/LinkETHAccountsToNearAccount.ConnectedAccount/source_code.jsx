@@ -399,6 +399,7 @@ return (
               {bb[`${chainId}`] && (
                 <a
                   class="explorerBtn"
+                  target="_blank"
                   href={bb[`${chainId}`].blockUrl + item.accountId}
                 >
                   Explorer URL
