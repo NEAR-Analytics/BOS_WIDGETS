@@ -37,7 +37,7 @@ const Logo = () => {
     <Wrapper>
       <Link
         to={linkHref({
-          widgetSrc: "natapat.near/widget/Donationhub.page.feed",
+          widgetSrc: "natapat.near/widget/DonationHub",
           params: { page: "home" },
         })}
       >
