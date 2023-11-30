@@ -46,19 +46,19 @@ return (
           chainId: CHAIN_ID,
           chainName: CHAIN_NAME,
         },
-        defaultDapp: defaultDapp || "0vix",
+        defaultDapp: defaultDapp || "C.R.E.A.M.",
         dapps: {
-          "0vix": {
-            name: "0vix",
-            icon: "https://ipfs.near.social/ipfs/bafkreigyodedyhiqmstq3g5edcqw25yyari4y3rcbsnqtxldb2zb2vpah4",
-            unitrollerAddress: "0x8849f1a0cB6b5D6076aB150546EddEe193754F1C",
-            oracleAddress: "0x1c312b14c129eabc4796b0165a2c470b659e5f01",
-            data: "bluebiu.near/widget/Polygon.Lending.0vixData",
-            handlerCollateral:
-              "bluebiu.near/widget/Avalanche.Lending.BenqiHandlerCollateral",
-            handlerCToken:
-              "bluebiu.near/widget/Avalanche.Lending.BenqiHandlerCToken",
-          },
+          // "0vix": {
+          //   name: "0vix",
+          //   icon: "https://ipfs.near.social/ipfs/bafkreigyodedyhiqmstq3g5edcqw25yyari4y3rcbsnqtxldb2zb2vpah4",
+          //   unitrollerAddress: "0x8849f1a0cB6b5D6076aB150546EddEe193754F1C",
+          //   oracleAddress: "0x1c312b14c129eabc4796b0165a2c470b659e5f01",
+          //   data: "bluebiu.near/widget/Polygon.Lending.0vixData",
+          //   handlerCollateral:
+          //     "bluebiu.near/widget/Avalanche.Lending.BenqiHandlerCollateral",
+          //   handlerCToken:
+          //     "bluebiu.near/widget/Avalanche.Lending.BenqiHandlerCToken",
+          // },
           "C.R.E.A.M.": {
             name: "C.R.E.A.M.",
             icon: "https://ipfs.near.social/ipfs/bafkreihxqzhzavb7onnxjtin2y6s7pj3y4nxb6ul42cknregyykfu24ovm",
