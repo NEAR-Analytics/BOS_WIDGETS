@@ -1,15 +1,17 @@
-const accountId = props.accountId
+const accountId = props.accountId || props.notifyAccountId
+console.log('accountId', accountId)
 const blockHeight = props.blockHeight || props.item?.blockHeight
+console.log('blockHeight', blockHeight)
 
-State.init({
-  label: 'Tip',
-  tooltip: 'Send donation',
-  donationsAmount: 0,
-  amount: 0,
-  loading: true,
-  disabled: true,
-  hidden: true,
-})
+// State.init({
+//   label: 'Tip',
+//   tooltip: 'Send donation',
+//   donationsAmount: 0,
+//   amount: 0,
+//   loading: true,
+//   disabled: true,
+//   hidden: true,
+// })
 
 // const link =
 //   props.link ||
@@ -124,8 +126,9 @@ useEffect(() => {
         hidden: false,
         disabled: false,
         loading: false,
-        donationsAmount: totalTipsByItemId,
         label: 'Tip',
+        tooltip: 'Send donation',
+        donationsAmount: totalTipsByItemId,
       })
     } else {
       const limit = Number(formatNear(MAX_AMOUNT_PER_ITEM));
@@ -150,7 +153,7 @@ useEffect(() => {
       }
     }
   }
-}, [accountId, blockHeight]);
+}, [accountId, blockHeight, totalTipsByItemId]);
 
 // const onDebounceDonate = async (me, externalAccount, tweetId, amount, tweet) => {
 //   const tweetGId = 'tweet/' + tweetId;
