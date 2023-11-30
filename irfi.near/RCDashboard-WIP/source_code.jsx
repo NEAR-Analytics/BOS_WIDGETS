@@ -1,6 +1,6 @@
 State.init({
   selectedCommunityAccountMembers: [],
-  selectedCommunityAccount: "indonesiaguild.near",
+  selectedCommunityAccount: null,
   queryResultIdMAU: null,
   queryResultIdDevActivities: null,
 });
@@ -34,6 +34,8 @@ const getMembers = (accountId) => {
   );
 
   let members = [...new Set(following.filter((item) => followers.has(item)))];
+
+  State.update({ selectedCommunityAccountMembers: members });
 
   return members;
 };
@@ -251,6 +253,9 @@ const generateGithubActivities = (members) => {
 
   return doQueryToFlipside(query, "queryResultIdDevActivities");
 };
+
+getMembers(state.selectedCommunityAccount);
+
 return (
   <div className="container">
     <h1>Regional Community Dashboard WIP</h1>
@@ -262,14 +267,12 @@ return (
         onChange: (value) =>
           State.update({
             selectedCommunityAccount: value.value,
-            selectedCommunityAccountMembers: getMembers(value.value),
             queryResultIdMAU: null,
             queryResultIdDevActivities: null,
           }),
       }}
     />
     {/* Members: {JSON.stringify(state.selectedCommunityAccountMembers)} */}
-
     <div>
       <Widget
         src="contribut3.near/widget/Card"
