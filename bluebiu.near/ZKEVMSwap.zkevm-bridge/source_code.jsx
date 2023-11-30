@@ -174,11 +174,11 @@ const AccessKey = Storage.get(
   "guessme.near/widget/ZKEVMWarmUp.add-to-quest-card"
 );
 function add_action(param_body) {
-  asyncFetch("https://test-api.dapdap.net/api/action/add-action-data", {
+  asyncFetch("/dapdap/api/action/add ", {
     method: "post",
     headers: {
       "Content-Type": "application/json",
-      Authorization: AccessKey
+      Authorization: AccessKey,
     },
     body: JSON.stringify(param_body),
   });
