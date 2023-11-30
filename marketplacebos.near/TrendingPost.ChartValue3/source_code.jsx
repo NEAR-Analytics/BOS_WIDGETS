@@ -241,7 +241,7 @@ const Table = () => {
                 <tr key={item[0]}>
                   <StyledTd>
                     <a
-                      href={`https://near.social/marketplacebos.near/widget/TrendingPost.TableValue?hashtag=${item[0].replace(
+                      href={`https://near.social/marketplacebos.near/widget/TrendingPost.ChartValueProps?hashtag=${item[0].replace(
                         "#",
                         ""
                       )}`}
