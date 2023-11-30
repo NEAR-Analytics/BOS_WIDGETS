@@ -1,4 +1,308 @@
 const ownerId = "kingsley-sama.near";
+const contractAddress = "0x34a314473C8901E7D502123ba2ff4Bc0f4D20eE5";
+//Db Intergration
+const PollABI = [
+  {
+    inputs: [],
+    stateMutability: "nonpayable",
+    type: "constructor",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "pollId",
+        type: "uint256",
+      },
+      {
+        indexed: false,
+        internalType: "string",
+        name: "question",
+        type: "string",
+      },
+    ],
+    name: "PollCreated",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "nftId",
+        type: "uint256",
+      },
+    ],
+    name: "Voted",
+    type: "event",
+  },
+  {
+    inputs: [
+      {
+        internalType: "string",
+        name: "_nftName",
+        type: "string",
+      },
+    ],
+    name: "addNFTS",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "_newOwner",
+        type: "address",
+      },
+    ],
+    name: "changeOwnership",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "pollId",
+        type: "uint256",
+      },
+    ],
+    name: "closePoll",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "string",
+        name: "_name",
+        type: "string",
+      },
+    ],
+    name: "createPoll",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "nftId",
+        type: "uint256",
+      },
+    ],
+    name: "getNFTVotes",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "haveYouVoted",
+    outputs: [
+      {
+        internalType: "bool",
+        name: "",
+        type: "bool",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    name: "nfts",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "id",
+        type: "uint256",
+      },
+      {
+        internalType: "string",
+        name: "name",
+        type: "string",
+      },
+      {
+        internalType: "uint256",
+        name: "voteCount",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "numberOfNFTs",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "numberOfPolls",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "owner",
+    outputs: [
+      {
+        internalType: "address",
+        name: "",
+        type: "address",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    name: "polls",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "id",
+        type: "uint256",
+      },
+      {
+        internalType: "string",
+        name: "name",
+        type: "string",
+      },
+      {
+        internalType: "uint256",
+        name: "voteCount",
+        type: "uint256",
+      },
+      {
+        internalType: "bool",
+        name: "isOpen",
+        type: "bool",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "totalVoters",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [{ internalType: "uint256", name: "nftId", type: "uint256" }],
+    name: "vote",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "",
+        type: "address",
+      },
+    ],
+    name: "voters",
+    outputs: [
+      {
+        internalType: "bool",
+        name: "",
+        type: "bool",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+];
+
+const pollDartABI = [
+  "function createPoll(string memory _name) public onlyOwner {}",
+  "function addNFTS(string memory _nftName) public onlyOwner {}",
+  "function vote(uint256 nftId) external {}",
+  "function closePoll(uint256 pollId) external onlyOwner {}",
+  "function changeOwnership(address _newOwner) public onlyOwner {}",
+  "function getNFTVotes(uint256 nftId) public view returns(uint256) {}",
+  "function haveYouVoted() public view returns (bool) {}",
+];
+
+// Load current sender address if it was not loaded yet
+if (state.sender == undefined && Ethers.provider()) {
+  Ethers.provider()
+    .send("eth_requestAccounts", [])
+    .then((accounts) => {
+      if (accounts.length) {
+        // save sender address to the state
+        State.update({ sender: accounts[0] });
+      }
+    });
+}
+
+// Create contract interface
+const iPollDart = new ethers.utils.Interface(PollABI);
+
+const vote = (nftId) => {
+  console.log("okayVote");
+  const pollDartContract = new ethers.Contract(
+    contractAddress,
+    PollABI,
+    Ethers.provider().getSigner()
+  );
+
+  pollDartContract.vote(nftId);
+  console.log("Voting is Successful");
+};
+
 const Container = styled.div`
   display: flex;
   min-height: fit-content;
@@ -322,7 +626,9 @@ return (
                 <Stock>Artist: {link.artistName} </Stock>
               </div>
               <div>
-                <Button type="button">Vote </Button>
+                <Button onClick={() => vote(link.id)} type="button">
+                  Vote{" "}
+                </Button>
               </div>
               <div></div>
               <ShippingText>Status :{link.status}</ShippingText>
