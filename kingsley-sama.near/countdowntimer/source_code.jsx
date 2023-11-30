@@ -27,6 +27,7 @@ useEffect(() => {
   return () => clearInterval(intervalId);
 }, []);
 const { days, hours, minutes, seconds } = getTimeRemaining();
+
 const sharedCardStyles = `
   background: linear-gradient(to right, #4b5563, #1f2937);
   flex: auto;
