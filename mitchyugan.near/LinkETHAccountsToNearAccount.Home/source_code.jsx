@@ -1,3 +1,5 @@
+const user = context.accountId;
+
 const Home = styled.div`
     width: 100%;
     display: flex;
@@ -17,7 +19,7 @@ useEffect(() => {
 
 return (
   <Home>
-    <Widget src="segunojo1.near/widget/LinkETHAccountsToNearAccount.Navbar" />
+    <Widget src="mitchyugan.near/widget/LinkETHAccountsToNearAccount.Navbar" />
     <Widget src="mitchyugan.near/widget/LinkETHAccountsToNearAccount.LandingPage" />
     {connectSectionActive ? (
       <Widget src="segunojo1.near/widget/LinkETHAccountsToNearAccount.ConnectWallet" />
