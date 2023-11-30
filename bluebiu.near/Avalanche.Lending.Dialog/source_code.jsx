@@ -249,9 +249,12 @@ State.init({
 });
 
 const formatBorrowLimit = (digits, round) => {
-  return Big(data.totalCollateralUsd)
-    .minus(data.userTotalBorrowUsd)
-    .toFixed(digits || 2, round || 1);
+  if (Big(data.totalCollateralUsd).gt(data.userTotalBorrowUsd)) {
+    return Big(data.totalCollateralUsd)
+      .minus(data.userTotalBorrowUsd)
+      .toFixed(digits || 2, round || 1);
+  }
+  return "0.00";
 };
 
 const formatBalance = () => {
