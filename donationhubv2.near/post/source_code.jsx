@@ -1,4 +1,4 @@
-const CityContainer = styled.div`
+const PostContainer = styled.div`
   display: flex;
   border: 1px solid #FFFFFF;
   background-color: #151515;
@@ -6,12 +6,12 @@ const CityContainer = styled.div`
   border-radius: 15px
 `;
 
-const CityInfo = styled.div`
+const PostInfo = styled.div`
   flex: 1;
   padding: 10px;
 `;
 
-const VotesText = styled.p`
+const PostText = styled.p`
   margin: 5px;
 `;
 
@@ -37,14 +37,17 @@ const timestamp = readableDate(
 );
 
 return (
-  <CityContainer>
-    <CityInfo>
+  <PostContainer>
+    <PostInfo>
       <h2>{state.name}</h2>
-      <VotesText>Description: {des[2]}</VotesText>
-      <VotesText>{des[0]}</VotesText>
-      <VotesText>{des[1]}</VotesText>
-      <VotesText>Posted By: {state.authorId}</VotesText>
-      <VotesText>Published: {timestamp}</VotesText>
-    </CityInfo>
-  </CityContainer>
+      <PostText>
+        <b>Description:</b> {des[2]}
+      </PostText>
+      <PostText>{des[0]}</PostText>
+      <PostText>{des[1]}</PostText>
+      <PostText>
+        <b>Posted By:</b> {state.authorId} {timestamp}
+      </PostText>
+    </PostInfo>
+  </PostContainer>
 );
