@@ -189,7 +189,6 @@ const header = (
               }
               props={{
                 accountId: post.author_id,
-                nearDevGovGigsWidgetsAccountId: "megha19.near",
               }}
             />
           </ProfileCardContainer>
@@ -352,8 +351,7 @@ const buttonsFooter = props.isPreview ? null : (
             "Like"
           ) : (
             <Widget
-              // TODO: LEGACY.
-              src="devgovgigs.near/widget/gigs-board.components.layout.LikeButton.Faces"
+              src="megha19.near/widget/devhub.components.layout.LikeButton.Faces"
               props={{
                 likesByUsers: Object.fromEntries(
                   post.likes.map(({ author_id }) => [author_id, ""])
@@ -581,6 +579,7 @@ function Editor() {
                   draftState?.parent_post_id == postId ? draftState : undefined,
                 parentId: postId,
                 mode: "Create",
+                toggleEditor: toggleEditor,
               }}
             />
           </>
@@ -626,11 +625,14 @@ const tags = post.snapshot.labels ? (
       <div className="d-flex align-items-center my-3 me-3">
         <Link
           to={href({
-            widgetSrc: "#/megha19.near/widget/app",
+            widgetSrc: "megha19.near/widget/app",
             params: { page: "feed", tag: tag },
           })}
         >
           <div
+            onClick={() => {
+              props.updateTagInParent(tag);
+            }}
             className="d-flex gap-3 align-items-center"
             style={{ cursor: "pointer", textDecoration: "none" }}
           >
