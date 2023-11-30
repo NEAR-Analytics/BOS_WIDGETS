@@ -90,6 +90,7 @@ padding: 10px 20%;
     .list-result div div{
         display: flex;
         flex-wrap: wrap;
+        gap: 2px;
     }
 
     .list{
@@ -97,7 +98,7 @@ padding: 10px 20%;
         border: 1px solid ${state.theme.border};
         width: auto;
         border-radius: 5px;
-        padding: 4px;
+        padding: 2px;
         text-align: center;
         font-size: 12px;
 
@@ -148,9 +149,9 @@ return (
                             <div>
                               <p>{url}</p>
                               <div>
-                              {apis.map((api) => (
-                                <span className="list">{api}</span>
-                              ))}
+                                {apis.map((api) => (
+                                  <span className="list">{api}</span>
+                                ))}
                               </div>
                             </div>
                           ))
@@ -167,9 +168,9 @@ return (
                             <div>
                               <p>{url}</p>
                               <div>
-                              {apis.map((api) => (
-                                <span className="list">{api}</span>
-                              ))}
+                                {apis.map((api) => (
+                                  <span className="list">{api}</span>
+                                ))}
                               </div>
                             </div>
                           ))
@@ -186,9 +187,9 @@ return (
                             <div>
                               <p>{url}</p>
                               <div>
-                              {apis.map((api) => (
-                                <span className="list">{api}</span>
-                              ))}
+                                {apis.map((api) => (
+                                  <span className="list">{api}</span>
+                                ))}
                               </div>
                             </div>
                           ))
