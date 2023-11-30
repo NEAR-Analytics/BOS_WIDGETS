@@ -288,7 +288,7 @@ const handleAmountChange = (amount) => {
   let isOverSize = false;
   const value = Big(Big(amount).mul(data.underlyingPrice).toFixed(20));
   if (isSupply) {
-    if (actionText === "Withdraw") {
+    if (actionText === "Withdraw" && data.userMerberShip) {
       params.borrowLimit = Big(data.totalCollateralUsd)
         .minus(data.userTotalBorrowUsd)
         .minus(value.mul(data.loanToValue / 100));
@@ -322,10 +322,12 @@ const handleAmountChange = (amount) => {
       isOverSize = value.gt(data.userTotalBorrowUsd);
     }
   }
-  if (params.borrowLimit.lt(0)) {
-    params.borrowLimit = "0.00";
-  } else {
-    params.borrowLimit = params.borrowLimit.toFixed();
+  if (params.borrowLimit) {
+    if (params.borrowLimit.lt(0)) {
+      params.borrowLimit = "0.00";
+    } else {
+      params.borrowLimit = params.borrowLimit.toFixed();
+    }
   }
   params.isBigerThanBalance = Big(amount).gt(state.balance);
   params.buttonClickable = !isOverSize && !params.isBigerThanBalance;
@@ -409,13 +411,17 @@ if (Storage.privateGet("prevAddress") !== data.address && display) {
   let buttonClickable = false;
   if (actionText === "Enable as Collateral") {
     borromLimit = _borrowLimit.add(
-      Big(data.loanToValue / 100).mul(data.userSupply || 0)
+      Big(data.loanToValue / 100)
+        .mul(data.userSupply || 0)
+        .mul(data.underlyingPrice)
     );
     buttonClickable = true;
   }
   if (actionText === "Disable as Collateral") {
     borromLimit = _borrowLimit.minus(
-      Big(data.loanToValue / 100).mul(data.userSupply || 0)
+      Big(data.loanToValue / 100)
+        .mul(data.userSupply || 0)
+        .mul(data.underlyingPrice)
     );
 
     buttonClickable = Big(data.userTotalBorrowUsd).eq(0)
