@@ -4,22 +4,16 @@ const useThemeName = (light, dark) => {
 
 const pages = [
   {
-    label: "Verify",
-    href: `#/${state.ownerId}/widget/SourceScan?page=verify`,
+    label: "Blog",
+    href: `#/`,
     target: "_self",
-    icon: `${state.ownerId}/widget/SourceScan.Common.Icons.VerifyIcon`,
-  },
-  {
-    label: "Scan",
-    href: `#/${state.ownerId}/widget/SourceScan`,
-    target: "_self",
-    icon: `${state.ownerId}/widget/SourceScan.Common.Icons.SearchIcon`,
+    icon: "sourcescan.near/widget/SourceScan.Common.Icons.DocsIcon",
   },
   {
     label: "Docs",
-    href: `#/${state.ownerId}/widget/SourceScan?page=docs`,
+    href: `#/oraio.near/widget/dTecteet?page=docs`,
     target: "_self",
-    icon: `${state.ownerId}/widget/SourceScan.Common.Icons.DocsIcon`,
+    icon: "sourcescan.near/widget/SourceScan.Common.Icons.DocsIcon",
   },
 ];
 
