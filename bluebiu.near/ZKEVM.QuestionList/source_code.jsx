@@ -139,7 +139,8 @@ const AccessKey = Storage.get(
 );
 function get_hot_action_list() {
   asyncFetch(
-    "https://test-api.dapdap.net/api/action/get-hot-action?hot_number=20&action_network_id=zkEVM", { headers: { Authorization: AccessKey }, }
+    "/dapdap/api/action/get-hot-action?hot_number=20&action_network_id=zkEVM",
+    { headers: { Authorization: AccessKey } }
   ).then((res) => {
     const result = JSON.parse(res.body || {}).data || [];
     State.update({
@@ -268,8 +269,9 @@ function get_link(action) {
     link = "/guessme.near/widget/ZKEVMSwap.zkevm-swap?source=question_list";
   }
   if (isLending) {
-    link = `/guessme.near/widget/ZKEVM.AAVE${arr[0].toLowerCase() == "supply" ? "" : "?tab=borrow"
-      }`;
+    link = `/guessme.near/widget/ZKEVM.AAVE${
+      arr[0].toLowerCase() == "supply" ? "" : "?tab=borrow"
+    }`;
   }
   return link;
 }
