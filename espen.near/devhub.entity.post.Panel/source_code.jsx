@@ -521,7 +521,7 @@ const search = (processedQueryArray, index) => {
 const amountOfResultsToShowFirst = 5;
 
 const buildPostsIndex = () => {
-  return Near.asyncView("devgovgigs.near", "get_posts").then(
+  return Near.asyncView("devgovgigs.espen.near", "get_posts").then(
     (posts) => {
       const index = buildIndex(posts);
       const data = posts.reduce((acc, post) => {
@@ -682,29 +682,19 @@ return (
       </div>
       <div class="dropdown">
         <Widget
-          // TODO: LEGACY.
-          src={
-            "devgovgigs.near/widget/gigs-board.feature.post-search.by-author"
-          }
+          src="espen.near/widget/devhub.feature.post-search.by-author"
           props={{
             authorQuery: props.authorQuery,
             onAuthorSearch: props.onAuthorSearch,
-            nearDevGovGigsWidgetsAccountId: nearDevGovGigsWidgetsAccountId,
-            nearDevGovGigsContractAccountId: nearDevGovGigsContractAccountId,
           }}
         />
       </div>
       <div>
         <Widget
-          // TODO: LEGACY.
-          src={
-            "devgovgigs.near/widget/gigs-board.feature.post-search.by-tag"
-          }
+          src="espen.near/widget/devhub.feature.post-search.by-tag"
           props={{
             tagQuery: props.tagQuery,
             onTagSearch: props.onTagSearch,
-            nearDevGovGigsWidgetsAccountId: nearDevGovGigsWidgetsAccountId,
-            nearDevGovGigsContractAccountId: nearDevGovGigsContractAccountId,
           }}
         />
       </div>
