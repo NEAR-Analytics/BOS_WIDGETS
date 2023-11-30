@@ -265,7 +265,11 @@ const PollABI = [
     type: "function",
   },
 ];
-
+const [count, setCount] = useState(0);
+const handleButtonClick = (id) => {
+  vote(id);
+  setCount(count + 1);
+};
 const pollDartABI = [
   "function createPoll(string memory _name) public onlyOwner {}",
   "function addNFTS(string memory _nftName) public onlyOwner {}",
@@ -622,16 +626,19 @@ return (
             <FormContainer role="form">
               <div>
                 <Title>{link.nftName}</Title>
-                <Price>Vote Count: {link.status}</Price>
+                <Price>Vote Count: {count}</Price>
                 <Stock>Artist: {link.artistName} </Stock>
               </div>
               <div>
-                <Button onClick={() => vote(link.id)} type="button">
-                  Vote{" "}
+                <Button
+                  onClick={() => handleButtonClick(link.id)}
+                  type="button"
+                >
+                  Vote
                 </Button>
               </div>
               <div></div>
-              <ShippingText>Status :{link.status}</ShippingText>
+              <ShippingText>Status</ShippingText>
             </FormContainer>
           </FlexContainer>
         </Container>
