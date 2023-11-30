@@ -53,6 +53,7 @@ function createEditTeam({
   }
 
   const membersAndTeams = Object.keys(accessControlInfo.members_list);
+  console.log("🚀 ~ file: index.jsx:56 ~ membersAndTeams:", membersAndTeams);
   members.forEach((member) => {
     // if Contract panic member does not exist in the members_list
     if (!membersAndTeams.includes(member)) {
