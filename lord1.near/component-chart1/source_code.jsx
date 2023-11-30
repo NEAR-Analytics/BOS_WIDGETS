@@ -78,10 +78,11 @@ const activity_of_user_theme = {
     "radial-gradient(circle, rgba(210,202,250,1) 0%, rgba(230,230,231,0.01) 0%, rgba(235,238,255,1) 100%, rgba(235,231,253,1) 100%, rgba(255,241,241,1) 100%, rgba(46,52,90,1) 100%);",
 };
 // state ####################################
+
 State.init({
   searchedSinger: "",
   result: {},
-  loader: false,
+  loader: null,
   isLoading: false,
   error: [],
   queriesRuned: false,
@@ -93,6 +94,8 @@ const checkNewSinger = () => {
   } else {
     State.update({
       searchedSinger: props.singer,
+      loader: null,
+      result: {},
       isLoading: true,
       queriesRuned: false,
     });
@@ -129,13 +132,16 @@ const handleHasedData = ({ hash, id }) => {
     });
   }
   if (result.data) {
+    const filteredData = result.data.filter(
+      (row) => row.SINGER === state.searchedSinger
+    );
     State.update({
       result: {
         ...state.result,
         ["query" + id]: {
           isLoading: false,
           error: false,
-          data: result.data,
+          data: filteredData,
           isDone: true,
         },
       },
@@ -195,12 +201,14 @@ const updateResultState = ({ data, error, isLoading, queryRunId, id }) => {
       return {
         ...state,
         result: { ...newResult },
+        loader: null,
         error: [...state.error, queryError],
       };
     } else {
       return {
         ...state,
         result: { ...newResult },
+        ...(data && { loader: null }),
       };
     }
   });
@@ -232,7 +240,6 @@ const runqueries = (queries) => {
         ...q?.queryOption,
       },
     };
-
     return <Widget src="lord1.near/widget/api-flipside" props={props} />;
   });
   State.update({
