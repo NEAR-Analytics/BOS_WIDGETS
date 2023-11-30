@@ -7,10 +7,9 @@ const AccessKey = Storage.get(
   "guessme.near/widget/ZKEVMWarmUp.add-to-quest-card"
 );
 
-const quest_url = `https://test-api.dapdap.net/api/action/get-action-by-account?account_id=${sender}&action_network_id=zkEVM&account_info=''`;
+const quest_url = `/dapdapt/api/action/get-action-by-account?account_id=${sender}&action_network_id=zkEVM&account_info=''`;
 
-const trend_url =
-  "https://test-api.dapdap.net/api/action/get-hot-action?action_network_id=zkEVM";
+const trend_url = "/dapdap/api/action/get-hot-action?action_network_id=zkEVM";
 
 let myQuestList = [];
 
