@@ -16,7 +16,7 @@ const AccessKey = Storage.get(
   "guessme.near/widget/ZKEVMWarmUp.add-to-quest-card"
 );
 
-const trend_url = "https://test-api.dapdap.net/api/action/get-special-action";
+const trend_url = "/dapdap/api/action/get-special-action";
 
 let trendList = [];
 
