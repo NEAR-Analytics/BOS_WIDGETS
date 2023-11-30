@@ -36,7 +36,9 @@ return (
     <div>
       <Wallet>
         <img src="https://i.ibb.co/X5zpnQD/near-icon-logo-10785-AE366-seeklogo-1.png" />
-        <p>{userId ? userId : "Sign in"}</p>
+        <p>{
+          userId ? userId : "Pls Login"
+        }</p>
       </Wallet>
     </div>
   </Nav>
