@@ -244,7 +244,7 @@ return (
       />
       <Widget
         src="bluebiu.near/widget/ZKEVM.gamma-zkevm-table"
-        props={{ handlePairClick, poolsData, userPositions }}
+        props={{ handlePairClick, poolsData, userPositions, activePair }}
       />
     </Wrapper>
 
