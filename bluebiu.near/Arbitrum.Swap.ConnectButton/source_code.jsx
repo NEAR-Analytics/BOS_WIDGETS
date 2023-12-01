@@ -39,6 +39,9 @@ const ConnectWrapper = styled.div`
       box-shadow: none;
     }
   }
+  .empty-img {
+    height: 30vh;
+  }
   @media (max-width: 768px) {
     .bridge-text {
       font-size: 24px;
@@ -54,7 +57,11 @@ const ConnectWrapper = styled.div`
 
 return (
   <ConnectWrapper>
-    {imgProps && <img {...imgProps} className="connect-img" />}
+    {imgProps && imgProps.src ? (
+      <img {...imgProps} className="connect-img" />
+    ) : (
+      <div className="empty-img" />
+    )}
     <div className="bridge-text">
       {!account && noAccountTips}
       {isWrongNetwork && wrongNetworkTips}
