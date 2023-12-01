@@ -47,8 +47,8 @@ if (state.articleCreated) {
   console.log("call nofity(): ", state.notify);
   state.notify(
     "mention",
-    "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb",
-    `https://near.social/f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/SayALot?isTest=t&sharedBlockHeight=${articleCreated.blockHeight}`
+    `${context.accountId}`,
+    `https://near.social/${context.accountId}/widget/SayALot?isTest=t&sharedBlockHeight=${articleCreated.blockHeight}`
   );
 }
 
@@ -56,11 +56,18 @@ function makePost() {
   Social.set(
     {
       ["test_sayALotArticle_v0.0.2"]: {
-        main: '{"title":"Test notification9","author":"f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb","lastEditor":"f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb","timeLastEdit":1701379839727,"timeCreate":1701379839727,"body":"Test","version":0,"navigation_id":null,"tags":{},"id":"f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb-1701379839727","sbts":["public"]}',
+        main: `{"title":"Test notification9","author":"${
+          context.accountId
+        }","lastEditor":"${
+          context.accountId
+        }","timeLastEdit":${Date.now()},"timeCreate":${Date.now()},"body":"Test","version":0,"navigation_id":null,"tags":{},"id":"${
+          context.accountId
+        }-${Date.now()}","sbts":["public"]}`,
       },
       index: {
-        ["test_sayALotArticle_v0.0.2"]:
-          '{"key":"main","value":{"type":"md","id":"f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb-1701379839727"}}',
+        ["test_sayALotArticle_v0.0.2"]: `{"key":"main","value":{"type":"md","id":"${
+          context.accountId
+        }-${Date.now()}"}}`,
       },
     },
     {
