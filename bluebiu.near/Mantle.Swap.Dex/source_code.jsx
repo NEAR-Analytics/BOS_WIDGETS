@@ -109,8 +109,8 @@ return (
             uniType: "v3",
             handler: "dapdapbos.near/widget/DappEntry.agniHandler",
             defaultCurrencies: {
-              input: Tokens["0xdEAddEaDdeadDEadDEADDEAddEADDEAddead1111"],
-              output: Tokens["0x09Bc4E0D864854c6aFB6eB9A9cdF58aC190D0dF9"],
+              input: Tokens["0x09Bc4E0D864854c6aFB6eB9A9cdF58aC190D0dF9"],
+              output: Tokens["0x201EBa5CC46D216Ce6DC03F6a759e8E766e956aE"],
             },
             tokens: [
               Tokens["0xdEAddEaDdeadDEadDEADDEAddEADDEAddead1111"],
@@ -128,8 +128,8 @@ return (
             uniType: "v3",
             handler: "dapdapbos.near/widget/DappEntry.ammosHandler",
             defaultCurrencies: {
-              input: Tokens["0xdEAddEaDdeadDEadDEADDEAddEADDEAddead1111"],
-              output: Tokens["0x09Bc4E0D864854c6aFB6eB9A9cdF58aC190D0dF9"],
+              input: Tokens["0x09Bc4E0D864854c6aFB6eB9A9cdF58aC190D0dF9"],
+              output: Tokens["0x201EBa5CC46D216Ce6DC03F6a759e8E766e956aE"],
             },
             tokens: [
               Tokens["0xdEAddEaDdeadDEadDEADDEAddEADDEAddead1111"],
@@ -150,8 +150,8 @@ return (
             uniType: "v3",
             handler: "dapdapbos.near/widget/DappEntry.iziSwapHandler",
             defaultCurrencies: {
-              input: Tokens["0xdEAddEaDdeadDEadDEADDEAddEADDEAddead1111"],
-              output: Tokens["0x09Bc4E0D864854c6aFB6eB9A9cdF58aC190D0dF9"],
+              input: Tokens["0x09Bc4E0D864854c6aFB6eB9A9cdF58aC190D0dF9"],
+              output: Tokens["0x201EBa5CC46D216Ce6DC03F6a759e8E766e956aE"],
             },
             tokens: [
               Tokens["0xdEAddEaDdeadDEadDEADDEAddEADDEAddead1111"],
@@ -171,8 +171,8 @@ return (
             uniType: "v3",
             handler: "dapdapbos.near/widget/DappEntry.ammosHandler",
             defaultCurrencies: {
-              input: Tokens["0xdEAddEaDdeadDEadDEADDEAddEADDEAddead1111"],
-              output: Tokens["0x09Bc4E0D864854c6aFB6eB9A9cdF58aC190D0dF9"],
+              input: Tokens["0x09Bc4E0D864854c6aFB6eB9A9cdF58aC190D0dF9"],
+              output: Tokens["0x201EBa5CC46D216Ce6DC03F6a759e8E766e956aE"],
             },
             tokens: [
               Tokens["0xdEAddEaDdeadDEadDEADDEAddEADDEAddead1111"],
