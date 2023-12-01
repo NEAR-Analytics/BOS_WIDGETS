@@ -17,9 +17,9 @@ useEffect(() => {
 
 if (Markdown) {
   return (
-    <>
-      imported!<Markdown># hi</Markdown>
-    </>
+    <div>
+      <Markdown>{"# hi"}</Markdown>
+    </div>
   );
 }
 
