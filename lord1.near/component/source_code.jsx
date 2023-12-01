@@ -278,6 +278,7 @@ const runQueries = () => {
         },
       });
     }
+
     if (result.data) {
       const filteredData = result.data.filter(
         (row) => row.SINGER === state.data
@@ -305,7 +306,7 @@ const handleData = () => {
     State.update({ error: [...state.error, "please insert a new address"] });
     return;
   }
-  State.update({ data: state.singer });
+  State.update({ data: state.singer, result: {}, isLoading: true });
   runQueries();
 };
 //------------------------------------------------------------------------------------------------
@@ -501,14 +502,14 @@ let secondSection = (
             style={{ background: themeColor?.sbt_area?.card_bg }}
             className="w-100 mx-auto shadow-sm rounded-4 overflow-auto"
           >
-            {state.result["hash" + 2]?.length > 0 ? (
+            {state.result["hash" + 2]?.data?.length > 0 ? (
               <Widget
                 src="lord1.near/widget/table-pagination"
                 props={{
                   themeColor: {
                     table_pagination: themeColor.table_pagination,
                   },
-                  data: state.result["hash" + 2],
+                  data: state.result["hash" + 2].data,
                   rowsCount: "10",
                   columns: [
                     {
@@ -562,14 +563,14 @@ let secondSection = (
                 style={{ background: themeColor?.sbt_area?.card_bg }}
                 className="w-100 mx-auto shadow-sm rounded-4 overflow-auto"
               >
-                {state.result["hash" + 6].length > 0 ? (
+                {state.result["hash" + 6]?.data?.length > 0 ? (
                   <Widget
                     src="lord1.near/widget/table-pagination"
                     props={{
                       themeColor: {
                         table_pagination: themeColor.table_pagination,
                       },
-                      data: state.result["hash" + 6],
+                      data: state.result["hash" + 6].data,
                       rowsCount: "5",
                       columns: [
                         {
@@ -609,19 +610,19 @@ let secondSection = (
                 style={{ background: themeColor?.sbt_area?.card_bg }}
                 className="w-100 mx-auto shadow-sm rounded-4 overflow-auto"
               >
-                {state.result["hash" + 4].length > 0 ? (
+                {state.result["hash" + 4]?.data?.length > 0 ? (
                   <Widget
                     src="lord1.near/widget/table-pagination"
                     props={{
                       themeColor: {
                         table_pagination: themeColor.table_pagination,
                       },
-                      data: state.result["hash" + 4],
+                      data: state.result["hash" + 4].data,
                       rowsCount: "5",
                       columns: [
                         {
                           title: "Sender",
-                          key: "singer",
+                          key: "SINGER",
                           link: "yes",
                           beforehref:
                             "https://near.social/mob.near/widget/ProfilePage?accountId=",
@@ -686,14 +687,14 @@ let thirdSection = (
             style={{ background: themeColor?.sbt_area?.card_bg }}
             className="w-100 mx-auto shadow-sm rounded-4 overflow-auto"
           >
-            {state.result["hash" + 6].length > 0 ? (
+            {state.result["hash" + 6]?.data?.length > 0 ? (
               <Widget
                 src="lord1.near/widget/table-pagination"
                 props={{
                   themeColor: {
                     table_pagination: themeColor.table_pagination,
                   },
-                  data: state.result["hash" + 6],
+                  data: state.result["hash" + 6].data,
                   rowsCount: "5",
                   columns: [
                     {
@@ -751,14 +752,14 @@ let thirdSection = (
             style={{ background: themeColor?.sbt_area?.card_bg }}
             className="w-100 mx-auto shadow-sm rounded-4 overflow-auto"
           >
-            {state.result["hash" + 5].length > 0 ? (
+            {state.result["hash" + 5]?.data?.length > 0 ? (
               <Widget
                 src="lord1.near/widget/table-pagination"
                 props={{
                   themeColor: {
                     table_pagination: themeColor.table_pagination,
                   },
-                  data: state.result["hash" + 5],
+                  data: state.result["hash" + 5].data,
                   rowsCount: "5",
                   columns: [
                     {
@@ -795,7 +796,6 @@ let thirdSection = (
     </div>
   </div>
 );
-console.log(state);
 return (
   <div
     style={{ backgroundColor: themeColor.page_bg }}
