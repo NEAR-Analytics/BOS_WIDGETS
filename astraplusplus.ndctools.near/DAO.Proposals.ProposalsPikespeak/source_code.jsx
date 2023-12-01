@@ -1,8 +1,9 @@
-const daoId = props.daoId;
+const { daoId, proposals } = props;
 
 const apiUrl = `https://api.pikespeak.ai/daos/proposals`;
 const publicApiKey = "36f2b87a-7ee6-40d8-80b9-5e68e587a5b5";
 const resPerPage = 20; // Number of proposals to fetch at a time
+const accountId = context.accountId;
 
 const defaultMultiSelectMode = Storage.privateGet("multiSelectMode");
 const defaultTableView = Storage.privateGet("tableView");
@@ -30,13 +31,10 @@ const isVotingBodyDao = daoId === VotingBodyDaoId;
 
 const proposalsCount = Near.view(daoId, "number_of_proposals");
 
-if (proposalsCount === null) {
-    return;
-}
+if (proposalsCount === null) return;
 
 State.init({
     daoId,
-    daos: [daoId],
     page: 0,
     filters: {
         proposal_types: [],
@@ -117,10 +115,31 @@ function fetchCongressDaoProposals() {
         reverse: true
     });
 
-    if (resp) {
-        data = processProposals(resp);
-    }
+    if (resp) data = processProposals(resp);
+
     return data;
+}
+
+function fetchDaoProposals() {
+    const resp = fetch(
+        forgeUrl(apiUrl, {
+            offset: state.page * resPerPage,
+            limit: resPerPage,
+            daos: [daoId],
+            proposal_types: state.filters.proposal_types,
+            status: state.filters.status,
+            time_start: state.filters.time_start,
+            time_end: state.filters.time_end
+        }),
+        {
+            mode: "cors",
+            headers: {
+                "x-api-key": publicApiKey
+            }
+        }
+    );
+
+    return resp;
 }
 
 function fetchVBPreVoteProposals() {
@@ -141,27 +160,13 @@ function fetchVBPreVoteProposals() {
 }
 
 let res =
-    isCongressDaoID || isVotingBodyDao
+    proposals ??
+    (isCongressDaoID || isVotingBodyDao
         ? fetchCongressDaoProposals()
-        : fetch(
-              forgeUrl(apiUrl, {
-                  offset: state.page * resPerPage,
-                  limit: resPerPage,
-                  daos: state.daos,
-                  proposal_types: state.filters.proposal_types,
-                  status: state.filters.status,
-                  time_start: state.filters.time_start,
-                  time_end: state.filters.time_end
-              }),
-              {
-                  mode: "cors",
-                  headers: {
-                      "x-api-key": publicApiKey
-                  }
-              }
-          );
+        : fetchDaoProposals());
 
 // filtering for congress daos
+
 if (isCongressDaoID || isVotingBodyDao) {
     if (state.filters.proposal_types?.length > 0) {
         res.body = res.body?.filter((item) => {
