@@ -197,6 +197,7 @@ return (
               loading={<div className="post-header" />}
               src="yacare.near/widget/MainPage.N.Post.Header"
               props={{
+                link: "#",
                 accountId: bettor,
                 hideMenu: true,
                 timeMs: timestamp / 1000000,
