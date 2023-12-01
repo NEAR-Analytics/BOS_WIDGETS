@@ -15,4 +15,10 @@ useEffect(() => {
   importMarkdown();
 }, []);
 
-return Markdown ? <Markdown>{"# hello world"}</Markdown> : <div>Loading</div>;
+return Markdown ? (
+  <div>
+    <Markdown>{"# hello world"}</Markdown>
+  </div>
+) : (
+  <div>Loading</div>
+);
