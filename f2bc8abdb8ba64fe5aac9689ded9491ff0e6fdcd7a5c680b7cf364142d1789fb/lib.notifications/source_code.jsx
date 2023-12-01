@@ -12,49 +12,44 @@ function appendExports(fnName) {
   }
 }
 
-function notify(notificationType, userToNotify, redirectTo, articleCreated) {
-  console.log(articleCreated);
-  if (articleCreated) {
-    console.log("Inside notify redirectTo:", redirectTo);
+function notify(notificationType, userToNotify, redirectTo) {
+  const notificationTypeText = {
+    mention: `I have mentioned ${userToNotify} in this post: `,
+    upVote: "I have upVoted this post: ",
+    emoji: "I have reacted to this post: ",
+    comment: "I have commented this post: ",
+  };
 
-    const notificationTypeText = {
-      mention: `I have mentioned ${userToNotify} in this post: `,
-      upVote: "I have upVoted this post: ",
-      emoji: "I have reacted to this post: ",
-      comment: "I have commented this post: ",
-    };
-
-    Social.set(
-      {
-        post: {
-          main: JSON.stringify(
-            Object.assign(
-              { groupId: "group" },
-              `${notificationTypeText[notificationType]} ${redirectTo}`
-            )
-          ),
-        },
-        index: {
-          notify: JSON.stringify({
-            key: userToNotify,
-            value: {
-              type: "mention",
-              item: {
-                type: "social",
-                path: `${context.accountId}/post/main`,
-              },
-            },
-          }),
-        },
+  Social.set(
+    {
+      post: {
+        main: JSON.stringify(
+          Object.assign(
+            { groupId: "group" },
+            `${notificationTypeText[notificationType]} ${redirectTo}`
+          )
+        ),
       },
-      {
-        onCommit: () => {
-          stateUpdate({ articleCreated: undefined });
-          console.log(3);
-        },
-      }
-    );
-  }
+      index: {
+        notify: JSON.stringify({
+          key: userToNotify,
+          value: {
+            type: "mention",
+            item: {
+              type: "social",
+              path: `${context.accountId}/post/main`,
+            },
+          },
+        }),
+      },
+    },
+    {
+      onCommit: () => {
+        stateUpdate({ articleCreated: undefined });
+        console.log(3);
+      },
+    }
+  );
 }
 
 function clg(string) {
