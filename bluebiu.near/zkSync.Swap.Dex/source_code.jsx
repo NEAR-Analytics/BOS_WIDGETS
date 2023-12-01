@@ -217,8 +217,8 @@ return (
             routerAddress: "0xbE7D1FD1f6748bbDefC4fbaCafBb11C6Fc506d1d",
             uniType: "v2",
             defaultCurrencies: {
-              input: Tokens["native"],
-              output: Tokens["0x47260090cE5e83454d5f05A0AbbB2C953835f777"],
+              input: Tokens["0x3355df6D4c9C3035724Fd0e3914dE96A5a83aaf4"],
+              output: Tokens["0x493257fd37edb34451f62edf8d2a0c418852ba4c"],
             },
             tokens: [
               Tokens["native"],
@@ -237,8 +237,8 @@ return (
             routerAddress: "0xF29Eb540eEba673f8Fb6131a7C7403C8e4C3f143",
             uniType: "solidly",
             defaultCurrencies: {
-              input: Tokens["0x5AEa5775959fBC2557Cc8789bC1bf90A239D9a91"],
-              output: Tokens["0x3355df6D4c9C3035724Fd0e3914dE96A5a83aaf4"],
+              input: Tokens["0x3355df6D4c9C3035724Fd0e3914dE96A5a83aaf4"],
+              output: Tokens["0x493257fd37edb34451f62edf8d2a0c418852ba4c"],
             },
             tokens: [
               Tokens["0x85D84c774CF8e9fF85342684b0E795Df72A24908"],
@@ -259,8 +259,8 @@ return (
             routerAddress: "0x6C31035D62541ceba2Ac587ea09891d1645D6D07",
             uniType: "solidly",
             defaultCurrencies: {
-              input: Tokens["native"],
-              output: Tokens["0x3355df6D4c9C3035724Fd0e3914dE96A5a83aaf4"],
+              input: Tokens["0x3355df6D4c9C3035724Fd0e3914dE96A5a83aaf4"],
+              output: Tokens["0x493257fd37edb34451f62edf8d2a0c418852ba4c"],
             },
             tokens: [
               Tokens["native"],
@@ -283,8 +283,8 @@ return (
             routerAddress: "0x2da10A1e27bF85cEdD8FFb1AbBe97e53391C0295",
             uniType: "Syncswap",
             defaultCurrencies: {
-              input: Tokens["native"],
-              output: Tokens["0x3355df6D4c9C3035724Fd0e3914dE96A5a83aaf4"],
+              input: Tokens["0x3355df6D4c9C3035724Fd0e3914dE96A5a83aaf4"],
+              output: Tokens["0x493257fd37edb34451f62edf8d2a0c418852ba4c"],
             },
             tokens: [
               Tokens["0x3355df6D4c9C3035724Fd0e3914dE96A5a83aaf4"],
