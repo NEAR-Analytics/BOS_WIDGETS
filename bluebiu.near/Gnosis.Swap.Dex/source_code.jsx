@@ -99,7 +99,7 @@ return (
             routerAddress: "0x1C232F01118CB8B424793ae03F870aa7D0ac7f77",
             uniType: "v2",
             defaultCurrencies: {
-              input: Tokens["0x9C58BAcC331c9aa871AFD802DB6379a98e80CEdb"],
+              input: Tokens["native"],
               output: Tokens["0x71850b7e9ee3f13ab46d67167341e4bdc905eef9"],
             },
             tokens: [
