@@ -372,7 +372,7 @@ if (!state.balancesUpdated) {
 
 const onTabChange = (tab) => {
   // console.log("onTabChange", deposit, withdraw);
-  // State.update({ deposit: clone(withdraw), withdraw: clone(deposit), tab });
+  State.update({ deposit: clone(withdraw), withdraw: clone(deposit), tab });
 };
 
 console.log(deposit.assets, withdraw.assets);
