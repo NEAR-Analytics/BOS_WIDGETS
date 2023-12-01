@@ -39,6 +39,8 @@ const Title = styled.div`
   font-size: 16px;
   font-weight: 500;
   color: #fff;
+  display: flex;
+  align-items: center;
 `;
 const Apy = styled.span`
   margin-left: 8px;
@@ -211,6 +213,22 @@ const TopBox = styled.div`
 `;
 const BottomBox = styled.div`
   padding: 10px 20px 20px;
+`;
+const RewardApyItem = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-left: 8px;
+`;
+const RewardIcon = styled.img`
+  width: 14px;
+  height: 14px;
+`;
+const RewardApy = styled.div`
+  font-weight: 400;
+  line-height: 14px;
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 12px;
 `;
 
 const ERC20_ABI = [
@@ -445,10 +463,14 @@ if (Storage.privateGet("prevAddress") !== data.address && display) {
   getBalance();
   Storage.privateSet("prevAddress", data.address);
 }
-
+console.log(data);
 return (
   <Dialog className={display ? "display" : ""}>
-    <Overlay>
+    <Overlay
+      onClick={() => {
+        handleClose();
+      }}
+    >
       <Content>
         <TopBox className={isForCollateral && "none-border"}>
           <Header>
@@ -458,9 +480,17 @@ return (
                 {!isForCollateral && tokenSymbol}
               </span>
               {!isForCollateral && (
-                <Apy className={isSupply ? "supply-color" : "borrow-color"}>
-                  APY {isSupply ? data.supplyApy : data.borrowApy}
-                </Apy>
+                <>
+                  <Apy className={isSupply ? "supply-color" : "borrow-color"}>
+                    APY {isSupply ? data.supplyApy : data.borrowApy}
+                  </Apy>
+                  {data.distributionApy?.map((reward) => (
+                    <RewardApyItem key={reward.symbol}>
+                      <RewardIcon src={reward.icon} />
+                      <RewardApy>{reward.supply}</RewardApy>
+                    </RewardApyItem>
+                  ))}
+                </>
               )}
             </Title>
             <CloseIcon>
