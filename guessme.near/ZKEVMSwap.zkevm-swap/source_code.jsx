@@ -1,5 +1,4 @@
 const { oneProtocol, defaultDex } = props;
-console.log("defaultDex: ", defaultDex, oneProtocol);
 
 const ethAddress = "0x0000000000000000000000000000000000000000";
 
@@ -98,8 +97,8 @@ State.init({
   reloadPools: false,
   hoverOnChain: "",
   estimate: {},
-  inputAssetTokenId: "0x0000000000000000000000000000000000000000",
-  outputAssetTokenId: "0xa8ce8aee21bc2a48a5ef670afcc9274c7bbbc035",
+  inputAssetTokenId: "0xa8ce8aee21bc2a48a5ef670afcc9274c7bbbc035",
+  outputAssetTokenId: "0x1E4a5963aBFD975d8c9021ce480b42188849D41d",
   coinGeckoTokenIds: {
     "0x0000000000000000000000000000000000000000":
       "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2",
@@ -131,8 +130,6 @@ State.init({
   noPool: false,
 });
 
-console.log("selectedDex: ", state.selectedDex);
-
 const refReferralId = props.refReferralId ?? "ukraine";
 
 const { source } = props;
@@ -153,7 +150,6 @@ if (!state.sender) {
 }
 
 const onDexDataLoad = (data) => {
-  console.log("dexdata: ", data);
   State.update({
     ...data,
     forceReload: false,
@@ -680,9 +676,8 @@ const switchNetwork = (chainId, dex, tokenIn, tokenOut) => {
   State.update({
     selectedDex: dex,
     forceReload: true,
-    inputAssetTokenId: ethAddress,
-    outputAssetTokenId:
-      tokenOut || "0xa8ce8aee21bc2a48a5ef670afcc9274c7bbbc035",
+    inputAssetTokenId: "0xa8ce8aee21bc2a48a5ef670afcc9274c7bbbc035",
+    outputAssetTokenId: "0x1E4a5963aBFD975d8c9021ce480b42188849D41d",
   });
 };
 
@@ -848,7 +843,6 @@ if (props.source == "trend" && params_from_trend_card) {
 if (props.source == "question_list" && params_from_question_list) {
   params = params_from_question_list;
 }
-
 if (params && selectedChainId === 1101 && state.hasGetStorage === false) {
   if (!!params?.amount && !!params?.assetId) {
     const toAssetId =
@@ -956,7 +950,6 @@ if (!state.sender || selectedChainId !== 1101) {
     />
   );
 }
-
 return (
   <>
     <Widget
@@ -1125,7 +1118,7 @@ return (
           <ExchangeWrapper></ExchangeWrapper>
           <div class="bottom-container">
             {assetContainer(
-              fasle,
+              false,
               state.outputAsset,
               "outputAssetAmount",
               () => {
