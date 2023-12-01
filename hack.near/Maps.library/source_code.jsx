@@ -29,7 +29,7 @@ const components = [
     authorId: "efiz.near",
     path: "efiz.near/widget/Map.Form",
     description: "enabling users to put data on your map",
-    demoProps: { data },
+    demoProps: {},
     requiredProps: {
       data: "state.focusedMarker || {}",
       children: "props.form",
@@ -43,7 +43,7 @@ const components = [
     authorId: "efiz.near",
     path: "efiz.near/widget/Map.Inspect",
     description: "for viewing details of things on your map",
-    demoProps: { focusedMarker, children },
+    demoProps: {},
     requiredProps: {
       focusedMarker: "state.focusedMarker",
       children: "props.inspect",
@@ -193,9 +193,8 @@ const components = [
     title: "MobileCalendar",
     category: "Events",
     authorId: "itexpert120-contra.near",
-
-    widgetName: "itexpert120-contra.near/widget/MobileCalendar",
-    description: "TBD TODO WRAPPER",
+    path: "itexpert120-contra.near/widget/MobileCalendar",
+    description: "TBD",
     demoProps: {},
     requiredProps: {},
     optionalProps: {},
@@ -214,7 +213,7 @@ const components = [
     title: "Humans of NEAR",
     category: "Examples",
     authorId: "humans-of-near.near",
-    widgetName: "humans-of-near.near/widget/humans.nearverselabs.com",
+    path: "humans-of-near.near/widget/humans.nearverselabs.com",
     description: "TBD",
     demoProps: {},
     requiredProps: {},
@@ -224,7 +223,7 @@ const components = [
     title: "Liberty DAO",
     category: "Examples",
     authorId: "libertydao.near",
-    widgetName: "libertydao.near/widget/boroughs.index",
+    path: "libertydao.near/widget/boroughs.index",
     description: "TBD",
     demoProps: {},
     requiredProps: {},
@@ -304,7 +303,7 @@ const renderComponent = (c, i) => {
       <div className="mt-3">
         <p>{c.description}</p>
       </div>
-      {c.demoProps.length > 0 && (
+      {Object.keys(c.demoProps).length > 0 && (
         <>
           <label>Preview</label>
           <div className="preview mb-3" style={c.previewStyle}>
@@ -314,7 +313,7 @@ const renderComponent = (c, i) => {
       )}
       <label>Component</label>
       <div className="d-flex flex-row flex-wrap justify-content-between mb-3">
-        <div className="path font-monospace">
+        <div className="path font-monospace m-1">
           <Widget
             src="mob.near/widget/CopyButton"
             props={{
@@ -327,32 +326,36 @@ const renderComponent = (c, i) => {
           <a
             href={`/mob.near/widget/WidgetSource?src=${c.path}`}
             target="_blank"
-            className="btn btn-outline-primary border-0"
+            className="btn btn-outline-primary border-0 m-1"
           >
             Source
           </a>
         </div>
       </div>
-      <label>Props</label>
-      <table className="props table table-bordered mb-3">
-        <thead>
-          <tr>
-            <th>Key</th>
-            <th>Description</th>
-          </tr>
-        </thead>
-        <tbody>
-          {renderProps(c.requiredProps)}
-          {renderProps(c.optionalProps, true)}
-        </tbody>
-      </table>
+      {Object.keys(c.requiredProps).length > 0 && (
+        <>
+          <label>Props</label>
+          <table className="props table table-bordered mb-3">
+            <thead>
+              <tr>
+                <th>Key</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              {renderProps(c.requiredProps)}
+              {renderProps(c.optionalProps, true)}
+            </tbody>
+          </table>
+        </>
+      )}
       <label>Example</label>
       <div className="embed-code">
         <Markdown text={`\`\`\`jsx\n${embedCode}\n\`\`\``} />
         <div className="embed-copy">
           <Widget
             src="mob.near/widget/CopyButton"
-            props={{ text: c.path, className: "btn btn-outline-light" }}
+            props={{ text: embedCode, className: "btn btn-outline-light" }}
           />
         </div>
       </div>
