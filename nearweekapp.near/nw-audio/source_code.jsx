@@ -21,7 +21,7 @@ function AudioCard() {
       state.page * 5
     }`
   );
-  console.log(fetchAudio, "fetchAudio1");
+
   function formatPodcastDate(dateString) {
     const timeAgo = (diffSec) =>
       diffSec < 60000
@@ -50,21 +50,6 @@ function AudioCard() {
       description: item.Description,
     };
   });
-
-  const cssFont = fetch(
-    "https://fonts.googleapis.com/css2?family=Space+Grotesk"
-  ).body;
-
-  if (!cssFont) return "";
-
-  if (!state.theme) {
-    State.update({
-      theme: styled.div`
-    font-family: sans-serif;
-    ${cssFont}
-`,
-    });
-  }
 
   const AudioCard = styled.div`
     position: relative;
@@ -103,35 +88,34 @@ function AudioCard() {
   color: black;  `;
 
   const AudioTitleLinkContent = styled.p`
-  font-weight: 500;
-  font-size: 12px;
-  line-height: 14px;
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 14px;
   `;
 
   const AudioCategories = styled.div`
-  align: left;
-  justify-self: left;
-  grid-area: 2 / 1 / 3 / 2;
+    align: left;
+    justify-self: left;
+    grid-area: 2 / 1 / 3 / 2;
   `;
 
   const AudioCategoriesContent = styled.p`
-  font-weight: 500;
-  font-size: 10px;
-  line-height: 8.5px;
-  color: #9C9C9C;
-  margin: 0;
-text-align: center;
-align-items:center;
-margin-top:2.5px;
-  background-color: #F5F5F5;
-  border-radius: 4px;
+    font-weight: 500;
+    font-size: 10px;
+    line-height: 8.5px;
+    color: #9C9C9C;
+    margin: 0;
+    text-align: center;
+    align-items: center;
+    margin-top: 2.5px;
+    background-color: #F5F5F5;
+    border-radius: 4px;
     padding: 6px 20px;
   `;
 
   const AudioDate = styled.p`
     color: rgba(28, 31, 65, 0.45);
     text-align: right;
-    font-family: Inter;
     font-size: 12px;
     font-style: normal;
     font-weight: 500;
@@ -147,72 +131,39 @@ margin-top:2.5px;
   `;
 
   const H2 = styled.h2`
-color: #1C1F41;
-font-family: Inter;
-font-size: 24px;
-font-style: normal;
-font-weight: 500;
-line-height: 15px;
-margin-bottom: 15px;
+    color: #1C1F41;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 15px;
+    margin-bottom: 15px;
 `;
 
   const AudioButtonLoad = styled.button`
-  width: 180px;
-  padding: 8px;
-  height: 31px;
-  background: transparent;
-  margin: 8px auto 0px auto;
-  border: 1px solid #d7dbdf;
-  border-radius: 100px;
-  font-weight: 500;
-  font-size: 12px;
-  line-height: 22px;
-  letter-spacing: -0.03em;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  cursor: pointer;
-  white-space: nowrap;
-  color: hsla(204, 22%, 9%, 1);
-  &:hover,
-  &:focus {
-    text-decoration: none;
-    outline: none;
-    }
-  `;
-
-  const AudioBage = styled.div`
-max-width: 300px;
-width: 100%;
-border-radius: 12px;
-background: linear-gradient(0deg, #101010, #101010), linear-gradient(180.95deg, #FFD225 -3.64%, rgba(255, 255, 255, 0) 58.09%);
-box-shadow: 0px 2px 12px 0px #00000040;
-background: darkcyan;
-margin: 2rem auto 0 auto; 
-padding: 10px 15px;
-display:flex;
-flex-direction: column;
-& .text-container {
-  width: 160px;
-  & p {
-    color: rgba(255, 255, 255, 0.80);
-    font-family: Inter;
-    font-size: 12px;
-    font-style: normal;
+    width: 180px;
+    padding: 8px;
+    height: 31px;
+    background: transparent;
+    margin: 20px auto 0px auto;
+    border: 1px solid #d7dbdf;
+    border-radius: 100px;
     font-weight: 500;
-    line-height: 14px;
-    margin:0;
-    }
-    & h3 {
-      color: #FFF;
-      font-family: Inter;
-      font-size: 16px;
-      font-style: normal;
-      font-weight: 500;
-      line-height: 20px;
-      margin-bottom:4xp;
-}}`;
+    font-size: 12px;
+    line-height: 22px;
+    letter-spacing: -0.03em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    cursor: pointer;
+    white-space: nowrap;
+    color: hsla(204, 22%, 9%, 1);
+    &:hover,
+    &:focus {
+      text-decoration: none;
+      outline: none;
+      }
+  `;
 
   const MainSection = styled.div`
     border: 1px solid var(--bs-border-color);
