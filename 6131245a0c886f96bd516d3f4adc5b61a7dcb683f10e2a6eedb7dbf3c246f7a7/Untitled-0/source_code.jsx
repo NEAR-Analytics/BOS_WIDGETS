@@ -22,7 +22,6 @@ let eleccionComputadora;
 const jugar = () => {
   const opciones = ["piedra", "papel", "tijera"];
   eleccionComputadora = opciones[Math.floor(Math.random() * 3)];
-  console.log(`La máquina eligió: ${eleccionComputadora}`);
   if (eleccionUsuario === eleccionComputadora) {
     resultado = "Empate";
   } else if (
@@ -34,7 +33,9 @@ const jugar = () => {
   } else {
     resultado = "Perdiste";
   }
-  console.log(resultado);
+  console.log(`La máquina eligió: ${eleccionComputadora}`);
+  console.log(`Tu elegiste: ${eleccionUsuario}`);
+  console.log(`El resultado es: ${resultado}`);
 };
 
 const juego = "Piedra, Papel, y Tijera!!!!   :D";
