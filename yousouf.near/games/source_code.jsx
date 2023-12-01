@@ -1,5 +1,11 @@
 const accountId = context.accountId;
 const DevId = props.DevId ?? "yousouf.near";
+const [selectedGame, setSelectedGame] = useState(null);
+
+// Function to handle button click
+const handleButtonClick = (game) => {
+  setSelectedGame(game);
+};
 
 let profile = Social.getr(`${accountId}/profile`);
 
@@ -169,9 +175,24 @@ return (
               >
                 Games
               </Text>
-              <Widget src="yousouf.near/widget/tic-tac-toe" />
-              <Widget src="yousouf.near/widget/rps" />
-              <Widget src="yousouf.near/widget/crossword" />
+
+              {/* Buttons for each game */}
+              <Flex gap="12px">
+                <button onClick={() => handleButtonClick("tic-tac-toe")}>
+                  😊
+                </button>
+                <button onClick={() => handleButtonClick("rps")}>💖</button>
+                <button onClick={() => handleButtonClick("crossword")}>
+                  ⭐
+                </button>
+              </Flex>
+
+              {/* Render selected game widget */}
+              {selectedGame === null ? (
+                <p>Click to start</p>
+              ) : (
+                <Widget src={`yousouf.near/widget/${selectedGame}`} />
+              )}
             </Flex>
           )}
         </div>
