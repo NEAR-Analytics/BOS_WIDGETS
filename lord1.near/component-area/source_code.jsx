@@ -283,47 +283,7 @@ return (
           />
         </div>
       </div>
-      <div className="row g-4 w-100 pb-2 px-2 mx-0">
-        <div
-          style={{ background: themeColor?.sbt_area?.card_bg }}
-          className="shadow-sm rounded-2"
-        >
-          <Widget
-            src="lord1.near/widget/mix-chart"
-            props={getMixProps(
-              state.data?.hash1?.data,
-              "issued_at",
-              [
-                {
-                  key: "old_wallets",
-                  seriesName: "Old Wallets",
-                  type: "column",
-                  id: 1,
-                },
-                {
-                  key: "new_wallets",
-                  seriesName: "New Wallets",
-                  type: "column",
-                  id: 1,
-                },
-                {
-                  key: "total_wallets",
-                  seriesName: "Tota Wallets",
-                  type: "spline",
-                  id: 1,
-                },
-              ],
-              themeColor.chartColor,
-              {
-                title: "Election Participants",
-                subtitle:
-                  "The count of new, pre-existing, and overall addresses that took part in the Election procedure.",
-                stacking: "normal",
-              }
-            )}
-          />
-        </div>
-      </div>
+
       <div className="row w-100 py-4 g-4">
         <div className=" col-12 col-md-6">
           <div
