@@ -154,15 +154,22 @@ return (
             </Flex>
           ) : (
             <Flex gap="12px" direction="column" alignItems="left">
-              <div style={{ maxWidth: "90%" }}>
+              <div
+                style={{
+                  maxWidth: "90%",
+                  display: "flex",
+                  alignItems: "center",
+                }}
+              >
+                <h4 style={{ marginRight: "10px" }}>Connected Account:</h4>
                 <Widget
                   src="near/widget/AccountProfileCard"
                   props={{
                     accountId: accountId,
                   }}
                 />
-                <hr />
               </div>
+
               <br />
               <Text
                 size="23px"
