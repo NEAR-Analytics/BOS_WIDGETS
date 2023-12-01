@@ -1,5 +1,9 @@
 const { stateUpdate, imports } = props;
 
+if (!stateUpdate) {
+  stateUpdate = () => {};
+}
+
 if (!imports) {
   imports = [];
 }
@@ -13,6 +17,7 @@ function appendExports(fnName) {
 }
 
 function notify(notificationType, userToNotify, redirectTo) {
+  console.log("Inside notify fn");
   const notificationTypeText = {
     mention: `I have mentioned ${userToNotify} in this post: `,
     upVote: "I have upVoted this post: ",
@@ -23,12 +28,10 @@ function notify(notificationType, userToNotify, redirectTo) {
   Social.set(
     {
       post: {
-        main: JSON.stringify(
-          Object.assign(
-            { groupId: "group" },
-            `${notificationTypeText[notificationType]} ${redirectTo}`
-          )
-        ),
+        main: JSON.stringify({
+          type: "md",
+          text: `${notificationTypeText[notificationType]} ${redirectTo}`,
+        }),
       },
       index: {
         notify: JSON.stringify({
@@ -46,7 +49,6 @@ function notify(notificationType, userToNotify, redirectTo) {
     {
       onCommit: () => {
         stateUpdate({ articleCreated: undefined });
-        console.log(3);
       },
     }
   );
