@@ -18,7 +18,7 @@ useEffect(() => {
 if (Markdown) {
   return (
     <div>
-      <Markdown># hi</Markdown>
+      <Markdown># I'm not even supposed to be here</Markdown>
     </div>
   );
 }
