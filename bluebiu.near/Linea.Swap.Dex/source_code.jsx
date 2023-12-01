@@ -160,8 +160,8 @@ return (
             quoterAddress: "0x07AceD5690e09935b1c0e6E88B772d9440F64718",
             uniType: "v3",
             defaultCurrencies: {
-              input: Tokens["native"],
-              output: Tokens["0x176211869cA2b568f2A7D4EE941E073a821EE1ff"],
+              input: Tokens["0x176211869cA2b568f2A7D4EE941E073a821EE1ff"],
+              output: Tokens["0xEB466342C4d449BC9f53A865D5Cb90586f405215"],
             },
             tokens: [
               Tokens["native"],
@@ -183,8 +183,8 @@ return (
             quoterAddress: "0xe6805638db944eA605e774e72c6F0D15Fb6a1347",
             uniType: "v3",
             defaultCurrencies: {
-              input: Tokens["native"],
-              output: Tokens["0x176211869cA2b568f2A7D4EE941E073a821EE1ff"],
+              input: Tokens["0x176211869cA2b568f2A7D4EE941E073a821EE1ff"],
+              output: Tokens["0x3aAB2285ddcDdaD8edf438C1bAB47e1a9D05a9b4"],
             },
             tokens: [
               Tokens["0x176211869cA2b568f2A7D4EE941E073a821EE1ff"],
@@ -205,8 +205,8 @@ return (
             routerAddress: "0x80e38291e06339d10AAB483C65695D004dBD5C69",
             uniType: "Syncswap",
             defaultCurrencies: {
-              input: Tokens["native"],
-              output: Tokens["0x176211869cA2b568f2A7D4EE941E073a821EE1ff"],
+              input: Tokens["0x176211869cA2b568f2A7D4EE941E073a821EE1ff"],
+              output: Tokens["0xA219439258ca9da29E9Cc4cE5596924745e12B93"],
             },
             tokens: [
               Tokens["0x176211869cA2b568f2A7D4EE941E073a821EE1ff"],
