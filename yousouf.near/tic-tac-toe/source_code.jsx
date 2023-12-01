@@ -1,18 +1,25 @@
 const calculateWinner = (squares) => {
-  const lines = [
-    [0, 1, 2],
-    [3, 4, 5],
-    [6, 7, 8],
-    [0, 3, 6],
-    [1, 4, 7],
-    [2, 5, 8],
-    [0, 4, 8],
-    [2, 4, 6],
-  ];
+  const lines = [];
+
+  for (let i = 0; i < 5; i++) {
+    lines.push([i, i + 5, i + 10, i + 15, i + 20]); // Vertical lines
+    lines.push([i * 5, i * 5 + 1, i * 5 + 2, i * 5 + 3, i * 5 + 4]); // Horizontal lines
+  }
+
+  for (let i = 0; i < 5; i++) {
+    lines.push([i * 6, i * 6 + 1, i * 6 + 2, i * 6 + 3, i * 6 + 4]); // Diagonal from top-left to bottom-right
+    lines.push([i, i + 7, i + 14, i + 21, i + 28]); // Diagonal from top-right to bottom-left
+  }
 
   for (let i = 0; i < lines.length; i++) {
-    const [a, b, c] = lines[i];
-    if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
+    const [a, b, c, d, e] = lines[i];
+    if (
+      squares[a] &&
+      squares[a] === squares[b] &&
+      squares[a] === squares[c] &&
+      squares[a] === squares[d] &&
+      squares[a] === squares[e]
+    ) {
       return squares[a];
     }
   }
@@ -33,7 +40,8 @@ const getRandomMove = (squares) => {
   const randomIndex = Math.floor(Math.random() * emptySquares.length);
   return emptySquares[randomIndex];
 };
-const [squares, setSquares] = useState(Array(9).fill(null));
+
+const [squares, setSquares] = useState(Array(25).fill(null));
 const [xIsNext, setXIsNext] = useState(true);
 const [isGameOver, setGameOver] = useState(false);
 
@@ -48,14 +56,14 @@ const handleClick = (index) => {
   }
 
   const newSquares = [...squares];
-  newSquares[index] = "X"; // Assuming the player is always X
+  newSquares[index] = xIsNext ? "X" : "O";
   setSquares(newSquares);
-  setXIsNext(false);
+  setXIsNext(!xIsNext);
 
   if (!isBoardFull(newSquares) && !calculateWinner(newSquares)) {
     // Computer's move
     const computerMove = getRandomMove(newSquares);
-    newSquares[computerMove] = "O"; // Assuming the computer is always O
+    newSquares[computerMove] = "O";
     setSquares(newSquares);
     setXIsNext(true);
   }
@@ -71,7 +79,7 @@ useEffect(() => {
 }, [squares]);
 
 const resetGame = () => {
-  setSquares(Array(9).fill(null));
+  setSquares(Array(25).fill(null));
   setGameOver(false);
   setXIsNext(true);
 };
@@ -85,11 +93,21 @@ if (isGameOver) {
     status = "It's a draw!";
   }
 } else {
-  status = `Next player: ${xIsNext ? "Player" : "Computer"}`;
+  status = `Next player : ${xIsNext ? "Player" : "Computer"}`;
 }
 
 return (
   <div>
+    <div
+      style={{
+        backgroundColor: "#8eff8e",
+        fontSize: "34px",
+        fontWeight: "bold",
+        textAlign: "center",
+      }}
+    >
+      <h5>Tic-Tac-Toe Game on BOS</h5>
+    </div>
     <div
       style={{
         display: "flex",
@@ -107,7 +125,7 @@ return (
           boxShadow: "0px 0px 10px 0px rgba(0, 0, 0, 0.2)",
           padding: "20px",
           display: "grid",
-          gridTemplateColumns: "repeat(3, 1fr)",
+          gridTemplateColumns: "repeat(5, 1fr)",
           gap: "10px",
           fontSize: "24px",
           fontWeight: "bold",
@@ -120,7 +138,7 @@ return (
           style={{
             fontSize: "24px",
             marginBottom: "20px",
-            gridColumn: "span 3",
+            gridColumn: "span 5",
           }}
         >
           {status}
