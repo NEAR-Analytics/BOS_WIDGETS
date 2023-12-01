@@ -39,7 +39,7 @@ if (wrapType) {
           noPair: false,
         }
   );
-  return;
+  return "";
 }
 const currentCurrency = tradeType === "in" ? inputCurrency : outputCurrency;
 
