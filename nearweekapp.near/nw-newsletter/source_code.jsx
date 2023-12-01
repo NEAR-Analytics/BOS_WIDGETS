@@ -207,7 +207,7 @@ function NewsletterCard() {
 
   const H2 = styled.h2`
     color: #1C1F41;
-    font-family: Inter;
+    font-family: 'Inter';
     font-size: 24px;
     font-style: normal;
     font-weight: 500;
