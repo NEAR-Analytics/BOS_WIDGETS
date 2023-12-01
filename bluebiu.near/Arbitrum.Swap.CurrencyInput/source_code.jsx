@@ -122,7 +122,7 @@ const utils = {
     if (!state.balanceLoaded) return "Loading";
     if (state.balance === "0" || Big(state.balance).eq(0)) return "0";
     if (Big(state.balance).lt(0.0001)) return "<0.0001";
-    return Big(state.balance).toFixed(4, 0);
+    return Big(state.balance).toFixed(4);
   },
   valueFormated: (amount) => {
     const prices = Storage.privateGet("tokensPrice");
