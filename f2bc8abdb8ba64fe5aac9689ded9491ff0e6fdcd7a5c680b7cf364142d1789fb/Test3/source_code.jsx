@@ -6,11 +6,30 @@ const widgets = {
   libNotifications: `f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/lib.notifications`,
 };
 
+const imports = { notifications: ["notify", "clg"] };
+
 function stateUpdate(obj) {
   State.update(obj);
 }
 
-const imports = { notifications: ["notify", "clg"] };
+State.update({ libsLoaded: true });
+
+Object.keys(imports).forEach((library) => {
+  imports[library].forEach((functionCalled) => {
+    if (!state[functionCalled]) {
+      State.update({ libsLoaded: false });
+    }
+  });
+});
+
+if (!state.libsLoaded) {
+  return (
+    <Widget
+      src={`${widgets.libNotifications}`}
+      props={{ stateUpdate, imports: imports["notifications"] }}
+    />
+  );
+}
 
 function onCommit() {
   State.update({ articleCommited: true });
@@ -31,32 +50,37 @@ if (
   JSON.stringify(state.lastArticleFromThisAuthor) !==
     JSON.stringify(lastArticleFromThisAuthor)
 ) {
-  console.log("Found last article");
   State.update({ lastArticleFromThisAuthor });
 }
 
 if (state.articleCommited) {
-  console.log("Proceding to push notification");
   State.update({
     articleCreated: state.lastArticleFromThisAuthor,
     articleCommited: false,
   });
 }
 
-if (state.articleCreated) {
-  console.log("call nofity(): ", state.notify);
+console.log("Danito", state, state.articleCreated);
+state.clg("Danito2: ");
+console.log("state.notify: ", state.notify);
+
+if (state.articleCreated === undefined) {
+  console.log("state.notify: ", state.notify);
+  console.log("pepito", state);
+  state.clg("pepito2: ");
   state.notify(
     "mention",
     `${context.accountId}`,
     `https://near.social/${context.accountId}/widget/SayALot?isTest=t&sharedBlockHeight=${articleCreated.blockHeight}`
   );
+  console.log("común");
 }
 
 function makePost() {
   Social.set(
     {
       ["test_sayALotArticle_v0.0.2"]: {
-        main: `{"title":"Test notification9","author":"${
+        main: `{"title":"Test with Dani","author":"${
           context.accountId
         }","lastEditor":"${
           context.accountId
@@ -75,25 +99,6 @@ function makePost() {
       onCommit,
       onCancel,
     }
-  );
-}
-
-State.update({ libsLoaded: true });
-
-Object.keys(imports).forEach((library) => {
-  imports[library].forEach((functionCalled) => {
-    if (!state[functionCalled]) {
-      State.update({ libsLoaded: false });
-    }
-  });
-});
-
-if (!state.libsLoaded) {
-  return (
-    <Widget
-      src={`${widgets.libNotifications}`}
-      props={{ stateUpdate, imports: imports["notifications"] }}
-    />
   );
 }
 
