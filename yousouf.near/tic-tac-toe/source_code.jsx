@@ -44,6 +44,8 @@ const getRandomMove = (squares) => {
 const [squares, setSquares] = useState(Array(25).fill(null));
 const [xIsNext, setXIsNext] = useState(true);
 const [isGameOver, setGameOver] = useState(false);
+const [playerScore, setPlayerScore] = useState(0);
+const [computerScore, setComputerScore] = useState(0);
 
 const handleClick = (index) => {
   if (
@@ -73,7 +75,15 @@ useEffect(() => {
   const winner = calculateWinner(squares);
   const full = isBoardFull(squares);
 
-  if (winner || full) {
+  if (winner) {
+    if (winner === "X") {
+      setPlayerScore(playerScore + 1);
+    } else if (winner === "O") {
+      setComputerScore(computerScore + 1);
+    }
+  }
+
+  if (full || winner) {
     setGameOver(true);
   }
 }, [squares]);
@@ -82,6 +92,11 @@ const resetGame = () => {
   setSquares(Array(25).fill(null));
   setGameOver(false);
   setXIsNext(true);
+};
+
+const resetScores = () => {
+  setPlayerScore(0);
+  setComputerScore(0);
 };
 
 let status;
@@ -93,21 +108,11 @@ if (isGameOver) {
     status = "It's a draw!";
   }
 } else {
-  status = `Next player : ${xIsNext ? "Player" : "Computer"}`;
+  status = `Next player: ${xIsNext ? "Player" : "Computer"}`;
 }
 
 return (
   <div>
-    <div
-      style={{
-        backgroundColor: "#8eff8e",
-        fontSize: "34px",
-        fontWeight: "bold",
-        textAlign: "center",
-      }}
-    >
-      <h5>Tic-Tac-Toe Game on BOS</h5>
-    </div>
     <div
       style={{
         display: "flex",
@@ -167,9 +172,19 @@ return (
         ))}
       </div>
     </div>
-
     <div style={{ marginTop: "20px", textAlign: "center" }}>
-      <button onClick={resetGame}>Reset Game</button>
+      <div>
+        <strong>Player Score:</strong> {playerScore}
+      </div>
+      <div>
+        <strong>Computer Score:</strong> {computerScore}
+      </div>
+    </div>
+    <div style={{ marginTop: "20px", textAlign: "center" }}>
+      <button onClick={resetGame}>Restart Game</button>
+      <button onClick={resetScores} style={{ marginLeft: "10px" }}>
+        Reset Scores
+      </button>
     </div>
   </div>
 );
