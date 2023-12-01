@@ -159,8 +159,8 @@ return (
       <FormContainer>
         <div>
           📣 Reminder: network overload may cause longer processing time for
-          $NEAT minting. Optimize your minting experience with Sender Wallet's
-          batch minting tool at
+          $NEAT minting. Optimize your minting experience with batch minting
+          tool at
           <NeatLink
             href="https://www.mintneat.org"
             target="_blank"
