@@ -600,6 +600,14 @@ let secondSection = (
                         rowsCount: "5",
                         columns: [
                           {
+                            title: "Sender",
+                            key: "SINGER",
+                            link: "yes",
+                            beforehref:
+                              "https://near.social/mob.near/widget/ProfilePage?accountId=",
+                            hyperlink: "yes",
+                          },
+                          {
                             title: "Action",
                             key: "action",
                           },
@@ -653,7 +661,7 @@ let secondSection = (
                         columns: [
                           {
                             title: "Sender",
-                            key: "SINGER",
+                            key: "singer",
                             link: "yes",
                             beforehref:
                               "https://near.social/mob.near/widget/ProfilePage?accountId=",
@@ -663,7 +671,14 @@ let secondSection = (
                             title: "Action",
                             key: "action",
                           },
-
+                          {
+                            title: "Receiver",
+                            key: "SINGER",
+                            link: "yes",
+                            beforehref:
+                              "https://near.social/mob.near/widget/ProfilePage?accountId=",
+                            hyperlink: "yes",
+                          },
                           {
                             title: "Widget",
                             key: "widget",
@@ -732,12 +747,9 @@ let thirdSection = (
                     {
                       title: "Source widget",
                       key: "source_widget",
-                      link: "yes",
-                      beforehref: `https://bos.flipsidecrypto.xyz/${state.source_account}/widget/`,
-                      hyperlink: "yes",
                     },
                     {
-                      title: "Destination widget",
+                      title: "User' widget",
                       key: "destination_widget",
                       link: "yes",
                       beforehref: `https://bos.flipsidecrypto.xyz/${state.data}/widget/`,
@@ -802,11 +814,8 @@ let thirdSection = (
                       hyperlink: "yes",
                     },
                     {
-                      title: "Destination widget",
+                      title: "User' widget",
                       key: "destination_widget",
-                      link: "yes",
-                      beforehref: `https://bos.flipsidecrypto.xyz/${state.source_account}/widget/`,
-                      hyperlink: "yes",
                     },
 
                     {
@@ -901,6 +910,7 @@ return (
           {secondSection}
 
           {thirdSection}
+          <div style={{ width: "100%", height: "20px" }}></div>
 
           <Widget
             src="lord1.near/widget/component-chart1"
