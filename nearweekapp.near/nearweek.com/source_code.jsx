@@ -6,6 +6,26 @@ const breakpoints = {
   lg: "1100px",
   xl: "1300px",
 };
+
+const cssFont = fetch(
+  "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap"
+).body;
+
+if (!cssFont) return "";
+
+if (!state.theme) {
+  State.update({
+    theme: styled.div`
+    font-family: Inter;
+    background: #FAF9F9;
+    color: #1C1F41;
+    margin: 0;
+    ${cssFont}
+`,
+  });
+}
+const Theme = state.theme;
+
 const TabContentFooter = styled.div`
     display: flex;
     flex-direction: row;
@@ -204,22 +224,17 @@ const FooterContent = styled.div`
     display: flex;
     justify-content: center;
 `;
-const Container = styled.div`
-    background: #FAF9F9;
-    margin: 0;
-    font-family: Inter;
-`;
 
 const PriceContainer = styled.div`
-padding:0;
-margin:0;
-width:100%;
-display:flex;
-flex-direction: row;
-justify-content: center;
+    padding:0;
+    margin:0;
+    width:100%;
+    display:flex;
+    flex-direction: row;
+    justify-content: center;
 `;
 return (
-  <Container>
+  <Theme>
     {/*main section*/}
     <Widget src={`${rootUser}/widget/nw-navbar`} />
 
@@ -255,5 +270,5 @@ return (
       </div>
     </ContentContainer>
     <Widget src={`${rootUser}/widget/nw-footer`} />
-  </Container>
+  </Theme>
 );
