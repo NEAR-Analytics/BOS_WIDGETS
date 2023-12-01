@@ -901,7 +901,6 @@ return (
           {secondSection}
 
           {thirdSection}
-          <div style={{ width: "100%", height: "85px" }}></div>
 
           <Widget
             src="lord1.near/widget/component-chart1"
