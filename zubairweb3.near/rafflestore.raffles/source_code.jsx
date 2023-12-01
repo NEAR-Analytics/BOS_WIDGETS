@@ -370,6 +370,9 @@ const NfttBtn = styled.a`
  margin: auto;
  width: 40%;
  text-decoration: none;
+ &:hover {
+   text-decoration: none;
+  }
 `;
 
 const RaffleStatus = styled.h6`
