@@ -9,7 +9,6 @@ if (!data) {
 
 const BG = styled.div`
 	background-color: #fff;
-	background-image: linear-gradient(180deg, #fafcfd 0%, #b6dbfc 100%);
 	position: fixed;
 	top: 0;
 	left: 0;
@@ -491,7 +490,6 @@ function LocationIcon() {
 
 return (
   <div className="position-relative h-100 w-100 p-1">
-    <BG />
     <Card>
       <Switch>
         <Selected>Stablized</Selected> |
@@ -565,10 +563,5 @@ return (
         />
       </Container>
     </Card>
-    <Circle1 />
-    <Circle2 />
-    <MagicDot onClick={onMagicDotClick}>
-      <img src="https://i.ibb.co/X7PJfh6/s-l1600.png" />
-    </MagicDot>
   </div>
 );
