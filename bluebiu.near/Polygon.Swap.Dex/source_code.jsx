@@ -188,8 +188,8 @@ return (
             quoterAddress: "0xddc9Ef56c6bf83F7116Fad5Fbc41272B07ac70C1",
             uniType: "v3",
             defaultCurrencies: {
-              input: Tokens["0x7ceB23fD6bC0adD59E62ac25578270cFf1b9f619"],
-              output: Tokens["0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174"],
+              input: Tokens["0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174"],
+              output: Tokens["0xc2132D05D31c914a87C6611C10748AEb04B58e8F"],
             },
             tokens: [
               Tokens["0x7ceB23fD6bC0adD59E62ac25578270cFf1b9f619"],
@@ -209,8 +209,8 @@ return (
             routerAddress: "0xC0788A3aD43d79aa53B09c2EaCc313A787d1d607",
             uniType: "v2",
             defaultCurrencies: {
-              input: Tokens["native"],
-              output: Tokens["0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174"],
+              input: Tokens["0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174"],
+              output: Tokens["0xc2132D05D31c914a87C6611C10748AEb04B58e8F"],
             },
             tokens: [
               Tokens["0x7ceB23fD6bC0adD59E62ac25578270cFf1b9f619"],
@@ -229,8 +229,8 @@ return (
             routerAddress: "0xaD340d0CD0B117B0140671E7cB39770e7675C848",
             uniType: "v2",
             defaultCurrencies: {
-              input: Tokens["0x7ceB23fD6bC0adD59E62ac25578270cFf1b9f619"],
-              output: Tokens["0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174"],
+              input: Tokens["0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174"],
+              output: Tokens["0xc2132D05D31c914a87C6611C10748AEb04B58e8F"],
             },
             tokens: [
               Tokens["0x7ceB23fD6bC0adD59E62ac25578270cFf1b9f619"],
@@ -250,8 +250,8 @@ return (
             routerAddress: "0xa5E0829CaCEd8fFDD4De3c43696c57F7D7A678ff",
             uniType: "v2",
             defaultCurrencies: {
-              input: Tokens["0x7ceB23fD6bC0adD59E62ac25578270cFf1b9f619"],
-              output: Tokens["0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174"],
+              input: Tokens["0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174"],
+              output: Tokens["0xc2132D05D31c914a87C6611C10748AEb04B58e8F"],
             },
             tokens: [
               Tokens["0x7ceB23fD6bC0adD59E62ac25578270cFf1b9f619"],
@@ -271,8 +271,8 @@ return (
             routerAddress: "0xcC25C0FD84737F44a7d38649b69491BBf0c7f083",
             uniType: "solidly",
             defaultCurrencies: {
-              input: Tokens["0x40379a439D4F6795B6fc9aa5687dB461677A2dBa"],
-              output: Tokens["0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174"],
+              input: Tokens["0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174"],
+              output: Tokens["0xc2132D05D31c914a87C6611C10748AEb04B58e8F"],
             },
             tokens: [
               Tokens["0x40379a439D4F6795B6fc9aa5687dB461677A2dBa"],
