@@ -10,9 +10,9 @@ const importMarkdown = async () => {
     console.log("markdown import error", err);
   }
 };
-​
+
 useEffect(() => {
   importMarkdown();
 }, []);
-​
+
 return Markdown ? <Markdown>{"# hello world"}</Markdown> : <div>Loading</div>;
