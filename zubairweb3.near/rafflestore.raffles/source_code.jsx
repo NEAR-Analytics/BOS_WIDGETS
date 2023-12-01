@@ -445,7 +445,11 @@ return (
                 <RaffleListImg src={nft.image} alt={nft.name} />
                 <NftTitle>{nft.title}</NftTitle>
                 <NftName>{nft.name}</NftName>
-                <NfttBtn>Enter</NfttBtn>
+                <NfttBtn>
+                  <a href="https://near.org/zubairweb3.near/widget/rafflestore.raffle">
+                    Enter
+                  </a>
+                </NfttBtn>
                 <RaffleStatus>{nft.status}</RaffleStatus>
                 <NftRaffleUnits>Units: {nft.unit}</NftRaffleUnits>
               </RaffleListItem>
