@@ -16,7 +16,11 @@ useEffect(() => {
 }, []);
 
 if (Markdown) {
-  return <>imported!</>;
+  return (
+    <>
+      imported!<Markdown># hi</Markdown>
+    </>
+  );
 }
 
 return <>not imported yet</>;
