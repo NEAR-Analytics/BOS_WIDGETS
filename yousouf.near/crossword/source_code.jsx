@@ -4,27 +4,24 @@ const sampleWords = [
     description: "Abunda ake dafa abinci aciki.",
   },
   {
-    word: "WORLD",
-    description: "The planet we live on, which is full of land and water.",
+    word: "KANO",
+    description: "Wane birni ne cibiyar kasuwanci a Najeriya.",
   },
   {
-    word: "JAVASCRIPT",
-    description:
-      "A popular programming language for building interactive websites and provides behavior to applications.",
+    word: "BOS",
+    description: "Takaitaccen harafin Blockchain Operating System.",
   },
   {
-    word: "REACT",
-    description:
-      "A JavaScript library in which we have written this project code",
+    word: "ABUJA",
+    description: "Ya sunan Babban Birnin Najeriya",
   },
   {
-    word: "PROGRAMMING",
-    description:
-      "The process of developing code to assist computers to perform tasks.",
+    word: "RAMA",
+    description: "Abincin Hausawa na gargajiya da ake ci da karago.",
   },
   {
-    word: "GEEKSFORGEEKS",
-    description: "An educational website for computer science 'geeks.'",
+    word: "LAKIDIRI",
+    description: "Menene sunan bucket da hausa.'",
   },
 ];
 
@@ -160,7 +157,7 @@ return (
         color: "rgb(21, 228, 2)",
       }}
     >
-      Wasan Kalmomi akan BOS
+      Word Guessing Game
     </h1>
     <div
       style={{
@@ -173,6 +170,75 @@ return (
       Score: {score}
     </div>
     <h5>Time Remaining: {countdown} seconds</h5>
+    <div
+      className="button-section"
+      style={{
+        display: "flex",
+        flexDirection: "row", // Update to horizontal layout
+        alignItems: "center",
+        marginBottom: "30px",
+        flexWrap: "wrap", // Allow wrapping to the next line if needed
+      }}
+    >
+      <div style={{ marginBottom: "30px" }}>
+        <button
+          onClick={restartGameFunction}
+          style={{
+            padding: "12px 20px",
+            margin: "0 10px",
+            fontSize: "16px",
+            fontWeight: "bold",
+            color: "#fff",
+            backgroundColor: "#1976d2", // Blue background
+            border: "none",
+            borderRadius: "4px",
+            cursor: "pointer",
+            transition: "background-color 0.2s ease-in-out",
+          }}
+        >
+          Next
+        </button>
+
+        <button
+          onClick={removeCharacterFunction}
+          disabled={!chosenLetters.length}
+          style={{
+            padding: "12px 20px",
+            margin: "0 10px",
+            fontSize: "16px",
+            fontWeight: "bold",
+            color: "#fff",
+            backgroundColor: chosenLetters.length ? "#d32f2f" : "#ccc",
+            border: "none",
+            borderRadius: "4px",
+            cursor: chosenLetters.length ? "pointer" : "not-allowed",
+            transition: "background-color 0.2s ease-in-out",
+          }}
+        >
+          Remove Letter
+        </button>
+        {!msg && (
+          <button
+            onClick={guessFunction}
+            disabled={!chosenLetters.length}
+            style={{
+              padding: "12px 30px",
+              margin: "0 10px",
+              fontSize: "18px",
+              fontWeight: "bold",
+              color: "#fff",
+              backgroundColor: chosenLetters.length ? "#e64a19" : "#ccc",
+              border: "none",
+              borderRadius: "4px",
+              cursor: chosenLetters.length ? "pointer" : "not-allowed",
+              transition: "background-color 0.2s ease-in-out",
+            }}
+          >
+            Guess
+          </button>
+        )}
+      </div>
+    </div>
     <div
       style={{
         display: "flex",
@@ -232,112 +298,42 @@ return (
     )}
 
     <div
-      className="button-section"
-      style={{ display: "flex", flexDirection: "column", alignItems: "center" }}
+      className="letter-selection"
+      style={{
+        display: "flex",
+        flexWrap: "wrap",
+        justifyContent: "center",
+        marginBottom: "30px",
+      }}
     >
-      <div style={{ marginBottom: "30px" }}>
-        <button
-          onClick={restartGameFunction}
-          style={{
-            padding: "12px 20px",
-            margin: "0 10px",
-            fontSize: "16px",
-            fontWeight: "bold",
-            color: "#fff",
-            backgroundColor: "#f44336",
-            border: "none",
-            borderRadius: "4px",
-            cursor: "pointer",
-            transition: "background-color 0.2s ease-in-out",
-          }}
-        >
-          Next
-        </button>
-        <div
-          style={{
-            marginBottom: "20px",
-            fontSize: "20px",
-            fontWeight: "bold",
-            color: "#333",
-          }}
-        ></div>
-
-        <button
-          onClick={removeCharacterFunction}
-          disabled={!chosenLetters.length}
-          style={{
-            padding: "12px 20px",
-            fontSize: "16px",
-            fontWeight: "bold",
-            color: "#fff",
-            backgroundColor: chosenLetters.length ? "#d32f2f" : "#ccc",
-            border: "none",
-            borderRadius: "4px",
-            cursor: chosenLetters.length ? "pointer" : "not-allowed",
-            transition: "background-color 0.2s ease-in-out",
-          }}
-        >
-          Remove Letter
-        </button>
-      </div>
-      <div
-        className="letter-selection"
+      {displayLettersFunction()}
+    </div>
+    <div
+      style={{
+        marginBottom: "20px",
+        fontSize: "20px",
+        fontWeight: "bold",
+        color: "#333",
+      }}
+    >
+      Hints Remaining: {hints}{" "}
+      <button
+        onClick={hintFunction}
+        disabled={hints === 0}
         style={{
-          display: "flex",
-          flexWrap: "wrap",
-          justifyContent: "center",
-          marginBottom: "30px",
-        }}
-      >
-        {displayLettersFunction()}
-      </div>
-      <div
-        style={{
-          marginBottom: "20px",
-          fontSize: "20px",
+          padding: "12px 20px",
+          fontSize: "16px",
           fontWeight: "bold",
-          color: "#333",
+          color: "#fff",
+          backgroundColor: hints ? "#4caf50" : "#ccc",
+          border: "none",
+          borderRadius: "4px",
+          cursor: hints ? "pointer" : "not-allowed",
+          transition: "background-color 0.2s ease-in-out",
         }}
       >
-        Hints Remaining: {hints}{" "}
-        <button
-          onClick={hintFunction}
-          disabled={hints === 0}
-          style={{
-            padding: "12px 20px",
-            fontSize: "16px",
-            fontWeight: "bold",
-            color: "#fff",
-            backgroundColor: hints ? "#4caf50" : "#ccc",
-            border: "none",
-            borderRadius: "4px",
-            cursor: hints ? "pointer" : "not-allowed",
-            transition: "background-color 0.2s ease-in-out",
-          }}
-        >
-          Get Hint
-        </button>
-      </div>
-      {!msg && (
-        <button
-          onClick={guessFunction}
-          disabled={!chosenLetters.length}
-          style={{
-            padding: "12px 30px",
-            marginTop: "20px",
-            fontSize: "18px",
-            fontWeight: "bold",
-            color: "#fff",
-            backgroundColor: chosenLetters.length ? "#e64a19" : "#ccc",
-            border: "none",
-            borderRadius: "4px",
-            cursor: chosenLetters.length ? "pointer" : "not-allowed",
-            transition: "background-color 0.2s ease-in-out",
-          }}
-        >
-          Guess
-        </button>
-      )}
+        Get Hint
+      </button>
     </div>
   </div>
 );
