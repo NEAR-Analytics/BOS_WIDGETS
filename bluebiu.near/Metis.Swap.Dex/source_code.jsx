@@ -120,8 +120,8 @@ return (
             quoterAddress: "0x2db8b665CE6928F9D1a7f83F4C6aCEA64Af6a6f6",
             uniType: "v3",
             defaultCurrencies: {
-              input: Tokens["0xDeadDeAddeAddEAddeadDEaDDEAdDeaDDeAD0000"],
-              output: Tokens["0xEA32A96608495e54156Ae48931A7c20f0dcc1a21"],
+              input: Tokens["0xEA32A96608495e54156Ae48931A7c20f0dcc1a21"],
+              output: Tokens["0xbB06DCA3AE6887fAbF931640f67cab3e3a16F4dC"],
             },
             tokens: [
               Tokens["0xDeadDeAddeAddEAddeadDEaDDEAdDeaDDeAD0000"],
@@ -138,8 +138,8 @@ return (
             routerAddress: "0x1E876cCe41B7b844FDe09E38Fa1cf00f213bFf56",
             uniType: "v2",
             defaultCurrencies: {
-              input: Tokens["0xDeadDeAddeAddEAddeadDEaDDEAdDeaDDeAD0000"],
-              output: Tokens["0x90fE084F877C65e1b577c7b2eA64B8D8dd1AB278"],
+              input: Tokens["0xEA32A96608495e54156Ae48931A7c20f0dcc1a21"],
+              output: Tokens["0xbB06DCA3AE6887fAbF931640f67cab3e3a16F4dC"],
             },
             tokens: [
               Tokens["0x6f05709bc91bad933346f9e159f0d3fdbc2c9dce"],
