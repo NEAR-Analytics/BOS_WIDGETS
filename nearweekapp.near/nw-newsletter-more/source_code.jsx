@@ -4,19 +4,6 @@ const breakpoints = { md: "768px", lg: "1100px", xl: "1300px" };
 function NewsletterCard() {
   const nwSite = "https://nearweek.com";
 
-  const cssFont = fetch("https://fonts.cdnfonts.com/css/hubot-sans").body;
-  if (!cssFont) return "";
-  if (!state.theme) {
-    State.update({
-      theme: styled.div`
-        font-family: 'Mona Sans', sans-serif;
-        font-style: normal;
-        ${cssFont}
-      }`,
-    });
-  }
-  const Theme = state.theme;
-
   const TopCard = styled.div`
       position: relative;
       width: 100%;
@@ -34,7 +21,6 @@ function NewsletterCard() {
       color: #1C1F41;
       text-overflow: ellipsis;
       whitespace: nowrap;
-      font-family: Inter;
       font-size: 18px;
       font-style: normal;
       font-weight: 500;
@@ -62,7 +48,6 @@ function NewsletterCard() {
       margin-bottom:20px;
       & p{
           color: #1C1F41;
-          font-family: Inter;
           font-size: 15px;
           font-style: normal;
           font-weight: 500;
@@ -71,7 +56,6 @@ function NewsletterCard() {
       }
       & a {
         color: #3C71F7;
-        font-family: Inter;
         font-size: 15px;
         font-style: normal;
         font-weight: 500;
@@ -109,33 +93,43 @@ function NewsletterCard() {
 
   function generateCode() {
     const code = `
-  <html>
-  <head>
-  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/iframe-resizer/4.3.6/iframeResizer.contentWindow.js"></script>
-  </head>
-  <body>
-  <div id="content"></div>
-  </body>
-  <script>
-      window.addEventListener('message', function(event) {
-      }, false);
-              const handleMessage = (m) => {
-                  const { data } = m;
-                  let fullHtml = "";
-  
-                  data.forEach(section => fullHtml+=section.content);
-  
-                  const contentElement = document.getElementById('content');
-                  contentElement.innerHTML = fullHtml;
-              };
-      window.iFrameResizer = {
-          onMessage: handleMessage
-      }
-  </script>
-  </html>
+    <html>
+      <head>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/iframe-resizer/4.3.6/iframeResizer.contentWindow.js"></script>
+      </head>
+      <body>
+        <div id="content"></div>
+      </body>
+      <script>
+        window.addEventListener('message', function (event) {}, false);
+
+        const handleMessage = (m) => {
+          const { data } = m;
+          let fullHtml = "";
+
+          data.forEach((section) => (fullHtml += section.content));
+
+          const parser = new DOMParser();
+          const doc = parser.parseFromString(fullHtml, 'text/html');
+
+          const spanElements = doc.querySelectorAll('span');
+          spanElements.forEach((span) => {
+            span.style.fontFamily = 'Inter';
+          });
+
+          const contentElement = document.getElementById('content');
+          contentElement.innerHTML = doc.body.innerHTML;
+        };
+
+        window.iFrameResizer = {
+          onMessage: handleMessage,
+        };
+      </script>
+    </html>
   `;
     return code;
   }
+
   const ReturnButton = styled.div`
     cursor: pointer;
   `;
@@ -209,7 +203,7 @@ function NewsletterCard() {
   }
 
   return (
-    <Theme>
+    <div>
       <Widget src={`${rootUser}/widget/nw-navbar`} />
       <MainContainer>
         <TopSection />
@@ -217,7 +211,7 @@ function NewsletterCard() {
           <BottomSection />
         </BottomContainer>
       </MainContainer>
-    </Theme>
+    </div>
   );
 }
 
