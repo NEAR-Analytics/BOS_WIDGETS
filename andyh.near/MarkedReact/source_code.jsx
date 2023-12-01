@@ -4,8 +4,9 @@ const importMarkdown = async () => {
     const markdownDyn = await import(
       "https://esm.sh/marked-react@2.0.0?alias=react:preact/compat&deps=preact@10.17.1"
     );
+    const mdDef = markdownDyn.default;
     console.log("markdown imported", markdownDyn);
-    setMarkdown((p) => markdownDyn.default(p));
+    setMarkdown(mdDef);
   } catch (err) {
     console.log("markdown import error", err);
   }
