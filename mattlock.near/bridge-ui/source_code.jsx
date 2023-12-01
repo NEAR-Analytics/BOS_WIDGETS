@@ -184,10 +184,10 @@ const Container = styled.div`
     }
 `;
 
-// console.log("deposit", deposit);
-// console.log("withdraw", withdraw);
-// console.log("selectedAsset", selectedAsset);
-// console.log("selectedAssetWithdraw", selectedAssetWithdraw);
+console.log("BRIDGE UI: deposit", deposit);
+console.log("BRIDGE UI: withdraw", withdraw);
+console.log("BRIDGE UI: selectedAsset", selectedAsset);
+console.log("BRIDGE UI: selectedAssetWithdraw", selectedAssetWithdraw);
 
 return (
   <Container>
