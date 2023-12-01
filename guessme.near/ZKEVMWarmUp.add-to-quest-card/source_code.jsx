@@ -176,11 +176,11 @@ return (
   <Layout>
     <Wrapper>
       <div>
-        Sync to Polygon zkEVM
+        Sync to Polygon zkEVM [
         <a className="highlight" href="/warmup">
-          [My Quest]
-        </a>{" "}
-        after transaction
+          My Quest
+        </a>
+        ] after transaction
       </div>
 
       {!add && (
