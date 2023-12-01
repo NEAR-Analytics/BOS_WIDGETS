@@ -15,7 +15,7 @@ const filterQuery = props?.queryOption?.filter
   ? props.queryOption.filter
   : undefined;
 const test = (res) => {
-  console.log("total res", res);
+  // console.log("total res", res);
 };
 const onResult = props.onResult || test;
 State.init({
@@ -28,16 +28,16 @@ State.init({
 });
 let timeOutId;
 if (state.isQueryRunning) {
-  console.log("ti1");
+  // console.log("ti1");
   const refetch = () => {
-    console.log("ti2");
+    // console.log("ti2");
     queryStatus(state.queryRunId).then(({ error, isRunning }) => {
       if (error) {
         State.update({ isLoading: false });
         State.update({ isQueryRunning: false });
         State.update({ error });
       } else if (isRunning) {
-        console.log("ti runing");
+        // console.log("ti runing");
         timeOutId = setTimeout(refetch, 5000);
       } else {
         queryResult(state.queryRunId).then(({ data, error }) => {
@@ -46,7 +46,7 @@ if (state.isQueryRunning) {
             State.update({ isQueryRunning: false });
             State.update({ error });
           } else {
-            console.log("data", data);
+            // console.log("data", data);
             State.update({ isLoading: false });
             State.update({ isQueryRunning: false });
             State.update({ data });
@@ -60,7 +60,7 @@ if (state.isQueryRunning) {
   clearTimeout(timeOutId);
 }
 const sendQuery = (query) => {
-  console.log("send q");
+  // console.log("send q");
   State.update({ isLoading: true });
   runQuery(query).then(({ queryRunId, error }) => {
     if (error) {
@@ -74,12 +74,12 @@ const sendQuery = (query) => {
 };
 const runQuery = async (query) => {
   if (state.queryRunId) {
-    console.log("run q w id");
+    // console.log("run q w id");
     return queryResult(state.queryRunId).then(({ data, error, queryRunId }) => {
       if (error) {
         State.update({ queryRunId: null, isInitialRun: true });
       } else {
-        console.log("data", data);
+        // console.log("data", data);
         State.update({ isLoading: false });
         State.update({ isQueryRunning: false });
         State.update({ data });
@@ -87,7 +87,7 @@ const runQuery = async (query) => {
       }
     });
   } else {
-    console.log("run q wout id");
+    // console.log("run q wout id");
     return queryFetch(query).then(({ queryRunId, error }) => {
       if (error) return { queryRunId, error };
       return queryStatus(queryRunId).then(
@@ -103,7 +103,7 @@ const runQuery = async (query) => {
               State.update({ isQueryRunning: false });
               State.update({ error });
             } else {
-              console.log("data", data);
+              // console.log("data", data);
               State.update({ isLoading: false });
               State.update({ isQueryRunning: false });
               State.update({ data });
@@ -116,7 +116,7 @@ const runQuery = async (query) => {
   }
 };
 const queryFetch = async (query) => {
-  console.log("qfetch");
+  // console.log("qfetch");
   const raw = JSON.stringify({
     jsonrpc: "2.0",
     method: "createQueryRun",
@@ -165,7 +165,7 @@ const queryFetch = async (query) => {
   });
 };
 const queryStatus = async (queryRunId) => {
-  console.log("qstat");
+  // console.log("qstat");
   const raw = JSON.stringify({
     jsonrpc: "2.0",
     method: "getQueryRun",
@@ -183,11 +183,11 @@ const queryStatus = async (queryRunId) => {
     requestOptions
   ).then((res) => {
     if (!res.ok && res.error) {
-      console.log("qstat err 1");
+      // console.log("qstat err 1");
       result.error = res.error;
       return result;
     } else if (!res.ok) {
-      console.log("qstat err 2");
+      // console.log("qstat err 2");
       result.error =
         res.status === 401
           ? "Invalid API Key."
@@ -198,29 +198,29 @@ const queryStatus = async (queryRunId) => {
     }
     const data = res.body;
     if (data.error) {
-      console.log("qstat err 3");
+      // console.log("qstat err 3");
       result.error = `${data.error.message} - (code${data.error.code})`;
       return result;
     } else {
       if (data.result.queryRun.state === "QUERY_STATE_FAILED") {
-        console.log("qstat 4 faild");
+        // console.log("qstat 4 faild");
         result.isRunning = false;
         result.error = `Query run failed (code-${data.result.queryRun.errorData.code})`;
         return result;
       }
       if (data.result.queryRun.state !== "QUERY_STATE_SUCCESS") {
-        console.log("qstat 5 no succses");
+        // console.log("qstat 5 no succses");
         result.isRunning = true;
         return result;
       }
-      console.log("qstat 6 succses");
+      // console.log("qstat 6 succses");
       result.isRunning = false;
       return result;
     }
   });
 };
 const queryResult = async (queryRunId) => {
-  console.log("qres");
+  // console.log("qres");
   const otherParams = {
     page: pageQuery,
     sortBy: sortQuery,
