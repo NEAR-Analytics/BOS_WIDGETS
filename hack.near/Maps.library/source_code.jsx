@@ -468,7 +468,11 @@ return (
   <Wrapper>
     <h3>NEAR Maps Library</h3>
     <div className="mb-3">
-      These docs provide reusable map and event components for builders.
+      <p>These docs provide reusable map components for builders.</p>
+      <p>
+        Join <a href="https://nearbuilders.org">Build DAO</a> and participate in
+        the <a href="https://lu.ma/kdgj6zyg">Map-a-thon</a>!
+      </p>
     </div>
     <div className="row">
       <div className="col-lg-3 b-e b-s">{components.map(renderMenuItem)}</div>
