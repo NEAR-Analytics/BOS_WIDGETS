@@ -223,7 +223,6 @@ State.init({
   isLoading: false,
   error: [],
 });
-console.log(state.result);
 //---------------------------------------------------------------------------------------
 
 const inputHandler = ({ target }) => {
@@ -362,32 +361,33 @@ if (state.error.length > 0) {
 //-------------------------------------------------------------------------------------------------
 
 const Input = styled.input`
-color:${themeColor?.search_sbt?.input_text_color};
-background-color:${themeColor?.search_sbt?.input_bg};
-border: 1px solid ${themeColor?.search_sbt?.input_border};
-&:focus{
-  background-color:${themeColor?.search_sbt?.input_bg};
-  color:${themeColor?.search_sbt?.input_text_color};
-border: 1px solid ${themeColor?.search_sbt?.input_border};
-};
-&:hover{
-  background-color:${themeColor?.search_sbt?.input_bg_hover}
-};
-
+  color: ${themeColor?.search_sbt?.input_text_color};
+  background-color: ${themeColor?.search_sbt?.input_bg};
+  border: 1px solid ${themeColor?.search_sbt?.input_border};
+  &:focus {
+    background-color: ${themeColor?.search_sbt?.input_bg};
+    color: ${themeColor?.search_sbt?.input_text_color};
+    border: 1px solid ${themeColor?.search_sbt?.input_border};
+  }
+  &:hover {
+    background-color: ${themeColor?.search_sbt?.input_bg_hover};
+  }
 `;
 const Button = styled.button`
-    color: ${themeColor?.search_sbt?.search_btn_text};
-    font-size: 16px;
-    padding: 0.5rem 1rem;
-    font-weight: 400;
-    background-color: ${themeColor?.search_sbt?.search_btn_bg};
-    &:hover {background-color: ${themeColor?.search_sbt?.search_btn_bg_hover}};
-    border: 1px solid ${themeColor?.search_sbt?.search_btn_bg};
-    box-shadow: 0 2px 0 rgba(0, 0, 0, 0.02);
-    min-height: calc(1.5em + 1rem + 2px);
-    border-radius: 40px;
-    line-height: 29px;
-    letter-spacing: 0.01em;
+  color: ${themeColor?.search_sbt?.search_btn_text};
+  font-size: 16px;
+  padding: 0.5rem 1rem;
+  font-weight: 400;
+  background-color: ${themeColor?.search_sbt?.search_btn_bg};
+  &:hover {
+    background-color: ${themeColor?.search_sbt?.search_btn_bg_hover};
+  }
+  border: 1px solid ${themeColor?.search_sbt?.search_btn_bg};
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.02);
+  min-height: calc(1.5em + 1rem + 2px);
+  border-radius: 40px;
+  line-height: 29px;
+  letter-spacing: 0.01em;
 `;
 
 const getMixProps = (data, dateKey, serieses, colors, chartOption) => {
@@ -500,9 +500,13 @@ let secondSection = (
           src="lord1.near/widget/component-tab"
           props={{
             singer: state.data,
-            themeColor: {
-              component_tab: themeColor.component_tab,
-            },
+            backgroundColor: themeColor?.tab_sbt?.backgroundColor || "#d2cafa",
+            textColor: themeColor?.tab_sbt?.textColor || "#fff",
+            headerColor: themeColor?.tab_sbt?.headerColor || "#806ce1",
+            numberColor: themeColor?.tab_sbt?.numberColor || "#fff",
+            numberintextColor:
+              themeColor?.tab_sbt?.numberintextColor || "#806ce1",
+            dark: themeColor?.tab_sbt?.dark || "dark",
           }}
         />
       </div>
