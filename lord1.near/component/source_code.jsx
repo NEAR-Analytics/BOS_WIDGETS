@@ -58,7 +58,7 @@ const table_componentList_theme = {
 const table_starSent_theme = {
   height: "80px",
   align: "center",
-  description: "( Star: 50 | UnStar: 45 )",
+  description: `( Star:50  | UnStar:45 )`,
   brand: "Un/Star ",
   fontsize: "25px",
   fontweight: "25px",
@@ -202,13 +202,14 @@ const table_creditReceivedTab2_theme = {
 };
 //----------------------------------------------------------------------------------
 const queryHashes = [
-  { id: "0", hash: "a113783a-564f-41b1-8384-3782db3ea43c" }, //
-  { id: "1", hash: "7400ea51-97ba-4773-b125-6c77a6933f35" }, //
-  { id: "2", hash: "ee065234-4fea-4c86-98a8-294238a86b04" }, //
-  { id: "3", hash: "6e049a37-5a2b-4828-88bb-616ab9477c21" }, //
-  { id: "4", hash: "87d193b0-5cd4-4d6d-ab2d-6ace1016d611" }, //
-  { id: "5", hash: "a113783a-564f-41b1-8384-3782db3ea43c" }, //
-  { id: "6", hash: "7400ea51-97ba-4773-b125-6c77a6933f35" }, //
+  { id: "0", hash: "5fcb3937-cb3c-440c-896f-3ce6748fceff" }, // table_starReceived_theme
+  { id: "1", hash: "87d193b0-5cd4-4d6d-ab2d-6ace1016d611" }, // table_starSent_theme
+  { id: "2", hash: "6e049a37-5a2b-4828-88bb-616ab9477c21" }, // table_componentList_theme
+  { id: "3", hash: "a113783a-564f-41b1-8384-3782db3ea43c" }, // table_creditReceived_theme
+  { id: "4", hash: "7400ea51-97ba-4773-b125-6c77a6933f35" }, // table_creditSent_theme
+  { id: "5", hash: "122b23ee-f084-4d88-b4b7-359b222390da" }, // ( Star: 50 | UnStar: 45 )
+  { id: "6", hash: "f4e1ed6d-6c3c-46d8-83b9-cea408143e99" }, // Credit Sent
+  { id: "7", hash: "374c971f-b1cb-453a-ae6f-92ddfe5eaa8b" }, // Credit Received
 ];
 
 State.init({
@@ -463,189 +464,215 @@ const getPieProps = (data, [key, value], colors, chartOption) => {
 };
 const noData = <div className="w-100 py-4 text-center">No data available</div>;
 let firstSection = (
-  <div className="row w-100 py-4 g-4">
-    <div
-      style={{ backgroundColor: themeColor.sbt_area?.section_bg }}
-      className=" col-12 col-md-12"
-    >
+  <div className="py-4 ">
+    <div style={{ backgroundColor: themeColor.sbt_area?.section_bg }}>
       <Widget
         src="mob.near/widget/ProfileLarge"
-        props={{ accountId: state.data }}
+        props={{
+          accountId: state.data,
+          themeColor: {
+            profile_large: themeColor.profile_large,
+          },
+        }}
       />
     </div>
   </div>
 );
 
 let secondSection = (
-  <div
-    style={{ background: themeColor?.sbt_area?.section_bg }}
-    className="shadow-sm rounded-2 overflow-auto"
-  >
-    <Widget
-      src="lord1.near/widget/header-dynamic"
-      props={developer_activity_theme}
-    />
-    <div className="w-100 mx-auto shadow-sm rounded-4  px-2 mb-2">
+  <div className="mb-4">
+    <div
+      style={{ background: themeColor?.sbt_area?.section_bg }}
+      className="rounded-2"
+    >
       <Widget
-        src="lord1.near/widget/component-tab"
-        props={{ singer: state.data }}
+        className="w-100"
+        src="lord1.near/widget/header-dynamic"
+        props={developer_activity_theme}
       />
+      <div className="w-100 mx-auto shadow-sm rounded-4  p-2 mb-2">
+        <Widget
+          src="lord1.near/widget/component-tab"
+          props={{
+            singer: state.data,
+            themeColor: {
+              component_tab: themeColor.component_tab,
+            },
+          }}
+        />
+      </div>
     </div>
-    <div className="container">
+
+    <div>
       <div className="row">
         <div className=" col-lg-8">
-          <Widget
-            src="lord1.near/widget/header-dynamic"
-            props={table_componentList_theme}
-          />
           <div
-            style={{ background: themeColor?.sbt_area?.card_bg }}
-            className="w-100 mx-auto shadow-sm rounded-4 overflow-auto"
+            style={{ background: themeColor?.sbt_area?.section_bg }}
+            className="rounded-2 pb-1"
           >
-            {state.result["hash" + 2]?.data?.length > 0 ? (
-              <Widget
-                src="lord1.near/widget/table-pagination"
-                props={{
-                  themeColor: {
-                    table_pagination: themeColor.table_pagination,
-                  },
-                  data: state.result["hash" + 2].data,
-                  rowsCount: "10",
-                  columns: [
-                    {
-                      title: "Component Name",
-                      key: "widget",
+            <Widget
+              src="lord1.near/widget/header-dynamic"
+              props={table_componentList_theme}
+            />
+            <div
+              style={{ background: themeColor?.sbt_area?.card_bg }}
+              className=" m-2 shadow-sm rounded-4 overflow-auto p-1"
+            >
+              {state.result["hash" + 2]?.data?.length > 0 ? (
+                <Widget
+                  src="lord1.near/widget/table-pagination"
+                  props={{
+                    themeColor: {
+                      table_pagination: themeColor.table_pagination,
                     },
-                    {
-                      title: "Total Tnxs",
-                      key: "total_trxs",
-                    },
-                    {
-                      title: "Build Tnxs",
-                      key: "build",
-                    },
-                    {
-                      title: "Update Tnxs",
-                      key: "update",
-                    },
-                    {
-                      title: "Star Received",
-                      key: "star",
-                    },
-                    {
-                      title: "UnStar Received",
-                      key: "unstar",
-                    },
-                    {
-                      title: "Link",
-                      key: "widget",
-                      link: "yes",
-                      beforehref: `https://bos.flipsidecrypto.xyz/${state.data}/widget/`,
-                      hyperlink: "no",
-                    },
-                  ],
-                }}
-              />
-            ) : (
-              noData
-            )}
+                    data: state.result["hash" + 2].data,
+                    rowsCount: "10",
+                    columns: [
+                      {
+                        title: "Component Name",
+                        key: "widget",
+                      },
+                      {
+                        title: "Total Tnxs",
+                        key: "total_trxs",
+                      },
+                      {
+                        title: "Build Tnxs",
+                        key: "build",
+                      },
+                      {
+                        title: "Update Tnxs",
+                        key: "update",
+                      },
+                      {
+                        title: "Star Received",
+                        key: "star",
+                      },
+                      {
+                        title: "UnStar Received",
+                        key: "unstar",
+                      },
+                      {
+                        title: "Link",
+                        key: "widget",
+                        link: "yes",
+                        beforehref: `https://bos.flipsidecrypto.xyz/${state.data}/widget/`,
+                        hyperlink: "no",
+                      },
+                    ],
+                  }}
+                />
+              ) : (
+                noData
+              )}
+            </div>
           </div>
         </div>
         <div className="col-lg-4">
           <div className="row">
             <div className="col-md col-lg-12">
-              <Widget
-                src="lord1.near/widget/header-dynamic"
-                props={table_starSent_theme}
-              />
-
               <div
-                style={{ background: themeColor?.sbt_area?.card_bg }}
-                className="w-100 mx-auto shadow-sm rounded-4 overflow-auto"
+                style={{ background: themeColor?.sbt_area?.section_bg }}
+                className="rounded-2 pb-1"
               >
-                {state.result["hash" + 6]?.data?.length > 0 ? (
-                  <Widget
-                    src="lord1.near/widget/table-pagination"
-                    props={{
-                      themeColor: {
-                        table_pagination: themeColor.table_pagination,
-                      },
-                      data: state.result["hash" + 6].data,
-                      rowsCount: "5",
-                      columns: [
-                        {
-                          title: "Action",
-                          key: "action",
-                        },
-                        {
-                          title: "Receiver",
-                          key: "target",
-                          link: "yes",
-                          beforehref:
-                            "https://near.social/mob.near/widget/ProfilePage?accountId=",
-                          hyperlink: "yes",
-                        },
+                <Widget
+                  src="lord1.near/widget/header-dynamic"
+                  props={table_starSent_theme}
+                />
 
-                        {
-                          title: "Widget",
-                          key: "widget",
-                          link: "yes",
-                          beforehref: `https://bos.flipsidecrypto.xyz/${state.target}/widget/`,
-                          hyperlink: "no",
+                <div
+                  style={{ background: themeColor?.sbt_area?.card_bg }}
+                  className="m-2 shadow-sm rounded-4 overflow-auto"
+                >
+                  {state.result["hash" + 1]?.data?.length > 0 ? (
+                    <Widget
+                      src="lord1.near/widget/table-pagination"
+                      props={{
+                        themeColor: {
+                          table_pagination: themeColor.table_pagination,
                         },
-                      ],
-                    }}
-                  />
-                ) : (
-                  noData
-                )}
+                        data: state.result["hash" + 1].data,
+                        rowsCount: "5",
+                        columns: [
+                          {
+                            title: "Action",
+                            key: "action",
+                          },
+                          {
+                            title: "Receiver",
+                            key: "target",
+                            link: "yes",
+                            beforehref:
+                              "https://near.social/mob.near/widget/ProfilePage?accountId=",
+                            hyperlink: "yes",
+                          },
+
+                          {
+                            title: "Widget",
+                            key: "widget",
+                            link: "yes",
+                            beforehref: `https://bos.flipsidecrypto.xyz/${state.target}/widget/`,
+                            hyperlink: "no",
+                          },
+                        ],
+                      }}
+                    />
+                  ) : (
+                    noData
+                  )}
+                </div>
               </div>
             </div>
             <div className="col-md col-lg-12">
-              <Widget
-                src="lord1.near/widget/header-dynamic"
-                props={table_starReceived_theme}
-              />
               <div
-                style={{ background: themeColor?.sbt_area?.card_bg }}
-                className="w-100 mx-auto shadow-sm rounded-4 overflow-auto"
+                style={{ background: themeColor?.sbt_area?.section_bg }}
+                className="rounded-2 pb-1"
               >
-                {state.result["hash" + 4]?.data?.length > 0 ? (
-                  <Widget
-                    src="lord1.near/widget/table-pagination"
-                    props={{
-                      themeColor: {
-                        table_pagination: themeColor.table_pagination,
-                      },
-                      data: state.result["hash" + 4].data,
-                      rowsCount: "5",
-                      columns: [
-                        {
-                          title: "Sender",
-                          key: "SINGER",
-                          link: "yes",
-                          beforehref:
-                            "https://near.social/mob.near/widget/ProfilePage?accountId=",
-                          hyperlink: "yes",
+                <Widget
+                  src="lord1.near/widget/header-dynamic"
+                  props={table_starReceived_theme}
+                />
+                <div
+                  style={{ background: themeColor?.sbt_area?.card_bg }}
+                  className="m-2 shadow-sm rounded-4 overflow-auto"
+                >
+                  {state.result["hash" + 0]?.data?.length > 0 ? (
+                    <Widget
+                      src="lord1.near/widget/table-pagination"
+                      props={{
+                        themeColor: {
+                          table_pagination: themeColor.table_pagination,
                         },
-                        {
-                          title: "Action",
-                          key: "action",
-                        },
+                        data: state.result["hash" + 0].data,
+                        rowsCount: "5",
+                        columns: [
+                          {
+                            title: "Sender",
+                            key: "SINGER",
+                            link: "yes",
+                            beforehref:
+                              "https://near.social/mob.near/widget/ProfilePage?accountId=",
+                            hyperlink: "yes",
+                          },
+                          {
+                            title: "Action",
+                            key: "action",
+                          },
 
-                        {
-                          title: "Widget",
-                          key: "widget",
-                          link: "yes",
-                          beforehref: `https://bos.flipsidecrypto.xyz/${state.data}/widget/`,
-                          hyperlink: "no",
-                        },
-                      ],
-                    }}
-                  />
-                ) : (
-                  noData
-                )}
+                          {
+                            title: "Widget",
+                            key: "widget",
+                            link: "yes",
+                            beforehref: `https://bos.flipsidecrypto.xyz/${state.data}/widget/`,
+                            hyperlink: "no",
+                          },
+                        ],
+                      }}
+                    />
+                  ) : (
+                    noData
+                  )}
+                </div>
               </div>
             </div>
           </div>
@@ -685,16 +712,16 @@ let thirdSection = (
           </div>
           <div
             style={{ background: themeColor?.sbt_area?.card_bg }}
-            className="w-100 mx-auto shadow-sm rounded-4 overflow-auto"
+            className="m-1 shadow-sm rounded-4 overflow-auto"
           >
-            {state.result["hash" + 6]?.data?.length > 0 ? (
+            {state.result["hash" + 4]?.data?.length > 0 ? (
               <Widget
                 src="lord1.near/widget/table-pagination"
                 props={{
                   themeColor: {
                     table_pagination: themeColor.table_pagination,
                   },
-                  data: state.result["hash" + 6].data,
+                  data: state.result["hash" + 4].data,
                   rowsCount: "5",
                   columns: [
                     {
@@ -750,16 +777,16 @@ let thirdSection = (
           </div>
           <div
             style={{ background: themeColor?.sbt_area?.card_bg }}
-            className="w-100 mx-auto shadow-sm rounded-4 overflow-auto"
+            className="m-1 shadow-sm rounded-4 overflow-auto"
           >
-            {state.result["hash" + 5]?.data?.length > 0 ? (
+            {state.result["hash" + 3]?.data?.length > 0 ? (
               <Widget
                 src="lord1.near/widget/table-pagination"
                 props={{
                   themeColor: {
                     table_pagination: themeColor.table_pagination,
                   },
-                  data: state.result["hash" + 5].data,
+                  data: state.result["hash" + 3].data,
                   rowsCount: "5",
                   columns: [
                     {
@@ -796,6 +823,7 @@ let thirdSection = (
     </div>
   </div>
 );
+console.log("theme", themeColor);
 return (
   <div
     style={{ backgroundColor: themeColor.page_bg }}
@@ -857,12 +885,12 @@ return (
     </div>
     <div
       style={{ background: themeColor?.search_sbt?.card_bg }}
-      className={`shadow-sm rounded h-100 `}
+      className={`h-100 `}
     >
       {!state.isLoading && state.data && (
         <div
           style={{ backgroundColor: themeColor?.search_sbt?.table_bg }}
-          className="table-responsive"
+          className=""
         >
           {firstSection}
           {secondSection}
@@ -871,7 +899,9 @@ return (
             src="lord1.near/widget/component-chart1"
             props={{
               singer: state.data,
-              themeColor,
+              themeColor: {
+                component_chart1: themeColor.component_chart1,
+              },
             }}
           />
         </div>
