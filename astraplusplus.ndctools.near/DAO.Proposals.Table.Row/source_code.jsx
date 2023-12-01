@@ -71,18 +71,18 @@ const formatDate = (date) => {
     date = new Date(parseInt(`${date}`.slice(0, 13)));
     return `${
         [
-            "January",
-            "February",
-            "March",
-            "April",
+            "Jan",
+            "Feb",
+            "Mar",
+            "Apr",
             "May",
-            "June",
-            "July",
-            "August",
-            "September",
-            "October",
-            "November",
-            "December"
+            "Jun",
+            "Jul",
+            "Aug",
+            "Sep",
+            "Oct",
+            "Nov",
+            "Dec"
         ][date.getMonth()]
     } ${date.getDate()}, ${date.getFullYear()}`;
 };
@@ -172,10 +172,10 @@ function renderStatus(statusName) {
                         <i
                             className={statusicon}
                             style={{
-                                fontSize: "18px",
+                                fontSize: "16px",
                                 marginRight: "5px",
                                 borderWidth: "2px",
-                                animationDuration: "8s"
+                                animationDuration: "3s"
                             }}
                         ></i>
                         {statustext}
@@ -187,6 +187,13 @@ function renderStatus(statusName) {
         />
     );
 }
+
+const DescriptionContainer = styled.td`
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    -webkit-line-clamp: 3;
+    width: 90%;
+`;
 
 const execProposal = ({ daoId, proposal_id }) =>
     Near.call(daoId, "execute", { id: proposal_id }, 300000000000000);
@@ -207,18 +214,31 @@ return (
         <td>{formatDate(proposal.submission_time)}</td>
         <td>
             <Widget
-                src="nearui.near/widget/Element.User"
+                src="mob.near/widget/Profile.ShortInlineBlock"
                 props={{
                     accountId: proposal.proposer,
-                    options: {
-                        showImage: false,
-                        fontSize: 13
-                    }
+                    tooltip: true
                 }}
             />
         </td>
         <td className="text-center">{kindName}</td>
-        <td>{Object.keys(proposal.votes).length}</td>
+        <DescriptionContainer
+            style={{
+                display: proposal.description?.length < 200 ? "" : "-webkit-box"
+            }}
+        >
+            {proposal.description}
+        </DescriptionContainer>
+        <td className="text-center">
+            {isVotingBodyDao
+                ? proposal.status === "PreVote"
+                    ? proposal?.support ?? 0
+                    : (proposal?.approve ?? 0) +
+                      (proposal?.reject ?? 0) +
+                      (proposal?.spam ?? 0) +
+                      (proposal?.abstain ?? 0)
+                : Object.keys(proposal.votes ?? {}).length}
+        </td>
         <td className="text-center">{renderStatus(proposal.status)}</td>
 
         {multiSelectMode && (
@@ -242,7 +262,8 @@ return (
                 {(isCongressDaoID || isVotingBodyDao) &&
                     proposal.status === "Approved" &&
                     proposal?.submission_time +
-                        daoConfig?.voting_duration +
+                        (daoConfig?.vote_duration ??
+                            daoConfig?.voting_duration) +
                         (daoConfig?.cooldown ?? 0) < // cooldown is not available in vb
                         Date.now() && (
                         <Widget
@@ -271,10 +292,11 @@ return (
                                 }}
                             />
                         ),
+                        modalWidth: "1000px",
                         content: (
                             <div
                                 style={{
-                                    width: 700,
+                                    width: 1000,
                                     maxWidth: "100%"
                                 }}
                             >
