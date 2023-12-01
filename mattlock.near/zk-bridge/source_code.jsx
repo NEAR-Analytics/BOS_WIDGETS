@@ -1,5 +1,59 @@
+// constants
+
 const GOERLI_CHAIN_ID = 5;
 const ZKSYNC_GOERLI_CHAIN_ID = 280;
+
+// state
+const defaultDeposit = {
+  network: {
+    id: "l1",
+    name: "Ethereum",
+  },
+  assets: [
+    {
+      id: "weth",
+      name: "wETH",
+      selected: false,
+      balance: "0.00",
+    },
+    {
+      id: "usdc",
+      name: "USDC",
+      selected: true,
+      balance: "0.00",
+    },
+  ],
+};
+const defaultWithdraw = {
+  network: {
+    id: "l2",
+    name: "zkSync Era",
+  },
+  assets: [
+    {
+      id: "weth",
+      name: "wETH",
+      selected: false,
+      balance: "0.00",
+    },
+    {
+      id: "usdc",
+      name: "USDC",
+      selected: true,
+      balance: "0.00",
+    },
+  ],
+};
+if (!state.initialized) {
+  initState({
+    initialized: true,
+    deposit: defaultDeposit,
+    withdraw: defaultWithdraw,
+    amount: "0.0",
+  });
+  return "";
+}
+
 // providers
 const goerliProvider = new ethers.providers.JsonRpcProvider(
   "https://rpc.ankr.com/eth_goerli"
@@ -17,11 +71,6 @@ if (!sender) {
     </div>
   );
 }
-
-// TODO necessary?
-const clone = (o) => JSON.parse(JSON.stringify(o));
-const { deposit, withdraw } = state;
-const tab = !state.tab || state.tab === "deposit" ? "deposit" : "withdraw";
 
 // fetch ABIs
 const zkL2Abi = fetch(
@@ -43,24 +92,20 @@ if (!zkAbi.ok || !erc20Abi.ok || !zkL2Abi.ok) {
 const iface = new ethers.utils.Interface(zkAbi.body);
 const ifaceL2 = new ethers.utils.Interface(zkL2Abi.body);
 
-Ethers.provider()
-  .getNetwork()
-  .then(({ chainId }) => {
-    State.update({
-      chainId,
-      network:
+if (!state.chainId) {
+  Ethers.provider()
+    .getNetwork()
+    .then(({ chainId }) => {
+      const network =
         chainId === GOERLI_CHAIN_ID || chainId === ZKSYNC_GOERLI_CHAIN_ID
           ? "testnet"
-          : "mainnet",
+          : "mainnet";
+      console.log("chainId", chainId, "network", network);
+      State.update({ chainId, network });
     });
-  });
-
-if (!state.chainId) {
   return "";
 }
-const chainId = state.chainId;
-
-console.log("chainId", chainId);
+const { chainId, network } = state;
 
 // https://era.zksync.io/docs/dev/building-on-zksync/useful-address.html
 const contracts = {
@@ -116,12 +161,16 @@ const tokens = {
 const L2ERC20Bridge = new ethers.Contract(
   "0x00ff932A6d70E2B8f1Eb4919e1e09C1923E7e57b",
   zkL2Abi.body,
-  Ethers.provider()
+  zksyncGoerliProvider
 );
 
-L2ERC20Bridge.l1Bridge().then((bridgeAddress) => {
-  console.log("bridgeAddress", bridgeAddress);
-});
+if (!state.bridgeAddress) {
+  L2ERC20Bridge.l1Bridge().then((bridgeAddress) => {
+    console.log("bridgeAddress", bridgeAddress);
+    State.update({ bridgeAddress });
+  });
+  return "";
+}
 
 const onAction = (data) => {
   if (!data.amount) return;
@@ -142,14 +191,6 @@ const handleDeposit = (data) => {
     tokens.weth.decimals
   );
 
-  console.log(
-    "encodedData",
-    sender,
-    l1Token,
-    amountBig,
-    l2TxGasLimit,
-    l2TxGasPerPubdataByte
-  );
   const encodedData = iface.encodeFunctionData(
     "deposit(address,address,uint256,uint256,uint256)",
     [sender, l1Token, amountBig, l2TxGasLimit, l2TxGasPerPubdataByte]
@@ -242,7 +283,8 @@ const getTokenBalance = (
   const encodedData = iface.encodeFunctionData("balanceOf", [sender]);
   const provider =
     _chainId === GOERLI_CHAIN_ID ? goerliProvider : zksyncGoerliProvider;
-  Ethers.provider()
+
+  provider
     .call({
       to: tokenAddress,
       data: encodedData,
@@ -256,6 +298,9 @@ const getTokenBalance = (
         .div(Big(10).pow(decimals))
         .toFixed(2)
         .replace(/\d(?=(\d{3})+\.)/g, "$&,");
+
+      console.log("getTokenBalance balance", balance, _chainId, tokenAddress);
+
       if (callback) callback(balance);
     });
 };
@@ -272,104 +317,65 @@ if (sender) {
     });
 }
 
-initState({
-  isLoading: false,
-  deposit: {
-    network: {
-      id: "l1",
-      name: "Ethereum",
-    },
-    assets: [
-      {
-        id: "weth",
-        name: "wETH",
-        selected: false,
-        balance: "0.00",
-      },
-      {
-        id: "usdc",
-        name: "USDC",
-        selected: true,
-        balance: "0.00",
-      },
-    ],
-  },
-  withdraw: {
-    network: {
-      id: "l2",
-      name: "zkSync Era",
-    },
-    assets: [
-      {
-        id: "weth",
-        name: "wETH",
-        selected: false,
-        balance: "0.00",
-      },
-      {
-        id: "usdc",
-        name: "USDC",
-        selected: true,
-        balance: "0.00",
-      },
-    ],
-  },
-  defaultSelectedAsset: 1,
-  amount: "0.0",
-});
+const tab = !state.tab || state.tab === "deposit" ? "deposit" : "withdraw";
+const clone = (o) => JSON.parse(JSON.stringify(o));
+const { deposit, withdraw } = state;
 
-// update token balances
-// l1
-// getTokenBalance(sender, contracts[network].weth.deposit, tokens.weth.decimals, (balance) => {
-//   if (!deposit) return;
-//   const cloned = clone(deposit);
-//   cloned.assets[0].balance = balance;
-//   State.update({ deposit: cloned });
-// });
+if (!state.balancesUpdated) {
+  // update token balances
+  // l1
+  // getTokenBalance(sender, contracts[network].weth.deposit, tokens.weth.decimals, (balance) => {
+  //   if (!deposit) return;
+  //   const cloned = clone(deposit);
+  //   cloned.assets[0].balance = balance;
+  //   State.update({ deposit: cloned });
+  // });
 
-// goerli USDC
+  // goerli USDC
+  getTokenBalance(
+    sender,
+    GOERLI_CHAIN_ID,
+    contracts[network].usdc.deposit,
+    tokens.usdc.decimals,
+    (balance) => {
+      const cloned = clone(deposit || defaultDeposit);
+      cloned.assets[1].balance = balance;
+      State.update({ deposit: cloned });
+    }
+  );
 
-// TODO redo data model for chains or include some lookup to translate chainId to "deposit" / "withdraw"
-getTokenBalance(
-  sender,
-  GOERLI_CHAIN_ID,
-  contracts[network].usdc.deposit,
-  tokens.usdc.decimals,
-  (balance) => {
-    if (!deposit) return;
-    const cloned = clone(deposit);
-    cloned.assets[1].balance = balance;
+  //l2;
+  // getTokenBalance(sender, contracts[network].weth.withdraw, tokens.weth.decimals, (balance) => {
+  //   if (!withdraw) return;
+  //   const cloned = clone(withdraw);
+  //   cloned.assets[0].balance = balance;
+  //   State.update({ withdraw: cloned });
+  // });
 
-    // console.log("balance", balance, "cloned", cloned);
+  // zksync usdc
+  getTokenBalance(
+    sender,
+    ZKSYNC_GOERLI_CHAIN_ID,
+    contracts[network].usdc.withdraw,
+    tokens.usdc.decimals,
+    (balance) => {
+      const cloned = clone(withdraw || defaultWithdraw);
+      cloned.assets[1].balance = balance;
+      State.update({ withdraw: cloned });
+    }
+  );
 
-    State.update({ deposit: cloned });
-  }
-);
+  State.update({ balancesUpdated: true });
 
-//l2;
-// getTokenBalance(sender, contracts[network].weth.withdraw, tokens.weth.decimals, (balance) => {
-//   if (!withdraw) return;
-//   const cloned = clone(withdraw);
-//   cloned.assets[0].balance = balance;
-//   State.update({ withdraw: cloned });
-// });
-
-// getTokenBalance(
-//   sender,
-//   contracts[network].usdc.withdraw,
-//   tokens.usdc.decimals,
-//   (balance) => {
-//     if (!withdraw || !contracts[network].usdc.withdraw) return;
-//     const cloned = clone(withdraw);
-//     cloned.assets[1].balance = balance;
-//     State.update({ withdraw: cloned });
-//   }
-// );
+  return "";
+}
 
 const onTabChange = (tab) => {
   // console.log("onTabChange", deposit, withdraw);
   // State.update({ deposit: clone(withdraw), withdraw: clone(deposit), tab });
 };
+
+console.log(deposit.assets, withdraw.assets);
 
 return (
   <Widget
