@@ -19,7 +19,7 @@ function appendExports(fnName) {
 function notify(notificationType, userToNotify, redirectTo) {
   console.log("Inside notify fn");
   const notificationTypeText = {
-    mention: `I have mentioned ${userToNotify} in this post: `,
+    mention: `I have mentioned @${userToNotify} in this post: `,
     upVote: "I have upVoted this post: ",
     emoji: "I have reacted to this post: ",
     comment: "I have commented this post: ",
@@ -47,6 +47,7 @@ function notify(notificationType, userToNotify, redirectTo) {
       },
     },
     {
+      force: true,
       onCommit: () => {
         stateUpdate({ articleCreated: undefined });
       },
@@ -65,5 +66,13 @@ imports.forEach((fnName) => {
 });
 
 stateUpdate(libNotificationsOutput);
+
+const standardPostBlockHeight = 106940958;
+
+notify(
+  "mention",
+  `${context.accountId}`,
+  `https://near.social/f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/SayALot?isTest=t&sharedBlockHeight=${standardPostBlockHeight}`
+);
 
 return <></>;
