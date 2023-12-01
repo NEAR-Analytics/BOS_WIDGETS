@@ -1,7 +1,6 @@
 const Wrapper = styled.div`
   display: flex;
   justify-content: center;
-  padding-top: 50px;
   gap: 8px;
   .invalid-pool-tip {
     font-size: 18px;
