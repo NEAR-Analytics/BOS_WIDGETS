@@ -15,7 +15,7 @@ const components = [
     requiredProps: {
       markers: "data",
       onMapClick: "(e) => console.log(`map click`, e)",
-      onMarkerClick: "(e) => console.log(`marker click``, e)",
+      onMarkerClick: "(e) => console.log(`marker click`, e)",
       inspect: "(p) => <Inspect {...p} />",
       form: "(p) => <Form {...p} />",
     },
@@ -304,24 +304,28 @@ const renderComponent = (c, i) => {
       <div className="mt-3">
         <p>{c.description}</p>
       </div>
-      <label>Preview</label>
-      <div className="preview mb-3" style={c.previewStyle}>
-        <Widget src={c.path} props={c.demoProps} />
-      </div>
+      {c.demoProps.length > 0 && (
+        <>
+          <label>Preview</label>
+          <div className="preview mb-3" style={c.previewStyle}>
+            <Widget src={c.path} props={c.demoProps} />
+          </div>
+        </>
+      )}
       <label>Component</label>
       <div className="d-flex flex-row flex-wrap justify-content-between mb-3">
         <div className="path font-monospace">
           <Widget
             src="mob.near/widget/CopyButton"
             props={{
-              text: path,
-              label: path,
+              text: c.path,
+              label: c.path,
             }}
           />
         </div>
         <div className="source">
           <a
-            href={`/mob.near/widget/WidgetSource?src=${path}`}
+            href={`/mob.near/widget/WidgetSource?src=${c.path}`}
             target="_blank"
             className="btn btn-outline-primary border-0"
           >
@@ -348,7 +352,7 @@ const renderComponent = (c, i) => {
         <div className="embed-copy">
           <Widget
             src="mob.near/widget/CopyButton"
-            props={{ text: embedCode, className: "btn btn-outline-light" }}
+            props={{ text: c.path, className: "btn btn-outline-light" }}
           />
         </div>
       </div>
