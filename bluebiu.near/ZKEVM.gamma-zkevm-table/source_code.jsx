@@ -196,6 +196,9 @@ const Table = styled.table`
     td:first-child {
       padding-left: 26px;
     }
+    &.active {
+      background: rgba(53, 55, 73, 0.5);
+    }
   }
 
   @media (max-width: 736px) {
@@ -310,7 +313,7 @@ const formatPercent = (value) => {
   })}%`;
 };
 
-const { poolsData, userPositions } = props;
+const { poolsData, activePair, userPositions } = props;
 
 const onPairClick = (pair) => {
   const { handlePairClick } = props;
@@ -340,7 +343,11 @@ return (
                 : undefined;
 
             return (
-              <tr onClick={() => onPairClick(pair)} key={pair.id}>
+              <tr
+                onClick={() => onPairClick(pair)}
+                key={pair.id}
+                className={activePair.id === pair.id ? "active" : ""}
+              >
                 <td>
                   {pair.token0}-{pair.token1}
                 </td>
