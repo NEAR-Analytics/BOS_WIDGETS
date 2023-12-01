@@ -1,35 +1,93 @@
-const accountId = "ayelen.near";
-const sbtsNames = ["fractal.i-am-human.near - class 1"];
-
-console.log("aID: ", accountId);
-console.log("sbtsNames: ", sbtsNames);
-
-const userSBTs = Near.view("registry.i-am-human.near", "sbt_tokens_by_owner", {
-  account: accountId,
-});
-console.log("userSBTs: ", userSBTs);
-
-const sbtsData = sbtsNames.map((sbt) => {
-  console.log("SBT: ", sbt);
-  const data = sbt.split(" - class ");
-  console.log("split: ", data);
-  return { name: data[0], classNumber: data[1] };
+State.init({
+  libsLoaded: false,
 });
 
-console.log("sbtsData: ", sbtsData);
+const widgets = {
+  libNotifications: `f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/lib.notifications`,
+};
 
-const sbtsFiltered = userSBTs.filter((sbt) => {
-  return sbt[0] === sbtsData[0].name;
+function stateUpdate(obj) {
+  State.update(obj);
+}
+
+const imports = { notifications: ["notify", "clg"] };
+
+function onCommit() {
+  State.update({ articleCommited: true });
+}
+
+function findLastArticle(articles) {
+  return articles.find((article) => article.accountId === context.accountId);
+}
+
+const articles = Social.index("test_sayALotArticle_v0.0.2", "main", {
+  order: "desc",
 });
 
-console.log("sbtsFiltered: ", sbtsFiltered);
+const lastArticleFromThisAuthor = findLastArticle(articles);
 
-const result =
-  sbtsFiltered[0][1].find((sbt) => {
-    console.log(1, "SBT: ", sbt);
-    return Number(sbt.metadata["class"]) === Number(sbtsData[0].classNumber);
-  }) !== undefined;
+if (
+  articles &&
+  JSON.stringify(state.lastArticleFromThisAuthor) !==
+    JSON.stringify(lastArticleFromThisAuthor)
+) {
+  console.log("Found last article");
+  State.update({ lastArticleFromThisAuthor });
+}
 
-console.log("result: ", result);
+if (state.articleCommited) {
+  console.log("Proceding to push notification");
+  State.update({
+    articleCreated: state.lastArticleFromThisAuthor,
+    articleCommited: false,
+  });
+}
 
-return <></>;
+if (state.articleCreated) {
+  console.log("call nofity(): ", state.notify);
+  state.notify(
+    "mention",
+    "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb",
+    `https://near.social/f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/SayALot?isTest=t&sharedBlockHeight=${articleCreated.blockHeight}`
+  );
+}
+
+function makePost() {
+  Social.set(
+    {
+      ["test_sayALotArticle_v0.0.2"]: {
+        main: '{"title":"Test notification9","author":"f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb","lastEditor":"f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb","timeLastEdit":1701379839727,"timeCreate":1701379839727,"body":"Test","version":0,"navigation_id":null,"tags":{},"id":"f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb-1701379839727","sbts":["public"]}',
+      },
+      index: {
+        ["test_sayALotArticle_v0.0.2"]:
+          '{"key":"main","value":{"type":"md","id":"f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb-1701379839727"}}',
+      },
+    },
+    {
+      force: true,
+      onCommit,
+      onCancel,
+    }
+  );
+}
+
+State.update({ libsLoaded: true });
+
+Object.keys(imports).forEach((library) => {
+  imports[library].forEach((functionCalled) => {
+    if (!state[functionCalled]) {
+      State.update({ libsLoaded: false });
+    }
+  });
+});
+
+if (!state.libsLoaded) {
+  return (
+    <Widget
+      src={`${widgets.libNotifications}`}
+      props={{ stateUpdate, imports: imports["notifications"] }}
+    />
+  );
+}
+
+return <button onClick={makePost}>Make post + Notify mention</button>;
