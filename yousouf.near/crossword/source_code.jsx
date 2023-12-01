@@ -41,12 +41,14 @@ const [displayWord, setDisplayWord] = useState(false);
 const [gameOver, setGameOver] = useState(false);
 const [wrongGuesses, setWrongGuesses] = useState(0);
 const [countdown, setCountdown] = useState(60);
+const [score, setScore] = useState(0);
+
 useEffect(() => {
   if (wrongGuesses >= 3) {
-    // Code to show the popup or message for game over
     setMsg("Game Over! You made too many wrong guesses.");
   }
 }, [wrongGuesses]);
+
 useEffect(() => {
   if (countdown > 0) {
     const timer = setTimeout(() => {
@@ -115,11 +117,12 @@ const checkWordGuessedFunction = () => {
 
 const guessFunction = () => {
   if (checkWordGuessedFunction()) {
-    setMsg("Kayi Nasara, ka/kin rubuta kalmar dai dai!   🔥 ");
+    setMsg("Congratulations, you get the word correct !   🔥 ");
+    setScore(score + 1); // Increase the score
     sleep(2);
     restartGameFunction();
   } else {
-    setMsg("Anyi kuskure!. A kara gwadawa!");
+    setMsg("You fail !. try again!");
     setDisplayWord(true);
   }
 };
@@ -133,6 +136,10 @@ const restartGameFunction = () => {
   setGameOver(false);
   setWrongGuesses(0);
   setCountdown(60);
+};
+
+const sleep = (seconds) => {
+  return new Promise((resolve) => setTimeout(resolve, seconds * 1000));
 };
 
 return (
@@ -155,6 +162,16 @@ return (
     >
       Wasan Kalmomi akan BOS
     </h1>
+    <div
+      style={{
+        marginBottom: "20px",
+        fontSize: "20px",
+        fontWeight: "bold",
+        color: "#333",
+      }}
+    >
+      Score: {score}
+    </div>
     <h5>Time Remaining: {countdown} seconds</h5>
     <div
       style={{
@@ -234,7 +251,7 @@ return (
             transition: "background-color 0.2s ease-in-out",
           }}
         >
-          Fara daga farko
+          Next
         </button>
         <div
           style={{
@@ -260,7 +277,7 @@ return (
             transition: "background-color 0.2s ease-in-out",
           }}
         >
-          A cire Harafi
+          Remove Letter
         </button>
       </div>
       <div
