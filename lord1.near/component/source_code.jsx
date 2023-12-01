@@ -58,7 +58,9 @@ const table_componentList_theme = {
 const table_starSent_theme = {
   height: "80px",
   align: "center",
-  description: `( Star:50  | UnStar:45 )`,
+  description: `( Star:${
+    state.result.hash5?.data[0]?.stars_sent || "0"
+  }  | UnStar:${state.result.hash5?.data[0]?.unstars_sent || "0"} )`,
   brand: "Un/Star ",
   fontsize: "25px",
   fontweight: "25px",
@@ -77,7 +79,9 @@ const table_starSent_theme = {
 const table_starReceived_theme = {
   height: "80px",
   align: "center",
-  description: "( Star: 50 | UnStar: 45 )",
+  description: `( Star:${
+    state.result.hash5?.data[0]?.stars_received || "0"
+  }  | UnStar:${state.result.hash5?.data[0]?.unstars_received || "0"} )`,
   brand: "Un/Star ",
   fontsize: "25px",
   fontweight: "25px",
@@ -113,7 +117,7 @@ const table_creditSent_theme = {
 const table_creditSentTab1_theme = {
   height: "80px",
   align: "center",
-  description: "45",
+  description: `${state.result.hash6?.data[0]?.source_widget || "0"}`,
   brand: `widgets`,
   fontsize: "15px",
   fontweight: "10px",
@@ -131,7 +135,7 @@ const table_creditSentTab1_theme = {
 const table_creditSentTab2_theme = {
   height: "80px",
   align: "center",
-  description: "30",
+  description: `${state.result.hash6?.data[0]?.source_account || "0"}`,
   brand: `Devs`,
   fontsize: "15px",
   fontweight: "10px",
@@ -167,7 +171,7 @@ const table_creditReceived_theme = {
 const table_creditReceivedTab1_theme = {
   height: "80px",
   align: "center",
-  description: "45",
+  description: `${state.result.hash7?.data[0]?.destination_widget || "0"}`,
   brand: `widgets`,
   fontsize: "15px",
   fontweight: "10px",
@@ -185,7 +189,7 @@ const table_creditReceivedTab1_theme = {
 const table_creditReceivedTab2_theme = {
   height: "80px",
   align: "center",
-  description: "30",
+  description: `${state.result.hash7?.data[0]?.source_account || "0"}`,
   brand: `Devs`,
   fontsize: "15px",
   fontweight: "10px",
@@ -219,6 +223,7 @@ State.init({
   isLoading: false,
   error: [],
 });
+console.log(state.result);
 //---------------------------------------------------------------------------------------
 
 const inputHandler = ({ target }) => {
@@ -526,7 +531,7 @@ let secondSection = (
                       table_pagination: themeColor.table_pagination,
                     },
                     data: state.result["hash" + 2].data,
-                    rowsCount: "10",
+                    rowsCount: "16",
                     columns: [
                       {
                         title: "Component Name",
@@ -894,14 +899,15 @@ return (
         >
           {firstSection}
           {secondSection}
+
           {thirdSection}
+          <div style={{ width: "100%", height: "85px" }}></div>
+
           <Widget
             src="lord1.near/widget/component-chart1"
             props={{
               singer: state.data,
-              themeColor: {
-                component_chart1: themeColor.component_chart1,
-              },
+              themeColor: themeColor,
             }}
           />
         </div>
