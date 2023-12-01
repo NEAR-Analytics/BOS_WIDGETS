@@ -4,6 +4,8 @@ const choices = ["rock", "paper", "scissors"];
 const [userChoice, setUserChoice] = useState(null);
 const [computerChoice, setComputerChoice] = useState(null);
 const [result, setResult] = useState(null);
+const [playerScore, setPlayerScore] = useState(0);
+const [computerScore, setComputerScore] = useState(0);
 
 // Function to handle user choice
 const handleUserChoice = (choice) => {
@@ -22,8 +24,10 @@ const handleUserChoice = (choice) => {
     (choice === "scissors" && computerRandomChoice === "paper")
   ) {
     setResult("You win!");
+    setPlayerScore((prevScore) => prevScore + 1);
   } else {
     setResult("Computer wins!");
+    setComputerScore((prevScore) => prevScore + 1);
   }
 };
 
@@ -55,11 +59,13 @@ return (
   <div style={containerStyles}>
     <h1>Rock, Paper, Scissors</h1>
     <div>
-      <p>Your Choice: {userChoice}</p>
-      <p>Computer's Choice: {computerChoice}</p>
+      <h5>Your Choice : {userChoice}</h5>
+      <h5>Computer's Choice : {computerChoice}</h5>
       <p style={resultStyles}>Result: {result}</p>
     </div>
     <div>
+      <h5>Player Score: {playerScore}</h5>
+      <h5>Computer Score: {computerScore}</h5>
       {choices.map((choice) => (
         <button
           key={choice}
