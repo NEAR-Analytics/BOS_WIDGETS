@@ -56,6 +56,7 @@ const Main = styled.div`
   background: #101010;
   background-image: url(${ipfsPrefix}/bafkreiak6rio66kqjsobw25gtmy5a7fwwsa4hjn3d25a4tppfylbdepbjq);
   background-repeat: no-repeat;
+  background-size: cover;
   padding: 0 16px;
   color: white;
   @media (min-width: 640px) {
@@ -69,7 +70,17 @@ const BodyContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 80px 0;
+  flex-direction: column;
+  gap: 20px;
+  margin: 40px 0;
+`;
+
+const NeatLink = styled.a`
+  color: #4343ff;
+  font-size: 18px;
+  font-weight: 600;
+  display: inline-block;
+  text-decoration: underline;
 `;
 
 const HeaderContainer = styled.div`
@@ -96,6 +107,22 @@ const TabItem = styled.div`
   font-size: 18px;
   font-weight: 600;
   ${(props) => !props.selected && "opacity: 0.4;"}
+`;
+
+const FormContainer = styled.div`
+  max-width: 650px;
+  width: 100%;
+  background: #141414;
+  border-radius: 4px;
+  border: 1px solid #ffffff1a;
+  display: flex;
+  flex-direction: column;
+  gap: 36px;
+
+  padding: 16px;
+  @media (min-width: 640px) {
+    padding: 24px;
+  }
 `;
 
 
@@ -129,6 +156,20 @@ return (
       <Spacer />
     </HeaderContainer>
     <BodyContainer>
+      <FormContainer>
+        <div>
+          📣 Reminder: network overload may cause longer processing time for
+          $NEAT minting. Optimize your minting experience with Sender Wallet's
+          batch minting tool at
+          <NeatLink
+            href="https://www.mintneat.org"
+            target="_blank"
+            rel="noreferral noopener"
+          >
+            www.mintneat.org
+          </NeatLink>
+        </div>
+      </FormContainer>
       {tab === "Mint" && <Widget src={`${config.ownerId}/widget/NEAT.Mint`} />}
       {tab === "Indexer" && (
         <Widget src={`${config.ownerId}/widget/NEAT.Indexer`} />
