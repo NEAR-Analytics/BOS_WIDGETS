@@ -53,7 +53,6 @@ if (state.chainId !== chainId) {
 const Dex = styled.div`
   display: flex;
   justify-content: center;
-  padding-top: 50px;
   @media (max-width: 900px) {
     padding-top: 0px;
     flex-direction: column;
