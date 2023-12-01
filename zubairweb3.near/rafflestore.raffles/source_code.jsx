@@ -322,6 +322,10 @@ border-radius: 1rem;
 border: 1px solid #e5e7eb;
 flex-direction: column;
 overflow: hidden;
+ transition: transform 0.3s ease-in-out;
+   &:hover {
+    transform: scale(1.1);
+  }
 @media screen and (max-width: 768px){
  width: 100%;
 }
