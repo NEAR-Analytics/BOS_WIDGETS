@@ -179,12 +179,16 @@ return (
               {/* Buttons for each game */}
               <Flex gap="12px">
                 <button onClick={() => handleButtonClick("tic-tac-toe")}>
-                  ✖️ 🔘 ✖️ 🔘 ✖️ 🔘 ✖️ ✖️ ✖️ 🔘 🔘 ✖️ ✖️ 🔘 ✖️ 🔘 ✖️ ✖️ 🔘 🔘 ✖️
-                  🔘 ✖️ 🔘
+                  Tic-Tac-Toe ✖️ 🔘 ✖️ 🔘 ✖️ 🔘 ✖️ ✖️ ✖️ 🔘 🔘 ✖️ ✖️ 🔘 ✖️ 🔘 ✖️
+                  ✖️ 🔘 🔘 ✖️ 🔘 ✖️ 🔘
                 </button>
-                <button onClick={() => handleButtonClick("rps")}>💖</button>
+                <button onClick={() => handleButtonClick("rps")}>
+                  Rock-Paper-Scissors✖️ 🔘 ✖️ 🔘 ✖️ 🔘 ✖️ ✖️ ✖️ 🔘 🔘 ✖️ ✖️ 🔘
+                  ✖️ 🔘 ✖️ ✖️ 🔘 🔘 ✖️ 🔘 ✖️ 🔘
+                </button>
                 <button onClick={() => handleButtonClick("crossword")}>
-                  ⭐
+                  Word Guessing Game✖️ 🔘 ✖️ 🔘 ✖️ 🔘 ✖️ ✖️ ✖️ 🔘 🔘 ✖️ ✖️ 🔘 ✖️
+                  🔘 ✖️ ✖️ 🔘 🔘 ✖️ 🔘 ✖️ 🔘
                 </button>
               </Flex>
 
