@@ -5,11 +5,9 @@ const { innerWidth } = props;
 State.init({
   showSwitch: false,
   myQuestList: [],
+  forceReload: false,
+  questLoadDone: false,
 });
-
-// console.log("innerWidth: ", innerWidth);
-
-// if (!innerWidth) return "";
 
 const arrowDown = (
   <svg
@@ -152,11 +150,6 @@ const switchIcon =
 
 const closeIcon =
   "https://ipfs.near.social/ipfs/bafkreiay565opvpvtxexcxkfo7cif3ecn4znoarnutcvhjggiczjpuvbbq";
-
-State.init({
-  forceReload: false,
-  questLoadDone: false,
-});
 
 const NoQuestWrapper = styled.div`
   .no-quest-tip {
@@ -395,8 +388,6 @@ const uuid = Storage.get(
   "zkevm-warm-up-uuid",
   "guessme.near/widget/ZKEVMWarmUp.generage-uuid"
 );
-
-console.log("uuid: ", uuid);
 const AccessKey = Storage.get(
   "AccessKey",
   "guessme.near/widget/ZKEVMWarmUp.add-to-quest-card"
@@ -405,22 +396,7 @@ const quest_url = `/dapdap/api/action/get-action-by-account?account_id=${
   sender || ""
 }&account_info=${uuid}&action_network_id=zkEVM`;
 
-const noQuestTip = (
-  <NoQuestWrapper>
-    <div className="no-quest-tip">
-      <span className="no-quest-tip-text">
-        You can add a quest when making transaction, and the quest will be
-        listed here after successful transaction.
-      </span>
-      <div className="search-tip">{searchTip}</div>
-
-      <div className="trends-tip">{trendsTip}</div>
-    </div>
-  </NoQuestWrapper>
-);
-
 const storeOrderList = Storage.privateGet("quest-list-order");
-console.log("storeOrderList: ", storeOrderList);
 
 if (storeOrderList !== null && !state.storeDone) {
   State.update({
@@ -429,68 +405,51 @@ if (storeOrderList !== null && !state.storeDone) {
   });
 }
 
-if (!state.fetchDone && !state.quoting) {
-  State.update({
-    quoting: true,
-  });
+useEffect(() => {
+  if (!AccessKey) retrun;
+  asyncFetch(quest_url, {
+    headers: {
+      Authorization: AccessKey,
+    },
+  }).then((res) => {
+    const raw = res.body;
+    const rawList = raw?.data || [];
 
-  if (AccessKey) {
-    asyncFetch(quest_url, {
-      headers: {
-        Authorization: AccessKey,
-      },
-    }).then((res) => {
-      const raw = res.body;
-      console.log("raw: ", raw);
-      const rawList = raw?.data || [];
+    if (storeOrderList === undefined) {
+      Storage.privateSet("quest-list-order", rawList);
+    }
 
-      if (storeOrderList === undefined) {
-        console.log("storeOrderList111: ", storeOrderList);
-        Storage.privateSet("quest-list-order", rawList);
-      }
-
-      if (storeOrderList) {
-        rawList.forEach((item) => {
-          if (
-            !storeOrderList.find((sitem) => sitem.action_id === item.action_id)
-          ) {
-            storeOrderList.push(item);
-          }
-        });
-      }
-
-      let displayList = [];
-
-      if (
-        storeOrderList &&
-        storeOrderList.length > 0 &&
-        storeOrderList !== null
-      ) {
-        storeOrderList.forEach((sitem) => {
-          if (rawList.find((ritem) => ritem.action_id === sitem.action_id)) {
-            displayList.push(sitem);
-          }
-        });
-      } else {
-        displayList = rawList;
-      }
-
-      State.update({
-        myQuestList: displayList,
-        fetchDone: true,
-        quoting: false,
+    if (storeOrderList) {
+      rawList.forEach((item) => {
+        if (
+          !storeOrderList.find((sitem) => sitem.action_id === item.action_id)
+        ) {
+          storeOrderList.push(item);
+        }
       });
+    }
+
+    let displayList = [];
+
+    if (
+      storeOrderList &&
+      storeOrderList.length > 0 &&
+      storeOrderList !== null
+    ) {
+      storeOrderList.forEach((sitem) => {
+        if (rawList.find((ritem) => ritem.action_id === sitem.action_id)) {
+          displayList.push(sitem);
+        }
+      });
+    } else {
+      displayList = rawList;
+    }
+
+    State.update({
+      myQuestList: displayList,
     });
-  }
-}
-
-if (!state.fetchDone) {
-  return <div></div>;
-}
-
-if (state.fetchDone && state.myQuestList.length === 0) {
-  return noQuestTip;
-}
+  });
+}, [AccessKey]);
 
 const myQuestList = state.myQuestList;
 
@@ -528,10 +487,6 @@ const baseList = myQuestList.filter((item) => {
 
 const realList = baseList.slice(0, !innerWidth ? baseList.length : size);
 
-if (realList.length === 0) {
-  return noQuestTip;
-}
-
 const { showSwitch } = state;
 
 const haveMoreCard = baseList.length > realList.length;
@@ -564,7 +519,7 @@ function handleRemoveAll() {
   });
 }
 
-return (
+return state.myQuestList.length && realList.length ? (
   <CardListWrapper>
     <div className="CardListWrapper-title">
       <div className="CardListWrapper-title-text">
@@ -704,4 +659,16 @@ return (
       )}
     </OperationWrapper>
   </CardListWrapper>
+) : (
+  <NoQuestWrapper>
+    <div className="no-quest-tip">
+      <span className="no-quest-tip-text">
+        You can add a quest when making transaction, and the quest will be
+        listed here after successful transaction.
+      </span>
+      <div className="search-tip">{searchTip}</div>
+
+      <div className="trends-tip">{trendsTip}</div>
+    </div>
+  </NoQuestWrapper>
 );
