@@ -32,7 +32,7 @@ if (!state.libsLoaded) {
 }
 
 function onCommit() {
-  State.update({ articleCommited: true });
+  State.update({ articleCommited: true, clg: undefined, notify: undefined });
 }
 
 function findLastArticle(articles) {
@@ -43,7 +43,7 @@ const articles = Social.index("test_sayALotArticle_v0.0.2", "main", {
   order: "desc",
 });
 
-const lastArticleFromThisAuthor = findLastArticle(articles);
+const lastArticleFromThisAuthor = articles && findLastArticle(articles);
 
 if (
   articles &&
@@ -60,31 +60,26 @@ if (state.articleCommited) {
   });
 }
 
-console.log("Danito", state, state.articleCreated);
-state.clg("Danito2: ");
-console.log("state.notify: ", state.notify);
-
-if (state.articleCreated === undefined) {
-  console.log("state.notify: ", state.notify);
-  console.log("pepito", state);
-  state.clg("pepito2: ");
+if (state.articleCreated !== undefined) {
+  console.log("inside if");
   state.notify(
     "mention",
     `${context.accountId}`,
     `https://near.social/${context.accountId}/widget/SayALot?isTest=t&sharedBlockHeight=${articleCreated.blockHeight}`
   );
-  console.log("común");
 }
 
 function makePost() {
   Social.set(
     {
       ["test_sayALotArticle_v0.0.2"]: {
-        main: `{"title":"Test with Dani","author":"${
+        main: `{"title":"Test again,"author":"${
           context.accountId
         }","lastEditor":"${
           context.accountId
-        }","timeLastEdit":${Date.now()},"timeCreate":${Date.now()},"body":"Test","version":0,"navigation_id":null,"tags":{},"id":"${
+        }","timeLastEdit":${Date.now()},"timeCreate":${Date.now()},"body": "@${
+          context.accountId
+        }","version":0,"navigation_id":null,"tags":{},"id":"${
           context.accountId
         }-${Date.now()}","sbts":["public"]}`,
       },
