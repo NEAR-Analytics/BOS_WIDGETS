@@ -1,6 +1,6 @@
 const Wrapper = styled.div`
   width: 560px;
-  margin: 30px auto 0px;
+  margin: 0px auto 0px;
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -68,6 +68,8 @@ const handleStargateTx = ({ hash, amount, price, from, to, currency }) => {
     link: from.explorer + "/tx/" + hash,
     hash: hash,
     tokenLogo: currency.icon,
+    fromChainId: from.id,
+    toChainId: to.id,
   };
   Storage.privateSet("stargate_txs", txs);
 };
@@ -99,6 +101,7 @@ return (
         src="bluebiu.near/widget/Base.Bridge.Transactions"
         props={{
           txs: Storage.privateGet("stargate_txs"),
+          chainId: state.chainId,
           onDelete: (hash) => {
             setTimeout(() => {
               const txs = Storage.privateGet("stargate_txs") || {};
