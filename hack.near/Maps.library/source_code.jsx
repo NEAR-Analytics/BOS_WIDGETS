@@ -234,7 +234,7 @@ const components = [
     title: "AfforDWELL",
     category: "Examples",
     authorId: "raycent.near",
-    path: "raycent.near/widget/Map",
+    path: "hack.near/widget/Map.dwell",
     description: "TBD",
     demoProps: {},
     requiredProps: {},
