@@ -96,7 +96,7 @@ return (
       className="follow-button"
       data={data}
     >
-      HI
+      Hello
       {isFollowing && <i className="bi-16 bi bi-check"></i>}
       {isFollowing ? "Following" : isInverse ? "Follow Back" : "Follow"}
     </CommitButton>
