@@ -15,10 +15,8 @@ useEffect(() => {
   importMarkdown();
 }, []);
 
-return Markdown ? (
-  <div>
-    <Markdown>{"# hello world"}</Markdown>
-  </div>
-) : (
-  <div>Loading</div>
-);
+if (Markdown) {
+  return <>imported!</>;
+}
+
+return <>not imported yet</>;
