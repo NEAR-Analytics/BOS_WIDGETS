@@ -18,7 +18,7 @@ useEffect(() => {
 if (Markdown) {
   return (
     <div>
-      <Markdown key={1}>{"# hi"}</Markdown>
+      <Markdown># hi</Markdown>
     </div>
   );
 }
