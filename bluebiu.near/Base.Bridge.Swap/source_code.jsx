@@ -157,6 +157,18 @@ const checkGasIsEnough = () => {
 
 const debouncedGetTrade = debounce(getTrade, 500);
 
+useEffect(() => {
+  if (Big(state.amount || 0).gt(state.maxInputBalance || 0)) {
+    State.update({
+      errorTips: "Invalid amount! Amount should be less than token balance",
+    });
+    return;
+  }
+  State.update({
+    errorTips: "",
+  });
+}, [state.maxInputBalance, state.amount]);
+
 return (
   <>
     <Chains
@@ -222,9 +234,6 @@ return (
               loading: val && Number(val) && state.currency.address,
             };
             if (val && Number(val)) debouncedGetTrade();
-            params.errorTips = Big(val || 0).gt(state.maxInputBalance || 0)
-              ? "Invalid amount! Amount should be less than token balance"
-              : "";
             State.update(params);
             checkGasIsEnough();
           },
