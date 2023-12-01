@@ -354,7 +354,7 @@ const NftName = styled.h3`
 font-size: 0.8rem;
 `;
 
-const NfttBtn = styled.button`
+const NfttBtn = styled.a`
  color: white;
  background: #003C8C;
  font-weight: 700;
@@ -365,6 +365,7 @@ const NfttBtn = styled.button`
  border-radius: 0.5rem;
  margin: auto;
  width: 40%;
+ text-decoration: none;
 `;
 
 const RaffleStatus = styled.h6`
@@ -445,10 +446,8 @@ return (
                 <RaffleListImg src={nft.image} alt={nft.name} />
                 <NftTitle>{nft.title}</NftTitle>
                 <NftName>{nft.name}</NftName>
-                <NfttBtn>
-                  <a href="https://near.org/zubairweb3.near/widget/rafflestore.raffle">
-                    Enter
-                  </a>
+                <NfttBtn href="https://near.org/zubairweb3.near/widget/rafflestore.raffle">
+                  Enter
                 </NfttBtn>
                 <RaffleStatus>{nft.status}</RaffleStatus>
                 <NftRaffleUnits>Units: {nft.unit}</NftRaffleUnits>
