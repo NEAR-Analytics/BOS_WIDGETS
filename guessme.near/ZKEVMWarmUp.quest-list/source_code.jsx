@@ -5,11 +5,9 @@ const { innerWidth } = props;
 State.init({
   showSwitch: false,
   myQuestList: [],
+  forceReload: false,
+  questLoadDone: false,
 });
-
-// console.log("innerWidth: ", innerWidth);
-
-// if (!innerWidth) return "";
 
 const arrowDown = (
   <svg
@@ -152,11 +150,6 @@ const switchIcon =
 
 const closeIcon =
   "https://ipfs.near.social/ipfs/bafkreiay565opvpvtxexcxkfo7cif3ecn4znoarnutcvhjggiczjpuvbbq";
-
-State.init({
-  forceReload: false,
-  questLoadDone: false,
-});
 
 const NoQuestWrapper = styled.div`
   .no-quest-tip {
@@ -395,29 +388,15 @@ const uuid = Storage.get(
   "zkevm-warm-up-uuid",
   "guessme.near/widget/ZKEVMWarmUp.generage-uuid"
 );
-
-console.log("uuid: ", uuid);
-
-const quest_url = `https://bos-api.delink.one/get-action-by-account?account_id=${
+const AccessKey = Storage.get(
+  "AccessKey",
+  "guessme.near/widget/ZKEVMWarmUp.add-to-quest-card"
+);
+const quest_url = `/dapdap/api/action/get-action-by-account?account_id=${
   sender || ""
 }&account_info=${uuid}&action_network_id=zkEVM`;
 
-const noQuestTip = (
-  <NoQuestWrapper>
-    <div className="no-quest-tip">
-      <span className="no-quest-tip-text">
-        You can add a quest when making transaction, and the quest will be
-        listed here after successful transaction.
-      </span>
-      <div className="search-tip">{searchTip}</div>
-
-      <div className="trends-tip">{trendsTip}</div>
-    </div>
-  </NoQuestWrapper>
-);
-
 const storeOrderList = Storage.privateGet("quest-list-order");
-console.log("storeOrderList: ", storeOrderList);
 
 if (storeOrderList !== null && !state.storeDone) {
   State.update({
@@ -426,17 +405,17 @@ if (storeOrderList !== null && !state.storeDone) {
   });
 }
 
-if (!state.fetchDone && !state.quoting) {
-  State.update({
-    quoting: true,
-  });
-  asyncFetch(quest_url).then((res) => {
+useEffect(() => {
+  if (!AccessKey) retrun;
+  asyncFetch(quest_url, {
+    headers: {
+      Authorization: AccessKey,
+    },
+  }).then((res) => {
     const raw = res.body;
-    console.log("raw: ", raw);
-    const rawList = JSON.parse(raw)?.data || [];
+    const rawList = raw?.data || [];
 
     if (storeOrderList === undefined) {
-      console.log("storeOrderList111: ", storeOrderList);
       Storage.privateSet("quest-list-order", rawList);
     }
 
@@ -468,27 +447,18 @@ if (!state.fetchDone && !state.quoting) {
 
     State.update({
       myQuestList: displayList,
-      fetchDone: true,
-      quoting: false,
     });
   });
-}
-
-if (!state.fetchDone) {
-  return <div></div>;
-}
-
-if (state.fetchDone && state.myQuestList.length === 0) {
-  return noQuestTip;
-}
+}, [AccessKey]);
 
 const myQuestList = state.myQuestList;
 
 const onDelete = (action_id) => {
-  asyncFetch("https://bos-api.delink.one/delete-action-by_id", {
+  asyncFetch("/dapdap/api/action/delete-action-by-id", {
     method: "DELETE",
     headers: {
       "Content-Type": "application/json",
+      Authorization: AccessKey,
     },
     body: JSON.stringify({
       action_id,
@@ -517,10 +487,6 @@ const baseList = myQuestList.filter((item) => {
 
 const realList = baseList.slice(0, !innerWidth ? baseList.length : size);
 
-if (realList.length === 0) {
-  return noQuestTip;
-}
-
 const { showSwitch } = state;
 
 const haveMoreCard = baseList.length > realList.length;
@@ -536,10 +502,11 @@ function handleRemoveAll() {
     item.action_id.toString()
   );
 
-  asyncFetch("https://bos-api.delink.one/batch-delete-action", {
+  asyncFetch("/dapdap/api/action/batch-delete-action", {
     method: "delete",
     headers: {
       "Content-Type": "application/json",
+      Authorization: AccessKey,
     },
     body: JSON.stringify({ action_id_list }),
   }).then((res) => {
@@ -552,7 +519,7 @@ function handleRemoveAll() {
   });
 }
 
-return (
+return state.myQuestList.length && realList.length ? (
   <CardListWrapper>
     <div className="CardListWrapper-title">
       <div className="CardListWrapper-title-text">
@@ -692,4 +659,16 @@ return (
       )}
     </OperationWrapper>
   </CardListWrapper>
+) : (
+  <NoQuestWrapper>
+    <div className="no-quest-tip">
+      <span className="no-quest-tip-text">
+        You can add a quest when making transaction, and the quest will be
+        listed here after successful transaction.
+      </span>
+      <div className="search-tip">{searchTip}</div>
+
+      <div className="trends-tip">{trendsTip}</div>
+    </div>
+  </NoQuestWrapper>
 );
