@@ -210,8 +210,8 @@ return (
             routerAddress: "0x3a6d8cA21D1CF76F653A67577FA0D27453350dD8",
             uniType: "v2",
             defaultCurrencies: {
-              input: Tokens["native"],
-              output: Tokens["0x965F527D9159dCe6288a2219DB51fc6Eef120dD1"],
+              input: Tokens["0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d"],
+              output: Tokens["0xe9e7CEA3DedcA5984780Bafc599bD69ADd087D56"],
             },
             tokens: [
               Tokens["native"],
@@ -231,8 +231,8 @@ return (
             routerAddress: "0xcF0feBd3f17CEf5b47b0cD257aCf6025c5BFf3b7",
             uniType: "v2",
             defaultCurrencies: {
-              input: Tokens["native"],
-              output: Tokens["0x603c7f932ED1fc6575303D8Fb018fDCBb0f39a95"],
+              input: Tokens["0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d"],
+              output: Tokens["0xe9e7CEA3DedcA5984780Bafc599bD69ADd087D56"],
             },
             tokens: [
               Tokens["0x7130d2A12B9BCbFAe4f2634d864A1Ee1Ce3Ead9c"],
@@ -252,8 +252,8 @@ return (
             routerAddress: "0x45A664993f6c3e978A1257c6EF7bBB512af9F098",
             uniType: "v2",
             defaultCurrencies: {
-              input: Tokens["native"],
-              output: Tokens["0xe4CA1F75ECA6214393fCE1C1b316C237664EaA8e"],
+              input: Tokens["0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d"],
+              output: Tokens["0xe9e7CEA3DedcA5984780Bafc599bD69ADd087D56"],
             },
             tokens: [
               Tokens["native"],
@@ -272,8 +272,8 @@ return (
             routerAddress: "0xd4ae6eca985340dd434d38f470accce4dc78d109",
             uniType: "solidly",
             defaultCurrencies: {
-              input: Tokens["native"],
-              output: Tokens["0x55d398326f99059fF775485246999027B3197955"],
+              input: Tokens["0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d"],
+              output: Tokens["0xe9e7CEA3DedcA5984780Bafc599bD69ADd087D56"],
             },
             tokens: [
               Tokens["native"],
