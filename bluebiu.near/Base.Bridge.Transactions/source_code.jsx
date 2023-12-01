@@ -61,17 +61,22 @@ return (
       </RefreshWrapper>
     </Header>
     <Body>
-      {txs?.map((tx) => (
-        <Widget
-          src="bluebiu.near/widget/Base.Bridge.Transaction"
-          key={tx.hash}
-          props={{
-            tx,
-            onDelete,
-            update: state.update,
-          }}
-        />
-      ))}
+      {txs
+        ?.filter(
+          (tx) =>
+            tx.fromChainId === props.chainId || tx.toChainId === props.chainId
+        )
+        .map((tx) => (
+          <Widget
+            src="bluebiu.near/widget/Base.Bridge.Transaction"
+            key={tx.hash}
+            props={{
+              tx,
+              onDelete,
+              update: state.update,
+            }}
+          />
+        ))}
     </Body>
   </Transactions>
 );
