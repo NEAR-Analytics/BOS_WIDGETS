@@ -192,7 +192,6 @@ const DescriptionContainer = styled.td`
     -webkit-box-orient: vertical;
     overflow: hidden;
     -webkit-line-clamp: 3;
-    width: 90%;
 `;
 
 const execProposal = ({ daoId, proposal_id }) =>
@@ -211,7 +210,7 @@ return (
         <th scope="row">
             <span className="id-value">#{proposal_id}</span>
         </th>
-        <td>{formatDate(proposal.submission_time)}</td>
+        <td className="w-100">{formatDate(proposal.submission_time)}</td>
         <td>
             <Widget
                 src="mob.near/widget/Profile.ShortInlineBlock"
