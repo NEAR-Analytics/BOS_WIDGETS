@@ -65,7 +65,7 @@ imports.forEach((fnName) => {
   appendExports(fnName);
 });
 
-stateUpdate(libNotificationsOutput);
+stateUpdate({ notifications: libNotificationsOutput });
 
 // const standardPostBlockHeight = 106940958;
 
