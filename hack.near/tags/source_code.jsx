@@ -2,11 +2,16 @@
 
 const creatorId = props.creatorId ?? "hack.near";
 const namespace = props.namespace ?? "widget";
-const accountId = props.accountId ?? context.accountId;
-const extraTags = props.extraTags;
+const thingId = props.thingId ?? "every";
 
-const tagsPattern = `*/${namespace}/metadata/tags/*`;
-const tagsObject = Social.keys(tagsPattern, "final");
+const accountId = props.accountId ?? context.accountId;
+
+const tagsPattern = `*/graph/context/${creatorId}/${namespace}/${thingId}/tags/*`;
+const tagsObject = Social.get(tagsPattern, "final");
+
+if (!tagsObject) {
+  return "";
+}
 
 const tagClass = "bg-success";
 const badgeBtnClass = "text-white btn p-0 lh-1";
@@ -15,7 +20,7 @@ const addPublicTagHtml = (
     href={`#/hack.near/widget/catalog?accountId=${accountId}`}
     className={badgeBtnClass}
   >
-    <div className={`me-1 mt-3 badge bg-primary`}>+ Add Tag</div>
+    <div className={`me-1 mt-3 badge bg-primary`}>+ Tag</div>
   </a>
 );
 
@@ -41,10 +46,6 @@ const processTagsObject = (obj) => {
 };
 
 const getTags = () => {
-  if (extraTags) {
-    processTagsObject(extraTags);
-    tagsObject[context.accountId] = {};
-  }
   processTagsObject(tagsObject);
   const tags = Object.entries(tagsCount);
   tags.sort((a, b) => b[1] - a[1]);
@@ -89,6 +90,6 @@ return (
           </span>
         </a>
       ))}
-    {addPublicTagHtml}
+    <div className="m-1">{addPublicTagHtml}</div>
   </>
 );
