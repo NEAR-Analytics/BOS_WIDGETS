@@ -74,7 +74,7 @@ return (
         </CommitButton>
 
         <button
-          class="btn btn-outline-secondary"
+          class="btn btn-outline-secondary m-2"
           type="button"
           data-bs-toggle="collapse"
           data-bs-target="#collapseExample"
