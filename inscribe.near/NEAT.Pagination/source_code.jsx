@@ -10,9 +10,8 @@ function getConfig(network) {
       return {
         ownerId: "inscribe.near",
         graphUrl:
-          "https://api.thegraph.com/subgraphs/name/inscriptionnear/neat",
+          "https://api.thegraph.com/subgraphs/name/inscriptionnear/neat-copy",
         nodeUrl: "https://rpc.mainnet.near.org",
-        indexerUrl: "https://inscription-indexer-a16497da251b.herokuapp.com/v1",
         contractName: "inscription.near",
         methodName: "inscribe",
         args: {
@@ -26,9 +25,8 @@ function getConfig(network) {
       return {
         ownerId: "inscribe.testnet",
         graphUrl:
-          "https://api.thegraph.com/subgraphs/name/inscriptionnear/neat",
+          "https://api.thegraph.com/subgraphs/name/inscriptionnear/neat-copy",
         nodeUrl: "https://rpc.testnet.near.org",
-        indexerUrl: "https://inscription-indexer-a16497da251b.herokuapp.com/v1",
         contractName: "inscription.testnet",
         methodName: "inscribe",
         args: {
