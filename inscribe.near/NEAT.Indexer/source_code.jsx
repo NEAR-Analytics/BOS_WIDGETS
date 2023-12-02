@@ -41,7 +41,7 @@ const FormButtonGroup = styled.div`
   gap: 20px;
 `;
 
-const FormButton = styled.div`
+const FormButton = styled.button`
   height: 56px;
   width: 100%;
   display: grid;
@@ -51,7 +51,13 @@ const FormButton = styled.div`
   font-size: 18px;
   font-weight: 600;
   border-radius: 4px;
-  &:hover {
+  background: transparent;
+  color: #ffffff;
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.4;
+  }
+  &:hover:not(:disabled) {
     background: rgba(255, 255, 255, 0.08);
   }
 `;
@@ -83,9 +89,8 @@ function getConfig(network) {
       return {
         ownerId: "inscribe.near",
         graphUrl:
-          "https://api.thegraph.com/subgraphs/name/inscriptionnear/neat",
+          "https://api.thegraph.com/subgraphs/name/inscriptionnear/neat-copy",
         nodeUrl: "https://rpc.mainnet.near.org",
-        indexerUrl: "https://inscription-indexer-a16497da251b.herokuapp.com/v1",
         contractName: "inscription.near",
         methodName: "inscribe",
         args: {
@@ -99,9 +104,8 @@ function getConfig(network) {
       return {
         ownerId: "inscribe.testnet",
         graphUrl:
-          "https://api.thegraph.com/subgraphs/name/inscriptionnear/neat",
+          "https://api.thegraph.com/subgraphs/name/inscriptionnear/neat-copy",
         nodeUrl: "https://rpc.testnet.near.org",
-        indexerUrl: "https://inscription-indexer-a16497da251b.herokuapp.com/v1",
         contractName: "inscription.testnet",
         methodName: "inscribe",
         args: {
@@ -179,7 +183,7 @@ function fetchAllData() {
         totalSupply
         limit
       }
-      holderCount (id: "HolderCount") {
+      holderCount (id: "NEAT") {
         count
       }
     }
@@ -189,6 +193,7 @@ function fetchAllData() {
     const tokenInfo = response.body.data.tokenInfo;
     const holderCount = response.body.data.holderCount.count;
     State.update({
+      tokenInfo,
       tickerRawData: {
         display_name: tokenInfo.ticker,
         holderCount,
@@ -230,20 +235,7 @@ function fetchAllData() {
     });
   }
 
-  const displayName = state.tickerRawData.display_name;
-  if (displayName) {
-    const holdersResult = fetch(
-      `${config.indexerUrl}/tickers/${displayName}/holders`,
-      {
-        method: "GET",
-      }
-    );
-    State.update({
-      holders: holdersResult.body,
-    });
-  }
   const accountId = props.accountId || context.accountId;
-
   const balanceResponse = fetchFromGraph(`
     query {
       holderInfos(
