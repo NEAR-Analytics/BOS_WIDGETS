@@ -31,21 +31,24 @@ const handleUserChoice = (choice) => {
   }
 };
 
-// Inline CSS for styling
 const containerStyles = {
-  backgroundColor: "#f2f2f2",
+  backgroundColor: "#333",
   padding: "20px",
   borderRadius: "10px",
   textAlign: "center",
+  color: "#ffe",
 };
 
 const buttonStyles = {
-  backgroundColor: "#4CAF50",
-  color: "white",
+  backgroundColor: "grey",
+  color: "#ffe",
   padding: "10px 20px",
   margin: "5px",
   fontSize: "16px",
   cursor: "pointer",
+  border: "none",
+  borderRadius: "5px",
+  transition: "background-color 0.3s ease-in-out",
 };
 
 const resultStyles = {
@@ -54,18 +57,21 @@ const resultStyles = {
   marginTop: "20px",
 };
 
-// Render the component
 return (
   <div style={containerStyles}>
-    <h1>Rock, Paper, Scissors</h1>
+    <h1 style={{ marginBottom: "20px" }}>Rock, Paper, Scissors</h1>
+
+    <hr />
     <div>
       <h5>Your Choice : {userChoice}</h5>
       <h5>Computer's Choice : {computerChoice}</h5>
-      <p style={resultStyles}>Result: {result}</p>
+      <br />
+      <hr />
+      <p style={resultStyles}>Result {result}</p>
     </div>
-    <div>
-      <h5>Player Score: {playerScore}</h5>
-      <h5>Computer Score: {computerScore}</h5>
+    <div style={{ marginTop: "20px" }}>
+      <h5>Player Score : {playerScore}</h5>
+      <h5>Computer Score : {computerScore}</h5>
       {choices.map((choice) => (
         <button
           key={choice}
