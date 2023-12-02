@@ -12,15 +12,15 @@ const tagClass = "bg-success";
 const badgeBtnClass = "text-white btn p-0 lh-1";
 const addPublicTagHtml = (
   <a
-    href={`#/${ownerId}/widget/catalog?accountId=${accountId}`}
+    href={`#/hack.near/widget/catalog?accountId=${accountId}`}
     className={badgeBtnClass}
   >
-    <div className={`me-1 badge bg-primary`}>+ Add Tag</div>
+    <div className={`me-1 mt-3 badge bg-primary`}>+ Add Tag</div>
   </a>
 );
 
 if (tagsObject === null) {
-  return "Loading";
+  return "Loading...";
 }
 
 const tagsCount = {};
@@ -63,7 +63,7 @@ return (
     {publicTags &&
       publicTags.map((tag) => (
         <a
-          href={`/#/${ownerId}/widget/catalog?tag=${tag.name}`}
+          href={`/#/hack.near/widget/catalog?tag=${tag.name}`}
           className={badgeBtnClass}
         >
           <span
