@@ -1,10 +1,10 @@
 // adapted from the `PublicTagEditor` widget by zavodil.near
 
-const ownerId = props.ownerId ?? "hack.near";
-const thingName = props.thingName ?? "widget";
+const creatorId = props.creatorId ?? "hack.near";
+const namespace = props.namespace ?? "widget";
 const thingId = props.thingId ?? "catalog";
 const accountId = context.accountId;
-const path = props.path ?? `${ownerId}/${thingName}/${thingId}`;
+const path = props.path ?? `${creatorId}/${namespace}/${thingId}`;
 const debug = props.debug ?? false;
 
 if (!accountId) {
@@ -20,7 +20,7 @@ State.init({ path });
 
 const metadata = Social.getr(`${state.path}`, "final");
 
-const pattern = `*/${thingName}/*/metadata/tags/*`;
+const pattern = `*/${namespace}/*/metadata/tags/*`;
 
 return (
   <div className="row">
@@ -65,7 +65,7 @@ return (
         <CommitButton
           disabled={metadata === null}
           data={{
-            [thingName]: {
+            [namespace]: {
               [state.path]: state.metadata,
             },
           }}
@@ -111,7 +111,7 @@ return (
             />
           </div>
           <Widget
-            src={`${ownerId}/widget/tags`}
+            src="hack.near/widget/tags"
             props={{
               path: state.path,
               extraTags: state.metadata.tags,
