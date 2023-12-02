@@ -1,11 +1,11 @@
 // adapted from the `PublicTags` widget by zavodil.near
 
-const ownerId = "hack.near";
-const thingName = props.thingName ?? "widget";
+const creatorId = props.creatorId ?? "hack.near";
+const namespace = props.namespace ?? "widget";
 const accountId = props.accountId ?? context.accountId;
 const extraTags = props.extraTags;
 
-const tagsPattern = `*/${thingName}/metadata/tags/*`;
+const tagsPattern = `*/${namespace}/metadata/tags/*`;
 const tagsObject = Social.keys(tagsPattern, "final");
 
 const tagClass = "bg-success";
