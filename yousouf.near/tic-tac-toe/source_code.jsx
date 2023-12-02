@@ -111,8 +111,19 @@ if (isGameOver) {
   status = `Next player: ${xIsNext ? "Player" : "Computer"}`;
 }
 
+// ... (your existing code)
+
 return (
-  <div>
+  <div
+    style={{
+      background: "#333",
+      minHeight: "100vh",
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "center",
+      justifyContent: "center",
+    }}
+  >
     <div
       style={{
         display: "flex",
@@ -124,7 +135,7 @@ return (
     >
       <div
         style={{
-          backgroundColor: isGameOver ? "#8eff8e" : "#fff",
+          backgroundColor: isGameOver ? "#8eff8e" : "#444",
           border: "1px solid #ccc",
           borderRadius: "8px",
           boxShadow: "0px 0px 10px 0px rgba(0, 0, 0, 0.2)",
@@ -144,6 +155,7 @@ return (
             fontSize: "24px",
             marginBottom: "20px",
             gridColumn: "span 5",
+            color: "#fff",
           }}
         >
           {status}
@@ -155,7 +167,7 @@ return (
             className="square"
             onClick={() => handleClick(index)}
             style={{
-              backgroundColor: isGameOver ? "#8eff8e" : "#fff",
+              backgroundColor: isGameOver ? "#8eff8e" : "#666",
               border: "1px solid #ccc",
               fontSize: "24px",
               fontWeight: "bold",
@@ -165,6 +177,7 @@ return (
               height: "60px",
               cursor: "pointer",
               transition: "background-color 0.3s ease-in-out",
+              color: "#fff",
             }}
           >
             {value}
@@ -172,7 +185,7 @@ return (
         ))}
       </div>
     </div>
-    <div style={{ marginTop: "20px", textAlign: "center" }}>
+    <div style={{ marginTop: "20px", textAlign: "center", color: "#fff" }}>
       <div>
         <strong>Player Score:</strong> {playerScore}
       </div>
@@ -181,8 +194,33 @@ return (
       </div>
     </div>
     <div style={{ marginTop: "20px", textAlign: "center" }}>
-      <button onClick={resetGame}>Restart Game</button>
-      <button onClick={resetScores} style={{ marginLeft: "10px" }}>
+      <button
+        onClick={resetGame}
+        style={{
+          background: "#5cb85c",
+          color: "#fff",
+          border: "none",
+          padding: "10px 20px",
+          fontSize: "16px",
+          borderRadius: "5px",
+          cursor: "pointer",
+        }}
+      >
+        Restart Game
+      </button>
+      <button
+        onClick={resetScores}
+        style={{
+          background: "#d9534f",
+          color: "#fff",
+          border: "none",
+          padding: "10px 20px",
+          fontSize: "16px",
+          borderRadius: "5px",
+          marginLeft: "10px",
+          cursor: "pointer",
+        }}
+      >
         Reset Scores
       </button>
     </div>
