@@ -188,9 +188,6 @@ const hintButtonStyles = {
 
 return (
   <div style={containerStyles}>
-    <h1
-      style={{ fontSize: "36px", marginBottom: "30px", color: "#15e402" }}
-    ></h1>
     <div
       style={{
         marginBottom: "20px",
@@ -204,27 +201,6 @@ return (
     <h5 style={{ color: "#ffe" }}>Time Remaining: {countdown} seconds</h5>
 
     <div
-      style={{
-        marginBottom: "20px",
-        fontSize: "20px",
-        fontWeight: "bold",
-        color: "#ccc",
-      }}
-    >
-      Hints Remaining: {hints}{" "}
-      <button
-        onClick={hintFunction}
-        disabled={hints === 0}
-        style={{
-          ...hintButtonStyles,
-          backgroundColor: hints ? "#000" : "#ccc",
-          cursor: hints ? "pointer" : "not-allowed",
-        }}
-      >
-        Get Hint
-      </button>
-    </div>
-    <div
       className="button-section"
       style={{
         display: "flex",
@@ -235,6 +211,18 @@ return (
       }}
     >
       <div style={{ marginBottom: "30px" }}>
+        Hints Remaining: {hints}{" "}
+        <button
+          onClick={hintFunction}
+          disabled={hints === 0}
+          style={{
+            ...hintButtonStyles,
+            backgroundColor: hints ? "#000" : "#ccc",
+            cursor: hints ? "pointer" : "not-allowed",
+          }}
+        >
+          Get Hint
+        </button>
         <button
           onClick={restartGameFunction}
           style={{
