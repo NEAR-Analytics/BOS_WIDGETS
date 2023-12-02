@@ -24,6 +24,20 @@ for (let i = 0; i < userSBTs.length; i++) {
     human = true;
   }
 }
+const Container = styled.div`
+  display: flex;
+  max-width: 80%;
+  margin: 0 auto;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 8px;
+  background-color: #1a1a1a; /* Dark background color */
+
+  @media (max-width: 480px) {
+    max-width: 80%;
+  }
+`;
 
 const H1 = styled.h1`
   font-family: "FK Grotesk", sans-serif;
@@ -33,7 +47,7 @@ const H1 = styled.h1`
   line-height: 1;
   text-align: center;
   letter-spacing: -0.03em;
-  color: #000;
+  color: #fff; /* White text color */
   max-width: 700px;
 
   span {
@@ -69,8 +83,7 @@ const H1 = styled.h1`
   @media (max-width: 480px) {
     font-size: 50px;
     max-width: 80%;
-      line-height: 1.2;
-
+    line-height: 1.2;
 
     span {
       border-radius: 10px;
@@ -90,7 +103,7 @@ const Text = styled.p`
   font-size: ${(p) => p.size ?? "18px"};
   line-height: ${(p) => p.lineHeight ?? "1.5"};
   font-weight: ${(p) => p.weight ?? "400"};
-  color: ${(p) => p.color ?? "#000"};
+  color: ${(p) => p.color ?? "#fff"}; /* White text color */
   margin: 15;
   a {
     color: inherit;
@@ -98,8 +111,24 @@ const Text = styled.p`
     transition: color 0.2s;
 
     &:hover {
-      color: #333;
+      color: #000;
     }
+  }
+`;
+
+const GameButton = styled.button`
+  background-color: #333; /* Background color for the buttons */
+  color: #fff; /* Text color for the buttons */
+  border: none;
+  padding: 10px 20px;
+  font-size: 18px;
+  cursor: pointer;
+  border-radius: 8px;
+  margin: 5px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Shadow effect */
+
+  &:hover {
+    background-color: #555; /* Darker background color on hover */
   }
 `;
 
@@ -112,17 +141,61 @@ const Flex = styled.div`
   flex-wrap: ${(p) => p.wrap ?? "nowrap"};
 `;
 
-const Container = styled.div`
-  display: flex;
-  max-width: 80%;
-  margin: 0 auto;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 8px;
+const Title = styled.h1`
+  font-family: "FK Grotesk", sans-serif;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 85px;
+  line-height: 1;
+  text-align: center;
+  letter-spacing: -0.03em;
+  color: #fff; /* White text color */
+  max-width: 700px;
+
+  span {
+    display: inline-block;
+    background: #62C6F2;
+    border-radius: 20px;
+    position: relative;
+    padding: 0.1em 0.2em 0;
+
+    svg {
+      position: absolute;
+      bottom: -8px;
+      right: -10px;
+      width: 24px;
+    }
+  }
+
+  @media (max-width: 900px) {
+    font-size: 50px;
+    max-width: 500px;
+
+    span {
+      border-radius: 12px;
+      svg {
+        position: absolute;
+        bottom: -6px;
+        right: -7px;
+        width: 16px;
+      }
+    }
+  }
 
   @media (max-width: 480px) {
+    font-size: 50px;
     max-width: 80%;
+    line-height: 1.2;
+
+    span {
+      border-radius: 10px;
+      svg {
+        position: absolute;
+        bottom: -5px;
+        right: -5px;
+        width: 15px;
+      }
+    }
   }
 `;
 
@@ -134,7 +207,7 @@ return (
       alignItems="center"
       justifyContent="center"
     >
-      <H1>Game Gallery on BOS</H1>
+      <Title>Game Gallery on BOS</Title>
 
       {!accountId ? (
         <Widget
@@ -161,7 +234,15 @@ return (
                   alignItems: "center",
                 }}
               >
-                <h4 style={{ marginRight: "10px" }}>Connected Account:</h4>
+                <h4
+                  style={{
+                    marginRight: "10px",
+                    color: "white",
+                    textAlign: "left",
+                  }}
+                >
+                  Connected Account:
+                </h4>
                 <Widget
                   src="near/widget/AccountProfileCard"
                   props={{
@@ -183,17 +264,16 @@ return (
                 Games
               </Text>
 
-              {/* Buttons for each game */}
               <Flex gap="12px">
-                <button onClick={() => handleButtonClick("tic-tac-toe")}>
+                <GameButton onClick={() => handleButtonClick("tic-tac-toe")}>
                   <h4>Tic-Tac-Toe</h4>
-                </button>
-                <button onClick={() => handleButtonClick("rps")}>
+                </GameButton>
+                <GameButton onClick={() => handleButtonClick("rps")}>
                   <h4>Rock-Paper-Scissors</h4>
-                </button>
-                <button onClick={() => handleButtonClick("crossword")}>
+                </GameButton>
+                <GameButton onClick={() => handleButtonClick("crossword")}>
                   <h4>Word Guessing Game</h4>
-                </button>
+                </GameButton>
               </Flex>
 
               {/* Render selected game widget */}
