@@ -3,36 +3,6 @@ const MaxGasPerTransaction = TGas.mul(250);
 const GasPerTransaction = MaxGasPerTransaction.plus(TGas);
 const pageAmountOfPage = 5;
 const ipfsPrefix = "https://ipfs.near.social/ipfs";
-
-function toLocaleString(source, decimals, rm) {
-  if (typeof source === "string") {
-    return toLocaleString(Number(source), decimals);
-  } else if (typeof source === "number") {
-    return decimals !== undefined
-      ? source.toLocaleString(undefined, {
-          maximumFractionDigits: decimals,
-          minimumFractionDigits: decimals,
-        })
-      : source.toLocaleString();
-  } else {
-    // Big type
-    return toLocaleString(
-      decimals !== undefined
-        ? Number(source.toFixed(decimals, rm))
-        : source.toNumber(),
-      decimals
-    );
-  }
-}
-
-function formatAmount(balance, decimal) {
-  if (!decimal) decimal = 8;
-  return toLocaleString(
-    Big(balance).div(Big(10).pow(decimal)).toFixed(),
-    decimal
-  );
-}
-
 // Config for Bos app
 function getConfig(network) {
   switch (network) {
@@ -42,6 +12,7 @@ function getConfig(network) {
         graphUrl:
           "https://api.thegraph.com/subgraphs/name/inscriptionnear/neat",
         nodeUrl: "https://rpc.mainnet.near.org",
+        indexerUrl: "https://inscription-indexer-a16497da251b.herokuapp.com/v1",
         contractName: "inscription.near",
         methodName: "inscribe",
         args: {
@@ -50,18 +21,14 @@ function getConfig(network) {
           tick: "neat",
           amt: "100000000",
         },
-        transferArgs: {
-          p: "nrc-20",
-          op: "transfer",
-          tick: "neat",
-        },
       };
     case "testnet":
       return {
         ownerId: "inscribe.testnet",
         graphUrl:
-          "https://api.thegraph.com/subgraphs/name/inscriptionnear/neat-test",
+          "https://api.thegraph.com/subgraphs/name/inscriptionnear/neat",
         nodeUrl: "https://rpc.testnet.near.org",
+        indexerUrl: "https://inscription-indexer-a16497da251b.herokuapp.com/v1",
         contractName: "inscription.testnet",
         methodName: "inscribe",
         args: {
@@ -69,11 +36,6 @@ function getConfig(network) {
           op: "mint",
           tick: "neat",
           amt: "100000000",
-        },
-        transferArgs: {
-          p: "nrc-20",
-          op: "transfer",
-          tick: "neat",
         },
       };
     default:
@@ -90,7 +52,6 @@ const tx = {
 
 const Main = styled.div`
   width: 100%;
-  min-height: 90vh;
   overflow: hidden;
   background: #101010;
   background-image: url(${ipfsPrefix}/bafkreiak6rio66kqjsobw25gtmy5a7fwwsa4hjn3d25a4tppfylbdepbjq);
@@ -167,7 +128,7 @@ const FormContainer = styled.div`
 
 
 State.init({
-  tab: "Transfer", // Mint / Indexer / Transfer
+  tab: "Mint", // Mint / Indexer
 });
 
 const { tab } = state;
@@ -180,10 +141,10 @@ return (
       />
       <TabContainer>
         <TabItem
-          selected={tab === "Transfer"}
-          onClick={() => State.update({ tab: "Transfer" })}
+          selected={tab === "Mint"}
+          onClick={() => State.update({ tab: "Mint" })}
         >
-          Transfer
+          Mint
         </TabItem>
         <TabItem
           selected={tab === "Indexer"}
@@ -191,22 +152,27 @@ return (
         >
           Indexer
         </TabItem>
-        <TabItem
-          selected={tab === "Mint"}
-          onClick={() => State.update({ tab: "Mint" })}
-        >
-          Mint
-        </TabItem>
       </TabContainer>
       <Spacer />
     </HeaderContainer>
     <BodyContainer>
+      <FormContainer>
+        <div>
+          📣 Reminder: network overload may cause longer processing time for
+          $NEAT minting. Optimize your minting experience with batch minting
+          tool at
+          <NeatLink
+            href="https://www.mintneat.org"
+            target="_blank"
+            rel="noreferral noopener"
+          >
+            www.mintneat.org
+          </NeatLink>
+        </div>
+      </FormContainer>
       {tab === "Mint" && <Widget src={`${config.ownerId}/widget/NEAT.Mint`} />}
       {tab === "Indexer" && (
         <Widget src={`${config.ownerId}/widget/NEAT.Indexer`} />
-      )}
-      {tab === "Transfer" && (
-        <Widget src={`${config.ownerId}/widget/NEAT.Transfer`} />
       )}
     </BodyContainer>
   </Main>
