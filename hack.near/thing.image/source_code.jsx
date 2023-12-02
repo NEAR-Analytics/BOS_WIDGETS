@@ -1,4 +1,4 @@
-const creatorId = props.creatorID ?? context.accountId;
+const creatorId = props.creatorId ?? context.accountId;
 const namespace = props.namespace ?? "widget";
 const thingId = props.thingId ?? "widgets.rank";
 
