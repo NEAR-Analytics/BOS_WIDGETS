@@ -159,80 +159,30 @@ return (
       <div class="col-md-3">
         <Wrapper style={{ cursor: "pointer" }}>
           <Tabs>
-            <TabsButton
-              onClick={() => handleTabClick("buttons")}
-              selected={state.selectedTab === "buttons"}
-            >
-              <Title>Buttons</Title>
-            </TabsButton>
-
-            <TabsButton
-              onClick={() => handleTabClick("checkboxes")}
-              selected={state.selectedTab === "checkboxes"}
-            >
-              <Title>Checkboxes</Title>
-            </TabsButton>
-
-            <TabsButton
-              onClick={() => handleTabClick("toggleswitches")}
-              selected={state.selectedTab === "toggleswitches"}
-            >
-              <Title>Toggle Switches</Title>
-            </TabsButton>
-            <TabsButton
-              onClick={() => handleTabClick("cards")}
-              selected={state.selectedTab === "cards"}
-            >
-              <Title>Cards</Title>
-            </TabsButton>
-            <TabsButton
-              onClick={() => handleTabClick("loaders")}
-              selected={state.selectedTab === "loaders"}
-            >
-              <Title>Loaders</Title>
-            </TabsButton>
-            <TabsButton
-              onClick={() => handleTabClick("inputs")}
-              selected={state.selectedTab === "inputs"}
-            >
-              <Title>Inputs</Title>
-            </TabsButton>
-            <TabsButton
-              onClick={() => handleTabClick("radiobuttons")}
-              selected={state.selectedTab === "radiobuttons"}
-            >
-              <Title>Radio Buttons</Title>
-            </TabsButton>
-            <TabsButton
-              onClick={() => handleTabClick("forms")}
-              selected={state.selectedTab === "forms"}
-            >
-              <Title>Forms</Title>
-            </TabsButton>
-            <TabsButton
-              onClick={() => handleTabClick("charts")}
-              selected={state.selectedTab === "charts"}
-            >
-              <Title>Charts</Title>
-            </TabsButton>
-            <TabsButton
-              onClick={() => handleTabClick("patterns")}
-              selected={state.selectedTab === "patterns"}
-            >
-              <Title>Patterns</Title>
-            </TabsButton>
+            <Select onChange={handleSelectChange}>
+              <Option value="buttons">Components</Option>
+              <Option value="buttons">Buttons</Option>
+              <Option value="checkboxes">Checkboxes</Option>
+              <Option value="cards">Cards</Option>
+              <Option value="toggleswitches">Toggles</Option>
+              <Option value="inputs">Inputs</Option>
+              <Option value="loaders">Loaders</Option>
+              <Option value="forms">Forms</Option>
+              <Option value="charts">Charts</Option>
+              <Option value="patterns">Patterns</Option>
+              <Option value="radiobuttons">Radios</Option>
+              <Option value="fonts">Font Styles</Option>
+            </Select>
+            <Select onChange={handleSelectChange}>
+              <Option value="someOption">BOS Games</Option>
+              <Option value="tiktactoe">Tiktactoe</Option>
+              <Option value="quiz">QuizGame</Option>
+            </Select>
             <TabsButton
               onClick={() => handleTabClick("feedbacks")}
               selected={state.selectedTab === "feedbacks"}
             >
               <Title>Feedback Apps</Title>
-            </TabsButton>
-
-            <TabsButton
-              onClick={() => handleTabClick("fonts")}
-              selected={state.selectedTab === "fonts"}
-            >
-              <Title>Fonts Style</Title>
             </TabsButton>
             <TabsButton
               onClick={() => handleTabClick("IPFS")}
@@ -240,14 +190,10 @@ return (
             >
               <Title>IPFS uploads</Title>
             </TabsButton>
-            <Select onChange={handleSelectChange}>
-              <Option value="someOption">BOS Games</Option>
-              <Option value="tiktactoe">Tiktactoe</Option>
-              <Option value="quiz">QuizGame</Option>
-            </Select>
+
             <TabsButton
-              onClick={() => handleTabClick("treding")}
-              selected={state.selectedTab === "treding"}
+              onClick={() => handleTabClick("trending")}
+              selected={state.selectedTab === "trending"}
             >
               <Title>Trending Post</Title>
             </TabsButton>
@@ -368,6 +314,14 @@ return (
         {state.selectedTab === "fonts" && (
           <>
             <Widget src="marketplacebos.near/widget/Page.FontPage1" />
+            <br />
+            <br />
+          </>
+        )}
+        {""}
+        {state.selectedTab === "trending" && (
+          <>
+            <Widget src="marketplacebos.near/widget/TrendingPost.ChartValue3" />
             <br />
             <br />
           </>
