@@ -46,7 +46,7 @@ const handleUpdateProject = (new_project) => {
 
 return (
   <Widget
-    src="/*__@appAccount__*//widget/project.form"
+    src="createit.near/widget/project.form"
     props={{
       handleCreateProject: handleUpdateProject,
       defaultProject: project,
