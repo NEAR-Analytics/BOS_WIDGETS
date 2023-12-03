@@ -292,6 +292,9 @@ return (
                     🧩
                   </span>
                 </GameButton>
+                <GameButton onClick={() => alert("coming soon")}>
+                  <h4>Claim NFT</h4>
+                </GameButton>
               </Flex>
 
               {/* Render selected game widget */}
