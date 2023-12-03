@@ -18,12 +18,13 @@ const HeroSection = styled.div`
 
   h1 {
     font-size: 96px;
-    font-weight: 300;
+    font-weight: 600;
   }
 
   h2 {
     font-size: 32px;
     font-weight: 300;
+    max-width: 800px;
   }
 
   img {
@@ -35,10 +36,10 @@ const HeroSection = styled.div`
 
 return (
   <Container>
-    <HeroSection className="d-flex justify-content-between align-items-center">
+    <HeroSection className="d-flex justify-content-between align-items-center gap-3">
       <div>
-        <h1>{content.home.hero.title}</h1>
-        <h2>{content.home.hero.desc}</h2>
+        <h1>{content.home.heroTitle}</h1>
+        <h2>{content.home.heroDesc}</h2>
       </div>
       <img src={assets.home.hero} />
     </HeroSection>
