@@ -226,23 +226,23 @@ return (
               <Widget src="hack.near/widget/pro.editor" />
             </Flex>
           ) : (
-            <Flex gap="12px" direction="column" alignItems="left">
+            <Flex gap="8px" direction="column" alignItems="left">
               <div
                 style={{
-                  maxWidth: "90%",
+                  maxWidth: "75%",
                   display: "flex",
-                  alignItems: "center",
+                  alignItems: "left",
                 }}
               >
-                <h4
+                <h6
                   style={{
-                    marginRight: "10px",
-                    color: "white",
+                    marginRight: "2px",
+                    color: "#ffe",
                     textAlign: "left",
                   }}
                 >
-                  Connected Account:
-                </h4>
+                  Connected Account :
+                </h6>
                 <Widget
                   src="near/widget/AccountProfileCard"
                   props={{
