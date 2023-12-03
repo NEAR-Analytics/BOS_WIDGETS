@@ -20,11 +20,8 @@ const ContentContainer = styled.div`
 
 const AppHeader = ({ page }) => (
   <Widget
-    src={"devhub.near/widget/devhub.components.organism.Navbar"}
-    props={{
-      page: page,
-      ...props,
-    }}
+    src={`${provider}/widget/${app}.components.NavBar`}
+    props={{ page: page, ...props }}
   />
 );
 
