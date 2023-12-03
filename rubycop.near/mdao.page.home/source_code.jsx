@@ -20,6 +20,10 @@ const HeroSection = styled.div`
   height: 600px;
   padding: 1.5rem 3rem;
 
+  @media screen and (max-width: 786px) {
+    padding: 1.5rem 2rem;
+  }
+
   h1 {
     font-size: 5.2rem;
     font-weight: 600;
@@ -56,6 +60,10 @@ const HeroSection = styled.div`
     &:hover {
       opacity: 0.9;
       text-decoration: none;
+    }
+
+    @media screen and (max-width: 786px) {
+      width: 100%;
     }
   }
 `;
