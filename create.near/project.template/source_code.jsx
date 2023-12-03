@@ -2,7 +2,7 @@ const { project, handle } = props;
 
 const temps = [
   {
-    src: "/*__@appAccount__*//widget/templates.project.doc",
+    src: "createit.near/widget/templates.project.doc",
     preview:
       "https://ipfs.near.social/ipfs/bafkreiepqmctupqt5irsqoqgchoqmfm76xofaxzvauv3canfehyqgeeafy",
     name: "Documentation Website",
@@ -463,7 +463,7 @@ function renderTemplate() {
         })}
       </ul>
       <Widget
-        src="/*__@replace:nui__*//widget/Input.Button"
+        src="nearui.near/widget/Input.Button"
         props={{
           variant: "success",
           children: <>Save</>,
@@ -512,7 +512,7 @@ function renderTheme() {
         }}
       />
       <Widget
-        src="/*__@replace:nui__*//widget/Input.Button"
+        src="nearui.near/widget/Input.Button"
         props={{
           variant: "success",
           children: <>Save Theme</>,
