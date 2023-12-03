@@ -7,7 +7,7 @@ return {
     logoColor:
       "https://ipfs.near.social/ipfs/bafkreieit24q3nlzzemyjblesy274gtlhjzbhmpfgpwfdfhjgntkhfc4fi",
     home: {
-      hero: "",
+      hero: "https://ipfs.near.social/ipfs/bafkreicxfdmcfy7egla4x2i6ey3zpq5jni66eoxw7l7w6cmib3eh5zzb4e",
       icons: {
         achievements: (
           <svg
