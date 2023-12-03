@@ -1,4 +1,13 @@
-/*__@import:everything/utils/debounce__*/
+let timeoutId;
+
+const debounce = (func, delay) => {
+  if (!delay) {
+    delay = 300;
+  }
+  clearTimeout(timeoutId);
+  timeoutId = setTimeout(func, delay);
+};
+
 
 const { project: projectId, handle } = props;
 
@@ -130,7 +139,7 @@ return (
         {/*
          * We can now swap out the editor below
          */}
-        <Widget src="/*__@appAccount__*//widget/editor.ui" props={{
+        <Widget src="createit.near/widget/editor.ui" props={{
           key: path,
           data: doc.data,
           on,
@@ -146,7 +155,7 @@ return (
             .
           </span>
           <div>
-            <Widget src="/*__@replace:nui__*//widget/Input.Button" props={{
+            <Widget src="nearui.near/widget/Input.Button" props={{
               children: "Publish",
               variant: "success",
               onClick: on.publish,
