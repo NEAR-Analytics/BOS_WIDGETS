@@ -4,7 +4,31 @@
  * Repository: https://github.com/near-everything/bos-workspace
  */
 
-/*__@import:QoL/Url__*/
+const Url = {
+  construct: (url, params) => {
+    let query = "";
+    Object.keys(params || {}).forEach((key) => {
+      if (params.hasOwnProperty(key)) {
+        query += Url.encode(key) + "=" + Url.encode(params[key]);
+        if (key !== Object.keys(params || {}).slice(-1)[0]) {
+          query += "&";
+        }
+      }
+    });
+    return url + "?" + query;
+  },
+  // Alternative to encodeURIComponent
+  encode: (str) => {
+    return `${str}`
+      .replace(/[!'()*]/g, (c) => {
+        return "%" + c.charCodeAt(0).toString(16);
+      })
+      .replace(/[^!'\(\)~\*A-Za-z0-9\-_\.~]/g, (c) => {
+        return "%" + c.charCodeAt(0).toString(16);
+      });
+  },
+};
+
 
 State.init({
   page: props.page ?? "projects",
@@ -16,29 +40,29 @@ const pages = [
     id: "projects",
     title: "Projects",
     active: state.page === "projects",
-    widget: "/*__@appAccount__*//widget/manager.index",
-    provider: "/*__@appAccount__*//widget/Provider",
+    widget: "createit.near/widget/manager.index",
+    provider: "createit.near/widget/Provider",
   },
   {
     id: "editor",
     title: "Editor",
     active: state.page === "editor",
-    widget: "/*__@appAccount__*//widget/editor.index",
-    provider: "/*__@appAccount__*//widget/Provider",
+    widget: "createit.near/widget/editor.index",
+    provider: "createit.near/widget/Provider",
   },
   {
     id: "manage",
     title: "Manage",
     active: state.page === "manage",
-    widget: "/*__@appAccount__*//widget/project.index",
-    provider: "/*__@appAccount__*//widget/Provider",
+    widget: "createit.near/widget/project.index",
+    provider: "createit.near/widget/Provider",
   },
 ];
 const activePage = pages.find((p) => p.active);
 
 const navigate = (v, params) => {
   State.update({ page: v, project: params?.project });
-  const url = Url.construct("#//*__@appAccount__*//widget/home", params);
+  const url = Url.construct("#/createit.near/widget/home", params);
   Storage.set("url", url);
 };
 
@@ -46,9 +70,9 @@ return (
   <>
     <div className="row">
       <Widget
-        src={"/*__@appAccount__*//widget/ui.navbar"}
+        src={"createit.near/widget/ui.navbar"}
         props={{
-          template: "/*__@appAccount__*//widget/templates.ui.navbar.default",
+          template: "createit.near/widget/templates.ui.navbar.default",
           onPageChange: navigate,
           pages: ["projects"],
         }}
@@ -63,7 +87,7 @@ return (
               project,
               ...props,
               templates: {
-                Folders: "/*__@appAccount__*//widget/editor.uiFolders",
+                Folders: "createit.near/widget/editor.uiFolders",
               },
             }}
           />
