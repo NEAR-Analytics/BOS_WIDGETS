@@ -86,9 +86,10 @@ return (
           <h5>Best Practices:</h5>
           <ul>
             <li>Keep tags concise and simple</li>
-            <li>Put "-" (dash) instead of a space</li>
+            <li>Put "-" (minus) instead of a space</li>
             <li>English words recommended</li>
             <li>Do not create unnecessary tags</li>
+            <li>Be nice to everyone #community</li>
           </ul>
         </div>
       </div>
