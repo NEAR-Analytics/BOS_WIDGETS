@@ -4,12 +4,12 @@ if (!path) {
   return "";
 }
 
-const [creatorId, namespace, thingId] = path.split("/");
-
 State.init({
   path,
   tag: "",
 });
+
+const [creatorId, namespace, thingId] = state.path.split("/");
 
 const tags = Social.get("*/graph/context/**");
 
@@ -43,7 +43,7 @@ return (
       <input
         onChange={(e) => {
           State.update({
-            tag: e.target.value,
+            path: e.target.value,
           });
         }}
       />
