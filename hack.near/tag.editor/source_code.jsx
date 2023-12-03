@@ -16,7 +16,7 @@ return (
   <div className="row">
     <div className="col-lg-6">
       <div>
-        <h4>Tag Editor</h4>
+        <h4>Contextualizer</h4>
       </div>
       <div className="mb-2">
         <p className="mb-1">Source Path</p>
