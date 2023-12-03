@@ -266,13 +266,31 @@ return (
 
               <Flex gap="12px">
                 <GameButton onClick={() => handleButtonClick("tic-tac-toe")}>
-                  <h4>Tic-Tac-Toe</h4>
+                  <span
+                    role="img"
+                    aria-label="Tic-Tac-Toe"
+                    style={{ fontSize: "48px" }}
+                  >
+                    🎮
+                  </span>
                 </GameButton>
                 <GameButton onClick={() => handleButtonClick("rps")}>
-                  <h4>Rock-Paper-Scissors</h4>
+                  <span
+                    role="img"
+                    aria-label="Rock-Paper-Scissors"
+                    style={{ fontSize: "48px" }}
+                  >
+                    ✊✋✌️
+                  </span>
                 </GameButton>
                 <GameButton onClick={() => handleButtonClick("crossword")}>
-                  <h4>Word Guessing Game</h4>
+                  <span
+                    role="img"
+                    aria-label="Word Guessing Game"
+                    style={{ fontSize: "48px" }}
+                  >
+                    🧩
+                  </span>
                 </GameButton>
               </Flex>
 
