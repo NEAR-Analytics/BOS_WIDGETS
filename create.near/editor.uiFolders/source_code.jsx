@@ -1,5 +1,31 @@
-/*__@import:QoL/classNames__*/
-/*__@import:QoL/Url__*/
+const classNames = (classes) =>
+  classes.filter((className) => className).join(" ");
+
+const Url = {
+  construct: (url, params) => {
+    let query = "";
+    Object.keys(params || {}).forEach((key) => {
+      if (params.hasOwnProperty(key)) {
+        query += Url.encode(key) + "=" + Url.encode(params[key]);
+        if (key !== Object.keys(params || {}).slice(-1)[0]) {
+          query += "&";
+        }
+      }
+    });
+    return url + "?" + query;
+  },
+  // Alternative to encodeURIComponent
+  encode: (str) => {
+    return `${str}`
+      .replace(/[!'()*]/g, (c) => {
+        return "%" + c.charCodeAt(0).toString(16);
+      })
+      .replace(/[^!'\(\)~\*A-Za-z0-9\-_\.~]/g, (c) => {
+        return "%" + c.charCodeAt(0).toString(16);
+      });
+  },
+};
+
 
 // TODO: should be able to hide/show children elements
 
@@ -101,7 +127,7 @@ const renderFolder = (folder) => {
       className={classNames([path.length > 1 ? "folder__child" : "folder"])}
       key={path}
     >
-      <Widget src="/*__@appAccount__*//widget/editor.uiFoldersMenu" props={{
+      <Widget src="createit.near/widget/editor.uiFoldersMenu" props={{
         path,
         handler,
         renderTrigger: () =>
@@ -155,7 +181,7 @@ const renderProject = (project) => {
     <Project>
       <a
         target="_blank"
-        href={Url.construct("#//*__@appAccount__*//widget/p", {
+        href={Url.construct("#/createit.near/widget/p", {
           id: projectId,
           by: context.accountId,
         })}
@@ -171,7 +197,7 @@ const renderProject = (project) => {
           onClick={() => {
             navigate("manage", { project: projectId });
           }}
-          href={Url.construct("#//*__@appAccount__*//widget/home", {
+          href={Url.construct("#/createit.near/widget/home", {
             page: "manage",
             project: projectId,
           })}
@@ -350,7 +376,7 @@ return (
     <div>
       {/* TODO: The markdown editor doesn't refresh even if data is fresh */}
       <Widget
-        src="/*__@replace:nui__*//widget/Input.Button"
+        src="nearui.near/widget/Input.Button"
         props={{
           children: "Refresh",
           onClick: () => {
