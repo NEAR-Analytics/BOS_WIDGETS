@@ -1,5 +1,31 @@
-/*__@import:QoL/Url__*/
-/*__@import:QoL/classNames__*/
+const Url = {
+  construct: (url, params) => {
+    let query = "";
+    Object.keys(params || {}).forEach((key) => {
+      if (params.hasOwnProperty(key)) {
+        query += Url.encode(key) + "=" + Url.encode(params[key]);
+        if (key !== Object.keys(params || {}).slice(-1)[0]) {
+          query += "&";
+        }
+      }
+    });
+    return url + "?" + query;
+  },
+  // Alternative to encodeURIComponent
+  encode: (str) => {
+    return `${str}`
+      .replace(/[!'()*]/g, (c) => {
+        return "%" + c.charCodeAt(0).toString(16);
+      })
+      .replace(/[^!'\(\)~\*A-Za-z0-9\-_\.~]/g, (c) => {
+        return "%" + c.charCodeAt(0).toString(16);
+      });
+  },
+};
+
+const classNames = (classes) =>
+  classes.filter((className) => className).join(" ");
+
 
 function Navbar({ open, setOpen, pages, onPageChange }) {
   return (
@@ -12,7 +38,7 @@ function Navbar({ open, setOpen, pages, onPageChange }) {
     >
       <a
         className="navbar-brand d-flex align-items-center gap-2 text-decoration-none"
-        href="#//*__@appAccount__*//widget/home"
+        href="#/createit.near/widget/home"
         onClick={() => onPageChange("projects")}
       >
         <img
@@ -59,7 +85,7 @@ function Navbar({ open, setOpen, pages, onPageChange }) {
                       cursor: "pointer",
                     }}
                     onClick={() => onPageChange(p)}
-                    href={Url.construct("#//*__@appAccount__*//widget/home", {
+                    href={Url.construct("#/createit.near/widget/home", {
                       page: p,
                     })}
                   >
