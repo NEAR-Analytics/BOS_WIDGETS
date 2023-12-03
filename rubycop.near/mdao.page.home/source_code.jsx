@@ -9,7 +9,7 @@ const Container = styled.div`
   overflow: hidden;
 `;
 
-const HeroSection = styled.section`
+const HeroSection = styled.div`
   position: relative;
   fill: linear-gradient(96deg, #fdefb1 -19.42%, #e1c4fe 49.87%, #95c3fe 98.55%);
   width: 100%;
