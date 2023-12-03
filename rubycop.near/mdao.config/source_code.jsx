@@ -74,8 +74,8 @@ return {
   },
   content: {
     home: {
-      "hero.title": "Marketing DAO",
-      "hero.desc":
+      heroTitle: "Marketing DAO",
+      heroDesc:
         "Join a vibrant community of innovators shaping the open web shaping the open web.",
       INFO: {
         title:
