@@ -6,15 +6,6 @@ const thingId = props.thingId ?? "every";
 const accountId = context.accountId;
 const debug = props.debug ?? false;
 
-if (!accountId) {
-  return (
-    <>
-      <h3>Tags</h3>
-      <p>Please connect your NEAR account :)</p>
-    </>
-  );
-}
-
 State.init({ path });
 
 const tags = Social.getr(`*/graph/context/${state.path}/tags/**`, "final");
@@ -28,7 +19,7 @@ return (
         <h4>Tag Editor</h4>
       </div>
       <div className="mb-2">
-        Source Path:
+        <p className="mb-1">Source Path</p>
         <input
           type="text"
           value={state.path}
@@ -40,7 +31,7 @@ return (
       <div className="mb-2" style={{ minHeight: "62px" }}>
         {tags !== null ? (
           <Widget
-            src={"mob.near/widget/MetadataEditor"}
+            src={"devs.near/widget/MetadataEditor"}
             props={{
               initialMetadata: tags,
               onChange: (tags) => {
@@ -48,7 +39,6 @@ return (
               },
               options: {
                 tags: {
-                  label: "Tags",
                   pattern,
                   placeholder: "dev, art, gov, edu, social, near",
                 },
@@ -103,14 +93,10 @@ return (
         </div>
       </div>
     </div>
-    <div className="col-lg-6">
-      <div>
-        <h4>Preview</h4>
-        <br />
-      </div>
+    <div className="p-2 col-lg-6">
       <div className="mb-2 card">
         <div className="card-body">
-          <div className="text-truncate mb-2">
+          <div className="text-truncate mb-3">
             <Widget
               src="hack.near/widget/thing.block"
               props={{ creatorId, namespace, thingId }}
