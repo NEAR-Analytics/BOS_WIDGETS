@@ -22,6 +22,7 @@ const HeroSection = styled.div`
 
   @media screen and (max-width: 786px) {
     padding: 1.5rem 2rem;
+    text-align: center;
   }
 
   h1 {
