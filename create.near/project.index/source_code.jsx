@@ -23,7 +23,7 @@ const project = {
 
 return (
   <Widget
-    src="/*__@appAccount__*//widget/project.ui"
+    src="createit.near/widget/project.ui"
     props={{ ...props, project: project }}
   />
 );
