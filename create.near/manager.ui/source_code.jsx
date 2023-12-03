@@ -1,4 +1,28 @@
-/*__@import:QoL/Url__*/
+const Url = {
+  construct: (url, params) => {
+    let query = "";
+    Object.keys(params || {}).forEach((key) => {
+      if (params.hasOwnProperty(key)) {
+        query += Url.encode(key) + "=" + Url.encode(params[key]);
+        if (key !== Object.keys(params || {}).slice(-1)[0]) {
+          query += "&";
+        }
+      }
+    });
+    return url + "?" + query;
+  },
+  // Alternative to encodeURIComponent
+  encode: (str) => {
+    return `${str}`
+      .replace(/[!'()*]/g, (c) => {
+        return "%" + c.charCodeAt(0).toString(16);
+      })
+      .replace(/[^!'\(\)~\*A-Za-z0-9\-_\.~]/g, (c) => {
+        return "%" + c.charCodeAt(0).toString(16);
+      });
+  },
+};
+
 
 const { handleCreateProject, projects, navigate } = props;
 
@@ -9,7 +33,7 @@ function renderProject({ title, tags, logo, id }) {
       onClick={() => {
         navigate("editor", { project: id });
       }}
-      href={Url.construct("#//*__@appAccount__*//widget/home", {
+      href={Url.construct("#/createit.near/widget/home", {
         page: "editor",
         project: id,
       })}
@@ -45,11 +69,11 @@ function renderHeader({ handleCreateProject }) {
     <div className="d-flex gap-4 justify-content-between py-4">
       <h4>All my projects</h4>
       <Widget
-        src="/*__@replace:nui__*//widget/Layout.Modal"
+        src="nearui.near/widget/Layout.Modal"
         props={{
           toggle: (
             <Widget
-              src="/*__@replace:nui__*//widget/Input.Button"
+              src="nearui.near/widget/Input.Button"
               props={{
                 variant: "success",
                 size: "lg",
@@ -59,7 +83,7 @@ function renderHeader({ handleCreateProject }) {
           ),
           content: (
             <Widget
-              src="/*__@appAccount__*//widget/project.form"
+              src="createit.near/widget/project.form"
               props={{
                 handleCreateProject,
               }}
@@ -71,7 +95,10 @@ function renderHeader({ handleCreateProject }) {
   );
 }
 
-/*__@import:QoL/widget__*/
+const widget = (src, props, other) => (
+  <Widget src={src} props={props} {...other} />
+);
+
 
 const Projects = styled.div`
   display: grid;
@@ -97,7 +124,7 @@ return (
         Also check out
         <a
           target="_blank"
-          href="/#//*__@appAccount__*//widget/p?id=62151bc4-093d-2fdd-a30b-539ba27f45d1&by=sking.near"
+          href="/#/createit.near/widget/p?id=62151bc4-093d-2fdd-a30b-539ba27f45d1&by=sking.near"
         >
           this example
         </a>{" "}
