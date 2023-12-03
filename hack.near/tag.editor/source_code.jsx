@@ -13,7 +13,7 @@ const tags = Social.getr(`*/graph/context/${state.path}/tags/**`, "final");
 const pattern = `*/graph/context/*/*/*/tags/*`;
 
 return (
-  <div className="row">
+  <div className="row m-3">
     <div className="col-lg-6">
       <div>
         <h4>Contextualizer</h4>
