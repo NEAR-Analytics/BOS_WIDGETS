@@ -149,7 +149,7 @@ const Title = styled.h1`
   line-height: 1;
   text-align: center;
   letter-spacing: -0.03em;
-  color: #fff; /* White text color */
+  color: #ffe; /* White text color */
   max-width: 700px;
 
   span {
