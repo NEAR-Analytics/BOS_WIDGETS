@@ -1,7 +1,6 @@
 const { app, provider } = VM.require(`rubycop.near/widget/mdao.config`);
-const { AppLayout } = VM.require(`${provider}/widget/${$app}.layouts.app`);
+const { AppLayout } = VM.require(`${provider}/widget/${app}.layouts.app`);
 const { page, ...passProps } = props;
-
 const Theme = styled.div`
   a {
     color: inherit;
