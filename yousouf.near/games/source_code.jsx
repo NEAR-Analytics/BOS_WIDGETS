@@ -226,19 +226,19 @@ return (
               <Widget src="hack.near/widget/pro.editor" />
             </Flex>
           ) : (
-            <Flex gap="8px" direction="column" alignItems="left">
+            <Flex gap="8px" direction="column" alignItems="center">
               <div
                 style={{
                   maxWidth: "75%",
                   display: "flex",
-                  alignItems: "left",
+                  alignItems: "center",
                 }}
               >
                 <h6
                   style={{
                     marginRight: "2px",
                     color: "#ffe",
-                    textAlign: "left",
+                    textAlign: "center",
                   }}
                 >
                   Connected Account :
