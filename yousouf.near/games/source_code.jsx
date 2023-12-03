@@ -262,6 +262,7 @@ return (
                 }}
               >
                 Games
+                <hr />
               </Text>
 
               <Flex gap="12px">
