@@ -10,7 +10,6 @@ const Container = styled.div`
 `;
 
 const HeroSection = styled.div`
-  position: relative;
   background: linear-gradient(
     96deg,
     #fdefb1 -19.42%,
@@ -22,13 +21,16 @@ const HeroSection = styled.div`
   padding: 1.5rem 3rem;
 
   h1 {
-    font-size: 96px;
+    font-size: 5.2rem;
     font-weight: 600;
     margin-bottom: 0;
+    @media screen and (max-width: 786px) {
+      font-size: 3rem;
+    }
   }
 
   h2 {
-    font-size: 32px;
+    font-size: 2rem;
     font-weight: 300;
     max-width: 800px;
     margin-bottom: 0;
@@ -49,10 +51,11 @@ const HeroSection = styled.div`
     font-size: 24px;
     font-weight: 400;
     padding: 15px 25px;
+    width: 400px;
 
     &:hover {
-        opacity: 0.9;
-        text-decoration: none;
+      opacity: 0.9;
+      text-decoration: none;
     }
   }
 `;
