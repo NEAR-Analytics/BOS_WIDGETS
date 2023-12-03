@@ -1,4 +1,16 @@
-/*__@import:everything/utils/UUID__*/
+const UUID = {
+  generate: (template) => {
+    if (typeof template !== "string") {
+      template = "xxxxxxxx-xxxx-xxxx-yxxx-xxxxxxxxxxxx";
+    }
+    return template.replace(/[xy]/g, (c) => {
+      var r = (Math.random() * 16) | 0;
+      var v = c === "x" ? r : (r & 0x3) | 0x8;
+      return v.toString(16);
+    });
+  },
+};
+
 
 const { handleCreateProject, defaultProject, buttonChildren, buttonProps } =
   props;
@@ -27,9 +39,9 @@ const beforeHandleCreateProject = () => {
   }
 };
 
-const IT = "/*__@replace:nui__*//widget/Input.ExperimentalText";
-const SI = "/*__@replace:nui__*//widget/Social.ImageUpload";
-const IB = "/*__@replace:nui__*//widget/Input.Button";
+const IT = "nearui.near/widget/Input.ExperimentalText";
+const SI = "nearui.near/widget/Social.ImageUpload";
+const IB = "nearui.near/widget/Input.Button";
 return (
   <div className="p-4 bg-white rounded-4">
     <div className="d-flex flex-column gap-3">
