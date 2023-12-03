@@ -2,9 +2,8 @@
 
 const creatorId = props.creatorId ?? "hack.near";
 const namespace = props.namespace ?? "widget";
-const thingId = props.thingId ?? "catalog";
+const thingId = props.thingId ?? "every";
 const accountId = context.accountId;
-const path = props.path ?? `${creatorId}/${namespace}/${thingId}`;
 const debug = props.debug ?? false;
 
 if (!accountId) {
@@ -18,9 +17,9 @@ if (!accountId) {
 
 State.init({ path });
 
-const metadata = Social.getr(`${state.path}`, "final");
+const tags = Social.getr(`*/graph/context/${state.path}/tags/**`, "final");
 
-const pattern = `*/${namespace}/*/metadata/tags/*`;
+const pattern = `*/graph/context/*/*/*/tags/*`;
 
 return (
   <div className="row">
@@ -39,14 +38,13 @@ return (
         />
       </div>
       <div className="mb-2" style={{ minHeight: "62px" }}>
-        {metadata !== null ? (
+        {tags !== null ? (
           <Widget
             src={"mob.near/widget/MetadataEditor"}
-            key={`public-tags-metadata-${state.contractId}`}
             props={{
-              initialMetadata: metadata,
-              onChange: (metadata) => {
-                State.update({ metadata });
+              initialMetadata: tags,
+              onChange: (tags) => {
+                State.update({ tags });
               },
               options: {
                 tags: {
@@ -63,10 +61,18 @@ return (
       </div>
       <div className="mb-2">
         <CommitButton
-          disabled={metadata === null}
+          disabled={tags === null}
           data={{
-            [namespace]: {
-              [state.path]: state.metadata,
+            graph: {
+              context: {
+                [creatorId]: {
+                  [namespace]: {
+                    [thingId]: {
+                      tags: state.tags,
+                    },
+                  },
+                },
+              },
             },
           }}
         >
@@ -106,15 +112,14 @@ return (
         <div className="card-body">
           <div className="text-truncate mb-2">
             <Widget
-              src={`mob.near/widget/ProfileLine`}
-              props={{ accountId: state.contractId }}
+              src="hack.near/widget/thing.block"
+              props={{ creatorId, namespace, thingId }}
             />
           </div>
           <Widget
             src="hack.near/widget/tags"
             props={{
               path: state.path,
-              extraTags: state.metadata.tags,
             }}
           />
         </div>
