@@ -19,7 +19,7 @@ return (
         <h4>Contextualizer</h4>
       </div>
       <div className="mb-2">
-        <p className="mb-1">Source Path</p>
+        <p className="mb-1">Source Path of Anything:</p>
         <input
           type="text"
           value={state.path}
