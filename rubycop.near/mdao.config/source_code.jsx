@@ -7,7 +7,7 @@ return {
     logoColor:
       "https://ipfs.near.social/ipfs/bafkreieit24q3nlzzemyjblesy274gtlhjzbhmpfgpwfdfhjgntkhfc4fi",
     home: {
-      chart: "",
+      hero: "",
       icons: {
         achievements: (
           <svg
@@ -74,8 +74,8 @@ return {
   },
   content: {
     home: {
-      headerTitle: "Marketing DAO",
-      headerDesc:
+      "hero.title": "Marketing DAO",
+      "hero.desc":
         "Join a vibrant community of innovators shaping the open web shaping the open web.",
       INFO: {
         title:
