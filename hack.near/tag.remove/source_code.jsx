@@ -61,10 +61,10 @@ return (
     </div>
     <button
       disabled={state.tag === ""}
-      className="btn btn-success m-2"
+      className="btn btn-danger m-2"
       onClick={removeTag}
     >
-      create
+      remove
     </button>
   </div>
 );
