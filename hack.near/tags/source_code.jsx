@@ -6,6 +6,10 @@ const thingId = props.thingId ?? "every";
 
 const accountId = props.accountId ?? context.accountId;
 
+State.init({
+  showEditor: false,
+});
+
 const tagsPattern = `*/graph/context/${creatorId}/${namespace}/${thingId}/tags/*`;
 const tagsObject = Social.get(tagsPattern, "final");
 
@@ -14,7 +18,7 @@ if (!tagsObject) {
 }
 
 const tagClass = "bg-success";
-const badgeBtnClass = "text-white btn p-0 lh-1";
+const badgeBtnClass = "text-white btn p-0 lh-1 m-1";
 const addPublicTagHtml = (
   <a
     href={`#/hack.near/widget/catalog?accountId=${accountId}`}
@@ -59,6 +63,7 @@ const getTags = () => {
 };
 
 const publicTags = getTags();
+
 return (
   <>
     {publicTags &&
@@ -90,6 +95,65 @@ return (
           </span>
         </a>
       ))}
-    <div className="m-1">{addPublicTagHtml}</div>
+    <div className="m-2">
+      {!state.showEditor ? (
+        <button
+          onClick={() => State.update({ showEditor: true })}
+          className={badgeBtnClass}
+        >
+          <div className={`me-1 mt-3 badge bg-primary`}>+ Tags</div>
+        </button>
+      ) : (
+        <div className="mb-2">
+          <button
+            onClick={() => State.update({ showEditor: false })}
+            className="text-white btn p-0 lh-1 m-1"
+          >
+            <div className={`me-1 mt-3 badge bg-secondary`}>x Close</div>
+          </button>
+        </div>
+      )}
+      {state.showEditor && (
+        <div className="row">
+          <div className="m-1 col-8">
+            <Widget
+              src={"hack.near/widget/MetadataEditor"}
+              props={{
+                initialMetadata: tags,
+                onChange: (tags) => {
+                  State.update({ tags });
+                },
+                options: {
+                  tags: {
+                    pattern,
+                    placeholder: "dev, art, gov, edu, social, near",
+                  },
+                },
+              }}
+            />
+          </div>
+          <div className="m-1 col-3">
+            <CommitButton
+              disabled={tags === null}
+              data={{
+                graph: {
+                  context: {
+                    [creatorId]: {
+                      [namespace]: {
+                        [thingId]: {
+                          tags: state.tags,
+                        },
+                      },
+                    },
+                  },
+                },
+              }}
+            >
+              Save
+            </CommitButton>
+          </div>
+        </div>
+      )}
+    </div>
   </>
 );
