@@ -2,7 +2,6 @@ const { app, provider } = VM.require(`rubycop.near/widget/mdao.config`);
 
 const Theme = styled.div`
   background: #fffcff;
-  font-family: Montserrat;
 
   a {
     color: inherit;
@@ -15,7 +14,6 @@ const Theme = styled.div`
   h5,
   h6 {
     color: #151718;
-    font-family: Montserrat;
     font-style: normal;
     line-height: normal;
   }
