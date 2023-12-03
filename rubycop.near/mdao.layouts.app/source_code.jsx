@@ -1,13 +1,32 @@
 const { app, provider } = VM.require(`rubycop.near/widget/mdao.config`);
 
+const Theme = styled.div`
+  background: #fffcff;
+  font-family: Montserrat;
+
+  a {
+    color: inherit;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    color: #151718;
+    font-family: Montserrat;
+    font-style: normal;
+    line-height: normal;
+  }
+`;
+
 const Container = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
   height: 100%;
   min-height: 100vh;
-  background: #f4f4f4;
-  margin-top: calc(-1 * var(--body-top-padding));
 `;
 
 const ContentContainer = styled.div`
@@ -38,13 +57,13 @@ const Footer = (props) => {
 
 function AppLayout({ page, children }) {
   return (
-    <>
+    <Theme>
       <Container>
         <AppHeader page={page} />
         <ContentContainer>{children}</ContentContainer>
         <Footer page={page} />
       </Container>
-    </>
+    </Theme>
   );
 }
 
