@@ -77,7 +77,8 @@ return {
       heroTitle: "Marketing DAO",
       heroDesc:
         "Join a vibrant community of innovators shaping the open web shaping the open web.",
-      INFO: {
+      info: {
+        name: "INFO",
         title:
           "NEAR Protocol is your fast, low-cost and reliable gateway to the Open Web",
         achievements:
@@ -89,12 +90,14 @@ return {
         grantees:
           "NEAR Protocol is your fast, low-cost and reliable gateway to the Open Web NEAR to ensure security, liveness, and fault tolerance of the network",
       },
-      CONNECT: {
+      connect: {
+        name: "CONNECT",
         title1: "Communities are the lifeblood of Marketing DAO",
         title2: "Featured Communities",
         desc: "We believe that communities are the foundation of a decentralized ecosystem. Explore and engage with our diverse range of communities today.",
       },
-      "GET SUPPORT": {
+      support: {
+        name: "GET SUPPORT",
         sections: [
           {
             title: "Marketing Resources",
