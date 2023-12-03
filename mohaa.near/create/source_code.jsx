@@ -1,54 +1,3 @@
-// if (
-//   !props.accountId ||
-//   !context.accountId ||
-//   context.accountId === props.accountId
-// ) {
-//   return "";
-// }
-const datas = Social.keys(`${context.accountId}`, undefined, {
-  values_only: true,
-});
-console.log(datas);
-const connectEdge = Social.keys(
-  `${context.accountId}/graph/connect/${props.accountId}`,
-  undefined,
-  {
-    values_only: true,
-  }
-);
-
-const inverseEdge = Social.keys(
-  `${props.accountId}/graph/connect/${context.accountId}`,
-  undefined,
-  {
-    values_only: true,
-  }
-);
-
-const loading = connectEdge === null || inverseEdge === null;
-const isConnected = Object.keys(connectEdge || {}).length > 0;
-const isInverse = Object.keys(inverseEdge || {}).length > 0;
-const type = connect ? "disconnect" : "connect";
-
-const data = {
-  graph: { connect: { [props.accountId]: isConnected ? null : "" } },
-  index: {
-    graph: JSON.stringify({
-      key: "connect",
-      value: {
-        type,
-        accountId: props.accountId,
-      },
-    }),
-    notify: JSON.stringify({
-      key: props.accountId,
-      value: {
-        type,
-      },
-    }),
-  },
-};
-
 State.init({
   dropName: "",
   dropSymbol: "",
@@ -67,41 +16,21 @@ State.init({
 
 const submitForm = (e) => {
   e.preventDefault();
-  const metadata = {
-    bannerImage: `ipfs://${state.bannerImage.cid}`,
-    profileImage: `ipfs://${state.profileImage.cid}`,
-    network: state.network,
-    dropName: state.dropName,
-    dropSymbol: state.dropSymbol,
-    dropURL: state.dropURL,
-    dropDescription: state.dropDescription,
-    maxSupply: state.maxSupply,
-    walletAddress: state.walletAddress,
-    saleRoyalty: state.saleRoyalty,
-    priceByEther: state.priceByEther,
-  };
-
-  asyncFetch("https://ipfs.near.social/add", {
-    method: "POST",
-    headers: {
-      Accept: "application/json",
-    },
-    body: metadata,
-  })
-    .then((res) => {
-      if (res && res.body && res.body.cid) {
-        const cid = res.body.cid;
-        const Id = Math.floor(Math.random() * (9999999 - 100000 + 1) + 100000);
-        console.log("in the promise", res, Id);
-      } else {
-        console.error("Unexpected response structure:", res);
-      }
-    })
-    .catch((error) => {
-      console.error("Error during form submission:", error);
-    });
+  console.log(
+    "form:",
+    state.bannerImage,
+    state.profileImage,
+    state.network,
+    state.dropName,
+    state.dropSymbol,
+    state.dropURL,
+    state.dropDescription,
+    state.maxSupply,
+    state.walletAddress,
+    state.saleRoyalty,
+    state.priceByEther
+  );
 };
-
 const profilebanner = {
   position: "relative",
   overflow: "hidden",
@@ -128,9 +57,6 @@ const profileimage = {
   border:
     "5px solid #fff" /* Optional: Add a border around the profile image */,
 };
-const placeholder = state.network
-  ? "Price by " + state.network
-  : "Price by Near";
 
 return (
   <>
@@ -191,8 +117,6 @@ return (
         <div class="col-md-6">
           <div>
             <div className="container row">
-              <Web3Connect />
-
               <div>
                 Banner Image picture: <br />
                 <IpfsImageUpload image={state.bannerImage} />
@@ -213,16 +137,15 @@ return (
                   State.update({ [e.target.id]: e.target.value });
                 }}
               >
-                <option>NEAR</option>
                 <option>Ethereum</option>
-                <option>Solana</option>
-                <option>Polygon</option>
-                <option>Tezos</option>
-                <option>BSC</option>
-                <option>Avalanche</option>
+                <option>Ethereum</option>
+                <option>Ethereum</option>
+                <option>4</option>
+                <option>5</option>
               </select>
             </div>
             <p></p>
+
             <input
               type="text"
               id="dropName"
@@ -244,6 +167,7 @@ return (
               placeholder="Drop Symbol"
             />
             <p></p>
+
             <input
               type="text"
               id="dropURL"
@@ -254,6 +178,7 @@ return (
               placeholder="Drop URL"
             />
             <p></p>
+
             <input
               type="text"
               id="dropDescription"
@@ -264,6 +189,7 @@ return (
               placeholder="Drop Description"
             />
             <p></p>
+
             <input
               type="text"
               id="maxSupply"
@@ -274,6 +200,7 @@ return (
               placeholder="Max Supply"
             />
             <p></p>
+
             <input
               type="text"
               id="walletAddress"
@@ -284,6 +211,7 @@ return (
               placeholder="Wallet Address to receive Royalty"
             />
             <p></p>
+
             <input
               type="text"
               id="saleRoyalty"
@@ -294,6 +222,7 @@ return (
               placeholder="Secondary Sales Royalty Percentage"
             />
             <p></p>
+
             <input
               type="text"
               id="priceByEther"
@@ -301,15 +230,11 @@ return (
               onChange={(e) => {
                 State.update({ [e.target.id]: e.target.value });
               }}
-              placeholder={placeholder}
+              placeholder="Price BY ETHER"
             />
             <p></p>
-            <a
-              class="btn btn-primary"
-              href="https://near.org/mohaa.near/widget/profile"
-            >
-              Continue
-            </a>
+
+            <input type="submit" value="Submit form" onClick={submitForm} />
           </div>
         </div>
       </div>
