@@ -1,6 +1,6 @@
 const { project } = props;
 
-const widgetToFork = "/*__@appAccount__*//widget/p";
+const widgetToFork = "createit.near/widget/p";
 let widgetCode = Social.get(widgetToFork);
 
 if (widgetCode === null) return <></>;
@@ -36,7 +36,7 @@ return (
       className="mb-3"
     />
     <Widget
-      src="/*__@replace:nui__*//widget/Input.Button"
+      src="nearui.near/widget/Input.Button"
       props={{
         children: "Deploy",
         variant: "primary",
