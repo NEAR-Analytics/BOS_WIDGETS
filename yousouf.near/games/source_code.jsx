@@ -25,38 +25,49 @@ for (let i = 0; i < userSBTs.length; i++) {
     human = true;
   }
 }
+
 const Container = styled.div`
   display: flex;
-  max-width: 90%;
-  border-radius:8px;
-  margin: 0 auto;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   padding: 8px;
-  background-color: #1a1a1a; 
+  background-color: #1a1a1a;
 
-   @media (max-width: 768px) {
-        max-width: 100%;
-    }
+  @media (max-width: 768px) {
+    padding: 16px;
+  }
+
+  @media (max-width: 480px) {
+    padding: 24px;
+  }
 `;
 
 const H1 = styled.h1`
   font-family: "FK Grotesk", sans-serif;
   font-style: normal;
   font-weight: 500;
-  font-size: 85px;
+  font-size: calc(50px + 2vw);
   line-height: 1;
   text-align: center;
   letter-spacing: -0.03em;
-  color: #ffe; 
+  color: #ffe;
   max-width: 700px;
+
+  @media (max-width: 900px) {
+    font-size: calc(40px + 1.5vw);
+    max-width: 500px;
+  }
+
+  @media (max-width: 480px) {
+    font-size: calc(30px + 1vw);
+    max-width: 80%;
+  }
 
   span {
     display: inline-block;
     background: #62C6F2;
     border-radius: 20px;
-    position: relative;
     padding: 0.1em 0.2em 0;
 
     svg {
@@ -66,47 +77,17 @@ const H1 = styled.h1`
       width: 24px;
     }
   }
-
-  @media (max-width: 900px) {
-    font-size: 50px;
-    max-width: 500px;
-
-    span {
-      border-radius: 12px;
-      svg {
-        position: absolute;
-        bottom: -6px;
-        right: -7px;
-        width: 16px;
-      }
-    }
-  }
-
-  @media (max-width: 480px) {
-    font-size: 50px;
-    max-width: 80%;
-    line-height: 1.2;
-
-    span {
-      border-radius: 10px;
-      svg {
-        position: absolute;
-        bottom: -5px;
-        right: -5px;
-        width: 15px;
-      }
-    }
-  }
 `;
 
 const Text = styled.p`
-  align-items: center,
+  align-items: center;
   font-family: "FK Grotesk", sans-serif;
-  font-size: ${(p) => p.size ?? "18px"};
+  font-size: ${(p) => p.size ?? "16px"};
   line-height: ${(p) => p.lineHeight ?? "1.5"};
   font-weight: ${(p) => p.weight ?? "400"};
   color: ${(p) => p.color ?? "#fff"}; /* White text color */
-  margin: 15;
+  margin: 15px;
+
   a {
     color: inherit;
     text-decoration: none;
@@ -116,25 +97,33 @@ const Text = styled.p`
       color: #000;
     }
   }
-   .game-name {
-      color: #62C6F2;
-      font-weight: bold;
-      margin-top: 5px;
-    }
-    @media (max-width: 768px) {
-        font-size: 16px;
-    }
+
+  .game-name {
+    color: #62C6F2;
+    font-weight: bold;
+    margin-top: 5px;
+  }
+
+  @media (max-width: 768px) {
+    font-size: 14px;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 12px;
+    margin: 10px;
+  }
 `;
+
 const GameButton = styled.button`
-     background-color: #333; 
-  color: #ffe; 
+  background-color: #333;
+  color: #ffe;
   border: none;
   padding: 10px 20px;
   font-size: 18px;
   cursor: pointer;
   border-radius: 8px;
   margin: 5px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
+  box-shadow: 0  4px 6px rgba(0, 0, 0, 0.1); 
 
     &:hover {
       background-color: #555;
