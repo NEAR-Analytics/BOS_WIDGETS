@@ -14,7 +14,6 @@ const newBlock30Days = Math.round(
     (30 * 24 * 3600) / parseInt(respBlock.body.stats[0].avg_block_time)
 );
 
-
 // 1 days
 const newBlock1Days = Math.round(
   parseInt(respBlock.body.stats[0].block) -
@@ -26,6 +25,10 @@ const getBlockHeight1daysPost = Social.index("post", "main", {
   from: newBlock1Days,
   limit: 99999,
 });
+if (!getBlockHeight1daysPost) {
+  return "Loading...";
+}
+
 getBlockHeight1daysPost.forEach((item) => {
   BlockHeightPost1Days.push({
     accountId: item.accountId,
@@ -33,9 +36,7 @@ getBlockHeight1daysPost.forEach((item) => {
   });
 });
 
-if (!getBlockHeight1daysPost) {
-  return "Loading...";
-}
+
 
 let post1days = [];
 BlockHeightPost1Days.forEach((item) => {
@@ -127,7 +128,6 @@ for (let i = 0; i < 10; i++) {
     labelP.push(post1daySorted[i][0]);
   }
 }
-
 
 const StyledTable = styled.table`
   width: 100%;
