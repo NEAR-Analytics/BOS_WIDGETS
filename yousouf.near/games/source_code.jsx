@@ -324,6 +324,22 @@ return (
                     <span className="game-name">Word Guessing game</span>
                   )}
                 </GameButton>
+                <GameButton
+                  onClick={() => handleButtonClick("card")}
+                  onMouseEnter={() => setHoveredGame("Card Matching")}
+                  onMouseLeave={() => setHoveredGame(null)}
+                >
+                  <span
+                    role="img"
+                    aria-label="Card Matching"
+                    style={{ fontSize: "96px" }}
+                  >
+                    🎰
+                  </span>
+                  {hoveredGame === "Card Matching" && (
+                    <span className="game-name">Card Matching</span>
+                  )}
+                </GameButton>
               </Flex>
 
               {/* Render selected game widget */}
