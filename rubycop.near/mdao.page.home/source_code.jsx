@@ -335,7 +335,7 @@ return (
           <img src={assets.puzzle} className="w-100" />
         </div>
       </div>
-      <div className="d-flex flex-wrap gap-4 justify-content-center">
+      <div className="d-flex flex-wrap gap-5 justify-content-center">
         {communities.map(({ title, desc, href }) => (
           <Connect title={title} desc={desc} href={href} />
         ))}
