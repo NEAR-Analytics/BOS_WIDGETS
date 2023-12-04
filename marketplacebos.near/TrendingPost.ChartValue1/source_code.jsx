@@ -14,42 +14,6 @@ const newBlock30Days = Math.round(
     (30 * 24 * 3600) / parseInt(respBlock.body.stats[0].avg_block_time)
 );
 
-// 30 days
-let BlockHeightPost30Days = [];
-const getBlockHeight30daysPost = Social.index("post", "main", {
-  from: newBlock30Days,
-  limit: 99999,
-});
-getBlockHeight30daysPost.forEach((item) => {
-  BlockHeightPost30Days.push({
-    accountId: item.accountId,
-    blockHeight: item.blockHeight,
-  });
-});
-
-let post30days = [];
-BlockHeightPost30Days.forEach((item) => {
-  const post = Social.get(`${item.accountId}/post/main`, item.blockHeight);
-  if (post) {
-    post30days.push(JSON.parse(post).text);
-  }
-});
-
-let tagCount30Days = {};
-post30days.forEach((item) => {
-  const tags = findHashtags(item);
-  if (tags.length > 0) {
-    tags.forEach((tag) => {
-      if (tagCount30Days[tag]) {
-        tagCount30Days[tag] = tagCount30Days[tag] + 1;
-      } else {
-        tagCount30Days[tag] = 1;
-      }
-    });
-  }
-});
-let entries30days = Object.entries(tagCount30Days);
-let post30daySorted = entries30days.sort((b, a) => a[1] - b[1]);
 
 // 1 days
 const newBlock1Days = Math.round(
@@ -68,6 +32,10 @@ getBlockHeight1daysPost.forEach((item) => {
     blockHeight: item.blockHeight,
   });
 });
+
+if (!getBlockHeight1daysPost) {
+  return "Loading...";
+}
 
 let post1days = [];
 BlockHeightPost1Days.forEach((item) => {
@@ -93,91 +61,6 @@ post1days.forEach((item) => {
 let entries1days = Object.entries(tagCount1Days);
 let post1daySorted = entries1days.sort((b, a) => a[1] - b[1]);
 
-// 3 days
-const newBlock3Days = Math.round(
-  parseInt(respBlock.body.stats[0].block) -
-    (3 * 24 * 3600) / parseInt(respBlock.body.stats[0].avg_block_time)
-);
-
-let BlockHeightPost3Days = [];
-const getBlockHeight3daysPost = Social.index("post", "main", {
-  from: newBlock3Days,
-  limit: 99999,
-});
-
-getBlockHeight3daysPost.forEach((item) => {
-  BlockHeightPost3Days.push({
-    accountId: item.accountId,
-    blockHeight: item.blockHeight,
-  });
-});
-
-let post3days = [];
-BlockHeightPost3Days.forEach((item) => {
-  const post = Social.get(`${item.accountId}/post/main`, item.blockHeight);
-  if (post) {
-    post3days.push(JSON.parse(post).text);
-  }
-});
-
-let tagCount3Days = {};
-post3days.forEach((item) => {
-  const tags = findHashtags(item);
-  if (tags.length > 0) {
-    tags.forEach((tag) => {
-      if (tagCount3Days[tag]) {
-        tagCount3Days[tag] = tagCount3Days[tag] + 1;
-      } else {
-        tagCount3Days[tag] = 1;
-      }
-    });
-  }
-});
-let entries3days = Object.entries(tagCount3Days);
-let post3daySorted = entries3days.sort((b, a) => a[1] - b[1]);
-
-// 7 days
-const newBlock7Days = Math.round(
-  parseInt(respBlock.body.stats[0].block) -
-    (7 * 24 * 3600) / parseInt(respBlock.body.stats[0].avg_block_time)
-);
-
-let BlockHeightPost7Days = [];
-const getBlockHeight7daysPost = Social.index("post", "main", {
-  from: newBlock7Days,
-  limit: 99999,
-});
-
-getBlockHeight7daysPost.forEach((item) => {
-  BlockHeightPost7Days.push({
-    accountId: item.accountId,
-    blockHeight: item.blockHeight,
-  });
-});
-
-let post7days = [];
-BlockHeightPost7Days.forEach((item) => {
-  const post = Social.get(`${item.accountId}/post/main`, item.blockHeight);
-  if (post) {
-    post7days.push(JSON.parse(post).text);
-  }
-});
-
-let tagCount7Days = {};
-post7days.forEach((item) => {
-  const tags = findHashtags(item);
-  if (tags.length > 0) {
-    tags.forEach((tag) => {
-      if (tagCount7Days[tag]) {
-        tagCount7Days[tag] = tagCount7Days[tag] + 1;
-      } else {
-        tagCount7Days[tag] = 1;
-      }
-    });
-  }
-});
-let entries7days = Object.entries(tagCount7Days);
-let post7daySorted = entries7days.sort((b, a) => a[1] - b[1]);
 
 let totalItems1Day = 0;
 
@@ -245,7 +128,6 @@ for (let i = 0; i < 10; i++) {
   }
 }
 
-// ... (rest of the code remains unchanged)
 
 const StyledTable = styled.table`
   width: 100%;
