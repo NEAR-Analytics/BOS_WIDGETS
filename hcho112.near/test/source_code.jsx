@@ -1,1 +1,5 @@
-return <div>Hello World</div>;
+const container = styled.div`
+   background-color: red;
+`;
+
+return <container>Hello World</container>;
