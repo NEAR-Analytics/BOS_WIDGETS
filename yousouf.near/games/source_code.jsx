@@ -202,6 +202,7 @@ const Title = styled.h1`
 return (
   <Container center>
     <br />
+    <hr />
     <Flex
       gap="23px"
       direction="column"
