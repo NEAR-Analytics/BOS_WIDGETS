@@ -7,7 +7,7 @@ return {
     logoColor:
       "https://ipfs.near.social/ipfs/bafkreieit24q3nlzzemyjblesy274gtlhjzbhmpfgpwfdfhjgntkhfc4fi",
     home: {
-      hero: "https://ipfs.near.social/ipfs/bafkreicxfdmcfy7egla4x2i6ey3zpq5jni66eoxw7l7w6cmib3eh5zzb4e",
+      hero: "https://ipfs.near.social/ipfs/bafkreiadvtiorlwvgsyl7kgr23gckd7trjtcq7v46f4q75pouo6olvmboq",
       puzzle:
         "https://ipfs.near.social/ipfs/bafkreicxfdmcfy7egla4x2i6ey3zpq5jni66eoxw7l7w6cmib3eh5zzb4e",
       support_bg:
