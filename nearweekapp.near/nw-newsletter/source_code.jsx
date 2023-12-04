@@ -2,6 +2,7 @@ const rootUser = "nearweekapp.near";
 
 function NewsletterCard() {
   State.init({ page: 1 });
+
   const data = fetch(
     `https://nearweek.com/api/editions?populate=deep&sort=createdAt:desc&pagination[pageSize]=${
       state.page * 9
@@ -15,22 +16,11 @@ function NewsletterCard() {
       },
     }
   );
-  const cssFont = fetch("https://fonts.cdnfonts.com/css/hubot-sans").body;
-
-  if (!cssFont) return "";
-
-  if (!state.theme) {
-    State.update({
-      theme: styled.div`
-        font-family: 'Mona Sans', sans-serif;
-        font-style: normal;
-        ${cssFont}
-      `,
-    });
-  }
-  const Theme = state.theme;
 
   const ReadButtonLink = styled.a`
+    display: flex;
+    justify-content: center;
+    align-items: center;
     padding: 8px;
     height: 29px;
     width: 100%;
@@ -54,6 +44,9 @@ function NewsletterCard() {
   `;
 
   const SubscribeButtonLink = styled.a`
+    display: flex;
+    justify-content: center;
+    align-items: center;
     padding: 8px;
     height: 29px;
     width: 100%;
@@ -105,7 +98,6 @@ function NewsletterCard() {
     color: #1C1F41;
     text-overflow: ellipsis;
     whitespace: nowrap;
-    font-family: Inter;
     font-size: 15px;
     font-style: normal;
     font-weight: 500;
@@ -117,7 +109,6 @@ function NewsletterCard() {
   const CordDate = styled.p`
     color: rgba(28, 31, 65, 0.45);
     text-align: right;
-    font-family: Inter;
     font-size: 12px;
     font-style: normal;
     font-weight: 500;
@@ -126,7 +117,6 @@ function NewsletterCard() {
     text-align:left;
     margin-bottom:0;
     margin-top:8px;
-
   `;
 
   const TopCardTitle = styled.h2`
@@ -134,7 +124,6 @@ function NewsletterCard() {
     color: #1C1F41;
     text-overflow: ellipsis;
     whitespace: nowrap;
-    font-family: Inter;
     font-size: 18px;
     font-style: normal;
     font-weight: 500;
@@ -152,7 +141,6 @@ function NewsletterCard() {
 
     & p {
         color: rgba(28, 31, 65, 0.45);
-        font-family: Inter;
         font-size: 12px;
         font-style: normal;
         font-weight: 500;
@@ -165,7 +153,6 @@ function NewsletterCard() {
     width:100%;
     display:flex;
     gap:14px;
-   
   `;
 
   const CardBody = styled.div`
@@ -207,19 +194,19 @@ function NewsletterCard() {
 
   const H2 = styled.h2`
     color: #1C1F41;
-    font-family: 'Inter';
     font-size: 24px;
     font-style: normal;
     font-weight: 500;
     line-height: 15px;
     margin-bottom: 15px;
 `;
+
   const ButtonLoadMore = styled.button`
   width: 180px;
   padding: 8px;
   height: 31px;
   background: transparent;
-  margin: 0 auto;
+  margin: 20px auto 0 auto;
   border: 1px solid #d7dbdf;
   border-radius: 100px;
   font-weight: 500;
@@ -248,13 +235,6 @@ function NewsletterCard() {
     return `${day}.${month}.${year}`;
   }
 
-  function formatDate(dateString) {
-    const date = new Date(dateString);
-    const day = date.getDate().toString().padStart(2, "0");
-    const month = (date.getMonth() + 1).toString().padStart(2, "0");
-    const year = date.getFullYear().toString().slice(-2);
-    return `${day}.${month}.${year}`;
-  }
   function calculateTimeDifference(dateString) {
     const now = new Date();
     const creationDate = new Date(dateString);
@@ -283,8 +263,8 @@ function NewsletterCard() {
   const updateDetailsPage = props.updateDetailsPage;
 
   return (
-    <Theme>
-      <H2>Newsletter</H2>
+    <div>
+      <H2>NEWSLETTER</H2>
       {issues !== null && issues.length > 0 ? (
         issues.map((issue, index) => (
           <div key={index}>
@@ -371,7 +351,7 @@ function NewsletterCard() {
       <ButtonLoadMore onClick={() => State.update({ page: state.page + 1 })}>
         Load more
       </ButtonLoadMore>
-    </Theme>
+    </div>
   );
 }
 
