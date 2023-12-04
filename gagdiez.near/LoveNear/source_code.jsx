@@ -1,8 +1,6 @@
 if (context.loading) return "Loading ...";
 
 const elementToLike = "I<3Near";
-const [hasLike, setHasLike] = useState(false);
-const [totalLikes, setTotalLikes] = useState(0);
 
 const likes = Social.index("like", elementToLike, { subscribe: true });
 const userLike = context.accountId
@@ -13,14 +11,6 @@ const userLike = context.accountId
   : [];
 
 let dataLoading = likes === null || userLike === null;
-
-useEffect(() => {
-  likes && setTotalLikes(likes.length);
-}, [likes]);
-
-useEffect(() => {
-  userLike && setHasLike(userLike.length > 0);
-}, [userLike]);
 
 const LikeButton = styled.button`
   border: 0;
@@ -63,36 +53,32 @@ const likeClick = () => {
   Social.set(data, {
     onCommit: () => {
       setHasLike(true);
-      setTotalLikes(totalLikes + 1);
+      setTotalLikes(likes.length + 1);
     },
     onCancel: () => {},
   });
 };
 
-const loggedIn = (
-  <>
-    You're gonna <span class="text-danger">like it</span> here
-  </>
-);
-const loggedOut = (
-  <>
-    Login to show some <span className="text-danger">love</span>
-  </>
-);
-
 return (
   <Main>
-    <div className="text-center">
-      <h3 className="font-weight-bold"> Welcome to Near </h3>
+    <div class="text-center">
+      <h3 class="font-weight-bold"> Welcome to Near </h3>
 
-      <div className="container py-3 text-dark bg-light rounded-3">
-        <p className="small font-weight-light">
-          {context.accountId ? loggedIn : loggedOut}
+      <div class="container py-3 text-dark bg-light rounded-3">
+        <p class="small font-weight-light">
+          You're gonna
+          <span class="text-danger">like it</span>
+          here
         </p>
 
-        <LikeButton onClick={likeClick}>
-          <i className={`${hasLike ? "bi-heart-fill" : "bi-heart"}`} />
-          {totalLikes}
+        <LikeButton
+          disabled={context.loading || dataLoading || !context.accountId}
+          onClick={likeClick}
+        >
+          <i
+            className={`${userLike.length > 0 ? "bi-heart-fill" : "bi-heart"}`}
+          />
+          {likes.length}
         </LikeButton>
       </div>
     </div>
