@@ -282,7 +282,7 @@ return (
                   <span
                     role="img"
                     aria-label="Tic-Tac-Toe"
-                    style={{ fontSize: "96px" }}
+                    style={{ fontSize: "90px" }}
                   >
                     🎮
                   </span>
@@ -299,7 +299,7 @@ return (
                   <span
                     role="img"
                     aria-label="Rock, Paper, Scissors"
-                    style={{ fontSize: "96px" }}
+                    style={{ fontSize: "90px" }}
                   >
                     ✊✋✌️
                   </span>
@@ -316,7 +316,7 @@ return (
                   <span
                     role="img"
                     aria-label="Word Guessing game"
-                    style={{ fontSize: "96px" }}
+                    style={{ fontSize: "90px" }}
                   >
                     🧩
                   </span>
@@ -332,7 +332,7 @@ return (
                   <span
                     role="img"
                     aria-label="Card Matching"
-                    style={{ fontSize: "96px" }}
+                    style={{ fontSize: "90px" }}
                   >
                     🎰
                   </span>
