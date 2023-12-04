@@ -15,7 +15,7 @@ const initialTags = Social.get(
 State.init({
   showEditor: false,
   path: initialPath,
-  tags: tagsObject,
+  tags: initialTags,
 });
 
 const tagsPattern = `*/graph/context/${state.path}/tags/*`;
