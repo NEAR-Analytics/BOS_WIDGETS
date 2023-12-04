@@ -47,7 +47,7 @@ const HeroSection = styled.div`
   }
 
   h3 {
-    font-size: 2rem;
+    font-size: 1.5rem;
     font-weight: 300;
     max-width: 800px;
     margin-bottom: 0;
@@ -60,6 +60,8 @@ const HeroSection = styled.div`
   }
 
   img {
+    width: 500px;
+    height: 500px;
     @media screen and (max-width: 786px) {
       display: none;
     }
