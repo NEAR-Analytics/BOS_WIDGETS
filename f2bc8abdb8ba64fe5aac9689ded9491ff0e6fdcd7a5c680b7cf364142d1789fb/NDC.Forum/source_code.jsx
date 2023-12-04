@@ -381,6 +381,8 @@ function handleOpenArticle(articleToRenderData) {
 }
 
 function handleEditArticle(articleData) {
+  console.log(articleData);
+
   State.update({
     displayedTabId: tabs.ARTICLE_WORKSHOP.id,
     editArticleData: articleData,
