@@ -415,7 +415,7 @@ return (
                   action_amount: amount,
                   account_id: account,
                   account_info: uuid,
-                  template: "0vix",
+                  template: "Lending",
                   action_switch: questionSwitch === "on" ? "1" : "0",
                   action_status: status === 1 ? "Success" : "Failed",
                   tx_id: transactionHash,
