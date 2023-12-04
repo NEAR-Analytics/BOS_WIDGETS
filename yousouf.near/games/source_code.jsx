@@ -145,12 +145,12 @@ const Title = styled.h1`
   font-family: "FK Grotesk", sans-serif;
   font-style: normal;
   font-weight: 500;
-  font-size: 85px;
+  font-size: 70px;
   line-height: 1;
   text-align: center;
   letter-spacing: -0.03em;
-  color: #ffe; /* White text color */
-  max-width: 700px;
+  color: #ffe; 
+  max-width: 500px;
 
   span {
     display: inline-block;
@@ -207,7 +207,7 @@ return (
       alignItems="center"
       justifyContent="center"
     >
-      <Title>Game Gallery on BOS</Title>
+      <Title>Game Gallery 🎲</Title>
 
       {!accountId ? (
         <Widget
