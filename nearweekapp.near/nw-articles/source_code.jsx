@@ -5,52 +5,8 @@ const breakpoints = {
 };
 
 function Articles() {
-  const accountId = "near";
   State.init({ page: 1 });
-  let posts = [];
   let mediumPosts = [];
-
-  const indexedPosts = Social.index("post", "main", {
-    accountId,
-    limit: 20,
-    order: "desc",
-  });
-
-  if (indexedPosts?.length > 0) {
-    posts = [];
-
-    indexedPosts.forEach((post) => {
-      const data = Social.get(`${post.accountId}/post/main`, post.blockHeight);
-      if (data) {
-        const json = JSON.parse(data);
-        const content = json.text.split("\n");
-        const title = content[0] || "";
-        const url = content[1] || content[2] || "";
-        const lastLine = content.pop() || "";
-        const hasNewsTag = lastLine.indexOf("#news") > -1;
-        const isValid = hasNewsTag && url.indexOf("https://") > -1;
-
-        if (isValid) {
-          const block = Near.block(post.blockHeight);
-          let createdAt = "";
-          if (block) {
-            const timeMs = parseFloat(block.header.timestamp_nanosec) / 1e6;
-            createdAt = new Date(timeMs).toISOString();
-          }
-          posts.push({
-            blockHeight: post.blockHeight,
-            title,
-            url,
-            thumbnail: "https://near.org/favicon.png",
-            createdAt,
-            categories: ["Near ORG", "blog"],
-          });
-
-          posts.sort((a, b) => b.blockHeight - a.blockHeight);
-        }
-      }
-    });
-  }
 
   const Post = (props) => {
     const { key, post } = props;
@@ -124,21 +80,6 @@ function Articles() {
 
   const articles = [...mediumPosts];
 
-  const cssFont = fetch(
-    "https://fonts.googleapis.com/css2?family=Space+Grotesk"
-  ).body;
-
-  if (!cssFont) return "";
-
-  if (!state.theme) {
-    State.update({
-      theme: styled.div`
-    font-family: sans-serif;
-    ${cssFont}
-`,
-    });
-  }
-  const Theme = state.theme;
   const AuthorNDate = styled.div`
     display: flex;
     flex-direction: row;
@@ -148,7 +89,6 @@ function Articles() {
   const Dot = styled.span`
   color: rgba(28, 31, 65, 0.45);
   text-align: right;
-  font-family: Inter;
   font-size: 12px;
   font-style: normal;
   font-weight: 500;
@@ -160,7 +100,6 @@ function Articles() {
   & span {
   color: rgba(28, 31, 65, 0.45);
   text-align: right;
-  font-family: Inter;
   font-size: 12px;
   font-style: normal;
   font-weight: 500;
@@ -219,7 +158,6 @@ function Articles() {
     overflow: hidden;
     text-overflow: ellipsis;
     whitespace: nowrap;
-    font-family: Inter;
     font-size: 14px;
     font-style: normal;
     font-weight: 500;
@@ -251,7 +189,6 @@ function Articles() {
     border-radius: 4px;
     color: #9C9C9C;
     text-align: center;
-    font-family: Inter;
     font-size: 12px;
     font-style: normal;
     font-weight: 500;
@@ -265,7 +202,6 @@ function Articles() {
     gap: 10px;
     color: rgba(28, 31, 65, 0.45);
     text-align: right;
-    font-family: Inter;
     font-size: 12px;
     font-style: normal;
     font-weight: 500;
@@ -274,7 +210,6 @@ function Articles() {
 
   const H2 = styled.h2`
     color: #1C1F41;
-    font-family: Inter;
     font-size: 24px;
     font-style: normal;
     font-weight: 500;
@@ -284,20 +219,18 @@ function Articles() {
 
   return (
     <div>
-      <H2>Articles</H2>
-      <Theme>
-        <NwWidget>
-          <>
-            {articles.length > 0 ? (
-              articles.map((article, index) => (
-                <Post post={article} index={index} />
-              ))
-            ) : (
-              <div>Loading ...</div>
-            )}
-          </>
-        </NwWidget>
-      </Theme>
+      <H2>ARTICLES</H2>
+      <NwWidget>
+        <>
+          {articles.length > 0 ? (
+            articles.map((article, index) => (
+              <Post post={article} index={index} />
+            ))
+          ) : (
+            <div>Loading ...</div>
+          )}
+        </>
+      </NwWidget>
     </div>
   );
 }
