@@ -116,10 +116,10 @@ return (
     <div className="d-flex gap-3 align-items-center">
       <LinksContainer>
         {links.map(({ title, href, color }) => (
-          <a className="d-flex gap-2 align-items-center" href={href}>
+          <Link className="d-flex gap-2 align-items-center" to={href}>
             <Circle bg={color} />
             <div>{title}</div>
-          </a>
+          </Link>
         ))}
       </LinksContainer>
       <MobileMenu className="fs-1" onClick={() => setShowMenu(!showMenu)}>
@@ -138,10 +138,10 @@ return (
         </div>
         <div className="d-flex flex-column gap-4">
           {links.map(({ title, href, color }) => (
-            <a className="d-flex gap-2 align-items-center" href={href}>
+            <Link className="d-flex gap-2 align-items-center" to={href}>
               <Circle bg={color} />
               <div>{title}</div>
-            </a>
+            </Link>
           ))}
         </div>
       </MobileNav>
