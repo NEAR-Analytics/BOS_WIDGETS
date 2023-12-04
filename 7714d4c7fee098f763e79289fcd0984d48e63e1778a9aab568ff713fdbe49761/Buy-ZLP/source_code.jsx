@@ -1,3 +1,45 @@
+// BUY ZLP
+
+function handleClickSubmitBuyZlp() {
+  State.update({ loading: true });
+
+  if (fromToken.address !== ADDRESS_ZERO) {
+    const tokenContract = new ethers.Contract(
+      fromToken.address,
+      erc20Abi,
+      Ethers.provider().getSigner()
+    );
+
+    tokenContract.allowance(sender, zlpManagerAddress).then((allowance) => {
+      if (!allowance || payAmount.gt(allowance)) {
+        tokenContract
+          .approve(
+            zlpManagerAddress,
+            "0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+          )
+          .then((response) => {
+            response.wait().then((res) => {
+              callContract();
+            });
+          })
+          .catch((e) => {
+            State.update({
+              titleToast: "Error",
+              descriptionToast: "Failed to approve token!",
+              typeToast: "error",
+              openToast: true,
+              loading: false,
+            });
+          });
+      } else {
+        callContract();
+      }
+    });
+  } else {
+    callContract();
+  }
+}
+
 // HANDLES
 
 function handleChangeFromToken(address) {
