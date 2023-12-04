@@ -8,18 +8,18 @@ const thingId = props.thingId ?? "Explorer";
 
 const initialPath = props.path ?? `${creatorId}/${namespace}/${thingId}`;
 
-const tagsPattern = `*/graph/context/${creatorId}/${namespace}/${thingId}/tags/*`;
-const tagsObject = Social.get(tagsPattern, "final");
-
-if (!tagsObject) {
-  return "";
-}
-
 State.init({
   showEditor: false,
   path: initialPath,
   tags: tagsObject,
 });
+
+const tagsPattern = `*/graph/context/${state.path}/tags/*`;
+const tagsObject = Social.get(tagsPattern, "final");
+
+if (!tagsObject) {
+  return "";
+}
 
 const publicTags = Social.getr(
   `*/graph/context/${state.path}/tags/**`,
