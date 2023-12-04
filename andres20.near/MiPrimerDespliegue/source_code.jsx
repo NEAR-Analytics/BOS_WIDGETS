@@ -65,10 +65,12 @@ return (
         <tbody>
           {messages.map((data, key) => {
             return (
-              <tr class="text-center">
-                <td>{data.sender}</td>
-                <td>{data.text}</td>
-              </tr>
+              <div>
+                <tr class="text-center">
+                  <td>{data.sender}</td>
+                  <td>{data.text}</td>
+                </tr>
+              </div>
             );
           })}
         </tbody>
