@@ -26,7 +26,8 @@ for (let i = 0; i < userSBTs.length; i++) {
 }
 const Container = styled.div`
   display: flex;
-  max-width: 80%;
+  max-width: 100%;
+  border-radius:8px;
   margin: 0 auto;
   flex-direction: column;
   align-items: center;
