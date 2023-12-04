@@ -1,3 +1,9 @@
+// WATCH
+
+useEffect(() => {
+  handleChangePayValue(payValue);
+}, [fromToken]);
+
 return (
   <>
     <DaisyUIWrapper>
