@@ -43,6 +43,8 @@ const initLibsCalls = {
   ],
 };
 
+state.articles && console.log("articles: ", articles);
+
 accountId = context.accountId;
 
 const tabs = {
@@ -115,6 +117,7 @@ State.update({ libsCalls: newLibsCalls });
 const libSrcArray = [widgets.libArticle];
 
 const profile = props.profile ?? Social.getr(`${accountId}/profile`);
+
 if (profile === null) {
   return "Loading";
 }
