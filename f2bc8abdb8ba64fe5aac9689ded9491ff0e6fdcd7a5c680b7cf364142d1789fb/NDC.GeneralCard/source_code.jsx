@@ -11,6 +11,7 @@ const {
   authorForWidget,
   handleShareButton,
   callLibs,
+  handleEditArticle,
   baseActions,
 } = props;
 
@@ -561,6 +562,21 @@ return (
                   },
                 }}
               />
+              {context.accountId === data.author && (
+                <Widget
+                  src={widgets.newStyledComponents.Input.Button}
+                  props={{
+                    children: (
+                      <div className="d-flex justify-content-center align-items-center">
+                        <span className="mx-2">Edit</span>
+                        <i className="bi bi-pencil"></i>
+                      </div>
+                    ),
+                    className: `info outline mt-2`,
+                    onClick: () => handleEditArticle(articleToRenderData),
+                  }}
+                />
+              )}
             </div>
           </div>
         </LowerSectionContainer>
