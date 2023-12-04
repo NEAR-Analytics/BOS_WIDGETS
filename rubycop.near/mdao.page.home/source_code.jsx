@@ -105,7 +105,7 @@ const InfoSection = styled.div`
   }
 
   .item {
-    width: 300px;
+    width: 280px;
     height: 375px;
     border-radius: 10px;
     background: #fff;
