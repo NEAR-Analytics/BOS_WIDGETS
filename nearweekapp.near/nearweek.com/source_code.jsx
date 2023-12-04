@@ -1,26 +1,12 @@
 const rootUser = "nearweekapp.near";
 const nwSite = "https://nearweek.com";
 
-const breakpoints = {
-  md: "768px",
-  lg: "1100px",
-  xl: "1300px",
-};
-
-const cssFont = fetch(
-  "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap"
-).body;
-
-if (!cssFont) return "";
-
 if (!state.theme) {
   State.update({
     theme: styled.div`
-    font-family: Inter;
     background: #FAF9F9;
     color: #1C1F41;
     margin: 0;
-    ${cssFont}
 `,
   });
 }
