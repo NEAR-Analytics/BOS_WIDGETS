@@ -36,9 +36,9 @@ const Container = styled.div`
   padding: 8px;
   background-color: #1a1a1a; 
 
-  @media (max-width: 480px) {
-    max-width: 90%;
-  }
+   @media (max-width: 768px) {
+        max-width: 100%;
+    }
 `;
 
 const H1 = styled.h1`
@@ -121,6 +121,9 @@ const Text = styled.p`
       font-weight: bold;
       margin-top: 5px;
     }
+    @media (max-width: 768px) {
+        font-size: 16px;
+    }
 `;
 const GameButton = styled.button`
      background-color: #333; 
@@ -158,6 +161,9 @@ const Title = styled.h1`
   letter-spacing: -0.03em;
   color: #ffe; 
   max-width: 700px;
+   @media (max-width: 768px) {
+        font-size: 40px;
+    }
 
   span {
     display: inline-block;
