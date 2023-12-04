@@ -97,7 +97,7 @@ const HeroSection = styled.div`
 `;
 
 const InfoSection = styled.div`
-  padding: 4rem 3rem;
+  padding: 5rem 3rem 4rem 3rem;
 
   @media screen and (max-width: 786px) {
     padding: 2rem;
@@ -167,7 +167,7 @@ const InfoSection = styled.div`
 const ConnectSection = styled.div`
   color: white;
   background: #151718;
-  padding: 4rem 3rem;
+  padding: 5rem 3rem 4rem 3rem;
 
   @media screen and (max-width: 786px) {
     padding: 2rem;
@@ -247,13 +247,13 @@ const ConnectSection = styled.div`
 `;
 
 const SupportSection = styled.div`
+  padding: 5rem 3rem;
   background: linear-gradient(
     258deg,
     rgba(162, 195, 254, 0.5) 0%,
     rgba(225, 197, 252, 0.5) 28.72%,
     rgba(241, 220, 210, 0.5) 100%
   );
-  padding: 4rem 3rem 7rem 3rem;
 
   @media screen and (max-width: 786px) {
     padding: 2rem 2rem 4rem 2rem;
@@ -385,8 +385,8 @@ return (
       <img src={assets.hero} />
     </HeroSection>
 
-    <InfoSection className="d-flex flex-column gap-5">
-      <h4 id="info">{content.info.name}</h4>
+    <InfoSection id="info" className="d-flex flex-column gap-5">
+      <h4>{content.info.name}</h4>
       <h2>{content.info.title}</h2>
       <div className="d-flex flex-wrap gap-4 justify-content-center">
         {content.info.sections.map(({ title, desc, icon }) => (
@@ -395,8 +395,8 @@ return (
       </div>
     </InfoSection>
 
-    <ConnectSection className="d-flex flex-column gap-5">
-      <h4 id="connect">{content.connect.name}</h4>
+    <ConnectSection id="connect" className="d-flex flex-column gap-5">
+      <h4>{content.connect.name}</h4>
       <div className="d-flex justify-content-between w-100">
         <div className="d-flex flex-column gap-3 title">
           <div>
