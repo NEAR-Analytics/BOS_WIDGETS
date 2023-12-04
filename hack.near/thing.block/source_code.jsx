@@ -1,9 +1,10 @@
 const creatorId = props.creatorId ?? context.accountId;
 const namespace = props.namespace ?? "widget";
-const thingId = props.thingId ?? "Academy";
+const thingId = props.thingId ?? "every";
 
-const thing =
-  props.thing ?? Social.getr(`${creatorId}/${namespace}/${thingId}`);
+const path = props.path ?? `${creatorId}/${namespace}/${thingId}`;
+
+const thing = props.thing ?? Social.getr(`${path}`);
 
 if (!thing) {
   return "Loading...";
