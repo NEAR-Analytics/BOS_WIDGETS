@@ -43,8 +43,6 @@ const initLibsCalls = {
   ],
 };
 
-state.articles && console.log("articles: ", state.articles);
-
 accountId = context.accountId;
 
 const tabs = {
