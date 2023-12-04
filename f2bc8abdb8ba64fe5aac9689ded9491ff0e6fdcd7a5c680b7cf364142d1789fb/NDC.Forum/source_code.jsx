@@ -298,17 +298,23 @@ const renderShareInteraction = () => {
           ></CloseIcon>
         </ClosePopUpContainer>
         <h3>Share</h3>
-        <PopUpDescription>Use this link to share the article</PopUpDescription>
+        <PopUpDescription>
+          {state.sharedElement.value
+            ? "Use this link to share the article"
+            : "Can't share yet. Reload the app and try again."}
+        </PopUpDescription>
         <ShowLinkShared>
-          <LinkShared>{getLink()}</LinkShared>
+          {state.sharedElement.value && <LinkShared>{getLink()}</LinkShared>}
           <ClipboardContainer>
-            <ClipboardIcon
-              className="bi-clipboard"
-              onClick={() => {
-                clipboard.writeText(getLink());
-                State.update({ linkCopied: true });
-              }}
-            ></ClipboardIcon>
+            {state.sharedElement.value && (
+              <ClipboardIcon
+                className="bi-clipboard"
+                onClick={() => {
+                  clipboard.writeText(getLink());
+                  State.update({ linkCopied: true });
+                }}
+              />
+            )}
             {state.linkCopied && <CopiedFeedback>Copied!</CopiedFeedback>}
           </ClipboardContainer>
         </ShowLinkShared>
