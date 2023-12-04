@@ -233,14 +233,18 @@ const renderOpenChallenges = (challenges) => {
                 {challengerId.length > 20
                   ? challengerId.substr(0, 20) + "..."
                   : challengerId}{" "}
-                {challengerElo != null && <>({challengerElo.toFixed(1)})</>}
+                {challengerElo != null && typeof challengerElo === "number" && (
+                  <>({challengerElo.toFixed(1)})</>
+                )}
               </div>
               <div>vs</div>
               <div>
                 {challengedId.length > 20
                   ? challengedId.substr(0, 20) + "..."
                   : challengedId}{" "}
-                {challengedElo != null && <>({challengedElo.toFixed(1)})</>}
+                {challengedElo != null && typeof challengedElo === "number" && (
+                  <>({challengedElo.toFixed(1)})</>
+                )}
               </div>
             </ChallengeInfo>
             {!is_challenger && (
