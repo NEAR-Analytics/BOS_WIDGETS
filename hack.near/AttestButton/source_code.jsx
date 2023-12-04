@@ -1,4 +1,5 @@
-const item = props.item;
+const item = props.item ?? "hack.near/widget/thing.context";
+const data = props.data ?? "every.near/widget/core";
 
 if (!item) {
   return "";
@@ -41,27 +42,17 @@ const attestClick = () => {
   State.update({
     loading: true,
   });
-  const data = {
+  const attestationData = {
     index: {
       attestation: JSON.stringify({
         key: item,
-        value: {
+        value: data ?? {
           type: attested ? "undo" : "attest",
         },
       }),
     },
   };
-
-  if (!hasLike && props.notifyAccountId) {
-    data.index.notify = JSON.stringify({
-      key: props.notifyAccountId,
-      value: {
-        type: "attest",
-        item,
-      },
-    });
-  }
-  Social.set(data, {
+  Social.set(attestationData, {
     onCommit: () => State.update({ loading: false, attested: !attested }),
     onCancel: () => State.update({ loading: false }),
   });
