@@ -123,15 +123,15 @@ const Text = styled.p`
     }
 `;
 const GameButton = styled.button`
-    background-color: #333;
-    color: #ffe;
-    border: none;
-    padding: 10px 20px;
-    font-size: 18px;
-    cursor: pointer;
-    border-radius: 8px;
-    margin: 5px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+     background-color: #333; 
+  color: #ffe; 
+  border: none;
+  padding: 10px 20px;
+  font-size: 18px;
+  cursor: pointer;
+  border-radius: 8px;
+  margin: 5px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
 
     &:hover {
       background-color: #555;
