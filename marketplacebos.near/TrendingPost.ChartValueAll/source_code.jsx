@@ -20,6 +20,10 @@ const getBlockHeight30daysPost = Social.index("post", "main", {
   limit: 99999,
 });
 
+if (!getBlockHeight30daysPost) {
+  return "Loading...";
+}
+
 getBlockHeight30daysPost.forEach((item) => {
   BlockHeightPost30Days.push({
     accountId: item.accountId,
@@ -50,11 +54,6 @@ post30days.forEach((item) => {
 });
 let entries30days = Object.entries(tagCount30Days);
 let post30daySorted = entries30days.sort((b, a) => a[1] - b[1]);
-
-if (!getBlockHeight30daysPost) {
-  return "Loading...";
-}
-
 
 
 
