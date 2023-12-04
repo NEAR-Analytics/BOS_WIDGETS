@@ -34,22 +34,13 @@ const ContentContainer = styled.div`
   width: 100%;
 `;
 
-const Footer = (props) => {
-  return (
-    <Widget
-      src="devhub.near/widget/devhub.components.organism.NewsLetter"
-      props={{ ...props }}
-    />
-  );
-};
-
 function AppLayout({ page, children }) {
   return (
     <Theme>
       <Container>
         <Widget src={`${provider}/widget/${app}.components.NavBar`} />
         <ContentContainer>{children}</ContentContainer>
-        <Footer page={page} />
+        <Widget src={`${provider}/widget/${app}.components.Footer`} />
       </Container>
     </Theme>
   );
