@@ -67,16 +67,24 @@ const HeroSection = styled.div`
 
   a.btn-primary {
     border-radius: 10px;
-    background: #151718;
+    background: #000;
     box-shadow: 0px 20px 30px 0px rgba(0, 0, 0, 0.25);
-    color: #fff;
+    color: #f0f0f0;
     font-size: 24px;
     font-weight: 400;
     padding: 15px 25px;
     width: 400px;
+    background-image: -webkit-linear-gradient(30deg, #2a2a2a 50%, #000 50%);
+    background-image: linear-gradient(30deg, #2a2a2a 50%, #000 50%);
+    background-size: 1000px;
+    background-repeat: no-repeat;
+    background-position: 0%;
+    -webkit-transition: background 300ms ease-in-out;
+    transition: background 300ms ease-in-out;
 
     &:hover {
-      opacity: 0.9;
+      background-position: 100%;
+      color: #fff;
       text-decoration: none;
     }
 
@@ -144,7 +152,6 @@ const InfoSection = styled.div`
       }
 
       &:hover {
-        opacity: 0.9;
         text-decoration: none;
       }
 
