@@ -273,7 +273,12 @@ return (
                 <hr />
               </Text>
 
-              <Flex gap="12px" direction="column" alignItems="center">
+              <Flex
+                gap="12px"
+                direction="row"
+                alignItems="center"
+                justifyContent="center"
+              >
                 <GameButton
                   onClick={() => handleButtonClick("tic-tac-toe")}
                   onMouseEnter={() => setHoveredGame("Tic-Tac-Toe")}
