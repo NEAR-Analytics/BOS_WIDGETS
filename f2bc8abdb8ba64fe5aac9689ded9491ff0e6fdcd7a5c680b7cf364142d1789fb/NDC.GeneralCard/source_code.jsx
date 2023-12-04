@@ -567,12 +567,12 @@ return (
                   src={widgets.newStyledComponents.Input.Button}
                   props={{
                     children: (
-                      <div className="d-flex justify-content-center align-items-center">
-                        <span className="mx-2">Edit</span>
+                      <div className="d-flex align-items-center justify-content-center">
+                        <span className="mx-1">Edit</span>
                         <i className="bi bi-pencil"></i>
                       </div>
                     ),
-                    className: `info outline mt-2`,
+                    className: `info w-25`,
                     onClick: () => handleEditArticle(articleToRenderData),
                   }}
                 />
