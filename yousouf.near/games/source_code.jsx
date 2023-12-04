@@ -26,7 +26,7 @@ for (let i = 0; i < userSBTs.length; i++) {
 }
 const Container = styled.div`
   display: flex;
-  max-width: 100%;
+  max-width: 90%;
   border-radius:8px;
   margin: 0 auto;
   flex-direction: column;
@@ -36,7 +36,7 @@ const Container = styled.div`
   background-color: #1a1a1a; /* Dark background color */
 
   @media (max-width: 480px) {
-    max-width: 100%;
+    max-width: 90%;
   }
 `;
 
