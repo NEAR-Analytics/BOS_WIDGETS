@@ -54,7 +54,7 @@ function getRealArticleId() {
   }
 }
 
-const getArticleData = () => {
+function getArticleData() {
   const args = {
     title: editArticleData.title ?? state.title,
     author: editArticleData.author ?? accountId,
@@ -69,7 +69,9 @@ const getArticleData = () => {
     sbts,
   };
   return args;
-};
+}
+
+console.log(getArticleData());
 
 function onCommit(article) {
   State.update({
