@@ -238,7 +238,9 @@ return (
             <a
               href={`https://near.social/?hashtag=${item[0].replace("#", "")}`}
             >
-              <span className={`tag tag-${index} tag-lg`}>{item[0]}</span>
+              <span className={`tag tag-${index} tag-lg`}>
+                {item[0].replace("#", "")}
+              </span>
             </a>
           ))}
     </Wrapper>
