@@ -12,10 +12,25 @@ const {
   baseActions,
 } = props;
 
+if (!callLibs) {
+  callLibs = () => {};
+}
+
 const accountId = articleToRenderData.author;
 const id =
   articleToRenderData.id ??
   `${articleToRenderData.author}-${articleToRenderData.timeCreate}`;
+
+if (
+  !Array.isArray(articleToRenderData.tags) &&
+  typeof articleToRenderData.tags === "object"
+) {
+  articleToRenderData.tags = Object.keys(articleToRenderData.tags);
+}
+
+articleToRenderData.tags = articleToRenderData.tags.filter(
+  (tag) => tag !== undefined && tag !== null
+);
 
 //For the moment we'll allways have only 1 sbt in the array. If this change remember to do the propper work in lib.SBT and here.
 const articleSbts = articleToRenderData.sbts ?? [];
