@@ -53,9 +53,9 @@ const formatData = () => {
   } else {
     const dapp = dapps[currentDapp];
     if (dapp) {
-      userTotalSupplyUsd = Big(dapp.userTotalSupplyUsd);
-      userTotalBorrowUsd = Big(dapp.userTotalBorrowUsd);
-      totalCollateralUsd = Big(dapp.totalCollateralUsd);
+      userTotalSupplyUsd = Big(dapp.userTotalSupplyUsd || 0);
+      userTotalBorrowUsd = Big(dapp.userTotalBorrowUsd || 0);
+      totalCollateralUsd = Big(dapp.totalCollateralUsd || 0);
     }
   }
   const marketsToList = Object.values(markets);
@@ -87,14 +87,16 @@ const formatData = () => {
           apy: market.supplyApy,
           isCollateral: market.userMerberShip,
           balance: market.userSupply,
-          balance_value: Big(market.userSupply)
+          balance_value: Big(market.userSupply || 0)
             .mul(market.underlyingPrice)
             .toString(),
           address: market.address,
           distributionApy: market.distributionApy,
         });
         change = change.add(
-          Big((Number(market.supplyApy.slice(0, -1)) + rewardSupplyApy) / 100)
+          Big(
+            (Number(market.supplyApy.slice(0, -1)) + rewardSupplyApy) / 100 || 0
+          )
             .mul(market.userSupply || 0)
             .mul(market.underlyingPrice)
         );
@@ -107,14 +109,16 @@ const formatData = () => {
           dappName: dapp.dappName,
           apy: market.borrowApy,
           borrowed: market.userBorrow,
-          borrowed_value: Big(market.userBorrow)
+          borrowed_value: Big(market.userBorrow || 0)
             .mul(market.underlyingPrice)
             .toString(),
           address: market.address,
           distributionApy: market.distributionApy,
         });
         change = change.minus(
-          Big((Number(market.borrowApy.slice(0, -1)) - rewardBorrowApy) / 100)
+          Big(
+            (Number(market.borrowApy.slice(0, -1)) - rewardBorrowApy) / 100 || 0
+          )
             .mul(market.userBorrow || 0)
             .mul(market.underlyingPrice)
         );
@@ -133,11 +137,13 @@ const formatData = () => {
           dappIcon: dapp.dappIcon,
           dappName: dapp.dappName,
           dailyReward: reward.dailyRewards,
-          dailyReward_value: Big(reward.dailyRewards)
+          dailyReward_value: Big(reward.dailyRewards || 0)
             .mul(reward.price)
             .toString(),
           unclaimed: reward.unclaimed,
-          unclaimed_value: Big(reward.unclaimed).mul(reward.price).toString(),
+          unclaimed_value: Big(reward.unclaimed || 0)
+            .mul(reward.price || 0)
+            .toString(),
         });
       });
     }
@@ -146,7 +152,7 @@ const formatData = () => {
   State.update({
     userTotalSupplyUsd: userTotalSupplyUsd.toString(),
     userTotalBorrowUsd: userTotalBorrowUsd.toString(),
-    userBorrowLimit: Big(userTotalBorrowUsd)
+    userBorrowLimit: Big(userTotalBorrowUsd || 0)
       .div(totalCollateralUsd.eq(0) ? 1 : totalCollateralUsd)
       .mul(100)
       .toFixed(2),
