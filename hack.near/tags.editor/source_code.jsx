@@ -65,6 +65,10 @@ const currentTagsObject = Social.get(
   "final"
 );
 
+if (!currentTagsObject) {
+  return "Loading...";
+}
+
 const tagsCount = {};
 const tagsAuthors = {};
 
