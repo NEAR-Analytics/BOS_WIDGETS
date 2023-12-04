@@ -207,7 +207,7 @@ const ConnectSection = styled.div`
   }
 
   .item {
-    width: 400px;
+    width: 350px;
     border-radius: 10px;
     border: 2px solid #f0ddce;
     background: rgba(255, 255, 255, 0.05);
