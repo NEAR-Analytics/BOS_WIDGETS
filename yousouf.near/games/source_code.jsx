@@ -1,10 +1,11 @@
 const accountId = context.accountId;
 const DevId = props.DevId ?? "yousouf.near";
 const [selectedGame, setSelectedGame] = useState(null);
+const [hoveredGame, setHoveredGame] = useState(null);
 
-// Function to handle button click
 const handleButtonClick = (game) => {
   setSelectedGame(game);
+  setHoveredGame(null);
 };
 
 let profile = Social.getr(`${accountId}/profile`);
@@ -115,23 +116,28 @@ const Text = styled.p`
       color: #000;
     }
   }
+   .game-name {
+      color: #62C6F2;
+      font-weight: bold;
+      margin-top: 5px;
+    }
 `;
-
 const GameButton = styled.button`
-  background-color: #333; 
-  color: #ffe; 
-  border: none;
-  padding: 10px 20px;
-  font-size: 18px;
-  cursor: pointer;
-  border-radius: 8px;
-  margin: 5px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
+    background-color: #333;
+    color: #ffe;
+    border: none;
+    padding: 10px 20px;
+    font-size: 18px;
+    cursor: pointer;
+    border-radius: 8px;
+    margin: 5px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 
-  &:hover {
-    background-color: #555; 
-  }
-`;
+    &:hover {
+      background-color: #555;
+      color: #ffe;
+    }
+  `;
 
 const Flex = styled.div`
   display: flex;
@@ -267,8 +273,12 @@ return (
                 <hr />
               </Text>
 
-              <Flex gap="12px">
-                <GameButton onClick={() => handleButtonClick("tic-tac-toe")}>
+              <Flex gap="12px" direction="column" alignItems="center">
+                <GameButton
+                  onClick={() => handleButtonClick("tic-tac-toe")}
+                  onMouseEnter={() => setHoveredGame("Tic-Tac-Toe")}
+                  onMouseLeave={() => setHoveredGame(null)}
+                >
                   <span
                     role="img"
                     aria-label="Tic-Tac-Toe"
@@ -276,24 +286,43 @@ return (
                   >
                     🎮
                   </span>
+                  {hoveredGame === "Tic-Tac-Toe" && (
+                    <span className="game-name">Tic-Tac-Toe</span>
+                  )}
                 </GameButton>
-                <GameButton onClick={() => handleButtonClick("rps")}>
+
+                <GameButton
+                  onClick={() => handleButtonClick("rps")}
+                  onMouseEnter={() => setHoveredGame("Rock, Paper, Scissors")}
+                  onMouseLeave={() => setHoveredGame(null)}
+                >
                   <span
                     role="img"
-                    aria-label="Rock-Paper-Scissors"
+                    aria-label="Rock, Paper, Scissors"
                     style={{ fontSize: "96px" }}
                   >
                     ✊✋✌️
                   </span>
+                  {hoveredGame === "Rock, Paper, Scissors" && (
+                    <span className="game-name">Rock, Paper, Scissors</span>
+                  )}
                 </GameButton>
-                <GameButton onClick={() => handleButtonClick("crossword")}>
+
+                <GameButton
+                  onClick={() => handleButtonClick("crossword")}
+                  onMouseEnter={() => setHoveredGame("Word Guessing game")}
+                  onMouseLeave={() => setHoveredGame(null)}
+                >
                   <span
                     role="img"
-                    aria-label="Word Guessing Game"
+                    aria-label="Word Guessing game"
                     style={{ fontSize: "96px" }}
                   >
                     🧩
                   </span>
+                  {hoveredGame === "Word Guessing game" && (
+                    <span className="game-name">Word Guessing game</span>
+                  )}
                 </GameButton>
               </Flex>
 
