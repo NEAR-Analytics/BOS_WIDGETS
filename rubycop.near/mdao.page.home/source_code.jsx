@@ -156,7 +156,6 @@ const InfoSection = styled.div`
 `;
 
 const ConnectSection = styled.div`
-  color: white;
   background: #151718;
   padding: 4rem 3rem;
 
@@ -166,6 +165,7 @@ const ConnectSection = styled.div`
   }
 
   h2 {
+    color: white;
     font-size: 3rem;
     font-weight: 600;
     width: 70%;
