@@ -150,7 +150,7 @@ const Title = styled.h1`
   text-align: center;
   letter-spacing: -0.03em;
   color: #ffe; 
-  max-width: 500px;
+  max-width: 400px;
 
   span {
     display: inline-block;
