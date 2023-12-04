@@ -33,7 +33,7 @@ const Container = styled.div`
   align-items: center;
   justify-content: center;
   padding: 8px;
-  background-color: #1a1a1a; /* Dark background color */
+  background-color: #1a1a1a; 
 
   @media (max-width: 480px) {
     max-width: 90%;
@@ -48,7 +48,7 @@ const H1 = styled.h1`
   line-height: 1;
   text-align: center;
   letter-spacing: -0.03em;
-  color: #fff; /* White text color */
+  color: #ffe; 
   max-width: 700px;
 
   span {
@@ -118,18 +118,18 @@ const Text = styled.p`
 `;
 
 const GameButton = styled.button`
-  background-color: #333; /* Background color for the buttons */
-  color: #fff; /* Text color for the buttons */
+  background-color: #333; 
+  color: #ffe; 
   border: none;
   padding: 10px 20px;
   font-size: 18px;
   cursor: pointer;
   border-radius: 8px;
   margin: 5px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Shadow effect */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
 
   &:hover {
-    background-color: #555; /* Darker background color on hover */
+    background-color: #555; 
   }
 `;
 
