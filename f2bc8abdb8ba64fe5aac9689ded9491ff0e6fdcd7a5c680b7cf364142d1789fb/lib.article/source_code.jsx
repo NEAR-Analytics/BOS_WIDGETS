@@ -213,6 +213,12 @@ function getArticlesIndexes(action, subscribe) {
   });
 }
 
+function filterFakeAuthors(articleData, articleIndexData) {
+  if (articleData.author === articleIndexData.accountId) {
+    return articleData;
+  }
+}
+
 function getArticlesNormalized(env) {
   const articlesByVersion = Object.keys(versions).map((version, index, arr) => {
     const action = versions[version].action;
@@ -228,7 +234,7 @@ function getArticlesNormalized(env) {
 
     const articles = validLatestEdits
       .map((article) => {
-        return getArticle(article, action);
+        return filterFakeAuthors(getArticle(article, action), article);
       })
       .filter((article) => {
         return article !== undefined;
@@ -344,7 +350,6 @@ function filterValidArticles(articles) {
 
 function filterMultipleKanbanTags(articleTags, kanbanTags) {
   const normalizedKanbanTag = [];
-
   kanbanTags.forEach((tag) => {
     normalizedKanbanTag.push(tag.replace(` `, "-"));
   });
@@ -374,8 +379,11 @@ function normalizeOldToV_0_0_1(article) {
 }
 
 function normalizeFromV0_0_1ToV0_0_2(article) {
-  if (article.blockHeight > 103053147) {
+  if (article.blockHeight > 103053147 || article === null) {
+    console.log("in", article);
     return;
+  } else {
+    console.log("out", article);
   }
 
   article.title = article.articleId;
@@ -395,9 +403,13 @@ function normalizeFromV0_0_2ToV0_0_3(article) {
     article.tags = Object.keys(article.tags);
   }
 
-  article.tags = article.tags.filter(
-    (tag) => tag !== undefined && tag !== null
-  );
+  if (article.tags) {
+    article.tags = article.tags.filter(
+      (tag) => tag !== undefined && tag !== null
+    );
+  } else {
+    article.tags = [];
+  }
 
   if (kanbanColumns) {
     const lowerCaseColumns = [];
@@ -452,7 +464,7 @@ function normalizeLibData(libDataByVersion) {
   Object.keys(versions).forEach((version, index, array) => {
     const normFn = versions[version].normalizationFunction;
     const normLibData = libDataByVersion[index].map((libData, i) => {
-      return normFn(libData);
+      if (libData) return normFn(libData);
     });
 
     if (index + 1 === array.length) {
