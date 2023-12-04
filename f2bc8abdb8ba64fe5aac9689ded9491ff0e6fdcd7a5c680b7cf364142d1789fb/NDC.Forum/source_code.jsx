@@ -43,7 +43,7 @@ const initLibsCalls = {
   ],
 };
 
-state.articles && console.log("articles: ", articles);
+state.articles && console.log("articles: ", state.articles);
 
 accountId = context.accountId;
 
