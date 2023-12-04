@@ -9,10 +9,48 @@ const findHashtags = (str) => {
 };
 const respBlock = fetch("https://api.nearblocks.io/v1/stats");
 
-const newBlock = Math.round(
+const newBlock30Days = Math.round(
   parseInt(respBlock.body.stats[0].block) -
     (30 * 24 * 3600) / parseInt(respBlock.body.stats[0].avg_block_time)
 );
+
+let BlockHeightPost30Days = [];
+const getBlockHeight30daysPost = Social.index("post", "main", {
+  from: newBlock30Days,
+  limit: 99999,
+});
+
+getBlockHeight30daysPost.forEach((item) => {
+  BlockHeightPost30Days.push({
+    accountId: item.accountId,
+    blockHeight: item.blockHeight,
+  });
+});
+
+let post30days = [];
+BlockHeightPost30Days.forEach((item) => {
+  const post = Social.get(`${item.accountId}/post/main`, item.blockHeight);
+  if (post) {
+    post30days.push(JSON.parse(post).text);
+  }
+});
+
+let tagCount30Days = {};
+post30days.forEach((item) => {
+  const tags = findHashtags(item);
+  if (tags.length > 0) {
+    tags.forEach((tag) => {
+      if (tagCount30Days[tag]) {
+        tagCount30Days[tag] = tagCount30Days[tag] + 1;
+      } else {
+        tagCount30Days[tag] = 1;
+      }
+    });
+  }
+});
+let entries30days = Object.entries(tagCount30Days);
+let post30daySorted = entries30days.sort((b, a) => a[1] - b[1]);
+
 const newBlock1Days = Math.round(
   parseInt(respBlock.body.stats[0].block) -
     (1 * 24 * 3600) / parseInt(respBlock.body.stats[0].avg_block_time)
@@ -84,11 +122,11 @@ let day7PostSorted = entries7.sort((b, a) => a[1] - b[1]);
 let totalItemsAll = 0;
 
 // Sum the values in the allPostSorted array
-for (let i = 0; i < allPostSorted.length; i++) {
-  totalItemsAll += allPostSorted[i][1];
+for (let i = 0; i < post30daySorted.length; i++) {
+  totalItemsAll += post30daySorted[i][1];
 }
 
-const labelN = "Top 20 trending tags on NEAR Social in all time";
+const labelN = "Top 10 trending tags on NEAR Social in all time";
 
 const backgroundcolorP = [
   "blue",
@@ -142,9 +180,9 @@ let labelP = [];
 
 // Assuming allPostSorted has at least 20 items
 for (let i = 0; i < 10; i++) {
-  if (allPostSorted[i]) {
-    dataP.push(allPostSorted[i][1]); // Assuming item[1] contains the data for dataP
-    labelP.push(allPostSorted[i][0]); // Assuming item[0] contains the data for labelP
+  if (post30daySorted[i]) {
+    dataP.push(post30daySorted[i][1]); // Assuming item[1] contains the data for dataP
+    labelP.push(post30daySorted[i][0]); // Assuming item[0] contains the data for labelP
   }
 }
 
@@ -199,7 +237,7 @@ const StyledTotalValue = styled.div`
 
 const Table = () => {
   const [searchTerm, setSearchTerm] = useState("");
-  const filteredTags = allPostSorted
+  const filteredTags = post30daySorted
     .filter((item) => item[0].toLowerCase().includes(searchTerm.toLowerCase()))
     .slice(0, 10);
   return (
@@ -235,9 +273,9 @@ const Table = () => {
           </tr>
         </thead>
         <tbody>
-          {allPostSorted &&
-            allPostSorted
-              .filter((item, index) => index <= 10)
+          {post30daySorted &&
+            post30daySorted
+              .filter((item, index) => index <= 100)
               .map((item) => (
                 <tr>
                   <StyledTd>
