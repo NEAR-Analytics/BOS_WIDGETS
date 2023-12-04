@@ -244,6 +244,42 @@ const ConnectSection = styled.div`
   }
 `;
 
+const SupportSection = styled.div`
+  background: linear-gradient(
+    258deg,
+    rgba(162, 195, 254, 0.5) 0%,
+    rgba(225, 197, 252, 0.5) 28.72%,
+    rgba(241, 220, 210, 0.5) 100%
+  );
+  padding: 4rem 3rem;
+
+  @media screen and (max-width: 786px) {
+    padding: 2rem;
+    text-align: center;
+  }
+
+  h2 {
+    font-size: 32px;
+    font-weight: 600;
+  }
+
+  .item {
+    width: 400px;
+    height: 400px;
+    border-radius: 400px;
+    background: #151718;
+    box-shadow: 0px 30px 50px 0px rgba(0, 0, 0, 0.25);
+
+    .inner {
+      color: white;
+      width: 380px;
+      height: 380px;
+      border-radius: 380px;
+      border: 2px solid #f0ddcf;
+    }
+  }
+`;
+
 const communities = [
   {
     title: "Community Name",
@@ -293,6 +329,19 @@ const Connect = ({ title, desc, href }) => (
         <span className="mr-4">Learn More</span>
         <i className="bi bi-chevron-right" />
       </a>
+    </div>
+  </div>
+);
+
+const Support = ({ title, items }) => (
+  <div>
+    <h2 className="text-center mb-5">{title}</h2>
+    <div className="item d-flex justify-content-center align-items-center">
+      <div className="inner d-flex flex-column justify-content-center align-items-center">
+        {items.map((i) => (
+          <p>{i}</p>
+        ))}
+      </div>
     </div>
   </div>
 );
@@ -349,8 +398,13 @@ return (
       </div>
     </ConnectSection>
 
-    <div>
-      <img className="w-100 object-fit-cover" src={assets.support_bg} />
-    </div>
+    <SupportSection className="d-flex flex-column gap-5">
+      <h4>{content.support.name}</h4>
+      <div className="d-flex flex-wrap gap-4 justify-content-center">
+        {content.support.sections.map(({ title, items }) => (
+          <Support title={title} items={items} />
+        ))}
+      </div>
+    </SupportSection>
   </Container>
 );
