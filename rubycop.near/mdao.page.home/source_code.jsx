@@ -156,13 +156,19 @@ const InfoSection = styled.div`
 `;
 
 const ConnectSection = styled.div`
-  color: white !important;
+  color: white;
   background: #151718;
   padding: 4rem 3rem;
 
   @media screen and (max-width: 786px) {
     padding: 2rem;
     text-align: center;
+  }
+
+  h2,
+  h3,
+  h4 {
+    color: white;
   }
 
   h2 {
