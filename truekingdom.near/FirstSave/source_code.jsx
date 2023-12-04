@@ -50,7 +50,7 @@ return (
     <h3>Libro de Visitas (BOS + NEAR)</h3> {/* Orange text for heading */}
     <br />
     {context.accountId ? (
-      <div class="border border-primary p-3">
+      <div class="p-3">
         <h3>Nuevo Mensaje</h3>
         <div class="row">
           <div>
