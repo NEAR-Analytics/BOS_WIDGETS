@@ -180,7 +180,7 @@ function AudioCard() {
 
   return (
     <MainSection fullWidth={audioCardFullWidth} class="border border-danger">
-      <H2>{audioCardFullWidth ? "Related Audio" : "Audio"}</H2>
+      <H2>{audioCardFullWidth ? "RELATED AUDIO" : "AUDIO"}</H2>
       {audio.length > 0 ? (
         audio.map((podcast, index) => (
           <div key={index}>
