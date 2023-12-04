@@ -254,7 +254,7 @@ const SupportSection = styled.div`
   padding: 4rem 3rem 7rem 3rem;
 
   @media screen and (max-width: 786px) {
-    padding: 2rem;
+    padding: 2rem 2rem 4rem 2rem;
     text-align: center;
   }
 
@@ -263,19 +263,37 @@ const SupportSection = styled.div`
     font-weight: 600;
   }
 
+  .items {
+    gap: 3rem;
+
+    @media screen and (max-width: 786px) {
+      gap: 4rem;
+    }
+  }
+
   .item {
     width: 370px;
     height: 370px;
-    border-radius: 370px;
+    border-radius: 50%;
     background: #151718;
     box-shadow: 0px 30px 50px 0px rgba(0, 0, 0, 0.25);
+
+    @media screen and (max-width: 786px) {
+      width: 300px;
+      height: 300px;
+    }
 
     .inner {
       color: white;
       width: 350px;
       height: 350px;
-      border-radius: 350px;
+      border-radius: 50%;
       border: 2px solid #f0ddcf;
+
+      @media screen and (max-width: 786px) {
+        width: 270px;
+        height: 270px;
+      }
     }
   }
 `;
@@ -400,7 +418,7 @@ return (
 
     <SupportSection className="d-flex flex-column gap-5">
       <h4>{content.support.name}</h4>
-      <div className="d-flex flex-wrap gap-4 justify-content-center">
+      <div className="items d-flex flex-wrap justify-content-center">
         {content.support.sections.map(({ title, items }) => (
           <Support title={title} items={items} />
         ))}
