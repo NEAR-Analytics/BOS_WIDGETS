@@ -9,83 +9,181 @@ const findHashtags = (str) => {
 };
 const respBlock = fetch("https://api.nearblocks.io/v1/stats");
 
-const newBlock = Math.round(
+const newBlock30Days = Math.round(
   parseInt(respBlock.body.stats[0].block) -
     (30 * 24 * 3600) / parseInt(respBlock.body.stats[0].avg_block_time)
 );
+
+// 30 days
+let BlockHeightPost30Days = [];
+const getBlockHeight30daysPost = Social.index("post", "main", {
+  from: newBlock30Days,
+  limit: 99999,
+});
+getBlockHeight30daysPost.forEach((item) => {
+  BlockHeightPost30Days.push({
+    accountId: item.accountId,
+    blockHeight: item.blockHeight,
+  });
+});
+
+let post30days = [];
+BlockHeightPost30Days.forEach((item) => {
+  const post = Social.get(`${item.accountId}/post/main`, item.blockHeight);
+  if (post) {
+    post30days.push(JSON.parse(post).text);
+  }
+});
+
+let tagCount30Days = {};
+post30days.forEach((item) => {
+  const tags = findHashtags(item);
+  if (tags.length > 0) {
+    tags.forEach((tag) => {
+      if (tagCount30Days[tag]) {
+        tagCount30Days[tag] = tagCount30Days[tag] + 1;
+      } else {
+        tagCount30Days[tag] = 1;
+      }
+    });
+  }
+});
+let entries30days = Object.entries(tagCount30Days);
+let post30daySorted = entries30days.sort((b, a) => a[1] - b[1]);
+
+// 1 days
 const newBlock1Days = Math.round(
   parseInt(respBlock.body.stats[0].block) -
     (1 * 24 * 3600) / parseInt(respBlock.body.stats[0].avg_block_time)
 );
+
+let BlockHeightPost1Days = [];
+const getBlockHeight1daysPost = Social.index("post", "main", {
+  from: newBlock1Days,
+  limit: 99999,
+});
+getBlockHeight1daysPost.forEach((item) => {
+  BlockHeightPost1Days.push({
+    accountId: item.accountId,
+    blockHeight: item.blockHeight,
+  });
+});
+
+let post1days = [];
+BlockHeightPost1Days.forEach((item) => {
+  const post = Social.get(`${item.accountId}/post/main`, item.blockHeight);
+  if (post) {
+    post1days.push(JSON.parse(post).text);
+  }
+});
+
+let tagCount1Days = {};
+post1days.forEach((item) => {
+  const tags = findHashtags(item);
+  if (tags.length > 0) {
+    tags.forEach((tag) => {
+      if (tagCount1Days[tag]) {
+        tagCount1Days[tag] = tagCount1Days[tag] + 1;
+      } else {
+        tagCount1Days[tag] = 1;
+      }
+    });
+  }
+});
+let entries1days = Object.entries(tagCount1Days);
+let post1daySorted = entries1days.sort((b, a) => a[1] - b[1]);
+
+// 3 days
 const newBlock3Days = Math.round(
   parseInt(respBlock.body.stats[0].block) -
     (3 * 24 * 3600) / parseInt(respBlock.body.stats[0].avg_block_time)
 );
+
+let BlockHeightPost3Days = [];
+const getBlockHeight3daysPost = Social.index("post", "main", {
+  from: newBlock3Days,
+  limit: 99999,
+});
+
+getBlockHeight3daysPost.forEach((item) => {
+  BlockHeightPost3Days.push({
+    accountId: item.accountId,
+    blockHeight: item.blockHeight,
+  });
+});
+
+let post3days = [];
+BlockHeightPost3Days.forEach((item) => {
+  const post = Social.get(`${item.accountId}/post/main`, item.blockHeight);
+  if (post) {
+    post3days.push(JSON.parse(post).text);
+  }
+});
+
+let tagCount3Days = {};
+post3days.forEach((item) => {
+  const tags = findHashtags(item);
+  if (tags.length > 0) {
+    tags.forEach((tag) => {
+      if (tagCount3Days[tag]) {
+        tagCount3Days[tag] = tagCount3Days[tag] + 1;
+      } else {
+        tagCount3Days[tag] = 1;
+      }
+    });
+  }
+});
+let entries3days = Object.entries(tagCount3Days);
+let post3daySorted = entries3days.sort((b, a) => a[1] - b[1]);
+
+// 7 days
 const newBlock7Days = Math.round(
   parseInt(respBlock.body.stats[0].block) -
     (7 * 24 * 3600) / parseInt(respBlock.body.stats[0].avg_block_time)
 );
-const allPost = Social.get("*/post/main/", "final");
 
-const tagCountAll = {};
-const tagCount1Days = {};
-const tagCount3Days = {};
-const tagCount7Days = {};
-Object.keys(allPost).forEach((item) => {
-  const tags = findHashtags(JSON.parse(allPost[item].post.main).text);
+let BlockHeightPost7Days = [];
+const getBlockHeight7daysPost = Social.index("post", "main", {
+  from: newBlock7Days,
+  limit: 99999,
+});
+
+getBlockHeight7daysPost.forEach((item) => {
+  BlockHeightPost7Days.push({
+    accountId: item.accountId,
+    blockHeight: item.blockHeight,
+  });
+});
+
+let post7days = [];
+BlockHeightPost7Days.forEach((item) => {
+  const post = Social.get(`${item.accountId}/post/main`, item.blockHeight);
+  if (post) {
+    post7days.push(JSON.parse(post).text);
+  }
+});
+
+let tagCount7Days = {};
+post7days.forEach((item) => {
+  const tags = findHashtags(item);
   if (tags.length > 0) {
     tags.forEach((tag) => {
-      tagCountAll[tag] = 0;
-      tagCount1Days[tag] = 0;
-      tagCount3Days[tag] = 0;
-      tagCount7Days[tag] = 0;
+      if (tagCount7Days[tag]) {
+        tagCount7Days[tag] = tagCount7Days[tag] + 1;
+      } else {
+        tagCount7Days[tag] = 1;
+      }
     });
   }
 });
-Object.keys(tagCountAll).forEach((tag) => {
-  const countAllPost = Social.index("hashtag", tag.replace("#", ""), {
-    from: newBlock,
-    limit: 999,
-    order: "asc",
-  });
-  const count1DaysPost = Social.index("hashtag", tag.replace("#", ""), {
-    from: newBlock1Days,
-    limit: 999,
-    order: "asc",
-  });
-  const count3DaysPost = Social.index("hashtag", tag.replace("#", ""), {
-    from: newBlock3Days,
-    limit: 999,
-    order: "asc",
-  });
-  const count7DaysPost = Social.index("hashtag", tag.replace("#", ""), {
-    from: newBlock7Days,
-    limit: 999,
-    order: "asc",
-  });
-  tagCountAll[tag] = countAllPost.length || 0;
-  tagCount1Days[tag] = count1DaysPost.length || 0;
-  tagCount3Days[tag] = count3DaysPost.length || 0;
-  tagCount7Days[tag] = count7DaysPost.length || 0;
-});
-
-let entriesALL = Object.entries(tagCountAll);
-let allPostSorted = entriesALL.sort((b, a) => a[1] - b[1]);
-
-let entries1 = Object.entries(tagCount1Days);
-let day1PostSorted = entries1.sort((b, a) => a[1] - b[1]);
-
-let entries3 = Object.entries(tagCount3Days);
-let day3PostSorted = entries3.sort((b, a) => a[1] - b[1]);
-
-let entries7 = Object.entries(tagCount7Days);
-let day7PostSorted = entries7.sort((b, a) => a[1] - b[1]);
+let entries7days = Object.entries(tagCount7Days);
+let post7daySorted = entries7days.sort((b, a) => a[1] - b[1]);
 
 let totalItems1Day = 0;
 
 // Sum the values in the day1PostSorted array
-for (let i = 0; i < day1PostSorted.length; i++) {
-  totalItems1Day += day1PostSorted[i][1];
+for (let i = 0; i < post1daySorted.length; i++) {
+  totalItems1Day += post1daySorted[i][1];
 }
 
 const labelN = "Top 10 trending tags on NEAR Social in right now";
@@ -141,9 +239,9 @@ let dataP = [];
 let labelP = [];
 
 for (let i = 0; i < 10; i++) {
-  if (day1PostSorted[i]) {
-    dataP.push(day1PostSorted[i][1]);
-    labelP.push(day1PostSorted[i][0]);
+  if (post1daySorted[i]) {
+    dataP.push(post1daySorted[i][1]);
+    labelP.push(post1daySorted[i][0]);
   }
 }
 
@@ -198,7 +296,6 @@ const StyledTotalValue = styled.div`
 
 const Table = () => {
   const [searchTerm, setSearchTerm] = useState("");
-  const isLoading = !day7PostSorted || day7PostSorted.length === 0;
 
   return (
     <>
@@ -237,8 +334,8 @@ const Table = () => {
               </tr>
             </thead>
             <tbody>
-              {day1PostSorted &&
-                day1PostSorted
+              {post1daySorted &&
+                post1daySorted
                   .filter((item, index) => index <= 10)
                   .map((item) => (
                     <tr>
