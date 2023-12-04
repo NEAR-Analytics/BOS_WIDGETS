@@ -116,6 +116,8 @@ const setTags = (tags) => {
 
 const tags = getTags();
 
+const thingExists = Social.get(`${state.path}`, "final");
+
 return (
   <>
     <div className="m-2">
@@ -158,133 +160,140 @@ return (
         </div>
       </div>
     </div>
-    <div className="p-2 m-3">
-      <div className="mb-2 card">
-        <div className="card-body">
-          <p>{JSON.stringify(state.path)}</p>
-          <div className="text-truncate mb-3">
-            <Widget
-              src="hack.near/widget/thing.block"
-              props={{ path: state.path }}
-            />
-          </div>
-          {tags &&
-            tags.map((tag) => (
-              <a
-                href={`/#/hack.near/widget/every.context?tag=${tag.name}`}
-                className={badgeBtnClass}
-                key={tag}
-              >
-                <span
-                  className={`badge ${tagClass} position-relative`}
-                  style={
-                    tag.count > 1
-                      ? {
-                          marginRight: "0.9em",
-                          paddingRight: "0.85em",
-                        }
-                      : { marginRight: "0.25em" }
-                  }
+    {thingExists ? (
+      <div className="p-2 m-3">
+        <div className="mb-2 card">
+          <div className="card-body">
+            <div className="text-truncate mb-3">
+              <Widget
+                src="hack.near/widget/thing.block"
+                props={{ path: state.path }}
+              />
+            </div>
+            {tags &&
+              tags.map((tag) => (
+                <a
+                  href={`/#/hack.near/widget/every.context?tag=${tag.name}`}
+                  className={badgeBtnClass}
+                  key={tag}
                 >
-                  #{tag.name}
-                  {tag.count > 1 && (
-                    <span
-                      className={`ms-1 badge translate-middle rounded-pill bg-dark position-absolute top-50 start-100`}
-                    >
-                      {tag.count}
-                    </span>
-                  )}
-                </span>
-              </a>
-            ))}
-          <div className="m-2">
-            {!state.showEditor ? (
-              <button
-                onClick={() =>
-                  setState((prevState) => ({
-                    ...prevState,
-                    showEditor: true,
-                  }))
-                }
-                className={badgeBtnClass}
-              >
-                <div className={`me-1 mt-3 badge bg-success`}>
-                  + attestation
-                </div>
-              </button>
-            ) : (
-              <div className="mb-2">
+                  <span
+                    className={`badge ${tagClass} position-relative`}
+                    style={
+                      tag.count > 1
+                        ? {
+                            marginRight: "0.9em",
+                            paddingRight: "0.85em",
+                          }
+                        : { marginRight: "0.25em" }
+                    }
+                  >
+                    #{tag.name}
+                    {tag.count > 1 && (
+                      <span
+                        className={`ms-1 badge translate-middle rounded-pill bg-dark position-absolute top-50 start-100`}
+                      >
+                        {tag.count}
+                      </span>
+                    )}
+                  </span>
+                </a>
+              ))}
+            <div className="m-2">
+              {!state.showEditor ? (
                 <button
                   onClick={() =>
                     setState((prevState) => ({
                       ...prevState,
-                      showEditor: false,
+                      showEditor: true,
                     }))
                   }
-                  className="text-white btn p-0 lh-1 m-1"
+                  className={badgeBtnClass}
                 >
-                  <div className={`me-1 mt-3 badge bg-secondary`}>x close</div>
-                </button>
-              </div>
-            )}
-            {state.showEditor && (
-              <div>
-                <div className="row">
-                  <div className="m-1 col-8">
-                    <Typeahead
-                      id={`tag-selector-${Date.now()}`}
-                      multiple
-                      labelKey="name"
-                      onChange={setTags}
-                      options={tags}
-                      placeholder="dev, art, gov, edu, social, near"
-                      positionFixed
-                      allowNew
-                    />
+                  <div className={`me-1 mt-3 badge bg-success`}>
+                    + attestation
                   </div>
-                  <div className="m-1 col-3">
-                    <CommitButton
-                      disabled={state.tagsObject === null}
-                      data={{
-                        graph: {
-                          context: {
-                            [creatorId]: {
-                              [namespace]: {
-                                [thingId]: state.tagsObject,
+                </button>
+              ) : (
+                <div className="mb-2">
+                  <button
+                    onClick={() =>
+                      setState((prevState) => ({
+                        ...prevState,
+                        showEditor: false,
+                      }))
+                    }
+                    className="text-white btn p-0 lh-1 m-1"
+                  >
+                    <div className={`me-1 mt-3 badge bg-secondary`}>
+                      x close
+                    </div>
+                  </button>
+                </div>
+              )}
+              {state.showEditor && (
+                <div>
+                  <div className="row">
+                    <div className="m-1 col-8">
+                      <Typeahead
+                        id={`tag-selector-${Date.now()}`}
+                        multiple
+                        labelKey="name"
+                        onChange={setTags}
+                        options={tags}
+                        placeholder="dev, art, gov, edu, social, near"
+                        positionFixed
+                        allowNew
+                      />
+                    </div>
+                    <div className="m-1 col-3">
+                      <CommitButton
+                        disabled={state.tagsObject === null}
+                        data={{
+                          graph: {
+                            context: {
+                              [creatorId]: {
+                                [namespace]: {
+                                  [thingId]: state.tagsObject,
+                                },
                               },
                             },
                           },
-                        },
-                      }}
-                    >
-                      + context
-                    </CommitButton>
+                        }}
+                      >
+                        + context
+                      </CommitButton>
+                    </div>
+                  </div>
+                  <div className="row">
+                    <div className="m-1 col-8">
+                      <input
+                        placeholder="source path of another thing"
+                        onChange={(e) =>
+                          setState((prevState) => ({
+                            ...prevState,
+                            attestation: e.target.value,
+                          }))
+                        }
+                      />
+                    </div>
+                    <div className="m-1 col-3">
+                      <Widget
+                        src="hack.near/widget/AttestButton"
+                        props={{ item: state.path, data: state.attestation }}
+                      />
+                    </div>
                   </div>
                 </div>
-                <div className="row">
-                  <div className="m-1 col-8">
-                    <input
-                      placeholder="source path of another thing"
-                      onChange={(e) =>
-                        setState((prevState) => ({
-                          ...prevState,
-                          attestation: e.target.value,
-                        }))
-                      }
-                    />
-                  </div>
-                  <div className="m-1 col-3">
-                    <Widget
-                      src="hack.near/widget/AttestButton"
-                      props={{ item: state.path, data: state.attestation }}
-                    />
-                  </div>
-                </div>
-              </div>
-            )}
+              )}
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    ) : (
+      <div className="p-2 m-3">
+        <i>nothing found</i>
+      </div>
+    )}
   </>
 );
