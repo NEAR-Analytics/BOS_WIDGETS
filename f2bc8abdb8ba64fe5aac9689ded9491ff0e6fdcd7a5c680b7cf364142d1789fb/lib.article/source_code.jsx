@@ -368,10 +368,6 @@ function filterMultipleKanbanTags(articleTags, kanbanTags) {
 }
 
 function normalizeOldToV_0_0_1(article) {
-  if (article.blockHeight > 102530777) {
-    return;
-  }
-
   article.realArticleId = `${article.author}-${article.timeCreate}`;
   article.sbts = ["public"];
 
@@ -379,10 +375,6 @@ function normalizeOldToV_0_0_1(article) {
 }
 
 function normalizeFromV0_0_1ToV0_0_2(article) {
-  if (article.blockHeight > 103053147) {
-    return;
-  }
-
   article.title = article.articleId;
   article.id = article.realArticleId;
   if (article.sbts[0] !== "public") {
@@ -444,14 +436,17 @@ const versions = {
   old: {
     normalizationFunction: normalizeOldToV_0_0_1,
     action: versionsBaseActions,
+    validBlockHeightRange: [0, 102530777],
   },
   "v0.0.1": {
     normalizationFunction: normalizeFromV0_0_1ToV0_0_2,
     action: `${versionsBaseActions}_v0.0.1`,
+    validBlockHeightRange: [102530777, 103053147],
   },
   "v0.0.2": {
     normalizationFunction: normalizeFromV0_0_2ToV0_0_3,
     action: `${versionsBaseActions}_v0.0.2`,
+    validBlockHeightRange: [103053147, undefined],
   },
 };
 
@@ -460,9 +455,21 @@ function normalizeLibData(libDataByVersion) {
 
   Object.keys(versions).forEach((version, index, array) => {
     const normFn = versions[version].normalizationFunction;
-    const normLibData = libDataByVersion[index].map((libData, i) => {
-      if (libData) return normFn(libData);
-    });
+    const validBlockHeightRange = versions[version].validBlockHeightRange;
+    const normLibData = libDataByVersion[index]
+      .filter((libData) => {
+        if (validBlockHeightRange[1] === undefined) {
+          return true;
+        }
+
+        return (
+          validBlockHeightRange[0] < libData.blockHeight &&
+          libData.blockHeight < validBlockHeightRange[1]
+        );
+      })
+      .map((libData, i) => {
+        if (libData) return normFn(libData);
+      });
 
     if (index + 1 === array.length) {
       // Last index
