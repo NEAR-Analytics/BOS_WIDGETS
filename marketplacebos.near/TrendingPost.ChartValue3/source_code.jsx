@@ -9,8 +9,6 @@ const findHashtags = (str) => {
 };
 const respBlock = fetch("https://api.nearblocks.io/v1/stats");
 
-
-
 // 3 days
 const newBlock3Days = Math.round(
   parseInt(respBlock.body.stats[0].block) -
@@ -22,16 +20,16 @@ const getBlockHeight3daysPost = Social.index("post", "main", {
   from: newBlock3Days,
   limit: 99999,
 });
-
+if (!getBlockHeight3daysPost) {
+  return "Loading...";
+}
 getBlockHeight3daysPost.forEach((item) => {
   BlockHeightPost3Days.push({
     accountId: item.accountId,
     blockHeight: item.blockHeight,
   });
 });
-if (!getBlockHeight3daysPost) {
-  return "Loading...";
-}
+
 
 let post3days = [];
 BlockHeightPost3Days.forEach((item) => {
@@ -56,8 +54,6 @@ post3days.forEach((item) => {
 });
 let entries3days = Object.entries(tagCount3Days);
 let post3daySorted = entries3days.sort((b, a) => a[1] - b[1]);
-
-
 
 let totalItems3Days = 0;
 
