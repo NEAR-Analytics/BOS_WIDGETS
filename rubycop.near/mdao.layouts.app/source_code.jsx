@@ -2,6 +2,8 @@ const { app, provider } = VM.require(`rubycop.near/widget/mdao.config`);
 
 const Theme = styled.div`
   background: #fffcff;
+  font-style: normal;
+  line-height: normal;
 
   a {
     color: inherit;
@@ -14,8 +16,6 @@ const Theme = styled.div`
   h5,
   h6 {
     color: #151718;
-    font-style: normal;
-    line-height: normal;
   }
 `;
 
@@ -35,20 +35,11 @@ const ContentContainer = styled.div`
   width: 100%;
 `;
 
-const AppHeader = ({ page }) => (
-  <Widget
-    src={`${provider}/widget/${app}.components.NavBar`}
-    props={{ page: page, ...props }}
-  />
-);
-
 const Footer = (props) => {
   return (
     <Widget
       src="devhub.near/widget/devhub.components.organism.NewsLetter"
-      props={{
-        ...props,
-      }}
+      props={{ ...props }}
     />
   );
 };
@@ -57,7 +48,7 @@ function AppLayout({ page, children }) {
   return (
     <Theme>
       <Container>
-        <AppHeader page={page} />
+        <Widget src={`${provider}/widget/${app}.components.NavBar`} />
         <ContentContainer>{children}</ContentContainer>
         <Footer page={page} />
       </Container>
