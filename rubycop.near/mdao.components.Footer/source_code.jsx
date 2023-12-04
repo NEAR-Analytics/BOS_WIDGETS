@@ -5,7 +5,7 @@ const page = props.page;
 const Footer = styled.div`
   width: 100%;
   background: #151718;
-  padding: 1.5rem;
+  padding: 4rem;
 `;
 
 const Description = styled.p`
@@ -17,7 +17,6 @@ const Description = styled.p`
 `;
 
 const MidContainer = styled.div`
-  width: 720px;
   ${
     (page === "community" || page === "communities" || page === "feed") &&
     "display: none;"
@@ -48,7 +47,7 @@ const Socials = () => (
 const MidContent = () => {
   return (
     <>
-      <MidContainer className="d-flex flex-column align-items-center gap-2">
+      <MidContainer className="d-flex flex-column align-items-center gap-4">
         <img src={assets.logoColor} />
         <Description>
           Stay in the loop. Get the latest updates, announcements,
