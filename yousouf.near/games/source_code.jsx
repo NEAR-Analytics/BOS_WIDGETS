@@ -307,7 +307,7 @@ return (
           )}
           <hr />
           <GameButton onClick={() => alert("coming soon")}>
-            <h4>Claim NFT</h4>
+            <h4>Claim NFT 🎭</h4>
           </GameButton>
         </div>
       )}
