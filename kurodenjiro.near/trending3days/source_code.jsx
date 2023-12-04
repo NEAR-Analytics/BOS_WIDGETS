@@ -234,7 +234,9 @@ return (
         post3daySorted
           .filter((item, index) => index <= 20)
           .map((item, index) => (
-            <a href={`https://near.social/?hashtag=${item[0]}`}>
+            <a
+              href={`https://near.social/?hashtag=${item[0].replace("#", "")}`}
+            >
               <span className={`tag tag-${index} tag-lg`}>
                 {item[0].replace("#", "")}
               </span>
