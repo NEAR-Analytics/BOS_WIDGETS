@@ -20,6 +20,10 @@ const getBlockHeight3daysPost = Social.index("post", "main", {
   from: newBlock3Days,
   limit: 99999,
 });
+
+if (!getBlockHeight3daysPost) {
+  return "Loading...";
+}
 getBlockHeight3daysPost.forEach((item) => {
   BlockHeightPost3Days.push({
     accountId: item.accountId,
