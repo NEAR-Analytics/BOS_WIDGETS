@@ -12,15 +12,15 @@ const getConfig = (network) => {
   switch (network) {
     case "mainnet":
       return {
-        app: "https://sourcescan.2bb.dev",
+        appUrl: "https://v2.sourcescan.dev",
         ownerId: "sourcescan.near",
         rpcUrl: "https://rpc.mainnet.near.org",
-        contractId: "sourcescan.near",
-        apiHost: "https://sourcescan-api.2bb.dev",
+        contractId: "dev.sourcescan.near",
+        apiHost: "https://api.sourcescan.dev",
       };
     case "testnet":
       return {
-        app: "https://sourcescan.testnet.2bb.dev",
+        appUrl: "https://sourcescan.testnet.2bb.dev",
         ownerId: "sourcescan.testnet",
         rpcUrl: "https://rpc.testnet.near.org",
         contractId: "sourcescan.testnet",
@@ -224,6 +224,7 @@ const pages = {
         src={`${state.config.ownerId}/widget/SourceScan.Contracts.Table`}
         props={{
           theme: useTheme(light, dark),
+          verifierId: state.config.contractId,
           contracts: state.contracts,
           rpcUrl: state.config.rpcUrl,
           apiHost: state.config.apiHost,
@@ -244,6 +245,7 @@ const pages = {
     <Widget
       src={`${state.config.ownerId}/widget/SourceScan.Contracts.Info`}
       props={{
+        verifierId: state.config.contractId,
         apiHost: state.config.apiHost,
         contractId: props.contractId,
         theme: useTheme(
@@ -270,6 +272,7 @@ const pages = {
         rpcUrl: state.config.rpcUrl,
         theme: useTheme(light, dark),
         apiHost: state.config.apiHost,
+        appUrl: state.config.appUrl,
       }}
     />
   ),
