@@ -418,8 +418,8 @@ return (
       </div>
     </ConnectSection>
 
-    <SupportSection className="d-flex flex-column gap-5">
-      <h4 id="get-support">{content.support.name}</h4>
+    <SupportSection id="get-support" className="d-flex flex-column gap-5">
+      <h4>{content.support.name}</h4>
       <div className="items d-flex flex-wrap justify-content-center">
         {content.support.sections.map(({ title, items }) => (
           <Support title={title} items={items} />
