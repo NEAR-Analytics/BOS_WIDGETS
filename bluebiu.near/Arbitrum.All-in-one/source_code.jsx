@@ -229,14 +229,14 @@ return (
         >
           <span className="icon">{swapIcon}</span>Swap
         </div>
-        <div
+        {/* <div
           onClick={() => {
             changeTab("Liquidity");
           }}
           className={`item ${activeMenu == "Liquidity" ? "active" : ""}`}
         >
           <span className="icon">{liquidityIcon}</span>Liquidity
-        </div>
+        </div> */}
         <div
           onClick={() => {
             changeTab("Lending");
@@ -262,11 +262,11 @@ return (
             />
           </>
         ) : null}
-        {activeMenu == "Liquidity" ? (
+        {/* {activeMenu == "Liquidity" ? (
           <>
             <Widget src="bluebiu.near/widget/Arbitrum.Pendle.TradeMarkets" />
           </>
-        ) : null}
+        ) : null} */}
         {activeMenu == "Lending" ? (
           <>
             <Widget src="bluebiu.near/widget/Arbitrum.Lending" props={props} />
