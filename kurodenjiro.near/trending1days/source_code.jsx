@@ -21,6 +21,10 @@ const getBlockHeight1daysPost = Social.index("post", "main", {
   limit: 99999,
 });
 
+if (!getBlockHeight1daysPost) {
+  return "";
+}
+
 getBlockHeight1daysPost.forEach((item) => {
   BlockHeightPost1Days.push({
     accountId: item.accountId,
