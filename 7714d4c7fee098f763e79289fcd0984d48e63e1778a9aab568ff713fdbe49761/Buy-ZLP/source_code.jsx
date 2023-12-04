@@ -1,3 +1,98 @@
+// HANDLES
+
+function handleChangeFromToken(address) {
+  State.update({
+    fromToken: infoTokens[address],
+  });
+}
+
+function handleClickMax() {
+  State.update({
+    payValue: formatAmountFree(fromToken.balance, fromToken.decimals, 18),
+  });
+
+  handleChangePayValue(
+    formatAmountFree(fromToken.balance, fromToken.decimals, 18)
+  );
+}
+
+function handleClickSwitchNetwork(network) {
+  try {
+    Ethers.send("wallet_switchEthereumChain", [
+      { chainId: ethers.utils.hexValue(network) },
+    ]);
+  } catch (e) {
+    console.log("error switching network", e);
+  }
+  try {
+    Ethers.send("wallet_addEthereumChain", [CHAINS[network].NETWORK_INFO]);
+  } catch (e) {
+    console.log("error adding new network", e);
+  }
+}
+
+function handleChangePayValue(value) {
+  if (value === "." && !payValue) {
+    State.update({
+      payValue: "0.",
+    });
+  }
+  if (isNaN(value)) {
+    return;
+  }
+
+  State.update({
+    payValue: value,
+  });
+
+  const amount = parseValue(value, fromToken.decimals);
+
+  const { amount: nextAmount, feeBasisPoints: feeBps } = getBuyZlpToAmount(
+    amount,
+    fromToken,
+    zlpPrice,
+    usdgSupply,
+    totalTokenWeights
+  );
+  const nextValue = formatAmountFree(nextAmount, ZLP_DECIMALS, 18);
+
+  State.update({
+    receiveValue: nextValue,
+    feeBasisPoints: feeBps,
+  });
+}
+
+function handleChangeReceiveValue(value) {
+  if (value === "." && !receiveValue) {
+    State.update({
+      receiveValue: "0.",
+    });
+  }
+  if (isNaN(value)) {
+    return;
+  }
+
+  State.update({
+    receiveValue: value,
+  });
+
+  const amount = parseValue(value, ZLP_DECIMALS);
+
+  const { amount: nextAmount, feeBasisPoints: feeBps } = getBuyZlpFromAmount(
+    amount,
+    fromToken,
+    zlpPrice,
+    usdgSupply,
+    totalTokenWeights
+  );
+  const nextValue = formatAmountFree(nextAmount, fromToken.decimals, 18);
+
+  State.update({
+    payValue: nextValue,
+    feeBasisPoints: feeBps,
+  });
+}
+
 // WATCH
 
 useEffect(() => {
