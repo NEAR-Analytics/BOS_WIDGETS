@@ -225,6 +225,7 @@ return (
                   authorForWidget,
                   handleShareButton,
                   sbtWhiteList,
+                  handleEditArticle,
                   callLibs,
                   baseActions,
                 }}
