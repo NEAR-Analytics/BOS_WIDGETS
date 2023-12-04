@@ -45,7 +45,9 @@ const fetchTagsObject = (path) => {
 };
 
 useEffect(() => {
-  fetchTagsObject(state.path);
+  if (state.path !== prevState.path) {
+    fetchTagsObject(state.path);
+  }
 }, [state.path]);
 
 const tagClass = "bg-primary";
@@ -64,10 +66,6 @@ const currentTagsObject = Social.get(
   `*/graph/context/${state.path}/tags/**`,
   "final"
 );
-
-if (!currentTagsObject) {
-  return "Loading...";
-}
 
 const tagsCount = {};
 const tagsAuthors = {};
