@@ -251,7 +251,7 @@ const SupportSection = styled.div`
     rgba(225, 197, 252, 0.5) 28.72%,
     rgba(241, 220, 210, 0.5) 100%
   );
-  padding: 4rem 3rem;
+  padding: 4rem 3rem 7rem 3rem;
 
   @media screen and (max-width: 786px) {
     padding: 2rem;
