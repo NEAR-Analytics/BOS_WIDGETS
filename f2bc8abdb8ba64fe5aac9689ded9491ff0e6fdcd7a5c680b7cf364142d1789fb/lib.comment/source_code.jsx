@@ -67,7 +67,11 @@ function canUserCreateComment(props) {
 
   if (sbtsNames.includes("public")) return true;
 
-  setAreValidUsers([accountId], sbtsNames);
+  if (accountId) {
+    setAreValidUsers([accountId], sbtsNames);
+  } else {
+    return false;
+  }
 
   let allSBTsValidations = [];
 
