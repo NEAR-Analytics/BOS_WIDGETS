@@ -186,6 +186,7 @@ const ConnectSection = styled.div`
     width: 70%;
 
     @media screen and (max-width: 786px) {
+      font-size: 2.7rem;
       width: 100%;
     }
   }
