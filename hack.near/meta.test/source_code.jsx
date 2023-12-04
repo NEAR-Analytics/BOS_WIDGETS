@@ -7,43 +7,64 @@ const namespace = props.namespace ?? "widget";
 const thingId = props.thingId ?? "Explorer";
 
 const initialPath = props.path ?? `${creatorId}/${namespace}/${thingId}`;
-const initialTags = Social.get(
+const initialTagsObject = Social.get(
   `*/graph/context/${initialPath}/tags/**`,
   "final"
 );
 
-State.init({
+const [state, setState] = useState({
   showEditor: false,
   path: initialPath,
-  tags: initialTags,
+  tagsObject: initialTagsObject,
+  attestation: null,
 });
 
-const tagsPattern = `*/graph/context/${state.path}/tags/*`;
-const tagsObject = Social.get(`*/graph/context/${state.path}/tags/**`, "final");
+const normalizeTag = (tag) =>
+  tag
+    .replaceAll(/[- \.]/g, "_")
+    .replaceAll(/[^\w]+/g, "")
+    .replaceAll(/_+/g, "-")
+    .replace(/^-+/, "")
+    .replace(/-+$/, "")
+    .toLowerCase()
+    .trim("-");
 
-if (!tagsObject) {
-  return "";
-}
+const fetchTagsObject = (path) => {
+  Social.get(
+    `*/graph/context/${path}/tags/**`,
+    "final",
+    (error, fetchedTagsObject) => {
+      if (error) {
+        console.error("Error fetching tagsObject:", error);
+      } else {
+        setState((prevState) => ({
+          ...prevState,
+          tagsObject: fetchedTagsObject,
+        }));
+      }
+    }
+  );
+};
 
-const publicTags = Social.getr(
-  `*/graph/context/${state.path}/tags/**`,
-  "final"
-);
+useEffect(() => {
+  fetchTagsObject(state.path);
+}, [state.path]);
 
 const pattern = `*/graph/context/*/*/*/tags/*`;
 
 const tagClass = "bg-success";
 const badgeBtnClass = "text-white btn p-0 lh-1 m-1";
-const addPublicTagHtml = (
-  <a
-    href={`#/hack.near/widget/catalog?accountId=${accountId}`}
-    className={badgeBtnClass}
-  >
-    <div className={`me-1 mt-3 badge bg-primary`}>+ Tag</div>
-  </a>
-);
 
-if (tagsObject === null) {
+// const addContextHtml = (
+//   <a
+//     href={`#/hack.near/widget/catalog?accountId=${accountId}`}
+//     className={badgeBtnClass}
+//   >
+//     <div className={`me-1 mt-3 badge bg-primary`}>+ Tag</div>
+//   </a>
+// );
+
+if (state.tagsObject === null) {
   return "Loading...";
 }
 
@@ -51,45 +72,82 @@ const tagsCount = {};
 const tagsAuthors = {};
 
 const processTagsObject = (obj) => {
-  Object.entries(obj).forEach((kv) => {
-    if (kv[1] === null) {
-      const tag = kv[0];
+  Object.keys(obj).forEach((key) => {
+    if (obj[key] === null) {
+      const tag = key;
       tagsCount[tag] = (tagsCount[tag] || 0) - 1;
-    } else if (typeof kv[1] === "object") {
-      processTagsObject(kv[1]);
+    } else if (typeof obj[key] === "object") {
+      processTagsObject(obj[key]);
     } else {
-      const tag = kv[0];
+      const tag = key;
       tagsCount[tag] = (tagsCount[tag] || 0) + 1;
     }
   });
 };
 
 const getTags = () => {
-  processTagsObject(tagsObject);
+  processTagsObject(initialTagsObject);
   const tags = Object.entries(tagsCount);
   tags.sort((a, b) => b[1] - a[1]);
   return tags.map((t) => {
     return {
       name: t[0],
       count: t[1],
-      title: t[1] + (t[1] > 1 ? " votes" : " vote"),
     };
   });
 };
 
-const tags = getTags();
+const getNewTags = () => {
+  processTagsObject(state.tagsObject);
+
+  const newTagsCount = Object.keys(tagsCount).reduce((acc, key) => {
+    acc[key] = initialTagsObject[key]
+      ? tagsCount[key] - initialTagsObject[key]
+      : tagsCount[key];
+    return acc;
+  }, {});
+
+  const tags = Object.entries(newTagsCount);
+  tags.sort((a, b) => b[1] - a[1]);
+
+  return tags.map((t) => {
+    return {
+      name: t[0],
+      count: t[1],
+    };
+  });
+};
+
+const setTags = (tags) => {
+  const newTagsObject = {};
+
+  tags.forEach((tag) => {
+    newTagsObject[normalizeTag(tag.name)] = "";
+  });
+
+  setState((prevState) => ({
+    ...prevState,
+    tagsObject: {
+      ...prevState.tagsObject[creatorId][namespace][thingId].tags,
+      ...newTagsObject,
+    },
+  }));
+};
+
+const initialTags = getTags();
+const tags = getNewTags();
 
 return (
   <>
-    {tags &&
-      tags.map((tag) => (
+    {initialTags &&
+      initialTags.map((tag) => (
         <a
           href={`/#/hack.near/widget/every.context?tag=${tag.name}`}
           className={badgeBtnClass}
+          key={tag}
         >
           <span
             className={`badge ${tagClass} position-relative`}
-            title={tag.title}
             style={
               tag.count > 1
                 ? {
@@ -113,7 +171,12 @@ return (
     <div className="m-2">
       {!state.showEditor ? (
         <button
-          onClick={() => State.update({ showEditor: true })}
+          onClick={() =>
+            setState((prevState) => ({
+              ...prevState,
+              showEditor: true,
+            }))
+          }
           className={badgeBtnClass}
         >
           <div className={`me-1 mt-3 badge bg-primary`}>+ attestation</div>
@@ -121,7 +184,12 @@ return (
       ) : (
         <div className="mb-2">
           <button
-            onClick={() => State.update({ showEditor: false })}
+            onClick={() =>
+              setState((prevState) => ({
+                ...prevState,
+                showEditor: false,
+              }))
+            }
             className="text-white btn p-0 lh-1 m-1"
           >
             <div className={`me-1 mt-3 badge bg-secondary`}>x close</div>
@@ -132,31 +200,26 @@ return (
         <div>
           <div className="row">
             <div className="m-1 col-8">
-              <Widget
-                src={"hack.near/widget/MetadataEditor"}
-                props={{
-                  initialMetadata: tagsObject,
-                  onChange: (tags) => {
-                    State.update({ tags });
-                  },
-                  options: {
-                    tags: {
-                      pattern,
-                      placeholder: "dev, art, gov, edu, social, near",
-                    },
-                  },
-                }}
+              <Typeahead
+                id={`tag-selector-${Date.now()}`}
+                multiple
+                labelKey="name"
+                onChange={setTags}
+                options={tags}
+                placeholder="dev, art, gov, edu, social, near"
+                positionFixed
+                allowNew
               />
             </div>
             <div className="m-1 col-3">
               <CommitButton
-                disabled={tags === null}
+                disabled={state.tagsObject === null}
                 data={{
                   graph: {
                     context: {
                       [creatorId]: {
                         [namespace]: {
-                          [thingId]: state.tags,
+                          [thingId]: state.tagsObject,
                         },
                       },
                     },
@@ -171,17 +234,18 @@ return (
             <div className="m-1 col-8">
               <input
                 placeholder="source path of another thing"
-                onChange={(e) => {
-                  State.update({
-                    path: e.target.value,
-                  });
-                }}
+                onChange={(e) =>
+                  setState((prevState) => ({
+                    ...prevState,
+                    attestation: e.target.value,
+                  }))
+                }
               />
             </div>
             <div className="m-1 col-3">
               <Widget
                 src="hack.near/widget/AttestButton"
-                props={{ item: initialPath, data: state.path }}
+                props={{ item: initialPath, data: state.attestation }}
               />
             </div>
           </div>
