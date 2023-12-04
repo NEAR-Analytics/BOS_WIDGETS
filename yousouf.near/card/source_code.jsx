@@ -58,6 +58,7 @@ const flippedCardStyle = {
 
 const darkBackground = {
   display: "flex",
+  flexDirection: "column", // Adjusted to column layout
   justifyContent: "center",
   alignItems: "center",
   height: "100vh",
@@ -90,6 +91,7 @@ return (
         </div>
       ))}
     </div>
+
     <div style={{ marginTop: "20px", fontSize: "18px" }}>Score: {score}</div>
   </div>
 );
