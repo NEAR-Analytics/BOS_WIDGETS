@@ -20,13 +20,16 @@ const getBlockHeight7daysPost = Social.index("post", "main", {
   from: newBlock7Days,
   limit: 99999,
 });
+
 getBlockHeight7daysPost.forEach((item) => {
   BlockHeightPost7Days.push({
     accountId: item.accountId,
     blockHeight: item.blockHeight,
   });
 });
-
+if (!getBlockHeight7daysPost) {
+  return "Loading...";
+}
 let post7days = [];
 BlockHeightPost7Days.forEach((item) => {
   const post = Social.get(`${item.accountId}/post/main`, item.blockHeight);
