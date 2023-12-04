@@ -16,7 +16,7 @@ State.update({ libsLoaded: true });
 
 Object.keys(imports).forEach((library) => {
   imports[library].forEach((functionCalled) => {
-    if (!state[functionCalled]) {
+    if (!state[library][functionCalled]) {
       State.update({ libsLoaded: false });
     }
   });
@@ -32,7 +32,7 @@ if (!state.libsLoaded) {
 }
 
 function onCommit() {
-  State.update({ articleCommited: true, clg: undefined, notify: undefined });
+  State.update({ articleCommited: true, notifications: undefined });
 }
 
 function findLastArticle(articles) {
@@ -60,9 +60,11 @@ if (state.articleCommited) {
   });
 }
 
+console.log(state);
+
 if (state.articleCreated !== undefined) {
   console.log("inside if");
-  state.notify(
+  state.notifications.notify(
     "mention",
     `${context.accountId}`,
     `https://near.social/${context.accountId}/widget/SayALot?isTest=t&sharedBlockHeight=${articleCreated.blockHeight}`
@@ -73,7 +75,7 @@ function makePost() {
   Social.set(
     {
       ["test_sayALotArticle_v0.0.2"]: {
-        main: `{"title":"Test again,"author":"${
+        main: `{"title":"Test again TT.TT 3","author":"${
           context.accountId
         }","lastEditor":"${
           context.accountId
@@ -96,5 +98,34 @@ function makePost() {
     }
   );
 }
+
+Social.set(
+  {
+    post: {
+      main: JSON.stringify({
+        type: "md",
+        text: `${notificationTypeText[notificationType]} ${redirectTo}`,
+      }),
+    },
+    index: {
+      notify: JSON.stringify({
+        key: userToNotify,
+        value: {
+          type: "mention",
+          item: {
+            type: "social",
+            path: `${context.accountId}/post/main`,
+          },
+        },
+      }),
+    },
+  },
+  {
+    force: true,
+    onCommit: () => {
+      stateUpdate({ articleCreated: undefined });
+    },
+  }
+);
 
 return <button onClick={makePost}>Make post + Notify mention</button>;
