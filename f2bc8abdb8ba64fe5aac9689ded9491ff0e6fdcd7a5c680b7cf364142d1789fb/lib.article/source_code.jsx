@@ -163,7 +163,7 @@ function composeData(article) {
 function getArticleBlackListByBlockHeight() {
   return [
     91092435, 91092174, 91051228, 91092223, 91051203, 98372095, 96414482,
-    96412953, 103131250,
+    96412953, 103131250, 106941548,
   ];
 }
 
