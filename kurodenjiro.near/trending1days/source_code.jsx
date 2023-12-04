@@ -20,6 +20,7 @@ const getBlockHeight1daysPost = Social.index("post", "main", {
   from: newBlock1Days,
   limit: 99999,
 });
+
 getBlockHeight1daysPost.forEach((item) => {
   BlockHeightPost1Days.push({
     accountId: item.accountId,
@@ -230,7 +231,9 @@ return (
         post1daySorted
           .filter((item, index) => index <= 20)
           .map((item, index) => (
-            <a href={`https://near.social/?hashtag=${item[0]}`}>
+            <a
+              href={`https://near.social/?hashtag=${item[0].replace("#", "")}`}
+            >
               <span className={`tag tag-${index} tag-lg`}>{item[0]}</span>
             </a>
           ))}
