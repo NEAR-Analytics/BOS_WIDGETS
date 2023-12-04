@@ -343,7 +343,7 @@ const renderSelectorLabel = () => {
 //=================================================FUNCTIONS========================================================
 
 function getValidEditArticleDataTags() {
-  let tags = state.editArticleData.tags;
+  let tags = state.editArticleData.tags ?? [];
   let newFormatTags = {};
 
   tags &&
@@ -475,6 +475,13 @@ function getLink() {
   }=${state.sharedElement.value}`;
 }
 
+function handleOnCommitArticle(articleToRenderData) {
+  State.update({
+    articleToRenderData,
+    displayedTabId: tabs.SHOW_ARTICLE.id,
+  });
+}
+
 //===============================================END FUNCTIONS======================================================
 if (!context.accountId) {
   return (
@@ -560,6 +567,7 @@ return (
           filterBy: state.filterBy,
           callLibs,
           baseActions,
+          handleOnCommitArticle,
         }}
       />
     )}
@@ -615,6 +623,7 @@ return (
           canLoggedUserCreateArticles,
           callLibs,
           baseActions,
+          handleOnCommitArticle,
         }}
       />
     )}
