@@ -2,6 +2,10 @@
 
 const accountId = props.accountId ?? context.accountId;
 
+if (context.loading) {
+  return "Loading...";
+}
+
 const initialPath = props.path ?? "mob.near/widget/Explorer";
 const initialTagsObject = Social.get(
   `*/graph/context/${initialPath}/tags/**`,
@@ -45,9 +49,7 @@ const fetchTagsObject = (path) => {
 };
 
 useEffect(() => {
-  if (state.path !== prevState.path) {
-    fetchTagsObject(state.path);
-  }
+  fetchTagsObject(state.path);
 }, [state.path]);
 
 const tagClass = "bg-primary";
@@ -126,10 +128,9 @@ return (
           placeholder="<creatorId>/<namespace>/<thingId>"
           value={state.path}
           onChange={(e) => {
-            const newPath = e.target.value;
             setState((prevState) => ({
               ...prevState,
-              path: newPath,
+              path: e.target.value,
             }));
           }}
         />
