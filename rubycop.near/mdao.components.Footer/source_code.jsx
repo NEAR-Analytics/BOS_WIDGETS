@@ -34,7 +34,7 @@ const ImageContainer = styled.img`
 const Socials = () => (
   <div className="d-flex gap-2">
     <a href="https://twitter.com/NEARDevHub" target="_blank">
-      {assets.XIcon}
+      {assets.xIcon}
     </a>
     <a href="https://t.me/NEARDevHub" target="_blank">
       {assets.telegramIcon}
@@ -49,7 +49,7 @@ const MidContent = () => {
   return (
     <>
       <MidContainer className="d-flex flex-column align-items-center gap-2">
-        {assets.logoColor}
+        <img src={assets.logoColor} />
         <Description>
           Stay in the loop. Get the latest updates, announcements,
           <br />
