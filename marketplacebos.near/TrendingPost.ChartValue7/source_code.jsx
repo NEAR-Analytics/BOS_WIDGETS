@@ -54,6 +54,11 @@ post7days.forEach((item) => {
     });
   }
 });
+
+if (!getBlockHeight7daysPost) {
+  return "Loading...";
+}
+
 let entries7days = Object.entries(tagCount7Days);
 let post7daySorted = entries7days.sort((b, a) => a[1] - b[1]);
 
