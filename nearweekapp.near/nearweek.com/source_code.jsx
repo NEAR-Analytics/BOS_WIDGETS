@@ -1,6 +1,12 @@
 const rootUser = "nearweekapp.near";
 const nwSite = "https://nearweek.com";
 
+const breakpoints = {
+  md: "768px",
+  lg: "1100px",
+  xl: "1300px",
+};
+
 if (!state.theme) {
   State.update({
     theme: styled.div`
