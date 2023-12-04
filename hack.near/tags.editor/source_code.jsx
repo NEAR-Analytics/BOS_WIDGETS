@@ -10,7 +10,7 @@ const initialTagsObject = Social.get(
 
 const [state, setState] = useState({
   showEditor: false,
-  path: props.path ?? initialPath,
+  path: initialPath,
   tagsObject: initialTagsObject,
   attestation: null,
 });
