@@ -379,11 +379,8 @@ function normalizeOldToV_0_0_1(article) {
 }
 
 function normalizeFromV0_0_1ToV0_0_2(article) {
-  if (article.blockHeight > 103053147 || article === null) {
-    console.log("in", article);
+  if (article.blockHeight > 103053147) {
     return;
-  } else {
-    console.log("out", article);
   }
 
   article.title = article.articleId;
