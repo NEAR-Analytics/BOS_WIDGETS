@@ -12,17 +12,19 @@ const [score, setScore] = useState(0);
 useEffect(() => {
   if (flippedIndices.length === 2) {
     const [firstIndex, secondIndex] = flippedIndices;
-    const newMatchedPairs = [...matchedPairs];
 
     if (cards[firstIndex] === cards[secondIndex]) {
-      newMatchedPairs.push(cards[firstIndex]);
-      setScore(score + 1);
+      setMatchedPairs((prevMatchedPairs) => [
+        ...prevMatchedPairs,
+        cards[firstIndex],
+      ]);
+      setScore((prevScore) => prevScore + 1);
     }
 
-    setMatchedPairs(newMatchedPairs);
+    // Reset flipped indices after checking for a match
     setTimeout(() => setFlippedIndices([]), 1000);
   }
-}, [flippedIndices, matchedPairs, cards, score]);
+}, [flippedIndices, cards]);
 
 const handleClick = (index) => {
   if (
