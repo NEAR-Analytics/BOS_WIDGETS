@@ -363,6 +363,10 @@ function filterMultipleKanbanTags(articleTags, kanbanTags) {
 }
 
 function normalizeOldToV_0_0_1(article) {
+  if (article.blockHeight > 102530777) {
+    return;
+  }
+
   article.realArticleId = `${article.author}-${article.timeCreate}`;
   article.sbts = ["public"];
 
@@ -370,6 +374,10 @@ function normalizeOldToV_0_0_1(article) {
 }
 
 function normalizeFromV0_0_1ToV0_0_2(article) {
+  if (article.blockHeight > 103053147) {
+    return;
+  }
+
   article.title = article.articleId;
   article.id = article.realArticleId;
   if (article.sbts[0] !== "public") {
