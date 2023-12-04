@@ -8,57 +8,32 @@ const [cards, setCards] = useState(generateCards());
 const [flippedIndices, setFlippedIndices] = useState([]);
 const [matchedPairs, setMatchedPairs] = useState([]);
 const [score, setScore] = useState(0);
-const [point, setPoint] = useState(0);
-const [levelCompleted, setLevelCompleted] = useState(false);
 
 useEffect(() => {
   if (flippedIndices.length === 2) {
     const [firstIndex, secondIndex] = flippedIndices;
+    const newMatchedPairs = [...matchedPairs];
 
     if (cards[firstIndex] === cards[secondIndex]) {
-      setMatchedPairs((prevMatchedPairs) => [
-        ...prevMatchedPairs,
-        cards[firstIndex],
-      ]);
-
-      // Increment the score and check if all cards are matched
-      setScore((prevScore) => {
-        const newScore = prevScore + 1;
-        if (newScore === cards.length / 2) {
-          setLevelCompleted(true);
-
-          // Reset the game for the next level after a delay
-          setTimeout(() => {
-            setCards(generateCards());
-            setFlippedIndices([]);
-            setMatchedPairs([]);
-            setScore(newScore);
-            setLevelCompleted(false);
-          }, 2000);
-        }
-        return newScore;
-      });
-
-      // Reset flipped indices after checking for a match
-      setTimeout(() => setFlippedIndices([]), 1000);
-    } else {
-      // Reset flipped indices after checking for a non-match
-      setTimeout(() => setFlippedIndices([]), 1000);
+      newMatchedPairs.push(cards[firstIndex]);
+      setScore(score + 1);
     }
+
+    setMatchedPairs(newMatchedPairs);
+    setTimeout(() => setFlippedIndices([]), 1000);
   }
-}, [flippedIndices, cards]);
+}, [flippedIndices, matchedPairs, cards, score]);
 
 const handleClick = (index) => {
   if (
     flippedIndices.length === 2 ||
     flippedIndices.includes(index) ||
-    matchedPairs.includes(cards[index]) ||
-    levelCompleted
+    matchedPairs.includes(cards[index])
   ) {
     return;
   }
 
-  setFlippedIndices((prevFlippedIndices) => [...prevFlippedIndices, index]);
+  setFlippedIndices([...flippedIndices, index]);
 };
 
 const cardStyle = {
@@ -69,29 +44,22 @@ const cardStyle = {
   alignItems: "center",
   fontSize: "24px",
   cursor: "pointer",
-  backgroundColor: "#333",
+  backgroundColor: "#ccc",
   borderRadius: "8px",
-  color: "#fff",
-  boxShadow: "0 0 10px rgba(255, 255, 255, 0.3)",
-  margin: "5px",
-  userSelect: "none",
+  color: "#ccc",
 };
 
 const flippedCardStyle = {
   ...cardStyle,
-  backgroundColor: "#555",
-  transform: "scale(1.02)",
+  backgroundColor: "#ffe",
 };
 
 const darkBackground = {
   display: "flex",
-  flexDirection: "column",
   justifyContent: "center",
   alignItems: "center",
-  backgroundColor: "rgba(51, 51, 51, 0.5)",
-  padding: "20px",
-  borderRadius: "10px",
-  textAlign: "center",
+  height: "100vh",
+  backgroundColor: "#1a1a1a",
   color: "#ffe",
 };
 
@@ -120,15 +88,6 @@ return (
         </div>
       ))}
     </div>
-
-    {levelCompleted && (
-      <div style={{ marginTop: "20px", fontSize: "24px" }}>
-        Level Completed! Next Level Loading...
-      </div>
-    )}
-    {!levelCompleted && (
-      <div style={{ marginTop: "20px", fontSize: "24px" }}>Points: {score}</div>
-    )}
-    {score >= 9 ? <Widget src={`yousouf.near/widget/nft`} /> : ""}
+    <div style={{ marginTop: "20px", fontSize: "18px" }}>Score: {score}</div>
   </div>
 );
