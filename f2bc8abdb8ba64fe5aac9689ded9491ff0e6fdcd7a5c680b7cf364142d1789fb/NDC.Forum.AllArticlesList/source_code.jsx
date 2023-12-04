@@ -23,6 +23,7 @@ let {
   filterBy,
   callLibs,
   baseActions,
+  handleOnCommitArticle,
 } = props;
 
 const libSrcArray = [widgets.libUpVotes];
@@ -167,6 +168,7 @@ return (
                     canLoggedUserCreateArticles,
                     sbts,
                     baseActions,
+                    handleOnCommitArticle,
                   }}
                 />
               </AccordionBody>
