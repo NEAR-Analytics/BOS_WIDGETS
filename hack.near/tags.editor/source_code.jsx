@@ -125,12 +125,13 @@ return (
         <input
           placeholder="<creatorId>/<namespace>/<thingId>"
           value={state.path}
-          onChange={(e) =>
+          onChange={(e) => {
+            const newPath = e.target.value;
             setState((prevState) => ({
               ...prevState,
-              path: e.target.value,
-            }))
-          }
+              path: newPath,
+            }));
+          }}
         />
       </div>
 
