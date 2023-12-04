@@ -7,7 +7,7 @@ const namespace = props.namespace ?? "widget";
 const thingId = props.thingId ?? "Explorer";
 
 const initialPath = props.path ?? `${creatorId}/${namespace}/${thingId}`;
-const initialTags = Social.getr(
+const initialTags = Social.get(
   `*/graph/context/${initialPath}/tags/**`,
   "final"
 );
