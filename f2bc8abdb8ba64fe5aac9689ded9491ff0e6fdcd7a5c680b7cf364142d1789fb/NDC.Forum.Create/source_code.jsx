@@ -1,510 +1,378 @@
-// lib.article
+//NDC.Forum.Create
 
 const {
-  mainStateUpdate,
   isTest,
+  addressForArticles,
+  authorForWidget,
   stateUpdate,
-  functionsToCallByLibrary,
-  callLibs,
-  baseAction,
-  kanbanColumns,
+  initialBody,
+  initialCreateState,
+  editArticleData,
   widgets,
-  usersSBTs,
+  handleFilterArticles,
+  handleEditArticle,
+  handlerStateUpdate,
+  sbtWhiteList,
+  sbts,
+  canLoggedUserCreateArticles,
+  callLibs,
+  baseActions,
+  handleOnCommitArticle,
 } = props;
 
-const libName = "article"; // EDIT: set lib name
-const functionsToCall = functionsToCallByLibrary[libName];
+const libSrcArray = [widgets.libArticle];
 
-let resultFunctionsToCallByLibrary = Object.assign(
-  {},
-  functionsToCallByLibrary
-);
-let resultFunctionsToCall = [];
-
-const currentVersion = "0.0.2"; // EDIT: Set version
-
-const prodAction = `${baseAction}_v${currentVersion}`;
-const testAction = `test_${prodAction}`;
-const versionsBaseActions = isTest ? `test_${baseAction}` : baseAction;
-const action = isTest ? testAction : prodAction;
-// START LIB CALLS SECTION
-// interface FunctionCall {
-//     functionName: string,
-//     key: string, // The state of the caller will be updated with this string as a key
-//     props: Record<string, any> // function parameters as object
-// }
-
-// type LibsCalls = Record<string, FunctionCall> // Key is lib name after lib.
-
-const libSrcArray = [widgets.libSBT]; // string to lib widget // EDIT: set libs to call
-
-const libCalls = {};
-libSrcArray.forEach((libSrc) => {
-  const libName = libSrc.split("lib.")[1];
-  libCalls[libName] = [];
-});
+const errTextNoBody = "ERROR: no article Body",
+  errTextNoId = "ERROR: no article Id",
+  errTextDublicatedId = "ERROR: there is article with such name";
 
 State.init({
-  libCalls, // is a LibsCalls object
+  ...initialCreateState,
+  initialBody: props.initialBody ?? "",
+  functionsToCallByLibrary: {
+    article: [],
+  },
 });
-// END LIB CALLS SECTION
 
-function log(message) {
-  console.log(`lib.${libName}`, message);
-}
-
-function logError(message) {
-  console.error(`lib.${libName}`, message);
-}
-
-function libStateUpdate(obj) {
+function createStateUpdate(obj) {
   State.update(obj);
 }
 
-// START LIB FUNCTIONS: EDIT set functions you need
-function canUserCreateArticle(props) {
-  const { env, accountId, sbtsNames } = props;
+const tagsArray =
+  editArticleData && !state.tagsModified ? editArticleData.tags : state.tags;
 
-  setAreValidUsers([accountId], sbtsNames);
-  const result = state[`isValidUser-${accountId}`];
-  resultFunctionsToCall = resultFunctionsToCall.filter((call) => {
-    const discardCondition =
-      call.functionName === "canUserCreateArticle" && result !== undefined;
-    return !discardCondition;
-  });
+const accountId = context.accountId;
 
-  return result;
-}
-
-function setAreValidUsers(accountIds, sbtsNames) {
-  const newLibsCalls = Object.assign({}, state.libCalls);
-  if (!newLibsCalls.SBT) {
-    logError("Key SBT is not set in lib.", libName);
-  }
-
-  accountIds.forEach((accountId) => {
-    const isCallPushed =
-      newLibsCalls.SBT.find((libCall) => {
-        return (
-          libCall.functionName === "isValidUser" &&
-          libCall.props.accountId === accountId
-        );
-      }) !== undefined;
-    const isCallReturned = state[`isValidUser-${accountId}`] !== undefined;
-
-    if (isCallPushed || isCallReturned) {
-      return;
-    }
-
-    const existingUserSBTs = usersSBTs.find(
-      (userSBTs) => userSBTs.user === accountId
+function getRealArticleId() {
+  if (editArticleData) {
+    return (
+      editArticleData.id ??
+      `${editArticleData.author}-${editArticleData.timeCreate}`
     );
-
-    if (!existingUserSBTs) {
-      newLibsCalls.SBT.push({
-        functionName: "isValidUser",
-        key: `isValidUser-${accountId}`,
-        props: {
-          accountId,
-          sbtsNames,
-        },
-      });
-    }
-  });
-  State.update({ libCalls: newLibsCalls });
-}
-
-function createArticle(props) {
-  const { article, onCommit, onCancel } = props;
-
-  saveHandler(article, onCommit, onCancel);
-
-  resultFunctionsToCall = resultFunctionsToCall.filter((call) => {
-    return call.functionName !== "createArticle";
-  });
-
-  return article;
-}
-
-const saveHandler = (article, onCommit, onCancel) => {
-  if (article.title && article.body) {
-    const newData = composeData(article);
-
-    Social.set(newData, {
-      force: true,
-      onCommit,
-      onCancel,
-    });
   } else {
-    logError("Article is missing title or body");
+    return `${accountId}-${Date.now()}`;
   }
-};
+}
 
-function composeData(article) {
-  let data;
-  data = {
-    [action]: {
-      main: JSON.stringify(article),
-    },
-    index: {
-      [action]: JSON.stringify({
-        key: "main",
-        value: {
-          type: "md",
-          id: article.id ?? `${context.accountId}-${Date.now()}`,
-        },
-      }),
-    },
+function getArticleData() {
+  const args = {
+    title: editArticleData.title ?? state.title,
+    author: editArticleData.author ?? accountId,
+    lastEditor: accountId,
+    timeLastEdit: Date.now(),
+    timeCreate: editArticleData.timeCreate ?? Date.now(),
+    body: state.articleBody,
+    version: editArticleData ? editArticleData.version + 1 : 0,
+    navigation_id: null,
+    tags: tagsArray ?? [],
+    id: getRealArticleId(),
+    sbts,
   };
-
-  return data;
+  return args;
 }
 
-function getArticleBlackListByBlockHeight() {
-  return [
-    91092435, 91092174, 91051228, 91092223, 91051203, 98372095, 96414482,
-    96412953, 103131250, 106941548,
-  ];
+function onCommit(article) {
+  State.update({
+    title: "",
+    clearArticleId: true,
+    tags: [],
+    clearTags: true,
+    articleBody: "",
+    clearArticleBody: true,
+    initalBody: "",
+    // showCreatedArticle: true,
+    showPreview: false,
+    saving: false,
+  });
+
+  if (!Array.isArray(article.tags)) article.tags = Object.keys(article.tags);
+
+  handleOnCommitArticle(article);
 }
 
-function getArticleBlackListByRealArticleId() {
-  return [
-    "blaze.near-1690410074090",
-    "blaze.near-1690409577184",
-    "blaze.near-1690803928696",
-    "blaze.near-1690803872147",
-    "blaze.near-1690574978421",
-    "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb-1691703303485",
-    "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb-1691702619510",
-    "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb-1691702487944",
-    "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb-1691707918243",
-    "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb-1691707889297",
-    "blaze.near-1697211386373",
-    "silkking.near-1696797896796",
-    "silkking.near-1696797784589",
-    "silkking.near-1696797350661",
-    "silkking.near-1696797276482",
-    "silkking.near-1696797155012",
-    "silkking.near-1696796793605",
-    "silkking.near-1696796543546",
-    "silkking.near-1696795954175",
-    "silkking.near-1696794571874",
-    "silkking.near-1696792789177",
-    "zarmade.near-1690578803015",
-  ];
-}
-
-function canUserEditArticle(props) {
-  const { article } = props;
-
-  return article.author === context.accountId;
-}
-
-function getArticlesIndexes(action, subscribe) {
-  return Social.index(action, "main", {
-    order: "desc",
-    subscribe,
-    // limit: 10,
+function onCancel() {
+  State.update({
+    createdArticle: undefined,
+    saving: false,
   });
 }
 
-function getArticlesNormalized(env) {
-  const articlesByVersion = Object.keys(versions).map((version, index, arr) => {
-    const action = versions[version].action;
-    const subscribe = index + 1 === arr.length;
-    const articlesIndexes = getArticlesIndexes(action, subscribe);
-    if (!articlesIndexes) return [];
-    const validArticlesIndexes = filterInvalidArticlesIndexes(
-      env,
-      articlesIndexes
-    );
-
-    const validLatestEdits = getLatestEdits(validArticlesIndexes);
-
-    const articles = validLatestEdits
-      .map((article) => {
-        return getArticle(article, action);
-      })
-      .filter((article) => {
-        return article !== undefined;
-      });
-    return articles;
-  });
-
-  return normalizeLibData(articlesByVersion);
+function getInitialMarkdownBody() {
+  if (
+    editArticleData &&
+    (!state.articleBody || state.articleBody === editArticleData.body)
+  ) {
+    return editArticleData.body;
+  } else if (state.articleBody && state.articleBody !== editArticleData.body) {
+    return state.articleBody;
+  } else {
+    return state.initialBody == "" || !state.initialBody
+      ? "Post content (markdown supported)"
+      : state.initalBody;
+  }
 }
 
-function getArticle(articleIndex, action) {
-  const article = Social.get(
-    `${articleIndex.accountId}/${action}/main`,
-    articleIndex.blockHeight
+function createArticleListener() {
+  //To test without commiting use the next line and comment the rest
+  // onCommit();
+  State.update({ saving: true });
+  const article = getArticleData();
+
+  const newLibsCalls = Object.assign({}, state.functionsToCallByLibrary);
+  newLibsCalls.article.push({
+    functionName: "createArticle",
+    key: "createdArticle",
+    props: {
+      article,
+      onCommit: () => onCommit(article),
+      onCancel,
+    },
+  });
+
+  State.update({ functionsToCallByLibrary: newLibsCalls });
+}
+
+function switchShowPreview() {
+  State.update({
+    showPreview: !state.showPreview,
+    initialBody: state.articleBody,
+  });
+}
+
+const GeneralContainer = styled.div`
+  background-color: rgb(248, 248, 249);
+  margin: 0;
+`;
+
+const Button = styled.button` 
+  margin: 0px 1rem; 
+  display: inline-block; 
+  text-align: center; 
+  vertical-align: middle; 
+  cursor: pointer; 
+  user-select: none; 
+  transition: color 0.15s ease-in-out,background-color 0.15s ease-in-out,border-color 0.15s ease-in-out,box-shadow 0.15s ease-in-out; 
+ 
+  border: 2px solid transparent; 
+  font-weight: 500; 
+  padding: 0.3rem 0.5rem; 
+  background-color: #010A2D; 
+  border-radius: 12px; 
+  color: white; 
+  text-decoration: none;   
+ 
+  &:hover { 
+    color: #010A2D; 
+    background-color: white; 
+  } 
+`;
+
+const CreationContainer = styled.div`
+  background-color: rgb(230, 230, 230);
+  border-radius: 20px;
+  padding: 1rem 0;
+  position: relative;
+`;
+
+const SecondContainer = styled.div`
+  min-width: 360px;
+  background-color: white;
+  padding: 1rem;
+`;
+
+const BoxShadow = styled.div`
+  box-shadow: rgba(140, 149, 159, 0.1) 0px 4px 28px 0px;
+`;
+
+const SpinnerContainer = styled.div`
+  height: 1rem;
+  width: 1rem;
+  marginTop: 2px;
+`;
+
+const Spinner = () => {
+  return (
+    <SpinnerContainer className="spinner-border text-secondary" role="status">
+      <span className="sr-only" title="Loading..."></span>
+    </SpinnerContainer>
   );
-
-  let articleParsed = undefined;
-  if (article) {
-    articleParsed = JSON.parse(article);
-    articleParsed.blockHeight = articleIndex.blockHeight;
-    articleParsed.id = articleIndex.value.id;
-  }
-
-  if (articleParsed) {
-    return articleParsed;
-  }
-}
-
-function getLatestEdits(newFormatArticlesIndexes) {
-  return newFormatArticlesIndexes.filter((articleIndex) => {
-    const latestEditForThisArticle = newFormatArticlesIndexes.find(
-      (newArticleData) => newArticleData.value.id === articleIndex.value.id
-    );
-    return (
-      JSON.stringify(articleIndex) === JSON.stringify(latestEditForThisArticle)
-    );
-  });
-}
-
-function filterInvalidArticlesIndexes(env, articlesIndexes) {
-  return articlesIndexes
-    .filter((articleIndex) => articleIndex.value.id) // Has id
-    .filter(
-      (articleIndex) =>
-        articleIndex.value.id.split("-")[0] === articleIndex.accountId
-    ) // id begins with same accountId as index object
-    .filter(
-      (articleIndex) =>
-        !getArticleBlackListByBlockHeight().includes(articleIndex.blockHeight) // Blockheight is not in blacklist
-    )
-    .filter(
-      (articleIndex) =>
-        !getArticleBlackListByRealArticleId().includes(articleIndex.value.id) // Article id is not in blacklist
-    );
-}
-
-function getArticles(props) {
-  const { env, sbtsNames } = props;
-  // Call other libs
-  const normArticles = getArticlesNormalized(env);
-
-  // Keep last edit from every article
-  const lastEditionArticles = normArticles.filter((article) => {
-    return normArticles.find(
-      (compArticle) => JSON.stringify(compArticle) === JSON.stringify(article)
-    );
-  });
-
-  const lastEditionArticlesAuthors = lastEditionArticles.map((article) => {
-    return article.author;
-  });
-
-  setAreValidUsers(lastEditionArticlesAuthors, sbtsNames);
-
-  resultFunctionsToCall = resultFunctionsToCall.filter((call) => {
-    const discardCondition =
-      call.functionName === "getArticles" &&
-      state[`isValidUser-${call.props.accountId}`] !== undefined;
-    return !discardCondition;
-  });
-
-  const finalArticles = filterValidArticles(lastEditionArticles);
-  const finalArticlesMapped = {};
-  sbtsNames.forEach((sbtName) => {
-    const sbtArticles = finalArticles.filter((article) => {
-      if (!article.sbts) return false;
-      return article.sbts.indexOf(sbtName) !== -1;
-    });
-    finalArticlesMapped[sbtName] = sbtArticles;
-  });
-
-  return finalArticlesMapped;
-}
-
-function filterValidator(articles) {
-  return articles.filter((article) => {
-    return (
-      article.sbts.find((articleSbt) => {
-        return (
-          state[`isValidUser-${article.author}`][articleSbt] ||
-          articleSbt === "public"
-        );
-      }) !== undefined
-    );
-  });
-}
-
-function filterValidArticles(articles) {
-  let filteredArticles = filterValidator(filteredArticles ?? articles);
-
-  return filteredArticles;
-}
-
-function filterMultipleKanbanTags(articleTags, kanbanTags) {
-  const normalizedKanbanTag = [];
-
-  kanbanTags.forEach((tag) => {
-    normalizedKanbanTag.push(tag.replace(` `, "-"));
-  });
-
-  const kanbanTagsInArticleTags = articleTags.filter((tag) =>
-    normalizedKanbanTag.includes(tag.toLowerCase().replace(` `, "-"))
-  );
-
-  const nonKanbanTags = articleTags.filter(
-    (tag) => !normalizedKanbanTag.includes(tag.toLowerCase().replace(` `, "-"))
-  );
-
-  const result = [...nonKanbanTags, kanbanTagsInArticleTags[0]];
-
-  return result;
-}
-
-function normalizeOldToV_0_0_1(article) {
-  article.realArticleId = `${article.author}-${article.timeCreate}`;
-  article.sbts = ["public"];
-
-  return article;
-}
-
-function normalizeFromV0_0_1ToV0_0_2(article) {
-  article.title = article.articleId;
-  article.id = article.realArticleId;
-  if (article.sbts[0] !== "public") {
-    article.sbts[0] = article.sbts[0] + " - class 1";
-  } // There is only one article that is not public and only has class 1
-
-  delete article.articleId;
-  delete article.realArticleId;
-
-  return article;
-}
-
-function normalizeFromV0_0_2ToV0_0_3(article) {
-  if (!Array.isArray(article.tags) && typeof article.tags === "object") {
-    article.tags = Object.keys(article.tags);
-  }
-
-  article.tags = article.tags.filter(
-    (tag) => tag !== undefined && tag !== null
-  );
-
-  if (kanbanColumns) {
-    const lowerCaseColumns = [];
-    kanbanColumns.forEach((cl) => {
-      lowerCaseColumns.push(cl.toLowerCase());
-    });
-
-    article.tags = filterMultipleKanbanTags(article.tags, lowerCaseColumns);
-  }
-
-  return article;
-}
-
-// END LIB FUNCTIONS
-
-// EDIT: set functions you want to export
-function callFunction(call) {
-  if (call.functionName === "canUserCreateArticle") {
-    return canUserCreateArticle(call.props);
-  } else if (call.functionName === "createArticle") {
-    return createArticle(call.props);
-  } else if (call.functionName === "canUserEditArticle") {
-    return canUserEditArticle(call.props);
-  } else if (call.functionName === "getArticles") {
-    return getArticles(call.props);
-  }
-}
-
-// EDIT: set versions you want to handle, considering their action to Social.index and the way to transform to one version to another (normalization)
-const versions = {
-  old: {
-    normalizationFunction: normalizeOldToV_0_0_1,
-    action: versionsBaseActions,
-  },
-  "v0.0.1": {
-    normalizationFunction: normalizeFromV0_0_1ToV0_0_2,
-    action: `${versionsBaseActions}_v0.0.1`,
-  },
-  "v0.0.2": {
-    normalizationFunction: normalizeFromV0_0_2ToV0_0_3,
-    action: `${versionsBaseActions}_v0.0.2`,
-  },
 };
 
-function normalizeLibData(libDataByVersion) {
-  let libData;
+const initialTagsObject = {};
 
-  Object.keys(versions).forEach((version, index, array) => {
-    const normFn = versions[version].normalizationFunction;
-    const normLibData = libDataByVersion[index].map((libData, i) => {
-      return normFn(libData);
-    });
-
-    if (index + 1 === array.length) {
-      // Last index
-      libData = normLibData;
-      return;
-    }
-    libDataByVersion[index + 1] =
-      libDataByVersion[index + 1].concat(normLibData);
+Array.isArray(tagsArray) &&
+  tagsArray.forEach((tag) => {
+    initialTagsObject[tag] = true;
   });
-
-  return libData;
-}
-
-if (functionsToCall && functionsToCall.length > 0) {
-  const updateObj = Object.assign({}, functionsToCallByLibrary);
-  resultFunctionsToCall = [...functionsToCall];
-  functionsToCall.forEach((call) => {
-    updateObj[call.key] = callFunction(call);
-  });
-
-  resultFunctionsToCallByLibrary[libName] = resultFunctionsToCall;
-  updateObj.functionsToCallByLibrary = resultFunctionsToCallByLibrary;
-
-  const oldUsersSBTs = usersSBTs;
-  // {
-  //   user: string,
-  //   credentials: {},
-  // }
-
-  const newUsersSBTs = Object.keys(state).map((key) => {
-    if (key.includes("isValidUser-")) {
-      if (state[key] !== undefined) {
-        const user = key.split("isValidUser-")[1];
-        const credentials = state[key];
-
-        const oldUsers = oldUsersSBTs.map((userSbts) => userSbts.user);
-
-        if (!oldUsers.includes(user)) {
-          return {
-            user,
-            credentials,
-          };
-        }
-      }
-    }
-  });
-
-  const finalUsersSBTs = [...oldUsersSBTs, ...newUsersSBTs].filter(
-    (userSBTs) => userSBTs !== undefined
-  );
-
-  if (finalUsersSBTs[0]) {
-    mainStateUpdate({ usersSBTs: finalUsersSBTs });
-  }
-
-  stateUpdate(updateObj);
-}
 
 return (
-  <>
-    {libSrcArray.map((src) => {
-      return callLibs(
-        src,
-        libStateUpdate,
-        state.libCalls,
-        {},
-        `lib.${libName}`
-      );
-    })}
-  </>
+  <div>
+    <GeneralContainer className="pt-2 row card-group">
+      <BoxShadow className="rounded-3 p-3 m-3 bg-white col-lg-8 col-md-8 col-sm-12">
+        {/*{state.createdArticle && state.showCreatedArticle && editArticleData ? (
+          <Widget
+            src={widgets.articleView}
+            props={{
+              widgets,
+              isTest,
+              handleFilterArticles,
+              articleToRenderData: state.createdArticle,
+              authorForWidget,
+              handleEditArticle,
+              callLibs,
+              baseActions,
+            }}
+          />
+        ) : ( If you uncomment this you need to uncomment the line before </BoxShadow> too*/}
+        <div>
+          {
+            // <CreationContainer className="container-fluid">
+          }
+          <SecondContainer className="rounded">
+            {state.showPreview ? (
+              <Widget
+                src={widgets.generalCard}
+                props={{
+                  widgets,
+                  isTest,
+                  data: {
+                    title: state.title,
+                    author: accountId,
+                    lastEditor: accountId,
+                    timeLastEdit: Date.now(),
+                    timeCreate: Date.now(),
+                    body: state.articleBody,
+                    version: 0,
+                    navigation_id: null,
+                    tags: tagsArray,
+                    id: getRealArticleId(),
+                    sbts,
+                  },
+                  addressForArticles,
+                  handleOpenArticle: () => {},
+                  handleFilterArticles: () => {},
+                  authorForWidget,
+                  handleShareButton: () => {},
+                  callLibs,
+                  baseActions,
+                }}
+              />
+            ) : (
+              <div>
+                <div className="d-flex flex-column pt-3">
+                  <label for="inputArticleId" className="small text-danger">
+                    {state.errorId}
+                  </label>
+                  <Widget
+                    src={widgets.fasterTextInput}
+                    props={{
+                      firstText: state.title,
+                      forceClear: state.clearArticleId,
+                      stateUpdate: (obj) => State.update(obj),
+                      filterText: (e) => e.target.value,
+                      placeholder: "Post title (case-sensitive)",
+                      editable: editArticleData,
+                    }}
+                  />
+                </div>
+                <div className="d-flex flex-column pt-3">
+                  <label
+                    for="textareaArticleBody"
+                    className="small text-danger"
+                  >
+                    {state.errorBody}
+                  </label>
+                  <div className="d-flex gap-2">
+                    <Widget
+                      src={widgets.markownEditorIframe}
+                      props={{
+                        initialText: getInitialMarkdownBody(),
+                        onChange: (articleBody) =>
+                          State.update({
+                            articleBody,
+                            clearArticleBody: false,
+                          }),
+                        clearArticleBody: state.clearArticleBody,
+                      }}
+                    />
+                  </div>
+                </div>
+                <div className="d-flex flex-column pt-3">
+                  <Widget
+                    src={widgets.tagsEditor}
+                    props={{
+                      forceClear: state.clearTags,
+                      stateUpdate: (obj) => State.update(obj),
+                      initialTagsObject,
+                      placeholder: "Input tags",
+                      setTagsObject: (tags) => {
+                        // state.tags = Object.keys(tags);
+                        State.update({
+                          tagsModified: true,
+                          tags: Object.keys(tags),
+                        });
+                      },
+                    }}
+                  />
+                </div>
+              </div>
+            )}
+            <div className="mt-2 d-flex justify-content-end">
+              <Widget
+                src={widgets.newStyledComponents.Input.Button}
+                props={{
+                  className: "info outline mx-2",
+                  disabled:
+                    state.title.length === 0 || state.articleBody.length === 0,
+                  onClick: switchShowPreview,
+                  children: (
+                    <i
+                      className={`bi ${
+                        state.showPreview ? "bi-pencil" : "bi-eye-fill"
+                      }`}
+                    ></i>
+                  ),
+                }}
+              />
+              <Widget
+                src={widgets.newStyledComponents.Input.Button}
+                props={{
+                  className: "info ",
+                  disabled:
+                    state.title.length === 0 || state.articleBody.length === 0,
+                  onClick: createArticleListener,
+                  children: (
+                    <div className="d-flex justify-conten-center align-items-center">
+                      {state.saving ? (
+                        <Spinner />
+                      ) : (
+                        <>
+                          <span>
+                            {editArticleData ? "Save edition" : "Post"}
+                          </span>
+                          <i className="bi bi-check2"></i>
+                        </>
+                      )}
+                    </div>
+                  ),
+                }}
+              />
+            </div>
+          </SecondContainer>
+          <div style={{ display: "none" }}>
+            {libSrcArray.map((src) => {
+              return callLibs(
+                src,
+                createStateUpdate,
+                state.functionsToCallByLibrary,
+                { baseAction: baseActions.articlesBaseAction },
+                "Create"
+              );
+            })}
+          </div>
+        </div>
+        {/*)}*/}
+      </BoxShadow>
+    </GeneralContainer>
+  </div>
 );
