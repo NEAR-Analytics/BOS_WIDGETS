@@ -36,7 +36,7 @@ const Container = styled.div`
   background-color: #1a1a1a; /* Dark background color */
 
   @media (max-width: 480px) {
-    max-width: 80%;
+    max-width: 100%;
   }
 `;
 
@@ -203,7 +203,6 @@ const Title = styled.h1`
 return (
   <Container center>
     <br />
-    <hr />
     <Flex
       gap="23px"
       direction="column"
