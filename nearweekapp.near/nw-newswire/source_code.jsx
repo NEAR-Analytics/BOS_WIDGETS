@@ -1,50 +1,6 @@
 const accountId = "near";
 State.init({ page: 1 });
-let posts = [];
-const limit = 12;
 let mediumPosts = [];
-
-const indexedPosts = Social.index("post", "main", {
-  accountId,
-  limit,
-  order: "desc",
-});
-
-if (indexedPosts?.length > 0) {
-  posts = [];
-
-  indexedPosts.forEach((post) => {
-    const data = Social.get(`${post.accountId}/post/main`, post.blockHeight);
-    if (data) {
-      const json = JSON.parse(data);
-      const content = json.text.split("\n");
-      const title = content[0] || "";
-      const url = content[1] || content[2] || "";
-      const lastLine = content.pop() || "";
-      const hasNewsTag = lastLine.indexOf("#news") > -1;
-      const isValid = hasNewsTag && url.indexOf("https://") > -1;
-
-      if (isValid) {
-        const block = Near.block(post.blockHeight);
-        let createdAt = "";
-        if (block) {
-          const timeMs = parseFloat(block.header.timestamp_nanosec) / 1e6;
-          createdAt = new Date(timeMs).toISOString();
-        }
-        posts.push({
-          blockHeight: post.blockHeight,
-          title,
-          url,
-          thumbnail: "https://near.org/favicon.png",
-          createdAt,
-          categories: ["Near ORG", "blog"],
-        });
-
-        posts.sort((a, b) => b.blockHeight - a.blockHeight);
-      }
-    }
-  });
-}
 
 const data = fetch(
   `https://nearweek.com/api/md/dao-news?populate=deep&sort=createdAt:desc&pagination[pageSize]=${
@@ -61,20 +17,6 @@ const data = fetch(
   }
 );
 
-const cssFont = fetch("https://fonts.cdnfonts.com/css/hubot-sans").body;
-
-if (!cssFont) return "";
-
-if (!state.theme) {
-  State.update({
-    theme: styled.div`
-    font-family: Inter;
-    ${cssFont}
-`,
-  });
-}
-const Theme = state.theme;
-
 const Wrapper = styled.div`
   display: grid;
   margin-bottom: 0px;
@@ -83,7 +25,6 @@ const Wrapper = styled.div`
 
 const H2 = styled.h2`
     color: #1C1F41;
-    font-family: Inter;
     font-size: 24px;
     font-style: normal;
     font-weight: 500;
@@ -123,13 +64,11 @@ const CardUser = styled.div`
 & span{
     color: rgba(28, 31, 65, 0.45);
     text-align: right;
-    font-family: Inter;
     font-size: 12px;
     font-style: normal;
     font-weight: 500;
     line-height: 8.5px;
 }
-
 `;
 
 const TwitterBage = styled.div`
@@ -158,7 +97,6 @@ const CardTitle = styled.div`
     color: #1C1F41;
     text-overflow: ellipsis;
     whitespace: nowrap;
-    font-family: Inter;
     font-size: 12px;
     font-style: normal;
     font-weight: 500;
@@ -178,7 +116,6 @@ const CardFooter = styled.div`
 
 const CardDate = styled.div`
     color: rgba(28, 31, 65, 0.45);
-    font-family: Inter;
     font-size: 12px;
     font-style: normal;
     font-weight: 500;
@@ -199,12 +136,11 @@ const Badge = styled.span`
     border-radius: 4px;
     color: #9C9C9C;
     text-align: center;
-    font-family: Inter;
     font-size: 12px;
     font-style: normal;
     font-weight: 500;
     line-height: 8.5px;
-    display:   ${(props) => (props.index > 1 ? "none" : "block")}; 
+    display: ${(props) => (props.index > 1 ? "none" : "block")}; 
 `;
 
 const ButtonLink = styled.a`
@@ -212,7 +148,7 @@ const ButtonLink = styled.a`
   padding: 8px;
   height: 31px;
   background: transparent;
-  margin: 0 auto;
+  margin: 4px auto 0 auto;
   border: 1px solid #d7dbdf;
   border-radius: 100px;
   font-weight: 500;
@@ -243,14 +179,13 @@ const AuthorNDate = styled.div`
 const Dot = styled.span`
   color: rgba(28, 31, 65, 0.45);
   text-align: right;
-  font-family: Inter;
   font-size: 12px;
   font-style: normal;
   font-weight: 500;
   line-height: 8.5px; /* 70.833% */
   letter-spacing: 0.12px;
     `;
-const news = [...(data?.body?.data ?? []), ...posts]
+const news = [...(data?.body?.data ?? [])]
   .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
   .slice(0, limit);
 const nwSite = "https://nearweek.com";
@@ -319,10 +254,10 @@ function extractUsernameFromURL(url) {
 
 function NewswireCard() {
   return (
-    <Theme>
+    <div>
       {news && news.length > 0 ? (
         <Wrapper>
-          <H2>Newswire</H2>
+          <H2>NEWSWIRE</H2>
           <Content>
             {news.map((item, index) => (
               <Card index={index} href={item.url} target="_blank">
@@ -399,7 +334,7 @@ function NewswireCard() {
       <ButtonLink onClick={() => State.update({ page: state.page + 1 })}>
         Load more
       </ButtonLink>
-    </Theme>
+    </div>
   );
 }
 return <NewswireCard />;
