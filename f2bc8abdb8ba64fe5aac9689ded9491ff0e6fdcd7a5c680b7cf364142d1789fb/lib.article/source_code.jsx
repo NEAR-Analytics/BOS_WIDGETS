@@ -400,6 +400,10 @@ function normalizeFromV0_0_2ToV0_0_3(article) {
     article.tags = filterMultipleKanbanTags(article.tags, lowerCaseColumns);
   }
 
+  if (article.blockHeight < 105654020 && article.sbts.includes("public")) {
+    article.sbts = ["fractal.i-am-human.near - class 1"];
+  }
+
   return article;
 }
 
