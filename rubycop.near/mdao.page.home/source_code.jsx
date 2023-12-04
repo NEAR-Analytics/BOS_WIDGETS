@@ -264,7 +264,7 @@ const SupportSection = styled.div`
   }
 
   .items {
-    gap: 3rem;
+    gap: 2rem;
 
     @media screen and (max-width: 786px) {
       gap: 4rem;
