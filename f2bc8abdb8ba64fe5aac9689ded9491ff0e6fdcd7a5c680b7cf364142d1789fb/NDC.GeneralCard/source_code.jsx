@@ -573,7 +573,7 @@ return (
                       </div>
                     ),
                     className: `info w-25`,
-                    onClick: () => handleEditArticle(articleToRenderData),
+                    onClick: () => handleEditArticle(data),
                   }}
                 />
               )}
