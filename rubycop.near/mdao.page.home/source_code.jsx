@@ -264,17 +264,17 @@ const SupportSection = styled.div`
   }
 
   .item {
-    width: 400px;
-    height: 400px;
-    border-radius: 400px;
+    width: 370px;
+    height: 370px;
+    border-radius: 370px;
     background: #151718;
     box-shadow: 0px 30px 50px 0px rgba(0, 0, 0, 0.25);
 
     .inner {
       color: white;
-      width: 380px;
-      height: 380px;
-      border-radius: 380px;
+      width: 350px;
+      height: 350px;
+      border-radius: 350px;
       border: 2px solid #f0ddcf;
     }
   }
