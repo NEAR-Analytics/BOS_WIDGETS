@@ -6,7 +6,7 @@ const creatorId = props.creatorId ?? "mob.near";
 const namespace = props.namespace ?? "widget";
 const thingId = props.thingId ?? "Explorer";
 
-const initialPath = props.path ?? `${creatorId}/${namespace}/${thingId}`;
+const initialPath = `${creatorId}/${namespace}/${thingId}`;
 const initialTagsObject = Social.get(
   `*/graph/context/${initialPath}/tags/**`,
   "final"
@@ -14,7 +14,7 @@ const initialTagsObject = Social.get(
 
 const [state, setState] = useState({
   showEditor: false,
-  path: initialPath,
+  path: props.path ?? initialPath,
   tagsObject: initialTagsObject,
   attestation: null,
 });
