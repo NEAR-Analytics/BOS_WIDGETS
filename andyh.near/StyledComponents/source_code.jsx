@@ -1,5 +1,5 @@
 const [StyledComponents, setStyledComponents] = useState(null);
-const importMarkdown = async () => {
+const importStyledComponents = async () => {
   try {
     const pkg = await import(
       "https://esm.sh/styled-components@6.1.1?alias=react:preact/compat&deps=preact@10.17.1"
