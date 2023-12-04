@@ -2,6 +2,7 @@ const accountId = props.accountId ?? context.accountId;
 const daoId = props.daoId;
 const onClose = props.onClose;
 const registry = props.registry;
+const widgetLink = `https://near.org/astraplusplus.ndctools.near/widget/home?tab=proposals&daoId=${daoId}&page=dao`;
 
 if (!accountId) {
     return "Please connect your NEAR wallet :)";
@@ -53,10 +54,9 @@ const handleProposal = () => {
     }
 
     const gas = 20000000000000;
-    // const deposit = state.attachDeposit
-    //     ? Big(state.attachDeposit)
-    //     : 100000000000000000000000;
-    const deposit = 1000000000000000000000000;
+    const deposit = state.attachDeposit
+        ? Big(state.attachDeposit)
+        : 100000000000000000000000;
 
     const args = JSON.stringify({
         description: state.description,
@@ -77,8 +77,48 @@ const handleProposal = () => {
             },
             gas: gas,
             deposit: deposit
+        },
+        {
+            contractName: "social.near",
+            methodName: "set",
+            deposit: 100000000000000000000000,
+            args: {
+                data: {
+                    // "megha19.near": {
+                    //     index: '{"notify":{"key":"megha19.near","value":{"type":"custom","message":"Proposal is created","widget":"https://near.org/astraplusplus.ndctools.near/widget/home?tab=proposals&daoId=voting-body-v1.gwg-testing.near&page=dao","params":{}}}}'
+                    // }
+
+                    "megha19.near": {
+                        index: {
+                            notify: JSON.stringify({
+                                key: "megha19.near",
+                                value: {
+                                    type: "mention",
+                                    item: {
+                                        path: "https://near.org/astraplusplus.ndctools.near/widget/home?tab=proposals&daoId=voting-body-v1.gwg-testing.near&page=dao"
+                                    }
+                                }
+                            })
+                        }
+                    }
+                }
+            }
         }
     ]);
+
+    // Social.set({
+    //     index: JSON.stringify({
+    //         notify: {
+    //             key: "megha19.near",
+    //             value: {
+    //                 type: "custom",
+    //                 message: "Proposal is created",
+    //                 widget: widgetLink,
+    //                 params: {}
+    //             }
+    //         }
+    //     })
+    // });
 };
 
 const onChangePropID = (prop_id) => {
