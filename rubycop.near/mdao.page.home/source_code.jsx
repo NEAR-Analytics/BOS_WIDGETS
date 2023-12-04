@@ -385,7 +385,7 @@ return (
       <img src={assets.hero} />
     </HeroSection>
 
-    <InfoSection className="d-flex flex-column gap-5">
+    <InfoSection id="#info" className="d-flex flex-column gap-5">
       <h4>{content.info.name}</h4>
       <h2>{content.info.title}</h2>
       <div className="d-flex flex-wrap gap-4 justify-content-center">
@@ -395,7 +395,7 @@ return (
       </div>
     </InfoSection>
 
-    <ConnectSection className="d-flex flex-column gap-5">
+    <ConnectSection id="connect" className="d-flex flex-column gap-5">
       <h4>{content.connect.name}</h4>
       <div className="d-flex justify-content-between w-100">
         <div className="d-flex flex-column gap-3 title">
@@ -418,7 +418,7 @@ return (
       </div>
     </ConnectSection>
 
-    <SupportSection className="d-flex flex-column gap-5">
+    <SupportSection id="get-support" className="d-flex flex-column gap-5">
       <h4>{content.support.name}</h4>
       <div className="items d-flex flex-wrap justify-content-center">
         {content.support.sections.map(({ title, items }) => (
