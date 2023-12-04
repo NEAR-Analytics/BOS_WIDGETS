@@ -9,83 +9,59 @@ const findHashtags = (str) => {
 };
 const respBlock = fetch("https://api.nearblocks.io/v1/stats");
 
-const newBlock = Math.round(
+const newBlock30Days = Math.round(
   parseInt(respBlock.body.stats[0].block) -
     (30 * 24 * 3600) / parseInt(respBlock.body.stats[0].avg_block_time)
 );
-const newBlock1Days = Math.round(
-  parseInt(respBlock.body.stats[0].block) -
-    (1 * 24 * 3600) / parseInt(respBlock.body.stats[0].avg_block_time)
-);
-const newBlock3Days = Math.round(
-  parseInt(respBlock.body.stats[0].block) -
-    (3 * 24 * 3600) / parseInt(respBlock.body.stats[0].avg_block_time)
-);
+
+// 7 days
 const newBlock7Days = Math.round(
   parseInt(respBlock.body.stats[0].block) -
     (7 * 24 * 3600) / parseInt(respBlock.body.stats[0].avg_block_time)
 );
-const allPost = Social.get("*/post/main/", "final");
 
-const tagCountAll = {};
-const tagCount1Days = {};
-const tagCount3Days = {};
-const tagCount7Days = {};
-Object.keys(allPost).forEach((item) => {
-  const tags = findHashtags(JSON.parse(allPost[item].post.main).text);
+let BlockHeightPost7Days = [];
+const getBlockHeight7daysPost = Social.index("post", "main", {
+  from: newBlock7Days,
+  limit: 99999,
+});
+
+getBlockHeight7daysPost.forEach((item) => {
+  BlockHeightPost7Days.push({
+    accountId: item.accountId,
+    blockHeight: item.blockHeight,
+  });
+});
+
+let post7days = [];
+BlockHeightPost7Days.forEach((item) => {
+  const post = Social.get(`${item.accountId}/post/main`, item.blockHeight);
+  if (post) {
+    post7days.push(JSON.parse(post).text);
+  }
+});
+
+let tagCount7Days = {};
+post7days.forEach((item) => {
+  const tags = findHashtags(item);
   if (tags.length > 0) {
     tags.forEach((tag) => {
-      tagCountAll[tag] = 0;
-      tagCount1Days[tag] = 0;
-      tagCount3Days[tag] = 0;
-      tagCount7Days[tag] = 0;
+      if (tagCount7Days[tag]) {
+        tagCount7Days[tag] = tagCount7Days[tag] + 1;
+      } else {
+        tagCount7Days[tag] = 1;
+      }
     });
   }
 });
-Object.keys(tagCountAll).forEach((tag) => {
-  const countAllPost = Social.index("hashtag", tag.replace("#", ""), {
-    from: newBlock,
-    limit: 999,
-    order: "asc",
-  });
-  const count1DaysPost = Social.index("hashtag", tag.replace("#", ""), {
-    from: newBlock1Days,
-    limit: 999,
-    order: "asc",
-  });
-  const count3DaysPost = Social.index("hashtag", tag.replace("#", ""), {
-    from: newBlock3Days,
-    limit: 999,
-    order: "asc",
-  });
-  const count7DaysPost = Social.index("hashtag", tag.replace("#", ""), {
-    from: newBlock7Days,
-    limit: 999,
-    order: "asc",
-  });
-  tagCountAll[tag] = countAllPost.length || 0;
-  tagCount1Days[tag] = count1DaysPost.length || 0;
-  tagCount3Days[tag] = count3DaysPost.length || 0;
-  tagCount7Days[tag] = count7DaysPost.length || 0;
-});
-
-let entriesALL = Object.entries(tagCountAll);
-let allPostSorted = entriesALL.sort((b, a) => a[1] - b[1]);
-
-let entries1 = Object.entries(tagCount1Days);
-let day1PostSorted = entries1.sort((b, a) => a[1] - b[1]);
-
-let entries3 = Object.entries(tagCount3Days);
-let day3PostSorted = entries3.sort((b, a) => a[1] - b[1]);
-
-let entries7 = Object.entries(tagCount7Days);
-let day7PostSorted = entries7.sort((b, a) => a[1] - b[1]);
+let entries7days = Object.entries(tagCount7Days);
+let post7daySorted = entries7days.sort((b, a) => a[1] - b[1]);
 
 let totalItems7Days = 0;
 
 // Sum the values in the day7PostSorted array
-for (let i = 0; i < day7PostSorted.length; i++) {
-  totalItems7Days += day7PostSorted[i][1];
+for (let i = 0; i < post7daySorted.length; i++) {
+  totalItems7Days += post7daySorted[i][1];
 }
 
 const labelN = "Top 10 trending tags on NEAR Social in 7 days";
@@ -141,9 +117,9 @@ let labelP = [];
 
 // Assuming allPostSorted has at least 20 items
 for (let i = 0; i < 10; i++) {
-  if (day7PostSorted[i]) {
-    dataP.push(day7PostSorted[i][1]); // Assuming item[1] contains the data for dataP
-    labelP.push(day7PostSorted[i][0]); // Assuming item[0] contains the data for labelP
+  if (post7daySorted[i]) {
+    dataP.push(post7daySorted[i][1]); // Assuming item[1] contains the data for dataP
+    labelP.push(post7daySorted[i][0]); // Assuming item[0] contains the data for labelP
   }
 }
 
@@ -198,7 +174,6 @@ const StyledTotalValue = styled.div`
 
 const Table = () => {
   const [searchTerm, setSearchTerm] = useState("");
-  const isLoading = !day7PostSorted || day7PostSorted.length === 0;
 
   return (
     <>
@@ -237,11 +212,11 @@ const Table = () => {
               </tr>
             </thead>
             <tbody>
-              {day7PostSorted &&
-                day7PostSorted
+              {post7daySorted &&
+                post7daySorted
                   .filter((item, index) => index <= 10)
                   .map((item) => (
-                    <tr key={item[0]}>
+                    <tr>
                       <StyledTd>
                         <a
                           href={`https://near.social/marketplacebos.near/widget/TrendingPost.ChartValueP7?hashtag=${item[0].replace(
