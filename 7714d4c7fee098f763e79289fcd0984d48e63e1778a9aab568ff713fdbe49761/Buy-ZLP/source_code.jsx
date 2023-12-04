@@ -1,1 +1,11 @@
-return <div>Hello World 1</div>;
+const DaisyUIWrapper = ({ children }) => {
+  return (
+    <Widget
+      src="igris.near/widget/DaisyUIWrapper"
+      props={{
+        children,
+        daisyUiTheme: "forest",
+      }}
+    />
+  );
+};
