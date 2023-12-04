@@ -5,6 +5,7 @@ const useNetwork = (mainnet, testnet) => {
 State.init({
   ownerId: useNetwork("sourcescan.near", "sourcescan.testnet"),
   apiHost: props.apiHost || "https://sourcsecan.2bb.dev",
+  appUrl: props.appUrl,
   theme: props.theme || {
     name: "light",
     bg: "#e3e8ef",
@@ -27,6 +28,16 @@ State.init({
   contractId: null,
   codeHash: null,
 });
+
+const A = styled.a`
+  text-decoration: none;
+  color: ${state.theme.color};
+
+  :hover {
+    text-decoration: none;
+    color: ${state.theme.color};
+  }
+`;
 
 const Stack = styled.div`
   width: 100%;
@@ -76,6 +87,15 @@ const Commit = styled.div`
     justify-content: center;
     margin-top: 25px;
   }
+`;
+
+const NHStack = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  gap: 5px;
 `;
 
 const CommitsContainer = styled.div`
@@ -222,8 +242,6 @@ const handleSubmit = (value) => {
   };
   asyncFetch(props.rpcUrl, options)
     .then((rpc_res) => {
-      console.log(rpc_res);
-
       if (rpc_res.body.error) {
         State.update({ error: rpc_res.body.error.cause.name });
       }
@@ -255,60 +273,64 @@ const truncateStringInMiddle = (str, maxLength) => {
 
 return (
   <Stack>
-    {context.accountId ? (
-      <>
-        <Heading>1. Select contract to verify</Heading>
-        <SearchStack>
-          <Widget
-            src={`${state.ownerId}/widget/SourceScan.Inputs.SearchBar`}
-            props={{
-              inputWidth: "180px",
-              placeholder: "Account ID",
-              theme: state.theme,
-              handleSubmit: handleSubmit,
-              value: state.contractId,
-            }}
-          />
-        </SearchStack>
-        {state.error && state.error !== "NO_CONTRACT_CODE" ? (
-          <Widget
-            src={`${state.ownerId}/widget/SourceScan.Common.ErrorAlert`}
-            props={{
-              message: "Error while loading contract from rpc",
-            }}
-          />
-        ) : (
-          <>
-            <Heading>{state.contractId}</Heading>
-            {state.contractId ? (
-              <>
-                {state.error === "NO_CONTRACT_CODE" ? (
-                  <Heading>No contract code found</Heading>
-                ) : (
-                  <Heading>
-                    Code hash: {truncateStringInMiddle(state.codeHash, 8)}
-                  </Heading>
-                )}
-                <Widget
-                  src={`${state.ownerId}/widget/SourceScan.Verify.Github`}
-                  props={{
-                    rpcUrl: props.rpcUrl,
-                    theme: state.theme,
-                    apiHost: state.apiHost,
-                  }}
-                />
-              </>
-            ) : state.loading ? (
-              <Widget
-                src={`${state.ownerId}/widget/SourceScan.Common.Spinner`}
-                props={{ width: "64px", height: "64px" }}
-              />
-            ) : null}
-          </>
-        )}
-      </>
+    <Heading>1. Select contract to verify</Heading>
+    <SearchStack>
+      <Widget
+        src={`${state.ownerId}/widget/SourceScan.Inputs.SearchBar`}
+        props={{
+          inputWidth: "180px",
+          placeholder: "Account ID",
+          theme: state.theme,
+          handleSubmit: handleSubmit,
+          value: state.contractId,
+        }}
+      />
+    </SearchStack>
+    {state.error && state.error !== "NO_CONTRACT_CODE" ? (
+      <Widget
+        src={`${state.ownerId}/widget/SourceScan.Common.ErrorAlert`}
+        props={{
+          message: "Error while loading contract from rpc",
+        }}
+      />
     ) : (
-      <Heading>Please login to your account</Heading>
+      <>
+        {state.contractId ? (
+          <NHStack>
+            <Heading>{state.contractId}</Heading>
+            <A
+              href={`https://${
+                context.networkId === "mainnet" ? "" : "testnet."
+              }nearblocks.io/address/${state.contractId}`}
+              target={"_blank"}
+            >
+              <Widget
+                src={`${state.ownerId}/widget/SourceScan.Common.Icons.LinkIcon`}
+                props={{ width: "18px", height: "18px" }}
+              />
+            </A>
+          </NHStack>
+        ) : null}
+        {state.contractId ? (
+          <>
+            <Widget
+              src={`${state.ownerId}/widget/SourceScan.Verify.Github`}
+              props={{
+                rpcUrl: props.rpcUrl,
+                theme: state.theme,
+                apiHost: state.apiHost,
+                appUrl: state.appUrl,
+                contractId: state.contractId,
+              }}
+            />
+          </>
+        ) : state.loading ? (
+          <Widget
+            src={`${state.ownerId}/widget/SourceScan.Common.Spinner`}
+            props={{ width: "64px", height: "64px" }}
+          />
+        ) : null}
+      </>
     )}
   </Stack>
 );
