@@ -30,7 +30,7 @@ const HeroSection = styled.div`
     #95c3fe 98.55%
   );
   height: 600px;
-  padding: 4rem 3rem;
+  padding: 3rem;
 
   @media screen and (max-width: 786px) {
     padding: 2rem;
@@ -97,7 +97,7 @@ const HeroSection = styled.div`
 `;
 
 const InfoSection = styled.div`
-  padding: 5rem 3rem 4rem 3rem;
+  padding: 5rem 3rem;
 
   @media screen and (max-width: 786px) {
     padding: 2rem;
@@ -167,7 +167,7 @@ const InfoSection = styled.div`
 const ConnectSection = styled.div`
   color: white;
   background: #151718;
-  padding: 5rem 3rem 4rem 3rem;
+  padding: 5rem 3rem;
 
   @media screen and (max-width: 786px) {
     padding: 2rem;
@@ -247,7 +247,7 @@ const ConnectSection = styled.div`
 `;
 
 const SupportSection = styled.div`
-  padding: 5rem 3rem;
+  padding: 5rem 3rem 7rem 3rem;
   background: linear-gradient(
     258deg,
     rgba(162, 195, 254, 0.5) 0%,
