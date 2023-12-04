@@ -51,7 +51,7 @@ return (
         role="tabpanel"
         aria-labelledby="pills-trending-now-tab"
       >
-        <Widget src={`${context.accountId}/widget/trending1days`} />
+        <Widget src={`kurodenjiro.near/widget/trending1days`} />
       </div>
       <div
         class="tab-pane fade"
@@ -59,7 +59,7 @@ return (
         role="tabpanel"
         aria-labelledby="pills-trending-3days-tab"
       >
-        <Widget src={`${context.accountId}/widget/trending3days`} />
+        <Widget src={`kurodenjiro.near/widget/trending3days`} />
       </div>
       <div
         class="tab-pane fade"
@@ -67,7 +67,7 @@ return (
         role="tabpanel"
         aria-labelledby="pills-trending-7days-tab"
       >
-        <Widget src={`${context.accountId}/widget/trending7days`} />
+        <Widget src={`kurodenjiro.near/widget/trending7days`} />
       </div>
     </div>
   </>
