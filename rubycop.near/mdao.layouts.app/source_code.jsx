@@ -3,7 +3,6 @@ const { app, provider } = VM.require(`rubycop.near/widget/mdao.config`);
 const Theme = styled.div`
   background: #fffcff;
   font-style: normal;
-  line-height: normal;
 
   a {
     color: inherit;
