@@ -19,7 +19,7 @@ State.init({
 });
 
 const tagsPattern = `*/graph/context/${state.path}/tags/*`;
-const tagsObject = Social.get(tagsPattern, "final");
+const tagsObject = Social.get(`*/graph/context/${state.path}/tags/**`, "final");
 
 if (!tagsObject) {
   return "";
