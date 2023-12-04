@@ -10,7 +10,7 @@ function getConfig(network) {
       return {
         ownerId: "inscribe.near",
         graphUrl:
-          "https://api.thegraph.com/subgraphs/name/inscriptionnear/neat-copy",
+          "https://api.thegraph.com/subgraphs/name/inscriptionnear/neat",
         nodeUrl: "https://rpc.mainnet.near.org",
         contractName: "inscription.near",
         methodName: "inscribe",
@@ -25,7 +25,7 @@ function getConfig(network) {
       return {
         ownerId: "inscribe.testnet",
         graphUrl:
-          "https://api.thegraph.com/subgraphs/name/inscriptionnear/neat-copy",
+          "https://api.thegraph.com/subgraphs/name/inscriptionnear/neat",
         nodeUrl: "https://rpc.testnet.near.org",
         contractName: "inscription.testnet",
         methodName: "inscribe",
