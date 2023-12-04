@@ -15,6 +15,11 @@ const Container = styled.div`
     font-size: 2rem;
     font-weight: 400;
   }
+
+  h4 {
+    font-size: 1.5rem;
+    font-weight: 300;
+  }
 `;
 
 const HeroSection = styled.div`
@@ -25,10 +30,10 @@ const HeroSection = styled.div`
     #95c3fe 98.55%
   );
   height: 600px;
-  padding: 1.5rem 3rem;
+  padding: 4rem 3rem;
 
   @media screen and (max-width: 786px) {
-    padding: 1.5rem 2rem;
+    padding: 2rem;
     text-align: center;
   }
 
@@ -82,10 +87,10 @@ const HeroSection = styled.div`
 `;
 
 const InfoSection = styled.div`
-  padding: 1.5rem 2rem;
+  padding: 4rem 3rem;
 
   @media screen and (max-width: 786px) {
-    padding: 1.5rem 2rem;
+    padding: 2rem;
     text-align: center;
   }
 
@@ -150,6 +155,100 @@ const InfoSection = styled.div`
   }
 `;
 
+const ConnectSection = styled.div`
+  color: white;
+  background: #151718;
+  padding: 4rem 3rem;
+
+  @media screen and (max-width: 786px) {
+    padding: 2rem;
+    text-align: center;
+  }
+
+  h2 {
+    font-size: 3rem;
+    font-weight: 600;
+    width: 70%;
+
+    @media screen and (max-width: 786px) {
+      width: 100%;
+    }
+  }
+
+  .title {
+    width: 75%;
+
+    @media screen and (max-width: 786px) {
+      width: 100%;
+    }
+
+    p {
+      max-width: 800px;
+      @media screen and (max-width: 786px) {
+        width: 100%;
+      }
+    }
+  }
+
+  h4.bold {
+    font-weight: 600;
+  }
+
+  div.img {
+    @media screen and (max-width: 786px) {
+      display: none;
+    }
+  }
+
+  .item {
+    width: 400px;
+    border-radius: 10px;
+    border: 2px solid #f0ddce;
+    background: rgba(255, 255, 255, 0.05);
+    box-shadow: 0px 30px 80px 0px rgba(0, 0, 0, 0.1);
+
+    .color-text {
+      background: linear-gradient(
+        270deg,
+        #efdcd1 -1.69%,
+        #e0c6f7 43.78%,
+        #adc3fb 99.83%
+      );
+      background-clip: text;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    p {
+      font-size: 16px;
+      font-weight: 300;
+      margin: 0;
+    }
+
+    @media screen and (max-width: 786px) {
+      width: 100%;
+    }
+  }
+`;
+
+const communities = [
+  {
+    title: "Community Name",
+    desc: "We believe that communities are the foundation of a decentralized ecosystem. Explore and engage with our diverse range of communities today.",
+    href: "",
+  },
+  {
+    title: "Community Name",
+    desc: "We believe that communities are the foundation of a decentralized ecosystem. Explore and engage with our diverse range of communities today.",
+    href: "",
+  },
+  {
+    title: "Community Name",
+    desc: "We believe that communities are the foundation of a decentralized ecosystem. Explore and engage with our diverse range of communities today.",
+    href: "",
+  },
+];
+
 const Info = ({ title, desc, icon }) => (
   <div className="item d-flex flex-column gap-2 justify-content-between">
     <div className="header gap-3 p-4 text-center">
@@ -165,6 +264,21 @@ const Info = ({ title, desc, icon }) => (
           <span>Read More</span>
           <i className="bi bi-chevron-right" />
         </div>
+      </a>
+    </div>
+  </div>
+);
+
+const Connect = ({ title, desc, href }) => (
+  <div className="item d-flex flex-column gap-2 justify-content-between">
+    <h4 className="bold color-text px-4 pt-4 text-center">{title}</h4>
+    <div className="px-4">
+      <p>{desc}</p>
+    </div>
+    <div className="p-4 pb-4">
+      <a href={href} className="color-text">
+        <span className="mr-4">Learn More</span>
+        <i className="bi bi-chevron-right" />
       </a>
     </div>
   </div>
@@ -190,7 +304,7 @@ return (
     </HeroSection>
 
     <InfoSection className="d-flex flex-column gap-5">
-      <h3>{content.info.name}</h3>
+      <h4>{content.info.name}</h4>
       <h2>{content.info.title}</h2>
       <div className="d-flex flex-wrap gap-4 justify-content-center">
         {content.info.sections.map(({ title, desc, icon }) => (
@@ -198,5 +312,32 @@ return (
         ))}
       </div>
     </InfoSection>
+
+    <ConnectSection className="d-flex flex-column gap-5">
+      <h4>{content.connect.name}</h4>
+      <div className="d-flex justify-content-between w-100">
+        <div className="d-flex flex-column gap-3 title">
+          <div>
+            <h2>{content.connect.title1}</h2>
+            <p>{content.connect.desc}</p>
+          </div>
+          <div>
+            <h4 className="bold">{content.connect.title2}</h4>
+          </div>
+        </div>
+        <div className="img">
+          <img src={assets.puzzle} className="w-100" />
+        </div>
+      </div>
+      <div className="d-flex flex-wrap gap-4 justify-content-center">
+        {communities.map(({ title, desc, href }) => (
+          <Connect title={title} desc={desc} href={href} />
+        ))}
+      </div>
+    </ConnectSection>
+
+    <div>
+      <img className="w-100 object-fit-cover" src={assets.support_bg} />
+    </div>
   </Container>
 );
