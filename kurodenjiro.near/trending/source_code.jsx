@@ -54,14 +54,15 @@ let post1daySorted = entries1days.sort((b, a) => a[1] - b[1]);
 return (
   <>
     <div>
-      <b> Trending 1 days POST</b>
+      <b> Trending :</b>
+      <br></br>
       {post1daySorted &&
         post1daySorted
-          .filter((item, index) => index <= 100)
+          .filter((item, index) => index <= 20)
           .map((item) => (
-            <p>
+            <a href={`https://near.social/?hashtag=${item[0]}`}>
               {item[0]}-{item[1]}
-            </p>
+            </a>
           ))}
     </div>
   </>
