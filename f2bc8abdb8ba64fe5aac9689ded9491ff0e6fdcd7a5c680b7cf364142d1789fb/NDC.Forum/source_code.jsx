@@ -489,31 +489,31 @@ function handleOnCommitArticle(articleToRenderData) {
 }
 
 //===============================================END FUNCTIONS======================================================
-if (!context.accountId) {
-  return (
-    <>
-      <Widget
-        src={widgets.header}
-        props={{
-          isTest,
-          mainStateUpdate,
-          handleGoHomeButton,
-          handlePillNavigation,
-          brand,
-          pills: navigationPills,
-          navigationButtons,
-          displayedTabId: state.displayedTabId,
-          handleFilterArticles,
-          filterParameter: state.filterBy.parameterName,
-          handleBackButton,
-          tabs,
-          sbtsNames,
-        }}
-      />
-      <h2>Log in to see the articles</h2>
-    </>
-  );
-}
+// if (!context.accountId) {
+//   return (
+//     <>
+//       <Widget
+//         src={widgets.header}
+//         props={{
+//           isTest,
+//           mainStateUpdate,
+//           handleGoHomeButton,
+//           handlePillNavigation,
+//           brand,
+//           pills: navigationPills,
+//           navigationButtons,
+//           displayedTabId: state.displayedTabId,
+//           handleFilterArticles,
+//           filterParameter: state.filterBy.parameterName,
+//           handleBackButton,
+//           tabs,
+//           sbtsNames,
+//         }}
+//       />
+//       <h2>Log in to see the articles</h2>
+//     </>
+//   );
+// }
 
 return (
   <>
