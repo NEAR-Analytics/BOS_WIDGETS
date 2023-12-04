@@ -8,7 +8,7 @@ const thingId = props.thingId ?? "Explorer";
 
 const initialPath = props.path ?? `${creatorId}/${namespace}/${thingId}`;
 const initialTags = Social.getr(
-  `*/graph/context/${creatorId}/${namespace}/${thingId}/tags/**`,
+  `*/graph/context/${initialPath}/tags/**`,
   "final"
 );
 
