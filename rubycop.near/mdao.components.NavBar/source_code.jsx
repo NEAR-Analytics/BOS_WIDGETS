@@ -3,21 +3,9 @@ const { app, provider, assets } = VM.require(`rubycop.near/widget/mdao.config`);
 const [showMenu, setShowMenu] = useState(false);
 
 const links = [
-  {
-    title: "INFO",
-    href: `${provider}/widget/${app}.app?page=info`,
-    color: "#FDEFB1",
-  },
-  {
-    title: "CONNECT",
-    href: `${provider}/widget/${app}.app?page=connect`,
-    color: "#F7CCFA",
-  },
-  {
-    title: "GET SUPPORT",
-    href: `${provider}/widget/${app}.app?page=get_support`,
-    color: "#AFC5FE",
-  },
+  { title: "INFO", href: "#info", color: "#FDEFB1" },
+  { title: "CONNECT", href: "#connect", color: "#F7CCFA" },
+  { title: "GET SUPPORT", href: "#get-support", color: "#AFC5FE" },
 ];
 
 const Navbar = styled.div`
