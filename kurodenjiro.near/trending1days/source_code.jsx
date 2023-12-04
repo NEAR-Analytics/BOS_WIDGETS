@@ -22,7 +22,7 @@ const getBlockHeight1daysPost = Social.index("post", "main", {
 });
 
 if (!getBlockHeight1daysPost) {
-  return "";
+  return "Loading...";
 }
 
 getBlockHeight1daysPost.forEach((item) => {
