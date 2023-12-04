@@ -51,6 +51,10 @@ post30days.forEach((item) => {
 let entries30days = Object.entries(tagCount30Days);
 let post30daySorted = entries30days.sort((b, a) => a[1] - b[1]);
 
+if (!getBlockHeight30daysPost) {
+  return "Loading...";
+}
+
 const newBlock1Days = Math.round(
   parseInt(respBlock.body.stats[0].block) -
     (1 * 24 * 3600) / parseInt(respBlock.body.stats[0].avg_block_time)
