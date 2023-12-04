@@ -65,7 +65,12 @@ function libStateUpdate(obj) {
 function canUserCreateArticle(props) {
   const { env, accountId, sbtsNames } = props;
 
-  setAreValidUsers([accountId], sbtsNames);
+  if (accountId) {
+    setAreValidUsers([accountId], sbtsNames);
+  } else {
+    return false;
+  }
+
   const result = state[`isValidUser-${accountId}`];
   resultFunctionsToCall = resultFunctionsToCall.filter((call) => {
     const discardCondition =
