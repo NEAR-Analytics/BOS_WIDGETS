@@ -156,7 +156,7 @@ const Header = styled.div`
 const HeaderMain = () => {
   return (
     <Container>
-      <Image src="https://ipfs.near.social/ipfs/bafybeigdaduh652btdjkxaiqzdruxk2oafhw6l62umotxxuj7m77ufql7a" />
+      <Image src="https://ipfs.near.social/ipfs/bafybeigkg5rsxq7xkcdjaj3itiqpywhelks45hvxoa7ooesahhdq23d4li" />
       <Header>
         <LogoLink href="https://near.social/fastui.near/widget/FastUI">
           {" "}
