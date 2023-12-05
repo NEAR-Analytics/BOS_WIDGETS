@@ -48,12 +48,12 @@ const CompletedIcon = styled.i`
 const ItemContainer = styled.div`
   box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.05);
   border-radius: 8px;
-  background: ${(props) => (props.selected ? "#fafafa" : "#fff")};
+  background: ${(props) => (props.selected ? "#f8f8f8" : "#fff")};
   color: ${(props) => (props.selected ? "white" : "inherit")};
   transition: background 0.3s; /* Add a smooth transition for the background */
 
   &:hover {
-    background: #fafafa;
+    background: #f8f8f8;
     box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.05);
   }
 `;
