@@ -6,7 +6,6 @@ if (!context.accountId) {
 
 const JoinButton = styled.div`
   display: flex;
-  padding: 12px;
   flex-direction: column;
   align-items: center;
   gap: 23px;
