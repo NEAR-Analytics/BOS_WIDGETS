@@ -38,6 +38,8 @@ const action = isTest ? testAction : prodAction;
 
 const libSrcArray = [widgets.libSBT]; // string to lib widget // EDIT: set libs to call
 
+const imports = { notifications: ["notify", "clg"] };
+
 const libCalls = {};
 libSrcArray.forEach((libSrc) => {
   const libName = libSrc.split("lib.")[1];
@@ -145,9 +147,32 @@ const saveHandler = (article, onCommit, onCancel) => {
   }
 };
 
+function extractMentions(text) {
+  const mentionRegex =
+    /@((?:(?:[a-z\d]+[-_])*[a-z\d]+\.)*(?:[a-z\d]+[-_])*[a-z\d]+)/gi;
+  mentionRegex.lastIndex = 0;
+  const accountIds = new Set();
+  for (const match of text.matchAll(mentionRegex)) {
+    if (
+      !/[\w`]/.test(match.input.charAt(match.index - 1)) &&
+      !/[/\w`]/.test(match.input.charAt(match.index + match[0].length)) &&
+      match[1].length >= 2 &&
+      match[1].length <= 64
+    ) {
+      accountIds.add(match[1].toLowerCase());
+    }
+  }
+  return [...accountIds];
+}
+
+function notify(type, accountId, url) {
+  if (state.notifications.notify) {
+    state.notifications.notify(type, accountId, url);
+  }
+}
+
 function composeData(article) {
-  let data;
-  data = {
+  let data = {
     [action]: {
       main: JSON.stringify(article),
     },
@@ -161,6 +186,21 @@ function composeData(article) {
       }),
     },
   };
+
+  const mentions = extractMentions(article.body);
+
+  if (mentions.length > 0) {
+    const dataToAdd = notify(
+      "mention",
+      mentions,
+      `https://near.social/${widgets.libNotifications}?sharedArticleId=${
+        article.id
+      }${isTest ? "&isTest=t" : ""}`
+    );
+
+    data.post = dataToAdd.post;
+    data.index.notify = dataToAdd.index.notify;
+  }
 
   return data;
 }
@@ -539,5 +579,14 @@ return (
         `lib.${libName}`
       );
     })}
+
+    <Widget
+      src={`${widgets.libNotifications}`}
+      props={{
+        stateUpdate: libStateUpdate,
+        imports: imports["notifications"],
+        fatherNotificationsState: state.notifications,
+      }}
+    />
   </>
 );
