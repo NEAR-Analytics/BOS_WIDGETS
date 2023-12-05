@@ -148,6 +148,55 @@ const saveHandler = (article, onCommit, onCancel) => {
   }
 };
 
+function getNotificationData(type, accountId, url) {
+  if (state.notifications.getNotificationData) {
+    state.notifications.getNotificationData(type, accountId, url);
+  }
+}
+
+// const saveHandler = (article, onCommit, onCancel) => {
+//   if (article.title && article.body) {
+//     let data = {
+//       [action]: {
+//         main: JSON.stringify(article),
+//       },
+//       index: {
+//         [action]: JSON.stringify({
+//           key: "main",
+//           value: {
+//             type: "md",
+//             id: article.id ?? `${context.accountId}-${Date.now()}`,
+//           },
+//         }),
+//       },
+//     };
+//     console.log("data 0: ", data);
+
+//     const mentions = extractMentions(article.body);
+
+//     const dataToAdd = getNotificationData(
+//       "mention",
+//       mentions,
+//       `https://near.social/${widgets.libNotifications}?sharedArticleId=${
+//         article.id
+//       }${isTest ? "&isTest=t" : ""}`
+//     );
+
+//     console.log("dataToAdd 2: ", dataToAdd);
+
+//     data.post = dataToAdd.post;
+//     data.index.notify = dataToAdd.index.notify;
+
+//     Social.set(data, {
+//       force: true,
+//       onCommit,
+//       onCancel,
+//     });
+//   } else {
+//     logError("Article is missing title or body");
+//   }
+// };
+
 function extractMentions(text) {
   const mentionRegex =
     /@((?:(?:[a-z\d]+[-_])*[a-z\d]+\.)*(?:[a-z\d]+[-_])*[a-z\d]+)/gi;
@@ -164,12 +213,6 @@ function extractMentions(text) {
     }
   }
   return [...accountIds];
-}
-
-function getNotificationData(type, accountId, url) {
-  if (state.notifications.getNotificationData) {
-    state.notifications.getNotificationData(type, accountId, url);
-  }
 }
 
 function composeData(article) {
