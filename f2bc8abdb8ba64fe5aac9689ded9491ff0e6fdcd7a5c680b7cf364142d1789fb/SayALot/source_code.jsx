@@ -1,6 +1,7 @@
 // SayALot
 
-let { sharedBlockHeight, tagShared, isTest, accountId } = props;
+let { sharedBlockHeight, tagShared, isTest, accountId, sharedArticleId } =
+  props;
 
 //Duplicated(lib.SBT)
 const sbtWhiteList = [
@@ -78,7 +79,8 @@ const widgets = {
   addComment: `${componentsOwner}/widget/NDC.AddComment`,
   // commentView: `${componentsOwner}/widget/NDC.CommentView`, ///////////////////////////////////////////////////
   commentView: `f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/NDC.CommentView`, ///////////////////////////////////////////////////
-  upVoteButton: `${componentsOwner}/widget/NDC.UpVoteButton`,
+  // upVoteButton: `${componentsOwner}/widget/NDC.UpVoteButton`,
+  upVoteButton: `f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/NDC.UpVoteButton`,
   profileShortInlineBlock: `${componentsOwner}/widget/Profile.ShortInlineBlock`,
   tagsEditor: `${componentsOwner}/widget/TagsEditor`,
   kanbanBoard: `${componentsOwner}/widget/NDC.KanbanBoard`,
@@ -94,6 +96,8 @@ const widgets = {
   libEmojis: `f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/lib.emojis`, ///////////////////////////////////////////////////
   // libUpVotes: `sayalot.near/widget/lib.upVotes`, ///////////////////////////////////////////////////
   libUpVotes: `f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/lib.upVotes`, ///////////////////////////////////////////////////
+  // libNotifications: `sayalot.near/widget/lib.notifications`, ///////////////////////////////////////////////////
+  libNotifications: `f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/lib.notifications`, ///////////////////////////////////////////////////
 
   //Standard widgets
   fasterTextInput: `f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/fasterTextInput`,
@@ -156,6 +160,7 @@ return (
       kanbanColumns,
       kanbanRequiredLabels,
       kanbanExcludedLabels,
+      sharedArticleId,
     }}
   />
 );
