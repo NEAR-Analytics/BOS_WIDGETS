@@ -1,4 +1,4 @@
-const { stateUpdate, imports } = props;
+const { stateUpdate, imports, fatherNotificationsState } = props;
 
 if (!stateUpdate) {
   stateUpdate = () => {};
@@ -8,55 +8,65 @@ if (!imports) {
   imports = [];
 }
 
+let fatherStateHasAllFunction = true;
+imports.forEach((fnName) => {
+  fatherStateHasAllFunction =
+    fatherStateHasAllFunction && fatherNotificationsState[fnName] !== undefined;
+});
+
+if (fatherStateHasAllFunction) {
+  return <></>;
+}
+
 function appendExports(fnName) {
-  if (fnName === "notify") {
-    libNotificationsOutput[fnName] = notify;
-  } else if (fnName === "clg") {
-    libNotificationsOutput[fnName] = clg;
+  if (fnName === "getNotificationData") {
+    libNotificationsOutput[fnName] = getNotificationData;
   }
 }
 
-function notify(notificationType, userToNotify, redirectTo) {
-  console.log("Inside notify fn");
+function getNotificationData(notificationType, usersToNotify, redirectTo) {
+  console.log(
+    "Inside getNotificationData: ",
+    notificationType,
+    usersToNotify,
+    redirectTo
+  );
+
   const notificationTypeText = {
-    mention: `I have mentioned @${userToNotify} in this post: `,
+    mention: `I have mentioned @${usersToNotify} in this post: `,
     upVote: "I have upVoted this post: ",
     emoji: "I have reacted to this post: ",
     comment: "I have commented this post: ",
   };
 
-  Social.set(
-    {
-      post: {
-        main: JSON.stringify({
-          type: "md",
-          text: `${notificationTypeText[notificationType]} ${redirectTo}`,
-        }),
-      },
-      index: {
-        notify: JSON.stringify({
-          key: userToNotify,
-          value: {
-            type: "mention",
-            item: {
-              type: "social",
-              path: `${context.accountId}/post/main`,
-            },
-          },
-        }),
-      },
+  const dataToAdd = {
+    post: {
+      main: JSON.stringify({
+        type: "md",
+        text: `${notificationTypeText[notificationType]} ${redirectTo}`,
+      }),
     },
-    {
-      force: true,
-      onCommit: () => {
-        stateUpdate({ articleCreated: undefined });
-      },
-    }
-  );
-}
+    index: {
+      notify: JSON.stringify(
+        usersToNotify.map((user) => {
+          return {
+            key: user,
+            value: {
+              type: "mention",
+              item: {
+                type: "social",
+                path: `${context.accountId}/post/main`,
+              },
+            },
+          };
+        })
+      ),
+    },
+  };
 
-function clg(string) {
-  console.log(string);
+  console.log("dataToAdd: ", dataToAdd);
+
+  return dataToAdd;
 }
 
 const libNotificationsOutput = {};
@@ -66,13 +76,5 @@ imports.forEach((fnName) => {
 });
 
 stateUpdate({ notifications: libNotificationsOutput });
-
-// const standardPostBlockHeight = 106940958;
-
-// notify(
-//   "mention",
-//   `${context.accountId}`,
-//   `https://near.social/f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/SayALot?isTest=t&sharedBlockHeight=${standardPostBlockHeight}`
-// );
 
 return <></>;
