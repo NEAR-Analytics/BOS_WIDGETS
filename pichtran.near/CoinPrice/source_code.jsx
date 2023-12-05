@@ -72,7 +72,7 @@ const DATAPrice = (props) => {
   left: 20px;
   background-color: none;
 
-
+  padding:10px;
    &:hover {
     & > ${Logo} {
       animation: tilt 1s ease infinite;
