@@ -90,7 +90,7 @@ const handleVoteClick = (owner) => {
       submission_owner: owner,
       contest_id: contest_id,
     },
-    "",
+    "300000000000000",
     "10000000000000000000000"
   );
 };
