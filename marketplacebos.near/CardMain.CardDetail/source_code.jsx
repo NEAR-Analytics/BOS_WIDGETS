@@ -240,7 +240,7 @@ const TextAreaWrapper = styled.div`
 
 const TextArea = styled.textarea`
   background-color: white;
-  color: #d4d4d4;
+  color: black;
   font-family: 'Courier New', Courier, monospace;
   font-size: 14px;
   border: none;
