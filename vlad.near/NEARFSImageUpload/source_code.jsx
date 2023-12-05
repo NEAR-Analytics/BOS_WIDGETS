@@ -7,6 +7,9 @@ const domain = {
   testnet: "testnet.page",
   mainnet: "near.page",
 }[networkId];
+
+// Code mostly taken from https://github.com/NearSocial/viewer/pull/97
+
 const ipfsUrl = (cid) => `https://ipfs.web4.${domain}/ipfs/${cid}`;
 
 const filesOnChange = (files) => {
