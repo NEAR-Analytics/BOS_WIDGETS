@@ -141,9 +141,7 @@ return (
           <h2>{art[1].title}</h2>
           <p>By {art[0]}</p>
           <p>{art[1].votes} Votes</p>
-          <VoteButton onClick={() => handleVoteClick(contest_id, art[0])}>
-            Vote
-          </VoteButton>
+          <VoteButton onClick={() => handleVoteClick(art[0])}>Vote</VoteButton>
         </ArtCard>
       ))}
     </ArtCardContainer>
