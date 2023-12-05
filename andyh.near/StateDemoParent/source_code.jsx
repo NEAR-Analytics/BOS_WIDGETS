@@ -10,7 +10,6 @@ const {
 
 return (
   <div>
-    <FaBeer />
     <Widget
       id={id}
       src="andyh.near/ShapeSet"
