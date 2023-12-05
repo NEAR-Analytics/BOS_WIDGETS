@@ -161,7 +161,7 @@ const HeaderMain = () => {
         <LogoLink href="https://near.social/trendingpostbos.near/widget/Index">
           {" "}
           <Logo
-            src="https://ipfs.near.social/ipfs/bafkreiejtc7czgogpg4yho7zevihttpafvdoonncfrqhbjh5a4asoz2bcq"
+            src="https://ipfs.near.social/ipfs/bafkreicloy2rbbvo3uyzj3fmqufq7nspc5mfmik4yxvjzwyyddqu7ul7ue"
             alt="Logo"
           />
           <Text>TrendingPost</Text>
