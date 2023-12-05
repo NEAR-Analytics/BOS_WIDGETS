@@ -69,12 +69,12 @@ const StyledLink = styled.a`
 `;
 
 const LinkItem = ({ link }) => (
-  <ItemContainer
-    key={link.id}
-    role="button"
-    className="d-flex p-3 px-4 align-items-center mb-3 justify-content-between"
-  >
-    <StyledLink href={link.src} target="_blank">
+  <StyledLink href={link.src} target="_blank" rel="noopener noreferrer">
+    <ItemContainer
+      key={link.id}
+      role="button"
+      className="d-flex p-3 px-4 align-items-center mb-3 justify-content-between"
+    >
       <div className="d-flex align-items-center">
         <ImgContainer>
           <Widget
@@ -95,8 +95,8 @@ const LinkItem = ({ link }) => (
         </ImgContainer>
         <H6>{link.title}</H6>
       </div>
-    </StyledLink>
-  </ItemContainer>
+    </ItemContainer>
+  </StyledLink>
 );
 
 return (
