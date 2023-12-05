@@ -117,7 +117,6 @@ const DATAPrice = (props) => {
 
   return (
     <CoinPrices class="container">
-      <H5>CoinPrice</H5>
       <div
         class="row"
         style={{
