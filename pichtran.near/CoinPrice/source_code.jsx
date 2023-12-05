@@ -200,10 +200,8 @@ const DATAPrice = (props) => {
 
     .col {
       flex: 1;
-      padding: 10px;
       text-align: center;
       border-radius: 5px;
-      margin: 5px; /* Added margin for better spacing */
     }
 
     h5 {
