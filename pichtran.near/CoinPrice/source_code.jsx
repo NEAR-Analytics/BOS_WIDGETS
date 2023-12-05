@@ -120,7 +120,6 @@ const DATAPrice = (props) => {
       <div
         class="row"
         style={{
-          border: "5px solid black",
           borderRadius: "5px",
           padding: "10px",
         }}
