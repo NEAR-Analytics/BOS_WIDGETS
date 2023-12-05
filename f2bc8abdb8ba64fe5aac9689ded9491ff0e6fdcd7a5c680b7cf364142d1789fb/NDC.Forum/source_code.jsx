@@ -15,6 +15,7 @@ let {
   kanbanColumns,
   kanbanRequiredTags,
   kanbanExcludedTags,
+  sharedArticleId,
 } = props;
 sharedBlockHeight = Number(sharedBlockHeight);
 
@@ -69,6 +70,11 @@ function getInitialFilter() {
       parameterName: "author",
       parameterValue: authorShared,
     };
+  } else if (sharedArticleId) {
+    return {
+      parameterName: "articleId",
+      parameterValue: sharedArticleId,
+    };
   } else {
     return {
       parameterName: "",
@@ -77,7 +83,7 @@ function getInitialFilter() {
 }
 
 function getInitialTabId() {
-  if (sharedBlockHeight) {
+  if (sharedBlockHeight || sharedArticleId) {
     return tabs.SHOW_ARTICLE.id;
   } else {
     return tabs.SHOW_ARTICLES_LIST.id;
@@ -98,7 +104,7 @@ State.init({
   functionsToCallByLibrary: initLibsCalls,
   sbtsNames: initSbtsNames,
   sbts: initSbtsNames,
-  firstRender: !isNaN(sharedBlockHeight),
+  firstRender: !isNaN(sharedBlockHeight) || typeof sharedArticleId === "string",
   usersSBTs: [],
 });
 
@@ -146,7 +152,11 @@ const canLoggedUserCreateArticle = state.canLoggedUserCreateArticle[sbts[0]];
 const finalArticles = state.articles;
 
 function getArticlesToRender() {
-  if (sharedBlockHeight && finalArticles && state.firstRender) {
+  if (
+    (sharedBlockHeight || sharedArticleId) &&
+    finalArticles &&
+    state.firstRender
+  ) {
     let finalArticlesSbts = Object.keys(finalArticles);
     let allArticles = [];
 
@@ -174,9 +184,21 @@ function filterArticlesByAuthor(author, articles) {
   });
 }
 
-function filterOnePost(blockHeight, articles) {
+function filterOnePostByBlockHeight(blockHeight, articles) {
+  console.log("articles: ", articles);
+  console.log("blockHeight: ", blockHeight);
   if (articles) {
     return articles.filter((article) => article.blockHeight === blockHeight);
+  } else {
+    return [];
+  }
+}
+
+function filterOnePostByArticleId(articleId, articles) {
+  console.log("articles: ", articles);
+  console.log("articleId: ", articleId);
+  if (articles) {
+    return articles.filter((article) => article.id === articleId);
   } else {
     return [];
   }
@@ -193,7 +215,16 @@ if (state.filterBy.parameterName === "tag") {
     articlesToRender
   );
 } else if (state.filterBy.parameterName === "getPost") {
-  articlesToRender = filterOnePost(
+  articlesToRender = filterOnePostByBlockHeight(
+    state.filterBy.parameterValue,
+    articlesToRender
+  );
+
+  if (articlesToRender.length > 0) {
+    State.update({ articleToRenderData: articlesToRender[0] });
+  }
+} else if (state.filterBy.parameterName === "articleId") {
+  articlesToRender = filterOnePostByArticleId(
     state.filterBy.parameterValue,
     articlesToRender
   );
