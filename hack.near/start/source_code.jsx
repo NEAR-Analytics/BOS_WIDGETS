@@ -35,7 +35,7 @@ const JoinButton = styled.div`
       text-decoration: none;
       color: #000 !important;
       cursor: pointer;
-      background: #00ec97);
+      background: #00E494;
     }
 
     border-radius: 8px;
@@ -109,9 +109,8 @@ const group = policy.roles
   .filter((role) => role.name === roleId)
   .map((role) => role.kind.Group);
 
-const proposalId = Near.view(daoId, "get_last_proposal_id") - 1;
-
 // get data from last proposal
+const proposalId = Near.view(daoId, "get_last_proposal_id") - 1;
 const proposal = Near.view(daoId, "get_proposal", {
   id: proposalId,
 });
@@ -131,7 +130,49 @@ const checkMembership = (groupMembers) => {
   }
 };
 
+const data = {
+  [accountId]: {
+    graph: { connect: { [daoId]: "" } },
+    index: {
+      graph: JSON.stringify({
+        key: "connect",
+        value: {
+          accountId,
+        },
+      }),
+    },
+  },
+};
+
 const validMember = checkMembership(groupMembers);
+const handleJoin = () => {
+  const transactions = [
+    {
+      contractName: "social.near",
+      methodName: "set",
+      deposit,
+      args: { data },
+    },
+    {
+      contractName: daoId,
+      methodName: "add_proposal",
+      args: {
+        proposal: {
+          description: `add ${accountId} to the ${roleId} group`,
+          kind: {
+            AddMemberToRole: {
+              member_id: accountId,
+              role: roleId,
+            },
+          },
+        },
+      },
+      gas: 219000000000000,
+      deposit: deposit,
+    },
+  ];
+  Near.call(transactions);
+};
 
 const CreateSomethingView = (props) => {
   return (
@@ -157,12 +198,7 @@ const CreateSomethingView = (props) => {
       ) : (
         <>
           {canJoin ? (
-            <Widget
-              src="buildhub.near/widget/JoinButton"
-              props={{
-                children: <>Join Build DAO</>,
-              }}
-            />
+            <button onClick={handleJoin}>Join Build DAO</button>
           ) : (
             <>
               <span className={!validMember ? "pending" : "joined"}>
