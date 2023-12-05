@@ -2,6 +2,9 @@ if (context.loading) {
   return;
 }
 
+const propsSelected = props.selected || menuLinks[0].label;
+const [selected, setSelected] = useState(propsSelected);
+
 const menuLinks = [
   {
     label: "Home",
@@ -25,8 +28,6 @@ const menuLinks = [
   },
 ];
 
-const selected = props.selected || menuLinks[0].label;
-
 const componentFor = (label) =>
   menuLinks.find((link) => link.label === label).component;
 
@@ -40,6 +41,7 @@ return (
           topics,
           selected,
           identifier: communityId,
+          onClick: (option) => setSelected(option),
         }}
       />
     </div>
