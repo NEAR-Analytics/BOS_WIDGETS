@@ -39,7 +39,7 @@ const DATAPrice = (props) => {
     priceData.prices.map(
       (data) => (priceDataPrepared[data.asset_id] = data.price)
     );
-  
+
     let newPrices = assetsData.map((asset, index) => {
       let assetAccountId = asset[0];
       let assetName = asset[1].token_name;
