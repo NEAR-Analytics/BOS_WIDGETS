@@ -25,13 +25,6 @@ function appendExports(fnName) {
 }
 
 function getNotificationData(notificationType, usersToNotify, redirectTo) {
-  console.log(
-    "Inside getNotificationData: ",
-    notificationType,
-    usersToNotify,
-    redirectTo
-  );
-
   const notificationTypeText = {
     mention: `I have mentioned @${usersToNotify} in this post: `,
     upVote: "I have upVoted this post: ",
@@ -64,7 +57,7 @@ function getNotificationData(notificationType, usersToNotify, redirectTo) {
     },
   };
 
-  console.log("dataToAdd: ", dataToAdd);
+  console.log("dataToAdd 1: ", dataToAdd);
 
   return dataToAdd;
 }
