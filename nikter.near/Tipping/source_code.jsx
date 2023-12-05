@@ -143,10 +143,11 @@ function getMilliseconds(seconds) {
   return seconds * 1000;
 }
 
-function debounce(func, timeout) {
+function debounce(func, timeout, id) {
   return () => {
+    state[`debounceTimer#${id}`] && clearTimeout(state[`debounceTimer#${id}`]);
     const timer = setTimeout(func, timeout);
-    clearTimeout(timer - 1); // ToDo: dangerous!!!!!!!
+    State.update({ [`debounceTimer#${id}`]: timer })
   };
 }
 
@@ -224,38 +225,21 @@ const onDebounceDonate = () => {
       '50000000000000',
       total,
     );
-    // ToDo: Wait?
-    // ToDo: Done! to label
-    // State.update({
-    //   label: 'Done!',
-    //   tooltip: 'The transfer was successful',
-    // })
-    // setTimeout(() => State.update({
-    //   loading: false,
-    //   disabled: false,
-    //   label: state.donationsAmount + ' NEAR',
-    //   tooltip: 'Send donation',
-    // }), 3000)
   } catch (e) {
     console.error(e);
     State.update({
-      loading: true,
-      disabled: true,
-    })
-  // } finally {
-  //   State.update({
-  //     disabled: false,
-  //     loading: false,
-  //     label: equals(state.donationsAmount, '0') ? 'Tip' : formatNear(state.donationsAmount) + ' NEAR',
-  //     donationsAmount: totalTipsByItemId,
-  //     amount: '0',
-  //   })
+      disabled: false,
+      loading: false,
+      label: equals(state.donationsAmount, '0') ? 'Tip' : formatNear(state.donationsAmount) + ' NEAR',
+      donationsAmount: totalTipsByItemId,
+      amount: '0',
+    }) 
   }
 };
 
 const stepYocto = parseNearAmount(STEP.toString());
 const debounceDelay = getMilliseconds(DELAY);
-const debouncedDonate = debounce(onDebounceDonate, debounceDelay)
+const debouncedDonate = debounce(onDebounceDonate, debounceDelay, 'donate')
 
 const onClick = () => {
   const donationsAmount = Number(formatNear(state.donationsAmount));
