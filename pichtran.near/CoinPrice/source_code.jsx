@@ -70,6 +70,55 @@ const DATAPrice = (props) => {
 `;
 
 
+const Div0019 = styled.div`
+  display: inline-block; 
+  cursor: pointer;
+  color: white;
+  margin: 0 auto;
+  position: relative;
+  text-decoration: none;
+  font-weight: 600;
+  border-radius: 6px;
+  overflow: hidden;
+  padding: 3px;
+  isolation: isolate;
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(115deg, #4fcf70, #fad648, #a767e5, #12bcfe, #44ce7b);
+    background-size: 200% 100%;
+    animation: gradientMove 1.5s linear infinite;
+    border-radius: 6px;
+  }
+
+  span {
+    position: relative;
+    display: inline-block;
+    padding: 1rem 1.5rem;
+    font-size: 1.1rem;
+    background: #000;
+    border-radius: 3px;
+    height: 100%;
+    z-index: 1;
+    text-decoration: none;
+  }
+  
+  @keyframes gradientMove {
+    0% {
+      background-position: 200% 0;
+    }
+    100% {
+      background-position: -200% 0;
+    }
+  }`;
+
+
+
 const LogoLink = styled.a`
   top: 20px;
   left: 20px;
@@ -96,6 +145,8 @@ const LogoLink = styled.a`
           key={assetAccountId}
           style={{ color: tokenColors[index] }}
         >
+        <Div0019>
+        <span>
           <LogoLink
             href={`${checkPriceLink}${linkToken[index]}`}
             target="_blank"
@@ -125,7 +176,8 @@ const LogoLink = styled.a`
 
           <div>${price.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")}</div>
                     </LogoLink>
-
+                    </span>
+          </Div0019>
         </div>
       );
     });
@@ -156,7 +208,6 @@ const LogoLink = styled.a`
       flex: 1;
       padding: 10px;
       text-align: center;
-      border: 3px solid black;
       border-radius: 5px;
       margin: 5px; /* Added margin for better spacing */
     }
@@ -178,12 +229,15 @@ const LogoLink = styled.a`
     }
   `;
 
+
+
+
+
   return (
     <CoinPrices class="container">
       <div
         class="row"
         style={{
-          borderRadius: "5px",
           padding: "10px",
         }}
       >
