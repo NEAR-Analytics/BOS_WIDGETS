@@ -256,7 +256,7 @@ return (
       </a>
       <a href={detailLink}>
         <ViewButton>
-          Code<i className="bi bi-code-slash"></i>
+          Review<i className="bi bi-code-slash"></i>
         </ViewButton>
       </a>
       <ToggleButton onClick={toggleButton1} isToggled={isToggleOn1}>
