@@ -1,7 +1,7 @@
 const aboutLinks = [
   {
     id: "nb",
-    title: "How does it work??",
+    title: "How does it work?",
     src: "https://nearbuilders.org",
     img: "https://i.near.social/magic/large/https://near.social/magic/img/account/create.near",
   },
