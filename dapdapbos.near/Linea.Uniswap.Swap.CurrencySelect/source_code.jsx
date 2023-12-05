@@ -96,7 +96,7 @@ const Title = styled.div`
   font-weight: 500;
 `;
 const ScrollContent = styled.div`
-  max-height: calc(90vh - 120px);
+  height: calc(90vh - 120px);
   overflow-y: auto;
 `;
 const CurrencyList = styled.div`
@@ -193,7 +193,7 @@ const handleSearch = () => {
       return state.tab === "All" ? true : token.isImport;
     }
     return (token.address.toLowerCase() === state.searchVal?.toLowerCase() ||
-      token.name.includes(state.searchVal)) &&
+      token.name.toLowerCase().includes(state.searchVal.toLowerCase())) &&
       state.tab === "All"
       ? true
       : state.tab === "Imported"
