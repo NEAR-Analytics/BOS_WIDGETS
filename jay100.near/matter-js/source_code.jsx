@@ -30,6 +30,10 @@ const Game_Box = () => {
     function draw() {
       background(220);
 
+      let mouseYPos = mouseY;
+      stroke(0);
+      line(mouseX, 0, mouseX, windowHeight);
+
       for (let i = 0; i < circles.length; i++) {
         circles[i].display();
         circles[i].fall();
@@ -41,7 +45,7 @@ const Game_Box = () => {
     }
 
     function mouseClicked() {
-    let newCircle = new Circle(mouseX, mouseY);
+    let newCircle = new Circle(mouseX, 100);
       circles.push(newCircle);
     }
    
@@ -52,7 +56,7 @@ const Game_Box = () => {
         this.radius = 25;
         this.speed = 6;
         this.isFalling = true;
-        this.xSpeed = random(-1, 1); // Initial random horizontal speed
+        this.xSpeed = random(-0.5, 0.5); // Initial random horizontal speed
         this.ySpeed = 0;
       }
 
@@ -72,10 +76,17 @@ const Game_Box = () => {
             this.xSpeed *= -0.8; // Reduce x speed upon wall impact
           }
 
+           // Check for hitting another circle
+          for (let j = 0; j < circles.length; j++) {
+            if (this !== circles[j] && this.intersects(circles[j])) {
+              this.resolveCollision(circles[j]);
+            }
+          }
+
           // Check for hitting the ground
           if (this.y + this.radius >= groundY) {
             this.y = groundY - this.radius;
-            this.ySpeed *= -0.5; // Reduce y speed upon ground impact (dampening)
+            this.ySpeed *= -0.15; // Reduce y speed upon ground impact (dampening)
             this.xSpeed *= 0.8; // Reduce x speed upon ground impact
           }
         }
