@@ -30,6 +30,48 @@ const dog =
 const defaultnft =
   "https://res.cloudinary.com/dfbqtfoxu/image/upload/v1700588097/rafflestore/defaultnft_hrzyyp.jpg";
 
+const accountId = props.accountId || context.accountId;
+const contracts = props.contracts ||
+  context.contracts || [
+    "core.namesky.near",
+    "asac.near",
+    "mrbrownproject.near",
+    "spin-nft-contract.near",
+    "citizen.bodega-lab.near",
+    "ff.nekotoken.near",
+  ];
+const marketId = "simple.market.mintbase1.near";
+
+const AFFILIATE_ACCOUNT = props.affiliateAccount || "mintbase.near";
+
+const data = fetch("https://graph.mintbase.xyz", {
+  method: "POST",
+  headers: {
+    "mb-api-key": "omni-site",
+    "Content-Type": "application/json",
+    "x-hasura-role": "anonymous",
+  },
+  body: JSON.stringify({
+    query: `
+      query MyQuery($contracts: [String]) {
+        mb_views_active_listings_by_contract(limit: 100, order_by: {created_at: desc}, where: {market_id: {_eq: "simple.market.mintbase1.near"}, nft_contract_id: {_in: $contracts}}) {
+            listed_by
+            created_at
+            price
+            nft_contract_id
+            token_id
+            metadata_id
+        }   
+      }
+`,
+    variables: {
+      contracts: contracts,
+    },
+  }),
+});
+
+console.log(data);
+
 const nftData = [
   {
     id: 1,
@@ -398,8 +440,6 @@ font-size: 1rem;
 margin: 0 auto;
 `;
 
-console.log(nftData);
-console.log(state.nftStatus);
 return (
   <>
     <Collection>
