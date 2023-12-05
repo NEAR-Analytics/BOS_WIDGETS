@@ -3,8 +3,10 @@ const useNetwork = (mainnet, testnet) => {
 };
 
 State.init({
+  verifierId:
+    props.verifierId || useNetwork("sourcescan.near", "sourcescan.testnet"),
   ownerId: useNetwork("sourcescan.near", "sourcescan.testnet"),
-  apiHost: "https://sourcescan.2bb.dev",
+  apiHost: props.apiHost || "https://sourcescan-api.2bb.dev",
   rpcUrl: useNetwork(
     "https://rpc.mainnet.near.org",
     "https://rpc.testnet.near.org"
@@ -28,8 +30,8 @@ State.init({
 });
 
 const getContract = async () => {
-  Near.asyncView(state.ownerId, "get_contract", {
-    contract_id: props.contractId,
+  Near.asyncView(state.verifierId, "get_contract", {
+    account_id: props.contractId,
   })
     .then((res) => {
       State.update({
@@ -42,7 +44,12 @@ const getContract = async () => {
 };
 
 if (!props.contractId) {
-  return "Please provide a contractId to the component";
+  return (
+    <Widget
+      src={`${state.ownerId}/widget/SourceScan.Common.ErrorAlert`}
+      props={{ message: "Please provide a contractId to component" }}
+    />
+  );
 } else {
   getContract();
 }
@@ -64,6 +71,7 @@ const Main = styled.div`
     text-align: center;
     align-items: center;
     justify-content: center;
+    width: 95%;
   }
 `;
 
@@ -105,9 +113,18 @@ const UHeading = styled.div`
   font-size: ${state.theme.heading.fontSize};
   font-weight: ${state.theme.heading.fontWeight};
   text-decoration: ${state.theme.heading.underline ? "underline" : "none"};
+  -webkit-text-decoration-line: ${state.theme.heading.underline
+    ? "underline"
+    : "none"};
   text-underline-offset: 6px;
   text-decoration-style: dashed;
   text-decoration-color: gray;
+`;
+
+const TooltipText = styled.div`
+  cursor: pointer;
+  font-size: ${state.theme.text.fontSize};
+  color: ${state.theme.color};
 `;
 
 const Heading = styled.div`
@@ -177,7 +194,13 @@ const truncateStringInMiddle = (str, maxLength) => {
   return firstHalf + "..." + secondHalf;
 };
 
-const wasmCheck = () => {
+const truncateAfterSplit = (str, maxLength) => {
+  const [firstPart, secondPart] = str.split("@");
+
+  return firstPart + "@" + truncateStringInMiddle(secondPart, maxLength);
+};
+
+const compareCodeHash = () => {
   const options = {
     method: "POST",
     headers: {
@@ -196,28 +219,26 @@ const wasmCheck = () => {
   };
   asyncFetch(state.rpcUrl, options)
     .then((rpc_res) => {
-      asyncFetch(`${state.apiHost}/ipfs/${state.contract.cid}/wasm_code_base64`)
-        .then((ipfs_res) => {
-          State.update({
-            wasm: {
-              value: rpc_res.body.result.code_base64 === ipfs_res.body,
-              error: false,
-            },
-          });
-        })
-        .catch((err) => {
-          console.log(err);
-          State.update({
-            wasm: {
-              value: null,
-              error: true,
-            },
-          });
+      if (rpc_res.body.result.hash === state.contract.code_hash) {
+        State.update({
+          wasm: {
+            value: true,
+            error: false,
+          },
         });
+      } else {
+        State.update({
+          wasm: {
+            value: false,
+            error: false,
+          },
+        });
+      }
     })
     .catch((err) => {
       State.update({
         wasm: {
+          value: null,
           error: true,
         },
       });
@@ -225,34 +246,22 @@ const wasmCheck = () => {
     });
 };
 
-const txCheck = () => {
-  asyncFetch(`${state.apiHost}/api/ipfs/getTxHash`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: `{ "cid": "${state.contract.cid}" }`,
-  })
-    .then((res) => {
-      State.update({
-        tx: {
-          value: res.body.tx_hash === state.contract.deploy_tx,
-          error: false,
-        },
-      });
-    })
-    .catch((err) => {
-      console.log(err);
-      State.update({
-        tx: { value: null, error: true },
-      });
-    });
-};
-
 if (state.contract) {
-  wasmCheck();
-  txCheck();
+  console.log(state.contract);
+  compareCodeHash();
 }
+
+const formatSourceCodePath = (path) => {
+  let segments = path.split("/");
+
+  segments.shift();
+  segments.pop();
+  if (state.contract.lang === "rust") {
+    segments.push("src", "lib.rs");
+  }
+
+  return segments.join("/");
+};
 
 return (
   <Center>
@@ -311,50 +320,18 @@ return (
                 Wasm Code {state.wasm.value ? "Matches" : "Mismatches"}
               </Text>
             </HStack>
-            <HStack>
-              {state.tx.value === null ? (
-                <Widget
-                  src={`${state.ownerId}/widget/SourceScan.Common.Spinner`}
-                />
-              ) : state.tx.value ? (
-                <Widget
-                  src={`${state.ownerId}/widget/SourceScan.Common.Icons.CheckIcon`}
-                  props={{
-                    width: "20px",
-                    height: "20px",
-                    tooltip: { placement: props.placement, label: "Approved" },
-                  }}
-                />
-              ) : (
-                <Widget
-                  src={`${state.ownerId}/widget/SourceScan.Common.Icons.CrossIcon`}
-                  props={{
-                    width: "32px",
-                    height: "32px",
-                    tooltip: {
-                      placement: props.placement,
-                      label: state.tx.error ? "Error" : "Not approved",
-                    },
-                  }}
-                />
-              )}
-              <Text>Deploy Tx {state.tx.value ? "Matches" : "Mismatches"}</Text>
-            </HStack>
           </Stack>
         </Stack>
         <Stack>
-          <UHeading>Deploy Tx</UHeading>
+          <UHeading>Source Code</UHeading>
           <HStack>
-            <Desktop>
-              <Text>{state.contract.deploy_tx}</Text>
-            </Desktop>
-            <Mobile>
-              <Text>{truncateStringInMiddle(state.contract.deploy_tx, 8)}</Text>
-            </Mobile>
+            <Text>Github</Text>
             <A
-              href={`https://${
-                context.networkId === "mainnet" ? "" : "testnet."
-              }nearblocks.io/txns/${state.contract.deploy_tx}`}
+              href={`https://github.com/${state.contract.github.owner}/${
+                state.contract.github.repo
+              }/tree/${state.contract.github.sha}/${formatSourceCodePath(
+                state.contract.entry_point
+              )}`}
               target={"_blank"}
             >
               <Widget
@@ -363,6 +340,31 @@ return (
               />
             </A>
           </HStack>
+        </Stack>
+        <Stack>
+          <UHeading>Code hash</UHeading>
+          <Desktop>
+            <Text>{state.contract.code_hash}</Text>
+          </Desktop>
+          <Mobile>
+            <Text>{truncateStringInMiddle(state.contract.code_hash, 12)}</Text>
+          </Mobile>
+        </Stack>
+        <Stack>
+          <UHeading>Builder image</UHeading>
+          <OverlayTrigger
+            key={"top"}
+            placement={"top"}
+            overlay={<Tooltip id={`tooltip-top`}>Copy</Tooltip>}
+          >
+            <TooltipText
+              onClick={() => {
+                clipboard.writeText(state.contract.builder_image);
+              }}
+            >
+              {truncateAfterSplit(state.contract.builder_image, 8)}
+            </TooltipText>
+          </OverlayTrigger>
         </Stack>
         <Stack>
           <UHeading>Entry Point</UHeading>
