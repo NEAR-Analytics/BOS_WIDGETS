@@ -1,6 +1,6 @@
+const topics = props.topics;
 const menuLinks = props.menuLinks;
 const selected = props.selected;
-const onSelected = props.onSelected;
 
 const capitalize = (words) => {
   return words
@@ -16,9 +16,8 @@ return (
         {menuLinks.map(({ label, icon }) => (
           <li class="nav-item">
             <a
-              href={`/#`}
+              href={`/?selected=${label}`}
               class={`nav-link ${selected !== label && "link-dark"}`}
-              onClick={onSelected}
             >
               <i class={`bi bi-${icon} me-1`} />
               {capitalize(label)}
