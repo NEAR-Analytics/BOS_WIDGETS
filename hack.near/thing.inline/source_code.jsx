@@ -1,43 +1,66 @@
-const creatorId = props.creatorId ?? context.accountId;
-const namespace = props.namespace ?? "widget";
-const thingId = props.thingId ?? "catalog";
-
-const link = props.link ?? true;
+const accountId = props.accountId ?? context.accountId;
+const thingId = props.thingId ?? "526fb256e74eelmf0nw3n5909bc189c13d";
 
 const thing =
-  props.thing ?? Social.getr(`${creatorId}/${namespace}/${thingId}`);
+  props.thing ?? Social.get(`${accountId}/thing/${thingId}/metadata/**`);
 
-const inner = (
-  <>
-    <Widget
-      src="mob.near/widget/ProfileImage"
-      props={{
-        style: { width: "1.5em", height: "1.5em" },
-        profile: thing,
-        accountId: creatorId,
-        className: "d-inline-block",
-        imageClassName: "rounded w-100 h-100 align-top",
-      }}
-    />
-    <span>
-      {thing.name || ""}
-      <span className="text-muted">@{creatorId}</span>
-    </span>
-  </>
-);
+const name = thing.name;
+const description = thing.description;
+const tags = Object.keys(thing.tags ?? {});
 
-return link ? (
-  <a
-    href={
-      link !== true
-        ? link
-        : `#/hack.near/widget/thing?thingId=${thingId}&creatorId=${creatorId}`
-    }
-    className="link-dark text-truncate"
-    style={{ textDecoration: "none" }}
-  >
-    {inner}
-  </a>
-) : (
-  <span className="text-truncate">{inner}</span>
+const Tag = styled.a`
+  color: black;
+  text-decoration: none;
+
+  &:hover {
+    color: blue;
+    text-decoration: none;
+  }
+`;
+
+return (
+  <div className="d-flex flex-row">
+    <a href={`/hack.near/widget/thing.page?thingId=${thingId}`}>
+      <Widget
+        src="hack.near/widget/thing.image"
+        props={{
+          path: `${accountId}/thing/${thingId}`,
+          style: { height: "3.4em", width: "3.4em", minWidth: "3.4em" },
+          className: "me-3",
+        }}
+      />
+    </a>
+    <div className="text-truncate">
+      <div className="text-truncate">
+        <a
+          href={`/hack.near/widget/thing.page?thingId=${thingId}`}
+          style={{ textDecoration: "none" }}
+        >
+          <span className="fw-bold" style={{ color: "black" }}>
+            {thing.name}
+          </span>
+        </a>
+      </div>
+      <div className="text-truncate text-muted">
+        {tags.length > 0 && (
+          <>
+            {tags.map((tag, i) => (
+              <span
+                key={i}
+                className="me-1 fw-light badge border border-secondary text-bg-light"
+              >
+                <a
+                  href={`/hack.near/widget/things?tag=${tag}`}
+                  style={{ textDecoration: "none" }}
+                  className="no-text-decoration"
+                >
+                  <Tag>#{tag}</Tag>
+                </a>
+              </span>
+            ))}
+          </>
+        )}
+      </div>
+    </div>
+  </div>
 );
