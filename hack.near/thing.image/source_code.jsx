@@ -4,8 +4,11 @@ const thingId = props.thingId ?? "widgets.rank";
 
 const className = props.className ?? "thing-image d-inline-block";
 const style = props.style ?? { width: "3em", height: "3em" };
-const imageStyle = props.imageStyle ?? { objectFit: "cover" };
-const imageClassName = props.imageClassName ?? "rounded-circle w-100 h-100";
+const imageStyle = props.imageStyle ?? {
+  objectFit: "cover",
+  borderRadius: "0.6em",
+};
+const imageClassName = props.imageClassName ?? "w-100 h-100";
 const thumbnail = props.thumbnail ?? "thumbnail";
 
 const thing =
