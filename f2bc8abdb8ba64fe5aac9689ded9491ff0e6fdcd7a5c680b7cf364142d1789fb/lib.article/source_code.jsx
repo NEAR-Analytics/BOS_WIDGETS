@@ -38,7 +38,7 @@ const action = isTest ? testAction : prodAction;
 
 const libSrcArray = [widgets.libSBT]; // string to lib widget // EDIT: set libs to call
 
-const imports = { notifications: ["notify", "clg"] };
+const imports = { notifications: ["getNotificationData"] };
 
 const libCalls = {};
 libSrcArray.forEach((libSrc) => {
@@ -48,6 +48,7 @@ libSrcArray.forEach((libSrc) => {
 
 State.init({
   libCalls, // is a LibsCalls object
+  notifications: {},
 });
 // END LIB CALLS SECTION
 
@@ -165,9 +166,9 @@ function extractMentions(text) {
   return [...accountIds];
 }
 
-function notify(type, accountId, url) {
-  if (state.notifications.notify) {
-    state.notifications.notify(type, accountId, url);
+function getNotificationData(type, accountId, url) {
+  if (state.notifications.getNotificationData) {
+    state.notifications.getNotificationData(type, accountId, url);
   }
 }
 
@@ -190,7 +191,7 @@ function composeData(article) {
   const mentions = extractMentions(article.body);
 
   if (mentions.length > 0) {
-    const dataToAdd = notify(
+    const dataToAdd = getNotificationData(
       "mention",
       mentions,
       `https://near.social/${widgets.libNotifications}?sharedArticleId=${
