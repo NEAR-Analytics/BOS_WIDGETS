@@ -1,7 +1,7 @@
 const Container = styled.div`
   position: relative;
   width: 100vw;
-  height: 40vh;
+  height: 20vh;
   overflow: hidden;
   
 `;
