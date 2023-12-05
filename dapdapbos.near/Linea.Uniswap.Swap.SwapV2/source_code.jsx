@@ -257,6 +257,7 @@ return (
             onAmountChange: (val) => {
               State.update({
                 inputCurrencyAmount: val,
+                outputCurrencyAmount: "",
               });
               if (val && Number(val)) {
                 debouncedGetBestTrade();
@@ -324,19 +325,28 @@ return (
             },
           }}
         />
-        <Widget
-          src="dapdapbos.near/widget/Linea.Uniswap.Swap.Result"
-          props={{
-            trade: {
-              ...state.trade,
-              inputCurrency: state.inputCurrency,
-              outputCurrency: state.outputCurrency,
-              inputCurrencyAmount: state.inputCurrencyAmount,
-              outputCurrencyAmount: state.outputCurrencyAmount,
-              slippage,
-            },
-          }}
-        />
+        {state.inputCurrency && state.outputCurrency && state.trade && (
+          <Widget
+            src="dapdapbos.near/widget/Linea.Uniswap.Swap.Result"
+            props={{
+              trade: {
+                ...state.trade,
+                inputCurrency: state.inputCurrency,
+                outputCurrency: state.outputCurrency,
+                inputCurrencyAmount: state.inputCurrencyAmount,
+                outputCurrencyAmount: state.outputCurrencyAmount,
+                slippage,
+              },
+              onRouterClick: (ev) => {
+                State.update({
+                  showRoutes: true,
+                  clientX: ev.clientX,
+                  clientY: ev.clientY,
+                });
+              },
+            }}
+          />
+        )}
         <Widget
           src="dapdapbos.near/widget/Linea.Uniswap.Swap.SwapButton"
           props={{
@@ -444,6 +454,7 @@ return (
                 outputCurrencyAmount: "",
                 noPair: false,
                 updateInputTokenBalance: true,
+                trade: null,
               };
               if (state.currencySelectType === 0) {
                 updatedParams.inputCurrency = currency;
@@ -499,6 +510,24 @@ return (
           onClose: () => {
             State.update({
               showSlippageSetting: false,
+            });
+          },
+        }}
+      />
+    )}
+    {state.showRoutes && state.trade && (
+      <Widget
+        src="dapdapbos.near/widget/Linea.Uniswap.Swap.Routes"
+        props={{
+          clientX: state.clientX,
+          clientY: state.clientY,
+          routes: state.trade.routes,
+          inputCurrency: state.trade.inputCurrency,
+          outputCurrency: state.trade.outputCurrency,
+          gasCost: state.trade.gasCost,
+          onClose: () => {
+            State.update({
+              showRoutes: false,
             });
           },
         }}
