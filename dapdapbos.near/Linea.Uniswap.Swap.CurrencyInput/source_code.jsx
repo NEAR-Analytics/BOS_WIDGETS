@@ -196,6 +196,7 @@ return (
             value={props.amount}
             disabled={props.disabled}
             onChange={handlers.handleInputChange}
+            placeholder="0"
           />
         </InputWarpper>
         <Value>
@@ -240,7 +241,7 @@ return (
                 whiteSpace: "nowrap",
               }}
             >
-              Select a token
+              Select token
             </span>
 
             <Widget src="dapdapbos.near/widget/Uniswap.Swap.ArrowIcon" />
