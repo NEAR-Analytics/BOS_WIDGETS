@@ -6,7 +6,6 @@ const DATAPrice = (props) => {
     "aaaaaa20d9e0e2461697782ef11675f668207961.factory.bridge.near",
     "linear-protocol.near",
     "4691937a7508860f876c9c0a2a617e7d9e945d4b.factory.bridge.near",
-    "17208628f84f5d6ad33f0da3bbbeb27ffcb398eac501a31bd6ad2011e36133a1",
   ];
 
   const tokenColors = [
@@ -28,7 +27,6 @@ const DATAPrice = (props) => {
     "aurora-near",
     "inear-protocol",
     "woo-network",
-    "usdc",
   ];
 
   const tokenImg = [
@@ -38,7 +36,6 @@ const DATAPrice = (props) => {
     "https://ipfs.near.social/ipfs/bafkreihc7fmdrxhzfozf6es5tujsvyqtgfq4nroctgptufmfyzkhrcuham",
     "https://ipfs.near.social/ipfs/bafkreiht5axwgfoptyf2b7o2omyfvdgxwsdtxg4rie3ivknj752ryjyqqy",
     "https://ipfs.near.social/ipfs/bafkreidggzeg2jomuhw5o7b2vqwf4jsgk6fof5dzgcep6kxpqnt6x45i3i",
-    "https://ipfs.near.social/ipfs/bafkreihqkrr325occ7g7opo7csdhd7mp2nusfiqit4saa26agwyuc6754a",
   ];
 
   const [prices, setPrices] = useState([]);
@@ -65,16 +62,16 @@ const DATAPrice = (props) => {
   border-radius:50%;
   width: 45px; 
   height: auto;
-  margin-right: 8px; 
   
 `;
 
       const Div0019 = styled.div`
-  display: inline-block; 
+    display: inline-block; 
   cursor: pointer;
   margin: 0 auto;
   position: relative;
   text-decoration: none;
+  font-weight: 600;
   border-radius: 6px;
   overflow: hidden;
   padding: 3px;
@@ -96,7 +93,8 @@ const DATAPrice = (props) => {
   span {
     position: relative;
     display: inline-block;
-    padding: 2px 1.5rem;
+    padding: 1rem 1.5rem;
+    font-size: 1.1rem;
     background: #000;
     border-radius: 3px;
     height: 100%;
