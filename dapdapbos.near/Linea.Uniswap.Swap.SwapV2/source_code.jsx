@@ -6,6 +6,7 @@ const {
   dexConfig,
   amountOutFn,
   slippage,
+  account,
   handlerV3,
   handleSyncswap,
   QuoterSyncswap,
@@ -13,8 +14,6 @@ const {
   onSetSlippage,
   onAddHistoryToken,
 } = props;
-
-const account = Ethers.send("eth_requestAccounts", [])[0];
 
 if (account) {
   Ethers.provider()
@@ -379,6 +378,7 @@ return (
             chainId,
             syncSwapPoolAddress: state.syncSwapPoolAddress,
             uniType: dexConfig.uniType,
+            account: props.account,
           }}
         />
       </Panel>
