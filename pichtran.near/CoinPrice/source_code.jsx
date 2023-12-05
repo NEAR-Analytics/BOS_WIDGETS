@@ -19,6 +19,10 @@ const DATAPrice = (props) => {
     "blue",
   ];
 
+  const checkPriceLink = "https://www.coingecko.com/en/coins/"
+
+  const linkToken = ["near","ethereum","bitcoin","aurora-near","inear-protocol","woo-network","usdc"];
+
   const tokenImg = [
     "https://ipfs.near.social/ipfs/bafkreigy3uyyaianaeohczuys2bvwvfm6c6wtahbn5mwl6do5bk4w2fnni",
     "https://ipfs.near.social/ipfs/bafkreibddakqw35thdstr7vb2zohixpjth4ff26xciu2otxftjbifhnfpa",
@@ -56,13 +60,35 @@ const DATAPrice = (props) => {
           key={assetAccountId}
           style={{ color: tokenColors[index] }}
         >
-          <img
-            src={tokenImg[index]}
-            alt={assetName}
-            style={{ width: "50px", height: "50px", borderRadius: "50%" }}
-          />
-          <div>{assetName}</div>
-          <div>${price.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")}</div>
+         <a
+  href={`${checkPriceLink}${linkToken[index]}`}
+  target="_blank"
+  rel="noopener noreferrer"
+  style={{
+    textDecoration: "none",
+    color: "inherit",
+    transition: "background-color 0.3s, transform 0.3s",
+    display: "inline-block",
+  }}
+  onMouseEnter={(e) => {
+    e.currentTarget.style.backgroundColor = "#f0f0f0";
+    e.currentTarget.style.transform = "scale(1.1)";
+  }}
+  onMouseLeave={(e) => {
+    e.currentTarget.style.backgroundColor = "transparent";
+    e.currentTarget.style.transform = "scale(1)";
+  }}
+>
+            <img
+              src={tokenImg[index]}
+              alt={assetName}
+              style={{ width: "50px", height: "50px", borderRadius: "50%" }}
+            />
+
+            <div>{assetName}</div>
+                                  </a>
+
+            <div>${price.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")}</div>
         </div>
       );
     });
