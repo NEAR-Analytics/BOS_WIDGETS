@@ -1,5 +1,3 @@
-//lib.notifications
-
 const { stateUpdate, imports, fatherNotificationsState } = props;
 
 if (!stateUpdate) {
@@ -9,8 +7,6 @@ if (!stateUpdate) {
 if (!imports) {
   imports = [];
 }
-
-const newImportsFormat = { notifications: ["getNotificationData"] };
 
 let fatherStateHasAllFunction = true;
 imports.forEach((fnName) => {
@@ -29,9 +25,15 @@ function appendExports(fnName) {
 }
 
 function getNotificationData(notificationType, usersToNotify, redirectTo) {
+  console.log(
+    "Inside getNotificationData: ",
+    notificationType,
+    usersToNotify,
+    redirectTo
+  );
+
   const notificationTypeText = {
     mention: `I have mentioned @${usersToNotify} in this post: `,
-    mentionOnComment: `I have mentioned @${usersToNotify} on my comment on this post: `,
     upVote: "I have upVoted this post: ",
     emoji: "I have reacted to this post: ",
     comment: "I have commented this post: ",
@@ -61,6 +63,8 @@ function getNotificationData(notificationType, usersToNotify, redirectTo) {
       ),
     },
   };
+
+  console.log("dataToAdd: ", dataToAdd);
 
   return dataToAdd;
 }
