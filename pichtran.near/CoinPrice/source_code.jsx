@@ -19,9 +19,17 @@ const DATAPrice = (props) => {
     "blue",
   ];
 
-  const checkPriceLink = "https://www.coingecko.com/en/coins/"
+  const checkPriceLink = "https://www.coingecko.com/en/coins/";
 
-  const linkToken = ["near","ethereum","bitcoin","aurora-near","inear-protocol","woo-network","usdc"];
+  const linkToken = [
+    "near",
+    "ethereum",
+    "bitcoin",
+    "aurora-near",
+    "inear-protocol",
+    "woo-network",
+    "usdc",
+  ];
 
   const tokenImg = [
     "https://ipfs.near.social/ipfs/bafkreigy3uyyaianaeohczuys2bvwvfm6c6wtahbn5mwl6do5bk4w2fnni",
@@ -53,42 +61,71 @@ const DATAPrice = (props) => {
       let price = new Big(assetPrice.multiplier).div(
         new Big(10).pow(assetPrice.decimals - assetDecimals)
       );
+      const Logo = styled.img`
+  border-radius:50%;
+  width: 45px; 
+  height: auto;
+  margin-right: 8px; 
+  
+`;
 
+
+const LogoLink = styled.a`
+  top: 20px;
+  left: 20px;
+  background-color: none;
+
+
+   &:hover {
+    & > ${Logo} {
+      animation: tilt 1s ease infinite;
+    }
+  }
+
+  @keyframes tilt {
+    0% { transform: rotateZ(0deg); }
+    25% { transform: rotateZ(-5deg); }
+    50% { transform: rotateZ(5deg); }
+    75% { transform: rotateZ(-5deg); }
+    100% { transform: rotateZ(5deg); }
+  }
+`;
       return (
         <div
           class="col"
           key={assetAccountId}
           style={{ color: tokenColors[index] }}
         >
-         <a
-  href={`${checkPriceLink}${linkToken[index]}`}
-  target="_blank"
-  rel="noopener noreferrer"
-  style={{
-    textDecoration: "none",
-    color: "inherit",
-    transition: "background-color 0.3s, transform 0.3s",
-    display: "inline-block",
-  }}
-  onMouseEnter={(e) => {
-    e.currentTarget.style.backgroundColor = "#f0f0f0";
-    e.currentTarget.style.transform = "scale(1.1)";
-  }}
-  onMouseLeave={(e) => {
-    e.currentTarget.style.backgroundColor = "transparent";
-    e.currentTarget.style.transform = "scale(1)";
-  }}
->
-            <img
+          <LogoLink
+            href={`${checkPriceLink}${linkToken[index]}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{
+              textDecoration: "none",
+              color: "inherit",
+              transition: "background-color 0.3s, transform 0.3s",
+              display: "inline-block",
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.backgroundColor = "#f0f0f0";
+              e.currentTarget.style.transform = "scale(1.1)";
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.backgroundColor = "transparent";
+              e.currentTarget.style.transform = "scale(1)";
+            }}
+          >
+            <Logo
               src={tokenImg[index]}
               alt={assetName}
               style={{ width: "50px", height: "50px", borderRadius: "50%" }}
             />
 
             <div>{assetName}</div>
-                                  </a>
 
-            <div>${price.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")}</div>
+          <div>${price.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")}</div>
+                    </LogoLink>
+
         </div>
       );
     });
