@@ -17,9 +17,11 @@ useEffect(() => {
 
 if (StyledComponents) {
   const styled = StyledComponents;
+  console.log("about to do the thing");
   const Spaghetti = styled.div`
     border: 1px solid blue;
   `;
+  console.log(Spaghetti);
   return (
     <div>
       <Spaghetti>I have a border</Spaghetti>
