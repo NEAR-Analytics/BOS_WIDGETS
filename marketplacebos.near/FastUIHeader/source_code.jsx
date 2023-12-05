@@ -1,231 +1,190 @@
-const accountId = props.accountId ?? context.accountId;
-const url = "https://near.org";
-const MainContainer = styled.div`
-  width:100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-`;
-const WrapperDiv = styled.div`
-  display: flex;
-  align-items: center;
-`;
-
-const EllipsisNavLink = styled.a`
-  text-decoration: none;
-  font-size: 20px;
-  text-transform: capitalize;
-  font-family: var(--font), Arial;
-  font-weight: 700;
-  margin-right: 1em;
-  color: black;
+const Container = styled.div`
   position: relative;
-  border-bottom: 2px solid #000;
+  width: 100vw;
+  height: 20vh;
   overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-
-  &:hover {
-    color: #ed43c3;
-    top: -0.16em;
-    transition: padding 0.5s, top 0.35s, box-shadow 0.4s;
-    box-shadow: 0 0.4rem 0 -0.2rem #ff10d9;
-  }
-    @media (max-width: 768px) {
-    font-size: 16px; /* Adjust the font size for smaller screens */
-    margin-right: 0.5em;
-  }
-`;
-const NavList = styled.ul`
-  display: flex;
-  justify-content: center;
-  flex-direction: row;
-  align-items: center;
-  width: 100%;
-  height: 60px;
-  border-bottom: 5px solid #ff10d9;
-  border-top: 5px solid #ff10d9;
-  background-color: #ffd840;
-  position: relative;
-`;
-
-const NavListItem = styled.li`
-  display: inline;
   
 `;
 
-const NavLink = styled.a`
-  text-decoration: none;
-  font-size: 20px;
-  text-transform: capitalize;
-  font-family: var(--font), Arial;
-  font-weight: 700;
-  margin-right: 1em;
-  color: black;
-  position: relative;
-  border-bottom: 2px solid #000;
-
-  &:hover {
-    color:#ed43c3;
-    top: -0.16em;
-    transition: padding 0.5s, top 0.35s, box-shadow 0.4s;
-    box-shadow: 0 0.4rem 0 -0.2rem #ff10d9;
-  }
-    @media (max-width: 768px) {
-    font-size: 16px; /* Adjust the font size for smaller screens */
-    margin-right: 0.5em;
-  }
-`;
-
-const GlobalStyle = styled.div`
-  * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
-
-  :root {
-    --font: 'Kalam', 'Source Code Pro', monospace;
-  }
-`;
-
-const Svg = styled.svg`
-  font-family: 'Russo One', sans-serif;
+const Image = styled.img`
   width: 100%;
   height: 100%;
+  object-fit: cover;
 
+  @media (max-width: 768px) {
+    width: 100%;
+    font-size:8px;
+  }
+
+  @media (max-width: 480px) {
+    width: 100%;
+        font-size:8px;
+
+  }
+`;
+
+const Logo = styled.img`
+  border-radius:50%;
+  width: 45px; 
+  height: auto;
+  margin-right: 8px; 
   
 `;
 
-const SvgText = styled.text`
-  animation: stroke 5s infinite alternate;
-  stroke-width: 1;
-  stroke: #ed43c3;
-  font-size: 20px;
-  left:0;
-  top:50%;
-  color:#ed43c3;
-  background:#ff10d9;
-  @keyframes stroke {
-    0% {
-      fill: rgba(72, 138, 204, 0);
-      stroke: rgba (255, 132, 8, 1);
-      stroke-dashoffset: 25%;
-      stroke-dasharray: 0 50%;
-      stroke-width: 1;
-    }
-    70% {
-      fill: rgba(72, 138, 204, 0);
-      stroke: rgba (255, 132, 8, 1);
-    }
-    80% {
-      fill: rgba(72, 138, 204, 0);
-      stroke: rgba (255, 132, 8, 1);
-      stroke-width: 2;
-    }
-    100% {
-      fill: rgba (255, 84, 0, 1);
-      stroke: rgba (255, 132, 8, 1);
-      stroke-dashoffset: -25%;
-      stroke-dasharray: 50% 0;
-      stroke-width: 0;
+const LogoLink = styled.a`
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  background-color: none;
+
+
+   &:hover {
+    & > ${Logo} {
+      animation: tilt 2s ease infinite;
     }
   }
+
+  @keyframes tilt {
+    0% { transform: rotateZ(0deg); }
+    25% { transform: rotateZ(-5deg); }
+    50% { transform: rotateZ(5deg); }
+    75% { transform: rotateZ(-5deg); }
+    100% { transform: rotateZ(5deg); }
+  }
+`;
+
+const Text = styled.span`
+  color:black;
+  font-size: 14px;
+font-family: Baskerville, Baskerville Old Face, Garamond, Times New Roman, serif.;
+  background-color: none;
+    @media (max-width: 768px) {
+    width: 100%;
+    font-size:15px;
+  }
+
+  @media (max-width: 480px) {
+    width: 100%;
+        font-size:10px;
+
+  }
+`;
+
+const MenuContainer = styled.div`
+  position: absolute;
+  top: 20px; /* Adjust this value to move the menu closer to the top */
+  left: 50%;
+font-family: Baskerville, Baskerville Old Face, Garamond, Times New Roman, serif.;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 20px;
+  align-items: center;
   
 `;
 
-const Blink = styled.div`
-  &::before {
-    content: "✨"; 
-    font-size: 24px;
-    position: absolute;
-  left: 13%; 
-  top: 50%;
-    transform: translate(-50%, -50%);
-    opacity: 0;
-    animation: sparkle 1s infinite;
+const Label = styled.span`
+  font-size: 18px;
+  background-color: #fe65c2;
+  padding: 5px;
+  opacity: 0.6; /* Initial opacity, 40% */
+  transition: opacity 0.3s ease, color 0.3s ease;
+  border-radius:4px;
+  ${MenuItem}:hover & {
+    color: #fca311;
+    opacity: 1; /* Hover opacity, 100% */
   }
 
-  @keyframes sparkle {
-    0%, 100% {
-      opacity: 0;
-    }
-    50% {
-      opacity: 1;
-    }
+  @media (max-width: 768px) {
+    font-size: 15px;
   }
 
-`;
-const BlinkRight = styled.div`
-  &::before {
-    content: ""; 
-    font-size: 24px;
-    position: absolute;
-  left: 87%; 
-  top: 50%;
-    transform: translate(-50%, -50%);
-    opacity: 0;
-    animation: sparkle 1s infinite;
+  @media (max-width: 480px) {
+    font-size: 12px;
   }
-
-  @keyframes sparkle {
-    0%, 100% {
-      opacity: 0;
-    }
-    50% {
-      opacity: 1;
-    }
-  }
-  
-
 `;
 
-if (!accountId) {
-  return "Please sign in with NEAR wallet to save this UI";
-}
+const MenuItem = styled.a`
+  color: black;
+  font-size: 18px;
+  text-decoration: none;
+  transition: color 0.3s ease;
 
-const addEllipsisIfNeeded = (text, maxLength) => {
-  if (text.length > maxLength) {
-    return text.slice(0, maxLength) + "...";
+  &:hover {
+    color:white;
   }
-  return text;
+    @media (max-width: 768px) {
+    width: 100%;
+    font-size:15px;
+  }
+
+  @media (max-width: 480px) {
+    width: 100%;
+        font-size:12px;
+
+  }
+`;
+
+const MenuItemWallet = styled.a`
+  color: black;
+  font-size: 18px;
+  text-decoration: none;
+    top: 20px;
+  right: 20px;
+  transition: color 0.3s ease;
+
+  &:hover {
+    color: #fca311;
+  }
+    @media (max-width: 768px) {
+    width: 100%;
+    font-size:15px;
+  }
+
+  @media (max-width: 480px) {
+    width: 100%;
+        font-size:12px;
+
+  }
+`;
+
+const Header = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;
+
+const HeaderMain = () => {
+  return (
+    <Container>
+      <Image src="https://ipfs.near.social/ipfs/bafybeigdaduh652btdjkxaiqzdruxk2oafhw6l62umotxxuj7m77ufql7a" />
+      <Header>
+        <LogoLink href="https://near.social/fastui.near/widget/FastUI">
+          {" "}
+          <Logo
+            src="https://ipfs.near.social/ipfs/bafkreib3fmtx22ngdgov3bzrumgxo4aphpiksexhzragm74q6i52wknsiu"
+            alt="Logo"
+          />
+          <Text>FastUI</Text>
+        </LogoLink>
+        <MenuContainer>
+          <Label>
+            <MenuItem href="https://trans-organization-12.gitbook.io/fastui/">
+              Docs
+            </MenuItem>
+          </Label>
+          <Label>
+            <MenuItem href="https://github.com/pichtranst123/FastUI/issues">
+              Help
+            </MenuItem>
+          </Label>
+        </MenuContainer>
+      </Header>
+    </Container>
+  );
 };
 
 return (
   <>
-    <GlobalStyle />
-    <MainContainer className="main">
-      <NavList>
-        <WrapperDiv>
-          <Blink></Blink>
-
-          <NavListItem>
-            <Svg>
-              <SvgText x="60%" y="50%" dy=".35em" text-anchor="middle">
-                <a href={`${url}/fastui.near/widget/FastUI`}>FastUI</a>{" "}
-              </SvgText>
-            </Svg>{" "}
-          </NavListItem>
-        </WrapperDiv>
-        <NavListItem>
-          <NavLink href="https://trans-organization-12.gitbook.io/fastui/">
-            Docs
-          </NavLink>
-        </NavListItem>
-        <NavListItem>
-          <NavLink href="https://github.com/pichtranst123/FastUI/issues">
-            Helps
-          </NavLink>
-        </NavListItem>
-        <NavListItem>
-          <EllipsisNavLink href="#" title={accountId}>
-            {addEllipsisIfNeeded(accountId, 10)}
-          </EllipsisNavLink>
-        </NavListItem>
-        <BlinkRight></BlinkRight>
-      </NavList>
-    </MainContainer>
-    <br />
-    <br />
+    <HeaderMain />
   </>
 );
