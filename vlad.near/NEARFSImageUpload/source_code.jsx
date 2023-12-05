@@ -19,7 +19,11 @@ const filesOnChange = (files) => {
     });
     const body = files[0];
 
-    Near.call("social.near", "fs_store", Uint8Array.from(body.arrayBuffer())).then((res) => {
+    Near.call(
+      "social.near",
+      "fs_store",
+      Uint8Array.from(body.arrayBuffer())
+    ).then((res) => {
       // TODO: hash
       //   const cid = res.body.cid;
       //   State.update({
