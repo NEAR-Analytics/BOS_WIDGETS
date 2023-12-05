@@ -1,4 +1,3 @@
-const account = Ethers.send("eth_requestAccounts", [])[0];
 const { chainId, chainName, dex, ...restProps } = props;
 
 const Dex = styled.div`
