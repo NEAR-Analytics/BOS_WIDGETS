@@ -136,10 +136,9 @@ const addStar = () => {
 function MyComponent() {
   return (
     <>
-
       <Div>
         <Div2>
-          <Div3 > {widget_name}</Div3>
+          <Div3> {widget_name}</Div3>
 
           <Div4>
             Get
@@ -168,6 +167,11 @@ function MyComponent() {
                 ))}
             </Div15>
           </Div14>
+          <br/>
+                    <br/>
+
+          <br/>
+
           <RatingContainer>
             <div>
               <div>
