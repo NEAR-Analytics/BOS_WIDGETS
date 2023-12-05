@@ -14,56 +14,29 @@ const thing =
 const name = thing.metadata.name || "Something";
 const image = thing.metadata.image;
 const title = props.title ?? `${name}`;
-const fast = props.fast || (!props.thing && !!creatorId);
-if (creatorId !== state.creatorId) {
-  State.update({
-    fastImageUrl: `https://i.near.social/magic/${
-      thumbnail || "large"
-    }/https://near.social/magic/img/account/${creatorId}`,
-    creatorId,
-  });
-}
 const fallbackUrl =
   "https://ipfs.near.social/ipfs/bafkreibmiy4ozblcgv3fm3gc6q62s55em33vconbavfd2ekkuliznaq3zm";
 
 return (
   <>
-    {fast ? (
-      <div className={className} style={style} key={state.fastImageUrl}>
-        <img
-          className={imageClassName}
-          style={imageStyle}
-          src={state.fastImageUrl}
-          alt={title}
-          onError={() => {
-            if (state.fastImageUrl !== fallbackUrl) {
-              State.update({
-                fastImageUrl: fallbackUrl,
-              });
-            }
-          }}
-        />
-      </div>
-    ) : (
-      <div className={className} style={style} key={JSON.stringify(image)}>
-        <Widget
-          loading={
-            <div
-              className={`d-inline-block ${imageClassName}`}
-              style={imgWrapperStyle}
-            />
-          }
-          src="mob.near/widget/Image"
-          props={{
-            image,
-            alt: title,
-            className: imageClassName,
-            style: imageStyle,
-            thumbnail,
-            fallbackUrl,
-          }}
-        />
-      </div>
-    )}
+    <div className={className} style={style} key={JSON.stringify(image)}>
+      <Widget
+        loading={
+          <div
+            className={`d-inline-block ${imageClassName}`}
+            style={imgWrapperStyle}
+          />
+        }
+        src="mob.near/widget/Image"
+        props={{
+          image,
+          alt: title,
+          className: imageClassName,
+          style: imageStyle,
+          thumbnail,
+          fallbackUrl,
+        }}
+      />
+    </div>
   </>
 );
