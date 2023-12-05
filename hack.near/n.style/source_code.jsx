@@ -15,10 +15,10 @@ const Styled = {
     border: 0;
 
     &.primary {
-      background: #ffd50d;
+      background: #00ec97;
 
       &:hover {
-        background: #e7c211;
+        background: #00E494;
       }
 
       &.dark {
@@ -55,12 +55,12 @@ const Styled = {
     &.secondary {
       background: transparent;
       border: 1px solid;
-      border-color: ${(props) => (Button.inverse ? "#fff" : "#ffd50d")};
-      color: ${(props) => (Button.inverse ? "#fff" : "#ffd50d")};
+      border-color: ${(props) => (Button.inverse ? "#fff" : "#00ec97")};
+      color: ${(props) => (Button.inverse ? "#fff" : "#333")};
 
       &:hover {
-        border-color: ${(props) => (Button.inverse ? "#fff" : "#e7c211")};
-        color: ${(props) => (Button.inverse ? "#fff" : "#e7c211")};
+        border-color: ${(props) => (Button.inverse ? "#fff" : "#20AD7B")};
+        color: ${(props) => (Button.inverse ? "#fff" : "#000")};
       }
 
       &.dark {
