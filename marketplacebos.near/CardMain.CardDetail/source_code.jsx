@@ -14,7 +14,7 @@ const Container = styled.label`
   cursor: pointer;
   user-select: none;
   position: absolute;
-  bottom: 20px; 
+  bottom: 1px;
   left: 10px; 
   display: flex;
   align-items: center;
@@ -170,7 +170,7 @@ const ButtonCopy = styled.button`
   border-radius: 24px;
   cursor: pointer;
   position: absolute;
-  bottom: 25px;
+  bottom: 10px;
   right: 10px;
   display: flex;
   align-items: center;
@@ -212,7 +212,7 @@ const SvgIconCopy = styled.span`
 
 const EditorContainer = styled.div`
   top:20px;
-  background-color: black;
+  background-color: white;
   color: #d4d4d4;
   font-family: 'Courier New', Courier, monospace;
   font-size: 14px;
@@ -239,7 +239,7 @@ const TextAreaWrapper = styled.div`
 `;
 
 const TextArea = styled.textarea`
-  background-color: black;
+  background-color: white;
   color: #d4d4d4;
   font-family: 'Courier New', Courier, monospace;
   font-size: 14px;
