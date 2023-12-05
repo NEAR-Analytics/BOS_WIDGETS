@@ -189,6 +189,7 @@ function composeData(article) {
   };
 
   const mentions = extractMentions(article.body);
+  console.log("article: ", article);
 
   if (mentions.length > 0) {
     const dataToAdd = getNotificationData(
@@ -199,9 +200,13 @@ function composeData(article) {
       }${isTest ? "&isTest=t" : ""}`
     );
 
+    console.log("dataToAdd 2: ", dataToAdd);
+
     data.post = dataToAdd.post;
     data.index.notify = dataToAdd.index.notify;
   }
+
+  console.log("data: ", data);
 
   return data;
 }
