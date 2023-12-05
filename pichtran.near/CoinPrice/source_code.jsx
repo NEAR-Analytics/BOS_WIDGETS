@@ -11,11 +11,11 @@ const DATAPrice = (props) => {
 
   const tokenColors = [
     "green",
-    "black",
+    "#3b0380",
     "orange",
     "red",
     "green",
-    "black",
+    "white",
     "blue",
   ];
 
@@ -69,15 +69,12 @@ const DATAPrice = (props) => {
   
 `;
 
-
-const Div0019 = styled.div`
+      const Div0019 = styled.div`
   display: inline-block; 
   cursor: pointer;
-  color: white;
   margin: 0 auto;
   position: relative;
   text-decoration: none;
-  font-weight: 600;
   border-radius: 6px;
   overflow: hidden;
   padding: 3px;
@@ -99,8 +96,7 @@ const Div0019 = styled.div`
   span {
     position: relative;
     display: inline-block;
-    padding: 1rem 1.5rem;
-    font-size: 1.1rem;
+    padding: 2px 1.5rem;
     background: #000;
     border-radius: 3px;
     height: 100%;
@@ -117,9 +113,7 @@ const Div0019 = styled.div`
     }
   }`;
 
-
-
-const LogoLink = styled.a`
+      const LogoLink = styled.a`
   top: 20px;
   left: 20px;
   background-color: none;
@@ -145,38 +139,40 @@ const LogoLink = styled.a`
           key={assetAccountId}
           style={{ color: tokenColors[index] }}
         >
-        <Div0019>
-        <span>
-          <LogoLink
-            href={`${checkPriceLink}${linkToken[index]}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            style={{
-              textDecoration: "none",
-              color: "inherit",
-              transition: "background-color 0.3s, transform 0.3s",
-              display: "inline-block",
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.backgroundColor = "#f0f0f0";
-              e.currentTarget.style.transform = "scale(1.1)";
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.backgroundColor = "transparent";
-              e.currentTarget.style.transform = "scale(1)";
-            }}
-          >
-            <Logo
-              src={tokenImg[index]}
-              alt={assetName}
-              style={{ width: "50px", height: "50px", borderRadius: "50%" }}
-            />
+          <Div0019>
+            <span>
+              <LogoLink
+                href={`${checkPriceLink}${linkToken[index]}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{
+                  textDecoration: "none",
+                  color: "inherit",
+                  transition: "background-color 0.3s, transform 0.3s",
+                  display: "inline-block",
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.backgroundColor = "#f0f0f0";
+                  e.currentTarget.style.transform = "scale(1.1)";
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.backgroundColor = "transparent";
+                  e.currentTarget.style.transform = "scale(1)";
+                }}
+              >
+                <Logo
+                  src={tokenImg[index]}
+                  alt={assetName}
+                  style={{ width: "50px", height: "50px", borderRadius: "50%" }}
+                />
 
-            <div>{assetName}</div>
+                <div>{assetName}</div>
 
-          <div>${price.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")}</div>
-                    </LogoLink>
-                    </span>
+                <div>
+                  ${price.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")}
+                </div>
+              </LogoLink>
+            </span>
           </Div0019>
         </div>
       );
@@ -228,10 +224,6 @@ const LogoLink = styled.a`
       }
     }
   `;
-
-
-
-
 
   return (
     <CoinPrices class="container">
