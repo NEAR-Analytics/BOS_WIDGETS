@@ -25,5 +25,16 @@ return (
       src="marketplacebos.near/widget/CardMain.CardDetail"
       props={props}
     />
+    <br />
+    <Widget
+      src="marketplacebos.near/widget/CardMain.Review"
+      props={{
+        widget_id: "button0001",
+        widget_link: "marketplacebos.near/widget/Button.ButtonP.Button0001",
+        widget_name: "Button0001",
+        logo_links:
+          "https://ipfs.near.social/ipfs/bafkreiajmvq7bzyqhxrhrkwv76ztotn6nrcq7v5lsk4kzrk3mjgxxnog6a",
+      }}
+    />
   </>
 );
