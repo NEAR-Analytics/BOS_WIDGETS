@@ -269,7 +269,12 @@ return (
       <Label>Receive</Label>
       <AmountWrapper>
         <Amount>
-          {state.received || "-"} {state.currency?.symbol}
+          {!state.received
+            ? "-"
+            : Big(state.received || 0).lt(0.01)
+            ? "<0.01"
+            : Big(state.received).toFixed(2, 0)}{" "}
+          {state.currency?.symbol}
         </Amount>
         <Value>
           ≈ $
@@ -307,6 +312,9 @@ return (
             from: state.from,
             to: state.to,
             currency: state.currency,
+          });
+          State.update({
+            updateInputTokenBalance: true,
           });
         },
       }}
