@@ -196,10 +196,9 @@ return (
                             <img
                               style={{
                                 marginBottom: "1rem",
-                                borderRadius: "15%",
                               }}
-                              height={td.height}
-                              width={td.width}
+                              height="30"
+                              width="30"
                               layout="intrinsic"
                               src={td.src}
                             />
