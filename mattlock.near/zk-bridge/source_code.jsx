@@ -2,6 +2,7 @@
 
 const GOERLI_CHAIN_ID = 5;
 const ZKSYNC_GOERLI_CHAIN_ID = 280;
+const L1_MESSENGER_ADDRESS = "0x0000000000000000000000000000000000008008";
 
 // state
 const defaultDeposit = {
@@ -72,26 +73,6 @@ if (!sender) {
   );
 }
 
-// fetch ABIs
-const zkL2Abi = fetch(
-  "https://gist.githubusercontent.com/mattlockyer/628e679517ba187b2ddca79de3b33673/raw/8a12d5abfb375f2b6a3003e649c0bd6dfaf68e52/zksyncL2Abi.json"
-);
-
-const zkAbi = fetch(
-  "https://gist.githubusercontent.com/kcole16/3aa22a29b14ea6a1a7377b38463697ef/raw/c8a7249231ac00c7c3c9f1dc6188fbf28c262cb5/abi.json"
-);
-
-const erc20Abi = fetch(
-  "https://gist.githubusercontent.com/veox/8800debbf56e24718f9f483e1e40c35c/raw/f853187315486225002ba56e5283c1dba0556e6f/erc20.abi.json"
-);
-
-if (!zkAbi.ok || !erc20Abi.ok || !zkL2Abi.ok) {
-  return "";
-}
-
-const iface = new ethers.utils.Interface(zkAbi.body);
-const ifaceL2 = new ethers.utils.Interface(zkL2Abi.body);
-
 if (!state.chainId) {
   Ethers.provider()
     .getNetwork()
@@ -158,18 +139,132 @@ const tokens = {
   },
 };
 
-const L2ERC20Bridge = new ethers.Contract(
-  "0x00ff932A6d70E2B8f1Eb4919e1e09C1923E7e57b",
+// fetch ABIs
+
+const zkL2Abi = fetch(
+  "https://gist.githubusercontent.com/mattlockyer/628e679517ba187b2ddca79de3b33673/raw/8a12d5abfb375f2b6a3003e649c0bd6dfaf68e52/zksyncL2Abi.json"
+);
+
+const zkAbi = fetch(
+  "https://gist.githubusercontent.com/mattlockyer/35ebdd13e5dfcf612c11e7087e9d1e59/raw/0eecc58f6748d6607cf79fdb6fea5ffd6d639170/zksyncL1Abi"
+);
+
+const erc20Abi = fetch(
+  "https://gist.githubusercontent.com/veox/8800debbf56e24718f9f483e1e40c35c/raw/f853187315486225002ba56e5283c1dba0556e6f/erc20.abi.json"
+);
+
+if (!zkAbi.ok || !erc20Abi.ok || !zkL2Abi.ok) {
+  return "";
+}
+
+const iface = new ethers.utils.Interface(zkAbi.body);
+const ifaceL2 = new ethers.utils.Interface(zkL2Abi.body);
+
+// create contract instances
+
+const L1Bridge = new ethers.Contract(
+  contracts[network].bridge.L1ERC20BridgeProxy,
+  zkAbi.body,
+  goerliProvider
+);
+
+L1Bridge.l2Bridge().then((bridgeAddress) => {
+  console.log("l2Bridge", bridgeAddress);
+});
+
+const L2Bridge = new ethers.Contract(
+  contracts[network].bridge.L2ERC20Bridge,
   zkL2Abi.body,
   zksyncGoerliProvider
 );
 
 if (!state.bridgeAddress) {
-  L2ERC20Bridge.l1Bridge().then((bridgeAddress) => {
+  L2Bridge.l1Bridge().then((bridgeAddress) => {
     console.log("bridgeAddress", bridgeAddress);
     State.update({ bridgeAddress });
   });
   return "";
+}
+
+// proof testing
+
+function getWithdrawalLog(withdrawalHash, cb, index) {
+  if (!index) index = 0;
+  zksyncGoerliProvider
+    .send("eth_getTransactionReceipt", [withdrawalHash])
+    .then((receipt) => {
+      const log = receipt.logs.filter(
+        (log) =>
+          log.address == L1_MESSENGER_ADDRESS &&
+          log.topics[0] ==
+            ethers.utils.id("L1MessageSent(address,bytes32,bytes)")
+      )[index];
+
+      cb({
+        log,
+        l1BatchTxId: receipt.l1BatchTxIndex,
+      });
+    });
+}
+
+function getWithdrawalL2ToL1Log(withdrawalHash, cb, index) {
+  if (!index) index = 0;
+  zksyncGoerliProvider
+    .send("eth_getTransactionReceipt", [withdrawalHash])
+    .then((receipt) => {
+      const messages = Array.from(receipt.l2ToL1Logs.entries()).filter(
+        ([_, log]) => log.sender == L1_MESSENGER_ADDRESS
+      );
+      const [l2ToL1LogIndex, l2ToL1Log] = messages[index];
+
+      cb({
+        l2ToL1LogIndex,
+        l2ToL1Log,
+      });
+    });
+}
+
+if (!state.logs) {
+  const withdrawalHash = `0x973993b769d3aa3a956f15ac4b9f4d06d76b7b728656f74c3ff3155a34230879`;
+  getWithdrawalLog(
+    withdrawalHash,
+    ({ log: { l1BatchNumber, data }, l1BatchTxId }) => {
+      // console.log("getWithdrawalLog", log, l1BatchTxId);
+
+      getWithdrawalL2ToL1Log(withdrawalHash, ({ l2ToL1LogIndex }) => {
+        // console.log("getWithdrawalL2ToL1Log", l2ToL1LogIndex);
+
+        zksyncGoerliProvider
+          .send("zks_getL2ToL1LogProof", [withdrawalHash, l2ToL1LogIndex])
+          .then((proof) => {
+            if (!proof) {
+              console.log("log proof not found");
+            }
+            console.log(ethers.utils);
+            const abiCoder = new ethers.utils.AbiCoder();
+            const message = abiCoder.decode(["bytes"], data)[0];
+
+            console.log({
+              l1BatchNumber: log,
+              l2MessageIndex: proof.id,
+              l2TxNumberInBlock: l1BatchTxId,
+              message,
+              sender,
+              proof: proof.proof,
+            });
+
+            L1Bridge.isWithdrawalFinalized(
+              ethers.BigNumber.from(l1BatchNumber),
+              proof.id
+            ).then((res) => {
+              console.log("l1Bridge.isWithdrawalFinalized", res);
+            });
+          });
+      });
+    }
+  );
+
+  return State.update({ logs: true });
 }
 
 const onAction = (data) => {
@@ -374,8 +469,6 @@ const onTabChange = (tab) => {
   // console.log("onTabChange", deposit, withdraw);
   State.update({ deposit: clone(withdraw), withdraw: clone(deposit), tab });
 };
-
-console.log(deposit.assets, withdraw.assets);
 
 return (
   <Widget
