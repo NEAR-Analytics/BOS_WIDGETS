@@ -7,6 +7,9 @@ State.init({
     props.verifierId || useNetwork("sourcescan.near", "sourcescan.testnet"),
   ownerId: useNetwork("sourcescan.near", "sourcescan.testnet"),
   apiHost: props.apiHost || "https://sourcescan-api.2bb.dev",
+  appUrl:
+    props.appUrl ||
+    useNetwork("https://sourcescan.dev", "https://testnet.sourcescan.dev"),
   rpcUrl: useNetwork(
     "https://rpc.mainnet.near.org",
     "https://rpc.testnet.near.org"
@@ -340,6 +343,20 @@ return (
               />
             </A>
           </HStack>
+          {state.contract.cid ? (
+            <HStack>
+              <Text>Code Viewer(IPFS)</Text>
+              <A
+                href={`${state.appUrl}/code/${props.contractId}`}
+                target={"_blank"}
+              >
+                <Widget
+                  src={`${state.ownerId}/widget/SourceScan.Common.Icons.LinkIcon`}
+                  props={{ width: "18px", height: "18px" }}
+                />
+              </A>
+            </HStack>
+          ) : null}
         </Stack>
         <Stack>
           <UHeading>Code hash</UHeading>
