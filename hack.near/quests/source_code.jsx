@@ -69,6 +69,106 @@ const Toolbar = styled.div`
   }
 `;
 
+const Card = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  width: 100%;
+  border-radius: 12px;
+  background: #fff;
+  border: 1px solid #eceef0;
+  box-shadow: 0px 1px 3px rgba(16, 24, 40, 0.1),
+    0px 1px 2px rgba(16, 24, 40, 0.06);
+  overflow: hidden;
+  padding: 16px;
+`;
+
+const Bell = styled.div`
+  .bell {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+  }
+
+  .bell-icon {
+    font-size: 23px;
+    color: #000;
+    margin-left: 5px;
+    text-decoration: none;
+    transition: color 0.3s ease-in-out;
+  }
+
+  .bell-icon:hover {
+    color: #000;
+  }
+
+  .bell-icon .bi-bell {
+    display: inline;
+  }
+
+  .bell-icon .bi-bell-fill {
+    display: none;
+  }
+
+  .bell-icon:hover .bi-bell {
+    display: none;
+  }
+
+  .bell-icon:hover .bi-bell-fill {
+    display: inline;
+  }
+`;
+
+const CardLeft = styled.div`
+  display: flex;
+  gap: 18px;
+  align-items: center;
+  width: 100%;
+  min-width: 0;
+  padding-left: 12px;
+
+  > div {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    min-width: 0;
+  }
+`;
+
+const TextLink = styled.a`
+  display: block;
+  margin: 0;
+  font-size: 14px;
+  line-height: 18px;
+  color: ${(p) => (p.bold ? "#11181C !important" : "#687076 !important")};
+  font-weight: ${(p) => (p.bold ? "600" : "400")};
+  font-size: ${(p) => (p.small ? "12px" : "14px")};
+  overflow: ${(p) => (p.ellipsis ? "hidden" : "visible")};
+  text-overflow: ${(p) => (p.ellipsis ? "ellipsis" : "unset")};
+  white-space: nowrap;
+  outline: none;
+
+  &:focus,
+  &:hover {
+    text-decoration: underline;
+  }
+`;
+
+const TagsWrapper = styled.div`
+  padding-top: 4px;
+`;
+
+const Tag = styled.a`
+  color: black;
+  text-decoration: none;
+
+  &:hover {
+    color: blue;
+    text-decoration: none;
+  }
+`;
+
 return (
   <>
     <div>
@@ -94,19 +194,83 @@ return (
         )}
       </Header>
       <Container className="d-flex row justify-content-between w-100">
-        <h3 className="m-2" style={{ fontFamily: "Courier" }}>
+        <h2 className="mb-3" style={{ fontFamily: "Courier" }}>
           <b>Discover</b>
-        </h3>
+        </h2>
         {quests.map((quest, i) => (
-          <div className="m-2">
-            <Widget
-              key={i}
-              src={widgets.card}
-              props={{
-                questId: JSON.stringify(quest[0]),
-              }}
-            />
-          </div>
+          <Card>
+            <CardLeft>
+              <div className="d-flex flex-column">
+                <div className="d-flex flex-row">
+                  <div className="me-3">
+                    <a href={`/hack.near/widget/thing.page?thingId=${thingId}`}>
+                      <Widget
+                        src="mob.near/widget/ProfileImage"
+                        props={{
+                          accountId: `create.near`,
+                          imageStyle: {
+                            objectFit: "cover",
+                            borderRadius: "0.6em",
+                          },
+                          imageClassName: "w-100 h-100",
+                        }}
+                      />
+                    </a>
+                  </div>
+                  <div className="text-truncate">
+                    <div className="text-truncate mb-1">
+                      <a
+                        href={`/hack.near/widget/thing.page?thingId=${thingId}`}
+                        style={{ textDecoration: "none" }}
+                      >
+                        <span className="fw-bold" style={{ color: "black" }}>
+                          {quest[1].title}
+                        </span>
+                      </a>
+                    </div>
+                    <div className="text-truncate text-muted">
+                      {quest[1].tags.length > 0 && (
+                        <>
+                          {quest[1].tags.map((tag, i) => (
+                            <span
+                              key={i}
+                              className="me-1 fw-light badge border border-secondary text-bg-light"
+                            >
+                              <a
+                                href={`/hack.near/widget/quests?tag=${tag}`}
+                                style={{ textDecoration: "none" }}
+                                className="no-text-decoration"
+                              >
+                                <Tag>#{tag}</Tag>
+                              </a>
+                            </span>
+                          ))}
+                        </>
+                      )}
+                    </div>
+                  </div>
+                </div>
+                <p className="mt-3 m-1">{quest[1].description}</p>
+              </div>
+            </CardLeft>
+            {!isVerified && context.accountId && (
+              <div className="d-flex flex-column m-3">
+                <p>
+                  <b>{JSON.stringify(quest[1].reward_amount)} NEAR</b>
+                </p>
+
+                <Widget
+                  src="hack.near/widget/quest.claim"
+                  props={{ questId: quest[0] }}
+                />
+                <p className="text-center mt-1">
+                  <i>
+                    {JSON.stringify(quest[1].total_participants_allowed)} left
+                  </i>
+                </p>
+              </div>
+            )}
+          </Card>
         ))}
       </Container>
     </div>
