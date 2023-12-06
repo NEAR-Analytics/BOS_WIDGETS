@@ -73,6 +73,7 @@ const data = fetch("https://graph.mintbase.xyz", {
   }),
 });
 
+State.init({ raffleData: {} });
 console.log(data.body.data.mb_views_active_listings_by_contract);
 
 const nftData = [
@@ -80,71 +81,7 @@ const nftData = [
     id: 1,
     name: "SharDog Raffles",
     image: dog,
-    nft: [
-      {
-        title: "SharDog Raffle",
-        name: "META-TK #1",
-        status: "open",
-        unit: 2,
-        image: first,
-      },
-      {
-        title: "SharDog Raffle",
-        name: "META-TK #2",
-        status: "open",
-        unit: 2,
-        image: second,
-      },
-      {
-        title: "SharDog Raffle",
-        name: "META-TK #3",
-        status: "open",
-        unit: 2,
-        image: third,
-      },
-      {
-        title: "SharDog Raffle",
-        name: "META-TK #4",
-        status: "open",
-        unit: 2,
-        image: fourth,
-      },
-      {
-        title: "SharDog Raffle",
-        name: "META-TK #5",
-        status: "open",
-        unit: 2,
-        image: fifth,
-      },
-      {
-        title: "SharDog Raffle",
-        name: "META-TK #6",
-        status: "open",
-        unit: 2,
-        image: sixth,
-      },
-      {
-        title: "SharDog Raffle",
-        name: "META-TK #7",
-        status: "open",
-        unit: 2,
-        image: seven,
-      },
-      {
-        title: "SharDog Raffle",
-        name: "META-TK #8",
-        status: "open",
-        unit: 2,
-        image: eight,
-      },
-      {
-        title: "SharDog Raffle",
-        name: "META-TK #9",
-        status: "close",
-        unit: 2,
-        image: close,
-      },
-    ],
+    nft: data.body.data.mb_views_active_listings_by_contract,
   },
   {
     id: 2,
@@ -476,7 +413,7 @@ return (
           <RaffleList>
             {nftData[state.selectedRaffle - 1].nft.map((nft, index) => (
               <RaffleListItem key={index}>
-                <RaffleListImg src={nft.image} alt={nft.name} />
+                <RaffleListImg src={nft.media} alt={nft.name} />
                 <NftTitle>{nft.title}</NftTitle>
                 <NftName>{nft.name}</NftName>
                 <NfttBtn>
@@ -493,7 +430,7 @@ return (
           <RaffleList>
             {nftData[0].nft.map((nft, index) => (
               <RaffleListItem key={index}>
-                <RaffleListImg src={nft.image} alt={nft.name} />
+                <RaffleListImg src={nft.media} alt={nft.name} />
                 <NftTitle>{nft.title}</NftTitle>
                 <NftName>{nft.name}</NftName>
                 <NfttBtn href="https://near.org/zubairweb3.near/widget/rafflestore.raffle">
