@@ -672,11 +672,14 @@ console.log("AccessKey: ", AccessKey);
 
 function get_my_records_list_by_condition() {
   const params_str = `account_id=${eth_account_id}&page=${state.current_page}&size=${state.page_size}&action_type=${state.search_action}&action_status=${state.search_status}&template=${state.search_template}&account_info=${uuid}&action_network_id=zkEVM`;
-  asyncFetch(`/dapdap/api/action/get-action-records-by-account?${params_str}`, {
-    headers: {
-      Authorization: AccessKey,
-    },
-  }).then((res) => {
+  asyncFetch(
+    `https://test-api.dapdap.net/api/action/get-action-records-by-account?${params_str}`,
+    {
+      headers: {
+        Authorization: AccessKey,
+      },
+    }
+  ).then((res) => {
     const { items, page, pages, total } = res.body || {};
 
     State.update({
@@ -690,7 +693,7 @@ function get_my_records_list_by_condition() {
 function get_current_page_range() {
   const start = (state.current_page - 1) * state.page_size + 1;
   const end = start - 1 + state.record_list.length;
-  return `${Math.min(start, end)}-${end}`;
+  return `${Math.min(start, end) || 0}-${end || 0}`;
 }
 if (eth_account_id) {
   get_my_records_list_by_condition();
@@ -949,8 +952,8 @@ return (
       <table>
         <thead>
           <tr>
-            <th>Quest</th>
-            <th>
+            <th width="20%">Quest</th>
+            <th width="10%">
               <div
                 className="head_th"
                 onClick={(e) => {
@@ -988,7 +991,7 @@ return (
                 </div>
               </div>
             </th>
-            <th>
+            <th width="15%">
               <div className="head_th" onClick={switch_template_select}>
                 Template
                 <span className="arrow" style={{ marginLeft: "5px" }}>
@@ -1026,8 +1029,7 @@ return (
                 </div>
               </div>
             </th>
-
-            <th>
+            <th width="15%">
               <div className="head_th" onClick={switch_status_select}>
                 Status
                 <span className="arrow" style={{ marginLeft: "5px" }}>
@@ -1071,11 +1073,11 @@ return (
               </div>
             </th>
 
-            <th>Gas</th>
+            <th width="15%">Gas</th>
 
-            <th>Time</th>
+            <th width="15%">Time</th>
 
-            <th>Tx</th>
+            <th width="10%">Tx</th>
           </tr>
         </thead>
         <tbody>
