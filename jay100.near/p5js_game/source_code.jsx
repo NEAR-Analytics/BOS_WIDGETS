@@ -17,9 +17,14 @@ const Game_Box = () => {
 
    let circles = [];
    let groundY;
-   let redCircleColor = { r: 255, g: 0, b: 0 };
-   let lastDroppedCircleColor = { r: 255, g: 0, b: 0 };
+  let nextCircleColor = { r: 255, g: 0, b: 0 }; // Color of the next circle to be dropped
+   let lastDroppedCircleColor = { r: 255, g: 0, b: 0 }; // Color of the last dropped circle
    let hoveredCircle = null;
+
+
+   // console.log('nxt', nextCircleColor);
+   // console.log('lst', lastDroppedCircleColor);
+   // console.log('hovCircle', hoveredCircle);
 
    const generateRandColor = () => {
     let circleColors = [{r: 255, g: 0, b: 0},{r: 0, g: 255, b: 0},{r: 0, g: 0, b: 255}]
@@ -41,14 +46,10 @@ const Game_Box = () => {
       stroke(0);
       line(mouseX, 0, mouseX, windowHeight);
 
-    if (hoveredCircle) {
-      fill(hoveredCircle.color.r, hoveredCircle.color.g, hoveredCircle.color.b);
-      ellipse(mouseX, 90, 50, 50); // Display the hovered circle at the top of the box
-    }
-      
-      //fill(255, 0, 0);
-      //ellipse(mouseX, 90, 50, 50); // Display a red circle at the top of the box when mouse is pressed
-      
+      if (hoveredCircle) {
+          fill(hoveredCircle.r, hoveredCircle.g, hoveredCircle.b);
+          ellipse(mouseX, 90, 50, 50); // Display the hovered circle at the top of the box
+      }      
 
       for (let i = 0; i < circles.length; i++) {
         circles[i].display();
@@ -57,19 +58,34 @@ const Game_Box = () => {
 
         // Check for collision with other circles
         circles[i].checkCollision();
+
+         for (let j = i + 1; j < circles.length; j++) {
+            circles[i].checkCircleCollision(circles[j]);
+        }
       }
     }
 
-     function mouseClicked() {
-      if (!hoveredCircle) {
-        hoveredCircle = new Circle(mouseX, 90, generateRandColor());
-      } else {
-        lastDroppedCircleColor = hoveredCircle.color; // Update the color of the circle at the top
-        hoveredCircle = new Circle(mouseX, 90, generateRandColor());
-     }
+    function mouseClicked() {
+        if (!hoveredCircle) {
+          hoveredCircle = new Circle(mouseX, 90, generateRandColor());
+          console.log('createHoveredCircle', hoveredCircle);
 
-     let newCircle = new Circle(mouseX, 100, lastDroppedCircleColor);
-      circles.push(newCircle);
+        } else {
+          lastDroppedCircleColor = hoveredCircle.color; // Store the color of the last hovered circle
+          console.log('update lastDropped', lastDroppedCircleColor);
+
+          let newCircle = new Circle(mouseX, 100, lastDroppedCircleColor); // Create a new circle with the color of the last hovered circle
+          console.log('newCircle', newCircle);
+
+          circles.push(newCircle);
+          console.log('circArr', circles);
+
+          hoveredCircle = new Circle(mouseX, 90, generateRandColor()); // Generate a new color for the hovered circle
+          // console.log('update Hovered', hoveredCircle);
+
+          nextCircleColor = hoveredCircle.color; // Update the color of the next circle to be dropped
+          // console.log('update nxt', nextCircleColor);
+        }
      }
    
      class Circle {
@@ -111,7 +127,7 @@ const Game_Box = () => {
           if (this.y + this.radius >= groundY) {
             this.y = groundY - this.radius;
             this.ySpeed *= -0.15; // Reduce y speed upon ground impact (dampening)
-            this.xSpeed *= 0.8; // Reduce x speed upon ground impact
+            this.xSpeed *= 0.6; // Reduce x speed upon ground impact
           }
         }
       }
@@ -119,7 +135,7 @@ const Game_Box = () => {
       checkCollision() {
         for (let j = 0; j < circles.length; j++) {
           if (this !== circles[j] && this.intersects(circles[j])) {
-            this.resolveCollision(circles[j]);
+            this.checkCircleCollision(circles[j]);
           }
         }
       }
@@ -140,6 +156,29 @@ const Game_Box = () => {
 
       stopFalling() {
         this.isFalling = false;
+      }
+
+       checkCircleCollision(otherCircle) {
+            let dx = this.x - otherCircle.x;
+            let dy = this.y - otherCircle.y;
+            let distanceSquared = dx * dx + dy * dy;
+
+            let minDistanceSquared = (this.radius + otherCircle.radius) * (this.radius + otherCircle.radius);
+
+            if (distanceSquared <= minDistanceSquared) {
+              if (this.color.r === otherCircle.color.r &&
+                  this.color.g === otherCircle.color.g &&
+                  this.color.b === otherCircle.color.b &&
+                  this.radius === otherCircle.radius) {
+                      // Merge circles if they touch and have the same color and radius
+                      let newRadius = sqrt(sq(this.radius) + sq(otherCircle.radius));
+                      this.radius = newRadius;
+                      otherCircle.radius = 0; // Make the other circle disappear
+              } else {
+                // Resolve collision as a bounce
+                  this.resolveCollision(otherCircle);
+               }
+            }
       }
 
       resolveCollision(other) {
@@ -182,7 +221,7 @@ const Game_Box = () => {
 };
 
 return (
-  <div style={{ width: "375px", height: "560px" }} className="mx-auto">
+  <div style={{ width: "400px", height: "90%" }} className="mx-auto">
     <Game_Box />
   </div>
 );
