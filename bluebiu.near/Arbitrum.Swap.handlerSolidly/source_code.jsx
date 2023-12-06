@@ -13,7 +13,7 @@ const {
   stable,
 } = props;
 
-if (!swapping) return;
+if (!swapping) return "";
 
 const type =
   inputCurrency.address === "native"
@@ -121,7 +121,7 @@ if (type === 0) {
       console.log("err: ", err);
       onError(err);
     });
-  return;
+  return "";
 }
 if (type === 1) {
   RouterContract.swapExactETHForTokens(
@@ -143,7 +143,7 @@ if (type === 1) {
     .catch((err) => {
       onError(err);
     });
-  return;
+  return "";
 }
 if (type === 2) {
   RouterContract.swapExactTokensForETH(
