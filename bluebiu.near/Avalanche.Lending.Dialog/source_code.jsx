@@ -463,7 +463,6 @@ if (Storage.privateGet("prevAddress") !== data.address && display) {
   getBalance();
   Storage.privateSet("prevAddress", data.address);
 }
-console.log(data);
 return (
   <Dialog className={display ? "display" : ""}>
     <Overlay
@@ -471,7 +470,11 @@ return (
         handleClose();
       }}
     >
-      <Content>
+      <Content
+        onClick={(ev) => {
+          ev.stopPropagation();
+        }}
+      >
         <TopBox className={isForCollateral && "none-border"}>
           <Header>
             <Title>
@@ -484,12 +487,13 @@ return (
                   <Apy className={isSupply ? "supply-color" : "borrow-color"}>
                     APY {isSupply ? data.supplyApy : data.borrowApy}
                   </Apy>
-                  {data.distributionApy?.map((reward) => (
-                    <RewardApyItem key={reward.symbol}>
-                      <RewardIcon src={reward.icon} />
-                      <RewardApy>{reward.supply}</RewardApy>
-                    </RewardApyItem>
-                  ))}
+                  {data.distributionApy &&
+                    data.distributionApy.map((reward) => (
+                      <RewardApyItem key={reward.symbol}>
+                        <RewardIcon src={reward.icon} />
+                        <RewardApy>{reward.supply}</RewardApy>
+                      </RewardApyItem>
+                    ))}
                 </>
               )}
             </Title>
@@ -544,7 +548,7 @@ return (
                     : "-"}
                 </BalanceValue>
                 <BalanceWrapper
-                  onClick={() => {
+                  onClick={(ev) => {
                     if (state.balanceLoading || isNaN(state.balance)) return;
                     handleAmountChange(state.balance);
                     State.update({
