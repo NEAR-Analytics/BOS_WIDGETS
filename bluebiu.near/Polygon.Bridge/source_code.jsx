@@ -87,7 +87,7 @@ return (
           id: CHAIN_ID,
           dstId: 109,
           name: CHAIN_NAME,
-          logo: "https://ipfs.near.social/ipfs/bafkreicmrfbaejeef4br5g6fekzhcrrc2rfw4hcmusie2t2m4qsl45x2qe",
+          logo: "/images/chains/137.png",
           explorer: "https://polygonscan.com",
           routerAddress: "0x45A01E4e04F14f7A4a6702c74187c5F6222033cd",
         },
