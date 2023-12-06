@@ -70,18 +70,7 @@ return trade ? (
             .toFixed(4)
         ).toLocaleString("en-US")}{" "}
         {trade.inputCurrency.symbol}{" "}
-        <span className="gray">
-          (
-          <Widget
-            src="dapdapbos.near/widget/Linea.Uniswap.Swap.FormatValue"
-            props={{
-              symbol: trade.inputCurrency.symbol,
-              amount: trade.inputCurrencyAmount,
-              prev: "$",
-            }}
-          />
-          ){" "}
-        </span>
+        <span className="gray">${trade.gasCost}</span>
       </div>
       <GasWrapper
         onClick={() => {
