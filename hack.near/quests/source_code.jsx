@@ -13,13 +13,11 @@ const widgets = {
   deleteQuest: "hack.near/widget/quest.delete",
 };
 
-const quests = Social.get(`${daoId}/thing/directory`);
+const quests = Near.view("questsmock.near", "get_all_quests");
 
 if (!quests) {
   return "";
 }
-
-const questArray = JSON.parse(quests);
 
 // SBT verification
 let isVerified = false;
@@ -96,25 +94,20 @@ return (
         )}
       </Header>
       <Container className="d-flex row justify-content-between w-100">
-        <Left className="col-lg">
-          <Widget src={widgets.about} />
-        </Left>
-        <Center className="col-lg-9 mt-3 px-2 px-md-3 d-flex flex-column">
-          <h3 className="m-2" style={{ fontFamily: "Courier" }}>
-            <b>Discover</b>
-          </h3>
-          {questArray.map((quest, i) => (
-            <div className="m-2">
-              <Widget
-                key={i}
-                src={widgets.card}
-                props={{
-                  thingId,
-                }}
-              />
-            </div>
-          ))}
-        </Center>
+        <h3 className="m-2" style={{ fontFamily: "Courier" }}>
+          <b>Discover</b>
+        </h3>
+        {quests.map((quest, i) => (
+          <div className="m-2">
+            <Widget
+              key={i}
+              src={widgets.card}
+              props={{
+                thingId,
+              }}
+            />
+          </div>
+        ))}
       </Container>
     </div>
 
