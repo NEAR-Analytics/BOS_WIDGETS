@@ -1,4 +1,6 @@
-let { assets } = VM.require(`rubycop.near/widget/mdao.config`);
+let { assets, socials, content } = VM.require(
+  `rubycop.near/widget/mdao.config`
+);
 
 const page = props.page;
 
@@ -6,10 +8,6 @@ const Footer = styled.div`
   width: 100%;
   background: #151718;
   padding: 4rem;
-
-  svg {
-    scale: 1.7;
-  }
 `;
 
 const Description = styled.p`
@@ -40,31 +38,21 @@ const FooterLogo = styled.img`
 
 const Socials = () => (
   <div className="d-flex gap-5">
-    <a href="https://twitter.com/NEARDevHub" target="_blank">
-      {assets.xIcon}
-    </a>
-    <a href="https://t.me/NEARDevHub" target="_blank">
-      {assets.telegramIcon}
-    </a>
-    <a href="https://www.youtube.com/@NEARDevHub" target="_blank">
-      {assets.youtubeIcon}
-    </a>
+    {Object.entries(socials).map(([name, link]) => (
+      <a href={link} target="_blank">
+        <i className={`fs-1 bi bi-${name}`} />
+      </a>
+    ))}
   </div>
 );
 
 const MidContent = () => {
   return (
-    <>
-      <MidContainer className="d-flex flex-column align-items-center gap-4">
-        <FooterLogo src={assets.logoColor} />
-        <Description>
-          Stay in the loop. Get the latest updates, announcements,
-          <br />
-          opportunities, and insights from the ecosystem.
-        </Description>
-        <Socials />
-      </MidContainer>
-    </>
+    <MidContainer className="d-flex flex-column align-items-center gap-4">
+      <FooterLogo src={assets.logoColor} />
+      <Description>{content.home.footerDesc}</Description>
+      <Socials />
+    </MidContainer>
   );
 };
 
