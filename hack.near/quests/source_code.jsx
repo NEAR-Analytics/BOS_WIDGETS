@@ -198,79 +198,10 @@ return (
           <b>Discover</b>
         </h2>
         {quests.map((quest, i) => (
-          <Card>
-            <CardLeft>
-              <div className="d-flex flex-column">
-                <div className="d-flex flex-row">
-                  <div className="me-3">
-                    <a href={`/hack.near/widget/thing.page?thingId=${thingId}`}>
-                      <Widget
-                        src="mob.near/widget/ProfileImage"
-                        props={{
-                          accountId: `create.near`,
-                          imageStyle: {
-                            objectFit: "cover",
-                            borderRadius: "0.6em",
-                          },
-                          imageClassName: "w-100 h-100",
-                        }}
-                      />
-                    </a>
-                  </div>
-                  <div className="text-truncate">
-                    <div className="text-truncate mb-1">
-                      <a
-                        href={`/hack.near/widget/thing.page?thingId=${thingId}`}
-                        style={{ textDecoration: "none" }}
-                      >
-                        <span className="fw-bold" style={{ color: "black" }}>
-                          {quest[1].title}
-                        </span>
-                      </a>
-                    </div>
-                    <div className="text-truncate text-muted">
-                      {quest[1].tags.length > 0 && (
-                        <>
-                          {quest[1].tags.map((tag, i) => (
-                            <span
-                              key={i}
-                              className="me-1 fw-light badge border border-secondary text-bg-light"
-                            >
-                              <a
-                                href={`/hack.near/widget/quests?tag=${tag}`}
-                                style={{ textDecoration: "none" }}
-                                className="no-text-decoration"
-                              >
-                                <Tag>#{tag}</Tag>
-                              </a>
-                            </span>
-                          ))}
-                        </>
-                      )}
-                    </div>
-                  </div>
-                </div>
-                <p className="mt-3 m-1">{quest[1].description}</p>
-              </div>
-            </CardLeft>
-            {!isVerified && context.accountId && (
-              <div className="d-flex flex-column m-3">
-                <p>
-                  <b>{JSON.stringify(quest[1].reward_amount)} NEAR</b>
-                </p>
-
-                <Widget
-                  src="hack.near/widget/quest.claim"
-                  props={{ questId: quest[0] }}
-                />
-                <p className="text-center mt-1">
-                  <i>
-                    {JSON.stringify(quest[1].total_participants_allowed)} left
-                  </i>
-                </p>
-              </div>
-            )}
-          </Card>
+          <Widget
+            src="hack.near/widget/quest.card"
+            props={{ questId: quest[i] }}
+          />
         ))}
       </Container>
     </div>
