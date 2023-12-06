@@ -205,9 +205,13 @@ QuoteRouterContract.quoteLayerZeroFee(target.dstId, 1, target.address, "0x", {
         ];
     RouterContract[method](...params)
       .then((tx) => {
-        tx.wait().then((res) => {
-          onSuccess(res);
-        });
+        tx.wait()
+          .then((res) => {
+            onSuccess(res);
+          })
+          .catch((err) => {
+            onError();
+          });
       })
       .catch((err) => {
         onError();
