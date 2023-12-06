@@ -102,18 +102,6 @@ const ScrollContent = styled.div`
 const CurrencyList = styled.div`
   padding-bottom: 20px;
 
-  &::-webkit-scrollbar {
-    width: 11px;
-    background: #1b1b1b;
-    border-radius: 8px;
-  }
-
-  /* Handle */
-  &::-webkit-scrollbar-thumb {
-    background: #2f2f2f;
-    border-radius: 8px;
-  }
-
   @media (max-width: 768px) {
     padding-bottom: 30px;
   }
@@ -187,11 +175,13 @@ State.init({
 });
 const handleSearch = () => {
   const propsTokens = Object.values(props.tokens || {});
-  console.log(state.searchVal, propsTokens);
+  let tokenIsAvailable = false;
   const _tokens = propsTokens.filter((token) => {
     if (!state.searchVal) {
       return state.tab === "All" ? true : token.isImport;
     }
+    if (token.address.toLowerCase() === state.searchVal?.toLowerCase())
+      tokenIsAvailable = true;
     return (token.address.toLowerCase() === state.searchVal?.toLowerCase() ||
       token.name.toLowerCase().includes(state.searchVal.toLowerCase())) &&
       state.tab === "All"
@@ -200,8 +190,11 @@ const handleSearch = () => {
       ? token.isImport
       : false;
   });
-
-  if (_tokens.length === 0 && ethers.utils.isAddress(state.searchVal)) {
+  if (
+    _tokens.length === 0 &&
+    ethers.utils.isAddress(state.searchVal) &&
+    !tokenIsAvailable
+  ) {
     State.update({
       loading: true,
       tokens: [],
