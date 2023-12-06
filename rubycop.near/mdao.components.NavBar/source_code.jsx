@@ -17,7 +17,12 @@ const Navbar = styled.div`
   background: #151718;
 
   @media screen and (max-width: 768px) {
-    padding: 1.875rem 1.375rem;
+    padding: 1.5rem 2rem;
+
+    img {
+      width: 50px;
+      height: 50px;
+    }
   }
 `;
 
