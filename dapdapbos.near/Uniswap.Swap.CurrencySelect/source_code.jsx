@@ -98,18 +98,6 @@ const CurrencyList = styled.div`
   max-height: calc(80vh - 120px);
   overflow-x: auto;
 
-  &::-webkit-scrollbar {
-    width: 11px;
-    background: #1b1b1b;
-    border-radius: 8px;
-  }
-
-  /* Handle */
-  &::-webkit-scrollbar-thumb {
-    background: #2f2f2f;
-    border-radius: 8px;
-  }
-
   @media (max-width: 900px) {
     max-height: 50vh;
   }
