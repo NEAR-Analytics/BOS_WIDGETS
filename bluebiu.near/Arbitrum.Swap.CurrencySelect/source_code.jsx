@@ -96,8 +96,16 @@ const handleSearch = (e) => {
 
 return (
   <Dialog className={props.display ? "display" : ""}>
-    <Overlay>
-      <Content>
+    <Overlay
+      onClick={() => {
+        props.onClose();
+      }}
+    >
+      <Content
+        onClick={(ev) => {
+          ev.stopPropagation();
+        }}
+      >
         <Header>
           <Title>Select a token</Title>
           <Widget
