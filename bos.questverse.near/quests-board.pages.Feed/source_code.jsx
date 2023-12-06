@@ -6,7 +6,7 @@ const nearQuestVerseWidgetsAccountId =
   props.nearQuestVerseWidgetsAccountId ||
   (context.widgetSrc ?? "quests.near").split("/", 1)[0];
 
-console.log(`${REPL_QUESTVERSE_CONTRACT}`);
+console.log(`v1.questverse.near`);
 function widget(widgetName, widgetProps, key) {
   widgetProps = {
     ...widgetProps,
@@ -21,6 +21,7 @@ function widget(widgetName, widgetProps, key) {
       props={widgetProps}
       key={key}
     />
+
   );
 }
 
