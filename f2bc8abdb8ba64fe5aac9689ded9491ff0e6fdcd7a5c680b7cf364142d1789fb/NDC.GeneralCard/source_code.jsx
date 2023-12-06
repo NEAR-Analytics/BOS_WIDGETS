@@ -15,16 +15,11 @@ const {
   baseActions,
 } = props;
 
-if (
-  !Array.isArray(articleToRenderData.tags) &&
-  typeof articleToRenderData.tags === "object"
-) {
-  articleToRenderData.tags = Object.keys(articleToRenderData.tags);
+if (!Array.isArray(data.tags) && typeof data.tags === "object") {
+  data.tags = Object.keys(data.tags);
 }
 
-articleToRenderData.tags = articleToRenderData.tags.filter(
-  (tag) => tag !== undefined && tag !== null
-);
+data.tags = data.tags.filter((tag) => tag !== undefined && tag !== null);
 
 const tags = data.tags;
 const accountId = data.author;
