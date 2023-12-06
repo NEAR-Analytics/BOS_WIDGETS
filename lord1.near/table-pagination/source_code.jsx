@@ -200,7 +200,7 @@ return (
                               height="30"
                               width="30"
                               layout="intrinsic"
-                              src={td.src}
+                              src={key}
                             />
                           ) : td.progress ? (
                             <td className="align-middle ">
