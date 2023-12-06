@@ -19,7 +19,7 @@ const handleClaim = () => {
         key: questId,
         value: {
           type,
-          questId,
+          accountId,
         },
       }),
     },
