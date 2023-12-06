@@ -87,7 +87,7 @@ return (
           id: CHAIN_ID,
           dstId: 106,
           name: CHAIN_NAME,
-          logo: "https://ipfs.near.social/ipfs/bafkreid6iw3oxfkyps37bts62rw33vr6q4aekwa36bfq7ywdhsiiqh5po4",
+          logo: "/images/chains/43114.png",
           explorer: "https://snowtrace.io",
           routerAddress: "0x45A01E4e04F14f7A4a6702c74187c5F6222033cd",
         },
