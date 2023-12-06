@@ -2189,6 +2189,19 @@ return (
           )}
         </div>
       </div>
+
+      <label class="label max-w-2xl mx-auto ">
+        <span class="label-text text-lg text-black">
+          *to manage your position, go to{" "}
+          <a
+            href="https://app.zkera.fi/"
+            target="_blank"
+            class="underline font-semibold"
+          >
+            app.zkera.fi
+          </a>
+        </span>
+      </label>
     </DaisyUIWrapper>
 
     <Toast />
