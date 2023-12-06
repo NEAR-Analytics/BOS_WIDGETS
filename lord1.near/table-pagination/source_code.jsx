@@ -196,9 +196,10 @@ return (
                             <img
                               style={{
                                 marginBottom: "1rem",
+                                borderRadius: "15%",
                               }}
-                              height="30"
-                              width="30"
+                              height="40"
+                              width="40"
                               layout="intrinsic"
                               src={key}
                             />
