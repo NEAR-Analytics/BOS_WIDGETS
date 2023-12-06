@@ -103,7 +103,7 @@ return (
               key={i}
               src={widgets.card}
               props={{
-                thingId,
+                questId: JSON.stringify(quest[0]),
               }}
             />
           </div>
