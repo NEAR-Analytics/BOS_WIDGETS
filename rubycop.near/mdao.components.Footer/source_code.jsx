@@ -16,6 +16,11 @@ const Description = styled.p`
   font-size: 16px;
   font-weight: 300;
   tet-align: center;
+  width: 50%;
+
+  @media screen and (max-width: 786px) {
+    width: 100%;
+  }
 `;
 
 const MidContainer = styled.div`
