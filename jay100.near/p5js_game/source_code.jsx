@@ -47,7 +47,7 @@ const Game_Box = () => {
       line(mouseX, 0, mouseX, windowHeight);
 
       if (hoveredCircle) {
-          fill(hoveredCircle.r, hoveredCircle.g, hoveredCircle.b);
+          fill(hoveredCircle.color.r, hoveredCircle.color.g, hoveredCircle.color.b);
           ellipse(mouseX, 90, 50, 50); // Display the hovered circle at the top of the box
       }      
 
@@ -69,16 +69,16 @@ const Game_Box = () => {
         if (!hoveredCircle) {
           hoveredCircle = new Circle(mouseX, 90, generateRandColor());
           console.log('createHoveredCircle', hoveredCircle);
-
         } else {
-          lastDroppedCircleColor = hoveredCircle.color; // Store the color of the last hovered circle
-          console.log('update lastDropped', lastDroppedCircleColor);
 
-          let newCircle = new Circle(mouseX, 100, lastDroppedCircleColor); // Create a new circle with the color of the last hovered circle
+          let newCircle = new Circle(mouseX, 100, hoveredCircle.color); // Create a new circle with the color of the last hovered circle
           console.log('newCircle', newCircle);
 
           circles.push(newCircle);
           console.log('circArr', circles);
+
+          lastDroppedCircleColor = hoveredCircle.color; // Store the color of the last hovered circle
+          console.log('update lastDropped', lastDroppedCircleColor);
 
           hoveredCircle = new Circle(mouseX, 90, generateRandColor()); // Generate a new color for the hovered circle
           // console.log('update Hovered', hoveredCircle);
@@ -126,7 +126,7 @@ const Game_Box = () => {
           // Check for hitting the ground
           if (this.y + this.radius >= groundY) {
             this.y = groundY - this.radius;
-            this.ySpeed *= -0.15; // Reduce y speed upon ground impact (dampening)
+            this.ySpeed *= -0.1; // Reduce y speed upon ground impact (dampening)
             this.xSpeed *= 0.6; // Reduce x speed upon ground impact
           }
         }
@@ -210,7 +210,7 @@ const Game_Box = () => {
         let newOtherYSpeed = thisSpeed * cos(thisDirection - angle) * sin(angle) + otherSpeed * sin(otherDirection - angle) * sin(angle + HALF_PI);
 
         this.xSpeed = newThisXSpeed;
-        this.ySpeed = newThisYSpeed;
+        this.ySpeed = newThisYSpeed / 2;
         other.xSpeed = newOtherXSpeed;
         other.ySpeed = newOtherYSpeed;
       }
