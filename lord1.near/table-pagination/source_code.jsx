@@ -192,6 +192,17 @@ return (
                             </OverlayTrigger>
                           ) : td.short ? (
                             onHandelId(key)
+                          ) : td.pic ? (
+                            <img
+                              style={{
+                                marginBottom: "1rem",
+                                borderRadius: "15%",
+                              }}
+                              height={td.height}
+                              width={td.width}
+                              layout="intrinsic"
+                              src={td.src}
+                            />
                           ) : td.progress ? (
                             <td className="align-middle ">
                               <Widget
