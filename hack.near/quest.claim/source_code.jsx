@@ -15,7 +15,7 @@ const type = isClaimed ? "disclaim" : "claim";
 const handleClaim = () => {
   Social.set({
     index: {
-      graph: JSON.stringify({
+      quest: JSON.stringify({
         key: questId,
         value: {
           type,
