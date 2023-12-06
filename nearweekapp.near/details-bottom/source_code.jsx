@@ -60,7 +60,7 @@ const H2 = styled.h2`
   font-size: 24px;
   font-style: normal;
   font-weight: 500;
-  line-height: 15px;
+  line-height: 24px;
   margin-bottom: 15px;
   text-transform: uppercase;
 `;
