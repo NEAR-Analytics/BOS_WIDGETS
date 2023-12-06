@@ -10,6 +10,6 @@ return (
   <>
     <div>{JSON.stringify(claimsData)}</div>
     <br />
-    <div>{JSON.stringify(claim.start_time)}</div>
+    <div>{JSON.stringify(claim)}</div>
   </>
 );
