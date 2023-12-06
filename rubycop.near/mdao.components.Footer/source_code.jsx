@@ -40,7 +40,7 @@ const Socials = () => (
   <div className="d-flex gap-5">
     {Object.entries(socials).map(([name, link]) => (
       <a href={link} target="_blank">
-        <i className={`fs-1 bi bi-${name}`} />
+        <i className={`fs-1 text-white bi bi-${name}`} />
       </a>
     ))}
   </div>
