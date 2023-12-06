@@ -1,175 +1,146 @@
-const daoId = props.daoId ?? "hack.near";
+const accountId = props.accountId ?? context.accountId;
+const questId = props.questId ?? "813740323";
 
-const creatorId = props.creatorId ?? context.accountId;
+const quest =
+  props.quest ??
+  Near.view("questsmock.near", "get_quest_by_id", { questId: 813740323 });
 
-const questId = props.questId ?? "cefe2651fd468lm0x9mg91d69d351d0c4";
+if (!quest) {
+  return "quest data missing";
+}
 
-const questData = props.data ?? Social.get(`${daoId}/thing/${questId}/**`);
+const questUrl = `/hack.near/widget/quest.page?questId=${questId}`;
 
-State.init({
-  verified: false,
-});
-
-const widgets = {
-  styledComponents: "hack.near/widget/n.style",
-  questPage: "near/widget/ProfilePage",
-};
-
-const isHuman = Near.view(registry_contract, "is_human", {
-  account: context.accountId,
-});
-State.update({ verified: isHuman[0][1].length > 0 });
+const isEligible = props.isEligible ?? true;
 
 const Card = styled.div`
-  position: relative;
   display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  padding: 16px;
-  gap: 16px;
-  background: #f8f8f8;
-  border-radius: 10px;
-`;
-const HeaderCard = styled.div`
-  display: flex;
-  flex-direction: row;
+  justify-content: space-between;
   align-items: center;
-  padding: 0px;
+  gap: 16px;
   width: 100%;
+  border-radius: 12px;
+  background: #fff;
+  border: 1px solid #eceef0;
+  box-shadow: 0px 1px 3px rgba(16, 24, 40, 0.1),
+    0px 1px 2px rgba(16, 24, 40, 0.06);
+  overflow: hidden;
+  padding: 16px;
 `;
-const HeaderContent = styled.div`
+
+const CardLeft = styled.div`
   display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  padding: 0px;
-  gap: 4px;
-  flex-grow: 1;
-`;
-const UserLink = styled.a`
+  gap: 18px;
+  align-items: center;
   width: 100%;
-  cursor: pointer;
+  min-width: 0;
+  padding-left: 12px;
+
+  > div {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    min-width: 0;
+  }
+`;
+
+const TextLink = styled.a`
+  display: block;
+  margin: 0;
+  font-size: 14px;
+  line-height: 18px;
+  color: ${(p) => (p.bold ? "#11181C !important" : "#687076 !important")};
+  font-weight: ${(p) => (p.bold ? "600" : "400")};
+  font-size: ${(p) => (p.small ? "12px" : "14px")};
+  overflow: ${(p) => (p.ellipsis ? "hidden" : "visible")};
+  text-overflow: ${(p) => (p.ellipsis ? "ellipsis" : "unset")};
+  white-space: nowrap;
+  outline: none;
+
+  &:focus,
   &:hover {
+    text-decoration: underline;
+  }
+`;
+
+const TagsWrapper = styled.div`
+  padding-top: 4px;
+`;
+
+const Tag = styled.a`
+  color: black;
+  text-decoration: none;
+
+  &:hover {
+    color: blue;
     text-decoration: none;
   }
 `;
-const QuestName = styled.p`
-  font-weight: 500;
-  font-size: 14px;
-  margin: 0;
-  align-items: center;
-  color: #000000;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-`;
-const QuestCreator = styled.p`
-  font-style: normal;
-  font-weight: 400;
-  font-size: 12px;
-  margin: 0px;
-  line-height: 120%;
-  display: flex;
-  align-items: center;
-  color: #828688;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-`;
-const LowerSection = styled.div`
-  display: flex;
-  width: 100%;
-  flex-direction: column;
-  justify-content: center;
-  align-items: flex-start;
-  gap: 8px;
-`;
-const LowerSectionContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: flex-start;
-  gap: 12px;
-  align-self: stretch;
-`;
-const ButtonsLowerSection = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  padding: 0px;
-  width: 100%;
-  height: 28px;
-`;
-
-const Wrapper = styled.div`
-
-  @media only screen and (max-width: 610px) {
-    width: 100%;
-  }
-  width: 50%;
-`;
-
-const trimText = (text, limit) => {
-  if (!text) return "";
-
-  const _limit = limit ?? 200;
-  const ending = text.length > _limit ? "..." : "";
-  const trimmed = text.slice(0, limit ?? 200);
-
-  return `${trimmed}${ending}`;
-};
 
 return (
-  <Wrapper className="p-2 col-lg-4 col-md-6 col-sm-12">
-    <Card>
-      <HeaderCard className="d-flex justify-content-between w-100">
-        <div className="d-flex align-items-center gap-2 w-100 justify-content-between">
-          <Widget
-            src="mob.near/widget/ProfileImage"
-            props={{
-              accountId: questData.creatorId,
-              tooltip: true,
-              imageClassName: "rounded-circle w-100 h-100",
-              style: { minWidth: "45px", height: "45px" },
-            }}
-          />
-          <HeaderContent>
-            <UserLink
-              href={`/${widgets.questPage}?accountId=${questData.creatorId}`}
-            >
-              <QuestName>{questData.title}</QuestName>
-              <QuestCreator>{questData.creatorId}</QuestCreator>
-            </UserLink>
-            {questData.creatorId === context.accountId && (
-              <a
-                key="edit"
-                href={`/hack.near/widget/quest.data?questId=${questId}`}
-                className="position-absolute top-0 end-0 link-secondary small me-3 mt-2"
-              >
-                <i className="bi bi-pencil" /> Edit Quest
-              </a>
-            )}
-          </HeaderContent>
-        </div>
-      </HeaderCard>
-      <LowerSection>
-        <LowerSectionContainer>
-          <div className="d-flex w-100 align-items-center">
-            <div className="d-flex w-100 gap-2 justify-content-between">
+  <Card>
+    <CardLeft>
+      <div className="d-flex flex-column me-3">
+        <div className="d-flex flex-row me-3">
+          <div className="me-3">
+            <a href={questUrl}>
               <Widget
-                src={widgets.styledComponents}
+                src="mob.near/widget/ProfileImage"
                 props={{
-                  Link: {
-                    text: "View",
-                    className: "primary w-100 justify-content-center",
-                    href: `/${widgets.questPage}?accountId=${questData.creatorId}`,
-                    icon: <i className="bi bi-eye-fill fs-6"></i>,
+                  accountId: `create.near`,
+                  imageStyle: {
+                    objectFit: "cover",
+                    borderRadius: "0.6em",
                   },
+                  imageClassName: "w-100 h-100",
                 }}
               />
+            </a>
+          </div>
+          <div className="text-truncate">
+            <div className="text-truncate mb-1">
+              <a href={questUrl} style={{ textDecoration: "none" }}>
+                <span className="fw-bold" style={{ color: "black" }}>
+                  {quest.title}
+                </span>
+              </a>
+            </div>
+            <div className="text-truncate text-muted">
+              {quest.tags.length > 0 && (
+                <>
+                  {quest.tags.map((tag, i) => (
+                    <span
+                      key={i}
+                      className="me-1 fw-light badge border border-secondary text-bg-light"
+                    >
+                      <a
+                        href={`/hack.near/widget/quests?tag=${tag}`}
+                        style={{ textDecoration: "none" }}
+                        className="no-text-decoration"
+                      >
+                        <Tag>#{tag}</Tag>
+                      </a>
+                    </span>
+                  ))}
+                </>
+              )}
             </div>
           </div>
-        </LowerSectionContainer>
-      </LowerSection>
-    </Card>
-  </Wrapper>
+        </div>
+        <p className="mt-3 m-1">{quest.description}</p>
+      </div>
+    </CardLeft>
+    {!isVerified && context.accountId && (
+      <div className="d-flex flex-column m-3">
+        <p>
+          <b>{JSON.stringify(quest.reward_amount)} NEAR</b>
+        </p>
+
+        <Widget src="hack.near/widget/quest.claim" props={{ questId }} />
+        <p className="text-center mt-1">
+          <i>{JSON.stringify(quest.total_participants_allowed)} left</i>
+        </p>
+      </div>
+    )}
+  </Card>
 );
