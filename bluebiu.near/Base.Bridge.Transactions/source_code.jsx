@@ -37,11 +37,15 @@ const Body = styled.div`
 const txs = Object.values(props.txs || {});
 const onDelete = props.onDelete;
 
+if (props.chainId === -1) return <div />;
+const filteredTxs = txs.filter(
+  (tx) => tx.fromChainId === props.chainId || tx.toChainId === props.chainId
+);
 return (
   <Transactions>
     <Header>
       <AmountWrapper>
-        <TxAmount>{txs.length}</TxAmount>
+        <TxAmount>{filteredTxs.length}</TxAmount>
         <Title>Pending transactions</Title>
       </AmountWrapper>
       <RefreshWrapper
@@ -61,22 +65,17 @@ return (
       </RefreshWrapper>
     </Header>
     <Body>
-      {txs
-        ?.filter(
-          (tx) =>
-            tx.fromChainId === props.chainId || tx.toChainId === props.chainId
-        )
-        .map((tx) => (
-          <Widget
-            src="bluebiu.near/widget/Base.Bridge.Transaction"
-            key={tx.hash}
-            props={{
-              tx,
-              onDelete,
-              update: state.update,
-            }}
-          />
-        ))}
+      {filteredTxs.map((tx) => (
+        <Widget
+          src="bluebiu.near/widget/Base.Bridge.Transaction"
+          key={tx.hash}
+          props={{
+            tx,
+            onDelete,
+            update: state.update,
+          }}
+        />
+      ))}
     </Body>
   </Transactions>
 );
