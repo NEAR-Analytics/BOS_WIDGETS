@@ -639,7 +639,7 @@ const getNetworkSrc = (network) => {
     case "ethereum":
       return "https://assets.ref.finance/images/eth-bridge.png";
     case "polygon":
-      return "https://assets.ref.finance/images/matic-bridge.png";
+      return "/images/chains/1101.png";
     default:
       return "";
   }
