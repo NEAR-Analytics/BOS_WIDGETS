@@ -1,27 +1,12 @@
 const rootUser = "nearweekapp.near";
-console.log("props", props);
 const breakpoints = { md: "768px", lg: "1100px", xl: "1300px" };
 
 function NewsletterCard() {
-  const cssFont = fetch("https://fonts.cdnfonts.com/css/hubot-sans").body;
-  if (!cssFont) return "";
-  if (!state.theme) {
-    State.update({
-      theme: styled.div`
-        font-family: 'Mona Sans', sans-serif;
-        font-style: normal;
-        ${cssFont}
-      }`,
-    });
-  }
-  const Theme = state.theme;
-
   const TopCardTitle = styled.h2`
      overflow: hidden;
       color: #1C1F41;
       text-overflow: ellipsis;
       whitespace: nowrap;
-      font-family: Inter;
       font-size: 18px;
       font-style: normal;
       font-weight: 500;
@@ -76,7 +61,11 @@ function NewsletterCard() {
     font-weight: 600;
     margin-left: 4px;
   `;
-  console.log(audioDetails, "audioDetails1");
+
+  const C = styled.div`
+  
+  `;
+
   function TopSection() {
     return (
       <MainSection>
@@ -95,13 +84,13 @@ function NewsletterCard() {
                     alt=""
                     style={{ borderRadius: "8px" }}
                   />
-                  <div>
+                  <C>
                     <Title>{audioDetails.title}</Title>
                     <iframe
-                      style={{ width: "100%" }}
+                      style={{ width: "100%", fontFamily: "Inter" }}
                       srcDoc={audioDetails.description}
                     />
-                  </div>
+                  </C>
                 </AudioContent>
                 <div className="raw-html-embed">
                   <iframe
@@ -145,7 +134,7 @@ function NewsletterCard() {
   }
 
   return (
-    <Theme>
+    <div>
       <Widget src={`${rootUser}/widget/nw-navbar`} />
       <MainContainer>
         <TopSection />
@@ -153,7 +142,7 @@ function NewsletterCard() {
           <AudioCard />
         </BottomContainer>
       </MainContainer>
-    </Theme>
+    </div>
   );
 }
 
