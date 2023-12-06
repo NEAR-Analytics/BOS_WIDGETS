@@ -30,7 +30,6 @@ const CardTitle = styled.h2`
   color: #1C1F41;
   text-overflow: ellipsis;
   whitespace: nowrap;
-  font-family: Inter;
   font-size: 15px;
   font-style: normal;
   font-weight: 500;
@@ -42,7 +41,6 @@ const CardTitle = styled.h2`
 const CordDate = styled.p`
   color: rgba(28, 31, 65, 0.45);
   text-align: right;
-  font-family: Inter;
   font-size: 12px;
   font-style: normal;
   font-weight: 500;
@@ -59,12 +57,12 @@ const SectionHeader = styled.div`
 
 const H2 = styled.h2`
   color: #1C1F41;
-  font-family: Inter;
   font-size: 24px;
   font-style: normal;
   font-weight: 500;
   line-height: 15px;
   margin-bottom: 15px;
+  text-transform: uppercase;
 `;
 
 const CardBody = styled.div`
@@ -83,7 +81,7 @@ const TabContentFooter = styled.div`
   `;
 
 const ButtonLink = styled.button`
-background: transparent;
+    background: transparent;
     margin-top:14px;
     width: 180px;
     padding: 8px;
@@ -116,54 +114,10 @@ const CardContent = styled.div`
       color: hsla(0, 0%, 0%, 1);
       width: 100%;
     `;
+
 function BottomSection() {
-  const accountId = "near";
-  articles;
   State.init({ page: 1 });
   const nwSite = "https://nearweek.com";
-  let posts = [];
-
-  const indexedPosts = Social.index("post", "main", {
-    accountId,
-    limit: 20,
-    order: "desc",
-  });
-
-  if (indexedPosts?.length > 0) {
-    posts = [];
-
-    indexedPosts.forEach((post) => {
-      const data = Social.get(`${post.accountId}/post/main`, post.blockHeight);
-      if (data) {
-        const json = JSON.parse(data);
-        const content = json.text.split("\n");
-        const title = content[0] || "";
-        const url = content[1] || content[2] || "";
-        const lastLine = content.pop() || "";
-        const hasNewsTag = lastLine.indexOf("#news") > -1;
-        const isValid = hasNewsTag && url.indexOf("https://") > -1;
-
-        if (isValid) {
-          const block = Near.block(post.blockHeight);
-          let createdAt = "";
-          if (block) {
-            const timeMs = parseFloat(block.header.timestamp_nanosec) / 1e6;
-            createdAt = new Date(timeMs).toISOString();
-          }
-          posts.push({
-            blockHeight: post.blockHeight,
-            title,
-            url,
-            thumbnail: "https://near.org/favicon.png",
-            createdAt,
-            categories: ["Near ORG", "blog"],
-          });
-
-          posts.sort((a, b) => b.blockHeight - a.blockHeight);
-        }
-      }
-    });
-  }
 
   const data = fetch(
     `https://nearweek.com/api/editions?populate=deep&sort=createdAt:desc&pagination[pageSize]=${
@@ -179,19 +133,6 @@ function BottomSection() {
     }
   );
 
-  const cssFont = fetch("https://fonts.cdnfonts.com/css/hubot-sans").body;
-
-  if (!cssFont) return "";
-
-  if (!state.theme) {
-    State.update({
-      theme: styled.div`
-          font-family: 'Mona Sans', sans-serif;
-          font-style: normal;
-          ${cssFont}
-      }`,
-    });
-  }
   function formatDate(dateString) {
     const date = new Date(dateString);
     const day = date.getDate().toString().padStart(2, "0");
@@ -236,7 +177,7 @@ function BottomSection() {
   `;
 
   const issues = data.body.data;
-  console.log(issues, "issues1");
+
   return (
     <Container>
       {issues !== null && issues.length > 0 ? (
