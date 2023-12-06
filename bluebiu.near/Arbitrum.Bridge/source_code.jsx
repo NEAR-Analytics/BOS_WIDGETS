@@ -110,7 +110,7 @@ return (
           id: CHAIN_ID,
           dstId: 110,
           name: CHAIN_NAME,
-          logo: "https://ipfs.near.social/ipfs/bafkreicbrc7qqle4c7hmdcjhw23ciyund3zy42wlm3akfa6eafho6tm43e",
+          logo: "/images/chains/42161.png",
           explorer: "https://arbiscan.io",
           routerEthAddress: "0xbf22f0f184bCcbeA268dF387a49fF5238dD23E40",
           routerAddress: "0x53Bf833A5d6c4ddA888F69c22C88C9f356a41614",
