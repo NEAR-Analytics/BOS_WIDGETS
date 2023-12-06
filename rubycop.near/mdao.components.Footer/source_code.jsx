@@ -6,12 +6,16 @@ const Footer = styled.div`
   width: 100%;
   background: #151718;
   padding: 4rem;
+
+  svg {
+    scale: 1.7;
+  }
 `;
 
 const Description = styled.p`
   color: #fff;
   text-align: center;
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 300;
   tet-align: center;
 `;
@@ -29,9 +33,13 @@ const ImageContainer = styled.img`
   width: 100%;
   object-fit: cover;
 `;
+const FooterLogo = styled.img`
+  width: 70px;
+  height: 70px;
+`;
 
 const Socials = () => (
-  <div className="d-flex gap-2">
+  <div className="d-flex gap-5">
     <a href="https://twitter.com/NEARDevHub" target="_blank">
       {assets.xIcon}
     </a>
@@ -48,13 +56,11 @@ const MidContent = () => {
   return (
     <>
       <MidContainer className="d-flex flex-column align-items-center gap-4">
-        <img src={assets.logoColor} />
+        <FooterLogo src={assets.logoColor} />
         <Description>
           Stay in the loop. Get the latest updates, announcements,
           <br />
-          opportunities, and insights
-          <br />
-          from the ecosystem.
+          opportunities, and insights from the ecosystem.
         </Description>
         <Socials />
       </MidContainer>
