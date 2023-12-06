@@ -482,8 +482,8 @@ const getFromDepositAmount = (depositAmount, tokenDecimal) => {
       .div(new Big(10).pow(tokenDecimal))
       .toFixed(i);
     if (
-      a.div(new Big(10).pow(tokenDecimal)).lte(midpointFixed) &&
-      b.div(new Big(10).pow(tokenDecimal)).gte(midpointFixed)
+      a.div(Big(10).pow(tokenDecimal)).lte(midpointFixed) &&
+      b.div(Big(10).pow(tokenDecimal)).gte(midpointFixed)
     ) {
       return midpointFixed;
     }
@@ -535,7 +535,9 @@ const updateBalance = (token) => {
       Ethers.provider()
     );
     tokenContract.balanceOf(sender).then((balanceBig) => {
-      const adjustedBalance = ethers.utils.formatUnits(balanceBig, decimals);
+      const adjustedBalance = Big(
+        ethers.utils.formatUnits(balanceBig, decimals)
+      ).toString();
       State.update({
         balances: {
           ...state.balances,
@@ -573,8 +575,14 @@ const {
 } = state;
 
 const checkApproval = (token0Amount, token1Amount) => {
-  const token0Wei = new Big(ethers.utils.parseUnits(token0Amount, decimals0));
-  const token1Wei = new Big(ethers.utils.parseUnits(token1Amount, decimals1));
+  const token0Wei = ethers.utils.parseUnits(
+    Big(token0Amount).toFixed(decimals0),
+    decimals0
+  );
+  const token1Wei = ethers.utils.parseUnits(
+    Big(token1Amount).toFixed(decimals1),
+    decimals1
+  );
 
   const abi = [
     "function allowance(address, address) external view returns (uint256)",
@@ -637,8 +645,10 @@ const handleToken0Change = (amount) => {
     isError: false,
     loadingMsg: "Computing deposit amount...",
   });
-
-  const token0Wei = ethers.utils.parseUnits(amount, decimals0).toString();
+  const token0Wei = ethers.utils.parseUnits(
+    Big(amount).toFixed(decimals0),
+    decimals0
+  );
 
   const proxyAbi = [
     "function getDepositAmount(address, address, uint256) public view returns (uint256, uint256)",
@@ -648,11 +658,13 @@ const handleToken0Change = (amount) => {
     proxyAbi,
     Ethers.provider()
   );
-
+  console.log(hypeAddress, addresses[token0], token0Wei);
   proxyContract
     .getDepositAmount(hypeAddress, addresses[token0], token0Wei)
     .then((depositAmount) => {
+      console.log("depositAmount", depositAmount);
       const amount1 = getFromDepositAmount(depositAmount, decimals1);
+
       State.update({ amount1 });
       State.update({ isLoading: false });
       checkApproval(amount, amount1);
@@ -684,7 +696,10 @@ const handleToken1Change = (amount) => {
     isError: false,
     loadingMsg: "Computing deposit amount...",
   });
-  const token1Wei = ethers.utils.parseUnits(amount, decimals1).toString();
+  const token1Wei = ethers.utils.parseUnits(
+    Big(amount).toFixed(decimals1),
+    decimals1
+  );
 
   const proxyAbi = [
     "function getDepositAmount(address, address, uint256) public view returns (uint256, uint256)",
@@ -732,7 +747,9 @@ const handleApprove = (isToken0) => {
   });
 
   const tokenWei = ethers.utils.parseUnits(
-    isToken0 ? amount0 : amount1,
+    isToken0
+      ? Big(amount0).toFixed(decimals0)
+      : Big(amount1).toFixed(decimals1),
     isToken0 ? decimals0 : decimals1
   );
 
@@ -770,8 +787,14 @@ const handleDeposit = () => {
     loadingMsg: "Depositing...",
   });
 
-  const token0Wei = ethers.utils.parseUnits(amount0, decimals0);
-  const token1Wei = ethers.utils.parseUnits(amount1, decimals1);
+  const token0Wei = ethers.utils.parseUnits(
+    Big(amount0).toFixed(decimals0),
+    decimals0
+  );
+  const token1Wei = ethers.utils.parseUnits(
+    Big(amount1).toFixed(decimals1),
+    decimals1
+  );
 
   const proxyAbi = [
     "function deposit(uint256, uint256,address,address,uint256[4] memory)  external returns (uint256)",
@@ -836,7 +859,7 @@ const handleWithdraw = () => {
     loadingMsg: "Withdrawing...",
   });
 
-  const lpWeiAmount = ethers.utils.parseUnits(lpAmount, 18);
+  const lpWeiAmount = ethers.utils.parseUnits(Big(lpAmount).toFixed(18), 18);
   const abi = [
     "function withdraw(uint256, address, address,uint256[4] memory) external returns (uint256, uint256)",
   ];
