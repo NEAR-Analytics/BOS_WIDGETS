@@ -22,13 +22,11 @@ const DELAY = 2;
 // if (STEP <= 0) throw new Error('The tip step must be more than zero. Change the step parameter in the dapplet settings.');
 // if (DELAY <= 0) throw new Error('A delay must be greater than zero. Change the delay parameter in the dapplet settings.');
 
-let totalTipsByItemId = Near.view(TIPPING_CONTRACT_NAME, "getTotalTipsByItemId", {
-  // itemId: "tweet/1716756421742854174"
-  // itemId: "tweet/1719653676875202681"
-  itemId: itemGlobalId
-});
-
-totalTipsByItemId = totalTipsByItemId === null ? '0' : totalTipsByItemId
+State.update({
+  totalTipsByItemId: Near.view(TIPPING_CONTRACT_NAME, "getTotalTipsByItemId", {
+    itemId: itemGlobalId
+  }) || '0'
+})
 
 /**
  * From near-api-js/packages/near-api-js/src/utils/format.ts
@@ -161,51 +159,48 @@ function calculateFee(num) {
 
 useEffect(() => {
   if (accountId && blockHeight) {
-    if (equals(totalTipsByItemId, '0')) {
+    if (equals(state.totalTipsByItemId, '0')) {
       State.update({
         accountId,
         blockHeight,
-        totalTipsByItemId,
         hidden: false,
         disabled: false,
         loading: false,
         label: 'Tip',
         tooltip: 'Send donation',
-        donationsAmount: totalTipsByItemId,
+        donationsAmount: state.totalTipsByItemId,
         amount: state.amount || '0',
       })
     } else {
       const limit = Number(formatNear(MAX_AMOUNT_PER_ITEM));
-      if (Number(formatNear(totalTipsByItemId)) === limit) {
+      if (Number(formatNear(state.totalTipsByItemId)) === limit) {
         State.update({
           accountId,
           blockHeight,
-          totalTipsByItemId,
           hidden: false,
           disabled: true,
           loading: false,
-          label: formatNear(totalTipsByItemId) + ' NEAR',
+          label: formatNear(state.totalTipsByItemId) + ' NEAR',
           tooltip: `The ${limit} NEAR limit for this content has been exceeded`,
-          donationsAmount: totalTipsByItemId,
+          donationsAmount: state.totalTipsByItemId,
           amount: state.amount || '0',
         })
       } else {
         State.update({
           accountId,
           blockHeight,
-          totalTipsByItemId,
           hidden: false,
           disabled: false,
           loading: false,
-          label: formatNear(totalTipsByItemId) + ' NEAR',
+          label: formatNear(state.totalTipsByItemId) + ' NEAR',
           tooltip: 'Send donation',
-          donationsAmount: totalTipsByItemId,
+          donationsAmount: state.totalTipsByItemId,
           amount: state.amount || '0',
         })
       }
     }
   }
-}, [accountId, blockHeight, totalTipsByItemId]);
+}, [accountId, blockHeight, state.totalTipsByItemId]);
 
 const onDebounceDonate = () => {
   try {
@@ -225,15 +220,22 @@ const onDebounceDonate = () => {
       '50000000000000',
       total,
     );
+    setTimeout(() => State.update({
+      disabled: false,
+      loading: false,
+      label: equals(state.donationsAmount, '0') ? 'Tip' : formatNear(state.donationsAmount) + ' NEAR',
+      donationsAmount: state.totalTipsByItemId,
+      amount: '0',
+    }), 3000)
   } catch (e) {
     console.error(e);
     State.update({
       disabled: false,
       loading: false,
       label: equals(state.donationsAmount, '0') ? 'Tip' : formatNear(state.donationsAmount) + ' NEAR',
-      donationsAmount: totalTipsByItemId,
+      donationsAmount: state.totalTipsByItemId,
       amount: '0',
-    }) 
+    });
   }
 };
 
@@ -297,6 +299,7 @@ const LikeButton = styled.div`
   background: inherit;
   color: inherit;
   font-size: 16px;
+  user-select: none;
   .icon {
     position: relative;
     &:before {
