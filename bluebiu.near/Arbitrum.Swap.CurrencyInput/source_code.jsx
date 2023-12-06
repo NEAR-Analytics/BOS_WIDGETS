@@ -126,7 +126,6 @@ const utils = {
   },
   valueFormated: (amount) => {
     const prices = Storage.privateGet("tokensPrice");
-    console.log("prices: ", prices);
     const price = prices[props.currency?.symbol];
     if (!price) return "-";
     const value = Big(price).mul(amount || 0);
@@ -160,7 +159,7 @@ function getPrice() {
     Authorization: AccessKey,
   })
     .then((res) => {
-      const data = JSON.parse(res.body);
+      const data = res.body.data;
       data.native = data.aurora;
       delete data.aurora;
       Storage.privateSet("tokensPrice", data);
@@ -170,10 +169,9 @@ function getPrice() {
       setTimeout(getPrice, DELAY);
     });
 }
-if (!Storage.privateGet("priceTimer")) {
+useEffect(() => {
   getPrice();
-  Storage.privateSet("priceTimer", 1);
-}
+}, []);
 
 return (
   <Wrapper>
