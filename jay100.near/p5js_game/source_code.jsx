@@ -17,10 +17,21 @@ const Game_Box = () => {
 
    let circles = [];
    let groundY;
+   let redCircleColor = { r: 255, g: 0, b: 0 };
+   let lastDroppedCircleColor = { r: 255, g: 0, b: 0 };
+   let hoveredCircle = null;
+
+   const generateRandColor = () => {
+    let circleColors = [{r: 255, g: 0, b: 0},{r: 0, g: 255, b: 0},{r: 0, g: 0, b: 255}]
+
+     let randPos = Math.floor(Math.random() * circleColors.length)
+
+    return circleColors[randPos]
+   }
 
    function setup() {
-      createCanvas(windowWidth / 2, windowHeight);
-      groundY = height - 20; // Ground position
+      createCanvas(windowWidth, windowHeight);
+      groundY = height; // Ground position
     }
 
     function draw() {
@@ -29,6 +40,15 @@ const Game_Box = () => {
       let mouseYPos = mouseY;
       stroke(0);
       line(mouseX, 0, mouseX, windowHeight);
+
+    if (hoveredCircle) {
+      fill(hoveredCircle.color.r, hoveredCircle.color.g, hoveredCircle.color.b);
+      ellipse(mouseX, 90, 50, 50); // Display the hovered circle at the top of the box
+    }
+      
+      //fill(255, 0, 0);
+      //ellipse(mouseX, 90, 50, 50); // Display a red circle at the top of the box when mouse is pressed
+      
 
       for (let i = 0; i < circles.length; i++) {
         circles[i].display();
@@ -40,13 +60,20 @@ const Game_Box = () => {
       }
     }
 
-    function mouseClicked() {
-    let newCircle = new Circle(mouseX, 100);
+     function mouseClicked() {
+      if (!hoveredCircle) {
+        hoveredCircle = new Circle(mouseX, 90, generateRandColor());
+      } else {
+        lastDroppedCircleColor = hoveredCircle.color; // Update the color of the circle at the top
+        hoveredCircle = new Circle(mouseX, 90, generateRandColor());
+     }
+
+     let newCircle = new Circle(mouseX, 100, lastDroppedCircleColor);
       circles.push(newCircle);
-    }
+     }
    
      class Circle {
-      constructor(x, y) {
+      constructor(x, y, color) {
         this.x = x;
         this.y = y;
         this.radius = 25;
@@ -54,10 +81,11 @@ const Game_Box = () => {
         this.isFalling = true;
         this.xSpeed = random(-0.5, 0.5); // Initial random horizontal speed
         this.ySpeed = 0;
+        this.color = color;
       }
 
       display() {
-        fill(255, 0, 0);
+        fill(this.color.r, this.color.b, this.color.g);
         ellipse(this.x, this.y, this.radius * 2);
       }
 
@@ -154,7 +182,7 @@ const Game_Box = () => {
 };
 
 return (
-  <div className="w-100 h-100 d-flex align-items-center">
+  <div style={{ width: "375px", height: "560px" }} className="mx-auto">
     <Game_Box />
   </div>
 );
