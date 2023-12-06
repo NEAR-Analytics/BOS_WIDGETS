@@ -3,7 +3,7 @@ State.init({});
 if (state.notifications.getNotificationData) {
   const data = state.notifications.getNotificationData(
     "mention",
-    ["rod", "carl"],
+    ["uno", "dos"],
     "www"
   );
   console.log(data);
@@ -25,10 +25,11 @@ return (
         onClick={() => {
           const resp = state.notifications.getNotificationData(
             "mention",
-            ["rod", "carl"],
+            ["uno", "dos"],
             "www"
           );
-          console.log(resp);
+          console.log(JSON.parse(resp.post.main));
+          console.log(JSON.parse(resp.index.notify));
         }}
       >
         aca
