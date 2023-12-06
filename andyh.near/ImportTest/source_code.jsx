@@ -6,7 +6,7 @@ return (
     {/*<FABeer />*/}
     <Widget
       src="andyh.near/ImportTest.Child"
-      trust={{ trust: "trusted-author" }}
+      trust={{ mode: "trusted-author" }}
     />
   </div>
 );
