@@ -77,14 +77,9 @@ const Game_Box = () => {
           circles.push(newCircle);
           console.log('circArr', circles);
 
-          lastDroppedCircleColor = hoveredCircle.color; // Store the color of the last hovered circle
-          console.log('update lastDropped', lastDroppedCircleColor);
-
           hoveredCircle = new Circle(mouseX, 90, generateRandColor()); // Generate a new color for the hovered circle
           // console.log('update Hovered', hoveredCircle);
 
-          nextCircleColor = hoveredCircle.color; // Update the color of the next circle to be dropped
-          // console.log('update nxt', nextCircleColor);
         }
      }
    
@@ -160,25 +155,27 @@ const Game_Box = () => {
 
        checkCircleCollision(otherCircle) {
             let dx = this.x - otherCircle.x;
-            let dy = this.y - otherCircle.y;
-            let distanceSquared = dx * dx + dy * dy;
+  let dy = this.y - otherCircle.y;
+  let distanceSquared = dx * dx + dy * dy;
 
-            let minDistanceSquared = (this.radius + otherCircle.radius) * (this.radius + otherCircle.radius);
+  let minDistanceSquared = (this.radius + otherCircle.radius) * (this.radius + otherCircle.radius);
 
-            if (distanceSquared <= minDistanceSquared) {
-              if (this.color.r === otherCircle.color.r &&
-                  this.color.g === otherCircle.color.g &&
-                  this.color.b === otherCircle.color.b &&
-                  this.radius === otherCircle.radius) {
-                      // Merge circles if they touch and have the same color and radius
-                      let newRadius = sqrt(sq(this.radius) + sq(otherCircle.radius));
-                      this.radius = newRadius;
-                      otherCircle.radius = 0; // Make the other circle disappear
-              } else {
-                // Resolve collision as a bounce
-                  this.resolveCollision(otherCircle);
-               }
-            }
+  if (distanceSquared <= minDistanceSquared) {
+    if (
+      this.color.r === otherCircle.color.r &&
+      this.color.g === otherCircle.color.g &&
+      this.color.b === otherCircle.color.b &&
+      this.radius === otherCircle.radius
+    ) {
+      // Merge circles if they touch and have the same color and radius
+      let newRadius = sqrt(sq(this.radius) + sq(otherCircle.radius));
+      this.radius = newRadius;
+      otherCircle.radius = 0; // Make the other circle disappear
+    } else {
+      // Resolve collision as a bounce
+      this.resolveCollision(otherCircle);
+    }
+  }
       }
 
       resolveCollision(other) {
@@ -210,7 +207,7 @@ const Game_Box = () => {
         let newOtherYSpeed = thisSpeed * cos(thisDirection - angle) * sin(angle) + otherSpeed * sin(otherDirection - angle) * sin(angle + HALF_PI);
 
         this.xSpeed = newThisXSpeed;
-        this.ySpeed = newThisYSpeed / 2;
+        this.ySpeed = newThisYSpeed;
         other.xSpeed = newOtherXSpeed;
         other.ySpeed = newOtherYSpeed;
       }
