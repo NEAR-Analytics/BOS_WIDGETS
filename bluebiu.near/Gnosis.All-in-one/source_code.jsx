@@ -222,6 +222,7 @@ return (
               src="bluebiu.near/widget/Gnosis.Swap.Dex"
               props={{
                 layout: "center",
+                ...props,
               }}
             />
           </>
