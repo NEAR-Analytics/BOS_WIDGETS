@@ -148,6 +148,7 @@ return (
         handlerV3: "bluebiu.near/widget/Arbitrum.Swap.HandlerV3",
         QuoterSolidly: "bluebiu.near/widget/Arbitrum.Swap.QuoterSolidly",
         handlerSolidly: "bluebiu.near/widget/Arbitrum.Swap.handlerSolidly",
+        ...props,
       }}
     />
   </Container>
