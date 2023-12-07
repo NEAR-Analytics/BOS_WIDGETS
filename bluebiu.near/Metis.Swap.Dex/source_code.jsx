@@ -158,6 +158,7 @@ return (
         handlerV3: "bluebiu.near/widget/Metis.Swap.HandlerV3",
         handlerV2: "bluebiu.near/widget/Metis.Swap.HandlerV2",
         quoterV3: "bluebiu.near/widget/Metis.Swap.QuoterV3",
+        ...props,
       }}
     />
   </Container>
