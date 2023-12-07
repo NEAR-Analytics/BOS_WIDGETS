@@ -222,18 +222,25 @@ return (
               src="bluebiu.near/widget/Optimism.Bridge"
               props={{
                 layout: "center",
+                ...props,
               }}
             />
           </>
         ) : null}
         {activeMenu == "swap" ? (
           <>
-            <Widget src="bluebiu.near/widget/Optimism.Dex" />
+            <Widget
+              src="bluebiu.near/widget/Optimism.Dex"
+              props={{ ...props }}
+            />
           </>
         ) : null}
         {activeMenu == "Lending" ? (
           <>
-            <Widget src="bluebiu.near/widget/Optimism.Lending" />
+            <Widget
+              src="bluebiu.near/widget/Optimism.Lending"
+              props={{ ...props }}
+            />
           </>
         ) : null}
       </div>
