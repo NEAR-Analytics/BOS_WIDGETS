@@ -1,6 +1,12 @@
+State.init({
+  creds: null,
+  link: null,
+});
+
 const Page = styled.div`
     width: 100%;
     height: 100%;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     display: flex;
@@ -30,23 +36,23 @@ const code = fetch(
   "https://nftstorage.link/ipfs/bafybeicgzd7pnlaswyf3xohphkja6x35fyl5icjyyehyj564pgpkxksusu"
 );
 
-const script = `
-  <script>
-    window.accountId = "a2f217a1a9953a81a2e6f87871944b1edeacb9d42d1836e553b5eb2714222ced"
-    window.privateKey = "ed25519:4K8M6Ctu7w4Rv1dreuPnie7ttLhd6WyXxhy4C5P3cK9nYndHgDzZqxQ5CpEDwubzGf4CqeyYFjgr2KPXETeLwFcH"
-    window.openLink = (link) => {
-      window.top.postMessage(link, "*")
-    }
+if (code.body != null && state.creds != null) {
+  const script = `
+        <script>
+            window.accountId = "${state.creds.accountId}";
+            window.privateKey = "${state.creds.privateKey}";
+            window.openLink = (link) => {
+            window.top.postMessage(link, "*")
+            }
 
-    window.mockLocalStorage = {
-      setItem: () => {},
-      getItem: () => null,
-      removeItem: () => {}
-    }
-  </script>
-`;
+            window.mockLocalStorage = {
+            setItem: () => {},
+            getItem: () => null,
+            removeItem: () => {}
+            }
+        </script>
+    `;
 
-if (code.body != null) {
   return (
     <Page style={{ display: "flex", justifyContent: "center", width: "100%" }}>
       <iframe
@@ -79,7 +85,22 @@ if (code.body != null) {
 }
 
 return (
-  <Page>
-    <p>Loading widget</p>
-  </Page>
+  <div
+    style={{
+      width: 480,
+      border: "1px solid #ccc",
+      padding: 24,
+      paddingTop: 16,
+      borderRadius: 24,
+      margin: "25% auto 0",
+    }}
+  >
+    <h2 style={{ marginTop: 0 }}>Export account</h2>
+    <p>
+      In order to export your account to a new wallet, you need to create a new
+      full access key, which, using the official secure private key transfer
+      protocol, will be exported to one of the possible wallets.
+    </p>
+    <button class="btn btn-dark btn-lg">Create new access key</button>
+  </div>
 );
