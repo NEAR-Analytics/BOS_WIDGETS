@@ -20,7 +20,7 @@ const Game_Box = () => {
    let nextCircleColor = { r: 255, g: 0, b: 0 }; // Color of the next circle to be dropped
    let lastDroppedCircleColor = { r: 255, g: 0, b: 0 }; // Color of the last dropped circle
    let hoveredCircle = null;
-   const sizes = [20, 30, 40];
+   const sizes = [10, 20, 40];
    let circleColors = [{r: 255, g: 0, b: 0},{r: 0, g: 255, b: 0},{r: 0, g: 0, b: 255}]
   
    
@@ -60,11 +60,13 @@ const Game_Box = () => {
     }
    
     function mouseClicked() {
-      const randPos = Math.floor(Math.random() * 3);
+      console.log(droppedCircles);
+      const randCircPos = Math.floor(Math.random() * 3);
+      const randSizePos = Math.floor(Math.random() * 3);
 
          if (!hoveredCircle) {
-        hoveredCircle = new Circle(mouseX, 100, circleColors[randPos]);
-        hoveredCircle.radius = sizes[randPos];
+        hoveredCircle = new Circle(mouseX, 100, circleColors[randCircPos]);
+        hoveredCircle.radius = sizes[randSizePos];
           } else {
         
         let newDroppedCircle = new Circle(hoveredCircle.x, hoveredCircle.y, hoveredCircle.color);
@@ -82,7 +84,7 @@ const Game_Box = () => {
         this.radius = 25;
         this.speed = 6;
         this.isFalling = true;
-        this.xSpeed = random(-0.5, 0.5); // Initial random horizontal speed
+        this.xSpeed = random(0, 0); // Initial random horizontal speed
         this.ySpeed = 0;
         this.color = color;
       }
@@ -163,9 +165,16 @@ const Game_Box = () => {
             radiusDifference <= mergeThreshold
         ) {
             // Merge circles if they touch and have similar color and radius
-            let newRadius = sqrt(sq(this.radius) + sq(otherCircle.radius));
-            this.radius = newRadius;
-            otherCircle.radius = 0; // Make the other circle disappear
+            let newRadius = (this.radius) + (otherCircle.radius);
+            console.log(newRadius);
+            if(newRadius === 160){
+              this.radius = 0;
+              otherCircle.radius = 0; // Make the other circle disappear
+            } else{
+              this.radius = newRadius;
+              otherCircle.radius = 0; // Make the other circle disappear
+            }
+            
         } else {
             // Resolve collision as a bounce
             this.resolveCollision(otherCircle);
