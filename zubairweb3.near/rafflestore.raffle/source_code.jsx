@@ -195,82 +195,130 @@ const Entries = styled.div`
 `;
 
 return (
-  <Container>
-    <Widget src="zubairweb3.near/widget/rafflestore.header" />
-    <Banner>
-      <StyledImg src={bannerImg} alt="banner" />
-    </Banner>
-    <RaffleContent>
-      <TitleContainer>
-        <Title>SharDog Raffle</Title>
-        <Description>
-          <img src={sharDogIcon} alt="shardDog icon" />
-          <Text>Available for 3 winners</Text>
-        </Description>
-      </TitleContainer>
-      <InstructionWrapper>
-        <InstructionContent>
-          We would like to give you some free stuff, for your taking action
-          onchain.
-        </InstructionContent>
-        <InstructionContent>
-          If you have a <b>ShardDog - 1555</b> you can enter the raffle to win!
-        </InstructionContent>
-      </InstructionWrapper>
-      <PrizeWrapper>
-        <PrizeTitle>You don’t have any?</PrizeTitle>
-        <PrizeContent>
-          <PrizeIcon>
-            <PrizeBtn>
-              <img src={sharDogIcon} />
-              <span>Comic #32</span>
-            </PrizeBtn>
+  <>
+    <div
+      class="modal fade"
+      id="raffleModal"
+      tabindex="-1"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">
+              Modal title
+            </h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">...</div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Close
+            </button>
+            <button type="button" class="btn btn-primary">
+              Save changes
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <Container>
+      <Widget src="zubairweb3.near/widget/rafflestore.header" />
+      <Banner>
+        <StyledImg src={bannerImg} alt="banner" />
+      </Banner>
+      <RaffleContent>
+        <TitleContainer>
+          <Title>SharDog Raffle</Title>
+          <Description>
+            <img src={sharDogIcon} alt="shardDog icon" />
+            <Text>Available for 3 winners</Text>
+          </Description>
+        </TitleContainer>
+        <InstructionWrapper>
+          <InstructionContent>
+            We would like to give you some free stuff, for your taking action
+            onchain.
+          </InstructionContent>
+          <InstructionContent>
+            If you have a <b>ShardDog - 1555</b> you can enter the raffle to
+            win!
+          </InstructionContent>
+        </InstructionWrapper>
+        <PrizeWrapper>
+          <PrizeTitle>You don’t have any?</PrizeTitle>
+          <PrizeContent>
+            <PrizeIcon>
+              <PrizeBtn>
+                <img src={sharDogIcon} />
+                <span>Comic #32</span>
+              </PrizeBtn>
 
-            <PrizeBtn>
-              <img src={sharDogIcon} />
-              <span>Comic #27</span>
-            </PrizeBtn>
-          </PrizeIcon>
-          <PrizeDetail>
-            <span>
-              <b>Prize to win:</b>
-            </span>
-            <li>1.10 $NEAR</li>
-            <li>2.T-shirt</li>
-            <li>3.Mystery Box</li>
-          </PrizeDetail>
-        </PrizeContent>
-      </PrizeWrapper>
-      <EnterBtnWrapper>
-        <EnterBtn>Enter</EnterBtn>
-        <span
-          style={{
-            fontWeight: "bold",
-            fontSize: "0.75rem",
-            lineHeight: "1rem",
-          }}
-        >
-          By continuing, you accept Near Fortune’s <a href="#">terms</a> and{" "}
-          <a href="#" class="underline">
-            privacy
-          </a>
-          .
-        </span>
-      </EnterBtnWrapper>
+              <PrizeBtn>
+                <img src={sharDogIcon} />
+                <span>Comic #27</span>
+              </PrizeBtn>
+            </PrizeIcon>
+            <PrizeDetail>
+              <span>
+                <b>Prize to win:</b>
+              </span>
+              <li>1.10 $NEAR</li>
+              <li>2.T-shirt</li>
+              <li>3.Mystery Box</li>
+            </PrizeDetail>
+          </PrizeContent>
+        </PrizeWrapper>
+        <EnterBtnWrapper>
+          <EnterBtn
+            type="button"
+            class="btn btn-primary"
+            data-bs-toggle="modal"
+            data-bs-target="#raffleModal"
+          >
+            Enter
+          </EnterBtn>
+          <span
+            style={{
+              fontWeight: "bold",
+              fontSize: "0.75rem",
+              lineHeight: "1rem",
+            }}
+          >
+            By continuing, you accept Near Fortune’s <a href="#">terms</a> and{" "}
+            <a href="#" class="underline">
+              privacy
+            </a>
+            .
+          </span>
+        </EnterBtnWrapper>
 
-      <RaffleSummary>
-        <CloseDate>
-          <h4 style={{ fontWeight: "700", margin: "0" }}>CLOSES</h4>
-          <p style={{ fontSize: "0.75rem", lineHeight: "1rem" }}>
-            Nov 1, 11:59 PM ET
-          </p>
-        </CloseDate>
-        <Entries>
-          <h4 style={{ fontWeight: "700", margin: "0" }}>ENTRIES</h4>
-          <p style={{ fontSize: "0.75rem", lineHeight: "1rem" }}>31 Entires</p>
-        </Entries>
-      </RaffleSummary>
-    </RaffleContent>
-    <Widget src="zubairweb3.near/widget/rafflestore.footer" />
-  </Container>
+        <RaffleSummary>
+          <CloseDate>
+            <h4 style={{ fontWeight: "700", margin: "0" }}>CLOSES</h4>
+            <p style={{ fontSize: "0.75rem", lineHeight: "1rem" }}>
+              Nov 1, 11:59 PM ET
+            </p>
+          </CloseDate>
+          <Entries>
+            <h4 style={{ fontWeight: "700", margin: "0" }}>ENTRIES</h4>
+            <p style={{ fontSize: "0.75rem", lineHeight: "1rem" }}>
+              31 Entires
+            </p>
+          </Entries>
+        </RaffleSummary>
+      </RaffleContent>
+      <Widget src="zubairweb3.near/widget/rafflestore.footer" />
+    </Container>
+  </>
 );
