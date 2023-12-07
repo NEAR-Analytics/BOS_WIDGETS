@@ -30,7 +30,7 @@ const dog =
 const defaultnft =
   "https://res.cloudinary.com/dfbqtfoxu/image/upload/v1700588097/rafflestore/defaultnft_hrzyyp.jpg";
 
-const limit = 50;
+const limit = 20;
 const offset = 0;
 
 const data = fetch("https://graph.mintbase.xyz/mainnet", {
@@ -48,13 +48,9 @@ const data = fetch("https://graph.mintbase.xyz/mainnet", {
                 offset: ${offset}
             where: {
           _or: [
-            {nft_contract_id: {_eq: "mint.sharddog.near"}},
+            
             {nft_contract_id: {_eq: "comic.sharddog.near"}},
-            {nft_contract_id: {_eq: "humansofbrazil.sharddog.near"}},
-            {nft_contract_id: {_eq: "mmc-mint.sharddog.near"}},
-            {nft_contract_id: {_eq: "nft.bluntdao.near"}},
-            {nft_contract_id: {_eq: "meteor.sharddog.near"}},
-             {nft_contract_id: {_eq: "open.sharddog.near"}},
+           
           ]
         }
               order_by: {minted_timestamp: desc}
