@@ -6,6 +6,7 @@ const {
   userPositions,
   pair,
   chainName,
+  addAction,
 } = props;
 
 const curPositionUSD = userPositions[addresses[pair.id]]?.balanceUSD;
@@ -430,16 +431,6 @@ const AccessKey = Storage.get(
   "AccessKey",
   "guessme.near/widget/ZKEVMWarmUp.add-to-quest-card"
 );
-function add_action(param_body) {
-  asyncFetch("/dapdap/api/action/add ", {
-    method: "post",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: AccessKey,
-    },
-    body: JSON.stringify(param_body),
-  });
-}
 
 const defaultDeposit = props.tab === "deposit" || !props.tab;
 
@@ -814,23 +805,16 @@ const handleDeposit = () => {
     .then((receipt) => {
       const { status, transactionHash } = receipt;
 
-      const uuid = Storage.get(
-        "zkevm-warm-up-uuid",
-        "guessme.near/widget/ZKEVMWarmUp.generage-uuid"
-      );
-
-      add_action({
-        action_title: `Deposit ${token0}-${token1} on Gamma`,
-        action_type: "Deposit",
-        action_tokens: JSON.stringify([token0, token1]),
-        action_amount: "",
-        account_id: sender,
-        action_network_id: chainName || "zkEVM",
-        account_info: uuid,
+      addAction?.({
+        type: "Liquidity",
+        action: "Deposit",
+        token0,
+        token1,
+        amount: amount0,
         template: "Gamma",
-        action_status: status === 1 ? "Success" : "Failed",
-        action_switch: can_add_action ? 1 : 0,
-        tx_id: transactionHash,
+        status: status,
+        add: can_add_action,
+        transactionHash,
       });
 
       State.update({
@@ -883,23 +867,16 @@ const handleWithdraw = () => {
 
       const { status, transactionHash } = receipt;
 
-      const uuid = Storage.get(
-        "zkevm-warm-up-uuid",
-        "guessme.near/widget/ZKEVMWarmUp.generage-uuid"
-      );
-
-      add_action({
-        action_title: `Withdraw ${token0}-${token1} on Gamma`,
-        action_type: "Withdraw",
-        action_tokens: JSON.stringify([token0, token1]),
-        action_amount: lpAmount,
-        account_id: sender,
-        action_network_id: chainName || "zkEVM",
-        account_info: uuid,
+      addAction?.({
+        type: "Liquidity",
+        action: "Withdraw",
+        token0,
+        token1,
+        amount: lpAmount,
         template: "Gamma",
-        action_status: status === 1 ? "Success" : "Failed",
-        action_switch: can_add_action ? 1 : 0,
-        tx_id: transactionHash,
+        status: status,
+        add: can_add_action,
+        transactionHash,
       });
 
       setTimeout(() => State.update({ isPostTx: false }), 10_000);
