@@ -114,6 +114,7 @@ return (
         },
         amountOutFn: "bluebiu.near/widget/Arbitrum.Swap.AmountOutV2",
         handlerV2: "bluebiu.near/widget/Arbitrum.Swap.HandlerV2",
+        ...props,
       }}
     />
   </Container>
