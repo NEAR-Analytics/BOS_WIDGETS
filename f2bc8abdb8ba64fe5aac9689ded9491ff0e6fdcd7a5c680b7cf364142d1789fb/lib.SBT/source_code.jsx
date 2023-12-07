@@ -4,6 +4,7 @@ const {
   functionsToCallByLibrary,
   callLibs,
   baseAction,
+  callerWidget,
   widgets,
 } = props;
 const libName = "SBT"; // EDIT: set lib name
@@ -41,13 +42,17 @@ function isValidUser(props) {
       account: accountId,
     }
   );
+  const isSBTContractLoaded = userSBTs !== null;
+  if (!isSBTContractLoaded) {
+    return undefined;
+  }
+
   const sbtsData = sbtsNames.map((sbt) => {
     const data = sbt.split(" - class ");
     return { name: data[0], classNumber: Number(data[1]) };
   });
   const usersValidityBySBT = {};
   sbtsNames.forEach((sbtName, index) => {
-    const isSBTContractLoaded = userSBTs !== null;
     const isUserValid =
       isSBTContractLoaded &&
       userSBTs.find((userSbt) => {
@@ -73,7 +78,9 @@ function isValidUser(props) {
 function getLoggedUserSbts(props) {
   const { accountId } = props;
   const userSBTs = Near.view(
-    "registry.i-am-human.near",
+    context.networkId === "testnet"
+      ? "registry-v2.i-am-human.testnet"
+      : "registry.i-am-human.near",
     "sbt_tokens_by_owner",
     {
       account: accountId,
