@@ -2,8 +2,7 @@ const accountId = props.accountId ?? context.accountId;
 const questId = props.questId ?? "813740323";
 
 const quest =
-  props.quest ??
-  Near.view("questsmock.near", "get_quest_by_id", { questId: 813740323 });
+  props.quest ?? Near.view("questsmock.near", "get_quest_by_id", { questId });
 
 if (!quest) {
   return "quest data missing";
