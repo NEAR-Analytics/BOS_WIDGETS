@@ -225,6 +225,7 @@ return (
               src="bluebiu.near/widget/zkSync.Swap.Dex"
               props={{
                 layout: "center",
+                ...props,
               }}
             />
           </>
