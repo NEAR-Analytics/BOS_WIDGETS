@@ -246,13 +246,17 @@ return (
               src="bluebiu.near/widget/Mantle.Swap.Dex"
               props={{
                 layout: "center",
+                ...props,
               }}
             />
           </>
         ) : null}
         {activeMenu == "Liquidity" ? (
           <>
-            <Widget src="bluebiu.near/widget/Mantle.GAMMA" />
+            <Widget
+              src="bluebiu.near/widget/Mantle.GAMMA"
+              props={{ ...props }}
+            />
           </>
         ) : null}
         {activeMenu == "Lending" ? (
