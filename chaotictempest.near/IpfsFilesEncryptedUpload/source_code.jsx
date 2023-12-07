@@ -1,6 +1,16 @@
 const buttonText = props.buttonText || "Upload a file";
 const ipfsUrl = props.ipfsUrl ?? "https://ipfs.near.social/add";
+
+// Optional: will load from local storage or recover from account id and password.
 const encryptSk = props.encryptSk;
+
+// Required to pass in.
+const password = props.password;
+
+if (!password) {
+  return <> "props.password is required for EncryptedIpfsUpload" </>;
+}
+
 const onUpload =
   props.onUpload ??
   ((filename, cid) => {
@@ -21,10 +31,8 @@ const str2array = (str) => {
 };
 
 const recover_sk = () => {
-  const defaultPassword = "ipfs-files-encrypted-upload-supplied-password";
   const hashed_id = nacl.hash(str2array(context.accountId));
-  const hashed_pw =
-    props.hashedPassword ?? nacl.hash(str2array(defaultPassword));
+  const hashed_pw = nacl.hash(str2array(password));
   const sk = new Uint8Array(nacl.secretbox.keyLength);
   for (var i = 0; i < hashed_id.length; i++) {
     const sk_i = i % sk.length;
@@ -39,10 +47,14 @@ const recover_sk = () => {
 
 const [storageSk, _] = useState(() => {
   if (encryptSk) {
+    // encryptSk is available. use it instead of recovering
+    if (password) {
+      console.log("Utilizing encryptSk over password");
+    }
     return encryptSk;
   }
   const localSk = Storage.privateGet("storage_secret");
-  if (localSk && !props.hashedPassword) {
+  if (localSk && !password) {
     return localSk;
   }
   const sk = recover_sk();
