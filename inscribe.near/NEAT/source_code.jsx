@@ -3,6 +3,36 @@ const MaxGasPerTransaction = TGas.mul(250);
 const GasPerTransaction = MaxGasPerTransaction.plus(TGas);
 const pageAmountOfPage = 5;
 const ipfsPrefix = "https://ipfs.near.social/ipfs";
+
+function toLocaleString(source, decimals, rm) {
+  if (typeof source === "string") {
+    return toLocaleString(Number(source), decimals);
+  } else if (typeof source === "number") {
+    return decimals !== undefined
+      ? source.toLocaleString(undefined, {
+          maximumFractionDigits: decimals,
+          minimumFractionDigits: decimals,
+        })
+      : source.toLocaleString();
+  } else {
+    // Big type
+    return toLocaleString(
+      decimals !== undefined
+        ? Number(source.toFixed(decimals, rm))
+        : source.toNumber(),
+      decimals
+    );
+  }
+}
+
+function formatAmount(balance, decimal) {
+  if (!decimal) decimal = 8;
+  return toLocaleString(
+    Big(balance).div(Big(10).pow(decimal)).toFixed(),
+    decimal
+  );
+}
+
 // Config for Bos app
 function getConfig(network) {
   switch (network) {
@@ -20,12 +50,17 @@ function getConfig(network) {
           tick: "neat",
           amt: "100000000",
         },
+        transferArgs: {
+          p: "nrc-20",
+          op: "transfer",
+          tick: "neat",
+        },
       };
     case "testnet":
       return {
         ownerId: "inscribe.testnet",
         graphUrl:
-          "https://api.thegraph.com/subgraphs/name/inscriptionnear/neat",
+          "https://api.thegraph.com/subgraphs/name/inscriptionnear/neat-test",
         nodeUrl: "https://rpc.testnet.near.org",
         contractName: "inscription.testnet",
         methodName: "inscribe",
@@ -34,6 +69,11 @@ function getConfig(network) {
           op: "mint",
           tick: "neat",
           amt: "100000000",
+        },
+        transferArgs: {
+          p: "nrc-20",
+          op: "transfer",
+          tick: "neat",
         },
       };
     default:
@@ -50,6 +90,7 @@ const tx = {
 
 const Main = styled.div`
   width: 100%;
+  min-height: 90vh;
   overflow: hidden;
   background: #101010;
   background-image: url(${ipfsPrefix}/bafkreiak6rio66kqjsobw25gtmy5a7fwwsa4hjn3d25a4tppfylbdepbjq);
@@ -126,7 +167,7 @@ const FormContainer = styled.div`
 
 
 State.init({
-  tab: "Mint", // Mint / Indexer
+  tab: "Transfer", // Mint / Indexer / Transfer
 });
 
 const { tab } = state;
@@ -139,10 +180,10 @@ return (
       />
       <TabContainer>
         <TabItem
-          selected={tab === "Mint"}
-          onClick={() => State.update({ tab: "Mint" })}
+          selected={tab === "Transfer"}
+          onClick={() => State.update({ tab: "Transfer" })}
         >
-          Mint
+          Transfer
         </TabItem>
         <TabItem
           selected={tab === "Indexer"}
@@ -150,16 +191,22 @@ return (
         >
           Indexer
         </TabItem>
+        <TabItem
+          selected={tab === "Mint"}
+          onClick={() => State.update({ tab: "Mint" })}
+        >
+          Mint
+        </TabItem>
       </TabContainer>
       <Spacer />
     </HeaderContainer>
     <BodyContainer>
-      <FormContainer style={{ fontWeight: "bold" }}>
-        🎉 NEAT is 100% minted!!! More updates will arrive soon 🔥
-      </FormContainer>
       {tab === "Mint" && <Widget src={`${config.ownerId}/widget/NEAT.Mint`} />}
       {tab === "Indexer" && (
         <Widget src={`${config.ownerId}/widget/NEAT.Indexer`} />
+      )}
+      {tab === "Transfer" && (
+        <Widget src={`${config.ownerId}/widget/NEAT.Transfer`} />
       )}
     </BodyContainer>
   </Main>
