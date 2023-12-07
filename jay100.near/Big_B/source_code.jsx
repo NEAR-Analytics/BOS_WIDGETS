@@ -197,18 +197,26 @@ const Game_Box = () => {
         this.y -= separationY / 2;
         other.x += separationX / 2;
         other.y += separationY / 2;
-   
-        // Update velocities for a bounce effect
+
+
+        // Update velocities for a bounce effect with mass consideration
+
+        let massFactor = 0.01;
+        let forceFactor = (this.radius - other.radius) * massFactor;
+
         let angle = atan2(dy, dx);
         let thisSpeed = sqrt(this.xSpeed * this.xSpeed + this.ySpeed * this.ySpeed);
         let otherSpeed = sqrt(other.xSpeed * other.xSpeed + other.ySpeed * other.ySpeed);
         let thisDirection = atan2(this.ySpeed, this.xSpeed);
         let otherDirection = atan2(other.ySpeed, other.xSpeed);
    
-        let newThisXSpeed = otherSpeed * cos(otherDirection - angle) * cos(angle) + thisSpeed * sin(thisDirection - angle) * cos(angle + HALF_PI);
-        let newThisYSpeed = otherSpeed * cos(otherDirection - angle) * sin(angle) + thisSpeed * sin(thisDirection - angle) * sin(angle + HALF_PI);
-        let newOtherXSpeed = thisSpeed * cos(thisDirection - angle) * cos(angle) + otherSpeed * sin(otherDirection - angle) * cos(angle + HALF_PI);
-        let newOtherYSpeed = thisSpeed * cos(thisDirection - angle) * sin(angle) + otherSpeed * sin(otherDirection - angle) * sin(angle + HALF_PI);
+        let newThisXSpeed = otherSpeed * cos(otherDirection - angle) * cos(angle) + (thisSpeed - forceFactor) * sin(thisDirection - angle) * cos(angle + HALF_PI);
+
+        let newThisYSpeed = otherSpeed * cos(otherDirection - angle) * sin(angle) + (thisSpeed - forceFactor) * sin(thisDirection - angle) * sin(angle + HALF_PI);
+
+        let newOtherXSpeed = (thisSpeed + forceFactor) * cos(thisDirection - angle) * cos(angle) + otherSpeed * sin(otherDirection - angle) * cos(angle + HALF_PI);
+
+        let newOtherYSpeed = (thisSpeed + forceFactor) * cos(thisDirection - angle) * sin(angle) + otherSpeed * sin(otherDirection - angle) * sin(angle + HALF_PI);
    
         this.xSpeed = newThisXSpeed;
         this.ySpeed = newThisYSpeed;
