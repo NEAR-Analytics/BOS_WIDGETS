@@ -197,11 +197,13 @@ return (
         <h2 className="mb-3" style={{ fontFamily: "Courier" }}>
           <b>Discover</b>
         </h2>
-        {quests.map((quest, i) => (
-          <Widget
-            src="hack.near/widget/quest.card"
-            props={{ questId: quest[i] }}
-          />
+        {quests.map((quest) => (
+          <div className="m-2">
+            <Widget
+              src="hack.near/widget/quest.card"
+              props={{ questId: quest[0] }}
+            />
+          </div>
         ))}
       </Container>
     </div>
