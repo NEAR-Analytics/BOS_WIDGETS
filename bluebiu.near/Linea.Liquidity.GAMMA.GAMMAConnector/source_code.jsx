@@ -285,6 +285,7 @@ return (
             handlePairClick,
             userPositions,
             chainName: CHAIN_CONFIG.chainName,
+            addAction: props.addAction,
           }}
         />
 
