@@ -194,7 +194,7 @@ return (
         <InputWarpper>
           <Input
             value={props.amount}
-            disabled={props.disabled}
+            readOnly={props.disabled}
             onChange={handlers.handleInputChange}
             placeholder="0"
           />
