@@ -3,6 +3,7 @@ import X, * as Xstar from "x";
 import Y, { y } from "y";
 import { Z } from "z";
 import "a";
+import * as B from "b";
 
 return (
   <div>
