@@ -226,6 +226,7 @@ return (
         quoterV3: "bluebiu.near/widget/Linea.Swap.QuoterV3",
         QuoterSyncswap: "bluebiu.near/widget/Linea.Swap.QuoterSyncswap",
         handleSyncswap: "bluebiu.near/widget/Linea.Swap.handleSyncswap",
+        ...props,
       }}
     />
   </Container>
