@@ -16,7 +16,6 @@ const Game_Box = () => {
 
 </style>
 <body>
-  <div class="score" id="score">Score: 0</div>
 </body>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.0/p5.js" integrity="sha512-2r+xZ/Dm8+HI0I8dsj1Jlfchv4O3DGfWbqRalmSGtgdbVQrZyGRqHp9ek8GKk1x8w01JsmDZRrJZ4DzgXkAU+g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script>
@@ -239,11 +238,21 @@ const Game_Box = () => {
     }
 </script>
 `;
+
   return <iframe className="w-100 h-100" srcDoc={code} />;
 };
 
+  const ScoreContainer = styled.div`
+    width: 100%;
+    background-color: #0e0e1e;
+    display: flex;
+    align-items: center;
+    padding: 1rem;
+  `;
+
 return (
-  <div style={{ width: "400px", height: "100%" }} className="mx-auto">
+  <div style={{ width: "400px", height: "530px", display: "flex", flexDirection: 'column'}} className="mx-auto">
+    <ScoreContainer />
     <Game_Box />
   </div>
 );
