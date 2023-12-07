@@ -150,7 +150,7 @@ const saveHandler = (article, onCommit, onCancel) => {
 
 function getNotificationData(type, accountId, url) {
   if (state.notifications.getNotificationData) {
-    state.notifications.getNotificationData(type, accountId, url);
+    return state.notifications.getNotificationData(type, accountId, url);
   }
 }
 
