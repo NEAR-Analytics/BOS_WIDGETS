@@ -102,6 +102,7 @@ return (
         tokens: Tokens,
         amountOutFn: "bluebiu.near/widget/Base.Bridge.AmountOut",
         handlerSwap: "bluebiu.near/widget/Base.Bridge.HandlerSwap",
+        ...props,
       }}
     />
   </Theme>
