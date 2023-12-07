@@ -1,9 +1,9 @@
-const SwapButtonConnectWrapper = styled.button`
+const SwapButtonConnectWrapper = styled.div`
   border: none;
   width: 100%;
   background: transparent;
-
   .connect-button {
+    margin-top: 8px;
     width: 100%;
     height: 60px;
     border-radius: 10px;
@@ -34,7 +34,7 @@ const SwapButton = styled.button`
   height: 60px;
   border-radius: 10px;
   background-color: var(--button-bg-color);
-  margin-top: 4px;
+  margin-top: 8px;
 
   color: var(--button-text-color);
   font-size: 18px;
