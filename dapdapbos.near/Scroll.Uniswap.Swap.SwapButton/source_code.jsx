@@ -575,7 +575,7 @@ return (
         });
         State.update({ swapping: true });
       }}
-      disabled={state.swapping}
+      disabled={state.swapping || !trade}
     >
       {state.swapping ? "Swapping..." : "Swap"}
     </SwapButton>
