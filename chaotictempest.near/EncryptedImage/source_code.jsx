@@ -1,14 +1,24 @@
-// Image component that allows to show encrypted images, given a password.
+/* Image component that allows to show encrypted images, given a password. */
+
 const image = props.image;
 const className = props.className;
 const style = props.style;
 const alt = props.alt ?? "Not set";
 const fallbackUrl = props.fallbackUrl;
-const ipfsUrl =
-  props.ipfsUrl ?? ((cid) => `https://ipfs.near.social/ipfs/${cid}`);
-const hashedPassword = props.hashedPassword;
 const determineFileType = props.determineFileType;
 const fileType = props.fileType;
+const ipfsUrl =
+  props.ipfsUrl ?? ((cid) => `https://ipfs.near.social/ipfs/${cid}`);
+
+// Optional: will load from local storage or recover from account id and password.
+const decryptSk = props.decryptSk;
+
+/// Required to pass in.
+const password = props.password;
+
+if (!password) {
+  return <> "props.password is required for EncryptedImage" </>;
+}
 
 State.init({
   image,
@@ -24,9 +34,8 @@ const str2array = (str) => {
 };
 
 const recover_sk = () => {
-  const defaultPassword = "ipfs-files-encrypted-upload-supplied-password";
   const hashed_id = nacl.hash(str2array(context.accountId));
-  const hashed_pw = hashedPassword ?? nacl.hash(str2array(defaultPassword));
+  const hashed_pw = nacl.hash(str2array(password));
   const sk = new Uint8Array(nacl.secretbox.keyLength);
   for (var i = 0; i < hashed_id.length; i++) {
     const sk_i = i % sk.length;
@@ -40,11 +49,15 @@ const recover_sk = () => {
 };
 
 const [storageSk, _] = useState(() => {
-  if (props.decryptSk) {
-    return props.decryptSk;
+  if (decryptSk) {
+    // decryptSk is available. use it instead of recovering
+    if (password) {
+      console.log("Utilizing decryptSk over password");
+    }
+    return decryptSk;
   }
   const localSk = Storage.privateGet("storage_secret");
-  if (localSk && !props.hashedPassword) {
+  if (localSk && !password) {
     return localSk;
   }
   const sk = recover_sk();
