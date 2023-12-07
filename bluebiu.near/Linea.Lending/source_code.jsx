@@ -1,4 +1,4 @@
-const { defaultDapp } = props;
+const { defaultDapp, ...rest } = props;
 
 const Theme = styled.div`
   --button-text-color: #fff;
@@ -76,6 +76,7 @@ return (
               "bluebiu.near/widget/Avalanche.Lending.BenqiHandlerCToken",
           },
         },
+        ...rest,
       }}
     />
   </Theme>
