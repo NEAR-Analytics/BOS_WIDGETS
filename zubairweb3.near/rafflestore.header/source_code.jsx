@@ -6,7 +6,7 @@ const Nav = styled.div`
   padding: 8px 0;
 `;
 
-const LoginBtn = styled.a`
+const LoginBtn = styled.button`
   color: #000;
   background: #fff;
   box-shadow: 0 4px 4px 0 #003C8C inset, 0 4px 4px 0 #003C8C;
@@ -15,9 +15,6 @@ const LoginBtn = styled.a`
   border-width: 1px;
   border-radius: 0.5rem;
   cursor: pointer;
-  &:hover{
-    text-decoration: none;
-  }
   
 `;
 
@@ -27,6 +24,6 @@ const logo =
 return (
   <Nav>
     <img src={logo} width="120px" />
-    <LoginBtn href="near.org/signin">Login</LoginBtn>
+    <LoginBtn>{context.accountId ? context.accountId : Login}</LoginBtn>
   </Nav>
 );
