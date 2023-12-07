@@ -464,16 +464,6 @@ const AccessKey = Storage.get(
   "AccessKey",
   "guessme.near/widget/ZKEVMWarmUp.add-to-quest-card"
 );
-function add_action(param_body) {
-  asyncFetch("/dapdap/api/action/add ", {
-    method: "post",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: AccessKey,
-    },
-    body: JSON.stringify(param_body),
-  });
-}
 
 const checkApproval = (token0Amount, token1Amount) => {
   const token0Wei = new Big(ethers.utils.parseUnits(token0Amount, decimals0));
@@ -695,23 +685,16 @@ const handleDeposit = () => {
       if (can_add_action) {
         const { status, transactionHash } = receipt;
 
-        const uuid = Storage.get(
-          "zkevm-warm-up-uuid",
-          "guessme.near/widget/ZKEVMWarmUp.generage-uuid"
-        );
-
-        add_action({
-          action_title: `Deposit ${token0}-${token1} on Gamma`,
-          action_type: "Deposit",
-          action_tokens: JSON.stringify([token0, token1]),
-          action_amount: "",
-          account_id: sender,
-          action_network_id: "zkEVM",
-          account_info: uuid,
+        props.addAction?.({
+          type: "Liquidity",
+          action: "Deposit",
+          token0,
+          token1,
+          amount: amount0,
           template: "Gamma",
-          action_status: status === 1 ? "Success" : "Failed",
-          action_switch: can_add_action ? 1 : 0,
-          tx_id: transactionHash,
+          status: status,
+          add: can_add_action,
+          transactionHash,
         });
       }
       State.update({
@@ -760,23 +743,16 @@ const handleWithdraw = () => {
       if (can_add_action) {
         const { status, transactionHash } = receipt;
 
-        const uuid = Storage.get(
-          "zkevm-warm-up-uuid",
-          "guessme.near/widget/ZKEVMWarmUp.generage-uuid"
-        );
-
-        add_action({
-          action_title: `Withdraw ${token0}-${token1} on Gamma`,
-          action_type: "Withdraw",
-          action_tokens: JSON.stringify([token0, token1]),
-          action_amount: lpAmount,
-          account_id: sender,
-          action_network_id: "zkEVM",
-          account_info: uuid,
+        addAction?.({
+          type: "Liquidity",
+          action: "Withdraw",
+          token0,
+          token1,
+          amount: lpAmount,
           template: "Gamma",
-          action_status: status === 1 ? "Success" : "Failed",
-          action_switch: can_add_action ? 1 : 0,
-          tx_id: transactionHash,
+          status: status,
+          add: can_add_action,
+          transactionHash,
         });
       }
 
