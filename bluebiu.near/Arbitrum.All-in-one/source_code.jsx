@@ -249,7 +249,10 @@ return (
       <div className="flex-grow contentOut">
         {activeMenu == "Bridge" ? (
           <>
-            <Widget src="bluebiu.near/widget/Arbitrum.Bridge" />
+            <Widget
+              src="bluebiu.near/widget/Arbitrum.Bridge"
+              props={{ ...props }}
+            />
           </>
         ) : null}
         {activeMenu == "swap" ? (
@@ -258,6 +261,7 @@ return (
               src="bluebiu.near/widget/Arbitrum.Swap.Dex"
               props={{
                 layout: "left",
+                ...props,
               }}
             />
           </>
