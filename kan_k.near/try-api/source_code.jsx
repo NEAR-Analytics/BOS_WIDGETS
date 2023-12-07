@@ -2,7 +2,10 @@ State.init({
   waifuUrl: "",
 });
 
-const queryURI = "https://api.waifu.im/search?included_tags=maid";
+Storage.privateSet(
+  "waifuApi",
+  "https://api.waifu.im/search?included_tags=maid"
+);
 
 const fetchWaifu = (queryURI) => {
   return asyncFetch(queryURI, {
@@ -12,6 +15,7 @@ const fetchWaifu = (queryURI) => {
 };
 
 const handleAskRequestWaifu = () => {
+  const queryURI = Storage.privateGet("waifuApi");
   fetchWaifu(queryURI).then((res) => {
     State.update({ waifuUrl: res.body.images[0].url });
     console.log(res.body.images[0]);
