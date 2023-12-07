@@ -304,6 +304,7 @@ return (
         gasCost: state.gasCost,
         isGasEnough: state.isGasEnough,
         handlerSwap,
+        addAction: props.addAction,
         onSuccess: (hash) => {
           handleStargateTx({
             hash,
