@@ -253,6 +253,7 @@ return (
               src="bluebiu.near/widget/Linea.Bridge"
               props={{
                 layout: "center",
+                ...props,
               }}
             />
           </>
@@ -263,13 +264,17 @@ return (
               src="bluebiu.near/widget/Linea.Swap.Dex"
               props={{
                 layout: "center",
+                ...props,
               }}
             />
           </>
         ) : null}
         {activeMenu == "Liquidity" ? (
           <>
-            <Widget src="bluebiu.near/widget/Linea.Liquidity.GAMMA" />
+            <Widget
+              src="bluebiu.near/widget/Linea.Liquidity.GAMMA"
+              props={props}
+            />
           </>
         ) : null}
         {activeMenu == "Lending" ? (
