@@ -1,4 +1,4 @@
-const { defaultDapp } = props;
+const { defaultDapp, ...rest } = props;
 
 const Theme = styled.div`
   --button-text-color: #000;
@@ -111,6 +111,7 @@ return (
               "bluebiu.near/widget/Arbitrum.Lending.RadiantActionHandler",
           },
         },
+        ...rest,
       }}
     />
   </Theme>
