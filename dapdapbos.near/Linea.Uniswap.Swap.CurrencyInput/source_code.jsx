@@ -161,6 +161,7 @@ const utils = {
 
 const handlers = {
   handleDisplayCurrencySelect: () => {
+    if (!props.account) return;
     State.update({
       balanceLoaded: false,
     });
@@ -174,20 +175,25 @@ const handlers = {
 
 return (
   <Wrapper>
-    <Widget
-      src="dapdapbos.near/widget/Uniswap.Swap.CurrencyBalance"
-      props={{
-        address: props.currency?.address,
-        chainIdNotSupport: !props.isCorrectNetwork,
-        onLoad: (balance) => {
-          State.update({
-            balance: ethers.utils.formatUnits(balance, props.currency.decimals),
-            balanceLoaded: true,
-          });
-          props?.onUpdateCurrencyBalance(balance);
-        },
-      }}
-    />
+    {props.account && (
+      <Widget
+        src="dapdapbos.near/widget/Uniswap.Swap.CurrencyBalance"
+        props={{
+          address: props.currency?.address,
+          chainIdNotSupport: !props.isCorrectNetwork,
+          onLoad: (balance) => {
+            State.update({
+              balance: ethers.utils.formatUnits(
+                balance,
+                props.currency.decimals
+              ),
+              balanceLoaded: true,
+            });
+            props?.onUpdateCurrencyBalance(balance);
+          },
+        }}
+      />
+    )}
     <InputLabel>{props.labelText}</InputLabel>
     <Main>
       <InputField>
