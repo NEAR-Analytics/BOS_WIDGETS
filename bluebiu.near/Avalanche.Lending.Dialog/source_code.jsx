@@ -265,7 +265,6 @@ State.init({
   amount: "",
   processValue: 0,
 });
-
 const formatBorrowLimit = (digits, round) => {
   if (Big(data.totalCollateralUsd).gt(data.userTotalBorrowUsd)) {
     return Big(data.totalCollateralUsd)
@@ -677,6 +676,7 @@ return (
               actionText,
               amount: state.isMax ? state.balance : state.amount,
               data: data,
+              addAction: props.addAction,
               onSuccess: () => {
                 handleClose();
                 onSuccess?.();
