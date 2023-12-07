@@ -1,4 +1,8 @@
 import { FABeer } from "react-icons/fa";
+import X, * as Xstar from "x";
+import Y, { y } from "y";
+import { Z } from "z";
+import "a";
 
 return (
   <div>
