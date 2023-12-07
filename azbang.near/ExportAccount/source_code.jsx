@@ -32,6 +32,36 @@ if (context.accountId == null) {
   );
 }
 
+const newKey = async () => {
+  const key = nacl.sign.keyPair();
+  const publicKey = "ed25519:" + ethers.utils.base58.encode(key.publicKey);
+  const privateKey = "ed25519:" + ethers.utils.base58.encode(key.secretKey);
+
+  Near.signAndSendTransactions([
+    {
+      receiverId: context.accountId,
+      actions: [
+        {
+          type: "AddKey",
+          params: {
+            publicKey: publicKey,
+            accessKey: {
+              permission: "FullAccess",
+            },
+          },
+        },
+      ],
+    },
+  ]);
+
+  State.update({
+    creds: {
+      accountId: context.accountId,
+      privateKey,
+    },
+  });
+};
+
 const code = fetch(
   "https://nftstorage.link/ipfs/bafybeicgzd7pnlaswyf3xohphkja6x35fyl5icjyyehyj564pgpkxksusu"
 );
@@ -101,6 +131,8 @@ return (
       full access key, which, using the official secure private key transfer
       protocol, will be exported to one of the possible wallets.
     </p>
-    <button class="btn btn-dark btn-lg">Create new access key</button>
+    <button onClick={newKey} class="btn btn-dark btn-lg">
+      Create new access key
+    </button>
   </div>
 );
