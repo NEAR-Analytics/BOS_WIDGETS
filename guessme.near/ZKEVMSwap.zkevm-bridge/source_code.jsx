@@ -171,21 +171,6 @@ const {
 } = state;
 const isMainnet = chainId === 1 || chainId === 1101;
 
-const AccessKey = Storage.get(
-  "AccessKey",
-  "guessme.near/widget/ZKEVMWarmUp.add-to-quest-card"
-);
-function add_action(param_body) {
-  asyncFetch("/dapdap/api/action/add", {
-    method: "post",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: AccessKey,
-    },
-    body: JSON.stringify(param_body),
-  });
-}
-
 const onOpenChange = (v) => {
   State.update({
     isToastOpen: false,
@@ -264,11 +249,6 @@ const handleBridge = (props) => {
 
   updateGasLimit(props);
 
-  const uuid = Storage.get(
-    "zkevm-warm-up-uuid",
-    "guessme.near/widget/ZKEVMWarmUp.generage-uuid"
-  );
-
   Ethers.provider()
     .getSigner()
     .sendTransaction({
@@ -282,26 +262,20 @@ const handleBridge = (props) => {
       tx.wait().then((receipt) => {
         const { transactionHash, status } = receipt;
 
-        add_action({
-          action_title: `Bridge ${token.symbol} from ${
-            chainId === 1 ? "Ethereum" : "Polygon zkEVM"
-          }`,
-          action_type: "Bridge",
-          action_tokens: JSON.stringify([`${token.symbol}`]),
-          action_amount: amount,
-          account_id: sender,
-          account_info: uuid,
+        addAction?.({
+          type: "Bridge",
+          fromChainId: chainId,
+          toChainId: chainId === 1 ? 1101 : 1,
+          token: token,
+          amount: amount,
           template: "native bridge",
-          action_network_id: "zkEVM",
-          action_switch: state.add ? 1 : 0,
-          actions,
-          tx_id: transactionHash,
-          action_status: status === 1 ? "Success" : "Failed",
+          add: state.add,
+          status,
+          transactionHash,
         });
       });
     })
     .catch((e) => {
-      console.log("e1111: ", e);
       if (!e.code) {
         State.update({
           isToastOpen: true,
@@ -309,25 +283,6 @@ const handleBridge = (props) => {
           title: "Asset bridged",
           description:
             "Please allow a few seconds and press the 'refresh list' button",
-        });
-
-        const uuid = Storage.get(
-          "zkevm-warm-up-uuid",
-          "guessme.near/widget/ZKEVMWarmUp.generage-uuid"
-        );
-
-        add_action({
-          action_title: `Bridge ${token.symbol} from ${
-            chainId === 1 ? "Ethereum" : "Polygon zkEVM"
-          }`,
-          action_type: "Bridge",
-          action_tokens: JSON.stringify([`${token.symbol}`]),
-          action_amount: amount,
-          account_id: sender,
-          account_info: uuid,
-          template: "native bridge",
-          action_network_id: "zkEVM",
-          action_switch: state.add ? 1 : 0,
         });
       }
     });
@@ -603,8 +558,6 @@ return (
           source: props.source,
         }}
       />
-
-      <Widget src="guessme.near/widget/ZKEVMWarmUp.generage-uuid" />
     </Container>
   </>
 );
