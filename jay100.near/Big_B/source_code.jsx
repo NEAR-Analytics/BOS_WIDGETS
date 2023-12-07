@@ -1,3 +1,7 @@
+State.init({
+  score: 0,
+});
+
 const Game_Box = () => {
   const code = `
 <style>
@@ -29,17 +33,20 @@ const Game_Box = () => {
    const sizes = [10, 20, 40];
    let circleColors = [{r: 255, g: 0, b: 0},{r: 0, g: 255, b: 0},{r: 0, g: 0, b: 255}]
    let gameScore = 0;
-  
-   
-   
+   let test = window;
+ 
    
    function setup() {
-      createCanvas(windowWidth, windowHeight * 0.9);
+      createCanvas(400, windowHeight * 0.95);
       groundY = height; // Ground position
     }
    
     function draw() {
       background(220)
+
+      textSize(20);
+      fill(0,0,0)
+      text("Score: " + gameScore, 20, 20);
    
       let mouseYPos = mouseY;
       stroke(0);
@@ -58,7 +65,7 @@ const Game_Box = () => {
         droppedCircles[i].checkBounds();
    
         // Check for collision with other droppedCircles
-        droppedCircles[i].checkCollision();
+        // droppedCircles[i].checkCollision();
    
          for (let j = i + 1; j < droppedCircles.length; j++) {
             droppedCircles[i].checkCircleCollision(droppedCircles[j]);
@@ -67,7 +74,6 @@ const Game_Box = () => {
     }
    
     function mouseClicked() {
-      gameScore += 1;
       const randCircPos = Math.floor(Math.random() * 3);
       const randSizePos = Math.floor(Math.random() * 3);
 
@@ -173,7 +179,24 @@ const Game_Box = () => {
         ) {
             // Merge circles if they touch and have similar color and radius
             let newRadius = (this.radius) + (otherCircle.radius);
-            console.log(newRadius);
+
+             if(newRadius === 20){
+              gameScore += 2
+            }
+
+            if(newRadius === 40){
+              gameScore += 4
+            }
+
+            if(newRadius === 80){
+              gameScore += 8
+            }
+
+            if(newRadius === 160){
+              gameScore += 16
+            }
+            
+
             if(newRadius === 160){
               this.radius = 0;
               otherCircle.radius = 0; // Make the other circle disappear
@@ -242,17 +265,11 @@ const Game_Box = () => {
   return <iframe className="w-100 h-100" srcDoc={code} />;
 };
 
-  const ScoreContainer = styled.div`
-    width: 100%;
-    background-color: #0e0e1e;
-    display: flex;
-    align-items: center;
-    padding: 1rem;
-  `;
-
 return (
-  <div style={{ width: "400px", height: "530px", display: "flex", flexDirection: 'column'}} className="mx-auto">
-    <ScoreContainer />
+  <div
+    style={{ height: "530px", display: "flex", flexDirection: "column" }}
+    className="mx-auto"
+  >
     <Game_Box />
   </div>
 );
