@@ -171,7 +171,7 @@ const doQueryToFlipside = (query, queryResultId, dataLabel) => {
   // create run (https://docs.flipsidecrypto.com/flipside-api/rest-api)
   const headers = {};
   headers["Content-Type"] = "application/json";
-  headers["x-api-key"] = "3638c7b4-6a72-4a1f-a61d-613aa1fc1a9c";
+  headers["x-api-key"] = "07811919-9c82-4e96-8496-9cf378305d22";
 
   if (!queryResultId) {
     const requestResult = fetch("https://api-v2.flipsidecrypto.xyz/json-rpc", {
@@ -443,41 +443,27 @@ const generateTotalWalletsCreated = (members) => {
   apiDoQueryToFlipSide(query, "totalWallets");
 };
 
-const generateNFTTrades = (members) => {
+const generateNFTMints = (members) => {
   if (members.length === 0) return [];
   const formattedMembers = JSON.stringify(members)
     .replaceAll("[", "(")
     .replaceAll("]", ")")
     .replaceAll('"', "'");
   const query = `SELECT
-    date_trunc('month', block_timestamp) AS "date",
-    concat(
-      date_part(year, "date"),
-      '-',
-      date_part(month, "date")
-    ) as YEAR_MONTH,
-    COUNT(DISTINCT tx_hash) as total_trades
-  FROM
-    near.core.fact_receipts r
-  WHERE
-    REGEXP_SUBSTR(status_value, 'Success') IS NOT NULL
-    AND TRY_PARSE_JSON(TRY_PARSE_JSON(SUBSTR(logs[0], 12))):event::string = 'nft_transfer'
-    AND TRY_PARSE_JSON(TRY_PARSE_JSON(SUBSTR(logs[0], 12))):data[0]:authorized_id::string IN (
-      'marketplace.paras.near',
-      'simple.market.mintbase1.near',
-      'market.tradeport.near',
-      'market.fewandfar.near'
-    )
-    AND (
-      TRY_PARSE_JSON(TRY_PARSE_JSON(SUBSTR(logs[0], 12))):data[0]:new_owner_id::string IN ${formattedMembers}
-      OR TRY_PARSE_JSON(TRY_PARSE_JSON(SUBSTR(logs[0], 12))):data[0]:old_owner_id::string IN ${formattedMembers}
-    )
-    AND "date" > dateadd('month', -12, current_date)
-  GROUP BY
-    1
+        date_trunc('month', block_timestamp) AS "date",
+        concat(
+          date_part(year, "date"),
+          '-',
+          date_part(month, "date")
+        ) AS YEAR_MONTH,
+        COUNT(DISTINCT tx_hash) as total_activity
+    FROM
+      near.nft.fact_nft_mints
+    WHERE (receiver_id IN ${formattedMembers} OR owner_id IN ${formattedMembers})
+    GROUP BY 1;
   `;
 
-  apiDoQueryToFlipSide(query, "nftTradesChartData");
+  apiDoQueryToFlipSide(query, "nftMintsChartData");
 };
 
 State.update({
@@ -490,7 +476,7 @@ generateMAU(state.selectedCommunityAccountMembers);
 generateTotalLikes(state.selectedCommunityAccountMembers);
 generateDAU(state.selectedCommunityAccountMembers);
 generateTotalWalletsCreated(state.selectedCommunityAccountMembers);
-generateNFTTrades(state.selectedCommunityAccountMembers);
+generateNFTMints(state.selectedCommunityAccountMembers);
 
 return (
   <div className="container">
@@ -510,7 +496,7 @@ return (
             githubChartData: null,
             mauChartData: null,
             dauChartData: null,
-            nftTradesChartData: null,
+            nftMintsChartData: null,
           }),
       }}
     />
@@ -581,10 +567,10 @@ return (
 
     <div>
       {chart({
-        data: state["nftTradesChartData"],
-        header: <b>NFT Trading</b>,
-        valueLabel: "total_trades",
-        label: "NFT Trades (buy / sell)",
+        data: state["nftMintsChartData"],
+        header: <b>NFT Mints Activity</b>,
+        valueLabel: "total_activity",
+        label: "NFT Mints Activity",
         barColor: "rgb(85, 85, 180)",
       })}
     </div>
