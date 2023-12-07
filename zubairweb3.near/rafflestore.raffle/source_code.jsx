@@ -7,6 +7,35 @@ const bannerImg =
 const sharDogIcon =
   "https://res.cloudinary.com/dfbqtfoxu/image/upload/v1700588115/rafflestore/gift_ebqnkb.svg";
 
+const accountId = context.accountId;
+const contractId = "mint.sharddog.near";
+
+if (!contractId) {
+  return `Missing "contractId"`;
+}
+
+if (!accountId) {
+  return `Missing "accountId"`;
+}
+
+const nfts = Near.view(contractId, "nft_tokens_for_owner", {
+  account_id: accountId,
+  from_index: "0",
+  limit: 200,
+});
+
+const newTitle = "ShardDog - 1555";
+
+if (newTitle === nfts[0].metadata.title) {
+  console.log("Passed nft check");
+}
+
+console.log(nfts[0].metadata.title);
+
+if (!nfts) {
+  return "";
+}
+
 const Container = styled.div`
 
 `;
@@ -185,8 +214,7 @@ return (
           onchain.
         </InstructionContent>
         <InstructionContent>
-          If you have a ShardDog comic #32 and comic #27 you can enter the
-          raffle to win!
+          If you have a <b>ShardDog - 1555</b> you can enter the raffle to win!
         </InstructionContent>
       </InstructionWrapper>
       <PrizeWrapper>
