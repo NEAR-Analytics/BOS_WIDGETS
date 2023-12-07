@@ -97,12 +97,12 @@ const Game_Box = () => {
       fall() {
         if (this.isFalling) {
           this.y += this.ySpeed;
-          this.ySpeed += 0.1; // Simulate gravity
+          this.ySpeed += 0.2; // Simulate gravity
           this.x += this.xSpeed;
    
           // Bounce off walls
           if (this.x + this.radius >= width || this.x - this.radius <= 0) {
-            this.xSpeed *= -0.8; // Reduce x speed upon wall impact
+            this.xSpeed *= -0.1; // Reduce x speed upon wall impact
           }
    
            // Check for hitting another circle
@@ -191,37 +191,38 @@ const Game_Box = () => {
         let minDistance = this.radius + other.radius;
         let separationX = dx / distance * (minDistance - distance);
         let separationY = dy / distance * (minDistance - distance);
+
    
         // Move droppedCircles apart to avoid overlap
-        this.x -= separationX / 2;
-        this.y -= separationY / 2;
-        other.x += separationX / 2;
-        other.y += separationY / 2;
+        this.x -= separationX / 8;
+        this.y -= separationY / 8;
+        other.x += separationX / 8;
+        other.y += separationY / 8;
 
 
         // Update velocities for a bounce effect with mass consideration
 
-        let massFactor = 0.01;
-        let forceFactor = (this.radius - other.radius) * massFactor;
+         let massFactor = 0.03;
+    let forceFactor = (this.radius - other.radius) * massFactor;
 
-        let angle = atan2(dy, dx);
-        let thisSpeed = sqrt(this.xSpeed * this.xSpeed + this.ySpeed * this.ySpeed);
-        let otherSpeed = sqrt(other.xSpeed * other.xSpeed + other.ySpeed * other.ySpeed);
-        let thisDirection = atan2(this.ySpeed, this.xSpeed);
-        let otherDirection = atan2(other.ySpeed, other.xSpeed);
-   
-        let newThisXSpeed = otherSpeed * cos(otherDirection - angle) * cos(angle) + (thisSpeed - forceFactor) * sin(thisDirection - angle) * cos(angle + HALF_PI);
+    // Update velocities for a bounce effect with mass consideration
+    // Modify this part accordingly to suit your specific behavior
 
-        let newThisYSpeed = otherSpeed * cos(otherDirection - angle) * sin(angle) + (thisSpeed - forceFactor) * sin(thisDirection - angle) * sin(angle + HALF_PI);
+    let angle = atan2(dy, dx);
+    let thisSpeed = sqrt(this.xSpeed * this.xSpeed + this.ySpeed * this.ySpeed);
+    let otherSpeed = sqrt(other.xSpeed * other.xSpeed + other.ySpeed * other.ySpeed);
+    let thisDirection = atan2(this.ySpeed, this.xSpeed);
+    let otherDirection = atan2(other.ySpeed, other.xSpeed);
 
-        let newOtherXSpeed = (thisSpeed + forceFactor) * cos(thisDirection - angle) * cos(angle) + otherSpeed * sin(otherDirection - angle) * cos(angle + HALF_PI);
+    let newThisXSpeed = otherSpeed * cos(otherDirection - angle) * cos(angle) + (thisSpeed - forceFactor) * sin(thisDirection - angle) * cos(angle + HALF_PI);
+    let newThisYSpeed = otherSpeed * cos(otherDirection - angle) * sin(angle) + (thisSpeed - forceFactor) * sin(thisDirection - angle) * sin(angle + HALF_PI);
+    let newOtherXSpeed = (thisSpeed + forceFactor) * cos(thisDirection - angle) * cos(angle) + otherSpeed * sin(otherDirection - angle) * cos(angle + HALF_PI);
+    let newOtherYSpeed = (thisSpeed + forceFactor) * cos(thisDirection - angle) * sin(angle) + otherSpeed * sin(otherDirection - angle) * sin(angle + HALF_PI);
 
-        let newOtherYSpeed = (thisSpeed + forceFactor) * cos(thisDirection - angle) * sin(angle) + otherSpeed * sin(otherDirection - angle) * sin(angle + HALF_PI);
-   
-        this.xSpeed = newThisXSpeed;
-        this.ySpeed = newThisYSpeed;
-        other.xSpeed = newOtherXSpeed;
-        other.ySpeed = newOtherYSpeed;
+    this.xSpeed = newThisXSpeed;
+    this.ySpeed = newThisYSpeed;
+    other.xSpeed = newOtherXSpeed;
+    other.ySpeed = newOtherYSpeed;
 
       }
     }
