@@ -82,6 +82,36 @@ const MaxGasPerTransaction = TGas.mul(250);
 const GasPerTransaction = MaxGasPerTransaction.plus(TGas);
 const pageAmountOfPage = 5;
 const ipfsPrefix = "https://ipfs.near.social/ipfs";
+
+function toLocaleString(source, decimals, rm) {
+  if (typeof source === "string") {
+    return toLocaleString(Number(source), decimals);
+  } else if (typeof source === "number") {
+    return decimals !== undefined
+      ? source.toLocaleString(undefined, {
+          maximumFractionDigits: decimals,
+          minimumFractionDigits: decimals,
+        })
+      : source.toLocaleString();
+  } else {
+    // Big type
+    return toLocaleString(
+      decimals !== undefined
+        ? Number(source.toFixed(decimals, rm))
+        : source.toNumber(),
+      decimals
+    );
+  }
+}
+
+function formatAmount(balance, decimal) {
+  if (!decimal) decimal = 8;
+  return toLocaleString(
+    Big(balance).div(Big(10).pow(decimal)).toFixed(),
+    decimal
+  );
+}
+
 // Config for Bos app
 function getConfig(network) {
   switch (network) {
@@ -99,12 +129,17 @@ function getConfig(network) {
           tick: "neat",
           amt: "100000000",
         },
+        transferArgs: {
+          p: "nrc-20",
+          op: "transfer",
+          tick: "neat",
+        },
       };
     case "testnet":
       return {
         ownerId: "inscribe.testnet",
         graphUrl:
-          "https://api.thegraph.com/subgraphs/name/inscriptionnear/neat",
+          "https://api.thegraph.com/subgraphs/name/inscriptionnear/neat-test",
         nodeUrl: "https://rpc.testnet.near.org",
         contractName: "inscription.testnet",
         methodName: "inscribe",
@@ -113,6 +148,11 @@ function getConfig(network) {
           op: "mint",
           tick: "neat",
           amt: "100000000",
+        },
+        transferArgs: {
+          p: "nrc-20",
+          op: "transfer",
+          tick: "neat",
         },
       };
     default:
@@ -161,6 +201,9 @@ State.init({
       value: "-",
     },
   ],
+  // transfer component
+  transferAmount: "",
+  transferTo: "",
 });
 
 function fetchFromGraph(query) {
@@ -172,6 +215,41 @@ function fetchFromGraph(query) {
     body: JSON.stringify({
       query,
     }),
+  });
+}
+
+function asyncFetchFromGraph(query) {
+  return asyncFetch(config.graphUrl, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      query,
+    }),
+  });
+}
+
+function getBalance() {
+  const accountId = props.accountId || context.accountId;
+  return asyncFetchFromGraph(`
+    query {
+      holderInfos(
+        where: {
+          accountId: "${accountId}"
+          ticker: "neat"
+        }
+      ) {
+        accountId
+        amount
+      }
+    }
+  `).then((balanceResponse) => {
+    const holder = balanceResponse.body.data.holderInfos[0];
+    if (holder) {
+      return holder.amount;
+    }
+    return "0";
   });
 }
 function fetchAllData() {
@@ -209,11 +287,11 @@ function fetchAllData() {
         },
         {
           title: "Total Supply:",
-          value: Number(tokenInfo.maxSupply ?? 0).toLocaleString(),
+          value: formatAmount(tokenInfo.maxSupply ?? 0),
         },
         {
           title: "Total Minted:",
-          value: Number(tokenInfo.totalSupply ?? 0).toLocaleString(),
+          value: formatAmount(tokenInfo.totalSupply ?? 0),
         },
         {
           title: "Minted%:",
@@ -225,38 +303,21 @@ function fetchAllData() {
         },
         {
           title: "Mint Limit:",
-          value: Number(tokenInfo.limit).toLocaleString(),
+          value: formatAmount(tokenInfo.limit ?? 0),
         },
         {
           title: "Holders:",
-          value: Number(holderCount).toLocaleString(),
+          value: toLocaleString(holderCount, 0),
         },
       ],
     });
   }
 
-  const accountId = props.accountId || context.accountId;
-  const balanceResponse = fetchFromGraph(`
-    query {
-      holderInfos(
-        where: {
-          accountId: "${accountId}"
-          ticker: "neat"
-        }
-      ) {
-        accountId
-        amount
-      }
-    }
-  `);
-  if (balanceResponse) {
-    const holder = balanceResponse.body.data.holderInfos[0];
-    if (holder) {
-      State.update({ balance: holder.amount });
-    } else {
-      State.update({ balance: "0" });
-    }
-  }
+  getBalance().then((balance) =>
+    State.update({
+      balance,
+    })
+  );
 }
 
 fetchAllData();
@@ -266,7 +327,7 @@ fetchAllData();
 const yourNeatData = [
   {
     title: "Token Amount",
-    value: state.balance ? Number(state.balance).toLocaleString() : "-",
+    value: state.balance ? formatAmount(state.balance) : "-",
   },
 ];
 return (
