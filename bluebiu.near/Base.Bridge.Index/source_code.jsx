@@ -57,7 +57,6 @@ const { tokens, amountOutFn, handlerSwap } = props;
 
 const handleStargateTx = ({ hash, amount, price, from, to, currency }) => {
   const txs = Storage.privateGet("stargate_txs") || {};
-  console.log(hash, amount, price, from, to, currency);
   txs[hash] = {
     amount,
     symbol: currency.symbol,
@@ -86,6 +85,7 @@ return (
           amountOutFn,
           chainId: state.chainId,
           handlerSwap,
+          addAction: props.addAction,
           handleStargateTx,
           showNetwrokDialog: (_chainId) => {
             State.update({
