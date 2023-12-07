@@ -30,9 +30,7 @@ const getMembers = (accountId) => {
 };
 
 const rcDaoMembers = getMembers("rc-dao.near");
-const communityAccounts = rcDaoMembers.map((accountId) => {
-  return { text: accountId, value: accountId };
-});
+const communityAccounts = rcDaoMembers;
 
 State.init({
   selectedCommunityAccountMembers: [],
@@ -467,9 +465,7 @@ const generateNFTMints = (members) => {
 };
 
 State.update({
-  selectedCommunityAccountMembers: getMembers(
-    state.selectedCommunityAccount.value
-  ),
+  selectedCommunityAccountMembers: getMembers(state.selectedCommunityAccount),
 });
 generateGithubActivities(state.selectedCommunityAccountMembers);
 generateMAU(state.selectedCommunityAccountMembers);
@@ -481,24 +477,22 @@ generateNFTMints(state.selectedCommunityAccountMembers);
 return (
   <div className="container">
     <h1>Regional Community Dashboard WIP</h1>
-    <Widget
-      src="near/widget/Select"
-      props={{
-        label: "Select your regional community account:",
-        value: state.selectedCommunityAccount,
-        options: communityAccounts,
-        onChange: (value) =>
-          State.update({
-            selectedCommunityAccount: value,
-            queryResultIdMAU: null,
-            queryResultIdDevActivities: null,
-            totalLikes: null,
-            githubChartData: null,
-            mauChartData: null,
-            dauChartData: null,
-            nftMintsChartData: null,
-          }),
-      }}
+    <Typeahead
+      placeholder="Select your regional community account:"
+      options={communityAccounts}
+      value={state.selectedCommunityAccount}
+      onChange={(value) =>
+        State.update({
+          selectedCommunityAccount: value,
+          queryResultIdMAU: null,
+          queryResultIdDevActivities: null,
+          totalLikes: null,
+          githubChartData: null,
+          mauChartData: null,
+          dauChartData: null,
+          nftMintsChartData: null,
+        })
+      }
     />
     {/*Members:{" "}
     {JSON.stringify(state.selectedCommunityAccountMembers)
