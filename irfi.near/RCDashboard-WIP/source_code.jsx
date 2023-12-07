@@ -1,13 +1,3 @@
-const communityAccounts = [
-  { text: "Indonesia - indonesiaguild.near", value: "indonesiaguild.near" },
-  { text: "Test Account - irfi.near", value: "irfi.near" },
-];
-
-State.init({
-  selectedCommunityAccountMembers: [],
-  selectedCommunityAccount: communityAccounts[0],
-});
-
 const getMembers = (accountId) => {
   if (!accountId) return [];
 
@@ -36,10 +26,18 @@ const getMembers = (accountId) => {
   // The RC account is part of members
   members.push(accountId);
 
-  State.update({ selectedCommunityAccountMembers: members });
-
   return members;
 };
+
+const rcDaoMembers = getMembers("rc-dao.near");
+const communityAccounts = rcDaoMembers.map((accountId) => {
+  return { text: accountId, value: accountId };
+});
+
+State.init({
+  selectedCommunityAccountMembers: [],
+  selectedCommunityAccount: communityAccounts[0],
+});
 
 const getTotalWidgetByMembers = (members) => {
   if (!members) return 0;
@@ -482,7 +480,11 @@ const generateNFTTrades = (members) => {
   apiDoQueryToFlipSide(query, "nftTradesChartData");
 };
 
-getMembers(state.selectedCommunityAccount.value);
+State.update({
+  selectedCommunityAccountMembers: getMembers(
+    state.selectedCommunityAccount.value
+  ),
+});
 generateGithubActivities(state.selectedCommunityAccountMembers);
 generateMAU(state.selectedCommunityAccountMembers);
 generateTotalLikes(state.selectedCommunityAccountMembers);
@@ -508,6 +510,7 @@ return (
             githubChartData: null,
             mauChartData: null,
             dauChartData: null,
+            nftTradesChartData: null,
           }),
       }}
     />
