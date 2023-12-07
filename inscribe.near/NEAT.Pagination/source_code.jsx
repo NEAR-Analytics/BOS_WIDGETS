@@ -3,6 +3,36 @@ const MaxGasPerTransaction = TGas.mul(250);
 const GasPerTransaction = MaxGasPerTransaction.plus(TGas);
 const pageAmountOfPage = 5;
 const ipfsPrefix = "https://ipfs.near.social/ipfs";
+
+function toLocaleString(source, decimals, rm) {
+  if (typeof source === "string") {
+    return toLocaleString(Number(source), decimals);
+  } else if (typeof source === "number") {
+    return decimals !== undefined
+      ? source.toLocaleString(undefined, {
+          maximumFractionDigits: decimals,
+          minimumFractionDigits: decimals,
+        })
+      : source.toLocaleString();
+  } else {
+    // Big type
+    return toLocaleString(
+      decimals !== undefined
+        ? Number(source.toFixed(decimals, rm))
+        : source.toNumber(),
+      decimals
+    );
+  }
+}
+
+function formatAmount(balance, decimal) {
+  if (!decimal) decimal = 8;
+  return toLocaleString(
+    Big(balance).div(Big(10).pow(decimal)).toFixed(),
+    decimal
+  );
+}
+
 // Config for Bos app
 function getConfig(network) {
   switch (network) {
@@ -20,12 +50,17 @@ function getConfig(network) {
           tick: "neat",
           amt: "100000000",
         },
+        transferArgs: {
+          p: "nrc-20",
+          op: "transfer",
+          tick: "neat",
+        },
       };
     case "testnet":
       return {
         ownerId: "inscribe.testnet",
         graphUrl:
-          "https://api.thegraph.com/subgraphs/name/inscriptionnear/neat",
+          "https://api.thegraph.com/subgraphs/name/inscriptionnear/neat-test",
         nodeUrl: "https://rpc.testnet.near.org",
         contractName: "inscription.testnet",
         methodName: "inscribe",
@@ -34,6 +69,11 @@ function getConfig(network) {
           op: "mint",
           tick: "neat",
           amt: "100000000",
+        },
+        transferArgs: {
+          p: "nrc-20",
+          op: "transfer",
+          tick: "neat",
         },
       };
     default:
@@ -134,10 +174,10 @@ function generatePageNumbers(current, totalPage) {
 const pageNumbers = generatePageNumbers(current, totalPage);
 return (
   <PaginationContainer>
-    {pageNumbers.map((pageNumber) => {
+    {pageNumbers.map((pageNumber, idx) => {
       if (pageNumber === "...") {
         return (
-          <Pagination style={{ cursor: "default" }} key={pageNumber}>
+          <Pagination style={{ cursor: "default" }} key={idx}>
             {pageNumber}
           </Pagination>
         );
@@ -145,7 +185,7 @@ return (
       if (pageNumber === "&lt;") {
         return (
           <Pagination
-            key={pageNumber}
+            key={idx}
             onClick={() => updateCurrentPage(String(Number(current) - 1))}
             selected={current === pageNumber}
             disabled={Number(current) === 1 || Number(totalPage) === 0}
@@ -159,7 +199,7 @@ return (
       if (pageNumber === "&gt;") {
         return (
           <Pagination
-            key={pageNumber}
+            key={idx}
             onClick={() => updateCurrentPage(String(Number(current) + 1))}
             selected={current === pageNumber}
             disabled={
@@ -174,7 +214,7 @@ return (
       }
       return (
         <Pagination
-          key={pageNumber}
+          key={idx}
           onClick={() => updateCurrentPage(pageNumber)}
           selected={current === pageNumber}
         >
