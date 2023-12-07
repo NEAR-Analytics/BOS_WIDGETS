@@ -23,6 +23,7 @@ const {
   from,
   target,
   handlerSwap,
+  addAction,
   gasCost,
   isGasEnough,
   onSuccess,
@@ -186,6 +187,17 @@ return (
         onSuccess: (res) => {
           State.update({ loading: false });
           const { status, transactionHash } = res;
+          addAction?.({
+            type: "Bridge",
+            fromChainId: from.id,
+            toChainId: target.id,
+            token: currency,
+            amount: amount,
+            template: "Stargate Bridge",
+            add: false,
+            status,
+            transactionHash,
+          });
           if (status === 1) {
             onSuccess?.(transactionHash);
           }
