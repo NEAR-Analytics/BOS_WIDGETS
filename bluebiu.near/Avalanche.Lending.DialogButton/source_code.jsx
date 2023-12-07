@@ -79,7 +79,8 @@ State.init({
   isApproved: false,
 });
 
-const { disabled, actionText, amount, data, onSuccess, onMessage } = props;
+const { disabled, actionText, amount, data, onSuccess, onMessage, addAction } =
+  props;
 
 const account = Ethers.send("eth_requestAccounts", [])[0];
 
@@ -291,7 +292,7 @@ return (
           amount: Big(amount).toFixed(data.underlyingToken.decimals),
           loading: state.pending,
           onSuccess: (res) => {
-            const { status } = res;
+            const { status, transactionHash } = res;
             State.update({
               pending: false,
             });
@@ -302,7 +303,16 @@ return (
                 status === 1 ? " successed!" : " failed!"
               }`,
             });
-
+            addAction?.({
+              type: "Lending",
+              action: actionText,
+              token: data.underlyingToken,
+              amount,
+              template: data.dappName,
+              add: false,
+              status,
+              transactionHash,
+            });
             if (status === 1) {
               onSuccess?.(data.dapp);
             }
