@@ -24,6 +24,10 @@ const BlurScreen = styled.div`
     align-items: center;
 `;
 
+if (!Near.signAndSendTransactions) {
+  return <p>Sorry, your Gateway does not support this feature.</p>;
+}
+
 if (context.accountId == null) {
   return (
     <Page>
