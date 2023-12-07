@@ -45,7 +45,7 @@ const swap = () => {
 
   const overrides = {
     value: amountIn,
-    gasLimit: 3500000,
+    gasLimit: 3000000,
   };
 
   try {
