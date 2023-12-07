@@ -36,9 +36,7 @@ function libStateUpdate(obj) {
 function isValidUser(props) {
   const { accountId, sbtsNames } = props;
   const userSBTs = Near.view(
-    context.networkId === "testnet"
-      ? "registry-v2.i-am-human.testnet"
-      : "registry.i-am-human.near",
+    "registry.i-am-human.near",
     "sbt_tokens_by_owner",
     {
       account: accountId,
