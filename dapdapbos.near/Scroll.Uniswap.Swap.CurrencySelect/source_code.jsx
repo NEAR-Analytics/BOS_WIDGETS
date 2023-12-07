@@ -44,7 +44,7 @@ const Overlay = styled.div`
 
 const Content = styled.div`
   width: 516px;
-  max-height: 90vh;
+  max-height: 80vh;
   overflow: hidden;
   border-radius: 12px;
   position: relative;
@@ -91,7 +91,7 @@ const Title = styled.div`
   font-weight: 500;
 `;
 const ScrollContent = styled.div`
-  height: calc(90vh - 120px);
+  height: calc(80vh - 120px);
   overflow-y: auto;
 `;
 const CurrencyList = styled.div`
