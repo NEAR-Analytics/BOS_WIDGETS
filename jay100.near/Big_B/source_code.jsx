@@ -5,11 +5,18 @@ const Game_Box = () => {
    margin: 0;
    display: flex;
    align-items: center;
-   justify-content: center;
    height: 80vh;
+   flex-direction: column;
    }
+
+   .score{
+    padding: 1rem;
+    font-size: 1.5rem;
+   }
+
 </style>
 <body>
+  <div class="score">Score: 0</div>
 </body>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.0/p5.js" integrity="sha512-2r+xZ/Dm8+HI0I8dsj1Jlfchv4O3DGfWbqRalmSGtgdbVQrZyGRqHp9ek8GKk1x8w01JsmDZRrJZ4DzgXkAU+g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script>
@@ -27,7 +34,7 @@ const Game_Box = () => {
    
    
    function setup() {
-      createCanvas(windowWidth, windowHeight);
+      createCanvas(windowWidth, windowHeight * 0.9);
       groundY = height; // Ground position
     }
    
@@ -40,7 +47,7 @@ const Game_Box = () => {
    
       if (hoveredCircle) {
         hoveredCircle.x = mouseX;
-        hoveredCircle.y = 100; // Adjust the y position as needed
+        hoveredCircle.y = 50; // Adjust the y position as needed
         fill(hoveredCircle.color.r, hoveredCircle.color.g, hoveredCircle.color.b);
         ellipse(hoveredCircle.x, hoveredCircle.y, hoveredCircle.radius * 2);
     }      
@@ -65,7 +72,7 @@ const Game_Box = () => {
       const randSizePos = Math.floor(Math.random() * 3);
 
          if (!hoveredCircle) {
-        hoveredCircle = new Circle(mouseX, 100, circleColors[randCircPos]);
+        hoveredCircle = new Circle(mouseX, 50, circleColors[randCircPos]);
         hoveredCircle.radius = sizes[randSizePos];
           } else {
         
@@ -106,11 +113,11 @@ const Game_Box = () => {
           }
    
            // Check for hitting another circle
-          for (let j = 0; j < droppedCircles.length; j++) {
-            if (this !== droppedCircles[j] && this.intersects(droppedCircles[j])) {
-              this.resolveCollision(droppedCircles[j]);
-            }
-          }
+          // for (let j = 0; j < droppedCircles.length; j++) {
+           // if (this !== droppedCircles[j] && this.intersects(droppedCircles[j])) {
+              // this.resolveCollision(droppedCircles[j]);
+           // }
+         // }
    
           // Check for hitting the ground
           if (this.y + this.radius >= groundY) {
@@ -194,16 +201,16 @@ const Game_Box = () => {
 
    
         // Move droppedCircles apart to avoid overlap
-        this.x -= separationX / 8;
-        this.y -= separationY / 8;
-        other.x += separationX / 8;
-        other.y += separationY / 8;
+        this.x -= separationX / 2;
+        this.y -= separationY / 2;
+        other.x += separationX / 2;
+        other.y += separationY / 2;
 
 
         // Update velocities for a bounce effect with mass consideration
 
-         let massFactor = 0.03;
-    let forceFactor = (this.radius - other.radius) * massFactor;
+         // let massFactor = 0.03;
+        // let forceFactor = (this.radius - other.radius) * massFactor;
 
     // Update velocities for a bounce effect with mass consideration
     // Modify this part accordingly to suit your specific behavior
@@ -214,10 +221,13 @@ const Game_Box = () => {
     let thisDirection = atan2(this.ySpeed, this.xSpeed);
     let otherDirection = atan2(other.ySpeed, other.xSpeed);
 
-    let newThisXSpeed = otherSpeed * cos(otherDirection - angle) * cos(angle) + (thisSpeed - forceFactor) * sin(thisDirection - angle) * cos(angle + HALF_PI);
-    let newThisYSpeed = otherSpeed * cos(otherDirection - angle) * sin(angle) + (thisSpeed - forceFactor) * sin(thisDirection - angle) * sin(angle + HALF_PI);
-    let newOtherXSpeed = (thisSpeed + forceFactor) * cos(thisDirection - angle) * cos(angle) + otherSpeed * sin(otherDirection - angle) * cos(angle + HALF_PI);
-    let newOtherYSpeed = (thisSpeed + forceFactor) * cos(thisDirection - angle) * sin(angle) + otherSpeed * sin(otherDirection - angle) * sin(angle + HALF_PI);
+
+    // this(thisSpeed - forceFactor)
+    // other(thisSpeed + forceFactor)
+    let newThisXSpeed = otherSpeed * cos(otherDirection - angle) * cos(angle) + (thisSpeed) * sin(thisDirection - angle) * cos(angle + HALF_PI);
+    let newThisYSpeed = otherSpeed * cos(otherDirection - angle) * sin(angle) + (thisSpeed) * sin(thisDirection - angle) * sin(angle + HALF_PI);
+    let newOtherXSpeed = (thisSpeed) * cos(thisDirection - angle) * cos(angle) + otherSpeed * sin(otherDirection - angle) * cos(angle + HALF_PI);
+    let newOtherYSpeed = (thisSpeed) * cos(thisDirection - angle) * sin(angle) + otherSpeed * sin(otherDirection - angle) * sin(angle + HALF_PI);
 
     this.xSpeed = newThisXSpeed;
     this.ySpeed = newThisYSpeed;
