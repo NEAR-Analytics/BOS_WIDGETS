@@ -182,4 +182,8 @@ const DATAPrice = (props) => {
     </CoinPrices>
   );
 };
+
+if (!DATAPrice) {
+  return "Loading...";
+}
 return <DATAPrice />;
