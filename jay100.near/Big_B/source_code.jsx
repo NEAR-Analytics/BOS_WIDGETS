@@ -16,7 +16,7 @@ const Game_Box = () => {
 
 </style>
 <body>
-  <div class="score">Score: 0</div>
+  <div class="score" id="score">Score: 0</div>
 </body>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.0/p5.js" integrity="sha512-2r+xZ/Dm8+HI0I8dsj1Jlfchv4O3DGfWbqRalmSGtgdbVQrZyGRqHp9ek8GKk1x8w01JsmDZRrJZ4DzgXkAU+g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script>
@@ -29,6 +29,7 @@ const Game_Box = () => {
    let hoveredCircle = null;
    const sizes = [10, 20, 40];
    let circleColors = [{r: 255, g: 0, b: 0},{r: 0, g: 255, b: 0},{r: 0, g: 0, b: 255}]
+   let gameScore = 0;
   
    
    
@@ -67,7 +68,7 @@ const Game_Box = () => {
     }
    
     function mouseClicked() {
-      console.log(droppedCircles);
+      gameScore += 1;
       const randCircPos = Math.floor(Math.random() * 3);
       const randSizePos = Math.floor(Math.random() * 3);
 
@@ -240,8 +241,9 @@ const Game_Box = () => {
 `;
   return <iframe className="w-100 h-100" srcDoc={code} />;
 };
+
 return (
-  <div style={{ width: "400px", height: "90%" }} className="mx-auto">
+  <div style={{ width: "400px", height: "100%" }} className="mx-auto">
     <Game_Box />
   </div>
 );
