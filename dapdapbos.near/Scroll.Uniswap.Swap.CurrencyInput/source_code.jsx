@@ -6,6 +6,7 @@ const Wrapper = styled.div`
   border-radius: 16px;
   padding: 20px;
   background: var(--input-bg-color);
+  border: 1px solid var(--input-bg-color);
 `;
 const InputField = styled.div`
   margin-right: 8px;
@@ -171,7 +172,7 @@ const handlers = {
 };
 
 return (
-  <Wrapper>
+  <Wrapper style={{ borderColor: state.inputing ? "#756b68" : "#fff0dd" }}>
     <Widget
       src="dapdapbos.near/widget/Uniswap.Swap.CurrencyBalance"
       props={{
@@ -194,6 +195,17 @@ return (
             value={props.amount}
             disabled={props.disabled}
             onChange={handlers.handleInputChange}
+            placeholder="0"
+            onFocus={() => {
+              State.update({
+                inputing: true,
+              });
+            }}
+            onBlur={() => {
+              State.update({
+                inputing: false,
+              });
+            }}
           />
         </InputWarpper>
         <Value>
