@@ -2,25 +2,12 @@ const accountId = props.accountId || props.notifyAccountId
 const blockHeight = props.blockHeight || props.item?.blockHeight
 const itemGlobalId = `bos/${blockHeight}/${accountId}/post/main`;
 
-// const link =
-//   props.link ||
-//   props.fullPostLink ||
-//   `/mob.near/widget/MainPage.N.Post.Page?accountId=${accountId}&blockHeight=${blockHeight}`;
-// console.log('link', link)
-
-// const content = JSON.parse(
-//   Social.get(`${accountId}/post/main`, blockHeight) ?? "null"
-// );
-// console.log('content', content)
-
 const MAX_AMOUNT_PER_ITEM = '10000000000000000000000000'; // 10 NEAR
 const MAX_AMOUNT_PER_TIP = '1000000000000000000000000'; // 1 NEAR
 const TIPPING_CONTRACT_NAME = "v2.tipping.near";
 
 const STEP = 0.05
 const DELAY = 2;
-// if (STEP <= 0) throw new Error('The tip step must be more than zero. Change the step parameter in the dapplet settings.');
-// if (DELAY <= 0) throw new Error('A delay must be greater than zero. Change the delay parameter in the dapplet settings.');
 
 State.update({
   totalTipsByItemId: Near.view(TIPPING_CONTRACT_NAME, "getTotalTipsByItemId", {
@@ -157,13 +144,14 @@ function calculateFee(num) {
   return b.toString()
 }
 
+const limitPerItem = Number(formatNear(MAX_AMOUNT_PER_ITEM));
+
 useEffect(() => {
   if (accountId && blockHeight) {
     if (equals(state.totalTipsByItemId, '0')) {
       State.update({
         accountId,
         blockHeight,
-        hidden: false,
         disabled: false,
         loading: false,
         label: 'Tip',
@@ -171,33 +159,28 @@ useEffect(() => {
         donationsAmount: state.totalTipsByItemId,
         amount: state.amount || '0',
       })
+    } else if (Number(formatNear(state.totalTipsByItemId)) === limitPerItem) {
+      State.update({
+        accountId,
+        blockHeight,
+        disabled: true,
+        loading: false,
+        label: formatNear(state.totalTipsByItemId) + ' NEAR',
+        tooltip: `The ${limitPerItem} NEAR limit for this content has been exceeded`,
+        donationsAmount: state.totalTipsByItemId,
+        amount: state.amount || '0',
+      })
     } else {
-      const limit = Number(formatNear(MAX_AMOUNT_PER_ITEM));
-      if (Number(formatNear(state.totalTipsByItemId)) === limit) {
-        State.update({
-          accountId,
-          blockHeight,
-          hidden: false,
-          disabled: true,
-          loading: false,
-          label: formatNear(state.totalTipsByItemId) + ' NEAR',
-          tooltip: `The ${limit} NEAR limit for this content has been exceeded`,
-          donationsAmount: state.totalTipsByItemId,
-          amount: state.amount || '0',
-        })
-      } else {
-        State.update({
-          accountId,
-          blockHeight,
-          hidden: false,
-          disabled: false,
-          loading: false,
-          label: formatNear(state.totalTipsByItemId) + ' NEAR',
-          tooltip: 'Send donation',
-          donationsAmount: state.totalTipsByItemId,
-          amount: state.amount || '0',
-        })
-      }
+      State.update({
+        accountId,
+        blockHeight,
+        disabled: false,
+        loading: false,
+        label: formatNear(state.totalTipsByItemId) + ' NEAR',
+        tooltip: 'Send donation',
+        donationsAmount: state.totalTipsByItemId,
+        amount: state.amount || '0',
+      })
     }
   }
 }, [accountId, blockHeight, state.totalTipsByItemId]);
@@ -244,27 +227,27 @@ const debounceDelay = getMilliseconds(DELAY);
 const debouncedDonate = debounce(onDebounceDonate, debounceDelay, 'donate')
 
 const onClick = () => {
-  const donationsAmount = Number(formatNear(state.donationsAmount));
+  const donationsAmountStr = formatNear(state.donationsAmount)
+  const donationsAmount = Number(donationsAmountStr);
   const donation = Number(formatNear(state.amount));
   const result = Number((donationsAmount + donation + STEP).toFixed(2));
-  const limit = Number(formatNear(MAX_AMOUNT_PER_ITEM));
-  if (result > limit) {
+  if (result > limitPerItem) {
     if (donation === 0) {
       State.update({
         disabled: true,
-        label: donationsAmount + ' + ' + STEP + ' NEAR',
-        tooltip: `The ${MAX_AMOUNT_PER_ITEM} NEAR limit for this content has been exceeded`,
+        label: donationsAmountStr + ' + ' + STEP + ' NEAR',
+        tooltip: `The ${limitPerItem} NEAR limit for this content has been exceeded`,
       })
       setTimeout(() => State.update({
         disabled: false,
-        label: donationsAmount + ' NEAR',
+        label: donationsAmountStr + ' NEAR',
         tooltip: 'Send donation',
       }), 3000)
       return 
     }
     State.update({
       disabled: true,
-      tooltip: `The ${MAX_AMOUNT_PER_ITEM} NEAR limit for this content has been exceeded`,
+      tooltip: `The ${limitPerItem} NEAR limit for this content has been exceeded`,
     })
     return
   }
@@ -273,7 +256,7 @@ const onClick = () => {
   if (lte(expectedItemAmount, MAX_AMOUNT_PER_ITEM) && lte(expectedExpenses, MAX_AMOUNT_PER_TIP)) {
     const newLabel = formatNear(state.donationsAmount) + ' + ' + formatNear(expectedExpenses) + ' NEAR'
     State.update({
-      disabled: result === limit,
+      disabled: result === limitPerItem,
       label: newLabel,
       amount: expectedExpenses,
     })
@@ -290,7 +273,7 @@ const icon = (
 );
 
 // styles
-const LikeButton = styled.div`
+const LikeButton = styled.button`
   line-height: 20px;
   min-height: 20px;
   display: inline-flex;
@@ -300,6 +283,9 @@ const LikeButton = styled.div`
   color: inherit;
   font-size: 16px;
   user-select: none;
+  border: none;
+  margin: 0;
+  padding: 0;
   .icon {
     position: relative;
     &:before {
