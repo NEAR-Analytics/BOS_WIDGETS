@@ -217,7 +217,10 @@ return (
       <div className="flex-grow contentOut">
         {activeMenu == "Bridge" ? (
           <>
-            <Widget src="bluebiu.near/widget/Avalanche.Bridge" />
+            <Widget
+              src="bluebiu.near/widget/Avalanche.Bridge"
+              props={{ ...props }}
+            />
           </>
         ) : null}
         {/* {activeMenu == "swap" ? <></> : null} */}
