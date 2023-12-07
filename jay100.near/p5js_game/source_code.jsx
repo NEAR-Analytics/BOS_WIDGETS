@@ -1,5 +1,5 @@
 const Game_Box = () => {
-const code = `
+  const code = `
 <style>
    body {
    margin: 0;
@@ -14,38 +14,16 @@ const code = `
 <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.0/p5.js" integrity="sha512-2r+xZ/Dm8+HI0I8dsj1Jlfchv4O3DGfWbqRalmSGtgdbVQrZyGRqHp9ek8GKk1x8w01JsmDZRrJZ4DzgXkAU+g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script>
 
-    let circles = [];
+        let circles = [];
    let droppedCircles = [];
    let groundY;
    let nextCircleColor = { r: 255, g: 0, b: 0 }; // Color of the next circle to be dropped
    let lastDroppedCircleColor = { r: 255, g: 0, b: 0 }; // Color of the last dropped circle
    let hoveredCircle = null;
+   const sizes = [20, 30, 40];
+   let circleColors = [{r: 255, g: 0, b: 0},{r: 0, g: 255, b: 0},{r: 0, g: 0, b: 255}]
+  
    
-   
-   // console.log('nxt', nextCircleColor);
-   // console.log('lst', lastDroppedCircleColor);
-   // console.log('hovCircle', hoveredCircle);
-   
-   const generateRandColor = () => {
-    let circleColors = [{r: 255, g: 0, b: 0},{r: 0, g: 255, b: 0},{r: 0, g: 0, b: 255}]
-   
-     let randPos = Math.floor(Math.random() * circleColors.length)
-   
-    return circleColors[randPos]
-   }
-   
-   const generateGameCircles = () => {
-    const sizes = [15, 20, 25]
-   
-    const gameCircles = sizes.map((size) => {
-      const circle = new Circle(mouseX, 100, {r: 255, b: 0, g: 0});
-   
-      circle.radius = size;
-   
-      return circle;
-    })
-    return gameCircles;
-    }
    
    
    function setup() {
@@ -54,16 +32,18 @@ const code = `
     }
    
     function draw() {
-      background(220);
+      background(220)
    
       let mouseYPos = mouseY;
       stroke(0);
       line(mouseX, 0, mouseX, windowHeight);
    
       if (hoveredCircle) {
-          fill(hoveredCircle.color.r, hoveredCircle.color.g, hoveredCircle.color.b);
-          ellipse(mouseX, 90, 50, 50); // Display the hovered circle at the top of the box
-      }      
+        hoveredCircle.x = mouseX;
+        hoveredCircle.y = 100; // Adjust the y position as needed
+        fill(hoveredCircle.color.r, hoveredCircle.color.g, hoveredCircle.color.b);
+        ellipse(hoveredCircle.x, hoveredCircle.y, hoveredCircle.radius * 2);
+    }      
    
       for (let i = 0; i < droppedCircles.length; i++) {
         droppedCircles[i].display();
@@ -80,21 +60,21 @@ const code = `
     }
    
     function mouseClicked() {
-        if (!hoveredCircle) {
-          hoveredCircle = new Circle(mouseX, 90, generateRandColor());
-          console.log('createHoveredCircle', hoveredCircle);
-        } else {
-   
-          let newCircle = new Circle(mouseX, 100, hoveredCircle.color); // Create a new circle with the color of the last hovered circle
-          console.log('newCircle', newCircle);
-   
-          droppedCircles.push(newCircle);
-          console.log('circArr', droppedCircles);
-   
-          hoveredCircle = new Circle(mouseX, 90, generateRandColor()); // Generate a new color for the hovered circle
-          // console.log('update Hovered', hoveredCircle);
-   
-        }
+      const randPos = Math.floor(Math.random() * 3);
+
+      console.log(droppedCircles);
+
+         if (!hoveredCircle) {
+        hoveredCircle = new Circle(mouseX, 100, circleColors[randPos]);
+        hoveredCircle.radius = sizes[randPos];
+          } else {
+        
+        let newDroppedCircle = new Circle(hoveredCircle.x, hoveredCircle.y, hoveredCircle.color);
+        newDroppedCircle.radius = hoveredCircle.radius;
+
+        droppedCircles.push(newDroppedCircle); // Add the new dropped circle
+        hoveredCircle = null; // Reset hoveredCircle
+          }
      }
    
      class Circle {
@@ -110,7 +90,7 @@ const code = `
       }
    
       display() {
-        fill(this.color.r, this.color.b, this.color.g);
+        fill(this.color.r, this.color.g, this.color.b);
         ellipse(this.x, this.y, this.radius * 2);
       }
    
@@ -168,26 +148,31 @@ const code = `
       }
    
       checkCircleCollision(otherCircle) {
-            let dx = this.x - otherCircle.x;
-            let dy = this.y - otherCircle.y;
-            let distanceSquared = dx * dx + dy * dy;
-   
-            let minDistanceSquared = (this.radius + otherCircle.radius) * (this.radius + otherCircle.radius);
-   
-            if (distanceSquared <= minDistanceSquared) {
-                if (this.color.r === otherCircle.color.r &&
-                    this.color.g === otherCircle.color.g &&
-                    this.color.b === otherCircle.color.b &&
-                    this.radius === otherCircle.radius) {
-                        // Merge droppedCircles if they touch and have the same color and radius
-                          let newRadius = sqrt(sq(this.radius) + sq(otherCircle.radius));
-                          this.radius = newRadius;
-                          otherCircle.radius = 0; // Make the other circle disappear
-                        } else {
-                            // Resolve collision as a bounce
-                            this.resolveCollision(otherCircle);
-                  }
-            }
+                let dx = this.x - otherCircle.x;
+    let dy = this.y - otherCircle.y;
+    let distanceSquared = dx * dx + dy * dy;
+
+    let minDistanceSquared = (this.radius + otherCircle.radius) * (this.radius + otherCircle.radius);
+
+    if (distanceSquared <= minDistanceSquared) {
+        let radiusDifference = abs(this.radius - otherCircle.radius);
+        let mergeThreshold = 3; // Set your threshold for merging circles
+
+        if (
+            this.color.r === otherCircle.color.r &&
+            this.color.g === otherCircle.color.g &&
+            this.color.b === otherCircle.color.b &&
+            radiusDifference <= mergeThreshold
+        ) {
+            // Merge circles if they touch and have similar color and radius
+            let newRadius = sqrt(sq(this.radius) + sq(otherCircle.radius));
+            this.radius = newRadius;
+            otherCircle.radius = 0; // Make the other circle disappear
+        } else {
+            // Resolve collision as a bounce
+            this.resolveCollision(otherCircle);
+        }
+    }
       }
    
       resolveCollision(other) {
@@ -222,14 +207,15 @@ const code = `
         this.ySpeed = newThisYSpeed;
         other.xSpeed = newOtherXSpeed;
         other.ySpeed = newOtherYSpeed;
+
       }
     }
 </script>
 `;
-return <iframe className="w-100 h-100" srcDoc={code} />;
+  return <iframe className="w-100 h-100" srcDoc={code} />;
 };
 return (
-<div style={{ width: "400px", height: "90%" }} className="mx-auto">
-<Game_Box />
-</div>
+  <div style={{ width: "400px", height: "90%" }} className="mx-auto">
+    <Game_Box />
+  </div>
 );
