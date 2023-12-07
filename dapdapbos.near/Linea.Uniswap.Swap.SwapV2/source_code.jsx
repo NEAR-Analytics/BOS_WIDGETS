@@ -12,7 +12,6 @@ const {
   QuoterSyncswap,
   onImport,
   onSetSlippage,
-  onAddHistoryToken,
 } = props;
 
 if (account) {
@@ -181,10 +180,6 @@ const getBestTrade = () => {
   State.update({
     loading: true,
     state: null,
-  });
-  onAddHistoryToken?.({
-    [state.inputCurrency.address]: state.inputCurrency,
-    [state.outputCurrency.address]: state.outputCurrency,
   });
 };
 
@@ -369,10 +364,6 @@ return (
                 updateInputTokenBalance: true,
                 updateOutputTokenBalance: true,
               });
-              onAddHistoryToken?.({
-                [state.inputCurrency.address]: state.inputCurrency,
-                [state.outputCurrency.address]: state.outputCurrency,
-              });
             },
             onPending: (pending) => {
               State.update({
@@ -442,7 +433,7 @@ return (
             chainId: props.chainId,
             explor: props.explor,
             tokens: dexConfig.tokens,
-            historyTokens: dexConfig.historyTokens,
+            stableTokens: dexConfig.stableTokens,
             onImport,
             onClose: () => {
               State.update({
