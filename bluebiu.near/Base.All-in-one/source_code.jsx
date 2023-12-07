@@ -222,6 +222,7 @@ return (
               src="bluebiu.near/widget/Base.Bridge"
               props={{
                 layout: "center",
+                ...props,
               }}
             />
           </>
@@ -232,6 +233,7 @@ return (
               src="bluebiu.near/widget/Base.BaseDex"
               props={{
                 layout: "center",
+                ...props,
               }}
             />
           </>
