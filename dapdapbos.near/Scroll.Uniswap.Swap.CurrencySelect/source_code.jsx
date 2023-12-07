@@ -43,7 +43,7 @@ const Overlay = styled.div`
 `;
 
 const Content = styled.div`
-  width: 460px;
+  width: 516px;
   max-height: 90vh;
   overflow: hidden;
   border-radius: 12px;
@@ -203,9 +203,9 @@ const handleSearch = () => {
     });
   }
 };
-const topTokens = Object.values(props.historyTokens || {});
+const topTokens = props.stableTokens || [];
 const TABS = ["All", "Imported"];
-
+console.log("topTokens", topTokens);
 return (
   <Dialog className={props.display ? "display" : ""}>
     <Overlay>
