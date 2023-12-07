@@ -189,6 +189,7 @@ return (
         quoterV3: "dapdapbos.near/widget/DappEntry.mantleQuoter",
         handlerV2: "bluebiu.near/widget/Arbitrum.Swap.HandlerV2",
         handlerV3: "bluebiu.near/widget/Arbitrum.Swap.HandlerV3",
+        ...props,
       }}
     />
   </Container>
