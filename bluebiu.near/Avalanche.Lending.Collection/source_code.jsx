@@ -1,5 +1,12 @@
-const { chainId, chainName, connectProps, dapps, defaultDapp, multicallv2 } =
-  props;
+const {
+  chainId,
+  chainName,
+  connectProps,
+  dapps,
+  defaultDapp,
+  multicallv2,
+  addAction,
+} = props;
 
 const account = Ethers.send("eth_requestAccounts", [])[0];
 if (!account) {
@@ -167,6 +174,7 @@ return (
         props={{
           display: state.showDialog,
           data: state.tableButtonClickData,
+          addAction,
           onClose: () => {
             State.update({
               showDialog: false,
