@@ -222,6 +222,7 @@ return (
               src="bluebiu.near/widget/Metis.Bridge"
               props={{
                 layout: "center",
+                ...props,
               }}
             />
           </>
@@ -232,6 +233,7 @@ return (
               src="bluebiu.near/widget/Metis.Swap.Dex"
               props={{
                 layout: "center",
+                ...props,
               }}
             />
           </>
