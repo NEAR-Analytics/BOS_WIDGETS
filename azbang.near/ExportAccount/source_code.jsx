@@ -92,7 +92,7 @@ return (
       padding: 24,
       paddingTop: 16,
       borderRadius: 24,
-      margin: "25% auto 0",
+      margin: "20% auto 0",
     }}
   >
     <h2 style={{ marginTop: 0 }}>Export account</h2>
