@@ -240,6 +240,7 @@ return (
           pair: activePair,
           refetch: postRefetch,
           can_add_action: state.add_action,
+          addAction: props.addAction,
         }}
       />
       <Widget
