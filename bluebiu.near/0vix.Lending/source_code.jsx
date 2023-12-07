@@ -59,6 +59,7 @@ const MARKETS = {
     underlyingToken: {
       address: "0xa2036f0538221a77A3937F1379699f44945018d0",
       decimals: 18,
+      symbol: "MATIC",
     },
     decimals: 8,
     symbol: "oMATIC",
@@ -70,6 +71,7 @@ const MARKETS = {
     underlyingToken: {
       address: "0xA8CE8aee21bC2A48a5EF670afCc9274C7bbbC035",
       decimals: 6,
+      symbol: "USDC",
     },
     decimals: 8,
     symbol: "oUSDC",
@@ -81,6 +83,7 @@ const MARKETS = {
     underlyingToken: {
       address: "0x1E4a5963aBFD975d8c9021ce480b42188849D41d",
       decimals: 6,
+      symbol: "USDT",
     },
     decimals: 8,
     symbol: "oUSDT",
@@ -92,6 +95,7 @@ const MARKETS = {
     underlyingToken: {
       address: "native",
       decimals: 18,
+      symbol: "ETH",
     },
     decimals: 8,
     symbol: "oETH",
@@ -103,6 +107,7 @@ const MARKETS = {
     underlyingToken: {
       address: "0x4F9A0e7FD2Bf6067db6994CF12E4495Df938E6e9",
       decimals: 18,
+      symbol: "WETH",
     },
     decimals: 8,
     symbol: "oWETH",
@@ -114,6 +119,7 @@ const MARKETS = {
     underlyingToken: {
       address: "0xEA034fb02eB1808C2cc3adbC15f447B93CbE08e1",
       decimals: 8,
+      symbol: "WBTC",
     },
     decimals: 8,
     symbol: "oWBTC",
