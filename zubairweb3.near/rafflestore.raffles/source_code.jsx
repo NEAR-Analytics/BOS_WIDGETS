@@ -30,22 +30,10 @@ const dog =
 const defaultnft =
   "https://res.cloudinary.com/dfbqtfoxu/image/upload/v1700588097/rafflestore/defaultnft_hrzyyp.jpg";
 
-const accountId = props.accountId || context.accountId;
-const contracts = props.contracts ||
-  context.contracts || [
-    "mint.sharddog.near",
-    "comic.sharddog.near",
-    "humansofbrazil.sharddog.near",
-    "mmc-mint.sharddog.near",
-    "nft.bluntdao.near",
-    "meteor.sharddog.near",
-    "open.sharddog.near",
-  ];
-const marketId = "simple.market.mintbase1.near";
+const limit = 50;
+const offset = 0;
 
-const AFFILIATE_ACCOUNT = props.affiliateAccount || "mintbase.near";
-
-const data = fetch("https://graph.mintbase.xyz", {
+const data = fetch("https://graph.mintbase.xyz/mainnet", {
   method: "POST",
   headers: {
     "mb-api-key": "omni-site",
@@ -54,24 +42,35 @@ const data = fetch("https://graph.mintbase.xyz", {
   },
   body: JSON.stringify({
     query: `
-      query MyQuery($contracts: [String]) {
-        mb_views_active_listings_by_contract(limit: 100, order_by: {created_at: desc}, where: {market_id: {_eq: "simple.market.mintbase1.near"}, nft_contract_id: {_in: $contracts}}) {
-            listed_by
-            created_at
-            price
-            nft_contract_id
-            token_id
-            metadata_id
-            title
-            media
-        }   
-      }
-`,
-    variables: {
-      contracts: contracts,
-    },
+          query MyQuery {
+            mb_views_nft_tokens(
+                limit: ${limit},
+                offset: ${offset}
+            where: {
+          _or: [
+            {nft_contract_id: {_eq: "mint.sharddog.near"}},
+            {nft_contract_id: {_eq: "comic.sharddog.near"}},
+            {nft_contract_id: {_eq: "humansofbrazil.sharddog.near"}},
+            {nft_contract_id: {_eq: "mmc-mint.sharddog.near"}},
+            {nft_contract_id: {_eq: "nft.bluntdao.near"}},
+            {nft_contract_id: {_eq: "meteor.sharddog.near"}},
+             {nft_contract_id: {_eq: "open.sharddog.near"}},
+          ]
+        }
+              order_by: {minted_timestamp: desc}
+            ) {
+              media
+              owner
+              title
+              metadata_id
+              token_id
+            }
+          }
+        `,
   }),
 });
+
+console.log(data.body.data.mb_views_nft_tokens);
 
 State.init({ raffleData: {} });
 console.log(data.body.data.mb_views_active_listings_by_contract);
@@ -81,7 +80,7 @@ const nftData = [
     id: 1,
     name: "SharDog Raffles",
     image: dog,
-    nft: data.body.data.mb_views_active_listings_by_contract,
+    nft: data.body.data.mb_views_nft_tokens,
   },
   {
     id: 2,
