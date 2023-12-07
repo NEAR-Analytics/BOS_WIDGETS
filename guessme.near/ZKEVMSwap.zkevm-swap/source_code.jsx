@@ -874,51 +874,21 @@ if (params && selectedChainId === 1101 && state.hasGetStorage === false) {
   });
 }
 
-const AccessKey = Storage.get(
-  "AccessKey",
-  "guessme.near/widget/ZKEVMWarmUp.add-to-quest-card"
-);
-function add_action(param_body) {
-  asyncFetch("/dapdap/api/action/add", {
-    method: "post",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: AccessKey,
-    },
-    body: JSON.stringify(param_body),
-  });
-}
-
 const onCallTxComple = (tx) => {
   console.log("transactionHash", tx);
-
-  const uuid = Storage.get(
-    "zkevm-warm-up-uuid",
-    "guessme.near/widget/ZKEVMWarmUp.generage-uuid"
-  );
-
   tx.wait().then((receipt) => {
     const { status, transactionHash } = receipt;
 
-    add_action({
-      action_title: `Swap ${
-        Number(state.inputAssetAmount) < 0.000001
-          ? "<0.000001"
-          : new Big(state.inputAssetAmount).toFixed(6)
-      }   ${state.inputAsset.metadata.symbol} on ${selectedDex}`,
-      action_type: "Swap",
-      action_tokens: JSON.stringify([
-        `${state.inputAsset.metadata.symbol}`,
-        `${state.outputAsset.metadata.symbol}`,
-      ]),
-      action_amount: state.inputAssetAmount,
-      account_id: state.sender,
-      action_network_id: "zkEVM",
-      account_info: uuid,
+    props.addAction?.({
+      type: "Swap",
+      inputCurrencyAmount: state.inputAssetAmount,
+      inputCurrency: state.inputAsset.metadata,
+      outputCurrencyAmount: state.outputAssetAmount,
+      outputCurrency: state.outputAsset.metadata,
       template: selectedDex,
-      action_status: status === 1 ? "Success" : "Failed",
-      action_switch: state.add ? 1 : 0,
-      tx_id: transactionHash,
+      status,
+      add: state.add,
+      transactionHash,
     });
 
     State.update({
@@ -1234,6 +1204,5 @@ return (
         />
       </div>
     </SwapMainContainer>
-    <Widget src="guessme.near/widget/ZKEVMWarmUp.generage-uuid" />
   </>
 );
