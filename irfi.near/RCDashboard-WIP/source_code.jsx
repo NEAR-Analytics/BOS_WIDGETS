@@ -1,14 +1,12 @@
-State.init({
-  selectedCommunityAccountMembers: [],
-  selectedCommunityAccount: null,
-  queryResultIdMAU: null,
-  queryResultIdDevActivities: null,
-});
-
 const communityAccounts = [
   { text: "Indonesia - indonesiaguild.near", value: "indonesiaguild.near" },
   { text: "Test Account - irfi.near", value: "irfi.near" },
 ];
+
+State.init({
+  selectedCommunityAccountMembers: [],
+  selectedCommunityAccount: communityAccounts[0],
+});
 
 const getMembers = (accountId) => {
   if (!accountId) return [];
@@ -35,6 +33,9 @@ const getMembers = (accountId) => {
 
   let members = [...new Set(following.filter((item) => followers.has(item)))];
 
+  // The RC account is part of members
+  members.push(accountId);
+
   State.update({ selectedCommunityAccountMembers: members });
 
   return members;
@@ -56,8 +57,31 @@ const getTotalWidgetByMembers = (members) => {
   return total;
 };
 
-const generateChartCode = (data, valueLabel, label, barColor) => {
-  return `
+const getTotalPostByMembers = (members) => {
+  if (!members) return 0;
+
+  const total = members
+    .map((accountId) => {
+      return Object.keys(
+        Social.keys(`${accountId}/post/*`, "final", {
+          return_type: "BlockHeight",
+          values_only: false,
+        })[accountId].post || {}
+      ).length;
+    })
+    .reduce((a, b) => a + b, 0);
+  return total;
+};
+
+const chart = ({
+  data,
+  header,
+  valueLabel,
+  label,
+  barColor,
+  staticDisplay,
+}) => {
+  const srcDoc = `
 <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
 <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -122,15 +146,36 @@ const dates = sortedData.map((entry) => entry["year_month"]);
 fetchData();
 </script>
 `;
+  return (
+    <Widget
+      src="contribut3.near/widget/Card"
+      props={{
+        header: header,
+        body: staticDisplay ? (
+          <div style={{ margin: "auto" }}>{staticDisplay}</div>
+        ) : data ? (
+          <iframe
+            className="w-100"
+            style={{ height: "300px" }}
+            srcDoc={srcDoc}
+          />
+        ) : (
+          <div style={{ margin: "auto" }}>
+            <Widget src="flashui.near/widget/Loading" props={{}} />
+          </div>
+        ),
+      }}
+    />
+  );
 };
 
-const doQueryToFlipside = (query, queryResultKey) => {
+const doQueryToFlipside = (query, queryResultId, dataLabel) => {
   // create run (https://docs.flipsidecrypto.com/flipside-api/rest-api)
   const headers = {};
   headers["Content-Type"] = "application/json";
   headers["x-api-key"] = "3638c7b4-6a72-4a1f-a61d-613aa1fc1a9c";
 
-  if (!state.queryResultIdMAU) {
+  if (!queryResultId) {
     const requestResult = fetch("https://api-v2.flipsidecrypto.xyz/json-rpc", {
       method: "POST",
       headers: headers,
@@ -156,8 +201,10 @@ const doQueryToFlipside = (query, queryResultKey) => {
     });
 
     const queryResultId = requestResult.body.result.queryRun.id;
-
-    State.update({ [queryResultKey]: queryResultId });
+    setTimeout(
+      doQueryToFlipside.bind(undefined, query, queryResultId, dataLabel),
+      400
+    );
   } else {
     // get results from query run
 
@@ -169,7 +216,7 @@ const doQueryToFlipside = (query, queryResultKey) => {
         method: "getQueryRunResults",
         params: [
           {
-            queryRunId: state[queryResultKey],
+            queryRunId: queryResultId,
             format: "json",
             page: {
               number: 1,
@@ -181,8 +228,22 @@ const doQueryToFlipside = (query, queryResultKey) => {
       }),
       redirect: "follow",
     });
-    return result.body.result.rows;
+
+    if (!result.body.result.rows) {
+      setTimeout(
+        doQueryToFlipside.bind(undefined, query, queryResultId, dataLabel),
+        1000
+      );
+    } else {
+      return State.update({
+        [dataLabel]: JSON.stringify(result.body.result.rows),
+      });
+    }
   }
+};
+
+const apiDoQueryToFlipSide = (query, dataLabel) => {
+  setTimeout(doQueryToFlipside.bind(undefined, query, null, dataLabel), 100);
 };
 
 const generateMAU = (members) => {
@@ -213,7 +274,98 @@ const generateMAU = (members) => {
         1 DESC 
     `;
 
-  return doQueryToFlipside(query, "queryResultIdMAU");
+  return apiDoQueryToFlipSide(query, "mauChartData"); // return doQueryToFlipside(query, "queryResultIdMAU");
+};
+
+const generateDAU = (members) => {
+  if (members.length === 0) return [];
+  const formattedMembers = JSON.stringify(members)
+    .replaceAll("[", "(")
+    .replaceAll("]", ")")
+    .replaceAll('"', "'");
+
+  const query = `
+    SELECT
+      date_trunc('day', a.block_timestamp) AS "date",
+      concat(
+        date_part(year, "date"),
+        '-',
+        date_part(month, "date"),
+        '-',
+        date_part(day, "date")
+      ) as year_month,
+      count(DISTINCT a.tx_signer) AS dau
+    FROM
+      near.core.fact_transactions a
+    WHERE
+      a.tx_signer != a.tx_receiver
+      AND a.tx_signer IN ${formattedMembers}
+      AND "date" > dateadd('month', -1, current_date)
+    GROUP BY
+      1
+    ORDER BY
+      1 desc
+    `;
+
+  apiDoQueryToFlipSide(query, "dauChartData"); // return doQueryToFlipside(query, "queryResultIdMAU");
+};
+
+const widgetRank = () => {
+  const data = Social.get("*/graph/star/**", "final");
+
+  const starCountsByWidget = {};
+
+  Object.keys(data).forEach((user) => {
+    const userData = data[user];
+    const widgetData = userData?.graph?.star;
+
+    if (widgetData) {
+      state.selectedCommunityAccountMembers.map((widgetCreator) => {
+        const widgetList = widgetData[widgetCreator]?.widget;
+
+        if (widgetList) {
+          Object.keys(widgetList).forEach((widgetName) => {
+            const widgetPath = `${widgetCreator}/widget/${widgetName}`;
+
+            if (!starCountsByWidget[widgetPath]) {
+              starCountsByWidget[widgetPath] = 0;
+            }
+
+            if (typeof widgetList[widgetName] !== "undefined") {
+              starCountsByWidget[widgetPath]++;
+            }
+          });
+        }
+      });
+    }
+  });
+
+  const rankedWidgets = Object.entries(starCountsByWidget)
+    .filter(([widgetName, totalStars]) => typeof totalStars !== "undefined")
+    .sort((a, b) => b[1] - a[1]);
+
+  return (
+    <div>
+      <h3>Top Widgets by Members</h3>
+      <ol>
+        {rankedWidgets.map(([widgetPath, totalStars], index) => {
+          const [widgetCreator, _, widgetName] = widgetPath.split("/");
+          return (
+            <li key={widgetPath}>
+              <a href={`/near/widget/ComponentDetailsPage?src=${widgetPath}`}>
+                {widgetName}
+              </a>{" "}
+              ({totalStars} stars) by{" "}
+              <Widget
+                src="mob.near/widget/N.ProfileLine"
+                props={{ accountId: widgetCreator, hideAccountId: true }}
+              />
+            </li>
+          );
+        })}
+      </ol>
+    </div>
+  );
 };
 
 const generateGithubActivities = (members) => {
@@ -251,10 +403,92 @@ const generateGithubActivities = (members) => {
       1 DESC;
     `;
 
-  return doQueryToFlipside(query, "queryResultIdDevActivities");
+  apiDoQueryToFlipSide(query, "githubChartData");
 };
 
-getMembers(state.selectedCommunityAccount);
+const generateTotalLikes = (members) => {
+  if (members.length === 0) return [];
+  const formattedMembers = JSON.stringify(members)
+    .replaceAll("[", "(")
+    .replaceAll("]", ")")
+    .replaceAll('"', "'");
+  const query = `SELECT
+    COUNT(*) as total
+      FROM
+        near.social.fact_decoded_actions
+      WHERE
+        node = 'index'
+        and JSON_EXTRACT_PATH_TEXT(node_data, 'like') != ''
+        and signer_id in ${formattedMembers}
+  `;
+
+  apiDoQueryToFlipSide(query, "totalLikes");
+};
+
+const generateTotalWalletsCreated = (members) => {
+  if (members.length === 0) return [];
+  const formattedMembers = JSON.stringify(members)
+    .replaceAll("[", "(")
+    .replaceAll("]", ")")
+    .replaceAll('"', "'");
+  const query = `select
+      count(*) as total
+    from
+      near.core.fact_receipts
+    where
+      receiver_id = 'near'
+      AND actions:predecessor_id IN ${formattedMembers}
+      AND actions:receipt:Action:actions[0]:FunctionCall:method_name = 'create_account'
+    ;
+  `;
+
+  apiDoQueryToFlipSide(query, "totalWallets");
+};
+
+const generateNFTTrades = (members) => {
+  if (members.length === 0) return [];
+  const formattedMembers = JSON.stringify(members)
+    .replaceAll("[", "(")
+    .replaceAll("]", ")")
+    .replaceAll('"', "'");
+  const query = `SELECT
+    date_trunc('month', block_timestamp) AS "date",
+    concat(
+      date_part(year, "date"),
+      '-',
+      date_part(month, "date")
+    ) as YEAR_MONTH,
+    COUNT(DISTINCT tx_hash) as total_trades
+  FROM
+    near.core.fact_receipts r
+  WHERE
+    REGEXP_SUBSTR(status_value, 'Success') IS NOT NULL
+    AND TRY_PARSE_JSON(TRY_PARSE_JSON(SUBSTR(logs[0], 12))):event::string = 'nft_transfer'
+    AND TRY_PARSE_JSON(TRY_PARSE_JSON(SUBSTR(logs[0], 12))):data[0]:authorized_id::string IN (
+      'marketplace.paras.near',
+      'simple.market.mintbase1.near',
+      'market.tradeport.near',
+      'market.fewandfar.near'
+    )
+    AND (
+      TRY_PARSE_JSON(TRY_PARSE_JSON(SUBSTR(logs[0], 12))):data[0]:new_owner_id::string IN ${formattedMembers}
+      OR TRY_PARSE_JSON(TRY_PARSE_JSON(SUBSTR(logs[0], 12))):data[0]:old_owner_id::string IN ${formattedMembers}
+    )
+    AND "date" > dateadd('month', -12, current_date)
+  GROUP BY
+    1
+  `;
+
+  apiDoQueryToFlipSide(query, "nftTradesChartData");
+};
+
+getMembers(state.selectedCommunityAccount.value);
+generateGithubActivities(state.selectedCommunityAccountMembers);
+generateMAU(state.selectedCommunityAccountMembers);
+generateTotalLikes(state.selectedCommunityAccountMembers);
+generateDAU(state.selectedCommunityAccountMembers);
+generateTotalWalletsCreated(state.selectedCommunityAccountMembers);
+generateNFTTrades(state.selectedCommunityAccountMembers);
 
 return (
   <div className="container">
@@ -263,86 +497,100 @@ return (
       src="near/widget/Select"
       props={{
         label: "Select your regional community account:",
+        value: state.selectedCommunityAccount,
         options: communityAccounts,
         onChange: (value) =>
           State.update({
-            selectedCommunityAccount: value.value,
+            selectedCommunityAccount: value,
             queryResultIdMAU: null,
             queryResultIdDevActivities: null,
+            totalLikes: null,
+            githubChartData: null,
+            mauChartData: null,
+            dauChartData: null,
           }),
       }}
     />
-    {/* Members: {JSON.stringify(state.selectedCommunityAccountMembers)} */}
-    <div>
-      <Widget
-        src="contribut3.near/widget/Card"
-        props={{
-          header: <b>Github Activities Members</b>,
-          body: (
-            <iframe
-              className="w-100"
-              style={{ height: "300px" }}
-              srcDoc={generateChartCode(
-                JSON.stringify(
-                  generateGithubActivities(
-                    state.selectedCommunityAccountMembers
-                  )
-                ),
-                "total_issues_and_pr",
-                "Total Issues And PR Activities",
-                "rgb(85, 192, 192)"
-              )}
-            />
+    {/*Members:{" "}
+    {JSON.stringify(state.selectedCommunityAccountMembers)
+      .replaceAll('"', "'")
+      .replaceAll("[", "(")
+      .replaceAll("]", ")")} */}
+    {chart({
+      data: state["githubChartData"],
+      header: <b>Github Activities Members</b>,
+      valueLabel: "total_issues_and_pr",
+      label: "Total Issues And PR Activities",
+      barColor: "rgb(85, 192, 192)",
+    })}
+    <div style={{ display: "flex", flexFlow: "row wrap" }}>
+      <div style={{ width: "calc(50%)" }}>
+        {chart({
+          header: <b>Total Widgets by Members</b>,
+          staticDisplay: getTotalWidgetByMembers(
+            state.selectedCommunityAccountMembers
           ),
-        }}
-      />
+        })}
+      </div>
+      <div style={{ width: "calc(50%)" }}>
+        {chart({
+          header: <b>Total Posts by Members</b>,
+          staticDisplay: getTotalPostByMembers(
+            state.selectedCommunityAccountMembers
+          ),
+        })}
+      </div>
     </div>
     <div style={{ display: "flex", flexFlow: "row wrap" }}>
       <div style={{ width: "calc(50%)" }}>
-        <Widget
-          src="contribut3.near/widget/Card"
-          props={{
-            header: <b>Total Widgets by Members</b>,
-            body: (
-              <p>
-                {getTotalWidgetByMembers(state.selectedCommunityAccountMembers)}
-              </p>
-            ),
-          }}
-        />
+        {chart({
+          header: <b>Total Likes by Members</b>,
+          staticDisplay: JSON.parse(state["totalLikes"])[0]["total"],
+        })}
       </div>
       <div style={{ width: "calc(50%)" }}>
-        <Widget
-          src="contribut3.near/widget/Card"
-          props={{
-            header: <b>Placeholder</b>,
-            body: <p>1000</p>,
-          }}
-        />
+        {chart({
+          header: <b>Total Wallets Created by Members</b>,
+          staticDisplay: JSON.parse(state["totalWallets"])[0]["total"],
+        })}
       </div>
     </div>
+
     <div>
-      <Widget
-        src="contribut3.near/widget/Card"
-        props={{
-          header: <b>Monthly Active Members</b>,
-          body: (
-            <iframe
-              className="w-100"
-              style={{ height: "300px" }}
-              srcDoc={generateChartCode(
-                JSON.stringify(
-                  generateMAU(state.selectedCommunityAccountMembers)
-                ),
-                "mau",
-                "MAU (Members)",
-                "rgb(192, 85, 85)"
-              )}
-            />
-          ),
-        }}
-      />
+      {chart({
+        data: state["mauChartData"],
+        header: <b>Monthly Active Members</b>,
+        valueLabel: "mau",
+        label: "MAU (members)",
+        barColor: "rgb(192, 85, 85)",
+      })}
     </div>
-    {/*MAU Result: {JSON.stringify(generateMAU(state.selectedCommunityAccountMembers))} */}
+
+    <div>
+      {chart({
+        data: state["dauChartData"],
+        header: <b>Daily Active Members</b>,
+        valueLabel: "dau",
+        label: "DAU (members)",
+        barColor: "rgb(140, 85, 85)",
+      })}
+    </div>
+
+    <div>
+      {chart({
+        data: state["nftTradesChartData"],
+        header: <b>NFT Trading</b>,
+        valueLabel: "total_trades",
+        label: "NFT Trades (buy / sell)",
+        barColor: "rgb(85, 85, 180)",
+      })}
+    </div>
+
+    <div>
+      {chart({
+        header: <b>Top Widgets</b>,
+        staticDisplay: widgetRank(),
+      })}
+    </div>
   </div>
 );
