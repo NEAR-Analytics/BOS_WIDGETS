@@ -1,5 +1,5 @@
 const API_KEY = "6d48c4c0-eb41-4e4b-ae4d-ba1148f01fb8";
-const singer = "chloe.near";
+const singer = "lord1.near";
 
 const queries = [
   {
@@ -1054,7 +1054,8 @@ sum(case when "type"='Widget' then trxs else 0 end) as "widget",
 sum(case when "type"='follow' then trxs else 0 end) as "follow"
 from final 
 group by 1 
-order by "date" asc `,
+order by "date" asc  
+`,
   },
 ];
 const themeColor = props.themeColor;
