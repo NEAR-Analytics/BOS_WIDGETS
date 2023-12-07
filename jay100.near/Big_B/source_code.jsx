@@ -47,7 +47,7 @@ const Game_Box = () => {
    
       if (hoveredCircle) {
         hoveredCircle.x = mouseX;
-        hoveredCircle.y = 50; // Adjust the y position as needed
+        hoveredCircle.y = 45; // Adjust the y position as needed
         fill(hoveredCircle.color.r, hoveredCircle.color.g, hoveredCircle.color.b);
         ellipse(hoveredCircle.x, hoveredCircle.y, hoveredCircle.radius * 2);
     }      
@@ -72,7 +72,7 @@ const Game_Box = () => {
       const randSizePos = Math.floor(Math.random() * 3);
 
          if (!hoveredCircle) {
-        hoveredCircle = new Circle(mouseX, 50, circleColors[randCircPos]);
+        hoveredCircle = new Circle(mouseX, 45, circleColors[randCircPos]);
         hoveredCircle.radius = sizes[randSizePos];
           } else {
         
