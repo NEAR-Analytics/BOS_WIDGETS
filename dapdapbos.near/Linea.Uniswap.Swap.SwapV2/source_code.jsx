@@ -227,6 +227,7 @@ return (
         <Widget
           src="dapdapbos.near/widget/Linea.Uniswap.Swap.CurrencyInput"
           props={{
+            account,
             currency: state.inputCurrency,
             amount: state.inputCurrencyAmount,
             updateTokenBalance: state.updateInputTokenBalance,
@@ -296,6 +297,7 @@ return (
         <Widget
           src="dapdapbos.near/widget/Linea.Uniswap.Swap.CurrencyInput"
           props={{
+            account,
             currency: state.outputCurrency,
             labelText: "You receive",
             amount:
@@ -427,6 +429,7 @@ return (
         <Widget
           src="dapdapbos.near/widget/Linea.Uniswap.Swap.CurrencySelect"
           props={{
+            account,
             display: state.displayCurrencySelect,
             selectedTokenAddress: state.selectedTokenAddress,
             title: props.title,
