@@ -84,7 +84,7 @@ handleCreateProject = () => {
 
   // Return combined or relevant response
   return { responseOne, responseTwo };
-}
+};
 
 const IT = "nearui.near/widget/Input.ExperimentalText";
 const SI = "nearui.near/widget/Social.ImageUpload";
