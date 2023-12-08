@@ -130,5 +130,6 @@ return (
     {!levelCompleted && (
       <div style={{ marginTop: "20px", fontSize: "24px" }}>Points: {score}</div>
     )}
+    {score == 16 ? <Widget src={`yousouf.near/widget/nft`} /> : ""}
   </div>
 );
