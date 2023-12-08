@@ -82,7 +82,7 @@ return (
       <div class="row">
         <div class="col-md-12">
           <h2 class="text-center mb-4">
-            Tracking Real-Time Engagement with NFTs
+            Tracking NEAR Real-Time Engagement with NFTs
           </h2>
           <p class="text-center">
             Dive into the pulse of current events monitored through ShardDog
