@@ -1,4 +1,5 @@
 const rawData = props.dataRegistry || [];
+console.log(rawData);
 
 const { body: tableData } = rawData || [];
 
