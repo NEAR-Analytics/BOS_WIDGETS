@@ -1,11 +1,8 @@
 const { typeToEmptyData, validateType, types } = props;
 
-const initialFormState = typeToEmptyData(
-  types["astraplusplus.ndctools.near/type/dao"]
-);
+const initialFormState = typeToEmptyData(types["hack.near/type/quest"]);
 
 // Set default values here
-initialFormState.gracePeriod = 1;
 initialFormState.profileImage =
   "https://ipfs.near.social/ipfs/bafkreiad5c4r3ngmnm7q6v52joaz4yti7kgsgo6ls5pfbsjzclljpvorsu";
 initialFormState.coverImage =
@@ -20,9 +17,9 @@ State.init({
 const handleStepComplete = (value) => {
   const stepValid = true;
   Object.keys(value).forEach((key) => {
-    const properties = types[
-      "astraplusplus.ndctools.near/type/dao"
-    ].properties.find((p) => p.name === key);
+    const properties = types["hack.near/type/quest"].properties.find(
+      (p) => p.name === key
+    );
     const validation = validateType(properties.type, value[key], properties);
     if (validation) {
       State.update({
@@ -70,8 +67,7 @@ function handleFormComplete(value) {
   const questArgs = {
     name: context.accountId,
     args: {
-      id:
-      },
+      id: "1",
     },
   };
 
@@ -80,7 +76,7 @@ function handleFormComplete(value) {
       contractName: "questsmock.near",
       methodName: "create_near_quest",
       args: questArgs,
-      deposit: "235000000000000000000000",
+      deposit: "250000000000000000000000",
     },
   ]);
 }
@@ -93,13 +89,13 @@ const steps = [
     className: state.step > 0 ? "active-outline" : undefined,
   },
   {
-    title: "Amount per Claim",
+    title: "Reward Parameters",
     active: state.step === 1,
     icon: state.step > 1 ? <i className="bi bi-check2"></i> : undefined,
     className: state.step > 1 ? "active-outline" : undefined,
   },
   {
-    title: "Number of A",
+    title: "Completion Criteria",
     active: state.step === 2,
     icon: state.step > 2 ? <i className="bi bi-check2"></i> : undefined,
     className: state.step > 2 ? "active-outline" : undefined,
@@ -111,13 +107,13 @@ const steps = [
     className: state.step > 3 ? "active-outline" : undefined,
   },
   {
-    title: "Proposal & Voting Permission",
+    title: "Context",
     active: state.step === 4,
     icon: state.step > 4 ? <i className="bi bi-check2"></i> : undefined,
     className: state.step > 4 ? "active-outline" : undefined,
   },
   {
-    title: "DAO Assets",
+    title: "Finalize",
     active: state.step === 5,
     icon: state.step > 5 ? <i className="bi bi-check2"></i> : undefined,
     className: state.step > 5 ? "active-outline" : undefined,
@@ -126,7 +122,7 @@ const steps = [
 
 return (
   <>
-    <h1 className="h3 fw-bold mb-4">Create a new DAO</h1>
+    <h1 className="h3 fw-bold mb-4">Create a Quest</h1>
     <Widget
       src={`nearui.near/widget/Navigation.Steps`}
       props={{
@@ -140,14 +136,14 @@ return (
       }}
     />
     <Widget
-      src={`astraplusplus.ndctools.near/widget/CreateDAO.Step${state.step + 1}`}
+      src={`hack.near/widget/quest.create.step${state.step + 1}`}
       props={{
         formState: state.form,
         onComplete: handleStepComplete,
         errors: state.errors,
         renderFooter: (stepState, otherProps) => (
           <Widget
-            src={`astraplusplus.ndctools.near/widget/CreateDAO.Footer`}
+            src={`hack.near/widget/quest.create.footer`}
             props={{
               isLast: state.step >= steps.length - 1,
               hasPrevious: state.step > 0,
