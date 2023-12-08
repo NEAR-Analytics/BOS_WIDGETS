@@ -23,7 +23,6 @@ const Toolbar = styled.div`
 return (
   <>
     <div>
-      <p>{JSON.stringify(quests)}</p>
       <Header className="d-flex p-3 px-4 align-items-center rounded justify-content-between">
         <h3 className="mt-2" style={{ fontFamily: "Courier", color: "white" }}>
           <b>QuestVerse</b>
@@ -49,8 +48,11 @@ return (
         <h2 className="mb-3" style={{ fontFamily: "Courier" }}>
           <b>Discover</b>
         </h2>
+        <p>{JSON.stringify(quests)}</p>
+
         {quests.map((quest) => (
           <div className="m-2">
+            <p>{JSON.stringify(quest[0])}</p>
             <Widget
               src="hack.near/widget/quest.card"
               props={{ questId: quest[0] }}
