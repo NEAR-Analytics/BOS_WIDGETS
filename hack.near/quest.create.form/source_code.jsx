@@ -1,11 +1,9 @@
 const { typeToEmptyData, validateType, types } = props;
 
-const initialFormState = typeToEmptyData(types["hack.near/type/quest"]);
-
-// Set default values here
-initialFormState.profileImage =
+const initialFormState =
+  typeToEmptyData(types["hack.near/type/quest"]) ??
   "https://ipfs.near.social/ipfs/bafkreiad5c4r3ngmnm7q6v52joaz4yti7kgsgo6ls5pfbsjzclljpvorsu";
-initialFormState.coverImage =
+const coverImage =
   "https://ipfs.near.social/ipfs/bafkreicd7wmjfizslx72ycmnsmo7m7mnvfsyrw6wghsaseq45ybslbejvy";
 
 State.init({
