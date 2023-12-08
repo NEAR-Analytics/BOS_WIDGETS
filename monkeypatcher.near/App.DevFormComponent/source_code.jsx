@@ -65,9 +65,6 @@
             fontWeight: "bold",
             fontSize: "1.2rem",
         },
-        list: {
-
-        },
         paragraph: {
             display: "flex",
             padding: "5px",
@@ -160,7 +157,7 @@ const handleChange = (e) => {
                 </div>
             </div>
             <div style={formStyles.columnTextRight}>
-                <p style={formStyles.paragraph}>The number provided = the number of active users per minute. The pulldown lists have generic thresholds you can choose to get a close idea of what your expendentitures will be at common thresholds. You should choose values for all 5 phases for this demo.
+                <p style={formStyles.paragraph}>The number provided = the number of calls per month. The pulldown lists have generic thresholds you can choose to get a close idea of what your expendentitures will be. You should choose values for all 5 phases for this demo.
                 </p>
                 <p style={formStyles.paragraph}>
                     Please check the boxes that apply to your project. If you are unsure, leave the box unchecked.
