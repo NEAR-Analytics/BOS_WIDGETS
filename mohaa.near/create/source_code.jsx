@@ -1,3 +1,51 @@
+// if (
+//   !props.accountId ||
+//   !context.accountId ||
+//   context.accountId === props.accountId
+// ) {
+//   return "";
+// }
+
+const connectEdge = Social.keys(
+  `${context.accountId}/graph/connect/${props.accountId}`,
+  undefined,
+  {
+    values_only: true,
+  }
+);
+
+const inverseEdge = Social.keys(
+  `${props.accountId}/graph/connect/${context.accountId}`,
+  undefined,
+  {
+    values_only: true,
+  }
+);
+
+const loading = connectEdge === null || inverseEdge === null;
+const isConnected = Object.keys(connectEdge || {}).length > 0;
+const isInverse = Object.keys(inverseEdge || {}).length > 0;
+const type = connect ? "disconnect" : "connect";
+
+const data = {
+  graph: { connect: { [props.accountId]: isConnected ? null : "" } },
+  index: {
+    graph: JSON.stringify({
+      key: "connect",
+      value: {
+        type,
+        accountId: props.accountId,
+      },
+    }),
+    notify: JSON.stringify({
+      key: props.accountId,
+      value: {
+        type,
+      },
+    }),
+  },
+};
+
 State.init({
   dropName: "",
   dropSymbol: "",
@@ -57,6 +105,9 @@ const profileimage = {
   border:
     "5px solid #fff" /* Optional: Add a border around the profile image */,
 };
+const placeholder = state.network
+  ? "Price by " + state.network
+  : "Price by Near";
 
 return (
   <>
@@ -117,6 +168,8 @@ return (
         <div class="col-md-6">
           <div>
             <div className="container row">
+              <Web3Connect />
+
               <div>
                 Banner Image picture: <br />
                 <IpfsImageUpload image={state.bannerImage} />
@@ -137,11 +190,10 @@ return (
                   State.update({ [e.target.id]: e.target.value });
                 }}
               >
+                <option>Near</option>
                 <option>Ethereum</option>
-                <option>Ethereum</option>
-                <option>Ethereum</option>
-                <option>4</option>
-                <option>5</option>
+                <option>Solana</option>
+                <option>Polygon</option>
               </select>
             </div>
             <p></p>
@@ -230,11 +282,11 @@ return (
               onChange={(e) => {
                 State.update({ [e.target.id]: e.target.value });
               }}
-              placeholder="Price BY ETHER"
+              placeholder={placeholder}
             />
             <p></p>
 
-            <input type="submit" value="Submit form" onClick={submitForm} />
+            <input type="submit" value="Continue" onClick={submitForm} />
           </div>
         </div>
       </div>
