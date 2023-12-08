@@ -2,7 +2,10 @@ import { FaBeer } from "react-icons/fa";
 
 return (
   <div>
-    Hello World
+    <>
+      <span>Hello</span>
+      <span>World</span>
+    </>
     <FaBeer />
     <Widget
       src="andyh.near/ImportTest.Child"
