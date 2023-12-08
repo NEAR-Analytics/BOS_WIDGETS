@@ -53,12 +53,20 @@ return (
       <Widget src="mob.near/widget/ProfileImage" props={{}} />{" "}
       <ul style={menustyles.ul}>
         <li style={menustyles.li}>
-          <a href="#" style={menustyles.a}>
+          <a
+            href="https://near.org/y3k.near/widget/apps.devSnoopy.main"
+            target="_blank"
+            style={menustyles.a}
+          >
             Home
           </a>
         </li>
         <li style={menustyles.li}>
-          <a href="https://docs.near.org/" target="_blank" style={menustyles.a}>
+          <a
+            href="https://near.org/y3k.near/widget/apps.devSnoopy.main"
+            target="_blank"
+            style={menustyles.a}
+          >
             Start
           </a>
         </li>
