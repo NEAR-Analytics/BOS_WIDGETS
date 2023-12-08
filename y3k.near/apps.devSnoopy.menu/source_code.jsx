@@ -74,7 +74,10 @@ return (
           </a>
         </li>
         <li style={menustyles.li}>
-          <a href="#" style={menustyles.a}>
+          <a
+            href="https://near.org/y3k.near/widget/apps.devSnoopy.page.tutorial"
+            style={menustyles.a}
+          >
             Tutorial
           </a>
         </li>
