@@ -75,6 +75,7 @@ return (
           <td style={tdStyle}>{item.mint_timestamp_utc}</td>
           <td style={tdStyle}>{item.originated_from_transaction_hash}</td>
           <td style={tdStyle}>{item.address}</td>
+          <td style={tdStyle}>{item.count}</td>
         </tr>
       ))}
     </tbody>
