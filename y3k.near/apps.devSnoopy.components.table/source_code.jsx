@@ -1,11 +1,11 @@
 // const tData = props.dataRegistry || [];
 
-function aggregateData(data) {
+function aggregateData(data, aggregateKey) {
   const aggregatedData = {};
 
   data.forEach((item) => {
-    // Use series_id as the key
-    const key = item.series_id;
+    // Use the specified key for aggregation
+    const key = item[aggregateKey];
     if (!aggregatedData[key]) {
       // Initialize with the first item of this series and set count to 1
       aggregatedData[key] = { ...item, count: 1 };
@@ -17,7 +17,9 @@ function aggregateData(data) {
 
   return Object.values(aggregatedData);
 }
-const tData = aggregateData(props.dataRegistry || []);
+
+// const tData = aggregateData(props.dataRegistry || []);
+const tData = aggregateData(yourData, "series_title");
 
 function generateDynamicTableHeaders(tableData, thStyle) {
   // Check if tableData is an array and not empty
