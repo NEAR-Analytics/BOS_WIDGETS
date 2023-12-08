@@ -4,9 +4,9 @@ return (
   <div>
     Hello World
     <FaBeer />
-    <Widget
+    {/*<Widget
       src="andyh.near/ImportTest.Child"
       trust={{ mode: "trusted-author" }}
-    />
+    />*/}
   </div>
 );
