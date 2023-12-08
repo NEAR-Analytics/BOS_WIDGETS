@@ -183,7 +183,7 @@ return (
               <h3 class="card-title">🌟 New Account Ratio</h3>
               <Widget
                 src="y3k.near/widget/apps.devSnoopy.components.drawChart"
-                props={{}}
+                props={{ SERIES_TITLE: SERIES_TITLE }}
               />
             </div>
           </div>
@@ -195,7 +195,7 @@ return (
 
               <Widget
                 src="y3k.near/widget/apps.devSnoopy.components.drawChart"
-                props={{}}
+                props={{ SERIES_TITLE: "BENCH" }}
               />
             </div>
           </div>
