@@ -195,7 +195,7 @@ return (
 
               <Widget
                 src="y3k.near/widget/apps.devSnoopy.components.drawChart"
-                props={{ SERIES_TITLE: "BENCH" }}
+                props={{ SERIES_TITLE: "BENCHMARK" }}
               />
             </div>
           </div>
