@@ -11,22 +11,22 @@ const menuLinks = [
   {
     icon: "trophy",
     label: "Progress",
-    component: "evaluator.near/widget/NCD.Progress",
+    component: "evaluator.near/widget/NCD.Pages.Progress",
   },
   {
     icon: "motherboard",
-    label: "How to Setup",
-    component: "evaluator.near/widget/NCD.Setup",
+    label: "Prerequisites",
+    component: "evaluator.near/widget/NCD.Pages.Prerequisites",
   },
   {
     icon: "book",
-    label: "Lesson 1",
+    label: "Lesson 1 - Hello Near",
     component: "evaluator.near/widget/NCD.Lessons.HelloNear",
   },
   {
     icon: "book",
-    label: "Lesson 2",
-    component: "evaluator.near/widget/NCD.Lessons.HelloNear",
+    label: "Lesson 2 - Guestbook",
+    component: "evaluator.near/widget/NCD.Lessons.GuestBook",
   },
   {
     icon: "star",
