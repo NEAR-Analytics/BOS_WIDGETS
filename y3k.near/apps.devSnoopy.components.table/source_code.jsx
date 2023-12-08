@@ -19,7 +19,7 @@ function aggregateData(data, aggregateKey) {
 }
 
 // const tData = aggregateData(props.dataRegistry || []);
-const tData = aggregateData(yourData, "series_title");
+const tData = aggregateData(props.dataRegistry, "series_title");
 
 function generateDynamicTableHeaders(tableData, thStyle) {
   // Check if tableData is an array and not empty
