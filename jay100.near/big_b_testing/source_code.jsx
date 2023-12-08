@@ -62,7 +62,7 @@ let timerInterval;
 
       textSize(30);
       fill(0);
-      text("Time: " + timer, 300, 20);
+      text("Time: " + timer, 250, 20);
 
       textSize(30);
       fill(0,0,0)
