@@ -141,7 +141,7 @@ return (
         </div>
         <div class="col-md-6 bg-success">
           <img
-            src="https://pundixblog.files.wordpress.com/2021/11/a6a78-10o6ltauw6fdhpqz9gwmfng.png"
+            src="https://image.shutterstock.com/image-photo/gradient-mint-green-teal-urban-260nw-2080157074.jpg"
             style={{ maxWidth: "100%" }}
           />
         </div>
@@ -157,11 +157,11 @@ return (
           </p>
         </div>
         <div class="col-md-6">
-          <h2>Securely store NFT metadata on Blockchain Operating System</h2>
+          <h2>Securely store NFT metadata on Pastel’s cascade</h2>
           <p>
             Your NFT is safe and secure, with metadata from every mint stored on
-            BOS - a distributed, permanent storage system designed for any NFT
-            type.
+            Cascade - a distributed, permanent storage system designed for NFT
+            data. Pay once, store forever.
           </p>
         </div>
         <div class="col-md-6">
@@ -188,9 +188,9 @@ return (
         <div class="col-md-6">
           <h2>Multi-chain support</h2>
           <p>
-            SmartMint currently supports multiple chains including NEAR,
-            Ethereum, Polygon, and Solana. Additional support for additional
-            blockchains and layer 2 solutions coming soon.
+            SmartMint currently supports multiple chains including Ethereum,
+            Polygon, and Solana. Additional support for additional blockchains
+            and layer 2 solutions coming soon.
           </p>
         </div>
       </div>
