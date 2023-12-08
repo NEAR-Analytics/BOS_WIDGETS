@@ -1,15 +1,12 @@
-// adapted from the `PublicTags` widget by zavodil.near
-
-const accountId = props.accountId ?? context.accountId;
-
-const path = props.path ?? "hack.near/widget/Academy";
+const accountId = props.accountId || context.accountId;
+const path = props.path || "hack.near/widget/Academy";
 const [creatorId, namespace, thingId] = path.split("/");
 
-const pattern = `*/graph/context/${path}/tags/*`;
+const pattern = `*/graph/context/${path}/tags/**`;
 const tagsObject = Social.get(pattern, "final");
 
 if (!tagsObject) {
-  return "";
+  return "Loading...";
 }
 
 State.init({
@@ -20,12 +17,7 @@ State.init({
 const tagClass = "bg-success";
 const badgeBtnClass = "text-white btn p-0 lh-1 m-1";
 
-if (tagsObject === null) {
-  return "Loading...";
-}
-
 const tagsCount = {};
-const tagsAuthors = {};
 
 const processTagsObject = (obj) => {
   Object.entries(obj).forEach((kv) => {
@@ -63,6 +55,7 @@ return (
         <a
           href={`#/hack.near/widget/every.context?tag=${tag}`}
           className={badgeBtnClass}
+          key={tag.name}
         >
           <span
             className={`badge ${tagClass} position-relative`}
@@ -109,17 +102,14 @@ return (
         <div className="row">
           <div className="m-1 col-8">
             <Widget
-              src={"hack.near/widget/MetadataEditor"}
+              src="mob.near/widget/TagsEditor"
               props={{
-                initialMetadata: state.tags,
-                onChange: (tags) => {
-                  State.update({ tags });
-                },
-                options: {
-                  tags: {
-                    pattern,
-                    placeholder: "dev, art, gov, edu, social, near",
-                  },
+                initialTagsObject: tags,
+                tagsPattern,
+                placeholder: "dev, art, gov, edu, social, near",
+                setTagsObject: (tags) => {
+                  state.tags = tags;
+                  State.update();
                 },
               }}
             />
