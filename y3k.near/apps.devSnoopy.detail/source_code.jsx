@@ -1,4 +1,4 @@
-const SERIES_TITLE = props.SERIES_TITLE;
+const SERIES_TITLE = props.SERIES_TITLE || "Onchain African";
 
 let rawData = fetch(
   "https://raw.githubusercontent.com/NEAR-Analytics/NEAR-Social/main/data/output_snoopy_pipeline_benchmark.json",
@@ -170,7 +170,52 @@ const paginatedData = getPaginatedData();
 return (
   <div>
     <Widget src="y3k.near/widget/apps.devSnoopy.menu" props={{}} />
-
+    <div class="container my-5">
+      <div class="row">
+        <div class="col-md-12">
+          <h2 class="text-center mb-4">
+            Tracking NEAR Real-Time Engagement with NFTs
+          </h2>
+          <p class="text-center">
+            Dive into the pulse of current events monitored through ShardDog
+            NFTs and the DevSnoopy proxy contract. The table below provides a
+            real-time snapshot of ongoing projects within our vibrant community.
+          </p>
+        </div>
+      </div>
+      <div class="row text-center">
+        <div class="col-md-6 mb-6">
+          <div class="">
+            <div class="card-body">
+              <h3 class="card-title">🌟 Explore Ongoing Events</h3>
+              <p class="card-text">
+                Get an in-depth view of each project. Click on any event to see
+                live interactions, participant engagement, and more.
+              </p>
+              <Widget
+                src="y3k.near/widget/apps.devSnoopy.components.drawChart"
+                props={{}}
+              />
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 mb-6">
+          <div class="">
+            <div class="card-body">
+              <h3 class="card-title">🚀 Start Your Event</h3>
+              <p class="card-text">
+                Have an idea for an event? Launch your own and watch it grow.
+                Utilize our platform to track engagement and NFT interactions.
+              </p>
+              <Widget
+                src="y3k.near/widget/apps.devSnoopy.components.drawChart"
+                props={{}}
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
     <table style={tableStyle}>
       <thead>
         <tr>
