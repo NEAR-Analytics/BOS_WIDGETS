@@ -1,8 +1,5 @@
 const rawData = props.dataRegistry || [];
 
-if (rawData) {
-  return "Loading";
-}
 const { body: tableData } = rawData || [];
 
 const tableStyle = {
