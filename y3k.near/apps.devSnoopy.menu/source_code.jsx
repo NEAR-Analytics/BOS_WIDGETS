@@ -64,7 +64,6 @@ return (
         <li style={menustyles.li}>
           <a
             href="https://near.org/y3k.near/widget/apps.devSnoopy.main"
-            target="_blank"
             style={menustyles.a}
           >
             Start
