@@ -22,10 +22,10 @@ return (
             <a href="/monkeypatcher.near/scc">HOME</a>
         </div>
         <div style={footerStyles.column}>
-            <a href="/monkeypatcher.near/App.ProviderForm">PROVIDER FORM</a>
+            <a href="/monkeypatcher.near/App.ProviderFormView">PROVIDER FORM</a>
         </div>
         <div style={footerStyles.column}>
-            <a href="/monkeypatcher.near/App.DevForm" >DEVELOPER FORM</a>
+            <a href="/monkeypatcher.near/App.DevFormView" >DEVELOPER FORM</a>
         </div>
         </div>
     </div>
