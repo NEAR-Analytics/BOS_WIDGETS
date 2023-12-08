@@ -1,19 +1,15 @@
+const isAvailable = true;
+const isClaimed = false;
+
 const accountId = props.accountId ?? context.accountId;
-const questId = props.questId ?? "813740323";
+const questId = props.questId ?? "1";
 
 if (!accountId) {
   return "";
 }
 
-const loading = joinEdge === null || memberEdge === null;
-
-const isAvailable = true;
-const isClaimed = false;
-
-const type = isClaimed ? "disclaim" : "claim";
-
-const handleClaim = () => {
-  Social.set({
+const data = {
+  [accountId]: {
     index: {
       quest: JSON.stringify({
         key: questId,
@@ -23,19 +19,41 @@ const handleClaim = () => {
         },
       }),
     },
-  });
+  },
+};
+
+const type = isClaimed ? "disclaim" : "claim";
+
+const claimQuest = () => {
+  const claimArgs = {
+    quest_id: JSON.parse(questId),
+    signed_claim_receipt: "yes",
+  };
+  const transactions = [
+    {
+      contractName: "social.near",
+      methodName: "set",
+      deposit: "100000000000000000000000",
+      args: { data },
+    },
+    {
+      contractName: "test1.questverse.near",
+      methodName: "claim_reward",
+      args: claimArgs,
+    },
+  ];
+  Near.call(transactions);
 };
 
 return (
-  <>
+  <div className="m-3">
     <button
-      disabled={loading}
       className={`btn ${
-        loading || claimed ? "btn-outline-secondary" : "btn-outline-dark"
+        isClaimed ? "btn-outline-secondary" : "btn-outline-dark"
       }`}
-      onClick={handleClaim}
+      onClick={claimQuest}
     >
-      {loading ? "loading" : closed ? "claimed" : "claim"}
+      {isClaimed ? "claimed" : "claim"}
     </button>
-  </>
+  </div>
 );
