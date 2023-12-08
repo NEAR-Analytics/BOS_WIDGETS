@@ -33,7 +33,7 @@ const createQuest = () => {
 
   Near.call([
     {
-      contractName: "questsmock.near",
+      contractName: "test1.questverse.near",
       methodName: "create_quest",
       args: questArgs,
       deposit: state.deposit,
