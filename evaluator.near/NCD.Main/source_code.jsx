@@ -6,32 +6,32 @@ const menuLinks = [
   {
     label: "Home",
     icon: "house",
-    component: "evaluator.near/widget/NCD.Pages.Home",
+    component: "gagdiez.near/widget/NCD.Pages.Home",
   },
   {
     icon: "trophy",
     label: "Progress",
-    component: "evaluator.near/widget/NCD.Progress",
+    component: "gagdiez.near/widget/NCD.Progress",
   },
   {
     icon: "motherboard",
     label: "How to Setup",
-    component: "evaluator.near/widget/NCD.Setup",
+    component: "gagdiez.near/widget/NCD.Setup",
   },
   {
     icon: "book",
     label: "Lesson 1",
-    component: "evaluator.near/widget/NCD.Lessons.HelloNear",
+    component: "gagdiez.near/widget/NCD.Lessons.HelloNear",
   },
   {
     icon: "book",
     label: "Lesson 2",
-    component: "evaluator.near/widget/NCD.Lessons.HelloNear",
+    component: "gagdiez.near/widget/NCD.Lessons.HelloNear",
   },
   {
     icon: "star",
     label: "Evaluation",
-    component: "evaluator.near/widget/NCD.Lessons.HelloNear",
+    component: "gagdiez.near/widget/NCD.Lessons.HelloNear",
   },
 ];
 
