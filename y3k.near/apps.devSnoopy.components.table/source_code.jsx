@@ -73,16 +73,23 @@ const getRowStyle = (index) => ({
 return (
   <table style={tableStyle}>
     <thead>
-      <tr>{generateDynamicTableHeaders(tData, thStyle)}</tr>
+      <tr>
+        <th style={thStyle}>Address</th>
+        <th style={thStyle}>Series Title</th>
+        <th style={thStyle}>Mint Timestamp UTC</th>
+        <th style={thStyle}>Originated From Transaction Hash</th>
+        <th style={thStyle}>Token IDs</th>
+        <th style={thStyle}>Count</th>
+      </tr>
     </thead>
     <tbody>
       {tData.map((item, index) => (
         <tr key={item.address} style={getRowStyle(index)}>
-          <td style={tdStyle}>{item.token_ids}</td>
+          <td style={tdStyle}>{item.address}</td>
           <td style={tdStyle}>{item.series_title}</td>
           <td style={tdStyle}>{item.mint_timestamp_utc}</td>
           <td style={tdStyle}>{item.originated_from_transaction_hash}</td>
-          <td style={tdStyle}>{item.address}</td>
+          <td style={tdStyle}>{item.token_ids}</td>
           <td style={tdStyle}>{item.count}</td>
         </tr>
       ))}
