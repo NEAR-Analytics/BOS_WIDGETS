@@ -60,6 +60,8 @@ const attestClick = () => {
 
 const [hovered, setHovered] = useState(false);
 
+const cta = props.cta ?? "attest";
+
 return (
   <div className="d-inline-flex align-items-center">
     <button
@@ -74,9 +76,7 @@ return (
           hovered && !attested ? "bi-check-square-fill" : "bi-square"
         }`}
       />
-      <span style={{ marginLeft: "0.2rem" }}>
-        {attested ? "undo" : "attest"}
-      </span>
+      <span style={{ marginLeft: "0.2rem" }}>{attested ? "undo" : cta}</span>
     </button>
   </div>
 );
