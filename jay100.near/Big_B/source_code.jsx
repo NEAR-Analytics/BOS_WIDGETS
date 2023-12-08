@@ -4,6 +4,11 @@ State.init({
 
 const Game_Box = () => {
   const code = `
+  <head>
+      <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lugrasimo&family=VT323&display=swap" rel="stylesheet">
+  </head>
 <style>
    body {
    margin: 0;
@@ -32,23 +37,37 @@ const Game_Box = () => {
    let gameScore = 0;
    let canDropCircle = true;
    let allCircles = [];
+   let timer = 60;
+let timerInterval;
  
    
    function setup() {
       createCanvas(400, windowHeight * 0.95);
       groundY = height - 5; // Ground position
+       timerInterval = setInterval(() => {
+        if (timer > 0) {
+            timer--;
+        } else {
+            // If the timer reaches 0, stop the timer and prevent circle dropping
+            clearInterval(timerInterval);
+            canDropCircle = false;
+        }
+    }, 1000); // Update the timer every second (1000 milliseconds)
     }
    
     function draw() {
       background(220)
 
-      textSize(20);
+      textFont("VT323");
+
+      textSize(30);
+      fill(0);
+      text("Time: " + timer, 300, 20);
+
+      textSize(30);
       fill(0,0,0)
       text("Score: " + gameScore, 20, 20);
-   
-      let mouseYPos = mouseY;
-      stroke(0);
-      line(mouseX, 0, mouseX, windowHeight);
+      
    
       if (hoveredCircle) {
         hoveredCircle.x = mouseX;
@@ -72,8 +91,10 @@ const Game_Box = () => {
     }
    
     function mouseClicked() {
-      console.log(allCircles);
-        if (canDropCircle) {
+      console.log('allCircles', allCircles);
+      console.log('droppedCircles', droppedCircles);
+
+        if (canDropCircle && timer > 0) {
         const randCircPos = Math.floor(Math.random() * 3);
         const randSizePos = Math.floor(Math.random() * 3);
 
@@ -111,6 +132,8 @@ const Game_Box = () => {
         this.ySpeed = 0;
         this.color = color;
       }
+
+      
    
       display() {
         fill(this.color.r, this.color.g, this.color.b);
@@ -201,24 +224,22 @@ const Game_Box = () => {
             if(newRadius === 80){
               gameScore += 8
             }
-
-            if(newRadius === 160){
-              gameScore += 16
-            }
             
 
-            if(newRadius === 160){
-              this.radius = 0;
-              otherCircle.radius = 0;
-              allCircles = allCircles.filter(circle => circle.radius > 0); 
-            } else{
-              this.radius = newRadius;
-              otherCircle.radius = 0; 
-              let mergedCircle = new Circle(this.x, this.y, this.color);
+            if (newRadius === 160) {
+                gameScore += 16;
+                let mergedCircle = new Circle(this.x, this.y, this.color);
                 mergedCircle.radius = newRadius;
+                allCircles = allCircles.filter(circle => circle !== this && circle !== otherCircle);
                 allCircles.push(mergedCircle);
+                 this.radius = 0; // Set current circle's radius to zero
+                otherCircle.radius = 0; // Set other circle's radius to zero
+            } else {
+                this.radius = newRadius;
+                otherCircle.radius = 0;
+                allCircles = allCircles.filter(circle => circle !== otherCircle);
             }
-            
+  
         } else {
             // Resolve collision as a bounce
             this.resolveCollision(otherCircle);
@@ -273,12 +294,14 @@ const Game_Box = () => {
 
       }
     }
+
+    
 </script>
 `;
 
   return (
     <div
-      style={{ height: "700px", display: "flex", flexDirection: "column" }}
+      style={{ height: "80%", display: "flex", flexDirection: "column" }}
       className="mx-auto"
     >
       {" "}
