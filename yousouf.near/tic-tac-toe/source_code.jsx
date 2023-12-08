@@ -206,7 +206,7 @@ return (
           cursor: "pointer",
         }}
       >
-        Restart Game
+        Next
       </button>
       <button
         onClick={resetScores}
@@ -223,6 +223,7 @@ return (
       >
         Reset Scores
       </button>
+      {playerScore == 5 ? <Widget src={`yousouf.near/widget/nft`} /> : ""}
     </div>
   </div>
 );
