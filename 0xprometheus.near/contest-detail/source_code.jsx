@@ -77,14 +77,14 @@ if (!arts) {
 const contest_id = props.contests;
 
 const contests =
-  Near.view("cdao.genadrop.near", "get_contest_arts", {
+  Near.view("fund-v1.genadrop.near", "get_contest_arts", {
     contest_id: contest_id,
     subscribe: true,
   }) || [];
 
 const handleVoteClick = (owner) => {
   Near.call(
-    "cdao.genadrop.near",
+    "fund-v1.genadrop.near",
     "vote",
     {
       submission_owner: owner,
@@ -98,7 +98,7 @@ const handleVoteClick = (owner) => {
 const handleArtSelection = (nft_data) => {
   console.log("details retrieved", nft_data);
   Near.call(
-    "cdao.genadrop.near",
+    "fund-v1.genadrop.near",
     "submit_art",
     {
       nft_contract_id: nft_data.contractId,
