@@ -2,7 +2,7 @@ const isAvailable = true;
 const isClaimed = false;
 
 const accountId = props.accountId ?? context.accountId;
-const questId = props.questId ?? "1";
+const questId = props.questId ?? "3";
 
 if (!accountId) {
   return "";
