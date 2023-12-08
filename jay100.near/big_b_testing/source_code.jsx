@@ -42,7 +42,7 @@ let timerInterval;
  
    
    function setup() {
-      createCanvas(400, windowHeight * 0.95);
+      createCanvas(350, windowHeight * 0.95);
       groundY = height - 5; // Ground position
        timerInterval = setInterval(() => {
         if (timer > 0) {
