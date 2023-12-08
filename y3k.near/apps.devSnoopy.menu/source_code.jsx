@@ -69,7 +69,10 @@ return (
           </a>
         </li>
         <li style={menustyles.li}>
-          <a href="#" style={menustyles.a}>
+          <a
+            href="https://near.org/y3k.near/widget/apps.devSnoopy.page.myEvents"
+            style={menustyles.a}
+          >
             My Events
           </a>
         </li>
