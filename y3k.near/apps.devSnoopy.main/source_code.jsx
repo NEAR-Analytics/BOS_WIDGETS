@@ -74,6 +74,10 @@ const dataRegistry = createRegistry(JSON.parse(rawData.body).data);
 // console.log(dataRegistry);
 const tData = transformDataToDesiredFormat(dataRegistry);
 
+if (tData === null) {
+  return "Loading...";
+}
+
 return (
   <div>
     <Widget src="y3k.near/widget/apps.devSnoopy.menu" props={{}} />
