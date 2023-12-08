@@ -41,7 +41,7 @@ const beforeHandleCreateProject = () => {
   }
 };
 
-function handleCreateProject() {
+handleCreateProject = () => {
   // First task
   const responseOne = Near.call(
     "mint.sharddog.near",
