@@ -9,6 +9,10 @@ let rawData = fetch(
   }
 );
 
+if (rawData === null) {
+  return "Loading...";
+}
+
 // State.init({
 //   setSortConfig: { key: null, direction: "asc" },
 //   currentPage: 1,
@@ -73,10 +77,6 @@ const dataRegistry = createRegistry(JSON.parse(rawData.body).data);
 // console.log(JSON.parse(rawData.body));
 // console.log(dataRegistry);
 const tData = transformDataToDesiredFormat(dataRegistry);
-
-if (tData === null) {
-  return "Loading...";
-}
 
 return (
   <div>
