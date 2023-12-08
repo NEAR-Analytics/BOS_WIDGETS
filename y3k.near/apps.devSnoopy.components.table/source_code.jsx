@@ -70,6 +70,20 @@ const getRowStyle = (index) => ({
   backgroundColor: index % 2 === 0 ? "#f2f2f2" : "#e5e7eb", // Alternating colors
 });
 
+function formatCell(text) {
+  return (
+    <a
+      href={
+        "https://near.org/y3k.near/widget/apps.devSnoopy.detail?SERIES_TITLE=" +
+        text
+      }
+      className="text-red-50 text-wrap "
+    >
+      {text}
+    </a>
+  );
+}
+
 return (
   <table style={tableStyle}>
     <thead>
@@ -86,7 +100,7 @@ return (
       {tData.map((item, index) => (
         <tr key={item.address} style={getRowStyle(index)}>
           <td style={tdStyle}>{item.address}</td>
-          <td style={tdStyle}>{item.series_title}</td>
+          <td style={tdStyle}>{formatCell(item.series_title)}</td>
           <td style={tdStyle}>{item.mint_timestamp_utc}</td>
           <td style={tdStyle}>{item.originated_from_transaction_hash}</td>
           <td style={tdStyle}>{item.token_ids}</td>
