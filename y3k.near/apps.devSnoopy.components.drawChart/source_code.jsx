@@ -34,31 +34,41 @@ let jsObject = parsedData.data.filter(
 // console.log("Series with New Accounts:", seriesNewAccount);
 // console.log("Series with Existing Accounts:", seriesExistingAccount);
 
-// Function to aggregate the data
+// Calculate total accounts
+const totalAccounts = jsObject.length;
+
+// Function to aggregate the data and calculate percentage
 const aggregateData = (data, is_new_account) => {
-  return data.filter((item) => item.is_new_account === is_new_account).length;
+  const count = data.filter(
+    (item) => item.is_new_account === is_new_account
+  ).length;
+  const percentage =
+    totalAccounts > 0 ? ((count / totalAccounts) * 100).toFixed(2) : 0;
+  return [count, parseFloat(percentage)];
 };
 
 // Creating the series
 const series = [
   {
-    data: [aggregateData(jsObject, true)],
+    data: [aggregateData(jsObject, true)[1]], // percentage of new accounts
     type: "bar",
     stack: "a",
     name: "New Accounts",
 
     label: {
       show: true,
+      formatter: "{c}%",
     },
   },
   {
-    data: [aggregateData(jsObject, false)],
+    data: [aggregateData(jsObject, false)[1]], // percentage of existing accounts
     type: "bar",
     stack: "a",
     name: "Existing Accounts",
 
     label: {
       show: true,
+      formatter: "{c}%",
     },
   },
 ];
