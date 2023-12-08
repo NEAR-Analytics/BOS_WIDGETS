@@ -16,16 +16,7 @@ const {
   chainIdNotSupport,
 } = props;
 
-const {
-  name,
-  CHAIN_LIST,
-  DEFAULT_CHAIN_ID,
-  dappConfig,
-  curChainId,
-  chains,
-  dappSrc,
-} = props;
-
+const { name, CHAIN_LIST, DEFAULT_CHAIN_ID, curChainId } = props;
 const defaultChain = CHAIN_LIST.find(
   (chain) => chain.chainId === DEFAULT_CHAIN_ID
 );
@@ -205,7 +196,7 @@ return (
       )}
       <PanelLabelWrapper>
         <PanelLabel>Swap on</PanelLabel>
-        <img className="chain-icon" src={curChain.icon || defaultChain.icon} />
+        <img className="chain-icon" src={curChain.logo || defaultChain.logo} />
         <Widget
           props={{
             CHAIN_LIST,
