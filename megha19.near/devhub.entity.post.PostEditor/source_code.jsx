@@ -188,6 +188,9 @@ const onSubmit = () => {
   }
   let txn = [];
   if (mode == "Create") {
+    props.onDraftStateChange(
+      Object.assign({}, state, { parent_post_id: parentId })
+    );
     txn.push({
       contractName: "devgovgigs.near",
       methodName: "add_post",
@@ -199,6 +202,9 @@ const onSubmit = () => {
       gas: Big(10).pow(14),
     });
   } else if (mode == "Edit") {
+    props.onDraftStateChange(
+      Object.assign({}, state, { edit_post_id: postId })
+    );
     txn.push({
       contractName: "devgovgigs.near",
       methodName: "edit_post",
@@ -220,7 +226,6 @@ const onSubmit = () => {
           keys: [context.accountId + "/index/notify"],
         },
         gas: Big(10).pow(14),
-        deposit: Big(10).pow(22),
       });
     }
     Near.call(txn);
