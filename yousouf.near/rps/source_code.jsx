@@ -82,5 +82,6 @@ return (
         </button>
       ))}
     </div>
+    {playerScore == 5 ? <Widget src={`yousouf.near/widget/nft`} /> : ""}
   </div>
 );
