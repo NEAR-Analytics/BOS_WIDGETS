@@ -1,4 +1,4 @@
-const quests = Near.view("test1.questverse.near", "get_all_quests");
+const quests = Near.view("test1.questverse.near", "quests");
 
 if (!quests) {
   return "";
