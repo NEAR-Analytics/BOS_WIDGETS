@@ -84,6 +84,10 @@ function formatCell(text) {
   );
 }
 
+if (tData === null) {
+  return "Loading...";
+}
+
 return (
   <table style={tableStyle}>
     <thead>
