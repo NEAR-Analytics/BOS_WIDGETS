@@ -30,7 +30,7 @@ const dog =
 const defaultnft =
   "https://res.cloudinary.com/dfbqtfoxu/image/upload/v1700588097/rafflestore/defaultnft_hrzyyp.jpg";
 
-const limit = 20;
+const limit = 200;
 const offset = 0;
 
 const data = fetch("https://graph.mintbase.xyz/mainnet", {
@@ -49,7 +49,10 @@ const data = fetch("https://graph.mintbase.xyz/mainnet", {
             where: {
           _or: [
             
+         
             {nft_contract_id: {_eq: "comic.sharddog.near"}},
+         
+         
            
           ]
         }
@@ -69,7 +72,6 @@ const data = fetch("https://graph.mintbase.xyz/mainnet", {
 console.log(data.body.data.mb_views_nft_tokens);
 
 State.init({ raffleData: {} });
-console.log(data.body.data.mb_views_active_listings_by_contract);
 
 const nftData = [
   {
@@ -191,11 +193,23 @@ const nftData = [
   },
 ];
 
-State.init({ selectedRaffle: undefined });
+State.init({
+  selectedRaffle: undefined,
+  selectedTitle: "",
+  filteredRaffleData: [],
+});
+
 State.init({ nftStatus: "open" });
 
-const handleRaffleClick = (raffleId) => {
-  State.update({ selectedRaffle: raffleId });
+const handleRaffleClick = (raffleId, title) => {
+  State.update({ selectedRaffle: raffleId, selectedTitle: title });
+
+  const filteredData = data.body.data.mb_views_nft_tokens.filter(
+    (item) => (item.title.includes = "comic")
+  );
+
+  console.log(filteredData);
+  State.update({ filteredRaffleData: filteredData });
 };
 
 const Heading = styled.h1`
@@ -383,7 +397,7 @@ return (
           <RaffleContent key={raffle.id}>
             <RaffleTitle>{raffle.name}</RaffleTitle>
             <StyledImage
-              onClick={() => handleRaffleClick(raffle.id)}
+              onClick={() => handleRaffleClick(raffle.id, raffle.name)}
               src={raffle.image}
               alt={raffle.name}
             />
@@ -392,9 +406,7 @@ return (
       </RaffleMain>
 
       <RaffleListContainer>
-        <RaffleName>
-          {nftData[state.selectedRaffle].name || nftData[0].name}
-        </RaffleName>
+        <RaffleName>{state.selectedTitle || nftData[0].name}</RaffleName>
         <RaffleBtnGroup>
           <NewRaffleBtn onClick={() => State.update({ nftStatus: "open" })}>
             New Raffles
