@@ -1,6 +1,9 @@
 const accountId = props.accountId ?? context.accountId ?? "hack.near";
 const namespace = props.namespace ?? "widget";
+const thingId = props.thingId ?? "Academy";
 let tag = props.tag ?? "*";
+
+State.init({ path: props.path ?? `${accountId}/${namespace}/${thingId}` });
 
 const data = Social.keys(`*/graph/context/*/*/*/tags/${tag}`, "final");
 
@@ -36,13 +39,17 @@ function extractThings(data) {
                         <div className="col m-1 p-2 text-truncate">
                           <Widget
                             src="hack.near/widget/thing.block"
-                            props={{ creatorId, namespace, thingId }}
+                            props={{
+                              path: `${creatorId}/${namespace}/${thingId}`,
+                            }}
                           />
                         </div>
                         <div className="col m-1 p-1">
                           <Widget
                             src="hack.near/widget/tags"
-                            props={{ creatorId, namespace, thingId }}
+                            props={{
+                              path: `${creatorId}/${namespace}/${thingId}`,
+                            }}
                           />
                         </div>
                       </div>
@@ -62,11 +69,57 @@ function extractThings(data) {
 
 return (
   <>
-    <Widget
-      src="hack.near/widget/tag.editor"
-      props={{ creatorId: accountId }}
-    />
-    <hr />
+    <div className="mb-2 row">
+      <div className="mb-1 col">
+        <h5 className="mb-3">SocialDB Path of Anything:</h5>
+        <input
+          type="text"
+          value={state.path}
+          onChange={(event) =>
+            State.update({ path: event.target.value.toLowerCase() })
+          }
+        />
+        <br />
+        <div className="row">
+          <div className="col m-1 ">
+            <Widget
+              src="hack.near/widget/star.button"
+              props={{ path: state.path }}
+            />
+          </div>
+        </div>
+        <div className="col-8 m-1 mt-2">
+          <button
+            className="btn btn-outline-secondary d-flex"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#collapseExample"
+            aria-expanded="false"
+            aria-controls="collapseExample"
+          >
+            Guide
+          </button>
+        </div>
+      </div>
+      <div className="mb-2 col">
+        <Widget
+          src="hack.near/widget/meta.editor"
+          props={{ path: state.path }}
+        />
+      </div>
+      <div className="collapse" id="collapseExample">
+        <div className="card card-body m-3" style={{ background: "#f8f8f8" }}>
+          <h5>Best Practices:</h5>
+          <ul>
+            <li>Keep tags concise and simple</li>
+            <li>Use "-" instead of spaces</li>
+            <li>English words recommended</li>
+            <li>Don't save irrelevant context</li>
+            <li>Be kind to everyone</li>
+          </ul>
+        </div>
+      </div>
+    </div>
     <br />
 
     {tag !== "*" ? (
