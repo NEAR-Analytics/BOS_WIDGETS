@@ -9,7 +9,7 @@ return (
       <span>Hello</span>
       <span>World</span>
     </>
-    {/*<Slider range min={100} max={100} />*/}
+    <Slider range min={100} max={100} />
     <FaBeer />
     <Widget
       src="andyh.near/ImportTest.Child"
