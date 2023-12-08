@@ -1,64 +1,90 @@
+let rawData = fetch(
+  "https://raw.githubusercontent.com/NEAR-Analytics/NEAR-Social/main/data/output_snoopy_pipeline_demo_event.json",
+  {
+    subscribe: true,
+    method: "GET",
+    headers: {
+      Accept: "*/*",
+    },
+  }
+);
+
+if (rawData === null) {
+  return "Loading...";
+}
+
+// State.init({
+//   setSortConfig: { key: null, direction: "asc" },
+//   currentPage: 1,
+//   rowsPerPage: 10, // You can change this as needed.
+// });
+
+function createRegistry(data) {
+  const registry = {};
+
+  data.forEach((item) => {
+    // Destructure necessary fields from each item
+    const {
+      nft_receiver_id,
+      token_ids,
+      series_title,
+      mint_timestamp_utc,
+      originated_from_transaction_hash,
+    } = item;
+
+    // If this is the first NFT for this receiver, initialize an array
+    if (!registry[nft_receiver_id]) {
+      registry[nft_receiver_id] = [];
+    }
+
+    // Add this NFT's info to the receiver's array
+    registry[nft_receiver_id].push({
+      token_ids,
+      series_title,
+      mint_timestamp_utc,
+      originated_from_transaction_hash,
+    });
+  });
+
+  return registry;
+}
+
+function transformDataToDesiredFormat(registry) {
+  let transformedData = [];
+
+  Object.entries(registry).forEach(([key, items]) => {
+    items.forEach((item) => {
+      // Create a new object for each item
+      let transformedEntry = {};
+
+      // Copy all key-value pairs from the original item to the new object
+      Object.keys(item).forEach((itemKey) => {
+        transformedEntry[itemKey] = item[itemKey];
+      });
+
+      // Optionally, add or transform any additional keys as needed
+      transformedEntry["address"] = key; // Example of adding a new key
+
+      transformedData.push(transformedEntry);
+    });
+  });
+
+  return transformedData;
+}
+
+const dataRegistry = createRegistry(JSON.parse(rawData.body).data);
+
+// console.log(JSON.parse(rawData.body));
+// console.log(dataRegistry);
+const tData = transformDataToDesiredFormat(dataRegistry);
+
 return (
   <div>
-    <Widget src="y3k.near/widget/apps.devSnoopy.menu" props={{}} />
-
-    <div className="container my-5">
-      <div className="row">
-        <div className="col-md-12">
-          <h2 className="text-center mb-4">
-            How To Deploy Your Own Dev Snoopy 🐾 🦴
-          </h2>
-          <p className="text-center">
-            Dive into the pulse of current events monitored through ShardDog
-            NFTs and the DevSnoopy proxy contract. The table below provides a
-            real-time snapshot of ongoing projects within our vibrant community.
-          </p>
-        </div>
-      </div>
-      <div className="row text-center">
-        {/* Existing columns */}
-        {/* ... your existing columns ... */}
-
-        {/* New column for Frontend Code Reference */}
-        <div className="col-md-4 mb-4">
-          <div className="card h-100">
-            <div className="card-body">
-              <h3 className="card-title">🌐 Frontend (BOS)</h3>
-              <p className="card-text">
-                Explore the frontend repository for a closer look at our user
-                interface and experience.
-                <a
-                  href="https://github.com/NEAR-Analytics/devSnoopyBOS"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  View on GitHub
-                </a>
-              </p>
-            </div>
-          </div>
-        </div>
-
-        {/* New column for Backend Code Reference */}
-        <div className="col-md-4 mb-4">
-          <div className="card h-100">
-            <div className="card-body">
-              <h3 className="card-title">⚙️ Backend (Contract)</h3>
-              <p className="card-text">
-                Dive into the backend repository to understand the contract
-                logic and data handling.
-                <a
-                  href="https://github.com/NEAR-Analytics/devSnoopy"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  View on GitHub
-                </a>
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+    <Widget
+      src="y3k.near/widget/apps.devSnoopy.detail"
+      props={{
+        SERIES_TITLE: "Open Web Academy",
+      }}
+    />
   </div>
 );
