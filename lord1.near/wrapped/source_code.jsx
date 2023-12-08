@@ -21,7 +21,7 @@ const general_theme = {
 //----------------------------------------------------------------------------------
 //tabs ######
 const tabs = {
-  left: "left table",
+  left: "Platform",
   middle: "middle table",
   right: "right table",
 };
@@ -269,7 +269,13 @@ return (
             </Container>
           </div>
           <div className="w-100">
-            {state.tab === tabs.left && "left widget"}
+            {state.tab === tabs.left && (
+              <Widget
+                src="lord1.near/widget/wrapped-platform"
+                props={{ themeColor: themeColor }}
+              />
+            )}
+
             {state.tab === tabs.middle && "middle widget"}
             {state.tab === tabs.right && "right widget"}
           </div>
