@@ -8,17 +8,17 @@ let accountId = context.accountId;
 let cid =
   props.cid ?? "bafkreibmc23xhip63mxv2mulb7xko5htpiqszrch4fo3optszuctjtlrau";
 let image = props.image;
-const mintButton = props.mintButton ?? "Mint";
+const mintButton = props.mintButton ?? "Mint ";
 const showDetails = props.showDetails ?? true;
-const title = props.title ?? "Example title";
-const receiver = props.receiver ?? "yousouf.near";
+const title = props.title ?? "Title";
+const receiver = props.receiver ?? accountId;
 
 if (image) {
   cid = image.cid;
   console.log("Image CID: " + cid);
 }
 
-let description = props.description ?? "Proof of Vibes powered by GenaDrop";
+let description = props.description ?? "NFT Description";
 const profile = socialGetr(`${accountId}/profile`);
 
 if (profile === null) {
@@ -86,7 +86,7 @@ const handleMint = () => {
       },
       body: metadata,
     }).then((res) => {
-      console.log("GO ON SOUN", res);
+      console.log("GO ON", res);
       const cid = res.body.cid;
       const gas = 200000000000000;
       const deposit = 10000000000000000000000;
@@ -142,7 +142,7 @@ if (!accountId) {
   console.log("Please login");
   State.update({
     showAlert: true,
-    toastMessage: "Please log in before continuing",
+    toastMessage: "Please login",
   });
 }
 
@@ -278,7 +278,7 @@ return (
       </Card>
       {showDetails && (
         <Card>
-          <h5>NFT Details</h5>
+          <h5 style={{ color: "#ffe" }}>NFT Details</h5>
           <Card>
             Title:
             <Input
@@ -306,8 +306,22 @@ return (
         </Card>
       )}
       <div className="d-flex justify-content-center mb-2">
-        <button type="button" className="btn btn-primary" onClick={handleMint}>
-          {mintButton}
+        <button
+          type="button"
+          className="btn btn-primary"
+          onClick={handleMint}
+          style={{
+            background: "#ccc",
+            color: "#ffe",
+            border: "none",
+            padding: "10px 20px",
+            fontSize: "16px",
+            borderRadius: "5px",
+            marginLeft: "10px",
+            cursor: "pointer",
+          }}
+        >
+          {mintButton} 🎭
         </button>
       </div>
     </div>
