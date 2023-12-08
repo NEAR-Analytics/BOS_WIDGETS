@@ -77,7 +77,7 @@ return (
     </thead>
     <tbody>
       {tData.map((item) => (
-        <tr key={item.address} style={getRowStyle(index)}>
+        <tr key={item.address} style={getRowStyle(item.index)}>
           <td style={tdStyle}>{item.token_ids}</td>
           <td style={tdStyle}>{item.series_title}</td>
           <td style={tdStyle}>{item.mint_timestamp_utc}</td>
