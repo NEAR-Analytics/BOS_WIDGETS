@@ -64,7 +64,7 @@ return (
         </li>
         <li style={menustyles.li}>
           <a href="#" style={menustyles.a}>
-            Events
+            My Events
           </a>
         </li>
         <li style={menustyles.li}>
