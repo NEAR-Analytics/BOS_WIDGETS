@@ -24,21 +24,19 @@ const Game_Box = () => {
 <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.0/p5.js" integrity="sha512-2r+xZ/Dm8+HI0I8dsj1Jlfchv4O3DGfWbqRalmSGtgdbVQrZyGRqHp9ek8GKk1x8w01JsmDZRrJZ4DzgXkAU+g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script>
 
-        let circles = [];
    let droppedCircles = [];
    let groundY;
-   let nextCircleColor = { r: 255, g: 0, b: 0 }; // Color of the next circle to be dropped
-   let lastDroppedCircleColor = { r: 255, g: 0, b: 0 }; // Color of the last dropped circle
    let hoveredCircle = null;
    const sizes = [10, 20, 40];
    let circleColors = [{r: 255, g: 0, b: 0},{r: 0, g: 255, b: 0},{r: 0, g: 0, b: 255}]
    let gameScore = 0;
-   let test = window;
+   let canDropCircle = true;
+   let allCircles = [];
  
    
    function setup() {
       createCanvas(400, windowHeight * 0.95);
-      groundY = height; // Ground position
+      groundY = height - 5; // Ground position
     }
    
     function draw() {
@@ -74,20 +72,32 @@ const Game_Box = () => {
     }
    
     function mouseClicked() {
-      const randCircPos = Math.floor(Math.random() * 3);
-      const randSizePos = Math.floor(Math.random() * 3);
+      console.log(allCircles);
+        if (canDropCircle) {
+        const randCircPos = Math.floor(Math.random() * 3);
+        const randSizePos = Math.floor(Math.random() * 3);
 
-         if (!hoveredCircle) {
-        hoveredCircle = new Circle(mouseX, 45, circleColors[randCircPos]);
-        hoveredCircle.radius = sizes[randSizePos];
-          } else {
-        
-        let newDroppedCircle = new Circle(hoveredCircle.x, hoveredCircle.y, hoveredCircle.color);
-        newDroppedCircle.radius = hoveredCircle.radius;
+        if (!hoveredCircle) {
+            hoveredCircle = new Circle(mouseX, 45, circleColors[randCircPos]);
+            hoveredCircle.radius = sizes[randSizePos];
+        } else {
+            const newRandCircPos = Math.floor(Math.random() * 3);
+            const newRandSizePos = Math.floor(Math.random() * 3);
+            let newDroppedCircle = new Circle(hoveredCircle.x, hoveredCircle.y, hoveredCircle.color);
+            newDroppedCircle.radius = hoveredCircle.radius;
 
-        droppedCircles.push(newDroppedCircle); // Add the new dropped circle
-        hoveredCircle = null; // Reset hoveredCircle
-          }
+            droppedCircles.push(newDroppedCircle); // Add the new dropped circle
+            allCircles.push(newDroppedCircle);
+            hoveredCircle = null; // Reset hoveredCircle
+            
+            canDropCircle = false; // Prevent dropping a new circle immediately
+            setTimeout(() => {
+                hoveredCircle = new Circle(mouseX, 45, circleColors[newRandCircPos]);
+                hoveredCircle.radius = sizes[newRandSizePos];
+                canDropCircle = true; // Allow dropping a new circle after the delay
+            }, 500); // Adjust the delay duration in milliseconds (here, it's 1 second)
+        }
+    }
      }
    
      class Circle {
@@ -199,10 +209,14 @@ const Game_Box = () => {
 
             if(newRadius === 160){
               this.radius = 0;
-              otherCircle.radius = 0; // Make the other circle disappear
+              otherCircle.radius = 0;
+              allCircles = allCircles.filter(circle => circle.radius > 0); 
             } else{
               this.radius = newRadius;
-              otherCircle.radius = 0; // Make the other circle disappear
+              otherCircle.radius = 0; 
+              let mergedCircle = new Circle(this.x, this.y, this.color);
+                mergedCircle.radius = newRadius;
+                allCircles.push(mergedCircle);
             }
             
         } else {
@@ -262,14 +276,19 @@ const Game_Box = () => {
 </script>
 `;
 
-  return <iframe className="w-100 h-100" srcDoc={code} />;
+  return (
+    <div
+      style={{ height: "700px", display: "flex", flexDirection: "column" }}
+      className="mx-auto"
+    >
+      {" "}
+      <iframe className="w-100 h-100" srcDoc={code} />
+    </div>
+  );
 };
 
 return (
-  <div
-    style={{ height: "530px", display: "flex", flexDirection: "column" }}
-    className="mx-auto"
-  >
+  <div style={{ width: "100%", height: "100%", background: "blue" }}>
     <Game_Box />
   </div>
 );
