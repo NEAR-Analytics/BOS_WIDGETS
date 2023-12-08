@@ -44,7 +44,7 @@ return (
   <div class="row mt-1">
     <div class="col-4">
       <Widget
-        src="gagdiez.near/widget/NCD.Menu"
+        src="evaluator.near/widget/NCD.Menu"
         props={{
           menuLinks,
           topics,
