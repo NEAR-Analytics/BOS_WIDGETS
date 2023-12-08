@@ -201,7 +201,7 @@ return (
                               height="40"
                               width="40"
                               layout="intrinsic"
-                              src={`${td.beforehref}${key}${td.afterhref}`}
+                              src={`${td.beforesrc}${key}${td.aftersrc}`}
                             />
                           ) : td.progress ? (
                             <td className="align-middle ">
