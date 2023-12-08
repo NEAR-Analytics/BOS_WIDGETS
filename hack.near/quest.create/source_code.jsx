@@ -1,71 +1,178 @@
-const type = props.type ?? "quest";
+State.init({
+  starts_at: 1702123200000,
+  expires_at: 1702814400000,
+  total_participants_allowed: 23,
+  indexer_name: "test",
+  title: "create something useful",
+  description: "everyone is learning together",
+  img_url:
+    "https://researchathon.mypinata.cloud/ipfs/QmUjZgep4cEG3BctH3UFn17HvqZ96xhWeTGacoruAHGsjA",
+  tags: "build, hack, dev",
+  deposit: "1000000000000000000000000",
+});
 
-function generateUID() {
-  return (
-    Math.random().toString(16).slice(2) +
-    Date.now().toString(36) +
-    Math.random().toString(16).slice(2)
-  );
-}
+const handleChange = (e) => {
+  const { name, value } = e.target;
+  State.update({
+    ...state,
+    [name]: value,
+  });
+};
 
-const questId = props.questId ?? generateUID();
-
-const composeData = () => {
-  // generate a random id
-  const thingId = questId;
-  const data = {
-    [type]: {
-      [thingId]: {
-        "": JSON.stringify({
-          thing,
-        }),
-        metadata: {
-          type,
-        },
-      },
-    },
-    post: {
-      main: JSON.stringify({
-        content: `[+EMBED](https://near.social/${context.accountId}/${type}/${thingId})`,
-      }),
-    },
-    index: {
-      post: JSON.stringify({ key: "main", value: { type: "md" } }),
-    },
-    // index: {
-    //   every: JSON.stringify({
-    //     key: type,
-    //     value: {
-    //       path: `${context.accountId}/${type}/${thingId}`,
-    //       type,
-    //     },
-    //   }),
-    // },
+const createQuest = () => {
+  const questArgs = {
+    starts_at: parseInt(state.starts_at, 10),
+    expires_at: parseInt(state.expires_at, 10),
+    total_participants_allowed: parseInt(state.total_participants_allowed, 10),
+    indexer_name: state.indexer_name,
+    title: state.title,
+    description: state.description,
+    img_url: state.img_url,
+    tags: state.tags.split(",").map((tag) => tag.trim()),
   };
 
-  if (state.selectedType === "efiz.near/type/markdown") {
-    const notifications = extractTagNotifications(state.thing.text, {
-      type: "social",
-      path: `${context.accountId}/thing/${thingId}`,
-    });
-
-    if (notifications.length) {
-      data.index.notify = JSON.stringify(
-        notifications.length > 1 ? notifications : notifications[0]
-      );
-    }
-  }
-
-  if (postThing) {
-    data = postThing(data);
-  }
-  return data;
+  Near.call([
+    {
+      contractName: "questsmock.near",
+      methodName: "create_near_quest",
+      args: questArgs,
+      deposit: state.deposit,
+    },
+  ]);
 };
 
 return (
   <>
-    <CommitButton force data={composeData()}>
-      create
-    </CommitButton>
+    <div className="m-3">
+      <label htmlFor="starts_at">Starts At:</label>
+      <input
+        type="date"
+        id="starts_at"
+        name="starts_at"
+        value={state.starts_at}
+        onChange={(e) => {
+          State.update({
+            starts_at: e.target.value,
+          });
+        }}
+      />
+    </div>
+    <div className="m-3">
+      <label htmlFor="expires_at">Expires At:</label>
+      <input
+        type="date"
+        id="expires_at"
+        name="expires_at"
+        value={state.expires_at}
+        onChange={(e) => {
+          State.update({
+            expires_at: e.target.value,
+          });
+        }}
+      />
+    </div>
+    <div className="m-3">
+      <label htmlFor="total_participants_allowed">
+        Total Participants Allowed:
+      </label>
+      <input
+        type="number"
+        id="total_participants_allowed"
+        name="total_participants_allowed"
+        value={state.total_participants_allowed}
+        onChange={(e) => {
+          State.update({
+            total_participants_allowed: e.target.value,
+          });
+        }}
+      />
+    </div>
+    <div className="m-3">
+      <label htmlFor="indexer_name">Indexer Name:</label>
+      <input
+        type="text"
+        id="indexer_name"
+        name="indexer_name"
+        value={state.indexer_name}
+        onChange={(e) => {
+          State.update({
+            indexer_name: e.target.value,
+          });
+        }}
+      />
+    </div>
+    <div className="m-3">
+      <label htmlFor="deposit">Amount:</label>
+      <input
+        type="text"
+        id="deposit"
+        name="deposit"
+        value={state.deposit}
+        onChange={(e) => {
+          State.update({
+            deposit: e.target.value,
+          });
+        }}
+      />
+    </div>
+    <div className="m-3">
+      <label htmlFor="title">Title:</label>
+      <input
+        type="text"
+        id="title"
+        name="title"
+        value={state.title}
+        onChange={(e) => {
+          State.update({
+            title: e.target.value,
+          });
+        }}
+      />
+    </div>
+    <div className="m-3">
+      <label htmlFor="description">Description:</label>
+      <input
+        type="text"
+        id="description"
+        name="description"
+        value={state.description}
+        onChange={(e) => {
+          State.update({
+            description: e.target.value,
+          });
+        }}
+      />
+    </div>
+    <div className="m-3">
+      <label htmlFor="img_url">Image:</label>
+      <input
+        type="text"
+        id="img_url"
+        name="img_url"
+        value={state.img_url}
+        onChange={(e) => {
+          State.update({
+            img_url: e.target.value,
+          });
+        }}
+      />
+    </div>
+    <div className="m-3">
+      <label htmlFor="tags">Tags:</label>
+      <input
+        type="text"
+        id="tags"
+        name="tags"
+        value={state.tags}
+        onChange={(e) => {
+          State.update({
+            tags: e.target.value,
+          });
+        }}
+      />
+    </div>
+    <div className="m-3">
+      <button onClick={createQuest}>Create</button>
+    </div>
   </>
 );
