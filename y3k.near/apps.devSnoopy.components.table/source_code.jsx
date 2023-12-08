@@ -1,6 +1,21 @@
 const rawData = props.dataRegistry || [];
 console.log(rawData);
 
+function generateDynamicTableHeaders(tableData, thStyle) {
+  if (tableData.length === 0) {
+    return null;
+  }
+
+  // Extract keys from the first object in the data array as column names
+  const columnNames = Object.keys(tableData[0]);
+
+  return columnNames.map((columnName, index) => (
+    <th key={index} style={thStyle}>
+      {columnName.replace(/_/g, " ")}
+    </th>
+  ));
+}
+
 const { body: tableData } = rawData || [];
 
 const tableStyle = {
@@ -24,11 +39,7 @@ const tdStyle = {
 return (
   <table style={tableStyle}>
     <thead>
-      <tr>
-        <th style={thStyle}>Emission Level</th>
-        <th style={thStyle}>Address</th>
-        <th style={thStyle}>Amount</th>
-      </tr>
+      <tr>{generateDynamicTableHeaders(tableData, thStyle)}</tr>
     </thead>
     <tbody>
       {tableData.map((item) => (
