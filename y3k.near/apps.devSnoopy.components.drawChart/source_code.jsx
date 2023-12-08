@@ -1,3 +1,65 @@
+var series = [
+  {
+    data: [80],
+    type: "bar",
+    stack: "a",
+    name: "a",
+
+    label: {
+      show: true,
+    },
+  },
+  {
+    data: [120],
+    type: "bar",
+    stack: "a",
+    name: "b",
+
+    label: {
+      show: true,
+    },
+  },
+];
+const stackInfo = {};
+for (let i = 0; i < series[0].data.length; ++i) {
+  for (let j = 0; j < series.length; ++j) {
+    const stackName = series[j].stack;
+    if (!stackName) {
+      continue;
+    }
+    if (!stackInfo[stackName]) {
+      stackInfo[stackName] = {
+        stackStart: [],
+        stackEnd: [],
+      };
+    }
+    const info = stackInfo[stackName];
+    const data = series[j].data[i];
+    if (data && data !== "-") {
+      if (info.stackStart[i] == null) {
+        info.stackStart[i] = j;
+      }
+      info.stackEnd[i] = j;
+    }
+  }
+}
+for (let i = 0; i < series.length; ++i) {
+  const data = series[i].data;
+  const info = stackInfo[series[i].stack];
+  for (let j = 0; j < series[i].data.length; ++j) {
+    // const isStart = info.stackStart[j] === i;
+    const isEnd = info.stackEnd[j] === i;
+    const topBorder = isEnd ? 20 : 0;
+    const bottomBorder = 0;
+    data[j] = {
+      value: data[j],
+      itemStyle: {
+        borderRadius: [topBorder, topBorder, bottomBorder, bottomBorder],
+      },
+    };
+  }
+}
+
 const fetchResult = fetch(
   "https://storage.googleapis.com/databricks-near-query-runner/output/total_fast_auth_by_date.json"
 );
@@ -18,86 +80,31 @@ const dataset = parsed.data
   }));
 
 const colsToShow = ["Total Fast Auth Accounts"];
-const definition = {
-  title: {
-    text: "Bar: Fast Auth Accounts by Date",
-    subtext: `Executed by NEAR Data Platform at ${new Date(
-      parsed.executed_at
-    ).toLocaleString()}`,
-  },
-  tooltip: {
-    trigger: "axis",
-  },
-  legend: {
-    data: colsToShow,
-    top: "50",
-  },
-  grid: {
-    left: "3%",
-    right: "4%",
-    bottom: "3%",
-    top: "100",
-    containLabel: true,
-  },
-  toolbox: {
-    feature: {
-      saveAsImage: {},
-    },
-  },
-  xAxis: {
-    type: "category",
-    boundaryGap: false,
-    data: dataset.map((r) => r.Date),
-  },
-  yAxis: {
-    type: "value",
-  },
-  series: colsToShow.map((col) => ({
-    name: col,
-    type: "bar",
-    data: dataset.map((r) => r[col]),
-  })),
-};
 
-const definition2 = {
-  title: {
-    text: "Line: Fast Auth Accounts by Date 2nd chart",
-    subtext: `Executed by NEAR Data Platform at ${new Date(
-      parsed.executed_at
-    ).toLocaleString()}`,
-  },
-  tooltip: {
-    trigger: "axis",
-  },
-  legend: {
-    data: colsToShow,
-    top: "50",
-  },
+const definition = {
+  legend: {},
+
   grid: {
     left: "3%",
     right: "4%",
     bottom: "3%",
-    top: "100",
     containLabel: true,
   },
-  toolbox: {
-    feature: {
-      saveAsImage: {},
+  tooltip: {
+    trigger: "axis",
+    axisPointer: {
+      // Use axis to trigger tooltip
+      type: "shadow", // 'shadow' as default; can also be 'line' or 'shadow'
     },
   },
   xAxis: {
     type: "category",
-    boundaryGap: false,
-    data: dataset.map((r) => r.Date),
+    data: ["Thu"],
   },
   yAxis: {
     type: "value",
   },
-  series: colsToShow.map((col) => ({
-    name: col,
-    type: "line",
-    data: dataset.map((r) => r[col]),
-  })),
+  series: series,
 };
 
 return (
