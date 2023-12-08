@@ -18,6 +18,10 @@ function aggregateData(data, aggregateKey) {
   return Object.values(aggregatedData);
 }
 
+if (props.dataRegistry === null) {
+  return "Loading...";
+}
+
 // const tData = aggregateData(props.dataRegistry || []);
 const tData = aggregateData(props.dataRegistry, "series_title");
 
@@ -82,10 +86,6 @@ function formatCell(text) {
       {text}
     </a>
   );
-}
-
-if (tData === null) {
-  return "Loading...";
 }
 
 return (
