@@ -45,7 +45,9 @@ return (
     className="btn btn-outline-secondary"
     data={data}
   >
-    <i className={`bi ${starred ? "bi-star-fill" : "bi-star"}`} />
-    <span style={{ marginLeft: "0.2rem" }}>{starred ? "starred" : "star"}</span>
+    {" "}
+    <i
+      className={`bi ${starred ? "bi-bookmark-star" : "bi-bookmark-plus-fill"}`}
+    />
   </CommitButton>
 );
