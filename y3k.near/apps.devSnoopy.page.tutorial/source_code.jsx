@@ -15,10 +15,7 @@ return (
           </p>
         </div>
       </div>
-      <div className="row text-center">
-        {/* Existing columns */}
-        {/* ... your existing columns ... */}
-
+      <div className="row text-center justify-content-center">
         {/* New column for Frontend Code Reference */}
         <div className="col-md-4 mb-4">
           <div className="card h-100">
