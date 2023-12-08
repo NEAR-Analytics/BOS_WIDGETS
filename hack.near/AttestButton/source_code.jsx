@@ -1,4 +1,4 @@
-const item = props.item ?? "hack.near/widget/thing.context";
+const item = props.item ?? "hack.near/widget/every.context";
 const data = props.data ?? "every.near/widget/core";
 
 if (!item) {
@@ -75,7 +75,7 @@ return (
         }`}
       />
       <span style={{ marginLeft: "0.2rem" }}>
-        {attested ? "undo" : "attest"}
+        {attested ? "Undo" : "Trust"}
       </span>
     </button>
   </div>
