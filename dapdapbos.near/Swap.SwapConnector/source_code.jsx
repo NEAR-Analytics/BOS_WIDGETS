@@ -9,15 +9,8 @@ const {
   ...restProps
 } = props;
 
-const {
-  name,
-  CHAIN_LIST,
-  DEFAULT_CHAIN_ID,
-  dappConfig,
-  curChainId,
-  chains,
-  dappSrc,
-} = props;
+const { name, CHAIN_LIST, DEFAULT_CHAIN_ID, curChainId, curChain, dappSrc } =
+  props;
 
 const chainIdNotSupport = !CHAIN_LIST.find(
   (chain) => chain.chainId === curChainId
@@ -182,8 +175,6 @@ const WidgetWrapper = styled.div`
   }
 `;
 
-const curChain = restProps.chains[chainId];
-
 const BridgeBanner = styled.div`
   width: 560px;
   border-radius: 16px;
@@ -239,7 +230,6 @@ const ArrowRight = (
     <path d="M1 11L5 6L1 1" stroke="currentColor" stroke-width="2" />
   </svg>
 );
-
 return (
   <Dex>
     <WidgetWrapper>
@@ -263,16 +253,12 @@ return (
         }}
       >
         <div className="bridge-text ">
-          <img className="icon" src={curChain.icon} />
+          <img className="icon" src={curChain.logo} />
 
           <div className="text-wrapper">
-            <div className="text-l">
-              {curChain.chainName} Chain token bridge
-            </div>
+            <div className="text-l">{curChain.name} Chain token bridge</div>
 
-            <div className="text-m">
-              {curChain.chainName} Chain token bridge
-            </div>
+            <div className="text-m">{curChain.name} Chain token bridge</div>
           </div>
         </div>
 
