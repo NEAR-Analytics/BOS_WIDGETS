@@ -2,6 +2,6 @@ import { FaIgloo } from "react-icons/fa";
 
 return (
   <div>
-    Hello Child <FAIgloo />
+    Hello Child <FaIgloo />
   </div>
 );
