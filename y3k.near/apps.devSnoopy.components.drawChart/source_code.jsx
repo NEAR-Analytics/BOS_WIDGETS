@@ -1,25 +1,68 @@
-var series = [
+const SERIES_TITLE = props.SERIES_TITLE || "Onchain African";
+
+let rawData = fetch(
+  "https://raw.githubusercontent.com/NEAR-Analytics/NEAR-Social/main/data/output_snoopy_pipeline_benchmark.json",
   {
-    data: [80],
+    subscribe: true,
+    method: "GET",
+    headers: {
+      Accept: "*/*",
+    },
+  }
+);
+
+const parsedData = JSON.parse(rawData.body);
+
+// Filtering to get series where is_new_account is false
+let jsObject = parsedData.data.filter(
+  (item) => item.series_title === SERIES_TITLE
+);
+
+// console.log("jsObject", jsObject);
+
+// const jsObject = JSON.parse(rawData.body);
+
+// // Filtering to get series where is_new_account is true
+// const seriesNewAccount = jsObject.data.filter(
+//   (item) => item.is_new_account === true
+// );
+
+// // Filtering to get series where is_new_account is false
+// const seriesExistingAccount = jsObject.data.filter(
+//   (item) => item.is_new_account === false
+// );
+// console.log("Series with New Accounts:", seriesNewAccount);
+// console.log("Series with Existing Accounts:", seriesExistingAccount);
+
+// Function to aggregate the data
+const aggregateData = (data, is_new_account) => {
+  return data.filter((item) => item.is_new_account === is_new_account).length;
+};
+
+// Creating the series
+const series = [
+  {
+    data: [aggregateData(jsObject, true)],
     type: "bar",
     stack: "a",
-    name: "a",
+    name: "New Accounts",
 
     label: {
       show: true,
     },
   },
   {
-    data: [120],
+    data: [aggregateData(jsObject, false)],
     type: "bar",
     stack: "a",
-    name: "b",
+    name: "Existing Accounts",
 
     label: {
       show: true,
     },
   },
 ];
+
 const stackInfo = {};
 for (let i = 0; i < series[0].data.length; ++i) {
   for (let j = 0; j < series.length; ++j) {
@@ -79,8 +122,6 @@ const dataset = parsed.data
     Date: new Date(row.start_of_the_week).toISOString().substring(0, 10),
   }));
 
-const colsToShow = ["Total Fast Auth Accounts"];
-
 const definition = {
   legend: {},
 
@@ -96,7 +137,7 @@ const definition = {
   },
   xAxis: {
     type: "category",
-    data: ["Thu"],
+    data: [SERIES_TITLE],
   },
   yAxis: {
     type: "value",
