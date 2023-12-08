@@ -144,10 +144,6 @@ const handleChange = (e) => {
 
   };
 
-  console.log(formData);
-  console.log(callValue);
-  console.log(formSuccess);
-
     return (
     <div>
         <div style={formStyles.row}>
