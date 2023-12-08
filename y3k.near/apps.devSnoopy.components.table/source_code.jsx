@@ -50,17 +50,25 @@ const tableStyle = {
   borderRadius: "0.25rem",
   overflow: "hidden",
 };
+
 const thStyle = {
-  backgroundColor: "#f2f2f2",
+  backgroundColor: "#000000", // Black background
+  color: "#FFFFFF", // White text
   padding: "8px",
   textAlign: "left",
   borderBottom: "1px solid #e5e7eb",
 };
+
 const tdStyle = {
   padding: "8px",
   textAlign: "left",
   borderBottom: "1px solid #e5e7eb",
 };
+
+// Function to alternate row colors
+const getRowStyle = (index) => ({
+  backgroundColor: index % 2 === 0 ? "#f2f2f2" : "#e5e7eb", // Alternating colors
+});
 
 return (
   <table style={tableStyle}>
@@ -69,7 +77,7 @@ return (
     </thead>
     <tbody>
       {tData.map((item) => (
-        <tr key={item.address}>
+        <tr key={item.address} style={getRowStyle(index)}>
           <td style={tdStyle}>{item.token_ids}</td>
           <td style={tdStyle}>{item.series_title}</td>
           <td style={tdStyle}>{item.mint_timestamp_utc}</td>
