@@ -1,9 +1,12 @@
-const accountId = props.accountId ?? context.accountId ?? "hack.near";
-const namespace = props.namespace ?? "widget";
-const thingId = props.thingId ?? "Academy";
+const accountId = props.accountId ?? context.accountId;
+
+const creatorId = props.creatorId ?? "every.near";
+const namespace = props.namespace ?? "thing";
+const thingId = props.thingId ?? "core";
+
 let tag = props.tag ?? "*";
 
-State.init({ path: props.path ?? `${accountId}/${namespace}/${thingId}` });
+State.init({ path: props.path ?? `${creatorId}/${namespace}/${thingId}` });
 
 const data = Social.keys(`*/graph/context/*/*/*/tags/${tag}`, "final");
 
@@ -71,7 +74,7 @@ return (
   <>
     <div className="mb-2 row">
       <div className="mb-1 col">
-        <h5 className="mb-3">SocialDB Path of Anything:</h5>
+        <h5 className="mt-2 mb-3">SocialDB Path of Anything:</h5>
         <input
           type="text"
           value={state.path}
