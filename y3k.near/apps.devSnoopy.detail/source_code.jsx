@@ -1,3 +1,5 @@
+const SERIES_TITLE = props.SERIES_TITLE;
+
 let rawData = fetch(
   "https://raw.githubusercontent.com/NEAR-Analytics/NEAR-Social/main/data/output_snoopy_pipeline_benchmark.json",
   {
@@ -73,7 +75,7 @@ function filterDataBySeriesTitle(data, filterTitle) {
 
 const nonAggData = transformDataToDesiredFormat(rawdataRegistry);
 
-const tData = filterDataBySeriesTitle(nonAggData, "Onchain African");
+const tData = filterDataBySeriesTitle(nonAggData, SERIES_TITLE);
 
 function generateDynamicTableHeaders(tableData, thStyle) {
   // Check if tableData is an array and not empty
