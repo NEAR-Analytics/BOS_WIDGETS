@@ -1,4 +1,4 @@
-import { FABeer } from "react-icons/fa";
+import { FaBeer } from "react-icons/fa";
 
 return (
   <div>
