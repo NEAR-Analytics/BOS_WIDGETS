@@ -301,7 +301,7 @@ let timerInterval;
 
   return (
     <div
-      style={{ height: "30rem", display: "flex", flexDirection: "column" }}
+      style={{ height: "35rem", display: "flex", flexDirection: "column" }}
       className="mx-auto"
     >
       {" "}
