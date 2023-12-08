@@ -47,13 +47,11 @@ handleCreateProject = () => {
     "mint.sharddog.near",
     "create_series",
     {
-      series_id: "220",
+      series_id: state.project.seriesid,
       metadata: {
-        title: "NFT Club Web3 Education",
-        description:
-          "Welcoming Web3 enthusiasts to the NEAR ecosystem through ShardDog.",
-        media:
-          "https://nftstorage.link/ipfs/bafkreid6a3qb635yp4qa4tizhxp7hkllesokh4s7fjc7tq64s4xiubksw4",
+        title: state.project.title,
+        description: state.project.description,
+        media: state.project.logo,
         extra: "",
         reference: "",
         reference_hash: "",
@@ -67,7 +65,7 @@ handleCreateProject = () => {
   const responseTwo = Near.call("v1.devsnoopy.near", "add_event", {
     event: {
       event_id: state.project.seriesid,
-      event_name: state.project.name,
+      event_name: state.project.title,
       entity_name: "Snoopy Events",
       creator_wallet: "testuser.near",
       event_created_at: 1633036800,
