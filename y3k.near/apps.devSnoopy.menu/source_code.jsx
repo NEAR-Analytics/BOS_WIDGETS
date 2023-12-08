@@ -62,7 +62,7 @@ return (
         </li>
         <li style={menustyles.li}>
           <a
-            href="https://near.org/y3k.near/widget/apps.devSnoopy.main"
+            href="https://near.org/y3k.near/widget/apps.devSnoopy.create"
             style={menustyles.a}
           >
             Start
