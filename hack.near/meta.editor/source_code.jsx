@@ -9,13 +9,13 @@ return (
     <div className="mb-2 card">
       <div className="card-body">
         <div className="text-truncate mb-3 row">
-          <div className="col m-1 ">
+          <div className="col-8 m-1 ">
             <Widget
               src="hack.near/widget/thing.block"
               props={{ creatorId, namespace, thingId }}
             />
           </div>
-          <div className="col-2 m-2 mt-3 ">
+          <div className="col-3 m-2 mt-3 ">
             <Widget
               src="hack.near/widget/star.button"
               props={{
