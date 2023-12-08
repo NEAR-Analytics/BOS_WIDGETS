@@ -11,6 +11,10 @@ let rawData = fetch(
   }
 );
 
+if (rawData === null) {
+  return "Loading...";
+}
+
 function createRegistry(data) {
   const registry = {};
 
