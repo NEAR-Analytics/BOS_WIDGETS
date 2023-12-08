@@ -1,7 +1,7 @@
 const [toEvaluate, setToEvaluate] = useState("");
 
 const evaluate = () => {
-  Near.view(toEvaluate, "get_greeting", { account_id: "gagdiez.testnet" })
+  Near.view(toEvaluate, "get_greeting", { account_id: "evaluator.testnet" })
 };
 
 return <>
