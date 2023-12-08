@@ -1,4 +1,4 @@
-import { FAIgloo } from "react-icons/fa";
+import { FaIgloo } from "react-icons/fa";
 
 return (
   <div>
