@@ -18,6 +18,11 @@ let jsObject = parsedData.data.filter(
   (item) => item.series_title === SERIES_TITLE
 );
 
+if (SERIES_TITLE == "BENCH") {
+  // Filtering to get series where is_new_account is false
+  jsObject = parsedData.data;
+}
+
 // console.log("jsObject", jsObject);
 
 // const jsObject = JSON.parse(rawData.body);
