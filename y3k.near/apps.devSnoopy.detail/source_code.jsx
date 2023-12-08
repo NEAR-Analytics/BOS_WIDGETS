@@ -173,25 +173,14 @@ return (
     <div class="container my-5">
       <div class="row">
         <div class="col-md-12">
-          <h2 class="text-center mb-4">
-            Tracking NEAR Real-Time Engagement with NFTs
-          </h2>
-          <p class="text-center">
-            Dive into the pulse of current events monitored through ShardDog
-            NFTs and the DevSnoopy proxy contract. The table below provides a
-            real-time snapshot of ongoing projects within our vibrant community.
-          </p>
+          <h2 class="text-center mb-4">{SERIES_TITLE} Event</h2>
         </div>
       </div>
       <div class="row text-center">
         <div class="col-md-6 mb-6">
           <div class="">
             <div class="card-body">
-              <h3 class="card-title">🌟 Explore Ongoing Events</h3>
-              <p class="card-text">
-                Get an in-depth view of each project. Click on any event to see
-                live interactions, participant engagement, and more.
-              </p>
+              <h3 class="card-title">🌟 New Account Ratio</h3>
               <Widget
                 src="y3k.near/widget/apps.devSnoopy.components.drawChart"
                 props={{}}
@@ -202,11 +191,8 @@ return (
         <div class="col-md-6 mb-6">
           <div class="">
             <div class="card-body">
-              <h3 class="card-title">🚀 Start Your Event</h3>
-              <p class="card-text">
-                Have an idea for an event? Launch your own and watch it grow.
-                Utilize our platform to track engagement and NFT interactions.
-              </p>
+              <h3 class="card-title">🚀 Benchmark: New Account Ratio</h3>
+
               <Widget
                 src="y3k.near/widget/apps.devSnoopy.components.drawChart"
                 props={{}}
