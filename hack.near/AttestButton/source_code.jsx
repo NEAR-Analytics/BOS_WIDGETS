@@ -75,7 +75,7 @@ return (
         }`}
       />
       <span style={{ marginLeft: "0.2rem" }}>
-        {attested ? "Undo" : "Trust"}
+        {attested ? "undo" : "attest"}
       </span>
     </button>
   </div>
