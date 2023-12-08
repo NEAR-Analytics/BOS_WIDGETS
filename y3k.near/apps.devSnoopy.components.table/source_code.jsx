@@ -1,13 +1,20 @@
-const rawData = props.dataRegistry || [];
-console.log(rawData);
+const tData = props.dataRegistry || [];
 
 function generateDynamicTableHeaders(tableData, thStyle) {
-  if (tableData.length === 0) {
+  // Check if tableData is an array and not empty
+  if (!Array.isArray(tableData) || tableData.length === 0) {
+    return null;
+  }
+
+  // Ensure the first element is an object
+  const firstItem = tableData[0];
+  if (typeof firstItem !== "object" || firstItem === null) {
     return null;
   }
 
   // Extract keys from the first object in the data array as column names
-  const columnNames = Object.keys(tableData[0]);
+  const columnNames = Object.keys(firstItem);
+  console.log(columnNames);
 
   return columnNames.map((columnName, index) => (
     <th key={index} style={thStyle}>
@@ -15,8 +22,6 @@ function generateDynamicTableHeaders(tableData, thStyle) {
     </th>
   ));
 }
-
-const { body: tableData } = rawData || [];
 
 const tableStyle = {
   borderCollapse: "collapse",
@@ -39,14 +44,16 @@ const tdStyle = {
 return (
   <table style={tableStyle}>
     <thead>
-      <tr>{generateDynamicTableHeaders(tableData, thStyle)}</tr>
+      <tr>{generateDynamicTableHeaders(tData, thStyle)}</tr>
     </thead>
     <tbody>
-      {tableData.map((item) => (
+      {tData.map((item) => (
         <tr key={item.address}>
-          <td style={tdStyle}>{item.ghg_emission_group}</td>
+          <td style={tdStyle}>{item.token_ids}</td>
+          <td style={tdStyle}>{item.series_title}</td>
+          <td style={tdStyle}>{item.mint_timestamp_utc}</td>
+          <td style={tdStyle}>{item.originated_from_transaction_hash}</td>
           <td style={tdStyle}>{item.address}</td>
-          <td style={tdStyle}>{item.ghg_emission}</td>
         </tr>
       ))}
     </tbody>
