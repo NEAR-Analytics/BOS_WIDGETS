@@ -48,12 +48,24 @@ function extractThings(data) {
                           />
                         </div>
                         <div className="col m-1 p-1">
-                          <Widget
-                            src="hack.near/widget/tags"
-                            props={{
-                              path: `${creatorId}/${namespace}/${thingId}`,
-                            }}
-                          />
+                          <div className="card-body m-2 p-1 row">
+                            <div className="col-9 m-1 ">
+                              <Widget
+                                src="hack.near/widget/tags"
+                                props={{
+                                  path: `${creatorId}/${namespace}/${thingId}`,
+                                }}
+                              />
+                            </div>
+                            <div className="col-2 m-1 ">
+                              <Widget
+                                src="hack.near/widget/star.button"
+                                props={{
+                                  path: `${creatorId}/${namespace}/${thingId}`,
+                                }}
+                              />
+                            </div>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -134,20 +146,9 @@ return (
         </h4>
       </>
     ) : (
-      <h5 className="ms-3">All Things</h5>
+      <h5 className="ms-3">Every Context</h5>
     )}
 
     {extractThings(data)}
-
-    {tag !== "*" && (
-      <div className="mt-3 mb-5">
-        <a
-          className="btn btn-outline-primary"
-          href="/#/hack.near/widget/every.context"
-        >
-          Every Tag
-        </a>
-      </div>
-    )}
   </>
 );
