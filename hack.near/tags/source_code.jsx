@@ -1,32 +1,24 @@
 // adapted from the `PublicTags` widget by zavodil.near
 
-const creatorId = props.creatorId ?? "hack.near";
-const namespace = props.namespace ?? "widget";
-const thingId = props.thingId ?? "every";
-
 const accountId = props.accountId ?? context.accountId;
 
-State.init({
-  showEditor: false,
-});
+const path = props.path ?? "hack.near/widget/Academy";
+const [creatorId, namespace, thingId] = path.split("/");
 
-const tagsPattern = `*/graph/context/${creatorId}/${namespace}/${thingId}/tags/*`;
-const tagsObject = Social.get(tagsPattern, "final");
+const pattern = `*/graph/context/${path}/tags/*`;
+const tagsObject = Social.get(pattern, "final");
 
 if (!tagsObject) {
   return "";
 }
 
+State.init({
+  showEditor: false,
+  tags: tagsObject,
+});
+
 const tagClass = "bg-success";
 const badgeBtnClass = "text-white btn p-0 lh-1 m-1";
-const addPublicTagHtml = (
-  <a
-    href={`#/hack.near/widget/catalog?accountId=${accountId}`}
-    className={badgeBtnClass}
-  >
-    <div className={`me-1 mt-3 badge bg-primary`}>+ Tag</div>
-  </a>
-);
 
 if (tagsObject === null) {
   return "Loading...";
@@ -69,7 +61,7 @@ return (
     {publicTags &&
       publicTags.map((tag) => (
         <a
-          href={`/#/hack.near/widget/catalog?tag=${tag.name}`}
+          href={`#/hack.near/widget/every.context?tag=${tag}`}
           className={badgeBtnClass}
         >
           <span
@@ -119,7 +111,7 @@ return (
             <Widget
               src={"hack.near/widget/MetadataEditor"}
               props={{
-                initialMetadata: tags,
+                initialMetadata: state.tags,
                 onChange: (tags) => {
                   State.update({ tags });
                 },
