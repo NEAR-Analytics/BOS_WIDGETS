@@ -142,7 +142,6 @@ return (
             />
           </div>
         </div>
-        <p>{questId}</p>
       </CardLeft>
       <div className="d-flex flex-row me-3">
         <p>
