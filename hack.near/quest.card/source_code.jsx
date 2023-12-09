@@ -142,7 +142,7 @@ return (
             src="mob.near/widget/N.Overlay.Faces"
             props={{ accounts: quest.participants, limit: 10 }}
           />
-          done
+          {quest.participants !== 0 && "done"}
         </p>
       </div>
       <div className="m-2">
