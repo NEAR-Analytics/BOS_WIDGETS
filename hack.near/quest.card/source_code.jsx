@@ -9,7 +9,7 @@ if (!quest) {
   return "quest data missing";
 }
 
-const questUrl = `/hack.near/widget/quests?questId=${questId}`;
+const questUrl = `/hack.near/widget/quest?questId=${questId}`;
 
 const isEligible = props.isEligible ?? true;
 
@@ -142,6 +142,7 @@ return (
             />
           </div>
         </div>
+        <p>{questId}</p>
       </CardLeft>
       <div className="d-flex flex-row me-3">
         <p>
