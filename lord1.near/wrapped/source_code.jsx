@@ -22,8 +22,8 @@ const general_theme = {
 //tabs ######
 const tabs = {
   left: "Platform",
-  middle: "middle table",
-  right: "right table",
+  middle: "Near Social",
+  right: "NFT",
 };
 const setTab = (tab) => State.update({ tab });
 // ----------------------
@@ -173,6 +173,43 @@ const Button = styled.button`
   letter-spacing: 0.01em;
 `;
 
+const Left = (
+  <div className="w-100">
+    <Widget
+      src="lord1.near/widget/wrapped-platform"
+      props={{
+        themeColor,
+        singer: state.searchedSinger,
+        interval: searchedInterval,
+      }}
+    />
+  </div>
+);
+
+const Middle = (
+  <div className="w-100">
+    <Widget
+      src="lord1.near/widget/wrapped-social"
+      props={{
+        themeColor,
+        singer: state.searchedSinger,
+        interval: searchedInterval,
+      }}
+    />
+  </div>
+);
+const Right = (
+  <div className="w-100">
+    <Widget
+      src="sdsd"
+      props={{
+        themeColor,
+        singer: state.searchedSinger,
+        interval: searchedInterval,
+      }}
+    />
+  </div>
+);
 return (
   <div
     style={{ backgroundColor: themeColor.page_bg }}
@@ -269,20 +306,11 @@ return (
             </Container>
           </div>
           <div className="w-100">
-            {state.tab === tabs.left && (
-              <Widget
-                src="lord1.near/widget/wrapped-platform"
-                props={{ themeColor: themeColor }}
-              />
-            )}
-
-            {state.tab === tabs.middle && "middle widget"}
-            {state.tab === tabs.right && "right widget"}
+            {state.tab === tabs.left && Left}
+            {state.tab === tabs.middle && Middle}
+            {state.tab === tabs.right && Right}
           </div>
         </>
-
-        //   -- widget props= themeColor, singer: state.searchedSinger,
-        //   interval: state.searchedIntervals, --
       )}
     </div>
   </div>
