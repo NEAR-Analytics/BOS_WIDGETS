@@ -4,7 +4,7 @@ if (!quests) {
   return "";
 }
 
-const tag = props.tag ?? "*";
+const tag = props.tag ?? "build";
 
 const data = Social.keys(`*/graph/context/*/quest/*/tags/${tag}`, "final");
 
@@ -21,30 +21,27 @@ function extractThings(data) {
 
     if (context) {
       Object.keys(context).forEach((creatorId) => {
-        const namespaces = context[creatorId];
+        const thingData = context[creatorId]?.quest;
 
-        if (namespaces) {
-          Object.keys(namespaces).forEach((namespace) => {
-            const thingData = namespaces[namespace];
+        if (thingData) {
+          Object.keys(thingData).forEach((thingId) => {
+            const tags = thingData[thingId]?.tags;
 
-            if (thingData) {
-              Object.keys(thingData).forEach((thingId) => {
-                const key = `${creatorId}-${namespace}-${thingId}`;
-                const questId = thingId;
+            if (tags) {
+              const key = `${curatorId}-${creatorId}-${thingId}`;
 
-                if (!uniqueKeys.has(key)) {
-                  uniqueKeys.add(key);
+              if (!uniqueKeys.has(key)) {
+                uniqueKeys.add(key);
 
-                  things.push(
-                    <div key={key}>
-                      <Widget
-                        src="hack.near/widget/quest.card"
-                        props={{ questId }}
-                      />
-                    </div>
-                  );
-                }
-              });
+                things.push(
+                  <div key={key}>
+                    <Widget
+                      src="hack.near/widget/quest.card"
+                      props={{ questId: thingId }}
+                    />
+                  </div>
+                );
+              }
             }
           });
         }
@@ -73,6 +70,7 @@ const Toolbar = styled.div`
 
 return (
   <>
+    <p>{JSON.stringify(data)}</p>
     <div>
       <Header className="d-flex p-3 px-4 align-items-center rounded justify-content-between">
         <h3 className="mt-2" style={{ fontFamily: "Courier", color: "white" }}>
