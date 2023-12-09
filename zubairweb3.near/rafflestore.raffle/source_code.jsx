@@ -15,7 +15,7 @@ if (!contractId) {
 }
 
 if (!accountId) {
-  return `Please login"`;
+  return `Please <a href="https://near.org/signin>Login</a> `;
 }
 
 const nfts = Near.view(contractId, "nft_tokens_for_owner", {
@@ -123,7 +123,6 @@ const PrizeContent = styled.div`
     border: 2px solid #e5e7eb;
     border-radius: 0.75rem;
     flex-direction: column;
-    align-items: center;
     width: 50%;
     display: flex;
     @media screen and (max-width: 768px){
@@ -209,7 +208,7 @@ return (
           <div class="modal-content">
             <div class="modal-header">
               <h5 class="modal-title" id="exampleModalLabel">
-                @
+                Modal title
               </h5>
               <button
                 type="button"
@@ -218,34 +217,18 @@ return (
                 aria-label="Close"
               ></button>
             </div>
-            <div class="modal-body">
-              <div class="form">
-                <div class="mb-3">
-                  <label for="name" class="form-label">
-                    Name
-                  </label>
-                  <input
-                    type="text"
-                    class="form-control"
-                    id="emainamel"
-                    aria-describedby="nameHelp"
-                  />
-                </div>
-                <div class="mb-3">
-                  <label for="email" class="form-label">
-                    Email
-                  </label>
-                  <input type="email" class="form-control" id="email" />
-                </div>
-
-                <button type="submit" class="btn btn-primary">
-                  Submit
-                </button>
-                <div id="terms" class="form-text">
-                  By continuing, you accept Near Fortune’s terms of service and
-                  privacy policy.
-                </div>
-              </div>
+            <div class="modal-body">...</div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-secondary"
+                data-bs-dismiss="modal"
+              >
+                Close
+              </button>
+              <button type="button" class="btn btn-primary">
+                Save changes
+              </button>
             </div>
           </div>
         </div>
@@ -265,7 +248,6 @@ return (
                 Sharddog NFT Check
               </h5>
               <button
-                style={{ marginLeft: "20px" }}
                 type="button"
                 class="btn-close"
                 data-bs-dismiss="modal"
@@ -273,7 +255,9 @@ return (
               ></button>
             </div>
             <div class="modal-body">
-              Ops! You must have ShardDog - 1555 to enter the raffle
+              Ops! You are not qualified, please claim ShardDog - 1555 and try
+              again
+              <button>Claim</button>
             </div>
           </div>
         </div>
@@ -309,7 +293,12 @@ return (
             <PrizeIcon>
               <PrizeBtn>
                 <img src={sharDogIcon} />
-                <span>ShardDog - 1555 </span>
+                <span>Comic #32</span>
+              </PrizeBtn>
+
+              <PrizeBtn>
+                <img src={sharDogIcon} />
+                <span>Comic #27</span>
               </PrizeBtn>
             </PrizeIcon>
             <PrizeDetail>
