@@ -142,7 +142,7 @@ return (
       <p>{props.title}</p>
     </div>
     <div className="col">
-      <Widget
+      <Component
         id="root-shapes"
         src="andyh.near/ShapeSet"
         props={{
@@ -154,7 +154,7 @@ return (
           updateTriangle: setTriangleMemo,
         }}
       />
-      <Widget
+      <Component
         id="parent-shapes"
         src="andyh.near/StateDemoParent"
         props={{
