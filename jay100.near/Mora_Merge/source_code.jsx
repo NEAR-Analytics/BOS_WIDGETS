@@ -41,6 +41,8 @@ let timer = 60;
 let timerInterval;
 let backgroundImage; // Declare a variable to hold the image
 
+let imgArr = ['https://coinpush.app/wp-content/uploads/2023/03/bitcoin-png-1.png', 'https://w7.pngwing.com/pngs/268/1013/png-transparent-ethereum-eth-hd-logo-thumbnail.png', 'https://upload.wikimedia.org/wikipedia/en/d/d0/Dogecoin_Logo.png']
+
 function preload() {
     // Load your image before the program starts
     backgroundImage = loadImage('https://coinpush.app/wp-content/uploads/2023/03/bitcoin-png-1.png'); // Replace 'path_to_your_image.jpg' with your image file
@@ -82,10 +84,10 @@ function draw() {
     for (let i = 0; i < droppedCircles.length; i++) {
         droppedCircles[i].display();
         droppedCircles[i].fall();
-        // droppedCircles[i].checkBounds();
+        droppedCircles[i].checkBounds();
 
         for (let j = i + 1; j < droppedCircles.length; j++) {
-            droppedCircles[i].mergeWith(droppedCircles[j]);
+            droppedCircles[i].checkCircleCollision(droppedCircles[j]);
         }
     }
 }
@@ -157,24 +159,107 @@ class Circle {
         return distance < this.radius + other.radius;
     }
 
-     mergeWith(otherCircle) {
-        if (!this.isMerged && !otherCircle.isMerged && this.intersects(otherCircle)) {
-            let combinedRadius = this.radius + otherCircle.radius;
-            let distanceBetweenCenters = dist(this.x, this.y, otherCircle.x, otherCircle.y);
+    checkBounds() {
+        if (this.x - this.radius < 0 || this.x + this.radius > width) {
+          this.x = constrain(this.x, this.radius, width - this.radius);
+        }
+        if (this.y - this.radius < 0 || this.y + this.radius > height) {
+          this.y = constrain(this.y, this.radius, height - this.radius);
+        }
+      }
 
-            if (distanceBetweenCenters <= combinedRadius / 2) {
-                let newX = (this.x + otherCircle.x) / 2;
-                let newY = (this.y + otherCircle.y) / 2;
 
-                let mergedCircle = new Circle(newX, newY, combinedRadius, backgroundImage);
-                droppedCircles.push(mergedCircle);
-                this.isMerged = true;
-                otherCircle.isMerged = true;
-                this.radius = 0;
-                otherCircle.radius = 0;
+    checkCircleCollision(otherCircle) {
+        let dx = this.x - otherCircle.x;
+        let dy = this.y - otherCircle.y;
+        let distanceSquared = dx * dx + dy * dy;
+        let minDistanceSquared = (this.radius + otherCircle.radius) * (this.radius + otherCircle.radius);
+
+        if (distanceSquared <= minDistanceSquared) {
+            let radiusDifference = abs(this.radius - otherCircle.radius);
+            let mergeThreshold = 3; // Set your threshold for merging circles
+
+            // Check conditions for merging circles
+            if (radiusDifference <= mergeThreshold) {
+                // Merge circles if they touch and have similar radius
+                let newRadius = this.radius + otherCircle.radius;
+
+                // Increment game score based on the merged circle radius
+                if (newRadius === 20) {
+                    gameScore += 2;
+                } else if (newRadius === 40) {
+                    gameScore += 4;
+                } else if (newRadius === 80) {
+                    gameScore += 8;
+                } else if (newRadius === 160) {
+                    gameScore += 16;
+                }
+
+                // Create a new merged circle if the radius exceeds a certain threshold
+                if (newRadius >= 160) {
+                    let mergedCircle = new Circle(this.x, this.y, newRadius, backgroundImage);
+                    allCircles = allCircles.filter(circle => circle !== this && circle !== otherCircle);
+                    allCircles.push(mergedCircle);
+                    this.radius = 0; // Set current circle's radius to zero
+                    otherCircle.radius = 0; // Set other circle's radius to zero
+                } else {
+                    this.radius = newRadius;
+                    otherCircle.radius = 0;
+                    allCircles = allCircles.filter(circle => circle !== otherCircle);
+                }
+            } else {
+                // Resolve collision as a bounce
+                this.resolveCollision(otherCircle);
             }
         }
     }
+
+    resolveCollision(other) {
+        let dx = other.x - this.x;
+        let dy = other.y - this.y;
+        let distance = sqrt(dx * dx + dy * dy);
+   
+        // Calculate the minimum translation distance to separate droppedCircles
+        let minDistance = this.radius + other.radius;
+        let separationX = dx / distance * (minDistance - distance);
+        let separationY = dy / distance * (minDistance - distance);
+
+   
+        // Move droppedCircles apart to avoid overlap
+        this.x -= separationX / 2;
+        this.y -= separationY / 2;
+        other.x += separationX / 2;
+        other.y += separationY / 2;
+
+
+        // Update velocities for a bounce effect with mass consideration
+
+         // let massFactor = 0.03;
+        // let forceFactor = (this.radius - other.radius) * massFactor;
+
+    // Update velocities for a bounce effect with mass consideration
+    // Modify this part accordingly to suit your specific behavior
+
+    let angle = atan2(dy, dx);
+    let thisSpeed = sqrt(this.xSpeed * this.xSpeed + this.ySpeed * this.ySpeed);
+    let otherSpeed = sqrt(other.xSpeed * other.xSpeed + other.ySpeed * other.ySpeed);
+    let thisDirection = atan2(this.ySpeed, this.xSpeed);
+    let otherDirection = atan2(other.ySpeed, other.xSpeed);
+
+
+    // this(thisSpeed - forceFactor)
+    // other(thisSpeed + forceFactor)
+    let newThisXSpeed = otherSpeed * cos(otherDirection - angle) * cos(angle) + (thisSpeed) * sin(thisDirection - angle) * cos(angle + HALF_PI);
+    let newThisYSpeed = otherSpeed * cos(otherDirection - angle) * sin(angle) + (thisSpeed) * sin(thisDirection - angle) * sin(angle + HALF_PI);
+    let newOtherXSpeed = (thisSpeed) * cos(thisDirection - angle) * cos(angle) + otherSpeed * sin(otherDirection - angle) * cos(angle + HALF_PI);
+    let newOtherYSpeed = (thisSpeed) * cos(thisDirection - angle) * sin(angle) + otherSpeed * sin(otherDirection - angle) * sin(angle + HALF_PI);
+
+    this.xSpeed = newThisXSpeed;
+    this.ySpeed = newThisYSpeed;
+    other.xSpeed = newOtherXSpeed;
+    other.ySpeed = newOtherYSpeed;
+
+      }
 
 }
 
