@@ -17,7 +17,7 @@ const Card = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 16px;
+  gap: 39px;
   width: 100%;
   border-radius: 12px;
   background: #fff;
@@ -136,7 +136,7 @@ return (
           </div>
         </div>
       </CardLeft>
-      <div className="m-2">
+      <div className="d-flex flex-row me-3">
         <p>
           <Widget
             src="mob.near/widget/N.Overlay.Faces"
@@ -145,21 +145,17 @@ return (
           {quest.participants.length !== 0 && "done"}
         </p>
       </div>
-      <div className="m-2">
-        <span>
+      <div className="d-flex flex-column">
+        <p>
           <b>Starts At:</b>
-        </span>
-        <span className="ms-2">
-          {new Date(quest.starts_at).toLocaleString()}
-        </span>
+        </p>
+        <p>{new Date(quest.starts_at).toLocaleString()}</p>
       </div>
-      <div>
-        <span>
+      <div className="d-flex flex-column">
+        <p>
           <b>Expires At:</b>
-        </span>
-        <span className="ms-2">
-          {new Date(quest.expires_at).toLocaleString()}
-        </span>
+        </p>
+        <p>{new Date(quest.expires_at).toLocaleString()}</p>
       </div>
       {!isVerified && context.accountId && (
         <div className="d-flex flex-column m12">
