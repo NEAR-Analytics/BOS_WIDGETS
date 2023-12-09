@@ -1,6 +1,6 @@
 const accountId = props.accountId ?? context.accountId;
 const questId = props.questId ?? 3;
-const pageUrl = props.url ?? "/hack.near/widget/every.context";
+const pageUrl = props.url ?? "/hack.near/widget/quests";
 
 const quest =
   props.quest ??
