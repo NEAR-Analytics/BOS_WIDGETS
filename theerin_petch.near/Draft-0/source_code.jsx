@@ -1,1 +1,6 @@
-return <div>Hello World</div>;
+return (
+  <div>
+    <div>Hello World</div>
+    <div>Hello World2</div>
+  </div>
+);
