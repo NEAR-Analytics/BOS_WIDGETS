@@ -1,8 +1,9 @@
 const accountId = props.accountId ?? context.accountId;
-const questId = props.questId ?? "813740323";
+const questId = props.questId ?? 3;
 
 const quest =
-  props.quest ?? Near.view("questsmock.near", "get_quest_by_id", { questId });
+  props.quest ??
+  Near.view("test1.questverse.near", "quest_by_id", { quest_id: questId });
 
 if (!quest) {
   return "quest data missing";
@@ -76,33 +77,41 @@ const Tag = styled.a`
   }
 `;
 
+const amount = (quest.total_reward_amount / 1000000000000000000000000).toFixed(
+  1
+);
+
+const indexer = quest.indexer_name;
+
+const openClaims = quest.total_participants_allowed - quest.num_claimed_rewards;
 return (
-  <Card>
-    <CardLeft>
-      <div className="d-flex flex-column me-3">
-        <div className="d-flex flex-row me-3">
-          <div className="me-3">
-            <a href={questUrl}>
-              <Widget
-                src="mob.near/widget/ProfileImage"
-                props={{
-                  accountId: `create.near`,
-                  imageStyle: {
-                    objectFit: "cover",
-                    borderRadius: "0.6em",
-                  },
-                  imageClassName: "w-100 h-100",
-                }}
-              />
-            </a>
-          </div>
-          <div className="text-truncate">
+  <>
+    <Card>
+      <CardLeft>
+        <div className="d-flex flex-column me-3">
+          <div className="d-flex flex-row me-3">
+            <div className="me-3">
+              <a href={questUrl}>
+                <Widget
+                  src="mob.near/widget/ProfileImage"
+                  props={{
+                    accountId: `${quest.creator}`,
+                    imageStyle: {
+                      objectFit: "cover",
+                      borderRadius: "0.6em",
+                    },
+                    imageClassName: "w-100 h-100",
+                  }}
+                />
+              </a>
+            </div>
             <div className="text-truncate mb-1">
               <a href={questUrl} style={{ textDecoration: "none" }}>
                 <span className="fw-bold" style={{ color: "black" }}>
-                  {quest.title}
+                  {indexer}
                 </span>
               </a>
+              <p>@{quest.creator}</p>
             </div>
             <div className="text-truncate text-muted">
               {quest.tags.length > 0 && (
@@ -126,20 +135,45 @@ return (
             </div>
           </div>
         </div>
-        <p className="mt-3 m-1">{quest.description}</p>
-      </div>
-    </CardLeft>
-    {!isVerified && context.accountId && (
-      <div className="d-flex flex-column m-3">
+      </CardLeft>
+      <div className="m-2">
         <p>
-          <b>{JSON.stringify(quest.reward_amount)} NEAR</b>
-        </p>
-
-        <Widget src="hack.near/widget/quest.claim" props={{ questId }} />
-        <p className="text-center mt-1">
-          <i>{JSON.stringify(quest.total_participants_allowed)} left</i>
+          <Widget
+            src="mob.near/widget/N.Overlay.Faces"
+            props={{ accounts: quest.participants, limit: 10 }}
+          />
+          done
         </p>
       </div>
-    )}
-  </Card>
+      <div className="m-2">
+        <span>
+          <b>Starts At:</b>
+        </span>
+        <span className="ms-2">
+          {new Date(quest.starts_at).toLocaleString()}
+        </span>
+      </div>
+      <div>
+        <span>
+          <b>Expires At:</b>
+        </span>
+        <span className="ms-2">
+          {new Date(quest.expires_at).toLocaleString()}
+        </span>
+      </div>
+      {!isVerified && context.accountId && (
+        <div className="d-flex flex-column m12">
+          <b>{amount} NEAR</b>
+
+          <Widget src="hack.near/widget/quest.claim" props={{ questId }} />
+          <p className="text-center mt-1">
+            <i>{openClaims} left</i>
+          </p>
+          <p className="text-center">
+            <i>{quest.total_participants_allowed} total</i>
+          </p>
+        </div>
+      )}
+    </Card>
+  </>
 );
