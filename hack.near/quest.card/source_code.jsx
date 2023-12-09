@@ -1,5 +1,6 @@
 const accountId = props.accountId ?? context.accountId;
 const questId = props.questId ?? 3;
+const pageUrl = props.url ?? "/hack.near/widget/every.context";
 
 const quest =
   props.quest ??
@@ -9,7 +10,7 @@ if (!quest) {
   return "quest data missing";
 }
 
-const questUrl = `/hack.near/widget/quest?questId=${questId}`;
+const questUrl = `/hack.near/widget/page?questId=${questId}`;
 
 const isEligible = props.isEligible ?? true;
 
@@ -123,7 +124,7 @@ return (
                       className="me-1 fw-light badge border border-secondary text-bg-light"
                     >
                       <a
-                        href={`/hack.near/widget/quests?tag=${tag}`}
+                        href={`${pageUrl}?tag=${tag}`}
                         style={{ textDecoration: "none" }}
                         className="no-text-decoration"
                       >
