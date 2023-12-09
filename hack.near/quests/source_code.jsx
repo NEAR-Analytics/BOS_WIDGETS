@@ -45,17 +45,16 @@ return (
         )}
       </Header>
       <Container className="d-flex row justify-content-between w-100">
-        <h2 className="mb-3" style={{ fontFamily: "Courier" }}>
+        <h2 style={{ fontFamily: "Courier" }}>
           <b>Discover</b>
         </h2>
-        <p>{JSON.stringify(quests)}</p>
 
         {quests.map((quest) => (
           <div className="m-2">
             <p>{JSON.stringify(quest[0])}</p>
             <Widget
               src="hack.near/widget/quest.card"
-              props={{ questId: quest[0] }}
+              props={{ questId: quest.quest_id }}
             />
           </div>
         ))}
