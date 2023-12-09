@@ -4,6 +4,8 @@ if (!quests) {
   return "";
 }
 
+const tag = props.tag ?? "*";
+
 const Header = styled.div`
   background: black;
 `;
@@ -48,7 +50,12 @@ return (
         <h2 style={{ fontFamily: "Courier" }}>
           <b>Discover</b>
         </h2>
-
+        <div>
+          <Widget
+            src="hack.near/widget/every.tag"
+            props={{ tag, namespace: "quest", url: "hack.near/widget/quests" }}
+          />
+        </div>
         {quests.map((quest) => (
           <div className="m-2">
             <p>{JSON.stringify(quest[0])}</p>
