@@ -41,7 +41,7 @@ const getTags = () => {
     return {
       name: t[0],
       count: t[1],
-      title: t[1] + (t[1] > 1 ? " votes" : " vote"),
+      title: t[1] + (t[1] > 1 ? " times" : " time"),
     };
   });
 };
