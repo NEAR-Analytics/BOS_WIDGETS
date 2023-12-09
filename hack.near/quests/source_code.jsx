@@ -105,7 +105,11 @@ return (
         <div>
           <Widget
             src="hack.near/widget/every.tag"
-            props={{ tag, namespace: "quest", url: "hack.near/widget/quests" }}
+            props={{
+              tag,
+              namespace: "quest",
+              url: "bos.questverse.near/widget/pages.Discover",
+            }}
           />
         </div>
         {tag === "*" ? (
