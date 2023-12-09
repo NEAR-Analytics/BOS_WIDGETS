@@ -139,7 +139,10 @@ return (
           <div className="d-flex flex-row me-3">
             <Widget
               src="hack.near/widget/tags"
-              props={{ path: `${quest.creator}/quest/${quest.quest_id}` }}
+              props={{
+                path: `${quest.creator}/quest/${quest.quest_id}`,
+                url: "/bos.questverse.near/widget/pages.Discover",
+              }}
             />
           </div>
         </div>
