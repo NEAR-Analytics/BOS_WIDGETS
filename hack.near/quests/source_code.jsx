@@ -4,7 +4,55 @@ if (!quests) {
   return "";
 }
 
-const tag = props.tag ?? "*";
+const tag = props.tag ?? "build";
+
+const data = Social.keys(`*/graph/context/*/quest/*/tags/${tag}`, "final");
+
+if (!data) {
+  return "Loading...";
+}
+
+function extractThings(data) {
+  const uniqueKeys = new Set();
+  const things = [];
+
+  Object.keys(data).forEach((curatorId) => {
+    const context = data[curatorId]?.graph?.context;
+
+    if (context) {
+      Object.keys(context).forEach((creatorId) => {
+        const namespaces = context[creatorId];
+
+        if (namespaces) {
+          Object.keys(namespaces).forEach((namespace) => {
+            const thingData = namespaces[namespace];
+
+            if (thingData) {
+              Object.keys(thingData).forEach((thingId) => {
+                const key = `${creatorId}-${namespace}-${thingId}`;
+
+                if (!uniqueKeys.has(key)) {
+                  uniqueKeys.add(key);
+
+                  things.push(
+                    <div key={key}>
+                      <Widget
+                        src="hack.near/widget/quest.card"
+                        props={{ questId: thingId }}
+                      />
+                    </div>
+                  );
+                }
+              });
+            }
+          });
+        }
+      });
+    }
+  });
+
+  return things;
+}
 
 const Header = styled.div`
   background: black;
@@ -25,6 +73,7 @@ const Toolbar = styled.div`
 return (
   <>
     <div>
+      <p>{JSON.stringify(quests)}</p>
       <Header className="d-flex p-3 px-4 align-items-center rounded justify-content-between">
         <h3 className="mt-2" style={{ fontFamily: "Courier", color: "white" }}>
           <b>QuestVerse</b>
@@ -56,15 +105,21 @@ return (
             props={{ tag, namespace: "quest", url: "hack.near/widget/quests" }}
           />
         </div>
-        {quests.map((quest) => (
-          <div className="m-2">
-            <p>{JSON.stringify(quest[0])}</p>
-            <Widget
-              src="hack.near/widget/quest.card"
-              props={{ questId: quest.quest_id }}
-            />
+        {tag === "*" ? (
+          <div>
+            {quests.map((quest) => (
+              <div className="m-2">
+                <Widget
+                  src="hack.near/widget/quest.card"
+                  props={{ questId: quest.quest_id }}
+                />
+              </div>
+            ))}
           </div>
-        ))}
+        ) : (
+          <div className="m-2">{extractThings(data)}</div>
+        )}
+        ;
       </Container>
     </div>
   </>
