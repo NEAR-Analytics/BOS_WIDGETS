@@ -30,7 +30,7 @@ const dog =
 const defaultnft =
   "https://res.cloudinary.com/dfbqtfoxu/image/upload/v1700588097/rafflestore/defaultnft_hrzyyp.jpg";
 
-const limit = 200;
+const limit = 20;
 const offset = 0;
 
 const data = fetch("https://graph.mintbase.xyz/mainnet", {
@@ -68,8 +68,6 @@ const data = fetch("https://graph.mintbase.xyz/mainnet", {
         `,
   }),
 });
-
-console.log(data.body.data.mb_views_nft_tokens);
 
 State.init({ raffleData: {} });
 
