@@ -48,13 +48,15 @@ const getTags = () => {
 
 const publicTags = getTags();
 
+const pageUrl = props.url ?? "/hack.near/widget/every.context";
+
 return (
   <>
     <div className="m-1">
       {publicTags &&
         publicTags.map((tag) => (
           <a
-            href={`#/hack.near/widget/every.context?tag=${tag}`}
+            href={`/${pageUrl}?tag=${tag.name}`}
             className={badgeBtnClass}
             key={tag.name}
           >
