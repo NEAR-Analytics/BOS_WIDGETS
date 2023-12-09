@@ -30,8 +30,7 @@ function extractThings(data) {
             if (thingData) {
               Object.keys(thingData).forEach((thingId) => {
                 const key = `${creatorId}-${namespace}-${thingId}`;
-                const questId =
-                  data.curatorId?.graph?.context?.creatorId?.quest?.[key];
+                const questId = thingId;
 
                 if (!uniqueKeys.has(key)) {
                   uniqueKeys.add(key);
