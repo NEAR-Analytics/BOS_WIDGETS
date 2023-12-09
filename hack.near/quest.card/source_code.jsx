@@ -1,6 +1,6 @@
 const accountId = props.accountId ?? context.accountId;
 const questId = props.questId ?? 3;
-const pageUrl = props.url ?? "/bos.questverse.near/widget/pages.Discover";
+const pageUrl = props.url ?? "/hack.near/widget/quests";
 
 const quest =
   props.quest ??
@@ -10,7 +10,7 @@ if (!quest) {
   return "quest data missing";
 }
 
-const questUrl = `/bos.questverse.near/widget/pages.QuestDetailsPage?questId=${questId}`;
+const questUrl = `/near/widget/ProfilePage?accountId=${quest.creator}`;
 
 const isEligible = props.isEligible ?? true;
 
@@ -141,7 +141,7 @@ return (
               src="hack.near/widget/tags"
               props={{
                 path: `${quest.creator}/quest/${quest.quest_id}`,
-                url: "/bos.questverse.near/widget/pages.Discover",
+                url: "/hack.near/widget/quests",
               }}
             />
           </div>
