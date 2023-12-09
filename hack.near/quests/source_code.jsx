@@ -108,7 +108,7 @@ return (
             props={{
               tag,
               namespace: "quest",
-              url: "bos.questverse.near/widget/pages.Discover",
+              url: "/hack.near/widget/quests",
             }}
           />
         </div>
@@ -120,7 +120,7 @@ return (
                   src="hack.near/widget/quest.card"
                   props={{
                     questId: quest.quest_id,
-                    url: "bos.questverse.near/widget/pages.Discover",
+                    url: "/hack.near/widget/quests",
                   }}
                 />
               </div>
