@@ -118,7 +118,10 @@ return (
               <div className="m-2">
                 <Widget
                   src="hack.near/widget/quest.card"
-                  props={{ questId: quest.quest_id }}
+                  props={{
+                    questId: quest.quest_id,
+                    url: "bos.questverse.near/widget/pages.Discover",
+                  }}
                 />
               </div>
             ))}
