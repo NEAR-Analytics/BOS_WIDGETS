@@ -1,12 +1,8 @@
 const accountId = props.accountId ?? context.accountId;
 
-const creatorId = props.creatorId ?? "every.near";
-const namespace = props.namespace ?? "thing";
-const thingId = props.thingId ?? "core";
-
 let tag = props.tag ?? "*";
 
-State.init({ path: props.path ?? `${creatorId}/${namespace}/${thingId}` });
+State.init({ path: props.path ?? "every.near/thing/core" });
 
 const data = Social.keys(`*/graph/context/*/*/*/tags/${tag}`, "final");
 
@@ -82,11 +78,15 @@ function extractThings(data) {
   return things;
 }
 
+const [creatorId, namespace, thingId] = state.path.split("/");
+
+const exists = Social.get(state.path);
+
 return (
   <>
     <div className="mb-2 row">
       <div className="mb-1 col">
-        <h5 className="mt-2 mb-3">SocialDB Path of Anything:</h5>
+        <h5 className="mt-2 mb-3">SocialDB path of anything:</h5>
         <input
           type="text"
           value={state.path}
@@ -95,25 +95,25 @@ return (
           }
         />
         <br />
-        <div className="row">
-          <div className="col m-1 ">
+        <div className="m-1 d-flex">
+          <div className="m-2">
+            <button
+              className="btn btn-outline-secondary"
+              type="button"
+              data-bs-toggle="collapse"
+              data-bs-target="#collapseExample"
+              aria-expanded="false"
+              aria-controls="collapseExample"
+            >
+              Guide
+            </button>
+          </div>
+          <div className="m-2">
             <Widget
-              src="hack.near/widget/star.button"
-              props={{ path: state.path }}
+              src="hack.near/widget/FollowButton"
+              props={{ accountId: creatorId }}
             />
           </div>
-        </div>
-        <div className="col-8 m-1 mt-2">
-          <button
-            className="btn btn-outline-secondary d-flex"
-            type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#collapseExample"
-            aria-expanded="false"
-            aria-controls="collapseExample"
-          >
-            Guide
-          </button>
         </div>
       </div>
       <div className="mb-2 col">
@@ -124,7 +124,7 @@ return (
       </div>
       <div className="collapse" id="collapseExample">
         <div className="card card-body m-3" style={{ background: "#f8f8f8" }}>
-          <h5>Best Practices:</h5>
+          <h5>Good Practices:</h5>
           <ul>
             <li>Keep tags concise and simple</li>
             <li>Use "-" instead of spaces</li>
