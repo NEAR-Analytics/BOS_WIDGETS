@@ -30,8 +30,7 @@ State.init({ nftCheck: false });
 for (let i = 0; i < nfts.length; i++) {
   if (nftTitle === nfts[i].metadata.title) {
     State.update({ nftCheck: true });
-    console.log(state.nftCheck);
-    console.log("Passed");
+    break;
   }
 }
 
