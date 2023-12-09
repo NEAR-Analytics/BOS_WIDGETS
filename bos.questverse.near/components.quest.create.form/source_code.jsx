@@ -134,7 +134,7 @@ return (
       }}
     />
     <Widget
-      src={`hack.near/widget/quest.create.step${state.step + 1}`}
+      src={`bos.questverse.near/widget/components.quest.create.step${state.step + 1}`}
       props={{
         formState: state.form,
         onComplete: handleStepComplete,
