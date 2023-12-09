@@ -1,4 +1,3 @@
-console.log("state demo");
 return (
   <>
     <div className="row">
@@ -10,7 +9,7 @@ return (
     </div>
     <div className="row">
       <div className="col">
-        <Widget
+        <Component
           id="trusted"
           src="andyh.near/StateDemoRoot"
           trust={{ mode: "trusted-author" }}
@@ -18,7 +17,7 @@ return (
         />
       </div>
       <div className="col">
-        <Widget
+        <Component
           id="sandboxed"
           src="andyh.near/StateDemoRoot"
           props={{ title: "State within Sandboxed Components" }}
