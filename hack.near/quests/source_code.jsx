@@ -30,6 +30,10 @@ function extractThings(data) {
             if (thingData) {
               Object.keys(thingData).forEach((thingId) => {
                 const key = `${creatorId}-${namespace}-${thingId}`;
+                const questId =
+                  data["hack.near"]?.graph?.context?.["hack.near"]?.quest?.[
+                    key
+                  ];
 
                 if (!uniqueKeys.has(key)) {
                   uniqueKeys.add(key);
@@ -38,7 +42,7 @@ function extractThings(data) {
                     <div key={key}>
                       <Widget
                         src="hack.near/widget/quest.card"
-                        props={{ questId: thingId }}
+                        props={{ questId }}
                       />
                     </div>
                   );
