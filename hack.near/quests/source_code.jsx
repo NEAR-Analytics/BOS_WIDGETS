@@ -4,7 +4,7 @@ if (!quests) {
   return "";
 }
 
-const tag = props.tag ?? "build";
+const tag = props.tag ?? "*";
 
 const data = Social.keys(`*/graph/context/*/quest/*/tags/${tag}`, "final");
 
@@ -73,7 +73,6 @@ const Toolbar = styled.div`
 return (
   <>
     <div>
-      <p>{JSON.stringify(quests)}</p>
       <Header className="d-flex p-3 px-4 align-items-center rounded justify-content-between">
         <h3 className="mt-2" style={{ fontFamily: "Courier", color: "white" }}>
           <b>QuestVerse</b>
@@ -119,7 +118,6 @@ return (
         ) : (
           <div className="m-2">{extractThings(data)}</div>
         )}
-        ;
       </Container>
     </div>
   </>
