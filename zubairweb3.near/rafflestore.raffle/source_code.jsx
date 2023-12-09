@@ -24,13 +24,15 @@ const nfts = Near.view(contractId, "nft_tokens_for_owner", {
   limit: 200,
 });
 
-const newTitle = "ShardDog - 1555";
+const sharddogTitle = "ShardDog - 1555";
+State.init({ checkStatus: false });
 
-if (newTitle === nfts[0].metadata.title) {
-  console.log("Passed nft check");
+for (let i = 0; i < nfts.length; i++) {
+  if (sharddogTitle === nfts[i].metadata.title) {
+    console.log("sharddog found - congratulations!");
+    State.update({ checkStatus: true });
+  }
 }
-
-console.log(nfts[0].metadata.title);
 
 if (!nfts) {
   return "";
@@ -196,7 +198,7 @@ const Entries = styled.div`
 
 return (
   <>
-    {newTitle === nfts[0].metadata.title ? (
+    {checkStatus ? (
       <div
         class="modal fade"
         id="raffleModal"
