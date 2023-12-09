@@ -12,7 +12,7 @@ if (creatorId !== "*" && namespace !== "*" && thingId !== "*") {
   path = props.path || `*/*/*`;
 }
 
-const pattern = `*/graph/context/${creatorId}/${namespace}/${thingId}/tags/*`;
+const pattern = `*/graph/context/${creatorId}/${namespace}/${thingId}/tags/${tag}`;
 const tagsObject = Social.get(pattern, "final");
 
 if (!tagsObject) {
