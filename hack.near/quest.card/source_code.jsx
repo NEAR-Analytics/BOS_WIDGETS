@@ -9,7 +9,7 @@ if (!quest) {
   return "quest data missing";
 }
 
-const questUrl = `/hack.near/widget/quest.page?questId=${questId}`;
+const questUrl = `/hack.near/widget/quests?questId=${questId}`;
 
 const isEligible = props.isEligible ?? true;
 
@@ -84,6 +84,7 @@ const amount = (quest.total_reward_amount / 1000000000000000000000000).toFixed(
 const indexer = quest.indexer_name;
 
 const openClaims = quest.total_participants_allowed - quest.num_claimed_rewards;
+
 return (
   <>
     <Card>
