@@ -1,23 +1,24 @@
-const members = props.members || [];
-const data = members
+State.init({ filter: "all" });
+State.update({ members: props.members });
+const data = state.members
   .flatMap((member) => Social.keys(`${member}/profile/`, "final"))
   .reduce((obj, item) => Object.assign(obj, item), {});
-const telegram = members
+const telegram = state.members
   .flatMap((member) =>
     Social.keys(`${member}/profile/linktree/telegram`, "final")
   )
   .reduce((obj, item) => Object.assign(obj, item), {});
-const github = members
+const github = state.members
   .flatMap((member) =>
     Social.keys(`${member}/profile/linktree/github`, "final")
   )
   .reduce((obj, item) => Object.assign(obj, item), {});
-const twitter = members
+const twitter = state.members
   .flatMap((member) =>
     Social.keys(`${member}/profile/linktree/twitter`, "final")
   )
   .reduce((obj, item) => Object.assign(obj, item), {});
-const website = members
+const website = state.members
   .flatMap((member) =>
     Social.keys(`${member}/profile/linktree/website`, "final")
   )
@@ -27,13 +28,12 @@ if (!data || !telegram || !github || !twitter || !website) {
   return "Loading...";
 }
 
-const withData = new Set([...Object.keys(data)]);
-const withTelegram = new Set([...Object.keys(telegram)]);
-const withGitHub = new Set([...Object.keys(github)]);
-const withTwitter = new Set([...Object.keys(twitter)]);
-const withWebsite = new Set([...Object.keys(website)]);
-
-const [filterBy, setFilterBy] = useState(withData);
+let filterBy = {};
+filterBy["all"] = new Set([...Object.keys(data)]);
+filterBy["telegram"] = new Set([...Object.keys(telegram)]);
+filterBy["github"] = new Set([...Object.keys(github)]);
+filterBy["twitter"] = new Set([...Object.keys(twitter)]);
+filterBy["website"] = new Set([...Object.keys(website)]);
 
 const profilesPerPage = 10;
 
@@ -43,15 +43,15 @@ const startIndex = (currentPage - 1) * profilesPerPage;
 
 const endIndex = startIndex + profilesPerPage;
 
-const displayedProfiles = [...filterBy].slice(startIndex, endIndex);
+let displayedProfiles = [...filterBy[state.filter]].slice(startIndex, endIndex);
 
 const handlePageChange = (page) => {
   setCurrentPage(page);
 };
 
 const totalPages = Math.ceil(
-  Object.keys(data).filter((accountId) => filterBy.has(accountId)).length /
-    profilesPerPage
+  Object.keys(data).filter((accountId) => filterBy[state.filter].has(accountId))
+    .length / profilesPerPage
 );
 
 const accounts = displayedProfiles.map((accountId) => (
@@ -69,38 +69,38 @@ return (
     <div className="flex-row m-2">
       <h5>Filter</h5>
       <button
-        onClick={() => setFilterBy(withTwitter)}
-        disabled={filterBy === withTwitter}
+        onClick={() => State.update({ filter: "twitter" })}
+        disabled={state.filter === "twitter"}
       >
         Twitter
       </button>
       <button
-        onClick={() => setFilterBy(withGitHub)}
-        disabled={filterBy === withGitHub}
+        onClick={() => State.update({ filter: "github" })}
+        disabled={state.filter === "github"}
       >
         GitHub
       </button>
       <button
-        onClick={() => setFilterBy(withTelegram)}
-        disabled={filterBy === withTelegram}
+        onClick={() => State.update({ filter: "telegram" })}
+        disabled={state.filter === "telegram"}
       >
         Telegram
       </button>
       <button
-        onClick={() => setFilterBy(withWebsite)}
-        disabled={filterBy === withWebsite}
+        onClick={() => State.update({ filter: "website" })}
+        disabled={state.filter === "website"}
       >
         Website
       </button>
       <button
-        onClick={() => setFilterBy(withData)}
-        disabled={filterBy === withData}
+        onClick={() => State.update({ filter: "all" })}
+        disabled={state.filter === "all"}
       >
         Reset
       </button>
     </div>
     <br />
-    <h5 className="m-2 mb-3">{[...filterBy].length} total</h5>
+    <h5 className="m-2 mb-3">{[...filterBy[state.filter]].length} total</h5>
     <div className="m-2">{accounts}</div>
     <div className="m-3">
       <hr />
