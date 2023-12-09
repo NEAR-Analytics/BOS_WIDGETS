@@ -22,7 +22,7 @@ State.init({
   tags: tagsObject,
 });
 
-const tagClass = "bg-success";
+const tagClass = "bg-primary";
 const badgeBtnClass = "text-white btn p-0 lh-1 m-1";
 
 const tagsCount = {};
