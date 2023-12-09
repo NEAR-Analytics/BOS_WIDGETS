@@ -56,7 +56,7 @@ return (
       {publicTags &&
         publicTags.map((tag) => (
           <a
-            href={`/${pageUrl}?tag=${tag.name}`}
+            href={`${pageUrl}?tag=${tag.name}`}
             className={badgeBtnClass}
             key={tag.name}
           >
