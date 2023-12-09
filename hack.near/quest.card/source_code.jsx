@@ -134,6 +134,12 @@ return (
               )}
             </div>
           </div>
+          <div className="d-flex flex-row me-3">
+            <Widget
+              src="hack.near/widget/tags"
+              props={{ path: `${quest.creator}/quest/${quest.quest_id}` }}
+            />
+          </div>
         </div>
       </CardLeft>
       <div className="d-flex flex-row me-3">
