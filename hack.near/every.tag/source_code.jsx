@@ -8,9 +8,11 @@ const creatorId = props.creatorId ?? "*";
 const namespace = props.namespace ?? "*";
 const thingId = props.thingId ?? "*";
 
-const path = props.path || `*/*/*`;
+if (creatorId !== "*" && namespace !== "*" && thingId !== "*") {
+  path = props.path || `*/*/*`;
+}
 
-const pattern = `*/graph/context/${creatorId}/${namespace}/${thingId}/tags/${tag}`;
+const pattern = `*/graph/context/${creatorId}/${namespace}/${thingId}/tags/*`;
 const tagsObject = Social.get(pattern, "final");
 
 if (!tagsObject) {
@@ -22,7 +24,7 @@ State.init({
   tags: tagsObject,
 });
 
-const tagClass = "bg-primary";
+const tagClass = "bg-success";
 const badgeBtnClass = "text-white btn p-0 lh-1 m-1";
 
 const tagsCount = {};
@@ -49,7 +51,7 @@ const getTags = () => {
     return {
       name: t[0],
       count: t[1],
-      title: t[1] + (t[1] > 1 ? " times" : " time"),
+      title: t[1] + (t[1] > 1 ? " votes" : " vote"),
     };
   });
 };
@@ -60,14 +62,12 @@ const data = Social.keys(
   "final"
 );
 
-const pageUrl = props.url ?? "/hack.near/widget/every.context";
-
 return (
   <>
     {publicTags &&
       publicTags.map((tag) => (
         <a
-          href={`${pageUrl}?tag=${tag.name}`}
+          href={`#/hack.near/widget/every.context?tag=${tag.name}`}
           className={badgeBtnClass}
           key={tag.name}
         >
