@@ -31,9 +31,7 @@ function extractThings(data) {
               Object.keys(thingData).forEach((thingId) => {
                 const key = `${creatorId}-${namespace}-${thingId}`;
                 const questId =
-                  data["hack.near"]?.graph?.context?.["hack.near"]?.quest?.[
-                    key
-                  ];
+                  data.curatorId?.graph?.context?.creatorId?.quest?.[key];
 
                 if (!uniqueKeys.has(key)) {
                   uniqueKeys.add(key);
