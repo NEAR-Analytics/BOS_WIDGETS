@@ -50,36 +50,38 @@ const publicTags = getTags();
 
 return (
   <>
-    {publicTags &&
-      publicTags.map((tag) => (
-        <a
-          href={`#/hack.near/widget/every.context?tag=${tag}`}
-          className={badgeBtnClass}
-          key={tag.name}
-        >
-          <span
-            className={`badge ${tagClass} position-relative`}
-            title={tag.title}
-            style={
-              tag.count > 1
-                ? {
-                    marginRight: "0.9em",
-                    paddingRight: "0.85em",
-                  }
-                : { marginRight: "0.25em" }
-            }
+    <div className="m-1">
+      {publicTags &&
+        publicTags.map((tag) => (
+          <a
+            href={`#/hack.near/widget/every.context?tag=${tag}`}
+            className={badgeBtnClass}
+            key={tag.name}
           >
-            #{tag.name}
-            {tag.count > 1 && (
-              <span
-                className={`badge translate-middle rounded-pill bg-danger position-absolute top-50 start-100`}
-              >
-                {tag.count}
-              </span>
-            )}
-          </span>
-        </a>
-      ))}
+            <span
+              className={`badge ${tagClass} position-relative`}
+              title={tag.title}
+              style={
+                tag.count > 1
+                  ? {
+                      marginRight: "0.9em",
+                      paddingRight: "0.85em",
+                    }
+                  : { marginRight: "0.25em" }
+              }
+            >
+              #{tag.name}
+              {tag.count > 1 && (
+                <span
+                  className={`badge translate-middle rounded-pill bg-danger position-absolute top-50 start-100`}
+                >
+                  {tag.count}
+                </span>
+              )}
+            </span>
+          </a>
+        ))}
+    </div>
     <div className="m-2">
       {!state.showEditor ? (
         <button
