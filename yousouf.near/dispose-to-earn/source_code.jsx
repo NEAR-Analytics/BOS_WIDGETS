@@ -43,8 +43,15 @@ const generateRows = () => {
       <td>{user.waste}</td>
       <td>N{200 * user.waste}</td>
       <td style={tableCellStyle}>
-        {user.status !== "Paid" && (
-          <button onClick={() => handlePayClick(index)}>Pay</button>
+        {user.status !== "Paid" ? (
+          <button
+            onClick={() => handlePayClick(index)}
+            disabled={user.status === "Paid"}
+          >
+            {user.status === "Paid" ? "Paid" : "Pay"}
+          </button>
+        ) : (
+          "Paid"
         )}
       </td>
     </tr>
