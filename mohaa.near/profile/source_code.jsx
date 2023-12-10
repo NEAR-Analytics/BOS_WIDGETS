@@ -110,13 +110,13 @@ const toggleModal = () => {
 };
 // https://ibb.co/FJ099Vt
 // https://ibb.co/RTXQYVc
-
+// https://ibb.co/WyXgJXc
 return (
   <>
     <div
       className="container-fluid d-flex align-items-center justify-content-center"
       style={{
-        backgroundImage: "url(https://i.ibb.co/RTXQYVc/image.jpg)",
+        backgroundImage: "url(https://i.ibb.co/sw4yY4F/20231210-044656.jpg)",
         backgroundRepeat: "no-repeat",
         backgroundSize: "cover",
         backgroundPosition: "center",
