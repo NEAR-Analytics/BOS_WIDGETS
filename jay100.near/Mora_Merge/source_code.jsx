@@ -29,7 +29,7 @@ const Game_Box = () => {
 <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.0/p5.js" integrity="sha512-2r+xZ/Dm8+HI0I8dsj1Jlfchv4O3DGfWbqRalmSGtgdbVQrZyGRqHp9ek8GKk1x8w01JsmDZRrJZ4DzgXkAU+g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script>
 
-
+let circleOptions = [];
 let droppedCircles = [];
 let groundY;
 let hoveredCircle = null;
@@ -41,12 +41,17 @@ let timer = 60;
 let timerInterval;
 let backgroundImage; // Declare a variable to hold the image
 
-let imgArr = ['https://coinpush.app/wp-content/uploads/2023/03/bitcoin-png-1.png', 'https://cdn.iconscout.com/icon/free/png-256/free-ethereum-8-645838.png', 'https://upload.wikimedia.org/wikipedia/en/d/d0/Dogecoin_Logo.png']
+let imgArr = ['https://upload.wikimedia.org/wikipedia/en/d/d0/Dogecoin_Logo.png','https://cdn.iconscout.com/icon/free/png-256/free-ethereum-8-645838.png','https://coinpush.app/wp-content/uploads/2023/03/bitcoin-png-1.png']
 
 function preload() {
-    // Load your image before the program starts
-    const randPos = Math.floor(Math.random() * imgArr.length);
-    backgroundImage = loadImage(imgArr[randPos]); // Replace 'path_to_your_image.jpg' with your image file
+
+
+  for (let i = 0; i < imgArr.length; i++) {
+        const img = loadImage(imgArr[i]);
+        const circleSize = sizes[i];
+        const circle = new Circle(0, 0, circleSize, img, imgArr[i]);
+        circleOptions.push(circle); // Add the circle to the options array
+    }
 }
 
 function setup() {
@@ -94,16 +99,13 @@ function draw() {
 }
 
 function mouseClicked() {
-
     if (canDropCircle && timer > 0) {
-        const randSizePos = Math.floor(Math.random() * 3);
 
         if (!hoveredCircle) {
             const pos = Math.floor(Math.random() * imgArr.length);
-            const randImg = loadImage(imgArr[pos]);
-            console.log(imgArr[pos]);
-            hoveredCircle = new Circle(mouseX, 45, sizes[randSizePos], randImg, imgArr[pos]);
-            console.log(hoveredCircle);
+            hoveredCircle = circleOptions[pos];
+            hoveredCircle.x = mouseX;
+            hoveredCircle.y = 45;
         } else {
             let newDroppedCircle = new Circle(hoveredCircle.x, hoveredCircle.y, hoveredCircle.radius, hoveredCircle.texture, hoveredCircle.imageUrl);
 
@@ -113,10 +115,10 @@ function mouseClicked() {
 
             canDropCircle = false; // Prevent dropping a new circle immediately
             setTimeout(() => {
-                const newRandSizePos = Math.floor(Math.random() * 3);
                 const newPos = Math.floor(Math.random() * imgArr.length);
-                const newBackImg = loadImage(imgArr[newPos]);
-                hoveredCircle = new Circle(mouseX, 45, sizes[newRandSizePos], newBackImg, imgArr[newPos]);
+                hoveredCircle = circleOptions[newPos];
+                hoveredCircle.x = mouseX;
+                hoveredCircle.y = 45;
                 canDropCircle = true; // Allow dropping a new circle after the delay
             }, 500); // Adjust the delay duration in milliseconds (here, it's 1 second)
         }
@@ -143,7 +145,7 @@ class Circle {
     } else {
         // Optionally, draw something else or just the circle without an image
         ellipse(this.x, this.y, this.radius * 2);
-    }
+      }
     }
 
     fall() {
@@ -194,42 +196,60 @@ class Circle {
             let mergeThreshold = 3; // Set your threshold for merging circles
 
             // Check conditions for merging circles
-            console.log('this', this);
-            console.log('other', otherCircle);
-            if (this.imageUrl === otherCircle.imageUrl && radiusDifference <= mergeThreshold && this.radius === otherCircle.radius) {
+            if (this.imageUrl === otherCircle.imageUrl && radiusDifference <= mergeThreshold) {
                 // Merge circles if they touch and have similar radius
                 let newRadius = this.radius + otherCircle.radius;
 
                 // Increment game score based on the merged circle radius
                 if (newRadius === 20) {
                     gameScore += 2;
+                    let newCircleOption = circleOptions.filter(circle => circle.radius === newRadius);
+                    console.log(newCircleOption);
+                    this.texture = newCircleOption[0].texture;
+                    this.radius = newCircleOption[0].radius;
+                    this.imageUrl = newCircleOption[0].imageUrl;
+                    otherCircle.removeFromArrays();
                 } else if (newRadius === 40) {
                     gameScore += 4;
+                    let newCircleOption = circleOptions.filter(circle => circle.radius === newRadius);
+                    console.log(newCircleOption);
+                    this.texture = newCircleOption[0].texture;
+                    this.radius = newCircleOption[0].radius;
+                    this.imageUrl = newCircleOption[0].imageUrl;
+                    otherCircle.removeFromArrays();
                 } else if (newRadius === 80) {
                     gameScore += 8;
-                } else if (newRadius === 160) {
-                    gameScore += 16;
                 }
 
                 // Create a new merged circle if the radius exceeds a certain threshold
                 if (newRadius >= 160) {
-                    let mergedCircle = new Circle(this.x, this.y, newRadius, backgroundImage, this.imageUrl);
+                    gameScore += 16;
+                    let mergedCircle = new Circle(this.x, this.y, newRadius, this.texture, this.imageUrl);
                     allCircles = allCircles.filter(circle => circle !== this && circle !== otherCircle);
                     allCircles.push(mergedCircle);
-                    this.radius = 0; // Set current circle's radius to zero
-                    this.removeImage();
-                    otherCircle.radius = 0;// Set other circle's radius to zero
-                    otherCircle.removeImage(); 
+                    this.removeFromArrays();
+                    otherCircle.removeFromArrays();
                 } else {
                     this.radius = newRadius;
-                    otherCircle.radius = 0;
-                    otherCircle.removeImage();
-                    allCircles = allCircles.filter(circle => circle !== otherCircle);
+                   otherCircle.removeFromArrays();
                 }
             } else {
                 // Resolve collision as a bounce
                 this.resolveCollision(otherCircle);
             }
+        }
+    }
+
+    removeFromArrays() {
+        // Remove this circle from both arrays
+        const droppedIndex = droppedCircles.indexOf(this);
+        if (droppedIndex !== -1) {
+            droppedCircles.splice(droppedIndex, 1);
+        }
+
+        const allIndex = allCircles.indexOf(this);
+        if (allIndex !== -1) {
+            allCircles.splice(allIndex, 1);
         }
     }
 
