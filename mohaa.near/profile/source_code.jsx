@@ -134,6 +134,7 @@ return (
         <a className="btn btn-success btn-lg" onClick={toggleModal}>
           LIST NFT
         </a>
+        <a className="btn btn-success btn-lg">CALCULATE NFT RARITY</a>
       </div>
     </div>
     {isModalOpen && (
