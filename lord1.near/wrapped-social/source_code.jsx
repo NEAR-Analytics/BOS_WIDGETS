@@ -1,6 +1,8 @@
 const API_KEY = "6d48c4c0-eb41-4e4b-ae4d-ba1148f01fb8";
-const singer = "lord1.near";
+const themeColor = props.themeColor;
 
+const singer = props.singer;
+const interval = props.interval || "week";
 const queries = [
   {
     hash: null,
@@ -939,70 +941,70 @@ users_min as (
     group by 1),
 
 posts as (
-    select date_trunc(week,BLOCK_TIMESTAMP) as "Date",user as "User", 'Post' as "type", count(*) as trxs
+    select date_trunc({{week}},BLOCK_TIMESTAMP) as "Date",user as "User", 'Post' as "type", count(*) as trxs
     from users_posts
     group by 1,2,3
     ), 
 
 sent_comments as (
-    select date_trunc(week,BLOCK_TIMESTAMP) as "Date", user as "User", 'Comment' as "type",count(*) as trxs
+    select date_trunc({{week}},BLOCK_TIMESTAMP) as "Date", user as "User", 'Comment' as "type",count(*) as trxs
     from users_comments
     group by 1,2,3
     ), 
 
 received_comments as (
-    select date_trunc(week,BLOCK_TIMESTAMP) as "Date", accountId as "User", 'Received_Comment' as "type",count(*) as trxs
+    select date_trunc({{week}},BLOCK_TIMESTAMP) as "Date", accountId as "User", 'Received_Comment' as "type",count(*) as trxs
     from users_comments
     group by 1,2,3 
     ), 
 
 sent_reposts as (
-    select date_trunc(week,BLOCK_TIMESTAMP) as "Date", user as "User", 'Repost' as "type",count(*) as trxs
+    select date_trunc({{week}},BLOCK_TIMESTAMP) as "Date", user as "User", 'Repost' as "type",count(*) as trxs
     from users_repost
     group by 1,2,3 
     ), 
 
 received_reposts as (
-    select date_trunc(week,BLOCK_TIMESTAMP) as "Date", accountId as "User", 'Receive_Repost' as "type",count(*) as trxs
+    select date_trunc({{week}},BLOCK_TIMESTAMP) as "Date", accountId as "User", 'Receive_Repost' as "type",count(*) as trxs
     from users_repost
     group by 1,2,3 
     ),
 
 follow as (
-    select date_trunc(week,BLOCK_TIMESTAMP) as "Date", user as "User", initcap(type) as "type", count(*) as trxs
+    select date_trunc({{week}},BLOCK_TIMESTAMP) as "Date", user as "User", initcap(type) as "type", count(*) as trxs
     from users_follow
     where rank=1 and type='follow'
     group by 1,2,3 
     ),
 
 sent_pokes as (
-    select date_trunc(week,BLOCK_TIMESTAMP) as "Date", user as "User", 'Poke' as "type",count(*) as trxs
+    select date_trunc({{week}},BLOCK_TIMESTAMP) as "Date", user as "User", 'Poke' as "type",count(*) as trxs
     from users_pokes
     group by 1,2,3 
     ), 
 
 received_pokes as (
-    select date_trunc(week,BLOCK_TIMESTAMP) as "Date", accountId as "User", 'Receive_Poke' as "type",count(*) as trxs
+    select date_trunc({{week}},BLOCK_TIMESTAMP) as "Date", accountId as "User", 'Receive_Poke' as "type",count(*) as trxs
     from users_pokes
     group by 1,2,3 
     ),
 
 sent_likes as (
-    select date_trunc(week,BLOCK_TIMESTAMP) as "Date", user as "User", 'Like' as "type",count(*) as trxs
+    select date_trunc({{week}},BLOCK_TIMESTAMP) as "Date", user as "User", 'Like' as "type",count(*) as trxs
     from users_like
     where rank=1 and type='like'
     group by 1,2,3 
     ), 
 
 received_likes as (
-    select date_trunc(week,BLOCK_TIMESTAMP) as "Date", accountId as "User", 'Receive_Like' as "type", count(*) as trxs
+    select date_trunc({{week}},BLOCK_TIMESTAMP) as "Date", accountId as "User", 'Receive_Like' as "type", count(*) as trxs
     from users_like
     where rank=1 
     group by 1,2,3
     ), 
 
 widgets as (
-    select date_trunc(week,BLOCK_TIMESTAMP) as "Date", SIGNER_ID as "User", 'Widget' as "type",count(distinct TX_HASH) as trxs
+    select date_trunc({{week}},BLOCK_TIMESTAMP) as "Date", SIGNER_ID as "User", 'Widget' as "type",count(distinct TX_HASH) as trxs
     from near.social.fact_widget_deployments
     group by 1,2,3
     )
@@ -1058,7 +1060,6 @@ order by "date" asc
 `,
   },
 ];
-const themeColor = props.themeColor;
 
 //---------------------------------------------------------------------------------------------------
 
@@ -1324,19 +1325,22 @@ const received_reposts = {
 
 State.init({
   searchedSinger: "",
+  searchedInterval: "",
   result: {},
   loader: [],
   isLoading: false,
   error: [],
   queriesRuned: false,
+  tab: tabs.left,
 });
 
 const checkNewSinger = () => {
-  if (state.searchedSinger === singer) {
+  if (state.searchedSinger === singer && state.searchedInterval === interval) {
     return;
   } else {
     State.update({
       searchedSinger: singer,
+      searchedInterval: interval,
       loader: [],
       result: {},
       isLoading: true,
@@ -1410,10 +1414,12 @@ const fetchData = (hash) => {
   return result;
 };
 // handle runed data ###################################
-const createQuery = (queries, singer) => {
+const createQuery = (queries, singer, interval) => {
   const queriesArr = queries.map((q) => {
-    const queryWithSinger = q.query.replaceAll("{{singer}}", singer);
-    q.query = queryWithSinger;
+    const queryWithProps = q.query
+      .replaceAll("{{singer}}", singer)
+      .replaceAll("{{week}}", interval);
+    q.query = queryWithProps;
     return q;
   });
   return queriesArr;
@@ -1425,7 +1431,6 @@ const isAllDataLoaded = () => {
     return !query[1].isLoading;
   });
 };
-
 const updateResultState = ({ data, error, isLoading, queryRunId, id }) => {
   State.update(({ result, loader }) => {
     const newResult = {
@@ -1468,7 +1473,11 @@ const runqueries = (queries) => {
     return;
   }
 
-  const queriesArr = createQuery(queries, state.searchedSinger);
+  const queriesArr = createQuery(
+    queries,
+    state.searchedSinger,
+    state.searchedInterval
+  );
   const loader = queriesArr.map((q) => {
     const queryRunId = Storage.get(
       `${searchedSinger}-${searchedInterval}-${q.id}`
@@ -1775,6 +1784,8 @@ let TableLeft = (
     className="shadow-sm rounded-2 overflow-auto p-2"
   >
     <div className="p-2 rounded-4 overflow-auto">
+      {CardIsLoading(2)}
+      {CardHasError(2)}
       {state.result["query" + 2]?.data && (
         <Widget
           src="lord1.near/widget/table-pagination"
@@ -1814,6 +1825,8 @@ let TableRight = (
     className="shadow-sm rounded-2 overflow-auto p-2"
   >
     <div className="p-2 rounded-4 overflow-auto">
+      {CardIsLoading(3)}
+      {CardHasError(3)}
       {state.result["query" + 3]?.data && (
         <Widget
           src="lord1.near/widget/table-pagination"
@@ -1843,7 +1856,35 @@ let TableRight = (
     </div>
   </div>
 );
-
+let Chartpie = (
+  <div className=" col-12 col-md-12">
+    <div className=" col-12 ">
+      <div
+        style={{ background: themeColor?.sbt_area?.card_bg }}
+        className="w-100 mx-auto shadow-sm rounded-4 p-2"
+      >
+        {ChartIsLoading(5)}
+        {ChartHasError(5)}
+        {state.result["query" + 5]?.data && (
+          <Widget
+            src="lord1.near/widget/Pie-chart"
+            props={getPieProps(
+              state.result["query" + 5]?.data,
+              ["type", "action"],
+              themeColor.chartColor,
+              {
+                title: "",
+                type: "pie",
+                connector: true,
+                legend: true,
+              }
+            )}
+          />
+        )}
+      </div>
+    </div>
+  </div>
+);
 let ChartSections = (
   <div className=" col-12 col-md-12">
     <div className="py-2"></div>
@@ -1852,6 +1893,8 @@ let ChartSections = (
         style={{ background: themeColor?.sbt_area?.card_bg }}
         className="shadow-sm rounded-2"
       >
+        {ChartIsLoading(4)}
+        {ChartHasError(4)}
         {state.result["query" + 4]?.data && (
           <Widget
             src="lord1.near/widget/mix-chart"
@@ -1886,37 +1929,37 @@ let ChartSections = (
                 {
                   key: "receive_repost",
                   seriesName: "Receive Repost",
-                  type: "spline",
-                  id: 2,
+                  type: "column",
+                  id: 1,
                 },
                 {
                   key: "poke",
                   seriesName: "Poke",
-                  type: "spline",
-                  id: 2,
+                  type: "column",
+                  id: 1,
                 },
                 {
                   key: "receive_poke",
                   seriesName: "Receive Poke",
-                  type: "spline",
-                  id: 2,
+                  type: "column",
+                  id: 1,
                 },
                 {
                   key: "receive_like",
                   seriesName: "Receive Like",
-                  type: "spline",
+                  type: "column",
                   id: 1,
                 },
                 {
                   key: "widget",
                   seriesName: "Widget",
-                  type: "spline",
+                  type: "column",
                   id: 1,
                 },
                 {
                   key: "follow",
                   seriesName: "Follow",
-                  type: "spline",
+                  type: "column",
                   id: 1,
                 },
               ],
@@ -1957,11 +2000,24 @@ return (
       className="w-100"
       style={{ backgroundColor: themeColor?.search_sbt?.table_bg }}
     >
-      <div className="w-100">{ChartSections}</div>
+      <Widget src="lord1.near/widget/header-dynamic" props={tabel} />
       <div className="w-100">{TableSection}</div>
       <div className="row">
-        <div className="col-md-6">{TableLeft}</div>
-        <div className="col-md-6">{TableRight}</div>
+        <div className="col-md-8">{ChartSections}</div>
+        <div className="col-md-4">{Chartpie}</div>
+      </div>
+      <div className="row">
+        <div className="col-md-6">
+          <Widget
+            src="lord1.near/widget/header-dynamic"
+            props={favorite_score}
+          />
+          {TableLeft}
+        </div>
+        <div className="col-md-6">
+          <Widget src="lord1.near/widget/header-dynamic" props={fan_score} />
+          {TableRight}
+        </div>
       </div>
     </div>
   </>
