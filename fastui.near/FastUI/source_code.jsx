@@ -198,7 +198,7 @@ return (
               <Title>Trending Post</Title>
             </TabsButton>
             <TabsButton
-              onClick={() => handleTabClick("Coin Pricce")}
+              onClick={() => handleTabClick("prices")}
               selected={state.selectedTab === "prices"}
             >
               <Title>Coin Prices</Title>
