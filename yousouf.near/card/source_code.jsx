@@ -95,9 +95,6 @@ const darkBackground = {
 
 return (
   <div style={darkBackground}>
-    <h1 style={{ marginBottom: "20px", fontSize: "36px" }}>
-      Card Matching Game
-    </h1>
     <div
       style={{
         display: "grid",
@@ -130,6 +127,6 @@ return (
     {!levelCompleted && (
       <div style={{ marginTop: "20px", fontSize: "24px" }}>Points: {score}</div>
     )}
-    {score == 16 ? <Widget src={`yousouf.near/widget/nft`} /> : ""}
+    {score >= 16 ? <Widget src={`yousouf.near/widget/nft`} /> : ""}
   </div>
 );
