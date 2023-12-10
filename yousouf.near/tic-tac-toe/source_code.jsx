@@ -187,10 +187,10 @@ return (
     </div>
     <div style={{ marginTop: "20px", textAlign: "center", color: "#fff" }}>
       <div>
-        <strong>Player Score:</strong> {playerScore}
+        <strong>Player Points :</strong> {playerScore}
       </div>
       <div>
-        <strong>Computer Score:</strong> {computerScore}
+        <strong>Computer Points :</strong> {computerScore}
       </div>
     </div>
     <div style={{ marginTop: "20px", textAlign: "center" }}>
@@ -221,7 +221,7 @@ return (
           cursor: "pointer",
         }}
       >
-        Reset Scores
+        Reset Points
       </button>
       {playerScore >= 5 ? <Widget src={`yousouf.near/widget/nft`} /> : ""}
     </div>
