@@ -88,9 +88,11 @@ const darkBackground = {
   flexDirection: "column",
   justifyContent: "center",
   alignItems: "center",
-  height: "100vh",
-  backgroundColor: "#1a1a1a",
-  color: "#fff",
+  backgroundColor: "#333",
+  padding: "20px",
+  borderRadius: "10px",
+  textAlign: "center",
+  color: "#ffe",
 };
 
 return (
@@ -127,6 +129,6 @@ return (
     {!levelCompleted && (
       <div style={{ marginTop: "20px", fontSize: "24px" }}>Points: {score}</div>
     )}
-    {score >= 16 ? <Widget src={`yousouf.near/widget/nft`} /> : ""}
+    {score >= 9 ? <Widget src={`yousouf.near/widget/nft`} /> : ""}
   </div>
 );
