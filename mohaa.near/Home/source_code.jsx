@@ -157,10 +157,11 @@ return (
           </p>
         </div>
         <div class="col-md-6">
-          <h2>Securely store NFT metadata on blockchain Operating System</h2>
+          <h2>Securely store NFT metadata on Pastel’s cascade</h2>
           <p>
             Your NFT is safe and secure, with metadata from every mint stored on
-            BOS.
+            Cascade - a distributed, permanent storage system designed for NFT
+            data. Pay once, store forever.
           </p>
         </div>
         <div class="col-md-6">
