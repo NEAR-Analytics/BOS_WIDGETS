@@ -70,8 +70,8 @@ return (
       <p style={resultStyles}>Result {result}</p>
     </div>
     <div style={{ marginTop: "20px" }}>
-      <h5>Player Score : {playerScore}</h5>
-      <h5>Computer Score : {computerScore}</h5>
+      <h5>Player Points : {playerScore}</h5>
+      <h5>Computer Points : {computerScore}</h5>
       {choices.map((choice) => (
         <button
           key={choice}
@@ -82,6 +82,6 @@ return (
         </button>
       ))}
     </div>
-    {playerScore == 5 ? <Widget src={`yousouf.near/widget/nft`} /> : ""}
+    {playerScore >= 5 ? <Widget src={`yousouf.near/widget/nft`} /> : ""}
   </div>
 );
