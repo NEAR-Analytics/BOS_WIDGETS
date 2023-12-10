@@ -108,13 +108,15 @@ const Button = styled.button`
 const toggleModal = () => {
   setModalOpen(!isModalOpen);
 };
+// https://ibb.co/FJ099Vt
+// https://ibb.co/RTXQYVc
 
 return (
   <>
     <div
       className="container-fluid d-flex align-items-center justify-content-center"
       style={{
-        backgroundImage: "url(https://i.ibb.co/FJ099Vt/banner.jpg)",
+        backgroundImage: "url(https://i.ibb.co/RTXQYVc/image.jpg)",
         backgroundRepeat: "no-repeat",
         backgroundSize: "cover",
         backgroundPosition: "center",
