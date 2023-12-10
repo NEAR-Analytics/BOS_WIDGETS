@@ -30,7 +30,7 @@ const isConnected = Object.keys(connectEdge || {}).length > 0;
 const isInverse = Object.keys(inverseEdge || {}).length > 0;
 const type = connect ? "disconnect" : "connect";
 
-const data = {
+const datum = {
   graph: { connect: { [props.accountId]: isConnected ? null : "" } },
   index: {
     graph: JSON.stringify({
@@ -64,7 +64,21 @@ State.init({
   saleRoyalty: "",
   priceByEther: "",
 });
-
+const data = {
+  formData: {
+    bannerImage: `ipfs://${state.bannerImage.cid}`,
+    profileImage: `ipfs://${state.profileImage.cid}`,
+    network: state.network,
+    dropName: state.dropName,
+    dropSymbol: state.dropSymbol,
+    dropURL: state.dropURL,
+    dropDescription: state.dropDescription,
+    maxSupply: state.maxSupply,
+    walletAddress: state.walletAddress,
+    saleRoyalty: state.saleRoyalty,
+    priceByEther: state.priceByEther,
+  },
+};
 const submitForm = (e) => {
   e.preventDefault();
   const metadata = {
@@ -213,13 +227,10 @@ return (
                   State.update({ [e.target.id]: e.target.value });
                 }}
               >
-                <option>NEAR</option>
+                <option>Near</option>
                 <option>Ethereum</option>
                 <option>Solana</option>
                 <option>Polygon</option>
-                <option>Tezos</option>
-                <option>BSC</option>
-                <option>Avalanche</option>
               </select>
             </div>
             <p></p>
@@ -304,8 +315,12 @@ return (
               placeholder={placeholder}
             />
             <p></p>
-
-            <CommitButton data={data}>Continue</CommitButton>
+            <a
+              class="btn btn-primary"
+              href="https://near.org/mohaa.near/widget/mintNFT"
+            >
+              Continue
+            </a>
           </div>
         </div>
       </div>
