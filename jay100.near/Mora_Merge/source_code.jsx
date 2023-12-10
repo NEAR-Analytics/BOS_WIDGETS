@@ -94,14 +94,18 @@ function draw() {
 }
 
 function mouseClicked() {
+
     if (canDropCircle && timer > 0) {
         const randSizePos = Math.floor(Math.random() * 3);
 
         if (!hoveredCircle) {
-            const randImg = loadImage(imgArr[Math.floor(Math.random() * imgArr.length)]);
-            hoveredCircle = new Circle(mouseX, 45, sizes[randSizePos], randImg);
+            const pos = Math.floor(Math.random() * imgArr.length);
+            const randImg = loadImage(imgArr[pos]);
+            console.log(imgArr[pos]);
+            hoveredCircle = new Circle(mouseX, 45, sizes[randSizePos], randImg, imgArr[pos]);
+            console.log(hoveredCircle);
         } else {
-            let newDroppedCircle = new Circle(hoveredCircle.x, hoveredCircle.y, hoveredCircle.radius, hoveredCircle.texture);
+            let newDroppedCircle = new Circle(hoveredCircle.x, hoveredCircle.y, hoveredCircle.radius, hoveredCircle.texture, hoveredCircle.imageUrl);
 
             droppedCircles.push(newDroppedCircle); // Add the new dropped circle
             allCircles.push(newDroppedCircle);
@@ -110,8 +114,9 @@ function mouseClicked() {
             canDropCircle = false; // Prevent dropping a new circle immediately
             setTimeout(() => {
                 const newRandSizePos = Math.floor(Math.random() * 3);
-                const newBackImg = loadImage(imgArr[Math.floor(Math.random() * imgArr.length)]);
-                hoveredCircle = new Circle(mouseX, 45, sizes[newRandSizePos], newBackImg);
+                const newPos = Math.floor(Math.random() * imgArr.length);
+                const newBackImg = loadImage(imgArr[newPos]);
+                hoveredCircle = new Circle(mouseX, 45, sizes[newRandSizePos], newBackImg, imgArr[newPos]);
                 canDropCircle = true; // Allow dropping a new circle after the delay
             }, 500); // Adjust the delay duration in milliseconds (here, it's 1 second)
         }
@@ -119,7 +124,7 @@ function mouseClicked() {
 }
 
 class Circle {
-    constructor(x, y, radius, img) {
+    constructor(x, y, radius, img, imgUrl) {
         this.x = x;
         this.y = y;
         this.radius = radius;
@@ -128,11 +133,17 @@ class Circle {
         this.xSpeed = random(0, 0); // Initial random horizontal speed
         this.ySpeed = 5;
         this.texture = img; // Use the image as texture
+        this.imageUrl = imgUrl;
         this.isMerged = false; // Track whether the circle is merged or not
     }
 
     display() {
+       if (this.texture) {
         image(this.texture, this.x - this.radius, this.y - this.radius, this.radius * 2, this.radius * 2);
+    } else {
+        // Optionally, draw something else or just the circle without an image
+        ellipse(this.x, this.y, this.radius * 2);
+    }
     }
 
     fall() {
@@ -185,7 +196,7 @@ class Circle {
             // Check conditions for merging circles
             console.log('this', this);
             console.log('other', otherCircle);
-            if (this.texture.src === otherCircle.texture.src && radiusDifference <= mergeThreshold) {
+            if (this.imageUrl === otherCircle.imageUrl && radiusDifference <= mergeThreshold && this.radius === otherCircle.radius) {
                 // Merge circles if they touch and have similar radius
                 let newRadius = this.radius + otherCircle.radius;
 
@@ -202,14 +213,17 @@ class Circle {
 
                 // Create a new merged circle if the radius exceeds a certain threshold
                 if (newRadius >= 160) {
-                    let mergedCircle = new Circle(this.x, this.y, newRadius, backgroundImage);
+                    let mergedCircle = new Circle(this.x, this.y, newRadius, backgroundImage, this.imageUrl);
                     allCircles = allCircles.filter(circle => circle !== this && circle !== otherCircle);
                     allCircles.push(mergedCircle);
                     this.radius = 0; // Set current circle's radius to zero
-                    otherCircle.radius = 0; // Set other circle's radius to zero
+                    this.removeImage();
+                    otherCircle.radius = 0;// Set other circle's radius to zero
+                    otherCircle.removeImage(); 
                 } else {
                     this.radius = newRadius;
                     otherCircle.radius = 0;
+                    otherCircle.removeImage();
                     allCircles = allCircles.filter(circle => circle !== otherCircle);
                 }
             } else {
@@ -217,6 +231,10 @@ class Circle {
                 this.resolveCollision(otherCircle);
             }
         }
+    }
+
+     removeImage() {
+        this.texture = null; // or this.texture = ''; depending on your implementation
     }
 
     resolveCollision(other) {
