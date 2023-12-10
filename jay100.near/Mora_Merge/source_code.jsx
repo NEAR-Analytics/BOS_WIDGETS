@@ -40,6 +40,7 @@ let allCircles = [];
 let timer = 60;
 let timerInterval;
 let backgroundImage; // Declare a variable to hold the image
+// https://cryptologos.cc/logos/near-protocol-near-logo.png
 
 let imgArr = ['https://upload.wikimedia.org/wikipedia/en/d/d0/Dogecoin_Logo.png','https://cdn.iconscout.com/icon/free/png-256/free-ethereum-8-645838.png','https://coinpush.app/wp-content/uploads/2023/03/bitcoin-png-1.png']
 
@@ -120,7 +121,7 @@ function mouseClicked() {
                 hoveredCircle.x = mouseX;
                 hoveredCircle.y = 45;
                 canDropCircle = true; // Allow dropping a new circle after the delay
-            }, 500); // Adjust the delay duration in milliseconds (here, it's 1 second)
+            }, 250); // Adjust the delay duration in milliseconds (here, it's 1 second)
         }
     }
 }
