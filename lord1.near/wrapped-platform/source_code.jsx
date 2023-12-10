@@ -262,7 +262,7 @@ State.init({
   searchedSinger: "",
   searchedInterval: "",
   result: {},
-  loader: null,
+  loader: [],
   isLoading: false,
   error: [],
   queriesRuned: false,
@@ -276,7 +276,7 @@ const checkNewSinger = () => {
     State.update({
       searchedSinger: singer,
       searchedInterval: interval,
-      loader: null,
+      loader: [],
       result: {},
       isLoading: true,
       queriesRuned: false,
@@ -366,9 +366,8 @@ const isAllDataLoaded = () => {
     return !query[1].isLoading;
   });
 };
-
 const updateResultState = ({ data, error, isLoading, queryRunId, id }) => {
-  State.update(({ result }) => {
+  State.update(({ result, loader }) => {
     const newResult = {
       ...result,
       [`query${id}`]: {
@@ -380,19 +379,21 @@ const updateResultState = ({ data, error, isLoading, queryRunId, id }) => {
         id: id,
       },
     };
+    const newLoader = loader.filter(({ id: loaderId }) => loaderId !== id);
     if (error) {
       const queryError = `query${id} : ${error}`;
       return {
         ...state,
         result: { ...newResult },
-        //loader: null,
+        loader: newLoader.length === 0 ? [] : newLoader,
         error: [...state.error, queryError],
       };
     } else {
+      Storage.set(`${searchedSinger}-${searchedInterval}-${id}`, queryRunId);
       return {
         ...state,
         result: { ...newResult },
-        //...(data && { loader: null }),
+        ...(data && { loader: newLoader.length === 0 ? [] : newLoader }),
       };
     }
   });
@@ -413,12 +414,16 @@ const runqueries = (queries) => {
     state.searchedInterval
   );
   const loader = queriesArr.map((q) => {
+    const queryRunId = Storage.get(
+      `${searchedSinger}-${searchedInterval}-${q.id}`
+    );
     const props = {
       apiKey: API_KEY,
       id: q.id,
       query: q.query,
       onResult: updateResultState,
       firstReqTime: q.firstReqTime,
+      queryRunId,
       queryOption: {
         page: {
           number: 1,
@@ -428,7 +433,17 @@ const runqueries = (queries) => {
         ...q?.queryOption,
       },
     };
-    return <Widget src="lord1.near/widget/api-flipside" props={props} />;
+    return {
+      id: q.id,
+      element: (
+        <Widget
+          src="lord1.near/widget/api-flipside"
+          id={q.id}
+          key={q.id}
+          props={props}
+        />
+      ),
+    };
   });
   State.update({
     loader: loader,
@@ -469,6 +484,7 @@ if (state.error.length > 0) {
   setTimeout(hide, 2500);
 }
 
+console.log(state);
 // get props charts #######################################
 const getMixProps = (data, dateKey, serieses, colors, chartOption) => {
   data = data || [];
@@ -777,7 +793,9 @@ let ChartSections = (
 );
 return (
   <>
-    {state.loader && <div className="d-none">{state.loader}</div>}
+    {state.loader && (
+      <div className="d-none">{state.loader.map((l) => l?.element)}</div>
+    )}
     <div className="toast-container position-fixed bottom-0 end-0 p-3">
       {state.error.length > 0 &&
         state.error.map((er) => (
