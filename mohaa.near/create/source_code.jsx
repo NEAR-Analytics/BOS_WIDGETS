@@ -213,10 +213,13 @@ return (
                   State.update({ [e.target.id]: e.target.value });
                 }}
               >
-                <option>Near</option>
+                <option>NEAR</option>
                 <option>Ethereum</option>
                 <option>Solana</option>
                 <option>Polygon</option>
+                <option>Tezos</option>
+                <option>BSC</option>
+                <option>Avalanche</option>
               </select>
             </div>
             <p></p>
