@@ -196,7 +196,7 @@ return (
         color: "#ffe",
       }}
     >
-      Score: {score}
+      Points : {score}
     </div>
     <h5 style={{ color: "#ffe" }}>Time Remaining: {countdown} seconds</h5>
 
@@ -321,7 +321,7 @@ return (
       }}
     >
       {displayLettersFunction()}
-      {score == 5 ? <Widget src={`yousouf.near/widget/nft`} /> : ""}
+      {score >= 5 ? <Widget src={`yousouf.near/widget/nft`} /> : ""}
     </div>
   </div>
 );
