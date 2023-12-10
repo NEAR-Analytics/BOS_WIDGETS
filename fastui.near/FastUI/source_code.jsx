@@ -198,6 +198,12 @@ return (
               <Title>Trending Post</Title>
             </TabsButton>
             <TabsButton
+              onClick={() => handleTabClick("Coin Pricce")}
+              selected={state.selectedTab === "prices"}
+            >
+              <Title>Coin Prices</Title>
+            </TabsButton>
+            <TabsButton
               onClick={() => handleTabClick("myfavorites")}
               selected={state.selectedTab === "myfavorites"}
             >
@@ -322,6 +328,14 @@ return (
         {state.selectedTab === "trending" && (
           <>
             <Widget src="marketplacebos.near/widget/TrendingPost.ChartValue3" />
+            <br />
+            <br />
+          </>
+        )}
+        {state.selectedTab === "prices" && (
+          <>
+            {" "}
+            <Widget src="pichtran.near/widget/CoinPrice" />
             <br />
             <br />
           </>
