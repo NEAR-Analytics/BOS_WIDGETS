@@ -41,11 +41,12 @@ let timer = 60;
 let timerInterval;
 let backgroundImage; // Declare a variable to hold the image
 
-let imgArr = ['https://coinpush.app/wp-content/uploads/2023/03/bitcoin-png-1.png', 'https://w7.pngwing.com/pngs/268/1013/png-transparent-ethereum-eth-hd-logo-thumbnail.png', 'https://upload.wikimedia.org/wikipedia/en/d/d0/Dogecoin_Logo.png']
+let imgArr = ['https://coinpush.app/wp-content/uploads/2023/03/bitcoin-png-1.png', 'https://cdn.iconscout.com/icon/free/png-256/free-ethereum-8-645838.png', 'https://upload.wikimedia.org/wikipedia/en/d/d0/Dogecoin_Logo.png']
 
 function preload() {
     // Load your image before the program starts
-    backgroundImage = loadImage('https://coinpush.app/wp-content/uploads/2023/03/bitcoin-png-1.png'); // Replace 'path_to_your_image.jpg' with your image file
+    const randPos = Math.floor(Math.random() * imgArr.length);
+    backgroundImage = loadImage(imgArr[randPos]); // Replace 'path_to_your_image.jpg' with your image file
 }
 
 function setup() {
@@ -97,9 +98,10 @@ function mouseClicked() {
         const randSizePos = Math.floor(Math.random() * 3);
 
         if (!hoveredCircle) {
-            hoveredCircle = new Circle(mouseX, 45, sizes[randSizePos], backgroundImage);
+            const randImg = loadImage(imgArr[Math.floor(Math.random() * imgArr.length)]);
+            hoveredCircle = new Circle(mouseX, 45, sizes[randSizePos], randImg);
         } else {
-            let newDroppedCircle = new Circle(hoveredCircle.x, hoveredCircle.y, hoveredCircle.radius, backgroundImage);
+            let newDroppedCircle = new Circle(hoveredCircle.x, hoveredCircle.y, hoveredCircle.radius, hoveredCircle.texture);
 
             droppedCircles.push(newDroppedCircle); // Add the new dropped circle
             allCircles.push(newDroppedCircle);
@@ -108,7 +110,8 @@ function mouseClicked() {
             canDropCircle = false; // Prevent dropping a new circle immediately
             setTimeout(() => {
                 const newRandSizePos = Math.floor(Math.random() * 3);
-                hoveredCircle = new Circle(mouseX, 45, sizes[newRandSizePos], backgroundImage);
+                const newBackImg = loadImage(imgArr[Math.floor(Math.random() * imgArr.length)]);
+                hoveredCircle = new Circle(mouseX, 45, sizes[newRandSizePos], newBackImg);
                 canDropCircle = true; // Allow dropping a new circle after the delay
             }, 500); // Adjust the delay duration in milliseconds (here, it's 1 second)
         }
@@ -180,7 +183,9 @@ class Circle {
             let mergeThreshold = 3; // Set your threshold for merging circles
 
             // Check conditions for merging circles
-            if (radiusDifference <= mergeThreshold) {
+            console.log('this', this);
+            console.log('other', otherCircle);
+            if (this.texture.src === otherCircle.texture.src && radiusDifference <= mergeThreshold) {
                 // Merge circles if they touch and have similar radius
                 let newRadius = this.radius + otherCircle.radius;
 
