@@ -1,7 +1,7 @@
 const Button = styled.button`
   width: 100%;
   margin: 5px 0;
-  padding: 20px;
+  padding: 10px;
   background-color: #0a1929ff;
   border: none;
   border-radius: 5px;
@@ -13,64 +13,40 @@ const Button = styled.button`
   }
 `;
 
-const account = context.accountId;
 const [score, setScore] = useState(0);
 const [currentQuestion, setCurrentQuestion] = useState(0);
 const [showResults, setShowResults] = useState(false);
-const [claimed, setClaimed] = useState(false);
-
-const congratulateUser = () => {
-  if (score >= 4) {
-    // User scored more than 80%, reward with 0.002 near token
-    alert(
-      "Congratulations! You scored more than 80%! You have been rewarded with 0.002 NEAR tokens."
-    );
-    setClaimed(true);
-  } else {
-    alert("Keep trying! You need to score more than 80% to claim NEAR tokens.");
-  }
-};
-
-const claimReward = () => {
-  if (score >= 4) {
-    setClaimed(true);
-  }
-};
 
 const questions = [
   {
-    text: "Meyasa Aka Samar Da NearHausa?",
+    text: "What is B.O.S?",
     options: [
-      { id: 0, text: "Domin Yan Kano Kadai", isCorrect: false },
-      { id: 1, text: "Domin Alumar Hausa", isCorrect: true },
-      { id: 2, text: "Domin Yan Africa", isCorrect: false },
-      {
-        id: 3,
-        text: "Domin Koyar da crypto a harshen Hausa",
-        isCorrect: false,
-      },
+      { id: 0, text: "Blockchain Of System", isCorrect: false },
+      { id: 1, text: "Blockchain Operating System", isCorrect: true },
+      { id: 2, text: "Blockchain On System", isCorrect: false },
+      { id: 3, text: "Built Owner System", isCorrect: false },
     ],
   },
   {
-    text: "Wane ne shugan NearHuasa?",
+    text: "What BOS run on?",
     options: [
-      { id: 0, text: "Engr. Bakaka", isCorrect: true },
-      { id: 1, text: "Aminu Bin", isCorrect: false },
-      { id: 2, text: "Alexander Skidanov", isCorrect: false },
-      { id: 3, text: "Elon Musk", isCorrect: false },
+      { id: 0, text: "Near", isCorrect: true },
+      { id: 1, text: "Ether", isCorrect: false },
+      { id: 2, text: "Solana", isCorrect: false },
+      { id: 3, text: "Doge", isCorrect: false },
     ],
   },
   {
-    text: "Yaushe Aka Samar Da NearHuasa?",
+    text: "Which technology is the NEAR Protocol built upon?",
     options: [
-      { id: 0, text: "2023", isCorrect: false },
-      { id: 1, text: "2022", isCorrect: true },
-      { id: 2, text: "2021", isCorrect: false },
-      { id: 3, text: "2o22", isCorrect: false },
+      { id: 0, text: "Proof of Work", isCorrect: false },
+      { id: 1, text: "Proof of Stake", isCorrect: true },
+      { id: 2, text: "Delegated Proof of Stake", isCorrect: false },
+      { id: 3, text: "Proof of Authority", isCorrect: false },
     ],
   },
   {
-    text: "Akan wanne wanne yarjejeniya aka yi NEAR Blockchain?",
+    text: "What is the name of the consensus algorithm used by the NEAR Protocol?",
     options: [
       { id: 0, text: "Proof of Stake (PoS)", isCorrect: false },
       { id: 1, text: "Delegated Proof of Stake (DPOS)", isCorrect: false },
@@ -79,12 +55,12 @@ const questions = [
     ],
   },
   {
-    text: "Wanne babban Mukami Dan NearHausa Yataba Rikewa?",
+    text: "What language do developers need to know to write smart contracts on the NEAR Protocol?",
     options: [
-      { id: 0, text: "NEARHausa Lead", isCorrect: false },
-      { id: 1, text: "Co-Founder", isCorrect: false },
-      { id: 2, text: "Grant Manager", isCorrect: true },
-      { id: 3, text: "CEO", isCorrect: false },
+      { id: 0, text: "Python", isCorrect: false },
+      { id: 1, text: "C++", isCorrect: false },
+      { id: 2, text: "Rust", isCorrect: true },
+      { id: 3, text: "Java", isCorrect: false },
     ],
   },
 ];
@@ -129,71 +105,37 @@ const H2 = styled.h2`
 let titlegame = props.titlegame || "Near Hausa Quiz";
 
 return (
-  <>
-    <div className="App">
-      {!account ? (
+  <div className="App">
+    <H1>Quiz {titlegame}</H1>
+    <H2>Score: {score}</H2>
+
+    {showResults ? (
+      <div className="final-results">
+        <H1>Final Results</H1>
+        <H2>
+          {score} out of {questions.length} correct - (
+          {(score / questions.length) * 100}%)
+        </H2>
+        <Button onClick={() => restartGame()}>Restart game</Button>
+      </div>
+    ) : (
+      <Question className="question-card">
+        <h2>
+          Question: {currentQuestion + 1} out of {questions.length}
+        </h2>
+        <h3 className="question-text">{questions[currentQuestion].text}</h3>
+
         <div>
-          Mungano cewa kodai baka da wallet na Near ko kuma ba baka shiga wallet
-          din ka ba
-          <a href="https://wallet.near.org/">
-            {" "}
-            <button>Create / Connect Wallet</button>
-          </a>
+          {questions[currentQuestion].options.map((option) => (
+            <Button
+              key={option.id}
+              onClick={() => optionClicked(option.isCorrect)}
+            >
+              {option.text}
+            </Button>
+          ))}
         </div>
-      ) : (
-        <>
-          <H1>{titlegame}</H1>
-          <H2>Maki: {score} </H2>
-
-          {showResults ? (
-            <div className="final-results">
-              <H1>Sakamakon Karshe</H1>
-              <H2>
-                {score} Acikin {questions.length} correct - (
-                {(score / questions.length) * 100}%)
-                {/* for above 80% claim token */}
-                {score >= 4 && !claimed && (
-                  <>
-                    <h3>Muna tayaka murna kaci jarabawa, kasamu 0.002 Near</h3>
-                    <button onClick={claimReward}>
-                      Claim Your NEAR Tokens
-                    </button>
-                  </>
-                )}
-                {/* Display claimed message if user has claimed */}
-                {claimed && <p>NEAR Tokens Claimed!</p>}
-                {score < 4 && !claimed && (
-                  <p className="text-red">
-                    Kasamu maki kasada 4 don haka baka da lada. Sake Gwadawa!
-                  </p>
-                )}
-              </H2>
-
-              <Button onClick={() => restartGame()}>Restart Quiz</Button>
-            </div>
-          ) : (
-            <Question className="question-card">
-              <h2>
-                Tambaya: {currentQuestion + 1} Acikin {questions.length}
-              </h2>
-              <h3 className="question-text">
-                {questions[currentQuestion].text}
-              </h3>
-
-              <div>
-                {questions[currentQuestion].options.map((option) => (
-                  <Button
-                    key={option.id}
-                    onClick={() => optionClicked(option.isCorrect)}
-                  >
-                    {option.text}
-                  </Button>
-                ))}
-              </div>
-            </Question>
-          )}
-        </>
-      )}
-    </div>
-  </>
+      </Question>
+    )}
+  </div>
 );
