@@ -41,12 +41,17 @@ const CTAButton = styled.button`
 const Link = styled.a`
 color: white;
 
+
+&:hover {
+
+}
+
 `;
 
 return (
   <IntroductionSectionWrapper>
     <IntroductionContent>
-      <Title>Welcome to Dispose And Earn</Title>
+      <Title>Welcome to Dispose To Earn</Title>
       <Paragraph>
         Join us in revolutionizing waste management. Dispose and Earn is not
         just a platform; it's a movement towards a cleaner, greener planet.
@@ -57,7 +62,7 @@ return (
       </Paragraph>
       <CTAButton>
         <Link
-          style={{ color: "white" }}
+          style={{ color: "white", textDecoration: "none" }}
           href="https://near.social/yousouf.near/widget/dispose-to-earn"
         >
           Get Started
