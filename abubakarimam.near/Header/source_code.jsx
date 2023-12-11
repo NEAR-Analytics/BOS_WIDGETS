@@ -36,7 +36,7 @@ return (
   <Nav>
     <Logo>
       <img src={logo} width="120px" />
-      <Text>DisposeEarn</Text>
+      <Text>DisposeToEarn</Text>
     </Logo>
 
     <LoginBtn>
