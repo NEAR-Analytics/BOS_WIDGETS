@@ -7,7 +7,14 @@ const bannerImg =
 const sharDogIcon =
   "https://res.cloudinary.com/dfbqtfoxu/image/upload/v1700588115/rafflestore/gift_ebqnkb.svg";
 
-State.init({ fullname: "", email: "" });
+State.init({ fullname: "", email: "", formSubmitted: false });
+
+const notification = () => {
+  if (returnedData) {
+    window.location.href =
+      "https://near.org/zubairweb3.near/widget/rafflestore.post";
+  }
+};
 
 const formData = {
   fullname: state.fullname,
@@ -16,6 +23,10 @@ const formData = {
 
 const accountId = context.accountId;
 const contractId = "mint.sharddog.near";
+
+const returnedData = Social.get(`${accountId}/formData/*`);
+
+console.log(returnedData + "Great");
 
 if (!contractId) {
   return `Missing "contractId"`;
