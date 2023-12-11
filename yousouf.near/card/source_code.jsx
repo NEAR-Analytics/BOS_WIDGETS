@@ -88,7 +88,7 @@ const darkBackground = {
   flexDirection: "column",
   justifyContent: "center",
   alignItems: "center",
-  backgroundColor: "#333",
+  backgroundColor: "rgba(51, 51, 51, 0.5)",
   padding: "20px",
   borderRadius: "10px",
   textAlign: "center",
