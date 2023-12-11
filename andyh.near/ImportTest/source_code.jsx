@@ -14,7 +14,7 @@ return (
     </>
     {/*<Slider range min={100} max={100} />*/}
     <FaBeer />
-    <Widget
+    <Component
       src="andyh.near/ImportTest.Child"
       trust={{ mode: "trusted-author" }}
     />
