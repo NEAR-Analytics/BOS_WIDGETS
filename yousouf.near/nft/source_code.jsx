@@ -94,7 +94,7 @@ const handleMint = () => {
           args: {
             token_id: `${Date.now()}`,
             metadata: {
-              title: "More - " + state.title,
+              title: "Game Gallery - " + state.title,
               description: state.description,
               media: `https://ipfs.io/ipfs/${state.image.cid}`,
               reference: `ipfs://${cid}`,
