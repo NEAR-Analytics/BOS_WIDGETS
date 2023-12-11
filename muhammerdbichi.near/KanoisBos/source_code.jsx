@@ -50,10 +50,13 @@ const Learn = () => (
   <Container className={`not-verified ${small ? "" : "align-items-center"}`}>
     <div className={`${small ? "pb-12" : "py-4"}`}>
       <h4>{title}</h4>
-      <h5 className="text-secondary">NearHausa Quiz</h5>
+      <h2 className="text-red text-center">
+        Barka Da Zuwa Shafin NEARHausa Quiz
+      </h2>
+      <h4 className="text-red text-center">Kazabi Jarabawa da zaka fara</h4>
     </div>
     <PrimaryLink small={small} href="muhammerdbichi.near/widget/NearHausa">
-      Start NearHausa Quiz
+      Kafara NearHausa Quiz
     </PrimaryLink>
   </Container>
 );
