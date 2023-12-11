@@ -1,4 +1,5 @@
-const { currency, selectedTokenAddress, display, chainId, onClick } = props;
+const { currency, selectedTokenAddress, display, account, chainId, onClick } =
+  props;
 const CurrencyRow = styled.div`
   padding: 10px 30px;
   display: flex;
@@ -68,8 +69,6 @@ State.init({
   balance: "0",
 });
 
-const account = Ethers.send("eth_requestAccounts", [])[0];
-
 const utils = {
   balanceFormated: () => {
     if (!account) return "";
@@ -84,21 +83,24 @@ const utils = {
 const isActive = currency.address === selectedTokenAddress;
 return (
   <CurrencyRow className={isActive ? "active" : ""} onClick={onClick}>
-    {display && !state.balanceLoaded && chainId === currency.chainId && (
-      <Widget
-        src="dapdapbos.near/widget/Uniswap.Swap.CurrencyBalance"
-        props={{
-          address: currency.address,
-          chainIdNotSupport: false,
-          onLoad: (balance) => {
-            State.update({
-              balance: ethers.utils.formatUnits(balance, currency.decimals),
-              balanceLoaded: true,
-            });
-          },
-        }}
-      />
-    )}
+    {display &&
+      account &&
+      !state.balanceLoaded &&
+      chainId === currency.chainId && (
+        <Widget
+          src="dapdapbos.near/widget/Uniswap.Swap.CurrencyBalance"
+          props={{
+            address: currency.address,
+            chainIdNotSupport: false,
+            onLoad: (balance) => {
+              State.update({
+                balance: ethers.utils.formatUnits(balance, currency.decimals),
+                balanceLoaded: true,
+              });
+            },
+          }}
+        />
+      )}
     <CurrencyLabel>
       <Widget
         src="dapdapbos.near/widget/Linea.Uniswap.Swap.TokenIcon"
