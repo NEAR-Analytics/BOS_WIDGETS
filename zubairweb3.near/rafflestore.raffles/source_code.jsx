@@ -50,7 +50,7 @@ const data = fetch("https://graph.mintbase.xyz/mainnet", {
           _or: [
             
          
-            {nft_contract_id: {_eq: "comic.sharddog.near"}},
+            {nft_contract_id: {_eq: "comic.sharddog.near"}},  {nft_contract_id: {_eq: "nft.genadrop.near"}}
          
          
            
