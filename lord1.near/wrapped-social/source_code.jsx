@@ -1059,6 +1059,355 @@ group by 1
 order by "date" asc  
 `,
   },
+  {
+    hash: null,
+    firstReqTime: 10,
+    id: 5,
+    queryOption: {
+      sortBy: [
+        {
+          column: "action",
+          direction: "asc",
+        },
+      ],
+    },
+    query: `with 
+users_posts as (
+    select BLOCK_TIMESTAMP, SIGNER_ID as user,
+    POST_TEXT as post, BLOCK_ID as blockHeight, tx_hash
+    from near.social.fact_posts    
+    where BLOCK_TIMESTAMP::date> '2023-01-01'
+
+    ),
+
+users_comments as (
+    select BLOCK_TIMESTAMP, SIGNER_ID as user,
+    TRY_PARSE_JSON(l.value):text as comment, 
+    split(TRY_PARSE_JSON(l.value):item:path,'/')[0] as accountId,
+    TRY_PARSE_JSON(l.value):item:blockHeight as blockHeight, tx_hash
+    from near.social.fact_decoded_actions, 
+    LATERAL FLATTEN(INPUT => NODE_DATA) l
+    where l.key='comment' and comment is not null    
+    and BLOCK_TIMESTAMP::date> '2023-01-01'
+
+    ),
+
+users_repost as (
+    select BLOCK_TIMESTAMP, SIGNER_ID as user,
+    TRY_PARSE_JSON(l.value)[0]:value:type as type, 
+    split(TRY_PARSE_JSON(l.value)[0]:value:item:path,'/')[0] as accountId,
+    TRY_PARSE_JSON(l.value)[0]:value:item:blockHeight as blockHeight, tx_hash
+    from near.social.fact_decoded_actions as a, 
+    LATERAL FLATTEN(INPUT => NODE_DATA) l
+    where l.key='repost'    and BLOCK_TIMESTAMP::date> '2023-01-01'
+
+    ),
+
+users_follow as (
+    with temp_data as (
+        select BLOCK_TIMESTAMP, SIGNER_ID as user, tx_hash, l.value as data
+        from near.social.fact_decoded_actions, 
+        LATERAL FLATTEN(INPUT => NODE_DATA) l
+        where l.key='graph'    
+        and BLOCK_TIMESTAMP::date> '2023-01-01'
+)
+
+    select BLOCK_TIMESTAMP, user,
+    COALESCE(TRY_PARSE_JSON(l.value):type, TRY_PARSE_JSON(l.value):value:type) as type, 
+    COALESCE(TRY_PARSE_JSON(l.value):accountId, TRY_PARSE_JSON(l.value):value:accountId) as accountId, 
+    tx_hash, rank() over (partition by user, accountId order by BLOCK_TIMESTAMP desc) as rank
+    from temp_data, 
+    LATERAL FLATTEN(INPUT => PARSE_JSON(data)) l
+    where lower(type) in ('follow', 'unfollow')),
+
+users_pokes as (
+    select BLOCK_TIMESTAMP, SIGNER_ID as user,
+    TRY_PARSE_JSON(l.value):key as type, 
+    TRY_PARSE_JSON(l.value):value:accountId as accountId, tx_hash
+    from near.social.fact_decoded_actions, 
+    LATERAL FLATTEN(INPUT => NODE_DATA) l
+    where TRY_PARSE_JSON(l.value):key='poke'
+    and BLOCK_TIMESTAMP::date> '2023-01-01'
+
+    ),
+
+users_like as (
+    select BLOCK_TIMESTAMP, SIGNER_ID as user,
+    TRY_PARSE_JSON(l.value):value:type as type, 
+    split(TRY_PARSE_JSON(l.value):key:path,'/')[0] as accountId,
+    TRY_PARSE_JSON(l.value):key:blockHeight as blockHeight, tx_hash,
+    rank() over (partition by user, accountId, blockHeight order by BLOCK_TIMESTAMP desc) as rank
+    from near.social.fact_decoded_actions, 
+    LATERAL FLATTEN(INPUT => NODE_DATA) l
+    where l.key='like' and type in ('like')
+    and BLOCK_TIMESTAMP::date> '2023-01-01'
+
+    ),
+
+
+users_hashtags as (
+    with temp_data as (
+        select BLOCK_TIMESTAMP, SIGNER_ID as user, tx_hash, l.value as data
+        from near.social.fact_decoded_actions, 
+        LATERAL FLATTEN(INPUT => NODE_DATA) l
+        where l.key='hashtag'    
+        and BLOCK_TIMESTAMP::date> '2023-01-01'
+
+        )
+
+    select BLOCK_TIMESTAMP, user,
+    TRY_PARSE_JSON(l.value):key as hashtag, 
+    split(TRY_PARSE_JSON(l.value):value:path,'/')[2] as type,tx_hash
+    from temp_data, 
+    LATERAL FLATTEN(INPUT => PARSE_JSON(data)) l),
+
+users_premium as (
+    select BLOCK_TIMESTAMP, SIGNER_ID as user, DEPOSIT/1e24 as amount, 
+    TO_TIMESTAMP(l.value) as expire_date
+    from(select a.*, b.args as b_args from near.core.fact_actions_events_function_call a 
+        left join near.core.fact_actions_events_function_call b
+        on a.tx_hash=b.tx_hash and b.METHOD_NAME='set'),
+    LATERAL FLATTEN(INPUT => PARSE_JSON(b_args:data:"premium.social.near":badge:premium:accounts)) as l
+    where RECEIVER_ID='premium.social.near' and METHOD_NAME='purchase'
+    and BLOCK_TIMESTAMP::date> '2023-01-01'
+    ),
+
+users_activities as (
+    select distinct BLOCK_TIMESTAMP, SIGNER_ID as user
+    from near.social.fact_addkey_events
+    union 
+    select distinct BLOCK_TIMESTAMP, SIGNER_ID as user
+    from near.social.fact_decoded_actions
+    union 
+    select distinct BLOCK_TIMESTAMP, SIGNER_ID as user
+    from near.social.fact_posts
+    union 
+    select distinct BLOCK_TIMESTAMP, SIGNER_ID as user
+    from near.social.fact_profile_changes
+    union 
+    select distinct BLOCK_TIMESTAMP, SIGNER_ID as user
+    from near.social.fact_widget_deployments),
+
+users_min as (
+    select user, min(BLOCK_TIMESTAMP) as min_date
+    from users_activities
+    group by 1),
+
+posts as (
+    select user, count(*) as posts
+    from users_posts
+    group by 1 
+    ), 
+
+sent_comments as (
+    select user, count(*) as sent_comments
+    from users_comments
+    group by 1 
+    ), 
+
+received_comments as (
+    select accountId, count(*) as received_comments
+    from users_comments
+    group by 1 
+    ), 
+
+sent_reposts as (
+    select user, count(*) as sent_reposts
+    from users_repost
+    group by 1 
+    ), 
+
+received_reposts as (
+    select accountId, count(*) as received_reposts
+    from users_repost
+    group by 1 
+    ),
+
+followings as (
+    select user, count(*) as followings
+    from users_follow
+    where rank=1 and type ilike'follow'
+    group by 1 
+    ), 
+
+followers as (
+    select accountId, count(*) as followers
+    from users_follow
+    where rank=1 and type ilike 'follow'
+    group by 1 
+    ), 
+
+sent_pokes as (
+    select user, count(*) as sent_pokes
+    from users_pokes
+    group by 1 
+    ), 
+
+received_pokes as (
+    select accountId, count(*) as received_pokes
+    from users_pokes
+    group by 1 
+    ),
+
+sent_likes as (
+    select user, count(*) as sent_likes
+    from users_like
+    where rank=1 and type='like'
+    group by 1 
+    ), 
+
+received_likes as (
+    select accountId, count(*) as received_likes
+    from users_like
+    where rank=1 
+    group by 1 
+    ), 
+
+hashtags as (
+    select user, count(distinct hashtag) as hashtags
+    from users_hashtags
+    group by 1 
+    ), 
+
+widgets as (
+    select SIGNER_ID as user, count(distinct TX_HASH) as widgets
+    from near.social.fact_widget_deployments
+    group by 1 
+    ),
+
+users_stats as (
+    select  a.user as user,
+    posts, sent_comments, received_comments, sent_reposts, received_reposts,
+    followings, followers, sent_pokes, received_pokes, sent_likes, received_likes, hashtags,
+    widgets, min_date
+    from users_min a
+    
+    left join users_premium b 
+    on a.user=b.user and expire_date>=current_date
+    
+    left join posts up
+    on a.user=up.user
+    
+    left join sent_comments uc_s
+    on a.user=uc_s.user
+    left join received_comments uc_r
+    on a.user=uc_r.accountId
+    
+    left join sent_reposts ur_s
+    on a.user=ur_s.user
+    left join received_reposts ur_r
+    on a.user=ur_r.accountId
+    
+    left join followings uf_s
+    on a.user=uf_s.user 
+    left join followers uf_r
+    on a.user=uf_r.accountId 
+    
+    left join sent_pokes up_s
+    on a.user=up_s.user 
+    left join received_pokes up_r
+    on a.user=up_r.accountId
+    
+    left join sent_likes ul_s
+    on a.user=ul_s.user
+    left join received_likes ul_r
+    on a.user=ul_r.accountId 
+    
+    left join hashtags uh
+    on a.user=uh.user
+    
+    
+    left join widgets uw
+    on a.user=uw.user)
+
+      select 
+           COALESCE(posts,0) as "action",
+           'posts' as "type"
+      from users_stats
+      where user ='{{singer}}'
+
+union 
+
+      select 
+           COALESCE(received_reposts,0) as "action",
+           'received_reposts' as "type"
+      from users_stats
+      where user ='{{singer}}'
+
+union 
+      
+      select 
+           COALESCE(sent_reposts,0) as "action",
+           'reposts' as "type"
+      from users_stats
+      where user ='{{singer}}'
+
+union 
+
+      select 
+           COALESCE(sent_comments,0) as "action",
+           'comments' as "type"
+      from users_stats
+      where user ='{{singer}}'
+
+union 
+
+      select 
+           COALESCE(received_comments,0) as "action",
+           'Received Comments' as "type"
+      from users_stats
+      where user ='{{singer}}'
+
+union 
+
+      select 
+           COALESCE(sent_likes,0) as "action",
+           'Likes' as "type"
+      from users_stats
+      where user ='{{singer}}'
+
+union 
+
+      select 
+           COALESCE(received_likes,0) as "action",
+           'Received Likes' as "type"
+      from users_stats
+      where user ='{{singer}}'
+
+union 
+
+      select 
+           COALESCE(sent_pokes,0) as "action",
+           'pokes' as "type"
+      from users_stats
+      where user ='{{singer}}'
+
+union 
+
+      select 
+           COALESCE(received_pokes,0) as "action",
+           'Received Pokes' as "type"
+      from users_stats
+      where user ='{{singer}}'
+
+union 
+
+      select 
+           COALESCE(hashtags,0) as "action",
+           'Hashtags' as "type"
+      from users_stats
+      where user ='{{singer}}'
+
+
+union 
+
+      select 
+           COALESCE(widgets,0) as "action",
+           'Widgets' as "type"
+      from users_stats
+      where user ='{{singer}}' 
+`,
+  },
 ];
 
 //---------------------------------------------------------------------------------------------------
