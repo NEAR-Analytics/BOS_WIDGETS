@@ -6,6 +6,7 @@ return (
       <h1>Hello {props.name}</h1>
 
       <p> {greeting} </p>
+      <p>Yoyo</p>
     </div>
   </>
 );
