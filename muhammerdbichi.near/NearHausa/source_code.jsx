@@ -13,6 +13,7 @@ const Button = styled.button`
   }
 `;
 
+const account = context.accountId;
 const [score, setScore] = useState(0);
 const [currentQuestion, setCurrentQuestion] = useState(0);
 const [showResults, setShowResults] = useState(false);
@@ -42,12 +43,12 @@ const questions = [
     ],
   },
   {
-    text: "Which technology is the NEAR Protocol built upon?",
+    text: "When is NearHuasa Community Stard?",
     options: [
-      { id: 0, text: "Proof of Work", isCorrect: false },
-      { id: 1, text: "Proof of Stake", isCorrect: true },
-      { id: 2, text: "Delegated Proof of Stake", isCorrect: false },
-      { id: 3, text: "Proof of Authority", isCorrect: false },
+      { id: 0, text: "2023", isCorrect: false },
+      { id: 1, text: "2022", isCorrect: true },
+      { id: 2, text: "2021", isCorrect: false },
+      { id: 3, text: "2o22", isCorrect: false },
     ],
   },
   {
@@ -60,9 +61,9 @@ const questions = [
     ],
   },
   {
-    text: "What language do developers need to know to write smart contracts on the NEAR Protocol?",
+    text: "Wanne babban Mukami A Dan NearHausa Yataba Rikewa?",
     options: [
-      { id: 0, text: "Python", isCorrect: false },
+      { id: 0, text: "", isCorrect: false },
       { id: 1, text: "C++", isCorrect: false },
       { id: 2, text: "Rust", isCorrect: true },
       { id: 3, text: "Java", isCorrect: false },
@@ -110,37 +111,47 @@ const H2 = styled.h2`
 let titlegame = props.titlegame || "Near Hausa Quiz";
 
 return (
-  <div className="App">
-    <H1>Quiz {titlegame}</H1>
-    <H2>Score: {score}</H2>
+  <>
+    <div className="App">
+      {!account ? (
+        <button>create account</button>
+      ) : (
+        <>
+          <H1>Quiz {titlegame}</H1>
+          <H2>Score: {score}</H2>
 
-    {showResults ? (
-      <div className="final-results">
-        <H1>Final Results</H1>
-        <H2>
-          {score} out of {questions.length} correct - (
-          {(score / questions.length) * 100}%)
-        </H2>
-        <Button onClick={() => restartGame()}>Restart game</Button>
-      </div>
-    ) : (
-      <Question className="question-card">
-        <h2>
-          Question: {currentQuestion + 1} out of {questions.length}
-        </h2>
-        <h3 className="question-text">{questions[currentQuestion].text}</h3>
+          {showResults ? (
+            <div className="final-results">
+              <H1>Final Results</H1>
+              <H2>
+                {score} out of {questions.length} correct - (
+                {(score / questions.length) * 100}%)
+              </H2>
+              <Button onClick={() => restartGame()}>Restart game</Button>
+            </div>
+          ) : (
+            <Question className="question-card">
+              <h2>
+                Question: {currentQuestion + 1} out of {questions.length}
+              </h2>
+              <h3 className="question-text">
+                {questions[currentQuestion].text}
+              </h3>
 
-        <div>
-          {questions[currentQuestion].options.map((option) => (
-            <Button
-              key={option.id}
-              onClick={() => optionClicked(option.isCorrect)}
-            >
-              {option.text}
-            </Button>
-          ))}
-        </div>
-      </Question>
-    )}
-  </div>
+              <div>
+                {questions[currentQuestion].options.map((option) => (
+                  <Button
+                    key={option.id}
+                    onClick={() => optionClicked(option.isCorrect)}
+                  >
+                    {option.text}
+                  </Button>
+                ))}
+              </div>
+            </Question>
+          )}
+        </>
+      )}
+    </div>
+  </>
 );
