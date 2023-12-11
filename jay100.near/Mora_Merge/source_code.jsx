@@ -33,6 +33,7 @@ let circleOptions = [];
 let droppedCircles = [];
 let groundY;
 let hoveredCircle = null;
+let gameStarted = false;
 const sizes = [10, 20, 40];
 let gameScore = 0;
 let canDropCircle = true;
@@ -40,6 +41,7 @@ let allCircles = [];
 let timer = 60;
 let timerInterval;
 let backgroundImage; // Declare a variable to hold the image
+let bestScore = 0;
 // https://cryptologos.cc/logos/near-protocol-near-logo.png
 
 let imgArr = ['https://upload.wikimedia.org/wikipedia/en/d/d0/Dogecoin_Logo.png','https://cdn.iconscout.com/icon/free/png-256/free-ethereum-8-645838.png','https://coinpush.app/wp-content/uploads/2023/03/bitcoin-png-1.png']
@@ -55,6 +57,15 @@ function preload() {
     }
 }
 
+function resetGame() {
+    timer = 60;
+    gameScore = 0;
+    canDropCircle = true;
+    allCircles = [];
+    droppedCircles = [];
+    gameStarted = false;
+}
+
 function setup() {
     createCanvas(350, windowHeight * 0.95);
     groundY = height - 5; // Ground position
@@ -63,8 +74,12 @@ function setup() {
             timer--;
         } else {
             // If the timer reaches 0, stop the timer and prevent circle dropping
+            if(gameScore > bestScore){
+                bestScore = gameScore;
+            }
             clearInterval(timerInterval);
             canDropCircle = false;
+            resetGame();
         }
     }, 1000); // Update the timer every second (1000 milliseconds)
 }
@@ -74,13 +89,20 @@ function draw() {
 
     textFont("VT323");
 
+    if(!gameStarted){
+        textSize(32);
+        textAlign(CENTER, CENTER);
+        text("Click to Start", width / 2, height / 2);
+        text("Best Score: " + bestScore, width / 2, height / 3);
+    } else {
+
     textSize(30);
     fill(0);
-    text("Time: " + timer, 250, 20);
+    text("Time: " + timer, 300, 20);
 
     textSize(30);
     fill(0, 0, 0);
-    text("Score: " + gameScore, 20, 20);
+    text("Score: " + gameScore, 60, 20);
 
     if (hoveredCircle) {
         hoveredCircle.x = mouseX;
@@ -97,9 +119,36 @@ function draw() {
             droppedCircles[i].checkCircleCollision(droppedCircles[j]);
         }
     }
+    }
+ 
 }
 
 function mouseClicked() {
+     if (!gameStarted) {
+        // Transition to the game screen upon clicking
+        gameStarted = true;
+        timer = 60; // Reset the timer when the game starts
+        canDropCircle = true; // Reset circle dropping ability
+        droppedCircles = []; // Clear dropped circles
+
+          clearInterval(timerInterval);
+
+        // Start a new timer interval
+        timerInterval = setInterval(() => {
+            if (timer > 0) {
+                timer--;
+            } else {
+                // If the timer reaches 0, stop the timer and prevent circle dropping
+                if(gameScore > bestScore){
+                    bestScore = gameScore;
+                }
+                clearInterval(timerInterval);
+                canDropCircle = false;
+                resetGame();
+            }
+        }, 1000); 
+    }
+
     if (canDropCircle && timer > 0) {
 
         if (!hoveredCircle) {
