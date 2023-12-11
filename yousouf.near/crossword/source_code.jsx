@@ -145,7 +145,7 @@ const containerStyles = {
   alignItems: "center",
   justifyContent: "center",
   minHeight: "100vh",
-  backgroundColor: "#333",
+  backgroundColor: "rgba(51, 51, 51, 0.5)",
   color: "#fff",
 };
 
