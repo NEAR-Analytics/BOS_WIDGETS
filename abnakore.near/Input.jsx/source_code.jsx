@@ -6,9 +6,9 @@ return (
         className="input"
         type={props.type}
         placeholder=""
-        required={required}
+        required={props.required}
       />
-      <span>{placeholder}</span>
+      <span>{props.placeholder}</span>
     </label>
     {/* </div> */}
   </>
