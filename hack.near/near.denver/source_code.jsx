@@ -6,7 +6,7 @@ return (
       src="hack.near/widget/multi.page"
       props={{
         accountId,
-        communityId: "buidl.near",
+        daoId: "buidl.near",
         h1: "ETHDenver",
         h2: "Builder House",
         tagline: "February 25 - March 4, 2024",
