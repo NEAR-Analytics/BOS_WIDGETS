@@ -223,7 +223,6 @@ return (
       >
         Reset Points
       </button>
-      {playerScore >= 5 ? <Widget src={`yousouf.near/widget/nft`} /> : ""}
     </div>
   </div>
 );
