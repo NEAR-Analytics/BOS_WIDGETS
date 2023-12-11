@@ -167,7 +167,7 @@ return (
             className="square"
             onClick={() => handleClick(index)}
             style={{
-              backgroundColor: isGameOver ? "#8eff8e" : "#666",
+              backgroundColor: isGameOver ? "#8eff8e" : "rgba(51, 51, 51, 0.5)",
               border: "1px solid #ccc",
               fontSize: "24px",
               fontWeight: "bold",
