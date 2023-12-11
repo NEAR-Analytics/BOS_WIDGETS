@@ -1,6 +1,6 @@
 const API_KEY = "e79c2e9b-116c-4d8a-9617-5e2471e4deaa";
 const themeColor = props.themeColor;
-const singer = props.singer || "chloe.near";
+const singer = props.singer;
 const interval = props.interval || "week";
 const queries = [
   {
