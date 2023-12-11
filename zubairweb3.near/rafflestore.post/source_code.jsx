@@ -61,7 +61,7 @@ return (
       <StyledImage src={Image2} alt="raffle pics" />
     </ImageGroup>
     <p>
-      Thanks for entering the raffle! Winners will be emailed on Nov.1 11:59pm
+      Thanks for entering the raffle! Winners will be emailed on Dec. 15 11:59pm
     </p>
     <ShareBtn>
       <span>Share on twitter</span>
