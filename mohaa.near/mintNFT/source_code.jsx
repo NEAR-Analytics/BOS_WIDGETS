@@ -1,124 +1,58 @@
+const nearContract = "nft.harmonic1.near";
 let accountId = context.accountId;
-/**
- * add better default cid, add receiver validation for near address
- */
-// if (!accountId) {
-//   return "Please sign in with NEAR wallet";
-// }
-let cid =
-  props.cid ?? "bafkreibmc23xhip63mxv2mulb7xko5htpiqszrch4fo3optszuctjtlrau";
-let image = props.image;
-const mintButton = props.mintButton ?? "Mint";
-const showDetails = props.showDetails ?? true;
-const title = props.title ?? "Example title";
-const receiver = props.receiver ?? "mohaa.near";
-
-if (image) {
-  cid = image.cid;
-  console.log("Image CID: " + cid);
-}
-
-let description = props.description ?? "Proof of Vibes powered by Mohaa";
-const profile = socialGetr(`${accountId}/profile`);
-
-if (profile === null) {
-  IpfsImageUpload();
-  return "Loading";
-}
-State.init({
-  cid: cid,
-  description: description,
-  title: title,
-  image: image,
-  receiver: receiver,
-  //   image: "",
-});
 
 const handleMint = () => {
-  if (!state.image.cid) {
+  console.log("it's here", state.title && state.description && state.image.cid);
+  if (!(state.title && state.description && state.image.cid)) {
+    console.log("not working");
     return;
   }
-  if (!accountId) {
-    console.log("Please login"); // add share dogvwallet
-    State.update({
-      showAlert: true,
-      toastMessage: "Please log in before continuing",
-    });
-    setTimeout(() => {
-      State.update({
-        showAlert: false,
-      });
-    }, 3000);
-  } else if (!state.title) {
-    console.log("Please Enter title");
-    State.update({
-      showAlert: true,
-      toastMessage: "Please enter a title for the NFT",
-    });
-
-    setTimeout(() => {
-      State.update({
-        showAlert: false,
-      });
-    }, 3000);
-  } else if (!state.description) {
-    State.update({
-      showAlert: true,
-      toastMessage: "Please enter a description for the NFT",
-    });
-    setTimeout(() => {
-      State.update({
-        showAlert: false,
-      });
-    }, 3000);
-  } else {
-    const metadata = {
-      name: state.title,
-      description: state.description,
-      properties: [],
-      image: `ipfs://${state.image.cid}`,
-    };
-    console.log("come", metadata);
-    asyncFetch("https://ipfs.near.social/add", {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-      },
-      body: metadata,
-    }).then((res) => {
-      console.log("GO ON SOUN", res);
-      const cid = res.body.cid;
-      const gas = 200000000000000;
-      const deposit = 10000000000000000000000;
-      console.log("State Image CID: " + state.image.cid);
-      console.log("Reference CID: " + cid);
-      Near.call([
-        {
-          contractName: "nft.mohaa.near",
-          methodName: "nft_mint",
-          args: {
-            token_id: `${Date.now()}`,
-            metadata: {
-              title: state.title,
-              description: state.description,
-              media: `https://ipfs.io/ipfs/${state.image.cid}`,
-              reference: `ipfs://${cid}`,
-            },
-            receiver_id: state.receiver,
+  //if (state.selectedChain == "0") {
+  const gas = 200000000000000;
+  const deposit = 10000000000000000000000;
+  const metadata = {
+    name: state.title,
+    description: state.description,
+    properties: [],
+    image: `ipfs://${state.image.cid}`,
+  };
+  asyncFetch("https://ipfs.near.social/add", {
+    method: "POST",
+    headers: {
+      Accept: "application/json",
+    },
+    body: metadata,
+  }).then((res) => {
+    const cid = res.body.cid;
+    const Id = Math.floor(Math.random() * (9999999 - 100000 + 1) + 100000);
+    console.log("in the promise", res, Id);
+    Near.call([
+      {
+        contractName: nearContract,
+        methodName: "nft_mint",
+        args: {
+          token_id: `${Date.now()}`,
+          token_metadata: {
+            title: state.title,
+            description: state.description,
+            media: `https://ipfs.io/ipfs/${state.image.cid}`,
+            reference: `ipfs://${cid}`,
           },
-          gas: gas,
-          deposit: deposit,
+          receiver_id: accountId,
         },
-      ]);
-    });
-  }
+        gas: gas,
+        deposit: deposit,
+      },
+    ]);
+  });
+  return;
+  //}
+  console.log("passed checks");
 };
 
-initState({
+State.init({
   title: "",
   description: "",
-  showAlert: false,
-  toastMessage: "",
 });
 
 const onChangeTitle = (title) => {
@@ -126,213 +60,134 @@ const onChangeTitle = (title) => {
     title,
   });
 };
-const onChangeReceiver = (receiver) => {
-  State.update({
-    receiver,
-  });
-};
 
 const onChangeDesc = (description) => {
+  console.log("Log critcal critics:", state.selectedChain, state.title);
   State.update({
     description,
   });
 };
 
-if (!accountId) {
-  console.log("Please login");
-  State.update({
-    showAlert: true,
-    toastMessage: "Please log in before continuing",
-  });
-}
+const containerStyle = {
+  maxWidth: "500px",
+  margin: "0 auto",
+  padding: "2rem",
+  backgroundColor: "#f5f5f5",
+  borderRadius: "0.5rem",
+};
 
-const ImageUploadCard = styled.div`
-display:flex;
-flex-flow: column nowrap;
-align-items: center;
-  width:80%;
-  border: 2px dashed #0d99ff;
-  border-radius: 1rem;
-  box-shadow: 4px 4px 20px 6px rgba(0,0,0,.2);
-  margin:30px auto;
-  padding:1.5rem;
-  text-align: center;
-`;
-const Main = styled.div`
-position:relative;
-  font-family: "SF Pro Display",sans-serif;
-`;
+const headerStyle = {
+  fontSize: "2rem",
+  marginBottom: "1rem",
+  color: "black",
+  fontWeight: "bold",
+};
 
-const Heading = styled.p`
-  margin: 10px auto 10px auto;
-  font-size: 1em;
-  color:#0f1d40;
-  width:60%;
-  text-align: center;
-  font-family: "SF Pro Display",sans-serif;
-`;
+const formFieldStyle = {
+  marginBottom: "1rem",
+};
 
-const Toast = styled.div`
-  position: absolute;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  align-conten: center;
-  bottom: 60px;
-  right: 20px;
-  background-color: red;
-  color: #fff;
-  padding: 16px;
-  border-radius: 8px;
-  z-index: 100;
-  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
-  line-height:1;
-`;
+const labelStyle = {
+  display: "block",
+  fontWeight: "bold",
+  marginBottom: "0.5rem",
+};
 
-const Elipse = styled.div`
-background-color:#eff3f9;
-height: 100px;
-width: 100px;
-border-radius: 50%;
-`;
+const inputStyle = {
+  width: "100%",
+  padding: "0.5rem",
+  border: "1px solid #ccc",
+  borderRadius: "0.3rem",
+  fontSize: "1rem",
+};
 
-const Text = styled.p`
-font-size: .9rem;
-color: #525c76;
-line-height:1.rem;
-margin: 3px;
-`;
-
-const Card = styled.div`
-padding: 1em;
-border: 1px solid #e5e8eb;
-gap: 2em;
-margin: 10px auto;
-border-radius: .7em;
-`;
-
-const ImageCard = styled.div`
-  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
-  height:fit-content;
-  max-height:500px;
-  width: 90%;
-  max-width: 500px;
-  border-radius: 1rem;
-  &>img{
-  object-fit: contain;
-  }
-`;
-
-const Input = styled.input`
-  display: block;
-  padding:.5em;
-  width:100%;
-  border: 1px solid #e5e8eb;
-  border-radius: 10px;
-  outline: none;
-  background: #f4f5f6;
-  color: #525c76;
-  :focus{
-    border:1px solid #0d99ff;
-  }
-  ::placeholder {
-    color: palevioletred;
-  }
-`;
-
-const TextArea = styled.textarea`
-  display: block;
-  padding:.5em;
-  width:100%;
-  border: 1px solid #e5e8eb;
-  border-radius: 10px;
-  outline: none;
-  background: #f4f5f6;
-  color: #525c76;
-  :focus{
-    border:1px solid #0d99ff;
-  }
-`;
 const previewContainerStyle = {
   marginTop: "1.5rem",
 };
+
 const previewImageStyle = {
   maxWidth: "100%",
   height: "auto",
   marginTop: "0.5rem",
 };
-// state.image.cid
+
+const buttonStyle = {
+  display: "inline-block",
+  padding: "0.5rem 1rem",
+  fontSize: "1rem",
+  textAlign: "center",
+  textDecoration: "none",
+  cursor: "pointer",
+  borderRadius: "0.3rem",
+};
+
+const primaryButtonStyle = {
+  ...buttonStyle,
+  backgroundColor: "#4472c4",
+  color: "#fff",
+  border: "none",
+};
+
+const secondaryButtonStyle = {
+  ...buttonStyle,
+  backgroundColor: "transparent",
+  color: "#6c757d",
+  border: "1px solid #6c757d",
+};
+
 return (
-  <Main className="container-fluid">
-    <div>
-      <Card className="d-flex flex-column align-items-center">
-        {!!state.image.cid ?? (
-          <ImageCard>
-            <img
-              src={`https://ipfs.io/ipfs/` + state.image.cid}
-              alt="uploaded image"
-              width="100%"
-              height="100%"
-              className="rounded-3"
-            />
-          </ImageCard>
-        )}
-        <div>
-          <IpfsImageUpload
-            image={state.image}
-            className="btn btn-outline-primary border-0 rounded-3"
-          />
-
-          {state.image.cid && (
-            <div style={previewContainerStyle}>
-              <h5>Preview</h5>
-              <img
-                src={`https://ipfs.io/ipfs/${state.image.cid}`}
-                alt="Preview"
-                style={previewImageStyle}
-              />
-            </div>
-          )}
-        </div>
-      </Card>
-      {showDetails && (
-        <Card>
-          <h5>NFT Details</h5>
-          <Card>
-            Title:
-            <Input
-              type="text"
-              onChange={(e) => onChangeTitle(e.target.value)}
-              placeholder={state.title}
-            />
-          </Card>
-          <Card>
-            Description:
-            <TextArea
-              type="text"
-              onChange={(e) => onChangeDesc(e.target.value)}
-              placeholder={state.description}
-            />
-          </Card>
-          <Card>
-            Receiver:
-            <Input
-              type="text"
-              onChange={(e) => onChangeReceiver(e.target.value)}
-              placeholder={state.receiver}
-            />
-          </Card>
-        </Card>
-      )}
-      <div className="d-flex justify-content-center mb-2">
-        <button type="button" className="btn btn-primary" onClick={handleMint}>
-          {mintButton}
-        </button>
-      </div>
+  <div style={containerStyle}>
+    <div style={headerStyle}>Mint an NFT on Harmonic</div>
+    <div style={formFieldStyle}>
+      <label style={labelStyle} htmlFor="title">
+        Title
+      </label>
+      <input
+        type="text"
+        id="title"
+        value={title}
+        onChange={(e) => onChangeTitle(e.target.value)}
+        style={inputStyle}
+      />
     </div>
-
-    {state.showAlert && (
-      <Widget src="jgodwill.near/widget/genalert" props={state} />
+    <div style={formFieldStyle}>
+      <label style={labelStyle} htmlFor="description">
+        Description
+      </label>
+      <input
+        type="text"
+        id="description"
+        value={description}
+        onChange={(e) => onChangeDesc(e.target.value)}
+        style={inputStyle}
+      />
+    </div>
+    <div style={formFieldStyle}>
+      <IpfsImageUpload
+        image={state.image}
+        className="my-2 btn btn-outline-secondary border-1 rounded-3"
+        onImageChange={setImage}
+      />
+    </div>
+    {state.image.cid && (
+      <div style={previewContainerStyle}>
+        <h5>Preview</h5>
+        <img
+          src={`https://ipfs.io/ipfs/${state.image.cid}`}
+          alt="Preview"
+          style={previewImageStyle}
+        />
+      </div>
     )}
-  </Main>
+    <div style={formFieldStyle}>
+      <button
+        type="button"
+        className="btn btn-primary my-1 px-4"
+        onClick={handleMint}
+        style={primaryButtonStyle}
+      >
+        Mint
+      </button>
+    </div>
+  </div>
 );
