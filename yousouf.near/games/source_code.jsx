@@ -119,7 +119,7 @@ const GameButton = styled.button`
   background-color: #333;
   color: #ffe;
   border: none;
-  padding: 10px 20px;
+  padding: 10px 8px;
   font-size: 15px;
   cursor: pointer;
   border-radius: 8px;
