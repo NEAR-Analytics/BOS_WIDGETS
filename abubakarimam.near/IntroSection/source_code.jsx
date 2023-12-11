@@ -1,4 +1,4 @@
-const IntroductionSectionWrapper = styled.section`
+const IntroductionSectionWrapper = styled.div`
   background-color: #f8f8f8;
   padding: 50px 0;
   text-align: center;
@@ -12,6 +12,7 @@ const IntroductionContent = styled.div`
 const Title = styled.h1`
   font-size: 2.5em;
   margin-bottom: 20px;
+  color: #4caf50;
 `;
 
 const Paragraph = styled.p`
@@ -37,10 +38,10 @@ const CTAButton = styled.button`
 return (
   <IntroductionSectionWrapper>
     <IntroductionContent>
-      <Title>Welcome to EcoChain Dispose</Title>
+      <Title>Welcome to DisposeEarn</Title>
       <Paragraph>
-        Join us in revolutionizing waste management. EcoChain Dispose is not
-        just a platform; it's a movement towards a cleaner, greener planet.
+        Join us in revolutionizing waste management. DisposeEarn is not just a
+        platform; it's a movement towards a cleaner, greener planet.
       </Paragraph>
       <Paragraph>
         Contribute to our mission by responsibly disposing of waste, earning
