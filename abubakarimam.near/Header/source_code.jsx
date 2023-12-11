@@ -2,8 +2,10 @@ const Nav = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin: 0 1rem 3rem 1rem;
+  margin: 0 1rem 1.5rem 1rem;
   padding: 8px 0;
+   @media and (max-width: 768px){
+  margin: 0;
 `;
 
 const LoginBtn = styled.button`
@@ -23,6 +25,8 @@ const Logo = styled.div`
 `;
 const Text = styled.h4`
 color: #4caf50;
+@media (max-width: 768px){
+  display: none;
 `;
 
 const logo =
