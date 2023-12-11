@@ -53,8 +53,8 @@ return (
     <IntroductionContent>
       <Title>Welcome to Dispose To Earn</Title>
       <Paragraph>
-        Join us in revolutionizing waste management. Dispose and Earn is not
-        just a platform; it's a movement towards a cleaner, greener planet.
+        Join us in revolutionizing waste management. Dispose To Earn is not just
+        a platform; it's a movement towards a cleaner, greener planet.
       </Paragraph>
       <Paragraph>
         Contribute to our mission by responsibly disposing of waste, earning
