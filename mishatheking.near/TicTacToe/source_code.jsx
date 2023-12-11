@@ -90,7 +90,7 @@ return (
             <span style={{ color: "#6195c9" }}>or you'll be O for effort.</span>
           </p>
           <a
-            href="https://near.org/yousouf.near/widget/ear.otg"
+            href="https://near.org/mishatheking.near/widget/tictactoe-game"
             class="btn btn-primary text-center"
           >
             I KNOW YOU WANNA,
