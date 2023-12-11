@@ -389,7 +389,12 @@ const updateResultState = ({ data, error, isLoading, queryRunId, id }) => {
         error: [...state.error, queryError],
       };
     } else {
-      Storage.set(`${searchedSinger}-${searchedInterval}-${id}`, queryRunId);
+      if (data) {
+        Storage.set(
+          `${state.searchedSinger}-${state.searchedInterval}-${id}`,
+          queryRunId
+        );
+      }
       return {
         ...state,
         result: { ...newResult },
@@ -415,7 +420,7 @@ const runqueries = (queries) => {
   );
   const loader = queriesArr.map((q) => {
     const queryRunId = Storage.get(
-      `${searchedSinger}-${searchedInterval}-${q.id}`
+      `${state.searchedSinger}-${state.searchedInterval}-${q.id}`
     );
     const props = {
       apiKey: API_KEY,
