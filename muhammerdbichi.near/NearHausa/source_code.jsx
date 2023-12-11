@@ -17,12 +17,26 @@ const account = context.accountId;
 const [score, setScore] = useState(0);
 const [currentQuestion, setCurrentQuestion] = useState(0);
 const [showResults, setShowResults] = useState(false);
-if (
-  Social.keys(`${context.accountId}.near/graph/follow/muhammerdbichi.near`) ===
-  true
-) {
-  questions = true;
-}
+const [claimed, setClaimed] = useState(false);
+
+const congratulateUser = () => {
+  if ((score / questions.length) * 100 > 80) {
+    // User scored more than 80%, reward with 0.002 near token
+    alert(
+      "Congratulations! You scored more than 80%! You have been rewarded with 0.002 NEAR tokens."
+    );
+    setClaimed(true);
+  } else {
+    alert("Keep trying! You need to score more than 80% to claim NEAR tokens.");
+  }
+};
+
+const claimReward = () => {
+  if (score >= 4) {
+    setClaimed(true);
+  }
+};
+
 const questions = [
   {
     text: "Why is NearHausa?",
@@ -121,7 +135,7 @@ return (
       ) : (
         <>
           <H1>Quiz {titlegame}</H1>
-          <H2>Score: {score}</H2>
+          <H2>Score: {score} </H2>
 
           {showResults ? (
             <div className="final-results">
@@ -129,8 +143,20 @@ return (
               <H2>
                 {score} out of {questions.length} correct - (
                 {(score / questions.length) * 100}%)
+                {/* for above 80% claim token */}
+                {score > 80 && !claimed && (
+                  <button onClick={claimReward}>Claim NEAR Tokens</button>
+                )}
+                {/* Display claimed message if user has claimed */}
+                {claimed && <p>NEAR Tokens Claimed!</p>}
               </H2>
+
               <Button onClick={() => restartGame()}>Restart game</Button>
+              {claimed ? (
+                <button>claimed</button>
+              ) : (
+                <button onClick={() => claimReward()}> Claim Reward</button>
+              )}
             </div>
           ) : (
             <Question className="question-card">
