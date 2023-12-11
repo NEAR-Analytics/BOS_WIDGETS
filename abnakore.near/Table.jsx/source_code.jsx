@@ -1,3 +1,30 @@
+const Wrapper = styled.div`
+table {
+  border-collapse: collapse;
+  max-width: 800px;
+  margin: 20px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  border-radius: 10px;
+  background-color: #333;
+}
+table th, table td {
+  padding: 15px;
+  text-align: left;
+}
+table th {
+  background-color: #6c64ff;
+  color: #fff;
+}
+table tr:nth-child(even) {
+  background-color: #4c4c4c;
+}
+table tr:hover {
+  background-color: #252525;
+}
+
+`;
+
 const [checked, setChecked] = useState([1]);
 
 function tuggle(e) {
@@ -13,24 +40,26 @@ function tuggle(e) {
 }
 
 return (
-  <table>
-    <thead>
-      <tr>
-        {props.headings.map((head) => (
-          <th key={head}>{head}</th>
-        ))}
-      </tr>
-    </thead>
-    <tbody>
-      {props.data.map((cand) => (
-        <tr key={cand[0]}>
-          {cand.map((d) => (
-            <td key={d}>{d}</td>
+  <Wrapper>
+    <table>
+      <thead>
+        <tr>
+          {props.headings.map((head) => (
+            <th key={head}>{head}</th>
           ))}
         </tr>
-      ))}
-    </tbody>
-  </table>
+      </thead>
+      <tbody>
+        {props.data.map((cand) => (
+          <tr key={cand[0]}>
+            {cand.map((d) => (
+              <td key={d}>{d}</td>
+            ))}
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </Wrapper>
 );
 
 // {props.select ? <th></th> : null}
