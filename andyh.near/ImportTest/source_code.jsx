@@ -7,16 +7,8 @@ import { FaBeer } from "react-icons/fa";
 console.log("imported!");
 
 return (
-  <div>
-    <>
-      <span>Hello</span>
-      <span>World</span>
-    </>
-    {/*<Slider range min={100} max={100} />*/}
-    <FaBeer />
-    <Widget
-      src="andyh.near/ImportTest.Child"
-      trust={{ mode: "trusted-author" }}
-    />
-  </div>
+  <Widget
+    src="andyh.near/ImportTest.Child"
+    trust={{ mode: "trusted-author" }}
+  />
 );
