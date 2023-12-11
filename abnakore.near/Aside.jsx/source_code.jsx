@@ -2,7 +2,7 @@ return (
   <div>
     <div id="tabs">
       {/* Render the objs as links */}
-      {objs.map((obj) => (
+      {props.objs.map((obj) => (
         <Link
           key={obj.link}
           to={obj.link}
