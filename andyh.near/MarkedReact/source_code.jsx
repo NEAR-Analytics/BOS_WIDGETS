@@ -1,4 +1,4 @@
-import Markdown from "marked-react@2.0.0";
+import Markdown from "marked-react";
 return (
   <div>
     <Markdown># I'm not even supposed to be here</Markdown>
