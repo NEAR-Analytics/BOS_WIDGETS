@@ -114,7 +114,10 @@ return (
   <>
     <div className="App">
       {!account ? (
-        <button>create account</button>
+        <a href="https://wallet.near.org/">
+          {" "}
+          <button>create account</button>
+        </a>
       ) : (
         <>
           <H1>Quiz {titlegame}</H1>
