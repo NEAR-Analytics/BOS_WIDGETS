@@ -9,13 +9,6 @@ const sharDogIcon =
 
 State.init({ fullname: "", email: "", formSubmitted: false });
 
-const notification = () => {
-  if (returnedData) {
-    window.location.href =
-      "https://near.org/zubairweb3.near/widget/rafflestore.post";
-  }
-};
-
 const formData = {
   fullname: state.fullname,
   email: state.email,
