@@ -28,19 +28,30 @@ label .input {
   font-size: 0.9em;
 }
 `;
+const itemIndex = props.item;
+
+function updateText(e) {
+  props.setItem({
+    ...props.items,
+    itemIndex: e.target.value,
+  });
+}
 
 return (
-  <Wrapper>
-    {/* <div className="input-field"> */}
-    <label>
-      <input
-        className="input"
-        type={props.type}
-        placeholder=""
-        required={props.required}
-      />
-      <span>{props.placeholder}</span>
-    </label>
-    {/* </div> */}
-  </Wrapper>
+  <Widget
+    src="abnakore.near/widget/Wrapper.jsx"
+    props={{
+      body: (
+        <label>
+          <input
+            className="input"
+            type={props.type}
+            placeholder=""
+            required={props.required}
+          />
+          <span>{props.placeholder}</span>
+        </label>
+      ),
+    }}
+  />
 );
