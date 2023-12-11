@@ -1,5 +1,5 @@
 import { FaBeer } from "react-icons/fa";
-import { AiOutlineDeploymentUnit } from "react-icons/ai";
+import { AiOutlineDeploymentUnit } from "https://esm.sh/react-icons@4.10.0/ai?alias=react:preact/compat&deps=preact@10.17.1";
 
 // import Slider from "rc-slider@10.5.0";
 // import * as zzz from "rc-slider@10.5.0/";
