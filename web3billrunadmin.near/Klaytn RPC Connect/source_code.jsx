@@ -1,1 +1,1 @@
-return <p>Klaytn RPC Connect</p>
+return <p>Klaytn RPC Connect</p>;
