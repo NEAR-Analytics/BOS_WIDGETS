@@ -1,5 +1,5 @@
 const FooterWrapper = styled.div`
-  background-color: #333;
+  background-color: #4caf50;
   color: white;
   padding: 20px 0;
   text-align: center;
@@ -54,6 +54,6 @@ return (
         />
       </LogoLink>
     </LogoContainer>
-    <p>&copy; 2023 Your Company Name. All rights reserved.</p>
+    <p>&copy; DisposeEarn. All rights reserved.</p>
   </FooterWrapper>
 );
