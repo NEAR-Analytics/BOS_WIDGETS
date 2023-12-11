@@ -13,7 +13,7 @@ const Text = styled.p`
   line-height: ${(p) => p.lineHeight ?? "1.5"};
   font-weight: ${(p) => p.weight ?? "400"};
   color: ${(p) => p.color ?? "#000"};
-  margin: 0;
+  margin-bottom: 23px;
   max-width: 670px;
 
   @media (max-width: 768px) {
@@ -26,16 +26,8 @@ return (
     <div className="m-2">
       <div className="tab-content">
         <Text>
-          <h3>People</h3>
+          <h3>Participants</h3>
         </Text>
-        {accountId && (
-          <div className="mt-3 mb-5">
-            <Widget
-              src="hack.near/widget/dao.subscribe"
-              props={{ accountId, daoId }}
-            />
-          </div>
-        )}
         <div className="tab-pane fade in show active" role="tabpanel">
           <Widget
             src="near/widget/FollowersList"
