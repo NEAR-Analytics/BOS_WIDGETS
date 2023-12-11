@@ -135,7 +135,7 @@ return (
     >
       <div
         style={{
-          backgroundColor: isGameOver ? "#8eff8e" : "#444",
+          backgroundColor: isGameOver ? "#8eff8e" : "rgba(51, 51, 51, 0.5)",
           border: "1px solid #ccc",
           borderRadius: "8px",
           boxShadow: "0px 0px 10px 0px rgba(0, 0, 0, 0.2)",
