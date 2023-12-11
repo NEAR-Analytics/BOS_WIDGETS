@@ -12,6 +12,7 @@ const HowItWorksContent = styled.div`
 const Title = styled.h2`
   font-size: 2.5em;
   margin-bottom: 20px;
+  color: #4caf50;
 `;
 
 const Step = styled.div`
@@ -21,6 +22,7 @@ const Step = styled.div`
 const StepTitle = styled.h3`
   font-size: 1.8em;
   margin-bottom: 10px;
+  color: #4caf50;
 `;
 
 const StepDescription = styled.p`
