@@ -283,7 +283,7 @@ return (
                   <span
                     role="img"
                     aria-label="Tic-Tac-Toe"
-                    style={{ fontSize: "90px" }}
+                    style={{ fontSize: "60px" }}
                   >
                     <img src="https://res-console.cloudinary.com/dundn5oa3/media_explorer_thumbnails/aa16804de8a268d8cf530c7082f24c8c/detailed" />
                   </span>
@@ -300,7 +300,7 @@ return (
                   <span
                     role="img"
                     aria-label="Rock, Paper, Scissors"
-                    style={{ fontSize: "90px" }}
+                    style={{ fontSize: "60px" }}
                   >
                     <img src="https://res-console.cloudinary.com/dundn5oa3/media_explorer_thumbnails/e7567c86686a4b95433fa274681fe3c5/detailed" />
                   </span>
@@ -317,7 +317,7 @@ return (
                   <span
                     role="img"
                     aria-label="Word Guessing game"
-                    style={{ fontSize: "90px" }}
+                    style={{ fontSize: "60px" }}
                   >
                     <img src="https://res-console.cloudinary.com/dundn5oa3/media_explorer_thumbnails/43aa275f9fbd5e093c02ca4d1da1ae73/detailed" />
                   </span>
@@ -333,7 +333,7 @@ return (
                   <span
                     role="img"
                     aria-label="Card Matching"
-                    style={{ fontSize: "90px" }}
+                    style={{ fontSize: "60px" }}
                   >
                     <img src="https://res-console.cloudinary.com/dundn5oa3/media_explorer_thumbnails/23f6d9ed090213f3f09a5ece0affdfa4/detailed" />
                   </span>
