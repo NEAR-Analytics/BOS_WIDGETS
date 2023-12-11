@@ -65,6 +65,7 @@ const Desc = styled.div`
 
 const { gasCost, inputCurrency, outputCurrency } = props;
 const routes = props.routes || [];
+console.log(inputCurrency, outputCurrency, routes);
 return (
   <Layer
     onClick={() => {
