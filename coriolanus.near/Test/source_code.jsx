@@ -39,7 +39,7 @@ return (
         {state.bootstraping ? (
           <h1>Loading...</h1>
         ) : (
-          <div className="container">Hello Welcome</div>
+          <div className="container">Hello Welcome, {props.name}</div>
         )}
       </>
     ) : (
