@@ -325,4 +325,4 @@ button:focus-visible {
 
 `;
 
-return <Wrapper></Wrapper>;
+return <Wrapper>{props.body}</Wrapper>;
