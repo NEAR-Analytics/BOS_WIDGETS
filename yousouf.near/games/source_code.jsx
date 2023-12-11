@@ -118,25 +118,24 @@ const Text = styled.p`
 `;
 
 const GameButton = styled.button`
-  background-color: #333;
+  background-color: rgba(51, 51, 51, 0.5); /* Adjust the alpha channel for transparency */
   color: #ffe;
   border: none;
   padding: 10px 20px;
   font-size: 15px;
-  width : 235px;
+  width: 235px;
   cursor: pointer;
   border-radius: 8px;
   margin: 5px;
-  box-shadow: 0  4px 6px rgba(0, 0, 0, 0.1); 
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease-in-out;
 
-transition : transform 0.3s ease-in-out;
-    &:hover {
-      background-color: #555;
-      color: #ffe;
-      transform: scale(1.1);
-    }
-    
-  `;
+  &:hover {
+    background-color: rgba(51, 51, 51, 0.7); /* Adjust hover transparency if needed */
+    color: #ffe;
+    transform: scale(1.1);
+  }
+`;
 
 const Flex = styled.div`
   display: flex;
