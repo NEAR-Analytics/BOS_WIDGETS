@@ -161,7 +161,6 @@ const utils = {
 
 const handlers = {
   handleDisplayCurrencySelect: () => {
-    if (!props.account) return;
     State.update({
       balanceLoaded: false,
     });
