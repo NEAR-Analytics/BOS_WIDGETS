@@ -29,6 +29,8 @@ for (let i = 0; i < userSBTs.length; i++) {
 const Container = styled.div`
   display: flex;
   flex-direction: column;
+  background-image: url("https://res-console.cloudinary.com/dundn5oa3/media_explorer_thumbnails/9bc401e3c4cd6d1753ba72686b73fe5f/detailed"); 
+  
   align-items: center;
   justify-content: center;
   border-radius : 25px;
