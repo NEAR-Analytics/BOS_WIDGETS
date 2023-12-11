@@ -1,5 +1,5 @@
-const FooterWrapper = styled.div`
-  background-color: #4caf50;
+const FooterWrapper = styled.footer`
+  background-color: #333;
   color: white;
   padding: 20px 0;
   text-align: center;
@@ -15,7 +15,7 @@ const LogoContainer = styled.div`
 const LogoLink = styled.a`
   margin: 0 10px;
   img {
-    width: 40px; 
+    width: 40px; /* Set the desired width for the logos */
     height: auto;
   }
 `;
@@ -28,32 +28,23 @@ return (
         target="_blank"
         rel="noopener noreferrer"
       >
-        <img
-          src="https://res.cloudinary.com/dzl44lobc/image/upload/v1702305812/oca2zyuhvgmafqx7sspj.jpg"
-          alt="Near Protocol"
-        />
+        <img src="/path/to/near-logo.png" alt="Near Protocol" />
       </LogoLink>
       <LogoLink
         href="https://twitter.com/yourtwitterhandle"
         target="_blank"
         rel="noopener noreferrer"
       >
-        <img
-          src="https://res.cloudinary.com/dzl44lobc/image/upload/v1702305527/gi40ee5fzrqxeqq8yzsu.jpg"
-          alt="Twitter"
-        />
+        <img src="/path/to/twitter-logo.png" alt="Twitter" />
       </LogoLink>
       <LogoLink
         href="https://discord.com/invite/yourdiscordinvite"
         target="_blank"
         rel="noopener noreferrer"
       >
-        <img
-          src="https://res.cloudinary.com/dzl44lobc/image/upload/v1702305527/nwzrdayxprgodwmjzfid.png"
-          alt="Discord"
-        />
+        <img src="/path/to/discord-logo.png" alt="Discord" />
       </LogoLink>
     </LogoContainer>
-    <p>&copy; Dispose-To-Earn. All rights reserved.</p>
+    <p>&copy; 2023 Your Company Name. All rights reserved.</p>
   </FooterWrapper>
 );
