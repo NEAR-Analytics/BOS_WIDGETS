@@ -1,14 +1,9 @@
 let accountId = context.accountId;
-/**
- * add better default cid, add receiver validation for near address
- */
-// if (!accountId) {
-//   return "Please sign in with NEAR wallet";
-// }
+
 let cid =
   props.cid ?? "bafkreibmc23xhip63mxv2mulb7xko5htpiqszrch4fo3optszuctjtlrau";
 let image = props.image;
-const mintButton = props.mintButton ?? "Mint ";
+const mintButton = props.mintButton ?? "Mint It ";
 const showDetails = props.showDetails ?? true;
 const title = props.title ?? "Title";
 const receiver = props.receiver ?? accountId;
@@ -99,7 +94,7 @@ const handleMint = () => {
           args: {
             token_id: `${Date.now()}`,
             metadata: {
-              title: state.title,
+              title: "More - " + state.title,
               description: state.description,
               media: `https://ipfs.io/ipfs/${state.image.cid}`,
               reference: `ipfs://${cid}`,
@@ -310,6 +305,7 @@ return (
           type="button"
           className="btn btn-primary"
           onClick={handleMint}
+          value={accountId}
           style={{
             background: "#ccc",
             color: "#ffe",
