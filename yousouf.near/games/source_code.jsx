@@ -121,7 +121,7 @@ const GameButton = styled.button`
   border: none;
   padding: 10px 20px;
   font-size: 15px;
-  width : 155px;
+  width : 220px;
   cursor: pointer;
   border-radius: 8px;
   margin: 5px;
