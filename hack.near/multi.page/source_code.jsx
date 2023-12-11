@@ -1,5 +1,5 @@
 const accountId = props.accountId ?? context.accountId;
-const communityId = props.communityId ?? "multi.sputnik-dao.near";
+const daoId = props.daoId ?? "multi.sputnik-dao.near";
 
 const tab = props.tab === "following" ? props.tab : "members";
 
@@ -158,10 +158,7 @@ return (
       </Flex>
     </Container>
     <div className="m-2">
-      <Widget
-        src="hack.near/widget/dao.people"
-        props={{ daoId: communityId }}
-      />
+      <Widget src="hack.near/widget/dao.people" props={{ daoId }} />
     </div>
     <br />
     <br />
