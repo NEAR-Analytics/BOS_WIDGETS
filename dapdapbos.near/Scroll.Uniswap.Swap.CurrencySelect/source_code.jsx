@@ -163,7 +163,7 @@ const LoadingWrapper = styled.div`
   color: #101010;
 `;
 
-const { chainId, explor, tokens, onImport } = props;
+const { chainId, explor, account, tokens, onImport } = props;
 
 State.init({
   tokens: Object.values(props.tokens || {}),
@@ -205,7 +205,7 @@ const handleSearch = () => {
 };
 const topTokens = props.stableTokens || [];
 const TABS = ["All", "Imported"];
-console.log("topTokens", topTokens);
+
 return (
   <Dialog className={props.display ? "display" : ""}>
     <Overlay>
@@ -301,6 +301,7 @@ return (
                     currency,
                     display: props.display,
                     chainId: chainId,
+                    account,
                     onClick: () => {
                       props.onSelect?.(currency);
                       props.onClose();
