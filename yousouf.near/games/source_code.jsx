@@ -285,7 +285,10 @@ return (
                     aria-label="Tic-Tac-Toe"
                     style={{ fontSize: "60px" }}
                   >
-                    <img src="https://res-console.cloudinary.com/dundn5oa3/media_explorer_thumbnails/aa16804de8a268d8cf530c7082f24c8c/detailed" />
+                    <img
+                      style={(width = "10px")}
+                      src="https://res-console.cloudinary.com/dundn5oa3/media_explorer_thumbnails/aa16804de8a268d8cf530c7082f24c8c/detailed"
+                    />
                   </span>
                   {hoveredGame === "Tic-Tac-Toe" && (
                     <span className="game-name">Tic-Tac-Toe</span>
