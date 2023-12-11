@@ -20,7 +20,7 @@ const [showResults, setShowResults] = useState(false);
 const [claimed, setClaimed] = useState(false);
 
 const congratulateUser = () => {
-  if ((score / questions.length) * 100 > 80) {
+  if (score >= 4) {
     // User scored more than 80%, reward with 0.002 near token
     alert(
       "Congratulations! You scored more than 80%! You have been rewarded with 0.002 NEAR tokens."
@@ -134,7 +134,7 @@ return (
         </a>
       ) : (
         <>
-          <H1>Quiz {titlegame}</H1>
+          <H1>{titlegame}</H1>
           <H2>Score: {score} </H2>
 
           {showResults ? (
@@ -144,24 +144,29 @@ return (
                 {score} out of {questions.length} correct - (
                 {(score / questions.length) * 100}%)
                 {/* for above 80% claim token */}
-                {score > 80 && !claimed && (
-                  <button onClick={claimReward}>Claim NEAR Tokens</button>
+                {score >= 4 && !claimed && (
+                  <>
+                    <h3>Congratulation You can now claim 0.002 Near</h3>
+                    <button onClick={claimReward}>
+                      Claim Your NEAR Tokens
+                    </button>
+                  </>
                 )}
                 {/* Display claimed message if user has claimed */}
                 {claimed && <p>NEAR Tokens Claimed!</p>}
+                {score < 4 && (
+                  <p className="text-red">
+                    You scored lessthan 4 questions, no reward. Try again!
+                  </p>
+                )}
               </H2>
 
-              <Button onClick={() => restartGame()}>Restart game</Button>
-              {claimed ? (
-                <button>claimed</button>
-              ) : (
-                <button onClick={() => claimReward()}> Claim Reward</button>
-              )}
+              <Button onClick={() => restartGame()}>Restart Quiz</Button>
             </div>
           ) : (
             <Question className="question-card">
               <h2>
-                Question: {currentQuestion + 1} out of {questions.length}
+                Tambaya: {currentQuestion + 1} Acikin {questions.length}
               </h2>
               <h3 className="question-text">
                 {questions[currentQuestion].text}
