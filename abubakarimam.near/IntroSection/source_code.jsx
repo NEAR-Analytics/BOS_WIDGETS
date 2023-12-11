@@ -47,7 +47,11 @@ return (
         Contribute to our mission by responsibly disposing of waste, earning
         rewards, and making a positive impact on the environment.
       </Paragraph>
-      <CTAButton>Get Started</CTAButton>
+      <CTAButton>
+        <a href="https://near.social/yousouf.near/widget/dispose-to-earn">
+          Get Started
+        </a>
+      </CTAButton>
     </IntroductionContent>
   </IntroductionSectionWrapper>
 );
