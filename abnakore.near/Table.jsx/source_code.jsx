@@ -16,7 +16,6 @@ return (
   <table>
     <thead>
       <tr>
-        // {props.select ? <th></th> : null}
         {props.headings.map((head) => (
           <th key={head}>{head}</th>
         ))}
@@ -34,6 +33,7 @@ return (
   </table>
 );
 
+// {props.select ? <th></th> : null}
 // {props.select?
 //     <div className="chekbox">
 //         <input checked={checked.includes(cand[0])} type="checkbox" id="cbx" className="hidden-xs-up" />
