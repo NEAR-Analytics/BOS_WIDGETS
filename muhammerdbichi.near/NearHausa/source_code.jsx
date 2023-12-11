@@ -1,7 +1,7 @@
 const Button = styled.button`
   width: 100%;
   margin: 5px 0;
-  padding: 10px;
+  padding: 20px;
   background-color: #0a1929ff;
   border: none;
   border-radius: 5px;
@@ -16,24 +16,29 @@ const Button = styled.button`
 const [score, setScore] = useState(0);
 const [currentQuestion, setCurrentQuestion] = useState(0);
 const [showResults, setShowResults] = useState(false);
-
+if (
+  Social.keys(`${context.accountId}.near/graph/follow/muhammerdbichi.near`) ===
+  true
+) {
+  questions = true;
+}
 const questions = [
   {
-    text: "What is B.O.S?",
+    text: "Why is NearHausa?",
     options: [
-      { id: 0, text: "Blockchain Of System", isCorrect: false },
-      { id: 1, text: "Blockchain Operating System", isCorrect: true },
-      { id: 2, text: "Blockchain On System", isCorrect: false },
-      { id: 3, text: "Built Owner System", isCorrect: false },
+      { id: 0, text: "Near Community For kano based", isCorrect: false },
+      { id: 1, text: "Near Community For Hausa People", isCorrect: true },
+      { id: 2, text: "Near Community For Northern Nigeria", isCorrect: false },
+      { id: 3, text: "To Teach Crypto In Hausa", isCorrect: false },
     ],
   },
   {
-    text: "What BOS run on?",
+    text: "Who is NearHuasa Lead?",
     options: [
-      { id: 0, text: "Near", isCorrect: true },
-      { id: 1, text: "Ether", isCorrect: false },
-      { id: 2, text: "Solana", isCorrect: false },
-      { id: 3, text: "Doge", isCorrect: false },
+      { id: 0, text: "Engr. Bakaka", isCorrect: true },
+      { id: 1, text: "Aminu Bin", isCorrect: false },
+      { id: 2, text: "Alexander Skidanov", isCorrect: false },
+      { id: 3, text: "Elon Musk", isCorrect: false },
     ],
   },
   {
