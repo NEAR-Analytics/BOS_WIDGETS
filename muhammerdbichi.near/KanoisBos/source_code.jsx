@@ -55,14 +55,6 @@ const Learn = () => (
     <PrimaryLink small={small} href="muhammerdbichi.near/widget/NearHausa">
       Start NearHausa Quiz
     </PrimaryLink>
-
-    <div className={`${small ? "pb-3" : "py-4"}`}>
-      <h4>{title}</h4>
-      <h5 className="text-secondary">BOS Quiz</h5>
-    </div>
-    <PrimaryLink small={small} href="muhammerdbichi.near/widget/NearHausa">
-      Start BOS Quiz
-    </PrimaryLink>
   </Container>
 );
 return <Learn />;
