@@ -319,7 +319,7 @@ return (
                     aria-label="Word Guessing game"
                     style={{ fontSize: "90px" }}
                   >
-                    🧩
+                    🔤
                   </span>
                   {hoveredGame === "Word Guessing game" && (
                     <span className="game-name">Word Guessing game</span>
