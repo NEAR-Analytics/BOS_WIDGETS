@@ -2,6 +2,9 @@ const IntroductionSectionWrapper = styled.div`
   background-color: #f8f8f8;
   padding: 50px 0;
   text-align: center;
+  @media and (max-width: 768px){
+  margin: 0 20px;
+}
 `;
 
 const IntroductionContent = styled.div`
