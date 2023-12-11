@@ -1,13 +1,22 @@
+
 const owner = "nearcatalog.near";
 const componentPath = `${owner}/widget/NearCatalog`;
 
 const Css = styled.div`
+
 html{font-size:20px;}
 .near-bg:before {
   background: linear-gradient(270deg,#fff0e2 35%,#d7dbff);
   right: 15vh;
   top: 10vh;
 }
+
+.near-item-sm{align-items:center;border-radius:.8rem;display: block;flex-direction:column;padding:.5rem;transition:all .15s ease;float: left;}
+.near-item-sm:focus,.near-item-sm:hover{background:rgba(34,34,34,.05);text-decoration:none;}
+.near-item-sm .tile-icon{box-shadow:0 .5rem 1.2rem rgba(34,34,34,.2);border-radius:50%;height:3.2rem;margin:.5rem auto;width:3.2rem;}
+.near-item-sm .tile-icon img{border-radius:50%;height:100%;width:100%;}
+.near-item-sm .tile-content{width:100%;}
+.near-item-sm .tile-title{font-size:.7rem;text-align:center;color: rgb(34, 34, 34); font-weight:bold}
 
 .near-bg:after, .near-bg:before {
   border-radius: 50%;
@@ -197,33 +206,26 @@ html{font-size:20px;}
 
 // const projects = Social.getr("legacy-awesome.near/project", "final");
 
-const query =
-  props?.cat.length > 0
-    ? fetch(
-        "https://nearcatalog.sctuts.com/wp-json/nearcatalog/v1/projects-by-category?cid=" +
-          props.cat
-      )
-    : fetch("https://nearcatalog.sctuts.com/wp-json/nearcatalog/v1/projects");
+const query = props?.cat.length > 0 ? fetch("https://nearcatalog.sctuts.com/wp-json/nearcatalog/v1/projects-by-category?cid=" + props.cat) : fetch("https://nearcatalog.sctuts.com/wp-json/nearcatalog/v1/projects");
 
 if (!query || !query.body) {
-  console.log(" loading.....");
+  console.log(" loading...");
   return;
 }
 const projects = query.body;
 console.log("projects", projects);
 
+
 return (
   <>
     <Css>
-      <Widget
-        src={`${componentPath}.Layout.AppGrid`}
-        props={{
-          componentPath: componentPath,
-          projects: projects,
-          title: props?.cat.length > 0 ? props.cat : "",
-          desc: "",
-        }}
-      />
+      <Widget src={`${componentPath}.Layout.AppGrid`} props={{
+        componentPath: componentPath,
+        projects: projects,
+        title: props?.cat.length > 0 ? props.cat : "",
+        desc: ""
+      }} />
     </Css>
+
   </>
 );
