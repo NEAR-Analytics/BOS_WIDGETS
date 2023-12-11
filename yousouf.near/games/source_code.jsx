@@ -286,7 +286,7 @@ return (
                   >
                     Tic-Tac-Toe
                     <img
-                      style={{ width: "150px", height: "150px" }}
+                      style={{ width: "200px", height: "150px" }}
                       src="https://res-console.cloudinary.com/dundn5oa3/media_explorer_thumbnails/aa16804de8a268d8cf530c7082f24c8c/detailed"
                     />
                   </span>
@@ -303,7 +303,7 @@ return (
                   >
                     Rock, Paper, Scissors
                     <img
-                      style={{ width: "150px", height: "150px" }}
+                      style={{ width: "200px", height: "150px" }}
                       src="https://res-console.cloudinary.com/dundn5oa3/media_explorer_thumbnails/e7567c86686a4b95433fa274681fe3c5/detailed"
                     />
                   </span>
@@ -320,7 +320,7 @@ return (
                   >
                     Word Guessing game
                     <img
-                      style={{ width: "150px", height: "150px" }}
+                      style={{ width: "200px", height: "150px" }}
                       src="https://res-console.cloudinary.com/dundn5oa3/media_explorer_thumbnails/43aa275f9fbd5e093c02ca4d1da1ae73/detailed"
                     />
                   </span>
@@ -336,7 +336,7 @@ return (
                   >
                     Card Matching Game
                     <img
-                      style={{ width: "150px", height: "150px" }}
+                      style={{ width: "200px", height: "150px" }}
                       src="https://res-console.cloudinary.com/dundn5oa3/media_explorer_thumbnails/23f6d9ed090213f3f09a5ece0affdfa4/detailed"
                     />
                   </span>
