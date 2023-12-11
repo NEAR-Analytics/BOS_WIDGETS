@@ -38,6 +38,11 @@ const CTAButton = styled.button`
   }
 `;
 
+const Link = styled.a`
+color: white;
+
+`;
+
 return (
   <IntroductionSectionWrapper>
     <IntroductionContent>
@@ -51,9 +56,12 @@ return (
         rewards, and making a positive impact on the environment.
       </Paragraph>
       <CTAButton>
-        <a href="https://near.social/yousouf.near/widget/dispose-to-earn">
+        <Link
+          style={{ color: "white" }}
+          href="https://near.social/yousouf.near/widget/dispose-to-earn"
+        >
           Get Started
-        </a>
+        </Link>
       </CTAButton>
     </IntroductionContent>
   </IntroductionSectionWrapper>
