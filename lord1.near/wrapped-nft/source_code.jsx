@@ -1,4 +1,4 @@
-const API_KEY = "e79c2e9b-116c-4d8a-9617-5e2471e4deaa";
+const API_KEY = "6d48c4c0-eb41-4e4b-ae4d-ba1148f01fb8";
 const themeColor = props.themeColor;
 const singer = props.singer;
 const interval = props.interval || "week";
@@ -504,7 +504,7 @@ const transactions = {
   height: "110px",
   align: "center",
   brand: "Transactions",
-  description: `${state.result.query4?.data[0]?.count || "0"}`,
+  description: `${state.result.query4?.data?.count || "0"}`,
   fontsize: "25px",
   fontweight: "25px",
   afterbrand: "",
@@ -708,7 +708,12 @@ const updateResultState = ({ data, error, isLoading, queryRunId, id }) => {
         error: [...state.error, queryError],
       };
     } else {
-      Storage.set(`${searchedSinger}-${searchedInterval}-${id}`, queryRunId);
+      if (data) {
+        Storage.set(
+          `${state.searchedSinger}-${state.searchedInterval}-${id}`,
+          queryRunId
+        );
+      }
       return {
         ...state,
         result: { ...newResult },
@@ -734,7 +739,7 @@ const runqueries = (queries) => {
   );
   const loader = queriesArr.map((q) => {
     const queryRunId = Storage.get(
-      `${searchedSinger}-${searchedInterval}-${q.id}`
+      `${state.searchedSinger}-${state.searchedInterval}-${q.id}`
     );
     const props = {
       apiKey: API_KEY,
