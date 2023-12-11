@@ -1,4 +1,4 @@
-const { layout } = props;
+const { layout, from } = props;
 
 const Container = styled.div`
   display: flex;
@@ -150,15 +150,17 @@ const tokens = [
 const MAX_AMOUNT =
   "0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff";
 
-State.init({
-  gasLimit: ethers.BigNumber.from("300000"),
-  isToastOpen: false,
-  add: false,
-  onChangeAdd: (add) => {
-    State.update({ add });
-  },
-  hide: true,
-});
+useEffect(() => {
+  State.init({
+    gasLimit: ethers.BigNumber.from("300000"),
+    isToastOpen: false,
+    add: false,
+    onChangeAdd: (add) => {
+      State.update({ add });
+    },
+    hide: true,
+  });
+}, []);
 
 const {
   chainId,
@@ -201,19 +203,19 @@ const bridgeAbi = [
   },
 ];
 
-if (sender) {
+useEffect(() => {
+  if (!sender) return;
   Ethers.provider()
     .getNetwork()
     .then(({ chainId }) => {
       State.update({ chainId });
     })
     .catch((e) => {});
-}
+}, [sender]);
 
 const bridgeIface = new ethers.utils.Interface(bridgeAbi);
 
 const updateGasLimit = (props) => {
-  console.log("updateGasLimit", props);
   const { amount, token, network } = props;
   if (network !== "ethereum") return;
   const amountBig = ethers.utils.parseUnits(amount.toString(), token.decimals);
@@ -549,15 +551,17 @@ return (
         src="guessme.near/widget/ZKEVMSwap.zkevm-bridge-transactions"
         props={{ tokens }}
       />
-      <Widget
-        src="guessme.near/widget/ZKEVMWarmUp.add-to-quest-card"
-        props={{
-          add: state.add,
-          onChangeAdd: state.onChangeAdd,
-          hide: state.hide,
-          source: props.source,
-        }}
-      />
+      {from !== "landing" && (
+        <Widget
+          src="guessme.near/widget/ZKEVMWarmUp.add-to-quest-card"
+          props={{
+            add: state.add,
+            onChangeAdd: state.onChangeAdd,
+            hide: state.hide,
+            source: props.source,
+          }}
+        />
+      )}
     </Container>
   </>
 );
