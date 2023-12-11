@@ -1,5 +1,3 @@
-const { widgetPath } = VM.require(`/*__@widgetPath__*/.Config`);
-
 const Theme = styled.div`
   background: #fffcff;
   font-style: normal;
@@ -15,6 +13,10 @@ const Theme = styled.div`
   h5,
   h6 {
     color: #151718;
+  }
+
+  img {
+    width: 100%;
   }
 `;
 
@@ -38,9 +40,9 @@ function AppLayout({ page, children }) {
   return (
     <Theme>
       <Container>
-        <Widget src={`${widgetPath}.components.NavBar`} />
+        <Widget src={`ndcdev.near/widget/MDAO.Components.NavBar`} />
         <ContentContainer>{children}</ContentContainer>
-        <Widget src={`${widgetPath}.components.Footer`} />
+        <Widget src={`ndcdev.near/widget/MDAO.Components.Footer`} />
       </Container>
     </Theme>
   );
