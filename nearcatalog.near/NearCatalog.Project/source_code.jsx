@@ -2,6 +2,12 @@ const Css = styled.div`
 .embed-responsive-item{
     width: 103%;
 }
+.near-item-sm{align-items:center;border-radius:.8rem;display: block;flex-direction:column;padding:.5rem;transition:all .15s ease;float: left;}
+.near-item-sm:focus,.near-item-sm:hover{background:rgba(34,34,34,.05);text-decoration:none;}
+.near-item-sm .tile-icon{box-shadow:0 .5rem 1.2rem rgba(34,34,34,.2);border-radius:50%;height:3.2rem;margin:.5rem auto;width:3.2rem;}
+.near-item-sm .tile-icon img{border-radius:50%;height:100%;width:100%;}
+.near-item-sm .tile-content{width:100%;}
+.near-item-sm .tile-title{font-size:.7rem;text-align:center;color: rgb(34, 34, 34); font-weight:bold}
 h1{font-size:2em;margin:.67em 0;}
 a{background-color:transparent;-webkit-text-decoration-skip:objects;}
 a:active,a:hover{outline-width:0;}
@@ -222,7 +228,7 @@ if (!props.id) {
 }
 // const project = Social.getr("legacy-awesome.near/project/" + props.id?.trim(), "final");
 const query = fetch("https://nearcatalog.sctuts.com/wp-json/nearcatalog/v1/project?pid=" + props.id?.trim());
-if ( !query || !query.body) {
+if (!query || !query.body) {
     return "loading....";
 }
 const project = query.body;
@@ -243,32 +249,18 @@ const twtIframe = `
 <div align="center"><a class="twitter-timeline"  data-dnt="true"  data-tweet-limit="5"
  href="https://twitter.com/${project.profile.linktree?.twitter}">Twitter</a>
 <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
-<script>
-window.onload = function(){
-    console.log("window onload!");
-    twttr.ready(function (twttr) {
-        console.log("twt ready!");
-        
-        twttr.events.bind('click', (event)=>{
-            console.log("twt click" , event);
-        });
-
-        twttr.events.bind('tweet', (e) => {
-            console.log("twt tweet" , e);
-        });
-    });
-}
-
-</script>
 </div>
 `
 return (
     <Css>
         <div className="container grid-xl near-bg">
-        <Widget src={`${componentPath}.Layout.Navbar`} props={{
-            componentPath: componentPath,
-        }} />
+            <Widget src={`${componentPath}.Layout.Navbar`} props={{
+                componentPath: componentPath,
+            }} />
 
+            <Widget src={`${componentPath}.Layout.SearchBar`} props={{
+                componentPath: componentPath
+            }} />
 
             <div className="columns">
                 <div className="hero-container column col-md-12">
@@ -385,8 +377,7 @@ return (
                                 <div className="content-widget markdown">
                                     <h2 className="content-title">About {project.profile.name}</h2>
                                     <div className="content-desc">
-
-                                        {project.profile?.description.split('\n').map((item, key) => {
+                                        {project.profile?.description?.split('\n').map((item, key) => {
                                             return <span key={key}>{item}<br /></span>
                                         })}
                                     </div>
