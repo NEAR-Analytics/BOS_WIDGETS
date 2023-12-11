@@ -54,6 +54,6 @@ return (
         />
       </LogoLink>
     </LogoContainer>
-    <p>&copy; DisposeEarn. All rights reserved.</p>
+    <p>&copy; Dispose-To-Earn. All rights reserved.</p>
   </FooterWrapper>
 );
