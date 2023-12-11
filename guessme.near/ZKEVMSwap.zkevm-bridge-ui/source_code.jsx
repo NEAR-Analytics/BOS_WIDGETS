@@ -486,7 +486,6 @@ const {
   balances,
   prices,
 } = state;
-console.log("balances: ", balances, prices, state.amount, selectedToken);
 
 const { chainId, updateChainId } = props;
 
@@ -539,8 +538,6 @@ if (!prices[selectedToken]) {
   });
 }
 
-console.log("prices[selectedToken]: ", prices[selectedToken]);
-
 const updateBalance = (token) => {
   const { address, decimals, symbol } = token;
 
@@ -549,7 +546,6 @@ const updateBalance = (token) => {
       .getBalance(sender)
       .then((balanceBig) => {
         const adjustedBalance = ethers.utils.formatEther(balanceBig);
-        console.log("adjustedBalance: ", adjustedBalance);
         State.update({
           balances: {
             ...state.balances,
@@ -567,7 +563,6 @@ const updateBalance = (token) => {
     tokenContract
       .balanceOf(sender)
       .then((balanceBig) => {
-        console.log("balanceBig: ", balanceBig);
         const adjustedBalance = Big(balanceBig.toString())
           .div(Big(10).pow(decimals))
           .toFixed();
@@ -582,9 +577,10 @@ const updateBalance = (token) => {
   }
 };
 
-// if (Object.keys(balances).length === 0) {
-tokens.filter((t) => t.chainId === chainId).map(updateBalance);
-// }
+useEffect(() => {
+  if (!chainId || !tokens.length) return;
+  tokens.filter((t) => t.chainId === chainId).map(updateBalance);
+}, [chainId]);
 
 const changeNetwork = (network) => {
   if (isTestnet) {
@@ -948,8 +944,6 @@ if (!hideCondition) {
   props.updateHide && props.updateHide(true);
 }
 
-console.log("params: ", params);
-
 if (params && !!params?.symbol && !state.storeUsed) {
   State.update({
     selectedToken: params.symbol,
@@ -974,8 +968,6 @@ if (
 
   switchNetwork(chainId);
 }
-
-console.log("state.amount", state.amount);
 
 const canSwap =
   !!state.amount &&
@@ -1016,7 +1008,7 @@ return (
         </ContainerNetwork>
         <BridgeContainer
           onClick={() => {
-            openNetworkList(1);
+            props.from !== "landing" && openNetworkList(1);
           }}
         >
           <img style={{ width: "32px" }} src={getNetworkSrc(selectedNetwork)} />
@@ -1026,7 +1018,9 @@ return (
             </BridgeName>
           </div>
 
-          <ArrowDownWrapper>{arrowDown}</ArrowDownWrapper>
+          {props.from !== "landing" && (
+            <ArrowDownWrapper>{arrowDown}</ArrowDownWrapper>
+          )}
         </BridgeContainer>
 
         {state.isNetworkSelectOpen === 1 && selectNetWorkDropDown}
@@ -1037,7 +1031,7 @@ return (
         </ContainerNetwork>
         <BridgeContainer
           onClick={() => {
-            openNetworkList(2);
+            props.from !== "landing" && openNetworkList(2);
           }}
         >
           <img
@@ -1052,7 +1046,9 @@ return (
             </BridgeName>
           </div>
 
-          <ArrowDownWrapper>{arrowDown}</ArrowDownWrapper>
+          {props.from !== "landing" && (
+            <ArrowDownWrapper>{arrowDown}</ArrowDownWrapper>
+          )}
         </BridgeContainer>
 
         {state.isNetworkSelectOpen === 2 && selectNetWorkDropDownReverse}
@@ -1119,13 +1115,22 @@ return (
           </div>
         </div>
       </ReceiveWrapper>
-
-      <ActionButton
-        onClick={handleConfirm}
-        disabled={!isCorrectNetwork || !canSwap}
-      >
-        Confirm
-      </ActionButton>
+      {props.from === "landing" && props.chainId !== 1 ? (
+        <ActionButton
+          onClick={() => {
+            switchNetwork(1);
+          }}
+        >
+          Switch to Ethereum
+        </ActionButton>
+      ) : (
+        <ActionButton
+          onClick={handleConfirm}
+          disabled={!isCorrectNetwork || !canSwap}
+        >
+          Confirm
+        </ActionButton>
+      )}
 
       <Widget
         src="ciocan.near/widget/toast"
