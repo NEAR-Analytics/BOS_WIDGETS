@@ -32,7 +32,7 @@ aside #tabs .tab:hover, aside #tabs .active {
 `;
 
 return (
-  <div>
+  <Wrapper>
     <div id="tabs">
       {/* Render the objs as links */}
       {props.objs.map((obj) => (
@@ -48,5 +48,5 @@ return (
                 <Link to='/result' className="tab">Results</Link>
                 <Link to='/' className="tab">Login/Logout</Link> */}
     </div>
-  </div>
+  </Wrapper>
 );
