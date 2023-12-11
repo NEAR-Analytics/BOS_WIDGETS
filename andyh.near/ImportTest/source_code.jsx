@@ -1,5 +1,4 @@
 import { FaBeer } from "react-icons/fa";
-import { FaBeer } from "https://unpkg.com/react-icons@4.12.0";
 
 //
 // import Slider from "rc-slider@10.5.0";
