@@ -2,6 +2,9 @@ const HowItWorksSectionWrapper = styled.div`
   background-color: #fff;
   padding: 50px 0;
   text-align: center;
+  @media and (max-width: 768px){
+  margin: 0 20px;
+}
 `;
 
 const HowItWorksContent = styled.div`
