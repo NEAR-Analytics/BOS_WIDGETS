@@ -408,6 +408,7 @@ return (
             tokens: dexConfig.tokens,
             stableTokens: dexConfig.stableTokens,
             onImport,
+            account,
             onClose: () => {
               State.update({
                 displayCurrencySelect: false,
