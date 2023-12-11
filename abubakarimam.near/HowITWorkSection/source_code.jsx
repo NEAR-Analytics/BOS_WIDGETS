@@ -54,7 +54,7 @@ return (
         <StepTitle>3. Get Paid</StepTitle>
         <StepDescription>
           Accumulate points and convert them to real earnings. Receive your
-          well-deserved payment through Near BOS.
+          well-deserved payment directly to your account.
         </StepDescription>
       </Step>
     </HowItWorksContent>
