@@ -20,10 +20,9 @@ return (
                     <p className="awesome-desc">{props.desc}</p>
                 </div>
 
-                <div id="bos-search-input" class="input-group">
-                    <input class="form-control " type="text" placeholder="🔭 🔍 Explore NEAR" />
-                </div>
-
+                <Widget src={`${componentPath}.Layout.SearchBar`} props={{
+                    componentPath: props.componentPath, 
+                }}/>
 
                 <button className="awesome-aside-select btn btn-lg mt-3" id="btn-mobile-show-category"
                     data-bs-toggle="offcanvas" data-bs-target="#staticBackdrop" aria-controls="staticBackdrop">
