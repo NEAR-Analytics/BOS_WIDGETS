@@ -13,6 +13,7 @@ return (
       <Widget src="abubakarimam.near/widget/IntroSection" />
       <Widget src="abubakarimam.near/widget/HowITWorkSection" />
       <Widget src="abubakarimam.near/widget/BlockchainComponent" />
+      <Widget src="abubakarimam.near/widget/Footer" />
     </Container>
   </Wrapper>
 );
