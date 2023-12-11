@@ -116,7 +116,7 @@ if (isGameOver) {
 return (
   <div
     style={{
-      background: "#333",
+      background: "rgba(51, 51, 51, 0.5)",
       minHeight: "100vh",
       display: "flex",
       flexDirection: "column",
