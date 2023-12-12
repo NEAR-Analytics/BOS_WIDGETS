@@ -227,7 +227,7 @@ const gateways = [
   },
   {
     title: "COIN98",
-    type: "Ecosystem",
+    type: "Wallet",
     url: "https://dapps.coin98.com/menu/bos",
     imgSrc: `${ipfsUrl}/gateway-coin98.jpg`,
     iconSrc: `${ipfsUrl}/icon-coin98.jpg`,
