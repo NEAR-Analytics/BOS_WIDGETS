@@ -49,6 +49,7 @@ return (
             type={props.type}
             placeholder=""
             required={props.required}
+            value={props.items[item]}
           />
           <span>{props.placeholder}</span>
         </label>
