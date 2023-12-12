@@ -1,6 +1,6 @@
 import Markdown from "marked-react";
 
-export function X() {
+export function BWEComponent() {
   return (
     <>
       <Markdown># ≥≈˚∆˚≈≤ </Markdown>
