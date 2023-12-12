@@ -335,6 +335,11 @@ button:focus-visible {
   margin: 0;
   min-width: 100vw;
   min-height: 100vh;
+}
+
+.card {
+  min-width: 350px;
+  line-height: 1.5;
   background-colour: #333;
   color: #fff;
 }
