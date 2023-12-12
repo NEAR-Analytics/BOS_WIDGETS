@@ -24,6 +24,12 @@ const logo =
 return (
   <Nav>
     <img src={logo} width="120px" />
-    <LoginBtn>Login</LoginBtn>
+    <LoginBtn>
+      {context.accountId ? (
+        context.accountId
+      ) : (
+        <a href="https://near.org/signin">Login</a>
+      )}
+    </LoginBtn>
   </Nav>
 );
