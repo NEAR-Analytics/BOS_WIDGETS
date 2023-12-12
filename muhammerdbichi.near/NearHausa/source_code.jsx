@@ -141,11 +141,11 @@ return (
       ) : (
         <>
           <H1>{titlegame}</H1>
-          <H2>Score: {score} </H2>
+          <H2>Maki: {score} </H2>
 
           {showResults ? (
             <div className="final-results">
-              <H1>Final Results</H1>
+              <H1>Sakamakon Karshe</H1>
               <H2>
                 {score} out of {questions.length} correct - (
                 {(score / questions.length) * 100}%)
