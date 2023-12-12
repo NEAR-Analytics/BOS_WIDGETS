@@ -48,7 +48,7 @@ let timerInterval;
 let backgroundImage; // Declare a variable to hold the image
 let bestScore = 0;
 
-let imgArr = ['https://upload.wikimedia.org/wikipedia/en/d/d0/Dogecoin_Logo.png','https://cdn.iconscout.com/icon/free/png-256/free-ethereum-8-645838.png', 'https://cdn-icons-png.flaticon.com/512/6001/6001566.png', 'https://www.iconpacks.net/icons/2/free-binance-coin-icon-2211-thumb.png','https://cdn-icons-png.flaticon.com/512/5128/5128461.png']
+let imgArr = ['https://upload.wikimedia.org/wikipedia/en/d/d0/Dogecoin_Logo.png','https://cdn.iconscout.com/icon/free/png-256/free-ethereum-8-645838.png', 'https://cdn-icons-png.flaticon.com/512/6001/6001566.png', 'https://seeklogo.com/images/B/binance-coin-bnb-logo-CD94CC6D31-seeklogo.com.png','https://cdn-icons-png.flaticon.com/512/5128/5128461.png']
 
 function preload() {
   for (let i = 0; i < imgArr.length; i++) {
