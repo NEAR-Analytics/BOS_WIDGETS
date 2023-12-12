@@ -240,6 +240,7 @@ button, select {
   background-color: #1a1a1a;
   cursor: pointer;
   transition: border-color 0.25s;
+  color: #fff;
 }
 
 .error {
