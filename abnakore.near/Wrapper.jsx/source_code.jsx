@@ -322,6 +322,13 @@ button:focus-visible {
   }
 }
 
+
+.two-sides .main-body {
+  display: flex;
+  flex-direction: column;
+  place-items: center;
+}
+
 /*# sourceMappingURL=style.css.map */
 
 `;
