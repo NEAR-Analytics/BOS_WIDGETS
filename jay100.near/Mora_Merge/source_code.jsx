@@ -369,7 +369,7 @@ class Circle {
 };
 
 return (
-  <div style={{ width: "100%", height: "100%", background: "blue" }}>
+  <div style={{ width: "100%", height: "100vh", background: "blue" }}>
     <Game_Box />
   </div>
 );
