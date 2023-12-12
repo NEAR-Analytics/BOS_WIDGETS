@@ -323,7 +323,7 @@ button:focus-visible {
 }
 
 
-.two-sides .main-body {
+.main-body {
   display: flex;
   flex-direction: column;
   place-items: center;
