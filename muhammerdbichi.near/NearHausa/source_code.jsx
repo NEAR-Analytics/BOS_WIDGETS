@@ -149,7 +149,7 @@ return (
             <div className="final-results">
               <H1>Sakamakon Karshe</H1>
               <H2>
-                {score} out of {questions.length} correct - (
+                {score} Acikin {questions.length} correct - (
                 {(score / questions.length) * 100}%)
                 {/* for above 80% claim token */}
                 {score >= 4 && !claimed && (
@@ -162,7 +162,7 @@ return (
                 )}
                 {/* Display claimed message if user has claimed */}
                 {claimed && <p>NEAR Tokens Claimed!</p>}
-                {score < 4 && (
+                {score < 4 && !claimed && (
                   <p className="text-red">
                     You scored lessthan 4 questions, no reward. Try again!
                   </p>
