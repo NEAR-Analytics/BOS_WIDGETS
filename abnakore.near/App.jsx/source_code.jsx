@@ -52,83 +52,92 @@ function updateDropdown(e) {
 
 const accountId = context.accountId;
 
-return accountId ? (
-  <Widget
-    src="abnakore.near/widget/Wrapper.jsx"
-    props={{
-      body: (
-        <>
-          <div className="two-sides">
-            {/* The Aside bar that helps in quick navigation btw pages */}
-            <Widget
-              src="abnakore.near/widget/Aside.jsx"
-              props={{ objs: pages, active: "/" }}
-            />
+return (
+  <>
+    {accountId ? (
+      <Widget
+        src="abnakore.near/widget/Wrapper.jsx"
+        props={{
+          body: (
+            <>
+              <div className="two-sides">
+                {/* The Aside bar that helps in quick navigation btw pages */}
+                <Widget
+                  src="abnakore.near/widget/Aside.jsx"
+                  props={{ objs: pages, active: "/" }}
+                />
 
-            <div className="main-body">
-              <h1>VoteChain</h1>
-              <p
-                style={{
-                  color: "green",
-                  display: voted.includes(context.accountId) ? "block" : "none",
-                }}
-              >
-                You Have Succesfully Voted
-              </p>
-              <div className="card">
-                <div>
-                  <select
-                    disabled={voted.includes(context.accountId) ? true : false}
-                    className={`drop-down ${
-                      state.show_error_on_dropdown ? "error" : ""
-                    }`}
-                    value={candidate}
-                    onChange={updateDropdown}
-                    name="candidate"
-                    required
+                <div className="main-body">
+                  <h1>VoteChain</h1>
+                  <p
+                    style={{
+                      color: "green",
+                      display: voted.includes(context.accountId)
+                        ? "block"
+                        : "none",
+                    }}
                   >
-                    <option className="option" value={0}>
-                      Select Candidate
-                    </option>
-                    {candidates.map((candidate) => (
-                      <option
-                        className="option"
-                        key={candidate.id}
-                        value={candidate.id}
+                    You Have Succesfully Voted
+                  </p>
+                  <div className="card">
+                    <div>
+                      <select
+                        disabled={
+                          voted.includes(context.accountId) ? true : false
+                        }
+                        className={`drop-down ${
+                          state.show_error_on_dropdown ? "error" : ""
+                        }`}
+                        value={candidate}
+                        onChange={updateDropdown}
+                        name="candidate"
+                        required
                       >
-                        {candidate.name}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-                <button
-                  disabled={voted.includes(context.accountId) ? true : false}
-                  onClick={vote}
-                >
-                  Vote
-                </button>
+                        <option className="option" value={0}>
+                          Select Candidate
+                        </option>
+                        {candidates.map((candidate) => (
+                          <option
+                            className="option"
+                            key={candidate.id}
+                            value={candidate.id}
+                          >
+                            {candidate.name}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                    <button
+                      disabled={
+                        voted.includes(context.accountId) ? true : false
+                      }
+                      onClick={vote}
+                    >
+                      Vote
+                    </button>
 
-                <p
-                  id="thanks"
-                  className={`read-the-docs ${
-                    state.show_message ? "" : "hide"
-                  }`}
-                >
-                  Thank you for voting {candidate}
-                </p>
+                    <p
+                      id="thanks"
+                      className={`read-the-docs ${
+                        state.show_message ? "" : "hide"
+                      }`}
+                    >
+                      Thank you for voting {candidate}
+                    </p>
+                  </div>
+                  <p className="read-the-docs">
+                    <Link to="/register">Register</Link>
+                    .....
+                    <Link to="/signin">Sign In</Link>
+                  </p>
+                </div>
               </div>
-              <p className="read-the-docs">
-                <Link to="/register">Register</Link>
-                .....
-                <Link to="/signin">Sign In</Link>
-              </p>
-            </div>
-          </div>
-        </>
-      ),
-    }}
-  />
-) : (
-  (window.location.href =
-    "https://near.org/sandbox#/abnakore.near/widget/SignIn.jsx")
+            </>
+          ),
+        }}
+      />
+    ) : (
+      <Widget src="abnakore.near/widget/SignIn.jsx" props={props} />
+    )}
+  </>
 );
