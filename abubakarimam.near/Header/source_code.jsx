@@ -30,7 +30,7 @@ color: #4caf50;
 `;
 
 const logo =
-  "https://res-console.cloudinary.com/dzl44lobc/media_explorer_thumbnails/4c3906da87454bcf4ce6adbd08160067/detailed";
+  "https://res.cloudinary.com/dzl44lobc/image/upload/v1702288573/pgz67x6ofhqr1b6c1mck.webp";
 
 return (
   <Nav>
