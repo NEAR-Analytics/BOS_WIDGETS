@@ -340,7 +340,7 @@ button:focus-visible {
 .card {
   min-width: 350px;
   line-height: 1.5;
-  background-colour: #333;
+  background-color: #333;
   color: #fff;
 }
 
