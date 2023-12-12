@@ -373,7 +373,8 @@ return (
               ></button>
             </div>
             <div class="modal-body">
-              Ops! You must have ShardDog - 1555 to enter the raffle
+              Ops! You must have ShardDog - 1555 or Game Gallery NFT to enter
+              the raffle
             </div>
           </div>
         </div>
@@ -381,7 +382,7 @@ return (
     )}
 
     <Container>
-      <Widget src="zubairweb3.near/widget/rafflestore.header" />
+      <Widget src="nearfortuneraffle.near/widget/nearfortuneraffle.header" />
       <Banner>
         <StyledImg src={bannerImg} alt="banner" />
       </Banner>
@@ -450,18 +451,18 @@ return (
           <CloseDate>
             <h4 style={{ fontWeight: "700", margin: "0" }}>CLOSES</h4>
             <p style={{ fontSize: "0.75rem", lineHeight: "1rem" }}>
-              Nov 1, 11:59 PM ET
+              Dec 13, 11:59 PM GMT+1
             </p>
           </CloseDate>
           <Entries>
             <h4 style={{ fontWeight: "700", margin: "0" }}>ENTRIES</h4>
             <p style={{ fontSize: "0.75rem", lineHeight: "1rem" }}>
-              31 Entires
+              23 Entires
             </p>
           </Entries>
         </RaffleSummary>
       </RaffleContent>
-      <Widget src="zubairweb3.near/widget/rafflestore.footer" />
+      <Widget src="nearfortuneraffle.near/widget/nearfortuneraffle.footer" />
     </Container>
   </>
 );
