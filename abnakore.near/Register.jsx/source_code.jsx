@@ -18,6 +18,7 @@ return (
                   required: true,
                 }}
               />
+              <p>ee{Social.parties}</p>
               <Widget
                 src="abnakore.near/widget/Input.jsx"
                 props={{
