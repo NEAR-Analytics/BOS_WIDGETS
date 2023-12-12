@@ -13,7 +13,7 @@ export default function (props) {
           <Component
             id="trusted"
             src="andyh.near/StateDemoRoot"
-            trust={{ mode: "trusted-author" }}
+            trust={{ mode: "sandboxed" }}
             props={{ title: "State across Trusted Components" }}
           />
         </div>
