@@ -149,10 +149,13 @@ return (
                   setItem: setNewCandidate,
                 }}
               />
+              <CommitButton
+                onCommit={save}
+                data={{ candidates: [newCandidate] }}
+              >
+                Add
+              </CommitButton>
             </div>
-            <CommitButton onCommit={save} data={{ candidates: [newCandidate] }}>
-              Add
-            </CommitButton>
           </div>
         </>
       ),
