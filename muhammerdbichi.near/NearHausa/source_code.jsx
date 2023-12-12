@@ -129,13 +129,6 @@ return (
     <div className="App">
       {!account ? (
         <div>
-          <h2>Ka Karanta Kafin Kafara Jarabawa</h2>
-          <p>
-            Engr. Bakaka shine shugaban NEARHausa community, kuma NEARHAusa an
-            fara shi ne a shekarar 2022, domin koyar da mutane masu jin hausa
-            technology na NEAR protocol
-          </p>
-
           <a href="https://wallet.near.org/">
             {" "}
             <button>create account</button>
