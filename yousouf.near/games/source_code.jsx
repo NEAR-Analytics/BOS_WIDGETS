@@ -307,7 +307,7 @@ return (
                     Rock, Paper, Scissors
                     <img
                       style={{ width: "200px", height: "150px" }}
-                      src="https://res-console.cloudinary.com/dundn5oa3/media_explorer_thumbnails/e7567c86686a4b95433fa274681fe3c5/detailed"
+                      src="https://res.cloudinary.com/dundn5oa3/image/upload/v1702312291/games/otum5ssvsykygm8h7nrm.jpg"
                     />
                   </span>
                   {hoveredGame === "Rock, Paper, Scissors" && (
