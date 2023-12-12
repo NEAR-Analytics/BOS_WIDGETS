@@ -69,7 +69,7 @@ const [newCandidate, setNewCandidate] = useState({
 
 function save() {
   newCandidate.id = maxId + 1;
-  newCandidate.votes = maxId + 1;
+  newCandidate.votes = 0;
   newCandidate.rank = maxId + 1;
   setMaxId(maxId + 1);
   setCandidates((prev) => prev.concat([newCandidate]));
