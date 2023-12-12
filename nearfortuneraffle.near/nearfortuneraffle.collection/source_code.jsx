@@ -51,6 +51,7 @@ const data = fetch("https://graph.mintbase.xyz/mainnet", {
             
             
             {nft_contract_id: {_eq: "mint.sharddog.near"}},
+             {nft_contract_id: {_eq: "nft.genadrop.near"}},
            
           ]
         }
@@ -68,6 +69,8 @@ const data = fetch("https://graph.mintbase.xyz/mainnet", {
 });
 
 State.init({ raffleData: {} });
+
+console.log(data.body.data.mb_views_nft_tokens);
 
 const nftData = [
   {
