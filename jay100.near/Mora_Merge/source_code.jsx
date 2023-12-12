@@ -44,7 +44,7 @@ let timerInterval;
 let backgroundImage; // Declare a variable to hold the image
 let bestScore = 0;
 
-let imgArr = ['https://upload.wikimedia.org/wikipedia/en/d/d0/Dogecoin_Logo.png','https://cdn.iconscout.com/icon/free/png-256/free-ethereum-8-645838.png','https://www.pngall.com/wp-content/uploads/1/Bitcoin-PNG-Pic.png']
+let imgArr = ['https://upload.wikimedia.org/wikipedia/en/d/d0/Dogecoin_Logo.png','https://www.pngall.com/wp-content/uploads/1/Bitcoin-PNG-Pic.png', 'https://cdn.iconscout.com/icon/free/png-256/free-ethereum-8-645838.png']
 
 function preload() {
   for (let i = 0; i < imgArr.length; i++) {
