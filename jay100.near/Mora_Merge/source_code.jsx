@@ -1,6 +1,4 @@
-State.init({
-  score: 0,
-});
+let imgArr = ['https://upload.wikimedia.org/wikipedia/en/d/d0/Dogecoin_Logo.png','https://cdn.iconscout.com/icon/free/png-256/free-ethereum-8-645838.png','https://cdn-icons-png.flaticon.com/512/5128/5128461.png']
 
 const Game_Box = () => {
   const code = `
@@ -396,8 +394,7 @@ return (
       }}
     >
       <h1>Mora Merge</h1>
-      <span>Doge {">"} ETH</span>
-      <span>ETH {">"} BitCoin</span>
+      <span><img src={imgArr[0]} style={{width: "30px"}} /> {">"} <img src={imgArr[1]} style={{width: "30px"}} /> {">"} <img src={imgArr[2]} style={{width: "30px"}} /> </span>
     </div>
   </div>
 );
