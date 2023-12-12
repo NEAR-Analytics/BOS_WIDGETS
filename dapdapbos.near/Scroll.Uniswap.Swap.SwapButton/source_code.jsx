@@ -100,7 +100,7 @@ if (chainId !== currentChainId) {
         ]);
       }}
     >
-      Switch Scroll Chain
+      Switch to the Scroll network
     </SwapButton>
   );
 }
