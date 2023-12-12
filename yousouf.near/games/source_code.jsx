@@ -340,7 +340,7 @@ return (
                     Card Matching Game
                     <img
                       style={{ width: "200px", height: "150px" }}
-                      src="https://res-console.cloudinary.com/dundn5oa3/media_explorer_thumbnails/23f6d9ed090213f3f09a5ece0affdfa4/detailed"
+                      src="https://res.cloudinary.com/dundn5oa3/image/upload/v1702312328/games/ggxzgbjbaapzhyparkne.jpg"
                     />
                   </span>
                   {hoveredGame === "Card Matching" && (
