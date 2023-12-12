@@ -25,8 +25,16 @@ function Page() {
     case "reports": {
       return (
         <Widget
-          src={`ndcdev.near/widget/MDAO.Pages.Reports`}
-          props={passProps}
+          src={`ndcdev.near/widget/MDAO.Pages.Proposals.List`}
+          props={{ type: "report" }}
+        />
+      );
+    }
+    case "proposals": {
+      return (
+        <Widget
+          src={`ndcdev.near/widget/MDAO.Pages.Proposals.List`}
+          props={{ type: "proposal" }}
         />
       );
     }
