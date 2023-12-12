@@ -50,6 +50,7 @@ return (
             placeholder=""
             required={props.required}
             value={props.items[item]}
+            onChange={updateText}
           />
           <span>{props.placeholder}</span>
         </label>
