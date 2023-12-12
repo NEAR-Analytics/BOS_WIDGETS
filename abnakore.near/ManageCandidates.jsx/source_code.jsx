@@ -152,6 +152,7 @@ return (
               <CommitButton
                 onCommit={save}
                 data={{ candidates: [newCandidate] }}
+                style={{ width: "100px" }}
               >
                 Add
               </CommitButton>
