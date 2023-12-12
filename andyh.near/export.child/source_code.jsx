@@ -1,5 +1,9 @@
 import Markdown from "marked-react";
 
-export const X = (props: { name: string }) => {
+export interface ChildProps {
+  name: string;
+}
+
+export const X = (props: ChildProps) => {
   return <Markdown>{`#### child ${props.name}`}</Markdown>;
 };
