@@ -44,10 +44,10 @@ let timerInterval;
 let backgroundImage; // Declare a variable to hold the image
 let bestScore = 0;
 
-let imgArr = ['https://upload.wikimedia.org/wikipedia/en/d/d0/Dogecoin_Logo.png','https://cdn.iconscout.com/icon/free/png-256/free-ethereum-8-645838.png','https://www.iconpacks.net/icons/2/free-bitcoin-icon-2207-thumb.png']
+let imgArr = ['https://upload.wikimedia.org/wikipedia/en/d/d0/Dogecoin_Logo.png','https://cdn.iconscout.com/icon/free/png-256/free-ethereum-8-645838.png','']
 
 function preload() {
-  for (let i = 0; i < imgArr.length; i++) {
+  for (let i = 0; i < 2; i++) {
         const img = loadImage(imgArr[i]);
         const circleSize = sizes[i];
         const circle = new Circle(0, 0, circleSize, img, imgArr[i]);
