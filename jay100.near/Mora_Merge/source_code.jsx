@@ -374,7 +374,7 @@ class Circle {
 return (
   <div
     style={{
-      height: "90vh",
+      height: "100vh",
       display: "flex",
       alignItems: "center",
       justifyContent: "space-evenly",
