@@ -154,7 +154,7 @@ return (
                 {/* for above 80% claim token */}
                 {score >= 4 && !claimed && (
                   <>
-                    <h3>Congratulation You can now claim 0.002 Near</h3>
+                    <h3>Muna tayaka murna kaci jarabawa, kasamu 0.002 Near</h3>
                     <button onClick={claimReward}>
                       Claim Your NEAR Tokens
                     </button>
