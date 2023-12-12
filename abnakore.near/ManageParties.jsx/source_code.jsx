@@ -24,7 +24,6 @@ const [newParty, setNewParty] = useState({
 
 function save() {
   newParty.id = maxId + 1;
-  console.log(newParty);
   setMaxId(maxId + 1);
   setParties((prev) => prev.concat([newParty]));
 }
@@ -56,7 +55,6 @@ return (
             setItem: setNewParty,
           }}
         />
-        <p>{newParty.acronym}</p>
         <Widget
           src="abnakore.near/widget/Input.jsx"
           props={{
