@@ -45,7 +45,7 @@ display: flex;
 gap: 2em;
 height: h-screen;
 align-items: center;
-justify-content: space-between;
+justify-content: space-around;
 `;
 
 const Paragraph = styled.p`
@@ -54,6 +54,7 @@ letter-spacing: 0.05em;
 font-weight: bold;
 color: #303030;
 text-align: center;
+width: 100%;
 `;
 
 const Gold = styled.span`
@@ -67,6 +68,7 @@ text-stroke: 2px black;
 const Image = styled.img`
 border-radius: 0.3em;
 box-shadow: 1em 1em 3em rgba(0,0,0,0.3);
+width: 100%;
 `;
 
 const About = styled.div`
