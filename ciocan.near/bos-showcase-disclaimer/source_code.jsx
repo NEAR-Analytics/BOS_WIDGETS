@@ -84,14 +84,13 @@ State.init({
 const { isAgreed, cb1, cb2, cb3 } = state;
 
 const handleAgree = () => {
-  console.log("Agreed", state);
   if (cb1 && cb2 && cb3) {
     State.update({ isAgreed: true });
   }
 };
 
 if (isAgreed) {
-  return null;
+  return <div />;
 }
 
 return (
