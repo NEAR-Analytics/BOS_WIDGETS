@@ -47,7 +47,7 @@ let timerInterval;
 let backgroundImage; // Declare a variable to hold the image
 let bestScore = 0;
 
-let imgArr = ['https://upload.wikimedia.org/wikipedia/en/d/d0/Dogecoin_Logo.png','https://cdn.iconscout.com/icon/free/png-256/free-ethereum-8-645838.png', 'https://icons.iconarchive.com/icons/cjdowner/cryptocurrency-flat/512/Tether-USDT-icon.png', 'https://cdn-icons-png.flaticon.com/512/5128/5128461.png']
+let imgArr = ['https://upload.wikimedia.org/wikipedia/en/d/d0/Dogecoin_Logo.png','https://cdn.iconscout.com/icon/free/png-256/free-ethereum-8-645838.png', 'https://cdn-icons-png.flaticon.com/512/5128/5128461.png']
 
 function preload() {
   for (let i = 0; i < imgArr.length; i++) {
@@ -268,11 +268,6 @@ class Circle {
                     otherCircle.removeFromArrays();
                 } else if (newRadius === 80) {
                     gameScore += 8;
-                     let newCircleOption = circleOptions.filter(circle => circle.radius === newRadius);
-                    this.texture = newCircleOption[0].texture;
-                    this.radius = newCircleOption[0].radius;
-                    this.imageUrl = newCircleOption[0].imageUrl;
-                    otherCircle.removeFromArrays();
                 }
 
                 // Create a new merged circle if the radius exceeds a certain threshold
