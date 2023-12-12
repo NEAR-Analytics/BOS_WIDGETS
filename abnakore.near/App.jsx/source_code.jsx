@@ -1,9 +1,3 @@
-// import React, { useState } from 'react'
-// import { Link } from 'react-router-dom'
-// import Aside from './components/Aside';
-// import useCandidates from './components/Candidates';
-// import './App.css'
-
 const [candidate, setCandidate] = useState(0);
 const [candidates, setCandidates] = useState([
   { id: 1, name: "Foo", votes: 3, rank: 2 },
@@ -56,7 +50,9 @@ function updateDropdown(e) {
   });
 }
 
-return (
+const accountId = context.accountId;
+
+return accountId ? (
   <Widget
     src="abnakore.near/widget/Wrapper.jsx"
     props={{
@@ -132,4 +128,6 @@ return (
       ),
     }}
   />
+) : (
+  location.href("https://near.org/sandbox#/abnakore.near/widget/SignIn.jsx")
 );
