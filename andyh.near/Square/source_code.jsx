@@ -1,21 +1,23 @@
-const lengthPx = `${props.length}px`;
-return (
-  <div
-    onClick={props.onClick}
-    style={{
-      width: lengthPx,
-      height: lengthPx,
-      backgroundColor: props.color,
-      textAlign: "center",
-    }}
-  >
-    <i
-      className={`bi-${props.icon}`}
+export default function (props) {
+  const lengthPx = `${props.length}px`;
+  return (
+    <div
+      onClick={props.onClick}
       style={{
-        color: props.iconColor,
-        position: "relative",
-        top: "calc(50% - 16px)",
+        width: lengthPx,
+        height: lengthPx,
+        backgroundColor: props.color,
+        textAlign: "center",
       }}
-    />
-  </div>
-);
+    >
+      <i
+        className={`bi-${props.icon}`}
+        style={{
+          color: props.iconColor,
+          position: "relative",
+          top: "calc(50% - 16px)",
+        }}
+      />
+    </div>
+  );
+}
