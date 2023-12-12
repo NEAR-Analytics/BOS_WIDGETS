@@ -30,7 +30,7 @@ const dog =
 const defaultnft =
   "https://res.cloudinary.com/dfbqtfoxu/image/upload/v1700588097/rafflestore/defaultnft_hrzyyp.jpg";
 
-const limit = 20;
+const limit = 50;
 const offset = 0;
 
 const data = fetch("https://graph.mintbase.xyz/mainnet", {
@@ -49,10 +49,8 @@ const data = fetch("https://graph.mintbase.xyz/mainnet", {
             where: {
           _or: [
             
-         
-    {nft_contract_id: {_eq: "nft.genadrop.near"}},
-         
-         
+            
+            {nft_contract_id: {_eq: "mint.sharddog.near"}},
            
           ]
         }
