@@ -1,6 +1,6 @@
 import Markdown from "marked-react";
 
-export interface ChildProps {
+interface ChildProps {
   name: string;
 }
 
