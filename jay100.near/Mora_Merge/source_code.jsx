@@ -65,7 +65,7 @@ function resetGame() {
 }
 
 function setup() {
-    createCanvas(windowWidth / 2, windowHeight);
+    createCanvas(400, windowHeight);
     groundY = height - 5; // Ground position
     timerInterval = setInterval(() => {
         if (timer > 0) {
@@ -376,18 +376,19 @@ class Circle {
 return (
   <div
     style={{
-      width: "100%",
       height: "90vh",
       display: "flex",
       alignItems: "center",
       justifyContent: "space-evenly",
       flexDirection: "column",
+      margin: "auto",
     }}
+    className="w-100"
   >
     <Game_Box />
     <div
       style={{
-        width: "100%",
+        width: "50%",
         display: "flex",
         flexDirection: "column",
         justifyContent: "space-evenly",
