@@ -328,9 +328,7 @@ button:focus-visible {
   flex-direction: column;
   place-items: center;
   margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
+  min-width: 100vw;
   min-height: 100vh;
 }
 
