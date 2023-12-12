@@ -29,7 +29,7 @@ label .input {
 }
 `;
 const itemIndex = props.item;
-console.log(props);
+console.log(`item = ${itemIndex}`);
 
 function updateText(e) {
   props.setItem({
