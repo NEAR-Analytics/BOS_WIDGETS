@@ -290,7 +290,7 @@ return (
                     Tic-Tac-Toe
                     <img
                       style={{ width: "200px", height: "150px" }}
-                      src="https://res-console.cloudinary.com/dundn5oa3/media_explorer_thumbnails/aa16804de8a268d8cf530c7082f24c8c/detailed"
+                      src="https://res.cloudinary.com/dundn5oa3/image/upload/v1702312307/games/g8qs8nsnmrmxmfaupxyx.png"
                     />
                   </span>
                   {hoveredGame === "Tic-Tac-Toe" && (
