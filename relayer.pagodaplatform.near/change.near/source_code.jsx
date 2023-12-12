@@ -2,14 +2,6 @@ const css = fetch(
   "https://cdn.jsdelivr.net/npm/tailwindcss@2.2/dist/tailwind.min.css"
 ).body;
 
-let sharedBlockHeight = props.sharedBlockHeight;
-
-const tabs = {
-  MY_POLLS: { id: 0, text: "My Polls" },
-  ALL_EXISTING_POLLS: { id: 1, text: "All existing polls" },
-  NEW_POLL: { id: 2, text: "Create a poll" },
-};
-
 const font = fetch("https://fonts.googleapis.com/css?family=Kanit").body;
 
 if (!css && !font) return "Cannot load CSS & Font.";
@@ -61,7 +53,7 @@ return (
                 `,
             });
           }}
-          className="flex items-center r space-x-3 rtl:space-x-reverse"
+          className="flex items-center r space-x-3"
         >
           <img
             src="https://podsawee.com/change/logo.svg"
@@ -72,8 +64,8 @@ return (
             Change.near
           </span>
         </a>
-        <div className="hidden w-full md:block md:w-auto" id="navbar-solid-bg">
-          <ul className="flex flex-col font-medium mt-4 rounded-lg bg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-transparent">
+        <div className="w-full md:block md:w-auto" id="navbar-solid-bg">
+          <ul className="flex flex-col font-medium mt-4 rounded-lg bg-gray-50 md:space-x-8 md:flex-row md:mt-0 md:border-0 md:bg-transparent">
             <li>
               <a
                 href="#"
