@@ -268,6 +268,11 @@ class Circle {
                     otherCircle.removeFromArrays();
                 } else if (newRadius === 80) {
                     gameScore += 8;
+                     let newCircleOption = circleOptions.filter(circle => circle.radius === newRadius);
+                    this.texture = newCircleOption[0].texture;
+                    this.radius = newCircleOption[0].radius;
+                    this.imageUrl = newCircleOption[0].imageUrl;
+                    otherCircle.removeFromArrays();
                 }
 
                 // Create a new merged circle if the radius exceeds a certain threshold
