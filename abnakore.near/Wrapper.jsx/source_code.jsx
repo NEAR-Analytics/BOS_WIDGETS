@@ -331,6 +331,7 @@ button:focus-visible {
   min-width: 100vw;
   min-height: 100vh;
   background-colour: #333;
+  color: #fff;
 }
 
 /*# sourceMappingURL=style.css.map */
