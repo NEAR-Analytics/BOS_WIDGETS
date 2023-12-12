@@ -44,7 +44,7 @@ const Overlay = styled.div`
 
 const Content = styled.div`
   width: 516px;
-  max-height: 90vh;
+  max-height: 80vh;
   overflow: hidden;
   border-radius: 16px;
   /* border: 1px solid #292429; */
@@ -96,7 +96,7 @@ const Title = styled.div`
   font-weight: 500;
 `;
 const ScrollContent = styled.div`
-  height: calc(90vh - 120px);
+  height: calc(80vh - 120px);
   overflow-y: auto;
 `;
 const CurrencyList = styled.div`
@@ -167,13 +167,19 @@ const LoadingWrapper = styled.div`
   align-items: center;
 `;
 
-const { chainId, explor, tokens, onImport } = props;
+const { chainId, explor, tokens, account, onImport } = props;
 
 State.init({
   tokens: Object.values(props.tokens || {}),
   tab: "All",
 });
 const handleSearch = () => {
+  if (!account) {
+    State.update({
+      tokens: [],
+    });
+    return;
+  }
   const propsTokens = Object.values(props.tokens || {});
   let tokenIsAvailable = false;
   const _tokens = propsTokens.filter((token) => {
@@ -305,6 +311,7 @@ return (
                     currency,
                     display: props.display,
                     chainId: chainId,
+                    account,
                     onClick: () => {
                       props.onSelect?.(currency);
                       props.onClose();
