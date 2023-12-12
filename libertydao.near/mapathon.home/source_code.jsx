@@ -1,17 +1,29 @@
 const buttons = [
   { icon: "bi bi-book", title: "Library", to: "/hack.near/widget/Map.library" },
   { icon: "bi bi-hammer", title: "Demo", to: "/hack.near/widget/Map.demo" },
-  { icon: "bi bi-map", title: "Tutorial", to: "/hack.near/widget/Map.tutorial" },
+  {
+    icon: "bi bi-map",
+    title: "Tutorial",
+    to: "/hack.near/widget/Map.tutorial",
+  },
 ];
 
 const ButtonGrid = ({ buttons }) => {
   return (
     <div className="button-grid">
       {buttons.map((button, index) => (
-        <button key={index} className="button">
+        <Link
+          to={button.to}
+          key={index}
+          className="button"
+          style={{
+            color: "inherit",
+            textDecoration: "none",
+          }}
+        >
           <i className={button.icon} />
           {button.title}
-        </button>
+        </Link>
       ))}
     </div>
   );
