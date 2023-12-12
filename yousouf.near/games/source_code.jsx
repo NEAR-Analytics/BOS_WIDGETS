@@ -118,7 +118,7 @@ const Text = styled.p`
 `;
 
 const GameButton = styled.button`
-  background-color: rgba(51, 51, 51, 0.5); /* Adjust the alpha channel for transparency */
+  background-color: rgba(51, 51, 51, 0.5);
   color: #ffe;
   border: none;
   padding: 10px 20px;
@@ -222,10 +222,11 @@ return (
         <Widget
           src="near/widget/DIG.Button"
           props={{
-            href: "https://near.org/signup",
+            href: "https://wallet.near.org",
             label: "Create Account",
             variant: "outline-dark",
             size: "large",
+            color: "white",
           }}
         />
       ) : (
