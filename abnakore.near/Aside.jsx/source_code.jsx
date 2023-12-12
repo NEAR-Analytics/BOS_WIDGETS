@@ -37,13 +37,13 @@ return (
       <div id="tabs">
         {/* Render the objs as links */}
         {props.objs.map((obj) => (
-          <Link
+          <a
             key={obj.link}
-            to={obj.link}
+            href={obj.link}
             className={`tab ${active === obj.link ? "active" : ""}`}
           >
             {obj.name}
-          </Link>
+          </a>
         ))}
         {/* <Link to='/' className="tab">Vote Page</Link>
                     <Link to='/result' className="tab">Results</Link>
