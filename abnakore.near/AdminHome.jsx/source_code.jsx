@@ -59,10 +59,6 @@ return (
     props={{
       body: (
         <>
-          <Widget
-            src="abnakore.near/widget/Aside.jsx"
-            props={{ objs: pages, active: "/admin" }}
-          />
           <h1>Admin Home</h1>
           <h4>Candidates Details</h4>
           <Widget
