@@ -243,6 +243,10 @@ button, select {
   color: #fff;
 }
 
+h1 {
+  color: #000;
+}
+
 .error {
   border-color: #ff6464;
 }
