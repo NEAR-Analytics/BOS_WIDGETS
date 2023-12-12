@@ -12,9 +12,15 @@ const [state, setState] = useState({
 
 // Pages that will be displayed in the aside
 const [pages, setPages] = useState([
-  { name: "Voting Page", link: "/" },
-  { name: "Result", link: "/result" },
-  { name: "Log out", link: "/signin" },
+  {
+    name: "Voting Page",
+    link: "https://near.org/sandbox#/abnakore.near/widget/App.jsx",
+  },
+  {
+    name: "Result",
+    link: "https://near.org/sandbox#/abnakore.near/widget/Result.jsx",
+  },
+  { name: "Log out", link: "https://near.org/signin" },
 ]);
 
 // Users tht already voted
