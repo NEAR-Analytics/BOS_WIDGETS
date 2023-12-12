@@ -339,8 +339,9 @@ button:focus-visible {
 
 .card {
   display: flex;
+  justify-content: center;
+  align-items: center;
   flex-direction: column;
-  place-items: center;
   min-width: 350px;
   min-height: 350px;
   line-height: 1.5;
