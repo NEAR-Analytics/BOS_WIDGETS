@@ -125,11 +125,6 @@ return (
                       Thank you for voting {candidate}
                     </p>
                   </div>
-                  <p className="read-the-docs">
-                    <Link to="/register">Register</Link>
-                    .....
-                    <Link to="/signin">Sign In</Link>
-                  </p>
                 </div>
               </div>
             </>
