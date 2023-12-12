@@ -1,4 +1,4 @@
-let imgArr = [
+const gameImgArr = [
   "https://upload.wikimedia.org/wikipedia/en/d/d0/Dogecoin_Logo.png",
   "https://cdn.iconscout.com/icon/free/png-256/free-ethereum-8-645838.png",
   "https://icons.iconarchive.com/icons/cjdowner/cryptocurrency-flat/512/Tether-USDT-icon.png",
@@ -403,10 +403,10 @@ return (
     >
       <h1>Mora Merge</h1>
       <span>
-        <img src={imgArr[0]} style={{ width: "30px" }} /> {">"}{" "}
-        <img src={imgArr[1]} style={{ width: "30px" }} /> {">"}{" "}
-        <img src={imgArr[2]} style={{ width: "30px" }} /> {">"}{" "}
-        <img src={imgArr[3]} style={{ width: "30px" }} />{" "}
+        <img src={gameImgArr[0]} style={{ width: "30px" }} /> {">"}{" "}
+        <img src={gameImgArr[1]} style={{ width: "30px" }} /> {">"}{" "}
+        <img src={gameImgArr[2]} style={{ width: "30px" }} /> {">"}{" "}
+        <img src={gameImgArr[3]} style={{ width: "30px" }} />{" "}
       </span>
       <p>
         Mora Merge, is a Tetris like game. Players must stack and combine the various
