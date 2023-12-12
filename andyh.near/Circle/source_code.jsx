@@ -1,22 +1,24 @@
-const diameterPx = `${props.radius * 2}px`;
-return (
-  <div
-    onClick={props.onClick}
-    style={{
-      width: diameterPx,
-      height: diameterPx,
-      borderRadius: "100%",
-      backgroundColor: props.color,
-      textAlign: "center",
-    }}
-  >
-    <i
-      className={`bi-${props.icon}`}
+export default function (props) {
+  const diameterPx = `${props.radius * 2}px`;
+  return (
+    <div
+      onClick={props.onClick}
       style={{
-        color: props.iconColor,
-        position: "relative",
-        top: "calc(50% - 16px)",
+        width: diameterPx,
+        height: diameterPx,
+        borderRadius: "100%",
+        backgroundColor: props.color,
+        textAlign: "center",
       }}
-    />
-  </div>
-);
+    >
+      <i
+        className={`bi-${props.icon}`}
+        style={{
+          color: props.iconColor,
+          position: "relative",
+          top: "calc(50% - 16px)",
+        }}
+      />
+    </div>
+  );
+}
