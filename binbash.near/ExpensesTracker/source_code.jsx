@@ -1,32 +1,3 @@
-const accountId = props.accountId || context.accountId;
-const contractId = "binbash.near";
-
-State.init({
-  messages: [],
-  status: null,
-});
-
-const getMessages = () => {
-  const messages = Near.view(contractId, "get_all_statuses", null);
-  State.update({
-    messages,
-  });
-};
-
-const postMessage = () => {
-  if (!accountId) return;
-
-  if (state.status === null || state.status == "") return;
-
-  Near.call(contractId, "set_status", {
-    message: state.status,
-  });
-
-  getMessages();
-};
-
-getMessages();
-
 const cssFont = fetch(
   "https://fonts.googleapis.com/css2?family=Pacifico&family=Manrope:wght@200;300;400;500;600;700;800"
 ).body;
@@ -160,7 +131,7 @@ const categorizeExpense = (description) => {
   return "others"; // Default category if no match
 };
 
-const handleSubmit = async (e) => {
+const handleSubmit = (e) => {
   e.preventDefault();
   if (!description || !amount) return;
 
@@ -173,30 +144,12 @@ const handleSubmit = async (e) => {
     category: category || expenseCategory,
   };
 
-  // Sign and submit the expense transaction to the blockchain
-  await postExpense({
-    id: newExpense.id,
-    description: newExpense.description,
-    amount: newExpense.amount,
-    category: newExpense.category,
-  });
-
   onAddExpense(newExpense);
 
   setDescription("");
   setAmount("");
   setCategory("");
 };
-
-const remainingBudget = budget - totalExpenses;
-const budgetThreshold = 0.8 * budget;
-
-if (remainingBudget < budgetThreshold) {
-  // Show notification
-  showNotification("Budget Alert", {
-    body: "You have spent 80% of your budget!",
-  });
-}
 
 const handleEdit = () => {
   onEditBudget(editedBudget);
@@ -228,9 +181,7 @@ return (
   <Theme>
     <div className="expense-tracker">
       <h1 className="heading">Expense Tracker</h1>
-      <p className="mb-4 text-base-content">
-        You are logged in as <b>{accountId}</b>
-      </p>
+
       <div>
         <h4>Budget Overview</h4>
         {isEditing ? (
@@ -304,7 +255,7 @@ return (
           </label>
         </div>
         <br />
-        <button onClick={postMessage}>Add Expense</button>
+        <button onClick={handleSubmit}>Add Expense</button>
       </div>
       <br />
       <div className="expense-table">
