@@ -170,6 +170,12 @@ State.init({
   tab: "All",
 });
 const handleSearch = () => {
+  if (!account) {
+    State.update({
+      tokens: [],
+    });
+    return;
+  }
   const propsTokens = Object.values(props.tokens || {});
   let tokenIsAvailable = false;
   const _tokens = propsTokens.filter((token) => {
