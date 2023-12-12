@@ -1,3 +1,52 @@
+const cssFont = fetch(
+  "https://fonts.googleapis.com/css2?family=Pacifico&family=Manrope:wght@200;300;400;500;600;700;800"
+).body;
+
+if (!cssFont) return "";
+
+if (!state.theme) {
+  State.update({
+    theme: styled.div`
+              ${cssFont}
+                    font-family:  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                          color: #fff;
+
+                                .expense-tracker {
+                                        width: 550px;
+                                                padding: 16px;
+                                                        border-radius: 12px;
+                                                                background: linear-gradient(270deg, #5a58e5 17.37%, #66acf7 100%);
+                                                                        display: flex;
+                                                                                flex-direction: column;
+                                                                                        align-items: center;
+                                                                                                justify-content: center;
+                                                                                                        text-align: center;
+                                                                                                              }
+                                                
+        .list{
+            margin-top: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+           gap: 8px;
+           background: #fff;
+           color: #000
+        }     
+        .budget-overview{
+            display: flex;
+            justify-content: space-between;
+           
+            flex-direction: column;
+            font-size:20px
+        }                                                                                                                                                         display: flex;
+                                                                                                                                                                                                                                                                                                            justify-content: space-between;
+                                                                                                                                                                                                                                                                                                                  }
+                                                                                                                                                                                                                                                                                                                      `,
+  });
+}
+
+const Theme = state.theme;
+
 const [expenses, setExpenses] = useState([]);
 const [budget, setBudget] = useState(1000);
 const [isEditing, setIsEditing] = useState(false);
@@ -6,8 +55,6 @@ const [description, setDescription] = useState("");
 const [amount, setAmount] = useState("");
 const [category, setCategory] = useState("");
 const [searchQuery, setSearchQuery] = useState("");
-const [editModalOpen, setEditModalOpen] = useState(false);
-const [expenseToEdit, setExpenseToEdit] = useState(null);
 
 const onAddExpense = (newExpense) => {
   setExpenses([...expenses, newExpense]);
@@ -81,134 +128,58 @@ const filteredExpenses = expenses.filter(
     expense.category.toLowerCase().includes(searchQuery.toLowerCase())
 );
 
-useEffect(() => {
-  if (expenseToEdit) {
-    setDescription(expenseToEdit.description);
-    setAmount(expenseToEdit.amount.toString());
-    setCategory(expenseToEdit.category);
-  }
-}, [expenseToEdit]);
-
-const handleEditmodel = () => {
-  const editedExpense = {
-    ...expenseToEdit,
-    description,
-    amount: parseFloat(amount),
-    category,
-  };
-
-  onEditExpense(editedExpense);
-  onClose();
-};
 return (
-  <div className="app-container">
-    <h1 className="header">Expense Tracker</h1>
+  <Theme>
+    <div className="expense-tracker">
+      <h1 className="heading">Expense Tracker</h1>
 
-    <div>
-      <h2>Budget Overview</h2>
-      {isEditing ? (
-        <div>
-          <label>
-            New Budget:
-            <input
-              type="number"
-              value={editedBudget}
-              onChange={(e) => setEditedBudget(parseFloat(e.target.value))}
-            />
-          </label>
-          <button onClick={handleEdit} className="edit">
-            Save
-          </button>
-        </div>
-      ) : (
-        <>
-          <div className="budget-overview">
-            <p className="budget">Budget: ₦{budget.toFixed(2)}</p>
-            <p className="expense">
-              Total Expenses: ₦
-              {expenses
-                .reduce((total, expense) => total + expense.amount, 0)
-                .toFixed(2)}
-            </p>
-
-            <p className="remain">
-              Remaining Budget: ₦
-              {(
-                budget -
-                expenses.reduce((total, expense) => total + expense.amount, 0)
-              ).toFixed(2)}
-            </p>
+      <div>
+        <h2>Budget Overview</h2>
+        {isEditing ? (
+          <div>
+            <label>
+              New Budget:
+              <input
+                type="number"
+                value={editedBudget}
+                onChange={(e) => setEditedBudget(parseFloat(e.target.value))}
+              />
+            </label>
+            <button onClick={handleEdit} className="edit">
+              Save
+            </button>
           </div>
-          <button onClick={() => setIsEditing(true)} className="edit">
-            Edit Budget
-          </button>
-        </>
-      )}
-    </div>
-    <div className="form-ex">
-      <br />
-      <div className="form-input">
-        <label>
-          Description:
-          <textarea
-            type="text"
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-          />
-        </label>
-        <label>
-          Amount:
-          <input
-            type="number"
-            value={amount}
-            onChange={(e) => setAmount(e.target.value)}
-          />
-        </label>
-        <label>
-          Category:
-          <input
-            type="text"
-            value={category}
-            onChange={(e) => setCategory(e.target.value)}
-          />
-        </label>
+        ) : (
+          <>
+            <div className="budget-overview">
+              <p className="budget">Budget: ₦{budget.toFixed(2)}</p>
+              <p className="expense">
+                Total Expenses: ₦
+                {expenses
+                  .reduce((total, expense) => total + expense.amount, 0)
+                  .toFixed(2)}
+              </p>
+
+              <p className="remain">
+                Remaining Budget: ₦
+                {(
+                  budget -
+                  expenses.reduce((total, expense) => total + expense.amount, 0)
+                ).toFixed(2)}
+              </p>
+            </div>
+            <button
+              onClick={() => setIsEditing(true)}
+              className="btn btn-primary"
+            >
+              Edit Budget
+            </button>
+          </>
+        )}
       </div>
-      <br />
-      <button onClick={handleSubmit}>Add Expense</button>
-    </div>
-    <div>
-      <h2>Expense List</h2>
-      {/* Search input */}
-      <input
-        type="text"
-        placeholder="Search expenses..."
-        value={searchQuery}
-        onChange={(e) => setSearchQuery(e.target.value)}
-      />
-      <ul>
-        {/* Display filtered expenses */}
-        {filteredExpenses.map((expense) => (
-          <li key={expense.id}>
-            <div>
-              <strong>{expense.description}</strong>
-              <span>{expense.category}</span>
-              <span>${expense.amount}</span>
-            </div>
-            <div>
-              <button onClick={() => openEditModal(expense)}>Edit</button>
-              <button onClick={() => onDeleteExpense(expense.id)}>
-                Delete
-              </button>
-            </div>
-          </li>
-        ))}
-      </ul>
-      <div className={`modal ${editModalOpen ? "open" : ""}`}>
-        <div className="modal-content">
-          <span className="close" onClick={closeEditModal}>
-            &times;
-          </span>
-          <h2>Edit Expense</h2>
+      <div className="form-ex">
+        <br />
+        <div className="form-input">
           <label>
             Description:
             <input
@@ -233,9 +204,36 @@ return (
               onChange={(e) => setCategory(e.target.value)}
             />
           </label>
-          <button onClick={handleEditmodel}>Save Changes</button>
         </div>
+        <br />
+        <button onClick={handleSubmit}>Add Expense</button>
+      </div>
+      <div className="expense-table">
+        <h2>Expense List</h2>
+        {/* Search input */}
+        <input
+          type="text"
+          placeholder="Search expenses..."
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+        />
+        <ul>
+          {/* Display filtered expenses */}
+          {filteredExpenses.map((expense) => (
+            <li className="container row" key={expense.id}>
+              <div className=" list">
+                <strong>{expense.description}</strong>
+                <span>{expense.category}</span>
+                <span>${expense.amount}</span>
+
+                <button onClick={() => onDeleteExpense(expense.id)}>
+                  Delete
+                </button>
+              </div>
+            </li>
+          ))}
+        </ul>
       </div>
     </div>
-  </div>
+  </Theme>
 );
