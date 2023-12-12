@@ -21,9 +21,14 @@ const general_theme = {
 //----------------------------------------------------------------------------------
 //tabs ######
 const tabs = {
-  left: "Platform",
-  middle: "Near Social",
-  right: "NFT",
+  transaction: "Transaction",
+  balance: "Balance",
+  transfer: "Transfer",
+  nft: "NFT",
+  sharddog: "Sharddog & Tekuno",
+  stake: "Staking",
+  platform: "Platform",
+  social: "Near Social",
 };
 const setTab = (tab) => State.update({ tab });
 // ----------------------
@@ -33,7 +38,7 @@ State.init({
   isLoading: false,
   searchedSinger: null,
   searchedInterval: null,
-  tab: tabs.left,
+  tab: tabs.transaction,
   error: [],
 });
 //---------------------------------------------------------------------------------------
@@ -173,7 +178,80 @@ const Button = styled.button`
   letter-spacing: 0.01em;
 `;
 
-const Left = (
+const Transaction = (
+  <div className="w-100">
+    <Widget
+      src="lord1.near/widget/wrapped-transaction"
+      props={{
+        themeColor,
+        singer: state.searchedSinger,
+        interval: searchedInterval,
+      }}
+    />
+  </div>
+);
+
+const Balance = (
+  <div className="w-100">
+    <Widget
+      src="lord1.near/widget/Explorer-Balance"
+      props={{
+        themeColor,
+        singer: state.searchedSinger,
+        interval: searchedInterval,
+      }}
+    />
+  </div>
+);
+const Transfer = (
+  <div className="w-100">
+    <Widget
+      src="lord1.near/widget/wrapped-transfer"
+      props={{
+        themeColor,
+        singer: state.searchedSinger,
+        interval: searchedInterval,
+      }}
+    />
+  </div>
+);
+const NFT = (
+  <div className="w-100">
+    <Widget
+      src="lord1.near/widget/wrapped-nft"
+      props={{
+        themeColor,
+        singer: state.searchedSinger,
+        interval: searchedInterval,
+      }}
+    />
+  </div>
+);
+const Sharddog = (
+  <div className="w-100">
+    <Widget
+      src="Sharddog"
+      props={{
+        themeColor,
+        singer: state.searchedSinger,
+        interval: searchedInterval,
+      }}
+    />
+  </div>
+);
+const Stake = (
+  <div className="w-100">
+    <Widget
+      src="lord1.near/widget/wrapped-staking"
+      props={{
+        themeColor,
+        singer: state.searchedSinger,
+        interval: searchedInterval,
+      }}
+    />
+  </div>
+);
+const Platform = (
   <div className="w-100">
     <Widget
       src="lord1.near/widget/wrapped-platform"
@@ -185,23 +263,10 @@ const Left = (
     />
   </div>
 );
-
-const Middle = (
+const Social = (
   <div className="w-100">
     <Widget
       src="lord1.near/widget/wrapped-social"
-      props={{
-        themeColor,
-        singer: state.searchedSinger,
-        interval: searchedInterval,
-      }}
-    />
-  </div>
-);
-const Right = (
-  <div className="w-100">
-    <Widget
-      src="sdsd"
       props={{
         themeColor,
         singer: state.searchedSinger,
@@ -306,9 +371,14 @@ return (
             </Container>
           </div>
           <div className="w-100">
-            {state.tab === tabs.left && Left}
-            {state.tab === tabs.middle && Middle}
-            {state.tab === tabs.right && Right}
+            {state.tab === tabs.transaction && Transaction}
+            {state.tab === tabs.balance && Balance}
+            {state.tab === tabs.transfer && Transfer}
+            {state.tab === tabs.nft && NFT}
+            {state.tab === tabs.sharddog && Sharddog}
+            {state.tab === tabs.stake && Stake}
+            {state.tab === tabs.platform && Platform}
+            {state.tab === tabs.social && Social}
           </div>
         </>
       )}
