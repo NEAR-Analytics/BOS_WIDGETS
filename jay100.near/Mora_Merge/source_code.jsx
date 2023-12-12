@@ -2,6 +2,7 @@ const gameImgArr = [
   "https://upload.wikimedia.org/wikipedia/en/d/d0/Dogecoin_Logo.png",
   "https://cdn.iconscout.com/icon/free/png-256/free-ethereum-8-645838.png",
   "https://icons.iconarchive.com/icons/cjdowner/cryptocurrency-flat/512/Tether-USDT-icon.png",
+  "https://icons.iconarchive.com/icons/cjdowner/cryptocurrency-flat/512/Binance-Coin-BNB-icon.png",
   "https://cdn-icons-png.flaticon.com/512/5128/5128461.png",
 ];
 
@@ -38,7 +39,7 @@ let droppedCircles = [];
 let groundY;
 let hoveredCircle = null;
 let gameStarted = false;
-const sizes = [10, 20, 40, 80];
+const sizes = [10, 20, 40, 80, 100];
 let gameScore = 0;
 let canDropCircle = true;
 let allCircles = [];
@@ -47,7 +48,7 @@ let timerInterval;
 let backgroundImage; // Declare a variable to hold the image
 let bestScore = 0;
 
-let imgArr = ['https://upload.wikimedia.org/wikipedia/en/d/d0/Dogecoin_Logo.png','https://cdn.iconscout.com/icon/free/png-256/free-ethereum-8-645838.png', 'https://cdn-icons-png.flaticon.com/512/6001/6001566.png', 'https://cdn-icons-png.flaticon.com/512/5128/5128461.png']
+let imgArr = ['https://upload.wikimedia.org/wikipedia/en/d/d0/Dogecoin_Logo.png','https://cdn.iconscout.com/icon/free/png-256/free-ethereum-8-645838.png', 'https://cdn-icons-png.flaticon.com/512/6001/6001566.png', 'https://icons.iconarchive.com/icons/cjdowner/cryptocurrency-flat/512/Binance-Coin-BNB-icon.png','https://cdn-icons-png.flaticon.com/512/5128/5128461.png']
 
 function preload() {
   for (let i = 0; i < imgArr.length; i++) {
@@ -276,17 +277,26 @@ class Circle {
                 }
 
                 // Create a new merged circle if the radius exceeds a certain threshold
-                if (newRadius >= 160) {
+                if (newRadius == 160) {
                     gameScore += 16;
+                    let newCircleOption = circleOptions.filter(circle => circle.radius === 100);
+                    this.texture = newCircleOption[0].texture;
+                    this.radius = newCircleOption[0].radius;
+                    this.imageUrl = newCircleOption[0].imageUrl;
+                    otherCircle.removeFromArrays();
+                    
+                }
+
+                if(newRadius > 160){
+                  gameScore += 32;
                     let mergedCircle = new Circle(this.x, this.y, newRadius, this.texture, this.imageUrl);
                     allCircles = allCircles.filter(circle => circle !== this && circle !== otherCircle);
                     allCircles.push(mergedCircle);
                     this.removeFromArrays();
                     otherCircle.removeFromArrays();
-                } else {
-                    this.radius = newRadius;
-                   otherCircle.removeFromArrays();
                 }
+
+
             } else {
                 // Resolve collision as a bounce
                 this.resolveCollision(otherCircle);
@@ -406,12 +416,13 @@ return (
         <img src={gameImgArr[0]} style={{ width: "30px" }} /> {">"}{" "}
         <img src={gameImgArr[1]} style={{ width: "30px" }} /> {">"}{" "}
         <img src={gameImgArr[2]} style={{ width: "30px" }} /> {">"}{" "}
-        <img src={gameImgArr[3]} style={{ width: "30px" }} />{" "}
+        <img src={gameImgArr[3]} style={{ width: "30px" }} /> {">"}{" "}
+        <img src={gameImgArr[4]} style={{ width: "30px" }} /> {" "}
       </span>
       <p>
-        Mora Merge, is a Tetris like game. Players must stack and combine the various
-        coins before the time runs out, Coins of the same kind can combine and
-        become larger coins, which increase the player's score.
+        Mora Merge, is a Tetris like game. Players must stack and combine the
+        various coins before the time runs out, Coins of the same kind can
+        combine and become larger coins, which increase the player's score.
       </p>
     </div>
   </div>
