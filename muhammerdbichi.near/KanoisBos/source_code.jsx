@@ -53,7 +53,15 @@ const Learn = () => (
       <h2 className="text-red text-center">
         Barka Da Zuwa Shafin NEARHausa Quiz
       </h2>
-      <h4 className="text-red text-center">Kazabi Jarabawa da zaka fara</h4>
+      <h4 className="text-red text-center">Koyi Matakin Farko Na NearHausa</h4>
+      <h2>Ka Karanta Kafin Kafara Jarabawa</h2>
+      <p>
+        Engr. Bakaka shine shugaban NEARHausa community, kuma NEARHAusa an fara
+        shi ne a shekarar 2022, domin koyar da mutane masu jin hausa technology
+        na NEAR protocol, babban mukami da bahaushe ya taba rikewa a NEAR shine
+        Grant Manager, Kuma an kirkiri NEAR blockchain akan yarjejeniya ta
+        Nightshade
+      </p>
     </div>
     <PrimaryLink small={small} href="muhammerdbichi.near/widget/NearHausa">
       Kafara NearHausa Quiz
