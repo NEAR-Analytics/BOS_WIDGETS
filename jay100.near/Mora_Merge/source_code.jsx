@@ -63,7 +63,7 @@ function resetGame() {
 }
 
 function setup() {
-    createCanvas(400, windowHeight);
+    createCanvas(350, windowHeight);
     groundY = height - 5; // Ground position
     timerInterval = setInterval(() => {
         if (timer > 0) {
@@ -386,7 +386,7 @@ return (
     <Game_Box />
     <div
       style={{
-        width: "50%",
+        width: "100%",
         display: "flex",
         flexDirection: "column",
         justifyContent: "space-evenly",
@@ -395,6 +395,7 @@ return (
     >
       <h1>Mora Merge</h1>
       <span><img src={imgArr[0]} style={{width: "30px"}} /> {">"} <img src={imgArr[1]} style={{width: "30px"}} /> {">"} <img src={imgArr[2]} style={{width: "30px"}} /> </span>
+      <p>Mora Merge, is a Tetris game. Players must stack and combine the various coins before the time runs out, Coins of the same kind can combine and become larger coins, which increase the player's score.</p>
     </div>
   </div>
 );
