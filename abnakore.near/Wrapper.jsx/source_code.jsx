@@ -169,7 +169,7 @@ label .input {
   border: 1px solid rgba(105, 105, 105, 0.397);
   border-radius: 10px;
   font-size: medium;
-  position: absolute;
+  position: relative;
 }
 
 .input + span {
