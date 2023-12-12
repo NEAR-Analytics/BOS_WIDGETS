@@ -349,6 +349,7 @@ button:focus-visible {
   min-height: 350px;
   line-height: 1.5;
   background-color: #333;
+  border-radius: 10px;
   color: #fff;
   font-size: 20px;
 }
