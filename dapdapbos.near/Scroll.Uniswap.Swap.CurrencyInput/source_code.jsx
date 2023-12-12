@@ -14,9 +14,10 @@ const InputField = styled.div`
 `;
 const InputWarpper = styled.div`
   height: 46px;
-  padding: 10px 0px;
+  line-height: 46px;
   @media (max-width: 768px) {
     height: 40px;
+    line-height: 40px;
   }
 `;
 const Input = styled.input`
@@ -26,8 +27,6 @@ const Input = styled.input`
   background-color: transparent;
   outline: none;
   border: none;
-  height: 40px;
-  vertical-align: bottom;
   width: 100%;
   @media (max-width: 768px) {
     font-size: 32px;
@@ -73,8 +72,8 @@ const CurrencySelectNoToken = styled.div`
   justify-content: space-between;
   align-items: center;
   border: 1px solid var(--currency-empty-border-color);
-  border-radius: 8px;
-  padding: 6px 10px 6px 10px;
+  border-radius: 37px;
+  padding: 5px 10px 5px 10px;
   background: var(--currency-empty-bg-color);
   color: var(--currency-empty-text-color);
   display: flex;
