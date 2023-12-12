@@ -17,13 +17,13 @@ export default function (props) {
             props={{ title: "State across Trusted Components" }}
           />
         </div>
-        <div className="col">
+        {/*<div className="col">
           <Component
             id="sandboxed"
             src="andyh.near/StateDemoRoot"
             props={{ title: "State within Sandboxed Components" }}
           />
-        </div>
+        </div>*/}
       </div>
     </>
   );
