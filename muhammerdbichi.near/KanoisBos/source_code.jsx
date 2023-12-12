@@ -65,7 +65,7 @@ const Learn = () => (
     </div>
     <PrimaryLink
       small={small}
-      href="https://bos.gg/muhammerdbichi.near/widget/NearHausa"
+      href="https://near.social/muhammerdbichi.near/widget/NearHausa"
     >
       Kafara NearHausa Quiz
     </PrimaryLink>
