@@ -29,7 +29,7 @@ return (
         rel="noopener noreferrer"
       >
         <img
-          src="https://res-console.cloudinary.com/dzl44lobc/media_explorer_thumbnails/38dc14a6d822158c00b12b3a04cd1e49/detailed"
+          src="https://res.cloudinary.com/dzl44lobc/image/upload/v1702305812/oca2zyuhvgmafqx7sspj.jpg"
           alt="Near Protocol"
         />
       </LogoLink>
@@ -39,7 +39,7 @@ return (
         rel="noopener noreferrer"
       >
         <img
-          src="https://res-console.cloudinary.com/dzl44lobc/media_explorer_thumbnails/422cfdfe9f0e5243f463d70753565647/detailed"
+          src="https://res.cloudinary.com/dzl44lobc/image/upload/v1702305527/gi40ee5fzrqxeqq8yzsu.jpg"
           alt="Twitter"
         />
       </LogoLink>
@@ -49,7 +49,7 @@ return (
         rel="noopener noreferrer"
       >
         <img
-          src="https://res-console.cloudinary.com/dzl44lobc/media_explorer_thumbnails/3ebba257b07165529571749dee930328/detailed"
+          src="https://res.cloudinary.com/dzl44lobc/image/upload/v1702305527/nwzrdayxprgodwmjzfid.png"
           alt="Discord"
         />
       </LogoLink>
