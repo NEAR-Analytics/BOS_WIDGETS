@@ -194,6 +194,14 @@ const getUnitAmount = () => {
   return unitAmount.toFixed(3);
 };
 
+useEffect(() => {
+  if (!state.trade) return;
+  console.log(state.trade);
+  State.update({
+    showPriceImpactWarning: !Big(state.trade.priceImpact || 0).lt(2),
+  });
+}, [state.trade]);
+
 return (
   <>
     <SwapContainer>
@@ -334,9 +342,32 @@ return (
                 outputCurrencyAmount: state.outputCurrencyAmount,
                 slippage,
               },
+              showPriceImpactWarning: state.showPriceImpactWarning,
               onRouterClick: (ev) => {
                 State.update({
                   showRoutes: true,
+                  clientX: ev.clientX,
+                  clientY: ev.clientY,
+                });
+              },
+              onSlippageClick: (ev) => {
+                State.update({
+                  showSlippageAmount: true,
+                  clientX: ev.clientX,
+                  clientY: ev.clientY,
+                });
+              },
+            }}
+          />
+        )}
+        {state.showPriceImpactWarning && (
+          <Widget
+            src="dapdapbos.near/widget/Linea.Uniswap.Swap.PriceImpactWarningButton"
+            props={{
+              priceImpact: state.trade.priceImpact,
+              onClick: (ev) => {
+                State.update({
+                  showPriceImpactTips: true,
                   clientX: ev.clientX,
                   clientY: ev.clientY,
                 });
@@ -522,6 +553,37 @@ return (
           onClose: () => {
             State.update({
               showRoutes: false,
+            });
+          },
+        }}
+      />
+    )}
+    {state.showSlippageAmount && state.trade && (
+      <Widget
+        src="dapdapbos.near/widget/Linea.Uniswap.Swap.SlippageAmount"
+        props={{
+          clientX: state.clientX,
+          clientY: state.clientY,
+          slippage,
+          amount: state.outputCurrencyAmount,
+          outputCurrency: state.outputCurrency,
+          onClose: () => {
+            State.update({
+              showSlippageAmount: false,
+            });
+          },
+        }}
+      />
+    )}
+    {state.showPriceImpactTips && (
+      <Widget
+        src="dapdapbos.near/widget/Linea.Uniswap.Swap.PriceImpactWarning"
+        props={{
+          clientX: state.clientX,
+          clientY: state.clientY,
+          onClose: () => {
+            State.update({
+              showPriceImpactTips: false,
             });
           },
         }}
