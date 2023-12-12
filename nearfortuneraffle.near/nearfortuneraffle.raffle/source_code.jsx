@@ -106,12 +106,12 @@ const nfts = Near.view(contractId, "nft_tokens_for_owner", {
   limit: 200,
 });
 
-const nftTitle = "Kano is bos jollof-1";
+const nftTitle = "Kano is bos jollof - 1";
 const id = "mint.sharddog.near:2cdbb07ea61d7a4175791ca1170ee4c3";
 State.init({ nftCheck: false });
 
 for (let i = 0; i < nfts.length; i++) {
-  if (id === nfts[i].metadata.metadata_id) {
+  if (nftTitle === nfts[i].metadata.title) {
     State.update({ nftCheck: true });
     break;
   }
