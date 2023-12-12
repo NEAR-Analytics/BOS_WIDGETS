@@ -69,13 +69,13 @@ aside {
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
-  top: 0;
+  bottom: 0;
   left: 0;
 }
 aside #tabs {
   display: flex;
-  flex-direction: column;
-  gap: 10px;
+  flex-direction: row;
+  gap: 20px;
 }
 aside #tabs .tab {
   padding: 10px;
