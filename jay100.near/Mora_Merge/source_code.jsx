@@ -65,7 +65,7 @@ function resetGame() {
 }
 
 function setup() {
-    createCanvas(350, windowHeight);
+    createCanvas(windowWidth / 2, windowHeight);
     groundY = height - 5; // Ground position
     timerInterval = setInterval(() => {
         if (timer > 0) {
@@ -359,8 +359,13 @@ class Circle {
 
   return (
     <div
-      style={{ height: "85%", display: "flex", flexDirection: "column" }}
-      className="mx-auto"
+      style={{
+        width: "100%",
+        height: "85%",
+        display: "flex",
+        flexDirection: "column",
+      }}
+      className="mx-3"
     >
       {" "}
       <iframe className="w-100 h-100" srcDoc={code} />
@@ -369,7 +374,29 @@ class Circle {
 };
 
 return (
-  <div style={{ width: "100%", height: "85vh", background: "blue" }}>
+  <div
+    style={{
+      width: "100%",
+      height: "90vh",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "space-evenly",
+      flexDirection: "column",
+    }}
+  >
     <Game_Box />
+    <div
+      style={{
+        width: "100%",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "space-evenly",
+        alignItems: "center",
+      }}
+    >
+      <h1>Mora Merge</h1>
+      <span>Doge {">"} ETH</span>
+      <span>ETH {">"} BitCoin</span>
+    </div>
   </div>
 );
