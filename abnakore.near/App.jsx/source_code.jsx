@@ -129,7 +129,6 @@ return accountId ? (
     }}
   />
 ) : (
-  window.location.href =
-    "https://near.org/sandbox#/abnakore.near/widget/SignIn.jsx";
-  
+  (window.location.href =
+    "https://near.org/sandbox#/abnakore.near/widget/SignIn.jsx")
 );
