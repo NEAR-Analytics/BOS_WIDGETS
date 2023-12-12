@@ -399,8 +399,8 @@ return (
             onchain.
           </InstructionContent>
           <InstructionContent>
-            If you have a <b>ShardDog - 1555</b> you can enter the raffle to
-            win!
+            If you have a <b>ShardDog - 1555</b> or <b>Game Gallery NFT</b> you
+            can enter the raffle to win!
           </InstructionContent>
         </InstructionWrapper>
         <PrizeWrapper>
