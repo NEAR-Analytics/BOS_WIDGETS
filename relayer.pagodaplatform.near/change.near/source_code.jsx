@@ -2,6 +2,14 @@ const css = fetch(
   "https://cdn.jsdelivr.net/npm/tailwindcss@2.2/dist/tailwind.min.css"
 ).body;
 
+let sharedBlockHeight = props.sharedBlockHeight;
+
+const tabs = {
+  MY_POLLS: { id: 0, text: "My Polls" },
+  ALL_EXISTING_POLLS: { id: 1, text: "All existing polls" },
+  NEW_POLL: { id: 2, text: "Create a poll" },
+};
+
 const font = fetch("https://fonts.googleapis.com/css?family=Kanit").body;
 
 if (!css && !font) return "Cannot load CSS & Font.";
@@ -15,6 +23,12 @@ if (!state.theme) {
     theme: styled.div`
     * {
     font-family: 'Kanit';
+    }
+    #home_box{
+        display: ;
+    }
+    #create_box, #start_box, #support_box, #my_box , #details_box{
+        display:none;
     }
       ${font}
       ${css}
@@ -30,6 +44,23 @@ return (
       <div className="max-w-screen-xl flex flex-wrap items-center lg:justify-center xl:justify-between mx-auto p-4">
         <a
           href="#"
+          onClick={() => {
+            State.update({
+              theme: styled.div`
+                * {
+                font-family: 'Kanit';
+                }
+                #home_box{
+                    display: ;
+                }
+                #create_box, #start_box, #details_box, #support_box, #my_box{
+                    display:none;
+                }
+                ${font}
+                ${css}
+                `,
+            });
+          }}
           className="flex items-center r space-x-3 rtl:space-x-reverse"
         >
           <img
@@ -46,6 +77,27 @@ return (
             <li>
               <a
                 href="#"
+                id="start_change"
+                onClick={() => {
+                  State.update({
+                    theme: styled.div`
+                        * {
+                        font-family: 'Kanit';
+                        }
+                        #start_box{
+                            display: ;
+                        }
+                        #create_box, #home_box, #details_box, #support_box, #my_box{
+                            display:none;
+                        }
+                        #start_change{
+                            text-decoration: underline;
+                        }
+                        ${font}
+                        ${css}
+                        `,
+                  });
+                }}
                 className="block py-2 px-3 md:p-0 text-green-800 rounded hover:underline hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-green-700"
               >
                 เริ่มการรณรงค์
@@ -54,6 +106,27 @@ return (
             <li>
               <a
                 href="#"
+                id="create_change"
+                onClick={() => {
+                  State.update({
+                    theme: styled.div`
+                        * {
+                        font-family: 'Kanit';
+                        }
+                        #create_box{
+                            display: ;
+                        }
+                        #start_box, #home_box, #details_box, #support_box, #my_box{
+                            display:none;
+                        }
+                        #create_change{
+                            text-decoration: underline;
+                        }
+                        ${font}
+                        ${css}
+                        `,
+                  });
+                }}
                 className="block py-2 px-3 md:p-0 text-green-800 rounded hover:underline hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-green--700"
               >
                 สร้างการรณรงค์
@@ -62,6 +135,27 @@ return (
             <li>
               <a
                 href="#"
+                id="my_change"
+                onClick={() => {
+                  State.update({
+                    theme: styled.div`
+                        * {
+                        font-family: 'Kanit';
+                        }
+                        #my_box{
+                            display: ;
+                        }
+                        #create_box,#start_box, #home_box, #details_box, #support_box{
+                            display:none;
+                        }
+                        #my_change{
+                            text-decoration: underline;
+                        }
+                        ${font}
+                        ${css}
+                        `,
+                  });
+                }}
                 className="block py-2 px-3 md:p-0 text-green-800 rounded hover:underline hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-green-700"
               >
                 การรณรงค์ของฉัน
@@ -73,7 +167,7 @@ return (
       <div className="h-px bg-gray-200 border-0"></div>
     </div>
 
-    <div className="relative pt-36 ml-auto">
+    <div id="home_box" className="relative pt-36 ml-auto">
       <div className="lg:w-2/3 text-center mx-auto">
         <div className="flex justify-center mb-4">
           <img
@@ -93,17 +187,54 @@ return (
         <div className="mt-16 flex flex-wrap justify-center gap-y-4 gap-x-6">
           <a
             href="#"
+            onClick={() => {
+              State.update({
+                theme: styled.div`
+                * {
+                font-family: 'Kanit';
+                }
+                #start_box{
+                    display: ;
+                }
+                #create_box, #home_box, #details_box, #support_box, #my_box{
+                    display:none;
+                }
+                ${font}
+                ${css}
+                `,
+              });
+            }}
             className="text-white bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
           >
             <span className="relative text-base font-semibold text-white">
               เริ่มการรณรงค์
             </span>
           </a>
-          <button class="relative inline-flex items-center justify-center p-0.5 mb-2 me-2 overflow-hidden text-sm font-medium text-green-900 rounded-lg group bg-gradient-to-br from-green-400 to-green-800 group-hover:from-green-400 group-hover:to-blue-600 hover:text-green-400 focus:ring-4 focus:outline-none focus:ring-green-200">
-            <span class="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white rounded-md group-hover:bg-opacity-0">
+          <a
+            href="#"
+            onClick={() => {
+              State.update({
+                theme: styled.div`
+                * {
+                font-family: 'Kanit';
+                }
+                #support_box{
+                    display: ;
+                }
+                #create_box, #home_box, #details_box, #start_box, #my_box{
+                    display:none;
+                }
+                ${font}
+                ${css}
+                `,
+              });
+            }}
+            className="relative inline-flex items-center justify-center p-0.5 mb-2 me-2 overflow-hidden text-sm font-medium text-green-900 rounded-lg group bg-gradient-to-br from-green-400 to-green-800 group-hover:from-green-400 group-hover:to-blue-600 hover:text-green-400 focus:ring-4 focus:outline-none focus:ring-green-200"
+          >
+            <span className="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white rounded-md group-hover:bg-opacity-0">
               สนับสนุนเรา
             </span>
-          </button>
+          </a>
         </div>
         <div className="hidden py-8 mt-16 border-y border-gray-100 sm:flex justify-between">
           <div className="text-center">
@@ -130,7 +261,7 @@ return (
       </div>
     </div>
 
-    <div className="mt-10 mb-10 max-w-xl mx-auto">
+    <div id="create_box" className="mt-10 mb-10 max-w-xl mx-auto">
       <div className="text-center text-4xl mb-10 text-green-800">
         สร้างการรณรงค์
       </div>
@@ -255,8 +386,7 @@ return (
       </div>
        
     </div>
-
-    <div className="mt-10 mb-10">
+    <div id="start_box" className="mt-10 mb-10">
       <div className="text-center text-4xl mb-10 text-green-800">
         ประเด็นการรณรงค์ทั้งหมด
       </div>
@@ -305,8 +435,56 @@ return (
         </div>
       </div>
     </div>
-
-    <div className="mt-10 mb-10">
+    <div id="my_box" className="mt-10 mb-10">
+      <div className="text-center text-4xl mb-10 text-green-800">
+        การรณรงค์ของฉัน
+      </div>
+      <div className=" flex flex-wrap justify-center">
+        <div className="max-w-sm bg-white border border-gray-200 rounded-lg shadow mr-2 ml-2 mb-2 mt-2">
+          <a href="#">
+            <img
+              className="rounded-t-lg"
+              src="https://wallpaperset.com/w/full/3/2/a/458324.jpg"
+              alt=""
+            />
+          </a>
+          <div className="p-5">
+            <a href="#">
+              <div className="mb-2 text-2xl font-bold tracking-tight text-center text-green-900">
+                ชื่อประเด็นที่จะรณรงค์
+              </div>
+            </a>
+            <div className="mb-3 font-normal text-center text-green-600">
+              รายละเอียดเรื่องที่จะรณรงค์
+            </div>
+            <div className="text-center">
+              <a
+                href="#"
+                className="inline-flex text-white bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
+              >
+                ดูประเด็นเรื่องนี้
+                <svg
+                  className="rtl:rotate-180 w-3.5 h-3.5 ms-2"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 14 10"
+                >
+                  <path
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M1 5h12m0 0L9 1m4 4L9 9"
+                  />
+                </svg>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="details_box" className="mt-10 mb-10">
       <div className="w-full p-4 text-center bg-white sm:p-8">
         <div className="flex flex-col items-center justify-center mb-5">
           <img
@@ -330,6 +508,12 @@ return (
               07 ตุลาคม 2567
             </div>
             <div className="text-green-500">วันที่สิ้นสุด</div>
+          </div>
+          <div className="flex flex-col items-center justify-center mr-3 ml-3">
+            <div className="mb-2 text-2xl text-green-700 font-extrabold">
+              การศึกษา
+            </div>
+            <div className="text-green-500">ประเภทของประเด็น</div>
           </div>
         </div>
 
@@ -429,7 +613,7 @@ return (
         </div>
       </div>
     </div>
-    <div className="mt-10 mb-10">
+    <div id="support_box" className="mt-10 mb-10">
       <div className="text-center text-4xl mb-10 text-green-800">
         ร่วมสนับสนุนเรา
       </div>
