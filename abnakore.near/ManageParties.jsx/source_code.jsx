@@ -29,49 +29,56 @@ function save() {
 }
 
 return (
-  <>
-    <Widget
-      src="abnakore.near/widget/Aside.jsx"
-      props={{ objs: pages, active: "/admin/manage_parties" }}
-    />
-    <h1>Manage Parties</h1>
-    <Widget
-      src="abnakore.near/widget/Table.jsx"
-      props={{
-        headings: ["S/N", "Party Name", "Acronym"],
-        data: Object.values(parties.map((c) => Object.values(c))),
-      }}
-    />
-    <div className="form">
-      <div className="flex">
-        <Widget
-          src="abnakore.near/widget/Input.jsx"
-          props={{
-            type: "text",
-            placeholder: "Party Name",
-            required: true,
-            item: "name",
-            items: newParty,
-            setItem: setNewParty,
-          }}
-        />
-        <Widget
-          src="abnakore.near/widget/Input.jsx"
-          props={{
-            type: "text",
-            placeholder: "Acronym",
-            required: true,
-            item: "acronym",
-            items: newParty,
-            setItem: setNewParty,
-          }}
-        />
-        <CommitButton onCommit={save} data={{ parties: [newParty] }}>
-          Add
-        </CommitButton>
-      </div>
-    </div>
-  </>
+  <Widget
+    src="abnakore.near/widget/Wrapper.jsx"
+    props={{
+      body: (
+        <>
+          <Widget
+            src="abnakore.near/widget/Aside.jsx"
+            props={{ objs: pages, active: "/admin/manage_parties" }}
+          />
+          <h1>Manage Parties</h1>
+          <Widget
+            src="abnakore.near/widget/Table.jsx"
+            props={{
+              headings: ["S/N", "Party Name", "Acronym"],
+              data: Object.values(parties.map((c) => Object.values(c))),
+            }}
+          />
+          <div className="form">
+            <div className="flex">
+              <Widget
+                src="abnakore.near/widget/Input.jsx"
+                props={{
+                  type: "text",
+                  placeholder: "Party Name",
+                  required: true,
+                  item: "name",
+                  items: newParty,
+                  setItem: setNewParty,
+                }}
+              />
+              <Widget
+                src="abnakore.near/widget/Input.jsx"
+                props={{
+                  type: "text",
+                  placeholder: "Acronym",
+                  required: true,
+                  item: "acronym",
+                  items: newParty,
+                  setItem: setNewParty,
+                }}
+              />
+            </div>
+            <CommitButton onCommit={save} data={{ parties: [newParty] }}>
+              Add
+            </CommitButton>
+          </div>
+        </>
+      ),
+    }}
+  />
 );
 // {
 //   "abnakore.near": {
