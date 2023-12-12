@@ -420,7 +420,7 @@ return (
                 <NftTitle>{nft.title}</NftTitle>
                 <NftName>{nft.name}</NftName>
                 <NfttBtn>
-                  <a href="https://near.org/zubairweb3.near/widget/rafflestore.raffle">
+                  <a href="https://near.org/nearfortuneraffle.near/widget/nearfortuneraffle.raffle">
                     Enter
                   </a>
                 </NfttBtn>
@@ -436,7 +436,7 @@ return (
                 <RaffleListImg src={nft.media} alt={nft.name} />
                 <NftTitle>{nft.title}</NftTitle>
                 <NftName>{nft.name}</NftName>
-                <NfttBtn href="https://near.org/zubairweb3.near/widget/rafflestore.raffle">
+                <NfttBtn href="https://near.org/nearfortuneraffle.near/widget/nearfortuneraffle.raffle">
                   Enter
                 </NfttBtn>
                 <RaffleStatus>{nft.status}</RaffleStatus>
