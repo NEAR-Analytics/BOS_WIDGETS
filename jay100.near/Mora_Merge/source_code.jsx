@@ -44,10 +44,10 @@ let timerInterval;
 let backgroundImage; // Declare a variable to hold the image
 let bestScore = 0;
 
-let imgArr = ['https://upload.wikimedia.org/wikipedia/en/d/d0/Dogecoin_Logo.png','https://cdn.iconscout.com/icon/free/png-256/free-ethereum-8-645838.png','']
+let imgArr = ['https://upload.wikimedia.org/wikipedia/en/d/d0/Dogecoin_Logo.png','https://cdn.iconscout.com/icon/free/png-256/free-ethereum-8-645838.png','https://coinpush.app/wp-content/uploads/2023/03/bitcoin-png-1.png']
 
 function preload() {
-  for (let i = 0; i < 2; i++) {
+  for (let i = 0; i < imgArr.length; i++) {
         const img = loadImage(imgArr[i]);
         const circleSize = sizes[i];
         const circle = new Circle(0, 0, circleSize, img, imgArr[i]);
@@ -180,7 +180,7 @@ class Circle {
         this.radius = radius;
         this.speed = 6;
         this.isFalling = true;
-        this.xSpeed = random(0, 0); // Initial random horizontal speed
+        this.xSpeed = random(-0.05, 0.05); // Initial random horizontal speed
         this.ySpeed = 5;
         this.texture = img; // Use the image as texture
         this.imageUrl = imgUrl;
