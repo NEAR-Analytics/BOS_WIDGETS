@@ -12,6 +12,7 @@ const Wrapper = styled.div`
   justify-content: space-between;
   top: 0;
   left: 0;
+  z-index: 100;
 }
 .aside #tabs {
   display: flex;
