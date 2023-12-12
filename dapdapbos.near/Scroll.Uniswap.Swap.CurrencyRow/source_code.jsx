@@ -12,6 +12,9 @@ const CurrencyRow = styled.div`
   &.active {
     pointer-events: none;
   }
+  .active {
+    opacity: 0.5;
+  }
 `;
 
 const checkIcon = (
@@ -58,6 +61,9 @@ const CurrencyAmount = styled.div`
   font-size: 18px;
   font-weight: 500px;
   color: #101010;
+  display: flex;
+  align-items: center;
+  gap: 10px;
   @media (max-width: 768px) {
     font-size: 14px;
     font-weight: 400;
@@ -102,18 +108,22 @@ return (
         />
       )}
     <CurrencyLabel>
-      <Widget
-        src="dapdapbos.near/widget/Linea.Uniswap.Swap.TokenIcon"
-        props={{ size: 36, token: currency }}
-      />
+      <div className={isActive ? "active" : ""}>
+        <Widget
+          src="dapdapbos.near/widget/Linea.Uniswap.Swap.TokenIcon"
+          props={{ size: 36, token: currency }}
+        />
+      </div>
       <div>
         <CurrencySymbol>{currency.name}</CurrencySymbol>
-        <CurrencyName>{currency.symbol}</CurrencyName>
+        <CurrencyName className={isActive ? "active" : ""}>
+          {currency.symbol}
+        </CurrencyName>
       </div>
     </CurrencyLabel>
     <CurrencyAmount>
-      {utils.balanceFormated()}
-      {isActive ? checkIcon : ""}
+      <div className={isActive ? "active" : ""}> {utils.balanceFormated()}</div>
+      {isActive ? checkIcon : <div style={{ width: "16px" }} />}
     </CurrencyAmount>
   </CurrencyRow>
 );
