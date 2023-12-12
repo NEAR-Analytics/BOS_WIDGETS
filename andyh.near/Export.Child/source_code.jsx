@@ -1,3 +1,4 @@
+import type XYZ from "wherever";
 import Markdown from "marked-react";
 
 export interface ChildProps {
