@@ -12,25 +12,28 @@ const getIconByAddress = (address) => {
 
 const size = props.size || 22;
 const token = props.token || {};
-const symbol = token.symbol || "";
 
-const _src =
-  props.src ||
-  token.icon ||
-  cached_icons[symbol] ||
-  (token.address && getIconByAddress(token.address)) ||
-  DEFAULT_TOKEN_ICON ||
-  "";
-if (!state.src || (state.src !== _src && !state.deadlinks[symbol])) {
+useEffect(() => {
+  if (!token) return;
+  const symbol = token.symbol || "";
+  if (state.deadlinks[symbol]) {
+    State.update({
+      src: DEFAULT_TOKEN_ICON,
+    });
+    return;
+  }
+  const _src =
+    props.src ||
+    token.icon ||
+    cached_icons[symbol] ||
+    (token.address && getIconByAddress(token.address)) ||
+    DEFAULT_TOKEN_ICON;
+
   State.update({
     src: _src,
   });
-}
-if (state.deadlinks[symbol]) {
-  State.update({
-    src: DEFAULT_TOKEN_ICON,
-  });
-}
+}, [token]);
+
 return (
   <TokenIcon
     src={state.src}
