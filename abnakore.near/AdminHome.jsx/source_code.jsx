@@ -54,35 +54,42 @@ const [candidates, setCandidates] = useState([
 ]);
 
 return (
-  <>
-    <Widget
-      src="abnakore.near/widget/Aside.jsx"
-      props={{ objs: pages, active: "/admin" }}
-    />
-    <h1>Admin Home</h1>
-    <h4>Candidates Details</h4>
-    <Widget
-      src="abnakore.near/widget/Table.jsx"
-      props={{
-        headings: [
-          "S/N",
-          "Candidate's Name",
-          "Party",
-          "Email",
-          "Role",
-          "Number of votes",
-          "Rank",
-        ],
-        data: Object.values(candidates.map((c) => Object.values(c))),
-      }}
-    />
-    <h4>Parties Details</h4>
-    <Widget
-      src="abnakore.near/widget/Table.jsx"
-      props={{
-        headings: ["S/N", "Party Name", "Acronym"],
-        data: Object.values(parties.map((c) => Object.values(c))),
-      }}
-    />
-  </>
+  <Widget
+    src="abnakore.near/widget/Wrapper.jsx"
+    props={{
+      body: (
+        <>
+          <Widget
+            src="abnakore.near/widget/Aside.jsx"
+            props={{ objs: pages, active: "/admin" }}
+          />
+          <h1>Admin Home</h1>
+          <h4>Candidates Details</h4>
+          <Widget
+            src="abnakore.near/widget/Table.jsx"
+            props={{
+              headings: [
+                "S/N",
+                "Candidate's Name",
+                "Party",
+                "Email",
+                "Role",
+                "Number of votes",
+                "Rank",
+              ],
+              data: Object.values(candidates.map((c) => Object.values(c))),
+            }}
+          />
+          <h4>Parties Details</h4>
+          <Widget
+            src="abnakore.near/widget/Table.jsx"
+            props={{
+              headings: ["S/N", "Party Name", "Acronym"],
+              data: Object.values(parties.map((c) => Object.values(c))),
+            }}
+          />
+        </>
+      ),
+    }}
+  />
 );
