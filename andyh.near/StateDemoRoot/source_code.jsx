@@ -125,7 +125,7 @@ const icons = [
   "x-octagon-fill",
 ];
 
-export default function () {
+export default function (props) {
   const [circle, setCircle] = useState("circle");
   const [triangle, setTriangle] = useState("triangle");
   const [square, setSquare] = useState("square");
