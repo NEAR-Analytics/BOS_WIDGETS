@@ -164,7 +164,7 @@ return (
                 {claimed && <p>NEAR Tokens Claimed!</p>}
                 {score < 4 && !claimed && (
                   <p className="text-red">
-                    You scored lessthan 4 questions, no reward. Try again!
+                    Kasamu maki kasada 4 don haka baka da lada. Sake Gwadawa!
                   </p>
                 )}
               </H2>
