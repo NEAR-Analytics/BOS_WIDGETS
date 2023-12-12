@@ -4,7 +4,8 @@ const Wrapper = styled.div`
   position: fixed;
   background-color: #333;
   padding: 20px;
-  height: 100vh;
+  height: 50px;
+  width: 100vw;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -14,8 +15,8 @@ const Wrapper = styled.div`
 }
 .aside #tabs {
   display: flex;
-  flex-direction: column;
-  gap: 10px;
+  flex-direction: row;
+  gap: 20px;
 }
 .aside #tabs .tab {
   padding: 10px;
