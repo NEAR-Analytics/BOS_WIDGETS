@@ -245,8 +245,8 @@ button, select {
 
 h1 {
   color: #000;
-  font-size: 50px;
-  font-weight: 60;
+  font-size: 100px;
+  font-weight: 600;
 }
 
 .error {
