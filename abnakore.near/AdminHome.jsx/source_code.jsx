@@ -1,8 +1,17 @@
 // Pages that can be reached via the aside tab
 const [pages, setPage] = useState([
-  { name: "Home", link: "/admin" },
-  { name: "Manage Candidates", link: "/admin/manage_candidates" },
-  { name: "Mange Parties", link: "/admin/manage_parties" },
+  {
+    name: "Home",
+    link: "https://near.org/sandbox#/abnakore.near/widget/AdminHome.jsx",
+  },
+  {
+    name: "Manage Candidates",
+    link: "https://near.org/sandbox#/abnakore.near/widget/ManageCandidates.jsx",
+  },
+  {
+    name: "Mange Parties",
+    link: "https://near.org/sandbox#/abnakore.near/widget/ManageParties.jsx",
+  },
 ]);
 
 // List of parties and their curresponding number of votes
