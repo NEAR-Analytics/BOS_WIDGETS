@@ -409,7 +409,7 @@ return (
         <img src={imgArr[3]} style={{ width: "30px" }} />{" "}
       </span>
       <p>
-        Mora Merge, is a Tetris game. Players must stack and combine the various
+        Mora Merge, is a Tetris like game. Players must stack and combine the various
         coins before the time runs out, Coins of the same kind can combine and
         become larger coins, which increase the player's score.
       </p>
