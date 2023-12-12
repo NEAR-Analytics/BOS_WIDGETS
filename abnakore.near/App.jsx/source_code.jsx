@@ -4,39 +4,6 @@
 // import useCandidates from './components/Candidates';
 // import './App.css'
 
-const Wrapper = styled.div`
-button, select {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  margin: 5px;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
-  cursor: pointer;
-  transition: border-color 0.25s;
-}
-
-.error {
-  border-color: #ff6464;
-}
-
-button:hover, select:hover {
-  border-color: #646cff;
-}
-
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
-}
-
-.hide {
-  display: none;
-}
-
-`;
-
 const [candidate, setCandidate] = useState(0);
 const [candidates, setCandidates] = useState([
   { id: 1, name: "Foo", votes: 3, rank: 2 },
@@ -56,16 +23,20 @@ const [pages, setPages] = useState([
   { name: "Log out", link: "/signin" },
 ]);
 
+// Users tht already voted
+const [voted, setVoted] = useState([1]);
+
 // Functions
 function vote() {
   if (candidate > 0) {
-    console.log(candidates);
-    console.log(candidates[candidate]);
-    setCandidates([...candidates]);
+    // console.log(context.accountId);
+    // console.log(voted);
+    // setCandidates([...candidates]);
     setState({
       ...state,
       show_message: true,
     });
+    setVoted((prev) => prev.concat([context.accountId]));
   } else {
     // Set an error on the dropdown
     setState({
@@ -100,9 +71,18 @@ return (
 
             <div className="main-body">
               <h1>VoteChain</h1>
+              <p
+                style={{
+                  color: "green",
+                  display: voted.includes(context.accountId) ? "block" : "none",
+                }}
+              >
+                You Have Succesfully Voted
+              </p>
               <div className="card">
                 <div>
                   <select
+                    disabled={voted.includes(context.accountId) ? true : false}
                     className={`drop-down ${
                       state.show_error_on_dropdown ? "error" : ""
                     }`}
@@ -125,7 +105,12 @@ return (
                     ))}
                   </select>
                 </div>
-                <button onClick={vote}>Vote</button>
+                <button
+                  disabled={voted.includes(context.accountId) ? true : false}
+                  onClick={vote}
+                >
+                  Vote
+                </button>
 
                 <p
                   id="thanks"
