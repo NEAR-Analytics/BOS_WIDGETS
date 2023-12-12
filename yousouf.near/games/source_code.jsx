@@ -324,7 +324,7 @@ return (
                     Word Guessing game
                     <img
                       style={{ width: "200px", height: "150px" }}
-                      src="https://res-console.cloudinary.com/dundn5oa3/media_explorer_thumbnails/43aa275f9fbd5e093c02ca4d1da1ae73/detailed"
+                      src="https://res.cloudinary.com/dundn5oa3/image/upload/v1702312301/games/wyytvb1tvyakqdmmpbgp.jpg"
                     />
                   </span>
                   {hoveredGame === "Word Guessing game" && (
