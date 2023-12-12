@@ -104,9 +104,21 @@ return trade ? (
       <Content>
         <Row className="row-border-top item">
           <div className="gray">Price impact</div>
-          <div>{trade.priceImpact}%</div>
+          <div
+            style={{
+              color: props.showPriceImpactWarning ? "#FF684B" : "#101010",
+            }}
+          >
+            {trade.priceImpact}%
+          </div>
         </Row>
-        <Row className="item">
+        <Row
+          className="item"
+          onClick={(ev) => {
+            props.onSlippageClick(ev);
+          }}
+          style={{ cursor: "pointer" }}
+        >
           <div className="gray">Max. slippage</div>
           <div>{trade.slippage || 0.5}%</div>
         </Row>
