@@ -338,7 +338,11 @@ button:focus-visible {
 }
 
 .card {
+  display: flex;
+  flex-direction: column;
+  place-items: center;
   min-width: 350px;
+  min-height: 350px;
   line-height: 1.5;
   background-color: #333;
   color: #fff;
