@@ -41,10 +41,14 @@ const questions = [
   {
     text: "Meyasa Aka Samar Da NearHausa?",
     options: [
-      { id: 0, text: "Near Community For kano based", isCorrect: false },
-      { id: 1, text: "Near Community For Hausa People", isCorrect: true },
-      { id: 2, text: "Near Community For Northern Nigeria", isCorrect: false },
-      { id: 3, text: "To Teach Crypto In Hausa", isCorrect: false },
+      { id: 0, text: "Domin Yan Kano Kadai", isCorrect: false },
+      { id: 1, text: "Domin Alumar Hausa", isCorrect: true },
+      { id: 2, text: "Domin Yan Africa", isCorrect: false },
+      {
+        id: 3,
+        text: "Domin Koyar da crypto a harshen Hausa",
+        isCorrect: false,
+      },
     ],
   },
   {
