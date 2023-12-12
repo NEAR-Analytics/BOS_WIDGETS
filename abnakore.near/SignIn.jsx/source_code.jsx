@@ -1,4 +1,4 @@
-// const props = ;
+const accountId = context.accountId;
 
 return (
   <Widget
@@ -7,28 +7,22 @@ return (
       body: (
         <div>
           <h1>Sign In</h1>
-          <div>
-            <Link to="/">Home</Link>
-          </div>
           <div className="form">
-            <Widget
-              src="abnakore.near/widget/Input.jsx"
-              props={{ type: "email", placeholder: "Email", required: true }}
-            />
-            <Widget
-              src="abnakore.near/widget/Input.jsx"
-              props={{
-                type: "password",
-                placeholder: "Password",
-                required: true,
-              }}
-            />
-            <button className="submit">Submit</button>
-            <p className="signin">
-              Don't have an acount ? <Link to="/register">Register</Link>{" "}
-            </p>
+            <a
+              href={
+                accountId
+                  ? "https://near.org/abnakore.near/widget/App.jsx"
+                  : "https://near.org/signin"
+              }
+            >
+              <button className="submit">
+                {accountId ? "Home" : "Sign In"}
+              </button>
+            </a>
             <p className="member">
-              <Link to="/admin">I'm a member</Link>{" "}
+              {accountId === "abnakore.near" ? (
+                <a href="/admin">I'm an Admin</a>
+              ) : null}
             </p>
           </div>
         </div>
