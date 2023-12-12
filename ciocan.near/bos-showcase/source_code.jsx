@@ -1,5 +1,5 @@
 const ipfsUrl =
-  "https://rose-elaborate-scorpion-109.mypinata.cloud/ipfs/QmfLcvNac28JMDt8kYYFR3m3yPz1R4ET6whsoGoisExyRw/";
+  "https://rose-elaborate-scorpion-109.mypinata.cloud/ipfs/QmUAToxBk1kJF5pqJq5sEBXZWKT3dPuwkPTVqSYdTQZPgC/";
 
 const Main = styled.div`
   display: flex;
@@ -159,10 +159,10 @@ const Resource = ({ title, type, url, iconSrc }) => (
 
 const dapps = [
   {
-    title: "Arbitrum DeFi",
-    type: "Aggregator",
-    url: "https://near.org/ciocan.near/widget/Arbitrum.All-in-one",
-    iconSrc: `${ipfsUrl}/icon-arbitrum.jpg`,
+    title: "Lido",
+    type: "Staking",
+    url: "https://near.org/zavodil.near/widget/Lido",
+    iconSrc: `${ipfsUrl}/icon-lido.jpg`,
   },
   {
     title: "Uniswap v2",
@@ -177,12 +177,6 @@ const dapps = [
     iconSrc: `${ipfsUrl}/icon-aave.jpg`,
   },
   {
-    title: "Lido",
-    type: "Staking",
-    url: "https://near.org/zavodil.near/widget/Lido",
-    iconSrc: `${ipfsUrl}/icon-lido.jpg`,
-  },
-  {
     title: "Gamma",
     type: "Liquidity",
     url: "https://near.org/bluebiu.near/widget/ZKEVM.GAMMA",
@@ -193,6 +187,12 @@ const dapps = [
     type: "Yield",
     url: "https://near.org/bluebiu.near/widget/Arbitrum.Pendle.TradeMarkets",
     iconSrc: `${ipfsUrl}/icon-pendle.jpg`,
+  },
+  {
+    title: "Arbitrum DeFi",
+    type: "Aggregator",
+    url: "https://near.org/ciocan.near/widget/Arbitrum.All-in-one",
+    iconSrc: `${ipfsUrl}/icon-arbitrum.jpg`,
   },
 ];
 
@@ -213,17 +213,24 @@ const gateways = [
   },
   {
     title: "Polygon zkEVM",
-    type: "Ecosystem dashboard",
+    type: "Ecosystem",
     url: "https://bos.quickswap.exchange/",
     imgSrc: `${ipfsUrl}/gateway-polygon.jpg`,
     iconSrc: `${ipfsUrl}/icon-polygon.jpg`,
   },
   {
     title: "Mantle",
-    type: "Ecosystem dashboard",
+    type: "Ecosystem",
     url: "https://bos.mantle.xyz/",
     imgSrc: `${ipfsUrl}/gateway-mantle.jpg`,
     iconSrc: `${ipfsUrl}/icon-mantle.jpg`,
+  },
+  {
+    title: "COIN98",
+    type: "Ecosystem",
+    url: "https://dapps.coin98.com/menu/bos",
+    imgSrc: `${ipfsUrl}/gateway-coin98.jpg`,
+    iconSrc: `${ipfsUrl}/icon-coin98.jpg`,
   },
 ];
 
@@ -251,6 +258,12 @@ const resources = [
     type: "Telegram",
     url: "https://t.me/NEARisBOS",
     iconSrc: `${ipfsUrl}/icon-telegram.jpg`,
+  },
+  {
+    title: "How to Decentralize any Frontend with BOS",
+    type: "Youtube",
+    url: "https://youtu.be/O7agjWP4Cvs?si=M-fktPfxzCJ13AGS",
+    iconSrc: `${ipfsUrl}/icon-youtube.jpg`,
   },
 ];
 
