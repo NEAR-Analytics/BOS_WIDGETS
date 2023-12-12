@@ -32,9 +32,9 @@ const itemIndex = props.item;
 console.log(`item = ${itemIndex}`);
 
 function updateText(e) {
-  props.setItem({
-    ...props.items,
-    itemIndex: e.target.value,
+  props.setItem((prev) => {
+    prev[props.item] = e.target.value;
+    return prev;
   });
 }
 
