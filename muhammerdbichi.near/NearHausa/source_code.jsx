@@ -39,7 +39,7 @@ const claimReward = () => {
 
 const questions = [
   {
-    text: "Why is NearHausa?",
+    text: "Meyasa Aka Samar Da NearHausa?",
     options: [
       { id: 0, text: "Near Community For kano based", isCorrect: false },
       { id: 1, text: "Near Community For Hausa People", isCorrect: true },
@@ -48,7 +48,7 @@ const questions = [
     ],
   },
   {
-    text: "Who is NearHuasa Lead?",
+    text: "Wane ne shugan NearHuasa?",
     options: [
       { id: 0, text: "Engr. Bakaka", isCorrect: true },
       { id: 1, text: "Aminu Bin", isCorrect: false },
@@ -57,7 +57,7 @@ const questions = [
     ],
   },
   {
-    text: "When is NearHuasa Community Stard?",
+    text: "Yaushe Aka Samar Da NearHuasa?",
     options: [
       { id: 0, text: "2023", isCorrect: false },
       { id: 1, text: "2022", isCorrect: true },
@@ -66,7 +66,7 @@ const questions = [
     ],
   },
   {
-    text: "What is the name of the consensus algorithm used by the NEAR Protocol?",
+    text: "Akan wanne wanne yarjejeniya aka yi NEAR Blockchain?",
     options: [
       { id: 0, text: "Proof of Stake (PoS)", isCorrect: false },
       { id: 1, text: "Delegated Proof of Stake (DPOS)", isCorrect: false },
@@ -75,12 +75,12 @@ const questions = [
     ],
   },
   {
-    text: "Wanne babban Mukami A Dan NearHausa Yataba Rikewa?",
+    text: "Wanne babban Mukami Dan NearHausa Yataba Rikewa?",
     options: [
-      { id: 0, text: "", isCorrect: false },
-      { id: 1, text: "C++", isCorrect: false },
-      { id: 2, text: "Rust", isCorrect: true },
-      { id: 3, text: "Java", isCorrect: false },
+      { id: 0, text: "NEARHausa Lead", isCorrect: false },
+      { id: 1, text: "Co-Founder", isCorrect: false },
+      { id: 2, text: "Grant Manager", isCorrect: true },
+      { id: 3, text: "CEO", isCorrect: false },
     ],
   },
 ];
