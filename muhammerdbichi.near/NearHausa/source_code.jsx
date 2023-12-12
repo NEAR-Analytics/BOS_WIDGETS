@@ -135,17 +135,19 @@ return (
         <div>
           <a href="https://wallet.near.org/">
             {" "}
-            <button>create account</button>
+            Mungano cewa kodai baka da wallet na Near ko kuma ba baka shiga
+            wallet din ka ba
+            <button>Create / Connect Wallet</button>
           </a>
         </div>
       ) : (
         <>
           <H1>{titlegame}</H1>
-          <H2>Score: {score} </H2>
+          <H2>Maki: {score} </H2>
 
           {showResults ? (
             <div className="final-results">
-              <H1>Final Results</H1>
+              <H1>Sakamakon Karshe</H1>
               <H2>
                 {score} out of {questions.length} correct - (
                 {(score / questions.length) * 100}%)
