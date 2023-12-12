@@ -42,7 +42,6 @@ let timer = 60;
 let timerInterval;
 let backgroundImage; // Declare a variable to hold the image
 let bestScore = 0;
-// https://cryptologos.cc/logos/near-protocol-near-logo.png
 
 let imgArr = ['https://upload.wikimedia.org/wikipedia/en/d/d0/Dogecoin_Logo.png','https://cdn.iconscout.com/icon/free/png-256/free-ethereum-8-645838.png','https://coinpush.app/wp-content/uploads/2023/03/bitcoin-png-1.png']
 
