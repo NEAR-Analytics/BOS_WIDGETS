@@ -327,8 +327,11 @@ button:focus-visible {
   display: flex;
   flex-direction: column;
   place-items: center;
-  width: 100vw;
-  height: 100vh;
+  margin: 0;
+  display: flex;
+  place-items: center;
+  min-width: 320px;
+  min-height: 100vh;
 }
 
 /*# sourceMappingURL=style.css.map */
