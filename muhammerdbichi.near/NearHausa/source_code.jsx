@@ -133,10 +133,10 @@ return (
     <div className="App">
       {!account ? (
         <div>
+          Mungano cewa kodai baka da wallet na Near ko kuma ba baka shiga wallet
+          din ka ba
           <a href="https://wallet.near.org/">
             {" "}
-            Mungano cewa kodai baka da wallet na Near ko kuma ba baka shiga
-            wallet din ka ba
             <button>Create / Connect Wallet</button>
           </a>
         </div>
