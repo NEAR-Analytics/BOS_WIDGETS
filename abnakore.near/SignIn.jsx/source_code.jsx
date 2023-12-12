@@ -21,7 +21,9 @@ return (
             </a>
             <p className="member">
               {accountId === "abnakore.near" ? (
-                <a href="/admin">I'm an Admin</a>
+                <a href="https://near.org/abnakore.near/widget/AdminHome.jsx">
+                  I'm an Admin
+                </a>
               ) : null}
             </p>
           </div>
