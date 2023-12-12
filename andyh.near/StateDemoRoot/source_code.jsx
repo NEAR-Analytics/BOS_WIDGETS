@@ -1,7 +1,3 @@
-const [circle, setCircle] = useState("circle");
-const [triangle, setTriangle] = useState("triangle");
-const [square, setSquare] = useState("square");
-
 const icons = [
   "alarm",
   "archive",
@@ -129,44 +125,50 @@ const icons = [
   "x-octagon-fill",
 ];
 
-const getRandomIcon = useCallback(
-  () => icons[Math.floor(Math.random() * icons.length)]
-);
-const setCircleMemo = useCallback(() => setCircle(getRandomIcon()));
-const setSquareMemo = useCallback(() => setSquare(getRandomIcon()));
-const setTriangleMemo = useCallback(() => setTriangle(getRandomIcon()));
+export default function () {
+  const [circle, setCircle] = useState("circle");
+  const [triangle, setTriangle] = useState("triangle");
+  const [square, setSquare] = useState("square");
 
-return (
-  <div>
-    <div className="col">
-      <p>{props.title}</p>
+  const getRandomIcon = useCallback(
+    () => icons[Math.floor(Math.random() * icons.length)]
+  );
+  const setCircleMemo = useCallback(() => setCircle(getRandomIcon()));
+  const setSquareMemo = useCallback(() => setSquare(getRandomIcon()));
+  const setTriangleMemo = useCallback(() => setTriangle(getRandomIcon()));
+
+  return (
+    <div>
+      <div className="col">
+        <p>{props.title}</p>
+      </div>
+      <div className="col">
+        <Component
+          id="root-shapes"
+          src="andyh.near/ShapeSet"
+          props={{
+            circle,
+            square,
+            triangle,
+            updateCircle: setCircleMemo,
+            updateSquare: setSquareMemo,
+            updateTriangle: setTriangleMemo,
+          }}
+        />
+        <Component
+          id="parent-shapes"
+          src="andyh.near/StateDemoParent"
+          props={{
+            id: "parent-shapes",
+            circle,
+            square,
+            triangle,
+            updateCircle: setCircleMemo,
+            updateSquare: setSquareMemo,
+            updateTriangle: setTriangleMemo,
+          }}
+        />
+      </div>
     </div>
-    <div className="col">
-      <Component
-        id="root-shapes"
-        src="andyh.near/ShapeSet"
-        props={{
-          circle,
-          square,
-          triangle,
-          updateCircle: setCircleMemo,
-          updateSquare: setSquareMemo,
-          updateTriangle: setTriangleMemo,
-        }}
-      />
-      <Component
-        id="parent-shapes"
-        src="andyh.near/StateDemoParent"
-        props={{
-          id: "parent-shapes",
-          circle,
-          square,
-          triangle,
-          updateCircle: setCircleMemo,
-          updateSquare: setSquareMemo,
-          updateTriangle: setTriangleMemo,
-        }}
-      />
-    </div>
-  </div>
-);
+  );
+}
