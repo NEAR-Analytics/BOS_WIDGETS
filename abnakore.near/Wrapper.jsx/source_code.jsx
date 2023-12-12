@@ -331,6 +331,7 @@ button:focus-visible {
 .main-body {
   display: flex;
   flex-direction: column;
+  justify-content: center;
   place-items: center;
   margin: 0;
   min-width: 100vw;
@@ -347,6 +348,7 @@ button:focus-visible {
   line-height: 1.5;
   background-color: #333;
   color: #fff;
+  font-size: 20px;
 }
 
 /*# sourceMappingURL=style.css.map */
