@@ -11,11 +11,12 @@ const Game_Box = () => {
   </head>
 <style>
    body {
-   margin: 0;
-   display: flex;
-   align-items: center;
-   height: 80vh;
-   flex-direction: column;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    height: 80vh;
+    flex-direction: column;
+    overflow: hidden;
    }
 
    .score{
@@ -66,7 +67,7 @@ function resetGame() {
 }
 
 function setup() {
-    createCanvas(350, windowHeight * 0.95);
+    createCanvas(350, windowHeight);
     groundY = height - 5; // Ground position
     timerInterval = setInterval(() => {
         if (timer > 0) {
@@ -360,7 +361,7 @@ class Circle {
 
   return (
     <div
-      style={{ height: "35rem", display: "flex", flexDirection: "column" }}
+      style={{ height: "85%", display: "flex", flexDirection: "column" }}
       className="mx-auto"
     >
       {" "}
