@@ -43,7 +43,7 @@ const sizes = [10, 20, 40, 80, 100];
 let gameScore = 0;
 let canDropCircle = true;
 let allCircles = [];
-let timer = 60;
+let timer = 100;
 let timerInterval;
 let backgroundImage; // Declare a variable to hold the image
 let bestScore = 0;
@@ -60,7 +60,7 @@ function preload() {
 }
 
 function resetGame() {
-    timer = 60;
+    timer = 100;
     gameScore = 0;
     canDropCircle = true;
     allCircles = [];
@@ -100,7 +100,7 @@ function draw() {
 
     textSize(30);
     fill(0);
-    text("Time: " + timer, 300, 20);
+    text("Time: " + timer, 290, 20);
 
     textSize(30);
     fill(0, 0, 0);
@@ -113,7 +113,7 @@ function draw() {
     }
 
     for (let i = 0; i < droppedCircles.length; i++) {
-        droppedCircles[i].display();
+        droppedCircles[i].spawn();
         droppedCircles[i].fall();
         droppedCircles[i].checkBounds();
 
@@ -129,7 +129,7 @@ function mouseClicked() {
      if (!gameStarted) {
         // Transition to the game screen upon clicking
         gameStarted = true;
-        timer = 60; // Reset the timer when the game starts
+        timer = 100; // Reset the timer when the game starts
         canDropCircle = true; // Reset circle dropping ability
         droppedCircles = []; // Clear dropped circles
 
@@ -191,7 +191,7 @@ class Circle {
         this.isMerged = false; // Track whether the circle is merged or not
     }
 
-    display() {
+    spawn() {
        if (this.texture) {
         image(this.texture, this.x - this.radius, this.y - this.radius, this.radius * 2, this.radius * 2);
     } else {
@@ -220,12 +220,6 @@ class Circle {
           }
     }
 }
-
-    intersects(other) {
-        // Check collision between circles
-        let distance = dist(this.x, this.y, other.x, other.y);
-        return distance < this.radius + other.radius;
-    }
 
     checkBounds() {
         if (this.x - this.radius < 0 || this.x + this.radius > width) {
@@ -317,10 +311,6 @@ class Circle {
         }
     }
 
-     removeImage() {
-        this.texture = null; // or this.texture = ''; depending on your implementation
-    }
-
     resolveCollision(other) {
         let dx = other.x - this.x;
         let dy = other.y - this.y;
@@ -339,23 +329,14 @@ class Circle {
         other.y += separationY / 2;
 
 
-        // Update velocities for a bounce effect with mass consideration
-
-         // let massFactor = 0.03;
-        // let forceFactor = (this.radius - other.radius) * massFactor;
-
-    // Update velocities for a bounce effect with mass consideration
-    // Modify this part accordingly to suit your specific behavior
+        // Update velocities for a bounce effect
 
     let angle = atan2(dy, dx);
     let thisSpeed = sqrt(this.xSpeed * this.xSpeed + this.ySpeed * this.ySpeed);
     let otherSpeed = sqrt(other.xSpeed * other.xSpeed + other.ySpeed * other.ySpeed);
     let thisDirection = atan2(this.ySpeed, this.xSpeed);
     let otherDirection = atan2(other.ySpeed, other.xSpeed);
-
-
-    // this(thisSpeed - forceFactor)
-    // other(thisSpeed + forceFactor)
+    
     let newThisXSpeed = otherSpeed * cos(otherDirection - angle) * cos(angle) + (thisSpeed) * sin(thisDirection - angle) * cos(angle + HALF_PI);
     let newThisYSpeed = otherSpeed * cos(otherDirection - angle) * sin(angle) + (thisSpeed) * sin(thisDirection - angle) * sin(angle + HALF_PI);
     let newOtherXSpeed = (thisSpeed) * cos(thisDirection - angle) * cos(angle) + otherSpeed * sin(otherDirection - angle) * cos(angle + HALF_PI);
