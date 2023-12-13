@@ -14,9 +14,10 @@ const setAvatar = () => {
 };
 
 const Header = styled.div`
-  display: flex;
   width: 100%;
+  display: flex;
   height: 120px;
+  padding: 0 40px;
   flex-direction: row;
   align-items: center;
 `;
