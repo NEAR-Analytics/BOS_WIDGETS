@@ -24,6 +24,7 @@ const Header = styled.div`
 
 const Logo = styled.div`
   width: 172px;
+  cursor: pointer;
   position: relative;
   & > img {
     top: -10px;
