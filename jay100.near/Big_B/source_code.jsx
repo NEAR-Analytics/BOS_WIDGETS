@@ -70,8 +70,6 @@ let timerInterval;
         droppedCircles[i].fall();
         droppedCircles[i].checkBounds();
    
-        // Check for collision with other droppedCircles
-        // droppedCircles[i].checkCollision();
    
          for (let j = i + 1; j < droppedCircles.length; j++) {
             droppedCircles[i].checkCircleCollision(droppedCircles[j]);
@@ -156,14 +154,6 @@ let timerInterval;
         }
       }
    
-      checkCollision() {
-        for (let j = 0; j < droppedCircles.length; j++) {
-          if (this !== droppedCircles[j] && this.intersects(droppedCircles[j])) {
-            this.checkCircleCollision(droppedCircles[j]);
-          }
-        }
-      }
-   
       checkBounds() {
         if (this.x - this.radius < 0 || this.x + this.radius > width) {
           this.x = constrain(this.x, this.radius, width - this.radius);
@@ -178,9 +168,6 @@ let timerInterval;
         return distance < this.radius + other.radius;
       }
    
-      stopFalling() {
-        this.isFalling = false;
-      }
    
       checkCircleCollision(otherCircle) {
                 let dx = this.x - otherCircle.x;
