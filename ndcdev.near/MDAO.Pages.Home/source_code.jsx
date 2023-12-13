@@ -350,13 +350,6 @@ const fetchCommunities = () => {
 
 fetchCommunities();
 
-if (communities.length === 0)
-  return (
-    <ConnectSection className="d-flex w-100 h-100 flex-grow-1 justify-content-center align-items-center gap-2">
-      <Widget src="flashui.near/widget/Loading" /> <b>Loading widget...</b>
-    </ConnectSection>
-  );
-
 const Info = ({ title, desc, icon }) => (
   <div className="item d-flex flex-column gap-2 justify-content-between">
     <div className="header gap-3 p-4 text-center">
@@ -405,6 +398,8 @@ const Support = ({ title, items }) => (
     </div>
   </div>
 );
+
+if (!content || !assets) <Widget src="flashui.near/widget/Loading" />;
 
 return (
   <Container>
@@ -460,12 +455,17 @@ return (
         </div>
       </div>
       <div className="d-flex flex-wrap gap-5 justify-content-center">
-        {communities
-          .reverse()
-          .slice(0, 3)
-          .map((item) => (
-            <Connect item={item} />
-          ))}
+        {communities.length > 0 ? (
+          communities
+            .reverse()
+            .slice(0, 3)
+            .map((item) => <Connect item={item} />)
+        ) : (
+          <>
+            <Widget src="flashui.near/widget/Loading" />{" "}
+            <b>Loading communities...</b>
+          </>
+        )}
       </div>
       <div>
         <h4 className="bold">
