@@ -399,7 +399,7 @@ const Support = ({ title, items }) => (
   </div>
 );
 
-if (!content || !assets) <Widget src="flashui.near/widget/Loading" />;
+if (!content || !assets) return <Widget src="flashui.near/widget/Loading" />;
 
 return (
   <Container>
