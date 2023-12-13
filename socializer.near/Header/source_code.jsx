@@ -27,13 +27,13 @@ const Logo = styled.div`
   cursor: pointer;
   position: relative;
   & > img {
-    top: -10px;
+    top: -16px;
     width: 170px;
     position: relative;
   }
   & > svg {
     left: 0;
-    top: 105px;
+    top: 90px;
     position: absolute;
   }
 `;
