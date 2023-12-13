@@ -1,12 +1,6 @@
-State.init({
-  score: 0,
-});
-
 const Game_Box = () => {
   const code = `
   <head>
-      <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Lugrasimo&family=VT323&display=swap" rel="stylesheet">
   </head>
 <style>
@@ -16,11 +10,6 @@ const Game_Box = () => {
    align-items: center;
    height: 80vh;
    flex-direction: column;
-   }
-
-   .score{
-    padding: 1rem;
-    font-size: 1.5rem;
    }
 
 </style>
@@ -42,7 +31,7 @@ let timerInterval;
  
    
    function setup() {
-      createCanvas(400, windowHeight * 0.95);
+      createCanvas(380, windowHeight * 0.95);
       groundY = height - 5; // Ground position
        timerInterval = setInterval(() => {
         if (timer > 0) {
@@ -62,7 +51,7 @@ let timerInterval;
 
       textSize(30);
       fill(0);
-      text("Time: " + timer, 300, 20);
+      text("Time: " + timer, 280, 20);
 
       textSize(30);
       fill(0,0,0)
