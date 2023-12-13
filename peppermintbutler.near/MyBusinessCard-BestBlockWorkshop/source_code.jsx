@@ -82,23 +82,20 @@ return (
         <h1>Marko Šelendić</h1>
         <p class="wallet">{context.accountId}</p>
         <p class="description">
-          Currently employed as a professional student. Above-average java and
-          haskell enjoyer with an interest in web3.
+          Currently employed as a professional student. Above-average haskell
+          lover and java enjoyer with an interest in web3.
         </p>
-        <a href="mailto:[markselendic@gmail.com]" class="save-button">
+        <a href="mailto:markselendic@gmail.com" class="save-button">
           Contact me
         </a>
         <div class="social-links">
           <a
-            href="[https://www.linkedin.com/in/marko-%C5%A1elendi%C4%87-a0b567220/]"
+            href="https://www.linkedin.com/in/marko-%C5%A1elendi%C4%87-a0b567220/"
             class="social-link linkedin"
           >
             LinkedIn
           </a>
-          <a
-            href="[https://github.com/47ReasonsWhy]"
-            class="social-link twitter"
-          >
+          <a href="https://github.com/47ReasonsWhy" class="social-link twitter">
             Github
           </a>
         </div>
