@@ -306,8 +306,6 @@ const SupportSection = styled.div`
   }
 `;
 
-const [communities, setCommunities] = useState([]);
-
 const STATUS = {
   GOOD: ["Yes", "Approved", "Yes, include in special request"],
   BAD: ["No"],
@@ -331,24 +329,6 @@ const Badge = styled.div`
       ? "rgb(52, 9, 9)"
       : "rgb(145 145 145)"};
 `;
-
-const fetchCommunities = () => {
-  const sheetId = "1HxWjHWwtHFtyo2GIUgpe7Oru4CVz2EWyuuvf3wT9Ghg";
-  const base = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?`;
-  const sheetName = "Overall Data";
-  const query = encodeURIComponent("Select *");
-  const url = `${base}&sheet=${sheetName}&tq=${query}`;
-  const resp = fetch(url);
-
-  if (resp?.body) {
-    let jsonString = resp.body.match(/(?<="table":).*(?=}\);)/g)[0];
-    let json = JSON.parse(jsonString);
-
-    setCommunities(json.rows.map((item) => item.c));
-  }
-};
-
-fetchCommunities();
 
 const Info = ({ title, desc, icon }) => (
   <div className="item d-flex flex-column gap-2 justify-content-between">
@@ -455,24 +435,17 @@ return (
         </div>
       </div>
       <div className="d-flex flex-wrap gap-5 justify-content-center">
-        {communities.length > 0 ? (
-          communities
-            .reverse()
-            .slice(0, 3)
-            .map((item) => <Connect item={item} />)
-        ) : (
-          <>
-            <Widget src="flashui.near/widget/Loading" />{" "}
-            <b>Loading communities...</b>
-          </>
-        )}
+        <Widget
+          src="ndcdev.near/widget/MDAO.Components.Communities"
+          props={{ limit: 3, theme: "dark" }}
+        />
       </div>
       <div>
         <h4 className="bold">
-          <Link to={"/ndcdev.near/widget/MDAO.App?page=communities"}>
+          <a href={"/ndcdev.near/widget/MDAO.App?page=communities"}>
             <span className="mr-4">Browse More</span>
             <i className="bi bi-chevron-right" />
-          </Link>
+          </a>
         </h4>
       </div>
     </ConnectSection>
