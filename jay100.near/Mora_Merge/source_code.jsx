@@ -3,7 +3,7 @@ const gameImgArr = [
   "https://cdn.iconscout.com/icon/free/png-256/free-ethereum-8-645838.png",
   "https://icons.iconarchive.com/icons/cjdowner/cryptocurrency-flat/512/Tether-USDT-icon.png",
   "https://cdn-icons-png.flaticon.com/512/6001/6001527.png",
-  "https://cdn-icons-png.flaticon.com/512/5128/5128461.png",
+  "https://upload.wikimedia.org/wikipedia/commons/thumb/5/58/Bitcoin_Cash.png/600px-Bitcoin_Cash.png?20210403103340",
 ];
 
 const Game_Box = () => {
