@@ -48,7 +48,7 @@ let timerInterval;
 let backgroundImage; // Declare a variable to hold the image
 let bestScore = 0;
 
-let imgArr = ['https://upload.wikimedia.org/wikipedia/en/d/d0/Dogecoin_Logo.png','https://cdn.iconscout.com/icon/free/png-256/free-ethereum-8-645838.png', 'https://cdn-icons-png.flaticon.com/512/6001/6001566.png', 'https://cdn-icons-png.flaticon.com/512/6001/6001527.png', 'https://cdn-icons-png.flaticon.com/512/5128/5128461.png']
+let imgArr = ['https://upload.wikimedia.org/wikipedia/en/d/d0/Dogecoin_Logo.png','https://cdn.iconscout.com/icon/free/png-256/free-ethereum-8-645838.png', 'https://cdn-icons-png.flaticon.com/512/6001/6001566.png', 'https://cdn-icons-png.flaticon.com/512/6001/6001527.png', 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/58/Bitcoin_Cash.png/600px-Bitcoin_Cash.png?20210403103340']
 
 function preload() {
   for (let i = 0; i < imgArr.length; i++) {
@@ -420,7 +420,7 @@ return (
         <img src={gameImgArr[4]} style={{ width: "30px" }} /> {" "}
       </span>
       <p>
-        Mora Merge, is a Tetris like game. Players must stack and combine the
+        Mora Merge, is a Tetris like game inspired by the popular Suika Game aka Watermelon Game. Players must stack and combine the
         various coins before the time runs out, Coins of the same kind can
         combine and become larger coins, which increase the player's score.
       </p>
