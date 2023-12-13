@@ -167,8 +167,17 @@ return (
                   <tr key={row.key}>
                     {columns.map((td) => {
                       const key = td.key ? row[td.key] : i + 1;
-                      const value = key || td.value;
+                      let value = key || td.value;
                       let name = "";
+                      if (td.key === "_id")
+                        value =
+                          value.length > 8
+                            ? `${value.slice(0, 4)}...${value.slice(
+                                value.length - 4,
+                                value.length
+                              )}`
+                            : value;
+
                       if (td.project) {
                         const profile = Social.getr(`${key}/profile`);
                         name = profile.name ?? key;
