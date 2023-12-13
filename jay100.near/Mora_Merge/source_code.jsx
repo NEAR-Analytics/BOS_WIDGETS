@@ -398,12 +398,13 @@ return (
         <img src={gameImgArr[1]} style={{ width: "30px" }} /> {">"}{" "}
         <img src={gameImgArr[2]} style={{ width: "30px" }} /> {">"}{" "}
         <img src={gameImgArr[3]} style={{ width: "30px" }} /> {">"}{" "}
-        <img src={gameImgArr[4]} style={{ width: "30px" }} /> {" "}
+        <img src={gameImgArr[4]} style={{ width: "30px" }} />{" "}
       </span>
       <p>
-        Mora Merge, is a Tetris like game inspired by the popular Suika Game aka Watermelon Game. Players must stack and combine the
-        various coins before the time runs out, Coins of the same kind can
-        combine and become larger coins, which increase the player's score.
+        Mora Merge, is a Tetris like game inspired by the popular Suika Game aka
+        Watermelon Game. Players must stack and combine the various coins before
+        the time runs out, Coins of the same kind can combine and become larger
+        coins, which increase the player's score.
       </p>
     </div>
   </div>
