@@ -1,42 +1,114 @@
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+`;
+
+const CountDisplay = styled.div`
+  font-size: 36px;
+  margin-bottom: 20px;
+  color: #333;
+`;
+
+const Button = styled.button`
+  padding: 10px 20px;
+  font-size: 16px;
+  margin: 5px;
+  cursor: pointer;
+  background-color: #3498db;
+  color: white;
+  border: none;
+  border-radius: 4px;
+
+  &:hover {
+    background-color: #2980b9;
+  }
+`;
+
+const Input = styled.input`
+  padding: 8px;
+  font-size: 16px;
+  margin: 5px;
+`;
+
 const [count, setCount] = useState(0);
+const [timeoutDuration, setTimeoutDuration] = useState(2000);
 const [timerId, setTimerId] = useState(null);
+const [isPaused, setIsPaused] = useState(false);
 
 const incrementCount = useCallback(() => {
   setCount((prevCount) => prevCount + 1);
 }, []);
 
 const clearTimer = () => {
-  // Clear the timeout to stop the increment operation.
   clearTimeout(timerId);
-  setTimerId(null); // Reset the timerId in the state
+  setTimerId(null);
 };
 
 const resetCount = () => {
-  // Reset the count to its initial value.
   setCount(0);
+};
+
+const handleTimeoutChange = (e) => {
+  const newTimeout = parseInt(e.target.value, 10);
+  setTimeoutDuration(newTimeout);
+
+  if (!isPaused) {
+    // If the timer is running, reset it with the new duration
+    clearTimer();
+    setTimerId(
+      setTimeout(() => {
+        incrementCount();
+      }, newTimeout)
+    );
+  }
+};
+
+const togglePause = () => {
+  if (isPaused) {
+    // Resume the timer
+    setTimerId(
+      setTimeout(() => {
+        incrementCount();
+      }, timeoutDuration)
+    );
+  } else {
+    // Pause the timer
+    clearTimer();
+  }
+
+  setIsPaused(!isPaused);
 };
 
 useEffect(() => {
   console.log("Effect ran! Count:", count);
 
-  // Set up the setTimeout and store its ID.
-  const newTimerId = setTimeout(() => {
-    incrementCount();
-  }, 2000);
+  if (!isPaused) {
+    const newTimerId = setTimeout(() => {
+      incrementCount();
+    }, timeoutDuration);
 
-  // Update the timerId in the state.
-  setTimerId(newTimerId);
+    setTimerId(newTimerId);
+  }
 
-  // Return a cleanup function to clear the timer.
   return () => {
     clearTimer();
   };
-}, [count, incrementCount]);
+}, [count, incrementCount, isPaused, timeoutDuration]);
 
 return (
-  <div>
-    <div>{count}</div>
-    <button onClick={clearTimer}>Clear Timeout</button>
-    <button onClick={resetCount}>Reset Count</button>
-  </div>
+  <Container>
+    <CountDisplay>{count}</CountDisplay>
+    <Input
+      type="number"
+      placeholder="Enter timeout duration (ms)"
+      value={timeoutDuration}
+      onChange={handleTimeoutChange}
+    />
+    <Button onClick={togglePause}>{isPaused ? "Resume" : "Pause"}</Button>
+    <Button onClick={clearTimer}>Stop Timeout</Button>
+    <Button onClick={resetCount}>Reset Count</Button>
+  </Container>
 );
