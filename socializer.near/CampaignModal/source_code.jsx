@@ -21,9 +21,9 @@ State.init({
 
 const ModalOverlay = styled.div`
   background: white;
-  position: fixed;
+  position: absolute;
   bottom: 0px;
-  right: 16%;
+  right: 0px;
   border-radius: 3px;
   border: 1px solid;
   display: flex;
