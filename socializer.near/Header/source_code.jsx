@@ -16,7 +16,7 @@ const setAvatar = () => {
 const Header = styled.div`
   display: flex;
   width: 100%;
-  height: 175px;
+  height: 120px;
   flex-direction: row;
   align-items: center;
 `;
@@ -25,11 +25,13 @@ const Logo = styled.div`
   width: 172px;
   position: relative;
   & > img {
-    width: 170px
+    top: -10px;
+    width: 170px;
+    position: relative;
   }
   & > svg {
     left: 0;
-    top: 115px;
+    top: 105px;
     position: absolute;
   }
 `;
