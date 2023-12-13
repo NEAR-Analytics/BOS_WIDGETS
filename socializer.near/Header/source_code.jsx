@@ -17,7 +17,7 @@ const Header = styled.div`
   width: 100%;
   display: flex;
   height: 120px;
-  padding: 0 40px;
+  padding: 0 2.5%;
   flex-direction: row;
   align-items: center;
 `;
