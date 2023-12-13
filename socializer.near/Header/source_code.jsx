@@ -38,6 +38,20 @@ const Logo = styled.div`
   }
 `;
 
+const Button = styled.button`
+  color: white;
+  padding 16px 30px;
+  border-radius: 8px;
+  background: #121212;
+  & > p {
+    margin: 0;
+    font-size: 14px;
+  }
+  & > h4 {
+    margin: 0;
+  }
+
+`;
 return (
   <Header>
     <Logo>
@@ -55,5 +69,27 @@ return (
         />
       </svg>
     </Logo>
+    <div className="d-flex" style={{ gap: 25 }}>
+      <Button>
+        <p>Wallets Active</p>
+        <h4>1234</h4>
+      </Button>
+      <Button>
+        <p> All Campaigns </p>
+        <h4> 111 </h4>
+      </Button>
+      <Button>
+        <p>{`Rewards Paid $NEAR`}</p>
+        <h4>11</h4>
+      </Button>
+      <Button>
+        <p>{`Rewards Paid $NEKO`}</p>
+        <h4>10000000</h4>
+      </Button>
+      <Button>
+        <p>Total Transactions</p>
+        <h4>1,200</h4>
+      </Button>
+    </div>
   </Header>
 );
