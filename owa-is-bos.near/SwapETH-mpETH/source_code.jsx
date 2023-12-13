@@ -81,7 +81,7 @@ const swap = () => {
         route,
         overrides
       )
-      .then((res) => {});
+      .then((res) => { });
   } catch (err) {
     console.error(err);
   }
@@ -96,6 +96,11 @@ if (state.sender === undefined) {
   if (accounts.length) {
     State.update({ sender: accounts[0] });
     getNetwork();
+  } else {
+    // get mpEth price
+    asyncFetch("https://eth-metapool.narwallets.com/metrics_json")
+      .then(({ body }) => State.update({ mpethPrice: body.mpethPrice }))
+      .catch((err) => console.error(err));
   }
 }
 
@@ -117,7 +122,9 @@ function handleSelect(event) {
 
 /// calculate price
 function getEqualPrice(value) {
-  if (!value || !state.mpethPrice) return !state.sender ? "0" : "...";
+  console.log(value);
+  console.log(state.mpethPrice);
+  if (!value || !state.mpethPrice) return "0";
 
   let result;
   if (state.tokenSelected == 0) result = value / state.mpethPrice;
@@ -149,12 +156,12 @@ const Theme = state.theme;
 
 // OUTPUT UI
 const getSender = () => {
-    return !state.sender
-      ? ""
-      : state.sender.substring(0, 6) +
-          "..." +
-          state.sender.substring(state.sender.length - 4, state.sender.length);
-  },
+  return !state.sender
+    ? ""
+    : state.sender.substring(0, 6) +
+    "..." +
+    state.sender.substring(state.sender.length - 4, state.sender.length);
+},
   mpEthIcon = (
     <svg
       width="24"
@@ -351,7 +358,6 @@ return (
 
             <input
               required
-              disabled={!state.sender}
               class="LidoStakeFormInputContainerSpan2Input"
               value={state.strEther}
               type="number"
@@ -369,29 +375,28 @@ return (
               });
             }}
           >
-            <button
+            {state.sender && <button
               class="LidoStakeFormInputContainerSpan3Content"
               disabled={!state.sender}
             >
               <span class="LidoStakeFormInputContainerSpan3Max">MAX</span>
-            </button>
+            </button>}
           </span>
         </div>
 
-        {!!state.sender ? (
-          <>
-            <span
-              style={{
-                marginTop: "8px",
-              }}
-            >
-              Amount in {state.tokenSelected == 0 ? "mpETH" : "ETH"}
-              {getEqualPrice(state.strEther)}
-            </span>
+        <>
+          <span
+            style={{
+              marginTop: "8px",
+            }}
+          >
+            Amount in {state.tokenSelected == 0 ? "mpETH" : "ETH"}
+            {getEqualPrice(state.strEther)}
+          </span>
 
-            <span>Gas Fee {state.gasFee} wei</span>
-          </>
-        ) : null}
+          {state.sender && <span>Gas Fee {state.gasFee} wei</span>}
+        </>
+
 
         {!!state.sender ? (
           <>
