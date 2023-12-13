@@ -1,40 +1,72 @@
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 50px;
+`;
+
+const Label = styled.label`
+  margin-bottom: 10px;
+`;
+
+const Input = styled.input`
+  padding: 8px;
+  font-size: 16px;
+`;
+
+const Result = styled.p`
+  margin-top: 10px;
+  font-size: 18px;
+  color: #333;
+`;
+
+const ToggleButton = styled.button`
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  background-color: #3498db;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  margin-top: 20px;
+
+  &:hover {
+    background-color: #2980b9;
+  }
+`;
+
 const [inputValue, setInputValue] = useState("");
-const [count, setCount] = useState([]);
 const [toggle, setToggle] = useState(false);
 
 // Let's assume this is a costly computation
 const expensiveComputation = (input) => {
-  setCount((prev) => [...prev, "Running expensive computation!"]);
   // Some time-consuming logic...
+  console.log("running");
   return input.toUpperCase();
 };
 
-// // Memoize the result of the expensive computation
+// const resultWithoutMemo = expensiveComputation(inputValue);
+
+// Memoize the result of the expensive computation
 const memoizedResult = useMemo(() => {
   return expensiveComputation(inputValue);
 }, [inputValue]);
 
-// Call the expensive computation directly in the render
-// const resultWithoutMemo = expensiveComputation(inputValue);
-
-const handleInputChange = (event) => {
-  setInputValue(event.target.value);
-};
-
 return (
-  <div>
-    <label>
+  <Container>
+    <Label>
       Type something:
-      <input type="text" value={inputValue} onChange={handleInputChange} />
-    </label>
-    <p>Transform to Uppercase: {memoizedResult}</p>
-    <button onClick={() => setToggle(!toggle)}>
+      <Input
+        type="text"
+        value={inputValue}
+        onChange={(e) => setInputValue(e.target.value)}
+      />
+    </Label>
+    <Result>Transform to Uppercase: {memoizedResult}</Result>
+    <ToggleButton onClick={() => setToggle(!toggle)}>
       Toggle - {toggle.toString()}
-    </button>
-    <div style={{ display: "flex", flexDirection: "column" }}>
-      {count.map((message, index) => (
-        <span key={index}>{message}</span>
-      ))}
-    </div>
-  </div>
+    </ToggleButton>
+  </Container>
 );
+
+// const resultWithoutMemo = expensiveComputation(inputValue);
