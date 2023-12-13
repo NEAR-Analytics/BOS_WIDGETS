@@ -278,8 +278,7 @@ return (
         {state.sender && (
           <>
             <p>
-              The price indicated below is a reference, to know the price in
-              time. Really check out
+              The price indicated below is a reference, for real-time price take a look at
               <a
                 href="https://www.sushi.com/pool/42161:0x9C657a4140Ed352f86Dc6D3A8825991431dB2201/positions/7636"
                 target="_blank"
@@ -375,12 +374,14 @@ return (
               });
             }}
           >
-            {state.sender && <button
-              class="LidoStakeFormInputContainerSpan3Content"
-              disabled={!state.sender}
-            >
-              <span class="LidoStakeFormInputContainerSpan3Max">MAX</span>
-            </button>}
+            {state.sender && (
+              <button
+                class="LidoStakeFormInputContainerSpan3Content"
+                disabled={!state.sender}
+              >
+                <span class="LidoStakeFormInputContainerSpan3Max">MAX</span>
+              </button>
+            )}
           </span>
         </div>
 
@@ -396,7 +397,6 @@ return (
 
           {state.sender && <span>Gas Fee {state.gasFee} wei</span>}
         </>
-
 
         {!!state.sender ? (
           <>
