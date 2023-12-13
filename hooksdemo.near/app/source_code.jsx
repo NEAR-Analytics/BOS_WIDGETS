@@ -1,1 +1,1 @@
-return <p>{"Hello hooksdemo.near!"}</p>;
+return <p>Hello world</p>;
