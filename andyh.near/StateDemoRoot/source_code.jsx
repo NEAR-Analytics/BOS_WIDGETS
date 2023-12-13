@@ -137,7 +137,6 @@ export default function (props) {
   const setSquareMemo = useCallback(() => setSquare(getRandomIcon()));
   const setTriangleMemo = useCallback(() => setTriangle(getRandomIcon()));
 
-  debugger;
   return (
     <div>
       <div className="col">
