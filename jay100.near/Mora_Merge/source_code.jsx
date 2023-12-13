@@ -23,11 +23,6 @@ const Game_Box = () => {
     overflow: hidden;
    }
 
-   .score{
-    padding: 1rem;
-    font-size: 1.5rem;
-   }
-
 </style>
 <body>
 </body>
