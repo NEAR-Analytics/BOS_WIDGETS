@@ -39,8 +39,9 @@ const Logo = styled.div`
 `;
 
 const Button = styled.button`
+  width: 145px;
   color: white;
-  padding 16px 30px;
+  padding 1px 15px;
   border-radius: 8px;
   background: #121212;
   & > p {
