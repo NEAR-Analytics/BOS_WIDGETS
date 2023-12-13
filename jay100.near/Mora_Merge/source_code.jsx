@@ -2,7 +2,7 @@ const gameImgArr = [
   "https://upload.wikimedia.org/wikipedia/en/d/d0/Dogecoin_Logo.png",
   "https://cdn.iconscout.com/icon/free/png-256/free-ethereum-8-645838.png",
   "https://icons.iconarchive.com/icons/cjdowner/cryptocurrency-flat/512/Tether-USDT-icon.png",
-  "https://icons.iconarchive.com/icons/cjdowner/cryptocurrency-flat/512/Binance-Coin-BNB-icon.png",
+  "https://cdn-icons-png.flaticon.com/512/6001/6001527.png",
   "https://cdn-icons-png.flaticon.com/512/5128/5128461.png",
 ];
 
