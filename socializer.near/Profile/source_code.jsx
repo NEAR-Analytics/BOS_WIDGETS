@@ -172,7 +172,7 @@ const withdraw = async (item) => {
   };
 
   State.update({ error: "", loading: true });
-  asyncFetch(API_URL + `/api/balance/withdraw`, {
+  asyncFetch(API_URL + `/api/base/withdraw`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
