@@ -69,7 +69,7 @@ return (
         />
       </svg>
     </Logo>
-    <div className="d-flex" style={{ gap: 25 }}>
+    <div className="d-flex" style={{ gap: 25, marginLeft: "5%" }}>
       <Button>
         <p>Wallets Active</p>
         <h4>1234</h4>
