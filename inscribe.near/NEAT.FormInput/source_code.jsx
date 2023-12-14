@@ -7,15 +7,17 @@ const {
   onChange,
   onClickMax,
   error,
-  varient,
+  variant,
+  disabled,
 } = props;
 
-function getVarientColor() {
-  if (varient === "red") return "rgb(252, 91, 91)";
-  if (varient === "green") return "rgb(0, 141, 106)";
+function getVariantColor() {
+  if (variant === "red") return "rgb(252, 91, 91)";
+  else if (variant === "green") return "rgb(0, 141, 106)";
+  else if (variant === "grey") return "rgb(105, 105, 105)";
   return "#fff";
 }
-const varientColor = getVarientColor();
+const variantColor = getVariantColor();
 
 const FormInputContainer = styled.div`
   display: flex;
@@ -58,8 +60,12 @@ const MaxValue = styled.button`
   color: white;
   font-size: 700;
   margin-left: 4px;
-  text-decoration: underline;
-  text-underline-offset: 3px;
+  ${onClickMax
+    ? `
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    `
+    : ``}
 `;
 
 const UnitContent = styled.div`
@@ -78,13 +84,15 @@ return (
       {maxTitle && (
         <MaxContent>
           {maxTitle}
-          <MaxValue onClick={onClickMax}>{maxValue}</MaxValue>
+          <MaxValue onClick={onClickMax} disabled={!onClickMax}>
+            {maxValue}
+          </MaxValue>
         </MaxContent>
       )}
     </FormInputLabel>
     <FormInputRow
       style={{
-        border: `1px solid ${varientColor}`,
+        border: `1px solid ${variantColor}`,
       }}
     >
       <input
@@ -94,13 +102,15 @@ return (
           border: "0",
           "font-size": "16px",
           "font-weight": "bold",
-          color: varientColor,
+          color: variantColor,
           outline: "none",
           "box-shadow": "none",
           "margin-right": "16px",
           "-webkit-appearance": "none",
           "-moz-appearance": "textfield",
+          cursor: disabled ? "not-allowed" : "auto",
         }}
+        disabled={disabled}
         value={value}
         onChange={(e) => onChange(e.target.value)}
         spellcheck="false"
