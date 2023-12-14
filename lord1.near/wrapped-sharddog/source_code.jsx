@@ -6,9 +6,7 @@ const operationsDoc = `
   query MyQuery {
     mb_views_nft_tokens(
       order_by: {last_transfer_timestamp: desc}
-      where: {owner: {_eq: "${
-        props.wallet_id || context.accountId
-      }"}, _and: {nft_contract_name: { _eq: "ShardDog" },burned_timestamp: {_is_null: true}, last_transfer_timestamp: {}}}
+      where: {owner: {_eq: "${state.searchedAccountId}"}, _and: {nft_contract_name: { _eq: "ShardDog" },burned_timestamp: {_is_null: true}, last_transfer_timestamp: {}}}
     ) {
       nft_contract_id
       title
@@ -138,7 +136,8 @@ if (state.error.length > 0) {
 }
 
 //-------------------------------------------------------------------------------------
-const countByNftContractName = state.result.data.reduce((acc, item) => {
+const dataForReduce = state.result.data || [];
+const countByNftContractName = dataForReduce.reduce((acc, item) => {
   acc[item.title] = (acc[item.title] || 0) + 1;
   return acc;
 }, {});
@@ -150,7 +149,7 @@ const dataForChart = Object.entries(countByNftContractName).map(
   })
 );
 
-const countByNftContractName1 = state.result.data.reduce((acc, item) => {
+const countByNftContractName1 = dataForReduce.reduce((acc, item) => {
   acc[item.nft_contract_id] = (acc[item.nft_contract_id] || 0) + 1;
   return acc;
 }, {});
@@ -241,7 +240,6 @@ return (
       <Widget src="lord1.near/widget/header-dynamic" props={general_theme} />
 
       <div className="col-6">
-        {" "}
         <div
           style={{ background: themeColor?.sbt_area?.section_bg }}
           className="shadow-sm rounded-2 overflow-auto p-2"
@@ -263,7 +261,7 @@ return (
                 }
               )}
             />
-          )}{" "}
+          )}
         </div>
       </div>
 
@@ -289,7 +287,7 @@ return (
                 }
               )}
             />
-          )}{" "}
+          )}
         </div>
       </div>
     </div>
@@ -298,7 +296,6 @@ return (
         style={{ background: themeColor?.sbt_area?.section_bg }}
         className="shadow-sm rounded-2 overflow-auto p-2"
       >
-        {" "}
         <div
           style={{ background: themeColor?.sbt_area?.card_bg }}
           className="shadow-sm rounded-2 overflow-auto"
@@ -322,7 +319,7 @@ return (
                 rowsCount: 10,
               }}
             />
-          )}{" "}
+          )}
         </div>
       </div>
     </div>
