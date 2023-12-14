@@ -151,6 +151,7 @@ const checkGasIsEnough = () => {
     const _balance = state.currency.isNative
       ? Big(balance || 0).minus(state.amount || 0)
       : Big(balance || 0);
+
     State.update({ isGasEnough: !_balance.lt(state.gasCost || 0) });
   });
 };
@@ -252,11 +253,13 @@ return (
             });
           },
           onSelect: (currency) => {
-            State.update({
+            const params = {
               displayCurrencySelect: false,
               currency,
               updateInputTokenBalance: true,
-            });
+            };
+            if (state.amount) params.loading = true;
+            State.update(params);
             Storage.privateSet(
               `cached_token_${state.from.id}_${state.to.id}`,
               currency
