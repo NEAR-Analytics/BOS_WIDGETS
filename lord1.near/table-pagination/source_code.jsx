@@ -64,12 +64,10 @@ const formatNumber = (num) => {
     return (num / 1000).toFixed(1).replace(/\.0$/, "") + "k";
   }
 
-  if (num > 0.001 && num < 1) {
-    return (num * 1000).toFixed(1).replace(/\.0$/, "") + "* 10^-3";
-  }
   if (num < 0.001 && num > 0) {
-    return (num * 1000000).toFixed(1).replace(/\.0$/, "") + "* 10^-6";
+    return (num * 1000).toFixed(3).replace(/\.0+$/, "") + "";
   }
+
   return num;
 };
 return (
