@@ -55,6 +55,8 @@ function getConfig(network) {
           op: "transfer",
           tick: "neat",
         },
+        ftWrapper: "neat.nrc-20.near",
+        refFinance: "https://app.ref.finance/",
       };
     case "testnet":
       return {
@@ -75,6 +77,8 @@ function getConfig(network) {
           op: "transfer",
           tick: "neat",
         },
+        ftWrapper: "neat.nrc-20.testnet",
+        refFinance: "https://testnet.ref-finance.com/",
       };
     default:
       throw Error(`Unconfigured environment '${network}'.`);
@@ -160,6 +164,7 @@ const TipText = styled.div`
 
 State.init({
   balance: undefined,
+  wrappedFtBalance: undefined,
   tickerRawData: {},
   holders: [],
   ticker: [
@@ -243,6 +248,14 @@ function getBalance() {
     return "0";
   });
 }
+
+function getWrappedFtBalance() {
+  const accountId = props.accountId || context.accountId;
+  return Near.asyncView(config.ftWrapper, "ft_balance_of", {
+    account_id: accountId,
+  });
+}
+
 function fetchAllData() {
   const response = fetchFromGraph(`
     query {
@@ -307,6 +320,12 @@ function fetchAllData() {
   getBalance().then((balance) =>
     State.update({
       balance,
+    })
+  );
+
+  getWrappedFtBalance().then((balance) =>
+    State.update({
+      wrappedFtBalance: balance,
     })
   );
 }
