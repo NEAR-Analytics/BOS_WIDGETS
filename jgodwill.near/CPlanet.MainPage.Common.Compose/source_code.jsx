@@ -556,6 +556,7 @@ return (
                               options={allWidgets}
                               onChange={(value) => onChangeAccount(value)}
                               placeholder={accountId}
+                              allowNew
                             />
                           </Search>
                         </Card>
