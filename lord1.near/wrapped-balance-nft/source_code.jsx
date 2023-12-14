@@ -240,45 +240,55 @@ return (
 
       <div className="col-6">
         {" "}
-        {ChartIsLoading()}
-        {ChartHasError()}
-        {dataForChart && (
-          <Widget
-            src="lord1.near/widget/Pie-chart"
-            props={getPieProps(
-              dataForChart1,
-              ["nft_contract_id", "counts"],
-              themeColor.chartColor,
-              {
-                title: "Contract",
-                type: "pie",
-                connector: true,
-                legend: true,
-              }
-            )}
-          />
-        )}
+        <div
+          style={{ background: themeColor?.sbt_area?.section_bg }}
+          className="shadow-sm rounded-2 overflow-auto p-2"
+        >
+          {ChartIsLoading()}
+          {ChartHasError()}
+          {dataForChart && (
+            <Widget
+              src="lord1.near/widget/Pie-chart"
+              props={getPieProps(
+                dataForChart1,
+                ["nft_contract_id", "counts"],
+                themeColor.chartColor,
+                {
+                  title: "Contract",
+                  type: "pie",
+                  connector: true,
+                  legend: true,
+                }
+              )}
+            />
+          )}{" "}
+        </div>
       </div>
 
       <div className="col-6">
-        {ChartIsLoading()}
-        {ChartHasError()}
-        {dataForChart && (
-          <Widget
-            src="lord1.near/widget/Pie-chart"
-            props={getPieProps(
-              dataForChart,
-              ["nft_contract_name", "count"],
-              themeColor.chartColor,
-              {
-                title: "Collection",
-                type: "pie",
-                connector: true,
-                legend: true,
-              }
-            )}
-          />
-        )}
+        <div
+          style={{ background: themeColor?.sbt_area?.section_bg }}
+          className="shadow-sm rounded-2 overflow-auto p-2"
+        >
+          {ChartIsLoading()}
+          {ChartHasError()}
+          {dataForChart && (
+            <Widget
+              src="lord1.near/widget/Pie-chart"
+              props={getPieProps(
+                dataForChart,
+                ["nft_contract_name", "count"],
+                themeColor.chartColor,
+                {
+                  title: "Collection",
+                  type: "pie",
+                  connector: true,
+                  legend: true,
+                }
+              )}
+            />
+          )}{" "}
+        </div>
       </div>
     </div>
     <div className="mt-4 border-top">
