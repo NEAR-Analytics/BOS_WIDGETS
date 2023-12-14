@@ -1,8 +1,13 @@
 // constants
 
+const ETHEREUM_CHAIN_ID = 1;
+const ZKSYNC_CHAIN_ID = 324;
 const GOERLI_CHAIN_ID = 5;
 const ZKSYNC_GOERLI_CHAIN_ID = 280;
 const L1_MESSENGER_ADDRESS = "0x0000000000000000000000000000000000008008";
+const l2TxGasLimit = "691703";
+const l2TxGasLimitEth = "671358";
+const l2TxGasPerPubdataByte = "800";
 
 // state
 const defaultDeposit = {
@@ -12,15 +17,15 @@ const defaultDeposit = {
   },
   assets: [
     {
-      id: "weth",
-      name: "wETH",
-      selected: false,
+      id: "eth",
+      name: "ETH",
+      selected: true,
       balance: "0.00",
     },
     {
       id: "usdc",
       name: "USDC",
-      selected: true,
+      selected: false,
       balance: "0.00",
     },
   ],
@@ -32,8 +37,8 @@ const defaultWithdraw = {
   },
   assets: [
     {
-      id: "weth",
-      name: "wETH",
+      id: "eth",
+      name: "ETH",
       selected: false,
       balance: "0.00",
     },
@@ -51,18 +56,32 @@ if (!state.initialized) {
     deposit: defaultDeposit,
     withdraw: defaultWithdraw,
     amount: "0.0",
+    deposits: [],
+    withdrawals: [],
   });
   return "";
 }
 
 // providers
+const ethereumProvider = new ethers.providers.JsonRpcProvider(
+  "https://rpc.ankr.com/eth"
+);
+const zksyncProvider = new ethers.providers.JsonRpcProvider(
+  "https://mainnet.era.zksync.io"
+);
 const goerliProvider = new ethers.providers.JsonRpcProvider(
   "https://rpc.ankr.com/eth_goerli"
 );
-
 const zksyncGoerliProvider = new ethers.providers.JsonRpcProvider(
   "https://testnet.era.zksync.dev"
 );
+const providersByChainId = {
+  [ETHEREUM_CHAIN_ID]: ethereumProvider,
+  [ZKSYNC_CHAIN_ID]: zksyncProvider,
+  [GOERLI_CHAIN_ID]: goerliProvider,
+  [ZKSYNC_GOERLI_CHAIN_ID]: zksyncGoerliProvider,
+};
+
 // get account
 const sender = Ethers.send("eth_requestAccounts", [])[0];
 if (!sender) {
@@ -77,23 +96,42 @@ if (!state.chainId) {
   Ethers.provider()
     .getNetwork()
     .then(({ chainId }) => {
-      const network =
-        chainId === GOERLI_CHAIN_ID || chainId === ZKSYNC_GOERLI_CHAIN_ID
-          ? "testnet"
-          : "mainnet";
-      console.log("chainId", chainId, "network", network);
+      let network = "incorrect";
+      if (chainId === GOERLI_CHAIN_ID || chainId === ZKSYNC_GOERLI_CHAIN_ID) {
+        network = "testnet";
+      }
+      if (chainId === ETHEREUM_CHAIN_ID || chainId === ZKSYNC_CHAIN_ID) {
+        network = "mainnet";
+      }
+      console.log("chainId", chainId, network);
       State.update({ chainId, network });
     });
   return "";
 }
 const { chainId, network } = state;
 
+if (!network) {
+  return "";
+}
+
+if (network === "incorrect") {
+  return (
+    <p>Please switch to Ethereum or zkSync mainnet (or Goerli testnets)</p>
+  );
+}
+
 // https://era.zksync.io/docs/dev/building-on-zksync/useful-address.html
 const contracts = {
   mainnet: {
+    l1Provider: ethereumProvider,
+    l2Provider: zksyncProvider,
     bridge: {
+      L1ETHBridgeProxy: "0x32400084C286CF3E17e7B677ea9583e60a000324",
       L1ERC20BridgeProxy: "0x57891966931Eb4Bb6FB81430E6cE0A03AAbDe063",
       L2ERC20Bridge: "0x11f943b2c77b743AB90f4A0Ae7d5A4e7FCA3E102",
+    },
+    eth: {
+      decimals: 18,
     },
     weth: {
       deposit: "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48", // l1 token
@@ -101,16 +139,22 @@ const contracts = {
       decimals: 18,
     },
     usdc: {
-      //deposit: "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2", // l1 token
       deposit: "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48", // l1 token
       withdraw: "0x3355df6D4c9C3035724Fd0e3914dE96A5a83aaf4", // l2 token
       decimals: 6,
     },
   },
   testnet: {
+    l1Provider: goerliProvider,
+    l2Provider: zksyncGoerliProvider,
     bridge: {
       L1ERC20BridgeProxy: "0x927DdFcc55164a59E0F33918D13a2D559bC10ce7",
       L2ERC20Bridge: "0x00ff932A6d70E2B8f1Eb4919e1e09C1923E7e57b",
+    },
+    eth: {
+      deposit: "TBD",
+      withdraw: "TBD",
+      decimals: 18,
     },
     weth: {
       // deposit: "0xB4FBF271143F4FBf7B91A5ded31805e42b2208d6",
@@ -127,11 +171,8 @@ const contracts = {
   },
 };
 
-const l2TxGasLimit = "900000";
-const l2TxGasPerPubdataByte = "800";
-
 const tokens = {
-  weth: {
+  eth: {
     decimals: 18,
   },
   usdc: {
@@ -146,7 +187,11 @@ const zkL2Abi = fetch(
 );
 
 const zkAbi = fetch(
-  "https://gist.githubusercontent.com/mattlockyer/35ebdd13e5dfcf612c11e7087e9d1e59/raw/0eecc58f6748d6607cf79fdb6fea5ffd6d639170/zksyncL1Abi"
+  "https://gist.githubusercontent.com/mattlockyer/35ebdd13e5dfcf612c11e7087e9d1e59/raw/3967fe7d0cf16f813c069cc6021f9663bb1650a6/zksyncL1Abi.json"
+);
+
+const zkEthAbi = fetch(
+  "https://gist.githubusercontent.com/mattlockyer/80b8323c91669cb5c662fc649a8d74dc/raw/bfecb8a4148a33ec03f7312f54bc68fc358e8ffe/zkEthAbi.json"
 );
 
 const erc20Abi = fetch(
@@ -157,42 +202,34 @@ if (!zkAbi.ok || !erc20Abi.ok || !zkL2Abi.ok) {
   return "";
 }
 
-const iface = new ethers.utils.Interface(zkAbi.body);
-const ifaceL2 = new ethers.utils.Interface(zkL2Abi.body);
+const erc20IFace = new ethers.utils.Interface(erc20Abi.body);
+const zkL1EthIFace = new ethers.utils.Interface(zkEthAbi.body);
+const zkL1IFace = new ethers.utils.Interface(zkAbi.body);
+const zkL2IFace = new ethers.utils.Interface(zkL2Abi.body);
 
 // create contract instances
 
 const L1Bridge = new ethers.Contract(
   contracts[network].bridge.L1ERC20BridgeProxy,
   zkAbi.body,
-  goerliProvider
+  contracts[network].l1Provider
 );
-
-L1Bridge.l2Bridge().then((bridgeAddress) => {
-  console.log("l2Bridge", bridgeAddress);
-});
 
 const L2Bridge = new ethers.Contract(
   contracts[network].bridge.L2ERC20Bridge,
   zkL2Abi.body,
-  zksyncGoerliProvider
+  contracts[network].l2Provider
 );
-
-if (!state.bridgeAddress) {
-  L2Bridge.l1Bridge().then((bridgeAddress) => {
-    console.log("bridgeAddress", bridgeAddress);
-    State.update({ bridgeAddress });
-  });
-  return "";
-}
 
 // proof testing
 
-function getWithdrawalLog(withdrawalHash, cb, index) {
+function getWithdrawalLog(txHash, cb, index) {
   if (!index) index = 0;
-  zksyncGoerliProvider
-    .send("eth_getTransactionReceipt", [withdrawalHash])
+  contracts[network].l2Provider
+    .send("eth_getTransactionReceipt", [txHash])
     .then((receipt) => {
+      if (!receipt) return cb(null);
+
       const log = receipt.logs.filter(
         (log) =>
           log.address == L1_MESSENGER_ADDRESS &&
@@ -207,11 +244,12 @@ function getWithdrawalLog(withdrawalHash, cb, index) {
     });
 }
 
-function getWithdrawalL2ToL1Log(withdrawalHash, cb, index) {
+function getWithdrawalL2ToL1Log(txHash, cb, index) {
   if (!index) index = 0;
-  zksyncGoerliProvider
-    .send("eth_getTransactionReceipt", [withdrawalHash])
+  contracts[network].l2Provider
+    .send("eth_getTransactionReceipt", [txHash])
     .then((receipt) => {
+      if (!receipt) return cb(null);
       const messages = Array.from(receipt.l2ToL1Logs.entries()).filter(
         ([_, log]) => log.sender == L1_MESSENGER_ADDRESS
       );
@@ -224,47 +262,80 @@ function getWithdrawalL2ToL1Log(withdrawalHash, cb, index) {
     });
 }
 
-if (!state.logs) {
-  const withdrawalHash = `0x973993b769d3aa3a956f15ac4b9f4d06d76b7b728656f74c3ff3155a34230879`;
+function getWithdrawArgs(txHash, cb, rawProof, index) {
+  if (!index) index = 0;
+
   getWithdrawalLog(
-    withdrawalHash,
-    ({ log: { l1BatchNumber, data }, l1BatchTxId }) => {
-      // console.log("getWithdrawalLog", log, l1BatchTxId);
-
-      getWithdrawalL2ToL1Log(withdrawalHash, ({ l2ToL1LogIndex }) => {
+    txHash,
+    ({ log, log: { l1BatchNumber, data }, l1BatchTxId }) => {
+      // console.log("getWithdrawalLog", log);
+      getWithdrawalL2ToL1Log(txHash, ({ l2ToL1LogIndex }) => {
         // console.log("getWithdrawalL2ToL1Log", l2ToL1LogIndex);
-
-        zksyncGoerliProvider
-          .send("zks_getL2ToL1LogProof", [withdrawalHash, l2ToL1LogIndex])
+        contracts[network].l2Provider
+          .send("zks_getL2ToL1LogProof", [txHash, l2ToL1LogIndex])
           .then((proof) => {
             if (!proof) {
-              console.log("log proof not found");
+              return console.log("log proof not found");
             }
-            console.log(ethers.utils);
             const abiCoder = new ethers.utils.AbiCoder();
             const message = abiCoder.decode(["bytes"], data)[0];
 
-            console.log({
-              l1BatchNumber: log,
+            cb({
+              l1BatchNumber,
               l2MessageIndex: proof.id,
               l2TxNumberInBlock: l1BatchTxId,
               message,
               sender,
-              proof: proof.proof,
-            });
-
-            L1Bridge.isWithdrawalFinalized(
-              ethers.BigNumber.from(l1BatchNumber),
-              proof.id
-            ).then((res) => {
-              console.log("l1Bridge.isWithdrawalFinalized", res);
+              proof: rawProof ? proof : proof.proof,
             });
           });
       });
     }
   );
+}
 
-  return State.update({ logs: true });
+function isWithdrawalFinalized(txHash, cb) {
+  getWithdrawArgs(
+    txHash,
+    (res) => {
+      L1Bridge.isWithdrawalFinalized(
+        ethers.BigNumber.from(res.l1BatchNumber),
+        res.proof.id
+      ).then((res) => {
+        cb(res);
+      });
+    },
+    true
+  );
+}
+
+if (!state.initLogs) {
+  State.update({ initLogs: true });
+
+  L2Bridge.queryFilter(L2Bridge.filters.FinalizeDeposit(sender)).then(
+    (deposits) => {
+      State.update({
+        deposits,
+      });
+    }
+  );
+
+  L2Bridge.queryFilter(L2Bridge.filters.WithdrawalInitiated(sender)).then(
+    (withdrawals) => {
+      State.update({
+        withdrawals,
+      });
+    }
+  );
+
+  // const txHash = `0x91180618b8453b820097aee15f37698691384a2cffd9108eb94d0c3070899e53`;
+  // // const txHash = `0x973993b769d3aa3a956f15ac4b9f4d06d76b7b728656f74c3ff3155a34230879`;
+
+  // isWithdrawalFinalized(txHash, (res) =>
+  //   console.log("isWithdrawalFinalized", res)
+  // );
+
+  return "";
 }
 
 const onAction = (data) => {
@@ -273,65 +344,105 @@ const onAction = (data) => {
   if (data.action === "withdraw") handleWithdraw(data);
 };
 
-const handleDeposit = (data) => {
-  console.log("handleDeposit", data);
-  State.update({ isLoading: true, log: undefined, explorerLink: undefined });
-  const l1Token = contracts[network][data.assetId].deposit;
-  const amountBig = ethers.utils.parseUnits(
-    data.amount,
-    tokens[data.assetId].decimals
-  );
-  const ethTransferCost = ethers.utils.parseUnits(
-    "0.000581642",
-    tokens.weth.decimals
-  );
+// TODO HERE
 
-  const encodedData = iface.encodeFunctionData(
-    "deposit(address,address,uint256,uint256,uint256)",
-    [sender, l1Token, amountBig, l2TxGasLimit, l2TxGasPerPubdataByte]
+const handleDepositEth = (data) => {
+  const value = ethers.utils.parseUnits(data.amount);
+
+  const encodedData = zkL1EthIFace.encodeFunctionData(
+    "requestL2Transaction(address,uint256,bytes,uint256,uint256,bytes[],address)",
+    [sender, value, "0x", l2TxGasLimitEth, l2TxGasPerPubdataByte, [], sender]
   );
 
   Ethers.provider()
     .getSigner()
     .sendTransaction({
-      to: contracts[network].bridge.L1ERC20BridgeProxy,
+      to: contracts[network].bridge.L1ETHBridgeProxy,
       data: encodedData,
-      value: ethTransferCost,
+      value,
       gasLimit: ethers.BigNumber.from("500000"),
     });
-  // .then(() => handleApprove(data))
-  // .catch((e) => {
-  //   console.error("deposit error:", e);
-  //   State.update({ isLoading: false });
-  // });
 };
 
-const handleApprove = (data) => {
+const handleDeposit = (data) => {
+  console.log("handleDeposit", data);
+  State.update({ isLoading: true, log: undefined, explorerLink: undefined });
+
+  if (data.assetId === "eth") {
+    return handleDepositEth(data);
+  }
+
+  handleApprove(data, (approveSuccess) => {
+    if (!approveSuccess) {
+      return console.log("approval was not successful");
+    }
+
+    const l1Token = contracts[network][data.assetId].deposit;
+    const amountBig = ethers.utils.parseUnits(
+      data.amount,
+      tokens[data.assetId].decimals
+    );
+    const ethTransferCost = ethers.utils.parseUnits(
+      "0.000581642",
+      tokens.eth.decimals
+    );
+
+    const encodedData = zkL1IFace.encodeFunctionData(
+      "deposit(address,address,uint256,uint256,uint256,address)",
+      [sender, l1Token, amountBig, l2TxGasLimit, l2TxGasPerPubdataByte, sender]
+    );
+
+    Ethers.provider()
+      .getSigner()
+      .sendTransaction({
+        to: contracts[network].bridge.L1ERC20BridgeProxy,
+        data: encodedData,
+        value: ethTransferCost,
+        gasLimit: ethers.BigNumber.from("500000"),
+      });
+  });
+};
+
+const handleApprove = (data, callback) => {
   console.log("handleApprove", data);
   const contract = new ethers.Contract(
     contracts[network][data.assetId].deposit,
     erc20Abi.body,
     Ethers.provider().getSigner()
   );
-
-  const amountBig = ethers.utils.parseUnits(data.amount, tokenDecimals);
+  const { decimals } = tokens[data.assetId];
+  const amountBig = ethers.utils.parseUnits(data.amount, decimals);
 
   contract
-    .approve(contracts[network].bridge.L1ERC20BridgeProxy, amountBig)
-    .then((tx) => {
-      console.log("approved: ", tx);
+    .allowance(sender, contracts[network].bridge.L1ERC20BridgeProxy)
+    .then((rawAllowance) => {
+      console.log("rawAllowance", rawAllowance);
+      const hasAllowance = amountBig.lte(rawAllowance);
+      if (hasAllowance) {
+        return callback(true);
+      }
+      console.log("amountBig", amountBig);
+      contract
+        .approve(contracts[network].bridge.L1ERC20BridgeProxy, amountBig)
+        .then((tx) => {
+          console.log("approved: ", tx);
 
-      State.update({
-        log: "The TX hash is: " + tx.hash,
-        explorerLink:
-          `https://${network === "testnet" ? "goerli." : ""}etherscan.io/tx/` +
-          tx.hash,
-        isLoading: false,
-      });
-    })
-    .catch((e) => {
-      console.error("approve error:", e);
-      State.update({ isLoading: false });
+          State.update({
+            log: "Approval TX hash is: " + tx.hash,
+            explorerLink:
+              `https://${
+                network === "testnet" ? "goerli." : ""
+              }etherscan.io/tx/` + tx.hash,
+            isLoading: false,
+          });
+
+          callback(true);
+        })
+        .catch((e) => {
+          console.error("approve error:", e);
+          State.update({ isLoading: false });
+          callback(false);
+        });
     });
 };
 
@@ -344,7 +455,7 @@ const handleWithdraw = (data) => {
     tokens[data.assetId].decimals
   );
   console.log("encodedData", sender, l2Token, amountBig);
-  const encodedData = ifaceL2.encodeFunctionData(
+  const encodedData = zkL2IFace.encodeFunctionData(
     "withdraw(address,address,uint256)",
     [sender, l2Token, amountBig]
   );
@@ -365,19 +476,12 @@ const handleWithdraw = (data) => {
     });
 };
 
-const getTokenBalance = (
-  sender,
-  _chainId,
-  tokenAddress,
-  decimals,
-  callback
-) => {
+const getTokenBalance = (sender, isL1, tokenAddress, decimals, callback) => {
   if (!sender) return;
-  const erc20Abi = ["function balanceOf(address) view returns (uint256)"];
-  const iface = new ethers.utils.Interface(erc20Abi);
-  const encodedData = iface.encodeFunctionData("balanceOf", [sender]);
-  const provider =
-    _chainId === GOERLI_CHAIN_ID ? goerliProvider : zksyncGoerliProvider;
+  const encodedData = erc20IFace.encodeFunctionData("balanceOf", [sender]);
+  const provider = isL1
+    ? contracts[network].l1Provider
+    : contracts[network].l2Provider;
 
   provider
     .call({
@@ -385,7 +489,10 @@ const getTokenBalance = (
       data: encodedData,
     })
     .then((rawBalance) => {
-      const receiverBalanceHex = iface.decodeFunctionResult(
+      if (rawBalance === "0x") {
+        return callback(0);
+      }
+      const receiverBalanceHex = erc20IFace.decodeFunctionResult(
         "balanceOf",
         rawBalance
       );
@@ -394,23 +501,9 @@ const getTokenBalance = (
         .toFixed(2)
         .replace(/\d(?=(\d{3})+\.)/g, "$&,");
 
-      console.log("getTokenBalance balance", balance, _chainId, tokenAddress);
-
-      if (callback) callback(balance);
+      callback(balance);
     });
 };
-
-// FETCH SENDER ETH BALANCE
-if (sender) {
-  Ethers.provider()
-    .getBalance(sender)
-    .then((balance) => {
-      // console.log(
-      //   "balance of eth:",
-      //   Big(balance).div(Big(10).pow(tokenDecimals)).toFixed(4)
-      // );
-    });
-}
 
 const tab = !state.tab || state.tab === "deposit" ? "deposit" : "withdraw";
 const clone = (o) => JSON.parse(JSON.stringify(o));
@@ -419,38 +512,46 @@ const { deposit, withdraw } = state;
 if (!state.balancesUpdated) {
   // update token balances
   // l1
-  // getTokenBalance(sender, contracts[network].weth.deposit, tokens.weth.decimals, (balance) => {
-  //   if (!deposit) return;
-  //   const cloned = clone(deposit);
-  //   cloned.assets[0].balance = balance;
-  //   State.update({ deposit: cloned });
-  // });
 
-  // goerli USDC
-  getTokenBalance(
-    sender,
-    GOERLI_CHAIN_ID,
-    contracts[network].usdc.deposit,
-    tokens.usdc.decimals,
-    (balance) => {
-      const cloned = clone(deposit || defaultDeposit);
-      cloned.assets[1].balance = balance;
-      State.update({ deposit: cloned });
-    }
-  );
+  // FETCH SENDER ETH BALANCE
+  if (sender) {
+    Ethers.provider()
+      .getBalance(sender)
+      .then((balance) => {
+        const cloned = clone(deposit || defaultDeposit);
+        const formatted = ethers.utils.formatUnits(balance);
+        cloned.assets[0].balance = formatted.substring(
+          0,
+          formatted.indexOf(".") + 5
+        );
+        State.update({ deposit: cloned });
+
+        // USDC
+        getTokenBalance(
+          sender,
+          true,
+          contracts[network].usdc.deposit,
+          tokens.usdc.decimals,
+          (balance) => {
+            cloned.assets[1].balance = balance;
+            State.update({ deposit: cloned });
+          }
+        );
+      });
+  }
 
   //l2;
-  // getTokenBalance(sender, contracts[network].weth.withdraw, tokens.weth.decimals, (balance) => {
+  // getTokenBalance(sender, contracts[network].weth.withdraw, tokens.eth.decimals, (balance) => {
   //   if (!withdraw) return;
   //   const cloned = clone(withdraw);
   //   cloned.assets[0].balance = balance;
   //   State.update({ withdraw: cloned });
   // });
 
-  // zksync usdc
+  // zksync/zksync goerli usdc
   getTokenBalance(
     sender,
-    ZKSYNC_GOERLI_CHAIN_ID,
+    false,
     contracts[network].usdc.withdraw,
     tokens.usdc.decimals,
     (balance) => {
@@ -470,9 +571,17 @@ const onTabChange = (tab) => {
   State.update({ deposit: clone(withdraw), withdraw: clone(deposit), tab });
 };
 
+const { deposits, withdrawals } = state;
+
 return (
-  <Widget
-    src="mattlock.near/widget/bridge-ui"
-    props={{ ...state, onTabChange, onAction, title: "zkBridge" }}
-  />
+  <>
+    <Widget
+      src="mattlock.near/widget/bridge-ui"
+      props={{ ...state, onTabChange, onAction, title: "zkBridge" }}
+    />
+
+    {deposits.map((d) => (
+      <p>{d}</p>
+    ))}
+  </>
 );
