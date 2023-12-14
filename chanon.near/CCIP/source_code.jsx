@@ -38,8 +38,11 @@ if (
     .then((chainIdData) => {
       if (chainIdData?.chainId) {
         State.update({ chainId: chainIdData.chainId });
-        if (state.chainId == 10) {
-          // State.update({ viewNft: true });
+        if (state.chainId == 43113) {
+          State.update({ viewNft: true });
+        }
+        if (state.chainId == 11155111) {
+          State.update({ mintNft: true });
         }
       }
     });
@@ -128,7 +131,11 @@ return (
     >
       View NFT (Ethereum Sepolia)
     </button>
-    <button class="btn btn-success" onClick={mintToken} disabled={false}>
+    <button
+      class="btn btn-success"
+      onClick={mintToken}
+      disabled={state.mintNft}
+    >
       Mint (Avalance Fuji)
     </button>
     <div className="mt-2">
