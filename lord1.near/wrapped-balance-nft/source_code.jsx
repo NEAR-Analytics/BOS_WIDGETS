@@ -26,7 +26,7 @@ const general_theme = {
   align: "center",
   description: "Total NFT",
   brand: `${state.result.data?.length || "0"}`,
-  fontsize: "100",
+  fontsize: "45px",
   fontweight: "25px",
   afterbrand: "",
   afterbrandcolor: themeColor?.dynamic_header?.afterbrandcolor || "#789efb",
@@ -296,26 +296,32 @@ return (
         style={{ background: themeColor?.sbt_area?.section_bg }}
         className="shadow-sm rounded-2 overflow-auto p-2"
       >
-        {CardIsLoading()}
-        {CardHasError()}
-        {state.result.data && (
-          <Widget
-            src="lord1.near/widget/table-pagination"
-            props={{
-              themeColor: { table_pagination: themeColor.table_pagination },
-              data: state.result.data,
-              columns: [
-                { title: "Title", key: "title", colors: "#806ce1" },
-                { title: "Contract Name", key: "nft_contract_name" },
-                { title: "Token Id", key: "token_id", colors: "#806ce1" },
-                { title: "Contract Id", key: "nft_contract_id" },
-                { title: "Description", key: "description" },
-                { title: "Image", key: "media", pic: "yes", src: "media" },
-              ],
-              rowsCount: 10,
-            }}
-          />
-        )}{" "}
+        {" "}
+        <div
+          style={{ background: themeColor?.sbt_area?.card_bg }}
+          className="shadow-sm rounded-2 overflow-auto"
+        >
+          {CardIsLoading()}
+          {CardHasError()}
+          {state.result.data && (
+            <Widget
+              src="lord1.near/widget/table-pagination"
+              props={{
+                themeColor: { table_pagination: themeColor.table_pagination },
+                data: state.result.data,
+                columns: [
+                  { title: "Title", key: "title", colors: "#806ce1" },
+                  { title: "Contract Name", key: "nft_contract_name" },
+                  { title: "Token Id", key: "token_id", colors: "#806ce1" },
+                  { title: "Contract Id", key: "nft_contract_id" },
+                  { title: "Description", key: "description" },
+                  { title: "Image", key: "media", pic: "yes", src: "media" },
+                ],
+                rowsCount: 10,
+              }}
+            />
+          )}{" "}
+        </div>
       </div>
     </div>
   </>
