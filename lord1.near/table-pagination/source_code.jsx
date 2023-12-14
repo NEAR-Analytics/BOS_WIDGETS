@@ -63,9 +63,7 @@ const formatNumber = (num) => {
   if (num >= 1000) {
     return (num / 1000).toFixed(1).replace(/\.0$/, "") + "k";
   }
-  if (num < 1 && num > 0) {
-    return (num * 1000).toFixed(1).replace(/\.0$/, "") + "m";
-  }
+
   if (num > 0.001 && num < 1) {
     return (num * 1000).toFixed(1).replace(/\.0$/, "") + "* 10^-3";
   }
