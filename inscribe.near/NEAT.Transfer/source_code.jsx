@@ -343,6 +343,27 @@ function updateBalance() {
   }, 500);
 }
 
+function updateInputValue(value) {
+  State.update({ transferAmountInputError: undefined });
+  if (!isSignedIn) {
+    State.update({
+      transferAmountInputError: "Sign in please",
+    });
+    return;
+  }
+  if (value === "" || (isInputDigit(value) && isMax8Decimals(value))) {
+    State.update({ transferAmount: removePrefix0(value) });
+  }
+
+  if (
+    isDigit(value) &&
+    Big(value).gt(Big(state.balance ?? 0).div(Big(10).pow(8)))
+  ) {
+    State.update({
+      transferAmountInputError: "Insufficient balance",
+    });
+  }
+}
 return (
   <>
     <FormContainer style={{ fontWeight: "bold" }}>
@@ -360,36 +381,13 @@ return (
           maxValue: state.balance ? formatAmount(state.balance) : "-",
           value: state.transferAmount,
           unit: "$NEAT",
-          onChange: (value) => {
-            State.update({ transferAmountInputError: undefined });
-            if (!isSignedIn) {
-              State.update({
-                transferAmountInputError: "Sign in please",
-              });
-              return;
-            }
-            if (
-              value === "" ||
-              (isInputDigit(value) && isMax8Decimals(value))
-            ) {
-              State.update({ transferAmount: removePrefix0(value) });
-            }
-
-            if (
-              isDigit(value) &&
-              Big(value).gt(Big(state.balance ?? 0).div(Big(10).pow(8)))
-            ) {
-              State.update({
-                transferAmountInputError: "Insufficient balance",
-              });
-            }
-          },
-          onClickMax: () => {
-            State.update({
-              transferAmountInputError: undefined,
-              transferAmount: Big(state.balance ?? 0).div(Big(10).pow(8)),
-            });
-          },
+          onChange: updateInputValue,
+          onClickMax: () =>
+            updateInputValue(
+              Big(state.balance ?? 0)
+                .div(Big(10).pow(8))
+                .toFixed()
+            ),
           error: state.transferAmountInputError,
         }}
       />
