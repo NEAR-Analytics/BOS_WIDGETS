@@ -881,8 +881,7 @@ let BelowRight = (
     >
       {CardIsLoading(5)}
       {CardHasError(5)}
-      {state.result["query" + 5]?.data &&
-      state.result["query" + 5]?.data.length > 0 ? (
+      {state.result["query" + 5]?.data && (
         <Widget
           src="lord1.near/widget/table-pagination"
           props={{
@@ -904,8 +903,6 @@ let BelowRight = (
             ],
           }}
         />
-      ) : (
-        noData
       )}
     </div>
   </div>
