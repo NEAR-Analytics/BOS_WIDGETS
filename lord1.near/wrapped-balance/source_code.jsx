@@ -78,7 +78,10 @@ const Collectibles = (
 
 return (
   <>
-    <div className="w-100 d-flex justify-content-center mb-2">
+    <div
+      className="w-100 d-flex justify-content-center mb-2"
+      styled={{ "margin-top": "25px" }}
+    >
       <Container>
         <ul className="tabContent">
           {Object.values(tabs).map((tab) => (
