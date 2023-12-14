@@ -107,7 +107,6 @@ return (
       props={{
         connectProps: {
           imgProps: {
-            src: "https://ipfs.near.social/ipfs/",
             style: {
               width: "282px",
               height: "167px",
