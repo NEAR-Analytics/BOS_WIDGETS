@@ -183,7 +183,7 @@ const changeTab = (value) => {
 
 return (
   <Wrapper className="root">
-    <Widget src={`${Owner}/widget/Header`} />
+    <Widget src={`${Owner}/widget/Header`} props={{ API_URL }} />
     <Content>
       <Widget
         src={`${Owner}/widget/Sidebar`}
