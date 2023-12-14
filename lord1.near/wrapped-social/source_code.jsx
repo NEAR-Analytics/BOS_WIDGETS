@@ -1,5 +1,5 @@
-const API_KEY = "56604552-aa8c-4842-b4b0-51e49a10c4dd";
 const themeColor = props.themeColor;
+const API_KEY = props.API_KEY;
 
 const singer = props.singer;
 const interval = props.interval || "week";
