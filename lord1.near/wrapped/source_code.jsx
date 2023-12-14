@@ -230,7 +230,7 @@ const NFT = (
 const Sharddog = (
   <div className="w-100">
     <Widget
-      src="lord1.near/widget/wrapped-sharddog_tekuno"
+      src="lord1.near/widget/wrapped-shrddog_tekuno"
       props={{
         themeColor,
         singer: state.searchedSinger,
