@@ -11,7 +11,7 @@ const Button = styled.button`
   margin-top: 20px;
 
   &:disabled {
-    opacity: 0.3;
+    opacity: 0.5;
   }
 `;
 const account = Ethers.send("eth_requestAccounts", [])[0];
@@ -43,7 +43,7 @@ State.init({
 if (!isGasEnough) {
   return (
     <Button disabled>
-      Not enough gas({Big(gasCost || 0).toFixed(3)}) needed
+      Not enough gas, {Big(gasCost || 0).toFixed(3)} needed
     </Button>
   );
 }
