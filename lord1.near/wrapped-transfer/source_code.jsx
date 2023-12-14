@@ -1,6 +1,6 @@
 const APIKEY = "36f2b87a-7ee6-40d8-80b9-5e68e587a5b5";
 const themeColor = props.themeColor;
-const singer = props.singer;
+const singer = props.singer || "lord1.near";
 
 const queries = [
   {
@@ -275,7 +275,7 @@ const Incoming_near = (
               columns: [
                 { title: "Sender", key: "sender", colors: "#806ce1" },
                 { title: "Count", key: "count" },
-                { title: "Amount", key: "amount" },
+                { title: "Amount", key: "amount", round: "yes" },
               ],
             }}
           />
@@ -307,7 +307,7 @@ const Incoming_token = (
               columns: [
                 { title: "Receiver", key: "receiver", colors: "#806ce1" },
                 { title: "Count", key: "count" },
-                { title: "Amount", key: "amount" },
+                { title: "Amount", key: "amount", round: "yes" },
               ],
             }}
           />
@@ -340,7 +340,7 @@ const Outgoing_near = (
               columns: [
                 { title: "Sender", key: "sender", colors: "#806ce1" },
                 { title: "Count", key: "count" },
-                { title: "Amount", key: "amount" },
+                { title: "Amount", key: "amount", round: "yes" },
                 { title: "Contract", key: "contract" },
               ],
             }}
@@ -373,7 +373,7 @@ const Outgoing_token = (
               columns: [
                 { title: "Sender", key: "sender", colors: "#806ce1" },
                 { title: "Count", key: "count" },
-                { title: "Amount", key: "amount" },
+                { title: "Amount", key: "amount", round: "yes" },
                 { title: "Contract", key: "contract" },
               ],
             }}
