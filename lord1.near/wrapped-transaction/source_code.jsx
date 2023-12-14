@@ -847,7 +847,7 @@ let TableMiddle = (
     style={{ background: themeColor?.sbt_area?.section_bg }}
     className="shadow-sm rounded-2 overflow-auto p-2"
   >
-    <div className="p-2 rounded-2 overflow-auto">
+    <div className="p-2 rounded-4 overflow-auto">
       {CardIsLoading(3)}
       {CardHasError(3)}
       {state.result["query" + 3]?.data && (
@@ -875,7 +875,11 @@ let BelowRight = (
     style={{ background: themeColor?.sbt_area?.section_bg }}
     className="shadow-sm rounded-2 overflow-auto p-2"
   >
-    <div className="p-2  overflow-auto rounded-4">
+    <div
+      style={{ background: themeColor?.sbt_area?.card_bg }}
+      className="shadow-sm rounded-2 overflow-auto"
+    >
+      {" "}
       {CardIsLoading(5)}
       {CardHasError(5)}
       {state.result["query" + 5]?.data && (
