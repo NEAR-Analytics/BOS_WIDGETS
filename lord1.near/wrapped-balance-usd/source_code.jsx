@@ -259,7 +259,7 @@ return (
                         key: "usdPrice",
                         colors: "#806ce1",
                       },
-                      { title: "Amount", key: "amount" },
+                      { title: "Amount", key: "amount", round: "yes" },
                     ],
                     rowsCount: 10,
                   }}
