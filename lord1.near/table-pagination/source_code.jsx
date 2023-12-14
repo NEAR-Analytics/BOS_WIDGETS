@@ -202,7 +202,7 @@ return (
                               </svg>
                             </OverlayTrigger>
                           ) : td.round ? (
-                            formatNumber(key)
+                            formatNumber({ key })
                           ) : td.short ? (
                             onHandelId(key)
                           ) : td.pic ? (
