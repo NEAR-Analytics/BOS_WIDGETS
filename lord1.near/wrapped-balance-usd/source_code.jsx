@@ -234,27 +234,38 @@ return (
             background: themeColor?.sbt_area?.section_bg,
             "margin-top": "20px",
           }}
-          className="shadow-sm rounded-2 overflow-auto p-2"
+          className="shadow-sm rounded-3 overflow-auto p-2"
         >
-          <div className="mt-4 border-top">
-            {CardIsLoading()}
-            {CardHasError()}
-            {state.result.data && (
-              <Widget
-                src="lord1.near/widget/table-pagination"
-                props={{
-                  themeColor: { table_pagination: themeColor.table_pagination },
-                  data: state.result.data.balancesTotal,
-                  columns: [
-                    { title: "Symbol", key: "symbol", colors: "#806ce1" },
-                    { title: "Contract", key: "contract" },
-                    { title: "USD Price ", key: "usdPrice", colors: "#806ce1" },
-                    { title: "Amount", key: "amount" },
-                  ],
-                  rowsCount: 10,
-                }}
-              />
-            )}
+          <div
+            style={{ background: themeColor?.sbt_area?.card_bg }}
+            className="shadow-sm rounded-2 overflow-auto"
+          >
+            <div className="mt-4 border-top">
+              {CardIsLoading()}
+              {CardHasError()}
+              {state.result.data && (
+                <Widget
+                  src="lord1.near/widget/table-pagination"
+                  props={{
+                    themeColor: {
+                      table_pagination: themeColor.table_pagination,
+                    },
+                    data: state.result.data.balancesTotal,
+                    columns: [
+                      { title: "Symbol", key: "symbol", colors: "#806ce1" },
+                      { title: "Contract", key: "contract" },
+                      {
+                        title: "USD Price ",
+                        key: "usdPrice",
+                        colors: "#806ce1",
+                      },
+                      { title: "Amount", key: "amount" },
+                    ],
+                    rowsCount: 10,
+                  }}
+                />
+              )}
+            </div>{" "}
           </div>
         </div>{" "}
       </div>
