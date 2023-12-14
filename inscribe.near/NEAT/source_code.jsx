@@ -143,10 +143,6 @@ const TabContainer = styled.div`
   justify-content: center;
   align-items: center;
   gap: 56px;
-
-  @media (max-width: 768px) {
-    gap: 20px;
-  }
 `;
 
 const TabItem = styled("Link")`
@@ -159,9 +155,6 @@ const TabItem = styled("Link")`
     color: white;
     text-decoration: none;
     opacity: 0.8;
-  }
-  @media (max-width: 768px) {
-    font-size: 16px;
   }
 `;
 
