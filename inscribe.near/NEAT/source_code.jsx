@@ -55,6 +55,8 @@ function getConfig(network) {
           op: "transfer",
           tick: "neat",
         },
+        ftWrapper: "neat.nrc-20.near",
+        refFinance: "https://app.ref.finance/",
       };
     case "testnet":
       return {
@@ -75,6 +77,8 @@ function getConfig(network) {
           op: "transfer",
           tick: "neat",
         },
+        ftWrapper: "neat.nrc-20.testnet",
+        refFinance: "https://testnet.ref-finance.com/",
       };
     default:
       throw Error(`Unconfigured environment '${network}'.`);
@@ -115,7 +119,7 @@ const BodyContainer = styled.div`
 `;
 
 const NeatLink = styled.a`
-  color: #4343ff;
+  color: rgb(0, 214, 175);
   font-size: 18px;
   font-weight: 600;
   display: inline-block;
@@ -141,11 +145,17 @@ const TabContainer = styled.div`
   gap: 56px;
 `;
 
-const TabItem = styled.div`
+const TabItem = styled("Link")`
+  color: white;
   cursor: pointer;
   font-size: 18px;
   font-weight: 600;
   ${(props) => !props.selected && "opacity: 0.4;"}
+  &:hover {
+    color: white;
+    text-decoration: none;
+    opacity: 0.8;
+  }
 `;
 
 const FormContainer = styled.div`
@@ -166,11 +176,17 @@ const FormContainer = styled.div`
 
 
 
-State.init({
-  tab: "Transfer", // Mint / Indexer / Transfer
-});
+function getTab() {
+  const tab = props.tab;
+  if (["transfer", "wrap", "indexer", "mint"].includes(tab)) {
+    return tab;
+  } else {
+    return "transfer";
+  }
+}
 
-const { tab } = state;
+const tab = getTab();
+
 return (
   <Main>
     <HeaderContainer>
@@ -180,20 +196,26 @@ return (
       />
       <TabContainer>
         <TabItem
-          selected={tab === "Transfer"}
-          onClick={() => State.update({ tab: "Transfer" })}
+          selected={tab === "transfer"}
+          href={`/${config.ownerId}/widget/NEAT?tab=transfer`}
         >
           Transfer
         </TabItem>
         <TabItem
-          selected={tab === "Indexer"}
-          onClick={() => State.update({ tab: "Indexer" })}
+          selected={tab === "wrap"}
+          href={`/${config.ownerId}/widget/NEAT?tab=wrap`}
+        >
+          Wrap
+        </TabItem>
+        <TabItem
+          selected={tab === "indexer"}
+          href={`/${config.ownerId}/widget/NEAT?tab=indexer`}
         >
           Indexer
         </TabItem>
         <TabItem
-          selected={tab === "Mint"}
-          onClick={() => State.update({ tab: "Mint" })}
+          selected={tab === "mint"}
+          href={`/${config.ownerId}/widget/NEAT?tab=mint`}
         >
           Mint
         </TabItem>
@@ -201,13 +223,14 @@ return (
       <Spacer />
     </HeaderContainer>
     <BodyContainer>
-      {tab === "Mint" && <Widget src={`${config.ownerId}/widget/NEAT.Mint`} />}
-      {tab === "Indexer" && (
+      {tab === "mint" && <Widget src={`${config.ownerId}/widget/NEAT.Mint`} />}
+      {tab === "indexer" && (
         <Widget src={`${config.ownerId}/widget/NEAT.Indexer`} />
       )}
-      {tab === "Transfer" && (
+      {tab === "transfer" && (
         <Widget src={`${config.ownerId}/widget/NEAT.Transfer`} />
       )}
+      {tab === "wrap" && <Widget src={`${config.ownerId}/widget/NEAT.Wrap`} />}
     </BodyContainer>
   </Main>
 );
