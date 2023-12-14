@@ -1,4 +1,6 @@
 const themeColor = props.themeColor;
+const API_KEY = "56604552-aa8c-4842-b4b0-51e49a10c4dd";
+
 const general_theme = {
   height: "110px",
   align: "center",
