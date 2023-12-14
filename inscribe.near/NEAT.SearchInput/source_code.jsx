@@ -55,6 +55,8 @@ function getConfig(network) {
           op: "transfer",
           tick: "neat",
         },
+        ftWrapper: "neat.nrc-20.near",
+        refFinance: "https://app.ref.finance/",
       };
     case "testnet":
       return {
@@ -75,6 +77,8 @@ function getConfig(network) {
           op: "transfer",
           tick: "neat",
         },
+        ftWrapper: "neat.nrc-20.testnet",
+        refFinance: "https://testnet.ref-finance.com/",
       };
     default:
       throw Error(`Unconfigured environment '${network}'.`);
