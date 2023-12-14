@@ -358,6 +358,27 @@ function updateBalance() {
   }, 500);
 }
 
+function updateInputValue(value) {
+  State.update({ wrapAmountInputError: undefined });
+  if (!isSignedIn) {
+    State.update({
+      wrapAmountInputError: "Sign in please",
+    });
+    return;
+  }
+  if (value === "" || (isInputDigit(value) && isMax8Decimals(value))) {
+    State.update({ wrapAmount: removePrefix0(value) });
+  }
+
+  if (
+    isDigit(value) &&
+    Big(value).gt(Big(state.balance ?? 0).div(Big(10).pow(8)))
+  ) {
+    State.update({
+      wrapAmountInputError: "Insufficient balance",
+    });
+  }
+}
 return (
   <>
     <FormContainer style={{ fontWeight: "bold" }}>
@@ -381,36 +402,13 @@ return (
           maxValue: state.balance ? formatAmount(state.balance) : "-",
           value: state.wrapAmount,
           unit: "$NEAT",
-          onChange: (value) => {
-            State.update({ wrapAmountInputError: undefined });
-            if (!isSignedIn) {
-              State.update({
-                wrapAmountInputError: "Sign in please",
-              });
-              return;
-            }
-            if (
-              value === "" ||
-              (isInputDigit(value) && isMax8Decimals(value))
-            ) {
-              State.update({ wrapAmount: removePrefix0(value) });
-            }
-
-            if (
-              isDigit(value) &&
-              Big(value).gt(Big(state.balance ?? 0).div(Big(10).pow(8)))
-            ) {
-              State.update({
-                wrapAmountInputError: "Insufficient balance",
-              });
-            }
-          },
-          onClickMax: () => {
-            State.update({
-              wrapAmountInputError: undefined,
-              wrapAmount: Big(state.balance ?? 0).div(Big(10).pow(8)),
-            });
-          },
+          onChange: updateInputValue,
+          onClickMax: () =>
+            updateInputValue(
+              Big(state.balance ?? 0)
+                .div(Big(10).pow(8))
+                .toFixed()
+            ),
           error: state.wrapAmountInputError,
         }}
       />
