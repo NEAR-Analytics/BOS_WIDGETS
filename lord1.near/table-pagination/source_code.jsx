@@ -55,13 +55,13 @@ const onHandelId = (id) => {
 };
 const formatNumber = (num) => {
   if (num >= 1000000000) {
-    return (num / 1000000000).toFixed(1).replace(/\.0$/, "") + "b";
+    return (num / 1000000000).toFixed(2).replace(/\.0$/, "") + "b";
   }
   if (num >= 1000000) {
-    return (num / 1000000).toFixed(1).replace(/\.0$/, "") + "m";
+    return (num / 1000000).toFixed(2).replace(/\.0$/, "") + "m";
   }
   if (num >= 1000) {
-    return (num / 1000).toFixed(1).replace(/\.0$/, "") + "k";
+    return (num / 1000).toFixed(2).replace(/\.0$/, "") + "k";
   }
 
   if (num < 0.001 && num > 0) {
