@@ -225,7 +225,7 @@ const doQueryToFlipside = (query, queryResultId, dataLabel) => {
   // create run (https://docs.flipsidecrypto.com/flipside-api/rest-api)
   const headers = {};
   headers["Content-Type"] = "application/json";
-  headers["x-api-key"] = "07811919-9c82-4e96-8496-9cf378305d22";
+  headers["x-api-key"] = "f0b8c6e1-573a-4f09-a6f5-ea2d13d6416b";
 
   if (!queryResultId) {
     const requestResult = fetch("https://api-v2.flipsidecrypto.xyz/json-rpc", {
