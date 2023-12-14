@@ -42,7 +42,10 @@ const Container = styled.div`
 `;
 
 const USD = (
-  <div className="w-100">
+  <div
+    className="w-100"
+    style={{ display: state.tab === tabs.USD ? "" : "none" }}
+  >
     <Widget
       src="lord1.near/widget/wrapped-balance-usd"
       props={{
@@ -54,7 +57,10 @@ const USD = (
 );
 
 const NFT = (
-  <div className="w-100">
+  <div
+    className="w-100"
+    style={{ display: state.tab === tabs.NFT ? "" : "none" }}
+  >
     <Widget
       src="lord1.near/widget/wrapped-balance-nft"
       props={{
@@ -65,7 +71,10 @@ const NFT = (
   </div>
 );
 const Collectibles = (
-  <div className="w-100">
+  <div
+    className="w-100"
+    style={{ display: state.tab === tabs.Collectibles ? "" : "none" }}
+  >
     <Widget
       src="lord1.near/widget/wrapped-balance-collection"
       props={{
@@ -99,9 +108,9 @@ return (
       </Container>
     </div>
     <div className="w-100">
-      {state.tab === tabs.USD && USD}
-      {state.tab === tabs.NFT && NFT}
-      {state.tab === tabs.Collectibles && Collectibles}
+      {USD}
+      {NFT}
+      {Collectibles}
     </div>
   </>
 );
