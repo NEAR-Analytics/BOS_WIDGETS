@@ -185,62 +185,6 @@ const getPieProps = (data, [key, value], colors, chartOption) => {
   return props;
 };
 //-------------------------------------------------------------------------------------
-//---------------------------------------------------------------------------------
-const operations = `
-  query MyQuery {
-  mb_views_nft_activities_rollup(
-where: {
-      _or: [
-        { action_receiver: { _eq: "${props.wallet_id || context.accountId}" } },
-        { action_sender: { _eq:  "${props.wallet_id || context.accountId}"  } }
-      ] _and: [
-        { tx_sender: { _eq: "sharddog.near" } }
-        
-      ]
-    }  ) {
-    tx_sender
-    token_ids
-    title
-    timestamp
-    reference
-    receipt_id
-    price
-    nft_contract_id
-    metadata_id
-    media_hash
-    media
-    kind
-    extra
-    description
-    currency
-    count
-    action_sender
-    action_receiver
-  }
-}
-`;
-function fetchGraph() {
-  const result = fetch("https://graph.mintbase.xyz/mainnet", {
-    method: "POST",
-    headers: {
-      "mb-api-key": "anon",
-      "content-type": "application/json",
-    },
-    body: JSON.stringify({
-      query: operations,
-      variables: {},
-      operationName: "MyQuery",
-    }),
-  });
-  return result;
-}
-
-const ress = fetchGraph();
-
-if (!(ress && ress.body)) return "...";
-
-const datas = ress.body.data.mb_views_nft_activities_rollup;
-//-------------------------------------------------------------------------------------
 
 // ----------------------------------------------------
 const noData = <div className="w-100 py-4 text-center"> No data available</div>;
