@@ -22,7 +22,7 @@ const operationsDoc = `
   }
 `;
 const general_theme = {
-  height: "110px",
+  height: "150px",
   align: "center",
   description: "Total NFT",
   brand: `${state.result.data?.length || "0"}`,
@@ -148,6 +148,17 @@ const dataForChart = Object.entries(countByNftContractName).map(
   })
 );
 
+const countByNftContractName1 = state.result.data.reduce((acc, item) => {
+  acc[item.nft_contract_id] = (acc[item.nft_contract_id] || 0) + 1;
+  return acc;
+}, {});
+
+const dataForChart1 = Object.entries(countByNftContractName1).map(
+  ([nft_contract_id, counts]) => ({
+    nft_contract_id,
+    counts,
+  })
+);
 //-------------------------------------------------------------------------------------
 
 const getPieProps = (data, [key, value], colors, chartOption) => {
@@ -222,15 +233,34 @@ const ChartHasError = () =>
   );
 
 //-------------------------------------------------------------------------------------
-console.log(state);
 return (
   <>
     <div className="row">
-      <div className="col-4">
-        <Widget src="lord1.near/widget/header-dynamic" props={general_theme} />
+      <Widget src="lord1.near/widget/header-dynamic" props={general_theme} />
+
+      <div className="col-6">
+        {" "}
+        {ChartIsLoading()}
+        {ChartHasError()}
+        {dataForChart && (
+          <Widget
+            src="lord1.near/widget/Pie-chart"
+            props={getPieProps(
+              dataForChart1,
+              ["nft_contract_id", "counts"],
+              themeColor.chartColor,
+              {
+                title: "Contract",
+                type: "pie",
+                connector: true,
+                legend: true,
+              }
+            )}
+          />
+        )}
       </div>
 
-      <div className="col-8">
+      <div className="col-6">
         {ChartIsLoading()}
         {ChartHasError()}
         {dataForChart && (
@@ -241,7 +271,7 @@ return (
               ["nft_contract_name", "count"],
               themeColor.chartColor,
               {
-                title: "NFT",
+                title: "Collection",
                 type: "pie",
                 connector: true,
                 legend: true,
@@ -252,26 +282,31 @@ return (
       </div>
     </div>
     <div className="mt-4 border-top">
-      {CardIsLoading()}
-      {CardHasError()}
-      {state.result.data && (
-        <Widget
-          src="lord1.near/widget/table-pagination"
-          props={{
-            themeColor: { table_pagination: themeColor.table_pagination },
-            data: state.result.data,
-            columns: [
-              { title: "Title", key: "title", colors: "#806ce1" },
-              { title: "Contract Name", key: "nft_contract_name" },
-              { title: "Token Id", key: "token_id", colors: "#806ce1" },
-              { title: "Contract Id", key: "nft_contract_id" },
-              { title: "Description", key: "description" },
-              { title: "Image", key: "media", pic: "yes", src: "media" },
-            ],
-            rowsCount: 10,
-          }}
-        />
-      )}
+      <div
+        style={{ background: themeColor?.sbt_area?.section_bg }}
+        className="shadow-sm rounded-2 overflow-auto p-2"
+      >
+        {CardIsLoading()}
+        {CardHasError()}
+        {state.result.data && (
+          <Widget
+            src="lord1.near/widget/table-pagination"
+            props={{
+              themeColor: { table_pagination: themeColor.table_pagination },
+              data: state.result.data,
+              columns: [
+                { title: "Title", key: "title", colors: "#806ce1" },
+                { title: "Contract Name", key: "nft_contract_name" },
+                { title: "Token Id", key: "token_id", colors: "#806ce1" },
+                { title: "Contract Id", key: "nft_contract_id" },
+                { title: "Description", key: "description" },
+                { title: "Image", key: "media", pic: "yes", src: "media" },
+              ],
+              rowsCount: 10,
+            }}
+          />
+        )}{" "}
+      </div>
     </div>
   </>
 );
