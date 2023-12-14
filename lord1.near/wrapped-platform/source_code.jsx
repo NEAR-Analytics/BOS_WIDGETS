@@ -1,4 +1,4 @@
-const API_KEY = "56604552-aa8c-4842-b4b0-51e49a10c4dd";
+const API_KEY = props.API_KEY;
 const themeColor = props.themeColor;
 
 const singer = props.singer;
