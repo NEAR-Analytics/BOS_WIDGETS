@@ -115,7 +115,7 @@ let timerInterval;
         this.radius = 25;
         this.speed = 6;
         this.isFalling = true;
-        this.xSpeed = random(0, 0); // Initial random horizontal speed
+        this.xSpeed = random(0, 0);
         this.ySpeed = 0;
         this.color = color;
       }
@@ -138,12 +138,6 @@ let timerInterval;
             this.xSpeed *= -0.1; // Reduce x speed upon wall impact
           }
    
-           // Check for hitting another circle
-          // for (let j = 0; j < droppedCircles.length; j++) {
-           // if (this !== droppedCircles[j] && this.intersects(droppedCircles[j])) {
-              // this.resolveCollision(droppedCircles[j]);
-           // }
-         // }
    
           // Check for hitting the ground
           if (this.y + this.radius >= groundY) {
@@ -161,11 +155,6 @@ let timerInterval;
         if (this.y - this.radius < 0 || this.y + this.radius > height) {
           this.y = constrain(this.y, this.radius, height - this.radius);
         }
-      }
-   
-      intersects(other) {
-        let distance = dist(this.x, this.y, other.x, other.y);
-        return distance < this.radius + other.radius;
       }
    
    
