@@ -1,5 +1,5 @@
 const themeColor = props.themeColor;
-const API_KEY = "56604552-aa8c-4842-b4b0-51e49a10c4dd";
+const API_KEY = "96ef3daf-8662-4736-b31b-0a4c2b431cc2";
 
 const general_theme = {
   height: "110px",
@@ -194,6 +194,7 @@ const Transaction = (
         themeColor,
         singer: state.searchedSinger,
         interval: searchedInterval,
+        API_KEY,
       }}
     />
   </div>
@@ -210,6 +211,7 @@ const Balance = (
         themeColor,
         singer: state.searchedSinger,
         interval: searchedInterval,
+        API_KEY,
       }}
     />
   </div>
@@ -225,6 +227,7 @@ const Transfer = (
         themeColor,
         singer: state.searchedSinger,
         interval: searchedInterval,
+        API_KEY,
       }}
     />
   </div>
@@ -240,6 +243,7 @@ const NFT = (
         themeColor,
         singer: state.searchedSinger,
         interval: searchedInterval,
+        API_KEY,
       }}
     />
   </div>
@@ -255,6 +259,7 @@ const Sharddog = (
         themeColor,
         singer: state.searchedSinger,
         interval: searchedInterval,
+        API_KEY,
       }}
     />
   </div>
@@ -270,6 +275,7 @@ const Stake = (
         themeColor,
         singer: state.searchedSinger,
         interval: searchedInterval,
+        API_KEY,
       }}
     />
   </div>
@@ -285,6 +291,7 @@ const Platform = (
         themeColor,
         singer: state.searchedSinger,
         interval: searchedInterval,
+        API_KEY,
       }}
     />
   </div>
@@ -300,6 +307,7 @@ const Social = (
         themeColor,
         singer: state.searchedSinger,
         interval: searchedInterval,
+        API_KEY,
       }}
     />
   </div>
