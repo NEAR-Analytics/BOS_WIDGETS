@@ -1,3 +1,4 @@
+// Contracts : https://pad.riseup.net/p/cross-chain-nft-temp
 initState({
   viewNft: false,
   mintNft: false,
