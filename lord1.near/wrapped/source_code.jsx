@@ -59,7 +59,10 @@ const handleSearchedSinger = () => {
     State.update({ error: [...state.error, "please insert an address"] });
     return;
   }
-  if (state.searchedSinger === state.singer) {
+  if (
+    state.searchedSinger === state.singer &&
+    state.searchedInterval === state.interval
+  ) {
     State.update({ error: [...state.error, "please insert a new address"] });
     return;
   }
@@ -179,7 +182,10 @@ const Button = styled.button`
 `;
 
 const Transaction = (
-  <div className="w-100">
+  <div
+    className="w-100"
+    style={{ display: state.tab === tabs.transaction ? "" : "none" }}
+  >
     <Widget
       src="lord1.near/widget/wrapped-transaction"
       props={{
@@ -192,7 +198,10 @@ const Transaction = (
 );
 
 const Balance = (
-  <div className="w-100">
+  <div
+    className="w-100"
+    style={{ display: state.tab === tabs.balance ? "" : "none" }}
+  >
     <Widget
       src="lord1.near/widget/wrapped-balance"
       props={{
@@ -204,7 +213,10 @@ const Balance = (
   </div>
 );
 const Transfer = (
-  <div className="w-100">
+  <div
+    className="w-100"
+    style={{ display: state.tab === tabs.transfer ? "" : "none" }}
+  >
     <Widget
       src="lord1.near/widget/wrapped-transfer"
       props={{
@@ -216,7 +228,10 @@ const Transfer = (
   </div>
 );
 const NFT = (
-  <div className="w-100">
+  <div
+    className="w-100"
+    style={{ display: state.tab === tabs.nft ? "" : "none" }}
+  >
     <Widget
       src="lord1.near/widget/wrapped-nft"
       props={{
@@ -228,7 +243,10 @@ const NFT = (
   </div>
 );
 const Sharddog = (
-  <div className="w-100">
+  <div
+    className="w-100"
+    style={{ display: state.tab === tabs.sharddog ? "" : "none" }}
+  >
     <Widget
       src="lord1.near/widget/wrapped-shrddog_tekuno"
       props={{
@@ -240,7 +258,10 @@ const Sharddog = (
   </div>
 );
 const Stake = (
-  <div className="w-100">
+  <div
+    className="w-100"
+    style={{ display: state.tab === tabs.stake ? "" : "none" }}
+  >
     <Widget
       src="lord1.near/widget/wrapped-staking"
       props={{
@@ -252,7 +273,10 @@ const Stake = (
   </div>
 );
 const Platform = (
-  <div className="w-100">
+  <div
+    className="w-100"
+    style={{ display: state.tab === tabs.platform ? "" : "none" }}
+  >
     <Widget
       src="lord1.near/widget/wrapped-platform"
       props={{
@@ -264,7 +288,10 @@ const Platform = (
   </div>
 );
 const Social = (
-  <div className="w-100">
+  <div
+    className="w-100"
+    style={{ display: state.tab === tabs.social ? "" : "none" }}
+  >
     <Widget
       src="lord1.near/widget/wrapped-social"
       props={{
@@ -275,6 +302,7 @@ const Social = (
     />
   </div>
 );
+
 return (
   <div
     style={{ backgroundColor: themeColor.page_bg }}
@@ -371,14 +399,16 @@ return (
             </Container>
           </div>
           <div className="w-100">
-            {state.tab === tabs.transaction && Transaction}
-            {state.tab === tabs.balance && Balance}
-            {state.tab === tabs.transfer && Transfer}
-            {state.tab === tabs.nft && NFT}
-            {state.tab === tabs.sharddog && Sharddog}
-            {state.tab === tabs.stake && Stake}
-            {state.tab === tabs.platform && Platform}
-            {state.tab === tabs.social && Social}
+            <div>
+              {Transaction}
+              {Balance}
+              {Transfer}
+              {NFT}
+              {Sharddog}
+              {Stake}
+              {Platform}
+              {Social}
+            </div>
           </div>
         </>
       )}
