@@ -65,7 +65,7 @@ const formatNumber = (num) => {
   }
 
   if (num < 1000 && num > 0.0001) {
-    return (num * 1000).toFixed(3).replace(/\.0+$/, "") + "";
+    return (Math.round(num * 1000 * 1000) / 1000).toFixed(3) + "";
   }
 
   return num;
