@@ -30,6 +30,7 @@ const ModalOverlay = styled.div`
   flex-direction: column;
   z-index: 100;
   width: 400px;
+  height: 100%;
   @media (max-width: 510px) {
     right: 10px;
     top: 54px;
