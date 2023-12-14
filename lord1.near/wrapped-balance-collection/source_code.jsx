@@ -154,7 +154,7 @@ const Result =
   state.result.data.length > 0 ? (
     <div className="row g-2">
       {state.result.data.map((nft) => (
-        <div key={nft.contract_id + nft.token_id} className="col-md-6 col-lg-4">
+        <div key={nft.contract_id + nft.token_id} className="col-md-6 col-lg-3">
           <div
             className="p-2 d-flex flex-column align-items-center h-100 rounded-4"
             style={{
@@ -164,7 +164,7 @@ const Result =
             }}
           >
             <img
-              style={{ marginBottom: "1rem" }}
+              style={{ marginBottom: "1rem", "border-radius": "15px" }}
               height={60}
               width={60}
               layout="intrinsic"
@@ -201,9 +201,14 @@ const Result =
   );
 return (
   <>
-    {CardIsLoading()}
-    {CardHasError()}
+    <div
+      style={{ background: themeColor?.sbt_area?.section_bg }}
+      className="shadow-sm rounded-2 overflow-auto p-2"
+    >
+      {CardIsLoading()}
+      {CardHasError()}
 
-    {state.result.data && Result}
+      {state.result.data && Result}
+    </div>
   </>
 );
