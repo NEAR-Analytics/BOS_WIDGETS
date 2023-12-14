@@ -38,6 +38,24 @@ const general_theme = {
     themeColor?.dynamic_header?.background ||
     "radial-gradient(circle, rgba(210,202,250,1) 0%, rgba(230,230,231,0.01) 0%, rgba(235,238,255,1) 100%, rgba(235,231,253,1) 100%, rgba(255,241,241,1) 100%, rgba(46,52,90,1) 100%);",
 };
+const general_theme1 = {
+  height: "110px",
+  align: "center",
+  description: "",
+  brand: "Balance ",
+  fontsize: "30px",
+  fontweight: "25px",
+  afterbrand: "distribution",
+  afterbrandcolor: themeColor?.dynamic_header?.afterbrandcolor || "#789efb",
+  fontbrand: " Arial, sans-serif",
+  color1brand: themeColor?.dynamic_header?.color1brand || "#000",
+  color2brand: themeColor?.dynamic_header?.color2brand || "#806ce1",
+  colordescription: themeColor?.dynamic_header?.colordescription || "#806ce1",
+  fontsubtitle: " Arial, sans-serif",
+  background:
+    themeColor?.dynamic_header?.background ||
+    "radial-gradient(circle, rgba(210,202,250,1) 0%, rgba(230,230,231,0.01) 0%, rgba(235,238,255,1) 100%, rgba(235,231,253,1) 100%, rgba(255,241,241,1) 100%, rgba(46,52,90,1) 100%);",
+};
 // -----------------------
 
 State.init({
@@ -209,57 +227,63 @@ const ChartHasError = () =>
 return (
   <div>
     <div className="row">
-      <div className="col-4">
-        <Widget src="lord1.near/widget/header-dynamic" props={general_theme} />
-      </div>
       <div className="col-8">
-        {ChartIsLoading()}
-        {ChartHasError()}
-        {state.result.data && (
-          <Widget
-            src="lord1.near/widget/Pie-chart"
-            props={getPieProps(
-              state.result.data.balancesTotal,
-              ["symbol", "usdPrice"],
-              themeColor.chartColor,
-              {
-                title: "Balance distribution",
-                type: "pie",
-                connector: true,
-                legend: true,
-              }
+        <Widget src="lord1.near/widget/header-dynamic" props={general_theme} />
+        <div
+          style={{
+            background: themeColor?.sbt_area?.section_bg,
+            "margin-top": "20px",
+          }}
+          className="shadow-sm rounded-2 overflow-auto p-2"
+        >
+          <div className="mt-4 border-top">
+            {CardIsLoading()}
+            {CardHasError()}
+            {state.result.data && (
+              <Widget
+                src="lord1.near/widget/table-pagination"
+                props={{
+                  themeColor: { table_pagination: themeColor.table_pagination },
+                  data: state.result.data.balancesTotal,
+                  columns: [
+                    { title: "Symbol", key: "symbol", colors: "#806ce1" },
+                    { title: "Contract", key: "contract" },
+                    { title: "USD Price ", key: "usdPrice", colors: "#806ce1" },
+                    { title: "Amount", key: "amount" },
+                  ],
+                  rowsCount: 10,
+                }}
+              />
             )}
-          />
-        )}
+          </div>
+        </div>{" "}
+      </div>
+      <div className="col-4">
+        <Widget src="lord1.near/widget/header-dynamic" props={general_theme1} />
+        <div
+          style={{ background: themeColor?.sbt_area?.section_bg }}
+          className="shadow-sm rounded-2 overflow-auto p-2"
+        >
+          {ChartIsLoading()}
+          {ChartHasError()}
+          {state.result.data && (
+            <Widget
+              src="lord1.near/widget/Pie-chart"
+              props={getPieProps(
+                state.result.data.balancesTotal,
+                ["symbol", "usdPrice"],
+                themeColor.chartColor,
+                {
+                  title: "",
+                  type: "pie",
+                  connector: true,
+                  legend: true,
+                }
+              )}
+            />
+          )}
+        </div>{" "}
       </div>
     </div>
-    <div
-      style={{
-        background: themeColor?.sbt_area?.section_bg,
-        "margin-top": "20px",
-      }}
-      className="shadow-sm rounded-2 overflow-auto p-2"
-    >
-      <div className="mt-4 border-top">
-        {CardIsLoading()}
-        {CardHasError()}
-        {state.result.data && (
-          <Widget
-            src="lord1.near/widget/table-pagination"
-            props={{
-              themeColor: { table_pagination: themeColor.table_pagination },
-              data: state.result.data.balancesTotal,
-              columns: [
-                { title: "Symbol", key: "symbol", colors: "#806ce1" },
-                { title: "Contract", key: "contract" },
-                { title: "USD Price ", key: "usdPrice", colors: "#806ce1" },
-                { title: "Amount", key: "amount" },
-              ],
-              rowsCount: 10,
-            }}
-          />
-        )}
-      </div>
-    </div>{" "}
   </div>
 );
