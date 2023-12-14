@@ -408,7 +408,7 @@ return (
           onClickMax: () => {
             State.update({
               wrapAmountInputError: undefined,
-              wrapAmount: formatAmount(state.balance) ?? 0,
+              wrapAmount: Big(state.balance ?? 0).div(Big(10).pow(8)),
             });
           },
           error: state.wrapAmountInputError,
