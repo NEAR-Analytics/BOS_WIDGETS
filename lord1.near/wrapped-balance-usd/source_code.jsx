@@ -258,6 +258,7 @@ return (
                         title: "USD Price ",
                         key: "usdPrice",
                         colors: "#806ce1",
+                        round: "yes",
                       },
                       { title: "Amount", key: "amount", round: "yes" },
                     ],
