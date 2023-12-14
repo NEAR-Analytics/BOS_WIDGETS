@@ -317,7 +317,7 @@ const general_theme1 = {
   height: "90px",
   align: "center",
   description: "",
-  brand: "Acticity",
+  brand: "Activity",
   fontsize: "25px",
   fontweight: "50px",
   afterbrand: "Area",
@@ -847,7 +847,7 @@ let TableMiddle = (
     style={{ background: themeColor?.sbt_area?.section_bg }}
     className="shadow-sm rounded-2 overflow-auto p-2"
   >
-    <div className="p-2 rounded-4 overflow-auto">
+    <div className="p-2 rounded-2 overflow-auto">
       {CardIsLoading(3)}
       {CardHasError(3)}
       {state.result["query" + 3]?.data && (
@@ -988,55 +988,63 @@ return (
                 {BelowRight}{" "}
               </div>
             </div>
-            <div className="row">
-              <Right className="col-md-3">
-                <H5>Transaction's Success Rate</H5>
-                <div className="d-flex justify-content-center">
-                  <ChartContainer>
-                    <Widget
-                      src="lord1.near/widget/pie-percentage"
-                      props={{
-                        themeColor,
-                        voted: `${
-                          state.result.query4?.data[0]?.success || "0"
-                        }`,
-                        total: `${
-                          state.result.query4?.data[0]?.transactions || "0"
-                        }`,
-                        percent: 60,
-                      }}
-                    />
-                  </ChartContainer>
+            <div
+              style={{
+                background: themeColor?.sbt_area?.section_bg,
+                "margin-top": "25px",
+              }}
+              className="shadow-sm rounded-2 overflow-auto p-2"
+            >
+              <div className="row">
+                <Right className="col-md-3">
+                  <H5> Success Rate</H5>
+                  <div className="d-flex justify-content-center">
+                    <ChartContainer>
+                      <Widget
+                        src="lord1.near/widget/pie-percentage"
+                        props={{
+                          themeColor,
+                          voted: `${
+                            state.result.query4?.data[0]?.success || "0"
+                          }`,
+                          total: `${
+                            state.result.query4?.data[0]?.transactions || "0"
+                          }`,
+                          percent: 60,
+                        }}
+                      />
+                    </ChartContainer>
+                  </div>
+                </Right>
+                <div className="col-md-3">
+                  <Widget
+                    src="lord1.near/widget/header-dynamic"
+                    props={min_time}
+                  />
                 </div>
-              </Right>
-              <div className="col-md-3">
-                <Widget
-                  src="lord1.near/widget/header-dynamic"
-                  props={min_time}
-                />
-              </div>
-              <div className="col-md-2">
-                <Widget
-                  src="lord1.near/widget/header-dynamic"
-                  props={active_days}
-                />
-              </div>
-              <div className="col-md-2">
-                <Widget
-                  src="lord1.near/widget/header-dynamic"
-                  props={active_month}
-                />
-              </div>
-              <div className="col-md-2">
-                <Widget
-                  src="lord1.near/widget/header-dynamic"
-                  props={max_time}
-                />
+                <div className="col-md-2">
+                  <Widget
+                    src="lord1.near/widget/header-dynamic"
+                    props={active_days}
+                  />
+                </div>
+                <div className="col-md-2">
+                  <Widget
+                    src="lord1.near/widget/header-dynamic"
+                    props={active_month}
+                  />
+                </div>
+                <div className="col-md-2">
+                  <Widget
+                    src="lord1.near/widget/header-dynamic"
+                    props={max_time}
+                  />
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
+      </div>{" "}
     </div>
   </>
 );
