@@ -194,7 +194,7 @@ const Transaction = (
 const Balance = (
   <div className="w-100">
     <Widget
-      src="lord1.near/widget/Explorer-Balance"
+      src="lord1.near/widget/wrapped-balance"
       props={{
         themeColor,
         singer: state.searchedSinger,
