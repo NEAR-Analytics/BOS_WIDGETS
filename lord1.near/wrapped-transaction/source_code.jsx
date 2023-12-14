@@ -879,10 +879,10 @@ let BelowRight = (
       style={{ background: themeColor?.sbt_area?.card_bg }}
       className="shadow-sm rounded-2 overflow-auto"
     >
-      {" "}
       {CardIsLoading(5)}
       {CardHasError(5)}
-      {state.result["query" + 5]?.data && (
+      {state.result["query" + 5]?.data &&
+      state.result["query" + 5]?.data.length > 0 ? (
         <Widget
           src="lord1.near/widget/table-pagination"
           props={{
@@ -904,6 +904,8 @@ let BelowRight = (
             ],
           }}
         />
+      ) : (
+        noData
       )}
     </div>
   </div>
@@ -974,9 +976,9 @@ return (
                 />
               </div>
             </div>
+
             <div className="row">
               <div className="col-md-4">
-                {" "}
                 <Widget
                   src="lord1.near/widget/header-dynamic"
                   props={general_theme1}
@@ -984,12 +986,11 @@ return (
                 {TableMiddle}
               </div>
               <div className="col-md-8">
-                {" "}
                 <Widget
                   src="lord1.near/widget/header-dynamic"
                   props={general_theme}
                 />
-                {BelowRight}{" "}
+                {BelowRight}
               </div>
             </div>
             <div
@@ -1012,7 +1013,7 @@ return (
                             state.result.query4?.data[0]?.success || "0"
                           }`,
                           total: `${
-                            state.result.query4?.data[0]?.transactions || "0"
+                            state.result.query4?.data[0]?.transactions || 1
                           }`,
                           percent: 60,
                         }}
@@ -1048,7 +1049,7 @@ return (
             </div>
           </div>
         </div>
-      </div>{" "}
+      </div>
     </div>
   </>
 );
