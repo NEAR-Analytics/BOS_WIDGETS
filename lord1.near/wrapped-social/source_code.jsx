@@ -2139,7 +2139,11 @@ let TableLeft = (
     style={{ background: themeColor?.sbt_area?.section_bg }}
     className="shadow-sm rounded-2 overflow-auto p-2"
   >
-    <div className="p-2 rounded-4 overflow-auto">
+    <div
+      style={{ background: themeColor?.sbt_area?.card_bg }}
+      className="shadow-sm rounded-4 overflow-auto"
+    >
+      {" "}
       {CardIsLoading(2)}
       {CardHasError(2)}
       {state.result["query" + 2]?.data && (
@@ -2180,7 +2184,11 @@ let TableRight = (
     style={{ background: themeColor?.sbt_area?.section_bg }}
     className="shadow-sm rounded-2 overflow-auto p-2"
   >
-    <div className="p-2 rounded-4 overflow-auto">
+    <div
+      style={{ background: themeColor?.sbt_area?.card_bg }}
+      className="shadow-sm rounded-4 overflow-auto"
+    >
+      {" "}
       {CardIsLoading(3)}
       {CardHasError(3)}
       {state.result["query" + 3]?.data && (
