@@ -1,9 +1,8 @@
 initState({
-  toggleAmount: false,
-  txHash: "",
-  tokenDecimals: 18,
-  fromTokenAmount: 0,
-  status: 0,
+  viewNft: false,
+  mintNft: false,
+  img: null,
+  name: null,
 });
 
 const signer = Ethers.send("eth_requestAccounts", [])[0]; // current wallet
@@ -39,16 +38,15 @@ if (
     .then((chainIdData) => {
       if (chainIdData?.chainId) {
         State.update({ chainId: chainIdData.chainId });
+        if (state.chainId == 10) {
+          // State.update({ viewNft: true });
+        }
       }
     });
 }
 
 // Support Only Avalance Fuji (Testnet) & Sepolia Ethereum (Testnet)
-if (
-  state.chainId !== 43113 &&
-  state.chainId !== 11155111 &&
-  state.chainId !== 10
-) {
+if (state.chainId !== 43113 && state.chainId !== 11155111) {
   return (
     <div>
       <h3>
@@ -60,11 +58,11 @@ if (
   );
 }
 
-const oneInchAbi = fetch(
-  "https://gist.githubusercontent.com/miguelmota/2759896a63d2e528bee86b2f8bb67e3b/raw/789317fa43d1bf346b4ef0b17b61c59db84486c7/ERC721.json"
+const nftAbi = fetch(
+  "https://gist.githubusercontent.com/hoanganhlam/0fef79860e992cf3cabf7e8b8fb11ccf/raw/8175a9d95c6bb19e76c33b21c6131f1d45d1bc86/ABI-ERC721.json"
 );
-if (!oneInchAbi.ok) {
-  return "1inch not ok";
+if (!nftAbi.ok) {
+  return "nft not ok";
 }
 
 const ccipSender = fetch(
@@ -76,14 +74,29 @@ if (!ccipSender.ok) {
 
 async function queryBalanceOf() {
   try {
-    const contractAddress = "0x51E5426eDE4e2d4c2586371372313B5782387222"; // Apetimisim
-    const oneInch = new ethers.Contract(
+    const contractAddress = "0xBF3d94450104487c25C2BEe4CA7E40eDD7caC73D"; // NFT Contract Address on Ethereum Sepolia
+    const nftContract = new ethers.Contract(
       contractAddress,
-      oneInchAbi.body,
+      nftAbi.body,
       Ethers.provider().getSigner()
     );
-    oneInch.balanceOf(signer).then((x) => {
-      console.log("result :=> x ", x); // My own wallet got 4 - 0x04
+    nftContract.balanceOf(signer).then((x) => {
+      if (x._hex !== "0x00") {
+        console.log("This wallet has some NFT"); // Hack
+        nftContract.tokenURI(0).then((y) => {
+          asyncFetch(y).then((response) => {
+            // should check 200
+            State.update({
+              name: response.body.name,
+              img: response.body.image,
+            });
+            console.log("name", response.body.name); // Hack
+            console.log("img", response.body.image); // Hack
+          });
+        });
+      } else {
+        console.log("This wallet has no NFT");
+      }
     });
   } catch (error) {
     console.error(error);
@@ -98,34 +111,9 @@ async function mintToken() {
       ccipSender.body,
       Ethers.provider().getSigner()
     );
-    // Ethers.provider()
-    //   .getFeeData()
-    //   .then((x) => {
-    //     console.log("fee Data :", x);
-    //   });
-    // Ethers.provider()
-    //   .getGasPrice()
-    //   .then((x) => {
-    //     console.log("x ", x);
-    //   });
-    // Ethers.provider().getGasPrice()
-    // const gasLimit = ethers.utils.hexlify(1000000); // Example gas limit
-    // const gasPrice = ethers.utils.parseUnits("10", "gwei"); // Example gas price
-    ccip
-      // .mintNFT({
-      //   gasPrice: "0x59682f00",
-      //   maxFeePerGas: "0x0bfda3a300",
-      //   maxPriorityFeePerGas: "0x59682f00",
-      // })
-      .mintNFT()
-      // .mintNFT({ gasPrice: "0x59682f00" })
-      // .mintNFT({ gasLimit: "0x826299e00" })
-      .then((x) => {
-        console.log("result :=> x ", x); // My own wallet got 4 - 0x04
-      });
-    // ccip.owner().then((x) => {
-    //   console.log("result :=> x ", x); // My own wallet got 4 - 0x04
-    // });
+    ccip.mintNFT().then((x) => {
+      console.log("result :=> x ", x); // My own wallet got 4 - 0x04
+    });
   } catch (error) {
     console.error(error);
   }
@@ -133,11 +121,20 @@ async function mintToken() {
 
 return (
   <div>
-    <button class="btn btn-success" onClick={queryBalanceOf} disabled={false}>
-      QueryBalance of
+    <button
+      class="btn btn-success"
+      onClick={queryBalanceOf}
+      disabled={state.viewNft}
+    >
+      View NFT (Ethereum Sepolia)
     </button>
     <button class="btn btn-success" onClick={mintToken} disabled={false}>
-      Mint
+      Mint (Avalance Fuji)
     </button>
+    <div className="mt-2">
+      // Should display nft owned by current wallet
+      <h3>{state.name}</h3>
+      <img src={`${state.img}`} />
+    </div>
   </div>
 );
