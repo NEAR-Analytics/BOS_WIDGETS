@@ -119,6 +119,13 @@ const InfoSection = styled.div`
     }
   }
 
+  .circle {
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    border: 1px solid #151718;
+  }
+
   .item {
     width: 280px;
     height: 375px;
@@ -380,6 +387,7 @@ const Support = ({ title, items }) => (
 );
 
 if (!content || !assets) return <Widget src="flashui.near/widget/Loading" />;
+let infoCounter = 0;
 
 return (
   <Container>
@@ -450,36 +458,31 @@ return (
       </div>
     </ConnectSection>
 
+    <InfoSection className="d-flex flex-column gap-5">
+      <h4>{content.participate.name}</h4>
+      <h2>{content.participate.title}</h2>
+      <div className="d-flex gap-4 justify-content-between">
+        {content.participate.items?.map((section) => (
+          <div className="d-flex flex-column gap-2">
+            {section.map(({ title, href }) => (
+              <h5 className="d-flex gap-2">
+                <div className="circle d-flex justify-content-center align-items-center">
+                  {(infoCounter += 1)}
+                </div>
+                <a href={href}>{title}</a>
+              </h5>
+            ))}
+          </div>
+        ))}
+      </div>
+    </InfoSection>
+
     <SupportSection className="d-flex flex-column gap-5">
       <h4>{content.support.name}</h4>
       <div className="items d-flex flex-wrap justify-content-center">
-        <Support
-          title="Marketing Resources"
-          items={[
-            { title: "Get Marketing support", href: "" },
-            { title: "Influencers", href: "" },
-          ]}
-        />
-        <Support
-          title="Office Hours"
-          items={[
-            { title: "Book a meeting with MDAO Councils", href: "" },
-            { title: "Attend a workshop", href: "" },
-            { title: "Consulting call with Marketing agency", href: "" },
-            { title: "Contact us", href: "" },
-          ]}
-        />
-        <Support
-          title="Get Funding"
-          items={[
-            {
-              title: "Apply for a grant",
-              href: "/ndcdev.near/widget/MDAO.App?page=createProposal",
-            },
-            { title: "MDAO Bounty program", href: "" },
-            { title: "Editorial calendar", href: "" },
-          ]}
-        />
+        {content.support.items.map((item) => (
+          <Support title={item.title} items={item.values} />
+        ))}
       </div>
     </SupportSection>
   </Container>
