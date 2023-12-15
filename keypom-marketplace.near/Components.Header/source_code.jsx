@@ -1,4 +1,4 @@
-const ownerId = "keypom-marketplace.testnet";
+const ownerId = "a_liutiev.near";
 
 const loraCss = fetch("https://fonts.googleapis.com/css2?family=Lora&display=swap").body;
 
