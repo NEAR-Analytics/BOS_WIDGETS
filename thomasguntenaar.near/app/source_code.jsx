@@ -7,7 +7,7 @@ const { page, ...passProps } = props;
 
 // Import our modules
 const { AppLayout } = VM.require(
-  "${REPL_DEVHUB}/widget/devhub.components.templates.AppLayout"
+  "thomasguntenaar.near/widget/devhub.components.templates.AppLayout"
 );
 
 if (!AppLayout) {
@@ -33,18 +33,26 @@ const Theme = styled.div`
 
 if (!page) {
   // If no page is specified, we default to the feed page TEMP
-  page = "feed";
+  page = "home";
 }
 
 // This is our navigation, rendering the page based on the page parameter
 function Page() {
   const routes = page.split(".");
   switch (routes[0]) {
+    case "home": {
+      return (
+        <Widget
+          src="thomasguntenaar.near/widget/devhub.page.home"
+          props={passProps}
+        />
+      );
+    }
     // ?page=communities
     case "communities": {
       return (
         <Widget
-          src={"${REPL_DEVHUB}/widget/devhub.page.communities"}
+          src={"thomasguntenaar.near/widget/devhub.page.communities"}
           props={passProps}
         />
       );
@@ -56,7 +64,7 @@ function Page() {
         // where each level handles its own routing.
         // Modularizing a page just like we do with addons
         <Widget
-          src={"${REPL_DEVHUB}/widget/devhub.entity.community.Provider"}
+          src={"thomasguntenaar.near/widget/devhub.entity.community.Provider"}
           props={{
             ...passProps,
             Children: (p) => {
@@ -67,7 +75,7 @@ function Page() {
                   return (
                     <Widget
                       src={
-                        "${REPL_DEVHUB}/widget/devhub.page.community.configuration"
+                        "thomasguntenaar.near/widget/devhub.page.community.configuration"
                       }
                       props={{
                         ...passProps,
@@ -80,7 +88,7 @@ function Page() {
                 default: {
                   return (
                     <Widget
-                      src={"${REPL_DEVHUB}/widget/devhub.page.community.index"}
+                      src={"thomasguntenaar.near/widget/devhub.page.community.index"}
                       props={{
                         ...passProps,
                         ...p,
@@ -98,7 +106,7 @@ function Page() {
     case "feed": {
       return (
         <Widget
-          src={"${REPL_DEVHUB}/widget/devhub.page.feed"}
+          src={"thomasguntenaar.near/widget/devhub.page.feed"}
           props={passProps}
         />
       );
@@ -107,7 +115,57 @@ function Page() {
     case "create": {
       return (
         <Widget
-          src={"${REPL_DEVHUB}/widget/devhub.page.create"}
+          src={"thomasguntenaar.near/widget/devhub.page.create"}
+          props={passProps}
+        />
+      );
+    }
+    // ?page=about
+    case "about": {
+      return (
+        <Widget
+          src={"thomasguntenaar.near/widget/devhub.page.about"}
+          props={passProps}
+        />
+      );
+    }
+    case "contribute": {
+      return (
+        <Widget
+          src={"thomasguntenaar.near/widget/devhub.page.contribute"}
+          props={passProps}
+        />
+      );
+    }
+    case "profile": {
+      return (
+        <Widget
+          src={"thomasguntenaar.near/widget/devhub.page.profile"}
+          props={passProps}
+        />
+      );
+    }
+    // ?page=blog
+    case "blog": {
+      return (
+        <Widget
+          src={"thomasguntenaar.near/widget/devhub.page.blog"}
+          props={passProps}
+        />
+      );
+    }
+    case "post": {
+      return (
+        <Widget
+          src={"thomasguntenaar.near/widget/devhub.page.post"}
+          props={passProps}
+        />
+      );
+    }
+    case "admin": {
+      return (
+        <Widget
+          src={"thomasguntenaar.near/widget/devhub.page.admin.index"}
           props={passProps}
         />
       );
