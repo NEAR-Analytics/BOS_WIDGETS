@@ -126,8 +126,8 @@ return (
             routerAddress: "0x9c12939390052919aF3155f41Bf4160Fd3666A6f",
             uniType: "solidly",
             defaultCurrencies: {
-              input: Tokens["0x7F5c764cBc14f9669B88837ca1490cCa17c31607"],
-              output: Tokens["0x4200000000000000000000000000000000000042"],
+              input: Tokens["0x4200000000000000000000000000000000000006"],
+              output: Tokens["0x7F5c764cBc14f9669B88837ca1490cCa17c31607"],
             },
             tokens: [
               Tokens["0x7F5c764cBc14f9669B88837ca1490cCa17c31607"],
