@@ -1,4 +1,4 @@
-const ownerId = "keypom-marketplace.testnet";
+const ownerId = "a_liutiev.near";
 
 /** @type {{text:string;value:string}[]} */
 const options = [
