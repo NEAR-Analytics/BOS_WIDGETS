@@ -147,8 +147,8 @@ return (
             routerAddress: "0x327Df1E6de05895d2ab08513aaDD9313Fe505d86",
             uniType: "v2",
             defaultCurrencies: {
-              input: Tokens["0xd9aAEc86B65D86f6A7B5B1b0c42FFA531710b6CA"],
-              output: Tokens["0x50c5725949A6F0c72E6C4a641F24049A917DB0Cb"],
+              input: Tokens["native"],
+              output: Tokens["0xEB466342C4d449BC9f53A865D5Cb90586f405215"],
             },
             tokens: [
               Tokens["0x2Ae3F1Ec7F1F5012CFEab0185bfc7aa3cf0DEc22"],
@@ -167,8 +167,8 @@ return (
             routerAddress: "0x4cf76043B3f97ba06917cBd90F9e3A2AAC1B306e",
             uniType: "v2",
             defaultCurrencies: {
-              input: Tokens["0xEB466342C4d449BC9f53A865D5Cb90586f405215"],
-              output: Tokens["native"],
+              input: Tokens["native"],
+              output: Tokens["0xEB466342C4d449BC9f53A865D5Cb90586f405215"],
             },
             tokens: [
               Tokens["0x6653dD4B92a0e5Bf8ae570A98906d9D6fD2eEc09"],
@@ -186,8 +186,8 @@ return (
             routerAddress: "0xaaa3b1F1bd7BCc97fD1917c18ADE665C5D31F066",
             uniType: "v2",
             defaultCurrencies: {
-              input: Tokens["0xd9aAEc86B65D86f6A7B5B1b0c42FFA531710b6CA"],
-              output: Tokens["0x50c5725949A6F0c72E6C4a641F24049A917DB0Cb"],
+              input: Tokens["native"],
+              output: Tokens["0xEB466342C4d449BC9f53A865D5Cb90586f405215"],
             },
             tokens: [
               Tokens["0x6653dD4B92a0e5Bf8ae570A98906d9D6fD2eEc09"],
@@ -206,7 +206,7 @@ return (
             routerAddress: "0x8734B3264Dbd22F899BCeF4E92D442d538aBefF0",
             uniType: "v2",
             defaultCurrencies: {
-              input: Tokens["0xd9aAEc86B65D86f6A7B5B1b0c42FFA531710b6CA"],
+              input: Tokens["native"],
               output: Tokens["0x50c5725949A6F0c72E6C4a641F24049A917DB0Cb"],
             },
             tokens: [
@@ -225,7 +225,7 @@ return (
             quoterAddress: "0x94ddDe405A00180891eD79Dc1147F0d841c30D73",
             uniType: "v3",
             defaultCurrencies: {
-              input: Tokens["0xd9aAEc86B65D86f6A7B5B1b0c42FFA531710b6CA"],
+              input: Tokens["native"],
               output: Tokens["0x50c5725949A6F0c72E6C4a641F24049A917DB0Cb"],
             },
             tokens: [
