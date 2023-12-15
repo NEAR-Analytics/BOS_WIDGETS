@@ -88,13 +88,13 @@ return (
         displayChainName: "Mantle",
         wethAddress: "0x78c1b0c915c4faa5fffa6cabf0219da63d7f4cb8",
         connectProps: {
-          imgProps: {
-            src: "https://ipfs.near.social/ipfs/bafkreiajvwzt4jfhveovrctyojmcabm5x2nkpho6n2mrlg4c5b6nht3v3a",
-            style: {
-              width: "538px",
-              marginTop: "80px",
-            },
-          },
+          // imgProps: {
+          //   src: "https://ipfs.near.social/ipfs/bafkreiajvwzt4jfhveovrctyojmcabm5x2nkpho6n2mrlg4c5b6nht3v3a",
+          //   style: {
+          //     width: "538px",
+          //     marginTop: "80px",
+          //   },
+          // },
           noAccountTips: "Mantle Dex Collection",
           wrongNetworkTips: "To proceed, kindly switch to Mantle Chain.",
         },
