@@ -138,7 +138,8 @@ const getBestTrade = () => {
     return;
   State.update({
     loading: true,
-    state: null,
+    trade: null,
+    showPriceImpactWarning: false,
   });
 };
 
