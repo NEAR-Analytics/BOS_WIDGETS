@@ -190,14 +190,14 @@ return (
         displayChainName: "BSC",
         wethAddress: "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c",
         connectProps: {
-          imgProps: {
-            src: "https://ipfs.near.social/ipfs/bafkreiajfajinsydy3ewmc3elgnpahc3n3v4cophn6ip5bzr3ym7ypn5vm",
-            style: {
-              width: "282px",
-              height: "167px",
-              marginTop: "80px",
-            },
-          },
+          // imgProps: {
+          //   src: "https://ipfs.near.social/ipfs/bafkreiajfajinsydy3ewmc3elgnpahc3n3v4cophn6ip5bzr3ym7ypn5vm",
+          //   style: {
+          //     width: "282px",
+          //     height: "167px",
+          //     marginTop: "80px",
+          //   },
+          // },
           noAccountTips: "BSC Dex Collection",
           wrongNetworkTips: "To proceed, kindly switch to BSC Chain.",
         },
