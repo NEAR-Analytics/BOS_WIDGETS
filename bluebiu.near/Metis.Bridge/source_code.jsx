@@ -39,14 +39,14 @@ return (
       src="bluebiu.near/widget/Base.Bridge.Index"
       props={{
         connectProps: {
-          imgProps: {
-            src: "https://ipfs.near.social/ipfs/bafkreiagxyvsm2q6xidcki7t2nvb72n5li2qc72oaswbrbbzfu5y2v7eeu",
-            style: {
-              width: "179px",
-              height: "143px",
-              marginTop: "80px",
-            },
-          },
+          // imgProps: {
+          //   src: "https://ipfs.near.social/ipfs/bafkreiagxyvsm2q6xidcki7t2nvb72n5li2qc72oaswbrbbzfu5y2v7eeu",
+          //   style: {
+          //     width: "179px",
+          //     height: "143px",
+          //     marginTop: "80px",
+          //   },
+          // },
           noAccountTips: "Metis Bridge",
           wrongNetworkTips: "To proceed, kindly switch to Metis Chain.",
         },
