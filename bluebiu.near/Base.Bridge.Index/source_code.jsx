@@ -31,27 +31,23 @@ if (!account) {
   );
 }
 
-State.init({
-  chainId: -1,
-  displayNetwork: false,
-});
-
-Ethers.provider()
-  .getNetwork()
-  .then(({ chainId }) => {
-    State.update({ chainId });
-  })
-  .catch(() => {});
-
-if (![chain.id, mainnet.id].includes(state.chainId) && state.chainId !== -1) {
-  State.update({
+useEffect(() => {
+  State.init({
+    chainId: -1,
     displayNetwork: true,
+    loaded: false,
   });
-} else if (!state.currentChainId) {
-  State.update({
-    displayNetwork: false,
-  });
-}
+  Ethers.provider()
+    .getNetwork()
+    .then(({ chainId }) => {
+      State.update({
+        displayNetwork: ![chain.id, mainnet.id].includes(chainId),
+        chainId,
+        loaded: true,
+      });
+    })
+    .catch(() => {});
+}, []);
 
 const { tokens, amountOutFn, handlerSwap } = props;
 
@@ -72,6 +68,8 @@ const handleStargateTx = ({ hash, amount, price, from, to, currency }) => {
   };
   Storage.privateSet("stargate_txs", txs);
 };
+
+if (!state.loaded) return <div />;
 
 return (
   <Wrapper>
