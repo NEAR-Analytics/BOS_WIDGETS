@@ -434,6 +434,24 @@ const transactions1 = {
     themeColor?.dynamic_header?.background ||
     "radial-gradient(circle, rgba(210,202,250,1) 0%, rgba(230,230,231,0.01) 0%, rgba(235,238,255,1) 100%, rgba(235,231,253,1) 100%, rgba(255,241,241,1) 100%, rgba(46,52,90,1) 100%);",
 };
+const hellosinger = {
+  height: "90px",
+  align: "center",
+  brand: "Hello",
+  description: "Thank you for being a valued user of Near throughout 2023",
+  fontsize: "25px",
+  fontweight: "25px",
+  afterbrand: `${state.result.query4?.data[0]?.signer || "Nearman"}`,
+  afterbrandcolor: themeColor?.dynamic_header?.afterbrandcolor || "#789efb",
+  fontbrand: " Arial, sans-serif",
+  color1brand: themeColor?.dynamic_header?.color1brand || "#000",
+  color2brand: themeColor?.dynamic_header?.color2brand || "#806ce1",
+  colordescription: themeColor?.dynamic_header?.colordescription || "#806ce1",
+  fontsubtitle: " Arial, sans-serif",
+  background:
+    themeColor?.dynamic_header?.background ||
+    "radial-gradient(circle, rgba(210,202,250,1) 0%, rgba(230,230,231,0.01) 0%, rgba(235,238,255,1) 100%, rgba(235,231,253,1) 100%, rgba(255,241,241,1) 100%, rgba(46,52,90,1) 100%);",
+};
 const date1 = {
   height: "70px",
   align: "center",
@@ -1118,6 +1136,10 @@ return (
 
         <div className="row">
           <div className="col-md-12">
+            <Widget
+              src="lord1.near/widget/header-dynamic"
+              props={hellosinger}
+            />
             <div className="row">
               <div className="col-md-3">
                 <Widget
