@@ -1,4 +1,4 @@
-const ownerId = "keypom-marketplace.near";
+const ownerId = "keypom-marketplace.testnet";
 const registryContractId = "registry.potlock.near";
 
 const CREATE_PROJECT_TAB = "createproject";
