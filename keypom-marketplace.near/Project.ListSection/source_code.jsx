@@ -1,4 +1,4 @@
-const ownerId = "a_liutiev.near";
+const ownerId = "keypom-marketplace.near";
 const renderItem = props.renderItem ?? ((item) => <div>{item}</div>);
 
 const Container = styled.div`
