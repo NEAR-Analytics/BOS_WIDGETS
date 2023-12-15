@@ -2,7 +2,7 @@ State.init({
   copiedShareUrl: false,
 });
 
-const accountId = props.accountId ?? "a_liutiev.near";
+const accountId = props.accountId ?? "keypom-marketplace.near";
 const profile =
   props.profile || Social.get(`${accountId}/profile/**`, "final") || {};
 
@@ -338,7 +338,7 @@ return (
       <Actions>
         <FollowButtonWrapper>
           <Widget
-            src="a_liutiev.near/widget/keypom.project.sidebar.donateButton"
+            src="keypom-marketplace.near/widget/keypom.project.sidebar.donateButton"
             props={{
               accountId: accountId,
               amount: state.amount, // add a way to enter ammount
