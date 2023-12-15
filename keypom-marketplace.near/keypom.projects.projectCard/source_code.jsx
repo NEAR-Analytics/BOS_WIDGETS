@@ -1,4 +1,4 @@
-const accountId = props.accountId ?? "keypom-marketplace.near";
+const accountId = props.accountId ?? "keypom-marketplace.testnet";
 const large = props.large ?? true;
 // add balance and amount in large view instead of requests and members
 State.init({
