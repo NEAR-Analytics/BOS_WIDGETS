@@ -1,14 +1,14 @@
 const CHAIN_ID = 1101;
 const CHAIN_NAME = "Polygon zkEVM";
 const CONNECT_PROPS = {
-  imgProps: {
-    src: "https://ipfs.near.social/ipfs/bafkreifi7o6vdby32twf7hcunoc3sbnb34qlbkpu64tiru4qhjx27i77m4",
-    style: {
-      width: "252px",
-      height: "220px",
-      marginTop: "60px",
-    },
-  },
+  // imgProps: {
+  //   src: "https://ipfs.near.social/ipfs/bafkreifi7o6vdby32twf7hcunoc3sbnb34qlbkpu64tiru4qhjx27i77m4",
+  //   style: {
+  //     width: "252px",
+  //     height: "220px",
+  //     marginTop: "60px",
+  //   },
+  // },
   noAccountTips: "0vix Lending",
   wrongNetworkTips: "To proceed, kindly switch to Polygon zkEVM Chain.",
   chainId: CHAIN_ID,
