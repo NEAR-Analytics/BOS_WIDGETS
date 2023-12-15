@@ -32,14 +32,14 @@ return (
         chainName: CHAIN_NAME,
         multicallv2: "0xcA11bde05977b3631167028862bE2a173976CA11",
         connectProps: {
-          imgProps: {
-            src: "https://ipfs.near.social/ipfs/bafkreihqshwscu7pagkjl2dwx3exjhfktuxuzjss6m6gjs6aicu3t3ns2m",
-            style: {
-              width: "437px",
-              height: "310px",
-              marginTop: "80px",
-            },
-          },
+          // imgProps: {
+          //   src: "https://ipfs.near.social/ipfs/bafkreihqshwscu7pagkjl2dwx3exjhfktuxuzjss6m6gjs6aicu3t3ns2m",
+          //   style: {
+          //     width: "437px",
+          //     height: "310px",
+          //     marginTop: "80px",
+          //   },
+          // },
           noAccountTips: "Linea Dex Collection",
           wrongNetworkTips: "To proceed, kindly switch to Linea Chain.",
           chainId: CHAIN_ID,
