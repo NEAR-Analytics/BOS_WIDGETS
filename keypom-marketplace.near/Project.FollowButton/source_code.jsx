@@ -1,4 +1,4 @@
-const ownerId = "keypom-marketplace.near";
+const ownerId = "keypom-marketplace.testnet";
 
 if (!props.accountId || !context.accountId || context.accountId === props.accountId) {
   return "";
