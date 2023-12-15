@@ -179,7 +179,8 @@ const getBestTrade = () => {
     return;
   State.update({
     loading: true,
-    state: null,
+    trade: null,
+    showPriceImpactWarning: false,
   });
 };
 
@@ -547,8 +548,8 @@ return (
           clientX: state.clientX,
           clientY: state.clientY,
           routes: state.trade.routes,
-          inputCurrency: state.trade.inputCurrency,
-          outputCurrency: state.trade.outputCurrency,
+          inputCurrency: state.inputCurrency,
+          outputCurrency: state.outputCurrency,
           gasCost: state.trade.gasCost,
           onClose: () => {
             State.update({
