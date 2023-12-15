@@ -1,4 +1,4 @@
-const ownerId = "a_liutiev.near";
+const ownerId = "keypom-marketplace.near";
 const IPFS_BASE_URL = "https://nftstorage.link/ipfs/";
 
 const profile = props.profile;
@@ -71,7 +71,7 @@ const shareSvg = (
   </svg>
 );
 
-const projectLink = `https://near.social/a_liutiev.near/widget/Index?tab=project&projectId=${props.projectId}${context.accountId && `&referrerId=${context.accountId}`}`;
+const projectLink = `https://near.social/keypom-marketplace.near/widget/Index?tab=project&projectId=${props.projectId}${context.accountId && `&referrerId=${context.accountId}`}`;
 
 
 
