@@ -1,4 +1,4 @@
-const ownerId = "a_liutiev.near";
+const ownerId = "keypom-marketplace.near";
 
 const options = [
   { text: "Idea stage", value: "idea" },
