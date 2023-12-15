@@ -11,7 +11,6 @@ const StyledContainer = styled.div`
   background: #131313;
   padding: 12px;
   width: 333px;
-  height: 96px;
   flex-shrink: 0;
   position: absolute;
   @media (max-width: 768px) {
@@ -45,6 +44,7 @@ const Tag = styled.div`
   color: #8e8e8e;
   font-size: 10px;
   font-weight: 500;
+  gap: 2px;
   .white {
     color: #fff;
     font-size: 12px;
@@ -84,72 +84,63 @@ return (
         top: props.clientY + 20 + "px",
       }}
     >
-      <StyledRoutes>
-        <Route>
-          <Widget
-            src="dapdapbos.near/widget/Linea.Uniswap.Swap.TokenIcon"
-            props={{
-              size: 16,
-              token: inputCurrency,
-            }}
-          />
-          <Tag>
-            <span className="white">{routes[0]?.type}</span>
-            <span>100%</span>
-          </Tag>
-        </Route>
-        <DashLine />
-        {routes.map((route, i) => (
-          <RouteWrapper key={route.address}>
-            <Route>
-              <Widget
-                src="dapdapbos.near/widget/Linea.Uniswap.Swap.TokenIcon"
-                props={{
-                  size: 16,
-                  token: i === 0 ? inputCurrency : route.token0,
-                }}
-              />
-              <div className="second-token">
+      {routes.map((route, i) => (
+        <StyledRoutes key={i + Math.random()}>
+          <Route>
+            <Widget
+              src="dapdapbos.near/widget/Linea.Uniswap.Swap.TokenIcon"
+              props={{
+                size: 16,
+                token: inputCurrency,
+              }}
+            />
+            <Tag>
+              <span className="white">{route.route[0]?.type}</span>
+              <span>{route.percent}%</span>
+            </Tag>
+          </Route>
+          <DashLine />
+          {route.route.map((path, i) => (
+            <RouteWrapper key={path.address}>
+              <Route>
                 <Widget
                   src="dapdapbos.near/widget/Linea.Uniswap.Swap.TokenIcon"
                   props={{
                     size: 16,
-                    token:
-                      i === routes.length - 1 ? outputCurrency : route.token1,
+                    token: path.token0,
                   }}
                 />
-              </div>
-              <Tag>
-                <span>{route.fee / 10000}%</span>
-              </Tag>
-            </Route>
-            <DashLine />
-          </RouteWrapper>
-        ))}
-        <Route>
-          <Widget
-            src="dapdapbos.near/widget/Linea.Uniswap.Swap.TokenIcon"
-            props={{
-              size: 16,
-              token: outputCurrency,
-            }}
-          />
-        </Route>
-      </StyledRoutes>
+                <div className="second-token">
+                  <Widget
+                    src="dapdapbos.near/widget/Linea.Uniswap.Swap.TokenIcon"
+                    props={{
+                      size: 16,
+                      token: path.token1,
+                    }}
+                  />
+                </div>
+                <Tag>
+                  <span>{path.fee / 10000}%</span>
+                </Tag>
+              </Route>
+              <DashLine />
+            </RouteWrapper>
+          ))}
+          <Route>
+            <Widget
+              src="dapdapbos.near/widget/Linea.Uniswap.Swap.TokenIcon"
+              props={{
+                size: 16,
+                token: outputCurrency,
+              }}
+            />
+          </Route>
+        </StyledRoutes>
+      ))}
       <Desc>
         Best price route costs ~$
-        {
-          <Widget
-            src="dapdapbos.near/widget/Linea.Uniswap.Swap.FormatValue"
-            props={{
-              symbol: "ETH",
-              amount: gasCost,
-              prev: "$",
-            }}
-          />
-        }{" "}
-        in gas. This route optimizes your total output by considering split
-        routes, multiple hops, and the gas cost of each step.
+        {gasCost} in gas. This route optimizes your total output by considering
+        split routes, multiple hops, and the gas cost of each step.
       </Desc>
     </StyledContainer>
   </Layer>
