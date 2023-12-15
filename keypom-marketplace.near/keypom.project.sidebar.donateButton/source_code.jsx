@@ -1,4 +1,4 @@
-const accountId = props.accountId ?? context.accountId ?? "keypom-marketplace.near";
+const accountId = props.accountId ?? context.accountId ?? "keypom-marketplace.testnet";
 
 if (!accountId) {
   return "Please connect your NEAR wallet :)";
