@@ -61,14 +61,14 @@ return (
       src="bluebiu.near/widget/Base.Bridge.Index"
       props={{
         connectProps: {
-          imgProps: {
-            src: "https://ipfs.near.social/ipfs/bafkreiajfajinsydy3ewmc3elgnpahc3n3v4cophn6ip5bzr3ym7ypn5vm",
-            style: {
-              width: "282px",
-              height: "167px",
-              marginTop: "80px",
-            },
-          },
+          // imgProps: {
+          //   src: "https://ipfs.near.social/ipfs/bafkreiajfajinsydy3ewmc3elgnpahc3n3v4cophn6ip5bzr3ym7ypn5vm",
+          //   style: {
+          //     width: "282px",
+          //     height: "167px",
+          //     marginTop: "80px",
+          //   },
+          // },
           noAccountTips: "BNB Bridge",
           wrongNetworkTips: "To proceed, kindly switch to BNB Chain.",
         },
