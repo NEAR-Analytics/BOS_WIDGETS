@@ -1,4 +1,4 @@
-const ownerId = "keypom-marketplace.testnet";
+const ownerId = "a_liutiev.near";
 
 const options = [
   { text: "Open source", value: "open-source" },
