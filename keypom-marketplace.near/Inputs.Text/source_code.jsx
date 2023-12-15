@@ -1,4 +1,4 @@
-const ownerId = "keypom-marketplace.near";
+const ownerId = "keypom-marketplace.testnet";
 
 const label = props.label ?? "";
 const placeholder = props.placeholder ?? "";
