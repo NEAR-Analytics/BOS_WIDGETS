@@ -264,7 +264,7 @@ const handleBridge = (props) => {
       tx.wait().then((receipt) => {
         const { transactionHash, status } = receipt;
 
-        addAction?.({
+        props.addAction?.({
           type: "Bridge",
           fromChainId: chainId,
           toChainId: chainId === 1 ? 1101 : 1,
