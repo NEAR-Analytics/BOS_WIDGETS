@@ -127,14 +127,14 @@ return (
         displayChainName: "BASE",
         wethAddress: "0x4200000000000000000000000000000000000006",
         connectProps: {
-          imgProps: {
-            src: "https://ipfs.near.social/ipfs/bafkreigkxrlezj5i7jk3sfm4rmv2kui7oxz4skngjyiopl5rvbvvllnnja",
-            style: {
-              width: "404px",
-              height: "220px",
-              marginTop: "60px",
-            },
-          },
+          // imgProps: {
+          //   src: "https://ipfs.near.social/ipfs/bafkreigkxrlezj5i7jk3sfm4rmv2kui7oxz4skngjyiopl5rvbvvllnnja",
+          //   style: {
+          //     width: "404px",
+          //     height: "220px",
+          //     marginTop: "60px",
+          //   },
+          // },
           noAccountTips: "Base Swap Collection",
           wrongNetworkTips: "To proceed, kindly switch to Base Chain.",
         },
