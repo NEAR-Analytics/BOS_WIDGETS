@@ -43,8 +43,8 @@ return (
         },
         slippage: props.slippage,
         wethToken: props.wethToken,
-        amountOutFn: "dapdapbos.near/widget/Scroll.Uniswap.Swap.QuoterV3UniApi",
-        handlerV3: "dapdapbos.near/widget/Scroll.Uniswap.Swap.HandlerV3",
+        amountOutFn: "dapdapbos.near/widget/Linea.Uniswap.Swap.QuoterV3UniApi",
+        handlerV3: "dapdapbos.near/widget/Linea.Uniswap.Swap.HandlerV3",
         onOpenBridge: () => {
           props.onOpenBridge?.();
         },
