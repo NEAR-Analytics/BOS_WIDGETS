@@ -1,6 +1,6 @@
 const Tabs = styled.div`
   display: flex;
-  border-bottom: 1px solid var(--border-color);
+  /* border-bottom: 1px solid var(--border-color); */
 `;
 const Tab = styled.div`
   width: 120px;
