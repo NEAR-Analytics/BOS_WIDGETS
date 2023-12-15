@@ -331,7 +331,169 @@ const general_theme1 = {
     themeColor?.dynamic_header?.background ||
     "radial-gradient(circle, rgba(210,202,250,1) 0%, rgba(230,230,231,0.01) 0%, rgba(235,238,255,1) 100%, rgba(235,231,253,1) 100%, rgba(255,241,241,1) 100%, rgba(46,52,90,1) 100%);",
 };
+//----------------------------------------
+const formatNumbertransactions = (num) => {
+  if (num >= 1000) {
+    return "0.1%";
+  }
+  if (num < 1000 && num >= 100) {
+    return "2%";
+  }
+  if (num < 100 && num >= 50) {
+    return "5%";
+  }
+  if (num < 50 && num >= 10) {
+    return "25%";
+  }
+  if (num < 10 && num >= 5) {
+    return "35%";
+  }
+  if (num < 5 && num >= 3) {
+    return "45%";
+  }
+  if (num < 3 && num >= 0) {
+    return "(No)";
+  }
+  return num;
+};
+const formatNumbervolume = (num) => {
+  if (num >= 1000) {
+    return "0.5%";
+  }
+  if (num < 1000 && num >= 100) {
+    return "2%";
+  }
+  if (num < 100 && num >= 50) {
+    return "3%";
+  }
+  if (num < 50 && num >= 10) {
+    return "5%";
+  }
+  if (num < 10 && num >= 5) {
+    return "6%";
+  }
+  if (num < 5 && num >= 0) {
+    return "(No)";
+  }
+  return num;
+};
+const formatNumberfee_near = (num) => {
+  if (num >= 2) {
+    return "0.1%";
+  }
+  if (num < 2 && num >= 0.5) {
+    return "0.15%";
+  }
+  if (num < 0.5 && num >= 0.3) {
+    return "0.3%";
+  }
+  if (num < 0.3 && num >= 0.1) {
+    return "3%";
+  }
+  if (num < 0.1 && num >= 0) {
+    return "(No)";
+  }
 
+  return num;
+};
+const formatNumberproject = (num) => {
+  if (num >= 10) {
+    return "0.1%";
+  }
+  if (num < 10 && num >= 5) {
+    return "0.35%";
+  }
+  if (num < 5 && num >= 3) {
+    return "1%";
+  }
+  if (num < 3 && num >= 2) {
+    return "1.5%";
+  }
+  if (num < 2 && num >= 0) {
+    return "(No)";
+  }
+  return num;
+};
+const transactions1 = {
+  height: "70px",
+  align: "center",
+  brand: "Among the top ",
+  description: "",
+  fontsize: "18px",
+  fontweight: "25px",
+  afterbrand: `${
+    formatNumbertransactions(state.result.query4?.data[0]?.transactions) || "0"
+  }`,
+  afterbrandcolor: themeColor?.dynamic_header?.afterbrandcolor || "#789efb",
+  fontbrand: " Arial, sans-serif",
+  color1brand: themeColor?.dynamic_header?.color1brand || "#000",
+  color2brand: themeColor?.dynamic_header?.color2brand || "#806ce1",
+  colordescription: themeColor?.dynamic_header?.colordescription || "#806ce1",
+  fontsubtitle: " Arial, sans-serif",
+  background:
+    themeColor?.dynamic_header?.background ||
+    "radial-gradient(circle, rgba(210,202,250,1) 0%, rgba(230,230,231,0.01) 0%, rgba(235,238,255,1) 100%, rgba(235,231,253,1) 100%, rgba(255,241,241,1) 100%, rgba(46,52,90,1) 100%);",
+};
+const date1 = {
+  height: "70px",
+  align: "center",
+  brand: "Among the top ",
+  description: "",
+  fontsize: "18px",
+  fontweight: "25px",
+  afterbrand: `${
+    formatNumberfee_near(state.result.query4?.data[0]?.fee_near) || "0"
+  }`,
+  afterbrandcolor: themeColor?.dynamic_header?.afterbrandcolor || "#789efb",
+  fontbrand: " Arial, sans-serif",
+  color1brand: themeColor?.dynamic_header?.color1brand || "#000",
+  color2brand: themeColor?.dynamic_header?.color2brand || "#806ce1",
+  colordescription: themeColor?.dynamic_header?.colordescription || "#806ce1",
+  fontsubtitle: " Arial, sans-serif",
+  background:
+    themeColor?.dynamic_header?.background ||
+    "radial-gradient(circle, rgba(210,202,250,1) 0%, rgba(230,230,231,0.01) 0%, rgba(235,238,255,1) 100%, rgba(235,231,253,1) 100%, rgba(255,241,241,1) 100%, rgba(46,52,90,1) 100%);",
+};
+const contract1 = {
+  height: "70px",
+  align: "center",
+  brand: "Among the top ",
+  description: "",
+  fontsize: "18px",
+  fontweight: "25px",
+  afterbrand: `${
+    formatNumberproject(state.result.query4?.data[0]?.project) || "0"
+  }`,
+  afterbrandcolor: themeColor?.dynamic_header?.afterbrandcolor || "#789efb",
+  fontbrand: " Arial, sans-serif",
+  color1brand: themeColor?.dynamic_header?.color1brand || "#000",
+  color2brand: themeColor?.dynamic_header?.color2brand || "#806ce1",
+  colordescription: themeColor?.dynamic_header?.colordescription || "#806ce1",
+  fontsubtitle: " Arial, sans-serif",
+  background:
+    themeColor?.dynamic_header?.background ||
+    "radial-gradient(circle, rgba(210,202,250,1) 0%, rgba(230,230,231,0.01) 0%, rgba(235,238,255,1) 100%, rgba(235,231,253,1) 100%, rgba(255,241,241,1) 100%, rgba(46,52,90,1) 100%);",
+};
+const volume1 = {
+  height: "70px",
+  align: "center",
+  brand: "Among the top ",
+  description: "",
+  fontsize: "18px",
+  fontweight: "25px",
+  afterbrand: `${
+    formatNumbervolume(state.result.query4?.data[0]?.volume) || "0"
+  }`,
+  afterbrandcolor: themeColor?.dynamic_header?.afterbrandcolor || "#789efb",
+  fontbrand: " Arial, sans-serif",
+  color1brand: themeColor?.dynamic_header?.color1brand || "#000",
+  color2brand: themeColor?.dynamic_header?.color2brand || "#806ce1",
+  colordescription: themeColor?.dynamic_header?.colordescription || "#806ce1",
+  fontsubtitle: " Arial, sans-serif",
+  background:
+    themeColor?.dynamic_header?.background ||
+    "radial-gradient(circle, rgba(210,202,250,1) 0%, rgba(230,230,231,0.01) 0%, rgba(235,238,255,1) 100%, rgba(235,231,253,1) 100%, rgba(255,241,241,1) 100%, rgba(46,52,90,1) 100%);",
+}; //-------------------------------------------------------
 const transactions = {
   height: "110px",
   align: "center",
@@ -962,35 +1124,31 @@ return (
                   src="lord1.near/widget/header-dynamic"
                   props={transactions}
                 />
+                <Widget
+                  src="lord1.near/widget/header-dynamic"
+                  props={transactions1}
+                />
               </div>
               <div className="col-md-3">
-                <Widget src="lord1.near/widget/header-dynamic" props={volume} />
+                <Widget src="lord1.near/widget/header-dynamic" props={volume} />{" "}
+                <Widget
+                  src="lord1.near/widget/header-dynamic"
+                  props={volume1}
+                />
               </div>
               <div className="col-md-3">
-                <Widget src="lord1.near/widget/header-dynamic" props={date} />
+                <Widget src="lord1.near/widget/header-dynamic" props={date} />{" "}
+                <Widget src="lord1.near/widget/header-dynamic" props={date1} />
               </div>
               <div className="col-md-3">
                 <Widget
                   src="lord1.near/widget/header-dynamic"
                   props={contract}
                 />
-              </div>
-            </div>
-
-            <div className="row">
-              <div className="col-md-4">
                 <Widget
                   src="lord1.near/widget/header-dynamic"
-                  props={general_theme1}
+                  props={contract1}
                 />
-                {TableMiddle}
-              </div>
-              <div className="col-md-8">
-                <Widget
-                  src="lord1.near/widget/header-dynamic"
-                  props={general_theme}
-                />
-                {BelowRight}
               </div>
             </div>
             <div
@@ -998,7 +1156,7 @@ return (
                 background: themeColor?.sbt_area?.section_bg,
                 "margin-top": "25px",
               }}
-              className="shadow-sm rounded-2 overflow-auto p-2"
+              className="shadow-sm rounded-2  p-2"
             >
               <div className="row">
                 <Right className="col-md-3">
@@ -1045,6 +1203,22 @@ return (
                     props={max_time}
                   />
                 </div>
+              </div>
+            </div>
+            <div className="row">
+              <div className="col-md-4">
+                <Widget
+                  src="lord1.near/widget/header-dynamic"
+                  props={general_theme1}
+                />
+                {TableMiddle}
+              </div>
+              <div className="col-md-8">
+                <Widget
+                  src="lord1.near/widget/header-dynamic"
+                  props={general_theme}
+                />
+                {BelowRight}
               </div>
             </div>
           </div>
