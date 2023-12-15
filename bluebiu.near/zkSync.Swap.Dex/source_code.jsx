@@ -197,14 +197,14 @@ return (
         displayChainName: "zkSync",
         wethAddress: "0x5AEa5775959fBC2557Cc8789bC1bf90A239D9a91",
         connectProps: {
-          imgProps: {
-            src: "https://ipfs.near.social/ipfs/bafkreifaf3lxmrla2dgdug5fjbl535tuxj4xg23q2x3nlwe6u3e63anqym",
-            style: {
-              width: "174px",
-              height: "213px",
-              marginTop: "80px",
-            },
-          },
+          // imgProps: {
+          //   src: "https://ipfs.near.social/ipfs/bafkreifaf3lxmrla2dgdug5fjbl535tuxj4xg23q2x3nlwe6u3e63anqym",
+          //   style: {
+          //     width: "174px",
+          //     height: "213px",
+          //     marginTop: "80px",
+          //   },
+          // },
           noAccountTips: "zkSync Swap Collection",
           wrongNetworkTips: "To proceed, kindly switch to zkSync Chain.",
         },
