@@ -1,7 +1,6 @@
 const pageFeedPattern = props.pageFeedPattern ?? "*/profile/*";
 const placeholder = props.placeholder ?? "Feeds";
 const initialPageFeedsObject = props.initialPageFeedsObject || {};
-const accountId = context.accountId;
 
 const pageFeedsObject = Social.keys(pageFeedPattern, "final");
 
