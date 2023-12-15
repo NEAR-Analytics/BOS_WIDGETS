@@ -99,14 +99,14 @@ return (
         displayChainName: "Metis",
         wethAddress: "0x420000000000000000000000000000000000000A",
         connectProps: {
-          imgProps: {
-            src: "https://ipfs.near.social/ipfs/bafkreiagxyvsm2q6xidcki7t2nvb72n5li2qc72oaswbrbbzfu5y2v7eeu",
-            style: {
-              width: "179px",
-              height: "143px",
-              marginTop: "80px",
-            },
-          },
+          // imgProps: {
+          //   src: "https://ipfs.near.social/ipfs/bafkreiagxyvsm2q6xidcki7t2nvb72n5li2qc72oaswbrbbzfu5y2v7eeu",
+          //   style: {
+          //     width: "179px",
+          //     height: "143px",
+          //     marginTop: "80px",
+          //   },
+          // },
           noAccountTips: "Metis Dex Collection",
           wrongNetworkTips: "To proceed, kindly switch to Metis Chain.",
         },
