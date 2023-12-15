@@ -40,14 +40,14 @@ return (
       src="bluebiu.near/widget/Base.Bridge.Index"
       props={{
         connectProps: {
-          imgProps: {
-            src: "https://ipfs.near.social/ipfs/bafkreihqshwscu7pagkjl2dwx3exjhfktuxuzjss6m6gjs6aicu3t3ns2m",
-            style: {
-              width: "437px",
-              height: "310px",
-              marginTop: "80px",
-            },
-          },
+          // imgProps: {
+          //   src: "https://ipfs.near.social/ipfs/bafkreihqshwscu7pagkjl2dwx3exjhfktuxuzjss6m6gjs6aicu3t3ns2m",
+          //   style: {
+          //     width: "437px",
+          //     height: "310px",
+          //     marginTop: "80px",
+          //   },
+          // },
           noAccountTips: "Linea Bridge",
           wrongNetworkTips: "To proceed, kindly switch to Linea Chain.",
         },
