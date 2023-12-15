@@ -1,7 +1,7 @@
 // filter registry contract for overlap // redocard so not included
 return (
   <Widget
-    src={`a_liutiev.near/widget/keypom.projects.listPage`}
+    src={`keypom-marketplace.near/widget/keypom.projects.listPage`}
     props={{
       descriptor: "projects",
       urlProps: props.urlProps,
@@ -17,7 +17,7 @@ return (
       ],
       renderItem: (accountId) => (
         <Widget
-          src={`a_liutiev.near/widget/keypom.projects.projectCard`}
+          src={`keypom-marketplace.near/widget/keypom.projects.projectCard`}
           props={{
             accountId,
           }}
