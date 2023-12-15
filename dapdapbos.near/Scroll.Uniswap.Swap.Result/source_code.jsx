@@ -140,7 +140,6 @@ return trade ? (
         <Row className="item">
           <div className="gray">Network cost</div>
           <Token>
-            <TokenIcon src="https://ipfs.near.social/ipfs/bafkreibspnls7q67q25r2ifv2rrfmvzl744pzuh3s5ekigeqkmyycl2auq" />
             <div>${trade.gasCost}</div>
           </Token>
         </Row>
