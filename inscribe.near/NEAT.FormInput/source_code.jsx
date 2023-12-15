@@ -1,6 +1,7 @@
 const {
   title,
   maxTitle,
+  maxMobileTitle,
   maxValue,
   value,
   unit,
@@ -28,6 +29,11 @@ const FormInputLabel = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: end;
+  @media (max-width: 768px) {
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+  }
 `;
 
 const FormInputRow = styled.div`
@@ -43,6 +49,11 @@ const FormInputRow = styled.div`
 const FormInputTitle = styled.div`
   font-size: 18px;
   font-weight: bold;
+
+  @media (max-width: 768px) {
+    font-size: 14px;
+    white-space: nowrap;
+  }
 `;
 
 const MaxContent = styled.div`
@@ -50,6 +61,23 @@ const MaxContent = styled.div`
   color: white;
   font-size: 700;
   display: flex;
+  .hide-in-pc {
+    display: none;
+  }
+  .hide-in-mobile {
+    display: inline-block;
+  }
+  @media (max-width: 768px) {
+    font-size: 12px;
+    white-space: nowrap;
+    display: inline-block;
+    .hide-in-mobile {
+      display: none;
+    }
+    .hide-in-pc {
+      display: inline-block;
+    }
+  }
 `;
 
 const MaxValue = styled.button`
@@ -83,7 +111,13 @@ return (
       <FormInputTitle>{title}</FormInputTitle>
       {maxTitle && (
         <MaxContent>
-          {maxTitle}
+          {maxMobileTitle && (
+            <>
+              <div className="hide-in-mobile">{maxTitle}</div>
+              <div className="hide-in-pc">{maxMobileTitle}</div>
+            </>
+          )}
+          {!maxMobileTitle && maxTitle}
           <MaxValue onClick={onClickMax} disabled={!onClickMax}>
             {maxValue}
           </MaxValue>
