@@ -139,14 +139,14 @@ return (
         displayChainName: "Linea",
         wethAddress: "0xe5D7C2a44FfDDf6b295A15c148167daaAf5Cf34f",
         connectProps: {
-          imgProps: {
-            src: "https://ipfs.near.social/ipfs/bafkreihqshwscu7pagkjl2dwx3exjhfktuxuzjss6m6gjs6aicu3t3ns2m",
-            style: {
-              width: "437px",
-              height: "310px",
-              marginTop: "80px",
-            },
-          },
+          // imgProps: {
+          //   src: "https://ipfs.near.social/ipfs/bafkreihqshwscu7pagkjl2dwx3exjhfktuxuzjss6m6gjs6aicu3t3ns2m",
+          //   style: {
+          //     width: "437px",
+          //     height: "310px",
+          //     marginTop: "80px",
+          //   },
+          // },
           noAccountTips: "Linea Dex Collection",
           wrongNetworkTips: "To proceed, kindly switch to Linea Chain.",
         },
