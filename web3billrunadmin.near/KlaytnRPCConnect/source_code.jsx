@@ -6,7 +6,7 @@ if (Ethers.provider()) {
   Ethers.provider()
     .getNetwork()
     .then((chainIdData) => {
-      if (chainIdData?.chainId) {
+      if (chainIdData?.chainId === 8217) {
         State.update({ chainId: chainIdData.chainId });
       }
     });
