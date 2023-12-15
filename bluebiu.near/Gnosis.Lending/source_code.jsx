@@ -32,14 +32,14 @@ return (
         chainName: CHAIN_NAME,
         multicallv2: "0x072aD7f291AED59E7C4974EbdcF73B79DAC89051",
         connectProps: {
-          imgProps: {
-            src: "https://ipfs.near.social/ipfs/bafkreigekiurmengyh5sgxt6bnjcyzgpf24nbluna4mry6ztfufregkvlm",
-            style: {
-              width: "140px",
-              height: "210px",
-              marginTop: "60px",
-            },
-          },
+          // imgProps: {
+          //   src: "https://ipfs.near.social/ipfs/bafkreigekiurmengyh5sgxt6bnjcyzgpf24nbluna4mry6ztfufregkvlm",
+          //   style: {
+          //     width: "140px",
+          //     height: "210px",
+          //     marginTop: "60px",
+          //   },
+          // },
           noAccountTips: `${CHAIN_NAME} Lending Collection`,
           wrongNetworkTips: `To proceed, kindly switch to ${CHAIN_NAME} Chain.`,
           chainId: CHAIN_ID,
