@@ -79,14 +79,14 @@ return (
         displayChainName: "Gnosis",
         wethAddress: "0xe91D153E0b41518A2Ce8Dd3D7944Fa863463a97d",
         connectProps: {
-          imgProps: {
-            src: "https://ipfs.near.social/ipfs/bafkreigvyjhvpypqzgv2gs2tildu7ummboy2y6jqychxwqvmkcqindcwee",
-            style: {
-              width: "140px",
-              height: "210px",
-              marginTop: "80px",
-            },
-          },
+          // imgProps: {
+          //   src: "https://ipfs.near.social/ipfs/bafkreigvyjhvpypqzgv2gs2tildu7ummboy2y6jqychxwqvmkcqindcwee",
+          //   style: {
+          //     width: "140px",
+          //     height: "210px",
+          //     marginTop: "80px",
+          //   },
+          // },
           noAccountTips: "Gnosis Dex Collection",
           wrongNetworkTips: "To proceed, kindly switch to Gnosis Chain.",
         },
