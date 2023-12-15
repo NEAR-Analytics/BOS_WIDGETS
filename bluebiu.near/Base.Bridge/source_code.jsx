@@ -51,14 +51,14 @@ return (
       src="bluebiu.near/widget/Base.Bridge.Index"
       props={{
         connectProps: {
-          imgProps: {
-            src: "https://ipfs.near.social/ipfs/bafkreigkxrlezj5i7jk3sfm4rmv2kui7oxz4skngjyiopl5rvbvvllnnja",
-            style: {
-              width: "404px",
-              height: "220px",
-              marginTop: "60px",
-            },
-          },
+          // imgProps: {
+          //   src: "https://ipfs.near.social/ipfs/bafkreigkxrlezj5i7jk3sfm4rmv2kui7oxz4skngjyiopl5rvbvvllnnja",
+          //   style: {
+          //     width: "404px",
+          //     height: "220px",
+          //     marginTop: "60px",
+          //   },
+          // },
           noAccountTips: "Base Bridge",
           wrongNetworkTips: "To proceed, kindly switch to Base Chain.",
         },
