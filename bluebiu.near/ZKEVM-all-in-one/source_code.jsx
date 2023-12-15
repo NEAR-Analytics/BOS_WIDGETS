@@ -1,13 +1,4 @@
-const Layout = styled.div`
-  position: absolute;
-  top:106px;
-  left: 0;
-  right: 60px;
-  @media (max-width:900px) {
-    position: relative;
-    top: 0;
-  }
-`;
+const Layout = styled.div``;
 
 const Container = styled.div`
   width: 100%;
@@ -19,8 +10,8 @@ const Container = styled.div`
     flex-grow: 1;
   }
   .contentOut {
-    padding-top: 25px;
-    margin-left: 35px;
+    /* padding-top: 25px;
+    margin-left: 35px; */
   }
   .contentOut p {
     font-size: 20px;
@@ -53,26 +44,17 @@ const MenuContainer = styled.div`
     color: #7e8a93;
     cursor: pointer;
     margin-bottom: 2px;
-    border-right: 3px solid transparent;
+    border-right: "none";
     transition: 0.5s;
+    border-radius: 16px;
     :hover {
-      background-image: linear-gradient(
-        270deg,
-        rgba(55, 58, 83, 0) 0%,
-        #373a53 50%,
-        rgba(55, 58, 83, 0) 100%
-      );
-      color: #fff;
+      background: linear-gradient(270deg, #373a53 0%, rgba(55, 58, 83, 0) 100%);
+      color: #ffffff;
     }
   }
   .item.active {
-    background-image: linear-gradient(
-      270deg,
-      #373a53 0%,
-      rgba(55, 58, 83, 0) 100%
-    );
-    color: #fff;
-    border-color: #794fdd;
+    color: #ffffff;
+    background: linear-gradient(270deg, #373a53 0%, rgba(55, 58, 83, 0) 100%);
   }
   .item.disable {
     cursor: not-allowed;
@@ -112,25 +94,11 @@ const MenuContainer = styled.div`
   }
 `;
 
-const { activeMenu } = state;
+const activeMenu =
+  Storage.privateGet("zkevmCachedActiveMenu") || props.defaultTab || "Bridge";
 
-const storedActiveMenu = Storage.get(
-  "activeMenu",
-  "bluebiu.near/widget/ZKEVM-all-in-one"
-);
-
-State.init({
-  activeMenu: storedActiveMenu || "Bridge",
-});
-
-State.init({
-  activeMenu: "Bridge",
-});
 function changeTab(menu) {
-  State.update({
-    activeMenu: menu,
-  });
-  Storage.set("activeMenu", menu);
+  Storage.privateSet("zkevmCachedActiveMenu", menu);
 }
 
 // svg icon start
@@ -303,35 +271,37 @@ return (
       <div className="flex-grow contentOut">
         {activeMenu == "Bridge" ? (
           <>
-            <p>Bridge</p>
             <Widget
               src="guessme.near/widget/ZKEVMSwap.zkevm-bridge"
               props={{
                 layout: "center",
+                ...props,
               }}
             />
           </>
         ) : null}
         {activeMenu == "swap" ? (
           <>
-            <p>Swap</p>
             <Widget
               src="guessme.near/widget/ZKEVMSwap.zkevm-swap"
               props={{
                 layout: "center",
+                ...props,
               }}
             />
           </>
         ) : null}
         {activeMenu == "Liquidity" ? (
           <>
-            <Widget src="bluebiu.near/widget/ZKEVM.GAMMA" />
+            <Widget
+              src="bluebiu.near/widget/ZKEVM.GAMMA"
+              props={{ ...props }}
+            />
           </>
         ) : null}
         {activeMenu == "Lending" ? (
           <>
-            <p>Lending</p>
-            <Widget src="bluebiu.near/widget/0vix.Lending" />
+            <Widget src="bluebiu.near/widget/0vix.Lending" props={props} />
           </>
         ) : null}
       </div>
