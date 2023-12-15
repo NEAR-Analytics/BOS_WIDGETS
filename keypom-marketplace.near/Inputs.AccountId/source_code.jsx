@@ -1,4 +1,4 @@
-const ownerId = "keypom-marketplace.testnet";
+const ownerId = "a_liutiev.near";
 const label = props.label ?? "Account ID";
 const placeholder = props.placeholder ?? "Enter your account ID";
 const value = props.value ?? "";
