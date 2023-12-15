@@ -111,6 +111,10 @@ const FormContainer = styled.div`
 const FormTitle = styled.div`
   font-size: 22px;
   font-weight: 600px;
+
+  @media (max-width: 768px) {
+    font-size: 18px;
+  }
 `;
 
 const FormButton = styled.button`
@@ -228,6 +232,17 @@ function getWrappedFtBalance() {
   });
 }
 
+function getNrc20TotalSupply() {
+  if (!state.nep141TotalSupply || !state.tokenInfo?.maxSupply) return undefined;
+  return Big(state.tokenInfo.maxSupply)
+    .minus(state.nep141TotalSupply)
+    .toFixed();
+}
+
+function getNep141TotalSupply() {
+  return Near.asyncView(config.ftWrapper, "ft_total_supply");
+}
+
 function fetchAllData() {
   const response = fetchFromGraph(`
     query {
@@ -300,6 +315,19 @@ function fetchAllData() {
       wrappedFtBalance: balance,
     })
   );
+
+  getNep141TotalSupply().then((nep141TotalSupply) => {
+    State.update({
+      nep141TotalSupply,
+    });
+  });
+
+  const nrc20TotalSupply = getNrc20TotalSupply();
+  if (nrc20TotalSupply) {
+    State.update({
+      nrc20TotalSupply,
+    });
+  }
 }
 
 fetchAllData();
@@ -378,6 +406,7 @@ return (
         props={{
           title: "Transfer Amount",
           maxTitle: "Your $NEAT Balance: ",
+          maxMobileTitle: "Balance: ",
           maxValue: state.balance ? formatAmount(state.balance) : "-",
           value: state.transferAmount,
           unit: "$NEAT",
