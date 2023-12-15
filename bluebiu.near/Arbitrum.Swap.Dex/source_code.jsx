@@ -263,7 +263,7 @@ return (
             uniType: "v2",
             defaultCurrencies: {
               input: Tokens["native"],
-              output: Tokens["0x3d9907F9a368ad0a51Be60f7Da3b97cf940982D8"],
+              output: Tokens["0xFd086bC7CD5C481DCC9C85ebE478A1C0b69FCbb9"],
             },
             tokens: [
               Tokens["native"],
@@ -305,7 +305,7 @@ return (
             uniType: "v2",
             defaultCurrencies: {
               input: Tokens["native"],
-              output: Tokens["0x912CE59144191C1204E64559FE8253a0e49E6548"],
+              output: Tokens["0xFd086bC7CD5C481DCC9C85ebE478A1C0b69FCbb9"],
             },
             tokens: [
               Tokens["native"],
@@ -327,7 +327,7 @@ return (
             uniType: "v3",
             defaultCurrencies: {
               input: Tokens["native"],
-              output: Tokens["0xaf88d065e77c8cC2239327C5EDb3A432268e5831"],
+              output: Tokens["0xFd086bC7CD5C481DCC9C85ebE478A1C0b69FCbb9"],
             },
             tokens: [
               Tokens["native"],
@@ -391,6 +391,7 @@ return (
         handlerV3: "bluebiu.near/widget/Arbitrum.Swap.HandlerV3",
         QuoterSolidly: "bluebiu.near/widget/Arbitrum.Swap.QuoterSolidly",
         handlerSolidly: "bluebiu.near/widget/Arbitrum.Swap.handlerSolidly",
+        ...props,
       }}
     />
   </Container>
