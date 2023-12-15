@@ -1,4 +1,4 @@
-const ownerId = "a_liutiev.near";
+const ownerId = "keypom-marketplace.near";
 const registryId = "registry.potlock.near";
 
 const profile = props.profile ?? Social.getr(`${props.projectId}/profile`);
