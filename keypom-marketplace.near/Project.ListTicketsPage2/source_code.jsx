@@ -1,5 +1,5 @@
 
-const ownerId = "keypom-marketplace.near";
+const ownerId = "keypom-marketplace.testnet";
 const registryId = "registry.potlock.near"; // TODO: update when registry is deployed
 
 const keypomRegistryId = 'testing-nearcon-keypom.testnet'
