@@ -33,14 +33,14 @@ return (
         chainName: CHAIN_NAME,
         multicallv2: "0xed386Fe855C1EFf2f843B910923Dd8846E45C5A4",
         connectProps: {
-          imgProps: {
-            src: "https://ipfs.near.social/ipfs/bafkreihcujrphf3k3zgfl4wdnxbz5btydas43uwdmvjgrs5mavbubvrpyq",
-            style: {
-              width: "282px",
-              height: "222px",
-              marginTop: "80px",
-            },
-          },
+          // imgProps: {
+          //   src: "https://ipfs.near.social/ipfs/bafkreihcujrphf3k3zgfl4wdnxbz5btydas43uwdmvjgrs5mavbubvrpyq",
+          //   style: {
+          //     width: "282px",
+          //     height: "222px",
+          //     marginTop: "80px",
+          //   },
+          // },
           noAccountTips: "Polygon Dex Collection",
           wrongNetworkTips: "To proceed, kindly switch to Polygon Chain.",
           chainId: CHAIN_ID,
