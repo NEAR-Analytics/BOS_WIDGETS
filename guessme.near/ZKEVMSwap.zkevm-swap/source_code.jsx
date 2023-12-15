@@ -676,8 +676,8 @@ const switchNetwork = (chainId, dex, tokenIn, tokenOut) => {
   State.update({
     selectedDex: dex,
     forceReload: true,
-    inputAssetTokenId: "0xa8ce8aee21bc2a48a5ef670afcc9274c7bbbc035",
-    outputAssetTokenId: "0x1E4a5963aBFD975d8c9021ce480b42188849D41d",
+    inputAssetTokenId: "0x0000000000000000000000000000000000000000",
+    outputAssetTokenId: "0xa8ce8aee21bc2a48a5ef670afcc9274c7bbbc035",
   });
 };
 
