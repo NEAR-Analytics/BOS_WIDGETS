@@ -66,7 +66,7 @@ return (
         }}
       />
       <Widget
-        src={`a_liutiev.near/widget/keypom.home.stats.link`}
+        src={`keypom-marketplace.near/widget/keypom.home.stats.link`}
         className="link"
       />
     </Stats>
