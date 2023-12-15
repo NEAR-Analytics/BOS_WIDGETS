@@ -99,6 +99,7 @@ const tokenOut =
   outputCurrency.address === "native" ? wethAddress : outputCurrency.address;
 
 const routes = trade.routes || [];
+
 const calldatas = [];
 const amountOutMinimum = expandToken(
   Big(outputCurrencyAmount)
@@ -106,35 +107,32 @@ const amountOutMinimum = expandToken(
     .toString(),
   outputCurrency.decimals
 );
-
+let _pathTypes = [];
+let _path = [];
 routes.forEach((route, i) => {
-  let _pathTypes = [];
-  let _path = [];
+  const tokenPath = route.tokenPath || [];
   route.route.forEach((path, j) => {
-    if (j === 0) {
-      _pathTypes.push("address");
-      _path.push(path.token0.address);
-    }
+    _pathTypes.push("address");
+    _path.push(tokenPath[j].address);
     _pathTypes.push("uint24");
     _path.push(path.fee);
-    _pathTypes.push("address");
-    _path.push(path.token1.address);
+    if (j === route.route.length - 1) {
+      _pathTypes.push("address");
+      _path.push(tokenPath[j + 1].address);
+    }
   });
-
-  calldatas.push(
-    iface.encodeFunctionData("exactInput", [
-      {
-        path: ethers.utils.solidityPack(_pathTypes, _path),
-        recipient:
-          outputCurrency.address === "native" ? routerAddress : account,
-        amountIn: Big(value)
-          .mul(route.percent / 100)
-          .toFixed(0),
-        amountOutMinimum: amountOutMinimum.mul(route.percent / 100).toFixed(0),
-      },
-    ])
-  );
 });
+console.log(_path);
+calldatas.push(
+  iface.encodeFunctionData("exactInput", [
+    {
+      path: ethers.utils.solidityPack(_pathTypes, _path),
+      recipient: outputCurrency.address === "native" ? routerAddress : account,
+      amountIn: value,
+      amountOutMinimum: amountOutMinimum.toFixed(0),
+    },
+  ])
+);
 
 let _ethValue = inputCurrency.address === "native" ? value : 0;
 
@@ -169,6 +167,7 @@ const multicallit = (gasLimit) => {
       }, 500);
     })
     .catch((err) => {
+      console.log("call-err", err);
       onError(err);
     });
 };
@@ -179,7 +178,7 @@ multicallContract.estimateGas
     multicallit(gasLimit);
   })
   .catch((err) => {
-    onError(err);
+    console.log("estimate-err", err);
     multicallit();
   });
 
