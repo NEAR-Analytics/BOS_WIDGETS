@@ -3,7 +3,8 @@ const { data, onSubmit } = props;
 const initialData = data;
 const [content, setContent] = useState(data.content || "");
 const [title, setTitle] = useState(data.title || "");
-const [description, setDescription] = useState(data.description || "");
+const [subtitle, setSubtitle] = useState(data.subtitle || "");
+
 const [textAlign, setTextAlign] = useState(data.textAlign || "left");
 
 const Container = styled.div`
@@ -25,13 +26,13 @@ const hasDataChanged = () => {
   return (
     content !== initialData.content ||
     title !== initialData.title ||
-    description !== initialData.description ||
+    subtitle !== initialData.subtitle ||
     textAlign !== initialData.textAlign
   );
 };
 
 const handleSubmit = () => {
-  if (title) onSubmit({ title, description, content, textAlign });
+  if (title) onSubmit({ title, subtitle, content, textAlign });
 };
 
 return (
@@ -76,8 +77,7 @@ return (
       >
         <div style={{ position: "absolute", top: 10, right: 0 }}>
           <Widget
-            // LEGACY
-            src="${REPL_DEVHUB}/widget/gigs-board.components.molecule.button-switch"
+            src="thomasguntenaar.near/widget/devhub.components.molecule.Switch"
             props={{
               currentValue: textAlign,
               key: "textAlign",
@@ -93,7 +93,7 @@ return (
         <FormContainer>
           <div className="flex-grow-1">
             <Widget
-              src="${REPL_DEVHUB}/widget/devhub.components.molecule.Input"
+              src="thomasguntenaar.near/widget/devhub.components.molecule.Input"
               props={{
                 label: "Title",
                 className: "flex-grow-1",
@@ -109,12 +109,12 @@ return (
           </div>
           <div className="flex-grow-1">
             <Widget
-              src="${REPL_DEVHUB}/widget/devhub.components.molecule.Input"
+              src="thomasguntenaar.near/widget/devhub.components.molecule.Input"
               props={{
-                label: "Description",
+                label: "Subtitle",
                 className: "flex-grow-1",
-                onChange: (e) => setDescription(e.target.value),
-                value: description,
+                onChange: (e) => setSubtitle(e.target.value),
+                value: subtitle,
                 inputProps: {
                   min: 2,
                   max: 250,
@@ -123,7 +123,7 @@ return (
             />
           </div>
           <Widget
-            src="${REPL_DEVHUB}/widget/devhub.components.molecule.MarkdownEditor"
+            src="thomasguntenaar.near/widget/devhub.components.molecule.MarkdownEditor"
             props={{ data: { content }, onChange: setContent }}
           />
         </FormContainer>
@@ -131,7 +131,7 @@ return (
           className={"d-flex align-items-center justify-content-end gap-3 mt-4"}
         >
           <Widget
-            src={"${REPL_DEVHUB}/widget/devhub.components.molecule.Button"}
+            src={"thomasguntenaar.near/widget/devhub.components.molecule.Button"}
             props={{
               classNames: { root: "btn-success" },
               disabled: !hasDataChanged() || !title || !content,
@@ -153,8 +153,8 @@ return (
       >
         <div className="w-100 h-100 p-4">
           <Widget
-            src="${REPL_DEVHUB}/widget/devhub.entity.addon.wiki.Viewer"
-            props={{ title, description, content, textAlign }}
+            src="thomasguntenaar.near/widget/devhub.entity.addon.wiki.Viewer"
+            props={{ title, subtitle, content, textAlign }}
           />
         </div>
       </div>
