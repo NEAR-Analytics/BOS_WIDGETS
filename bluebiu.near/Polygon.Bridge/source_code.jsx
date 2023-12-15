@@ -72,14 +72,14 @@ return (
       src="bluebiu.near/widget/Base.Bridge.Index"
       props={{
         connectProps: {
-          imgProps: {
-            src: "https://ipfs.near.social/ipfs/bafkreihcujrphf3k3zgfl4wdnxbz5btydas43uwdmvjgrs5mavbubvrpyq",
-            style: {
-              width: "282px",
-              height: "222px",
-              marginTop: "80px",
-            },
-          },
+          // imgProps: {
+          //   src: "https://ipfs.near.social/ipfs/bafkreihcujrphf3k3zgfl4wdnxbz5btydas43uwdmvjgrs5mavbubvrpyq",
+          //   style: {
+          //     width: "282px",
+          //     height: "222px",
+          //     marginTop: "80px",
+          //   },
+          // },
           noAccountTips: "Polygon Bridge",
           wrongNetworkTips: "To proceed, kindly switch to Polygon Chain.",
         },
