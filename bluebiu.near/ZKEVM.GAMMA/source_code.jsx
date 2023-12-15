@@ -50,7 +50,7 @@ if (!sender)
           margin: "80px auto auto auto",
         }}
       >
-        <img src="https://ipfs.near.social/ipfs/bafkreibmhq4fseqpcbywiq4hfojghxvhj47mjsri2trggt7d5h5od4y6kq"></img>
+        {/* <img src="https://ipfs.near.social/ipfs/bafkreibmhq4fseqpcbywiq4hfojghxvhj47mjsri2trggt7d5h5od4y6kq"></img> */}
 
         <Web3Connect
           className="web3-connect"
@@ -113,7 +113,7 @@ if (state.chainId !== 1101) {
     <>
       <TitleText>Liquidity Manage</TitleText>
       <SwitchWrapper>
-        <img src="https://ipfs.near.social/ipfs/bafkreibmhq4fseqpcbywiq4hfojghxvhj47mjsri2trggt7d5h5od4y6kq"></img>
+        {/* <img src="https://ipfs.near.social/ipfs/bafkreibmhq4fseqpcbywiq4hfojghxvhj47mjsri2trggt7d5h5od4y6kq"></img> */}
         <h4>Please switch to Polygon zkEVM</h4>
         <button onClick={switchChain}>Switch to Polygon zkEVM</button>
         <p>**Please refresh once after switch chain**</p>
