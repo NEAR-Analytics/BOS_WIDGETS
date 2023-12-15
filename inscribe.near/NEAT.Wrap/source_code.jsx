@@ -92,6 +92,23 @@ const tx = {
   gas: GasPerTransaction,
 };
 
+const InfoOuterWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  @media (max-width: 768px) {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+`;
+
+const InfoWrapper = styled.div`
+  display: flex;
+  min-width: 300px;
+  font-weight: 400;
+  flex-direction: column;
+`;
+
 const FormContainer = styled.div`
   max-width: 650px;
   width: 100%;
@@ -111,6 +128,10 @@ const FormContainer = styled.div`
 const FormTitle = styled.div`
   font-size: 22px;
   font-weight: 600px;
+
+  @media (max-width: 768px) {
+    font-size: 18px;
+  }
 `;
 
 const FormButton = styled.button`
@@ -228,6 +249,17 @@ function getWrappedFtBalance() {
   });
 }
 
+function getNrc20TotalSupply() {
+  if (!state.nep141TotalSupply || !state.tokenInfo?.maxSupply) return undefined;
+  return Big(state.tokenInfo.maxSupply)
+    .minus(state.nep141TotalSupply)
+    .toFixed();
+}
+
+function getNep141TotalSupply() {
+  return Near.asyncView(config.ftWrapper, "ft_total_supply");
+}
+
 function fetchAllData() {
   const response = fetchFromGraph(`
     query {
@@ -300,6 +332,19 @@ function fetchAllData() {
       wrappedFtBalance: balance,
     })
   );
+
+  getNep141TotalSupply().then((nep141TotalSupply) => {
+    State.update({
+      nep141TotalSupply,
+    });
+  });
+
+  const nrc20TotalSupply = getNrc20TotalSupply();
+  if (nrc20TotalSupply) {
+    State.update({
+      nrc20TotalSupply,
+    });
+  }
 }
 
 fetchAllData();
@@ -379,18 +424,35 @@ function updateInputValue(value) {
     });
   }
 }
+
+const totalSupply = state.tokenInfo?.maxSupply
+  ? formatAmount(state.tokenInfo.maxSupply)
+  : "-";
+const nep141TotalSupply = state.nep141TotalSupply
+  ? formatAmount(state.nep141TotalSupply)
+  : "-";
+const nrc20TotalSupply = state.nrc20TotalSupply
+  ? formatAmount(state.nrc20TotalSupply)
+  : "-";
 return (
   <>
     <FormContainer style={{ fontWeight: "bold" }}>
-      <div>
-        🔥 Now NRC-20 $NEAT can be wrapped into a NEP-141 token and traded on{" "}
-        <NeatLink
-          href={`${config.refFinance}#${config.ftWrapper}%7Cnear`}
-          target="_blank"
-        >
-          Ref Finance
-        </NeatLink>
-      </div>
+      <InfoOuterWrapper>
+        <div>
+          🔥 Now NRC-20 $NEAT can be wrapped into a NEP-141 token and traded on{" "}
+          <NeatLink
+            href={`${config.refFinance}#${config.ftWrapper}%7Cnear`}
+            target="_blank"
+          >
+            Ref Finance
+          </NeatLink>
+        </div>
+        <InfoWrapper>
+          <div style={{ fontWeight: "bold" }}>Total Supply: {totalSupply}</div>
+          <div>NEAT(NRC-20): {nrc20TotalSupply}</div>
+          <div>NEAT(NEP-141): {nep141TotalSupply}</div>
+        </InfoWrapper>
+      </InfoOuterWrapper>
     </FormContainer>
     <FormContainer>
       <FormTitle>Wrap</FormTitle>
