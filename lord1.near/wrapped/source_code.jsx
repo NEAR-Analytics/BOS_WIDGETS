@@ -1,5 +1,5 @@
 const themeColor = props.themeColor;
-const API_KEY = "96ef3daf-8662-4736-b31b-0a4c2b431cc2";
+const API_KEY = "fb24b833-e42a-4358-a539-60a6fc113a01";
 
 const general_theme = {
   height: "110px",
