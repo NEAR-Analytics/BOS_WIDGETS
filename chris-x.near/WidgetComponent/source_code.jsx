@@ -1,33 +1,52 @@
+const Button = styled.button`
+  background-color: #8f73ff;
+  color: white;
+  padding: 12px 30px;
+  border: none;
+  border-radius: 10px;
+  font-size: 14px;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #b290ff;
+  }
+`;
+
+State.init({
+  data1: "xxx",
+});
+
+const onSave = () => {
+  Storage.privateSet("secretKey", "changed");
+};
+
+const onRead = () => {
+  //   State.update({ data1: "HHH" });
+  const mySecretData = Storage.privateGet("secretKey");
+  State.update({ data1: mySecretData });
+};
+// Storage.privateSet("secretKey", "my-secret-value");
+
+// const mySecretData = Storage.privateGet("secretKey");
+
 return (
   <>
-    <Widget
-      src="near/widget/DIG.Button"
-      props={{
-        href: "https://docs.near.org",
-        target: "_blank",
-        label: "Read Docs",
-        variant: "secondary",
-        fill: "outline",
-        size: "large",
+    <h2>{mySecretData}</h2>
+    <h2>{state.data1}</h2>
+    <Button
+      onClick={() => {
+        onSave();
       }}
-    />
-    <Widget
-      src="near/widget/DIG.Button"
-      props={{
-        href: "/signup",
-        label: "Create Account",
-        variant: "affirmative",
-        size: "large",
+    >
+      Save
+    </Button>
+
+    <Button
+      onClick={() => {
+        onRead();
       }}
-    />
-    <Widget
-      src="near/widget/DIG.Button"
-      props={{
-        href: "/signup",
-        label: "Create Account",
-        variant: "affirmative",
-        size: "large",
-      }}
-    />
+    >
+      Read
+    </Button>
   </>
 );
