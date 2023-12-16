@@ -16,6 +16,7 @@ State.init({
       isActive: false,
     },
   ],
+  tabIndex: 0,
 });
 
 const hideLeanMore = () => {
@@ -94,46 +95,8 @@ const chains = {
   25925: {
     name: "Bitkub Chain Testnet",
     id: 25925,
-    image: (
-      <svg
-        width="24"
-        height="24"
-        viewBox="0 0 24 24"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <circle cx="12" cy="12" r="12" fill="url(#paint0_linear_3688_675)" />
-        <path
-          d="M8.16318 11.7969L8.15181 11.8082C7.72929 12.2289 7.72786 12.9125 8.14861 13.335L8.15995 13.3464C8.58067 13.7689 9.26424 13.7703 9.68676 13.3496L9.69816 13.3383C10.1206 12.9175 10.122 12.234 9.70133 11.8115L9.69 11.8001C9.26924 11.3776 8.58567 11.3762 8.16318 11.7969Z"
-          fill="white"
-        />
-        <path
-          d="M8.97679 7.19995L7.82036 8.35145L7.82806 8.35841L4.7428 11.4289V11.424L3.59961 12.5608L3.60381 12.565L3.59961 12.5699L4.7302 13.7047L8.93979 17.9553C8.93979 17.9553 9.93493 16.6425 8.95656 15.6599L5.87549 12.5636L8.95866 9.49108L10.5152 11.0567C11.8421 12.3911 12.7883 11.0274 12.7883 11.0274L8.97679 7.19995Z"
-          fill="white"
-        />
-        <path
-          d="M20.3852 12.587L20.3999 12.573L15.0778 7.22815C15.0778 7.22815 14.1002 8.50537 15.0262 9.43481L18.1687 12.5912L15.0925 15.6554L13.6532 14.2113C12.6225 13.1757 11.2559 14.1135 11.2559 14.1135L15.0485 17.9207L16.2028 16.7705L20.3929 12.5968L20.3852 12.587Z"
-          fill="white"
-        />
-        <path
-          d="M14.3156 11.7969L14.3042 11.8082C13.8816 12.2289 13.8802 12.9125 14.301 13.335L14.3123 13.3464C14.733 13.7689 15.4166 13.7703 15.8391 13.3496L15.8505 13.3383C16.273 12.9175 16.2744 12.234 15.8537 11.8115L15.8424 11.8001C15.4216 11.3776 14.738 11.3762 14.3156 11.7969Z"
-          fill="white"
-        />
-        <defs>
-          <linearGradient
-            id="paint0_linear_3688_675"
-            x1="0"
-            y1="-3"
-            x2="24"
-            y2="21"
-            gradientUnits="userSpaceOnUse"
-          >
-            <stop stop-color="#02D566" />
-            <stop offset="1" stop-color="#018D4F" />
-          </linearGradient>
-        </defs>
-      </svg>
-    ),
+    image:
+      "https://ipfs.near.social/ipfs/bafkreicksbcmv5i7ezaw5b2424vliuegcbgfckjc4qt73eql67pdmrvvfu",
   },
   96: {
     name: "Bitkub Chain Mainnet",
@@ -142,7 +105,8 @@ const chains = {
   3501: {
     name: "JFIN Chain",
     id: 3501,
-    image: "",
+    image:
+      "https://ipfs.near.social/ipfs/bafkreia4w3mcfsrvcoh3r44x5nxrmarrt5xr3nta7dnw7pjfufd3b3anki",
   },
 };
 
@@ -157,7 +121,9 @@ const chainsFormat = (val) => {
 
   return (
     <div className="flex justify-center items-center gap-2">
-      <div>{image}</div>
+      <div>
+        <img src={image} alt={name} className="w-6 h-6" />
+      </div>
       <div>{name}</div>
     </div>
   );
@@ -165,7 +131,7 @@ const chainsFormat = (val) => {
 
 const navbar = (
   //container
-  <div className="container flex items-center justify-between h-20 ">
+  <div className="container flex items-center justify-between h-20 font-medium">
     <div className="flex gap-4 items-center ">
       <div>{billbosLogo}</div>
       {state.navItems
@@ -174,7 +140,7 @@ const navbar = (
               <div
                 key={index}
                 className="cursor-pointer"
-                onClick={() => (setTabSelect ? setTabSelect(index) : () => {})}
+                onClick={() => (setTabSelect ? setTabSelect(index) : "")}
               >
                 <p>{item.title}</p>
               </div>
@@ -184,7 +150,7 @@ const navbar = (
     </div>
     <div className="flex text-sm gap-2 ">
       <div className="border border-gray-200 px-2 py-1 rounded-xl flex items-center">
-        {chainsFormat(chainId)}
+        {chainsFormat(chainId || 3501)}
       </div>
       <div className="border border-gray-400 w-52 grid grid-cols-5 rounded-xl gray-surface ">
         <div className="p-2 items-center flex col-span-2">
@@ -199,9 +165,11 @@ const navbar = (
 );
 
 const mainHeader = (
-  <div className="">
-    <div>{state.hideLeanMore ? "" : leanMore}</div>
-    <div>{navbar}</div>
+  <div className="relative min-h-screen ">
+    <div className="sticky top-0 ">
+      <div>{state.hideLeanMore ? "" : leanMore}</div>
+      <div className="">{navbar}</div>
+    </div>
   </div>
 );
 
