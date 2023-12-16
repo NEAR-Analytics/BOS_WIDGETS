@@ -1,5 +1,5 @@
 const main = (
-  <div className="w-80 bg-red-200">
+  <div className=" bg-red-200" style={{ height: "406px", width: "302px" }}>
     <div>test</div>
   </div>
 );
@@ -7,6 +7,5 @@ const main = (
 return (
   <>
     <Widget src="porx-dev.near/widget/billbos-css" props={{ children: main }} />
-    asdasd
   </>
 );
