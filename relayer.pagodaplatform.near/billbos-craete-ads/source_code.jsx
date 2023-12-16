@@ -64,6 +64,13 @@ const StyledSelect = styled.div`
   }
 `;
 
+const EndContent = styled.div`
+  position: absolute;
+  top: 50%;
+  left: 10px;
+  transform: translateY(-50%);
+`;
+
 State.init({
   isOpenModal: true,
 });
@@ -121,8 +128,8 @@ const Modal = ({ isOpen, onClose, children }) => {
           <StyledSelect>
             <select
               class="w-full border px-2 py-2 mt-2 rounded-lg"
-              id="cars"
-              name="cars"
+              id="adsType"
+              name="adsType"
             >
               <option value="redirect">URL Redirect</option>
               <option value="interactive">Interactive Ads</option>
@@ -144,13 +151,38 @@ const Modal = ({ isOpen, onClose, children }) => {
           </p>
           <p class="text-sm secondary-text mt-4">Network</p>
           <StyledSelect>
+            <EndContent>
+              <img
+                src="https://www.bitkubnft.com/_next/image?url=https%3A%2F%2Fstatic.bitkubnext.com%2Fnft%2Fnft_stores%2Fbitkub-chain%2Fstore_profile.png&w=256&q=10"
+                alt="Icon"
+                class="w-6 h-6 rounded-full mt-2"
+              />
+            </EndContent>
             <select
-              class="w-full border px-2 py-2 mt-2 rounded-lg"
-              id="cars"
-              name="cars"
+              class="w-full border pl-10 py-2 mt-2 rounded-lg"
+              id="network"
+              name="network"
             >
-              <option value="redirect">URL Redirect</option>
-              <option value="interactive">Interactive Ads</option>
+              <option value="BKC">Bitkub Chain</option>
+              <option value="JFIN">J2O Taro</option>
+            </select>
+          </StyledSelect>
+          <p class="text-sm secondary-text mt-4">Token</p>
+          <StyledSelect>
+            <EndContent>
+              <img
+                src="https://icons.iconarchive.com/icons/cjdowner/cryptocurrency-flat/512/Tether-USDT-icon.png"
+                alt="Icon"
+                class="w-6 h-6 rounded-full mt-2"
+              />
+            </EndContent>
+            <select
+              class="w-full border pl-10 py-2 mt-2 rounded-lg"
+              id="network"
+              name="network"
+            >
+              <option value="USDT">USDT</option>
+              <option value="KUB">KUB</option>
             </select>
           </StyledSelect>
         </div>
