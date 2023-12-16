@@ -74,23 +74,33 @@ function tabComponent() {
   }
 }
 
-return (
+const main = (
   <div>
     {JSON.stringify(state)}
     <div>
       {state.walletConnected ? (
-        <Widget
-          src="porx-dev.near/widget/billbos-header"
-          props={{
-            walletAddress: state.walletAddress,
-            chainId: state.chainId,
-            setTabSelect: (index) => setTabSelect(index),
-          }}
-        />
+        <div>
+          <Widget
+            src="porx-dev.near/widget/billbos-header"
+            props={{
+              walletAddress: state.walletAddress,
+              chainId: state.chainId,
+              setTabSelect: (index) => setTabSelect(index),
+            }}
+          />
+          <div className="container gray-surface min-h-screen bg-red-500 w-full">
+            <div>{tabComponent()}</div>
+          </div>
+        </div>
       ) : (
         <Widget src="porx-dev.near/widget/billbos-authen" props={{}} />
       )}
     </div>
-    <div className="container gray-surface">{tabComponent()}</div>
   </div>
+);
+
+return (
+  <>
+    <Widget src="porx-dev.near/widget/billbos-css" props={{ children: main }} />
+  </>
 );
