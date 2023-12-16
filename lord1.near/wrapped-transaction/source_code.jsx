@@ -149,7 +149,7 @@ raw1 as (
  SELECT livequery.live.udf_api(
   'GET',
   'https://api.pikespeak.ai/sbt/sbt-by-owner?holder={{singer}}&registry=registry.i-am-human.near',
-  {'accept': 'application/json', 'x-api-key':'a4f4ede9-07db-495b-982a-9369fd77c665'},
+  {'accept': 'application/json', 'x-api-key':'cbaac313-78d0-4d69-b2f8-6d5e2af58b6e'},
   {}
  ) as response)
 
