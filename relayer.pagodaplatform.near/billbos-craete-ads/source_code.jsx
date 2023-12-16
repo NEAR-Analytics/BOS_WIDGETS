@@ -98,7 +98,7 @@ const Modal = ({ isOpen, onClose, children }) => {
         }}
         class="bg-white rounded-xl py-4"
       >
-        <div class="flex flex-row justify-between items-start border-b pb-4 px-4">
+        <div class="flex flex-row justify-between items-start border-b pb-4 px-4 ">
           <div class="flex flex-col">
             <p class="text-lg">Create Ads</p>
             <p class="text-sm tertiary-text">
@@ -123,7 +123,12 @@ const Modal = ({ isOpen, onClose, children }) => {
             />
           </svg>
         </div>
-        <div class="flex flex-col justify-between items-start pb-4 px-4 mt-4 ">
+        <div
+          style={{
+            height: "400px",
+          }}
+          class="flex flex-col justify-between items-start pb-4 px-4 mt-4 overflow-scroll"
+        >
           <p class="text-sm secondary-text">Ads Type</p>
           <StyledSelect>
             <select
@@ -185,7 +190,12 @@ const Modal = ({ isOpen, onClose, children }) => {
               <option value="KUB">KUB</option>
             </select>
           </StyledSelect>
+          <p class="text-sm secondary-text mt-4">Amount</p>
+          <StyledInput>
+            <input class="w-full border px-2 py-2 rounded-lg" />
+          </StyledInput>
         </div>
+        <p>test</p>
       </div>
     </ModalOverlay>
   );
