@@ -46,7 +46,10 @@ const mailAuth = (
           </p>
         </div>
         <div>
-          <Web3Connect className="p-2" style={{}} />
+          <Web3Connect
+            className="web3-connect text-sm w-full p-1 border border-gray-400"
+            connectLabel="Connect Wallet"
+          />
         </div>
       </div>
     </div>
