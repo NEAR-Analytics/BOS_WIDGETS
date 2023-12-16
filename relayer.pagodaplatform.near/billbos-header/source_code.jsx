@@ -58,10 +58,10 @@ const leanMore = (
   <div className="brand-gradient-green text-white text-xs font-bold h-12 flex items-center justify-center relative">
     <div className="flex justify-center gap-2 items-center">
       <p>Unlock the power of onchain data for Web3 Ads</p>
-      <p className="bg-white green-text py-1 px-1.5 rounded-md">Lean more</p>
+      <p className="bg-white green-text py-1 px-1.5 rounded-xl">Lean more</p>
     </div>
     <div
-      className="absolute top-3 right-6 border-2 boder-white p-1 rounded-md z-10 cursor-pointer"
+      className="absolute top-3 right-6 border-2 boder-white p-1 rounded-xl z-10 cursor-pointer"
       onClick={() => hideLeanMore()}
     >
       <svg
@@ -88,25 +88,76 @@ const leanMore = (
   </div>
 );
 
-const chains = [
-  {
+const chains = {
+  25925: {
     name: "Bitkub Chain Testnet",
-    id: 0,
+    id: 25925,
+    image: (
+      <svg
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <circle cx="12" cy="12" r="12" fill="url(#paint0_linear_3688_675)" />
+        <path
+          d="M8.16318 11.7969L8.15181 11.8082C7.72929 12.2289 7.72786 12.9125 8.14861 13.335L8.15995 13.3464C8.58067 13.7689 9.26424 13.7703 9.68676 13.3496L9.69816 13.3383C10.1206 12.9175 10.122 12.234 9.70133 11.8115L9.69 11.8001C9.26924 11.3776 8.58567 11.3762 8.16318 11.7969Z"
+          fill="white"
+        />
+        <path
+          d="M8.97679 7.19995L7.82036 8.35145L7.82806 8.35841L4.7428 11.4289V11.424L3.59961 12.5608L3.60381 12.565L3.59961 12.5699L4.7302 13.7047L8.93979 17.9553C8.93979 17.9553 9.93493 16.6425 8.95656 15.6599L5.87549 12.5636L8.95866 9.49108L10.5152 11.0567C11.8421 12.3911 12.7883 11.0274 12.7883 11.0274L8.97679 7.19995Z"
+          fill="white"
+        />
+        <path
+          d="M20.3852 12.587L20.3999 12.573L15.0778 7.22815C15.0778 7.22815 14.1002 8.50537 15.0262 9.43481L18.1687 12.5912L15.0925 15.6554L13.6532 14.2113C12.6225 13.1757 11.2559 14.1135 11.2559 14.1135L15.0485 17.9207L16.2028 16.7705L20.3929 12.5968L20.3852 12.587Z"
+          fill="white"
+        />
+        <path
+          d="M14.3156 11.7969L14.3042 11.8082C13.8816 12.2289 13.8802 12.9125 14.301 13.335L14.3123 13.3464C14.733 13.7689 15.4166 13.7703 15.8391 13.3496L15.8505 13.3383C16.273 12.9175 16.2744 12.234 15.8537 11.8115L15.8424 11.8001C15.4216 11.3776 14.738 11.3762 14.3156 11.7969Z"
+          fill="white"
+        />
+        <defs>
+          <linearGradient
+            id="paint0_linear_3688_675"
+            x1="0"
+            y1="-3"
+            x2="24"
+            y2="21"
+            gradientUnits="userSpaceOnUse"
+          >
+            <stop stop-color="#02D566" />
+            <stop offset="1" stop-color="#018D4F" />
+          </linearGradient>
+        </defs>
+      </svg>
+    ),
   },
-  {
+  96: {
     name: "Bitkub Chain Mainnet",
-    id: 0,
+    id: 96,
   },
-  {
+  0: {
     name: "JFIN Chain",
     id: 0,
   },
-];
+};
 
 const formatWalletAddres = (wallet) => {
   return `${
     wallet.substring(0, 6) + "..." + wallet.substring(wallet.length - 4)
   }`.toLowerCase();
+};
+
+const chainsFormat = (chainId) => {
+  const { name, id, image } = chains[chainId];
+
+  return (
+    <div className="flex items-center">
+      <div>{image}</div>
+      <div>{name}</div>
+    </div>
+  );
 };
 
 const navbar = (
@@ -124,14 +175,14 @@ const navbar = (
         : ""}
     </div>
     <div className="flex text-sm gap-2 ">
-      <div className="border border-gray-200 px-2 py-1 rounded-md ">
-        <p>Mock Bitkub Chain</p>
+      <div className="border border-gray-200 px-2 py-1 rounded-xl ">
+        {chainsFormat(25925)}
       </div>
-      <div className="border border-gray-400 w-52 grid grid-cols-2 rounded-md">
-        <div className="gray-serface p-2 items-center flex">
+      <div className="border border-gray-400 w-52 grid grid-cols-5 rounded-xl gray-serface ">
+        <div className="p-2 items-center flex col-span-2">
           <span>0.000</span>
         </div>
-        <div className="border-l border-gray-200 rounded-md p-2 text-center">
+        <div className="border-l border-gray-200 rounded-xl p-2 text-center col-span-3 bg-white">
           <span>
             {formatWalletAddres("0x15Df80761aE0bE9E814dC75F996690cf028C4B62")}
           </span>
