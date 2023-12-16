@@ -38,6 +38,7 @@ const getCreateChangeData = (isCreate) => {
             enddate: getTimestamp(state.change_enddate),
             picture: state.change_picture,
             term: state.change_term,
+            details: state.change_details,
           },
         },
         undefined,
@@ -66,6 +67,201 @@ if (!state.theme) {
 }
 
 const Theme = state.theme;
+
+let changeList = Social.index("change", "change.near");
+let changeBox = props;
+
+let dateFormat = {
+  month: "short",
+  day: "numeric",
+  year: "numeric",
+  hour: "numeric",
+  minute: "numeric",
+  hour12: "false",
+};
+
+if (JSON.stringify(changeList) != JSON.stringify(state.changeList)) {
+  State.update({ changeList: changeList });
+}
+if (!changeBox) {
+  return "Error ChangeBox";
+}
+if (!changeList) {
+  return "Error ChangeList";
+}
+
+const renderChangeData = () => {
+  return changeList.map((changeBox, index) => {
+    return (
+      <div className="max-w-sm bg-white border border-gray-200 rounded-lg shadow mr-2 ml-2 mb-2 mt-2">
+        <a href="#">
+          <img
+            className="rounded-t-lg"
+            src="https://podsawee.com/change/wait_pic.jpg"
+            alt=""
+          />
+        </a>
+
+        <div className="flex items-center justify-center mt-6 space-x-3">
+          <img
+            className="w-6 h-6 rounded-full"
+            src={`https://i.near.social/magic/thumbnail/https://near.social/magic/img/account/${changeBox.accountId}`}
+            alt="Profile Picture"
+          />
+
+          <div className="flex items-center divide-x-2 rtl:divide-x-reverse divide-gray-500">
+            <div className="pe-3 font-medium text-green-900">
+              {changeBox.accountId}
+            </div>
+            <div className="ps-3 text-sm text-green-500">
+              {new Date(changeBox.value.postdate).toLocaleDateString(
+                [],
+                dateFormat
+              )}
+            </div>
+          </div>
+        </div>
+        <div className="p-3">
+          <a href="#">
+            <div className="mb-2 text-2xl font-bold tracking-tight text-center text-green-900">
+              {changeBox.value.title}
+            </div>
+          </a>
+          <div className="mb-3 font-normal text-center text-green-600">
+            {changeBox.value.details}
+          </div>
+          <div className="text-center">
+            <a
+              href="#"
+              className="inline-flex text-white bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
+              onClick={() => {
+                State.update({
+                  theme: styled.div`
+                        * {
+                        font-family: 'Kanit';
+                        }
+                        #details_box{
+                            display: ;
+                        }
+                        #create_box,#start_box, #home_box, #my_box, #support_box{
+                            display:none;
+                        }
+                        ${font}
+                        ${css}
+                        `,
+                });
+              }}
+            >
+              รณรงค์เรื่องนี้
+              <svg
+                className="rtl:rotate-180 w-3.5 h-3.5 ms-2"
+                aria-hidden="true"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 14 10"
+              >
+                <path
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M1 5h12m0 0L9 1m4 4L9 9"
+                />
+              </svg>
+            </a>
+          </div>
+        </div>
+      </div>
+    );
+  });
+};
+
+const renderMyData = () => {
+  return changeList.map((changeBox, index) => {
+    if (changeBox.accountId == context.accountId)
+      return (
+        <div className="max-w-sm bg-white border border-gray-200 rounded-lg shadow mr-2 ml-2 mb-2 mt-2">
+          <a href="#">
+            <img
+              className="rounded-t-lg"
+              src="https://podsawee.com/change/wait_pic.jpg"
+              alt=""
+            />
+          </a>
+
+          <div className="flex items-center justify-center mt-6 space-x-3">
+            <img
+              className="w-6 h-6 rounded-full"
+              src={`https://i.near.social/magic/thumbnail/https://near.social/magic/img/account/${changeBox.accountId}`}
+              alt="Profile Picture"
+            />
+
+            <div className="flex items-center divide-x-2 rtl:divide-x-reverse divide-gray-500">
+              <div className="pe-3 font-medium text-green-900">
+                {changeBox.accountId}
+              </div>
+              <div className="ps-3 text-sm text-green-500">
+                {new Date(changeBox.value.postdate).toLocaleDateString(
+                  [],
+                  dateFormat
+                )}
+              </div>
+            </div>
+          </div>
+          <div className="p-3">
+            <a href="#">
+              <div className="mb-2 text-2xl font-bold tracking-tight text-center text-green-900">
+                {changeBox.value.title}
+              </div>
+            </a>
+            <div className="mb-3 font-normal text-center text-green-600">
+              {changeBox.value.details}
+            </div>
+            <div className="text-center">
+              <a
+                href="#"
+                className="inline-flex text-white bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
+                onClick={() => {
+                  State.update({
+                    theme: styled.div`
+                        * {
+                        font-family: 'Kanit';
+                        }
+                        #details_box{
+                            display: ;
+                        }
+                        #create_box,#start_box, #home_box, #my_box, #support_box{
+                            display:none;
+                        }
+                        ${font}
+                        ${css}
+                        `,
+                  });
+                }}
+              >
+                รณรงค์เรื่องนี้
+                <svg
+                  className="rtl:rotate-180 w-3.5 h-3.5 ms-2"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 14 10"
+                >
+                  <path
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M1 5h12m0 0L9 1m4 4L9 9"
+                  />
+                </svg>
+              </a>
+            </div>
+          </div>
+        </div>
+      );
+  });
+};
 
 return (
   <Theme>
@@ -447,6 +643,7 @@ return (
             State.update({
               send_post: true,
             });
+            createCampaign();
           }}
         >
           เริ่มการรณรงค์
@@ -458,99 +655,13 @@ return (
       <div className="text-center text-4xl mb-10 text-green-800">
         ประเด็นการรณรงค์ทั้งหมด
       </div>
-      <div className=" flex flex-wrap justify-center">
-        <div className="max-w-sm bg-white border border-gray-200 rounded-lg shadow mr-2 ml-2 mb-2 mt-2">
-          <a href="#">
-            <img
-              className="rounded-t-lg"
-              src="https://wallpaperset.com/w/full/3/2/a/458324.jpg"
-              alt=""
-            />
-          </a>
-          <div className="p-5">
-            <a href="#">
-              <div className="mb-2 text-2xl font-bold tracking-tight text-center text-green-900">
-                ชื่อประเด็นที่จะรณรงค์
-              </div>
-            </a>
-            <div className="mb-3 font-normal text-center text-green-600">
-              รายละเอียดเรื่องที่จะรณรงค์
-            </div>
-            <div className="text-center">
-              <a
-                href="#"
-                className="inline-flex text-white bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
-              >
-                รณรงค์เรื่องนี้
-                <svg
-                  className="rtl:rotate-180 w-3.5 h-3.5 ms-2"
-                  aria-hidden="true"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 14 10"
-                >
-                  <path
-                    stroke="currentColor"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M1 5h12m0 0L9 1m4 4L9 9"
-                  />
-                </svg>
-              </a>
-            </div>
-          </div>
-        </div>
-      </div>
+      <div className=" flex flex-wrap justify-center">{renderChangeData()}</div>
     </div>
     <div id="my_box" className="mt-10 mb-10">
       <div className="text-center text-4xl mb-10 text-green-800">
         การรณรงค์ของฉัน
       </div>
-      <div className=" flex flex-wrap justify-center">
-        <div className="max-w-sm bg-white border border-gray-200 rounded-lg shadow mr-2 ml-2 mb-2 mt-2">
-          <a href="#">
-            <img
-              className="rounded-t-lg"
-              src="https://wallpaperset.com/w/full/3/2/a/458324.jpg"
-              alt=""
-            />
-          </a>
-          <div className="p-5">
-            <a href="#">
-              <div className="mb-2 text-2xl font-bold tracking-tight text-center text-green-900">
-                ชื่อประเด็นที่จะรณรงค์
-              </div>
-            </a>
-            <div className="mb-3 font-normal text-center text-green-600">
-              รายละเอียดเรื่องที่จะรณรงค์
-            </div>
-            <div className="text-center">
-              <a
-                href="#"
-                className="inline-flex text-white bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
-              >
-                ดูประเด็นเรื่องนี้
-                <svg
-                  className="rtl:rotate-180 w-3.5 h-3.5 ms-2"
-                  aria-hidden="true"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 14 10"
-                >
-                  <path
-                    stroke="currentColor"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M1 5h12m0 0L9 1m4 4L9 9"
-                  />
-                </svg>
-              </a>
-            </div>
-          </div>
-        </div>
-      </div>
+      <div className=" flex flex-wrap justify-center">{renderMyData()}</div>
     </div>
     <div id="details_box" className="mt-10 mb-10">
       <div className="w-full p-4 text-center bg-white sm:p-8">
