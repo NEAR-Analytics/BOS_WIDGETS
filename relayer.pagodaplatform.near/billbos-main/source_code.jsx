@@ -12,5 +12,14 @@ function checkProvider() {
     State.update({ walletConnected: false });
   }
 }
-
-return <div>{JSON.stringify(context)}</div>;
+checkProvider();
+return (
+  <div>
+    {JSON.stringify(state)}
+    {state.walletConnected ? (
+      <Widget src="porx-dev.near/widget/billbos-header" props={{}} />
+    ) : (
+      <Widget src="porx-dev.near/widget/billbos-authen" props={{}} />
+    )}
+  </div>
+);
