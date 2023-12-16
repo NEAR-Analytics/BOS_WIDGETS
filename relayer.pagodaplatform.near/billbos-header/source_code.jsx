@@ -166,7 +166,7 @@ const chainsFormat = (val) => {
 const navbar = (
   //container
   <div className="container flex items-center justify-between h-20 ">
-    <div className="ml-10 flex gap-4 items-center ">
+    <div className="flex gap-4 items-center ">
       <div>{billbosLogo}</div>
       {state.navItems
         ? state.navItems.map((item, index) => {
