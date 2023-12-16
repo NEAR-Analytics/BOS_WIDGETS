@@ -45,11 +45,17 @@ const mailAuth = (
             <span className="green-text">Sign in another way</span>
           </p>
         </div>
-        <div>
+        <div className="mt-4">
           <Web3Connect
             className="web3-connect text-sm w-full p-1 border border-gray-400"
             connectLabel="Connect Wallet"
           />
+        </div>
+        <div className="text-sm mt-4">
+          <p>
+            What is a wallet ?{" "}
+            <span className="green-text">Learn about wallets</span>
+          </p>
         </div>
       </div>
     </div>
