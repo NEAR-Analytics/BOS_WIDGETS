@@ -84,7 +84,7 @@ function tabComponent() {
   } else if (state.tabSelect == 1) {
     return (
       <div className="container">
-        <div className="flex justify-between my-6 items-center">
+        <div className="flex justify-between py-8 items-center">
           <div>
             <h2 className="font-semibold text-xl ">Campaigns</h2>
             <p className="text-sm">
@@ -127,7 +127,7 @@ function tabComponent() {
           style={{ marginTop: "-50px" }}
           className="container rounded-t-3xl gray-surface min-h-screen relative"
         >
-          <div className="flex justify-between py-6 items-center ">
+          <div className="flex justify-between py-8 items-center ">
             <div>
               <h2 className="font-semibold text-xl ">Campaigns</h2>
               <p className="text-sm">
