@@ -113,7 +113,7 @@ function tabComponent() {
     return (
       <div>
         <div
-          style={{ height: "400px" }}
+          style={{ height: "430px" }}
           className="bg-black container flex items-center"
         >
           <div className="w-96 text-white">
@@ -124,10 +124,10 @@ function tabComponent() {
           </div>
         </div>
         <div
-          style={{ marginTop: "-30px" }}
-          className="container rounded-t-3xl gray-surface min-h-screen"
+          style={{ marginTop: "-50px" }}
+          className="container rounded-t-3xl gray-surface min-h-screen "
         >
-          <div className="flex justify-between my-6 items-center">
+          <div className="flex justify-between my-6 items-center bg-red-400">
             <div>
               <h2 className="font-semibold text-xl ">Campaigns</h2>
               <p className="text-sm">
