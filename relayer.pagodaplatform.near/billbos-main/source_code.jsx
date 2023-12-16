@@ -116,14 +116,32 @@ function tabComponent() {
           style={{ height: "400px" }}
           className="bg-black container flex items-center"
         >
-          <div className="w-96 gap-2 text-white">
+          <div className="w-96 text-white">
             <h2 className="text-4xl font-semibold">
               Generate Ads ID. Earn Crypto Together
             </h2>
-            <p>Earn up to 20% commission on every view</p>
+            <p className="mt-2">Earn up to 20% commission on every view</p>
           </div>
         </div>
-        <div className="container">asd</div>
+        <div
+          style={{ marginTop: "-30px" }}
+          className="container rounded-t-3xl gray-surface min-h-screen"
+        >
+          <div className="flex justify-between my-6 items-center">
+            <div>
+              <h2 className="font-semibold text-xl ">Campaigns</h2>
+              <p className="text-sm">
+                Unlock the power of onchain data for Web3 Ads
+              </p>
+            </div>
+            <div>
+              <Widget
+                src="jimmy-ez.near/widget/billbos-craete-ads"
+                props={{}}
+              />
+            </div>
+          </div>
+        </div>
       </div>
     );
   }
