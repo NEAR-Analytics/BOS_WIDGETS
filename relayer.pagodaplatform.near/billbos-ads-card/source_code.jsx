@@ -20,20 +20,20 @@ const content = (
       <p class="mt-1 font-light text-gray-400">
         {"https://docs.near.org/bos/components/ipfs"}
       </p>
-      <div class="mt-4 grid grid-cols-3">
-        <div class="flex flex-col justify-center bg-red-200">
+      <div class="mt-8 grid grid-cols-5">
+        <div class="flex flex-col justify-center col-span-2">
           <p class="font-semibold">{"7,973.87 USDT"}</p>
           <p class="text-gray-400 text-sm">{"Staked"}</p>
         </div>
-        <div class="h-full flex justify-center">
+        <div class="flex justify-center">
           <div class="h-full border-l-2"></div>
         </div>
-        <div class="flex flex-col justify-center bg-red-200">
+        <div class="flex flex-col justify-center col-span-2">
           <p class="font-semibold">{"$7,985"}</p>
           <p class="text-gray-400 text-sm">{"Balance"}</p>
         </div>
       </div>
-      <div class="grid grid-cols-2 gap-4 mt-4">
+      <div class="grid grid-cols-2 gap-4 mt-12">
         <button class="px-4 py-2 text-white font-semibold brand-green rounded-lg">
           Stake Now
         </button>
