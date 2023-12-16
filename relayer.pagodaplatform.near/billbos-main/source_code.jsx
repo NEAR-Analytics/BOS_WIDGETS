@@ -159,7 +159,6 @@ function tabComponent() {
 
 const main = (
   <div className="relative gray-surface ">
-    {JSON.stringify(state)}
     <div>
       {state.walletConnected ? (
         <div>
