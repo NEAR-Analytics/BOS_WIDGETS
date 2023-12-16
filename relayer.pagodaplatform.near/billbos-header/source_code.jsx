@@ -146,11 +146,9 @@ const navbar = (
 );
 
 const mainHeader = (
-  <div className="relative ">
-    <div className="sticky top-0 ">
-      <div>{state.hideLeanMore ? "" : leanMore}</div>
-      <div className="">{navbar}</div>
-    </div>
+  <div className="">
+    <div>{state.hideLeanMore ? "" : leanMore}</div>
+    <div className="">{navbar}</div>
   </div>
 );
 
