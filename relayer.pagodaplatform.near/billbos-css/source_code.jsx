@@ -19,7 +19,7 @@ if (!state.theme) {
     theme: styled.div`
         ${font}
         ${tailwindCss}
-        font-family: 'Mona-Sans';
+        font-family: 'Mona Sans', sans-serif;
         font-style: normal;
         font-weight: 400;
         .brand-green {
@@ -87,6 +87,9 @@ if (!state.theme) {
 const Theme = state.theme;
 return (
   <>
-    <Theme>{children}</Theme>
+    <Theme>
+      {children}
+      {JSON.stringify(font)}
+    </Theme>
   </>
 );
