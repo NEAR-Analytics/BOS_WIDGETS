@@ -17,35 +17,49 @@ State.init({
   change_term: "",
   change_details: "",
   hover_element: "",
-  show_error_create_form: false,
+  show_error_create_form: "No",
   send_post: false,
 });
 
 const getTimestamp = (date) => new Date(`${date}`).getTime();
 
 const getCreateChangeData = (isCreate) => {
-  return {
-    index: {
-      change: JSON.stringify(
-        {
-          key: "change.near",
-          value: {
-            isCreate,
-            title: state.change_title,
-            topic: state.change_topic,
-            quantity: state.change_quantity,
-            postdate: state.change_postdate,
-            enddate: getTimestamp(state.change_enddate),
-            picture: state.change_picture,
-            term: state.change_term,
-            details: state.change_details,
+  if (
+    state.change_title == "" ||
+    state.change_topic == "" ||
+    state.change_quantity == "" ||
+    state.change_postdate == "" ||
+    state.change_enddate == "" ||
+    state.change_picture == "" ||
+    state.change_term == "" ||
+    state.change_details == ""
+  ) {
+    State.update({ show_error_create_form: "" });
+  } else {
+    State.update({ show_error_create_form: "No" });
+    return {
+      index: {
+        change: JSON.stringify(
+          {
+            key: "change.near",
+            value: {
+              isCreate,
+              title: state.change_title,
+              topic: state.change_topic,
+              quantity: state.change_quantity,
+              postdate: state.change_postdate,
+              enddate: getTimestamp(state.change_enddate),
+              picture: state.change_picture,
+              term: state.change_term,
+              details: state.change_details,
+            },
           },
-        },
-        undefined,
-        0
-      ),
-    },
-  };
+          undefined,
+          0
+        ),
+      },
+    };
+  }
 };
 
 if (!state.theme) {
@@ -67,6 +81,19 @@ if (!state.theme) {
 }
 
 const Theme = state.theme;
+
+function makeTitleShort(c_title) {
+  if (c_title.length > 12) {
+    return c_title.slice(0, 12) + "...";
+  }
+  return c_title;
+}
+function makeDetailsShort(c_details) {
+  if (c_details.length > 100) {
+    return c_details.slice(0, 100) + "...";
+  }
+  return c_details;
+}
 
 let changeList = Social.index("change", "change.near");
 let changeBox = props;
@@ -124,11 +151,11 @@ const renderChangeData = () => {
         <div className="p-3">
           <a href="#">
             <div className="mb-2 text-2xl font-bold tracking-tight text-center text-green-900">
-              {changeBox.value.title}
+              {makeTitleShort(changeBox.value.title)}
             </div>
           </a>
           <div className="mb-3 font-normal text-center text-green-600">
-            {changeBox.value.details}
+            {makeDetailsShort(changeBox.value.details)}
           </div>
           <div className="text-center">
             <a
@@ -211,11 +238,11 @@ const renderMyData = () => {
           <div className="p-3">
             <a href="#">
               <div className="mb-2 text-2xl font-bold tracking-tight text-center text-green-900">
-                {changeBox.value.title}
+                {makeTitleShort(changeBox.value.title)}
               </div>
             </a>
             <div className="mb-3 font-normal text-center text-green-600">
-              {changeBox.value.details}
+              {makeDetailsShort(changeBox.value.details)}
             </div>
             <div className="text-center">
               <a
@@ -239,7 +266,7 @@ const renderMyData = () => {
                   });
                 }}
               >
-                รณรงค์เรื่องนี้
+                ดูเรื่องนี้
                 <svg
                   className="rtl:rotate-180 w-3.5 h-3.5 ms-2"
                   aria-hidden="true"
@@ -424,6 +451,9 @@ return (
                 #create_box, #home_box, #details_box, #support_box, #my_box{
                     display:none;
                 }
+                #start_change{
+                    text-decoration: underline;
+                }
                 ${font}
                 ${css}
                 `,
@@ -448,6 +478,9 @@ return (
                 }
                 #create_box, #home_box, #details_box, #start_box, #my_box{
                     display:none;
+                }
+                #start_change{
+                    text-decoration: underline;
                 }
                 ${font}
                 ${css}
@@ -507,9 +540,6 @@ return (
             State.update({ change_title: e.target.value });
           }}
         />
-        {!state.change_title && state.show_error_create_form && (
-          <p className="text-red-500">กรุณากรอก "หัวข้อ"</p>
-        )}
       </div>
       <div className="mb-4">
         <label
@@ -526,11 +556,11 @@ return (
             State.update({ change_topic: e.target.value });
           }}
         >
-          <option value="na">ไม่ระบุประเด็น</option>
-          <option value="issues_1">เรื่องเพศ</option>
-          <option value="issues_2">กฏหมาย / การเมือง</option>
-          <option value="issues_3">การศึกษา</option>
-          <option value="issues_other">ประเด็นอื่นๆ</option>
+          <option value="ไม่ระบุประเด็น">ไม่ระบุประเด็น</option>
+          <option value="เรื่องเพศ">เรื่องเพศ</option>
+          <option value="กฏหมาย / การเมือง">กฏหมาย / การเมือง</option>
+          <option value="การศึกษา">การศึกษา</option>
+          <option value="ประเด็นอื่นๆ">ประเด็นอื่นๆ</option>
         </select>
       </div>
       <div className="mb-4">
@@ -611,7 +641,7 @@ return (
       <div className="mb-4">
         <input
           id="change_term"
-          type="checkbox"
+          type="radio"
           value="yes"
           className="w-4 h-4 text-green-600 bg-gray-100 border-gray-300 rounded focus:ring-green-500"
           onChange={(e) => {
@@ -631,7 +661,11 @@ return (
       <div className="mb-4 text-center">
         <CommitButton
           type="submit"
-          className="text-white bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
+          className={
+            !state.show_error_create_form
+              ? "text-white bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
+              : "text-white bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
+          }
           data={getCreateChangeData(false)}
           onMouseEnter={() => {
             State.update({ hover_element: "Yes" });
@@ -643,7 +677,6 @@ return (
             State.update({
               send_post: true,
             });
-            createCampaign();
           }}
         >
           เริ่มการรณรงค์
@@ -738,7 +771,7 @@ return (
           <div className="mb-4">
             <input
               id="change_term"
-              type="checkbox"
+              type="radio"
               value=""
               className="w-4 h-4 text-green-600 bg-gray-100 border-gray-300 rounded focus:ring-green-500"
             />
