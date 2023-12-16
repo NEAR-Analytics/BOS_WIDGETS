@@ -55,15 +55,6 @@ if (
         State.update({ chainId: null });
         switchEthereumChain(DEFAULT_CHAIN_ID);
       }
-
-      // const config = getNetworkConfig(chainId);
-      // if (!config) {
-      //   console.log(`Unsupport chain, chainId: ${chainId}`);
-      //   State.update({ isChainSupported: false });
-      //   switchEthereumChain(DEFAULT_CHAIN_ID);
-      // } else {
-      //   State.update({ chainId, isChainSupported: true });
-      // }
     });
 }
 
