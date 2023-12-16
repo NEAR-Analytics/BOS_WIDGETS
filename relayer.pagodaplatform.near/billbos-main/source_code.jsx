@@ -68,7 +68,17 @@ function tabComponent() {
   if (state.tabSelect == 0) {
     return <div>0</div>;
   } else if (state.tabSelect == 1) {
-    return <div>1</div>;
+    return (
+      <div className="grid grid-cols-3">
+        {Array.from({ length: 3 }).map((_, index) => {
+          return (
+            <div key={index}>
+              <Widget src="jimmy-ez.near/widget/billbos-ads-card" props={{}} />
+            </div>
+          );
+        })}
+      </div>
+    );
   } else if (state.tabSelect == 2) {
     return <div>2</div>;
   }
