@@ -4,29 +4,15 @@ const ModalOverlay = styled.div`
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(12, 12, 12, 0.6);
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 100;
 `;
 
-const ModalContent = styled.div`
-  background-color: white;
-  padding: 20px;
-  border-radius: 4px;
-`;
-
-const ModalTitle = styled.h3`
-  margin-bottom: 10px;
-`;
-
-const Button = styled.button`
-  background-color: red;
-`;
-
 State.init({
-  isOpenModal: false,
+  isOpenModal: true,
 });
 
 const onOpen = () => {
@@ -46,24 +32,57 @@ const Modal = ({ isOpen, onClose, children }) => {
 
   return (
     <ModalOverlay>
-      <ModalContent>
-        <Button onClick={onClose}>X</Button>
-        <ModalTitle>Save Confirmation</ModalTitle>
-        {children}
-      </ModalContent>
+      <div
+        style={{
+          width: "484px",
+        }}
+        class="bg-white rounded-xl py-4"
+      >
+        <div class="flex flex-row justify-between items-start border-b pb-4 px-4">
+          <div class="flex flex-col">
+            <p class="text-lg">Create Ads</p>
+            <p class="text-sm tertiary-text">
+              {"Unlock the power of onchain data for Web3 Ads"}
+            </p>
+          </div>
+          <svg
+            class="cursor-pointer"
+            onClick={() => onClose()}
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M6 18L18 6M6 6L18 18"
+              stroke="#808080"
+              stroke-width="1.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+        </div>
+        <div class="flex flex-row justify-between items-start pb-4 px-4 mt-4">
+          <p class="text-sm tertiary-text">Ads Type</p>
+        </div>
+      </div>
     </ModalOverlay>
   );
 };
 
 const content = (
   <div>
-    <p>My Content</p>
+    <button onClick={onOpen}>Open Modal</button>
+    <Modal isOpen={state.isOpenModal} onClose={onClose} children={modalBody} />
   </div>
 );
 
 return (
-  <div style={{ height: "40vh" }}>
-    <button onClick={onOpen}>Open Modal</button>
-    <Modal isOpen={state.isOpenModal} onClose={onClose} children={content} />
-  </div>
+  <Widget
+    src="porx-dev.near/widget/billbos-css"
+    props={{
+      children: content,
+    }}
+  />
 );
