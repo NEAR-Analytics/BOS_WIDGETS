@@ -132,7 +132,7 @@ const renderChangeData = () => {
   return changeList.map((changeBox, index) => {
     return (
       <div className="max-w-sm bg-white border border-gray-200 rounded-lg shadow mr-2 ml-2 mb-2 mt-2 p-3">
-        <a href="#">
+        <a className="flex items-center justify-center" href="#">
           <img
             className="rounded-t-lg h-60"
             src={picurl(changeBox.value.picture)}
@@ -219,7 +219,7 @@ const renderMyData = () => {
     if (changeBox.accountId == context.accountId)
       return (
         <div className="max-w-sm bg-white border border-gray-200 rounded-lg shadow mr-2 ml-2 mb-2 mt-2 p-3">
-          <a href="#">
+          <a className="flex items-center justify-center" href="#">
             <img
               className="rounded-t-lg h-60"
               src={picurl(changeBox.value.picture)}
