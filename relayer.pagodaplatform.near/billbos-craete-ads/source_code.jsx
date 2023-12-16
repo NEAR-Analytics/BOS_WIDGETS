@@ -96,7 +96,7 @@ const Modal = ({ isOpen, onClose, children }) => {
         style={{
           width: "484px",
         }}
-        class="bg-white rounded-xl py-4"
+        class="bg-white rounded-xl pt-4"
       >
         <div class="flex flex-row justify-between items-start border-b pb-4 px-4 ">
           <div class="flex flex-col">
@@ -192,10 +192,17 @@ const Modal = ({ isOpen, onClose, children }) => {
           </StyledSelect>
           <p class="text-sm secondary-text mt-4">Amount</p>
           <StyledInput>
-            <input class="w-full border px-2 py-2 rounded-lg" />
+            <input type="number" class="w-full border px-2 py-2 rounded-lg" />
           </StyledInput>
         </div>
-        <p>test</p>
+        <div class="grid grid-cols-2 gap-4 px-8 py-4">
+          <button class="px-6 py-2 green-text border-1 border-green-300 rounded-lg">
+            Cancel
+          </button>
+          <button class="px-6 py-2 text-white font-semibold brand-green rounded-lg">
+            Create
+          </button>
+        </div>
       </div>
     </ModalOverlay>
   );
