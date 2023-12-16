@@ -2,7 +2,7 @@ const { tokenImage, chainName, amount, tokenName } = props;
 
 const main = (
   <div
-    className=" rounded-2xl pb-4"
+    className="shadow-sm rounded-2xl pb-5"
     style={{ width: "302px" }}
     // style={{ height: "406px", width: "302px" }}
   >
@@ -27,7 +27,7 @@ const main = (
           <span className="text-lg font-medium">{tokenName || "USDT"}</span>
         </p>
       </div>
-      <div className="text-xs tertiary-text mt-4">
+      <div className="text-xs tertiary-text mt-5">
         <p>Total Rewards received : {amount || "12033.00"} USDT</p>
       </div>
       <div className="w-full px-4 flex justify-center mt-4">
