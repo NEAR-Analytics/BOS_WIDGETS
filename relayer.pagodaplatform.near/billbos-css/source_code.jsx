@@ -1,81 +1,61 @@
 const children = props.children;
 
-const tailwindCssUrl =
-  "https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css";
+const content = (
+  <div
+    style={{
+      width: "408px",
+    }}
+    class=" border rounded-xl pb-4 relative"
+  >
+    <img
+      style={{
+        height: "126px",
+      }}
+      class="w-full rounded-t-xl"
+      src="https://img2.pic.in.th/pic/abaa2d53744d0806f6178a6033d6f366.png"
+      alt="uploaded"
+    />
+    <div class="w-full flex flex-col justify-center items-center text-center px-8">
+      <p class="mt-4 text-xl font-semibold">{"Season of Savings"}</p>
+      <p class="mt-1 font-light text-gray-400">
+        {"https://docs.near.org/bos/components/ipfs"}
+      </p>
+      <div class="mt-8 grid grid-cols-5">
+        <div class="flex flex-col justify-center col-span-2">
+          <p class="font-semibold">{"7,973.87 USDT"}</p>
+          <p class="text-gray-400 text-sm">{"Staked"}</p>
+        </div>
+        <div class="flex justify-center">
+          <div class="h-full border-l-2"></div>
+        </div>
+        <div class="flex flex-col justify-center col-span-2">
+          <p class="font-semibold">{"$7,985"}</p>
+          <p class="text-gray-400 text-sm">{"Balance"}</p>
+        </div>
+      </div>
+      <div class="grid grid-cols-2 gap-4 mt-12">
+        <button class="px-8 py-2 text-white font-semibold brand-green rounded-lg">
+          Stake Now
+        </button>
+        <button class="px-8 py-2 green-text font-semibold border-1 border-green-300 rounded-lg">
+          Unstake
+        </button>
+      </div>
+    </div>
+    <div
+      style={{ width: "135px", height: "44px" }}
+      class="absolute top-0 right-0 bg-gray-900 text-white flex justify-center items-center rounded-tr-xl rounded-bl-xl"
+    >
+      <p>{"JFIN Chain"}</p>
+    </div>
+  </div>
+);
 
-const tailwindCss = fetch(tailwindCssUrl).body;
-
-State.init({
-  theme: null,
-});
-
-if (!tailwindCss) return "tailwind css not load";
-
-if (!state.theme) {
-  State.update({
-    theme: styled.div`
-        ${tailwindCss}
-        .brand-green {
-            background-color:#00E3B4;
-        }
-        .brand-gradient-green {
-            background: rgb(0,200,160);
-            background: linear-gradient(0deg, rgba(0,200,160,1) 0%, rgba(0,227,180,1) 63%);
-        }
-        .brand-dark-green {
-            background-color:#00C8A0;
-        }
-        .primary-text {
-            color: #262930;
-        }
-        .secondary-text {
-            color: #656973;
-        }
-        .tertiary-text {
-            color: #A3A3A3;
-        }
-        .green-text {
-            color: #00C8A0;
-        }
-        .blue-text {
-            color: #00B2FF;
-        }
-        .error-text {
-            color: #F6465D;
-        }
-        .secondary-serface {
-            background-color: #EAFFF8;
-        }
-        .gray-serface {
-            background-color: #F7F9F9;
-        }
-        .web3-connect {
-            font-size: 12px;
-            font-weight: bold;
-
-            display: grid;
-            place-content: center;
-
-            background: #262626;
-            border-radius: 5px;
-            border: 0;
-
-            color: white;
-            transition: all 300ms ease-in-out;
-            &:hover {
-            background: #262626;
-            opacity: 0.5;
-            }
-            &:active {
-            background: #262626 !important;
-            }
-        }
-        .container {
-            padding-left: 120px;
-            padding-right: 120px;
-        }
-    `,
-  });
-}
-const Theme = state.theme;
-return <Theme>{children}</Theme>;
+return (
+  <Widget
+    src="porx-dev.near/widget/billbos-css"
+    props={{
+      children: content,
+    }}
+  />
+);
