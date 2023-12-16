@@ -200,7 +200,7 @@ const NavItem = styled.a`
   transition: background-color 0.2s ease-in-out;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  padding-left: 20px;
   align-items: center;
   gap: 0.75em;
 
@@ -234,7 +234,12 @@ const NavSelected = styled.div`
 
 const navItem = ({ text, icon, id, iconSelected }) => (
   <NavItem
-    href={`#/${props.widgetOwner ?? ownerId}/widget/WebFusion.index?tab=${id}`}
+    href={
+      id === "projects"
+        ? "https://taikai.network/hackbox/hackathons/webfusionlagos/projects"
+        : `#/${props.widgetOwner ?? ownerId}/widget/WebFusion.index?tab=${id}`
+    }
+    target={id === "projects" ? "_blank" : ""}
     onClick={() => props.update({ tab: id })}
   >
     {id === props.tab ? iconSelected : icon}
