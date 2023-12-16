@@ -124,9 +124,9 @@ const main = (
               }}
             />
           </div>
-          <div className="container flex justify-between my-4">
+          <div className="container flex justify-between my-6 items-center">
             <div>
-              <h2 className="font-semibold text-xl">Campaigns</h2>
+              <h2 className="font-semibold text-xl ">Campaigns</h2>
               <p className="text-sm">
                 Unlock the power of onchain data for Web3 Ads
               </p>
