@@ -30,8 +30,8 @@ const main = (
       <div className="text-xs tertiary-text mt-5">
         <p>Total Rewards received : {amount || "12033.00"} USDT</p>
       </div>
-      <div className="w-full px-4 flex justify-center mt-4">
-        <div className="px-4 py-1 brand-green rounded-xl text-white font-semibold">
+      <div className="w-full flex justify-center mt-4">
+        <div className="px-6 py-2 brand-green rounded-xl text-white font-semibold text-sm">
           Claim Rewards
         </div>
       </div>
