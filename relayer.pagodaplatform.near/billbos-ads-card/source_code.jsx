@@ -19,15 +19,20 @@ const content = (
     <p class="mt-1 font-light text-gray-400 px-8">
       {"https://docs.near.org/bos/components/ipfs"}
     </p>
-    <div class="mt-4 flex flex-row">
+    <div class="mt-4 flex flex-row gap-4">
       <div>
-        <p>{"7973.87 USDT"}</p>
-        <p>{"Staked"}</p>
+        <p class="font-semibold">{"7,973.87 USDT"}</p>
+        <p class="text-gray-400 text-sm">{"Staked"}</p>
       </div>
+      <div class="border-l-2"></div>
       <div>
-        <p>{"7973.87 USDT"}</p>
-        <p>{"Staked"}</p>
+        <p class="font-semibold">{"$7,985"}</p>
+        <p class="text-gray-400 text-sm">{"Balance"}</p>
       </div>
+    </div>
+    <div>
+      <button>Stake Now</button>
+      <button>Unstake</button>
     </div>
   </div>
 );
