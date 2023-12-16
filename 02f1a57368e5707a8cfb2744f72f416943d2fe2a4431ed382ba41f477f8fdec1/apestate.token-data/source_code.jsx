@@ -29,7 +29,7 @@ const getLandBalance = (tokenId, receiver) => {
 
   return Ethers.provider()
     .call({
-      to: "0x0447521f7357090AE55188DD1ea3DE96158B2C35",
+      to: "0x02a28267A27545D2c4B5BB700d04319117154959",
       data: encodedBalanceData,
     })
     .then((rawBalance) => {
