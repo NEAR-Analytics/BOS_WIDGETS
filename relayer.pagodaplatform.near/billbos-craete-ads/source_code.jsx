@@ -117,7 +117,7 @@ const Modal = ({ isOpen, onClose, children }) => {
           </svg>
         </div>
         <div class="flex flex-col justify-between items-start pb-4 px-4 mt-4 ">
-          <p class="text-sm tertiary-text">Ads Type</p>
+          <p class="text-sm secondary-text">Ads Type</p>
           <StyledSelect>
             <select
               class="w-full border px-2 py-2 mt-2 rounded-lg"
@@ -128,17 +128,31 @@ const Modal = ({ isOpen, onClose, children }) => {
               <option value="interactive">Interactive Ads</option>
             </select>
           </StyledSelect>
-          <p class="text-sm tertiary-text mt-4">URL</p>
+          <p class="text-sm secondary-text mt-4">URL</p>
           <StyledInput>
             <input class="w-full border px-2 py-2 rounded-lg" />
           </StyledInput>
-          <p class="text-sm tertiary-text mt-4">Image Ads</p>
-          <div class="border flex flex-row justify-between rounded-lg px-2 py-2 w-full">
+          <p class="text-sm secondary-text mt-4">Image Ads</p>
+          <div class="border flex flex-row justify-between rounded-lg px-2 py-2 w-full cursor-pointer">
             <p class="text-sm tertiary-text py-1">{"No File Choosen"}</p>
-            <button class="border text-xs px-2 rounded-lg bg-gray-100">
+            <button class="border text-xs px-2 rounded-lg bg-gray-100 hover:bg-gray-200">
               {"Choose file"}
             </button>
           </div>
+          <p class="text-xs tertiary-text py-1">
+            {"JPG, PNG or GIF format, 5MB max file, use a 728x90."}
+          </p>
+          <p class="text-sm secondary-text mt-4">Network</p>
+          <StyledSelect>
+            <select
+              class="w-full border px-2 py-2 mt-2 rounded-lg"
+              id="cars"
+              name="cars"
+            >
+              <option value="redirect">URL Redirect</option>
+              <option value="interactive">Interactive Ads</option>
+            </select>
+          </StyledSelect>
         </div>
       </div>
     </ModalOverlay>
