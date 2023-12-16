@@ -11,6 +11,18 @@ const ModalOverlay = styled.div`
   z-index: 100;
 `;
 
+const StyledInput = styled.div`
+  position: relative;
+  width: 100%;
+  input {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    outline: none;
+    cursor: pointer;
+  }
+`;
+
 const StyledSelect = styled.div`
   display: inline-block;
   position: relative;
@@ -31,6 +43,24 @@ const StyledSelect = styled.div`
     right: 10px;
     transform: translateY(-50%);
     pointer-events: none;
+  }
+
+  select option {
+    background-color: #fff;
+    color: #333;
+    padding: 8px;
+    font-size: 14px;
+    border-bottom: 1px solid #ccc;
+
+    /* Hover state */
+    &:hover {
+      background-color: #f0f0f0;
+    }
+
+    /* Selected state */
+    &:checked {
+      background-color: #e0e0e0;
+    }
   }
 `;
 
@@ -98,6 +128,14 @@ const Modal = ({ isOpen, onClose, children }) => {
               <option value="interactive">Interactive Ads</option>
             </select>
           </StyledSelect>
+          <p class="text-sm tertiary-text mt-4">URL</p>
+          <StyledInput>
+            <input class="w-full border px-2 py-2 rounded-lg" />
+          </StyledInput>
+          <p class="text-sm tertiary-text mt-4">Image Ads</p>
+          <StyledInput>
+            <input class="w-full border px-2 py-2 rounded-lg" />
+          </StyledInput>
         </div>
       </div>
     </ModalOverlay>
