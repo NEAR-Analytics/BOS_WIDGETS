@@ -71,8 +71,8 @@ if (!state.theme) {
             }
         }
         .container {
-            padding-left: 150px;
-            padding-right: 150px;
+            padding-left: 120px;
+            padding-right: 120px;
         }
     `,
   });
