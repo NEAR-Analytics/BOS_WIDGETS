@@ -1,8 +1,27 @@
 State.init({
   chainId: null,
   walletAddress: null,
+  balance: null,
   walletConnected: false,
   tabSelect: 0,
+  chains: {
+    25925: {
+      name: "Bitkub Chain Testnet",
+      id: 25925,
+      image:
+        "https://ipfs.near.social/ipfs/bafkreicksbcmv5i7ezaw5b2424vliuegcbgfckjc4qt73eql67pdmrvvfu",
+    },
+    96: {
+      name: "Bitkub Chain Mainnet",
+      id: 96,
+    },
+    3501: {
+      name: "JFIN Chain",
+      id: 3501,
+      image:
+        "https://ipfs.near.social/ipfs/bafkreia4w3mcfsrvcoh3r44x5nxrmarrt5xr3nta7dnw7pjfufd3b3anki",
+    },
+  },
 });
 
 const DEFAULT_CHAIN_ID = 25925;
@@ -57,9 +76,13 @@ function checkProvider() {
       ?.then((address) => {
         State.update({ walletAddress: address });
       });
+    provider
+      .getSigner()
+      ?.getBalance()
+      .then((balance) => State.update({ balance: balance }));
     State.update({ walletConnected: true });
   } else {
-    State.update({ walletConnected: false });
+    State.update({ walletConnected: false, balance: null });
   }
 }
 checkProvider();
@@ -96,6 +119,7 @@ const main = (
               walletAddress: state.walletAddress,
               chainId: state.chainId,
               setTabSelect: (index) => setTabSelect(index),
+              chains: state.chains,
             }}
           />
           <div className="container gray-surface min-h-screen w-full">
