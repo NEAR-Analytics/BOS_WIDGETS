@@ -70,8 +70,17 @@ if (!state.theme) {
             background: #262626 !important;
             }
         }
+        .container {
+            padding-left: 150px;
+            padding-right: 150px;
+        }
     `,
   });
 }
 const Theme = state.theme;
-return <Theme>{children}</Theme>;
+return (
+  <Theme>
+    {children}
+    <div className="bg-red-400 container">asd</div>
+  </Theme>
+);
