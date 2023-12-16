@@ -108,7 +108,7 @@ function tabComponent() {
 }
 
 const main = (
-  <div className="relative">
+  <div className="relative gray-surface ">
     {JSON.stringify(state)}
     <div>
       {state.walletConnected ? (
@@ -124,7 +124,21 @@ const main = (
               }}
             />
           </div>
-          <div className="container gray-surface min-h-screen w-full">
+          <div className="container flex justify-between my-4">
+            <div>
+              <h2 className="font-semibold text-xl">Campaigns</h2>
+              <p className="text-sm">
+                Unlock the power of onchain data for Web3 Ads
+              </p>
+            </div>
+            <div>
+              <Widget
+                src="jimmy-ez.near/widget/billbos-craete-ads"
+                props={{}}
+              />
+            </div>
+          </div>
+          <div className="container min-h-screen w-full">
             <div>{tabComponent()}</div>
           </div>
         </div>
