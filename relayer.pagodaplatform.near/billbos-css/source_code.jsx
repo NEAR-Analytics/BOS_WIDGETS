@@ -87,9 +87,6 @@ if (!state.theme) {
 const Theme = state.theme;
 return (
   <>
-    <Theme>
-      {children}
-      {JSON.stringify(font)}
-    </Theme>
+    <Theme>{children}</Theme>
   </>
 );
