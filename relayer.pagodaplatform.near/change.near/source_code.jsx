@@ -19,6 +19,7 @@ State.init({
   hover_element: "",
   show_error_create_form: "No",
   send_post: false,
+  uploading: "คลิกเพื่ออัปโหลดรูปภาพ",
 });
 
 const getTimestamp = (date) => new Date(`${date}`).getTime();
@@ -41,7 +42,7 @@ const getCreateChangeData = (isCreate) => {
       index: {
         change: JSON.stringify(
           {
-            key: "change.near",
+            key: "change.near-vbeta",
             value: {
               isCreate,
               title: state.change_title,
@@ -82,6 +83,8 @@ if (!state.theme) {
 
 const Theme = state.theme;
 
+const picurl = (cid) => `https://ipfs.near.social/ipfs/${cid}`;
+
 function makeTitleShort(c_title) {
   if (c_title.length > 12) {
     return c_title.slice(0, 12) + "...";
@@ -95,9 +98,8 @@ function makeDetailsShort(c_details) {
   return c_details;
 }
 
-let changeList = Social.index("change", "change.near");
+let changeList = Social.index("change", "change.near-vbeta");
 let changeBox = props;
-
 
 let dateFormat = {
   month: "short",
@@ -129,11 +131,11 @@ changeList = changeList.sort((c1, c2) => {
 const renderChangeData = () => {
   return changeList.map((changeBox, index) => {
     return (
-      <div className="max-w-sm bg-white border border-gray-200 rounded-lg shadow mr-2 ml-2 mb-2 mt-2">
+      <div className="max-w-sm bg-white border border-gray-200 rounded-lg shadow mr-2 ml-2 mb-2 mt-2 p-3">
         <a href="#">
           <img
-            className="rounded-t-lg"
-            src="https://podsawee.com/change/wait_pic.jpg"
+            className="rounded-t-lg h-60"
+            src={picurl(changeBox.value.picture)}
             alt=""
           />
         </a>
@@ -216,11 +218,11 @@ const renderMyData = () => {
   return changeList.map((changeBox, index) => {
     if (changeBox.accountId == context.accountId)
       return (
-        <div className="max-w-sm bg-white border border-gray-200 rounded-lg shadow mr-2 ml-2 mb-2 mt-2">
+        <div className="max-w-sm bg-white border border-gray-200 rounded-lg shadow mr-2 ml-2 mb-2 mt-2 p-3">
           <a href="#">
             <img
-              className="rounded-t-lg"
-              src="https://podsawee.com/change/wait_pic.jpg"
+              className="rounded-t-lg h-60"
+              src={picurl(changeBox.value.picture)}
               alt=""
             />
           </a>
@@ -635,14 +637,35 @@ return (
           รูปภาพหน้าปก
           <span className="text-sm text-green-600"> ของประเด็นที่จะรณรงค์</span>
         </label>
-        <input
+        <Files
           className="block p-2.5 w-full text-sm text-green-800 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none"
           id="change_picture"
-          type="file"
-          onChange={(e) => {
-            State.update({ change_picture: e.target.value });
+          multiple={false}
+          accepts={["image/*"]}
+          onChange={(files) => {
+            if (!files || !files.length) return;
+
+            const [body] = files;
+
+            State.update({ uploading: true, cid: null });
+            asyncFetch("https://ipfs.near.social/add", {
+              method: "POST",
+              headers: { Accept: "application/json" },
+              body,
+            }).then(({ body: { cid } }) => {
+              State.update({
+                change_picture: cid,
+                uploading: false,
+              });
+            });
           }}
-        />
+        >
+          {state.uploading
+            ? "คลิกเพื่ออัปโหลดรูปภาพ"
+            : state.change_picture
+            ? "คลิกเพื่อเปลี่ยนรูปภาพ"
+            : buttonText}
+        </Files>
         <div className="mt-1 text-sm text-gray-800" id="change_picture">
           * ขนาดรูปภาพที่เหมาะสม 1920x1080px
         </div>
