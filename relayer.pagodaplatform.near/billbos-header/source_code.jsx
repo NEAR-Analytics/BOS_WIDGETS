@@ -1,3 +1,5 @@
+const { walletAddress, chainId } = props;
+
 State.init({
   hideLeanMore: false,
   navItems: [
@@ -150,8 +152,8 @@ const formatWalletAddres = (wallet) => {
   }`.toLowerCase();
 };
 
-const chainsFormat = (chainId) => {
-  const { name, id, image } = chains[chainId];
+const chainsFormat = (val) => {
+  const { name, id, image } = chains[val];
 
   return (
     <div className="flex justify-center items-center gap-2">
@@ -178,16 +180,14 @@ const navbar = (
     </div>
     <div className="flex text-sm gap-2 ">
       <div className="border border-gray-200 px-2 py-1 rounded-xl flex items-center">
-        {chainsFormat(25925)}
+        {chainsFormat(chainId)}
       </div>
       <div className="border border-gray-400 w-52 grid grid-cols-5 rounded-xl gray-serface ">
         <div className="p-2 items-center flex col-span-2">
           <span>0.000</span>
         </div>
         <div className="border-l border-gray-200 rounded-xl p-2 text-center col-span-3 bg-white">
-          <span>
-            {formatWalletAddres("0x15Df80761aE0bE9E814dC75F996690cf028C4B62")}
-          </span>
+          <span>{formatWalletAddres(walletAddress)}</span>
         </div>
       </div>
     </div>
