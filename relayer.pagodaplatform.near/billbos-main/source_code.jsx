@@ -112,8 +112,11 @@ function tabComponent() {
   } else if (state.tabSelect == 2) {
     return (
       <div>
-        <div style={{ height: "400px" }} className="bg-red-500">
-          <div className="w-96">
+        <div
+          style={{ height: "400px" }}
+          className="bg-black container flex items-center"
+        >
+          <div className="w-96 gap-2 text-white">
             <h2 className="text-4xl font-semibold">
               Generate Ads ID. Earn Crypto Together
             </h2>
