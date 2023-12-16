@@ -133,9 +133,12 @@ const Modal = ({ isOpen, onClose, children }) => {
             <input class="w-full border px-2 py-2 rounded-lg" />
           </StyledInput>
           <p class="text-sm tertiary-text mt-4">Image Ads</p>
-          <StyledInput>
-            <input class="w-full border px-2 py-2 rounded-lg" />
-          </StyledInput>
+          <div class="border flex flex-row justify-between rounded-lg px-2 py-2 w-full">
+            <p class="text-sm tertiary-text py-1">{"No File Choosen"}</p>
+            <button class="border text-xs px-2 rounded-lg bg-gray-100">
+              {"Choose file"}
+            </button>
+          </div>
         </div>
       </div>
     </ModalOverlay>
