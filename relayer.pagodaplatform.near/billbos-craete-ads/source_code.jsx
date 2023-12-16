@@ -44,24 +44,6 @@ const StyledSelect = styled.div`
     transform: translateY(-50%);
     pointer-events: none;
   }
-
-  select option {
-    background-color: #fff;
-    color: #333;
-    padding: 8px;
-    font-size: 14px;
-    border-bottom: 1px solid #ccc;
-
-    /* Hover state */
-    &:hover {
-      background-color: #f0f0f0;
-    }
-
-    /* Selected state */
-    &:checked {
-      background-color: #e0e0e0;
-    }
-  }
 `;
 
 const EndContent = styled.div`
@@ -72,7 +54,7 @@ const EndContent = styled.div`
 `;
 
 State.init({
-  isOpenModal: true,
+  isOpenModal: false,
 });
 
 const onOpen = () => {
@@ -89,7 +71,6 @@ const onClose = () => {
 
 const Modal = ({ isOpen, onClose, children }) => {
   if (!isOpen) return null;
-
   return (
     <ModalOverlay>
       <div
