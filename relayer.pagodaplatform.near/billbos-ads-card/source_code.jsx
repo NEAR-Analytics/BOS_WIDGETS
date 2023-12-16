@@ -5,13 +5,13 @@ const content = (
     style={{
       width: "408px",
     }}
-    class=" border rounded-lg pb-4"
+    class=" border rounded-xl pb-4 relative"
   >
     <img
       style={{
         height: "126px",
       }}
-      class="w-full rounded-t-lg"
+      class="w-full rounded-t-xl"
       src="https://img2.pic.in.th/pic/abaa2d53744d0806f6178a6033d6f366.png"
       alt="uploaded"
     />
@@ -41,6 +41,23 @@ const content = (
           Unstake
         </button>
       </div>
+    </div>
+    <div
+      style={{ width: "135px", height: "44px" }}
+      class={`
+      absolute 
+      top-0 
+      right-0 
+      bg-gray-900 
+      text-white 
+      flex 
+      justify-center 
+      items-center
+      rounded-tr-xl
+      rounded-bl-xl
+      `}
+    >
+      <p>{"JFIN Chain"}</p>
     </div>
   </div>
 );
