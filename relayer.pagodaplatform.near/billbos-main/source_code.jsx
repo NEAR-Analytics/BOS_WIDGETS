@@ -91,6 +91,6 @@ return (
         <Widget src="porx-dev.near/widget/billbos-authen" props={{}} />
       )}
     </div>
-    <div className="container">{tabComponent()}</div>
+    <div className="container gray-surface">{tabComponent()}</div>
   </div>
 );
