@@ -8,11 +8,10 @@ const { metadata, payload, handle, permissions } = props;
 const CommunityBoardPage = ({ handle, permissions }) => {
   return (
     <Widget
-      src="megha19.near/widget/devhub.entity.addon.kanban.configurator"
+      src="megha19.near/widget/devhub.entity.addon.kanban.Configurator"
       props={{
         communityHandle: handle, // rather than fetching again via the handle
         link: href({
-          // do we need a link?
           widgetSrc: "megha19.near/widget/app",
           params: { page: "community", handle },
         }),
