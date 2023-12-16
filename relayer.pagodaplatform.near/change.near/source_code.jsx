@@ -20,6 +20,7 @@ State.init({
   show_error_create_form: "No",
   send_post: false,
   uploading: "คลิกเพื่ออัปโหลดรูปภาพ",
+  title_now: "",
 });
 
 const getTimestamp = (date) => new Date(`${date}`).getTime();
@@ -187,6 +188,7 @@ const renderChangeData = () => {
                         ${font}
                         ${css}
                         `,
+                  title_now: changeBox.value.title,
                 });
               }}
             >
@@ -274,6 +276,7 @@ const renderMyData = () => {
                         ${font}
                         ${css}
                         `,
+                    title_now: changeBox.value.title,
                   });
                 }}
               >
@@ -294,6 +297,151 @@ const renderMyData = () => {
                   />
                 </svg>
               </a>
+            </div>
+          </div>
+        </div>
+      );
+  });
+};
+
+const rendereachData = () => {
+  return changeList.map((changeBox, index) => {
+    if (changeBox.value.title == state.title_now)
+      return (
+        <div className="w-full p-4 text-center bg-white sm:p-8">
+          <div className="flex flex-col items-center justify-center mb-5">
+            <img
+              className="rounded-t-lg max-w-2xl "
+              src={picurl(changeBox.value.picture)}
+              alt=""
+            />
+          </div>
+          <div className="mb-2 text-3xl font-bold text-green-800">
+            {changeBox.value.title}
+          </div>
+          <div className="flex justify-center max-w-screen-xl grid-cols-2 gap-8 p-4 mx-auto text-gray-900">
+            <div className="flex flex-col items-center justify-center mr-3 ml-3">
+              <div className="mb-2 text-2xl text-green-700 font-extrabold">
+                1,234 / {changeBox.value.quantity} คน
+              </div>
+              <div className="text-green-500">ผู้ร่วมสนับสนุนประเด็น</div>
+            </div>
+            <div className="flex flex-col items-center justify-center mr-3 ml-3">
+              <div className="mb-2 text-2xl text-green-700 font-extrabold">
+                {new Date(changeBox.value.enddate).toLocaleDateString(
+                  [],
+                  dateFormat
+                )}
+              </div>
+              <div className="text-green-500">วันที่สิ้นสุด</div>
+            </div>
+            <div className="flex flex-col items-center justify-center mr-3 ml-3">
+              <div className="mb-2 text-2xl text-green-700 font-extrabold">
+                {changeBox.value.topic}
+              </div>
+              <div className="text-green-500">ประเภทของประเด็น</div>
+            </div>
+          </div>
+
+          <p className="mb-2 text-base text-green-500 sm:text-lg">
+            {changeBox.value.details}
+          </p>
+          <div className="flex items-center justify-center mt-6 space-x-3 mb-5">
+            <img
+              className="w-6 h-6 rounded-full"
+              src={`https://i.near.social/magic/thumbnail/https://near.social/magic/img/account/${changeBox.accountId}`}
+              alt="profile picture"
+            />
+
+            <div className="flex items-center divide-x-2 rtl:divide-x-reverse divide-gray-500">
+              <div className="pe-3 font-medium text-green-900">
+                {changeBox.accountId}
+              </div>
+              <div className="ps-3 text-sm text-green-500">
+                {new Date(changeBox.value.postdate).toLocaleDateString(
+                  [],
+                  dateFormat
+                )}
+              </div>
+            </div>
+          </div>
+          <div className="h-px bg-gray-200 border-0"></div>
+          <div className="mt-5 mb-5 max-w-xl mx-auto">
+            <div className="text-center text-2xl mb-10 text-green-800">
+              ร่วมลงชื่อสนับสนุนการรณรงค์
+            </div>
+            <div className="mb-4">
+              <label
+                for="change_details"
+                className="block mb-2 font-medium text-lg text-green-800"
+              >
+                เหตุผล
+                <span className="text-sm text-green-600">
+                  {" "}
+                  ของการลงชื่อสนันสนุน
+                </span>
+              </label>
+              <textarea
+                id="change_details"
+                rows="4"
+                className="block p-2.5 w-full text-sm text-green-800 bg-gray-50 rounded-lg border border-green-300 focus:ring-green-500 focus:border-green-500"
+                placeholder="ข้อความของคุณ ..."
+              ></textarea>
+            </div>
+
+            <div className="mb-4">
+              <input
+                id="change_term"
+                type="radio"
+                value=""
+                className="w-4 h-4 text-green-600 bg-gray-100 border-gray-300 rounded focus:ring-green-500"
+              />
+              <label
+                for="change_term"
+                className="ms-2 text-sm font-medium text-green-900"
+              >
+                ฉันยอมรับ{" "}
+                <a href="#" className="text-green-600 hover:underline">
+                  ข้อกำหนดและเงื่อนไข
+                </a>
+              </label>
+            </div>
+
+            <div className="mb-4 text-center">
+              <CommitButton
+                type="submit"
+                className="text-white bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
+              >
+                สนันสนุนประเด็นนี้
+              </CommitButton>
+            </div>
+          </div>
+          <div className="h-px bg-gray-200 border-0"></div>
+          <div className="mt-5 mb-5 max-w-xl mx-auto">
+            <div className="text-center text-2xl mb-10 text-green-800">
+              รายชื่อและคอมเม้นของผู้ร่วมลงชื่อสนับสนุนการรณรงค์
+            </div>
+
+            <div className="text-left boarder shadow p-3">
+              <div className="flex items-center mb-4">
+                <img
+                  className="w-10 h-10 me-4 rounded-full"
+                  src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/michael-gouch.png"
+                  alt=""
+                />
+                <div className="font-medium">
+                  <p>
+                    ชื่อผู้สนับสนุน{" "}
+                    <div
+                      datetime="2014-08-16 19:00"
+                      className="block text-sm text-gray-500"
+                    >
+                      สนับสนุนเมื่อวันที่
+                    </div>
+                  </p>
+                </div>
+              </div>
+              <p className="mb-2 text-gray-500">คอมเม้นของผู้สนับสนุน</p>
             </div>
           </div>
         </div>
@@ -714,7 +862,6 @@ return (
           เริ่มการรณรงค์
         </CommitButton>
       </div>
-       
     </div>
     <div id="start_box" className="mt-10 mb-10">
       <div className="text-center text-4xl mb-10 text-green-800">
@@ -729,133 +876,7 @@ return (
       <div className=" flex flex-wrap justify-center">{renderMyData()}</div>
     </div>
     <div id="details_box" className="mt-10 mb-10">
-      <div className="w-full p-4 text-center bg-white sm:p-8">
-        <div className="flex flex-col items-center justify-center mb-5">
-          <img
-            className="rounded-t-lg max-w-2xl "
-            src="https://wallpaperset.com/w/full/3/2/a/458324.jpg"
-            alt=""
-          />
-        </div>
-        <div className="mb-2 text-3xl font-bold text-green-800">
-          ชื่อประเด็นที่จะรณรงค์
-        </div>
-        <div className="flex justify-center max-w-screen-xl grid-cols-2 gap-8 p-4 mx-auto text-gray-900">
-          <div className="flex flex-col items-center justify-center mr-3 ml-3">
-            <div className="mb-2 text-2xl text-green-700 font-extrabold">
-              1,234 / 2,000 คน
-            </div>
-            <div className="text-green-500">ผู้ร่วมสนับสนุนประเด็น</div>
-          </div>
-          <div className="flex flex-col items-center justify-center mr-3 ml-3">
-            <div className="mb-2 text-2xl text-green-700 font-extrabold">
-              07 ตุลาคม 2567
-            </div>
-            <div className="text-green-500">วันที่สิ้นสุด</div>
-          </div>
-          <div className="flex flex-col items-center justify-center mr-3 ml-3">
-            <div className="mb-2 text-2xl text-green-700 font-extrabold">
-              การศึกษา
-            </div>
-            <div className="text-green-500">ประเภทของประเด็น</div>
-          </div>
-        </div>
-
-        <p className="mb-2 text-base text-green-500 sm:text-lg">
-          รายละเอียดเรื่องที่จะรณรงค์
-        </p>
-        <div className="flex items-center justify-center mt-6 space-x-3 mb-5">
-          <img
-            className="w-6 h-6 rounded-full"
-            src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/michael-gouch.png"
-            alt="profile picture"
-          />
-
-          <div className="flex items-center divide-x-2 rtl:divide-x-reverse divide-gray-500">
-            <div className="pe-3 font-medium text-green-900">ชื่อคนโพสต์</div>
-            <div className="ps-3 text-sm text-green-500">เวลาที่โพสต์</div>
-          </div>
-        </div>
-        <div className="h-px bg-gray-200 border-0"></div>
-        <div className="mt-5 mb-5 max-w-xl mx-auto">
-          <div className="text-center text-2xl mb-10 text-green-800">
-            ร่วมลงชื่อสนับสนุนการรณรงค์
-          </div>
-          <div className="mb-4">
-            <label
-              for="change_details"
-              className="block mb-2 font-medium text-lg text-green-800"
-            >
-              เหตุผล
-              <span className="text-sm text-green-600">
-                {" "}
-                ของการลงชื่อสนันสนุน
-              </span>
-            </label>
-            <textarea
-              id="change_details"
-              rows="4"
-              className="block p-2.5 w-full text-sm text-green-800 bg-gray-50 rounded-lg border border-green-300 focus:ring-green-500 focus:border-green-500"
-              placeholder="ข้อความของคุณ ..."
-            ></textarea>
-          </div>
-
-          <div className="mb-4">
-            <input
-              id="change_term"
-              type="radio"
-              value=""
-              className="w-4 h-4 text-green-600 bg-gray-100 border-gray-300 rounded focus:ring-green-500"
-            />
-            <label
-              for="change_term"
-              className="ms-2 text-sm font-medium text-green-900"
-            >
-              ฉันยอมรับ{" "}
-              <a href="#" className="text-green-600 hover:underline">
-                ข้อกำหนดและเงื่อนไข
-              </a>
-            </label>
-          </div>
-
-          <div className="mb-4 text-center">
-            <CommitButton
-              type="submit"
-              className="text-white bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
-            >
-              สนันสนุนประเด็นนี้
-            </CommitButton>
-          </div>
-        </div>
-        <div className="h-px bg-gray-200 border-0"></div>
-        <div className="mt-5 mb-5 max-w-xl mx-auto">
-          <div className="text-center text-2xl mb-10 text-green-800">
-            รายชื่อและคอมเม้นของผู้ร่วมลงชื่อสนับสนุนการรณรงค์
-          </div>
-
-          <div className="text-left boarder shadow p-3">
-            <div className="flex items-center mb-4">
-              <img
-                className="w-10 h-10 me-4 rounded-full"
-                src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/michael-gouch.png"
-                alt=""
-              />
-              <div className="font-medium">
-                <p>
-                  ชื่อผู้สนับสนุน{" "}
-                  <div
-                    datetime="2014-08-16 19:00"
-                    className="block text-sm text-gray-500"
-                  >
-                    สนับสนุนเมื่อวันที่
-                  </div>
-                </p>
-              </div>
-            </div>
-            <p className="mb-2 text-gray-500">คอมเม้นของผู้สนับสนุน</p>
-          </div>
-        </div>
-      </div>
+      {rendereachData()}
     </div>
     <div id="support_box" className="mt-10 mb-10">
       <div className="text-center text-4xl mb-10 text-green-800">
