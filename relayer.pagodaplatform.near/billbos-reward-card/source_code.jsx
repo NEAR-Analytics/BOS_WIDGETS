@@ -1,13 +1,19 @@
-const { tokenImage, chainName, amount } = props;
+const { tokenImage, chainName, amount, tokenName } = props;
 
 const main = (
   <div
     className=" bg-red-200 rounded-2xl"
     style={{ height: "406px", width: "302px" }}
   >
-    <div className="flex justify-end rounded-2xl">
-      <div className="bg-black text-white w-32">
+    <div className="flex justify-end ">
+      <div className="bg-black text-white w-32 rounded-tr-2xl rounded-bl-2xl h-11 flex justify-center items-center font-bold">
         <p className="">{chainName || "Test Chain"}</p>
+      </div>
+      <div>
+        <img
+          src="https://ipfs.near.social/ipfs/bafkreif5bafppbk7gtxgghyuetssfobb4z2czhuhh25ywxufdh6b6ngxf4"
+          alt={tokenName || "USDT"}
+        />
       </div>
     </div>
   </div>
