@@ -141,6 +141,16 @@ function tabComponent() {
               />
             </div>
           </div>
+          <div className="flex gap-3">
+            {Array.from({ length: 2 }).map((_, i) => {
+              return (
+                <Widget
+                  src="porx-dev.near/widget/billbos-reward-card"
+                  props={{}}
+                />
+              );
+            })}
+          </div>
         </div>
       </div>
     );
