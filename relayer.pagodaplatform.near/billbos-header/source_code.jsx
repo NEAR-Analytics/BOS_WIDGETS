@@ -165,7 +165,7 @@ const chainsFormat = (val) => {
 
 const navbar = (
   //container
-  <div className=" flex items-center justify-between h-20 ">
+  <div className="container flex items-center justify-between h-20 ">
     <div className="ml-10 flex gap-4 items-center ">
       <div>{billbosLogo}</div>
       {state.navItems
@@ -186,7 +186,7 @@ const navbar = (
       <div className="border border-gray-200 px-2 py-1 rounded-xl flex items-center">
         {chainsFormat(chainId)}
       </div>
-      <div className="border border-gray-400 w-52 grid grid-cols-5 rounded-xl gray-serface ">
+      <div className="border border-gray-400 w-52 grid grid-cols-5 rounded-xl gray-surface ">
         <div className="p-2 items-center flex col-span-2">
           <span>0.000</span>
         </div>
