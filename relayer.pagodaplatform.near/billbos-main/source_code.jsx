@@ -88,7 +88,7 @@ const main = (
               setTabSelect: (index) => setTabSelect(index),
             }}
           />
-          <div className="container gray-surface min-h-screen bg-red-500 w-full">
+          <div className="container gray-surface min-h-screen w-full">
             <div>{tabComponent()}</div>
           </div>
         </div>
