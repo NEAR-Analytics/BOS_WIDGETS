@@ -8,7 +8,44 @@ if (!css && !font) return "Cannot load CSS & Font.";
 
 State.init({
   theme: null,
+  change_title: "",
+  change_topic: "",
+  change_quantity: "",
+  change_postdate: Date.now(),
+  change_enddate: "",
+  change_picture: "",
+  change_term: "",
+  change_details: "",
+  hover_element: "",
+  show_error_create_form: false,
+  send_post: false,
 });
+
+const getTimestamp = (date) => new Date(`${date}`).getTime();
+
+const getCreateChangeData = (isCreate) => {
+  return {
+    index: {
+      change: JSON.stringify(
+        {
+          key: "change.near",
+          value: {
+            isCreate,
+            title: state.change_title,
+            topic: state.change_topic,
+            quantity: state.change_quantity,
+            postdate: state.change_postdate,
+            enddate: getTimestamp(state.change_enddate),
+            picture: state.change_picture,
+            term: state.change_term,
+          },
+        },
+        undefined,
+        0
+      ),
+    },
+  };
+};
 
 if (!state.theme) {
   State.update({
@@ -269,7 +306,14 @@ return (
           type="text"
           id="change_title"
           className="bg-gray-50 border border-green-300 text-green-800 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-2.5"
+          value={state.change_title}
+          onChange={(e) => {
+            State.update({ change_title: e.target.value });
+          }}
         />
+        {!state.change_title && state.show_error_create_form && (
+          <p className="text-red-500">กรุณากรอก "หัวข้อ"</p>
+        )}
       </div>
       <div className="mb-4">
         <label
@@ -282,6 +326,9 @@ return (
         <select
           id="change_topic"
           className="bg-gray-50 border border-green-300 text-green-600 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-2.5"
+          onChange={(e) => {
+            State.update({ change_topic: e.target.value });
+          }}
         >
           <option value="na">ไม่ระบุประเด็น</option>
           <option value="issues_1">เรื่องเพศ</option>
@@ -302,11 +349,15 @@ return (
           type="number"
           id="change_quantity"
           className="bg-gray-50 border border-green-300 text-green-800 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-2.5"
+          value={state.change_quantity}
+          onChange={(e) => {
+            State.update({ change_quantity: e.target.value });
+          }}
         />
       </div>
       <div className="mb-4">
         <label
-          for="change_quantity"
+          for="change_enddate"
           className="block mb-2 text-lg font-medium text-green-800 "
         >
           วันที่สิ้นสุด
@@ -314,8 +365,12 @@ return (
         </label>
         <input
           type="date"
-          id="change_quantity"
+          id="change_enddate"
           className="bg-gray-50 border border-green-300 text-green-800 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-2.5"
+          value={state.change_enddate}
+          onChange={(e) => {
+            State.update({ change_enddate: e.target.value });
+          }}
         />
       </div>
       <div className="mb-4">
@@ -331,23 +386,29 @@ return (
           rows="4"
           className="block p-2.5 w-full text-sm text-green-800 bg-gray-50 rounded-lg border border-green-300 focus:ring-green-500 focus:border-green-500"
           placeholder="ข้อความของคุณ ..."
+          value={state.change_details}
+          onChange={(e) => {
+            State.update({ change_details: e.target.value });
+          }}
         ></textarea>
       </div>
       <div className="mb-4">
         <label
           className="block mb-2 text-lg font-medium text-green-800"
-          for="user_avatar"
+          for="change_picture"
         >
           รูปภาพหน้าปก
           <span className="text-sm text-green-600"> ของประเด็นที่จะรณรงค์</span>
         </label>
         <input
           className="block p-2.5 w-full text-sm text-green-800 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none"
-          aria-describedby="user_avatar_help"
-          id="user_avatar"
+          id="change_picture"
           type="file"
+          onChange={(e) => {
+            State.update({ change_picture: e.target.value });
+          }}
         />
-        <div className="mt-1 text-sm text-gray-800" id="user_avatar_help">
+        <div className="mt-1 text-sm text-gray-800" id="change_picture">
           * ขนาดรูปภาพที่เหมาะสม 1920x1080px
         </div>
       </div>
@@ -355,8 +416,11 @@ return (
         <input
           id="change_term"
           type="checkbox"
-          value=""
+          value="yes"
           className="w-4 h-4 text-green-600 bg-gray-100 border-gray-300 rounded focus:ring-green-500"
+          onChange={(e) => {
+            State.update({ change_term: e.target.value });
+          }}
         />
         <label
           for="change_term"
@@ -369,12 +433,24 @@ return (
         </label>
       </div>
       <div className="mb-4 text-center">
-        <button
+        <CommitButton
           type="submit"
           className="text-white bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
+          data={getCreateChangeData(false)}
+          onMouseEnter={() => {
+            State.update({ hover_element: "Yes" });
+          }}
+          onMouseLeave={() => {
+            State.update({ hover_element: "" });
+          }}
+          onClick={() => {
+            State.update({
+              send_post: true,
+            });
+          }}
         >
           เริ่มการรณรงค์
-        </button>
+        </CommitButton>
       </div>
        
     </div>
@@ -567,12 +643,12 @@ return (
           </div>
 
           <div className="mb-4 text-center">
-            <button
+            <CommitButton
               type="submit"
               className="text-white bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
             >
               สนันสนุนประเด็นนี้
-            </button>
+            </CommitButton>
           </div>
         </div>
         <div className="h-px bg-gray-200 border-0"></div>
