@@ -115,13 +115,13 @@ const navbar = (
   <div className="container flex items-center justify-between h-20 font-medium">
     <div className="flex gap-4 items-center ">
       <div>{billbosLogo}</div>
-      <div className="flex h-full">
+      <div className="flex h-20">
         {state.navItems
           ? state.navItems.map((item, index) => {
               return (
                 <div
                   key={index}
-                  className="cursor-pointer bg-red-600 h-full"
+                  className="cursor-pointer flex items-center"
                   onClick={() => (setTabSelect ? setTabSelect(index) : "")}
                 >
                   <p>{item.title}</p>
@@ -148,7 +148,7 @@ const navbar = (
 );
 
 const mainHeader = (
-  <div className="">
+  <div className="shadow-sm">
     <div>{state.hideLeanMore ? "" : leanMore}</div>
     <div className="">{navbar}</div>
   </div>
