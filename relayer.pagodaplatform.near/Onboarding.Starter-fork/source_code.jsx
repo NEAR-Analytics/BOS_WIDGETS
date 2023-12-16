@@ -1,9 +1,11 @@
+let greeting = "Have a great day";
+
 return (
   <>
-    {/* src="near/widget/Onboarding.ComponentCard" to be pasted below */}
-    <Widget src="near/widget/Onboarding.ComponentCard" props={{ accountId }} />
-    <br />
-    <Widget src="near/widget/Onboarding.ComponentCollection" props={{}} />
-    <Widget />
+    <div class="container border border-info p-3 text-center">
+      <h1>Hello {props.name}</h1>
+
+      <p> {greeting} </p>
+    </div>
   </>
 );
