@@ -2,7 +2,7 @@ const { tokenImage, chainName, amount, tokenName } = props;
 
 const main = (
   <div
-    className="shadow-sm rounded-2xl pb-4"
+    className="shadow-sm rounded-2xl pb-4 bg-white"
     style={{ width: "302px", paddingButton: "" }}
     // style={{ height: "406px", width: "302px" }}
   >
