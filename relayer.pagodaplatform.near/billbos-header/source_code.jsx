@@ -1,4 +1,4 @@
-const { walletAddress, chainId } = props;
+const { walletAddress, chainId, setTabSelect } = props;
 
 State.init({
   hideLeanMore: false,
@@ -171,7 +171,11 @@ const navbar = (
       {state.navItems
         ? state.navItems.map((item, index) => {
             return (
-              <div key={index} className="cursor-pointer">
+              <div
+                key={index}
+                className="cursor-pointer"
+                onClick={() => (setTabSelect ? setTabSelect(index) : () => {})}
+              >
                 <p>{item.title}</p>
               </div>
             );
