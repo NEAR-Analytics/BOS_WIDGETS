@@ -2,7 +2,7 @@ State.init({
   chainId: null,
   walletAddress: null,
   walletConnected: false,
-  tabSelect: 1,
+  tabSelect: 0,
 });
 
 const DEFAULT_CHAIN_ID = 25925;
@@ -63,20 +63,34 @@ function checkProvider() {
   }
 }
 checkProvider();
+
+function tabComponent() {
+  if (state.tabSelect == 0) {
+    return <div>0</div>;
+  } else if (state.tabSelect == 1) {
+    return <div>1</div>;
+  } else if (state.tabSelect == 2) {
+    return <div>2</div>;
+  }
+}
+
 return (
   <div>
     {JSON.stringify(state)}
-    {state.walletConnected ? (
-      <Widget
-        src="porx-dev.near/widget/billbos-header"
-        props={{
-          walletAddress: state.walletAddress,
-          chainId: state.chainId,
-          setTabSelect: (index) => setTabSelect(index),
-        }}
-      />
-    ) : (
-      <Widget src="porx-dev.near/widget/billbos-authen" props={{}} />
-    )}
+    <div>
+      {state.walletConnected ? (
+        <Widget
+          src="porx-dev.near/widget/billbos-header"
+          props={{
+            walletAddress: state.walletAddress,
+            chainId: state.chainId,
+            setTabSelect: (index) => setTabSelect(index),
+          }}
+        />
+      ) : (
+        <Widget src="porx-dev.near/widget/billbos-authen" props={{}} />
+      )}
+    </div>
+    <div className="container">{tabComponent()}</div>
   </div>
 );
