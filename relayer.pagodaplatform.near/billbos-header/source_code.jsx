@@ -58,10 +58,10 @@ const leanMore = (
   <div className="brand-gradient-green text-white text-xs font-bold h-12 flex items-center justify-center relative">
     <div className="flex justify-center gap-2 items-center">
       <p>Unlock the power of onchain data for Web3 Ads</p>
-      <p className="bg-white green-text py-1 px-1.5 rounded-xl">Lean more</p>
+      <p className="bg-white green-text py-1 px-1.5 rounded-md">Lean more</p>
     </div>
     <div
-      className="absolute top-3 right-6 border-2 boder-white p-1 rounded-xl z-10 cursor-pointer"
+      className="absolute top-3 right-6 border-2 boder-white p-1 rounded-md z-10 cursor-pointer"
       onClick={() => hideLeanMore()}
     >
       <svg
@@ -137,9 +137,10 @@ const chains = {
     name: "Bitkub Chain Mainnet",
     id: 96,
   },
-  0: {
+  3501: {
     name: "JFIN Chain",
-    id: 0,
+    id: 3501,
+    image: "",
   },
 };
 
