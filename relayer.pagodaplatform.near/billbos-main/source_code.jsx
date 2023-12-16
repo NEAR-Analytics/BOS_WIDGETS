@@ -125,7 +125,7 @@ function tabComponent() {
         </div>
         <div
           style={{ marginTop: "-50px" }}
-          className="container rounded-t-3xl gray-surface min-h-screen relative"
+          className="container rounded-t-3xl gray-surface min-h-screen"
         >
           <div className="flex justify-between py-8 items-center ">
             <div>
