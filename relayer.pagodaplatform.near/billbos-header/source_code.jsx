@@ -1,5 +1,19 @@
 State.init({
   hideLeanMore: false,
+  navItems: [
+    {
+      title: "Dashboard",
+      isActive: false,
+    },
+    {
+      title: "Campaigns",
+      isActive: false,
+    },
+    {
+      title: "Rewards",
+      isActive: false,
+    },
+  ],
 });
 
 const hideLeanMore = () => {
@@ -41,7 +55,7 @@ const billbosLogo = (
 );
 
 const leanMore = (
-  <div className="brand-gradient-green text-white text-xs font-bold h-12 flex items-center justify-center ">
+  <div className="brand-gradient-green text-white text-xs font-bold h-12 flex items-center justify-center relative">
     <div className="flex justify-center gap-2 items-center">
       <p>Unlock the power of onchain data for Web3 Ads</p>
       <p className="bg-white green-text py-1 px-1.5 rounded-md">Lean more</p>
@@ -74,18 +88,6 @@ const leanMore = (
   </div>
 );
 
-const navItems = [
-  {
-    title: "Dashboard",
-  },
-  {
-    title: "Campaigns",
-  },
-  {
-    title: "Rewards",
-  },
-];
-
 const chains = [
   {
     name: "Bitkub Chain Testnet",
@@ -102,13 +104,13 @@ const chains = [
 ];
 
 const navbar = (
-  <div className="container flex items-center justify-between">
+  <div className="container flex items-center justify-between h-20">
     <div>{billbosLogo}</div>
     <div className="ml-10 flex gap-4">
-      {navItems
-        ? navItems.map((item, index) => {
+      {state.navItems
+        ? state.navItems.map((item, index) => {
             return (
-              <div key={index}>
+              <div key={index} className="cursor-pointer">
                 <p>{item.title}</p>
               </div>
             );
