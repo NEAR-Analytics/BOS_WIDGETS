@@ -1,4 +1,4 @@
-const { walletAddress, chainId, setTabSelect } = props;
+const { walletAddress, chainId, setTabSelect, chains } = props;
 
 State.init({
   hideLeanMore: false,
@@ -91,25 +91,6 @@ const leanMore = (
   </div>
 );
 
-const chains = {
-  25925: {
-    name: "Bitkub Chain Testnet",
-    id: 25925,
-    image:
-      "https://ipfs.near.social/ipfs/bafkreicksbcmv5i7ezaw5b2424vliuegcbgfckjc4qt73eql67pdmrvvfu",
-  },
-  96: {
-    name: "Bitkub Chain Mainnet",
-    id: 96,
-  },
-  3501: {
-    name: "JFIN Chain",
-    id: 3501,
-    image:
-      "https://ipfs.near.social/ipfs/bafkreia4w3mcfsrvcoh3r44x5nxrmarrt5xr3nta7dnw7pjfufd3b3anki",
-  },
-};
-
 const formatWalletAddres = (wallet) => {
   return `${
     wallet.substring(0, 6) + "..." + wallet.substring(wallet.length - 4)
@@ -165,7 +146,7 @@ const navbar = (
 );
 
 const mainHeader = (
-  <div className="relative min-h-screen ">
+  <div className="relative ">
     <div className="sticky top-0 ">
       <div>{state.hideLeanMore ? "" : leanMore}</div>
       <div className="">{navbar}</div>
