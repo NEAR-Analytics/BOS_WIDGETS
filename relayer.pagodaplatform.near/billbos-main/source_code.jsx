@@ -92,7 +92,7 @@ function tabComponent() {
     return <div>0</div>;
   } else if (state.tabSelect == 1) {
     return (
-      <div className="grid grid-cols-3">
+      <div className="grid grid-cols-3 gap-3">
         {Array.from({ length: 3 }).map((_, index) => {
           return (
             <div key={index}>
