@@ -78,9 +78,4 @@ if (!state.theme) {
   });
 }
 const Theme = state.theme;
-return (
-  <Theme>
-    {children}
-    <div className="bg-red-400 container">asd</div>
-  </Theme>
-);
+return <Theme>{children}</Theme>;
