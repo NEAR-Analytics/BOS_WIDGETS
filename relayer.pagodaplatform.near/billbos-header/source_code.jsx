@@ -103,8 +103,14 @@ const chains = [
   },
 ];
 
+const formatWalletAddres = (wallet) => {
+  return `${
+    wallet.substring(0, 6) + "..." + wallet.substring(wallet.length - 4)
+  }`.toLowerCase();
+};
+
 const navbar = (
-  <div className=" flex items-center justify-between h-20">
+  <div className="container flex items-center justify-between h-20 ">
     <div className="ml-10 flex gap-4 items-center ">
       <div>{billbosLogo}</div>
       {state.navItems
@@ -117,7 +123,7 @@ const navbar = (
           })
         : ""}
     </div>
-    <div className="flex text-sm gap-2">
+    <div className="flex text-sm gap-2 ">
       <div className="border border-gray-200 px-2 py-1 rounded-md ">
         <p>Mock Bitkub Chain</p>
       </div>
@@ -126,7 +132,9 @@ const navbar = (
           <span>0.000</span>
         </div>
         <div className="border-l border-gray-200 rounded-md p-2 text-center">
-          <span>0.000</span>
+          <span>
+            {formatWalletAddres("0x15Df80761aE0bE9E814dC75F996690cf028C4B62")}
+          </span>
         </div>
       </div>
     </div>
