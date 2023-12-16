@@ -115,19 +115,21 @@ const navbar = (
   <div className="container flex items-center justify-between h-20 font-medium">
     <div className="flex gap-4 items-center ">
       <div>{billbosLogo}</div>
-      {state.navItems
-        ? state.navItems.map((item, index) => {
-            return (
-              <div
-                key={index}
-                className="cursor-pointer"
-                onClick={() => (setTabSelect ? setTabSelect(index) : "")}
-              >
-                <p>{item.title}</p>
-              </div>
-            );
-          })
-        : ""}
+      <div className="flex h-full">
+        {state.navItems
+          ? state.navItems.map((item, index) => {
+              return (
+                <div
+                  key={index}
+                  className="cursor-pointer bg-red-600 h-full"
+                  onClick={() => (setTabSelect ? setTabSelect(index) : "")}
+                >
+                  <p>{item.title}</p>
+                </div>
+              );
+            })
+          : ""}
+      </div>
     </div>
     <div className="flex text-sm gap-2 ">
       <div className="border border-gray-200 px-2 py-1 rounded-xl flex items-center">
@@ -138,7 +140,7 @@ const navbar = (
           <span>0.000</span>
         </div>
         <div className="border-l border-gray-200 rounded-xl p-2 text-center col-span-3 bg-white">
-          <span>{formatWalletAddres(walletAddress)}</span>
+          <span>{formatWalletAddres(walletAddress || "")}</span>
         </div>
       </div>
     </div>
