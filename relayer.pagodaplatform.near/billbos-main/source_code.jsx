@@ -108,20 +108,22 @@ function tabComponent() {
 }
 
 const main = (
-  <div>
+  <div className="relative">
     {JSON.stringify(state)}
     <div>
       {state.walletConnected ? (
         <div>
-          <Widget
-            src="porx-dev.near/widget/billbos-header"
-            props={{
-              walletAddress: state.walletAddress,
-              chainId: state.chainId,
-              setTabSelect: (index) => setTabSelect(index),
-              chains: state.chains,
-            }}
-          />
+          <div className="sticky top-0 z-10 bg-white">
+            <Widget
+              src="porx-dev.near/widget/billbos-header"
+              props={{
+                walletAddress: state.walletAddress,
+                chainId: state.chainId,
+                setTabSelect: (index) => setTabSelect(index),
+                chains: state.chains,
+              }}
+            />
+          </div>
           <div className="container gray-surface min-h-screen w-full">
             <div>{tabComponent()}</div>
           </div>
