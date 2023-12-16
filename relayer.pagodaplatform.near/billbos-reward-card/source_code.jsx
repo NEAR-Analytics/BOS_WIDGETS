@@ -2,7 +2,7 @@ const { tokenImage, chainName, amount, tokenName } = props;
 
 const main = (
   <div
-    className=" bg-red-200 rounded-2xl"
+    className=" rounded-2xl pb-4"
     style={{ width: "302px" }}
     // style={{ height: "406px", width: "302px" }}
   >
@@ -21,16 +21,16 @@ const main = (
       <div className="w-full flex justify-center secondary-text">
         <p className="text-xs">{tokenName || "USDT"} Earned</p>
       </div>
-      <div>
+      <div className="mt-2">
         <p className="text-2xl font-bold">
           {amount || "1250.13"}{" "}
           <span className="text-lg font-medium">{tokenName || "USDT"}</span>
         </p>
       </div>
-      <div className="text-xs tertiary-text">
+      <div className="text-xs tertiary-text mt-4">
         <p>Total Rewards received : {amount || "12033.00"} USDT</p>
       </div>
-      <div className="w-full px-4 flex justify-center">
+      <div className="w-full px-4 flex justify-center mt-4">
         <div className="px-4 py-1 brand-green rounded-xl text-white font-semibold">
           Claim Rewards
         </div>
