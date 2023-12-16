@@ -36,14 +36,17 @@ const mailAuth = (
   <div className="bg-blue-300 min-h-screen grid grid-cols-2">
     <div className="brand-dark-green"></div>
     <div className="bg-white flex justify-center items-center">
-      <div className="min-w-fit">
+      <div className="w-1/2">
         <div>{billbosLogo}</div>
         <div className="mt-10">
           <h3 className="font-bold text-2xl">Connect Wallet</h3>
           <p className="text-sm">
             Choose how you want to connect. There are several wallet providers.
-            Sign in another way
+            <span className="green-text">Sign in another way</span>
           </p>
+        </div>
+        <div>
+          <Web3Connect className="p-2" style={{}} />
         </div>
       </div>
     </div>
