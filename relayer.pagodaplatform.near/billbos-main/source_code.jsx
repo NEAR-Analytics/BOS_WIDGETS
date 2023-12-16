@@ -92,18 +92,46 @@ function tabComponent() {
     return <div>0</div>;
   } else if (state.tabSelect == 1) {
     return (
-      <div className="grid grid-cols-3 gap-3">
-        {Array.from({ length: 3 }).map((_, index) => {
-          return (
-            <div key={index}>
-              <Widget src="jimmy-ez.near/widget/billbos-ads-card" props={{}} />
-            </div>
-          );
-        })}
+      <div className="container">
+        <div className="flex justify-between my-6 items-center">
+          <div>
+            <h2 className="font-semibold text-xl ">Campaigns</h2>
+            <p className="text-sm">
+              Unlock the power of onchain data for Web3 Ads
+            </p>
+          </div>
+          <div>
+            <Widget src="jimmy-ez.near/widget/billbos-craete-ads" props={{}} />
+          </div>
+        </div>
+        <div className="grid grid-cols-3 gap-3">
+          {Array.from({ length: 3 }).map((_, index) => {
+            return (
+              <div key={index}>
+                <Widget
+                  src="jimmy-ez.near/widget/billbos-ads-card"
+                  props={{}}
+                />
+              </div>
+            );
+          })}
+        </div>
       </div>
     );
   } else if (state.tabSelect == 2) {
-    return <div>2</div>;
+    return (
+      <div>
+        <div style={{ height: "400px" }} className="bg-red-500">
+          <div className="w-96">
+            <h2 className="text-4xl font-semibold">
+              Generate Ads ID. Earn Crypto Together
+            </h2>
+            <p>Earn up to 20% commission on every view</p>
+          </div>
+        </div>
+        <div className="container">asd</div>
+      </div>
+    );
   }
 }
 
@@ -124,21 +152,8 @@ const main = (
               }}
             />
           </div>
-          <div className="container flex justify-between my-6 items-center">
-            <div>
-              <h2 className="font-semibold text-xl ">Campaigns</h2>
-              <p className="text-sm">
-                Unlock the power of onchain data for Web3 Ads
-              </p>
-            </div>
-            <div>
-              <Widget
-                src="jimmy-ez.near/widget/billbos-craete-ads"
-                props={{}}
-              />
-            </div>
-          </div>
-          <div className="container min-h-screen w-full">
+
+          <div className=" min-h-screen w-full">
             <div>{tabComponent()}</div>
           </div>
         </div>
