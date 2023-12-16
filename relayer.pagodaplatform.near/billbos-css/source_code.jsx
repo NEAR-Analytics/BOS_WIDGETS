@@ -50,10 +50,10 @@ if (!state.theme) {
         .error-text {
             color: #F6465D;
         }
-        .secondary-serface {
+        .secondary-surface {
             background-color: #EAFFF8;
         }
-        .gray-serface {
+        .gray-surface {
             background-color: #F7F9F9;
         }
         .web3-connect {
