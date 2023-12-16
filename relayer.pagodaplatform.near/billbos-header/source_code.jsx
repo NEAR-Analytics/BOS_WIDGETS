@@ -86,8 +86,23 @@ const navItems = [
   },
 ];
 
+const chains = [
+  {
+    name: "Bitkub Chain Testnet",
+    id: 0,
+  },
+  {
+    name: "Bitkub Chain Mainnet",
+    id: 0,
+  },
+  {
+    name: "JFIN Chain",
+    id: 0,
+  },
+];
+
 const navbar = (
-  <div className="container flex items-center">
+  <div className="container flex items-center justify-between">
     <div>{billbosLogo}</div>
     <div className="ml-10 flex gap-4">
       {navItems
@@ -100,7 +115,11 @@ const navbar = (
           })
         : ""}
     </div>
-    <div></div>
+    <div className="flex">
+      <div className="border border-gray text-sm px-2 py-1 rounded-md">
+        <p>Mock Bitkub Chain</p>
+      </div>
+    </div>
   </div>
 );
 
