@@ -2,6 +2,7 @@ State.init({
   chainId: null,
   walletAddress: null,
   walletConnected: false,
+  tabSelect: 1,
 });
 
 const DEFAULT_CHAIN_ID = 25925;
@@ -12,6 +13,12 @@ function switchEthereumChain(chainId) {
   const res = Ethers.send("wallet_switchEthereumChain", [
     { chainId: chainIdHex },
   ]);
+}
+
+function setTabSelect(index) {
+  State.update({
+    tabSelect: index,
+  });
 }
 
 if (
@@ -62,7 +69,11 @@ return (
     {state.walletConnected ? (
       <Widget
         src="porx-dev.near/widget/billbos-header"
-        props={{ walletAddress: state.walletAddress, chainId: state.chainId }}
+        props={{
+          walletAddress: state.walletAddress,
+          chainId: state.chainId,
+          setTabSelect: (index) => setTabSelect(index),
+        }}
       />
     ) : (
       <Widget src="porx-dev.near/widget/billbos-authen" props={{}} />
