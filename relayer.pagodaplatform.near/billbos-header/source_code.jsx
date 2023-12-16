@@ -117,9 +117,17 @@ const navbar = (
           })
         : ""}
     </div>
-    <div className="flex">
-      <div className="border border-gray text-sm px-2 py-1 rounded-md">
+    <div className="flex text-sm gap-2">
+      <div className="border border-gray-200 px-2 py-1 rounded-md ">
         <p>Mock Bitkub Chain</p>
+      </div>
+      <div className="border border-gray-400 w-52 grid grid-cols-2 rounded-md">
+        <div className="gray-serface p-2 items-center flex">
+          <span>0.000</span>
+        </div>
+        <div className="border-l border-gray-200 rounded-md p-2 text-center">
+          <span>0.000</span>
+        </div>
       </div>
     </div>
   </div>
