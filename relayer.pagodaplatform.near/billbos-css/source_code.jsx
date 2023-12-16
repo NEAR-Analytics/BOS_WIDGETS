@@ -1,7 +1,7 @@
 const children = props.children;
 
 const tailwindCssUrl =
-  "https://cdn.jsdelivr.net/npm/tailwindcss@2.2/dist/tailwind.min.css";
+  "https://cdn.jsdelivr.net/npm/tailwindcss@3.3.6/lib/index.min.js";
 
 const tailwindCss = fetch(tailwindCssUrl).body;
 
