@@ -98,6 +98,7 @@ function makeDetailsShort(c_details) {
 let changeList = Social.index("change", "change.near");
 let changeBox = props;
 
+
 let dateFormat = {
   month: "short",
   day: "numeric",
@@ -116,6 +117,14 @@ if (!changeBox) {
 if (!changeList) {
   return "Error ChangeList";
 }
+changeList = changeList.sort((c1, c2) => {
+  const isC1 = c1.value.postdate < Date.now();
+  const isC2 = c2.value.postdate < Date.now();
+  if (isC1 && !isC2) return 1;
+  if (!isC1 && isC2) return -1;
+  if (isC1 && isC2) return c2.value.postdate - c1.value.postdate;
+  return c1.value.postdate - c2.value.postdate;
+});
 
 const renderChangeData = () => {
   return changeList.map((changeBox, index) => {
