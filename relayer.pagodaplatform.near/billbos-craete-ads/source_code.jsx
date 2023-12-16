@@ -11,6 +11,29 @@ const ModalOverlay = styled.div`
   z-index: 100;
 `;
 
+const StyledSelect = styled.div`
+  display: inline-block;
+  position: relative;
+  width: 100%;
+
+  select {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    outline: none;
+    cursor: pointer;
+  }
+
+  &:after {
+    content: '⌄';
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+    pointer-events: none;
+  }
+`;
+
 State.init({
   isOpenModal: true,
 });
@@ -63,8 +86,18 @@ const Modal = ({ isOpen, onClose, children }) => {
             />
           </svg>
         </div>
-        <div class="flex flex-row justify-between items-start pb-4 px-4 mt-4">
+        <div class="flex flex-col justify-between items-start pb-4 px-4 mt-4 ">
           <p class="text-sm tertiary-text">Ads Type</p>
+          <StyledSelect>
+            <select
+              class="w-full border px-2 py-2 mt-2 rounded-lg"
+              id="cars"
+              name="cars"
+            >
+              <option value="redirect">URL Redirect</option>
+              <option value="interactive">Interactive Ads</option>
+            </select>
+          </StyledSelect>
         </div>
       </div>
     </ModalOverlay>
