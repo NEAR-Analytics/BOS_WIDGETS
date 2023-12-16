@@ -115,14 +115,16 @@ const navbar = (
   <div className="container flex items-center justify-between h-20 font-medium">
     <div className="flex gap-4 items-center ">
       <div>{billbosLogo}</div>
-      <div className="flex h-20">
+      <div className="flex h-20 gap-4">
         {state.navItems
           ? state.navItems.map((item, index) => {
               return (
                 <div
                   key={index}
-                  className="cursor-pointer flex items-center"
-                  onClick={() => (setTabSelect ? setTabSelect(index) : "")}
+                  className={`cursor-pointer flex items-center`}
+                  onClick={() => {
+                    setTabSelect(index);
+                  }}
                 >
                   <p>{item.title}</p>
                 </div>
