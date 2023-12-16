@@ -11,7 +11,6 @@ const ipfsUrl = (cid) => `https://ipfs.near.social/ipfs/${cid}`;
 return (
   <>
     <h1>AirStorage</h1>
-    <h1>AirStorage2</h1>
     <div>
       <Files
         multiple={false}
