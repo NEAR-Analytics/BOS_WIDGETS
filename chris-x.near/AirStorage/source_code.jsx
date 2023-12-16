@@ -1,8 +1,4 @@
-// const fileAccept = props.fileAccept || "*";
-// const fileIcon = props.fileIcon || "bi-file";
 const buttonText = props.buttonText || "Upload a file";
-
-// if (!props.update) return "Update function is required";
 
 State.init({
   uploading: false,
@@ -14,6 +10,8 @@ const ipfsUrl = (cid) => `https://ipfs.near.social/ipfs/${cid}`;
 
 return (
   <>
+    <h1>AirStorage</h1>
+    <h1>AirStorage2</h1>
     <div>
       <Files
         multiple={false}
@@ -48,14 +46,20 @@ return (
       </Files>
     </div>
     <div>
-      <h1>File Uploaded</h1>
       {state.cid ? (
-        <a href={ipfsUrl(state.cid)} download>
-          {state.filename} | CID : {state.cid}
-        </a>
+        <>
+          <h3>File Uploaded</h3>
+          <a>{state.filename}</a>
+          <a> | CID : {state.cid} | </a>
+          <a href={ipfsUrl(state.cid)} target={"_blank"}>
+            Link
+          </a>
+        </>
       ) : (
         <></>
       )}
+
+      <h3>My Files</h3>
     </div>
   </>
 );
