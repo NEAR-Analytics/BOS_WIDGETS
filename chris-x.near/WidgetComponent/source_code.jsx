@@ -20,5 +20,14 @@ return (
         size: "large",
       }}
     />
+    <Widget
+      src="near/widget/DIG.Button"
+      props={{
+        href: "/signup",
+        label: "Create Account",
+        variant: "affirmative",
+        size: "large",
+      }}
+    />
   </>
 );
