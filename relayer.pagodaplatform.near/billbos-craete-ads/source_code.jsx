@@ -236,7 +236,12 @@ const Modal = ({ isOpen, onClose }) => {
 
 const content = (
   <div>
-    <button onClick={onOpen}>Open Modal</button>
+    <button
+      class="brand-green px-4 py-2 rounded-xl text-white font-semibold"
+      onClick={onOpen}
+    >
+      {"+ Create Ads"}
+    </button>
     <Modal isOpen={state.isOpenModal} onClose={onClose} />
   </div>
 );
