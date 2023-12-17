@@ -1,12 +1,7 @@
 const children = props.children;
 
 const content = (
-  <div
-    style={{
-      width: "408px",
-    }}
-    class=" border rounded-xl pb-4 relative"
-  >
+  <div class="w-full border rounded-xl pb-4 relative bg-white">
     <img
       style={{
         height: "126px",
@@ -57,7 +52,7 @@ const content = (
       rounded-bl-xl
       `}
     >
-      <p>{"JFIN Chain"}</p>
+      <p>{"Bitkub Chain"}</p>
     </div>
   </div>
 );
