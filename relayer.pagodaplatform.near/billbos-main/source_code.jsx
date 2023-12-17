@@ -3,7 +3,9 @@ State.init({
   walletAddress: null,
   balance: null,
   test: null,
+  viewOfMonth: 0,
   walletConnected: false,
+  response: null,
   tabSelect: 0,
   chains: {
     25925: {
@@ -98,28 +100,36 @@ if (
     });
 }
 
-function reportUptime() {
-  //   const res = fetch(BACKEND_API + "/api/ads/total-ad-view?month=0").body;
-  //   State.update({ test: res.body });
-  asyncFetch(BACKEND_API + "/api/ads/total-ad-view?month=0").then((res) => {
-    const uptime = res.body;
-    State.update({ test: uptime || "-" });
-  });
-}
-
-Storage.privateSet("api", "https://api-billbos.0xnutx.space");
-
-const fetchApi = (queryURI) => {
+const fetchApi = (queryURI, method, data) => {
   return asyncFetch(queryURI, {
-    method: "GET",
+    method: method,
     body: JSON.stringify(data),
+    headers: {
+      "Content-Type": "application/json",
+    },
   });
 };
 
-const handleRequestView = () => {
-  const queryURI = Storage.privateGet("api");
-  fetchApi(queryURI + "/api/ads/total-ad-view?month=0").then((res) => {
-    State.update({ test: res.body });
+const handleRequestGetView = (query) => {
+  const endpoint = BACKEND_API + query;
+  fetchApi(endpoint, "GET", "").then((res) => {
+    State.update({ response: res });
+  });
+};
+
+const getViewOfMonth = () => {
+  handleRequestGetView("/ads/total-ad-view?month=0");
+  if (state.response.ok) {
+    State.update({
+      viewOfMonth: state.response.view || -1,
+    });
+  }
+};
+
+const handleRequestPost = () => {
+  const endpoint = BACKEND_API + "/ads/total-ad-view?month=0";
+  fetchApi(endpoint, "POST", "").then((res) => {
+    State.update({ test: res });
     console.log(res.body);
   });
 };
@@ -143,37 +153,6 @@ function checkProvider() {
   }
 }
 checkProvider();
-
-const earningCard = (title, amount) => {
-  return (
-    <div>
-      <div>
-        <p className="text-xs secondary-text">{title}</p>
-        <p className="text-2xl">{amount} USDT</p>
-      </div>
-    </div>
-  );
-};
-
-const fectEarning = () => {
-  //   const res = fetch(BACKEND_API + "/api").then((res) => {}).body;
-  //   const uptime = res.body;
-  //   State.update({
-  //     test: uptime,
-  //   });/ads/total-ad-view?month=0
-  try {
-    asyncFetch(BACKEND_API + "/api/ads/total-ad-view?month=0").then((res) => {
-      const uptime = res.body;
-      State.update({
-        test: uptime.view,
-      });
-    });
-  } catch (err) {
-    State.update({
-      test: JSON.stringify(err),
-    });
-  }
-};
 
 function tapCampaigns() {
   return (
@@ -337,6 +316,7 @@ function tapRewards() {
 }
 
 function tapDashboard() {
+  getViewOfMonth();
   const earningCards = [
     {
       title: "Total Staked",
@@ -376,7 +356,7 @@ function tapDashboard() {
                     title: item.title,
                     amountUSDT: item.usdt,
                     amountTHB: item.thb,
-                    totalView: i == 2 ? "19,002" : "",
+                    totalView: i == 2 ? state.viewOfMonth.toString() : "",
                     ipfsUrl: `https://ipfs.near.social/ipfs/${item.ipfsUrl}`,
                   }}
                 />
@@ -404,10 +384,6 @@ function tabComponent() {
 
 const main = (
   <div className="relative gray-surface ">
-    <div onClick={() => handleRequestView()} className="cursor-poiner">
-      click
-    </div>
-    "---" {JSON.stringify(state)}
     <div>
       {state.walletConnected ? (
         <div>
