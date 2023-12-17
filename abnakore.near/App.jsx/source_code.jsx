@@ -65,7 +65,7 @@ return (
         src="abnakore.near/widget/Wrapper.jsx"
         props={{
           body: (
-            <>
+            <div className="main-body">
               <div className="two-sides">
                 {/* The Aside bar that helps in quick navigation btw pages */}
                 <Widget
@@ -133,7 +133,7 @@ return (
                   </div>
                 </div>
               </div>
-            </>
+            </div>
           ),
         }}
       />
