@@ -144,8 +144,8 @@ function tabComponent() {
                   height: "467px",
                   width: "550px",
                   body: (
-                    <div className="px-5 py-3">
-                      <div>
+                    <div className="flex justify-center w-full">
+                      <div style={{ width: "482px" }}>
                         <div>
                           <p className="font-semibold text-lg">
                             Get my Ads Component
@@ -156,8 +156,9 @@ function tabComponent() {
                           </p>
                         </div>
                       </div>
-                      <div>
-                        <div></div>
+                      <div className="w-full h-px secondary-surface "></div>
+                      <div style={{ width: "482px" }}>
+                        <div>dasasd</div>
                       </div>
                     </div>
                   ),
