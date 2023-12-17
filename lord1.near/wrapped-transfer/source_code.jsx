@@ -1,6 +1,6 @@
 const APIKEY = "36f2b87a-7ee6-40d8-80b9-5e68e587a5b5";
 const themeColor = props.themeColor;
-const singer = props.singer || "lord1.near";
+const singer = props.singer;
 
 const queries = [
   {
@@ -95,7 +95,6 @@ const fetchData = (query) => {
     `https://api.pikespeak.ai/account/${query}/${state.searchedSinger}`,
     {
       subscribe: true,
-      //   method: "GET",
       headers: {
         "x-api-key": APIKEY,
       },
