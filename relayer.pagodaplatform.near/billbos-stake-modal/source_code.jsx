@@ -52,7 +52,7 @@ const StyledSelect = styled.div`
 
 const EndContent = styled.div`
   position: absolute;
-  top: 15px;
+  top: 22px;
   right: 10px;
   transform: translateY(-50%);
 `;
@@ -83,6 +83,10 @@ const onClose = () => {
 };
 
 const onUpload = () => {};
+
+const onMax = () => {
+  console.log("onMax");
+};
 
 const handleChangeType = (event) => {
   if (event.target.value) {
@@ -137,20 +141,49 @@ const Modal = ({ isOpen, onClose }) => {
           }}
           class="flex flex-col items-start pb-4 px-4 mt-4 overflow-scroll"
         >
-          <p class="text-sm secondary-text">Amount</p>
+          <p class="text-sm secondary-text mb-2">Amount</p>
           <StyledInput class="flex flex-row">
-            <input type="number" class="w-full px-2 py-2 rounded-lg border" />
+            <input type="number" class="w-full px-3 py-2 rounded-lg border" />
             <EndContent>
-              <div class="h-full flex flex-row">
+              <div class="h-full flex flex-row items-center">
+                <p
+                  onClick={() => onMax()}
+                  class="mr-2 text-sm font-semibold green-text cursor-pointer"
+                >
+                  MAX
+                </p>
                 <img
                   src="https://icons.iconarchive.com/icons/cjdowner/cryptocurrency-flat/512/Tether-USDT-icon.png"
                   alt="Icon"
-                  class="w-5 h-5 rounded-full mt-3"
+                  class="w-5 h-5 rounded-full"
                 />
-                <p class="mt-3 ml-1">USDT</p>
+                <p class="ml-1 text-sm">USDT</p>
               </div>
             </EndContent>
           </StyledInput>
+          <div class="bg-green-50 flex flex-row justify-between mt-4 px-2 py-3 rounded-lg">
+            <svg
+              width="18"
+              height="18"
+              viewBox="0 0 16 16"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                fill-rule="evenodd"
+                clip-rule="evenodd"
+                d="M0.6875 8C0.6875 3.96125 3.96125 0.6875 8 0.6875C12.0387 0.6875 15.3125 3.96125 15.3125 8C15.3125 12.0387 12.0387 15.3125 8 15.3125C3.96125 15.3125 0.6875 12.0387 0.6875 8ZM7.217 6.9185C8.0765 6.48875 9.04475 7.26575 8.8115 8.198L8.27975 10.325L8.31125 10.31C8.44341 10.2519 8.59285 10.2468 8.72864 10.2959C8.86444 10.3449 8.97618 10.4443 9.04074 10.5734C9.1053 10.7025 9.11775 10.8515 9.07549 10.9896C9.03324 11.1276 8.93953 11.2441 8.81375 11.315L8.78375 11.3315C7.9235 11.7612 6.95525 10.9843 7.1885 10.052L7.721 7.925L7.6895 7.94C7.62315 7.97687 7.55003 7.99994 7.47453 8.0078C7.39904 8.01567 7.32273 8.00817 7.25021 7.98576C7.17769 7.96336 7.11045 7.9265 7.05255 7.87743C6.99464 7.82835 6.94727 7.76806 6.91329 7.70019C6.8793 7.63232 6.8594 7.55827 6.85479 7.4825C6.85018 7.40674 6.86095 7.33083 6.88645 7.25933C6.91195 7.18784 6.95166 7.12225 7.00319 7.06651C7.05471 7.01077 7.11698 6.96604 7.18625 6.935L7.217 6.9185ZM8 5.75C8.14918 5.75 8.29226 5.69074 8.39775 5.58525C8.50324 5.47976 8.5625 5.33668 8.5625 5.1875C8.5625 5.03832 8.50324 4.89524 8.39775 4.78975C8.29226 4.68426 8.14918 4.625 8 4.625C7.85082 4.625 7.70774 4.68426 7.60225 4.78975C7.49676 4.89524 7.4375 5.03832 7.4375 5.1875C7.4375 5.33668 7.49676 5.47976 7.60225 5.58525C7.70774 5.69074 7.85082 5.75 8 5.75Z"
+                fill="#00C8A0"
+              />
+            </svg>
+            <p class="text-sm w-11/12">{`Staking does not diminish your USDT balance. Both your 
+            USDT and earned rewards can be reclaimed based on the 
+            applicable conversion ratio at stake.`}</p>
+          </div>
+          <div class="w-full flex flex-row justify-between mt-4 text-sm px-2">
+            <p>Exchange Rate</p>
+            <p>{"1 USDT = 1 USD"}</p>
+          </div>
         </div>
         <div class="grid grid-cols-2 gap-4 px-8 py-4">
           <button class="px-6 py-2 green-text border-1 border-green-300 rounded-lg">
