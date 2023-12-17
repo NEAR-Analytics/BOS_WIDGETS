@@ -88,13 +88,13 @@ return (
       body: (
         <div className="main-body">
           <Widget
-            src="abnakore.near/widget/Aside.jsx"
+            src="abnakore.near/widget/Aside"
             props={{ objs: pages, active: "/admin/manage_candidates" }}
           />
           <div className="body-contents">
             <h1>Manage Candidates</h1>
             <Widget
-              src="abnakore.near/widget/Table.jsx"
+              src="abnakore.near/widget/Table"
               props={{
                 headings: [
                   "S/N",
