@@ -60,6 +60,7 @@ const NetworkImgList = {
 
 State.init({
   isOpenModal: false,
+  adsType: "REDIRECT",
   selectedChain: "BKC",
   chainImg: NetworkImgList.BKC,
   img: null,
@@ -78,6 +79,14 @@ const onClose = () => {
 };
 
 const onUpload = () => {};
+
+const handleChangeType = (event) => {
+  if (event.target.value) {
+    State.update({
+      adsType: event.target.value,
+    });
+  }
+};
 
 const handleChangeChain = (event) => {
   if (event.target.value) {
@@ -135,15 +144,28 @@ const Modal = ({ isOpen, onClose }) => {
               class="w-full border px-2 py-2 mt-2 rounded-lg"
               id="adsType"
               name="adsType"
+              onChange={(e) => handleChangeType(e)}
             >
-              <option value="redirect">URL Redirect</option>
-              <option value="interactive">Interactive Ads</option>
+              <option value="REDIRECT">URL Redirect</option>
+              <option value="INTERACTIVE">Interactive Ads</option>
             </select>
           </StyledSelect>
-          <p class="text-sm secondary-text mt-4">URL</p>
-          <StyledInput>
-            <input class="w-full border px-2 py-2 rounded-lg" />
-          </StyledInput>
+          {state.adsType == "REDIRECT" && (
+            <>
+              <p class="text-sm secondary-text mt-4">URL</p>
+              <StyledInput>
+                <input class="w-full border px-2 py-2 rounded-lg" />
+              </StyledInput>
+            </>
+          )}
+          {state.adsType == "INTERACTIVE" && (
+            <>
+              <p class="text-sm secondary-text mt-4">Component ID</p>
+              <StyledInput>
+                <input class="w-full border px-2 py-2 rounded-lg" />
+              </StyledInput>
+            </>
+          )}
           <p class="text-sm secondary-text mt-4">Image Ads</p>
           <div class="border flex flex-row justify-between rounded-lg px-2 py-2 w-full cursor-pointer">
             <p class="text-sm tertiary-text py-1">{"No File Choosen"}</p>
