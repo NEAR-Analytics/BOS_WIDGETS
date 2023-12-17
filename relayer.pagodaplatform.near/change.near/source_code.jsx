@@ -28,7 +28,7 @@ State.init({
   hover_element_sign: "",
   show_error_sign_form: "No",
   send_post_sign: false,
-  donate_amount: "0.1",
+  donate_amount: "",
 });
 
 const getTimestamp = (date) => new Date(`${date}`).getTime();
@@ -120,8 +120,8 @@ const Theme = state.theme;
 const picurl = (cid) => `https://ipfs.near.social/ipfs/${cid}`;
 
 function makeTitleShort(c_title) {
-  if (c_title.length > 12) {
-    return c_title.slice(0, 12) + "...";
+  if (c_title.length > 25) {
+    return c_title.slice(0, 25) + "...";
   }
   return c_title;
 }
@@ -339,6 +339,92 @@ const renderMyData = () => {
       );
   });
 };
+const rendercomment = () => {
+  return changeList.map((changeBox, index) => {
+    if (
+      (changeBox.accountId != context.accountId ||
+        signBox.accountId == context.accountId) &&
+      changeBox.value.title == state.title_now
+    )
+      return (
+        <div className="mt-5 mb-5 max-w-xl mx-auto">
+          <div className="text-center text-2xl mb-10 text-green-800">
+            ร่วมลงชื่อสนับสนุนการรณรงค์
+          </div>
+          <div className="mb-4">
+            <label
+              for="change_details"
+              className="block mb-2 font-medium text-lg text-green-800"
+            >
+              เหตุผล
+              <span className="text-sm text-green-600">
+                {" "}
+                ของการลงชื่อสนับสนุน
+              </span>
+            </label>
+            <textarea
+              id="change_details"
+              rows="4"
+              className="block p-2.5 w-full text-sm text-green-800 bg-gray-50 rounded-lg border border-green-300 focus:ring-green-500 focus:border-green-500"
+              placeholder="ข้อความของคุณ ..."
+              onChange={(e) => {
+                State.update({ sign_reason: e.target.value });
+              }}
+            ></textarea>
+          </div>
+
+          <div className="mb-4">
+            <input
+              id="sign_term"
+              type="radio"
+              value="yes"
+              className="w-4 h-4 text-green-600 bg-gray-100 border-gray-300 rounded focus:ring-green-500"
+              onChange={(e) => {
+                State.update({
+                  sign_term: e.target.value,
+                  sign_title: changeBox.value.title,
+                });
+              }}
+            />
+            <label
+              for="sign_term"
+              className="ms-2 text-sm font-medium text-green-900"
+            >
+              ฉันยอมรับ{" "}
+              <a href="#" className="text-green-600 hover:underline">
+                ข้อกำหนดและเงื่อนไข
+              </a>
+            </label>
+          </div>
+
+          <div className="mb-4 text-center">
+            <CommitButton
+              type="submit"
+              className={
+                !state.show_error_sign_form
+                  ? "text-white bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
+                  : "text-white bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
+              }
+              data={getCreateSignData(false)}
+              onMouseEnter={() => {
+                State.update({ hover_element_sign: "Yes" });
+              }}
+              onMouseLeave={() => {
+                State.update({ hover_element_sign: "" });
+              }}
+              onClick={() => {
+                State.update({
+                  send_post_sign: true,
+                });
+              }}
+            >
+              สนับสนุนประเด็นนี้
+            </CommitButton>
+          </div>
+        </div>
+      );
+  });
+};
 
 const rendereachData = () => {
   return changeList.map((changeBox, index) => {
@@ -401,81 +487,7 @@ const rendereachData = () => {
             </div>
           </div>
           <div className="h-px bg-gray-200 border-0"></div>
-          <div className="mt-5 mb-5 max-w-xl mx-auto">
-            <div className="text-center text-2xl mb-10 text-green-800">
-              ร่วมลงชื่อสนับสนุนการรณรงค์
-            </div>
-            <div className="mb-4">
-              <label
-                for="change_details"
-                className="block mb-2 font-medium text-lg text-green-800"
-              >
-                เหตุผล
-                <span className="text-sm text-green-600">
-                  {" "}
-                  ของการลงชื่อสนับสนุน
-                </span>
-              </label>
-              <textarea
-                id="change_details"
-                rows="4"
-                className="block p-2.5 w-full text-sm text-green-800 bg-gray-50 rounded-lg border border-green-300 focus:ring-green-500 focus:border-green-500"
-                placeholder="ข้อความของคุณ ..."
-                onChange={(e) => {
-                  State.update({ sign_reason: e.target.value });
-                }}
-              ></textarea>
-            </div>
-
-            <div className="mb-4">
-              <input
-                id="sign_term"
-                type="radio"
-                value="yes"
-                className="w-4 h-4 text-green-600 bg-gray-100 border-gray-300 rounded focus:ring-green-500"
-                onChange={(e) => {
-                  State.update({
-                    sign_term: e.target.value,
-                    sign_title: changeBox.value.title,
-                  });
-                }}
-              />
-              <label
-                for="sign_term"
-                className="ms-2 text-sm font-medium text-green-900"
-              >
-                ฉันยอมรับ{" "}
-                <a href="#" className="text-green-600 hover:underline">
-                  ข้อกำหนดและเงื่อนไข
-                </a>
-              </label>
-            </div>
-
-            <div className="mb-4 text-center">
-              <CommitButton
-                type="submit"
-                className={
-                  !state.show_error_sign_form
-                    ? "text-white bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
-                    : "text-white bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
-                }
-                data={getCreateSignData(false)}
-                onMouseEnter={() => {
-                  State.update({ hover_element_sign: "Yes" });
-                }}
-                onMouseLeave={() => {
-                  State.update({ hover_element_sign: "" });
-                }}
-                onClick={() => {
-                  State.update({
-                    send_post_sign: true,
-                  });
-                }}
-              >
-                สนับสนุนประเด็นนี้
-              </CommitButton>
-            </div>
-          </div>
+          {rendercomment()}
           <div className="h-px bg-gray-200 border-0"></div>
           <div className="mt-5 mb-5 max-w-xl mx-auto">
             <div className="text-center text-2xl mb-10 text-green-800">
