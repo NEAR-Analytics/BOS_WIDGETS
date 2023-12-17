@@ -54,7 +54,7 @@ const MidContent = () => {
     <>
       <MidContainer>
         <Title>Donation Hub</Title>
-        <Description>Create for BitkubHackathon 2023</Description>
+        <Description>Create for BITKUB BLOCKATHON 2023</Description>
       </MidContainer>
     </>
   );
