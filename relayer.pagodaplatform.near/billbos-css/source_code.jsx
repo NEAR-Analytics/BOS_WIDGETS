@@ -29,6 +29,10 @@ if (!state.theme) {
             background: rgb(0,200,160);
             background: linear-gradient(0deg, rgba(0,200,160,1) 0%, rgba(0,227,180,1) 63%);
         }
+        .brand-gradient-green-radial {
+            background: rgb(0,227,180);
+            background: radial-gradient(circle, rgba(0,227,180,1) 0%, rgba(0,200,160,1) 100%);
+        }
         .brand-dark-green {
             background-color:#00C8A0;
         }
