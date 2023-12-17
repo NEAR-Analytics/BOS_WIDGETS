@@ -62,7 +62,7 @@ return (
   <>
     {accountId ? (
       <Widget
-        src="abnakore.near/widget/Wrapper.jsx"
+        src="abnakore.near/widget/Wrapper"
         props={{
           body: (
             <div className="main-body">
