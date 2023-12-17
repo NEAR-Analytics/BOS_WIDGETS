@@ -100,9 +100,11 @@ return (
         <option value disabled selected hidden>
           {props.selectPlaceholder}
         </option>
-        {props.options.map((opt) => (
-          <option value={opt.value}>{opt.label}</option>
-        ))}
+        {props.options
+          ? props.options.map((opt) => (
+              <option value={opt.value}>{opt.label}</option>
+            ))
+          : ""}
       </Select>
     </div>
   </Theme>
