@@ -269,29 +269,31 @@ const tabs = {
 };
 const setTab = (tab) => State.update({ tab });
 const Container = styled.div`
-  &&{text-align:left};
-  .tabContent{
-    display:inline-flex;
-    align-items:left;
+  && {
+    text-align: left;
+  }
+  .tabContent {
+    display: inline-flex;
+    align-items: left;
     background: rgba(26, 46, 51, 0.25);
     border: 1px solid rgba(255, 255, 255, 0.3);
     border-radius: 10px;
-    padding:3px 4px;
-    list-style-type:none;
+    padding: 3px 4px;
+    list-style-type: none;
     margin: 0 auto;
   }
-  .tab-item .active{
+  .tab-item .active {
     background: #304352;
   }
-  .tab-item button{
-    background-color:transparent;
+  .tab-item button {
+    background-color: transparent;
     border-radius: 8px;
     font-weight: 500;
     font-size: 14px;
-    color:#fff;
-    height:30px;
-    padding:0 22px;
-    border:none;
+    color: #fff;
+    height: 30px;
+    padding: 0 22px;
+    border: none;
   }
 `;
 //---------------------------------------------------------------------------------------------------
@@ -843,12 +845,7 @@ const runqueries = (queries) => {
     return {
       id: q.id,
       element: (
-        <Widget
-          src="lord1.near/widget/api-flipside"
-          id={q.id}
-          key={q.id}
-          props={props}
-        />
+        <Widget src="lord1.near/widget/api-flipside" id={q.id} props={props} />
       ),
     };
   });
@@ -1062,35 +1059,34 @@ let BelowRight = (
       {CardIsLoading(5)}
       {CardHasError(5)}
       {state.result["query" + 5]?.data &&
-      state.result["query" + 5]?.data.length > 0 ? (
-        <Widget
-          src="lord1.near/widget/table-pagination"
-          props={{
-            themeColor: { table_pagination: themeColor.table_pagination },
-            data: state.result["query" + 5]?.data,
-            rowsCount: 4,
-            columns: [
-              { title: "Issued At", key: "issued_at" },
-              { title: "Expired At", key: "expired_at" },
+        (state.result["query" + 5]?.data.length > 0 ? (
+          <Widget
+            src="lord1.near/widget/table-pagination"
+            props={{
+              themeColor: { table_pagination: themeColor.table_pagination },
+              data: state.result["query" + 5]?.data,
+              rowsCount: 4,
+              columns: [
+                { title: "Issued At", key: "issued_at" },
+                { title: "Expired At", key: "expired_at" },
 
-              {
-                title: "To Deadline",
-                key: "to_deadline",
-                progress: "yes",
-                percent: "hidden",
-              },
-              { title: "Type", key: "issuer", colors: "#806ce1" },
-              { title: "Token Id", key: "token_id" },
-            ],
-          }}
-        />
-      ) : (
-        noData
-      )}
+                {
+                  title: "To Deadline",
+                  key: "to_deadline",
+                  progress: "yes",
+                  percent: "hidden",
+                },
+                { title: "Type", key: "issuer", colors: "#806ce1" },
+                { title: "Token Id", key: "token_id" },
+              ],
+            }}
+          />
+        ) : (
+          noData
+        ))}
     </div>
   </div>
 );
-
 const Right = styled.div`
   padding: 2px;
   margin-bottom: 10px;
@@ -1098,7 +1094,7 @@ const Right = styled.div`
 `;
 
 const H5 = styled.h5`
-  color:${themeColor.election?.textColor};
+  color: ${themeColor.election?.textColor};
   text-align: center;
 `;
 const ChartContainer = styled.div`
@@ -1110,12 +1106,17 @@ const ChartContainer = styled.div`
 return (
   <>
     {state.loader && (
-      <div className="d-none">{state.loader.map((l) => l?.element)}</div>
+      <div className="d-none">
+        {state.loader.map((l) => (
+          <pre key={l.id}>{l?.element}</pre>
+        ))}
+      </div>
     )}
     <div className="toast-container position-fixed bottom-0 end-0 p-3">
       {state.error.length > 0 &&
         state.error.map((er) => (
           <div
+            key={er}
             className="toast show align-items-center text-bg-danger border-0"
             role="alert"
             aria-live="assertive"
