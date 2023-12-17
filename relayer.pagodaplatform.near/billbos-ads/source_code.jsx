@@ -55,7 +55,7 @@ const EndContent = styled.div`
 `;
 
 State.init({
-  isOpenModal: isOpenDefault || true,
+  isOpenModal: isOpenDefault ? true : false,
 });
 
 const onOpen = () => {
