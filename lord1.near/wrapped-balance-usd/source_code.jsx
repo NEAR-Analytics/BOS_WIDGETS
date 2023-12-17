@@ -2,7 +2,6 @@ const APIKEY = "36f2b87a-7ee6-40d8-80b9-5e68e587a5b5";
 const themeColor = props.themeColor;
 const explor_balance_nft_theme = themeColor?.explor_balance?.nft || {};
 const accountId = props.accountId ?? context.accountId ?? "";
-55;
 // ------------------------
 // format to small characters like 200k, 200m, 200b...
 const formatNumber = (num) => {
@@ -120,7 +119,7 @@ const handleData = () => {
 
 const fetchData = () => {
   const data = fetch(
-    `https://api.pikespeak.ai/account/balances?accounts=${accountId}`,
+    `https://api.pikespeak.ai/account/balances?accounts=${state.searchedAccountId}`,
     {
       mode: "cors",
       headers: {
@@ -266,9 +265,9 @@ return (
                   }}
                 />
               )}
-            </div>{" "}
+            </div>
           </div>
-        </div>{" "}
+        </div>
       </div>
       <div className="col-4">
         <Widget src="lord1.near/widget/header-dynamic" props={general_theme1} />
@@ -294,7 +293,7 @@ return (
               )}
             />
           )}
-        </div>{" "}
+        </div>
       </div>
     </div>
   </div>
