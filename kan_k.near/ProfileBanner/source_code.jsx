@@ -174,7 +174,7 @@ return (
         {viewingOwnAccount ? (
           <Link
             className="button button--primary"
-            href="/near/widget/ProfileEditor"
+            href="https://near.org/near/widget/ProfileEditor"
           >
             <i className="bi bi-pencil"></i>
             Edit Profile
