@@ -38,19 +38,19 @@ function switchEthereumChain(chainId) {
     { chainId: chainIdHex },
   ]);
 
-  if (res === undefined) {
-    console.log(
-      `Failed to switch chain to ${chainId}. Add the chain to wallet`
-    );
-    Ethers.send("wallet_addEthereumChain", [
-      {
-        chainId: chainIdHex,
-        chainName: state.chains[chainId].name,
-        nativeCurrency: state.chains[chainId].nativeCurrency,
-        rpcUrls: [state.chains[chainId].rpcUrl],
-      },
-    ]);
-  }
+  //   if (res === undefined) {
+  //     console.log(
+  //       `Failed to switch chain to ${chainId}. Add the chain to wallet`
+  //     );
+  //     Ethers.send("wallet_addEthereumChain", [
+  //       {
+  //         chainId: chainIdHex,
+  //         chainName: state.chains[chainId].name,
+  //         nativeCurrency: state.chains[chainId].nativeCurrency,
+  //         rpcUrls: [state.chains[chainId].rpcUrl],
+  //       },
+  //     ]);
+  //   }
 }
 
 function setTabSelect(index) {
@@ -97,6 +97,10 @@ function checkProvider() {
 }
 checkProvider();
 
+// if(state.chainId !== undefined && !(CHAIN_LIST.includes(state.chainId))){
+//     return <></>
+// }
+
 const earningCard = (title, amount) => {
   return (
     <div>
@@ -114,7 +118,23 @@ const fectEarning = () => {
 
 function tabComponent() {
   if (state.tabSelect == 0) {
-    return <div>0</div>;
+    return (
+      <div
+        style={{
+          height: "221px",
+        }}
+        className="brand-green w-full "
+      >
+        <div className="container">
+          <div className="text-white pt-10">
+            <p className="font-semibold text-xl">BillBos Dashboard</p>
+            <p className="text-sm">
+              Unlock the power of onchain data for Web3 Ads
+            </p>
+          </div>
+        </div>
+      </div>
+    );
   } else if (state.tabSelect == 1) {
     return (
       <div className="container">
@@ -298,10 +318,14 @@ const main = (
               }}
             />
           </div>
-
-          <div className=" min-h-screen w-full">
-            <div>{tabComponent()}</div>
-          </div>
+          {state.chainId !== undefined &&
+          !CHAIN_LIST.includes(state.chainId) ? (
+            <div></div>
+          ) : (
+            <div className=" min-h-screen w-full">
+              <div>{tabComponent()}</div>
+            </div>
+          )}
         </div>
       ) : (
         <Widget src="porx-dev.near/widget/billbos-authen" props={{}} />
