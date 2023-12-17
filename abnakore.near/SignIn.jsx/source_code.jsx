@@ -5,7 +5,7 @@ return (
     src="abnakore.near/widget/Wrapper.jsx"
     props={{
       body: (
-        <div>
+        <div className="main-body">
           <h1>Sign In</h1>
           <div className="form">
             <a
@@ -21,7 +21,7 @@ return (
             </a>
             <p className="member">
               {accountId === "abnakore.near" ? (
-                <a href="https://near.org/abnakore.near/widget/AdminHome.jsx">
+                <a href="https://near.org/abnakore.near/widget/AdminHome">
                   I'm an Admin
                 </a>
               ) : null}
