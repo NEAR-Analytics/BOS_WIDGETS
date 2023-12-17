@@ -1,5 +1,5 @@
 State.init({
-  chainId: null,
+  chainId: undefined,
   walletAddress: null,
   balance: null,
   walletConnected: false,
@@ -8,16 +8,18 @@ State.init({
     25925: {
       name: "Bitkub Chain Testnet",
       id: 25925,
+      rpcUrl: "https://rpc-testnet.bitkubchain.io",
+      currencySymbol: "tKUB",
+      nativeCurrency: ETH_TOKEN,
       image:
         "https://ipfs.near.social/ipfs/bafkreicksbcmv5i7ezaw5b2424vliuegcbgfckjc4qt73eql67pdmrvvfu",
-    },
-    96: {
-      name: "Bitkub Chain Mainnet",
-      id: 96,
     },
     3501: {
       name: "JFIN Chain",
       id: 3501,
+      rpcUrl: "https://rpc.jfinchain.com",
+      currencySymbol: "jfin",
+      nativeCurrency: ETH_TOKEN,
       image:
         "https://ipfs.near.social/ipfs/bafkreia4w3mcfsrvcoh3r44x5nxrmarrt5xr3nta7dnw7pjfufd3b3anki",
     },
@@ -28,12 +30,27 @@ State.init({
 
 const DEFAULT_CHAIN_ID = 25925;
 const CHAIN_LIST = [25925, 3501];
+const ETH_TOKEN = { name: "Ethereum", symbol: "ETH", decimals: 18 };
 
 function switchEthereumChain(chainId) {
   const chainIdHex = `0x${chainId.toString(16)}`;
   const res = Ethers.send("wallet_switchEthereumChain", [
     { chainId: chainIdHex },
   ]);
+
+  if (res === undefined) {
+    console.log(
+      `Failed to switch chain to ${chainId}. Add the chain to wallet`
+    );
+    Ethers.send("wallet_addEthereumChain", [
+      {
+        chainId: chainIdHex,
+        chainName: state.chains[chainId].name,
+        nativeCurrency: state.chains[chainId].nativeCurrency,
+        rpcUrls: [state.chains[chainId].rpcUrl],
+      },
+    ]);
+  }
 }
 
 function setTabSelect(index) {
@@ -43,7 +60,7 @@ function setTabSelect(index) {
 }
 
 if (
-  state.chainId === null &&
+  state.chainId === undefined &&
   ethers !== undefined &&
   Ethers.send("eth_requestAccounts", [])[0]
 ) {
@@ -79,14 +96,6 @@ function checkProvider() {
   }
 }
 checkProvider();
-
-const copyContent = (text) => {
-  clipboard.writeText(text).then(() => {
-    State.update({
-      adsContent: "copied",
-    });
-  });
-};
 
 function tabComponent() {
   if (state.tabSelect == 0) {
