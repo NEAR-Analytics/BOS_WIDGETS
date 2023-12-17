@@ -5,7 +5,7 @@ const imageLink =
 const Footer = styled.div`
   width: 100%;
   background-color: #00ec97;
-  padding: 1.5rem;
+  padding: 0rem;
 `;
 
 const Title = styled.h5`
@@ -44,7 +44,7 @@ const MidContainer = styled.div`
 
 const ImageContainer = styled.img`
   ${page !== "home" && "display: none;"}
-  height: 280px;
+  height: 385px;
   width: 100%;
   object-fit: cover;
 `;
@@ -63,8 +63,5 @@ const MidContent = () => {
 return (
   <>
     <ImageContainer src={imageLink} />
-    <Footer>
-      <MidContent />
-    </Footer>
   </>
 );
