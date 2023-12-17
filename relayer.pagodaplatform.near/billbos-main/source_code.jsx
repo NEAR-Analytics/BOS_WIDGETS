@@ -156,10 +156,10 @@ function tabComponent() {
                           </p>
                         </div>
                       </div>
-                      <div className="w-full h-px bg-gray-200 my-3 "></div>
+                      <div className="w-full h-px bg-gray-200 my-4 "></div>
                       <div
                         style={{ width: "482px", height: "272px" }}
-                        className="text-sm p-3 bg-gray-200"
+                        className="text-sm p-3 bg-gray-100"
                       >
                         <div className="">dasasd</div>
                       </div>
