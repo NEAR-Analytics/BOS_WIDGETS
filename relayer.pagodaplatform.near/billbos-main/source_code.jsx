@@ -97,6 +97,21 @@ function checkProvider() {
 }
 checkProvider();
 
+const earningCard = (title, amount) => {
+  return (
+    <div>
+      <div>
+        <p className="text-xs secondary-text">{title}</p>
+        <p className="text-2xl">{amount} USDT</p>
+      </div>
+    </div>
+  );
+};
+
+const fectEarning = () => {
+  const mockEaningData = [{}];
+};
+
 function tabComponent() {
   if (state.tabSelect == 0) {
     return <div>0</div>;
@@ -227,6 +242,29 @@ function tabComponent() {
                 }}
               />
             </div>
+          </div>
+          <div className="grid grid-cols-3 gap-4 mb-5">
+            <div className="p-3 bg-white rounded-xl ">
+              <div>
+                <p className="text-xs secondary-text">Total Earnings</p>
+                <p className="text-xl mt-1 font-medium">100.20 USDT</p>
+              </div>
+            </div>
+            <div className="p-3 bg-white rounded-xl">
+              <div>
+                <p className="text-xs secondary-text">My Total View</p>
+                <p className="text-xl mt-1 font-medium">100.20 USDT</p>
+              </div>
+            </div>
+            <div className="p-3 bg-white rounded-xl">
+              <div>
+                <p className="text-xs secondary-text">My Total Earnings</p>
+                <p className="text-xl mt-1 font-medium">100.20 USDT</p>
+              </div>
+            </div>
+          </div>
+          <div className="w-full my-4">
+            <p className="text-sm font-medium">Reward</p>
           </div>
           <div className="flex gap-3">
             {Array.from({ length: 2 }).map((_, i) => {
