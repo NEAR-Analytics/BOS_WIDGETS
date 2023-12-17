@@ -51,20 +51,13 @@ return (
         </tr>
       </thead>
       <tbody>
-        {JSON.stringify(props.data) === JSON.stringify([[]]) ||
-        JSON.stringify(props.data) === JSON.stringify([]) ? (
-          <td colSpan={props.headings.length} style={{ textAlign: "center" }}>
-            No Data
-          </td>
-        ) : (
-          props.data.map((cand) => (
-            <tr key={cand[0]}>
-              {cand.map((d) => (
-                <td key={d}>{d}</td>
-              ))}
-            </tr>
-          ))
-        )}
+        {props.data.map((cand) => (
+          <tr key={cand[0]}>
+            {cand.map((d) => (
+              <td key={d}>{d}</td>
+            ))}
+          </tr>
+        ))}
       </tbody>
     </table>
   </Wrapper>
