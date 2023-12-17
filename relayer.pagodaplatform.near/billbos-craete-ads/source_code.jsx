@@ -46,11 +46,26 @@ const StyledSelect = styled.div`
   }
 `;
 
-const EndContent = styled.div`
+const StartContent = styled.div`
   position: absolute;
   top: 50%;
   left: 10px;
   transform: translateY(-50%);
+`;
+
+const CustomUpload = styled.div`
+  .btn {
+    font-size: 12px;
+    height: 32px;
+    border-radius: 8px;
+    background-color: #F7F9F9;
+    color: black;
+    border: solid 1px #D0D5DD;
+  }
+
+  .btn:focus {
+    background-color: #F7F9F9;
+  }
 `;
 
 const NetworkImgList = {
@@ -169,25 +184,22 @@ const Modal = ({ isOpen, onClose }) => {
           <p class="text-sm secondary-text mt-4">Image Ads</p>
           <div class="border flex flex-row justify-between rounded-lg px-2 py-2 w-full cursor-pointer">
             <p class="text-sm tertiary-text py-1">{"No File Choosen"}</p>
-            <button
-              onClick={() => onUpload()}
-              class="border text-xs px-2 rounded-lg bg-gray-100 hover:bg-gray-200"
-            >
-              {"Choose file"}
-            </button>
+            <CustomUpload>
+              <IpfsImageUpload class="bg-red-200" image={state.img} />
+            </CustomUpload>
           </div>
           <p class="text-xs tertiary-text py-1">
             {"JPG, PNG or GIF format, 5MB max file, use a 728x90."}
           </p>
           <p class="text-sm secondary-text mt-4">Network</p>
           <StyledSelect>
-            <EndContent>
+            <StartContent>
               <img
                 src={state.chainImg}
                 alt="Icon"
                 class="w-6 h-6 rounded-full mt-2"
               />
-            </EndContent>
+            </StartContent>
             <select
               class="w-full border pl-10 py-2 mt-2 rounded-lg"
               id="network"
@@ -200,13 +212,13 @@ const Modal = ({ isOpen, onClose }) => {
           </StyledSelect>
           <p class="text-sm secondary-text mt-4">Token</p>
           <StyledSelect>
-            <EndContent>
+            <StartContent>
               <img
                 src="https://icons.iconarchive.com/icons/cjdowner/cryptocurrency-flat/512/Tether-USDT-icon.png"
                 alt="Icon"
                 class="w-6 h-6 rounded-full mt-2"
               />
-            </EndContent>
+            </StartContent>
             <select
               class="w-full border pl-10 py-2 mt-2 rounded-lg"
               id="network"
@@ -219,10 +231,12 @@ const Modal = ({ isOpen, onClose }) => {
           <StyledInput>
             <input type="number" class="w-full border px-2 py-2 rounded-lg" />
           </StyledInput>
-          <IpfsImageUpload image={state.img} />
         </div>
         <div class="grid grid-cols-2 gap-4 px-8 py-4">
-          <button class="px-6 py-2 green-text border-1 border-green-300 rounded-lg">
+          <button
+            onClick={() => onClose()}
+            class="px-6 py-2 green-text border-1 border-green-300 rounded-lg"
+          >
             Cancel
           </button>
           <button class="px-6 py-2 text-white font-semibold brand-green rounded-lg">
