@@ -116,7 +116,7 @@ const Modal = ({ isOpen, onClose }) => {
         class="bg-white rounded-xl pt-4"
       >
         <div class="flex flex-row justify-between items-start border-b pb-4 px-4 ">
-          <p class="text-lg">Stake Ads</p>
+          <p class="text-lg">{"Stake Ads"}</p>
           <svg
             class="cursor-pointer"
             onClick={() => onClose()}
@@ -135,12 +135,7 @@ const Modal = ({ isOpen, onClose }) => {
             />
           </svg>
         </div>
-        <div
-          style={{
-            height: "400px",
-          }}
-          class="flex flex-col items-start pb-4 px-4 mt-4 overflow-scroll"
-        >
+        <div class="flex flex-col items-start pb-4 px-4 mt-4">
           <p class="text-sm secondary-text mb-2">Amount</p>
           <StyledInput class="flex flex-row">
             <input type="number" class="w-full px-3 py-2 rounded-lg border" />
@@ -181,16 +176,21 @@ const Modal = ({ isOpen, onClose }) => {
             applicable conversion ratio at stake.`}</p>
           </div>
           <div class="w-full flex flex-row justify-between mt-4 text-sm px-2">
-            <p>Exchange Rate</p>
+            <p class="tertiary-text">{"Exchange Rate"}</p>
             <p>{"1 USDT = 1 USD"}</p>
           </div>
+          <div class="w-full flex flex-row justify-between mt-2 text-sm px-2">
+            <p class="tertiary-text">{"Reference APR"}</p>
+            <p>{"0.00 %"}</p>
+          </div>
+          <div class="w-full flex flex-row justify-between mt-2 text-sm px-2">
+            <p class="tertiary-text">{"You will receive"}</p>
+            <p>{"100.04 USDT"}</p>
+          </div>
         </div>
-        <div class="grid grid-cols-2 gap-4 px-8 py-4">
-          <button class="px-6 py-2 green-text border-1 border-green-300 rounded-lg">
-            Cancel
-          </button>
-          <button class="px-6 py-2 text-white font-semibold brand-green rounded-lg">
-            Create
+        <div class="w-full px-8 pt-2 pb-4">
+          <button class="px-6 py-2 text-white font-semibold brand-green rounded-lg w-full">
+            {"Stake now"}
           </button>
         </div>
       </div>
