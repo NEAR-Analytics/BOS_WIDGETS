@@ -1,5 +1,4 @@
-const imageLink =
-  "https://i.postimg.cc/65k3xmJj/The-Decentralized-Donation-Hub-2.png";
+const imageLink = "https://i.postimg.cc/QCSk4Y8S/2.png";
 const HeroSection = styled.div`
   position: relative;
   height: 382px;
