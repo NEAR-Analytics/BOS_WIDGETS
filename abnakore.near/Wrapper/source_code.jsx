@@ -18,6 +18,7 @@ const Wrapper = styled.div`
   place-items: center;
   min-width: 320px;
   min-height: 100vh;
+  background-color: #242424;
 }
 
 .two-sides {
