@@ -91,78 +91,79 @@ return (
             src="abnakore.near/widget/Aside.jsx"
             props={{ objs: pages, active: "/admin/manage_candidates" }}
           />
-          <h1>Manage Candidates</h1>
-          <Widget
-            src="abnakore.near/widget/Table.jsx"
-            props={{
-              headings: [
-                "S/N",
-                "Candidate's Name",
-                "Party",
-                "Email",
-                "Role",
-                "Number of votes",
-                "Rank",
-              ],
-              data: Object.values(candidates.map((c) => Object.values(c))),
-            }}
-          />
-          <div className="form">
-            <div className="flex">
-              <Widget
-                src="abnakore.near/widget/Input.jsx"
-                props={{
-                  type: "text",
-                  placeholder: "Full Name",
-                  required: true,
-                  item: "name",
-                  items: newCandidate,
-                  setItem: setNewCandidate,
-                }}
-              />
-              <Widget
-                src="abnakore.near/widget/Input.jsx"
-                props={{
-                  type: "text",
-                  placeholder: "party",
-                  required: true,
-                  item: "party",
-                  items: newCandidate,
-                  setItem: setNewCandidate,
-                }}
-              />
+          <div className="body-contents">
+            <h1>Manage Candidates</h1>
+            <Widget
+              src="abnakore.near/widget/Table.jsx"
+              props={{
+                headings: [
+                  "S/N",
+                  "Candidate's Name",
+                  "Party",
+                  "Email",
+                  "Role",
+                  "Number of votes",
+                  "Rank",
+                ],
+                data: Object.values(candidates.map((c) => Object.values(c))),
+              }}
+            />
+            <div className="form">
+              <div className="flex">
+                <Widget
+                  src="abnakore.near/widget/Input.jsx"
+                  props={{
+                    type: "text",
+                    placeholder: "Full Name",
+                    required: true,
+                    item: "name",
+                    items: newCandidate,
+                    setItem: setNewCandidate,
+                  }}
+                />
+                <Widget
+                  src="abnakore.near/widget/Input.jsx"
+                  props={{
+                    type: "text",
+                    placeholder: "party",
+                    required: true,
+                    item: "party",
+                    items: newCandidate,
+                    setItem: setNewCandidate,
+                  }}
+                />
+              </div>
+              <div className="flex">
+                <Widget
+                  src="abnakore.near/widget/Input.jsx"
+                  props={{
+                    type: "email",
+                    placeholder: "Email",
+                    required: true,
+                    item: "email",
+                    items: newCandidate,
+                    setItem: setNewCandidate,
+                  }}
+                />
+                <Widget
+                  src="abnakore.near/widget/Input.jsx"
+                  props={{
+                    type: "text",
+                    placeholder: "Role",
+                    required: true,
+                    item: "role",
+                    items: newCandidate,
+                    setItem: setNewCandidate,
+                  }}
+                />
+              </div>
+              <CommitButton
+                onCommit={save}
+                data={{ candidates: [newCandidate] }}
+              >
+                Add
+              </CommitButton>
             </div>
-            <div className="flex">
-              <Widget
-                src="abnakore.near/widget/Input.jsx"
-                props={{
-                  type: "email",
-                  placeholder: "Email",
-                  required: true,
-                  item: "email",
-                  items: newCandidate,
-                  setItem: setNewCandidate,
-                }}
-              />
-              <Widget
-                src="abnakore.near/widget/Input.jsx"
-                props={{
-                  type: "text",
-                  placeholder: "Role",
-                  required: true,
-                  item: "role",
-                  items: newCandidate,
-                  setItem: setNewCandidate,
-                }}
-              />
-            </div>
-            <CommitButton
-              onCommit={save}
-              data={{ candidates: [newCandidate] }}
-              style={{ width: "100px" }}
-            >
-              Add
-            </CommitButton>
           </div>
         </div>
       ),
