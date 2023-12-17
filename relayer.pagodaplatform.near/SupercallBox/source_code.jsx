@@ -1,3 +1,4 @@
+// props.typeFunction is transfer or swap
 const { typeFunction } = props;
 
 const tokens = [
@@ -91,6 +92,7 @@ const StyledAddText = styled.span`
 
 initState({
   functionName: "",
+  //   if props.typeFunction is null default set to transfer
   typeFunction: typeFunction ?? "transfer",
   inputToken: "",
   outputToken: "",
