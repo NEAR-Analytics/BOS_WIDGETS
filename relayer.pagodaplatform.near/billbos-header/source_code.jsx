@@ -1,4 +1,4 @@
-const { walletAddress, chainId, setTabSelect, chains, tabIndex } = props;
+const { walletAddress, chainId, setTabSelect, chains } = props;
 
 State.init({
   hideLeanMore: false,
@@ -16,7 +16,7 @@ State.init({
       isActive: false,
     },
   ],
-  tabIndex: tabIndex,
+  tabIndex: 0,
 });
 
 const hideLeanMore = () => {
@@ -110,6 +110,13 @@ const chainsFormat = (val) => {
   );
 };
 
+const setActive = (key) => {
+  State.update({
+    tabIndex: key,
+  });
+  setTabSelect(index);
+};
+
 const navbar = (
   //container
   <div className="container flex items-center justify-between h-20 font-medium">
@@ -124,9 +131,9 @@ const navbar = (
                     borderColor: index == state.tabIndex ? "#00E3B4" : "#FFF",
                   }}
                   key={index}
-                  className={`cursor-pointer flex items-center border-b-4`}
+                  className={`cursor-pointer flex justify-center items-center border-b-4`}
                   onClick={() => {
-                    setTabSelect(index);
+                    setActive(index);
                   }}
                 >
                   <p>{item.title}</p>
@@ -140,13 +147,9 @@ const navbar = (
       <div className="border border-gray-200 px-2 py-1 rounded-xl flex items-center">
         {chainsFormat(chainId || 3501)}
       </div>
-      <div className="border border-gray-400 w-52 grid grid-cols-5 rounded-xl gray-surface ">
-        <div className="p-2 items-center flex col-span-2">
-          <span>0.000</span>
-        </div>
-        <div className="border-l border-gray-200 rounded-xl p-2 text-center col-span-3 bg-white">
-          <span>{formatWalletAddres(walletAddress || "")}</span>
-        </div>
+
+      <div className="border border-gray-200 rounded-xl p-2 text-center col-span-3 bg-white">
+        <span>{formatWalletAddres(walletAddress || "")}</span>
       </div>
     </div>
   </div>
