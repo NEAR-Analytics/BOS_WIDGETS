@@ -6,20 +6,39 @@ State.init({
   tabSelect: 0,
   chains: {
     25925: {
-      name: "Bitkub Chain Testnet",
       id: 25925,
+      name: "Bitkub Chain Testnet",
       rpcUrl: "https://rpc-testnet.bitkubchain.io",
       currencySymbol: "tKUB",
       nativeCurrency: ETH_TOKEN,
       image:
         "https://ipfs.near.social/ipfs/bafkreicksbcmv5i7ezaw5b2424vliuegcbgfckjc4qt73eql67pdmrvvfu",
     },
+    96: {
+      id: 96,
+      name: "Bitkub Chain",
+      name: "Bitkub Chain Testnet",
+      rpcUrl: "https://rpc.bitkubchain.io",
+      currencySymbol: "KUB",
+      nativeCurrency: ETH_TOKEN,
+      image:
+        "https://ipfs.near.social/ipfs/bafkreicksbcmv5i7ezaw5b2424vliuegcbgfckjc4qt73eql67pdmrvvfu",
+    },
     3501: {
-      name: "JFIN Chain",
       id: 3501,
+      name: "JFIN Chain",
       rpcUrl: "https://rpc.jfinchain.com",
       currencySymbol: "jfin",
       nativeCurrency: ETH_TOKEN,
+      image:
+        "https://ipfs.near.social/ipfs/bafkreia4w3mcfsrvcoh3r44x5nxrmarrt5xr3nta7dnw7pjfufd3b3anki",
+    },
+    35011: {
+      id: 35011,
+      name: "J2O Taro",
+      rpcUrl: "https://rpc.j2o.io",
+      nativeCurrency: ETH_TOKEN,
+      currencySymbol: "taro",
       image:
         "https://ipfs.near.social/ipfs/bafkreia4w3mcfsrvcoh3r44x5nxrmarrt5xr3nta7dnw7pjfufd3b3anki",
     },
@@ -29,7 +48,7 @@ State.init({
 });
 
 const DEFAULT_CHAIN_ID = 25925;
-const CHAIN_LIST = [25925, 3501];
+const CHAIN_LIST = [25925, 3501, 35011, 96];
 const ETH_TOKEN = { name: "Ethereum", symbol: "ETH", decimals: 18 };
 
 function switchEthereumChain(chainId) {
