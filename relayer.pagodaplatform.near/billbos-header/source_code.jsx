@@ -114,8 +114,9 @@ const setActive = (key) => {
   State.update({
     tabIndex: key,
   });
-  setTabSelect(index);
 };
+
+setTabSelect && setTabSelect(state.tabIndex);
 
 const navbar = (
   //container
@@ -145,7 +146,7 @@ const navbar = (
     </div>
     <div className="flex text-sm gap-2 ">
       <div className="border border-gray-200 px-2 py-1 rounded-xl flex items-center">
-        {chainsFormat(chainId || 3501)}
+        {chainsFormat(chainId)}
       </div>
 
       <div className="border border-gray-200 rounded-xl p-2 text-center col-span-3 bg-white">
