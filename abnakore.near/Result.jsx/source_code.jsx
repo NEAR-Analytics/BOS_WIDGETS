@@ -20,25 +20,36 @@ const [candidates, setCandidates] = useState([
 ]);
 
 return (
-  <>
-    <div className="two-sides">
-      <Widget
-        src="abnakore.near/widget/Aside.jsx"
-        props={{ objs: pages, active: "/result" }}
-      />
-      ,
-      <div className="main-body">
-        <h1>Result</h1>
-        {/* Calling the table component */}
-        {/* Extracting The values in the table an converting them to list */}
-        <Widget
-          src="abnakore.near/widget/Table.jsx"
-          props={{
-            headings: ["S/N", "Candidate's Name", "Number of votes", "Rank"],
-            data: Object.values(candidates.map((c) => Object.values(c))),
-          }}
-        />
-      </div>
-    </div>
-  </>
+  <Widget
+    src="abnakore.near/widget/Wrapper"
+    props={{
+      body: (
+        <div className="main-body">
+          <div className="two-sides">
+            <Widget
+              src="abnakore.near/widget/Aside.jsx"
+              props={{ objs: pages, active: "/result" }}
+            />
+            <div className="main-body">
+              <h1>Result</h1>
+              {/* Calling the table component */}
+              {/* Extracting The values in the table an converting them to list */}
+              <Widget
+                src="abnakore.near/widget/Table.jsx"
+                props={{
+                  headings: [
+                    "S/N",
+                    "Candidate's Name",
+                    "Number of votes",
+                    "Rank",
+                  ],
+                  data: Object.values(candidates.map((c) => Object.values(c))),
+                }}
+              />
+            </div>
+          </div>
+        </div>
+      ),
+    }}
+  />
 );
