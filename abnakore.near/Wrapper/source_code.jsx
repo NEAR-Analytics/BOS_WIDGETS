@@ -6,6 +6,7 @@ const Wrapper = styled.div`
   place-items: center;
   min-width: 320px;
   min-height: 100vh;
+  width: 100vw;
 
 
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
