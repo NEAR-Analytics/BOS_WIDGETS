@@ -331,7 +331,6 @@ const main = (
                 chainId: state.chainId,
                 setTabSelect: (index) => setTabSelect(index),
                 chains: state.chains,
-                tabIndex: state.tabSelect,
               }}
             />
           </div>
