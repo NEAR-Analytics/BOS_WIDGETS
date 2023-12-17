@@ -1,3 +1,7 @@
+// from: https://portal.txsync.io/bridge
+// 0.01 eth transfer: https://etherscan.io/tx/0x7931ca7ca4619bc488afc3d0606424f1ac0cfb7489404ece3c594d3ad20b0064
+// 1 usdc transfer: https://etherscan.io/tx/0xc51bac121faa8f2e5da1fe3c6032ec4d5537e7d580aa0a94e7f3197e59df3f14
+
 // constants
 
 const ETHEREUM_CHAIN_ID = 1;
@@ -104,7 +108,12 @@ if (!state.chainId) {
         network = "mainnet";
       }
       console.log("chainId", chainId, network);
-      State.update({ chainId, network });
+      let log;
+      if (chainId === ZKSYNC_CHAIN_ID || chainId === ZKSYNC_GOERLI_CHAIN_ID) {
+        log =
+          "For deposits, please switch to Ethereum mainnet or Goerli testnet.";
+      }
+      State.update({ chainId, network, log });
     });
   return "";
 }
@@ -132,6 +141,7 @@ const contracts = {
     },
     eth: {
       decimals: 18,
+      withdraw: "0x000000000000000000000000000000000000800A", // l2 token
     },
     weth: {
       deposit: "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48", // l1 token
@@ -152,8 +162,6 @@ const contracts = {
       L2ERC20Bridge: "0x00ff932A6d70E2B8f1Eb4919e1e09C1923E7e57b",
     },
     eth: {
-      deposit: "TBD",
-      withdraw: "TBD",
       decimals: 18,
     },
     weth: {
@@ -194,16 +202,28 @@ const zkEthAbi = fetch(
   "https://gist.githubusercontent.com/mattlockyer/80b8323c91669cb5c662fc649a8d74dc/raw/bfecb8a4148a33ec03f7312f54bc68fc358e8ffe/zkEthAbi.json"
 );
 
+const zkEthTokenAbi = fetch(
+  "https://gist.githubusercontent.com/mattlockyer/52a6b1213903abcb8268a2415ab33b52/raw/b63c89cad21112fbd3f460ed2d42338e650360b7/l2EthToken.json"
+);
+
 const erc20Abi = fetch(
   "https://gist.githubusercontent.com/veox/8800debbf56e24718f9f483e1e40c35c/raw/f853187315486225002ba56e5283c1dba0556e6f/erc20.abi.json"
 );
 
-if (!zkAbi.ok || !erc20Abi.ok || !zkL2Abi.ok) {
+// wait for all abi to load
+if (
+  !zkAbi.ok ||
+  !erc20Abi.ok ||
+  !zkL2Abi.ok ||
+  !zkEthAbi.ok ||
+  !zkEthTokenAbi.ok
+) {
   return "";
 }
 
 const erc20IFace = new ethers.utils.Interface(erc20Abi.body);
 const zkL1EthIFace = new ethers.utils.Interface(zkEthAbi.body);
+const zkL2EthTokenIFace = new ethers.utils.Interface(zkEthTokenAbi.body);
 const zkL1IFace = new ethers.utils.Interface(zkAbi.body);
 const zkL2IFace = new ethers.utils.Interface(zkL2Abi.body);
 
@@ -309,6 +329,8 @@ function isWithdrawalFinalized(txHash, cb) {
   );
 }
 
+// getting deposits and withdrawals
+
 if (!state.initLogs) {
   State.update({ initLogs: true });
 
@@ -328,6 +350,8 @@ if (!state.initLogs) {
     }
   );
 
+  // check each withdrawal to see if finalized
+
   // const txHash = `0x91180618b8453b820097aee15f37698691384a2cffd9108eb94d0c3070899e53`;
   // // const txHash = `0x973993b769d3aa3a956f15ac4b9f4d06d76b7b728656f74c3ff3155a34230879`;
 
@@ -338,13 +362,9 @@ if (!state.initLogs) {
   return "";
 }
 
-const onAction = (data) => {
-  if (!data.amount) return;
-  if (data.action === "deposit") handleDeposit(data);
-  if (data.action === "withdraw") handleWithdraw(data);
-};
+// deposits
 
-// TODO HERE
+// TODO add the fee ??? not sure how to calculate fee, but add something and this should work
 
 const handleDepositEth = (data) => {
   const value = ethers.utils.parseUnits(data.amount);
@@ -363,6 +383,10 @@ const handleDepositEth = (data) => {
       gasLimit: ethers.BigNumber.from("500000"),
     });
 };
+
+// TODO deposit on txBridge is missing the final address arg
+// NOT "deposit(address,address,uint256,uint256,uint256,address)"
+// BUT "deposit(address,address,uint256,uint256,uint256)"
 
 const handleDeposit = (data) => {
   console.log("handleDeposit", data);
@@ -446,9 +470,34 @@ const handleApprove = (data, callback) => {
     });
 };
 
+// withdrawals
+
+const handleWithdrawEth = (data) => {
+  const value = ethers.utils.parseUnits(data.amount);
+
+  const encodedData = zkL2EthTokenIFace.encodeFunctionData(
+    "withdraw(address)",
+    [sender]
+  );
+
+  Ethers.provider()
+    .getSigner()
+    .sendTransaction({
+      to: contracts[network][data.assetId].withdraw,
+      data: encodedData,
+      value,
+      gasLimit: ethers.BigNumber.from("500000"),
+    });
+};
+
 const handleWithdraw = (data) => {
   console.log("handleWithdraw", data);
   State.update({ isLoading: true, log: undefined, explorerLink: undefined });
+
+  if (data.assetId === "eth") {
+    return handleWithdrawEth(data);
+  }
+
   const l2Token = contracts[network][data.assetId].withdraw;
   const amountBig = ethers.utils.parseUnits(
     data.amount,
@@ -475,6 +524,8 @@ const handleWithdraw = (data) => {
       State.update({ isLoading: false });
     });
 };
+
+// balances
 
 const getTokenBalance = (sender, isL1, tokenAddress, decimals, callback) => {
   if (!sender) return;
@@ -509,66 +560,91 @@ const tab = !state.tab || state.tab === "deposit" ? "deposit" : "withdraw";
 const clone = (o) => JSON.parse(JSON.stringify(o));
 const { deposit, withdraw } = state;
 
-if (!state.balancesUpdated) {
-  // update token balances
+if (sender && !state.balancesUpdated) {
   // l1
+  Ethers.provider()
+    .getBalance(sender)
+    .then((balance) => {
+      const cloned = clone(deposit || defaultDeposit);
+      const formatted = ethers.utils.formatUnits(balance);
+      cloned.assets[0].balance = formatted.substring(
+        0,
+        formatted.indexOf(".") + 5
+      );
+      State.update({ deposit: cloned });
 
-  // FETCH SENDER ETH BALANCE
-  if (sender) {
-    Ethers.provider()
-      .getBalance(sender)
-      .then((balance) => {
-        const cloned = clone(deposit || defaultDeposit);
-        const formatted = ethers.utils.formatUnits(balance);
-        cloned.assets[0].balance = formatted.substring(
-          0,
-          formatted.indexOf(".") + 5
-        );
-        State.update({ deposit: cloned });
-
-        // USDC
-        getTokenBalance(
-          sender,
-          true,
-          contracts[network].usdc.deposit,
-          tokens.usdc.decimals,
-          (balance) => {
-            cloned.assets[1].balance = balance;
-            State.update({ deposit: cloned });
-          }
-        );
-      });
-  }
+      // USDC
+      getTokenBalance(
+        sender,
+        true,
+        contracts[network].usdc.deposit,
+        tokens.usdc.decimals,
+        (balance) => {
+          cloned.assets[1].balance = balance;
+          State.update({ deposit: cloned });
+        }
+      );
+    });
 
   //l2;
-  // getTokenBalance(sender, contracts[network].weth.withdraw, tokens.eth.decimals, (balance) => {
-  //   if (!withdraw) return;
-  //   const cloned = clone(withdraw);
-  //   cloned.assets[0].balance = balance;
-  //   State.update({ withdraw: cloned });
-  // });
-
-  // zksync/zksync goerli usdc
-  getTokenBalance(
-    sender,
-    false,
-    contracts[network].usdc.withdraw,
-    tokens.usdc.decimals,
-    (balance) => {
-      const cloned = clone(withdraw || defaultWithdraw);
-      cloned.assets[1].balance = balance;
+  contracts[network].l2Provider
+    .send("eth_getBalance", [sender])
+    .then((balance) => {
+      const cloned = clone(deposit || defaultDeposit);
+      const formatted = ethers.utils.formatUnits(balance);
+      cloned.assets[0].balance = formatted.substring(
+        0,
+        formatted.indexOf(".") + 5
+      );
       State.update({ withdraw: cloned });
-    }
-  );
+
+      // USDC
+      getTokenBalance(
+        sender,
+        false,
+        contracts[network].usdc.withdraw,
+        tokens.usdc.decimals,
+        (balance) => {
+          cloned.assets[1].balance = balance;
+          State.update({ withdraw: cloned });
+        }
+      );
+    });
 
   State.update({ balancesUpdated: true });
 
   return "";
 }
 
+// bridge-ui functions
+
+const onAction = (data) => {
+  if (!data.amount) return;
+  if (data.action === "deposit") handleDeposit(data);
+  if (data.action === "withdraw") handleWithdraw(data);
+};
+
 const onTabChange = (tab) => {
-  // console.log("onTabChange", deposit, withdraw);
-  State.update({ deposit: clone(withdraw), withdraw: clone(deposit), tab });
+  let log = null;
+  if (
+    tab === "deposit" &&
+    (chainId === ZKSYNC_CHAIN_ID || chainId === ZKSYNC_GOERLI_CHAIN_ID)
+  ) {
+    log = "For deposits, please switch to Ethereum mainnet or Goerli testnet.";
+  }
+  if (
+    tab === "withdraw" &&
+    (chainId === ETHEREUM_CHAIN_ID || chainId === GOERLI_CHAIN_ID)
+  ) {
+    log = "For withdrawals, please switch to zkSync mainnet or zkSync testnet.";
+  }
+
+  State.update({
+    deposit: clone(withdraw),
+    withdraw: clone(deposit),
+    tab,
+    log,
+  });
 };
 
 const { deposits, withdrawals } = state;
@@ -579,9 +655,5 @@ return (
       src="mattlock.near/widget/bridge-ui"
       props={{ ...state, onTabChange, onAction, title: "zkBridge" }}
     />
-
-    {deposits.map((d) => (
-      <p>{d}</p>
-    ))}
   </>
 );
