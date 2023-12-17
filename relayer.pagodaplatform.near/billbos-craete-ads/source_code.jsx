@@ -55,16 +55,18 @@ const StartContent = styled.div`
 
 const CustomUpload = styled.div`
   .btn {
-    font-size: 12px;
-    height: 32px;
+    font-size: 11px;
+    height: 28px;
     border-radius: 8px;
     background-color: #F7F9F9;
     color: black;
     border: solid 1px #D0D5DD;
   }
 
-  .btn:focus {
-    background-color: #F7F9F9;
+  .btn-outline-primary {
+    --bs-btn-active-color: black;
+    --bs-btn-active-bg: #F0F0F0;
+    --bs-btn-active-border-color: #D0D5DD;
   }
 `;
 
@@ -181,16 +183,33 @@ const Modal = ({ isOpen, onClose }) => {
               </StyledInput>
             </>
           )}
-          <p class="text-sm secondary-text mt-4">Image Ads</p>
-          <div class="border flex flex-row justify-between rounded-lg px-2 py-2 w-full cursor-pointer">
-            <p class="text-sm tertiary-text py-1">{"No File Choosen"}</p>
-            <CustomUpload>
-              <IpfsImageUpload class="bg-red-200" image={state.img} />
-            </CustomUpload>
-          </div>
-          <p class="text-xs tertiary-text py-1">
-            {"JPG, PNG or GIF format, 5MB max file, use a 728x90."}
-          </p>
+          {state.adsType == "REDIRECT" && (
+            <>
+              <p class="text-sm secondary-text mt-4">Image Ads</p>
+              <div class="border flex flex-row justify-between rounded-lg py-2 px-2 w-full cursor-pointer">
+                {state.img ? (
+                  <>
+                    <p class="text-sm py-1 truncate w-3/4">
+                      {state.img.cid ?? "Loading..."}
+                    </p>
+                    <p class="tertiary-text cursor-pointer">x</p>
+                  </>
+                ) : (
+                  <>
+                    <p class="text-sm tertiary-text py-1">
+                      {"No File Choosen"}
+                    </p>
+                    <CustomUpload>
+                      <IpfsImageUpload class="bg-red-200" image={state.img} />
+                    </CustomUpload>
+                  </>
+                )}
+              </div>
+              <p class="text-xs tertiary-text py-1">
+                {"JPG, PNG or GIF format, 5MB max file, use a 728x90."}
+              </p>
+            </>
+          )}
           <p class="text-sm secondary-text mt-4">Network</p>
           <StyledSelect>
             <StartContent>
