@@ -174,29 +174,31 @@ const tabs = {
 };
 const setTab = (tab) => State.update({ tab });
 const Container = styled.div`
-  &&{text-align:left};
-  .tabContent{
-    display:inline-flex;
-    align-items:left;
+  && {
+    text-align: left;
+  }
+  .tabContent {
+    display: inline-flex;
+    align-items: left;
     background: rgba(26, 46, 51, 0.25);
     border: 1px solid rgba(255, 255, 255, 0.3);
     border-radius: 10px;
-    padding:3px 4px;
-    list-style-type:none;
+    padding: 3px 4px;
+    list-style-type: none;
     margin: 0 auto;
   }
-  .tab-item .active{
+  .tab-item .active {
     background: #304352;
   }
-  .tab-item button{
-    background-color:transparent;
+  .tab-item button {
+    background-color: transparent;
     border-radius: 8px;
     font-weight: 500;
     font-size: 14px;
-    color:#fff;
-    height:30px;
-    padding:0 22px;
-    border:none;
+    color: #fff;
+    height: 30px;
+    padding: 0 22px;
+    border: none;
   }
 `;
 //---------------------------------------------------------------------------------------------------
@@ -441,12 +443,7 @@ const runqueries = (queries) => {
     return {
       id: q.id,
       element: (
-        <Widget
-          src="lord1.near/widget/api-flipside"
-          id={q.id}
-          key={q.id}
-          props={props}
-        />
+        <Widget src="lord1.near/widget/api-flipside" id={q.id} props={props} />
       ),
     };
   });
@@ -489,7 +486,6 @@ if (state.error.length > 0) {
   setTimeout(hide, 2500);
 }
 
-console.log(state);
 // get props charts #######################################
 const getMixProps = (data, dateKey, serieses, colors, chartOption) => {
   data = data || [];
@@ -623,14 +619,16 @@ const CardHasError = (queryId) =>
 
 let TableLeft = (
   <div
-    style={{ background: themeColor?.sbt_area?.section_bg }}
+    style={{
+      background: themeColor?.sbt_area?.section_bg,
+      display: state.tab === tabs.left ? "" : "none",
+    }}
     className="shadow-sm rounded-2 overflow-auto p-2"
   >
     <div
       style={{ background: themeColor?.sbt_area?.card_bg }}
       className="shadow-sm rounded-4 overflow-auto"
     >
-      {" "}
       {CardIsLoading(1)}
       {CardHasError(1)}
       {state.result["query" + 1]?.data && (
@@ -653,14 +651,16 @@ let TableLeft = (
 );
 let TableRight = (
   <div
-    style={{ background: themeColor?.sbt_area?.section_bg }}
+    style={{
+      background: themeColor?.sbt_area?.section_bg,
+      display: state.tab === tabs.right ? "" : "none",
+    }}
     className="shadow-sm rounded-2 overflow-auto p-2"
   >
     <div
       style={{ background: themeColor?.sbt_area?.card_bg }}
       className="shadow-sm rounded-4 overflow-auto"
     >
-      {" "}
       {CardIsLoading(2)}
       {CardHasError(2)}
       {state.result["query" + 2]?.data && (
@@ -684,14 +684,16 @@ let TableRight = (
 
 let TableMiddle = (
   <div
-    style={{ background: themeColor?.sbt_area?.section_bg }}
+    style={{
+      background: themeColor?.sbt_area?.section_bg,
+      display: state.tab === tabs.middle ? "" : "none",
+    }}
     className="shadow-sm rounded-2 overflow-auto p-2"
   >
     <div
       style={{ background: themeColor?.sbt_area?.card_bg }}
       className="shadow-sm rounded-4 overflow-auto"
     >
-      {" "}
       {CardIsLoading(3)}
       {CardHasError(3)}
       {state.result["query" + 3]?.data && (
@@ -722,7 +724,6 @@ let BelowLeft = (
       style={{ background: themeColor?.sbt_area?.card_bg }}
       className="shadow-sm rounded-4 overflow-auto"
     >
-      {" "}
       {CardIsLoading(4)}
       {CardHasError(4)}
       {state.result["query" + 4]?.data && (
@@ -752,7 +753,6 @@ let BelowRight = (
       style={{ background: themeColor?.sbt_area?.card_bg }}
       className="shadow-sm rounded-4 overflow-auto"
     >
-      {" "}
       {CardIsLoading(5)}
       {CardHasError(5)}
       {state.result["query" + 5]?.data && (
@@ -819,12 +819,17 @@ let ChartSections = (
 return (
   <>
     {state.loader && (
-      <div className="d-none">{state.loader.map((l) => l?.element)}</div>
+      <div className="d-none">
+        {state.loader.map((l) => (
+          <pre key={l.id}>{l?.element}</pre>
+        ))}
+      </div>
     )}
     <div className="toast-container position-fixed bottom-0 end-0 p-3">
       {state.error.length > 0 &&
         state.error.map((er) => (
           <div
+            key={er}
             className="toast show align-items-center text-bg-danger border-0"
             role="alert"
             aria-live="assertive"
@@ -860,7 +865,7 @@ return (
                   <Container>
                     <ul className="tabContent">
                       {Object.values(tabs).map((tab) => (
-                        <li className="tab-item">
+                        <li key={tab} className="tab-item">
                           <button
                             className={`${state.tab === tab ? "active" : ""}`}
                             aria-current="page"
@@ -875,9 +880,9 @@ return (
                 </div>
                 <div>
                   <div className="">
-                    {state.tab === tabs.left && TableLeft}
-                    {state.tab === tabs.middle && TableMiddle}
-                    {state.tab === tabs.right && TableRight}
+                    {TableLeft}
+                    {TableMiddle}
+                    {TableRight}
                   </div>
                 </div>
               </div>
