@@ -53,8 +53,16 @@ const EndContent = styled.div`
   transform: translateY(-50%);
 `;
 
+const NetworkImgList = {
+  BKC: "https://www.bitkubnft.com/_next/image?url=https%3A%2F%2Fstatic.bitkubnext.com%2Fnft%2Fnft_stores%2Fbitkub-chain%2Fstore_profile.png&w=256&q=10",
+  J2O: "https://img2.pic.in.th/pic/j2o.png",
+};
+
 State.init({
   isOpenModal: false,
+  selectedChain: "BKC",
+  chainImg: NetworkImgList.BKC,
+  img: null,
 });
 
 const onOpen = () => {
@@ -69,7 +77,18 @@ const onClose = () => {
   });
 };
 
-const Modal = ({ isOpen, onClose, children }) => {
+const onUpload = () => {};
+
+const handleChangeChain = (event) => {
+  if (event.target.value) {
+    State.update({
+      selectedChain: event.target.value,
+      chainImg: NetworkImgList[event.target.value],
+    });
+  }
+};
+
+const Modal = ({ isOpen, onClose }) => {
   if (!isOpen) return null;
   return (
     <ModalOverlay>
@@ -128,7 +147,10 @@ const Modal = ({ isOpen, onClose, children }) => {
           <p class="text-sm secondary-text mt-4">Image Ads</p>
           <div class="border flex flex-row justify-between rounded-lg px-2 py-2 w-full cursor-pointer">
             <p class="text-sm tertiary-text py-1">{"No File Choosen"}</p>
-            <button class="border text-xs px-2 rounded-lg bg-gray-100 hover:bg-gray-200">
+            <button
+              onClick={() => onUpload()}
+              class="border text-xs px-2 rounded-lg bg-gray-100 hover:bg-gray-200"
+            >
               {"Choose file"}
             </button>
           </div>
@@ -139,7 +161,7 @@ const Modal = ({ isOpen, onClose, children }) => {
           <StyledSelect>
             <EndContent>
               <img
-                src="https://www.bitkubnft.com/_next/image?url=https%3A%2F%2Fstatic.bitkubnext.com%2Fnft%2Fnft_stores%2Fbitkub-chain%2Fstore_profile.png&w=256&q=10"
+                src={state.chainImg}
                 alt="Icon"
                 class="w-6 h-6 rounded-full mt-2"
               />
@@ -148,9 +170,10 @@ const Modal = ({ isOpen, onClose, children }) => {
               class="w-full border pl-10 py-2 mt-2 rounded-lg"
               id="network"
               name="network"
+              onChange={(e) => handleChangeChain(e)}
             >
               <option value="BKC">Bitkub Chain</option>
-              <option value="JFIN">J2O Taro</option>
+              <option value="J2O">J2O Taro</option>
             </select>
           </StyledSelect>
           <p class="text-sm secondary-text mt-4">Token</p>
@@ -168,13 +191,13 @@ const Modal = ({ isOpen, onClose, children }) => {
               name="network"
             >
               <option value="USDT">USDT</option>
-              <option value="KUB">KUB</option>
             </select>
           </StyledSelect>
           <p class="text-sm secondary-text mt-4">Amount</p>
           <StyledInput>
             <input type="number" class="w-full border px-2 py-2 rounded-lg" />
           </StyledInput>
+          <IpfsImageUpload image={state.img} />
         </div>
         <div class="grid grid-cols-2 gap-4 px-8 py-4">
           <button class="px-6 py-2 green-text border-1 border-green-300 rounded-lg">
@@ -192,7 +215,7 @@ const Modal = ({ isOpen, onClose, children }) => {
 const content = (
   <div>
     <button onClick={onOpen}>Open Modal</button>
-    <Modal isOpen={state.isOpenModal} onClose={onClose} children={modalBody} />
+    <Modal isOpen={state.isOpenModal} onClose={onClose} />
   </div>
 );
 
