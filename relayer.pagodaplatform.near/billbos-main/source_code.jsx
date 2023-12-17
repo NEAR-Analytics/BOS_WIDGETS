@@ -140,9 +140,27 @@ function tabComponent() {
                 props={{
                   btnName: "Get my ads component",
                   btnClass:
-                    "brand-green px-2.5 py-2 rounded-xl text-white text-sm font-bold",
+                    "brand-green px-2.5 py-2 rounded-xl text-white text-sm font-semibold",
                   height: "467px",
                   width: "550px",
+                  body: (
+                    <div className="p-2">
+                      <div>
+                        <div>
+                          <p className="font-semibold text-lg">
+                            Get my Ads Component
+                          </p>
+                          <p className="tertiary-text text-sm">
+                            Give your teammates access to this presets and start
+                            collaborating in real time.
+                          </p>
+                        </div>
+                      </div>
+                      <div>
+                        <div></div>
+                      </div>
+                    </div>
+                  ),
                 }}
               />
             </div>
