@@ -1,3 +1,5 @@
+const { typeFunction } = props;
+
 const tokens = [
   {
     tokenAddress: "0x38430d2703246F986685F68E2817CB370F5f3CCD",
@@ -89,7 +91,7 @@ const StyledAddText = styled.span`
 
 initState({
   functionName: "",
-  typeFunction: "swap",
+  typeFunction: typeFunction ?? "transfer",
   inputToken: "",
   outputToken: "",
   toWalletAddress: "",
