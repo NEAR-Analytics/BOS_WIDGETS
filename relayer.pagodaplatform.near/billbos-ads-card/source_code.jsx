@@ -29,10 +29,10 @@ const content = (
         </div>
       </div>
       <div class="grid grid-cols-2 gap-4 mt-12">
-        <button class="px-8 py-2 text-white font-semibold brand-green rounded-lg">
+        <button class="px-4 py-2 text-white font-semibold brand-green rounded-lg">
           Stake Now
         </button>
-        <button class="px-8 py-2 green-text font-semibold border-1 border-green-300 rounded-lg">
+        <button class="px-4 py-2 green-text font-semibold border-1 border-green-300 rounded-lg">
           Unstake
         </button>
       </div>
