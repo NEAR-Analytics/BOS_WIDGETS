@@ -2,6 +2,7 @@ State.init({
   chainId: undefined,
   walletAddress: null,
   balance: null,
+  test: null,
   walletConnected: false,
   tabSelect: 0,
   chains: {
@@ -47,6 +48,7 @@ State.init({
     '<Widget src="jimmy-ez.near/widget/billbos-craete-ads" props={{}} />',
 });
 
+const BACKEND_API = "https://api-billbos.0xnutx.space";
 const DEFAULT_CHAIN_ID = 25925;
 const CHAIN_LIST = [25925, 3501, 35011, 96];
 const ETH_TOKEN = { name: "Ethereum", symbol: "ETH", decimals: 18 };
@@ -96,6 +98,32 @@ if (
     });
 }
 
+function reportUptime() {
+  //   const res = fetch(BACKEND_API + "/api/ads/total-ad-view?month=0").body;
+  //   State.update({ test: res.body });
+  asyncFetch(BACKEND_API + "/api/ads/total-ad-view?month=0").then((res) => {
+    const uptime = res.body;
+    State.update({ test: uptime || "-" });
+  });
+}
+
+Storage.privateSet("api", "https://api-billbos.0xnutx.space");
+
+const fetchApi = (queryURI) => {
+  return asyncFetch(queryURI, {
+    method: "GET",
+    body: JSON.stringify(data),
+  });
+};
+
+const handleRequestView = () => {
+  const queryURI = Storage.privateGet("api");
+  fetchApi(queryURI + "/api/ads/total-ad-view?month=0").then((res) => {
+    State.update({ test: res.body });
+    console.log(res.body);
+  });
+};
+
 function checkProvider() {
   const provider = Ethers.provider();
   if (provider) {
@@ -128,7 +156,23 @@ const earningCard = (title, amount) => {
 };
 
 const fectEarning = () => {
-  const mockEaningData = [{}];
+  //   const res = fetch(BACKEND_API + "/api").then((res) => {}).body;
+  //   const uptime = res.body;
+  //   State.update({
+  //     test: uptime,
+  //   });/ads/total-ad-view?month=0
+  try {
+    asyncFetch(BACKEND_API + "/api/ads/total-ad-view?month=0").then((res) => {
+      const uptime = res.body;
+      State.update({
+        test: uptime.view,
+      });
+    });
+  } catch (err) {
+    State.update({
+      test: JSON.stringify(err),
+    });
+  }
 };
 
 function tapCampaigns() {
@@ -360,6 +404,10 @@ function tabComponent() {
 
 const main = (
   <div className="relative gray-surface ">
+    <div onClick={() => handleRequestView()} className="cursor-poiner">
+      click
+    </div>
+    "---" {JSON.stringify(state)}
     <div>
       {state.walletConnected ? (
         <div>
