@@ -41,6 +41,7 @@ State.init({
   searchedSinger: null,
   searchedInterval: null,
   tab: tabs.transaction,
+  result: {},
   error: [],
 });
 //---------------------------------------------------------------------------------------
@@ -65,7 +66,12 @@ const handleSearchedSinger = () => {
     state.searchedSinger === state.singer &&
     state.searchedInterval === state.interval
   ) {
-    State.update({ error: [...state.error, "please insert a new address"] });
+    State.update({
+      error: [
+        ...state.error,
+        "please insert new address or select new interval",
+      ],
+    });
     return;
   }
   State.update({
@@ -96,36 +102,38 @@ if (state.error.length > 0) {
 // tabs container --------------------------------------------
 
 const Container = styled.div`
-  &&{text-align:left};
-  .tabContent{
-    display:inline-flex;
-    align-items:left;
+  && {
+    text-align: left;
+  }
+  .tabContent {
+    display: inline-flex;
+    align-items: left;
     background: rgba(26, 46, 51, 0.25);
     border: 1px solid rgba(255, 255, 255, 0.3);
     border-radius: 10px;
-    padding:3px 4px;
-    list-style-type:none;
+    padding: 3px 4px;
+    list-style-type: none;
     margin: 0 auto;
-    flex-wrap:wrap;
-    justify-content:center;
+    flex-wrap: wrap;
+    justify-content: center;
   }
-  .tab-item .active{
+  .tab-item .active {
     background: #304352;
   }
-  .tab-item button{
-    background-color:transparent;
+  .tab-item button {
+    background-color: transparent;
     border-radius: 8px;
     font-weight: 500;
     font-size: 14px;
-    color:#fff;
-    height:30px;
-    padding:0 22px;
-    border:none;
+    color: #fff;
+    height: 30px;
+    padding: 0 22px;
+    border: none;
   }
 `;
 //--------------------
 const Input = styled.input`
-  flex-grow : 4 !important;
+  flex-grow: 4 !important;
   color: ${themeColor?.search_sbt?.input_text_color};
   background-color: ${themeColor?.search_sbt?.input_bg};
   &:hover {
@@ -142,17 +150,17 @@ const Input = styled.input`
     border: 1px solid ${themeColor?.search_sbt?.input_border};
   }
   &::placeholder {
-    color : ${themeColor?.search_sbt?.input_text_color};
+    color: ${themeColor?.search_sbt?.input_text_color};
   }
-  &:placeholder-shown{
-    opacity : 0.5;
+  &:placeholder-shown {
+    opacity: 0.5;
   }
 `;
 const Dropdown = styled.select`
   cursor: pointer;
   color: ${themeColor?.search_sbt?.input_text_color};
   background-color: ${themeColor?.search_sbt?.input_bg};
-  background-image :url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23343a40' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m2 5 6 6 6-6'/%3e%3c/svg%3e");
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23343a40' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m2 5 6 6 6-6'/%3e%3c/svg%3e");
   &:hover {
     background-color: ${themeColor?.search_sbt?.input_bg_hover};
   }
@@ -195,7 +203,7 @@ const Transaction = (
       props={{
         themeColor,
         singer: state.searchedSinger,
-        interval: searchedInterval,
+        interval: state.searchedInterval,
         API_KEY,
       }}
     />
@@ -212,7 +220,7 @@ const Balance = (
       props={{
         themeColor,
         singer: state.searchedSinger,
-        interval: searchedInterval,
+        interval: state.searchedInterval,
         API_KEY,
       }}
     />
@@ -228,7 +236,7 @@ const Transfer = (
       props={{
         themeColor,
         singer: state.searchedSinger,
-        interval: searchedInterval,
+        interval: state.searchedInterval,
         API_KEY,
       }}
     />
@@ -244,7 +252,7 @@ const NFT = (
       props={{
         themeColor,
         singer: state.searchedSinger,
-        interval: searchedInterval,
+        interval: state.searchedInterval,
         API_KEY,
       }}
     />
@@ -260,7 +268,7 @@ const Sharddog = (
       props={{
         themeColor,
         singer: state.searchedSinger,
-        interval: searchedInterval,
+        interval: state.searchedInterval,
         API_KEY,
       }}
     />
@@ -276,7 +284,7 @@ const Stake = (
       props={{
         themeColor,
         singer: state.searchedSinger,
-        interval: searchedInterval,
+        interval: state.searchedInterval,
         API_KEY,
       }}
     />
@@ -292,7 +300,7 @@ const Platform = (
       props={{
         themeColor,
         singer: state.searchedSinger,
-        interval: searchedInterval,
+        interval: state.searchedInterval,
         API_KEY,
       }}
     />
@@ -308,7 +316,7 @@ const Social = (
       props={{
         themeColor,
         singer: state.searchedSinger,
-        interval: searchedInterval,
+        interval: state.searchedInterval,
         API_KEY,
       }}
     />
@@ -324,6 +332,7 @@ return (
       {state.error.length > 0 &&
         state.error.map((er) => (
           <div
+            key={er}
             className="toast show align-items-center text-bg-danger border-0"
             role="alert"
             aria-live="assertive"
@@ -397,7 +406,7 @@ return (
             <Container>
               <ul className="tabContent">
                 {Object.values(tabs).map((tab) => (
-                  <li className="tab-item">
+                  <li key={tab} className="tab-item">
                     <button
                       className={`${state.tab === tab ? "active" : ""}`}
                       aria-current="page"
