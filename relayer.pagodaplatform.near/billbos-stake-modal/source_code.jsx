@@ -55,6 +55,12 @@ const onClose = () => {
   });
 };
 
+const onCloseLoading = () => {
+  State.update({
+    isOpenLoadingModal: false,
+  });
+};
+
 const onMax = () => {
   console.log("onMax");
   State.update({
@@ -178,12 +184,6 @@ const content = (
     <Modal isOpen={state.isOpenModal} onClose={onClose} />
   </div>
 );
-
-const onCloseLoading = () => {
-  State.update({
-    isOpenLoadingModal: false,
-  });
-};
 
 return (
   <>
