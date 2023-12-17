@@ -144,7 +144,7 @@ function tabComponent() {
                   height: "467px",
                   width: "550px",
                   body: (
-                    <div className="flex justify-center w-full">
+                    <div className="flex flex-wrap justify-center w-full">
                       <div style={{ width: "482px" }}>
                         <div>
                           <p className="font-semibold text-lg">
@@ -156,9 +156,12 @@ function tabComponent() {
                           </p>
                         </div>
                       </div>
-                      <div className="w-full h-px secondary-surface "></div>
-                      <div style={{ width: "482px" }}>
-                        <div>dasasd</div>
+                      <div className="w-full h-px bg-gray-200 my-3 "></div>
+                      <div
+                        style={{ width: "482px", height: "272px" }}
+                        className="text-sm p-3 bg-gray-200"
+                      >
+                        <div className="">dasasd</div>
                       </div>
                     </div>
                   ),
