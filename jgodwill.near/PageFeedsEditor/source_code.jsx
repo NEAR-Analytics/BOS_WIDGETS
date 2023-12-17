@@ -15,10 +15,10 @@ const accounts = Object.entries(pageFeedsObject);
 
 const allWidgets = [];
 
-for (let i = 0; i < accounts.length; ++i) {
-  const accountId = accounts[i][0];
-  allWidgets.push(accountId);
-}
+// for (let i = 0; i < accounts.length; ++i) {
+//   const accountId = accounts[i][0];
+//   allWidgets.push(accountId);
+// }
 
 // const pageFeedsCount = {};
 
