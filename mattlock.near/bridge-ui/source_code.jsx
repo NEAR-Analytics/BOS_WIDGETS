@@ -276,9 +276,7 @@ return (
       </button>
       {log && (
         <div className="alert alert-success" role="alert">
-          <div className="text-truncate" style={{ maxWidth: 300 }}>
-            {log}
-          </div>
+          <div>{log}</div>
           {explorerLink && (
             <a href={explorerLink} className="alert-link" target="_blank">
               Etherscan
