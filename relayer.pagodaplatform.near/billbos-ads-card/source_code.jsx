@@ -28,11 +28,11 @@ const content = (
           <p class="text-gray-400 text-sm">{"Balance"}</p>
         </div>
       </div>
-      <div class="grid grid-cols-2 gap-4 mt-12">
-        <button class="px-2 py-2 text-white font-semibold brand-green rounded-lg">
+      <div class="w-full grid grid-cols-2 gap-2 mt-12">
+        <button class="w-full py-2 text-white font-semibold brand-green rounded-lg">
           Stake Now
         </button>
-        <button class="px-2 py-2 green-text font-semibold border-1 border-green-300 rounded-lg">
+        <button class="w-full py-2 green-text font-semibold border-1 border-green-300 rounded-lg">
           Unstake
         </button>
       </div>
