@@ -1,10 +1,10 @@
-const { tokenImage, chainName, amount, tokenName } = props;
+const { tokenImage, chainName, amount, tokenName, onClaim } = props;
 
 const main = (
   <div
     className="shadow-sm rounded-2xl pb-4 bg-white"
     style={{ width: "302px", paddingButton: "" }}
-    // style={{ height: "406px", width: "302px" }}
+  // style={{ height: "406px", width: "302px" }}
   >
     <div className="flex justify-center flex-wrap">
       <div className="w-full flex justify-end flex-wrap">
@@ -33,7 +33,10 @@ const main = (
       <div className="w-full flex justify-center mt-4">
         <div
           style={{ width: "242px" }}
-          className="px-6 py-2 brand-green rounded-xl text-center text-white font-semibold text-sm"
+          className="px-6 py-2 brand-green cursor-pointer rounded-xl text-center text-white font-semibold text-sm"
+          onClick={() => {
+            onClaim()
+          }}
         >
           Claim Rewards
         </div>
