@@ -274,6 +274,21 @@ function tapRewards() {
 }
 
 function tapDashboard() {
+  const earningCards = [
+    {
+      title: "Total Staked",
+      ipfsUrl: "bafkreigb2h33nc6bpa2gcuvbs46eys4bbb6djibx76xknbrkswtqfqlyzm",
+    },
+    {
+      title: "Total Earnings",
+      ipfsUrl: "bafkreievjy5wntddg6augnywctekhic3dttnf57h4dhjkypyx5mhjci2ou",
+    },
+    {
+      title: "Total View Ads",
+      ipfsUrl: "bafkreid32njwsekcwj3uvbfrz7upc6iqpz5tzxbymw5jb7kye5axdgnmri",
+    },
+  ];
+
   return (
     <div
       style={{
@@ -288,13 +303,19 @@ function tapDashboard() {
             Unlock the power of onchain data for Web3 Ads
           </p>
         </div>
-        <div className="w-full grid grid-cols-3 gap-2 mt-16 pt-2">
-          {Array.from({ length: 3 }).map((_, i) => {
+        <div className="w-full grid grid-cols-3 gap-4 mt-16 pt-2 ">
+          {earningCards.map((item, i) => {
             return (
-              <div key={i}>
+              <div key={i} className="h-full">
                 <Widget
                   src="chayanonc-ph.near/widget/billbos-earning-card"
-                  props={{}}
+                  props={{
+                    title: item.title,
+                    amountUSDT: item.usdt,
+                    amountTHB: item.thb,
+                    totalView: i == 2 ? "19,002" : "",
+                    ipfsUrl: `https://ipfs.near.social/ipfs/${item.ipfsUrl}`,
+                  }}
                 />
               </div>
             );
