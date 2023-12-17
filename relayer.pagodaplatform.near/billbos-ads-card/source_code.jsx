@@ -11,7 +11,7 @@ const content = (
       alt="uploaded"
     />
     <div class="w-full flex flex-col justify-center items-center text-center px-8">
-      <p class="mt-4 text-xl font-semibold">{"Season of Savings"}</p>
+      <p class="mt-4 text-xl font-semibold">{"Season of Savings 2"}</p>
       <p class="mt-1 font-light text-gray-400">
         {"https://docs.near.org/bos/components/ipfs"}
       </p>
@@ -29,10 +29,10 @@ const content = (
         </div>
       </div>
       <div class="grid grid-cols-2 gap-4 mt-12">
-        <button class="px-4 py-2 text-white font-semibold brand-green rounded-lg">
+        <button class="px-2 py-2 text-white font-semibold brand-green rounded-lg">
           Stake Now
         </button>
-        <button class="px-4 py-2 green-text font-semibold border-1 border-green-300 rounded-lg">
+        <button class="px-2 py-2 green-text font-semibold border-1 border-green-300 rounded-lg">
           Unstake
         </button>
       </div>
