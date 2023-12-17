@@ -1,24 +1,29 @@
-const pageFeedPattern = props.pageFeedPattern ?? "*/profile/*";
+const pageFeedPattern = props.pageFeedPattern ?? "*/profile/feed/*";
 const placeholder = props.placeholder ?? "Feeds";
 const initialPageFeedsObject = props.initialPageFeedsObject || {};
 
 const pageFeedsObject = Social.keys(pageFeedPattern, "final");
+const pageFeedsArr = Social.keys("*/profile/*", "final");
 
-if (pageFeedsObject === null) {
+if (pageFeedsObject === null || pageFeedsArr === null) {
   return "Loading";
 }
 
-State.init({
-  account: accountId,
-});
-const accounts = Object.entries(pageFeedsObject);
+
+console.log("initial Tags", pageFeedsObject);
+
+
+// State.init({
+//   account: accountId,
+// });
+const accounts = Object.entries(pageFeedsArr);
 
 const allWidgets = [];
 
-// for (let i = 0; i < accounts.length; ++i) {
-//   const accountId = accounts[i][0];
-//   allWidgets.push(accountId);
-// }
+for (let i = 0; i < accounts.length; ++i) {
+  const accountId = accounts[i][0];
+  allWidgets.push(accountId);
+}
 
 // const pageFeedsCount = {};
 
@@ -82,7 +87,7 @@ return (
       multiple
       labelKey="name"
       onChange={setPageFeeds}
-      options={allWidgets}
+      options={state.allPageFeeds}
       placeholder={placeholder}
       selected={state.pageFeeds}
       positionFixed
