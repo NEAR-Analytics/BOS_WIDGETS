@@ -72,34 +72,36 @@ return (
             src="abnakore.near/widget/Aside"
             props={{ objs: pages, active: "/admin" }}
           />
-          <h1>Admin Home</h1>
-          <a href="https://near.org/abnakore.near/widget/App.jsx">
-            Voting Page
-          </a>
-          <h4>Candidates Details</h4>
-          <Widget
-            src="abnakore.near/widget/Table"
-            props={{
-              headings: [
-                "S/N",
-                "Candidate's Name",
-                "Party",
-                "Email",
-                "Role",
-                "Number of votes",
-                "Rank",
-              ],
-              data: Object.values(candidates.map((c) => Object.values(c))),
-            }}
-          />
-          <h4>Parties Details</h4>
-          <Widget
-            src="abnakore.near/widget/Table"
-            props={{
-              headings: ["S/N", "Party Name", "Acronym"],
-              data: Object.values(parties.map((c) => Object.values(c))),
-            }}
-          />
+          <div className="body-contents">
+            <h1>Admin Home</h1>
+            <a href="https://near.org/abnakore.near/widget/App.jsx">
+              Voting Page
+            </a>
+            <h4>Candidates Details</h4>
+            <Widget
+              src="abnakore.near/widget/Table"
+              props={{
+                headings: [
+                  "S/N",
+                  "Candidate's Name",
+                  "Party",
+                  "Email",
+                  "Role",
+                  "Number of votes",
+                  "Rank",
+                ],
+                data: Object.values(candidates.map((c) => Object.values(c))),
+              }}
+            />
+            <h4>Parties Details</h4>
+            <Widget
+              src="abnakore.near/widget/Table"
+              props={{
+                headings: ["S/N", "Party Name", "Acronym"],
+                data: Object.values(parties.map((c) => Object.values(c))),
+              }}
+            />
+          </div>
         </div>
       ),
     }}
