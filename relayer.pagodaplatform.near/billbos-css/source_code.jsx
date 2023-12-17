@@ -11,8 +11,13 @@ State.init({
   theme: null,
 });
 
-if (!tailwindCss) return "tailwind css not load";
-if (!font) return "font not load";
+const loading = (
+  <div class="spinner-grow" role="status">
+    <span class="visually-hidden">Loading...</span>
+  </div>
+);
+
+if (!tailwindCss || !font) return loading;
 
 if (!state.theme) {
   State.update({
