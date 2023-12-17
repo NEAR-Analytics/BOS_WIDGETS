@@ -279,9 +279,11 @@ return (
           <div className="text-truncate" style={{ maxWidth: 300 }}>
             {log}
           </div>
-          <a href={explorerLink} className="alert-link" target="_blank">
-            Etherscan
-          </a>
+          {explorerLink && (
+            <a href={explorerLink} className="alert-link" target="_blank">
+              Etherscan
+            </a>
+          )}
         </div>
       )}
     </div>
