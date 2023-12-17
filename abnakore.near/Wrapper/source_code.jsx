@@ -244,12 +244,6 @@ button, select {
   color: #fff;
 }
 
-h1 {
-  color: #000;
-  font-size: 100px;
-  font-weight: 600;
-}
-
 .error {
   border-color: #ff6464;
 }
@@ -331,7 +325,7 @@ button:focus-visible {
 }
 
 
-.main-body {
+.body-contents {
   display: flex;
   flex-direction: column;
   justify-content: center;
