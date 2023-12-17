@@ -61,6 +61,7 @@ function checkContractAddress() {
       isDeployed: isContract,
       isFetched: true,
     });
+    console.log("Address: ", address);
     Storage.set(`contractAddress:${props.accountNumber}`, address);
     Storage.set(`isDeployed:${props.accountNumber}`, isContract);
   });
