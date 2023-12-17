@@ -1,4 +1,4 @@
-const { usdt, thb, ipfsUrl, title } = props;
+const { usdt, thb, ipfsUrl, title, totalView } = props;
 
 State.init({
   title: title ?? "Total Staked",
@@ -18,12 +18,25 @@ const content = (
       <div className="text-sm secondary-text">
         <p>{state.title}</p>
       </div>
-      <div className="text-2xl font-semibold mt-1">
-        <p>{state.amountUSDT} USDT</p>
-      </div>
-      <div className="text-xs tertiary-text mt-3">
-        <p>฿{state.amountTHB}</p>
-      </div>
+      {totalView ? (
+        <>
+          <div className="text-2xl font-semibold mt-1">
+            <p>{totalView}</p>
+          </div>
+          <div className="text-xs tertiary-text mt-3">
+            <p>View</p>
+          </div>
+        </>
+      ) : (
+        <>
+          <div className="text-2xl font-semibold mt-1">
+            <p>{state.amountUSDT} USDT</p>
+          </div>
+          <div className="text-xs tertiary-text mt-3">
+            <p>฿{state.amountTHB}</p>
+          </div>
+        </>
+      )}
     </div>
   </div>
 );
