@@ -139,7 +139,7 @@ function tabComponent() {
                 src="porx-dev.near/widget/billbos-modal"
                 props={{
                   btnName: "Get my ads component",
-                  btnClass: "brean-green",
+                  btnClass: "brand-green px-2.5 py-2 rounded-xl text-white text-sm",
                 }}
               />
             </div>
