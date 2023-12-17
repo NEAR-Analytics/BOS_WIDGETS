@@ -27,7 +27,11 @@ if (state.chainId === undefined && ethers !== undefined && signer) {
     });
 }
 
-if (!signer || state.isError) {
+if (!signer) {
+  return <Web3Connect />;
+}
+
+if (state.isError) {
   return <></>;
 }
 
@@ -84,17 +88,3 @@ return (
     </div>
   </div>
 );
-
-//  <option key={index} value={index}>
-//               <img src={token.logoURI} width={36} height={36} />
-//               <span>{token.symbol}</span>
-//             </option>
-// <select className="w-10 border rounded p-1 ">
-//   {state.tokenList &&
-//     state.tokenList.map((token, index) => (
-//       <option key={index} value={index}>
-//         <img src={token.logoURI} width={36} height={36} />
-//         <span>{token.symbol}</span>
-//       </option>
-//     ))}
-// </select>
