@@ -1857,12 +1857,7 @@ const runqueries = (queries) => {
     return {
       id: q.id,
       element: (
-        <Widget
-          src="lord1.near/widget/api-flipside"
-          id={q.id}
-          key={q.id}
-          props={props}
-        />
+        <Widget src="lord1.near/widget/api-flipside" id={q.id} props={props} />
       ),
     };
   });
@@ -2143,7 +2138,6 @@ let TableLeft = (
       style={{ background: themeColor?.sbt_area?.card_bg }}
       className="shadow-sm rounded-4 overflow-auto"
     >
-      {" "}
       {CardIsLoading(2)}
       {CardHasError(2)}
       {state.result["query" + 2]?.data && (
@@ -2188,7 +2182,6 @@ let TableRight = (
       style={{ background: themeColor?.sbt_area?.card_bg }}
       className="shadow-sm rounded-4 overflow-auto"
     >
-      {" "}
       {CardIsLoading(3)}
       {CardHasError(3)}
       {state.result["query" + 3]?.data && (
@@ -2343,12 +2336,17 @@ let ChartSections = (
 return (
   <>
     {state.loader && (
-      <div className="d-none">{state.loader.map((l) => l?.element)}</div>
+      <div className="d-none">
+        {state.loader.map((l) => (
+          <pre key={l.id}>{l?.element}</pre>
+        ))}
+      </div>
     )}
     <div className="toast-container position-fixed bottom-0 end-0 p-3">
       {state.error.length > 0 &&
         state.error.map((er) => (
           <div
+            key={er}
             className="toast show align-items-center text-bg-danger border-0"
             role="alert"
             aria-live="assertive"
