@@ -144,7 +144,7 @@ function tabComponent() {
                   height: "467px",
                   width: "550px",
                   body: (
-                    <div className="p-2">
+                    <div className="px-5 py-3">
                       <div>
                         <div>
                           <p className="font-semibold text-lg">
