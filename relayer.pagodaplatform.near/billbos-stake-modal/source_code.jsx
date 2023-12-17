@@ -55,8 +55,6 @@ const onClose = () => {
   });
 };
 
-const onUpload = () => {};
-
 const onMax = () => {
   console.log("onMax");
   State.update({
@@ -202,6 +200,7 @@ return (
         onCloseModal: () => {
           State.update({ isOpenLoadingModal: false });
         },
+        isLoading: false,
       }}
     />
   </>
