@@ -27,29 +27,6 @@ const StyledInput = styled.div`
   }
 `;
 
-const StyledSelect = styled.div`
-  display: inline-block;
-  position: relative;
-  width: 100%;
-
-  select {
-    appearance: none;
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    outline: none;
-    cursor: pointer;
-  }
-
-  &:after {
-    content: '⌄';
-    position: absolute;
-    top: 50%;
-    right: 10px;
-    transform: translateY(-50%);
-    pointer-events: none;
-  }
-`;
-
 const EndContent = styled.div`
   position: absolute;
   top: 22px;
@@ -57,13 +34,9 @@ const EndContent = styled.div`
   transform: translateY(-50%);
 `;
 
-const NetworkImgList = {
-  BKC: "https://www.bitkubnft.com/_next/image?url=https%3A%2F%2Fstatic.bitkubnext.com%2Fnft%2Fnft_stores%2Fbitkub-chain%2Fstore_profile.png&w=256&q=10",
-  J2O: "https://img2.pic.in.th/pic/j2o.png",
-};
-
 State.init({
-  isOpenModal: true,
+  isOpenModal: false,
+  isOpenLoadingModal: false,
   adsType: "REDIRECT",
   selectedChain: "BKC",
   chainImg: NetworkImgList.BKC,
@@ -86,6 +59,9 @@ const onUpload = () => {};
 
 const onMax = () => {
   console.log("onMax");
+  State.update({
+    isOpenLoadingModal: true,
+  });
 };
 
 const handleChangeType = (event) => {
@@ -205,11 +181,28 @@ const content = (
   </div>
 );
 
+const onCloseLoading = () => {
+  State.update({
+    isOpenLoadingModal: false,
+  });
+};
+
 return (
-  <Widget
-    src="porx-dev.near/widget/billbos-css"
-    props={{
-      children: content,
-    }}
-  />
+  <>
+    <Widget
+      src="porx-dev.near/widget/billbos-css"
+      props={{
+        children: content,
+      }}
+    />
+    <Widget
+      src="jimmy-ez.near/widget/billbos-loading-transaction"
+      props={{
+        isOpenModal: state.isOpenLoadingModal,
+        onCloseModal: () => {
+          State.update({ isOpenLoadingModal: false });
+        },
+      }}
+    />
+  </>
 );
