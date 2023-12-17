@@ -21,6 +21,13 @@ State.init({
   send_post: false,
   uploading: "คลิกเพื่ออัปโหลดรูปภาพ",
   title_now: "",
+  sign_reason: "",
+  sign_term: "",
+  sign_title: "",
+  sign_postdate: Date.now(),
+  hover_element_sign: "",
+  show_error_sign_form: "No",
+  send_post_sign: false,
 });
 
 const getTimestamp = (date) => new Date(`${date}`).getTime();
@@ -54,6 +61,31 @@ const getCreateChangeData = (isCreate) => {
               picture: state.change_picture,
               term: state.change_term,
               details: state.change_details,
+            },
+          },
+          undefined,
+          0
+        ),
+      },
+    };
+  }
+};
+const getCreateSignData = (isSign) => {
+  if (state.sign_reason == "" || state.sign_term == "" || state.sign.postdate) {
+    State.update({ show_error_sign_form: "" });
+  } else {
+    State.update({ show_error_sign_form: "No" });
+    return {
+      index: {
+        change: JSON.stringify(
+          {
+            key: "sign.near-vbeta",
+            value: {
+              isSign,
+              title: state.sign_title,
+              reason: state.sign_reason,
+              term: state.sign_term,
+              postdate: state.sign_postdate,
             },
           },
           undefined,
@@ -101,6 +133,9 @@ function makeDetailsShort(c_details) {
 
 let changeList = Social.index("change", "change.near-vbeta");
 let changeBox = props;
+
+let signList = Social.index("change", "sign.near-vbeta");
+let signBox = props;
 
 let dateFormat = {
   month: "short",
@@ -342,7 +377,6 @@ const rendereachData = () => {
               <div className="text-green-500">ประเภทของประเด็น</div>
             </div>
           </div>
-
           <p className="mb-2 text-base text-green-500 sm:text-lg">
             {changeBox.value.details}
           </p>
@@ -378,7 +412,7 @@ const rendereachData = () => {
                 เหตุผล
                 <span className="text-sm text-green-600">
                   {" "}
-                  ของการลงชื่อสนันสนุน
+                  ของการลงชื่อสนับสนุน
                 </span>
               </label>
               <textarea
@@ -386,18 +420,27 @@ const rendereachData = () => {
                 rows="4"
                 className="block p-2.5 w-full text-sm text-green-800 bg-gray-50 rounded-lg border border-green-300 focus:ring-green-500 focus:border-green-500"
                 placeholder="ข้อความของคุณ ..."
+                onChange={(e) => {
+                  State.update({ sign_reason: e.target.value });
+                }}
               ></textarea>
             </div>
 
             <div className="mb-4">
               <input
-                id="change_term"
+                id="sign_term"
                 type="radio"
-                value=""
+                value="yes"
                 className="w-4 h-4 text-green-600 bg-gray-100 border-gray-300 rounded focus:ring-green-500"
+                onChange={(e) => {
+                  State.update({
+                    sign_term: e.target.value,
+                    sign_title: changeBox.value.title,
+                  });
+                }}
               />
               <label
-                for="change_term"
+                for="sign_term"
                 className="ms-2 text-sm font-medium text-green-900"
               >
                 ฉันยอมรับ{" "}
@@ -410,9 +453,25 @@ const rendereachData = () => {
             <div className="mb-4 text-center">
               <CommitButton
                 type="submit"
-                className="text-white bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
+                className={
+                  !state.show_error_sign_form
+                    ? "text-white bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
+                    : "text-white bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
+                }
+                data={getCreateSignData(false)}
+                onMouseEnter={() => {
+                  State.update({ hover_element_sign: "Yes" });
+                }}
+                onMouseLeave={() => {
+                  State.update({ hover_element_sign: "" });
+                }}
+                onClick={() => {
+                  State.update({
+                    send_post_sign: true,
+                  });
+                }}
               >
-                สนันสนุนประเด็นนี้
+                สนับสนุนประเด็นนี้
               </CommitButton>
             </div>
           </div>
@@ -421,29 +480,40 @@ const rendereachData = () => {
             <div className="text-center text-2xl mb-10 text-green-800">
               รายชื่อและคอมเม้นของผู้ร่วมลงชื่อสนับสนุนการรณรงค์
             </div>
+            <div>{rendereachsignData(changeBox.value.title)}</div>
+          </div>
+        </div>
+      );
+  });
+};
 
-            <div className="text-left boarder shadow p-3">
-              <div className="flex items-center mb-4">
-                <img
-                  className="w-10 h-10 me-4 rounded-full"
-                  src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/michael-gouch.png"
-                  alt=""
-                />
-                <div className="font-medium">
-                  <p>
-                    ชื่อผู้สนับสนุน{" "}
-                    <div
-                      datetime="2014-08-16 19:00"
-                      className="block text-sm text-gray-500"
-                    >
-                      สนับสนุนเมื่อวันที่
-                    </div>
-                  </p>
+const rendereachsignData = (title) => {
+  return signList.map((signBox, index) => {
+    if (title == signBox.value.title)
+      return (
+        <div className="text-left boarder shadow p-3 mt-4">
+          <div className="flex items-center mb-4">
+            <img
+              className="w-10 h-10 me-4 rounded-full"
+              src={`https://i.near.social/magic/thumbnail/https://near.social/magic/img/account/${signBox.accountId}`}
+              alt=""
+            />
+            <div className="font-medium">
+              <p>
+                {signBox.accountId}
+                <div
+                  datetime="2014-08-16 19:00"
+                  className="block text-sm text-gray-500"
+                >
+                  {new Date(signBox.value.postdate).toLocaleDateString(
+                    [],
+                    dateFormat
+                  )}
                 </div>
-              </div>
-              <p className="mb-2 text-gray-500">คอมเม้นของผู้สนับสนุน</p>
+              </p>
             </div>
           </div>
+          <p className="mb-2 text-gray-500">{signBox.value.reason}</p>
         </div>
       );
   });
