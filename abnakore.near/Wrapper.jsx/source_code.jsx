@@ -12,7 +12,7 @@ const Wrapper = styled.div`
   -moz-osx-font-smoothing: grayscale;
 }
 
-body {
+.main-body {
   margin: 0;
   display: flex;
   place-items: center;
