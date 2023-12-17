@@ -4,19 +4,31 @@ const ERC20_ABI = fetch(ERC20_ABI_URL).body;
 
 function handleChange(key, value) {
   State.update({ [key]: value });
+
+  if (key === "tokenAddress") {
+    try {
+      const contract = new ethers.Contract(
+        value,
+        ERC20_ABI,
+        Ethers.provider().getSigner()
+      );
+      contract.decimals().then((dec) => {
+        State.update({ decimals: dec });
+      });
+    } catch (e) {}
+  }
 }
 
 function buildCall() {
   try {
     const iface = new ethers.utils.Interface(ERC20_ABI);
-    const calldata = iface.encodeFunctionData("transfer", [
+    const callData = iface.encodeFunctionData("transfer", [
       state.to,
-      ethers.utils.parseEther(state.amount),
+      ethers.utils.parseUnits(state.amount, state.decimals),
     ]);
     const callPayload = {
-      chain: "",
       target: state.tokenAddress,
-      calldata: calldata,
+      callData: callData,
     };
     Storage.set(`callPayload:${props.callId}`, callPayload);
 
@@ -24,7 +36,6 @@ function buildCall() {
       isOk: true,
     });
   } catch (e) {
-    console.error(e);
     State.update({
       isOk: false,
     });
@@ -35,6 +46,7 @@ State.init({
   tokenAddress: "",
   to: "",
   amount: "0",
+  decimals: 18,
   isOk: false,
 });
 
