@@ -22,6 +22,8 @@ State.init({
         "https://ipfs.near.social/ipfs/bafkreia4w3mcfsrvcoh3r44x5nxrmarrt5xr3nta7dnw7pjfufd3b3anki",
     },
   },
+  adsContent:
+    '<Widget src="jimmy-ez.near/widget/billbos-craete-ads" props={{}} />',
 });
 
 const DEFAULT_CHAIN_ID = 25925;
@@ -77,6 +79,14 @@ function checkProvider() {
   }
 }
 checkProvider();
+
+const copyContent = (text) => {
+  clipboard.writeText(text).then(() => {
+    State.update({
+      adsContent: "copied",
+    });
+  });
+};
 
 function tabComponent() {
   if (state.tabSelect == 0) {
@@ -136,15 +146,16 @@ function tabComponent() {
             </div>
             <div>
               <Widget
-                src="porx-dev.near/widget/billbos-modal"
+                src="chayanonc-ph.near/widget/billbos-ads"
                 props={{
                   btnName: "Get my ads component",
                   btnClass:
                     "brand-green px-2.5 py-2 rounded-xl text-white text-sm font-semibold",
                   height: "467px",
                   width: "550px",
+                  isOpenDefault: false,
                   body: (
-                    <div className="flex flex-wrap justify-center w-full">
+                    <div className="flex flex-wrap justify-center w-full ">
                       <div style={{ width: "482px" }}>
                         <div>
                           <p className="font-semibold text-lg">
@@ -158,10 +169,49 @@ function tabComponent() {
                       </div>
                       <div className="w-full h-px bg-gray-200 my-4 "></div>
                       <div
-                        style={{ width: "482px", height: "272px" }}
-                        className="text-sm p-3 bg-gray-100"
+                        style={{ width: "482px", height: "280px" }}
+                        className="text-sm p-3 bg-gray-100 rounded-xl mt-2 relative"
                       >
-                        <div className="">dasasd</div>
+                        <div
+                          className="absolute top-3 right-3 cursor-pointer z-10"
+                          onClick={() => {
+                            copyContent(state.adsContent);
+                          }}
+                        >
+                          <Widget
+                            src="mob.near/widget/CopyButton"
+                            props={{
+                              className: "bg-gray-100",
+                              text: state.adsContent,
+                              clipboardIcon: (
+                                <svg
+                                  width="16"
+                                  height="16"
+                                  viewBox="0 0 16 16"
+                                  fill="none"
+                                  xmlns="http://www.w3.org/2000/svg"
+                                >
+                                  <g clip-path="url(#clip0_3757_2743)">
+                                    <path
+                                      d="M10.6654 0.666687H2.66536C1.93203 0.666687 1.33203 1.26669 1.33203 2.00002V11.3334H2.66536V2.00002H10.6654V0.666687ZM12.6654 3.33335H5.33203C4.5987 3.33335 3.9987 3.93335 3.9987 4.66669V14C3.9987 14.7334 4.5987 15.3334 5.33203 15.3334H12.6654C13.3987 15.3334 13.9987 14.7334 13.9987 14V4.66669C13.9987 3.93335 13.3987 3.33335 12.6654 3.33335ZM12.6654 14H5.33203V4.66669H12.6654V14Z"
+                                      fill="#C3C5C7"
+                                    />
+                                  </g>
+                                  <defs>
+                                    <clipPath id="clip0_3757_2743">
+                                      <rect
+                                        width="16"
+                                        height="16"
+                                        fill="white"
+                                      />
+                                    </clipPath>
+                                  </defs>
+                                </svg>
+                              ),
+                            }}
+                          />
+                        </div>
+                        <div className="w-96">{state.adsContent}</div>
                       </div>
                     </div>
                   ),
