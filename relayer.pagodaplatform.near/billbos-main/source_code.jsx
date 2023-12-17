@@ -136,8 +136,11 @@ function tabComponent() {
             </div>
             <div>
               <Widget
-                src="jimmy-ez.near/widget/billbos-craete-ads"
-                props={{}}
+                src="porx-dev.near/widget/billbos-modal"
+                props={{
+                  btnName: "Get my ads component",
+                  btnClass: "brean-green",
+                }}
               />
             </div>
           </div>
