@@ -14,7 +14,7 @@ function computeCalls() {
       const payload = Storage.get(`callPayload:${index}`, c);
       const obj = {
         target: payload.target,
-        callData: payload.calldata,
+        callData: payload.callData,
       };
       return obj;
     });
