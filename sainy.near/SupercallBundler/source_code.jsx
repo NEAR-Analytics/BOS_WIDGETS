@@ -9,8 +9,6 @@ function handleChangeCall(index, value) {
 }
 
 function computeCalls() {
-  const abicoder = new ethers.utils.AbiCoder();
-
   try {
     const calls = state.calls.map((c, index) => {
       const payload = Storage.get(`callPayload:${index}`, c);
@@ -18,11 +16,7 @@ function computeCalls() {
         target: payload.target,
         callData: payload.calldata,
       };
-      const encodedCall = abicoder.encode(
-        ["tuple(address target, bytes callData)"],
-        [obj]
-      );
-      return encodedCall;
+      return obj;
     });
 
     Storage.set("calls", calls);
