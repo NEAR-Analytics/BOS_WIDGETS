@@ -27,7 +27,7 @@ return (
         <div className="main-body">
           <div className="two-sides">
             <Widget
-              src="abnakore.near/widget/Aside.jsx"
+              src="abnakore.near/widget/Aside"
               props={{ objs: pages, active: "/result" }}
             />
             <div className="body-contents">
@@ -35,7 +35,7 @@ return (
               {/* Calling the table component */}
               {/* Extracting The values in the table an converting them to list */}
               <Widget
-                src="abnakore.near/widget/Table.jsx"
+                src="abnakore.near/widget/Table"
                 props={{
                   headings: [
                     "S/N",
