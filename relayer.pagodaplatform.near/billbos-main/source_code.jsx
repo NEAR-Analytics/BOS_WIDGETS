@@ -279,7 +279,7 @@ function tapDashboard() {
       style={{
         height: "221px",
       }}
-      className="brand-green w-full "
+      className="brand-gradient-green-radial w-full "
     >
       <div className="container">
         <div className="text-white pt-10">
@@ -325,12 +325,13 @@ const main = (
         <div>
           <div className="sticky top-0 z-10 bg-white">
             <Widget
-              src="porx-dev.near/widget/billbos-header"
+              src="chayanonc-ph.near/widget/billbos-header"
               props={{
                 walletAddress: state.walletAddress,
                 chainId: state.chainId,
                 setTabSelect: (index) => setTabSelect(index),
                 chains: state.chains,
+                tabIndex: state.tabSelect,
               }}
             />
           </div>
@@ -352,6 +353,9 @@ const main = (
 
 return (
   <>
-    <Widget src="porx-dev.near/widget/billbos-css" props={{ children: main }} />
+    <Widget
+      src="chayanonc-ph.near/widget/billbos-css"
+      props={{ children: main }}
+    />
   </>
 );
