@@ -1,4 +1,4 @@
-const { btnName, btnClass, body, height } = props;
+const { btnName, btnClass, body, height, width, isOpenDefault } = props;
 const ModalOverlay = styled.div`
   position: absolute;
   top: 0;
@@ -55,7 +55,7 @@ const EndContent = styled.div`
 `;
 
 State.init({
-  isOpenModal: true,
+  isOpenModal: isOpenDefault || true,
 });
 
 const onOpen = () => {
@@ -76,7 +76,8 @@ const Modal = ({ isOpen, onClose, children }) => {
     <ModalOverlay>
       <div
         style={{
-          width: "484px",
+          width: width || "484px",
+          height: height || "484px",
         }}
         class="bg-white rounded-xl pt-4 relative"
       >
@@ -99,14 +100,7 @@ const Modal = ({ isOpen, onClose, children }) => {
             />
           </svg>
         </div>
-        <div
-          style={{
-            height: height || "484px",
-          }}
-          className=""
-        >
-          {body || <div></div>}
-        </div>
+        <div className="">{body || <div></div>}</div>
       </div>
     </ModalOverlay>
   );
