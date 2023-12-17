@@ -44,6 +44,10 @@ checkWallet();
 
 return (
   <div>
-    <Web3Connect className="Button-primary p-2" />
+    <Web3Connect
+      className="Button-primary p-2"
+      connectLabel={"Link Wallet"}
+      disconnectLabel={"Unlink Wallet"}
+    />
   </div>
 );
