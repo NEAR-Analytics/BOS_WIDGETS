@@ -90,7 +90,8 @@ const StyledAddText = styled.span`
 initState({
   functionName: "",
   typeFunction: "swap",
-  token: "USDT",
+  inputToken: "",
+  outputToken: "",
   toWalletAddress: "",
   amount: "",
   functionList: [],
@@ -110,9 +111,9 @@ const renderFunction = () => {
             <select
               class="form-select mt-2"
               id="selectFunction"
-              value={state.token}
+              value={state.inputToken}
               onChange={(e) => {
-                State.update({ token: e.target.value });
+                State.update({ inputToken: e.target.value });
               }}
             >
               {tokens.map((token) => (
@@ -161,9 +162,9 @@ const renderFunction = () => {
             <select
               class="form-select mt-2"
               id="selectFunction"
-              value={state.token}
+              value={state.inputToken}
               onChange={(e) => {
-                State.update({ token: e.target.value });
+                State.update({ inputToken: e.target.value });
               }}
             >
               {tokens.map((token) => (
@@ -190,9 +191,9 @@ const renderFunction = () => {
             <select
               class="form-select mt-2"
               id="selectFunction"
-              value={state.token}
+              value={state.outputToken}
               onChange={(e) => {
-                State.update({ token: e.target.value });
+                State.update({ outputToken: e.target.value });
               }}
             >
               {tokens.map((token) => (
