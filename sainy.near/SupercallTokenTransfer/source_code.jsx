@@ -18,7 +18,7 @@ function buildCall() {
       target: state.to,
       calldata: calldata,
     };
-    Storage.set("callPayload", callPayload);
+    Storage.set(`callPayload:${props.callId}`, callPayload);
 
     State.update({
       isOk: true,
