@@ -73,7 +73,7 @@ return (
                   props={{ objs: pages, active: "/" }}
                 />
 
-                <div className="main-body">
+                <div className="body-contents">
                   <h1>VoteChain</h1>
                   <p
                     style={{
