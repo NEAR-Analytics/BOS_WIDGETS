@@ -101,37 +101,7 @@ order by 1 desc`,
 ];
 
 //---------------------------------------------------------------------------------------------------
-const tabs = {
-  left: "nft activity",
-  middle: "token activity",
-};
-const setTab = (tab) => State.update({ tab });
-const Container = styled.div`
-  &&{text-align:left};
-  .tabContent{
-    display:inline-flex;
-    align-items:left;
-    background: rgba(26, 46, 51, 0.25);
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    border-radius: 10px;
-    padding:3px 4px;
-    list-style-type:none;
-    margin: 0 auto;
-  }
-  .tab-item .active{
-    background: #304352;
-  }
-  .tab-item button{
-    background-color:transparent;
-    border-radius: 8px;
-    font-weight: 500;
-    font-size: 14px;
-    color:#fff;
-    height:30px;
-    padding:0 22px;
-    border:none;
-  }
-`;
+
 //---------------------------------------------------------------------------------------------------
 
 const chartabove = {
@@ -412,12 +382,7 @@ const runqueries = (queries) => {
     return {
       id: q.id,
       element: (
-        <Widget
-          src="lord1.near/widget/api-flipside"
-          id={q.id}
-          key={q.id}
-          props={props}
-        />
+        <Widget src="lord1.near/widget/api-flipside" id={q.id} props={props} />
       ),
     };
   });
@@ -645,16 +610,20 @@ let ChartSections = (
     </div>
   </div>
 );
-console.log(state);
 return (
   <>
     {state.loader && (
-      <div className="d-none">{state.loader.map((l) => l?.element)}</div>
+      <div className="d-none">
+        {state.loader.map((l) => (
+          <pre key={l.id}>{l?.element}</pre>
+        ))}
+      </div>
     )}
     <div className="toast-container position-fixed bottom-0 end-0 p-3">
       {state.error.length > 0 &&
         state.error.map((er) => (
           <div
+            key={er}
             className="toast show align-items-center text-bg-danger border-0"
             role="alert"
             aria-live="assertive"
