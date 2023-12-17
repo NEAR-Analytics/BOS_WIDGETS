@@ -1,4 +1,4 @@
-const { walletAddress, chainId, setTabSelect, chains } = props;
+const { walletAddress, chainId, setTabSelect, chains, tabIndex } = props;
 
 State.init({
   hideLeanMore: false,
@@ -16,7 +16,7 @@ State.init({
       isActive: false,
     },
   ],
-  tabIndex: 0,
+  tabIndex: tabIndex,
 });
 
 const hideLeanMore = () => {
@@ -58,10 +58,10 @@ const billbosLogo = (
 );
 
 const leanMore = (
-  <div className="brand-gradient-green text-white text-xs font-bold h-12 flex items-center justify-center relative">
+  <div className="bg-black text-white text-xs font-bold h-12 flex items-center justify-center relative">
     <div className="flex justify-center gap-2 items-center">
       <p>Unlock the power of onchain data for Web3 Ads</p>
-      <p className="bg-white green-text py-1 px-1.5 rounded-md">Lean more</p>
+      <p className="bg-white text-black py-1 px-1.5 rounded-md">Lean more</p>
     </div>
     <div
       className="absolute top-3 right-6 border-2 boder-white p-1 rounded-md z-10 cursor-pointer"
@@ -120,8 +120,11 @@ const navbar = (
           ? state.navItems.map((item, index) => {
               return (
                 <div
+                  style={{
+                    borderColor: index == state.tabIndex ? "#00E3B4" : "#FFF",
+                  }}
                   key={index}
-                  className={`cursor-pointer flex items-center`}
+                  className={`cursor-pointer flex items-center border-b-4`}
                   onClick={() => {
                     setTabSelect(index);
                   }}
