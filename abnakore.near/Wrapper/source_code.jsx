@@ -1,5 +1,5 @@
 const Wrapper = styled.div`
-:root {
+:root, .main-body {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
