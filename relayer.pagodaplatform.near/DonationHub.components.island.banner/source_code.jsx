@@ -1,9 +1,8 @@
 const imageLink =
-  "https://i.pinimg.com/564x/69/cb/db/69cbdb5337d07961ff56b77820fbc932.jpg";
-
+  "https://i.postimg.cc/65k3xmJj/The-Decentralized-Donation-Hub-2.png";
 const HeroSection = styled.div`
   position: relative;
-  height: 380px;
+  height: 382px;
   z-index: 0;
   width: 500px;
 
@@ -48,7 +47,7 @@ const Image = styled.img`
   margin-left: 0rem;
   height: 100%;
   width: 100%;
-  filter: grayscale(50%);
+  //filter: grayscale(50%);
   object-fit: cover;
 `;
 
