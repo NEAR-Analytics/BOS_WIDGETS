@@ -2,6 +2,9 @@ const isOpenModal = props.isOpenModal;
 const onCloseModal = props.onCloseModal;
 const isLoading = props.isLoading;
 
+const topic = props.topic;
+const detail = props.detail;
+
 const ModalOverlay = styled.div`
   position: absolute;
   top: 0;
@@ -83,10 +86,8 @@ const Modal = ({ isOpen, onClose }) => {
             </svg>
           )}
 
-          <p class="mt-4 font-semibold">{"You are now staking 100 USDT"}</p>
-          <p class="tertiary-text text-sm">
-            {"Staking 100 USDT. You will receive 100 USDT"}
-          </p>
+          <p class="mt-4 font-semibold">{topic}</p>
+          <p class="tertiary-text text-sm">{detail}</p>
           {isLoading == true ? (
             <p class="mt-16 tertiary-text text-xs">
               {"Confirm this transaction in your wallet"}
