@@ -7,7 +7,7 @@ const operationsDoc = `
   query MyQuery {
     mb_views_nft_tokens(
       order_by: {last_transfer_timestamp: desc}
-      where: {owner: {_eq: "${accountId}"}, _and: {burned_timestamp: {_is_null: true}, last_transfer_timestamp: {}}}
+      where: {owner: {_eq: "${state.searchedAccountId}"}, _and: {burned_timestamp: {_is_null: true}, last_transfer_timestamp: {}}}
     ) {
       nft_contract_id
       title
@@ -168,6 +168,7 @@ const Result =
               height={60}
               width={60}
               layout="intrinsic"
+              loading="lazy"
               src={
                 nft.media ??
                 "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
