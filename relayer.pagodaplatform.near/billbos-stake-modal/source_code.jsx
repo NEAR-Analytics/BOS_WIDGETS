@@ -1,3 +1,6 @@
+const isOpenStake = props.isOpen;
+const onCloseStake = props.onClose;
+
 const ModalOverlay = styled.div`
   position: absolute;
   top: 0;
@@ -35,25 +38,8 @@ const EndContent = styled.div`
 `;
 
 State.init({
-  isOpenModal: false,
   isOpenLoadingModal: false,
-  adsType: "REDIRECT",
-  selectedChain: "BKC",
-  chainImg: NetworkImgList.BKC,
-  img: null,
 });
-
-const onOpen = () => {
-  State.update({
-    isOpenModal: true,
-  });
-};
-
-const onClose = () => {
-  State.update({
-    isOpenModal: false,
-  });
-};
 
 const onCloseLoading = () => {
   State.update({
@@ -178,19 +164,12 @@ const Modal = ({ isOpen, onClose }) => {
   );
 };
 
-const content = (
-  <div>
-    <button onClick={onOpen}>Open Modal</button>
-    <Modal isOpen={state.isOpenModal} onClose={onClose} />
-  </div>
-);
-
 return (
   <>
     <Widget
       src="porx-dev.near/widget/billbos-css"
       props={{
-        children: content,
+        children: <Modal isOpen={isOpenStake} onClose={onCloseStake} />,
       }}
     />
     <Widget
