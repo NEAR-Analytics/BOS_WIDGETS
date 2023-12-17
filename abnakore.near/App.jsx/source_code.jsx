@@ -69,7 +69,7 @@ return (
               <div className="two-sides">
                 {/* The Aside bar that helps in quick navigation btw pages */}
                 <Widget
-                  src="abnakore.near/widget/Aside.jsx"
+                  src="abnakore.near/widget/Aside"
                   props={{ objs: pages, active: "/" }}
                 />
 
