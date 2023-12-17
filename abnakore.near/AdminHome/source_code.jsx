@@ -73,6 +73,9 @@ return (
             props={{ objs: pages, active: "/admin" }}
           />
           <h1>Admin Home</h1>
+          <a href="https://near.org/abnakore.near/widget/App.jsx">
+            Voting Page
+          </a>
           <h4>Candidates Details</h4>
           <Widget
             src="abnakore.near/widget/Table"
