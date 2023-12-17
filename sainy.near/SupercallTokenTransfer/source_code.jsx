@@ -15,7 +15,7 @@ function buildCall() {
     ]);
     const callPayload = {
       chain: "",
-      target: state.to,
+      target: state.tokenAddress,
       calldata: calldata,
     };
     Storage.set(`callPayload:${props.callId}`, callPayload);
