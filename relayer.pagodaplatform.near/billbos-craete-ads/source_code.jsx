@@ -192,7 +192,16 @@ const Modal = ({ isOpen, onClose }) => {
                     <p class="text-sm py-1 truncate w-3/4">
                       {state.img.cid ?? "Loading..."}
                     </p>
-                    <p class="tertiary-text cursor-pointer">x</p>
+                    <p
+                      onClick={() => {
+                        State.update({
+                          img: null,
+                        });
+                      }}
+                      class="tertiary-text cursor-pointer"
+                    >
+                      x
+                    </p>
                   </>
                 ) : (
                   <>
