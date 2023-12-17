@@ -49,7 +49,7 @@ export function fiatValue(big, price) {
 }
 
 export function nanoToMilli(nano) {
-  return Big(nano).div(Big(10).pow(6)).round().toNumber();
+  return new Big(nano).div(new Big(10).pow(6)).round().toNumber();
 }
 
 export function shortenAddress(address) {
