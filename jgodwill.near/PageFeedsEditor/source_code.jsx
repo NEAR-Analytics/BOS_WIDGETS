@@ -9,9 +9,7 @@ if (pageFeedsObject === null || pageFeedsArr === null) {
   return "Loading";
 }
 
-
 console.log("initial Tags", pageFeedsObject);
-
 
 // State.init({
 //   account: accountId,
@@ -84,6 +82,7 @@ return (
   <>
     <Typeahead
       id={state.id}
+      disabled={props.disabled}
       multiple
       labelKey="name"
       onChange={setPageFeeds}
