@@ -97,6 +97,21 @@ const BackgroundImage = styled.div`
   }
 `;
 
+const FollowButtonWrapper = styled.div`
+  flex: 1 0 auto;
+  div,
+  button {
+    width: 100%;
+  }
+  @media (max-width: 1024px) {
+    flex: 0 0 auto;
+    div,
+    button {
+      width: auto;
+    }
+  }
+`;
+
 return (
   <>
     <BackgroundImage>
