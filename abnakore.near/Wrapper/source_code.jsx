@@ -331,8 +331,8 @@ button:focus-visible {
   justify-content: center;
   place-items: center;
   margin: 0;
-  min-width: 100vw;
-  min-height: 100vh;
+  min-width: 100%;
+  min-height: 100%;
 }
 
 .card {
