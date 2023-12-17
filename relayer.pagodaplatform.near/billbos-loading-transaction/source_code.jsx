@@ -1,5 +1,6 @@
 const isOpenModal = props.isOpenModal;
 const onCloseModal = props.onCloseModal;
+const isLoading = props.isLoading;
 
 const ModalOverlay = styled.div`
   position: absolute;
@@ -13,10 +14,6 @@ const ModalOverlay = styled.div`
   justify-content: center;
   z-index: 100;
 `;
-
-State.init({
-  isLoading: true,
-});
 
 const Modal = ({ isOpen, onClose }) => {
   if (!isOpen) return null;
@@ -48,7 +45,7 @@ const Modal = ({ isOpen, onClose }) => {
           </svg>
         </div>
         <div class="w-full flex flex-col items-center pb-4 px-4">
-          {state.isLoading == true ? (
+          {isLoading == true ? (
             <svg
               class="animate-spin"
               width="56"
@@ -90,7 +87,7 @@ const Modal = ({ isOpen, onClose }) => {
           <p class="tertiary-text text-sm">
             {"Staking 100 USDT. You will receive 100 USDT"}
           </p>
-          {state.isLoading == true ? (
+          {isLoading == true ? (
             <p class="mt-16 tertiary-text text-xs">
               {"Confirm this transaction in your wallet"}
             </p>
