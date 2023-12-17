@@ -30,7 +30,7 @@ return (
               src="abnakore.near/widget/Aside.jsx"
               props={{ objs: pages, active: "/result" }}
             />
-            <div className="main-body">
+            <div className="body-contents">
               <h1>Result</h1>
               {/* Calling the table component */}
               {/* Extracting The values in the table an converting them to list */}
