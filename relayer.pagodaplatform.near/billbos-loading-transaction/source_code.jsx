@@ -1,3 +1,6 @@
+const isOpenModal = props.isOpenModal;
+const onCloseModal = props.onCloseModal;
+
 const ModalOverlay = styled.div`
   position: absolute;
   top: 0;
@@ -12,21 +15,8 @@ const ModalOverlay = styled.div`
 `;
 
 State.init({
-  isOpenModal: true,
   isLoading: true,
 });
-
-const onOpen = () => {
-  State.update({
-    isOpenModal: true,
-  });
-};
-
-const onClose = () => {
-  State.update({
-    isOpenModal: true,
-  });
-};
 
 const Modal = ({ isOpen, onClose }) => {
   if (!isOpen) return null;
@@ -113,18 +103,11 @@ const Modal = ({ isOpen, onClose }) => {
   );
 };
 
-const content = (
-  <div>
-    <button onClick={onOpen}>Open Modal</button>
-    <Modal isOpen={state.isOpenModal} onClose={onClose} />
-  </div>
-);
-
 return (
   <Widget
     src="porx-dev.near/widget/billbos-css"
     props={{
-      children: content,
+      children: <Modal isOpen={isOpenModal} onClose={onCloseModal} />,
     }}
   />
 );
