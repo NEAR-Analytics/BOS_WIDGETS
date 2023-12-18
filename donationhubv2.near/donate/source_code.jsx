@@ -65,17 +65,18 @@ if (
 if (state.chainId === 1) {
   State.update({
     chainPicked: "ETH",
-    receiver: eth_address,
+    receiver: state.eth_address,
   });
 } else if (state.chainId === 96) {
   State.update({
     chainPicked: "KUB",
-    receiver: bitkub_address,
+    receiver: state,
+    bitkub_address,
   });
 } else if (state.chainId === 3501) {
   State.update({
     chainPicked: "JFIN",
-    receiver: jfin_address,
+    receiver: state.jfin_address,
   });
 } else {
   return (
