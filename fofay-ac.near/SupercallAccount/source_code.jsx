@@ -38,6 +38,24 @@ text-align:center;
 padding: 5px 0;
 
 `;
+
+const chainListMockup = [
+  {
+    chainId: "1",
+    name: "Ethereum Network",
+    logoUrl: "https://assets.coincap.io/assets/icons/eth@2x.png",
+  },
+  {
+    chainId: "56",
+    name: "Binance Smart Chain",
+    logoUrl: "https://assets.coincap.io/assets/icons/bnb@2x.png",
+  },
+  {
+    chainId: "137",
+    name: "Polygon Mumbai",
+    logoUrl: "https://s2.coinmarketcap.com/static/img/coins/64x64/3890.png",
+  },
+];
 const arrowDownIcon = (
   <svg
     xmlns="http://www.w3.org/2000/svg"
@@ -154,7 +172,7 @@ const createCard = (
   </Card>
 );
 
-const renderSelectToken = (
+const renderSelectToken = (id) => (
   <div style={{ width: "100%" }}>
     <div class="dropdown">
       <button
@@ -249,64 +267,26 @@ return (
         gap: "20px",
       }}
     >
-      <Card style={{ position: "relative" }}>
-        <div style={{ display: "flex" }}>
-          <img
-            src="https://assets.coincap.io/assets/icons/eth@2x.png"
-            width={24}
-            height={24}
-            className="rounded-full"
-          />
-          <TextMain
-            style={{ margin: "auto 4px" }}
-          >{`Ethereum Network`}</TextMain>
-        </div>
-        <ButtonCreate
-          style={{ position: "absolute", top: "16px", right: "16px" }}
-        >{`Create`}</ButtonCreate>
-        <TextGray style={{ marginTop: "20px" }}>{`ADDRESS`}</TextGray>
-        <TextMain>{formatWalletAddres(readAddress(0) || "")}</TextMain>
-        <TextGray style={{ marginTop: "20px" }}>{`TOKEN HOLDINGS`}</TextGray>
-        <div>{renderSelectToken}</div>
-      </Card>
-      <Card style={{ position: "relative" }}>
-        <div style={{ display: "flex" }}>
-          <img
-            src="https://assets.coincap.io/assets/icons/bnb@2x.png"
-            width={24}
-            height={24}
-            className="rounded-full"
-          />
-          <TextMain
-            style={{ margin: "auto 4px" }}
-          >{`Binance Smart Chain`}</TextMain>
-        </div>
-        <ButtonCreate
-          style={{ position: "absolute", top: "16px", right: "16px" }}
-        >{`Create`}</ButtonCreate>
-        <TextGray style={{ marginTop: "20px" }}>{`ADDRESS`}</TextGray>
-        <TextMain>{formatWalletAddres(readAddress(1) || "")}</TextMain>
-        <TextGray style={{ marginTop: "20px" }}>{`TOKEN HOLDINGS`}</TextGray>
-        <div>{renderSelectToken}</div>
-      </Card>
-      <Card style={{ position: "relative" }}>
-        <div style={{ display: "flex" }}>
-          <img
-            src="https://s2.coinmarketcap.com/static/img/coins/64x64/3890.png"
-            width={24}
-            height={24}
-            className="rounded-full"
-          />
-          <TextMain style={{ margin: "auto 4px" }}>{`Polygon Mumbai`}</TextMain>
-        </div>
-        <ButtonCreate
-          style={{ position: "absolute", top: "16px", right: "16px" }}
-        >{`Create`}</ButtonCreate>
-        <TextGray style={{ marginTop: "20px" }}>{`ADDRESS`}</TextGray>
-        <TextMain>{formatWalletAddres(readAddress(2) || "")}</TextMain>
-        <TextGray style={{ marginTop: "20px" }}>{`TOKEN HOLDINGS`}</TextGray>
-        <div>{renderSelectToken}</div>
-      </Card>
+      {chainListMockup.map((item) => (
+        <Card style={{ position: "relative" }}>
+          <div style={{ display: "flex" }}>
+            <img
+              src={item.logoUrl}
+              width={24}
+              height={24}
+              className="rounded-full"
+            />
+            <TextMain style={{ margin: "auto 4px" }}>{item.name}</TextMain>
+          </div>
+          <ButtonCreate
+            style={{ position: "absolute", top: "16px", right: "16px" }}
+          >{`Create`}</ButtonCreate>
+          <TextGray style={{ marginTop: "20px" }}>{`ADDRESS`}</TextGray>
+          <TextMain>{formatWalletAddres(readAddress(0) || "")}</TextMain>
+          <TextGray style={{ marginTop: "20px" }}>{`TOKEN HOLDINGS`}</TextGray>
+          <div>{renderSelectToken(id)}</div>
+        </Card>
+      ))}
     </div>
   </div>
 );
