@@ -4,6 +4,14 @@ const { Tile } =
   VM.require("previewthomas.near/widget/devhub.components.molecule.Tile") ||
   (() => <></>);
 
+// TODO test once deployed
+console.log("TILE");
+console.log(Tile);
+
+if (!Tile) {
+  return <div>Loading...</div>;
+}
+
 const Container = styled.div`
   display: flex;
   flex-direction: column;
