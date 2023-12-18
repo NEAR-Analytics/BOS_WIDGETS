@@ -129,7 +129,7 @@ return (
     >
       <div onClick={() => onOpenModal()}>{startButton}</div>
       <Widget
-        src="xspeedx.near/widget/ModalSelectFunction"
+        src="sainy.near/widget/ModalSelectFunction"
         props={{
           onSubmit: (value) => handleAddCall(value),
           onClose: () => onCloseModal(),
@@ -173,7 +173,7 @@ return (
                 margin: "auto",
               }}
             >
-              <Widget src={call} />
+              <Widget src={call} props={props} />
             </div>
           </div>
           <div style={{ display: "flex" }}>
