@@ -300,7 +300,7 @@ const CONTRACT_ADDRESS = "0xFEfa855e3CeAcD2eFCdE30d062ca7b83D6F614c9";
 const signer = Ethers.provider().getSigner();
 const contract = new ethers.Contract(CONTRACT_ADDRESS, abi, signer);
 
-contract.getLastestVideo(5).then((res) => {
+contract.getLastestVideos(5).then((res) => {
   if (res.hash) {
     console.log("Success! " + res);
     State.update({ videoes: res.data });
