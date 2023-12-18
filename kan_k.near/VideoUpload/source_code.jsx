@@ -49,7 +49,7 @@ const onBtnClick = async () => {
     title: state.title,
     description: state.description,
     owner: state.owner,
-    src: state.src,
+    src: state.vdoUrl,
     thumbnail: `https://ipfs.near.social/ipfs/${state.thumbnail.cid}`,
     tag: state.tag,
     parentVdoId: state.parentVdoId,
