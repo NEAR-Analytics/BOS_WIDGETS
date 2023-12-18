@@ -13,6 +13,7 @@ State.init({
   thumbnail: "https://ipfs.near.social/ipfs/",
   tag: "",
   parentVdoId: props.parentVdoId || "",
+  modalOpening: false,
 });
 
 const onTimestampChange = ({ target }) => {
@@ -359,15 +360,24 @@ const onBtnClick = async () => {
       body.tag,
     ])
     .then((res) => {
-      console.log(res);
-      window.location.href("/");
+      if (res.hash) {
+        console.log("Success! " + res.hash);
+      } else {
+        console.log("Failed!");
+      }
+      State.update({ modalOpening: true });
     });
 };
 
 return (
   <div className="m-10 VStack Subtitle  w-1/3 gap-10">
     <div className="VStack justify-between h-full">
-      <div className="VStack gap-4"></div>
+      <div className="VStack gap-4">
+        <Widget
+          src={`kan_k.near/widget/Alert`}
+          props={{ isOpen: state.isOpen, children: "<a href='/'>Back</a>" }}
+        />
+      </div>
       <div className="VStack gap-2">
         <p className=" text-md">Title</p>
         <input
