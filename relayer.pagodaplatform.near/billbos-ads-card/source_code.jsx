@@ -16,9 +16,36 @@ const chainName = () => {
   return "Network Error";
 };
 
+const BillBOSCoreABI = fetch(
+  "https://gist.githubusercontent.com/jimmy-ez/0344bb9cce14ced6c6e7f89d7d1654ce/raw/e7dd9962a90819f71de155b1f68f276eed07790a/BillBOSCoreABIV3.json"
+);
+if (!BillBOSCoreABI.ok) {
+  return "Loading";
+}
+const IBillBOSCore = new ethers.utils.Interface(BillBOSCoreABI.body);
+
 State.init({
   isOpenStake: false,
 });
+
+const handleUnstake = () => {
+  State.update({
+    isOpenLoadingModal: true,
+  });
+  const billbosProvider = new ethers.Contract(
+    coreContractAddress,
+    IBillBOSCore,
+    Ethers.provider().getSigner()
+  );
+  billbosProvider
+    .unboostAll(adsId)
+    .then((res) => {
+      console.log(res);
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+};
 
 const content = (
   <div class="w-full border rounded-xl pb-4 relative bg-white">
@@ -63,7 +90,10 @@ const content = (
           >
             Stake Now
           </button>
-          <button class="w-full py-2 green-text font-semibold border-1 border-green-300 rounded-lg">
+          <button
+            onClick={handleUnstake}
+            class="w-full py-2 green-text font-semibold border-1 border-green-300 rounded-lg"
+          >
             Unstake
           </button>
         </div>
