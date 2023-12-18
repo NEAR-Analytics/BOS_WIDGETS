@@ -44,12 +44,14 @@ const onTagChange = ({ target }) => {
 };
 
 const abi = fetch(
-  `https://raw.githubusercontent.com/KapokProgramming/atomic-abi/main/Atomic.json`
+  `https://eth.blockscout.com/api?module=contract&action=getabi&address=0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2`
 );
 
 if (!abi.ok) {
   return "Loading";
 }
+
+// console.log(abi.body.result);
 
 const onBtnClick = async () => {
   const body = {
