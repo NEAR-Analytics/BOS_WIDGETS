@@ -1331,8 +1331,8 @@ const onCallTxComple = (tx) => {
 
 if (!state.sender || selectedChainId !== 25925) {
   const title = !state.sender
-    ? "Polygon zkEVM Swap"
-    : ` To proceed, kindly switch to Bitkub Chain.`;
+    ? ""
+    : `To proceed, kindly switch to Bitkub Chain.`;
 
   if (!!state.sender && selectedChainId !== 25925) {
     switchNetwork(25925, defaultDex || "QuickSwap");
