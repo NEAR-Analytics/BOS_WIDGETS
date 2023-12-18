@@ -4,7 +4,7 @@ State.init({
 
 const signer = Ethers.send("eth_requestAccounts", [])[0];
 
-if (state.chainId === undefined && ethers !== undefined && signer) {
+if (ethers !== undefined && signer) {
   Ethers.provider()
     .getNetwork()
     .then((chainIdData) => {
