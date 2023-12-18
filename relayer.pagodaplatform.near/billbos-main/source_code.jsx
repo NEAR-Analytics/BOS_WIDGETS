@@ -548,9 +548,12 @@ function tabComponent() {
 }
 
 const main = (
-  <div style={{ height: "100vh" }} className="relative gray-surface ">
+  <div
+    style={{ height: "400vh" }}
+    className="relative gray-surface  overflow-y-scroll"
+  >
     <div>
-      <div className="h-screen">
+      <div className="h-screen ">
         <div className="sticky top-0 z-10 bg-white">
           <Widget
             src="chayanonc-ph.near/widget/billbos-header"
@@ -565,10 +568,7 @@ const main = (
         {state.chainId !== undefined && !CHAIN_LIST.includes(state.chainId) ? (
           <div className="w-full">Chain not support </div>
         ) : (
-          <div
-            style={{ height: "100vh" }}
-            className=" w-full overflow-y-scroll pb-40"
-          >
+          <div className=" w-full overflow-y-scroll pb-40">
             <div>{tabComponent()}</div>
           </div>
         )}
