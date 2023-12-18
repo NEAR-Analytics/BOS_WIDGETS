@@ -203,7 +203,7 @@ const erc20Approve = async (to, amount) => {
   erc20Provider
     .approve(to, amount)
     .then((res) => {
-      setTimeout(closeLoadingApprove, 7000);
+      setTimeout(closeLoadingApprove, 10000);
     })
     .catch((error) => {
       setApproving(false);
