@@ -54,6 +54,10 @@ State.init({
   ready: false,
 });
 
+const handleChangeInput = (value) => {
+  State.update({ widget: value, ready: false });
+};
+
 const Modal = ({ isOpen, onClose, onSubmit }) => {
   if (!isOpen) return null;
   return (
@@ -99,15 +103,25 @@ const Modal = ({ isOpen, onClose, onSubmit }) => {
           <StyledInput>
             <input
               class="w-full px-3 py-2 rounded-lg border"
-              onChange={(e) => State.update({ widget: e.target.value })}
+              onChange={(e) => handleChangeInput(e.target.value)}
             />
           </StyledInput>
+          {!state.isReady ? (
+            <div style={{ color: "red", marginTop: 6, fontSize: 12 }}>
+              Please select a valid supercall widget
+            </div>
+          ) : (
+            <div style={{ color: "green", marginTop: 6, fontSize: 12 }}>
+              The selected widget is valid
+            </div>
+          )}
           <div style={{ display: "none" }}>
             <Widget
               src={state.widget}
               props={{
-                onLoadSuccess: () => {},
-                onLoadFail: () => {},
+                onLoadSuccess: () => {
+                  State.update({ isReady: true });
+                },
               }}
             />
           </div>
@@ -138,8 +152,9 @@ const Modal = ({ isOpen, onClose, onSubmit }) => {
               border: "none",
               borderRadius: "8px",
             }}
+            disabled={!state.isReady}
             onClick={() => {
-              onSubmit();
+              onSubmit(state.widget);
             }}
           >
             Confirm
@@ -153,9 +168,9 @@ const Modal = ({ isOpen, onClose, onSubmit }) => {
 return (
   <>
     <Modal
-      isOpen={props.isOpenModal}
-      onClose={() => props.onClose()}
-      onSubmit={() => props.handdleAddFunction()}
+      isOpen={props.isOpen}
+      onClose={() => props.onClose && props.onClose()}
+      onSubmit={(value) => props.onSubmit && props.onSubmit(value)}
     />
   </>
 );
