@@ -1,14 +1,16 @@
-const iframe = document.querySelector(".iframe");
-const iframeOnload = (ev) => {
-  console.log(ev);
-  iframe.sandbox = "allow-scripts allow-same-origin";
-  if (a === 1) iframe.src = "https://zksync.satori.finance";
-  a = a + 1;
+useEffect(() => {
+  const iframe = document.querySelector(".iframe");
+  const iframeOnload = (ev) => {
+    console.log(ev);
+    iframe.sandbox = "allow-scripts allow-same-origin";
+    if (a === 1) iframe.src = "https://zksync.satori.finance";
+    a = a + 1;
 
-  console.log(iframe);
-};
+    console.log(iframe);
+  };
 
-iframe.addEventListener("load", iframeOnload);
+  iframe.addEventListener("load", iframeOnload);
+});
 return (
   <div class="iframe-box">
     <iframe
