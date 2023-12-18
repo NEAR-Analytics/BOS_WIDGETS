@@ -13,7 +13,7 @@ State.init({
   thumbnail: "https://ipfs.near.social/ipfs/",
   tag: "",
   parentVdoId: props.parentVdoId || "",
-  modalOpening: false,
+  isSuccess: false,
 });
 
 const onTimestampChange = ({ target }) => {
@@ -362,10 +362,10 @@ const onBtnClick = async () => {
     .then((res) => {
       if (res.hash) {
         console.log("Success! " + res.hash);
+        State.update({ isSuccess: true });
       } else {
         console.log("Failed!");
       }
-      State.update({ modalOpening: true });
     });
 };
 
@@ -425,6 +425,17 @@ return (
       <button className="p-2 Button-primary rounded-md " onClick={onBtnClick}>
         Publish
       </button>
+      {isSuccess && (
+        <a href="/">
+          {" "}
+          <button
+            className="p-2 Button-primary rounded-md "
+            onClick={onBtnClick}
+          >
+            Finish
+          </button>
+        </a>
+      )}
     </div>
   </div>
 );
