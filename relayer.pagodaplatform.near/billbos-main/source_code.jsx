@@ -568,7 +568,7 @@ const main = (
         {state.chainId !== undefined && !CHAIN_LIST.includes(state.chainId) ? (
           <div className="w-full">Chain not support </div>
         ) : (
-          <div className=" w-full overflow-y-scroll pb-40">
+          <div className=" w-full">
             <div>{tabComponent()}</div>
           </div>
         )}
