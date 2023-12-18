@@ -130,18 +130,23 @@ const handleChangeChain = (event) => {
   }
 };
 
+const BillBOSCoreABI = fetch(
+  "https://gist.githubusercontent.com/jimmy-ez/0344bb9cce14ced6c6e7f89d7d1654ce/raw/e7dd9962a90819f71de155b1f68f276eed07790a/BillBOSCoreABIV3.json"
+);
+if (!BillBOSCoreABI.ok) {
+  return "Loading";
+}
+const IBillBOSCore = new ethers.utils.Interface(BillBOSCoreABI.body);
+
 const handleCreateAds = () => {
   console.log("state", state);
-
   const encodedData = IBillBOSCore.encodeFunctionData("getAds");
-
   Ethers.provider()
     .call({
       to: "0x8995e9741A2b9c7f1Bb982d08c360F2951a23c24",
       data: encodedData,
     })
     .then((rawRes) => {
-      // decode response
       const resData = IBillBOSCore.decodeFunctionResult("getAds", rawRes);
       console.log("resData", resData);
     });
