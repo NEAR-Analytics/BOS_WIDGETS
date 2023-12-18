@@ -187,7 +187,7 @@ return (
         },
         isLoading: !state.isFinish,
         topic: `You are now staking ${state.boostAmount} USDT`,
-        detail: `Staking ${state.boostAmount} USDT. You will receive more than ${boostAmount} USDT`,
+        detail: `Staking ${state.boostAmount} USDT. You will receive ${state.boostAmount} USDT`,
       }}
     />
   </>
