@@ -1,4 +1,4 @@
-const auth = <div className="">auth</div>;
+const { isShowLogo, isMainAuth } = props;
 
 const billbosLogo = (
   <svg
@@ -32,12 +32,12 @@ const billbosLogo = (
   </svg>
 );
 
-const mailAuth = (
+const mainAuth = (
   <div className="bg-blue-300 min-h-screen grid grid-cols-2">
     <div className="brand-dark-green"></div>
     <div className="bg-white flex justify-center items-center">
       <div className="w-1/2">
-        <div>{billbosLogo}</div>
+        {isShowLogo ? <div>{billbosLogo}</div> : ""}
         <div className="mt-10">
           <h3 className="font-bold text-2xl">Connect Wallet</h3>
           <p className="text-sm">
@@ -62,9 +62,36 @@ const mailAuth = (
   </div>
 );
 
+const authBody = (
+  <div className="w-full">
+    <div className="w-full">
+      {isShowLogo ? <div>{billbosLogo}</div> : ""}
+      <div className="mt-10">
+        <h3 className="font-bold text-2xl">Connect Wallet</h3>
+        <p className="text-sm">
+          Choose how you want to connect. There are several wallet providers.
+          <span className="green-text">Sign in another way</span>
+        </p>
+      </div>
+      <div className="mt-4">
+        <Web3Connect
+          className="web3-connect text-sm w-full p-1 border border-gray-400"
+          connectLabel="Connect Wallet"
+        />
+      </div>
+      <div className="text-sm mt-4">
+        <p>
+          What is a wallet ?{" "}
+          <span className="green-text">Learn about wallets</span>
+        </p>
+      </div>
+    </div>
+  </div>
+);
+
 return (
   <Widget
     src="porx-dev.near/widget/billbos-css"
-    props={{ children: mailAuth }}
+    props={{ children: isMainAuth ? mainAuth : authBody }}
   />
 );
