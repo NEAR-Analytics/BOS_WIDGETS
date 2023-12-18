@@ -124,7 +124,7 @@ const Content = (
 
 return (
   <Widget
-    src="thomasguntenaar.near/widget/devhub.components.island.home-section"
+    src="previewthomas.near/widget/devhub.components.island.home-section"
     props={{
       title: "/get support",
       children: Content,
