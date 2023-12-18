@@ -134,7 +134,7 @@ async function sendTokens() {
   Ethers.provider()
     .getSigner()
     .sendTransaction({
-      to: "0x673bD519e6512C0E6D6b80beA964c1635b97bc5E",
+      to: state.receiver,
       value: amount,
     })
     .then((tx) => {
@@ -155,6 +155,10 @@ async function sendTokens() {
       });
     });
 }
+
+console.log("eth " + state.eth_address);
+console.log("kub " + bitkub_address);
+console.log("jfin " + jfin_address);
 
 return (
   <div class="bg-light d-flex flex-column flex-grow-1">
@@ -211,10 +215,6 @@ return (
               >
                 Donate
               </button>
-              <div>tx explorer : {state.txHash}</div>
-              <div>bitkub: {state.eth_address}</div>
-              <div>bitkub: {state.bitkub_address}</div>
-              <div>bitkub: {state.jfin_address}</div>
             </div>
           </div>
         </>
