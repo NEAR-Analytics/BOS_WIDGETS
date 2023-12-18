@@ -57,9 +57,7 @@ const iface = new ethers.utils.Interface(BillBOSCoreABI);
 
 function switchEthereumChain(chainId) {
   const chainIdHex = `0x${chainId.toString(16)}`;
-  const res = Ethers.send("wallet_switchEthereumChain", [
-    { chainId: chainIdHex },
-  ]);
+  Ethers.send("wallet_switchEthereumChain", [{ chainId: chainIdHex }]);
 }
 
 function setTabSelect(index) {
@@ -153,8 +151,7 @@ checkProvider();
 
 function getRpcProvider(chainId) {
   const chain = state.chains[chainId];
-  const rpc = chain.rpcUrl;
-  const provider = new ethers.providers.JsonRpcProvider(rpc, chain.id);
+  const provider = new ethers.providers.JsonRpcProvider(chain.rpcUrl, chain.id);
   return provider;
 }
 
@@ -195,10 +192,22 @@ function formatAds(item, chainId) {
   };
 }
 
+function onClaim() {
+  const signer = Ethers.provider().getSigner();
+  const contract = new ethers.Contract(
+    state.chains[state.chainId].billBOSCore,
+    BillBOSCoreABI,
+    signer
+  );
+
+  contract.claimReward().then((res) => {
+    console.log("res---->", res);
+  });
+}
+
 function getTotalDashboard() {
   const chainsDefault = [25925];
   const promiseList = [];
-
   for (let i = 0; i < chainsDefault.length; i++) {
     const chainId = chainsDefault[i];
     const provider = getRpcProvider(chainId);
@@ -240,7 +249,6 @@ function getAdsByAddress(walletAddress) {
   const getAdsUserData = iface.encodeFunctionData("getAdsUser", [
     walletAddress,
   ]);
-
   const raw = Ethers.provider()
     .call({
       to: billbosCoreAddress,
@@ -333,17 +341,14 @@ function tapRewards() {
   // get view of page owner
   const walletAddress = state.walletAddress;
   const month = state.monthCount;
-
   handleRequest(
     `/ads/total-webpageowner-view-by-owner-address?month=${month}&walletAddress=${walletAddress}`,
     "viewOfWalletAddress"
   );
-
   handleRequest(
     `/ads/ratio-webpageOwnerview-by-allwebpageOwner?month=${month}&walletAddress=${walletAddress}`,
     "ratioOfWalletAddress"
   );
-
   return (
     <div>
       <div
@@ -424,7 +429,7 @@ function tapRewards() {
                     chainName: chainConfig.name,
                     amount: "1000.20",
                     tokenName: "USDT",
-                    onClaim: () => {},
+                    onClaim: onClaim,
                   }}
                 />
               );
