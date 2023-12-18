@@ -226,7 +226,9 @@ return (
             to={`/previewthomas.near/widget/app?page=community.configuration&handle=${community.handle}`}
           >
             <Widget
-              src={"previewthomas.near/widget/devhub.components.molecule.Button"}
+              src={
+                "previewthomas.near/widget/devhub.components.molecule.Button"
+              }
               props={{
                 classNames: { root: "btn-outline-light text-dark shadow-none" },
                 notRounded: true,
