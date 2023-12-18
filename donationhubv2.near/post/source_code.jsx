@@ -91,7 +91,7 @@ return (
       <PostText>
         <b>Posted By:</b> {state.authorId} · {timestamp}
       </PostText>
-      <Link src="donationhubv2.near/widget/donate" props={props}>
+      <Link to="donationhubv2.near/widget/donate" props={props}>
         <Button>Donate </Button>
       </Link>
     </PostInfo>
