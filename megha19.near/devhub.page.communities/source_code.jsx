@@ -91,6 +91,25 @@ const CTA = styled.button`
   }
 `;
 
+const CardGrid = styled.div`
+  width: 100%;
+  height: 100%;
+
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 3rem;
+
+  @media screen and (max-width: 992px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @media screen and (max-width: 768px) {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+`;
+
 return (
   <div className="w-100">
     <Widget src={`megha19.near/widget/devhub.components.island.banner`} />
@@ -116,35 +135,20 @@ return (
                 value={searchKey}
                 onChange={(e) => setSearchKey(e.target.value)}
               />
-              <div class="dropdown">
-                <button
-                  class="btn dropdown-toggle bg-white"
-                  type="button"
-                  data-bs-toggle="dropdown"
-                  aria-expanded="false"
+              <div className="d-flex align-items-center gap-2 col-sm-6 col-12">
+                <label htmlFor="sort">Sort:</label>
+                <select
+                  name="sort"
+                  id="sort"
+                  class="form-select"
+                  onChange={(e) => setSort(e.target.value)}
                 >
-                  Sort: {sort?.toUpperCase() || "Latest"}
-                </button>
-                <ul class="dropdown-menu px-2 shadow">
-                  <li
-                    onClick={() => setSort("")}
-                    class="dropdown-item link-underline link-underline-opacity-0"
-                  >
+                  <option selected value="">
                     Latest
-                  </li>
-                  <li
-                    onClick={() => setSort("a-z")}
-                    class="dropdown-item link-underline link-underline-opacity-0"
-                  >
-                    A-Z
-                  </li>
-                  <li
-                    onClick={() => setSort("z-a")}
-                    class="dropdown-item link-underline link-underline-opacity-0"
-                  >
-                    Z-A
-                  </li>
-                </ul>
+                  </option>
+                  <option value="a-z">A-Z</option>
+                  <option value="z-a">Z-A</option>
+                </select>
               </div>
             </div>
             {context.accountId && (
@@ -169,37 +173,29 @@ return (
             }}
           />
         )}
-        <div class="container">
-          <div class="row">
-            {searchKey === "" && sort === ""
-              ? (communitiesMetadata ?? [])
-                  .reverse()
-                  .map((communityMetadata) => (
-                    <div className="col-lg-4 col-sm-6 col-12 mb-3">
-                      <Widget
-                        src="megha19.near/widget/devhub.entity.community.Card"
-                        props={{
-                          format: "small",
-                          isBannerEnabled: false,
-                          metadata: communityMetadata,
-                        }}
-                      />
-                    </div>
-                  ))
-              : SortedAndFiltered(searchKey, sort).map((communityMetadata) => (
-                  <div className="col-lg-4 col-sm-6 col-12 mb-3">
-                    <Widget
-                      src="megha19.near/widget/devhub.entity.community.Card"
-                      props={{
-                        format: "small",
-                        isBannerEnabled: false,
-                        metadata: communityMetadata,
-                      }}
-                    />
-                  </div>
-                ))}
-          </div>
-        </div>
+        <CardGrid>
+          {searchKey === "" && sort === ""
+            ? (communitiesMetadata ?? []).reverse().map((communityMetadata) => (
+                <Widget
+                  src="megha19.near/widget/devhub.entity.community.Card"
+                  props={{
+                    format: "small",
+                    isBannerEnabled: false,
+                    metadata: communityMetadata,
+                  }}
+                />
+              ))
+            : SortedAndFiltered(searchKey, sort).map((communityMetadata) => (
+                <Widget
+                  src="megha19.near/widget/devhub.entity.community.Card"
+                  props={{
+                    format: "small",
+                    isBannerEnabled: false,
+                    metadata: communityMetadata,
+                  }}
+                />
+              ))}
+        </CardGrid>
       </div>
     </div>
   </div>
