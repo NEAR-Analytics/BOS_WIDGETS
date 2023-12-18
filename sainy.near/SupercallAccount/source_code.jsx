@@ -72,10 +72,15 @@ const strChainInfo = fetch(
 
 let tokenList = [];
 let chainInfo = {};
+let logoUrl = "https://chainlist.org/unknown-logo.png";
 
 try {
   tokenList = JSON.parse(strTokenList);
   chainInfo = JSON.parse(strChainInfo);
+  console.log(chainInfo);
+  if (chainInfo.icon) {
+    logoUrl = `https://icons.llamao.fi/icons/chains/rsz_${chainInfo.icon}.jpg`;
+  }
 } catch (e) {}
 
 if (!signer) {
@@ -91,6 +96,13 @@ function handleSelect(index) {
     props.onChange(tokenList[index]);
   }
 }
+
+const readAddress = (num) => {
+  return Storage.get(
+    `contractAddress:${num || "0"}`,
+    "sainy.near/widget/SupercallDeployer"
+  );
+};
 
 const formatWalletAddres = (wallet) => {
   return `${
@@ -229,18 +241,22 @@ return (
       <Card style={{ position: "relative" }}>
         <div style={{ display: "flex" }}>
           <img
-            src={props.logoUrl}
+            src={logoUrl}
             width={24}
             height={24}
+            style={{ borderRadius: "100%" }}
             className="rounded-full"
           />
-          <TextMain style={{ margin: "auto 4px" }}>{props.name}</TextMain>
+          <TextMain style={{ margin: "auto 4px" }}>{chainInfo.name}</TextMain>
         </div>
-        <ButtonCreate
-          style={{ position: "absolute", top: "16px", right: "16px" }}
-        >{`Create`}</ButtonCreate>
+        <div style={{ position: "absolute", top: "16px", right: "16px" }}>
+          <Widget
+            src="sainy.near/widget/SupercallDeployer"
+            props={{ accountNumber: "0" }}
+          />
+        </div>
         <TextGray style={{ marginTop: "20px" }}>{`ADDRESS`}</TextGray>
-        <TextMain>{"" || ""}</TextMain>
+        <TextMain>{formatWalletAddres(readAddress("0")) || ""}</TextMain>
         <TextGray style={{ marginTop: "20px" }}>{`TOKEN HOLDINGS`}</TextGray>
         <div>{renderSelectToken()}</div>
       </Card>
