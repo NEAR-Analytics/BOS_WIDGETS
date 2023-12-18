@@ -39,7 +39,7 @@ function timeConverter(UNIX_timestamp) {
 
 return (
   <Link className="button button--primary" href={`/play/${video.id}`}>
-    <div className="HStack Lable gap-4 mb-4">
+    <div className="HStack  gap-4 mb-4">
       <img src={video.thumbnail} className="video object-fill h-48" />
       <div className="VStack justify-between">
         <div className="">
