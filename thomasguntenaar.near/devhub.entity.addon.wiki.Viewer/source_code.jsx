@@ -85,7 +85,7 @@ if (!content) {
       <Content>
         <Widget
           src={
-            "thomasguntenaar.near/widget/devhub.components.molecule.MarkdownViewer"
+            "previewthomas.near/widget/devhub.components.molecule.MarkdownViewer"
           }
           props={{ text: content }}
         />
