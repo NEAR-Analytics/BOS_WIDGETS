@@ -302,7 +302,7 @@ const contract = new ethers.Contract(CONTRACT_ADDRESS, abi, signer);
 
 contract.getLastestVideo(5).then((res) => {
   if (res.hash) {
-    console.log("Success! " + res.hash);
+    console.log("Success! " + res);
     State.update({ videoes: res.data });
   } else {
     console.log("Failed!");
