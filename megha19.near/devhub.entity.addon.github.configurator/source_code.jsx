@@ -1,146 +1,29 @@
-// THIS IS A WORK IN PROGRESS.
-// The code for the configurator and viewer is very intertwined
-// and there is constant "negative affirmative" prop drilling happening, making it hard to follow
-const { data, onSubmit, permissions } = props;
-
+const { widget } = VM.require("megha19.near/widget/core.lib.url");
 const Struct = VM.require("megha19.near/widget/core.lib.struct");
 
 if (!Struct) {
   return <p>Loading modules...</p>;
 }
+const { updateCommunityGithub, useQuery } = VM.require(
+  "megha19.near/widget/core.adapter.devhub-contract"
+);
+const { uuid, withUUIDIndex } = VM.require(
+  "megha19.near/widget/core.lib.uuid"
+);
 
-const defaultFieldUpdate = ({
-  input,
-  lastKnownValue,
-  params: { arrayDelimiter },
-}) => {
-  switch (typeof input) {
-    case "boolean":
-      return input;
+uuid || (uuid = () => {});
+withUUIDIndex || (withUUIDIndex = () => {});
+useQuery || (useQuery = () => {});
+updateCommunityGithub || (updateCommunityGithub = () => {});
 
-    case "object": {
-      if (Array.isArray(input) && typeof lastKnownValue === "string") {
-        return input.join(arrayDelimiter ?? ",");
-      } else {
-        return Array.isArray(lastKnownValue)
-          ? [...lastKnownValue, ...input]
-          : { ...lastKnownValue, ...input };
-      }
-    }
+const AttractableDiv = styled.div`
+  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075) !important;
+  transition: box-shadow 0.6s;
 
-    case "string":
-      return Array.isArray(lastKnownValue)
-        ? input.split(arrayDelimiter ?? ",").map((string) => string.trim())
-        : input;
-
-    default: {
-      if ((input ?? null) === null) {
-        switch (typeof lastKnownValue) {
-          case "boolean":
-            return !lastKnownValue;
-
-          default:
-            return lastKnownValue;
-        }
-      } else return input;
-    }
+  &:hover {
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
   }
-};
-
-const useForm = ({ initialValues, onUpdate, stateKey, uninitialized }) => {
-  const initialFormState = {
-    hasUnsubmittedChanges: false,
-    values: initialValues ?? {},
-  };
-
-  const formState = state[stateKey] ?? null,
-    isSynced = Struct.isEqual(formState?.values ?? {}, initialFormState.values);
-
-  const formReset = () =>
-    State.update((lastKnownComponentState) => ({
-      ...lastKnownComponentState,
-      [stateKey]: initialFormState,
-      hasUnsubmittedChanges: false,
-    }));
-
-  const formUpdate =
-    ({ path, via: customFieldUpdate, ...params }) =>
-    (fieldInput) => {
-      const updatedValues = Struct.deepFieldUpdate(
-        formState?.values ?? {},
-        path, // Pass the path directly
-        (node) => {
-          return {
-            ...node,
-            // Update the last key in the path
-            [path[path.length - 1]]:
-              typeof customFieldUpdate === "function"
-                ? customFieldUpdate(
-                    fieldInput?.target?.value ?? fieldInput,
-                    node[path[path.length - 1]],
-                    params
-                  )
-                : defaultFieldUpdate(
-                    fieldInput?.target?.value ?? fieldInput,
-                    node[path[path.length - 1]],
-                    params
-                  ),
-          };
-        }
-      );
-
-      State.update((lastKnownComponentState) => ({
-        ...lastKnownComponentState,
-
-        [stateKey]: {
-          hasUnsubmittedChanges: !Struct.isEqual(
-            updatedValues,
-            initialFormState.values
-          ),
-
-          values: updatedValues,
-        },
-      }));
-
-      if (
-        typeof onUpdate === "function" &&
-        !Struct.isEqual(updatedValues, initialFormState.values)
-      ) {
-        onUpdate(updatedValues);
-      }
-    };
-
-  if (
-    !uninitialized &&
-    (formState === null || (!formState.hasUnsubmittedChanges && !isSynced))
-  ) {
-    formReset();
-  }
-
-  return {
-    ...(formState ?? initialFormState),
-    isSynced,
-    reset: formReset,
-    stateKey,
-    update: formUpdate,
-  };
-};
-
-const uuid = () =>
-  [Date.now().toString(16)]
-    .concat(
-      Array.from(
-        { length: 4 },
-        () => Math.floor(Math.random() * 0xffffffff) & 0xffffffff
-      ).map((value) => value.toString(16))
-    )
-    .join("-");
-
-const withUUIDIndex = (data) => {
-  const id = uuid();
-
-  return Object.fromEntries([[id, { ...data, id }]]);
-};
+`;
 
 const settings = {
   maxColumnsNumber: 20,
@@ -169,7 +52,6 @@ const GithubKanbanBoardDefaults = {
   metadata: {
     id: uuid(),
     type: "github.kanban_board",
-
     ticket: {
       type: "github.kanban_ticket",
       features: { id: true, author: true, labels: true, type: true },
@@ -183,117 +65,131 @@ const toMigrated = ({ metadata, id, ...restParams }) => ({
     ...metadata,
     id: id ?? metadata.id,
   },
-
   ...restParams,
 });
 
-const [editingMode, setEditingMode] = useState("form");
+const GithubViewConfigurator = ({ kanbanBoards, permissions, onSubmit }) => {
+  const data = Object.values(kanbanBoards)?.[0];
 
-// This is a workaround because of how the data was decided to be saved.
-const dynamicKey = Object.keys(data).find((key) => key !== "metadata");
-data = data[dynamicKey];
-
-const form = useForm({
-  initialValues: Struct.typeMatch(data) ? toMigrated(data) : {},
-  stateKey: "view",
-  uninitialized: !Struct.typeMatch(data),
-});
-
-const newViewInit = () =>
-  State.update((lastKnownState) => ({
-    ...lastKnownState,
-
-    board: {
-      hasUnsubmittedChanges: false,
-      values: GithubKanbanBoardDefaults,
-    },
-  }));
-
-const columnsCreateNew = ({ lastKnownValue }) =>
-  Object.keys(lastKnownValue || {}).length < settings.maxColumnsNumber
-    ? {
-        ...(lastKnownValue ?? {}),
-
-        ...withUUIDIndex({
-          description: "",
-          labelSearchTerms: [],
-          title: "New column",
-        }),
-      }
-    : lastKnownValue;
-
-const columnsDeleteById =
-  (id) =>
-  ({ lastKnownValue }) =>
-    Object.fromEntries(
-      Object.entries(lastKnownValue).filter(([columnId]) => columnId !== id)
+  if (!data) {
+    return (
+      <div class="alert alert-danger" role="alert">
+        Loading...
+      </div>
     );
+  }
 
-const onCancel = () => {
-  form.reset();
-};
+  const initialFormState = Struct.typeMatch(data) ? toMigrated(data) : {};
+  const [formState, setForm] = useState(initialFormState);
+  const [editingMode, setEditingMode] = useState("form");
+  const [showPreview, setPreview] = useState(false);
 
-const onSave = () =>
-  onSubmit({
-    kanbanBoards: { [form.values.metadata.id]: form.values },
-  });
+  const formUpdate =
+    ({ path, via: customFieldUpdate, ...params }) =>
+    (fieldInput) => {
+      const transformFn = (node) => {
+        if (typeof customFieldUpdate === "function") {
+          return customFieldUpdate({
+            input: fieldInput?.target?.value ?? fieldInput,
+            lastKnownValue: node,
+            params,
+          });
+        } else {
+          return Struct.defaultFieldUpdate({
+            input: fieldInput?.target?.value ?? fieldInput,
+            lastKnownValue: node,
+            params,
+          });
+        }
+      };
+      const updatedValues = Struct.deepFieldUpdate(
+        formState ?? {},
+        path, // Pass the path directly
+        (node) => transformFn(node)
+      );
+      setForm({ ...formState, ...updatedValues });
+    };
 
-function Form() {
-  return (
+  const formReset = () => {
+    setForm(initialFormState);
+  };
+
+  const onEditingModeChange = ({ target: { value } }) => setEditingMode(value);
+
+  const newViewInit = () => {
+    setForm(GithubKanbanBoardDefaults);
+  };
+
+  const columnsCreateNew = ({ lastKnownValue }) =>
+    Object.keys(lastKnownValue).length < settings.maxColumnsNumber
+      ? {
+          ...(lastKnownValue ?? {}),
+          ...withUUIDIndex({
+            description: "",
+            labelSearchTerms: [],
+            title: "New column",
+          }),
+        }
+      : lastKnownValue;
+
+  const columnsDeleteById =
+    (id) =>
+    ({ lastKnownValue }) =>
+      Object.fromEntries(
+        Object.entries(lastKnownValue).filter(([columnId]) => columnId !== id)
+      );
+
+  const onCancel = () => {
+    formReset();
+  };
+
+  const onSave = () => onSubmit(formState);
+
+  const formElement = (
     <>
       <div className="d-flex flex-column">
         <div className="d-flex gap-1 flex-column flex-xl-row">
-          <Widget
-            src="megha19.near/widget/devhub.components.molecule.Input"
-            props={{
-              className: "w-100",
-              key: `${form.values.metadata.id}-repoURL`,
-              label: "Repository URL",
-              onChange: form.update({ path: ["repoURL"] }),
-              placeholder: "https://github.com/example-org/example-repo",
-              value: form.values.repoURL,
-            }}
-          />
-          <Widget
-            src="megha19.near/widget/devhub.components.molecule.Input"
-            props={{
-              className: "w-100",
-              key: `${form.values.metadata.id}-title`,
-              label: "Title",
-              onChange: form.update({ path: ["title"] }),
-              placeholder: "NEAR Protocol NEPs",
-              value: form.values.title,
-            }}
-          />
+          {widget("components.molecule.Input", {
+            className: "w-100",
+            key: `${formState.metadata.id}-repoURL`,
+            label: "Repository URL",
+            onChange: formUpdate({ path: ["repoURL"] }),
+            placeholder: "https://github.com/example-org/example-repo",
+            value: formState.repoURL,
+          })}
+
+          {widget("components.molecule.Input", {
+            className: "w-100",
+            key: `${formState.metadata.id}-title`,
+            label: "Title",
+            onChange: formUpdate({ path: ["title"] }),
+            placeholder: "NEAR Protocol NEPs",
+            value: formState.title,
+          })}
         </div>
 
-        <Widget
-          src="megha19.near/widget/devhub.components.molecule.Input"
-          props={{
-            className: "w-100",
-            key: `${form.values.metadata.id}-description`,
-            label: "Description",
-            onChange: form.update({ path: ["description"] }),
-            placeholder: "Latest NEAR Enhancement Proposals by status.",
-            value: form.values.description,
-          }}
-        />
+        {widget("components.molecule.Input", {
+          className: "w-100",
+          key: `${formState.metadata.id}-description`,
+          label: "Description",
+          onChange: formUpdate({ path: ["description"] }),
+          placeholder: "Latest NEAR Enhancement Proposals by status.",
+          value: formState.description,
+        })}
       </div>
 
       <div className="d-flex gap-4 flex-row flex-wrap justify-content-between">
-        <Widget
-          src="megha19.near/widget/devhub.components.molecule.Input"
-          props={{
-            heading: "Ticket types",
-            classNames: { root: "col-12 col-md-4 h-auto" },
-            externalState: form.values.dataTypesIncluded,
-            isActive: true,
-            isEmbedded: true,
-            isUnlocked: permissions.can_configure,
-            onChange: form.update({ path: ["dataTypesIncluded"] }),
-            schema: GithubKanbanBoardTicketTypesSchema,
-          }}
-        />
+        {widget("components.organism.Configurator", {
+          heading: "Ticket types",
+          classNames: { root: "col-12 col-md-4 h-auto" },
+          externalState: formState.dataTypesIncluded,
+          isActive: true,
+          isEmbedded: true,
+          isUnlocked: permissions.can_configure,
+          onChange: formUpdate({ path: ["dataTypesIncluded"] }),
+          schema: GithubKanbanBoardTicketTypesSchema,
+          hideSubmitBtn: true,
+        })}
 
         <div
           className={[
@@ -303,40 +199,35 @@ function Form() {
         >
           <span
             className="d-inline-flex gap-2"
-            id={`${form.values.metadata.id}-ticketState`}
+            id={`${formState.metadata.id}-ticketState`}
           >
             <i class="bi bi-cone-striped" />
             <span>Ticket state</span>
           </span>
 
-          <Widget
-            src="megha19.near/widget/devhub.components.molecule.Switch"
-            props={{
-              currentValue: form.values.ticketState,
-              key: "ticketState",
-              onChange: form.update({ path: ["ticketState"] }),
+          {widget("components.molecule.Switch", {
+            currentValue: formState.ticketState,
+            key: "ticketState",
+            onChange: formUpdate({ path: ["ticketState"] }),
 
-              options: [
-                { label: "All", value: "all" },
-                { label: "Open", value: "open" },
-                { label: "Closed", value: "closed" },
-              ],
-            }}
-          />
+            options: [
+              { label: "All", value: "all" },
+              { label: "Open", value: "open" },
+              { label: "Closed", value: "closed" },
+            ],
+          })}
         </div>
-        <Widget
-          src="megha19.near/widget/devhub.components.organism.Configurator"
-          props={{
-            heading: "Card fields",
-            classNames: { root: "col-12 col-md-4 h-auto" },
-            externalState: form.values.metadata.ticket.features,
-            isActive: true,
-            isEmbedded: true,
-            isUnlocked: permissions.can_configure,
-            onChange: form.update({ path: ["metadata", "ticket", "features"] }),
-            schema: GithubKanbanBoardTicketFeaturesSchema,
-          }}
-        />
+        {widget("components.organism.Configurator", {
+          heading: "Card fields",
+          classNames: { root: "col-12 col-md-4 h-auto" },
+          externalState: formState.metadata.ticket.features,
+          isActive: true,
+          isEmbedded: true,
+          isUnlocked: permissions.can_configure,
+          onChange: formUpdate({ path: ["metadata", "ticket", "features"] }),
+          schema: GithubKanbanBoardTicketFeaturesSchema,
+          hideSubmitBtn: true,
+        })}
       </div>
 
       <div className="d-flex align-items-center justify-content-between">
@@ -347,58 +238,51 @@ function Form() {
       </div>
 
       <div className="d-flex flex-column align-items-center gap-3 w-100">
-        {Object.values(form.values.columns ?? {}).map(
+        {Object.values(formState.columns ?? {}).map(
           ({ id, description, labelSearchTerms, title }) => (
-            <div
-              className="d-flex gap-3 rounded-4 border p-3 w-100 attractable"
+            <AttractableDiv
+              className="d-flex gap-3 rounded-4 border p-3 w-100"
               key={`column-${id}-configurator`}
             >
               <div className="d-flex flex-column gap-1 w-100">
-                <Widget
-                  src="megha19.near/widget/devhub.components.molecule.Input"
-                  props={{
-                    className: "flex-grow-1",
-                    key: `${form.values.metadata.id}-column-${id}-title`,
-                    label: "Title",
-                    onChange: form.update({ path: ["columns", id, "title"] }),
-                    placeholder: "👀 Review",
-                    value: title,
-                  }}
-                />
-                <Widget
-                  src="megha19.near/widget/devhub.components.molecule.Input"
-                  props={{
-                    format: "comma-separated",
-                    key: `${form.values.metadata.id}-column-${title}-labelSearchTerms`,
+                {widget("components.molecule.Input", {
+                  className: "flex-grow-1",
+                  key: `${formState.metadata.id}-column-${id}-title`,
+                  label: "Title",
+                  onChange: formUpdate({ path: ["columns", id, "title"] }),
+                  placeholder: "👀 Review",
+                  value: title,
+                })}
 
-                    label: `Search terms for all the labels
+                {widget("components.molecule.Input", {
+                  format: "comma-separated",
+                  key: `${formState.metadata.id}-column-${title}-labelSearchTerms`,
+
+                  label: `Search terms for all the labels
 											MUST be presented in included tickets`,
 
-                    onChange: form.update({
-                      path: ["columns", id, "labelSearchTerms"],
-                    }),
+                  onChange: formUpdate({
+                    path: ["columns", id, "labelSearchTerms"],
+                  }),
 
-                    placeholder: "WG-, draft, review, proposal, ...",
-                    value: labelSearchTerms.join(", "),
-                  }}
-                />
-                <Widget
-                  src="megha19.near/widget/devhub.components.molecule.Input"
-                  props={{
-                    className: "flex-grow-1",
-                    key: `${form.values.metadata.id}-column-${id}-description`,
-                    label: "Description",
+                  placeholder: "WG-, draft, review, proposal, ...",
+                  value: labelSearchTerms.join(", "),
+                })}
 
-                    onChange: form.update({
-                      path: ["columns", id, "description"],
-                    }),
+                {widget("components.molecule.Input", {
+                  className: "flex-grow-1",
+                  key: `${formState.metadata.id}-column-${id}-description`,
+                  label: "Description",
 
-                    placeholder:
-                      "NEPs that need a review by Subject Matter Experts.",
+                  onChange: formUpdate({
+                    path: ["columns", id, "description"],
+                  }),
 
-                    value: description,
-                  }}
-                />
+                  placeholder:
+                    "NEPs that need a review by Subject Matter Experts.",
+
+                  value: description,
+                })}
               </div>
 
               <div
@@ -407,7 +291,7 @@ function Form() {
               >
                 <button
                   className="btn btn-outline-danger"
-                  onClick={form.update({
+                  onClick={formUpdate({
                     path: ["columns"],
                     via: columnsDeleteById(id),
                   })}
@@ -416,129 +300,161 @@ function Form() {
                   <i className="bi bi-trash-fill" />
                 </button>
               </div>
-            </div>
+            </AttractableDiv>
           )
         )}
 
         <div className="d-flex gap-3 justify-content-end w-100">
-          <Widget
-            src="megha19.near/widget/devhub.components.molecule.Button"
-            props={{
-              classNames: {
-                root: "d-flex btn btn-outline-danger shadow-none border-0",
-              },
-              label: "Cancel",
-              onClick: onCancel,
-            }}
-          />
-          <Widget
-            src="megha19.near/widget/devhub.components.molecule.Button"
-            props={{
-              classNames: { root: "btn btn-success" },
-              disabled: form.isSynced,
+          {widget("components.molecule.Button", {
+            classNames: {
+              root: "d-flex btn btn-outline-danger shadow-none border-0",
+            },
+            isHidden: typeof onCancel !== "function",
+            label: "Cancel",
+            onClick: onCancel,
+          })}
 
-              icon: {
-                type: "svg_icon",
-                variant: "floppy_drive",
-                width: 14,
-                height: 14,
-              },
-              label: "Save",
-              onClick: onSave,
-            }}
-          />
+          {widget("components.molecule.Button", {
+            classNames: { root: "btn btn-success" },
+            disabled: form.isSynced,
+
+            icon: {
+              type: "svg_icon",
+              variant: "floppy_drive",
+              width: 14,
+              height: 14,
+            },
+
+            isHidden: typeof onSave !== "function",
+            label: "Save",
+            onClick: onSave,
+          })}
         </div>
       </div>
     </>
   );
-}
 
-return (
-  <div
-    className="d-flex flex-column gap-4 w-100"
-    style={{ maxWidth: "100%", marginTop: "40px" }}
-  >
-    <div className={"d-flex flex-column gap-4 w-100"}>
-      <div className="d-flex align-items-center justify-content-between gap-3 w-100">
-        <h5 className="h5 d-inline-flex gap-2 m-0">
-          <i className="bi bi-gear-wide-connected" />
-          <span>GitHub board configuration</span>
-        </h5>
-        <Widget
-          src="megha19.near/widget/devhub.components.molecule.Switch"
-          props={{
-            currentValue: editingMode,
-            key: "editingMode",
-            onChange: (e) => setEditingMode(e.target.value),
-
-            options: [
-              { label: "Form", value: "form" },
-              { label: "JSON", value: "JSON" },
-            ],
-
-            title: "Editing mode selection",
-          }}
-        />
-      </div>
-      {editingMode === "JSON" ? (
-        <div className="d-flex flex-column flex-grow-1 border-0 bg-transparent w-100">
-          <textarea
-            className="form-control"
-            rows="12"
-            type="text"
-            value={JSON.stringify(form.values ?? {}, null, "\t")}
-          />
+  return (
+    <div
+      className="d-flex flex-column gap-4 w-100"
+      style={{ maxWidth: "100%" }}
+    >
+      <ul className="nav nav-tabs" id="editPreviewTabs" role="tablist">
+        <li className="nav-item" role="presentation">
+          <button
+            className={`nav-link ${!showPreview ? "active" : ""}`}
+            id="edit-tab"
+            data-bs-toggle="tab"
+            data-bs-target="#edit"
+            type="button"
+            role="tab"
+            aria-controls="edit"
+            aria-selected="true"
+            onClick={() => setPreview(false)}
+          >
+            Edit
+          </button>
+        </li>
+        <li className="nav-item" role="presentation">
+          <button
+            className={`nav-link ${showPreview ? "active" : ""}`}
+            id="preview-tab"
+            data-bs-toggle="tab"
+            data-bs-target="#preview"
+            type="button"
+            role="tab"
+            aria-controls="preview"
+            aria-selected="false"
+            onClick={() => setPreview(true)}
+          >
+            Preview
+          </button>
+        </li>
+      </ul>
+      {showPreview ? (
+        <div>
+          {widget("entity.addon.github.Viewer", {
+            kanbanBoards: {
+              [formState.metadata.id]: formState,
+            },
+          })}
         </div>
       ) : (
-        <Form />
+        <div className={["d-flex flex-column gap-4 w-100"].join(" ")}>
+          <div className="d-flex align-items-center justify-content-between gap-3 w-100">
+            <h5 className="h5 d-inline-flex gap-2 m-0">
+              <i className="bi bi-gear-wide-connected" />
+              <span>GitHub board configuration</span>
+            </h5>
+
+            {widget("components.molecule.Switch", {
+              currentValue: editingMode,
+              isHidden: true,
+              key: "editingMode",
+              onChange: onEditingModeChange,
+
+              options: [
+                { label: "Form", value: "form" },
+                { label: "JSON", value: "JSON" },
+              ],
+
+              title: "Editing mode selection",
+            })}
+          </div>
+
+          {editingMode === "form" ? (
+            formElement
+          ) : (
+            <div className="d-flex flex-column flex-grow-1 border-0 bg-transparent w-100">
+              <textarea
+                className="form-control"
+                disabled
+                rows="12"
+                type="text"
+                value={JSON.stringify(formState ?? {}, null, "\t")}
+              />
+            </div>
+          )}
+          {Object.keys(formState).length > 0 ? (
+            widget(
+              "components.molecule.Button",
+              {
+                classNames: {
+                  root: "btn-sm btn-outline-secondary",
+                },
+                label: "New column",
+                disabled:
+                  Object.keys(formState.columns).length >=
+                  settings.maxColumnsNumber,
+                icon: { type: "bootstrap_icon", variant: "bi-plus-lg" },
+                onClick: formUpdate({
+                  path: ["columns"],
+                  via: columnsCreateNew,
+                }),
+              },
+              controlProps.label
+            )
+          ) : (
+            <div
+              className="d-flex flex-column align-items-center justify-content-center gap-4"
+              style={{ height: 384 }}
+            >
+              <h5 className="h5 d-inline-flex gap-2 m-0">
+                This community doesn't have a GitHub board
+              </h5>
+
+              {widget("components.molecule.Button", {
+                icon: { type: "bootstrap_icon", variant: "bi-github" },
+                isHidden: !permissions.can_configure,
+                label: "Create GitHub board",
+                onClick: newViewInit,
+              })}
+            </div>
+          )}
+        </div>
       )}
     </div>
-    {form.values ? (
-      <Widget
-        src={`megha19.near/widget/devhub.entity.addon.${form.values.metadata.type}`}
-        props={{
-          ...form.values,
+  );
+};
 
-          configurationControls: [
-            {
-              label: "New column",
-
-              disabled:
-                Object.keys(form.values.columns || {}).length >=
-                settings.maxColumnsNumber,
-
-              icon: { type: "bootstrap_icon", variant: "bi-plus-lg" },
-
-              onClick: form.update({
-                path: ["columns"],
-                via: columnsCreateNew,
-              }),
-            },
-          ],
-
-          isSynced: form.isSynced,
-          link,
-          permissions,
-        }}
-      />
-    ) : (
-      <div
-        className="d-flex flex-column align-items-center justify-content-center gap-4"
-        style={{ height: 384 }}
-      >
-        <h5 className="h5 d-inline-flex gap-2 m-0">
-          This community doesn't have a GitHub board
-        </h5>
-        <Widget
-          src="megha19.near/widget/devhub.components.molecule.Button"
-          props={{
-            icon: { type: "bootstrap_icon", variant: "bi-github" },
-            isHidden: !permissions.can_configure,
-            label: "Create GitHub board",
-            onClick: newViewInit,
-          }}
-        />
-      </div>
-    )}
-  </div>
-);
+return GithubViewConfigurator(props);
