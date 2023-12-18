@@ -113,26 +113,30 @@ const Modal = ({ isOpen, onClose, onSubmit }) => {
         <ModalBody>
           <h6 style={{ color: "#656973" }}>Supercall Widget</h6>
           <StyledInput>
-            {!state.isReady ? (
-              <div style={{ color: "red", marginTop: 6, fontSize: 12 }}>
-                Please select a valid supercall widget
-              </div>
-            ) : (
-              <div style={{ color: "green", marginTop: 6, fontSize: 12 }}>
-                The selected widget is valid
-              </div>
-            )}
-            <div style={{ display: "none" }}>
-              <Widget
-                src={state.widget}
-                props={{
-                  onLoadSuccess: () => {
-                    State.update({ isReady: true });
-                  },
-                }}
-              />
-            </div>
+            <input
+              class="w-full px-3 py-2 rounded-lg border"
+              onChange={(e) => handleChangeInput(e.target.value)}
+            />
           </StyledInput>
+          {!state.isReady ? (
+            <div style={{ color: "red", marginTop: 6, fontSize: 12 }}>
+              Please select a valid supercall widget
+            </div>
+          ) : (
+            <div style={{ color: "green", marginTop: 6, fontSize: 12 }}>
+              The selected widget is valid
+            </div>
+          )}
+          <div style={{ display: "none" }}>
+            <Widget
+              src={state.widget}
+              props={{
+                onLoadSuccess: () => {
+                  State.update({ isReady: true });
+                },
+              }}
+            />
+          </div>
         </ModalBody>
         <ModalFooter>
           <button
