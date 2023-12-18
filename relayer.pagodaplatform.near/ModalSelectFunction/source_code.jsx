@@ -1,26 +1,15 @@
 const ModalOverlay = styled.div`
-  background-color: rgba(12, 12, 12, 0.4);
   position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(12, 12, 12, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
   inset: 0;
   z-index: 1049;
-`;
-
-const Content = styled.div`
-  background-color: white;
-  border-radius: 12px;
-  box-shadow:
-    0px 4px 8px 0px var(--blackA3),
-    0px 0px 0px 1px var(--blackA4);
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 90vw;
-  max-width: 484px;
-  max-height: 85vh;
-  animation: contentShow 150ms cubic-bezier(0.16, 1, 0.3, 1);
-  z-index: 1054;
-  outline: none;
 `;
 
 const StyledInput = styled.div`
@@ -74,9 +63,14 @@ const disabled = !state.isReady || state.widget === "";
 const Modal = ({ isOpen, onClose, onSubmit }) => {
   if (!isOpen) return null;
   return (
-    <>
-      <ModalOverlay />
-      <Content>
+    <ModalOverlay>
+      <div
+        style={{
+          width: "484px",
+          borderRadius: "12px",
+        }}
+        class="bg-white"
+      >
         <ModalHeader>
           <div>
             <h1 style={{ fontSize: "18px", fontWeight: 600 }}>
@@ -160,23 +154,25 @@ const Modal = ({ isOpen, onClose, onSubmit }) => {
               border: "none",
               borderRadius: "8px",
             }}
+            disabled={disabled}
             onClick={() => {
-              onSubmit();
+              onSubmit(state.widget);
               onClose();
+              State.update({ isReady: false });
             }}
           >
             Confirm
           </button>
         </ModalFooter>
-      </Content>
-    </>
+      </div>
+    </ModalOverlay>
   );
 };
 
 return (
   <>
     <Modal
-      isOpen={props.isOpenModal}
+      isOpen={props.isOpen}
       onClose={() => props.onClose && props.onClose()}
       onSubmit={(value) => props.onSubmit && props.onSubmit(value)}
     />
