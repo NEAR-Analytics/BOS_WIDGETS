@@ -64,6 +64,9 @@ State.init({
   description: String(info.description),
   authorId: info.authorId,
   timestamp: info.timestamp,
+  eth_address: info.eth_address,
+  bitkub_address: info.bitkub_address,
+  jfin_address: info.jfin_address,
 });
 
 let des = state.description.split("~");
