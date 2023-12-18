@@ -46,19 +46,6 @@ const ERC20_ABI = fetch(ERC20_ABI_URL).body;
 
 function handleChange(key, value) {
   State.update({ [key]: value });
-
-  if (key === "tokenAddress") {
-    try {
-      const contract = new ethers.Contract(
-        value,
-        ERC20_ABI,
-        Ethers.provider().getSigner()
-      );
-      contract.decimals().then((dec) => {
-        State.update({ decimals: dec });
-      });
-    } catch (e) {}
-  }
 }
 
 function buildCall() {
@@ -85,10 +72,9 @@ function buildCall() {
 }
 
 State.init({
-  tokenAddress: "",
+  token: null,
   to: "",
   amount: "0",
-  decimals: 18,
   isOk: false,
 });
 
@@ -106,7 +92,8 @@ return (
         <Widget
           src="sainy.near/widget/SelectToken"
           props={{
-            onChange: (token) => console.log(token),
+            onChange: (token) => State.update({ token }),
+            chainId: props.chainId,
           }}
         />
       </StyledBoxInput>
