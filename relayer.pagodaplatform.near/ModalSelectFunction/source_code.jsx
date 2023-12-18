@@ -103,7 +103,6 @@ const Modal = ({ isOpen, onClose, onSubmit }) => {
           <h6 style={{ color: "#656973" }}>Function</h6>
           <StyledInput>
             <input
-              type="number"
               class="w-full px-3 py-2 rounded-lg border"
               onChange={(e) => {
                 State.update({ inputWidget: e.target.value });
