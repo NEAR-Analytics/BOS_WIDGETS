@@ -295,23 +295,25 @@ const [isEvolving, setIsEvolving] = useState(false);
 const disableActionButton = isFeeding || isPlaying || isEvolving;
 
 function handleSetupSignerInfo() {
-  const provider = Ethers.provider();
+  try {
+    const provider = Ethers.provider();
 
-  if (provider) {
-    const addressPromise = Ethers.provider()
-      .getSigner()
-      .getAddress()
-      .then((address) => address);
+    if (provider) {
+      const addressPromise = provider
+        ?.getSigner()
+        ?.getAddress()
+        .then((address) => address);
 
-    const chainPromise = Ethers.provider()
-      .getNetwork()
-      .then((chain) => chain);
+      const chainPromise = provider?.getNetwork().then((chain) => chain);
 
-    Promise.all([chainPromise, addressPromise]).then(([chain, address]) => {
-      setWalletAddress(address);
-      setChainId(chain.chainId);
-      setIsShowLoader(false);
-    });
+      Promise.all([chainPromise, addressPromise]).then(([chain, address]) => {
+        setWalletAddress(address);
+        setChainId(chain.chainId);
+        setIsShowLoader(false);
+      });
+    }
+  } catch (error) {
+    console.log(error);
   }
 }
 
