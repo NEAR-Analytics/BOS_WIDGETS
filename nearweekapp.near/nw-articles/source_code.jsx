@@ -141,8 +141,10 @@ function Articles() {
   const CardImage = styled.img`
     width: 100%;
     height: auto;
-    aspect-ratio: 16 / 9;
+    #aspect-ratio: 16 / 9;
     border-radius: 8px;
+    margin-top: 16px;
+    margin-bottom: 16px;
     object-fit: cover;
 `;
 
