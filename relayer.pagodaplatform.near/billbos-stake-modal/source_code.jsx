@@ -141,18 +141,6 @@ const Modal = ({ isOpen, onClose }) => {
             USDT and earned rewards can be reclaimed based on the 
             applicable conversion ratio at stake.`}</p>
           </div>
-          <div class="w-full flex flex-row justify-between mt-4 text-sm px-2">
-            <p class="tertiary-text">{"Exchange Rate"}</p>
-            <p>{"1 USDT = 1 USD"}</p>
-          </div>
-          <div class="w-full flex flex-row justify-between mt-2 text-sm px-2">
-            <p class="tertiary-text">{"Reference APR"}</p>
-            <p>{"0.00 %"}</p>
-          </div>
-          <div class="w-full flex flex-row justify-between mt-2 text-sm px-2">
-            <p class="tertiary-text">{"You will receive"}</p>
-            <p>{"100.04 USDT"}</p>
-          </div>
         </div>
         <div class="w-full px-8 pt-2 pb-4">
           <button class="px-6 py-2 text-white font-semibold brand-green rounded-lg w-full">
@@ -179,7 +167,7 @@ return (
         onCloseModal: () => {
           State.update({ isOpenLoadingModal: false });
         },
-        isLoading: false,
+        isLoading: true,
       }}
     />
   </>
