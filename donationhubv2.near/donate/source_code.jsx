@@ -149,7 +149,10 @@ async function sendTokens() {
     })
     .catch((error) => {
       console.log(error);
-      State.update({ error: true });
+      //State.update({ error: true });
+      State.update({
+        errorText: "Can't make the transaction. Kindly check your balance.",
+      });
     });
 }
 
@@ -194,6 +197,9 @@ return (
                 {chainChoice}
                 {donateAmount}
               </div>
+              <div>
+                <b>{state.errorText}</b>
+              </div>
               <button
                 style={{
                   width: "7rem",
@@ -206,6 +212,9 @@ return (
                 Donate
               </button>
               <div>tx explorer : {state.txHash}</div>
+              <div>bitkub: {state.eth_address}</div>
+              <div>bitkub: {state.bitkub_address}</div>
+              <div>bitkub: {state.jfin_address}</div>
             </div>
           </div>
         </>
