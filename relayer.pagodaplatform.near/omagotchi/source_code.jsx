@@ -437,7 +437,7 @@ function updateNftDetail() {
           detail,
           stat,
         });
-      }, 500);
+      }, 1000);
     })
 
     .catch((error) => {
