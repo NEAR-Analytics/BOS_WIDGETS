@@ -4,6 +4,7 @@ const adsContent = props.adsContent;
 const adsStakedBalance = props.adsStakedBalance;
 const adsViewed = props.adsViewed;
 const chainId = props.chainId;
+const coreContractAddress = props.coreContractAddress;
 
 const chainName = () => {
   if (chainId == "25925") {
@@ -103,6 +104,8 @@ return (
         onCloseStake: () => {
           State.update({ isOpenStake: false });
         },
+        coreContractAddress: coreContractAddress,
+        adsId: adsId,
       }}
     />
   </>
