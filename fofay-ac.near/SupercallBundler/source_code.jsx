@@ -98,7 +98,7 @@ return (
     >
       <div onClick={() => onOpenModal()}>{startButton}</div>
       <Widget
-        src="fay-tbl.near/widget/ModalSelectFunction"
+        src="xspeedx.near/widget/ModalSelectFunction"
         props={{
           handdleAddFunction: () => handleAddCall(),
           onClose: () => onCloseModal(),
