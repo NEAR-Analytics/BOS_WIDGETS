@@ -1,7 +1,3 @@
-const { Tile } =
-  VM.require("thomasguntenaar.near/widget/devhub.components.molecule.Tile") ||
-  (() => <></>);
-
 const { data, setList, validate, invalidate } = props;
 
 const [newItem, setNewItem] = useState("");
@@ -36,7 +32,7 @@ return (
       <Item key={index}>
         <div className="flex-grow-1">
           <Widget
-            src="thomasguntenaar.near/widget/devhub.components.molecule.Input"
+            src="previewthomas.near/widget/devhub.components.molecule.Input"
             props={{
               className: "flex-grow-1",
               value: item,
@@ -61,7 +57,7 @@ return (
       <Item>
         <div className="flex-grow-1">
           <Widget
-            src="thomasguntenaar.near/widget/devhub.components.molecule.Input"
+            src="previewthomas.near/widget/devhub.components.molecule.Input"
             props={{
               className: "flex-grow-1",
               skipPaddingGap: true,
