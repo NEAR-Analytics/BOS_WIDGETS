@@ -94,10 +94,6 @@ return (
       <PostText>
         <b>Posted By:</b> {state.authorId} · {timestamp}
       </PostText>
-      <PostText>eth: {state.eth_address}</PostText>
-      <PostText>kub: {state.kub_address}</PostText>
-      <PostText>jfin: {state.jfin_address}</PostText>
-
       <Link
         to={linkHref({ widgetSrc: "donationhubv2.near/widget/donate" })}
         props={{ information: info }}
