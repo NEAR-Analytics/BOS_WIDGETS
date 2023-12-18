@@ -2,10 +2,10 @@ const page = props.page;
 
 const [showMenu, setShowMenu] = useState(false);
 
-const { href: linkHref } = VM.require("thomasguntenaar.near/widget/core.lib.url");
+const { href: linkHref } = VM.require("previewthomas.near/widget/core.lib.url");
 
 const { hasModerator } = VM.require(
-  "thomasguntenaar.near/widget/core.adapter.devhub-contract"
+  "previewthomas.near/widget/core.adapter.devhub-contract"
 );
 
 linkHref || (linkHref = () => {});
@@ -26,7 +26,7 @@ const Logo = () => {
     <Wrapper>
       <Link
         to={linkHref({
-          widgetSrc: "thomasguntenaar.near/widget/dh.home",
+          widgetSrc: "previewthomas.near/widget/dh.home",
         })}
       >
         <svg
@@ -67,12 +67,12 @@ const ProfileIcon = () => {
   return (
     <Link
       to={linkHref({
-        widgetSrc: "thomasguntenaar.near/widget/dh.profile",
+        widgetSrc: "previewthomas.near/widget/dh.profile",
         params: { accountId: context.accountId },
       })}
     >
       <Widget
-        src="thomasguntenaar.near/widget/devhub.components.molecule.ProfileCard"
+        src="previewthomas.near/widget/devhub.components.molecule.ProfileCard"
         props={{ iconOnly: true, accountId: context.accountId || null }}
       />
     </Link>
@@ -229,7 +229,7 @@ return (
       <LinksContainer>
         {links.map((link) => (
           <Widget
-            src="thomasguntenaar.near/widget/devhub.components.molecule.NavbarDropdown"
+            src="previewthomas.near/widget/devhub.components.molecule.NavbarDropdown"
             props={{
               title: link.title,
               href: link.href,
@@ -258,7 +258,7 @@ return (
               <MobileLink
                 key={`mobile-link-${idx}`}
                 className={link.href === props.page && "active"}
-                href={`/thomasguntenaar.near/widget/dh.${link.href}`}
+                href={`/previewthomas.near/widget/dh.${link.href}`}
               >
                 {link.title}
               </MobileLink>
@@ -278,7 +278,7 @@ return (
                   <MobileLink
                     key={`nested-link-${idx}`}
                     className={link.href === props.page && "active"}
-                    href={`/thomasguntenaar.near/widget/dh.${it.href}`}
+                    href={`/previewthomas.near/widget/dh.${it.href}`}
                   >
                     /{it.title}
                   </MobileLink>
