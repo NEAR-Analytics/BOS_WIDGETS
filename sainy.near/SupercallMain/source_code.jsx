@@ -14,6 +14,18 @@ const MULTICALL_ABI_URL =
   "https://gist.githubusercontent.com/SainyTK/8b83bbd26610ceeaa215a46f942d2702/raw/9bc41907fd49bc56553cf226c3ac92b225343cae/multicall-abi.json";
 const MULTICALL_ABI = fetch(MULTICALL_ABI_URL).body;
 
+const signer = Ethers.send("eth_requestAccounts", [])[0];
+
+if (ethers && signer) {
+  Ethers.provider()
+    .getNetwork()
+    .then((chainIdData) => {
+      if (chainIdData?.chainId) {
+        State.update({ chainId: chainIdData?.chainId });
+      }
+    });
+}
+
 function readAddress(accountNumber) {
   const addr = Storage.get(
     `contractAddress:${accountNumber}`,
@@ -43,7 +55,10 @@ return (
     <PatternBackground>
       <div style={{ padding: "54px 120px 12px 120px" }}>
         <div style={{ marginBottom: "54px" }}>
-          <Widget src="fay-tbl.near/widget/SupercallAccount" />
+          <Widget
+            src="sainy.near/widget/SupercallAccount"
+            props={{ chainId: state.chainId }}
+          />
         </div>
         <div>
           <Widget src="xspeedx.near/widget/SupercallBundler" />
