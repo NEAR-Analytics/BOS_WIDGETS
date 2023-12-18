@@ -132,6 +132,19 @@ const handleChangeChain = (event) => {
 
 const handleCreateAds = () => {
   console.log("state", state);
+
+  const encodedData = IBillBOSCore.encodeFunctionData("getAds");
+
+  Ethers.provider()
+    .call({
+      to: "0x8995e9741A2b9c7f1Bb982d08c360F2951a23c24",
+      data: encodedData,
+    })
+    .then((rawRes) => {
+      // decode response
+      const resData = IBillBOSCore.decodeFunctionResult("getAds", rawRes);
+      console.log("resData", resData);
+    });
   State.update({
     isOpenModal: false,
   });
