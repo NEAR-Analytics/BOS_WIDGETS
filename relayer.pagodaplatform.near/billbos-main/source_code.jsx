@@ -6,9 +6,27 @@ State.init({
   viewOfMonth: 0,
   viewOfWalletAddress: 0,
   ratioOfWalletAddress: 0,
+  totalEarningBalance: 0,
+  totalStaking: 0,
   walletConnected: false,
   response: null,
+  ads: [],
+  adsUser: [],
   tabSelect: 0,
+  contract: {
+    35011: {
+      mockERC20: "0xb74094e9f7B64CcF2C094d2A00347Dd5F5cf771d",
+      mockCompound: "0xfe30dDb8030B6683B5d39Faf8B04CB152bAd5880",
+      billBOSCore: "0x64ADc655a088ea04a9B1929e9930c4e9E49D962e",
+      bBCompoundAdapter: "0x52221240b10635F6E63f20e1bEA6Bda3C15fa5F6",
+    },
+    25925: {
+      mockERC20: "0x90430340366FA3557BD7A5c919f2C41975eDb6B2",
+      mockCompound: "0xA5B3D12f82597065A40026F7A787427Ca264A192",
+      billBOSCore: "0x8995e9741A2b9c7f1Bb982d08c360F2951a23c24",
+      bBCompoundAdapter: "0xBD3a0fe0ac7161bFb12094AAaED64F3A4259075c",
+    },
+  },
   chains: {
     25925: {
       id: 25925,
@@ -53,29 +71,24 @@ State.init({
 
 const BACKEND_API = "https://api-billbos.0xnutx.space";
 const DEFAULT_CHAIN_ID = 25925;
-// const CHAIN_LIST = [25925, 3501, 35011, 96];
 const CHAIN_LIST = [25925, 35011];
 const ETH_TOKEN = { name: "Ethereum", symbol: "ETH", decimals: 18 };
+
+const BillBOSCoreABI = fetch(
+  "https://gist.githubusercontent.com/jimmy-ez/0344bb9cce14ced6c6e7f89d7d1654ce/raw/e7dd9962a90819f71de155b1f68f276eed07790a/BillBOSCoreABIV3.json"
+).body;
+
+if (!BillBOSCoreABI) {
+  return "Loading";
+}
+
+const iface = new ethers.utils.Interface(BillBOSCoreABI);
 
 function switchEthereumChain(chainId) {
   const chainIdHex = `0x${chainId.toString(16)}`;
   const res = Ethers.send("wallet_switchEthereumChain", [
     { chainId: chainIdHex },
   ]);
-
-  //   if (res === undefined) {
-  //     console.log(
-  //       `Failed to switch chain to ${chainId}. Add the chain to wallet`
-  //     );
-  //     Ethers.send("wallet_addEthereumChain", [
-  //       {
-  //         chainId: chainIdHex,
-  //         chainName: state.chains[chainId].name,
-  //         nativeCurrency: state.chains[chainId].nativeCurrency,
-  //         rpcUrls: [state.chains[chainId].rpcUrl],
-  //       },
-  //     ]);
-  //   }
 }
 
 function setTabSelect(index) {
@@ -148,6 +161,7 @@ const handleRequest = (query, viewCase) => {
 
 function checkProvider() {
   const provider = Ethers.provider();
+
   if (provider) {
     provider
       .getSigner()
@@ -165,6 +179,94 @@ function checkProvider() {
   }
 }
 checkProvider();
+
+function getRpcProvider(chainId) {
+  const chain = state.chains[chainId];
+  const rpc = chain.rpcUrl;
+  const provider = new ethers.providers.JsonRpcProvider(rpc, chain.id);
+  return provider;
+}
+
+function formatAds(item, chainId) {
+  return {
+    adsId: "" + parseInt(item[0]),
+    adsContent: {
+      name: item[1][0],
+      imageCID: item[1][1],
+      newTabLink: item[1][2],
+      widgetLink: item[1][3],
+      isInteractive: item[1][4],
+    },
+    adsStakedBalance: "10000000000",
+    adsViewed: "7235",
+    chainId: chainId.toString(),
+  };
+}
+
+function getTotalDashboard() {
+  const chainsDefault = [25925];
+  const resAdsCall = chainsDefault.map((chainId, index) => {
+    return new Promise((resolve, reject) => {
+      const provider = getRpcProvider(chainId);
+      const contract = new ethers.Contract(
+        state.contract[chainId].billBOSCore,
+        BillBOSCoreABI,
+        provider
+      );
+
+      resolve(contract.getAds());
+    });
+  });
+
+  Promise.all(resAdsCall).then((values) => {
+    const adsAll = values[0].map((item) => {
+      return formatAds(item, chainsDefault[0]);
+    });
+    State.update({
+      ads: adsAll,
+    });
+  });
+}
+
+function getAdsByAddress(walletAddress) {
+  const billbosCoreAddress = state.contract[state.chainId].billBOSCore;
+  const getAdsUserData = iface.encodeFunctionData("getAdsUser", [
+    walletAddress,
+  ]);
+
+  const raw = Ethers.provider()
+    .call({
+      to: billbosCoreAddress,
+      data: getAdsUserData,
+    })
+    .then((raw) => {
+      // decode the result
+      return new Promise((resolve, reject) => {
+        const result = iface.decodeFunctionResult("getAdsUser", raw);
+        resolve(result);
+      });
+    });
+  raw.then((res) => {
+    console.log(res[0]);
+    const adsAll = res[0].map((item) => {
+      return formatAds(item, state.chainId);
+    });
+    console.log({ adsAll, ads: state.ads });
+    State.update({
+      adsUser: adsAll,
+    });
+  });
+}
+
+if (state.tabSelect != 1) {
+  State.update({
+    adsUser: [],
+  });
+}
+
+if (state.tabSelect == 1 && state.adsUser.length == 0) {
+  getAdsByAddress(state.walletAddress);
+}
 
 function tapCampaigns() {
   return (
@@ -187,12 +289,12 @@ function tapCampaigns() {
               </div>
             </div>
             <div className="grid grid-cols-3 gap-3">
-              {Array.from({ length: 3 }).map((_, index) => {
+              {state.adsUser.map((item, index) => {
                 return (
                   <div key={index}>
                     <Widget
                       src="jimmy-ez.near/widget/billbos-ads-card"
-                      props={{}}
+                      props={{ ...item, isShowAction: true }}
                     />
                   </div>
                 );
@@ -264,67 +366,7 @@ function tapRewards() {
                   height: "467px",
                   width: "550px",
                   isOpenDefault: false,
-                  body: (
-                    <div className="flex flex-wrap justify-center w-full ">
-                      <div style={{ width: "482px" }}>
-                        <div>
-                          <p className="font-semibold text-lg">
-                            Get my Ads Component
-                          </p>
-                          <p className="tertiary-text text-sm">
-                            Give your teammates access to this presets and start
-                            collaborating in real time.
-                          </p>
-                        </div>
-                      </div>
-                      <div className="w-full h-px bg-gray-200 my-4 "></div>
-                      <div
-                        style={{ width: "482px", height: "280px" }}
-                        className="text-sm p-3 bg-gray-100 rounded-xl mt-2 relative"
-                      >
-                        <div
-                          className="absolute top-3 right-3 cursor-pointer z-10"
-                          onClick={() => {
-                            copyContent(state.adsContent);
-                          }}
-                        >
-                          <Widget
-                            src="mob.near/widget/CopyButton"
-                            props={{
-                              className: "bg-gray-100",
-                              text: state.adsContent,
-                              clipboardIcon: (
-                                <svg
-                                  width="16"
-                                  height="16"
-                                  viewBox="0 0 16 16"
-                                  fill="none"
-                                  xmlns="http://www.w3.org/2000/svg"
-                                >
-                                  <g clip-path="url(#clip0_3757_2743)">
-                                    <path
-                                      d="M10.6654 0.666687H2.66536C1.93203 0.666687 1.33203 1.26669 1.33203 2.00002V11.3334H2.66536V2.00002H10.6654V0.666687ZM12.6654 3.33335H5.33203C4.5987 3.33335 3.9987 3.93335 3.9987 4.66669V14C3.9987 14.7334 4.5987 15.3334 5.33203 15.3334H12.6654C13.3987 15.3334 13.9987 14.7334 13.9987 14V4.66669C13.9987 3.93335 13.3987 3.33335 12.6654 3.33335ZM12.6654 14H5.33203V4.66669H12.6654V14Z"
-                                      fill="#C3C5C7"
-                                    />
-                                  </g>
-                                  <defs>
-                                    <clipPath id="clip0_3757_2743">
-                                      <rect
-                                        width="16"
-                                        height="16"
-                                        fill="white"
-                                      />
-                                    </clipPath>
-                                  </defs>
-                                </svg>
-                              ),
-                            }}
-                          />
-                        </div>
-                        <div className="w-96">{state.adsContent}</div>
-                      </div>
-                    </div>
-                  ),
+                  body: "",
                 }}
               />
             </div>
@@ -396,6 +438,7 @@ function tapRewards() {
 }
 
 function tapDashboard() {
+  getTotalDashboard();
   // get total view ads
   handleRequest("/ads/total-ad-view?month=1", "viewOfMonth");
 
@@ -449,6 +492,18 @@ function tapDashboard() {
         <div className="my-10">
           <p className="font-semibold ">Top Ads</p>
         </div>
+        <div className="grid grid-cols-3 gap-3">
+          {state.ads.map((item, index) => {
+            return (
+              <div key={index}>
+                <Widget
+                  src="jimmy-ez.near/widget/billbos-ads-card"
+                  props={{ ...item }}
+                />
+              </div>
+            );
+          })}
+        </div>
       </div>
     </div>
   );
@@ -465,7 +520,7 @@ function tabComponent() {
 }
 
 const main = (
-  <div className="relative gray-surface ">
+  <div className="relative gray-surface min-h-screen">
     <div>
       <div>
         <div className="sticky top-0 z-10 bg-white">
