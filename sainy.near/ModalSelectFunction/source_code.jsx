@@ -51,11 +51,11 @@ padding: 26px 34px 26px 34px;
 
 State.init({
   widget: "",
-  ready: false,
+  isReady: false,
 });
 
 const handleChangeInput = (value) => {
-  State.update({ widget: value, ready: false });
+  State.update({ widget: value, isReady: false });
 };
 
 const Modal = ({ isOpen, onClose, onSubmit }) => {
