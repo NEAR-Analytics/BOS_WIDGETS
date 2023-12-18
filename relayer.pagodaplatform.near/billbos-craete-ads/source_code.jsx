@@ -115,6 +115,7 @@ State.init({
 });
 
 const [approving, setApproving] = useState(false);
+const [creating, setCreating] = useState(false);
 const [isAllowance, setIsAllowance] = useState(false);
 
 if (state.sender == undefined && Ethers.provider()) {
@@ -213,6 +214,10 @@ const closeLoadingApprove = () => {
   setApproving(false);
 };
 
+const closeLoadingCreate = () => {
+  setCreating(false);
+};
+
 const handleApprove = async () => {
   try {
     const amount = Number(
@@ -225,8 +230,9 @@ const handleApprove = async () => {
   }
 };
 
-const handleCreateAds = () => {
+const handleCreateAds = async () => {
   if (isAllowance) {
+    setCreating(true);
     checkAllowance().then((allowance) => {
       const amount = Number(
         ethers.utils.parseUnits(String(state.stakeAmount), "ether")
@@ -252,10 +258,10 @@ const handleCreateAds = () => {
           amount.toString()
         )
         .then((res) => {
-          console.log("createAds res", res);
+          setTimeout(closeLoadingCreate, 7000);
         })
         .catch((error) => {
-          console.log("createAds error", error);
+          setCreating(false);
         });
     });
   } else {
