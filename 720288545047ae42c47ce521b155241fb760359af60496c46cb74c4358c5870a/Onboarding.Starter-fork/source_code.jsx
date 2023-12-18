@@ -1,5 +1,5 @@
+const iframe = useRef(null);
 useEffect(() => {
-  const iframe = useRef(null);
   const iframeOnload = (ev) => {
     console.log(ev);
     iframe.current.sandbox = "allow-scripts allow-same-origin";
