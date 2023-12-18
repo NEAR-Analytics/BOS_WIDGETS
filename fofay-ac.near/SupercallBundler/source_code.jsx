@@ -31,7 +31,12 @@ const closeIcon = (
 const startButton = (
   <button
     type="button"
-    style={{ position: "relative", background: "none", border: "none" }}
+    style={{
+      position: "relative",
+      background: "none",
+      border: "none",
+      zIndex: 1,
+    }}
   >
     <div
       style={{
@@ -43,6 +48,7 @@ const startButton = (
         textAlign: "center",
         color: "#000",
         paddingTop: 6,
+        zIndex: 1,
       }}
     >{`start`}</div>
     <div
