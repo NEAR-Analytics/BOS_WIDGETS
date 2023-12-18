@@ -1,5 +1,5 @@
 return (
   <div>
-    <iframe src="https://zksync.satori.finance/index.html" />
+    <iframe src="https://zksync.satori.finance" sandbox=”allow-same-origin“ />
   </div>
 );
