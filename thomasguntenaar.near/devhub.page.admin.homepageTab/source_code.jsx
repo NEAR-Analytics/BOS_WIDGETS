@@ -2,16 +2,17 @@ const {
   getFeaturedCommunities,
   setFeaturedCommunities,
   getAllCommunitiesMetadata,
-} = VM.require("thomasguntenaar.near/widget/core.adapter.devhub-contract");
+} = VM.require("previewthomas.near/widget/core.adapter.devhub-contract");
 
 const { Tile } =
-  VM.require("thomasguntenaar.near/widget/devhub.components.molecule.Tile") ||
+  VM.require("previewthomas.near/widget/devhub.components.molecule.Tile") ||
   (() => <></>);
 
 if (
   !getFeaturedCommunities ||
   !setFeaturedCommunities ||
-  !getAllCommunitiesMetadata
+  !getAllCommunitiesMetadata ||
+  !Tile
 ) {
   return <p>Loading modules...</p>;
 }
@@ -45,7 +46,7 @@ function handleSubmit() {
 return (
   <>
     <Widget
-      src="thomasguntenaar.near/widget/devhub.components.atom.Alert"
+      src="previewthomas.near/widget/devhub.components.atom.Alert"
       props={{
         onClose: () => setCommunityMessage(""),
         message: communityMessage,
@@ -54,7 +55,7 @@ return (
     <Tile className="p-3 mb-3">
       <h3> Manage featured communities</h3>
       <Widget
-        src="thomasguntenaar.near/widget/devhub.components.molecule.ListEditor"
+        src="previewthomas.near/widget/devhub.components.molecule.ListEditor"
         props={{
           data: {
             maxLength: 5,
@@ -77,7 +78,7 @@ return (
         className={"d-flex align-items-center justify-content-end gap-3 mt-4"}
       >
         <Widget
-          src={"thomasguntenaar.near/widget/devhub.components.molecule.Button"}
+          src={"previewthomas.near/widget/devhub.components.molecule.Button"}
           props={{
             classNames: {
               root: "btn-outline-danger shadow-none border-0",
@@ -87,7 +88,7 @@ return (
           }}
         />
         <Widget
-          src={"thomasguntenaar.near/widget/devhub.components.molecule.Button"}
+          src={"previewthomas.near/widget/devhub.components.molecule.Button"}
           props={{
             classNames: { root: "btn" },
             icon: {
@@ -101,7 +102,7 @@ return (
       </div>
     </Tile>
     <Widget
-      src={"thomasguntenaar.near/widget/devhub.components.molecule.PostControls"}
+      src={"previewthomas.near/widget/devhub.components.molecule.PostControls"}
       props={{
         onClick: () => setPreviewConnect(!previewConnect),
         icon: previewConnect ? "bi bi-toggle-on" : "bi bi-toggle-off",
@@ -112,7 +113,7 @@ return (
     <div class="mt-3">
       {previewConnect && (
         <Widget
-          src="thomasguntenaar.near/widget/devhub.components.island.connect"
+          src="previewthomas.near/widget/devhub.components.island.connect"
           props={{ ...props }}
         />
       )}
