@@ -208,7 +208,6 @@ if (state.onload && state.route === "def") {
 
       <div class="row justify-content-md-center text-center">
         <div class="col col-lg-12 mt-5">
-          <h5>Air3 Files Upload</h5>
           <p>Please Connect your Wallet to Upload Files.</p>
           <svg
             xmlns="http://www.w3.org/2000/svg"
