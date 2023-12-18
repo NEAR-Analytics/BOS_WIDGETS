@@ -154,7 +154,7 @@ return (
     <Modal
       isOpen={props.isOpenModal}
       onClose={() => props.onClose()}
-      onSubmit={() => props.handdleAddFunction(inputWidget)}
+      onSubmit={() => props.handdleAddFunction(state.inputWidget)}
     />
   </>
 );
