@@ -86,12 +86,9 @@ const fetchTradeInfo = () => {
           outputCurrencyAmount: data.quoteDecimals,
           noPair: data.noPair,
           trade: {
-            gasCost: Big(data.gasUseEstimate || 0)
-              .div(Big(10).pow(18))
-              .toFixed(),
+            gasCost: data.gasUseEstimateUSD,
             priceImpact: data.priceImpact,
             routes: data.route,
-            tokenPath: data.tokenPath,
           },
         });
         setTimeout(() => {
