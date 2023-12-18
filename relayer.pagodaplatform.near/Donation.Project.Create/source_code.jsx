@@ -116,7 +116,7 @@ const ethaddress = (
 
 const bitkubaddress = (
   <div className="col-lg-6 mb-2">
-    BitKUB ADDRESS
+    BITKUB ADDRESS
     <input
       type="text"
       value={state.bitkub_address}
