@@ -70,6 +70,10 @@ const CustomUpload = styled.div`
   }
 `;
 
+const abiUrl =
+  "https://gist.githubusercontent.com/jimmy-ez/36304d093ba9d51b082d7d0d09782918/raw/dca1009bf5ce0802f2e80c25ffef9773d73e88cf/BillBOSCoreABI.json";
+const billbosAbi = fetch(abiUrl).body;
+
 const NetworkImgList = {
   BKC: "https://www.bitkubnft.com/_next/image?url=https%3A%2F%2Fstatic.bitkubnext.com%2Fnft%2Fnft_stores%2Fbitkub-chain%2Fstore_profile.png&w=256&q=10",
   J2O: "https://img2.pic.in.th/pic/j2o.png",
@@ -81,7 +85,21 @@ State.init({
   selectedChain: "BKC",
   chainImg: NetworkImgList.BKC,
   img: null,
+  sender: undefined,
+  adsName: undefined,
+  newTabLink: undefined,
+  stakeAmount: 0,
 });
+
+if (state.sender == undefined && Ethers.provider()) {
+  Ethers.provider()
+    .send("eth_requestAccounts", [])
+    .then((accounts) => {
+      if (accounts.length) {
+        State.update({ sender: accounts[0] });
+      }
+    });
+}
 
 const onOpen = () => {
   State.update({
@@ -94,8 +112,6 @@ const onClose = () => {
     isOpenModal: false,
   });
 };
-
-const onUpload = () => {};
 
 const handleChangeType = (event) => {
   if (event.target.value) {
@@ -112,6 +128,13 @@ const handleChangeChain = (event) => {
       chainImg: NetworkImgList[event.target.value],
     });
   }
+};
+
+const handleCreateAds = () => {
+  console.log("state", state);
+  State.update({
+    isOpenModal: false,
+  });
 };
 
 const Modal = ({ isOpen, onClose }) => {
@@ -155,7 +178,18 @@ const Modal = ({ isOpen, onClose }) => {
           }}
           class="flex flex-col justify-between items-start pb-4 px-4 mt-4 overflow-scroll"
         >
-          <p class="text-sm secondary-text">Ads Type</p>
+          <p class="text-sm secondary-text">Ads Name</p>
+          <StyledInput>
+            <input
+              onChange={(e) =>
+                State.update({
+                  adsName: e.target.value,
+                })
+              }
+              class="w-full border px-2 py-2 rounded-lg"
+            />
+          </StyledInput>
+          <p class="text-sm secondary-text mt-4">Ads Type</p>
           <StyledSelect>
             <select
               class="w-full border px-2 py-2 mt-2 rounded-lg"
@@ -267,7 +301,10 @@ const Modal = ({ isOpen, onClose }) => {
           >
             Cancel
           </button>
-          <button class="px-6 py-2 text-white font-semibold brand-green rounded-lg">
+          <button
+            onClick={() => handleCreateAds()}
+            class="px-6 py-2 text-white font-semibold brand-green rounded-lg"
+          >
             Create
           </button>
         </div>
@@ -278,6 +315,7 @@ const Modal = ({ isOpen, onClose }) => {
 
 const content = (
   <div>
+    <p>{`Sender: ${state.sender}`}</p>
     <button
       class="brand-green px-4 py-2 rounded-xl text-white font-semibold"
       onClick={onOpen}
