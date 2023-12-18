@@ -15,6 +15,10 @@ const chainName = () => {
   return "Network Error";
 };
 
+State.init({
+  isOpenStake: false,
+});
+
 const content = (
   <div class="w-full border rounded-xl pb-4 relative bg-white">
     <img
@@ -50,7 +54,12 @@ const content = (
       </div>
       {isShowAction && (
         <div class="w-full grid grid-cols-2 gap-2 mt-12">
-          <button class="w-full py-2 text-white font-semibold brand-green rounded-lg">
+          <button
+            onClick={() => {
+              State.update({ isOpenStake: true });
+            }}
+            class="w-full py-2 text-white font-semibold brand-green rounded-lg"
+          >
             Stake Now
           </button>
           <button class="w-full py-2 green-text font-semibold border-1 border-green-300 rounded-lg">
@@ -80,10 +89,21 @@ const content = (
 );
 
 return (
-  <Widget
-    src="porx-dev.near/widget/billbos-css"
-    props={{
-      children: content,
-    }}
-  />
+  <>
+    <Widget
+      src="porx-dev.near/widget/billbos-css"
+      props={{
+        children: content,
+      }}
+    />
+    <Widget
+      src="jimmy-ez.near/widget/billbos-stake-modal"
+      props={{
+        isOpenStake: state.isOpenStake,
+        onCloseStake: () => {
+          State.update({ isOpenStake: false });
+        },
+      }}
+    />
+  </>
 );
