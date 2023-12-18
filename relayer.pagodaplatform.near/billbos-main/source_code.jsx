@@ -9,27 +9,13 @@ State.init({
   totalStakedBalance: 0,
   monthCount: 0,
   walletConnected: false,
-  response: null,
   ads: [],
   adsUser: [],
   tabSelect: 0,
-  contract: {
-    35011: {
-      mockERC20: "0xb74094e9f7B64CcF2C094d2A00347Dd5F5cf771d",
-      mockCompound: "0xfe30dDb8030B6683B5d39Faf8B04CB152bAd5880",
-      billBOSCore: "0x64ADc655a088ea04a9B1929e9930c4e9E49D962e",
-      bBCompoundAdapter: "0x52221240b10635F6E63f20e1bEA6Bda3C15fa5F6",
-    },
-    25925: {
-      mockERC20: "0x90430340366FA3557BD7A5c919f2C41975eDb6B2",
-      mockCompound: "0xA5B3D12f82597065A40026F7A787427Ca264A192",
-      billBOSCore: "0x8995e9741A2b9c7f1Bb982d08c360F2951a23c24",
-      bBCompoundAdapter: "0xBD3a0fe0ac7161bFb12094AAaED64F3A4259075c",
-    },
-  },
   chains: {
     25925: {
       id: 25925,
+      billBOSCore: "0x8995e9741A2b9c7f1Bb982d08c360F2951a23c24",
       name: "Bitkub Chain",
       rpcUrl: "https://rpc-testnet.bitkubchain.io",
       currencySymbol: "tKUB",
@@ -40,6 +26,7 @@ State.init({
     35011: {
       id: 35011,
       name: "J2O Taro",
+      billBOSCore: "0x64ADc655a088ea04a9B1929e9930c4e9E49D962e",
       rpcUrl: "https://rpc.j2o.io",
       nativeCurrency: ETH_TOKEN,
       currencySymbol: "taro",
@@ -115,9 +102,6 @@ const handleRequest = (query, viewCase) => {
   switch (viewCase) {
     case "viewOfMonth":
       fetchApi(endpoint, "GET", "").then((res) => {
-        State.update({
-          response: res,
-        });
         if (res.ok) {
           State.update({ viewOfMonth: res.body.view });
         }
@@ -189,7 +173,7 @@ function formatAds(item, chainId) {
   ]);
   Ethers.provider()
     .call({
-      to: state.contract[chainId].billBOSCore,
+      to: state.chains[chainId].billBOSCore,
       data: adsStakedBalance,
     })
     .then((raw) => {
@@ -213,14 +197,13 @@ function formatAds(item, chainId) {
 
 function getTotalDashboard() {
   const chainsDefault = [25925];
-
   const promiseList = [];
 
   for (let i = 0; i < chainsDefault.length; i++) {
     const chainId = chainsDefault[i];
     const provider = getRpcProvider(chainId);
     const contract = new ethers.Contract(
-      state.contract[chainId].billBOSCore,
+      state.chains[chainId].billBOSCore,
       BillBOSCoreABI,
       provider
     );
@@ -253,22 +236,29 @@ function getTotalDashboard() {
 }
 
 function getAdsByAddress(walletAddress) {
-  const billbosCoreAddress = state.contract[state.chainId].billBOSCore;
+  const billbosCoreAddress = state.chains[state.chainId].billBOSCore;
   const getAdsUserData = iface.encodeFunctionData("getAdsUser", [
     walletAddress,
   ]);
 
-  const raw = Ethers.provider().call({
-    to: billbosCoreAddress,
-    data: getAdsUserData,
-  });
+  const raw = Ethers.provider()
+    .call({
+      to: billbosCoreAddress,
+      data: getAdsUserData,
+    })
+    .then((raw) => {
+      return new Promise((resolve, reject) => {
+        const result = iface.decodeFunctionResult("getAdsUser", raw);
+        resolve(result);
+      });
+    });
 
   raw.then((res) => {
     const adsAll = res[0].map((item) => {
       return formatAds(item, state.chainId);
     });
     State.update({
-      adsUser: adsAll,
+      adsUser: adsAll || [],
     });
   });
 }
@@ -309,7 +299,15 @@ function tapCampaigns() {
                   <div key={index}>
                     <Widget
                       src="jimmy-ez.near/widget/billbos-ads-card"
-                      props={{ ...item, isShowAction: true }}
+                      props={{
+                        ...item,
+                        adsStakedBalance:
+                          adsInfo[`${item.chainId}-${item.adsId}-staked`] ||
+                          "10000000",
+                        adsViewed:
+                          adsInfo[`${item.chainId}-${item.adsId}-adsView`],
+                        isShowAction: true,
+                      }}
                     />
                   </div>
                 );
