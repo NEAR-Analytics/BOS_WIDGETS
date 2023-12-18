@@ -2,7 +2,8 @@ const { getAllAddons } =
   VM.require("previewthomas.near/widget/core.adapter.devhub-contract") ||
   (() => {});
 
-const { href } = VM.require("previewthomas.near/widget/core.lib.url") || (() => {});
+const { href } =
+  VM.require("previewthomas.near/widget/core.lib.url") || (() => {});
 
 const availableAddons = getAllAddons() || [];
 
@@ -270,7 +271,9 @@ const AddonsConfigurator = ({ data, onSubmit }) => {
         <div className="d-flex justify-content-center pt-2">
           <div className="d-flex gap-2 flex-grow-1 px-4">
             <Widget
-              src={"previewthomas.near/widget/devhub.components.molecule.Select"}
+              src={
+                "previewthomas.near/widget/devhub.components.molecule.Select"
+              }
               props={{
                 className: "flex-grow-1",
                 options: availableAddons.map((addon) => ({
