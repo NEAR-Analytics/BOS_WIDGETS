@@ -682,7 +682,7 @@ return (
       </div>
       <div class="dropdown">
         <Widget
-          src="thomasguntenaar.near/widget/devhub.feature.post-search.by-author"
+          src="previewthomas.near/widget/devhub.feature.post-search.by-author"
           props={{
             authorQuery: props.authorQuery,
             onAuthorSearch: props.onAuthorSearch,
@@ -691,7 +691,7 @@ return (
       </div>
       <div>
         <Widget
-          src="thomasguntenaar.near/widget/devhub.feature.post-search.by-tag"
+          src="previewthomas.near/widget/devhub.feature.post-search.by-tag"
           props={{
             tagQuery: props.tagQuery,
             onTagSearch: props.onTagSearch,
@@ -712,7 +712,7 @@ return (
       )}
     {state.term && state.term.length > 1 && state.searchResult ? (
       <Widget
-        src={"thomasguntenaar.near/widget/devhub.entity.post.List"}
+        src={"previewthomas.near/widget/devhub.entity.post.List"}
         props={{
           searchResult: {
             postIds: state.searchResult,
@@ -730,7 +730,7 @@ return (
       />
     ) : (
       <Widget
-        src={"thomasguntenaar.near/widget/devhub.entity.post.List"}
+        src={"previewthomas.near/widget/devhub.entity.post.List"}
         props={{
           recency: props.recency,
           tag: props.tag,
