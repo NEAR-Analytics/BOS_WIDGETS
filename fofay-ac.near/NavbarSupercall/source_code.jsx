@@ -24,7 +24,12 @@ const IconSuperCall = (
   </svg>
 );
 return (
-  <Narbar>
+  <Narbar
+    styled={{
+      top: 0,
+      position: "fixed",
+    }}
+  >
     <div>{IconSuperCall}</div>
   </Narbar>
 );
