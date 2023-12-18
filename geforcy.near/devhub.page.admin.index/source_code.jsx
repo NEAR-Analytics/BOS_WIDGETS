@@ -53,13 +53,12 @@ function createEditTeam({
   }
 
   const membersAndTeams = Object.keys(accessControlInfo.members_list);
-  console.log("🚀 ~ file: index.jsx:56 ~ membersAndTeams:", membersAndTeams);
   members.forEach((member) => {
     // if Contract panic member does not exist in the members_list
     if (!membersAndTeams.includes(member)) {
       // Add member
       txn.push({
-        contractName: "geforcy.near",
+        contractName: "devgovgigs.near",
         methodName: "add_member",
         args: {
           member: member,
@@ -71,8 +70,7 @@ function createEditTeam({
             parents: [],
           },
         },
-        deposit: Big(0).pow(21),
-        gas: Big(10).pow(12).mul(100),
+        gas: Big(10).pow(14),
       });
     }
   });
@@ -81,7 +79,7 @@ function createEditTeam({
   Near.call([
     ...txn,
     {
-      contractName: "geforcy.near",
+      contractName: "devgovgigs.near",
       methodName: contractCall, // add_member || edit_member
       args: {
         member: `team:${teamName}`,
@@ -98,8 +96,7 @@ function createEditTeam({
           parents: [],
         },
       },
-      deposit: Big(0).pow(21),
-      gas: Big(10).pow(12).mul(100),
+      gas: Big(10).pow(14),
     },
   ]);
 }
