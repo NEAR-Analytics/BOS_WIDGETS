@@ -164,20 +164,32 @@ const MarqueeStyled = styled.div`
 const [count, setCount] = useState(0);
 
 function weightedRandomItems(arr) {
+  console.log("arr", arr);
   const result = [];
+  const originalArr = [...arr];
   for (let i = 0; i < 5; i++) {
-    const totalWeight = arr.reduce((sum, item) => sum + Number(item[2]), 0);
+    const totalWeight = originalArr.reduce(
+      (sum, item) => sum + Number(item[2]),
+      0
+    );
     const randomNum = Math.random() * totalWeight;
     let cumulativeWeight = 0;
-    for (const item of arr) {
-      cumulativeWeight += Number(item[2]);
+
+    for (let j = 0; j < originalArr.length; j++) {
+      cumulativeWeight += Number(originalArr[j][2]);
+
       if (randomNum <= cumulativeWeight) {
-        result.push(item);
+        result.push(originalArr[j]);
+        originalArr.splice(j, 1);
         break;
       }
     }
+    console.log(result);
+    State.update({
+      show: result,
+    });
+    submit(result);
   }
-  return result;
 }
 
 const _fetch = () => {
@@ -189,13 +201,19 @@ const _fetch = () => {
     )
       .getAds()
       .then((res) => {
-        State.update({
-          raw: state.raw.concat(
-            res.map((item) => ({ ...item, chain: billBOS.chain }))
-          ),
-          count: state.count + 1,
-        });
-      });
+        console.log(billBOS.chain, res);
+        if (res) {
+          State.update({
+            raw: state.raw.concat(
+              res.map((item) => ({ ...item, chain: billBOS.chain }))
+            ),
+            count: state.count + 1,
+          });
+        } else {
+          State.update({ count: state.count + 1 });
+        }
+      })
+      .catch((err) => console.log(err));
   });
 };
 
@@ -238,11 +256,7 @@ useEffect(() => {
 }, []);
 useEffect(() => {
   if (count === BillBOSAddress.length && state.show.length <= 0) {
-    let show = weightedRandomItems(state.raw);
-    State.update({
-      show: show,
-    });
-    submit(show);
+    weightedRandomItems(state.raw);
   }
 }, [count]);
 
@@ -269,7 +283,6 @@ const content = (index) => {
           </div>
         </div>
       </MarqueeStyled>
-      <p class="absolute buttom-10 right-0 text-red-400">X</p>
     </div>
   );
 };
