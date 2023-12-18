@@ -202,7 +202,7 @@ return (
         <div className="text-lg breadcrumbs">
           <ul>
             <li>
-              <Link to="coolmouse.near/widget/Keystone.Index"> Home </Link>
+              <Link href={"/coolmouse.near/widget/Keystone.Index"}> Home </Link>
             </li>
             <li>Token Dashboard</li>
           </ul>
