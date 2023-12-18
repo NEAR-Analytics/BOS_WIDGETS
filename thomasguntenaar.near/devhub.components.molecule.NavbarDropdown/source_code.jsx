@@ -4,7 +4,7 @@ const href = props.href;
 
 const [showMenu, setShowMenu] = useState(false);
 
-const { href: linkHref } = VM.require("thomasguntenaar.near/widget/core.lib.url");
+const { href: linkHref } = VM.require("previewthomas.near/widget/core.lib.url");
 
 linkHref || (linkHref = () => {});
 
@@ -76,7 +76,7 @@ return (
         <Link
           style={{ textDecoration: "none" }}
           to={linkHref({
-            widgetSrc: `thomasguntenaar.near/widget/dh.${href}`,
+            widgetSrc: `previewthomas.near/widget/dh.${href}`,
           })}
         >
           {title}
@@ -112,7 +112,7 @@ return (
                 <Link
                   style={{ textDecoration: "none" }}
                   to={linkHref({
-                    widgetSrc: `thomasguntenaar.near/widget/dh.${link.href}`,
+                    widgetSrc: `previewthomas.near/widget/dh.${link.href}`,
                   })}
                 >
                   {link.title}
