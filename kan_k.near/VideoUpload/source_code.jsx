@@ -10,6 +10,7 @@ State.init({
   src: vdoUrl,
   thumbnail: "https://ipfs.near.social/ipfs/",
   tag: "",
+  parentVdoId: props.parentVdoId || "",
 });
 
 const onTimestampChange = ({ target }) => {
@@ -49,6 +50,7 @@ const onBtnClick = async () => {
     src: state.src,
     thumbnail: `https://ipfs.near.social/ipfs/${state.thumbnail.cid}`,
     tag: state.tag,
+    parentVdoId: state.parentVdoId,
   };
 
   console.log(body);
@@ -105,7 +107,10 @@ return (
     </div>
     <div className="w-fullitems-end text-right mt-6">
       {" "}
-      <button className=" p-2 Button-primary" onClick={onBtnClick}>
+      <button
+        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
+        onClick={onBtnClick}
+      >
         Publish
       </button>
     </div>
