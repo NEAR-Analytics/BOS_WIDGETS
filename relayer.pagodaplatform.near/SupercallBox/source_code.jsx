@@ -155,6 +155,7 @@ const renderFunction = () => {
             />
           </StyledBoxInput>
         </ContainerContent>
+        <Widget src="sainy.near/widget/SupercallBase" props={props} />
       </>
     );
   } else if (state.typeFunction === "swap") {
@@ -224,6 +225,7 @@ const renderFunction = () => {
             />
           </StyledBoxInput>
         </ContainerContent>
+        <Widget src="sainy.near/widget/SupercallBase" props={props} />
       </>
     );
   }
