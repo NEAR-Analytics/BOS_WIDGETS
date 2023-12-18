@@ -1,144 +1,173 @@
-const fontFamily = props.fontFamily ?? "Arial, sans-serif";
-const fontSize = props.fontSize ?? "10px";
-const textColor = props.textColor ?? "white";
-const backgroundColor = props.backgroundColor ?? "black";
-const height = props.height ?? "20px";
-const width = props.width ?? "100%";
-
-const arrayPrice = [
-  { topic: "KUSDT/USD", value: 1.01 },
-  { topic: "KKUB/USD", value: 12.01 },
-  { topic: "JFIN/USD", value: 8.35 },
-];
-
-const myList = arrayPrice.map((item) => {
-  return (
-    <>
-      <p class="title">{item.topic}</p>
-      <p class="value">{item.value}</p>
-    </>
-  );
-});
-
-const Marquee = `
-    <style>
-      body {
-        margin: 0
-      }
-
-      .marquee {
-        white-space: nowrap;
-        overflow: hidden;
-        position: relative;
-        font-family: ${fontFamily};
-        font-size: ${fontSize};
-        color: white;
-        height: ${height};
-        width: ${width};
-        display: flex;
-        align-items: center;
-        justify-content: start;
-      }
-
-      .marquee span {
-        display: inline-block;
-        padding-left: 100%;
-        white-space: nowrap;
-        will-change: transform;
-        animation: marquee 3s linear infinite;
-      }
-
-      .marquee div {
-        padding-left: 100%;
-        display: flex;
-      }
-
-      .title {
-        margin-left: 25px;
-        color: yellow;
-      }
-
-      .value {
-        margin-left: 5px;
-        color: white;
-      }
-
-      @keyframes marquee {
-        from { transform: translateX(0); }
-        to { transform: translateX(-50%); }
-      }
-    </style>
-
-    <div class="marquee">
-        <span class="text-white">
-            <div>
-                ${myListString}
-            </div>
-        </span>
-    </div>
-  `;
-
-const MarqueeStyled = styled.div`
-.marquee {
-  position: relative;
-  width: 100vw;
-  max-width: 100%;
-  height: 20px;
-  overflow-x: hidden;
-  background-color: black;
-}
-
-.track {
+const { btnName, btnClass, body, height, width, isOpenDefault } = props;
+const ModalOverlay = styled.div`
   position: absolute;
-  white-space: nowrap;
-  will-change: transform;
-  animation: marquee 10s linear infinite;
-}
-
-.content {
-  font-size: 13px;
-  width: 100%;
-}
-
-.title {
-  margin-left: 25px;
-  color: yellow;
-}
-
-.value {
-  margin-left: 5px;
-  color: white;
-}
-
-@keyframes marquee {
-  from { transform: translateX(100%); }
-  to { transform: translateX(-50%); }
-}
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(12, 12, 12, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
 `;
 
-const content = (
-  <div
-    style={{
-      width: "728px",
-    }}
-  >
-    <img
-      style={{
-        width: "728px",
-        height: "90px",
-      }}
-      class="w-full"
-      src="https://ipfs.near.social/ipfs/bafkreiboh77ctmdmbmuwizrjkykcpbmlpc7sxgabvb3u5p3zybu7u4g3fi"
-      alt="uploaded"
-    />
-    <MarqueeStyled>
-      <div class="marquee">
-        <div class="track w-full">
-          <div class="content flex flex-row">{myList}</div>
-        </div>
+const StyledInput = styled.div`
+  position: relative;
+  width: 100%;
+  input {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    outline: none;
+    cursor: pointer;
+  }
+`;
+
+const StyledSelect = styled.div`
+  display: inline-block;
+  position: relative;
+  width: 100%;
+
+  select {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    outline: none;
+    cursor: pointer;
+  }
+
+  &:after {
+    content: '⌄';
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+    pointer-events: none;
+  }
+`;
+
+const EndContent = styled.div`
+  position: absolute;
+  top: 50%;
+  left: 10px;
+  transform: translateY(-50%);
+`;
+
+State.init({
+  isOpenModal: isOpenDefault ? true : false,
+});
+
+const onOpen = () => {
+  State.update({
+    isOpenModal: true,
+  });
+};
+
+const onClose = () => {
+  State.update({
+    isOpenModal: false,
+  });
+};
+
+body = (
+  <div className="flex flex-wrap justify-center w-full ">
+    <div style={{ width: "482px" }}>
+      <div>
+        <p className="font-semibold text-lg">Get my Ads Component</p>
+        <p className="tertiary-text text-sm">
+          Give your teammates access to this presets and start collaborating in
+          real time.
+        </p>
       </div>
-    </MarqueeStyled>
-    <p class="absolute buttom-10 right-0 text-red-400">X</p>
+    </div>
+    <div className="w-full h-px bg-gray-200 my-4 "></div>
+    <div
+      style={{ width: "482px", height: "280px" }}
+      className="text-sm p-3 bg-gray-100 rounded-xl mt-2 relative"
+    >
+      <div
+        className="absolute top-3 right-3 cursor-pointer z-10"
+        onClick={() => {
+          copyContent(state.adsContent);
+        }}
+      >
+        <Widget
+          src="mob.near/widget/CopyButton"
+          props={{
+            className: "bg-gray-100",
+            text: state.adsContent,
+            clipboardIcon: (
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 16 16"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <g clip-path="url(#clip0_3757_2743)">
+                  <path
+                    d="M10.6654 0.666687H2.66536C1.93203 0.666687 1.33203 1.26669 1.33203 2.00002V11.3334H2.66536V2.00002H10.6654V0.666687ZM12.6654 3.33335H5.33203C4.5987 3.33335 3.9987 3.93335 3.9987 4.66669V14C3.9987 14.7334 4.5987 15.3334 5.33203 15.3334H12.6654C13.3987 15.3334 13.9987 14.7334 13.9987 14V4.66669C13.9987 3.93335 13.3987 3.33335 12.6654 3.33335ZM12.6654 14H5.33203V4.66669H12.6654V14Z"
+                    fill="#C3C5C7"
+                  />
+                </g>
+                <defs>
+                  <clipPath id="clip0_3757_2743">
+                    <rect width="16" height="16" fill="white" />
+                  </clipPath>
+                </defs>
+              </svg>
+            ),
+          }}
+        />
+      </div>
+      <div className="w-96">{state.adsContent}</div>
+    </div>
+  </div>
+);
+
+const Modal = ({ isOpen, onClose, children }) => {
+  if (!isOpen) return null;
+  return (
+    <ModalOverlay>
+      <div
+        style={{
+          width: width || "484px",
+          height: height || "484px",
+        }}
+        class="bg-white rounded-xl pt-4 relative"
+      >
+        <div class="absolute top-2 right-2">
+          <svg
+            class="cursor-pointer"
+            onClick={() => onClose()}
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M6 18L18 6M6 6L18 18"
+              stroke="#808080"
+              stroke-width="1.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+        </div>
+        <div className="">{body || <div></div>}</div>
+      </div>
+    </ModalOverlay>
+  );
+};
+
+const content = (
+  <div>
+    <button className={btnClass} onClick={onOpen}>
+      {btnName || "Open Modal"}
+    </button>
+    <Modal isOpen={state.isOpenModal} onClose={onClose} children={modalBody} />
   </div>
 );
 
