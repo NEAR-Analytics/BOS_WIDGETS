@@ -1,4 +1,4 @@
-const { typeMatch } = VM.require("thomasguntenaar.near/widget/core.lib.struct");
+const { typeMatch } = VM.require("previewthomas.near/widget/core.lib.struct");
 
 if (!typeMatch) {
   return <p>Loading modules...</p>;
@@ -79,7 +79,7 @@ const CommunityInputsDefaults = {
 
 return (
   <Widget
-    src="thomasguntenaar.near/widget/devhub.components.organism.Configurator"
+    src="previewthomas.near/widget/devhub.components.organism.Configurator"
     props={{
       externalState: CommunityInputsDefaults,
       fullWidth: true,
