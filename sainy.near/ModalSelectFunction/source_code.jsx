@@ -155,6 +155,7 @@ const Modal = ({ isOpen, onClose, onSubmit }) => {
             disabled={!state.isReady}
             onClick={() => {
               onSubmit(state.widget);
+              onClose();
             }}
           >
             Confirm
