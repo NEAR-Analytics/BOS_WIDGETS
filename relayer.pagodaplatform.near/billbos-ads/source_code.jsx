@@ -11,15 +11,13 @@ const arrayPrice = [
   { topic: "JFIN/USD", value: 8.35 },
 ];
 
-let myListString = "";
 const myList = arrayPrice.map((item) => {
-  myListString =
-    myListString +
-    `
-        <p class="title">${item.topic}</p>
-        <p class="value">${item.value}</p>
-    `;
-  return myListString;
+  return (
+    <>
+      <p class="title">{item.topic}</p>
+      <p class="value">{item.value}</p>
+    </>
+  );
 });
 
 const Marquee = `
@@ -45,6 +43,8 @@ const Marquee = `
       .marquee span {
         display: inline-block;
         padding-left: 100%;
+        white-space: nowrap;
+        will-change: transform;
         animation: marquee 3s linear infinite;
       }
 
@@ -64,8 +64,8 @@ const Marquee = `
       }
 
       @keyframes marquee {
-        0% { transform: translate(0, 0); }
-        100% { transform: translate(-100%, 0); }
+        from { transform: translateX(0); }
+        to { transform: translateX(-50%); }
       }
     </style>
 
@@ -78,6 +78,44 @@ const Marquee = `
     </div>
   `;
 
+const MarqueeStyled = styled.div`
+.marquee {
+  position: relative;
+  width: 100vw;
+  max-width: 100%;
+  height: 20px;
+  overflow-x: hidden;
+  background-color: black;
+}
+
+.track {
+  position: absolute;
+  white-space: nowrap;
+  will-change: transform;
+  animation: marquee 10s linear infinite;
+}
+
+.content {
+  font-size: 13px;
+  width: 100%;
+}
+
+.title {
+  margin-left: 25px;
+  color: yellow;
+}
+
+.value {
+  margin-left: 5px;
+  color: white;
+}
+
+@keyframes marquee {
+  from { transform: translateX(100%); }
+  to { transform: translateX(-50%); }
+}
+`;
+
 const content = (
   <div
     style={{
@@ -89,15 +127,18 @@ const content = (
         width: "728px",
         height: "90px",
       }}
-      class="w-full rounded-t-xl"
+      class="w-full"
       src="https://ipfs.near.social/ipfs/bafkreiboh77ctmdmbmuwizrjkykcpbmlpc7sxgabvb3u5p3zybu7u4g3fi"
       alt="uploaded"
     />
-    <iframe
-      className="w-100"
-      srcDoc={Marquee}
-      style={{ height, backgroundColor }}
-    />
+    <MarqueeStyled>
+      <div class="marquee">
+        <div class="track w-full">
+          <div class="content flex flex-row">{myList}</div>
+        </div>
+      </div>
+    </MarqueeStyled>
+    <p class="absolute buttom-10 right-0 text-red-400">X</p>
   </div>
 );
 
