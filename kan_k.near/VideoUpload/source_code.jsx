@@ -104,7 +104,10 @@ return (
 
       <div className="mt-2 mb-3">
         <p className=" text-md">Thumbnail</p>
-        <IpfsImageUpload image={state.thumbnail} />
+        <IpfsImageUpload
+          image={state.thumbnail}
+          className="Button-primary rounded-md"
+        />
       </div>
     </div>
     <div className="w-fullitems-end text-right mt-6">
