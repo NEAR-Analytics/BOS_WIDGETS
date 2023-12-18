@@ -115,7 +115,6 @@ const Button = ({
   icon: iconProps,
   label,
   type,
-  isHidden,
   notRounded,
   ...restProps
 }) => {
@@ -127,7 +126,6 @@ const Button = ({
         "btn d-inline-flex align-items-center gap-2",
         classNames?.root ?? "btn-primary",
         !notRounded ?? "rounded-pill",
-        isHidden ?? false ? "d-none" : "",
       ].join(" ")}
       style={{ width: "fit-content" }}
       {...restProps}
