@@ -28,7 +28,6 @@ const StyledSelect = styled.div`
   display: inline-block;
   position: relative;
   width: 100%;
-
   select {
     appearance: none;
     -webkit-appearance: none;
@@ -36,7 +35,6 @@ const StyledSelect = styled.div`
     outline: none;
     cursor: pointer;
   }
-
   &:after {
     content: '⌄';
     position: absolute;
@@ -56,19 +54,9 @@ const EndContent = styled.div`
 
 State.init({
   isOpenModal: isOpenDefault ? true : false,
+  adsContent:
+    '<Widget src="ribbinpo.near/widget/webpageOwnerAddress" props={{ walletAddres: ...}} />',
 });
-
-const onOpen = () => {
-  State.update({
-    isOpenModal: true,
-  });
-};
-
-const onClose = () => {
-  State.update({
-    isOpenModal: false,
-  });
-};
 
 body = (
   <div className="flex flex-wrap justify-center w-full ">
@@ -126,7 +114,7 @@ body = (
   </div>
 );
 
-const Modal = ({ isOpen, onClose, children }) => {
+const Modal = ({ isOpen, onClose }) => {
   if (!isOpen) return null;
   return (
     <ModalOverlay>
@@ -137,24 +125,8 @@ const Modal = ({ isOpen, onClose, children }) => {
         }}
         class="bg-white rounded-xl pt-4 relative"
       >
-        <div class="absolute top-2 right-2">
-          <svg
-            class="cursor-pointer"
-            onClick={() => onClose()}
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M6 18L18 6M6 6L18 18"
-              stroke="#808080"
-              stroke-width="1.5"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            />
-          </svg>
+        <div class="absolute top-2 right-2" onClick={() => onClose()}>
+          X
         </div>
         <div className="">{body || <div></div>}</div>
       </div>
@@ -164,10 +136,25 @@ const Modal = ({ isOpen, onClose, children }) => {
 
 const content = (
   <div>
-    <button className={btnClass} onClick={onOpen}>
-      {btnName || "Open Modal"}
+    <button
+      className={btnClass}
+      onClick={() =>
+        State.update({
+          isOpenModal: true,
+        })
+      }
+    >
+      {btnName || "Open"}
     </button>
-    <Modal isOpen={state.isOpenModal} onClose={onClose} children={modalBody} />
+    <Modal
+      isOpen={state.isOpenModal}
+      onClose={() =>
+        State.update({
+          isOpenModal: false,
+        })
+      }
+      children={modalBody}
+    />
   </div>
 );
 
