@@ -1,16 +1,15 @@
 const children = props.children;
 
-const tailwindCssUrl =
-  "https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css";
-
 const tw = Storage.get("tailwindCss");
 
 let tailwindCss;
-if (tw) {
-  tailwindCss = tw;
-} else {
-  tailwindCss = fetch(tailwindCssUrl).body;
+if (!tw) {
+  tailwindCss = fetch(
+    "https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css"
+  ).body;
   Storage.set("tailwindCss", tailwindCss);
+} else {
+  tailwindCss = tw;
 }
 
 const font = fetch("https://fonts.cdnfonts.com/css/mona-sans").body;
