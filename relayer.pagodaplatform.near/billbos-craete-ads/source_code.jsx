@@ -181,41 +181,53 @@ const erc20Approve = (to, amount) => {
     IERC20,
     Ethers.provider().getSigner()
   );
-
   return new Promise((resolve, reject) => {
     erc20Provider
       .approve(to, amount)
       .then((res) => {
-        console.log("approve", res);
+        resolve(true);
       })
       .catch((error) => {
-        console.log("approve error", error);
+        resolve(false);
       });
   });
 };
 
 const handleCreateAds = () => {
-  console.log("state", state);
   checkAllowance().then((allowance) => {
     const amount = Number(
       ethers.utils.parseUnits(String(state.stakeAmount), "ether")
     );
 
-    console.log("checkAllowance", allowance);
-    console.log("amount", amount);
-
     const coreAddress = BillBOSAddress[state.selectedChain];
-    console.log("coreAddress", coreAddress);
 
-    if (allowance > amount) {
-      console.log("pass");
-    } else {
-      console.log("not-pass");
+    if (allowance < amount) {
       erc20Approve(coreAddress, amount.toString());
     }
-  });
-  State.update({
-    isOpenModal: false,
+
+    const billbosProvider = new ethers.Contract(
+      BillBOSAddress[state.selectedChain],
+      IBillBOSCore,
+      Ethers.provider().getSigner()
+    );
+
+    billbosProvider
+      .createAds(
+        {
+          name: state.adsName ?? "",
+          imageCID: state.img.cid ?? "",
+          newTabLink: state.newTabLink ?? "",
+          widgetLink: state.componentId ?? "",
+          isInteractive: state.adsType == "REDIRECT" ? false : true,
+        },
+        amount.toString()
+      )
+      .then((res) => {
+        console.log("createAds res", res);
+      })
+      .catch((error) => {
+        console.log("createAds error", error);
+      });
   });
 };
 
@@ -399,7 +411,7 @@ const Modal = ({ isOpen, onClose }) => {
             onClick={() => handleCreateAds()}
             class="px-6 py-2 text-white font-semibold brand-green rounded-lg"
           >
-            Create
+            {"Create"}
           </button>
         </div>
       </div>
