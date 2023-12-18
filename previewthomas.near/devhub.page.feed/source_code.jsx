@@ -44,9 +44,7 @@ const Gradient = styled.div`
 const FeedPage = ({ recency, tag }) => {
   return (
     <div className="w-100">
-      <Widget
-        src={`previewthomas.near/widget/devhub.components.island.banner`}
-      />
+      <Widget src={`previewthomas.near/widget/devhub.components.island.banner`} />
       <Widget
         src={"previewthomas.near/widget/devhub.feature.post-search.panel"}
         props={{
