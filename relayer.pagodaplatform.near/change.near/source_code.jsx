@@ -342,8 +342,7 @@ const renderMyData = () => {
 const rendercomment = () => {
   return changeList.map((changeBox, index) => {
     if (
-      (changeBox.accountId != context.accountId ||
-        signBox.accountId == context.accountId) &&
+      changeBox.accountId != context.accountId &&
       changeBox.value.title == state.title_now
     )
       return (
@@ -979,11 +978,16 @@ return (
         <div className="w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
           <a href="#">
             <img
-              className="p-8 rounded-t-lg"
+              className="pt-8 pr-8 pl-8 rounded-t-lg"
               src="https://podsawee.com/change/bitkub.jpg"
               alt="Support Us"
             />
           </a>
+          <div className="text-green-500 text-xl text-center"> KUB Coin </div>
+          <div className="text-green-400 text-sm text-center pb-4">
+            Network BKC - Bitkub Chain (Kap20)
+          </div>
+
           <div className="text-center text-green-700 text-2xl text-bold">
             หรือ
           </div>
@@ -997,7 +1001,7 @@ return (
                 donate();
               }}
             >
-              Donate 1.0 Near
+              สนับสนุน 1.0 Near
             </button>
           </div>
         </div>
