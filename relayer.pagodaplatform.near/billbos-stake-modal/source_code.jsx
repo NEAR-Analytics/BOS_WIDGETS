@@ -1,6 +1,9 @@
 const isOpenStake = props.isOpenStake;
 const onCloseStake = props.onCloseStake;
 
+const coreContractAddress = props.coreContractAddress;
+const adsId = props.adsId;
+
 const ModalOverlay = styled.div`
   position: absolute;
   top: 0;
@@ -37,38 +40,52 @@ const EndContent = styled.div`
   transform: translateY(-50%);
 `;
 
+const BillBOSCoreABI = fetch(
+  "https://gist.githubusercontent.com/jimmy-ez/0344bb9cce14ced6c6e7f89d7d1654ce/raw/e7dd9962a90819f71de155b1f68f276eed07790a/BillBOSCoreABIV3.json"
+);
+if (!BillBOSCoreABI.ok) {
+  return "Loading";
+}
+const IBillBOSCore = new ethers.utils.Interface(BillBOSCoreABI.body);
+
 State.init({
   isOpenLoadingModal: false,
+  isFinish: false,
+  boostAmount: "0",
 });
 
-const onCloseLoading = () => {
+const onMax = () => {};
+
+const closeLoadingBoost = () => {
   State.update({
-    isOpenLoadingModal: false,
+    isFinish: true,
   });
 };
 
-const onMax = () => {
-  console.log("onMax");
+const handleBoost = () => {
+  console.log("boostAmount", state.boostAmount);
   State.update({
     isOpenLoadingModal: true,
+    isFinish: false,
   });
-};
+  const amount = Number(
+    ethers.utils.parseUnits(String(state.boostAmount), "ether")
+  );
+  console.log("amount", amount.toString());
 
-const handleChangeType = (event) => {
-  if (event.target.value) {
-    State.update({
-      adsType: event.target.value,
+  const billbosProvider = new ethers.Contract(
+    coreContractAddress,
+    IBillBOSCore,
+    Ethers.provider().getSigner()
+  );
+  billbosProvider
+    .boost("5", amount.toString())
+    .then((res) => {
+      setTimeout(closeLoadingBoost, 10000);
+    })
+    .catch((error) => {
+      console.log(error);
     });
-  }
-};
-
-const handleChangeChain = (event) => {
-  if (event.target.value) {
-    State.update({
-      selectedChain: event.target.value,
-      chainImg: NetworkImgList[event.target.value],
-    });
-  }
 };
 
 const Modal = ({ isOpen, onClose }) => {
@@ -104,15 +121,13 @@ const Modal = ({ isOpen, onClose }) => {
         <div class="flex flex-col items-start pb-4 px-4 mt-4">
           <p class="text-sm secondary-text mb-2">Amount</p>
           <StyledInput class="flex flex-row">
-            <input type="number" class="w-full px-3 py-2 rounded-lg border" />
+            <input
+              onChange={(e) => State.update({ boostAmount: e.target.value })}
+              type="number"
+              class="w-full px-3 py-2 rounded-lg border"
+            />
             <EndContent>
               <div class="h-full flex flex-row items-center">
-                <p
-                  onClick={() => onMax()}
-                  class="mr-2 text-sm font-semibold green-text cursor-pointer"
-                >
-                  MAX
-                </p>
                 <img
                   src="https://icons.iconarchive.com/icons/cjdowner/cryptocurrency-flat/512/Tether-USDT-icon.png"
                   alt="Icon"
@@ -143,7 +158,10 @@ const Modal = ({ isOpen, onClose }) => {
           </div>
         </div>
         <div class="w-full px-8 pt-2 pb-4">
-          <button class="px-6 py-2 text-white font-semibold brand-green rounded-lg w-full">
+          <button
+            onClick={handleBoost}
+            class="px-6 py-2 text-white font-semibold brand-green rounded-lg w-full"
+          >
             {"Stake now"}
           </button>
         </div>
@@ -167,7 +185,9 @@ return (
         onCloseModal: () => {
           State.update({ isOpenLoadingModal: false });
         },
-        isLoading: true,
+        isLoading: !state.isFinish,
+        topic: `You are now staking ${state.boostAmount} USDT`,
+        detail: `Staking ${state.boostAmount} USDT. You will receive more than ${boostAmount} USDT`,
       }}
     />
   </>
