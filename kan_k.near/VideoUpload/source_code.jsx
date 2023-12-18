@@ -354,9 +354,14 @@ const onBtnClick = async () => {
   const CONTRACT_ADDRESS = "0xFEfa855e3CeAcD2eFCdE30d062ca7b83D6F614c9";
   const signer = Ethers.provider().getSigner();
   const contract = new ethers.Contract(CONTRACT_ADDRESS, abi, signer);
-  contract.addVideo(body.title, body.description, body.src, body.thumbnail, 0, [
-    body.tag,
-  ]);
+  contract
+    .addVideo(body.title, body.description, body.src, body.thumbnail, 0, [
+      body.tag,
+    ])
+    .then((res) => {
+      console.log(res);
+      window.location.href("/");
+    });
 };
 
 return (
