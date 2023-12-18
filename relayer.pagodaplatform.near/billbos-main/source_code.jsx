@@ -169,25 +169,41 @@ checkProvider();
 function tapCampaigns() {
   return (
     <div className="container">
-      <div className="flex justify-between py-8 items-center">
-        <div>
-          <h2 className="font-semibold text-xl ">Campaigns</h2>
-          <p className="text-sm">
-            Unlock the power of onchain data for Web3 Ads
-          </p>
-        </div>
-        <div>
-          <Widget src="jimmy-ez.near/widget/billbos-craete-ads" props={{}} />
-        </div>
-      </div>
-      <div className="grid grid-cols-3 gap-3">
-        {Array.from({ length: 3 }).map((_, index) => {
-          return (
-            <div key={index}>
-              <Widget src="jimmy-ez.near/widget/billbos-ads-card" props={{}} />
+      <div className="w-full">
+        {state.walletConnected ? (
+          <>
+            <div className="flex justify-between py-8 items-center">
+              <div>
+                <h2 className="font-semibold text-xl ">Campaigns</h2>
+                <p className="text-sm">
+                  Unlock the power of onchain data for Web3 Ads
+                </p>
+              </div>
+              <div>
+                <Widget
+                  src="jimmy-ez.near/widget/billbos-craete-ads"
+                  props={{}}
+                />
+              </div>
             </div>
-          );
-        })}
+            <div className="grid grid-cols-3 gap-3">
+              {Array.from({ length: 3 }).map((_, index) => {
+                return (
+                  <div key={index}>
+                    <Widget
+                      src="jimmy-ez.near/widget/billbos-ads-card"
+                      props={{}}
+                    />
+                  </div>
+                );
+              })}
+            </div>
+          </>
+        ) : (
+          <div className="w-full">
+            <Widget src="chayanonc-ph.near/widget/billbos-authen" props={{}} />
+          </div>
+        )}
       </div>
     </div>
   );
@@ -424,31 +440,26 @@ function tabComponent() {
 const main = (
   <div className="relative gray-surface ">
     <div>
-      {state.walletConnected ? (
-        <div>
-          <div className="sticky top-0 z-10 bg-white">
-            <Widget
-              src="chayanonc-ph.near/widget/billbos-header"
-              props={{
-                walletAddress: state.walletAddress,
-                chainId: state.chainId,
-                setTabSelect: (index) => setTabSelect(index),
-                chains: state.chains,
-              }}
-            />
-          </div>
-          {state.chainId !== undefined &&
-          !CHAIN_LIST.includes(state.chainId) ? (
-            <div className="w-full">Chain not support </div>
-          ) : (
-            <div className=" min-h-screen w-full">
-              <div>{tabComponent()}</div>
-            </div>
-          )}
+      <div>
+        <div className="sticky top-0 z-10 bg-white">
+          <Widget
+            src="chayanonc-ph.near/widget/billbos-header"
+            props={{
+              walletAddress: state.walletAddress,
+              chainId: state.chainId,
+              setTabSelect: (index) => setTabSelect(index),
+              chains: state.chains,
+            }}
+          />
         </div>
-      ) : (
-        <Widget src="porx-dev.near/widget/billbos-authen" props={{}} />
-      )}
+        {state.chainId !== undefined && !CHAIN_LIST.includes(state.chainId) ? (
+          <div className="w-full">Chain not support </div>
+        ) : (
+          <div className=" min-h-screen w-full">
+            <div>{tabComponent()}</div>
+          </div>
+        )}
+      </div>
     </div>
   </div>
 );
