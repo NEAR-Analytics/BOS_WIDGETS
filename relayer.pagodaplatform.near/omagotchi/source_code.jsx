@@ -295,20 +295,24 @@ const [isEvolving, setIsEvolving] = useState(false);
 const disableActionButton = isFeeding || isPlaying || isEvolving;
 
 function handleSetupSignerInfo() {
-  const addressPromise = Ethers.provider()
-    .getSigner()
-    .getAddress()
-    .then((address) => address);
+  const provider = Ethers.provider();
 
-  const chainPromise = Ethers.provider()
-    .getNetwork()
-    .then((chain) => chain);
+  if (provider) {
+    const addressPromise = Ethers.provider()
+      .getSigner()
+      .getAddress()
+      .then((address) => address);
 
-  Promise.all([chainPromise, addressPromise]).then(([chain, address]) => {
-    setWalletAddress(address);
-    setChainId(chain.chainId);
-    setIsShowLoader(false);
-  });
+    const chainPromise = Ethers.provider()
+      .getNetwork()
+      .then((chain) => chain);
+
+    Promise.all([chainPromise, addressPromise]).then(([chain, address]) => {
+      setWalletAddress(address);
+      setChainId(chain.chainId);
+      setIsShowLoader(false);
+    });
+  }
 }
 
 function isSupportChain(targetChainId) {
@@ -427,10 +431,12 @@ function feedMonster() {
   setIsFeeding(true);
   const contract = getContract();
 
-  const amountToSendInEther = "0.01";
+  const fee = "0.01";
   const options = {
-    value: ethers.utils.parseEther(amountToSendInEther),
+    value: ethers.utils.parseUnits(fee, "ether"),
   };
+
+  console.log(options);
 
   contract
     .feed(selectedNft.stat.tokenId, options)
@@ -468,9 +474,9 @@ function playMonster() {
   setIsPlaying(true);
   const contract = getContract();
 
-  const amountToSendInEther = "0.01";
+  const fee = "0.01";
   const options = {
-    value: ethers.utils.parseEther(amountToSendInEther),
+    value: ethers.utils.parseUnits(fee, "ether"),
   };
 
   contract
@@ -692,7 +698,7 @@ function Router() {
                         props={{ label: "Play with Him", color: "primary" }}
                       />
                     </div>
-                    <div onClick={() => {}}>
+                    <div onClick={() => playMonster()}>
                       <Widget
                         src="a3r0nz.near/widget/Omagotji-GeneralButton"
                         props={{ label: "Evolve", color: "primary" }}
