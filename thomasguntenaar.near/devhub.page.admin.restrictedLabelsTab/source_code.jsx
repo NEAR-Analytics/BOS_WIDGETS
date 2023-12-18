@@ -11,7 +11,7 @@ return (
     </h5>
     {!createTeam ? (
       <Widget
-        src={"thomasguntenaar.near/widget/devhub.components.molecule.PostControls"}
+        src={"previewthomas.near/widget/devhub.components.molecule.PostControls"}
         props={{
           onClick: () => setCreateTeam(true),
           title: "Create label",
@@ -20,7 +20,7 @@ return (
       />
     ) : (
       <Widget
-        src={"thomasguntenaar.near/widget/devhub.entity.team.Configurator"}
+        src={"previewthomas.near/widget/devhub.entity.team.Configurator"}
         props={{
           onCancel: () => setCreateTeam(false),
           onSubmit: (params) =>
@@ -52,7 +52,7 @@ return (
             .map((teamName) => {
               return (
                 <Widget
-                  src={"thomasguntenaar.near/widget/devhub.entity.team.LabelRow"}
+                  src={"previewthomas.near/widget/devhub.entity.team.LabelRow"}
                   props={{
                     teamName,
                   }}
