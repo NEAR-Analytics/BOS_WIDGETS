@@ -1,4 +1,4 @@
-const { href } = VM.require("thomasguntenaar.near/widget/core.lib.url");
+const { href } = VM.require("previewthomas.near/widget/core.lib.url");
 
 href || (href = () => {});
 
@@ -87,7 +87,7 @@ return (
                       style={{ borderRadius: "5px" }}
                       class="dropdown-item link-underline link-underline-opacity-0"
                       href={href({
-                        widgetSrc: "thomasguntenaar.near/widget/dh.feed",
+                        widgetSrc: "previewthomas.near/widget/dh.feed",
                       })}
                     >
                       Latest
@@ -98,7 +98,7 @@ return (
                       style={{ borderRadius: "5px" }}
                       class="dropdown-item link-underline link-underline-opacity-0"
                       href={href({
-                        widgetSrc: "thomasguntenaar.near/widget/page.feed",
+                        widgetSrc: "previewthomas.near/widget/page.feed",
                         params: { recency: "all" },
                       })}
                     >
@@ -109,7 +109,7 @@ return (
               </div>
               <div class="dropdown">
                 <Widget
-                  src="thomasguntenaar.near/widget/devhub.feature.post-search.by-author"
+                  src="previewthomas.near/widget/devhub.feature.post-search.by-author"
                   props={{
                     author: state.author,
                     onAuthorSearch: (author) => {
@@ -120,7 +120,7 @@ return (
               </div>
               <div>
                 <Widget
-                  src="thomasguntenaar.near/widget/devhub.feature.post-search.by-tag"
+                  src="previewthomas.near/widget/devhub.feature.post-search.by-tag"
                   props={{
                     tag: state.tag,
                     onTagSearch: (tag) => {
@@ -139,7 +139,7 @@ return (
     )}
     <PostContainer>
       <Widget
-        src="thomasguntenaar.near/widget/devhub.entity.post.List"
+        src="previewthomas.near/widget/devhub.entity.post.List"
         props={{
           author: state.author,
           tag: state.tag,
