@@ -21,7 +21,7 @@ function SectionHeader() {
       {headerRight ||
         (hasConfigurePermissions && (
           <Widget
-            src={"thomasguntenaar.near/widget/devhub.components.molecule.Button"}
+            src={"previewthomas.near/widget/devhub.components.molecule.Button"}
             props={{
               classNames: { root: "btn-sm btn-secondary" },
               icon: {
