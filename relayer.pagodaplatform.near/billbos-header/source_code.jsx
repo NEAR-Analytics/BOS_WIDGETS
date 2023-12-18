@@ -155,7 +155,12 @@ const navbar = (
         </div>
       </div>
     ) : (
-      ""
+      <div>
+        <Web3Connect
+          className="web3-connect w-full p-2 border border-gray-400"
+          connectLabel="Connect Wallet"
+        />
+      </div>
     )}
   </div>
 );
