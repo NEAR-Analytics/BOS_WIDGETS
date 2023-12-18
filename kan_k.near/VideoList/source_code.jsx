@@ -303,6 +303,7 @@ const contract = new ethers.Contract(CONTRACT_ADDRESS, abi, signer);
 
 function fetchVdo() {
   contract.getLatestVideos(5).then((res) => {
+    console.log(res);
     if (res.hash) {
       console.log("Success! " + res);
       State.update({ videoes: res.data, isNotEmpty: true });
