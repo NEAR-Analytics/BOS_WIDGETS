@@ -2,7 +2,8 @@ const { Card } =
   VM.require("previewthomas.near/widget/devhub.entity.addon.blog.Card") ||
   (() => <></>);
 
-const { href } = VM.require("previewthomas.near/widget/core.lib.url") || (() => {});
+const { href } =
+  VM.require("previewthomas.near/widget/core.lib.url") || (() => {});
 
 const { includeLabels, excludeLabels, layout, handle, hideTitle } = props;
 
