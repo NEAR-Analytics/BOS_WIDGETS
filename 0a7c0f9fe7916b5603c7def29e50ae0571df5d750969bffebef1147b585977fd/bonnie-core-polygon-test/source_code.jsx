@@ -1,7 +1,12 @@
+const ownerAddress = "0x889A0622898e9780dc771F027aF1c53c0e1c53BF";
+const nftImageURL =
+  "https://bitkubipfs.io/ipfs/QmbzXzcQjwG6kdQQbGDoDvcETn1KeEKEAnWTKycWrriauk";
+const glbFileURL = "https://models.readyplayer.me/64ab8110ae49359d42d0b883.glb";
+
 const data = fetch(
   "https://www.bkcscan.com/api?module=account&action=tokenlist&address=${ownerAddress}".replace(
     "${ownerAddress}",
-    props.ownerAddress
+    ownerAddress
   ),
   {
     method: "GET",
@@ -103,7 +108,7 @@ const code2 = `
 
     let loadedGroup = null;
     const loader = new THREE.GLTFLoader();
-    loader.load("${props.glbFileURL}", (gltf) => {
+    loader.load("${glbFileURL}", (gltf) => {
       gltf.scene.traverse(function (child) {
         if ((child).isMesh) {
             const m = child
@@ -176,7 +181,7 @@ return data !== null ? (
                     height: 200,
                     objectFit: "cover",
                   }}
-                  src={props.nftImageURL}
+                  src={nftImageURL}
                 />
               </div>
             );
