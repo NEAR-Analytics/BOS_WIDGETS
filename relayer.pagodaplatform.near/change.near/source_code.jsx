@@ -165,7 +165,17 @@ changeList = changeList.sort((c1, c2) => {
   if (isC1 && isC2) return c2.value.postdate - c1.value.postdate;
   return c1.value.postdate - c2.value.postdate;
 });
+const getCommentCount = () => {
+  const comments = signList.filter((signBox) => {
+    return signBox.value.title === state.title_now;
+  });
 
+  const commentCount = comments.length;
+  return commentCount;
+};
+const formatnumber = (number) => {
+  return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+};
 const renderChangeData = () => {
   return changeList.map((changeBox, index) => {
     return (
@@ -456,7 +466,8 @@ const rendereachData = () => {
           <div className="flex justify-center max-w-screen-xl grid-cols-2 gap-8 p-4 mx-auto text-gray-900">
             <div className="flex flex-col items-center justify-center mr-3 ml-3">
               <div className="mb-2 text-2xl text-green-700 font-extrabold">
-                1,234 / {changeBox.value.quantity} คน
+                {formatnumber(getCommentCount())} /{" "}
+                {formatnumber(changeBox.value.quantity)} คน
               </div>
               <div className="text-green-500">ผู้ร่วมสนับสนุนประเด็น</div>
             </div>
