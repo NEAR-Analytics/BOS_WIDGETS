@@ -1,6 +1,10 @@
 const { Tile } =
-  VM.require("thomasguntenaar.near/widget/devhub.components.molecule.Tile") ||
+  VM.require("previewthomas.near/widget/devhub.components.molecule.Tile") ||
   (() => <></>);
+
+if (!Tile) {
+  return <div>Loading...</div>;
+}
 
 const { data, onSubmit } = props;
 
@@ -50,7 +54,7 @@ return (
         <Item key={index}>
           <div className="flex-grow-1">
             <Widget
-              src="thomasguntenaar.near/widget/devhub.components.molecule.Input"
+              src="previewthomas.near/widget/devhub.components.molecule.Input"
               props={{
                 className: "flex-grow-1",
                 value: item,
@@ -73,7 +77,7 @@ return (
       <Item>
         <div className="flex-grow-1">
           <Widget
-            src="thomasguntenaar.near/widget/devhub.components.molecule.Input"
+            src="previewthomas.near/widget/devhub.components.molecule.Input"
             props={{
               className: "flex-grow-1",
               onChange: (e) => setNewItem(e.target.value),
@@ -97,7 +101,7 @@ return (
         className={"d-flex align-items-center justify-content-end gap-3 mt-4"}
       >
         <Widget
-          src={"thomasguntenaar.near/widget/devhub.components.molecule.Button"}
+          src={"previewthomas.near/widget/devhub.components.molecule.Button"}
           props={{
             classNames: { root: "btn-success" },
             disabled: initialData === handles,
