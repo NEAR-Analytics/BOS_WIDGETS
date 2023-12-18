@@ -88,7 +88,7 @@ State.init({
   sender: undefined,
   adsName: undefined,
   newTabLink: undefined,
-  stakeAmount: 0,
+  stakeAmount: "0",
 });
 
 if (state.sender == undefined && Ethers.provider()) {
@@ -138,18 +138,72 @@ if (!BillBOSCoreABI.ok) {
 }
 const IBillBOSCore = new ethers.utils.Interface(BillBOSCoreABI.body);
 
+const ERC20ABI = fetch(
+  "https://gist.githubusercontent.com/veox/8800debbf56e24718f9f483e1e40c35c/raw/f853187315486225002ba56e5283c1dba0556e6f/erc20.abi.json"
+);
+if (!ERC20ABI.ok) {
+  return "Loading";
+}
+const IERC20 = new ethers.utils.Interface(ERC20ABI.body);
+
+const checkAllowance = () => {
+  const encodedData = IERC20.encodeFunctionData("allowance", [
+    state.sender,
+    "0x8995e9741A2b9c7f1Bb982d08c360F2951a23c24",
+  ]);
+  return new Promise((resolve, reject) => {
+    Ethers.provider()
+      .call({
+        to: "0x90430340366FA3557BD7A5c919f2C41975eDb6B2",
+        data: encodedData,
+      })
+      .then((rawRes) => {
+        const resData = IERC20.decodeFunctionResult("allowance", rawRes);
+        const resAllowance = Number(resData);
+        resolve(resAllowance);
+      })
+      .catch((error) => {
+        resolve(0);
+      });
+  });
+};
+
+const erc20Approve = (to, amount) => {
+  const encodedData = IERC20.encodeFunctionData("allowance", [
+    state.sender,
+    "0x8995e9741A2b9c7f1Bb982d08c360F2951a23c24",
+  ]);
+  return new Promise((resolve, reject) => {
+    Ethers.provider()
+      .call({
+        to: "0x90430340366FA3557BD7A5c919f2C41975eDb6B2",
+        data: encodedData,
+      })
+      .then((rawRes) => {
+        const resData = IERC20.decodeFunctionResult("allowance", rawRes);
+        const resAllowance = Number(resData);
+        resolve(resAllowance);
+      })
+      .catch((error) => {
+        resolve(0);
+      });
+  });
+};
+
 const handleCreateAds = () => {
   console.log("state", state);
-  const encodedData = IBillBOSCore.encodeFunctionData("getAds");
-  Ethers.provider()
-    .call({
-      to: "0x8995e9741A2b9c7f1Bb982d08c360F2951a23c24",
-      data: encodedData,
-    })
-    .then((rawRes) => {
-      const resData = IBillBOSCore.decodeFunctionResult("getAds", rawRes);
-      console.log("resData", resData);
-    });
+  checkAllowance().then((allowance) => {
+    const amount = Number(
+      ethers.utils.parseUnits(String(state.stakeAmount), "ether")
+    );
+
+    console.log("checkAllowance", allowance);
+    console.log("amount", amount);
+
+    if (allowance > amount) {
+      console.log("pass");
+    }
+  });
   State.update({
     isOpenModal: false,
   });
@@ -309,7 +363,11 @@ const Modal = ({ isOpen, onClose }) => {
           </StyledSelect>
           <p class="text-sm secondary-text mt-4">Amount</p>
           <StyledInput>
-            <input type="number" class="w-full border px-2 py-2 rounded-lg" />
+            <input
+              onChange={(e) => State.update({ stakeAmount: e.target.value })}
+              type="number"
+              class="w-full border px-2 py-2 rounded-lg"
+            />
           </StyledInput>
         </div>
         <div class="grid grid-cols-2 gap-4 px-8 py-4">
