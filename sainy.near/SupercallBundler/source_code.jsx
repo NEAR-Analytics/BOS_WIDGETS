@@ -173,7 +173,7 @@ return (
                 margin: "auto",
               }}
             >
-              <Widget src={call} props={props} />
+              <Widget src={call} props={{ ...props, callId: index }} />
             </div>
           </div>
           <div style={{ display: "flex" }}>
