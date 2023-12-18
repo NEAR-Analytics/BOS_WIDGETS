@@ -43,43 +43,9 @@ const onTagChange = ({ target }) => {
   State.update({ tag: target.value });
 };
 
-const checkWallet = () => {
-  try {
-    const operationChainId = 25925;
-    Ethers.provider()
-      .getNetwork()
-      .then((chainIdData) => {
-        const chainId = chainIdData.chainId;
-        if (chainId !== operationChainId) {
-          const res = Ethers.send("wallet_switchEthereumChain", [
-            { chainId: `0x${Number(operationChainId).toString(16)}` },
-          ]);
-
-          if (res === null) {
-            Ethers.send("wallet_addEthereumChain", [
-              {
-                chainId: `0x${Number(operationChainId).toString(16)}`,
-                chainName: "Bitkub Chain - Testnet",
-                nativeCurrency: {
-                  name: "tKUB",
-                  symbol: "tKUB",
-                  decimals: 18,
-                },
-                rpcUrls: ["https://rpc-testnet.bitkubchain.io"],
-                blockExplorerUrls: ["https://testnet.bkcscan.com "],
-              },
-            ]);
-          }
-        } else {
-          console.log("OK on chain");
-        }
-      });
-  } catch (e) {
-    console.log("No wallet provider");
-  }
-};
-
-checkWallet();
+function getSigner() {
+  return Ethers.provider().getSigner();
+}
 
 const abi = fetch(
   `https://eth.blockscout.com/api?module=contract&action=getabi&address=0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2`
@@ -89,7 +55,7 @@ if (!abi.ok) {
   return "Loading";
 }
 
-// console.log(abi.body.result);
+console.log(getSigner());
 
 const onBtnClick = async () => {
   const body = {
