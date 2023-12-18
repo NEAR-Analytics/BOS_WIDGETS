@@ -192,16 +192,8 @@ const fundraisingDiv = (
   </div>
 );
 
-function generateDescription(
-  text,
-  amount,
-  token,
-  supervisor,
-  ethAddr,
-  bitkubAddr,
-  jfinAddr
-) {
-  const funding = `Requested amount: ${amount} ${token}~Requested sponsor: @${supervisor}~${ethAddr}~${bitkubAddr}~${jfinAddr}~}`;
+function generateDescription(text, amount, token, supervisor) {
+  const funding = `Requested amount: ${amount} ${token}~Requested sponsor: @${supervisor}~}`;
   if (amount > 0 && token && supervisor) return funding + text;
   return newText;
 }
