@@ -77,12 +77,12 @@ const NetworkImgList = {
 
 const BillBOSAddress = {
   BKC: "0x8995e9741A2b9c7f1Bb982d08c360F2951a23c24",
-  J2O: "",
+  J2O: "0x9d8b5e3C762167a409Db7f11a38b17dE9192E136",
 };
 
 const USDTAddress = {
   BKC: "0x90430340366FA3557BD7A5c919f2C41975eDb6B2",
-  J2O: "",
+  J2O: "0x88127f9a362b802D0D27c85583506bf4c648aa68",
 };
 
 const BillBOSCoreABI = fetch(
