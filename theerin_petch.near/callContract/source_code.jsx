@@ -306,6 +306,12 @@ const Post = ({ post }) => {
   );
 };
 
+useEffect(() => {
+  fetchAllPost();
+  fetchMyPost();
+  fetchComments(0);
+}, []); // Empty dependency array means it runs once on mount
+
 const home = () => {
   const boxContainerStyle = {
     display: "flex",
