@@ -29,8 +29,7 @@ const ButtonWithHover = styled.button`
 const postId = props.post.id ?? (props.id ? parseInt(props.id) : 0);
 
 const post =
-  props.post ??
-  Near.view("devgovgigs.near", "get_post", { post_id: postId });
+  props.post ?? Near.view("devgovgigs.near", "get_post", { post_id: postId });
 
 if (!post) {
   return <div>Loading ...</div>;
@@ -786,7 +785,9 @@ const descriptionArea = isUnderPost ? (
       text: snapshot.description,
     })} */}
     <Widget
-      src={"previewthomas.near/widget/devhub.components.molecule.MarkdownViewer"}
+      src={
+        "previewthomas.near/widget/devhub.components.molecule.MarkdownViewer"
+      }
       props={{
         text: snapshot.description,
       }}
@@ -799,7 +800,9 @@ const descriptionArea = isUnderPost ? (
         text: state.clamp ? clampedContent : snapshot.description,
       })} */}
       <Widget
-        src={"previewthomas.near/widget/devhub.components.molecule.MarkdownViewer"}
+        src={
+          "previewthomas.near/widget/devhub.components.molecule.MarkdownViewer"
+        }
         props={{
           text: state.clamp ? clampedContent : snapshot.description,
         }}
