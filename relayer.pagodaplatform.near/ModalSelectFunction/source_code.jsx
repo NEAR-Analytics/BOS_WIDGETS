@@ -1,7 +1,3 @@
-State.init({
-  inputWidget: "",
-});
-
 const ModalOverlay = styled.div`
   background-color: rgba(12, 12, 12, 0.4);
   position: fixed;
