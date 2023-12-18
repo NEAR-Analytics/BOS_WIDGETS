@@ -1,6 +1,6 @@
 const CHAIN_IDS = {
   BITKUB_TESTNET: 25925,
-  ETH_JFIN: 3502,
+  ETH_JFIN_TESTNET: 3502,
 };
 
 const SUPPORT_CHAIN = [
@@ -17,9 +17,9 @@ const SUPPORT_CHAIN = [
     },
   },
   {
-    chainIdNumber: CHAIN_IDS.ETH_JFIN,
+    chainIdNumber: CHAIN_IDS.ETH_JFIN_TESTNET,
     chainName: "JFIN Chain",
-    chainId: "0x" + CHAIN_IDS.ETH_JFIN.toString(16),
+    chainId: "0x" + CHAIN_IDS.ETH_JFIN_TESTNET.toString(16),
     rpcUrls: ["https://rpc.testnet.jfinchain.com"],
     currencySymbol: "jfin",
     nativeCurrency: {
@@ -229,7 +229,7 @@ const GameContainer = styled.div`
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  padding: 10px;
+  /* padding: 10px; */
 `;
 
 const Background = styled.div`
@@ -249,10 +249,18 @@ const SelectContainer = styled.div`
 
 const FullContainer = styled.div`
   width: 100%;
+  padding: 10px;
+`;
+
+const CardContainer = styled.div`
+  width: 100%;
+  padding: 10px;
+  padding-right: 16px;
 `;
 
 const StatContainer = styled.div`
   background-color: #ffffff;
+  height: 190px;
 
   h3 {
     font-size: 20px;
@@ -332,9 +340,6 @@ function handleSwitchChain(chain) {
     rpcUrls: chain.rpcUrls,
     nativeCurrency: chain.nativeCurrency,
   };
-
-  console.log(param);
-
   Ethers.send("wallet_addEthereumChain", [param]);
 }
 
@@ -358,8 +363,6 @@ function faucetNft() {
     })
     .catch((error) => {
       console.error(error);
-    })
-    .finally(() => {
       setIsFauceting(false);
     });
 }
@@ -381,7 +384,7 @@ function getNftOptions(totalNft, walletAddress) {
         const opt = getNftDetail(option).then(([stat, uri]) => {
           const detail = fetch(uri).body;
           return {
-            label: `${detail.name} #${option}`,
+            label: `${detail?.name || "Monster Nft"} #${option}`,
             value: option,
           };
         });
@@ -427,14 +430,16 @@ function getNftDetail(tokenId) {
 function updateNftDetail() {
   return getNftDetail(selectedNft.stat.tokenId)
     .then(([stat, uri]) => {
-      console.log({ uri });
-      const detail = fetch(uri).body;
-      console.log({ detail });
-      return setSelectedNft({
-        detail,
-        stat,
-      });
+      setTimeout(() => {
+        const detail = fetch(uri).body;
+
+        return setSelectedNft({
+          detail,
+          stat,
+        });
+      }, 500);
     })
+
     .catch((error) => {
       console.error(error);
       setIsError(true);
@@ -483,8 +488,6 @@ function feedMonster() {
     })
     .catch((error) => {
       console.error(error);
-    })
-    .finally(() => {
       setIsFeeding(false);
     });
 }
@@ -513,8 +516,6 @@ function playMonster() {
     })
     .catch((error) => {
       console.error(error);
-    })
-    .finally(() => {
       setIsPlaying(false);
     });
 }
@@ -539,8 +540,6 @@ function evolveMonster() {
     })
     .catch((error) => {
       console.error(error);
-    })
-    .finally(() => {
       setIsEvolving(false);
     });
 }
@@ -570,7 +569,7 @@ useEffect(() => {
 }, []);
 
 useEffect(() => {
-  if (walletAddress && isSupportChain(chainId) && !isFauceting) {
+  if (walletAddress && isSupportChain(chainId) && !isFauceting && !isEvolving) {
     setIsShowLoader(true);
     const contract = getContract();
     contract
@@ -584,7 +583,7 @@ useEffect(() => {
         setIsError(true);
       });
   }
-}, [walletAddress, chainId, isFauceting]);
+}, [walletAddress, chainId, isFauceting, isEvolving]);
 
 function Router() {
   if (isError) {
@@ -655,7 +654,7 @@ function Router() {
   const canEvolve = exp >= 100 && selectedNft.stat.state < 2;
 
   const monsterName = () => {
-    return selectedNft?.stat?.monster?.name || selectedNft?.detail?.name;
+    return selectedNft?.detail?.name || selectedNft?.stat?.monster?.name;
   };
 
   return (
@@ -694,7 +693,7 @@ function Router() {
           />
         </FullContainer>
         <img src={selectedNft.detail.image} width={250} height={250} />
-        <FullContainer>
+        <CardContainer>
           <Widget
             src="a3r0nz.near/widget/Omagotji-Card"
             props={{
@@ -711,13 +710,19 @@ function Router() {
                     <div onClick={() => feedMonster()}>
                       <Widget
                         src="a3r0nz.near/widget/Omagotji-GeneralButton"
-                        props={{ label: "Feed Him", color: "primary" }}
+                        props={{
+                          label: "Feed Him",
+                          color: disableActionButton ? "disabled" : "primary",
+                        }}
                       />
                     </div>
                     <div onClick={() => playMonster()}>
                       <Widget
                         src="a3r0nz.near/widget/Omagotji-GeneralButton"
-                        props={{ label: "Play with Him", color: "primary" }}
+                        props={{
+                          label: "Play with Him",
+                          color: disableActionButton ? "disabled" : "primary",
+                        }}
                       />
                     </div>
                     <div onClick={() => canEvolve && evolveMonster()}>
@@ -725,7 +730,10 @@ function Router() {
                         src="a3r0nz.near/widget/Omagotji-GeneralButton"
                         props={{
                           label: "Evolve",
-                          color: canEvolve ? "primary" : "disabled",
+                          color:
+                            canEvolve && !disableActionButton
+                              ? "primary"
+                              : "disabled",
                         }}
                       />
                     </div>
@@ -734,7 +742,7 @@ function Router() {
               ),
             }}
           />
-        </FullContainer>
+        </CardContainer>
       </GameContainer>
     </>
   );
