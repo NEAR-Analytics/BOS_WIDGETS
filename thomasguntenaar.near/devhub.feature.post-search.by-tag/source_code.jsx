@@ -1,5 +1,5 @@
 const { getAllLabels } = VM.require(
-  "thomasguntenaar.near/widget/core.adapter.devhub-contract"
+  "previewthomas.near/widget/core.adapter.devhub-contract"
 );
 
 if (!getAllLabels) {
