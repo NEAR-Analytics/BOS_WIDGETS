@@ -70,14 +70,36 @@ const CustomUpload = styled.div`
   }
 `;
 
-const abiUrl =
-  "https://gist.githubusercontent.com/jimmy-ez/36304d093ba9d51b082d7d0d09782918/raw/dca1009bf5ce0802f2e80c25ffef9773d73e88cf/BillBOSCoreABI.json";
-const billbosAbi = fetch(abiUrl).body;
-
 const NetworkImgList = {
   BKC: "https://www.bitkubnft.com/_next/image?url=https%3A%2F%2Fstatic.bitkubnext.com%2Fnft%2Fnft_stores%2Fbitkub-chain%2Fstore_profile.png&w=256&q=10",
   J2O: "https://img2.pic.in.th/pic/j2o.png",
 };
+
+const BillBOSAddress = {
+  BKC: "0x8995e9741A2b9c7f1Bb982d08c360F2951a23c24",
+  J2O: "",
+};
+
+const USDTAddress = {
+  BKC: "0x90430340366FA3557BD7A5c919f2C41975eDb6B2",
+  J2O: "",
+};
+
+const BillBOSCoreABI = fetch(
+  "https://gist.githubusercontent.com/jimmy-ez/0344bb9cce14ced6c6e7f89d7d1654ce/raw/e7dd9962a90819f71de155b1f68f276eed07790a/BillBOSCoreABIV3.json"
+);
+if (!BillBOSCoreABI.ok) {
+  return "Loading";
+}
+const IBillBOSCore = new ethers.utils.Interface(BillBOSCoreABI.body);
+
+const ERC20ABI = fetch(
+  "https://gist.githubusercontent.com/veox/8800debbf56e24718f9f483e1e40c35c/raw/f853187315486225002ba56e5283c1dba0556e6f/erc20.abi.json"
+);
+if (!ERC20ABI.ok) {
+  return "Loading";
+}
+const IERC20 = new ethers.utils.Interface(ERC20ABI.body);
 
 State.init({
   isOpenModal: false,
@@ -88,6 +110,7 @@ State.init({
   sender: undefined,
   adsName: undefined,
   newTabLink: undefined,
+  componentId: undefined,
   stakeAmount: "0",
 });
 
@@ -130,22 +153,6 @@ const handleChangeChain = (event) => {
   }
 };
 
-const BillBOSCoreABI = fetch(
-  "https://gist.githubusercontent.com/jimmy-ez/0344bb9cce14ced6c6e7f89d7d1654ce/raw/e7dd9962a90819f71de155b1f68f276eed07790a/BillBOSCoreABIV3.json"
-);
-if (!BillBOSCoreABI.ok) {
-  return "Loading";
-}
-const IBillBOSCore = new ethers.utils.Interface(BillBOSCoreABI.body);
-
-const ERC20ABI = fetch(
-  "https://gist.githubusercontent.com/veox/8800debbf56e24718f9f483e1e40c35c/raw/f853187315486225002ba56e5283c1dba0556e6f/erc20.abi.json"
-);
-if (!ERC20ABI.ok) {
-  return "Loading";
-}
-const IERC20 = new ethers.utils.Interface(ERC20ABI.body);
-
 const checkAllowance = () => {
   const encodedData = IERC20.encodeFunctionData("allowance", [
     state.sender,
@@ -169,25 +176,8 @@ const checkAllowance = () => {
 };
 
 const erc20Approve = (to, amount) => {
-  const encodedData = IERC20.encodeFunctionData("allowance", [
-    state.sender,
-    "0x8995e9741A2b9c7f1Bb982d08c360F2951a23c24",
-  ]);
-  return new Promise((resolve, reject) => {
-    Ethers.provider()
-      .call({
-        to: "0x90430340366FA3557BD7A5c919f2C41975eDb6B2",
-        data: encodedData,
-      })
-      .then((rawRes) => {
-        const resData = IERC20.decodeFunctionResult("allowance", rawRes);
-        const resAllowance = Number(resData);
-        resolve(resAllowance);
-      })
-      .catch((error) => {
-        resolve(0);
-      });
-  });
+  const address = BillBOSAddress[state.selectedChain];
+  console.log("address", address);
 };
 
 const handleCreateAds = () => {
@@ -202,6 +192,7 @@ const handleCreateAds = () => {
 
     if (allowance > amount) {
       console.log("pass");
+      erc20Approve();
     }
   });
   State.update({
@@ -277,7 +268,10 @@ const Modal = ({ isOpen, onClose }) => {
             <>
               <p class="text-sm secondary-text mt-4">URL</p>
               <StyledInput>
-                <input class="w-full border px-2 py-2 rounded-lg" />
+                <input
+                  onChange={(e) => State.update({ newTabLink: e.target.value })}
+                  class="w-full border px-2 py-2 rounded-lg"
+                />
               </StyledInput>
             </>
           )}
@@ -285,7 +279,12 @@ const Modal = ({ isOpen, onClose }) => {
             <>
               <p class="text-sm secondary-text mt-4">Component ID</p>
               <StyledInput>
-                <input class="w-full border px-2 py-2 rounded-lg" />
+                <input
+                  onChange={(e) =>
+                    State.update({ componentId: e.target.value })
+                  }
+                  class="w-full border px-2 py-2 rounded-lg"
+                />
               </StyledInput>
             </>
           )}
