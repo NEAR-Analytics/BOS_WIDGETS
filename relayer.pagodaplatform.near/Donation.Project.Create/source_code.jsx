@@ -26,8 +26,12 @@ initState({
   name: props.name ?? "",
   description: props.description ?? "",
   amount: props.amount ?? "",
-  token: props.token ?? "USDT",
-  supervisor: props.supervisor ?? "kanapitch.near",
+  token: props.token ?? "USD",
+  supervisor: props.supervisor ?? "username.near",
+  chain: "",
+  bitkub_address: props.bitkub_address ?? "",
+  jfin_address: props.jfin_address ?? "",
+  eth_address: props.eth_address ?? "",
 });
 
 // This must be outside onClick, because Near.view returns null at first, and when the view call finished, it returns true/false.
@@ -40,7 +44,10 @@ const onSubmit = () => {
       state.description,
       state.amount,
       state.token,
-      state.supervisor
+      state.supervisor,
+      state.eth_address,
+      state.bitkub_address,
+      state.jfin_address
     ),
   };
 
@@ -54,6 +61,9 @@ const onSubmit = () => {
       args: {
         name: state.name,
         description: body.description,
+        eth_address: state.eth_address,
+        bitkub_address: state.bitkub_address,
+        jfin_address: state.jfin_address,
       },
       //   deposit: Big(10).pow(21).mul(3),
       //   gas: Big(10).pow(12).mul(100),
@@ -93,6 +103,39 @@ const descriptionDiv = (
   </div>
 );
 
+const ethaddress = (
+  <div className="col-lg-6 mb-2">
+    ETH ADDRESS
+    <input
+      type="text"
+      value={state.eth_address}
+      onChange={(event) => State.update({ eth_address: event.target.value })}
+    />
+  </div>
+);
+
+const bitkubaddress = (
+  <div className="col-lg-6 mb-2">
+    BitKUB ADDRESS
+    <input
+      type="text"
+      value={state.bitkub_address}
+      onChange={(event) => State.update({ bitkub_address: event.target.value })}
+    />
+  </div>
+);
+
+const jfinaddress = (
+  <div className="col-lg-6 mb-2">
+    JFIN ADDRESS
+    <input
+      type="text"
+      value={state.jfin_address}
+      onChange={(event) => State.update({ jfin_address: event.target.value })}
+    />
+  </div>
+);
+
 const fundraisingDiv = (
   <div class="d-flex flex-column mb-2">
     <div className="col-lg-6  mb-2">
@@ -102,25 +145,27 @@ const fundraisingDiv = (
         class="form-select"
         aria-label="Default select"
       >
-        <option selected value="USDT">
-          USDT
+        <option selected value="USD">
+          USD
         </option>
-        <option value="NEAR">NEAR</option>
       </select>
     </div>
     <div className="col-lg-6 mb-2">
       Requested amount <span class="text-muted fw-normal">(Numbers Only)</span>
       <input
         type="number"
-        value={parseInt(state.amount) > 0 ? state.amount : ""}
+        step="0.01"
+        value={state.amount !== null ? state.amount : ""}
         min={0}
-        onChange={(event) =>
-          State.update({
-            amount: Number(
-              event.target.value.toString().replace(/e/g, "")
-            ).toString(),
-          })
-        }
+        onChange={(event) => {
+          const newValue = event.target.value;
+          // Ensure the input is a valid number
+          if (/^\d*\.?\d{0,2}$/.test(newValue)) {
+            State.update({
+              amount: newValue,
+            });
+          }
+        }}
       />
     </div>
     <div className="col-lg-6 mb-2">
@@ -196,6 +241,13 @@ return (
                 {categoryDiv}
                 {fundraisingDiv}
               </div>
+
+              <div>
+                {ethaddress}
+                {bitkubaddress}
+                {jfinaddress}
+              </div>
+
               <button
                 style={{
                   width: "7rem",
@@ -208,8 +260,6 @@ return (
                 Post
               </button>
             </div>
-            <div class="bg-light d-flex flex-row p-1 border-bottom"></div>
-            <div class="card-body"></div>
           </div>
         </>
       )}
