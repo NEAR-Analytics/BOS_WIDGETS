@@ -70,8 +70,7 @@ if (state.chainId === 1) {
 } else if (state.chainId === 96) {
   State.update({
     chainPicked: "KUB",
-    receiver: state,
-    bitkub_address,
+    receiver: state.bitkub_address,
   });
 } else if (state.chainId === 3501) {
   State.update({
