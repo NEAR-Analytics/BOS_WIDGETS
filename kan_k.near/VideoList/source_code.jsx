@@ -1,5 +1,6 @@
 State.init({
   videoes: [],
+  isNotEmpty: false,
 });
 
 function getSigner() {
@@ -300,14 +301,16 @@ const CONTRACT_ADDRESS = "0xFEfa855e3CeAcD2eFCdE30d062ca7b83D6F614c9";
 const signer = Ethers.provider().getSigner();
 const contract = new ethers.Contract(CONTRACT_ADDRESS, abi, signer);
 
-contract.getLastestVideos(5).then((res) => {
-  if (res.hash) {
-    console.log("Success! " + res);
-    State.update({ videoes: res.data });
-  } else {
-    console.log("Failed!");
-  }
-});
-const isNotEmpty = state.videoes.length > 0;
+function fetchVdo() {
+  contract.getLastestVideos(5).then((res) => {
+    if (res.hash) {
+      console.log("Success! " + res);
+      State.update({ videoes: res.data, isNotEmpty: true });
+    } else {
+      console.log("Failed!");
+    }
+  });
+}
+fetchVdo();
 
 return <div>{isNotEmpty ? "Hello" : "Bye"}</div>;
