@@ -548,9 +548,9 @@ function tabComponent() {
 }
 
 const main = (
-  <div className="relative gray-surface ">
+  <div style={{ height: "100vh" }} className="relative gray-surface ">
     <div>
-      <div>
+      <div className="h-screen">
         <div className="sticky top-0 z-10 bg-white">
           <Widget
             src="chayanonc-ph.near/widget/billbos-header"
@@ -565,7 +565,7 @@ const main = (
         {state.chainId !== undefined && !CHAIN_LIST.includes(state.chainId) ? (
           <div className="w-full">Chain not support </div>
         ) : (
-          <div className=" w-full">
+          <div className=" w-full ">
             <div>{tabComponent()}</div>
           </div>
         )}
