@@ -88,7 +88,9 @@ function Page() {
                 default: {
                   return (
                     <Widget
-                      src={"previewthomas.near/widget/devhub.page.community.index"}
+                      src={
+                        "previewthomas.near/widget/devhub.page.community.index"
+                      }
                       props={{
                         ...passProps,
                         ...p,
