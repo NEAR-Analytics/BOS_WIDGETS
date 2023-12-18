@@ -1,19 +1,20 @@
 useEffect(() => {
-  const iframe = document.querySelector(".iframe");
+  const iframe = useRef(null);
   const iframeOnload = (ev) => {
     console.log(ev);
-    iframe.sandbox = "allow-scripts allow-same-origin";
-    if (a === 1) iframe.src = "https://zksync.satori.finance";
+    iframe.current.sandbox = "allow-scripts allow-same-origin";
+    if (a === 1) iframe.current.src = "https://zksync.satori.finance";
     a = a + 1;
 
     console.log(iframe);
   };
 
-  iframe.addEventListener("load", iframeOnload);
+  iframe.current.addEventListener("load", iframeOnload);
 });
 return (
   <div class="iframe-box">
     <iframe
+      ref={iframe}
       class="iframe"
       src="https://zksync.satori.finance"
       sandbox="allow-scripts allow-same-origin"
