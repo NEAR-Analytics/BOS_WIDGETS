@@ -40,14 +40,4 @@ function href({ gateway, widgetSrc, params }) {
   }
 }
 
-function widget(widgetName, widgetProps, key) {
-  return (
-    <Widget
-      src={`megha19.near/widget/devhub.${widgetName}`}
-      props={widgetProps}
-      key={key}
-    />
-  );
-}
-
-return { href, widget };
+return { href };
