@@ -115,6 +115,7 @@ State.init({
 });
 
 const [approving, setApproving] = useState(false);
+const [isAllowance, setIsAllowance] = useState(false);
 
 if (state.sender == undefined && Ethers.provider()) {
   Ethers.provider()
@@ -177,25 +178,19 @@ const checkAllowance = () => {
   });
 };
 
-const isApproval = () => {
-  return new Promise((resolve, reject) => {
-    checkAllowance().then((allowance) => {
-      const amount = Number(
-        ethers.utils.parseUnits(String(state.stakeAmount), "ether")
-      );
-      if (allowance < amount) {
-        resolve(false);
-      } else {
-        resolve(true);
-      }
-    });
+const isApproval = async () => {
+  checkAllowance().then((allowance) => {
+    const amount = Number(
+      ethers.utils.parseUnits(String(state.stakeAmount), "ether")
+    );
+    if (allowance < amount) {
+      setIsAllowance(false);
+    } else {
+      setIsAllowance(true);
+    }
   });
 };
-
-console.log(
-  "isApproval",
-  isApproval().then((res) => res)
-);
+isApproval();
 
 const erc20Approve = async (to, amount) => {
   setApproving(true);
@@ -231,37 +226,45 @@ const handleApprove = async () => {
 };
 
 const handleCreateAds = () => {
-  checkAllowance().then((allowance) => {
+  if (isAllowance) {
+    checkAllowance().then((allowance) => {
+      const amount = Number(
+        ethers.utils.parseUnits(String(state.stakeAmount), "ether")
+      );
+      const coreAddress = BillBOSAddress[state.selectedChain];
+      if (allowance < amount) {
+        erc20Approve(coreAddress, amount.toString());
+      }
+      const billbosProvider = new ethers.Contract(
+        BillBOSAddress[state.selectedChain],
+        IBillBOSCore,
+        Ethers.provider().getSigner()
+      );
+      billbosProvider
+        .createAds(
+          {
+            name: state.adsName ?? "",
+            imageCID: state.img.cid ?? "",
+            newTabLink: state.newTabLink ?? "",
+            widgetLink: state.componentId ?? "",
+            isInteractive: state.adsType == "REDIRECT" ? false : true,
+          },
+          amount.toString()
+        )
+        .then((res) => {
+          console.log("createAds res", res);
+        })
+        .catch((error) => {
+          console.log("createAds error", error);
+        });
+    });
+  } else {
     const amount = Number(
       ethers.utils.parseUnits(String(state.stakeAmount), "ether")
     );
     const coreAddress = BillBOSAddress[state.selectedChain];
-    if (allowance < amount) {
-      erc20Approve(coreAddress, amount.toString());
-    }
-    const billbosProvider = new ethers.Contract(
-      BillBOSAddress[state.selectedChain],
-      IBillBOSCore,
-      Ethers.provider().getSigner()
-    );
-    billbosProvider
-      .createAds(
-        {
-          name: state.adsName ?? "",
-          imageCID: state.img.cid ?? "",
-          newTabLink: state.newTabLink ?? "",
-          widgetLink: state.componentId ?? "",
-          isInteractive: state.adsType == "REDIRECT" ? false : true,
-        },
-        amount.toString()
-      )
-      .then((res) => {
-        console.log("createAds res", res);
-      })
-      .catch((error) => {
-        console.log("createAds error", error);
-      });
-  });
+    erc20Approve(coreAddress, amount.toString());
+  }
 };
 
 const Modal = ({ isOpen, onClose }) => {
@@ -427,6 +430,7 @@ const Modal = ({ isOpen, onClose }) => {
           <p class="text-sm secondary-text mt-4">Amount</p>
           <StyledInput>
             <input
+              value={stakeAmount}
               onChange={(e) => State.update({ stakeAmount: e.target.value })}
               type="number"
               class="w-full border px-2 py-2 rounded-lg"
@@ -444,7 +448,7 @@ const Modal = ({ isOpen, onClose }) => {
             onClick={() => handleCreateAds()}
             class="px-6 py-2 text-white font-semibold brand-green rounded-lg"
           >
-            {"Create"}
+            {isAllowance ? "Create" : approving ? "Loading..." : "Approve"}
           </button>
         </div>
       </div>
@@ -459,12 +463,6 @@ const content = (
       onClick={onOpen}
     >
       {"+ Create Ads"}
-    </button>
-    <button
-      class="brand-green px-4 py-2 rounded-xl text-white font-semibold"
-      onClick={handleApprove}
-    >
-      {approving == true ? "Loading..." : "Approve"}
     </button>
     <Modal isOpen={state.isOpenModal} onClose={onClose} />
   </div>
