@@ -1,6 +1,10 @@
 const { Tile } =
-  VM.require("thomasguntenaar.near/widget/devhub.components.molecule.Tile") ||
+  VM.require("previewthomas.near/widget/devhub.components.molecule.Tile") ||
   (() => <></>);
+
+if (!Tile) {
+  return <div>Loading...</div>;
+}
 
 const {
   permissions,
@@ -45,20 +49,20 @@ return (
     <Tile className={"bg-white"}>
       <Widget
         src={
-          "thomasguntenaar.near/widget/devhub.entity.community.configuration.BrandingConfigurator"
+          "previewthomas.near/widget/devhub.entity.community.configuration.BrandingConfigurator"
         }
         props={{
           onSubmit: sectionSubmit,
           data: communityData,
           hasConfigurePermissions,
-          link: `/thomasguntenaar.near/widget/dh.community?handle=${handle}`,
+          link: `/previewthomas.near/widget/dh.community?handle=${handle}`,
         }}
       />
     </Tile>
     <Tile className={"p-3 bg-white"}>
       <Widget
         src={
-          "thomasguntenaar.near/widget/devhub.entity.community.configuration.ConfigurationSection"
+          "previewthomas.near/widget/devhub.entity.community.configuration.ConfigurationSection"
         }
         props={{
           title: "Community Information",
@@ -66,7 +70,7 @@ return (
           Configurator: (p) => (
             <Widget
               src={
-                "thomasguntenaar.near/widget/devhub.entity.community.configuration.InformationConfigurator"
+                "previewthomas.near/widget/devhub.entity.community.configuration.InformationConfigurator"
               }
               props={{
                 data: communityData,
@@ -81,7 +85,7 @@ return (
     <Tile className={"p-3 bg-white"}>
       <Widget
         src={
-          "thomasguntenaar.near/widget/devhub.entity.community.configuration.ConfigurationSection"
+          "previewthomas.near/widget/devhub.entity.community.configuration.ConfigurationSection"
         }
         props={{
           title: "About",
@@ -89,7 +93,7 @@ return (
           Configurator: (p) => (
             <Widget
               src={
-                "thomasguntenaar.near/widget/devhub.entity.community.configuration.AboutConfigurator"
+                "previewthomas.near/widget/devhub.entity.community.configuration.AboutConfigurator"
               }
               props={{
                 data: communityData,
@@ -104,7 +108,7 @@ return (
     <Tile className={"p-3 bg-white"}>
       <Widget
         src={
-          "thomasguntenaar.near/widget/devhub.entity.community.configuration.ConfigurationSection"
+          "previewthomas.near/widget/devhub.entity.community.configuration.ConfigurationSection"
         }
         props={{
           title: "Community Admins",
@@ -112,7 +116,7 @@ return (
           Configurator: (p) => (
             <Widget
               src={
-                "thomasguntenaar.near/widget/devhub.entity.community.configuration.AccessControlConfigurator"
+                "previewthomas.near/widget/devhub.entity.community.configuration.AccessControlConfigurator"
               }
               props={{
                 data: communityData,
@@ -128,7 +132,7 @@ return (
       <Tile className={"p-3 bg-white"}>
         <Widget
           src={
-            "thomasguntenaar.near/widget/devhub.entity.community.configuration.ConfigurationSection"
+            "previewthomas.near/widget/devhub.entity.community.configuration.ConfigurationSection"
           }
           props={{
             title: "Add-Ons",
@@ -136,7 +140,7 @@ return (
             Configurator: (p) => (
               <Widget
                 src={
-                  "thomasguntenaar.near/widget/devhub.entity.community.configuration.AddonsConfigurator"
+                  "previewthomas.near/widget/devhub.entity.community.configuration.AddonsConfigurator"
                 }
                 props={{
                   data: communityData.addons || [],
@@ -155,7 +159,7 @@ return (
         style={{ maxWidth: 896 }}
       >
         <Widget
-          src={"thomasguntenaar.near/widget/devhub.components.molecule.Button"}
+          src={"previewthomas.near/widget/devhub.components.molecule.Button"}
           props={{
             classNames: { root: "btn-lg btn-outline-danger border-none" },
             label: "Delete community",
@@ -170,7 +174,7 @@ return (
         style={{ borderTopLeftRadius: "100%" }}
       >
         <Widget
-          src={"thomasguntenaar.near/widget/devhub.components.molecule.Button"}
+          src={"previewthomas.near/widget/devhub.components.molecule.Button"}
           props={{
             classNames: { root: "btn-lg btn-success" },
             icon: { type: "svg_icon", variant: "floppy_drive" },
