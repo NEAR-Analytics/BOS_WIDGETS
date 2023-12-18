@@ -835,7 +835,9 @@ return (
           <option value="ไม่ระบุประเด็น">ไม่ระบุประเด็น</option>
           <option value="เรื่องเพศ">เรื่องเพศ</option>
           <option value="กฏหมาย / การเมือง">กฏหมาย / การเมือง</option>
-          <option value="การศึกษา">การศึกษา</option>
+          <option value="เศรษฐกิจ">เศรษฐกิจ</option>
+          <option value="สุขภาพ">สุขภาพ</option>
+          <option value="สิ่งแวดล้อม">สิ่งแวดล้อม</option>
           <option value="ประเด็นอื่นๆ">ประเด็นอื่นๆ</option>
         </select>
       </div>
