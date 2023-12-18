@@ -1,9 +1,9 @@
 // Ideally, this would be a page
 
-const { href } = VM.require("thomasguntenaar.near/widget/core.lib.url");
+const { href } = VM.require("previewthomas.near/widget/core.lib.url");
 
 const { draftState, onDraftStateChange } = VM.require(
-  "thomasguntenaar.near/widget/devhub.entity.post.draft"
+  "previewthomas.near/widget/devhub.entity.post.draft"
 );
 
 if (!href) {
@@ -88,7 +88,7 @@ const postSearchKeywords = props.searchKeywords ? (
 
     {props.searchKeywords.map((tag) => (
       <Widget
-        src={"thomasguntenaar.near/widget/devhub.components.atom.Tag"}
+        src={"previewthomas.near/widget/devhub.components.atom.Tag"}
         props={{ linkTo: "Feed", tag }}
       />
     ))}
@@ -159,7 +159,7 @@ const shareButton = props.isPreview ? (
   <Link
     class="card-link text-dark"
     to={href({
-      widgetSrc: "thomasguntenaar.near/widget/dh.post",
+      widgetSrc: "previewthomas.near/widget/dh.post",
       params: { id: postId },
     })}
     role="button"
@@ -185,7 +185,7 @@ const header = (
           <ProfileCardContainer>
             <Widget
               src={
-                "thomasguntenaar.near/widget/devhub.components.molecule.ProfileCard"
+                "previewthomas.near/widget/devhub.components.molecule.ProfileCard"
               }
               props={{
                 accountId: post.author_id,
@@ -198,7 +198,7 @@ const header = (
             {timestamp}
 
             <Widget
-              src={"thomasguntenaar.near/widget/devhub.entity.post.History"}
+              src={"previewthomas.near/widget/devhub.entity.post.History"}
               props={{
                 post,
                 timestamp: currentTimestamp,
@@ -350,7 +350,7 @@ const buttonsFooter = props.isPreview ? null : (
             "Like"
           ) : (
             <Widget
-              src="thomasguntenaar.near/widget/devhub.components.layout.LikeButton.Faces"
+              src="previewthomas.near/widget/devhub.components.layout.LikeButton.Faces"
               props={{
                 likesByUsers: Object.fromEntries(
                   post.likes.map(({ author_id }) => [author_id, ""])
@@ -433,7 +433,7 @@ const buttonsFooter = props.isPreview ? null : (
         ) : (
           <Link
             to={href({
-              widgetSrc: "thomasguntenaar.near/widget/dh.post",
+              widgetSrc: "previewthomas.near/widget/dh.post",
               params: { id: parentId },
             })}
           >
@@ -464,7 +464,7 @@ const CreatorWidget = (postType) => {
       data-bs-parent={`#accordion${postId}`}
     >
       <Widget
-        src={"thomasguntenaar.near/widget/devhub.entity.post.PostEditor"}
+        src={"previewthomas.near/widget/devhub.entity.post.PostEditor"}
         props={{
           postType,
           onDraftStateChange,
@@ -528,7 +528,7 @@ const EditorWidget = (postType) => {
       data-bs-parent={`#accordion${postId}`}
     >
       <Widget
-        src={"thomasguntenaar.near/widget/devhub.entity.post.PostEditor"}
+        src={"previewthomas.near/widget/devhub.entity.post.PostEditor"}
         props={{
           postType,
           postId,
@@ -589,7 +589,7 @@ function Editor() {
         {state.editorType === "CREATE" ? (
           <>
             <Widget
-              src={"thomasguntenaar.near/widget/devhub.entity.post.PostEditor"}
+              src={"previewthomas.near/widget/devhub.entity.post.PostEditor"}
               props={{
                 postType: state.postType,
                 onDraftStateChange,
@@ -604,7 +604,7 @@ function Editor() {
         ) : (
           <>
             <Widget
-              src={"thomasguntenaar.near/widget/devhub.entity.post.PostEditor"}
+              src={"previewthomas.near/widget/devhub.entity.post.PostEditor"}
               props={{
                 postType: state.postType,
                 postId,
@@ -645,7 +645,7 @@ const tags = post.snapshot.labels ? (
       <div className="d-flex align-items-center my-3 me-3">
         <Link
           to={href({
-            widgetSrc: "thomasguntenaar.near/widget/dh.feed",
+            widgetSrc: "previewthomas.near/widget/dh.feed",
             params: { tag: tag },
           })}
         >
@@ -659,7 +659,7 @@ const tags = post.snapshot.labels ? (
             style={{ cursor: "pointer", textDecoration: "none" }}
           >
             <Widget
-              src={"thomasguntenaar.near/widget/devhub.components.atom.Tag"}
+              src={"previewthomas.near/widget/devhub.components.atom.Tag"}
               props={{
                 tag,
                 black: true,
@@ -744,7 +744,7 @@ const postsList =
         {childPostIds.map((childId) => (
           <div key={childId} style={{ marginBottom: "0.5rem" }}>
             <Widget
-              src="thomasguntenaar.near/widget/devhub.entity.post.Post"
+              src="previewthomas.near/widget/devhub.entity.post.Post"
               props={{
                 id: childId,
                 isUnderPost: true,
@@ -786,7 +786,7 @@ const descriptionArea = isUnderPost ? (
       text: snapshot.description,
     })} */}
     <Widget
-      src={"thomasguntenaar.near/widget/devhub.components.molecule.MarkdownViewer"}
+      src={"previewthomas.near/widget/devhub.components.molecule.MarkdownViewer"}
       props={{
         text: snapshot.description,
       }}
@@ -799,7 +799,7 @@ const descriptionArea = isUnderPost ? (
         text: state.clamp ? clampedContent : snapshot.description,
       })} */}
       <Widget
-        src={"thomasguntenaar.near/widget/devhub.components.molecule.MarkdownViewer"}
+        src={"previewthomas.near/widget/devhub.components.molecule.MarkdownViewer"}
         props={{
           text: state.clamp ? clampedContent : snapshot.description,
         }}
@@ -826,7 +826,7 @@ const timestampElement = (_snapshot) => {
     <Link
       class="text-muted"
       href={href({
-        widgetSrc: "thomasguntenaar.near/widget/dh.post",
+        widgetSrc: "previewthomas.near/widget/dh.post",
         params: {
           id: postId,
           timestamp: _snapshot.timestamp,
