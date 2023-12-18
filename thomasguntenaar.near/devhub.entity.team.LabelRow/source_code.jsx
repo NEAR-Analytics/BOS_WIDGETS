@@ -3,12 +3,9 @@
  * by the prefix 'team:'; therefore, on the front end, we also employ 'team,'
  * with the user interface displaying 'group' for clarity.
  */
-const { Tile } =
-  VM.require("thomasguntenaar.near/widget/devhub.components.molecule.Tile") ||
-  (() => <></>);
 
 const { getAccessControlInfo, getRootMembers, removeMember } = VM.require(
-  "thomasguntenaar.near/widget/core.adapter.devhub-contract"
+  "previewthomas.near/widget/core.adapter.devhub-contract"
 );
 
 if (!getAccessControlInfo || !getRootMembers || !removeMember) {
@@ -164,7 +161,7 @@ return (
     <tr>
       <th scope="row" class=" justify-content-center align-items-center p-3">
         <Widget
-          src={"thomasguntenaar.near/widget/devhub.components.atom.Tag"}
+          src={"previewthomas.near/widget/devhub.components.atom.Tag"}
           props={{
             tag: backwardsCompatibleLabel(label),
           }}
@@ -215,7 +212,7 @@ return (
       <td class=" justify-content-center align-items-center p-3">
         {editMode ? (
           <Widget
-            src={"thomasguntenaar.near/widget/devhub.components.molecule.Button"}
+            src={"previewthomas.near/widget/devhub.components.molecule.Button"}
             props={{
               classNames: { root: "btn-outline-danger" },
               icon: {
@@ -228,7 +225,7 @@ return (
           />
         ) : (
           <Widget
-            src={"thomasguntenaar.near/widget/devhub.components.molecule.Button"}
+            src={"previewthomas.near/widget/devhub.components.molecule.Button"}
             props={{
               classNames: { root: "btn-outline-light text-dark" },
               icon: {
@@ -246,7 +243,7 @@ return (
       <tr>
         <th scope="row" colspan="6">
           <Widget
-            src={"thomasguntenaar.near/widget/devhub.entity.team.Configurator"}
+            src={"previewthomas.near/widget/devhub.entity.team.Configurator"}
             props={{
               data: configuratorData,
               onCancel: () => setEditMode(false),
@@ -254,7 +251,7 @@ return (
             }}
           />
           <Widget
-            src="thomasguntenaar.near/widget/devhub.components.atom.Alert"
+            src="previewthomas.near/widget/devhub.components.atom.Alert"
             props={{
               onClose: () => setAlertMessage(""),
               message: alertMessage,
