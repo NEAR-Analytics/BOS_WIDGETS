@@ -1,5 +1,7 @@
 const accountId = props.accountId ?? context.accountId;
-const vdoUrl = props.vdoUrl;
+const vdoUrl =
+  props.vdoUrl ??
+  "https://firebasestorage.googleapis.com/v0/b/component-dev-lab.appspot.com/o/uploads%2F1702888364122-CAMT%2020th%203%20Generations.mp4?alt=media&token=9f29b9a6-00ef-43c5-89e5-1dc2e0127bdb";
 
 State.init({
   id: "",
