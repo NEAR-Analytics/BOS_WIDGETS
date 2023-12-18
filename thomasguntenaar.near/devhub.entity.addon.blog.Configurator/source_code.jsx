@@ -1,8 +1,12 @@
 const { data, handle, onSubmit } = props;
 
 const { Tile } =
-  VM.require("thomasguntenaar.near/widget/devhub.components.molecule.Tile") ||
+  VM.require("previewthomas.near/widget/devhub.components.molecule.Tile") ||
   (() => <></>);
+
+if (!Tile) {
+  return <div>Loading...</div>;
+}
 
 const Container = styled.div`
   display: flex;
@@ -30,7 +34,7 @@ return (
   <Tile className="p-3 bg-white">
     <Container>
       <Widget
-        src={"thomasguntenaar.near/widget/devhub.entity.addon.blog.editor.index"}
+        src={"previewthomas.near/widget/devhub.entity.addon.blog.editor.index"}
         props={{
           data,
           handle,
