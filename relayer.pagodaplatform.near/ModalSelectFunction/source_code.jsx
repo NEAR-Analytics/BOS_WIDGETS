@@ -1,30 +1,8 @@
-State.init({
-  inputWidget: "",
-});
-
 const ModalOverlay = styled.div`
   background-color: rgba(12, 12, 12, 0.4);
   position: fixed;
   inset: 0;
   z-index: 1049;
-`;
-
-const Content = styled.div`
-  background-color: white;
-  border-radius: 12px;
-  box-shadow:
-    0px 4px 8px 0px var(--blackA3),
-    0px 0px 0px 1px var(--blackA4);
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 90vw;
-  max-width: 484px;
-  max-height: 85vh;
-  animation: contentShow 150ms cubic-bezier(0.16, 1, 0.3, 1);
-  z-index: 1054;
-  outline: none;
 `;
 
 const StyledInput = styled.div`
@@ -64,19 +42,35 @@ justify-content:space-between;
 padding: 26px 34px 26px 34px;
 `;
 
+State.init({
+  widget: "",
+  isReady: false,
+});
+
+const handleChangeInput = (value) => {
+  State.update({ widget: value, isReady: false });
+};
+
+const disabled = !state.isReady || state.widget === "";
+
 const Modal = ({ isOpen, onClose, onSubmit }) => {
   if (!isOpen) return null;
   return (
-    <>
-      <ModalOverlay />
-      <Content>
+    <ModalOverlay>
+      <div
+        style={{
+          width: "484px",
+          borderRadius: "12px",
+        }}
+        class="bg-white"
+      >
         <ModalHeader>
           <div>
             <h1 style={{ fontSize: "18px", fontWeight: 600 }}>
               {"Select function"}
             </h1>
             <h3 style={{ fontSize: "14px", fontWeight: 400, color: "#A3A3A3" }}>
-              {"Create unlimited DeFi function in one transaction"}
+              {"Send unlimited blockchain functions in one transaction"}
             </h3>
           </div>
           <div style={{ cursor: "pointer" }} onClick={() => onClose()}>
@@ -100,15 +94,32 @@ const Modal = ({ isOpen, onClose, onSubmit }) => {
         </ModalHeader>
         <div style={{ borderBottom: "1px solid #E5E7EB" }} />
         <ModalBody>
-          <h6 style={{ color: "#656973" }}>Function</h6>
+          <h6 style={{ color: "#656973" }}>Supercall Widget</h6>
           <StyledInput>
             <input
               class="w-full px-3 py-2 rounded-lg border"
-              onChange={(e) => {
-                State.update({ inputWidget: e.target.value });
-              }}
+              onChange={(e) => handleChangeInput(e.target.value)}
             />
           </StyledInput>
+          {!state.isReady ? (
+            <div style={{ color: "red", marginTop: 6, fontSize: 12 }}>
+              Please select a valid supercall widget
+            </div>
+          ) : (
+            <div style={{ color: "green", marginTop: 6, fontSize: 12 }}>
+              The selected widget is valid
+            </div>
+          )}
+          <div style={{ display: "none" }}>
+            <Widget
+              src={state.widget}
+              props={{
+                onLoadSuccess: () => {
+                  State.update({ isReady: true });
+                },
+              }}
+            />
+          </div>
         </ModalBody>
         <ModalFooter>
           <button
@@ -136,25 +147,27 @@ const Modal = ({ isOpen, onClose, onSubmit }) => {
               border: "none",
               borderRadius: "8px",
             }}
+            disabled={disabled}
             onClick={() => {
-              onSubmit();
+              onSubmit(state.widget);
               onClose();
+              State.update({ isReady: false });
             }}
           >
             Confirm
           </button>
         </ModalFooter>
-      </Content>
-    </>
+      </div>
+    </ModalOverlay>
   );
 };
 
 return (
   <>
     <Modal
-      isOpen={props.isOpenModal}
-      onClose={() => props.onClose()}
-      onSubmit={() => props.handdleAddFunction(state.inputWidget)}
+      isOpen={props.isOpen}
+      onClose={() => props.onClose && props.onClose()}
+      onSubmit={(value) => props.onSubmit && props.onSubmit(value)}
     />
   </>
 );
