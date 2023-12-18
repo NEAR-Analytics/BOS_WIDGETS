@@ -102,7 +102,6 @@ const TextInput = ({
           )}
           <input
             aria-describedby={key}
-            data-testid={key}
             aria-label={label}
             className={["form-control border border-2", inputClassName].join(
               " "
@@ -115,7 +114,6 @@ const TextInput = ({
       ) : (
         <textarea
           aria-describedby={key}
-          data-testid={key}
           aria-label={label}
           className={["form-control border border-2", inputClassName].join(" ")}
           placeholder={
