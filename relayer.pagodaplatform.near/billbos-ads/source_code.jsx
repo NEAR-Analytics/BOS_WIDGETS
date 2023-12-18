@@ -1,117 +1,103 @@
-const { btnName, btnClass, body, height, width, isOpenDefault } = props;
-const ModalOverlay = styled.div`
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(12, 12, 12, 0.6);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 100;
-`;
+const fontFamily = props.fontFamily ?? "Arial, sans-serif";
+const fontSize = props.fontSize ?? "10px";
+const textColor = props.textColor ?? "white";
+const backgroundColor = props.backgroundColor ?? "black";
+const height = props.height ?? "20px";
+const width = props.width ?? "100%";
 
-const StyledInput = styled.div`
-  position: relative;
-  width: 100%;
-  input {
-    appearance: none;
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    outline: none;
-    cursor: pointer;
-  }
-`;
+const arrayPrice = [
+  { topic: "KUSDT/USD", value: 1.01 },
+  { topic: "KKUB/USD", value: 12.01 },
+  { topic: "JFIN/USD", value: 8.35 },
+];
 
-const StyledSelect = styled.div`
-  display: inline-block;
-  position: relative;
-  width: 100%;
-
-  select {
-    appearance: none;
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    outline: none;
-    cursor: pointer;
-  }
-
-  &:after {
-    content: '⌄';
-    position: absolute;
-    top: 50%;
-    right: 10px;
-    transform: translateY(-50%);
-    pointer-events: none;
-  }
-`;
-
-const EndContent = styled.div`
-  position: absolute;
-  top: 50%;
-  left: 10px;
-  transform: translateY(-50%);
-`;
-
-State.init({
-  isOpenModal: isOpenDefault ? true : false,
+let myListString = "";
+const myList = arrayPrice.map((item) => {
+  myListString =
+    myListString +
+    `
+        <p class="title">${item.topic}</p>
+        <p class="value">${item.value}</p>
+    `;
+  return myListString;
 });
 
-const onOpen = () => {
-  State.update({
-    isOpenModal: true,
-  });
-};
+const Marquee = `
+    <style>
+      body {
+        margin: 0
+      }
 
-const onClose = () => {
-  State.update({
-    isOpenModal: false,
-  });
-};
+      .marquee {
+        white-space: nowrap;
+        overflow: hidden;
+        position: relative;
+        font-family: ${fontFamily};
+        font-size: ${fontSize};
+        color: white;
+        height: ${height};
+        width: ${width};
+        display: flex;
+        align-items: center;
+        justify-content: start;
+      }
 
-const Modal = ({ isOpen, onClose, children }) => {
-  if (!isOpen) return null;
-  return (
-    <ModalOverlay>
-      <div
-        style={{
-          width: width || "484px",
-          height: height || "484px",
-        }}
-        class="bg-white rounded-xl pt-4 relative"
-      >
-        <div class="absolute top-2 right-2">
-          <svg
-            class="cursor-pointer"
-            onClick={() => onClose()}
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M6 18L18 6M6 6L18 18"
-              stroke="#808080"
-              stroke-width="1.5"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            />
-          </svg>
-        </div>
-        <div className="">{body || <div></div>}</div>
-      </div>
-    </ModalOverlay>
-  );
-};
+      .marquee span {
+        display: inline-block;
+        padding-left: 100%;
+        animation: marquee 3s linear infinite;
+      }
+
+      .marquee div {
+        padding-left: 100%;
+        display: flex;
+      }
+
+      .title {
+        margin-left: 25px;
+        color: yellow;
+      }
+
+      .value {
+        margin-left: 5px;
+        color: white;
+      }
+
+      @keyframes marquee {
+        0% { transform: translate(0, 0); }
+        100% { transform: translate(-100%, 0); }
+      }
+    </style>
+
+    <div class="marquee">
+        <span class="text-white">
+            <div>
+                ${myListString}
+            </div>
+        </span>
+    </div>
+  `;
 
 const content = (
-  <div>
-    <button className={btnClass} onClick={onOpen}>
-      {btnName || "Open Modal"}
-    </button>
-    <Modal isOpen={state.isOpenModal} onClose={onClose} children={modalBody} />
+  <div
+    style={{
+      width: "728px",
+    }}
+  >
+    <img
+      style={{
+        width: "728px",
+        height: "90px",
+      }}
+      class="w-full rounded-t-xl"
+      src="https://ipfs.near.social/ipfs/bafkreiboh77ctmdmbmuwizrjkykcpbmlpc7sxgabvb3u5p3zybu7u4g3fi"
+      alt="uploaded"
+    />
+    <iframe
+      className="w-100"
+      srcDoc={Marquee}
+      style={{ height, backgroundColor }}
+    />
   </div>
 );
 
