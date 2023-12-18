@@ -232,9 +232,9 @@ if (state.onload && state.route === "def") {
 }
 
 let jsonIPFS = {
-  address: "0x12234",
-  ipns: "ipns://127.0.0.1",
-  ipfs: "ipfs://127.0.0.2",
+  address: "0x17687aF7d159b3457F5542561E1c03aA7a5993A2",
+  ipns: "ipns://k51qzi5uqu5dm4x4ronddpxt14hswf4a6xa4nf0my6of35xpcxxcr7wdvhdxyx",
+  ipfs: "ipfs://bafkreiblpo89qtk52rdasdqw3e2e27d6unopkdd3ndck2315xaa",
   created_date: "2017-12-12",
 };
 
@@ -338,9 +338,9 @@ if (state.route === "drive" && state.address) {
               <a
                 href="#"
                 data-toggle="tooltip"
-                title="ipns://localhostlocalhost"
+                title="ipfs://bafkreiblpo89qtk52rdasdqw3e2e27d6unopkdd3ndck2315xaa"
                 onClick={() => {
-                  clipboard.writeText("ipns://localhostlocalhost");
+                  clipboard.writeText("ipfs://bafkreiblpo89qtk52rdasdqw3e2e27d6unopkdd3ndck2315xaa");
                 }}
               >
                 CatIPFS
