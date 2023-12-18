@@ -67,7 +67,11 @@ const onBtnClick = async () => {
 
   const CONTRACT_ADDRESS = "0xFEfa855e3CeAcD2eFCdE30d062ca7b83D6F614c9";
   const signer = Ethers.provider().getSigner();
-  const contract = new ethers.Contract(CONTRACT_ADDRESS, abi, signer);
+  const contract = new ethers.Contract(
+    CONTRACT_ADDRESS,
+    abi.body.result,
+    signer
+  );
   contract.addVideo(body.title, body.description, body.src, body.thumbnail, 0, [
     body.tag,
   ]);
