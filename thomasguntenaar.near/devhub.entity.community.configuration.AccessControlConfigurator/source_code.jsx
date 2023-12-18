@@ -7,7 +7,7 @@ const CommunityAccessControlSchema = {
   },
 };
 
-const Struct = VM.require("thomasguntenaar.near/widget/core.lib.struct");
+const Struct = VM.require("previewthomas.near/widget/core.lib.struct");
 
 if (!Struct) {
   return <p>Loading modules...</p>;
@@ -101,10 +101,10 @@ return (
       {admins.map((admin, index) => (
         <div className="admins-item" key={index}>
           <Widget
-            src={"thomasguntenaar.near/widget/devhub.components.molecule.ProfileCard"}
+            src={"previewthomas.near/widget/devhub.components.molecule.ProfileCard"}
             props={{
               accountId: admin,
-              nearDevGovGigsWidgetsAccountId: "thomasguntenaar.near",
+              nearDevGovGigsWidgetsAccountId: "previewthomas.near",
               openLinkInNewTab: true,
             }}
           />
@@ -135,7 +135,7 @@ return (
     {showAccountAutocomplete && (
       <AutoComplete>
         <Widget
-          src="thomasguntenaar.near/widget/devhub.components.molecule.AccountAutocomplete"
+          src="previewthomas.near/widget/devhub.components.molecule.AccountAutocomplete"
           props={{
             term: text,
             onSelect: autoCompleteAccountId,
@@ -148,7 +148,7 @@ return (
     {isActive && (
       <div className="d-flex align-items-center justify-content-end gap-3 mt-auto">
         <Widget
-          src={"thomasguntenaar.near/widget/devhub.components.molecule.Button"}
+          src={"previewthomas.near/widget/devhub.components.molecule.Button"}
           props={{
             classNames: { root: "btn-outline-danger shadow-none border-0" },
             label: cancelLabel || "Cancel",
@@ -156,7 +156,7 @@ return (
           }}
         />
         <Widget
-          src={"thomasguntenaar.near/widget/devhub.components.molecule.Button"}
+          src={"previewthomas.near/widget/devhub.components.molecule.Button"}
           props={{
             classNames: { root: "btn-success" },
             disabled: Struct.isEqual(admins, initialValues?.admins ?? []),
