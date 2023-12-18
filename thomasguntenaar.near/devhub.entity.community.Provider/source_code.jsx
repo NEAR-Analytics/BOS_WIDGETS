@@ -7,7 +7,7 @@ const {
   deleteCommunity,
   getCommunity,
   setCommunityAddons,
-} = VM.require("thomasguntenaar.near/widget/core.adapter.devhub-contract");
+} = VM.require("previewthomas.near/widget/core.adapter.devhub-contract");
 
 if (
   !getCommunity ||
