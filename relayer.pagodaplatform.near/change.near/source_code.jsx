@@ -374,10 +374,7 @@ const rendercomment = () => {
             ร่วมลงชื่อสนับสนุนการรณรงค์
           </div>
           <div className="mb-4">
-            <label
-              for="change_details"
-              className="block mb-2 font-medium text-lg text-green-800"
-            >
+            <label className="block mb-2 font-medium text-lg text-green-800">
               เหตุผล
               <span className="text-sm text-green-600">
                 {" "}
@@ -385,7 +382,6 @@ const rendercomment = () => {
               </span>
             </label>
             <textarea
-              id="change_details"
               rows="4"
               className="block p-2.5 w-full text-sm text-green-800 bg-gray-50 rounded-lg border border-green-300 focus:ring-green-500 focus:border-green-500"
               placeholder="ข้อความของคุณ ..."
@@ -397,7 +393,6 @@ const rendercomment = () => {
 
           <div className="mb-4">
             <input
-              id="sign_term"
               type="radio"
               value="yes"
               className="w-4 h-4 text-green-600 bg-gray-100 border-gray-300 rounded focus:ring-green-500"
@@ -600,12 +595,11 @@ return (
             Change.near
           </span>
         </a>
-        <div className="w-full md:block md:w-auto" id="navbar-solid-bg">
+        <div className="w-full md:block md:w-auto">
           <ul className="flex flex-col font-medium mt-4 rounded-lg bg-gray-50 md:space-x-8 md:flex-row md:mt-0 md:border-0 md:bg-transparent">
             <li>
               <a
                 href="#"
-                id="start_change"
                 onClick={() => {
                   State.update({
                     theme: styled.div`
@@ -634,7 +628,6 @@ return (
             <li>
               <a
                 href="#"
-                id="create_change"
                 onClick={() => {
                   State.update({
                     theme: styled.div`
@@ -663,7 +656,6 @@ return (
             <li>
               <a
                 href="#"
-                id="my_change"
                 onClick={() => {
                   State.update({
                     theme: styled.div`
@@ -800,16 +792,12 @@ return (
         สร้างการรณรงค์
       </div>
       <div className="mb-4">
-        <label
-          for="change_title"
-          className="block mb-2 text-lg font-medium text-green-800 "
-        >
+        <label className="block mb-2 text-lg font-medium text-green-800 ">
           หัวข้อ
           <span className="text-sm text-green-600"> ของประเด็นที่จะรณรงค์</span>
         </label>
         <input
           type="text"
-          id="change_title"
           className="bg-gray-50 border border-green-300 text-green-800 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-2.5"
           value={state.change_title}
           onChange={(e) => {
@@ -818,15 +806,11 @@ return (
         />
       </div>
       <div className="mb-4">
-        <label
-          for="change_topic"
-          className="block mb-2 text-lg font-medium text-green-800"
-        >
+        <label className="block mb-2 text-lg font-medium text-green-800">
           ประเภท
           <span className="text-sm text-green-600"> ของประเด็นที่จะรณรงค์</span>
         </label>
         <select
-          id="change_topic"
           className="bg-gray-50 border border-green-300 text-green-600 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-2.5"
           onChange={(e) => {
             State.update({ change_topic: e.target.value });
@@ -842,16 +826,12 @@ return (
         </select>
       </div>
       <div className="mb-4">
-        <label
-          for="change_quantity"
-          className="block mb-2 text-lg font-medium text-green-800 "
-        >
+        <label className="block mb-2 text-lg font-medium text-green-800 ">
           จำนวนผู้สนับสนุนที่ต้องการ
           <span className="text-sm text-green-600"> ของประเด็นที่จะรณรงค์</span>
         </label>
         <input
           type="number"
-          id="change_quantity"
           className="bg-gray-50 border border-green-300 text-green-800 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-2.5"
           value={state.change_quantity}
           onChange={(e) => {
@@ -860,16 +840,12 @@ return (
         />
       </div>
       <div className="mb-4">
-        <label
-          for="change_enddate"
-          className="block mb-2 text-lg font-medium text-green-800 "
-        >
+        <label className="block mb-2 text-lg font-medium text-green-800 ">
           วันที่สิ้นสุด
           <span className="text-sm text-green-600"> ของประเด็นที่จะรณรงค์</span>
         </label>
         <input
           type="date"
-          id="change_enddate"
           className="bg-gray-50 border border-green-300 text-green-800 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-2.5"
           value={state.change_enddate}
           onChange={(e) => {
@@ -878,15 +854,11 @@ return (
         />
       </div>
       <div className="mb-4">
-        <label
-          for="change_details"
-          className="block mb-2 font-medium text-lg text-green-800"
-        >
+        <label className="block mb-2 font-medium text-lg text-green-800">
           รายละเอียด
           <span className="text-sm text-green-600"> ของประเด็นที่จะรณรงค์</span>
         </label>
         <textarea
-          id="change_details"
           rows="4"
           className="block p-2.5 w-full text-sm text-green-800 bg-gray-50 rounded-lg border border-green-300 focus:ring-green-500 focus:border-green-500"
           placeholder="ข้อความของคุณ ..."
@@ -906,7 +878,6 @@ return (
         </label>
         <Files
           className="block p-2.5 w-full text-sm text-green-800 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none"
-          id="change_picture"
           multiple={false}
           accepts={["image/*"]}
           onChange={(files) => {
@@ -933,13 +904,12 @@ return (
             ? "คลิกเพื่อเปลี่ยนรูปภาพ"
             : buttonText}
         </Files>
-        <div className="mt-1 text-sm text-gray-800" id="change_picture">
+        <div className="mt-1 text-sm text-gray-800">
           * ขนาดรูปภาพที่เหมาะสม 1920x1080px
         </div>
       </div>
       <div className="mb-4">
         <input
-          id="change_term"
           type="radio"
           value="yes"
           className="w-4 h-4 text-green-600 bg-gray-100 border-gray-300 rounded focus:ring-green-500"
@@ -947,10 +917,7 @@ return (
             State.update({ change_term: e.target.value });
           }}
         />
-        <label
-          for="change_term"
-          className="ms-2 text-sm font-medium text-green-900"
-        >
+        <label className="ms-2 text-sm font-medium text-green-900">
           ฉันยอมรับ{" "}
           <a href="#" className="text-green-600 hover:underline">
             ข้อกำหนดและเงื่อนไข
