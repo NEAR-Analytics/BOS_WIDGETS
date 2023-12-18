@@ -56,7 +56,7 @@ function buildCall() {
       ethers.utils.parseUnits(state.amount, state.decimals),
     ]);
     const callPayload = {
-      target: state.tokenAddress,
+      target: state.token.address,
       callData: callData,
     };
     Storage.set(`callPayload:${props.callId}`, callPayload);
