@@ -11,9 +11,7 @@ return (
     </h5>
     {!createTeam ? (
       <Widget
-        src={
-          "previewthomas.near/widget/devhub.components.molecule.PostControls"
-        }
+        src={"previewthomas.near/widget/devhub.components.molecule.PostControls"}
         props={{
           onClick: () => setCreateTeam(true),
           title: "Create label",
