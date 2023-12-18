@@ -1,4 +1,5 @@
 const MainLayout = styled.div`
+  position: relative;
   margin-bottom:20px;
   height: 100%;
 `;
@@ -61,7 +62,10 @@ return (
           />
         </div>
         <div>
-          <Widget src="xspeedx.near/widget/SupercallBundler" />
+          <Widget
+            src="sainy.near/widget/SupercallBundler"
+            props={{ chainId: state.chainId }}
+          />
         </div>
       </div>
       <div
@@ -76,7 +80,7 @@ return (
       >
         <Widget
           src="nt-sorravit.near/widget/CallNode"
-          props={{ processCallContract: () => processCall }}
+          props={{ processCallContract: () => processCall() }}
         />
       </div>
     </PatternBackground>
