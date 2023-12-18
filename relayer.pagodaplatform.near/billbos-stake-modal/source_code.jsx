@@ -1,5 +1,5 @@
-const isOpenStake = props.isOpen;
-const onCloseStake = props.onClose;
+const isOpenStake = props.isOpenStake;
+const onCloseStake = props.onCloseStake;
 
 const ModalOverlay = styled.div`
   position: absolute;
