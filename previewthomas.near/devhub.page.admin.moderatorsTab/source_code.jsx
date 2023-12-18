@@ -4,6 +4,10 @@ const { Tile } =
   VM.require("previewthomas.near/widget/devhub.components.molecule.Tile") ||
   (() => <></>);
 
+if (!Tile) {
+  return <div>Loading...</div>;
+}
+
 const [editModerators, setEditModerators] = useState(false);
 const [moderators, setModerators] = useState(
   accessControlInfo.members_list["team:moderators"].children || []
@@ -36,9 +40,7 @@ return (
         labels, including restricted ones.
       </h5>
       <Widget
-        src={
-          "previewthomas.near/widget/devhub.components.molecule.PostControls"
-        }
+        src={"previewthomas.near/widget/devhub.components.molecule.PostControls"}
         props={{
           icon: "bi bi-gear-wide-connected",
           className: "mb-3",
@@ -73,9 +75,7 @@ return (
             }
           >
             <Widget
-              src={
-                "previewthomas.near/widget/devhub.components.molecule.Button"
-              }
+              src={"previewthomas.near/widget/devhub.components.molecule.Button"}
               props={{
                 classNames: {
                   root: "btn-outline-danger shadow-none border-0",
@@ -85,9 +85,7 @@ return (
               }}
             />
             <Widget
-              src={
-                "previewthomas.near/widget/devhub.components.molecule.Button"
-              }
+              src={"previewthomas.near/widget/devhub.components.molecule.Button"}
               props={{
                 classNames: { root: "btn" },
                 icon: {
