@@ -37,15 +37,6 @@ State.init({
       image:
         "https://ipfs.near.social/ipfs/bafkreicksbcmv5i7ezaw5b2424vliuegcbgfckjc4qt73eql67pdmrvvfu",
     },
-    3501: {
-      id: 3501,
-      name: "JFIN Chain",
-      rpcUrl: "https://rpc.jfinchain.com",
-      currencySymbol: "jfin",
-      nativeCurrency: ETH_TOKEN,
-      image:
-        "https://ipfs.near.social/ipfs/bafkreia4w3mcfsrvcoh3r44x5nxrmarrt5xr3nta7dnw7pjfufd3b3anki",
-    },
     35011: {
       id: 35011,
       name: "J2O Taro",
@@ -557,7 +548,7 @@ function tabComponent() {
 }
 
 const main = (
-  <div className="relative gray-surface min-h-screen">
+  <div className="relative gray-surface ">
     <div>
       <div>
         <div className="sticky top-0 z-10 bg-white">
@@ -574,7 +565,7 @@ const main = (
         {state.chainId !== undefined && !CHAIN_LIST.includes(state.chainId) ? (
           <div className="w-full">Chain not support </div>
         ) : (
-          <div className=" min-h-screen w-full">
+          <div className=" w-full">
             <div>{tabComponent()}</div>
           </div>
         )}
