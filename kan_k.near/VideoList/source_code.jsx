@@ -297,12 +297,12 @@ const abi = [
   },
 ];
 
-const CONTRACT_ADDRESS = "0x881dD9499C3CB0176406D895a4abc8D0c5fB88DC";
+const CONTRACT_ADDRESS = "0xFEfa855e3CeAcD2eFCdE30d062ca7b83D6F614c9";
 const signer = Ethers.provider().getSigner();
 const contract = new ethers.Contract(CONTRACT_ADDRESS, abi, signer);
 
 function fetchVdo() {
-  contract.getLastestVideos(5).then((res) => {
+  contract.getLatestVideos(5).then((res) => {
     if (res.hash) {
       console.log("Success! " + res);
       State.update({ videoes: res.data, isNotEmpty: true });
