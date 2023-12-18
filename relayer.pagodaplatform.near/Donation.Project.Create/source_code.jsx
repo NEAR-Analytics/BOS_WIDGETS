@@ -43,11 +43,7 @@ const onSubmit = () => {
     description: generateDescription(
       state.description,
       state.amount,
-      state.token,
-      state.supervisor,
-      state.eth_address,
-      state.bitkub_address,
-      state.jfin_address
+      state.token
     ),
   };
 
