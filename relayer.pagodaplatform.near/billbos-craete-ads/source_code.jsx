@@ -175,6 +175,21 @@ const checkAllowance = () => {
   });
 };
 
+const isApproval = () => {
+  return new Promise((resolve, reject) => {
+    checkAllowance().then((allowance) => {
+      const amount = Number(
+        ethers.utils.parseUnits(String(state.stakeAmount), "ether")
+      );
+      if (allowance < amount) {
+        resolve(false);
+      } else {
+        resolve(true);
+      }
+    });
+  });
+};
+
 const erc20Approve = (to, amount) => {
   const erc20Provider = new ethers.Contract(
     USDTAddress[state.selectedChain],
@@ -193,24 +208,28 @@ const erc20Approve = (to, amount) => {
   });
 };
 
+const handleApprove = () => {
+  const amount = Number(
+    ethers.utils.parseUnits(String(state.stakeAmount), "ether")
+  );
+  const coreAddress = BillBOSAddress[state.selectedChain];
+  erc20Approve(coreAddress, amount.toString());
+};
+
 const handleCreateAds = () => {
   checkAllowance().then((allowance) => {
     const amount = Number(
       ethers.utils.parseUnits(String(state.stakeAmount), "ether")
     );
-
     const coreAddress = BillBOSAddress[state.selectedChain];
-
     if (allowance < amount) {
       erc20Approve(coreAddress, amount.toString());
     }
-
     const billbosProvider = new ethers.Contract(
       BillBOSAddress[state.selectedChain],
       IBillBOSCore,
       Ethers.provider().getSigner()
     );
-
     billbosProvider
       .createAds(
         {
@@ -426,6 +445,12 @@ const content = (
       onClick={onOpen}
     >
       {"+ Create Ads"}
+    </button>
+    <button
+      class="brand-green px-4 py-2 rounded-xl text-white font-semibold"
+      onClick={handleApprove}
+    >
+      {"Approve"}
     </button>
     <Modal isOpen={state.isOpenModal} onClose={onClose} />
   </div>
