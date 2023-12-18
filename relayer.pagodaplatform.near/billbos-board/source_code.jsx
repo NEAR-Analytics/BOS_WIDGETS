@@ -102,9 +102,11 @@ const Marquee = `
         color: white;
       }
 
-      @keyframes marquee {
-        from { transform: translateX(0); }
-        to { transform: translateX(-50%); }
+      from {
+        transform: translateX(100%);
+      }
+      to {
+        transform: translateX(-5000%); /* Adjusted to support very long text */
       }
     </style>
 
@@ -131,7 +133,7 @@ const MarqueeStyled = styled.div`
     position: absolute;
     white-space: nowrap;
     will-change: transform;
-    animation: marquee 10s linear infinite;
+    animation: marquee 200s linear infinite;
   }
 
   .content {
@@ -150,8 +152,12 @@ const MarqueeStyled = styled.div`
   }
 
   @keyframes marquee {
-    0% { transform: translateX(100%); }
-    100% { transform: translateX(-100%); }
+    0% {
+      transform: translateX(100%);
+    }
+    100% {
+      transform: translateX(-5000%); /* Adjusted to support very long text */
+    }
   }
 `;
 
