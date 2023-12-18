@@ -46,8 +46,8 @@ function handleSelect(index) {
 }
 
 return (
-  <div style={{ width: "292px" }}>
-    <div class="dropdown" style={{ width: "292px" }}>
+  <div style={{ width: "282px" }}>
+    <div class="dropdown" style={{ width: "282px" }}>
       <button
         class="btn dropdown-toggle border"
         type="button"
@@ -55,7 +55,7 @@ return (
         data-bs-toggle="dropdown"
         aria-expanded="false"
         style={{
-          width: "292px",
+          width: "282px",
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
