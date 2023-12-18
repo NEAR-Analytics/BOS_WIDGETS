@@ -5,12 +5,10 @@ const { href: linkHref } = VM.require("devhub.near/widget/core.lib.url");
 linkHref || (linkHref = () => {});
 const PostContainer = styled.div`
     position: relative;
-  display: flex;
   border: 1px solid #FFFFFF;
   background-color: #151515;
   padding: 16px;
   border-radius: 15px
-
   
 `;
 
@@ -212,7 +210,7 @@ async function sendTokens() {
 }
 
 return (
-  <div class="bg-light d-flex flex-column flex-grow-1">
+  <PostContainer>
     <PostInfo>
       <h2>
         <b>{state.name}</b>
@@ -226,26 +224,28 @@ return (
         <b>Posted By:</b> {state.authorId} · {timestamp}
       </PostText>
     </PostInfo>
-    <h2>
-      <b>Donate</b>
-    </h2>
-    <div className="row">
-      {chainChoice}
-      {donateAmount}
-    </div>
-    <div>
-      <b>{state.errorText}</b>
-    </div>
-    <button
-      style={{
-        width: "7rem",
-        backgroundColor: "#0C7283",
-        color: "#f3f3f3",
-      }}
-      className="btn btn-light mb-2 p-3"
-      onClick={sendTokens}
-    >
-      Donate
-    </button>
-  </div>
+    <PostInfo>
+      <h2>
+        <b>Donate</b>
+      </h2>
+      <div className="row">
+        {chainChoice}
+        {donateAmount}
+      </div>
+      <div>
+        <b>{state.errorText}</b>
+      </div>
+      <button
+        style={{
+          width: "7rem",
+          backgroundColor: "#0C7283",
+          color: "#f3f3f3",
+        }}
+        className="btn btn-light mb-2 p-3"
+        onClick={sendTokens}
+      >
+        Donate
+      </button>
+    </PostInfo>
+  </PostContainer>
 );
