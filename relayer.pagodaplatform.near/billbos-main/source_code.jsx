@@ -4,6 +4,8 @@ State.init({
   balance: null,
   test: null,
   viewOfMonth: 0,
+  viewOfWalletAddress: 0,
+  ratioOfWalletAddress: 0,
   walletConnected: false,
   response: null,
   tabSelect: 0,
@@ -101,37 +103,47 @@ if (
 }
 
 const fetchApi = (queryURI, method, data) => {
-  return asyncFetch(queryURI, {
+  const options = {
     method: method,
-    body: JSON.stringify(data),
     headers: {
       "Content-Type": "application/json",
     },
-  });
+  };
+
+  if (data) options[body] = JSON.stringify(data);
+  return asyncFetch(queryURI, options);
 };
 
-const handleRequestGetView = (query) => {
+const handleRequest = (query, viewCase) => {
   const endpoint = BACKEND_API + query;
-  fetchApi(endpoint, "GET", "").then((res) => {
-    State.update({ response: res });
-  });
-};
-
-const getViewOfMonth = () => {
-  handleRequestGetView("/ads/total-ad-view?month=0");
-  if (state.response.ok) {
-    State.update({
-      viewOfMonth: state.response.view || -1,
-    });
+  switch (viewCase) {
+    case "viewOfMonth":
+      fetchApi(endpoint, "GET", "").then((res) => {
+        State.update({
+          response: res,
+        });
+        if (res.ok) {
+          State.update({ viewOfMonth: res.body.view });
+        }
+      });
+      return;
+    case "viewOfWalletAddress":
+      fetchApi(endpoint, "GET", "").then((res) => {
+        if (res.ok) {
+          State.update({ viewOfWalletAddress: res.body.view });
+        }
+      });
+      return;
+    case "ratioOfWalletAddress":
+      fetchApi(endpoint, "GET", "").then((res) => {
+        if (res.ok) {
+          State.update({ ratioOfWalletAddress: res.body.ration });
+        }
+      });
+      return;
+    default:
+      break;
   }
-};
-
-const handleRequestPost = () => {
-  const endpoint = BACKEND_API + "/ads/total-ad-view?month=0";
-  fetchApi(endpoint, "POST", "").then((res) => {
-    State.update({ test: res });
-    console.log(res.body);
-  });
 };
 
 function checkProvider() {
@@ -182,6 +194,20 @@ function tapCampaigns() {
 }
 
 function tapRewards() {
+  // get view of page owner
+  const walletAddress = "0xFf462851bd130a5F86e4391CBf5c92D99E6416BC";
+  const month = 1;
+
+  handleRequest(
+    `/ads/total-webpageowner-view-by-owner-address?month=${month}&walletAddress=${walletAddress}`,
+    "viewOfWalletAddress"
+  );
+
+  handleRequest(
+    `/ads/ratio-webpageOwnerview-by-allwebpageOwner?month=${month}&walletAddress=${walletAddress}`,
+    "ratioOfWalletAddress"
+  );
+
   return (
     <div>
       <div
@@ -287,13 +313,17 @@ function tapRewards() {
           <div className="p-3 bg-white rounded-xl">
             <div>
               <p className="text-xs secondary-text">My Total View</p>
-              <p className="text-xl mt-1 font-medium">100.20 USDT</p>
+              <p className="text-xl mt-1 font-medium">
+                {state.viewOfWalletAddress}
+              </p>
             </div>
           </div>
           <div className="p-3 bg-white rounded-xl">
             <div>
               <p className="text-xs secondary-text">My Total Earnings</p>
-              <p className="text-xl mt-1 font-medium">100.20 USDT</p>
+              <p className="text-xl mt-1 font-medium">
+                {state.ratioOfWalletAddress * state.viewOfWalletAddress} USDT
+              </p>
             </div>
           </div>
         </div>
@@ -316,7 +346,9 @@ function tapRewards() {
 }
 
 function tapDashboard() {
-  getViewOfMonth();
+  // get total view ads
+  handleRequest("/ads/total-ad-view?month=1", "viewOfMonth");
+
   const earningCards = [
     {
       title: "Total Staked",
