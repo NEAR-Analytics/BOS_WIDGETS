@@ -1,5 +1,19 @@
-const children = props.children;
 const isShowAction = props.isShowAction;
+const adsId = props.adsId;
+const adsContent = props.adsContent;
+const adsStakedBalance = props.adsStakedBalance;
+const adsViewed = props.adsViewed;
+const chainId = props.chainId;
+
+const chainName = () => {
+  if (chainId == "25925") {
+    return "Bitkub Chain";
+  }
+  if (chainId == "35011") {
+    return "J2O Chain";
+  }
+  return "Network Error";
+};
 
 const content = (
   <div class="w-full border rounded-xl pb-4 relative bg-white">
@@ -8,25 +22,30 @@ const content = (
         height: "126px",
       }}
       class="w-full rounded-t-xl"
-      src="https://img2.pic.in.th/pic/abaa2d53744d0806f6178a6033d6f366.png"
+      src={`https://ipfs.near.social/ipfs/${
+        adsContent?.imageCID ??
+        "bafkreihtf7uoqlzugb347zlo24s5l5zdgj7kbdbltepgekutnnv43zgfze"
+      }`}
       alt="uploaded"
     />
     <div class="w-full flex flex-col justify-center items-center text-center px-8">
-      <p class="mt-4 text-xl font-semibold">{"Season of Savings 2"}</p>
+      <p class="mt-4 text-xl font-semibold">{adsContent?.name ?? ""}</p>
       <p class="mt-1 font-light text-gray-400">
-        {"https://docs.near.org/bos/components/ipfs"}
+        {adsContent?.newTabLink ?? ""}
       </p>
       <div class="mt-8 grid grid-cols-5">
         <div class="flex flex-col justify-center col-span-2">
-          <p class="font-semibold">{"7,973.87 USDT"}</p>
+          <p class="font-semibold">{`${
+            ethers.utils.formatEther(adsStakedBalance) ?? ""
+          } USDT`}</p>
           <p class="text-gray-400 text-sm">{"Staked"}</p>
         </div>
         <div class="flex justify-center">
           <div class="h-full border-l-2"></div>
         </div>
         <div class="flex flex-col justify-center col-span-2">
-          <p class="font-semibold">{"$7,985"}</p>
-          <p class="text-gray-400 text-sm">{"Balance"}</p>
+          <p class="font-semibold">{adsViewed}</p>
+          <p class="text-gray-400 text-sm">{"Viewed"}</p>
         </div>
       </div>
       {isShowAction && (
@@ -55,7 +74,7 @@ const content = (
       rounded-bl-xl
       `}
     >
-      <p>{"Bitkub Chain"}</p>
+      <p>{chainName()}</p>
     </div>
   </div>
 );
