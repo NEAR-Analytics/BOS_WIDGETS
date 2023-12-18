@@ -1,3 +1,17 @@
+const ButtonCreate = styled.div`
+    border-radius: 14px;
+    border: 1px dashed #C3C5C7;
+    background: #FFF;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 400;
+    cursor:pointer;
+    width: 70px;
+    height: 28px;
+    text-align:center;
+    padding: 5px 0;
+`;
+
 State.init({
   accountNumber: props.accountNumber,
   contractAddress: "",
@@ -61,6 +75,7 @@ function checkContractAddress() {
       CREATE2DEPLOYER_ABI,
       Ethers.provider().getSigner()
     );
+    console.log({ addr: state.create2DeployerAddr, computedSalt, codeHash });
     create2Deployer.computeAddress(computedSalt, codeHash).then((address) => {
       const isContract = checkIsContract(address);
       State.update({
@@ -124,11 +139,6 @@ if (ethers && signer) {
               `https://raw.githubusercontent.com/SainyTK/contract-list/main/addresses/multicall/${chainIdData?.chainId}.json`
             );
             if (!create2DeployerAddr.error && !multicallAddr.error) {
-              console.log({
-                multicallAddr: JSON.parse(multicallAddr.body).Multicall,
-                create2DeployerAddr: JSON.parse(create2DeployerAddr.body)
-                  .Create2Deployer,
-              });
               State.update({
                 multicallAddr: JSON.parse(multicallAddr.body).Multicall,
                 create2DeployerAddr: JSON.parse(create2DeployerAddr.body)
@@ -154,7 +164,6 @@ checkContractAddress();
 if (!signer) {
   return (
     <div>
-      <h3>Please connect your wallet</h3>
       <Web3Connect />
     </div>
   );
@@ -168,14 +177,8 @@ if (state.isError) {
   return <div>{state.error || "Something went wrong"}</div>;
 }
 
-return (
-  <div>
-    {state.isFetched && !state.isDeployed && (
-      <div>
-        <button className="mb-2 bg-blue-400 rounded" onClick={deploySuperCall}>
-          Create
-        </button>
-      </div>
-    )}
-  </div>
-);
+if (!state.isFetched || state.isDeployed) {
+  return <></>;
+}
+
+return <ButtonCreate onClick={deploySuperCall}>{`Create`}</ButtonCreate>;
