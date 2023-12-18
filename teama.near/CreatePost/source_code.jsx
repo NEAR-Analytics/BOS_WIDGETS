@@ -48,11 +48,11 @@ const [title, setTitle] = useState("");
 const [content, setContent] = useState("");
 
 const abi = fetch(
-  `https://gist.githubusercontent.com/idea2547/6918a9564618da24aab88d248db2b520/raw/d2d666c37c852ab2a7119d7bcf53dd89fe2cf9c9/gistfile1.txt`
+  `https://gist.githubusercontent.com/idea2547/2e993b25c45e150d14d1e0077de47e6d/raw/337986ada07a870838a6a977f6d48176fb995353/gistfile1.txt`
 );
 
 const TutorContract = new ethers.Contract(
-  "0xE0602E0eAAd2fF151395D884196910FEaeFAa1cC",
+  "0x1D7098360A9e77A58C4D38df9261335bD74d44d5",
   abi.body,
   Ethers.provider().getSigner()
 );
@@ -78,23 +78,12 @@ return (
     }}
   >
     <ul style={navbarContainerStyle}>
-      <li style={heapHeapHoorayBoxStyle}>Heapheap Hooray</li>
-      <li style={createPostBoxStyle}>
-        <a href="#" style={{ textDecoration: "none", color: "#000" }}>
-          Create Post
-        </a>
-      </li>
-      <li style={boxStyle}>
+      <li style={heapHeapHoorayBoxStyle}>
         <a
-          href="#/theerin_petch.near/widget/Draft-1"
+          href="theerin_petch.near/widget/callContract"
           style={{ textDecoration: "none", color: "#fff" }}
         >
-          Search Post
-        </a>
-      </li>
-      <li style={boxStyle}>
-        <a href="#" style={{ textDecoration: "none", color: "#fff" }}>
-          My Post
+          Heapheap Hooray
         </a>
       </li>
     </ul>
