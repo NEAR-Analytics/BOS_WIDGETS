@@ -2,7 +2,6 @@ State.init({
   chainId: undefined,
   walletAddress: null,
   balance: null,
-  test: null,
   viewOfMonth: 0,
   viewOfWalletAddress: 0,
   ratioOfWalletAddress: 0,
@@ -38,15 +37,6 @@ State.init({
       image:
         "https://ipfs.near.social/ipfs/bafkreicksbcmv5i7ezaw5b2424vliuegcbgfckjc4qt73eql67pdmrvvfu",
     },
-    96: {
-      id: 96,
-      name: "Bitkub Chain",
-      rpcUrl: "https://rpc.bitkubchain.io",
-      currencySymbol: "KUB",
-      nativeCurrency: ETH_TOKEN,
-      image:
-        "https://ipfs.near.social/ipfs/bafkreicksbcmv5i7ezaw5b2424vliuegcbgfckjc4qt73eql67pdmrvvfu",
-    },
     3501: {
       id: 3501,
       name: "JFIN Chain",
@@ -69,6 +59,8 @@ State.init({
   adsContent:
     '<Widget src="jimmy-ez.near/widget/billbos-craete-ads" props={{}} />',
 });
+
+const [adsInfo, setAdsInfo] = useState({});
 
 const BACKEND_API = "https://api-billbos.0xnutx.space";
 const DEFAULT_CHAIN_ID = 25925;
@@ -123,7 +115,6 @@ const fetchApi = (queryURI, method, data) => {
       "Content-Type": "application/json",
     },
   };
-
   if (data) options[body] = JSON.stringify(data);
   return asyncFetch(queryURI, options);
 };
@@ -155,6 +146,10 @@ const handleRequest = (query, viewCase) => {
         }
       });
       return;
+    case "ad-view-by-adId":
+      return fetchApi(endpoint, "GET", "").then((res) => {
+        return res;
+      });
     default:
       break;
   }
@@ -189,7 +184,27 @@ function getRpcProvider(chainId) {
 }
 
 function formatAds(item, chainId) {
-  console.log({ item });
+  const adsId = parseInt(item[0]);
+  const res = handleRequest(
+    `/ads/ad-view-by-adId?adId=${adsId}&month=${state.monthCount}&chainId=${chainId}`,
+    "ad-view-by-adId"
+  );
+  res.then((res) => {
+    adsInfo[`${chainId}-${adsId}-adsView`] = res.ok ? res.body.view : "0";
+  });
+
+  const adsStakedBalance = iface.encodeFunctionData("adsStakedBalance", [
+    item[0],
+  ]);
+  Ethers.provider()
+    .call({
+      to: state.contract[chainId].billBOSCore,
+      data: adsStakedBalance,
+    })
+    .then((raw) => {
+      adsInfo[`${chainId}-${adsId}-staked`] = raw || "0";
+    });
+
   return {
     adsId: "" + parseInt(item[0]),
     adsContent: {
@@ -233,8 +248,6 @@ function getTotalDashboard() {
   }
 
   Promise.all(promiseList).then((values) => {
-    console.log("values", values);
-
     const adsAll = values[3].map((item) => {
       return formatAds(item, state.chainId);
     });
@@ -254,25 +267,15 @@ function getAdsByAddress(walletAddress) {
     walletAddress,
   ]);
 
-  const raw = Ethers.provider()
-    .call({
-      to: billbosCoreAddress,
-      data: getAdsUserData,
-    })
-    .then((raw) => {
-      // decode the result
-      return new Promise((resolve, reject) => {
-        const result = iface.decodeFunctionResult("getAdsUser", raw);
-        resolve(result);
-      });
-    });
+  const raw = Ethers.provider().call({
+    to: billbosCoreAddress,
+    data: getAdsUserData,
+  });
 
   raw.then((res) => {
-    console.log(res[0]);
     const adsAll = res[0].map((item) => {
       return formatAds(item, state.chainId);
     });
-    console.log({ adsAll, ads: state.ads });
     State.update({
       adsUser: adsAll,
     });
@@ -372,7 +375,7 @@ function tapRewards() {
         >
           <div className="flex justify-between py-8 items-center ">
             <div>
-              <h2 className="font-semibold text-xl ">Campaigns</h2>
+              <h2 className="font-semibold text-xl ">Overview</h2>
               <p className="text-sm">
                 Unlock the power of onchain data for Web3 Ads
               </p>
@@ -396,7 +399,9 @@ function tapRewards() {
             <div className="p-3 bg-white rounded-xl ">
               <div>
                 <p className="text-xs secondary-text">Total Earnings</p>
-                <p className="text-xl mt-1 font-medium">100.20 USDT</p>
+                <p className="text-xl mt-1 font-medium">
+                  {state.totalEarningBalance}
+                </p>
               </div>
             </div>
             <div className="p-3 bg-white rounded-xl">
@@ -463,7 +468,7 @@ getTotalDashboard();
 function tapDashboard() {
   // get total view ads
   handleRequest("/ads/total-ad-view?month=1", "viewOfMonth");
-  console.log("state.totalStaked", state.totalStaked);
+
   const earningCards = [
     {
       title: "Total Staked",
@@ -524,7 +529,13 @@ function tapDashboard() {
               <div key={index}>
                 <Widget
                   src="jimmy-ez.near/widget/billbos-ads-card"
-                  props={{ ...item }}
+                  props={{
+                    ...item,
+                    adsStakedBalance:
+                      adsInfo[`${item.chainId}-${item.adsId}-staked`] ||
+                      "10000000",
+                    adsViewed: adsInfo[`${item.chainId}-${item.adsId}-adsView`],
+                  }}
                 />
               </div>
             );
