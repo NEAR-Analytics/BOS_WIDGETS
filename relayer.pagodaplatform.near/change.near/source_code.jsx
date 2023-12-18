@@ -29,6 +29,7 @@ State.init({
   show_error_sign_form: "No",
   send_post_sign: false,
   donate_amount: "",
+  comment_chack: true,
 });
 
 const getTimestamp = (date) => new Date(`${date}`).getTime();
@@ -51,7 +52,7 @@ const getCreateChangeData = (isCreate) => {
       index: {
         change: JSON.stringify(
           {
-            key: "change.near-vbeta",
+            key: "change.near-v1.0",
             value: {
               isCreate,
               title: state.change_title,
@@ -80,7 +81,7 @@ const getCreateSignData = (isSign) => {
       index: {
         change: JSON.stringify(
           {
-            key: "sign.near-vbeta",
+            key: "sign.near-v1.0",
             value: {
               isSign,
               title: state.sign_title,
@@ -132,10 +133,10 @@ function makeDetailsShort(c_details) {
   return c_details;
 }
 
-let changeList = Social.index("change", "change.near-vbeta");
+let changeList = Social.index("change", "change.near-v1.0");
 let changeBox = props;
 
-let signList = Social.index("change", "sign.near-vbeta");
+let signList = Social.index("change", "sign.near-v1.0");
 let signBox = props;
 
 let dateFormat = {
@@ -339,11 +340,23 @@ const renderMyData = () => {
       );
   });
 };
+const commentchack = () => {
+  const hasComment = signList.some((signBox) => {
+    return (
+      signBox.accountId === context.accountId &&
+      signBox.value.title === state.title_now
+    );
+  });
+
+  State.update({ comment_chack: !hasComment });
+};
+
 const rendercomment = () => {
   return changeList.map((changeBox, index) => {
     if (
       changeBox.accountId != context.accountId &&
-      changeBox.value.title == state.title_now
+      changeBox.value.title == state.title_now &&
+      state.comment_chack == true
     )
       return (
         <div className="mt-5 mb-5 max-w-xl mx-auto">
@@ -485,6 +498,7 @@ const rendereachData = () => {
               </div>
             </div>
           </div>
+          {commentchack()}
           <div className="h-px bg-gray-200 border-0"></div>
           {rendercomment()}
           <div className="h-px bg-gray-200 border-0"></div>
