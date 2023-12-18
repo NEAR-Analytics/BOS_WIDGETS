@@ -156,12 +156,12 @@ const handleChangeChain = (event) => {
 const checkAllowance = () => {
   const encodedData = IERC20.encodeFunctionData("allowance", [
     state.sender,
-    "0x8995e9741A2b9c7f1Bb982d08c360F2951a23c24",
+    BillBOSAddress[state.selectedChain],
   ]);
   return new Promise((resolve, reject) => {
     Ethers.provider()
       .call({
-        to: "0x90430340366FA3557BD7A5c919f2C41975eDb6B2",
+        to: USDTAddress[state.selectedChain],
         data: encodedData,
       })
       .then((rawRes) => {
@@ -176,8 +176,22 @@ const checkAllowance = () => {
 };
 
 const erc20Approve = (to, amount) => {
-  const address = BillBOSAddress[state.selectedChain];
-  console.log("address", address);
+  const erc20Provider = new ethers.Contract(
+    USDTAddress[state.selectedChain],
+    IERC20,
+    Ethers.provider().getSigner()
+  );
+
+  return new Promise((resolve, reject) => {
+    erc20Provider
+      .approve(to, amount)
+      .then((res) => {
+        console.log("approve", res);
+      })
+      .catch((error) => {
+        console.log("approve error", error);
+      });
+  });
 };
 
 const handleCreateAds = () => {
@@ -190,9 +204,14 @@ const handleCreateAds = () => {
     console.log("checkAllowance", allowance);
     console.log("amount", amount);
 
+    const coreAddress = BillBOSAddress[state.selectedChain];
+    console.log("coreAddress", coreAddress);
+
     if (allowance > amount) {
       console.log("pass");
-      erc20Approve();
+    } else {
+      console.log("not-pass");
+      erc20Approve(coreAddress, amount.toString());
     }
   });
   State.update({
@@ -390,7 +409,6 @@ const Modal = ({ isOpen, onClose }) => {
 
 const content = (
   <div>
-    <p>{`Sender: ${state.sender}`}</p>
     <button
       class="brand-green px-4 py-2 rounded-xl text-white font-semibold"
       onClick={onOpen}
