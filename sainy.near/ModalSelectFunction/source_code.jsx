@@ -156,6 +156,7 @@ const Modal = ({ isOpen, onClose, onSubmit }) => {
             onClick={() => {
               onSubmit(state.widget);
               onClose();
+              State.update({ isReady: false });
             }}
           >
             Confirm
