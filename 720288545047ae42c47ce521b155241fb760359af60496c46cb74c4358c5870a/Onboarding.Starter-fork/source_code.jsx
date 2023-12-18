@@ -1,8 +1,5 @@
 return (
   <div>
-    <iframe
-      iframeResizer={{ log: true }}
-      src="https://zksync.satori.finance/"
-    />
+    <iframe src="https://zksync.satori.finance/index.html" />
   </div>
 );
