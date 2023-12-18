@@ -57,7 +57,12 @@ return (
     <h2>Token Transfer</h2>
     <div>
       <p>Token</p>
-      <input onChange={(e) => handleChange("tokenAddress", e.target.value)} />
+      <Widget
+        src="sainy.near/widget/SelectToken"
+        props={{
+          onChange: (token) => console.log(token),
+        }}
+      />
     </div>
     <div>
       <p>To</p>
@@ -67,12 +72,6 @@ return (
       <p>Amount</p>
       <input onChange={(e) => handleChange("amount", e.target.value)} />
     </div>
-    <div>
-      {state.isOk ? (
-        <span className="text-green-400">Ready</span>
-      ) : (
-        <span className="text-red-400">Not ready</span>
-      )}
-    </div>
+    <Widget src="sainy.near/widget/SupercallBase" props={props} />
   </div>
 );
