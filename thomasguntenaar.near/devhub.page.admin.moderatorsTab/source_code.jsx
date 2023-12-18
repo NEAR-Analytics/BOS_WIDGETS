@@ -1,8 +1,12 @@
 const { accessControlInfo, createEditTeam } = props;
 
 const { Tile } =
-  VM.require("thomasguntenaar.near/widget/devhub.components.molecule.Tile") ||
+  VM.require("previewthomas.near/widget/devhub.components.molecule.Tile") ||
   (() => <></>);
+
+if (!Tile) {
+  return <div>Loading...</div>;
+}
 
 const [editModerators, setEditModerators] = useState(false);
 const [moderators, setModerators] = useState(
@@ -36,7 +40,7 @@ return (
         labels, including restricted ones.
       </h5>
       <Widget
-        src={"thomasguntenaar.near/widget/devhub.components.molecule.PostControls"}
+        src={"previewthomas.near/widget/devhub.components.molecule.PostControls"}
         props={{
           icon: "bi bi-gear-wide-connected",
           className: "mb-3",
@@ -51,7 +55,7 @@ return (
       {editModerators ? (
         <>
           <Widget
-            src="thomasguntenaar.near/widget/devhub.components.molecule.ListEditor"
+            src="previewthomas.near/widget/devhub.components.molecule.ListEditor"
             props={{
               data: {
                 maxLength: 100,
@@ -71,7 +75,7 @@ return (
             }
           >
             <Widget
-              src={"thomasguntenaar.near/widget/devhub.components.molecule.Button"}
+              src={"previewthomas.near/widget/devhub.components.molecule.Button"}
               props={{
                 classNames: {
                   root: "btn-outline-danger shadow-none border-0",
@@ -81,7 +85,7 @@ return (
               }}
             />
             <Widget
-              src={"thomasguntenaar.near/widget/devhub.components.molecule.Button"}
+              src={"previewthomas.near/widget/devhub.components.molecule.Button"}
               props={{
                 classNames: { root: "btn" },
                 icon: {
