@@ -1,6 +1,10 @@
 const { Tile } =
-  VM.require("thomasguntenaar.near/widget/devhub.components.molecule.Tile") ||
+  VM.require("previewthomas.near/widget/devhub.components.molecule.Tile") ||
   (() => <></>);
+
+if (!Tile) {
+  return <div>Loading...</div>;
+}
 
 const { data, onSubmit, onCancel } = props;
 
@@ -94,7 +98,7 @@ return (
     <Container>
       <h3>{data.teamName == "" ? "Edit label" : "Create label"}</h3>
       <Widget
-        src="thomasguntenaar.near/widget/devhub.components.atom.Alert"
+        src="previewthomas.near/widget/devhub.components.atom.Alert"
         props={{
           onClose: () => setWarning(""),
           message: warning,
@@ -106,7 +110,7 @@ return (
           <div className="flex-grow-1">
             <span>Group name</span>
             <Widget
-              src="thomasguntenaar.near/widget/devhub.components.molecule.Input"
+              src="previewthomas.near/widget/devhub.components.molecule.Input"
               props={{
                 className: "flex-grow-1",
                 skipPaddingGap: true,
@@ -137,7 +141,7 @@ return (
               </select>
               <div>What would you like the restricted label to be?</div>
               <Widget
-                src="thomasguntenaar.near/widget/devhub.components.molecule.Input"
+                src="previewthomas.near/widget/devhub.components.molecule.Input"
                 props={{
                   className: "flex-grow-1",
                   onChange: (e) => setLabel(e.target.value),
@@ -151,7 +155,7 @@ return (
               />
               <div>Select label permissions</div>
               <Widget
-                src="thomasguntenaar.near/widget/devhub.entity.team.LabelPermissions"
+                src="previewthomas.near/widget/devhub.entity.team.LabelPermissions"
                 props={{
                   identifier: data.teamName,
                   editPost,
@@ -169,7 +173,7 @@ return (
         <Item key={index}>
           <div className="flex-grow-1">
             <Widget
-              src="thomasguntenaar.near/widget/devhub.components.molecule.Input"
+              src="previewthomas.near/widget/devhub.components.molecule.Input"
               props={{
                 className: "flex-grow-1",
                 value: item,
@@ -193,7 +197,7 @@ return (
       <Item>
         <div className="flex-grow-1">
           <Widget
-            src="thomasguntenaar.near/widget/devhub.components.molecule.Input"
+            src="previewthomas.near/widget/devhub.components.molecule.Input"
             props={{
               className: "flex-grow-1",
               skipPaddingGap: true,
@@ -218,7 +222,7 @@ return (
         className={"d-flex align-items-center justify-content-end gap-3 mt-4"}
       >
         <Widget
-          src={"thomasguntenaar.near/widget/devhub.components.molecule.Button"}
+          src={"previewthomas.near/widget/devhub.components.molecule.Button"}
           props={{
             classNames: { root: "btn-outline-danger shadow-none border-0" },
             label: "Cancel",
@@ -226,7 +230,7 @@ return (
           }}
         />
         <Widget
-          src={"thomasguntenaar.near/widget/devhub.components.molecule.Button"}
+          src={"previewthomas.near/widget/devhub.components.molecule.Button"}
           props={{
             classNames: { root: "btn-success" },
             icon: {
