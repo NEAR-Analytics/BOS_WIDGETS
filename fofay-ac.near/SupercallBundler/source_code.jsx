@@ -25,6 +25,9 @@ const startButton = (
         textAlign: "center",
         color: "#000",
         paddingTop: 6,
+        position: "absolute",
+        right: 0,
+        zIndex: 1,
       }}
     >{`start`}</div>
     <div
@@ -34,9 +37,9 @@ const startButton = (
         borderRadius: "6px",
         backgroundColor: "#000",
         position: "absolute",
-        zIndex: -1,
-        bottom: 0,
-        right: 8,
+        zIndex: 0,
+        top: 10,
+        right: -4,
       }}
     />
   </button>
