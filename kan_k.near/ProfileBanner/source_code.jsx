@@ -165,7 +165,7 @@ return (
               </Title>
             </OverlayTrigger>
             <Text>@{accountId}</Text>
-            Follwer: {followersCount}
+            Follower: {followersCount}
           </Detail>
         </div>
       </div>
