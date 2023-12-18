@@ -226,6 +226,9 @@ return (
         <b>Posted By:</b> {state.authorId} · {timestamp}
       </PostText>
     </PostInfo>
+    <h2>
+      <b>Donate</b>
+    </h2>
     <div className="row">
       {chainChoice}
       {donateAmount}
