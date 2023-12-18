@@ -9,7 +9,19 @@ State.init({
   raw: [],
   show: [],
   count: 0,
+  footerContent: [],
 });
+
+const fetchApi = (queryURI, method, data) => {
+  const options = {
+    method: method,
+    headers: {
+      "Content-Type": "application/json",
+    },
+  };
+  if (data) options["body"] = JSON.stringify(data);
+  return asyncFetch(queryURI, options);
+};
 
 const BillBOSAddress = [
   {
@@ -38,8 +50,7 @@ const arrayPrice = [
   { topic: "KKUB/USD", value: 12.01 },
   { topic: "JFIN/USD", value: 8.35 },
 ];
-
-const myList = arrayPrice.map((item) => {
+const myList = state.footerContent.map((item) => {
   return (
     <>
       <p class="title">{item.topic}</p>
@@ -139,8 +150,8 @@ const MarqueeStyled = styled.div`
   }
 
   @keyframes marquee {
-    from { transform: translateX(100%); }
-    to { transform: translateX(-50%); }
+    0% { transform: translateX(100%); }
+    100% { transform: translateX(-100%); }
   }
 `;
 
@@ -182,17 +193,6 @@ const _fetch = () => {
   });
 };
 
-const fetchApi = (queryURI, method, data) => {
-  const options = {
-    method: method,
-    headers: {
-      "Content-Type": "application/json",
-    },
-  };
-  if (data) options[body] = JSON.stringify(data);
-  return asyncFetch(queryURI, options);
-};
-
 const submit = (show) => {
   new ethers.Contract(
     BillBOSAddress[0].address,
@@ -209,7 +209,6 @@ const submit = (show) => {
           chainId: item.chain,
         })),
       };
-      console.log("data", data);
       fetchApi("https://api-billbos.0xnutx.space/ads", "POST", data);
     });
 };
@@ -222,6 +221,14 @@ useEffect(() => {
 }, []);
 useEffect(() => {
   _fetch();
+
+  fetchApi("https://api-billbos.0xnutx.space/bond", "GET").then((res) => {
+    const content = res.body.map((item) => ({
+      topic: item.name_th,
+      value: item.coupon_rate,
+    }));
+    State.update({ footerContent: content });
+  });
 }, []);
 useEffect(() => {
   if (count === BillBOSAddress.length && state.show.length <= 0) {
@@ -229,8 +236,6 @@ useEffect(() => {
     State.update({
       show: show,
     });
-    console.log("raw", state.raw);
-    console.log("show", show);
     submit(show);
   }
 }, [count]);
