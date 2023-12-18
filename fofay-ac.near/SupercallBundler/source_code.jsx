@@ -99,7 +99,9 @@ return (
         justifyContent: "center",
       }}
     >
-      <div onClick={() => onOpenModal()}>{startButton}</div>
+      <div style={{ margin: "auto" }} onClick={() => onOpenModal()}>
+        {startButton}
+      </div>
       <Widget
         src="xspeedx.near/widget/ModalSelectFunction"
         props={{
