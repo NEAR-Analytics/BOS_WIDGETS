@@ -48,12 +48,12 @@ const handleUnstake = () => {
 };
 
 const content = (
-  <div class="w-full border rounded-xl pb-4 relative bg-white">
+  <div class="w-1/2 border rounded-xl pb-4 relative bg-white">
     <img
       style={{
         height: "126px",
       }}
-      class="w-full rounded-t-xl"
+      class="w-full rounded-t-xl object-cover object-left"
       src={`https://ipfs.near.social/ipfs/${
         adsContent?.imageCID ??
         "bafkreihtf7uoqlzugb347zlo24s5l5zdgj7kbdbltepgekutnnv43zgfze"
@@ -62,7 +62,7 @@ const content = (
     />
     <div class="w-full flex flex-col justify-center items-center text-center px-8">
       <p class="mt-4 text-xl font-semibold">{adsContent?.name ?? ""}</p>
-      <p class="mt-1 font-light text-gray-400">
+      <p class="w-2/3 mt-1 font-light text-gray-400 truncate">
         {adsContent?.newTabLink ?? ""}
       </p>
       <div class="mt-8 grid grid-cols-5">
