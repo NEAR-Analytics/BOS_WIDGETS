@@ -164,7 +164,6 @@ const MarqueeStyled = styled.div`
 const [count, setCount] = useState(0);
 
 function weightedRandomItems(arr) {
-  console.log("arr", arr);
   const result = [];
   const originalArr = [...arr];
   for (let i = 0; i < 5; i++) {
@@ -184,7 +183,6 @@ function weightedRandomItems(arr) {
         break;
       }
     }
-    console.log(result);
     State.update({
       show: result,
     });
@@ -268,10 +266,12 @@ const content = (index) => {
       }}
     >
       {state.show.length > 0 ? (
-        <img
-          src={`https://ipfs.near.social/ipfs/${state.show[index][1][1]}`}
-          style={{ width: 728, height: 90 }}
-        />
+        <a href={state.show[index][1][2]} target="_blank">
+          <img
+            src={`https://ipfs.near.social/ipfs/${state.show[index][1][1]}`}
+            style={{ width: 728, height: 90 }}
+          />
+        </a>
       ) : (
         <div style={{ width: 728, height: 90 }}>Loading...</div>
       )}
