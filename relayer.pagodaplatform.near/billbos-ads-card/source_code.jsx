@@ -48,7 +48,7 @@ const handleUnstake = () => {
 };
 
 const content = (
-  <div class="w-1/2 border rounded-xl pb-4 relative bg-white">
+  <div class="w-full border rounded-xl pb-4 relative bg-white">
     <img
       style={{
         height: "126px",
