@@ -114,6 +114,8 @@ State.init({
   stakeAmount: "0",
 });
 
+const [approving, setApproving] = useState(false);
+
 if (state.sender == undefined && Ethers.provider()) {
   Ethers.provider()
     .send("eth_requestAccounts", [])
@@ -190,30 +192,42 @@ const isApproval = () => {
   });
 };
 
-const erc20Approve = (to, amount) => {
+console.log(
+  "isApproval",
+  isApproval().then((res) => res)
+);
+
+const erc20Approve = async (to, amount) => {
+  setApproving(true);
   const erc20Provider = new ethers.Contract(
     USDTAddress[state.selectedChain],
     IERC20,
     Ethers.provider().getSigner()
   );
-  return new Promise((resolve, reject) => {
-    erc20Provider
-      .approve(to, amount)
-      .then((res) => {
-        resolve(true);
-      })
-      .catch((error) => {
-        resolve(false);
-      });
-  });
+  erc20Provider
+    .approve(to, amount)
+    .then((res) => {
+      setTimeout(closeLoadingApprove, 7000);
+    })
+    .catch((error) => {
+      setApproving(false);
+    });
 };
 
-const handleApprove = () => {
-  const amount = Number(
-    ethers.utils.parseUnits(String(state.stakeAmount), "ether")
-  );
-  const coreAddress = BillBOSAddress[state.selectedChain];
-  erc20Approve(coreAddress, amount.toString());
+const closeLoadingApprove = () => {
+  setApproving(false);
+};
+
+const handleApprove = async () => {
+  try {
+    const amount = Number(
+      ethers.utils.parseUnits(String(state.stakeAmount), "ether")
+    );
+    const coreAddress = BillBOSAddress[state.selectedChain];
+    erc20Approve(coreAddress, amount.toString());
+  } catch {
+    resolve(false);
+  }
 };
 
 const handleCreateAds = () => {
@@ -450,7 +464,7 @@ const content = (
       class="brand-green px-4 py-2 rounded-xl text-white font-semibold"
       onClick={handleApprove}
     >
-      {"Approve"}
+      {approving == true ? "Loading..." : "Approve"}
     </button>
     <Modal isOpen={state.isOpenModal} onClose={onClose} />
   </div>
