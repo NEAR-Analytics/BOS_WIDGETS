@@ -93,7 +93,7 @@ return (
       </PostText>
       <Link
         to={linkHref({ widgetSrc: "donationhubv2.near/widget/donate" })}
-        props={{ information: info }}
+        props={props}
       >
         <Button>Donate </Button>
       </Link>
