@@ -12,7 +12,7 @@ State.init({
   chains: {
     25925: {
       id: 25925,
-      name: "Bitkub Chain Testnet",
+      name: "Bitkub Chain",
       rpcUrl: "https://rpc-testnet.bitkubchain.io",
       currencySymbol: "tKUB",
       nativeCurrency: ETH_TOKEN,
@@ -22,7 +22,6 @@ State.init({
     96: {
       id: 96,
       name: "Bitkub Chain",
-      name: "Bitkub Chain Testnet",
       rpcUrl: "https://rpc.bitkubchain.io",
       currencySymbol: "KUB",
       nativeCurrency: ETH_TOKEN,
@@ -54,7 +53,8 @@ State.init({
 
 const BACKEND_API = "https://api-billbos.0xnutx.space";
 const DEFAULT_CHAIN_ID = 25925;
-const CHAIN_LIST = [25925, 3501, 35011, 96];
+// const CHAIN_LIST = [25925, 3501, 35011, 96];
+const CHAIN_LIST = [25925, 35011];
 const ETH_TOKEN = { name: "Ethereum", symbol: "ETH", decimals: 18 };
 
 function switchEthereumChain(chainId) {
@@ -331,11 +331,18 @@ function tapRewards() {
           <p className="text-sm font-medium">Reward</p>
         </div>
         <div className="flex gap-3">
-          {Array.from({ length: 2 }).map((_, i) => {
+          {CHAIN_LIST.map((item, i) => {
+            const chainConfig = state.chains[item];
+
             return (
               <Widget
                 src="porx-dev.near/widget/billbos-reward-card"
-                props={{}}
+                props={{
+                  chainName: chainConfig.name,
+                  amount: "1000.20",
+                  tokenName: "USDT",
+                  onClaim: () => {},
+                }}
               />
             );
           })}
