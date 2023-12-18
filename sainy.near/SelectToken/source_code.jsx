@@ -12,7 +12,7 @@ if (ethers !== undefined && signer) {
         State.update({ chainId: chainIdData.chainId });
 
         const tokenList = fetch(
-          `https://raw.githubusercontent.com/SainyTK/token-list/main/src/tokens/${chainIdData.chainId}.json`
+          `https://raw.githubusercontent.com/SainyTK/contract-list/main/tokens/${props.chainId}.json`
         );
 
         if (!tokenList.error) {
