@@ -7,7 +7,8 @@ State.init({
   viewOfWalletAddress: 0,
   ratioOfWalletAddress: 0,
   totalEarningBalance: 0,
-  totalStaking: 0,
+  totalStakedBalance: 0,
+  monthCount: 0,
   walletConnected: false,
   response: null,
   ads: [],
@@ -188,6 +189,7 @@ function getRpcProvider(chainId) {
 }
 
 function formatAds(item, chainId) {
+  console.log({ item });
   return {
     adsId: "" + parseInt(item[0]),
     adsContent: {
@@ -197,7 +199,7 @@ function formatAds(item, chainId) {
       widgetLink: item[1][3],
       isInteractive: item[1][4],
     },
-    adsStakedBalance: "10000000000",
+    adsStakedBalance: "10000000",
     adsViewed: "7235",
     chainId: chainId.toString(),
   };
@@ -205,24 +207,42 @@ function formatAds(item, chainId) {
 
 function getTotalDashboard() {
   const chainsDefault = [25925];
-  const resAdsCall = chainsDefault.map((chainId, index) => {
-    return new Promise((resolve, reject) => {
-      const provider = getRpcProvider(chainId);
-      const contract = new ethers.Contract(
-        state.contract[chainId].billBOSCore,
-        BillBOSCoreABI,
-        provider
-      );
 
-      resolve(contract.getAds());
-    });
-  });
+  const promiseList = [];
 
-  Promise.all(resAdsCall).then((values) => {
-    const adsAll = values[0].map((item) => {
-      return formatAds(item, chainsDefault[0]);
+  for (let i = 0; i < chainsDefault.length; i++) {
+    const chainId = chainsDefault[i];
+    const provider = getRpcProvider(chainId);
+    const contract = new ethers.Contract(
+      state.contract[chainId].billBOSCore,
+      BillBOSCoreABI,
+      provider
+    );
+
+    const staked = contract.totalStakedBalanceLast();
+    promiseList.push(staked);
+
+    const earning = contract.totalEarningBalanceLast();
+    promiseList.push(earning);
+
+    const month = contract.monthCount();
+    promiseList.push(month);
+
+    const adsAll = contract.getAds();
+    promiseList.push(adsAll);
+  }
+
+  Promise.all(promiseList).then((values) => {
+    console.log("values", values);
+
+    const adsAll = values[3].map((item) => {
+      return formatAds(item, state.chainId);
     });
+
     State.update({
+      totalStakedBalance: ethers.utils.formatEther(values[0]),
+      totalEarningBalance: ethers.utils.formatEther(values[1]),
+      monthCount: ethers.utils.formatEther(values[2]),
       ads: adsAll,
     });
   });
@@ -246,6 +266,7 @@ function getAdsByAddress(walletAddress) {
         resolve(result);
       });
     });
+
   raw.then((res) => {
     console.log(res[0]);
     const adsAll = res[0].map((item) => {
@@ -319,7 +340,7 @@ function tapCampaigns() {
 function tapRewards() {
   // get view of page owner
   const walletAddress = state.walletAddress;
-  const month = 1;
+  const month = state.monthCount;
 
   handleRequest(
     `/ads/total-webpageowner-view-by-owner-address?month=${month}&walletAddress=${walletAddress}`,
@@ -437,19 +458,24 @@ function tapRewards() {
   );
 }
 
+getTotalDashboard();
+
 function tapDashboard() {
-  getTotalDashboard();
   // get total view ads
   handleRequest("/ads/total-ad-view?month=1", "viewOfMonth");
-
+  console.log("state.totalStaked", state.totalStaked);
   const earningCards = [
     {
       title: "Total Staked",
       ipfsUrl: "bafkreigb2h33nc6bpa2gcuvbs46eys4bbb6djibx76xknbrkswtqfqlyzm",
+      usdt: state.totalStakedBalance,
+      thb: parseFloat(state.totalStakedBalance) * 35,
     },
     {
       title: "Total Earnings",
       ipfsUrl: "bafkreievjy5wntddg6augnywctekhic3dttnf57h4dhjkypyx5mhjci2ou",
+      usdt: state.totalEarningBalance,
+      thb: parseFloat(state.totalEarningBalance) * 35,
     },
     {
       title: "Total View Ads",
@@ -479,8 +505,8 @@ function tapDashboard() {
                   src="chayanonc-ph.near/widget/billbos-earning-card"
                   props={{
                     title: item.title,
-                    amountUSDT: item.usdt,
-                    amountTHB: item.thb,
+                    usdt: item.usdt,
+                    thb: item.thb,
                     totalView: i == 2 ? state.viewOfMonth.toString() : "",
                     ipfsUrl: `https://ipfs.near.social/ipfs/${item.ipfsUrl}`,
                   }}
