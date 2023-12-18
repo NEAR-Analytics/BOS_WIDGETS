@@ -1,12 +1,6 @@
-const { isOpen, onSubmit } = props;
-
 State.init({
-  isOpen: props.isOpen,
+  inputWidget: "",
 });
-
-function onClose() {
-  State.update({ isOpen: false });
-}
 
 const ModalOverlay = styled.div`
   background-color: rgba(12, 12, 12, 0.4);
@@ -108,7 +102,13 @@ const Modal = ({ isOpen, onClose, onSubmit }) => {
         <ModalBody>
           <h6 style={{ color: "#656973" }}>Function</h6>
           <StyledInput>
-            <input type="number" class="w-full px-3 py-2 rounded-lg border" />
+            <input
+              type="number"
+              class="w-full px-3 py-2 rounded-lg border"
+              onChange={(e) => {
+                State.update({ inputWidget: e.target.value });
+              }}
+            />
           </StyledInput>
         </ModalBody>
         <ModalFooter>
@@ -152,17 +152,10 @@ const Modal = ({ isOpen, onClose, onSubmit }) => {
 
 return (
   <>
-    <button
-      onClick={() => {
-        State.update({ isOpen: true });
-      }}
-    >
-      Test
-    </button>
     <Modal
-      onClose={() => props.onClose()}
-      onSubmit={() => props.handdleAddFunction()}
       isOpen={props.isOpenModal}
+      onClose={() => props.onClose()}
+      onSubmit={() => props.handdleAddFunction(inputWidget)}
     />
   </>
 );
