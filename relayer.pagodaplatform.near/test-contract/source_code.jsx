@@ -47,18 +47,16 @@ const getTokenBalance = () => {
 const IBillBOSCore = new ethers.utils.Interface(BillBOSCoreABI.body);
 
 const getAds = () => {
-  const encodedData = IBillBOSCore.encodeFunctionData("getAdsUser", [
-    state.sender,
-  ]);
+  const encodedData = IBillBOSCore.encodeFunctionData("getAds");
   return Ethers.provider()
     .call({
-      to: "0x945b11D39FE18459C890c0e7B95b03D27549ed17",
+      to: "0x138b32685a9EEf7c14c1587eE441F28Dd5dE2A68",
       data: encodedData,
     })
     .then((rawBalance) => {
       // decode response
       const receiverBalanceHex = IBillBOSCore.decodeFunctionResult(
-        "getAdsUser",
+        "getAds",
         rawBalance
       );
 
