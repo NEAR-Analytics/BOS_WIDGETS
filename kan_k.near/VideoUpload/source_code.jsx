@@ -109,10 +109,7 @@ return (
     </div>
     <div className="w-fullitems-end text-right mt-6">
       {" "}
-      <button
-        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
-        onClick={onBtnClick}
-      >
+      <button className="p-2 Button-primary rounded-md " onClick={onBtnClick}>
         Publish
       </button>
     </div>
