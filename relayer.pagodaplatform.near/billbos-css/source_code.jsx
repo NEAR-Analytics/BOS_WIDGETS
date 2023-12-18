@@ -3,7 +3,15 @@ const children = props.children;
 const tailwindCssUrl =
   "https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css";
 
-const tailwindCss = fetch(tailwindCssUrl).body;
+const tw = Storage.get("tailwindCss");
+
+let tailwindCss;
+if (tw) {
+  tailwindCss = tw;
+} else {
+  tailwindCss = fetch(tailwindCssUrl).body;
+  Storage.set("tailwindCss", tailwindCss);
+}
 
 const font = fetch("https://fonts.cdnfonts.com/css/mona-sans").body;
 
