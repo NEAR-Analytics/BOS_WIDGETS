@@ -43,7 +43,7 @@ return (
       <img src={video.thumbnail} className="video object-fill h-48" />
       <div className="VStack justify-between">
         <div className="">
-          <p className="Label font-medium text-lg">{video.title}</p>
+          <p className="font-medium text-lg">{video.title}</p>
           <p className="Grey">4 days ago</p>
           <div className="HStack items-center gap-2 mt-4">
             <Widget
