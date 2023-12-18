@@ -25,7 +25,7 @@ State.init({
     35011: {
       id: 35011,
       name: "J2O Taro",
-      billBOSCore: "0x64ADc655a088ea04a9B1929e9930c4e9E49D962e",
+      billBOSCore: "0x9d8b5e3C762167a409Db7f11a38b17dE9192E136",
       rpcUrl: "https://rpc.j2o.io",
       nativeCurrency: ETH_TOKEN,
       currencySymbol: "taro",
@@ -204,25 +204,18 @@ function getRewards() {
 }
 
 function getTotalDashboard() {
-  const chainsDefault = [25925];
   const promiseList = [];
-  for (let i = 0; i < chainsDefault.length; i++) {
-    const chainId = chainsDefault[i];
-    const provider = getRpcProvider(chainId);
-    const contract = new ethers.Contract(
-      state.chains[chainId].billBOSCore,
-      BillBOSCoreABI,
-      provider
-    );
-    const staked = contract.totalStakedBalanceLast();
-    promiseList.push(staked);
-    const earning = contract.totalEarningBalanceLast();
-    promiseList.push(earning);
-    const month = contract.monthCount();
-    promiseList.push(month);
-    const adsAll = contract.getAds();
-    promiseList.push(adsAll);
-  }
+  const chainId = state.chainId;
+  const provider = getRpcProvider(chainId);
+  const contract = new ethers.Contract(
+    state.chains[chainId].billBOSCore,
+    BillBOSCoreABI,
+    provider
+  );
+  promiseList.push(contract.totalStakedBalanceLast());
+  promiseList.push(contract.totalEarningBalanceLast());
+  promiseList.push(contract.monthCount());
+  promiseList.push(contract.getAds());
 
   Promise.all(promiseList).then((values) => {
     const adsAll = values[3].map((item) => {
@@ -231,7 +224,7 @@ function getTotalDashboard() {
     State.update({
       totalStakedBalance: fE(values[0]),
       totalEarningBalance: fE(values[1]),
-      monthCount: fE(values[2]),
+      monthCount: parseInt(values[2]),
       ads: adsAll,
     });
   });
@@ -451,8 +444,9 @@ function tapRewards() {
     </div>
   );
 }
-
-getTotalDashboard();
+if (state.chainId) {
+  getTotalDashboard();
+}
 
 function tapDashboard() {
   // get total view ads
