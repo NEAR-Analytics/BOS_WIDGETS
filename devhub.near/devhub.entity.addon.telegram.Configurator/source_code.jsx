@@ -2,6 +2,10 @@ const { Tile } =
   VM.require("devhub.near/widget/devhub.components.molecule.Tile") ||
   (() => <></>);
 
+if (!Tile) {
+  return <div>Loading...</div>;
+}
+
 const { data, onSubmit } = props;
 
 const Container = styled.div`
