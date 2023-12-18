@@ -1,5 +1,4 @@
-const { href } =
-  VM.require("previewthomas.near/widget/core.lib.url") || (() => {});
+const { href } = VM.require("previewthomas.near/widget/core.lib.url") || (() => {});
 
 if (!props.type) {
   return "Loading ...";
