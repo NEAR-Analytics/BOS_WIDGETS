@@ -58,6 +58,8 @@ const handleChangeInput = (value) => {
   State.update({ widget: value, isReady: false });
 };
 
+const disabled = !state.isReady || state.widget === "";
+
 const Modal = ({ isOpen, onClose, onSubmit }) => {
   if (!isOpen) return null;
   return (
@@ -152,7 +154,7 @@ const Modal = ({ isOpen, onClose, onSubmit }) => {
               border: "none",
               borderRadius: "8px",
             }}
-            disabled={!state.isReady}
+            disabled={disabled}
             onClick={() => {
               onSubmit(state.widget);
               onClose();
