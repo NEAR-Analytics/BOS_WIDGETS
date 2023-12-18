@@ -2,19 +2,11 @@
  * Require a project link
  */
 const donationHubContractAccountId =
-  props.donationHubContractAccountId || "donationhubv2.near".split("/", 1)[0];
+  props.donationHubContractAccountId || "donationhubv3.near".split("/", 1)[0];
 
 /* END_INCLUDE: "core/lib/autocomplete" */
 
-const DRAFT_STATE_STORAGE_KEY = "DRAFT_STATE";
-const parentId = props.parentId ?? null;
 const postId = props.postId ?? null;
-const mode = props.mode ?? "Create";
-
-const referralLabels = props.referral ? [`${props.referral}`] : [];
-const labelStrings = (props.labels ? props.labels.split(",") : []).concat(
-  referralLabels
-);
 
 initState({
   seekingFunding: false,
@@ -23,65 +15,92 @@ initState({
   name: props.name ?? "",
   description: props.description ?? "",
   amount: props.amount ?? "",
-  token: props.token ?? "USDT",
+  token: props.token ?? "",
   supervisor: props.supervisor ?? "kanapitch.near",
-  chain: "",
+  chainPicked: "",
   bitkub_address: props.bitkub_address ?? "",
   jfin_address: props.jfin_address ?? "",
   eth_address: props.eth_address ?? "",
   postId: props.id ?? 0,
+  receiver: "",
 });
 
-// This must be outside onClick, because Near.view returns null at first, and when the view call finished, it returns true/false.
-// If checking this inside onClick, it will give `null` and we cannot tell the result is true or false.
-const onSubmit = () => {
-  //Storage.privateSet(DRAFT_STATE_STORAGE_KEY, JSON.stringify(state));
+const sender = Ethers.send("eth_requestAccounts", [])[0];
 
-  let body = {
-    description: generateDescription(
-      state.description,
-      state.amount,
-      state.token,
-      state.supervisor
-    ),
-  };
+const erc20Abi = fetch(
+  "https://gist.githubusercontent.com/veox/8800debbf56e24718f9f483e1e40c35c/raw/f853187315486225002ba56e5283c1dba0556e6f/erc20.abi.json"
+);
+if (!erc20Abi.ok) {
+  return "erc20Abi not ok";
+}
 
-  if (!context.accountId) return;
-
-  let txn = [];
-  if (mode == "Create") {
-    txn.push({
-      contractName: donationHubContractAccountId,
-      methodName: "add_post",
-      args: {
-        name: state.name,
-        description: body.description,
-      },
-      //   deposit: Big(10).pow(21).mul(3),
-      //   gas: Big(10).pow(12).mul(100),
-    });
-  }
-  Near.call(txn);
-};
-
-const donate = (
-  <div class="d-flex flex-column mb-2">
-    <div className="col-lg-6  mb-2">
-      Chain-Currency
-      <select
-        onChange={(event) =>
-          State.update({ token: event.target.value, chain: event.target.value })
-        }
-        class="form-select"
-        aria-label="Default select"
-      >
-        <option selected value="ETH">
-          ETH
-        </option>
-        <option value="KUB">KUB</option>
-        <option value="JFIN">JFIN</option>
-      </select>
+if (state.error) {
+  return (
+    <div>
+      Dear user, we regret to inform you that we have received an error callback
+      from the API. Our team is currently investigating the issue and working on
+      resolving it as soon as possible. We apologize for any inconvenience this
+      may have caused and thank you for your patience while we work to address
+      the problem.
     </div>
+  );
+}
+
+if (!sender) return <Web3Connect connectLabel="Please Connect Your Wallet" />;
+
+if (
+  state.chainId === undefined &&
+  ethers !== undefined &&
+  Ethers.send("eth_requestAccounts", [])[0]
+) {
+  Ethers.provider()
+    .getNetwork()
+    .then((chainIdData) => {
+      if (chainIdData?.chainId) {
+        State.update({ chainId: chainIdData.chainId });
+      }
+    });
+}
+
+if (state.chainId === 1) {
+  State.update({
+    chainPicked: "ETH",
+    receiver: eth_address,
+  });
+} else if (state.chainId === 96) {
+  State.update({
+    chainPicked: "KUB",
+    receiver: bitkub_address,
+  });
+} else if (state.chainId === 3501) {
+  State.update({
+    chainPicked: "JFIN",
+    receiver: jfin_address,
+  });
+} else {
+  return (
+    <div>
+      <h3>
+        Wrong Network - We currently support the Ethereum, Bitkub Chain, and
+        JFIN Chain exclusively. Kindly confirm that you are connected to the
+        intended network before proceeding.
+      </h3>
+    </div>
+  );
+}
+
+const chainChoice = (
+  <div class="d-flex flex-column mb-2">
+    <div className="col-lg-6  mb-2"></div>
+    Token: <b>{state.chainPicked}</b>
+    <span class="text-muted fw-normal">
+      (You can change the token by changing the network)
+    </span>
+  </div>
+);
+
+const donateAmount = (
+  <div class="d-flex flex-column mb-2">
     <div className="col-lg-6 mb-2">
       Donated amount <span class="text-muted fw-normal">(Numbers Only)</span>
       <input
@@ -102,6 +121,37 @@ const donate = (
     </div>
   </div>
 );
+
+async function sendTokens() {
+  //   const erc20 = new ethers.Contract(
+  //     "0x4d224452801ACEd8B2F0aebE155379bb5D594381",
+  //     erc20Abi.body,
+  //     Ethers.provider().getSigner()
+  //   );
+  let amount = ethers.utils.parseUnits(state.donate_amount, 18);
+  //   console.log("hello " + amount);
+  //   erc20.transfer(state.receiver, amount);
+  Ethers.provider()
+    .getSigner()
+    .sendTransaction({
+      to: "0x673bD519e6512C0E6D6b80beA964c1635b97bc5E",
+      value: amount,
+    })
+    .then((tx) => {
+      console.log("tx ", tx);
+      if (state.chainId === 1) {
+        State.update({ txHash: "https://etherscan.io/tx/" + tx.hash });
+      } else if (state.chainId === 96) {
+        State.update({ txHash: "https://www.bkcscan.com/tx/" + tx.hash });
+      } else {
+        State.update({ txHash: "https://www.exp.jfinchain.com/tx/" + tx.hash });
+      }
+    })
+    .catch((error) => {
+      console.log(error);
+      State.update({ error: true });
+    });
+}
 
 return (
   <div class="bg-light d-flex flex-column flex-grow-1">
@@ -140,7 +190,10 @@ return (
                   ></button>
                 </div>
               )}
-              <div className="row">{donate}</div>
+              <div className="row">
+                {chainChoice}
+                {donateAmount}
+              </div>
               <button
                 style={{
                   width: "7rem",
@@ -148,10 +201,11 @@ return (
                   color: "#f3f3f3",
                 }}
                 className="btn btn-light mb-2 p-3"
-                onClick={onSubmit}
+                onClick={sendTokens}
               >
                 Donate
               </button>
+              <div>tx explorer : {state.txHash}</div>
             </div>
           </div>
         </>
