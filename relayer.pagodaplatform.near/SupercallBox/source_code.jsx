@@ -1,5 +1,4 @@
-// props.typeFunction is transfer or swap
-const { typeFunction } = props;
+const { typeFunc } = props;
 
 const tokens = [
   {
@@ -29,9 +28,14 @@ const Container = styled.div`
   border-radius: 14px;
   border: 1px solid #e9ebed;
   width: 328px;
+  background:white;
 `;
 
 const ContainerContent = styled.div`
+  padding: 18px 22px;
+`;
+
+const ContainerContentHeader = styled.div`
   padding: 18px 22px;
 `;
 
@@ -93,7 +97,7 @@ const StyledAddText = styled.span`
 initState({
   functionName: "",
   //   if props.typeFunction is null default set to transfer
-  typeFunction: typeFunction ?? "transfer",
+  typeFunction: typeFunc ?? "transfer",
   inputToken: "",
   outputToken: "",
   toWalletAddress: "",
@@ -105,9 +109,9 @@ const renderFunction = () => {
   if (state.typeFunction === "transfer") {
     return (
       <>
-        <ContainerContent>
-          <TextHeader>Transfer</TextHeader>
-        </ContainerContent>
+        <ContainerContentHeader>
+          <TextHeader styled={{}}>Transfer</TextHeader>
+        </ContainerContentHeader>
         <Divider />
         <ContainerContent>
           <StyledBoxInput>
@@ -156,9 +160,9 @@ const renderFunction = () => {
   } else if (state.typeFunction === "swap") {
     return (
       <>
-        <ContainerContent>
+        <ContainerContentHeader>
           <TextHeader>Swap</TextHeader>
-        </ContainerContent>
+        </ContainerContentHeader>
         <Divider />
         <ContainerContent>
           <StyledBoxInput>
