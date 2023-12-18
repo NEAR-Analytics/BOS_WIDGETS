@@ -1,7 +1,6 @@
 State.init({
   chainId: undefined,
   walletAddress: null,
-  balance: null,
   viewOfMonth: 0,
   viewOfWalletAddress: 0,
   ratioOfWalletAddress: 0,
@@ -34,11 +33,10 @@ State.init({
         "https://ipfs.near.social/ipfs/bafkreia4w3mcfsrvcoh3r44x5nxrmarrt5xr3nta7dnw7pjfufd3b3anki",
     },
   },
-  adsContent:
-    '<Widget src="jimmy-ez.near/widget/billbos-craete-ads" props={{}} />',
 });
 
 const [adsInfo, setAdsInfo] = useState({});
+const fE = ethers.utils.formatEther;
 
 const BACKEND_API = "https://api-billbos.0xnutx.space";
 const DEFAULT_CHAIN_ID = 25925;
@@ -84,43 +82,38 @@ if (
     });
 }
 
-const fetchApi = (queryURI, method, data) => {
-  const options = {
+const fetchApi = (queryURI, method) => {
+  return asyncFetch(queryURI, {
     method: method,
-    headers: {
-      "Content-Type": "application/json",
-    },
-  };
-  if (data) options[body] = JSON.stringify(data);
-  return asyncFetch(queryURI, options);
+  });
 };
 
 const handleRequest = (query, viewCase) => {
-  const endpoint = BACKEND_API + query;
+  const e = BACKEND_API + query;
   switch (viewCase) {
     case "viewOfMonth":
-      fetchApi(endpoint, "GET", "").then((res) => {
+      fetchApi(e, "GET").then((res) => {
         if (res.ok) {
           State.update({ viewOfMonth: res.body.view });
         }
       });
       return;
     case "viewOfWalletAddress":
-      fetchApi(endpoint, "GET", "").then((res) => {
+      fetchApi(e, "GET").then((res) => {
         if (res.ok) {
           State.update({ viewOfWalletAddress: res.body.view });
         }
       });
       return;
     case "ratioOfWalletAddress":
-      fetchApi(endpoint, "GET", "").then((res) => {
+      fetchApi(e, "GET").then((res) => {
         if (res.ok) {
           State.update({ ratioOfWalletAddress: res.body.ration });
         }
       });
       return;
     case "ad-view-by-adId":
-      return fetchApi(endpoint, "GET", "").then((res) => {
+      return fetchApi(e, "GET").then((res) => {
         return res;
       });
     default:
@@ -138,13 +131,9 @@ function checkProvider() {
       ?.then((address) => {
         State.update({ walletAddress: address });
       });
-    provider
-      .getSigner()
-      ?.getBalance()
-      .then((balance) => State.update({ balance: balance }));
     State.update({ walletConnected: true });
   } else {
-    State.update({ walletConnected: false, balance: null });
+    State.update({ walletConnected: false });
   }
 }
 checkProvider();
@@ -186,9 +175,7 @@ function formatAds(item, chainId) {
       widgetLink: item[1][3],
       isInteractive: item[1][4],
     },
-    adsStakedBalance: "10000000",
-    adsViewed: "7235",
-    chainId: chainId.toString(),
+    chainId: "" + chainId,
   };
 }
 
@@ -199,9 +186,20 @@ function onClaim() {
     BillBOSCoreABI,
     signer
   );
+  contract.claimReward();
+}
 
-  contract.claimReward().then((res) => {
-    console.log("res---->", res);
+function getRewards() {
+  const signer = Ethers.provider().getSigner();
+  const contract = new ethers.Contract(
+    state.chains[state.chainId].billBOSCore,
+    BillBOSCoreABI,
+    signer
+  );
+
+  contract.getReward(state.walletAddress).then((res) => {
+    adsInfo["0"] = fE(res[0]);
+    adsInfo["1"] = fE(res[1]);
   });
 }
 
@@ -216,16 +214,12 @@ function getTotalDashboard() {
       BillBOSCoreABI,
       provider
     );
-
     const staked = contract.totalStakedBalanceLast();
     promiseList.push(staked);
-
     const earning = contract.totalEarningBalanceLast();
     promiseList.push(earning);
-
     const month = contract.monthCount();
     promiseList.push(month);
-
     const adsAll = contract.getAds();
     promiseList.push(adsAll);
   }
@@ -234,11 +228,10 @@ function getTotalDashboard() {
     const adsAll = values[3].map((item) => {
       return formatAds(item, state.chainId);
     });
-
     State.update({
-      totalStakedBalance: ethers.utils.formatEther(values[0]),
-      totalEarningBalance: ethers.utils.formatEther(values[1]),
-      monthCount: ethers.utils.formatEther(values[2]),
+      totalStakedBalance: fE(values[0]),
+      totalEarningBalance: fE(values[1]),
+      monthCount: fE(values[2]),
       ads: adsAll,
     });
   });
@@ -301,7 +294,7 @@ function tapCampaigns() {
                 />
               </div>
             </div>
-            <div className="grid grid-cols-3 gap-3">
+            <div className="grid grid-cols-3 gap-3 z-20">
               {state.adsUser.map((item, index) => {
                 return (
                   <div key={index}>
@@ -315,6 +308,8 @@ function tapCampaigns() {
                         adsViewed:
                           adsInfo[`${item.chainId}-${item.adsId}-adsView`],
                         isShowAction: true,
+                        coreContractAddress:
+                          state.chains[state.chainId].billbosCoreAddress,
                       }}
                     />
                   </div>
@@ -349,6 +344,8 @@ function tapRewards() {
     `/ads/ratio-webpageOwnerview-by-allwebpageOwner?month=${month}&walletAddress=${walletAddress}`,
     "ratioOfWalletAddress"
   );
+
+  getRewards();
   return (
     <div>
       <div
@@ -420,14 +417,12 @@ function tapRewards() {
           </div>
           <div className="flex gap-3">
             {CHAIN_LIST.map((item, i) => {
-              const chainConfig = state.chains[item];
-
               return (
                 <Widget
                   src="porx-dev.near/widget/billbos-reward-card"
                   props={{
-                    chainName: chainConfig.name,
-                    amount: "1000.20",
+                    chainName: state.chains[item].name,
+                    amount: adsInfo[`${i}`],
                     tokenName: "USDT",
                     onClaim: onClaim,
                   }}
@@ -506,7 +501,7 @@ function tapDashboard() {
                     title: item.title,
                     usdt: item.usdt,
                     thb: item.thb,
-                    totalView: i == 2 ? state.viewOfMonth.toString() : "",
+                    totalView: i == 2 ? "" + state.viewOfMonth : "",
                     ipfsUrl: `https://ipfs.near.social/ipfs/${item.ipfsUrl}`,
                   }}
                 />
