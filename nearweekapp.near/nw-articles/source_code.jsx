@@ -51,12 +51,14 @@ function Articles() {
     { method: "GET" }
   );
 
+  console.log(fetchMedium);
+
   if (fetchMedium && fetchMedium?.body?.items?.length > 0) {
     fetchMedium.body.items.forEach((item) => {
       mediumPosts.push({
         title: item.title,
         url: item.link,
-        thumbnail: item.thumbnail,
+        thumbnail: item.thumbnail || fetchMedium?.body?.feed.image,
         createdAt: item.pubDate,
         categories: item.categories,
         author: item.author,
