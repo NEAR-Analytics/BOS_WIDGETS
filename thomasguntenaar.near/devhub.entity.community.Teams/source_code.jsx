@@ -1,11 +1,15 @@
 const { handle } = props;
 
 const { Tile } =
-  VM.require("thomasguntenaar.near/widget/devhub.components.molecule.Tile") ||
+  VM.require("previewthomas.near/widget/devhub.components.molecule.Tile") ||
   (() => <></>);
 
+if (!Tile) {
+  return <div>Loading...</div>;
+}
+
 const { getCommunity } = VM.require(
-  "thomasguntenaar.near/widget/core.adapter.devhub-contract"
+  "previewthomas.near/widget/core.adapter.devhub-contract"
 );
 
 const communityData = getCommunity({ handle });
