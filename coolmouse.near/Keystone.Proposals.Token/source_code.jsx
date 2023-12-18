@@ -505,10 +505,10 @@ return (
         <div className="text-lg breadcrumbs">
           <ul>
             <li>
-              <Link href="coolmouse.near/widget/Keystone.Index"> Home </Link>
+              <Link href={"/coolmouse.near/widget/Keystone.Index"}> Home </Link>
             </li>
             <li>
-              <Link href="coolmouse.near/widget/Keystone.Proposals.Index">
+              <Link href={"/coolmouse.near/widget/Keystone.Proposals.Index"}>
                 {" "}
                 Proposals{" "}
               </Link>
