@@ -3,7 +3,7 @@
 // and there is constant "negative affirmative" prop drilling happening, making it hard to follow
 const { data, onSubmit, permissions } = props;
 
-const Struct = VM.require("thomasguntenaar.near/widget/core.lib.struct");
+const Struct = VM.require("previewthomas.near/widget/core.lib.struct");
 
 if (!Struct) {
   return <p>Loading modules...</p>;
@@ -244,7 +244,7 @@ function Form() {
       <div className="d-flex flex-column">
         <div className="d-flex gap-1 flex-column flex-xl-row">
           <Widget
-            src="thomasguntenaar.near/widget/devhub.components.molecule.Input"
+            src="previewthomas.near/widget/devhub.components.molecule.Input"
             props={{
               className: "w-100",
               key: `${form.values.metadata.id}-repoURL`,
@@ -255,7 +255,7 @@ function Form() {
             }}
           />
           <Widget
-            src="thomasguntenaar.near/widget/devhub.components.molecule.Input"
+            src="previewthomas.near/widget/devhub.components.molecule.Input"
             props={{
               className: "w-100",
               key: `${form.values.metadata.id}-title`,
@@ -268,7 +268,7 @@ function Form() {
         </div>
 
         <Widget
-          src="thomasguntenaar.near/widget/devhub.components.molecule.Input"
+          src="previewthomas.near/widget/devhub.components.molecule.Input"
           props={{
             className: "w-100",
             key: `${form.values.metadata.id}-description`,
@@ -282,7 +282,7 @@ function Form() {
 
       <div className="d-flex gap-4 flex-row flex-wrap justify-content-between">
         <Widget
-          src="thomasguntenaar.near/widget/devhub.components.molecule.Input"
+          src="previewthomas.near/widget/devhub.components.molecule.Input"
           props={{
             heading: "Ticket types",
             classNames: { root: "col-12 col-md-4 h-auto" },
@@ -310,7 +310,7 @@ function Form() {
           </span>
 
           <Widget
-            src="thomasguntenaar.near/widget/devhub.components.molecule.Switch"
+            src="previewthomas.near/widget/devhub.components.molecule.Switch"
             props={{
               currentValue: form.values.ticketState,
               key: "ticketState",
@@ -325,7 +325,7 @@ function Form() {
           />
         </div>
         <Widget
-          src="thomasguntenaar.near/widget/devhub.components.organism.Configurator"
+          src="previewthomas.near/widget/devhub.components.organism.Configurator"
           props={{
             heading: "Card fields",
             classNames: { root: "col-12 col-md-4 h-auto" },
@@ -355,7 +355,7 @@ function Form() {
             >
               <div className="d-flex flex-column gap-1 w-100">
                 <Widget
-                  src="thomasguntenaar.near/widget/devhub.components.molecule.Input"
+                  src="previewthomas.near/widget/devhub.components.molecule.Input"
                   props={{
                     className: "flex-grow-1",
                     key: `${form.values.metadata.id}-column-${id}-title`,
@@ -366,7 +366,7 @@ function Form() {
                   }}
                 />
                 <Widget
-                  src="thomasguntenaar.near/widget/devhub.components.molecule.Input"
+                  src="previewthomas.near/widget/devhub.components.molecule.Input"
                   props={{
                     format: "comma-separated",
                     key: `${form.values.metadata.id}-column-${title}-labelSearchTerms`,
@@ -383,7 +383,7 @@ function Form() {
                   }}
                 />
                 <Widget
-                  src="thomasguntenaar.near/widget/devhub.components.molecule.Input"
+                  src="previewthomas.near/widget/devhub.components.molecule.Input"
                   props={{
                     className: "flex-grow-1",
                     key: `${form.values.metadata.id}-column-${id}-description`,
@@ -422,7 +422,7 @@ function Form() {
 
         <div className="d-flex gap-3 justify-content-end w-100">
           <Widget
-            src="thomasguntenaar.near/widget/devhub.components.molecule.Button"
+            src="previewthomas.near/widget/devhub.components.molecule.Button"
             props={{
               classNames: {
                 root: "d-flex btn btn-outline-danger shadow-none border-0",
@@ -432,7 +432,7 @@ function Form() {
             }}
           />
           <Widget
-            src="thomasguntenaar.near/widget/devhub.components.molecule.Button"
+            src="previewthomas.near/widget/devhub.components.molecule.Button"
             props={{
               classNames: { root: "btn btn-success" },
               disabled: form.isSynced,
@@ -465,7 +465,7 @@ return (
           <span>GitHub board configuration</span>
         </h5>
         <Widget
-          src="thomasguntenaar.near/widget/devhub.components.molecule.Switch"
+          src="previewthomas.near/widget/devhub.components.molecule.Switch"
           props={{
             currentValue: editingMode,
             key: "editingMode",
@@ -495,7 +495,7 @@ return (
     </div>
     {form.values ? (
       <Widget
-        src={`thomasguntenaar.near/widget/devhub.entity.addon.${form.values.metadata.type}`}
+        src={`previewthomas.near/widget/devhub.entity.addon.${form.values.metadata.type}`}
         props={{
           ...form.values,
 
@@ -530,7 +530,7 @@ return (
           This community doesn't have a GitHub board
         </h5>
         <Widget
-          src="thomasguntenaar.near/widget/devhub.components.molecule.Button"
+          src="previewthomas.near/widget/devhub.components.molecule.Button"
           props={{
             icon: { type: "bootstrap_icon", variant: "bi-github" },
             isHidden: !permissions.can_configure,
