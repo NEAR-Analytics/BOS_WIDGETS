@@ -29,7 +29,7 @@ const CommentCard = styled.div`
   border-radius: "10px"};
   background: ${
     sharedCommentId === data.originalComment.value.comment.commentId
-      ? "blue"
+      ? "rgba(160, 176, 255, 0.8)"
       : "#fff"
   };
   width: 100%;
