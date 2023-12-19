@@ -12,7 +12,7 @@ const abi = fetch(
 const TutorContract = new ethers.Contract(
   "0x1D7098360A9e77A58C4D38df9261335bD74d44d5",
   abi.body,
-  Ethers.provider().getSigner()
+  Ethers.provider()?.getSigner()
 );
 
 if (state.sender == undefined && Ethers.provider()) {
@@ -110,6 +110,7 @@ const heapHeapHoorayBoxStyle = {
 
 const textA = () => {
   const [commentContent, setCommentContent] = useState("");
+  setCommentContent("");
   console.log(commentContent);
   const handleComment = () => {
     try {
@@ -289,7 +290,6 @@ const Post = ({ post }) => {
           selected={state.selectedTab === "viewPost"}
           style={{ textDecoration: "none", color: "inherit" }}
         >
-          {/* Replace <h5> with Link component */}
           <div>{post.title}</div>
         </Link>
         <div style={{ color: "#333", fontSize: "12px" }}>{post.author}</div>
@@ -310,7 +310,7 @@ useEffect(() => {
   fetchAllPost();
   fetchMyPost();
   fetchComments(0);
-}, []); // Empty dependency array means it runs once on mount
+}, []);
 
 const home = () => {
   const boxContainerStyle = {
@@ -786,7 +786,6 @@ const myPost = () => {
         >
           <h3 style={{ marginBottom: "2.5%" }}>History Post:</h3>
         </div>
-
         {posts.map((post, index) => (
           <Post key={index} post={post} />
         ))}
