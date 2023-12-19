@@ -1,4 +1,5 @@
 const [inputSourceCode, setInputSourceCode] = useState("");
+const [inputSourceCodeLang, setInputSourceCodeLang] = useState("typescript");
 
 if (!props.sourceCodeBase64) {
   return (
@@ -12,15 +13,23 @@ if (!props.sourceCodeBase64) {
           onChange={(e) => setInputSourceCode(e.target.value)}
         ></textarea>
       </label>
+      <label>
+        Programming Language:{" "}
+        <input
+          type="text"
+          value={inputSourceCodeLang}
+          onChange={(e) => setInputSourceCodeLang(e.target.value)}
+        />
+      </label>
       {inputSourceCode ? (
         <p>
           <a
             target="_blank"
             href={`/${
               context.widgetSrc
-            }?sourceCodeLang=typescript&sourceCodeBase64=${encodeURIComponent(
-              btoa(inputSourceCode)
-            )}`}
+            }?sourceCodeLang=typescript&sourceCodeBase64=${
+              inputSourceCode.length
+            }${encodeURIComponent(btoa(inputSourceCode))}`}
           >
             Share this link
           </a>
