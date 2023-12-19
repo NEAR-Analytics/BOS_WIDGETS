@@ -419,7 +419,7 @@ function tapRewards() {
                   src="porx-dev.near/widget/billbos-reward-card"
                   props={{
                     chainName: state.chains[item].name,
-                    amount: adsInfo[`${i}`] || "0",
+                    amount: parseFloat(adsInfo[`${i}`]).toFixed(6) || "0",
                     tokenName: "USDT",
                     onClaim: onClaim,
                   }}
