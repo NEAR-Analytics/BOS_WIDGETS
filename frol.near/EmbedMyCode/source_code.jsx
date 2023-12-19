@@ -16,7 +16,7 @@ if (!props.sourceCodeBase64) {
         <p>
           <a
             target="_blank"
-            href={`${
+            href={`/${
               context.widgetSrc
             }?sourceCodeLang=typescript&sourceCodeBase64=${
               inputSourceCode.length
