@@ -7,14 +7,13 @@ const NoData = styled.div`
   width: 100%;
   align-items: center;
   justify-content: center;
-  margin-top: 50px;
+  height: 100%;
   p {
     font-size: 20px;
     font-weight: 600;
     color: #b0b0b0;
   }
 `;
-
 
 if (!accountId) {
   return <NoData>Please connect to a Near Wallet</NoData>;
@@ -46,9 +45,6 @@ const data = fetch("https://graph.mintbase.xyz", {
 });
 
 const finalData = data?.body?.data;
-
-
-
 
 if (!finalData || finalData?.tokens?.length === 0) {
   return (
