@@ -384,6 +384,13 @@ const OperationWrapper = styled.div`
   }
 `;
 
+const Seperator = styled.div`
+  border: 1px solid rgba(30, 31, 41, 1);
+  height: 1px;
+  width: 100%;
+  margin: 20px 0px;
+`;
+
 const uuid = Storage.get(
   "zkevm-warm-up-uuid",
   "guessme.near/widget/ZKEVMWarmUp.generage-uuid"
@@ -658,6 +665,7 @@ return state.myQuestList.length && realList.length ? (
         </div>
       )}
     </OperationWrapper>
+    <Seperator />
   </CardListWrapper>
 ) : (
   <NoQuestWrapper>
