@@ -10,6 +10,7 @@ const {
   handleShareButton,
   callLibs,
   baseActions,
+  sharedCommentId,
 } = props;
 
 if (!callLibs) {
@@ -526,6 +527,11 @@ let displayedContent = state.sliceContent
 
 return (
   <>
+    {sharedCommentId && (
+      <a href={`#${sharedCommentId}`}>
+        Click to redirect to comment that mentioned you
+      </a>
+    )}
     <Container className="row">
       <div className="col-lg-9 col-sm-12">
         <div className="row" style={{ "margin-inline": "5px" }}>
