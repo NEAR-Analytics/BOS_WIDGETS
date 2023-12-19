@@ -1,7 +1,13 @@
 // SayALot
 
-let { sharedBlockHeight, tagShared, isTest, accountId, sharedArticleId } =
-  props;
+let {
+  sharedBlockHeight,
+  tagShared,
+  isTest,
+  accountId,
+  sharedArticleId,
+  sharedCommentId,
+} = props;
 
 //Duplicated(lib.SBT)
 const sbtWhiteList =
@@ -86,7 +92,8 @@ const widgets = {
   // articleView: `${componentsOwner}/widget/NDC.ArticleView`, ///////////////////////////////////////////////////
   articleView: `f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/NDC.ArticleView`, ///////////////////////////////////////////////////
   reactions: `${componentsOwner}/widget/NDC.Reactions`,
-  addComment: `${componentsOwner}/widget/NDC.AddComment`,
+  // addComment: `${componentsOwner}/widget/NDC.AddComment`, ///////////////////////////////////////////////////
+  addComment: `f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/NDC.AddComment`, ///////////////////////////////////////////////////
   // commentView: `${componentsOwner}/widget/NDC.CommentView`, ///////////////////////////////////////////////////
   commentView: `f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/NDC.CommentView`, ///////////////////////////////////////////////////
   // upVoteButton: `${componentsOwner}/widget/NDC.UpVoteButton`,
@@ -171,6 +178,7 @@ return (
       kanbanRequiredLabels,
       kanbanExcludedLabels,
       sharedArticleId,
+      sharedCommentId,
     }}
   />
 );
