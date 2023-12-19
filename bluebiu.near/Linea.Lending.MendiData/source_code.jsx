@@ -247,14 +247,41 @@ const DISTRIBUTION_ABI = [
     type: "function",
   },
 ];
-
-const REWARD_TOKEN = "0x43E8809ea748EFf3204ee01F08872F063e44065f";
+const LENS_ABI = [
+  {
+    inputs: [
+      {
+        internalType: "contract ComptrollerLensInterface",
+        name: "comptroller",
+        type: "address",
+      },
+      { internalType: "address", name: "account", type: "address" },
+    ],
+    name: "rewardsAccrued",
+    outputs: [
+      {
+        internalType: "address[]",
+        name: "rewardTokens",
+        type: "address[]",
+      },
+      { internalType: "uint256[]", name: "accrued", type: "uint256[]" },
+    ],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+];
+const REWARD_TOKEN = {
+  address: "0x43E8809ea748EFf3204ee01F08872F063e44065f",
+  icon: "https://ipfs.near.social/ipfs/bafkreihtevj6whwlekvhfymajsosbhkqxljqwumgniacye724pxvt24tk4",
+  symbol: "MENDI",
+};
 
 const {
   multicallAddress,
   unitrollerAddress,
   oracleAddress,
   distributionAddress,
+  lensAddress,
   account,
   update,
   dapp,
@@ -313,6 +340,7 @@ const formatedData = (key) => {
   let userTotalSupplyUsd = Big(0);
   let userTotalBorrowUsd = Big(0);
   let totalCollateralUsd = Big(0);
+  let totalAccountDistributionApy = Big(0);
   const markets = {};
   Object.values(_cTokensData).forEach((market) => {
     const underlyingPrice = _underlyPrice[market.address] || 1;
@@ -326,25 +354,32 @@ const formatedData = (key) => {
     userTotalBorrowUsd = userTotalBorrowUsd.plus(
       Big(market.userBorrow).mul(underlyingPrice)
     );
-    totalCollateralUsd = totalCollateralUsd.plus(
-      Big(market.userSupply)
-        .mul(underlyingPrice)
-        .mul(_loanToValue[market.address])
-        .div(100)
-    );
+    if (_userMerberShip[market.address]) {
+      totalCollateralUsd = totalCollateralUsd.plus(
+        Big(market.userSupply)
+          .mul(underlyingPrice)
+          .mul(_loanToValue[market.address])
+          .div(100)
+      );
+    }
 
-    // const distributionSupplyApy = _rewards[market.address].supply
-    //   .mul(usdcPrice)
-    //   .div(marketSupplyUsd.eq(0) ? 1 : marketSupplyUsd);
-    // const distributionBorrowApy = _rewards[market.address].borrow
-    //   .mul(usdcPrice)
-    //   .div(marketBorrowUsd.eq(0) ? 1 : marketBorrowUsd);
+    const distributionSupplyApy = _rewards[market.address].supply
+      .div(marketSupplyUsd.eq(0) ? 1 : marketSupplyUsd)
+      .mul(100)
+      .toFixed(2);
+
+    const distributionBorrowApy = _rewards[market.address].borrow
+      .div(marketBorrowUsd.eq(0) ? 1 : marketBorrowUsd)
+      .mul(100)
+      .toFixed(2);
+    totalAccountDistributionApy = totalAccountDistributionApy
+      .plus(distributionSupplyApy)
+      .plus(distributionBorrowApy);
     const supplyApy = Big(market.supplyRatePerBlock)
       .mul(60 * 60 * 24)
       .plus(1)
       .pow(365)
       .minus(1)
-      // .add(distributionSupplyApy)
       .mul(100);
 
     const borrowApy = Big(market.borrowRatePerBlock)
@@ -352,24 +387,7 @@ const formatedData = (key) => {
       .plus(1)
       .pow(365)
       .minus(1)
-      // .minus(distributionBorrowApy)
       .mul(100);
-
-    let rewards;
-    const reward = _accountRewards[market.address];
-    if (reward && Big(reward.reward || 0).gt(0)) {
-      rewards = [
-        {
-          icon: "https://ipfs.near.social/ipfs/bafkreidlvv5i7d44wtqtts6z7hcltylh2hv2ybjeluf4qklovf7fm6h7my",
-          symbol: "MENDI",
-          dailyRewards: Big(_rewards[market.address].borrow)
-            .plus(_rewards[market.address].supply)
-            .toString(),
-          price: Big(reward.price).mul(usdcPrice),
-          unclaimed: reward.reward,
-        },
-      ];
-    }
 
     markets[market.address] = {
       ...market,
@@ -380,12 +398,37 @@ const formatedData = (key) => {
       userMerberShip: _userMerberShip[market.address],
       supplyApy: supplyApy.toFixed(2) + "%",
       borrowApy: borrowApy.toFixed(2) + "%",
+      distributionApy: [
+        {
+          ...REWARD_TOKEN,
+          supply: distributionSupplyApy + "%",
+          borrow: distributionBorrowApy + "%",
+        },
+      ],
       dapp,
       rewards,
     };
   });
+  let rewards;
+  if (_accountRewards && Big(_accountRewards.reward || 0).gt(0)) {
+    const dailyRewards = totalAccountDistributionApy
+      .mul(userTotalSupplyUsd.add(userTotalBorrowUsd))
+      .div(365 * 100)
+      .div(_accountRewards.price);
+    rewards = [
+      {
+        ...REWARD_TOKEN,
+        dailyRewards: dailyRewards.lt(0.000001)
+          ? "0.000001"
+          : dailyRewards.toString(),
+        price: _accountRewards.price,
+        unclaimed: _accountRewards.reward,
+      },
+    ];
+  }
   onLoad({
     markets,
+    rewards,
     totalSupplyUsd: totalSupplyUsd.toString(),
     totalBorrowUsd: totalBorrowUsd.toString(),
     userTotalSupplyUsd: userTotalSupplyUsd.toString(),
@@ -656,91 +699,23 @@ const getCTokensData = () => {
     getCTokenData(market);
   });
 };
-const getCTokenReward = ({ avalPrice, qiPrice, cTokens, index }) => {
-  const token = cTokens[index];
-  const calls = [
-    {
-      address: unitrollerAddress,
-      name: "borrowRewardSpeeds",
-      params: [0, token],
-    },
-    {
-      address: unitrollerAddress,
-      name: "borrowRewardSpeeds",
-      params: [1, token],
-    },
-    {
-      address: unitrollerAddress,
-      name: "supplyRewardSpeeds",
-      params: [0, token],
-    },
-    {
-      address: unitrollerAddress,
-      name: "supplyRewardSpeeds",
-      params: [1, token],
-    },
-  ];
-  multicallv2(
-    UNITROLLER_ABI,
-    calls,
-    {},
-    (res) => {
-      const qiBorrow = Big(ethers.utils.formatUnits(res[0][0]._hex, 18)).mul(
-        qiPrice
-      );
-      const avalBorrow = Big(ethers.utils.formatUnits(res[1][0]._hex, 18)).mul(
-        avalPrice
-      );
-      const qiSupply = Big(ethers.utils.formatUnits(res[2][0]._hex, 18)).mul(
-        qiPrice
-      );
-      const avalSupply = Big(ethers.utils.formatUnits(res[3][0]._hex, 18)).mul(
-        avalPrice
-      );
-      _rewards[token] = {
-        borrow: qiBorrow.plus(avalBorrow).mul(60 * 60 * 24 * 365),
-        supply: qiSupply.plus(avalSupply).mul(60 * 60 * 24 * 365),
-      };
-      if (index === cTokens.length - 1) {
-        count++;
-        formatedData("rewards");
-      } else {
-        getCTokenReward({
-          avalPrice,
-          qiPrice,
-          cTokens,
-          index: index + 1,
-        });
-      }
-    },
-    (err) => {
-      console.log("error-rewards", err);
-    }
-  );
-};
-const getUserRewards = (price) => {
-  const cTokens = Object.keys(markets);
-  const calls = cTokens.map((token) => ({
-    address: distributionAddress,
-    name: "rewardAccountState",
-    params: [token, account],
-  }));
-  multicallv2(
-    DISTRIBUTION_ABI,
-    calls,
-    {},
-    (res) => {
-      for (let i = 0, len = cTokens.length; i < len; i++) {
-        const token = cTokens[i];
-        const accured = Big(
-          ethers.utils.formatUnits(res[i][0]._hex, 18)
-        ).toString();
 
-        _accountRewards[token] = {
-          price,
-          reward: accured,
-        };
-      }
+const getUserRewards = (price) => {
+  multicallv2(
+    LENS_ABI,
+    [
+      {
+        address: lensAddress,
+        name: "rewardsAccrued",
+        params: [unitrollerAddress, account],
+      },
+    ],
+    {},
+    (res) => {
+      _accountRewards = {
+        price,
+        reward: ethers.utils.formatUnits(res[0][1][0], 18).toString(),
+      };
       count++;
       formatedData("rewards");
     },
@@ -750,84 +725,42 @@ const getUserRewards = (price) => {
   );
 };
 const getRewards = () => {
-  const LpContract = new ethers.Contract(
-    "0xd0E67CE5E72beBA9D0986479Ea4E4021120cf794",
-    [
-      {
-        inputs: [],
-        name: "getReserves",
-        outputs: [
-          { internalType: "uint112", name: "_reserve0", type: "uint112" },
-          { internalType: "uint112", name: "_reserve1", type: "uint112" },
-          {
-            internalType: "uint32",
-            name: "_blockTimestampLast",
-            type: "uint32",
-          },
-        ],
-        stateMutability: "view",
-        type: "function",
-      },
-      {
-        inputs: [],
-        name: "tokenWeights",
-        outputs: [
-          { internalType: "uint256", name: "_reserve0", type: "uint256" },
-          { internalType: "uint256", name: "_reserve1", type: "uint256" },
-        ],
-        stateMutability: "view",
-        type: "function",
-      },
-      {
-        inputs: [],
-        name: "listedTokens",
-        outputs: [
-          { internalType: "address", name: "", type: "address" },
-          { internalType: "address", name: "", type: "address" },
-        ],
-        stateMutability: "view",
-        type: "function",
-      },
-    ],
-    Ethers.provider().getSigner()
-  );
-  LpContract.tokenWeights()
-    .then((weights) => {
-      const price = Big(weights[1]).div(weights[0]).toString();
-      const cTokens = Object.keys(markets);
-      const calls = cTokens.map((token) => ({
-        address: distributionAddress,
-        name: "rewardMarketState",
-        params: [REWARD_TOKEN, token],
-      }));
-      multicallv2(
-        DISTRIBUTION_ABI,
-        calls,
-        {},
-        (res) => {
-          for (let i = 0, len = cTokens.length; i < len; i++) {
-            const token = cTokens[i];
-            const supply = Big(
-              ethers.utils.formatUnits(res[i][0]._hex, 18)
-            ).mul(price);
-            const borrow = Big(
-              ethers.utils.formatUnits(res[i][3]._hex, 18)
-            ).mul(price);
-            _rewards[token] = {
-              borrow: supply.mul(60 * 60 * 24 * 365),
-              supply: borrow.mul(60 * 60 * 24 * 365),
-            };
-          }
-          getUserRewards(price);
-        },
-        (err) => {
-          console.log("error-rewards", err);
+  asyncFetch(
+    "https://api.coingecko.com/api/v3/simple/price?ids=mendi-finance&vs_currencies=usd"
+  ).then((response) => {
+    const data = response.body || [];
+    const price = data["mendi-finance"].usd;
+    const cTokens = Object.keys(markets);
+    const calls = cTokens.map((token) => ({
+      address: distributionAddress,
+      name: "rewardMarketState",
+      params: [REWARD_TOKEN.address, token],
+    }));
+    multicallv2(
+      DISTRIBUTION_ABI,
+      calls,
+      {},
+      (res) => {
+        for (let i = 0, len = cTokens.length; i < len; i++) {
+          const token = cTokens[i];
+          const supply = Big(ethers.utils.formatUnits(res[i][0]._hex, 18)).mul(
+            price
+          );
+          const borrow = Big(ethers.utils.formatUnits(res[i][3]._hex, 18)).mul(
+            price
+          );
+          _rewards[token] = {
+            borrow: borrow.mul(60 * 60 * 24 * 365),
+            supply: supply.mul(60 * 60 * 24 * 365),
+          };
         }
-      );
-    })
-    .catch((err) => {
-      console.log(err);
-    });
+        getUserRewards(price);
+      },
+      (err) => {
+        console.log("error-rewards", err);
+      }
+    );
+  });
 };
 
 const init = () => {
