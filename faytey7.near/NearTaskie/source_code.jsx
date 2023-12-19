@@ -1,18 +1,3 @@
-const [orgName, setOrgName] = useState("");
-const [orgSize, setOrgSize] = useState("");
-const [orgMembers, setOrgMembers] = useState(members);
-const [orgDesc, setOrgDesc] = useState("");
-const [memberName, setMemberName] = useState("");
-const [memberRole, setMemberRole] = useState("");
-const [memberWalletAddress, setMemberWalletAddress] = useState("");
-const [tasks, setTasks] = useState([]);
-const [getTask, setGetTasks] = useState(null);
-const [taskName, setTaskName] = useState("");
-const [taskAssignee, setTaskAssignee] = useState("");
-const [assigned, setAssigned] = useState(true);
-const [totalOrg, setTotalOrg] = useState([]);
-const [viewOrg, setViewOrg] = useState(null);
-
 const Container = styled.div`
 background: #e9e9e9;
 `;
@@ -137,85 +122,6 @@ const Spans = styled.span`
 font-weight: bold;
 `;
 
-const addOrganization = () => {
-  setTotalOrg((prevOrganizations) => [
-    ...prevOrganizations,
-    { name: orgName, size: orgSize, members: orgMembers, description: orgDesc },
-  ]);
-
-  setOrgName("");
-  setOrgSize("");
-  setOrgDesc("");
-  setOrgMembers([]);
-};
-
-const addMember = ({ index }) => {
-  const newMember = {
-    id: orgMembers.length + 1,
-    name: memberName,
-    role: memberRole,
-    walletAddress: memberWalletAddress,
-  };
-  const newMemberList = [...orgMembers.members];
-
-  newMemberList.splice(index, 0, newMember);
-
-  setTotalOrg({ ...totalOrg, addMember: newMemberList });
-};
-
-const viewOrganisations = () => {
-  const view = (
-    <div>
-      {totalOrg.map((org, index) => (
-        <div key={index}>
-          <p>
-            <Spans>Name:</Spans> {org.name}
-          </p>
-
-          <p>
-            <Spans>Size:</Spans> {org.size}
-          </p>
-
-          <p>
-            <Spans>Description:</Spans> {org.description}
-          </p>
-        </div>
-      ))}
-    </div>
-  );
-  setViewOrg(view);
-};
-
-const addTask = () => {
-  setTasks((prevTask) => [
-    ...prevTask,
-    { name: taskName, assignnee: taskAssignee, status: assigned },
-  ]);
-
-  setTaskName("");
-  setTaskAssignee("");
-  setAssigned(false);
-};
-
-const getTasks = () => {
-  const view = (
-    <div>
-      {tasks.map((task, index) => (
-        <div key={index}>
-          <p>
-            <Spans>Name:</Spans> {task.name}
-          </p>
-
-          <p>
-            <Spans>Assignee:</Spans> {task.assignnee}
-          </p>
-        </div>
-      ))}
-    </div>
-  );
-  setGetTasks(view);
-};
-
 return (
   <Container>
     <div>
@@ -225,8 +131,10 @@ return (
           <Ul>
             <Li href="#home">HOME</Li>
             <Li href="#about">ABOUT</Li>
-            <Li href="#create">CREATE</Li>
             <Li href="#contact">CONTACT</Li>
+            <Li href="https://near.social/faytey7.near/widget/Create">
+              OPEN APP
+            </Li>
           </Ul>
         </Navbar>
       </div>
@@ -248,142 +156,6 @@ return (
           for planning and monitoring tasks.
         </P>
       </About>
-      <Create id="create">
-        <div>
-          <Heading>Create Organization</Heading>
-
-          <div>
-            <label htmlFor="name">Name of Organization:</label>
-
-            <Input
-              type="text"
-              id="name"
-              value={orgName}
-              onChange={(e) => setOrgName(e.target.value)}
-            />
-          </div>
-
-          <div>
-            <label htmlFor="size">Size of Organization:</label>
-
-            <Input
-              type="number"
-              id="size"
-              value={orgSize}
-              onChange={(e) => setOrgSize(e.target.value)}
-            />
-          </div>
-
-          <div>
-            <label htmlFor="desc">Description:</label>
-
-            <Input
-              type="text"
-              id="desc"
-              value={orgDesc}
-              onChange={(e) => setOrgDesc(e.target.value)}
-            />
-          </div>
-
-          <Buttons onClick={addOrganization}>Add Organization</Buttons>
-        </div>
-
-        <br />
-        <hr />
-
-        <div>
-          <Heading>Add Member</Heading>
-
-          <div>
-            <label htmlFor="name">Name:</label>
-
-            <Input
-              type="text"
-              id="name"
-              value={memberName}
-              onChange={(e) => setMemberName(e.target.value)}
-            />
-          </div>
-
-          <div>
-            <label htmlFor="size">Role:</label>
-
-            <Input
-              type="role"
-              id="role"
-              value={memberRole}
-              onChange={(e) => setMemberRole(e.target.value)}
-            />
-          </div>
-
-          <div>
-            <label htmlFor="desc">Wallet Address:</label>
-
-            <Input
-              type="text"
-              id="desc"
-              value={memberWalletAddress}
-              onChange={(e) => setMemberWalletAddress(e.target.value)}
-            />
-          </div>
-
-          <Buttons onClick={addMember}>Add Member</Buttons>
-        </div>
-        <br />
-        <hr />
-
-        <div>
-          <Heading>Create Task</Heading>
-
-          <div>
-            <label htmlFor="taskname">Name of Task:</label>
-
-            <Input
-              type="text"
-              id="taskname"
-              value={taskName}
-              onChange={(e) => setTaskName(e.target.value)}
-            />
-          </div>
-
-          <div>
-            <label htmlFor="assignee">Assignee:</label>
-
-            <Input
-              type="text"
-              id="assignee"
-              value={taskAssignee}
-              onChange={(e) => setTaskAssignee(e.target.value)}
-            />
-          </div>
-
-          <div>
-            <label htmlFor="status">Status:</label>
-
-            <Input
-              type="text"
-              id="status"
-              value={assigned}
-              onChange={(e) => setAssigned(e.target.value)}
-            />
-          </div>
-
-          <Buttons onClick={addTask}>Add Task</Buttons>
-        </div>
-        <br />
-        <hr />
-
-        <Home>
-          <div>
-            <Button onClick={viewOrganisations}>View Organizations</Button>
-            <div>{viewOrg}</div>
-          </div>
-          <div>
-            <Button onClick={getTasks}>View Tasks</Button>
-            <div>{getTask}</div>
-          </div>
-        </Home>
-      </Create>
     </div>
     <Footer id="contact">
       <H3>Contact</H3>
