@@ -1,6 +1,7 @@
 // constants
 
 const abi = [
+  // propose(action: uint256, amount: uint256, data: bytes, lifetime: uint256, targets: address[3])
   {
     inputs: [
       {
@@ -34,6 +35,7 @@ const abi = [
     stateMutability: "nonpayable",
     type: "function",
   },
+  // token(pos: uint256)
   {
     inputs: [
       {
@@ -51,6 +53,7 @@ const abi = [
     stateMutability: "view",
     type: "function",
   },
+  // token_count()
   {
     inputs: [],
     name: "token_count",
