@@ -156,7 +156,7 @@ const textA = () => {
 };
 
 const [posts, setPosts] = useState([]);
-
+setPosts([]);
 const fetchAllPost = () => {
   const fetchData = () => {
     try {
@@ -219,7 +219,7 @@ const fetchMyPost = () => {
 };
 
 const [commentData, setCommentData] = useState([]);
-
+setCommentData([]);
 const fetchComments = (postId) => {
   const fetchData = () => {
     try {
@@ -306,13 +306,13 @@ const Post = ({ post }) => {
   );
 };
 
-const home = () => {
-  useEffect(() => {
-    fetchAllPost();
-    fetchMyPost();
-    fetchComments(0);
-  }, []);
+useEffect(() => {
+  fetchAllPost();
+  fetchMyPost();
+  fetchComments(0);
+}, []);
 
+const home = () => {
   const boxContainerStyle = {
     display: "flex",
     flexDirection: "column",
@@ -532,7 +532,10 @@ const viewPost = (pagePostId) => {
           </a>
         </li>
         <li style={boxStyle}>
-          <a href="#" style={{ textDecoration: "none", color: "#fff" }}>
+          <a
+            href="teama.near/widget/CreatePost"
+            style={{ textDecoration: "none", color: "#fff" }}
+          >
             Create Post
           </a>
         </li>
