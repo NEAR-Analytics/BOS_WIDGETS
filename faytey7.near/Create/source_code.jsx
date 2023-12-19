@@ -1,3 +1,16 @@
+const accountId = props.accountId ?? context.accountId;
+if (!accountId) {
+  return "No account ID";
+}
+
+const profile = props.profile ?? Social.getr(`${accountId}/profile`);
+
+if (profile === null) {
+  return "Loading";
+}
+
+const description = profile.description;
+
 const [orgName, setOrgName] = useState("");
 const [orgSize, setOrgSize] = useState("");
 const [orgMembers, setOrgMembers] = useState(members);
@@ -140,6 +153,7 @@ const addMember = ({ index }) => {
 const viewOrganisations = () => {
   const view = (
     <div>
+      <p>{description}</p>
       {totalOrg.map((org, index) => (
         <div key={index}>
           <p>
