@@ -16,6 +16,7 @@ let {
   kanbanRequiredTags,
   kanbanExcludedTags,
   sharedArticleId,
+  sharedCommentId,
 } = props;
 sharedBlockHeight = Number(sharedBlockHeight);
 
@@ -185,8 +186,6 @@ function filterArticlesByAuthor(author, articles) {
 }
 
 function filterOnePostByBlockHeight(blockHeight, articles) {
-  console.log("articles: ", articles);
-  console.log("blockHeight: ", blockHeight);
   if (articles) {
     return articles.filter((article) => article.blockHeight === blockHeight);
   } else {
@@ -521,32 +520,6 @@ function handleOnCommitArticle(articleToRenderData) {
 }
 
 //===============================================END FUNCTIONS======================================================
-// if (!context.accountId) {
-//   return (
-//     <>
-//       <Widget
-//         src={widgets.header}
-//         props={{
-//           isTest,
-//           mainStateUpdate,
-//           handleGoHomeButton,
-//           handlePillNavigation,
-//           brand,
-//           pills: navigationPills,
-//           navigationButtons,
-//           displayedTabId: state.displayedTabId,
-//           handleFilterArticles,
-//           filterParameter: state.filterBy.parameterName,
-//           handleBackButton,
-//           tabs,
-//           sbtsNames,
-//         }}
-//       />
-//       <h2>Log in to see the articles</h2>
-//     </>
-//   );
-// }
-
 return (
   <>
     {state.showShareModal && renderShareInteraction()}
@@ -623,6 +596,7 @@ return (
             handleShareButton,
             callLibs,
             baseActions,
+            sharedCommentId,
           }}
         />
       )}
