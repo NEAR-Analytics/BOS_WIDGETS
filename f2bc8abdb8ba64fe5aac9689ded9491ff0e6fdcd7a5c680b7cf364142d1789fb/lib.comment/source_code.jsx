@@ -464,5 +464,14 @@ return (
         `lib.${libName}`
       );
     })}
+
+    <Widget
+      src={`${widgets.libNotifications}`}
+      props={{
+        stateUpdate: libStateUpdate,
+        imports: imports["notifications"],
+        fatherNotificationsState: state.notifications,
+      }}
+    />
   </>
 );
