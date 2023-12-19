@@ -95,53 +95,55 @@ State.init({
 
 // lifecycle hooks
 
-if (Ethers.provider()) {
-  const iface = new ethers.utils.Interface(abi);
-  const encodedData = iface.encodeFunctionData("proposal_count", []);
-  Ethers.provider()
-    .call({
-      to: keystoneAddress,
-      data: encodedData,
-    })
-    .then((rawProposalCount) => {
-      const proposalCountHex = iface.decodeFunctionResult(
-        "proposal_count",
-        rawProposalCount
-      );
-      let proposals = [];
-      for (let i = 0; i < parseInt(proposalCountHex.toString()); i++) {
-        const encodedData = iface.encodeFunctionData("proposal", [i]);
-        Ethers.provider()
-          .call({
-            to: keystoneAddress,
-            data: encodedData,
-          })
-          .then((rawProposal) => {
-            const proposalHexArr = iface.decodeFunctionResult(
-              "proposal",
-              rawProposal
-            );
-            const proposal = {
-              id: proposalHexArr[0].id.toString(),
-              action: proposalHexArr[0].action.toNumber(),
-              amount: proposalHexArr[0].amount.toNumber(),
-              created_at: proposalHexArr[0].created_at.toNumber(),
-              data: proposalHexArr[0].data.toString(),
-              targets: proposalHexArr[0].targets,
-              approvals: proposalHexArr[0].approvals,
-              expires: proposalHexArr[0].expires.toNumber(),
-            };
-            proposal["actionEnum"] = ActionEnum[proposal.action];
-            proposal["proposedBy"] = proposal["approvals"][0];
-            proposal["threshold"] = 1;
-            proposals.push(proposal);
-          })
-          .catch(console.error);
-      }
-      State.update({ page: proposals });
-    })
-    .catch(console.error);
-}
+useEffect(() => {
+  if (Ethers.provider()) {
+    const iface = new ethers.utils.Interface(abi);
+    const encodedData = iface.encodeFunctionData("proposal_count", []);
+    Ethers.provider()
+      .call({
+        to: keystoneAddress,
+        data: encodedData,
+      })
+      .then((rawProposalCount) => {
+        const proposalCountHex = iface.decodeFunctionResult(
+          "proposal_count",
+          rawProposalCount
+        );
+        let proposals = [];
+        for (let i = 0; i < parseInt(proposalCountHex.toString()); i++) {
+          const encodedData = iface.encodeFunctionData("proposal", [i]);
+          Ethers.provider()
+            .call({
+              to: keystoneAddress,
+              data: encodedData,
+            })
+            .then((rawProposal) => {
+              const proposalAttrs = iface.decodeFunctionResult(
+                "proposal",
+                rawProposal
+              );
+              let proposal = {
+                id: proposalAttrs[0].id.toString(),
+                action: proposalAttrs[0].action.toNumber(),
+                amount: proposalAttrs[0].amount.toNumber(),
+                created_at: proposalAttrs[0].created_at.toNumber(),
+                data: proposalAttrs[0].data.toString(),
+                targets: proposalAttrs[0].targets,
+                approvals: proposalAttrs[0].approvals,
+                expires: proposalAttrs[0].expires.toNumber(),
+              };
+              proposal["actionEnum"] = ActionEnum[proposal.action];
+              proposal["proposedBy"] = proposal["approvals"][0];
+              proposal["threshold"] = 1;
+              proposals.push(proposal);
+            })
+            .catch(console.error);
+          State.update({ page: proposals });
+        }
+      })
+      .catch(console.error);
+  }
+}, []);
 
 // funcs
 let fasttrack = (proposal) => {};
@@ -412,10 +414,7 @@ return (
         <div className="text-lg breadcrumbs">
           <ul>
             <li>
-              <Link href={"/coolmouse.near/widget/KSTNAnvil.Index"}>
-                {" "}
-                Home{" "}
-              </Link>
+              <Link href={"/coolmouse.near/widget/Keystone.Index"}> Home </Link>
             </li>
             <li>Proposals</li>
           </ul>
@@ -423,7 +422,7 @@ return (
         <div className="py-5">
           <Link
             className="btn btn-primary btn-outline group mr-5"
-            href={"/coolmouse.near/widget/KSTNAnvil.Proposals.Keystone"}
+            href="coolmouse.near/widget/Keystone.Proposals.Keystone"
           >
             <svg
               className="fill-primary h-full w-5 mr-2"
@@ -485,7 +484,7 @@ return (
           </Link>
           <Link
             className="btn btn-secondary btn-outline group"
-            href={"/coolmouse.near/widget/KSTNAnvil.Proposals.Token"}
+            href="coolmouse.near/widget/Keystone.Proposals.Token"
           >
             <svg
               className="fill-secondary h-full w-5 mr-2"
@@ -552,7 +551,7 @@ return (
                 key={index}
               >
                 <td className="px-0 font-bold">
-                  {(pageNum - 1) * pageSize + index + 1}
+                  {(state.pageNum - 1) * state.pageSize + index + 1}
                 </td>
                 <td></td>
                 <td>{proposal.proposedBy.slice(0, 10)}...</td>
@@ -577,7 +576,6 @@ return (
                       style={{ pointerEvents: "auto" }}
                       onClick={() => fasttrack(proposal)}
                       className="btn btn-info btn-outline btn-xs"
-                      v-if=""
                     >
                       Execute
                     </button>
