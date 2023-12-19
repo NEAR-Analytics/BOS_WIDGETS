@@ -43,6 +43,7 @@ const keystoneAddress = "0xe8E8ED169DcAFD00C3C8Cc26Df4E273b14060d4e"; // Bitkub 
 State.init({
   action: "add-signer",
   lifetime: 172800,
+  target: "",
   targetLabel: "Recipient address",
   name: "",
   symbol: "",
@@ -72,15 +73,19 @@ let createProposal = () => {
   if (state.action != "deploy-token") {
     data += "0x" + "0".repeat(64);
   } else {
-    data += ethers.utils.defaultAbiCoder.encode(
-      ["bytes32", "bytes32"],
-      [state.name, state.symbol]
-    );
+    try {
+      data += "0x";
+      data += ethers.utils.formatBytes32String(state.name).slice(2);
+      data += ethers.utils.formatBytes32String(state.symbol).slice(2);
+    } catch (err) {
+      console.error(err);
+      return;
+    }
   }
   // fill targets
   let targets = [];
   if (["add-signer", "remove-signer", "set-blueprint"].includes(state.action)) {
-    targets.push(target);
+    targets.push(state.target);
   }
   for (let i = targets.length; i < 3; i++) {
     targets.push("0x" + "0".repeat(40));
@@ -98,8 +103,8 @@ let createProposal = () => {
   }
   keystone
     .propose(actionEnum, 0, data, state.lifetime, targets)
-    .then((transactionHash) => {
-      console.log("transactionHash is " + transactionHash);
+    .then((transaction) => {
+      console.log("transactionHash is " + transaction.hash);
     })
     .catch((err) => {
       console.error(err);
@@ -465,10 +470,13 @@ return (
                       <span className="label-text">{state.targetLabel}</span>
                     </label>
                     <input
-                      v-model="target"
-                      type="text"
-                      placeholder="Address"
                       className="input input-bordered input-info w-full max-w-xs"
+                      onChange={(event) =>
+                        State.update({ target: event.target.value })
+                      }
+                      placeholder="Address"
+                      type="text"
+                      value={state.target}
                     />
                   </div>
                 )}
