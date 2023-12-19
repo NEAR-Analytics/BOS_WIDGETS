@@ -5,22 +5,26 @@ if (!props.sourceCodeBase64) {
   return (
     <div>
       <h1>Prettify My Code</h1>
-      <label>
-        <p>Paste your code here:</p>
-        <textarea
-          cols={60}
-          rows={20}
-          onChange={(e) => setInputSourceCode(e.target.value)}
-        ></textarea>
-      </label>
-      <label>
-        Programming Language:{" "}
-        <input
-          type="text"
-          value={inputSourceCodeLang}
-          onChange={(e) => setInputSourceCodeLang(e.target.value)}
-        />
-      </label>
+      <p>
+        <label>
+          <p>Paste your code here:</p>
+          <textarea
+            cols={60}
+            rows={20}
+            onChange={(e) => setInputSourceCode(e.target.value)}
+          ></textarea>
+        </label>
+      </p>
+      <p>
+        <label>
+          Programming Language:{" "}
+          <input
+            type="text"
+            value={inputSourceCodeLang}
+            onChange={(e) => setInputSourceCodeLang(e.target.value)}
+          />
+        </label>
+      </p>
       {inputSourceCode ? (
         <p>
           <a
