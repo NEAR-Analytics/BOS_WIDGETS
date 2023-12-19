@@ -307,6 +307,12 @@ const Post = ({ post }) => {
 };
 
 const home = () => {
+  useEffect(() => {
+    fetchAllPost();
+    fetchMyPost();
+    fetchComments(0);
+  }, []);
+
   const boxContainerStyle = {
     display: "flex",
     flexDirection: "column",
@@ -367,9 +373,6 @@ const home = () => {
 };
 
 const viewPost = (pagePostId) => {
-  useEffect(() => {
-    fetchComments(pagePostId);
-  }, []);
   const postId = pagePostId;
 
   console.log("PostIdType:", typeof postId);
@@ -639,7 +642,6 @@ const allPost = () => {
   const [sortedPosts, setSortedPosts] = useState([]);
 
   useEffect(() => {
-    fetchAllPost();
     const sortedByVote = [...posts].sort(
       (a, b) => b.votingPoints - a.votingPoints
     );
@@ -734,9 +736,6 @@ const allPost = () => {
 };
 
 const myPost = () => {
-  useEffect(() => {
-    fetchMyPost();
-  }, []);
   return (
     <div>
       <ul style={navbarContainerStyle}>
