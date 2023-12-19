@@ -11,6 +11,7 @@ const {
   articleSbts,
   callLibs,
   baseActions,
+  sharedCommentId,
 } = props;
 
 State.init({
@@ -26,7 +27,11 @@ const CommentCard = styled.div`
   align-items: flex-start;
   gap: 12px;
   border-radius: "10px"};
-  background: #fff;
+  background: ${
+    sharedCommentId === data.originalComment.value.comment.commentId
+      ? "blue"
+      : "#fff"
+  };
   width: 100%;
 `;
 
