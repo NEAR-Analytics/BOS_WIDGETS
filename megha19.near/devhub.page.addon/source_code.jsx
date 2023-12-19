@@ -106,7 +106,7 @@ const isFullyRefactored = checkFullyRefactored(addon.addon_id);
 
 function updateWidgetEndpoint(widgetSrc) {
   widgetSrc = widgetSrc.replace("configurator", "Configurator");
-  widgetSrc = widgetSrc.replace("devgovgigs.near", "devhub.near");
+  widgetSrc = widgetSrc.replace("devgovgigs.near", "megha19.near");
   console.log(widgetSrc);
   return widgetSrc;
 }
