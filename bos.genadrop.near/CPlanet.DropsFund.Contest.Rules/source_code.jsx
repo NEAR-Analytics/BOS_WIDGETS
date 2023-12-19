@@ -435,7 +435,7 @@ return (
         <button onClick={() => setOpenModal(true)} className="submitButton">
           Submit Art
         </button>
-      ) : props?.isClosed && props?.winners?.length === 0 ? (
+      ) : props?.isClosed && props?.winners?.length === 0 && props.usersArts.length ? (
         <button className="submitButton" onClick={handleFinalize}>
           Finalize Contest
         </button>
@@ -447,13 +447,13 @@ return (
               : props.userSubmitted
               ? "You have Submitted"
               : props.isOpen
-              ? "Submission Started"
+              ? "Submission Started (Please connect Wallet)"
               : "Submission Ended"}
           </span>
         </div>
       )}
     </ContainerTwo>
-    {openModal && (
+    {!openModal && (
       <Popup>
         <PopupContent>
           <div className="cancel-button">
@@ -466,7 +466,7 @@ return (
           </div>
           <div className="select-nft">
             <Widget
-              src="sainthiago.near/widget/nft-selector"
+              src="agwaze.near/widget/nft-selector"
               props={{
                 accountId: context.accountId,
                 onChange: handleArtSelection,
