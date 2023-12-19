@@ -16,7 +16,7 @@ let MAA_rawData = fetch(
   }
 );
 
-const MAA_RAW = MAA_rawData.body || [];
+const MAA_RAW = JSON.parse(MAA_rawData.body) || [];
 
 State.update({
   MAA: MAA_rawData,
@@ -33,7 +33,7 @@ let WALLETS_CREATED_rawData = fetch(
   }
 );
 
-const WALLETS_CREATED_RAW = WALLETS_CREATED_rawData.body || [];
+const WALLETS_CREATED_RAW = JSON.parse(WALLETS_CREATED_rawData.body) || [];
 
 State.update({
   WALLETS_CREATED: WALLETS_CREATED_RAW,
