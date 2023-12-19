@@ -31,7 +31,7 @@ if (!props.sourceCodeBase64) {
             target="_blank"
             href={`/${
               context.widgetSrc
-            }?sourceCodeLang=typescript&sourceCodeBase64=${
+            }?sourceCodeLang=${inputSourceCodeLang}&sourceCodeBase64=${
               inputSourceCode.length
             }${encodeURIComponent(btoa(inputSourceCode))}`}
           >
