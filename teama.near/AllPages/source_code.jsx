@@ -110,7 +110,6 @@ const heapHeapHoorayBoxStyle = {
 
 const textA = () => {
   const [commentContent, setCommentContent] = useState("");
-  setCommentContent("");
   console.log(commentContent);
   const handleComment = () => {
     try {
@@ -156,7 +155,7 @@ const textA = () => {
 };
 
 const [posts, setPosts] = useState([]);
-setPosts([]);
+
 const fetchAllPost = () => {
   const fetchData = () => {
     try {
@@ -219,7 +218,7 @@ const fetchMyPost = () => {
 };
 
 const [commentData, setCommentData] = useState([]);
-setCommentData([]);
+
 const fetchComments = (postId) => {
   const fetchData = () => {
     try {
@@ -234,7 +233,7 @@ const fetchComments = (postId) => {
               comment: result[1],
               votingPoints: Big(result[3]).toNumber(),
               author: result[0],
-              commentId: Big(result[4]).toNumber(),
+              datetime: "2023-10-19 19:00",
             };
             console.log(com);
             fetchedComments.push(com);
@@ -290,6 +289,7 @@ const Post = ({ post }) => {
           selected={state.selectedTab === "viewPost"}
           style={{ textDecoration: "none", color: "inherit" }}
         >
+          {/* Replace <h5> with Link component */}
           <div>{post.title}</div>
         </Link>
         <div style={{ color: "#333", fontSize: "12px" }}>{post.author}</div>
@@ -305,12 +305,6 @@ const Post = ({ post }) => {
     </div>
   );
 };
-
-useEffect(() => {
-  fetchAllPost();
-  fetchMyPost();
-  fetchComments(0);
-}, []);
 
 const home = () => {
   const boxContainerStyle = {
@@ -427,7 +421,7 @@ const viewPost = (pagePostId) => {
             type="button"
             style={buttonStyle}
             className="btn btn-success vote-btn"
-            onClick={() => handleVoteComment(comments.commentId)}
+            onClick={() => handleVoteComment(0)}
           >
             Vote
           </button>
@@ -532,10 +526,7 @@ const viewPost = (pagePostId) => {
           </a>
         </li>
         <li style={boxStyle}>
-          <a
-            href="teama.near/widget/CreatePost"
-            style={{ textDecoration: "none", color: "#fff" }}
-          >
+          <a href="#" style={{ textDecoration: "none", color: "#fff" }}>
             Create Post
           </a>
         </li>
@@ -629,9 +620,13 @@ const viewPost = (pagePostId) => {
 
         <div id="commentsContainer" style={{ marginTop: "5%" }}>
           <h4>Comments</h4>
-          {commentData.map((comment, index) => (
-            <Comment key={index} comments={comment} />
-          ))}
+          {commentData && commentData.length > 0 ? (
+            commentData.map((comment, index) => (
+              <Comment key={index} comments={comment} />
+            ))
+          ) : (
+            <p>No comments available</p>
+          )}
         </div>
 
         <textA />
@@ -730,9 +725,12 @@ const allPost = () => {
             <option value="mostVoted">Most Voted</option>
           </select>
         </div>
-        {posts.map((post, index) => (
-          <Post key={index} post={post} />
-        ))}
+
+        {posts && posts.length > 0 ? (
+          posts.map((post, index) => <Post key={index} post={post} />)
+        ) : (
+          <p>No posts available</p>
+        )}
       </div>
     </div>
   );
@@ -789,9 +787,12 @@ const myPost = () => {
         >
           <h3 style={{ marginBottom: "2.5%" }}>History Post:</h3>
         </div>
-        {posts.map((post, index) => (
-          <Post key={index} post={post} />
-        ))}
+
+        {posts && posts.length > 0 ? (
+          posts.map((post, index) => <Post key={index} post={post} />)
+        ) : (
+          <p>No posts available</p>
+        )}
       </div>
     </div>
   );
