@@ -84,51 +84,87 @@ State.init({
 /**
  * onMounted
  */
-if (Ethers.provider()) {
-  const iface = new ethers.utils.Interface(abi);
-  const encodedData = iface.encodeFunctionData("token_count", []);
-  Ethers.provider()
-    .call({
-      to: keystoneAddress,
-      data: encodedData,
-    })
-    .then((rawTokenCount) => {
-      const countHex = iface.decodeFunctionResult("token_count", rawTokenCount);
-      let tokens = [];
-      const iERC20 = new ethers.utils.Interface(erc20Detailed);
-      const encodedNameCall = iERC20.encodeFunctionData("name", []);
-      const encodedSymbolCall = iERC20.encodeFunctionData("symbol", []);
-      const encodedDecimalsCall = iERC20.encodeFunctionData("decimals", []);
-      for (let i = 0; i < parseInt(countHex.toString()); i++) {
-        const encodedData = iface.encodeFunctionData("token", [i]);
-        Ethers.provider()
-          .call({
-            to: keystoneAddress,
-            data: encodedData,
-          })
-          .then(async (rawToken) => {
-            const tokenHex = iface.decodeFunctionResult("token", rawToken);
-            const to = tokenHex.toString();
-            const token = {
-              address: to,
-              decimals: await Ethers.provider().call({
-                data: encodedDecimalsCall,
-                to,
-              }),
-              name: await Ethers.provider().call({ data: encodedNameCall, to }),
-              symbol: await Ethers.provider().call({
-                data: encodedSymbolCall,
-                to,
-              }),
-            };
-            tokens.push(token);
-          })
-          .catch(console.error);
-      }
-      State.update({ page: tokens });
-    })
-    .catch(console.error);
-}
+useEffect(() => {
+  const provider = Ethers.provider();
+  if (provider) {
+    const iface = new ethers.utils.Interface(abi);
+    const encodedData = iface.encodeFunctionData("token_count", []);
+    provider
+      .call({
+        to: keystoneAddress,
+        data: encodedData,
+      })
+      .then((rawTokenCount) => {
+        const countHex = iface.decodeFunctionResult(
+          "token_count",
+          rawTokenCount
+        );
+        let tokens = [];
+        const iERC20 = new ethers.utils.Interface(erc20Detailed);
+        const encodedNameCall = iERC20.encodeFunctionData("name", []);
+        const encodedSymbolCall = iERC20.encodeFunctionData("symbol", []);
+        const encodedDecimalsCall = iERC20.encodeFunctionData("decimals", []);
+        for (let i = 0; i < parseInt(countHex.toString()); i++) {
+          const encodedData = iface.encodeFunctionData("token", [i]);
+          provider
+            .call({
+              data: encodedData,
+              to: keystoneAddress,
+            })
+            .then((rawToken) => {
+              const tokenHex = iface.decodeFunctionResult("token", rawToken);
+              const to = tokenHex[0];
+              provider
+                .call({
+                  data: encodedDecimalsCall,
+                  to,
+                })
+                .then((rawDec) => {
+                  const decArr = iERC20.decodeFunctionResult(
+                    "decimals",
+                    rawDec
+                  );
+                  const decimals = decArr[0];
+                  provider
+                    .call({
+                      data: encodedNameCall,
+                      to,
+                    })
+                    .then((rawName) => {
+                      const nameHex = iERC20.decodeFunctionResult(
+                        "name",
+                        rawName
+                      );
+                      const name = nameHex.toString();
+                      provider
+                        .call({
+                          data: encodedSymbolCall,
+                          to,
+                        })
+                        .then((rawSymb) => {
+                          const symbHex = iERC20.decodeFunctionResult(
+                            "symbol",
+                            rawSymb
+                          );
+                          const symbol = symbHex.toString();
+                          const token = {
+                            address: to,
+                            decimals,
+                            name,
+                            symbol,
+                          };
+                          tokens.push(token);
+                        });
+                    });
+                });
+            })
+            .catch(console.error);
+        }
+        State.update({ page: tokens });
+      })
+      .catch(console.error);
+  }
+}, []);
 
 // styles
 
