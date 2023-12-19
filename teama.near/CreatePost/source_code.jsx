@@ -87,6 +87,14 @@ return (
           Heapheap Hooray
         </a>
       </li>
+      <li style={boxStyle}>
+        <a
+          href="teama.near/widget/AllPages"
+          style={{ textDecoration: "none", color: "#fff" }}
+        >
+          Back to Home
+        </a>
+      </li>
     </ul>
     <div style={{ padding: "4%" }}>
       <div>
