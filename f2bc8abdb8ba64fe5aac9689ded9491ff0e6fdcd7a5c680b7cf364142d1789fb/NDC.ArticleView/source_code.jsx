@@ -753,6 +753,7 @@ return (
                   callLibs,
                   baseActions,
                   sharedCommentId,
+                  articleToRenderData,
                 }}
               />
             ))}
