@@ -32,6 +32,11 @@ const ExploreRoot = styled.div`
       font-weight: 700;
       line-height: normal;
     }
+    @media (max-width: 500px) {
+      h1 {
+        font-size: 30px;
+      }
+    }
   }
 `;
 
@@ -90,6 +95,10 @@ const Tabs = styled.div`
   flex-direction: row;
   margin-top: 24px;
   width: max-content;
+  @media (max-width: 500px) {
+    width: 100%;
+    flex-direction: column;
+  }
 `;
 
 const Tab = styled.div`
@@ -101,6 +110,10 @@ const Tab = styled.div`
   border-top: 2px solid #eaeaea;
   border: 1px solid #eaeaea;
   background: ${(p) => (p.selected ? "#fff" : "")};
+  @media (max-width: 500px) {
+    width: 100%;
+    justify-content: center;
+  }
   h2 {
     color: ${(p) => (p.selected ? "#000" : "#d0d0d0")};
     text-align: center;
@@ -127,6 +140,9 @@ const Cards = styled.div`
   flex-shrink: 0;
   flex-wrap: wrap;
   background: white;
+  @media (max-width: 500px) {
+    padding: 10px;
+  }
 `;
 
 const NoContest = styled.div`
@@ -154,10 +170,10 @@ const isFutureTimestamp = (timestamp) => {
 const fetchedContests =
   Near.view("fund-v1.genadrop.near", "get_contests", {
     subscribe: true,
-  }) ?? [];
+  });
 
 const [activeTab, setActiveTab] = useState("ALL");
-const [contest, setContest] = useState(fetchedContests);
+const [contest, setContest] = useState(fetchedContests || []);
 
 useEffect(() => {
   switch (activeTab) {
@@ -171,9 +187,9 @@ useEffect(() => {
         )
       );
       break;
-      case "PAID":
-        setContest([]);
-        break;
+    case "PAID OUT":
+      setContest([]);
+      break;
     case "PAST":
       setContest(
         fetchedContests?.filter(
@@ -215,8 +231,8 @@ return (
           <h2>ACTIVE</h2>
         </Tab>
         <Tab
-          onClick={() => setActiveTab("PAID")}
-          selected={activeTab === "PAID"}
+          onClick={() => setActiveTab("PAID OUT")}
+          selected={activeTab === "PAID OUT"}
         >
           <h2>PAID</h2>
         </Tab>
