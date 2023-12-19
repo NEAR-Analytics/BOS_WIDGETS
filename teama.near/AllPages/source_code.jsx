@@ -76,7 +76,7 @@ const pageStyle = {
   backgroundColor: "#FFFFFF", // Example background color
   padding: "4%", // Example padding
   color: "#000", // Example text color
-  height: "100vh",
+  minHeight: "100vh",
 };
 
 const boxStyle = {
@@ -110,6 +110,7 @@ const heapHeapHoorayBoxStyle = {
 
 const textA = () => {
   const [commentContent, setCommentContent] = useState("");
+  // setCommentContent("");
   console.log(commentContent);
   const handleComment = () => {
     try {
@@ -233,7 +234,7 @@ const fetchComments = (postId) => {
               comment: result[1],
               votingPoints: Big(result[3]).toNumber(),
               author: result[0],
-              datetime: "2023-10-19 19:00",
+              commentId: Big(result[4]).toNumber(),
             };
             console.log(com);
             fetchedComments.push(com);
@@ -421,7 +422,7 @@ const viewPost = (pagePostId) => {
             type="button"
             style={buttonStyle}
             className="btn btn-success vote-btn"
-            onClick={() => handleVoteComment(0)}
+            onClick={() => handleVoteComment(comments.commentId)}
           >
             Vote
           </button>
@@ -512,7 +513,7 @@ const viewPost = (pagePostId) => {
         fontFamily: "Verdana",
         backgroundColor: "#fff",
         color: "#000",
-        height: "100h",
+        minHeight: "100vh",
       }}
     >
       <ul style={navbarContainerStyle}>
