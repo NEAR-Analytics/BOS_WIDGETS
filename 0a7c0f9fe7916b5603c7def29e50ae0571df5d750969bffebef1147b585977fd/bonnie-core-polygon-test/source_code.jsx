@@ -1,6 +1,7 @@
 const ownerAddress = "0x889A0622898e9780dc771F027aF1c53c0e1c53BF";
 const nftImageURL =
-  "https://bitkubipfs.io/ipfs/QmbzXzcQjwG6kdQQbGDoDvcETn1KeEKEAnWTKycWrriauk";
+  "https://cdn.discordapp.com/attachments/1118019643261595740/1186663703727317002/pansavuth.khe.corepolygon_a_short_hair_girl_with_goggles_glimme_bb615670-e7be-4f64-919e-e46ad525dac5.png?ex=659411b2&is=65819cb2&hm=bab9612315f08c244122e7f59599775d29e98d1fc0f1d572e394dc88e7da7f06&";
+//"https://bitkubipfs.io/ipfs/QmbzXzcQjwG6kdQQbGDoDvcETn1KeEKEAnWTKycWrriauk";
 const glbFileURL = "https://models.readyplayer.me/64ab8110ae49359d42d0b883.glb";
 
 const data = fetch(
@@ -136,12 +137,46 @@ const code2 = `
     ambientLight.intensity = 2.5;
     scene.add( ambientLight );
     renderer.shadowMap.enabled = true;
-		renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+	renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 
+    let isDragging = false;
+    let previousMousePosition = {
+        x: 0,
+        y: 0
+    };
+
+    document.addEventListener('mousedown', (event) => {
+        isDragging = true;
+        previousMousePosition = {
+            x: event.clientX,
+            y: event.clientY
+        };
+    });
+    
+    document.addEventListener('mousemove', (event) => {
+        if (isDragging) {
+            const deltaMove = {
+                x: event.clientX - previousMousePosition.x,
+                y: event.clientY - previousMousePosition.y
+            };
+
+            loadedGroup.rotation.y += deltaMove.x * 0.01;
+
+            previousMousePosition = {
+                x: event.clientX,
+                y: event.clientY
+            };
+        }
+    });
+
+    document.addEventListener('mouseup', () => {
+        isDragging = false;
+    });
+    
     const animate = function () {
       requestAnimationFrame(animate);
 
-      if(loadedGroup != null) {
+      if(loadedGroup != null && !isDragging) {
         loadedGroup.rotation.y += 0.01;
       }
 
@@ -157,9 +192,9 @@ return data !== null ? (
   <MainContainer>
     <Header>
       <h2 style={{ fontWeight: 600 }}>
-        Core Polygon : 3D NFT Proof of concept
+        3D NFT Visualization (proof of concept)
       </h2>
-      <p>Core Polygon : 3D NFT Proof of concept</p>
+      <p>Core Polygon : 3D NFT</p>
     </Header>
 
     <ContentContainer>
@@ -174,7 +209,8 @@ return data !== null ? (
           .map((elem) => {
             return (
               <div>
-                <div>{elem.name}</div>
+                {false && <div>{elem.name}</div>}
+                <div>NFT : Aimée</div>
                 <img
                   style={{
                     width: 200,
