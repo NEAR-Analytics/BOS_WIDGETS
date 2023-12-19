@@ -8,6 +8,8 @@ if (!imports) {
   imports = [];
 }
 
+const newImportsFormat = { notifications: ["getNotificationData"] };
+
 let fatherStateHasAllFunction = true;
 imports.forEach((fnName) => {
   fatherStateHasAllFunction =
