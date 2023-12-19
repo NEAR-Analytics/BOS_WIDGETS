@@ -1,15 +1,47 @@
 const [toEvaluate, setToEvaluate] = useState("");
 
+const contract = "dev-1702501552751-96008049963552";
+const accountRegistered = Near.view(contract, "check_account_registered", {
+  account_id: context.accountId,
+});
+
 const evaluate = () => {
-  Near.view(toEvaluate, "get_greeting", { account_id: "evaluator.testnet" })
+  console.log(accountRegistered);
+  console.log(context.accountId);
 };
 
-return <>
-  <h1> Time to evaluate </h1>
+const handleChange = (e) => {
+  this.setState({ value: e.target.value });
+};
 
-  <p> Deploy a hello near and we will evaluate it </p>
 
-  <input type="text" onChange={(e) => setToEvaluate(e.target.value)}> </input>
+const handleSubmit = (e) => {
+  alert("evaluate: " + this.state.value);
+  e.preventDefault();
+};
 
-  <button onClick={evaluate}> Submit </button>
-</>
+return (
+  <>
+    <div class="container">
+      <div>
+        <h1>Evaluation One</h1>
+        Evaluate Hello Near
+        <p>In lesson one </p>
+        <input
+          onChange={onChange}
+          placeholder={`eg. hello_near.${context.accountId}`}
+        />
+        <button onClick={evaluate}>Evaluate</button>
+      </div>
+
+      <div>
+        Evaluate Guestbook
+        <p>In lesson 2</p>
+        <input
+          onChange={onChange}
+          placeholder={`guestbook.${context.accountId}`}
+        />
+      </div>
+    </div>
+  </>
+);
