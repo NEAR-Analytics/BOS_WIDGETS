@@ -40,6 +40,12 @@ const handleAllPostClick = () => {
   });
 };
 
+const handleCreatePostClick = () => {
+  State.update({
+    selectedTab: "createPost",
+  });
+};
+
 const handleHomeClick = () => {
   State.update({
     selectedTab: "home",
@@ -339,7 +345,8 @@ const home = () => {
           <a
             style={menuBoxStyle}
             onMouseLeave={handleMouseLeave}
-            href="teama.near/widget/CreatePost"
+            onClick={() => handleCreatePostClick()}
+            selected={state.selectedTab === "createPost"}
           >
             Create Post
           </a>
@@ -483,20 +490,6 @@ const viewPost = (pagePostId) => {
     }
   };
 
-  const [commentContent, setCommentContent] = useState("");
-
-  const handleComment = () => {
-    try {
-      TutorContract.createComment(state.postId, commentContent).then(
-        (transactionHash) => {
-          console.log(transactionHash);
-        }
-      );
-    } catch (error) {
-      console.error("Error creating post:", error.message);
-    }
-  };
-
   return (
     <div
       style={{
@@ -518,7 +511,8 @@ const viewPost = (pagePostId) => {
         </li>
         <li style={boxStyle}>
           <a
-            href="teama.near/widget/CreatePost"
+            onClick={() => handleCreatePostClick()}
+            selected={state.selectedTab === "createPost"}
             style={{ textDecoration: "none", color: "#fff" }}
           >
             Create Post
@@ -675,7 +669,8 @@ const allPost = () => {
         </li>
         <li style={boxStyle}>
           <a
-            href="teama.near/widget/CreatePost"
+            onClick={() => handleCreatePostClick()}
+            selected={state.selectedTab === "createPost"}
             style={{ textDecoration: "none", color: "#fff" }}
           >
             Create Post
