@@ -233,7 +233,7 @@ const fetchComments = (postId) => {
               comment: result[1],
               votingPoints: Big(result[3]).toNumber(),
               author: result[0],
-              datetime: "2023-10-19 19:00",
+              commentId: Big(result[4]).toNumber(),
             };
             console.log(com);
             fetchedComments.push(com);
@@ -305,6 +305,12 @@ const Post = ({ post }) => {
     </div>
   );
 };
+
+useEffect(() => {
+  fetchAllPost();
+  fetchMyPost();
+  fetchComments(0);
+}, []); // Empty dependency array means it runs once on mount
 
 const home = () => {
   const boxContainerStyle = {
@@ -421,7 +427,7 @@ const viewPost = (pagePostId) => {
             type="button"
             style={buttonStyle}
             className="btn btn-success vote-btn"
-            onClick={() => handleVoteComment(0)}
+            onClick={() => handleVoteComment(comments.commentId)}
           >
             Vote
           </button>
