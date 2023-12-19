@@ -46,7 +46,9 @@ const NoData = styled.div`
   }
 `;
 
-if (!finalData) {
+console.log(finalData)
+
+if (!finalData?.tokens?.length) {
   return (
     <NoData>
       <p>No Minted NFT Found For This Account</p>
