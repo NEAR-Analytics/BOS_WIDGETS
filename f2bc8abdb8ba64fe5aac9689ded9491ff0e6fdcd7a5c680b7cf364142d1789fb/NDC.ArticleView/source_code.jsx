@@ -752,6 +752,7 @@ return (
                   articleSbts,
                   callLibs,
                   baseActions,
+                  sharedCommentId,
                 }}
               />
             ))}
