@@ -262,7 +262,7 @@ function closeModal() {
 
 return (
   <>
-    <CommentCard>
+    <CommentCard id={data.originalComment.value.comment.commentId}>
       <CommentCardHeader>
         <CommentUserContent>
           <Widget
