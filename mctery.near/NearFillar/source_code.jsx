@@ -361,9 +361,9 @@ if (state.route === "drive" && state.address) {
                         style={{ fontSize: "12px" }}
                         href="#"
                         data-toggle="tooltip"
-                        title={`ipfs://${i.ipns_from_generate}`}
+                        title={`ipns://${i.ipns_from_generate}`}
                         onClick={() => {
-                          clipboard.writeText(`ipfs://${i.ipns_from_generate}`);
+                          clipboard.writeText(`ipns://${i.ipns_from_generate}`);
                         }}
                       >
                         Copy
