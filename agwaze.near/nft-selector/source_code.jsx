@@ -1,8 +1,23 @@
 const accountId = props.accountId || context.accountId;
 const onChange = props.onChange;
 
+const NoData = styled.div`
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  margin-top: 50px;
+  p {
+    font-size: 20px;
+    font-weight: 600;
+    color: #b0b0b0;
+  }
+`;
+
+
 if (!accountId) {
-  return <></>;
+  return <NoData>Please connect to a Near Wallet</NoData>;
 }
 
 const size = "100%";
@@ -32,21 +47,8 @@ const data = fetch("https://graph.mintbase.xyz", {
 
 const finalData = data?.body?.data;
 
-const NoData = styled.div`
-  display: flex;
-  flex-direction: row;
-  width: 100%;
-  align-items: center;
-  justify-content: center;
-  margin-top: 50px;
-  p {
-    font-size: 20px;
-    font-weight: 600;
-    color: #b0b0b0;
-  }
-`;
 
-console.log(finalData);
+
 
 if (!finalData || finalData?.tokens?.length === 0) {
   return (
