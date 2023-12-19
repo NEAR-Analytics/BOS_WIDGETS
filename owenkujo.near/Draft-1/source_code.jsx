@@ -37,7 +37,7 @@ return (
     <div class="row">
       {products.map((product) => (
         <>
-          <div class="col-6">
+          <div class="col-3">
             <Widget
               src="dev-support.near/widget/Commerce.Product.Preview"
               props={{ ...product }}
