@@ -25,20 +25,19 @@ if (!props.sourceCodeBase64) {
           />
         </label>
       </p>
-      {inputSourceCode ? (
-        <p>
-          <a
-            target="_blank"
-            href={`/${
-              context.widgetSrc
-            }?sourceCodeLang=${inputSourceCodeLang}&sourceCodeBase64=${encodeURIComponent(
-              btoa(inputSourceCode)
-            )}`}
-          >
-            Share this link
-          </a>
-        </p>
-      ) : null}
+      <p>
+        <a
+          target="_blank"
+          className={`btn btn-primary ${inputSourceCode ? "" : "disabled"}`}
+          href={`/${
+            context.widgetSrc
+          }?sourceCodeLang=${inputSourceCodeLang}&sourceCodeBase64=${encodeURIComponent(
+            btoa(inputSourceCode)
+          )}`}
+        >
+          Share this link
+        </a>
+      </p>
     </div>
   );
 }
