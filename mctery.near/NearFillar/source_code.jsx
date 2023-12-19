@@ -1,56 +1,46 @@
 State.init({
-  uploading: false,
-  cid: context.accountId || undefined,
-  cid_img: context.accountId
-    ? Social.get(
-        `https://i.near.social/magic/large/https://near.social/magic/img/account/${context.accountId}`
-      )
-    : undefined,
-  filename: null,
-  onload: true,
   address: null,
   route: "def",
-
-  //file upload componance
   cid: null,
   filename: null,
   uploading_file: false,
-
-  //config
-  graphQL: "https://air3-database.hasura.app/v1/graphql",
+  api: "https://glowworm-organic-oddly.ngrok-free.app",
+  graphQL: "https://air3-database.hasura.app/api/rest/",
   graphQL_token:
     "Hyi0kHeCvYUVfSJpLWK520VLjSIKXsJVIOwTy938xZdQjzLjvhsugLn89eqsrA5n",
   ipfsUrl: "https://ipfs.near.social/ipfs/",
 });
-
 function _init() {
-  let eth_address = Ethers.send("eth_requestAccounts", [])[0];
+  const eth_address = Ethers.send("eth_requestAccounts", [])[0];
   if (eth_address) {
-    State.update({ address: eth_address });
-    State.update({ route: "drive", onload: false });
+    eth_address.toLowerCase();
+    let ipfs_list = fetchGraphQL("getuseripfs", "POST", {
+      _address: eth_address,
+    });
+    State.update({
+      address: eth_address,
+      route: "drive",
+      ipfs_list: ipfs_list.uploads,
+    });
   } else {
     State.update({ route: "def", address: null });
   }
 }
-
-function fetchGraphQL(query) {
+function fetchGraphQL(rest, method, data) {
   try {
-    let res = fetch(state.graphQL, {
-      method: "POST",
+    let res = fetch(`${state.graphQL}/${rest}`, {
+      method: method,
       headers: {
         "Content-Type": "application/json",
         "x-hasura-admin-secret": state.graphQL_token,
       },
-      body: JSON.stringify({ query: query }),
+      body: JSON.stringify(data),
     });
-    console.log(res);
-    return res.data;
+    return res.body;
   } catch (e) {
-    console.log(e);
     return false;
   }
 }
-
 function fetchData(url, method, data) {
   try {
     let response = fetch(url, {
@@ -60,14 +50,11 @@ function fetchData(url, method, data) {
       },
       body: JSON.stringify(data),
     });
-    console.log(response);
-    return response.ok ? response.body : false;
+    return response;
   } catch (e) {
-    console.log("error :", e);
+    return false;
   }
 }
-
-//View
 function getHeader() {
   const address = state.address;
   return (
@@ -91,13 +78,7 @@ function getHeader() {
                   />
                 </>
               ) : (
-                <Web3Connect
-                  class="nav-item btn mt-3"
-                  connectLabel="Connect"
-                  onclick={() => {
-                    getConnectWallet();
-                  }}
-                />
+                <Web3Connect class="nav-item btn mt-3" connectLabel="Connect" />
               )}
             </div>
           </div>
@@ -109,35 +90,67 @@ function getHeader() {
 function getFooter() {
   return (
     <div class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
-      <div class="col-md-4 d-flex align-items-center">
-        <p class="mb-3 me-2 mb-md-0 text-muted text-decoration-none lh-1">
-          NearFillar 1.0 beta
-        </p>
-        <div>#developer #bitkubblockathon</div>
-      </div>
+      NearFillar 1.1 beta #developer #bitkubblockathon
     </div>
   );
 }
-
-//methods
-function setValue(v, field) {
-  console.log(v, field);
+function setUploadFile() {
+  State.update({ uploading_file: true });
+  try {
+    Ethers.provider()
+      .getSigner()
+      .signMessage(`${state.address}${state.filename}`)
+      .then((result_sign) => {
+        let source = {
+          user_eth_address: state.address,
+          ipfs_cid: state.cid,
+          ipns_name: state.filename,
+          project_name: state.project_name,
+          signature: result_sign,
+        };
+        fetchData(`${state.api}/create`, "POST", source);
+      });
+  } catch (e) {
+    return false;
+  } finally {
+    State.update({ uploading_file: false });
+  }
 }
-
+function setUpdateFile(item) {
+  try {
+    Ethers.provider()
+      .getSigner()
+      .signMessage(`${state.address}${item.ipns_name}`)
+      .then((result_sign) => {
+        let source = {
+          user_eth_address: state.address,
+          ipns_from_generate: item.ipns_from_generate,
+          ipfs_cid: state.ipfs_replace_cid,
+          signature: result_sign,
+        };
+        fetchData(`${state.api}/replace`, "POST", source);
+      });
+  } catch (e) {
+    return false;
+  } finally {
+    State.update({ uploading_file: false });
+  }
+}
 function getIPFSInfo(info) {
   return (
-    <div class="card mb-3" style={{ maxWidth: "300px" }}>
+    <div class="card mb-3" style={{ width: "30rem" }}>
       <div class="row g-0">
-        <div class="col-md-4">
+        <div class="col-md-4 text-center">
           <img
-            class="img-fluid rounded-start"
+            class="img-thumbnail"
             width={"100px"}
-            src="https://ipfs.io/ipfs/bafybeihkoviema7g3gxyt6la7vd5ho32ictqbilu3wnlo3rs7ewhnp7lly"
+            height={"100px"}
+            src={`https://ipfs.io/ipfs/${info.ipfs_cid}`}
           ></img>
         </div>
         <div class="col-md-8">
           <div class="card-body">
-            <h6 class="card-title">{info.ipfs}</h6>
+            <h6 class="card-title">{getLongName(info.ipfs_cid)}</h6>
             <a href="#" data-bs-toggle="modal" data-bs-target="#ipfs_id">
               Replace
             </a>
@@ -166,12 +179,16 @@ function getIPFSInfo(info) {
             </div>
             <div class="modal-body">
               <div class="form-group">
-                <label for="ipfs_url">IPFS URL</label>
+                <label for="ipfs_replace_cid">IPFS CID</label>
                 <input
                   type="text"
                   class="form-control"
-                  id="ipfs_url"
-                  placeholder="ipfs://cid..."
+                  id="ipfs_replace_cid"
+                  placeholder="new cid"
+                  value={state.ipfs_replace_cid}
+                  onChange={(e) => {
+                    State.update({ ipfs_replace_cid: e.target.value });
+                  }}
                 ></input>
               </div>
             </div>
@@ -187,6 +204,9 @@ function getIPFSInfo(info) {
                 type="button"
                 class="btn btn-primary"
                 data-bs-dismiss="modal"
+                onClick={() => {
+                  setUpdateFile(info);
+                }}
               >
                 Save changes
               </button>
@@ -197,15 +217,18 @@ function getIPFSInfo(info) {
     </div>
   );
 }
-
-//return
+const getLongName = (name) => {
+  if (name.length >= 20) {
+    return <div>{name.substring(0, 20)}...</div>;
+  } else {
+    return <div>{name}</div>;
+  }
+};
 _init();
-
-if (state.onload && state.route === "def") {
+if (state.route === "def") {
   return (
     <div class="container">
       {getHeader()}
-
       <div class="row justify-content-md-center text-center">
         <div class="col col-lg-12 mt-5">
           <p>Please Connect your Wallet to Upload Files.</p>
@@ -219,30 +242,16 @@ if (state.onload && state.route === "def") {
           </svg>
         </div>
       </div>
-
-      <div class="row justify-content-center py-5 my-4">
-        <div class="col-12 col-lg-10 col-xl-8 col-xxl-7">
-          <div class="row gy-4"></div>
-        </div>
-      </div>
-
       {getFooter()}
     </div>
   );
 }
-
-let jsonIPFS = {
-  address: "0x17687aF7d159b3457F5542561E1c03aA7a5993A2",
-  ipns: "ipns://k51qzi5uqu5dm4x4ronddpxt14hswf4a6xa4nf0my6of35xpcxxcr7wdvhdxyx",
-  ipfs: "ipfs://bafkreiblpo89qtk52rdasdqw3e2e27d6unopkdd3ndck2315xaa",
-  created_date: "2017-12-12",
-};
-
 if (state.route === "drive" && state.address) {
   return (
     <div class="container">
       {getHeader()}
       <div>
+        <div class></div>
         <fieldset class="text-center mb-3 p-4">
           <Files
             multiple={false}
@@ -271,7 +280,6 @@ if (state.route === "drive" && state.address) {
                   filename: body.name,
                   uploading_file: false,
                 });
-                // props.update(cid);
               });
             }}
           >
@@ -285,7 +293,7 @@ if (state.route === "drive" && state.address) {
               type="text"
               class="form-control"
               id="ipns_name"
-              placeholder="push your name"
+              placeholder="put your ipns name"
               value={state.filename}
               onChange={(e) => {
                 State.update({ filename: e.target.value });
@@ -319,36 +327,54 @@ if (state.route === "drive" && state.address) {
             ></input>
           </div>
           <div class="form-group mt-3 pb-3 border-bottom">
-            <button type="button">ดีใจจัง อัพโหลดได้แล้ว!</button>
+            <button
+              type="button"
+              onClick={() => {
+                setUploadFile();
+              }}
+            >
+              ดีใจจัง อัพโหลดได้แล้ว!
+            </button>
           </div>
         </div>
       </div>
-      <table width="100%" cellPadding={10}>
-        <tr border={1}>
-          <td>No.</td>
-          <td>Project</td>
-          <td>IPNS Name</td>
-          <td>IPFS</td>
-        </tr>
-        <tr border={1}>
-          <td>1</td>
-          <td>Cat</td>
-          <td>
-            <div>
-              <a
-                href="#"
-                data-toggle="tooltip"
-                title="ipfs://bafkreiblpo89qtk52rdasdqw3e2e27d6unopkdd3ndck2315xaa"
-                onClick={() => {
-                  clipboard.writeText("ipfs://bafkreiblpo89qtk52rdasdqw3e2e27d6unopkdd3ndck2315xaa");
-                }}
-              >
-                CatIPFS
-              </a>
-            </div>
-          </td>
-          <td>{getIPFSInfo(jsonIPFS)}</td>
-        </tr>
+      <table class="table" width="100%" cellPadding={10}>
+        <thead>
+          <tr class="thead-dark">
+            <td scope="col">No.</td>
+            <td scope="col">Project</td>
+            <td scope="col">IPNS Name</td>
+            <td scope="col">IPFS</td>
+          </tr>
+        </thead>
+        <tbody>
+          {state.ipfs_list.length > 0 &&
+            state.ipfs_list.map((i, index) => {
+              return (
+                <tr>
+                  <td scope="row">{index + 1}</td>
+                  <td>{i.project_name}</td>
+                  <td>
+                    <div>
+                      {getLongName(i.ipns_name)}
+                      <a
+                        style={{ fontSize: "12px" }}
+                        href="#"
+                        data-toggle="tooltip"
+                        title={`ipfs://${i.ipns_from_generate}`}
+                        onClick={() => {
+                          clipboard.writeText(`ipfs://${i.ipns_from_generate}`);
+                        }}
+                      >
+                        Copy
+                      </a>
+                    </div>
+                  </td>
+                  <td>{getIPFSInfo(i)}</td>
+                </tr>
+              );
+            })}
+        </tbody>
       </table>
       {getFooter()}
     </div>
