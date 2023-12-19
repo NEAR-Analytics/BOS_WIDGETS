@@ -283,7 +283,7 @@ const step2Fc = { verify: checkAnswer, next: passNext };
 
 return (
   <>
-    <div className="container p-2">
+    <div className="container p-3">
       <div class="row">
         <div class="col-6">Darija: {wordEvaluating.darija}</div>
         <div class="col-6">Score: {score}</div>
