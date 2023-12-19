@@ -1,7 +1,6 @@
 // ================ USER INPUT ==============================
-const title = "UniswapV2Router";
-const abiUrl =
-  "https://gist.githubusercontent.com/veox/8800debbf56e24718f9f483e1e40c35c/raw/f853187315486225002ba56e5283c1dba0556e6f/erc20.abi.json";
+const title = props.title;
+const abiUrl = props.abiUrl;
 
 // ================= STYLE ================================
 
@@ -51,19 +50,41 @@ const StyledBoxInput = styled.div`
 
 const ABI = fetch(abiUrl).body;
 
+function parseFunctions(abiStr) {
+  try {
+    const abi = JSON.parse(abiStr);
+    if (Array.isArray(abi)) {
+      return abi.filter((item) => item.type === "function");
+    }
+    return [];
+  } catch (error) {
+    console.error("Error parsing JSON:", error);
+    return [];
+  }
+}
+
+function getFunctionType(stateMutability) {
+  if (["view", "pure"].includes(stateMutability)) {
+    return "read";
+  } else {
+    return "write";
+  }
+}
+
 function handleChange(key, value) {
   State.update({ [key]: value });
 }
 
 function buildCall() {
   try {
+    const selectedFunction = functions[state.selectedFunction];
     const iface = new ethers.utils.Interface(ABI);
-    const callData = iface.encodeFunctionData("transfer", [
-      state.to,
-      ethers.utils.parseUnits(state.amount, state.decimals),
-    ]);
+    const callData = iface.encodeFunctionData(
+      selectedFunction.name,
+      state.params
+    );
     const callPayload = {
-      target: state.token.address,
+      target: state.contractAddress,
       callData: callData,
     };
     Storage.set(`callPayload:${props.callId}`, callPayload);
@@ -79,13 +100,16 @@ function buildCall() {
 }
 
 State.init({
-  token: null,
-  to: "",
-  amount: "0",
+  contractAddress: "",
+  selectedFunction: 0,
+  params: [],
   isOk: false,
 });
 
 buildCall();
+const functions = parseFunctions(ABI);
+const selectedFunction = functions[state.selectedFunction];
+const inputs = selectedFunction ? selectedFunction.inputs : [];
 
 // ============================ RENDER =======================
 
@@ -97,31 +121,49 @@ return (
     <Divider />
     <ContainerContent>
       <StyledBoxInput>
-        <StyleTextTitle>Token</StyleTextTitle>
+        <StyleTextTitle>Contract address</StyleTextTitle>
+        <input
+          placeholder={"Contract address"}
+          style={{ border: "1px solid #E9EBED" }}
+          onChange={(e) => State.update({ contractAddress: e.target.value })}
+        />
+      </StyledBoxInput>
+      <StyledBoxInput>
+        <StyleTextTitle>Select function</StyleTextTitle>
         <Widget
-          src="sainy.near/widget/SelectToken"
+          src="sainy.near/widget/Select"
           props={{
-            onChange: (token) => State.update({ token }),
+            options: functions.map((fn) => ({
+              label: `${fn.name} (${getFunctionType(fn.stateMutability)})`,
+              value: fn.name,
+            })),
+            value: state.selectedFunction,
+            onChange: (index) => State.update({ selectedFunction: index }),
             chainId: props.chainId,
           }}
         />
       </StyledBoxInput>
-      <StyledBoxInput>
-        <StyleTextTitle>To</StyleTextTitle>
-        <input
-          placeholder="Wallet Address"
-          style={{ border: "1px solid #E9EBED" }}
-          onChange={(e) => handleChange("to", e.target.value)}
-        />
-      </StyledBoxInput>
-      <StyledBoxInput>
-        <StyleTextTitle>Amount</StyleTextTitle>
-        <input
-          placeholder="Amount"
-          style={{ border: "1px solid #E9EBED" }}
-          onChange={(e) => handleChange("amount", e.target.value)}
-        />
-      </StyledBoxInput>
+      {inputs.map((input, index) => (
+        <StyledBoxInput key={index}>
+          <StyleTextTitle>
+            {input.name} ({input.type})
+          </StyleTextTitle>
+          <input
+            placeholder={`${input.name} (${input.type})`}
+            style={{ border: "1px solid #E9EBED" }}
+            onChange={(e) =>
+              State.update({
+                params: inputs.map((inpt, j) => {
+                  if (index === j) return e.target.value;
+                  else if ([undefined, null].includes(state.params[j]))
+                    return "";
+                  else return state.params[j];
+                }),
+              })
+            }
+          />
+        </StyledBoxInput>
+      ))}
       <Widget src="sainy.near/widget/SupercallBase" props={props} />
     </ContainerContent>
   </Container>
