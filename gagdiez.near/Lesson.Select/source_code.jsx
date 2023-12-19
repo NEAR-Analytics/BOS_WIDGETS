@@ -3,30 +3,156 @@ if (context.loading) {
 }
 
 let knowledge = [
-  { darija: "wld", spanish: "niño", english: "boy", emoji: "👦🏽" },
-  { darija: "bnt", spanish: "niña", english: "girl", emoji: "👧🏽" },
-  { darija: "dar", spanish: "casa", english: "house", emoji: "🏠" },
-  { darija: "ktab", spanish: "libro", english: "book", emoji: "📚" },
-  { darija: "medrasa", spanish: "escuela", english: "school", emoji: "🏫" },
-  // { darija: "suq", spanish: "mercado", english: "market" },
-  // { darija: "jerda", spanish: "parque", english: "park" },
-  // { darija: "maktab", spanish: "oficina", english: "office" },
-  // { darija: "jame3", spanish: "mezquita", english: "mosque" },
-  // { darija: "sbettar", spanish: "hospital", english: "hospital" },
-  // { darija: "banka", spanish: "banco", english: "bank" },
-  // { darija: "supermarche", spanish: "supermercado", english: "supermarket" },
-  // { darija: "otel", spanish: "hotel", english: "hotel" },
-  // { darija: "khanut", spanish: "tienda", english: "shop" },
-  // { darija: "lma", spanish: "agua", english: "water" },
-  // { darija: "khubz", spanish: "pan", english: "bread" },
-  // { darija: "tomobil", spanish: "automovil", english: "car" },
-  // { darija: "ordinateur", spanish: "ordenador", english: "computer" },
-  // { darija: "tilifon", spanish: "telefono", english: "phone" },
-  // { darija: "sarut", spanish: "llave", english: "key" },
-  // { darija: "flus", spanish: "dinero", english: "money" },
-  // { darija: "biskit", spanish: "bicicleta", english: "bicycle" },
-  // { darija: "qet/msh", spanish: "gato", english: "cat" },
-  // { darija: "klb", spanish: "perro", english: "dog" },
+  {
+    darija: "baba",
+    spanish: "papa",
+    emoji: "👨🏽",
+  },
+  {
+    darija: "mama",
+    spanish: "mama",
+    emoji: "👩🏽",
+  },
+  {
+    darija: "ukht",
+    spanish: "hermana",
+    emoji: "👭🏽",
+  },
+  {
+    darija: "khu",
+    spanish: "hermano",
+    emoji: "👬🏽",
+  },
+  {
+    darija: "bnt",
+    spanish: "hija",
+    emoji: "👧🏽",
+  },
+  {
+    darija: "wld",
+    spanish: "hijo",
+    emoji: "👦🏽",
+  },
+  {
+    darija: "mra",
+    spanish: "esposa",
+    emoji: "👰🏽",
+  },
+  {
+    darija: "rajl",
+    spanish: "esposo",
+    emoji: "🤵🏽",
+  },
+  {
+    darija: "nsib",
+    spanish: "cuñado",
+    emoji: "👨🏽",
+  },
+  {
+    darija: "nsiba",
+    spanish: "cuñada",
+    emoji: "👩🏽",
+  },
+  {
+    darija: "shix",
+    spanish: "suegro",
+    emoji: "👴🏼",
+  },
+  {
+    darija: "3guzt",
+    spanish: "suegra",
+    emoji: "👵🏽",
+  },
+  {
+    darija: "3rusa",
+    spanish: "nuera",
+    emoji: "👩🏽",
+  },
+  {
+    darija: "jdd",
+    spanish: "abuelo",
+    emoji: "👴🏼",
+  },
+  {
+    darija: "jdda",
+    spanish: "abuela",
+    emoji: "👵🏽",
+  },
+  {
+    darija: "hafid",
+    spanish: "nieto",
+    emoji: "👶🏽",
+  },
+  {
+    darija: "hafidt",
+    spanish: "nieta",
+    emoji: "👶🏽",
+  },
+  {
+    darija: "3mm",
+    spanish: "tio (paterno)",
+    emoji: "👨🏽",
+  },
+  {
+    darija: "3mma",
+    spanish: "tia (paterna)",
+    emoji: "👩🏽",
+  },
+  {
+    darija: "khal",
+    spanish: "tio (materno)",
+    emoji: "👨🏽",
+  },
+  {
+    darija: "khala",
+    spanish: "tia (materna)",
+    emoji: "👩🏽",
+  },
+  {
+    darija: "bnt ukht",
+    spanish: "sobrina (hermana)",
+    emoji: "👧🏽",
+  },
+  {
+    darija: "wld ukht",
+    spanish: "sobrino (hermana)",
+    emoji: "👦🏽",
+  },
+  {
+    darija: "bnt khu",
+    spanish: "sobrina (hermano)",
+    emoji: "👧🏽",
+  },
+  {
+    darija: "wld khu",
+    spanish: "sobrino (hermano)",
+    emoji: "👦🏽",
+  },
+  {
+    darija: "bnt 3mmi",
+    spanish: "prima (tio paterno)",
+    emoji: "👧🏽",
+  },
+  {
+    darija: "bnt 3mmi",
+    spanish: "prima (tio paterno)",
+    emoji: "👧🏽",
+  },
+  {
+    darija: "bnt 3mmi",
+    spanish: "prima (tio paterno)",
+    emoji: "👧🏽",
+  },
+  {
+    darija: "bnt 3mmi",
+    spanish: "prima (tio paterno)",
+    emoji: "👧🏽",
+  },
+  {
+    darija: "wld 3mmi",
+    spanish: "primo (tio paterno)",
+    emoji: "👦🏽",
+  },
 ];
 
 if (knowledge.length < 4) return "Add more than 4 options";
@@ -108,6 +234,18 @@ const checkAnswer = () => {
   setStep("next");
 };
 
+const Restart = () => {
+  setIdx(0);
+  setScore(0);
+  setToTest([]);
+  setEvaluating(knowledge[0]);
+  setSelected(null);
+  setStep("verify");
+  setCheck("");
+  createOptions(knowledge[0]);
+  setShowFinalScore(false);
+};
+
 const Selection = styled.div`
   &:hover {
     cursor: pointer;
@@ -133,14 +271,7 @@ if (showFinalScore) {
       <div class="row">
         <div class="col-6">
           Final Score: {score}
-          <button
-            onClick={() => {
-              href.location = href.location;
-            }}
-          >
-            {" "}
-            Restart{" "}
-          </button>
+          <button onClick={Restart}> Restart </button>
         </div>
       </div>
     </div>
