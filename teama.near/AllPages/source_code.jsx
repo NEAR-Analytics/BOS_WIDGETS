@@ -517,7 +517,10 @@ const viewPost = (pagePostId) => {
           </a>
         </li>
         <li style={boxStyle}>
-          <a href="#" style={{ textDecoration: "none", color: "#fff" }}>
+          <a
+            href="teama.near/widget/CreatePost"
+            style={{ textDecoration: "none", color: "#fff" }}
+          >
             Create Post
           </a>
         </li>
