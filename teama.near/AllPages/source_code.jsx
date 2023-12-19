@@ -110,7 +110,6 @@ const heapHeapHoorayBoxStyle = {
 
 const textA = () => {
   const [commentContent, setCommentContent] = useState("");
-  // setCommentContent("");
   console.log(commentContent);
   const handleComment = () => {
     try {
@@ -119,6 +118,7 @@ const textA = () => {
           console.log(transactionHash);
         }
       );
+      setCommentContent("");
     } catch (error) {
       console.error("Error creating post:", error.message);
     }
@@ -273,15 +273,6 @@ const Post = ({ post }) => {
     fontSize: "13px",
   };
 
-  const buttonStyle = {
-    padding: "10px 15px",
-    color: "white",
-    border: "none",
-    borderRadius: "5px",
-    cursor: "pointer",
-    outline: "none",
-    marginLeft: "15%",
-  };
   return (
     <div style={postBoxStyle}>
       <div className="comment">
@@ -290,7 +281,6 @@ const Post = ({ post }) => {
           selected={state.selectedTab === "viewPost"}
           style={{ textDecoration: "none", color: "inherit" }}
         >
-          {/* Replace <h5> with Link component */}
           <div>{post.title}</div>
         </Link>
         <div style={{ color: "#333", fontSize: "12px" }}>{post.author}</div>
