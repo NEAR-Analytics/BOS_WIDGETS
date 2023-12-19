@@ -127,6 +127,17 @@ const ArrowDownWrapper = styled.div`
   }
 `;
 
+const AccountWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #40435c;
+  font-size: 14px;
+  .balance {
+    text-decoration: underline;
+  }
+`;
+
 const NetworkList = styled.div`
   position: absolute;
   top: 0;
@@ -979,7 +990,11 @@ const canSwap =
   new Big(Number(state.amount) === "NaN" ? 0 : state.amount || 0).gt(
     new Big(0)
   );
-
+const calcPrice = () => {
+  if (!prices[selectedToken]) return "";
+  if (!amount) return "0";
+  return Big(amount).mul(Big(prices[selectedToken])).toFixed(2);
+};
 return (
   <DeskLayout>
     <Layout>
@@ -1082,6 +1097,17 @@ return (
             }}
           />
         </div>
+        <AccountWrapper>
+          <span>~ ${calcPrice()}</span>
+          <span>
+            Balance:
+            <span className="balance">
+              {balances[selectedToken]
+                ? Big(balances[selectedToken]).toFixed(4)
+                : 0}
+            </span>
+          </span>
+        </AccountWrapper>
       </SendWrapper>
       {!!state.amount &&
         Number(state.amount) !== "NaN" &&
