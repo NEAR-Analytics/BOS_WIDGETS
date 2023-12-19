@@ -31,9 +31,9 @@ if (!props.sourceCodeBase64) {
             target="_blank"
             href={`/${
               context.widgetSrc
-            }?sourceCodeLang=${inputSourceCodeLang}&sourceCodeBase64=${
-              inputSourceCode.length
-            }${encodeURIComponent(btoa(inputSourceCode))}`}
+            }?sourceCodeLang=${inputSourceCodeLang}&sourceCodeBase64=${encodeURIComponent(
+              btoa(inputSourceCode)
+            )}`}
           >
             Share this link
           </a>
