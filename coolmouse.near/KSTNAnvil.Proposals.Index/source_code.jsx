@@ -414,7 +414,10 @@ return (
         <div className="text-lg breadcrumbs">
           <ul>
             <li>
-              <Link href={"/coolmouse.near/widget/Keystone.Index"}> Home </Link>
+              <Link href={"/coolmouse.near/widget/KSTNAnvil.Index"}>
+                {" "}
+                Home{" "}
+              </Link>
             </li>
             <li>Proposals</li>
           </ul>
@@ -422,7 +425,7 @@ return (
         <div className="py-5">
           <Link
             className="btn btn-primary btn-outline group mr-5"
-            href="coolmouse.near/widget/Keystone.Proposals.Keystone"
+            href="coolmouse.near/widget/KSTNAnvil.Proposals.Keystone"
           >
             <svg
               className="fill-primary h-full w-5 mr-2"
@@ -484,7 +487,7 @@ return (
           </Link>
           <Link
             className="btn btn-secondary btn-outline group"
-            href="coolmouse.near/widget/Keystone.Proposals.Token"
+            href="coolmouse.near/widget/KSTNAnvil.Proposals.Token"
           >
             <svg
               className="fill-secondary h-full w-5 mr-2"
