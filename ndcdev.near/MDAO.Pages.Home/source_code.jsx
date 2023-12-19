@@ -365,7 +365,7 @@ const Connect = ({ item }) => (
       <div>
         <b>Created at</b>: {item[3].f}
       </div>
-      <a href={item[2].v} className="color-text">
+      <a href={item[2].v} className="color-text color-dark">
         <span className="mr-4">Learn More</span>
         <i className="bi bi-chevron-right" />
       </a>
