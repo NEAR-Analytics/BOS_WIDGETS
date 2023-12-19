@@ -38,7 +38,7 @@ const NoData = styled.div`
   width: 100%;
   align-items: center;
   justify-content: center;
-  margin-top: 20px;
+  margin-top: 50px;
   p {
     font-size: 20px;
     font-weight: 600;
