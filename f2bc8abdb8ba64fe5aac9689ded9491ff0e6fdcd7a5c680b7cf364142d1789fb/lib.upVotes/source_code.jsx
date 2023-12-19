@@ -228,7 +228,7 @@ function composeUpVoteData(id, articleSbts, articleAuthor) {
   const dataToAdd = getNotificationData(
     "upVote",
     [articleAuthor],
-    `https://near.social/${widgets.thisForum}?sharedArticleId=${articleId}${
+    `https://near.social/${widgets.thisForum}?sharedArticleId=${id}${
       isTest ? "&isTest=t" : ""
     }`
   );
