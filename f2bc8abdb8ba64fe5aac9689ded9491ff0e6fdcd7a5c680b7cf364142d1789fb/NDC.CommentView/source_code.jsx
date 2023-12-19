@@ -12,6 +12,7 @@ const {
   callLibs,
   baseActions,
   sharedCommentId,
+  articleToRenderData,
 } = props;
 
 State.init({
@@ -377,6 +378,7 @@ return (
                   callLibs,
                   baseActions,
                   sharedCommentId,
+                  articleToRenderData,
                 }}
               />
             </AnswerContainer>
