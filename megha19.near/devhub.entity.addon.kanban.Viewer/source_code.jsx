@@ -1,24 +1,25 @@
+const Struct = VM.require("megha19.near/widget/core.lib.struct");
 const { href } = VM.require("megha19.near/widget/core.lib.url");
+
+if (!Struct) {
+  return <p>Loading modules...</p>;
+}
 
 href || (href = () => {});
 
-const { metadata, payload, handle, permissions } = props;
-// TODO: Convert this viewer to display the provided data via metadata, payload
+const { data, handle, permissions } = props;
 
-const CommunityBoardPage = ({ handle, permissions }) => {
-  return (
-    <Widget
-      src="megha19.near/widget/devhub.entity.addon.kanban.Configurator"
-      props={{
-        communityHandle: handle, // rather than fetching again via the handle
-        link: href({
-          widgetSrc: "megha19.near/widget/app",
-          params: { page: "community", handle },
-        }),
-        permissions,
-      }}
-    />
-  );
-};
+if (!data) {
+  return <div>Loading...</div>;
+}
 
-return CommunityBoardPage(props);
+return (
+  <Widget
+    src={`megha19.near/widget/devhub.entity.addon.${data.metadata.type}`}
+    props={{
+      ...data,
+      isSynced: true,
+      permissions,
+    }}
+  />
+);
