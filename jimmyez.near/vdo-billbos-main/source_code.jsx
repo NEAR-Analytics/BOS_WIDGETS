@@ -450,7 +450,7 @@ if (state.chainId) {
 
 function tapDashboard() {
   // get total view ads
-  handleRequest("/ads/total-ad-view?month=1", "viewOfMonth");
+  handleRequest(`/ads/total-ad-view?month=${state.monthCount}`, "viewOfMonth");
 
   const earningCards = [
     {
