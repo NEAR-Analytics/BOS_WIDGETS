@@ -89,21 +89,35 @@ const switchChain = () => {
 const SwitchWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  font-family: "Inter";
-  max-width: 500px;
-  color: #fff;
-  margin: auto;
-  text-align: center;
-  border-radius: 12px;
-  padding: 16px 0;
   align-items: center;
-  gap: 12px;
-  margin-top: 80px;
-  button {
-    background: #8247e5;
+  gap: 20px;
+  padding-top: 150px;
+  .bridge-text {
+    font-size: 32px;
+    letter-spacing: 0em;
+    color: #ffffff;
+    line-height: 38px;
+    @media (max-width: 640px) {
+      font-size: 22px;
+      line-height: 26px;
+      text-align: center;
+    }
+  }
+
+  .connect-button {
+    background-color: #794fdd;
+    max-width: 488px;
+    width: 100%;
+    height: 60px;
+    border-radius: 10px;
+    color: #ffffff;
     border: none;
-    &:hover {
-      background: #8257f5;
+    font-size: 18px;
+    &:active {
+      background-color: #794fdd;
+    }
+    &:focus-visible {
+      box-shadow: none;
     }
   }
 `;
@@ -114,9 +128,13 @@ if (state.chainId !== 1101) {
       <TitleText>Liquidity Manage</TitleText>
       <SwitchWrapper>
         {/* <img src="https://ipfs.near.social/ipfs/bafkreibmhq4fseqpcbywiq4hfojghxvhj47mjsri2trggt7d5h5od4y6kq"></img> */}
-        <h4>Please switch to Polygon zkEVM</h4>
-        <button onClick={switchChain}>Switch to Polygon zkEVM</button>
-        <p>**Please refresh once after switch chain**</p>
+        <div className="bridge-text">
+          To proceed, kindly switch to Polygon zkEVM Chain.
+        </div>
+        <button className="connect-button" onClick={switchChain}>
+          Switch to Polygon zkEVM
+        </button>
+        {/* <p>**Please refresh once after switch chain**</p> */}
       </SwitchWrapper>
     </>
   );
