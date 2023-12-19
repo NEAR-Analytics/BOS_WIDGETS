@@ -26,10 +26,11 @@ const Layout = styled.div`
     linear-gradient(0deg, #332c4b, #332c4b);
 
   .refresh {
-    border: none;
     text-decoration: underline;
     color: #8c7ebd;
-    background: none;
+    padding-right: 5px;
+    font-size: 14px;
+    cursor: pointer;
   }
 
   ul {
@@ -155,8 +156,8 @@ const tokens = props.tokens ?? [];
 
 const arrowUp = (
   <svg
-    width="17"
-    height="10"
+    width="12"
+    height="8"
     viewBox="0 0 17 10"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
@@ -169,12 +170,16 @@ const arrowUp = (
     />
   </svg>
 );
-
+const AccessKey = Storage.get(
+  "AccessKey",
+  "guessme.near/widget/ZKEVMWarmUp.add-to-quest-card"
+);
 function add_action(param_body) {
-  asyncFetch("https://test-api.dapdap.net/api/action/add", {
+  asyncFetch("/dapdap/api/action/add", {
     method: "post",
     headers: {
       "Content-Type": "application/json",
+      Authorization: AccessKey,
     },
     body: JSON.stringify(param_body),
   });
@@ -362,12 +367,33 @@ return (
           >
             Pending transactions
           </span>
-          {(withdraw?.length || 0) + (deposit?.length || 0) > 0}
+        </span>
+        <span>
+          <span className="refresh" onClick={refreshList}>
+            Refresh
+          </span>
+          {/*  {(withdraw?.length || 0) + (deposit?.length || 0) > 0 ? (
+            <span
+              style={{
+                transform: !state.showPending
+                  ? "rotate(180deg)"
+                  : "rotate(0deg)",
+                cursor: "pointer",
+              }}
+              onClick={() => {
+                State.update({
+                  showPending: !state.showPending,
+                });
+              }}
+            >
+              {arrowUp}
+            </span>
+          ) : null} */}
           <span
             style={{
               transform: !state.showPending ? "rotate(180deg)" : "rotate(0deg)",
-              marginLeft: "8px",
               cursor: "pointer",
+              display: "inline-block",
             }}
             onClick={() => {
               State.update({
@@ -378,10 +404,6 @@ return (
             {arrowUp}
           </span>
         </span>
-
-        <button className="refresh" onClick={refreshList}>
-          Refresh
-        </button>
       </div>
 
       {state.showPending && (
