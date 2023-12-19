@@ -1,6 +1,7 @@
 const Wrapper = styled.div`
   width: 100%;
   position: relative;
+  z-index: 10;
   .input-wrapper {
     display: flex;
     align-items: center;
@@ -11,6 +12,9 @@ const Wrapper = styled.div`
     .input-search-wrapper {
       position: relative;
       width: 100%;
+      .clear-icon {
+        display: none;
+      }
     }
 
     .search-wrapper {
@@ -22,7 +26,8 @@ const Wrapper = styled.div`
     .input-records {
       background: none;
       color: #ebf479;
-      border: 1px solid #eef3bc;
+      border: 1px solid rgba(55, 58, 83, 1);
+      background: linear-gradient(0deg, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3));
       text-align: left;
       outline: none;
       font-size: 20px;
@@ -30,7 +35,7 @@ const Wrapper = styled.div`
       line-height: 24px;
       padding: 14px;
       width: 100%;
-      border-radius: 16px;
+      border-radius: 8px;
       ::placeholder {
         color: rgba(235, 244, 121, 0.3);
       }
@@ -38,7 +43,7 @@ const Wrapper = styled.div`
 
     .input-button {
       width: 169px;
-      height: 64px;
+      height: 54px;
       border-radius: 16px;
       background: linear-gradient(180deg, #eef3bf 0%, #e9f456 100%);
       text-align: center;
@@ -51,7 +56,7 @@ const Wrapper = styled.div`
 
       font-size: 20px;
       font-weight: 700;
-      line-height: 24px;
+      line-height: 15px;
       letter-spacing: 0em;
       text-align: center;
 
@@ -112,6 +117,7 @@ const Wrapper = styled.div`
         border-left: none;
         border-right: none;
         border-radius: 0;
+        padding: 14px 36px 14px 14px;
       }
       .input-button {
         width: 162px;
@@ -122,14 +128,45 @@ const Wrapper = styled.div`
         line-height: 14px;
         font-size: 16px;
       }
+      .input-search-wrapper {
+      position: relative;
+      width: 100%;
+        .clear-icon {
+          display: block;
+          cursor: pointer;
+          position: absolute;
+          top: 12px;
+          right: 0;
+          width: 26px;
+          height: 26px;
+          line-height: 26px;
+          text-align: center;
+          align-items: center;
+          border-radius: 8px;
+          background: rgba(55, 58, 83, 0.5);
+          img{
+            width: 10px;
+            height: 10px;
+          }
+        }
+     }
     }
     .search-hint-list {
       width: 100%;
       overflow: auto;
-      height: 55vh;
+      height: 45vh;
+      background: rgba(30,32,47,1);
+      border-radius: 0;
+      .search-hint-item{
+        padding: 0;
+        margin-bottom: 30px;
+        display: grid;
+      }
     }
   }
 `;
+
+const closeIcon = 'https://ipfs.near.social/ipfs/bafkreiay565opvpvtxexcxkfo7cif3ecn4znoarnutcvhjggiczjpuvbbq'
 
 const iconsMap = {
   "ZkEvm-bridge": (
@@ -358,7 +395,7 @@ return (
       <div className="input-search-wrapper">
         <input
           className="input-records"
-          placeholder="e.g. Swap 100 USDC; Bridge USDC; Supply on 0vix; Borrow on 0vix; Deposit on Gamma"
+          placeholder="e.g. Swap 100 USDC"
           value={state.text}
           onChange={(e) => {
             State.update({
@@ -367,6 +404,17 @@ return (
             });
           }}
         />
+
+
+        {state.text && (
+          <div className="clear-icon" onClick={() => {
+            State.update({
+              text: "",
+            });
+          }}>
+            <img src={closeIcon} alt="" />
+          </div>
+        )}
 
         <div className="search-wrapper">{searchIcon}</div>
       </div>
