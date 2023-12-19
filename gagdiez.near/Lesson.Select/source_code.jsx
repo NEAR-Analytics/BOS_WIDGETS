@@ -59,7 +59,7 @@ let knowledge = [
     emoji: "👴🏼",
   },
   {
-    darija: "3guzt",
+    darija: "3guza",
     spanish: "suegra",
     emoji: "👵🏽",
   },
