@@ -1,3 +1,59 @@
+// ====================== User inputs =======================
+
+// 1. Call Title
+const title = "Token transfer";
+
+// 2. Call ABI
+const ABI_URL =
+  "https://gist.githubusercontent.com/veox/8800debbf56e24718f9f483e1e40c35c/raw/f853187315486225002ba56e5283c1dba0556e6f/erc20.abi.json";
+
+// 3. Call data
+const encodeFunctionData = () => {
+  const target = state.token.address;
+  const functionName = "transfer";
+  const args = [
+    state.to, // to
+    ethers.utils.parseUnits(state.amount, state.token.decimals), // amount
+  ];
+
+  return {
+    target,
+    functionName,
+    args,
+  };
+};
+
+// 4. Call interface
+const renderInputs = () => (
+  <>
+    <CallInput title="Token">
+      <Widget
+        src="sainy.near/widget/SelectToken"
+        props={{
+          chainId: props.chainId,
+          onChange: (token) => State.update({ token }),
+        }}
+      />
+    </CallInput>
+    <CallInput title="To">
+      <input
+        placeholder="Wallet Address"
+        style={{ border: "1px solid #E9EBED" }}
+        onChange={(e) => State.update({ to: e.target.value })}
+      />
+    </CallInput>
+    <CallInput title="Amount">
+      <input
+        placeholder="Amount"
+        style={{ border: "1px solid #E9EBED" }}
+        onChange={(e) => State.update({ amount: e.target.value })}
+      />
+    </CallInput>
+  </>
+);
+
+// ============== Unchangeable area ====================
+
 const Container = styled.div`
   border-radius: 14px;
   border: 1px solid #e9ebed;
@@ -40,80 +96,41 @@ const StyledBoxInput = styled.div`
   margin-bottom: 10px;
 `;
 
-const ERC20_ABI_URL =
-  "https://gist.githubusercontent.com/veox/8800debbf56e24718f9f483e1e40c35c/raw/f853187315486225002ba56e5283c1dba0556e6f/erc20.abi.json";
-const ERC20_ABI = fetch(ERC20_ABI_URL).body;
-
-function handleChange(key, value) {
-  State.update({ [key]: value });
-}
+const ABI = fetch(ABI_URL).body;
 
 function buildCall() {
   try {
-    const iface = new ethers.utils.Interface(ERC20_ABI);
-    const callData = iface.encodeFunctionData("transfer", [
-      state.to,
-      ethers.utils.parseUnits(state.amount, state.decimals),
-    ]);
+    const iface = new ethers.utils.Interface(ABI);
+    const data = encodeFunctionData();
+    const callData = iface.encodeFunctionData(data.functionName, data.args);
     const callPayload = {
-      target: state.token.address,
+      target: data.target,
       callData: callData,
     };
     Storage.set(`callPayload:${props.callId}`, callPayload);
-
-    State.update({
-      isOk: true,
-    });
-  } catch (e) {
-    State.update({
-      isOk: false,
-    });
-  }
+  } catch (e) {}
 }
 
-State.init({
-  token: null,
-  to: "",
-  amount: "0",
-  isOk: false,
-});
-
 buildCall();
+
+const CallInput = (props) => (
+  <StyledBoxInput>
+    <StyleTextTitle>{props.title}</StyleTextTitle>
+    {props.children}
+  </StyledBoxInput>
+);
 
 return (
   <Container>
     <ContainerContent>
-      <TextHeader>Transfer</TextHeader>
+      <TextHeader>{title}</TextHeader>
     </ContainerContent>
     <Divider />
     <ContainerContent>
-      <StyledBoxInput>
-        <StyleTextTitle>Token</StyleTextTitle>
-        <Widget
-          src="sainy.near/widget/SelectToken"
-          props={{
-            onChange: (token) => State.update({ token }),
-            chainId: props.chainId,
-          }}
-        />
-      </StyledBoxInput>
-      <StyledBoxInput>
-        <StyleTextTitle>To</StyleTextTitle>
-        <input
-          placeholder="Wallet Address"
-          style={{ border: "1px solid #E9EBED" }}
-          onChange={(e) => handleChange("to", e.target.value)}
-        />
-      </StyledBoxInput>
-      <StyledBoxInput>
-        <StyleTextTitle>Amount</StyleTextTitle>
-        <input
-          placeholder="Amount"
-          style={{ border: "1px solid #E9EBED" }}
-          onChange={(e) => handleChange("amount", e.target.value)}
-        />
-      </StyledBoxInput>
+      {renderInputs()}
       <Widget src="sainy.near/widget/SupercallBase" props={props} />
     </ContainerContent>
   </Container>
 );
+
+// ============== Unchangeable area ====================
