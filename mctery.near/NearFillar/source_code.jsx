@@ -95,12 +95,13 @@ function getFooter() {
   );
 }
 function setUploadFile() {
-  State.update({ uploading_file: true });
   try {
+    State.update({ uploading_file: true });
     Ethers.provider()
       .getSigner()
       .signMessage(`${state.address}${state.filename}`)
       .then((result_sign) => {
+        State.update({ uploading_file: false });
         let source = {
           user_eth_address: state.address,
           ipfs_cid: state.cid,
@@ -112,16 +113,16 @@ function setUploadFile() {
       });
   } catch (e) {
     return false;
-  } finally {
-    State.update({ uploading_file: false });
   }
 }
 function setUpdateFile(item) {
   try {
+    State.update({ uploading_file: true });
     Ethers.provider()
       .getSigner()
       .signMessage(`${state.address}${item.ipns_name}`)
       .then((result_sign) => {
+        State.update({ uploading_file: false });
         let source = {
           user_eth_address: state.address,
           ipns_from_generate: item.ipns_from_generate,
@@ -132,8 +133,6 @@ function setUpdateFile(item) {
       });
   } catch (e) {
     return false;
-  } finally {
-    State.update({ uploading_file: false });
   }
 }
 function getIPFSInfo(info) {
