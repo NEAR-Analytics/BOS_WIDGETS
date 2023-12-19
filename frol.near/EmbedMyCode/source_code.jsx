@@ -118,6 +118,7 @@ html, body, pre, code {
   margin: 0;
 }
 .hljs {
+  line-height: 1.5em;
   overflow-x: unset !important;
 }
 </style>
