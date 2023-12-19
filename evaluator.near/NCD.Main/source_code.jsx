@@ -31,14 +31,13 @@ const menuLinks = [
   {
     icon: "star",
     label: "Evaluation",
-    component: "evaluator.near/widget/NCD.Lessons.HelloNear",
+    component: "evaluator.near/widget/NCD.Lessons.Evaluation-1 ",
   },
 ];
 
 const propsSelected = props.selected || menuLinks[0].component;
 const [selected, setSelected] = useState(propsSelected);
-
-console.log("selected", propsSelected, selected);
+const evaluator_contract = "eval.flmel.near";
 
 return (
   <div class="row mt-1">
@@ -55,7 +54,7 @@ return (
       />
     </div>
     <div class="col-8 mx-auto">
-      <Widget src={selected} props={props} />
+      <Widget src={selected} props={{ evaluator_contract }} />
     </div>
   </div>
 );
