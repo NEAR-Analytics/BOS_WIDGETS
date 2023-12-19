@@ -27,6 +27,7 @@ function appendExports(fnName) {
 function getNotificationData(notificationType, usersToNotify, redirectTo) {
   const notificationTypeText = {
     mention: `I have mentioned @${usersToNotify} in this post: `,
+    mentionOnComment: `I have mentioned @${usersToNotify} on my comment on this post: `,
     upVote: "I have upVoted this post: ",
     emoji: "I have reacted to this post: ",
     comment: "I have commented this post: ",
@@ -56,8 +57,6 @@ function getNotificationData(notificationType, usersToNotify, redirectTo) {
       ),
     },
   };
-
-  console.log("dataToAdd 1: ", dataToAdd);
 
   return dataToAdd;
 }
