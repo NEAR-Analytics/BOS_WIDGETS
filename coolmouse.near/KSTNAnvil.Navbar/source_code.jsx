@@ -3,15 +3,15 @@
 const menuItems = [
   {
     name: "Proposals",
-    url: "/coolmouse.near/widget/Keystone.Proposals.Index",
+    url: "/coolmouse.near/widget/KSTNAnvil.Proposals.Index",
   },
   {
     name: "Signers",
-    url: "/coolmouse.near/widget/Keystone.Signers.Index",
+    url: "/coolmouse.near/widget/KSTNAnvil.Signers.Index",
   },
   {
     name: "Tokens",
-    url: "/coolmouse.near/widget/Keystone.Tokens.Index",
+    url: "/coolmouse.near/widget/KSTNAnvil.Tokens.Index",
   },
 ];
 
@@ -187,7 +187,7 @@ return (
   <Container style={{ backgroundColor: "black" }}>
     <Navbar>
       <NavbarStart>
-        <Link href="/coolmouse.near/Keystone.Index">
+        <Link href="/coolmouse.near/KSTNAnvil.Index">
           <svg
             height="40"
             preserveAspectRatio="xMidYMid meet"
@@ -265,7 +265,7 @@ return (
         </Link>
         <Link
           className="btn btn-ghost normal-case text-xl"
-          href="/coolmouse.near/widget/Keystone.Index"
+          href="/coolmouse.near/widget/KSTNAnvil.Index"
           style={{ color: "white" }}
         >
           KSTNAnvil Index
