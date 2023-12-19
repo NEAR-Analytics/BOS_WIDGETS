@@ -96,14 +96,14 @@ const Theme = styled.div`
 
 return (
   <Theme>
-    <div class="terminal space shadow">
-      <div class="top">
-        <div class="btns">
-          <span class="circle red"></span>
-          <span class="circle yellow"></span>
-          <span class="circle green"></span>
+    <div className="terminal space shadow">
+      <div className="top">
+        <div className="btns">
+          <span className="circle red"></span>
+          <span className="circle yellow"></span>
+          <span className="circle green"></span>
         </div>
-        <div class="title">NEAR is BOS</div>
+        <div className="title">NEAR is BOS</div>
       </div>
       <iframe
         style={{
@@ -114,6 +114,15 @@ return (
           overflowY: "scroll",
         }}
         srcDoc={`
+<style>
+html, body, pre, code {
+  margin: 0;
+}
+.hljs {
+  overflow-x: unset !important;
+}
+</style>
+
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
 
