@@ -4,6 +4,35 @@ const Theme = styled.div`
 
   a {
     color: inherit;
+    font-weight: 500;
+
+    &.color-text {
+      background: linear-gradient(
+        270deg,
+        rgb(246 112 85) 1%,
+        rgb(180 102 248) 50%,
+        rgb(82 129 249) 99.83%
+      );
+
+      &.color-dark {
+        background: linear-gradient(
+          270deg,
+          #efdcd1 -1.69%,
+          #e0c6f7 43.78%,
+          #adc3fb 99.83%
+        );
+      }
+      background-clip: text;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+  }
+
+  .profile {
+    a {
+      color: inherit;
+      font-weight: 400;
+    }
   }
 
   h1,
