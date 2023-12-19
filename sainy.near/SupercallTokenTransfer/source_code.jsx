@@ -101,6 +101,7 @@ return (
         <StyleTextTitle>To</StyleTextTitle>
         <input
           placeholder="Wallet Address"
+          style={{ border: "1px solid #E9EBED" }}
           onChange={(e) => handleChange("to", e.target.value)}
         />
       </StyledBoxInput>
@@ -108,6 +109,7 @@ return (
         <StyleTextTitle>Amount</StyleTextTitle>
         <input
           placeholder="Amount"
+          style={{ border: "1px solid #E9EBED" }}
           onChange={(e) => handleChange("amount", e.target.value)}
         />
       </StyledBoxInput>
