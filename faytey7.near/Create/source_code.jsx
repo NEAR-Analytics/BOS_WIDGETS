@@ -1,6 +1,6 @@
 const accountId = props.accountId ?? context.accountId;
 if (!accountId) {
-  return <a href="near.org/signin">Connect Wallet</a>;
+  return <a href="https://www.near.org/signin">Connect Wallet</a>;
 }
 
 const profile = props.profile ?? Social.getr(`${accountId}/profile`);
