@@ -81,7 +81,7 @@ return (
     <ul style={navbarContainerStyle}>
       <li style={heapHeapHoorayBoxStyle}>
         <a
-          href="teama.near/widget/AllPages"
+          href="https://near.org/teama.near/widget/AllPages"
           style={{ textDecoration: "none", color: "#fff" }}
         >
           Heapheap Hooray
@@ -89,7 +89,7 @@ return (
       </li>
       <li style={boxStyle}>
         <a
-          href="teama.near/widget/AllPages"
+          href="https://near.org/teama.near/widget/AllPages"
           style={{ textDecoration: "none", color: "#fff" }}
         >
           Back to Home
@@ -149,7 +149,6 @@ return (
                 onMouseEnter={handleMouseEnter}
                 onMouseLeave={handleMouseLeave}
                 onClick={handleCreatePost}
-                href="teama.near/widget/AllPages"
               >
                 Submit Post
               </button>
