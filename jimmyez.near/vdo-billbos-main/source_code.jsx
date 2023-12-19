@@ -292,7 +292,7 @@ function tapCampaigns() {
                 return (
                   <div key={index}>
                     <Widget
-                      src="jimmy-ez.near/widget/billbos-ads-card"
+                      src="jimmyez.near/widget/fork-ads-card"
                       props={{
                         ...item,
                         adsStakedBalance:
@@ -303,6 +303,7 @@ function tapCampaigns() {
                         isShowAction: true,
                         coreContractAddress:
                           state.chains[state.chainId].billBOSCore,
+                        adsId: item.adsId,
                       }}
                     />
                   </div>
@@ -326,6 +327,7 @@ function tapCampaigns() {
 }
 
 function tapRewards() {
+  getRewards();
   // get view of page owner
   const walletAddress = state.walletAddress;
   const month = state.monthCount;
@@ -338,7 +340,6 @@ function tapRewards() {
     "ratioOfWalletAddress"
   );
 
-  getRewards();
   return (
     <div>
       <div
@@ -384,7 +385,7 @@ function tapRewards() {
               <div>
                 <p className="text-xs secondary-text">Total Earnings</p>
                 <p className="text-xl mt-1 font-medium">
-                  {state.totalEarningBalance}
+                  {parseFloat(state.totalEarningBalance).toFixed(6)}
                 </p>
               </div>
             </div>
@@ -400,7 +401,10 @@ function tapRewards() {
               <div>
                 <p className="text-xs secondary-text">My Total Earnings</p>
                 <p className="text-xl mt-1 font-medium">
-                  {state.ratioOfWalletAddress * state.viewOfWalletAddress} USDT
+                  {parseFloat(
+                    state.ratioOfWalletAddress * state.viewOfWalletAddress
+                  ).toFixed(6)}{" "}
+                  USDT
                 </p>
               </div>
             </div>
@@ -456,14 +460,14 @@ function tapDashboard() {
     {
       title: "Total Staked",
       ipfsUrl: "bafkreigb2h33nc6bpa2gcuvbs46eys4bbb6djibx76xknbrkswtqfqlyzm",
-      usdt: state.totalStakedBalance,
-      thb: parseFloat(state.totalStakedBalance) * 35,
+      usdt: parseFloat(state.totalStakedBalance).toFixed(6),
+      thb: (parseFloat(state.totalStakedBalance) * 35).toFixed(2),
     },
     {
       title: "Total Earnings",
       ipfsUrl: "bafkreievjy5wntddg6augnywctekhic3dttnf57h4dhjkypyx5mhjci2ou",
-      usdt: state.totalEarningBalance,
-      thb: parseFloat(state.totalEarningBalance) * 35,
+      usdt: parseFloat(state.totalEarningBalance).toFixed(6),
+      thb: (parseFloat(state.totalEarningBalance) * 35).toFixed(2),
     },
     {
       title: "Total View Ads",
