@@ -79,6 +79,7 @@ function upVoteButtonListener() {
       props: {
         id: data.id ?? `${data.author}-${data.timeCreate}`,
         articleSbts: data.sbts,
+        articleAuthor: data.author,
       },
     });
   } else {
