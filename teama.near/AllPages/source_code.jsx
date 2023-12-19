@@ -12,7 +12,7 @@ const abi = fetch(
 const TutorContract = new ethers.Contract(
   "0x1D7098360A9e77A58C4D38df9261335bD74d44d5",
   abi.body,
-  Ethers.provider()?.getSigner()
+  Ethers.provider().getSigner()
 );
 
 if (state.sender == undefined && Ethers.provider()) {
@@ -306,12 +306,6 @@ const Post = ({ post }) => {
   );
 };
 
-useEffect(() => {
-  fetchAllPost();
-  fetchMyPost();
-  fetchComments(0);
-}, []);
-
 const home = () => {
   const boxContainerStyle = {
     display: "flex",
@@ -373,6 +367,9 @@ const home = () => {
 };
 
 const viewPost = (pagePostId) => {
+  useEffect(() => {
+    fetchComments(pagePostId);
+  }, []);
   const postId = pagePostId;
 
   console.log("PostIdType:", typeof postId);
@@ -642,6 +639,7 @@ const allPost = () => {
   const [sortedPosts, setSortedPosts] = useState([]);
 
   useEffect(() => {
+    fetchAllPost();
     const sortedByVote = [...posts].sort(
       (a, b) => b.votingPoints - a.votingPoints
     );
@@ -736,6 +734,9 @@ const allPost = () => {
 };
 
 const myPost = () => {
+  useEffect(() => {
+    fetchMyPost();
+  }, []);
   return (
     <div>
       <ul style={navbarContainerStyle}>
