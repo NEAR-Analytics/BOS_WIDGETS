@@ -1,22 +1,8 @@
 const accountId = props.accountId || context.accountId;
 const onChange = props.onChange;
 
-const NoData = styled.div`
-  display: flex;
-  flex-direction: row;
-  width: 100%;
-  align-items: center;
-  justify-content: center;
-  height: 100%;
-  p {
-    font-size: 20px;
-    font-weight: 600;
-    color: #b0b0b0;
-  }
-`;
-
 if (!accountId) {
-  return <NoData>Please connect to a Near Wallet</NoData>;
+  return <></>;
 }
 
 const size = "100%";
@@ -46,7 +32,21 @@ const data = fetch("https://graph.mintbase.xyz", {
 
 const finalData = data?.body?.data;
 
-if (!finalData || finalData?.tokens?.length === 0) {
+const NoData = styled.div`
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  margin-top: 20px;
+  p {
+    font-size: 20px;
+    font-weight: 600;
+    color: #b0b0b0;
+  }
+`;
+
+if (!finalData) {
   return (
     <NoData>
       <p>No Minted NFT Found For This Account</p>
