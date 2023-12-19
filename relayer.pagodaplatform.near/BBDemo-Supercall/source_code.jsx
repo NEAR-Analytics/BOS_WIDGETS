@@ -64,12 +64,12 @@ return (
           props={{ processCallContract: () => processCall }}
         />
       </div>
+      <Widget
+        src={`ribbinpo.near/widget/billbos-board`}
+        props={{
+          webpageOwnerAddress: "0xF72f6bE11bAE516a3Fa16B19c9d7988f4C1CDA42",
+        }}
+      />
     </PatternBackground>
-    <Widget
-      src={`ribbinpo.near/widget/billbos-board`}
-      props={{
-        webpageOwnerAddress: "0xF72f6bE11bAE516a3Fa16B19c9d7988f4C1CDA42",
-      }}
-    />
   </MainLayout>
 );
