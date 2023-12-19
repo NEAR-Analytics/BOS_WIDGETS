@@ -1,6 +1,36 @@
-const sourceCode = props.sourceCodeBase64
-  ? atob(props.sourceCodeBase64)
-  : "// Hint: Provide source code via `sourceCodeBase64` prop";
+const [inputSourceCode, setInputSourceCode] = useState("");
+
+if (!props.sourceCodeBase64) {
+  return (
+    <div>
+      <h1>Prettify My Code</h1>
+      <label>
+        <p>Paste your code here:</p>
+        <textarea
+          cols={60}
+          rows={20}
+          onChange={(e) => setInputSourceCode(e.target.value)}
+        ></textarea>
+      </label>
+      {inputSourceCode ? (
+        <p>
+          <a
+            target="_blank"
+            href={`${
+              context.widgetSrc
+            }?sourceCodeLang=typescript&sourceCodeBase64=${
+              inputSourceCode.length
+            }${encodeURIComponent(btoa(inputSourceCode))}`}
+          >
+            Share this link
+          </a>
+        </p>
+      ) : null}
+    </div>
+  );
+}
+
+const sourceCode = atob(props.sourceCodeBase64);
 const sourceCodeLang = props.sourceCodeLang || "typescript";
 
 const Theme = styled.div`
