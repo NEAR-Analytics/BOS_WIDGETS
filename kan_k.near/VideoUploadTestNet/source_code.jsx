@@ -585,8 +585,15 @@ const onBtnClick = async () => {
   const contract = new ethers.Contract(CONTRACT_ADDRESS, abi, signer);
   contract
     .addVideo(
-      [body.title, body.description, body.src, body.thumbnail, 0, [body.tag]],
-      [parentVdoId],
+      {
+        _title: body.title,
+        _description: body.description,
+        _url: body.src,
+        _thumb_url: body.thumbnail,
+        _duration: 12,
+        _keywords: [body.tag],
+      },
+      parentVdoId ? [parentVdoId] : [],
       body.owner
     )
     .then((res) => {
