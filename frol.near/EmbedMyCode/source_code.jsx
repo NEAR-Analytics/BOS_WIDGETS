@@ -1,4 +1,6 @@
-const sourceCode = atob(props.sourceCodeBase64);
+const sourceCode = props.sourceCodeBase64
+  ? atob(props.sourceCodeBase64)
+  : "// Hint: Provide source code via `sourceCodeBase64` prop";
 const sourceCodeLang = props.sourceCodeLang || "typescript";
 
 const Theme = styled.div`
@@ -38,7 +40,7 @@ const Theme = styled.div`
 .green { background: #64CC57; border-color: #4EA73B; }
 .yellow{ background: #F5C04F; border-color: #D6A13D; }
 .terminal .body {
-    background: black;
+    background: #0d1117;
     color: #7AFB4C;
     padding: 8px;
     overflow: auto;
@@ -64,12 +66,12 @@ return (
         style={{
           height: "600px",
           width: "800px",
-          backgroundColor: "#303030",
+          backgroundColor: "#0d1117",
           overflowX: "scroll",
           overflowY: "scroll",
         }}
         srcDoc={`
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/dark.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
 
 <!-- and it's easy to individually load additional languages -->
