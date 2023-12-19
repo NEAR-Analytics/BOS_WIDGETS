@@ -14,6 +14,7 @@ const ConnectWrapper = styled.div`
   flex-direction: column;
   align-items: center;
   gap: 20px;
+  padding-top: 150px;
 
   .bridge-text {
     font-size: 32px;
