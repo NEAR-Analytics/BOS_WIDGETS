@@ -2,6 +2,10 @@ function getRootMembers() {
   return Near.view("devgovgigs.near", "get_root_members") ?? null;
 }
 
+function removeMember(member) {
+  return Near.call("devgovgigs.near", "remove_member", { member });
+}
+
 function hasModerator({ account_id }) {
   return (
     Near.view("devgovgigs.near", "has_moderator", { account_id }) ??
@@ -23,6 +27,12 @@ function getFeaturedCommunities() {
   return (
     Near.view("devgovgigs.near", "get_featured_communities") ?? null
   );
+}
+
+function setFeaturedCommunities({ handles }) {
+  return Near.call("devgovgigs.near", "set_featured_communities", {
+    handles,
+  });
 }
 
 function getAccountCommunityPermissions({ account_id, community_handle }) {
@@ -49,13 +59,6 @@ function updateCommunityBoard({ handle, board }) {
   return Near.call("devgovgigs.near", "update_community_board", {
     handle,
     board,
-  });
-}
-
-function updateCommunityGithub({ handle, github }) {
-  return Near.call("devgovgigs.near", "update_community_github", {
-    handle,
-    github,
   });
 }
 
@@ -213,15 +216,16 @@ function useQuery(name, params) {
 
 return {
   getRootMembers,
+  removeMember,
   hasModerator,
   createCommunity,
   getCommunity,
   getFeaturedCommunities,
+  setFeaturedCommunities,
   getAccountCommunityPermissions,
   updateCommunity,
   deleteCommunity,
   updateCommunityBoard,
-  updateCommunityGithub,
   setCommunityAddons,
   setCommunityAddon,
   getAccessControlInfo,
