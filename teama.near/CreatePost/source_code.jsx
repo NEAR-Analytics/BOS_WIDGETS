@@ -62,6 +62,7 @@ const handleCreatePost = () => {
     TutorContract.createPost(content, title).then((transactionHash) => {
       console.log(transactionHash);
     });
+
     // State.createPost({ _content: content, _title: title });
   } catch (error) {
     console.error("Error creating post:", error.message);
@@ -80,7 +81,7 @@ return (
     <ul style={navbarContainerStyle}>
       <li style={heapHeapHoorayBoxStyle}>
         <a
-          href="theerin_petch.near/widget/callContract"
+          href="teama.near/widget/AllPages"
           style={{ textDecoration: "none", color: "#fff" }}
         >
           Heapheap Hooray
@@ -140,6 +141,7 @@ return (
                 onMouseEnter={handleMouseEnter}
                 onMouseLeave={handleMouseLeave}
                 onClick={handleCreatePost}
+                href="teama.near/widget/AllPages"
               >
                 Submit Post
               </button>
