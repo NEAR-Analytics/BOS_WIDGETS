@@ -4,7 +4,7 @@ function NewsletterCard() {
   State.init({ page: 1 });
 
   const data = fetch(
-    `https://nearweek.com/api/editions?populate=deep&sort=createdAt:desc&pagination[pageSize]=${
+    `https://nearweek.com/api/md/editions?populate=deep&sort=createdAt:desc&pagination[pageSize]=${
       state.page * 9
     }`,
     {
@@ -277,8 +277,8 @@ function NewsletterCard() {
                       class="rounded"
                       width="100%"
                       height="100%"
-                      src={nwSite + issue.Thumbnail.url}
-                      alt={issue.Thumbnail.alternativeText}
+                      src={nwSite + issue.image.formats.small.url}
+                      alt={issue.image.alternativeText}
                     />
                   </CardContent>
                 </TopCardBody>
@@ -286,9 +286,7 @@ function NewsletterCard() {
                 {index === 0 && (
                   <CardFooter>
                     <TopCardTitleContainer>
-                      <TopCardTitle>
-                        {"Edition"} {issue.Number ? issue.Number : ""}
-                      </TopCardTitle>
+                      <TopCardTitle>{issue.title}</TopCardTitle>
                       <p>{formatDate(issue.createdAt)}</p>
                     </TopCardTitleContainer>
                     <TopCardFooterButtons>
@@ -324,14 +322,12 @@ function NewsletterCard() {
                           class="rounded"
                           width="67"
                           height="49"
-                          src={nwSite + issue.Thumbnail.url}
-                          alt={issue.Thumbnail.alternativeText}
+                          src={nwSite + issue.image.formats.thumbnail.url}
+                          alt={issue.image.alternativeText}
                         />
                         <div class="d-flex flex-column ms-3 mt-0">
                           {/* Display "Edition -" followed by the number */}
-                          <CardTitle>
-                            {"Edition"} {issue.Number ? issue.Number : ""}
-                          </CardTitle>
+                          <CardTitle>{issue.title}</CardTitle>
                           {/* Display time elapsed since creation date */}
                           <CordDate>{`${calculateTimeDifference(
                             issue.createdAt
