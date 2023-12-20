@@ -29,7 +29,7 @@ function NewsletterCard() {
       margin-bottom:27px;
     `;
   const SectionTitle = styled.div`
-      & p.title {
+      & p {
         overflow: hidden;
         text-overflow: ellipsis;
         whitespace: nowrap;
