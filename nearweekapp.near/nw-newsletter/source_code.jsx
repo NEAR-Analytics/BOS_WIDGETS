@@ -4,7 +4,7 @@ function NewsletterCard() {
   State.init({ page: 1 });
 
   const data = fetch(
-    `https://nearweek.com/api/md/editions?populate=deep&sort=createdAt:desc&pagination[pageSize]=${
+    `https://nearweek.com/api/md/editions?populate=*&sort=createdAt:desc&pagination[pageSize]=${
       state.page * 9
     }`,
     {
@@ -274,6 +274,7 @@ function NewsletterCard() {
                 <TopCardBody>
                   <CardContent>
                     <img
+                      onClick={() => updateDetailsPage(issue)}
                       class="rounded"
                       width="100%"
                       height="100%"
