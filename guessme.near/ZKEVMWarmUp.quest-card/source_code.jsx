@@ -125,6 +125,19 @@ const QuestCardWrapper = styled.div`
     justify-content: center;
     /* padding: 4px; */
     width: 259px;
+    border: 1px solid transparent;
+    position: relative;
+    :hover{
+      border: 1px solid rgba(235, 244, 121, 1);
+      .one-click-execution{
+        display: inline-block;
+      }
+      .quest-card-inner {
+        background: linear-gradient(0deg, rgba(22, 24, 29, 0.8), rgba(22, 24, 29, 0.8)),
+        linear-gradient(0deg, #EBF479, #EBF479);
+        filter: blur(4px);
+      }
+    }
     .quest-card-inner {
       border-radius: 20px;
       background: linear-gradient(180deg, #eef3bf 0%, #e9f456 100%);
@@ -166,6 +179,155 @@ const QuestCardWrapper = styled.div`
       }
       .trend-card-execute-mobile {
         display: none;
+      }
+    }
+    .one-click-execution{
+      display: none;
+      position: absolute;
+      margin: 0 14px;
+      .click-execution-btn{
+        cursor: pointer;
+        display: inline-block;
+        background: linear-gradient(180deg, #EEF3BF 0%, #E9F456 100%);
+        color: rgba(30, 32, 40, 1);
+        white-space: nowrap;
+        height: 32px;
+        line-height: 32px;
+        font-size: 14px;
+        border-radius: 8px;
+        margin-right: 12px;
+        padding: 0 15px;
+      }
+      .click-execution-arrow{
+        cursor: pointer;
+        display: inline-block;
+        border: 1px solid rgba(236, 244, 136, 1);
+        background: linear-gradient(0deg, rgba(24, 26, 39, 0.8), rgba(24, 26, 39, 0.8)),
+        linear-gradient(0deg, #ECF488, #ECF488);
+        border-radius: 8px;
+        width: 32px;
+        height: 32px;
+        text-align: center;
+        align-items: center;
+        line-height: 30px;
+        img{
+          width: 12px;
+        }
+      }
+    }
+    .one-clickExecution-masklayer{
+      background: rgba(22, 24, 29, 1);
+      opacity: 0.8;
+      position: fixed;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      right: 0;
+      left: 0;
+      bottom: 0;
+      z-index: 1;
+    }
+    .one-clickExecution-popup{
+      width: 450px;
+      border: 1px solid rgba(55, 58, 83, 1);
+      border-radius: 32px;
+      background: linear-gradient(0deg, #262836, #262836),
+      linear-gradient(0deg, #373A53, #373A53);
+      padding: 20px 30px;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 2;
+      .clickExecution-popup-title{
+        margin-bottom: 16px;
+        h1{
+          font-size: 26px;
+          font-weight: 500;
+          color: rgba(255, 255, 255, 1);
+          display: inline-block;
+          margin: 0;
+        }
+        img{
+          float: right;
+          cursor: pointer;
+        }
+      }
+      .clickExecution-popup-content{
+        margin-bottom: 20px;
+        background: rgba(27, 30, 39, 1);
+        border-radius: 12px;
+        padding: 22px 12px 1px 12px;
+        .popup-content-item{
+          display: flex;
+          justify-content: space-between;
+          margin-bottom: 18px;
+          img{
+            width: 20px;
+            height: 20px;
+          }
+          p{
+            color: rgba(151, 154, 190, 1);
+            font-size: 14px;
+            font-weight: 500;
+            margin: 0;
+          }
+          h1{
+            color: rgba(255, 255, 255, 1);
+            font-size: 14px;
+            font-weight: 500;
+          }
+        }
+      }
+      .clickExecution-popup-btn{
+        display: flex;
+        .popup-swap-input{
+          width: 70%;
+          position: relative;
+            input {
+            width: 100%;
+            height: 48px;
+            line-height: 48px;
+            background: transparent;
+            border: 1px solid rgba(235, 244, 121, 0.2);
+            padding-right: 24px;
+            border-radius: 12px;
+            padding: 16px 56px 16px 16px;
+            color: #ffffff;
+            background: linear-gradient(0deg, #282a33, #282a33), linear-gradient(0deg, #343743, #343743);
+          }
+          input:focus {
+            outline: none;
+            color: #ffffff;
+            border: 1px solid rgba(235, 244, 121, 0.2);
+            background: none;
+          }    
+          span{
+              font-size: 14px;
+              color: rgba(151, 154, 190, 1);
+              position: absolute;
+              right: 12px;
+              top: 14px;
+          }
+        }
+        .popup-swap-btn{
+          width: 30%;
+          margin-left: 12px;
+          background: linear-gradient(180deg, #EEF3BF 0%, #E9F456 100%);
+          height: 48px;
+          line-height: 48px;
+          text-align: center;
+          border-radius: 12px;
+          font-size: 16px;
+          color: rgba(2, 5, 30, 1);
+        }
+        .disabled{
+          opacity: 0.5;
+          cursor: not-allowed;
+          width: 100%;
+          background: rgb(255, 97, 211);
+          color: #ffffff;
+        }
       }
     }
   }
@@ -444,13 +606,21 @@ const getAmountFromTitle = (title) => {
 
 let displayTitle = item.action_title;
 
+let displayTitles = item.action_title;
+
+const currencyCodeMatch = displayTitles.match(/\b\s*([A-Za-z]+)\s*on\b/);
+
+const currencyCode = currencyCodeMatch ? currencyCodeMatch[1] : '';
+
 const amountIndex = getAmountFromTitle(item.action_title);
+
+let amountNumber;
 
 if (amountIndex > -1) {
   const arr = item.action_title.split(/\s+/);
   const amount = item.action_title.split(/\s+/)[amountIndex];
 
-  const amountNumber = amount;
+  amountNumber = amount;
 
   displayTitle = (
     <>
@@ -466,14 +636,98 @@ if (amountIndex > -1) {
       {arr.slice(amountIndex + 1, arr.length).join(" ")}
     </>
   );
+
+  displayTitles = (
+    <>
+      {amountNumber} {currencyCode}
+    </>
+  );
 }
+
+const token = SwapTokens.find((item) => item.symbol === currencyCode);
+
+State.init({
+  showPopup: false,
+});
+const handleButtonClick = () => {
+  State.update({
+    showPopup: true,
+  });
+};
+const closeButtonClick = () => {
+  State.update({
+    showPopup: false,
+  });
+};
+
+State.init({
+  balanceLoaded: false,
+  balance: "0",
+  inputValue: '',
+});
+
+const expandToken = (value, decimals) => {
+  return new Big(value).mul(new Big(10).pow(decimals));
+};
+
+State.init({
+  swapping: false,
+});
+
+const isSwapDisabled = state.balance === '0.0';
+
+const handleInputChange = (event) => {
+  const newValue = event.target.value;
+  const regex = /^[0-9]*\.?[0-9]*$/;
+  if (regex.test(newValue)) {
+    State.update({ inputValue: newValue });
+  }
+};
+
+const handleSwapButtonClick = () => {
+  if (!isSwapDisabled) {
+    const inputValueAsNumber = parseFloat(state.inputValue);
+    const amountNumberAsNumber = parseFloat(amountNumber);
+
+    if (!isNaN(inputValueAsNumber) && !isNaN(amountNumberAsNumber)) {
+      const outputCurrencySymbol = item.action_tokens && typeof item.action_tokens === 'string'
+        ? parseActionTokens(item.action_tokens).split(' - ')[1]
+        : '';
+
+      const outputCurrency = SwapTokens.find(token => token.symbol === outputCurrencySymbol);
+
+      State.update({
+        swapping: true,
+        outputCurrency: outputCurrency || {},
+      });
+    } else {
+      console.error('Invalid input value or amountNumber');
+    }
+  }
+};
+
+
+const parseActionTokens = (actionTokensString) => {
+  try {
+    const actionTokensArray = JSON.parse(actionTokensString);
+    if (Array.isArray(actionTokensArray)) {
+      return actionTokensArray.join(' - ');
+    } else {
+      console.error('Parsed action_tokens is not an array');
+      return 'Invalid action_tokens';
+    }
+  } catch (error) {
+    console.error('Error parsing action_tokens:', error);
+    return 'Invalid action_tokens';
+  }
+};
+
 
 return (
   <QuestCardWrapper>
-    <div className={"quest-card-out"} onClick={() => onSaveParams()}>
+    <div className={"quest-card-out"}>
       <a
         className="quest-card-inner"
-        href={link}
         style={{
           background: isInMoreList ? "#373A53" : "",
           color: isInMoreList ? "white" : "",
@@ -487,7 +741,98 @@ return (
           {item.count_number} times
         </div>
       </a>
-    </div>
+
+      <div className="one-click-execution">
+        <div className="click-execution-btn" onClick={() => handleButtonClick()}>
+          One-Click Execution
+        </div>
+        <a className="click-execution-arrow" onClick={onSaveParams()} href={link}>
+          <img src="https://ipfs.near.social/ipfs/bafkreiaintqynrr22hf6vcvvqul7qfwpncvoryt5d4vk6ma4w6bum6rypi" alt="" />
+        </a>
+      </div>
+
+      {state.showPopup ? (
+        <>
+          <div className="one-clickExecution-masklayer"></div>
+          <div className="one-clickExecution-popup">
+            <div className="clickExecution-popup-title">
+              <h1>Swap</h1>
+              <img src="https://ipfs.near.social/ipfs/bafkreif62pul5mxaiz3vnwi63qzxf5g7j6ifjesxmrkx2xjwmpddfiddbq"
+                onClick={() => closeButtonClick()}
+                alt="" />
+            </div>
+            <div className="clickExecution-popup-content">
+              <div className="popup-content-item">
+                <p>Dapp</p>
+                <h1>{iconMap[item.template]} {item.template}</h1>
+              </div>
+              <div className="popup-content-item">
+                <p>Suggestion</p>
+                <h1>{displayTitles}</h1>
+              </div>
+              <div className="popup-content-item">
+                <p>Your balance</p>
+                <h1>
+                  <Widget
+                    src="bluebiu.near/widget/Arbitrum.Swap.CurrencyBalance"
+                    props={{
+                      address: token ? token.address : '',
+                      onLoad: (balance) => {
+                        State.update({
+                          balance: ethers.utils.formatUnits(balance, token.decimals),
+                          balanceLoaded: true,
+                        });
+                        props?.onUpdateCurrencyBalance(balance);
+                      },
+                    }}
+                  />
+                  {state.balance} {currencyCode}
+                </h1>
+              </div>
+              <div className="popup-content-item">
+                <p>Swap pair</p>
+                {item.action_tokens && typeof item.action_tokens === 'string' && (
+                  <h1>{parseActionTokens(item.action_tokens)}</h1>
+                )}
+              </div>
+            </div>
+            <div className="clickExecution-popup-btn">
+              {!isSwapDisabled && (
+                <div className="popup-swap-input">
+                  <input
+                    type="text"
+                    value={state.inputValue}
+                    onChange={handleInputChange}
+                    maxLength={String(state.balance).length + 2}
+                    //  max={state.balance} 
+                    autoComplete="off"
+                  />
+                  <span>{currencyCode}</span>
+                </div>
+              )}
+              <div className={`popup-swap-btn ${isSwapDisabled ? 'disabled' : ''}`} onClick={handleSwapButtonClick}>
+                {isSwapDisabled ? "Insufficient balance" : state.swapping ? "Swapping..." : "Swap"}
+                {state.swapping && (
+                  <Widget
+                    src="guessme.near/widget/ZKEVMSwap.zkevm-swap-button"
+                    props={{
+                      inputCurrencyAmount: parseFloat(state.inputValue) || parseFloat(amountNumber),
+                      inputCurrency: token,
+                      outputCurrency: state.outputCurrency || {},
+                      wethAddress: '0x4f9a0e7fd2bf6067db6994cf12e4495df938e6e9',
+                      account: item.account_id,
+                      routerAddress: '0xF6Ad3CcF71Abb3E12beCf6b3D2a74C963859ADCd',
+                      swapping: state.swapping,
+                      title: item.template,
+                    }}
+                  />
+                )}
+              </div>
+            </div>
+          </div>
+        </>
+      ) : null}
+    </div >
 
     <div className="quest-card-execute-date">
       <span className="quest-card-execute-date-number">
@@ -517,5 +862,6 @@ return (
         </div>
       </div>
     </div>
-  </QuestCardWrapper>
+  </QuestCardWrapper >
 );
+
