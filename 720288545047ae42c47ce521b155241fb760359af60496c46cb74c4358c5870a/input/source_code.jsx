@@ -16,6 +16,10 @@ State.init({
   inputDecimals: showDecimals || 4,
 });
 
+useEffect(() => {
+  State.update({ inputValue: value, inputDecimals: showDecimals || 4 });
+}, [value, showDecimals]);
+
 const dark = {
   name: "dark",
   inputBgColor: "#292728",
