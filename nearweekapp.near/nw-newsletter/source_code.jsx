@@ -274,10 +274,11 @@ function NewsletterCard() {
                 <TopCardBody>
                   <CardContent>
                     <img
-                      onClick={() => updateDetailsPage(issue)}
                       class="rounded"
                       width="100%"
                       height="100%"
+                      style={{ cursor: "pointer" }}
+                      onClick={() => updateDetailsPage(issue)}
                       src={nwSite + issue.image.formats.small.url}
                       alt={issue.image.alternativeText}
                     />
@@ -287,7 +288,12 @@ function NewsletterCard() {
                 {index === 0 && (
                   <CardFooter>
                     <TopCardTitleContainer>
-                      <TopCardTitle>{issue.title}</TopCardTitle>
+                      <TopCardTitle
+                        style={{ cursor: "pointer" }}
+                        onClick={() => updateDetailsPage(issue)}
+                      >
+                        {issue.title}
+                      </TopCardTitle>
                       <p>{formatDate(issue.createdAt)}</p>
                     </TopCardTitleContainer>
                     <TopCardFooterButtons>
