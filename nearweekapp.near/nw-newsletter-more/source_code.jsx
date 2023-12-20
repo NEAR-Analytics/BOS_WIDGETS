@@ -96,7 +96,7 @@ function NewsletterCard() {
     justify-content: center; 
     justify-items: center; 
      @media screen and (min-width: ${breakpoints.xl}) {
-      width:70%;
+      width:100%;
       display: grid;
       grid-column-gap: 20px;
       justify-content: end;
@@ -106,8 +106,6 @@ function NewsletterCard() {
   const detailsPage = props.detailsPage;
   const updateDetailsPage = props.updateDetailsPage;
   const sections = detailsPage?.sections;
-
-  console.log("sections", sections);
 
   const ReturnButton = styled.div`
     cursor: pointer;
