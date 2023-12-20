@@ -38,6 +38,7 @@ const {
   outputCurrencyAmount,
   maxInputBalance,
   onSuccess,
+  addAction,
   routerAddress,
   wethAddress,
   title,
@@ -51,7 +52,6 @@ const {
   stable,
   syncSwapPoolAddress,
 } = props;
-console.log("props: ", props);
 
 if (Big(inputCurrencyAmount || 0).eq(0)) {
   return <SwapButton disabled>Enter An Amount</SwapButton>;
@@ -193,43 +193,20 @@ if (!state.isApproved && wrapType === 0) {
     </SwapButton>
   );
 }
-const AccessKey = Storage.get(
-  "AccessKey",
-  "guessme.near/widget/ZKEVMWarmUp.add-to-quest-card"
-);
-function add_action(param_body) {
-  asyncFetch("https://test-api.dapdap.net/api/action/add-action-data", {
-    method: "post",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: AccessKey,
-    },
-    body: JSON.stringify(param_body),
-  });
-}
-
 function successCallback(tx, callback) {
   tx.wait().then((res) => {
     const { status, transactionHash } = res;
     callback?.();
-    const uuid = Storage.get(
-      "zkevm-warm-up-uuid",
-      "bluebiu.near/widget/ZKEVMWarmUp.generage-uuid"
-    );
-    add_action({
-      action_title: `Swap ${inputCurrencyAmount} ${inputCurrency.symbol} on ${title}`,
-      action_type: "Swap",
-      action_tokens: JSON.stringify([
-        `${inputCurrency.symbol}`,
-        `${outputCurrency.symbol}`,
-      ]),
-      action_amount: inputCurrencyAmount,
-      account_id: account,
-      account_info: uuid,
+    addAction?.({
+      type: "Swap",
+      inputCurrencyAmount,
+      inputCurrency,
+      outputCurrencyAmount,
+      outputCurrency,
       template: title,
-      action_status: status === 1 ? "Success" : "Failed",
-      tx_id: transactionHash,
-      action_network_id: chainName,
+      status,
+      transactionHash,
+      add: props.add,
     });
     if (status === 1) {
       onSuccess?.();
