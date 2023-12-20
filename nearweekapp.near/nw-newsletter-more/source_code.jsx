@@ -106,7 +106,7 @@ function NewsletterCard() {
   const detailsPage = props.detailsPage;
   const updateDetailsPage = props.updateDetailsPage;
   const sections = detailsPage?.sections;
-
+  console.log(detailsPage);
   const ReturnButton = styled.div`
     cursor: pointer;
   `;
