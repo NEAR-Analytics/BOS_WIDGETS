@@ -9,9 +9,25 @@ const ZKSYNC_CHAIN_ID = 324;
 const GOERLI_CHAIN_ID = 5;
 const ZKSYNC_GOERLI_CHAIN_ID = 280;
 const L1_MESSENGER_ADDRESS = "0x0000000000000000000000000000000000008008";
-const l2TxGasLimit = "691703";
-const l2TxGasLimitEth = "671358";
+const l2TxGasLimit = "900000";
+const l2TxGasLimitWithdrawEth = "5920399";
 const l2TxGasPerPubdataByte = "800";
+const l2MaxGasPrice = "2";
+const l2DepositFee = ethers.utils.formatUnits(
+  Big(l2MaxGasPrice)
+    .mul(ethers.utils.parseUnits(l2TxGasLimit, "gwei"))
+    .toString(),
+  "wei"
+);
+const catchApproveError = (e) => {
+  console.error("approve error:", e);
+  if (e.message) {
+    State.update({ isLoading: false, log: e.message });
+    setTimeout(() => State.update({ log: null }), 3000);
+    return;
+  }
+  State.update({ isLoading: false });
+};
 
 // state
 const defaultDeposit = {
@@ -62,6 +78,8 @@ if (!state.initialized) {
     amount: "0.0",
     deposits: [],
     withdrawals: [],
+    ethDeposits: [],
+    ethWithdrawals: [],
   });
   return "";
 }
@@ -141,6 +159,7 @@ const contracts = {
     },
     eth: {
       decimals: 18,
+      deposit: "0x32400084C286CF3E17e7B677ea9583e60a000324",
       withdraw: "0x000000000000000000000000000000000000800A", // l2 token
     },
     weth: {
@@ -199,7 +218,7 @@ const zkAbi = fetch(
 );
 
 const zkEthAbi = fetch(
-  "https://gist.githubusercontent.com/mattlockyer/80b8323c91669cb5c662fc649a8d74dc/raw/bfecb8a4148a33ec03f7312f54bc68fc358e8ffe/zkEthAbi.json"
+  "https://gist.githubusercontent.com/mattlockyer/80b8323c91669cb5c662fc649a8d74dc/raw/70168542489641d19d0157a87e6b01528bac1063/zkEthAbi.json"
 );
 
 const zkEthTokenAbi = fetch(
@@ -227,12 +246,24 @@ const zkL2EthTokenIFace = new ethers.utils.Interface(zkEthTokenAbi.body);
 const zkL1IFace = new ethers.utils.Interface(zkAbi.body);
 const zkL2IFace = new ethers.utils.Interface(zkL2Abi.body);
 
-// create contract instances
+// create contract instances for reads
 
 const L1Bridge = new ethers.Contract(
   contracts[network].bridge.L1ERC20BridgeProxy,
   zkAbi.body,
   contracts[network].l1Provider
+);
+
+const L1EthBridge = new ethers.Contract(
+  contracts[network].eth.deposit,
+  zkEthAbi.body,
+  contracts[network].l1Provider
+);
+
+const L2BridgeEth = new ethers.Contract(
+  contracts[network].eth.withdraw,
+  zkEthTokenAbi.body,
+  contracts[network].l2Provider
 );
 
 const L2Bridge = new ethers.Contract(
@@ -314,15 +345,26 @@ function getWithdrawArgs(txHash, cb, rawProof, index) {
   );
 }
 
-function isWithdrawalFinalized(txHash, cb) {
+function isWithdrawalFinalized(txHash, isEth, cb, returnArgs) {
+  if (!isEth) isEth = false;
   getWithdrawArgs(
     txHash,
     (res) => {
-      L1Bridge.isWithdrawalFinalized(
-        ethers.BigNumber.from(res.l1BatchNumber),
-        res.proof.id
-      ).then((res) => {
-        cb(res);
+      const args = [ethers.BigNumber.from(res.l1BatchNumber), res.proof.id];
+      (isEth
+        ? L1EthBridge.isEthWithdrawalFinalized(...args)
+        : L1Bridge.isWithdrawalFinalized(...args)
+      ).then((finalized) => {
+        if (returnArgs) {
+          return cb({
+            finalized,
+            withdrawalArgs: {
+              ...res,
+              proof: res.proof.proof,
+            },
+          });
+        }
+        cb(finalized);
       });
     },
     true
@@ -333,6 +375,46 @@ function isWithdrawalFinalized(txHash, cb) {
 
 if (!state.initLogs) {
   State.update({ initLogs: true });
+
+  // eth deposits
+
+  L2BridgeEth.queryFilter(L2BridgeEth.filters.Transfer(sender, sender)).then(
+    (ethDeposits) => {
+      // console.log("ethDeposits", ethDeposits);
+      State.update({
+        ethDeposits,
+      });
+    }
+  );
+
+  L2BridgeEth.queryFilter(L2BridgeEth.filters.Withdrawal(null, sender)).then(
+    (withdrawals) => {
+      const ethWithdrawals = [],
+        { length } = withdrawals;
+      let ret = 0;
+      const check = (i) => {
+        const w = { ...withdrawals[i] };
+        isWithdrawalFinalized(
+          w.transactionHash,
+          true,
+          (res) => {
+            Object.assign(w, res, { isEth: true });
+            ethWithdrawals.push(w);
+            ret++;
+            if (ret === length) {
+              State.update({
+                ethWithdrawals,
+              });
+            }
+          },
+          true
+        );
+      };
+      for (let i = 0; i < length; i++) check(i);
+    }
+  );
+
+  // erc20 deposits
 
   L2Bridge.queryFilter(L2Bridge.filters.FinalizeDeposit(sender)).then(
     (deposits) => {
@@ -350,38 +432,29 @@ if (!state.initLogs) {
     }
   );
 
-  // check each withdrawal to see if finalized
-
-  // const txHash = `0x91180618b8453b820097aee15f37698691384a2cffd9108eb94d0c3070899e53`;
-  // // const txHash = `0x973993b769d3aa3a956f15ac4b9f4d06d76b7b728656f74c3ff3155a34230879`;
-
-  // isWithdrawalFinalized(txHash, (res) =>
-  //   console.log("isWithdrawalFinalized", res)
-  // );
-
   return "";
 }
 
 // deposits
 
-// TODO add the fee ??? not sure how to calculate fee, but add something and this should work
-
 const handleDepositEth = (data) => {
-  const value = ethers.utils.parseUnits(data.amount);
+  const amount = ethers.utils.parseUnits(data.amount);
+  const value = amount.add(ethers.utils.parseUnits(l2DepositFee, "wei"));
 
   const encodedData = zkL1EthIFace.encodeFunctionData(
     "requestL2Transaction(address,uint256,bytes,uint256,uint256,bytes[],address)",
-    [sender, value, "0x", l2TxGasLimitEth, l2TxGasPerPubdataByte, [], sender]
+    [sender, amount, "0x", l2TxGasLimit, l2TxGasPerPubdataByte, [], sender]
   );
 
   Ethers.provider()
     .getSigner()
     .sendTransaction({
-      to: contracts[network].bridge.L1ETHBridgeProxy,
+      to: contracts[network].eth.deposit,
       data: encodedData,
       value,
       gasLimit: ethers.BigNumber.from("500000"),
-    });
+    })
+    .catch(catchApproveError);
 };
 
 // TODO deposit on txBridge is missing the final address arg
@@ -406,10 +479,8 @@ const handleDeposit = (data) => {
       data.amount,
       tokens[data.assetId].decimals
     );
-    const ethTransferCost = ethers.utils.parseUnits(
-      "0.000581642",
-      tokens.eth.decimals
-    );
+
+    const value = ethers.utils.parseUnits(l2DepositFee, "wei");
 
     const encodedData = zkL1IFace.encodeFunctionData(
       "deposit(address,address,uint256,uint256,uint256,address)",
@@ -421,9 +492,10 @@ const handleDeposit = (data) => {
       .sendTransaction({
         to: contracts[network].bridge.L1ERC20BridgeProxy,
         data: encodedData,
-        value: ethTransferCost,
+        value,
         gasLimit: ethers.BigNumber.from("500000"),
-      });
+      })
+      .catch(catchApproveError);
   });
 };
 
@@ -463,14 +535,37 @@ const handleApprove = (data, callback) => {
           callback(true);
         })
         .catch((e) => {
-          console.error("approve error:", e);
-          State.update({ isLoading: false });
+          catchApproveError(e);
           callback(false);
         });
     });
 };
 
 // withdrawals
+
+const handleFinalizeEthWithdrawal = (i) => {
+  const { l1BatchNumber, l2MessageIndex, l2TxNumberInBlock, message, proof } =
+    allWithdrawals[i].withdrawalArgs;
+
+  const contract = new ethers.Contract(
+    contracts[network].eth.deposit,
+    zkEthAbi.body,
+    Ethers.provider().getSigner()
+  );
+
+  console.log(l1BatchNumber, l2MessageIndex, l2TxNumberInBlock, message, proof);
+
+  contract
+    .finalizeEthWithdrawal(
+      l1BatchNumber,
+      l2MessageIndex,
+      l2TxNumberInBlock,
+      message,
+      proof,
+      {}
+    )
+    .then((res) => console.log(res));
+};
 
 const handleWithdrawEth = (data) => {
   const value = ethers.utils.parseUnits(data.amount);
@@ -486,7 +581,7 @@ const handleWithdrawEth = (data) => {
       to: contracts[network][data.assetId].withdraw,
       data: encodedData,
       value,
-      gasLimit: ethers.BigNumber.from("500000"),
+      gasLimit: ethers.BigNumber.from(l2TxGasLimitWithdrawEth),
     });
 };
 
@@ -612,7 +707,6 @@ if (sender && !state.balancesUpdated) {
     });
 
   State.update({ balancesUpdated: true });
-
   return "";
 }
 
@@ -647,7 +741,34 @@ const onTabChange = (tab) => {
   });
 };
 
-const { deposits, withdrawals } = state;
+const { deposits, withdrawals, ethDeposits, ethWithdrawals } = state;
+const allDeposits = [...deposits, ...ethDeposits];
+const allWithdrawals = [...withdrawals, ...ethWithdrawals];
+
+const renderTx = (tx, i) => {
+  const { transactionHash: h, finalized } = tx;
+  return (
+    <>
+      <p>
+        {h.substring(0, 6)} ... {h.substring(h.length - 4)}
+        {typeof finalized === "boolean" && (
+          <>
+            <span style={{ marginLeft: 16 }}>
+              Finalized: {finalized.toString()}
+            </span>
+            {!finalized && (
+              <p style={{ marginTop: 16 }}>
+                <button onClick={() => handleFinalizeEthWithdrawal(i)}>
+                  Finalize
+                </button>
+              </p>
+            )}
+          </>
+        )}
+      </p>
+    </>
+  );
+};
 
 return (
   <>
@@ -655,5 +776,13 @@ return (
       src="mattlock.near/widget/bridge-ui"
       props={{ ...state, onTabChange, onAction, title: "zkBridge" }}
     />
+    <div style={{ textAlign: "center" }}>
+      <div style={{ width: 300, margin: "auto" }}>
+        <h4 style={{ marginTop: 16 }}>Withdrawals</h4>
+        {allWithdrawals.map(renderTx)}
+        <h4 style={{ marginTop: 16 }}>Deposits</h4>
+        {allDeposits.map(renderTx)}
+      </div>
+    </div>
   </>
 );
