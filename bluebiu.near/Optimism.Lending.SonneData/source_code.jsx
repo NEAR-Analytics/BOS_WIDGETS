@@ -291,9 +291,33 @@ const REWARD_TOKEN = {
   icon: "https://ipfs.near.social/ipfs/bafkreiagqfppcrymfj426ik74axff645ohvi7va5v4yxlszdbu3xstyqeq",
   symbol: "SONNE",
 };
+const LENS_ABI = [
+  {
+    inputs: [
+      {
+        internalType: "contract ComptrollerLensInterface",
+        name: "comptroller",
+        type: "address",
+      },
+      { internalType: "address", name: "account", type: "address" },
+    ],
+    name: "rewardsAccrued",
+    outputs: [
+      {
+        internalType: "address[]",
+        name: "rewardTokens",
+        type: "address[]",
+      },
+      { internalType: "uint256[]", name: "accrued", type: "uint256[]" },
+    ],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+];
 const {
   multicallAddress,
   unitrollerAddress,
+  lensAddress,
   oracleAddress,
   account,
   update,
@@ -338,6 +362,7 @@ let _liquidity = null;
 let _underlyingBalance = null;
 let _userMerberShip = null;
 let _rewards = {};
+let _accountRewards = {};
 let count = 0;
 let oTokensLength = Object.values(markets).length;
 
@@ -708,6 +733,31 @@ const getCTokensData = () => {
   });
 };
 
+const getUserRewards = (price) => {
+  multicallv2(
+    LENS_ABI,
+    [
+      {
+        address: lensAddress,
+        name: "rewardsAccrued",
+        params: [unitrollerAddress, account],
+      },
+    ],
+    {},
+    (res) => {
+      _accountRewards = {
+        price,
+        reward: ethers.utils.formatUnits(res[0][1][0], 18).toString(),
+      };
+      count++;
+      formatedData("rewards");
+    },
+    (err) => {
+      console.log(dapp + " error-user-rewards", err);
+    }
+  );
+};
+
 const getCTokenReward = ({ price, cTokens, index }) => {
   const token = cTokens[index];
   const calls = [
@@ -738,8 +788,7 @@ const getCTokenReward = ({ price, cTokens, index }) => {
         supply: supply.mul(60 * 60 * 24 * 365),
       };
       if (index === cTokens.length - 1) {
-        count++;
-        formatedData("rewards");
+        getUserRewards(price);
       } else {
         getCTokenReward({
           price,
@@ -769,13 +818,11 @@ const getRewards = () => {
   });
 };
 
-const init = () => {
+useEffect(() => {
   getUnitrollerData();
   getUnderlyPrice();
   getOTokenLiquidity();
   getWalletBalance();
   getCTokensData();
   getRewards();
-};
-
-init();
+}, []);
