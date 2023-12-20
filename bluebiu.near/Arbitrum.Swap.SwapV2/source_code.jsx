@@ -14,10 +14,6 @@ const {
   QuoterSyncswap,
 } = props;
 
-console.log("handleSyncswap: ", handleSyncswap);
-
-console.log("handlerSolidly: ", handlerSolidly);
-
 const prevTitle = Storage.privateGet("prevTitle");
 if (prevTitle !== title || !state.inputCurrency) {
   State.update({
@@ -104,7 +100,7 @@ const getUnitAmount = () => {
   const bigOutputAmount = Big(state.outputCurrencyAmount || 0);
   if (bigInputAmount.eq(0) || bigOutputAmount.eq(0)) return "-";
   const unitAmount = bigOutputAmount.div(bigInputAmount);
-  if (unitAmount.lt(0.001)) return unitAmount.toPrecision(1);
+  if (unitAmount.lt(0.001)) return "<0.001";
   return unitAmount.toFixed(3);
 };
 
@@ -212,6 +208,7 @@ return (
               updateOutputTokenBalance: true,
             });
           },
+          addAction: props.addAction,
           noPair: state.noPair,
           loading: state.loading,
           fee: state.v3Fee,
@@ -299,6 +296,7 @@ return (
           outputCurrencyAmount: state.outputCurrencyAmount,
           tradeType: state.tradeType,
           wethAddress,
+          title,
           onLoad: (data) => {
             State.update({
               loading: false,
