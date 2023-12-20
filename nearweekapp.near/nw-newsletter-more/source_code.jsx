@@ -152,8 +152,8 @@ function NewsletterCard() {
                     className="rounded"
                     width="100%"
                     height="100%"
-                    src={nwSite + detailsPage.Thumbnail.url}
-                    alt={detailsPage.Thumbnail.alternativeText}
+                    src={nwSite + detailsPage.image.formats.medium.url}
+                    alt={detailsPage.image.alternativeText}
                   />
                 </CardContent>
               </TopCardBody>
