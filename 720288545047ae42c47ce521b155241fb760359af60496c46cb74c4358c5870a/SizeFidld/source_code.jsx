@@ -1,7 +1,18 @@
-const { getValue, placeholder, contractSymbol, coinPrice, value } = props;
+const {
+  getValue,
+  placeholder,
+  contractSymbol,
+  price,
+  onChange,
+  priceShowDecimals,
+  quantityShowDecimals,
+} = props;
 
 State.init({
   theme: Storage.privateGet("theme") || "dark",
+  inputValue: "",
+  activeIndex: 0,
+  value: "",
 });
 
 const dark = {
@@ -62,23 +73,70 @@ const prepend = () => {
   return <prependSpan>Size</prependSpan>;
 };
 
-const getInputValue = (val) => {
-  getValue && getValue(val);
-};
-
 const append = () => {
-  const contact = contractSymbol || ["BTC"];
+  const contact = contractSymbol || ["BTC", "USD"];
   return (
     <appendDiv>
       <appendUl>
         {contact.map((item, index) => (
-          <li className="coin-li" key={index}>
+          <li
+            className={`coin-li ${state.activeIndex === index ? "active" : ""}`}
+            key={index}
+            onClick={() => {
+              const amount = changeCoin();
+              State.update({ activeIndex: index, inputValue: amount });
+            }}
+          >
             {item}
           </li>
         ))}
       </appendUl>
     </appendDiv>
   );
+};
+
+const usdTotal = (val) => {
+  const total = Big(val)
+    .times(price)
+    .toFixed(priceShowDecimals || 2);
+  return Big(total).valueOf();
+};
+
+const coinQuantity = (val) => {
+  const quantity = Big(val)
+    .div(price)
+    .toFixed(quantityShowDecimals || 4);
+  return Big(quantity).valueOf();
+};
+
+const changeCoin = () => {
+  if (state.value && price) {
+    if (state.activeIndex === 0) return usdTotal(state.value);
+    else return coinQuantity(state.value);
+  }
+  return "0";
+};
+
+const amountTotal = (val) => {
+  if (val && price) {
+    if (state.activeIndex === 0) {
+      const total = usdTotal(val);
+      return total;
+    } else {
+      const quantity = coinQuantity(val);
+      const total = Big(quantity)
+        .times(price)
+        .toFixed(priceShowDecimals || 2);
+      return Big(total).valueOf();
+    }
+  }
+  return "0";
+};
+
+const onInputChange = (val) => {
+  State.update({ value: val });
+  const amount = amountTotal(val);
+  onChange && onChange(amount);
 };
 
 return (
@@ -88,8 +146,8 @@ return (
       prepend: prepend(),
       append: append(),
       placeholder: placeholder || "0.00",
-      getValue: getInputValue,
-      value: value,
+      onChange: onInputChange,
+      value: state.inputValue,
     }}
   />
 );
