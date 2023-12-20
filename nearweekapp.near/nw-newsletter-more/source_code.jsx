@@ -143,7 +143,7 @@ function NewsletterCard() {
               <ReturnButton onClick={() => updateDetailsPage(null)}>
                 <Widget src={`${rootUser}/widget/details-return`} />
               </ReturnButton>
-              {"Edition"} {detailsPage?.Number ? detailsPage.Number : ""}
+              {detailsPage.title}
             </TopCardTitle>
             <TopCard>
               <TopCardBody>
