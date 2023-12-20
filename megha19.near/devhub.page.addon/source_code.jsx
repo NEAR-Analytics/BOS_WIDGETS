@@ -69,8 +69,6 @@ if (!getAllAddons || !setCommunityAddon) {
 
 const availableAddons = getAllAddons();
 
-console.log(availableAddons);
-
 const addonMatch = (availableAddons ?? []).find(
   (it) => it.id === addon.addon_id
 );
@@ -96,7 +94,6 @@ const [view, setView] = useState(props.view || "viewer");
 function updateWidgetEndpoint(widgetSrc) {
   widgetSrc = widgetSrc.replace("configurator", "Configurator");
   widgetSrc = widgetSrc.replace("devgovgigs.near", "megha19.near");
-  console.log(widgetSrc);
   return widgetSrc;
 }
 
@@ -141,7 +138,6 @@ return (
           props={{
             ...config,
             data: config,
-            // temporary prop drilling
             handle,
             permissions,
           }}
