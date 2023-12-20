@@ -138,7 +138,7 @@ function NewsletterCard() {
                   sections.map((item) => (
                     <div key={item.id}>
                       <SectionTitle>
-                        <Markdown className="title" text={item.title} />
+                        <Markdown id="section-title" text={item.title} />
                       </SectionTitle>
                       <Markdown text={item.content} />
                     </div>
