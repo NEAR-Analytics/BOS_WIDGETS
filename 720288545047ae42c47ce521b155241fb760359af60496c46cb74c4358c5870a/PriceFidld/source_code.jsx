@@ -1,7 +1,8 @@
-const { getValue, placeholder, coinPrice, value } = props;
+const { getValue, placeholder, latestPrice, onChange } = props;
 
 State.init({
   theme: Storage.privateGet("theme") || "dark",
+  inputValue: "",
 });
 
 const dark = {
@@ -70,7 +71,14 @@ const append = () => {
   return (
     <appendDiv>
       <appendUl>
-        <li className="coin-li">USD</li>
+        <li
+          className="coin-li"
+          onClick={() => {
+            State.update({ inputValue: latestPrice || "0" });
+          }}
+        >
+          Latest
+        </li>
       </appendUl>
     </appendDiv>
   );
@@ -82,9 +90,9 @@ return (
     props={{
       prepend: prepend(),
       append: append(),
-      placeholder: placeholder || "0.00",
-      getValue: getInputValue,
-      value: value,
+      placeholder: placeholder || "0.00 USD",
+      onChange: (val) => onChange && onChange(val),
+      value: state.inputValue,
     }}
   />
 );
