@@ -57,7 +57,8 @@ const Input = styled.input`
     border: none;
     outline: -webkit-focus-ring-color auto 0;
   }
-  &[type='number']::-webkit-inner-spin-button {
+  ::-webkit-inner-spin-button,
+  ::-webkit-outer-spin-button {
     -webkit-appearance: none;
     margin: 0;
   }
