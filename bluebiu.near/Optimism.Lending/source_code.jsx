@@ -52,11 +52,13 @@ return (
             icon: "https://ipfs.near.social/ipfs/bafkreih3zbgnxv34qmlr62j5nq62uai6hsiykiyip3wgmfa7djewbwbdtq",
             unitrollerAddress: "0x60CF091cD3f50420d50fD7f707414d0DF4751C58",
             oracleAddress: "0x91579f47f7826471C08B0008eE9C778aaB2989fD",
+            lensAddress: "0x168901193a72E82c00110C799c9C22f3AE6Fd311",
             data: "bluebiu.near/widget/Optimism.Lending.SonneData",
             handlerCollateral:
               "bluebiu.near/widget/Avalanche.Lending.BenqiHandlerCollateral",
             handlerCToken:
               "bluebiu.near/widget/Avalanche.Lending.BenqiHandlerCToken",
+            handlerClaim: "bluebiu.near/widget/Linea.Lending.MendiHandlerClaim",
           },
           "Iron Bank": {
             name: "Iron Bank",
