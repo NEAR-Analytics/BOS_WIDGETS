@@ -242,6 +242,7 @@ const { incentiveController } = initConfig;
 if ((!update || !account) && !state.tokensPrice) return "";
 
 let rewardPrice = "0";
+const _yearRewards = Storage.privateGet("yearRewards") || {};
 
 const rndtPriceData = fetch(
   "https://api.coingecko.com/api/v3/simple/price?ids=lendle&vs_currencies=usd"
@@ -374,6 +375,14 @@ const getUserRewards = (aTokenAddress) => {
                 .div(totalSupply)
                 .toFixed();
 
+              _yearRewards[aTokenAddress] = Big(60 * 60 * 24 * 365)
+                .times(rewardsPerSecond)
+                .times(allocPoint)
+                .div(totalAllocPoint)
+                .div(Big(10).pow(18))
+                .toString();
+
+              Storage.privateSet("yearRewards", _yearRewards);
               return rewardPerShareThisPool;
             })
             .then((rewardPerShareThisPool) => {
@@ -783,7 +792,6 @@ if (
   let reduceDailyRewards = Big(0);
 
   const allPools = [];
-
   Object.keys(marketData).forEach((address) => {
     const market = marketData[address];
     if (market.rewards) {
@@ -796,6 +804,26 @@ if (
     }
 
     market.rewards = undefined;
+
+    market.distributionApy = [
+      {
+        ...RewardToken,
+        supply:
+          Big(_yearRewards[market.aTokenAddress])
+            .mul(rewardPrice)
+            .div(market.totalSupply)
+            .div(market.underlyingPrice)
+            .mul(100)
+            .toFixed(2) + "%",
+        borrow:
+          Big(_yearRewards[market.aTokenAddress])
+            .mul(rewardPrice)
+            .div(market.totalBorrows)
+            .div(market.underlyingPrice)
+            .mul(100)
+            .toFixed(2) + "%",
+      },
+    ];
 
     const { netApy: netApyRaw } = market;
     netApy = netApy.plus(netApyRaw);
@@ -832,7 +860,7 @@ if (
       ];
     }
   });
-  console.log("userData", userData);
+  console.log("parsedMarketData", parsedMarketData);
   onLoad({
     ...{ ...userData, ...props },
     markets: parsedMarketData,
