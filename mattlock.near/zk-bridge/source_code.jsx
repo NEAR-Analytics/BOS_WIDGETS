@@ -1,7 +1,3 @@
-// from: https://portal.txsync.io/bridge
-// 0.01 eth transfer: https://etherscan.io/tx/0x7931ca7ca4619bc488afc3d0606424f1ac0cfb7489404ece3c594d3ad20b0064
-// 1 usdc transfer: https://etherscan.io/tx/0xc51bac121faa8f2e5da1fe3c6032ec4d5537e7d580aa0a94e7f3197e59df3f14
-
 // constants
 
 const ETHEREUM_CHAIN_ID = 1;
@@ -10,7 +6,7 @@ const GOERLI_CHAIN_ID = 5;
 const ZKSYNC_GOERLI_CHAIN_ID = 280;
 const L1_MESSENGER_ADDRESS = "0x0000000000000000000000000000000000008008";
 const l2TxGasLimit = "900000";
-const l2TxGasLimitWithdrawEth = "5920399";
+const l2TxGasLimitWithdraw = "6000000";
 const l2TxGasPerPubdataByte = "800";
 const l2MaxGasPrice = "2";
 const l2DepositFee = ethers.utils.formatUnits(
@@ -581,7 +577,7 @@ const handleWithdrawEth = (data) => {
       to: contracts[network][data.assetId].withdraw,
       data: encodedData,
       value,
-      gasLimit: ethers.BigNumber.from(l2TxGasLimitWithdrawEth),
+      gasLimit: ethers.BigNumber.from(l2TxGasLimitWithdraw),
     });
 };
 
@@ -609,7 +605,7 @@ const handleWithdraw = (data) => {
     .sendTransaction({
       to: contracts[network].bridge.L2ERC20Bridge,
       data: encodedData,
-      gasLimit: ethers.BigNumber.from("500000"),
+      gasLimit: ethers.BigNumber.from(l2TxGasLimitWithdraw),
     })
     .then((d) => {
       console.log("d", d);
@@ -745,18 +741,33 @@ const { deposits, withdrawals, ethDeposits, ethWithdrawals } = state;
 const allDeposits = [...deposits, ...ethDeposits];
 const allWithdrawals = [...withdrawals, ...ethWithdrawals];
 
+const renderTxLink = (tx) => {
+  const isZk =
+    chainId === ZKSYNC_CHAIN_ID || chainId === ZKSYNC_GOERLI_CHAIN_ID;
+  return (
+    <a
+      href={`https://${
+        network === "testnet" ? "goerli." : ""
+      }explorer.zksync.io/tx/${tx}`}
+      target="_blank"
+    >
+      {tx.substring(0, 6)} ... {tx.substring(tx.length - 4)}
+    </a>
+  );
+};
+
 const renderTx = (tx, i) => {
   const { transactionHash: h, finalized } = tx;
   return (
     <>
       <p>
-        {h.substring(0, 6)} ... {h.substring(h.length - 4)}
+        {renderTxLink(h)}
         {typeof finalized === "boolean" && (
           <>
             <span style={{ marginLeft: 16 }}>
               Finalized: {finalized.toString()}
             </span>
-            {!finalized && (
+            {!finalized && false && (
               <p style={{ marginTop: 16 }}>
                 <button onClick={() => handleFinalizeEthWithdrawal(i)}>
                   Finalize
