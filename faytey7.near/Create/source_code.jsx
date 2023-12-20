@@ -26,6 +26,10 @@ const [assigned, setAssigned] = useState(true);
 const [totalOrg, setTotalOrg] = useState([]);
 const [viewOrg, setViewOrg] = useState(null);
 
+const Container = styled.div`
+background: #e9e9e9;
+`;
+
 const Home = styled.div`
 margin: 2em;
 display: flex;
@@ -205,7 +209,7 @@ const getTasks = () => {
 };
 
 return (
-  <div>
+  <Container>
     <Create id="create">
       <div>
         <Heading>Create Organization</Heading>
@@ -342,5 +346,5 @@ return (
         </div>
       </Home>
     </Create>
-  </div>
+  </Container>
 );
