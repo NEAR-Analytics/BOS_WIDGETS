@@ -120,7 +120,7 @@ function BottomSection() {
   const nwSite = "https://nearweek.com";
 
   const data = fetch(
-    `https://nearweek.com/api/editions?populate=deep&sort=createdAt:desc&pagination[pageSize]=${
+    `https://nearweek.com/api/md/editions?populate=deep&sort=createdAt:desc&pagination[pageSize]=${
       state.page * 8
     }`,
     {
@@ -200,13 +200,11 @@ function BottomSection() {
                           className="rounded"
                           width="67"
                           height="49"
-                          src={nwSite + issue.Thumbnail.url}
-                          alt={issue.Thumbnail.alternativeText}
+                          src={nwSite + issue.image.formats.thumbnail.url}
+                          alt={issue.image.alternativeText}
                         />
                         <div className="d-flex flex-column justify-content-center gap-2 ms-3">
-                          <CardTitle>
-                            {"Edition"} {issue.Number ? issue.Number : ""}
-                          </CardTitle>
+                          <CardTitle>{issue.title}</CardTitle>
                           <CordDate>
                             {index > 0
                               ? `${calculateTimeDifference(issue.createdAt)}`
