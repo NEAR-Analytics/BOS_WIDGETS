@@ -32,10 +32,11 @@ function NewsletterCard() {
       overflow: hidden;
       text-overflow: ellipsis;
       whitespace: nowrap;
-      font-size: 18px;
+      font-size: 22px;
       font-style: normal;
-      font-weight: 600;
-      margin-bottom:27px;
+      font-weight: 900;
+      margin-top:26px;
+      margin-bottom:26px;
     `;
   const TopCardBody = styled.div`
       display: flex;
@@ -134,7 +135,9 @@ function NewsletterCard() {
                 {sections ? (
                   sections.map((item) => (
                     <div key={item.id}>
-                      <SectionTitle>{item.title}</SectionTitle>
+                      <SectionTitle>
+                        <Markdown text={item.title} />
+                      </SectionTitle>
                       <Markdown text={item.content} />
                     </div>
                   ))
