@@ -217,6 +217,7 @@ hashtags as (
 widgets as (
     select SIGNER_ID as user, count(distinct TX_HASH) as widgets
     from near.social.fact_widget_deployments
+    where  BLOCK_TIMESTAMP::date> '2023-01-01'
     group by 1 
     ),
 
