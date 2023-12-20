@@ -160,22 +160,7 @@ function NewsletterCard() {
 
               <CardFooter>
                 {sections ? (
-                  <iframe
-                    iframeResizer
-                    className="w-100"
-                    srcDoc={generateCode()}
-                    message={{
-                      data: sections.map((section) => {
-                        return {
-                          ...el,
-                          content: section.content.replace(
-                            /<img([^>]*)src="\/uploads\//g,
-                            `<img width="100%" $1src="http://nearweek.com/uploads/`
-                          ),
-                        };
-                      }),
-                    }}
-                  />
+                  sections.map((section) => <Markdown text={section.content} />)
                 ) : (
                   <div />
                 )}
