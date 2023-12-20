@@ -28,15 +28,17 @@ function NewsletterCard() {
       gap:20px;
       margin-bottom:27px;
     `;
-  const SectionTitle = styled.h2`
-      overflow: hidden;
-      text-overflow: ellipsis;
-      whitespace: nowrap;
-      font-size: 22px;
-      font-style: normal;
-      font-weight: 900;
-      margin-top:26px;
-      margin-bottom:26px;
+  const SectionTitle = styled.div`
+      & p.title {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        whitespace: nowrap;
+        font-size: 22px;
+        font-style: normal;
+        font-weight: 900;
+        margin-top:26px;
+        margin-bottom:26px;
+      }
     `;
   const TopCardBody = styled.div`
       display: flex;
@@ -136,7 +138,7 @@ function NewsletterCard() {
                   sections.map((item) => (
                     <div key={item.id}>
                       <SectionTitle>
-                        <Markdown text={item.title} />
+                        <Markdown className="title" text={item.title} />
                       </SectionTitle>
                       <Markdown text={item.content} />
                     </div>
