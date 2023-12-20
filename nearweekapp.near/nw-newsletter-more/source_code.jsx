@@ -91,45 +91,6 @@ function NewsletterCard() {
   const updateDetailsPage = props.updateDetailsPage;
   const sections = detailsPage?.sections;
 
-  function generateCode() {
-    const code = `
-    <html>
-      <head>
-        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/iframe-resizer/4.3.6/iframeResizer.contentWindow.js"></script>
-      </head>
-      <body>
-        <div id="content"></div>
-      </body>
-      <script>
-        window.addEventListener('message', function (event) {}, false);
-
-        const handleMessage = (m) => {
-          const { data } = m;
-          let fullHtml = "";
-
-          data.forEach((section) => (fullHtml += section.content));
-
-          const parser = new DOMParser();
-          const doc = parser.parseFromString(fullHtml, 'text/html');
-
-          const spanElements = doc.querySelectorAll('span');
-          spanElements.forEach((span) => {
-            span.style.fontFamily = 'Inter';
-          });
-
-          const contentElement = document.getElementById('content');
-          contentElement.innerHTML = doc.body.innerHTML;
-        };
-
-        window.iFrameResizer = {
-          onMessage: handleMessage,
-        };
-      </script>
-    </html>
-  `;
-    return code;
-  }
-
   const ReturnButton = styled.div`
     cursor: pointer;
   `;
