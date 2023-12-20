@@ -685,7 +685,7 @@ return (
     </div>
     {state.selectedCommunityAccount === null &&
       state.menu === "all-overview" &&
-      state.allMembers.length > 0 && (
+      state.allMembers.length > 1 && (
         <div>
           <Widget
             src="nearhorizon.near/widget/InfoSegment"
