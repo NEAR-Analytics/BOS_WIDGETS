@@ -410,7 +410,7 @@ if (!state.initLogs) {
     }
   );
 
-  // erc20 deposits
+  // erc20
 
   L2Bridge.queryFilter(L2Bridge.filters.FinalizeDeposit(sender)).then(
     (deposits) => {
@@ -419,6 +419,8 @@ if (!state.initLogs) {
       });
     }
   );
+
+  // TODO get finalized status for erc20 withdrawals
 
   L2Bridge.queryFilter(L2Bridge.filters.WithdrawalInitiated(sender)).then(
     (withdrawals) => {
