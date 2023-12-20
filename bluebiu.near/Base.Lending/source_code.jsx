@@ -68,10 +68,12 @@ return (
             unitrollerAddress: "0x1DB2466d9F5e10D7090E7152B68d62703a2245F0",
             oracleAddress: "0x3fb2ef203a051A5bF190fFBb2Fa510e78a5Bb103",
             data: "bluebiu.near/widget/Base.Lending.SonneData",
+            lensAddress: "0x8e10362334A4549640481d330a0020238B37AD10",
             handlerCollateral:
               "bluebiu.near/widget/Avalanche.Lending.BenqiHandlerCollateral",
             handlerCToken:
               "bluebiu.near/widget/Avalanche.Lending.BenqiHandlerCToken",
+            handlerClaim: "bluebiu.near/widget/Linea.Lending.MendiHandlerClaim",
           },
           "Granary Finance": {
             name: "Granary Finance",
