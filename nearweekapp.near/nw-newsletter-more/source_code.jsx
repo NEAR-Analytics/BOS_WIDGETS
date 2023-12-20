@@ -35,6 +35,10 @@ function NewsletterCard() {
         whitespace: nowrap;
         font-size: 22px !important;
         font-style: normal;
+        & a {
+          font-size: 22px !important;
+          font-weight: 900 !important;
+        }
         font-weight: 900 !important;
         margin-top:26px !important;
         margin-bottom:26px;
