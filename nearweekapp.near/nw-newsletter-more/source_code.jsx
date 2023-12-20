@@ -30,7 +30,6 @@ function NewsletterCard() {
     `;
   const SectionTitle = styled.h2`
       overflow: hidden;
-      color: #1C1F41;
       text-overflow: ellipsis;
       whitespace: nowrap;
       font-size: 18px;
@@ -131,11 +130,11 @@ function NewsletterCard() {
 
               <CardFooter>
                 {sections ? (
-                  sections.map((section) => (
-                    <>
-                      <SectionTitle>{section.title}</SectionTitle>
-                      <Markdown text={section.content} />
-                    </>
+                  sections.map((item) => (
+                    <section key={item.id}>
+                      <SectionTitle>{item.title}</SectionTitle>
+                      <Markdown text={item.content} />
+                    </section>
                   ))
                 ) : (
                   <div />
