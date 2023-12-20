@@ -251,9 +251,11 @@ return (
         </TabContentFooter>
       </MainSectionArticles>
       {/*Newswire div */}
-      <MainSection>
-        <NewswireCard />
-      </MainSection>
+      {!state.detailsPage && (
+        <MainSection>
+          <NewswireCard />
+        </MainSection>
+      )}
       {/*Audio Div */}
       <div class="d-block d-md-none">
         <MainSection>
