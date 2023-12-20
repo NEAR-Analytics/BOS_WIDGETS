@@ -35,20 +35,25 @@ const communityAccounts = rcDaoMembers;
 State.init({
   selectedCommunityAccountMembers: [],
   selectedCommunityAccount: null,
-  menu: null,
+  menu: "all-rc",
+  allMembers: rcDaoMembers.flatMap((rcAccountId) => getMembers(rcAccountId)),
 });
+
+const getWidgetsCount = (accountId) => {
+  return Object.keys(
+    Social.keys(`${accountId}/widget/*`, "final", {
+      return_type: "BlockHeight",
+      values_only: false,
+    })[accountId].widget || {}
+  ).length;
+};
 
 const getTotalWidgetByMembers = (members) => {
   if (!members) return 0;
 
   const total = members
     .map((accountId) => {
-      return Object.keys(
-        Social.keys(`${accountId}/widget/*`, "final", {
-          return_type: "BlockHeight",
-          values_only: false,
-        })[accountId].widget || {}
-      ).length;
+      return getWidgetsCount(accountId);
     })
     .reduce((a, b) => a + b, 0);
   return total;
@@ -68,6 +73,16 @@ const getTotalPostByMembers = (members) => {
     })
     .reduce((a, b) => a + b, 0);
   return total;
+};
+
+const widgetDisplay = (members) => {
+  return members.map((member) => {
+    if (getWidgetsCount(member) > 0) {
+      return (
+        <Widget src="mob.near/widget/Widgets" props={{ accountId: member }} />
+      );
+    }
+  });
 };
 
 const chart = ({
@@ -362,7 +377,7 @@ const generateDAU = (members) => {
   apiDoQueryToFlipSide(query, "dauChartData"); // return doQueryToFlipside(query, "queryResultIdMAU");
 };
 
-const widgetRank = () => {
+const widgetRank = (members) => {
   const data = Social.get("*/graph/star/**", "final");
 
   const starCountsByWidget = {};
@@ -372,7 +387,7 @@ const widgetRank = () => {
     const widgetData = userData?.graph?.star;
 
     if (widgetData) {
-      state.selectedCommunityAccountMembers.map((widgetCreator) => {
+      members.map((widgetCreator) => {
         const widgetList = widgetData[widgetCreator]?.widget;
 
         if (widgetList) {
@@ -546,13 +561,28 @@ const generateDappUsage = (members) => {
 State.update({
   selectedCommunityAccountMembers: getMembers(state.selectedCommunityAccount),
 });
-generateGithubActivities(state.selectedCommunityAccountMembers);
-generateMAU(state.selectedCommunityAccountMembers);
-generateTotalLikes(state.selectedCommunityAccountMembers);
-generateDAU(state.selectedCommunityAccountMembers);
-generateTotalWalletsCreated(state.selectedCommunityAccountMembers);
-generateNFTMints(state.selectedCommunityAccountMembers);
-generateDappUsage(state.selectedCommunityAccountMembers);
+if (state.menu === "developer")
+  generateGithubActivities(state.selectedCommunityAccountMembers);
+if (state.menu === "overview" || state.menu === "dapp")
+  generateMAU(state.selectedCommunityAccountMembers);
+if (state.menu === "overview")
+  generateTotalLikes(state.selectedCommunityAccountMembers);
+if (state.menu === "overview" || state.menu === "dapp")
+  generateDAU(state.selectedCommunityAccountMembers);
+if (state.menu === "overview")
+  generateTotalWalletsCreated(state.selectedCommunityAccountMembers);
+if (state.menu === "nft")
+  generateNFTMints(state.selectedCommunityAccountMembers);
+if (state.menu === "dapp")
+  generateDappUsage(state.selectedCommunityAccountMembers);
+
+if (state.menu === "all-overview") {
+  generateTotalLikes(state.allMembers);
+  generateDAU(state.allMembers);
+  generateNFTMints(state.allMembers);
+  generateMAU(state.allMembers);
+  generateGithubActivities(state.allMembers);
+}
 
 return (
   <div className="container">
@@ -579,10 +609,30 @@ return (
     {/* Menu */}
     <div className="m-1">
       <button
+        onClick={() => State.update({ menu: "all-rc" })}
+        disabled={
+          state.selectedCommunityAccount !== null || state.menu === "all-rc"
+        }
+        hidden={state.selectedCommunityAccount !== null}
+      >
+        List of RCs
+      </button>
+      <button
+        onClick={() => State.update({ menu: "all-overview" })}
+        disabled={
+          state.selectedCommunityAccount !== null ||
+          state.menu === "all-overview"
+        }
+        hidden={state.selectedCommunityAccount !== null}
+      >
+        Overview Stats
+      </button>
+      <button
         onClick={() => State.update({ menu: "overview" })}
         disabled={
           state.selectedCommunityAccount === null || state.menu === "overview"
         }
+        hidden={state.selectedCommunityAccount === null}
       >
         Overview
       </button>
@@ -591,14 +641,26 @@ return (
         disabled={
           state.selectedCommunityAccount === null || state.menu === "developer"
         }
+        hidden={state.selectedCommunityAccount === null}
       >
         Developer Activities
+      </button>
+      <button
+        onClick={() => State.update({ menu: "widget-list" })}
+        disabled={
+          state.selectedCommunityAccount === null ||
+          state.menu === "widget-list"
+        }
+        hidden={state.selectedCommunityAccount === null}
+      >
+        Widget List
       </button>
       <button
         onClick={() => State.update({ menu: "dapp" })}
         disabled={
           state.selectedCommunityAccount === null || state.menu === "dapp"
         }
+        hidden={state.selectedCommunityAccount === null}
       >
         Dapp Activities
       </button>
@@ -607,6 +669,7 @@ return (
         disabled={
           state.selectedCommunityAccount === null || state.menu === "nft"
         }
+        hidden={state.selectedCommunityAccount === null}
       >
         NFT Mints
       </button>
@@ -615,13 +678,89 @@ return (
         disabled={
           state.selectedCommunityAccount === null || state.menu === "members"
         }
+        hidden={state.selectedCommunityAccount === null}
       >
         Members List
       </button>
     </div>
-    {state.selectedCommunityAccount === null && (
+    {state.selectedCommunityAccount === null &&
+      state.menu === "all-overview" && (
+        <div>
+          <Widget
+            src="nearhorizon.near/widget/InfoSegment"
+            props={{
+              title: "Info",
+              description: `These statistics are all from accounts that are members from regional communities.`,
+            }}
+          />
+          <div>
+            {chart({
+              data: state["mauChartData"],
+              header: <b>Monthly Active Members</b>,
+              valueLabel: "mau",
+              label: "MAU (members)",
+              barColor: "rgb(192, 85, 85)",
+            })}
+          </div>
+          <div>
+            {chart({
+              data: state["dauChartData"],
+              header: <b>Daily Active Members</b>,
+              valueLabel: "dau",
+              label: "DAU (members)",
+              barColor: "rgb(140, 85, 85)",
+            })}
+          </div>
+          <div>
+            {chart({
+              header: <b>Total Posts by All Members</b>,
+              staticDisplay: getTotalPostByMembers(state.allMembers),
+            })}
+          </div>
+
+          <div>
+            {chart({
+              header: <b>Total Likes by Members</b>,
+              staticDisplay: JSON.parse(state["totalLikes"])[0]["total"],
+            })}
+          </div>
+          <div>
+            {chart({
+              header: <b>Total Widgets by All Members</b>,
+              staticDisplay: getTotalWidgetByMembers(state.allMembers),
+            })}
+          </div>
+          <div>
+            {chart({
+              data: state["nftMintsChartData"],
+              header: <b>NFT Mints Activity</b>,
+              valueLabel: "total_activity",
+              label: "NFT Mints Activity",
+              barColor: "rgb(85, 85, 180)",
+            })}
+          </div>
+          <div>
+            {chart({
+              data: state["githubChartData"],
+              header: <b>Github Activities Members</b>,
+              valueLabel: "total_issues_and_pr",
+              label: "Total Issues And PR Activities",
+              barColor: "rgb(85, 192, 192)",
+            })}
+          </div>
+          <div>
+            {chart({
+              header: <b>Top Widgets</b>,
+              staticDisplay: widgetRank(state.allMembers),
+            })}
+          </div>
+        </div>
+      )}
+
+    {state.selectedCommunityAccount === null && state.menu === "all-rc" && (
       <Widget src="rc-dao.near/widget/com.rank" props={{}} />
     )}
+
     {state.menu === "members" && (
       <div>
         {chart({
@@ -658,6 +797,13 @@ return (
 
     {state.menu === "overview" && (
       <>
+        <Widget
+          src="nearhorizon.near/widget/InfoSegment"
+          props={{
+            title: "Info",
+            description: `Members are those who receive a followback from ${state.selectedCommunityAccount}`,
+          }}
+        />
         <div>
           {chart({
             header: <b>Total Posts by Members</b>,
@@ -692,6 +838,10 @@ return (
           barColor: "rgb(85, 85, 180)",
         })}
       </div>
+    )}
+
+    {state.menu === "widget-list" && (
+      <div>{widgetDisplay(state.selectedCommunityAccountMembers)}</div>
     )}
     {(state.menu === "dapp" || state.menu === "overview") && (
       <>
@@ -730,7 +880,7 @@ return (
       <div>
         {chart({
           header: <b>Top Widgets</b>,
-          staticDisplay: widgetRank(),
+          staticDisplay: widgetRank(state.selectedCommunityAccountMembers),
         })}
       </div>
     )}
