@@ -20,6 +20,10 @@ useEffect(() => {
   State.update({ inputValue: value, inputDecimals: showDecimals || 4 });
 }, [value, showDecimals]);
 
+useEffect(() => {
+  onChange && onChange(state.inputValue);
+}, [state.inputValue]);
+
 const dark = {
   name: "dark",
   inputBgColor: "#292728",
@@ -104,7 +108,6 @@ return (
         onChange={(ev) => {
           const val = inputDecimals(ev);
           ev.target.value = val;
-          onChange && onChange(ev.target.value);
           State.update({ inputValue: ev.target.value });
         }}
         placeholder={placeholder || ""}
