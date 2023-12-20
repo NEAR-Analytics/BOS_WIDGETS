@@ -36,7 +36,7 @@ State.init({
   selectedCommunityAccountMembers: [],
   selectedCommunityAccount: null,
   menu: "all-rc",
-  allMembers: rcDaoMembers.flatMap((rcAccountId) => getMembers(rcAccountId)),
+  allMembers: [],
 });
 
 const getWidgetsCount = (accountId) => {
@@ -577,6 +577,9 @@ if (state.menu === "dapp")
   generateDappUsage(state.selectedCommunityAccountMembers);
 
 if (state.menu === "all-overview") {
+  State.update({
+    allMembers: rcDaoMembers.flatMap((rcAccountId) => getMembers(rcAccountId)),
+  });
   generateTotalLikes(state.allMembers);
   generateDAU(state.allMembers);
   generateNFTMints(state.allMembers);
