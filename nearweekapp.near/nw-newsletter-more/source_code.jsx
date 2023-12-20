@@ -100,6 +100,8 @@ function NewsletterCard() {
   const updateDetailsPage = props.updateDetailsPage;
   const sections = detailsPage?.sections;
 
+  console.log("sections", sections);
+
   const ReturnButton = styled.div`
     cursor: pointer;
   `;
@@ -131,10 +133,10 @@ function NewsletterCard() {
               <CardFooter>
                 {sections ? (
                   sections.map((item) => (
-                    <section key={item.id}>
+                    <div key={item.id}>
                       <SectionTitle>{item.title}</SectionTitle>
                       <Markdown text={item.content} />
-                    </section>
+                    </div>
                   ))
                 ) : (
                   <div />
