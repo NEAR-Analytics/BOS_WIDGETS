@@ -1,3 +1,5 @@
+const { defaultDapp, ...rest } = props;
+
 const Theme = styled.div`
   --button-text-color: #fff;
   --button-color: #f44d4e;
@@ -43,15 +45,17 @@ return (
           chainId: CHAIN_ID,
           chainName: CHAIN_NAME,
         },
-        defaultDapp: "Benqi",
+        defaultDapp: defaultDapp || "Benqi",
         dapps: {
           Benqi: {
             name: "Benqi",
             icon: "https://ipfs.near.social/ipfs/bafkreifgik7lollci7ejl72mlej2cdpvanjnyoiihu7pqpppqsa75thyem",
             unitrollerAddress: "0x486Af39519B4Dc9a7fCcd318217352830E8AD9b4",
             oracleAddress: "0x316ae55ec59e0beb2121c0e41d4bdef8bf66b32b",
+            lensAddress: "0x87457bF0451914bF62C6c1bC2dc9eB1A8076Eb8E",
             data: "bluebiu.near/widget/Avalanche.Lending.BenqiData",
-            handlerClaim: "",
+            handlerClaim:
+              "bluebiu.near/widget/Avalanche.Lending.BenqiClaimHandler",
             handlerCollateral:
               "bluebiu.near/widget/Avalanche.Lending.BenqiHandlerCollateral",
             handlerCToken:
@@ -85,6 +89,7 @@ return (
               "bluebiu.near/widget/Avalanche.Lending.IronBankHandlerCToken",
           },
         },
+        ...rest,
       }}
     />
   </Theme>
