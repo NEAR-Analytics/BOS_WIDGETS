@@ -28,6 +28,16 @@ function NewsletterCard() {
       gap:20px;
       margin-bottom:27px;
     `;
+  const SectionTitle = styled.h2`
+      overflow: hidden;
+      color: #1C1F41;
+      text-overflow: ellipsis;
+      whitespace: nowrap;
+      font-size: 18px;
+      font-style: normal;
+      font-weight: 600;
+      margin-bottom:27px;
+    `;
   const TopCardBody = styled.div`
       display: flex;
       align-items: center;
@@ -121,7 +131,12 @@ function NewsletterCard() {
 
               <CardFooter>
                 {sections ? (
-                  sections.map((section) => <Markdown text={section.content} />)
+                  sections.map((section) => (
+                    <>
+                      <SectionTitle>{section.title}</SectionTitle>
+                      <Markdown text={section.content} />
+                    </>
+                  ))
                 ) : (
                   <div />
                 )}
