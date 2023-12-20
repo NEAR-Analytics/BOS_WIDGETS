@@ -235,7 +235,7 @@ return (
     </Header>
     <Body>
       {data?.map((record) => (
-        <Row key={record.address}>
+        <Row key={record.address || Date.now() + Math.random()}>
           {columns?.map((column) => (
             <Cell
               key={column.key || column.type}
@@ -254,13 +254,16 @@ return (
                       props={{
                         onClick: () => {
                           if (button.text === "Claim") {
-                            onButtonClick?.(record.dappName);
+                            onButtonClick?.(record);
                           } else {
                             onButtonClick?.(record.address, button.text);
                           }
                         },
                         text: button.text,
-                        loading: button.loading,
+                        loading:
+                          typeof button.loading === "function"
+                            ? button.loading(record)
+                            : button.loading,
                       }}
                     />
                   ))}
