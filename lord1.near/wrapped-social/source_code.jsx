@@ -1007,6 +1007,7 @@ received_likes as (
 widgets as (
     select date_trunc({{week}},BLOCK_TIMESTAMP) as "Date", SIGNER_ID as "User", 'Widget' as "type",count(distinct TX_HASH) as trxs
     from near.social.fact_widget_deployments
+    where  BLOCK_TIMESTAMP::date> '2023-01-01'
     group by 1,2,3
     )
 
@@ -1273,6 +1274,7 @@ hashtags as (
 widgets as (
     select SIGNER_ID as user, count(distinct TX_HASH) as widgets
     from near.social.fact_widget_deployments
+    where  BLOCK_TIMESTAMP::date> '2023-01-01'
     group by 1 
     ),
 
