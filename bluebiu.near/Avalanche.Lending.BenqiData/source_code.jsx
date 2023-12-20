@@ -310,6 +310,7 @@ const {
   multicallAddress,
   unitrollerAddress,
   oracleAddress,
+  lensAddress,
   account,
   update,
   dapp,
@@ -482,7 +483,7 @@ const formatedData = (key) => {
       .div(365 * 100)
       .div(_accountRewards.avaxPrice);
     rewards.push({
-      ...QI,
+      ...AVAX,
       dailyRewards: dailyRewards.lt(0.000001)
         ? "0.000001"
         : dailyRewards.toString(),
@@ -712,6 +713,62 @@ const getCTokensData = () => {
   });
 };
 
+const getUserRewards = () => {
+  const calls = [
+    {
+      address: lensAddress,
+      name: "getClaimableReward",
+      params: [account, 0],
+    },
+    {
+      address: lensAddress,
+      name: "getClaimableReward",
+      params: [account, 1],
+    },
+  ];
+  multicallv2(
+    [
+      {
+        inputs: [
+          {
+            internalType: "address",
+            name: "user",
+            type: "address",
+          },
+          {
+            internalType: "uint8",
+            name: "rewardType",
+            type: "uint8",
+          },
+        ],
+        name: "getClaimableReward",
+        outputs: [
+          {
+            internalType: "uint256",
+            name: "",
+            type: "uint256",
+          },
+          {
+            internalType: "address[]",
+            name: "",
+            type: "address[]",
+          },
+        ],
+        stateMutability: "view",
+        type: "function",
+      },
+    ],
+    calls,
+    {},
+    (res) => {
+      _accountRewards.qiReward = ethers.utils.formatUnits(res[0][0]._hex, 18);
+      _accountRewards.avaxReward = ethers.utils.formatUnits(res[1][0]._hex, 18);
+      count++;
+      formatedData("rewards");
+    }
+  );
+};
+
 const getCTokenReward = ({ avaxPrice, qiPrice, cTokens, index }) => {
   const token = cTokens[index];
   const calls = [
@@ -763,8 +820,6 @@ const getCTokenReward = ({ avaxPrice, qiPrice, cTokens, index }) => {
       const avaxSupply = Big(ethers.utils.formatUnits(res[3][0]._hex, 18)).mul(
         avaxPrice
       );
-      _accountRewards.qiReward = ethers.utils.formatUnits(res[4][0]._hex, 18);
-      _accountRewards.avaxReward = ethers.utils.formatUnits(res[5][0]._hex, 18);
       _rewardsApy[token] = {
         avax: {
           borrow: avaxBorrow.mul(60 * 60 * 24 * 365),
@@ -776,8 +831,7 @@ const getCTokenReward = ({ avaxPrice, qiPrice, cTokens, index }) => {
         },
       };
       if (index === cTokens.length - 1) {
-        count++;
-        formatedData("rewards");
+        getUserRewards();
       } else {
         getCTokenReward({
           avaxPrice,
@@ -820,4 +874,6 @@ const init = () => {
   getRewards();
 };
 
-init();
+useEffect(() => {
+  init();
+}, []);
