@@ -90,17 +90,17 @@ function NewsletterCard() {
      }
   `;
   const MainContainer = styled.div`
-      width:310px;
+      #width:310px;
       display:flex;
-    flex-direction:column;
-    justify-content: center; 
-    justify-items: center; 
-     @media screen and (min-width: ${breakpoints.xl}) {
-      width:100%;
-      display: grid;
-      grid-column-gap: 20px;
-      justify-content: end;
-     }
+      flex-direction:column;
+      justify-content: center; 
+      justify-items: center; 
+      @media screen and (min-width: ${breakpoints.xl}) {
+        width:100%;
+        display: grid;
+        grid-column-gap: 20px;
+        justify-content: end;
+      }
     `;
 
   const detailsPage = props.detailsPage;
