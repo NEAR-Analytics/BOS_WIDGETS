@@ -182,6 +182,10 @@ const Container = styled.div`
         color: black;
       }
     }
+
+    .alert {
+      word-break: break-word;
+    }
 `;
 
 // console.log("deposit", deposit);
