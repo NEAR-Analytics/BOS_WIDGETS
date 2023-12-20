@@ -416,8 +416,8 @@ const formateTokenReserveData = (
       availableLiquidity,
       totalStableDebt,
       totalVariableDebt,
-      totalBorrows: !price ? "-" : Big(totalDebt).toFixed(4),
-      totalSupply: !price ? "-" : Big(totalDeposit).toFixed(4),
+      totalBorrows: !price ? "-" : Big(totalDebt).toString(),
+      totalSupply: !price ? "-" : Big(totalDeposit).toString(),
       liquidity: !price ? "-" : Big(marketSize).toFixed(4),
       liquidityRate,
       variableBorrowRate,
@@ -729,6 +729,7 @@ if (
     parsedMarketData[market.aTokenAddress] = market;
   });
 
+  console.log("parsedMarketData", parsedMarketData);
   onLoad({
     ...{ ...userData, ...props },
     markets: parsedMarketData,
