@@ -1,4 +1,4 @@
-const { href } = VM.require("previewthomas.near/widget/core.lib.url");
+const { href } = VM.require("thomasguntenaar.near/widget/core.lib.url");
 
 if (!href) {
   return <p>Loading modules...</p>;
@@ -10,7 +10,7 @@ const CommunitySummary = () => {
   return (
     <>
       <Widget
-        src={"previewthomas.near/widget/devhub.components.molecule.MarkdownViewer"}
+        src={"thomasguntenaar.near/widget/devhub.components.molecule.MarkdownViewer"}
         props={{
           text: community.bio_markdown,
         }}
@@ -18,12 +18,12 @@ const CommunitySummary = () => {
       <small class="text-muted mb-3">
         <Link
           to={href({
-            widgetSrc: "previewthomas.near/widget/dh.feed",
+            widgetSrc: "thomasguntenaar.near/widget/dh.feed",
             params: { tag: community.tag },
           })}
         >
           <Widget
-            src={"previewthomas.near/widget/devhub.components.atom.Tag"}
+            src={"thomasguntenaar.near/widget/devhub.components.atom.Tag"}
             props={{ tag: community.tag }}
           />
         </Link>
@@ -37,7 +37,7 @@ return community === null ? (
 ) : (
   <div class="d-flex flex-column align-items-end">
     <Widget
-      src={"previewthomas.near/widget/devhub.entity.community.Tile"}
+      src={"thomasguntenaar.near/widget/devhub.entity.community.Tile"}
       props={{
         fullWidth: true,
         minHeight: 0,
@@ -48,14 +48,14 @@ return community === null ? (
     />
 
     <Widget
-      src={"previewthomas.near/widget/devhub.entity.community.Tile"}
+      src={"thomasguntenaar.near/widget/devhub.entity.community.Tile"}
       props={{
         heading: "Admins",
 
         children: (community?.admins ?? []).map((accountId) => (
           <div key={accountId} className="d-flex" style={{ fontWeight: 500 }}>
             <Widget
-              src="previewthomas.near/widget/devhub.components.molecule.ProfileCard"
+              src="thomasguntenaar.near/widget/devhub.components.molecule.ProfileCard"
               props={{ accountId }}
             />
           </div>
