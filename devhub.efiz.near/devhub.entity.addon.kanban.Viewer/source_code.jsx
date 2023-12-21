@@ -8,20 +8,15 @@ const { metadata, payload, handle, permissions } = props;
 const CommunityBoardPage = ({ handle, permissions }) => {
   return (
     <Widget
-      // TODO: LEGACY.
-      src="devhub.efiz.near/widget/gigs-board.entity.workspace.view.kanban.configurator"
+      src="devhub.efiz.near/widget/devhub.entity.addon.kanban.configurator"
       props={{
         communityHandle: handle, // rather than fetching again via the handle
         link: href({
           // do we need a link?
-          gateway: "near.org",
           widgetSrc: "devhub.efiz.near/widget/app",
           params: { page: "community", handle },
         }),
         permissions,
-        // TODO: REMOVE AFTER MIGRATION.
-        nearDevGovGigsWidgetsAccountId: "devhub.efiz.near",
-        nearDevGovGigsWidgetsAccountId: "devgovgigs.near",
       }}
     />
   );
