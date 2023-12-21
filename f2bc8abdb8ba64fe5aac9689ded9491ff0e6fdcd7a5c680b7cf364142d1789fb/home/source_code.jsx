@@ -115,6 +115,7 @@ const widgets = {
   profileOverlayTrigger: "mob.near/widget/Profile.OverlayTrigger",
   profileImage: "mob.near/widget/ProfileImage",
   wikiOnSocialDB_TooltipProfiles: `testwiki.near/widget/WikiOnSocialDB_TooltipProfiles`,
+  navBarImg: "mob.near/widget/Image",
 };
 
 const brand = {
