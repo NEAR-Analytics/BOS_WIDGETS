@@ -1,4 +1,4 @@
-const { href } = VM.require("previewthomas.near/widget/core.lib.url");
+const { href } = VM.require("thomasguntenaar.near/widget/core.lib.url");
 
 href || (href = () => {});
 
@@ -181,7 +181,7 @@ return (
         </Lead>
         <Link
           to={href({
-            widgetSrc: "previewthomas.near/widget/dh.about",
+            widgetSrc: "thomasguntenaar.near/widget/dh.about",
           })}
         >
           <CTA href="#">Read more →</CTA>
@@ -196,7 +196,7 @@ return (
       <Lead>Join a vibrant community of innovators shaping the open web.</Lead>
       <Link
         to={href({
-          widgetSrc: "previewthomas.near/widget/dh.about",
+          widgetSrc: "thomasguntenaar.near/widget/dh.about",
           params: {
             page: "about",
           },
