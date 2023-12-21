@@ -17,6 +17,7 @@ const {
   canLoggedUserCreateArticles,
   callLibs,
   baseActions,
+  handleOnCommitArticle,
 } = props;
 
 const libSrcArray = [widgets.libArticle];
@@ -53,7 +54,7 @@ function getRealArticleId() {
   }
 }
 
-const getArticleData = () => {
+function getArticleData() {
   const args = {
     title: editArticleData.title ?? state.title,
     author: editArticleData.author ?? accountId,
@@ -63,14 +64,14 @@ const getArticleData = () => {
     body: state.articleBody,
     version: editArticleData ? editArticleData.version + 1 : 0,
     navigation_id: null,
-    tags: tagsArray,
+    tags: tagsArray ?? [],
     id: getRealArticleId(),
     sbts,
   };
   return args;
-};
+}
 
-function onCommit() {
+function onCommit(article) {
   State.update({
     title: "",
     clearArticleId: true,
@@ -79,10 +80,14 @@ function onCommit() {
     articleBody: "",
     clearArticleBody: true,
     initalBody: "",
-    showCreatedArticle: true,
+    // showCreatedArticle: true,
     showPreview: false,
     saving: false,
   });
+
+  if (!Array.isArray(article.tags)) article.tags = Object.keys(article.tags);
+
+  handleOnCommitArticle(article);
 }
 
 function onCancel() {
@@ -112,13 +117,14 @@ function createArticleListener() {
   // onCommit();
   State.update({ saving: true });
   const article = getArticleData();
+
   const newLibsCalls = Object.assign({}, state.functionsToCallByLibrary);
   newLibsCalls.article.push({
     functionName: "createArticle",
     key: "createdArticle",
     props: {
       article,
-      onCommit,
+      onCommit: () => onCommit(article),
       onCancel,
     },
   });
@@ -203,7 +209,7 @@ return (
   <div>
     <GeneralContainer className="pt-2 row card-group">
       <BoxShadow className="rounded-3 p-3 m-3 bg-white col-lg-8 col-md-8 col-sm-12">
-        {state.createdArticle && state.showCreatedArticle && editArticleData ? (
+        {/*{state.createdArticle && state.showCreatedArticle && editArticleData ? (
           <Widget
             src={widgets.articleView}
             props={{
@@ -217,157 +223,155 @@ return (
               baseActions,
             }}
           />
-        ) : (
-          <div>
-            {
-              // <CreationContainer className="container-fluid">
-            }
-            <SecondContainer className="rounded">
-              {state.showPreview ? (
-                <Widget
-                  src={widgets.generalCard}
-                  props={{
-                    widgets,
-                    isTest,
-                    data: {
-                      title: state.title,
-                      author: accountId,
-                      lastEditor: accountId,
-                      timeLastEdit: Date.now(),
-                      timeCreate: Date.now(),
-                      body: state.articleBody,
-                      version: 0,
-                      navigation_id: null,
-                      tags: tagsArray,
-                      id: getRealArticleId(),
-                      sbts,
-                    },
-                    addressForArticles,
-                    handleOpenArticle: () => {},
-                    handleFilterArticles: () => {},
-                    authorForWidget,
-                    handleShareButton: () => {},
-                    callLibs,
-                    baseActions,
-                  }}
-                />
-              ) : (
-                <div>
-                  <div className="d-flex flex-column pt-3">
-                    <label for="inputArticleId" className="small text-danger">
-                      {state.errorId}
-                    </label>
+        ) : ( If you uncomment this you need to uncomment the line before </BoxShadow> too*/}
+        <div>
+          {
+            // <CreationContainer className="container-fluid">
+          }
+          <SecondContainer className="rounded">
+            {state.showPreview ? (
+              <Widget
+                src={widgets.generalCard}
+                props={{
+                  widgets,
+                  isTest,
+                  data: {
+                    title: state.title,
+                    author: accountId,
+                    lastEditor: accountId,
+                    timeLastEdit: Date.now(),
+                    timeCreate: Date.now(),
+                    body: state.articleBody,
+                    version: 0,
+                    navigation_id: null,
+                    tags: tagsArray,
+                    id: getRealArticleId(),
+                    sbts,
+                  },
+                  addressForArticles,
+                  handleOpenArticle: () => {},
+                  handleFilterArticles: () => {},
+                  authorForWidget,
+                  handleShareButton: () => {},
+                  callLibs,
+                  baseActions,
+                }}
+              />
+            ) : (
+              <div>
+                <div className="d-flex flex-column pt-3">
+                  <label for="inputArticleId" className="small text-danger">
+                    {state.errorId}
+                  </label>
+                  <Widget
+                    src={widgets.fasterTextInput}
+                    props={{
+                      firstText: state.title,
+                      forceClear: state.clearArticleId,
+                      stateUpdate: (obj) => State.update(obj),
+                      filterText: (e) => e.target.value,
+                      placeholder: "Post title (case-sensitive)",
+                      editable: editArticleData,
+                    }}
+                  />
+                </div>
+                <div className="d-flex flex-column pt-3">
+                  <label
+                    for="textareaArticleBody"
+                    className="small text-danger"
+                  >
+                    {state.errorBody}
+                  </label>
+                  <div className="d-flex gap-2">
                     <Widget
-                      src={widgets.fasterTextInput}
+                      src={widgets.markownEditorIframe}
                       props={{
-                        firstText: state.title,
-                        forceClear: state.clearArticleId,
-                        stateUpdate: (obj) => State.update(obj),
-                        filterText: (e) => e.target.value,
-                        placeholder: "Post title (case-sensitive)",
-                        editable: editArticleData,
-                      }}
-                    />
-                  </div>
-                  <div className="d-flex flex-column pt-3">
-                    <label
-                      for="textareaArticleBody"
-                      className="small text-danger"
-                    >
-                      {state.errorBody}
-                    </label>
-                    <div className="d-flex gap-2">
-                      <Widget
-                        src={widgets.markownEditorIframe}
-                        props={{
-                          initialText: getInitialMarkdownBody(),
-                          onChange: (articleBody) =>
-                            State.update({
-                              articleBody,
-                              clearArticleBody: false,
-                            }),
-                          clearArticleBody: state.clearArticleBody,
-                        }}
-                      />
-                    </div>
-                  </div>
-                  <div className="d-flex flex-column pt-3">
-                    <Widget
-                      src={widgets.tagsEditor}
-                      props={{
-                        forceClear: state.clearTags,
-                        stateUpdate: (obj) => State.update(obj),
-                        initialTagsObject,
-                        placeholder: "Input tags",
-                        setTagsObject: (tags) => {
-                          // state.tags = Object.keys(tags);
+                        initialText: getInitialMarkdownBody(),
+                        onChange: (articleBody) =>
                           State.update({
-                            tagsModified: true,
-                            tags: Object.keys(tags),
-                          });
-                        },
+                            articleBody,
+                            clearArticleBody: false,
+                          }),
+                        clearArticleBody: state.clearArticleBody,
                       }}
                     />
                   </div>
                 </div>
-              )}
-              <div className="mt-2 d-flex justify-content-end">
-                <Widget
-                  src={widgets.newStyledComponents.Input.Button}
-                  props={{
-                    className: "info outline mx-2",
-                    disabled:
-                      state.title.length === 0 ||
-                      state.articleBody.length === 0,
-                    onClick: switchShowPreview,
-                    children: (
-                      <i
-                        className={`bi ${
-                          state.showPreview ? "bi-pencil" : "bi-eye-fill"
-                        }`}
-                      ></i>
-                    ),
-                  }}
-                />
-                <Widget
-                  src={widgets.newStyledComponents.Input.Button}
-                  props={{
-                    className: "info ",
-                    disabled:
-                      state.title.length === 0 ||
-                      state.articleBody.length === 0,
-                    onClick: createArticleListener,
-                    children: (
-                      <div className="d-flex justify-conten-center align-items-center">
-                        {state.saving ? (
-                          <Spinner />
-                        ) : (
-                          <>
-                            <span>
-                              {editArticleData ? "Save edition" : "Post"}
-                            </span>
-                            <i className="bi bi-check2"></i>
-                          </>
-                        )}
-                      </div>
-                    ),
-                  }}
-                />
+                <div className="d-flex flex-column pt-3">
+                  <Widget
+                    src={widgets.tagsEditor}
+                    props={{
+                      forceClear: state.clearTags,
+                      stateUpdate: (obj) => State.update(obj),
+                      initialTagsObject,
+                      placeholder: "Input tags",
+                      setTagsObject: (tags) => {
+                        // state.tags = Object.keys(tags);
+                        State.update({
+                          tagsModified: true,
+                          tags: Object.keys(tags),
+                        });
+                      },
+                    }}
+                  />
+                </div>
               </div>
-            </SecondContainer>
-            <div style={{ display: "none" }}>
-              {libSrcArray.map((src) => {
-                return callLibs(
-                  src,
-                  createStateUpdate,
-                  state.functionsToCallByLibrary,
-                  { baseAction: baseActions.articlesBaseAction },
-                  "Create"
-                );
-              })}
+            )}
+            <div className="mt-2 d-flex justify-content-end">
+              <Widget
+                src={widgets.newStyledComponents.Input.Button}
+                props={{
+                  className: "info outline mx-2",
+                  disabled:
+                    state.title.length === 0 || state.articleBody.length === 0,
+                  onClick: switchShowPreview,
+                  children: (
+                    <i
+                      className={`bi ${
+                        state.showPreview ? "bi-pencil" : "bi-eye-fill"
+                      }`}
+                    ></i>
+                  ),
+                }}
+              />
+              <Widget
+                src={widgets.newStyledComponents.Input.Button}
+                props={{
+                  className: "info ",
+                  disabled:
+                    state.title.length === 0 || state.articleBody.length === 0,
+                  onClick: createArticleListener,
+                  children: (
+                    <div className="d-flex justify-conten-center align-items-center">
+                      {state.saving ? (
+                        <Spinner />
+                      ) : (
+                        <>
+                          <span>
+                            {editArticleData ? "Save edition" : "Post"}
+                          </span>
+                          <i className="bi bi-check2"></i>
+                        </>
+                      )}
+                    </div>
+                  ),
+                }}
+              />
             </div>
+          </SecondContainer>
+          <div style={{ display: "none" }}>
+            {libSrcArray.map((src) => {
+              return callLibs(
+                src,
+                createStateUpdate,
+                state.functionsToCallByLibrary,
+                { baseAction: baseActions.articlesBaseAction },
+                "Create"
+              );
+            })}
           </div>
-        )}
+        </div>
+        {/*)}*/}
       </BoxShadow>
     </GeneralContainer>
   </div>
