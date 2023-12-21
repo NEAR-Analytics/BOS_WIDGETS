@@ -536,18 +536,18 @@ const walletChains = {
 };
 
 const coins = Object.keys(coinsMap);
-const pricesUrl = `https://api.coingecko.com/api/v3/simple/price?ids=${coins.join(
-  ","
-)}&vs_currencies=usd`;
 
-if (!prices[selectedToken]) {
+useEffect(() => {
+  const pricesUrl = `https://api.coingecko.com/api/v3/simple/price?ids=${coins.join(
+    ","
+  )}&vs_currencies=usd`;
   asyncFetch(pricesUrl).then((res) => {
     if (!res.ok) return;
     const prices = {};
     coins.forEach((coin) => (prices[coinsMap[coin]] = res.body[coin].usd));
     State.update({ prices });
   });
-}
+}, []);
 
 const updateBalance = (token) => {
   const { address, decimals, symbol } = token;
