@@ -59,7 +59,7 @@ const ContentWarp = styled.div`
   }
 `;
 
-const popupWarp = styled.div`
+const PopupWarp = styled.div`
   width: 100%;
   height: calc(100% - 60px);
   background-color: #080d17;
@@ -86,7 +86,6 @@ const popupWarp = styled.div`
     }
   }
 `;
-
 const exUrl = "https://zksync.satori.finance/";
 
 const { visible } = props;
@@ -226,7 +225,7 @@ return (
       </div>
     </ContentWarp>
     {state.isOpen && (
-      <popupWarp>
+      <PopupWarp>
         <ul class="nav">
           <li class="nav-item">
             <a
@@ -259,7 +258,7 @@ return (
             </a>
           </li>
         </ul>
-      </popupWarp>
+      </PopupWarp>
     )}
   </>
 );
