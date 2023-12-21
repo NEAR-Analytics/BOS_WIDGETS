@@ -6,6 +6,7 @@ const {
   defaultDapp,
   multicallv2,
   addAction,
+  toast,
 } = props;
 
 const account = Ethers.send("eth_requestAccounts", [])[0];
@@ -174,7 +175,9 @@ return (
         props={{
           display: state.showDialog,
           data: state.tableButtonClickData,
+          chainId: state.chainId,
           addAction,
+          toast,
           onClose: () => {
             State.update({
               showDialog: false,
@@ -185,27 +188,8 @@ return (
               updateData: state.tableButtonClickData.dappName,
             });
           },
-          onMessage: (params) => {
-            State.update({
-              message: params,
-            });
-          },
         }}
       />
     </Container>
-    {state.message?.open && (
-      <Widget
-        src="bluebiu.near/widget/0vix.LendingMessage"
-        props={{
-          status: state.message.status,
-          text: state.message.text,
-          onClose: () => {
-            State.update({
-              message: { open: false },
-            });
-          },
-        }}
-      />
-    )}
   </>
 );
