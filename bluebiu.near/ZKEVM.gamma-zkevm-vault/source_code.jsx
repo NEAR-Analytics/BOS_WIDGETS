@@ -618,6 +618,14 @@ const handleApprove = (isToken0) => {
     ? { isToken0Approving: true }
     : { isToken1Approving: true };
 
+  const amount = isToken0
+    ? Big(amount0).toFixed(decimals0)
+    : Big(amount1).toFixed(decimals1);
+
+  const toastId = props.toast?.loading({
+    title: `Approve ${amount} ${_token}`,
+  });
+
   State.update({
     ...payload,
     isLoading: true,
@@ -625,7 +633,7 @@ const handleApprove = (isToken0) => {
   });
 
   const tokenWei = ethers.utils.parseUnits(
-    isToken0 ? amount0 : amount1,
+    amount,
     isToken0 ? decimals0 : decimals1
   );
 
@@ -646,17 +654,36 @@ const handleApprove = (isToken0) => {
         : { isToken1Approved: true, isToken1Approving: false };
 
       State.update({ ...payload, isLoading: false, loadingMsg: "" });
+      props.toast?.dismiss(toastId);
+      props.toast?.success({
+        title: "Approve Successfully!",
+        text: `Approve ${amount} ${_token}`,
+        tx: receipt.transactionHash,
+        chainId: state.chainId,
+      });
     })
     .catch((error) => {
       State.update({
         isError: true,
         isLoading: false,
         loadingMsg: error,
+        isToken0Approving: false,
+        isToken1Approving: false,
+      });
+      props.toast?.dismiss(toastId);
+      props.toast?.fail({
+        title: "Approve Failed!",
+        text: error?.message?.includes("user rejected transaction")
+          ? "User rejected transaction"
+          : `Approve ${amount} ${_token}`,
       });
     });
 };
 
 const handleDeposit = () => {
+  const toastId = props.toast?.loading({
+    title: `Depositing...`,
+  });
   State.update({
     isLoading: true,
     isError: false,
@@ -682,21 +709,19 @@ const handleDeposit = () => {
       return tx.wait();
     })
     .then((receipt) => {
-      if (can_add_action) {
-        const { status, transactionHash } = receipt;
+      const { status, transactionHash } = receipt;
 
-        props.addAction?.({
-          type: "Liquidity",
-          action: "Deposit",
-          token0,
-          token1,
-          amount: amount0,
-          template: "Gamma",
-          status: status,
-          add: can_add_action,
-          transactionHash,
-        });
-      }
+      props.addAction?.({
+        type: "Liquidity",
+        action: "Deposit",
+        token0,
+        token1,
+        amount: amount0,
+        template: "Gamma",
+        status: status,
+        add: can_add_action,
+        transactionHash,
+      });
       State.update({
         isLoading: false,
         isPostTx: true,
@@ -704,6 +729,10 @@ const handleDeposit = () => {
 
       setTimeout(() => State.update({ isPostTx: false }), 10_000);
 
+      props.toast?.dismiss(toastId);
+      props.toast?.success({
+        title: "Deposit Successfully!",
+      });
       const { refetch } = props;
       if (refetch) refetch();
     })
@@ -713,10 +742,21 @@ const handleDeposit = () => {
         isLoading: false,
         loadingMsg: error,
       });
+
+      props.toast?.dismiss(toastId);
+      props.toast?.fail({
+        title: "Deposit Failed!",
+        text: error?.message?.includes("user rejected transaction")
+          ? "User rejected transaction"
+          : "",
+      });
     });
 };
 
 const handleWithdraw = () => {
+  const toastId = props.toast?.loading({
+    title: `Withdrawing...`,
+  });
   State.update({
     isLoading: true,
     isError: false,
@@ -740,21 +780,19 @@ const handleWithdraw = () => {
       return tx.wait();
     })
     .then((receipt) => {
-      if (can_add_action) {
-        const { status, transactionHash } = receipt;
+      const { status, transactionHash } = receipt;
 
-        addAction?.({
-          type: "Liquidity",
-          action: "Withdraw",
-          token0,
-          token1,
-          amount: lpAmount,
-          template: "Gamma",
-          status: status,
-          add: can_add_action,
-          transactionHash,
-        });
-      }
+      addAction?.({
+        type: "Liquidity",
+        action: "Withdraw",
+        token0,
+        token1,
+        amount: lpAmount,
+        template: "Gamma",
+        status: status,
+        add: can_add_action,
+        transactionHash,
+      });
 
       State.update({
         isLoading: false,
@@ -765,12 +803,24 @@ const handleWithdraw = () => {
 
       const { refetch } = props;
       if (refetch) refetch();
+
+      props.toast?.dismiss(toastId);
+      props.toast?.success({
+        title: "Withdraw Successfully!",
+      });
     })
     .catch((error) => {
       State.update({
         isError: true,
         isLoading: false,
         loadingMsg: error,
+      });
+      props.toast?.dismiss(toastId);
+      props.toast?.fail({
+        title: "Withdraw Failed!",
+        text: error?.message?.includes("user rejected transaction")
+          ? "User rejected transaction"
+          : "",
       });
     });
 };
