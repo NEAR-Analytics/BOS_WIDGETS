@@ -84,6 +84,7 @@ return (
           chainId: state.chainId,
           handlerSwap,
           addAction: props.addAction,
+          toast: props.toast,
           handleStargateTx,
           showNetwrokDialog: (_chainId) => {
             State.update({
