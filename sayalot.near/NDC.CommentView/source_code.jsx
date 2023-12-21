@@ -11,6 +11,8 @@ const {
   articleSbts,
   callLibs,
   baseActions,
+  sharedCommentId,
+  articleToRenderData,
 } = props;
 
 State.init({
@@ -26,7 +28,11 @@ const CommentCard = styled.div`
   align-items: flex-start;
   gap: 12px;
   border-radius: "10px"};
-  background: #fff;
+  background: ${
+    sharedCommentId === data.originalComment.value.comment.commentId
+      ? "rgba(194, 205, 255, 0.8)"
+      : "#fff"
+  };
   width: 100%;
 `;
 
@@ -262,7 +268,7 @@ function closeModal() {
 
 return (
   <>
-    <CommentCard>
+    <CommentCard id={data.originalComment.value.comment.commentId}>
       <CommentCardHeader>
         <CommentUserContent>
           <Widget
@@ -371,6 +377,8 @@ return (
                   articleSbts,
                   callLibs,
                   baseActions,
+                  sharedCommentId,
+                  articleToRenderData,
                 }}
               />
             </AnswerContainer>
