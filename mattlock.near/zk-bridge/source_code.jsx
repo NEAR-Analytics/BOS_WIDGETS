@@ -423,10 +423,29 @@ if (!state.initLogs) {
   // TODO get finalized status for erc20 withdrawals
 
   L2Bridge.queryFilter(L2Bridge.filters.WithdrawalInitiated(sender)).then(
-    (withdrawals) => {
-      State.update({
-        withdrawals,
-      });
+    (_withdrawals) => {
+      const withdrawals = [],
+        { length } = _withdrawals;
+      let ret = 0;
+      const check = (i) => {
+        const w = { ..._withdrawals[i] };
+        isWithdrawalFinalized(
+          w.transactionHash,
+          false,
+          (res) => {
+            Object.assign(w, res, { isEth: false });
+            withdrawals.push(w);
+            ret++;
+            if (ret === length) {
+              State.update({
+                withdrawals,
+              });
+            }
+          },
+          true
+        );
+      };
+      for (let i = 0; i < length; i++) check(i);
     }
   );
 
