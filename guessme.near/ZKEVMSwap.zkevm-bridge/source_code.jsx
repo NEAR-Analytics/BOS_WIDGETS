@@ -153,7 +153,6 @@ const MAX_AMOUNT =
 useEffect(() => {
   State.init({
     gasLimit: ethers.BigNumber.from("300000"),
-    isToastOpen: false,
     add: false,
     onChangeAdd: (add) => {
       State.update({ add });
@@ -162,22 +161,8 @@ useEffect(() => {
   });
 }, []);
 
-const {
-  chainId,
-  name,
-  isContractAllowedToSpendToken,
-  variant,
-  title,
-  description,
-  isToastOpen,
-} = state;
+const { chainId, name, isContractAllowedToSpendToken } = state;
 const isMainnet = chainId === 1 || chainId === 1101;
-
-const onOpenChange = (v) => {
-  State.update({
-    isToastOpen: false,
-  });
-};
 
 const BRIDGE_CONTRACT_ADDRESS = isMainnet
   ? "0x2a3DD3EB832aF982ec71669E178424b10Dca2EDe"
@@ -215,10 +200,13 @@ useEffect(() => {
 
 const bridgeIface = new ethers.utils.Interface(bridgeAbi);
 
-const updateGasLimit = (props) => {
-  const { amount, token, network } = props;
+const updateGasLimit = (params) => {
+  const { amount, token, network } = params;
   if (network !== "ethereum") return;
-  const amountBig = ethers.utils.parseUnits(amount.toString(), token.decimals);
+  const amountBig = ethers.utils.parseUnits(
+    Big(amount).toString(),
+    token.decimals
+  );
 
   const bridgeContract = new ethers.Contract(
     BRIDGE_CONTRACT_ADDRESS,
@@ -235,12 +223,24 @@ const updateGasLimit = (props) => {
     });
 };
 
-const handleBridge = (props) => {
-  console.log("handleBridge", props);
-  const { amount, token, network, permit } = props;
+const handleBridge = (params) => {
+  console.log("handleBridge", params);
+  const chainNames =
+    chainId === 1
+      ? ["Ethereum", "Polygon zkEVM"]
+      : ["Polygon zkEVM", "Ethereum"];
+  const toastText = `Bridge ${amount} ${token.symbol} from ${chainNames[0]} to ${chainNames[1]}`;
+
+  const toastId = props.toast?.loading({
+    title: toastText,
+  });
+  const { amount, token, network, permit } = params;
   const networkId = network === "ethereum" ? 1 : 0;
 
-  const amountBig = ethers.utils.parseUnits(amount.toString(), token.decimals);
+  const amountBig = ethers.utils.parseUnits(
+    Big(amount).toString(),
+    token.decimals
+  );
   // const permitData = permit || "0x";
   const permitData = "0x";
 
@@ -249,7 +249,7 @@ const handleBridge = (props) => {
     [networkId, sender, amountBig, token.address, true, permitData]
   );
 
-  updateGasLimit(props);
+  updateGasLimit(params);
 
   Ethers.provider()
     .getSigner()
@@ -261,32 +261,47 @@ const handleBridge = (props) => {
     })
     .then((tx) => {
       console.log("tx: ", tx);
-      tx.wait().then((receipt) => {
-        const { transactionHash, status } = receipt;
+      tx.wait()
+        .then((receipt) => {
+          const { transactionHash, status } = receipt;
 
-        props.addAction?.({
-          type: "Bridge",
-          fromChainId: chainId,
-          toChainId: chainId === 1 ? 1101 : 1,
-          token: token,
-          amount: amount,
-          template: "native bridge",
-          add: state.add,
-          status,
-          transactionHash,
+          props.addAction?.({
+            type: "Bridge",
+            fromChainId: chainId,
+            toChainId: chainId === 1 ? 1101 : 1,
+            token: token,
+            amount: amount,
+            template: "native bridge",
+            add: state.add,
+            status,
+            transactionHash,
+          });
+          props.toast?.dismiss(toastId);
+          props.toast?.success({
+            title: "Bridge Successfully!",
+            text: toastText,
+            tx: transactionHash,
+            chainId,
+          });
+        })
+        .catch((err) => {
+          props.toast?.dismiss(toastId);
+          props.toast?.fail({
+            title: "Bridge Failed!",
+            text: toastText,
+            tx: tx.hash,
+            chainId,
+          });
         });
-      });
     })
-    .catch((e) => {
-      if (!e.code) {
-        State.update({
-          isToastOpen: true,
-          variant: "success",
-          title: "Asset bridged",
-          description:
-            "Please allow a few seconds and press the 'refresh list' button",
-        });
-      }
+    .catch((err) => {
+      props.toast?.dismiss(toastId);
+      props.toast?.fail({
+        title: "Bridge Failed!",
+        text: err?.message?.includes("user rejected transaction")
+          ? "User rejected transaction"
+          : toastText,
+      });
     });
 };
 
@@ -334,9 +349,9 @@ const setIsContractAllowedToSpendToken = ({ token, amount }) => {
     });
 };
 
-const setNonce = (props) => {
-  console.log("setNonce", props);
-  const { token } = props;
+const setNonce = (params) => {
+  console.log("setNonce", params);
+  const { token } = params;
   const signer = Ethers.provider().getSigner();
 
   const abi = [
@@ -359,9 +374,9 @@ const setNonce = (props) => {
     });
 };
 
-const handlePermit = (props) => {
-  console.log("handlePermit", props);
-  const { amount, token, network } = props;
+const handlePermit = (params) => {
+  console.log("handlePermit", params);
+  const { amount, token, network } = params;
 
   const domain = {
     chainId,
@@ -369,6 +384,12 @@ const handlePermit = (props) => {
     verifyingContract: token.address,
     version: "1",
   };
+
+  const toastText = `Permit ${amount} ${token.symbol}`;
+
+  const toastId = props.toast?.loading({
+    title: toastText,
+  });
 
   const types = {
     Permit: [
@@ -380,7 +401,10 @@ const handlePermit = (props) => {
     ],
   };
 
-  const amountBig = ethers.utils.parseUnits(amount.toString(), token.decimals);
+  const amountBig = ethers.utils.parseUnits(
+    Big(amount).toString(),
+    token.decimals
+  );
 
   const values = {
     deadline: MAX_AMOUNT,
@@ -448,15 +472,22 @@ const handlePermit = (props) => {
         "permit(address,address,uint256,uint256,uint8,bytes32,bytes32)",
         [sender, BRIDGE_CONTRACT_ADDRESS, amountBig, MAX_AMOUNT, v, r, s]
       );
-
-      console.log("permitData", permit);
+      props.toast?.dismiss(toastId);
       handleBridge({ ...props, permit });
     })
-    .catch(() => {});
+    .catch((err) => {
+      props.toast?.dismiss(toastId);
+      props.toast?.fail({
+        title: "Permit Failed!",
+        text: err?.message?.includes("user rejected transaction")
+          ? "User rejected transaction"
+          : toastText,
+      });
+    });
 };
 
-const approve = (props) => {
-  const { token, network, amount } = props;
+const approve = (params) => {
+  const { token, network, amount } = params;
   if (isContractAllowedToSpendToken) return;
 
   const abi = [
@@ -474,35 +505,35 @@ const approve = (props) => {
   );
 };
 
-const onConfirm = (props) => {
-  const { token, network, amount } = props;
+const onConfirm = (params) => {
+  const { token, network, amount } = params;
   if (token.symbol !== "ETH" && network === "ethereum") {
-    const res = approve(props);
+    const res = approve();
     if (res) {
       res
         .then((tx) => {
-          handlePermit(props);
+          handlePermit();
         })
         .catch((e) => {});
     } else {
-      handlePermit(props);
+      handlePermit(params);
     }
   } else {
-    handleBridge(props);
+    handleBridge(params);
   }
 };
 
-const onChangeAmount = (props) => {
-  console.log("onChangeAmount", props);
-  setIsContractAllowedToSpendToken(props);
+const onChangeAmount = (params) => {
+  console.log("onChangeAmount", params);
+  setIsContractAllowedToSpendToken(params);
 };
 
-const onUpdateToken = (props) => {
-  console.log("props: ", props);
-  console.log("onUpdateToken", props);
-  setIsContractAllowedToSpendToken(props);
-  setName(props.token);
-  setNonce(props);
+const onUpdateToken = (params) => {
+  console.log("props: ", params);
+  console.log("onUpdateToken", params);
+  setIsContractAllowedToSpendToken(params);
+  setName(params.token);
+  setNonce(params);
 };
 
 if (!sender) {
@@ -541,11 +572,6 @@ return (
           updateChainId: (chainId) => State.update(chainId),
           updateHide: (hide) => State.update({ hide }),
         }}
-      />
-
-      <Widget
-        src="ciocan.near/widget/toast"
-        props={{ open: isToastOpen, variant, title, description, onOpenChange }}
       />
       <Widget
         src="guessme.near/widget/ZKEVMSwap.zkevm-bridge-transactions"
