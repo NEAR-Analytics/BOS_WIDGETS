@@ -39,6 +39,7 @@ const {
   maxInputBalance,
   onSuccess,
   addAction,
+  toast,
   routerAddress,
   wethAddress,
   title,
@@ -51,6 +52,7 @@ const {
   handleSyncswap,
   stable,
   syncSwapPoolAddress,
+  chainId,
 } = props;
 
 if (Big(inputCurrencyAmount || 0).eq(0)) {
@@ -131,6 +133,9 @@ const wrapType =
     : 0;
 
 const handleApprove = () => {
+  const toastId = toast?.loading({
+    title: `Approve ${inputCurrencyAmount} ${inputCurrency.symbol}`,
+  });
   State.update({
     approving: true,
   });
@@ -173,15 +178,30 @@ const handleApprove = () => {
     .then((tx) => {
       tx.wait().then((res) => {
         const { status, transactionHash } = res;
+        toast?.dismiss(toastId);
+        if (status !== 1) throw new Error("");
         State.update({
-          isApproved: status === 1,
+          isApproved: true,
           approving: false,
+        });
+        toast?.success({
+          title: "Approve Successfully!",
+          text: `Approved ${inputCurrencyAmount} ${inputCurrency.symbol}`,
+          tx: transactionHash,
+          chainId,
         });
       });
     })
-    .catch(() => {
+    .catch((err) => {
       State.update({
         approving: false,
+      });
+      toast?.dismiss(toastId);
+      toast?.fail({
+        title: "Approve Failed!",
+        text: err?.message?.includes("user rejected transaction")
+          ? "User rejected transaction"
+          : `Approved ${inputCurrencyAmount} ${inputCurrency.symbol}`,
       });
     });
 };
@@ -194,24 +214,39 @@ if (!state.isApproved && wrapType === 0) {
   );
 }
 function successCallback(tx, callback) {
-  tx.wait().then((res) => {
-    const { status, transactionHash } = res;
-    callback?.();
-    addAction?.({
-      type: "Swap",
-      inputCurrencyAmount,
-      inputCurrency,
-      outputCurrencyAmount,
-      outputCurrency,
-      template: title,
-      status,
-      transactionHash,
-      add: props.add,
-    });
-    if (status === 1) {
+  tx.wait()
+    .then((res) => {
+      const { status, transactionHash } = res;
+      addAction?.({
+        type: "Swap",
+        inputCurrencyAmount,
+        inputCurrency,
+        outputCurrencyAmount,
+        outputCurrency,
+        template: title,
+        status,
+        transactionHash,
+        add: props.add,
+      });
+      toast?.dismiss(state.toastId);
+      if (status !== 1) throw new Error("");
       onSuccess?.();
-    }
-  });
+      callback?.();
+      toast?.success({
+        title: "Swap Successfully!",
+        text: `Swaped ${inputCurrencyAmount} ${inputCurrency.symbol} to ${outputCurrency.symbol}`,
+        tx: transactionHash,
+        chainId,
+      });
+    })
+    .catch((err) => {
+      toast?.fail({
+        title: "Swap Failed!",
+        text: `Swaped ${inputCurrencyAmount} ${inputCurrency.symbol} to ${outputCurrency.symbol}`,
+        tx: transactionHash,
+        chainId,
+      });
+    });
 }
 
 const handleWrap = (type, success, onError) => {
@@ -249,7 +284,7 @@ const handleWrap = (type, success, onError) => {
         success?.(tx);
       })
       .catch((err) => {
-        onError?.();
+        onError?.(err);
       });
   } else {
     WethContract.withdraw(
@@ -259,7 +294,7 @@ const handleWrap = (type, success, onError) => {
         success?.(tx);
       })
       .catch((err) => {
-        onError?.();
+        onError?.(err);
       });
   }
 };
@@ -268,8 +303,12 @@ if (wrapType) {
   return (
     <SwapButton
       onClick={() => {
+        const toastId = toast?.loading({
+          title: `Swap ${inputCurrencyAmount} ${inputCurrency.symbol} to ${outputCurrency.symbol}`,
+        });
         State.update({
           wrapping: true,
+          toastId,
         });
         handleWrap(
           wrapType,
@@ -278,9 +317,16 @@ if (wrapType) {
               State.update({ wrapping: false });
             });
           },
-          () => {
+          (err) => {
             State.update({
               wrapping: false,
+            });
+            toast?.dismiss(toastId);
+            toast?.fail({
+              title: "Swap Failed!",
+              text: err?.message?.includes("user rejected transaction")
+                ? "User rejected transaction"
+                : `Swaped ${inputCurrencyAmount} ${inputCurrency.symbol} to ${outputCurrency.symbol}`,
             });
           }
         );
@@ -320,6 +366,13 @@ return (
           },
           onError: (err) => {
             State.update({ swapping: false });
+            toast?.dismiss(state.toastId);
+            toast?.fail({
+              title: "Swap Failed!",
+              text: err?.message?.includes("user rejected transaction")
+                ? "User rejected transaction"
+                : `Swaped ${inputCurrencyAmount} ${inputCurrency.symbol} to ${outputCurrency.symbol}`,
+            });
           },
         }}
       />
@@ -346,6 +399,13 @@ return (
           },
           onError: (err) => {
             State.update({ swapping: false });
+            toast?.dismiss(state.toastId);
+            toast?.fail({
+              title: "Swap Failed!",
+              text: err?.message?.includes("user rejected transaction")
+                ? "User rejected transaction"
+                : `Swaped ${inputCurrencyAmount} ${inputCurrency.symbol} to ${outputCurrency.symbol}`,
+            });
           },
         }}
       />
@@ -373,6 +433,13 @@ return (
           },
           onError: (err) => {
             State.update({ swapping: false });
+            toast?.dismiss(state.toastId);
+            toast?.fail({
+              title: "Swap Failed!",
+              text: err?.message?.includes("user rejected transaction")
+                ? "User rejected transaction"
+                : `Swaped ${inputCurrencyAmount} ${inputCurrency.symbol} to ${outputCurrency.symbol}`,
+            });
           },
         }}
       />
@@ -397,6 +464,13 @@ return (
           },
           onError: (err) => {
             State.update({ swapping: false });
+            toast?.dismiss(state.toastId);
+            toast?.fail({
+              title: "Swap Failed!",
+              text: err?.message?.includes("user rejected transaction")
+                ? "User rejected transaction"
+                : `Swaped ${inputCurrencyAmount} ${inputCurrency.symbol} to ${outputCurrency.symbol}`,
+            });
           },
         }}
       />
@@ -404,7 +478,10 @@ return (
 
     <SwapButton
       onClick={() => {
-        State.update({ swapping: true });
+        const toastId = toast?.loading({
+          title: `Swap ${inputCurrencyAmount} ${inputCurrency.symbol} to ${outputCurrency.symbol}`,
+        });
+        State.update({ swapping: true, toastId });
       }}
       disabled={state.swapping}
     >
