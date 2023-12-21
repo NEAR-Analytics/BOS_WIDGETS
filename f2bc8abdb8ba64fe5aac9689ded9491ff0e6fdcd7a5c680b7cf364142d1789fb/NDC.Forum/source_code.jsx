@@ -539,6 +539,7 @@ return (
         handleBackButton,
         tabs,
         sbtsNames,
+        widgets,
       }}
     />
     {(state.displayedTabId == tabs.SHOW_ARTICLES_LIST.id ||
