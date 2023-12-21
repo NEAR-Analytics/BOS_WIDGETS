@@ -125,7 +125,7 @@ const CallLibrary = styled.div`
 const renderButton = (button, i) => {
   return (
     <Widget
-      src="rubycop.near/widget/NDC.StyledComponents"
+      src={widgets.styledComponents}
       props={{
         Button: {
           size: "big",
@@ -173,7 +173,7 @@ return (
             onClick={handleGoHomeButton}
           >
             <Widget
-              src="mob.near/widget/Image"
+              src={widgets.navBarImg}
               props={{
                 // image: metadata.image,
                 className: "w-100 h-100",
