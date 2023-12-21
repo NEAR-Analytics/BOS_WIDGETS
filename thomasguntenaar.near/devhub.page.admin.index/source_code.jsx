@@ -1,5 +1,5 @@
 const { hasModerator, getRootMembers, getAccessControlInfo } = VM.require(
-  "previewthomas.near/widget/core.adapter.devhub-contract"
+  "thomasguntenaar.near/widget/core.adapter.devhub-contract"
 );
 
 if (!hasModerator || !getRootMembers || !getAccessControlInfo) {
@@ -169,7 +169,7 @@ return (
           role="tabpanel"
           aria-labelledby="home-tab"
         >
-          <Widget src="previewthomas.near/widget/devhub.page.admin.homepageTab" />
+          <Widget src="thomasguntenaar.near/widget/devhub.page.admin.homepageTab" />
         </div>
         <div
           class="tab-pane fade"
@@ -178,7 +178,7 @@ return (
           aria-labelledby="profile-tab"
         >
           <Widget
-            src="previewthomas.near/widget/devhub.page.admin.moderatorsTab"
+            src="thomasguntenaar.near/widget/devhub.page.admin.moderatorsTab"
             props={{
               accessControlInfo,
               createEditTeam,
@@ -192,7 +192,7 @@ return (
           aria-labelledby="contact-tab"
         >
           <Widget
-            src="previewthomas.near/widget/devhub.page.admin.restrictedLabelsTab"
+            src="thomasguntenaar.near/widget/devhub.page.admin.restrictedLabelsTab"
             props={{
               accessControlInfo,
               createEditTeam,
