@@ -1,4 +1,4 @@
-const { href } = VM.require("previewthomas.near/widget/core.lib.url") || (() => {});
+const { href } = VM.require("thomasguntenaar.near/widget/core.lib.url") || (() => {});
 
 const nearDevGovBadgesContractId = "neardevgov.near";
 
