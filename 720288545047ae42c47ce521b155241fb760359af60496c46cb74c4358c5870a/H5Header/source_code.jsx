@@ -224,7 +224,7 @@ return (
         </div>
       </div>
     </ContentWarp>
-    {state.isOpen && (
+    {state.visible && (
       <PopupWarp>
         <ul class="nav">
           <li class="nav-item">
