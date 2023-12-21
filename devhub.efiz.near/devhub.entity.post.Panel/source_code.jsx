@@ -682,25 +682,19 @@ return (
       </div>
       <div class="dropdown">
         <Widget
-          // TODO: LEGACY.
-          src={"devhub.efiz.near/widget/gigs-board.feature.post-search.by-author"}
+          src="devhub.efiz.near/widget/devhub.feature.post-search.by-author"
           props={{
             authorQuery: props.authorQuery,
             onAuthorSearch: props.onAuthorSearch,
-            nearDevGovGigsWidgetsAccountId: nearDevGovGigsWidgetsAccountId,
-            nearDevGovGigsContractAccountId: nearDevGovGigsContractAccountId,
           }}
         />
       </div>
       <div>
         <Widget
-          // TODO: LEGACY.
-          src={"devhub.efiz.near/widget/gigs-board.feature.post-search.by-tag"}
+          src="devhub.efiz.near/widget/devhub.feature.post-search.by-tag"
           props={{
             tagQuery: props.tagQuery,
             onTagSearch: props.onTagSearch,
-            nearDevGovGigsWidgetsAccountId: nearDevGovGigsWidgetsAccountId,
-            nearDevGovGigsContractAccountId: nearDevGovGigsContractAccountId,
           }}
         />
       </div>
