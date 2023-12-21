@@ -211,18 +211,18 @@ const DivLine = styled.div`
 const TradeBtnWarp = styled.div`
   padding: 0 0.75rem;
   margin-top: 15px;
-`;
-const TradeBtn = styled.a`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  height: 36px;
-  border-radius: 10px;
-  text-decoration: none;
-  color: #fff;
-  font-weight: 600;
-  background-color: #617168;
+  .trade-btn-link {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 36px;
+    border-radius: 10px;
+    text-decoration: none;
+    color: #fff;
+    font-weight: 600;
+    background-color: #617168;
+  }
 `;
 
 const LimitTarde = styled.div`
@@ -392,9 +392,9 @@ return (
         <span class="label-coin">USD</span>
       </AvailableLabel>
       <TardeFrom>
-        <Widget src={`${compId}/widget/PriceFidld`} />
+        <Widget src={`${compId}/widget/PriceField`} />
         <Widget
-          src={`${compId}/widget/SizeFidld`}
+          src={`${compId}/widget/SizeField`}
           props={{
             contractSymbol: sizeContractSymbol,
           }}
@@ -406,9 +406,14 @@ return (
       <Widget src={`${compId}/widget/Leverage`} />
 
       <TradeBtnWarp>
-        <TradeBtn href={exUrl} target="_blank" rel="noopener noreferrer">
+        <a
+          class="trade-btn-link"
+          href={exUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
           <span>Connect Wallet</span>
-        </TradeBtn>
+        </a>
       </TradeBtnWarp>
     </LimitTarde>
 
