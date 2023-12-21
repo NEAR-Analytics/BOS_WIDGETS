@@ -7,6 +7,7 @@ return (
       padding: 2,
       cursor: "pointer",
     }}
+    title={props.label}
     onClick={() => props.onClick()}
   >
     <Widget src="dapplets.near/widget/Cat" />
