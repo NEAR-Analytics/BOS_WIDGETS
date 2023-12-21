@@ -12,7 +12,7 @@ const {
   title,
 } = props;
 
-if (!swapping) return;
+if (!swapping) return "";
 
 const handleCamelotSwap = (type) => {
   const RouterContract = new ethers.Contract(
@@ -96,7 +96,7 @@ const handleCamelotSwap = (type) => {
       .catch((err) => {
         onError?.(err);
       });
-    return;
+    return "";
   }
   if (type === 1) {
     RouterContract.swapExactETHForTokensSupportingFeeOnTransferTokens(
@@ -116,7 +116,7 @@ const handleCamelotSwap = (type) => {
       .catch((err) => {
         onError?.(err);
       });
-    return;
+    return "";
   }
   if (type === 2) {
     RouterContract.swapExactTokensForETHSupportingFeeOnTransferTokens(
@@ -153,7 +153,7 @@ const type =
 
 if (title === "Camelot") {
   handleCamelotSwap(type);
-  return;
+  return "";
 }
 const RouterContract = new ethers.Contract(
   routerAddress,
@@ -262,7 +262,7 @@ if (type === 0) {
     .catch((err) => {
       onError(err);
     });
-  return;
+  return "";
 }
 if (type === 1) {
   const params = [
@@ -290,7 +290,7 @@ if (type === 1) {
     .catch((err) => {
       onError(err);
     });
-  return;
+  return "";
 }
 if (type === 2) {
   const params = [
