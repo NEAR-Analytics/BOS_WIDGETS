@@ -79,6 +79,7 @@ function upVoteButtonListener() {
       props: {
         id: data.id ?? `${data.author}-${data.timeCreate}`,
         articleSbts: data.sbts,
+        articleAuthor: data.author,
       },
     });
   } else {
@@ -108,27 +109,29 @@ const CallLibrary = styled.div`
 
 return (
   <>
-    <Widget
-      src={widgets.newStyledComponents.Input.Button}
-      props={{
-        children: (
-          <div className="d-flex">
-            <span>{`+${upVotesData.length}`}</span>
-            <IconContainer>
-              <Icon
-                className={`bi bi-fast-forward-fill ${
-                  !disabled && "text-success"
-                }`}
-              ></Icon>
-            </IconContainer>
-          </div>
-        ),
-        disabled,
-        className: `${getUpVoteButtonClass()}`,
-        size: "sm",
-        onClick: upVoteButtonListener,
-      }}
-    />
+    <div title={disabled && "You don't own this SBT"}>
+      <Widget
+        src={widgets.newStyledComponents.Input.Button}
+        props={{
+          children: (
+            <div className="d-flex">
+              <span>{`+${upVotesData.length}`}</span>
+              <IconContainer>
+                <Icon
+                  className={`bi bi-fast-forward-fill ${
+                    !disabled && "text-success"
+                  }`}
+                ></Icon>
+              </IconContainer>
+            </div>
+          ),
+          disabled,
+          className: `${getUpVoteButtonClass()}`,
+          size: "sm",
+          onClick: upVoteButtonListener,
+        }}
+      />
+    </div>
 
     <CallLibrary>
       {libSrcArray.map((src) => {
