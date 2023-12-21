@@ -97,6 +97,37 @@ function getConfig(network) {
       return {};
   }
 }
+function debounce(
+  delay,
+  func,
+) {
+  let timer;
+  let active = true;
+  console.log('hgjhgh');
+  const debounced = (arg) => {
+    if (active) {
+      clearTimeout(timer);
+      timer = setTimeout(() => {
+        active && func(arg);
+        timer = undefined;
+      }, delay);
+    } else {
+      func(arg);
+    }
+  };
+
+  debounced.isPending = () => {
+    return timer !== undefined;
+  };
+
+  debounced.cancel = () => {
+    active = false;
+  };
+
+  debounced.flush = (arg) => func(arg);
+
+  return debounced;
+}
 function localFormat(number) {
   const formattedNumber = Number(number).toLocaleString('en', {
     minimumFractionDigits: 0,
@@ -158,6 +189,37 @@ function getConfig(network) {
       return {};
   }
 }
+function debounce(
+  delay,
+  func,
+) {
+  let timer;
+  let active = true;
+  console.log('hgjhgh');
+  const debounced = (arg) => {
+    if (active) {
+      clearTimeout(timer);
+      timer = setTimeout(() => {
+        active && func(arg);
+        timer = undefined;
+      }, delay);
+    } else {
+      func(arg);
+    }
+  };
+
+  debounced.isPending = () => {
+    return timer !== undefined;
+  };
+
+  debounced.cancel = () => {
+    active = false;
+  };
+
+  debounced.flush = (arg) => func(arg);
+
+  return debounced;
+}
 function nanoToMilli(nano) {
   return new Big(nano).div(new Big(10).pow(6)).round().toNumber();
 }
@@ -199,6 +261,37 @@ function getConfig(network) {
       return {};
   }
 }
+function debounce(
+  delay,
+  func,
+) {
+  let timer;
+  let active = true;
+  console.log('hgjhgh');
+  const debounced = (arg) => {
+    if (active) {
+      clearTimeout(timer);
+      timer = setTimeout(() => {
+        active && func(arg);
+        timer = undefined;
+      }, delay);
+    } else {
+      func(arg);
+    }
+  };
+
+  debounced.isPending = () => {
+    return timer !== undefined;
+  };
+
+  debounced.cancel = () => {
+    active = false;
+  };
+
+  debounced.flush = (arg) => func(arg);
+
+  return debounced;
+}
 function shortenAddress(address) {
   const string = String(address);
 
@@ -236,6 +329,37 @@ function getConfig(network) {
       return {};
   }
 }
+function debounce(
+  delay,
+  func,
+) {
+  let timer;
+  let active = true;
+  console.log('hgjhgh');
+  const debounced = (arg) => {
+    if (active) {
+      clearTimeout(timer);
+      timer = setTimeout(() => {
+        active && func(arg);
+        timer = undefined;
+      }, delay);
+    } else {
+      func(arg);
+    }
+  };
+
+  debounced.isPending = () => {
+    return timer !== undefined;
+  };
+
+  debounced.cancel = () => {
+    active = false;
+  };
+
+  debounced.flush = (arg) => func(arg);
+
+  return debounced;
+}
 function getConfig(network) {
   switch (network) {
     case 'mainnet':
@@ -257,6 +381,37 @@ function getConfig(network) {
     default:
       return {};
   }
+}
+function debounce(
+  delay,
+  func,
+) {
+  let timer;
+  let active = true;
+  console.log('hgjhgh');
+  const debounced = (arg) => {
+    if (active) {
+      clearTimeout(timer);
+      timer = setTimeout(() => {
+        active && func(arg);
+        timer = undefined;
+      }, delay);
+    } else {
+      func(arg);
+    }
+  };
+
+  debounced.isPending = () => {
+    return timer !== undefined;
+  };
+
+  debounced.cancel = () => {
+    active = false;
+  };
+
+  debounced.flush = (arg) => func(arg);
+
+  return debounced;
 }
 /* END_INCLUDE: "includes/libs.jsx" */
 /* INCLUDE: "includes/formats.jsx" */
@@ -1249,6 +1404,37 @@ function getConfig(network) {
     default:
       return {};
   }
+}
+function debounce(
+  delay,
+  func,
+) {
+  let timer;
+  let active = true;
+  console.log('hgjhgh');
+  const debounced = (arg) => {
+    if (active) {
+      clearTimeout(timer);
+      timer = setTimeout(() => {
+        active && func(arg);
+        timer = undefined;
+      }, delay);
+    } else {
+      func(arg);
+    }
+  };
+
+  debounced.isPending = () => {
+    return timer !== undefined;
+  };
+
+  debounced.cancel = () => {
+    active = false;
+  };
+
+  debounced.flush = (arg) => func(arg);
+
+  return debounced;
 }
 /* END_INCLUDE: "includes/libs.jsx" */
 /**
