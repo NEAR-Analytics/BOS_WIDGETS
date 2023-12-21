@@ -2,6 +2,10 @@ const { Tile } =
   VM.require("devhub.efiz.near/widget/devhub.components.molecule.Tile") ||
   (() => <></>);
 
+if (!Tile) {
+  return <div>Loading...</div>;
+}
+
 const {
   permissions,
   handle,
@@ -107,7 +111,7 @@ return (
           "devhub.efiz.near/widget/devhub.entity.community.configuration.ConfigurationSection"
         }
         props={{
-          title: "Access Control",
+          title: "Community Admins",
           hasConfigurePermissions,
           Configurator: (p) => (
             <Widget
