@@ -242,14 +242,14 @@ return (
         displayChainName: "Arbitrum",
         wethAddress: "0x82aF49447D8a07e3bd95BD0d56f35241523fBab1",
         connectProps: {
-          imgProps: {
-            src: "https://ipfs.near.social/ipfs/bafkreifeitks2bp3vyy7v7iznq6lf67dutvjjplzzbiwv4j2dheqiqqbpi",
-            style: {
-              width: "179px",
-              height: "143px",
-              marginTop: "80px",
-            },
-          },
+          // imgProps: {
+          //   src: "https://ipfs.near.social/ipfs/bafkreifeitks2bp3vyy7v7iznq6lf67dutvjjplzzbiwv4j2dheqiqqbpi",
+          //   style: {
+          //     width: "179px",
+          //     height: "143px",
+          //     marginTop: "80px",
+          //   },
+          // },
           noAccountTips: "Arbitrum Dex Collection",
           wrongNetworkTips: "To proceed, kindly switch to Arbitrum One Chain.",
         },
