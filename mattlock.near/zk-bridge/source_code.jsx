@@ -18,6 +18,9 @@ const l2DepositFee = ethers.utils.formatUnits(
 const catchApproveError = (e) => {
   console.error("approve error:", e);
   if (e.message) {
+    if (/rejected/gi.test(e.message)) {
+      e.message = "You rejected the transaction.";
+    }
     State.update({ isLoading: false, log: e.message });
     setTimeout(() => State.update({ log: null }), 3000);
     return;
