@@ -385,6 +385,8 @@ return (
             syncSwapPoolAddress: state.syncSwapPoolAddress,
             uniType: dexConfig.uniType,
             account: props.account,
+            onSwitchChain: props.onSwitchChain,
+            switchingChain: props.switchingChain,
           }}
         />
       </Panel>
