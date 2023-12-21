@@ -1,6 +1,6 @@
 const { author, recency, tag } = props;
 
-const { href } = VM.require("previewthomas.near/widget/core.lib.url");
+const { href } = VM.require("thomasguntenaar.near/widget/core.lib.url");
 
 if (!href) {
   return <p>Loading modules...</p>;
@@ -44,20 +44,20 @@ const Gradient = styled.div`
 const FeedPage = ({ recency, tag }) => {
   return (
     <div className="w-100">
-      <Widget src={`previewthomas.near/widget/devhub.components.island.banner`} />
+      <Widget src={`thomasguntenaar.near/widget/devhub.components.island.banner`} />
       <Widget
-        src={"previewthomas.near/widget/devhub.feature.post-search.panel"}
+        src={"thomasguntenaar.near/widget/devhub.feature.post-search.panel"}
         props={{
           hideHeader: false,
           children: (
             <Widget
               src={
-                "previewthomas.near/widget/devhub.components.molecule.PostControls"
+                "thomasguntenaar.near/widget/devhub.components.molecule.PostControls"
               }
               props={{
                 title: "Post",
                 href: href({
-                  widgetSrc: "previewthomas.near/widget/dh.create",
+                  widgetSrc: "thomasguntenaar.near/widget/dh.create",
                 }),
               }}
             />
