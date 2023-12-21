@@ -32,7 +32,7 @@ return (
       <Item key={index}>
         <div className="flex-grow-1">
           <Widget
-            src="previewthomas.near/widget/devhub.components.molecule.Input"
+            src="thomasguntenaar.near/widget/devhub.components.molecule.Input"
             props={{
               className: "flex-grow-1",
               value: item,
@@ -57,7 +57,7 @@ return (
       <Item>
         <div className="flex-grow-1">
           <Widget
-            src="previewthomas.near/widget/devhub.components.molecule.Input"
+            src="thomasguntenaar.near/widget/devhub.components.molecule.Input"
             props={{
               className: "flex-grow-1",
               skipPaddingGap: true,
@@ -67,6 +67,7 @@ return (
               inputProps: {
                 prefix: data.prefix,
               },
+              key: data.prefix + "new-list-item",
             }}
           />
         </div>
