@@ -286,6 +286,8 @@ return (
             userPositions,
             chainName: CHAIN_CONFIG.chainName,
             addAction: props.addAction,
+            toast: props.toast,
+            chainId: state.chainId,
           }}
         />
 
