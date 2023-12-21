@@ -173,7 +173,7 @@ return (
             onClick={handleGoHomeButton}
           >
             <Widget
-              src="mob.near/widget/Image"
+              src={widgets.navBarImg}
               props={{
                 // image: metadata.image,
                 className: "w-100 h-100",
