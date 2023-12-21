@@ -15,6 +15,8 @@ let {
   kanbanColumns,
   kanbanRequiredTags,
   kanbanExcludedTags,
+  sharedArticleId,
+  sharedCommentId,
 } = props;
 sharedBlockHeight = Number(sharedBlockHeight);
 
@@ -69,6 +71,11 @@ function getInitialFilter() {
       parameterName: "author",
       parameterValue: authorShared,
     };
+  } else if (sharedArticleId) {
+    return {
+      parameterName: "articleId",
+      parameterValue: sharedArticleId,
+    };
   } else {
     return {
       parameterName: "",
@@ -77,7 +84,7 @@ function getInitialFilter() {
 }
 
 function getInitialTabId() {
-  if (sharedBlockHeight) {
+  if (sharedBlockHeight || sharedArticleId) {
     return tabs.SHOW_ARTICLE.id;
   } else {
     return tabs.SHOW_ARTICLES_LIST.id;
@@ -98,7 +105,7 @@ State.init({
   functionsToCallByLibrary: initLibsCalls,
   sbtsNames: initSbtsNames,
   sbts: initSbtsNames,
-  firstRender: !isNaN(sharedBlockHeight),
+  firstRender: !isNaN(sharedBlockHeight) || typeof sharedArticleId === "string",
   usersSBTs: [],
 });
 
@@ -115,6 +122,7 @@ State.update({ libsCalls: newLibsCalls });
 const libSrcArray = [widgets.libArticle];
 
 const profile = props.profile ?? Social.getr(`${accountId}/profile`);
+
 if (profile === null) {
   return "Loading";
 }
@@ -145,7 +153,11 @@ const canLoggedUserCreateArticle = state.canLoggedUserCreateArticle[sbts[0]];
 const finalArticles = state.articles;
 
 function getArticlesToRender() {
-  if (sharedBlockHeight && finalArticles && state.firstRender) {
+  if (
+    (sharedBlockHeight || sharedArticleId) &&
+    finalArticles &&
+    state.firstRender
+  ) {
     let finalArticlesSbts = Object.keys(finalArticles);
     let allArticles = [];
 
@@ -173,9 +185,19 @@ function filterArticlesByAuthor(author, articles) {
   });
 }
 
-function filterOnePost(blockHeight, articles) {
+function filterOnePostByBlockHeight(blockHeight, articles) {
   if (articles) {
     return articles.filter((article) => article.blockHeight === blockHeight);
+  } else {
+    return [];
+  }
+}
+
+function filterOnePostByArticleId(articleId, articles) {
+  console.log("articles: ", articles);
+  console.log("articleId: ", articleId);
+  if (articles) {
+    return articles.filter((article) => article.id === articleId);
   } else {
     return [];
   }
@@ -192,7 +214,16 @@ if (state.filterBy.parameterName === "tag") {
     articlesToRender
   );
 } else if (state.filterBy.parameterName === "getPost") {
-  articlesToRender = filterOnePost(
+  articlesToRender = filterOnePostByBlockHeight(
+    state.filterBy.parameterValue,
+    articlesToRender
+  );
+
+  if (articlesToRender.length > 0) {
+    State.update({ articleToRenderData: articlesToRender[0] });
+  }
+} else if (state.filterBy.parameterName === "articleId") {
+  articlesToRender = filterOnePostByArticleId(
     state.filterBy.parameterValue,
     articlesToRender
   );
@@ -298,17 +329,23 @@ const renderShareInteraction = () => {
           ></CloseIcon>
         </ClosePopUpContainer>
         <h3>Share</h3>
-        <PopUpDescription>Use this link to share the article</PopUpDescription>
+        <PopUpDescription>
+          {state.sharedElement.value
+            ? "Use this link to share the article"
+            : "Can't share yet. Reload the app and try again."}
+        </PopUpDescription>
         <ShowLinkShared>
-          <LinkShared>{getLink()}</LinkShared>
+          {state.sharedElement.value && <LinkShared>{getLink()}</LinkShared>}
           <ClipboardContainer>
-            <ClipboardIcon
-              className="bi-clipboard"
-              onClick={() => {
-                clipboard.writeText(getLink());
-                State.update({ linkCopied: true });
-              }}
-            ></ClipboardIcon>
+            {state.sharedElement.value && (
+              <ClipboardIcon
+                className="bi-clipboard"
+                onClick={() => {
+                  clipboard.writeText(getLink());
+                  State.update({ linkCopied: true });
+                }}
+              />
+            )}
             {state.linkCopied && <CopiedFeedback>Copied!</CopiedFeedback>}
           </ClipboardContainer>
         </ShowLinkShared>
@@ -343,7 +380,7 @@ const renderSelectorLabel = () => {
 //=================================================FUNCTIONS========================================================
 
 function getValidEditArticleDataTags() {
-  let tags = state.editArticleData.tags;
+  let tags = state.editArticleData.tags ?? [];
   let newFormatTags = {};
 
   tags &&
@@ -475,33 +512,14 @@ function getLink() {
   }=${state.sharedElement.value}`;
 }
 
-//===============================================END FUNCTIONS======================================================
-if (!context.accountId) {
-  return (
-    <>
-      <Widget
-        src={widgets.header}
-        props={{
-          isTest,
-          mainStateUpdate,
-          handleGoHomeButton,
-          handlePillNavigation,
-          brand,
-          pills: navigationPills,
-          navigationButtons,
-          displayedTabId: state.displayedTabId,
-          handleFilterArticles,
-          filterParameter: state.filterBy.parameterName,
-          handleBackButton,
-          tabs,
-          sbtsNames,
-        }}
-      />
-      <h2>Log in to see the articles</h2>
-    </>
-  );
+function handleOnCommitArticle(articleToRenderData) {
+  State.update({
+    articleToRenderData,
+    displayedTabId: tabs.SHOW_ARTICLE.id,
+  });
 }
 
+//===============================================END FUNCTIONS======================================================
 return (
   <>
     {state.showShareModal && renderShareInteraction()}
@@ -521,6 +539,7 @@ return (
         handleBackButton,
         tabs,
         sbtsNames,
+        widgets,
       }}
     />
     {(state.displayedTabId == tabs.SHOW_ARTICLES_LIST.id ||
@@ -560,6 +579,7 @@ return (
           filterBy: state.filterBy,
           callLibs,
           baseActions,
+          handleOnCommitArticle,
         }}
       />
     )}
@@ -577,6 +597,7 @@ return (
             handleShareButton,
             callLibs,
             baseActions,
+            sharedCommentId,
           }}
         />
       )}
@@ -615,6 +636,7 @@ return (
           canLoggedUserCreateArticles,
           callLibs,
           baseActions,
+          handleOnCommitArticle,
         }}
       />
     )}
