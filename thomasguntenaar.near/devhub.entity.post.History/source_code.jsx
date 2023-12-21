@@ -18,7 +18,7 @@ function href(widgetName, linkProps) {
     .map(([key, value]) => `${key}=${value}`)
     .join("&");
 
-  return `/previewthomas.near/widget/devhub.page.${widgetName}${
+  return `/thomasguntenaar.near/widget/devhub.page.${widgetName}${
     linkPropsQuery ? "?" : ""
   }${linkPropsQuery}`;
 }
