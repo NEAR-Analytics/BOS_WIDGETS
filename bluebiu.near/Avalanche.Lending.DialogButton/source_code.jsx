@@ -79,8 +79,16 @@ State.init({
   isApproved: false,
 });
 
-const { disabled, actionText, amount, data, onSuccess, onMessage, addAction } =
-  props;
+const {
+  disabled,
+  actionText,
+  amount,
+  data,
+  chainId,
+  onSuccess,
+  toast,
+  addAction,
+} = props;
 
 const account = Ethers.send("eth_requestAccounts", [])[0];
 
@@ -99,37 +107,31 @@ if (actionText.includes("Collateral")) {
             marketAddress: data.address,
             loading: state.loading,
             onSuccess: (res) => {
-              const { status } = res;
+              const { status, transactionHash } = res;
+              toast?.dismiss(state.toastId);
+              if (status !== 1) throw new Error("");
               State.update({
                 loading: false,
               });
-              if (status === 1) {
-                onSuccess?.(data.dapp);
-              }
-              State.update({
-                loading: false,
-              });
-              onMessage?.({
-                status: status === 1 ? 1 : 2,
-                open: true,
-                text: `${tokenSymbol} ${
+              toast?.success({
+                title: `${tokenSymbol} ${
                   isEnter ? "enable" : "disable"
-                } as collateral request ${
-                  status === 1 ? "successed!" : "failed!"
-                }`,
+                } as collateral request successed!`,
+                tx: transactionHash,
+                chainId,
               });
+              onSuccess?.(data.dapp);
             },
-            onError: () => {
+            onError: (tx) => {
               State.update({
                 loading: false,
               });
-              onMessage?.({
-                status: 2,
-                open: true,
-                text: `${tokenSymbol} ${
+              toast?.fail({
+                title: `${tokenSymbol} ${
                   isEnter ? "enable" : "disable"
-                } as collateral request failed!
-                `,
+                } as collateral request failed!`,
+                tx: tx ? tx.hash : "",
+                chainId,
               });
             },
             account,
@@ -140,15 +142,14 @@ if (actionText.includes("Collateral")) {
       <Button
         disabled={state.loading || disabled}
         onClick={() => {
-          State.update({
-            loading: true,
-          });
-          onMessage?.({
-            status: 3,
-            open: true,
-            text: `Submitting ${tokenSymbol} ${
+          const toastId = toast?.loading({
+            title: `Submitting ${tokenSymbol} ${
               isEnter ? "enable" : "disable"
             } as collateral request...`,
+          });
+          State.update({
+            loading: true,
+            toastId,
           });
         }}
       >
@@ -219,14 +220,13 @@ if (
 }
 if (!state.isApproved) {
   const handleApprove = () => {
+    const toastId = toast?.loading({
+      title: `Approve ${Big(amount).toFixed(2)} ${tokenSymbol}`,
+    });
     State.update({
       approving: true,
     });
-    onMessage?.({
-      status: 3,
-      open: true,
-      text: `Submitting ${tokenSymbol} approval request...`,
-    });
+
     const TokenContract = new ethers.Contract(
       data.type === "aave2"
         ? getAAVE2TokenAddress()
@@ -240,28 +240,32 @@ if (!state.isApproved) {
     )
       .then((tx) => {
         tx.wait().then((res) => {
-          const { status } = res;
+          const { status, transactionHash } = res;
+          toast?.dismiss(toastId);
+          if (status !== 1) throw new Error("");
           State.update({
-            isApproved: status === 1,
+            isApproved: true,
             approving: false,
           });
-          onMessage?.({
-            status: status === 1 ? 1 : 2,
-            open: true,
-            text: status === 1 ? "Approved successed!" : "Approved failed!",
+          toast?.success({
+            title: "Approve Successfully!",
+            text: `Approve ${Big(amount).toFixed(2)} ${tokenSymbol}`,
+            tx: transactionHash,
+            chainId,
           });
-          onLoad?.(status === 1);
         });
       })
-      .catch(() => {
+      .catch((err) => {
         State.update({
           isApproved: false,
           approving: false,
         });
-        onMessage?.({
-          status: 2,
-          open: true,
-          text: "Approved failed!",
+        toast?.dismiss(toastId);
+        toast?.fail({
+          title: "Approve Failed!",
+          text: err?.message?.includes("user rejected transaction")
+            ? "User rejected transaction"
+            : `Approve ${Big(amount).toFixed(2)} ${tokenSymbol}`,
         });
         onLoad?.(false);
       });
@@ -293,15 +297,9 @@ return (
           loading: state.pending,
           onSuccess: (res) => {
             const { status, transactionHash } = res;
+            toast?.dismiss(state.toastId);
             State.update({
               pending: false,
-            });
-            onMessage?.({
-              status: status === 1 ? 1 : 2,
-              open: true,
-              text: `${tokenSymbol} ${actionText.toLowerCase()} request ${
-                status === 1 ? " successed!" : " failed!"
-              }`,
             });
             addAction?.({
               type: "Lending",
@@ -315,19 +313,30 @@ return (
             });
             if (status === 1) {
               onSuccess?.(data.dapp);
+              toast?.success({
+                title: `${tokenSymbol} ${actionText.toLowerCase()} request successed!`,
+                tx: transactionHash,
+                chainId,
+              });
+            } else {
+              toast?.fail({
+                title: `${tokenSymbol} ${actionText.toLowerCase()} request failed!`,
+                tx: transactionHash,
+                chainId,
+              });
             }
           },
-          onError: (err) => {
-            console.log("error", err);
+          onError: (tx) => {
             State.update({
               pending: false,
             });
-            onMessage?.({
-              status: 2,
-              open: true,
-              text: `${tokenSymbol} ${actionText.toLowerCase()} request
-            failed!
-           `,
+            toast?.dismiss(state.toastId);
+            toast?.fail({
+              title: tx?.message?.includes("user rejected transaction")
+                ? "User rejected transaction"
+                : `${tokenSymbol} ${actionText.toLowerCase()} request failed!`,
+              tx: tx ? tx.hash : "",
+              chainId,
             });
           },
           account,
@@ -338,13 +347,12 @@ return (
       disabled={state.pending || disabled}
       className={actionText.toLowerCase()}
       onClick={() => {
+        const toastId = toast?.loading({
+          title: `Submitting ${tokenSymbol} ${actionText.toLowerCase()} request...`,
+        });
         State.update({
           pending: true,
-        });
-        onMessage?.({
-          status: 3,
-          open: true,
-          text: `Submitting ${tokenSymbol} ${actionText.toLowerCase()} request...`,
+          toastId,
         });
       }}
     >
