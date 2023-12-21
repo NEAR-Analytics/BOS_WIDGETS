@@ -146,10 +146,17 @@ const handlers = {
 
 const DELAY = 1000 * 60 * 5;
 const timer = Storage.privateGet("priceTimer");
+
 function getPrice() {
-  asyncFetch("https://test-api.dapdap.net/get-token-price-by-dapdap")
+  const AccessKey = Storage.get(
+    "AccessKey",
+    "guessme.near/widget/ZKEVMWarmUp.add-to-quest-card"
+  );
+  asyncFetch("/dapdap/get-token-price-by-dapdap", {
+    Authorization: AccessKey,
+  })
     .then((res) => {
-      const data = JSON.parse(res.body);
+      const data = res.body.data;
       data.native = data.aurora;
       delete data.aurora;
       Storage.privateSet("tokensPrice", data);
@@ -160,12 +167,14 @@ function getPrice() {
       setTimeout(getPrice, DELAY);
     });
 }
-if (!Storage.privateGet("priceTimer")) {
+
+useEffect(() => {
   getPrice();
-  Storage.privateSet("priceTimer", 1);
-} else {
+}, []);
+
+useEffect(() => {
   props?.onGetPrice(getTokenPrice());
-}
+}, [props.currency]);
 
 return (
   <Wrapper>
