@@ -79,7 +79,7 @@ const CTA = styled.button`
   line-height: 20px; /* 125% */
 
   border-radius: 4px;
-  background: #00ec97;
+  background: #04a46e;
 
   display: flex;
   padding: 14px 16px;
@@ -87,7 +87,7 @@ const CTA = styled.button`
   gap: 8px;
 
   &:hover {
-    background: #04a46e;
+    background: #555555;
   }
 `;
 
@@ -96,68 +96,23 @@ const CardGrid = styled.div`
   height: 100%;
 
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   gap: 3rem;
 
-  @media screen and (max-width: 1000px) {
+  @media screen and (max-width: 992px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @media screen and (max-width: 768px) {
     display: flex;
-    flex-wrap: wrap;
+    flex-direction: column;
     gap: 2rem;
   }
 `;
 
-const SearchForm = styled.input`
-  display: flex;
-  padding: 14px 16px;
-  align-items: center;
-  gap: 16px;
-
-  border-radius: 4px;
-  //background: rgba(129, 129, 129, 0.15);
-
-  color: #818181;
-  font-size: 16px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: 20px; /* 125% */
-
-  border: none;
-`;
-
-const Sort = styled.select`
-  padding: 14px 16px;
-
-  border-radius: 4px;
-  //background: rgba(129, 129, 129, 0.15);
-
-  color: #818181;
-  font-size: 16px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: 20px; /* 125% */
-
-  border: none;
-`;
-
 return (
   <div className="w-100">
-    <Widget
-      src={`devhub.efiz.near/widget/devhub.components.island.banner`}
-      props={{
-        title: (
-          <>
-            We are building <br />
-            <span style={{ color: "#151515" }}>
-              a decentralized community
-            </span>{" "}
-            <br />
-            for NEAR Developers.
-          </>
-        ),
-        imageLink:
-          "https://ipfs.near.social/ipfs/bafkreigtpjmgt3aphd3plbcremtvazeo7qsjvguw44m74zthyxbhj4toqe",
-      }}
-    />
+    <Widget src={`devhub.efiz.near/widget/devhub.components.island.banner`} />
     <div style={{ background: "#f4f4f4" }}>
       <div
         className="d-flex justify-content-between p-4"
@@ -166,29 +121,35 @@ return (
         <div className="d-flex flex-column gap-3 w-100">
           <h1
             className="m-0 fs-4"
-            style={{ color: "#04a46e", fontSize: "1.5rem" }}
+            style={{ color: "#555555", fontSize: "1.5rem" }}
           >
             Communities
           </h1>
 
-          <div className="d-flex flex-column-reverse flex-lg-row gap-3 justify-content-between align-items-center">
-            <div className="d-flex align-items-center gap-4">
-              <SearchForm
+          <div className="d-flex flex-column-reverse flex-sm-row gap-3 justify-content-between align-items-center">
+            <div className="d-flex flex-column flex-sm-row col-12 col-sm-6 mt-3 mt-lg-0 align-items-center gap-4">
+              <input
                 type="text"
                 placeholder="🔍 Search Communities"
+                className="form-control w-100"
                 value={searchKey}
                 onChange={(e) => setSearchKey(e.target.value)}
               />
-              <Sort
-                class="form-select"
-                onChange={(e) => setSort(e.target.value)}
-              >
-                <option selected value="">
-                  Sort
-                </option>
-                <option value="a-z">A-Z</option>
-                <option value="z-a">Z-A</option>
-              </Sort>
+              <div className="d-flex align-items-center gap-2 col-sm-6 col-12">
+                <label htmlFor="sort">Sort:</label>
+                <select
+                  name="sort"
+                  id="sort"
+                  class="form-select"
+                  onChange={(e) => setSort(e.target.value)}
+                >
+                  <option selected value="">
+                    Latest
+                  </option>
+                  <option value="a-z">A-Z</option>
+                  <option value="z-a">Z-A</option>
+                </select>
+              </div>
             </div>
             {context.accountId && (
               <div className="d-flex flex-column justify-content-center">
