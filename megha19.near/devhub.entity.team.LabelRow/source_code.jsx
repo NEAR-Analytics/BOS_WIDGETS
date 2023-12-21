@@ -3,9 +3,6 @@
  * by the prefix 'team:'; therefore, on the front end, we also employ 'team,'
  * with the user interface displaying 'group' for clarity.
  */
-const { Tile } =
-  VM.require("megha19.near/widget/devhub.components.molecule.Tile") ||
-  (() => <></>);
 
 const { getAccessControlInfo, getRootMembers, removeMember } = VM.require(
   "megha19.near/widget/core.adapter.devhub-contract"
