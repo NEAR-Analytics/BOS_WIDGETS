@@ -4,6 +4,10 @@ const { Tile } =
   VM.require("megha19.near/widget/devhub.components.molecule.Tile") ||
   (() => <></>);
 
+if (!Tile) {
+  return <div>Loading...</div>;
+}
+
 const { getCommunity } = VM.require(
   "megha19.near/widget/core.adapter.devhub-contract"
 );
