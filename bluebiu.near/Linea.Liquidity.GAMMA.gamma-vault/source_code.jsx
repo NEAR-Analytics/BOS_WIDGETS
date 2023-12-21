@@ -731,6 +731,14 @@ const handleApprove = (isToken0) => {
     ? { isToken0Approving: true }
     : { isToken1Approving: true };
 
+  const amount = isToken0
+    ? Big(amount0).toFixed(decimals0)
+    : Big(amount1).toFixed(decimals1);
+
+  const toastId = props.toast?.loading({
+    title: `Approve ${amount} ${_token}`,
+  });
+
   State.update({
     ...payload,
     isLoading: true,
@@ -738,9 +746,7 @@ const handleApprove = (isToken0) => {
   });
 
   const tokenWei = ethers.utils.parseUnits(
-    isToken0
-      ? Big(amount0).toFixed(decimals0)
-      : Big(amount1).toFixed(decimals1),
+    amount,
     isToken0 ? decimals0 : decimals1
   );
 
@@ -761,17 +767,36 @@ const handleApprove = (isToken0) => {
         : { isToken1Approved: true, isToken1Approving: false };
 
       State.update({ ...payload, isLoading: false, loadingMsg: "" });
+      props.toast?.dismiss(toastId);
+      props.toast?.success({
+        title: "Approve Successfully!",
+        text: `Approve ${amount} ${_token}`,
+        tx: receipt.transactionHash,
+        chainId: state.chainId,
+      });
     })
     .catch((error) => {
       State.update({
         isError: true,
         isLoading: false,
         loadingMsg: error,
+        isToken0Approving: false,
+        isToken1Approving: false,
+      });
+      props.toast?.dismiss(toastId);
+      props.toast?.fail({
+        title: "Approve Failed!",
+        text: error?.message?.includes("user rejected transaction")
+          ? "User rejected transaction"
+          : `Approve ${amount} ${_token}`,
       });
     });
 };
 
 const handleDeposit = () => {
+  const toastId = props.toast?.loading({
+    title: `Depositing...`,
+  });
   State.update({
     isLoading: true,
     isError: false,
@@ -826,6 +851,11 @@ const handleDeposit = () => {
 
       const { refetch } = props;
       if (refetch) refetch();
+
+      props.toast?.dismiss(toastId);
+      props.toast?.success({
+        title: "Deposit Successfully!",
+      });
     })
     .catch((error) => {
       State.update({
@@ -833,10 +863,20 @@ const handleDeposit = () => {
         isLoading: false,
         loadingMsg: error,
       });
+      props.toast?.dismiss(toastId);
+      props.toast?.fail({
+        title: "Deposit Failed!",
+        text: error?.message?.includes("user rejected transaction")
+          ? "User rejected transaction"
+          : "",
+      });
     });
 };
 
 const handleWithdraw = () => {
+  const toastId = props.toast?.loading({
+    title: `Withdrawing...`,
+  });
   State.update({
     isLoading: true,
     isError: false,
@@ -883,12 +923,24 @@ const handleWithdraw = () => {
 
       const { refetch } = props;
       if (refetch) refetch();
+
+      props.toast?.dismiss(toastId);
+      props.toast?.success({
+        title: "Withdraw Successfully!",
+      });
     })
     .catch((error) => {
       State.update({
         isError: true,
         isLoading: false,
         loadingMsg: error,
+      });
+      props.toast?.dismiss(toastId);
+      props.toast?.fail({
+        title: "Withdraw Failed!",
+        text: error?.message?.includes("user rejected transaction")
+          ? "User rejected transaction"
+          : "",
       });
     });
 };
