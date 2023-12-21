@@ -163,14 +163,15 @@ function MyComponent() {
                       {item.split(" said ")[0]}
                     </Div16>
                     <Div17>{item.split(" said ")[1]}</Div17>
+                    <br/>
                   </>
                 ))}
             </Div15>
           </Div14>
-          <br/>
-                    <br/>
+          <br />
+          <br />
 
-          <br/>
+          <br />
 
           <RatingContainer>
             <div>
