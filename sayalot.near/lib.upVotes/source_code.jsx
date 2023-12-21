@@ -37,6 +37,8 @@ const action = isTest ? testAction : prodAction;
 
 const libSrcArray = [widgets.libSBT]; // string to lib widget // EDIT: set libs to call
 
+const imports = { notifications: ["getNotificationData"] };
+
 const otherFunctionsToCallByLibrary = {};
 libSrcArray.forEach((libSrc) => {
   const libName = libSrc.split("lib.")[1];
@@ -45,6 +47,7 @@ libSrcArray.forEach((libSrc) => {
 
 State.init({
   functionsToCallByLibrary: otherFunctionsToCallByLibrary, // is a LibsCalls object
+  notifications: {},
 });
 // END LIB CALLS SECTION
 
@@ -66,7 +69,11 @@ function canUserUpVote(props) {
 
   if (sbtsNames.includes("public")) return true;
 
-  setAreValidUsers([accountId], sbtsNames);
+  if (accountId) {
+    setAreValidUsers([accountId], sbtsNames);
+  } else {
+    return false;
+  }
 
   let allSBTsValidations = [];
 
@@ -136,8 +143,8 @@ function setAreValidUsers(accountIds, sbtsNames) {
 }
 
 function addVote(props) {
-  const { id, articleSbts } = props;
-  saveUpVote(id, articleSbts);
+  const { id, articleSbts, articleAuthor } = props;
+  saveUpVote(id, articleSbts, articleAuthor);
 
   resultFunctionsToCall = resultFunctionsToCall.filter((call) => {
     return call.functionName !== "addVote";
@@ -153,6 +160,12 @@ function deleteVote(props) {
   resultFunctionsToCall = resultFunctionsToCall.filter((call) => {
     return call.functionName !== "deleteVote";
   });
+}
+
+function getNotificationData(type, accountId, url) {
+  if (state.notifications.getNotificationData) {
+    return state.notifications.getNotificationData(type, accountId, url);
+  }
 }
 
 const saveDeleteVote = (id, upVoteId, onCommit, onCancel) => {
@@ -185,9 +198,9 @@ function composeDeleteUpVoteData(id, upVoteId) {
   return data;
 }
 
-const saveUpVote = (id, articleSbts, onCommit, onCancel) => {
+const saveUpVote = (id, articleSbts, articleAuthor, onCommit, onCancel) => {
   if (id) {
-    const newData = composeUpVoteData(id, articleSbts);
+    const newData = composeUpVoteData(id, articleSbts, articleAuthor);
 
     Social.set(newData, {
       force: true,
@@ -199,7 +212,7 @@ const saveUpVote = (id, articleSbts, onCommit, onCancel) => {
   }
 };
 
-function composeUpVoteData(id, articleSbts) {
+function composeUpVoteData(id, articleSbts, articleAuthor) {
   const data = {
     index: {
       [action]: JSON.stringify({
@@ -211,6 +224,17 @@ function composeUpVoteData(id, articleSbts) {
       }),
     },
   };
+
+  const dataToAdd = getNotificationData(
+    "upVote",
+    [articleAuthor],
+    `https://near.social/${widgets.thisForum}?sharedArticleId=${id}${
+      isTest ? "&isTest=t" : ""
+    }`
+  );
+
+  data.post = dataToAdd.post;
+  data.index.notify = dataToAdd.index.notify;
 
   return data;
 }
@@ -458,5 +482,14 @@ return (
         `lib.${libName}`
       );
     })}
+
+    <Widget
+      src={`${widgets.libNotifications}`}
+      props={{
+        stateUpdate: libStateUpdate,
+        imports: imports["notifications"],
+        fatherNotificationsState: state.notifications,
+      }}
+    />
   </>
 );
