@@ -81,6 +81,8 @@ const {
   toast,
   account,
   addTransaction,
+  onSwitchChain,
+  switchingChain,
 } = props;
 
 if (!account) {
@@ -94,13 +96,20 @@ if (!account) {
 if (chainId !== currentChainId) {
   return (
     <SwapButton
+      disabled={switchingChain}
       onClick={() => {
-        Ethers.send("wallet_switchEthereumChain", [
-          { chainId: `0x${Number(chainId).toString(16)}` },
-        ]);
+        if (onSwitchChain) {
+          onSwitchChain({ chainId: `0x${Number(chainId).toString(16)}` });
+        } else {
+          Ethers.send("wallet_switchEthereumChain", [
+            { chainId: `0x${Number(chainId).toString(16)}` },
+          ]);
+        }
       }}
     >
-      Switch to the Scroll network
+      {switchingChain
+        ? "Switching to the Scroll network"
+        : "Switch to the Scroll network"}
     </SwapButton>
   );
 }
