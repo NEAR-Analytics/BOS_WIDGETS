@@ -209,6 +209,7 @@ return (
             });
           },
           addAction: props.addAction,
+          toast: props.toast,
           noPair: state.noPair,
           loading: state.loading,
           fee: state.v3Fee,
@@ -216,6 +217,7 @@ return (
           syncSwapPoolAddress: state.syncSwapPoolAddress,
           uniType: dexConfig.uniType,
           add: state.add,
+          chainId,
         }}
       />
     </Panel>
