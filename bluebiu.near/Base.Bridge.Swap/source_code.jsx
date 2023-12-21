@@ -302,12 +302,14 @@ return (
           dstId: state.to?.dstId,
           address: state.currency?.targetAddress,
           poolId: state.currency?.targetPoolId,
+          name: state.to?.name,
         },
         from: state.from,
         gasCost: state.gasCost,
         isGasEnough: state.isGasEnough,
         handlerSwap,
         addAction: props.addAction,
+        toast: props.toast,
         onSuccess: (hash) => {
           handleStargateTx({
             hash,
