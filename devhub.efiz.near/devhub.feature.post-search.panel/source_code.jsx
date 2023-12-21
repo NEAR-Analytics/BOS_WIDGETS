@@ -4,6 +4,7 @@ href || (href = () => {});
 
 State.init({
   tag: props.tag,
+  author: props.author,
   term: "",
 });
 
@@ -18,11 +19,11 @@ const buttonStyle = {
   color: "#f3f3f3",
 };
 
-const PageTitle = styled.h5`
-  color: #04a46e;
+const PageTitle = styled.h1`
+  color: #555555;
   font-size: 24px;
   font-style: normal;
-  font-weight: 400;
+  font-weight: 500;
   line-height: 120%; /* 28.8px */
   letter-spacing: -0.24px;
 
@@ -146,6 +147,7 @@ return (
           term: state.term,
           recency: props.recency,
           transactionHashes: props.transactionHashes,
+          updateTagInput: (tag) => State.update({ tag }),
         }}
       />
     </PostContainer>
