@@ -14,6 +14,7 @@ const {
   handleBackButton,
   tabs,
   sbtsNames,
+  widgets,
 } = props;
 
 function stateUpdate(obj) {
