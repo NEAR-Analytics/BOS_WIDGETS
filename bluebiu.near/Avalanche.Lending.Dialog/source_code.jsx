@@ -253,7 +253,7 @@ const ERC20_ABI = [
   },
 ];
 
-const { display, data, onClose, onSuccess, onMessage } = props;
+const { display, data, chainId, onClose, onSuccess } = props;
 if (!data) return "";
 const actionText = data.actionText;
 const isSupply = ["Deposit", "Withdraw"].includes(actionText);
@@ -677,11 +677,12 @@ return (
               amount: state.isMax ? state.balance : state.amount,
               data: data,
               addAction: props.addAction,
+              toast: props.toast,
+              chainId,
               onSuccess: () => {
                 handleClose();
                 onSuccess?.();
               },
-              onMessage: onMessage,
             }}
           />
         </BottomBox>
