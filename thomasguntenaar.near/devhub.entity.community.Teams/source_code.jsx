@@ -1,7 +1,7 @@
 const { handle } = props;
 
 const { Tile } =
-  VM.require("previewthomas.near/widget/devhub.components.molecule.Tile") ||
+  VM.require("thomasguntenaar.near/widget/devhub.components.molecule.Tile") ||
   (() => <></>);
 
 if (!Tile) {
@@ -9,7 +9,7 @@ if (!Tile) {
 }
 
 const { getCommunity } = VM.require(
-  "previewthomas.near/widget/core.adapter.devhub-contract"
+  "thomasguntenaar.near/widget/core.adapter.devhub-contract"
 );
 
 const communityData = getCommunity({ handle });
