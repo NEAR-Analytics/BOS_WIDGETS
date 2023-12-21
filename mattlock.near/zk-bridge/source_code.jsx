@@ -599,7 +599,18 @@ const handleWithdrawEth = (data) => {
       data: encodedData,
       value,
       gasLimit: ethers.BigNumber.from(l2TxGasLimitWithdraw),
-    });
+    })
+    .then((tx) => {
+      State.update({
+        log: "Approved",
+        explorerLink:
+          `https://${
+            network === "testnet" ? "goerli." : ""
+          }explorer.zksync.io/tx/` + tx.hash,
+        isLoading: false,
+      });
+    })
+    .catch(catchApproveError);
 };
 
 const handleWithdraw = (data) => {
@@ -628,13 +639,17 @@ const handleWithdraw = (data) => {
       data: encodedData,
       gasLimit: ethers.BigNumber.from(l2TxGasLimitWithdraw),
     })
-    .then((d) => {
-      console.log("d", d);
+    .then((tx) => {
+      State.update({
+        log: "Approved",
+        explorerLink:
+          `https://${
+            network === "testnet" ? "goerli." : ""
+          }explorer.zksync.io/tx/` + tx.hash,
+        isLoading: false,
+      });
     })
-    .catch((e) => {
-      console.error("withdraw error:", e);
-      State.update({ isLoading: false });
-    });
+    .catch(catchApproveError);
 };
 
 // balances
