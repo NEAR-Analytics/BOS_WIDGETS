@@ -6,7 +6,7 @@ const ContentWarp = styled.div`
     display: flex;
     align-items: center;
     height: 60px;
-    padding: 0 0.75rem;
+    padding: 0 0.4rem;
     column-gap: 0.75rem;
     border-bottom: 1px solid #323232;
   }
