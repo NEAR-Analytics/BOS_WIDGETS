@@ -37,6 +37,8 @@ const action = isTest ? testAction : prodAction;
 
 const libSrcArray = [widgets.libSBT]; // string to lib widget // EDIT: set libs to call
 
+const imports = { notifications: ["getNotificationData"] };
+
 const libsCalls = {};
 libSrcArray.forEach((libSrc) => {
   const libName = libSrc.split("lib.")[1];
@@ -45,6 +47,7 @@ libSrcArray.forEach((libSrc) => {
 
 State.init({
   libsCalls, // is a LibsCalls object
+  notifications: {},
 });
 // END LIB CALLS SECTION
 
@@ -67,7 +70,11 @@ function canUserCreateComment(props) {
 
   if (sbtsNames.includes("public")) return true;
 
-  setAreValidUsers([accountId], sbtsNames);
+  if (accountId) {
+    setAreValidUsers([accountId], sbtsNames);
+  } else {
+    return false;
+  }
 
   let allSBTsValidations = [];
 
@@ -135,11 +142,11 @@ function setAreValidUsers(accountIds, sbtsNames) {
 }
 
 function createComment(props) {
-  const { comment, onClick, onCommit, onCancel } = props;
+  const { comment, articleId, onClick, onCommit, onCancel } = props;
 
   onClick();
 
-  saveComment(comment, onCommit, onCancel);
+  saveComment(comment, articleId, onCommit, onCancel);
 
   resultFunctionsToCall = resultFunctionsToCall.filter((call) => {
     return call.functionName !== "createComment";
@@ -148,7 +155,31 @@ function createComment(props) {
   return comment;
 }
 
-function composeCommentData(comment) {
+function getNotificationData(type, accountId, url) {
+  if (state.notifications.getNotificationData) {
+    return state.notifications.getNotificationData(type, accountId, url);
+  }
+}
+
+function extractMentions(text) {
+  const mentionRegex =
+    /@((?:(?:[a-z\d]+[-_])*[a-z\d]+\.)*(?:[a-z\d]+[-_])*[a-z\d]+)/gi;
+  mentionRegex.lastIndex = 0;
+  const accountIds = new Set();
+  for (const match of text.matchAll(mentionRegex)) {
+    if (
+      !/[\w`]/.test(match.input.charAt(match.index - 1)) &&
+      !/[/\w`]/.test(match.input.charAt(match.index + match[0].length)) &&
+      match[1].length >= 2 &&
+      match[1].length <= 64
+    ) {
+      accountIds.add(match[1].toLowerCase());
+    }
+  }
+  return [...accountIds];
+}
+
+function composeCommentData(comment, articleId) {
   const data = {
     index: {
       [action]: JSON.stringify({
@@ -161,12 +192,29 @@ function composeCommentData(comment) {
     },
   };
 
+  const mentions = extractMentions(comment.text);
+
+  if (mentions.length > 0) {
+    const dataToAdd = getNotificationData(
+      "mentionOnComment",
+      mentions,
+      `https://near.social/${
+        widgets.thisForum
+      }?sharedArticleId=${articleId}&sharedCommentId=${comment.commentId}${
+        isTest ? "&isTest=t" : ""
+      }`
+    );
+
+    data.post = dataToAdd.post;
+    data.index.notify = dataToAdd.index.notify;
+  }
+
   return data;
 }
 
-function saveComment(comment, onCommit, onCancel) {
+function saveComment(comment, articleId, onCommit, onCancel) {
   if (comment.text) {
-    const newData = composeCommentData(comment);
+    const newData = composeCommentData(comment, articleId);
     Social.set(newData, {
       force: true,
       onCommit,
@@ -416,5 +464,14 @@ return (
         `lib.${libName}`
       );
     })}
+
+    <Widget
+      src={`${widgets.libNotifications}`}
+      props={{
+        stateUpdate: libStateUpdate,
+        imports: imports["notifications"],
+        fatherNotificationsState: state.notifications,
+      }}
+    />
   </>
 );
