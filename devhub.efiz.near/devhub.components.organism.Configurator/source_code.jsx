@@ -3,7 +3,7 @@ const Struct = VM.require("devhub.efiz.near/widget/core.lib.struct");
 if (!Struct) {
   return <p>Loading modules...</p>;
 }
-/* INCLUDE: "core/lib/gui/form" */
+
 const defaultFieldUpdate = ({
   input,
   lastKnownValue,
@@ -107,7 +107,6 @@ const useForm = ({ initialValues, onUpdate, stateKey }) => {
     update: formUpdate,
   };
 };
-/* END_INCLUDE: "core/lib/gui/form" */
 
 const ValueView = styled.div`
   & > p {
@@ -117,16 +116,16 @@ const ValueView = styled.div`
 
 const fieldParamsByType = {
   array: {
-    name: "components.molecule.text-input",
+    name: "components.molecule.Input",
     inputProps: { type: "text" },
   },
 
   boolean: {
-    name: "components.atom.toggle",
+    name: "components.atom.Toggle",
   },
 
   string: {
-    name: "components.molecule.text-input",
+    name: "components.molecule.Input",
     inputProps: { type: "text" },
   },
 };
@@ -176,7 +175,6 @@ const defaultFieldsRender = ({ schema, form, isEditable }) => (
                   </span>
                 ) : (fieldValue?.length ?? 0) > 0 ? (
                   <Widget
-                    // TODO: LEGACY.
                     src={
                       "devhub.efiz.near/widget/devhub.components.molecule.MarkdownViewer"
                     }
@@ -190,11 +188,9 @@ const defaultFieldsRender = ({ schema, form, isEditable }) => (
               </ValueView>
             </div>
             <Widget
-              // TODO: LEGACY.
-              src={`devhub.efiz.near/widget/gigs-board.${fieldParamsByType[fieldType].name}`}
+              src={`devhub.efiz.near/widget/devhub.${fieldParamsByType[fieldType].name}`}
               props={{
                 ...fieldProps,
-
                 className: [
                   "w-100",
                   fieldProps.className ?? "",
@@ -262,7 +258,41 @@ const Configurator = ({
     ? toFormatted(form.values)
     : form.values;
 
-  const isFormValid = isValid ? isValid(formFormattedValues) : true;
+  const internalValidation = () =>
+    Object.keys(schema).every((key) => {
+      const fieldDefinition = schema[key];
+      const value = form.values[key];
+      if (!value || value.length === 0) {
+        return !fieldDefinition.inputProps.required;
+      } else if (
+        fieldDefinition.inputProps.min &&
+        fieldDefinition.inputProps.min > value?.length
+      ) {
+        return false;
+      } else if (
+        fieldDefinition.inputProps.max &&
+        fieldDefinition.inputProps.max < value?.length
+      ) {
+        return false;
+      } else if (
+        fieldDefinition.inputProps.allowCommaAndSpace === false &&
+        /^[^,\s]*$/.test(value) === false
+      ) {
+        return false;
+      } else if (
+        fieldDefinition.inputProps.validUrl === true &&
+        /^(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)$/.test(
+          value
+        ) === false
+      ) {
+        return false;
+      }
+      return true;
+    });
+
+  const isFormValid = () => {
+    return internalValidation() && (!isValid || isValid(formFormattedValues));
+  };
 
   const onCancelClick = () => {
     form.reset();
@@ -270,7 +300,7 @@ const Configurator = ({
   };
 
   const onSubmitClick = () => {
-    if (onSubmit && isFormValid) {
+    if (onSubmit && isFormValid()) {
       onSubmit(formFormattedValues);
     }
   };
@@ -302,7 +332,7 @@ const Configurator = ({
             src={"devhub.efiz.near/widget/devhub.components.molecule.Button"}
             props={{
               classNames: { root: classNames.submit || "btn-success" },
-              disabled: !form.hasUnsubmittedChanges || !isFormValid,
+              disabled: !form.hasUnsubmittedChanges || !isFormValid(),
               icon: submitIcon || {
                 type: "bootstrap_icon",
                 variant: "bi-check-circle-fill",
