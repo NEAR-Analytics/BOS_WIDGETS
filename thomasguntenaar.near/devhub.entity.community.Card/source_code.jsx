@@ -1,4 +1,4 @@
-const { href } = VM.require("previewthomas.near/widget/core.lib.url");
+const { href } = VM.require("thomasguntenaar.near/widget/core.lib.url");
 
 if (!href) {
   return <></>;
@@ -50,7 +50,7 @@ const Card = styled.div`
 const CommunityCard = ({ metadata }) => {
   const { handle, logo_url, name, description } = metadata;
   const link = href({
-    widgetSrc: "previewthomas.near/widget/dh.community",
+    widgetSrc: "thomasguntenaar.near/widget/dh.community",
     params: { handle: handle },
   });
 
