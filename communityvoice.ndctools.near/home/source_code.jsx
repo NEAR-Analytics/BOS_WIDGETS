@@ -1,15 +1,21 @@
 let { sharedBlockHeight, tagShared, isTest, accountId } = props;
 
-const sbtWhiteList = [
-  "fractal.i-am-human.near - class 1",
-  "community.i-am-human.near - class 1",
-  "community.i-am-human.near - class 2",
-  "community.i-am-human.near - class 3",
-  "elections.ndc-gwg.near - class 2",
-  "elections.ndc-gwg.near - class 3",
-  "elections.ndc-gwg.near - class 4",
-  "public",
-];
+const sbtWhiteList =
+  context.networkId === "testnet"
+    ? [
+        "fractal-v2.i-am-human.testnet - class 1",
+        "community-v2.i-am-human.testnet - class 1",
+      ]
+    : [
+        "fractal.i-am-human.near - class 1",
+        "community.i-am-human.near - class 1",
+        "community.i-am-human.near - class 2",
+        "community.i-am-human.near - class 3",
+        "elections.ndc-gwg.near - class 2",
+        "elections.ndc-gwg.near - class 3",
+        "elections.ndc-gwg.near - class 4",
+        "public",
+      ];
 
 function createSbtOptions() {
   return sbtWhiteList.map((option, i) => {
@@ -29,6 +35,10 @@ function createSbtOptions() {
       title = "CoA";
     } else if (option === "elections.ndc-gwg.near - class 4") {
       title = "TC";
+    } else if (option === "fractal-v2.i-am-human.testnet - class 1") {
+      title = "Fractal";
+    } else if (option === "community-v2.i-am-human.testnet - class 1") {
+      title = "Community";
     } else {
       title = "Public";
     }
@@ -81,6 +91,7 @@ const widgets = {
   libArticle: `sayalot.near/widget/lib.article`,
   libEmojis: `sayalot.near/widget/lib.emojis`,
   libUpVotes: `sayalot.near/widget/lib.upVotes`,
+  libNotifications: `sayalot.near/widget/lib.notifications`,
 
   //Standard widgets
   fasterTextInput: `f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/fasterTextInput`,
@@ -104,6 +115,7 @@ const widgets = {
   profileOverlayTrigger: "mob.near/widget/Profile.OverlayTrigger",
   profileImage: "mob.near/widget/ProfileImage",
   wikiOnSocialDB_TooltipProfiles: `testwiki.near/widget/WikiOnSocialDB_TooltipProfiles`,
+  navBarImg: "mob.near/widget/Image",
 };
 
 const brand = {
