@@ -65,8 +65,12 @@ const PopupWarp = styled.div`
   background-color: #080d17;
   position: absolute;
   left: 0;
+  opacity: 0;
   top: 60px;
   z-index: 3000;
+  animation-name: slideLeftAndFade;
+  animation: slideLeftAndFade 0.6s linear forwards;
+  animation-iteration-count: 1;
 
   .nav {
     flex: 1 1 0%;
@@ -83,6 +87,15 @@ const PopupWarp = styled.div`
     &.active,
     &:hover {
       color: #fff;
+    }
+  }
+
+  @keyframes slideLeftAndFade {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
     }
   }
 `;
