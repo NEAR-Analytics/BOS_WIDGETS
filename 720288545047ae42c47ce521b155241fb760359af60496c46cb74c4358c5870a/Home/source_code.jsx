@@ -114,6 +114,124 @@ const GroupWarp = styled.div`
   }
 `;
 
+const TradeTab = styled.div`
+  width: 100%;
+  height: 40px;
+  border-bottom: 1px solid #323232;
+  display: flex;
+  align-items: center;
+  color: #fff;
+  font-size: 13px;
+  font-weight: 600;
+  .tab-btn {
+    display: flex;
+    flex: 1 1 0%;
+    align-items: center;
+    justify-content: center;
+    height: 40px;
+    cursor: pointer;
+    &.active {
+      border-bottom: 2px solid #617168;
+      animation-name: slideLeftAndFade;
+      animation: slideLeftAndFade 0.6s linear forwards;
+      animation-iteration-count: 1;
+    }
+  }
+  @keyframes slideLeftAndFade {
+    from {
+      opacity: 0.5;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+`;
+
+const TardeType = styled.div`
+  width: 100%;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  padding: 0 0.75rem;
+  column-gap: 0.75rem;
+  color: #fff;
+  .type-btn {
+    flex: 1 1 0%;
+    height: 36px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #3d3947;
+    background-color: #252526;
+    font-size: 14px;
+    font-weight: 600;
+    border-radius: 10px;
+    &.active {
+      border-color: #009b72;
+      color: #009b72;
+      background-color: #111114;
+      transition: cubic-bezier(0.075, 0.82, 0.165, 1);
+    }
+  }
+`;
+
+const AvailableLabel = styled.div`
+  display: flex;
+  align-items: center;
+  column-gap: 0.25rem;
+  color: #fff;
+  padding: 15px 0.75rem;
+  .label-text {
+    font-size: 14px;
+    font-weight: 600;
+  }
+  .label-coin {
+    font-size: 12px;
+    padding: 3px 6px;
+    background-color: #323232;
+    border-radius: 8px;
+  }
+`;
+
+const TardeFrom = styled.div`
+  padding: 0 0.75rem;
+  display: flex;
+  flex-direction: column;
+  row-gap: 0.5rem;
+`;
+
+const DivLine = styled.div`
+  width: 100%;
+  height: 1px;
+  overflow: hidden;
+  background-color: #323232;
+`;
+
+const TradeBtnWarp = styled.div`
+  padding: 0 0.75rem;
+  margin-top: 15px;
+`;
+const TradeBtn = styled.a`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 36px;
+  border-radius: 10px;
+  text-decoration: none;
+  color: #fff;
+  font-weight: 600;
+  background-color: #617168;
+`;
+
+const LimitTarde = styled.div`
+  display: flex;
+  flex-direction: column;
+  row-gap: 0.75rem;
+`;
+const MarketTarde = styled.div``;
+
 const exContract = [
   {
     symbol: "ETH-USD",
@@ -141,15 +259,31 @@ const exContract = [
   },
 ];
 
-State.init({
-  groupVisible: false,
-  contractInfo: exContract[0],
-});
-const MenuItem = styled("DropdownMenu.Item")``;
-const SubMenuTrigger = styled("DropdownMenu.SubTrigger")``;
+const exUrl = "https://zksync.satori.finance/";
 
 const compId =
   "720288545047ae42c47ce521b155241fb760359af60496c46cb74c4358c5870a";
+
+State.init({
+  groupVisible: false,
+  contractInfo: exContract[0],
+  tradeTabIndex: 0,
+  tradeTypeIndex: 0,
+});
+
+const sizeContractSymbol = useMemo(() => {
+  return [
+    state.contractInfo.tradeCoin.name,
+    state.contractInfo.settleCoin.name,
+  ];
+}, [state.contractInfo]);
+
+const tradeTab = [{ name: "Limit" }, { name: "Market" }];
+
+const tradeTypeBtn = [{ name: "Long" }, { name: "Short" }];
+
+const MenuItem = styled("DropdownMenu.Item")``;
+const SubMenuTrigger = styled("DropdownMenu.SubTrigger")``;
 
 return (
   <HomeWarp>
@@ -159,7 +293,6 @@ return (
     <div class="mobile-visible">
       <Widget src={`${compId}/widget/H5Header`} />
     </div>
-
     <DropdownMenu>
       <div
         class="menu-box"
@@ -229,5 +362,56 @@ return (
         </GroupWarp>
       )}
     </DropdownMenu>
+    <TradeTab>
+      {tradeTab.map((item, index) => (
+        <div
+          class={`tab-btn ${state.tradeTabIndex === index ? "active" : ""}`}
+          onClick={() => {
+            State.update({ tradeTabIndex: index });
+          }}
+        >
+          <span>{item.name}</span>
+        </div>
+      ))}
+    </TradeTab>
+    <TardeType>
+      {tradeTypeBtn.map((item, index) => (
+        <div
+          class={`type-btn ${state.tradeTypeIndex === index ? "active" : ""}`}
+          onClick={() => {
+            State.update({ tradeTypeIndex: index });
+          }}
+        >
+          <span>{item.name}</span>
+        </div>
+      ))}
+    </TardeType>
+    <LimitTarde>
+      <AvailableLabel>
+        <span class="label-text">Available</span>
+        <span class="label-coin">USD</span>
+      </AvailableLabel>
+      <TardeFrom>
+        <Widget src={`${compId}/widget/PriceFidld`} />
+        <Widget
+          src={`${compId}/widget/SizeFidld`}
+          props={{
+            contractSymbol: sizeContractSymbol,
+          }}
+        />
+        <Widget src={`${compId}/widget/InputRate`} />
+      </TardeFrom>
+      <DivLine />
+
+      <Widget src={`${compId}/widget/Leverage`} />
+
+      <TradeBtnWarp>
+        <TradeBtn href={exUrl} target="_blank" rel="noopener noreferrer">
+          <span>Connect Wallet</span>
+        </TradeBtn>
+      </TradeBtnWarp>
+    </LimitTarde>
+
+    <MarketTarde></MarketTarde>
   </HomeWarp>
 );
