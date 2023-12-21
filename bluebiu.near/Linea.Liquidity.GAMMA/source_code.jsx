@@ -122,6 +122,7 @@ return (
       ALL_DATA_URL,
       USER_DATA_BASE,
       MAINNET_CHAIN_ID,
+      ...props,
     }}
   ></Widget>
 );
