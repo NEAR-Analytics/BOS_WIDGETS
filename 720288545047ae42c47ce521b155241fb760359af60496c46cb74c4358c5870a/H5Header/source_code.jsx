@@ -6,7 +6,7 @@ const ContentWarp = styled.div`
     display: flex;
     align-items: center;
     height: 60px;
-    padding: 0 0.4rem;
+    padding: 0 0.75rem;
     column-gap: 0.75rem;
     border-bottom: 1px solid #323232;
   }
@@ -66,6 +66,7 @@ const popupWarp = styled.div`
   position: absolute;
   left: 0;
   top: 60px;
+  z-index: 3000;
 
   .nav {
     flex: 1 1 0%;
@@ -88,8 +89,14 @@ const popupWarp = styled.div`
 
 const exUrl = "https://zksync.satori.finance/";
 
+const { visible } = props;
+
+useEffect(() => {
+  State.update({ visible: visible });
+}, [visible]);
+
 State.init({
-  isOpen: false,
+  visible: visible || false,
 });
 
 return (
@@ -99,10 +106,10 @@ return (
         <div
           class="items"
           onClick={() => {
-            State.update({ isOpen: !state.isOpen });
+            State.update({ visible: !state.visible });
           }}
         >
-          {state.isOpen ? (
+          {state.visible ? (
             <svg
               data-v-3763b662=""
               xmlns="http://www.w3.org/2000/svg"
