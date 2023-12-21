@@ -128,6 +128,33 @@ const Spans = styled.span`
 font-weight: bold;
 `;
 
+const pills = [
+  { id: "org", title: "Create Organisation" },
+  { id: "member", title: "Add Member" },
+  { id: "task", title: "Create Task" },
+];
+
+const Nav = styled.div`
+  .nav-pills {
+    background: rgba(0,0,0,0.8);
+    font-weight: 500;
+    --bs-nav-pills-border-radius: 0;
+    --bs-nav-link-color: #fbfbfb;
+    --bs-nav-pills-link-active-color: #000;
+    --bs-nav-pills-link-active-bg: #fbfbfb;
+    --bs-nav-link-padding-y: 0.75rem;
+    border-bottom: 1px solid #eee;
+    padding-top: 3px;
+  }
+  .nav-link.active {
+    border-bottom: 3px solid rgba(0,0,0,0.8);
+    border-left: 3px solid rgba(0,0,0,0.8);
+    border-right: 3px solid rgba(0,0,0,0.8);
+  }
+
+  margin: 0 -12px; 
+`;
+
 const addOrganization = () => {
   setTotalOrg((prevOrganizations) => [
     ...prevOrganizations,
@@ -211,129 +238,189 @@ const getTasks = () => {
 return (
   <Container>
     <Create id="create">
-      <div>
-        <Heading>Create Organization</Heading>
+      <Nav>
+        <ul className="nav nav-pills nav-fill" id="pills-tab" role="tablist">
+          {pills.map(({ id, title }, i) => (
+            <li className="nav-item" role="presentation" key={i}>
+              <button
+                className={`nav-link ${i === 0 ? "active" : ""}`}
+                id={`pills-${id}-tab`}
+                data-bs-toggle="pill"
+                data-bs-target={`#pills-${id}`}
+                type="button"
+                role="tab"
+                aria-controls={`pills-${id}`}
+                aria-selected={i === 0}
+                onClick={() => {
+                  const key = `load${id}`;
+                  !state[key] && State.update({ [key]: true });
+                }}
+              >
+                {title}
+              </button>
+            </li>
+          ))}
+        </ul>
+      </Nav>
+      <div className="tab-content" id="pills-tabContent">
+        <div
+          className="tab-pane fade show active"
+          id="pills-org"
+          role="tabpanel"
+          aria-labelledby="pills-org-tab"
+        >
+          <div className="col-lg-8 mx-auto">
+            {description && (
+              <Widget
+                key="desc"
+                loading=""
+                src="mob.near/widget/MainPage.N.Post"
+                props={{
+                  accountId,
+                  pinned: true,
+                  blockHeight: "now",
+                  content: {
+                    text: description,
+                  },
+                }}
+              />
+            )}
+            <Widget
+              key="feed"
+              src="mob.near/widget/MainPage.N.Feed"
+              props={{ accounts: [accountId] }}
+            />
+          </div>
+          <Create>
+            <Heading>Create Organization</Heading>
 
-        <div>
-          <label htmlFor="name">Name of Organization:</label>
+            <div>
+              <label htmlFor="name">Name of Organization:</label>
 
-          <Input
-            type="text"
-            id="name"
-            value={orgName}
-            onChange={(e) => setOrgName(e.target.value)}
-          />
+              <Input
+                type="text"
+                id="name"
+                value={orgName}
+                onChange={(e) => setOrgName(e.target.value)}
+              />
+            </div>
+
+            <div>
+              <label htmlFor="size">Size of Organization:</label>
+
+              <Input
+                type="number"
+                id="size"
+                value={orgSize}
+                onChange={(e) => setOrgSize(e.target.value)}
+              />
+            </div>
+
+            <div>
+              <label htmlFor="desc">Description:</label>
+
+              <Input
+                type="text"
+                id="desc"
+                value={orgDesc}
+                onChange={(e) => setOrgDesc(e.target.value)}
+              />
+            </div>
+
+            <Buttons onClick={addOrganization}>Add Organization</Buttons>
+          </Create>
         </div>
+        <div
+          className="tab-pane fade"
+          id="pills-member"
+          role="tabpanel"
+          aria-labelledby="pills-member-tab"
+        >
+          <Create>
+            <Heading>Add Member</Heading>
 
-        <div>
-          <label htmlFor="size">Size of Organization:</label>
+            <div>
+              <label htmlFor="name">Name:</label>
 
-          <Input
-            type="number"
-            id="size"
-            value={orgSize}
-            onChange={(e) => setOrgSize(e.target.value)}
-          />
+              <Input
+                type="text"
+                id="name"
+                value={memberName}
+                onChange={(e) => setMemberName(e.target.value)}
+              />
+            </div>
+
+            <div>
+              <label htmlFor="size">Role:</label>
+
+              <Input
+                type="role"
+                id="role"
+                value={memberRole}
+                onChange={(e) => setMemberRole(e.target.value)}
+              />
+            </div>
+
+            <div>
+              <label htmlFor="desc">Wallet Address:</label>
+
+              <Input
+                type="text"
+                id="desc"
+                value={memberWalletAddress}
+                onChange={(e) => setMemberWalletAddress(e.target.value)}
+              />
+            </div>
+
+            <Buttons onClick={addMember}>Add Member</Buttons>
+          </Create>
         </div>
+        <div
+          className="tab-pane fade widget"
+          id="pills-task"
+          role="tabpanel"
+          aria-labelledby="pills-task-tab"
+        >
+          <Create>
+            <Heading>Create Task</Heading>
 
-        <div>
-          <label htmlFor="desc">Description:</label>
+            <div>
+              <label htmlFor="taskname">Name of Task:</label>
 
-          <Input
-            type="text"
-            id="desc"
-            value={orgDesc}
-            onChange={(e) => setOrgDesc(e.target.value)}
-          />
+              <Input
+                type="text"
+                id="taskname"
+                value={taskName}
+                onChange={(e) => setTaskName(e.target.value)}
+              />
+            </div>
+
+            <div>
+              <label htmlFor="assignee">Assignee:</label>
+
+              <Input
+                type="text"
+                id="assignee"
+                value={taskAssignee}
+                onChange={(e) => setTaskAssignee(e.target.value)}
+              />
+            </div>
+
+            <div>
+              <label htmlFor="status">Status:</label>
+
+              <Input
+                type="text"
+                id="status"
+                value={assigned}
+                onChange={(e) => setAssigned(e.target.value)}
+              />
+            </div>
+
+            <Buttons onClick={addTask}>Add Task</Buttons>
+          </Create>
         </div>
-
-        <Buttons onClick={addOrganization}>Add Organization</Buttons>
       </div>
-
-      <br />
-      <hr />
-
-      <div>
-        <Heading>Add Member</Heading>
-
-        <div>
-          <label htmlFor="name">Name:</label>
-
-          <Input
-            type="text"
-            id="name"
-            value={memberName}
-            onChange={(e) => setMemberName(e.target.value)}
-          />
-        </div>
-
-        <div>
-          <label htmlFor="size">Role:</label>
-
-          <Input
-            type="role"
-            id="role"
-            value={memberRole}
-            onChange={(e) => setMemberRole(e.target.value)}
-          />
-        </div>
-
-        <div>
-          <label htmlFor="desc">Wallet Address:</label>
-
-          <Input
-            type="text"
-            id="desc"
-            value={memberWalletAddress}
-            onChange={(e) => setMemberWalletAddress(e.target.value)}
-          />
-        </div>
-
-        <Buttons onClick={addMember}>Add Member</Buttons>
-      </div>
-      <br />
-      <hr />
-
-      <div>
-        <Heading>Create Task</Heading>
-
-        <div>
-          <label htmlFor="taskname">Name of Task:</label>
-
-          <Input
-            type="text"
-            id="taskname"
-            value={taskName}
-            onChange={(e) => setTaskName(e.target.value)}
-          />
-        </div>
-
-        <div>
-          <label htmlFor="assignee">Assignee:</label>
-
-          <Input
-            type="text"
-            id="assignee"
-            value={taskAssignee}
-            onChange={(e) => setTaskAssignee(e.target.value)}
-          />
-        </div>
-
-        <div>
-          <label htmlFor="status">Status:</label>
-
-          <Input
-            type="text"
-            id="status"
-            value={assigned}
-            onChange={(e) => setAssigned(e.target.value)}
-          />
-        </div>
-
-        <Buttons onClick={addTask}>Add Task</Buttons>
-      </div>
-      <br />
-      <hr />
 
       <Home>
         <div>
