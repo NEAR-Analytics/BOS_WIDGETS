@@ -1,5 +1,3 @@
-//lib.notifications
-
 const { stateUpdate, imports, fatherNotificationsState } = props;
 
 if (!stateUpdate) {
