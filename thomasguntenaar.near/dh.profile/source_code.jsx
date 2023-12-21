@@ -1,6 +1,6 @@
 return (
   <Widget
-    src="previewthomas.near/widget/app"
+    src="thomasguntenaar.near/widget/app"
     props={{ page: "profile", ...props }}
   />
 );
