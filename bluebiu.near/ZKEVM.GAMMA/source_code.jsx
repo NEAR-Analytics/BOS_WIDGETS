@@ -259,6 +259,8 @@ return (
           refetch: postRefetch,
           can_add_action: state.add_action,
           addAction: props.addAction,
+          toast: props.toast,
+          chainId: state.chainId,
         }}
       />
       <Widget
