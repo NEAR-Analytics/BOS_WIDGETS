@@ -1,4 +1,4 @@
-const Struct = VM.require("previewthomas.near/widget/core.lib.struct");
+const Struct = VM.require("thomasguntenaar.near/widget/core.lib.struct");
 
 if (!Struct) {
   return <p>Loading modules...</p>;
@@ -176,7 +176,7 @@ const defaultFieldsRender = ({ schema, form, isEditable }) => (
                 ) : (fieldValue?.length ?? 0) > 0 ? (
                   <Widget
                     src={
-                      "previewthomas.near/widget/devhub.components.molecule.MarkdownViewer"
+                      "thomasguntenaar.near/widget/devhub.components.molecule.MarkdownViewer"
                     }
                     props={{
                       text: fieldValue,
@@ -188,7 +188,7 @@ const defaultFieldsRender = ({ schema, form, isEditable }) => (
               </ValueView>
             </div>
             <Widget
-              src={`previewthomas.near/widget/devhub.${fieldParamsByType[fieldType].name}`}
+              src={`thomasguntenaar.near/widget/devhub.${fieldParamsByType[fieldType].name}`}
               props={{
                 ...fieldProps,
                 className: [
@@ -321,7 +321,7 @@ const Configurator = ({
           ) : null}
 
           <Widget
-            src={"previewthomas.near/widget/devhub.components.molecule.Button"}
+            src={"thomasguntenaar.near/widget/devhub.components.molecule.Button"}
             props={{
               classNames: { root: "btn-outline-danger shadow-none border-0" },
               label: cancelLabel || "Cancel",
@@ -329,7 +329,7 @@ const Configurator = ({
             }}
           />
           <Widget
-            src={"previewthomas.near/widget/devhub.components.molecule.Button"}
+            src={"thomasguntenaar.near/widget/devhub.components.molecule.Button"}
             props={{
               classNames: { root: classNames.submit || "btn-success" },
               disabled: !form.hasUnsubmittedChanges || !isFormValid(),
