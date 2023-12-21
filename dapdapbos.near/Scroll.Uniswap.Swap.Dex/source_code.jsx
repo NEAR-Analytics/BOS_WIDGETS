@@ -57,6 +57,8 @@ return (
         onSetSlippage: (slippage) => {
           props.onSetSlippage?.(slippage);
         },
+        onSwitchChain: props.onSwitchChain,
+        switchingChain: props.switchingChain,
         openRequestModal: props.openRequestModal,
         toast: props.toast || {},
         addTransaction: props.addTransaction,
