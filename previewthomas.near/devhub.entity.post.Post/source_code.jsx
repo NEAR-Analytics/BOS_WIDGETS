@@ -69,6 +69,11 @@ const childPostIdsUnordered =
     post_id: postId,
   }) ?? [];
 
+const allChildren =
+  Near.view("devgovgigs.near", "get_all_children_ids", {
+    post_id: postId,
+  }) ?? [];
+
 const childPostIds = props.isPreview ? [] : childPostIdsUnordered.reverse();
 const expandable = props.isPreview ? false : props.expandable ?? false;
 const defaultExpanded = expandable ? props.defaultExpanded : true;
@@ -423,7 +428,7 @@ const buttonsFooter = props.isPreview ? null : (
               class={`bi bi-chevron-${state.expandReplies ? "up" : "down"}`}
             ></i>{" "}
             {`${state.expandReplies ? "Collapse" : "Expand"} Replies (${
-              childPostIds.length
+              allChildren.length == 99 ? "99+" : allChildren.length
             })`}
           </ButtonWithHover>
         )}
