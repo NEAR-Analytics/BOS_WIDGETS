@@ -1,13 +1,13 @@
 const { id } = props;
 
 const { Page } =
-  VM.require("previewthomas.near/widget/devhub.entity.addon.blog.Page") ||
+  VM.require("thomasguntenaar.near/widget/devhub.entity.addon.blog.Page") ||
   (() => <></>);
 
 if (id) {
   return (
     <Widget
-      src="previewthomas.near/widget/devhub.entity.post.Postv2"
+      src="thomasguntenaar.near/widget/devhub.entity.post.Postv2"
       props={{ postKey: id, template: (p) => <Page {...(p || {})} /> }}
     />
   );
@@ -51,13 +51,13 @@ const BlogContainer = styled.div`
 // generic feed component.
 return (
   <div className="w-100">
-    <Widget src={`previewthomas.near/widget/devhub.components.island.banner`} />
+    <Widget src={`thomasguntenaar.near/widget/devhub.components.island.banner`} />
     <HeaderContainer>
       <Header>Blog</Header>
     </HeaderContainer>
     <BlogContainer>
       <Widget
-        src={"previewthomas.near/widget/devhub.entity.addon.blog.Viewer"}
+        src={"thomasguntenaar.near/widget/devhub.entity.addon.blog.Viewer"}
         props={{
           handle: "developer-dao",
           hideTitle: true,
