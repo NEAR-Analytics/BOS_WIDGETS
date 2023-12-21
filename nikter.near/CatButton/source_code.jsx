@@ -1,6 +1,12 @@
 return (
   <button
-    style={{ border: "none", background: "none", margin: 0, padding: 3 }}
+    style={{
+      border: "none",
+      background: "none",
+      margin: 0,
+      padding: 3,
+      cursor: "pointer",
+    }}
     onClick={() => props.onClick()}
   >
     <svg
