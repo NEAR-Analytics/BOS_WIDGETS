@@ -283,7 +283,7 @@ return (
           <div>{log}</div>
           {explorerLink && (
             <a href={explorerLink} className="alert-link" target="_blank">
-              Etherscan
+              Block Explorer Link
             </a>
           )}
         </div>
