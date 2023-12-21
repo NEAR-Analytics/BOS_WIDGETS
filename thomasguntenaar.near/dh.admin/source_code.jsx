@@ -1,3 +1,3 @@
 return (
-  <Widget src="previewthomas.near/widget/app" props={{ page: "admin", ...props }} />
+  <Widget src="thomasguntenaar.near/widget/app" props={{ page: "admin", ...props }} />
 );
