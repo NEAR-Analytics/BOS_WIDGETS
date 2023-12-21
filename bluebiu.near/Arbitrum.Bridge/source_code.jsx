@@ -95,14 +95,14 @@ return (
       src="bluebiu.near/widget/Base.Bridge.Index"
       props={{
         connectProps: {
-          imgProps: {
-            src: "https://ipfs.near.social/ipfs/bafkreifeitks2bp3vyy7v7iznq6lf67dutvjjplzzbiwv4j2dheqiqqbpi",
-            style: {
-              width: "179px",
-              height: "143px",
-              marginTop: "80px",
-            },
-          },
+          // imgProps: {
+          //   src: "https://ipfs.near.social/ipfs/bafkreifeitks2bp3vyy7v7iznq6lf67dutvjjplzzbiwv4j2dheqiqqbpi",
+          //   style: {
+          //     width: "179px",
+          //     height: "143px",
+          //     marginTop: "80px",
+          //   },
+          // },
           noAccountTips: "Arbitrum Bridge",
           wrongNetworkTips: "To proceed, kindly switch to Arbitrum Chain.",
         },
@@ -127,6 +127,7 @@ return (
         tokens: Tokens,
         amountOutFn: "bluebiu.near/widget/Base.Bridge.AmountOut",
         handlerSwap: "bluebiu.near/widget/Base.Bridge.HandlerSwap",
+        ...props,
       }}
     />
   </Theme>
