@@ -6,7 +6,7 @@ const Button = styled.button`
   gap: 8px;
 
   border-radius: 4px;
-  background: #00ec97;
+  background: #04a46e;
 
   color: #f4f4f4;
   font-size: 16px;
@@ -17,7 +17,7 @@ const Button = styled.button`
   padding: 0.5rem 1rem;
 
   &:hover {
-    background: #04a46e;
+    background: #555555;
     text-decoration: none !important;
   }
 
@@ -29,13 +29,20 @@ return (
   <div className={`d-flex flex-row-reverse ${props.className}`}>
     {props.href ? (
       <Link to={props.href} style={{ textDecoration: "none" }}>
-        <Button>
+        <Button
+          className="post-control"
+          data-testid={props.testId ? props.testId : ""}
+        >
           <i className={props.icon ? props.icon : "bi bi-plus-circle-fill"}></i>
           {props.title}
         </Button>
       </Link>
     ) : (
-      <Button onClick={props.onClick}>
+      <Button
+        onClick={props.onClick}
+        className="post-control"
+        data-testid={props.testId ? props.testId : ""}
+      >
         <i className={props.icon ? props.icon : "bi bi-plus-circle-fill"}></i>
         {props.title || "Post"}
       </Button>
