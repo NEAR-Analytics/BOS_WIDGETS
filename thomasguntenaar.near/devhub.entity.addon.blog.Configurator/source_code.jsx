@@ -1,7 +1,7 @@
 const { data, handle, onSubmit } = props;
 
 const { Tile } =
-  VM.require("previewthomas.near/widget/devhub.components.molecule.Tile") ||
+  VM.require("thomasguntenaar.near/widget/devhub.components.molecule.Tile") ||
   (() => <></>);
 
 if (!Tile) {
@@ -34,7 +34,7 @@ return (
   <Tile className="p-3 bg-white">
     <Container>
       <Widget
-        src={"previewthomas.near/widget/devhub.entity.addon.blog.editor.index"}
+        src={"thomasguntenaar.near/widget/devhub.entity.addon.blog.editor.index"}
         props={{
           data,
           handle,
