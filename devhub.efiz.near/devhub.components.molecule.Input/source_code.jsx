@@ -14,7 +14,35 @@ const TextInput = ({
   ...otherProps
 }) => {
   const typeAttribute =
-    type === "text" || type === "password" || type === "number" ? type : "text";
+    type === "text" ||
+    type === "password" ||
+    type === "number" ||
+    type === "date"
+      ? type
+      : "text";
+
+  const isValid = () => {
+    if (!value || value.length === 0) {
+      return !inputProps.required;
+    } else if (inputProps.min && inputProps.min > value?.length) {
+      return false;
+    } else if (inputProps.max && inputProps.max < value?.length) {
+      return false;
+    } else if (
+      inputProps.allowCommaAndSpace === false &&
+      /^[^,\s]*$/.test(value) === false
+    ) {
+      return false;
+    } else if (
+      inputProps.validUrl === true &&
+      /^(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)$/.test(
+        value
+      ) === false
+    ) {
+      return false;
+    }
+    return true;
+  };
 
   const renderedLabels = [
     (label?.length ?? 0) > 0 ? (
@@ -31,7 +59,9 @@ const TextInput = ({
 
     format === "comma-separated" ? (
       <span
-        className="d-inline-flex align-items-center text-muted"
+        className={`d-inline-flex align-items-center ${
+          isValid() ? "text-muted" : "text-danger"
+        }`}
         style={{ fontSize: 12 }}
       >
         {format}
@@ -39,9 +69,10 @@ const TextInput = ({
     ) : null,
 
     (inputProps.max ?? null) !== null ? (
-      <span className="d-inline-flex text-muted" style={{ fontSize: 12 }}>{`${
-        value?.length ?? 0
-      } / ${inputProps.max}`}</span>
+      <span
+        className={`d-inline-flex ${isValid() ? "text-muted" : "text-danger"}`}
+        style={{ fontSize: 12 }}
+      >{`${value?.length ?? 0} / ${inputProps.max}`}</span>
     ) : null,
   ].filter((label) => label !== null);
 
@@ -71,17 +102,20 @@ const TextInput = ({
           )}
           <input
             aria-describedby={key}
+            data-testid={key}
             aria-label={label}
             className={["form-control border border-2", inputClassName].join(
               " "
             )}
             type={typeAttribute}
+            maxLength={inputProps.max}
             {...{ onChange, placeholder, value, ...inputProps }}
           />
         </div>
       ) : (
         <textarea
           aria-describedby={key}
+          data-testid={key}
           aria-label={label}
           className={["form-control border border-2", inputClassName].join(" ")}
           placeholder={
@@ -89,6 +123,7 @@ const TextInput = ({
           }
           style={{ resize: inputProps.resize ?? "vertical" }}
           type={typeAttribute}
+          maxLength={inputProps.max}
           {...{ onChange, placeholder, value, ...inputProps }}
         />
       )}
