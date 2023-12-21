@@ -125,7 +125,7 @@ const CallLibrary = styled.div`
 const renderButton = (button, i) => {
   return (
     <Widget
-      src="rubycop.near/widget/NDC.StyledComponents"
+      src={widgets.styledComponents}
       props={{
         Button: {
           size: "big",
