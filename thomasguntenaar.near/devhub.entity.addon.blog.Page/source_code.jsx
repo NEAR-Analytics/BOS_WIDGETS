@@ -94,7 +94,7 @@ function Page({ data }) {
         <p>{description}</p>
         <Widget
           src={
-            "previewthomas.near/widget/devhub.components.molecule.MarkdownViewer"
+            "thomasguntenaar.near/widget/devhub.components.molecule.MarkdownViewer"
           }
           props={{ text: content }}
         />
