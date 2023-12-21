@@ -2,6 +2,10 @@ const { Tile } =
   VM.require("devhub.efiz.near/widget/devhub.components.molecule.Tile") ||
   (() => <></>);
 
+if (!Tile) {
+  return <div>Loading...</div>;
+}
+
 const { data, onSubmit } = props;
 
 const Container = styled.div`
@@ -50,8 +54,7 @@ return (
         <Item key={index}>
           <div className="flex-grow-1">
             <Widget
-              // TODO: LEGACY.
-              src="devhub.efiz.near/widget/gigs-board.components.molecule.text-input"
+              src="devhub.efiz.near/widget/devhub.components.molecule.Input"
               props={{
                 className: "flex-grow-1",
                 value: item,
@@ -74,8 +77,7 @@ return (
       <Item>
         <div className="flex-grow-1">
           <Widget
-            // TODO: LEGACY.
-            src="devhub.efiz.near/widget/gigs-board.components.molecule.text-input"
+            src="devhub.efiz.near/widget/devhub.components.molecule.Input"
             props={{
               className: "flex-grow-1",
               onChange: (e) => setNewItem(e.target.value),
