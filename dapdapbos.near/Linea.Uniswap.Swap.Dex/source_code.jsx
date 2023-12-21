@@ -33,7 +33,7 @@ return (
             input: Tokens["native"],
           },
           tokens: Tokens,
-          historyTokens: props.historyTokens || {},
+          stableTokens: props.stableTokens || [],
           ...contracts,
         },
         slippage: props.slippage,
@@ -47,10 +47,7 @@ return (
           props.onOpenCode?.();
         },
         onImport: (currency) => {
-          props.onImportToken?.(currency);
-        },
-        onAddHistoryToken: (tokens) => {
-          props.onAddHistoryToken?.(tokens);
+          props.onImportToken?.({ ...currency, chainId: props.chainId });
         },
         onSetSlippage: (slippage) => {
           props.onSetSlippage?.(slippage);
@@ -58,6 +55,9 @@ return (
         openRequestModal: props.openRequestModal,
         toast: props.toast || {},
         addTransaction: props.addTransaction,
+        account: props.account,
+        onSwitchChain: props.onSwitchChain,
+        switchingChain: props.switchingChain,
       }}
     />
   </Container>
