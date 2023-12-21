@@ -24,6 +24,7 @@ const {
   target,
   handlerSwap,
   addAction,
+  toast,
   gasCost,
   isGasEnough,
   onSuccess,
@@ -104,6 +105,9 @@ if (!currency?.isNative) {
 }
 
 const handleApprove = () => {
+  const toastId = toast?.loading({
+    title: `Approve ${amount} ${currency?.symbol}`,
+  });
   State.update({
     loading: true,
   });
@@ -141,17 +145,46 @@ const handleApprove = () => {
     ethers.utils.parseUnits(amount, currency.decimals)
   )
     .then((tx) => {
-      tx.wait().then((res) => {
-        const { status, transactionHash } = res;
-        State.update({
-          isApproved: status === 1,
-          loading: false,
+      tx.wait()
+        .then((res) => {
+          const { status, transactionHash } = res;
+          if (status !== 1) throw new Error("");
+          toast?.dismiss(toastId);
+          State.update({
+            isApproved: true,
+            loading: false,
+          });
+          toast?.success({
+            title: "Approve Successfully!",
+            text: `Approve ${amount} ${currency?.symbol}`,
+            tx: transactionHash,
+            chainId: from.id,
+          });
+        })
+        .catch((err) => {
+          State.update({
+            isApproved: false,
+            loading: false,
+          });
+          toast?.dismiss(toastId);
+          toast?.fail({
+            title: "Approve Failed!",
+            text: `Approve ${amount} ${currency?.symbol}`,
+            tx: transactionHash,
+            chainId: from.id,
+          });
         });
-      });
     })
-    .catch(() => {
+    .catch((err) => {
       State.update({
         loading: false,
+      });
+      toast?.dismiss(toastId);
+      toast?.fail({
+        title: "Approve Failed!",
+        text: err?.message?.includes("user rejected transaction")
+          ? "User rejected transaction"
+          : `Approve ${amount} ${currency?.symbol}`,
       });
     });
 };
@@ -198,18 +231,45 @@ return (
             status,
             transactionHash,
           });
+          toast?.dismiss(state.toastId);
           if (status === 1) {
             onSuccess?.(transactionHash);
+            toast?.success({
+              title: "Bridge Successfully!",
+              text: `Bridge ${amount} ${inputCurrency.symbol} from ${from.name} to ${target.name}`,
+              tx: transactionHash,
+              chainId: from.id,
+            });
+          } else {
+            toast?.fail({
+              title: "Bridge Failed!",
+              text: `Bridge ${amount} ${inputCurrency.symbol} from ${from.name} to ${target.name}`,
+              tx: transactionHash,
+              chainId: from.id,
+            });
           }
         },
-        onError: (err) => {
+        onError: (tx) => {
           State.update({ loading: false });
+          toast?.dismiss(state.toastId);
+          toast?.fail({
+            title: "Bridge Failed!",
+            text: tx?.message?.includes("user rejected transaction")
+              ? "User rejected transaction"
+              : `Bridge ${amount} ${inputCurrency.symbol} from ${from.name} to ${target.name}`,
+            tx: tx ? tx.hash : "",
+            chainId,
+          });
         },
       }}
     />
     <Button
       onClick={() => {
-        State.update({ loading: true });
+        console.log(from, target);
+        const toastId = toast?.loading({
+          title: `Bridge ${amount} ${inputCurrency.symbol} from ${from.name} to ${target.name}`,
+        });
+        State.update({ loading: true, toastId });
       }}
       disabled={state.loading}
     >
