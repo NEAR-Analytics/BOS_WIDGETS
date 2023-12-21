@@ -11,8 +11,15 @@ const {
   authorForWidget,
   handleShareButton,
   callLibs,
+  handleEditArticle,
   baseActions,
 } = props;
+
+if (!Array.isArray(data.tags) && typeof data.tags === "object") {
+  data.tags = Object.keys(data.tags);
+}
+
+data.tags = data.tags.filter((tag) => tag !== undefined && tag !== null);
 
 const tags = data.tags;
 const accountId = data.author;
@@ -561,6 +568,21 @@ return (
                   },
                 }}
               />
+              {context.accountId === data.author && (
+                <Widget
+                  src={widgets.newStyledComponents.Input.Button}
+                  props={{
+                    children: (
+                      <div className="d-flex align-items-center justify-content-center">
+                        <span className="mx-1">Edit</span>
+                        <i className="bi bi-pencil"></i>
+                      </div>
+                    ),
+                    className: `info w-25`,
+                    onClick: () => handleEditArticle(data),
+                  }}
+                />
+              )}
             </div>
           </div>
         </LowerSectionContainer>
