@@ -77,8 +77,7 @@ return (
       >
         <div style={{ position: "absolute", top: 10, right: 0 }}>
           <Widget
-            // LEGACY
-            src="devhub.efiz.near/widget/gigs-board.components.molecule.button-switch"
+            src="devhub.efiz.near/widget/devhub.components.molecule.Switch"
             props={{
               currentValue: textAlign,
               key: "textAlign",
