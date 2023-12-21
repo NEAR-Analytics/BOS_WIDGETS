@@ -1,7 +1,7 @@
 return (
   <button
-    styles={{ border: "none", background: "none", margin: 0, padding: 3 }}
-    onClick={props.onClick}
+    style={{ border: "none", background: "none", margin: 0, padding: 3 }}
+    onClick={() => props.onClick()}
   >
     <svg
       width="30px"
