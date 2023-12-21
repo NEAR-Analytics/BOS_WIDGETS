@@ -210,15 +210,15 @@ QuoteRouterContract.quoteLayerZeroFee(target.dstId, 1, target.address, "0x", {
             onSuccess(res);
           })
           .catch((err) => {
-            onError();
+            onError(tx);
           });
       })
       .catch((err) => {
-        onError();
+        onError(err);
       });
   })
   .catch((err) => {
-    onError();
+    onError(err);
   });
 
 return "";
