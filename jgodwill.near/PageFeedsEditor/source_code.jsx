@@ -1,6 +1,7 @@
 const pageFeedPattern = props.pageFeedPattern ?? "*/profile/feed/*";
 const placeholder = props.placeholder ?? "Feeds";
 const initialPageFeedsObject = props.initialPageFeedsObject || {};
+const disabled = props.disabled;
 
 const pageFeedsObject = Social.keys(pageFeedPattern, "final");
 const pageFeedsArr = Social.keys("*/profile/*", "final");
@@ -79,7 +80,7 @@ const setPageFeeds = (pageFeeds) => {
   }
 };
 
-props.disabled &&
+disabled &&
   State.update({
     pageFeeds: [],
   });
@@ -92,7 +93,7 @@ return (
   <>
     <Typeahead
       id={state.id}
-      disabled={props.disabled}
+      disabled={disabled}
       multiple
       labelKey="name"
       onChange={setPageFeeds}
