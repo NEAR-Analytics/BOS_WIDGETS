@@ -24,10 +24,15 @@ const input = [
     emoji: "📞"
   },
   {
-    darija: "msha",
+    darija: "mesha",
     spanish: "gata",
     emoji: "🐱",
   },
+  {
+    darija: "khu",
+    spanish: "hermano",
+    emoji: "👨",
+  }
 ];
 
 if (input.length < 4) return "Add more than 4 options";
@@ -38,8 +43,12 @@ function ownership(object){
   let { darija, spanish, emoji } = object;
 
   // if the object ends in `ya` it removes it
-  if (darija.endsWith("ya") || darija.endsWith("a")) {
+  if (darija.endsWith("ya")) {
     darija = darija.slice(0, -2) + 't';
+  }
+
+  if (darija.endsWith("a")) {
+    darija = darija.slice(0, -1) + 't';
   }
 
   let ownerships = [];
@@ -74,6 +83,10 @@ let knowledge = [];
 
 for (let i = 0; i < input.length; i++) {
   knowledge = knowledge.concat(ownership(input[i]));
+}
+
+for(let i = 0; i < knowledge.length; i++){
+  console.log(knowledge[i]);
 }
 
 function shuffle(array) {
