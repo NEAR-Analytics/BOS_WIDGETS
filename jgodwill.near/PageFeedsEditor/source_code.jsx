@@ -1,4 +1,5 @@
-const pageFeedPattern = props.pageFeedPattern ?? "*/profile/feed/*";
+const pageFeedPattern =
+  props.pageFeedPattern ?? "*/profile/pageTabs/feed/accounts/*";
 const placeholder = props.placeholder ?? "Feeds";
 const initialPageFeedsObject = props.initialPageFeedsObject || {};
 
@@ -9,7 +10,7 @@ if (pageFeedsObject === null || pageFeedsArr === null) {
   return "Loading";
 }
 
-console.log("initial Tags", pageFeedsObject);
+console.log("feed", pageFeedsObject);
 
 // State.init({
 //   account: accountId,
@@ -61,8 +62,10 @@ if (!state.allPageFeeds) {
 const setPageFeeds = (pageFeeds) => {
   pageFeeds = pageFeeds.map((o) => {
     o = o;
+    console.log("o", o);
     return o;
   });
+  State.update({ pageFeeds: pageFeeds });
 
   const newPageFeedsObject = Object.fromEntries(
     pageFeeds.map((pageFeed) => [pageFeed, ""])
@@ -72,11 +75,14 @@ const setPageFeeds = (pageFeeds) => {
     ...newPageFeedsObject,
   };
 
-  State.update({ pageFeeds: pageFeeds });
   if (props.setPageFeedsObject) {
     props.setPageFeedsObject(updatedPageFeedsObject);
   }
 };
+console.log("init", initialPageFeedsObject);
+console.log("feeds", state.pageFeeds);
+console.log("origin", state.originalPageFeeds);
+console.log("new", pageFeedsObject);
 
 return (
   <>
