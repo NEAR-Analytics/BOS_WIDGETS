@@ -665,7 +665,7 @@ let secondSection = (
                         columns: [
                           {
                             title: "Sender",
-                            key: "singer",
+                            key: "singers",
                             link: "yes",
                             beforehref:
                               "https://near.social/mob.near/widget/ProfilePage?accountId=",
