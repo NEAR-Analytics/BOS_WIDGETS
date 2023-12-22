@@ -837,7 +837,6 @@ if (
     market.address = market.aTokenAddress;
 
     allPools.push(market.aTokenAddress);
-    allPools.push(market.variableDebtTokenAddress);
   });
 
   userData.netApy = netApy.toFixed(2);
@@ -846,8 +845,6 @@ if (
 
   Object.entries(marketData).map(([address, market], index) => {
     parsedMarketData[market.aTokenAddress] = market;
-
-    market.allPools = allPools;
 
     if (index === 0 && reduceUnclaimed.gt(0)) {
       market.rewards = [
@@ -860,9 +857,20 @@ if (
       ];
     }
   });
-  console.log("parsedMarketData", parsedMarketData);
+  const rewards = [
+    {
+      ...RewardToken,
+      dailyRewards: reduceDailyRewards.lt(0.000001)
+        ? "0.000001"
+        : reduceDailyRewards.toString(),
+      price: rewardPrice,
+      unclaimed: reduceUnclaimed.toString(),
+      allPools,
+    },
+  ];
   onLoad({
     ...{ ...userData, ...props },
+    rewards,
     markets: parsedMarketData,
     name: initConfig.name,
   });
