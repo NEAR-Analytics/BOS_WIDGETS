@@ -156,8 +156,10 @@ function getIPFSInfo(info) {
             <a
               style={{ marginLeft: "10px" }}
               href="#"
+              data-toggle="tooltip"
+              title={`ipfs://${info.ipfs_cid}`}
               onClick={() => {
-                clipboard.writeText(`${i.ipfs_cid}`);
+                clipboard.writeText(info.ipfs_cid);
               }}
             >
               copy
