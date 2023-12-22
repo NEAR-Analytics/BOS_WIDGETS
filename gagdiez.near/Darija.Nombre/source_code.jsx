@@ -30,12 +30,12 @@ let knowledge = [
     emoji: "💬",
   },
   {
-    darija: "Huma smitkum Ahmed w Samira",
+    darija: "Huma smithum Ahmed w Samira",
     spanish: "Sus nombres son Ahmed y Samira",
     emoji: "💬",
   },
   {
-    darija: "Ntuma smithum Ahmed w Samira",
+    darija: "Ntuma smitkum Ahmed w Samira",
     spanish: "Vuestros nombres son Ahmed y Samira",
     emoji: "💬",
   },
