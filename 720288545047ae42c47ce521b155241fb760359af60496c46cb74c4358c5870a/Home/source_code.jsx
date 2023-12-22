@@ -176,62 +176,6 @@ const TardeType = styled.div`
   }
 `;
 
-const AvailableLabel = styled.div`
-  display: flex;
-  align-items: center;
-  column-gap: 0.25rem;
-  color: #fff;
-  padding: 15px 0.75rem;
-  .label-text {
-    font-size: 14px;
-    font-weight: 600;
-  }
-  .label-coin {
-    font-size: 12px;
-    padding: 3px 6px;
-    background-color: #323232;
-    border-radius: 8px;
-  }
-`;
-
-const TardeFrom = styled.div`
-  padding: 0 0.75rem;
-  display: flex;
-  flex-direction: column;
-  row-gap: 0.5rem;
-`;
-
-const DivLine = styled.div`
-  width: 100%;
-  height: 1px;
-  overflow: hidden;
-  background-color: #323232;
-`;
-
-const TradeBtnWarp = styled.div`
-  padding: 0 0.75rem;
-  margin-top: 15px;
-  .trade-btn-link {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    height: 36px;
-    border-radius: 10px;
-    text-decoration: none;
-    color: #fff;
-    font-weight: 600;
-    background-color: #617168;
-  }
-`;
-
-const LimitTarde = styled.div`
-  display: flex;
-  flex-direction: column;
-  row-gap: 0.75rem;
-`;
-const MarketTarde = styled.div``;
-
 const exContract = [
   {
     symbol: "ETH-USD",
@@ -259,17 +203,58 @@ const exContract = [
   },
 ];
 
+const [exContractList, setExContractList] = useState(exContract);
+
 const exUrl = "https://zksync.satori.finance/";
 
-const compId =
+const nearId =
   "720288545047ae42c47ce521b155241fb760359af60496c46cb74c4358c5870a";
+
+const keys = [
+  "aurora",
+  "2260fac5e5542a773aa44fbcfedf7c193bc2c599.factory.bridge.near",
+];
 
 State.init({
   groupVisible: false,
-  contractInfo: exContract[0],
+  contractInfo: exContractList[0],
   tradeTabIndex: 0,
   tradeTypeIndex: 0,
 });
+
+const fetchPrices = async () => {
+  const priceData = Near.view("priceoracle.near", "get_price_data", {});
+  const assetsData = Near.view("oracle-prices.near", "get_config", { keys });
+  const priceDataPrepared = [];
+  priceData.prices.map(
+    (data) => (priceDataPrepared[data.asset_id] = data.price)
+  );
+  const newPrices = assetsData.map((asset, index) => {
+    const assetAccountId = asset[0];
+    const assetDecimals = asset[1].decimals;
+
+    const assetPrice = priceDataPrepared[assetAccountId];
+    const price = new Big(assetPrice.multiplier).div(
+      new Big(10).pow(assetPrice.decimals - assetDecimals)
+    );
+    return price.toString();
+  });
+
+  return newPrices;
+};
+
+const loopPrice = async () => {
+  try {
+    const [etpPrice, btcPrice] = fetchPrices();
+    exContract[0].price = etpPrice;
+    exContract[1].price = btcPrice;
+    setExContractList(exContract);
+  } finally {
+    setTimeout(() => {
+      loopPrice();
+    }, 30000);
+  }
+};
 
 const sizeContractSymbol = useMemo(() => {
   return [
@@ -282,16 +267,17 @@ const tradeTab = [{ name: "Limit" }, { name: "Market" }];
 
 const tradeTypeBtn = [{ name: "Long" }, { name: "Short" }];
 
-const MenuItem = styled("DropdownMenu.Item")``;
-const SubMenuTrigger = styled("DropdownMenu.SubTrigger")``;
+useEffect(() => {
+  loopPrice();
+}, []);
 
 return (
   <HomeWarp>
     <div class="pc-visible">
-      <Widget src={`${compId}/widget/Header`} />
+      <Widget src={`${nearId}/widget/Header`} />
     </div>
     <div class="mobile-visible">
-      <Widget src={`${compId}/widget/H5Header`} />
+      <Widget src={`${nearId}/widget/H5Header`} />
     </div>
     <DropdownMenu>
       <div
@@ -342,7 +328,7 @@ return (
                 <span class="th-txt">Price</span>
               </div>
             </li>
-            {exContract.map((item) => (
+            {exContractList.map((item) => (
               <li
                 class="group-li"
                 onClick={() => {
@@ -386,37 +372,26 @@ return (
         </div>
       ))}
     </TardeType>
-    <LimitTarde>
-      <AvailableLabel>
-        <span class="label-text">Available</span>
-        <span class="label-coin">USD</span>
-      </AvailableLabel>
-      <TardeFrom>
-        <Widget src={`${compId}/widget/PriceField`} />
-        <Widget
-          src={`${compId}/widget/SizeField`}
-          props={{
-            contractSymbol: sizeContractSymbol,
-          }}
-        />
-        <Widget src={`${compId}/widget/InputRate`} />
-      </TardeFrom>
-      <DivLine />
-
-      <Widget src={`${compId}/widget/Leverage`} />
-
-      <TradeBtnWarp>
-        <a
-          class="trade-btn-link"
-          href={exUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <span>Connect Wallet</span>
-        </a>
-      </TradeBtnWarp>
-    </LimitTarde>
-
-    <MarketTarde></MarketTarde>
+    {state.tradeTabIndex === 0 ? (
+      <Widget
+        src={`${nearId}/widget/Limit`}
+        props={{
+          contractSymbol: sizeContractSymbol,
+          price: state.contractInfo.price,
+          exUrl,
+          nearId,
+        }}
+      />
+    ) : (
+      <Widget
+        src={`${nearId}/widget/Market`}
+        props={{
+          contractSymbol: sizeContractSymbol,
+          price: state.contractInfo.price,
+          exUrl,
+          nearId,
+        }}
+      />
+    )}
   </HomeWarp>
 );
