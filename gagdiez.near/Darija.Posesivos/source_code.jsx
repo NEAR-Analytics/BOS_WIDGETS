@@ -84,10 +84,6 @@ for (let i = 0; i < input.length; i++) {
   knowledge = knowledge.concat(ownership(input[i]));
 }
 
-for(let i = 0; i < knowledge.length; i++){
-  console.log(knowledge[i]);
-}
-
 function shuffle(array) {
   for (let i = array.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
