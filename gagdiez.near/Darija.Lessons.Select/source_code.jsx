@@ -145,9 +145,9 @@ return (
         ))}
       </div>
 
-      <h5 className="text-center"> {wordEvaluating[language]} </h5>
+      <h5 className="text-center pt-3"> {wordEvaluating[language]} </h5>
 
-      <div class="row pt-2">
+      <div class="row pt-1">
         {possibleOptions.map((opt) => (
           <div className="col-sm-12 col-md-6 p-2">
             <Selection
