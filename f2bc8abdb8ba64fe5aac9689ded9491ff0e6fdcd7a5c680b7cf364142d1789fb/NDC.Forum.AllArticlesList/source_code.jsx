@@ -19,6 +19,7 @@ let {
   sbtWhiteList,
   sbts,
   handleShareButton,
+  handleShareSearch,
   canLoggedUserCreateArticles,
   filterBy,
   callLibs,
@@ -108,6 +109,20 @@ const IconCursorPointer = styled.i`
   cursor: pointer;
 `;
 
+const ShareSearchRow = styled.div`
+  display: flex;
+  justify-content: flex-start;
+  align-content: center;
+  margin-bottom: 1rem;
+  margin-top: 1rem;
+`;
+
+const ShareSearchText = styled.h6`
+  margin-bottom: 0;
+  margin-left: 1rem;
+  margin-right: 1rem;
+`;
+
 //=================================================END CONSTS=======================================================
 
 //==================================================FUNCTIONS=======================================================
@@ -179,6 +194,18 @@ return (
     ) : (
       <h6>You can't post since you don't own this SBT</h6>
     )}
+    <ShareSearchRow>
+      <ShareSearchText>Share search</ShareSearchText>
+      <Widget
+        src={widgets.newStyledComponents.Input.Button}
+        props={{
+          size: "sm",
+          className: "info outline icon",
+          children: <i className="bi bi-share"></i>,
+          onClick: () => handleShareSearch(true),
+        }}
+      />
+    </ShareSearchRow>
     <NoMargin>
       {filterBy.parameterName === "tag" && (
         <div className="mt-3">
