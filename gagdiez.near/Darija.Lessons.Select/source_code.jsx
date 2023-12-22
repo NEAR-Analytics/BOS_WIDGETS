@@ -1,23 +1,21 @@
-if (context.loading) {
-  return <div>Loading...</div>;
-}
+if (context.loading) return <div>Loading...</div>;
 
 const knowledge = props.knowledge;
+const native_lang = "spanish";
+const learn_lang = "darija";
+const max_lives = 4;
 
 if (knowledge.length < 4) return "Add more than 4 options";
 
-const [score, setScore] = useState(0);
-const [possibleOptions, setPossibleOptions] = useState(knowledge.slice(0, 4));
-
 const [idx, setIdx] = useState(0);
-
+const [lives, setLives] = useState(max_lives);
+const [language, setLanguage] = useState(learn_lang);
+const [possibleOptions, setPossibleOptions] = useState(knowledge.slice(0, 4));
 const [wordEvaluating, setEvaluating] = useState(knowledge[0]);
 const [wordSelected, setSelected] = useState(null);
-const [check, setCheck] = useState("");
+const [result, setResult] = useState("secondary");
 const [step, setStep] = useState("verify");
 const [toTestAgain, setToTest] = useState([]);
-const [showFinalScore, setShowFinalScore] = useState(false);
-const [language, setLanguage] = useState("darija");
 
 function shuffle(array) {
   for (let i = array.length - 1; i > 0; i--) {
@@ -30,6 +28,8 @@ function shuffle(array) {
 }
 
 const createOptions = (answer) => {
+  if(!answer) return;
+
   // the answer is one of the options
   let options = [answer];
 
@@ -42,44 +42,34 @@ const createOptions = (answer) => {
   }
 
   // store a shuffled version
-  const shuffled = shuffle(options);
-  setPossibleOptions(shuffled);
+  setPossibleOptions(shuffle(options));
 };
 
 const passNext = () => {
   const id = idx + 1;
+
+  let answer = (id < knowledge.length)? knowledge[id] : toTestAgain.pop();
+
+  if (result === "danger") setLives(lives - 1);
+
   setIdx(id);
-
-  if (id >= knowledge.length && toTestAgain.length === 0) {
-    return setShowFinalScore(true);
-  }
-
-  let answer;
-
-  if (id < knowledge.length) {
-    answer = knowledge[id];
-  } else {
-    answer = toTestAgain.pop();
-    setToTest(toTestAgain);
-  }
-
   setEvaluating(answer);
+  setToTest(toTestAgain);
   setSelected(null);
   setStep("verify");
-  setCheck("");
+  setResult("secondary");
   setLanguage(otherLanguage(language));
   createOptions(answer);
 };
 
 const checkAnswer = () => {
-  if(!wordSelected) return;
+  if (!wordSelected) return;
 
-  if (wordSelected[language] === knowledge[idx][language]) {
-    setScore(score + 1);
-    setCheck("correct");
+  if (wordSelected[language] === wordEvaluating[language]) {
+    setResult("success");
   } else {
-    setCheck("wrong");
-    toTestAgain.push(knowledge[idx]);
+    setResult("danger");
+    toTestAgain.push(wordEvaluating);
     setToTest(toTestAgain);
   }
 
@@ -88,14 +78,15 @@ const checkAnswer = () => {
 
 const Restart = () => {
   setIdx(0);
-  setScore(0);
+  setLives(max_lives);
   setToTest([]);
+  setStep("verify");
+  setLanguage(learn_lang);
+  setPossibleOptions(knowledge.slice(0, 4));
   setEvaluating(knowledge[0]);
   setSelected(null);
-  setStep("verify");
-  setCheck("");
+  setResult("secondary");
   createOptions(knowledge[0]);
-  setShowFinalScore(false);
 };
 
 const Selection = styled.div`
@@ -108,57 +99,71 @@ const Selection = styled.div`
     background-color: rgb(216 244 255);
   }
 
-  &.correct {
+  &.success {
     background-color: rgb(216 255 216);
   }
 
-  &.wrong {
+  &.danger {
     background-color: rgb(255 216 216);
   }
 `;
 
-if (showFinalScore) {
+if (lives === 0) {
   return (
-    <div className="container">
-      <div class="row">
-        <div class="col-6">
-          Final Score: {score}
-          <button onClick={Restart}> Restart </button>
-        </div>
-      </div>
+    <div className="container text-center">
+      <h3>Game Over</h3>
+      <button className="btn btn-primary" onClick={Restart}>
+        Restart
+      </button>
+    </div>
+  );
+}
+
+if (wordEvaluating === undefined) {
+  return (
+    <div className="container text-center">
+      <h3>¡Ganaste!</h3>
+      <button className="btn btn-primary" onClick={Restart}>
+        Restart
+      </button>
     </div>
   );
 }
 
 const step2Label = { verify: "Verificar", next: "Siguiente" };
 const step2Fc = { verify: checkAnswer, next: passNext };
-const otherLanguage = (L) => (L === "darija" ? "spanish" : "darija");
+const otherLanguage = L => L === native_lang ? learn_lang : native_lang;
 
 return (
   <>
     <div className="container p-3">
-      <div className="text-right">Score: {score}</div>
+      <div className="text-right"> Vidas:
+        {Array.from(Array(lives).keys()).map((i) => (
+          <span className="me-1">❤️</span>
+        ))}{Array.from(Array(max_lives - lives).keys()).map((i) => (
+          <span className="me-1">🩶</span>
+        ))}
+      </div>
+
       <h5 className="text-center"> {wordEvaluating[language]} </h5>
 
       <div class="row pt-2">
         {possibleOptions.map((opt) => (
           <div className="col-sm-12 col-md-6 p-2">
             <Selection
-              className={`card text-center ${
-                opt[language] === wordSelected[language] && "selected"
-              } ${opt[language] === wordSelected[language] && check}`}
-              onClick={() => {step === "verify" && setSelected(opt)}}
+              className={`card text-center ${opt[language] === wordSelected[language] && "selected"
+                } ${opt[language] === wordSelected[language] && result}`}
+              onClick={() => { step === "verify" && setSelected(opt) }}
             >
               <h5 className="card-title pt-2">
-                {" "}
-                {opt.emoji} {opt[otherLanguage(language)]}{" "}
+                {opt.emoji} {opt[otherLanguage(language)]}
               </h5>
             </Selection>
           </div>
         ))}
       </div>
 
-      <button onClick={step2Fc[step]}> {step2Label[step]} </button>
+      <button class={`mt-2 btn btn-${result}`} onClick={step2Fc[step]}> {step2Label[step]} </button>
     </div>
   </>
 );
