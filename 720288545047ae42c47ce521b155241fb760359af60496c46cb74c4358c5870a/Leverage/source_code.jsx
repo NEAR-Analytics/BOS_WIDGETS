@@ -46,6 +46,7 @@ const SelectWarp = styled.div`
     background-color: #323232;
     color: #fff;
     border-radius: 8px;
+    z-index: 10;
   }
   .select-viewport {
     padding: 5px;
