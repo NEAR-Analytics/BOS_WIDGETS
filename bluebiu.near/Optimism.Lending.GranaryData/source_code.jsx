@@ -223,6 +223,30 @@ const ORACLE_ABI = [
   },
 ];
 
+const REWARD_ABI = [
+  {
+    inputs: [
+      { internalType: "address[]", name: "assets", type: "address[]" },
+      { internalType: "address", name: "to", type: "address" },
+    ],
+    name: "claimAllRewards",
+    outputs: [
+      {
+        internalType: "address[]",
+        name: "rewardTokens",
+        type: "address[]",
+      },
+      {
+        internalType: "uint256[]",
+        name: "claimedAmounts",
+        type: "uint256[]",
+      },
+    ],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+];
+
 const {
   aaveProtocolDataProviderAddress,
   oracleAddress,
@@ -235,6 +259,7 @@ const {
   initConfig,
   loaded,
   multicallAddress,
+  rewardAddress,
 } = props;
 
 if (!aaveProtocolDataProviderAddress || !oracleAddress || !update || !account)
@@ -307,6 +332,50 @@ const dataProviderContract = new ethers.Contract(
   signer
 );
 
+const markets = Object.values(Tokens).map((market) => [
+  market.symbol,
+  market.address,
+]);
+
+const RewardToken = {
+  "0xFdb794692724153d1488CcdBE0C56c252596735F": {
+    symbol: "LDO",
+    address: "0xFdb794692724153d1488CcdBE0C56c252596735F",
+    decimals: 18,
+    name: "Lido DAO Token",
+    icon: "https://ipfs.near.social/ipfs/bafkreifnahaufauepdznq7qvkkkt5pmchzl4qx3a3orhbusw2lnjvfvecu",
+    coingeckoId: "lido-dao",
+  },
+  "0x39FdE572a18448F8139b7788099F0a0740f51205": {
+    symbol: "OATH",
+    address: "0x39FdE572a18448F8139b7788099F0a0740f51205",
+    decimals: 18,
+    name: "Oath Token",
+    icon: "https://ipfs.near.social/ipfs/bafkreibhxoenia7th5yoecfvb5pcypq44yx2qwtuiigjzobotmpdabfmna",
+    coingeckoId: "oath",
+  },
+  "0xfD389Dc9533717239856190F42475d3f263a270d": {
+    symbol: "GRAIN",
+    address: "0xfD389Dc9533717239856190F42475d3f263a270d",
+    decimals: 18,
+    name: "Granary Token",
+    icon: "https://ipfs.near.social/ipfs/bafkreihovftnvueysjuj7wansa74k3bgtfs4hkip4bgdvguh6nhehkvg5e",
+    coingeckoId: "granary",
+  },
+  "0x4200000000000000000000000000000000000042": {
+    symbol: "OP",
+    address: "0x4200000000000000000000000000000000000042",
+    decimals: 18,
+    name: "Optimism",
+    icon: "https://ipfs.near.social/ipfs/bafkreiemkl7qtrrqnk5mexf7r4cr3mkznna6qvxrzhovlmt4djbkx366ae",
+    coingeckoId: "optimism",
+  },
+};
+
+let _tokensPrice = {};
+let _marketsData = {};
+let _userRewards = {};
+
 const getTokensPrices = () => {
   const oracleContract = new ethers.Contract(oracleAddress, ORACLE_ABI, signer);
   oracleContract.getAssetsPrices(Object.keys(Tokens)).then((res) => {
@@ -314,29 +383,119 @@ const getTokensPrices = () => {
       return Big(price.toString()).div(100000000).toFixed();
     });
 
-    const tokensPrice = {};
     Object.keys(Tokens).forEach((address, index) => {
-      tokensPrice[address] = parsedRes[index];
+      _tokensPrice[address] = parsedRes[index];
     });
-    State.update({
-      tokensPrice,
-    });
+    getMarketsData();
   });
 };
 
-const getMarkets = () => {
-  dataProviderContract.getAllReservesTokens().then((marketsRaw) => {
-    const markets = marketsRaw.filter((market) => {
-      const add = market[1];
-      return Object.keys(Tokens)
-        .map((t) => t.toLowerCase())
-        .includes(add.toLowerCase());
-    });
-
-    State.update({
-      markets: markets,
-    });
+const getMarketsData = () => {
+  const userReserveDataCalls = markets.map((market) => {
+    return {
+      address: aaveProtocolDataProviderAddress,
+      name: "getUserReserveData",
+      params: [market[1], account],
+    };
   });
+
+  const tokenReserveDataCals = markets.map((market) => {
+    return {
+      address: aaveProtocolDataProviderAddress,
+      name: "getReserveData",
+      params: [market[1]],
+    };
+  });
+
+  const reserveConfigurationDataCalls = markets
+    .map((market) => {
+      return [
+        {
+          address: aaveProtocolDataProviderAddress,
+          name: "getReserveConfigurationData",
+          params: [market[1]],
+        },
+
+        {
+          address: aaveProtocolDataProviderAddress,
+          name: "getReserveTokensAddresses",
+          params: [market[1]],
+        },
+      ];
+    })
+    .flat();
+
+  // get user reserve data
+  multicallv2(aaveProtocolDataProviderAbi, userReserveDataCalls, {})
+    .then((res) => {
+      const userReserveParsedDataList = res.map((data, i) => {
+        return formatUserReserveData(data, markets[i][1]);
+      });
+      return userReserveParsedDataList;
+    })
+    .then((userReserveParsedDataList) => {
+      //  get configuration data
+      multicallv2(
+        aaveProtocolDataProviderAbi,
+        reserveConfigurationDataCalls,
+        {}
+      )
+        .then((res) => {
+          const loanToValues = [];
+
+          const aTokenAddressList = [];
+
+          const variableDebtTokenAddressList = [];
+
+          res.forEach((data, i) => {
+            if (i % 2 == 0) {
+              const loanToValue = Big(data[1].toString()).div(100).toNumber();
+              loanToValues.push(loanToValue);
+            }
+          });
+
+          res.forEach((data, i) => {
+            if (i % 2 == 1) {
+              const aTokenAddress = data[0];
+              const variableDebtTokenAddress = data[2];
+              aTokenAddressList.push(aTokenAddress);
+              variableDebtTokenAddressList.push(variableDebtTokenAddress);
+            }
+          });
+
+          return loanToValues.map((loanToValue, i) => {
+            return {
+              loanToValue,
+              aTokenAddress: aTokenAddressList[i],
+              variableDebtTokenAddress: variableDebtTokenAddressList[i],
+            };
+          });
+        })
+        .then((configurationList) => {
+          multicallv2(
+            aaveProtocolDataProviderAbi,
+            tokenReserveDataCals,
+            {}
+          ).then((tokenReserveDataList) => {
+            const formattedTokenReserveDataList = tokenReserveDataList.map(
+              (data, index) => {
+                return formateTokenReserveData(
+                  data,
+
+                  markets[index][1],
+                  markets[index][0],
+                  _tokensPrice[markets[index][1]],
+                  configurationList[index].aTokenAddress,
+                  configurationList[index].variableDebtTokenAddress,
+                  configurationList[index].loanToValue,
+                  userReserveParsedDataList[index]
+                );
+              }
+            );
+            getUserRewards();
+          });
+        });
+    });
 };
 
 const formateTokenReserveData = (
@@ -411,45 +570,42 @@ const formateTokenReserveData = (
   ).toFixed(2);
 
   const netApyBig = Big(depositAPY0).minus(variableBorrowAPYRaw);
-
-  return {
-    [tokenAddress]: {
-      availableLiquidity,
-      totalStableDebt,
-      totalVariableDebt,
-      totalBorrows: !price ? "-" : Big(totalDebt).toFixed(4),
-      totalSupply: !price ? "-" : Big(totalDeposit).toFixed(4),
-      liquidity: !price ? "-" : Big(marketSize).toFixed(4),
-      liquidityRate,
-      variableBorrowRate,
-      stableBorrowRate,
-      averageStableBorrowRate,
-      liquidityIndex,
-      variableBorrowIndex,
-      lastUpdateTimestamp,
-      tokenAddress,
-      depositAPY,
-      loanToValue,
-      supplyApy: depositAPY + "%",
-      variableBorrowAPY,
-      borrowApy: variableBorrowAPY + "%",
-      underlyingPrice: price,
-      underlyingToken:
-        tokenAddress.toLowerCase() === wethAddress.toLowerCase()
-          ? native
-          : Tokens[tokenAddress],
-      dapp: initConfig.name,
-      dappName: initConfig.name,
-      address: tokenAddress,
-      ...(tokenAddress.toLowerCase() === wethAddress.toLowerCase()
+  _marketsData[tokenAddress] = {
+    availableLiquidity,
+    totalStableDebt,
+    totalVariableDebt,
+    totalBorrows: !price ? "-" : Big(totalDebt).toFixed(4),
+    totalSupply: !price ? "-" : Big(totalDeposit).toFixed(4),
+    liquidity: !price ? "-" : Big(marketSize).toFixed(4),
+    liquidityRate,
+    variableBorrowRate,
+    stableBorrowRate,
+    averageStableBorrowRate,
+    liquidityIndex,
+    variableBorrowIndex,
+    lastUpdateTimestamp,
+    tokenAddress,
+    depositAPY,
+    loanToValue,
+    supplyApy: depositAPY + "%",
+    variableBorrowAPY,
+    borrowApy: variableBorrowAPY + "%",
+    underlyingPrice: price,
+    underlyingToken:
+      tokenAddress.toLowerCase() === wethAddress.toLowerCase()
         ? native
-        : Tokens[tokenAddress]),
-      netApy: netApyBig.toFixed(),
-      aTokenAddress,
-      variableDebtTokenAddress,
-      wethAddress,
-      userReserveParsed,
-    },
+        : Tokens[tokenAddress],
+    dapp: initConfig.name,
+    dappName: initConfig.name,
+    address: tokenAddress,
+    ...(tokenAddress.toLowerCase() === wethAddress.toLowerCase()
+      ? native
+      : Tokens[tokenAddress]),
+    netApy: netApyBig.toFixed(),
+    aTokenAddress,
+    variableDebtTokenAddress,
+    wethAddress,
+    userReserveParsed,
   };
 };
 
@@ -462,7 +618,7 @@ const formatUserReserveData = (data, address) => {
 
   const scaledATokenBalanceUsd = Big(data[0].toString())
     .div(Big(10).pow(underlyingAsset.decimals))
-    .times(state.tokensPrice[address])
+    .times(_tokensPrice[address])
     .toFixed();
 
   const aTokenBalance = Big(data[0].toString())
@@ -478,7 +634,7 @@ const formatUserReserveData = (data, address) => {
 
   const scaledVariableDebtUsd = Big(data[2].toString())
     .div(Big(10).pow(underlyingAsset.decimals))
-    .times(state.tokensPrice[address])
+    .times(_tokensPrice[address])
     .toFixed();
 
   const userReserveParsed = {
@@ -496,152 +652,41 @@ const formatUserReserveData = (data, address) => {
   return userReserveParsed;
 };
 
-if (!state.tokensPrice) {
-  getTokensPrices();
-}
-
-if (!state.markets && state.tokensPrice) {
-  getMarkets();
-}
-
-if (
-  state.markets &&
-  Object.keys(state).length === 2 &&
-  !state.userDataLoading
-) {
-  State.update({
-    userDataLoading: true,
-  });
-
-  const userReserveDataCalls = state.markets.map((market) => {
-    return {
-      address: aaveProtocolDataProviderAddress,
-      name: "getUserReserveData",
-      params: [market[1], account],
-    };
-  });
-
-  const tokenReserveDataCals = state.markets.map((market) => {
-    return {
-      address: aaveProtocolDataProviderAddress,
-      name: "getReserveData",
-      params: [market[1]],
-    };
-  });
-
-  const reserveConfigurationDataCalls = state.markets
-    .map((market) => {
-      return [
-        {
-          address: aaveProtocolDataProviderAddress,
-          name: "getReserveConfigurationData",
-          params: [market[1]],
-        },
-
-        {
-          address: aaveProtocolDataProviderAddress,
-          name: "getReserveTokensAddresses",
-          params: [market[1]],
-        },
-      ];
-    })
-    .flat();
-
-  // get user reserve data
-  multicallv2(aaveProtocolDataProviderAbi, userReserveDataCalls, {})
-    .then((res) => {
-      const userReserveParsedDataList = res.map((data, i) => {
-        return formatUserReserveData(data, state.markets[i][1]);
+const getUserRewards = () => {
+  const aTokens = Object.values(_marketsData).map(
+    (market) => market.aTokenAddress
+  );
+  const RewardContract = new ethers.Contract(rewardAddress, REWARD_ABI, signer);
+  RewardContract.callStatic.claimAllRewards(aTokens, account).then((res) => {
+    const tokens = res[0];
+    const amounts = res[1];
+    const coins = Object.values(RewardToken).map((token) => token.coingeckoId);
+    const pricesUrl = `https://api.coingecko.com/api/v3/simple/price?ids=${coins.join(
+      ","
+    )}&vs_currencies=usd`;
+    asyncFetch(pricesUrl).then((res) => {
+      if (!res.ok) return;
+      const prices = {};
+      coins.forEach((coin) => (prices[coin] = res.body[coin].usd));
+      tokens.forEach((token, i) => {
+        _userRewards[token] = {
+          amount: ethers.utils.formatUnits(
+            amounts[i],
+            RewardToken[token].decimals
+          ),
+          price: prices[RewardToken[token].coingeckoId],
+        };
       });
-      return userReserveParsedDataList;
-    })
-    .then((userReserveParsedDataList) => {
-      //  get configuration data
-      multicallv2(
-        aaveProtocolDataProviderAbi,
-        reserveConfigurationDataCalls,
-        {}
-      )
-        .then((res) => {
-          const loanToValues = [];
-
-          const aTokenAddressList = [];
-
-          const variableDebtTokenAddressList = [];
-
-          res.forEach((data, i) => {
-            if (i % 2 == 0) {
-              const loanToValue = Big(data[1].toString()).div(100).toNumber();
-              loanToValues.push(loanToValue);
-            }
-          });
-
-          res.forEach((data, i) => {
-            if (i % 2 == 1) {
-              const aTokenAddress = data[0];
-              const variableDebtTokenAddress = data[2];
-              aTokenAddressList.push(aTokenAddress);
-              variableDebtTokenAddressList.push(variableDebtTokenAddress);
-            }
-          });
-
-          return loanToValues.map((loanToValue, i) => {
-            return {
-              loanToValue,
-              aTokenAddress: aTokenAddressList[i],
-              variableDebtTokenAddress: variableDebtTokenAddressList[i],
-            };
-          });
-        })
-        .then((configurationList) => {
-          multicallv2(
-            aaveProtocolDataProviderAbi,
-            tokenReserveDataCals,
-            {}
-          ).then((tokenReserveDataList) => {
-            const formattedTokenReserveDataList = tokenReserveDataList.map(
-              (data, index) => {
-                return formateTokenReserveData(
-                  data,
-
-                  state.markets[index][1],
-                  state.markets[index][0],
-                  state.tokensPrice[state.markets[index][1]],
-                  configurationList[index].aTokenAddress,
-                  configurationList[index].variableDebtTokenAddress,
-                  configurationList[index].loanToValue,
-                  userReserveParsedDataList[index]
-                );
-              }
-            );
-
-            const toUpdateObj = {};
-
-            formattedTokenReserveDataList.forEach((data) => {
-              const address = Object.keys(data)[0];
-              toUpdateObj[address] = data[address];
-            });
-
-            console.log("toUpdateObj: ", toUpdateObj);
-
-            State.update(toUpdateObj);
-          });
-        });
+      formateData();
     });
-}
+  });
+};
 
-if (
-  state.markets &&
-  state.tokensPrice &&
-  Object.keys(state).length === state.markets.length + 3
-) {
-  const { markets, tokensPrice, balances, userDataLoading, ...marketData } =
-    state;
-
+const formateData = () => {
   const parsedData = [];
 
-  Object.keys(marketData).forEach((address) => {
-    const market = marketData[address];
+  Object.keys(_marketsData).forEach((address) => {
+    const market = _marketsData[address];
 
     parsedData.push(market.userReserveParsed);
   });
@@ -651,43 +696,26 @@ if (
 
   parsedData.forEach((data) => {
     userTotalSupplyUsd = userTotalSupplyUsd.plus(data.scaledATokenBalanceUsd);
-
     userTotalBorrowUsd = userTotalBorrowUsd.plus(data.scaledVariableDebtUsd);
   });
 
-  State.update({
-    userData: {
-      userTotalSupplyUsd: userTotalSupplyUsd.toString(),
-      userTotalBorrowUsd: userTotalBorrowUsd.toString(),
-      parsedData,
-    },
-  });
-}
-if (
-  state.userData &&
-  state.markets &&
-  Object.keys(state).length === state.markets.length + 4
-) {
-  const {
-    markets,
-    tokensPrice,
-    balances,
-    userData,
-    userDataLoading,
-    ...marketData
-  } = state;
+  const userData = {
+    userTotalSupplyUsd: userTotalSupplyUsd.toString(),
+    userTotalBorrowUsd: userTotalBorrowUsd.toString(),
+    parsedData,
+  };
 
   userData.parsedData.forEach((d) => {
     const { address } = d;
-    marketData[address].userMerberShip = d.userMerberShip;
+    _marketsData[address].userMerberShip = d.userMerberShip;
   });
 
   let netApy = Big(0);
 
   userData.parsedData.forEach((d) => {
     const { address } = d;
-    marketData[address] = {
-      ...marketData[address],
+    _marketsData[address] = {
+      ..._marketsData[address],
       ...d,
       userSupply: d.scaledATokenBalance,
       userBorrow: d.scaledVariableDebt,
@@ -695,9 +723,9 @@ if (
   });
 
   let totalCollateralUsd = Big(0);
-
-  Object.keys(marketData).forEach((address, i) => {
-    const market = marketData[address];
+  const aTokenAddress = [];
+  Object.keys(_marketsData).forEach((address, i) => {
+    const market = _marketsData[address];
 
     const { netApy: netApyRaw } = market;
     netApy = netApy.plus(netApyRaw);
@@ -707,6 +735,8 @@ if (
     market.lendingPoolAddress = lendingPoolAddress;
 
     market.wethGateway = wethGateway;
+
+    aTokenAddress.push(market.aTokenAddress);
 
     market.address = market.aTokenAddress;
 
@@ -726,13 +756,31 @@ if (
 
   const parsedMarketData = {};
 
-  Object.entries(marketData).map(([address, market]) => {
+  Object.entries(_marketsData).map(([address, market]) => {
     parsedMarketData[market.aTokenAddress] = market;
   });
 
+  const rewards = [];
+  Object.values(RewardToken).forEach((rewardToken) => {
+    const reward = _userRewards[rewardToken.address];
+    if (Big(reward.amount).gt(0)) {
+      rewards.push({
+        ...rewardToken,
+        price: reward.price,
+        unclaimed: reward.amount,
+        allPools: aTokenAddress,
+      });
+    }
+  });
+  console.log("parsedMarketData", parsedMarketData);
   onLoad({
     ...{ ...userData, ...props },
     markets: parsedMarketData,
     name: initConfig.name,
+    rewards,
   });
-}
+};
+
+useEffect(() => {
+  getTokensPrices();
+}, []);
