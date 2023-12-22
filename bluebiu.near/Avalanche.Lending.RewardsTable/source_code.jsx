@@ -22,28 +22,12 @@ const NoReward = styled.div`
 State.init({
   loading: false,
   dapp: null,
+  record: null,
 });
 
 const { dapps, onSuccess } = props;
 return (
   <>
-    {state.loading && state.dapp && (
-      <Widget
-        src={state.dapp.handlerClaim}
-        props={{
-          loading: state.loading,
-          market: state.market,
-          dapp: state.dapp,
-          onSuccess: (res) => {
-            State.update({ loading: false });
-            onSuccess?.(state.dapp.name);
-          },
-          onError: (err) => {
-            State.update({ loading: false });
-          },
-        }}
-      />
-    )}
     <RewardsTable>
       <Title>Your Earns</Title>
       <Widget
@@ -87,17 +71,39 @@ return (
           buttons: [
             {
               text: "Claim",
-              loading: state.loading,
+              loading: (record) =>
+                record.symbol === state.record.symbol && state.loading
+                  ? true
+                  : false,
             },
           ],
-          onButtonClick: (dapp) => {
+          onButtonClick: (record) => {
             State.update({
+              dapp: dapps[record.dappName],
+              market: record,
               loading: true,
-              dapp: dapps[dapp],
             });
           },
         }}
       />
     </RewardsTable>
+    {state.loading && state.dapp && (
+      <Widget
+        src={state.dapp.handlerClaim}
+        props={{
+          loading: state.loading,
+          market: state.market,
+          dapp: state.dapp,
+          record: state.record,
+          onSuccess: (res) => {
+            State.update({ loading: false });
+            onSuccess?.(state.dapp.name);
+          },
+          onError: (err) => {
+            State.update({ loading: false });
+          },
+        }}
+      />
+    )}
   </>
 );
