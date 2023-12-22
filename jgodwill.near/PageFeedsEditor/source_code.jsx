@@ -1,5 +1,4 @@
-const pageFeedPattern =
-  props.pageFeedPattern ?? "*/profile/feed/*";
+const pageFeedPattern = props.pageFeedPattern ?? "*/profile/feed/*";
 const placeholder = props.placeholder ?? "Feeds";
 const initialPageFeedsObject = props.initialPageFeedsObject || {};
 
@@ -79,6 +78,11 @@ const setPageFeeds = (pageFeeds) => {
     props.setPageFeedsObject(updatedPageFeedsObject);
   }
 };
+
+props.disabled &&
+  State.update({
+    pageFeeds: [],
+  });
 console.log("init", initialPageFeedsObject);
 console.log("feeds", state.pageFeeds);
 console.log("origin", state.originalPageFeeds);
