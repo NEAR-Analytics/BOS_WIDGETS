@@ -27,6 +27,15 @@ const catchApproveError = (e) => {
   }
   State.update({ isLoading: false });
 };
+const approvedTx = (tx, zkSync) => {
+  State.update({
+    log: "Approved",
+    explorerLink: `https://${network === "testnet" ? "goerli." : ""}${
+      zkSync ? "explorer.zksync.io/" : "etherscan.io/"
+    }tx/${tx.hash}`,
+    isLoading: false,
+  });
+};
 
 // state
 const defaultDeposit = {
@@ -180,6 +189,8 @@ const contracts = {
       L2ERC20Bridge: "0x00ff932A6d70E2B8f1Eb4919e1e09C1923E7e57b",
     },
     eth: {
+      deposit: "0x1908e2BF4a88F91E4eF0DC72f02b8Ea36BEa2319",
+      withdraw: "0x000000000000000000000000000000000000800A",
       decimals: 18,
     },
     weth: {
@@ -349,6 +360,14 @@ function isWithdrawalFinalized(txHash, isEth, cb, returnArgs) {
   getWithdrawArgs(
     txHash,
     (res) => {
+      if (!res) {
+        if (returnArgs) {
+          return cb({
+            finalized: false,
+          });
+        }
+        cb(false);
+      }
       const args = [ethers.BigNumber.from(res.l1BatchNumber), res.proof.id];
       (isEth
         ? L1EthBridge.isEthWithdrawalFinalized(...args)
@@ -474,6 +493,7 @@ const handleDepositEth = (data) => {
       value,
       gasLimit: ethers.BigNumber.from("500000"),
     })
+    .then(approvedTx)
     .catch(catchApproveError);
 };
 
@@ -515,6 +535,7 @@ const handleDeposit = (data) => {
         value,
         gasLimit: ethers.BigNumber.from("500000"),
       })
+      .then(approvedTx)
       .catch(catchApproveError);
   });
 };
@@ -541,17 +562,7 @@ const handleApprove = (data, callback) => {
       contract
         .approve(contracts[network].bridge.L1ERC20BridgeProxy, amountBig)
         .then((tx) => {
-          console.log("approved: ", tx);
-
-          State.update({
-            log: "Approval TX hash is: " + tx.hash,
-            explorerLink:
-              `https://${
-                network === "testnet" ? "goerli." : ""
-              }etherscan.io/tx/` + tx.hash,
-            isLoading: false,
-          });
-
+          approvedTx(tx);
           callback(true);
         })
         .catch((e) => {
@@ -604,14 +615,7 @@ const handleWithdrawEth = (data) => {
       gasLimit: ethers.BigNumber.from(l2TxGasLimitWithdraw),
     })
     .then((tx) => {
-      State.update({
-        log: "Approved",
-        explorerLink:
-          `https://${
-            network === "testnet" ? "goerli." : ""
-          }explorer.zksync.io/tx/` + tx.hash,
-        isLoading: false,
-      });
+      approvedTx(tx, true);
     })
     .catch(catchApproveError);
 };
@@ -643,14 +647,7 @@ const handleWithdraw = (data) => {
       gasLimit: ethers.BigNumber.from(l2TxGasLimitWithdraw),
     })
     .then((tx) => {
-      State.update({
-        log: "Approved",
-        explorerLink:
-          `https://${
-            network === "testnet" ? "goerli." : ""
-          }explorer.zksync.io/tx/` + tx.hash,
-        isLoading: false,
-      });
+      approvedTx(tx, true);
     })
     .catch(catchApproveError);
 };
