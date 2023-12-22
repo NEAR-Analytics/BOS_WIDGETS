@@ -154,6 +154,7 @@ function getIPFSInfo(info) {
               replace
             </a>
             <a
+              style={{ marginLeft: "10px" }}
               href="#"
               onClick={() => {
                 clipboard.writeText(`${i.ipfs_cid}`);
