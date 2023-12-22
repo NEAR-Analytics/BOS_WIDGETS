@@ -144,6 +144,7 @@ const formatData = () => {
           unclaimed_value: Big(reward.unclaimed || 0)
             .mul(reward.price || 0)
             .toString(),
+          ...reward,
         });
       });
     }
