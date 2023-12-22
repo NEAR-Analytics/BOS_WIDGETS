@@ -1,4 +1,14 @@
-let { sharedBlockHeight, tagShared, isTest, accountId } = props;
+// home
+
+let {
+  sharedBlockHeight,
+  tagShared,
+  isTest,
+  accountId,
+  sharedArticleId,
+  sharedCommentId,
+  topicShared,
+} = props;
 
 const sbtWhiteList =
   context.networkId === "testnet"
@@ -155,6 +165,9 @@ return (
       kanbanColumns,
       kanbanRequiredLabels,
       kanbanExcludedLabels,
+      sharedArticleId,
+      sharedCommentId,
+      topicShared,
     }}
   />
 );
