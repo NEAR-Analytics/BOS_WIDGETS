@@ -6,6 +6,7 @@ const {
   onChange,
   priceShowDecimals,
   quantityShowDecimals,
+  nearId,
 } = props;
 
 State.init({
@@ -13,6 +14,9 @@ State.init({
   inputValue: "",
   activeIndex: 0,
   value: "",
+  nearId:
+    nearId ||
+    "720288545047ae42c47ce521b155241fb760359af60496c46cb74c4358c5870a",
 });
 
 const dark = {
@@ -141,7 +145,7 @@ const onInputChange = (val) => {
 
 return (
   <Widget
-    src="720288545047ae42c47ce521b155241fb760359af60496c46cb74c4358c5870a/widget/input"
+    src={`${state.nearId}/widget/input`}
     props={{
       prepend: prepend(),
       append: append(),
