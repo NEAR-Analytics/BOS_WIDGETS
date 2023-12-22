@@ -1,3 +1,6 @@
+// Getting the current user's account Id
+const accountId = context.accountId;
+
 // Pages that can be reached via the aside tab
 const [pages, setPage] = useState([
   {
@@ -15,56 +18,16 @@ const [pages, setPage] = useState([
 ]);
 
 // List of candidates and their curresponding number of votes
-const [candidates, setCandidates] = useState([
-  {
-    id: 1,
-    name: "Foo",
-    party: "APD",
-    email: "example@gmail.com",
-    role: "President",
-    votes: 3,
-    rank: 2,
-  },
-  {
-    id: 2,
-    name: "Bar",
-    party: "YMB",
-    email: "example@gmail.com",
-    role: "President",
-    votes: 5,
-    rank: 1,
-  },
-  {
-    id: 3,
-    name: "Baz",
-    party: "AAN",
-    email: "example@gmail.com",
-    role: "President",
-    votes: 1,
-    rank: 4,
-  },
-  {
-    id: 4,
-    name: "sass",
-    party: "AKA",
-    email: "example@gmail.com",
-    role: "President",
-    votes: 2,
-    rank: 3,
-  },
-]);
+const [candidates, setCandidates] = useState([]);
 
 const [maxId, setMaxId] = useState(4);
 
 // name and acro
 const [newCandidate, setNewCandidate] = useState({
-  id: "",
   name: "",
   party: "",
-  email: "",
   role: "",
   votes: "",
-  rank: "",
 });
 
 function save() {
@@ -75,98 +38,124 @@ function save() {
   setCandidates((prev) => prev.concat([newCandidate]));
 }
 
-// Social.set({
-//   candidates: [1, 2, "dog"],
-// });
-// const accountId = contex.accountId;
-// const Data = Social.get(`${accountId}/candidates`);
+// Sort the currencies by(name,code or rate) order(ascending, descending)
+function Sort(by, order) {
+  if (order === "ascending") {
+    candidates.sort((a, b) => (a[by] > b[by] ? 1 : -1));
+  } else {
+    candidates.sort((a, b) => (a[by] < b[by] ? 1 : -1));
+  }
+  return candidates;
+}
 
+// Social.set({candidates: []});
+
+// Get the candidates data
+const Data = Social.get(`abnakore.near/candidates`);
+
+useEffect(() => {
+  if (Data === undefined) {
+    // Set the candidate to an empty list if there is no candidate
+    setCandidates([]);
+  } else {
+    setCandidates(JSON.parse(Data));
+  }
+}, [Data === null]);
+
+// Only signed In users can access the page
 return (
-  <Widget
-    src="abnakore.near/widget/Wrapper"
-    props={{
-      body: (
-        <div className="main-body">
-          <Widget
-            src="abnakore.near/widget/Aside"
-            props={{ objs: pages, active: "/admin/manage_candidates" }}
-          />
-          <div className="body-contents">
-            <h1>Manage Candidates</h1>
-            <Widget
-              src="abnakore.near/widget/Table"
-              props={{
-                headings: [
-                  "S/N",
-                  "Candidate's Name",
-                  "Party",
-                  "Email",
-                  "Role",
-                  "Number of votes",
-                  "Rank",
-                ],
-                data: Object.values(candidates.map((c) => Object.values(c))),
-              }}
-            />
-            <div className="form">
-              <div className="flex">
+  <>
+    {accountId ? (
+      <Widget
+        src="abnakore.near/widget/Wrapper"
+        props={{
+          body: (
+            <div className="main-body">
+              <Widget
+                src="abnakore.near/widget/Aside"
+                props={{ objs: pages, active: "/admin/manage_candidates" }}
+              />
+              <div className="body-contents">
+                <button onClick={get_data}>Show</button>
+                <h1>Manage Candidates</h1>
                 <Widget
-                  src="abnakore.near/widget/Input.jsx"
+                  src="abnakore.near/widget/Table"
                   props={{
-                    type: "text",
-                    placeholder: "Full Name",
-                    required: true,
-                    item: "name",
-                    items: newCandidate,
-                    setItem: setNewCandidate,
+                    headings: [
+                      "Rank",
+                      "Candidate's Name",
+                      "Party",
+                      "Role",
+                      "Number of votes",
+                    ],
+                    data: Sort("votes", "decending").map((cand, index) =>
+                      Object.values({ id: index + 1, ...cand })
+                    ),
                   }}
                 />
-                <Widget
-                  src="abnakore.near/widget/Input.jsx"
-                  props={{
-                    type: "text",
-                    placeholder: "party",
-                    required: true,
-                    item: "party",
-                    items: newCandidate,
-                    setItem: setNewCandidate,
-                  }}
-                />
+                <div className="form">
+                  <div className="flex">
+                    <Widget
+                      src="abnakore.near/widget/Input.jsx"
+                      props={{
+                        type: "text",
+                        placeholder: "Full Name",
+                        required: true,
+                        item: "name",
+                        items: newCandidate,
+                        setItem: setNewCandidate,
+                      }}
+                    />
+                    <Widget
+                      src="abnakore.near/widget/Input.jsx"
+                      props={{
+                        type: "text",
+                        placeholder: "party",
+                        required: true,
+                        item: "party",
+                        items: newCandidate,
+                        setItem: setNewCandidate,
+                      }}
+                    />
+                  </div>
+                  <div className="flex">
+                    <Widget
+                      src="abnakore.near/widget/Input.jsx"
+                      props={{
+                        type: "email",
+                        placeholder: "Email",
+                        required: true,
+                        item: "email",
+                        items: newCandidate,
+                        setItem: setNewCandidate,
+                      }}
+                    />
+                    <Widget
+                      src="abnakore.near/widget/Input.jsx"
+                      props={{
+                        type: "text",
+                        placeholder: "Role",
+                        required: true,
+                        item: "role",
+                        items: newCandidate,
+                        setItem: setNewCandidate,
+                      }}
+                    />
+                  </div>
+                  <CommitButton
+                    onCommit={save}
+                    data={{ candidates: [newCandidate] }}
+                  >
+                    Add
+                  </CommitButton>
+                </div>
               </div>
-              <div className="flex">
-                <Widget
-                  src="abnakore.near/widget/Input.jsx"
-                  props={{
-                    type: "email",
-                    placeholder: "Email",
-                    required: true,
-                    item: "email",
-                    items: newCandidate,
-                    setItem: setNewCandidate,
-                  }}
-                />
-                <Widget
-                  src="abnakore.near/widget/Input.jsx"
-                  props={{
-                    type: "text",
-                    placeholder: "Role",
-                    required: true,
-                    item: "role",
-                    items: newCandidate,
-                    setItem: setNewCandidate,
-                  }}
-                />
-              </div>
-              <CommitButton
-                onCommit={save}
-                data={{ candidates: [newCandidate] }}
-              >
-                Add
-              </CommitButton>
             </div>
-          </div>
-        </div>
-      ),
-    }}
-  />
+          ),
+        }}
+      />
+    ) : (
+      <Widget src="abnakore.near/widget/SignIn.jsx" props={props} />
+    )}
+  </>
 );
