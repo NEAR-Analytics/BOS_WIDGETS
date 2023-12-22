@@ -332,7 +332,7 @@ if (state.route === "drive" && state.address) {
                 setUploadFile();
               }}
             >
-              ดีใจจัง อัพโหลดได้แล้ว!
+              Yay! Successfully uploaded
             </button>
           </div>
         </div>
