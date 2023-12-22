@@ -63,16 +63,16 @@ function ownership(object){
   } else {
     ownerships.push(
       { darija: `${darija}i`, spanish: `mi ${spanish}`, emoji: emoji },
-      { darija: `${darija}u`, spanish: `el ${spanish} de él`, emoji: emoji },
+      { darija: `${darija}u`, spanish: `${spanish} de él`, emoji: emoji },
     );
   }
 
   ownerships.push(
     { darija: `${darija}k`, spanish: `tu (masculino) ${spanish}`, emoji: emoji },
     { darija: `${darija}k`, spanish: `tu (femenino) ${spanish}`, emoji: emoji },
-    { darija: `${darija}ha`, spanish: `el ${spanish} de ella`, emoji: emoji },
-    { darija: `${darija}na`, spanish: `nuestro ${spanish}`, emoji: emoji },
-    { darija: `${darija}kum`, spanish: `vuestro ${spanish}`, emoji: emoji },
+    { darija: `${darija}ha`, spanish: `${spanish} de ella`, emoji: emoji },
+    { darija: `${darija}na`, spanish: `nuestr@ ${spanish}`, emoji: emoji },
+    { darija: `${darija}kum`, spanish: `vuestr@ ${spanish}`, emoji: emoji },
     { darija: `${darija}hum`, spanish: `su ${spanish} (ellos)`, emoji: emoji },
   );
 
