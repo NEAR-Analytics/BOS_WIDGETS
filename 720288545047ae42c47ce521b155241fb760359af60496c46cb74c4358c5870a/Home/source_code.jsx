@@ -9,7 +9,8 @@ const HomeWarp = styled.div`
   margin: 0;
   padding: 0;
   min-height: 720px;
-  padding: 15px 0;
+  padding-top: ${isMobileDevice() ? "0" : "15px"};
+  padding-bottom: ${isMobileDevice() ? "0" : "15px"};
   background-color: #080d17;
   position: relative;
 `;
@@ -18,6 +19,7 @@ const TradeWarp = styled.div`
   width: ${isMobileDevice() ? "100%" : "460px"};
   background-color: #080d17;
   border: 1px solid #323232;
+  border-width: ${isMobileDevice() ? "0" : "1px"};
   border-radius: 16px;
   position: relative;
   overflow: hidden;
