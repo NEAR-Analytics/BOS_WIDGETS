@@ -17,10 +17,21 @@ let {
   kanbanExcludedTags,
   sharedArticleId,
   sharedCommentId,
+  topicShared,
 } = props;
+
+const splitedTopic = topicShared ? topicShared.split("-class") : undefined;
+
+const topicSharedFirstPart = splitedTopic && splitedTopic[0];
+const topicSharedSecondPart = splitedTopic && splitedTopic[1];
+
+if (topicSharedFirstPart !== "public" && topicSharedFirstPart !== undefined) {
+  topicShared = `${topicSharedFirstPart} - class ${topicSharedSecondPart}`;
+}
+
 sharedBlockHeight = Number(sharedBlockHeight);
 
-const initSbtsNames = [sbtWhiteList[0]];
+const initSbtsNames = topicShared ? [topicShared] : [sbtWhiteList[0]];
 
 const sbtsNames = state.sbt;
 
@@ -104,7 +115,7 @@ State.init({
   authorsProfiles: [],
   functionsToCallByLibrary: initLibsCalls,
   sbtsNames: initSbtsNames,
-  sbts: initSbtsNames,
+  sbts: topicShared ? [topicShared] : initSbtsNames,
   firstRender: !isNaN(sharedBlockHeight) || typeof sharedArticleId === "string",
   usersSBTs: [],
 });
@@ -194,8 +205,6 @@ function filterOnePostByBlockHeight(blockHeight, articles) {
 }
 
 function filterOnePostByArticleId(articleId, articles) {
-  console.log("articles: ", articles);
-  console.log("articleId: ", articleId);
   if (articles) {
     return articles.filter((article) => article.id === articleId);
   } else {
@@ -324,7 +333,13 @@ const renderShareInteraction = () => {
           <CloseIcon
             className="bi bi-x"
             onClick={() =>
-              State.update({ showShareModal: false, linkCopied: false })
+              State.update({
+                showShareSearchModal: false,
+                showShareModal: false,
+                linkCopied: false,
+                sharedElement: undefined,
+                sharingSearch: false,
+              })
             }
           ></CloseIcon>
         </ClosePopUpContainer>
@@ -332,12 +347,16 @@ const renderShareInteraction = () => {
         <PopUpDescription>
           {state.sharedElement.value
             ? "Use this link to share the article"
+            : state.sharingSearch
+            ? "Use this link to share the search"
             : "Can't share yet. Reload the app and try again."}
         </PopUpDescription>
         <ShowLinkShared>
-          {state.sharedElement.value && <LinkShared>{getLink()}</LinkShared>}
+          {(state.sharedElement.value || state.sharingSearch) && (
+            <LinkShared>{getLink()}</LinkShared>
+          )}
           <ClipboardContainer>
-            {state.sharedElement.value && (
+            {(state.sharedElement.value || state.sharingSearch) && (
               <ClipboardIcon
                 className="bi-clipboard"
                 onClick={() => {
@@ -506,10 +525,23 @@ function handleShareButton(showShareModal, sharedElement) {
   State.update({ showShareModal, sharedElement });
 }
 
+function handleShareSearch(showShareSearchModal) {
+  //showShareSearchModal is a boolean
+  State.update({ showShareSearchModal, sharingSearch: true });
+}
+
 function getLink() {
-  return `https://near.social/${widgets.thisForum}?${isTest && "isTest=t&"}${
-    state.sharedElement.type
-  }=${state.sharedElement.value}`;
+  if (state.sharingSearch) {
+    return `https://near.social/${widgets.thisForum}?${isTest && "isTest=t&"}${
+      state.filterBy.parameterName === "tag"
+        ? `tagShared=${state.filterBy.parameterValue}&`
+        : ""
+    }topicShared=${sbts[0].replace(/\s+/g, "")}`;
+  } else {
+    return `https://near.social/${widgets.thisForum}?${isTest && "isTest=t&"}${
+      state.sharedElement.type
+    }=${state.sharedElement.value}`;
+  }
 }
 
 function handleOnCommitArticle(articleToRenderData) {
@@ -522,7 +554,8 @@ function handleOnCommitArticle(articleToRenderData) {
 //===============================================END FUNCTIONS======================================================
 return (
   <>
-    {state.showShareModal && renderShareInteraction()}
+    {(state.showShareModal || state.showShareSearchModal) &&
+      renderShareInteraction()}
     <Widget
       src={widgets.header}
       props={{
@@ -575,6 +608,7 @@ return (
           sbtWhiteList,
           sbts,
           handleShareButton,
+          handleShareSearch,
           canLoggedUserCreateArticles,
           filterBy: state.filterBy,
           callLibs,
