@@ -362,7 +362,7 @@ if (state.route === "drive" && state.address) {
                         data-toggle="tooltip"
                         title={`ipns://${i.ipns_from_generate}`}
                         onClick={() => {
-                          clipboard.writeText(`${i.ipns_from_generate}`);
+                          clipboard.writeText(`ipns://${i.ipns_from_generate}`);
                         }}
                       >
                         Copy
