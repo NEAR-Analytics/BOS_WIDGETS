@@ -7,6 +7,18 @@ const cleanDescription = (description) => {
     : description;
 };
 
+const postType = props.postType ?? "Sponsorship";
+const parentId = props.parentId ?? null;
+const postId = props.postId ?? null;
+const mode = props.mode ?? "Create";
+const toggleEditor = props.toggleEditor;
+const referralLabels = props.referral ? [`referral:${props.referral}`] : [];
+const labelStrings = (props.labels ?? []).concat(referralLabels);
+
+const labels = labelStrings.map((s) => {
+  return { name: s };
+});
+
 initState({
   seekingFunding: props.seekingFunding ?? false,
   author_id: context.accountId,
@@ -41,6 +53,40 @@ const AutoComplete = styled.div`
     padding: calc(var(--padding) / 2);
   }
 `;
+
+if (props.transactionHashes) {
+  const transaction = useCache(
+    () =>
+      asyncFetch("https://rpc.mainnet.near.org", {
+        method: "POST",
+        headers: {
+          "content-type": "application/json",
+        },
+        body: JSON.stringify({
+          jsonrpc: "2.0",
+          id: "dontcare",
+          method: "tx",
+          params: [props.transactionHashes, context.accountId],
+        }),
+      }).then((res) => res),
+    props.transactionHashes + context.accountId,
+    { subscribe: false }
+  );
+
+  if (transaction !== null) {
+    const transaction_method_name =
+      transaction?.body?.result?.transaction?.actions[0].FunctionCall
+        .method_name;
+
+    const is_edit_or_add_post_transaction =
+      transaction_method_name == "add_post" ||
+      transaction_method_name == "edit_post";
+
+    if (is_edit_or_add_post_transaction) {
+      props.onDraftStateChange(null);
+    }
+  }
+}
 
 function textareaInputHandler(value) {
   const words = value.split(/\s+/);
@@ -84,19 +130,6 @@ function autoCompleteAccountId(id) {
 }
 
 /* END_INCLUDE: "core/lib/autocomplete" */
-
-const postType = props.postType ?? "Sponsorship";
-const parentId = props.parentId ?? null;
-const postId = props.postId ?? null;
-const mode = props.mode ?? "Create";
-const toggleEditor = props.toggleEditor;
-
-const referralLabels = props.referral ? [`referral:${props.referral}`] : [];
-const labelStrings = (props.labels ?? []).concat(referralLabels);
-
-const labels = labelStrings.map((s) => {
-  return { name: s };
-});
 
 if (!state.draftStateApplied && props.draftState) {
   State.update({ ...props.draftState, draftStateApplied: true });
@@ -188,6 +221,9 @@ const onSubmit = () => {
   }
   let txn = [];
   if (mode == "Create") {
+    props.onDraftStateChange(
+      Object.assign({}, state, { parent_post_id: parentId })
+    );
     txn.push({
       contractName: "devgovgigs.near",
       methodName: "add_post",
@@ -199,6 +235,9 @@ const onSubmit = () => {
       gas: Big(10).pow(14),
     });
   } else if (mode == "Edit") {
+    props.onDraftStateChange(
+      Object.assign({}, state, { edit_post_id: postId })
+    );
     txn.push({
       contractName: "devgovgigs.near",
       methodName: "edit_post",
