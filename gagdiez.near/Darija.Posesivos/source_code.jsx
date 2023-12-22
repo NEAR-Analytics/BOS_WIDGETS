@@ -38,7 +38,7 @@ function ownership(object){
   let { darija, spanish, emoji } = object;
 
   // if the object ends in `ya` it removes it
-  if (darija.endsWith("ya")) {
+  if (darija.endsWith("ya") || darija.endsWith("a")) {
     darija = darija.slice(0, -2) + 't';
   }
 
@@ -46,8 +46,7 @@ function ownership(object){
 
   // ana <object> + ya  if the object ends in a vowel
   // ana <object> + i  if the object ends in a consonant
-  if (["a", "e", "i", "o", "u"].includes(darija.slice(-1))) {
-    darija = darija.slice(0, -1) + 't';
+  if (["e", "i", "o", "u"].includes(darija.slice(-1))) {
     ownerships.push(
       { darija: `${darija}ya`, spanish: `mi ${spanish}`, emoji: emoji },
       { darija: `${darija}h`, spanish: `el ${spanish} de él`, emoji: emoji },
