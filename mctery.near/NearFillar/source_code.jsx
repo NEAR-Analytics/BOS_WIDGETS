@@ -151,7 +151,15 @@ function getIPFSInfo(info) {
           <div class="card-body">
             <h6 class="card-title">{getLongName(info.ipfs_cid)}</h6>
             <a href="#" data-bs-toggle="modal" data-bs-target="#ipfs_id">
-              Replace
+              replace
+            </a>
+            <a
+              href="#"
+              onClick={() => {
+                clipboard.writeText(`${i.ipfs_cid}`);
+              }}
+            >
+              copy
             </a>
           </div>
         </div>
