@@ -164,8 +164,12 @@ function defaultRenderItem(postId, additionalProps) {
           ...additionalProps,
           referral: postId,
           updateTagInParent: (tag) => {
+            if (typeof props.updateTagInput === "function") {
+              props.updateTagInput(tag);
+            }
             getPostIds(tag);
           },
+          transactionHashes: props.transactionHashes,
         }}
       />
     </div>
