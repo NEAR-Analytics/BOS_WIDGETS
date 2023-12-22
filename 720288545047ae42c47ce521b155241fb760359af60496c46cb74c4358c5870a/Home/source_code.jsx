@@ -1,30 +1,32 @@
-function isMobileDevice() {
-  return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
-    navigator.userAgent
-  );
-}
-
 const HomeWarp = styled.div`
   width: 100%;
   margin: 0;
   padding: 0;
   min-height: 720px;
-  padding-top: ${isMobileDevice() ? "0" : "15px"};
-  padding-bottom: ${isMobileDevice() ? "0" : "15px"};
+  padding-top: 15px;
+  padding-bottom: 15px;
   background-color: #080d17;
   position: relative;
+
+  @media screen and (max-width: 1024px) {
+    padding-top: 0;
+    padding-bottom: 0;
+  }
 `;
 
 const TradeWarp = styled.div`
-  width: ${isMobileDevice() ? "100%" : "460px"};
+  width: 460px;
   background-color: #080d17;
   border: 1px solid #323232;
-  border-width: ${isMobileDevice() ? "0" : "1px"};
   border-radius: 16px;
   position: relative;
   overflow: hidden;
   margin: 0 auto;
   padding-bottom: 10px;
+  @media screen and (max-width: 1024px) {
+    width: 100%;
+    border-width: 0;
+  }
 `;
 
 const DropdownMenu = styled.div`
@@ -226,6 +228,8 @@ State.init({
   tradeTabIndex: 0,
   tradeTypeIndex: 0,
 });
+
+console.log(navigator.userAgent, "navigator.userAgent");
 
 const fetchPrices = async () => {
   const priceData = Near.view("priceoracle.near", "get_price_data", {});
