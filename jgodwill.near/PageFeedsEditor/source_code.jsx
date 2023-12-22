@@ -1,5 +1,5 @@
 const pageFeedPattern =
-  props.pageFeedPattern ?? "*/profile/pageTabs/feed/accounts/*";
+  props.pageFeedPattern ?? "*/profile/feed/*";
 const placeholder = props.placeholder ?? "Feeds";
 const initialPageFeedsObject = props.initialPageFeedsObject || {};
 
