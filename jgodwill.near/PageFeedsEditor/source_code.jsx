@@ -80,10 +80,7 @@ const setPageFeeds = (pageFeeds) => {
   }
 };
 
-disabled &&
-  State.update({
-    pageFeeds: [],
-  });
+disabled && setPageFeeds([]);
 console.log("init", initialPageFeedsObject);
 console.log("feeds", state.pageFeeds);
 console.log("origin", state.originalPageFeeds);
