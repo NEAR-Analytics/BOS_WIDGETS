@@ -207,7 +207,7 @@ return (
           profile,
           fast,
           accountId,
-          style: { width: "10rem", height: "10rem" },
+          style: { width: "7rem", height: "7rem" },
           className: "mb-2",
           imageClassName: "rounded-circle w-100 h-100 img-thumbnail d-block",
           thumbnail: false,
