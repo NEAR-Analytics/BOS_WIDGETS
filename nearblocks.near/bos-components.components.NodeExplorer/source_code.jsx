@@ -38,7 +38,7 @@ function convertToMetricPrefix(number) {
     count++;
   }
 
-  return number.toFixed(2) + prefixes[count];
+  return number.toFixed(2) + ' ' + prefixes[count];
 }
 
 function gasFee(gas, price) {
@@ -130,6 +130,55 @@ function formatCustomDate(inputDate) {
 
 function shortenHex(address) {
   return `${address && address.substr(0, 6)}...${address.substr(-4)}`;
+}
+
+function capitalizeFirstLetter(string) {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
+function shortenToken(token) {
+  return truncateString(token, 14, '');
+}
+
+function shortenTokenSymbol(token) {
+  return truncateString(token, 5, '');
+}
+
+function gasPercentage(gasUsed, gasAttached) {
+  if (!gasAttached) return 'N/A';
+
+  const formattedNumber = (Big(gasUsed).div(Big(gasAttached)) * 100).toFixed();
+  return `${formattedNumber}%`;
+}
+function truncateString(str, maxLength, suffix) {
+  if (str.length <= maxLength) {
+    return str;
+  }
+  return str.substring(0, maxLength - suffix.length) + suffix;
+}
+function yoctoToNear(yocto, format) {
+  const YOCTO_PER_NEAR = Big(10).pow(24).toString();
+  const near = Big(yocto).div(YOCTO_PER_NEAR).toString();
+
+  return format ? localFormat(near) : near;
+}
+function truncateString(str, maxLength, suffix) {
+  if (str.length <= maxLength) {
+    return str;
+  }
+  return str.substring(0, maxLength - suffix.length) + suffix;
+}
+function yoctoToNear(yocto, format) {
+  const YOCTO_PER_NEAR = Big(10).pow(24).toString();
+  const near = Big(yocto).div(YOCTO_PER_NEAR).toString();
+
+  return format ? localFormat(near) : near;
+}
+function truncateString(str, maxLength, suffix) {
+  if (str.length <= maxLength) {
+    return str;
+  }
+  return str.substring(0, maxLength - suffix.length) + suffix;
 }
 function yoctoToNear(yocto, format) {
   const YOCTO_PER_NEAR = Big(10).pow(24).toString();
