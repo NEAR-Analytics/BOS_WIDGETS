@@ -81,9 +81,11 @@ const {
   onPending,
   openRequestModal,
   toast,
+  account,
   addTransaction,
+  onSwitchChain,
+  switchingChain,
 } = props;
-const account = Ethers.send("eth_requestAccounts", [])[0];
 
 if (!account) {
   return (
@@ -96,13 +98,20 @@ if (!account) {
 if (chainId !== currentChainId) {
   return (
     <SwapButton
+      disabled={switchingChain}
       onClick={() => {
-        Ethers.send("wallet_switchEthereumChain", [
-          { chainId: `0x${Number(chainId).toString(16)}` },
-        ]);
+        if (onSwitchChain) {
+          onSwitchChain({ chainId: `0x${Number(chainId).toString(16)}` });
+        } else {
+          Ethers.send("wallet_switchEthereumChain", [
+            { chainId: `0x${Number(chainId).toString(16)}` },
+          ]);
+        }
       }}
     >
-      Switch Linea Chain
+      {switchingChain
+        ? "Switching to the Linea network"
+        : "Switch to the Linea network"}
     </SwapButton>
   );
 }
@@ -128,7 +137,7 @@ if (props.loading) {
 }
 
 if (Big(inputCurrencyAmount || 0).eq(0)) {
-  return <SwapButton disabled>Enter An Amount</SwapButton>;
+  return <SwapButton disabled>Enter an amount</SwapButton>;
 }
 if (!inputCurrency || !outputCurrency) {
   return <SwapButton disabled>Select a token</SwapButton>;
@@ -264,7 +273,17 @@ const handleApprove = () => {
       });
     })
     .catch((err) => {
-      if (err.code === "ACTION_REJECTED") {
+      openRequestModal?.({
+        open: false,
+      });
+      if (!err?.message.includes("user rejected transaction")) {
+        if (err?.message || err?.data.message) {
+          toast.fail?.({
+            title: "Transaction Failed",
+            text: err?.data.message || err?.message,
+          });
+        }
+      } else {
         toast.fail?.({
           title: "Transaction Failed",
           text: `User rejected the request. Details: 
@@ -422,7 +441,17 @@ const handleWrap = (type, onSuccess, onError) => {
         });
       })
       .catch((err) => {
-        if (err.code === "ACTION_REJECTED") {
+        openRequestModal?.({
+          open: false,
+        });
+        if (!err?.message.includes("user rejected transaction")) {
+          if (err?.message || err?.data.message) {
+            toast.fail?.({
+              title: "Transaction Failed",
+              text: err?.data.message || err?.message,
+            });
+          }
+        } else {
           toast.fail?.({
             title: "Transaction Failed",
             text: `User rejected the request. Details: 
@@ -464,7 +493,17 @@ const handleWrap = (type, onSuccess, onError) => {
         });
       })
       .catch((err) => {
-        if (err.code === "ACTION_REJECTED") {
+        openRequestModal?.({
+          open: false,
+        });
+        if (!err?.message.includes("user rejected transaction")) {
+          if (err?.message || err?.data.message) {
+            toast.fail?.({
+              title: "Transaction Failed",
+              text: err?.data.message || err?.message,
+            });
+          }
+        } else {
           toast.fail?.({
             title: "Transaction Failed",
             text: `User rejected the request. Details: 
@@ -536,20 +575,26 @@ return (
               open: true,
               tx: res.hash,
             });
+            State.update({ swapping: false });
             successCallback(res, () => {
               onPending(false);
-              State.update({ swapping: false });
             });
           },
           onError: (err) => {
             onPending(false);
             State.update({ swapping: false });
             openRequestModal?.({ open: false });
-            if (err.code !== "ACTION_REJECTED") {
+            if (!err?.message.includes("user rejected transaction")) {
               openRequestModal?.({
                 status: 3,
                 open: true,
               });
+              if (err?.message || err?.data.message) {
+                toast.fail?.({
+                  title: "Transaction Failed",
+                  text: err?.data.message || err?.message,
+                });
+              }
             } else {
               openRequestModal?.({
                 open: false,
@@ -577,7 +622,7 @@ return (
         });
         State.update({ swapping: true });
       }}
-      disabled={state.swapping}
+      disabled={state.swapping || !trade}
     >
       {state.swapping ? "Swapping..." : "Swap"}
     </SwapButton>
