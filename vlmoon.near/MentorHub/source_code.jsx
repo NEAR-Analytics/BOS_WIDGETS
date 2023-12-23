@@ -121,11 +121,12 @@ const Body = styled.div`
 const NavigationBar = styled.div`
   display: flex;
   flex-direction: row;
+  align-items: center; 
+  padding : ${appTheme.paddings.large};
   background-color: ${appTheme.colors().backgroundColor};
-  justify-content: space-around;
+  justify-content: center;
 `;
 
-//MentorHUB Widgets//
 const ProfileTab = styled.div`
   display: flex;
   flex-direction: column;
@@ -133,12 +134,12 @@ const ProfileTab = styled.div`
   justify-content: center;
   align-items: center; 
 `;
-//MentorHUB Widgets//
 
 const uiKitComponents = {
   button: Button,
   body: Body,
   navigationBar: NavigationBar,
+  profileTab: ProfileTab,
 };
 //UI Kit Widgets
 
@@ -197,7 +198,7 @@ const nameHeader = <h4 className="mt-0 mb-0 text-truncate">{name}</h4>;
 
 return (
   <>
-    <ProfileTab>
+    <uiKitComponents.profileTab>
       <h3>Mentor HUB</h3>
       <h4>Make the world around you the better place</h4>
       <Widget
@@ -212,8 +213,33 @@ return (
           thumbnail: false,
         }}
       />
-      {nameHeader}
-    </ProfileTab>
+      <h4 className="mt-0 mb-0 text-truncate">{name}</h4>
+    </uiKitComponents.profileTab>
+    <uiKitComponents.body>
+      <uiKitComponents.navigationBar>
+        <uiKitComponents.button onClick={routesNavigator.moduleA}>
+          My Students
+        </uiKitComponents.button>
+        <uiKitComponents.button onClick={routesNavigator.moduleB}>
+          My Teachers
+        </uiKitComponents.button>
+        <uiKitComponents.button onClick={routesNavigator.moduleC}>
+          My Events
+        </uiKitComponents.button>
+        <uiKitComponents.button onClick={routesNavigator.moduleD}>
+          My Tasks
+        </uiKitComponents.button>
+      </uiKitComponents.navigationBar>
+      <Widget
+        src={routes[state.currentRoute]}
+        props={{
+          dependencies,
+          routesNavigator,
+          appThemeService,
+          uiKitComponents,
+        }}
+      />
+    </uiKitComponents.body>
   </>
 );
 // <uiKitComponents.body>
