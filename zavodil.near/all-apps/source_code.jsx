@@ -1,4 +1,5 @@
 let allWidgets = Social.get("*/widget/**", "final");
+if (!allWidgets) return "Loading";
 
 let devsRating = {};
 let widgetsCount = 0;
