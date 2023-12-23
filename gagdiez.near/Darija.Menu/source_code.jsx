@@ -1,16 +1,16 @@
 const menu = [
   {
     name: "Conjugar Nombre",
-    link: "/embeded/gagdiez.near/widget/Darija.Nombre",
+    link: "/embed/gagdiez.near/widget/Darija.Nombre",
   },
-  { name: "Posesivos", link: "/embeded/gagdiez.near/widget/Darija.Posesivos" },
+  { name: "Posesivos", link: "/embed/gagdiez.near/widget/Darija.Posesivos" },
   {
     name: "Familia Nuclear",
-    link: "/embeded/gagdiez.near/widget/Darija.FamiliaNucleo",
+    link: "/embed/gagdiez.near/widget/Darija.FamiliaNucleo",
   },
   {
     name: "Familia Extendida",
-    link: "/embeded/gagdiez.near/widget/Darija.FamiliaExtendida",
+    link: "/embed/gagdiez.near/widget/Darija.FamiliaExtendida",
   },
 ];
 
