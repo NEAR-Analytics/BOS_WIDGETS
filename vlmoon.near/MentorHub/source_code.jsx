@@ -26,11 +26,6 @@ const fetchData = async () => {
   //   });
 };
 
-State.init({
-  currentRoute: "moduleA",
-  currentAppThemeMode: "lightMode",
-});
-
 //UI Kit Theme
 const appTheme = {
   colors: () => {
