@@ -27,6 +27,7 @@ const HeroSection = styled.div`
     #e1c4fe 49.87%,
     #95c3fe 98.55%
   );
+  width: 100%;
   height: 600px;
   padding: 3rem;
 
