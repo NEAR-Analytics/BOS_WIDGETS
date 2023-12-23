@@ -15,8 +15,8 @@ const menu = [
 ];
 
 return (
-  <div className="p-2">
-    <h4> Menu </h4>
+  <div className="p-3">
+    <h4> Lecciones </h4>
     <ul className="list-group mt-3">
       {menu.map((item) => (
         <li class="list-group-item">
