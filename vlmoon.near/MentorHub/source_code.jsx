@@ -211,30 +211,30 @@ return (
       />
       {nameHeader}
     </ProfileTab>
-    <uiKitComponents.body>
-      <uiKitComponents.navigationBar>
-        <uiKitComponents.button onClick={routesNavigator.moduleA}>
-          Swap Page to module A
-        </uiKitComponents.button>
-        <uiKitComponents.button onClick={routesNavigator.moduleB}>
-          Swap Page to module B
-        </uiKitComponents.button>
-        <uiKitComponents.button onClick={routesNavigator.moduleC}>
-          Swap Page to module C
-        </uiKitComponents.button>
-        <uiKitComponents.button onClick={routesNavigator.moduleD}>
-          Swap Page to module D
-        </uiKitComponents.button>
-      </uiKitComponents.navigationBar>
-      <Widget
-        src={routes[state.currentRoute]}
-        props={{
-          dependencies,
-          routesNavigator,
-          appThemeService,
-          uiKitComponents,
-        }}
-      />
-    </uiKitComponents.body>
   </>
 );
+// <uiKitComponents.body>
+//   <uiKitComponents.navigationBar>
+//     <uiKitComponents.button onClick={routesNavigator.moduleA}>
+//       Swap Page to module A
+//     </uiKitComponents.button>
+//     <uiKitComponents.button onClick={routesNavigator.moduleB}>
+//       Swap Page to module B
+//     </uiKitComponents.button>
+//     <uiKitComponents.button onClick={routesNavigator.moduleC}>
+//       Swap Page to module C
+//     </uiKitComponents.button>
+//     <uiKitComponents.button onClick={routesNavigator.moduleD}>
+//       Swap Page to module D
+//     </uiKitComponents.button>
+//   </uiKitComponents.navigationBar>
+//   <Widget
+//     src={routes[state.currentRoute]}
+//     props={{
+//       dependencies,
+//       routesNavigator,
+//       appThemeService,
+//       uiKitComponents,
+//     }}
+//   />
+// </uiKitComponents.body>
