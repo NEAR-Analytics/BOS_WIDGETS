@@ -120,11 +120,19 @@ const InfoSection = styled.div`
     }
   }
 
-  .circle {
-    width: 25px;
-    height: 25px;
-    border-radius: 50%;
-    border: 1px solid #151718;
+  .participate_item {
+    width: 350px;
+
+    .circle {
+      width: 25px !important;
+      height: 25px !important;
+      border-radius: 50%;
+      border: 1px solid #151718;
+    }
+
+    @media screen and (max-width: 786px) {
+      width: 100%;
+    }
   }
 
   .item {
@@ -461,16 +469,19 @@ return (
 
     <InfoSection className="d-flex flex-column gap-5">
       <h4>{content.participate.name}</h4>
-      <h2>{content.participate.title}</h2>
-      <div className="d-flex gap-4 justify-content-between">
+      <div>{content.participate.desc1}</div>
+      <div>{content.participate.desc2}</div>
+      <div className="d-flex flex-wrap justify-content-between">
         {content.participate.items?.map((section) => (
-          <div className="d-flex flex-column gap-2">
-            {section.map(({ title, href }) => (
+          <div className="participate_item d-flex flex-column gap-2">
+            {section.map((title) => (
               <h5 className="d-flex gap-2">
-                <div className="circle d-flex justify-content-center align-items-center">
-                  {(infoCounter += 1)}
+                <div>
+                  <div className="d-flex circle justify-content-center align-items-center">
+                    {(infoCounter += 1)}
+                  </div>
                 </div>
-                <a href={href}>{title}</a>
+                <span>{title}</span>
               </h5>
             ))}
           </div>
