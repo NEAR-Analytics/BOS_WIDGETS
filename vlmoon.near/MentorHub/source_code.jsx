@@ -125,6 +125,14 @@ const NavigationBar = styled.div`
   justify-content: space-around;
 `;
 
+const ProfileTab = styled.div`
+  display: flex;
+  flex-direction: column;
+  background-color: ${appTheme.colors().backgroundColor};
+  justify-content: center; /* Center the child elements horizontally */
+  align-items: center; /* Center the child elements vertically */
+`;
+
 const uiKitComponents = {
   button: Button,
   body: Body,
@@ -176,9 +184,33 @@ const dependencies = getModuleDependencies(state.currentRoute);
 //Service Layer
 //App Logic willl execute there
 //Service Layer
+const accountId = context.accountId;
+if (!accountId) {
+  return "No account ID";
+}
+const profile = Social.getr(`${accountId}/profile`);
+const name = profile.name || "No-name profile";
+const nameHeader = <h4 className="mt-0 mb-0 text-truncate">{name}</h4>;
 
 return (
   <>
+    <ProfileTab>
+      <h1>Mentor HUB</h1>
+      <h3>Make the world around you the better place</h3>
+      <Widget
+        src="mob.near/widget/ProfileImage"
+        props={{
+          profile,
+          fast,
+          accountId,
+          style: { width: "10rem", height: "10rem" },
+          className: "mb-2",
+          imageClassName: "rounded-circle w-100 h-100 img-thumbnail d-block",
+          thumbnail: false,
+        }}
+      />
+      {nameHeader}
+    </ProfileTab>
     <uiKitComponents.body>
       <uiKitComponents.navigationBar>
         <uiKitComponents.button onClick={routesNavigator.moduleA}>
