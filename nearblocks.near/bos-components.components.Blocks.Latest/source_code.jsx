@@ -3,7 +3,13 @@
  * Author: Nearblocks Pte Ltd
  * License: Business Source License 1.1
  * Description: Latest Blocks on Near Protocol.
+ * @interface Props
+ * @param {string} [network] - The network data to show, either mainnet or testnet
  */
+
+
+
+
 
 /* INCLUDE: "includes/formats.jsx" */
 function convertToMetricPrefix(number) {
@@ -15,7 +21,7 @@ function convertToMetricPrefix(number) {
     count++;
   }
 
-  return number.toFixed(2) + prefixes[count];
+  return number.toFixed(2) + ' ' + prefixes[count];
 }
 
 function gasFee(gas, price) {
@@ -108,6 +114,55 @@ function formatCustomDate(inputDate) {
 function shortenHex(address) {
   return `${address && address.substr(0, 6)}...${address.substr(-4)}`;
 }
+
+function capitalizeFirstLetter(string) {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
+function shortenToken(token) {
+  return truncateString(token, 14, '');
+}
+
+function shortenTokenSymbol(token) {
+  return truncateString(token, 5, '');
+}
+
+function gasPercentage(gasUsed, gasAttached) {
+  if (!gasAttached) return 'N/A';
+
+  const formattedNumber = (Big(gasUsed).div(Big(gasAttached)) * 100).toFixed();
+  return `${formattedNumber}%`;
+}
+function truncateString(str, maxLength, suffix) {
+  if (str.length <= maxLength) {
+    return str;
+  }
+  return str.substring(0, maxLength - suffix.length) + suffix;
+}
+function yoctoToNear(yocto, format) {
+  const YOCTO_PER_NEAR = Big(10).pow(24).toString();
+  const near = Big(yocto).div(YOCTO_PER_NEAR).toString();
+
+  return format ? localFormat(near) : near;
+}
+function truncateString(str, maxLength, suffix) {
+  if (str.length <= maxLength) {
+    return str;
+  }
+  return str.substring(0, maxLength - suffix.length) + suffix;
+}
+function yoctoToNear(yocto, format) {
+  const YOCTO_PER_NEAR = Big(10).pow(24).toString();
+  const near = Big(yocto).div(YOCTO_PER_NEAR).toString();
+
+  return format ? localFormat(near) : near;
+}
+function truncateString(str, maxLength, suffix) {
+  if (str.length <= maxLength) {
+    return str;
+  }
+  return str.substring(0, maxLength - suffix.length) + suffix;
+}
 function yoctoToNear(yocto, format) {
   const YOCTO_PER_NEAR = Big(10).pow(24).toString();
   const near = Big(yocto).div(YOCTO_PER_NEAR).toString();
@@ -128,18 +183,20 @@ function getTimeAgoString(timestamp) {
     minute: seconds / 60,
   };
 
-  if (intervals.year > 1) {
-    return Math.floor(intervals.year) + ' years ago';
+  if (intervals.year == 1) {
+    return Math.ceil(intervals.year) + ' year ago';
+  } else if (intervals.year > 1) {
+    return Math.ceil(intervals.year) + ' years ago';
   } else if (intervals.month > 1) {
-    return Math.floor(intervals.month) + ' months ago';
+    return Math.ceil(intervals.month) + ' months ago';
   } else if (intervals.week > 1) {
-    return Math.floor(intervals.week) + ' weeks ago';
+    return Math.ceil(intervals.week) + ' weeks ago';
   } else if (intervals.day > 1) {
-    return Math.floor(intervals.day) + ' days ago';
+    return Math.ceil(intervals.day) + ' days ago';
   } else if (intervals.hour > 1) {
-    return Math.floor(intervals.hour) + ' hours ago';
+    return Math.ceil(intervals.hour) + ' hours ago';
   } else if (intervals.minute > 1) {
-    return Math.floor(intervals.minute) + ' minutes ago';
+    return Math.ceil(intervals.minute) + ' minutes ago';
   } else {
     return 'a few seconds ago';
   }
@@ -167,7 +224,7 @@ function convertToMetricPrefix(number) {
     count++;
   }
 
-  return number.toFixed(2) + prefixes[count];
+  return number.toFixed(2) + ' ' + prefixes[count];
 }
 
 function gasFee(gas, price) {
@@ -259,6 +316,55 @@ function formatCustomDate(inputDate) {
 
 function shortenHex(address) {
   return `${address && address.substr(0, 6)}...${address.substr(-4)}`;
+}
+
+function capitalizeFirstLetter(string) {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
+function shortenToken(token) {
+  return truncateString(token, 14, '');
+}
+
+function shortenTokenSymbol(token) {
+  return truncateString(token, 5, '');
+}
+
+function gasPercentage(gasUsed, gasAttached) {
+  if (!gasAttached) return 'N/A';
+
+  const formattedNumber = (Big(gasUsed).div(Big(gasAttached)) * 100).toFixed();
+  return `${formattedNumber}%`;
+}
+function truncateString(str, maxLength, suffix) {
+  if (str.length <= maxLength) {
+    return str;
+  }
+  return str.substring(0, maxLength - suffix.length) + suffix;
+}
+function yoctoToNear(yocto, format) {
+  const YOCTO_PER_NEAR = Big(10).pow(24).toString();
+  const near = Big(yocto).div(YOCTO_PER_NEAR).toString();
+
+  return format ? localFormat(near) : near;
+}
+function truncateString(str, maxLength, suffix) {
+  if (str.length <= maxLength) {
+    return str;
+  }
+  return str.substring(0, maxLength - suffix.length) + suffix;
+}
+function yoctoToNear(yocto, format) {
+  const YOCTO_PER_NEAR = Big(10).pow(24).toString();
+  const near = Big(yocto).div(YOCTO_PER_NEAR).toString();
+
+  return format ? localFormat(near) : near;
+}
+function truncateString(str, maxLength, suffix) {
+  if (str.length <= maxLength) {
+    return str;
+  }
+  return str.substring(0, maxLength - suffix.length) + suffix;
 }
 function yoctoToNear(yocto, format) {
   const YOCTO_PER_NEAR = Big(10).pow(24).toString();
@@ -322,7 +428,7 @@ function convertToUTC(timestamp, hour) {
   ];
   const monthIndex = Number(utcMonth) - 1;
   // Format the date as required (Jul-25-2022 16:25:37)
-  const formattedDate =
+  let formattedDate =
     monthAbbreviations[monthIndex] +
     '-' +
     utcDay +
@@ -336,22 +442,26 @@ function convertToUTC(timestamp, hour) {
     utcSeconds;
 
   if (hour) {
-    const currentDate = new Date();
-    const differenceInSeconds = Math.floor(
-      (currentDate.getTime() - date.getTime()) / 1000,
-    );
+    // Convert hours to 12-hour format
+    let hour12 = parseInt(utcHours);
+    const ampm = hour12 >= 12 ? 'PM' : 'AM';
+    hour12 = hour12 % 12 || 12;
 
-    if (differenceInSeconds < 60) {
-      return 'a few seconds ago';
-    } else if (differenceInSeconds < 3600) {
-      const minutes = Math.floor(differenceInSeconds / 60);
-      return minutes + ' minute' + (minutes !== 1 ? 's' : '') + ' ago';
-    } else if (differenceInSeconds < 86400) {
-      const hours = Math.floor(differenceInSeconds / 3600);
-      return hours + ' hour' + (hours !== 1 ? 's' : '') + ' ago';
-    }
-
-    return formattedDate;
+    // Add AM/PM to the formatted date (Jul-25-2022 4:25:37 PM)
+    formattedDate =
+      monthAbbreviations[monthIndex] +
+      '-' +
+      utcDay +
+      '-' +
+      utcYear +
+      ' ' +
+      hour12 +
+      ':' +
+      utcMinutes +
+      ':' +
+      utcSeconds +
+      ' ' +
+      ampm;
   }
 
   return formattedDate;
@@ -371,18 +481,20 @@ function getTimeAgoString(timestamp) {
     minute: seconds / 60,
   };
 
-  if (intervals.year > 1) {
-    return Math.floor(intervals.year) + ' years ago';
+  if (intervals.year == 1) {
+    return Math.ceil(intervals.year) + ' year ago';
+  } else if (intervals.year > 1) {
+    return Math.ceil(intervals.year) + ' years ago';
   } else if (intervals.month > 1) {
-    return Math.floor(intervals.month) + ' months ago';
+    return Math.ceil(intervals.month) + ' months ago';
   } else if (intervals.week > 1) {
-    return Math.floor(intervals.week) + ' weeks ago';
+    return Math.ceil(intervals.week) + ' weeks ago';
   } else if (intervals.day > 1) {
-    return Math.floor(intervals.day) + ' days ago';
+    return Math.ceil(intervals.day) + ' days ago';
   } else if (intervals.hour > 1) {
-    return Math.floor(intervals.hour) + ' hours ago';
+    return Math.ceil(intervals.hour) + ' hours ago';
   } else if (intervals.minute > 1) {
-    return Math.floor(intervals.minute) + ' minutes ago';
+    return Math.ceil(intervals.minute) + ' minutes ago';
   } else {
     return 'a few seconds ago';
   }
@@ -410,7 +522,7 @@ function convertToMetricPrefix(number) {
     count++;
   }
 
-  return number.toFixed(2) + prefixes[count];
+  return number.toFixed(2) + ' ' + prefixes[count];
 }
 
 function gasFee(gas, price) {
@@ -502,6 +614,55 @@ function formatCustomDate(inputDate) {
 
 function shortenHex(address) {
   return `${address && address.substr(0, 6)}...${address.substr(-4)}`;
+}
+
+function capitalizeFirstLetter(string) {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
+function shortenToken(token) {
+  return truncateString(token, 14, '');
+}
+
+function shortenTokenSymbol(token) {
+  return truncateString(token, 5, '');
+}
+
+function gasPercentage(gasUsed, gasAttached) {
+  if (!gasAttached) return 'N/A';
+
+  const formattedNumber = (Big(gasUsed).div(Big(gasAttached)) * 100).toFixed();
+  return `${formattedNumber}%`;
+}
+function truncateString(str, maxLength, suffix) {
+  if (str.length <= maxLength) {
+    return str;
+  }
+  return str.substring(0, maxLength - suffix.length) + suffix;
+}
+function yoctoToNear(yocto, format) {
+  const YOCTO_PER_NEAR = Big(10).pow(24).toString();
+  const near = Big(yocto).div(YOCTO_PER_NEAR).toString();
+
+  return format ? localFormat(near) : near;
+}
+function truncateString(str, maxLength, suffix) {
+  if (str.length <= maxLength) {
+    return str;
+  }
+  return str.substring(0, maxLength - suffix.length) + suffix;
+}
+function yoctoToNear(yocto, format) {
+  const YOCTO_PER_NEAR = Big(10).pow(24).toString();
+  const near = Big(yocto).div(YOCTO_PER_NEAR).toString();
+
+  return format ? localFormat(near) : near;
+}
+function truncateString(str, maxLength, suffix) {
+  if (str.length <= maxLength) {
+    return str;
+  }
+  return str.substring(0, maxLength - suffix.length) + suffix;
 }
 function yoctoToNear(yocto, format) {
   const YOCTO_PER_NEAR = Big(10).pow(24).toString();
@@ -639,12 +800,11 @@ function debounce(
 /* END_INCLUDE: "includes/libs.jsx" */
 
 
-function MainComponent() {
+function MainComponent(props) {
   const [isLoading, setIsLoading] = useState(false);
   const [blocks, setBlocks] = useState([]);
 
-  const config = getConfig(context.networkId);
-
+  const config = getConfig(props.network);
   const Loader = (props) => {
     return (
       <div
@@ -654,25 +814,28 @@ function MainComponent() {
   };
 
   useEffect(() => {
+    let delay = 5000;
+    let retries = 0;
+
     function fetchLatestBlocks() {
       setIsLoading(true);
-      asyncFetch(`${config.backendUrl}blocks/latest`).then(
-        (data
-
-
-
-) => {
+      asyncFetch(`${config.backendUrl}blocks/latest`)
+        .then((data) => {
           const resp = data?.body?.blocks;
           setBlocks(resp);
-        },
-      );
+        })
+        .catch((error) => {
+          if (error.response && error.response.status === 429) {
+            delay = Math.min(2 ** retries * 1000, 60000);
+            retries++;
+          }
+        });
       setIsLoading(false);
     }
 
     fetchLatestBlocks();
-    const interval = setInterval(() => {
-      fetchLatestBlocks();
-    }, 5000);
+
+    const interval = setInterval(fetchLatestBlocks, delay);
 
     return () => clearInterval(interval);
   }, [config.backendUrl]);
@@ -739,8 +902,11 @@ function MainComponent() {
                         </div>
                         <div className="overflow-hidden pl-2">
                           <div className="text-green-500 text-sm font-medium ">
-                            <a href={`/blocks/${block.block_hash}`}>
-                              <a className="text-green-500">
+                            <a
+                              href={`/blocks/${block.block_hash}`}
+                              className="hover:no-underline"
+                            >
+                              <a className="text-green-500 hover:no-underline">
                                 {localFormat(block.block_height)}
                               </a>
                             </a>
@@ -754,8 +920,11 @@ function MainComponent() {
                       </div>
                       <div className="col-span-2 md:col-span-1 px-2 order-2 md:order-1 text-sm whitespace-nowrap truncate">
                         Author{' '}
-                        <a href={`/address/${block.author_account_id}`}>
-                          <a className="text-green-500  font-medium">
+                        <a
+                          href={`/address/${block.author_account_id}`}
+                          className="hover:no-underline"
+                        >
+                          <a className="text-green-500 font-medium hover:no-underline">
                             {block.author_account_id}
                           </a>
                         </a>
@@ -767,13 +936,12 @@ function MainComponent() {
                         <Tooltip.Provider>
                           <Tooltip.Root>
                             <Tooltip.Trigger asChild>
-                              <span className="inline-flex items-center rounded-md bg-gray-50 px-2 py-1 text-xs font-medium text-gray-600 ring-1 ring-inset ring-gray-500/10 text-gray-400 truncate">
+                              <span className="u-label--badge-in text-gray-400 truncate">
                                 {block.chunks_agg.gas_used
                                   ? convertToMetricPrefix(
                                       block.chunks_agg.gas_used,
-                                    )
-                                  : '0 '}
-                                gas
+                                    ) + 'gas'
+                                  : '0 gas'}
                               </span>
                             </Tooltip.Trigger>
                             <Tooltip.Content
