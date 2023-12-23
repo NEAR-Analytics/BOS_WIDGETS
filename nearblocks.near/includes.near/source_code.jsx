@@ -33,3 +33,16 @@ export function gasPrice(yacto) {
 
   return `${localFormat(near)} Ⓝ / Tgas`;
 }
+
+export function tokenAmount(amount, decimal, format) {
+  if (amount === undefined || amount === null) return 'N/A';
+
+  const near = Big(amount).div(Big(10).pow(+decimal));
+
+  return format
+    ? near.toString().toLocaleString(undefined, {
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 8,
+      })
+    : near;
+}
