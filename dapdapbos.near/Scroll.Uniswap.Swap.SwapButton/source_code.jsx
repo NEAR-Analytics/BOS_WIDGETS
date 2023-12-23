@@ -271,7 +271,17 @@ const handleApprove = () => {
       });
     })
     .catch((err) => {
-      if (err.code === "ACTION_REJECTED") {
+      openRequestModal?.({
+        open: false,
+      });
+      if (!err?.message.includes("user rejected transaction")) {
+        if (err?.message || err?.data.message) {
+          toast.fail?.({
+            title: "Transaction Failed",
+            text: err?.data.message || err?.message,
+          });
+        }
+      } else {
         toast.fail?.({
           title: "Transaction Failed",
           text: `User rejected the request. Details: 
@@ -429,7 +439,17 @@ const handleWrap = (type, onSuccess, onError) => {
         });
       })
       .catch((err) => {
-        if (err.code === "ACTION_REJECTED") {
+        openRequestModal?.({
+          open: false,
+        });
+        if (!err?.message.includes("user rejected transaction")) {
+          if (err?.message || err?.data.message) {
+            toast.fail?.({
+              title: "Transaction Failed",
+              text: err?.data.message || err?.message,
+            });
+          }
+        } else {
           toast.fail?.({
             title: "Transaction Failed",
             text: `User rejected the request. Details: 
@@ -471,7 +491,17 @@ const handleWrap = (type, onSuccess, onError) => {
         });
       })
       .catch((err) => {
-        if (err.code === "ACTION_REJECTED") {
+        openRequestModal?.({
+          open: false,
+        });
+        if (!err?.message.includes("user rejected transaction")) {
+          if (err?.message || err?.data.message) {
+            toast.fail?.({
+              title: "Transaction Failed",
+              text: err?.data.message || err?.message,
+            });
+          }
+        } else {
           toast.fail?.({
             title: "Transaction Failed",
             text: `User rejected the request. Details: 
@@ -557,6 +587,12 @@ return (
                 status: 3,
                 open: true,
               });
+              if (err?.message || err?.data.message) {
+                toast.fail?.({
+                  title: "Transaction Failed",
+                  text: err?.data.message || err?.message,
+                });
+              }
             } else {
               openRequestModal?.({
                 open: false,
