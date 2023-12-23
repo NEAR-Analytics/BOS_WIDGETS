@@ -18,8 +18,7 @@ return {
       ndc_link:
         "https://near.org/astraplusplus.ndctools.near/widget/home?page=dao&daoId=marketing.sputnik-dao.near",
       heroTitle: "Marketing DAO",
-      heroDesc:
-        "Join a vibrant community of innovators shaping the open web shaping the open web.",
+      heroDesc: "Join a vibrant community of innovators shaping the open web.",
       footerDesc:
         "Stay in the loop. Get the latest updates, announcements, opportunities, and insights from the ecosystem.",
       info: {
@@ -109,18 +108,26 @@ return {
       },
       participate: {
         name: "PARTICIPATE",
-        title:
-          "There are many ways to start your contribution journey. You can:",
+        desc1:
+          "Marketing DAO Vertical was created for the purpose of unifying and improving the allocation of NEAR community funds for marketing-focused projects benefiting community projects, DAOs, teams and organizations in the NEAR ecosystem. The Marketing DAO Vertical is meant to support community-driven marketing campaigns and does not intend to replace the Internal Marketing Efforts by NEAR Inc., NEAR Foundation, and other companies affiliated with NEAR. Separate from the NEAR Foundation grants programs, the Marketing DAO funds proposals with a maximum monthly payout equivalent of $10, 000",
+        desc2:
+          "What kinds of marketing activities does the Marketing DAO accept:",
         items: [
           [
-            { title: "Ideate on MDAO", href: "" },
-            { title: "Post a Proposal or Report", href: "" },
+            "Social Media (Twitter, Instagram, Telegram, etc.)",
+            "Blogs, articles, guides",
+            "PR and Paid Media",
           ],
           [
-            { title: "Attend a workshop", href: "" },
-            { title: "Apply for a grant", href: "" },
+            "Influencers (YouTube bloggers, etc.)",
+            "Events, workshops, AMAs",
+            "Merch, swag for events",
           ],
-          [{ title: "MDAO Bounty program", href: "" }],
+          [
+            "Communication",
+            "Other paid marketing efforts such as giveaways",
+            "Growth Hacking",
+          ],
         ],
       },
       support: {
