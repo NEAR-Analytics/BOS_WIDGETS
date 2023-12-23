@@ -125,13 +125,15 @@ const NavigationBar = styled.div`
   justify-content: space-around;
 `;
 
+//MentorHUB Widgets//
 const ProfileTab = styled.div`
   display: flex;
   flex-direction: column;
   background-color: ${appTheme.colors().backgroundColor};
-  justify-content: center; /* Center the child elements horizontally */
-  align-items: center; /* Center the child elements vertically */
+  justify-content: center;
+  align-items: center; 
 `;
+//MentorHUB Widgets//
 
 const uiKitComponents = {
   button: Button,
@@ -184,6 +186,7 @@ const dependencies = getModuleDependencies(state.currentRoute);
 //Service Layer
 //App Logic willl execute there
 //Service Layer
+
 const accountId = context.accountId;
 if (!accountId) {
   return "No account ID";
@@ -195,8 +198,8 @@ const nameHeader = <h4 className="mt-0 mb-0 text-truncate">{name}</h4>;
 return (
   <>
     <ProfileTab>
-      <h1>Mentor HUB</h1>
-      <h3>Make the world around you the better place</h3>
+      <h3>Mentor HUB</h3>
+      <h4>Make the world around you the better place</h4>
       <Widget
         src="mob.near/widget/ProfileImage"
         props={{
