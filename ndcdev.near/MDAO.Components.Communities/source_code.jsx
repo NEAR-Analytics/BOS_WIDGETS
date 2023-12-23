@@ -59,6 +59,12 @@ const Badge = styled.div`
       : "rgb(138 79 255)"};
 `;
 
+const Img = styled.img`
+  border-radius: 50%;
+  width: 100px;
+  height: 100px;
+`;
+
 const [communities, setCommunities] = useState([]);
 
 const fetchCommunities = () => {
@@ -91,6 +97,7 @@ const Connect = ({ item }) => (
     status={item[4].v}
     className="d-flex flex-column gap-2 justify-content-between align-items-center"
   >
+    <Img src={item[5].v} />
     <h4 className="bold color-text px-4 pt-4 text-center">{item[1].v}</h4>
     <Badge status={item[4].v}>{item[4].v || "No status yet"}</Badge>
     <div className="pt-2 pb-4 text-center">
@@ -102,6 +109,8 @@ const Connect = ({ item }) => (
     </div>
   </Item>
 );
+
+console.log(communities);
 
 return (
   <div className="d-flex flex-wrap gap-5 justify-content-center">
