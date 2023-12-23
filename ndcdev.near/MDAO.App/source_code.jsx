@@ -22,6 +22,22 @@ function Page() {
         />
       );
     }
+    case "councils": {
+      return (
+        <Widget
+          src={`ndcdev.near/widget/MDAO.Pages.Councils`}
+          props={passProps}
+        />
+      );
+    }
+    case "achievements": {
+      return (
+        <Widget
+          src={`ndcdev.near/widget/MDAO.Pages.Achievements`}
+          props={passProps}
+        />
+      );
+    }
     case "reports": {
       return (
         <Widget
