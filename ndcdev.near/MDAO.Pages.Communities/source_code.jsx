@@ -14,6 +14,7 @@ const Container = styled.div`
 `;
 
 const HeroSection = styled.div`
+  width: 100%;
   background: linear-gradient(
     96deg,
     #fdefb1 -19.42%,
