@@ -1,11 +1,13 @@
 /**
- * Component: Transaction Overview
+ * Component: Transactions Overview
  * Author: Nearblocks Pte Ltd
  * License: Business Source License 1.1
- * Description: Providing a comprehensive overview of nearblocks transactions.
+ * Description: Transactions Overview.
  * @interface Props
  * @param {boolean} [fetchStyles] - Use Nearblock styles.
+ * @param {string} [network] - The network data to show, either mainnet or testnet
  */
+
 
 
 
@@ -113,6 +115,49 @@ function formatCustomDate(inputDate) {
 function shortenHex(address) {
   return `${address && address.substr(0, 6)}...${address.substr(-4)}`;
 }
+
+function capitalizeFirstLetter(string) {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
+function shortenToken(token) {
+  return truncateString(token, 14, '');
+}
+
+function shortenTokenSymbol(token) {
+  return truncateString(token, 5, '');
+}
+
+function gasPercentage(gasUsed, gasAttached) {
+  if (!gasAttached) return 'N/A';
+
+  const formattedNumber = (Big(gasUsed).div(Big(gasAttached)) * 100).toFixed();
+  return `${formattedNumber}%`;
+}
+function truncateString(str, maxLength, suffix) {
+  if (str.length <= maxLength) {
+    return str;
+  }
+  return str.substring(0, maxLength - suffix.length) + suffix;
+}
+function yoctoToNear(yocto, format) {
+  const YOCTO_PER_NEAR = Big(10).pow(24).toString();
+  const near = Big(yocto).div(YOCTO_PER_NEAR).toString();
+
+  return format ? localFormat(near) : near;
+}
+function truncateString(str, maxLength, suffix) {
+  if (str.length <= maxLength) {
+    return str;
+  }
+  return str.substring(0, maxLength - suffix.length) + suffix;
+}
+function yoctoToNear(yocto, format) {
+  const YOCTO_PER_NEAR = Big(10).pow(24).toString();
+  const near = Big(yocto).div(YOCTO_PER_NEAR).toString();
+
+  return format ? localFormat(near) : near;
+}
 function dollarFormat(number) {
   const formattedNumber = Number(number).toLocaleString('en', {
     minimumFractionDigits: 2,
@@ -161,7 +206,7 @@ function convertToUTC(timestamp, hour) {
   ];
   const monthIndex = Number(utcMonth) - 1;
   // Format the date as required (Jul-25-2022 16:25:37)
-  const formattedDate =
+  let formattedDate =
     monthAbbreviations[monthIndex] +
     '-' +
     utcDay +
@@ -175,22 +220,26 @@ function convertToUTC(timestamp, hour) {
     utcSeconds;
 
   if (hour) {
-    const currentDate = new Date();
-    const differenceInSeconds = Math.floor(
-      (currentDate.getTime() - date.getTime()) / 1000,
-    );
+    // Convert hours to 12-hour format
+    let hour12 = parseInt(utcHours);
+    const ampm = hour12 >= 12 ? 'PM' : 'AM';
+    hour12 = hour12 % 12 || 12;
 
-    if (differenceInSeconds < 60) {
-      return 'a few seconds ago';
-    } else if (differenceInSeconds < 3600) {
-      const minutes = Math.floor(differenceInSeconds / 60);
-      return minutes + ' minute' + (minutes !== 1 ? 's' : '') + ' ago';
-    } else if (differenceInSeconds < 86400) {
-      const hours = Math.floor(differenceInSeconds / 3600);
-      return hours + ' hour' + (hours !== 1 ? 's' : '') + ' ago';
-    }
-
-    return formattedDate;
+    // Add AM/PM to the formatted date (Jul-25-2022 4:25:37 PM)
+    formattedDate =
+      monthAbbreviations[monthIndex] +
+      '-' +
+      utcDay +
+      '-' +
+      utcYear +
+      ' ' +
+      hour12 +
+      ':' +
+      utcMinutes +
+      ':' +
+      utcSeconds +
+      ' ' +
+      ampm;
   }
 
   return formattedDate;
@@ -210,18 +259,20 @@ function getTimeAgoString(timestamp) {
     minute: seconds / 60,
   };
 
-  if (intervals.year > 1) {
-    return Math.floor(intervals.year) + ' years ago';
+  if (intervals.year == 1) {
+    return Math.ceil(intervals.year) + ' year ago';
+  } else if (intervals.year > 1) {
+    return Math.ceil(intervals.year) + ' years ago';
   } else if (intervals.month > 1) {
-    return Math.floor(intervals.month) + ' months ago';
+    return Math.ceil(intervals.month) + ' months ago';
   } else if (intervals.week > 1) {
-    return Math.floor(intervals.week) + ' weeks ago';
+    return Math.ceil(intervals.week) + ' weeks ago';
   } else if (intervals.day > 1) {
-    return Math.floor(intervals.day) + ' days ago';
+    return Math.ceil(intervals.day) + ' days ago';
   } else if (intervals.hour > 1) {
-    return Math.floor(intervals.hour) + ' hours ago';
+    return Math.ceil(intervals.hour) + ' hours ago';
   } else if (intervals.minute > 1) {
-    return Math.floor(intervals.minute) + ' minutes ago';
+    return Math.ceil(intervals.minute) + ' minutes ago';
   } else {
     return 'a few seconds ago';
   }
@@ -249,7 +300,7 @@ function convertToMetricPrefix(number) {
     count++;
   }
 
-  return number.toFixed(2) + prefixes[count];
+  return number.toFixed(2) + ' ' + prefixes[count];
 }
 
 function gasFee(gas, price) {
@@ -342,6 +393,55 @@ function formatCustomDate(inputDate) {
 function shortenHex(address) {
   return `${address && address.substr(0, 6)}...${address.substr(-4)}`;
 }
+
+function capitalizeFirstLetter(string) {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
+function shortenToken(token) {
+  return truncateString(token, 14, '');
+}
+
+function shortenTokenSymbol(token) {
+  return truncateString(token, 5, '');
+}
+
+function gasPercentage(gasUsed, gasAttached) {
+  if (!gasAttached) return 'N/A';
+
+  const formattedNumber = (Big(gasUsed).div(Big(gasAttached)) * 100).toFixed();
+  return `${formattedNumber}%`;
+}
+function truncateString(str, maxLength, suffix) {
+  if (str.length <= maxLength) {
+    return str;
+  }
+  return str.substring(0, maxLength - suffix.length) + suffix;
+}
+function yoctoToNear(yocto, format) {
+  const YOCTO_PER_NEAR = Big(10).pow(24).toString();
+  const near = Big(yocto).div(YOCTO_PER_NEAR).toString();
+
+  return format ? localFormat(near) : near;
+}
+function truncateString(str, maxLength, suffix) {
+  if (str.length <= maxLength) {
+    return str;
+  }
+  return str.substring(0, maxLength - suffix.length) + suffix;
+}
+function yoctoToNear(yocto, format) {
+  const YOCTO_PER_NEAR = Big(10).pow(24).toString();
+  const near = Big(yocto).div(YOCTO_PER_NEAR).toString();
+
+  return format ? localFormat(near) : near;
+}
+function truncateString(str, maxLength, suffix) {
+  if (str.length <= maxLength) {
+    return str;
+  }
+  return str.substring(0, maxLength - suffix.length) + suffix;
+}
 function yoctoToNear(yocto, format) {
   const YOCTO_PER_NEAR = Big(10).pow(24).toString();
   const near = Big(yocto).div(YOCTO_PER_NEAR).toString();
@@ -379,6 +479,49 @@ function formatCustomDate(inputDate) {
 
 function shortenHex(address) {
   return `${address && address.substr(0, 6)}...${address.substr(-4)}`;
+}
+
+function capitalizeFirstLetter(string) {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
+function shortenToken(token) {
+  return truncateString(token, 14, '');
+}
+
+function shortenTokenSymbol(token) {
+  return truncateString(token, 5, '');
+}
+
+function gasPercentage(gasUsed, gasAttached) {
+  if (!gasAttached) return 'N/A';
+
+  const formattedNumber = (Big(gasUsed).div(Big(gasAttached)) * 100).toFixed();
+  return `${formattedNumber}%`;
+}
+function truncateString(str, maxLength, suffix) {
+  if (str.length <= maxLength) {
+    return str;
+  }
+  return str.substring(0, maxLength - suffix.length) + suffix;
+}
+function yoctoToNear(yocto, format) {
+  const YOCTO_PER_NEAR = Big(10).pow(24).toString();
+  const near = Big(yocto).div(YOCTO_PER_NEAR).toString();
+
+  return format ? localFormat(near) : near;
+}
+function truncateString(str, maxLength, suffix) {
+  if (str.length <= maxLength) {
+    return str;
+  }
+  return str.substring(0, maxLength - suffix.length) + suffix;
+}
+function yoctoToNear(yocto, format) {
+  const YOCTO_PER_NEAR = Big(10).pow(24).toString();
+  const near = Big(yocto).div(YOCTO_PER_NEAR).toString();
+
+  return format ? localFormat(near) : near;
 }
 function localFormat(number) {
   const formattedNumber = Number(number).toLocaleString('en', {
@@ -436,7 +579,7 @@ function convertToUTC(timestamp, hour) {
   ];
   const monthIndex = Number(utcMonth) - 1;
   // Format the date as required (Jul-25-2022 16:25:37)
-  const formattedDate =
+  let formattedDate =
     monthAbbreviations[monthIndex] +
     '-' +
     utcDay +
@@ -450,22 +593,26 @@ function convertToUTC(timestamp, hour) {
     utcSeconds;
 
   if (hour) {
-    const currentDate = new Date();
-    const differenceInSeconds = Math.floor(
-      (currentDate.getTime() - date.getTime()) / 1000,
-    );
+    // Convert hours to 12-hour format
+    let hour12 = parseInt(utcHours);
+    const ampm = hour12 >= 12 ? 'PM' : 'AM';
+    hour12 = hour12 % 12 || 12;
 
-    if (differenceInSeconds < 60) {
-      return 'a few seconds ago';
-    } else if (differenceInSeconds < 3600) {
-      const minutes = Math.floor(differenceInSeconds / 60);
-      return minutes + ' minute' + (minutes !== 1 ? 's' : '') + ' ago';
-    } else if (differenceInSeconds < 86400) {
-      const hours = Math.floor(differenceInSeconds / 3600);
-      return hours + ' hour' + (hours !== 1 ? 's' : '') + ' ago';
-    }
-
-    return formattedDate;
+    // Add AM/PM to the formatted date (Jul-25-2022 4:25:37 PM)
+    formattedDate =
+      monthAbbreviations[monthIndex] +
+      '-' +
+      utcDay +
+      '-' +
+      utcYear +
+      ' ' +
+      hour12 +
+      ':' +
+      utcMinutes +
+      ':' +
+      utcSeconds +
+      ' ' +
+      ampm;
   }
 
   return formattedDate;
@@ -485,18 +632,20 @@ function getTimeAgoString(timestamp) {
     minute: seconds / 60,
   };
 
-  if (intervals.year > 1) {
-    return Math.floor(intervals.year) + ' years ago';
+  if (intervals.year == 1) {
+    return Math.ceil(intervals.year) + ' year ago';
+  } else if (intervals.year > 1) {
+    return Math.ceil(intervals.year) + ' years ago';
   } else if (intervals.month > 1) {
-    return Math.floor(intervals.month) + ' months ago';
+    return Math.ceil(intervals.month) + ' months ago';
   } else if (intervals.week > 1) {
-    return Math.floor(intervals.week) + ' weeks ago';
+    return Math.ceil(intervals.week) + ' weeks ago';
   } else if (intervals.day > 1) {
-    return Math.floor(intervals.day) + ' days ago';
+    return Math.ceil(intervals.day) + ' days ago';
   } else if (intervals.hour > 1) {
-    return Math.floor(intervals.hour) + ' hours ago';
+    return Math.ceil(intervals.hour) + ' hours ago';
   } else if (intervals.minute > 1) {
-    return Math.floor(intervals.minute) + ' minutes ago';
+    return Math.ceil(intervals.minute) + ' minutes ago';
   } else {
     return 'a few seconds ago';
   }
@@ -524,7 +673,7 @@ function convertToMetricPrefix(number) {
     count++;
   }
 
-  return number.toFixed(2) + prefixes[count];
+  return number.toFixed(2) + ' ' + prefixes[count];
 }
 
 function gasFee(gas, price) {
@@ -616,6 +765,55 @@ function formatCustomDate(inputDate) {
 
 function shortenHex(address) {
   return `${address && address.substr(0, 6)}...${address.substr(-4)}`;
+}
+
+function capitalizeFirstLetter(string) {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
+function shortenToken(token) {
+  return truncateString(token, 14, '');
+}
+
+function shortenTokenSymbol(token) {
+  return truncateString(token, 5, '');
+}
+
+function gasPercentage(gasUsed, gasAttached) {
+  if (!gasAttached) return 'N/A';
+
+  const formattedNumber = (Big(gasUsed).div(Big(gasAttached)) * 100).toFixed();
+  return `${formattedNumber}%`;
+}
+function truncateString(str, maxLength, suffix) {
+  if (str.length <= maxLength) {
+    return str;
+  }
+  return str.substring(0, maxLength - suffix.length) + suffix;
+}
+function yoctoToNear(yocto, format) {
+  const YOCTO_PER_NEAR = Big(10).pow(24).toString();
+  const near = Big(yocto).div(YOCTO_PER_NEAR).toString();
+
+  return format ? localFormat(near) : near;
+}
+function truncateString(str, maxLength, suffix) {
+  if (str.length <= maxLength) {
+    return str;
+  }
+  return str.substring(0, maxLength - suffix.length) + suffix;
+}
+function yoctoToNear(yocto, format) {
+  const YOCTO_PER_NEAR = Big(10).pow(24).toString();
+  const near = Big(yocto).div(YOCTO_PER_NEAR).toString();
+
+  return format ? localFormat(near) : near;
+}
+function truncateString(str, maxLength, suffix) {
+  if (str.length <= maxLength) {
+    return str;
+  }
+  return str.substring(0, maxLength - suffix.length) + suffix;
 }
 function yoctoToNear(yocto, format) {
   const YOCTO_PER_NEAR = Big(10).pow(24).toString();
@@ -685,6 +883,19 @@ function gasPrice(yacto) {
 
   return `${localFormat(near)} Ⓝ / Tgas`;
 }
+
+function tokenAmount(amount, decimal, format) {
+  if (amount === undefined || amount === null) return 'N/A';
+
+  const near = Big(amount).div(Big(10).pow(+decimal));
+
+  return format
+    ? near.toString().toLocaleString(undefined, {
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 8,
+      })
+    : near;
+}
 function yoctoToNear(yocto, format) {
   const YOCTO_PER_NEAR = Big(10).pow(24).toString();
   const near = Big(yocto).div(YOCTO_PER_NEAR).toString();
@@ -715,7 +926,7 @@ function MainComponent(props) {
     {} ,
   );
 
-  const config = getConfig(context.networkId);
+  const config = getConfig(props.network);
 
   /**
    * Fetches styles asynchronously from a nearblocks gateway.
@@ -735,46 +946,45 @@ function MainComponent(props) {
   `;
 
   useEffect(() => {
+    let delay = 15000;
+    let retries = 0;
+
     function fetchStats() {
       setIsLoading(true);
       asyncFetch(`${config?.backendUrl}stats`)
-        .then(
-          (data
-
-
-
-) => {
-            const resp = data?.body?.stats?.[0];
-            setStats({
-              avg_block_time: resp.avg_block_time,
-              block: resp.block,
-              change_24: resp.change_24,
-              gas_price: resp.gas_price,
-              high_24h: resp.high_24h,
-              high_all: resp.high_all,
-              low_24h: resp.low_24h,
-              low_all: resp.low_all,
-              market_cap: resp.market_cap,
-              near_btc_price: resp.near_btc_price,
-              near_price: resp.near_price,
-              nodes: resp.nodes,
-              nodes_online: resp.nodes_online,
-              total_supply: resp.total_supply,
-              total_txns: resp.total_txns,
-              volume: resp.volume,
-            });
-          },
-        )
-        .catch(() => {})
-        .finally(() => {
-          setIsLoading(false);
+        .then((data) => {
+          const resp = data?.body?.stats?.[0];
+          setStats({
+            avg_block_time: resp.avg_block_time,
+            block: resp.block,
+            change_24: resp.change_24,
+            gas_price: resp.gas_price,
+            high_24h: resp.high_24h,
+            high_all: resp.high_all,
+            low_24h: resp.low_24h,
+            low_all: resp.low_all,
+            market_cap: resp.market_cap,
+            near_btc_price: resp.near_btc_price,
+            near_price: resp.near_price,
+            nodes: resp.nodes,
+            nodes_online: resp.nodes_online,
+            total_supply: resp.total_supply,
+            total_txns: resp.total_txns,
+            volume: resp.volume,
+          });
+        })
+        .catch((error) => {
+          if (error.response && error.response.status === 429) {
+            delay = Math.min(2 ** retries * 15000, 60000);
+            retries++;
+          }
         });
+      setIsLoading(false);
     }
 
     fetchStats();
-    const interval = setInterval(() => {
-      fetchStats();
-    }, 15000);
+
+    const interval = setInterval(fetchStats, delay);
 
     return () => clearInterval(interval);
   }, [config?.backendUrl]);
@@ -929,12 +1139,12 @@ function MainComponent(props) {
           <div className="bg-white soft-shadow rounded-lg overflow-hidden px-5 md:py lg:px-0">
             <div
               className={`grid grid-flow-col grid-cols-1 ${
-                context.networkId === 'mainnet'
+                props.network === 'mainnet'
                   ? 'grid-rows-3 lg:grid-cols-3'
                   : 'grid-rows-2 lg:grid-cols-2'
               } lg:grid-rows-1 divide-y lg:divide-y-0 lg:divide-x lg:py-3`}
             >
-              {context.networkId === 'mainnet' && (
+              {props.network === 'mainnet' && (
                 <>
                   <div className="flex flex-col lg:flex-col lg:items-stretch divide-y lg:divide-y lg:divide-x-0 md:pt-0 md:pb-0 md:px-5">
                     <div className="flex flex-row py-5 lg:pb-5 lg:px-0">
