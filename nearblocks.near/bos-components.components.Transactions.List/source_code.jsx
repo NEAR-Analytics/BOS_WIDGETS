@@ -4,8 +4,23 @@
  * License: Business Source License 1.1
  * Description: Table of Transactions on Near Protocol.
  * @interface Props
- * @param {boolean} [fetchStyles] - Use Nearblock styles.
+ * @param {string} [network] - The network data to show, either mainnet or testnet
+ * @param {number} [currentPage] - The current page number being displayed. (Optional)
+ *                                 Example: If provided, currentPage=3 will display the third page of blocks.
+ * @param {Object.<string, string>} [filters] - Key-value pairs for filtering transactions. (Optional)
+ *                                              Example: If provided, method=batch will filter the blocks with method=batch.
+ * @param {function} [setPage] - A function used to set the current page. (Optional)
+ *                               Example: setPage={handlePageChange} where handlePageChange is a function to update the page.
+ * @param {function} [handleFilter] - Function to handle filter changes. (Optional)
+ *                                    Example: handleFilter={handlePageFilter} where handlePageFilter is a function to filter the page.
+ * @param {function} onFilterClear - Function to clear a specific or all filters. (Optional)
+ *                                   Example: onFilterClear={handleClearFilter} where handleClearFilter is a function to clear the applied filters.
  */
+
+
+
+
+
 
 
 
@@ -68,7 +83,7 @@ function convertToUTC(timestamp, hour) {
   ];
   const monthIndex = Number(utcMonth) - 1;
   // Format the date as required (Jul-25-2022 16:25:37)
-  const formattedDate =
+  let formattedDate =
     monthAbbreviations[monthIndex] +
     '-' +
     utcDay +
@@ -82,22 +97,26 @@ function convertToUTC(timestamp, hour) {
     utcSeconds;
 
   if (hour) {
-    const currentDate = new Date();
-    const differenceInSeconds = Math.floor(
-      (currentDate.getTime() - date.getTime()) / 1000,
-    );
+    // Convert hours to 12-hour format
+    let hour12 = parseInt(utcHours);
+    const ampm = hour12 >= 12 ? 'PM' : 'AM';
+    hour12 = hour12 % 12 || 12;
 
-    if (differenceInSeconds < 60) {
-      return 'a few seconds ago';
-    } else if (differenceInSeconds < 3600) {
-      const minutes = Math.floor(differenceInSeconds / 60);
-      return minutes + ' minute' + (minutes !== 1 ? 's' : '') + ' ago';
-    } else if (differenceInSeconds < 86400) {
-      const hours = Math.floor(differenceInSeconds / 3600);
-      return hours + ' hour' + (hours !== 1 ? 's' : '') + ' ago';
-    }
-
-    return formattedDate;
+    // Add AM/PM to the formatted date (Jul-25-2022 4:25:37 PM)
+    formattedDate =
+      monthAbbreviations[monthIndex] +
+      '-' +
+      utcDay +
+      '-' +
+      utcYear +
+      ' ' +
+      hour12 +
+      ':' +
+      utcMinutes +
+      ':' +
+      utcSeconds +
+      ' ' +
+      ampm;
   }
 
   return formattedDate;
@@ -117,18 +136,20 @@ function getTimeAgoString(timestamp) {
     minute: seconds / 60,
   };
 
-  if (intervals.year > 1) {
-    return Math.floor(intervals.year) + ' years ago';
+  if (intervals.year == 1) {
+    return Math.ceil(intervals.year) + ' year ago';
+  } else if (intervals.year > 1) {
+    return Math.ceil(intervals.year) + ' years ago';
   } else if (intervals.month > 1) {
-    return Math.floor(intervals.month) + ' months ago';
+    return Math.ceil(intervals.month) + ' months ago';
   } else if (intervals.week > 1) {
-    return Math.floor(intervals.week) + ' weeks ago';
+    return Math.ceil(intervals.week) + ' weeks ago';
   } else if (intervals.day > 1) {
-    return Math.floor(intervals.day) + ' days ago';
+    return Math.ceil(intervals.day) + ' days ago';
   } else if (intervals.hour > 1) {
-    return Math.floor(intervals.hour) + ' hours ago';
+    return Math.ceil(intervals.hour) + ' hours ago';
   } else if (intervals.minute > 1) {
-    return Math.floor(intervals.minute) + ' minutes ago';
+    return Math.ceil(intervals.minute) + ' minutes ago';
   } else {
     return 'a few seconds ago';
   }
@@ -156,7 +177,7 @@ function convertToMetricPrefix(number) {
     count++;
   }
 
-  return number.toFixed(2) + prefixes[count];
+  return number.toFixed(2) + ' ' + prefixes[count];
 }
 
 function gasFee(gas, price) {
@@ -249,6 +270,55 @@ function formatCustomDate(inputDate) {
 function shortenHex(address) {
   return `${address && address.substr(0, 6)}...${address.substr(-4)}`;
 }
+
+function capitalizeFirstLetter(string) {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
+function shortenToken(token) {
+  return truncateString(token, 14, '');
+}
+
+function shortenTokenSymbol(token) {
+  return truncateString(token, 5, '');
+}
+
+function gasPercentage(gasUsed, gasAttached) {
+  if (!gasAttached) return 'N/A';
+
+  const formattedNumber = (Big(gasUsed).div(Big(gasAttached)) * 100).toFixed();
+  return `${formattedNumber}%`;
+}
+function truncateString(str, maxLength, suffix) {
+  if (str.length <= maxLength) {
+    return str;
+  }
+  return str.substring(0, maxLength - suffix.length) + suffix;
+}
+function yoctoToNear(yocto, format) {
+  const YOCTO_PER_NEAR = Big(10).pow(24).toString();
+  const near = Big(yocto).div(YOCTO_PER_NEAR).toString();
+
+  return format ? localFormat(near) : near;
+}
+function truncateString(str, maxLength, suffix) {
+  if (str.length <= maxLength) {
+    return str;
+  }
+  return str.substring(0, maxLength - suffix.length) + suffix;
+}
+function yoctoToNear(yocto, format) {
+  const YOCTO_PER_NEAR = Big(10).pow(24).toString();
+  const near = Big(yocto).div(YOCTO_PER_NEAR).toString();
+
+  return format ? localFormat(near) : near;
+}
+function truncateString(str, maxLength, suffix) {
+  if (str.length <= maxLength) {
+    return str;
+  }
+  return str.substring(0, maxLength - suffix.length) + suffix;
+}
 function yoctoToNear(yocto, format) {
   const YOCTO_PER_NEAR = Big(10).pow(24).toString();
   const near = Big(yocto).div(YOCTO_PER_NEAR).toString();
@@ -269,18 +339,20 @@ function getTimeAgoString(timestamp) {
     minute: seconds / 60,
   };
 
-  if (intervals.year > 1) {
-    return Math.floor(intervals.year) + ' years ago';
+  if (intervals.year == 1) {
+    return Math.ceil(intervals.year) + ' year ago';
+  } else if (intervals.year > 1) {
+    return Math.ceil(intervals.year) + ' years ago';
   } else if (intervals.month > 1) {
-    return Math.floor(intervals.month) + ' months ago';
+    return Math.ceil(intervals.month) + ' months ago';
   } else if (intervals.week > 1) {
-    return Math.floor(intervals.week) + ' weeks ago';
+    return Math.ceil(intervals.week) + ' weeks ago';
   } else if (intervals.day > 1) {
-    return Math.floor(intervals.day) + ' days ago';
+    return Math.ceil(intervals.day) + ' days ago';
   } else if (intervals.hour > 1) {
-    return Math.floor(intervals.hour) + ' hours ago';
+    return Math.ceil(intervals.hour) + ' hours ago';
   } else if (intervals.minute > 1) {
-    return Math.floor(intervals.minute) + ' minutes ago';
+    return Math.ceil(intervals.minute) + ' minutes ago';
   } else {
     return 'a few seconds ago';
   }
@@ -308,7 +380,7 @@ function convertToMetricPrefix(number) {
     count++;
   }
 
-  return number.toFixed(2) + prefixes[count];
+  return number.toFixed(2) + ' ' + prefixes[count];
 }
 
 function gasFee(gas, price) {
@@ -400,6 +472,55 @@ function formatCustomDate(inputDate) {
 
 function shortenHex(address) {
   return `${address && address.substr(0, 6)}...${address.substr(-4)}`;
+}
+
+function capitalizeFirstLetter(string) {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
+function shortenToken(token) {
+  return truncateString(token, 14, '');
+}
+
+function shortenTokenSymbol(token) {
+  return truncateString(token, 5, '');
+}
+
+function gasPercentage(gasUsed, gasAttached) {
+  if (!gasAttached) return 'N/A';
+
+  const formattedNumber = (Big(gasUsed).div(Big(gasAttached)) * 100).toFixed();
+  return `${formattedNumber}%`;
+}
+function truncateString(str, maxLength, suffix) {
+  if (str.length <= maxLength) {
+    return str;
+  }
+  return str.substring(0, maxLength - suffix.length) + suffix;
+}
+function yoctoToNear(yocto, format) {
+  const YOCTO_PER_NEAR = Big(10).pow(24).toString();
+  const near = Big(yocto).div(YOCTO_PER_NEAR).toString();
+
+  return format ? localFormat(near) : near;
+}
+function truncateString(str, maxLength, suffix) {
+  if (str.length <= maxLength) {
+    return str;
+  }
+  return str.substring(0, maxLength - suffix.length) + suffix;
+}
+function yoctoToNear(yocto, format) {
+  const YOCTO_PER_NEAR = Big(10).pow(24).toString();
+  const near = Big(yocto).div(YOCTO_PER_NEAR).toString();
+
+  return format ? localFormat(near) : near;
+}
+function truncateString(str, maxLength, suffix) {
+  if (str.length <= maxLength) {
+    return str;
+  }
+  return str.substring(0, maxLength - suffix.length) + suffix;
 }
 function yoctoToNear(yocto, format) {
   const YOCTO_PER_NEAR = Big(10).pow(24).toString();
@@ -425,7 +546,7 @@ function convertToMetricPrefix(number) {
     count++;
   }
 
-  return number.toFixed(2) + prefixes[count];
+  return number.toFixed(2) + ' ' + prefixes[count];
 }
 
 function gasFee(gas, price) {
@@ -517,6 +638,97 @@ function formatCustomDate(inputDate) {
 
 function shortenHex(address) {
   return `${address && address.substr(0, 6)}...${address.substr(-4)}`;
+}
+
+function capitalizeFirstLetter(string) {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
+function shortenToken(token) {
+  return truncateString(token, 14, '');
+}
+
+function shortenTokenSymbol(token) {
+  return truncateString(token, 5, '');
+}
+
+function gasPercentage(gasUsed, gasAttached) {
+  if (!gasAttached) return 'N/A';
+
+  const formattedNumber = (Big(gasUsed).div(Big(gasAttached)) * 100).toFixed();
+  return `${formattedNumber}%`;
+}
+function truncateString(str, maxLength, suffix) {
+  if (str.length <= maxLength) {
+    return str;
+  }
+  return str.substring(0, maxLength - suffix.length) + suffix;
+}
+function yoctoToNear(yocto, format) {
+  const YOCTO_PER_NEAR = Big(10).pow(24).toString();
+  const near = Big(yocto).div(YOCTO_PER_NEAR).toString();
+
+  return format ? localFormat(near) : near;
+}
+function truncateString(str, maxLength, suffix) {
+  if (str.length <= maxLength) {
+    return str;
+  }
+  return str.substring(0, maxLength - suffix.length) + suffix;
+}
+function yoctoToNear(yocto, format) {
+  const YOCTO_PER_NEAR = Big(10).pow(24).toString();
+  const near = Big(yocto).div(YOCTO_PER_NEAR).toString();
+
+  return format ? localFormat(near) : near;
+}
+function truncateString(str, maxLength, suffix) {
+  if (str.length <= maxLength) {
+    return str;
+  }
+  return str.substring(0, maxLength - suffix.length) + suffix;
+}
+function yoctoToNear(yocto, format) {
+  const YOCTO_PER_NEAR = Big(10).pow(24).toString();
+  const near = Big(yocto).div(YOCTO_PER_NEAR).toString();
+
+  return format ? localFormat(near) : near;
+}
+function capitalizeFirstLetter(string) {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
+function shortenToken(token) {
+  return truncateString(token, 14, '');
+}
+
+function shortenTokenSymbol(token) {
+  return truncateString(token, 5, '');
+}
+
+function gasPercentage(gasUsed, gasAttached) {
+  if (!gasAttached) return 'N/A';
+
+  const formattedNumber = (Big(gasUsed).div(Big(gasAttached)) * 100).toFixed();
+  return `${formattedNumber}%`;
+}
+function truncateString(str, maxLength, suffix) {
+  if (str.length <= maxLength) {
+    return str;
+  }
+  return str.substring(0, maxLength - suffix.length) + suffix;
+}
+function yoctoToNear(yocto, format) {
+  const YOCTO_PER_NEAR = Big(10).pow(24).toString();
+  const near = Big(yocto).div(YOCTO_PER_NEAR).toString();
+
+  return format ? localFormat(near) : near;
+}
+function truncateString(str, maxLength, suffix) {
+  if (str.length <= maxLength) {
+    return str;
+  }
+  return str.substring(0, maxLength - suffix.length) + suffix;
 }
 function yoctoToNear(yocto, format) {
   const YOCTO_PER_NEAR = Big(10).pow(24).toString();
@@ -545,6 +757,19 @@ function gasPrice(yacto) {
   const near = Big(yoctoToNear(yacto, false)).mul(Big(10).pow(12)).toString();
 
   return `${localFormat(near)} Ⓝ / Tgas`;
+}
+
+function tokenAmount(amount, decimal, format) {
+  if (amount === undefined || amount === null) return 'N/A';
+
+  const near = Big(amount).div(Big(10).pow(+decimal));
+
+  return format
+    ? near.toString().toLocaleString(undefined, {
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 8,
+      })
+    : near;
 }
 function yoctoToNear(yocto, format) {
   const YOCTO_PER_NEAR = Big(10).pow(24).toString();
@@ -991,41 +1216,37 @@ const Skelton = (props) => {
     ></div>
   );
 };/* END_INCLUDE COMPONENT: "includes/Common/Skelton.jsx" */
+/* INCLUDE COMPONENT: "includes/icons/CloseCircle.jsx" */
+const CloseCircle = (props) => {
+  const handleClick = () => {
+    if (props.onClick) {
+      props.onClick('All');
+    }
+  };
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      width={24}
+      height={24}
+      className={props.className}
+      onClick={handleClick}
+    >
+      <path fill="none" d="M0 0h24v24H0z" />
+      <path d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zm0-2a8 8 0 100-16 8 8 0 000 16zm0-9.414l2.828-2.829 1.415 1.415L13.414 12l2.829 2.828-1.415 1.415L12 13.414l-2.828 2.829-1.415-1.415L10.586 12 7.757 9.172l1.415-1.415L12 10.586z" />
+    </svg>
+  );
+};/* END_INCLUDE COMPONENT: "includes/icons/CloseCircle.jsx" */
 
 function MainComponent(props) {
-  const [css, setCss] = useState({});
   const [isLoading, setIsLoading] = useState(false);
-  const [currentPage, setCurrentPage] = useState(1);
   const [totalCount, setTotalCount] = useState(1);
   const [txns, setTxns] = useState([]);
   const [showAge, setShowAge] = useState(true);
-  const [filters, setFilters] = useState(
-    {} ,
-  );
+
   const [sorting, setSorting] = useState('desc');
 
-  const config = getConfig(context.networkId);
-
-  /**
-   * Fetches styles asynchronously from a nearblocks gateway.
-   */
-  function fetchStyles() {
-    asyncFetch('https://beta.nearblocks.io/common.css').then(
-      (res) => {
-        if (res?.body) {
-          setCss(res.body);
-        }
-      },
-    );
-  }
-
-  useEffect(() => {
-    if (props?.fetchStyles) fetchStyles();
-  }, [props?.fetchStyles]);
-
-  const Theme = styled.div`
-    ${css}
-  `;
+  const config = getConfig(props.network);
 
   const toggleShowAge = () => setShowAge((s) => !s);
 
@@ -1046,6 +1267,7 @@ function MainComponent(props) {
 
 ) => {
             const resp = data?.body?.txns?.[0];
+            setTotalCount(0);
             setTotalCount(resp?.count);
           },
         )
@@ -1055,10 +1277,11 @@ function MainComponent(props) {
         });
     }
 
-    function fetchTxns(qs, sqs) {
+    function fetchTxnsData(qs, sqs) {
+      setIsLoading(true);
       const queryParams = qs ? qs + '&' : '';
       asyncFetch(
-        `${config?.backendUrl}txns?${queryParams}order=${sqs}&page=${currentPage}&per_page=25`,
+        `${config?.backendUrl}txns?${queryParams}order=${sqs}&page=${props.currentPage}&per_page=25`,
         {
           method: 'GET',
           headers: {
@@ -1066,38 +1289,41 @@ function MainComponent(props) {
           },
         },
       )
-        .then(
-          (data
-
-
-
-) => {
-            const resp = data?.body?.txns;
+        .then((data) => {
+          const resp = data?.body?.txns;
+          if (Array.isArray(resp) && resp.length > 0) {
             setTxns(resp);
-          },
-        )
+          }
+        })
         .catch(() => {});
+      setIsLoading(false);
+    }
+    let urlString = '';
+    if (props?.filters && Object.keys(props.filters).length > 0) {
+      urlString = Object.keys(props.filters)
+        .map(
+          (key) =>
+            `${encodeURIComponent(key)}=${encodeURIComponent(
+              props?.filters[key],
+            )}`,
+        )
+        .join('&');
     }
 
-    fetchTotalTxns();
-    fetchTxns();
-
-    const QueryString = Object.keys(filters)
-      .map(
-        (key) =>
-          `${encodeURIComponent(key)}=${encodeURIComponent(filters[key])}`,
-      )
-      .join('&');
-
-    if (QueryString || sorting) {
-      fetchTotalTxns(QueryString);
-      fetchTxns(QueryString, sorting);
+    if (urlString && sorting) {
+      fetchTotalTxns(urlString);
+      fetchTxnsData(urlString, sorting);
+    } else if (urlString) {
+      fetchTotalTxns(urlString);
+      fetchTxnsData(urlString);
+    } else if (
+      sorting &&
+      (!props.filters || Object.keys(props.filters).length === 0)
+    ) {
+      fetchTotalTxns();
+      fetchTxnsData('', sorting);
     }
-  }, [config?.backendUrl, currentPage, filters, sorting]);
-
-  const setPage = (page) => {
-    setCurrentPage(page);
-  };
+  }, [config?.backendUrl, props.currentPage, props?.filters, sorting]);
 
   let filterValue;
   const onInputChange = (event) => {
@@ -1111,16 +1337,12 @@ function MainComponent(props) {
   ) => {
     e.preventDefault();
 
-    setFilters((prev) => ({ ...prev, [name]: filterValue }));
+    props.handleFilter(name, filterValue);
   };
 
   const onClear = (name) => {
-    const updatedFilters = { ...filters };
-
-    if (updatedFilters.hasOwnProperty(name)) {
-      delete updatedFilters[name];
-
-      setFilters(updatedFilters);
+    if (props.onFilterClear && props.filters) {
+      props.onFilterClear(name);
     }
   };
 
@@ -1151,7 +1373,10 @@ function MainComponent(props) {
             <Tooltip.Root>
               <Tooltip.Trigger asChild>
                 <span className="truncate max-w-[120px] inline-block align-bottom text-green-500">
-                  <a href={`/txns/${row.transaction_hash}`}>
+                  <a
+                    href={`/txns/${row.transaction_hash}`}
+                    className="hover:no-underline"
+                  >
                     <a className="text-green-500 font-medium">
                       {truncateString(row.transaction_hash, 15, '...')}
                     </a>
@@ -1189,7 +1414,7 @@ function MainComponent(props) {
             <div>
               <input
                 name="type"
-                value={filters.method}
+                value={props?.filters ? props?.filters?.method : ''}
                 onChange={onInputChange}
                 placeholder="Search by method"
                 className="border rounded h-8 mb-2 px-2 text-gray-500 text-xs"
@@ -1226,7 +1451,7 @@ function MainComponent(props) {
               >
                 <span className="bg-blue-900/10 text-xs text-gray-500 rounded-xl px-2 py-1 max-w-[120px] inline-flex truncate">
                   <span className="block truncate">
-                    {truncateString(txnMethod(row.actions), 18, '...')}
+                    {truncateString(txnMethod(row.actions).trim(), 15, '...')}
                   </span>
                 </span>
               </Tooltip.Trigger>
@@ -1287,7 +1512,7 @@ function MainComponent(props) {
           >
             <input
               name="from"
-              value={filters.from}
+              value={props?.filters ? props?.filters?.from : ''}
               onChange={onInputChange}
               placeholder={'Search by address e.g. Ⓝ..'}
               className="border rounded h-8 mb-2 px-2 text-gray-500 text-xs"
@@ -1319,7 +1544,10 @@ function MainComponent(props) {
             <Tooltip.Root>
               <Tooltip.Trigger asChild>
                 <span className="truncate max-w-[120px] inline-block align-bottom text-green-500">
-                  <a href={`/address/${row.signer_account_id}`}>
+                  <a
+                    href={`/address/${row.signer_account_id}`}
+                    className="hover:no-underline"
+                  >
                     <a className="text-green-500">
                       {truncateString(row.signer_account_id, 18, '...')}
                     </a>
@@ -1365,7 +1593,7 @@ function MainComponent(props) {
           >
             <input
               name="to"
-              value={filters.to}
+              value={props?.filters ? props?.filters?.to : ''}
               onChange={onInputChange}
               placeholder={'Search by address e.g. Ⓝ..'}
               className="border rounded h-8 mb-2 px-2 text-gray-500 text-xs"
@@ -1397,7 +1625,10 @@ function MainComponent(props) {
             <Tooltip.Root>
               <Tooltip.Trigger asChild>
                 <span className="truncate max-w-[120px] inline-block align-bottom text-green-500">
-                  <a href={`/address/${row.receiver_account_id}`}>
+                  <a
+                    href={`/address/${row.receiver_account_id}`}
+                    className="hover:no-underline"
+                  >
                     <a className="text-green-500">
                       {truncateString(row.receiver_account_id, 17, '...')}
                     </a>
@@ -1425,7 +1656,10 @@ function MainComponent(props) {
       key: 'block_height',
       cell: (row) => (
         <span className="px-5 py-4 whitespace-nowrap text-sm text-gray-500 font-medium">
-          <a href={`/blocks/${row.included_in_block_hash}`}>
+          <a
+            href={`/blocks/${row.included_in_block_hash}`}
+            className="hover:no-underline"
+          >
             <a className="text-green-500">
               {localFormat(row.block?.block_height)}
             </a>
@@ -1489,53 +1723,72 @@ function MainComponent(props) {
   ];
 
   return (
-    <Theme>
-      <div>
-        <div className="bg-hero-pattern h-72">
-          <div className="container mx-auto px-3">
-            <h1 className="mb-4 pt-8 sm:sm:text-2xl text-xl text-white">
-              Latest Near Protocol transactions
-            </h1>
-          </div>
+    <div>
+      <div className="bg-hero-pattern h-72">
+        <div className="container mx-auto px-3">
+          <h1 className="mb-4 pt-8 sm:sm:text-2xl text-xl text-white">
+            Latest Near Protocol transactions
+          </h1>
         </div>
-        <div className="container mx-auto px-3 -mt-48">
-          <div className="block lg:flex lg:space-x-2">
-            <div className="w-full">
-              <div className="bg-white border soft-shadow rounded-lg overflow-hidden">
-                {isLoading ? (
-                  <Skelton />
-                ) : (
-                  <div className={`flex flex-col lg:flex-row pt-4`}>
-                    <div className="flex flex-col">
-                      <p className="leading-7 pl-6 text-sm mb-4 text-gray-500">
-                        {`More than > ${totalCount} transactions found`}
-                      </p>
-                    </div>
+      </div>
+      <div className="container mx-auto px-3 -mt-48">
+        <div className="block lg:flex lg:space-x-2">
+          <div className="w-full">
+            <div className="bg-white border soft-shadow rounded-lg overflow-hidden">
+              {isLoading ? (
+                <Skelton />
+              ) : (
+                <div className={`flex flex-col lg:flex-row pt-4`}>
+                  <div className="flex flex-col">
+                    <p className="leading-7 pl-6 text-sm mb-4 text-gray-500">
+                      {`More than > ${totalCount} transactions found`}
+                    </p>
                   </div>
-                )}
-                {
-                  // @ts-ignore
-                  <Widget
-                    src={`${config.ownerId}/widget/bos-components.components.Shared.Table`}
-                    props={{
-                      columns: columns,
-                      data: txns,
-                      isLoading: isLoading,
-                      isPagination: true,
-                      count: totalCount,
-                      page: currentPage,
-                      limit: 25,
-                      pageLimit: 200,
-                      setPage: setPage,
-                    }}
-                  />
-                }
-              </div>
+                  {props?.filters && Object.keys(props?.filters).length > 0 && (
+                    <div className="flex items-center px-2 text-sm mb-4 text-gray-500 lg:ml-auto">
+                      Filtered By:
+                      <span className="flex items-center bg-gray-100 rounded-full px-3 py-1 ml-1 space-x-2">
+                        {props?.filters &&
+                          Object.keys(props?.filters).map((key) => (
+                            <span className="flex" key={key}>
+                              {capitalizeFirstLetter(key)}:{' '}
+                              <span className="inline-block truncate max-w-[120px]">
+                                <span className="font-semibold">
+                                  {props?.filters[key]}
+                                </span>
+                              </span>
+                            </span>
+                          ))}
+                        <CloseCircle
+                          className="w-4 h-4 fill-current cursor-pointer"
+                          onClick={onClear}
+                        />
+                      </span>
+                    </div>
+                  )}
+                </div>
+              )}
+              {
+                <Widget
+                  src={`${config.ownerId}/widget/bos-components.components.Shared.Table`}
+                  props={{
+                    columns: columns,
+                    data: txns,
+                    isLoading: isLoading,
+                    isPagination: true,
+                    count: totalCount,
+                    page: props.currentPage,
+                    limit: 25,
+                    pageLimit: 200,
+                    setPage: props.setPage,
+                  }}
+                />
+              }
             </div>
           </div>
         </div>
       </div>
-    </Theme>
+    </div>
   );
 }
 
