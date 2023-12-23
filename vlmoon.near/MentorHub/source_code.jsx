@@ -1,4 +1,3 @@
-// Mentor data
 State.init({
   mentorPhoto: "",
   mentorName: "Mentor Name",
@@ -7,24 +6,8 @@ State.init({
   students: [],
   studentRequests: [],
   currentAppThemeMode: "lightMode",
-  currentRoute: "moduleA",
+  currentRoute: "studentsPage",
 });
-
-const fetchData = async () => {
-  const mentorData = {};
-  const students = [];
-  const studentRequests = [];
-
-  //   State.update({
-  //     mentorPhoto: mentorData.photo || "",
-  //     mentorName: mentorData.name || "Mentor Name",
-  //     mentorPoints: mentorData.points || 0,
-  //     studentsCounter: students.length || 0,
-  //     students,
-  //     studentRequests,
-  //     currentAppThemeMode: "lightMode",
-  //   });
-};
 
 //UI Kit Theme
 const appTheme = {
@@ -93,9 +76,7 @@ const appThemeService = {
     }),
   getTheme: () => appTheme,
 };
-//UI Kit Theme
 
-//UI Kit Widgets
 const Button = styled.button`
   background: ${appTheme.colors().primary};
   color: ${appTheme.colors().textWhite};
@@ -136,9 +117,7 @@ const uiKitComponents = {
   navigationBar: NavigationBar,
   profileTab: ProfileTab,
 };
-//UI Kit Widgets
 
-//Router
 const routes = {
   moduleA: "vlmoon.near/widget/BOSModuleA",
   moduleB: "vlmoon.near/widget/BOSModuleB",
@@ -153,35 +132,24 @@ function navigateToModule(moduleRoute) {
 }
 
 const routesNavigator = {
-  moduleA: () => navigateToModule("moduleA"),
-  moduleB: () => navigateToModule("moduleB"),
-  moduleC: () => navigateToModule("moduleC"),
-  moduleD: () => navigateToModule("moduleD"),
+  studentsPage: () => navigateToModule("studentsPage"),
+  myTeachersPage: () => navigateToModule("myTeachersPage"),
+  myEventsPage: () => navigateToModule("myEventsPage"),
+  myTasksPage: () => navigateToModule("myTasksPage"),
 };
-//Router
 
-//Dependencies Injections
 function getModuleDependencies(moduleRoute) {
-  if (moduleRoute === "moduleA") {
-    return ["moduleA"];
-  } else if (moduleRoute === "moduleB") {
-    return ["moduleB"];
-  } else if (moduleRoute === "moduleC") {
-    return ["moduleC"];
-  } else if (moduleRoute === "moduleD") {
-    return ["moduleD"];
+  if (moduleRoute === "studentsPage") {
+    return ["studentsPage"];
+  } else if (moduleRoute === "myTeachersPage") {
+    return ["myTeachersPage"];
+  } else if (moduleRoute === "myEventsPage") {
+    return ["myEventsPage"];
+  } else if (moduleRoute === "myTasksPage") {
+    return ["myTasksPage"];
   }
 }
 const dependencies = getModuleDependencies(state.currentRoute);
-//Dependencies Injections
-
-//Data Layer
-//Servre data will be fetched there from the url and smart contracts
-//Data Layer
-
-//Service Layer
-//App Logic willl execute there
-//Service Layer
 
 const accountId = context.accountId;
 if (!accountId) {
@@ -189,7 +157,31 @@ if (!accountId) {
 }
 const profile = Social.getr(`${accountId}/profile`);
 const name = profile.name || "No-name profile";
-const nameHeader = <h4 className="mt-0 mb-0 text-truncate">{name}</h4>;
+
+//Pages
+const pages = {
+  studentsPage: (
+    <>
+      <h1>My Students</h1>
+    </>
+  ),
+  myTeachersPage: (
+    <>
+      <h1>My Teachers</h1>
+    </>
+  ),
+  myEventsPage: (
+    <>
+      <h1>My Events</h1>
+    </>
+  ),
+  myTasksPage: (
+    <>
+      <h1>My Tasks</h1>
+    </>
+  ),
+};
+//
 
 return (
   <>
@@ -212,53 +204,20 @@ return (
     </uiKitComponents.profileTab>
     <uiKitComponents.body>
       <uiKitComponents.navigationBar>
-        <uiKitComponents.button onClick={routesNavigator.moduleA}>
+        <uiKitComponents.button onClick={routesNavigator.studentsPage}>
           My Students
         </uiKitComponents.button>
-        <uiKitComponents.button onClick={routesNavigator.moduleB}>
+        <uiKitComponents.button onClick={routesNavigator.myTeachersPage}>
           My Teachers
         </uiKitComponents.button>
-        <uiKitComponents.button onClick={routesNavigator.moduleC}>
+        <uiKitComponents.button onClick={routesNavigator.myEventsPage}>
           My Events
         </uiKitComponents.button>
-        <uiKitComponents.button onClick={routesNavigator.moduleD}>
+        <uiKitComponents.button onClick={routesNavigator.myTasksPage}>
           My Tasks
         </uiKitComponents.button>
       </uiKitComponents.navigationBar>
-      <Widget
-        src={routes[state.currentRoute]}
-        props={{
-          dependencies,
-          routesNavigator,
-          appThemeService,
-          uiKitComponents,
-        }}
-      />
+      {pages[state.currentRoute]}
     </uiKitComponents.body>
   </>
 );
-// <uiKitComponents.body>
-//   <uiKitComponents.navigationBar>
-//     <uiKitComponents.button onClick={routesNavigator.moduleA}>
-//       Swap Page to module A
-//     </uiKitComponents.button>
-//     <uiKitComponents.button onClick={routesNavigator.moduleB}>
-//       Swap Page to module B
-//     </uiKitComponents.button>
-//     <uiKitComponents.button onClick={routesNavigator.moduleC}>
-//       Swap Page to module C
-//     </uiKitComponents.button>
-//     <uiKitComponents.button onClick={routesNavigator.moduleD}>
-//       Swap Page to module D
-//     </uiKitComponents.button>
-//   </uiKitComponents.navigationBar>
-//   <Widget
-//     src={routes[state.currentRoute]}
-//     props={{
-//       dependencies,
-//       routesNavigator,
-//       appThemeService,
-//       uiKitComponents,
-//     }}
-//   />
-// </uiKitComponents.body>
