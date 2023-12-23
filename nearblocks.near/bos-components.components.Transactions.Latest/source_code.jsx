@@ -3,7 +3,13 @@
  * Author: Nearblocks Pte Ltd
  * License: Business Source License 1.1
  * Description: Latest Transactions on Near Protocol.
+ * @interface Props
+ * @param {string} [network] - The network data to show, either mainnet or testnet
  */
+
+
+
+
 
 /* INCLUDE: "includes/formats.jsx" */
 function getTimeAgoString(timestamp) {
@@ -20,18 +26,20 @@ function getTimeAgoString(timestamp) {
     minute: seconds / 60,
   };
 
-  if (intervals.year > 1) {
-    return Math.floor(intervals.year) + ' years ago';
+  if (intervals.year == 1) {
+    return Math.ceil(intervals.year) + ' year ago';
+  } else if (intervals.year > 1) {
+    return Math.ceil(intervals.year) + ' years ago';
   } else if (intervals.month > 1) {
-    return Math.floor(intervals.month) + ' months ago';
+    return Math.ceil(intervals.month) + ' months ago';
   } else if (intervals.week > 1) {
-    return Math.floor(intervals.week) + ' weeks ago';
+    return Math.ceil(intervals.week) + ' weeks ago';
   } else if (intervals.day > 1) {
-    return Math.floor(intervals.day) + ' days ago';
+    return Math.ceil(intervals.day) + ' days ago';
   } else if (intervals.hour > 1) {
-    return Math.floor(intervals.hour) + ' hours ago';
+    return Math.ceil(intervals.hour) + ' hours ago';
   } else if (intervals.minute > 1) {
-    return Math.floor(intervals.minute) + ' minutes ago';
+    return Math.ceil(intervals.minute) + ' minutes ago';
   } else {
     return 'a few seconds ago';
   }
@@ -59,7 +67,7 @@ function convertToMetricPrefix(number) {
     count++;
   }
 
-  return number.toFixed(2) + prefixes[count];
+  return number.toFixed(2) + ' ' + prefixes[count];
 }
 
 function gasFee(gas, price) {
@@ -152,6 +160,55 @@ function formatCustomDate(inputDate) {
 function shortenHex(address) {
   return `${address && address.substr(0, 6)}...${address.substr(-4)}`;
 }
+
+function capitalizeFirstLetter(string) {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
+function shortenToken(token) {
+  return truncateString(token, 14, '');
+}
+
+function shortenTokenSymbol(token) {
+  return truncateString(token, 5, '');
+}
+
+function gasPercentage(gasUsed, gasAttached) {
+  if (!gasAttached) return 'N/A';
+
+  const formattedNumber = (Big(gasUsed).div(Big(gasAttached)) * 100).toFixed();
+  return `${formattedNumber}%`;
+}
+function truncateString(str, maxLength, suffix) {
+  if (str.length <= maxLength) {
+    return str;
+  }
+  return str.substring(0, maxLength - suffix.length) + suffix;
+}
+function yoctoToNear(yocto, format) {
+  const YOCTO_PER_NEAR = Big(10).pow(24).toString();
+  const near = Big(yocto).div(YOCTO_PER_NEAR).toString();
+
+  return format ? localFormat(near) : near;
+}
+function truncateString(str, maxLength, suffix) {
+  if (str.length <= maxLength) {
+    return str;
+  }
+  return str.substring(0, maxLength - suffix.length) + suffix;
+}
+function yoctoToNear(yocto, format) {
+  const YOCTO_PER_NEAR = Big(10).pow(24).toString();
+  const near = Big(yocto).div(YOCTO_PER_NEAR).toString();
+
+  return format ? localFormat(near) : near;
+}
+function truncateString(str, maxLength, suffix) {
+  if (str.length <= maxLength) {
+    return str;
+  }
+  return str.substring(0, maxLength - suffix.length) + suffix;
+}
 function yoctoToNear(yocto, format) {
   const YOCTO_PER_NEAR = Big(10).pow(24).toString();
   const near = Big(yocto).div(YOCTO_PER_NEAR).toString();
@@ -160,6 +217,49 @@ function yoctoToNear(yocto, format) {
 }
 function shortenHex(address) {
   return `${address && address.substr(0, 6)}...${address.substr(-4)}`;
+}
+
+function capitalizeFirstLetter(string) {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
+function shortenToken(token) {
+  return truncateString(token, 14, '');
+}
+
+function shortenTokenSymbol(token) {
+  return truncateString(token, 5, '');
+}
+
+function gasPercentage(gasUsed, gasAttached) {
+  if (!gasAttached) return 'N/A';
+
+  const formattedNumber = (Big(gasUsed).div(Big(gasAttached)) * 100).toFixed();
+  return `${formattedNumber}%`;
+}
+function truncateString(str, maxLength, suffix) {
+  if (str.length <= maxLength) {
+    return str;
+  }
+  return str.substring(0, maxLength - suffix.length) + suffix;
+}
+function yoctoToNear(yocto, format) {
+  const YOCTO_PER_NEAR = Big(10).pow(24).toString();
+  const near = Big(yocto).div(YOCTO_PER_NEAR).toString();
+
+  return format ? localFormat(near) : near;
+}
+function truncateString(str, maxLength, suffix) {
+  if (str.length <= maxLength) {
+    return str;
+  }
+  return str.substring(0, maxLength - suffix.length) + suffix;
+}
+function yoctoToNear(yocto, format) {
+  const YOCTO_PER_NEAR = Big(10).pow(24).toString();
+  const near = Big(yocto).div(YOCTO_PER_NEAR).toString();
+
+  return format ? localFormat(near) : near;
 }
 /* END_INCLUDE: "includes/formats.jsx" */
 /* INCLUDE: "includes/libs.jsx" */
@@ -458,7 +558,7 @@ function formatWithCommas(number) {
 /* END_INCLUDE: "includes/libs.jsx" */
 
 
-function MainComponent() {
+function MainComponent(props) {
   const [isLoading, setIsLoading] = useState(false);
   const [txns, setTxns] = useState([]);
 
@@ -470,27 +570,40 @@ function MainComponent() {
     );
   };
 
-  const config = getConfig(context.networkId);
+  const config = getConfig(props.network);
 
   useEffect(() => {
+    let delay = 5000;
+    let retries = 0;
+
     function fetchLatestTxns() {
       setIsLoading(true);
-      asyncFetch(`${config.backendUrl}txns/latest`).then(
-        (data
+      asyncFetch(`${config.backendUrl}txns/latest`)
+        .then(
+          (data
 
 
 
 ) => {
-          const resp = data?.body?.txns;
-          setTxns(resp);
-        },
-      );
+            const resp = data?.body?.txns;
+            setTxns(resp);
+
+            delay = 5000;
+            retries = 0;
+          },
+        )
+        .catch((error) => {
+          if (error.response && error.response.status === 429) {
+            delay = Math.min(2 ** retries * 1000, 60000);
+            retries++;
+          }
+        });
       setIsLoading(false);
     }
+
     fetchLatestTxns();
-    const interval = setInterval(() => {
-      fetchLatestTxns();
-    }, 5000);
+
+    const interval = setInterval(fetchLatestTxns, delay);
 
     return () => clearInterval(interval);
   }, [config.backendUrl]);
@@ -557,8 +670,11 @@ function MainComponent() {
                         </div>
                         <div className="overflow-hidden pl-2">
                           <div className="text-green-500 text-sm  ">
-                            <a href={`/txns/${txn.transaction_hash}`}>
-                              <a className="text-green-500 font-medium">
+                            <a
+                              href={`/txns/${txn.transaction_hash}`}
+                              className="hover:no-underline"
+                            >
+                              <a className="text-green-500 font-medium hover:no-underline">
                                 {shortenHex(txn.transaction_hash)}
                               </a>
                             </a>
@@ -573,16 +689,22 @@ function MainComponent() {
                       <div className="col-span-2 md:col-span-1 px-2 order-2 md:order-1 text-sm">
                         <div className="whitespace-nowrap truncate">
                           From{' '}
-                          <a href={`/address/${txn.signer_account_id}`}>
-                            <a className="text-green-500  font-medium">
+                          <a
+                            href={`/address/${txn.signer_account_id}`}
+                            className="hover:no-underline"
+                          >
+                            <a className="text-green-500  font-medium hover:no-underline">
                               {shortenAddress(txn.signer_account_id)}
                             </a>
                           </a>
                         </div>
                         <div className="whitespace-nowrap truncate">
                           To{' '}
-                          <a href={`/address/${txn.receiver_account_id}`}>
-                            <a className="text-green-500 font-medium">
+                          <a
+                            href={`/address/${txn.receiver_account_id}`}
+                            className="hover:no-underline"
+                          >
+                            <a className="text-green-500 font-medium hover:no-underline">
                               {shortenAddress(txn.receiver_account_id)}
                             </a>
                           </a>
@@ -592,7 +714,7 @@ function MainComponent() {
                         <Tooltip.Provider>
                           <Tooltip.Root>
                             <Tooltip.Trigger asChild>
-                              <span className="inline-flex items-center rounded-md bg-gray-50 px-2 py-1 text-xs font-medium text-gray-600 ring-1 ring-inset ring-gray-500/10 text-gray-400 truncate">
+                              <span className="u-label--badge-in  text-gray-400 truncate">
                                 {yoctoToNear(
                                   txn.actions_agg?.deposit || 0,
                                   true,
