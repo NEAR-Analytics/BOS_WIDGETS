@@ -1,3 +1,6 @@
+// Proxy API - https://github.com/emarai/api-rcdashboard
+const API_URL = "https://vercel-express-blond.vercel.app/api/run";
+
 const getMembers = (accountId) => {
   if (!accountId) return [];
 
@@ -236,147 +239,6 @@ fetchData();
   );
 };
 
-const doQueryToFlipside = (query, queryResultId, dataLabel) => {
-  // create run (https://docs.flipsidecrypto.com/flipside-api/rest-api)
-  const headers = {};
-  headers["Content-Type"] = "application/json";
-  headers["x-api-key"] = "f0b8c6e1-573a-4f09-a6f5-ea2d13d6416b";
-
-  if (!queryResultId) {
-    const requestResult = fetch("https://api-v2.flipsidecrypto.xyz/json-rpc", {
-      method: "POST",
-      headers: headers,
-      body: JSON.stringify({
-        jsonrpc: "2.0",
-        method: "createQueryRun",
-        params: [
-          {
-            resultTTLHours: 24,
-            maxAgeMinutes: 1440,
-            sql: query,
-            tags: {
-              source: "postman-demo",
-              env: "test",
-            },
-            dataSource: "snowflake-default",
-            dataProvider: "flipside",
-          },
-        ],
-        id: 1,
-      }),
-      redirect: "follow",
-    });
-
-    const queryResultId = requestResult.body.result.queryRun.id;
-    setTimeout(
-      doQueryToFlipside.bind(undefined, query, queryResultId, dataLabel),
-      400
-    );
-  } else {
-    // get results from query run
-
-    const result = fetch("https://api-v2.flipsidecrypto.xyz/json-rpc", {
-      method: "POST",
-      headers: headers,
-      body: JSON.stringify({
-        jsonrpc: "2.0",
-        method: "getQueryRunResults",
-        params: [
-          {
-            queryRunId: queryResultId,
-            format: "json",
-            page: {
-              number: 1,
-              size: 100,
-            },
-          },
-        ],
-        id: 1,
-      }),
-      redirect: "follow",
-    });
-
-    if (!result.body.result.rows) {
-      setTimeout(
-        doQueryToFlipside.bind(undefined, query, queryResultId, dataLabel),
-        1000
-      );
-    } else {
-      return State.update({
-        [dataLabel]: JSON.stringify(result.body.result.rows),
-      });
-    }
-  }
-};
-
-const apiDoQueryToFlipSide = (query, dataLabel) => {
-  setTimeout(doQueryToFlipside.bind(undefined, query, null, dataLabel), 100);
-};
-
-const generateMAU = (members) => {
-  if (members.length === 0) return [];
-  const formattedMembers = JSON.stringify(members)
-    .replaceAll("[", "(")
-    .replaceAll("]", ")")
-    .replaceAll('"', "'");
-
-  const query = `
-    SELECT
-        date_trunc('month', a.block_timestamp) AS "date",
-        concat(
-            date_part(year, "date"),
-            '-',
-            date_part(month, "date")
-        ) as year_month,
-        count(DISTINCT a.tx_signer) AS mau
-    FROM
-        near.core.fact_transactions a
-    WHERE
-        a.tx_signer != a.tx_receiver
-    AND a.tx_signer IN ${formattedMembers}
-    AND "date" > dateadd('month', -12, current_date)
-    GROUP BY
-        1
-    ORDER BY
-        1 DESC 
-    `;
-
-  return apiDoQueryToFlipSide(query, "mauChartData"); // return doQueryToFlipside(query, "queryResultIdMAU");
-};
-
-const generateDAU = (members) => {
-  if (members.length === 0) return [];
-  const formattedMembers = JSON.stringify(members)
-    .replaceAll("[", "(")
-    .replaceAll("]", ")")
-    .replaceAll('"', "'");
-
-  const query = `
-    SELECT
-      date_trunc('day', a.block_timestamp) AS "date",
-      concat(
-        date_part(year, "date"),
-        '-',
-        date_part(month, "date"),
-        '-',
-        date_part(day, "date")
-      ) as year_month,
-      count(DISTINCT a.tx_signer) AS dau
-    FROM
-      near.core.fact_transactions a
-    WHERE
-      a.tx_signer != a.tx_receiver
-      AND a.tx_signer IN ${formattedMembers}
-      AND "date" > dateadd('month', -1, current_date)
-    GROUP BY
-      1
-    ORDER BY
-      1 desc
-    `;
-
-  apiDoQueryToFlipSide(query, "dauChartData"); // return doQueryToFlipside(query, "queryResultIdMAU");
-};
-
 const widgetRank = (members) => {
   const data = Social.get("*/graph/star/**", "final");
 
@@ -435,157 +297,76 @@ const widgetRank = (members) => {
   );
 };
 
-const generateGithubActivities = (members) => {
-  if (members.length === 0) return [];
-  const formattedMembers = JSON.stringify(members)
-    .replaceAll("[", "(")
-    .replaceAll("]", ")")
-    .replaceAll('"', "'");
-
-  const query = `
-    WITH github_accounts AS (
-      SELECT signer_id AS account,
-      JSON_EXTRACT_PATH_TEXT(profile_data, 'github') AS github_account
-      FROM
-        near.social.fact_profile_changes
-      WHERE
-        profile_section = 'linktree'
-        AND github_account != ''
-        AND account IN ${formattedMembers}
-    )
-    SELECT
-      date_trunc('month', ga.createdat) AS "date",
-      concat(
-        date_part(year, "date"),
-        '-',
-        date_part(month, "date")
-      ) AS YEAR_MONTH,
-      count(*) AS total_issues_and_pr
-    FROM
-      github_accounts a
-      JOIN near.beta.github_activity ga ON a.github_account = ga.author
-    GROUP BY
-      1
-    ORDER BY
-      1 DESC;
-    `;
-
-  apiDoQueryToFlipSide(query, "githubChartData");
+const generateMAU = (accountId) => {
+  const queryParams = `account_id=${accountId}&stats_type=mau`;
+  const result = fetch(`${API_URL}?${queryParams}`);
+  return State.update({ mauChartData: JSON.stringify(result.body) });
 };
 
-const generateTotalLikes = (members) => {
-  if (members.length === 0) return [];
-  const formattedMembers = JSON.stringify(members)
-    .replaceAll("[", "(")
-    .replaceAll("]", ")")
-    .replaceAll('"', "'");
-  const query = `SELECT
-    COUNT(*) as total
-      FROM
-        near.social.fact_decoded_actions
-      WHERE
-        node = 'index'
-        and JSON_EXTRACT_PATH_TEXT(node_data, 'like') != ''
-        and signer_id in ${formattedMembers}
-  `;
-
-  apiDoQueryToFlipSide(query, "totalLikes");
+const generateDAU = (accountId) => {
+  const queryParams = `account_id=${accountId}&stats_type=dau`;
+  const result = fetch(`${API_URL}?${queryParams}`);
+  return State.update({ dauChartData: JSON.stringify(result.body) });
 };
 
-const generateTotalWalletsCreated = (members) => {
-  if (members.length === 0) return [];
-  const formattedMembers = JSON.stringify(members)
-    .replaceAll("[", "(")
-    .replaceAll("]", ")")
-    .replaceAll('"', "'");
-  const query = `select
-      count(*) as total
-    from
-      near.core.fact_receipts
-    where
-      receiver_id = 'near'
-      AND actions:predecessor_id IN ${formattedMembers}
-      AND actions:receipt:Action:actions[0]:FunctionCall:method_name = 'create_account'
-    ;
-  `;
-
-  apiDoQueryToFlipSide(query, "totalWallets");
+const generateGithubActivities = (accountId) => {
+  const queryParams = `account_id=${accountId}&stats_type=github_activities`;
+  const result = fetch(`${API_URL}?${queryParams}`);
+  State.update({ githubChartData: JSON.stringify(result.body) });
 };
 
-const generateNFTMints = (members) => {
-  if (members.length === 0) return [];
-  const formattedMembers = JSON.stringify(members)
-    .replaceAll("[", "(")
-    .replaceAll("]", ")")
-    .replaceAll('"', "'");
-  const query = `SELECT
-        date_trunc('month', block_timestamp) AS "date",
-        concat(
-          date_part(year, "date"),
-          '-',
-          date_part(month, "date")
-        ) AS YEAR_MONTH,
-        COUNT(DISTINCT tx_hash) as total_activity
-    FROM
-      near.nft.fact_nft_mints
-    WHERE (receiver_id IN ${formattedMembers} OR owner_id IN ${formattedMembers})
-    GROUP BY 1;
-  `;
-
-  apiDoQueryToFlipSide(query, "nftMintsChartData");
+const generateTotalLikes = (accountId) => {
+  const queryParams = `account_id=${accountId}&stats_type=total_likes`;
+  const result = fetch(`${API_URL}?${queryParams}`);
+  State.update({ totalLikes: JSON.stringify(result.body) });
 };
 
-const generateDappUsage = (members) => {
-  if (members.length === 0) return [];
-  const formattedMembers = JSON.stringify(members)
-    .replaceAll("[", "(")
-    .replaceAll("]", ")")
-    .replaceAll('"', "'");
-  const query = `with lst_top_dApps as (
-      select top 20
-        INITCAP( PROJECT_NAME) as dApp
-        ,count(DISTINCT block_timestamp::date) as "Activity days"
-        ,count(DISTINCT tx_hash) as TXs
-        ,TXs / "Activity days" as "Transaction per day"
-      from near.core.fact_transactions
-        join near.core.dim_address_labels on address = TX_RECEIVER
-      where label_type='dapp' and tx_signer in ${formattedMembers}
-      group by 1
-      )
-      select * from lst_top_dApps;
-  `;
+const generateTotalWalletsCreated = (accountId) => {
+  const queryParams = `account_id=${accountId}&stats_type=total_wallets_created`;
+  const result = fetch(`${API_URL}?${queryParams}`);
+  State.update({ totalWallets: JSON.stringify(result.body) });
+};
 
-  apiDoQueryToFlipSide(query, "dappUsageChartData");
+const generateNFTMints = (accountId) => {
+  const queryParams = `account_id=${accountId}&stats_type=nft_mints`;
+  const result = fetch(`${API_URL}?${queryParams}`);
+  State.update({ nftMintsChartData: JSON.stringify(result.body) });
+};
+
+const generateDappUsage = (accountId) => {
+  const queryParams = `account_id=${accountId}&stats_type=dapp_usage`;
+  const result = fetch(`${API_URL}?${queryParams}`);
+  State.update({ dappUsageChartData: JSON.stringify(result.body) });
 };
 
 State.update({
   selectedCommunityAccountMembers: getMembers(state.selectedCommunityAccount),
 });
 if (state.menu === "developer")
-  generateGithubActivities(state.selectedCommunityAccountMembers);
+  generateGithubActivities(state.selectedCommunityAccount);
 if (state.menu === "overview" || state.menu === "dapp")
-  generateMAU(state.selectedCommunityAccountMembers);
+  generateMAU(state.selectedCommunityAccount);
 if (state.menu === "overview")
-  generateTotalLikes(state.selectedCommunityAccountMembers);
+  generateTotalLikes(state.selectedCommunityAccount);
 if (state.menu === "overview" || state.menu === "dapp")
-  generateDAU(state.selectedCommunityAccountMembers);
+  generateDAU(state.selectedCommunityAccount);
 if (state.menu === "overview")
-  generateTotalWalletsCreated(state.selectedCommunityAccountMembers);
-if (state.menu === "nft")
-  generateNFTMints(state.selectedCommunityAccountMembers);
-if (state.menu === "dapp")
-  generateDappUsage(state.selectedCommunityAccountMembers);
+  generateTotalWalletsCreated(state.selectedCommunityAccount);
+if (state.menu === "nft") generateNFTMints(state.selectedCommunityAccount);
+if (state.menu === "dapp") generateDappUsage(state.selectedCommunityAccount);
 
 if (state.menu === "all-overview") {
   State.update({
     allMembers: rcDaoMembers.flatMap((rcAccountId) => getMembers(rcAccountId)),
   });
-  generateTotalLikes(state.allMembers);
-  generateDAU(state.allMembers);
-  generateNFTMints(state.allMembers);
-  generateMAU(state.allMembers);
-  generateGithubActivities(state.allMembers);
+  generateTotalLikes("rc-dao.near");
+  generateDAU("rc-dao.near");
+  generateNFTMints("rc-dao.near");
+  generateMAU("rc-dao.near");
+  generateGithubActivities("rc-dao.near");
 }
+
+console.log("mauchartdata", state["mauChartData"]);
 
 return (
   <div className="container">
@@ -606,6 +387,7 @@ return (
           dauChartData: null,
           nftMintsChartData: null,
           dappUsageChartData: null,
+          totalWallets: null,
         })
       }
     />
