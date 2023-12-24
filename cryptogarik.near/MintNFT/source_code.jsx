@@ -30,26 +30,22 @@ const handleMint = () => {
     body: metadata,
   }).then((res) => {
     const cid = res.body.cid;
-    const gas = 200000000000000;
     const deposit = 10000000000000000000000;
-    Near.call([
-      {
-        contractName: "nft.primitives.near",
-        methodName: "nft_mint",
-        args: {
-          token_id: `${Date.now()}`,
-          token_metadata: {
-            title: state.title,
-            description: state.description,
-            media: `https://ipfs.io/ipfs/${state.image.cid}`,
-            reference: `ipfs://${cid}`,
-          },
-          receiver_id: accountId,
+    Near.call({
+      contractName: "nft.primitives.near",
+      methodName: "nft_mint",
+      args: {
+        token_id: `${Date.now()}`,
+        token_metadata: {
+          title: state.title,
+          description: state.description,
+          media: `https://ipfs.io/ipfs/${state.image.cid}`,
+          reference: `ipfs://${cid}`,
         },
-        gas: gas,
-        deposit: deposit,
+        receiver_id: accountId,
       },
-    ]);
+      deposit: 10000000000000000000000,
+    });
   });
 };
 
@@ -72,7 +68,7 @@ const onChangeDesc = (description) => {
 
 return (
   <div>
-    <div>Mint NFT on genadrop</div>
+    <div>Mint NFT primitive</div>
     <div>
       Title:
       <input type="text" onChange={(e) => onChangeTitle(e.target.value)} />
