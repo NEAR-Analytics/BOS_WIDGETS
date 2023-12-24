@@ -40,18 +40,30 @@ function updateText(e) {
 
 return (
   <Widget
-    src="abnakore.near/widget/Wrapper.jsx"
+    src="abnakore.near/widget/Wrapper"
     props={{
       body: (
         <label>
-          <input
-            className="input"
-            type={props.type}
-            placeholder=""
-            required={props.required}
-            value={props.items[item]}
-            onChange={updateText}
-          />
+          {props.kind === "textarea" ? (
+            <textarea
+              className="input"
+              type={props.type}
+              placeholder=""
+              required={props.required}
+              value={props.items[item]}
+              onChange={updateText}
+            />
+          ) : (
+            <input
+              className="input"
+              type={props.type}
+              placeholder=""
+              required={props.required}
+              value={props.items[item]}
+              onChange={updateText}
+            />
+          )}
+
           <span>{props.placeholder}</span>
         </label>
       ),
