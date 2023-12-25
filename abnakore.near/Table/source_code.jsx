@@ -52,7 +52,7 @@ return (
       </thead>
       <tbody>
         {JSON.stringify(props.data) === JSON.stringify([[]]) ? (
-          <td>No Data</td>
+          <td colSpan={props.headings.length}>No Data</td>
         ) : (
           props.data.map((cand) => (
             <tr key={cand[0]}>
