@@ -15,6 +15,10 @@ const [newVote, setNewVote] = useState({
   parties: [],
 });
 
+const secText = styled.h5`
+    text-align: center;
+`;
+
 return (
   <>
     {accountId ? (
@@ -52,6 +56,7 @@ return (
                   />
                   <hr />
 
+                  <secText>Parties Section</secText>
                   <Widget
                     src="abnakore.near/widget/Table"
                     props={{
@@ -60,7 +65,7 @@ return (
                     }}
                   />
                   <div className="form">
-                    <h5 style={{ textAlign: "center" }}>Add Party</h5>
+                    <secText>Add Party</secText>
                     <div className="flex">
                       <Widget
                         src="abnakore.near/widget/Input.jsx"
@@ -97,7 +102,7 @@ return (
                     }}
                   />
                   <div className="form">
-                    <h5 style={{ textAlign: "center" }}>Add Candidate</h5>
+                    <secText>Add Candidate</secText>
                     <div className="flex">
                       <Widget
                         src="abnakore.near/widget/Input.jsx"
@@ -124,6 +129,52 @@ return (
                     </div>
                     <button>Add</button>
                   </div>
+
+                  <Widget
+                    src="abnakore.near/widget/Input.jsx"
+                    props={{
+                      type: "password",
+                      placeholder: "Passcode",
+                      required: false,
+                      item: "party",
+                      items: newCandidate,
+                      setItem: setNewCandidate,
+                    }}
+                  />
+                  <Widget
+                    src="abnakore.near/widget/Input.jsx"
+                    props={{
+                      type: "text",
+                      placeholder: "Role",
+                      required: true,
+                      item: "party",
+                      items: newCandidate,
+                      setItem: setNewCandidate,
+                    }}
+                  />
+                  <Widget
+                    src="abnakore.near/widget/Input.jsx"
+                    props={{
+                      type: "date",
+                      placeholder: "Open on",
+                      required: false,
+                      item: "party",
+                      items: newCandidate,
+                      setItem: setNewCandidate,
+                    }}
+                  />
+                  <Widget
+                    src="abnakore.near/widget/Input.jsx"
+                    props={{
+                      type: "date",
+                      placeholder: "Close on",
+                      required: false,
+                      item: "party",
+                      items: newCandidate,
+                      setItem: setNewCandidate,
+                    }}
+                  />
+                  <button>Submit</button>
                 </div>
               </div>
             </div>
