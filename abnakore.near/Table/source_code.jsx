@@ -51,7 +51,8 @@ return (
         </tr>
       </thead>
       <tbody>
-        {JSON.stringify(props.data) === JSON.stringify([[]]) ? (
+        {JSON.stringify(props.data) === JSON.stringify([[]]) ||
+        JSON.stringify(props.data) === JSON.stringify([]) ? (
           <td colSpan={props.headings.length} style={{ textAlign: "center" }}>
             No Data
           </td>
