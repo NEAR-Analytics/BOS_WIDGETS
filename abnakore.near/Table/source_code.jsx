@@ -51,13 +51,17 @@ return (
         </tr>
       </thead>
       <tbody>
-        {props.data.map((cand) => (
-          <tr key={cand[0]}>
-            {cand.map((d) => (
-              <td key={d}>{d}</td>
-            ))}
-          </tr>
-        ))}
+        {JSON.stringify(props.data) === JSON.stringify([[]]) ? (
+          <td>No Data</td>
+        ) : (
+          props.data.map((cand) => (
+            <tr key={cand[0]}>
+              {cand.map((d) => (
+                <td key={d}>{d}</td>
+              ))}
+            </tr>
+          ))
+        )}
       </tbody>
     </table>
   </Wrapper>
