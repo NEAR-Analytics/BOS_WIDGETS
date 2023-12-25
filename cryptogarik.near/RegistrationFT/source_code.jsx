@@ -21,6 +21,9 @@ const onChangeFTContract = (ftContract) => {
 };
 
 const handleCheck = () => {
+  console.log("accountId: ", state.accountId);
+  console.log("ftContract: ", state.ftContract);
+
   const accountStorageBalance = Near.view(
     state.ftContract,
     "storage_balance_of",
@@ -28,6 +31,7 @@ const handleCheck = () => {
       account_id: state.accountId,
     }
   );
+  console.log("accountStorageBalance: ", accountStorageBalance);
   if (accountStorageBalance) {
     State.update({
       accountStorageBalance,
@@ -40,7 +44,6 @@ const handleCheck = () => {
       },
     });
   }
-  console.log("accountStorageBalance: ", state.accountStorageBalance);
 };
 
 const handleRegister = () => {
@@ -85,6 +88,7 @@ return (
         <div>
           <h5>Registration data (Storage balance)</h5>
         </div>
+        {console.log(Number(state.accountStorageBalance.total) > 0)}
         {(Number(state.accountStorageBalance.total) > 0 && (
           <div>User is registered</div>
         )) || (
