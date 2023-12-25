@@ -1,7 +1,7 @@
 const accountId = props.accountId || context.accountId;
 const ftContract = "token.v2.ref-finance.near";
 
-if (!state.accountId && !state.ftContract) {
+if (!(state.accountId && state.ftContract)) {
   State.update({
     accountId,
     ftContract,
@@ -43,6 +43,21 @@ const handleCheck = () => {
   console.log("accountStorageBalance: ", state.accountStorageBalance);
 };
 
+const handleRegister = () => {
+  if (!(state.accountId && state.ftContract)) {
+    return;
+  }
+
+  Near.call({
+    contractName: state.ftContract,
+    methodName: "storage_deposit",
+    args: {
+      account_id: state.accountId,
+    },
+    deposit: 1250000000000000000000,
+  });
+};
+
 return (
   <div>
     <div>Check user registration in FT contract</div>
@@ -72,7 +87,14 @@ return (
         </div>
         {(Number(state.accountStorageBalance.total) > 0 && (
           <div>User is registered</div>
-        )) || <div>User is not registered</div>}
+        )) || (
+          <div>
+            <div>User is not registered</div>
+            <div>
+              <button onClick={handleRegister}>Register</button>
+            </div>
+          </div>
+        )}
         <div>
           <h6>Storage balance</h6>
         </div>
