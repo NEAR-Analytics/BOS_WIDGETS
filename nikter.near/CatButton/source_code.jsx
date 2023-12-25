@@ -8,7 +8,11 @@ return (
       cursor: "pointer",
     }}
     title={props.label}
-    onClick={() => props.onClick()}
+    onClick={(e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      props.onClick();
+    }}
   >
     <Widget src="dapplets.near/widget/Cat" />
   </button>
