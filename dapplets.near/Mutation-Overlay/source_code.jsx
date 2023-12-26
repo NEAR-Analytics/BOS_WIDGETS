@@ -18,14 +18,15 @@ const handleCloseMenu = () => {
   State.update({ showMenu: false });
 };
 
-const OverlayTriggerWrapper = styled.div`
-
+const GlobalStyles = styled.createGlobalStyle`
   :root {
     position: absolute;
     right: -8px;
     top: 10px;
   }
-  
+`;
+
+const OverlayTriggerWrapper = styled.div`
   .OverlayTrigger {
     background: #fff;
     background: #db504a;
@@ -234,31 +235,34 @@ const Menu = styled.div`
     0px 404px 113px 0px rgba(0, 0, 0, 0);
 `;
 return (
-  <OverlayTriggerWrapper>
-    <div
-      style={{ opacity: state.show ? 0 : 1 }}
-      className="OverlayTrigger"
-      onMouseEnter={handleOnMouseEnter}
-      onMouseLeave={handleOnMouseLeave}
-    >
-      <TriggerEar />
-    </div>
-    {state.show ? (
-      <TriggerShowPanel
-        style={{ margin: "0px -7px" }}
+  <>
+    <GlobalStyles />
+    <OverlayTriggerWrapper>
+      <div
+        style={{ opacity: state.show ? 0 : 1 }}
+        className="OverlayTrigger"
         onMouseEnter={handleOnMouseEnter}
         onMouseLeave={handleOnMouseLeave}
       >
-        <TriggerShowLabel />
-        <ActionsWrapper>
-          <ActionsItem onClick={handleOpenMenu} />
-          <ActionsItem />
-          <ActionsItem />
-          <ActionsItem />
-        </ActionsWrapper>
-        <ButtonPlus />
-      </TriggerShowPanel>
-    ) : null}
-    {state.showMenu ? <MenuWrapper></MenuWrapper> : null}
-  </OverlayTriggerWrapper>
+        <TriggerEar />
+      </div>
+      {state.show ? (
+        <TriggerShowPanel
+          style={{ margin: "0px -7px" }}
+          onMouseEnter={handleOnMouseEnter}
+          onMouseLeave={handleOnMouseLeave}
+        >
+          <TriggerShowLabel />
+          <ActionsWrapper>
+            <ActionsItem onClick={handleOpenMenu} />
+            <ActionsItem />
+            <ActionsItem />
+            <ActionsItem />
+          </ActionsWrapper>
+          <ButtonPlus />
+        </TriggerShowPanel>
+      ) : null}
+      {state.showMenu ? <MenuWrapper></MenuWrapper> : null}
+    </OverlayTriggerWrapper>
+  </>
 );
