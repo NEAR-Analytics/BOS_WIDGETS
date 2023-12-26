@@ -7,6 +7,7 @@ const {
   inputCurrencyAmount,
   outputCurrencyAmount,
   tradeType,
+  title,
   onLoad,
 } = props;
 
@@ -95,6 +96,56 @@ const inputs = [
 ];
 
 const encodedData = iface.encodeFunctionData("quoteExactInput", inputs);
+if (title === "Balancer") {
+  const pools = [
+    [
+      [
+        "0xa2036f0538221a77a3937f1379699f44945018d0",
+        "0x4f9a0e7fd2bf6067db6994cf12e4495df938e6e9",
+        "0xa8ce8aee21bc2a48a5ef670afcc9274c7bbbc035",
+      ],
+      "0xc951aebfa361e9d0063355b9e68f5fa4599aa3d1000100000000000000000017",
+    ],
+    [
+      [
+        "0x4f9a0e7fd2bf6067db6994cf12e4495df938e6e9",
+        "0xC5015b9d9161Dca7e18e32f6f25C4aD850731Fd4",
+      ],
+      "0xa7f602cfaf75a566cb0ed110993ee81c27fa3f53000200000000000000000009",
+    ],
+    [
+      [
+        "0x4f9a0e7fd2bf6067db6994cf12e4495df938e6e9",
+        "0xC5015b9d9161Dca7e18e32f6f25C4aD850731Fd4",
+        "0x1E4a5963aBFD975d8c9021ce480b42188849D41d",
+      ],
+      "0xe8ca7400eb61d5bdfc3f8f2ea99e687e0a4dbf78000100000000000000000019",
+    ],
+    [
+      [
+        "0x4f9a0e7fd2bf6067db6994cf12e4495df938e6e9",
+        "0xa8ce8aee21bc2a48a5ef670afcc9274c7bbbc035",
+      ],
+      "0x53ddc1f1ef585b426c03674f278f8107f1524ade000200000000000000000012",
+    ],
+  ];
+
+  const finalPool = pools
+    .filter(
+      (poolData) =>
+        poolData[0].includes(_inputCurrencyAddress) &&
+        poolData[0].includes(_outputCurrencyAddress)
+    )
+    .map((poolData) => poolData[1]);
+
+  if (finalPool.length === 0) {
+    onLoad({
+      loading: false,
+      noPair: true,
+    });
+    return "";
+  }
+}
 
 Ethers.provider()
   .call({
