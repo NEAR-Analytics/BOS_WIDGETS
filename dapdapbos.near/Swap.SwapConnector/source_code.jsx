@@ -1,4 +1,3 @@
-const account = Ethers.send("eth_requestAccounts", [])[0];
 const {
   chainId,
   chainName,
@@ -9,12 +8,7 @@ const {
   ...restProps
 } = props;
 
-const { name, CHAIN_LIST, DEFAULT_CHAIN_ID, curChainId, curChain, dappSrc } =
-  props;
-
-const chainIdNotSupport = !CHAIN_LIST.find(
-  (chain) => chain.chainId === curChainId
-);
+const { name, CHAIN_LIST, curChainId, curChain, dappSrc } = props;
 
 const CONNECT_PROPS = {
   ...connectProps,
@@ -37,16 +31,31 @@ const DEXS = Object.values(dexs || {});
 State.init({
   chainId: -1,
   selectedDex: defalutDex,
+  chainIdNotSupport: true,
 });
 
-if (account) {
+const account = Ethers.send("eth_requestAccounts", [])[0];
+
+useEffect(() => {
+  if (!account) return;
+
   Ethers.provider()
     .getNetwork()
     .then(({ chainId }) => {
-      State.update({ chainId });
+      State.update({
+        chainId,
+        chainIdNotSupport: chainId !== curChain.chain_id,
+      });
     })
     .catch(() => {});
-}
+}, [account]);
+
+useEffect(() => {
+  if (state.chainId === -1) return;
+  State.update({
+    chainIdNotSupport: state.chainId !== curChain.chain_id,
+  });
+}, [curChain]);
 
 // if (state.chainId !== chainId) {
 //   return (
@@ -240,15 +249,14 @@ return (
           dexConfig: dexs[state.selectedDex],
           account,
           chainId,
-          chainIdNotSupport,
-          ...restProps,
+          chainIdNotSupport: state.chainIdNotSupport,
           ...props,
         }}
       />
 
       <BridgeBanner
         onClick={() => {
-          if (chainIdNotSupport) return;
+          if (state.chainIdNotSupport) return;
           restProps?.bridgeCb();
         }}
       >
