@@ -8,25 +8,59 @@ const STATUS = {
 
 const Item = styled.div`
   width: 350px;
+  height: 280px;
   border-radius: 10px;
-  border: 2px solid;
-  border-color: ${(props) =>
-    darkTheme
-      ? "#f0ddce"
-      : STATUS.GOOD.includes(props.status)
-      ? "rgb(89 230 146 / 50%)"
-      : STATUS.BAD.includes(props.status)
-      ? "rgb(255 121 121 / 50%)"
-      : "rgb(136 0 255 / 14%)"};
+  padding: 1.5rem;
+  border: none;
+  border-radius: 10px;
   box-shadow: 0px 30px 80px 0px rgba(0, 0, 0, 0.1);
 
-  .color-text {
-    background: ${darkTheme
-      ? "linear-gradient(270deg, #efdcd1 -1.69%, #e0c6f7 43.78%, #adc3fb 99.83%)"
-      : "linear-gradient(270deg, rgb(161 54 255) -1.69%, rgb(45 56 208) 99.83%)"};
-    background-clip: text;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+  h4 {
+    color: #000
+    font-size: 24px;
+  }
+
+  &.dark {
+    position: relative;
+    background: linear-gradient(
+      270deg,
+      #efdcd1 -1.69%,
+      #e0c6f7 43.78%,
+      #adc3fb 99.83%
+    );
+    padding: 2px;
+
+    h4 {
+      background: linear-gradient(
+        270deg,
+        #efdcd1 -1.69%,
+        #e0c6f7 43.78%,
+        #adc3fb 99.83%
+      );
+      background-clip: text;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .inner {
+      height: 100%;
+      background: #151718;
+      border-radius: 10px;
+    }
+  }
+
+  .inner {
+    height: 100%;
+    background: white;
+    border-radius: 10px;
+  }
+
+  i {
+    color: ${(props) => (darkTheme ? "#f0ddce" : "#d0d0d0")};
+
+    &:hover {
+      color: ${(props) => (darkTheme ? "#fff" : "#000")};
+    }
   }
 
   p {
@@ -40,37 +74,19 @@ const Item = styled.div`
   }
 `;
 
-const Badge = styled.div`
-  border-radius: 20px;
-  padding: 3px 10px;
-  font-size: 14px;
-  width: max-content;
-  background: ${(props) =>
-    STATUS.GOOD.includes(props.status)
-      ? "rgb(89, 230, 146)"
-      : STATUS.BAD.includes(props.status)
-      ? "rgb(255, 121, 121)"
-      : "rgb(236 226 254)"};
-  color: ${(props) =>
-    STATUS.GOOD.includes(props.status)
-      ? "rgb(9, 52, 46)"
-      : STATUS.BAD.includes(props.status)
-      ? "rgb(52, 9, 9)"
-      : "rgb(138 79 255)"};
-`;
-
 const Img = styled.img`
   border-radius: 50%;
-  width: 100px;
-  height: 100px;
+  background: #eaeaea;
+  width: 100px !important;
+  height: 100px !important;
 `;
 
 const [communities, setCommunities] = useState([]);
 
 const fetchCommunities = () => {
-  const sheetId = "1HxWjHWwtHFtyo2GIUgpe7Oru4CVz2EWyuuvf3wT9Ghg";
+  const sheetId = "1CxRHo8y6HYqWY7FuguTN8laUjNqeUjDhtnXb4mbV7V4";
   const base = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?`;
-  const sheetName = "Overall Data";
+  const sheetName = "Logo";
   const query = encodeURIComponent("Select *");
   const url = `${base}&sheet=${sheetName}&tq=${query}`;
   const resp = fetch(url);
@@ -93,32 +109,30 @@ if (communities.length === 0)
   );
 
 const Connect = ({ item }) => (
-  <Item
-    status={item[4].v}
-    className="d-flex flex-column gap-2 justify-content-between align-items-center"
-  >
-    <Img src={item[5].v} />
-    <h4 className="bold color-text px-4 pt-4 text-center">{item[1].v}</h4>
-    <Badge status={item[4].v}>{item[4].v || "No status yet"}</Badge>
-    <div className="pt-2 pb-4 text-center">
-      <div className="mb-2">Created at: {item[3].f}</div>
-      <a href={item[2].v} className="color-text">
-        <span className="mr-4">Learn More</span>
-        <i className="bi bi-chevron-right" />
-      </a>
+  <Item className={`${darkTheme ? "dark" : ""} `}>
+    <div className="inner d-flex flex-column justify-content-center gap-3 align-items-center">
+      <Img src={item[5].v} />
+      <h4 className="bold color-text px-3 mt-1 text-center">{item[1].v}</h4>
+      <div className="d-flex gap-4">
+        {item[3].v && (
+          <a href={item[3].v} target="_blank">
+            <i className={`fs-4 bi bi-telegram`} />
+          </a>
+        )}
+        {item[4].v && (
+          <a href={item[4].v} target="_blank">
+            <i className={`fs-4 bi bi-twitter-x`} />
+          </a>
+        )}
+      </div>
     </div>
   </Item>
 );
 
-console.log(communities);
-
 return (
   <div className="d-flex flex-wrap gap-5 justify-content-center">
-    {communities
-      .reverse()
-      .slice(0, maxLimit)
-      .map((item) => (
-        <Connect item={item} />
-      ))}
+    {communities.slice(0, maxLimit).map((item) => (
+      <Connect item={item} />
+    ))}
   </div>
 );
