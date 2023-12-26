@@ -75,50 +75,41 @@ const InfoSection = styled.div`
 `;
 
 return (
-  <>
-    <HeroSection className="d-flex justify-content-between align-items-center gap-3">
-      <div className="d-flex flex-column gap-5">
-        <h1>{content.heroTitle}</h1>
-        <h3>{content.heroDesc}</h3>
+  <Container>
+    <InfoSection className="d-flex flex-column gap-4 mx-auto">
+      <div>
+        <h1>Achievements</h1>
       </div>
-      <img src={assets.hero} />
-    </HeroSection>
-    <Container>
-      <InfoSection className="d-flex flex-column gap-4 mx-auto">
-        <div>
-          <h1>Achievements</h1>
-        </div>
-        <div>
-          <p>
-            We are proud to support:
-            <ul>
-              <li>Over 150 NEAR Ecosystem dApps</li>
-              <li>Over 50 regional communities across the world</li>
-              <li>1000+ AMA's</li>
-              <li>2000 + quizzes</li>
-              <li>competitions & workshops</li>
-              <li>100+ events and hackathons</li>
-              <li>Over 20K new NEAR wallets</li>
-            </ul>
-          </p>
-        </div>
-        <div>
-          <p>
-            100+ clevelopers building on NEAR Top Ecosystem Projects
-            <ul>
-              <li>ShardDog</li>
-              <li>Chill & Shill</li>
-              <li>Rogue Studios</li>
-              <li>SHE is NEAR</li>
-              <li>Degens</li>
-              <li>
-                Regional communities including NEAR Turkey, Indonesia, China and
-                more
-              </li>
-            </ul>
-          </p>
-        </div>
-      </InfoSection>
-    </Container>
-  </>
+      <div>
+        <p>
+          We are proud to support:
+          <ul>
+            <li>Over 150 NEAR Ecosystem dApps</li>
+            <li>Over 50 regional communities across the world</li>
+            <li>1000+ AMA's</li>
+            <li>2000 + quizzes</li>
+            <li>competitions & workshops</li>
+            <li>100+ events and hackathons</li>
+            <li>Over 20K new NEAR wallets</li>
+          </ul>
+        </p>
+      </div>
+      <div>
+        <p>
+          100+ clevelopers building on NEAR Top Ecosystem Projects
+          <ul>
+            <li>ShardDog</li>
+            <li>Chill & Shill</li>
+            <li>Rogue Studios</li>
+            <li>SHE is NEAR</li>
+            <li>Degens</li>
+            <li>
+              Regional communities including NEAR Turkey, Indonesia, China and
+              more
+            </li>
+          </ul>
+        </p>
+      </div>
+    </InfoSection>
+  </Container>
 );
