@@ -1,4 +1,5 @@
 let { assets, content } = VM.require(`ndcdev.near/widget/MDAO.Config`);
+let { Hero } = VM.require(`ndcdev.near/widget/MDAO.Components.Hero`);
 
 assets = assets.home;
 content = content.home;
@@ -17,86 +18,6 @@ const Container = styled.div`
   h4 {
     font-size: 1.5rem;
     font-weight: 300;
-  }
-`;
-
-const HeroSection = styled.div`
-  background: linear-gradient(
-    96deg,
-    #fdefb1 -19.42%,
-    #e1c4fe 49.87%,
-    #95c3fe 98.55%
-  );
-  width: 100%;
-  height: 550px;
-  gap: 10rem;
-
-  @media screen and (max-width: 786px) {
-    padding: 2rem;
-    text-align: center;
-  }
-
-  h1 {
-    font-size: 4.5rem;
-    font-weight: 600;
-    margin-bottom: 10px;
-    @media screen and (max-width: 786px) {
-      font-size: 3rem;
-    }
-  }
-
-  h3 {
-    font-size: 1.5rem;
-    font-weight: 300;
-    max-width: 500px;
-    margin-bottom: 0;
-  }
-
-  h4 {
-    font-size: 1.5rem;
-    font-weight: 400;
-    margin-bottom: 0;
-  }
-
-  img {
-    width: 400px;
-    height: 400px;
-    @media screen and (max-width: 786px) {
-      display: none;
-    }
-  }
-
-  a.btn {
-    border-radius: 10px;
-    background: #151718;
-    box-shadow: 0px 20px 30px 0px rgba(0, 0, 0, 0.25);
-    color: #f0f0f0;
-    font-size: 24px;
-    font-weight: 400;
-    padding: 15px 25px 15px 90px;
-    max-width: 350px;
-
-    &:hover {
-      color: #fff;
-      text-decoration: none;
-    }
-
-    @media screen and (max-width: 786px) {
-      padding: 15px 25px 15px 70px;
-    }
-
-    &.btn-secondary {
-      background: transparent;
-      color: #151718;
-      background-image: none;
-      border: 2px solid #151718;
-
-      &:hover {
-        color: #fff;
-        background: #151718;
-        text-decoration: none;
-      }
-    }
   }
 `;
 
@@ -287,9 +208,9 @@ const SupportSection = styled.div`
   padding: 5rem 3rem 7rem 3rem;
   background: linear-gradient(
     258deg,
-    rgba(162, 195, 254, 0.5) 0%,
-    rgba(225, 197, 252, 0.5) 28.72%,
-    rgba(241, 220, 210, 0.5) 100%
+    rgba(162, 195, 254, 0.75) 0%,
+    rgba(225, 197, 252, 0.75) 28.72%,
+    rgba(241, 220, 210, 0.75) 100%
   );
 
   @media screen and (max-width: 786px) {
@@ -421,24 +342,7 @@ let infoCounter = 0;
 
 return (
   <Container>
-    <HeroSection className="d-flex justify-content-center align-items-center">
-      <div className="d-flex flex-column gap-5">
-        <div>
-          <h1>{content.heroTitle}</h1>
-          <h3>{content.heroDesc}</h3>
-        </div>
-        <div>
-          <a
-            href={"/ndcdev.near/widget/MDAO.App?page=info"}
-            className="btn btn-secondary d-flex justify-content-between"
-          >
-            <span>Read More</span>
-            <i className="bi bi-chevron-right" />
-          </a>
-        </div>
-      </div>
-      <img src={assets.hero} />
-    </HeroSection>
+    <Hero />
 
     <InfoSection className="d-flex flex-column gap-5">
       <h4>{content.info.name}</h4>
