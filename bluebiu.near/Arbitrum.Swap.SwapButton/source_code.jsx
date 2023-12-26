@@ -227,6 +227,16 @@ function successCallback(tx, callback) {
         status,
         transactionHash,
         add: props.add,
+        token_in_currency: {
+          address: inputCurrency?.address,
+          symbol: inputCurrency?.symbol,
+          decimals: inputCurrency?.decimals,
+        },
+        token_out_currency: {
+          address: outputCurrency?.address,
+          symbol: outputCurrency?.symbol,
+          decimals: outputCurrency?.decimals,
+        },
       });
       toast?.dismiss(state.toastId);
       if (status !== 1) throw new Error("");
