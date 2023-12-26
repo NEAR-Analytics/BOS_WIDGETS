@@ -1,5 +1,4 @@
 let { assets, content } = VM.require(`ndcdev.near/widget/MDAO.Config`);
-
 assets = assets.home;
 content = content.home;
 
@@ -75,54 +74,45 @@ const InfoSection = styled.div`
 `;
 
 return (
-  <>
-    <HeroSection className="d-flex justify-content-between align-items-center gap-3">
-      <div className="d-flex flex-column gap-5">
-        <h1>{content.heroTitle}</h1>
-        <h3>{content.heroDesc}</h3>
+  <Container>
+    <InfoSection className="d-flex flex-column gap-4 mx-auto">
+      <div>
+        <h1>Marketing DAO Councils</h1>
       </div>
-      <img src={assets.hero} />
-    </HeroSection>
-    <Container>
-      <InfoSection className="d-flex flex-column gap-4 mx-auto">
-        <div>
-          <h1>Marketing DAO Councils</h1>
-        </div>
-        <div>
-          <h3>Lorraine (@so608)</h3>
-          <p>
-            Long-time journalist (FastCo, SF Chronicle, Hearst) turned strategic
-            communications pro Owner of marketing and communications agency
-            serving venture capital firms, startups and blockchain builders
-            Podcast host and course creator Web3 enthusiast working to encourage
-            diverse populations to learn and explore the space
-          </p>
-        </div>
-        <div>
-          <h3>Elliot (@dacha)</h3>
-          <p>
-            In real life, former head of regional purchasing and marketing at
-            K-Rauta Joined Near Community in Q3 of 2020; Since this time, I have
-            spent my whole life here. During this time helped with marketing
-            support for over 100 dApps, including our top dApps such as Near.
-            Social, Land2Empire, Zomland, MotoDex. Raised many new contributors
-            who are now building the Community. Active NDC contributor, involved
-            in many ecosystem projects Founder of many Grassroots DAOs
-          </p>
-        </div>
-        <div>
-          <h3>Carl (@cryptocredit)</h3>
-          <p>
-            Old school marketeer with over 30 years experience across all
-            sectors 7 years of Blockchain Experience Brewery and Farm Owner IRL
-            Founder of Decentralized Brewing Co built on NEAR Johanga tba
-          </p>
-        </div>
-        <div>
-          <h3>Johanga</h3>
-          <p>TBA</p>
-        </div>
-      </InfoSection>
-    </Container>
-  </>
+      <div>
+        <h3>Lorraine (@so608)</h3>
+        <p>
+          Long-time journalist (FastCo, SF Chronicle, Hearst) turned strategic
+          communications pro Owner of marketing and communications agency
+          serving venture capital firms, startups and blockchain builders
+          Podcast host and course creator Web3 enthusiast working to encourage
+          diverse populations to learn and explore the space
+        </p>
+      </div>
+      <div>
+        <h3>Elliot (@dacha)</h3>
+        <p>
+          In real life, former head of regional purchasing and marketing at
+          K-Rauta Joined Near Community in Q3 of 2020; Since this time, I have
+          spent my whole life here. During this time helped with marketing
+          support for over 100 dApps, including our top dApps such as Near.
+          Social, Land2Empire, Zomland, MotoDex. Raised many new contributors
+          who are now building the Community. Active NDC contributor, involved
+          in many ecosystem projects Founder of many Grassroots DAOs
+        </p>
+      </div>
+      <div>
+        <h3>Carl (@cryptocredit)</h3>
+        <p>
+          Old school marketeer with over 30 years experience across all sectors
+          7 years of Blockchain Experience Brewery and Farm Owner IRL Founder of
+          Decentralized Brewing Co built on NEAR Johanga tba
+        </p>
+      </div>
+      <div>
+        <h3>Johanga</h3>
+        <p>TBA</p>
+      </div>
+    </InfoSection>
+  </Container>
 );
