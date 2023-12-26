@@ -1,5 +1,5 @@
 const Theme = styled.div`
-  background: #fffcff;
+  background: rgb(227 195 255 / 13%);
   font-style: normal;
 
   a {
