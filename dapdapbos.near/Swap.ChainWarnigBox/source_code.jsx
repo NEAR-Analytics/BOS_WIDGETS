@@ -29,9 +29,8 @@ const SwitchButton = styled.div`
   border-radius: 10px;
   width: 100%;
   padding: 20px 0px;
-  background: var(--button-color);
-
-  color: #000000;
+  background-color: var(--button-color);
+  color: var(--button-text-color);
 `;
 
 const Wrapper = styled.div`
@@ -70,15 +69,15 @@ const Wrapper = styled.div`
   gap: 20px;
 `;
 
-const handleSwitchChain = (chain) => {
-  const chainId = chain.chainId;
-
-  const res = Ethers.send("wallet_switchEthereumChain", [
-    { chainId: `0x${Number(chainId).toString(16)}` },
-  ]);
-
-  if (res === undefined) {
-    Ethers.send("wallet_addEthereumChain", [chain]);
+const handleSwitchChain = () => {
+  if (props.onSwitchChain) {
+    props.onSwitchChain({
+      chainId: `0x${Number(chain.chain_id).toString(16)}`,
+    });
+  } else {
+    Ethers.send("wallet_switchEthereumChain", [
+      { chainId: `0x${Number(chain.chain_id).toString(16)}` },
+    ]);
   }
 };
 
@@ -86,9 +85,9 @@ return (
   <Wrapper>
     {WarningIcon}
 
-    <div>Please switch to {chain.chainName}</div>
+    <div>Please switch to {chain.name}</div>
 
-    <SwitchButton onClick={() => handleSwitchChain(chain)}>
+    <SwitchButton onClick={() => handleSwitchChain()}>
       Switch Network
     </SwitchButton>
   </Wrapper>
