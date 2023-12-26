@@ -108,7 +108,6 @@ return (
             <ul>
               <li>ShardDog</li>
               <li>Chill & Shill</li>
-              <li>Aurora DAO</li>
               <li>Rogue Studios</li>
               <li>SHE is NEAR</li>
               <li>Degens</li>
