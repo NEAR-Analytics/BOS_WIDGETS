@@ -84,14 +84,15 @@ const LinksContainer = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
-  gap: 1.5rem;
+  gap: 2rem;
 
   a {
     color: #fff;
-    font-size: 14px;
+    font-size: 13px;
     font-style: normal;
-    font-weight: 400;
     line-height: normal;
+    text-decoration: none;
+    letter-spacing: 0.1rem;
   }
 
   .dropdown {
@@ -108,7 +109,7 @@ const LinksContainer = styled.div`
     display: none;
     position: absolute;
     width: 250px;
-    top: 40px;
+    top: 45px;
     right: 0;
     background-color: #f1f1f1;
     border-radius: 10px;
@@ -122,6 +123,7 @@ const LinksContainer = styled.div`
 
       a {
         color: black;
+        letter-spacing: normal;
         &:hover {
           text-decoration: none;
         }
@@ -182,28 +184,10 @@ const MobileNav = styled.div`
 
   a {
     color: #fff;
-    font-size: 14px;
+    font-size: 13px;
     font-style: normal;
-    font-weight: 400;
     line-height: normal;
-  }
-`;
-
-const MobileLink = styled.a`
-  color: #f4f4f4 !important;
-  font-size: 20px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: 20px; /* 100% */
-  margin-bottom: 1rem;
-
-  &.active {
-    color: #00ec97 !important;
-  }
-
-  &:hover {
     text-decoration: none;
-    color: #00ec97 !important;
   }
 `;
 
@@ -227,12 +211,11 @@ return (
           <a className="d-flex gap-2 align-items-center" href={link.href}>
             <Circle bg={link.color} />
             {link.items?.length > 0 ? (
-              <div className="d-flex align-items-center  dropdown">
+              <div className="d-flex align-items-center dropdown">
                 <div>{link.title}</div>
                 <div className="dropdown-content">
                   {link.items.map(({ title, href, target }) => (
                     <div className="d-flex gap-2 link align-items-center">
-                      <i className="bi bi-chevron-right text-black" />
                       <a href={href} target={target}>
                         {title}
                       </a>
@@ -265,14 +248,13 @@ return (
             <>
               {link.items?.length > 0 ? (
                 <>
-                  <div className="d-flex gap-2 align-items-center">
+                  <div className="d-flex text-white gap-2 align-items-center">
                     <Circle bg={link.color} />
-                    <div>{link.title}</div>
+                    <a>{link.title}</a>
                   </div>
                   <div className="d-flex gap-3 flex-column">
                     {link.items.map(({ title, href, target }) => (
-                      <div className="d-flex gap-2 align-items-center">
-                        <i className="bi bi-chevron-right text-white" />
+                      <div className="d-flex gap-2 px-3  align-items-center">
                         <a href={href} target={target}>
                           {title}
                         </a>
