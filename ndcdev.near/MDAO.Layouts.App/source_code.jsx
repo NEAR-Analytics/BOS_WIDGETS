@@ -1,6 +1,11 @@
 const Theme = styled.div`
-  background: rgb(227 195 255 / 13%);
   font-style: normal;
+  background: linear-gradient(
+    258deg,
+    rgba(162, 195, 254, 0.25) 0%,
+    rgba(225, 197, 252, 0.25) 28.72%,
+    rgba(241, 220, 210, 0.25) 100%
+  );
 
   a {
     color: inherit;
