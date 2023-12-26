@@ -10,7 +10,6 @@ const Item = styled.div`
   width: 350px;
   height: 280px;
   border-radius: 10px;
-  padding: 1.5rem;
   border: none;
   border-radius: 10px;
   box-shadow: 0px 30px 80px 0px rgba(0, 0, 0, 0.1);
