@@ -24,7 +24,7 @@ const ConnectSection = styled.div`
 
 return (
   <Container>
-    <ConnectSection className="d-flex flex-column gap-5">
+    <ConnectSection className="d-flex flex-column">
       <Widget src="ndcdev.near/widget/MDAO.Components.Communities" />
     </ConnectSection>
   </Container>
