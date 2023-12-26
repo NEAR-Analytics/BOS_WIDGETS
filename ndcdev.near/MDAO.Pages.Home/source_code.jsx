@@ -28,8 +28,8 @@ const HeroSection = styled.div`
     #95c3fe 98.55%
   );
   width: 100%;
-  height: 600px;
-  padding: 3rem;
+  height: 550px;
+  gap: 10rem;
 
   @media screen and (max-width: 786px) {
     padding: 2rem;
@@ -37,9 +37,9 @@ const HeroSection = styled.div`
   }
 
   h1 {
-    font-size: 5.2rem;
+    font-size: 4.5rem;
     font-weight: 600;
-    margin-bottom: 0;
+    margin-bottom: 10px;
     @media screen and (max-width: 786px) {
       font-size: 3rem;
     }
@@ -48,7 +48,7 @@ const HeroSection = styled.div`
   h3 {
     font-size: 1.5rem;
     font-weight: 300;
-    max-width: 800px;
+    max-width: 500px;
     margin-bottom: 0;
   }
 
@@ -59,30 +59,22 @@ const HeroSection = styled.div`
   }
 
   img {
-    width: 500px;
-    height: 500px;
+    width: 400px;
+    height: 400px;
     @media screen and (max-width: 786px) {
       display: none;
     }
   }
 
-  .hero-buttons {
-    flex-direction: row;
-
-    @media screen and (max-width: 786px) {
-      flex-direction: column;
-    }
-  }
-
   a.btn {
     border-radius: 10px;
-    background: #000;
+    background: #151718;
     box-shadow: 0px 20px 30px 0px rgba(0, 0, 0, 0.25);
     color: #f0f0f0;
     font-size: 24px;
     font-weight: 400;
-    padding: 15px 25px;
-    min-width: 300px;
+    padding: 15px 25px 15px 90px;
+    max-width: 350px;
 
     &:hover {
       color: #fff;
@@ -90,14 +82,20 @@ const HeroSection = styled.div`
     }
 
     @media screen and (max-width: 786px) {
-      width: 100%;
+      padding: 15px 25px 15px 70px;
     }
 
     &.btn-secondary {
       background: transparent;
-      color: #000;
+      color: #151718;
       background-image: none;
-      border: 2px solid #000;
+      border: 2px solid #151718;
+
+      &:hover {
+        color: #fff;
+        background: #151718;
+        text-decoration: none;
+      }
     }
   }
 `;
@@ -121,13 +119,15 @@ const InfoSection = styled.div`
   }
 
   .participate_item {
-    width: 350px;
+    max-width: 350px;
 
     .circle {
-      width: 25px !important;
-      height: 25px !important;
+      width: 30px !important;
+      height: 30px !important;
       border-radius: 50%;
-      border: 1px solid #151718;
+      background: #151718;
+      color: white;
+      font-size: 14px;
     }
 
     @media screen and (max-width: 786px) {
@@ -136,7 +136,7 @@ const InfoSection = styled.div`
   }
 
   .item {
-    width: 280px;
+    width: 350px;
     height: 375px;
     border-radius: 10px;
     background: #fff;
@@ -244,7 +244,21 @@ const ConnectSection = styled.div`
     background: rgba(255, 255, 255, 0.05);
     box-shadow: 0px 30px 80px 0px rgba(0, 0, 0, 0.1);
 
-    .color-text {
+    p {
+      font-size: 16px;
+      font-weight: 300;
+      margin: 0;
+    }
+
+    @media screen and (max-width: 786px) {
+      width: 100%;
+    }
+  }
+
+  .explore {
+    font-size: 24px;
+
+    a {
       background: linear-gradient(
         270deg,
         #efdcd1 -1.69%,
@@ -254,16 +268,17 @@ const ConnectSection = styled.div`
       background-clip: text;
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
-    }
 
-    p {
-      font-size: 16px;
-      font-weight: 300;
-      margin: 0;
+      &:hover {
+        background: white;
+        background-clip: text;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
     }
 
     @media screen and (max-width: 786px) {
-      width: 100%;
+      width: 18px;
     }
   }
 `;
@@ -278,7 +293,7 @@ const SupportSection = styled.div`
   );
 
   @media screen and (max-width: 786px) {
-    padding: 2rem 2rem 4rem 2rem;
+    padding: 2rem 1rem 4rem 1rem;
     text-align: center;
   }
 
@@ -288,35 +303,52 @@ const SupportSection = styled.div`
   }
 
   .items {
-    gap: 2rem;
+    gap: 1.5rem;
 
     @media screen and (max-width: 786px) {
-      gap: 4rem;
+      gap: 3rem;
     }
   }
 
   .item {
-    width: 370px;
-    height: 370px;
-    border-radius: 50%;
-    background: #151718;
-    box-shadow: 0px 30px 50px 0px rgba(0, 0, 0, 0.25);
+    width: 380px;
+    height: 470px;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.3);
 
-    @media screen and (max-width: 786px) {
-      width: 300px;
-      height: 300px;
+    .header {
+      border-radius: 10px 10px 0px 0px;
+      background: rgba(255, 255, 255, 0.3);
     }
 
-    .inner {
+    a.btn {
+      height: 60px;
+      border-radius: 10px;
+      background: #151718;
+      box-shadow: 0px 20px 30px 0px rgba(0, 0, 0, 0.25);
+      padding: 15px 25px 15px 40px;
       color: white;
-      width: 350px;
-      height: 350px;
-      border-radius: 50%;
-      border: 2px solid #f0ddcf;
+      font-size: 20px;
+      font-style: normal;
+      font-weight: 400;
 
-      @media screen and (max-width: 786px) {
-        width: 270px;
-        height: 270px;
+      &:hover {
+        text-decoration: none;
+        background: #fffcff;
+        color: #151718;
+
+        i {
+          color: #e6cde6;
+        }
+      }
+    }
+
+    @media screen and (max-width: 786px) {
+      width: 100%;
+
+      a.btn {
+        font-size: 18px;
+        padding: 15px 20px;
       }
     }
   }
@@ -366,31 +398,20 @@ const Info = ({ title, desc, icon }) => (
   </div>
 );
 
-const Connect = ({ item }) => (
-  <div className="item d-flex flex-column gap-2 justify-content-between align-items-center">
-    <h4 className="bold color-text px-4 pt-4 text-center">{item[1].v}</h4>
-    <Badge status={item[4].v}>{item[4].v || "No status yet"}</Badge>
-    <div className="pt-2 pb-4 text-center">
-      <div>
-        <b>Created at</b>: {item[3].f}
-      </div>
-      <a href={item[2].v} className="color-text color-dark">
-        <span className="mr-4">Learn More</span>
-        <i className="bi bi-chevron-right" />
-      </a>
-    </div>
-  </div>
-);
-
 const Support = ({ title, items }) => (
-  <div>
-    <h2 className="text-center mb-5">{title}</h2>
-    <div className="item d-flex justify-content-center align-items-center">
-      <div className="inner d-flex flex-column justify-content-center align-items-center">
-        {items.map((i) => (
-          <Link to={i.href}>{i.title}</Link>
-        ))}
-      </div>
+  <div className="item d-flex flex-column">
+    <h2 className="header w-100 text-center p-4">{title}</h2>
+    <div className="d-flex w-100 flex-column p-4 align-items-center gap-4">
+      {items.map((i) => (
+        <div className="w-100">
+          <a className="btn w-100" href={i.href}>
+            <div className="d-flex justify-content-between align-items-center">
+              <span>{i.title}</span>
+              <i className="bi bi-chevron-right" />
+            </div>
+          </a>
+        </div>
+      ))}
     </div>
   </div>
 );
@@ -400,26 +421,20 @@ let infoCounter = 0;
 
 return (
   <Container>
-    <HeroSection className="d-flex justify-content-between align-items-center gap-3">
+    <HeroSection className="d-flex justify-content-center align-items-center">
       <div className="d-flex flex-column gap-5">
-        <h1>{content.heroTitle}</h1>
-        <h3>{content.heroDesc}</h3>
-        <div className="hero-buttons d-flex gap-3">
-          <Link
-            to={"/ndcdev.near/widget/MDAO.App?page=info"}
-            className="text-center btn btn-secondary d-flex justify-content-between"
+        <div>
+          <h1>{content.heroTitle}</h1>
+          <h3>{content.heroDesc}</h3>
+        </div>
+        <div>
+          <a
+            href={"/ndcdev.near/widget/MDAO.App?page=info"}
+            className="btn btn-secondary d-flex justify-content-between"
           >
             <span>Read More</span>
             <i className="bi bi-chevron-right" />
-          </Link>
-
-          <Link
-            className="text-center btn d-flex justify-content-between"
-            to={`/ndcdev.near/widget/MDAO.App?page=createProposal`}
-          >
-            <span>Create Proposal / Report</span>
-            <i className="bi bi-plus" />
-          </Link>
+          </a>
         </div>
       </div>
       <img src={assets.hero} />
@@ -428,7 +443,7 @@ return (
     <InfoSection className="d-flex flex-column gap-5">
       <h4>{content.info.name}</h4>
       <h2>{content.info.title}</h2>
-      <div className="d-flex flex-wrap gap-4 justify-content-center">
+      <div className="d-flex flex-wrap gap-5 justify-content-center">
         {content.info.sections?.map(({ title, desc, icon }) => (
           <Info title={title} desc={desc} icon={icon} />
         ))}
@@ -443,9 +458,6 @@ return (
             <h2>{content.connect.title1}</h2>
             <p>{content.connect.desc}</p>
           </div>
-          <div>
-            <h4 className="bold">{content.connect.title2}</h4>
-          </div>
         </div>
         <div className="img">
           <img src={assets.puzzle} className="w-100" />
@@ -457,31 +469,31 @@ return (
           props={{ limit: 3, theme: "dark" }}
         />
       </div>
-      <div>
-        <h4 className="bold">
-          <a href={"/ndcdev.near/widget/MDAO.App?page=communities"}>
-            <span className="mr-4">Browse More</span>
-            <i className="bi bi-chevron-right" />
-          </a>
-        </h4>
+      <div className="d-flex justify-content-center explore">
+        <a href={"/ndcdev.near/widget/MDAO.App?page=communities"}>
+          <span className="mr-4">Explore all Communities</span>
+          <i className="bi bi-chevron-right" />
+        </a>
       </div>
     </ConnectSection>
 
     <InfoSection className="d-flex flex-column gap-5">
       <h4>{content.participate.name}</h4>
-      <div>{content.participate.desc1}</div>
-      <div>{content.participate.desc2}</div>
+      <div>
+        <h2>{content.participate.title}</h2>
+        <p>{content.participate.desc}</p>
+      </div>
       <div className="d-flex flex-wrap justify-content-between">
         {content.participate.items?.map((section) => (
-          <div className="participate_item d-flex flex-column gap-2">
+          <div className="participate_item d-flex flex-column gap-3">
             {section.map((title) => (
-              <h5 className="d-flex gap-2">
+              <h5 className="d-flex gap-3 align-items-center">
                 <div>
                   <div className="d-flex circle justify-content-center align-items-center">
                     {(infoCounter += 1)}
                   </div>
                 </div>
-                <span>{title}</span>
+                <span className="text-start">{title}</span>
               </h5>
             ))}
           </div>
