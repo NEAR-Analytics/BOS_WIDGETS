@@ -117,20 +117,22 @@ const LinksContainer = styled.div`
     z-index: 1;
 
     .link {
-      padding: 12px 16px;
+      padding: 20px 25px;
       text-decoration: none;
       display: block;
 
       a {
+        font-size: 16px;
         color: black;
         letter-spacing: normal;
+
         &:hover {
           text-decoration: none;
         }
       }
 
       &:hover {
-        background-color: #ddd;
+        background-color: rgba(227, 195, 255, 0.2);
       }
 
       &:first-child {
@@ -169,22 +171,21 @@ const MobileNav = styled.div`
   position: absolute;
   top: 0;
   right: 0;
-  width: 270px;
+  width: 100%;
   padding: 24px 36px 36px 16px;
   flex-direction: column;
   align-items: flex-end;
-  gap: 2.5rem;
   flex-shrink: 0;
 
-  border-radius: 0px 0px 0px 16px;
-  background: rgba(21, 23, 24, 0.7);
+  border-radius: 0px 0px 10px 10px;
+  background: rgba(0, 0, 0, 0.9);
   backdrop-filter: blur(5px);
 
   z-index: 50;
 
   a {
     color: #fff;
-    font-size: 13px;
+    font-size: 16px;
     font-style: normal;
     line-height: normal;
     text-decoration: none;
@@ -205,7 +206,7 @@ return (
     <a href={`/ndcdev.near/widget/MDAO.App?page=home`}>
       <img src={assets.logoWhite} />
     </a>
-    <div className="d-flex gap-3 align-items-center">
+    <div className="d-flex gap-4 align-items-center">
       <LinksContainer>
         {links.map((link) => (
           <a className="d-flex gap-2 align-items-center" href={link.href}>
@@ -247,12 +248,12 @@ return (
           {links.map((link) => (
             <>
               {link.items?.length > 0 ? (
-                <>
+                <div>
                   <div className="d-flex text-white gap-2 align-items-center">
                     <Circle bg={link.color} />
                     <a>{link.title}</a>
                   </div>
-                  <div className="d-flex gap-3 flex-column">
+                  <div className="d-flex gap-3 flex-column py-3">
                     {link.items.map(({ title, href, target }) => (
                       <div className="d-flex gap-2 px-3  align-items-center">
                         <a href={href} target={target}>
@@ -261,7 +262,7 @@ return (
                       </div>
                     ))}
                   </div>
-                </>
+                </div>
               ) : (
                 <a className="d-flex gap-2 align-items-center" href={link.href}>
                   <Circle bg={link.color} />
