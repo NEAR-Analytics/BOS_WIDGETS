@@ -19,6 +19,13 @@ const handleCloseMenu = () => {
 };
 
 const OverlayTriggerWrapper = styled.div`
+
+  :root {
+    position: absolute;
+    right: -8px;
+    top: 10px;
+  }
+  
   .OverlayTrigger {
     background: #fff;
     background: #db504a;
