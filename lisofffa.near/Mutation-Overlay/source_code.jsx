@@ -21,7 +21,6 @@ const handleCloseMenu = () => {
 const OverlayTriggerWrapper = styled.div`
   display: flex;
   position: relative;
-  max-width: 1px;
   .OverlayTrigger {
     position: absolute;
 
