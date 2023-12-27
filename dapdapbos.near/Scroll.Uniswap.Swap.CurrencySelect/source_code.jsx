@@ -163,7 +163,8 @@ const LoadingWrapper = styled.div`
   color: #101010;
 `;
 
-const { chainId, explor, account, tokens, onImport } = props;
+const { chainId, explor, account, tokens, onImport, checkTokenSelectable } =
+  props;
 
 State.init({
   tokens: Object.values(props.tokens || {}),
@@ -243,8 +244,15 @@ return (
                   <QuickItem
                     key={token.address}
                     onClick={() => {
+                      if (!checkTokenSelectable(token)) return;
                       props.onSelect?.(token);
                       props.onClose();
+                    }}
+                    style={{
+                      opacity: checkTokenSelectable(token) ? 1 : 0.6,
+                      cursor: checkTokenSelectable(token)
+                        ? "pointer"
+                        : "not-allowed",
                     }}
                   >
                     <Widget
@@ -296,6 +304,7 @@ return (
                         showImportWarning: true,
                       });
                     },
+                    disabled: !checkTokenSelectable(state.importToken),
                   }}
                 />
               )}
@@ -309,9 +318,11 @@ return (
                     chainId: chainId,
                     account,
                     onClick: () => {
+                      if (!checkTokenSelectable(currency)) return;
                       props.onSelect?.(currency);
                       props.onClose();
                     },
+                    disabled: !checkTokenSelectable(currency),
                   }}
                   key={currency.address}
                 />
