@@ -246,11 +246,6 @@ const ButtonPlus = styled.div`
   }
 `;
 
-const MenuTopBlock = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-`;
 const iconClose = (
   <svg
     xmlns="http://www.w3.org/2000/svg"
@@ -276,69 +271,13 @@ const iconClose = (
   </svg>
 );
 
-const TitleMenu = styled.div`
-  color: #222;
-  font-size: 18px;
-  font-weight: 700;
-  line-height: normal;
-`;
-
 const CloseMenu = styled.span`
-  cursor: pointer;
   &:hover {
     transform: scale(1.2);
   }
 `;
 
-const MenuBlockMedium = styled.div`
-  display: flex;
-  flex-direction: column;
-  padding: 10px 20px;
-  border-radius: 4px;
-  border: 1px solid #c1c6ce;
-  width: 100%;
-  margin-top: 10px;
-  margin-bottom: 10px;
-`;
-
-const TitleItemsMenu = styled.div`
-  color: #222;
-  font-size: 14px;
-  font-weight: 400;
-  line-height: normal;
-`;
-
-const MenuBlockDefault = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding-top: 10px;
-  padding-bottom: 10px;
-  width: 100%;
-  margin-bottom: 14px;
-`;
-
-const MenuBlockBig = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  align-items: flex-start;
-`;
-
 const OnboardingButton = styled.button`
-  cursor: pounter;
-  display: flex;
-  width: 70px;
-  justify-content: center;
-  align-items: center;
-  border-radius: 4px;
-  background: #db504a;
-  color: #fff;
-  font-size: 14px;
-  font-weight: 400;
-  line-height: normal;
-  border: none;
-  height: 24px;
   &:hover {
     background: #eb9dab;
   }
@@ -362,76 +301,13 @@ const iconDropdown = (
   </svg>
 );
 
-const MenuDropdown = styled.div`
-  display: flex;
-  padding: 10px 20px 10px 10px;
-  align-items: center;
-  border-radius: 10px;
-  background: #e7ecef;
-  color: #747376;
-  font-size: 14px;
-  font-style: italic;
-  font-weight: 400;
-  line-height: normal;
-  width: 100%;
-  margin-top: 10px;
-  justify-content: space-between;
-`;
-
-const MenuInput = styled.div`
-  display: flex;
-  padding: 10px 20px 10px 10px;
-  align-items: center;
-  border-radius: 10px;
-  background: #e7ecef;
-  color: #747376;
-  font-size: 14px;
-  font-style: italic;
-  font-weight: 400;
-  line-height: normal;
-  width: 100%;
-  margin-top: 10px;
-  height: 36px;
-`;
-
-const MenuButtonBlock = styled.div`
-  display: flex;
-  width: 100%;
-  justify-content: space-between;
-  align-items: center;
-`;
-
 const ButtonApply = styled.button`
-  display: flex;
-  width: 235px;
-  justify-content: center;
-  align-items: center;
-  border-radius: 4px;
-  background: #db504a;
-  color: #fff;
-  border: none;
-  font-size: 14px;
-  height: 40px;
-  font-weight: 400;
-  line-height: 149%;
   &:hover {
     background: #eb9dab;
   }
 `;
 
 const ButtonCancel = styled.button`
-  display: flex;
-  width: 235px;
-  justify-content: center;
-  align-items: center;
-  border-radius: 4px;
-  background: #c1c6ce;
-  color: #fff;
-  border: none;
-  font-size: 14px;
-  height: 40px;
-  font-weight: 400;
-  line-height: 149%;
   &:hover {
     background: #747376;
   }
@@ -463,7 +339,6 @@ const overlay = (
       top: "0px",
       left: "50%",
       zIndex: "2000",
-      background: "rgba(255, 255, 255, 0.3)",
       transform: "none!important",
       transform: "translateX(-50%)",
     }}
@@ -485,40 +360,248 @@ const overlay = (
         height: "430px",
       }}
     >
-      <MenuTopBlock>
-        <TitleMenu>Apply tipping something</TitleMenu>
-        <CloseMenu onClick={handleCloseMenu}>{iconClose}</CloseMenu>
-      </MenuTopBlock>
-      <MenuBlockMedium>
-        <MenuBlockDefault>
-          <TitleItemsMenu>Onboarding</TitleItemsMenu>
-          <OnboardingButton>Go</OnboardingButton>
-        </MenuBlockDefault>
-        <MenuBlockBig>
-          <TitleItemsMenu>Trusted Users</TitleItemsMenu>
-          <MenuDropdown>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+        }}
+      >
+        <div
+          style={{
+            color: "#222",
+            fontSize: "18px",
+            fontWeight: "700",
+            lineHeight: "normal",
+          }}
+        >
+          Apply tipping something
+        </div>
+        <span style={{ cursor: "pointer" }} onClick={handleCloseMenu}>
+          {iconClose}
+        </span>
+      </div>
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          padding: "10px 20px",
+          borderRadius: "4px",
+          border: "1px solid #c1c6ce",
+          width: "100%",
+          marginTop: "10px",
+          marginBottom: " 10px",
+        }}
+      >
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            paddingTop: "10px",
+            paddingBottom: "10px",
+            width: "100%",
+            marginBottom: "14px",
+          }}
+        >
+          <div
+            style={{
+              color: " #222",
+              fontSize: "14px",
+              fontWeight: "400",
+              lineHeight: "normal",
+            }}
+          >
+            Onboarding
+          </div>
+          <button
+            style={{
+              cursor: "pounter",
+              display: "flex",
+              width: "70px",
+              justifyContent: "center",
+              alignItems: "center",
+              borderRadius: "4px",
+              background: "#db504a",
+              color: "#fff",
+              fontSize: "14px",
+              fontWeight: "400",
+              lineHeight: "normal",
+              border: "none",
+              height: "24px",
+            }}
+          >
+            Go
+          </button>
+        </div>
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            width: "100%",
+            alignItems: "flex-start",
+          }}
+        >
+          <div
+            style={{
+              color: " #222",
+              fontSize: "14px",
+              fontWeight: "400",
+              lineHeight: "normal",
+            }}
+          >
+            Trusted Users
+          </div>
+          <div
+            style={{
+              display: "flex",
+              padding: "10px 20px 10px 10px",
+              alignItems: "center",
+              borderRadius: "10px",
+              background: "#e7ecef",
+              color: "#747376",
+              fontSize: "14px",
+              fontStyle: "italic",
+              fontWeight: "400",
+              lineHeight: "normal",
+              width: "100%",
+              marginTop: "10px",
+              justifyContent: "space-between",
+            }}
+          >
             NEAR or Ethereum address... <span>{iconDropdown}</span>
-          </MenuDropdown>
-        </MenuBlockBig>
+          </div>
+        </div>
 
-        <MenuBlockDefault>
-          <TitleItemsMenu>Developer mode</TitleItemsMenu>
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            paddingTop: "10px",
+            paddingBottom: "10px",
+            width: "100%",
+            marginBottom: "14px",
+          }}
+        >
+          <div
+            style={{
+              color: " #222",
+              fontSize: "14px",
+              fontWeight: "400",
+              lineHeight: "normal",
+            }}
+          >
+            Developer mode
+          </div>
           <span>{iconSwitch}</span>
-        </MenuBlockDefault>
+        </div>
 
-        <MenuBlockDefault>
-          <TitleItemsMenu>Bug reports</TitleItemsMenu>
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            paddingTop: "10px",
+            paddingBottom: "10px",
+            width: "100%",
+            marginBottom: "14px",
+          }}
+        >
+          <div
+            style={{
+              color: " #222",
+              fontSize: "14px",
+              fontWeight: "400",
+              lineHeight: "normal",
+            }}
+          >
+            Bug reports
+          </div>
           <span>{iconSwitch}</span>
-        </MenuBlockDefault>
-        <MenuBlockBig>
-          <TitleItemsMenu>User Agent Name</TitleItemsMenu>
-          <MenuInput></MenuInput>
-        </MenuBlockBig>
-      </MenuBlockMedium>
-      <MenuButtonBlock>
-        <ButtonCancel>Cancel</ButtonCancel>
-        <ButtonApply>Apply</ButtonApply>
-      </MenuButtonBlock>
+        </div>
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            width: "100%",
+            alignItems: "flex-start",
+          }}
+        >
+          <div
+            style={{
+              color: " #222",
+              fontSize: "14px",
+              fontWeight: "400",
+              lineHeight: "normal",
+            }}
+          >
+            User Agent Name
+          </div>
+          <div
+            style={{
+              display: "flex",
+              padding: "10px 20px 10px 10px",
+              alignItems: "center",
+              borderRadius: "10px",
+              background: "#e7ecef",
+              color: "#747376",
+              fontSize: "14px",
+              fontStyle: "italic",
+              fontWeight: "400",
+              lineHeight: "normal",
+              width: "100%",
+              marginTop: "10px",
+              height: "36px",
+            }}
+          ></div>
+        </div>
+      </div>
+      <div
+        style={{
+          display: "flex",
+          width: "100%",
+          justifyContent: "space-between",
+          alignItems: "center",
+        }}
+      >
+        <button
+          style={{
+            display: "flex",
+            width: "235px",
+            justifyContent: "center",
+            alignItems: "center",
+            borderRadius: "4px",
+            background: "#c1c6ce",
+            color: "#fff",
+            border: "none",
+            fontSize: "14px",
+            height: "40px",
+            fontWeight: "400",
+            lineHeight: "149%",
+          }}
+        >
+          Cancel
+        </button>
+        <button
+          style={{
+            display: "flex",
+            width: "235px",
+            justifyContent: "center",
+            alignItems: "center",
+            borderRadius: "4px",
+            background: "#db504a",
+            color: "#fff",
+            border: "none",
+            fontSize: "14px",
+            height: "40px",
+            fontWeight: "400",
+            lineHeight: "149%",
+          }}
+        >
+          Apply
+        </button>
+      </div>
     </div>
   </div>
 );
