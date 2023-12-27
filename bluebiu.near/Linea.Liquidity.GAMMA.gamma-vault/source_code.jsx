@@ -539,14 +539,15 @@ const updateBalance = (token) => {
   }
 };
 
-if (sender) {
+useEffect(() => {
+  if (!sender || !token0 || !token1) return;
   [
     { symbol: token0, address: addresses[token0], decimals: decimals0 },
     { symbol: token1, address: addresses[token1], decimals: decimals1 },
   ].map(updateBalance);
 
   updateLPBalance();
-}
+}, [sender, token0, token1]);
 
 const {
   isDeposit,
@@ -772,7 +773,7 @@ const handleApprove = (isToken0) => {
         title: "Approve Successfully!",
         text: `Approve ${amount} ${_token}`,
         tx: receipt.transactionHash,
-        chainId: state.chainId,
+        chainId: props.chainId,
       });
     })
     .catch((error) => {
@@ -821,7 +822,6 @@ const handleDeposit = () => {
     proxyAbi,
     Ethers.provider().getSigner()
   );
-
   proxyContract
     .deposit(token0Wei, token1Wei, sender, hypeAddress, [0, 0, 0, 0])
     .then((tx) => {
@@ -840,6 +840,7 @@ const handleDeposit = () => {
         status: status,
         add: can_add_action,
         transactionHash,
+        chain_id: props.chainId,
       });
 
       State.update({
@@ -917,6 +918,7 @@ const handleWithdraw = () => {
         status: status,
         add: can_add_action,
         transactionHash,
+        chain_id: state.chainId,
       });
 
       setTimeout(() => State.update({ isPostTx: false }), 10_000);
