@@ -1,6 +1,6 @@
 const NorthPanel = styled.div`
   display: flex;
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 50%;
   transform: translateX(-50%);
