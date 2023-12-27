@@ -123,7 +123,7 @@ if (!href) {
 // This must be outside onClick, because Near.view returns null at first, and when the view call finished, it returns true/false.
 // If checking this inside onClick, it will give `null` and we cannot tell the result is true or false.
 let grantNotify = Near.view("social.near", "is_write_permission_granted", {
-  predecessor_id: "devhub.near",
+  predecessor_id: "devgovgigs.near",
   key: context.accountId + "/index/notify",
 });
 if (grantNotify === null) {
@@ -160,7 +160,7 @@ const onSubmit = () => {
   let txn = [];
 
   txn.push({
-    contractName: "devhub.near",
+    contractName: "devgovgigs.near",
     methodName: "add_post",
     args: {
       parent_id: null,
@@ -175,7 +175,7 @@ const onSubmit = () => {
       contractName: "social.near",
       methodName: "grant_write_permission",
       args: {
-        predecessor_id: "devhub.near",
+        predecessor_id: "devgovgigs.near",
         keys: [context.accountId + "/index/notify"],
       },
       gas: Big(10).pow(14),
@@ -205,7 +205,7 @@ const normalizeLabel = (label) =>
     .trim("-");
 
 const checkLabel = (label) => {
-  Near.asyncView("devhub.near", "is_allowed_to_use_labels", {
+  Near.asyncView("devgovgigs.near", "is_allowed_to_use_labels", {
     editor: context.accountId,
     labels: [label],
   }).then((allowed) => {
@@ -235,7 +235,7 @@ const setLabels = (labels) => {
     );
 
     const allowed = Near.asyncView(
-      "devhub.near",
+      "devgovgigs.near",
       "is_allowed_to_use_labels",
       {
         editor: context.accountId,
@@ -256,7 +256,7 @@ const setLabels = (labels) => {
 };
 
 const existingLabels =
-  Near.view("devhub.near", "get_all_allowed_labels", {
+  Near.view("devgovgigs.near", "get_all_allowed_labels", {
     editor: context.accountId,
   }) ?? [];
 const allowedLabels = existingLabels.filter((it) => it !== "blog"); // remove blog label so users cannot publish blogs from feed
@@ -331,7 +331,7 @@ function LabelsEditor() {
             props.text.toLowerCase() !== "blog" && // dont allow adding "Blog"
             props.selected.filter((selected) => selected.name === props.text)
               .length == 0 &&
-            Near.view("devhub.near", "is_allowed_to_use_labels", {
+            Near.view("devgovgigs.near", "is_allowed_to_use_labels", {
               editor: context.accountId,
               labels: [props.text],
             })
