@@ -2,7 +2,6 @@ const accountId = props.accountId ?? context.accountId;
 const daoId = props.daoId;
 const onClose = props.onClose;
 const registry = props.registry;
-const widgetLink = `https://near.org/astraplusplus.ndctools.near/widget/home?tab=proposals&daoId=${daoId}&page=dao`;
 
 if (!accountId) {
     return "Please connect your NEAR wallet :)";
@@ -66,101 +65,19 @@ const handleProposal = () => {
         caller: accountId
     });
 
-    // Near.call([
-    //     {
-    //         contractName: registry,
-    //         methodName: "is_human_call",
-    //         args: {
-    //             ctr: daoId,
-    //             function: "create_proposal",
-    //             payload: args
-    //         },
-    //         gas: gas,
-    //         deposit: deposit
-    //     },
-    //     {
-    //         contractName: "social.near",
-    //         methodName: "set",
-    //         deposit: 100000000000000000000000,
-    //         args: {
-    //             data: {
-    //                 "megha19.near": JSON.stringify({
-    //                     //     index: '{"notify":{"key":"megha19.near","value":{"type":"custom","message":"Proposal is created","widget":"https://near.org/astraplusplus.ndctools.near/widget/home?tab=proposals&daoId=voting-body-v1.gwg-testing.near&page=dao","params":{}}}}'
-    //                     index: {
-    //                         notify: {
-    //                             key: "megha19.near",
-    //                             value: {
-    //                                 message:
-    //                                     "It is your chess game turn against crans.near",
-    //                                 params: {
-    //                                     daoId: daoId
-    //                                 },
-    //                                 type: "custom",
-    //                                 widget: `astraplusplus.ndctools.near/widget/home?tab=proposals&daoId=${daoId}&page=dao`
-    //                             }
-    //                         }
-    //                     }
-    //                 })
-
-    //                 // "megha19.near": {
-    //                 //     index: {
-    //                 //         notify: JSON.stringify({
-    //                 //             key: "megha19.near",
-    //                 //             value: {
-    //                 //                 type: "mention",
-    //                 //                 item: {
-    //                 //                     path: "https://near.org/astraplusplus.ndctools.near/widget/home?tab=proposals&daoId=voting-body-v1.gwg-testing.near&page=dao"
-    //                 //                 }
-    //                 //             }
-    //                 //         })
-    //                 //     }
-    //                 // }
-    //             }
-    //         }
-    //     }
-    // ]);
-
-    Social.set({
-        index: {
-            notify: JSON.stringify([
-                {
-                    key: "megha19.near, testing122.near",
-                    value: {
-                        message: "Proposal created",
-                        params: {
-                            daoId: daoId,
-                            tab: "proposals",
-                            page: "dao"
-                        },
-                        type: "custom",
-                        widget: "astraplusplus.ndctools.near/widget/home"
-                    }
-                }
-            ])
+    Near.call([
+        {
+            contractName: registry,
+            methodName: "is_human_call",
+            args: {
+                ctr: daoId,
+                function: "create_proposal",
+                payload: args
+            },
+            gas: gas,
+            deposit: deposit
         }
-    });
-
-    // [
-    //     {
-    //         key: "megha19.near",
-    //         value: {
-    //             message: "Proposal created",
-    //             params: {
-    //                 daoId: daoId,
-    //                 tab: "proposals",
-    //                 page: "dao"
-    //             },
-    //             type: "custom",
-    //             widget: "astraplusplus.ndctools.near/widget/home"
-    //         }
-    //     },
-    //     {
-    //         key: "megha19.near",
-    //         value: {
-    //             type: "poke"
-    //         }
-    //     }
-    // ];
+    ]);
 };
 
 const onChangePropID = (prop_id) => {
