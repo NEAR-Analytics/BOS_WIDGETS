@@ -346,7 +346,7 @@ const overlay = (
     <div
       style={{
         display: "flex",
-        width: "500px !important",
+        width: "500px",
         padding: "10px",
         flexDirection: "column",
         borderRadius: "4px",
@@ -357,7 +357,8 @@ const overlay = (
     rgba(0, 0, 0, 0.005) 0px 15px 17px 0px, rgba(0, 0, 0, 0.01) 0px 8px 13px 0px,
     rgba(0, 0, 0, 0) 0px 14px 13px 0px`,
         margin: "auto",
-        height: "430px",
+        height: "420px",
+        fontFamily: "Roboto",
       }}
     >
       <div
@@ -468,6 +469,7 @@ const overlay = (
               marginTop: "10px",
               justifyContent: "space-between",
               boxSizing: "border-box",
+              marginBottom: "14px",
             }}
           >
             NEAR or Ethereum address... <span>{iconDropdown}</span>
