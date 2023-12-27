@@ -149,7 +149,7 @@ raw1 as (
  SELECT livequery.live.udf_api(
   'GET',
   'https://api.pikespeak.ai/sbt/sbt-by-owner?holder={{singer}}&registry=registry.i-am-human.near',
-  {'accept': 'application/json', 'x-api-key':'cbaac313-78d0-4d69-b2f8-6d5e2af58b6e'},
+  {'accept': 'application/json', 'x-api-key':'716bd858-852e-4866-9099-becd83d5e0d2'},
   {}
  ) as response)
 
@@ -750,6 +750,7 @@ const fetchData = (hash) => {
     error: (data && !data.ok && (data.status || data.error)) || null,
     isLoading: !data && !error,
   };
+  console.log(result);
   return result;
 };
 // handle runed data ###################################
