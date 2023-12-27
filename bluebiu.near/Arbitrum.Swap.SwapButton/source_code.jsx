@@ -77,6 +77,8 @@ State.init({
   approving: false,
   swapping: false,
   wrapping: false,
+  isEstimateGas: true,
+  isGasEnough: true,
 });
 
 const getAllowance = () => {
@@ -354,9 +356,25 @@ if (wrapType) {
   );
 }
 
+useEffect(() => {
+  if (!account) return;
+  const provider = Ethers.provider();
+  provider.getBalance(account).then((rawBalance) => {
+    State.update({
+      gasBalance: rawBalance.toString(),
+    });
+  });
+}, [account]);
+
+useEffect(() => {
+  State.update({
+    isEstimateGas: true,
+  });
+}, [outputCurrencyAmount]);
+
 return (
   <>
-    {uniType === "v2" && state.swapping && (
+    {uniType === "v2" && (
       <Widget
         src={handlerV2}
         props={{
@@ -369,6 +387,13 @@ return (
           routerAddress,
           swapping: state.swapping,
           title,
+          isEstimateGas: state.isEstimateGas,
+          onLoadEstimateGas: (gas) => {
+            State.update({
+              gas,
+              isGasEnough: !Big(state.gasBalance).lt(gas),
+            });
+          },
           onSuccess: (res) => {
             successCallback(res, () => {
               State.update({ swapping: false });
@@ -402,6 +427,13 @@ return (
           swapping: state.swapping,
           title,
           stable,
+          isEstimateGas: state.isEstimateGas,
+          onLoadEstimateGas: (gas) => {
+            State.update({
+              gas,
+              isGasEnough: !Big(state.gasBalance).lt(gas),
+            });
+          },
           onSuccess: (res) => {
             successCallback(res, () => {
               State.update({ swapping: false });
@@ -436,6 +468,13 @@ return (
           title,
           stable,
           syncSwapPoolAddress,
+          isEstimateGas: state.isEstimateGas,
+          onLoadEstimateGas: (gas) => {
+            State.update({
+              gas,
+              isGasEnough: !Big(state.gasBalance).lt(gas),
+            });
+          },
           onSuccess: (res) => {
             successCallback(res, () => {
               State.update({ swapping: false });
@@ -467,6 +506,13 @@ return (
           fee,
           routerAddress,
           swapping: state.swapping,
+          isEstimateGas: state.isEstimateGas,
+          onLoadEstimateGas: (gas) => {
+            State.update({
+              gas,
+              isGasEnough: !Big(state.gasBalance).lt(gas),
+            });
+          },
           onSuccess: (res) => {
             successCallback(res, () => {
               State.update({ swapping: false });
@@ -491,11 +537,15 @@ return (
         const toastId = toast?.loading({
           title: `Swap ${inputCurrencyAmount} ${inputCurrency.symbol} to ${outputCurrency.symbol}`,
         });
-        State.update({ swapping: true, toastId });
+        State.update({ swapping: true, toastId, isEstimateGas: false });
       }}
-      disabled={state.swapping}
+      disabled={state.swapping || !state.isGasEnough}
     >
-      {state.swapping ? "Swapping..." : "Swap"}
+      {!state.isGasEnough
+        ? `Not enough gas(${Big(state.gas || 0).toFixed(2)}) needed`
+        : state.swapping
+        ? "Swapping..."
+        : "Swap"}
     </SwapButton>
   </>
 );
