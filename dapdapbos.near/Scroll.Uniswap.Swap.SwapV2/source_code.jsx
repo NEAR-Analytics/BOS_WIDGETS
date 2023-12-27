@@ -156,11 +156,40 @@ const getUnitAmount = () => {
 
 useEffect(() => {
   if (!state.trade) return;
-  console.log(state.trade);
   State.update({
     showPriceImpactWarning: !Big(state.trade.priceImpact || 0).lt(2),
   });
 }, [state.trade]);
+
+const getSelectableTokens = (currency, cb) => {
+  const address =
+    currency?.address === "native" ? wethToken.address : currency?.address;
+  if (!address) {
+    State.update({
+      selectableTokens: null,
+    });
+    cb?.();
+    return;
+  }
+  asyncFetch(
+    `https://api.dapdap.net/api/uniswap/pair?chain_id=${chainId}&token=${address}`
+  )
+    .then((res) => {
+      if (Number(res.body?.code) !== 0) throw new Error();
+      State.update({
+        selectableTokens: res.body.data.reduce((acc, token) => {
+          acc[token] = true;
+          return acc;
+        }, {}),
+      });
+      cb?.();
+    })
+    .catch((err) => {
+      State.update({
+        selectableTokens: null,
+      });
+    });
+};
 
 return (
   <>
@@ -203,10 +232,12 @@ return (
             labelText: "You pay",
             onCurrencySelectOpen: () => {
               if (chainId !== state.currentChainId && account) return;
-              State.update({
-                displayCurrencySelect: true,
-                currencySelectType: 0,
-                selectedTokenAddress: state.inputCurrency.address,
+              getSelectableTokens(state.outputCurrency, () => {
+                State.update({
+                  displayCurrencySelect: true,
+                  currencySelectType: 0,
+                  selectedTokenAddress: state.inputCurrency.address,
+                });
               });
             },
             onUpdateCurrencyBalance: (balance) => {
@@ -289,10 +320,12 @@ return (
             disabled: true,
             onCurrencySelectOpen: () => {
               if (chainId !== state.currentChainId && account) return;
-              State.update({
-                displayCurrencySelect: true,
-                currencySelectType: 1,
-                selectedTokenAddress: state.outputCurrency.address,
+              getSelectableTokens(state.inputCurrency, () => {
+                State.update({
+                  displayCurrencySelect: true,
+                  currencySelectType: 1,
+                  selectedTokenAddress: state.outputCurrency.address,
+                });
               });
             },
             onUpdateCurrencyBalance: () => {
@@ -443,6 +476,11 @@ return (
             stableTokens: dexConfig.stableTokens,
             onImport,
             account,
+            checkTokenSelectable: (token) => {
+              if (state.selectableTokens === null || !token?.address)
+                return true;
+              return !state.selectableTokens[token.address.toLowerCase()];
+            },
             onClose: () => {
               State.update({
                 displayCurrencySelect: false,
@@ -457,8 +495,9 @@ return (
               };
               if (state.currencySelectType === 0) {
                 updatedParams.inputCurrency = currency;
-                if (currency.address === state.outputCurrency.address)
+                if (currency.address === state.outputCurrency.address) {
                   updatedParams.outputCurrency = null;
+                }
               }
               if (state.currencySelectType === 1) {
                 updatedParams.outputCurrency = currency;
