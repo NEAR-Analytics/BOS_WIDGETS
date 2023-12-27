@@ -1,4 +1,4 @@
-const { currency, display, onClick } = props;
+const { currency, display, disabled, onClick } = props;
 const CurrencyRow = styled.div`
   padding: 10px 30px;
   display: flex;
@@ -42,7 +42,12 @@ const ImportButton = styled.button`
 `;
 
 return (
-  <CurrencyRow>
+  <CurrencyRow
+    style={{
+      opacity: !disabled ? 1 : 0.6,
+      cursor: !disabled ? "pointer" : "not-allowed",
+    }}
+  >
     <CurrencyLabel>
       <Widget
         src="dapdapbos.near/widget/Linea.Uniswap.Swap.TokenIcon"
@@ -55,7 +60,7 @@ return (
     </CurrencyLabel>
     <ImportButton
       onClick={() => {
-        props.onImport?.();
+        if (!disabled) props.onImport?.();
       }}
     >
       Import
