@@ -92,6 +92,19 @@ const tx = {
   gas: GasPerTransaction,
 };
 
+const WarningStyle = styled.div`
+  color: rgb(252, 91, 91);
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+`;
+
+const WarningImage = styled.img`
+  width: 20px;
+  height: 20px;
+  margin-right: 8px;
+`;
+
 const FormContainer = styled.div`
   max-width: 650px;
   width: 100%;
@@ -392,6 +405,7 @@ function updateInputValue(value) {
     });
   }
 }
+
 return (
   <>
     <FormContainer style={{ fontWeight: "bold" }}>
@@ -401,6 +415,12 @@ return (
     </FormContainer>
     <FormContainer>
       <FormTitle>Transfer</FormTitle>
+      <WarningStyle>
+        <WarningImage
+          src={`${ipfsPrefix}/bafkreidaidhyfsjb3bqvm7gyyse47hvyjmj6oqhukcbez7z5k3ntc2qtn4`}
+        />
+        <div>Don't transfer NRC-20 tokens to CEXs' addresses!!!</div>
+      </WarningStyle>
       <Widget
         src={`${config.ownerId}/widget/NEAT.FormInput`}
         props={{
@@ -479,7 +499,9 @@ return (
           Near.call(config.contractName, config.methodName, {
             ...config.transferArgs,
             to: state.transferTo,
-            amt: Big(state.transferAmount).times(Big(10).pow(8)).toFixed(0),
+            amt: Big(state.transferAmount ?? 0)
+              .times(Big(10).pow(8))
+              .toFixed(0),
           });
           updateBalance();
           State.update({
