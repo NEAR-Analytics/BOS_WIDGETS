@@ -553,15 +553,46 @@ return (
             overlay={overlay}
           >
             <>
-              {props.actions &&
-                props.actions.length &&
-                props.actions.map((action, i) => (
-                  <ActionsItem key={i} onClick={handleOpenMenu}>
-                    <span className={action.active ? "ItemActive" : `${i}`}>
-                      <img src={action.icon} alt="" />
-                    </span>
-                  </ActionsItem>
-                ))}
+              <ActionsItem onClick={handleOpenMenu}>
+                <span className={"ItemActive"}>
+                  <img
+                    src={
+                      "https://github.com/dapplets/community-badges/blob/main/dapplet/src/icons/community-badges.png"
+                    }
+                    alt=""
+                  />
+                </span>
+              </ActionsItem>
+              <ActionsItem onClick={handleOpenMenu}>
+                <span>
+                  <img
+                    src={
+                      "https://github.com/dapplets/community-badges/blob/main/dapplet/src/icons/community-badges.png"
+                    }
+                    alt=""
+                  />
+                </span>
+              </ActionsItem>
+              <ActionsItem onClick={handleOpenMenu}>
+                <span>
+                  <img
+                    src={
+                      "https://github.com/dapplets/community-badges/blob/main/dapplet/src/icons/community-badges.png"
+                    }
+                    alt=""
+                  />
+                </span>
+              </ActionsItem>
+              <ActionsItem onClick={handleOpenMenu}>
+                <span>
+                  <img
+                    src={
+                      "https://github.com/dapplets/community-badges/blob/main/dapplet/src/icons/community-badges.png"
+                    }
+                    alt=""
+                  />
+                </span>
+              </ActionsItem>
             </>
           </OverlayTrigger>
         </ActionsWrapper>
