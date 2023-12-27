@@ -521,7 +521,7 @@ const search = (processedQueryArray, index) => {
 const amountOfResultsToShowFirst = 5;
 
 const buildPostsIndex = () => {
-  return Near.asyncView("devhub.near", "get_posts").then(
+  return Near.asyncView("devgovgigs.near", "get_posts").then(
     (posts) => {
       const index = buildIndex(posts);
       const data = posts.reduce((acc, post) => {
