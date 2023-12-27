@@ -678,7 +678,7 @@ function getConfig(network) {
       return {
         ownerId: 'nearblocks.near',
         nodeUrl: 'https://rpc.mainnet.near.org',
-        backendUrl: 'https://api-beta.nearblocks.io/v1/',
+        backendUrl: 'https://api3.nearblocks.io/v1/',
         rpcUrl: 'https://archival-rpc.testnet.near.org',
         appUrl: 'https://nearblocks.io/',
       };
@@ -686,7 +686,7 @@ function getConfig(network) {
       return {
         ownerId: 'nearblocks.testnet',
         nodeUrl: 'https://rpc.testnet.near.org',
-        backendUrl: 'https://api-testnet-beta.nearblocks.io/v1/',
+        backendUrl: 'https://api3-testnet.nearblocks.io/v1/',
         rpcUrl: 'https://archival-rpc.testnet.near.org',
         appUrl: 'https://testnet.nearblocks.io/',
       };
@@ -750,7 +750,7 @@ function getConfig(network) {
       return {
         ownerId: 'nearblocks.near',
         nodeUrl: 'https://rpc.mainnet.near.org',
-        backendUrl: 'https://api-beta.nearblocks.io/v1/',
+        backendUrl: 'https://api3.nearblocks.io/v1/',
         rpcUrl: 'https://archival-rpc.testnet.near.org',
         appUrl: 'https://nearblocks.io/',
       };
@@ -758,7 +758,7 @@ function getConfig(network) {
       return {
         ownerId: 'nearblocks.testnet',
         nodeUrl: 'https://rpc.testnet.near.org',
-        backendUrl: 'https://api-testnet-beta.nearblocks.io/v1/',
+        backendUrl: 'https://api3-testnet.nearblocks.io/v1/',
         rpcUrl: 'https://archival-rpc.testnet.near.org',
         appUrl: 'https://testnet.nearblocks.io/',
       };
