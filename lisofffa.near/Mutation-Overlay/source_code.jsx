@@ -3,6 +3,29 @@ State.init({
   showMenu: false,
 });
 
+const actions = [
+  {
+    icon: "https://github.com/dapplets/community-badges/blob/main/dapplet/src/icons/community-badges.png",
+    active: false,
+    id: "1",
+  },
+  {
+    icon: "https://github.com/dapplets/paywall-dapplet/blob/main/dapplet/src/icon.png",
+    active: false,
+    id: "2",
+  },
+  {
+    icon: "https://github.com/dapplets/connecting-accounts-dapplet/blob/master/src/icons/connected-accounts.png",
+    active: true,
+    id: "3",
+  },
+  {
+    icon: "https://github.com/dapplets/tipping-dapplet/blob/master/dapplet/src/icons/money-logo.png",
+    active: false,
+    id: "4",
+  },
+];
+
 const handleOnMouseEnter = () => {
   State.update({ show: true });
 };
@@ -640,46 +663,13 @@ return (
             style={{ transform: "none" }}
           >
             <>
-              <ActionsItem onClick={handleOpenMenu}>
-                <span className={"ItemActive"}>
-                  <img
-                    src={
-                      "https://github.com/dapplets/community-badges/blob/main/dapplet/src/icons/community-badges.png"
-                    }
-                    alt=""
-                  />
-                </span>
-              </ActionsItem>
-              <ActionsItem onClick={handleOpenMenu}>
-                <span>
-                  <img
-                    src={
-                      "https://github.com/dapplets/community-badges/blob/main/dapplet/src/icons/community-badges.png"
-                    }
-                    alt=""
-                  />
-                </span>
-              </ActionsItem>
-              <ActionsItem onClick={handleOpenMenu}>
-                <span>
-                  <img
-                    src={
-                      "https://github.com/dapplets/community-badges/blob/main/dapplet/src/icons/community-badges.png"
-                    }
-                    alt=""
-                  />
-                </span>
-              </ActionsItem>
-              <ActionsItem onClick={handleOpenMenu}>
-                <span>
-                  <img
-                    src={
-                      "https://github.com/dapplets/community-badges/blob/main/dapplet/src/icons/community-badges.png"
-                    }
-                    alt=""
-                  />
-                </span>
-              </ActionsItem>
+              {actions.map((action, i) => (
+                <ActionsItem onClick={handleOpenMenu} key={i}>
+                  <span className={action.active ? "ItemActive" : ""}>
+                    <img src={action.icon} alt="" />
+                  </span>
+                </ActionsItem>
+              ))}
             </>
           </OverlayTrigger>
         </ActionsWrapper>
