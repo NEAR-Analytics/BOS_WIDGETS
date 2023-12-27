@@ -30,7 +30,7 @@ const postId = props.post.id ?? (props.id ? parseInt(props.id) : 0);
 
 const post =
   props.post ??
-  Near.view("devhub.near", "get_post", { post_id: postId });
+  Near.view("devgovgigs.near", "get_post", { post_id: postId });
 
 if (!post) {
   return <div>Loading ...</div>;
@@ -60,12 +60,12 @@ const compareSnapshot =
 // If this post is displayed under another post. Used to limit the size.
 const isUnderPost = props.isUnderPost ? true : false;
 
-const parentId = Near.view("devhub.near", "get_parent_id", {
+const parentId = Near.view("devgovgigs.near", "get_parent_id", {
   post_id: postId,
 });
 
 const childPostIdsUnordered =
-  Near.view("devhub.near", "get_children_ids", {
+  Near.view("devgovgigs.near", "get_children_ids", {
     post_id: postId,
   }) ?? [];
 
@@ -107,7 +107,7 @@ const searchKeywords = props.searchKeywords ? (
 
 const allowedToEdit =
   !props.isPreview &&
-  Near.view("devhub.near", "is_allowed_to_edit", {
+  Near.view("devgovgigs.near", "is_allowed_to_edit", {
     post_id: postId,
     editor: context.accountId,
   });
@@ -263,7 +263,7 @@ const likeBtnClass = containsLike ? fillIcons.Like : emptyIcons.Like;
 // This must be outside onLike, because Near.view returns null at first, and when the view call finished, it returns true/false.
 // If checking this inside onLike, it will give `null` and we cannot tell the result is true or false.
 let grantNotify = Near.view("social.near", "is_write_permission_granted", {
-  predecessor_id: "devhub.near",
+  predecessor_id: "devgovgigs.near",
   key: context.accountId + "/index/notify",
 });
 
@@ -278,7 +278,7 @@ const onLike = () => {
 
   let likeTxn = [
     {
-      contractName: "devhub.near",
+      contractName: "devgovgigs.near",
       methodName: "add_like",
       args: {
         post_id: postId,
@@ -292,7 +292,7 @@ const onLike = () => {
       contractName: "social.near",
       methodName: "grant_write_permission",
       args: {
-        predecessor_id: "devhub.near",
+        predecessor_id: "devgovgigs.near",
         keys: [context.accountId + "/index/notify"],
       },
       gas: Big(10).pow(14),
