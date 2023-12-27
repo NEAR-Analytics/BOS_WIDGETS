@@ -12,6 +12,7 @@ const {
   QuoterSolidly,
   handleSyncswap,
   QuoterSyncswap,
+  account,
 } = props;
 
 const prevTitle = Storage.privateGet("prevTitle");
