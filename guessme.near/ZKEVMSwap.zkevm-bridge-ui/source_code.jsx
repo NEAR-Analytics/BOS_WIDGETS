@@ -557,12 +557,20 @@ const updateBalance = (token) => {
       .getBalance(sender)
       .then((balanceBig) => {
         const adjustedBalance = ethers.utils.formatEther(balanceBig);
-        State.update({
+
+        // State.update({
+        //   balances: {
+        //     ...state.balances,
+        //     [symbol]: new Big(adjustedBalance || 0).toFixed(),
+        //   },
+        // });
+        State.update((prevState) => ({
+          ...prevState,
           balances: {
-            ...state.balances,
+            ...prevState.balances,
             [symbol]: new Big(adjustedBalance || 0).toFixed(),
           },
-        });
+        }));
       });
   } else {
     const erc20Abi = ["function balanceOf(address) view returns (uint256)"];
@@ -577,12 +585,20 @@ const updateBalance = (token) => {
         const adjustedBalance = Big(balanceBig.toString())
           .div(Big(10).pow(decimals))
           .toFixed();
-        State.update({
+
+        // State.update({
+        //   balances: {
+        //     ...state.balances,
+        //     [symbol]: new Big(adjustedBalance || 0).toFixed(),
+        //   },
+        // });
+        State.update((prevState) => ({
+          ...prevState,
           balances: {
-            ...state.balances,
+            ...prevState.balances,
             [symbol]: new Big(adjustedBalance || 0).toFixed(),
           },
-        });
+        }));
       })
       .catch((e) => console.log("error", e));
   }
@@ -995,6 +1011,7 @@ const calcPrice = () => {
   if (!amount) return "0";
   return Big(amount).mul(Big(prices[selectedToken])).toFixed(2);
 };
+
 return (
   <DeskLayout>
     <Layout>
