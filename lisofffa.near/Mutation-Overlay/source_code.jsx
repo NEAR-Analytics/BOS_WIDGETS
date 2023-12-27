@@ -245,37 +245,6 @@ const ButtonPlus = styled.div`
       0px 4px 5px 0px rgba(45, 52, 60, 0.1);
   }
 `;
-const MenuWrapper = styled.div`
-display: flex;
-width: 100vw;
-height: 100vh;
-position: absolute;
-top: 0px;
-left: 50%;
-z-index: 2000;
-background: rgba(255, 255, 255, 0.3);
-transform: none!important;
-transform:translateX(-50%);
-}
-`;
-
-const Menu = styled.div`
-  display: flex;
-  width: 500px !important;
-  padding: 10px;
-  flex-direction: column;
-  border-radius: 10px;
-  border: 1px solid rgba(231, 236, 239, 0.6);
-  background: #fff;
-  box-shadow: rgba(0, 0, 0, 0.01) 0px 16px 16px 0px,
-    rgba(0, 0, 0, 0.049) 0px 65px 65px 0px,
-    rgba(0, 0, 0, 0.005) 0px 15px 17px 0px, rgba(0, 0, 0, 0.01) 0px 8px 13px 0px,
-    rgba(0, 0, 0, 0) 0px 14px 13px 0px;
-  margin: auto;
-  height: 430px;
-  border-radius: 4px;
-  border: 1px solid #c1c6ce;
-`;
 
 const MenuTopBlock = styled.div`
   display: flex;
@@ -499,7 +468,23 @@ const overlay = (
       transform: "translateX(-50%)",
     }}
   >
-    <Menu>
+    <div
+      style={{
+        display: "flex",
+        width: "500px !important",
+        padding: "10px",
+        flexDirection: "column",
+        borderRadius: "4px",
+        border: "1px solid rgba(231, 236, 239, 0.6)",
+        background: "#fff",
+        boxShadow: `rgba(0, 0, 0, 0.01) 0px 16px 16px 0px,
+    rgba(0, 0, 0, 0.049) 0px 65px 65px 0px,
+    rgba(0, 0, 0, 0.005) 0px 15px 17px 0px, rgba(0, 0, 0, 0.01) 0px 8px 13px 0px,
+    rgba(0, 0, 0, 0) 0px 14px 13px 0px`,
+        margin: "auto",
+        height: "430px",
+      }}
+    >
       <MenuTopBlock>
         <TitleMenu>Apply tipping something</TitleMenu>
         <CloseMenu onClick={handleCloseMenu}>{iconClose}</CloseMenu>
@@ -534,7 +519,7 @@ const overlay = (
         <ButtonCancel>Cancel</ButtonCancel>
         <ButtonApply>Apply</ButtonApply>
       </MenuButtonBlock>
-    </Menu>
+    </div>
   </div>
 );
 
