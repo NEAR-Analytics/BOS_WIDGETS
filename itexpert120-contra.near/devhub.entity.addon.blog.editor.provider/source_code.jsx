@@ -94,7 +94,7 @@ const handleOnSubmit = (v, isEdit) => {
   console.log(isEdit);
   if (isEdit) {
     Near.call({
-      contractName: "devhub.near",
+      contractName: "devgovgigs.near",
       methodName: "edit_post",
       args: {
         id: v.id,
@@ -109,7 +109,7 @@ const handleOnSubmit = (v, isEdit) => {
     });
   } else {
     Near.call({
-      contractName: "devhub.near",
+      contractName: "devgovgigs.near",
       methodName: "add_post",
       args: {
         labels: ["blog", handle],
