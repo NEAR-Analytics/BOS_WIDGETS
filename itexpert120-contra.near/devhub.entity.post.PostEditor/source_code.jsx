@@ -153,7 +153,7 @@ let fields = {
 // This must be outside onClick, because Near.view returns null at first, and when the view call finished, it returns true/false.
 // If checking this inside onClick, it will give `null` and we cannot tell the result is true or false.
 let grantNotify = Near.view("social.near", "is_write_permission_granted", {
-  predecessor_id: "devhub.near",
+  predecessor_id: "devgovgigs.near",
   key: context.accountId + "/index/notify",
 });
 if (grantNotify === null) {
@@ -225,7 +225,7 @@ const onSubmit = () => {
       Object.assign({}, state, { parent_post_id: parentId })
     );
     txn.push({
-      contractName: "devhub.near",
+      contractName: "devgovgigs.near",
       methodName: "add_post",
       args: {
         parent_id: parentId,
@@ -239,7 +239,7 @@ const onSubmit = () => {
       Object.assign({}, state, { edit_post_id: postId })
     );
     txn.push({
-      contractName: "devhub.near",
+      contractName: "devgovgigs.near",
       methodName: "edit_post",
       args: {
         id: postId,
@@ -255,7 +255,7 @@ const onSubmit = () => {
         contractName: "social.near",
         methodName: "grant_write_permission",
         args: {
-          predecessor_id: "devhub.near",
+          predecessor_id: "devgovgigs.near",
           keys: [context.accountId + "/index/notify"],
         },
         gas: Big(10).pow(14),
@@ -277,7 +277,7 @@ const normalizeLabel = (label) =>
     .trim("-");
 
 const checkLabel = (label) => {
-  Near.asyncView("devhub.near", "is_allowed_to_use_labels", {
+  Near.asyncView("devgovgigs.near", "is_allowed_to_use_labels", {
     editor: context.accountId,
     labels: [label],
   }).then((allowed) => {
@@ -306,7 +306,7 @@ const setLabels = (labels) => {
       oldLabels.delete(label.name);
     }
     let removed = oldLabels.values().next().value;
-    Near.asyncView("devhub.near", "is_allowed_to_use_labels", {
+    Near.asyncView("devgovgigs.near", "is_allowed_to_use_labels", {
       editor: context.accountId,
       labels: [removed],
     }).then((allowed) => {
@@ -331,7 +331,7 @@ const setLabels = (labels) => {
   }
 };
 const existingLabelStrings =
-  Near.view("devhub.near", "get_all_allowed_labels", {
+  Near.view("devgovgigs.near", "get_all_allowed_labels", {
     editor: context.accountId,
   }) ?? [];
 const existingLabelSet = new Set(existingLabelStrings);
@@ -359,7 +359,7 @@ const labelEditor = (
           props.text.toLowerCase() !== "blog" && // dont allow adding "Blog"
           props.selected.filter((selected) => selected.name === props.text)
             .length == 0 &&
-          Near.view("devhub.near", "is_allowed_to_use_labels", {
+          Near.view("devgovgigs.near", "is_allowed_to_use_labels", {
             editor: context.accountId,
             labels: [props.text],
           })
