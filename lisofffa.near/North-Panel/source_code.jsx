@@ -27,6 +27,7 @@ const TextBlock = styled.span`
   font-style: normal;
   font-weight: 400;
   line-height: 149%;
+  font-family: Roboto
 `;
 const icon = (
   <svg
