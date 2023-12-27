@@ -202,6 +202,7 @@ return (
           title: state.selectedDex,
           dexConfig: dexs[state.selectedDex],
           chainId,
+          account,
           ...restProps,
         }}
       />
