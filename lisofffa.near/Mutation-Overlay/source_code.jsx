@@ -550,6 +550,7 @@ return (
             delay={{ show: 250, hide: 300 }}
             placement="auto"
             overlay={overlay}
+            style={{ background: "rgba(255, 255, 255, 0.3)" }}
           >
             <>
               <ActionsItem onClick={handleOpenMenu}>
