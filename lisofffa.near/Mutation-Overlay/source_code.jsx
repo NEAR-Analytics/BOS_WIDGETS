@@ -388,7 +388,7 @@ const overlay = (
           padding: "10px 20px",
           borderRadius: "4px",
           border: "1px solid #c1c6ce",
-          width: "100%",
+          width: "auto",
           marginTop: "10px",
           marginBottom: " 10px",
         }}
@@ -467,6 +467,7 @@ const overlay = (
               width: "100%",
               marginTop: "10px",
               justifyContent: "space-between",
+              boxSizing: "border-box",
             }}
           >
             NEAR or Ethereum address... <span>{iconDropdown}</span>
@@ -553,6 +554,7 @@ const overlay = (
               width: "100%",
               marginTop: "10px",
               height: "36px",
+              boxSizing: "border-box",
             }}
           ></div>
         </div>
