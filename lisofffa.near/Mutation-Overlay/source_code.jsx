@@ -341,7 +341,7 @@ const overlay = (
       top: "0px",
       left: "50%",
       zIndex: "2000",
-      transform: "none!important",
+      transform: "none",
       transform: "translateX(-50%)",
     }}
   >
