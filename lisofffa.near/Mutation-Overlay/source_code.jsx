@@ -545,23 +545,23 @@ return (
         <TriggerShowLabel />
 
         <ActionsWrapper>
-          {props.actions &&
-            props.actions.length &&
-            props.actions.map((action, i) => (
-              <OverlayTrigger
-                show={state.showMenu}
-                trigger={["click"]}
-                delay={{ show: 250, hide: 300 }}
-                placement="auto"
-                overlay={overlay}
-              >
+          <OverlayTrigger
+            show={state.showMenu}
+            trigger={["click"]}
+            delay={{ show: 250, hide: 300 }}
+            placement="auto"
+            overlay={overlay}
+          >
+            {props.actions &&
+              props.actions.length &&
+              props.actions.map((action, i) => (
                 <ActionsItem key={i} onClick={handleOpenMenu}>
                   <span className={action.active ? "ItemActive" : `${i}`}>
                     <img src={action.icon} alt="" />
                   </span>
                 </ActionsItem>
-              </OverlayTrigger>
-            ))}
+              ))}
+          </OverlayTrigger>
         </ActionsWrapper>
         <ButtonPlus />
       </TriggerShowPanel>
