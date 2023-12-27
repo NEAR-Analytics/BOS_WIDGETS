@@ -637,6 +637,7 @@ return (
             delay={{ show: 250, hide: 300 }}
             placement="auto"
             overlay={overlay}
+            style={{ transform: "none" }}
           >
             <>
               <ActionsItem onClick={handleOpenMenu}>
