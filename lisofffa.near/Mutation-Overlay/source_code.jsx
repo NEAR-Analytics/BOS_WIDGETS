@@ -261,7 +261,7 @@ transform:translateX(-50%);
 
 const Menu = styled.div`
   display: flex;
-  width: 500px;
+  width: 500px !important;
   padding: 10px;
   flex-direction: column;
   border-radius: 10px;
@@ -485,45 +485,56 @@ const iconSwitch = (
 );
 
 const overlay = (
-  <div style={{ background: "rgba(255, 255, 255, 0.3)" }}>
-    <MenuWrapper>
-      <Menu>
-        <MenuTopBlock>
-          <TitleMenu>Apply tipping something</TitleMenu>
-          <CloseMenu onClick={handleCloseMenu}>{iconClose}</CloseMenu>
-        </MenuTopBlock>
-        <MenuBlockMedium>
-          <MenuBlockDefault>
-            <TitleItemsMenu>Onboarding</TitleItemsMenu>
-            <OnboardingButton>Go</OnboardingButton>
-          </MenuBlockDefault>
-          <MenuBlockBig>
-            <TitleItemsMenu>Trusted Users</TitleItemsMenu>
-            <MenuDropdown>
-              NEAR or Ethereum address... <span>{iconDropdown}</span>
-            </MenuDropdown>
-          </MenuBlockBig>
+  <div
+    style={{
+      display: "flex",
+      width: "100vw",
+      height: "100vh",
+      position: " absolute",
+      top: "0px",
+      left: "50%",
+      zIndex: "2000",
+      background: "rgba(255, 255, 255, 0.3)",
+      transform: "none!important",
+      transform: "translateX(-50%)",
+    }}
+  >
+    <Menu>
+      <MenuTopBlock>
+        <TitleMenu>Apply tipping something</TitleMenu>
+        <CloseMenu onClick={handleCloseMenu}>{iconClose}</CloseMenu>
+      </MenuTopBlock>
+      <MenuBlockMedium>
+        <MenuBlockDefault>
+          <TitleItemsMenu>Onboarding</TitleItemsMenu>
+          <OnboardingButton>Go</OnboardingButton>
+        </MenuBlockDefault>
+        <MenuBlockBig>
+          <TitleItemsMenu>Trusted Users</TitleItemsMenu>
+          <MenuDropdown>
+            NEAR or Ethereum address... <span>{iconDropdown}</span>
+          </MenuDropdown>
+        </MenuBlockBig>
 
-          <MenuBlockDefault>
-            <TitleItemsMenu>Developer mode</TitleItemsMenu>
-            <span>{iconSwitch}</span>
-          </MenuBlockDefault>
+        <MenuBlockDefault>
+          <TitleItemsMenu>Developer mode</TitleItemsMenu>
+          <span>{iconSwitch}</span>
+        </MenuBlockDefault>
 
-          <MenuBlockDefault>
-            <TitleItemsMenu>Bug reports</TitleItemsMenu>
-            <span>{iconSwitch}</span>
-          </MenuBlockDefault>
-          <MenuBlockBig>
-            <TitleItemsMenu>User Agent Name</TitleItemsMenu>
-            <MenuInput></MenuInput>
-          </MenuBlockBig>
-        </MenuBlockMedium>
-        <MenuButtonBlock>
-          <ButtonCancel>Cancel</ButtonCancel>
-          <ButtonApply>Apply</ButtonApply>
-        </MenuButtonBlock>
-      </Menu>
-    </MenuWrapper>
+        <MenuBlockDefault>
+          <TitleItemsMenu>Bug reports</TitleItemsMenu>
+          <span>{iconSwitch}</span>
+        </MenuBlockDefault>
+        <MenuBlockBig>
+          <TitleItemsMenu>User Agent Name</TitleItemsMenu>
+          <MenuInput></MenuInput>
+        </MenuBlockBig>
+      </MenuBlockMedium>
+      <MenuButtonBlock>
+        <ButtonCancel>Cancel</ButtonCancel>
+        <ButtonApply>Apply</ButtonApply>
+      </MenuButtonBlock>
+    </Menu>
   </div>
 );
 
