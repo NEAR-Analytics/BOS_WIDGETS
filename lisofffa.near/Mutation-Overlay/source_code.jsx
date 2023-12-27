@@ -485,44 +485,46 @@ const iconSwitch = (
 );
 
 const overlay = (
-  <MenuWrapper>
-    <Menu>
-      <MenuTopBlock>
-        <TitleMenu>Apply tipping something</TitleMenu>
-        <CloseMenu onClick={handleCloseMenu}>{iconClose}</CloseMenu>
-      </MenuTopBlock>
-      <MenuBlockMedium>
-        <MenuBlockDefault>
-          <TitleItemsMenu>Onboarding</TitleItemsMenu>
-          <OnboardingButton>Go</OnboardingButton>
-        </MenuBlockDefault>
-        <MenuBlockBig>
-          <TitleItemsMenu>Trusted Users</TitleItemsMenu>
-          <MenuDropdown>
-            NEAR or Ethereum address... <span>{iconDropdown}</span>
-          </MenuDropdown>
-        </MenuBlockBig>
+  <div style={{ background: "rgba(255, 255, 255, 0.3)" }}>
+    <MenuWrapper>
+      <Menu>
+        <MenuTopBlock>
+          <TitleMenu>Apply tipping something</TitleMenu>
+          <CloseMenu onClick={handleCloseMenu}>{iconClose}</CloseMenu>
+        </MenuTopBlock>
+        <MenuBlockMedium>
+          <MenuBlockDefault>
+            <TitleItemsMenu>Onboarding</TitleItemsMenu>
+            <OnboardingButton>Go</OnboardingButton>
+          </MenuBlockDefault>
+          <MenuBlockBig>
+            <TitleItemsMenu>Trusted Users</TitleItemsMenu>
+            <MenuDropdown>
+              NEAR or Ethereum address... <span>{iconDropdown}</span>
+            </MenuDropdown>
+          </MenuBlockBig>
 
-        <MenuBlockDefault>
-          <TitleItemsMenu>Developer mode</TitleItemsMenu>
-          <span>{iconSwitch}</span>
-        </MenuBlockDefault>
+          <MenuBlockDefault>
+            <TitleItemsMenu>Developer mode</TitleItemsMenu>
+            <span>{iconSwitch}</span>
+          </MenuBlockDefault>
 
-        <MenuBlockDefault>
-          <TitleItemsMenu>Bug reports</TitleItemsMenu>
-          <span>{iconSwitch}</span>
-        </MenuBlockDefault>
-        <MenuBlockBig>
-          <TitleItemsMenu>User Agent Name</TitleItemsMenu>
-          <MenuInput></MenuInput>
-        </MenuBlockBig>
-      </MenuBlockMedium>
-      <MenuButtonBlock>
-        <ButtonCancel>Cancel</ButtonCancel>
-        <ButtonApply>Apply</ButtonApply>
-      </MenuButtonBlock>
-    </Menu>
-  </MenuWrapper>
+          <MenuBlockDefault>
+            <TitleItemsMenu>Bug reports</TitleItemsMenu>
+            <span>{iconSwitch}</span>
+          </MenuBlockDefault>
+          <MenuBlockBig>
+            <TitleItemsMenu>User Agent Name</TitleItemsMenu>
+            <MenuInput></MenuInput>
+          </MenuBlockBig>
+        </MenuBlockMedium>
+        <MenuButtonBlock>
+          <ButtonCancel>Cancel</ButtonCancel>
+          <ButtonApply>Apply</ButtonApply>
+        </MenuButtonBlock>
+      </Menu>
+    </MenuWrapper>
+  </div>
 );
 
 return (
@@ -550,7 +552,6 @@ return (
             delay={{ show: 250, hide: 300 }}
             placement="auto"
             overlay={overlay}
-            style={{ background: "rgba(255, 255, 255, 0.3)" }}
           >
             <>
               <ActionsItem onClick={handleOpenMenu}>
