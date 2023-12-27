@@ -108,7 +108,7 @@ const ActionsItem = styled.div`
   background: #db504a;
   margin-bottom: 6px;
   cursor: pointer;
-
+box-sizing: border-box;
   @keyframes translateAnimationItem {
     0% {
       opacity: 0;
