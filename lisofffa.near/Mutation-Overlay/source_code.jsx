@@ -552,15 +552,17 @@ return (
             placement="auto"
             overlay={overlay}
           >
-            {props.actions &&
-              props.actions.length &&
-              props.actions.map((action, i) => (
-                <ActionsItem key={i} onClick={handleOpenMenu}>
-                  <span className={action.active ? "ItemActive" : `${i}`}>
-                    <img src={action.icon} alt="" />
-                  </span>
-                </ActionsItem>
-              ))}
+            <>
+              {props.actions &&
+                props.actions.length &&
+                props.actions.map((action, i) => (
+                  <ActionsItem key={i} onClick={handleOpenMenu}>
+                    <span className={action.active ? "ItemActive" : `${i}`}>
+                      <img src={action.icon} alt="" />
+                    </span>
+                  </ActionsItem>
+                ))}
+            </>
           </OverlayTrigger>
         </ActionsWrapper>
         <ButtonPlus />
