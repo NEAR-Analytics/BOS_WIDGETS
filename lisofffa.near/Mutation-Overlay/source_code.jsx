@@ -7,7 +7,7 @@ const handleOnMouseEnter = () => {
   State.update({ show: true });
 };
 const handleOnMouseLeave = () => {
-  state.showMenu ? null : State.update({ show: true });
+  state.showMenu ? null : State.update({ show: false });
 };
 
 const handleOpenMenu = () => {
@@ -131,7 +131,9 @@ const ActionsItem = styled.div`
     position: relative;
     width: 100%;
     height: 100%;
-    display: inline-block;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
     img {
       border: 1px solid #19ceae;
