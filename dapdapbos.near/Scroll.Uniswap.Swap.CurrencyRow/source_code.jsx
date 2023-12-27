@@ -1,5 +1,12 @@
-const { currency, selectedTokenAddress, display, account, chainId, onClick } =
-  props;
+const {
+  currency,
+  selectedTokenAddress,
+  display,
+  disabled,
+  account,
+  chainId,
+  onClick,
+} = props;
 const CurrencyRow = styled.div`
   padding: 10px 30px;
   display: flex;
@@ -88,7 +95,14 @@ const utils = {
 
 const isActive = currency.address === selectedTokenAddress;
 return (
-  <CurrencyRow className={isActive ? "active" : ""} onClick={onClick}>
+  <CurrencyRow
+    className={isActive ? "active" : ""}
+    onClick={onClick}
+    style={{
+      opacity: !disabled ? 1 : 0.6,
+      cursor: !disabled ? "pointer" : "not-allowed",
+    }}
+  >
     {display &&
       account &&
       !state.balanceLoaded &&
