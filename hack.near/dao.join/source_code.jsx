@@ -1,4 +1,4 @@
-const accountId = context.accountId;
+const accountId = props.accountId ?? context.accountId;
 const roleId = props.roleId ?? "community";
 const daoId = props.daoId ?? "build.sputnik-dao.near";
 const proposalId =
