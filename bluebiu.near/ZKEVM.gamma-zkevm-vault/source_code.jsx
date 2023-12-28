@@ -721,6 +721,11 @@ const handleDeposit = () => {
         status: status,
         add: can_add_action,
         transactionHash,
+        extra_data: JSON.stringify({
+          amount0,
+          amount1,
+          pairId: id,
+        }),
       });
       State.update({
         isLoading: false,
@@ -845,6 +850,7 @@ return (
           </TabItem>
         </Tab>
       </div>
+
       {isDeposit ? (
         <SubWrapper>
           <div className="input-flex">
