@@ -25,17 +25,17 @@ const timer = setInterval(() => {
   if (now < start)
     title = (
       <>
-        Time before <br /> {type} starts
+        time until <br /> {type} starts
       </>
     );
   else if (now > start && now < end)
     title = (
       <>
-        Time remaining in <br /> current {type}
+        time until <br /> {type} ends
       </>
     );
   else {
-    title = <>{type} is ended</>;
+    title = <>{type} is closed</>;
     days = 0;
     hours = 0;
     minutes = 0;
