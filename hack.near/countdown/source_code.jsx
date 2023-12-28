@@ -124,7 +124,7 @@ const TimerContent = () => {
   const TimeSlot = ({ time, title }) => (
     <div>
       <div className="time">{formatTime(time)}</div>
-      <small>{title}</small>
+      <small className="m-1">{title}</small>
     </div>
   );
 
