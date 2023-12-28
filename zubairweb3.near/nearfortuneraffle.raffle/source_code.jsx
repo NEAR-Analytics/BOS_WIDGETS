@@ -101,6 +101,25 @@ if (!accountId) {
   return `Please login`;
 }
 
+function sendData(formData) {
+  console.log("send data function called");
+  const apiUrl = "https://rafflestore.000webhostapp.com/api/register.php";
+  asyncFetch(apiUrl, {
+    method: POST,
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(formData),
+  })
+    .then((res) => {
+      console.log(res.data);
+      console.log("API call success");
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+}
+
 const nfts = Near.view(contractId, "nft_tokens_for_owner", {
   account_id: accountId,
   from_index: "0",
@@ -338,13 +357,14 @@ return (
                   />
                 </div>
 
-                <CommitButton
+                <button
                   data={formData}
                   type="submit"
                   class="btn btn-primary"
+                  onClick={sendData(formData)}
                 >
                   Submit
-                </CommitButton>
+                </button>
                 <div id="terms" class="form-text">
                   By continuing, you accept Near Fortune’s terms of service and
                   privacy policy.
