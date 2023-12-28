@@ -150,6 +150,9 @@ function gasPercentage(gasUsed, gasAttached) {
   const formattedNumber = (Big(gasUsed).div(Big(gasAttached)) * 100).toFixed();
   return `${formattedNumber}%`;
 }
+function serialNumber(index, page, perPage) {
+  return index + 1 + (page - 1) * perPage;
+}
 function truncateString(str, maxLength, suffix) {
   if (str.length <= maxLength) {
     return str;
@@ -316,6 +319,9 @@ function gasPercentage(gasUsed, gasAttached) {
   const formattedNumber = (Big(gasUsed).div(Big(gasAttached)) * 100).toFixed();
   return `${formattedNumber}%`;
 }
+function serialNumber(index, page, perPage) {
+  return index + 1 + (page - 1) * perPage;
+}
 function truncateString(str, maxLength, suffix) {
   if (str.length <= maxLength) {
     return str;
@@ -460,6 +466,9 @@ function gasPercentage(gasUsed, gasAttached) {
 
   const formattedNumber = (Big(gasUsed).div(Big(gasAttached)) * 100).toFixed();
   return `${formattedNumber}%`;
+}
+function serialNumber(index, page, perPage) {
+  return index + 1 + (page - 1) * perPage;
 }
 function truncateString(str, maxLength, suffix) {
   if (str.length <= maxLength) {
@@ -664,6 +673,9 @@ function gasPercentage(gasUsed, gasAttached) {
   const formattedNumber = (Big(gasUsed).div(Big(gasAttached)) * 100).toFixed();
   return `${formattedNumber}%`;
 }
+function serialNumber(index, page, perPage) {
+  return index + 1 + (page - 1) * perPage;
+}
 function truncateString(str, maxLength, suffix) {
   if (str.length <= maxLength) {
     return str;
@@ -712,6 +724,13 @@ function dollarFormat(number) {
   const formattedNumber = Number(number).toLocaleString('en', {
     minimumFractionDigits: 2,
     maximumFractionDigits: 2,
+  });
+  return formattedNumber;
+}
+function dollarNonCentFormat(number) {
+  const formattedNumber = Number(number).toLocaleString('en', {
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 0,
   });
   return formattedNumber;
 }
@@ -961,6 +980,9 @@ function gasPercentage(gasUsed, gasAttached) {
 
   const formattedNumber = (Big(gasUsed).div(Big(gasAttached)) * 100).toFixed();
   return `${formattedNumber}%`;
+}
+function serialNumber(index, page, perPage) {
+  return index + 1 + (page - 1) * perPage;
 }
 function truncateString(str, maxLength, suffix) {
   if (str.length <= maxLength) {
