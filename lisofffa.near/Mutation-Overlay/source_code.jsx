@@ -5,22 +5,22 @@ State.init({
 
 const actions = [
   {
-    icon: "https://github.com/dapplets/community-badges/blob/main/dapplet/src/icons/community-badges.png",
+    icon: "https://raw.githubusercontent.com/dapplets/community-badges/main/dapplet/src/icons/community-badges.png",
     active: false,
     id: "1",
   },
   {
-    icon: "https://github.com/dapplets/paywall-dapplet/blob/main/dapplet/src/icon.png",
+    icon: "https://raw.githubusercontent.com/dapplets/paywall-dapplet/main/dapplet/src/icon.png",
     active: false,
     id: "2",
   },
   {
-    icon: "https://github.com/dapplets/connecting-accounts-dapplet/blob/master/src/icons/connected-accounts.png",
+    icon: "https://raw.githubusercontent.com/dapplets/connecting-accounts-dapplet/master/src/icons/connected-accounts.png",
     active: true,
     id: "3",
   },
   {
-    icon: "https://github.com/dapplets/tipping-dapplet/blob/master/dapplet/src/icons/money-logo.png",
+    icon: "https://raw.githubusercontent.com/dapplets/tipping-dapplet/master/dapplet/src/icons/money-logo.png",
     active: false,
     id: "4",
   },
@@ -666,7 +666,15 @@ return (
               {actions.map((action, i) => (
                 <ActionsItem onClick={handleOpenMenu} key={i}>
                   <span className={action.active ? "ItemActive" : ""}>
-                    <img src={action.icon} alt="" />
+                    <img
+                      style={{
+                        width: "34px",
+                        height: "34px",
+                        borderRadius: "50%",
+                      }}
+                      src={action.icon}
+                      alt=""
+                    />
                   </span>
                 </ActionsItem>
               ))}
