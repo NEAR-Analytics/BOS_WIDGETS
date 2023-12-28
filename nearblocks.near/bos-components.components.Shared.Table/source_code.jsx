@@ -195,19 +195,17 @@ const Paginator = (props) => {
 
 
 
+
+
 function MainComponent(props) {
   if (props.isLoading) {
     return (
       <div className="overflow-x-auto">
         <table className="min-w-full divide-y border-t">
-          <thead className="bg-gray-100">
+          <thead className="bg-gray-100 h-[51px]">
             <tr>
               {props.columns.map((column, index) => (
-                <th
-                  key={index}
-                  scope="col"
-                  className="px-5 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider"
-                >
+                <th key={index} scope="col" className={column.thClassName}>
                   {column.header}
                 </th>
               ))}
@@ -215,12 +213,9 @@ function MainComponent(props) {
           </thead>
           <tbody className="bg-white divide-y divide-gray-200">
             {[...Array(10)].map((_, index) => (
-              <tr key={index}>
+              <tr key={index} className=" hover:bg-blue-900/5 h-[53px]">
                 {props.columns.map((_, colIndex) => (
-                  <td
-                    key={colIndex}
-                    className="px-5 py-4 whitespace-nowrap text-sm text-gray-500 font-medium"
-                  >
+                  <td key={colIndex} className={_.tdClassName}>
                     <Skelton />
                   </td>
                 ))}
@@ -235,14 +230,10 @@ function MainComponent(props) {
     <>
       <div className="overflow-x-auto ">
         <table className="min-w-full divide-y border-t">
-          <thead className="bg-gray-100">
+          <thead className="bg-gray-100 h-[51px]">
             <tr>
               {props?.columns.map((column, index) => (
-                <th
-                  key={index}
-                  scope="col"
-                  className="px-5 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider"
-                >
+                <th key={index} scope="col" className={column.thClassName}>
                   {column.header}
                 </th>
               ))}
@@ -251,13 +242,12 @@ function MainComponent(props) {
           <tbody className="bg-white divide-y divide-gray-200">
             {props.data &&
               props.data.map((row, rowIndex) => (
-                <tr key={rowIndex} className="h-[57px] hover:bg-blue-900/5">
+                <tr key={rowIndex} className=" hover:bg-blue-900/5 h-[53px]">
                   {props.columns.map((column, colIndex) => (
-                    <td
-                      key={colIndex}
-                      className="px-5 py-4 whitespace-nowrap text-sm text-gray-500 font-medium"
-                    >
-                      {column.cell ? column.cell(row) : row[column.key]}
+                    <td key={colIndex} className={column.tdClassName}>
+                      {column.cell
+                        ? column.cell(row, rowIndex)
+                        : row[column.key]}
                     </td>
                   ))}
                 </tr>
