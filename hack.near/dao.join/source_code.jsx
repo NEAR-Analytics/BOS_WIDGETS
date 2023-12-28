@@ -84,7 +84,7 @@ const isConnected = connectEdge && Object.keys(connectEdge).length;
 return (
   <div>
     {!isConnected ? (
-      <Widget src="hack.near/widget/dao.connect" />
+      <Widget src="hack.near/widget/dao.connect" props={{ daoId }} />
     ) : (
       <>
         {!validMember ? (
