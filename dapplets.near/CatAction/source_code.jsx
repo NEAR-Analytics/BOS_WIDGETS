@@ -85,8 +85,6 @@ const Icon = () => (
 );
 
 const handleClick = () => {
-  if (!props.createUserLink) return;
-
   props.createUserLink({
     insertionPoint: "root",
     insertionType: "insert",
