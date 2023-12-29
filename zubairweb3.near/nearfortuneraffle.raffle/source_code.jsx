@@ -104,20 +104,27 @@ if (!accountId) {
 function sendData(formData) {
   console.log("send data function called");
   const apiUrl = "https://rafflestore.000webhostapp.com/api/register.php";
-  fetch(apiUrl, {
+  asyncFetch(apiUrl, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
     body: JSON.stringify(formData),
   })
-    .then((res) => res.json()) // Corrected: Parse JSON response
+    .then((res) => {
+      if (!res.ok) {
+        throw new Error(`HTTP error! Status: ${res.status}`);
+      }
+      return res.json();
+    })
     .then((data) => {
-      console.log(data);
+      console.log("Server response:", data);
       console.log("API call success");
+      // Handle the success response as needed
     })
     .catch((error) => {
-      console.log(error);
+      console.log("Error:", error);
+      // Handle errors
     });
 }
 
