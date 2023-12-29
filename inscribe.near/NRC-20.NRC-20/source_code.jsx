@@ -149,12 +149,12 @@ const tx = {
 
 
 
-if (props.token) {
+if (props.tick) {
   return (
     <Widget
       src={`${config.ownerId}/widget/NRC-20.TokenDescription`}
       props={{
-        token: props.token,
+        tick: props.tick,
       }}
     />
   );
