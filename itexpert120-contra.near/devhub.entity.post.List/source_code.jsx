@@ -3,10 +3,10 @@
 // The contract will need to be extended with pagination support, yet, even in the current state the page loads much faster.
 // [IndexFeed]: https://near.social/#/mob.near/widget/WidgetSource?src=mob.near/widget/IndexFeed
 
-const { href } = VM.require("itexpert120-contra.nera/widget/core.lib.url");
+const { href } = VM.require("itexpert120-contra.near/widget/core.lib.url");
 
 const { draftState, onDraftStateChange } = VM.require(
-  "itexpert120-contra.nera/widget/devhub.entity.post.draft"
+  "itexpert120-contra.near/widget/devhub.entity.post.draft"
 );
 
 if (!href) {
@@ -152,7 +152,7 @@ function defaultRenderItem(postId, additionalProps) {
   return (
     <div className="py-2" style={{ minHeight: "150px" }}>
       <Widget
-        src={"itexpert120-contra.nera/widget/devhub.entity.post.Post"}
+        src={"itexpert120-contra.near/widget/devhub.entity.post.Post"}
         props={{
           id: postId,
           expandable: true,
@@ -407,7 +407,7 @@ return (
           }}
           className="fw-bold"
           to={href({
-            widgetSrc: "itexpert120-contra.nera/widget/app",
+            widgetSrc: "itexpert120-contra.near/widget/app",
             params: { page: "feed" },
           })}
         >
