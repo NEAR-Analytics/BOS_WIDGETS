@@ -1,10 +1,11 @@
-const Icon = () => (
+const Icon = ({ onClick }) => (
   <svg
     width="30px"
     height="30px"
     viewBox="0 0 128 128"
     role="img"
     preserveAspectRatio="xMidYMid meet"
+    onClick={onClick}
   >
     <path
       d="M114.67 70.19C112.71 44.22 94.44 26.3 64 26.3S15.25 45.33 13.45 71.31c-1.05 15.14 4.58 28.63 15.91 36.32c7.46 5.07 17.88 7.88 34.77 7.88c17.18 0 27.03-3.71 34.49-8.73c12.43-8.35 17.18-21.67 16.05-36.59z"
