@@ -88,8 +88,8 @@ const Icon = () => {
 
 const handleClick = () => {
   props.createUserLink({
-    insertionPoint: "root",
-    insertionType: "insert",
+    insertionPoint: "southPanel",
+    insertionType: "after",
     component: "dapplets.near/widget/Cat",
   });
 };
