@@ -21,7 +21,7 @@ function SectionHeader() {
       {headerRight ||
         (hasConfigurePermissions && (
           <Widget
-            src={"itexpert120-contra.near/widget/devhub.components.molecule.Button"}
+            src={"itexpert120-contra.nera/widget/devhub.components.molecule.Button"}
             props={{
               classNames: { root: "btn-sm btn-secondary" },
               icon: {
