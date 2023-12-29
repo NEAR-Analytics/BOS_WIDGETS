@@ -84,9 +84,19 @@ const Icon = () => (
   </svg>
 );
 
+const handleClick = () => {
+  if (!props.createUserLink) return;
+
+  props.createUserLink({
+    insertionPoint: "root",
+    insertionType: "insert",
+    component: "dapplets.near/widget/Cat",
+  });
+};
+
 return (
   <Widget
     src="dapplets.near/widget/ContextAction"
-    props={{ children: <Icon /> }}
+    props={{ children: <Icon onClick={handleClick} /> }}
   />
 );
