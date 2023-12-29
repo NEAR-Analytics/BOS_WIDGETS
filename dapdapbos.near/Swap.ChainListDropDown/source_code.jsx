@@ -122,24 +122,7 @@ State.init({
 });
 
 const handleSwitchChain = (chain) => {
-  const chainId = chain.chain_id;
-
-  const res = Ethers.send("wallet_switchEthereumChain", [
-    { chainId: `0x${Number(chainId).toString(16)}` },
-  ]);
-
-  if (res === undefined) {
-    Ethers.send("wallet_addEthereumChain", [
-      {
-        chainId,
-        chainName: chain.name,
-        icon: chain.logo,
-        nativeCurrency: chain.native_currency,
-        rpcUrls: [chain.rpc],
-        blockExplorers: chain.block_explorer,
-      },
-    ]);
-  }
+  props.onSwitchChain?.({ chainId: `0x${chain.chain_id.toString(16)}` });
 };
 
 return (
