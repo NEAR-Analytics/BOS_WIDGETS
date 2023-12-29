@@ -4,7 +4,7 @@ const href = props.href;
 
 const [showMenu, setShowMenu] = useState(false);
 
-const { href: linkHref } = VM.require("itexpert120-contra.nera/widget/core.lib.url");
+const { href: linkHref } = VM.require("itexpert120-contra.near/widget/core.lib.url");
 
 linkHref || (linkHref = () => {});
 
@@ -76,7 +76,7 @@ return (
         <Link
           style={{ textDecoration: "none" }}
           to={linkHref({
-            widgetSrc: "itexpert120-contra.nera/widget/app",
+            widgetSrc: "itexpert120-contra.near/widget/app",
             params: { page: href },
           })}
         >
@@ -113,7 +113,7 @@ return (
                 <Link
                   style={{ textDecoration: "none" }}
                   to={linkHref({
-                    widgetSrc: "itexpert120-contra.nera/widget/app",
+                    widgetSrc: "itexpert120-contra.near/widget/app",
                     params: { page: link.href },
                   })}
                 >
