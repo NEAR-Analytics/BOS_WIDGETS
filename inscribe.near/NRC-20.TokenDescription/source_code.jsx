@@ -331,12 +331,12 @@ const tx = {
 
 
 
-const token = props.token;
+const tick = props.tick;
 
 State.init({
   tokenInfo: undefined,
 });
-fetchTokenInfoAsync(token).then((response) => {
+fetchTokenInfoAsync(tick).then((response) => {
   State.update({
     tokenInfo: response.tokenInfo,
     holderCount: response.holderCount,
@@ -421,7 +421,7 @@ return (
           src={`${config.ownerId}/widget/NRC-20.IndexTable`}
           props={{
             searchValue: state.searchValue,
-            token: props.token,
+            tick: tick,
           }}
         />
       </FormBody>
