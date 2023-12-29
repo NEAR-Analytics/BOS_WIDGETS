@@ -66,7 +66,7 @@ const Section = styled.div`
 
 return (
   <>
-    <Widget src={`itexpert120-contra.near/widget/devhub.components.island.banner`} />
+    <Widget src={`itexpert120-contra.nera/widget/devhub.components.island.banner`} />
     <Section>
       <h2>
         What is <span style={{ color: "#00EC97" }}>near</span>/dev/hub?
