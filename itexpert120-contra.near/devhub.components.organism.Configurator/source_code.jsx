@@ -1,4 +1,4 @@
-const Struct = VM.require("itexpert120-contra.near/widget/core.lib.struct");
+const Struct = VM.require("itexpert120-contra.nera/widget/core.lib.struct");
 
 if (!Struct) {
   return <p>Loading modules...</p>;
@@ -176,7 +176,7 @@ const defaultFieldsRender = ({ schema, form, isEditable }) => (
                 ) : (fieldValue?.length ?? 0) > 0 ? (
                   <Widget
                     src={
-                      "itexpert120-contra.near/widget/devhub.components.molecule.MarkdownViewer"
+                      "itexpert120-contra.nera/widget/devhub.components.molecule.MarkdownViewer"
                     }
                     props={{
                       text: fieldValue,
@@ -188,7 +188,7 @@ const defaultFieldsRender = ({ schema, form, isEditable }) => (
               </ValueView>
             </div>
             <Widget
-              src={`itexpert120-contra.near/widget/devhub.${fieldParamsByType[fieldType].name}`}
+              src={`itexpert120-contra.nera/widget/devhub.${fieldParamsByType[fieldType].name}`}
               props={{
                 ...fieldProps,
                 className: [
@@ -321,7 +321,7 @@ const Configurator = ({
           ) : null}
 
           <Widget
-            src={"itexpert120-contra.near/widget/devhub.components.molecule.Button"}
+            src={"itexpert120-contra.nera/widget/devhub.components.molecule.Button"}
             props={{
               classNames: { root: "btn-outline-danger shadow-none border-0" },
               label: cancelLabel || "Cancel",
@@ -329,7 +329,7 @@ const Configurator = ({
             }}
           />
           <Widget
-            src={"itexpert120-contra.near/widget/devhub.components.molecule.Button"}
+            src={"itexpert120-contra.nera/widget/devhub.components.molecule.Button"}
             props={{
               classNames: { root: classNames.submit || "btn-success" },
               disabled: !form.hasUnsubmittedChanges || !isFormValid(),
