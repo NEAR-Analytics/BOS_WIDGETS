@@ -550,12 +550,9 @@ return (
       <TriggerEar />
     </div>
     {state.show ? (
-      <TriggerShowPanel
-        style={{ margin: "0px -7px" }}
-        onMouseLeave={handleOnMouseLeave}
-      >
+      <TriggerShowPanel style={{ margin: "0px -7px" }}>
         <TriggerShowLabel />
-        <ActionsWrapper>
+        <ActionsWrapper onMouseLeave={handleOnMouseLeave}>
           <OverlayTrigger
             show={state.showMenu}
             trigger={["click"]}
