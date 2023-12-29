@@ -1,4 +1,4 @@
-const { href } = VM.require("itexpert120-contra.near/widget/core.lib.url");
+const { href } = VM.require("itexpert120-contra.nera/widget/core.lib.url");
 
 if (!href) {
   return <p>Loading modules...</p>;
@@ -10,7 +10,7 @@ const CommunitySummary = () => {
   return (
     <>
       <Widget
-        src={"itexpert120-contra.near/widget/devhub.components.molecule.MarkdownViewer"}
+        src={"itexpert120-contra.nera/widget/devhub.components.molecule.MarkdownViewer"}
         props={{
           text: community.bio_markdown,
         }}
@@ -18,12 +18,12 @@ const CommunitySummary = () => {
       <small class="text-muted mb-3">
         <Link
           to={href({
-            widgetSrc: "itexpert120-contra.near/widget/app",
+            widgetSrc: "itexpert120-contra.nera/widget/app",
             params: { page: "feed", tag: community.tag },
           })}
         >
           <Widget
-            src={"itexpert120-contra.near/widget/devhub.components.atom.Tag"}
+            src={"itexpert120-contra.nera/widget/devhub.components.atom.Tag"}
             props={{ tag: community.tag }}
           />
         </Link>
@@ -37,7 +37,7 @@ return community === null ? (
 ) : (
   <div class="d-flex flex-column align-items-end">
     <Widget
-      src={"itexpert120-contra.near/widget/devhub.entity.community.Tile"}
+      src={"itexpert120-contra.nera/widget/devhub.entity.community.Tile"}
       props={{
         fullWidth: true,
         minHeight: 0,
@@ -48,14 +48,14 @@ return community === null ? (
     />
 
     <Widget
-      src={"itexpert120-contra.near/widget/devhub.entity.community.Tile"}
+      src={"itexpert120-contra.nera/widget/devhub.entity.community.Tile"}
       props={{
         heading: "Admins",
 
         children: (community?.admins ?? []).map((accountId) => (
           <div key={accountId} className="d-flex" style={{ fontWeight: 500 }}>
             <Widget
-              src="itexpert120-contra.near/widget/devhub.components.molecule.ProfileCard"
+              src="itexpert120-contra.nera/widget/devhub.components.molecule.ProfileCard"
               props={{ accountId }}
             />
           </div>
