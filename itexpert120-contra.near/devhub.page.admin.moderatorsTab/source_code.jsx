@@ -1,7 +1,7 @@
 const { accessControlInfo, createEditTeam } = props;
 
 const { Tile } =
-  VM.require("itexpert120-contra.nera/widget/devhub.components.molecule.Tile") ||
+  VM.require("itexpert120-contra.near/widget/devhub.components.molecule.Tile") ||
   (() => <></>);
 
 if (!Tile) {
@@ -40,7 +40,7 @@ return (
         labels, including restricted ones.
       </h5>
       <Widget
-        src={"itexpert120-contra.nera/widget/devhub.components.molecule.PostControls"}
+        src={"itexpert120-contra.near/widget/devhub.components.molecule.PostControls"}
         props={{
           icon: "bi bi-gear-wide-connected",
           className: "mb-3",
@@ -55,7 +55,7 @@ return (
       {editModerators ? (
         <>
           <Widget
-            src="itexpert120-contra.nera/widget/devhub.components.molecule.ListEditor"
+            src="itexpert120-contra.near/widget/devhub.components.molecule.ListEditor"
             props={{
               data: {
                 maxLength: 100,
@@ -75,7 +75,7 @@ return (
             }
           >
             <Widget
-              src={"itexpert120-contra.nera/widget/devhub.components.molecule.Button"}
+              src={"itexpert120-contra.near/widget/devhub.components.molecule.Button"}
               props={{
                 classNames: {
                   root: "btn-outline-danger shadow-none border-0",
@@ -85,7 +85,7 @@ return (
               }}
             />
             <Widget
-              src={"itexpert120-contra.nera/widget/devhub.components.molecule.Button"}
+              src={"itexpert120-contra.near/widget/devhub.components.molecule.Button"}
               props={{
                 classNames: { root: "btn" },
                 icon: {
@@ -108,7 +108,7 @@ return (
                 moderators.map((child) => (
                   <Tile className="w-25 p-3 m-1" minHeight={10}>
                     <Widget
-                      src={`itexpert120-contra.nera/widget/devhub.components.molecule.ProfileLine`}
+                      src={`itexpert120-contra.near/widget/devhub.components.molecule.ProfileLine`}
                       props={{ accountId: child }}
                     />
                   </Tile>
