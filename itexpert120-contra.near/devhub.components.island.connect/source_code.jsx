@@ -1,5 +1,5 @@
 const { getFeaturedCommunities } = VM.require(
-  "itexpert120-contra.nera/widget/core.adapter.devhub-contract"
+  "itexpert120-contra.near/widget/core.adapter.devhub-contract"
 );
 
 if (!getFeaturedCommunities) {
@@ -106,7 +106,7 @@ const Cards = communities.map((com) => {
   return {
     title: com.name,
     description: com.description,
-    href: "/itexpert120-contra.nera/widget/app?page=community&handle=" + com.handle,
+    href: "/itexpert120-contra.near/widget/app?page=community&handle=" + com.handle,
   };
 });
 
@@ -313,7 +313,7 @@ const Content = (
       ))}
     </MobileCards>
     <CTAContainer>
-      <CTA href="/itexpert120-contra.nera/widget/app?page=communities">
+      <CTA href="/itexpert120-contra.near/widget/app?page=communities">
         Explore all communities →
       </CTA>
     </CTAContainer>
@@ -322,7 +322,7 @@ const Content = (
 
 return (
   <Widget
-    src="itexpert120-contra.nera/widget/devhub.components.island.home-section"
+    src="itexpert120-contra.near/widget/devhub.components.island.home-section"
     props={{
       title: "/connect",
       children: Content,
