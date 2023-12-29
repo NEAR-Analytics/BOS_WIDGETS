@@ -181,7 +181,7 @@ const Content = (
 
 return (
   <Widget
-    src="itexpert120-contra.near/widget/devhub.components.island.home-section"
+    src="itexpert120-contra.nera/widget/devhub.components.island.home-section"
     props={{
       title: "/explore",
       titleColor: "#555555",
