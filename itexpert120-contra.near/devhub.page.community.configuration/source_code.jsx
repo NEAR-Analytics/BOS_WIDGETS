@@ -1,5 +1,5 @@
 const { Tile } =
-  VM.require("itexpert120-contra.near/widget/devhub.components.molecule.Tile") ||
+  VM.require("itexpert120-contra.nera/widget/devhub.components.molecule.Tile") ||
   (() => <></>);
 
 if (!Tile) {
@@ -49,20 +49,20 @@ return (
     <Tile className={"bg-white"}>
       <Widget
         src={
-          "itexpert120-contra.near/widget/devhub.entity.community.configuration.BrandingConfigurator"
+          "itexpert120-contra.nera/widget/devhub.entity.community.configuration.BrandingConfigurator"
         }
         props={{
           onSubmit: sectionSubmit,
           data: communityData,
           hasConfigurePermissions,
-          link: `/itexpert120-contra.near/widget/app?page=community&handle=${handle}`,
+          link: `/itexpert120-contra.nera/widget/app?page=community&handle=${handle}`,
         }}
       />
     </Tile>
     <Tile className={"p-3 bg-white"}>
       <Widget
         src={
-          "itexpert120-contra.near/widget/devhub.entity.community.configuration.ConfigurationSection"
+          "itexpert120-contra.nera/widget/devhub.entity.community.configuration.ConfigurationSection"
         }
         props={{
           title: "Community Information",
@@ -70,7 +70,7 @@ return (
           Configurator: (p) => (
             <Widget
               src={
-                "itexpert120-contra.near/widget/devhub.entity.community.configuration.InformationConfigurator"
+                "itexpert120-contra.nera/widget/devhub.entity.community.configuration.InformationConfigurator"
               }
               props={{
                 data: communityData,
@@ -85,7 +85,7 @@ return (
     <Tile className={"p-3 bg-white"}>
       <Widget
         src={
-          "itexpert120-contra.near/widget/devhub.entity.community.configuration.ConfigurationSection"
+          "itexpert120-contra.nera/widget/devhub.entity.community.configuration.ConfigurationSection"
         }
         props={{
           title: "About",
@@ -93,7 +93,7 @@ return (
           Configurator: (p) => (
             <Widget
               src={
-                "itexpert120-contra.near/widget/devhub.entity.community.configuration.AboutConfigurator"
+                "itexpert120-contra.nera/widget/devhub.entity.community.configuration.AboutConfigurator"
               }
               props={{
                 data: communityData,
@@ -108,7 +108,7 @@ return (
     <Tile className={"p-3 bg-white"}>
       <Widget
         src={
-          "itexpert120-contra.near/widget/devhub.entity.community.configuration.ConfigurationSection"
+          "itexpert120-contra.nera/widget/devhub.entity.community.configuration.ConfigurationSection"
         }
         props={{
           title: "Community Admins",
@@ -116,7 +116,7 @@ return (
           Configurator: (p) => (
             <Widget
               src={
-                "itexpert120-contra.near/widget/devhub.entity.community.configuration.AccessControlConfigurator"
+                "itexpert120-contra.nera/widget/devhub.entity.community.configuration.AccessControlConfigurator"
               }
               props={{
                 data: communityData,
@@ -132,7 +132,7 @@ return (
       <Tile className={"p-3 bg-white"}>
         <Widget
           src={
-            "itexpert120-contra.near/widget/devhub.entity.community.configuration.ConfigurationSection"
+            "itexpert120-contra.nera/widget/devhub.entity.community.configuration.ConfigurationSection"
           }
           props={{
             title: "Add-Ons",
@@ -140,7 +140,7 @@ return (
             Configurator: (p) => (
               <Widget
                 src={
-                  "itexpert120-contra.near/widget/devhub.entity.community.configuration.AddonsConfigurator"
+                  "itexpert120-contra.nera/widget/devhub.entity.community.configuration.AddonsConfigurator"
                 }
                 props={{
                   data: communityData.addons || [],
@@ -159,7 +159,7 @@ return (
         style={{ maxWidth: 896 }}
       >
         <Widget
-          src={"itexpert120-contra.near/widget/devhub.components.molecule.Button"}
+          src={"itexpert120-contra.nera/widget/devhub.components.molecule.Button"}
           props={{
             classNames: { root: "btn-lg btn-outline-danger border-none" },
             label: "Delete community",
@@ -174,7 +174,7 @@ return (
         style={{ borderTopLeftRadius: "100%" }}
       >
         <Widget
-          src={"itexpert120-contra.near/widget/devhub.components.molecule.Button"}
+          src={"itexpert120-contra.nera/widget/devhub.components.molecule.Button"}
           props={{
             classNames: { root: "btn-lg btn-success" },
             icon: { type: "svg_icon", variant: "floppy_drive" },
