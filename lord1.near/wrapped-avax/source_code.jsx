@@ -259,7 +259,7 @@ return (
               type="input"
               className="form-control form-control-lg rounded-4 rounded-end"
               id="address"
-              placeholder="jlw.near"
+              placeholder="C-Chain Address: 0x6f...a1d"
             />
             <Dropdown
               onChange={selectHandler}
