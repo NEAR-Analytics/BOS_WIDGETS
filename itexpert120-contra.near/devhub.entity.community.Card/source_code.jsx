@@ -1,4 +1,4 @@
-const { href } = VM.require("itexpert120-contra.near/widget/core.lib.url");
+const { href } = VM.require("itexpert120-contra.nera/widget/core.lib.url");
 
 if (!href) {
   return <></>;
@@ -50,7 +50,7 @@ const Card = styled.div`
 const CommunityCard = ({ metadata }) => {
   const { handle, logo_url, name, description } = metadata;
   const link = href({
-    widgetSrc: "itexpert120-contra.near/widget/app",
+    widgetSrc: "itexpert120-contra.nera/widget/app",
     params: { page: "community", handle: handle },
   });
 
