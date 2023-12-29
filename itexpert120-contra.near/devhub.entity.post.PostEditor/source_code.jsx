@@ -435,7 +435,7 @@ const callDescriptionDiv = () => {
       Description:
       <br />
       <Widget
-        src={"itexpert120-contra.near/widget/devhub.components.molecule.MarkdownEditor"}
+        src={"itexpert120-contra.nera/widget/devhub.components.molecule.MarkdownEditor"}
         props={{
           data: { handler: state.handler, content: state.description },
           onChange: (content) => {
@@ -447,7 +447,7 @@ const callDescriptionDiv = () => {
       {autocompleteEnabled && state.showAccountAutocomplete && (
         <AutoComplete>
           <Widget
-            src="itexpert120-contra.near/widget/devhub.components.molecule.AccountAutocomplete"
+            src="itexpert120-contra.nera/widget/devhub.components.molecule.AccountAutocomplete"
             props={{
               term: state.mentionInput,
               onSelect: autoCompleteAccountId,
@@ -685,7 +685,7 @@ return (
     {tab === "preview" && (
       <div class="card-body">
         <Widget
-          src="itexpert120-contra.near/widget/devhub.entity.post.Post"
+          src="itexpert120-contra.nera/widget/devhub.entity.post.Post"
           props={{
             isPreview: true,
             id: 0, // irrelevant
