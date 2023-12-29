@@ -1,10 +1,10 @@
 const { handle } = props;
 
 const { getCommunity } = VM.require(
-  "itexpert120-contra.near/widget/core.adapter.devhub-contract"
+  "itexpert120-contra.nera/widget/core.adapter.devhub-contract"
 );
 
-const { href } = VM.require("itexpert120-contra.near/widget/core.lib.url");
+const { href } = VM.require("itexpert120-contra.nera/widget/core.lib.url");
 
 if (!getCommunity || !href) {
   return <p>Loading modules...</p>;
@@ -41,19 +41,19 @@ return (
       <div class="d-flex w-100">
         <MainContent>
           <Widget
-            src={"itexpert120-contra.near/widget/devhub.feature.post-search.panel"}
+            src={"itexpert120-contra.nera/widget/devhub.feature.post-search.panel"}
             props={{
               hideHeader: true,
               tag: communityData.tag,
               children: (
                 <Widget
                   src={
-                    "itexpert120-contra.near/widget/devhub.components.molecule.PostControls"
+                    "itexpert120-contra.nera/widget/devhub.components.molecule.PostControls"
                   }
                   props={{
                     title: "Post",
                     href: href({
-                      widgetSrc: "itexpert120-contra.near/widget/app",
+                      widgetSrc: "itexpert120-contra.nera/widget/app",
                       params: {
                         page: "create",
                         labels: [communityData.tag],
@@ -69,7 +69,7 @@ return (
         </MainContent>
         <SidebarContainer>
           <Widget
-            src={"itexpert120-contra.near/widget/devhub.entity.community.Sidebar"}
+            src={"itexpert120-contra.nera/widget/devhub.entity.community.Sidebar"}
             props={{ community: communityData }}
           />
         </SidebarContainer>
