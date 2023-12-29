@@ -662,6 +662,7 @@ return (
             style={{ transform: "none" }}
           >
             <>
+              <slot></slot>
               {actions.map((action, i) => (
                 <ActionsItem onClick={handleOpenMenu} key={i}>
                   <span className={action.active ? "ItemActive" : ""}>
