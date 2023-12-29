@@ -1,4 +1,4 @@
-const { href } = VM.require("itexpert120-contra.nera/widget/core.lib.url") || (() => {});
+const { href } = VM.require("itexpert120-contra.near/widget/core.lib.url") || (() => {});
 
 if (!props.type) {
   return "Loading ...";
@@ -19,7 +19,7 @@ return props.type ? (
     <a
       className="fw-bold text-muted"
       href={href({
-        widgetSrc: "itexpert120-contra.nera/widget/app",
+        widgetSrc: "itexpert120-contra.near/widget/app",
         params: {
           page: "post",
           id: props.post,
