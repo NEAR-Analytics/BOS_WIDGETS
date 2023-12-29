@@ -546,14 +546,12 @@ return (
       style={{ opacity: state.show ? 0 : 1 }}
       className="OverlayTrigger"
       onMouseEnter={handleOnMouseEnter}
-      onMouseLeave={handleOnMouseLeave}
     >
       <TriggerEar />
     </div>
     {state.show ? (
       <TriggerShowPanel
         style={{ margin: "0px -7px" }}
-        onMouseEnter={handleOnMouseEnter}
         onMouseLeave={handleOnMouseLeave}
       >
         <TriggerShowLabel />
