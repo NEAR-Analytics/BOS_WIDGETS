@@ -217,7 +217,7 @@ function getTab() {
   ) {
     return tab;
   } else {
-    return "mint";
+    return "nrc-20";
   }
 }
 
@@ -233,6 +233,12 @@ return (
         />
       </a>
       <TabContainer>
+        <TabItem
+          selected={tab === "nrc-20"}
+          href={`/${config.ownerId}/widget/NRC-20?tab=nrc-20`}
+        >
+          NRC-20
+        </TabItem>
         <TabItem
           selected={tab === "mint"}
           href={`/${config.ownerId}/widget/NRC-20?tab=mint${tickParam}`}
@@ -252,12 +258,6 @@ return (
           Deploy
         </TabItem>
         <TabItem
-          selected={tab === "nrc-20"}
-          href={`/${config.ownerId}/widget/NRC-20?tab=nrc-20`}
-        >
-          NRC-20
-        </TabItem>
-        <TabItem
           selected={tab === "my-inscriptions"}
           href={`/${config.ownerId}/widget/NRC-20?tab=my-inscriptions`}
         >
@@ -267,6 +267,12 @@ return (
       <Spacer />
     </HeaderContainer>
     <BodyContainer>
+      {tab === "nrc-20" && (
+        <Widget
+          src={`${config.ownerId}/widget/NRC-20.NRC-20`}
+          props={{ tick: props.tick }}
+        />
+      )}
       {tab === "mint" && (
         <Widget
           src={`${config.ownerId}/widget/NRC-20.Mint`}
@@ -285,12 +291,6 @@ return (
       )}
       {tab === "deploy" && (
         <Widget src={`${config.ownerId}/widget/NRC-20.Deploy`} />
-      )}
-      {tab === "nrc-20" && (
-        <Widget
-          src={`${config.ownerId}/widget/NRC-20.NRC-20`}
-          props={{ tick: props.tick }}
-        />
       )}
       {tab === "my-inscriptions" && (
         <Widget src={`${config.ownerId}/widget/NRC-20.MyInscriptions`} />
