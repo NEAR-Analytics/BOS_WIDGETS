@@ -37,7 +37,7 @@ return (
     {/* Get any layout */}
     <Container>
       <Widget
-        src="itexpert120-contra.nera/widget/devhub.entity.addon.blog.editor.provider"
+        src="itexpert120-contra.near/widget/devhub.entity.addon.blog.editor.provider"
         props={{
           handle: props.handle,
           Layout: (providerProps) => {
@@ -45,18 +45,18 @@ return (
               providerProps;
             return (
               <Widget
-                src="itexpert120-contra.nera/widget/devhub.entity.addon.blog.editor.layout"
+                src="itexpert120-contra.near/widget/devhub.entity.addon.blog.editor.layout"
                 props={{
                   getData,
                   Sidebar: (p) => (
                     <Widget
-                      src="itexpert120-contra.nera/widget/devhub.entity.addon.blog.editor.sidebar"
+                      src="itexpert120-contra.near/widget/devhub.entity.addon.blog.editor.sidebar"
                       props={{ items: data, ...p }}
                     />
                   ),
                   Content: (p) => (
                     <Widget
-                      src="itexpert120-contra.nera/widget/devhub.entity.addon.blog.editor.content"
+                      src="itexpert120-contra.near/widget/devhub.entity.addon.blog.editor.content"
                       props={{ onChange, onCancel, onSubmit, ...p }}
                     />
                   ),
