@@ -14,6 +14,7 @@ const {
   QuoterSyncswap,
   account,
   chainIdNotSupport,
+  onSwitchChain,
 } = props;
 
 const { name, CHAIN_LIST, curChain } = props;
@@ -196,6 +197,7 @@ return (
           props={{
             CHAIN_LIST,
             curChain,
+            onSwitchChain,
           }}
           src="dapdapbos.near/widget/Swap.ChainListDropDown"
         />
