@@ -1,5 +1,5 @@
 const { getAllCommunitiesMetadata, createCommunity } = VM.require(
-  "itexpert120-contra.near/widget/core.adapter.devhub-contract"
+  "itexpert120-contra.nera/widget/core.adapter.devhub-contract"
 );
 
 if (!getAllCommunitiesMetadata || !createCommunity) {
@@ -68,29 +68,6 @@ const SortedAndFiltered = (searchKey, sortBy) => {
   return sortedCommunities;
 };
 
-const CTA = styled.button`
-  all: unset;
-
-  color: #f4f4f4;
-
-  font-size: 16px;
-  font-style: normal;
-  font-weight: 700;
-  line-height: 20px; /* 125% */
-
-  border-radius: 4px;
-  background: #04a46e;
-
-  display: flex;
-  padding: 14px 16px;
-  align-items: center;
-  gap: 8px;
-
-  &:hover {
-    background: #555555;
-  }
-`;
-
 const CardGrid = styled.div`
   width: 100%;
   height: 100%;
@@ -110,9 +87,29 @@ const CardGrid = styled.div`
   }
 `;
 
+const InputContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  position: relative;
+  width: 100%;
+`;
+
+const StyledDropdown = styled.div`
+  button {
+    text-align: left;
+
+    &::after {
+      position: absolute;
+      right: 8px;
+      top: 45%;
+      transform: translateX(-50%);
+    }
+  }
+`;
+
 return (
   <div className="w-100">
-    <Widget src={`itexpert120-contra.near/widget/devhub.components.island.banner`} />
+    <Widget src={`itexpert120-contra.nera/widget/devhub.components.island.banner`} />
     <div style={{ background: "#f4f4f4" }}>
       <div
         className="d-flex justify-content-between p-4"
@@ -126,37 +123,64 @@ return (
             Communities
           </h1>
 
-          <div className="d-flex flex-column-reverse flex-sm-row gap-3 justify-content-between align-items-center">
-            <div className="d-flex flex-column flex-sm-row col-12 col-sm-6 mt-3 mt-lg-0 align-items-center gap-4">
-              <input
-                type="text"
-                placeholder="🔍 Search Communities"
-                className="form-control w-100"
-                value={searchKey}
-                onChange={(e) => setSearchKey(e.target.value)}
-              />
-              <div className="d-flex align-items-center gap-2 col-sm-6 col-12">
-                <label htmlFor="sort">Sort:</label>
-                <select
-                  name="sort"
-                  id="sort"
-                  class="form-select"
-                  onChange={(e) => setSort(e.target.value)}
-                >
-                  <option selected value="">
-                    Latest
-                  </option>
-                  <option value="a-z">A-Z</option>
-                  <option value="z-a">Z-A</option>
-                </select>
+          <div className="d-flex col-12 flex-column flex-sm-row gap-4 justify-content-between align-items-center">
+            <div className="d-flex flex-column flex-sm-row align-items-center gap-4 col-12 col-sm-6">
+              <InputContainer className="border rounded-2">
+                <div className="position-absolute d-flex ps-3 flex-column h-100 justify-center">
+                  <i class="bi bi-search m-auto"></i>
+                </div>
+                <input
+                  type="search"
+                  className="ps-5 form-control border border-0"
+                  value={searchKey ?? ""}
+                  onChange={(e) => setSearchKey(e.target.value)}
+                  placeholder={props.placeholder ?? `Search by name`}
+                />
+              </InputContainer>
+              <div class="dropdown w-100">
+                <StyledDropdown>
+                  <button
+                    class="btn dropdown-toggle border rounded-2 bg-white w-100"
+                    type="button"
+                    data-bs-toggle="dropdown"
+                    aria-expanded="false"
+                  >
+                    Sort: {sort?.toUpperCase() || "Latest"}
+                  </button>
+                  <ul class="dropdown-menu dropdown-menu-end dropdown-menu-lg-start px-2 shadow">
+                    <li
+                      onClick={() => setSort("")}
+                      class="dropdown-item link-underline link-underline-opacity-0"
+                    >
+                      Latest
+                    </li>
+                    <li
+                      onClick={() => setSort("a-z")}
+                      class="dropdown-item link-underline link-underline-opacity-0"
+                    >
+                      A-Z
+                    </li>
+                    <li
+                      onClick={() => setSort("z-a")}
+                      class="dropdown-item link-underline link-underline-opacity-0"
+                    >
+                      Z-A
+                    </li>
+                  </ul>
+                </StyledDropdown>
               </div>
             </div>
             {context.accountId && (
-              <div className="d-flex flex-column justify-content-center">
-                <CTA onClick={() => setShowSpawner(!showSpawner)}>
-                  <i className="bi bi-plus-circle-fill me-1"></i> Create
-                  Community
-                </CTA>
+              <div className="d-flex flex-column justify-content-center align-self-end">
+                <Widget
+                  src={
+                    "itexpert120-contra.nera/widget/devhub.components.molecule.CommunityControl"
+                  }
+                  props={{
+                    title: "Community",
+                    onClick: () => setShowSpawner(!showSpawner),
+                  }}
+                />
               </div>
             )}
           </div>
@@ -165,7 +189,7 @@ return (
       <div className="d-flex flex-wrap align-content-start gap-4 p-4 w-100 h-100">
         {showSpawner && (
           <Widget
-            src="itexpert120-contra.near/widget/devhub.entity.community.Spawner"
+            src="itexpert120-contra.nera/widget/devhub.entity.community.Spawner"
             props={{
               data: null,
               onSubmit: onCommunitySubmit,
@@ -177,7 +201,7 @@ return (
           {searchKey === "" && sort === ""
             ? (communitiesMetadata ?? []).reverse().map((communityMetadata) => (
                 <Widget
-                  src="itexpert120-contra.near/widget/devhub.entity.community.Card"
+                  src="itexpert120-contra.nera/widget/devhub.entity.community.Card"
                   props={{
                     format: "small",
                     isBannerEnabled: false,
@@ -187,7 +211,7 @@ return (
               ))
             : SortedAndFiltered(searchKey, sort).map((communityMetadata) => (
                 <Widget
-                  src="itexpert120-contra.near/widget/devhub.entity.community.Card"
+                  src="itexpert120-contra.nera/widget/devhub.entity.community.Card"
                   props={{
                     format: "small",
                     isBannerEnabled: false,
