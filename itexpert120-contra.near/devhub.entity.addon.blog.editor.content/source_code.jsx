@@ -1,8 +1,8 @@
 const { Card } =
-  VM.require("itexpert120-contra.near/widget/devhub.entity.addon.blog.Card") ||
+  VM.require("itexpert120-contra.nera/widget/devhub.entity.addon.blog.Card") ||
   (() => <></>);
 const { Page } =
-  VM.require("itexpert120-contra.near/widget/devhub.entity.addon.blog.Page") ||
+  VM.require("itexpert120-contra.nera/widget/devhub.entity.addon.blog.Page") ||
   (() => <></>);
 
 const categories = [
@@ -194,7 +194,7 @@ return (
         aria-labelledby="edit-tab"
       >
         <Widget
-          src="itexpert120-contra.near/widget/devhub.entity.addon.blog.editor.form"
+          src="itexpert120-contra.nera/widget/devhub.entity.addon.blog.editor.form"
           props={{
             title,
             setTitle,
@@ -217,7 +217,7 @@ return (
           className={"d-flex align-items-center justify-content-end gap-3 mt-4"}
         >
           <Widget
-            src={"itexpert120-contra.near/widget/devhub.components.molecule.Button"}
+            src={"itexpert120-contra.nera/widget/devhub.components.molecule.Button"}
             props={{
               classNames: { root: "btn-success" },
               disabled: !hasDataChanged(),
@@ -240,7 +240,7 @@ return (
       >
         <div style={{ position: "absolute", top: 10, right: 0 }}>
           <Widget
-            src="itexpert120-contra.near/widget/devhub.components.molecule.Switch"
+            src="itexpert120-contra.nera/widget/devhub.components.molecule.Switch"
             props={{
               currentValue: previewMode,
               key: "previewMode",
