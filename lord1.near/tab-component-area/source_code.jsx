@@ -20,7 +20,7 @@ State.init({
 const data = fetch(
   "https://api.flipsidecrypto.com/api/v2/queries/fdd47bda-8e98-4cb0-a16c-3e3bd8c31837/data/latest"
 );
-State.update({ data: data.body });
+State.update({ data: JSON.parse(data.body) });
 const formatNumber = (num) => {
   if (num >= 1000000000) {
     return (num / 1000000000).toFixed(2).replace(/\.0$/, "") + "b";
