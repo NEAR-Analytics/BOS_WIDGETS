@@ -7,7 +7,7 @@ const { page, ...passProps } = props;
 
 // Import our modules
 const { AppLayout } = VM.require(
-  "itexpert120-contra.nera/widget/devhub.components.templates.AppLayout"
+  "itexpert120-contra.near/widget/devhub.components.templates.AppLayout"
 );
 
 if (!AppLayout) {
@@ -43,7 +43,7 @@ function Page() {
     case "home": {
       return (
         <Widget
-          src="itexpert120-contra.nera/widget/devhub.page.home"
+          src="itexpert120-contra.near/widget/devhub.page.home"
           props={passProps}
         />
       );
@@ -52,7 +52,7 @@ function Page() {
     case "communities": {
       return (
         <Widget
-          src={"itexpert120-contra.nera/widget/devhub.page.communities"}
+          src={"itexpert120-contra.near/widget/devhub.page.communities"}
           props={passProps}
         />
       );
@@ -64,7 +64,7 @@ function Page() {
         // where each level handles its own routing.
         // Modularizing a page just like we do with addons
         <Widget
-          src={"itexpert120-contra.nera/widget/devhub.entity.community.Provider"}
+          src={"itexpert120-contra.near/widget/devhub.entity.community.Provider"}
           props={{
             ...passProps,
             Children: (p) => {
@@ -75,7 +75,7 @@ function Page() {
                   return (
                     <Widget
                       src={
-                        "itexpert120-contra.nera/widget/devhub.page.community.configuration"
+                        "itexpert120-contra.near/widget/devhub.page.community.configuration"
                       }
                       props={{
                         ...passProps,
@@ -88,7 +88,7 @@ function Page() {
                 default: {
                   return (
                     <Widget
-                      src={"itexpert120-contra.nera/widget/devhub.page.community.index"}
+                      src={"itexpert120-contra.near/widget/devhub.page.community.index"}
                       props={{
                         ...passProps,
                         ...p,
@@ -106,7 +106,7 @@ function Page() {
     case "feed": {
       return (
         <Widget
-          src={"itexpert120-contra.nera/widget/devhub.page.feed"}
+          src={"itexpert120-contra.near/widget/devhub.page.feed"}
           props={passProps}
         />
       );
@@ -115,7 +115,7 @@ function Page() {
     case "create": {
       return (
         <Widget
-          src={"itexpert120-contra.nera/widget/devhub.page.create"}
+          src={"itexpert120-contra.near/widget/devhub.page.create"}
           props={passProps}
         />
       );
@@ -124,7 +124,7 @@ function Page() {
     case "about": {
       return (
         <Widget
-          src={"itexpert120-contra.nera/widget/devhub.page.about"}
+          src={"itexpert120-contra.near/widget/devhub.page.about"}
           props={passProps}
         />
       );
@@ -132,7 +132,7 @@ function Page() {
     case "contribute": {
       return (
         <Widget
-          src={"itexpert120-contra.nera/widget/devhub.page.contribute"}
+          src={"itexpert120-contra.near/widget/devhub.page.contribute"}
           props={passProps}
         />
       );
@@ -140,7 +140,7 @@ function Page() {
     case "profile": {
       return (
         <Widget
-          src={"itexpert120-contra.nera/widget/devhub.page.profile"}
+          src={"itexpert120-contra.near/widget/devhub.page.profile"}
           props={passProps}
         />
       );
@@ -149,7 +149,7 @@ function Page() {
     case "blog": {
       return (
         <Widget
-          src={"itexpert120-contra.nera/widget/devhub.page.blog"}
+          src={"itexpert120-contra.near/widget/devhub.page.blog"}
           props={passProps}
         />
       );
@@ -157,7 +157,7 @@ function Page() {
     case "post": {
       return (
         <Widget
-          src={"itexpert120-contra.nera/widget/devhub.page.post"}
+          src={"itexpert120-contra.near/widget/devhub.page.post"}
           props={passProps}
         />
       );
@@ -165,7 +165,7 @@ function Page() {
     case "admin": {
       return (
         <Widget
-          src={"itexpert120-contra.nera/widget/devhub.page.admin.index"}
+          src={"itexpert120-contra.near/widget/devhub.page.admin.index"}
           props={passProps}
         />
       );
