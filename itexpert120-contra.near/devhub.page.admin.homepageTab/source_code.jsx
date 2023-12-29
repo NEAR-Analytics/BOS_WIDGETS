@@ -2,10 +2,10 @@ const {
   getFeaturedCommunities,
   setFeaturedCommunities,
   getAllCommunitiesMetadata,
-} = VM.require("itexpert120-contra.nera/widget/core.adapter.devhub-contract");
+} = VM.require("itexpert120-contra.near/widget/core.adapter.devhub-contract");
 
 const { Tile } =
-  VM.require("itexpert120-contra.nera/widget/devhub.components.molecule.Tile") ||
+  VM.require("itexpert120-contra.near/widget/devhub.components.molecule.Tile") ||
   (() => <></>);
 
 if (
@@ -46,7 +46,7 @@ function handleSubmit() {
 return (
   <>
     <Widget
-      src="itexpert120-contra.nera/widget/devhub.components.atom.Alert"
+      src="itexpert120-contra.near/widget/devhub.components.atom.Alert"
       props={{
         onClose: () => setCommunityMessage(""),
         message: communityMessage,
@@ -55,7 +55,7 @@ return (
     <Tile className="p-3 mb-3">
       <h3> Manage featured communities</h3>
       <Widget
-        src="itexpert120-contra.nera/widget/devhub.components.molecule.ListEditor"
+        src="itexpert120-contra.near/widget/devhub.components.molecule.ListEditor"
         props={{
           data: {
             maxLength: 5,
@@ -78,7 +78,7 @@ return (
         className={"d-flex align-items-center justify-content-end gap-3 mt-4"}
       >
         <Widget
-          src={"itexpert120-contra.nera/widget/devhub.components.molecule.Button"}
+          src={"itexpert120-contra.near/widget/devhub.components.molecule.Button"}
           props={{
             classNames: {
               root: "btn-outline-danger shadow-none border-0",
@@ -88,7 +88,7 @@ return (
           }}
         />
         <Widget
-          src={"itexpert120-contra.nera/widget/devhub.components.molecule.Button"}
+          src={"itexpert120-contra.near/widget/devhub.components.molecule.Button"}
           props={{
             classNames: { root: "btn" },
             icon: {
@@ -102,7 +102,7 @@ return (
       </div>
     </Tile>
     <Widget
-      src={"itexpert120-contra.nera/widget/devhub.components.molecule.PostControls"}
+      src={"itexpert120-contra.near/widget/devhub.components.molecule.PostControls"}
       props={{
         onClick: () => setPreviewConnect(!previewConnect),
         icon: previewConnect ? "bi bi-toggle-on" : "bi bi-toggle-off",
@@ -113,7 +113,7 @@ return (
     <div class="mt-3">
       {previewConnect && (
         <Widget
-          src="itexpert120-contra.nera/widget/devhub.components.island.connect"
+          src="itexpert120-contra.near/widget/devhub.components.island.connect"
           props={{ ...props }}
         />
       )}
