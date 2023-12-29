@@ -43,7 +43,6 @@ const handleCloseMenu = () => {
 
 const OverlayTriggerWrapper = styled.div`
   display: flex;
-  position: relative;
   .OverlayTrigger {
     position: absolute;
 
