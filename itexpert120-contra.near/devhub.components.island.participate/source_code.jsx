@@ -1,4 +1,4 @@
-const { href } = VM.require("itexpert120-contra.near/widget/core.lib.url");
+const { href } = VM.require("itexpert120-contra.nera/widget/core.lib.url");
 
 href || (href = () => {});
 
@@ -183,7 +183,7 @@ const Content = (
 
     <Link
       to={href({
-        widgetSrc: "itexpert120-contra.near/widget/app",
+        widgetSrc: "itexpert120-contra.nera/widget/app",
         params: { page: "contribute" },
       })}
       style={{ textDecoration: "none" }}
@@ -195,7 +195,7 @@ const Content = (
 
 return (
   <Widget
-    src="itexpert120-contra.near/widget/devhub.components.island.home-section"
+    src="itexpert120-contra.nera/widget/devhub.components.island.home-section"
     props={{
       title: "/participate",
       titleColor: "#555555",
