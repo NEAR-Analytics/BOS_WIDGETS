@@ -114,7 +114,7 @@ function autoCompleteAccountId(id) {
   });
 }
 
-const { href } = VM.require("itexpert120-contra.nera/widget/core.lib.url");
+const { href } = VM.require("itexpert120-contra.near/widget/core.lib.url");
 
 if (!href) {
   return <p>Loading modules...</p>;
@@ -263,9 +263,13 @@ const allowedLabels = existingLabels.filter((it) => it !== "blog"); // remove bl
 
 function NameEditor() {
   return (
-    <div className="col-lg-6 mb-2">
-      <p className="fs-6 fw-bold mb-1">Title</p>
+    <div className="col-lg-12 mb-2">
+      <label htmlFor="title" className="fs-6 fw-bold mb-1">
+        Title
+      </label>
       <input
+        name="title"
+        id="title"
         data-testid="name-editor"
         type="text"
         value={state.name}
@@ -278,9 +282,11 @@ function NameEditor() {
 function DescriptionEditor() {
   return (
     <div className="col-lg-12 mb-2">
-      <p className="fs-6 fw-bold mb-1">Description</p>
+      <label htmlFor="description" className="fs-6 fw-bold mb-1">
+        Description
+      </label>
       <Widget
-        src="itexpert120-contra.nera/widget/devhub.components.molecule.MarkdownEditor"
+        src="itexpert120-contra.near/widget/devhub.components.molecule.MarkdownEditor"
         props={{
           data: { handler: state.handler, content: state.description },
           onChange: (content) => {
@@ -292,7 +298,7 @@ function DescriptionEditor() {
       {autocompleteEnabled && state.showAccountAutocomplete && (
         <AutoComplete>
           <Widget
-            src="itexpert120-contra.nera/widget/devhub.components.molecule.AccountAutocomplete"
+            src="itexpert120-contra.near/widget/devhub.components.molecule.AccountAutocomplete"
             props={{
               term: state.mentionInput,
               onSelect: autoCompleteAccountId,
@@ -308,7 +314,9 @@ function DescriptionEditor() {
 function LabelsEditor() {
   return (
     <div className="col-lg-12 mb-2">
-      <p className="fs-6 fw-bold mb-1">Labels</p>
+      <label htmlFor="labels" className="fs-6 fw-bold mb-1">
+        Labels
+      </label>
       <Typeahead
         multiple
         onInputChange={checkLabel}
@@ -455,7 +463,7 @@ const [tab, setTab] = useState("editor");
 
 return (
   <div class="bg-light d-flex flex-column flex-grow-1 w-100">
-    <div class="mx-5 mb-5">
+    <div class="mx-2 mx-md-5 mb-5">
       {props.transactionHashes ? (
         <>
           Post created successfully. Back to{" "}
@@ -465,7 +473,7 @@ return (
             }}
             className="fw-bold"
             to={href({
-              widgetSrc: "itexpert120-contra.nera/widget/app",
+              widgetSrc: "itexpert120-contra.near/widget/app",
               params: { page: "feed" },
             })}
           >
@@ -475,7 +483,7 @@ return (
       ) : (
         <>
           <div className="card">
-            <div className="card-header">
+            <div className="card-header pb-0">
               <div>
                 <ul class="nav nav-tabs">
                   <li class="nav-item">
@@ -530,7 +538,7 @@ return (
                         </button>
                       ))}
                     </div>
-                    <p class="text-muted w-75 my-1">
+                    <p class="text-muted w-100 my-1">
                       {postTypeOptions[state.postType].description}
                     </p>
                     {state.warning && (
@@ -548,7 +556,7 @@ return (
                         ></button>
                       </div>
                     )}
-                    <div className="row">
+                    <div className="row mt-3">
                       <NameEditor />
                       <DescriptionEditor />
                       <LabelsEditor />
@@ -563,8 +571,10 @@ return (
                         color: "#f3f3f3",
                       }}
                       disabled={
-                        state.seekingFunding &&
-                        (!state.amount || state.amount < 1)
+                        (state.seekingFunding &&
+                          (!state.amount || state.amount < 1)) ||
+                        state.name === "" ||
+                        state.description === ""
                       }
                       className="btn btn-light mb-2 p-3"
                       onClick={onSubmit}
@@ -572,15 +582,14 @@ return (
                       Submit
                     </button>
                   </div>
-                  <div class="bg-light d-flex flex-row p-1 border-bottom"></div>
                 </>
               )}
               {tab === "preview" && (
                 <div class="card-body">
-                  <p class="text-muted m-0">Preview</p>
+                  <p class="card-title fw-bold fs-6">Preview</p>
                   <div>
                     <Widget
-                      src="itexpert120-contra.nera/widget/devhub.entity.post.Post"
+                      src="itexpert120-contra.near/widget/devhub.entity.post.Post"
                       props={{
                         isPreview: true,
                         id: 0, // irrelevant
@@ -603,6 +612,24 @@ return (
                       }}
                     />
                   </div>
+                  <button
+                    data-testid="submit-create-post"
+                    style={{
+                      width: "7rem",
+                      backgroundColor: "#0C7283",
+                      color: "#f3f3f3",
+                    }}
+                    disabled={
+                      (state.seekingFunding &&
+                        (!state.amount || state.amount < 1)) ||
+                      state.name === "" ||
+                      state.description === ""
+                    }
+                    className="btn btn-light my-2 p-3"
+                    onClick={onSubmit}
+                  >
+                    Submit
+                  </button>
                 </div>
               )}
             </div>
