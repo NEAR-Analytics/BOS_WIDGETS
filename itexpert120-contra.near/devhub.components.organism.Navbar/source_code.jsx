@@ -2,10 +2,10 @@ const page = props.page;
 
 const [showMenu, setShowMenu] = useState(false);
 
-const { href: linkHref } = VM.require("itexpert120-contra.nera/widget/core.lib.url");
+const { href: linkHref } = VM.require("itexpert120-contra.near/widget/core.lib.url");
 
 const { hasModerator } = VM.require(
-  "itexpert120-contra.nera/widget/core.adapter.devhub-contract"
+  "itexpert120-contra.near/widget/core.adapter.devhub-contract"
 );
 
 linkHref || (linkHref = () => {});
@@ -26,7 +26,7 @@ const Logo = () => {
     <Wrapper>
       <Link
         to={linkHref({
-          widgetSrc: "itexpert120-contra.nera/widget/app",
+          widgetSrc: "itexpert120-contra.near/widget/app",
           params: { page: "home" },
         })}
       >
@@ -68,12 +68,12 @@ const ProfileIcon = () => {
   return (
     <Link
       to={linkHref({
-        widgetSrc: "itexpert120-contra.nera/widget/app",
+        widgetSrc: "itexpert120-contra.near/widget/app",
         params: { page: "profile", accountId: context.accountId },
       })}
     >
       <Widget
-        src="itexpert120-contra.nera/widget/devhub.components.molecule.ProfileCard"
+        src="itexpert120-contra.near/widget/devhub.components.molecule.ProfileCard"
         props={{ iconOnly: true, accountId: context.accountId || null }}
       />
     </Link>
@@ -230,7 +230,7 @@ return (
       <LinksContainer>
         {links.map((link) => (
           <Widget
-            src="itexpert120-contra.nera/widget/devhub.components.molecule.NavbarDropdown"
+            src="itexpert120-contra.near/widget/devhub.components.molecule.NavbarDropdown"
             props={{
               title: link.title,
               href: link.href,
@@ -259,7 +259,7 @@ return (
               <MobileLink
                 key={`mobile-link-${idx}`}
                 className={link.href === props.page && "active"}
-                href={`/itexpert120-contra.nera/widget/app?page=${link.href}`}
+                href={`/itexpert120-contra.near/widget/app?page=${link.href}`}
               >
                 {link.title}
               </MobileLink>
@@ -279,7 +279,7 @@ return (
                   <MobileLink
                     key={`nested-link-${idx}`}
                     className={link.href === props.page && "active"}
-                    href={`/itexpert120-contra.nera/widget/app?page=${it.href}`}
+                    href={`/itexpert120-contra.near/widget/app?page=${it.href}`}
                   >
                     /{it.title}
                   </MobileLink>
