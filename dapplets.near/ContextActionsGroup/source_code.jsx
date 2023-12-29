@@ -555,7 +555,6 @@ return (
         onMouseLeave={handleOnMouseLeave}
       >
         <TriggerShowLabel />
-
         <ActionsWrapper>
           <OverlayTrigger
             show={state.showMenu}
@@ -568,7 +567,6 @@ return (
             <slot></slot>
           </OverlayTrigger>
         </ActionsWrapper>
-        <ButtonPlus />
       </TriggerShowPanel>
     ) : null}
   </OverlayTriggerWrapper>
