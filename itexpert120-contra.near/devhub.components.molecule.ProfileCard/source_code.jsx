@@ -96,7 +96,7 @@ const ProfileCard = (props) => {
     <div className="d-flex flex-row align-items-center">
       {inner}
       <Widget
-        src="itexpert120-contra.nera/widget/devhub.components.molecule.BadgesList"
+        src="itexpert120-contra.near/widget/devhub.components.molecule.BadgesList"
         props={{
           accountId,
           mode: "compact",
