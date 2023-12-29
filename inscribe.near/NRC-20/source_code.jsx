@@ -289,14 +289,11 @@ return (
       {tab === "nrc-20" && (
         <Widget
           src={`${config.ownerId}/widget/NRC-20.NRC-20`}
-          props={{ token: props.token }}
+          props={{ tick: props.tick }}
         />
       )}
       {tab === "my-inscriptions" && (
-        <Widget
-          src={`${config.ownerId}/widget/NRC-20.MyInscriptions`}
-          props={{ token: props.token }}
-        />
+        <Widget src={`${config.ownerId}/widget/NRC-20.MyInscriptions`} />
       )}
     </BodyContainer>
     <FooterContent href="https://docs.nrc-20.io/" target="_blank">
