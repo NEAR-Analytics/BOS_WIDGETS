@@ -8,7 +8,7 @@ const {
   ...restProps
 } = props;
 
-const { name, CHAIN_LIST, curChainId, curChain, dappSrc } = props;
+const { name, CHAIN_LIST, curChain, dappSrc } = props;
 
 const CONNECT_PROPS = {
   ...connectProps,
@@ -31,7 +31,6 @@ const DEXS = Object.values(dexs || {});
 State.init({
   chainId: -1,
   selectedDex: defalutDex,
-  chainIdNotSupport: true,
 });
 
 const account = Ethers.send("eth_requestAccounts", [])[0];
