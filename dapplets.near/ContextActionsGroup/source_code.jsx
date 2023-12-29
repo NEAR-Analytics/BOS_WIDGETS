@@ -3,29 +3,6 @@ State.init({
   showMenu: false,
 });
 
-const actions = [
-  {
-    icon: "https://raw.githubusercontent.com/dapplets/community-badges/main/dapplet/src/icons/community-badges.png",
-    active: false,
-    id: "1",
-  },
-  {
-    icon: "https://raw.githubusercontent.com/dapplets/paywall-dapplet/main/dapplet/src/icon.png",
-    active: false,
-    id: "2",
-  },
-  {
-    icon: "https://raw.githubusercontent.com/dapplets/connecting-accounts-dapplet/master/src/icons/connected-accounts.png",
-    active: true,
-    id: "3",
-  },
-  {
-    icon: "https://raw.githubusercontent.com/dapplets/tipping-dapplet/master/dapplet/src/icons/money-logo.png",
-    active: false,
-    id: "4",
-  },
-];
-
 const handleOnMouseEnter = () => {
   State.update({ show: true });
 };
@@ -118,75 +95,76 @@ const ActionsWrapper = styled.div`
   }
   animation: translateAnimation 1.5s linear forwards;
   transition: all 0.3s;
-`;
 
-const ActionsItem = styled.div`
-  display: flex;
-  width: 34px;
-  height: 34px;
-  justify-content: center;
-  align-items: center;
-  border-radius: 50%;
-  background: #db504a;
-  margin-bottom: 6px;
-  cursor: pointer;
-box-sizing: border-box;
-  @keyframes translateAnimationItem {
-    0% {
-      opacity: 0;
-    }
-    50% {
-      opacity: 0;
-    }
-    100% {
-      opacity: 1;
-    }
-  }
-  animation: translateAnimationItem 1.5s linear forwards;
-  transition: all 0.3s;
-  &:hover {
-    border: 1px solid #c1c6ce;
-    box-shadow: 0px 4px 20px 0px rgba(11, 87, 111, 0.15),
-      0px 4px 5px 0px rgba(45, 52, 60, 0.1);
-  }
-  .ItemActive {
-    position: relative;
-    width: 100%;
-    height: 100%;
+  > * {
     display: flex;
-    align-items: center;
+    width: 34px;
+    height: 34px;
     justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    background: #db504a;
+    margin-bottom: 6px;
+    cursor: pointer;
+    box-sizing: border-box;
 
-    img {
-      border: 1px solid #19ceae;
-      object-fit: cover;
-      border-radius: 50%;
-      width: 34px;
-      height: 34px;
-      display: block;
+    @keyframes translateAnimationItem {
+      0% {
+        opacity: 0;
+      }
+      50% {
+        opacity: 0;
+      }
+      100% {
+        opacity: 1;
+      }
     }
-    &:before {
-      content: "";
-      display: block;
-      position: absolute;
-      top: 0;
-      right: 0;
-      background: #fff;
-      width: 12px;
-      height: 12px;
-      border-radius: 50%;
+    animation: translateAnimationItem 1.5s linear forwards;
+    transition: all 0.3s;
+    &:hover {
+      border: 1px solid #c1c6ce;
+      box-shadow: 0px 4px 20px 0px rgba(11, 87, 111, 0.15),
+        0px 4px 5px 0px rgba(45, 52, 60, 0.1);
     }
+    .ItemActive {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
 
-    &:after {
-      content: "";
-      display: block;
-      position: absolute;
-      top: 2px;
-      right: 2px;
-      background: #19ceae;
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
+      img {
+        border: 1px solid #19ceae;
+        object-fit: cover;
+        border-radius: 50%;
+        width: 34px;
+        height: 34px;
+        display: block;
+      }
+      &:before {
+        content: "";
+        display: block;
+        position: absolute;
+        top: 0;
+        right: 0;
+        background: #fff;
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+      }
+
+      &:after {
+        content: "";
+        display: block;
+        position: absolute;
+        top: 2px;
+        right: 2px;
+        background: #19ceae;
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+      }
     }
   }
 `;
@@ -661,24 +639,7 @@ return (
             overlay={overlay}
             style={{ transform: "none" }}
           >
-            <>
-              <slot></slot>
-              {actions.map((action, i) => (
-                <ActionsItem onClick={handleOpenMenu} key={i}>
-                  <span className={action.active ? "ItemActive" : ""}>
-                    <img
-                      style={{
-                        width: "34px",
-                        height: "34px",
-                        borderRadius: "50%",
-                      }}
-                      src={action.icon}
-                      alt=""
-                    />
-                  </span>
-                </ActionsItem>
-              ))}
-            </>
+            <slot></slot>
           </OverlayTrigger>
         </ActionsWrapper>
         <ButtonPlus />
