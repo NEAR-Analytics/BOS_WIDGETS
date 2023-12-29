@@ -3,7 +3,7 @@ const MaxGasPerTransaction = TGas.mul(250);
 const GasPerTransaction = MaxGasPerTransaction.plus(TGas);
 const pageAmountOfPage = 5;
 const ipfsPrefix = "https://ipfs.near.social/ipfs";
-
+const landingUrl = "https://neatprotocol.ai";
 function toLocaleString(source, decimals, rm) {
   if (typeof source === "string") {
     return toLocaleString(Number(source), decimals);
@@ -25,12 +25,26 @@ function toLocaleString(source, decimals, rm) {
   }
 }
 
-function formatAmount(balance, decimal) {
-  if (!decimal) decimal = 8;
+function formatAmount(_balance, _decimal) {
+  const balance = _balance ?? 0;
+  const decimal = _decimal ?? 8;
   return toLocaleString(
     Big(balance).div(Big(10).pow(decimal)).toFixed(),
     decimal
   );
+}
+
+function formatDeployTime(blockTime) {
+  const milliseconds = blockTime / 1000000;
+  const date = new Date(milliseconds);
+
+  const year = date.getUTCFullYear();
+  const month = (date.getUTCMonth() + 1).toString().padStart(2, "0");
+  const day = date.getUTCDate().toString().padStart(2, "0");
+  const hours = date.getUTCHours().toString().padStart(2, "0");
+  const minutes = date.getUTCMinutes().toString().padStart(2, "0");
+  const seconds = date.getUTCSeconds().toString().padStart(2, "0");
+  return `${year}/${month}/${day} ${hours}:${minutes}:${seconds}`;
 }
 
 // Config for Bos app
@@ -166,6 +180,146 @@ const TipText = styled.div`
   font-weight: 600;
 `;
 
+function fetchFromGraph(query) {
+  return fetch(config.graphUrl, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      query,
+    }),
+  });
+}
+
+function asyncFetchFromGraph(query) {
+  return asyncFetch(config.graphUrl, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      query,
+    }),
+  });
+}
+
+function fetchTokenInfosAsync() {
+  return asyncFetchFromGraph(`
+    query {
+      tokenInfos {
+        ticker
+        maxSupply
+        totalSupply
+        limit
+        createdBlockTimestamp
+        decimals
+      }
+      holderCounts {
+        ticker
+        count
+      }
+    }
+  `).then((tokensInfoResponse) => {
+    if (tokensInfoResponse.body?.data) {
+      return tokensInfoResponse.body?.data;
+    }
+    return undefined;
+  });
+}
+
+function fetchTokenInfoAsync(token) {
+  return asyncFetchFromGraph(`
+    query {
+      tokenInfo (
+        id: "${token.toUpperCase()}",
+      ) {
+        ticker
+        limit
+        decimals
+        maxSupply
+        totalSupply
+        creatorId
+        createdBlockHeight
+        createdBlockTimestamp
+      }
+      holderCount (
+        id: "${token.toUpperCase()}",
+      ) {
+        ticker
+        count
+      }
+    }
+  `).then((tokenInfoResponse) => {
+    if (tokenInfoResponse.body?.data) {
+      return tokenInfoResponse.body.data;
+    }
+    return undefined;
+  });
+}
+
+function getBalance() {
+  const accountId = props.accountId || context.accountId;
+  return asyncFetchFromGraph(`
+    query {
+      holderInfos(
+        where: {
+          accountId: "${accountId}"
+          ticker: "neat"
+        }
+      ) {
+        accountId
+        amount
+      }
+    }
+  `).then((balanceResponse) => {
+    const holder = balanceResponse.body.data.holderInfos[0];
+    if (holder) {
+      return holder.amount;
+    }
+    return "0";
+  });
+}
+
+function getBalances() {
+  const accountId = props.accountId || context.accountId;
+  return asyncFetchFromGraph(`
+    query {
+      holderInfos(
+        where: {
+          accountId: "${accountId}"
+        }
+      ) {
+        ticker
+        amount
+      }
+    }
+  `).then((balanceResponse) => {
+    if (balanceResponse.body?.data) {
+      return balanceResponse.body.data.holderInfos;
+    }
+    return undefined;
+  });
+}
+
+function getWrappedFtBalance() {
+  const accountId = props.accountId || context.accountId;
+  return Near.asyncView(config.ftWrapper, "ft_balance_of", {
+    account_id: accountId,
+  });
+}
+
+function getNrc20TotalSupply() {
+  if (!state.nep141TotalSupply || !state.tokenInfo?.maxSupply) return undefined;
+  return Big(state.tokenInfo.maxSupply)
+    .minus(state.nep141TotalSupply)
+    .toFixed();
+}
+
+function getNep141TotalSupply() {
+  return Near.asyncView(config.ftWrapper, "ft_total_supply");
+}
+
 State.init({
   balance: undefined,
   wrappedFtBalance: undefined,
@@ -202,74 +356,11 @@ State.init({
     },
   ],
   // transfer component
+  tickInput: props.tick ?? "",
   transferAmount: "",
   transferTo: "",
+  balances: undefined,
 });
-
-function fetchFromGraph(query) {
-  return fetch(config.graphUrl, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      query,
-    }),
-  });
-}
-
-function asyncFetchFromGraph(query) {
-  return asyncFetch(config.graphUrl, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      query,
-    }),
-  });
-}
-
-function getBalance() {
-  const accountId = props.accountId || context.accountId;
-  return asyncFetchFromGraph(`
-    query {
-      holderInfos(
-        where: {
-          accountId: "${accountId}"
-          ticker: "neat"
-        }
-      ) {
-        accountId
-        amount
-      }
-    }
-  `).then((balanceResponse) => {
-    const holder = balanceResponse.body.data.holderInfos[0];
-    if (holder) {
-      return holder.amount;
-    }
-    return "0";
-  });
-}
-
-function getWrappedFtBalance() {
-  const accountId = props.accountId || context.accountId;
-  return Near.asyncView(config.ftWrapper, "ft_balance_of", {
-    account_id: accountId,
-  });
-}
-
-function getNrc20TotalSupply() {
-  if (!state.nep141TotalSupply || !state.tokenInfo?.maxSupply) return undefined;
-  return Big(state.tokenInfo.maxSupply)
-    .minus(state.nep141TotalSupply)
-    .toFixed();
-}
-
-function getNep141TotalSupply() {
-  return Near.asyncView(config.ftWrapper, "ft_total_supply");
-}
 
 function fetchAllData() {
   const response = fetchFromGraph(`
@@ -356,6 +447,12 @@ function fetchAllData() {
       nrc20TotalSupply,
     });
   }
+
+  getBalances().then((balances) => {
+    State.update({
+      balances,
+    });
+  });
 }
 
 fetchAllData();
