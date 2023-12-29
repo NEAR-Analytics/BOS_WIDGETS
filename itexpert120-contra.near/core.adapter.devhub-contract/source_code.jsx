@@ -118,41 +118,41 @@ function getAvailableAddons() {
       id: "wiki",
       title: "Wiki",
       description: "Create a wiki for your community",
-      view_widget: "itexpert120-contra.near/widget/devhub.entity.addon.wiki.Viewer",
+      view_widget: "itexpert120-contra.nera/widget/devhub.entity.addon.wiki.Viewer",
       configurator_widget:
-        "itexpert120-contra.near/widget/devhub.entity.addon.wiki.Configurator",
+        "itexpert120-contra.nera/widget/devhub.entity.addon.wiki.Configurator",
     },
     {
       id: "telegram",
       title: "Telegram",
       description: "Connect your telegram",
-      view_widget: "itexpert120-contra.near/widget/devhub.entity.addon.telegram.Viewer",
+      view_widget: "itexpert120-contra.nera/widget/devhub.entity.addon.telegram.Viewer",
       configurator_widget:
-        "itexpert120-contra.near/widget/devhub.entity.addon.telegram.Configurator",
+        "itexpert120-contra.nera/widget/devhub.entity.addon.telegram.Configurator",
     },
     {
       id: "github",
       title: "Github",
       description: "Connect your github",
-      view_widget: "itexpert120-contra.near/widget/devhub.entity.addon.github.Viewer",
+      view_widget: "itexpert120-contra.nera/widget/devhub.entity.addon.github.Viewer",
       configurator_widget:
-        "itexpert120-contra.near/widget/devhub.entity.addon.github.Configurator",
+        "itexpert120-contra.nera/widget/devhub.entity.addon.github.Configurator",
     },
     {
       id: "kanban",
       title: "Kanban",
       description: "Connect your github kanban board",
-      view_widget: "itexpert120-contra.near/widget/devhub.entity.addon.kanban.Viewer",
+      view_widget: "itexpert120-contra.nera/widget/devhub.entity.addon.kanban.Viewer",
       configurator_widget:
-        "itexpert120-contra.near/widget/devhub.entity.addon.kanban.Configurator",
+        "itexpert120-contra.nera/widget/devhub.entity.addon.kanban.Configurator",
     },
     {
       id: "blog",
       title: "Blog",
       description: "Create a blog for your community",
-      view_widget: "itexpert120-contra.near/widget/devhub.entity.addon.blog.Viewer",
+      view_widget: "itexpert120-contra.nera/widget/devhub.entity.addon.blog.Viewer",
       configurator_widget:
-        "itexpert120-contra.near/widget/devhub.entity.addon.blog.Configurator",
+        "itexpert120-contra.nera/widget/devhub.entity.addon.blog.Configurator",
     },
   ];
   // return Near.view("devgovgigs.near", "get_available_addons") ?? null;
