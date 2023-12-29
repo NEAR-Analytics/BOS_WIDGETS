@@ -5,7 +5,7 @@
  */
 
 const { getAccessControlInfo, getRootMembers, removeMember } = VM.require(
-  "itexpert120-contra.nera/widget/core.adapter.devhub-contract"
+  "itexpert120-contra.near/widget/core.adapter.devhub-contract"
 );
 
 if (!getAccessControlInfo || !getRootMembers || !removeMember) {
@@ -161,7 +161,7 @@ return (
     <tr>
       <th scope="row" class=" justify-content-center align-items-center p-3">
         <Widget
-          src={"itexpert120-contra.nera/widget/devhub.components.atom.Tag"}
+          src={"itexpert120-contra.near/widget/devhub.components.atom.Tag"}
           props={{
             tag: backwardsCompatibleLabel(label),
           }}
@@ -212,7 +212,7 @@ return (
       <td class=" justify-content-center align-items-center p-3">
         {editMode ? (
           <Widget
-            src={"itexpert120-contra.nera/widget/devhub.components.molecule.Button"}
+            src={"itexpert120-contra.near/widget/devhub.components.molecule.Button"}
             props={{
               classNames: { root: "btn-outline-danger" },
               icon: {
@@ -225,7 +225,7 @@ return (
           />
         ) : (
           <Widget
-            src={"itexpert120-contra.nera/widget/devhub.components.molecule.Button"}
+            src={"itexpert120-contra.near/widget/devhub.components.molecule.Button"}
             props={{
               classNames: { root: "btn-outline-light text-dark" },
               icon: {
@@ -243,7 +243,7 @@ return (
       <tr>
         <th scope="row" colspan="6">
           <Widget
-            src={"itexpert120-contra.nera/widget/devhub.entity.team.Configurator"}
+            src={"itexpert120-contra.near/widget/devhub.entity.team.Configurator"}
             props={{
               data: configuratorData,
               onCancel: () => setEditMode(false),
@@ -251,7 +251,7 @@ return (
             }}
           />
           <Widget
-            src="itexpert120-contra.nera/widget/devhub.components.atom.Alert"
+            src="itexpert120-contra.near/widget/devhub.components.atom.Alert"
             props={{
               onClose: () => setAlertMessage(""),
               message: alertMessage,
