@@ -104,15 +104,16 @@ if (!accountId) {
 function sendData(formData) {
   console.log("send data function called");
   const apiUrl = "https://rafflestore.000webhostapp.com/api/register.php";
-  asyncFetch(apiUrl, {
-    method: POST,
+  fetch(apiUrl, {
+    method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
     body: JSON.stringify(formData),
   })
-    .then((res) => {
-      console.log(res.data);
+    .then((res) => res.json()) // Corrected: Parse JSON response
+    .then((data) => {
+      console.log(data);
       console.log("API call success");
     })
     .catch((error) => {
@@ -361,7 +362,7 @@ return (
                   data={formData}
                   type="submit"
                   class="btn btn-primary"
-                  onClick={sendData(formData)}
+                  onClick={() => sendData(formData)}
                 >
                   Submit
                 </button>
