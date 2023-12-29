@@ -7,7 +7,7 @@ const CommunityAccessControlSchema = {
   },
 };
 
-const Struct = VM.require("itexpert120-contra.nera/widget/core.lib.struct");
+const Struct = VM.require("itexpert120-contra.near/widget/core.lib.struct");
 
 if (!Struct) {
   return <p>Loading modules...</p>;
@@ -101,10 +101,10 @@ return (
       {admins.map((admin, index) => (
         <div className="admins-item" key={index}>
           <Widget
-            src={"itexpert120-contra.nera/widget/devhub.components.molecule.ProfileCard"}
+            src={"itexpert120-contra.near/widget/devhub.components.molecule.ProfileCard"}
             props={{
               accountId: admin,
-              nearDevGovGigsWidgetsAccountId: "itexpert120-contra.nera",
+              nearDevGovGigsWidgetsAccountId: "itexpert120-contra.near",
               openLinkInNewTab: true,
             }}
           />
@@ -135,7 +135,7 @@ return (
     {showAccountAutocomplete && (
       <AutoComplete>
         <Widget
-          src="itexpert120-contra.nera/widget/devhub.components.molecule.AccountAutocomplete"
+          src="itexpert120-contra.near/widget/devhub.components.molecule.AccountAutocomplete"
           props={{
             term: text,
             onSelect: autoCompleteAccountId,
@@ -148,7 +148,7 @@ return (
     {isActive && (
       <div className="d-flex align-items-center justify-content-end gap-3 mt-auto">
         <Widget
-          src={"itexpert120-contra.nera/widget/devhub.components.molecule.Button"}
+          src={"itexpert120-contra.near/widget/devhub.components.molecule.Button"}
           props={{
             classNames: { root: "btn-outline-danger shadow-none border-0" },
             label: cancelLabel || "Cancel",
@@ -156,7 +156,7 @@ return (
           }}
         />
         <Widget
-          src={"itexpert120-contra.nera/widget/devhub.components.molecule.Button"}
+          src={"itexpert120-contra.near/widget/devhub.components.molecule.Button"}
           props={{
             classNames: { root: "btn-success" },
             disabled: Struct.isEqual(admins, initialValues?.admins ?? []),
