@@ -1,4 +1,4 @@
-const { typeMatch } = VM.require("itexpert120-contra.nera/widget/core.lib.struct");
+const { typeMatch } = VM.require("itexpert120-contra.near/widget/core.lib.struct");
 
 if (!typeMatch) {
   return <p>Loading modules...</p>;
@@ -79,7 +79,7 @@ const CommunityInputsDefaults = {
 
 return (
   <Widget
-    src="itexpert120-contra.nera/widget/devhub.components.organism.Configurator"
+    src="itexpert120-contra.near/widget/devhub.components.organism.Configurator"
     props={{
       heading: "Community information",
       externalState: CommunityInputsDefaults,
