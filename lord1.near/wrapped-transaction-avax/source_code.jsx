@@ -1,6 +1,6 @@
-const API_KEY = props.API_KEY || "6d48c4c0-eb41-4e4b-ae4d-ba1148f01fb8";
+const API_KEY = props.API_KEY;
 const themeColor = props.themeColor;
-const singer = props.singer || "0xd31e15811507f9e6308a0d9dbb3b0aaa60d69c4f";
+const singer = props.singer;
 const interval = props.interval || "week";
 const queries = [
   {
