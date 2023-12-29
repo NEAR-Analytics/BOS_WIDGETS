@@ -11,7 +11,7 @@ return (
     </h5>
     {!createTeam ? (
       <Widget
-        src={"itexpert120-contra.nera/widget/devhub.components.molecule.PostControls"}
+        src={"itexpert120-contra.near/widget/devhub.components.molecule.PostControls"}
         props={{
           onClick: () => setCreateTeam(true),
           title: "Create label",
@@ -20,7 +20,7 @@ return (
       />
     ) : (
       <Widget
-        src={"itexpert120-contra.nera/widget/devhub.entity.team.Configurator"}
+        src={"itexpert120-contra.near/widget/devhub.entity.team.Configurator"}
         props={{
           onCancel: () => setCreateTeam(false),
           onSubmit: (params) =>
@@ -52,7 +52,7 @@ return (
             .map((teamName) => {
               return (
                 <Widget
-                  src={"itexpert120-contra.nera/widget/devhub.entity.team.LabelRow"}
+                  src={"itexpert120-contra.near/widget/devhub.entity.team.LabelRow"}
                   props={{
                     teamName,
                   }}
