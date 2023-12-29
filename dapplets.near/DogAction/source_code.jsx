@@ -1,4 +1,4 @@
-return (
+const Icon = () => (
   <svg
     width="30px"
     height="30px"
@@ -75,4 +75,11 @@ return (
       <path d="M37.947 42.811l.991-.988l.989.99l-.991.99z"></path>
     </g>
   </svg>
+);
+
+return (
+  <Widget
+    src="dapplets.near/widget/ContextAction"
+    props={{ children: <Icon /> }}
+  />
 );
