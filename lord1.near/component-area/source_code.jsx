@@ -229,7 +229,18 @@ const handleData = () => {
     });
   }
 };
-
+const convertData = (data) => {
+  if (typeof data !== "string") {
+    return data;
+  }
+  let converted;
+  try {
+    converted = JSON.parse(data);
+  } catch (er) {
+    converted = data;
+  }
+  return converted;
+};
 const fetchData = (hash) => {
   const data = fetch(
     `https://api.flipsidecrypto.com/api/v2/queries/${hash}/data/latest`,
@@ -242,7 +253,7 @@ const fetchData = (hash) => {
     }
   );
   const result = {
-    data: (data && data.body) || null,
+    data: (data && convertData(data.body)) || null,
     error: (data && !data.ok && (data.status || data.error)) || null,
     isLoading: !data && !error,
   };
