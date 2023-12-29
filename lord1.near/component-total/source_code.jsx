@@ -122,8 +122,7 @@ const lightColors = {
     color1brand: "#000",
     color2brand: "#806ce1",
     colordescription: "#806ce1",
-    background:
-      "radial-gradient(circle, rgba(210,202,250,1) 0%, rgba(230,230,231,0.01) 0%, rgba(235,238,255,1) 100%, rgba(235,231,253,1) 100%, rgba(255,241,241,1) 100%, rgba(46,52,90,1) 100%);",
+    background: "linear-gradient(62deg, #d2cafa 0%, #E0C3FC 100%);",
   },
   search_sbt: {
     section_bg: "rgb(235, 231, 253)",
