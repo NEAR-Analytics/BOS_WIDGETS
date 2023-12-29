@@ -8,6 +8,9 @@ if (props.accountGId && props.itemGId) {
   accountId = props.accountId || props.notifyAccountId;
   const blockHeight = props.blockHeight || props.item?.blockHeight;
   itemGlobalId = `bos/${blockHeight}/${accountId}/post/main`;
+} else if (props.context && props.context.id && props.context.authorUsername) {
+  accountId = props.context.authorUsername + '/twitter';
+  itemGlobalId = 'tweet/' + props.context.id;
 } else {
   console.error('The context should provide accountGId with itemGId or accountId with blockHeight props.');
   return <></>;
