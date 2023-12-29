@@ -43,7 +43,7 @@ const renderMention =
   ((accountId) => (
     <span key={accountId} className="d-inline-flex" style={{ fontWeight: 500 }}>
       <Widget
-        src="itexpert120-contra.nera/widget/devhub.components.molecule.ProfileLine"
+        src="itexpert120-contra.near/widget/devhub.components.molecule.ProfileLine"
         props={{
           accountId: accountId.toLowerCase(),
           hideAccountId: true,
