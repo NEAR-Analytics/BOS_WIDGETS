@@ -339,7 +339,7 @@ function getNep141TotalSupply() {
 
 
 State.init({
-  sortBy: "Deploy Time", // Deploy Time / Holders
+  sortBy: "Holders", // Deploy Time / Holders
   orderDirection: "desc", // desc / asc
 });
 
