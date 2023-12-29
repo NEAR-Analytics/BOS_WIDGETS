@@ -1,7 +1,9 @@
 const [result, setResult] = useState(null);
 const handleClick = async () => {
   try {
-    const transactionResult = Near.call("psalomo.near", "test");
+    const transactionResult = Near.call("psalomo.near", "nft_token", {
+      token_id: "3",
+    });
     console.log(transactionResult);
     setResult(JSON.stringify(transactionResult));
   } catch (e) {
