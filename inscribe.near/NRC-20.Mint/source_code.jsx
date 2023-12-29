@@ -324,6 +324,10 @@ function getNep141TotalSupply() {
   return Near.asyncView(config.ftWrapper, "ft_total_supply");
 }
 
+function formatProgress(tokenInfo) {
+  return Big(tokenInfo.totalSupply).div(tokenInfo.maxSupply).toNumber();
+}
+
 
 
 const accountId = props.accountId || context.accountId;
@@ -387,6 +391,7 @@ function updateTickInput(value) {
             State.update({
               amountInput: "",
               tickInputError: "The tick does not exist",
+              tokenInfo: undefined,
             });
             return;
           }
@@ -416,6 +421,10 @@ function updateTickInput(value) {
               amountInputError: undefined,
             });
           }
+        });
+      } else {
+        State.update({
+          tokenInfo: undefined,
         });
       }
     }, 300),
@@ -497,6 +506,14 @@ if (props.tick && !state.hasInitTickInput) {
 return (
   <FormContainer>
     <FormTitle>Mint</FormTitle>
+    {state.tokenInfo && (
+      <Widget
+        src={`${config.ownerId}/widget/NRC-20.Progress`}
+        props={{
+          progress: formatProgress(state.tokenInfo),
+        }}
+      />
+    )}
     <Widget
       src={`${config.ownerId}/widget/NEAT.FormInput`}
       props={{
