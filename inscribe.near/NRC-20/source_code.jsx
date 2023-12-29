@@ -235,7 +235,7 @@ return (
       <TabContainer>
         <TabItem
           selected={tab === "nrc-20"}
-          href={`/${config.ownerId}/widget/NRC-20?tab=nrc-20`}
+          href={`/${config.ownerId}/widget/NRC-20`}
         >
           NRC-20
         </TabItem>
