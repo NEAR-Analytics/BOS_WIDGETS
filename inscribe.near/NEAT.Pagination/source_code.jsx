@@ -3,7 +3,7 @@ const MaxGasPerTransaction = TGas.mul(250);
 const GasPerTransaction = MaxGasPerTransaction.plus(TGas);
 const pageAmountOfPage = 5;
 const ipfsPrefix = "https://ipfs.near.social/ipfs";
-
+const landingUrl = "https://neatprotocol.ai";
 function toLocaleString(source, decimals, rm) {
   if (typeof source === "string") {
     return toLocaleString(Number(source), decimals);
@@ -25,12 +25,26 @@ function toLocaleString(source, decimals, rm) {
   }
 }
 
-function formatAmount(balance, decimal) {
-  if (!decimal) decimal = 8;
+function formatAmount(_balance, _decimal) {
+  const balance = _balance ?? 0;
+  const decimal = _decimal ?? 8;
   return toLocaleString(
     Big(balance).div(Big(10).pow(decimal)).toFixed(),
     decimal
   );
+}
+
+function formatDeployTime(blockTime) {
+  const milliseconds = blockTime / 1000000;
+  const date = new Date(milliseconds);
+
+  const year = date.getUTCFullYear();
+  const month = (date.getUTCMonth() + 1).toString().padStart(2, "0");
+  const day = date.getUTCDate().toString().padStart(2, "0");
+  const hours = date.getUTCHours().toString().padStart(2, "0");
+  const minutes = date.getUTCMinutes().toString().padStart(2, "0");
+  const seconds = date.getUTCSeconds().toString().padStart(2, "0");
+  return `${year}/${month}/${day} ${hours}:${minutes}:${seconds}`;
 }
 
 // Config for Bos app
