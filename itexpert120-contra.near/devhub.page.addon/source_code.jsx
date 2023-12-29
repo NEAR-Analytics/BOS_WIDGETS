@@ -55,7 +55,7 @@ const CenteredMessage = styled.div`
 const { addon, permissions, handle } = props;
 
 const { getAllAddons, setCommunityAddon } = VM.require(
-  "itexpert120-contra.near/widget/core.adapter.devhub-contract"
+  "itexpert120-contra.nera/widget/core.adapter.devhub-contract"
 );
 
 if (!getAllAddons || !setCommunityAddon) {
