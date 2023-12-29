@@ -85,7 +85,7 @@ if (!content) {
       <Content>
         <Widget
           src={
-            "itexpert120-contra.nera/widget/devhub.components.molecule.MarkdownViewer"
+            "itexpert120-contra.near/widget/devhub.components.molecule.MarkdownViewer"
           }
           props={{ text: content }}
         />
