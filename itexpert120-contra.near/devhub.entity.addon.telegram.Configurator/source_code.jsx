@@ -1,5 +1,5 @@
 const { Tile } =
-  VM.require("itexpert120-contra.nera/widget/devhub.components.molecule.Tile") ||
+  VM.require("itexpert120-contra.near/widget/devhub.components.molecule.Tile") ||
   (() => <></>);
 
 if (!Tile) {
@@ -54,7 +54,7 @@ return (
         <Item key={index}>
           <div className="flex-grow-1">
             <Widget
-              src="itexpert120-contra.nera/widget/devhub.components.molecule.Input"
+              src="itexpert120-contra.near/widget/devhub.components.molecule.Input"
               props={{
                 className: "flex-grow-1",
                 value: item,
@@ -77,7 +77,7 @@ return (
       <Item>
         <div className="flex-grow-1">
           <Widget
-            src="itexpert120-contra.nera/widget/devhub.components.molecule.Input"
+            src="itexpert120-contra.near/widget/devhub.components.molecule.Input"
             props={{
               className: "flex-grow-1",
               onChange: (e) => setNewItem(e.target.value),
@@ -101,7 +101,7 @@ return (
         className={"d-flex align-items-center justify-content-end gap-3 mt-4"}
       >
         <Widget
-          src={"itexpert120-contra.nera/widget/devhub.components.molecule.Button"}
+          src={"itexpert120-contra.near/widget/devhub.components.molecule.Button"}
           props={{
             classNames: { root: "btn-success" },
             disabled: initialData === handles,
