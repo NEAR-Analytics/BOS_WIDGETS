@@ -20,7 +20,7 @@ const ContentContainer = styled.div`
 
 const AppHeader = ({ page }) => (
   <Widget
-    src="itexpert120-contra.nera/widget/devhub.components.organism.Navbar"
+    src="itexpert120-contra.near/widget/devhub.components.organism.Navbar"
     props={{
       page: page,
       ...props,
@@ -31,7 +31,7 @@ const AppHeader = ({ page }) => (
 const Footer = (props) => {
   return (
     <Widget
-      src="itexpert120-contra.nera/widget/devhub.components.organism.NewsLetter"
+      src="itexpert120-contra.near/widget/devhub.components.organism.NewsLetter"
       props={{
         ...props,
       }}
