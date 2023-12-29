@@ -402,7 +402,7 @@ return (
                   <IndexDataTr key={row.ticker}>
                     <IndexTd>
                       <TableRowLink
-                        href={`/${config.ownerId}/widget/NRC-20?tab=nrc-20&token=${row.ticker}`}
+                        href={`/${config.ownerId}/widget/NRC-20?tab=nrc-20&tick=${row.ticker}`}
                       >
                         {row.ticker.toUpperCase()}
                       </TableRowLink>
