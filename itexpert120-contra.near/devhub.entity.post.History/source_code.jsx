@@ -18,7 +18,7 @@ function href(widgetName, linkProps) {
     .map(([key, value]) => `${key}=${value}`)
     .join("&");
 
-  return `/itexpert120-contra.nera/widget/devhub.page.${widgetName}${
+  return `/itexpert120-contra.near/widget/devhub.page.${widgetName}${
     linkPropsQuery ? "?" : ""
   }${linkPropsQuery}`;
 }
