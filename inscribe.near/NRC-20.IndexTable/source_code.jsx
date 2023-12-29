@@ -352,7 +352,7 @@ const totalPage = String(
     Math.ceil(Number(state.holderCount ?? 0) / pageAmountOfPage)
   )
 );
-const { searchValue, token } = props;
+const { searchValue, tick } = props;
 
 fetchTokenInfosAsync().then((data) => {
   State.update({
@@ -367,7 +367,7 @@ const holdersResponse = fetchFromGraph(`
       skip: ${(current - 1) * pageAmountOfPage}
       first: ${pageAmountOfPage}
       where: {
-        ticker: "${token}"
+        ticker: "${tick}"
       }
       orderBy: amount
       orderDirection: desc
@@ -386,7 +386,7 @@ if (holdersResponse) {
         const tokenInfo = state.tokenInfos
           ? state.tokenInfos.find(
               (tokenInfo) =>
-                tokenInfo.ticker.toUpperCase() === token.toUpperCase()
+                tokenInfo.ticker.toUpperCase() === tick.toUpperCase()
             )
           : undefined;
         const decimals = tokenInfo?.decimals;
@@ -402,7 +402,7 @@ if (holdersResponse) {
 }
 asyncFetchFromGraph(`
     query {
-      holderCount (id: "${token.toUpperCase()}") {
+      holderCount (id: "${tick.toUpperCase()}") {
         count
       }
     }
