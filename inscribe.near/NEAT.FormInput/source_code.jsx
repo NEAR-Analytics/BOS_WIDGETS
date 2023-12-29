@@ -10,6 +10,7 @@ const {
   error,
   variant,
   disabled,
+  placeholder,
 } = props;
 
 function getVariantColor() {
@@ -44,6 +45,9 @@ const FormInputRow = styled.div`
   border-radius: 12px;
   padding: 0 16px;
   align-items: center;
+  .FormInput::placeholder {
+    color: #ffffff44;
+  }
 `;
 
 const FormInputTitle = styled.div`
@@ -130,6 +134,7 @@ return (
       }}
     >
       <input
+        className="FormInput"
         style={{
           width: "100%",
           background: "transparent",
@@ -146,6 +151,7 @@ return (
         }}
         disabled={disabled}
         value={value}
+        placeholder={placeholder}
         onChange={(e) => onChange(e.target.value)}
         spellcheck="false"
       />
