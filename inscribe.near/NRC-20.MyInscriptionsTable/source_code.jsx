@@ -357,10 +357,6 @@ getBalances().then((balances) => {
   });
 });
 
-function formatProgress(tokenInfo) {
-  return Big(tokenInfo.totalSupply).div(tokenInfo.maxSupply).toNumber();
-}
-
 const filteredBalances = state.balances
   ? state.balances.filter((balance) =>
       balance.ticker.toUpperCase().includes((searchValue ?? "").toUpperCase())
