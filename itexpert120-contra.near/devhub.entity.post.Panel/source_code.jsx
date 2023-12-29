@@ -682,7 +682,7 @@ return (
       </div>
       <div class="dropdown">
         <Widget
-          src="itexpert120-contra.nera/widget/devhub.feature.post-search.by-author"
+          src="itexpert120-contra.near/widget/devhub.feature.post-search.by-author"
           props={{
             authorQuery: props.authorQuery,
             onAuthorSearch: props.onAuthorSearch,
@@ -691,7 +691,7 @@ return (
       </div>
       <div>
         <Widget
-          src="itexpert120-contra.nera/widget/devhub.feature.post-search.by-tag"
+          src="itexpert120-contra.near/widget/devhub.feature.post-search.by-tag"
           props={{
             tagQuery: props.tagQuery,
             onTagSearch: props.onTagSearch,
@@ -712,7 +712,7 @@ return (
       )}
     {state.term && state.term.length > 1 && state.searchResult ? (
       <Widget
-        src={"itexpert120-contra.nera/widget/devhub.entity.post.List"}
+        src={"itexpert120-contra.near/widget/devhub.entity.post.List"}
         props={{
           searchResult: {
             postIds: state.searchResult,
@@ -730,7 +730,7 @@ return (
       />
     ) : (
       <Widget
-        src={"itexpert120-contra.nera/widget/devhub.entity.post.List"}
+        src={"itexpert120-contra.near/widget/devhub.entity.post.List"}
         props={{
           recency: props.recency,
           tag: props.tag,
