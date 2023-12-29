@@ -186,7 +186,7 @@ const ActionContainer = styled.div`
 
 return (
   <>
-    <Widget src={`itexpert120-contra.nera/widget/devhub.components.island.banner`} />
+    <Widget src={`itexpert120-contra.near/widget/devhub.components.island.banner`} />
     <Header>
       <PageHeader>Contribute</PageHeader>
     </Header>
