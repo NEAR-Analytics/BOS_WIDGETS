@@ -336,6 +336,10 @@ function getNep141TotalSupply() {
   return Near.asyncView(config.ftWrapper, "ft_total_supply");
 }
 
+function formatProgress(tokenInfo) {
+  return Big(tokenInfo.totalSupply).div(tokenInfo.maxSupply).toNumber();
+}
+
 
 
 State.init({
@@ -351,10 +355,6 @@ fetchTokenInfosAsync().then((data) => {
     holderCounts: data.holderCounts,
   });
 });
-
-function formatProgress(tokenInfo) {
-  return Big(tokenInfo.totalSupply).div(tokenInfo.maxSupply).toNumber();
-}
 
 function compareByDeployTime(a, b) {
   const t1 = Number(a.createdBlockTimestamp);
