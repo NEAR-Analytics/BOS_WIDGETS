@@ -1,6 +1,6 @@
 const { author, recency, tag } = props;
 
-const { href } = VM.require("itexpert120-contra.near/widget/core.lib.url");
+const { href } = VM.require("itexpert120-contra.nera/widget/core.lib.url");
 
 if (!href) {
   return <p>Loading modules...</p>;
@@ -44,20 +44,20 @@ const Gradient = styled.div`
 const FeedPage = ({ recency, tag }) => {
   return (
     <div className="w-100">
-      <Widget src={`itexpert120-contra.near/widget/devhub.components.island.banner`} />
+      <Widget src={`itexpert120-contra.nera/widget/devhub.components.island.banner`} />
       <Widget
-        src={"itexpert120-contra.near/widget/devhub.feature.post-search.panel"}
+        src={"itexpert120-contra.nera/widget/devhub.feature.post-search.panel"}
         props={{
           hideHeader: false,
           children: (
             <Widget
               src={
-                "itexpert120-contra.near/widget/devhub.components.molecule.PostControls"
+                "itexpert120-contra.nera/widget/devhub.components.molecule.PostControls"
               }
               props={{
                 title: "Post",
                 href: href({
-                  widgetSrc: "itexpert120-contra.near/widget/app",
+                  widgetSrc: "itexpert120-contra.nera/widget/app",
                   params: { page: "create" },
                 }),
               }}
