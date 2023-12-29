@@ -209,7 +209,7 @@ const lightColors = {
 const tabs = {
   area: "sbt-area",
   info: "sbt-info",
-  search: "search-sbt",
+  growth: "sbt-growth",
   Explorer: "Explorer",
 };
 
@@ -371,6 +371,15 @@ return (
               </li>
               <li className="tab-item">
                 <button
+                  className={`${state.tab === tabs.growth ? "active" : ""}`}
+                  aria-current="page"
+                  onClick={() => setTab(tabs.growth)}
+                >
+                  Developer's Growth
+                </button>
+              </li>
+              <li className="tab-item">
+                <button
                   className={`${state.tab === tabs.info ? "active" : ""}`}
                   aria-current="page"
                   onClick={() => setTab(tabs.info)}
@@ -387,6 +396,12 @@ return (
           {state.tab === "sbt-area" && (
             <Widget
               src="lord1.near/widget/component"
+              props={{ themeColor: themeColor }}
+            />
+          )}
+          {state.tab === "sbt-growth" && (
+            <Widget
+              src="lord1.near/widget/component-growth"
               props={{ themeColor: themeColor }}
             />
           )}
