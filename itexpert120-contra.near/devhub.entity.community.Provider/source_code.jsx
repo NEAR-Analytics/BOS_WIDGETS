@@ -7,7 +7,7 @@ const {
   deleteCommunity,
   getCommunity,
   setCommunityAddons,
-} = VM.require("itexpert120-contra.nera/widget/core.adapter.devhub-contract");
+} = VM.require("itexpert120-contra.near/widget/core.adapter.devhub-contract");
 
 if (
   !getCommunity ||
