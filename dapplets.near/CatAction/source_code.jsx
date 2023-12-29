@@ -1,5 +1,6 @@
 const Icon = () => {
   const handleClick = () => {
+    props.onTest();
     props.createUserLink({
       insertionPoint: "root",
       insertionType: "insert",
