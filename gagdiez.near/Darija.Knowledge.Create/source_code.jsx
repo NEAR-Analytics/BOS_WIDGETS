@@ -14,6 +14,9 @@ const [title, setTitle] = useState(inTitle);
 const [knowledge, setKnowledge] = useState(inKnown);
 
 const submit = () => {
+
+  if (!title) return;
+
   Social.set({
     knowledge: JSON.stringify({
       title, knowledge
