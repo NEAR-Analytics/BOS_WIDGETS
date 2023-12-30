@@ -438,7 +438,8 @@ return (
     </TableContainer>
     <TableFooter>
       <TableRowsAmount>
-        {state.holderCount ?? "-"} holders in total
+        {state.holderCount ?? "-"}{" "}
+        {Number(state.holderCount ?? 0) !== 1 ? "holders" : "holder"} in total
       </TableRowsAmount>
       <Widget
         src={`${config.ownerId}/widget/NEAT.Pagination`}
