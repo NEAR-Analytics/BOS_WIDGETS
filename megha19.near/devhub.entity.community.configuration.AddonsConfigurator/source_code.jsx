@@ -1,5 +1,6 @@
 const { getAllAddons } =
-  VM.require("megha19.near/widget/core.adapter.devhub-contract") || (() => {});
+  VM.require("megha19.near/widget/core.adapter.devhub-contract") ||
+  (() => {});
 
 const { href } = VM.require("megha19.near/widget/core.lib.url") || (() => {});
 
