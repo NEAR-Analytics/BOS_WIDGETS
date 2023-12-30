@@ -29,7 +29,8 @@ const ButtonWithHover = styled.button`
 const postId = props.post.id ?? (props.id ? parseInt(props.id) : 0);
 
 const post =
-  props.post ?? Near.view("devgovgigs.near", "get_post", { post_id: postId });
+  props.post ??
+  Near.view("devgovgigs.near", "get_post", { post_id: postId });
 
 if (!post) {
   return <div>Loading ...</div>;
@@ -183,7 +184,9 @@ const header = (
         <div class="d-flex align-items-center flex-wrap">
           <ProfileCardContainer>
             <Widget
-              src={"megha19.near/widget/devhub.components.molecule.ProfileCard"}
+              src={
+                "megha19.near/widget/devhub.components.molecule.ProfileCard"
+              }
               props={{
                 accountId: post.author_id,
               }}
@@ -493,8 +496,16 @@ const isDraft =
   (draftState?.edit_post_id === postId &&
     draftState?.postType === state.postType);
 
-const toggleEditor = () => {
-  State.update({ showEditor: !state.showEditor });
+const setExpandReplies = (value) => {
+  State.update({ expandReplies: value });
+};
+
+const setEditorState = (value) => {
+  if (draftState && !value) {
+    // clear the draft state since user initiated cancel
+    onDraftStateChange(null);
+  }
+  State.update({ showEditor: value });
 };
 
 let amount = null;
@@ -534,8 +545,9 @@ function Editor() {
                   draftState?.parent_post_id == postId ? draftState : undefined,
                 parentId: postId,
                 mode: "Create",
-                toggleEditor: toggleEditor,
                 transactionHashes: props.transactionHashes,
+                setExpandReplies,
+                setEditorState: setEditorState,
               }}
             />
           </>
@@ -560,8 +572,9 @@ function Editor() {
                 onDraftStateChange,
                 draftState:
                   draftState?.edit_post_id == postId ? draftState : undefined,
-                toggleEditor: toggleEditor,
+                setEditorState: setEditorState,
                 transactionHashes: props.transactionHashes,
+                setExpandReplies,
               }}
             />
           </>
@@ -645,7 +658,7 @@ const postExtra =
       <h6 class="card-subtitle mb-2 text-muted">
         Supervisor:{" "}
         <Widget
-          src={"neardevgov.near/widget/ProfileLine"}
+          src={"megha19.near/widget/devhub.components.molecule.ProfileLine"}
           props={{ accountId: snapshot.supervisor }}
         />
       </h6>
@@ -674,7 +687,8 @@ const postsList =
         class={`collapse mt-3 ${
           defaultExpanded ||
           childPostHasDraft ||
-          state.childrenOfChildPostsHasDraft
+          state.childrenOfChildPostsHasDraft ||
+          state.expandReplies
             ? "show"
             : ""
         }`}
@@ -718,6 +732,12 @@ const clampedContent = needClamp
   ? contentArray.slice(0, 3).join("\n")
   : snapshot.description;
 
+const SeeMore = styled.a`
+  cursor: pointer;
+  color: #00b774 !important;
+  font-weight: bold;
+`;
+
 // Should make sure the posts under the currently top viewed post are limited in size.
 const descriptionArea = isUnderPost ? (
   <LimitedMarkdown className="overflow-auto" key="description-area">
@@ -746,13 +766,9 @@ const descriptionArea = isUnderPost ? (
     </div>
     {state.clamp ? (
       <div class="d-flex justify-content-start">
-        <a
-          style={{ cursor: "pointer", color: "#00ec97" }}
-          class="btn-link text-dark fw-bold text-decoration-none"
-          onClick={() => State.update({ clamp: false })}
-        >
+        <SeeMore onClick={() => State.update({ clamp: false })}>
           See more
-        </a>
+        </SeeMore>
       </div>
     ) : (
       <></>
