@@ -1,6 +1,6 @@
-const API_KEY = props.API_KEY;
+const API_KEY = "6d48c4c0-eb41-4e4b-ae4d-ba1148f01fb8"; //props.API_KEY;
 const themeColor = props.themeColor;
-const singer = props.singer;
+const singer = props.singer || "0x7af2d9a872cbb1bc19fcbd75a4241776ab63dcca";
 const interval = props.interval || "week";
 const queries = [
   {
@@ -275,14 +275,27 @@ const transactions1 = {
     themeColor?.dynamic_header?.background ||
     "radial-gradient(circle, rgba(210,202,250,1) 0%, rgba(230,230,231,0.01) 0%, rgba(235,238,255,1) 100%, rgba(235,231,253,1) 100%, rgba(255,241,241,1) 100%, rgba(46,52,90,1) 100%);",
 };
+const onHandelId = (id) => {
+  let customId = "";
+  if (id.length > 20) {
+    customId += id.substring(0, 5);
+    customId += "...";
+    customId += id.substring(id.length - 3);
+    return customId;
+  } else {
+    return id;
+  }
+};
 const hellosinger = {
-  height: "90px",
+  height: "110px",
   align: "center",
   brand: "Hello",
   description: "Thank you for being a valued user of Avalanche throughout 2023",
   fontsize: "25px",
   fontweight: "25px",
-  afterbrand: `${state.result.query4?.data[0]?.signer || "avalanche man"}`,
+  afterbrand: `${
+    onHandelId(state.result.query4?.data[0]?.signer) || "avalanche man"
+  }`,
   afterbrandcolor: themeColor?.dynamic_header?.afterbrandcolor || "#789efb",
   fontbrand: " Arial, sans-serif",
   color1brand: themeColor?.dynamic_header?.color1brand || "#000",
@@ -864,7 +877,10 @@ let TableMiddle = (
     style={{ background: themeColor?.sbt_area?.section_bg }}
     className="shadow-sm rounded-2 overflow-auto p-2"
   >
-    <div className="p-2 rounded-4 overflow-auto">
+    <div
+      style={{ background: themeColor?.sbt_area?.card_bg }}
+      className="shadow-sm rounded-2 overflow-auto"
+    >
       {CardIsLoading(3)}
       {CardHasError(3)}
       {state.result["query" + 3]?.data && (
