@@ -213,6 +213,10 @@ const Notification = styled.div`
   right: 40px;
   top: 50px;
   z-index: 1;
+
+  @media (max-width: 768px) {
+    display: none;
+  }
 `;
 
 const NRC20Link = styled.a`
