@@ -318,7 +318,7 @@ return (
           </div>
           <div className="w-100">
             <div>
-              {Transaction} {Platform}]{" "}
+              {Transaction} {Platform}{" "}
             </div>
           </div>
         </>
