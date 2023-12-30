@@ -33,7 +33,7 @@ const evaluators = [
 
 // Link to Creator widget
 const knowledgeLink = (blockHeight) =>
-  `gagdiez.near/widget/Darija.Knowledge.Create?uuid=${blockHeight}`;
+  `/gagdiez.near/widget/Darija.Knowledge.Create?uuid=${blockHeight}`;
 
 // lessonsDB is {knowledge: uuid, evaluator: link}
 // we need to transform it into {knowledge: title, evaluator: name}
@@ -41,9 +41,8 @@ for (const lesson of lessonsDB) {
   const knowledge = filteredKnowledge.find(
     (item) => item.uuid === lesson.knowledge
   ).title;
-  const evaluator = evaluators.find(
-    (item) => item.link === lesson.evaluator
-  ).name;
+  const evaluator = evaluators.find((item) => item.link === lesson.evaluator)
+    .name;
   lesson.knowledge = knowledge;
   lesson.evaluator = evaluator;
 }
