@@ -25,7 +25,7 @@ for (const indexed of indexedKnowledge) {
 
   if (uuids.includes(uuid)) continue;
   uuids.push(uuid);
-  filteredKnowledge.push({ uuid, title });
+  filteredKnowledge.push({ uuid, blockHeight, title });
 }
 
 // We hardcode this, since anyway they need to be coded
@@ -75,7 +75,7 @@ return (
         <ul className="list-group mt-3">
           {filteredKnowledge.map((item, index) => (
             <li class="list-group-item">
-              <a href={knowledgeLink(item.uuid)}> {item.title}</a>
+              <a href={knowledgeLink(item.blockHeight)}> {item.title}</a>
             </li>
           ))}
           <li class="list-group-item">
