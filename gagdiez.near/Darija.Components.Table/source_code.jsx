@@ -1,3 +1,5 @@
+if (context.loading) return "Loading ...";
+
 // const keys = ["a", "b", "c"];
 // const elements = [{ a: "a1", b: "b1", c: "c1" }, { a: "a2", b: "b2", c: "c2" }];
 // const editors = { a: { type: 'text' }, b: { type: "select", options: ['v1', 'v2'] }, c: { type: 'text' } };
