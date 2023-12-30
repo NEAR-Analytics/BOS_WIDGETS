@@ -3,6 +3,10 @@
  * Page route gets passed in through params, along with all other page props.
  */
 
+const { onDraftStateChange } = VM.require(
+  "megha19.near/widget/devhub.entity.post.draft"
+);
+
 const { page, ...passProps } = props;
 
 // Import our modules
@@ -42,7 +46,10 @@ function Page() {
   switch (routes[0]) {
     case "home": {
       return (
-        <Widget src="megha19.near/widget/devhub.page.home" props={passProps} />
+        <Widget
+          src="megha19.near/widget/devhub.page.home"
+          props={passProps}
+        />
       );
     }
     // ?page=communities
@@ -112,8 +119,8 @@ function Page() {
     case "create": {
       return (
         <Widget
-          src={"megha19.near/widget/devhub.page.create"}
-          props={passProps}
+          src={"megha19.near/widget/devhub.entity.post.PostEditor"}
+          props={{ ...passProps, isCreatePostPage: true, onDraftStateChange }}
         />
       );
     }
