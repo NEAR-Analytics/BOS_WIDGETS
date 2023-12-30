@@ -398,7 +398,7 @@ return (
                   <IndexDataTr key={row.ticker}>
                     <IndexTd>
                       <TableRowLink
-                        href={`/${config.ownerId}/widget/NRC-20?tab=nrc-20&tick=${row.ticker}`}
+                        href={`/${config.ownerId}/widget/NRC-20?tick=${row.ticker}`}
                       >
                         {row.ticker.toUpperCase()}
                       </TableRowLink>
@@ -416,7 +416,9 @@ return (
     </TableContainer>
     <TableFooter>
       <TableRowsAmount>
-        {filteredBalances?.length ?? "-"} tokens in total
+        {filteredBalances?.length ?? "-"}{" "}
+        {Number(filteredBalances?.length ?? 0) !== 1 ? "tokens" : "token"} in
+        total
       </TableRowsAmount>
       <Widget
         src={`${config.ownerId}/widget/NEAT.Pagination`}
