@@ -1,11 +1,14 @@
 if (context.loading) return "Loading ...";
 
+const [lessons, setLessons] = useState([]);
+
 // indexedKnowledge is basically a list of titles, uuids and blockheights
 const indexedKnowledge =
   Social.index("knowledge", "darija", { order: "desc" }) || [];
 
 // We store the lessons as a JSON-encoded array, since anyway we might want to change them
-const lessonsDB = JSON.parse(Social.get("gagdiez.near/darija/lessons"));
+const lessonsDB = JSON.parse(Social.get("gagdiez.near/darija/lessons")) || [];
+setLessons(lessonsDB);
 
 const uuids = [];
 const filteredKnowledge = [];
@@ -46,8 +49,6 @@ for (const lesson of lessonsDB) {
   lesson.knowledge = knowledge;
   lesson.evaluator = evaluator;
 }
-
-const [lessons, setLessons] = useState(lessonsDB);
 
 const update = () => {
   // transform lesson title into uuid and evaluator name into link
