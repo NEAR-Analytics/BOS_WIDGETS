@@ -4,14 +4,15 @@ const uuid = props.uuid;
 let inKnown = [];
 let inTitle = '';
 
-if (uuid) {
-  const retrieved = JSON.parse(Social.get('gagdiez.near/knowledge', uuid));
-  inTitle = retrieved.title || '';
-  inKnown = retrieved.knowledge || [];
-}
-
 const [title, setTitle] = useState(inTitle);
 const [knowledge, setKnowledge] = useState(inKnown);
+
+if (uuid) {
+  const retrieved = JSON.parse(Social.get('gagdiez.near/knowledge', uuid));
+  setTitle(retrieved.title);
+  setKnowledge(retrieved.knowledge);
+}
+
 
 const submit = () => {
 
