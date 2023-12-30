@@ -6,7 +6,7 @@ if (context.loading) return "Loading ...";
 // const onUpdate = (newElements) => console.log(newElements);
 let { elements, keys, editors, onUpdate } = props;
 
-if(!elements || !keys || !editors) return 'Loading ...';
+if(!elements || !keys || !editors) return 'Missing parameters ...';
 
 let empty = {};
 for (const k of keys) { empty[k] = editors[k] === 'text' ? '' : editors[k].options[0] }
