@@ -208,6 +208,35 @@ const FooterContent = styled.a`
   margin-bottom: 40px;
 `;
 
+const Notification = styled.div`
+  position: absolute;
+  right: 40px;
+  top: 50px;
+  z-index: 1;
+`;
+
+const NRC20Link = styled.a`
+  color: white;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+`;
+
+const NotificationImg = () => {
+  return (
+    <img
+      style={{ cursor: "pointer" }}
+      onClick={() =>
+        State.update({
+          showNotification: false,
+        })
+      }
+      src={`${ipfsPrefix}/bafkreifzxbehbqzwatzsilj4tmxh3r6rypdm2wiutud34rifx5oxkvdmea`}
+      width={24}
+      height={24}
+    />
+  );
+};
+
 
 
 function getTab() {
@@ -221,8 +250,27 @@ function getTab() {
 
 const tab = getTab();
 
+State.init({
+  showNotification: true,
+});
+
 return (
   <Main>
+    {state.showNotification && (
+      <Notification>
+        <FormContainer
+          style={{
+            gap: "20px",
+            flexDirection: "row",
+          }}
+        >
+          <NRC20Link href={`/${config.ownerId}/widget/NRC-20`} target="_blank">
+            📣 NRC-20 Launchpad is Ready!!!
+          </NRC20Link>
+          <NotificationImg />
+        </FormContainer>
+      </Notification>
+    )}
     <HeaderContainer>
       <a href={landingUrl} target="_blank">
         <Logo
