@@ -1,4 +1,14 @@
+const fontCss = fetch(
+  "https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700&display=swap"
+).body;
+
+if (!fontCss) return;
+
 const Theme = styled.div`
+  font-weight: 500;
+  font-family: "Montserrat", sans-serif;
+  ${fontCss}
+
   font-style: normal;
   background: linear-gradient(
     258deg,
@@ -36,7 +46,10 @@ const Theme = styled.div`
   .profile {
     a {
       color: inherit;
-      font-weight: 400;
+      font-size: 14px;
+      margin-left: 5px;
+      font-weight: 500;
+      line-height: 1.2rem;
     }
   }
 
@@ -47,6 +60,10 @@ const Theme = styled.div`
   h5,
   h6 {
     color: #151718;
+  }
+
+  h1 {
+    font-weight: 600;
   }
 
   img {
