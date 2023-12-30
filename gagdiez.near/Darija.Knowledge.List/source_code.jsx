@@ -1,65 +1,60 @@
 if (context.loading) return "Loading ...";
 
+// We hardcode this, since anyway they need to be coded
+const evaluators = {
+  Select: "gagdiez.near/widget/Lessons.Select",
+  Translate: "gagdiez.near/widget/Lessons.Translate",
+};
+
+// map evaluators to their names
+const evaluators2name = {};
+for (const key of Object.keys(evaluators)) {
+  evaluators2name[evaluators[key]] = key;
+}
 
 // indexedKnowledge is basically a list of titles, uuids and blockheights
-const indexedKnowledge =
-  Social.index("knowledge", "darija", { order: "desc" }) || [];
+const knowledge = Social.index("knowledge", "darija", { order: "desc" }) || [];
 
-// We store the lessons as a JSON-encoded array, since anyway we might want to change them
-const lessonsDB = JSON.parse(Social.get("gagdiez.near/darija/lessons")) || [];
-const [lessons, setLessons] = useState(lessonsDB);
-
-const uuids = [];
-const filteredKnowledge = [];
-
-for (const indexed of indexedKnowledge) {
+const title2uuid = {};
+const uuid2title = {};
+for (const indexed of knowledge) {
   let {
     blockHeight,
     value: { title, uuid },
   } = indexed;
 
-  console.log(uuid, blockHeight, title);
-
   uuid = uuid ? uuid : blockHeight;
 
-  if (uuids.includes(uuid)) continue;
-  uuids.push(uuid);
-  filteredKnowledge.push({ uuid, blockHeight, title });
+  if (uuid in uuid2title) continue;
+  title2uuid[title] = { uuid, blockHeight };
+  uuid2title[uuid] = title;
 }
 
-// We hardcode this, since anyway they need to be coded
-const evaluators = [
-  { name: "Select", link: "gagdiez.near/widget/Lessons.Select" },
-  { name: "Translate", link: "gagdiez.near/widget/Lessons.Translate" },
-];
+// We store the lessons as a JSON-encoded array, since anyway we might want to change them
+const [lessons, setLessons] = useState([]);
+const lessonsDB = Social.get("gagdiez.near/darija/lessons");
+
+useEffect(() => {
+  const parsed = JSON.parse(lessonsDB);
+
+  const readableLessons = parsed.map(({ knowledge, evaluator }) => ({
+    knowledge: uuid2title[knowledge],
+    evaluator: evaluators2name[evaluator],
+  }));
+
+  setLessons(readableLessons);
+}, [lessonsDB])
 
 // Link to Creator widget
 const knowledgeLink = (item) =>
   `/gagdiez.near/widget/Darija.Knowledge.Create?uuid=${item.uuid}&blockHeight=${item.blockHeight}`;
 
-// lessonsDB is {knowledge: uuid, evaluator: link}
-// we need to transform it into {knowledge: title, evaluator: name}
-for (const lesson of lessonsDB) {
-  const knowledge = filteredKnowledge.find(
-    (item) => item.uuid === lesson.knowledge
-  ).title;
-  const evaluator = evaluators.find((item) => item.link === lesson.evaluator)
-    .name;
-  lesson.knowledge = knowledge;
-  lesson.evaluator = evaluator;
-}
-
 const update = () => {
   // transform lesson title into uuid and evaluator name into link
-  const newLessons = lessons.map((lesson) => {
-    const knowledge = filteredKnowledge.find(
-      (item) => item.title === lesson.knowledge
-    ).uuid;
-    const evaluator = evaluators.find(
-      (item) => item.name === lesson.evaluator
-    ).link;
-    return { ...lesson, knowledge, evaluator };
-  });
+  const newLessons = lessons.map(({ knowledge, evaluator }) => ({
+    knowledge: title2uuid[knowledge].uuid,
+    evaluator: evaluators[evaluator],
+  }));
 
   Social.set({
     darija: { lessons: JSON.stringify(newLessons) },
@@ -72,13 +67,13 @@ return (
       <div className="">
         <h5>Knowledge</h5>
         <ul className="list-group mt-3">
-          {filteredKnowledge.map((item, index) => (
+          {Object.keys(title2uuid).map(key =>
             <li class="list-group-item">
-              <a href={knowledgeLink(item)}> {item.title}</a>
+              <a href={knowledgeLink(title2uuid[key])}> {key}</a>
             </li>
-          ))}
+          )}
           <li class="list-group-item">
-            <a href={knowledgeLink(null)}>(+) Nuevo (+)</a>
+            <a href={knowledgeLink({})}>(+) Nuevo (+)</a>
           </li>
         </ul>
       </div>
@@ -93,11 +88,11 @@ return (
             editors: {
               knowledge: {
                 type: "select",
-                options: filteredKnowledge.map((item) => item.title),
+                options: Object.keys(title2uuid),
               },
               evaluator: {
                 type: "select",
-                options: evaluators.map((item) => item.name),
+                options: Object.keys(evaluators),
               },
             },
             onUpdate: setLessons,
