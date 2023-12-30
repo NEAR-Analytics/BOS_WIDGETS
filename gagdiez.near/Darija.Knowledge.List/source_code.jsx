@@ -5,7 +5,7 @@ const indexedKnowledge =
   Social.index("knowledge", "darija", { order: "desc" }) || [];
 
 // We store the lessons as a JSON-encoded array, since anyway we might want to change them
-const lessonsDB = JSON.parse(Social.get("gagdiez.near/darija/lessons")) || [];
+const lessonsDB = JSON.parse(Social.get("gagdiez.near/darija/lessons"));
 
 const uuids = [];
 const filteredKnowledge = [];
