@@ -6,6 +6,7 @@ let inTitle = '';
 
 if (uuid) {
   const retrieved = JSON.parse(Social.get('gagdiez.near/knowledge', uuid));
+  if(retrieved === undefined) return 'Loading ...';
   inTitle = retrieved.title;
   inKnown = retrieved.knowledge;
 }
