@@ -223,7 +223,7 @@ function asyncFetchFromGraph(query) {
 function fetchTokenInfosAsync() {
   return asyncFetchFromGraph(`
     query {
-      tokenInfos {
+      tokenInfos(first: 1000) {
         ticker
         maxSupply
         totalSupply
