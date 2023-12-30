@@ -88,11 +88,10 @@ const LinksContainer = styled.div`
 
   a {
     color: #fff;
-    font-size: 13px;
+    font-size: 14px;
     font-style: normal;
     line-height: normal;
     text-decoration: none;
-    letter-spacing: 0.1rem;
   }
 
   .dropdown {
