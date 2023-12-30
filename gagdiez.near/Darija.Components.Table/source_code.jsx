@@ -1,8 +1,8 @@
-// const keys = ["a", "b", "c"];
-// const elements = [{ a: "a1", b: "b1", c: "c1" }, { a: "a2", b: "b2", c: "c2" }];
-// const editors = { a: { type: 'text' }, b: { type: "select", options: ['v1', 'v2'] }, c: { type: 'text' } };
-// const onUpdate = (newElements) => console.log(newElements);
-const { elements, keys, editors, onUpdate } = props;
+const keys = ["a", "b", "c"];
+const elements = [{ a: "a1", b: "b1", c: "c1" }, { a: "a2", b: "b2", c: "c2" }];
+const editors = { a: { type: 'text' }, b: { type: "select", options: ['v1', 'v2'] }, c: { type: 'text' } };
+const onUpdate = (newElements) => console.log(newElements);
+//const { elements, keys, editors, onUpdate } = props;
 
 let empty = {};
 for (const k of keys) { empty[k] = editors[k] === 'text' ? '' : editors[k].options[0] }
@@ -14,7 +14,6 @@ const change = (index, field, value) => {
   const newInternal = [...internal];
   newInternal[index][field] = value;
   setInternal(newInternal);
-  onUpdate(newInternal);
 };
 
 const remove = (index) => {
@@ -31,8 +30,14 @@ const remove = (index) => {
 
 const add = () => {
   // check for empty add
-  setInternal([...internal, empty]);
+  const newInternal = [...internal, empty];
+  setInternal(newInternal);
   setHideInput([...hideInput, false]);
+};
+
+const commit = () => {
+  onUpdate(internal);
+  setHideInput(internal.map(() => true));
 };
 
 const Select = ({ field, index, selected }) => {
@@ -90,7 +95,7 @@ return <>
                   );
                 }}
               >
-                {hideInput[index] ? '✏️' : '✅'}
+                {hideInput[index] ? '✏️' : <span onClick={commit}>✅</span>}
               </a>
               <a onClick={() => remove(index)}>🗑️</a>
             </td>
