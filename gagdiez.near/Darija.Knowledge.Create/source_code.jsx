@@ -1,41 +1,45 @@
-if(context.loading) return 'Loading ...';
+if (context.loading) return "Loading ...";
 
 const uuid = props.uuid;
-let inKnown = [];
-let inTitle = '';
+const blockHeight = props.blockHeight;
 
+const [title, setTitle] = useState("");
+const [knowledge, setKnowledge] = useState([]);
+const retrieved = Social.get("gagdiez.near/knowledge", blockHeight);
 
-if (uuid) {
-  const retrieved = JSON.parse(Social.get('gagdiez.near/knowledge', uuid));
-  inTitle = retrieved.title;
-  inKnown = retrieved.knowledge;
-}
-
-const [title, setTitle] = useState(inTitle);
-const [knowledge, setKnowledge] = useState(inKnown);
+useEffect(() => {
+  const { title, knowledge } = JSON.parse(retrieved);
+  setTitle(title);
+  setKnowledge(knowledge);
+}, [retrieved]);
 
 const submit = () => {
-
   if (!title) return;
 
   Social.set({
     knowledge: JSON.stringify({
-      title, knowledge
+      title,
+      knowledge,
     }),
     index: {
       knowledge: JSON.stringify({
-        key: 'darija',
-        value: { uuid, title }
-      })
-    }
-  })
-}
+        key: "darija",
+        value: { uuid, title },
+      }),
+    },
+  });
+};
 
 return (
   <>
     <div class="mb-3">
       <label for="title">Title</label>
-      <input type="text" placeholder={title} value={title} onChange={(e) => setTitle(e.target.value)} />
+      <input
+        type="text"
+        placeholder={title}
+        value={title}
+        onChange={(e) => setTitle(e.target.value)}
+      />
     </div>
     <Widget
       src="gagdiez.near/widget/Darija.Components.Table"
@@ -51,6 +55,8 @@ return (
       }}
     />
 
-    <button class="btn btn-success align-right" onClick={submit}>Submit</button>
+    <button class="btn btn-success align-right" onClick={submit}>
+      Submit
+    </button>
   </>
 );
