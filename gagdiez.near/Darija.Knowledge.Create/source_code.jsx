@@ -1,5 +1,9 @@
 if (context.loading) return "Loading ...";
 
+const thash = props.transactionHashes;
+if (thash)
+  return <a href="/gagdiez.near/widget/Darija.Knowledge.List"> Go back </a>;
+
 const uuid = props.uuid;
 const blockHeight = props.blockHeight;
 
