@@ -1,6 +1,5 @@
 if (context.loading) return "Loading ...";
 
-const [lessons, setLessons] = useState([]);
 
 // indexedKnowledge is basically a list of titles, uuids and blockheights
 const indexedKnowledge =
@@ -8,7 +7,7 @@ const indexedKnowledge =
 
 // We store the lessons as a JSON-encoded array, since anyway we might want to change them
 const lessonsDB = JSON.parse(Social.get("gagdiez.near/darija/lessons")) || [];
-setLessons(lessonsDB);
+const [lessons, setLessons] = useState(lessonsDB);
 
 const uuids = [];
 const filteredKnowledge = [];
@@ -35,8 +34,8 @@ const evaluators = [
 ];
 
 // Link to Creator widget
-const knowledgeLink = (blockHeight) =>
-  `/gagdiez.near/widget/Darija.Knowledge.Create?uuid=${blockHeight}`;
+const knowledgeLink = (item) =>
+  `/gagdiez.near/widget/Darija.Knowledge.Create?uuid=${item.uuid}&blockHeight=${item.blockHeight}`;
 
 // lessonsDB is {knowledge: uuid, evaluator: link}
 // we need to transform it into {knowledge: title, evaluator: name}
@@ -75,7 +74,7 @@ return (
         <ul className="list-group mt-3">
           {filteredKnowledge.map((item, index) => (
             <li class="list-group-item">
-              <a href={knowledgeLink(item.blockHeight)}> {item.title}</a>
+              <a href={knowledgeLink(item)}> {item.title}</a>
             </li>
           ))}
           <li class="list-group-item">
