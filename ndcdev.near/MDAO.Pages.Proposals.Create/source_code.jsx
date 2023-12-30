@@ -21,7 +21,7 @@ const Container = styled.div`
 `;
 
 const FormWrapper = styled.div`
-  width: 50%;
+  width: 75%;
   padding: 3rem;
 
   @media screen and (max-width: 786px) {
@@ -40,7 +40,7 @@ const FormWrapper = styled.div`
 `;
 
 const form = {
-  elements: [
+  report: [
     {
       name: "project_name",
       label: "Project Name",
@@ -102,12 +102,42 @@ const form = {
       type: "file",
     },
   ],
+  proposal: [
+    {
+      name: "project_name",
+      label: "Project Name",
+      value: "",
+      type: "text",
+      required: true,
+    },
+    {
+      name: "description",
+      label: "Description",
+      value: "# Title\n## Description",
+      type: "textarea",
+      required: true,
+    },
+    {
+      name: "requested_amount",
+      label: "Requested Amount (NEAR)",
+      value: "",
+      type: "number",
+      required: true,
+    },
+    {
+      name: "tag",
+      label: "Tags",
+      value: "",
+      type: "tag",
+    },
+  ],
 };
 
 const [formEls, setFormEls] = useState({
   accountId: context.accountId,
   type: "proposal",
 });
+
 const [errors, setErrors] = useState({});
 
 const handleChange = (el, value) => {
@@ -122,10 +152,10 @@ const handleChange = (el, value) => {
 
 const ProposalButton = () => (
   <CommitButton
-    disabled={form.elements.some(
+    disabled={form[formEls.type].some(
       (el) =>
         el.required &&
-        (errors[el.name] === true || errors[el.name] === undefined),
+        (errors[el.name] === true || errors[el.name] === undefined)
     )}
     data={{
       index: {
@@ -144,19 +174,19 @@ return (
   <Container>
     <div className="d-flex justify-content-center">
       <FormWrapper className="my-5 d-flex flex-column gap-3">
-        <div>
+        <div className="d-flex flex-column align-items-center">
           <h3>Marketing DAO Report Form</h3>
-          <p>
+          <div className="text-center">
             <p>
               <b>Please use this form to report key performance metrics.</b>
             </p>
             <p>
               Questions? Reach out via{" "}
-              <a href="https://t.me/ndc_marketing">Telegram</a> or email:{" "}
+              <a href="https://t.me/ndc_marketing">Telegram</a> or email: <br />
               <a href="mailto:marketingdao@proton.me">marketingdao@proton.me</a>
               🙂
             </p>
-          </p>
+          </div>
         </div>
 
         <div
@@ -167,12 +197,11 @@ return (
             setFormEls(newFormEl);
           }}
         >
-          <label>Form type</label>
+          <label>Form type: {formEls.type}</label>
           <Widget src={`ndcdev.near/widget/MDAO.Components.Switch`} />
-          <small>{formEls.type}</small>
         </div>
 
-        {form.elements.map((el) => (
+        {form[formEls.type].map((el) => (
           <div className="form-element">
             <label for={el.name}>
               {el.label}
@@ -186,11 +215,19 @@ return (
                 }}
               />
             ) : el.type === "textarea" ? (
-              <textarea
-                class={`form-control ${error[el.name] && "error"}`}
-                rows="5"
-                onChange={(e) => handleChange(el, e.target.value)}
-              ></textarea>
+              <Widget
+                src={`ndcdev.near/widget/MDAO.Components.MarkdownEditor`}
+                props={{ element: el, handleChange }}
+              />
+            ) : el.type === "tag" ? (
+              <Widget
+                src={"sayalot.near/widget/TagsEditor"}
+                props={{
+                  label: "Tags",
+                  placeholder: "Enter tags",
+                  setTagsObject: (tags) => handleChange(el, Object.keys(tags)),
+                }}
+              />
             ) : (
               <input
                 class={`form-control ${error[el.name] && "error"}`}
