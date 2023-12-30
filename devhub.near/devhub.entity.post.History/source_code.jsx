@@ -6,23 +6,7 @@ props.newTab: boolean;
 props.timestamp: number;
 props.referral: any;
 */
-
-function href(widgetName, linkProps) {
-  linkProps = { ...linkProps };
-  if (props.referral) {
-    linkProps.referral = props.referral;
-  }
-
-  const linkPropsQuery = Object.entries(linkProps)
-    .filter(([_key, nullable]) => (nullable ?? null) !== null)
-    .map(([key, value]) => `${key}=${value}`)
-    .join("&");
-
-  return `/devhub.near/widget/devhub.page.${widgetName}${
-    linkPropsQuery ? "?" : ""
-  }${linkPropsQuery}`;
-}
-/* END_INCLUDE: "common.jsx" */
+const { href } = VM.require("devhub.near/widget/core.lib.url") || (() => {});
 
 const postId = props.post.id ?? (props.id ? parseInt(props.id) : 0);
 const post =
@@ -93,11 +77,14 @@ const history = (
             >
               <a
                 class="dropdown-item"
-                href={href("post", {
-                  id: postId,
-                  timestamp: item.timestamp,
-                  compareTimestamp: null,
-                  referral,
+                href={href({
+                  widgetSrc: "devhub.near/widget/devhub.entity.post.Post",
+                  params: {
+                    id: postId,
+                    timestamp: item.timestamp,
+                    compareTimestamp: null,
+                    referral,
+                  },
                 })}
                 target={props.newTab ? "_blank" : undefined}
               >
@@ -121,11 +108,14 @@ const history = (
             </div>
             <a
               class="dropdown-item"
-              href={href("Post", {
-                id: postId,
-                timestamp: currentTimestamp,
-                compareTimestamp: item.timestamp,
-                referral,
+              href={href({
+                widgetSrc: "devhub.near/widget/devhub.entity.post.Post",
+                params: {
+                  id: postId,
+                  timestamp: currentTimestamp,
+                  compareTimestamp: item.timestamp,
+                  referral,
+                },
               })}
             >
               <i class="bi bi-file-earmark-diff" />
