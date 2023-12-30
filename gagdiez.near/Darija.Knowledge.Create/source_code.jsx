@@ -4,15 +4,15 @@ const uuid = props.uuid;
 let inKnown = [];
 let inTitle = '';
 
-const [title, setTitle] = useState(inTitle);
-const [knowledge, setKnowledge] = useState(inKnown);
 
 if (uuid) {
   const retrieved = JSON.parse(Social.get('gagdiez.near/knowledge', uuid));
-  setTitle(retrieved.title);
-  setKnowledge(retrieved.knowledge);
+  inTitle = retrieved.title;
+  inKnown = retrieved.knowledge;
 }
 
+const [title, setTitle] = useState(inTitle);
+const [knowledge, setKnowledge] = useState(inKnown);
 
 const submit = () => {
 
@@ -35,7 +35,7 @@ return (
   <>
     <div class="mb-3">
       <label for="title">Title</label>
-      <input type="text" value={title} onChange={(e) => setTitle(e.target.value)} />
+      <input type="text" placeholder={title} value={title} onChange={(e) => setTitle(e.target.value)} />
     </div>
     <Widget
       src="gagdiez.near/widget/Darija.Components.Table"
