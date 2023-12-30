@@ -14,7 +14,8 @@ return {
   },
   content: {
     home: {
-      dao: "marketing.sputnik-dao.near",
+      dao: "MDAO",
+      daoAccountId: "marketing.sputnik-dao.near",
       ndc_link:
         "https://near.org/astraplusplus.ndctools.near/widget/home?page=dao&daoId=marketing.sputnik-dao.near",
       heroTitle: "Marketing DAO",
