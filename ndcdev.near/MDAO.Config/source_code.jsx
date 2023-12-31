@@ -30,6 +30,7 @@ return {
           {
             title: "Achievements",
             desc: "NEAR Protocol is your fast, low-cost and reliable gateway to the Open Web NEAR to ensure security, liveness, and fault tolerance of the network",
+            href: "/ndcdev.near/widget/MDAO.App?page=achievements",
             icon: (
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -48,6 +49,7 @@ return {
           {
             title: "MDAO Charter",
             desc: "NEAR Protocol is your fast, low-cost and reliable gateway to the Open Web NEAR to ensure security, liveness, and fault tolerance of the network",
+            href: "https://docs.google.com/document/d/11m2-dmDRABz74WZfkcgGyFz7Wn6k4y9oPVXPCCyhXp8/edit",
             icon: (
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -66,6 +68,7 @@ return {
           {
             title: "Info about Councils",
             desc: "NEAR Protocol is your fast, low-cost and reliable gateway to the Open Web NEAR to ensure security, liveness, and fault tolerance of the network",
+            href: "/ndcdev.near/widget/MDAO.App?page=councils",
             icon: (
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -116,17 +119,23 @@ return {
           {
             title: "Marketing Resources",
             values: [
-              { title: "Influencers", href: "" },
-              { title: "Ecosystem", href: "" },
-              { title: "Marketing Support", href: "" },
+              { title: "Influencers" },
+              { title: "Ecosystem" },
+              { title: "Marketing Support", href: "https://www.heroes.build/" },
             ],
           },
           {
             title: "Office Hours",
             values: [
-              { title: "Workshop", href: "" },
-              { title: "Editorial Calendar", href: "" },
-              { title: "Book a Meeting", href: "" },
+              { title: "Workshop" },
+              {
+                title: "Editorial Calendar",
+                href: "https://docs.google.com/document/d/1iSDd5rc77_sabhmoN1gJeL36_bNEMe1gUZtCta5m08M/edit?usp=sharing",
+              },
+              {
+                title: "Book a Meeting",
+                href: "https://calendar.google.com/calendar/embed?height=600&wkst=1&bgcolor=%23ffffff&ctz=America%2FNew_York&mode=AGENDA&src=MDNiOTMyMjJmNGQ4YTIxNmQ3MmZmNmE1MDg5ZjY4NGQ4MWI3Mjg0OGUzMGQ1ZjllOGE4MzdiZTBlYjNjNjdjZUBncm91cC5jYWxlbmRhci5nb29nbGUuY29t&color=%23C0CA33",
+              },
             ],
           },
           {
@@ -136,7 +145,7 @@ return {
                 title: "Apply for a grant",
                 href: "/ndcdev.near/widget/MDAO.App?page=createProposal",
               },
-              { title: "Procedure / Regulations", href: "" },
+              { title: "Procedure / Regulations" },
               {
                 title: "List of Reports",
                 href: "/ndcdev.near/widget/MDAO.App?page=reports",
