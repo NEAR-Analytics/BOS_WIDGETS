@@ -1,26 +1,2 @@
-State.init({
-  value: "value to update",
-});
-
-console.log(Near.view("nearsocialexamples.near", "get_greeting"));
-
-const testCall = () => {
-  return Near.call("nearsocialexamples.near", "set_greeting", {
-    message: "Hi Near Social",
-  });
-};
-
-const testView = () => {
-  State.update({
-    value: Near.view("nearsocialexamples.near", "get_greeting"),
-  });
-};
-
-return (
-  <div>
-    <button onClick={testCall}>test call</button>
-    <button onClick={testView}>test view</button>
-
-    <div>{state.value}</div>
-  </div>
-);
+return <><Widget src={"frichard5.near/widget/NDC-Banner"} props={JSON.parse({})} /><div class="row mb-3"><div class="col-md-3 p-2"><Widget src={""} props={JSON.parse()} /> </div><div class="col-md-9 p-2"><Widget src={"nocodedao.near/widget/Rainbow-NFT-Minter"} props={JSON.parse({})} /> </div>
+          </div><Widget src={"nearcon23.near/widget/Footer"} props={JSON.parse({})} /> </>
