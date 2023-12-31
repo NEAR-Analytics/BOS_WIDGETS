@@ -14,6 +14,7 @@ const GameContainer = () => {
 <body>
 </body>
 <script>
+
 var config = {
     type: Phaser.AUTO,
     width: window.innerWidth,
@@ -29,13 +30,12 @@ var game = new Phaser.Game(config);
 
 function preload ()
 {
-
-    this.load.image('sky', 'https://cdn2.vectorstock.com/i/1000x1000/12/86/sky-day-game-background-vector-21861286.jpg');
+  this.load.image('sky', 'https://cdn2.vectorstock.com/i/1000x1000/12/86/sky-day-game-background-vector-21861286.jpg');
 }
 
 function create ()
 {
-    this.add.image(400, 300, 'sky');
+    this.add.image(window.innerWidth / 2, window.innerHeight / 2, 'sky');
 }
 
 function update ()
