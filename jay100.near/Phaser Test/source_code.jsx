@@ -1,6 +1,11 @@
 const GameContainer = () => {
   const code = `
 <head>
+ <meta charset="utf-8">
+        <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, width=device-width, user-scalable=no, minimal-ui">
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="full-screen" content="yes" />
+        <meta name="screen-orientation" content="portrait" />
 <script src="//cdn.jsdelivr.net/npm/phaser@3.70.0/dist/phaser.min.js"></script>
 </head>
 <style>
