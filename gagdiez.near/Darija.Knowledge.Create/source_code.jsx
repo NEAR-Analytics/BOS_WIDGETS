@@ -9,12 +9,14 @@ const blockHeight = props.blockHeight;
 
 const [title, setTitle] = useState("");
 const [knowledge, setKnowledge] = useState([]);
-const retrieved = Social.get("gagdiez.near/knowledge", blockHeight);
+const retrieved = blockHeight
+  ? Social.get("gagdiez.near/knowledge", blockHeight)
+  : [];
 
 useEffect(() => {
   const { title, knowledge } = JSON.parse(retrieved);
-  setTitle(title);
-  setKnowledge(knowledge);
+  setTitle(title || "");
+  setKnowledge(knowledge || []);
 }, [retrieved]);
 
 const submit = () => {
