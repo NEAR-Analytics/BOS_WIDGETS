@@ -28,7 +28,7 @@ let submit = () => {
     index: {
       knowledge: JSON.stringify({
         key: "darija",
-        value: { uuid, title },
+        value: { uuid, title, date: Date.now() },
       }),
     },
   });
