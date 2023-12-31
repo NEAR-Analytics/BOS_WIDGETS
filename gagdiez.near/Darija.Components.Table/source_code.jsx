@@ -6,7 +6,7 @@ if (context.loading) return "Loading ...";
 // const onUpdate = (newElements) => console.log(newElements);
 let { elements, keys, editors, onUpdate } = props;
 
-if(!elements || !keys || !editors) return `Missing parameters ... ${JSON.stringify(props)}`;
+if(!elements || !keys || !editors) return `Missing parameters ... ${elements} ${keys} ${editors}`;
 
 let empty = {};
 for (const k of keys) { empty[k] = editors[k] === 'text' ? '' : editors[k].options[0] }
@@ -71,9 +71,16 @@ const generateEditor = (element, index, field) => {
   }
 }
 
+const json2Internal = (e) => {
+  const parsed = JSON.parse(e.target.value);
+  setInternal(parsed);
+  setHideInput(parsed.map(() => true));
+  onUpdate(parsed);
+}
+
 if(json){
   return <>
-    <textarea height="300" onChange={e => setInternal(JSON.parse(e.target.value))}>{JSON.stringify(internal, null, 2)}</textarea>
+    <textarea height="300" onChange={e => json2Internal(e)}>{JSON.stringify(internal, null, 2)}</textarea>
     <button onClick={() => setJSON(!json)}>Close</button>
   </>
 } 
