@@ -299,7 +299,7 @@ const Badge = styled.div`
       : "rgb(145 145 145)"};
 `;
 
-const Info = ({ title, desc, icon }) => (
+const Info = ({ title, desc, icon, href }) => (
   <div className="item d-flex flex-column gap-2 justify-content-between">
     <div className="header gap-3 p-4 text-center">
       {icon}
@@ -311,7 +311,7 @@ const Info = ({ title, desc, icon }) => (
     <div className="px-5 pb-4">
       <a href="" className="text-center btn-primary d-flex justify-content-end">
         <div className="d-flex justify-content-between">
-          <span>Read More</span>
+          <a href={href}>Read More</a>
           <i className="bi bi-chevron-right" />
         </div>
       </a>
@@ -325,7 +325,7 @@ const Support = ({ title, items }) => (
     <div className="d-flex w-100 flex-column p-4 align-items-center gap-4">
       {items.map((i) => (
         <div className="w-100">
-          <a className="btn w-100" href={i.href}>
+          <a className={`btn w-100 ${i.href ? "" : "disabled"}`} href={i.href}>
             <div className="d-flex justify-content-between align-items-center">
               <span>{i.title}</span>
               <i className="bi bi-chevron-right" />
@@ -348,8 +348,8 @@ return (
       <h4>{content.info.name}</h4>
       <h2>{content.info.title}</h2>
       <div className="d-flex flex-wrap gap-5 justify-content-center">
-        {content.info.sections?.map(({ title, desc, icon }) => (
-          <Info title={title} desc={desc} icon={icon} />
+        {content.info.sections?.map(({ title, desc, icon, href }) => (
+          <Info title={title} desc={desc} icon={icon} href={href} />
         ))}
       </div>
     </InfoSection>
