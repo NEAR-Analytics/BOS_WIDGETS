@@ -225,6 +225,7 @@ const updateGasLimit = (params) => {
 
 const handleBridge = (params) => {
   console.log("handleBridge", params);
+  const { amount, token, network, permit } = params;
   const chainNames =
     chainId === 1
       ? ["Ethereum", "Polygon zkEVM"]
@@ -234,7 +235,7 @@ const handleBridge = (params) => {
   const toastId = props.toast?.loading({
     title: toastText,
   });
-  const { amount, token, network, permit } = params;
+
   const networkId = network === "ethereum" ? 1 : 0;
 
   const amountBig = ethers.utils.parseUnits(
@@ -473,7 +474,7 @@ const handlePermit = (params) => {
         [sender, BRIDGE_CONTRACT_ADDRESS, amountBig, MAX_AMOUNT, v, r, s]
       );
       props.toast?.dismiss(toastId);
-      handleBridge({ ...props, permit });
+      handleBridge({ ...props, permit, ...params });
     })
     .catch((err) => {
       props.toast?.dismiss(toastId);
@@ -487,6 +488,8 @@ const handlePermit = (params) => {
 };
 
 const approve = (params) => {
+  console.log("approve params: ", params);
+
   const { token, network, amount } = params;
   if (isContractAllowedToSpendToken) return;
 
@@ -508,11 +511,12 @@ const approve = (params) => {
 const onConfirm = (params) => {
   const { token, network, amount } = params;
   if (token.symbol !== "ETH" && network === "ethereum") {
-    const res = approve();
+    const res = approve(params);
+    console.log("approve res: ", res);
     if (res) {
       res
         .then((tx) => {
-          handlePermit();
+          handlePermit(params);
         })
         .catch((e) => {});
     } else {
