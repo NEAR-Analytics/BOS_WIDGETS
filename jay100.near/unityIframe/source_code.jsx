@@ -35,7 +35,7 @@ function preload ()
 
 function create ()
 {
-    this.add.image(window.innerWidth / 2, window.innerHeight / 2, 'sky');
+    this.add.image(400, 300, 'sky');
 }
 
 function update ()
@@ -60,7 +60,7 @@ function update ()
 };
 
 return (
-  <div style={{ width: "100%", height: "100%"}}>
+  <div style={{ width: "100%", height: "100%" }}>
     <GameContainer />
   </div>
 );
