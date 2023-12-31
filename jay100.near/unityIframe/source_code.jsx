@@ -17,8 +17,8 @@ const GameContainer = () => {
 
 var config = {
     type: Phaser.AUTO,
-    width: window.innerWidth,
-    height: window.innerHeight,
+    width: 800,
+    height: 600,
     scene: {
         preload: preload,
         create: create,
