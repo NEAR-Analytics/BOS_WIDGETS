@@ -54,7 +54,7 @@ const update = () => {
   // transform lesson title into uuid and evaluator name into link
   const newLessons = lessons.map(({ name, knowledge, evaluator }) => ({
     name,
-    knowledge: title2uuid[knowledge].uuid,
+    knowledge: title2uuid[knowledge].blockHeight,
     evaluator: evaluators[evaluator],
   }));
 
