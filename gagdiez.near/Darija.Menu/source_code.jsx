@@ -22,7 +22,11 @@ return (
     <ul className="list-group mt-3">
       {menu.map((item) => (
         <li class="list-group-item">
-          <a href={`/gagdiez.near/widget/Darija.Lessons.Lesson?knowledge=${item.knowledge}&evaluator=${item.evaluator}`}>{item.name}</a>
+          <a
+            href={`/gagdiez.near/widget/Darija.Lessons.Lesson?uuid=${item.knowledge}&evaluator=${item.evaluator}`}
+          >
+            {item.name}
+          </a>
         </li>
       ))}
     </ul>
