@@ -7,11 +7,12 @@ if (thash)
 const uuid = props.uuid;
 const blockHeight = props.blockHeight;
 
-const knowledgeDB = Social.get("gagdiez.near/knowledge", blockHeight);
+const knowledgeDB = blockHeight
+  ? JSON.parse(Social.get("gagdiez.near/knowledge", blockHeight))
+  : { title: "", knowledge: [] };
 
-if (!knowledgeDB) return "Loading...";
+if (!knowledgeDB) return "Loading ...";
 
-const parsed = JSON.parse(knowledgeDB) || {};
 const [title, setTitle] = useState(knowledgeDB.title);
 const [knowledge, setKnowledge] = useState(knowledgeDB.knowledge);
 
