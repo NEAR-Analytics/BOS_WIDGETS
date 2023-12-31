@@ -19,17 +19,16 @@ if (!knowledge) return "Loading ...";
 
 const title2uuid = {};
 const uuids = [];
-const block2title = {};
+const uuid2title = {};
 for (const indexed of knowledge) {
   let {
     blockHeight,
     value: { title, uuid },
   } = indexed;
   uuid = uuid ? uuid : blockHeight;
-  block2title[blockHeight] = title;
 
   if (uuids.includes(String(uuid))) continue;
-
+  uuid2title[blockHeight] = title;
   uuids.push(uuid);
   title2uuid[title] = { uuid, blockHeight };
 }
@@ -43,7 +42,7 @@ useEffect(() => {
 
   const readableLessons = parsed.map(({ name, knowledge, evaluator }) => ({
     name,
-    knowledge: block2title[knowledge],
+    knowledge: uuid2title[knowledge],
     evaluator: evaluators2name[evaluator],
   }));
   setLessons(readableLessons);
