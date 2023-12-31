@@ -16,7 +16,8 @@ for (const key of Object.keys(evaluators)) {
 const knowledge = Social.index("knowledge", "darija", { order: "desc" }) || [];
 
 const title2uuid = {};
-const uuid2title = {};
+const uuids = [];
+const block2title = {};
 for (const indexed of knowledge) {
   let {
     blockHeight,
@@ -24,10 +25,11 @@ for (const indexed of knowledge) {
   } = indexed;
 
   uuid = uuid ? uuid : blockHeight;
+  block2title[blockHeight] = title;
 
-  if (uuid in uuid2title) continue;
+  if (uuids.includes(uuid)) continue;
+  uuids.push(uuid);
   title2uuid[title] = { uuid, blockHeight };
-  uuid2title[uuid] = title;
 }
 
 // We store the lessons as a JSON-encoded array, since anyway we might want to change them
@@ -39,12 +41,12 @@ useEffect(() => {
 
   const readableLessons = parsed.map(({ name, knowledge, evaluator }) => ({
     name,
-    knowledge: uuid2title[knowledge],
+    knowledge: block2title[knowledge],
     evaluator: evaluators2name[evaluator],
   }));
-
+  console.log(parsed, knowledge);
   setLessons(readableLessons);
-}, [lessonsDB])
+}, [lessonsDB]);
 
 // Link to Creator widget
 const knowledgeLink = (item) =>
@@ -69,11 +71,11 @@ return (
       <div className="">
         <h5>Knowledge</h5>
         <ul className="list-group mt-3">
-          {Object.keys(title2uuid).map(key =>
+          {Object.keys(title2uuid).map((key) => (
             <li class="list-group-item">
               <a href={knowledgeLink(title2uuid[key])}> {key}</a>
             </li>
-          )}
+          ))}
           <li class="list-group-item">
             <a href={knowledgeLink({})}>(+) Nuevo (+)</a>
           </li>
