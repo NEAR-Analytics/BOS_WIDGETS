@@ -13,7 +13,9 @@ for (const key of Object.keys(evaluators)) {
 }
 
 // indexedKnowledge is basically a list of titles, uuids and blockheights
-const knowledge = Social.index("knowledge", "darija", { order: "desc" }) || [];
+const knowledge = Social.index("knowledge", "darija", { order: "desc" });
+
+if (!knowledge) return "Loading ...";
 
 const title2uuid = {};
 const uuids = [];
@@ -23,11 +25,11 @@ for (const indexed of knowledge) {
     blockHeight,
     value: { title, uuid },
   } = indexed;
-
   uuid = uuid ? uuid : blockHeight;
   block2title[blockHeight] = title;
 
-  if (uuids.includes(uuid)) continue;
+  if (uuids.includes(String(uuid))) continue;
+
   uuids.push(uuid);
   title2uuid[title] = { uuid, blockHeight };
 }
@@ -44,7 +46,6 @@ useEffect(() => {
     knowledge: block2title[knowledge],
     evaluator: evaluators2name[evaluator],
   }));
-  console.log(parsed, knowledge);
   setLessons(readableLessons);
 }, [lessonsDB]);
 
