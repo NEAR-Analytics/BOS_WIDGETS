@@ -35,7 +35,13 @@ function preload ()
 
 function create ()
 {
-    this.add.image(400, 300, 'sky');
+        const pic = this.add.image(0, 0, 'sky');
+
+        //  Center the picture in the game
+        Phaser.Display.Align.In.Center(pic, this.add.zone(400, 300, 800, 600));
+
+        //  Center the sprite to the picture
+        Phaser.Display.Align.In.Center(pic);
 }
 
 function update ()
