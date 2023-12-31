@@ -1,10 +1,10 @@
 if (context.loading) return "Loading ...";
 
-// const keys = ["a", "b", "c"];
-// const elements = [{ a: "a1", b: "b1", c: "c1" }, { a: "a2", b: "b2", c: "c2" }];
-// const editors = { a: { type: 'text' }, b: { type: "select", options: ['v1', 'v2'] }, c: { type: 'text' } };
-// const onUpdate = (newElements) => console.log(newElements);
-let { elements, keys, editors, onUpdate } = props;
+const keys = ["a", "b", "c"];
+const elements = [{ a: "a1", b: "b1", c: "c1" }, { a: "a2", b: "b2", c: "c2" }];
+const editors = { a: { type: 'text' }, b: { type: "select", options: ['v1', 'v2'] }, c: { type: 'text' } };
+const onUpdate = (newElements) => console.log(newElements);
+//let { elements, keys, editors, onUpdate } = props;
 
 if(!elements || !keys || !editors) return `Missing parameters ... ${JSON.stringify(props)}`;
 
@@ -13,6 +13,7 @@ for (const k of keys) { empty[k] = editors[k] === 'text' ? '' : editors[k].optio
 
 const [internal, setInternal] = useState(elements)
 const [hideInput, setHideInput] = useState(elements.map(() => true));
+const [json, setJSON] = useState(false);
 
 const change = (index, field, value) => {
   const newInternal = [...internal];
@@ -70,11 +71,18 @@ const generateEditor = (element, index, field) => {
   }
 }
 
+if(json){
+  return <>
+    <textarea height="300" onChange={e => setInternal(JSON.parse(e.target.value))}>{JSON.stringify(internal, null, 2)}</textarea>
+    <button onClick={() => setJSON(!json)}>Close</button>
+  </>
+} 
+
 return <>
   <table class="table table-hover">
     <thead class="table-light">
       <tr>
-        <th scope="col">#</th>
+        <th scope="col" onClick={() => setJSON(!json)}>#</th>
         {keys.map(k => <th scope="col">{k}</th>)}
         <th scope="col"></th>
       </tr>
