@@ -121,12 +121,17 @@ const lightColors = {
     afterbrandcolor: " #fff",
     color1brand: "#000",
     color2brand: "#2377ff",
-    colordescription: "#391b86",
+    colordescription: "#364d98",
     background:
-      "  linear-gradient( 50.6deg,  rgba(148,195,253,1) 5.2%, rgba(216,226,253,1) 80.1% );",
+      "   linear-gradient(50deg, rgba(148,195,253,1) 0%,  #dbe9fb 100%); ",
+  },
+  piePercentage: {
+    text: "#364d98",
+    filled: "#364d98",
+    empty: "#a7b3ff",
   },
   search_sbt: {
-    section_bg: "#b6d7ff",
+    section_bg: "#d5e6fb",
     card_bg: "",
     search_btn_bg: "#94c3fc",
     search_btn_bg_hover: "#aad0fe",
@@ -145,7 +150,7 @@ const lightColors = {
     table_hover_bg: "",
   },
   sbt_info: {
-    section_bg: "#b6d7ff",
+    section_bg: "#d5e6fb",
     card_bg: "rgb(255, 255, 255)",
     card_title_color: "#806ce1",
     card_content_color: "#000",
@@ -157,7 +162,7 @@ const lightColors = {
     numberColor: "#fff",
   },
   sbt_area: {
-    section_bg: "#b6d7ff",
+    section_bg: "#d5e6fb",
     card_bg: "rgb(255, 255, 255)",
     card_title_color: "#806ce1",
   },
@@ -175,6 +180,7 @@ const lightColors = {
     btn_bg_active: "#b6d7ff",
     btn_color: "#000",
   },
+
   chart: {
     title: "rgba(0,0,0,1)",
     subtitle: "rgba(0,0,0,0.7)",
