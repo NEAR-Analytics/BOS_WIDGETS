@@ -5,7 +5,7 @@ const interval = props.interval || "week";
 const queries = [
   {
     hash: null,
-    firstReqTime: 5,
+    firstReqTime: 10,
     id: 1,
     query: `
 SELECT  
@@ -24,7 +24,7 @@ SELECT
   },
   {
     hash: null,
-    firstReqTime: 5,
+    firstReqTime: 10,
     id: 3,
     query: `
 SELECT  
@@ -43,7 +43,7 @@ SELECT
   },
   {
     hash: null,
-    firstReqTime: 5,
+    firstReqTime: 10,
     id: 4,
     query: `
   SELECT 
@@ -73,7 +73,7 @@ GROUP BY 1`,
   },
   {
     hash: null,
-    firstReqTime: 5,
+    firstReqTime: 10,
     id: 5,
     query: `
 SELECT  
