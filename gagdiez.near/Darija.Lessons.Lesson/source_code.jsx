@@ -1,4 +1,4 @@
-const indexed = Social.index("knowledge", "darija");
+const indexed = Social.index("knowledge", "darija", { order: "desc" });
 
 if (!indexed) return "Loading ...";
 
