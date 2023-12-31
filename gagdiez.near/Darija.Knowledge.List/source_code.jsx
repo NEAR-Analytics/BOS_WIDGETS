@@ -2,8 +2,8 @@ if (context.loading) return "Loading ...";
 
 // We hardcode this, since anyway they need to be coded
 const evaluators = {
-  Select: "gagdiez.near/widget/Lessons.Select",
-  Translate: "gagdiez.near/widget/Lessons.Translate",
+  Select: "gagdiez.near/widget/Darija.Lessons.Select",
+  Translate: "gagdiez.near/widget/Darija.Lessons.Translate",
 };
 
 // map evaluators to their names
