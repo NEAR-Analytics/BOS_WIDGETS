@@ -436,14 +436,27 @@ const transactions1 = {
     themeColor?.dynamic_header?.background ||
     "radial-gradient(circle, rgba(210,202,250,1) 0%, rgba(230,230,231,0.01) 0%, rgba(235,238,255,1) 100%, rgba(235,231,253,1) 100%, rgba(255,241,241,1) 100%, rgba(46,52,90,1) 100%);",
 };
+const onHandelId = (id) => {
+  let customId = "";
+  if (id.length > 20) {
+    customId += id.substring(0, 5);
+    customId += "...";
+    customId += id.substring(id.length - 3);
+    return customId;
+  } else {
+    return id;
+  }
+};
 const hellosinger = {
-  height: "90px",
+  height: "110px",
   align: "center",
   brand: "Hello",
   description: "Thank you for being a valued user of Near throughout 2023",
   fontsize: "25px",
   fontweight: "25px",
-  afterbrand: `${state.result.query4?.data[0]?.signer || "Nearman"}`,
+  afterbrand: `${
+    onHandelId(state.result.query4?.data[0]?.signer) || "Nearman"
+  }`,
   afterbrandcolor: themeColor?.dynamic_header?.afterbrandcolor || "#789efb",
   fontbrand: " Arial, sans-serif",
   color1brand: themeColor?.dynamic_header?.color1brand || "#000",
