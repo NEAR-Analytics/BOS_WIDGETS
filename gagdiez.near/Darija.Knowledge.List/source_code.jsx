@@ -35,7 +35,7 @@ const [lessons, setLessons] = useState([]);
 const lessonsDB = Social.get("gagdiez.near/darija/lessons");
 
 useEffect(() => {
-  const parsed = JSON.parse(lessonsDB);
+  const parsed = JSON.parse(lessonsDB) || [];
 
   const readableLessons = parsed.map(({ knowledge, evaluator }) => ({
     knowledge: uuid2title[knowledge],
