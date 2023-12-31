@@ -3,7 +3,9 @@ const indexed = Social.index("knowledge", "darija", { order: "desc" });
 if (!indexed) return "Loading ...";
 
 // find the index that matches the indexed.value.uuid == props.knowledg
-const toQuery = indexed.find((item) => item.value.uuid == props.uuid);
+let toQuery = indexed.find(
+  (item) => String(item.value.uuid) === String(props.uuid)
+);
 
 const known = Social.get("gagdiez.near/knowledge", toQuery.blockHeight);
 
