@@ -35,9 +35,10 @@ const [lessons, setLessons] = useState([]);
 const lessonsDB = Social.get("gagdiez.near/darija/lessons");
 
 useEffect(() => {
-  const parsed = JSON.parse(lessonsDB);
+  const parsed = JSON.parse(lessonsDB) || [];
 
-  const readableLessons = parsed.map(({ knowledge, evaluator }) => ({
+  const readableLessons = parsed.map(({ name, knowledge, evaluator }) => ({
+    name,
     knowledge: uuid2title[knowledge],
     evaluator: evaluators2name[evaluator],
   }));
@@ -51,7 +52,8 @@ const knowledgeLink = (item) =>
 
 const update = () => {
   // transform lesson title into uuid and evaluator name into link
-  const newLessons = lessons.map(({ knowledge, evaluator }) => ({
+  const newLessons = lessons.map(({ name, knowledge, evaluator }) => ({
+    name,
     knowledge: title2uuid[knowledge].uuid,
     evaluator: evaluators[evaluator],
   }));
