@@ -35,7 +35,7 @@ const [lessons, setLessons] = useState([]);
 const lessonsDB = Social.get("gagdiez.near/darija/lessons");
 
 useEffect(() => {
-  const parsed = JSON.parse(lessonsDB) || [];
+  const parsed = JSON.parse(lessonsDB);
 
   const readableLessons = parsed.map(({ knowledge, evaluator }) => ({
     knowledge: uuid2title[knowledge],
@@ -84,8 +84,9 @@ return (
           src="gagdiez.near/widget/Darija.Components.Table"
           props={{
             elements: lessons,
-            keys: ["knowledge", "evaluator"],
+            keys: ["name", "knowledge", "evaluator"],
             editors: {
+              name: { type: "text" },
               knowledge: {
                 type: "select",
                 options: Object.keys(title2uuid),
