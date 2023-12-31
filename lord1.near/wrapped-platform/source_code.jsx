@@ -186,6 +186,8 @@ const Container = styled.div`
     padding: 3px 4px;
     list-style-type: none;
     margin: 0 auto;
+    flex-wrap: wrap;
+    justify-content: center;
   }
   .tab-item .active {
     background: #304352;
