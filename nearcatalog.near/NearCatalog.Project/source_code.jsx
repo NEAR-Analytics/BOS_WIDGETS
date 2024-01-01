@@ -233,7 +233,7 @@ if( state.bookmark == null && storageBookmark ){
     State.update({
         bookmark: storageBookmark
     });
-    console.log("loaded storage bookmark to state!", storageBookmark)
+    console.log("loaded storage bookmark to state: ", storageBookmark)
 } 
 const isInBookmark = (p) => {
     if(!state.bookmark) return false;
@@ -259,7 +259,7 @@ const toggleBookmark = (p) => {
         bookmarkStatus: isFound ? "removed" : "added",
         bookmark: bookmark
     });
-    console.log("toggleBookmark: New Bookmark list: ", bookmark );
+    console.log("new bookmark list: ", bookmark );
     Storage.set("nearcatalogBookmark", bookmark );
 }//toggleBookmark
 
