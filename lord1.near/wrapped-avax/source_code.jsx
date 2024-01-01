@@ -25,6 +25,7 @@ const general_theme = {
 const tabs = {
   transaction: "Transaction",
   platform: "Platform",
+  nft: "NFT",
 };
 const setTab = (tab) => State.update({ tab });
 // ----------------------
@@ -220,6 +221,22 @@ const Platform = (
     />
   </div>
 );
+const NFT = (
+  <div
+    className="w-100"
+    style={{ display: state.tab === tabs.nft ? "" : "none" }}
+  >
+    <Widget
+      src="lord1.near/widget/wrapped-nft-avax"
+      props={{
+        themeColor,
+        singer: state.searchedSinger,
+        interval: state.searchedInterval,
+        API_KEY,
+      }}
+    />
+  </div>
+);
 return (
   <div
     style={{ backgroundColor: themeColor.page_bg }}
@@ -318,7 +335,8 @@ return (
           </div>
           <div className="w-100">
             <div>
-              {Transaction} {Platform}{" "}
+              {Transaction} {Platform}
+              {NFT}{" "}
             </div>
           </div>
         </>
