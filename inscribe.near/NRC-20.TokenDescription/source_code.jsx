@@ -116,7 +116,7 @@ function fetchTokenInfosAsync() {
         createdBlockTimestamp
         decimals
       }
-      holderCounts {
+      holderCounts(first: 1000) {
         ticker
         count
       }
