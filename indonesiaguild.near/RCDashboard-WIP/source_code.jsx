@@ -166,19 +166,20 @@ fetchData();
       src="contribut3.near/widget/Card"
       props={{
         header: header,
-        body: staticDisplay ? (
-          <div style={{ margin: "auto" }}>{staticDisplay}</div>
-        ) : data ? (
-          <iframe
-            className="w-100"
-            style={{ height: "300px" }}
-            srcDoc={srcDoc}
-          />
-        ) : (
-          <div style={{ margin: "auto" }}>
-            <Widget src="flashui.near/widget/Loading" props={{}} />
-          </div>
-        ),
+        body:
+          staticDisplay != null ? (
+            <div style={{ margin: "auto" }}>{staticDisplay}</div>
+          ) : data != null ? (
+            <iframe
+              className="w-100"
+              style={{ height: "300px" }}
+              srcDoc={srcDoc}
+            />
+          ) : (
+            <div style={{ margin: "auto" }}>
+              <Widget src="flashui.near/widget/Loading" props={{}} />
+            </div>
+          ),
       }}
     />
   );
@@ -301,66 +302,57 @@ function wait(delay) {
   return new Promise((resolve) => setTimeout(resolve, delay));
 }
 
-function fetchRetry(url, delay, tries, fetchOptions) {
-  async function onError(err) {
+function fetchRetry(url, delay, tries, stateKey) {
+  function onError(err) {
     console.log("err", err);
     let triesLeft = tries - 1;
     if (!triesLeft) {
       throw err;
     }
-    await wait(delay);
-    return fetchRetry(url, delay, triesLeft, fetchOptions);
+    return wait(delay).then(() => fetchRetry(url, delay, triesLeft));
   }
-  return asyncFetch(url, fetchOptions).catch(onError);
+  return asyncFetch(url).then((result) => {
+    if (result.ok === true) {
+      return State.update({ [stateKey]: JSON.stringify(result.body) });
+    } else {
+      onError(result.body);
+    }
+  });
 }
 
 const generateMAU = (accountId) => {
   const queryParams = `account_id=${accountId}&stats_type=mau`;
-  fetchRetry(`${API_URL}?${queryParams}`, 1000, 100).then((result) => {
-    return State.update({ mauChartData: JSON.stringify(result.body) });
-  });
+  fetchRetry(`${API_URL}?${queryParams}`, 1000, 10, "mauChartData");
 };
 
 const generateDAU = (accountId) => {
   const queryParams = `account_id=${accountId}&stats_type=dau`;
-  fetchRetry(`${API_URL}?${queryParams}`, 1000, 100).then((result) => {
-    return State.update({ dauChartData: JSON.stringify(result.body) });
-  });
+  fetchRetry(`${API_URL}?${queryParams}`, 1000, 10, "dauChartData");
 };
 
 const generateGithubActivities = (accountId) => {
   const queryParams = `account_id=${accountId}&stats_type=github_activities`;
-  fetchRetry(`${API_URL}?${queryParams}`, 1000, 100).then((result) => {
-    return State.update({ githubChartData: JSON.stringify(result.body) });
-  });
+  fetchRetry(`${API_URL}?${queryParams}`, 1000, 10, "githubChartData");
 };
 
 const generateTotalLikes = (accountId) => {
   const queryParams = `account_id=${accountId}&stats_type=total_likes`;
-  fetchRetry(`${API_URL}?${queryParams}`, 1000, 100).then((result) => {
-    return State.update({ totalLikes: JSON.stringify(result.body) });
-  });
+  fetchRetry(`${API_URL}?${queryParams}`, 1000, 10, "totalLikes");
 };
 
 const generateTotalWalletsCreated = (accountId) => {
   const queryParams = `account_id=${accountId}&stats_type=total_wallets_created`;
-  fetchRetry(`${API_URL}?${queryParams}`, 200, 100).then((result) => {
-    State.update({ totalWallets: JSON.stringify(result.body) });
-  });
+  fetchRetry(`${API_URL}?${queryParams}`, 1000, 10, "totalWallets");
 };
 
 const generateNFTMints = (accountId) => {
   const queryParams = `account_id=${accountId}&stats_type=nft_mints`;
-  fetchRetry(`${API_URL}?${queryParams}`, 1000, 100).then((result) => {
-    State.update({ nftMintsChartData: JSON.stringify(result.body) });
-  });
+  fetchRetry(`${API_URL}?${queryParams}`, 1000, 10, "nftMintsChartData");
 };
 
 const generateDappUsage = (accountId) => {
   const queryParams = `account_id=${accountId}&stats_type=dapp_usage`;
-  fetchRetry(`${API_URL}?${queryParams}`, 1000, 100).then((result) => {
-    State.update({ dappUsageChartData: JSON.stringify(result.body) });
-  });
+  fetchRetry(`${API_URL}?${queryParams}`, 1000, 10, "dappUsageChartData");
 };
 
 State.update({
@@ -389,8 +381,6 @@ if (state.menu === "all-overview") {
   generateMAU("rc-dao.near");
   generateGithubActivities("rc-dao.near");
 }
-
-console.log("mauchartdata", state["mauChartData"]);
 
 return (
   <div className="container">
