@@ -106,7 +106,7 @@ const CardItem = ({ item, index }) => (
         {item.type === "proposal" && (
           <div className="info">
             <small style={{ width: "150px" }}>Requested amount:</small>
-            <small>{item.requested_amount ?? 0} NEAR</small>
+            <small>{item.requested_amount ?? 0} USD</small>
           </div>
         )}
         <div className="info">
