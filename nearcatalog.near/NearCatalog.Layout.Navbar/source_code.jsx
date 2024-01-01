@@ -17,7 +17,7 @@ return (
         "marginBottom": "20px"
       }}>
         <div className="container-fluid">
-            <a className="navbar-brand" href={`/${props.componentPath}.App`}>📒NEARCatalog </a>
+            <a className="navbar-brand" href={`/${props.indexPath}`}>📒NEARCatalog </a>
 
             <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
                 <span className="navbar-toggler-icon"></span>
@@ -26,10 +26,13 @@ return (
             <div className="collapse navbar-collapse" id="navbarNavDropdown">
                 <ul className="navbar-nav">
                     <li className="nav-item">
-                        <a className="nav-link active" aria-current="page" href={`/${props.componentPath}.App`}>🏠Home</a>
+                        <a className="nav-link active" aria-current="page" href={`/${props.indexPath}`}>🏠Home</a>
                     </li>
                     <li className="nav-item">
-                        <a className="nav-link" href={`/${props.componentPath}.App?cat=trending`}>🔥Trending</a>
+                        <a className="nav-link" href={`/${props.indexPath}?cat=trending`}>🔥Trending</a>
+                    </li>
+                    <li className="nav-item">
+                        <a className="nav-link" href={`/${props.indexPath}?bookmark=lfg`}>⭐Bookmark</a>
                     </li>
                     <li className="nav-item">
                         <a className="nav-link" target="_blank" href="https://forms.gle/ASi6xpVAyoPcxghr8">🧪Self-Listing</a>
