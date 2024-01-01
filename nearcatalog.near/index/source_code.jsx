@@ -27,9 +27,6 @@ console.log("router: ", router);
 switch (router) {
     case "project":
         query = fetch(indexer + "/project?pid="+props.id);
-        if (!query || !query.body) {
-            return loadingScreen();
-        }
         widgetSrc = `${componentPath}.Project`;
         widgetProps = {
             id: props.id,
