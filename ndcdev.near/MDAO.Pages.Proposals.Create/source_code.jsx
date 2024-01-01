@@ -21,7 +21,7 @@ const Container = styled.div`
 `;
 
 const FormWrapper = styled.div`
-  width: 75%;
+  width: 100%;
   padding: 3rem;
 
   @media screen and (max-width: 786px) {
@@ -36,6 +36,32 @@ const FormWrapper = styled.div`
 
   .form-control.error {
     border: 1px solid red;
+  }
+
+  .title {
+    h2 {
+      font-weight: 300;
+    }
+    b {
+      font-weight: 600;
+    }
+    font-weight: 300;
+
+    a {
+      text-decoration: underline;
+    }
+  }
+`;
+
+const TypeSection = styled.div`
+  border-radius: 50px;
+  background: rgba(255, 255, 255, 0.3);
+  text-align: center;
+  width: 100%;
+  text-transform: uppercase;
+  h4 {
+    font-weight: 400;
+    margin: 0;
   }
 `;
 
@@ -174,18 +200,18 @@ return (
   <Container>
     <div className="d-flex justify-content-center">
       <FormWrapper className="my-5 d-flex flex-column gap-3">
-        <div className="d-flex flex-column align-items-center">
-          <h3>Marketing DAO Report Form</h3>
+        <div className="title d-flex flex-column align-items-center">
+          <h2>Marketing DAO Reports & Proposals Form</h2>
           <div className="text-center">
             <p>
               <b>Please use this form to report key performance metrics.</b>
             </p>
-            <p>
-              Questions? Reach out via{" "}
-              <a href="https://t.me/ndc_marketing">Telegram</a> or email: <br />
+            <div className="d-flex gap-2 align-items-center">
+              <i className="fs-3 bi bi-info-circle-fill" /> Questions? Reach out
+              via <a href="https://t.me/ndc_marketing">Telegram</a> or email:
               <a href="mailto:marketingdao@proton.me">marketingdao@proton.me</a>
               🙂
-            </p>
+            </div>
           </div>
         </div>
 
@@ -197,8 +223,13 @@ return (
             setFormEls(newFormEl);
           }}
         >
-          <label>Form type: {formEls.type}</label>
-          <Widget src={`ndcdev.near/widget/MDAO.Components.Switch`} />
+          <label>Form type</label>
+          <div className="d-flex gap-3 align-items-center">
+            <Widget src={`ndcdev.near/widget/MDAO.Components.Switch`} />
+            <TypeSection>
+              <h4>{formEls.type}</h4>
+            </TypeSection>
+          </div>
         </div>
 
         {form[formEls.type].map((el) => (
