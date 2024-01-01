@@ -282,14 +282,6 @@ const twtIframe = `<div align="center"><a class="twitter-timeline"  data-dnt="tr
 </div>`
 return (
     <Css>
-
-        <button className="mt-5 pt-5 btn btn-primary" onClick={ () => {
-            console.log("CLEAR ALL BOOKMARKS");
-            Storage.set("nearcatalogBookmark", {});
-        }}><h1>clear all bookmark</h1>
-        </button>
-
-
         <div className="container grid-xl near-bg">
             <Widget src={`${componentPath}.Layout.Navbar`} props={{
                 indexPath
