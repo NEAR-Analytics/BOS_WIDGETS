@@ -1,13 +1,19 @@
-const fontCss = fetch(
-  "https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700&display=swap",
-).body;
+let fontCss = fetch(
+  "https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700&display=swap"
+);
 
-if (!fontCss) return;
+if (!fontCss) {
+  function AppLayout({ page, children }) {
+    return <></>;
+  }
+  return { AppLayout };
+}
+fontCss = fontCss.body;
 
 const Theme = styled.div`
   font-weight: 500;
   font-family: "Montserrat", sans-serif;
-  ${fontCss}
+  ${fontCss};
 
   font-style: normal;
   background: linear-gradient(
