@@ -161,15 +161,31 @@ const dates = sortedData.map((entry) => entry["year_month"]);
 fetchData();
 </script>
 `;
+  // handle data null from flipside
+  if (data == "null") {
+    return (
+      <Widget
+        src="contribut3.near/widget/Card"
+        props={{
+          header: header,
+          body: (
+            <div style={{ margin: "auto" }}>
+              Data not found. Empty data from flipside.
+            </div>
+          ),
+        }}
+      />
+    );
+  }
   return (
     <Widget
       src="contribut3.near/widget/Card"
       props={{
         header: header,
         body:
-          staticDisplay != null ? (
+          staticDisplay != undefined ? (
             <div style={{ margin: "auto" }}>{staticDisplay}</div>
-          ) : data != null ? (
+          ) : data ? (
             <iframe
               className="w-100"
               style={{ height: "300px" }}
@@ -274,6 +290,9 @@ const widgetRank = (members) => {
     .filter(([widgetName, totalStars]) => typeof totalStars !== "undefined")
     .sort((a, b) => b[1] - a[1]);
 
+  if (rankedWidgets.length == 0) {
+    return <p>Widgets created by members have not been starred.</p>;
+  }
   return (
     <div>
       <h3>Top Widgets by Members</h3>
