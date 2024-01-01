@@ -16,7 +16,11 @@ const [newVote, setNewVote] = useState({
 });
 
 // Parties
-const [parties, setParties] = useState([]);
+const [parties, setParties] = useState([
+  { name: "All pe", acronym: "APP" },
+  { name: "All ee", acronym: "AEP" },
+  { name: "People De", acronym: "PDE" },
+]);
 
 // New Party
 const [newParty, setNewParty] = useState({
@@ -25,7 +29,7 @@ const [newParty, setNewParty] = useState({
 });
 
 // candidates
-const [candidates, setCandidates] = useState([[]]);
+const [candidates, setCandidates] = useState([]);
 
 // New Candidate
 const [newCandidate, setNewCandidate] = useState({
@@ -38,13 +42,11 @@ const [newCandidate, setNewCandidate] = useState({
 // Add the new party to the table
 function AddParty() {
   // Check if the data given is valid
-  console.log(parties);
 
   if (newParty.name !== "" && newParty.acronym !== "") {
     // check for no similar name or acronym
     if (JSON.stringify(parties) !== JSON.stringify([])) {
       const filtered = parties.filter((party) => {
-        console.log(party);
         return (
           party.name.toLowerCase() === newParty.name.toLowerCase() ||
           party.acronym.toLowerCase() === newParty.acronym.toLowerCase()
@@ -68,38 +70,39 @@ function AddParty() {
 // Add the new party to the table
 function AddCandidate() {
   // Check if the data given is valid
+  console.log("ja");
   console.log(candidates);
+  console.log(newCandidate);
 
   if (newCandidate.name !== "" && newCandidate.party !== "") {
-    // check for no similar name or acronym
-    if (JSON.stringify(parties) !== JSON.stringify([])) {
-      const filtered = parties.filter((party) => {
-        console.log(party);
-        return (
-          party.name.toLowerCase() === newParty.name.toLowerCase() ||
-          party.acronym.toLowerCase() === newParty.acronym.toLowerCase()
-        );
-      });
-      if (filtered.length > 0) {
-        return;
-      }
+    // check if there is another candidate with thesame party
+    // if (JSON.stringify(parties) !== JSON.stringify([])) {
+    const filtered = candidates.filter((candidate) => {
+      console.log(candidate);
+      return candidate.party.toLowerCase() === newCandidate.party.toLowerCase();
+    });
+    if (filtered.length > 0) {
+      return;
     }
+    // }
 
     // Check for three letters of the acronym
-    if (newParty.acronym.length <= 4 && newParty.acronym.length > 0) {
-      setParties((prev) =>
-        prev.concat([{ ...newParty, acronym: newParty.acronym.toUpperCase() }])
-      );
-      setNewParty({ name: "", acronym: "" });
-    }
+    setCandidates((prev) => prev.concat([{ ...newCandidate }]));
+    setNewCandidate({
+      name: "",
+      party: "",
+      role: "",
+      votes: 0,
+    });
   }
 }
 
 // Update the value of the dropdown
 function updateDropDown(e) {
-  console.log(e.target.value);
   setTest(e.target.value);
-  setNewCandidate((prev) => ({ ...prev, party: e.target.value }));
+  let c = newCandidate;
+  c.party = e.target.value;
+  setNewCandidate(c);
 }
 
 // for test
@@ -152,7 +155,7 @@ return (
                     props={{
                       headings: ["S/N", "Party Name", "Acronym"],
                       data: parties.map((p, i) =>
-                        [i + 1].concat(Object.values(p))
+                        [i + 1].concat(Object.values(p).splice(0, 2))
                       ),
                     }}
                   />
@@ -187,13 +190,13 @@ return (
                   <hr />
 
                   <secText>Candidates Section</secText>
-                  {/* newCandidate.party */}
+                  {newCandidate.party}
                   <Widget
                     src="abnakore.near/widget/Table"
                     props={{
                       headings: ["S/N", "Candidate's Name", "Party"],
                       data: candidates.map((p, i) =>
-                        [i + 1].concat(Object.values(p))
+                        [i + 1].concat(Object.values(p).splice(0, 2))
                       ),
                     }}
                   />
@@ -221,33 +224,18 @@ return (
                         <option className="option" value="">
                           Select Party
                         </option>
-                        <option className="option" value="1">
-                          1
-                        </option>
                         {parties.map((party) => (
                           <option
                             className="option"
                             key={party.acronym}
                             value={party.acronym}
                           >
-                            {party.name}
+                            {party.name}({party.acronym})
                           </option>
                         ))}
                       </select>
-
-                      <Widget
-                        src="abnakore.near/widget/Input.jsx"
-                        props={{
-                          type: "text",
-                          placeholder: "party",
-                          required: true,
-                          item: "party",
-                          items: newCandidate,
-                          setItem: setNewCandidate,
-                        }}
-                      />
                     </div>
-                    <button>Add</button>
+                    <button onClick={AddCandidate}>Add</button>
                   </div>
 
                   <Widget
@@ -256,9 +244,9 @@ return (
                       type: "password",
                       placeholder: "Passcode",
                       required: false,
-                      item: "party",
-                      items: newCandidate,
-                      setItem: setNewCandidate,
+                      item: "passcode",
+                      items: newVote,
+                      setItem: setNewVote,
                     }}
                   />
                   <Widget
@@ -267,9 +255,9 @@ return (
                       type: "text",
                       placeholder: "Role",
                       required: true,
-                      item: "party",
-                      items: newCandidate,
-                      setItem: setNewCandidate,
+                      item: "role",
+                      items: newVote,
+                      setItem: setNewVote,
                     }}
                   />
                   <Widget
@@ -278,9 +266,9 @@ return (
                       type: "date",
                       placeholder: "Open on",
                       required: false,
-                      item: "party",
-                      items: newCandidate,
-                      setItem: setNewCandidate,
+                      item: "openDate",
+                      items: newVote,
+                      setItem: setNewVote,
                     }}
                   />
                   <Widget
@@ -289,9 +277,9 @@ return (
                       type: "date",
                       placeholder: "Close on",
                       required: false,
-                      item: "party",
-                      items: newCandidate,
-                      setItem: setNewCandidate,
+                      item: "closeDate",
+                      items: newVote,
+                      setItem: setNewVote,
                     }}
                   />
                   <button>Submit</button>
