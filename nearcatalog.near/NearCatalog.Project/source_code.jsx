@@ -225,9 +225,6 @@ if (!props.id) {
 const componentPath = props.componentPath;
 const indexPath = props.indexPath; 
 const storageBookmark = Storage.get("nearcatalogBookmark");
-State.init({
-    bookmark: null
-});
 
 if( state.bookmark == null && storageBookmark ){
     State.update({
@@ -263,18 +260,16 @@ const toggleBookmark = (p) => {
     Storage.set("nearcatalogBookmark", bookmark );
 }//toggleBookmark
 
+State.init({
+    bookmark: null,
+    bookmarkStatus: isInBookmark(project) ? "added" :"removed"
+});
 const project = props.project;
 console.log("project info: ", project);
 const tags = project.profile.tags;
 const tokenTicket = project.profile.tokens ? Object.keys(project.profile.tokens)[0] : false;
 const tokenInfo = tokenTicket && project.profile.tokens ? project.profile.tokens[tokenTicket] : {}
 console.log("token info: ", tokenInfo, "ticket: ", tokenTicket);
-
-//state
-State.init({
-    bookmarkStatus: isInBookmark(project) ? "added" :"removed"
-});
-
 
 const twtIframe = `<div align="center"><a class="twitter-timeline"  data-dnt="true"  data-tweet-limit="10"
  href="https://twitter.com/${project.profile.linktree?.twitter}">Twitter</a>
