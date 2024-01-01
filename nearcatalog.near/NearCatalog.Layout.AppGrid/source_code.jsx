@@ -199,15 +199,16 @@ html{font-size:20px;}
 `;
 const componentPath = props.componentPath;
 const indexPath = props.indexPath;
-console.log("bookmark in appgrid");
 const storageBookmark = Storage.get("nearcatalogBookmark");
 State.init({
-    projects: props.projects ? props.projects : {}
+    projects: props.projects ? props.projects : {},
+    bookmarkLoaded: false,
 });
 
-if (props.bookmark && storageBookmark) {
+if (props.bookmark && !state.bookmarkLoaded && storageBookmark) {
     State.update({
-        projects: storageBookmark
+        projects: storageBookmark,
+        bookmarkLoaded: true
     });
     console.log("loaded storage bookmark to state: ", storageBookmark)
 }
