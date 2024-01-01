@@ -56,7 +56,7 @@ const links = [
       {
         title: "MDAO Bounty program",
         target: "_blank",
-        href: "https://docs.google.com/document/d/1pOUin4zeTSYxkir2Wo8zYziOapo-2vIU2WxJNCsmfLs/edit",
+        href: "https://www.heroes.build/",
       },
     ],
   },
