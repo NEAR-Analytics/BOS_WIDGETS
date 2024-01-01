@@ -199,10 +199,12 @@ html{font-size:20px;}
 `;
 const componentPath = props.componentPath;
 const indexPath = props.indexPath;
+console.log("bookmark in appgrid");
 const storageBookmark = Storage.get("nearcatalogBookmark");
 State.init({
     projects: props.projects ? props.projects : {}
 });
+
 if (props.bookmark && storageBookmark) {
     State.update({
         projects: storageBookmark
@@ -236,7 +238,9 @@ return (
                         </div>
 
                         <Widget src={`${componentPath}.Layout.SearchBar`} props={{
-                            componentPath,
+                            indexPath,
+                            indexer: props.indexer,
+                            defaultImg: props.defaultImg
                         }} />
 
                         <button className="awesome-aside-select btn btn-lg mt-3" id="btn-mobile-show-category"
