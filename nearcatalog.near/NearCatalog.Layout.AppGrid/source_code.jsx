@@ -211,6 +211,8 @@ if (props.bookmark && !state.bookmarkLoaded && storageBookmark) {
         bookmarkLoaded: true
     });
     console.log("loaded storage bookmark to state: ", storageBookmark)
+}else{
+    console.log("loading bookmark~~~~");
 }
 
 return (
