@@ -5,7 +5,7 @@ return (
         {/* the menu */}
         <div className="awesome-aside-menu menu menu-nav">
             <div className="menu-parent"><a className="btn btn-lg active" href={`/${path}`}>All<span className="menu-badge d-none">1093</span></a></div>
-            <div className="menu-parent"><a className="btn btn-lg " href={`/${path}?cat=comunity`}>Community</a></div>
+            <div className="menu-parent"><a className="btn btn-lg " href={`/${path}?cat=community`}>Community</a></div>
             <div className="menu-parent">
                 <a className="btn btn-lg " href={`/${path}?cat=dapps`}>DApps<span className="menu-badge d-none">488</span></a>
                 <div className="menu menu-nav">
