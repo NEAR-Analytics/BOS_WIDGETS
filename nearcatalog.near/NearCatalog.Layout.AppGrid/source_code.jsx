@@ -181,7 +181,6 @@ html{font-size:20px;}
     padding:15px;
     margin:20px 0px;
 }
-
 .offcanvas-body{
     padding-bottom:100px;
 }
