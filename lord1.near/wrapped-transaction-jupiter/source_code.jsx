@@ -513,7 +513,7 @@ const date1 = {
   fontsize: "18px",
   fontweight: "25px",
   afterbrand: `${
-    formatNumberfee_near(state.result.query4?.data[0]?.fee_near) || "0"
+    formatNumberfee_near(-state.result.query4?.data[0]?.fee_near) || "0"
   }`,
   afterbrandcolor: themeColor?.dynamic_header?.afterbrandcolor || "#789efb",
   fontbrand: " Arial, sans-serif",
@@ -587,7 +587,7 @@ const date = {
   height: "110px",
   align: "center",
   brand: "Slippage",
-  description: `${state.result.query4?.data[0]?.fee_near + " USD" || "0"}`,
+  description: `${state.result.query4?.data[0]?.fee_near || "0"}`,
   fontsize: "25px",
   fontweight: "25px",
   afterbrand: "",
@@ -605,7 +605,7 @@ const contract = {
   height: "110px",
   align: "center",
   brand: "Engagement",
-  description: `${state.result.query4?.data[0]?.project + " Versions" || "0"}`,
+  description: `${state.result.query4?.data[0]?.project || "0"}`,
   fontsize: "25px",
   fontweight: "25px",
   afterbrand: "",
@@ -623,7 +623,7 @@ const volume = {
   height: "110px",
   align: "center",
   brand: "Trade Volume",
-  description: `${state.result.query4?.data[0]?.volume + " USD" || "0"}`,
+  description: `${state.result.query4?.data[0]?.volume || "0"}`,
   fontsize: "25px",
   fontweight: "25px",
   fontweight: "25px",
