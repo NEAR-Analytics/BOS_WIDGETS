@@ -202,7 +202,7 @@ const indexPath = props.indexPath;
 const storageBookmark = Storage.get("nearcatalogBookmark");
 State.init({
     projects: props.projects ? props.projects : {},
-    bookmarkLoaded: false,
+    bookmarkLoaded: null,
 });
 
 if (!state.bookmarkLoaded && props.bookmark && storageBookmark) {
