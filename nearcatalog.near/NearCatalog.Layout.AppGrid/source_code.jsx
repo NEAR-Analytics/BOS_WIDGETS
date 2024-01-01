@@ -199,7 +199,17 @@ html{font-size:20px;}
 `;
 const componentPath = props.componentPath;
 const indexPath = props.indexPath;
-const projects = props.projects ? props.projects : {};
+const storageBookmark = Storage.get("nearcatalogBookmark");
+State.init({
+    projects: props.projects ? props.projects : {}
+});
+if( props.bookmark && state.bookmark == null && storageBookmark ){
+    State.update({
+        projects: storageBookmark
+    });
+    console.log("loaded storage bookmark to state: ", storageBookmark)
+}
+    
 return (
     <>
         <Css>
@@ -245,14 +255,14 @@ return (
                             <div className="near-content">
                                 <div className="near-list-container row">
                                     {
-                                        Object.keys(projects).length == 0 && props.bookmark && (
+                                        Object.keys(state.projects).length == 0 && props.bookmark && (
                                             <div className="">Nothing here, yet 🙅, press ⭐ in project you want to add! </div>
                                         )
                                     }
                                     {
-                                        Object.keys(projects).map((e) => {
+                                        Object.keys(state.projects).map((e) => {
                                             // console.log("projectId: ", e);
-                                            let p = projects[e];
+                                            let p = state.projects[e];
                                             return (
                                                 <div className="near-item-wrap col-md-4 col-sm-12 p-3">
                                                     <a className="near-item" title={p.name}
