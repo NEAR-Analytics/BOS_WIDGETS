@@ -99,7 +99,7 @@ const fetchCommunities = () => {
 
 fetchCommunities();
 
-if (communities.length === 0)
+if (!communities || communities.length === 0)
   return (
     <div className="d-flex justify-content-center align-items-center gap-2">
       <Widget src="flashui.near/widget/Loading" /> <b>Loading communities...</b>
