@@ -297,46 +297,70 @@ const widgetRank = (members) => {
   );
 };
 
+function wait(delay) {
+  return new Promise((resolve) => setTimeout(resolve, delay));
+}
+
+function fetchRetry(url, delay, tries, fetchOptions) {
+  async function onError(err) {
+    console.log("err", err);
+    let triesLeft = tries - 1;
+    if (!triesLeft) {
+      throw err;
+    }
+    await wait(delay);
+    return fetchRetry(url, delay, triesLeft, fetchOptions);
+  }
+  return asyncFetch(url, fetchOptions).catch(onError);
+}
+
 const generateMAU = (accountId) => {
   const queryParams = `account_id=${accountId}&stats_type=mau`;
-  const result = fetch(`${API_URL}?${queryParams}`);
-  return State.update({ mauChartData: JSON.stringify(result.body) });
+  fetchRetry(`${API_URL}?${queryParams}`, 1000, 100).then((result) => {
+    return State.update({ mauChartData: JSON.stringify(result.body) });
+  });
 };
 
 const generateDAU = (accountId) => {
   const queryParams = `account_id=${accountId}&stats_type=dau`;
-  const result = fetch(`${API_URL}?${queryParams}`);
-  return State.update({ dauChartData: JSON.stringify(result.body) });
+  fetchRetry(`${API_URL}?${queryParams}`, 1000, 100).then((result) => {
+    return State.update({ dauChartData: JSON.stringify(result.body) });
+  });
 };
 
 const generateGithubActivities = (accountId) => {
   const queryParams = `account_id=${accountId}&stats_type=github_activities`;
-  const result = fetch(`${API_URL}?${queryParams}`);
-  State.update({ githubChartData: JSON.stringify(result.body) });
+  fetchRetry(`${API_URL}?${queryParams}`, 1000, 100).then((result) => {
+    return State.update({ githubChartData: JSON.stringify(result.body) });
+  });
 };
 
 const generateTotalLikes = (accountId) => {
   const queryParams = `account_id=${accountId}&stats_type=total_likes`;
-  const result = fetch(`${API_URL}?${queryParams}`);
-  State.update({ totalLikes: JSON.stringify(result.body) });
+  fetchRetry(`${API_URL}?${queryParams}`, 1000, 100).then((result) => {
+    return State.update({ totalLikes: JSON.stringify(result.body) });
+  });
 };
 
 const generateTotalWalletsCreated = (accountId) => {
   const queryParams = `account_id=${accountId}&stats_type=total_wallets_created`;
-  const result = fetch(`${API_URL}?${queryParams}`);
-  State.update({ totalWallets: JSON.stringify(result.body) });
+  fetchRetry(`${API_URL}?${queryParams}`, 200, 100).then((result) => {
+    State.update({ totalWallets: JSON.stringify(result.body) });
+  });
 };
 
 const generateNFTMints = (accountId) => {
   const queryParams = `account_id=${accountId}&stats_type=nft_mints`;
-  const result = fetch(`${API_URL}?${queryParams}`);
-  State.update({ nftMintsChartData: JSON.stringify(result.body) });
+  fetchRetry(`${API_URL}?${queryParams}`, 1000, 100).then((result) => {
+    State.update({ nftMintsChartData: JSON.stringify(result.body) });
+  });
 };
 
 const generateDappUsage = (accountId) => {
   const queryParams = `account_id=${accountId}&stats_type=dapp_usage`;
-  const result = fetch(`${API_URL}?${queryParams}`);
-  State.update({ dappUsageChartData: JSON.stringify(result.body) });
+  fetchRetry(`${API_URL}?${queryParams}`, 1000, 100).then((result) => {
+    State.update({ dappUsageChartData: JSON.stringify(result.body) });
+  });
 };
 
 State.update({
