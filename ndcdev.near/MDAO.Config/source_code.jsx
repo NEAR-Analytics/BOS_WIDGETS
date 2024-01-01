@@ -117,7 +117,7 @@ return {
         name: "GET SUPPORT",
         items: [
           {
-            title: "Marketing Resources",
+            title: "Resources",
             values: [
               { title: "Influencers" },
               { title: "Ecosystem" },
