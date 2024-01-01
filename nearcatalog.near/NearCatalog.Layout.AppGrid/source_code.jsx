@@ -203,13 +203,13 @@ const storageBookmark = Storage.get("nearcatalogBookmark");
 State.init({
     projects: props.projects ? props.projects : {}
 });
-if( props.bookmark && state.bookmark == null && storageBookmark ){
+if (props.bookmark && storageBookmark) {
     State.update({
         projects: storageBookmark
     });
     console.log("loaded storage bookmark to state: ", storageBookmark)
 }
-    
+
 return (
     <>
         <Css>
