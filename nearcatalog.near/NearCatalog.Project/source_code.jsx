@@ -289,7 +289,8 @@ return (
 
             <Widget src={`${componentPath}.Layout.SearchBar`} props={{
                 indexPath,
-                indexer: props.indexer
+                indexer: props.indexer,
+                defaultImg: props.defaultImg
             }} />
 
             <div className="columns">
