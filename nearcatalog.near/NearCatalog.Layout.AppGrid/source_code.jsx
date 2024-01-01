@@ -205,7 +205,7 @@ State.init({
     bookmarkLoaded: false,
 });
 
-if (props.bookmark && !state.bookmarkLoaded && storageBookmark) {
+if (!state.bookmarkLoaded && props.bookmark && storageBookmark) {
     State.update({
         projects: storageBookmark,
         bookmarkLoaded: true
