@@ -1,6 +1,3 @@
-
-const componentPath = props.componentPath;
-
 State.init({
     rs: false,
     kw: "",
@@ -15,10 +12,10 @@ function delayedSearch(kw) {
     State.update({
         searching: setTimeout(() => {
             if (kw.length >= 3) {
-                asyncFetch("https://nearcatalog.sctuts.com/wp-json/nearcatalog/v1/search?kw=" + kw).then(res => {
+                asyncFetch(props.indexer+"/search?kw=" + kw).then(res => {
                     console.log(res);
                     State.update({
-                        rs: res.body ,
+                        rs: res.body,
                         kw: kw,
                         loading: false,
                     });
@@ -27,7 +24,7 @@ function delayedSearch(kw) {
             }
         }, 1000)
     });
-    if(typeof state.searching === "function") state.searching();
+    if (typeof state.searching === "function") state.searching();
 }
 return (
     <>
@@ -43,8 +40,8 @@ return (
             {
                 state.rs && Object.keys(state.rs).map((e) => {
                     let p = state.rs[e];
-                    return (<a className="near-item-sm" title={p.profile.name} href={`/${componentPath}.Project?id=${e}`}>
-                        <div className="tile-icon"><img src={p.profile.image?.url || "https://learnnear.club/wp-content/uploads/2021/09/lnc-profile-desktop-150x150.png"}
+                    return (<a className="near-item-sm" title={p.profile.name} href={`/${props.indexPath}?id=${e}`}>
+                        <div className="tile-icon"><img src={p.profile.image?.url || props.defaultImg}
                             title={`${p.profile.name} - ${p.profile.tagline}`} /></div>
                         <div className="tile-content">
                             <h2 className="tile-title" title={`${p.profile.name} - ${p.profile.tagline}`}>{p.profile.name}</h2>
@@ -56,6 +53,11 @@ return (
             {
                 !state.rs && state.kw.length > 0 && !state.loading && <>🙈Not found, maybe you should submit the project🙏</>
             }
+
+            {
+                !state.rs && state.kw.length > 0 && state.loading && <>🔍👀 Searching...</>
+            }
+
         </div>
     </>
 )
