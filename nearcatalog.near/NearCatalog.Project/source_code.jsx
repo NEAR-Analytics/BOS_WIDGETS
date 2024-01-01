@@ -218,48 +218,86 @@ a.text-gray:visited{color:#959595;}
   }
 `;
 
-
-const owner = "nearcatalog.near";
-const componentPath = `${owner}/widget/NearCatalog`;
-
-
 if (!props.id) {
     return "404 :<";
 }
-// const project = Social.getr("legacy-awesome.near/project/" + props.id?.trim(), "final");
-const query = fetch("https://nearcatalog.sctuts.com/wp-json/nearcatalog/v1/project?pid=" + props.id?.trim());
-if (!query || !query.body) {
-    return "loading....";
-}
-const project = query.body;
-console.log("project info: ", project);
 
+const componentPath = props.componentPath;
+const indexPath = props.indexPath; 
+const storageBookmark = Storage.get("nearcatalogBookmark");
+State.init({
+    bookmark: null
+});
+
+if( state.bookmark == null && storageBookmark ){
+    State.update({
+        bookmark: storageBookmark
+    });
+    console.log("loaded storage bookmark to state!", storageBookmark)
+} 
+const isInBookmark = (p) => {
+    if(!state.bookmark) return false;
+    var isFound = false;
+    var keys = Object.keys(state.bookmark);
+    if (keys.length > 0) {
+        for (let i = 0; i < keys.length; i++) {
+            if ( keys[i] == p.slug) {
+                isFound = true;
+                break;
+            }
+        }
+    }
+    console.log("isInBookmark: " , isFound);
+    return isFound; 
+}
+
+const toggleBookmark = (p) => {
+    var isFound = isInBookmark(p);
+    var bookmark = state.bookmark ? state.bookmark : {};
+    isFound ? delete bookmark[p.slug] :  bookmark[p.slug] = p ;
+    State.update({
+        bookmarkStatus: isFound ? "removed" : "added",
+        bookmark: bookmark
+    });
+    console.log("toggleBookmark: New Bookmark list: ", bookmark );
+    Storage.set("nearcatalogBookmark", bookmark );
+}//toggleBookmark
+
+const project = props.project;
+console.log("project info: ", project);
 const tags = project.profile.tags;
 const tokenTicket = project.profile.tokens ? Object.keys(project.profile.tokens)[0] : false;
 const tokenInfo = tokenTicket && project.profile.tokens ? project.profile.tokens[tokenTicket] : {}
 console.log("token info: ", tokenInfo, "ticket: ", tokenTicket);
 
+//state
+State.init({
+    bookmarkStatus: isInBookmark(project) ? "added" :"removed"
+});
 
-// const cgcIframe = `
-//     <script src="https://widgets.coingecko.com/coingecko-coin-price-static-headline-widget.js"></script>
-//     <coingecko-coin-price-static-headline-widget  coin-ids=${props.id} currency="usd" locale="en" background-color="#ffffff"></coingecko-coin-price-static-headline-widget>
-// `;
 
-const twtIframe = `
-<div align="center"><a class="twitter-timeline"  data-dnt="true"  data-tweet-limit="5"
+const twtIframe = `<div align="center"><a class="twitter-timeline"  data-dnt="true"  data-tweet-limit="10"
  href="https://twitter.com/${project.profile.linktree?.twitter}">Twitter</a>
 <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
-</div>
-`
+</div>`
 return (
     <Css>
+
+        <button className="mt-5 pt-5 btn btn-primary" onClick={ () => {
+            console.log("CLEAR ALL BOOKMARKS");
+            Storage.set("nearcatalogBookmark", {});
+        }}><h1>clear all bookmark</h1>
+        </button>
+
+
         <div className="container grid-xl near-bg">
             <Widget src={`${componentPath}.Layout.Navbar`} props={{
-                componentPath: componentPath,
+                indexPath
             }} />
 
             <Widget src={`${componentPath}.Layout.SearchBar`} props={{
-                componentPath: componentPath
+                indexPath,
+                indexer: props.indexer
             }} />
 
             <div className="columns">
@@ -288,6 +326,9 @@ return (
                             <div className="hero-links">
 
                                 <div className="btn-group">
+
+                                    <a onClick={ () => toggleBookmark(project)} rel="noopener noreferrer" className="link-item btn btn-lg">
+                                        <i class={ isInBookmark(project)  ? "bi bi-star-fill" : "bi bi-star" }></i></a>
                                     {
                                         project.profile.linktree.website && (
                                             <a href={project.profile.linktree.website} target="_blank" rel="noopener noreferrer" className="link-item btn btn-lg btn-primary">Website</a>
@@ -390,17 +431,14 @@ return (
                                     <div className="articles-container">
 
                                         <a className="article-item" target="_blank" title="" href="">
-                                            <img className="article-image" src="https://i.near.social/thumbnail/https://ipfs.near.social/ipfs/bafkreibzr4z3kvjh52hea4quob4qyeodgv7wvjizoezwfms44tv5qrftum"
+                                            <img className="article-image" src=""
                                                 alt="" />
                                             <div className="article-detail">
                                                 <h3 className="article-title">Orderbook Launch on Ref: Trading Competition with Orderly Network</h3>
                                                 <div className="article-info">March 30, 2023</div>
                                             </div>
                                         </a>
-
-
                                     </div>
-
                                 </div>
                             </div> */}
                             <div className="near-content">
@@ -410,7 +448,7 @@ return (
                                         <a className="near-item near-item-list" target="_blank" title="LNC" href="#">
                                             <div className="near-item-header">
                                                 <div className="tile">
-                                                    <div className="tile-icon"><img src="https://web.archive.org/web/20230521202108im_/https://awesomenear-spaces.fra1.digitaloceanspaces.com/production/projects/learn-near/learn-near.jpg" alt="" loading="lazy" /></div>
+                                                    <div className="tile-icon"><img src={props.defaultImg} alt=""  /></div>
                                                     <div className="tile-content">
                                                         <h3 className="tile-title">Learn NEAR Club</h3>
                                                         <div className="tile-tags text-gray">Learn how to use and build on NEAR and Earn NEAR</div>
