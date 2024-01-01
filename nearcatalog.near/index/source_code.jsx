@@ -48,6 +48,7 @@ switch (router) {
 
     case "bookmark":
         widgetSrc = `${componentPath}.Layout.AppGrid`;
+        projects = Storage.get("nearcatalogBookmark");
         widgetProps = {
             bookmark: true,
         }
