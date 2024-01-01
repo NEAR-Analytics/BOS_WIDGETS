@@ -111,8 +111,7 @@ return (
       </SettingsButton>
     )}
     <Content>
-      {/* We hide in order to prevent a reload when we switch between two views */}
-      <div className={`${view !== "configure" ? "d-none" : ""}`}>
+      {view === "configure" ? (
         <Widget
           src={updateWidgetEndpoint(addonMatch.configurator_widget)}
           props={{
@@ -131,8 +130,7 @@ return (
             permissions,
           }}
         />
-      </div>
-      <div className={`${view === "configure" ? "d-none" : ""}`}>
+      ) : (
         <Widget
           src={updateWidgetEndpoint(addonMatch.view_widget)}
           props={{
@@ -142,7 +140,7 @@ return (
             permissions,
           }}
         />
-      </div>
+      )}
     </Content>
   </Container>
 );
