@@ -145,7 +145,7 @@ const form = {
     },
     {
       name: "requested_amount",
-      label: "Requested Amount (NEAR)",
+      label: "Requested Amount (USD)",
       value: "",
       type: "number",
       required: true,
@@ -181,7 +181,7 @@ const ProposalButton = () => (
     disabled={form[formEls.type].some(
       (el) =>
         el.required &&
-        (errors[el.name] === true || errors[el.name] === undefined)
+        (errors[el.name] === true || errors[el.name] === undefined),
     )}
     data={{
       index: {
