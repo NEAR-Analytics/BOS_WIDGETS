@@ -121,7 +121,10 @@ return {
             values: [
               { title: "Influencers" },
               { title: "Ecosystem" },
-              { title: "Marketing Support", href: "https://www.heroes.build/" },
+              {
+                title: "Marketing DAO bounties",
+                href: "https://www.heroes.build/",
+              },
             ],
           },
           {
