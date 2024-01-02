@@ -289,6 +289,24 @@ const Container = styled.div`
   }
 `;
 //---------------------------------------------------------------------------------------------------
+const formatNumber = (num) => {
+  if (num >= 1000000000) {
+    return (num / 1000000000).toFixed(2).replace(/\.0$/, "") + "b";
+  }
+  if (num >= 1000000) {
+    return (num / 1000000).toFixed(2).replace(/\.0$/, "") + "m";
+  }
+  if (num >= 1000) {
+    return (num / 1000).toFixed(2).replace(/\.0$/, "") + "k";
+  }
+
+  if (num < 1000 && num > 0.0001) {
+    return (Math.round(num * 1000) / 1000).toFixed(3) + "";
+  }
+
+  return num;
+};
+
 const engagement = {
   height: "90px",
   align: "center",
@@ -347,10 +365,10 @@ const general_theme2 = {
   height: "90px",
   align: "center",
   description: "Based on Transaction Number",
-  brand: "To",
+  brand: "Symbol",
   fontsize: "25px",
   fontweight: "50px",
-  afterbrand: "Symbol",
+  afterbrand: "Out",
   afterbrandcolor: themeColor?.dynamic_header?.afterbrandcolor || "#789efb",
   fontbrand: " Arial, sans-serif",
   color1brand: themeColor?.dynamic_header?.color1brand || "#000",
@@ -365,10 +383,10 @@ const general_theme1 = {
   height: "90px",
   align: "center",
   description: "Based on Transaction Number",
-  brand: "From",
+  brand: "Symbol",
   fontsize: "25px",
   fontweight: "50px",
-  afterbrand: "Symbol",
+  afterbrand: "In",
   afterbrandcolor: themeColor?.dynamic_header?.afterbrandcolor || "#789efb",
   fontbrand: " Arial, sans-serif",
   color1brand: themeColor?.dynamic_header?.color1brand || "#000",
@@ -381,75 +399,67 @@ const general_theme1 = {
 };
 //----------------------------------------
 const formatNumbertransactions = (num) => {
-  if (num >= 50) {
-    return "5%";
+  if (num >= 100) {
+    return "3%";
   }
 
-  if (num < 50 && num >= 10) {
-    return "27%";
+  if (num < 100 && num >= 50) {
+    return "6%";
   }
-  if (num < 10 && num >= 5) {
-    return "38%";
+  if (num < 50 && num >= 20) {
+    return "14%";
   }
-  if (num < 5 && num >= 2) {
-    return "64%";
+  if (num < 20 && num >= 10) {
+    return "25%";
   }
-
-  if (num < 2 && num >= 0) {
+  if (num < 10 && num >= 3) {
+    return "75%";
+  }
+  if (num < 3 && num >= 0) {
     return "(No)";
   }
   return num;
 };
 const formatNumbervolume = (num) => {
-  if (num >= 15) {
-    return "1%";
+  if (num >= 10000) {
+    return "8%";
   }
-  if (num < 15 && num >= 10) {
-    return "3%";
+  if (num < 10000 && num >= 1000) {
+    return "25%";
   }
-  if (num < 10 && num >= 5) {
-    return "15%";
-  }
-  if (num < 5 && num >= 2) {
-    return "43%";
+  if (num < 1000 && num >= 50) {
+    return "60%";
   }
 
-  if (num < 2 && num >= 0) {
+  if (num < 50 && num >= 0) {
     return "(No)";
   }
   return num;
 };
 const formatNumberfee_near = (num) => {
-  if (num >= 5) {
-    return "1%";
+  if (num >= 10) {
+    return "5%";
   }
-  if (num < 5 && num >= 1) {
-    return "3%";
+  if (num < 10 && num >= 1) {
+    return "30%";
   }
-  if (num < 1 && num >= 0.5) {
-    return "4.5%";
-  }
-  if (num < 0.5 && num >= 0.1) {
-    return "20%";
-  }
-  if (num < 0.1 && num >= 0) {
+  if (num < 1 && num >= 0) {
     return "(No)";
   }
-
   return num;
 };
 const formatNumberproject = (num) => {
-  if (num >= 10) {
+  if (num >= 5) {
     return "1%";
   }
-  if (num < 10 && num >= 5) {
-    return "10%";
+  if (num < 5 && num >= 3) {
+    return "8%";
   }
-  if (num < 5 && num >= 2) {
-    return "42%";
+  if (num < 3 && num >= 2) {
+    return "25%";
   }
   if (num < 2 && num >= 1) {
-    return "77%";
+    return "75%";
   }
   if (num < 1 && num >= 0) {
     return "(No)";
@@ -513,7 +523,7 @@ const date1 = {
   fontsize: "18px",
   fontweight: "25px",
   afterbrand: `${
-    formatNumberfee_near(-state.result.query4?.data[0]?.fee_near) || "0"
+    formatNumberfee_near(state.result.query4?.data[0]?.fee_near) || "0"
   }`,
   afterbrandcolor: themeColor?.dynamic_header?.afterbrandcolor || "#789efb",
   fontbrand: " Arial, sans-serif",
@@ -569,7 +579,9 @@ const transactions = {
   height: "110px",
   align: "center",
   brand: "Transactions",
-  description: `${state.result.query4?.data[0]?.transactions || "0"}`,
+  description: `${
+    formatNumber(state.result.query4?.data[0]?.transactions) || "0"
+  }`,
   fontsize: "25px",
   fontweight: "25px",
   afterbrand: "",
@@ -587,7 +599,7 @@ const date = {
   height: "110px",
   align: "center",
   brand: "Slippage",
-  description: `${state.result.query4?.data[0]?.fee_near || "0"}`,
+  description: `${state.result.query4?.data[0]?.fee_near || "0"}` + " USD",
   fontsize: "25px",
   fontweight: "25px",
   afterbrand: "",
@@ -623,7 +635,8 @@ const volume = {
   height: "110px",
   align: "center",
   brand: "Trade Volume",
-  description: `${state.result.query4?.data[0]?.volume || "0"}`,
+  description:
+    `${formatNumber(state.result.query4?.data[0]?.volume) || "0"}` + " USD",
   fontsize: "25px",
   fontweight: "25px",
   fontweight: "25px",
@@ -1092,11 +1105,11 @@ let TableLeft = (
             rowsCount: 6,
             columns: [
               { title: "Version", key: "version", colors: "#806ce1" },
-              { title: "Transactions", key: "transactions" },
-              { title: "Volume", key: "volume" },
+              { title: "Transactions", key: "transactions", round: "yes" },
+              { title: "Volume", key: "volume", round: "yes" },
               { title: "Slippage", key: "arbitrage" },
-              { title: "From Symbol", key: "from_symbol" },
-              { title: "To Symbol", key: "to_symbol" },
+              { title: "Symbol In", key: "from_symbol" },
+              { title: "Symbol Out", key: "to_symbol" },
               { title: "Active Days", key: "active_days" },
               { title: "Active Month", key: "active_month" },
             ],
@@ -1131,10 +1144,10 @@ let TableScan = (
 
               { title: "Version", key: "swap_program" },
               { title: "Success", key: "success" },
-              { title: "From Symbol", key: "from_symbol", colors: "#806ce1" },
-              { title: "From Amount", key: "swap_from_amount" },
-              { title: "To Symbol", key: "to_symbol", colors: "#806ce1" },
-              { title: "To Amount", key: "swap_to_amount" },
+              { title: "Symbol In", key: "from_symbol", colors: "#806ce1" },
+              { title: "Amount In", key: "swap_from_amount", round: "yes" },
+              { title: "Symbol Out", key: "to_symbol", colors: "#806ce1" },
+              { title: "Amount Out", key: "swap_to_amount", round: "yes" },
               { title: "Volume", key: "usd", colors: "#806ce1" },
               { title: "Slippage", key: "arbitrage" },
               {
