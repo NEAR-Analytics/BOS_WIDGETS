@@ -789,7 +789,7 @@ const handleWithdraw = () => {
 
       addAction?.({
         type: "Liquidity",
-        action: "Withdraw",
+        action: "Liquidity Withdraw",
         token0,
         token1,
         amount: lpAmount,
@@ -895,9 +895,9 @@ return (
               {isInSufficient && <Button disabled>InSufficient Balance</Button>}
               {!isInSufficient &&
                 (isToken0Approved &&
-                isToken1Approved &&
-                !isToken0Approving &&
-                !isToken1Approving ? (
+                  isToken1Approved &&
+                  !isToken0Approving &&
+                  !isToken1Approving ? (
                   <Button
                     disabled={isLoading || !amount0 || !amount1}
                     onClick={handleDeposit}
