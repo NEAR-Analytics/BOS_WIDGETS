@@ -117,7 +117,7 @@ select
             TOKENID,
             PRICE_USD
       from avalanche.nft.ez_nft_sales 
-      where  SELLER_ADDRESS ='0x0eb7e34f2c2be8af190c6bd56fd67e68e1c2200f'
+      where  SELLER_ADDRESS  ='{{singer}}'
       and BLOCK_TIMESTAMP::date>'2023-01-01'
 
 union all 
@@ -134,7 +134,7 @@ select
             PRICE_USD
 
       from avalanche.nft.ez_nft_sales 
-      where  BUYER_ADDRESS ='0x0eb7e34f2c2be8af190c6bd56fd67e68e1c2200f'
+      where  BUYER_ADDRESS ='{{singer}}'
       and BLOCK_TIMESTAMP::date>'2023-01-01'
 
 
@@ -152,7 +152,7 @@ select
             null as PRICE_USD
 
       from avalanche.nft.ez_nft_transfers
-      where  NFT_FROM_ADDRESS ='0x0eb7e34f2c2be8af190c6bd56fd67e68e1c2200f'
+      where  NFT_FROM_ADDRESS  ='{{singer}}'
       and BLOCK_TIMESTAMP::date>'2023-01-01'
 
 union all 
@@ -169,7 +169,7 @@ select
             null as PRICE_USD
 
       from avalanche.nft.ez_nft_transfers
-      where  NFT_TO_ADDRESS ='0x0eb7e34f2c2be8af190c6bd56fd67e68e1c2200f'
+      where  NFT_TO_ADDRESS  ='{{singer}}'
       and BLOCK_TIMESTAMP::date>'2023-01-01'
 
 )
@@ -186,16 +186,9 @@ group by 1  `,
   },
   {
     hash: null,
-    firstReqTime: 5,
+    firstReqTime: 10,
     id: 3,
-    queryOption: {
-      sortBy: [
-        {
-          column: "trxs",
-          direction: "desc",
-        },
-      ],
-    },
+
     query: `
 with 
 a as 
@@ -293,7 +286,7 @@ select
             TOKENID,
             PRICE_USD
       from avalanche.nft.ez_nft_sales 
-      where  SELLER_ADDRESS ='0x0eb7e34f2c2be8af190c6bd56fd67e68e1c2200f'
+      where  SELLER_ADDRESS  ='{{singer}}'
       and BLOCK_TIMESTAMP::date>'2023-01-01'
 
 union all 
@@ -311,7 +304,7 @@ select
             PRICE_USD
 
       from avalanche.nft.ez_nft_sales 
-      where  BUYER_ADDRESS ='0x0eb7e34f2c2be8af190c6bd56fd67e68e1c2200f'
+      where  BUYER_ADDRESS  ='{{singer}}'
       and BLOCK_TIMESTAMP::date>'2023-01-01'
 
 
@@ -330,7 +323,7 @@ select
             null as PRICE_USD
 
       from avalanche.nft.ez_nft_transfers
-      where  NFT_FROM_ADDRESS ='0x0eb7e34f2c2be8af190c6bd56fd67e68e1c2200f'
+      where  NFT_FROM_ADDRESS  ='{{singer}}'
       and BLOCK_TIMESTAMP::date>'2023-01-01'
 
 union all 
@@ -348,7 +341,7 @@ select
             null as PRICE_USD
 
       from avalanche.nft.ez_nft_transfers
-      where  NFT_TO_ADDRESS ='0x0eb7e34f2c2be8af190c6bd56fd67e68e1c2200f'
+      where  NFT_TO_ADDRESS  ='{{singer}}'
       and BLOCK_TIMESTAMP::date>'2023-01-01'
 
 )
@@ -594,6 +587,23 @@ const Container = styled.div`
   }
 `;
 //---------------------------------------------------------------------------------------------------
+const formatNumber = (num) => {
+  if (num >= 1000000000) {
+    return (num / 1000000000).toFixed(2).replace(/\.0$/, "") + "b";
+  }
+  if (num >= 1000000) {
+    return (num / 1000000).toFixed(2).replace(/\.0$/, "") + "m";
+  }
+  if (num >= 1000) {
+    return (num / 1000).toFixed(2).replace(/\.0$/, "") + "k";
+  }
+
+  if (num < 1000 && num > 0.0001) {
+    return (Math.round(num * 1000) / 1000).toFixed(3) + "";
+  }
+
+  return num;
+};
 const general_theme = {
   height: "90px",
   align: "center",
@@ -670,7 +680,7 @@ const transactions = {
   height: "110px",
   align: "center",
   brand: "Transactions",
-  description: `${state.result.query4?.data[0]?.count || "0"}`,
+  description: `${formatNumber(state.result.query4?.data[0]?.count) || "0"}`,
   fontsize: "25px",
   fontweight: "25px",
   afterbrand: "",
@@ -724,7 +734,7 @@ const volume = {
   height: "110px",
   align: "center",
   brand: "Trade Volume",
-  description: `${state.result.query4?.data[0]?.price || "0"}`,
+  description: `${formatNumber(state.result.query4?.data[0]?.price) || "0"}`,
   fontsize: "25px",
   fontweight: "25px",
   fontweight: "25px",
@@ -1123,19 +1133,35 @@ let TableLeft = (
             rowsCount: 6,
             columns: [
               { title: "Platform", key: "platform", colors: "#806ce1" },
-              { title: "Transaction Number", key: "trxs" },
-              { title: "Volume (USD)", key: "usd" },
-              { title: "Platform_fee (Avax)", key: "fee" },
+              { title: "Transaction Number", key: "trxs", round: "yes" },
+              { title: "Volume (USD)", key: "usd", round: "yes" },
+              { title: "Platform_fee (Avax)", key: "fee", round: "yes" },
               { title: "Active days", key: "date" },
               { title: "Collection Numbers", key: "collection" },
-              { title: "Buy Volume (USD)", key: "buy_usd", colors: "#806ce1" },
+              {
+                title: "Buy Volume (USD)",
+                key: "buy_usd",
+                colors: "#806ce1",
+                round: "yes",
+              },
               {
                 title: "Sell Volume (USD)",
                 key: "sell_usd",
                 colors: "#334a93",
+                round: "yes",
               },
-              { title: "Buy Trxs", key: "buy_trxs", colors: "#806ce1" },
-              { title: "Sell Trxs", key: "sell_trxs", colors: "#334a93" },
+              {
+                title: "Buy Trxs",
+                key: "buy_trxs",
+                colors: "#806ce1",
+                round: "yes",
+              },
+              {
+                title: "Sell Trxs",
+                key: "sell_trxs",
+                colors: "#334a93",
+                round: "yes",
+              },
             ],
           }}
         />
@@ -1167,15 +1193,15 @@ let TableMiddle = (
             rowsCount: 6,
             columns: [
               { title: "Collection", key: "collection", colors: "#806ce1" },
-              { title: "Transactions", key: "trxs" },
-              { title: "Volume (USD)", key: "usd" },
-              { title: "Platform Fee", key: "pfee" },
-              { title: "Creator Fee", key: "cfee" },
+              { title: "Transactions", key: "trxs", round: "yes" },
+              { title: "Volume (USD)", key: "usd", round: "yes" },
+              { title: "Platform Fee", key: "pfee", round: "yes" },
+              { title: "Creator Fee", key: "cfee", round: "yes" },
               { title: "Platform", key: "platform" },
-              { title: "Buy USD", key: "buy_usd" },
-              { title: "Sell USD", key: "sell_usd" },
-              { title: "Buy Trxs", key: "buy_trxs" },
-              { title: "Sell Trxs", key: "sell_trxs" },
+              { title: "Buy USD", key: "buy_usd", round: "yes" },
+              { title: "Sell USD", key: "sell_usd", round: "yes" },
+              { title: "Buy Trxs", key: "buy_trxs", round: "yes" },
+              { title: "Sell Trxs", key: "sell_trxs", round: "yes" },
             ],
           }}
         />
@@ -1246,8 +1272,8 @@ let TopTable = (
             rowsCount: 6,
             columns: [
               { title: "Action", key: "type", colors: "#806ce1" },
-              { title: "Transaction Number", key: "trxs" },
-              { title: "Volume (USD)", key: "usd" },
+              { title: "Transaction Number", key: "trxs", round: "yes" },
+              { title: "Volume (USD)", key: "usd", round: "yes" },
               { title: "Collections", key: "collection" },
             ],
           }}
