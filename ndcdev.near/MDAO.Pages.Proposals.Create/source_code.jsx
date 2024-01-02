@@ -170,6 +170,7 @@ const handleChange = (el, value) => {
   const newFormEl = formEls;
   const newFormElErrors = errors;
   newFormEl[el.name] = value;
+  newFormEl.id = new Date().getTime();
   newFormElErrors[el.name] = value.length < 1;
 
   setErrors(newFormElErrors);
@@ -181,12 +182,12 @@ const ProposalButton = () => (
     disabled={form[formEls.type].some(
       (el) =>
         el.required &&
-        (errors[el.name] === true || errors[el.name] === undefined),
+        (errors[el.name] === true || errors[el.name] === undefined)
     )}
     data={{
       index: {
         graph: JSON.stringify({
-          key: "ndc.mdao",
+          key: "v1.ndc.mdao",
           value: formEls,
         }),
       },
