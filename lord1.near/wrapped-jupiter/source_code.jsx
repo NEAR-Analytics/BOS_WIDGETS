@@ -40,7 +40,7 @@ State.init({
 //---------------------------------------------------------------------------------------
 
 const inputHandler = ({ target }) => {
-  const singer = target.value.toLowerCase().trim();
+  const singer = target.value.trim();
   State.update({ singer: singer });
 };
 
