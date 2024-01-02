@@ -5,10 +5,9 @@ const interval = props.interval || "week";
 const queries = [
   {
     hash: null,
-    firstReqTime: 5,
+    firstReqTime: 10,
     id: 1,
     query: `
-
 with 
     a AS (
             select
@@ -42,7 +41,7 @@ group by 1`,
   },
   {
     hash: null,
-    firstReqTime: 5,
+    firstReqTime: 10,
     id: 3,
     query: `
 with 
@@ -78,9 +77,10 @@ group by 1 `,
   },
   {
     hash: null,
-    firstReqTime: 5,
+    firstReqTime: 10,
     id: 4,
-    query: `  with 
+    query: `
+  with 
     a AS (
             select
                   SWAPPER ,
@@ -124,22 +124,132 @@ select
  
 from a
 where SWAPPER='{{singer}}'
-group by 1`,
+group by 1 `,
   },
   {
     hash: null,
-    firstReqTime: 5,
+    firstReqTime: 10,
     id: 5,
+    queryOption: {
+      sortBy: [
+        {
+          column: "date",
+          direction: "asc",
+        },
+      ],
+    },
     query: `
-SELECT  
-        EVENT_NAME as "event" ,
-        COUNT(DISTINCT tx_hash) as "transactions" 
-    FROM avalanche.core.ez_decoded_event_logs 
-    WHERE TX_STATUS = 'SUCCESS'
-        and ORIGIN_FROM_ADDRESS='{{singer}}'
-        and block_timestamp::date> '2023-01-01'
+with 
+    a AS (
+            select
+                  SWAPPER as "swapper" ,
+                  TX_ID as "trxs",
+                  BLOCK_TIMESTAMP,
+                  case when (SWAP_TO_AMOUNT*B.Close is not null ) then round(SWAP_TO_AMOUNT*B.Close,3)
+                  else round(SWAP_FROM_AMOUNT*C.Close,3) end as "usd",
+                  SUCCEEDED,
+                  coalesce(round(SWAP_TO_AMOUNT*B.Close - SWAP_From_AMOUNT*C.Close,2),0) as "arbitrage" 
+            from solana.defi.fact_swaps
+                left join solana.price.ez_token_prices_hourly B on date_trunc('Hour',BLOCK_TIMESTAMP)=B.RECORDED_HOUR
+                    and SWAP_TO_MINT=B.TOKEN_ADDRESS
+                left join solana.price.ez_token_prices_hourly C on date_trunc('Hour',BLOCK_TIMESTAMP)=C.RECORDED_HOUR
+                    and SWAP_FROM_MINT=C.TOKEN_ADDRESS
+            where Swap_program like 'jupiter%' 
+            )
+
+select 
+      date_part(epoch, date_trunc('{{week}}',BLOCK_TIMESTAMP::date)) as "date" ,
+      count(distinct "trxs") as "hash" ,
+      round(sum("usd"),3) as "usd"
+from a
+where "swapper"='{{singer}}'
+and SUCCEEDED='true'
   GROUP BY 1 
-  order by 2
+  order by 1 asc 
+`,
+  },
+  {
+    hash: null,
+    firstReqTime: 10,
+    id: 6,
+    query: `
+ with 
+    a AS (
+            select
+                  SWAPPER ,
+                  TX_ID ,
+                  block_timestamp,
+                  round(SWAP_FROM_AMOUNT,3) as SWAP_FROM_AMOUNT,
+                  C.SYMBOL as from_symbol,
+                  round(SWAP_TO_AMOUNT,3) as SWAP_TO_AMOUNT,
+                  B.SYMBOL  as to_symbol,
+                  case when SWAP_TO_AMOUNT*B.Close is not null then round(SWAP_TO_AMOUNT*B.Close,3)
+                  else round(SWAP_FROM_AMOUNT*C.Close,3) end as USD,
+                  split(Swap_program,' ')[2] as Swap_program,
+                  SUCCEEDED ,
+                  round(SWAP_TO_AMOUNT*B.Close - SWAP_From_AMOUNT*C.Close,2) as arbitrage 
+            from solana.defi.fact_swaps
+                left join solana.price.ez_token_prices_hourly B on date_trunc('Hour',BLOCK_TIMESTAMP)=B.RECORDED_HOUR
+                    and SWAP_TO_MINT=B.TOKEN_ADDRESS
+                left join solana.price.ez_token_prices_hourly C on date_trunc('Hour',BLOCK_TIMESTAMP)=C.RECORDED_HOUR
+                    and SWAP_FROM_MINT=C.TOKEN_ADDRESS
+            where Swap_program like 'jupiter%' 
+            )
+
+select 
+      'Jupiter '||SWAP_PROGRAM||'🪐' as "version",
+      sum(round(ARBITRAGE,1))||' USD' as "arbitrage",
+      sum(round(USD))||' USD' as "volume",
+      count(distinct TX_ID) as "transactions",
+      count(distinct from_symbol) as "from_symbol",
+      count(distinct to_symbol) as "to_symbol",
+      count(DISTINCT date_trunc('day', block_timestamp)) as "active_days",
+      count(DISTINCT date_trunc('month', block_timestamp)) as "active_month"
+from a
+where SWAPPER='{{singer}}'
+group by 1 order by 1
+`,
+  },
+  {
+    hash: null,
+    firstReqTime: 10,
+    id: 7,
+    queryOption: {
+      sortBy: [
+        {
+          column: "date",
+          direction: "desc",
+        },
+      ],
+    },
+    query: `
+ with 
+    a AS (
+            select
+                  SWAPPER as "swapper" ,
+                  TX_ID as "trxs",
+                  split(block_timestamp::date,'T')[0] as "date",
+                  round(SWAP_FROM_AMOUNT,3) as "swap_from_amount",
+                  upper(coalesce(C.SYMBOL,'Unknown')) as "from_symbol",
+                  round(SWAP_TO_AMOUNT,3) as "swap_to_amount",
+                  upper(coalesce(B.SYMBOL,'Unknown'))  as "to_symbol",
+                  case when (SWAP_TO_AMOUNT*B.Close is not null ) then round(SWAP_TO_AMOUNT*B.Close,3)
+                  else round(SWAP_FROM_AMOUNT*C.Close,3) end as "usd",
+                  split(Swap_program,' ')[2] as "swap_program",
+                  case when SUCCEEDED='true' then '✅' else '❌' end as "success",
+                  coalesce(round(SWAP_TO_AMOUNT*B.Close - SWAP_From_AMOUNT*C.Close,2),0) as "arbitrage" 
+            from solana.defi.fact_swaps
+                left join solana.price.ez_token_prices_hourly B on date_trunc('Hour',BLOCK_TIMESTAMP)=B.RECORDED_HOUR
+                    and SWAP_TO_MINT=B.TOKEN_ADDRESS
+                left join solana.price.ez_token_prices_hourly C on date_trunc('Hour',BLOCK_TIMESTAMP)=C.RECORDED_HOUR
+                    and SWAP_FROM_MINT=C.TOKEN_ADDRESS
+            where Swap_program like 'jupiter%' 
+            )
+
+select 
+*
+from a
+where "swapper"='{{singer}}'
 `,
   },
 ];
@@ -960,7 +1070,87 @@ const CardHasError = (queryId) =>
       An error occurred for this section
     </div>
   );
+let TableLeft = (
+  <div
+    style={{
+      background: themeColor?.sbt_area?.section_bg,
+    }}
+    className="shadow-sm rounded-2 overflow-auto p-2"
+  >
+    <div
+      style={{ background: themeColor?.sbt_area?.card_bg }}
+      className="shadow-sm rounded-4 overflow-auto"
+    >
+      {CardIsLoading(6)}
+      {CardHasError(6)}
+      {state.result["query" + 6]?.data && (
+        <Widget
+          src="lord1.near/widget/table-pagination"
+          props={{
+            themeColor: { table_pagination: themeColor.table_pagination },
+            data: state.result["query" + 6]?.data,
+            rowsCount: 6,
+            columns: [
+              { title: "Version", key: "version", colors: "#806ce1" },
+              { title: "Transactions", key: "transactions" },
+              { title: "Volume", key: "volume" },
+              { title: "Slippage", key: "arbitrage" },
+              { title: "From Symbol", key: "from_symbol" },
+              { title: "To Symbol", key: "to_symbol" },
+              { title: "Active Days", key: "active_days" },
+              { title: "Active Month", key: "active_month" },
+            ],
+          }}
+        />
+      )}
+    </div>
+  </div>
+);
+let TableScan = (
+  <div
+    style={{
+      background: themeColor?.sbt_area?.section_bg,
+    }}
+    className="shadow-sm rounded-2 overflow-auto p-2"
+  >
+    <div
+      style={{ background: themeColor?.sbt_area?.card_bg }}
+      className="shadow-sm rounded-4 overflow-auto"
+    >
+      {CardIsLoading(7)}
+      {CardHasError(7)}
+      {state.result["query" + 7]?.data && (
+        <Widget
+          src="lord1.near/widget/table-pagination"
+          props={{
+            themeColor: { table_pagination: themeColor.table_pagination },
+            data: state.result["query" + 7]?.data,
+            rowsCount: 10,
+            columns: [
+              { title: "Timestamp", key: "date", colors: "#806ce1" },
 
+              { title: "Version", key: "swap_program" },
+              { title: "Success", key: "success" },
+              { title: "From Symbol", key: "from_symbol", colors: "#806ce1" },
+              { title: "From Amount", key: "swap_from_amount" },
+              { title: "To Symbol", key: "to_symbol", colors: "#806ce1" },
+              { title: "To Amount", key: "swap_to_amount" },
+              { title: "Volume", key: "usd", colors: "#806ce1" },
+              { title: "Slippage", key: "arbitrage" },
+              {
+                title: "Transactions",
+                key: "trxs",
+                link: "yes",
+                beforehref: "https://solscan.io/tx/",
+                afterhref: "",
+              },
+            ],
+          }}
+        />
+      )}
+    </div>
+  </div>
+);
 let TableMiddle = (
   <div
     style={{ background: themeColor?.sbt_area?.section_bg }}
@@ -992,39 +1182,6 @@ let TableMiddle = (
   </div>
 );
 
-let BelowRight = (
-  <div
-    style={{ background: themeColor?.sbt_area?.section_bg }}
-    className="shadow-sm rounded-2 overflow-auto p-2"
-  >
-    <div
-      style={{ background: themeColor?.sbt_area?.card_bg }}
-      className="shadow-sm rounded-2 overflow-auto"
-    >
-      {CardIsLoading(5)}
-      {CardHasError(5)}
-      {state.result["query" + 5]?.data &&
-        (state.result["query" + 5]?.data.length > 0 ? (
-          <Widget
-            src="lord1.near/widget/Pie-chart"
-            props={getPieProps(
-              state.result["query" + 5]?.data,
-              ["event", "transactions"],
-              themeColor.chartColor,
-              {
-                title: "",
-                type: "pie",
-                connector: true,
-                legend: true,
-              }
-            )}
-          />
-        ) : (
-          noData
-        ))}
-    </div>
-  </div>
-);
 let BelowMiddle = (
   <div
     style={{ background: themeColor?.sbt_area?.section_bg }}
@@ -1074,6 +1231,50 @@ const ChartContainer = styled.div`
     transition: transform 0.5s;
   }
 `;
+
+let ChartSections = (
+  <div className=" col-12 col-md-12">
+    <div className=" col-12">
+      <div
+        style={{ background: themeColor?.sbt_area?.card_bg }}
+        className="shadow-sm rounded-2"
+      >
+        {ChartIsLoading(5)}
+        {ChartHasError(5)}
+        {state.result["query" + 5]?.data && (
+          <Widget
+            src="lord1.near/widget/mix-chart"
+            props={getMixProps(
+              state.result["query" + 5]?.data,
+              "date",
+              [
+                {
+                  key: "hash",
+                  seriesName: "Transaction",
+                  type: "column",
+                  id: 1,
+                },
+                {
+                  key: "usd",
+                  seriesName: "Volume(USD)",
+                  type: "spline",
+                  id: 2,
+                },
+              ],
+              themeColor.chartColor,
+              {
+                title: "",
+                subtitle: `Number of transactions `,
+                stacking: "normal",
+              }
+            )}
+          />
+        )}
+      </div>
+    </div>
+  </div>
+);
+
 return (
   <>
     {state.loader && (
@@ -1200,11 +1401,19 @@ return (
               </div>
             </div>
             <div className="row">
+              <Widget
+                src="lord1.near/widget/header-dynamic"
+                props={engagement}
+              />
+              <div className="col-md-12">{TableLeft}</div>
+            </div>
+            <div className="row">
               <div className="col-md-6">
                 <Widget
                   src="lord1.near/widget/header-dynamic"
                   props={general_theme1}
                 />
+
                 {TableMiddle}
               </div>
               <div className="col-md-6">
@@ -1219,8 +1428,12 @@ return (
                   src="lord1.near/widget/header-dynamic"
                   props={general_theme}
                 />
-                {BelowRight}
+                {ChartSections}
               </div>
+            </div>
+            <div className="row">
+              <Widget src="lord1.near/widget/header-dynamic" props={scan} />
+              <div className="col-md-12">{TableScan}</div>
             </div>
           </div>
         </div>
