@@ -214,6 +214,13 @@ if (!state.bookmarkLoaded && props.bookmark && storageBookmark) {
 }else{
     console.log("loading bookmark~~~~");
 }
+setTimeout( ()=>{
+    console.log("get bookmark again~~");
+    State.update({
+        projects: storageBookmark,
+        bookmarkLoaded: true
+    });
+},1500 );
 
 return (
     <>
