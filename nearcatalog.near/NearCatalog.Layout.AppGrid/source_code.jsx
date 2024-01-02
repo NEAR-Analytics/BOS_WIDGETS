@@ -215,8 +215,7 @@ if (!state.bookmarkLoaded && props.bookmark && storageBookmark) {
     console.log("loading bookmark~~~~");
 }
 setTimeout(() => {
-    if (!state.bookmarkLoaded && props.bookmark && storageBookmark) {
-        console.log("get bookmark again~~");
+    if (props.bookmark) {
         State.update({
             projects: storageBookmark,
             bookmarkLoaded: true
