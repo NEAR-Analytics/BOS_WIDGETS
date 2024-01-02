@@ -214,15 +214,15 @@ if (!state.bookmarkLoaded && props.bookmark && storageBookmark) {
 } else {
     console.log("loading bookmark~~~~");
 }
-setTimeout(() => {
-    if (props.bookmark) {
-        State.update({
-            projects: storageBookmark,
-            bookmarkLoaded: true
-        });
-        console.log("loaded storage bookmark to state: ", storageBookmark)
-    }
-}, 1500);
+// setTimeout(() => {
+//     if (props.bookmark) {
+//         State.update({
+//             projects: storageBookmark,
+//             bookmarkLoaded: true
+//         });
+//         console.log("loaded storage bookmark to state: ", storageBookmark)
+//     }
+// }, 1500);
 
 return (
     <>
