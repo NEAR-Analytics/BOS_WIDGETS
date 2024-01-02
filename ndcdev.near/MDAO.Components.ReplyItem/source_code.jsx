@@ -103,15 +103,13 @@ return (
     <Body>
       {item.text && (
         <Content>
-          {item.text && (
-            <Widget
-              src="near/widget/SocialMarkdown"
-              props={{ text: item.text }}
-            />
-          )}
+          <Widget
+            src="near/widget/SocialMarkdown"
+            props={{ text: item.text }}
+          />
         </Content>
       )}
-      {item.id && (
+      {item.text && item.id && (
         <Actions>
           <div>
             {likes.length}
