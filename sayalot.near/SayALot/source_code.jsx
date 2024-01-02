@@ -7,6 +7,7 @@ let {
   accountId,
   sharedArticleId,
   sharedCommentId,
+  topicShared,
 } = props;
 
 //Duplicated(lib.SBT)
@@ -167,6 +168,7 @@ return (
       kanbanExcludedLabels,
       sharedArticleId,
       sharedCommentId,
+      topicShared,
     }}
   />
 );
