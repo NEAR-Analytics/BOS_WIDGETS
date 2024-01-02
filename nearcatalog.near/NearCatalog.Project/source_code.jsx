@@ -264,6 +264,8 @@ State.init({
     bookmark: null,
     bookmarkStatus: isInBookmark(project) ? "added" :"removed"
 });
+
+
 const project = props.project;
 console.log("project info: ", project);
 const tags = project.profile.tags;
