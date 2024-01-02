@@ -1,6 +1,7 @@
 const { id } = props;
+const accountId = context.accountId;
 
-if (!context.accountId) {
+if (!accountId) {
   return <></>;
 }
 
@@ -10,20 +11,20 @@ State.init({
   showPreview: false,
 });
 
-const profile = Social.getr(`${context.accountId}/profile`);
+const profile = Social.getr(`${accountId}/profile`);
 const autocompleteEnabled = true;
 
 const content = {
   id: new Date().getTime(),
+  accountId,
   text: state.text,
-  image: state.image.ipfs,
 };
 
 function composeData() {
   const data = {
     index: {
       graph: JSON.stringify({
-        key: "v1.ndc.mdao.reply",
+        key: "v2.ndc.mdao.reply",
         value: {
           parentId: id,
           ...content,
