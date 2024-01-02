@@ -40,6 +40,9 @@ switch (router) {
     case "category":
         query = fetch(indexer + "/projects-by-category?cid=" + props.cat);
         projects = query.body;
+        if (!query) {
+            return loadingScreen();
+        }
         widgetSrc = `${componentPath}.Layout.AppGrid`;
         widgetProps = {
             cat: props.cat
