@@ -1,308 +1,309 @@
-const darkColors = {
-  page_bg: "rgb(25,33,50)",
-  horizen_bg: "#fff",
-  header_bg: "rgb(49,62,89)",
-  sideBar: {
-    sideBar_bg: "rgb(49,62,89)",
-    sideBar_color: "#fff",
-  },
-  footer: {
-    titlenelowBackground: "#806ce1",
-    titleBackground: "#fff",
-    fromBackground: "rgb(55,72,107)",
-    toBackground: "rgb(55,72,107)",
-    belowBackground: "rgb(210, 202, 250)",
-  },
-  dynamic_header: {
-    afterbrandcolor: "",
-    color1brand: "#fff",
-    color2brand: "rgb(210, 202, 250)",
-    colordescription: "rgb(210, 202, 250)",
-    background:
-      "radial-gradient(circle, rgb(49,62,89) 0%, rgba(230,230,231,0.01) 0%, rgb(49,62,89) 100%, rgb(49,62,89) 100%, rgb(49,62,89) 100%, rgba(46,52,90,1) 100%);",
-  },
-  search_sbt: {
-    section_bg: "transparent",
-    card_bg: "transparent)",
-    search_btn_bg: "rgb(49,62,89)",
-    search_btn_bg_hover: "rgba(49,62,89,0.8)",
-    search_btn_text: "rgb(255,255,255)",
-    input_bg: "rgb(49,62,89)",
-    input_bg_hover: "rgba(49,62,89,0.8)",
-    input_text_color: "rgb(255,255,255)",
-    input_border: "rgba(49,62,89,0.8)",
-    table_bg: "transparent",
-    table_color: "rgb(255,255,255)",
-    table_border_color: "",
-    table_accent_bg: "",
-    table_striped_color: "rgb(255,255,255)",
-    table_striped_bg: "",
-    table_hover_color: "rgb(255,255,255)",
-    table_hover_bg: "",
-  },
-  sbt_info: {
-    section_bg: "transparent",
-    card_bg: "rgb(49, 62, 89)",
-    card_title_color: "#806ce1",
-    card_content_color: "#fff",
-  },
-  tab_sbt: {
-    backgroundColor: "rgb(49,62,89)",
-    textColor: "#fff",
-    headerColor: "#806ce1",
-    numberColor: "#fff",
-  },
-  sbt_area: {
-    section_bg: "transparent",
-    card_bg: "rgb(49, 62, 89)",
-    card_title_color: "#806ce1",
-  },
-  table_pagination: {
-    table_bg: "rgb(49,62,89)",
-    table_color: "rgb(255,255,255)",
-    table_border_color: "",
-    table_accent_bg: "",
-    table_striped_color: "rgb(255,255,255)",
-    table_striped_bg: "",
-    table_hover_color: "rgb(255,255,255)",
-    table_hover_bg: "",
-    btn_border: "rgb(25,33,50)",
-    btn_bg: "rgb(49,62,89)",
-    btn_bg_active: "rgb(25,33,50)",
-    btn_color: "#fff",
-    input_bg: "#2f3b54",
-  },
-  chart: {
-    title: "rgb(255,255,255)",
-    subtitle: "rgba(255,255,255,0.7)",
-    xAxis: "rgb(255,255,255)",
-    yAxis: "rgb(255,255,255)",
-    legend: "rgba(255,255,255,0.7)",
-    legendHover: "rgb(255,255,255)",
-    rangeSelector: {
-      labels: "rgba(255,255,255,0.7)",
-      inputColor: "rgb(255,255,255)",
-      btn_bg: "rgba(25,33,50,0.3)",
-      btn_color: "rgba(255,255,255,0.7)",
-      btn_hover_bg: "rgba(25,33,50,0.5)",
-      btn_hover_color: "rgba(255,255,255,0.8)",
-      btn_active_bg: "rgba(25,33,50,0.8)",
-      btn_active_color: "rgb(255,255,255)",
-    },
-  },
-  spinnerColors: ["#6F61C0", "#241468"],
-  chartColor: [
-    "#F79BD3",
-    "#A084E8",
-    "#EA1179",
-    "#F79BD3",
-    "#A084E8",
-    "#6F61C0",
-    "#241468",
-    "#9F0D7F",
-  ],
-};
-const lightColors = {
-  page_bg: "rgb(241,242,245)",
-  horizen_bg: "#391b86",
-  header_bg: "rgb(210, 202, 250)",
-  sideBar: {
-    sideBar_bg: "rgb(210, 202, 250)",
-    sideBar_color: "#fff",
-  },
-  footer: {
-    titlenelowBackground: "#806ce1",
-    titleBackground: "#fff",
-    fromBackground: "rgb(210, 202, 250)",
-    toBackground: "rgb(210, 202, 250)",
-    belowBackground: "#806ce1",
-  },
-  dynamic_header: {
-    afterbrandcolor: "#789efb",
-    color1brand: "#000",
-    color2brand: "#806ce1",
-    colordescription: "#806ce1",
-    background: "linear-gradient(62deg, #d2cafa 0%, #E0C3FC 100%);",
-  },
-  search_sbt: {
-    section_bg: "rgb(235, 231, 253)",
-    card_bg: "",
-    search_btn_bg: "rgb(210, 202, 250)",
-    search_btn_bg_hover: "rgba(210, 202, 250,0.8)",
-    search_btn_text: "rgb(0,0,0)",
-    input_bg: "rgba(210, 202, 250,0.2)",
-    input_bg_hover: "rgba(210, 202, 250,0.4)",
-    input_text_color: "rgb(0,0,0)",
-    input_border: "rgba(210, 202, 250,0.4)",
-    table_bg: "transparent",
-    table_color: "rgb(0,0,0)",
-    table_border_color: "",
-    table_accent_bg: "",
-    table_striped_color: "rgb(0,0,0)",
-    table_striped_bg: "",
-    table_hover_color: "rgb(0,0,0)",
-    table_hover_bg: "",
-  },
-  sbt_info: {
-    section_bg: "rgb(235, 231, 253)",
-    card_bg: "rgb(255, 255, 255)",
-    card_title_color: "#806ce1",
-    card_content_color: "#000",
-  },
-  tab_sbt: {
-    backgroundColor: "rgb(210, 202, 250)",
-    textColor: "#fff",
-    headerColor: "#806ce1",
-    numberColor: "#fff",
-  },
-  sbt_area: {
-    section_bg: "rgb(235, 231, 253)",
-    card_bg: "rgb(255, 255, 255)",
-    card_title_color: "#806ce1",
-  },
-  table_pagination: {
-    table_bg: "rgb(255,255,255)",
-    table_color: "rgb(0,0,0)",
-    table_border_color: "",
-    table_accent_bg: "",
-    table_striped_color: "rgb(0,0,0)",
-    table_striped_bg: "",
-    table_hover_color: "rgb(0,0,0)",
-    table_hover_bg: "",
-    btn_border: "#806ce1",
-    btn_bg: "#fff",
-    btn_bg_active: "rgb(235, 231, 253)",
-    btn_color: "#000",
-  },
-  chart: {
-    title: "rgba(0,0,0,1)",
-    subtitle: "rgba(0,0,0,0.7)",
-    xAxis: "rgba(0,0,0,1)",
-    yAxis: "rgba(0,0,0,1)",
-    legend: "rgba(0,0,0,0.7)",
-    legendHover: "rgba(0,0,0,1)",
-    rangeSelector: {
-      labels: "rgba(0,0,0,0.7)",
-      inputColor: "rgba(0,0,0,0.5)",
-      btn_bg: "rgba(0,0,0,0.3)",
-      btn_color: "rgba(0,0,0,0.8)",
-      btn_hover_bg: "rgba(0,0,0,0.4)",
-      btn_hover_color: "rgba(0,0,0,1)",
-      btn_active_bg: "rgb(235, 231, 253)",
-      btn_active_color: "rgba(0,0,0,1)",
-    },
-  },
-  spinnerColors: ["#6F61C0", "#241468"],
-  chartColor: [
-    "#F79BD3",
-    "#A084E8",
-    "#EA1179",
-    "#F79BD3",
-    "#A084E8",
-    "#6F61C0",
-    "#241468",
-    "#9F0D7F",
-  ],
+const themeColor = props.themeColor;
+const API_KEY = "6d48c4c0-eb41-4e4b-ae4d-ba1148f01fb8";
+
+const general_theme = {
+  height: "110px",
+  align: "center",
+  description: "Explore the status of your activity.",
+  brand: "Jupiter Wrapped",
+  fontsize: "100",
+  fontweight: "25px",
+  afterbrand: "🌐",
+  afterbrandcolor: themeColor?.dynamic_header?.afterbrandcolor || "#789efb",
+  fontbrand: " Arial, sans-serif",
+  color1brand: themeColor?.dynamic_header?.color1brand || "#000",
+  color2brand: themeColor?.dynamic_header?.color2brand || "#806ce1",
+  colordescription: themeColor?.dynamic_header?.colordescription || "#806ce1",
+  fontsubtitle: " Arial, sans-serif",
+  background:
+    themeColor?.dynamic_header?.background ||
+    "radial-gradient(circle, rgba(210,202,250,1) 0%, rgba(230,230,231,0.01) 0%, rgba(235,238,255,1) 100%, rgba(235,231,253,1) 100%, rgba(255,241,241,1) 100%, rgba(46,52,90,1) 100%);",
 };
 
+//----------------------------------------------------------------------------------
+//tabs ######
 const tabs = {
-  area: "sbt-area",
-  info: "sbt-info",
-  search: "search-sbt",
-  Explorer: "Explorer",
-};
-
-State.init({
-  value: "acceleration",
-  light: true,
-  tab: "sbt-area",
-});
-const themeColor = state.light ? lightColors : darkColors;
-const handelLight = () => {
-  let bool = state.light;
-  State.update({ light: !bool });
+  transaction: "Transaction",
 };
 const setTab = (tab) => State.update({ tab });
+// ----------------------
+State.init({
+  singer: "",
+  interval: "week",
+  isLoading: false,
+  searchedSinger: null,
+  searchedInterval: null,
+  tab: tabs.transaction,
+  result: {},
+  error: [],
+});
+//---------------------------------------------------------------------------------------
+
+const inputHandler = ({ target }) => {
+  const singer = target.value.trim();
+  State.update({ singer: singer });
+};
+
+const selectHandler = ({ target }) => {
+  const interval = target.value.toLowerCase();
+  State.update({ interval });
+};
+//------------------------------------------------------------------------------------------------
+
+const handleSearchedSinger = () => {
+  if (!state.singer.length) {
+    State.update({ error: [...state.error, "please insert an address"] });
+    return;
+  }
+  if (
+    state.searchedSinger === state.singer &&
+    state.searchedInterval === state.interval
+  ) {
+    State.update({
+      error: [
+        ...state.error,
+        "please insert new address or select new interval",
+      ],
+    });
+    return;
+  }
+  State.update({
+    searchedSinger: state.singer,
+    searchedInterval: state.interval,
+    result: {},
+    isLoading: true,
+  });
+  setTimeout(() => {
+    State.update({ isLoading: false });
+  }, 10000);
+};
+//-------------------------------------------------------------------------------------------------
+
+//-------------------------------------------------------------------------------------------------
+
+// error managment #######################
+if (state.error.length > 0) {
+  function hide() {
+    const errors = state.error;
+    errors.shift();
+    if (errors.length > 0) setTimeout(hide, 2500);
+    State.update({ error: errors });
+  }
+  setTimeout(hide, 2500);
+}
+// ui elements ##################################
+// tabs container --------------------------------------------
 
 const Container = styled.div`
-  &&{text-align:center};
-  .tabContent{
-    display:inline-flex;
-    align-items:center;
+  && {
+    text-align: left;
+  }
+  .tabContent {
+    display: inline-flex;
+    align-items: left;
     background: rgba(26, 46, 51, 0.25);
     border: 1px solid rgba(255, 255, 255, 0.3);
     border-radius: 10px;
-    padding:3px 4px;
-    list-style-type:none;
+    padding: 3px 4px;
+    list-style-type: none;
     margin: 0 auto;
+    flex-wrap: wrap;
+    justify-content: center;
   }
-  .tab-item .active{
+  .tab-item .active {
     background: #304352;
   }
-  .tab-item button{
-    background-color:transparent;
+  .tab-item button {
+    background-color: transparent;
     border-radius: 8px;
     font-weight: 500;
     font-size: 14px;
-    color:#fff;
-    height:30px;
-    padding:0 22px;
-    border:none;
+    color: #fff;
+    height: 30px;
+    padding: 0 22px;
+    border: none;
   }
 `;
+//--------------------
+const Input = styled.input`
+  flex-grow: 4 !important;
+  color: ${themeColor?.search_sbt?.input_text_color};
+  background-color: ${themeColor?.search_sbt?.input_bg};
+  &:hover {
+    background-color: ${themeColor?.search_sbt?.input_bg_hover};
+  }
+  &:focus {
+    background-color: ${themeColor?.search_sbt?.input_bg};
+    color: ${themeColor?.search_sbt?.input_text_color};
+    border: 1px solid ${themeColor?.search_sbt?.input_border};
+  }
+  &:disabled {
+    background-color: ${themeColor?.search_sbt?.input_bg_hover};
+    color: ${themeColor?.search_sbt?.input_text_color};
+    border: 1px solid ${themeColor?.search_sbt?.input_border};
+  }
+  &::placeholder {
+    color: ${themeColor?.search_sbt?.input_text_color};
+  }
+  &:placeholder-shown {
+    opacity: 0.5;
+  }
+`;
+const Dropdown = styled.select`
+  cursor: pointer;
+  color: ${themeColor?.search_sbt?.input_text_color};
+  background-color: ${themeColor?.search_sbt?.input_bg};
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23343a40' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m2 5 6 6 6-6'/%3e%3c/svg%3e");
+  &:hover {
+    background-color: ${themeColor?.search_sbt?.input_bg_hover};
+  }
+  &:focus {
+    background-color: ${themeColor?.search_sbt?.input_bg};
+    color: ${themeColor?.search_sbt?.input_text_color};
+    border: 1px solid ${themeColor?.search_sbt?.input_border};
+  }
+  &:disabled {
+    background-color: ${themeColor?.search_sbt?.input_bg_hover};
+    color: ${themeColor?.search_sbt?.input_text_color};
+    border: 1px solid ${themeColor?.search_sbt?.input_border};
+    cursor: default;
+  }
+`;
+const Button = styled.button`
+  color: ${themeColor?.search_sbt?.search_btn_text};
+  font-size: 16px;
+  padding: 0.5rem 1rem;
+  font-weight: 400;
+  background-color: ${themeColor?.search_sbt?.search_btn_bg};
+  &:hover {
+    background-color: ${themeColor?.search_sbt?.search_btn_bg_hover};
+  }
+  border: 1px solid ${themeColor?.search_sbt?.search_btn_bg};
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.02);
+  min-height: calc(1.5em + 1rem + 2px);
+  border-radius: 40px;
+  line-height: 29px;
+  letter-spacing: 0.01em;
+`;
+
+const Transaction = (
+  <div
+    className="w-100"
+    style={{ display: state.tab === tabs.transaction ? "" : "none" }}
+  >
+    <Widget
+      src="lord1.near/widget/wrapped-transaction-jupiter"
+      props={{
+        themeColor,
+        singer: state.searchedSinger,
+        interval: state.searchedInterval,
+        API_KEY,
+      }}
+    />
+  </div>
+);
 
 return (
   <div
-    style={{
-      background: themeColor?.page_bg,
-    }}
+    style={{ backgroundColor: themeColor.page_bg }}
+    className="container-fluid py-2 rounded-4"
   >
-    <div>
-      <div
-        style={{
-          backgroundColor: themeColor?.header_bg,
-          borderRadius: "15px",
-          display: "flex",
-          justifyContent: "space-between",
-          padding: ".5rem",
-          marginBottom: "1rem",
-        }}
-      >
-        <Widget
-          src="efiz.near/widget/marquee"
-          props={{
-            text: "Broaden your horizon with Flipside",
-            fontFamily: "Arial",
-            fontSize: "20px",
-            backgroundColor: themeColor?.header_bg,
-            height: "60px",
-            width: "100%",
-            textColor: themeColor?.horizen_bg,
-          }}
-        />
+    <div className="toast-container position-fixed bottom-0 end-0 p-3">
+      {state.error.length > 0 &&
+        state.error.map((er) => (
+          <div
+            key={er}
+            className="toast show align-items-center text-bg-danger border-0"
+            role="alert"
+            aria-live="assertive"
+            aria-atomic="true"
+          >
+            <div className="d-flex">
+              <div className="toast-body">{er}</div>
+            </div>
+          </div>
+        ))}
+    </div>
 
-        <img
-          onClick={handelLight}
-          Width={30}
-          src="https://raw.githubusercontent.com/lordking1234/blockchain-icon/main/lightmode.svg"
-        />
+    <div
+      className="shadow-sm  rounded-4"
+      style={{ background: themeColor?.search_sbt?.section_bg }}
+    >
+      <Widget src="lord1.near/widget/header-dynamic" props={general_theme} />
+    </div>
+    <div className="search py-4">
+      <div className="row">
+        <div className="col-sm-8 mb-3">
+          <div className="input-group gap-2">
+            <Input
+              onBlur={inputHandler}
+              defaultValue={state.singer}
+              disabled={state.isLoading}
+              type="input"
+              className="form-control form-control-lg rounded-4 rounded-end"
+              id="address"
+              placeholder="Solana Address:"
+            />
+            <Dropdown
+              onChange={selectHandler}
+              value={state.interval}
+              disabled={state.isLoading}
+              className="form-select rounded-4 rounded-start mw-25"
+            >
+              <option value="day">Day</option>
+              <option selected value="week">
+                Week
+              </option>
+              <option value="month">Month</option>
+              <option value="year">Year</option>
+            </Dropdown>
+          </div>
+        </div>
+        <div className="text-center col-sm-4 col-md-auto">
+          <Button
+            disabled={state.isLoading}
+            onClick={handleSearchedSinger}
+            className="btn-lg"
+            type="button"
+          >
+            {state.isLoading ? (
+              <div className="text-center px-4">
+                <div className="spinner-border spinner-border-sm" role="status">
+                  <span className="visually-hidden">Loading...</span>
+                </div>
+              </div>
+            ) : (
+              "search"
+            )}
+          </Button>
+        </div>
       </div>
-      <Widget
-        src="lord1.near/widget/wrapped-jupiter"
-        props={{ themeColor: themeColor }}
-      />
-      <Widget
-        src="lord1.near/widget/footer"
-        props={{
-          beBackground: "#fff",
-          titlenelowBackground: themeColor?.footer?.titlenelowBackground,
-          titleBackground: themeColor?.footer?.titleBackground,
-          svgBackground: "#806ce1",
-          fromBackground: themeColor?.footer?.fromBackground,
-          toBackground: themeColor?.footer?.toBackground,
-          belowBackground: themeColor?.footer?.belowBackground,
-        }}
-      />
+    </div>
+    <div>
+      {state.searchedSinger && (
+        <>
+          <div className="w-100 d-flex justify-content-center mb-2">
+            <Container>
+              <ul className="tabContent">
+                {Object.values(tabs).map((tab) => (
+                  <li key={tab} className="tab-item">
+                    <button
+                      className={`${state.tab === tab ? "active" : ""}`}
+                      aria-current="page"
+                      onClick={() => setTab(tab)}
+                    >
+                      {tab}
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            </Container>
+          </div>
+          <div className="w-100">
+            <div>{Transaction}</div>
+          </div>
+        </>
+      )}
     </div>
   </div>
 );
