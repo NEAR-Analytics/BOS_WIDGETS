@@ -112,6 +112,12 @@ const secText = styled.h5`
     text-align: center;
 `;
 
+// The main create vote Function
+function createVote() {
+  console.log("creating vote");
+  console.log(newVote);
+}
+
 return (
   <>
     {accountId ? (
@@ -190,7 +196,6 @@ return (
                   <hr />
 
                   <secText>Candidates Section</secText>
-                  {newCandidate.party}
                   <Widget
                     src="abnakore.near/widget/Table"
                     props={{
@@ -282,7 +287,7 @@ return (
                       setItem: setNewVote,
                     }}
                   />
-                  <button>Submit</button>
+                  <button onClick={createVote}>Submit</button>
                 </div>
               </div>
             </div>
