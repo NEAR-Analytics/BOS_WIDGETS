@@ -43,7 +43,7 @@ let Style = styled.div`
     font-weight: 600;
   }
 `;
-let nodes = rawData.body || [];
+let nodes = JSON.parse(rawData.body) || [];
 
 function formatPercentNew(text) {
   let number = parseFloat(text);
