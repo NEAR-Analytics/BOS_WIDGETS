@@ -39,7 +39,7 @@ query_url_obj.forEach((item) => {
   });
   // Note: without using async/await or .then(), you won't get the body directly
   // so you may need additional handling here.
-  resultObject[item.name] = raw_data.body || [];
+  resultObject[item.name] = JSON.parse(raw_data.body) || [];
 });
 
 console.log(resultObject);
