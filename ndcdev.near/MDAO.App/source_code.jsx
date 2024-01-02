@@ -47,12 +47,7 @@ function Page() {
       );
     }
     case "communities": {
-      return (
-        <Widget
-          src={`ndcdev.near/widget/MDAO.Pages.Communities`}
-          props={{ type: "report" }}
-        />
-      );
+      return <Widget src={`ndcdev.near/widget/MDAO.Pages.Communities`} />;
     }
     case "proposals": {
       return (
