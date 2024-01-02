@@ -101,29 +101,29 @@ return (
     </Header>
 
     <Body>
-      {item.id && item.text && (
-        <>
-          <Content>
-            {item.text && (
-              <Widget
-                src="near/widget/SocialMarkdown"
-                props={{ text: item.text }}
-              />
-            )}
-          </Content>
-          <Actions>
-            <div>
-              {likes.length}
-              <i className="bi bi-heart" onClick={handleLike} />
-            </div>
-            <div>
-              <i
-                className="bi bi-chat"
-                onClick={() => setShowReply({ [item.id]: !showReply[item.id] })}
-              />
-            </div>
-          </Actions>
-        </>
+      {item.text && (
+        <Content>
+          {item.text && (
+            <Widget
+              src="near/widget/SocialMarkdown"
+              props={{ text: item.text }}
+            />
+          )}
+        </Content>
+      )}
+      {item.id && (
+        <Actions>
+          <div>
+            {likes.length}
+            <i className="bi bi-heart" onClick={handleLike} />
+          </div>
+          <div>
+            <i
+              className="bi bi-chat"
+              onClick={() => setShowReply({ [item.id]: !showReply[item.id] })}
+            />
+          </div>
+        </Actions>
       )}
 
       {showReply[item.id] && (
