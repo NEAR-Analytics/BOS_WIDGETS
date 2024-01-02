@@ -918,7 +918,7 @@ const handleWithdraw = () => {
         status: status,
         add: can_add_action,
         transactionHash,
-        chain_id: state.chainId,
+        chain_id: props.chainId,
       });
 
       setTimeout(() => State.update({ isPostTx: false }), 10_000);
