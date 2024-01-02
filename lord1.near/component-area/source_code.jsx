@@ -370,11 +370,11 @@ return (
                 rowsCount: 10,
                 columns: [
                   { title: "Activity area", key: "project", colors: "#806ce1" },
-                  { title: "Transactions", key: "transactions" },
-                  { title: "Users", key: "active_users" },
+                  { title: "Transactions", key: "transactions", round: "yes" },
+                  { title: "Users", key: "active_users", round: "yes" },
                   { title: "Avg Trxs", key: "avg_trxs" },
-                  { title: "Volume(Near)", key: "amount_near" },
-                  { title: "Fee (Near)", key: "fee_in_near" },
+                  { title: "Volume(Near)", key: "amount_near", round: "yes" },
+                  { title: "Fee (Near)", key: "fee_in_near", round: "yes" },
                 ],
               }}
             />
@@ -400,7 +400,11 @@ return (
                   data: state.data?.hash5?.data,
                   columns: [
                     { title: "Project", key: "PROJECT", colors: "#806ce1" },
-                    { title: "Active Users", key: "ACTIVE_USERS" },
+                    {
+                      title: "Active Users",
+                      key: "ACTIVE_USERS",
+                      round: "yes",
+                    },
                   ],
                   rowsCount: 5,
                 }}
@@ -419,7 +423,11 @@ return (
                   data: state.data?.hash6?.data,
                   columns: [
                     { title: "Project", key: "PROJECT", colors: "#806ce1" },
-                    { title: "Transactions", key: "TRANSACTIONS" },
+                    {
+                      title: "Transactions",
+                      key: "TRANSACTIONS",
+                      round: "yes",
+                    },
                   ],
                   rowsCount: 5,
                 }}
@@ -438,7 +446,7 @@ return (
                   data: state.data?.hash7?.data,
                   columns: [
                     { title: "Project", key: "PROJECT", colors: "#806ce1" },
-                    { title: "Fee(Near)", key: "FEE_IN_NEAR" },
+                    { title: "Fee(Near)", key: "FEE_IN_NEAR", round: "yes" },
                   ],
                   rowsCount: 5,
                 }}
@@ -458,7 +466,7 @@ return (
 
                   columns: [
                     { title: "Project", key: "PROJECT", colors: "#806ce1" },
-                    { title: "Volume(Near)", key: "AMOUNT_NEAR" },
+                    { title: "Volume(Near)", key: "AMOUNT_NEAR", round: "yes" },
                   ],
                   rowsCount: 5,
                 }}
@@ -597,8 +605,8 @@ return (
                 data: state.data?.hash11?.data,
                 columns: [
                   { title: "Project", key: "project", colors: "#806ce1" },
-                  { title: "Transactions", key: "transactions" },
-                  { title: "Active Users", key: "active_users" },
+                  { title: "Transactions", key: "transactions", round: "yes" },
+                  { title: "Active Users", key: "active_users", round: "yes" },
                 ],
               }}
             />
