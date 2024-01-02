@@ -395,7 +395,18 @@ const getPieProps = (data, [key, value], colors, chartOption) => {
   };
   return props;
 };
-
+const convertData = (data) => {
+  if (typeof data !== "string") {
+    return data;
+  }
+  let converted;
+  try {
+    converted = JSON.parse(data);
+  } catch (er) {
+    converted = data;
+  }
+  return converted;
+};
 const fetchInitialData = (hash) => {
   const data = fetch(
     `https://api.flipsidecrypto.com/api/v2/queries/${hash}/data/latest`,
@@ -410,7 +421,7 @@ const fetchInitialData = (hash) => {
   console.log("data", data);
 
   const result = {
-    data: data && data.body,
+    data: data && convertData(data.body),
     error: (data && data.error) || null,
     isLoading: !data && !error,
   };
