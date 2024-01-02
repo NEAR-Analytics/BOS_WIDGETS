@@ -23,11 +23,11 @@ const Button = styled.a`
   }
 `;
 
-const items = Social.index("graph", "v1.ndc.mdao", { order: "desc" });
+const items = Social.index("graph", "v2.ndc.mdao", { order: "desc" });
 
 return (
   <Container>
-    <h1>{items[0].value.type === "proposal" ? "Proposals" : "Reports"} List</h1>
+    <h1>{props.type === "proposal" ? "Proposals" : "Reports"} List</h1>
     <div className="d-flex justify-content-end mb-4">
       <Button href="/ndcdev.near/widget/MDAO.App?page=createProposal">
         <i className="bi bi-plus-circle" />
