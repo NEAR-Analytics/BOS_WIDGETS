@@ -214,29 +214,15 @@ if (!state.bookmarkLoaded && props.bookmark && storageBookmark) {
 } else {
     console.log("loading bookmark~~~~");
 }
-// setTimeout(() => {
-//     if (props.bookmark) {
-//         State.update({
-//             projects: storageBookmark,
-//             bookmarkLoaded: true
-//         });
-//         console.log("loaded storage bookmark to state: ", storageBookmark)
-//     }
-// }, 1500);
-
 return (
     <>
         <Css>
-
             <div className="container near-bg" id="awesomebos-wrap">
-
                 <Widget src={`${componentPath}.Layout.Navbar`} props={{
                     componentPath,
                     indexPath,
                 }} />
-
                 <div className="row">
-
                     <Widget src={`${componentPath}.Layout.LeftSidebar`} props={{
                         componentPath,
                         indexPath
