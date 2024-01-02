@@ -5,15 +5,9 @@ const accountId = context.accountId;
 const Post = styled.div`
   position: relative;
 
-  &:first-child {
-    &::before {
-      display: none;
-    }
-  }
-
   &::before {
     content: "";
-    display: block;
+    display: ${showCreate ? "none" : "block"};
     position: absolute;
     left: 19px;
     top: 52px;
@@ -29,12 +23,8 @@ const Header = styled.div`
 `;
 
 const Body = styled.div`
-  padding-left: 52px;
+  padding-left: ${showCreate ? "0" : "50px"};
   padding-bottom: 5px;
-
-  &:first-child {
-    padding-left: 0;
-  }
 `;
 
 const Content = styled.div`
@@ -60,7 +50,7 @@ const Actions = styled.div`
   display: flex;
   align-items: center;
   gap: 12px;
-  margin: -6px -6px 6px;
+  margin: -3px 0 10px 0;
 `;
 
 const Comments = styled.div`
@@ -131,15 +121,19 @@ return (
       )}
       {item.text && item.id && (
         <Actions>
-          <div>
-            {likes.length}
-            <i className="bi bi-heart" onClick={handleLike} />
+          <div
+            role="button"
+            className="d-flex gap-1 align-items-center"
+            onClick={handleLike}
+          >
+            <small>{likes.length}</small>
+            <i className="bi bi-heart" />
           </div>
-          <div>
-            <i
-              className="bi bi-chat"
-              onClick={() => setShowReply({ [item.id]: !showReply[item.id] })}
-            />
+          <div
+            role="button"
+            onClick={() => setShowReply({ [item.id]: !showReply[item.id] })}
+          >
+            <i className="bi bi-chat" />
           </div>
         </Actions>
       )}
