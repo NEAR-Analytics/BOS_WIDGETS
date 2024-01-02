@@ -5,6 +5,12 @@ const accountId = context.accountId;
 const Post = styled.div`
   position: relative;
 
+  &:first-child {
+    &::before {
+      display: none;
+    }
+  }
+
   &::before {
     content: "";
     display: block;
@@ -25,6 +31,10 @@ const Header = styled.div`
 const Body = styled.div`
   padding-left: 52px;
   padding-bottom: 5px;
+
+  &:first-child {
+    padding-left: 0;
+  }
 `;
 
 const Content = styled.div`
@@ -64,8 +74,8 @@ const [replies, setReplies] = useState([]);
 const [liked, setLiked] = useState(false);
 const [showReply, setShowReply] = useState({ [item.id]: showCreate });
 
-const comments = Social.index("graph", "v1.ndc.mdao.reply", { order: "desc" });
-let likes = Social.index("graph", "v1.ndc.mdao.like", { order: "desc" });
+const comments = Social.index("graph", "v2.ndc.mdao.reply", { order: "desc" });
+let likes = Social.index("graph", "v2.ndc.mdao.like", { order: "desc" });
 likes = likes ? likes.filter((like) => like.value.parentId === item.id) : [];
 const myLike = likes ? likes.some((like) => like.value[accountId]) : false;
 setLiked(myLike);
@@ -74,7 +84,7 @@ const handleLike = () => {
   Social.set({
     index: {
       graph: JSON.stringify({
-        key: "v1.ndc.mdao.like",
+        key: "v2.ndc.mdao.like",
         value: {
           parentId: item.id,
           [accountId]: !myLike,
@@ -86,19 +96,29 @@ const handleLike = () => {
 
 return (
   <Post>
-    <Header>
-      <div className="row">
-        <div className="col-auto">
-          <Widget
-            src="near/widget/AccountProfile"
-            props={{
-              accountId,
-              hideAccountId: true,
-            }}
-          />
+    {item.text && (
+      <Header>
+        <div className="row">
+          <div className="col-auto">
+            <div className="d-flex gap-3 align-items-center">
+              <Widget
+                src="near/widget/AccountProfile"
+                props={{
+                  accountId: item.accountId,
+                  hideAccountId: true,
+                }}
+              />
+              <div className="text-secondary">
+                <small>
+                  <i className="bi bi-clock" />
+                  {new Date(item.id).toLocaleDateString()}
+                </small>
+              </div>
+            </div>
+          </div>
         </div>
-      </div>
-    </Header>
+      </Header>
+    )}
 
     <Body>
       {item.text && (
