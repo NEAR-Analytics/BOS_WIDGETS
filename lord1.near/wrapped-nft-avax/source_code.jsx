@@ -103,7 +103,6 @@ group by 1 `,
       ],
     },
     query: `
-
 with 
 bb as 
       (
@@ -134,9 +133,8 @@ select
             PRICE_USD
 
       from avalanche.nft.ez_nft_sales 
-      where  BUYER_ADDRESS ='{{singer}}'
+      where  BUYER_ADDRESS  ='{{singer}}'
       and BLOCK_TIMESTAMP::date>'2023-01-01'
-
 
 union all 
 
@@ -152,9 +150,9 @@ select
             null as PRICE_USD
 
       from avalanche.nft.ez_nft_transfers
-      where  NFT_FROM_ADDRESS  ='{{singer}}'
+      where  NFT_FROM_ADDRESS ='{{singer}}'
       and BLOCK_TIMESTAMP::date>'2023-01-01'
-
+      and EVENT_TYPE='mint'
 union all 
 
 
@@ -171,9 +169,50 @@ select
       from avalanche.nft.ez_nft_transfers
       where  NFT_TO_ADDRESS  ='{{singer}}'
       and BLOCK_TIMESTAMP::date>'2023-01-01'
+      and EVENT_TYPE='mint'
+)
+,b as (
+
+select 
+            BLOCK_TIMESTAMP,
+            TX_HASH,
+            'transfer (' || EVENT_TYPE||')' as EVENT_TYPE ,
+            NFT_FROM_ADDRESS as "from",
+            NFT_TO_ADDRESS as "to",
+            PROJECT_NAME,
+            TOKENID,
+            null as PRICE_USD
+
+      from avalanche.nft.ez_nft_transfers
+      where  NFT_FROM_ADDRESS  ='{{singer}}'
+      and BLOCK_TIMESTAMP::date>'2023-01-01'
+      and tx_hash not in (select distinct tx_hash from bb )
+      and EVENT_TYPE ='other'
+union all 
+
+
+select 
+            BLOCK_TIMESTAMP,
+            TX_HASH,
+            'transfer (' || EVENT_TYPE||')' as EVENT_TYPE ,
+            NFT_FROM_ADDRESS as "from",
+            NFT_TO_ADDRESS as "to",
+            PROJECT_NAME,
+            TOKENID,
+            null as PRICE_USD
+
+      from avalanche.nft.ez_nft_transfers
+      where  NFT_TO_ADDRESS  ='{{singer}}'
+      and BLOCK_TIMESTAMP::date>'2023-01-01'
+      and tx_hash not in (select distinct tx_hash from bb )
+      and EVENT_TYPE='other'
 
 )
-
+, c as (
+select * from bb 
+union all 
+select * from b 
+)
 select 
       EVENT_TYPE as "type",
       count(distinct TX_HASH) as "trxs",
@@ -181,7 +220,7 @@ select
       count(distinct PROJECT_NAME ) as "collection"
 
 
-from bb
+from c
 group by 1  `,
   },
   {
