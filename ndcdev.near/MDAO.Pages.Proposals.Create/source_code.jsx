@@ -187,7 +187,7 @@ const ProposalButton = () => (
     data={{
       index: {
         graph: JSON.stringify({
-          key: "v1.ndc.mdao",
+          key: "v2.ndc.mdao",
           value: formEls,
         }),
       },
