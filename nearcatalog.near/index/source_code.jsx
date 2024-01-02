@@ -49,6 +49,7 @@ switch (router) {
     case "bookmark":
         widgetSrc = `${componentPath}.Layout.AppGrid`;
         projects = Storage.get("nearcatalogBookmark");
+        if(!projects) return loadingScreen();   
         widgetProps = {
             bookmark: true,
         }
@@ -57,6 +58,9 @@ switch (router) {
     default:
         //home router 
         query = fetch(indexer + "/projects");
+        if (!query || !query.body) {
+            return loadingScreen();
+        }
         projects = query.body;
         widgetSrc = `${componentPath}.Layout.AppGrid`;
         break;
