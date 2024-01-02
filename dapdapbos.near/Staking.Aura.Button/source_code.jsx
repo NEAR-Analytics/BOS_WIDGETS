@@ -13,6 +13,8 @@ const Wrapper = styled.button`
   border: none;
   color: var(--white);
   background-color: ${(props) => {
+    console.log(222, props);
+
     switch (props.type) {
       case "primary":
         return "#783ae3";
@@ -41,8 +43,7 @@ const handleClick = () => {
 return (
   <Wrapper
     type={type}
-    disabled={disabled}
-    loading={loading}
+    // disabled={disabled}
     onClick={handleClick}
     style={style}
     className={className}
