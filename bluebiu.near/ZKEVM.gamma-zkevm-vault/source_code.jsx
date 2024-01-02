@@ -787,7 +787,7 @@ const handleWithdraw = () => {
     .then((receipt) => {
       const { status, transactionHash } = receipt;
 
-      addAction?.({
+      props.addAction?.({
         type: "Liquidity",
         action: "Liquidity Withdraw",
         token0,
