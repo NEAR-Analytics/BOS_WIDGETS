@@ -9,6 +9,7 @@ const data = fetch(`https://api.coingecko.com/api/v3/coins/${props.platform.coin
     Accept: "*/*",
   },
 });
+if(!data) return <></>
 
 return (
   <div className="rounded-4 p-3 mb-3">
