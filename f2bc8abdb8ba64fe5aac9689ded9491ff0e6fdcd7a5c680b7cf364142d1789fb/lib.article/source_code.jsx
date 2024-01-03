@@ -260,7 +260,7 @@ function filterFakeAuthors(articleData, articleIndexData) {
   }
 }
 
-function getArticlesNormalized(env) {
+function getArticlesNormalized(env, articleIdToFilter) {
   const articlesByVersion = Object.keys(versions).map((version, index, arr) => {
     const action = versions[version].action;
     const subscribe = index + 1 === arr.length;
@@ -273,7 +273,13 @@ function getArticlesNormalized(env) {
 
     const validLatestEdits = getLatestEdits(validArticlesIndexes);
 
-    const articles = validLatestEdits
+    const validFilteredByArticleId = articleIdToFilter
+      ? filterByArticleId(validArticlesIndexes, articleIdToFilter)
+      : undefined;
+
+    const finalArticlesIndexes = validFilteredByArticleId ?? validLatestEdits;
+
+    const articles = finalArticlesIndexes
       .map((article) => {
         return filterFakeAuthors(getArticle(article, action), article);
       })
@@ -302,6 +308,12 @@ function getArticle(articleIndex, action) {
   if (articleParsed) {
     return articleParsed;
   }
+}
+
+function filterByArticleId(newFormatArticlesIndexes, articleIdToFilter) {
+  return newFormatArticlesIndexes.filter((articleIndex) => {
+    articleIndex.value.id === articleIdToFilter;
+  });
 }
 
 function getLatestEdits(newFormatArticlesIndexes) {
@@ -333,7 +345,8 @@ function filterInvalidArticlesIndexes(env, articlesIndexes) {
 }
 
 function getArticles(props) {
-  const { env, sbtsNames } = props;
+  const { env, sbtsNames, articleIdToFilter } = props;
+
   // Call other libs
   const normArticles = getArticlesNormalized(env);
 
@@ -344,11 +357,15 @@ function getArticles(props) {
     );
   });
 
-  const lastEditionArticlesAuthors = lastEditionArticles.map((article) => {
+  const filteredArticles = articleIdToFilter
+    ? normArticles
+    : lastEditionArticles;
+
+  const articlesAuthors = filteredArticles.map((article) => {
     return article.author;
   });
 
-  setAreValidUsers(lastEditionArticlesAuthors, sbtsNames);
+  setAreValidUsers(articlesAuthors, sbtsNames);
 
   resultFunctionsToCall = resultFunctionsToCall.filter((call) => {
     const discardCondition =
@@ -357,7 +374,7 @@ function getArticles(props) {
     return !discardCondition;
   });
 
-  const finalArticles = filterValidArticles(lastEditionArticles);
+  const finalArticles = filterValidArticles(filteredArticles);
   const finalArticlesMapped = {};
   sbtsNames.forEach((sbtName) => {
     const sbtArticles = finalArticles.filter((article) => {
