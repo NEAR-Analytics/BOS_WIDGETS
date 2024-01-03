@@ -13,16 +13,15 @@
 
 
 
-const TokenImage = (props) => {
-  const placeholder = `${props.appUrl}images/tokenplaceholder.svg`;
 
-  return (
-    <img
-      src={props.src || placeholder}
-      alt={props.alt}
-      className={props.className}
-    />
-  );
+const TokenImage = ({ appUrl, src, alt, ...rest }) => {
+  const placeholder = `${appUrl}images/tokenplaceholder.svg`;
+  const onError = (e) => {
+    e.target.onError = null;
+    e.target.src = placeholder;
+  };
+
+  return <img src={src || placeholder} alt={alt} {...rest} onError={onError} />;
 };
 
 export default TokenImage;
