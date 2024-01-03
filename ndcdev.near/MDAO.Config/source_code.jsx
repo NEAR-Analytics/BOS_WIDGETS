@@ -164,7 +164,7 @@ return {
     },
   },
   socials: {
-    "twitter-x": "",
+    "twitter-x": "https://twitter.com/MarketingDAOers",
     telegram: "https://t.me/ndc_marketing",
     envelope: "mailto:marketingdao@proton.me",
   },
