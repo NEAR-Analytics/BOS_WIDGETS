@@ -125,13 +125,18 @@ return (
       />
     </Aside>
     <MainContent>
-      {context.accountId && (
+      {context.accountId ? (
         <Widget
           src="buildhub.near/widget/Compose"
           props={{
             feed: feedsDict[currentFeed],
             template: feedsDict[currentFeed].template,
           }}
+        />
+      ) : (
+        <Widget
+          src="buildhub.near/widget/components.login-now"
+          props={props}
         />
       )}
       {feed()}
