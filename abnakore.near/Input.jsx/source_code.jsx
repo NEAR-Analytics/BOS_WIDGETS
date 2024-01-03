@@ -61,6 +61,8 @@ return (
               required={props.required}
               value={props.items[item]}
               onChange={updateText}
+              style={props.styles}
+              {...props.otherAttributes}
             />
           )}
 
