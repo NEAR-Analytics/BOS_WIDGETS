@@ -229,12 +229,10 @@ return (
                     }} />
 
                     <div id="near-content-container" className="col col-md-9 py-3 near-right container ">
-
-                        <div className="awesome-hero">
-                            <h1 className="awesome-title">{props.title.length > 0 ? props.title : ""}</h1>
-                            <p className="awesome-desc">{props.desc}</p>
-                        </div>
-
+                    <div className="awesome-hero">
+                                <h1 className="awesome-title">{props.cat.length > 0 ? props.cat : ""}</h1>
+                                <p className="awesome-desc">{props.desc}</p>
+                            </div>
                         <Widget src={`${componentPath}.Layout.SearchBar`} props={{
                             indexPath,
                             indexer: props.indexer,
@@ -251,9 +249,8 @@ return (
                             indexPath,
                             indexer: props.indexer
                         }} />
-
                         <div className="col py-3">
-
+      
                             <div className="near-content">
                                 <div className="near-list-container row">
                                     {
@@ -263,7 +260,6 @@ return (
                                     }
                                     {
                                         Object.keys(state.projects).map((e) => {
-                                            // console.log("projectId: ", e);
                                             let p = state.projects[e];
                                             return (
                                                 <div className="near-item-wrap col-md-4 col-sm-12 p-3">
