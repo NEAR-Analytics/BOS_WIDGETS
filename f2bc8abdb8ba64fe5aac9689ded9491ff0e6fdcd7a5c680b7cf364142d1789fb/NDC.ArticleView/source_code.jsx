@@ -11,6 +11,7 @@ const {
   callLibs,
   baseActions,
   sharedCommentId,
+  allArticlesWithThisSBT,
 } = props;
 
 if (!callLibs) {
@@ -525,12 +526,25 @@ let displayedContent = state.sliceContent
   ? articleToRenderData.body.slice(0, 1000)
   : articleToRenderData.body;
 
+console.log("articleToRenderData.articleId: ", articleToRenderData);
+
 return (
   <>
     {sharedCommentId && (
       <a href={`#${sharedCommentId}`}>
         Click to redirect to comment that mentioned you
       </a>
+    )}
+    {true && (
+      <div className="mt-3 ps-5">
+        <Widget
+          src={widgets.articleHistory.handler}
+          props={{
+            articleId: articleToRenderData.title,
+            widgets,
+          }}
+        />
+      </div>
     )}
     <Container className="row">
       <div className="col-lg-9 col-sm-12">
