@@ -131,7 +131,7 @@ function shortenTokenSymbol(token) {
 function gasPercentage(gasUsed, gasAttached) {
   if (!gasAttached) return 'N/A';
 
-  const formattedNumber = (Big(gasUsed).div(Big(gasAttached)) * 100).toFixed();
+  const formattedNumber = (Big(gasUsed).div(Big(gasAttached)) * 100).toFixed(2);
   return `${formattedNumber}%`;
 }
 function serialNumber(index, page, perPage) {
@@ -310,7 +310,15 @@ function convertToMetricPrefix(number) {
     count++;
   }
 
-  return number.toFixed(2) + ' ' + prefixes[count];
+  // Check if the number is close to an integer value
+  if (Math.abs(number) >= 10) {
+    number = Math.round(number); // Round the number to the nearest whole number
+    return number + ' ' + prefixes[count];
+  }
+
+  return (
+    Number(Math.floor(number * 100) / 100).toFixed(2) + ' ' + prefixes[count]
+  );
 }
 
 function gasFee(gas, price) {
@@ -419,7 +427,7 @@ function shortenTokenSymbol(token) {
 function gasPercentage(gasUsed, gasAttached) {
   if (!gasAttached) return 'N/A';
 
-  const formattedNumber = (Big(gasUsed).div(Big(gasAttached)) * 100).toFixed();
+  const formattedNumber = (Big(gasUsed).div(Big(gasAttached)) * 100).toFixed(2);
   return `${formattedNumber}%`;
 }
 function serialNumber(index, page, perPage) {
@@ -509,7 +517,7 @@ function shortenTokenSymbol(token) {
 function gasPercentage(gasUsed, gasAttached) {
   if (!gasAttached) return 'N/A';
 
-  const formattedNumber = (Big(gasUsed).div(Big(gasAttached)) * 100).toFixed();
+  const formattedNumber = (Big(gasUsed).div(Big(gasAttached)) * 100).toFixed(2);
   return `${formattedNumber}%`;
 }
 function serialNumber(index, page, perPage) {
@@ -696,7 +704,15 @@ function convertToMetricPrefix(number) {
     count++;
   }
 
-  return number.toFixed(2) + ' ' + prefixes[count];
+  // Check if the number is close to an integer value
+  if (Math.abs(number) >= 10) {
+    number = Math.round(number); // Round the number to the nearest whole number
+    return number + ' ' + prefixes[count];
+  }
+
+  return (
+    Number(Math.floor(number * 100) / 100).toFixed(2) + ' ' + prefixes[count]
+  );
 }
 
 function gasFee(gas, price) {
@@ -805,7 +821,7 @@ function shortenTokenSymbol(token) {
 function gasPercentage(gasUsed, gasAttached) {
   if (!gasAttached) return 'N/A';
 
-  const formattedNumber = (Big(gasUsed).div(Big(gasAttached)) * 100).toFixed();
+  const formattedNumber = (Big(gasUsed).div(Big(gasAttached)) * 100).toFixed(2);
   return `${formattedNumber}%`;
 }
 function serialNumber(index, page, perPage) {
@@ -922,11 +938,174 @@ function tokenAmount(amount, decimal, format) {
       })
     : near;
 }
+
+function mapRpcActionToAction(action) {
+  if (action === 'CreateAccount') {
+    return {
+      action_kind: 'CreateAccount',
+      args: {},
+    };
+  }
+
+  if (typeof action === 'object') {
+    const kind = Object.keys(action)[0];
+
+    return {
+      action_kind: kind,
+      args: action[kind],
+    };
+  }
+
+  return null;
+}
+
+const valueFromObj = (obj) => {
+  const keys = Object.keys(obj);
+
+  for (let i = 0; i < keys.length; i++) {
+    const key = keys[i];
+    const value = obj[key];
+
+    if (typeof value === 'string') {
+      return value;
+    }
+
+    if (typeof value === 'object') {
+      const nestedValue = valueFromObj(value );
+      if (nestedValue) {
+        return nestedValue;
+      }
+    }
+  }
+
+  return undefined;
+};
+
+function txnLogs(txn) {
+  let txLogs = [];
+
+  const outcomes = txn?.receipts_outcome || [];
+
+  for (let i = 0; i < outcomes.length; i++) {
+    const outcome = outcomes[i];
+    let logs = outcome?.outcome?.logs || [];
+
+    if (logs.length > 0) {
+      const mappedLogs = logs.map((log) => ({
+        contract: outcome?.outcome?.executor_id || '',
+        logs: log,
+      }));
+      txLogs = [...txLogs, ...mappedLogs];
+    }
+  }
+
+  return txLogs;
+}
+
+function txnActions(txn) {
+  const txActions = [];
+  const receipts = txn?.receipts || [];
+
+  for (let i = 0; i < receipts.length; i++) {
+    const receipt = receipts[i];
+    const from = receipt?.predecessor_id;
+    const to = receipt?.receiver_id;
+
+    if (Array.isArray(receipt?.receipt)) {
+      const actions = receipt.receipt;
+
+      for (let j = 0; j < actions.length; j++) {
+        const action = actions[j];
+
+        txActions.push({ from, to, ...action });
+      }
+    } else {
+      const actions = receipt?.receipt?.Action?.actions || [];
+
+      for (let j = 0; j < actions.length; j++) {
+        const action = mapRpcActionToAction(actions[j]);
+
+        txActions.push({ from, to, ...action });
+      }
+    }
+  }
+
+  return txActions.filter(
+    (action) =>
+      action.action_kind !== 'FunctionCall' && action.from !== 'system',
+  );
+}
+
+function txnErrorMessage(txn) {
+  const kind = txn?.status?.Failure?.ActionError?.kind;
+
+  if (typeof kind === 'string') return kind;
+  if (typeof kind === 'object') {
+    return valueFromObj(kind);
+  }
+
+  return null;
+}
+
+function formatLine(line, offset, format) {
+  let result = `${offset.toString(16).padStart(8, '0')}  `;
+
+  const bytes = line.split(' ').filter(Boolean);
+  bytes.forEach((byte, index) => {
+    if (index > 0 && index % 4 === 0) {
+      result += ' ';
+    }
+    result += byte.toUpperCase().padEnd(2, ' ') + ' ';
+  });
+
+  if (format === 'default') {
+    result += ` ${String.fromCharCode(
+      ...bytes.map((b) => parseInt(b, 16)),
+    )}`;
+  }
+
+  return result.trimEnd();
+}
 function yoctoToNear(yocto, format) {
   const YOCTO_PER_NEAR = Big(10).pow(24).toString();
   const near = Big(yocto).div(YOCTO_PER_NEAR).toString();
 
   return format ? localFormat(near) : near;
+}
+function localFormat(number) {
+  const formattedNumber = Number(number).toLocaleString('en', {
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 5,
+  });
+  return formattedNumber;
+}
+function localFormat(number) {
+  const formattedNumber = Number(number).toLocaleString('en', {
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 5,
+  });
+  return formattedNumber;
+}
+function localFormat(number) {
+  const formattedNumber = Number(number).toLocaleString('en', {
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 5,
+  });
+  return formattedNumber;
+}
+function localFormat(number) {
+  const formattedNumber = Number(number).toLocaleString('en', {
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 5,
+  });
+  return formattedNumber;
+}
+function localFormat(number) {
+  const formattedNumber = Number(number).toLocaleString('en', {
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 5,
+  });
+  return formattedNumber;
 }
 function localFormat(number) {
   const formattedNumber = Number(number).toLocaleString('en', {
