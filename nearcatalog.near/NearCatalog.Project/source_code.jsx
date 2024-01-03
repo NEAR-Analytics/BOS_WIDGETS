@@ -244,7 +244,6 @@ const isInBookmark = (p) => {
             }
         }
     }
-    console.log("isInBookmark: " , isFound);
     return isFound; 
 }
 
