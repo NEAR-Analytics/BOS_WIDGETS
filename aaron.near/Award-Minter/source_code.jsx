@@ -269,7 +269,7 @@ return (
             </div>
             <ImageCard>
               <img
-                src={`https://ipfs.io/ipfs/` + state.image.cid}
+                src={`https://ipfs.near.social/ipfs/${state.image.cid}`}
                 alt="uploaded image"
                 width="100%"
                 height="100%"
