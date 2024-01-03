@@ -38,7 +38,15 @@ function convertToMetricPrefix(number) {
     count++;
   }
 
-  return number.toFixed(2) + ' ' + prefixes[count];
+  // Check if the number is close to an integer value
+  if (Math.abs(number) >= 10) {
+    number = Math.round(number); // Round the number to the nearest whole number
+    return number + ' ' + prefixes[count];
+  }
+
+  return (
+    Number(Math.floor(number * 100) / 100).toFixed(2) + ' ' + prefixes[count]
+  );
 }
 
 function gasFee(gas, price) {
@@ -147,7 +155,7 @@ function shortenTokenSymbol(token) {
 function gasPercentage(gasUsed, gasAttached) {
   if (!gasAttached) return 'N/A';
 
-  const formattedNumber = (Big(gasUsed).div(Big(gasAttached)) * 100).toFixed();
+  const formattedNumber = (Big(gasUsed).div(Big(gasAttached)) * 100).toFixed(2);
   return `${formattedNumber}%`;
 }
 function serialNumber(index, page, perPage) {
@@ -207,7 +215,15 @@ function convertToMetricPrefix(number) {
     count++;
   }
 
-  return number.toFixed(2) + ' ' + prefixes[count];
+  // Check if the number is close to an integer value
+  if (Math.abs(number) >= 10) {
+    number = Math.round(number); // Round the number to the nearest whole number
+    return number + ' ' + prefixes[count];
+  }
+
+  return (
+    Number(Math.floor(number * 100) / 100).toFixed(2) + ' ' + prefixes[count]
+  );
 }
 
 function gasFee(gas, price) {
@@ -316,7 +332,7 @@ function shortenTokenSymbol(token) {
 function gasPercentage(gasUsed, gasAttached) {
   if (!gasAttached) return 'N/A';
 
-  const formattedNumber = (Big(gasUsed).div(Big(gasAttached)) * 100).toFixed();
+  const formattedNumber = (Big(gasUsed).div(Big(gasAttached)) * 100).toFixed(2);
   return `${formattedNumber}%`;
 }
 function serialNumber(index, page, perPage) {
@@ -464,7 +480,7 @@ function shortenTokenSymbol(token) {
 function gasPercentage(gasUsed, gasAttached) {
   if (!gasAttached) return 'N/A';
 
-  const formattedNumber = (Big(gasUsed).div(Big(gasAttached)) * 100).toFixed();
+  const formattedNumber = (Big(gasUsed).div(Big(gasAttached)) * 100).toFixed(2);
   return `${formattedNumber}%`;
 }
 function serialNumber(index, page, perPage) {
@@ -561,7 +577,15 @@ function convertToMetricPrefix(number) {
     count++;
   }
 
-  return number.toFixed(2) + ' ' + prefixes[count];
+  // Check if the number is close to an integer value
+  if (Math.abs(number) >= 10) {
+    number = Math.round(number); // Round the number to the nearest whole number
+    return number + ' ' + prefixes[count];
+  }
+
+  return (
+    Number(Math.floor(number * 100) / 100).toFixed(2) + ' ' + prefixes[count]
+  );
 }
 
 function gasFee(gas, price) {
@@ -670,7 +694,7 @@ function shortenTokenSymbol(token) {
 function gasPercentage(gasUsed, gasAttached) {
   if (!gasAttached) return 'N/A';
 
-  const formattedNumber = (Big(gasUsed).div(Big(gasAttached)) * 100).toFixed();
+  const formattedNumber = (Big(gasUsed).div(Big(gasAttached)) * 100).toFixed(2);
   return `${formattedNumber}%`;
 }
 function serialNumber(index, page, perPage) {
@@ -869,7 +893,15 @@ function convertToMetricPrefix(number) {
     count++;
   }
 
-  return number.toFixed(2) + ' ' + prefixes[count];
+  // Check if the number is close to an integer value
+  if (Math.abs(number) >= 10) {
+    number = Math.round(number); // Round the number to the nearest whole number
+    return number + ' ' + prefixes[count];
+  }
+
+  return (
+    Number(Math.floor(number * 100) / 100).toFixed(2) + ' ' + prefixes[count]
+  );
 }
 
 function gasFee(gas, price) {
@@ -978,7 +1010,7 @@ function shortenTokenSymbol(token) {
 function gasPercentage(gasUsed, gasAttached) {
   if (!gasAttached) return 'N/A';
 
-  const formattedNumber = (Big(gasUsed).div(Big(gasAttached)) * 100).toFixed();
+  const formattedNumber = (Big(gasUsed).div(Big(gasAttached)) * 100).toFixed(2);
   return `${formattedNumber}%`;
 }
 function serialNumber(index, page, perPage) {
