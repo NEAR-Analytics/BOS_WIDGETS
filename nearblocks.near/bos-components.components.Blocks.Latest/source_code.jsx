@@ -1,9 +1,10 @@
 /**
- * Component: LatestBlocks
+ * Component: BlocksLatest
  * Author: Nearblocks Pte Ltd
  * License: Business Source License 1.1
  * Description: Latest Blocks on Near Protocol.
  * @interface Props
+ * @property {Function} t - A function for internationalization (i18n) provided by the next-translate package.
  * @param {string} [network] - The network data to show, either mainnet or testnet
  */
 
@@ -11,6 +12,24 @@
 
 
 
+
+/* INCLUDE COMPONENT: "includes/Common/Skeleton.jsx" */
+/**
+ * @interface Props
+ * @param {string} [className] - The CSS class name(s) for styling purposes.
+ */
+
+
+
+
+
+const Skeleton = (props) => {
+  return (
+    <div
+      className={`bg-gray-200  rounded shadow-sm animate-pulse ${props.className}`}
+    ></div>
+  );
+};/* END_INCLUDE COMPONENT: "includes/Common/Skeleton.jsx" */
 /* INCLUDE: "includes/formats.jsx" */
 function convertToMetricPrefix(number) {
   const prefixes = ['', 'k', 'M', 'G', 'T', 'P', 'E', 'Z', 'Y']; // Metric prefixes
@@ -766,6 +785,25 @@ function debounce(
   return debounced;
 }
 
+function timeAgo(unixTimestamp) {
+  const currentTimestamp = Math.floor(Date.now() / 1000);
+  const secondsAgo = currentTimestamp - unixTimestamp;
+
+  if (secondsAgo < 5) {
+    return 'Just now';
+  } else if (secondsAgo < 60) {
+    return `${secondsAgo} seconds ago`;
+  } else if (secondsAgo < 3600) {
+    const minutesAgo = Math.floor(secondsAgo / 60);
+    return `${minutesAgo} minute${minutesAgo > 1 ? 's' : ''} ago`;
+  } else if (secondsAgo < 86400) {
+    const hoursAgo = Math.floor(secondsAgo / 3600);
+    return `${hoursAgo} hour${hoursAgo > 1 ? 's' : ''} ago`;
+  } else {
+    const daysAgo = Math.floor(secondsAgo / 86400);
+    return `${daysAgo} day${daysAgo > 1 ? 's' : ''} ago`;
+  }
+}
 function shortenAddress(address) {
   const string = String(address);
 
@@ -838,6 +876,25 @@ function debounce(
   return debounced;
 }
 
+function timeAgo(unixTimestamp) {
+  const currentTimestamp = Math.floor(Date.now() / 1000);
+  const secondsAgo = currentTimestamp - unixTimestamp;
+
+  if (secondsAgo < 5) {
+    return 'Just now';
+  } else if (secondsAgo < 60) {
+    return `${secondsAgo} seconds ago`;
+  } else if (secondsAgo < 3600) {
+    const minutesAgo = Math.floor(secondsAgo / 60);
+    return `${minutesAgo} minute${minutesAgo > 1 ? 's' : ''} ago`;
+  } else if (secondsAgo < 86400) {
+    const hoursAgo = Math.floor(secondsAgo / 3600);
+    return `${hoursAgo} hour${hoursAgo > 1 ? 's' : ''} ago`;
+  } else {
+    const daysAgo = Math.floor(secondsAgo / 86400);
+    return `${daysAgo} day${daysAgo > 1 ? 's' : ''} ago`;
+  }
+}
 function shortenAddress(address) {
   const string = String(address);
 
@@ -848,18 +905,12 @@ function shortenAddress(address) {
 /* END_INCLUDE: "includes/libs.jsx" */
 
 
-function MainComponent(props) {
+function MainComponent({ network, t }) {
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(false);
   const [blocks, setBlocks] = useState([]);
 
-  const config = getConfig(props.network);
-  const Loader = (props) => {
-    return (
-      <div
-        className={`bg-gray-200 h-5 rounded shadow-sm animate-pulse ${props.className}`}
-      ></div>
-    );
-  };
+  const config = getConfig(network);
 
   useEffect(() => {
     let delay = 5000;
@@ -871,14 +922,17 @@ function MainComponent(props) {
         .then((data) => {
           const resp = data?.body?.blocks;
           setBlocks(resp);
+          setError(false);
+          setIsLoading(false);
         })
         .catch((error) => {
           if (error.response && error.response.status === 429) {
             delay = Math.min(2 ** retries * 1000, 60000);
             retries++;
           }
+          setError(false);
+          setIsLoading(false);
         });
-      setIsLoading(false);
     }
 
     fetchLatestBlocks();
@@ -895,17 +949,17 @@ function MainComponent(props) {
           <ScrollArea.Viewport>
             {!blocks && (
               <div className="flex items-center h-16 mx-3 py-2 text-gray-400 text-xs">
-                Error!
+                {t ? t('home:error') : 'Error!'}
               </div>
             )}
-            {!isLoading && blocks.length === 0 && (
+            {!error && !isLoading && blocks.length === 0 && (
               <div className="flex items-center h-16 mx-3 py-2 text-gray-400 text-xs">
-                No blocks found
+                {t ? t('home:noBlocks') : 'No blocks found'}
               </div>
             )}
-            {isLoading && (
+            {blocks.length === 0 && (
               <div className="px-3 divide-y h-80">
-                {[...Array(10)].map((_, i) => (
+                {[...Array(5)].map((_, i) => (
                   <div
                     className="grid grid-cols-2 md:grid-cols-3 gap-3 py-3"
                     key={i}
@@ -916,21 +970,31 @@ function MainComponent(props) {
                       </div>
                       <div className="px-2">
                         <div className="text-green-500 text-sm">
-                          <Loader className="h-4" wrapperClassName="h-5 w-14" />
+                          <div className="h-5 w-14">
+                            <Skeleton className="h-4" />
+                          </div>
                         </div>
                         <div className="text-gray-400 text-xs">
-                          <Loader className="h-3" wrapperClassName="h-4 w-24" />
+                          <div className="h-4 w-24">
+                            <Skeleton className="h-3" />
+                          </div>
                         </div>
                       </div>
                     </div>
                     <div className="col-span-2 md:col-span-1 px-2 order-2 md:order-1 text-sm">
-                      <Loader className="h-4" wrapperClassName="h-5 w-36" />
+                      <div className="h-5 w-36">
+                        <Skeleton className="h-4" />
+                      </div>
                       <div className="text-gray-400 text-sm">
-                        <Loader className="h-4" wrapperClassName="h-5 w-14" />
+                        <div className="h-5 w-14">
+                          <Skeleton className="h-4" />
+                        </div>
                       </div>
                     </div>
                     <div className="text-right order-1 md:order-2">
-                      <Loader wrapperClassName="ml-auto w-32" />
+                      <div className="ml-auto w-32">
+                        <Skeleton className="h-4" />
+                      </div>
                     </div>
                   </div>
                 ))}
@@ -967,7 +1031,7 @@ function MainComponent(props) {
                         </div>
                       </div>
                       <div className="col-span-2 md:col-span-1 px-2 order-2 md:order-1 text-sm whitespace-nowrap truncate">
-                        Author{' '}
+                        {t ? t('home:blockMiner') : 'Author'}{' '}
                         <a
                           href={`/address/${block.author_account_id}`}
                           className="hover:no-underline"
@@ -1022,9 +1086,9 @@ function MainComponent(props) {
           <ScrollArea.Corner className="bg-black-500" />
         </ScrollArea.Root>
       </div>
-      {isLoading && (
+      {blocks.length === 0 && (
         <div className="border-t px-2 py-3 text-gray-700">
-          <Loader className="h-10" />
+          <Skeleton className="h-10" />
         </div>
       )}
       {blocks && blocks.length > 0 && (
