@@ -23,7 +23,7 @@ const HeadWrapper = styled.div`
 
 const GridContainer = styled.div`
   display: grid;
-  grid-template-columns: 50% 10% 10% 10% 20%;
+  grid-template-columns: 40% 12% 12% 12% 24%;
 `;
 const GridItem = styled.div`
   height: 84px;
@@ -96,7 +96,7 @@ const AccordionItem = styled("Accordion.Item")`
   /* margin-bottom: 10px; */
   border: 1px solid #373a53;
   max-width: 1244px;
-  margin: 0 auto 10px;
+  margin: 0 auto;
   border-radius: 16px;
   overflow: hidden;
 `;
@@ -112,9 +112,19 @@ const AccordionContent = styled("Accordion.Content")`
 `;
 //Accordion end
 
-const { poolKey } = props;
+const { data, chainId, account, TOKENS, CHAIN_ID } = props;
+const {
+  poolName,
+  tokens,
+  tokenAssets,
+  stakedAmount,
+  reward,
+  Rewards_contract_address,
+  Rewards_depositor_contract_address,
+  LP_token_address,
+} = data;
 State.init({
-  currentTab: "tab1",
+  currentTab: "STAKE_TAB",
 });
 
 const handleChangeTabs = (value) => {
@@ -122,29 +132,58 @@ const handleChangeTabs = (value) => {
     currentTab: value,
   });
 };
+// console.info(poolName, "de poo:", data);
 
+const renderPoolIcon = () => {
+  if (tokenAssets) {
+    return tokenAssets.map((addr, index) => {
+      if (TOKENS[addr]) {
+        return (
+          <span key={index} style={{ marginRight: -12 }}>
+            <Widget
+              src="dapdapbos.near/widget/UI.Avatar"
+              props={{ src: TOKENS[addr].icon }}
+            />
+          </span>
+        );
+      }
+      return null;
+    });
+  }
+};
 return (
-  <AccordionItem value={poolKey}>
+  <AccordionItem value={poolName}>
     <Accordion.Trigger asChild>
       <HeadWrapper>
         <GridContainer className="pool-head">
           <GridItem>
-            <div className="title-primary">50wstETH-25BAL-25AURA</div>
+            <div className="title-primary">
+              {renderPoolIcon()}
+              <span style={{ marginLeft: 20 }}>{poolName}</span>
+            </div>
           </GridItem>
           <GridItem>
-            <div className="title-secondary">50.16%</div>
-            <div className="title-sub">proj. 47.87%</div>
+            <div className="title-secondary">%</div>
+            <div className="title-sub">proj. %</div>
           </GridItem>
           <GridItem>
-            <div className="title-secondary">$257.80K</div>
+            <div className="title-secondary">$</div>
           </GridItem>
           <GridItem>
-            <div className="title-secondary">123.25</div>
-            <div className="title-sub">12.25</div>
+            <div className="title-secondary">
+              {!isNaN(Number(stakedAmount)) && Number(stakedAmount) > 0
+                ? `$${stakedAmount}`
+                : "-"}
+            </div>
+            <div className="title-sub"></div>
           </GridItem>
           <GridItem>
-            <div className="title-secondary">$12.23</div>
-            <div className="title-sub">12.25</div>
+            <div className="title-secondary">
+              {!isNaN(Number(reward)) && Number(reward) > 0
+                ? `$${reward}`
+                : "-"}
+            </div>
+            <div className="title-sub"></div>
           </GridItem>
         </GridContainer>
       </HeadWrapper>
@@ -153,28 +192,28 @@ return (
       <Tabs.Root value={state.currentTab} onValueChange={handleChangeTabs}>
         <TabsList>
           <TabListWrap>
-            <Tabs.Trigger value="tab1" asChild>
+            <Tabs.Trigger value="STAKE_TAB" asChild>
               <div
                 className={`tab-head-item ${
-                  state.currentTab === "tab1" ? "active" : ""
+                  state.currentTab === "STAKE_TAB" ? "active" : ""
                 }`}
               >
                 Stake
               </div>
             </Tabs.Trigger>
-            <Tabs.Trigger value="tab2" asChild>
+            <Tabs.Trigger value="UNSTAKE_TAB" asChild>
               <div
                 className={`tab-head-item ${
-                  state.currentTab === "tab2" ? "active" : ""
+                  state.currentTab === "UNSTAKE_TAB" ? "active" : ""
                 }`}
               >
                 Unstake
               </div>
             </Tabs.Trigger>
-            <Tabs.Trigger value="tab3" asChild>
+            <Tabs.Trigger value="INFO_TAB" asChild>
               <div
                 className={`tab-head-item ${
-                  state.currentTab === "tab3" ? "active" : ""
+                  state.currentTab === "INFO_TAB" ? "active" : ""
                 }`}
               >
                 Info
@@ -182,40 +221,36 @@ return (
             </Tabs.Trigger>
           </TabListWrap>
         </TabsList>
-        <Tabs.Content value="tab1">
+        <Tabs.Content value="STAKE_TAB">
           <Widget
             src="dapdapbos.near/widget/Staking.Aura.Stake"
-            props={{ type: "STAKE" }}
+            props={{ ...props }}
           />
         </Tabs.Content>
-        <Tabs.Content value="tab2">
+        <Tabs.Content value="UNSTAKE_TAB">
           <Widget
-            src="dapdapbos.near/widget/Staking.Aura.Stake"
-            props={{ type: "UN_STAKE" }}
+            src="dapdapbos.near/widget/Staking.Aura.Unstake"
+            props={{ ...props }}
           />
         </Tabs.Content>
-        <Tabs.Content value="tab3">
+        <Tabs.Content value="INFO_TAB">
           <InfoPanel>
             <InfoPanelTitle>Contract</InfoPanelTitle>
             <InfoPanelList>
               <span className="list-key">Rewards contract address: </span>
-              <span className="list-value">
-                0x14a81c9283cc16897daa3f466847baa260b770eb
-              </span>
+              <span className="list-value">{Rewards_contract_address}</span>
             </InfoPanelList>
             <InfoPanelList>
               <span className="list-key">
                 Rewards depositor contract address:{" "}
               </span>
               <span className="list-value">
-                0x14a81c9283cc16897daa3f466847baa260b770eb
+                {Rewards_depositor_contract_address}
               </span>
             </InfoPanelList>
             <InfoPanelList>
               <span className="list-key">LP token address: </span>
-              <span className="list-value">
-                0x14a81c9283cc16897daa3f466847baa260b770eb
-              </span>
+              <span className="list-value">{LP_token_address}</span>
             </InfoPanelList>
           </InfoPanel>
         </Tabs.Content>
