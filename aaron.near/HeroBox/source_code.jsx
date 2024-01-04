@@ -1,6 +1,7 @@
 const HeroText = styled.div`
     max-width: 800px;
     font-size: 36px;
+    text-align: left;
     @media (max-width: 768px) {
         max-width: 100%;
     }
@@ -67,7 +68,7 @@ return (
         disabled={props.disabled}
         style={{ ...props.style }}
       >
-        {props.ButtonText}
+        {props.buttonText}
       </Button>
     </HeroText>
     <HeroImage src={props.image} />
