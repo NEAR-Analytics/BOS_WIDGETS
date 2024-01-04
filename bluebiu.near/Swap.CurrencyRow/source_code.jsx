@@ -1,11 +1,5 @@
-const {
-  currency,
-  selectedTokenAddress,
-  display,
-  onClick,
-  chainIdNotSupport,
-  account,
-} = props;
+const { currency, selectedTokenAddress, display, onClick, chainIdNotSupport } =
+  props;
 const CurrencyRow = styled.div`
   padding: 14px 20px;
   display: flex;
@@ -87,21 +81,21 @@ return (
     className={currency.address === selectedTokenAddress ? "active" : ""}
     onClick={onClick}
   >
-    <Widget
-      src="bluebiu.near/widget/Arbitrum.Swap.CurrencyBalance"
-      props={{
-        address: currency.address,
-        account,
-        chainIdNotSupport,
-        updateTokenBalance: display,
-        onLoad: (balance) => {
-          State.update({
-            balance: ethers.utils.formatUnits(balance, currency.decimals),
-            balanceLoaded: true,
-          });
-        },
-      }}
-    />
+    {display && !state.balanceLoaded && (
+      <Widget
+        src="bluebiu.near/widget/Arbitrum.Swap.CurrencyBalance"
+        props={{
+          address: currency.address,
+          chainIdNotSupport,
+          onLoad: (balance) => {
+            State.update({
+              balance: ethers.utils.formatUnits(balance, currency.decimals),
+              balanceLoaded: true,
+            });
+          },
+        }}
+      />
+    )}
     <CurrencyLabel>
       <CurrencyIcon src={currency.icon} />
       <div>
