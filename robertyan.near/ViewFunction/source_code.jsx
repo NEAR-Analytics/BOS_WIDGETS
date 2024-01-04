@@ -96,7 +96,7 @@ return (
       />
       <textarea
         class="form-control"
-        rows="5"
+        rows="8"
         placeholder="Arguments in JSON Format"
         onChange={handleArgs}
         value={args}
