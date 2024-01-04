@@ -10,8 +10,10 @@ const {
   handleShareButton,
   callLibs,
   baseActions,
+  kanbanColumns,
   sharedCommentId,
   allArticlesWithThisSBT,
+  sbtWhiteList,
 } = props;
 
 if (!callLibs) {
@@ -483,6 +485,12 @@ const HeaderButtonsContainer = styled.div`
   gap: 0.5rem;
 `;
 
+const AcordionContainer = styled.div`--bs-accordion-border-width: 0px!important;`;
+
+const NoMargin = styled.div`margin: 0 0.75rem;`;
+
+const AccordionBody = styled.div`padding: 0;`;
+
 //Get basic original comments info
 let originalComments = state.comments.filter(
   (comment) => comment.value.comment.originalCommentId === id
@@ -526,8 +534,6 @@ let displayedContent = state.sliceContent
   ? articleToRenderData.body.slice(0, 1000)
   : articleToRenderData.body;
 
-console.log("articleToRenderData.articleId: ", articleToRenderData);
-
 return (
   <>
     {sharedCommentId && (
@@ -535,18 +541,49 @@ return (
         Click to redirect to comment that mentioned you
       </a>
     )}
-    {true && (
-      <div className="mt-3 ps-5">
-        <Widget
-          src={widgets.articleHistory.handler}
-          props={{
-            articleId: articleToRenderData.title,
-            widgets,
-          }}
-        />
-      </div>
-    )}
-    <Container className="row">
+
+    <AcordionContainer className="accordion" id="accordionExample">
+      <NoMargin className="accordion-item">
+        <h2 className="accordion-header" id="headingOne">
+          <button
+            className="accordion-button collapsed"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#collapseOne"
+            aria-expanded="true"
+            aria-controls="collapseOne"
+          >
+            <h6 className="m-0">Show article history</h6>
+          </button>
+        </h2>
+        <div
+          id="collapseOne"
+          className="accordion-collapse collapse"
+          aria-labelledby="headingOne"
+          data-bs-parent="#accordionExample"
+        >
+          <AccordionBody className="accordion-body">
+            <div className="ps-5">
+              <Widget
+                src={widgets.articleHistory}
+                props={{
+                  articleId: articleToRenderData.id,
+                  sbtWhiteList,
+                  isTest,
+                  sbts: articleSbts,
+                  baseActions,
+                  kanbanColumns,
+                  callLibs,
+                  widgets,
+                }}
+              />
+            </div>
+          </AccordionBody>
+        </div>
+      </NoMargin>
+    </AcordionContainer>
+
+    <Container className="mt-1 row">
       <div className="col-lg-9 col-sm-12">
         <div className="row" style={{ "margin-inline": "5px" }}>
           <div
