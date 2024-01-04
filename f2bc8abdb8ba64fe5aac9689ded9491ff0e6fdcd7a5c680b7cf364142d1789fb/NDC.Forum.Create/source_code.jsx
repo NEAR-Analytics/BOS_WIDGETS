@@ -255,6 +255,7 @@ return (
                   handleShareButton: () => {},
                   callLibs,
                   baseActions,
+                  showPreview: state.showPreview,
                 }}
               />
             ) : (
