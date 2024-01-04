@@ -232,14 +232,6 @@ const ChainIcon = styled.option`
   }
 `;
 
-if (!accountId) {
-  console.log("Please login here now");
-  State.update({
-    showAlert: true,
-    toastMessage: "Please sign in.",
-  });
-}
-
 return (
   <MainRoot>
     {state.showAlert && <Widget src="aaron.near/widget/Toast" props={state} />}
