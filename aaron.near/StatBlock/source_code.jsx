@@ -17,6 +17,7 @@ const Text = styled.div`
     font-size: 24px;
     clear: both;
     margin-left: 5px;
+    text-align: left;
 `;
 
 const Icon = styled.div`
