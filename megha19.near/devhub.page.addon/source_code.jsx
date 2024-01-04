@@ -93,8 +93,7 @@ const [view, setView] = useState(props.view || "viewer");
 // TODO : remove after contract data change
 function updateWidgetEndpoint(widgetSrc) {
   widgetSrc = widgetSrc.replace("configurator", "Configurator");
-  widgetSrc = widgetSrc.replace("devgovgigs.near", "megha19.near");
-  return widgetSrc;
+  return widgetSrc.replace("devhub.near", "megha19.near");
 }
 
 return (
