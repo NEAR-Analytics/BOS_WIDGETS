@@ -13,23 +13,6 @@
 
 
 
-/* INCLUDE COMPONENT: "includes/Common/Skelton.jsx" */
-/**
- * @interface Props
- * @param {string} [className] - The CSS class name(s) for styling purposes.
- */
-
-
-
-
-
-const Skelton = (props) => {
-  return (
-    <div
-      className={`bg-gray-200 h-5 rounded shadow-sm animate-pulse ${props.className}`}
-    ></div>
-  );
-};/* END_INCLUDE COMPONENT: "includes/Common/Skelton.jsx" */
 /* INCLUDE COMPONENT: "includes/icons/FaExternalLinkAlt.jsx" */
 const FaExternalLinkAlt = () => {
   return (
@@ -121,6 +104,25 @@ function debounce(
   return debounced;
 }
 
+function timeAgo(unixTimestamp) {
+  const currentTimestamp = Math.floor(Date.now() / 1000);
+  const secondsAgo = currentTimestamp - unixTimestamp;
+
+  if (secondsAgo < 5) {
+    return 'Just now';
+  } else if (secondsAgo < 60) {
+    return `${secondsAgo} seconds ago`;
+  } else if (secondsAgo < 3600) {
+    const minutesAgo = Math.floor(secondsAgo / 60);
+    return `${minutesAgo} minute${minutesAgo > 1 ? 's' : ''} ago`;
+  } else if (secondsAgo < 86400) {
+    const hoursAgo = Math.floor(secondsAgo / 3600);
+    return `${hoursAgo} hour${hoursAgo > 1 ? 's' : ''} ago`;
+  } else {
+    const daysAgo = Math.floor(secondsAgo / 86400);
+    return `${daysAgo} day${daysAgo > 1 ? 's' : ''} ago`;
+  }
+}
 function shortenAddress(address) {
   const string = String(address);
 
@@ -213,6 +215,25 @@ function debounce(
   return debounced;
 }
 
+function timeAgo(unixTimestamp) {
+  const currentTimestamp = Math.floor(Date.now() / 1000);
+  const secondsAgo = currentTimestamp - unixTimestamp;
+
+  if (secondsAgo < 5) {
+    return 'Just now';
+  } else if (secondsAgo < 60) {
+    return `${secondsAgo} seconds ago`;
+  } else if (secondsAgo < 3600) {
+    const minutesAgo = Math.floor(secondsAgo / 60);
+    return `${minutesAgo} minute${minutesAgo > 1 ? 's' : ''} ago`;
+  } else if (secondsAgo < 86400) {
+    const hoursAgo = Math.floor(secondsAgo / 3600);
+    return `${hoursAgo} hour${hoursAgo > 1 ? 's' : ''} ago`;
+  } else {
+    const daysAgo = Math.floor(secondsAgo / 86400);
+    return `${daysAgo} day${daysAgo > 1 ? 's' : ''} ago`;
+  }
+}
 function shortenAddress(address) {
   const string = String(address);
 
@@ -285,6 +306,25 @@ function debounce(
   return debounced;
 }
 
+function timeAgo(unixTimestamp) {
+  const currentTimestamp = Math.floor(Date.now() / 1000);
+  const secondsAgo = currentTimestamp - unixTimestamp;
+
+  if (secondsAgo < 5) {
+    return 'Just now';
+  } else if (secondsAgo < 60) {
+    return `${secondsAgo} seconds ago`;
+  } else if (secondsAgo < 3600) {
+    const minutesAgo = Math.floor(secondsAgo / 60);
+    return `${minutesAgo} minute${minutesAgo > 1 ? 's' : ''} ago`;
+  } else if (secondsAgo < 86400) {
+    const hoursAgo = Math.floor(secondsAgo / 3600);
+    return `${hoursAgo} hour${hoursAgo > 1 ? 's' : ''} ago`;
+  } else {
+    const daysAgo = Math.floor(secondsAgo / 86400);
+    return `${daysAgo} day${daysAgo > 1 ? 's' : ''} ago`;
+  }
+}
 function shortenAddress(address) {
   const string = String(address);
 
@@ -353,6 +393,25 @@ function debounce(
   return debounced;
 }
 
+function timeAgo(unixTimestamp) {
+  const currentTimestamp = Math.floor(Date.now() / 1000);
+  const secondsAgo = currentTimestamp - unixTimestamp;
+
+  if (secondsAgo < 5) {
+    return 'Just now';
+  } else if (secondsAgo < 60) {
+    return `${secondsAgo} seconds ago`;
+  } else if (secondsAgo < 3600) {
+    const minutesAgo = Math.floor(secondsAgo / 60);
+    return `${minutesAgo} minute${minutesAgo > 1 ? 's' : ''} ago`;
+  } else if (secondsAgo < 86400) {
+    const hoursAgo = Math.floor(secondsAgo / 3600);
+    return `${hoursAgo} hour${hoursAgo > 1 ? 's' : ''} ago`;
+  } else {
+    const daysAgo = Math.floor(secondsAgo / 86400);
+    return `${daysAgo} day${daysAgo > 1 ? 's' : ''} ago`;
+  }
+}
 function shortenAddress(address) {
   const string = String(address);
 
@@ -1661,6 +1720,25 @@ function debounce(
   return debounced;
 }
 
+function timeAgo(unixTimestamp) {
+  const currentTimestamp = Math.floor(Date.now() / 1000);
+  const secondsAgo = currentTimestamp - unixTimestamp;
+
+  if (secondsAgo < 5) {
+    return 'Just now';
+  } else if (secondsAgo < 60) {
+    return `${secondsAgo} seconds ago`;
+  } else if (secondsAgo < 3600) {
+    const minutesAgo = Math.floor(secondsAgo / 60);
+    return `${minutesAgo} minute${minutesAgo > 1 ? 's' : ''} ago`;
+  } else if (secondsAgo < 86400) {
+    const hoursAgo = Math.floor(secondsAgo / 3600);
+    return `${hoursAgo} hour${hoursAgo > 1 ? 's' : ''} ago`;
+  } else {
+    const daysAgo = Math.floor(secondsAgo / 86400);
+    return `${daysAgo} day${daysAgo > 1 ? 's' : ''} ago`;
+  }
+}
 function shortenAddress(address) {
   const string = String(address);
 
@@ -2493,11 +2571,280 @@ function decodeArgs(args) {
   return JSON.parse(Buffer.from(encodedString, 'base64').toString());
 }
 
-function txnMethod(actions) {
+function txnMethod(
+  actions,
+  t,
+) {
   const count = actions?.length || 0;
 
-  if (!count) return 'Unknown';
-  if (count > 1) return 'Batch Transaction';
+  if (!count) return t ? t('txns:unknownType') : 'Unknown';
+  if (count > 1) return t ? t('txns:batchTxns') : 'Batch Transaction';
+
+  const action = actions[0];
+
+  if (action.action === 'FUNCTION_CALL') {
+    return action.method;
+  }
+
+  return action.action;
+}
+
+function gasPrice(yacto) {
+  const near = Big(yoctoToNear(yacto, false)).mul(Big(10).pow(12)).toString();
+
+  return `${localFormat(near)} Ⓝ / Tgas`;
+}
+
+function tokenAmount(amount, decimal, format) {
+  if (amount === undefined || amount === null) return 'N/A';
+
+  const near = Big(amount).div(Big(10).pow(+decimal));
+
+  return format
+    ? near.toString().toLocaleString(undefined, {
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 8,
+      })
+    : near;
+}
+
+function mapRpcActionToAction(action) {
+  if (action === 'CreateAccount') {
+    return {
+      action_kind: 'CreateAccount',
+      args: {},
+    };
+  }
+
+  if (typeof action === 'object') {
+    const kind = Object.keys(action)[0];
+
+    return {
+      action_kind: kind,
+      args: action[kind],
+    };
+  }
+
+  return null;
+}
+
+const valueFromObj = (obj) => {
+  const keys = Object.keys(obj);
+
+  for (let i = 0; i < keys.length; i++) {
+    const key = keys[i];
+    const value = obj[key];
+
+    if (typeof value === 'string') {
+      return value;
+    }
+
+    if (typeof value === 'object') {
+      const nestedValue = valueFromObj(value );
+      if (nestedValue) {
+        return nestedValue;
+      }
+    }
+  }
+
+  return undefined;
+};
+
+function txnLogs(txn) {
+  let txLogs = [];
+
+  const outcomes = txn?.receipts_outcome || [];
+
+  for (let i = 0; i < outcomes.length; i++) {
+    const outcome = outcomes[i];
+    let logs = outcome?.outcome?.logs || [];
+
+    if (logs.length > 0) {
+      const mappedLogs = logs.map((log) => ({
+        contract: outcome?.outcome?.executor_id || '',
+        logs: log,
+      }));
+      txLogs = [...txLogs, ...mappedLogs];
+    }
+  }
+
+  return txLogs;
+}
+
+function txnActions(txn) {
+  const txActions = [];
+  const receipts = txn?.receipts || [];
+
+  for (let i = 0; i < receipts.length; i++) {
+    const receipt = receipts[i];
+    const from = receipt?.predecessor_id;
+    const to = receipt?.receiver_id;
+
+    if (Array.isArray(receipt?.receipt)) {
+      const actions = receipt.receipt;
+
+      for (let j = 0; j < actions.length; j++) {
+        const action = actions[j];
+
+        txActions.push({ from, to, ...action });
+      }
+    } else {
+      const actions = receipt?.receipt?.Action?.actions || [];
+
+      for (let j = 0; j < actions.length; j++) {
+        const action = mapRpcActionToAction(actions[j]);
+
+        txActions.push({ from, to, ...action });
+      }
+    }
+  }
+
+  return txActions.filter(
+    (action) =>
+      action.action_kind !== 'FunctionCall' && action.from !== 'system',
+  );
+}
+
+function txnErrorMessage(txn) {
+  const kind = txn?.status?.Failure?.ActionError?.kind;
+
+  if (typeof kind === 'string') return kind;
+  if (typeof kind === 'object') {
+    return valueFromObj(kind);
+  }
+
+  return null;
+}
+
+function formatLine(line, offset, format) {
+  let result = `${offset.toString(16).padStart(8, '0')}  `;
+
+  const bytes = line.split(' ').filter(Boolean);
+  bytes.forEach((byte, index) => {
+    if (index > 0 && index % 4 === 0) {
+      result += ' ';
+    }
+    result += byte.toUpperCase().padEnd(2, ' ') + ' ';
+  });
+
+  if (format === 'default') {
+    result += ` ${String.fromCharCode(
+      ...bytes.map((b) => parseInt(b, 16)),
+    )}`;
+  }
+
+  return result.trimEnd();
+}
+function localFormat(number) {
+  const formattedNumber = Number(number).toLocaleString('en', {
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 5,
+  });
+  return formattedNumber;
+}
+function localFormat(number) {
+  const formattedNumber = Number(number).toLocaleString('en', {
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 5,
+  });
+  return formattedNumber;
+}
+function localFormat(number) {
+  const formattedNumber = Number(number).toLocaleString('en', {
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 5,
+  });
+  return formattedNumber;
+}
+function localFormat(number) {
+  const formattedNumber = Number(number).toLocaleString('en', {
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 5,
+  });
+  return formattedNumber;
+}
+function yoctoToNear(yocto, format) {
+  const YOCTO_PER_NEAR = Big(10).pow(24).toString();
+  const near = Big(yocto).div(YOCTO_PER_NEAR).toString();
+
+  return format ? localFormat(near) : near;
+}
+function localFormat(number) {
+  const formattedNumber = Number(number).toLocaleString('en', {
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 5,
+  });
+  return formattedNumber;
+}
+function yoctoToNear(yocto, format) {
+  const YOCTO_PER_NEAR = Big(10).pow(24).toString();
+  const near = Big(yocto).div(YOCTO_PER_NEAR).toString();
+
+  return format ? localFormat(near) : near;
+}
+function yoctoToNear(yocto, format) {
+  const YOCTO_PER_NEAR = Big(10).pow(24).toString();
+  const near = Big(yocto).div(YOCTO_PER_NEAR).toString();
+
+  return format ? localFormat(near) : near;
+}
+function localFormat(number) {
+  const formattedNumber = Number(number).toLocaleString('en', {
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 5,
+  });
+  return formattedNumber;
+}
+function localFormat(number) {
+  const formattedNumber = Number(number).toLocaleString('en', {
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 5,
+  });
+  return formattedNumber;
+}
+function localFormat(number) {
+  const formattedNumber = Number(number).toLocaleString('en', {
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 5,
+  });
+  return formattedNumber;
+}
+function localFormat(number) {
+  const formattedNumber = Number(number).toLocaleString('en', {
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 5,
+  });
+  return formattedNumber;
+}
+function localFormat(number) {
+  const formattedNumber = Number(number).toLocaleString('en', {
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 5,
+  });
+  return formattedNumber;
+}
+function localFormat(number) {
+  const formattedNumber = Number(number).toLocaleString('en', {
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 5,
+  });
+  return formattedNumber;
+}
+function decodeArgs(args) {
+  if (!args || typeof args === 'undefined') return {};
+
+  const encodedString = Buffer.from(args).toString('base64');
+  return JSON.parse(Buffer.from(encodedString, 'base64').toString());
+}
+
+function txnMethod(
+  actions,
+  t,
+) {
+  const count = actions?.length || 0;
+
+  if (!count) return t ? t('txns:unknownType') : 'Unknown';
+  if (count > 1) return t ? t('txns:batchTxns') : 'Batch Transaction';
 
   const action = actions[0];
 
@@ -2688,222 +3035,11 @@ function localFormat(number) {
   });
   return formattedNumber;
 }
-function localFormat(number) {
-  const formattedNumber = Number(number).toLocaleString('en', {
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 5,
-  });
-  return formattedNumber;
-}
-function localFormat(number) {
-  const formattedNumber = Number(number).toLocaleString('en', {
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 5,
-  });
-  return formattedNumber;
-}
-function localFormat(number) {
-  const formattedNumber = Number(number).toLocaleString('en', {
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 5,
-  });
-  return formattedNumber;
-}
-function localFormat(number) {
-  const formattedNumber = Number(number).toLocaleString('en', {
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 5,
-  });
-  return formattedNumber;
-}
-function localFormat(number) {
-  const formattedNumber = Number(number).toLocaleString('en', {
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 5,
-  });
-  return formattedNumber;
-}
-function decodeArgs(args) {
-  if (!args || typeof args === 'undefined') return {};
+function yoctoToNear(yocto, format) {
+  const YOCTO_PER_NEAR = Big(10).pow(24).toString();
+  const near = Big(yocto).div(YOCTO_PER_NEAR).toString();
 
-  const encodedString = Buffer.from(args).toString('base64');
-  return JSON.parse(Buffer.from(encodedString, 'base64').toString());
-}
-
-function txnMethod(actions) {
-  const count = actions?.length || 0;
-
-  if (!count) return 'Unknown';
-  if (count > 1) return 'Batch Transaction';
-
-  const action = actions[0];
-
-  if (action.action === 'FUNCTION_CALL') {
-    return action.method;
-  }
-
-  return action.action;
-}
-
-function gasPrice(yacto) {
-  const near = Big(yoctoToNear(yacto, false)).mul(Big(10).pow(12)).toString();
-
-  return `${localFormat(near)} Ⓝ / Tgas`;
-}
-
-function tokenAmount(amount, decimal, format) {
-  if (amount === undefined || amount === null) return 'N/A';
-
-  const near = Big(amount).div(Big(10).pow(+decimal));
-
-  return format
-    ? near.toString().toLocaleString(undefined, {
-        minimumFractionDigits: 0,
-        maximumFractionDigits: 8,
-      })
-    : near;
-}
-
-function mapRpcActionToAction(action) {
-  if (action === 'CreateAccount') {
-    return {
-      action_kind: 'CreateAccount',
-      args: {},
-    };
-  }
-
-  if (typeof action === 'object') {
-    const kind = Object.keys(action)[0];
-
-    return {
-      action_kind: kind,
-      args: action[kind],
-    };
-  }
-
-  return null;
-}
-
-const valueFromObj = (obj) => {
-  const keys = Object.keys(obj);
-
-  for (let i = 0; i < keys.length; i++) {
-    const key = keys[i];
-    const value = obj[key];
-
-    if (typeof value === 'string') {
-      return value;
-    }
-
-    if (typeof value === 'object') {
-      const nestedValue = valueFromObj(value );
-      if (nestedValue) {
-        return nestedValue;
-      }
-    }
-  }
-
-  return undefined;
-};
-
-function txnLogs(txn) {
-  let txLogs = [];
-
-  const outcomes = txn?.receipts_outcome || [];
-
-  for (let i = 0; i < outcomes.length; i++) {
-    const outcome = outcomes[i];
-    let logs = outcome?.outcome?.logs || [];
-
-    if (logs.length > 0) {
-      const mappedLogs = logs.map((log) => ({
-        contract: outcome?.outcome?.executor_id || '',
-        logs: log,
-      }));
-      txLogs = [...txLogs, ...mappedLogs];
-    }
-  }
-
-  return txLogs;
-}
-
-function txnActions(txn) {
-  const txActions = [];
-  const receipts = txn?.receipts || [];
-
-  for (let i = 0; i < receipts.length; i++) {
-    const receipt = receipts[i];
-    const from = receipt?.predecessor_id;
-    const to = receipt?.receiver_id;
-
-    if (Array.isArray(receipt?.receipt)) {
-      const actions = receipt.receipt;
-
-      for (let j = 0; j < actions.length; j++) {
-        const action = actions[j];
-
-        txActions.push({ from, to, ...action });
-      }
-    } else {
-      const actions = receipt?.receipt?.Action?.actions || [];
-
-      for (let j = 0; j < actions.length; j++) {
-        const action = mapRpcActionToAction(actions[j]);
-
-        txActions.push({ from, to, ...action });
-      }
-    }
-  }
-
-  return txActions.filter(
-    (action) =>
-      action.action_kind !== 'FunctionCall' && action.from !== 'system',
-  );
-}
-
-function txnErrorMessage(txn) {
-  const kind = txn?.status?.Failure?.ActionError?.kind;
-
-  if (typeof kind === 'string') return kind;
-  if (typeof kind === 'object') {
-    return valueFromObj(kind);
-  }
-
-  return null;
-}
-
-function formatLine(line, offset, format) {
-  let result = `${offset.toString(16).padStart(8, '0')}  `;
-
-  const bytes = line.split(' ').filter(Boolean);
-  bytes.forEach((byte, index) => {
-    if (index > 0 && index % 4 === 0) {
-      result += ' ';
-    }
-    result += byte.toUpperCase().padEnd(2, ' ') + ' ';
-  });
-
-  if (format === 'default') {
-    result += ` ${String.fromCharCode(
-      ...bytes.map((b) => parseInt(b, 16)),
-    )}`;
-  }
-
-  return result.trimEnd();
-}
-function localFormat(number) {
-  const formattedNumber = Number(number).toLocaleString('en', {
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 5,
-  });
-  return formattedNumber;
-}
-function localFormat(number) {
-  const formattedNumber = Number(number).toLocaleString('en', {
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 5,
-  });
-  return formattedNumber;
+  return format ? localFormat(near) : near;
 }
 function yoctoToNear(yocto, format) {
   const YOCTO_PER_NEAR = Big(10).pow(24).toString();
@@ -2967,6 +3103,23 @@ function localFormat(number) {
 
 
 
+/* INCLUDE COMPONENT: "includes/Common/Skeleton.jsx" */
+/**
+ * @interface Props
+ * @param {string} [className] - The CSS class name(s) for styling purposes.
+ */
+
+
+
+
+
+const Skeleton = (props) => {
+  return (
+    <div
+      className={`bg-gray-200  rounded shadow-sm animate-pulse ${props.className}`}
+    ></div>
+  );
+};/* END_INCLUDE COMPONENT: "includes/Common/Skeleton.jsx" */
 
 function MainComponent(props) {
   const [loading, setLoading] = useState(false);
@@ -3366,7 +3519,7 @@ function MainComponent(props) {
       <div className="container mx-auto px-3">
         <div className="flex items-center justify-between flex-wrap pt-4">
           {!props.id ? (
-            <Skelton />
+            <Skeleton className="h-4" />
           ) : (
             <h1 className="flex items-center justify-between break-all space-x-2 text-xl text-gray-700 leading-8 px-2">
               Near Account: @&nbsp;{' '}
@@ -3432,7 +3585,7 @@ function MainComponent(props) {
                 <div className="flex py-4">
                   <div className="w-full md:w-1/4 mb-2 md:mb-0">Balance:</div>
                   {loading ? (
-                    <Skelton />
+                    <Skeleton className="h-4" />
                   ) : (
                     <div className="w-full md:w-3/4">
                       {yoctoToNear(accountData?.amount || 0, true)} Ⓝ
@@ -3443,7 +3596,7 @@ function MainComponent(props) {
                   <div className="flex py-4 text-sm text-gray-600">
                     <div className="w-full md:w-1/4 mb-2 md:mb-0">Value</div>
                     {loading ? (
-                      <Skelton />
+                      <Skeleton className="h-4" />
                     ) : (
                       <div className="w-full md:w-3/4 break-words">
                         $
@@ -3485,7 +3638,7 @@ function MainComponent(props) {
                     <div className="w-full mb-2 md:mb-0">Staked Balance:</div>
                     {loading ? (
                       <div className="w-full mb-2 break-words">
-                        <Skelton className="" />
+                        <Skeleton className="h-4" />
                       </div>
                     ) : (
                       <div className="w-full mb-2 break-words">
@@ -3497,7 +3650,7 @@ function MainComponent(props) {
                     <div className="w-full mb-2 md:mb-0">Storage Used:</div>
                     {loading ? (
                       <div className="w-full mb-2 break-words">
-                        <Skelton className="" />
+                        <Skeleton className="h-4" />
                       </div>
                     ) : (
                       <div className="w-full break-words xl:mt-0 mb-2">
@@ -3510,7 +3663,7 @@ function MainComponent(props) {
                   <div className="flex xl:flex-nowrap items-center justify-between py-4 w-full">
                     {loading ? (
                       <div className="w-full mb-2 md:mb-0">
-                        <Skelton className="" />
+                        <Skeleton className="h-4" />
                       </div>
                     ) : (
                       <div className="w-full mb-2 md:mb-0">
@@ -3521,7 +3674,7 @@ function MainComponent(props) {
                     )}
                     {loading ? (
                       <div className="w-full mb-2 break-words">
-                        <Skelton className="" />
+                        <Skeleton className="h-4" />
                       </div>
                     ) : (
                       <div className="w-full mb-2 break-words">
