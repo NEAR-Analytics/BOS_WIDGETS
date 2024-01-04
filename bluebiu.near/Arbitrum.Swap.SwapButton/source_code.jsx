@@ -1,11 +1,42 @@
+const SwapButtonConnectWrapper = styled.button`
+  border: none;
+  width: 100%;
+  background: transparent;
+
+  .connect-button {
+    width: 100%;
+    height: 60px;
+    border-radius: 10px;
+    font-size: 18px;
+    line-height: 22px;
+    border: none;
+    transition: 0.5s;
+    cursor: pointer;
+    font-weight: 700;
+    background-color: var(--button-color);
+    color: var(--button-text-color);
+    :hover {
+      opacity: 0.8;
+    }
+    &:disabled {
+      opacity: 0.5;
+      pointer-events: none;
+    }
+    @media (max-width: 900px) {
+      height: 40px;
+      font-size: 16px;
+    }
+  }
+`;
+
 const SwapButton = styled.button`
   width: 100%;
   height: 60px;
   border-radius: 10px;
-  background-color: var(--button-color);
-  color: var(--button-text-color);
   font-size: 18px;
   line-height: 22px;
+  background-color: var(--button-color);
+  color: var(--button-text-color);
   border: none;
   transition: 0.5s;
   cursor: pointer;
@@ -23,13 +54,6 @@ const SwapButton = styled.button`
   }
 `;
 const account = Ethers.send("eth_requestAccounts", [])[0];
-if (props.noPair) {
-  return <SwapButton disabled>Insufficient Liquidity</SwapButton>;
-}
-
-if (props.loading) {
-  return <SwapButton disabled>Getting Trade Info...</SwapButton>;
-}
 
 const {
   inputCurrency,
@@ -43,31 +67,78 @@ const {
   routerAddress,
   wethAddress,
   title,
-  fee,
-  uniType,
-  chainName,
-  handlerV2,
-  handlerV3,
-  handlerSolidly,
-  handleSyncswap,
-  stable,
-  syncSwapPoolAddress,
   chainId,
+  unsignedTx,
+  gas,
+  theme,
+  onApprovedSuccess,
+  chainIdNotSupport,
 } = props;
 
+if (!account) {
+  return (
+    <SwapButtonConnectWrapper>
+      <Web3Connect
+        style={theme ? theme : {}}
+        className="connect-button"
+        connectLabel="Connect Wallet"
+      />
+    </SwapButtonConnectWrapper>
+  );
+}
+if (props.chainIdNotSupport) {
+  return (
+    <SwapButton disabled style={theme ? theme : {}}>
+      Switch Network
+    </SwapButton>
+  );
+}
+
 if (Big(inputCurrencyAmount || 0).eq(0)) {
-  return <SwapButton disabled>Enter An Amount</SwapButton>;
+  return (
+    <SwapButton disabled style={theme ? theme : {}}>
+      Enter An Amount
+    </SwapButton>
+  );
 }
 if (!inputCurrency || !outputCurrency) {
-  return <SwapButton disabled>Select a token</SwapButton>;
-}
-if (Big(outputCurrencyAmount).lt("0.00000000001")) {
-  return <SwapButton disabled>Insufficient Liquidity</SwapButton>;
-}
-if (Big(inputCurrencyAmount || 0).gt(maxInputBalance)) {
   return (
-    <SwapButton disabled>
+    <SwapButton disabled style={theme ? theme : {}}>
+      Select a token
+    </SwapButton>
+  );
+}
+if (Big(outputCurrencyAmount || 0).lt("0.00000000001")) {
+  return (
+    <SwapButton disabled style={theme ? theme : {}}>
+      Insufficient Liquidity
+    </SwapButton>
+  );
+}
+if (Big(inputCurrencyAmount || 0).gt(maxInputBalance || 0)) {
+  return (
+    <SwapButton disabled style={theme ? theme : {}}>
       Insufficient {inputCurrency?.symbol} Balance
+    </SwapButton>
+  );
+}
+if (props.loading) {
+  return (
+    <SwapButton disabled style={theme ? theme : {}}>
+      <Widget
+        src="bluebiu.near/widget/0vix.LendingLoadingIcon"
+        props={{
+          size: 16,
+        }}
+      />
+    </SwapButton>
+  );
+}
+
+if (props.noPair) {
+  return (
+    <SwapButton disabled style={theme ? theme : {}}>
+      Insufficient Liquidity
     </SwapButton>
   );
 }
@@ -77,7 +148,6 @@ State.init({
   approving: false,
   swapping: false,
   wrapping: false,
-  isEstimateGas: true,
   isGasEnough: true,
 });
 
@@ -192,6 +262,7 @@ const handleApprove = () => {
           tx: transactionHash,
           chainId,
         });
+        onApprovedSuccess();
       });
     })
     .catch((err) => {
@@ -210,8 +281,21 @@ const handleApprove = () => {
 
 if (!state.isApproved && wrapType === 0) {
   return (
-    <SwapButton onClick={handleApprove} disabled={state.approving}>
-      {state.approving ? " Approving..." : " Approve"}
+    <SwapButton
+      onClick={handleApprove}
+      disabled={state.approving}
+      style={theme ? theme : {}}
+    >
+      {state.approving ? (
+        <Widget
+          src="bluebiu.near/widget/0vix.LendingLoadingIcon"
+          props={{
+            size: 16,
+          }}
+        />
+      ) : (
+        " Approve"
+      )}
     </SwapButton>
   );
 }
@@ -314,6 +398,7 @@ const handleWrap = (type, success, onError) => {
 if (wrapType) {
   return (
     <SwapButton
+      style={theme ? theme : {}}
       onClick={() => {
         const toastId = toast?.loading({
           title: `Swap ${inputCurrencyAmount} ${inputCurrency.symbol} to ${outputCurrency.symbol}`,
@@ -345,207 +430,85 @@ if (wrapType) {
       }}
       disabled={state.wrapping}
     >
-      {wrapType === 1
-        ? state.wrapping
-          ? "Wrapping..."
-          : "Wrap"
-        : state.wrapping
-        ? "Unwrapping..."
-        : "Unwrap"}
+      {wrapType === 1 ? (
+        state.wrapping ? (
+          <Widget
+            src="bluebiu.near/widget/0vix.LendingLoadingIcon"
+            props={{
+              size: 16,
+            }}
+          />
+        ) : (
+          "Wrap"
+        )
+      ) : state.wrapping ? (
+        <Widget
+          src="bluebiu.near/widget/0vix.LendingLoadingIcon"
+          props={{
+            size: 16,
+          }}
+        />
+      ) : (
+        "Unwrap"
+      )}
     </SwapButton>
   );
 }
 
 useEffect(() => {
-  if (!account) return;
+  if (!account || !gas) return;
   const provider = Ethers.provider();
   provider.getBalance(account).then((rawBalance) => {
     State.update({
       gasBalance: rawBalance.toString(),
+      isGasEnough: !Big(rawBalance.toString()).lt(gas.toString()),
+      gas: ethers.utils.formatUnits(gas, 18),
     });
   });
-}, [account]);
-
-useEffect(() => {
-  State.update({
-    isEstimateGas: true,
-  });
-}, [outputCurrencyAmount]);
+}, [account, gas]);
 
 return (
   <>
-    {uniType === "v2" && (
-      <Widget
-        src={handlerV2}
-        props={{
-          inputCurrencyAmount,
-          outputCurrencyAmount,
-          inputCurrency,
-          outputCurrency,
-          wethAddress,
-          account,
-          routerAddress,
-          swapping: state.swapping,
-          title,
-          isEstimateGas: state.isEstimateGas,
-          onLoadEstimateGas: (gas) => {
-            State.update({
-              gas,
-              isGasEnough: !Big(state.gasBalance).lt(gas),
-            });
-          },
-          onSuccess: (res) => {
-            successCallback(res, () => {
-              State.update({ swapping: false });
-            });
-          },
-          onError: (err) => {
-            State.update({ swapping: false });
-            toast?.dismiss(state.toastId);
-            toast?.fail({
-              title: "Swap Failed!",
-              text: err?.message?.includes("user rejected transaction")
-                ? "User rejected transaction"
-                : `Swaped ${inputCurrencyAmount} ${inputCurrency.symbol} to ${outputCurrency.symbol}`,
-            });
-          },
-        }}
-      />
-    )}
-
-    {uniType === "solidly" && state.swapping && (
-      <Widget
-        src={handlerSolidly}
-        props={{
-          inputCurrencyAmount,
-          outputCurrencyAmount,
-          inputCurrency,
-          outputCurrency,
-          wethAddress,
-          account,
-          routerAddress,
-          swapping: state.swapping,
-          title,
-          stable,
-          isEstimateGas: state.isEstimateGas,
-          onLoadEstimateGas: (gas) => {
-            State.update({
-              gas,
-              isGasEnough: !Big(state.gasBalance).lt(gas),
-            });
-          },
-          onSuccess: (res) => {
-            successCallback(res, () => {
-              State.update({ swapping: false });
-            });
-          },
-          onError: (err) => {
-            State.update({ swapping: false });
-            toast?.dismiss(state.toastId);
-            toast?.fail({
-              title: "Swap Failed!",
-              text: err?.message?.includes("user rejected transaction")
-                ? "User rejected transaction"
-                : `Swaped ${inputCurrencyAmount} ${inputCurrency.symbol} to ${outputCurrency.symbol}`,
-            });
-          },
-        }}
-      />
-    )}
-
-    {uniType === "Syncswap" && state.swapping && (
-      <Widget
-        src={handleSyncswap}
-        props={{
-          inputCurrencyAmount,
-          outputCurrencyAmount,
-          inputCurrency,
-          outputCurrency,
-          wethAddress,
-          account,
-          routerAddress,
-          swapping: state.swapping,
-          title,
-          stable,
-          syncSwapPoolAddress,
-          isEstimateGas: state.isEstimateGas,
-          onLoadEstimateGas: (gas) => {
-            State.update({
-              gas,
-              isGasEnough: !Big(state.gasBalance).lt(gas),
-            });
-          },
-          onSuccess: (res) => {
-            successCallback(res, () => {
-              State.update({ swapping: false });
-            });
-          },
-          onError: (err) => {
-            State.update({ swapping: false });
-            toast?.dismiss(state.toastId);
-            toast?.fail({
-              title: "Swap Failed!",
-              text: err?.message?.includes("user rejected transaction")
-                ? "User rejected transaction"
-                : `Swaped ${inputCurrencyAmount} ${inputCurrency.symbol} to ${outputCurrency.symbol}`,
-            });
-          },
-        }}
-      />
-    )}
-
-    {uniType === "v3" && state.swapping && (
-      <Widget
-        src={handlerV3}
-        props={{
-          inputCurrencyAmount,
-          inputCurrency,
-          wethAddress,
-          outputCurrency,
-          account,
-          fee,
-          routerAddress,
-          swapping: state.swapping,
-          isEstimateGas: state.isEstimateGas,
-          onLoadEstimateGas: (gas) => {
-            State.update({
-              gas,
-              isGasEnough: !Big(state.gasBalance).lt(gas),
-            });
-          },
-          onSuccess: (res) => {
-            successCallback(res, () => {
-              State.update({ swapping: false });
-            });
-          },
-          onError: (err) => {
-            State.update({ swapping: false });
-            toast?.dismiss(state.toastId);
-            toast?.fail({
-              title: "Swap Failed!",
-              text: err?.message?.includes("user rejected transaction")
-                ? "User rejected transaction"
-                : `Swaped ${inputCurrencyAmount} ${inputCurrency.symbol} to ${outputCurrency.symbol}`,
-            });
-          },
-        }}
-      />
-    )}
-
     <SwapButton
+      style={theme ? theme : {}}
       onClick={() => {
         const toastId = toast?.loading({
           title: `Swap ${inputCurrencyAmount} ${inputCurrency.symbol} to ${outputCurrency.symbol}`,
         });
-        State.update({ swapping: true, toastId, isEstimateGas: false });
+        State.update({ swapping: true });
+        Ethers.provider()
+          .getSigner()
+          .sendTransaction(unsignedTx)
+          .then((tx) => {
+            successCallback(tx, () => {
+              State.update({ swapping: false });
+            });
+          })
+          .catch((err) => {
+            State.update({ swapping: false });
+            toast?.dismiss(toastId);
+            toast?.fail({
+              title: "Swap Failed!",
+              text: err?.message?.includes("user rejected transaction")
+                ? "User rejected transaction"
+                : `Swaped ${inputCurrencyAmount} ${inputCurrency.symbol} to ${outputCurrency.symbol}`,
+            });
+          });
       }}
       disabled={state.swapping || !state.isGasEnough}
     >
-      {!state.isGasEnough
-        ? `Not enough gas(${Big(state.gas || 0).toFixed(2)}) needed`
-        : state.swapping
-        ? "Swapping..."
-        : "Swap"}
+      {!state.isGasEnough ? (
+        `Not enough gas(${Big(state.gas || 0).toFixed(2)}) needed`
+      ) : state.swapping ? (
+        <Widget
+          src="bluebiu.near/widget/0vix.LendingLoadingIcon"
+          props={{
+            size: 16,
+          }}
+        />
+      ) : (
+        "Swap"
+      )}
     </SwapButton>
   </>
 );
