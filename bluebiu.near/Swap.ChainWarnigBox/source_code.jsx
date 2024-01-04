@@ -1,6 +1,6 @@
-const { chain, theme } = props;
+const { chain } = props;
 
-const SwitchButton = styled.button`
+const SwitchButton = styled.div`
   cursor: pointer;
   white-space: nowrap;
   display: flex;
@@ -9,20 +9,20 @@ const SwitchButton = styled.button`
   font-family: Gantari;
   font-size: 18px;
   font-weight: 500;
+  line-height: 22px;
   letter-spacing: 0em;
   text-align: center;
-  border-radius: 8px;
+  border-radius: 10px;
   width: 100%;
-  margin-top: 22px;
-  height: 46px;
-  border: none;
-  background: var(--button-color);
+  padding: 20px 0px;
+  background-color: var(--button-color);
   color: var(--button-text-color);
+  margin-top: 22px;
 `;
 
 const Wrapper = styled.div`
   position: absolute;
-  z-index: 40;
+  z-index: 100;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
@@ -72,10 +72,7 @@ return (
       <div style={{ fontSize: "18px", fontWeight: 500 }}>{chain.name}</div>
     </div>
     <div style={{ marginTop: "17px" }}>Please connect to {chain.name}</div>
-    <SwitchButton
-      onClick={() => handleSwitchChain()}
-      style={theme ? theme : {}}
-    >
+    <SwitchButton onClick={() => handleSwitchChain()}>
       {props.switchingChain ? (
         <Widget
           src="bluebiu.near/widget/0vix.LendingLoadingIcon"
