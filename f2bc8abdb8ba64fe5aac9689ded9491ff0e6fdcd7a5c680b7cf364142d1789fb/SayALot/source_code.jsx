@@ -108,10 +108,10 @@ const widgets = {
   libNotifications: `sayalot.near/widget/lib.notifications`,
 
   //Standard widgets
+  articleHistory: `f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/NDC.ArticleHistory.Handler`,
   fasterTextInput: `f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/fasterTextInput`,
   markownEditorIframe: `f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/MarkdownEditorIframe`,
   styledComponents: "rubycop.near/widget/NDC.StyledComponents",
-  articleHistory: `f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/NDC.ArticleHistory.Handler`,
   newStyledComponents: {
     Element: {
       Badge: "nearui.near/widget/Element.Badge",
