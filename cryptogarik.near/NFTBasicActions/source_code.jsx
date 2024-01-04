@@ -2,6 +2,7 @@ State.init({
   showListNFTsSection: false,
   showMintNFTSection: false,
   showTokenMetadataSection: false,
+  showTokenTransferSection: false,
 });
 
 const showListNFTsSection = () => {
@@ -22,8 +23,43 @@ const showTokenMetadataSection = () => {
   const tokenData = Near.view(state.nft.contractId, "nft_token", {
     token_id: state.nft.tokenId,
   });
-  State.update({ showTokenMetadataSection: true, tokenData });
+  State.update({
+    showTokenMetadataSection: true,
+    showTokenTransferSection: false,
+    tokenData,
+  });
   console.log(tokenData);
+};
+
+const showTokenTransferSection = () => {
+  State.update({
+    showTokenMetadataSection: false,
+    showTokenTransferSection: true,
+  });
+};
+
+const handleReceiverIdChange = (event) => {
+  State.update({
+    showTokenMetadataSection: false,
+    showTokenTransferSection: true,
+    receiverId: event.target.value,
+  });
+};
+
+const handleTransfer = () => {
+  if (!(state.nft.contractId && state.nft.tokenId && state.receiverId)) {
+    return;
+  }
+
+  Near.call({
+    contractName: state.nft.contractId,
+    methodName: "nft_transfer",
+    args: {
+      token_id: state.nft.tokenId,
+      receiver_id: state.receiverId,
+    },
+    deposit: 1,
+  });
 };
 
 return (
@@ -40,6 +76,7 @@ return (
       }}
     >
       <div>
+        <h3>Basic NFT actions</h3>
         <div>
           <button onClick={showListNFTsSection}>List NFTs</button>
           <button onClick={showMintNFTSection}>Mint NFT</button>
@@ -65,13 +102,24 @@ return (
                 />
                 {state.nft.contractId && state.nft.tokenId ? (
                   <div>
-                    <button onClick={showTransferSection}>Transfer</button>
+                    <button onClick={showTokenTransferSection}>Transfer</button>
                     <button onClick={showTokenMetadataSection}>
                       Show metadata
                     </button>
                   </div>
                 ) : null}
-                {state.tokenData && (
+                {state.showTokenTransferSection ? (
+                  <div>
+                    <input
+                      type="text"
+                      value={state.receiverId}
+                      placeholder="Enter receiver id"
+                      onChange={handleReceiverIdChange}
+                    />
+                    <button onClick={handleTransfer}>Send NFT</button>
+                  </div>
+                ) : null}
+                {state.showTokenMetadataSection && (
                   <div>
                     <div>
                       <h5>Token metadata</h5>
