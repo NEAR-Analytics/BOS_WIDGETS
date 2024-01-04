@@ -2,7 +2,7 @@ State.init({
   contractId: "",
   methodName: "",
   args: "{}",
-  blockId: "finality",
+  blockId: "final",
   output: "",
   error: "",
   message: "",
@@ -11,22 +11,19 @@ State.init({
 function queryViewFunction() {
   State.update({
     message: "Querying...",
+    output: "",
+    error: "",
   });
-  try {
-    const { contractId, methodName, args, blockId } = state;
-    if (contractId && methodName) {
-      console.log("view function", contractId, methodName, args, blockId);
-      const output = Near.view(
-        contractId,
-        methodName,
-        JSON.parse(args),
-        blockId
-      );
-      console.log("result", output);
-      State.update({ output, error: "", message: "" });
-    }
-  } catch (e) {
-    State.update({ error, output: "", message: "" });
+  const { contractId, methodName, args } = state;
+  if (contractId && methodName) {
+    const blockId = state.blockId || "final";
+    console.log("view function", contractId, methodName, args, blockId);
+    Near.asyncView(contractId, methodName, JSON.parse(args), blockId).then(
+      (output) => {
+        console.log("result", output);
+        State.update({ output, error: "", message: "" });
+      }
+    );
   }
 }
 
