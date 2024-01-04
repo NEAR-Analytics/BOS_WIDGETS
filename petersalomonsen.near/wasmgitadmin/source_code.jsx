@@ -19,7 +19,7 @@ function createRepository() {
       account_id: accountId,
       permission: parseInt("" + permission),
     },
-    undefined
+    undefined,
     "100000000000000000000000"
   );
 }
