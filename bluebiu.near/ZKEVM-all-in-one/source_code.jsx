@@ -225,6 +225,8 @@ const lendingIcon = (
   </svg>
 );
 
+const { swapConfig, ...restProps } = props;
+
 return (
   <Layout>
     <Container>
@@ -265,7 +267,7 @@ return (
               src="guessme.near/widget/ZKEVMSwap.zkevm-bridge"
               props={{
                 layout: "center",
-                ...props,
+                ...restProps,
               }}
             />
           </>
@@ -273,10 +275,11 @@ return (
         {activeMenu == "swap" ? (
           <>
             <Widget
-              src="guessme.near/widget/ZKEVMSwap.zkevm-swap"
+              src="bluebiu.near/widget/PolygonZkevm.Swap.Dex"
               props={{
                 layout: "center",
-                ...props,
+                ...swapConfig,
+                ...restProps,
               }}
             />
           </>
@@ -285,7 +288,7 @@ return (
           <>
             <Widget
               src="bluebiu.near/widget/ZKEVM.GAMMA"
-              props={{ ...props }}
+              props={{ ...restProps }}
             />
           </>
         ) : null}
