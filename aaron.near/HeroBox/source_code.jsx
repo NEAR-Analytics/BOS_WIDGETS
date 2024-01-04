@@ -22,7 +22,31 @@ const HeroContainer = styled.div`
 
 const HeroImage = styled.img`
     max-width: 100%;
+    max-height: 450px;
     height: auto;
+`;
+
+const Button = styled.a`
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: 16px 24px;
+  background: #161615;
+  overflow: hidden;
+  border-radius: 6px;
+  border: 1px solid #e9ecef;
+  gap: 8px;
+  display: inline-flex;
+  text-align: center;
+  color: #FFFFFF;
+  font-size: 14px;
+  line-height: 16px;
+  font-weight: 600;
+
+  &:hover {
+    text-decoration: none;
+    cursor: ${props.disabled ? "not-allowed" : "pointer"};
+  }
 `;
 
 return (
@@ -30,9 +54,21 @@ return (
     <HeroText>
       <h1 style={{ fontSize: "60px" }}>{props.heroHeading}</h1>
       <p>{props.heroText}</p>
-      <a href="#" class="cta-button">
-        Call to Action
-      </a>
+      <Button
+        onClick={(e) => {
+          if (props.disabled) {
+            e.preventDefault();
+            return;
+          }
+          if (props.onClick) {
+            props.onClick(e);
+          }
+        }}
+        disabled={props.disabled}
+        style={{ ...props.style }}
+      >
+        {props.ButtonText}
+      </Button>
     </HeroText>
     <HeroImage src={props.image} />
   </HeroContainer>
