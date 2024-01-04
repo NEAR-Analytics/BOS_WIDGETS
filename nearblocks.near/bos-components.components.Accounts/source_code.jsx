@@ -51,7 +51,7 @@ function fiatValue(big, price) {
   const value = Big(big).mul(Big(price)).toString();
   const formattedNumber = Number(value).toLocaleString('en', {
     minimumFractionDigits: 2,
-    maximumFractionDigits: 2,
+    maximumFractionDigits: 6,
   });
   return formattedNumber;
 }
@@ -60,19 +60,11 @@ function nanoToMilli(nano) {
   return new Big(nano).div(new Big(10).pow(6)).round().toNumber();
 }
 
-function shortenAddress(address) {
-  const string = String(address);
-
-  if (string.length <= 20) return string;
-
-  return `${string.substr(0, 10)}...${string.substr(-7)}`;
-}
-
 function truncateString(str, maxLength, suffix) {
   if (str.length <= maxLength) {
     return str;
   }
-  return str.substring(0, maxLength - suffix.length) + suffix;
+  return str.substring(0, maxLength) + suffix;
 }
 
 function getConfig(network) {
@@ -127,6 +119,14 @@ function debounce(
   debounced.flush = (arg) => func(arg);
 
   return debounced;
+}
+
+function shortenAddress(address) {
+  const string = String(address);
+
+  if (string.length <= 20) return string;
+
+  return `${string.substr(0, 10)}...${string.substr(-7)}`;
 }
 function localFormat(number) {
   const formattedNumber = Number(number).toLocaleString('en', {
@@ -143,7 +143,7 @@ function fiatValue(big, price) {
   const value = Big(big).mul(Big(price)).toString();
   const formattedNumber = Number(value).toLocaleString('en', {
     minimumFractionDigits: 2,
-    maximumFractionDigits: 2,
+    maximumFractionDigits: 6,
   });
   return formattedNumber;
 }
@@ -152,19 +152,11 @@ function nanoToMilli(nano) {
   return new Big(nano).div(new Big(10).pow(6)).round().toNumber();
 }
 
-function shortenAddress(address) {
-  const string = String(address);
-
-  if (string.length <= 20) return string;
-
-  return `${string.substr(0, 10)}...${string.substr(-7)}`;
-}
-
 function truncateString(str, maxLength, suffix) {
   if (str.length <= maxLength) {
     return str;
   }
-  return str.substring(0, maxLength - suffix.length) + suffix;
+  return str.substring(0, maxLength) + suffix;
 }
 
 function getConfig(network) {
@@ -219,11 +211,80 @@ function debounce(
   debounced.flush = (arg) => func(arg);
 
   return debounced;
+}
+
+function shortenAddress(address) {
+  const string = String(address);
+
+  if (string.length <= 20) return string;
+
+  return `${string.substr(0, 10)}...${string.substr(-7)}`;
 }
 function nanoToMilli(nano) {
   return new Big(nano).div(new Big(10).pow(6)).round().toNumber();
 }
 
+function truncateString(str, maxLength, suffix) {
+  if (str.length <= maxLength) {
+    return str;
+  }
+  return str.substring(0, maxLength) + suffix;
+}
+
+function getConfig(network) {
+  switch (network) {
+    case 'mainnet':
+      return {
+        ownerId: 'nearblocks.near',
+        nodeUrl: 'https://rpc.mainnet.near.org',
+        backendUrl: 'https://api3.nearblocks.io/v1/',
+        rpcUrl: 'https://archival-rpc.testnet.near.org',
+        appUrl: 'https://nearblocks.io/',
+      };
+    case 'testnet':
+      return {
+        ownerId: 'nearblocks.testnet',
+        nodeUrl: 'https://rpc.testnet.near.org',
+        backendUrl: 'https://api3-testnet.nearblocks.io/v1/',
+        rpcUrl: 'https://archival-rpc.testnet.near.org',
+        appUrl: 'https://testnet.nearblocks.io/',
+      };
+    default:
+      return {};
+  }
+}
+function debounce(
+  delay,
+  func,
+) {
+  let timer;
+  let active = true;
+  console.log('hgjhgh');
+  const debounced = (arg) => {
+    if (active) {
+      clearTimeout(timer);
+      timer = setTimeout(() => {
+        active && func(arg);
+        timer = undefined;
+      }, delay);
+    } else {
+      func(arg);
+    }
+  };
+
+  debounced.isPending = () => {
+    return timer !== undefined;
+  };
+
+  debounced.cancel = () => {
+    active = false;
+  };
+
+  debounced.flush = (arg) => func(arg);
+
+  return debounced;
+}
+
 function shortenAddress(address) {
   const string = String(address);
 
@@ -231,67 +292,6 @@ function shortenAddress(address) {
 
   return `${string.substr(0, 10)}...${string.substr(-7)}`;
 }
-
-function truncateString(str, maxLength, suffix) {
-  if (str.length <= maxLength) {
-    return str;
-  }
-  return str.substring(0, maxLength - suffix.length) + suffix;
-}
-
-function getConfig(network) {
-  switch (network) {
-    case 'mainnet':
-      return {
-        ownerId: 'nearblocks.near',
-        nodeUrl: 'https://rpc.mainnet.near.org',
-        backendUrl: 'https://api3.nearblocks.io/v1/',
-        rpcUrl: 'https://archival-rpc.testnet.near.org',
-        appUrl: 'https://nearblocks.io/',
-      };
-    case 'testnet':
-      return {
-        ownerId: 'nearblocks.testnet',
-        nodeUrl: 'https://rpc.testnet.near.org',
-        backendUrl: 'https://api3-testnet.nearblocks.io/v1/',
-        rpcUrl: 'https://archival-rpc.testnet.near.org',
-        appUrl: 'https://testnet.nearblocks.io/',
-      };
-    default:
-      return {};
-  }
-}
-function debounce(
-  delay,
-  func,
-) {
-  let timer;
-  let active = true;
-  console.log('hgjhgh');
-  const debounced = (arg) => {
-    if (active) {
-      clearTimeout(timer);
-      timer = setTimeout(() => {
-        active && func(arg);
-        timer = undefined;
-      }, delay);
-    } else {
-      func(arg);
-    }
-  };
-
-  debounced.isPending = () => {
-    return timer !== undefined;
-  };
-
-  debounced.cancel = () => {
-    active = false;
-  };
-
-  debounced.flush = (arg) => func(arg);
-
-  return debounced;
-}
 function shortenAddress(address) {
   const string = String(address);
 
@@ -299,14 +299,6 @@ function shortenAddress(address) {
 
   return `${string.substr(0, 10)}...${string.substr(-7)}`;
 }
-
-function truncateString(str, maxLength, suffix) {
-  if (str.length <= maxLength) {
-    return str;
-  }
-  return str.substring(0, maxLength - suffix.length) + suffix;
-}
-
 function getConfig(network) {
   switch (network) {
     case 'mainnet':
@@ -360,58 +352,13 @@ function debounce(
 
   return debounced;
 }
-function getConfig(network) {
-  switch (network) {
-    case 'mainnet':
-      return {
-        ownerId: 'nearblocks.near',
-        nodeUrl: 'https://rpc.mainnet.near.org',
-        backendUrl: 'https://api3.nearblocks.io/v1/',
-        rpcUrl: 'https://archival-rpc.testnet.near.org',
-        appUrl: 'https://nearblocks.io/',
-      };
-    case 'testnet':
-      return {
-        ownerId: 'nearblocks.testnet',
-        nodeUrl: 'https://rpc.testnet.near.org',
-        backendUrl: 'https://api3-testnet.nearblocks.io/v1/',
-        rpcUrl: 'https://archival-rpc.testnet.near.org',
-        appUrl: 'https://testnet.nearblocks.io/',
-      };
-    default:
-      return {};
-  }
-}
-function debounce(
-  delay,
-  func,
-) {
-  let timer;
-  let active = true;
-  console.log('hgjhgh');
-  const debounced = (arg) => {
-    if (active) {
-      clearTimeout(timer);
-      timer = setTimeout(() => {
-        active && func(arg);
-        timer = undefined;
-      }, delay);
-    } else {
-      func(arg);
-    }
-  };
 
-  debounced.isPending = () => {
-    return timer !== undefined;
-  };
+function shortenAddress(address) {
+  const string = String(address);
 
-  debounced.cancel = () => {
-    active = false;
-  };
+  if (string.length <= 20) return string;
 
-  debounced.flush = (arg) => func(arg);
-
-  return debounced;
+  return `${string.substr(0, 10)}...${string.substr(-7)}`;
 }
 /* END_INCLUDE: "includes/libs.jsx" */
 /* INCLUDE: "includes/formats.jsx" */
@@ -691,7 +638,7 @@ function truncateString(str, maxLength, suffix) {
   if (str.length <= maxLength) {
     return str;
   }
-  return str.substring(0, maxLength - suffix.length) + suffix;
+  return str.substring(0, maxLength) + suffix;
 }
 function yoctoToNear(yocto, format) {
   const YOCTO_PER_NEAR = Big(10).pow(24).toString();
@@ -703,7 +650,7 @@ function truncateString(str, maxLength, suffix) {
   if (str.length <= maxLength) {
     return str;
   }
-  return str.substring(0, maxLength - suffix.length) + suffix;
+  return str.substring(0, maxLength) + suffix;
 }
 function yoctoToNear(yocto, format) {
   const YOCTO_PER_NEAR = Big(10).pow(24).toString();
@@ -715,7 +662,7 @@ function truncateString(str, maxLength, suffix) {
   if (str.length <= maxLength) {
     return str;
   }
-  return str.substring(0, maxLength - suffix.length) + suffix;
+  return str.substring(0, maxLength) + suffix;
 }
 function yoctoToNear(yocto, format) {
   const YOCTO_PER_NEAR = Big(10).pow(24).toString();
@@ -1007,7 +954,7 @@ function truncateString(str, maxLength, suffix) {
   if (str.length <= maxLength) {
     return str;
   }
-  return str.substring(0, maxLength - suffix.length) + suffix;
+  return str.substring(0, maxLength) + suffix;
 }
 function yoctoToNear(yocto, format) {
   const YOCTO_PER_NEAR = Big(10).pow(24).toString();
@@ -1019,7 +966,7 @@ function truncateString(str, maxLength, suffix) {
   if (str.length <= maxLength) {
     return str;
   }
-  return str.substring(0, maxLength - suffix.length) + suffix;
+  return str.substring(0, maxLength) + suffix;
 }
 function yoctoToNear(yocto, format) {
   const YOCTO_PER_NEAR = Big(10).pow(24).toString();
@@ -1031,7 +978,7 @@ function truncateString(str, maxLength, suffix) {
   if (str.length <= maxLength) {
     return str;
   }
-  return str.substring(0, maxLength - suffix.length) + suffix;
+  return str.substring(0, maxLength) + suffix;
 }
 function yoctoToNear(yocto, format) {
   const YOCTO_PER_NEAR = Big(10).pow(24).toString();
@@ -1300,7 +1247,7 @@ function truncateString(str, maxLength, suffix) {
   if (str.length <= maxLength) {
     return str;
   }
-  return str.substring(0, maxLength - suffix.length) + suffix;
+  return str.substring(0, maxLength) + suffix;
 }
 function yoctoToNear(yocto, format) {
   const YOCTO_PER_NEAR = Big(10).pow(24).toString();
@@ -1312,7 +1259,7 @@ function truncateString(str, maxLength, suffix) {
   if (str.length <= maxLength) {
     return str;
   }
-  return str.substring(0, maxLength - suffix.length) + suffix;
+  return str.substring(0, maxLength) + suffix;
 }
 function yoctoToNear(yocto, format) {
   const YOCTO_PER_NEAR = Big(10).pow(24).toString();
@@ -1324,7 +1271,7 @@ function truncateString(str, maxLength, suffix) {
   if (str.length <= maxLength) {
     return str;
   }
-  return str.substring(0, maxLength - suffix.length) + suffix;
+  return str.substring(0, maxLength) + suffix;
 }
 function yoctoToNear(yocto, format) {
   const YOCTO_PER_NEAR = Big(10).pow(24).toString();
@@ -1581,7 +1528,7 @@ function truncateString(str, maxLength, suffix) {
   if (str.length <= maxLength) {
     return str;
   }
-  return str.substring(0, maxLength - suffix.length) + suffix;
+  return str.substring(0, maxLength) + suffix;
 }
 function yoctoToNear(yocto, format) {
   const YOCTO_PER_NEAR = Big(10).pow(24).toString();
@@ -1593,7 +1540,7 @@ function truncateString(str, maxLength, suffix) {
   if (str.length <= maxLength) {
     return str;
   }
-  return str.substring(0, maxLength - suffix.length) + suffix;
+  return str.substring(0, maxLength) + suffix;
 }
 function yoctoToNear(yocto, format) {
   const YOCTO_PER_NEAR = Big(10).pow(24).toString();
@@ -1605,7 +1552,7 @@ function truncateString(str, maxLength, suffix) {
   if (str.length <= maxLength) {
     return str;
   }
-  return str.substring(0, maxLength - suffix.length) + suffix;
+  return str.substring(0, maxLength) + suffix;
 }
 function yoctoToNear(yocto, format) {
   const YOCTO_PER_NEAR = Big(10).pow(24).toString();
@@ -1657,7 +1604,7 @@ function truncateString(str, maxLength, suffix) {
   if (str.length <= maxLength) {
     return str;
   }
-  return str.substring(0, maxLength - suffix.length) + suffix;
+  return str.substring(0, maxLength) + suffix;
 }
 
 function getConfig(network) {
@@ -1712,6 +1659,14 @@ function debounce(
   debounced.flush = (arg) => func(arg);
 
   return debounced;
+}
+
+function shortenAddress(address) {
+  const string = String(address);
+
+  if (string.length <= 20) return string;
+
+  return `${string.substr(0, 10)}...${string.substr(-7)}`;
 }
 /* END_INCLUDE: "includes/libs.jsx" */
 /**
@@ -2013,7 +1968,7 @@ function truncateString(str, maxLength, suffix) {
   if (str.length <= maxLength) {
     return str;
   }
-  return str.substring(0, maxLength - suffix.length) + suffix;
+  return str.substring(0, maxLength) + suffix;
 }
 function yoctoToNear(yocto, format) {
   const YOCTO_PER_NEAR = Big(10).pow(24).toString();
@@ -2025,7 +1980,7 @@ function truncateString(str, maxLength, suffix) {
   if (str.length <= maxLength) {
     return str;
   }
-  return str.substring(0, maxLength - suffix.length) + suffix;
+  return str.substring(0, maxLength) + suffix;
 }
 function yoctoToNear(yocto, format) {
   const YOCTO_PER_NEAR = Big(10).pow(24).toString();
@@ -2037,7 +1992,7 @@ function truncateString(str, maxLength, suffix) {
   if (str.length <= maxLength) {
     return str;
   }
-  return str.substring(0, maxLength - suffix.length) + suffix;
+  return str.substring(0, maxLength) + suffix;
 }
 function yoctoToNear(yocto, format) {
   const YOCTO_PER_NEAR = Big(10).pow(24).toString();
@@ -2329,7 +2284,7 @@ function truncateString(str, maxLength, suffix) {
   if (str.length <= maxLength) {
     return str;
   }
-  return str.substring(0, maxLength - suffix.length) + suffix;
+  return str.substring(0, maxLength) + suffix;
 }
 function yoctoToNear(yocto, format) {
   const YOCTO_PER_NEAR = Big(10).pow(24).toString();
@@ -2341,7 +2296,7 @@ function truncateString(str, maxLength, suffix) {
   if (str.length <= maxLength) {
     return str;
   }
-  return str.substring(0, maxLength - suffix.length) + suffix;
+  return str.substring(0, maxLength) + suffix;
 }
 function yoctoToNear(yocto, format) {
   const YOCTO_PER_NEAR = Big(10).pow(24).toString();
@@ -2353,7 +2308,7 @@ function truncateString(str, maxLength, suffix) {
   if (str.length <= maxLength) {
     return str;
   }
-  return str.substring(0, maxLength - suffix.length) + suffix;
+  return str.substring(0, maxLength) + suffix;
 }
 function yoctoToNear(yocto, format) {
   const YOCTO_PER_NEAR = Big(10).pow(24).toString();
