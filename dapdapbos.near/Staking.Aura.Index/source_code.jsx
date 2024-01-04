@@ -565,6 +565,7 @@ const RewardsContractABI = [
   },
 ];
 const RewardPoolDepositWrapper = "0x0Fec3d212BcC29eF3E505B555D7a7343DF0B7F76";
+const PoolContractWrapper = "0xBA12222222228d8Ba445958a75a0704d566BF2C8";
 
 const RewardPoolDepositABI = [
   {
@@ -623,7 +624,29 @@ const RewardPoolDepositABI = [
     type: "function",
   },
 ];
+const PoolContractABI = [
+  {
+    inputs: [{ internalType: "bytes32", name: "poolId", type: "bytes32" }],
+    name: "getPoolTokens",
+    outputs: [
+      {
+        internalType: "contract IERC20[]",
+        name: "tokens",
+        type: "address[]",
+      },
+      { internalType: "uint256[]", name: "balances", type: "uint256[]" },
+      {
+        internalType: "uint256",
+        name: "lastChangeBlock",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+];
 const initList = POOLS.map((item) => ({ ...item, stakedAmount: 0, reward: 0 }));
+const { toast } = props;
 State.init({
   currentTab: "TAB_POOL",
   chainId: "", // current chain
@@ -633,6 +656,8 @@ State.init({
   totalDepositAmount: 0,
   totalRewardsAmount: 0,
   fresh: 1,
+  isClaiming: false,
+  isAllClaiming: false,
 });
 const account = Ethers.send("eth_requestAccounts", [])[0];
 
@@ -668,8 +693,11 @@ function initPoolList() {
     const temp = [...state.poolsList];
     for (let i = 0; i < res.length; i++) {
       if (res[i].status === "fulfilled") {
-        temp[i].tokenAssets = res[i].value[0];
-        temp[i].tokens = res[i].value[0].map((addr) => TOKENS[addr].symbol);
+        const addrArray = res[i].value[0];
+        temp[i].tokenAssets = addrArray;
+        temp[i].tokens = addrArray
+          ? addrArray.map((addr) => TOKENS[addr].symbol)
+          : [];
       } else {
         temp[i].tokenAssets = [];
         temp[i].tokens = [];
@@ -700,32 +728,18 @@ function initPoolList() {
 function getPoolTokens(pool) {
   // https://gnosisscan.io/address/0xba12222222228d8ba445958a75a0704d566bf2c8#readContract
   const PoolContract = new ethers.Contract(
-    "0xBA12222222228d8Ba445958a75a0704d566BF2C8",
-    [
-      {
-        inputs: [{ internalType: "bytes32", name: "poolId", type: "bytes32" }],
-        name: "getPoolTokens",
-        outputs: [
-          {
-            internalType: "contract IERC20[]",
-            name: "tokens",
-            type: "address[]",
-          },
-          { internalType: "uint256[]", name: "balances", type: "uint256[]" },
-          {
-            internalType: "uint256",
-            name: "lastChangeBlock",
-            type: "uint256",
-          },
-        ],
-        stateMutability: "view",
-        type: "function",
-      },
-    ],
+    PoolContractWrapper,
+    PoolContractABI,
     Ethers.provider()
   );
   return PoolContract.getPoolTokens(pool.Balancer_Pool_ID)
     .then((res) => {
+      console.info(
+        pool.poolName,
+        res,
+        res[1].map((item) => ethers.utils.formatUnits(item)),
+        res[2].toString()
+      );
       return res;
     })
     .catch((err) => {
@@ -734,20 +748,26 @@ function getPoolTokens(pool) {
 }
 
 function getBalance(pool) {
-  const RewardsContract = new ethers.Contract(
+  const BalanceContract = new ethers.Contract(
     pool.Rewards_contract_address,
     RewardsContractABI,
     Ethers.provider()
   );
-  return RewardsContract.balanceOf(account)
+  return BalanceContract.balanceOf(account)
     .then((res) => {
+      // console.log(
+      //   "getBalance: ",
+      //   res,
+      //   res.toString(),
+      //   Big(ethers.utils.formatUnits(res)).toFixed(2)
+      // );
       return Big(ethers.utils.formatUnits(res)).toFixed(2);
     })
     .catch((err) => {
       console.log("getBalance_error:", err);
     });
 }
-//TODO
+
 function getOthers(contract) {
   //??
   // RewardsContract.totalAssets()
@@ -873,6 +893,105 @@ const renderPoolIcon = (tokenAssets) => {
     });
   }
 };
+
+const switchChain = () => {
+  Ethers.send("wallet_switchEthereumChain", [
+    { chainId: `0x${Number(CHAIN_ID).toString(16)}` },
+  ]);
+};
+
+const handleClaim = (address) => {
+  State.update({
+    isClaiming: true,
+  });
+  const ClaimRewardsContract = new ethers.Contract(
+    address,
+    [
+      {
+        inputs: [
+          {
+            internalType: "address",
+            name: "_account",
+            type: "address",
+          },
+          {
+            internalType: "bool",
+            name: "_claimExtras",
+            type: "bool",
+          },
+        ],
+        name: "getReward",
+        outputs: [
+          {
+            internalType: "bool",
+            name: "",
+            type: "bool",
+          },
+        ],
+        stateMutability: "nonpayable",
+        type: "function",
+      },
+    ],
+    Ethers.provider().getSigner()
+  );
+
+  return ClaimRewardsContract.getReward(account, true)
+    .then((tx) => {
+      console.log("tx: ", tx);
+      tx.wait()
+        .then((res) => {
+          const { status, transactionHash } = res;
+          console.info("tx_res: ", res);
+          if (status === 1) {
+            toast.success?.({
+              title: "Transaction Successful!",
+              text: `transactionHash ${transactionHash}`,
+            });
+          } else {
+            toast.fail?.({
+              title: "Transaction Failed!",
+              text: `transactionHash ${transactionHash}`,
+            });
+          }
+        })
+        .finally(() => {
+          State.update({
+            isClaiming: false,
+          });
+        });
+    })
+    .catch((err) => {
+      console.log("getPoolTokens_error:", err);
+      State.update({
+        isClaiming: false,
+      });
+    });
+};
+
+const handleClaimAll = () => {
+  State.update({
+    isAllClaiming: true,
+  });
+  let getClaimAllArray = [];
+
+  for (let i = 0; i < state.myPoolsList.length; i++) {
+    const addr = state.myPoolsList[i].Rewards_contract_address;
+    getClaimAllArray.push(handleClaim(addr));
+  }
+  Promise.allSettled(getClaimAllArray)
+    .then((res) => {
+      console.info("getClaimAllArray: ", res);
+    })
+    .catch((error) => {
+      console.info("getClaimAllArray: ", error);
+    })
+    .finally(() => {
+      State.update({
+        isAllClaiming: false,
+      });
+    });
+};
+
 return (
   <Wrapper>
     <Tabs.Root value={state.currentTab} onValueChange={handleChangeTabs}>
@@ -918,6 +1037,7 @@ return (
                   CHAIN_ID,
                   RewardPoolDepositWrapper,
                   RewardPoolDepositABI,
+                  switchChain,
                 }}
                 key={item.poolName}
               />
@@ -944,10 +1064,9 @@ return (
                   text: "Claim All",
                   type: "primary",
                   style: { width: 118 },
-                  disabled: true,
-                  onClick: () => {
-                    //   console.log("click btn2");
-                  },
+                  loading: state.isAllClaiming,
+                  disabled: !state.myPoolsList.length,
+                  onClick: handleClaimAll,
                 }}
               />
             </div>
@@ -985,7 +1104,7 @@ return (
                       <div className="title-sub"></div>
                     </GridItem>
                     <GridItem className="action-item">
-                      <Widget
+                      {/* <Widget
                         src="dapdapbos.near/widget/UI.Button"
                         props={{
                           text: "Unstake",
@@ -994,15 +1113,18 @@ return (
                           disabled: true,
                           onClick: () => {},
                         }}
-                      />
+                      /> */}
                       <Widget
                         src="dapdapbos.near/widget/UI.Button"
                         props={{
                           text: "Claim",
                           type: "primary",
                           style: { width: 118 },
-                          disabled: true,
-                          onClick: () => {},
+                          loading: state.isClaiming,
+                          onClick: () => {
+                            handleClaim(item.Rewards_contract_address);
+                          },
+                          // handleClaim(item.Rewards_contract_address),
                         }}
                       />
                     </GridItem>
