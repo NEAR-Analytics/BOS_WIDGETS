@@ -20,7 +20,7 @@ function createRepository() {
       permission: parseInt("" + permission),
     },
     undefined
-    //"100000000000000000000000"
+    "100000000000000000000000"
   );
 }
 return (
