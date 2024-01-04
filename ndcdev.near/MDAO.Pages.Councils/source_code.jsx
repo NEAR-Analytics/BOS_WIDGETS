@@ -106,7 +106,7 @@ return (
         <p>
           Old school marketeer with over 30 years experience across all sectors
           7 years of Blockchain Experience Brewery and Farm Owner IRL Founder of
-          Decentralized Brewing Co built on NEAR Johanga tba
+          Decentralized Brewing Co built on NEAR
         </p>
       </div>
       <div>
