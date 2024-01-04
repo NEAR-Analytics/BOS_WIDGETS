@@ -981,6 +981,25 @@ function debounce(
   return debounced;
 }
 
+function timeAgo(unixTimestamp) {
+  const currentTimestamp = Math.floor(Date.now() / 1000);
+  const secondsAgo = currentTimestamp - unixTimestamp;
+
+  if (secondsAgo < 5) {
+    return 'Just now';
+  } else if (secondsAgo < 60) {
+    return `${secondsAgo} seconds ago`;
+  } else if (secondsAgo < 3600) {
+    const minutesAgo = Math.floor(secondsAgo / 60);
+    return `${minutesAgo} minute${minutesAgo > 1 ? 's' : ''} ago`;
+  } else if (secondsAgo < 86400) {
+    const hoursAgo = Math.floor(secondsAgo / 3600);
+    return `${hoursAgo} hour${hoursAgo > 1 ? 's' : ''} ago`;
+  } else {
+    const daysAgo = Math.floor(secondsAgo / 86400);
+    return `${daysAgo} day${daysAgo > 1 ? 's' : ''} ago`;
+  }
+}
 function shortenAddress(address) {
   const string = String(address);
 
@@ -1042,6 +1061,25 @@ function debounce(
   return debounced;
 }
 
+function timeAgo(unixTimestamp) {
+  const currentTimestamp = Math.floor(Date.now() / 1000);
+  const secondsAgo = currentTimestamp - unixTimestamp;
+
+  if (secondsAgo < 5) {
+    return 'Just now';
+  } else if (secondsAgo < 60) {
+    return `${secondsAgo} seconds ago`;
+  } else if (secondsAgo < 3600) {
+    const minutesAgo = Math.floor(secondsAgo / 60);
+    return `${minutesAgo} minute${minutesAgo > 1 ? 's' : ''} ago`;
+  } else if (secondsAgo < 86400) {
+    const hoursAgo = Math.floor(secondsAgo / 3600);
+    return `${hoursAgo} hour${hoursAgo > 1 ? 's' : ''} ago`;
+  } else {
+    const daysAgo = Math.floor(secondsAgo / 86400);
+    return `${daysAgo} day${daysAgo > 1 ? 's' : ''} ago`;
+  }
+}
 function shortenAddress(address) {
   const string = String(address);
 
@@ -1077,23 +1115,6 @@ const TokenImage = ({ appUrl, src, alt, ...rest }) => {
   return <img src={src || placeholder} alt={alt} {...rest} onError={onError} />;
 };/* END_INCLUDE COMPONENT: "includes/icons/TokenImage.jsx" */
 
-/* INCLUDE COMPONENT: "includes/Common/Skelton.jsx" */
-/**
- * @interface Props
- * @param {string} [className] - The CSS class name(s) for styling purposes.
- */
-
-
-
-
-
-const Skelton = (props) => {
-  return (
-    <div
-      className={`bg-gray-200 h-5 rounded shadow-sm animate-pulse ${props.className}`}
-    ></div>
-  );
-};/* END_INCLUDE COMPONENT: "includes/Common/Skelton.jsx" */
 /* INCLUDE COMPONENT: "includes/icons/ArrowDown.jsx" */
 /**
  * @interface Props
@@ -1166,6 +1187,23 @@ const Question = (props) => {
     </svg>
   );
 };/* END_INCLUDE COMPONENT: "includes/icons/Question.jsx" */
+/* INCLUDE COMPONENT: "includes/Common/Skeleton.jsx" */
+/**
+ * @interface Props
+ * @param {string} [className] - The CSS class name(s) for styling purposes.
+ */
+
+
+
+
+
+const Skeleton = (props) => {
+  return (
+    <div
+      className={`bg-gray-200  rounded shadow-sm animate-pulse ${props.className}`}
+    ></div>
+  );
+};/* END_INCLUDE COMPONENT: "includes/Common/Skeleton.jsx" */
 
 const initialSorting = {
   sort: 'onchain_market_cap',
@@ -1179,9 +1217,8 @@ function MainComponent({ t, network, currentPage, setPage }) {
   const [isLoading, setIsLoading] = useState(false);
   const [totalCount, setTotalCount] = useState(0);
   const [tokens, setTokens] = useState([]);
-
   const [sorting, setSorting] = useState(initialSorting);
-
+  const errorMessage = t ? t('token:fts.top.empty') : 'No tokens found!';
   const config = getConfig(network);
   const ArrowUp = () => {
     return (
@@ -1200,7 +1237,6 @@ function MainComponent({ t, network, currentPage, setPage }) {
 
   useEffect(() => {
     function fetchTotalTokens(qs) {
-      setIsLoading(true);
       const queryParams = qs ? '?' + qs : '';
       asyncFetch(`${config?.backendUrl}fts/count${queryParams}`, {
         method: 'GET',
@@ -1215,16 +1251,15 @@ function MainComponent({ t, network, currentPage, setPage }) {
 
 ) => {
             const resp = data?.body?.tokens?.[0];
-            setTotalCount(resp?.count);
+            setTotalCount(resp?.count | 0);
           },
         )
         .catch(() => {})
-        .finally(() => {
-          setIsLoading(false);
-        });
+        .finally(() => {});
     }
 
     function fetchTokens(qs, sqs) {
+      setIsLoading(true);
       const queryParams = qs ? qs + '&' : '';
       asyncFetch(
         `${config?.backendUrl}fts?${queryParams}order=${sqs?.order}&sort=${sqs?.sort}&page=${currentPage}&per_page=25`,
@@ -1242,10 +1277,13 @@ function MainComponent({ t, network, currentPage, setPage }) {
 
 ) => {
             const resp = data?.body?.tokens;
-            setTokens(resp);
+            setTokens(resp || []);
           },
         )
-        .catch(() => {});
+        .catch(() => {})
+        .finally(() => {
+          setIsLoading(false);
+        });
     }
 
     fetchTotalTokens();
@@ -1268,6 +1306,30 @@ function MainComponent({ t, network, currentPage, setPage }) {
           : 'desc',
     }));
   };
+  const debouncedSearch = useMemo(() => {
+    return debounce(500, (value) => {
+      if (!value || value.trim() === '') {
+        setSearchResults([]);
+        return;
+      }
+      asyncFetch(`${config?.backendUrl}fts?search=${value}&per_page=5`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      })
+        .then((data) => {
+          const resp = data?.body?.tokens;
+          setSearchResults(resp);
+        })
+        .catch(() => {});
+    });
+  }, [config?.backendUrl]);
+
+  const onChange = (e) => {
+    const value = e.target.value;
+    debouncedSearch(value);
+  };
   const columns = [
     {
       header: <span>#</span>,
@@ -1278,7 +1340,7 @@ function MainComponent({ t, network, currentPage, setPage }) {
         </span>
       ),
       tdClassName:
-        'pl-6 py-4 whitespace-nowrap text-sm text-gray-400 align-top',
+        'pl-6 py-4 whitespace-nowrap text-sm text-gray-500 align-top',
       thClassName:
         'px-6 py-2 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider',
     },
@@ -1309,8 +1371,8 @@ function MainComponent({ t, network, currentPage, setPage }) {
               appUrl={config.appUrl}
               className="w-5 h-5 mr-2"
             />
-            <a href={`/token/${row.contract}`}>
-              <a className=" text-green-500 ">
+            <a href={`/token/${row.contract}`} className="hover:no-underline">
+              <a className=" text-green-500 hover:no-underline">
                 <span className="inline-block truncate max-w-[200px] mr-1">
                   {row.name}
                 </span>
@@ -1323,7 +1385,7 @@ function MainComponent({ t, network, currentPage, setPage }) {
         </span>
       ),
       tdClassName:
-        'px-6 py-4 whitespace-nowrap text-sm text-gray-500 align-top',
+        'px-6 py-4 whitespace-nowrap text-sm text-gray-500 w-80  align-top',
     },
     {
       header: (
@@ -1429,14 +1491,14 @@ function MainComponent({ t, network, currentPage, setPage }) {
           <button
             type="button"
             onClick={() => onOrder('market_cap')}
-            className="w-full px-6 py-2 text-left text-xs font-semibold uppercase tracking-wider text-green-500 focus:outline-none flex flex-row"
+            className="w-full px-6 py-2 text-left text-xs font-semibold  tracking-wider text-green-500 focus:outline-none flex flex-row"
           >
             {sorting.sort === 'market_cap' && (
               <div className="text-gray-500 font-semibold">
                 <SortIcon order={sorting.order} />
               </div>
             )}
-            Circulating MC
+            <span className="uppercase">Circulating MC</span>
             <Tooltip.Provider>
               <Tooltip.Root>
                 <Tooltip.Trigger asChild>
@@ -1445,9 +1507,9 @@ function MainComponent({ t, network, currentPage, setPage }) {
                   </span>
                 </Tooltip.Trigger>
                 <Tooltip.Content
-                  className="h-auto max-w-xs bg-black bg-opacity-90 z-10 text-xs text-white px-3 py-2 break-words"
-                  sideOffset={8}
-                  place="bottom"
+                  className=" h-auto max-w-xs bg-black bg-opacity-90 z-10 text-xs text-white px-3 py-2 "
+                  align="start"
+                  side="bottom"
                 >
                   {
                     ' Calculated by multiplying the number of tokens in circulating supply across all chains with the current market price per token.'
@@ -1478,14 +1540,14 @@ function MainComponent({ t, network, currentPage, setPage }) {
           <button
             type="button"
             onClick={() => onOrder('onchain_market_cap')}
-            className="w-full px-6 py-2 text-left text-xs font-semibold uppercase tracking-wider text-green-500 focus:outline-none flex flex-row"
+            className="w-full px-6 py-2 text-left text-xs font-semibold  tracking-wider text-green-500 focus:outline-none flex flex-row"
           >
             {sorting.sort === 'onchain_market_cap' && (
               <div className="text-gray-500 font-semibold">
                 <SortIcon order={sorting.order} />
               </div>
             )}
-            On-Chain MC
+            <span className="uppercase">On-Chain MC</span>
             <Tooltip.Provider>
               <Tooltip.Root>
                 <Tooltip.Trigger asChild>
@@ -1495,8 +1557,8 @@ function MainComponent({ t, network, currentPage, setPage }) {
                 </Tooltip.Trigger>
                 <Tooltip.Content
                   className=" h-auto max-w-xs bg-black bg-opacity-90 z-10 text-xs text-white px-3 py-2 break-words"
-                  sideOffset={8}
-                  place="bottom"
+                  align="start"
+                  side="bottom"
                 >
                   {
                     "Calculated by multiplying the token's Total Supply on Near with the current market price per token"
@@ -1544,35 +1606,13 @@ function MainComponent({ t, network, currentPage, setPage }) {
     },
   ];
 
-  const debouncedSearch = useMemo(() => {
-    return debounce(500, (value) => {
-      if (!value || value.trim() === '') {
-        setSearchResults([]);
-        return;
-      }
-      asyncFetch(`${config?.backendUrl}fts?search=${value}&per_page=5`, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      })
-        .then((data) => {
-          const resp = data?.body?.tokens;
-          setSearchResults(resp);
-        })
-        .catch(() => {});
-    });
-  }, [config?.backendUrl]);
-
-  const onChange = (e) => {
-    const value = e.target.value;
-    debouncedSearch(value);
-  };
   return (
-    <>
+    <div className=" bg-white border soft-shadow rounded-lg pb-1 ">
       <div className="flex flex-row items-center justify-between text-left text-sm text-gray-500 px-3 py-2">
         {isLoading ? (
-          <Skelton className="max-w-lg pl-3" />
+          <div className="max-w-lg w-full pl-3">
+            <Skeleton className="h-4" />
+          </div>
         ) : (
           <p className="pl-3">
             {t
@@ -1600,8 +1640,11 @@ function MainComponent({ t, network, currentPage, setPage }) {
                       key={token.contract}
                       className="mx-2 px-2 py-2 hover:bg-gray-100 cursor-pointer hover:border-gray-500 truncate"
                     >
-                      <a href={`/token/${token.contract}`}>
-                        <a className="flex items-center my-1 whitespace-nowrap ">
+                      <a
+                        href={`/token/${token.contract}`}
+                        className="hover:no-underline"
+                      >
+                        <a className="hover:no-underline flex items-center my-1 whitespace-nowrap ">
                           <div className="flex-shrink-0 h-5 w-5 mr-2">
                             <TokenImage
                               src={token?.icon}
@@ -1638,9 +1681,10 @@ function MainComponent({ t, network, currentPage, setPage }) {
           limit: 25,
           pageLimit: 200,
           setPage: setPage,
+          Error: errorMessage,
         }}
       />
-    </>
+    </div>
   );
 }
 
