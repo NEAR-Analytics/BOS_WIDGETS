@@ -1,81 +1,3 @@
-// select begin
-const SelectContent = styled("Select.Content")`
-  z-index: 1;
-  border-radius: 6px;
-  padding: 11px 0;
-  min-width: 148px;
-  border: 1px solid #373a53;
-  background: #262836;
-  box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.25);
-`;
-const SelectTrigger = styled.div`
-  width: 138px;
-  height: 34px;
-  background-color: #373a53;
-  border-radius: 12px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0 12px;
-`;
-
-const SelectItem = styled("Select.Item")`
-  all: "unset";
-  height: 40px;
-  display: flex;
-  align-items: center;
-  padding-left: 16px;
-  user-select: none;
-  &:hover {
-    background: #979abe;
-  }
-  /* &[data-disabled]: {
-      color: red;
-      
-    } */
-
-  /* &[data-highlighted]: {
-      backgroundColor: violet.violet9,
-      color: violet.violet1,
-    } */
-`;
-
-const SelectValue = styled.div``;
-// select end
-
-// switch begin
-const SwitchRoot = styled("Switch.Root")`
-  all: unset;
-  display: block;
-  width: 42px;
-  height: 24px;
-  background-color: #232534;
-  border-radius: 9999px;
-  position: relative;
-  box-shadow: 0 2px 10px #232534;
-  border: 1px solid #373a53;
-  &[data-state="checked"] {
-    background-color: #783ae3;
-  }
-`;
-
-const SwitchThumb = styled("Switch.Thumb")`
-  all: unset;
-  display: block;
-  width: 18px;
-  height: 18px;
-  background-color: white;
-  border-radius: 9999px;
-  box-shadow: 0 2px 2px var(--blackA7);
-  transition: transform 100ms;
-  transform: translateX(2px);
-  will-change: transform;
-  border: 1px solid #373a53;
-  &[data-state="checked"] {
-    transform: translateX(19px);
-  }
-`;
-// switch end
 const StakePanel = styled.div`
   width: 510px;
   margin: 0 auto;
@@ -83,9 +5,13 @@ const StakePanel = styled.div`
   .bos-input-number {
     background-color: var(--dark);
     color: var(--white);
+    border: none;
+    border-radius: 10px !important;
+  }
+  .input-group {
+    column-gap: 5px;
   }
 `;
-
 const AmountList = styled.div`
   display: flex;
   font-size: var(--fz12);
@@ -97,6 +23,7 @@ const AmountList = styled.div`
   .amount-right {
   }
   .amount-white {
+    text-decoration: underline;
     color: var(--white);
   }
 `;
@@ -104,174 +31,515 @@ const StakeBtnWrap = styled.div`
   display: flex;
   column-gap: 14px;
 `;
-const UnStakeBtnWrap = styled.div`
+const ChainBtnWrap = styled.div`
+  margin-top: 16px;
   display: flex;
-  column-gap: 22px;
-  align-items: center;
-  .switch-wrap {
-    display: flex;
-    align-items: center;
-    column-gap: 8px;
-    color: var(--purple);
-  }
 `;
 
-const ArrowSvg = (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    width="12"
-    height="7"
-    viewBox="0 0 12 7"
-    fill="none"
-  >
-    <path
-      d="M1 1L6 5L11 1"
-      stroke="#979ABE"
-      stroke-width="2"
-      stroke-linecap="round"
-    />
-  </svg>
-);
-const ChevronDownIcon = styled.div``;
-
-// type: STAKE | UN_STAKE
-const { type } = props;
+const {
+  data,
+  chainId,
+  account,
+  TOKENS,
+  CHAIN_ID,
+  RewardPoolDepositWrapper,
+  RewardPoolDepositABI,
+  toast,
+} = props;
 State.init({
-  isClaimRewards: false,
-  selectValue: selectData[0].value,
+  allowance: 0,
+  curToken: "", // token address
+  curTokenBal: 0,
+  needApprove: false,
+  isApproving: false,
+  isApproved: false,
+  canStake: false,
+  isStaking: false,
+  inputValue: "",
+  selectData: [],
 });
 
-const selectData = [
-  { value: "usdt+usdc", label: "USDT USDC" },
-  { value: "usdt", label: "USDT" },
-  { value: "usdc", label: "USDC" },
-];
-const handleSwitch = (isChecked) => {
-  State.update({
-    isClaimRewards: isChecked,
-  });
-};
-
-const handleSelect = (value) => {
-  State.update({
-    selectValue: value,
-  });
-};
-
-const renderExtra = () => {
-  switch (type) {
-    case "STAKE":
-      return (
-        <>
-          <AmountList>
-            <span>$0.00</span>
-            <span>
-              Balance: <span className="amount-white">123.35</span> BPT
-            </span>
-          </AmountList>
-          <StakeBtnWrap>
-            <Widget
-              src="dapdapbos.near/widget/Staking.Aura.Button"
-              props={{
-                text: "Approve",
-                type: "primary",
-                style: { flex: 1 },
-                loading: true,
-                onClick: () => {
-                  console.log("click btn");
-                },
-              }}
-            />
-            <Widget
-              src="dapdapbos.near/widget/Staking.Aura.Button"
-              props={{
-                text: "Stake",
-                type: "primary",
-                style: { flex: 1 },
-                disabled: true,
-                onClick: () => {
-                  console.log("click btn2");
-                },
-              }}
-            />
-          </StakeBtnWrap>
-        </>
-      );
-    case "UN_STAKE":
-      return (
-        <>
-          <AmountList>
-            <span>$0.00</span>
-            <span>
-              You Staked: <span className="amount-white">123.35</span> BPT
-            </span>
-          </AmountList>
-          <UnStakeBtnWrap>
-            <div className="switch-wrap">
-              <SwitchRoot
-                checked={state.isClaimRewards}
-                onCheckedChange={handleSwitch}
-              >
-                <SwitchThumb />
-              </SwitchRoot>
-              <span>Claim Rewards</span>
-            </div>
-            <Widget
-              src="dapdapbos.near/widget/Staking.Aura.Button"
-              props={{
-                text: "Unstake",
-                type: "primary",
-                style: { flex: 1 },
-                disabled: true,
-                onClick: () => {
-                  console.log("click btn2");
-                },
-              }}
-            />
-          </UnStakeBtnWrap>
-        </>
-      );
+useEffect(() => {
+  //TODO BPT?
+  const { tokenAssets } = data;
+  console.log("Stake_tokenAssets:", tokenAssets);
+  if (tokenAssets) {
+    const selectData = tokenAssets.map((item) =>
+      TOKENS[item]
+        ? {
+            value: item,
+            text: TOKENS[item].symbol,
+            icon: TOKENS[item].icon,
+          }
+        : null
+    );
+    const usefulSelect = selectData.filter((n) => n);
+    State.update({
+      selectData: usefulSelect,
+    });
   }
+}, [data]);
+const getAllowance = (tokenAddress) => {
+  const abi = [
+    "function allowance(address owner, address spender) external view returns (uint256)",
+  ];
+  const TokenContract = new ethers.Contract(
+    tokenAddress,
+    abi,
+    Ethers.provider()
+  );
+  TokenContract.allowance(account, RewardPoolDepositWrapper)
+    .then((allowanceRaw) => {
+      const allowAmount = ethers.utils.formatUnits(
+        allowanceRaw._hex,
+        TOKENS[state.curToken].decimals
+      );
+      console.info("get allow amount: ", allowAmount);
+      State.update({
+        allowance: allowAmount,
+      });
+    })
+    .catch((e) => {
+      console.log("TokenContracterr", e);
+    });
+};
+
+const handleApprove = (tokenAddress) => {
+  State.update({
+    isApproving: true,
+  });
+  const TokenContract = new ethers.Contract(
+    tokenAddress,
+    [
+      {
+        constant: false,
+        inputs: [
+          {
+            name: "_spender",
+            type: "address",
+          },
+          {
+            name: "_value",
+            type: "uint256",
+          },
+        ],
+        name: "approve",
+        outputs: [
+          {
+            name: "",
+            type: "bool",
+          },
+        ],
+        payable: false,
+        stateMutability: "nonpayable",
+        type: "function",
+      },
+    ],
+    Ethers.provider().getSigner()
+  );
+  console.info(
+    "to approve: ",
+    state.inputValue,
+    TOKENS[state.curToken].decimals
+  );
+  TokenContract.approve(
+    RewardPoolDepositWrapper,
+    ethers.utils.parseUnits(state.inputValue, TOKENS[state.curToken].decimals)
+  )
+    .then((tx) => {
+      tx.wait().then((res) => {
+        const { status, transactionHash } = res;
+        console.info("approve_tx_res:", res);
+        State.update({
+          isApproved: status === 1,
+          isApproving: false,
+        });
+        // if (status === 1) {
+        //   toast.success?.({
+        //     title: "Transaction Successful!",
+        //     text: `Approved ${state.curToken}`,
+        //   });
+        // } else {
+        //   toast.fail?.({
+        //     title: "Transaction Failed!",
+        //     text: `Approved ${state.curToken}`,
+        //   });
+        // }
+        // addTransaction?.({
+        //   icons: [inputCurrency.icon],
+        //   failed: status !== 1,
+        //   tx: transactionHash,
+        //   handler: "Approved",
+        //   desc: inputCurrency.symbol,
+        //   time: Date.now(),
+        // });
+      });
+    })
+    .catch((err) => {
+      State.update({
+        isApproving: false,
+      });
+      console.log("approve_fail:", err);
+      // openRequestModal?.({
+      //   open: false,
+      // });
+      // if (!err?.message.includes("user rejected transaction")) {
+      //   toast.fail?.({
+      //     title: "Transaction Failed",
+      //     text: err?.data?.message || err?.message,
+      //   });
+      // } else {
+      //   toast.fail?.({
+      //     title: "Transaction Failed",
+      //     text: `User rejected the request. Details:
+      //     MetaMask Tx Signature: User denied transaction signature. `,
+      //   });
+      // }
+      // State.update({
+      //   approving: false,
+      // });
+    });
+};
+
+function getTokenBal() {
+  const erc20Abi = ["function balanceOf(address) view returns (uint256)"];
+  const { decimals } = TOKENS[state.curToken];
+  const tokenContract = new ethers.Contract(
+    state.curToken,
+    erc20Abi,
+    Ethers.provider()
+  );
+  tokenContract
+    .balanceOf(account)
+    .then((balanceBig) => {
+      // console.log(
+      //   balanceBig,
+      //   balanceBig.toString(),
+      //   ethers.utils.formatUnits(balanceBig, decimals),
+      //   Big(ethers.utils.formatUnits(balanceBig, decimals)).toFixed(2)
+      // );
+      const bal = Big(
+        ethers.utils.formatUnits(balanceBig, decimals) || 0
+      ).toFixed(2);
+      State.update({
+        curTokenBal: bal,
+      });
+    })
+    .catch((err) => {
+      console.info("getTokenBal_error:", err);
+    });
+}
+useEffect(() => {
+  console.log("Stake_state: ", state);
+  // get token allowance when current token change
+  if (!state.curToken) {
+    const defaultToken = data?.tokenAssets[0];
+    State.update({ curToken: defaultToken });
+  } else {
+    getAllowance(state.curToken);
+    getTokenBal();
+  }
+}, [state.curToken]);
+
+useEffect(() => {
+  // console.info(
+  //   "inputValue|allowance change:",
+  //   state.inputValue,
+  //   state.allowance,
+  //   Big(state.allowance).lt(Big(state.inputValue || 0))
+  // );
+
+  if (!state.inputValue) {
+    // input none
+    State.update({
+      needApprove: false,
+      canStake: false,
+    });
+    return false;
+  }
+  if (Big(state.allowance).lt(Big(state.inputValue || 0))) {
+    State.update({
+      canStake: false,
+      needApprove: true,
+    });
+  } else {
+    State.update({
+      canStake: true,
+      needApprove: false,
+    });
+  }
+}, [state.inputValue, state.allowance, state.curToken]);
+
+useEffect(() => {
+  if (state.isApproved) {
+    State.update({
+      canStake: true,
+    });
+  } else {
+    State.update({
+      canStake: false,
+    });
+  }
+}, [state.isApproved]);
+
+// useEffect(() => {
+//   var a = new BN(Number("0.6"));
+
+//   console.info(BN, a.toString(), a.toNumber());
+// }, []);
+
+const handleInputChange = (e) => {
+  State.update({
+    inputValue: e.target.value,
+  });
+};
+// amount: number | string | BN
+// decimals: number | BN
+const simpleToExactAmount = (amount, decimals) => {
+  // Code is largely lifted from the guts of web3 toWei here:
+  // https://github.com/ethjs/ethjs-unit/blob/master/src/index.js
+  console.log("simpleToExactAmount: ", amount, decimals);
+  let amountString = amount.toString();
+  const decimalsBN = new BN(decimals);
+  // console.log(555, decimalsBN, decimalsBN.toNumber(), decimalsBN.toString());
+  // if (decimalsBN.gt(100)) {
+  //   console.info(`Invalid decimals amount`);
+  // }
+
+  const scale = new BN(10).pow(decimalsBN);
+  const scaleString = scale.toString();
+
+  // Is it negative?
+  const negative = amountString.substring(0, 1) === "-";
+  if (negative) {
+    amountString = amountString.substring(1);
+  }
+
+  if (amountString === ".") {
+    console.info(
+      `Error converting number ${amountString} to precise unit, invalid value`
+    );
+  }
+
+  // Split it into a whole and fractional part
+  // eslint-disable-next-line prefer-const
+  let [whole, fraction, ...rest] = amountString.split(".");
+  if (rest.length > 0) {
+    console.info(
+      `Error converting number ${amountString} to precise unit, too many decimal points`
+    );
+  }
+
+  if (!whole) {
+    whole = "0";
+  }
+  if (!fraction) {
+    fraction = "0";
+  }
+
+  if (fraction.length > scaleString.length - 1) {
+    console.info(
+      `Error converting number ${amountString} to precise unit, too many decimal places`
+    );
+  }
+
+  while (fraction.length < scaleString.length - 1) {
+    fraction += "0";
+  }
+
+  const wholeBN = new BN(whole);
+  const fractionBN = new BN(fraction);
+  let result = wholeBN.mul(scale).add(fractionBN);
+
+  if (negative) {
+    result = result.mul("-1");
+  }
+
+  return result;
+};
+
+const handleStake = () => {
+  State.update({
+    isStaking: true,
+  });
+  const RewardsContract = new ethers.Contract(
+    RewardPoolDepositWrapper,
+    RewardPoolDepositABI,
+    Ethers.provider().getSigner()
+  );
+
+  const { Rewards_contract_address, Balancer_Pool_ID, tokenAssets } = data;
+
+  const amountsIn = tokenAssets.map((token) =>
+    state.curToken === token
+      ? ethers.BigNumber.from(
+          simpleToExactAmount(
+            state.inputValue,
+            TOKENS[state.curToken].decimals
+          ).toString()
+        )
+      : 0
+  );
+  console.log(111, amountsIn);
+  const userData = ethers.utils.defaultAbiCoder.encode(
+    ["uint256", "uint256[]", "uint256"],
+    [1, amountsIn, 0]
+  );
+  console.log(222, userData);
+  const params = {
+    _rewardPoolAddress: Rewards_contract_address,
+    _inputToken: state.curToken,
+    _inputAmount: ethers.BigNumber.from(
+      ethers.utils.parseUnits(state.inputValue, TOKENS[state.curToken].decimals)
+    ),
+    _balancerPoolId: Balancer_Pool_ID,
+    _request: {
+      assets: data.tokenAssets,
+      maxAmountsIn: amountsIn,
+      userData,
+      fromInternalBalance: false,
+    },
+  };
+  console.log(333, params);
+  const {
+    _rewardPoolAddress,
+    _inputToken,
+    _inputAmount,
+    _balancerPoolId,
+    _request,
+  } = params;
+  RewardsContract.depositSingle(
+    _rewardPoolAddress,
+    _inputToken,
+    _inputAmount,
+    _balancerPoolId,
+    _request,
+    {
+      gasLimit: 1173642,
+    }
+  )
+    .then((tx) => {
+      console.log("tx: ", tx);
+      tx.wait()
+        .then((res) => {
+          const { status, transactionHash } = res;
+          console.info("tx_res: ", res);
+          if (status === 1) {
+            toast.success?.({
+              title: "Transaction Successful!",
+              text: `transactionHash ${transactionHash}`,
+            });
+          } else {
+            toast.fail?.({
+              title: "Transaction Failed!",
+              text: `transactionHash ${transactionHash}`,
+            });
+          }
+        })
+        .catch((error) => {
+          console.info("tx_error: ", error);
+          toast.fail?.({
+            title: "Transaction Failed!",
+            text: `${error.message}`,
+          });
+        })
+        .finally(() => {
+          State.update({
+            isStaking: false,
+          });
+        });
+    })
+    .catch((err) => {
+      console.info("RewardsContract_error:", err);
+    })
+    .finally(() => {});
+};
+
+const switchChain = () => {
+  Ethers.send("wallet_switchEthereumChain", [
+    { chainId: `0x${Number(CHAIN_ID).toString(16)}` },
+  ]);
+};
+const renderExtra = () => {
+  if (chainId !== CHAIN_ID) {
+    return (
+      <ChainBtnWrap>
+        <Widget
+          src="dapdapbos.near/widget/UI.Button"
+          props={{
+            text: "Switch to Gnosis",
+            type: "primary",
+            style: { flex: 1 },
+            onClick: switchChain,
+          }}
+        />
+      </ChainBtnWrap>
+    );
+  }
+
+  return (
+    <>
+      <AmountList>
+        <span></span>
+        <span>
+          Balance: <span className="amount-white">{state.curTokenBal}</span>
+          {TOKENS[state.curToken].symbol}
+        </span>
+      </AmountList>
+      <StakeBtnWrap>
+        <Widget
+          src="dapdapbos.near/widget/UI.Button"
+          props={{
+            text: "Approve",
+            type: "primary",
+            style: { flex: 1 },
+            disabled: !state.needApprove || state.isApproved,
+            loading: state.isApproving,
+            onClick: () => {
+              handleApprove(state.curToken);
+            },
+          }}
+        />
+        <Widget
+          src="dapdapbos.near/widget/UI.Button"
+          props={{
+            text: "Stake",
+            type: "primary",
+            style: { flex: 1 },
+            disabled: !state.canStake,
+            loading: state.isStaking,
+            onClick: handleStake,
+          }}
+        />
+      </StakeBtnWrap>
+    </>
+  );
 };
 
 return (
   <StakePanel>
     <div className="input-group">
       <input
+        value={state.inputValue}
         type="number"
         className="form-control bos-input-number"
         placeholder="0.0"
+        onChange={handleInputChange}
       />
       <div className="input-group-append">
-        <Select.Root value={state.selectValue} onValueChange={handleSelect}>
-          <Select.Trigger asChild>
-            <SelectTrigger>
-              <Select.Value asChild>
-                <SelectValue>
-                  {
-                    selectData.find((item) => item.value === state.selectValue)
-                      ?.label
-                  }
-                </SelectValue>
-              </Select.Value>
-              <Select.Icon>
-                <ChevronDownIcon>{ArrowSvg}</ChevronDownIcon>
-              </Select.Icon>
-            </SelectTrigger>
-          </Select.Trigger>
-
-          <SelectContent>
-            <Select.Viewport>
-              <Select.Group>
-                {selectData?.map((item) => (
-                  <SelectItem key={item.value} value={item.value}>
-                    {item.label}
-                  </SelectItem>
-                ))}
-              </Select.Group>
-            </Select.Viewport>
-          </SelectContent>
-        </Select.Root>
+        <Widget
+          src="dapdapbos.near/widget/UI.Select"
+          props={{
+            options: state.selectData,
+            noLabel: true,
+            value: state.selectData.find((obj) => obj.value === state.curToken),
+            onChange: (option) => {
+              State.update({
+                curToken: option.value,
+              });
+            },
+          }}
+        />
       </div>
     </div>
     {renderExtra()}
