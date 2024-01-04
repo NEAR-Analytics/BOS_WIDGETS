@@ -45,6 +45,7 @@ const {
   RewardPoolDepositWrapper,
   RewardPoolDepositABI,
   toast,
+  switchChain,
 } = props;
 State.init({
   allowance: 0,
@@ -60,7 +61,6 @@ State.init({
 });
 
 useEffect(() => {
-  //TODO BPT?
   const { tokenAssets } = data;
   console.log("Stake_tokenAssets:", tokenAssets);
   if (tokenAssets) {
@@ -147,57 +147,34 @@ const handleApprove = (tokenAddress) => {
     ethers.utils.parseUnits(state.inputValue, TOKENS[state.curToken].decimals)
   )
     .then((tx) => {
-      tx.wait().then((res) => {
-        const { status, transactionHash } = res;
-        console.info("approve_tx_res:", res);
-        State.update({
-          isApproved: status === 1,
-          isApproving: false,
+      tx.wait()
+        .then((res) => {
+          const { status, transactionHash } = res;
+          console.info("approve_tx_res:", res);
+          State.update({
+            isApproved: status === 1,
+            isApproving: false,
+          });
+          if (status === 1) {
+            toast.success?.({
+              title: "Transaction Successful!",
+              text: `transactionHash ${transactionHash}`,
+            });
+          } else {
+            toast.fail?.({
+              title: "Transaction Failed!",
+              text: `transactionHash ${transactionHash}`,
+            });
+          }
+        })
+        .finally(() => {
+          State.update({
+            isApproving: false,
+          });
         });
-        // if (status === 1) {
-        //   toast.success?.({
-        //     title: "Transaction Successful!",
-        //     text: `Approved ${state.curToken}`,
-        //   });
-        // } else {
-        //   toast.fail?.({
-        //     title: "Transaction Failed!",
-        //     text: `Approved ${state.curToken}`,
-        //   });
-        // }
-        // addTransaction?.({
-        //   icons: [inputCurrency.icon],
-        //   failed: status !== 1,
-        //   tx: transactionHash,
-        //   handler: "Approved",
-        //   desc: inputCurrency.symbol,
-        //   time: Date.now(),
-        // });
-      });
     })
     .catch((err) => {
-      State.update({
-        isApproving: false,
-      });
-      console.log("approve_fail:", err);
-      // openRequestModal?.({
-      //   open: false,
-      // });
-      // if (!err?.message.includes("user rejected transaction")) {
-      //   toast.fail?.({
-      //     title: "Transaction Failed",
-      //     text: err?.data?.message || err?.message,
-      //   });
-      // } else {
-      //   toast.fail?.({
-      //     title: "Transaction Failed",
-      //     text: `User rejected the request. Details:
-      //     MetaMask Tx Signature: User denied transaction signature. `,
-      //   });
-      // }
-      // State.update({
-      //   approving: false,
-      // });
+      console.info("approve_error: ", err);
     });
 };
 
@@ -230,7 +207,7 @@ function getTokenBal() {
     });
 }
 useEffect(() => {
-  console.log("Stake_state: ", state);
+  // console.log("Stake_state: ", state);
   // get token allowance when current token change
   if (!state.curToken) {
     const defaultToken = data?.tokenAssets[0];
@@ -451,15 +428,9 @@ const handleStake = () => {
     })
     .catch((err) => {
       console.info("RewardsContract_error:", err);
-    })
-    .finally(() => {});
+    });
 };
 
-const switchChain = () => {
-  Ethers.send("wallet_switchEthereumChain", [
-    { chainId: `0x${Number(CHAIN_ID).toString(16)}` },
-  ]);
-};
 const renderExtra = () => {
   if (chainId !== CHAIN_ID) {
     return (
