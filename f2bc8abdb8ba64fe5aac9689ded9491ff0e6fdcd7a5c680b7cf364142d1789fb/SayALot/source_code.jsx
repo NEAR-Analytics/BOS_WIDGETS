@@ -101,7 +101,7 @@ const widgets = {
   //Libs
   libSBT: `sayalot.near/widget/lib.SBT`,
   libComment: `sayalot.near/widget/lib.comment`,
-  // libArticle: `sayalot.near/widget/lib.article`,
+  // libArticle: `sayalot.near/widget/lib.article`, //////////////////////////////////////////////////////
   libArticle: `f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/lib.article`,
   libEmojis: `sayalot.near/widget/lib.emojis`,
   libUpVotes: `sayalot.near/widget/lib.upVotes`,
@@ -111,12 +111,7 @@ const widgets = {
   fasterTextInput: `f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/fasterTextInput`,
   markownEditorIframe: `f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/MarkdownEditorIframe`,
   styledComponents: "rubycop.near/widget/NDC.StyledComponents",
-  articleHistory: {
-    handler: `f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/NDC.ArticleHistory.Handler`,
-    container: `f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/NDC.ArticleHistory.Container`,
-    secondContainer: `f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/NDC.ArticleHistory.SecondContainer`,
-    codeDif: `bozon.near/widget/CodeDiff`,
-  },
+  articleHistory: `f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb/widget/NDC.ArticleHistory.Handler`,
   newStyledComponents: {
     Element: {
       Badge: "nearui.near/widget/Element.Badge",
