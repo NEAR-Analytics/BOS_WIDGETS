@@ -1,4 +1,4 @@
-/* INCLUDE COMPONENT: "includes/Common/Skelton.jsx" */
+/* INCLUDE COMPONENT: "includes/Common/Skeleton.jsx" */
 /**
  * @interface Props
  * @param {string} [className] - The CSS class name(s) for styling purposes.
@@ -8,13 +8,13 @@
 
 
 
-const Skelton = (props) => {
+const Skeleton = (props) => {
   return (
     <div
-      className={`bg-gray-200 h-5 rounded shadow-sm animate-pulse ${props.className}`}
+      className={`bg-gray-200  rounded shadow-sm animate-pulse ${props.className}`}
     ></div>
   );
-};/* END_INCLUDE COMPONENT: "includes/Common/Skelton.jsx" */
+};/* END_INCLUDE COMPONENT: "includes/Common/Skeleton.jsx" */
 /* INCLUDE: "includes/formats.jsx" */
 function formatWithCommas(number) {
   return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
@@ -312,6 +312,25 @@ function debounce(
   return debounced;
 }
 
+function timeAgo(unixTimestamp) {
+  const currentTimestamp = Math.floor(Date.now() / 1000);
+  const secondsAgo = currentTimestamp - unixTimestamp;
+
+  if (secondsAgo < 5) {
+    return 'Just now';
+  } else if (secondsAgo < 60) {
+    return `${secondsAgo} seconds ago`;
+  } else if (secondsAgo < 3600) {
+    const minutesAgo = Math.floor(secondsAgo / 60);
+    return `${minutesAgo} minute${minutesAgo > 1 ? 's' : ''} ago`;
+  } else if (secondsAgo < 86400) {
+    const hoursAgo = Math.floor(secondsAgo / 3600);
+    return `${hoursAgo} hour${hoursAgo > 1 ? 's' : ''} ago`;
+  } else {
+    const daysAgo = Math.floor(secondsAgo / 86400);
+    return `${daysAgo} day${daysAgo > 1 ? 's' : ''} ago`;
+  }
+}
 function shortenAddress(address) {
   const string = String(address);
 
@@ -441,6 +460,25 @@ function debounce(
   return debounced;
 }
 
+function timeAgo(unixTimestamp) {
+  const currentTimestamp = Math.floor(Date.now() / 1000);
+  const secondsAgo = currentTimestamp - unixTimestamp;
+
+  if (secondsAgo < 5) {
+    return 'Just now';
+  } else if (secondsAgo < 60) {
+    return `${secondsAgo} seconds ago`;
+  } else if (secondsAgo < 3600) {
+    const minutesAgo = Math.floor(secondsAgo / 60);
+    return `${minutesAgo} minute${minutesAgo > 1 ? 's' : ''} ago`;
+  } else if (secondsAgo < 86400) {
+    const hoursAgo = Math.floor(secondsAgo / 3600);
+    return `${hoursAgo} hour${hoursAgo > 1 ? 's' : ''} ago`;
+  } else {
+    const daysAgo = Math.floor(secondsAgo / 86400);
+    return `${daysAgo} day${daysAgo > 1 ? 's' : ''} ago`;
+  }
+}
 function shortenAddress(address) {
   const string = String(address);
 
@@ -512,6 +550,25 @@ function debounce(
   return debounced;
 }
 
+function timeAgo(unixTimestamp) {
+  const currentTimestamp = Math.floor(Date.now() / 1000);
+  const secondsAgo = currentTimestamp - unixTimestamp;
+
+  if (secondsAgo < 5) {
+    return 'Just now';
+  } else if (secondsAgo < 60) {
+    return `${secondsAgo} seconds ago`;
+  } else if (secondsAgo < 3600) {
+    const minutesAgo = Math.floor(secondsAgo / 60);
+    return `${minutesAgo} minute${minutesAgo > 1 ? 's' : ''} ago`;
+  } else if (secondsAgo < 86400) {
+    const hoursAgo = Math.floor(secondsAgo / 3600);
+    return `${hoursAgo} hour${hoursAgo > 1 ? 's' : ''} ago`;
+  } else {
+    const daysAgo = Math.floor(secondsAgo / 86400);
+    return `${daysAgo} day${daysAgo > 1 ? 's' : ''} ago`;
+  }
+}
 function shortenAddress(address) {
   const string = String(address);
 
@@ -584,6 +641,25 @@ function debounce(
   return debounced;
 }
 
+function timeAgo(unixTimestamp) {
+  const currentTimestamp = Math.floor(Date.now() / 1000);
+  const secondsAgo = currentTimestamp - unixTimestamp;
+
+  if (secondsAgo < 5) {
+    return 'Just now';
+  } else if (secondsAgo < 60) {
+    return `${secondsAgo} seconds ago`;
+  } else if (secondsAgo < 3600) {
+    const minutesAgo = Math.floor(secondsAgo / 60);
+    return `${minutesAgo} minute${minutesAgo > 1 ? 's' : ''} ago`;
+  } else if (secondsAgo < 86400) {
+    const hoursAgo = Math.floor(secondsAgo / 3600);
+    return `${hoursAgo} hour${hoursAgo > 1 ? 's' : ''} ago`;
+  } else {
+    const daysAgo = Math.floor(secondsAgo / 86400);
+    return `${daysAgo} day${daysAgo > 1 ? 's' : ''} ago`;
+  }
+}
 function shortenAddress(address) {
   const string = String(address);
 
@@ -904,7 +980,7 @@ function MainComponent() {
                     </div>
                     <div className="w-full md:w-3/4 break-words">
                       {isLoading ? (
-                        <Skelton className="w-16 break-words" />
+                        <Skeleton className="h-4 w-16 break-words" />
                       ) : (
                         currentValidators?.length
                       )}
@@ -916,7 +992,7 @@ function MainComponent() {
                     </div>
                     <div className="w-full md:w-3/4 break-words">
                       {isLoading ? (
-                        <Skelton className="w-16 break-words" />
+                        <Skeleton className="h-4 w-16 break-words" />
                       ) : (
                         convertAmountToReadableString(
                           totalStake,
@@ -931,7 +1007,7 @@ function MainComponent() {
                     </div>
                     <div className="w-full md:w-3/4 break-words">
                       {isLoading ? (
-                        <Skelton className="w-16 break-words" />
+                        <Skeleton className="h-4 w-16 break-words" />
                       ) : (
                         <>
                           {convertAmountToReadableString(
@@ -958,7 +1034,7 @@ function MainComponent() {
                     </div>
                     <div className="w-full text-green-500 md:w-3/4 break-words">
                       {!elapsedTime ? (
-                        <Skelton className="h-3 w-32" />
+                        <Skeleton className="h-3 w-32" />
                       ) : (
                         convertTimestampToTime(elapsedTime)
                       )}
@@ -968,7 +1044,7 @@ function MainComponent() {
                     <div className="w-full md:w-1/4 mb-2 md:mb-0 ">ETA:</div>
                     <div className="w-full md:w-3/4 text-green-500 break-words">
                       {!totalSeconds ? (
-                        <Skelton className="h-3 w-32" />
+                        <Skeleton className="h-3 w-32" />
                       ) : (
                         convertTimestampToTime(totalSeconds)
                       )}
@@ -980,7 +1056,7 @@ function MainComponent() {
                     </div>
                     <div className="w-full md:w-3/4 break-words">
                       {!epochProgress ? (
-                        <Skelton className="h-3 w-full" />
+                        <Skeleton className="h-3 w-full" />
                       ) : (
                         <div className="flex space-x-4 gap-2 items-center ">
                           <div className="bg-blue-50 h-2 w-full rounded-full">
@@ -1005,7 +1081,7 @@ function MainComponent() {
                 <div className="flex flex-col">
                   {isLoading ? (
                     <p className="leading-7 px-3 text-sm mb-4 text-gray-500">
-                      <Skelton className="w-25 break-words" />
+                      <Skeleton className=" h-4 w-25 break-words" />
                     </p>
                   ) : (
                     <p className="leading-7 px-3 text-sm mb-4 text-gray-500">
