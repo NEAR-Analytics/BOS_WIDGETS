@@ -337,7 +337,7 @@ const tabOptions = [
     link: "pots",
     disabled: !props.QF_WHITELISTED_ACCOUNTS.includes(context.accountId),
   },
-  { text: "Feedback", href: "https://potlock.org/feedback", newTab: true, disabled: false },
+  // { text: "Feedback", href: "https://potlock.org/feedback", newTab: true, disabled: false },
 ];
 
 const Modal = ({ isOpen, onClose, children }) => {
@@ -352,7 +352,7 @@ const Modal = ({ isOpen, onClose, children }) => {
 
 return (
   <>
-    <Banner>
+    {false && <Banner>
       <BannerAlertSvg
         xmlns="http://www.w3.org/2000/svg"
         fill="none"
@@ -386,7 +386,7 @@ return (
           ></path>
         </BannerLinkSvg>
       </BannerLinkContainer>
-    </Banner>
+    </Banner>}
     <Nav>
       <NavLeft>
         <NavLogo href={`?tab=projects`}>🫕 Potlock</NavLogo>
