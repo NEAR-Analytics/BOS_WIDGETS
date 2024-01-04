@@ -1,20 +1,3 @@
-/* INCLUDE COMPONENT: "includes/Common/Skelton.jsx" */
-/**
- * @interface Props
- * @param {string} [className] - The CSS class name(s) for styling purposes.
- */
-
-
-
-
-
-const Skelton = (props) => {
-  return (
-    <div
-      className={`bg-gray-200 h-5 rounded shadow-sm animate-pulse ${props.className}`}
-    ></div>
-  );
-};/* END_INCLUDE COMPONENT: "includes/Common/Skelton.jsx" */
 /* INCLUDE COMPONENT: "includes/Common/Paginator.jsx" */
 const FaChevronLeft = () => {
   return (
@@ -166,6 +149,23 @@ const Paginator = (props) => {
     </div>
   );
 };/* END_INCLUDE COMPONENT: "includes/Common/Paginator.jsx" */
+/* INCLUDE COMPONENT: "includes/Common/Skeleton.jsx" */
+/**
+ * @interface Props
+ * @param {string} [className] - The CSS class name(s) for styling purposes.
+ */
+
+
+
+
+
+const Skeleton = (props) => {
+  return (
+    <div
+      className={`bg-gray-200  rounded shadow-sm animate-pulse ${props.className}`}
+    ></div>
+  );
+};/* END_INCLUDE COMPONENT: "includes/Common/Skeleton.jsx" */
 /**
  * @param {boolean} isLoading - Represents the loading state of the data.
  * @param {Array} columns - An array of objects defining the columns for the table.
@@ -174,9 +174,11 @@ const Paginator = (props) => {
  * @param {number} count - The total count of items in the dataset.
  * @param {number} page - The current page number being displayed.
  * @param {number} limit - The number of items per page.
+ * @param {string} Error - Error message if there is no data.
  * @param {number} pageLimit - The maximum number of pages to display in pagination.
  * @param {function} setPage - A function used to set the current page of the table.
  */
+
 
 
 
@@ -212,11 +214,11 @@ function MainComponent(props) {
             </tr>
           </thead>
           <tbody className="bg-white divide-y divide-gray-200">
-            {[...Array(10)].map((_, index) => (
+            {[...Array(50)].map((_, index) => (
               <tr key={index} className=" hover:bg-blue-900/5 h-[53px]">
-                {props.columns.map((_, colIndex) => (
-                  <td key={colIndex} className={_.tdClassName}>
-                    <Skelton />
+                {props.columns.map((column, colIndex) => (
+                  <td key={colIndex} className={column.tdClassName}>
+                    <Skeleton className="h-4" />
                   </td>
                 ))}
               </tr>
@@ -240,6 +242,13 @@ function MainComponent(props) {
             </tr>
           </thead>
           <tbody className="bg-white divide-y divide-gray-200">
+            {!props.isLoading && props.data.length === 0 && (
+              <tr className="h-[53px]">
+                <td className="px-6 py-4 text-gray-400 text-xs">
+                  {props.Error}
+                </td>
+              </tr>
+            )}
             {props.data &&
               props.data.map((row, rowIndex) => (
                 <tr key={rowIndex} className=" hover:bg-blue-900/5 h-[53px]">
