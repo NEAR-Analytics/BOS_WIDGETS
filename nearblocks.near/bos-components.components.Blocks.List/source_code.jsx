@@ -4,14 +4,15 @@
  * License: Business Source License 1.1
  * Description: Table of blocks on Near Protocol.
  * @interface Props
- * @param {string} [network] - The network data to show, either mainnet or testnet
+ * @property {Function} t - A function for internationalization (i18n) provided by the next-translate package.
+ * @param {string}  [network] - The network data to show, either mainnet or testnet.
  * @param {number} [currentPage] - The current page number being displayed. (Optional)
  *                                 Example: If provided, currentPage=3 will display the third page of blocks.
  * @param {function} [setPage] - A function used to set the current page. (Optional)
  *                               Example: setPage={handlePageChange} where handlePageChange is a function to update the page.
  */
 
-/* INCLUDE COMPONENT: "includes/Common/Skelton.jsx" */
+/* INCLUDE COMPONENT: "includes/Common/Skeleton.jsx" */
 /**
  * @interface Props
  * @param {string} [className] - The CSS class name(s) for styling purposes.
@@ -21,13 +22,13 @@
 
 
 
-const Skelton = (props) => {
+const Skeleton = (props) => {
   return (
     <div
-      className={`bg-gray-200 h-5 rounded shadow-sm animate-pulse ${props.className}`}
+      className={`bg-gray-200  rounded shadow-sm animate-pulse ${props.className}`}
     ></div>
   );
-};/* END_INCLUDE COMPONENT: "includes/Common/Skelton.jsx" */
+};/* END_INCLUDE COMPONENT: "includes/Common/Skeleton.jsx" */
 /* INCLUDE: "includes/formats.jsx" */
 function convertToMetricPrefix(number) {
   const prefixes = ['', 'k', 'M', 'G', 'T', 'P', 'E', 'Z', 'Y']; // Metric prefixes
@@ -1108,6 +1109,25 @@ function debounce(
   return debounced;
 }
 
+function timeAgo(unixTimestamp) {
+  const currentTimestamp = Math.floor(Date.now() / 1000);
+  const secondsAgo = currentTimestamp - unixTimestamp;
+
+  if (secondsAgo < 5) {
+    return 'Just now';
+  } else if (secondsAgo < 60) {
+    return `${secondsAgo} seconds ago`;
+  } else if (secondsAgo < 3600) {
+    const minutesAgo = Math.floor(secondsAgo / 60);
+    return `${minutesAgo} minute${minutesAgo > 1 ? 's' : ''} ago`;
+  } else if (secondsAgo < 86400) {
+    const hoursAgo = Math.floor(secondsAgo / 3600);
+    return `${hoursAgo} hour${hoursAgo > 1 ? 's' : ''} ago`;
+  } else {
+    const daysAgo = Math.floor(secondsAgo / 86400);
+    return `${daysAgo} day${daysAgo > 1 ? 's' : ''} ago`;
+  }
+}
 function shortenAddress(address) {
   const string = String(address);
 
@@ -1180,6 +1200,25 @@ function debounce(
   return debounced;
 }
 
+function timeAgo(unixTimestamp) {
+  const currentTimestamp = Math.floor(Date.now() / 1000);
+  const secondsAgo = currentTimestamp - unixTimestamp;
+
+  if (secondsAgo < 5) {
+    return 'Just now';
+  } else if (secondsAgo < 60) {
+    return `${secondsAgo} seconds ago`;
+  } else if (secondsAgo < 3600) {
+    const minutesAgo = Math.floor(secondsAgo / 60);
+    return `${minutesAgo} minute${minutesAgo > 1 ? 's' : ''} ago`;
+  } else if (secondsAgo < 86400) {
+    const hoursAgo = Math.floor(secondsAgo / 3600);
+    return `${hoursAgo} hour${hoursAgo > 1 ? 's' : ''} ago`;
+  } else {
+    const daysAgo = Math.floor(secondsAgo / 86400);
+    return `${daysAgo} day${daysAgo > 1 ? 's' : ''} ago`;
+  }
+}
 function shortenAddress(address) {
   const string = String(address);
 
@@ -1202,17 +1241,22 @@ function shortenAddress(address) {
 
 
 
-function MainComponent(props) {
+
+
+
+
+
+function MainComponent({ currentPage, setPage, t, network }) {
   const [isLoading, setIsLoading] = useState(false);
-  const [totalCount, setTotalCount] = useState(1);
+  const [totalCount, setTotalCount] = useState(0);
   const [blocks, setBlocks] = useState([]);
   const [showAge, setShowAge] = useState(true);
+  const errorMessage = t ? t('blocks:noBlocks') : 'No blocks!';
 
-  const config = getConfig(context.networkId);
+  const config = getConfig(network);
 
   useEffect(() => {
     function fetchTotalBlocks() {
-      setIsLoading(true);
       asyncFetch(`${config?.backendUrl}blocks/count`, {
         method: 'GET',
         headers: {
@@ -1230,15 +1274,13 @@ function MainComponent(props) {
           },
         )
         .catch(() => {})
-        .finally(() => {
-          setIsLoading(false);
-        });
+        .finally(() => {});
     }
 
     function fetchBlocks() {
       setIsLoading(true);
       asyncFetch(
-        `${config?.backendUrl}blocks?page=${props.currentPage}&per_page=25`,
+        `${config?.backendUrl}blocks?page=${currentPage}&per_page=25`,
         {
           method: 'GET',
           headers: {
@@ -1253,16 +1295,18 @@ function MainComponent(props) {
 
 ) => {
             const resp = data?.body?.blocks;
-            setBlocks(resp);
+            setBlocks(resp || []);
           },
         )
-        .catch(() => {});
-      setIsLoading(false);
+        .catch(() => {})
+        .finally(() => {
+          setIsLoading(false);
+        });
     }
 
     fetchTotalBlocks();
     fetchBlocks();
-  }, [config?.backendUrl, props.currentPage]);
+  }, [config?.backendUrl, currentPage]);
 
   const start = blocks?.[0];
   const end = blocks?.[blocks?.length - 1];
@@ -1271,14 +1315,10 @@ function MainComponent(props) {
 
   const columns = [
     {
-      header: (
-        <span className="px-6 py-4 text-left text-xs font-semibold text-nearblue-600 uppercase tracking-wider">
-          BLOCK
-        </span>
-      ),
+      header: <span>{t ? t('blocks:blocks') : 'BLOCK'}</span>,
       key: 'block_hash',
       cell: (row) => (
-        <span className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 font-medium">
+        <span>
           <a href={`/blocks/${row.block_hash}`} className="hover:no-underline">
             <a className="text-green-500 hover:no-underline">
               {localFormat(row.block_height)}
@@ -1286,16 +1326,20 @@ function MainComponent(props) {
           </a>
         </span>
       ),
+      tdClassName:
+        'px-6 py-4 whitespace-nowrap text-sm text-gray-500 font-medium',
+      thClassName:
+        'px-6 py-2 text-left text-xs font-semibold text-nearblue-600 uppercase tracking-wider whitespace-nowrap',
     },
     {
       header: (
-        <div className="px-6 py-4 text-left text-xs font-semibold text-nearblue-600 uppercase tracking-wider whitespace-nowrap">
+        <div>
           <button
             type="button"
             onClick={toggleShowAge}
-            className="px-6 py-4 text-left text-xs w-full font-semibold uppercase tracking-wider text-nearblue-500 focus:outline-none whitespace-nowrap"
+            className="px-6 py-2 text-left text-xs w-full font-semibold uppercase tracking-wider text-nearblue-500 focus:outline-none whitespace-nowrap"
           >
-            {showAge ? 'AGE' : 'DATE TIME (UTC)'}
+            {showAge ? (t ? t('blocks:age') : 'AGE') : 'DATE TIME (UTC)'}
           </button>
         </div>
       ),
@@ -1315,8 +1359,8 @@ function MainComponent(props) {
               </Tooltip.Trigger>
               <Tooltip.Content
                 className="h-auto max-w-xs bg-black bg-opacity-90 z-10 text-xs text-white px-3 py-2 break-words"
-                sideOffset={8}
-                place="bottom"
+                align="center"
+                side="bottom"
               >
                 {showAge
                   ? formatTimestampToString(
@@ -1328,42 +1372,33 @@ function MainComponent(props) {
           </Tooltip.Provider>
         </span>
       ),
+      tdClassName: 'px-6 py-4 whitespace-nowrap text-sm text-gray-500',
     },
     {
-      header: (
-        <span className="px-6 py-4 text-left text-xs font-semibold text-nearblue-600 uppercase tracking-wider">
-          TXN
-        </span>
-      ),
+      header: <span>{t ? t('blocks:txn') : 'TXN'}</span>,
       key: 'count',
       cell: (row) => (
-        <span className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-          {localFormat(row.transactions_agg.count)}
-        </span>
+        <span>{localFormat(row.transactions_agg.count)}</span>
       ),
+      tdClassName: 'px-6 py-4 whitespace-nowrap text-sm text-gray-500',
+      thClassName:
+        'px-6 py-2 text-left text-xs font-semibold text-nearblue-600 uppercase tracking-wider whitespace-nowrap',
     },
     {
-      header: (
-        <span className="px-6 py-4 text-left text-xs font-semibold text-nearblue-600 uppercase tracking-wider">
-          RECEIPT
-        </span>
-      ),
+      header: <span>{t ? t('blocks:block.receipt') : 'RECEIPT'}</span>,
       key: 'count',
       cell: (row) => (
-        <span className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-          {localFormat(row.receipts_agg.count)}
-        </span>
+        <span>{localFormat(row.receipts_agg.count)}</span>
       ),
+      tdClassName: 'px-6 py-4 whitespace-nowrap text-sm text-gray-500',
+      thClassName:
+        'px-6 py-2 text-left text-xs font-semibold text-nearblue-600 uppercase tracking-wider whitespace-nowrap',
     },
     {
-      header: (
-        <span className="px-6 py-4 text-left text-xs font-semibold text-nearblue-600 uppercase tracking-wider">
-          AUTHOR
-        </span>
-      ),
+      header: <span>{t ? t('blocks:miner') : 'AUTHOR'}</span>,
       key: 'author_account_id',
       cell: (row) => (
-        <span className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 font-medium">
+        <span>
           <a
             href={`/address/${row.author_account_id}`}
             className="hover:no-underline"
@@ -1374,96 +1409,91 @@ function MainComponent(props) {
           </a>
         </span>
       ),
+      tdClassName:
+        'px-6 py-4 whitespace-nowrap text-sm text-gray-500 font-medium',
+      thClassName:
+        'px-6 py-2 text-left text-xs font-semibold text-nearblue-600 uppercase tracking-wider whitespace-nowrap',
     },
     {
-      header: (
-        <span className="px-6 py-4 text-left text-xs font-semibold text-nearblue-600 uppercase tracking-wider whitespace-nowrap">
-          GAS USED
-        </span>
-      ),
+      header: <span>{t ? t('blocks:block.gasUsed') : 'GAS USED'}</span>,
       key: 'gas_used',
       cell: (row) => (
-        <span className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+        <span>
           {row.chunks_agg.gas_used
             ? convertToMetricPrefix(row.chunks_agg.gas_used) + 'gas'
-            : '0gas'}
+            : '0 gas'}
         </span>
       ),
+      tdClassName: 'px-6 py-4 whitespace-nowrap text-sm text-gray-500',
+      thClassName:
+        'px-6 py-2 text-left text-xs font-semibold text-nearblue-600 uppercase tracking-wider whitespace-nowrap',
     },
     {
-      header: (
-        <span className="px-6 py-4 text-left text-xs font-semibold text-nearblue-600 uppercase tracking-wider whitespace-nowrap">
-          GAS LIMIT
-        </span>
-      ),
+      header: <span>{t ? t('blocks:block.gasLimit') : 'GAS LIMIT'}</span>,
       key: 'gas_limit',
       cell: (row) => (
-        <span className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+        <span>
           {row.chunks_agg.gas_limit
             ? convertToMetricPrefix(row.chunks_agg.gas_limit) + 'gas'
-            : '0gas'}
+            : '0 gas'}
         </span>
       ),
+      tdClassName: 'px-6 py-4 whitespace-nowrap text-sm text-gray-500',
+      thClassName:
+        'px-6 py-2 text-left text-xs font-semibold text-nearblue-600 uppercase tracking-wider whitespace-nowrap',
     },
     {
-      header: (
-        <span className="px-6 py-4 text-left text-xs font-semibold text-nearblue-600 uppercase tracking-wider whitespace-nowrap">
-          GAS FEE
-        </span>
-      ),
+      header: <span>{t ? t('block.gasFee') : 'GAS FEE'}</span>,
       key: 'gas_price',
       cell: (row) => (
-        <span className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+        <span>
           {row.chunks_agg.gas_used && row.gas_price
             ? gasFee(row.chunks_agg.gas_used, row.gas_price)
             : '0 Ⓝ'}
         </span>
       ),
+      tdClassName: 'px-6 py-4 whitespace-nowrap text-sm text-gray-500',
+      thClassName:
+        'px-6 py-2 text-left text-xs font-semibold text-nearblue-600 uppercase tracking-wider whitespace-nowrap',
     },
   ];
 
   return (
-    <div>
-      <div className="bg-hero-pattern h-72">
-        <div className="container mx-auto px-3">
-          <h1 className="mb-4 pt-8 sm:sm:text-2xl text-xl text-white">
-            Latest Near Protocol Blocks
-          </h1>
+    <div className=" bg-white border soft-shadow rounded-lg pb-1 ">
+      {isLoading ? (
+        <div className="pl-6 max-w-lg w-full py-4 h-[60px]">
+          <Skeleton className="h-4" />
         </div>
-      </div>
-      <div className="container mx-auto px-3 -mt-48">
-        <div className="block lg:flex lg:space-x-2">
-          <div className="w-full ">
-            <div className="bg-white border soft-shadow rounded-lg overflow-hidden">
-              {isLoading ? (
-                <Skelton className="leading-7" />
-              ) : (
-                <p className="leading-7 pl-6 text-sm py-4 text-gray-500">
-                  Block #{localFormat(start?.block_height)} to
-                  {'#' + localFormat(end?.block_height)} (Total of{' '}
-                  {localFormat(totalCount)} blocks)
-                </p>
-              )}
-              {
-                <Widget
-                  src={`${config.ownerId}/widget/bos-components.components.Shared.Table`}
-                  props={{
-                    columns: columns,
-                    data: blocks,
-                    isLoading: isLoading,
-                    isPagination: true,
-                    count: totalCount,
-                    page: props.currentPage,
-                    limit: 25,
-                    pageLimit: 200,
-                    setPage: props.setPage,
-                  }}
-                />
-              }
-            </div>
-          </div>
-        </div>
-      </div>
+      ) : (
+        <p className="leading-7 pl-6 text-sm py-4 text-gray-500">
+          {t
+            ? t('blocks:listing', {
+                from: localFormat(start?.block_height | 0),
+                to: localFormat(end?.block_height | 0),
+                count: localFormat(totalCount | 0),
+              })
+            : `Block #${localFormat(start?.block_height)} to ${
+                '#' + localFormat(end?.block_height)
+              } (Total of ${localFormat(totalCount)} blocks)`}
+        </p>
+      )}
+      {
+        <Widget
+          src={`${config.ownerId}/widget/bos-components.components.Shared.Table`}
+          props={{
+            columns: columns,
+            data: blocks,
+            isLoading: isLoading,
+            isPagination: true,
+            count: totalCount,
+            page: currentPage,
+            limit: 25,
+            pageLimit: 200,
+            setPage: setPage,
+            Error: errorMessage,
+          }}
+        />
+      }
     </div>
   );
 }
