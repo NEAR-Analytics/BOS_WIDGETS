@@ -451,7 +451,7 @@ const left_most_icon = (
         stroke="#7E8A93"
         stroke-width="1.2"
         stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeLinejoin="round"
       />
     </g>
   </svg>
@@ -488,7 +488,7 @@ const right_most_icon = (
       stroke="#7E8A93"
       stroke-width="1.2"
       stroke-linecap="round"
-      stroke-linejoin="round"
+      strokeLinejoin="round"
     />
   </svg>
 );
