@@ -124,14 +124,6 @@ const utils = {
     if (Big(state.balance).lt(0.0001)) return "<0.0001";
     return Big(state.balance).toFixed(4);
   },
-  valueFormated: (amount) => {
-    const prices = Storage.privateGet("tokensPrice");
-    const price = prices[props.currency?.symbol];
-    if (!price) return "-";
-    const value = Big(price).mul(amount || 0);
-    if (value.lt(0.01)) return value.toPrecision(1);
-    return value.toFixed(2);
-  },
 };
 
 const handlers = {
@@ -146,32 +138,6 @@ const handlers = {
     props.onAmountChange?.(ev.target.value);
   },
 };
-
-const DELAY = 1000 * 60 * 5;
-const timer = Storage.privateGet("priceTimer");
-const AccessKey = Storage.get(
-  "AccessKey",
-  "guessme.near/widget/ZKEVMWarmUp.add-to-quest-card"
-);
-
-function getPrice() {
-  asyncFetch("/dapdap/get-token-price-by-dapdap", {
-    Authorization: AccessKey,
-  })
-    .then((res) => {
-      const data = res.body.data;
-      data.native = data.aurora;
-      delete data.aurora;
-      Storage.privateSet("tokensPrice", data);
-      setTimeout(getPrice, DELAY);
-    })
-    .catch((err) => {
-      setTimeout(getPrice, DELAY);
-    });
-}
-useEffect(() => {
-  getPrice();
-}, []);
 
 return (
   <Wrapper>
@@ -196,7 +162,17 @@ return (
           onChange={handlers.handleInputChange}
         />
       </InputWarpper>
-      <Value>≈ ${utils.valueFormated(props.amount)}</Value>
+      <Value>
+        ≈{" "}
+        <Widget
+          src="dapdapbos.near/widget/Linea.Uniswap.Swap.FormatValue"
+          props={{
+            symbol: props.currency.symbol,
+            amount: props.amount,
+            prev: "$",
+          }}
+        />
+      </Value>
     </InputField>
     <CurrencyField>
       <CurrencySelect onClick={handlers.handleDisplayCurrencySelect}>
