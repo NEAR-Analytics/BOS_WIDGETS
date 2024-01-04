@@ -1,11 +1,5 @@
-const {
-  currency,
-  selectedTokenAddress,
-  display,
-  onClick,
-  chainIdNotSupport,
-  account,
-} = props;
+const { currency, selectedTokenAddress, display, onClick, chainIdNotSupport } =
+  props;
 const CurrencyRow = styled.div`
   padding: 14px 20px;
   display: flex;
@@ -47,11 +41,11 @@ const CurrencyLabel = styled.div`
 const CurrencySymbol = styled.div`
   font-size: 16px;
   font-weight: 600;
-  color: var(--agg-text-color, #fff);
+  color: #fff;
 `;
 const CurrencyName = styled.div`
   font-size: 14px;
-  color: var(--agg-text-color, #fff);
+  color: #fff;
 `;
 const CurrencyIcon = styled.img`
   width: 26px;
@@ -62,10 +56,7 @@ const CurrencyIcon = styled.img`
 const CurrencyAmount = styled.div`
   font-size: 16px;
   font-weight: 400;
-  color: var(--agg-text-color, #fff);
-  display: flex;
-  align-items: center;
-  gap: 4px;
+  color: #fff;
 `;
 
 State.init({
@@ -90,21 +81,21 @@ return (
     className={currency.address === selectedTokenAddress ? "active" : ""}
     onClick={onClick}
   >
-    <Widget
-      src="bluebiu.near/widget/Arbitrum.Swap.CurrencyBalance"
-      props={{
-        address: currency.address,
-        account,
-        chainIdNotSupport,
-        updateTokenBalance: display,
-        onLoad: (balance) => {
-          State.update({
-            balance: ethers.utils.formatUnits(balance, currency.decimals),
-            balanceLoaded: true,
-          });
-        },
-      }}
-    />
+    {display && !state.balanceLoaded && (
+      <Widget
+        src="bluebiu.near/widget/Arbitrum.Swap.CurrencyBalance"
+        props={{
+          address: currency.address,
+          chainIdNotSupport,
+          onLoad: (balance) => {
+            State.update({
+              balance: ethers.utils.formatUnits(balance, currency.decimals),
+              balanceLoaded: true,
+            });
+          },
+        }}
+      />
+    )}
     <CurrencyLabel>
       <CurrencyIcon src={currency.icon} />
       <div>
@@ -115,7 +106,7 @@ return (
     <CurrencyAmount>
       {!chainIdNotSupport ? utils.balanceFormated() : "-"}
 
-      {isActive ? checkIcon : <div style={{ width: 16 }} />}
+      {isActive ? checkIcon : ""}
     </CurrencyAmount>
   </CurrencyRow>
 );
