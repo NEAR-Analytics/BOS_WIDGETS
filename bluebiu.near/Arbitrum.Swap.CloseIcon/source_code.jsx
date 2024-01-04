@@ -28,7 +28,7 @@ return (
         stroke="currentColor"
         stroke-width="1.66667"
         stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeLinejoin="round"
       />
     </svg>
   </CloseIcon>
