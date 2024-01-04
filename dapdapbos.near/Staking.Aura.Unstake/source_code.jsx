@@ -31,6 +31,7 @@ const SwitchThumb = styled("Switch.Thumb")`
   }
 `;
 // switch end
+
 const StakePanel = styled.div`
   width: 510px;
   margin: 0 auto;
@@ -38,9 +39,29 @@ const StakePanel = styled.div`
   .bos-input-number {
     background-color: var(--dark);
     color: var(--white);
+    border: none;
+    border-radius: 10px !important;
+  }
+  .input-group {
+    column-gap: 5px;
+  }
+  .input-group-append {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 138px;
+    height: 34px;
+    background: #2e3142;
+    border: ${props.border || "1px solid #d0d5dd"};
+    box-shadow: ${props.border || "0px 1px 2px rgba(16, 24, 40, 0.05)"};
+    border-radius: 10px !important;
+    color: white;
+    font-size: 14px;
+  }
+  .avatars {
+    margin-right: 20px;
   }
 `;
-
 const AmountList = styled.div`
   display: flex;
   font-size: var(--fz12);
@@ -76,9 +97,10 @@ const ChainBtnWrap = styled.div`
   display: flex;
 `;
 
-const { data, chainId, account } = props;
+const { data, chainId, account, TOKENS, CHAIN_ID, switchChain } = props;
 const {
   poolName,
+  tokenAssets,
   stakedAmount,
   reward,
   Rewards_contract_address,
@@ -88,6 +110,8 @@ const {
 State.init({
   isClaimRewards: false,
   inputValue: "",
+  canUnstake: false,
+  unstaking: false,
 });
 
 const handleSwitch = (isChecked) => {
@@ -96,20 +120,110 @@ const handleSwitch = (isChecked) => {
   });
 };
 
-const RewardPoolDepositWrapper = "0x0Fec3d212BcC29eF3E505B555D7a7343DF0B7F76";
-const CHAIN_ID = 100;
-
 const handleInputChange = (e) => {
-  console.log(e.target.value, e);
   State.update({
     inputValue: e.target.value,
   });
 };
 
-const switchChain = () => {
-  Ethers.send("wallet_switchEthereumChain", [
-    { chainId: `0x${Number(CHAIN_ID).toString(16)}` },
-  ]);
+useEffect(() => {
+  if (
+    !isNaN(Number(state.inputValue)) &&
+    Big(state.inputValue || 0).lt(stakedAmount || 0)
+  ) {
+    State.update({
+      canUnstake: true,
+    });
+  } else {
+    State.update({
+      canUnstake: false,
+    });
+  }
+}, [state.inputValue]);
+
+const handleUnStake = () => {
+  State.update({
+    unstaking: true,
+  });
+  const UnstakeContract = new ethers.Contract(
+    Rewards_contract_address,
+    [
+      {
+        inputs: [
+          {
+            internalType: "uint256",
+            name: "amount",
+            type: "uint256",
+          },
+          {
+            internalType: "bool",
+            name: "claim",
+            type: "bool",
+          },
+        ],
+        name: "withdrawAndUnwrap",
+        outputs: [
+          {
+            internalType: "bool",
+            name: "",
+            type: "bool",
+          },
+        ],
+        stateMutability: "nonpayable",
+        type: "function",
+      },
+    ],
+    Ethers.provider().getSigner()
+  );
+  UnstakeContract.withdrawAndUnwrap(
+    ethers.utils.parseUnits(state.inputValue),
+    state.isClaimRewards
+  )
+    .then((tx) => {
+      console.log("tx: ", tx);
+      tx.wait()
+        .then((res) => {
+          const { status, transactionHash } = res;
+          console.info("tx_res: ", res);
+          if (status === 1) {
+            toast.success?.({
+              title: "Transaction Successful!",
+              text: `transactionHash ${transactionHash}`,
+            });
+          } else {
+            toast.fail?.({
+              title: "Transaction Failed!",
+              text: `transactionHash ${transactionHash}`,
+            });
+          }
+        })
+        .finally(() => {
+          State.update({
+            unstaking: false,
+          });
+        });
+    })
+    .catch((err) => {
+      console.log("getPoolTokens_error:", err);
+    });
+};
+
+const renderPoolIcon = () => {
+  if (tokenAssets) {
+    return tokenAssets.map((addr, index) => {
+      if (TOKENS[addr]) {
+        return (
+          <span key={index} style={{ marginRight: -12 }}>
+            <Widget
+              src="dapdapbos.near/widget/UI.Avatar"
+              props={{ src: TOKENS[addr].icon }}
+            />
+          </span>
+        );
+      }
+      return null;
+    });
+  }
 };
 const renderExtra = () => {
   if (chainId !== CHAIN_ID) {
@@ -152,10 +266,9 @@ const renderExtra = () => {
             text: "Unstake",
             type: "primary",
             style: { flex: 1 },
-            disabled: true,
-            onClick: () => {
-              console.log("click btn2");
-            },
+            loading: state.unstaking,
+            disabled: !state.canUnstake,
+            onClick: handleUnStake,
           }}
         />
       </UnStakeBtnWrap>
@@ -173,7 +286,10 @@ return (
         placeholder="0.0"
         onChange={handleInputChange}
       />
-      <div className="input-group-append">BPT</div>
+      <div className="input-group-append">
+        <span className="avatars">{renderPoolIcon()}</span>
+        BPT
+      </div>
     </div>
     {renderExtra()}
   </StakePanel>
