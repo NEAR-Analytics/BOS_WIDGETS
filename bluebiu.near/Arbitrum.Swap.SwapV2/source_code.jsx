@@ -1,19 +1,4 @@
-const {
-  title,
-  chainId,
-  chainName,
-  wethAddress,
-  dexConfig,
-  amountOutFn,
-  quoterV3,
-  handlerV2,
-  handlerV3,
-  handlerSolidly,
-  QuoterSolidly,
-  handleSyncswap,
-  QuoterSyncswap,
-  account,
-} = props;
+const { title, chainId, chainName, wethAddress, dexConfig, account } = props;
 
 const prevTitle = Storage.privateGet("prevTitle");
 if (prevTitle !== title || !state.inputCurrency) {
@@ -34,13 +19,6 @@ if (prevTitle !== title || !state.inputCurrency) {
     displayCurrencySelect: false,
     selectedTokenAddress: "",
     currencySelectType: 0,
-    debounce: (fn, wait) => {
-      let timer;
-      return () => {
-        clearTimeout(timer);
-        timer = setTimeout(fn, wait);
-      };
-    },
   });
   Storage.privateSet("prevTitle", title);
 }
@@ -88,13 +66,28 @@ const Price = styled.div`
   }
 `;
 
-const getBestTrade = () => {
-  State.update({
-    loading: true,
-  });
-};
+useEffect(() => {
+  const debounce = (fn, wait) => {
+    let timer;
+    return () => {
+      clearTimeout(timer);
+      timer = setTimeout(fn, wait);
+    };
+  };
 
-const debouncedGetBestTrade = state.debounce(getBestTrade, 500);
+  const getBestTrade = () => {
+    State.update({
+      loading: true,
+    });
+  };
+
+  const debouncedGetBestTrade = debounce(getBestTrade, 500);
+
+  State.update({
+    getBestTrade,
+    debouncedGetBestTrade,
+  });
+}, []);
 
 const getUnitAmount = () => {
   const bigInputAmount = Big(state.inputCurrencyAmount || 0);
@@ -137,7 +130,7 @@ return (
               inputCurrencyAmount: val,
               tradeType: "in",
             });
-            if (val && Number(val)) debouncedGetBestTrade();
+            if (val && Number(val)) state.debouncedGetBestTrade();
           },
         }}
       />
@@ -156,7 +149,7 @@ return (
             updateOutputTokenBalance: true,
             loading: true,
           });
-          if (Big(state.inputCurrencyAmount || 0).gt(0)) getBestTrade();
+          if (Big(state.inputCurrencyAmount || 0).gt(0)) state.getBestTrade();
         }}
       >
         <Widget src="bluebiu.near/widget/Arbitrum.Swap.ExchangeIcon" />
@@ -199,26 +192,24 @@ return (
           inputCurrencyAmount: state.inputCurrencyAmount,
           outputCurrencyAmount: state.outputCurrencyAmount,
           maxInputBalance: state.maxInputBalance,
-          handleSyncswap,
-          handlerV2,
-          handlerV3,
-          handlerSolidly,
           onSuccess: () => {
             State.update({
               updateInputTokenBalance: true,
               updateOutputTokenBalance: true,
             });
           },
+          onApprovedSuccess: () => {
+            if (!state.gas) state.getBestTrade();
+          },
           addAction: props.addAction,
           toast: props.toast,
           noPair: state.noPair,
           loading: state.loading,
-          fee: state.v3Fee,
-          stable: state.stable,
-          syncSwapPoolAddress: state.syncSwapPoolAddress,
-          uniType: dexConfig.uniType,
           add: state.add,
+          unsignedTx: state.unsignedTx,
           chainId,
+          gas: state.gas,
+          theme: props.theme?.button,
         }}
       />
     </Panel>
@@ -254,111 +245,51 @@ return (
               noPair: false,
               updateInputTokenBalance: true,
             };
+            let hasToken = false;
             if (state.currencySelectType === 0) {
               updatedParams.inputCurrency = currency;
-              if (currency.address === state.outputCurrency.address)
+              hasToken = true;
+              if (currency.address === state.outputCurrency.address) {
                 updatedParams.outputCurrency = null;
+                hasToken = false;
+              }
             }
             if (state.currencySelectType === 1) {
               updatedParams.outputCurrency = currency;
               updatedParams.outputCurrencyAmount = "";
+              hasToken = true;
               if (currency.address === state.inputCurrency.address) {
                 updatedParams.inputCurrency = null;
                 updatedParams.inputCurrencyAmount = "";
+                hasToken = false;
               }
             }
             if (
               state.inputCurrencyAmount &&
               Number(state.inputCurrencyAmount) &&
-              state.inputCurrency?.address
+              hasToken
             ) {
               updatedParams.loading = true;
             }
             State.update(updatedParams);
-            if (updatedParams.loading) getBestTrade();
+            if (updatedParams.loading) state.getBestTrade();
           },
         }}
       />
     )}
-
-    {dexConfig.uniType === "v3" && (
+    {dexConfig.amountOutFn && (
       <Widget
-        src={quoterV3}
+        src={dexConfig.amountOutFn}
         props={{
-          amountIn: state.inputCurrencyAmount,
-          tokenIn: state.inputCurrency,
-          tokenOut: state.outputCurrency,
-          quoterContractId: dexConfig.quoterAddress,
-          wethAddress,
-          loadAmountOut: (data) => {
-            State.update({
-              outputCurrencyAmount: data.amountOut,
-              v3Fee: data.fee,
-              loading: false,
-            });
-          },
-        }}
-      />
-    )}
-    {dexConfig.uniType === "v2" && (
-      <Widget
-        src={amountOutFn}
-        props={{
-          update: state.loading,
-          routerAddress: dexConfig.routerAddress,
+          updater: state.loading,
           inputCurrency: state.inputCurrency,
           outputCurrency: state.outputCurrency,
           inputCurrencyAmount: state.inputCurrencyAmount,
-          outputCurrencyAmount: state.outputCurrencyAmount,
-          tradeType: state.tradeType,
           wethAddress,
-          title,
-          onLoad: (data) => {
-            State.update({
-              loading: false,
-              ...data,
-            });
-          },
-        }}
-      />
-    )}
-
-    {dexConfig.uniType === "solidly" && (
-      <Widget
-        src={QuoterSolidly}
-        props={{
-          update: state.loading,
-          routerAddress: dexConfig.routerAddress,
-          inputCurrency: state.inputCurrency,
-          outputCurrency: state.outputCurrency,
-          inputCurrencyAmount: state.inputCurrencyAmount,
-          outputCurrencyAmount: state.outputCurrencyAmount,
-          tradeType: state.tradeType,
-          wethAddress,
-          onLoad: (data) => {
-            State.update({
-              loading: false,
-              ...data,
-            });
-          },
-        }}
-      />
-    )}
-
-    {dexConfig.uniType === "Syncswap" && (
-      <Widget
-        src={QuoterSyncswap}
-        props={{
+          account,
           ...dexConfig,
-          update: state.loading,
-          routerAddress: dexConfig.routerAddress,
-          inputCurrency: state.inputCurrency,
-          outputCurrency: state.outputCurrency,
-          inputCurrencyAmount: state.inputCurrencyAmount,
-          outputCurrencyAmount: state.outputCurrencyAmount,
-          tradeType: state.tradeType,
-          wethAddress,
           onLoad: (data) => {
+            console.log("amountOutFn", data);
             State.update({
               loading: false,
               ...data,
