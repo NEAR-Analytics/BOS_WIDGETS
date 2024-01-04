@@ -216,6 +216,14 @@ function debounce(
 
   return debounced;
 }
+
+function shortenAddress(address) {
+  const string = String(address);
+
+  if (string.length <= 20) return string;
+
+  return `${string.substr(0, 10)}...${string.substr(-7)}`;
+}
 /* END_INCLUDE: "includes/libs.jsx" */
 
 function MainComponent() {
