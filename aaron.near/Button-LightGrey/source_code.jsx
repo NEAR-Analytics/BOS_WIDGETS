@@ -2,7 +2,7 @@ const Button = styled.a`
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  padding: 16px 24px;
+  padding: 8px 12px;
   background: #f8f9fa;
   overflow: hidden;
   border-radius: 6px;
