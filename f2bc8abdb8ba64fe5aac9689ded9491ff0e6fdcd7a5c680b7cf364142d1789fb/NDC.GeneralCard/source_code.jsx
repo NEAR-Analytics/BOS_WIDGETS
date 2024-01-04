@@ -13,6 +13,7 @@ const {
   callLibs,
   handleEditArticle,
   baseActions,
+  showPreview,
 } = props;
 
 if (!Array.isArray(data.tags) && typeof data.tags === "object") {
@@ -568,7 +569,7 @@ return (
                   },
                 }}
               />
-              {context.accountId === data.author && (
+              {context.accountId === data.author && !showPreview && (
                 <Widget
                   src={widgets.newStyledComponents.Input.Button}
                   props={{
