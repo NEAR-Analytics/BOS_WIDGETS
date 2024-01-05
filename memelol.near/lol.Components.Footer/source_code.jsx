@@ -1,7 +1,7 @@
 const { assets } = VM.require(`memelol.near/widget/lol.Config`);
 
 const Footer = () => {
-  const twitterLink = "";
+  const twitterLink = "https://twitter.com/LOLMemecoin";
   const tgLink = "";
 
   const Section = styled.div`
