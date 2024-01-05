@@ -13,7 +13,7 @@ const {
   callLibs,
   handleEditArticle,
   baseActions,
-  showPreview,
+  switchShowPreview,
 } = props;
 
 if (!Array.isArray(data.tags) && typeof data.tags === "object") {
@@ -569,7 +569,7 @@ return (
                   },
                 }}
               />
-              {context.accountId === data.author && !showPreview && (
+              {context.accountId === data.author && (
                 <Widget
                   src={widgets.newStyledComponents.Input.Button}
                   props={{
@@ -580,7 +580,10 @@ return (
                       </div>
                     ),
                     className: `info w-25`,
-                    onClick: () => handleEditArticle(data),
+                    onClick: () =>
+                      switchShowPreview
+                        ? switchShowPreview()
+                        : handleEditArticle(data),
                   }}
                 />
               )}
