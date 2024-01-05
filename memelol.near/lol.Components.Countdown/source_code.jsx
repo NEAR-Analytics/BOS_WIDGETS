@@ -11,8 +11,8 @@ const timer = setInterval(() => {
 
   setTimes(
     `${formatTime(hours)} h : ${formatTime(minutes)} m : ${formatTime(
-      seconds
-    )} s`
+      seconds,
+    )} s`,
   );
 
   clearInterval(timer);
