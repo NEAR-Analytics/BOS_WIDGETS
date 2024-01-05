@@ -150,7 +150,7 @@ return (
     />
     <div className="col ms-sm-4 ps-lg-3 py-3 py-md-4">
       <Widget
-        src={`${ihyshan.near}/widget/DAO.index`}
+        src={`ihyshan.near/widget/DAO.index`}
         props={{ widgetOwner, ...props }}
       />
     </div>
