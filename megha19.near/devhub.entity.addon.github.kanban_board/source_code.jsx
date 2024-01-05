@@ -1,4 +1,6 @@
-const { DataRequest } = VM.require("devhub.near/widget/core.lib.data-request");
+const { DataRequest } = VM.require(
+  "megha19.near/widget/core.lib.data-request"
+);
 DataRequest || (DataRequest = { paginated: () => {} });
 
 const dataToColumns = (data, columns) =>
@@ -155,7 +157,7 @@ const GithubKanbanBoard = ({
                   <div class="d-flex flex-column gap-2">
                     {tickets.map((ticket) => (
                       <Widget
-                        src={`devhub.near/widget/devhub.entity.addon.${metadata.ticket.type}`}
+                        src={`megha19.near/widget/devhub.entity.addon.${metadata.ticket.type}`}
                         props={{ metadata: metadata.ticket, payload: ticket }}
                         key={ticket.id}
                       />
