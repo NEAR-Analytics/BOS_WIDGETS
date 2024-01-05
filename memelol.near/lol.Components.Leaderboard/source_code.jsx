@@ -69,7 +69,7 @@ const fetchWinners = async () => {
       setWinners({
         near: nearWinners,
         lol: lolWinners,
-      })
+      }),
   );
 };
 
