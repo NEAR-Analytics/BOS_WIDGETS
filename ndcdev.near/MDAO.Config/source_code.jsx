@@ -96,21 +96,15 @@ return {
         title: "Activities which the Marketing DAO accept",
         desc: "Marketing DAO Vertical was created for the purpose of unifying and improving the allocation of NEAR community funds for marketing-focused projects benefiting community projects, DAOs, teams and organizations in the NEAR ecosystem.",
         items: [
-          [
-            "Social Media (Twitter, Instagram, Telegram, etc.)",
-            "Blogs, articles, guides",
-            "PR and Paid Media",
-          ],
-          [
-            "Influencers (YouTube bloggers, etc.)",
-            "Events, workshops, AMAs",
-            "Merch, swag for events",
-          ],
-          [
-            "Communication",
-            "Other paid marketing efforts such as giveaways",
-            "Growth Hacking",
-          ],
+          "Social Media (Twitter, Instagram, Telegram, etc.)",
+          "Blogs, articles, guides",
+          "PR and Paid Media",
+          "Influencers (YouTube bloggers, etc.)",
+          "Events, workshops, AMAs",
+          "Merch, swag for events",
+          "Communication",
+          "Other paid marketing efforts such as giveaways",
+          "Growth Hacking",
         ],
       },
       support: {
