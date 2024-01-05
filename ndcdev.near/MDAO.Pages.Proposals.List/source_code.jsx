@@ -23,7 +23,7 @@ const Button = styled.a`
   }
 `;
 
-const items = Social.index("graph", "v2.ndc.mdao", { order: "desc" });
+const items = Social.index("graph", "v3.ndc.mdao", { order: "desc" });
 
 return (
   <Container>
