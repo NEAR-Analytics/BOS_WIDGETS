@@ -665,12 +665,14 @@ function initPoolList() {
   let getBalanceArray = [];
   let getPoolTokensArray = [];
   let getRewardsArray = [];
+  let getBPTArray = [];
 
   for (let i = 0; i < state.poolsList.length; i++) {
     const item = state.poolsList[i];
     getBalanceArray.push(getBalance(item));
     getPoolTokensArray.push(getPoolTokens(item));
     getRewardsArray.push(getRewards(item));
+    getBPTArray.push(getBPTBalance(item));
   }
 
   Promise.allSettled(getBalanceArray).then((res) => {
@@ -723,6 +725,20 @@ function initPoolList() {
       fresh: state.fresh + 1,
     });
   });
+  Promise.allSettled(getBPTArray).then((res) => {
+    const temp = [...state.poolsList];
+    for (let i = 0; i < res.length; i++) {
+      if (res[i].status === "fulfilled") {
+        temp[i].bptAmount = res[i].value;
+      } else {
+        temp[i].bptAmount = 0;
+      }
+    }
+    State.update({
+      poolsList: temp,
+      fresh: state.fresh + 1,
+    });
+  });
 }
 
 function getPoolTokens(pool) {
@@ -744,6 +760,36 @@ function getPoolTokens(pool) {
     })
     .catch((err) => {
       console.log("getPoolTokens_error:", err);
+    });
+}
+
+function getBPTBalance(pool) {
+  const PoolContract = new ethers.Contract(
+    pool.LP_token_address,
+    [
+      {
+        inputs: [{ internalType: "address", name: "account", type: "address" }],
+        name: "balanceOf",
+        outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+        stateMutability: "view",
+        type: "function",
+      },
+    ],
+    Ethers.provider()
+  );
+  return PoolContract.balanceOf(account)
+    .then((res) => {
+      // console.info(
+      //   pool.poolName,
+      //   "BPT: ",
+      //   res,
+      //   ethers.utils.formatUnits(res),
+      //   res.toString()
+      // );
+      return ethers.utils.formatUnits(res);
+    })
+    .catch((err) => {
+      console.log("getBPTBalance_error:", err);
     });
 }
 
@@ -876,22 +922,26 @@ const handleChangeTabs = (value) => {
     currentTab: value,
   });
 };
-const renderPoolIcon = (tokenAssets) => {
+const getPoolIcon = (tokenAssets) => {
   if (tokenAssets) {
-    return tokenAssets.map((addr, index) => {
-      if (TOKENS[addr]) {
-        return (
-          <span key={index} style={{ marginRight: -12 }}>
-            <Widget
-              src="dapdapbos.near/widget/UI.Avatar"
-              props={{ src: TOKENS[addr].icon }}
-            />
-          </span>
-        );
-      }
-      return null;
-    });
+    const icons = tokenAssets?.map((addr, index) => TOKENS[addr].icon);
+    const usefulIcons = icons.filter((n) => n);
+    return usefulIcons;
+  } else {
+    return [];
   }
+};
+const renderPoolIcon = (tokenAssets) => {
+  const icons = getPoolIcon(tokenAssets);
+  return (
+    <Widget
+      src="dapdapbos.near/widget/UI.AvatarGroup"
+      props={{
+        icons,
+        size: 26,
+      }}
+    />
+  );
 };
 
 const switchChain = () => {
@@ -1038,6 +1088,7 @@ return (
                   RewardPoolDepositWrapper,
                   RewardPoolDepositABI,
                   switchChain,
+                  tokenIcons: getPoolIcon(item.tokenAssets),
                 }}
                 key={item.poolName}
               />
@@ -1087,6 +1138,7 @@ return (
                     <GridItem>
                       <div className="title-primary">
                         {renderPoolIcon(item.tokenAssets)}
+
                         <span style={{ marginLeft: 20 }}>{item.poolName}</span>
                       </div>
                     </GridItem>
@@ -1124,7 +1176,6 @@ return (
                           onClick: () => {
                             handleClaim(item.Rewards_contract_address);
                           },
-                          // handleClaim(item.Rewards_contract_address),
                         }}
                       />
                     </GridItem>
