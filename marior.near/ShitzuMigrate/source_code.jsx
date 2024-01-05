@@ -191,9 +191,22 @@ const Wrapper = styled.div`
 const Error = styled.span`
     color: #c00;
 `;
+const Text = styled.div`
+  font-size: 1.1rem;
+  font-style: italic;
+`;
 
 return (
   <Wrapper>
+    <h2>SHITZU migration component</h2>
+    <Text>
+      This BOS component lets you migrate SHITZU from Aurora to the new contract
+      on Near. This migration will run indefinitely and you can migrate SHITZU
+      1:1 for the new token. The old SHITZU has address
+      0x68e401B61eA53889505cc1366710f733A60C2d41 and can be bought at Trisolar.
+      The new SHITZU has address token.0xshitzu.near
+    </Text>
+
     <div>{getSender()}</div>
 
     <label for="receiver">
