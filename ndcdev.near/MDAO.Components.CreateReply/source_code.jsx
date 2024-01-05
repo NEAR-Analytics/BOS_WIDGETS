@@ -24,7 +24,7 @@ function composeData() {
   const data = {
     index: {
       graph: JSON.stringify({
-        key: "v2.ndc.mdao.reply",
+        key: "v3.ndc.mdao.reply",
         value: {
           parentId: id,
           ...content,
