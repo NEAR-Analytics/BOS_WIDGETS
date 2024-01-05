@@ -46,11 +46,13 @@ const {
   RewardPoolDepositABI,
   toast,
   switchChain,
+  tokenIcons,
 } = props;
 State.init({
   allowance: 0,
   curToken: "", // token address
   curTokenBal: 0,
+  curSymbol: "",
   needApprove: false,
   isApproving: false,
   isApproved: false,
@@ -69,11 +71,18 @@ useEffect(() => {
         ? {
             value: item,
             text: TOKENS[item].symbol,
-            icon: TOKENS[item].icon,
+            icons: [TOKENS[item].icon],
           }
         : null
     );
     const usefulSelect = selectData.filter((n) => n);
+
+    usefulSelect.unshift({
+      value: "BPT",
+      text: "BPT",
+      icons: tokenIcons,
+    });
+
     State.update({
       selectData: usefulSelect,
     });
@@ -208,13 +217,28 @@ function getTokenBal() {
 }
 useEffect(() => {
   // console.log("Stake_state: ", state);
+
   // get token allowance when current token change
   if (!state.curToken) {
-    const defaultToken = data?.tokenAssets[0];
-    State.update({ curToken: defaultToken });
+    // const defaultToken = data?.tokenAssets[0];
+    const defaultToken = state.selectData[0].value;
+    State.update({
+      curToken: defaultToken,
+      curSymbol: TOKENS[state.curToken].symbol,
+    });
   } else {
-    getAllowance(state.curToken);
-    getTokenBal();
+    if (state.curToken === "BPT") {
+      State.update({
+        curTokenBal: data.bptAmount,
+        curSymbol: "BPT",
+      });
+    } else {
+      State.update({
+        curSymbol: TOKENS[state.curToken].symbol,
+      });
+      getAllowance(state.curToken);
+      getTokenBal();
+    }
   }
 }, [state.curToken]);
 
@@ -258,12 +282,6 @@ useEffect(() => {
     });
   }
 }, [state.isApproved]);
-
-// useEffect(() => {
-//   var a = new BN(Number("0.6"));
-
-//   console.info(BN, a.toString(), a.toNumber());
-// }, []);
 
 const handleInputChange = (e) => {
   State.update({
@@ -454,7 +472,7 @@ const renderExtra = () => {
         <span></span>
         <span>
           Balance: <span className="amount-white">{state.curTokenBal}</span>
-          {TOKENS[state.curToken].symbol}
+          {state.curSymbol}
         </span>
       </AmountList>
       <StakeBtnWrap>
