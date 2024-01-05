@@ -3,13 +3,11 @@ const AUTH_INTERFACE = {
   refreshToken: "",
 };
 const AUTH_CHALLENGE_INTERFACE = {
-    challenge: {
-        id: "",
-        text: ""
-    }
-}
+    id: "",
+    text: ""
+};
 
 return {
-    AUTH_INTERFACE,
-    AUTH_CHALLENGE_INTERFACE
-}
+  AUTH_INTERFACE,
+  AUTH_CHALLENGE_INTERFACE,
+};
