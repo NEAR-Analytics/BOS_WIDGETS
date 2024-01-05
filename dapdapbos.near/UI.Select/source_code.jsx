@@ -134,7 +134,7 @@ const Item = styled.button`
     outline: none;
   }
 `;
-
+console.log(2222, props);
 return (
   <Container>
     {noLabel ? <></> : <Label>{label}</Label>}
@@ -175,17 +175,16 @@ return (
         <Content>
           <Select.Viewport asChild={true}>
             <Viewport>
-              {options.map(({ text, value, icon }) => (
+              {options.map(({ text, value, icons }) => (
                 <Select.Item key={value} value={value} asChild={true}>
                   <Item>
                     <Select.ItemText>
                       <ItemWrap>
                         <Widget
-                          src="dapdapbos.near/widget/UI.Avatar"
+                          src="dapdapbos.near/widget/UI.AvatarGroup"
                           props={{
-                            src: icon,
+                            icons,
                             size: 20,
-                            style: { marginRight: 10 },
                           }}
                         />
                         {text}
