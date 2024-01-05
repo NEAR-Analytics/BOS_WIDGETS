@@ -1,6 +1,10 @@
 const accountId = props.accountId || context.accountId;
 const ftContract = "token.v2.ref-finance.near";
 
+State.init({
+  showRegistrationData: false,
+});
+
 if (!(state.accountId && state.ftContract)) {
   State.update({
     accountId,
@@ -8,22 +12,7 @@ if (!(state.accountId && state.ftContract)) {
   });
 }
 
-const onChangeAccount = (updatedAccountId) => {
-  State.update({
-    accountId: updatedAccountId,
-  });
-};
-
-const onChangeFTContract = (ftContract) => {
-  State.update({
-    ftContract,
-  });
-};
-
-const handleCheck = () => {
-  console.log("accountId: ", state.accountId);
-  console.log("ftContract: ", state.ftContract);
-
+const updateStorageBalance = () => {
   const accountStorageBalance = Near.view(
     state.ftContract,
     "storage_balance_of",
@@ -44,6 +33,31 @@ const handleCheck = () => {
       },
     });
   }
+};
+
+if (!state.showRegistrationData) {
+  updateStorageBalance();
+}
+
+const onChangeAccount = (updatedAccountId) => {
+  State.update({
+    accountId: updatedAccountId,
+  });
+};
+
+const onChangeFTContract = (ftContract) => {
+  State.update({
+    ftContract,
+  });
+};
+
+const handleCheck = () => {
+  console.log("accountId: ", state.accountId);
+  console.log("ftContract: ", state.ftContract);
+
+  updateStorageBalance();
+
+  State.update({ showRegistrationData: true });
 };
 
 const handleRegister = () => {
@@ -83,12 +97,11 @@ return (
     <div>
       <button onClick={handleCheck}>Check</button>
     </div>
-    {state.accountStorageBalance && (
+    {state.showRegistrationData && (
       <div>
         <div>
           <h5>Registration data (Storage balance)</h5>
         </div>
-        {console.log(Number(state.accountStorageBalance.total) > 0)}
         {(Number(state.accountStorageBalance.total) > 0 && (
           <div>User is registered</div>
         )) || (
