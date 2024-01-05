@@ -7,7 +7,7 @@ const {
   deleteCommunity,
   getCommunity,
   setCommunityAddons,
-} = VM.require("megha19.near/widget/core.adapter.devhub-contract");
+} = VM.require("devhub.near/widget/core.adapter.devhub-contract");
 
 if (
   !getCommunity ||
