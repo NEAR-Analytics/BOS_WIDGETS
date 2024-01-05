@@ -1,6 +1,6 @@
-const { href } = VM.require("megha19.near/widget/core.lib.url");
+const { href } = VM.require("devhub.near/widget/core.lib.url");
 const { useQuery } = VM.require(
-  "megha19.near/widget/core.adapter.devhub-contract"
+  "devhub.near/widget/core.adapter.devhub-contract"
 );
 
 useQuery || (useQuery = () => {});
@@ -25,7 +25,7 @@ if (!kanbanBoards || !data?.metadata) {
 
 return (
   <Widget
-    src={`megha19.near/widget/devhub.entity.addon.${data.metadata.type}`}
+    src={`devhub.near/widget/devhub.entity.addon.${data.metadata.type}`}
     props={{
       ...data,
       isConfiguratorActive: false,
