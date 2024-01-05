@@ -24,6 +24,29 @@ const Container = styled.div`
 const InfoSection = styled.div`
   padding: 5rem 3rem;
 
+  .wide {
+    display: flex;
+    @media screen and (max-width: 1399px) {
+      display: none;
+    }
+  }
+
+  .mid {
+    display: none;
+    @media screen and (max-width: 1399px) {
+      display: flex;
+    }
+    @media screen and (max-width: 786px) {
+      display: none;
+    }
+  }
+  .small {
+    display: none;
+    @media screen and (max-width: 786px) {
+      display: flex;
+    }
+  }
+
   @media screen and (max-width: 786px) {
     padding: 2rem;
     text-align: center;
@@ -338,7 +361,37 @@ const Support = ({ title, items }) => (
 );
 
 if (!content || !assets) return <Widget src="flashui.near/widget/Loading" />;
-let infoCounter = 0;
+
+function partition(array, n) {
+  let i = 0;
+  let j = n;
+  const result = [];
+
+  [...Array(n)].map(() => {
+    const res = array.slice(i, j);
+    result.push(res);
+
+    i += n;
+    j += n;
+  });
+
+  return result;
+}
+
+const Participate = ({ section, i, n }) => (
+  <div className="participate_item d-flex flex-column gap-3">
+    {section.map((title, j) => (
+      <h5 className="d-flex gap-3 align-items-center">
+        <div>
+          <div className="d-flex circle justify-content-center align-items-center">
+            {i * n + j + 1}
+          </div>
+        </div>
+        <span className="text-start">{title}</span>
+      </h5>
+    ))}
+  </div>
+);
 
 return (
   <Container>
@@ -387,20 +440,19 @@ return (
         <h2>{content.participate.title}</h2>
         <p>{content.participate.desc}</p>
       </div>
-      <div className="d-flex flex-wrap justify-content-between">
-        {content.participate.items?.map((section) => (
-          <div className="participate_item d-flex flex-column gap-3">
-            {section.map((title) => (
-              <h5 className="d-flex gap-3 align-items-center">
-                <div>
-                  <div className="d-flex circle justify-content-center align-items-center">
-                    {(infoCounter += 1)}
-                  </div>
-                </div>
-                <span className="text-start">{title}</span>
-              </h5>
-            ))}
-          </div>
+      <div className="wide flex-wrap gap-5 justify-content-center">
+        {partition(content.participate.items, 3)?.map((section, i) => (
+          <Participate section={section} i={i} n={3} />
+        ))}
+      </div>
+      <div className="mid flex-wrap gap-5 justify-content-center">
+        {partition(content.participate.items, 5)?.map((section, i) => (
+          <Participate section={section} i={i} n={6} />
+        ))}
+      </div>
+      <div className="small flex-wrap gap-5 justify-content-center">
+        {partition(content.participate.items, 9)?.map((section, i) => (
+          <Participate section={section} i={i} n={9} />
         ))}
       </div>
     </InfoSection>
