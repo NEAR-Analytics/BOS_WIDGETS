@@ -78,20 +78,12 @@ const bannerImg =
 const sharDogIcon =
   "https://res.cloudinary.com/dfbqtfoxu/image/upload/v1700588115/rafflestore/gift_ebqnkb.svg";
 
-State.init({ fullname: "", email: "", formSubmitted: false });
-
-const formData = {
-  fullname: state.fullname,
-  email: state.email,
-};
-
 const accountId = context.accountId;
 const contractId = "mint.sharddog.near";
 
 const returnedData = Social.get(`${accountId}/formData/*`);
 
 console.log(returnedData + "Great");
-console.log(formData);
 
 if (!contractId) {
   return `Missing "contractId"`;
@@ -101,32 +93,25 @@ if (!accountId) {
   return `Please login`;
 }
 
-function sendData(formData) {
-  console.log("send data function called");
-  const apiUrl = "https://rafflestore.000webhostapp.com/api/register.php";
-  asyncFetch(apiUrl, {
+const [email, setEmail] = useState("");
+const [fullname, setFullname] = useState("");
+console.log(email);
+
+console.log(fullname);
+const sendData = () => {
+  asyncFetch("https://rafflestore.000webhostapp.com/api/register.php", {
     method: "POST",
     headers: {
-      "Content-Type": "application/json",
+      "Content-Type": "application/x-www-form-urlencoded",
     },
-    body: JSON.stringify(formData),
+    body: `email=${encodeURIComponent(email)}&fullname=${encodeURIComponent(
+      fullname
+    )}`,
   })
-    .then((res) => {
-      if (!res.ok) {
-        throw new Error(`HTTP error! Status: ${res.status}`);
-      }
-      return res.json();
-    })
-    .then((data) => {
-      console.log("Server response:", data);
-      console.log("API call success");
-      // Handle the success response as needed
-    })
-    .catch((error) => {
-      console.log("Error:", error);
-      // Handle errors
-    });
-}
+    .then((response) => response.text())
+    .then((data) => console.log(data))
+    .catch((error) => console.error("Error:", error));
+};
 
 const nfts = Near.view(contractId, "nft_tokens_for_owner", {
   account_id: accountId,
@@ -344,8 +329,8 @@ return (
                     Name
                   </label>
                   <input
-                    value={state.fullname || ""}
-                    onChange={(e) => State.update({ fullname: e.target.value })}
+                    value={fullname || ""}
+                    onChange={(e) => setFullname(e.target.value)}
                     type="text"
                     class="form-control"
                     id="emainamel"
@@ -357,8 +342,8 @@ return (
                     Email
                   </label>
                   <input
-                    value={state.email || ""}
-                    onChange={(e) => State.update({ email: e.target.value })}
+                    value={email || ""}
+                    onChange={(e) => setEmail(e.target.value)}
                     type="email"
                     class="form-control"
                     id="email"
@@ -369,7 +354,10 @@ return (
                   data={formData}
                   type="submit"
                   class="btn btn-primary"
-                  onClick={() => sendData(formData)}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    sendData(formData);
+                  }}
                 >
                   Submit
                 </button>
