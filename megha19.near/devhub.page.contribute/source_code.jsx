@@ -186,7 +186,7 @@ const ActionContainer = styled.div`
 
 return (
   <>
-    <Widget src={`devhub.near/widget/devhub.components.island.banner`} />
+    <Widget src={`megha19.near/widget/devhub.components.island.banner`} />
     <Header>
       <PageHeader>Contribute</PageHeader>
     </Header>
