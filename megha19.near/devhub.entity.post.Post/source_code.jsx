@@ -1,9 +1,9 @@
 // Ideally, this would be a page
 
-const { href } = VM.require("megha19.near/widget/core.lib.url");
+const { href } = VM.require("devhub.near/widget/core.lib.url");
 
 const { draftState, onDraftStateChange } = VM.require(
-  "megha19.near/widget/devhub.entity.post.draft"
+  "devhub.near/widget/devhub.entity.post.draft"
 );
 
 if (!href) {
@@ -29,8 +29,7 @@ const ButtonWithHover = styled.button`
 const postId = props.post.id ?? (props.id ? parseInt(props.id) : 0);
 
 const post =
-  props.post ??
-  Near.view("devgovgigs.near", "get_post", { post_id: postId });
+  props.post ?? Near.view("devgovgigs.near", "get_post", { post_id: postId });
 
 if (!post) {
   return <div>Loading ...</div>;
@@ -88,7 +87,7 @@ const postSearchKeywords = props.searchKeywords ? (
 
     {props.searchKeywords.map((tag) => (
       <Widget
-        src={"megha19.near/widget/devhub.components.atom.Tag"}
+        src={"devhub.near/widget/devhub.components.atom.Tag"}
         props={{ linkTo: "Feed", tag }}
       />
     ))}
@@ -159,7 +158,7 @@ const shareButton = props.isPreview ? (
   <Link
     class="card-link text-dark"
     to={href({
-      widgetSrc: "megha19.near/widget/app",
+      widgetSrc: "devhub.near/widget/app",
       params: { page: "post", id: postId },
     })}
     role="button"
@@ -184,9 +183,7 @@ const header = (
         <div class="d-flex align-items-center flex-wrap">
           <ProfileCardContainer>
             <Widget
-              src={
-                "megha19.near/widget/devhub.components.molecule.ProfileCard"
-              }
+              src={"devhub.near/widget/devhub.components.molecule.ProfileCard"}
               props={{
                 accountId: post.author_id,
               }}
@@ -198,7 +195,7 @@ const header = (
             {timestamp}
 
             <Widget
-              src={"megha19.near/widget/devhub.entity.post.History"}
+              src={"devhub.near/widget/devhub.entity.post.History"}
               props={{
                 post,
                 timestamp: currentTimestamp,
@@ -350,7 +347,7 @@ const buttonsFooter = props.isPreview ? null : (
             "Like"
           ) : (
             <Widget
-              src="megha19.near/widget/devhub.components.layout.LikeButton.Faces"
+              src="devhub.near/widget/devhub.components.layout.LikeButton.Faces"
               props={{
                 likesByUsers: Object.fromEntries(
                   post.likes.map(({ author_id }) => [author_id, ""])
@@ -433,7 +430,7 @@ const buttonsFooter = props.isPreview ? null : (
         ) : (
           <Link
             to={href({
-              widgetSrc: "megha19.near/widget/app",
+              widgetSrc: "devhub.near/widget/app",
               params: { page: "post", id: parentId },
             })}
           >
@@ -537,7 +534,7 @@ function Editor() {
         {state.editorType === "CREATE" ? (
           <>
             <Widget
-              src={"megha19.near/widget/devhub.entity.post.PostEditor"}
+              src={"devhub.near/widget/devhub.entity.post.PostEditor"}
               props={{
                 postType: state.postType,
                 onDraftStateChange,
@@ -554,7 +551,7 @@ function Editor() {
         ) : (
           <>
             <Widget
-              src={"megha19.near/widget/devhub.entity.post.PostEditor"}
+              src={"devhub.near/widget/devhub.entity.post.PostEditor"}
               props={{
                 postType: state.postType,
                 postId,
@@ -597,7 +594,7 @@ const tags = post.snapshot.labels ? (
       <div className="d-flex align-items-center my-3 me-3">
         <Link
           to={href({
-            widgetSrc: "megha19.near/widget/app",
+            widgetSrc: "devhub.near/widget/app",
             params: { page: "feed", tag: tag },
           })}
         >
@@ -611,7 +608,7 @@ const tags = post.snapshot.labels ? (
             style={{ cursor: "pointer", textDecoration: "none" }}
           >
             <Widget
-              src={"megha19.near/widget/devhub.components.atom.Tag"}
+              src={"devhub.near/widget/devhub.components.atom.Tag"}
               props={{
                 tag,
                 black: true,
@@ -658,7 +655,7 @@ const postExtra =
       <h6 class="card-subtitle mb-2 text-muted">
         Supervisor:{" "}
         <Widget
-          src={"megha19.near/widget/devhub.components.molecule.ProfileLine"}
+          src={"devhub.near/widget/devhub.components.molecule.ProfileLine"}
           props={{ accountId: snapshot.supervisor }}
         />
       </h6>
@@ -697,7 +694,7 @@ const postsList =
         {childPostIds.map((childId) => (
           <div key={childId} style={{ marginBottom: "0.5rem" }}>
             <Widget
-              src="megha19.near/widget/devhub.entity.post.Post"
+              src="devhub.near/widget/devhub.entity.post.Post"
               props={{
                 id: childId,
                 isUnderPost: true,
@@ -745,7 +742,7 @@ const descriptionArea = isUnderPost ? (
       text: snapshot.description,
     })} */}
     <Widget
-      src={"megha19.near/widget/devhub.components.molecule.MarkdownViewer"}
+      src={"devhub.near/widget/devhub.components.molecule.MarkdownViewer"}
       props={{
         text: snapshot.description,
       }}
@@ -758,7 +755,7 @@ const descriptionArea = isUnderPost ? (
         text: state.clamp ? clampedContent : snapshot.description,
       })} */}
       <Widget
-        src={"megha19.near/widget/devhub.components.molecule.MarkdownViewer"}
+        src={"devhub.near/widget/devhub.components.molecule.MarkdownViewer"}
         props={{
           text: state.clamp ? clampedContent : snapshot.description,
         }}
@@ -781,7 +778,7 @@ const timestampElement = (_snapshot) => {
     <Link
       class="text-muted"
       href={href({
-        widgetSrc: "megha19.near/widget/app",
+        widgetSrc: "devhub.near/widget/app",
         params: {
           page: "post",
           id: postId,
