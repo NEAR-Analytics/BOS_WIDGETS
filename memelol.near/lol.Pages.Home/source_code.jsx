@@ -247,7 +247,7 @@ const fetchStats = () => {
     receivedNear: receivedNear(stats[1], stats[5]),
     receivedLoL: receivedLol(stats[4]),
     startDate: stats[6]
-      ? Big(stats[6])
+      ? Big(stats[6] || 0)
           .div(1000 * 1000)
           .toNumber()
       : 0,
