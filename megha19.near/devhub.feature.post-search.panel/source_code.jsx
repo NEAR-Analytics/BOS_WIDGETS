@@ -1,4 +1,4 @@
-const { href } = VM.require("megha19.near/widget/core.lib.url");
+const { href } = VM.require("${REPL_DEVHUB}/widget/core.lib.url");
 
 href || (href = () => {});
 
@@ -111,7 +111,7 @@ return (
                           style={{ borderRadius: "5px" }}
                           class="dropdown-item link-underline link-underline-opacity-0"
                           href={href({
-                            widgetSrc: "megha19.near/widget/app",
+                            widgetSrc: "${REPL_DEVHUB}/widget/app",
                             params: { page: "feed" },
                           })}
                         >
@@ -123,7 +123,7 @@ return (
                           style={{ borderRadius: "5px" }}
                           class="dropdown-item link-underline link-underline-opacity-0"
                           href={href({
-                            widgetSrc: "megha19.near/widget/app",
+                            widgetSrc: "${REPL_DEVHUB}/widget/app",
                             params: { page: "feed", recency: "all" },
                           })}
                         >
@@ -136,7 +136,7 @@ return (
               </DropdownContainer>
               <div class="dropdown">
                 <Widget
-                  src="megha19.near/widget/devhub.feature.post-search.by-author"
+                  src="${REPL_DEVHUB}/widget/devhub.feature.post-search.by-author"
                   props={{
                     author: state.author,
                     onAuthorSearch: (author) => {
@@ -147,7 +147,7 @@ return (
               </div>
               <div>
                 <Widget
-                  src="megha19.near/widget/devhub.feature.post-search.by-tag"
+                  src="${REPL_DEVHUB}/widget/devhub.feature.post-search.by-tag"
                   props={{
                     tag: state.tag,
                     onTagSearch: (tag) => {
@@ -166,7 +166,7 @@ return (
     )}
     <PostContainer>
       <Widget
-        src="megha19.near/widget/devhub.entity.post.List"
+        src="${REPL_DEVHUB}/widget/devhub.entity.post.List"
         props={{
           author: state.author,
           tag: state.tag,
