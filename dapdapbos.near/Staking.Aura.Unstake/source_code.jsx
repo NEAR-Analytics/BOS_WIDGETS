@@ -245,7 +245,8 @@ const renderExtra = () => {
   return (
     <>
       <AmountList>
-        <span>${stakedAmount}</span>
+        {/* <span>${stakedAmount}</span> */}
+        <span></span>
         <span>
           You Staked: <span className="amount-white">{stakedAmount}</span> BPT
         </span>
