@@ -1,4 +1,4 @@
-const { href } = VM.require("megha19.near/widget/core.lib.url");
+const { href } = VM.require("${REPL_DEVHUB}/widget/core.lib.url");
 
 if (!href) {
   return <p>Loading modules...</p>;
@@ -10,7 +10,7 @@ const CommunitySummary = () => {
   return (
     <>
       <Widget
-        src={"megha19.near/widget/devhub.components.molecule.MarkdownViewer"}
+        src={"${REPL_DEVHUB}/widget/devhub.components.molecule.MarkdownViewer"}
         props={{
           text: community.bio_markdown,
         }}
@@ -18,12 +18,12 @@ const CommunitySummary = () => {
       <small class="text-muted mb-3">
         <Link
           to={href({
-            widgetSrc: "megha19.near/widget/app",
+            widgetSrc: "${REPL_DEVHUB}/widget/app",
             params: { page: "feed", tag: community.tag },
           })}
         >
           <Widget
-            src={"megha19.near/widget/devhub.components.atom.Tag"}
+            src={"${REPL_DEVHUB}/widget/devhub.components.atom.Tag"}
             props={{ tag: community.tag }}
           />
         </Link>
@@ -37,25 +37,24 @@ return community === null ? (
 ) : (
   <div class="d-flex flex-column align-items-end">
     <Widget
-      src={"megha19.near/widget/devhub.entity.community.Tile"}
+      src={"${REPL_DEVHUB}/widget/devhub.entity.community.Tile"}
       props={{
         fullWidth: true,
         minHeight: 0,
-        noBorder: true,
         children: <CommunitySummary />,
         style: { marginTop: "0.5rem" },
       }}
     />
 
     <Widget
-      src={"megha19.near/widget/devhub.entity.community.Tile"}
+      src={"${REPL_DEVHUB}/widget/devhub.entity.community.Tile"}
       props={{
         heading: "Admins",
 
         children: (community?.admins ?? []).map((accountId) => (
           <div key={accountId} className="d-flex" style={{ fontWeight: 500 }}>
             <Widget
-              src="megha19.near/widget/devhub.components.molecule.ProfileCard"
+              src="${REPL_DEVHUB}/widget/devhub.components.molecule.ProfileCard"
               props={{ accountId }}
             />
           </div>
@@ -63,7 +62,6 @@ return community === null ? (
 
         fullWidth: true,
         minHeight: 0,
-        noBorder: true,
       }}
     />
   </div>
