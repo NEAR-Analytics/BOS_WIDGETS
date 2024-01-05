@@ -65,7 +65,7 @@ const ProfileCard = (props) => {
       href={
         link !== true
           ? link
-          : `/mob.near/widget/ProfilePage?accountId=${accountId}`
+          : `/${REPL_MOB}/widget/ProfilePage?accountId=${accountId}`
       }
       target={openLinkInNewTab ? "_blank" : ""}
       rel="noopener noreferrer"
@@ -96,7 +96,7 @@ const ProfileCard = (props) => {
     <div className="d-flex flex-row align-items-center">
       {inner}
       <Widget
-        src="megha19.near/widget/devhub.components.molecule.BadgesList"
+        src="${REPL_DEVHUB}/widget/devhub.components.molecule.BadgesList"
         props={{
           accountId,
           mode: "compact",
