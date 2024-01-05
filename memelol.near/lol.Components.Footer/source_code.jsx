@@ -19,9 +19,9 @@ const Footer = () => {
       <a href={twitterLink} target="_blank">
         <i className={`fs-2 text-black bi bi-twitter-x`} />
       </a>
-      <a href={tgLink} target="_blank">
-        <i className={`fs-2 text-black bi bi-telegram`} />
-      </a>
+      {/*<a href={tgLink} target="_blank">*/}
+      {/*  <i className={`fs-2 text-black bi bi-telegram`} />*/}
+      {/*</a>*/}
     </div>
   );
 
