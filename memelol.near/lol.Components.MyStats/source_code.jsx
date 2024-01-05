@@ -106,7 +106,7 @@ const fetchMintResult = async () => {
             Big(el[2]).toNumber(),
             Big(el[3]).toNumber(),
             tx,
-          ])[0]
+          ])[0],
         );
 
         setMintResults(mintResults);
@@ -158,7 +158,7 @@ return (
                     className="w-100 d-flex justify-content-between align-items-center"
                     href={shareLink(
                       format(totalReward(2), 24),
-                      totalReward(3) > 0 ? format(totalReward(3), 24) : null
+                      totalReward(3) > 0 ? format(totalReward(3), 24) : null,
                     )}
                   >
                     <span>Share</span>
