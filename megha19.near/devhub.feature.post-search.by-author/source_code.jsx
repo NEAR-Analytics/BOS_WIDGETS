@@ -1,5 +1,5 @@
 const { getAllAuthors } = VM.require(
-  "devhub.near/widget/core.adapter.devhub-contract"
+  "megha19.near/widget/core.adapter.devhub-contract"
 );
 
 if (!getAllAuthors) {
