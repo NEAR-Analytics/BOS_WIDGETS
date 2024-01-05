@@ -1,5 +1,5 @@
 const { getAllLabels } = VM.require(
-  "megha19.near/widget/core.adapter.devhub-contract"
+  "devhub.near/widget/core.adapter.devhub-contract"
 );
 
 if (!getAllLabels) {
