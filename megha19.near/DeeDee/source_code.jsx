@@ -9,6 +9,7 @@ const Theme = styled.div`
     Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
   ${cssFont}
 `;
+
 const logo =
   "https://ipfs.near.social/ipfs/bafkreicjkwukanzb3wkff4yhulpzms7kr2ogjso5fz33aksv44u5rtzcnm";
 const appName =
@@ -31,7 +32,7 @@ const HeaderLgContainer = styled.div`
 const HeaderSmContainer = styled.div`
   background-color: rgba(1, 4, 34, 1);
   color: rgba(255, 255, 255, 1);
-  padding-inline: 2vw;
+  padding-inline: 1vw;
   padding-block: 3vh;
   .gap-6 {
     gap: 2rem;
@@ -58,7 +59,8 @@ const BodyContainer = styled.div`
   background-color: rgba(228, 224, 243, 1);
   padding-inline: 10vw;
   padding-block: 6vh;
-  @media screen and (max-width: 1000px) {
+  @media screen and (max-width: 500px) {
+     padding-inline: 3vw;
     .justify-sm-self-center {
       justify-self: center;
     }
@@ -70,6 +72,10 @@ const FooterContainer = styled.div`
   padding-block: 5vh;
   color: rgba(255, 255, 255, 1);
   padding-inline: 10vw;
+
+  @media screen and (max-width: 1000px) {
+    padding-inline: 2vw;
+  }
 `;
 
 const NumberStyle = styled.div`
@@ -86,7 +92,25 @@ const Grid = styled.div`
 
   @media screen and (max-width: 1000px) {
     grid-template-columns: repeat(1, minmax(0, 1fr));
-    gap: 0.5rem;
+    gap: 0rem;
+  }
+`;
+
+const FooterText = styled.div`
+  width: 35%;
+
+  @media screen and (max-width: 1000px) {
+    width: 95%;
+  }
+`;
+
+const GridText = styled.div`
+max-width:50%;
+font-weight:bolder;
+font-size:18px;
+
+@media screen and (max-width: 1000px) {
+    max-width: 95%;
   }
 `;
 
@@ -94,12 +118,7 @@ const NumberItems = ({ number, title }) => {
   return (
     <div class="d-flex gap-2">
       <NumberStyle>{number}</NumberStyle>
-      <div
-        class="align-self-center h6"
-        style={{ maxWidth: "50%", fontWeight: 600 }}
-      >
-        {title}
-      </div>
+      <GridText className="align-self-center h6">{title}</GridText>
     </div>
   );
 };
@@ -113,6 +132,12 @@ const WorkImage = styled.img`
 
   @media screen and (max-width: 1000px) {
     margin-left: 0%;
+    margin-top: -8%;
+    justify-self:center;
+  }
+
+  @media screen and (max-width: 500px) {
+    height: 80px;
   }
 `;
 
@@ -177,7 +202,7 @@ return (
               src="https://ipfs.near.social/ipfs/bafkreiedg255ss74zrqdsvbagp24vmcjisyj6nfzznmvhwknjm4mwp2s5m"
             />
             <img
-              style={{ height: 200, marginRight: "-30px" }}
+              style={{ height: 200, marginRight: "-25px" }}
               src="https://ipfs.near.social/ipfs/bafkreidntbrxhhenkabwf3wbnut5crypkah45qnewt6setejkfnkmijjvi"
             />
           </div>
@@ -223,7 +248,7 @@ return (
     </BodyContainer>
     <FooterContainer>
       <div class="d-flex justify-content-center align-items-center h-100 w-100 h6 text-center">
-        <div style={{ width: "35%" }}>
+        <FooterText>
           We hope to start building this app soon. Please contact
           <a
             style={{ color: "rgba(67, 247, 79, 1)" }}
@@ -234,7 +259,7 @@ return (
             clippy.near
           </a>
           if you would like more information.
-        </div>
+        </FooterText>
       </div>
     </FooterContainer>
   </Theme>
