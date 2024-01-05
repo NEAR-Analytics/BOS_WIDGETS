@@ -84,7 +84,9 @@ if (!content) {
       <p className="subtitle">{subtitle}</p>
       <Content>
         <Widget
-          src={"devhub.near/widget/devhub.components.molecule.MarkdownViewer"}
+          src={
+            "megha19.near/widget/devhub.components.molecule.MarkdownViewer"
+          }
           props={{ text: content }}
         />
       </Content>
