@@ -1,5 +1,6 @@
 const { getPost } =
-  VM.require("megha19.near/widget/core.adapter.devhub-contract") || (() => {});
+  VM.require("${REPL_DEVHUB}/widget/core.adapter.devhub-contract") ||
+  (() => {});
 
 const { Layout, handle } = props;
 
@@ -93,7 +94,7 @@ const handleOnSubmit = (v, isEdit) => {
   console.log(isEdit);
   if (isEdit) {
     Near.call({
-      contractName: "devgovgigs.near",
+      contractName: "${REPL_DEVHUB_CONTRACT}",
       methodName: "edit_post",
       args: {
         id: v.id,
@@ -108,7 +109,7 @@ const handleOnSubmit = (v, isEdit) => {
     });
   } else {
     Near.call({
-      contractName: "devgovgigs.near",
+      contractName: "${REPL_DEVHUB_CONTRACT}",
       methodName: "add_post",
       args: {
         labels: ["blog", handle],
