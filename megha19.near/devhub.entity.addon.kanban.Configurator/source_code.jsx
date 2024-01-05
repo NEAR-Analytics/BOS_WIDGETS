@@ -1,12 +1,14 @@
-const Struct = VM.require("megha19.near/widget/core.lib.struct");
+const Struct = VM.require("${REPL_DEVHUB}/widget/core.lib.struct");
 
 if (!Struct) {
   return <p>Loading modules...</p>;
 }
 const { useQuery } = VM.require(
-  "megha19.near/widget/core.adapter.devhub-contract"
+  "${REPL_DEVHUB}/widget/core.adapter.devhub-contract"
 );
-const { uuid, withUUIDIndex } = VM.require("megha19.near/widget/core.lib.uuid");
+const { uuid, withUUIDIndex } = VM.require(
+  "${REPL_DEVHUB}/widget/core.lib.uuid"
+);
 
 uuid || (uuid = () => {});
 withUUIDIndex || (withUUIDIndex = () => {});
@@ -104,7 +106,9 @@ const sortByOptions = [
 const KanbanViewConfigurator = ({ handle, data, permissions, onSubmit }) => {
   const tags = useCache(
     () =>
-      Near.asyncView("devgovgigs.near", "get_all_labels").then((res) => res),
+      Near.asyncView("${REPL_DEVHUB_CONTRACT}", "get_all_labels").then(
+        (res) => res
+      ),
     handle,
     { subscribe: false }
   );
@@ -187,7 +191,7 @@ const KanbanViewConfigurator = ({ handle, data, permissions, onSubmit }) => {
       <div className="card-body d-flex flex-column gap-3">
         <div className="d-flex flex-column flex-lg-row align-items-stretch w-100">
           <Widget
-            src={`megha19.near/widget/devhub.components.organism.Configurator`}
+            src={`${REPL_DEVHUB}/widget/devhub.components.organism.Configurator`}
             props={{
               heading: "Basic information",
               externalState: formState.metadata,
@@ -209,7 +213,7 @@ const KanbanViewConfigurator = ({ handle, data, permissions, onSubmit }) => {
           </span>
           <div>
             <Widget
-              src={`megha19.near/widget/devhub.components.organism.Configurator`}
+              src={`${REPL_DEVHUB}/widget/devhub.components.organism.Configurator`}
               props={{
                 heading: "Card fields",
                 classNames: { root: "w-auto h-auto" },
@@ -237,7 +241,7 @@ const KanbanViewConfigurator = ({ handle, data, permissions, onSubmit }) => {
           <div>
             <div className="input-group">
               <select
-                className="form-select border border-2"
+                className="form-select border border-1"
                 value={formState.metadata.ticket.sortBy}
                 onChange={formUpdate({
                   path: ["metadata", "ticket", "sortBy"],
@@ -273,7 +277,7 @@ const KanbanViewConfigurator = ({ handle, data, permissions, onSubmit }) => {
               >
                 <div className="d-flex flex-column gap-1 w-100">
                   <Widget
-                    src={`megha19.near/widget/devhub.components.molecule.Input`}
+                    src={`${REPL_DEVHUB}/widget/devhub.components.molecule.Input`}
                     props={{
                       className: "flex-grow-1",
                       key: `column-${id}-title`,
@@ -286,7 +290,7 @@ const KanbanViewConfigurator = ({ handle, data, permissions, onSubmit }) => {
                     }}
                   />
                   <Widget
-                    src={`megha19.near/widget/devhub.components.molecule.Input`}
+                    src={`${REPL_DEVHUB}/widget/devhub.components.molecule.Input`}
                     props={{
                       className: "flex-grow-1",
                       key: `column-${id}-description`,
@@ -300,12 +304,11 @@ const KanbanViewConfigurator = ({ handle, data, permissions, onSubmit }) => {
                   />
                   <div className="d-flex flex-column flex-1 align-items-start justify-content-evenly gap-1 p-2 flex-grow-1">
                     <span className="d-flex justify-content-between align-items-center gap-3 w-100">
-                      Enter a single tag of which you want to show posts in this
-                      column
+                      Enter a tag to filter posts in this column
                     </span>
                     <div className="w-100">
                       <Widget
-                        src="megha19.near/widget/devhub.feature.post-search.by-tag"
+                        src="${REPL_DEVHUB}/widget/devhub.feature.post-search.by-tag"
                         props={{
                           tag: tag,
                           onTagSearch: formUpdate({
@@ -339,7 +342,7 @@ const KanbanViewConfigurator = ({ handle, data, permissions, onSubmit }) => {
         <div className="d-flex gap-3 justify-content-between w-100 mt-2 flex-wrap flex-sm-nowrap">
           <div style={{ flex: "none" }}>
             <Widget
-              src={`megha19.near/widget/devhub.components.molecule.Button`}
+              src={`${REPL_DEVHUB}/widget/devhub.components.molecule.Button`}
               props={{
                 classNames: {
                   root: "btn-sm btn-outline-secondary",
@@ -358,7 +361,7 @@ const KanbanViewConfigurator = ({ handle, data, permissions, onSubmit }) => {
           </div>
           <div className="d-flex gap-3 justify-content-end w-100">
             <Widget
-              src={`megha19.near/widget/devhub.components.molecule.Button`}
+              src={`${REPL_DEVHUB}/widget/devhub.components.molecule.Button`}
               props={{
                 classNames: {
                   root: "d-flex btn btn-outline-danger shadow-none border-0",
@@ -369,7 +372,7 @@ const KanbanViewConfigurator = ({ handle, data, permissions, onSubmit }) => {
               }}
             />
             <Widget
-              src={`megha19.near/widget/devhub.components.molecule.Button`}
+              src={`${REPL_DEVHUB}/widget/devhub.components.molecule.Button`}
               props={{
                 classNames: { root: "btn btn-success" },
                 disabled: form.isSynced,
@@ -430,7 +433,7 @@ const KanbanViewConfigurator = ({ handle, data, permissions, onSubmit }) => {
       {showPreview ? (
         <div>
           <Widget
-            src={`megha19.near/widget/devhub.entity.addon.kanban.Viewer`}
+            src={`${REPL_DEVHUB}/widget/devhub.entity.addon.kanban.Viewer`}
             props={{
               data: formState,
             }}
@@ -456,7 +459,7 @@ const KanbanViewConfigurator = ({ handle, data, permissions, onSubmit }) => {
             This community doesn't have a kanban board
           </h5>
           <Widget
-            src={`megha19.near/widget/devhub.components.molecule.Button`}
+            src={`${REPL_DEVHUB}/widget/devhub.components.molecule.Button`}
             props={{
               icon: { type: "bootstrap_icon", variant: "bi-kanban-fill" },
               isHidden: !permissions.can_configure,
