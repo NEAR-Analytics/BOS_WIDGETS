@@ -1,8 +1,8 @@
 const { getPostsByLabel } = VM.require(
-  "megha19.near/widget/core.adapter.devhub-contract"
+  "${REPL_DEVHUB}/widget/core.adapter.devhub-contract"
 );
 const { getPost } = VM.require(
-  "megha19.near/widget/core.adapter.devhub-contract"
+  "${REPL_DEVHUB}/widget/core.adapter.devhub-contract"
 );
 getPost || (getPost = () => {});
 getPostsByLabel || (getPostsByLabel = () => {});
@@ -172,7 +172,7 @@ const KanbanPostBoard = ({ metadata, payload }) => {
                   {data.length === column.postIds.length &&
                     data.map((postData) => (
                       <Widget
-                        src={`megha19.near/widget/devhub.entity.addon.${metadata.ticket.type}`}
+                        src={`${REPL_DEVHUB}/widget/devhub.entity.addon.${metadata.ticket.type}`}
                         props={{
                           setDescriptionDisplay,
                           setFundingDisplay,
@@ -207,7 +207,7 @@ const KanbanPostBoard = ({ metadata, payload }) => {
             <div
               className={[
                 "card-body d-flex flex-column gap-3 p-2",
-                "border border-2 border-secondary rounded-4",
+                "border border-1 border-secondary rounded-4",
               ].join(" ")}
               style={{ height: "75vh" }}
             >
@@ -230,7 +230,7 @@ const KanbanPostBoard = ({ metadata, payload }) => {
                 {data.length === column.postIds.length &&
                   data.map((postData) => (
                     <Widget
-                      src={`megha19.near/widget/devhub.entity.addon.${metadata.ticket.type}`}
+                      src={`${REPL_DEVHUB}/widget/devhub.entity.addon.${metadata.ticket.type}`}
                       props={{
                         metadata: { id: postData.postId, ...metadata.ticket },
                         isTableView: false,
@@ -249,8 +249,8 @@ const KanbanPostBoard = ({ metadata, payload }) => {
 
   return (
     <div>
-      <div className="d-flex flex-column align-items-center gap-2 py-4 w-100">
-        <div class="form-check">
+      <div className="d-flex flex-column align-items-center gap-2 pb-4 w-100">
+        {/* <div class="form-check">
           <input
             class="form-check-input"
             type="checkbox"
@@ -262,7 +262,7 @@ const KanbanPostBoard = ({ metadata, payload }) => {
           <label class="form-check-label" for={`table`}>
             Table View
           </label>
-        </div>
+        </div> */}
         <h5 className="h4 d-inline-flex gap-2 m-0">
           <span>{metadata?.title}</span>
         </h5>
