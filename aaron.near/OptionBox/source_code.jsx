@@ -39,6 +39,7 @@ const Button = styled.button`
 
 return (
   <OptionBoxContainer>
+    <EmojiEventsIcon />
     <OptionBoxHeading>{props.heading}</OptionBoxHeading>
     <OptionBoxList>
       {props.listItems.map((item) => {
