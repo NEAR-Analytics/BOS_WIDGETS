@@ -1,4 +1,4 @@
-const { href } = VM.require("devhub.near/widget/core.lib.url");
+const { href } = VM.require("megha19.near/widget/core.lib.url");
 
 if (!href) {
   return <p>Loading modules...</p>;
@@ -10,7 +10,7 @@ const CommunitySummary = () => {
   return (
     <>
       <Widget
-        src={"devhub.near/widget/devhub.components.molecule.MarkdownViewer"}
+        src={"megha19.near/widget/devhub.components.molecule.MarkdownViewer"}
         props={{
           text: community.bio_markdown,
         }}
@@ -18,12 +18,12 @@ const CommunitySummary = () => {
       <small class="text-muted mb-3">
         <Link
           to={href({
-            widgetSrc: "devhub.near/widget/app",
+            widgetSrc: "megha19.near/widget/app",
             params: { page: "feed", tag: community.tag },
           })}
         >
           <Widget
-            src={"devhub.near/widget/devhub.components.atom.Tag"}
+            src={"megha19.near/widget/devhub.components.atom.Tag"}
             props={{ tag: community.tag }}
           />
         </Link>
@@ -37,7 +37,7 @@ return community === null ? (
 ) : (
   <div class="d-flex flex-column align-items-end">
     <Widget
-      src={"devhub.near/widget/devhub.entity.community.Tile"}
+      src={"megha19.near/widget/devhub.entity.community.Tile"}
       props={{
         fullWidth: true,
         minHeight: 0,
@@ -47,14 +47,14 @@ return community === null ? (
     />
 
     <Widget
-      src={"devhub.near/widget/devhub.entity.community.Tile"}
+      src={"megha19.near/widget/devhub.entity.community.Tile"}
       props={{
         heading: "Admins",
 
         children: (community?.admins ?? []).map((accountId) => (
           <div key={accountId} className="d-flex" style={{ fontWeight: 500 }}>
             <Widget
-              src="devhub.near/widget/devhub.components.molecule.ProfileCard"
+              src="megha19.near/widget/devhub.components.molecule.ProfileCard"
               props={{ accountId }}
             />
           </div>
