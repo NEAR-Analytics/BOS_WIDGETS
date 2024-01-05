@@ -4,14 +4,14 @@
  */
 
 const { onDraftStateChange } = VM.require(
-  "devhub.near/widget/devhub.entity.post.draft"
+  "megha19.near/widget/devhub.entity.post.draft"
 );
 
 const { page, ...passProps } = props;
 
 // Import our modules
 const { AppLayout } = VM.require(
-  "devhub.near/widget/devhub.components.templates.AppLayout"
+  "megha19.near/widget/devhub.components.templates.AppLayout"
 );
 
 if (!AppLayout) {
@@ -46,14 +46,17 @@ function Page() {
   switch (routes[0]) {
     case "home": {
       return (
-        <Widget src="devhub.near/widget/devhub.page.home" props={passProps} />
+        <Widget
+          src="megha19.near/widget/devhub.page.home"
+          props={passProps}
+        />
       );
     }
     // ?page=communities
     case "communities": {
       return (
         <Widget
-          src={"devhub.near/widget/devhub.page.communities"}
+          src={"megha19.near/widget/devhub.page.communities"}
           props={passProps}
         />
       );
@@ -65,7 +68,7 @@ function Page() {
         // where each level handles its own routing.
         // Modularizing a page just like we do with addons
         <Widget
-          src={"devhub.near/widget/devhub.entity.community.Provider"}
+          src={"megha19.near/widget/devhub.entity.community.Provider"}
           props={{
             ...passProps,
             Children: (p) => {
@@ -76,7 +79,7 @@ function Page() {
                   return (
                     <Widget
                       src={
-                        "devhub.near/widget/devhub.page.community.configuration"
+                        "megha19.near/widget/devhub.page.community.configuration"
                       }
                       props={{
                         ...passProps,
@@ -89,7 +92,7 @@ function Page() {
                 default: {
                   return (
                     <Widget
-                      src={"devhub.near/widget/devhub.page.community.index"}
+                      src={"megha19.near/widget/devhub.page.community.index"}
                       props={{
                         ...passProps,
                         ...p,
@@ -106,14 +109,17 @@ function Page() {
     // ?page=feed
     case "feed": {
       return (
-        <Widget src={"devhub.near/widget/devhub.page.feed"} props={passProps} />
+        <Widget
+          src={"megha19.near/widget/devhub.page.feed"}
+          props={passProps}
+        />
       );
     }
     // ?page=create
     case "create": {
       return (
         <Widget
-          src={"devhub.near/widget/devhub.entity.post.PostEditor"}
+          src={"megha19.near/widget/devhub.entity.post.PostEditor"}
           props={{ ...passProps, isCreatePostPage: true, onDraftStateChange }}
         />
       );
@@ -122,7 +128,7 @@ function Page() {
     case "about": {
       return (
         <Widget
-          src={"devhub.near/widget/devhub.page.about"}
+          src={"megha19.near/widget/devhub.page.about"}
           props={passProps}
         />
       );
@@ -130,7 +136,7 @@ function Page() {
     case "contribute": {
       return (
         <Widget
-          src={"devhub.near/widget/devhub.page.contribute"}
+          src={"megha19.near/widget/devhub.page.contribute"}
           props={passProps}
         />
       );
@@ -138,7 +144,7 @@ function Page() {
     case "profile": {
       return (
         <Widget
-          src={"devhub.near/widget/devhub.page.profile"}
+          src={"megha19.near/widget/devhub.page.profile"}
           props={passProps}
         />
       );
@@ -146,18 +152,24 @@ function Page() {
     // ?page=blog
     case "blog": {
       return (
-        <Widget src={"devhub.near/widget/devhub.page.blog"} props={passProps} />
+        <Widget
+          src={"megha19.near/widget/devhub.page.blog"}
+          props={passProps}
+        />
       );
     }
     case "post": {
       return (
-        <Widget src={"devhub.near/widget/devhub.page.post"} props={passProps} />
+        <Widget
+          src={"megha19.near/widget/devhub.page.post"}
+          props={passProps}
+        />
       );
     }
     case "admin": {
       return (
         <Widget
-          src={"devhub.near/widget/devhub.page.admin.index"}
+          src={"megha19.near/widget/devhub.page.admin.index"}
           props={passProps}
         />
       );
