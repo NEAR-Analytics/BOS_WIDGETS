@@ -66,7 +66,7 @@ function handleOnSubmit(v) {
 
 return (
   <Widget
-    src={"megha19.near/widget/devhub.components.organism.Configurator"}
+    src={"devhub.near/widget/devhub.components.organism.Configurator"}
     props={{
       externalState: data,
       schema: CommunityInformationSchema,
