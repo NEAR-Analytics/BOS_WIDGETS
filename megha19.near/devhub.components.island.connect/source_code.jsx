@@ -1,5 +1,5 @@
 const { getFeaturedCommunities } = VM.require(
-  "devhub.near/widget/core.adapter.devhub-contract"
+  "megha19.near/widget/core.adapter.devhub-contract"
 );
 
 if (!getFeaturedCommunities) {
@@ -106,7 +106,7 @@ const Cards = communities.map((com) => {
   return {
     title: com.name,
     description: com.description,
-    href: "/devhub.near/widget/app?page=community&handle=" + com.handle,
+    href: "/megha19.near/widget/app?page=community&handle=" + com.handle,
   };
 });
 
@@ -313,7 +313,7 @@ const Content = (
       ))}
     </MobileCards>
     <CTAContainer>
-      <CTA href="/devhub.near/widget/app?page=communities">
+      <CTA href="/megha19.near/widget/app?page=communities">
         Explore all communities →
       </CTA>
     </CTAContainer>
@@ -322,7 +322,7 @@ const Content = (
 
 return (
   <Widget
-    src="devhub.near/widget/devhub.components.island.home-section"
+    src="megha19.near/widget/devhub.components.island.home-section"
     props={{
       title: "/connect",
       children: Content,
