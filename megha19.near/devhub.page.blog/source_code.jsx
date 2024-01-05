@@ -1,13 +1,13 @@
 const { id } = props;
 
 const { Page } =
-  VM.require("megha19.near/widget/devhub.entity.addon.blog.Page") ||
+  VM.require("devhub.near/widget/devhub.entity.addon.blog.Page") ||
   (() => <></>);
 
 if (id) {
   return (
     <Widget
-      src="megha19.near/widget/devhub.entity.post.Postv2"
+      src="devhub.near/widget/devhub.entity.post.Postv2"
       props={{ postKey: id, template: (p) => <Page {...(p || {})} /> }}
     />
   );
@@ -51,13 +51,13 @@ const BlogContainer = styled.div`
 // generic feed component.
 return (
   <div className="w-100">
-    <Widget src={`megha19.near/widget/devhub.components.island.banner`} />
+    <Widget src={`devhub.near/widget/devhub.components.island.banner`} />
     <HeaderContainer>
       <Header>Blog</Header>
     </HeaderContainer>
     <BlogContainer>
       <Widget
-        src={"megha19.near/widget/devhub.entity.addon.blog.Viewer"}
+        src={"devhub.near/widget/devhub.entity.addon.blog.Viewer"}
         props={{
           handle: "developer-dao",
           hideTitle: true,
