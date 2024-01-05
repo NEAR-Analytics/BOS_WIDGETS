@@ -60,7 +60,7 @@ const CenteredMessage = styled.div`
 const { addon, permissions, handle } = props;
 
 const { getAllAddons, setCommunityAddon } = VM.require(
-  "megha19.near/widget/core.adapter.devhub-contract"
+  "devhub.near/widget/core.adapter.devhub-contract"
 );
 
 if (!getAllAddons || !setCommunityAddon) {
