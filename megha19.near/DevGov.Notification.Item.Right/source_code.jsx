@@ -1,4 +1,4 @@
-const { href } = VM.require("megha19.near/widget/core.lib.url") || (() => {});
+const { href } = VM.require("devhub.near/widget/core.lib.url") || (() => {});
 
 return props.post === undefined ? (
   "Loading ..."
@@ -7,7 +7,7 @@ return props.post === undefined ? (
     <a
       className="btn btn-outline-dark"
       href={href({
-        widgetSrc: "megha19.near/widget/app",
+        widgetSrc: "devhub.near/widget/app",
         params: {
           page: "post",
           id: props.post,
