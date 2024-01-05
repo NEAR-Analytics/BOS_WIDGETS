@@ -43,7 +43,12 @@ return (
     <OptionBoxHeading>{props.heading}</OptionBoxHeading>
     <OptionBoxList>
       {props.listItems.map((item) => {
-        return <OptionBoxListItem>{item}</OptionBoxListItem>;
+        return (
+          <OptionBoxListItem>
+            <EmojiEventsIcon fontSize="small" />
+            {item}
+          </OptionBoxListItem>
+        );
       })}
     </OptionBoxList>
     <Button
