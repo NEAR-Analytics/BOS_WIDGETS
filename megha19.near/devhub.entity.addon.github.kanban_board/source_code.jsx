@@ -1,6 +1,4 @@
-const { DataRequest } = VM.require(
-  "megha19.near/widget/core.lib.data-request"
-);
+const { DataRequest } = VM.require("devhub.near/widget/core.lib.data-request");
 DataRequest || (DataRequest = { paginated: () => {} });
 
 const dataToColumns = (data, columns) =>
@@ -72,23 +70,25 @@ const GithubKanbanBoard = ({
       : [];
 
     const issues = dataTypesIncluded.Issue
-      ? DataRequest?.paginated(
-          (pageNumber) =>
-            useCache(
-              () =>
-                asyncFetch(
-                  `https://api.github.com/repos/${repoURL
-                    .split("/")
-                    .slice(-2)
-                    .concat(["issues"])
-                    .join(
-                      "/"
-                    )}?state=${ticketStateFilter}&per_page=100&page=${pageNumber}`
-                ).then((res) => res?.body),
-              repoURL + pageNumber,
-              { subscribe: false }
-            ),
-          { startWith: 1 }
+      ? (
+          DataRequest?.paginated(
+            (pageNumber) =>
+              useCache(
+                () =>
+                  asyncFetch(
+                    `https://api.github.com/repos/${repoURL
+                      .split("/")
+                      .slice(-2)
+                      .concat(["issues"])
+                      .join(
+                        "/"
+                      )}?state=${ticketStateFilter}&per_page=100&page=${pageNumber}`
+                  ).then((res) => res?.body),
+                repoURL + pageNumber,
+                { subscribe: false }
+              ),
+            { startWith: 1 }
+          ) ?? []
         )?.map(withType("Issue"))
       : [];
 
@@ -155,7 +155,7 @@ const GithubKanbanBoard = ({
                   <div class="d-flex flex-column gap-2">
                     {tickets.map((ticket) => (
                       <Widget
-                        src={`megha19.near/widget/devhub.entity.addon.${metadata.ticket.type}`}
+                        src={`devhub.near/widget/devhub.entity.addon.${metadata.ticket.type}`}
                         props={{ metadata: metadata.ticket, payload: ticket }}
                         key={ticket.id}
                       />
