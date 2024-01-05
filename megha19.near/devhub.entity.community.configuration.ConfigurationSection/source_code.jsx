@@ -21,7 +21,7 @@ function SectionHeader() {
       {headerRight ||
         (hasConfigurePermissions && (
           <Widget
-            src={"megha19.near/widget/devhub.components.molecule.Button"}
+            src={"${REPL_DEVHUB}/widget/devhub.components.molecule.Button"}
             props={{
               classNames: { root: "btn-sm btn-secondary" },
               icon: {
