@@ -1,5 +1,5 @@
 const { Confetti } = VM.require(
-  `memelol.near/widget/lol.Components.Confetti`
+  `memelol.near/widget/lol.Components.Confetti`,
 );
 
 const ModalOverlay = styled.div`
