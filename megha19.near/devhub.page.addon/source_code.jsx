@@ -60,7 +60,7 @@ const CenteredMessage = styled.div`
 const { addon, permissions, handle } = props;
 
 const { getAllAddons, setCommunityAddon } = VM.require(
-  "megha19.near/widget/core.adapter.devhub-contract"
+  "${REPL_DEVHUB}/widget/core.adapter.devhub-contract"
 );
 
 if (!getAllAddons || !setCommunityAddon) {
@@ -90,13 +90,6 @@ const ButtonRow = styled.div`
 
 const [view, setView] = useState(props.view || "viewer");
 
-// TODO : remove after contract data change
-function updateWidgetEndpoint(widgetSrc) {
-  widgetSrc = widgetSrc.replace("configurator", "Configurator");
-  widgetSrc = widgetSrc.replace("devhub.near", "megha19.near");
-  return widgetSrc;
-}
-
 return (
   <Container>
     {permissions.can_configure && (
@@ -113,7 +106,7 @@ return (
     <Content>
       {view === "configure" ? (
         <Widget
-          src={updateWidgetEndpoint(addonMatch.configurator_widget)}
+          src={addonMatch.configurator_widget}
           props={{
             ...config,
             data: config,
@@ -132,7 +125,7 @@ return (
         />
       ) : (
         <Widget
-          src={updateWidgetEndpoint(addonMatch.view_widget)}
+          src={addonMatch.view_widget}
           props={{
             ...config,
             data: config,
