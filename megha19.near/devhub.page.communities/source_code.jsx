@@ -1,5 +1,5 @@
 const { getAllCommunitiesMetadata, createCommunity } = VM.require(
-  "megha19.near/widget/core.adapter.devhub-contract"
+  "devhub.near/widget/core.adapter.devhub-contract"
 );
 
 if (!getAllCommunitiesMetadata || !createCommunity) {
@@ -109,7 +109,7 @@ const StyledDropdown = styled.div`
 
 return (
   <div className="w-100">
-    <Widget src={`megha19.near/widget/devhub.components.island.banner`} />
+    <Widget src={`devhub.near/widget/devhub.components.island.banner`} />
     <div style={{ background: "#f4f4f4" }}>
       <div
         className="d-flex justify-content-between p-4"
@@ -174,7 +174,7 @@ return (
               <div className="d-flex flex-column justify-content-center align-self-end">
                 <Widget
                   src={
-                    "megha19.near/widget/devhub.components.molecule.CommunityControl"
+                    "devhub.near/widget/devhub.components.molecule.CommunityControl"
                   }
                   props={{
                     title: "Community",
@@ -189,7 +189,7 @@ return (
       <div className="d-flex flex-wrap align-content-start gap-4 py-2 px-4 w-100 h-100">
         {showSpawner && (
           <Widget
-            src="megha19.near/widget/devhub.entity.community.Spawner"
+            src="devhub.near/widget/devhub.entity.community.Spawner"
             props={{
               data: null,
               onSubmit: onCommunitySubmit,
@@ -201,7 +201,7 @@ return (
           {searchKey === "" && sort === ""
             ? (communitiesMetadata ?? []).reverse().map((communityMetadata) => (
                 <Widget
-                  src="megha19.near/widget/devhub.entity.community.Card"
+                  src="devhub.near/widget/devhub.entity.community.Card"
                   props={{
                     format: "small",
                     isBannerEnabled: false,
@@ -211,7 +211,7 @@ return (
               ))
             : SortedAndFiltered(searchKey, sort).map((communityMetadata) => (
                 <Widget
-                  src="megha19.near/widget/devhub.entity.community.Card"
+                  src="devhub.near/widget/devhub.entity.community.Card"
                   props={{
                     format: "small",
                     isBannerEnabled: false,
