@@ -86,7 +86,7 @@ const [showReply, setShowReply] = useState(false);
 const [replies, setReplies] = useState([]);
 const [liked, setLiked] = useState(false);
 
-const likes = Social.index("graph", "v2.ndc.mdao.like", { order: "desc" });
+const likes = Social.index("graph", "v3.ndc.mdao.like", { order: "desc" });
 likes = likes ? likes.filter((like) => like.value.parentId === item.id) : [];
 const myLike = likes ? likes.some((like) => like.value[accountId]) : false;
 setLiked(myLike);
@@ -95,7 +95,7 @@ const handleLike = () => {
   Social.set({
     index: {
       graph: JSON.stringify({
-        key: "v2.ndc.mdao.like",
+        key: "v3.ndc.mdao.like",
         value: {
           parentId: item.id,
           [accountId]: !myLike,
