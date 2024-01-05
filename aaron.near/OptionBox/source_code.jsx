@@ -15,7 +15,7 @@ const OptionBoxHeading = styled.div`
 
 const OptionBoxList = styled.ul`
     list-style-position: inside;
-    list-style-image: url(${props.listImage});
+    list-style: none;
     padding: 0;
     margin: 0;
 `;
