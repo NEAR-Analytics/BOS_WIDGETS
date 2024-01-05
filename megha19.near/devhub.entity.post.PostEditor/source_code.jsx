@@ -1,3 +1,6 @@
+const { normalize } =
+  VM.require("${REPL_DEVHUB}/widget/core.lib.stringUtils") || (() => {});
+
 const CenteredMessage = styled.div`
   display: flex;
   flex-direction: column;
@@ -81,23 +84,27 @@ const [postData, setPostData] = useState(null); // for capturing edit post chang
 
 useEffect(() => {
   if (mode == "Edit") {
-    const data = Near.view("devgovgigs.near", "get_post", {
+    const data = Near.view("${REPL_DEVHUB_CONTRACT}", "get_post", {
       post_id: postId,
     });
     if (!postData) {
       setPostData(data);
     }
-    if (postData && JSON.stringify(postData) !== JSON.stringify(data)) {
+    if (postData && data && JSON.stringify(postData) !== JSON.stringify(data)) {
       props.setEditorState(false);
       props.setExpandReplies(true);
       setPostData(data);
     }
   } else {
-    const postIds = Near.view("devgovgigs.near", "get_all_post_ids");
+    const postIds = Near.view("${REPL_DEVHUB_CONTRACT}", "get_all_post_ids");
     if (!postIdList) {
       setPostIdList(postIds);
     }
-    if (postIdList?.length > 0 && postIdList.length !== postIds.length) {
+    if (
+      postIdList?.length > 0 &&
+      postIds.length > 0 &&
+      postIdList.length !== postIds.length
+    ) {
       props.onDraftStateChange(null);
       if (isCreatePostPage) {
         setShowPostPage(true);
@@ -249,7 +256,7 @@ const typeSwitch = (optionName) => {
 // This must be outside onClick, because Near.view returns null at first, and when the view call finished, it returns true/false.
 // If checking this inside onClick, it will give `null` and we cannot tell the result is true or false.
 let grantNotify = Near.view("social.near", "is_write_permission_granted", {
-  predecessor_id: "devgovgigs.near",
+  predecessor_id: "${REPL_DEVHUB_CONTRACT}",
   key: context.accountId + "/index/notify",
 });
 if (grantNotify === null) {
@@ -321,7 +328,7 @@ const onSubmit = () => {
       Object.assign({}, state, { parent_post_id: parentId })
     );
     txn.push({
-      contractName: "devgovgigs.near",
+      contractName: "${REPL_DEVHUB_CONTRACT}",
       methodName: "add_post",
       args: {
         parent_id: parentId,
@@ -335,7 +342,7 @@ const onSubmit = () => {
       Object.assign({}, state, { edit_post_id: postId })
     );
     txn.push({
-      contractName: "devgovgigs.near",
+      contractName: "${REPL_DEVHUB_CONTRACT}",
       methodName: "edit_post",
       args: {
         id: postId,
@@ -351,7 +358,7 @@ const onSubmit = () => {
         contractName: "social.near",
         methodName: "grant_write_permission",
         args: {
-          predecessor_id: "devgovgigs.near",
+          predecessor_id: "${REPL_DEVHUB_CONTRACT}",
           keys: [context.accountId + "/index/notify"],
         },
         gas: Big(10).pow(14),
@@ -362,18 +369,8 @@ const onSubmit = () => {
   }
 };
 
-const normalizeLabel = (label) =>
-  label
-    .replaceAll(/[- \.]/g, "_")
-    .replaceAll(/[^\w]+/g, "")
-    .replaceAll(/_+/g, "-")
-    .replace(/^-+/, "")
-    .replace(/-+$/, "")
-    .toLowerCase()
-    .trim("-");
-
 const checkLabel = (label) => {
-  Near.asyncView("devgovgigs.near", "is_allowed_to_use_labels", {
+  Near.asyncView("${REPL_DEVHUB_CONTRACT}", "is_allowed_to_use_labels", {
     editor: context.accountId,
     labels: [label],
   }).then((allowed) => {
@@ -393,7 +390,7 @@ const checkLabel = (label) => {
 
 const setLabels = (labels) => {
   labels = labels.map((o) => {
-    o.name = normalizeLabel(o.name);
+    o.name = normalize(o.name);
     return o;
   });
   if (labels.length < state.labels.length) {
@@ -402,7 +399,7 @@ const setLabels = (labels) => {
       oldLabels.delete(label.name);
     }
     let removed = oldLabels.values().next().value;
-    Near.asyncView("devgovgigs.near", "is_allowed_to_use_labels", {
+    Near.asyncView("${REPL_DEVHUB_CONTRACT}", "is_allowed_to_use_labels", {
       editor: context.accountId,
       labels: [removed],
     }).then((allowed) => {
@@ -427,7 +424,7 @@ const setLabels = (labels) => {
   }
 };
 const existingLabelStrings =
-  Near.view("devgovgigs.near", "get_all_allowed_labels", {
+  Near.view("${REPL_DEVHUB_CONTRACT}", "get_all_allowed_labels", {
     editor: context.accountId,
   }) ?? [];
 const existingLabelSet = new Set(existingLabelStrings);
@@ -457,7 +454,7 @@ const labelEditor = (
           props.text.toLowerCase() !== "blog" && // dont allow adding "Blog"
           props.selected.filter((selected) => selected.name === props.text)
             .length == 0 &&
-          Near.view("devgovgigs.near", "is_allowed_to_use_labels", {
+          Near.view("${REPL_DEVHUB_CONTRACT}", "is_allowed_to_use_labels", {
             editor: context.accountId,
             labels: [props.text],
           })
@@ -539,7 +536,7 @@ const callDescriptionDiv = () => {
         Description
       </label>
       <Widget
-        src={"megha19.near/widget/devhub.components.molecule.MarkdownEditor"}
+        src={"${REPL_DEVHUB}/widget/devhub.components.molecule.MarkdownEditor"}
         props={{
           data: { handler: state.handler, content: state.description },
           onChange: (content) => {
@@ -551,7 +548,7 @@ const callDescriptionDiv = () => {
       {autocompleteEnabled && state.showAccountAutocomplete && (
         <AutoComplete>
           <Widget
-            src="megha19.near/widget/devhub.components.molecule.AccountAutocomplete"
+            src="${REPL_DEVHUB}/widget/devhub.components.molecule.AccountAutocomplete"
             props={{
               term: state.mentionInput,
               onSelect: autoCompleteAccountId,
@@ -692,202 +689,208 @@ const renamedPostType =
 // Below there is a weird code with fields.includes("githubLink") ternary operator.
 // This is to hack around rendering bug of near.social.
 
-if (showPostPage) {
-  return (
-    <Widget
-      src={"megha19.near/widget/devhub.entity.post.Post"}
-      props={{
-        id: postId,
-        expandable: true,
-        defaultExpanded: false,
-        isInList: true,
-        isPreview: false,
-        onDraftStateChange: props.onDraftStateChange,
-        referral: postId,
-        transactionHashes: props.transactionHashes,
-      }}
-    />
-  );
-} else
-  return (
-    <div className="card">
-      <div className="card-header">
-        <div>
-          <ul class="nav nav-tabs">
-            <li class="nav-item">
-              <button
-                class={`nav-link ${tab === "editor" ? "active" : ""}`}
-                onClick={() => setTab("editor")}
-              >
-                Editor
-              </button>
-            </li>
-            <li class="nav-item">
-              <button
-                class={`nav-link ${tab === "preview" ? "active" : ""}`}
-                onClick={() => setTab("preview")}
-              >
-                Preview
-              </button>
-            </li>
-          </ul>
-        </div>
-        {!isCreatePostPage && tab === "editor" && (
-          <div className="my-3">
-            {mode} {renamedPostType}
-          </div>
-        )}
-        {tab === "preview" && <div className="my-3">Post Preview</div>}
-      </div>
-      <div class="card-body">
-        {tab === "editor" && (
-          <>
-            {state.warning && (
-              <div
-                class="alert alert-warning alert-dismissible fade show"
-                role="alert"
-              >
-                {state.warning}
-                <button
-                  type="button"
-                  class="btn-close"
-                  data-bs-dismiss="alert"
-                  aria-label="Close"
-                  onClick={() => State.update({ warning: "" })}
-                ></button>
-              </div>
-            )}
-            {isCreatePostPage && (
-              <div>
-                <p class="card-title fw-bold fs-6">
-                  What do you want to create?
-                </p>
-                <div class="d-flex flex-row gap-2">
-                  {Object.values(postTypeOptions).map((option) => (
-                    <button
-                      className={`btn btn-${
-                        state.postType === option.name
-                          ? "primary"
-                          : "outline-secondary"
-                      }`}
-                      data-testid={`btn-${option.name.toLowerCase()}`}
-                      key={option.name}
-                      onClick={() => typeSwitch(option.name)}
-                      style={
-                        state.postType === option.name
-                          ? {
-                              backgroundColor: "#0C7283",
-                              color: "#f3f3f3",
-                            }
-                          : null
-                      }
-                      type="button"
-                    >
-                      <i className={`bi ${option.icon}`} />
-                      <span>{option.name}</span>
-                    </button>
-                  ))}
-                </div>
-                <p class="text-muted w-75 my-1">
-                  {postTypeOptions[state.postType].description}
-                </p>
-              </div>
-            )}
-            {/* This statement around the githubLinkDiv creates a weird render bug
-      where the title renders extra on state change. */}
-            {state.displayFields.includes("githubLink") ? (
-              <div className="row">
-                {state.displayFields.includes("githubLink") && githubLinkDiv}
-                {labelEditor}
-                {state.displayFields.includes("name") && nameDiv}
-                {state.displayFields.includes("description") &&
-                  callDescriptionDiv()}
-              </div>
-            ) : (
-              <div className="row">
-                {labelEditor}
-                {state.displayFields.includes("name") && nameDiv}
-                {state.displayFields.includes("amount") && amountDiv}
-                {state.displayFields.includes("sponsorship_token") && tokenDiv}
-                {state.displayFields.includes("supervisor") && supervisorDiv}
-                {state.displayFields.includes("description") &&
-                  callDescriptionDiv()}
-                {state.displayFields.includes("fund_raising") &&
-                  isFundraisingDiv}
-                {state.seekingFunding &&
-                  state.displayFields.includes("fund_raising") &&
-                  fundraisingDiv}
-              </div>
-            )}
-
-            {disclaimer}
-          </>
-        )}
-        {tab === "preview" && (
-          <div className="mb-2">
-            <Widget
-              src="megha19.near/widget/devhub.entity.post.Post"
-              props={{
-                isPreview: true,
-                id: 0, // irrelevant
-                post: {
-                  author_id: state.author_id,
-                  likes: [],
-                  snapshot: {
-                    editor_id: state.editor_id,
-                    labels: state.labelStrings,
-                    post_type: postType,
-                    name: state.name,
-                    description:
-                      state.postType == "Solution"
-                        ? generateDescription(
-                            state.description,
-                            state.amount,
-                            state.token,
-                            state.supervisor,
-                            state.seekingFunding
-                          )
-                        : state.description,
-                    amount: state.amount,
-                    sponsorship_token: state.token,
-                    supervisor: state.supervisor,
-                    github_link: state.githubLink,
-                  },
-                },
-              }}
-            />
-          </div>
-        )}
-        <button
-          data-testid="submit-create-post"
-          style={{
-            width: "7rem",
-            backgroundColor: "#0C7283",
-            color: "#f3f3f3",
+return (
+  <div className="d-flex flex-column flex-grow-1 w-100">
+    <div className="mx-2 mx-md-5 mb-5">
+      {showPostPage ? (
+        <Widget
+          src={"${REPL_DEVHUB}/widget/devhub.entity.post.Post"}
+          props={{
+            id: postId,
+            expandable: true,
+            defaultExpanded: false,
+            isInList: true,
+            isPreview: false,
+            onDraftStateChange: props.onDraftStateChange,
+            referral: postId,
+            transactionHashes: props.transactionHashes,
           }}
-          disabled={
-            (state.seekingFunding && (!state.amount || state.amount < 1)) ||
-            (isCreatePostPage &&
-              (state.name === "" || state.description === ""))
-          }
-          className="btn btn-light mb-2 p-3"
-          onClick={onSubmit}
-        >
-          Submit
-        </button>
-        {!isCreatePostPage && (
-          <button
-            style={{
-              width: "7rem",
-              backgroundColor: "#fff",
-              color: "#000",
-            }}
-            className="btn btn-light mb-2 p-3"
-            onClick={() => props.setEditorState(false)}
-          >
-            Cancel
-          </button>
-        )}
-      </div>
+        />
+      ) : (
+        <div className="card">
+          <div className="card-header">
+            <div>
+              <ul class="nav nav-tabs">
+                <li class="nav-item">
+                  <button
+                    class={`nav-link ${tab === "editor" ? "active" : ""}`}
+                    onClick={() => setTab("editor")}
+                  >
+                    Editor
+                  </button>
+                </li>
+                <li class="nav-item">
+                  <button
+                    class={`nav-link ${tab === "preview" ? "active" : ""}`}
+                    onClick={() => setTab("preview")}
+                  >
+                    Preview
+                  </button>
+                </li>
+              </ul>
+            </div>
+            {!isCreatePostPage && tab === "editor" && (
+              <div className="my-3">
+                {mode} {renamedPostType}
+              </div>
+            )}
+            {tab === "preview" && <div className="my-3">Post Preview</div>}
+          </div>
+          <div class="card-body">
+            {tab === "editor" && (
+              <>
+                {state.warning && (
+                  <div
+                    class="alert alert-warning alert-dismissible fade show"
+                    role="alert"
+                  >
+                    {state.warning}
+                    <button
+                      type="button"
+                      class="btn-close"
+                      data-bs-dismiss="alert"
+                      aria-label="Close"
+                      onClick={() => State.update({ warning: "" })}
+                    ></button>
+                  </div>
+                )}
+                {isCreatePostPage && (
+                  <div>
+                    <p class="card-title fw-bold fs-6">
+                      What do you want to create?
+                    </p>
+                    <div class="d-flex flex-row gap-2">
+                      {Object.values(postTypeOptions).map((option) => (
+                        <button
+                          className={`btn btn-${
+                            state.postType === option.name
+                              ? "primary"
+                              : "outline-secondary"
+                          }`}
+                          data-testid={`btn-${option.name.toLowerCase()}`}
+                          key={option.name}
+                          onClick={() => typeSwitch(option.name)}
+                          style={
+                            state.postType === option.name
+                              ? {
+                                  backgroundColor: "#0C7283",
+                                  color: "#f3f3f3",
+                                }
+                              : null
+                          }
+                          type="button"
+                        >
+                          <i className={`bi ${option.icon}`} />
+                          <span>{option.name}</span>
+                        </button>
+                      ))}
+                    </div>
+                    <p class="text-muted w-75 my-1">
+                      {postTypeOptions[state.postType].description}
+                    </p>
+                  </div>
+                )}
+                {/* This statement around the githubLinkDiv creates a weird render bug
+      where the title renders extra on state change. */}
+                {state.displayFields.includes("githubLink") ? (
+                  <div className="row">
+                    {state.displayFields.includes("githubLink") &&
+                      githubLinkDiv}
+                    {labelEditor}
+                    {state.displayFields.includes("name") && nameDiv}
+                    {state.displayFields.includes("description") &&
+                      callDescriptionDiv()}
+                  </div>
+                ) : (
+                  <div className="row">
+                    {labelEditor}
+                    {state.displayFields.includes("name") && nameDiv}
+                    {state.displayFields.includes("amount") && amountDiv}
+                    {state.displayFields.includes("sponsorship_token") &&
+                      tokenDiv}
+                    {state.displayFields.includes("supervisor") &&
+                      supervisorDiv}
+                    {state.displayFields.includes("description") &&
+                      callDescriptionDiv()}
+                    {state.displayFields.includes("fund_raising") &&
+                      isFundraisingDiv}
+                    {state.seekingFunding &&
+                      state.displayFields.includes("fund_raising") &&
+                      fundraisingDiv}
+                  </div>
+                )}
+
+                {disclaimer}
+              </>
+            )}
+            {tab === "preview" && (
+              <div className="mb-2">
+                <Widget
+                  src="${REPL_DEVHUB}/widget/devhub.entity.post.Post"
+                  props={{
+                    isPreview: true,
+                    id: 0, // irrelevant
+                    post: {
+                      author_id: state.author_id,
+                      likes: [],
+                      snapshot: {
+                        editor_id: state.editor_id,
+                        labels: state.labelStrings,
+                        post_type: postType,
+                        name: state.name,
+                        description:
+                          state.postType == "Solution"
+                            ? generateDescription(
+                                state.description,
+                                state.amount,
+                                state.token,
+                                state.supervisor,
+                                state.seekingFunding
+                              )
+                            : state.description,
+                        amount: state.amount,
+                        sponsorship_token: state.token,
+                        supervisor: state.supervisor,
+                        github_link: state.githubLink,
+                      },
+                    },
+                  }}
+                />
+              </div>
+            )}
+            <button
+              data-testid="submit-create-post"
+              style={{
+                width: "7rem",
+                backgroundColor: "#0C7283",
+                color: "#f3f3f3",
+              }}
+              disabled={
+                (state.seekingFunding && (!state.amount || state.amount < 1)) ||
+                (isCreatePostPage &&
+                  (state.name === "" || state.description === ""))
+              }
+              className="btn btn-light mb-2 p-3"
+              onClick={onSubmit}
+            >
+              Submit
+            </button>
+            {!isCreatePostPage && (
+              <button
+                style={{
+                  width: "7rem",
+                  backgroundColor: "#fff",
+                  color: "#000",
+                }}
+                className="btn btn-light mb-2 p-3"
+                onClick={() => props.setEditorState(false)}
+              >
+                Cancel
+              </button>
+            )}
+          </div>
+        </div>
+      )}
     </div>
-  );
+  </div>
+);
