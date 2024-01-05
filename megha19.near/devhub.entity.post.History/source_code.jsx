@@ -6,9 +6,10 @@ props.newTab: boolean;
 props.timestamp: number;
 props.referral: any;
 */
-const { href } = VM.require("devhub.near/widget/core.lib.url") || (() => {});
+const { href } = VM.require("megha19.near/widget/core.lib.url") || (() => {});
 const { getPost } =
-  VM.require("devhub.near/widget/core.adapter.devhub-contract") || (() => {});
+  VM.require("megha19.near/widget/core.adapter.devhub-contract") ||
+  (() => {});
 
 const postId = props.post.id ?? (props.id ? parseInt(props.id) : 0);
 const post = getPost({ post_id: postId });
@@ -77,7 +78,7 @@ const history = (
               <a
                 class="dropdown-item"
                 href={href({
-                  widgetSrc: "devhub.near/widget/devhub.entity.post.Post",
+                  widgetSrc: "megha19.near/widget/devhub.entity.post.Post",
                   params: {
                     id: postId,
                     timestamp: item.timestamp,
@@ -108,7 +109,7 @@ const history = (
             <a
               class="dropdown-item"
               href={href({
-                widgetSrc: "devhub.near/widget/devhub.entity.post.Post",
+                widgetSrc: "megha19.near/widget/devhub.entity.post.Post",
                 params: {
                   id: postId,
                   timestamp: currentTimestamp,
