@@ -4,12 +4,10 @@ const cssFont = fetch(
 
 if (!cssFont) return "";
 
-console.log(cssFont);
-
 if (!state.theme) {
   State.update({
     theme: styled.div`
-      font-family: ${cssFont} !important;
+      font-family: Oxanium !important;
     `,
   });
 }
