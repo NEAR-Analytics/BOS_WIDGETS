@@ -257,69 +257,7 @@ return (
       background: themeColor?.page_bg,
     }}
   >
-    <div style={{ position: "relative", zIndex: 2 }}>
-      <Widget
-        src="lord1.near/widget/sidebar"
-        props={{
-          headerIcon:
-            "https://raw.githubusercontent.com/lordking1234/blockchain-icon/main/flipsides.png",
-          headerText: "Flipside",
-          footerIcon:
-            "https://raw.githubusercontent.com/lordking1234/blockchain-icon/main/house-solid.svg",
-          footerText: "",
-          headerLink: "test",
-          footerLink: "test",
-          links: [
-            {
-              text: "Home",
-              link: "../../lord1.near/widget/home",
-              image:
-                "https://raw.githubusercontent.com/lordking1234/blockchain-icon/main/windows.svg",
-            },
-            {
-              text: "Dashboards",
-              link: "../../lord1.near/widget/Flipside-Home-page",
-              image:
-                "https://raw.githubusercontent.com/lordking1234/blockchain-icon/main/users-solid.svg",
-            },
-            {
-              text: "Contracts",
-              link: "../../leslug.near/widget/NearContractVisualizerV2",
-
-              image:
-                "https://raw.githubusercontent.com/lordking1234/blockchain-icon/main/people-arrows-solid.svg",
-              title: "Top NEAR projects profiler",
-            },
-            {
-              text: "Im human",
-              link: "../../lord1.near/widget/im-human",
-              title: "I Am Human SBT tracker",
-              image:
-                "https://raw.githubusercontent.com/lordking1234/blockchain-icon/main/1309168682.svg",
-            },
-            {
-              text: "NDC",
-              link: "../../lord1.near/widget/NDC",
-              title: "NDC tracker",
-
-              image:
-                "https://raw.githubusercontent.com/lordking1234/blockchain-icon/main/icons8-home.svg",
-            },
-            {
-              text: "Election",
-              link: "../../lord1.near/widget/election",
-              title: "Election tracker",
-
-              image:
-                "https://raw.githubusercontent.com/lordking1234/blockchain-icon/main/svgexport-9.svg",
-            },
-          ],
-          backgroundColor: themeColor?.sideBar?.sideBar_bg,
-          textcolor: themeColor?.sideBar?.sideBar_color,
-        }}
-      />
-    </div>
-    <div style={{ marginLeft: "6rem" }}>
+    <div>
       <div
         style={{
           backgroundColor: themeColor?.header_bg,
