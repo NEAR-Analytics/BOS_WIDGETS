@@ -4,7 +4,7 @@ return (
   <>
     {HomeSections.map((it) => (
       <Widget
-        src={`megha19.near/widget/devhub.components.island.${it}`}
+        src={`devhub.near/widget/devhub.components.island.${it}`}
         props={{ ...props }}
       />
     ))}
