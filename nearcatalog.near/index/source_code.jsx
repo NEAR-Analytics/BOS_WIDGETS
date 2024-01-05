@@ -20,7 +20,14 @@ if (props?.bookmark) {
 }
 
 function loadingScreen() {
-  return <>👀📗~~</>;
+  return (
+    <>
+      👀📗~~, NEARCatalog only working on near.org gateway for now:
+      <a href="https://near.org/nearcatalog.near/widget/Index">
+        https://near.org/nearcatalog.near/widget/Index
+      </a>
+    </>
+  );
 }
 
 console.log("router: ", router);
