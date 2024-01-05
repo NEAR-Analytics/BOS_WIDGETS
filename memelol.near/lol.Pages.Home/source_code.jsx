@@ -1,7 +1,7 @@
-const {assets, content, contractName} = props;
-const {format, Token} = VM.require(`memelol.near/widget/lol.Utils`);
-const {Snow} = VM.require(`memelol.near/widget/lol.Components.Snow`);
-const {Button} = VM.require(`memelol.near/widget/lol.Components.Button`);
+const { assets, content, contractName } = props;
+const { format, Token } = VM.require(`memelol.near/widget/lol.Utils`);
+const { Snow } = VM.require(`memelol.near/widget/lol.Components.Snow`);
+const { Button } = VM.require(`memelol.near/widget/lol.Components.Button`);
 
 const Container = styled.div`
   width: 100%;
@@ -199,7 +199,7 @@ const [stats, setStats] = useState({
   startDate: 1704531600000,
 });
 
-const Stats = ({text, value, near}) => (
+const Stats = ({ text, value, near }) => (
   <div className="stat d-flex gap-1 align-items-center">
     <div>
       <h4>{text}</h4>
@@ -234,7 +234,7 @@ const receivedLol = (stats) =>
       .minus(new Big(stats[1] || 0))
       .minus(new Big(stats[2] || 0))
       .toNumber(),
-    24
+    24,
   );
 
 const fetchStats = () => {
@@ -248,8 +248,8 @@ const fetchStats = () => {
     receivedLoL: receivedLol(stats[4]),
     startDate: stats[6]
       ? Big(stats[6])
-        .div(1000 * 1000)
-        .toNumber()
+          .div(1000 * 1000)
+          .toNumber()
       : 0,
   });
 };
@@ -266,7 +266,7 @@ return (
         <h3 className="font pb-2">Minting starts in</h3>
         <Widget
           src="memelol.near/widget/lol.Components.Countdown"
-          props={{startDate: stats.startDate}}
+          props={{ startDate: stats.startDate }}
         />
       </Section>
       <Button className="btn">
@@ -286,9 +286,13 @@ return (
             <h1 className="font">NEW YEAR MINT 🎉</h1>
             <div className="mint-rules">
               <h5>1. Mint Boxes.</h5>
-              <h5>2. Receive <b>LOL</b> and/or <b>NEAR</b> rewards.</h5>
+              <h5>
+                2. Receive <b>LOL</b> and/or <b>NEAR</b> rewards.
+              </h5>
               <h5>3. Share your results.</h5>
-              <h5>4. Trade <b>LOL{"<>"}NEAR</b> after quest ends.</h5>
+              <h5>
+                4. Trade <b>LOL{"<>"}NEAR</b> after quest ends.
+              </h5>
             </div>
             <Widget
               src="memelol.near/widget/lol.Components.MintBox"
@@ -300,7 +304,7 @@ return (
           </div>
           <Widget
             src={`memelol.near/widget/lol.Components.MyStats`}
-            props={{contractName, transactionHashes: props.transactionHashes}}
+            props={{ contractName, transactionHashes: props.transactionHashes }}
           />
         </div>
         <Snow />
@@ -339,7 +343,7 @@ return (
                     </div>
                   </div>
                   <div className="avaliability d-flex p-2 flex-column justify-content-between">
-                    <h5>
+                    <h5 className={"nowrap"}>
                       <small>Available:</small> <b>{format(stats.boxes[i])}</b>
                     </h5>
                   </div>
@@ -366,7 +370,7 @@ return (
         </div>
         <Widget
           src={`memelol.near/widget/lol.Components.Leaderboard`}
-          props={{contractName, assets}}
+          props={{ contractName, assets }}
         />
       </Overlay>
     </Section>
@@ -381,7 +385,7 @@ return (
         {content.FAQ.map((faq, index) => (
           <Widget
             src="memelol.near/widget/lol.Components.FAQ"
-            props={{faq, index}}
+            props={{ faq, index }}
           />
         ))}
       </div>
