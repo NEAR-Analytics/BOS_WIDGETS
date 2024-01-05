@@ -1,4 +1,4 @@
-const { href } = VM.require("devhub.near/widget/core.lib.url");
+const { href } = VM.require("megha19.near/widget/core.lib.url");
 
 href || (href = () => {});
 
@@ -183,7 +183,7 @@ const Content = (
 
     <Link
       to={href({
-        widgetSrc: "devhub.near/widget/app",
+        widgetSrc: "megha19.near/widget/app",
         params: { page: "contribute" },
       })}
       style={{ textDecoration: "none" }}
@@ -195,7 +195,7 @@ const Content = (
 
 return (
   <Widget
-    src="devhub.near/widget/devhub.components.island.home-section"
+    src="megha19.near/widget/devhub.components.island.home-section"
     props={{
       title: "/participate",
       titleColor: "#555555",
