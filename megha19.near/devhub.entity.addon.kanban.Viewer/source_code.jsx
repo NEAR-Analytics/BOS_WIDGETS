@@ -1,5 +1,5 @@
-const Struct = VM.require("megha19.near/widget/core.lib.struct");
-const { href } = VM.require("megha19.near/widget/core.lib.url");
+const Struct = VM.require("devhub.near/widget/core.lib.struct");
+const { href } = VM.require("devhub.near/widget/core.lib.url");
 
 if (!Struct) {
   return <p>Loading modules...</p>;
@@ -24,7 +24,7 @@ if (!data || !data?.metadata) {
 
 return (
   <Widget
-    src={`megha19.near/widget/devhub.entity.addon.${data.metadata.type}`}
+    src={`devhub.near/widget/devhub.entity.addon.${data.metadata.type}`}
     props={{
       ...data,
       isSynced: true,
