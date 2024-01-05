@@ -1,10 +1,10 @@
 const { handle } = props;
 
 const { getCommunity } = VM.require(
-  "megha19.near/widget/core.adapter.devhub-contract"
+  "devhub.near/widget/core.adapter.devhub-contract"
 );
 
-const { href } = VM.require("megha19.near/widget/core.lib.url");
+const { href } = VM.require("devhub.near/widget/core.lib.url");
 
 if (!getCommunity || !href) {
   return <p>Loading modules...</p>;
@@ -41,19 +41,19 @@ return (
       <div class="d-flex w-100">
         <MainContent>
           <Widget
-            src={"megha19.near/widget/devhub.feature.post-search.panel"}
+            src={"devhub.near/widget/devhub.feature.post-search.panel"}
             props={{
               hideHeader: true,
               tag: communityData.tag,
               children: (
                 <Widget
                   src={
-                    "megha19.near/widget/devhub.components.molecule.PostControls"
+                    "devhub.near/widget/devhub.components.molecule.PostControls"
                   }
                   props={{
                     title: "Post",
                     href: href({
-                      widgetSrc: "megha19.near/widget/app",
+                      widgetSrc: "devhub.near/widget/app",
                       params: {
                         page: "create",
                         labels: [communityData.tag],
@@ -69,7 +69,7 @@ return (
         </MainContent>
         <SidebarContainer>
           <Widget
-            src={"megha19.near/widget/devhub.entity.community.Sidebar"}
+            src={"devhub.near/widget/devhub.entity.community.Sidebar"}
             props={{ community: communityData }}
           />
         </SidebarContainer>
