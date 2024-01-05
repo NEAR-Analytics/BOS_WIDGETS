@@ -1,7 +1,7 @@
 const { handle } = props;
 
 const { Tile } =
-  VM.require("devhub.near/widget/devhub.components.molecule.Tile") ||
+  VM.require("megha19.near/widget/devhub.components.molecule.Tile") ||
   (() => <></>);
 
 if (!Tile) {
@@ -9,7 +9,7 @@ if (!Tile) {
 }
 
 const { getCommunity } = VM.require(
-  "devhub.near/widget/core.adapter.devhub-contract"
+  "megha19.near/widget/core.adapter.devhub-contract"
 );
 
 const communityData = getCommunity({ handle });
@@ -33,7 +33,7 @@ const UserList = ({ name, users }) => (
             style={{ fontWeight: 500 }}
           >
             <Widget
-              src="devhub.near/widget/devhub.components.molecule.ProfileLine"
+              src="megha19.near/widget/devhub.components.molecule.ProfileLine"
               props={{ accountId: user, hideAccountId: true, tooltip: true }}
             />
           </span>
