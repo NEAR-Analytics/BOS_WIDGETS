@@ -1,9 +1,9 @@
 // Ideally, this would be a page
 
-const { href } = VM.require("${REPL_DEVHUB}/widget/core.lib.url");
+const { href } = VM.require("megha19.near/widget/core.lib.url");
 
 const { draftState, onDraftStateChange } = VM.require(
-  "${REPL_DEVHUB}/widget/devhub.entity.post.draft"
+  "megha19.near/widget/devhub.entity.post.draft"
 );
 
 if (!href) {
@@ -30,7 +30,7 @@ const postId = props.post.id ?? (props.id ? parseInt(props.id) : 0);
 
 const post =
   props.post ??
-  Near.view("${REPL_DEVHUB_CONTRACT}", "get_post", { post_id: postId });
+  Near.view("devgovgigs.near", "get_post", { post_id: postId });
 
 if (!post) {
   return <div>Loading ...</div>;
@@ -60,12 +60,12 @@ const compareSnapshot =
 // If this post is displayed under another post. Used to limit the size.
 const isUnderPost = props.isUnderPost ? true : false;
 
-const parentId = Near.view("${REPL_DEVHUB_CONTRACT}", "get_parent_id", {
+const parentId = Near.view("devgovgigs.near", "get_parent_id", {
   post_id: postId,
 });
 
 const childPostIdsUnordered =
-  Near.view("${REPL_DEVHUB_CONTRACT}", "get_children_ids", {
+  Near.view("devgovgigs.near", "get_children_ids", {
     post_id: postId,
   }) ?? [];
 
@@ -88,7 +88,7 @@ const postSearchKeywords = props.searchKeywords ? (
 
     {props.searchKeywords.map((tag) => (
       <Widget
-        src={"${REPL_DEVHUB}/widget/devhub.components.atom.Tag"}
+        src={"megha19.near/widget/devhub.components.atom.Tag"}
         props={{ linkTo: "Feed", tag }}
       />
     ))}
@@ -107,7 +107,7 @@ const searchKeywords = props.searchKeywords ? (
 
 const allowedToEdit =
   !props.isPreview &&
-  Near.view("${REPL_DEVHUB_CONTRACT}", "is_allowed_to_edit", {
+  Near.view("devgovgigs.near", "is_allowed_to_edit", {
     post_id: postId,
     editor: context.accountId,
   });
@@ -159,7 +159,7 @@ const shareButton = props.isPreview ? (
   <Link
     class="card-link text-dark"
     to={href({
-      widgetSrc: "${REPL_DEVHUB}/widget/app",
+      widgetSrc: "megha19.near/widget/app",
       params: { page: "post", id: postId },
     })}
     role="button"
@@ -185,7 +185,7 @@ const header = (
           <ProfileCardContainer>
             <Widget
               src={
-                "${REPL_DEVHUB}/widget/devhub.components.molecule.ProfileCard"
+                "megha19.near/widget/devhub.components.molecule.ProfileCard"
               }
               props={{
                 accountId: post.author_id,
@@ -198,7 +198,7 @@ const header = (
             {timestamp}
 
             <Widget
-              src={"${REPL_DEVHUB}/widget/devhub.entity.post.History"}
+              src={"megha19.near/widget/devhub.entity.post.History"}
               props={{
                 post,
                 timestamp: currentTimestamp,
@@ -263,7 +263,7 @@ const likeBtnClass = containsLike ? fillIcons.Like : emptyIcons.Like;
 // This must be outside onLike, because Near.view returns null at first, and when the view call finished, it returns true/false.
 // If checking this inside onLike, it will give `null` and we cannot tell the result is true or false.
 let grantNotify = Near.view("social.near", "is_write_permission_granted", {
-  predecessor_id: "${REPL_DEVHUB_CONTRACT}",
+  predecessor_id: "devgovgigs.near",
   key: context.accountId + "/index/notify",
 });
 
@@ -278,7 +278,7 @@ const onLike = () => {
 
   let likeTxn = [
     {
-      contractName: "${REPL_DEVHUB_CONTRACT}",
+      contractName: "devgovgigs.near",
       methodName: "add_like",
       args: {
         post_id: postId,
@@ -292,7 +292,7 @@ const onLike = () => {
       contractName: "social.near",
       methodName: "grant_write_permission",
       args: {
-        predecessor_id: "${REPL_DEVHUB_CONTRACT}",
+        predecessor_id: "devgovgigs.near",
         keys: [context.accountId + "/index/notify"],
       },
       gas: Big(10).pow(14),
@@ -350,7 +350,7 @@ const buttonsFooter = props.isPreview ? null : (
             "Like"
           ) : (
             <Widget
-              src="${REPL_DEVHUB}/widget/devhub.components.layout.LikeButton.Faces"
+              src="megha19.near/widget/devhub.components.layout.LikeButton.Faces"
               props={{
                 likesByUsers: Object.fromEntries(
                   post.likes.map(({ author_id }) => [author_id, ""])
@@ -433,7 +433,7 @@ const buttonsFooter = props.isPreview ? null : (
         ) : (
           <Link
             to={href({
-              widgetSrc: "${REPL_DEVHUB}/widget/app",
+              widgetSrc: "megha19.near/widget/app",
               params: { page: "post", id: parentId },
             })}
           >
@@ -537,7 +537,7 @@ function Editor() {
         {state.editorType === "CREATE" ? (
           <>
             <Widget
-              src={"${REPL_DEVHUB}/widget/devhub.entity.post.PostEditor"}
+              src={"megha19.near/widget/devhub.entity.post.PostEditor"}
               props={{
                 postType: state.postType,
                 onDraftStateChange,
@@ -554,7 +554,7 @@ function Editor() {
         ) : (
           <>
             <Widget
-              src={"${REPL_DEVHUB}/widget/devhub.entity.post.PostEditor"}
+              src={"megha19.near/widget/devhub.entity.post.PostEditor"}
               props={{
                 postType: state.postType,
                 postId,
@@ -597,7 +597,7 @@ const tags = post.snapshot.labels ? (
       <div className="d-flex align-items-center my-3 me-3">
         <Link
           to={href({
-            widgetSrc: "${REPL_DEVHUB}/widget/app",
+            widgetSrc: "megha19.near/widget/app",
             params: { page: "feed", tag: tag },
           })}
         >
@@ -611,7 +611,7 @@ const tags = post.snapshot.labels ? (
             style={{ cursor: "pointer", textDecoration: "none" }}
           >
             <Widget
-              src={"${REPL_DEVHUB}/widget/devhub.components.atom.Tag"}
+              src={"megha19.near/widget/devhub.components.atom.Tag"}
               props={{
                 tag,
                 black: true,
@@ -658,7 +658,7 @@ const postExtra =
       <h6 class="card-subtitle mb-2 text-muted">
         Supervisor:{" "}
         <Widget
-          src={"${REPL_DEVHUB}/widget/devhub.components.molecule.ProfileLine"}
+          src={"megha19.near/widget/devhub.components.molecule.ProfileLine"}
           props={{ accountId: snapshot.supervisor }}
         />
       </h6>
@@ -697,7 +697,7 @@ const postsList =
         {childPostIds.map((childId) => (
           <div key={childId} style={{ marginBottom: "0.5rem" }}>
             <Widget
-              src="${REPL_DEVHUB}/widget/devhub.entity.post.Post"
+              src="megha19.near/widget/devhub.entity.post.Post"
               props={{
                 id: childId,
                 isUnderPost: true,
@@ -745,7 +745,7 @@ const descriptionArea = isUnderPost ? (
       text: snapshot.description,
     })} */}
     <Widget
-      src={"${REPL_DEVHUB}/widget/devhub.components.molecule.MarkdownViewer"}
+      src={"megha19.near/widget/devhub.components.molecule.MarkdownViewer"}
       props={{
         text: snapshot.description,
       }}
@@ -758,7 +758,7 @@ const descriptionArea = isUnderPost ? (
         text: state.clamp ? clampedContent : snapshot.description,
       })} */}
       <Widget
-        src={"${REPL_DEVHUB}/widget/devhub.components.molecule.MarkdownViewer"}
+        src={"megha19.near/widget/devhub.components.molecule.MarkdownViewer"}
         props={{
           text: state.clamp ? clampedContent : snapshot.description,
         }}
@@ -781,7 +781,7 @@ const timestampElement = (_snapshot) => {
     <Link
       class="text-muted"
       href={href({
-        widgetSrc: "${REPL_DEVHUB}/widget/app",
+        widgetSrc: "megha19.near/widget/app",
         params: {
           page: "post",
           id: postId,
@@ -794,7 +794,7 @@ const timestampElement = (_snapshot) => {
       {readableDate(_snapshot.timestamp / 1000000).substring(4)}
 
       <Widget
-        src="${REPL_MOB}/widget/ProfileImage"
+        src="mob.near/widget/ProfileImage"
         props={{
           accountId: _snapshot.editor_id,
           style: {
