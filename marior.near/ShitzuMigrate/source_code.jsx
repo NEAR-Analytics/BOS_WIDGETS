@@ -33,7 +33,6 @@ if (!shitzuRes.ok) {
   return "Loading";
 }
 const shitzuAbi = shitzuRes.body.abi;
-const shitzuInterface = new ethers.utils.Interface(shitzuAbi);
 
 const setAllowance = (amount) => {
   if (!state.receiverId || amount === undefined || amount === 0) {
@@ -142,33 +141,19 @@ const getSender = () => {
         state.sender.substring(state.sender.length - 4, state.sender.length);
 };
 
-const getBalance = (receiver) => {
-  const encodedData = shitzuInterface.encodeFunctionData("balanceOf", [
-    receiver,
-  ]);
-
-  return Ethers.provider()
-    .call({
-      to: shitzuContractAddress,
-      data: encodedData,
-    })
-    .then((rawBalance) => {
-      const receiverBalanceHex = shitzuInterface.decodeFunctionResult(
-        "balanceOf",
-        rawBalance
-      );
-
-      return Big(receiverBalanceHex.toString())
-        .div(Big(10).pow(tokenDecimals))
-        .toFixed(2)
-        .replace(/\d(?=(\d{3})+\.)/g, "$&,");
-    });
+const updateShitzuBalance = (receiver) => {
+  const shitzuContract = new ethers.Contract(
+    shitzuContractAddress,
+    shitzuAbi,
+    Ethers.provider().getSigner()
+  );
+  shitzuContract.balanceOf(receiver).then((shitzuBalance) => {
+    State.update({ shitzuBalance });
+  });
 };
 
 if (state.shitzuBalance === undefined && state.sender) {
-  getBalance(state.sender).then((shitzuBalance) => {
-    State.update({ shitzuBalance });
-  });
+  updateShitzuBalance(state.sender);
 }
 
 let notEnoughAllowance;
@@ -183,6 +168,13 @@ if (
 }
 const disabled =
   state.loading || state.amount === undefined || state.receiverId === undefined;
+let shitzuBalance;
+if (!!state.shitzuBalance) {
+  shitzuBalance = Big(state.shitzuBalance.toString())
+    .div(Big(10).pow(tokenDecimals))
+    .toFixed(2)
+    .replace(/\d(?=(\d{3})+\.)/g, "$&,");
+}
 
 const Wrapper = styled.div`
     display: flex;
@@ -232,15 +224,23 @@ return (
       />
       <button
         onClick={() => {
-          State.update({ amount: state.shitzuBalance.replace(/[^0-9.]/g, "") });
+          const shitzuBalance = state.shitzuBalance
+            .toString()
+            .replace(/[^0-9.]/g, "");
+          const amount = Big(shitzuBalance.toString())
+            .div(Big(10).pow(tokenDecimals))
+            .toString();
+          State.update({
+            amount,
+          });
         }}
       >
         MAX
       </button>
     </label>
 
-    {state.sender && typeof state.shitzuBalance === "string" && (
-      <div>SHITZUv1 balance: {state.shitzuBalance}</div>
+    {state.sender && typeof shitzuBalance === "string" && (
+      <div>SHITZUv1 balance: {shitzuBalance}</div>
     )}
 
     {!!state.sender ? (
