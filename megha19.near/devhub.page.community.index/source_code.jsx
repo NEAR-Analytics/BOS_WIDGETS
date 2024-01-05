@@ -1,8 +1,5 @@
-const Struct = VM.require("megha19.near/widget/core.lib.struct");
-
-if (!Struct) {
-  return "Loading...";
-}
+const { normalize } =
+  VM.require("${REPL_DEVHUB}/widget/core.lib.stringUtils") || (() => {});
 
 const Button = styled.button`
   height: 40px;
@@ -42,38 +39,31 @@ const NavUnderline = styled.ul`
 
 const { tab, permissions, community, view } = props;
 
-const { href } = VM.require("megha19.near/widget/core.lib.url");
+const { href } = VM.require("${REPL_DEVHUB}/widget/core.lib.url");
 
 if (!href) {
   return <></>;
 }
 
 if (!tab) {
-  tab = "Announcements";
+  tab = "Activity";
 }
 
-tab = Struct.normalizeLabel(tab);
+tab = normalize(tab);
 
 const [isLinkCopied, setLinkCopied] = useState(false);
 
 const tabs = [
   {
-    title: "Announcements",
-    view: "megha19.near/widget/devhub.entity.community.Announcements",
-    params: {
-      handle: community.handle,
-    },
-  },
-  {
     title: "Activity",
-    view: "megha19.near/widget/devhub.entity.community.Activity",
+    view: "${REPL_DEVHUB}/widget/devhub.entity.community.Activity",
     params: {
       handle: community.handle,
     },
   },
   {
     title: "Teams",
-    view: "megha19.near/widget/devhub.entity.community.Teams",
+    view: "${REPL_DEVHUB}/widget/devhub.entity.community.Teams",
     params: {
       handle: community.handle,
     },
@@ -84,7 +74,7 @@ const tabs = [
   addon.enabled &&
     tabs.push({
       title: addon.display_name,
-      view: "megha19.near/widget/devhub.page.addon",
+      view: "${REPL_DEVHUB}/widget/devhub.page.addon",
       params: { addon },
     });
 });
@@ -94,13 +84,13 @@ const onShareClick = () =>
     .writeText(
       href({
         gateway: "near.social",
-        widgetSrc: "megha19.near/widget/app",
+        widgetSrc: "${REPL_DEVHUB}/widget/app",
         params: { page: "community", handle: community.handle },
       })
     )
     .then(setLinkCopied(true));
 
-let currentTab = tabs.find((it) => Struct.normalizeLabel(it.title) === tab);
+let currentTab = tabs.find((it) => normalize(it.title) === tab);
 
 const CommunityName = styled.span`
   color: #151515;
@@ -238,10 +228,10 @@ return (
       <div className="d-flex align-items-end gap-3 ms-auto mb-md-5 me-4">
         {permissions.can_configure && (
           <Link
-            to={`/megha19.near/widget/app?page=community.configuration&handle=${community.handle}`}
+            to={`/${REPL_DEVHUB}/widget/app?page=community.configuration&handle=${community.handle}`}
           >
             <Widget
-              src={"megha19.near/widget/devhub.components.molecule.Button"}
+              src={"${REPL_DEVHUB}/widget/devhub.components.molecule.Button"}
               props={{
                 classNames: { root: "btn-outline-light text-dark shadow-none" },
                 notRounded: true,
@@ -265,7 +255,7 @@ return (
           </Link>
         )}
         <Widget
-          src={"megha19.near/widget/devhub.components.molecule.Button"}
+          src={"${REPL_DEVHUB}/widget/devhub.components.molecule.Button"}
           props={{
             classNames: { root: "btn-outline-light text-dark shadow-none" },
             notRounded: true,
@@ -295,17 +285,17 @@ return (
               <li className="nav-item" key={title}>
                 <Link
                   to={href({
-                    widgetSrc: "megha19.near/widget/app",
+                    widgetSrc: "${REPL_DEVHUB}/widget/app",
                     params: {
                       page: "community",
                       handle: community.handle,
-                      tab: title,
+                      tab: normalize(title),
                     },
                   })}
-                  aria-current={tab === title && "page"}
+                  aria-current={tab === normalize(title) && "page"}
                   className={[
                     "d-inline-flex gap-2",
-                    tab === title ? "nav-link active" : "nav-link",
+                    tab === normalize(title) ? "nav-link active" : "nav-link",
                   ].join(" ")}
                 >
                   <span>{title}</span>
@@ -324,12 +314,12 @@ return (
               <span>Required tags:</span>
               <Link
                 to={href({
-                  widgetSrc: "megha19.near/widget/app",
+                  widgetSrc: "${REPL_DEVHUB}/widget/app",
                   params: { page: "feed", tag: community.tag },
                 })}
               >
                 <Widget
-                  src={"megha19.near/widget/devhub.components.atom.Tag"}
+                  src={"${REPL_DEVHUB}/widget/devhub.components.atom.Tag"}
                   props={{
                     tag: community.tag,
                   }}
@@ -340,12 +330,12 @@ return (
           {context.accountId && (
             <Widget
               src={
-                "megha19.near/widget/devhub.components.molecule.PostControls"
+                "${REPL_DEVHUB}/widget/devhub.components.molecule.PostControls"
               }
               props={{
                 title: "Post",
                 href: href({
-                  widgetSrc: "megha19.near/widget/app",
+                  widgetSrc: "${REPL_DEVHUB}/widget/app",
                   params: {
                     page: "create",
                     labels: [community.tag],
