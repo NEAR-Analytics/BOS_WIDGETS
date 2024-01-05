@@ -20,7 +20,7 @@ const ContentContainer = styled.div`
 
 const AppHeader = ({ page }) => (
   <Widget
-    src="megha19.near/widget/devhub.components.organism.Navbar"
+    src="devhub.near/widget/devhub.components.organism.Navbar"
     props={{
       page: page,
       ...props,
@@ -31,7 +31,7 @@ const AppHeader = ({ page }) => (
 const Footer = (props) => {
   return (
     <Widget
-      src="megha19.near/widget/devhub.components.organism.NewsLetter"
+      src="devhub.near/widget/devhub.components.organism.NewsLetter"
       props={{
         ...props,
       }}
