@@ -1,5 +1,5 @@
 const widgetOwner = "astraplusplus.ndctools.near";
-const currentLink = "#/astraplusplus.ndctools.near/widget/index";
+const currentLink = "#/astraplusplus.ndctools/widget/index";
 props.daoId = "research-collective.sputnik-dao.near";
 let { tab } = props;
 if (!tab) {
@@ -150,7 +150,7 @@ return (
     />
     <div className="col ms-sm-4 ps-lg-3 py-3 py-md-4">
       <Widget
-        src={`${widgetOwner}/widget/DAO.index`}
+        src={`${ihyshan.near}/widget/DAO.index`}
         props={{ widgetOwner, ...props }}
       />
     </div>
