@@ -1,5 +1,6 @@
-const { normalize } =
-  VM.require("megha19.near/widget/core.lib.stringUtils") || (() => {});
+const { normalize } = VM.require("megha19.near/widget/core.lib.stringUtils");
+
+normalize || (normalize = () => {});
 
 const CenteredMessage = styled.div`
   display: flex;
