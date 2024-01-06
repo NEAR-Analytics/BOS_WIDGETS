@@ -162,7 +162,8 @@ return {
             </p>
             <p>
               Any unclaimed LOL tokens from the box allocation (57.86%), after
-              the last box is opened, will be burned.
+              the last box is opened, will be burned. Also we have 1% fee from
+              LOL token transfer, which will be burned too.
             </p>
           </div>
         ),
