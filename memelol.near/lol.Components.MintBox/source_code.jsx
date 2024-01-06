@@ -12,7 +12,7 @@ const handleMint = () => {
   const data = {
     contractName,
     methodName: "open_box",
-    deposit: OneNear.mul(0.05),
+    deposit: OneNear.mul(0.075),
     gas: TGas.mul(250),
   };
 
