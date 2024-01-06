@@ -18,8 +18,8 @@ const CommunitySummary = () => {
       <small class="text-muted mb-3">
         <Link
           to={href({
-            widgetSrc: "thomasguntenaar.near/widget/dh.feed",
-            params: { tag: community.tag },
+            widgetSrc: "thomasguntenaar.near/widget/app",
+            params: { page: "feed", tag: community.tag },
           })}
         >
           <Widget
@@ -41,7 +41,6 @@ return community === null ? (
       props={{
         fullWidth: true,
         minHeight: 0,
-        noBorder: true,
         children: <CommunitySummary />,
         style: { marginTop: "0.5rem" },
       }}
@@ -63,7 +62,6 @@ return community === null ? (
 
         fullWidth: true,
         minHeight: 0,
-        noBorder: true,
       }}
     />
   </div>
