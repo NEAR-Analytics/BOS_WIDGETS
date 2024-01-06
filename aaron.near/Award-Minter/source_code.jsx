@@ -15,6 +15,7 @@ State.init({
   award_description: "",
   award_citation: "",
   recipient: "",
+  image: null,
   showAlert: false,
   toastMessage: "",
 });
@@ -77,6 +78,10 @@ const handleMint = () => {
               title: state.award_title,
               description: state.award_description,
               media: `https://ipfs.io/ipfs/${state.image.cid}`,
+              issued_at: `${Date.now()}`,
+              expires_at: ,
+              starts_at: ,
+              updated_at: ,
               extra: JSON.stringify({
                 type: "award",
                 citation: `${state.award_citation}`,
