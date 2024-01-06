@@ -1,5 +1,5 @@
 return {
-  contractName: "v0.memelol.near",
+  contractName: "memelol.near",
   assets: {
     banner:
       "https://ipfs.near.social/ipfs/bafkreicbrcwkkgpjpxf2xfs6toohwaj3d3rdbxbvswo2gcqyojtdvzeot4",
