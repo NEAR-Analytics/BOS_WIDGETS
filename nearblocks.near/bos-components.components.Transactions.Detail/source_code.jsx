@@ -3506,14 +3506,22 @@ const FaCaretRight = (props) => {
 
 
 
-const TokenImage = ({ appUrl, src, alt, ...rest }) => {
+const TokenImage = ({ appUrl, src, alt, className, onLoad }) => {
   const placeholder = `${appUrl}images/tokenplaceholder.svg`;
   const onError = (e) => {
     e.target.onError = null;
     e.target.src = placeholder;
   };
 
-  return <img src={src || placeholder} alt={alt} {...rest} onError={onError} />;
+  return (
+    <img
+      src={src || placeholder}
+      alt={alt}
+      className={className}
+      onLoad={onLoad}
+      onError={onError}
+    />
+  );
 };/* END_INCLUDE COMPONENT: "includes/icons/TokenImage.jsx" */
 /* INCLUDE: "includes/libs.jsx" */
 function fiatValue(big, price) {
