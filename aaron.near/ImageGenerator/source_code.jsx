@@ -298,6 +298,7 @@ return (
                 type="button"
                 className="btn btn-primary d-flex flex-column align-items-center mx-auto"
                 onClick={generateImage}
+                style={{ marginTop: "10px" }}
               >
                 Generate Image
               </button>
