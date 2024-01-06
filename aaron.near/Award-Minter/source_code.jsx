@@ -15,12 +15,13 @@ State.init({
   award_description: "",
   award_citation: "",
   recipient: "",
-  image: null,
   showAlert: false,
   toastMessage: "",
 });
 
-!state.image.cid ? props?.setActiveStep(0) : props?.setActiveStep(1);
+props.image ? State.update({image: props.image}) : null
+
+!state.image ? props.setActiveStep(0) : props.setActiveStep(1);
 
 const handleMint = () => {
   if (!state.image.cid) {
