@@ -1,5 +1,5 @@
 return {
-  contractName: "memelol.near",
+  contractName: "v0.memelol.near",
   assets: {
     banner:
       "https://ipfs.near.social/ipfs/bafkreicbrcwkkgpjpxf2xfs6toohwaj3d3rdbxbvswo2gcqyojtdvzeot4",
@@ -59,11 +59,11 @@ return {
             </p>
             <p>
               We start our mission from unique token distribution: users can
-              participate by opening boxes for 0.05 NEAR each, receiving random
+              participate by opening boxes for 0.075 NEAR each, receiving random
               amounts of LOL tokens, and having the chance to win from a pool of
               5551 premium boxes. These premium boxes contain different amounts
               of NEAR tokens, ranging from 0.1 NEAR to a jackpot of 1000 NEAR.
-              This means that for just 0.05 NEAR, you have the chance to
+              This means that for just 0.075 NEAR, you have the chance to
               immediately receive 1000 NEAR!
             </p>
           </div>
