@@ -22,22 +22,24 @@ State.init({
 
 !state.image.cid ? props?.setActiveStep(0) : props?.setActiveStep(1);
 
-const generateImage = async () => {
+const generateImage = () => {
   try {
-    const response = await openai.images.generate({
-      model: "dall-e-3",
-      prompt: state.prompt,
-      n: 1,
-      quality: "hd",
-      size: "1024x1024",
-      style: "vivid",
-      response_format: "url",
-    });
-
-    const imageUrl = response.data[0].url;
-    State.update({
-      generatedImageUrl: imageUrl,
-    });
+    openai.images
+      .generate({
+        model: "dall-e-3",
+        prompt: state.prompt,
+        n: 1,
+        quality: "hd",
+        size: "1024x1024",
+        style: "vivid",
+        response_format: "url",
+      })
+      .then((response) => {
+        const imageUrl = response.data[0].url;
+        State.update({
+          generatedImageUrl: imageUrl,
+        });
+      });
   } catch (error) {
     console.error("Error generating image:", error);
   }
