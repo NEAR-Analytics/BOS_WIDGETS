@@ -55,7 +55,7 @@ return (
           onSubmit: sectionSubmit,
           data: communityData,
           hasConfigurePermissions,
-          link: `/thomasguntenaar.near/widget/dh.community?handle=${handle}`,
+          link: `/thomasguntenaar.near/widget/app?page=community&handle=${handle}`,
         }}
       />
     </Tile>
