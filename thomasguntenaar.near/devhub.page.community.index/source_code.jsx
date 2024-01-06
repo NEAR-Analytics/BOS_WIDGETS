@@ -1,3 +1,7 @@
+const { normalize } = VM.require("thomasguntenaar.near/widget/core.lib.stringUtils");
+
+normalize || (normalize = () => {});
+
 const Button = styled.button`
   height: 40px;
   font-size: 14px;
@@ -46,6 +50,8 @@ if (!tab) {
   tab = "Activity";
 }
 
+tab = normalize(tab);
+
 const [isLinkCopied, setLinkCopied] = useState(false);
 
 const tabs = [
@@ -79,13 +85,13 @@ const onShareClick = () =>
     .writeText(
       href({
         gateway: "near.social",
-        widgetSrc: "thomasguntenaar.near/widget/dh.community",
-        params: { handle: community.handle },
+        widgetSrc: "thomasguntenaar.near/widget/app",
+        params: { page: "community", handle: community.handle },
       })
     )
     .then(setLinkCopied(true));
 
-let currentTab = tabs.find((it) => it.title === tab);
+let currentTab = tabs.find((it) => normalize(it.title) === tab);
 
 const CommunityName = styled.span`
   color: #151515;
@@ -223,7 +229,7 @@ return (
       <div className="d-flex align-items-end gap-3 ms-auto mb-md-5 me-4">
         {permissions.can_configure && (
           <Link
-            to={`/thomasguntenaar.near/widget/dh.community.configuration?handle=${community.handle}`}
+            to={`/thomasguntenaar.near/widget/app?page=community.configuration&handle=${community.handle}`}
           >
             <Widget
               src={"thomasguntenaar.near/widget/devhub.components.molecule.Button"}
@@ -280,16 +286,17 @@ return (
               <li className="nav-item" key={title}>
                 <Link
                   to={href({
-                    widgetSrc: "thomasguntenaar.near/widget/dh.community",
+                    widgetSrc: "thomasguntenaar.near/widget/app",
                     params: {
+                      page: "community",
                       handle: community.handle,
-                      tab: title,
+                      tab: normalize(title),
                     },
                   })}
-                  aria-current={tab === title && "page"}
+                  aria-current={tab === normalize(title) && "page"}
                   className={[
                     "d-inline-flex gap-2",
-                    tab === title ? "nav-link active" : "nav-link",
+                    tab === normalize(title) ? "nav-link active" : "nav-link",
                   ].join(" ")}
                 >
                   <span>{title}</span>
@@ -308,8 +315,8 @@ return (
               <span>Required tags:</span>
               <Link
                 to={href({
-                  widgetSrc: "thomasguntenaar.near/widget/dh.feed",
-                  params: { tag: community.tag },
+                  widgetSrc: "thomasguntenaar.near/widget/app",
+                  params: { page: "feed", tag: community.tag },
                 })}
               >
                 <Widget
@@ -329,8 +336,9 @@ return (
               props={{
                 title: "Post",
                 href: href({
-                  widgetSrc: "thomasguntenaar.near/widget/dh.create",
+                  widgetSrc: "thomasguntenaar.near/widget/app",
                   params: {
+                    page: "create",
                     labels: [community.tag],
                   },
                 }),
