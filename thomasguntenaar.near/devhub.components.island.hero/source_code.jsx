@@ -181,7 +181,10 @@ return (
         </Lead>
         <Link
           to={href({
-            widgetSrc: "thomasguntenaar.near/widget/dh.about",
+            widgetSrc: "thomasguntenaar.near/widget/app",
+            params: {
+              page: "about",
+            },
           })}
         >
           <CTA href="#">Read more →</CTA>
@@ -196,7 +199,7 @@ return (
       <Lead>Join a vibrant community of innovators shaping the open web.</Lead>
       <Link
         to={href({
-          widgetSrc: "thomasguntenaar.near/widget/dh.about",
+          widgetSrc: "thomasguntenaar.near/widget/app",
           params: {
             page: "about",
           },
