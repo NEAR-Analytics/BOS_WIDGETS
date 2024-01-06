@@ -19,6 +19,8 @@ State.init({
   toastMessage: "",
 });
 
+!state.image.cid ? props.setActiveStep(0) : props.setActiveStep(1);
+
 const handleMint = () => {
   if (!state.image.cid) {
     return;
