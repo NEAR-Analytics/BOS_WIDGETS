@@ -19,6 +19,10 @@ const WinnerCard = styled.div`
     justify-content: start;
   }
 
+  .text-truncate.text-muted {
+    max-width: 200px;
+  }
+
   .trophy {
     position: absolute;
     top: 10px;
