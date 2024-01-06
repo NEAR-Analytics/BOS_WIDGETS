@@ -338,7 +338,7 @@ return (
                   </div>
                   <div className="avaliability d-flex p-2 flex-column justify-content-between">
                     <h5 className={"nowrap"}>
-                      <small>Available:</small> <b>{format(stats.boxes[i])}</b>
+                      <small>Available:</small> <b>0</b>
                     </h5>
                   </div>
                 </Card>
