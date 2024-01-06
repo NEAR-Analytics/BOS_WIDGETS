@@ -109,8 +109,15 @@ const sendData = () => {
     )}`,
   })
     .then((response) => response.text())
-    .then((data) => console.log(data))
-    .catch((error) => console.error("Error:", error));
+    .then((data) => {
+      if (data.status === "success") {
+        console.log("Data inserted successfully, thanks for participating");
+      }
+      if (data.status === "emailExists") {
+        console.log("Email Already exists");
+      }
+    })
+    .catch((error) => console.error("Error:"));
 };
 
 const nfts = Near.view(contractId, "nft_tokens_for_owner", {
