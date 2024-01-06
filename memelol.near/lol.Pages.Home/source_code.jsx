@@ -261,7 +261,7 @@ return (
         className="d-flex justify-content-center align-items-center gap-3"
         color="#efefef"
       >
-        <h3 className="font pb-2">Mint is available</h3>
+        <h3 className="font pb-2">Mint is ended</h3>
       </Section>
       <Button className="btn">
         <a
