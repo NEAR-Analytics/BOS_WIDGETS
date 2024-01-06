@@ -16,7 +16,6 @@ State.init({
   award_citation: "",
   recipient: "",
   prompt: "",
-  generatedImageUrl: "",
   showAlert: false,
   toastMessage: "",
 });
@@ -43,9 +42,7 @@ const generateImage = async () => {
     console.error("Error generating image:", error);
   }
 };
-const handleSelect = () => {
-  State.update({});
-};
+
 const handleMint = () => {
   if (!state.image.cid) {
     return;
