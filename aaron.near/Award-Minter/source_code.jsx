@@ -171,6 +171,7 @@ border: 1px solid #e5e8eb;
 gap: 2em;
 margin: 10px auto;
 border-radius: .7em;
+text-align: left;
 `;
 
 const ImageCard = styled.div`
