@@ -159,8 +159,8 @@ const shareButton = props.isPreview ? (
   <Link
     class="card-link text-dark"
     to={href({
-      widgetSrc: "thomasguntenaar.near/widget/dh.post",
-      params: { id: postId },
+      widgetSrc: "thomasguntenaar.near/widget/app",
+      params: { page: "post", id: postId },
     })}
     role="button"
     target="_blank"
@@ -433,8 +433,8 @@ const buttonsFooter = props.isPreview ? null : (
         ) : (
           <Link
             to={href({
-              widgetSrc: "thomasguntenaar.near/widget/dh.post",
-              params: { id: parentId },
+              widgetSrc: "thomasguntenaar.near/widget/app",
+              params: { page: "post", id: parentId },
             })}
           >
             <ButtonWithHover
@@ -451,32 +451,6 @@ const buttonsFooter = props.isPreview ? null : (
     </FooterButtonsContianer>
   </div>
 );
-
-const CreatorWidget = (postType) => {
-  return (
-    <div
-      class={`collapse ${
-        draftState?.parent_post_id == postId && draftState?.postType == postType
-          ? "show"
-          : ""
-      }`}
-      id={`collapse${postType}Creator${postId}`}
-      data-bs-parent={`#accordion${postId}`}
-    >
-      <Widget
-        src={"thomasguntenaar.near/widget/devhub.entity.post.PostEditor"}
-        props={{
-          postType,
-          onDraftStateChange,
-          draftState:
-            draftState?.parent_post_id == postId ? draftState : undefined,
-          parentId: postId,
-          mode: "Create",
-        }}
-      />
-    </div>
-  );
-};
 
 const tokenMapping = {
   NEAR: "NEAR",
@@ -516,48 +490,22 @@ function tokenResolver(token) {
   }
 }
 
-const EditorWidget = (postType) => {
-  return (
-    <div
-      class={`collapse ${
-        draftState?.edit_post_id == postId && draftState?.postType == postType
-          ? "show"
-          : ""
-      }`}
-      id={`collapse${postType}Editor${postId}`}
-      data-bs-parent={`#accordion${postId}`}
-    >
-      <Widget
-        src={"thomasguntenaar.near/widget/devhub.entity.post.PostEditor"}
-        props={{
-          postType,
-          postId,
-          mode: "Edit",
-          author_id: post.author_id,
-          labels: post.snapshot.labels,
-          name: post.snapshot.name,
-          description: post.snapshot.description,
-          amount: post.snapshot.amount,
-          token: tokenResolver(post.snapshot.sponsorship_token),
-          supervisor: post.snapshot.supervisor,
-          githubLink: post.snapshot.github_link,
-          onDraftStateChange,
-          draftState:
-            draftState?.edit_post_id == postId ? draftState : undefined,
-        }}
-      />
-    </div>
-  );
-};
-
 const isDraft =
   (draftState?.parent_post_id === postId &&
     draftState?.postType === state.postType) ||
   (draftState?.edit_post_id === postId &&
     draftState?.postType === state.postType);
 
-const toggleEditor = () => {
-  State.update({ showEditor: !state.showEditor });
+const setExpandReplies = (value) => {
+  State.update({ expandReplies: value });
+};
+
+const setEditorState = (value) => {
+  if (draftState && !value) {
+    // clear the draft state since user initiated cancel
+    onDraftStateChange(null);
+  }
+  State.update({ showEditor: value });
 };
 
 let amount = null;
@@ -581,7 +529,7 @@ const seekingFunding = amount !== null || token !== null || supervisor !== null;
 
 function Editor() {
   return (
-    <div class="row" id={`accordion${postId}`} key="editors-footer">
+    <div class="row mt-2" id={`accordion${postId}`} key="editors-footer">
       <div
         key={`${state.postType}${state.editorType}${postId}`}
         className={"w-100"}
@@ -597,7 +545,9 @@ function Editor() {
                   draftState?.parent_post_id == postId ? draftState : undefined,
                 parentId: postId,
                 mode: "Create",
-                toggleEditor: toggleEditor,
+                transactionHashes: props.transactionHashes,
+                setExpandReplies,
+                setEditorState: setEditorState,
               }}
             />
           </>
@@ -622,7 +572,9 @@ function Editor() {
                 onDraftStateChange,
                 draftState:
                   draftState?.edit_post_id == postId ? draftState : undefined,
-                toggleEditor: toggleEditor,
+                setEditorState: setEditorState,
+                transactionHashes: props.transactionHashes,
+                setExpandReplies,
               }}
             />
           </>
@@ -645,8 +597,8 @@ const tags = post.snapshot.labels ? (
       <div className="d-flex align-items-center my-3 me-3">
         <Link
           to={href({
-            widgetSrc: "thomasguntenaar.near/widget/dh.feed",
-            params: { tag: tag },
+            widgetSrc: "thomasguntenaar.near/widget/app",
+            params: { page: "feed", tag: tag },
           })}
         >
           <div
@@ -706,7 +658,7 @@ const postExtra =
       <h6 class="card-subtitle mb-2 text-muted">
         Supervisor:{" "}
         <Widget
-          src={"neardevgov.near/widget/ProfileLine"}
+          src={"thomasguntenaar.near/widget/devhub.components.molecule.ProfileLine"}
           props={{ accountId: snapshot.supervisor }}
         />
       </h6>
@@ -735,7 +687,8 @@ const postsList =
         class={`collapse mt-3 ${
           defaultExpanded ||
           childPostHasDraft ||
-          state.childrenOfChildPostsHasDraft
+          state.childrenOfChildPostsHasDraft ||
+          state.expandReplies
             ? "show"
             : ""
         }`}
@@ -779,6 +732,12 @@ const clampedContent = needClamp
   ? contentArray.slice(0, 3).join("\n")
   : snapshot.description;
 
+const SeeMore = styled.a`
+  cursor: pointer;
+  color: #00b774 !important;
+  font-weight: bold;
+`;
+
 // Should make sure the posts under the currently top viewed post are limited in size.
 const descriptionArea = isUnderPost ? (
   <LimitedMarkdown className="overflow-auto" key="description-area">
@@ -807,13 +766,9 @@ const descriptionArea = isUnderPost ? (
     </div>
     {state.clamp ? (
       <div class="d-flex justify-content-start">
-        <a
-          style={{ cursor: "pointer", color: "#00ec97" }}
-          class="btn-link text-dark fw-bold text-decoration-none"
-          onClick={() => State.update({ clamp: false })}
-        >
+        <SeeMore onClick={() => State.update({ clamp: false })}>
           See more
-        </a>
+        </SeeMore>
       </div>
     ) : (
       <></>
@@ -826,8 +781,9 @@ const timestampElement = (_snapshot) => {
     <Link
       class="text-muted"
       href={href({
-        widgetSrc: "thomasguntenaar.near/widget/dh.post",
+        widgetSrc: "thomasguntenaar.near/widget/app",
         params: {
+          page: "post",
           id: postId,
           timestamp: _snapshot.timestamp,
           compareTimestamp: null,
