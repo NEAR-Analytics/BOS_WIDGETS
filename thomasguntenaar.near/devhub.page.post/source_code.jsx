@@ -14,7 +14,9 @@ return (
   <Container>
     <Widget
       src={"thomasguntenaar.near/widget/devhub.entity.post.Post"}
-      props={props}
+      props={{
+        id,
+      }}
     />
   </Container>
 );
