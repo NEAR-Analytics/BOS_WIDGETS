@@ -261,11 +261,7 @@ return (
         className="d-flex justify-content-center align-items-center gap-3"
         color="#efefef"
       >
-        <h3 className="font pb-2">Minting starts in</h3>
-        <Widget
-          src="memelol.near/widget/lol.Components.Countdown"
-          props={{ startDate: stats.startDate }}
-        />
+        <h3 className="font pb-2">Mint is available</h3>
       </Section>
       <Button className="btn">
         <a
