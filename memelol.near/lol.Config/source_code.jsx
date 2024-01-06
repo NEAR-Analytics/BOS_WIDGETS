@@ -154,8 +154,8 @@ return {
             <p>
               After the box opening phase, a liquidity pool for the LOL/NEAR
               pair will be established on ref.finance. Initially, 50% of NEAR
-              tokens received from boxes will be added to the LP, increasing by
-              10% weekly until it reaches 100%.
+              tokens received from boxes will be added to the LP, other 50%
+              cover NEAR prizes draw.
             </p>
             <p className={"mt-4 font-semibold mb-1"}>
               <b>LOL TOKENS BURNING</b>
