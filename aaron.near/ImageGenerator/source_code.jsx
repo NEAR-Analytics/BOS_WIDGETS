@@ -294,15 +294,6 @@ return (
               />
             </Card>
           </ImageGenerateCard>
-          <ImageCard>
-            <img
-              src={state.generatedImageUrl}
-              alt="generated image"
-              width="100%"
-              height="100%"
-              className="rounded-3"
-            />
-          </ImageCard>
           <IpfsImageUpload
             image={state.generatedImageUrl}
             style={{ display: "none" }}
