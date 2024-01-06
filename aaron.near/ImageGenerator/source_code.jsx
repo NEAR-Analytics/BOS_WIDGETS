@@ -24,7 +24,7 @@ State.init({
 
 const generateImage = () => {
   try {
-    openai.images
+    props.openai.images
       .generate({
         model: "dall-e-3",
         prompt: state.prompt,
