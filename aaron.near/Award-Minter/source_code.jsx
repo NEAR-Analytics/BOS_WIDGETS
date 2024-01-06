@@ -19,7 +19,7 @@ State.init({
   toastMessage: "",
 });
 
-props.image ? State.update({image: props.image}) : null
+props.image ? State.update({ image: props.image }) : null;
 
 !state.image ? props.setActiveStep(0) : props.setActiveStep(1);
 
@@ -80,9 +80,6 @@ const handleMint = () => {
               description: state.award_description,
               media: `https://ipfs.io/ipfs/${state.image.cid}`,
               issued_at: `${Date.now()}`,
-              expires_at: ,
-              starts_at: ,
-              updated_at: ,
               extra: JSON.stringify({
                 type: "award",
                 citation: `${state.award_citation}`,
