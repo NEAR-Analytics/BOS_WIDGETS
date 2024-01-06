@@ -292,7 +292,7 @@ return (
               src="memelol.near/widget/lol.Components.MintBox"
               props={{
                 contractName,
-                canMint: new Date(stats.startDate) <= new Date(),
+                canMint: false,
               }}
             />
           </div>
@@ -338,7 +338,7 @@ return (
                   </div>
                   <div className="avaliability d-flex p-2 flex-column justify-content-between">
                     <h5 className={"nowrap"}>
-                      <small>Available:</small> <b>0</b>
+                      <small>Available:</small> <b>{format(stats.boxes[i])}</b>
                     </h5>
                   </div>
                 </Card>
