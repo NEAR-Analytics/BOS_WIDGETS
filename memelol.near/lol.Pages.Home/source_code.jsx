@@ -261,8 +261,17 @@ return (
         className="d-flex justify-content-center align-items-center gap-3"
         color="#efefef"
       >
-        <h3 className="font pb-2">Mint is ended. Processing results...</h3>
+        <h3 className="font pb-2">Mint is available</h3>
       </Section>
+      <Button className="btn">
+        <a
+          href={content.shareLink}
+          className="w-100 d-flex justify-content-between align-items-center"
+        >
+          <span>Share to get FREE LOL</span>
+          <i className="bi bi-share" />
+        </a>
+      </Button>
     </InfoSection>
     <Section className="p-0 position-relative banner-img">
       <Overlay color="rgb(89 110 255 / 80%)">
@@ -283,7 +292,7 @@ return (
               src="memelol.near/widget/lol.Components.MintBox"
               props={{
                 contractName,
-                canMint: false,
+                canMint: new Date(stats.startDate) <= new Date(),
               }}
             />
           </div>
