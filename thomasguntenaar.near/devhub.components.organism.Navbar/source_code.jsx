@@ -26,7 +26,8 @@ const Logo = () => {
     <Wrapper>
       <Link
         to={linkHref({
-          widgetSrc: "thomasguntenaar.near/widget/dh.home",
+          widgetSrc: "thomasguntenaar.near/widget/app",
+          params: { page: "home" },
         })}
       >
         <svg
@@ -67,8 +68,8 @@ const ProfileIcon = () => {
   return (
     <Link
       to={linkHref({
-        widgetSrc: "thomasguntenaar.near/widget/dh.profile",
-        params: { accountId: context.accountId },
+        widgetSrc: "thomasguntenaar.near/widget/app",
+        params: { page: "profile", accountId: context.accountId },
       })}
     >
       <Widget
@@ -258,7 +259,7 @@ return (
               <MobileLink
                 key={`mobile-link-${idx}`}
                 className={link.href === props.page && "active"}
-                href={`/thomasguntenaar.near/widget/dh.${link.href}`}
+                href={`/thomasguntenaar.near/widget/app?page=${link.href}`}
               >
                 {link.title}
               </MobileLink>
@@ -278,7 +279,7 @@ return (
                   <MobileLink
                     key={`nested-link-${idx}`}
                     className={link.href === props.page && "active"}
-                    href={`/thomasguntenaar.near/widget/dh.${it.href}`}
+                    href={`/thomasguntenaar.near/widget/app?page=${it.href}`}
                   >
                     /{it.title}
                   </MobileLink>
