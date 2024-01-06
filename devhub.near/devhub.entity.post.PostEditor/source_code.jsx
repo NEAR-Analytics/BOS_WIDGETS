@@ -1,5 +1,6 @@
-const { normalize } =
-  VM.require("devhub.near/widget/core.lib.stringUtils") || (() => {});
+const { normalize } = VM.require("devhub.near/widget/core.lib.stringUtils");
+
+normalize || (normalize = () => {});
 
 const CenteredMessage = styled.div`
   display: flex;
