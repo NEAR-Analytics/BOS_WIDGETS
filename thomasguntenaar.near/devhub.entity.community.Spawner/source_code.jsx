@@ -81,6 +81,7 @@ return (
   <Widget
     src="thomasguntenaar.near/widget/devhub.components.organism.Configurator"
     props={{
+      heading: "Community information",
       externalState: CommunityInputsDefaults,
       fullWidth: true,
       isActive: true,
