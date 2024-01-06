@@ -76,7 +76,8 @@ return (
         <Link
           style={{ textDecoration: "none" }}
           to={linkHref({
-            widgetSrc: `thomasguntenaar.near/widget/dh.${href}`,
+            widgetSrc: "thomasguntenaar.near/widget/app",
+            params: { page: href },
           })}
         >
           {title}
@@ -112,7 +113,8 @@ return (
                 <Link
                   style={{ textDecoration: "none" }}
                   to={linkHref({
-                    widgetSrc: `thomasguntenaar.near/widget/dh.${link.href}`,
+                    widgetSrc: "thomasguntenaar.near/widget/app",
+                    params: { page: link.href },
                   })}
                 >
                   {link.title}
