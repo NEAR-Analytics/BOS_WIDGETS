@@ -53,8 +53,9 @@ return (
                   props={{
                     title: "Post",
                     href: href({
-                      widgetSrc: "thomasguntenaar.near/widget/dh.create",
+                      widgetSrc: "thomasguntenaar.near/widget/app",
                       params: {
+                        page: "create",
                         labels: [communityData.tag],
                       },
                     }),
