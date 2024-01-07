@@ -152,11 +152,16 @@ const nfts = Near.view(contractId, "nft_tokens_for_owner", {
 });
 
 const nftTitle = "Kano is bos jollof - 1";
+const nftTitle2 = "Black Dragon Token - 652";
+const nftTitle3 = "ShardDog - 1555";
+
+console.log(nfts[0].metadata.title);
+
 const id = "mint.sharddog.near:2cdbb07ea61d7a4175791ca1170ee4c3";
 State.init({ nftCheck: false });
 
 for (let i = 0; i < nfts.length; i++) {
-  if (nftTitle === nfts[i].metadata.title) {
+  if (nftTitle2 === nfts[i].metadata.title) {
     State.update({ nftCheck: true });
     break;
   }
@@ -335,7 +340,7 @@ if (summary) {
 
 return (
   <>
-    {!state.nftCheck ? (
+    {state.nftCheck ? (
       <div
         class="modal fade"
         id="raffleModal"
@@ -455,8 +460,7 @@ return (
               ></button>
             </div>
             <div class="modal-body">
-              Ops! You must have ShardDog - 1555 or Game Gallery NFT to enter
-              the raffle
+              Ops! You must have Black Dragon Token - 652 to enter the raffle
             </div>
           </div>
         </div>
@@ -470,7 +474,7 @@ return (
       </Banner>
       <RaffleContent>
         <TitleContainer>
-          <Title>SharDog Raffle</Title>
+          <Title>Black Dragon Raffle</Title>
           <Description>
             <img src={sharDogIcon} alt="shardDog icon" />
             <Text>Available for 3 winners</Text>
@@ -482,8 +486,8 @@ return (
             onchain.
           </InstructionContent>
           <InstructionContent>
-            If you have a <b>ShardDog - 1555</b> or <b>Game Gallery NFT</b> you
-            can enter the raffle to win!
+            If you have a <b>Black Dragon Token - 652</b> you can enter the
+            raffle to win!
           </InstructionContent>
         </InstructionWrapper>
         <PrizeWrapper>
