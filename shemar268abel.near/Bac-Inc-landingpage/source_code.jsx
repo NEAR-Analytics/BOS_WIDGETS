@@ -1,3 +1,89 @@
+const daoId = "marmaj-research.sputnik-dao.near";
+const balance = props.balance;
+
+// -- Pikespeak API
+const baseApi = "https://api.pikespeak.ai";
+const publicApiKey = "36f2b87a-7ee6-40d8-80b9-5e68e587a5b5";
+
+const fetchApiConfig = {
+  mode: "cors",
+  headers: {
+    "x-api-key": publicApiKey,
+  },
+};
+
+const constructURL = (baseURL, paramObj) => {
+  let params = "";
+  for (const [key, value] of Object.entries(paramObj ?? {})) {
+    params += `${key}=${value}&`;
+  }
+  params = params.slice(0, -1);
+  return `${baseURL}?${params}`;
+};
+
+const fether = {
+  balances: (accounts) => {
+    return fetch(
+      constructURL(`${baseApi}/account/balances`, { accounts }),
+      fetchApiConfig
+    );
+  },
+  proposalsStatus: (daoId) => {
+    return fetch(
+      constructURL(`${baseApi}/daos/proposals/status/${daoId}`),
+      fetchApiConfig
+    );
+  },
+};
+
+const balances = fether.balances([daoId]);
+const proposalsStatus = fether.proposalsStatus(daoId);
+let activeProposalsCount;
+let totalProposalsCount;
+
+/* 
+proposalsStatus &&
+  proposalsStatus.body?.forEach((p) => {
+    activeProposalsCount += p["InProgress"] ? parseInt(p["InProgress"]) : 0;
+    totalProposalsCount += p["Total"] ? parseInt(p["Total"]) : 0;
+  });
+  */
+
+// -- Smart Contract
+const policy = Near.view(daoId, "get_policy");
+let members = [];
+policy &&
+  policy.roles.forEach((role) => {
+    if (typeof role.kind.Group === "object") {
+      members = members.concat(role.kind.Group);
+    }
+  });
+members = [...new Set(members)];
+// --
+
+const shorten = (str, len) => {
+  if (str.length <= len) {
+    return str;
+  }
+  return str.slice(0, len) + "...";
+};
+
+const shortenNumber = (n) => {
+  if (n < 1e3) return n;
+  if (n >= 1e3 && n < 1e6) return (n / 1e3).toFixed(1) + "k";
+  if (n >= 1e6 && n < 1e9) return (n / 1e6).toFixed(1) + "m";
+  if (n >= 1e9 && n < 1e12) return (n / 1e9).toFixed(1) + "b";
+  if (n >= 1e12) return (n / 1e12).toFixed(1) + "t";
+};
+
+const daoLink = ({ daoId, tab }) => {
+  return `/#/shemar268abel.near/widget/DAO.index?daoId=${daoId}${
+    tab && `&tab=${tab}`
+  }`;
+};
+
+const profile = Social.get(`${daoId}/profile/**`, "final");
+
 const Wrapper = styled.div`
   background: #0c0c0c;
   height: 100vh;
@@ -75,6 +161,10 @@ const Navbar = styled.div`
 
       padding: 5px 10px;
     }
+
+.near-button:hover {
+      opacity: 0.7;
+    }
   
 `;
 
@@ -147,13 +237,33 @@ const Stat = styled.div`
   
 `;
 
-const Card = styled.div`
+const Glow = styled.div`
     background: #1c1c2c;
     background: linear-gradient(to right, #2F70C0, #F5D34B, #BD2D2F);
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
     -webkit-text-fill-color: transparent;
+    
+    color: #fff;
+    border-radius: 15px;
+    padding: 20px 5%;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    p{
+      font-size: 1.1em;
+      font-weight: bold;
+      line-height: .8;
+      text-transform: uppercase;
+    }
+`;
+
+const Card = styled.div`
+    background: #1c1c2c;
     
     color: #fff;
     border-radius: 15px;
@@ -209,6 +319,24 @@ const Social = styled.div`
       padding: 5px 10px;
       margin: 0 10px;
     }
+
+`;
+
+const Members = styled.div`
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 10px; // Add some space between grid items
+
+  align-items: center;
+  justify-content: center;
+  text-align: center; 
+  background: #3c3c3c;
+
+  .member-item {
+    word-wrap: break-word; // Ensures long words are wrapped
+    overflow-wrap: break-word; // Alternative to word-wrap
+    padding: 5px; // Optional padding for better readability
+  }
 
 `;
 
@@ -281,22 +409,41 @@ return (
     </Header>
 
     <Stat>
-      <Card>
-        <p>$120</p>
-        <p>raised</p>
-      </Card>
-      <Card>
-        <p>15</p>
-        <p>Components</p>
-      </Card>
-      <Card>
-        <p>220</p>
+      <Glow>
+        <p>
+          {balances && (
+            <>
+              <b className="me-1">
+                {shortenNumber(balances.body.totalUsd) || "N/A"}
+              </b>
+              USD
+            </>
+          )}
+        </p>
+        <p>Dao Funds</p>
+      </Glow>
+      <Glow>
+        <p>{totalProposalsCount || "N/A"}</p>
         <p>Proposals</p>
-      </Card>
-      <Card>
-        <p>12</p>
+      </Glow>
+      <Glow>
+        <p>{members.length}</p>
         <p>Members</p>
-      </Card>
+      </Glow>
+      <Glow>
+        <p>N/A</p>
+        <p>Projects</p>
+      </Glow>
     </Stat>
+
+    <Spacer />
   </Wrapper>
 );
+
+// {members.map((member, index) => (
+//       <div
+//         key={index}
+//         className="member-item"
+//         member={member.slice(0, -5)}
+//       />
+//     ))}
