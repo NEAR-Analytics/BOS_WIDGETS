@@ -29,6 +29,16 @@ const Wrapper = styled.div`
   cursor: pointer;
   transition: background-color 0.3s ease;
 }
+.aside a.active::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 3px;
+  background-color: #fff;
+  border-radius: 5px 5px 0 0;
+}
 
 .aside #tabs .tab:hover, .aside #tabs .active {
   background-color: #555;
