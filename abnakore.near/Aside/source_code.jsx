@@ -6,7 +6,7 @@ const Wrapper = styled.div`
   background-color: #333;
   padding: 20px;
   height: 50%;
-  width: 100%;
+  width: 100vw;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
