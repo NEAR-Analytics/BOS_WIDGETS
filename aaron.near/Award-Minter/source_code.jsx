@@ -124,9 +124,9 @@ const onChangeCitation = (award_citation) => {
 };
 
 const ImageUploadCard = styled.div`
-display:flex;
-flex-flow: column nowrap;
-align-items: center;
+  display:flex;
+  flex-flow: column nowrap;
+  align-items: center;
   width:80%;
   border: 2px dashed #0d99ff;
   border-radius: 1rem;
@@ -261,10 +261,14 @@ return (
         <>
           <Card className="d-flex flex-column align-items-center w-100">
             <div>
-              <IpfsImageUpload
-                image={state.image}
-                className="btn btn-outline-primary border-0 rounded-3"
-              />
+              <Link
+                onClick={() => {
+                  props.setActiveStep(0);
+                  State.update({ image: null });
+                }}
+              >
+                Back
+              </Link>
             </div>
             <ImageCard>
               <img
