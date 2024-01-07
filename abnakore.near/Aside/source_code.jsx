@@ -29,7 +29,7 @@ const Wrapper = styled.div`
   cursor: pointer;
   transition: background-color 0.3s ease;
 }
-.aside #tabs .tab.active::after, .aside #tabs .tab:hover {
+.aside #tabs a.active::after {
   content: "";
   position: absolute;
   left: 0;
@@ -38,10 +38,6 @@ const Wrapper = styled.div`
   height: 3px;
   background-color: #fff;
   border-radius: 5px 5px 0 0;
-}
-
-.aside #tabs .tab:hover, .aside #tabs .active {
-  background-color: #555;
 }
 `;
 
@@ -93,6 +89,10 @@ return (
 //   text-align: center;
 //   cursor: pointer;
 //   transition: background-color 0.3s ease;
+// }
+
+// .aside #tabs .tab:hover, .aside #tabs .active {
+//   background-color: #555;
 // }
 
 // <a href="#">Home</a>
