@@ -61,3 +61,5 @@ const LensLib = {
     });
   },
 };
+
+return LensLib;
