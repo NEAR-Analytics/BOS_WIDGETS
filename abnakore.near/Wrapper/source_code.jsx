@@ -23,6 +23,7 @@ const Wrapper = styled.div`
 
 .two-sides {
   display: flex;
+  flex-direction: row;
   justify-content: space-between;
   align-items: center;
   place-items: center;
