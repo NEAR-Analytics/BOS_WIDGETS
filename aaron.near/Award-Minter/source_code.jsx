@@ -263,14 +263,16 @@ return (
         <>
           <Card className="d-flex flex-column align-items-center w-100">
             <div>
-              <Link
+              <button
+                type="button"
+                className="btn btn-primary d-flex flex-column align-items-center mx-auto"
                 onClick={() => {
                   props.setActiveStep(0);
                   State.update({ image: null });
                 }}
               >
                 Back
-              </Link>
+              </button>
             </div>
             <ImageCard>
               {props.generated ? (
