@@ -1,6 +1,6 @@
 const Wrapper = styled.div`
   background: #0c0c0c;
-  height: 100%;
+  height: 100vh;
   padding: 10px;
   margin: 0;
 
@@ -215,7 +215,9 @@ const Social = styled.div`
 return (
   <Wrapper className="content-wrap">
     <Navbar>
-      <a className="logo" href='/'>Bac Inc.</a>
+      <a className="logo" href="/">
+        Bac Inc.
+      </a>
       <ul className="nav-links">
         <li>
           <Link to="/">Home</Link>
@@ -231,7 +233,7 @@ return (
         </li>
       </ul>
       <div class="near-button">
-      <a href="https://near.social/shemar268abel.near/widget/BAC-HomePage#/mob.near/widget/ProfilePage?accountId=bac-inc.near">
+        <a href="https://near.social/shemar268abel.near/widget/BAC-HomePage#/mob.near/widget/ProfilePage?accountId=bac-inc.near">
           <svg
             width="20"
             height="20"
@@ -245,10 +247,8 @@ return (
             />
           </svg>
         </a>
-        </div>
+      </div>
     </Navbar>
-
-    
 
     <Header>
       <div className="center">
@@ -298,6 +298,5 @@ return (
         <p>Members</p>
       </Card>
     </Stat>
-
   </Wrapper>
 );
