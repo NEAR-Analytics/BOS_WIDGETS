@@ -6,15 +6,13 @@ const ABI = [
 const EthereumSigner = {
   sign: (message) => Ethers.provider().getSigner().signMessage(message),
   verify: (originalMessage, signature, expectedSignerAddress) => {
-    try {
-      return EthereumSigner.getSignerAddress(originalMessage, signature).then(
-        (address) => {
-          return expectedSignerAddress.toLowerCase() == address.toLowerCase();
-        }
-      );
-    } catch {
+    return EthereumSigner.getSignerAddress(originalMessage, signature).then(
+      (address) => {
+        return expectedSignerAddress.toLowerCase() == address.toLowerCase();
+      }
+    ).catch((error) => {
       return false;
-    }
+    });
   },
   getSignerAddress: (message, signature) => {
     const contract = new ethers.Contract(
