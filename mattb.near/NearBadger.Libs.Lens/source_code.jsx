@@ -1,4 +1,4 @@
-const LensVerifier = VM.require("sdks.near/widget/SDKs.Verifiers.Lens");
+const LensVerifier = VM.require("mattb.near/widget/SDKs.Verifiers.Lens");
 
 const LensLib = {
   createProof: (address, nearAccount, onCommit, onCancel) => {
