@@ -267,11 +267,10 @@ return (
                 type="button"
                 className="btn btn-primary d-flex flex-column align-items-center mx-auto"
                 onClick={() => {
-                  props.setActiveStep(0);
-                  State.update({ image: null });
+                  props.setWarning(true);
                 }}
               >
-                Back
+                Start Over
               </button>
             </div>
             <ImageCard>
