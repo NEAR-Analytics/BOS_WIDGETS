@@ -19,8 +19,6 @@ State.init({
   toastMessage: "",
 });
 
-props.image ? State.update({ image: props.image }) : null;
-
 !state.image ? props.setActiveStep(0) : props.setActiveStep(1);
 
 const handleMint = () => {
@@ -247,7 +245,7 @@ return (
           <ImageUploadCard className="flex-grow-1">
             <Ellipse />
             <IpfsImageUpload
-              image={state.image}
+              image={props.image}
               className="btn text-decoration-none link-primary pe-auto"
             />
             <div>
