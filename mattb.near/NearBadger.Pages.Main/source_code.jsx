@@ -4,7 +4,7 @@ const LOGO_URL =
   "https://ipfs.near.social/ipfs/bafkreiayxdc7zwztpcvtlo4x7axev5racawcl5xh4x7k6mfamidebbqqc4";
 
 let recentlyVerified = LensLib.listRecentlyVerifiedProfiles({
-  subscribe: true
+  subscribe: true,
 });
 
 const Main = styled.div`
@@ -20,12 +20,13 @@ background: linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(255,255,255,.7) 100%)
 `;
 
 const Section = styled.div`
-    padding:1rem 1.8rem 0;
     height:100vh;
+    overflow:hidden;
 
     h1 {
         font-weight:bold;
         margin-bottom:1.3rem;
+        padding:1rem 1.8rem 0;
     }
 `;
 
@@ -43,6 +44,13 @@ const Toolbar = styled.div`
       color:#000;
       background-color: #87B697;
       padding:.5rem 1.2rem;
+      transition:all .2s;
+
+      :hover {
+        box-shadow: 0 0 0 3px rgba(0,0,0,.1);
+        background-color: #87B697;
+        color:#000;
+      }
     }
 `;
 
@@ -169,24 +177,39 @@ const Circle = styled.div`
 
 const ButtonPrimary = styled.a`
     background-color: #87B697;
-    padding:.3rem .8rem;
+    padding:4.8px 12.8px;
     border-radius:20px;
     font-weight:bold;
     color:#000;
     font-size:.8rem;
+    cursor:pointer;
+    transition: all .2s;
+    
+    :hover {
+        box-shadow: 0 0 0 3px rgba(0,0,0,.1);
+        transition: all .2s;
+        color:#000;
+    }
 `;
 
 const ButtonSecondary = styled.a`
     border:3px solid #87B697;
-    padding:calc(.3rem - 3px) .8rem;
+    padding:1.8px 12.8px;
     border-radius:20px;
     font-weight:bold;
     color:#000;
     font-size:.8rem;
+    cursor:pointer;
+    transition: all .2s;
+    :hover {
+        box-shadow: 0 0 0 3px rgba(0,0,0,.1);
+        transition: all .2s;
+        color:#000;
+    }
 `;
 
 const Profile = styled.div`
-  width:250px;
+  min-width:250px;
   height:300px;
   background-color:#fff;
   border:1px solid rgba(0,0,0,.05);
@@ -202,26 +225,35 @@ const Profile = styled.div`
   p {
     position:relative;
     display:inline-block;
-    background-color:#C0EBD0;
     border-radius:20px;
-    padding:.1rem 1rem .1rem 40px;
-    color:rgba(0,0,0,.7);
+    padding:.4rem 2rem .4rem 20%;
+    color:#000;
     font-size:.8rem;
     overflow:hidden;
-    border:1px solid rgba(0,0,0,.05);
+    border:1px solid rgba(0,0,0,.1);
+    z-index:0;
+    cursor:pointer;
+    transition:all .2s;
+    background-color:rgba(0,0,0,.05);
+    min-width:160px;
 
-    .badge {
+    :hover {
+        box-shadow: 0 0 0 3px rgba(0,0,0,.1);
+    }
+
+    .badge, .verified {
       border-radius:0;
       display:flex;
       align-items:center;
       justify-content:center;
-      width:30px;
+      width:20%;
+      min-width:35px;
       height:100%;
       position:absolute;
       left:0;
       top:0;
-      background-color:rgba(0,0,0,.1);
-      border-right:1px solid rgba(0,0,0,.02);
+      border-right:1px solid rgba(0,0,0,.1);
+      background-color:#fff;
 
       img {
         display:block;
@@ -231,7 +263,29 @@ const Profile = styled.div`
         left:1px;
         width:20px;
         height:20px;
+        pointer-events:none;
       }
+    }
+
+    .verified {
+        left:unset;
+        right:0;
+        background-color:transparent;
+        border:0;
+    }
+  }
+
+  button {
+    border-radius:20px;
+    padding:.3rem 2rem;
+    font-weight:bold;
+    background-color:#388909;
+    border:1px solid rgba(0,0,0,.1);
+    transition:all .2s;
+
+    :hover {
+        box-shadow: 0 0 0 3px rgba(0,0,0,.1);
+        background-color:#388909;
     }
   }
 `;
@@ -249,6 +303,19 @@ const Image = styled.div`
   height:70px;
   background-color:rgba(0,0,0,.05);
   border-radius:100%;
+`;
+
+const Carousel = styled.div`
+  display:flex;
+  flex-wrap:no-wrap;
+  overflow-y:auto;
+  padding:0 1.8rem 1rem;
+
+  > div {
+    :not(:last-of-type) {
+      margin-right:15px;
+    }
+  }
 `;
 
 return (
@@ -276,6 +343,18 @@ return (
             <ButtonPrimary>Discover people</ButtonPrimary>
             <ButtonSecondary
               onClick={() => {
+                try {
+                  Ethers.setChain({chainId: ethers.utils.hexValue(137)});
+                } catch (error) {
+                  if (error.code === 4001) {
+                    console.log("Operation rejected");
+                  } else if (error.code === 4902) {
+                    console.log("The network is not set up in your wallet");
+                  } else {
+                    console.log(`Error ${error.code}: ${error.message}`);
+                  }
+                }
+
                 Ethers.provider()
                   .send("eth_requestAccounts", [])
                   .then(([address]) => {
@@ -321,23 +400,32 @@ return (
         </Header>
         <Section>
           <h1>Recently verified</h1>
-          {recentlyVerified.map((verifiedProfile) => (
-            <Profile>
-              <ProfileHeader>
-                <Image></Image>
-              </ProfileHeader>
-              <h1>{verifiedProfile.accountId}</h1>
-              <p>
-                <span className="badge">
-                  <img
-                    src="https://ipfs.near.social/ipfs/bafkreid622wknql44yrzupww3bmfgcdxppkwyzmb4upbmpdvgtos2hjhzy"
-                    width="100%"
-                  />
-                </span>
-                {verifiedProfile.value.name}
-              </p>
-            </Profile>
-          ))}
+          <Carousel>
+            {recentlyVerified.map((verifiedProfile) => (
+              <Profile>
+                <ProfileHeader>
+                  <Image></Image>
+                </ProfileHeader>
+                <h1>{verifiedProfile.accountId}</h1>
+                <p>
+                  <span className="badge">
+                    <img
+                      src="https://ipfs.near.social/ipfs/bafkreid622wknql44yrzupww3bmfgcdxppkwyzmb4upbmpdvgtos2hjhzy"
+                      width="100%"
+                    />
+                  </span>
+                  {verifiedProfile.value.name}
+                  <span className="verified">
+                    <img
+                      src="https://ipfs.near.social/ipfs/bafkreidfh7bolog2hy6zfgre4tasxrsbaen6xmc6ottccvnf4db3gch3oi"
+                      width="100%"
+                    />
+                  </span>
+                </p>
+                <button>FOLLOW</button>
+              </Profile>
+            ))}
+          </Carousel>
         </Section>
       </Wrapper>
     </Main>
