@@ -42,9 +42,10 @@ const LensLib = {
   },
   verify: (handle, nearAccount, signature) =>
     LensVerifier.verify(handle, nearAccount, signature),
-  listRecentlyVerifiedProfiles: (limit) => {
+  listRecentlyVerifiedProfiles: (options) => {
     return LensLib.getIdentity({
-      limit: limit || 5,
+      limit: 5,
+      ...options
     });
   },
   getVerifiedProfiles: (nearAccounts) => {
