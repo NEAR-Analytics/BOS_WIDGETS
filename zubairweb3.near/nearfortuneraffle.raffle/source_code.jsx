@@ -95,11 +95,13 @@ const [email, setEmail] = useState("");
 const [fullname, setFullname] = useState("");
 const [message, setSuccessMessage] = useState("");
 const [errMessage, setErrorMessage] = useState("");
+const [isLoading, setIsLoading] = useState(false);
 
 console.log(email);
 
 console.log(fullname);
 const sendData = () => {
+  setIsLoading(true);
   asyncFetch("https://rafflestore.000webhostapp.com/api/register.php", {
     method: "POST",
     headers: {
@@ -108,33 +110,37 @@ const sendData = () => {
     body: `email=${encodeURIComponent(email)}&fullname=${encodeURIComponent(
       fullname
     )}`,
-  }).then((response) => {
-    console.log(response.body.status);
+  })
+    .then((response) => {
+      console.log(response.body.status);
 
-    if (response.ok) {
-      if (response.body.status === "success") {
-        setSuccessMessage(
-          "Thanks for participating, we would get back to you soon"
-        );
-        setErrorMessage("");
-        setEmail("");
-        setFullname("");
-        console.log("Data submitted successfully");
-      } else if (
-        response.body.status === "error" &&
-        response.body.message === "Email already exists."
-      ) {
-        setErrorMessage("Email already exists, try different one");
-        setSuccessMessage("");
-        console.log("Email already exists.");
+      if (response.ok) {
+        if (response.body.status === "success") {
+          setSuccessMessage(
+            "Thanks for participating, we would get back to you soon"
+          );
+          setErrorMessage("");
+          setEmail("");
+          setFullname("");
+          console.log("Data submitted successfully");
+        } else if (
+          response.body.status === "error" &&
+          response.body.message === "Email already exists."
+        ) {
+          setErrorMessage("Email already exists, try different one");
+          setSuccessMessage("");
+          console.log("Email already exists.");
+        } else {
+          setErrorMessage("Failed to submit data, try again");
+          console.log("Failed to submit data, try again");
+        }
       } else {
-        setErrorMessage("Failed to submit data, try again");
-        console.log("Failed to submit data, try again");
+        console.log(`HTTP error! Status: ${response.status}`);
       }
-    } else {
-      console.log(`HTTP error! Status: ${response.status}`);
-    }
-  });
+    })
+    .finally(() => {
+      setIsLoading(false);
+    });
 };
 
 const nfts = Near.view(contractId, "nft_tokens_for_owner", {
@@ -334,6 +340,15 @@ return (
       >
         <div class="modal-dialog">
           <div class="modal-content">
+            <p
+              style={{
+                fontSize: "1.2rem",
+                textAlign: "center",
+                paddingTop: "15px",
+              }}
+            >
+              {isLoading && "Please wait..."}
+            </p>
             <p
               style={{
                 color: "red",
