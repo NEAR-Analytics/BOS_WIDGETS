@@ -12,7 +12,15 @@ const LensVerifier = {
       if (success) {
         return LensSDK.getProfileByEthereumAddress(address).then((payload) => {
           let handle = payload.body.data.profile.handle;
-          return LensVerifier.sign(handle, nearAccount, address);
+
+          return LensVerifier.sign(handle, nearAccount, address).then(
+            (signature) => {
+              return {
+                handle,
+                signature,
+              };
+            }
+          );
         });
       }
 
