@@ -62,12 +62,12 @@ let LensSDK = {
     );
   },
   authenticateLens: (address, signer, onSuccess) => {
-    LensSDK.getChallenge(address).then((payload) => {
+    return LensSDK.getChallenge(address).then((payload) => {
       let challenge = payload.body.data.challenge.text;
       const response = signer().signMessage(challenge);
 
-      response.then((signature) => {
-        LensSDK.authenticateSignature(address, signature).then((payload) => {
+      return response.then((signature) => {
+        return LensSDK.authenticateSignature(address, signature).then((payload) => {
           if (
             payload.status === 200 &&
             !!payload.body.data.authenticate.accessToken
@@ -85,7 +85,11 @@ let LensSDK = {
             if (onRefresh) {
               onRefresh(LensSDK);
             }
+
+            return true;
           }
+
+          return false;
         });
       });
     });
