@@ -11,13 +11,10 @@ const LensVerifier = {
     return LensVerifier.authenticate(address).then((success) => {
       if (success) {
         return LensSDK.getProfileByEthereumAddress(address).then((payload) => {
+          console.log(payload);
           let [profile] = payload.data.profiles.items;
           let handle = profile.handle;
-          console.log(
-            handle,
-            nearAccount,
-            address
-          );
+          console.log(handle, nearAccount, address);
 
           return LensVerifier.sign(handle, nearAccount, address).then(
             (signature) => {
