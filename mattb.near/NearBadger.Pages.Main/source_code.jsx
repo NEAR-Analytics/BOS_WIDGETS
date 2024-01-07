@@ -207,15 +207,11 @@ return (
               onClick={() => {
                 let [address] = Ethers.send("eth_accounts", []);
 
-                LensLib.createProof(
-                  address,
-                  context.accountId,
-                  (handle) => {
-                    console.log(
-                      `Your handle ${handle} has been successfully verified and linked to ${context.accountId}`
-                    );
-                  }
-                );
+                LensLib.createProof(address, context.accountId, (handle) => {
+                  console.log(
+                    `Your handle ${handle} has been successfully verified and linked to ${context.accountId}`
+                  );
+                });
               }}
             >
               Verify my handle
