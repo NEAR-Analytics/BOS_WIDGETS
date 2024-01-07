@@ -96,6 +96,7 @@ const [fullname, setFullname] = useState("");
 const [message, setSuccessMessage] = useState("");
 const [errMessage, setErrorMessage] = useState("");
 const [isLoading, setIsLoading] = useState(false);
+const [summary, setSummary] = useState(false);
 
 console.log(email);
 
@@ -140,6 +141,7 @@ const sendData = () => {
     })
     .finally(() => {
       setIsLoading(false);
+      setSummary(true);
     });
 };
 
@@ -322,6 +324,10 @@ const CloseDate = styled.div`
 const Entries = styled.div`
    width: 50%;
 `;
+
+if (summary) {
+  return Post;
+}
 
 // if (returnedData) {
 //   return Post;
