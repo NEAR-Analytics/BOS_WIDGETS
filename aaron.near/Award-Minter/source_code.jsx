@@ -28,6 +28,7 @@ props.image ? State.update({ image: props.image }) : null;
 if (props.proceed) {
   props.setActiveStep(0);
   State.update({ image: null });
+  props.setProceed(false);
 }
 
 const handleMint = () => {
