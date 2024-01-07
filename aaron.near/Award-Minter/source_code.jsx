@@ -79,7 +79,7 @@ const handleMint = () => {
             metadata: {
               title: state.award_title,
               description: state.award_description,
-              media: `https://vitalpointai.infura-ipfs.io/ipfs/${state.image.cid}`,
+              media: `https://ipfs.near.social/ipfs/${state.image.cid}`,
               issued_at: `${Date.now()}`,
               extra: JSON.stringify({
                 type: "award",
@@ -268,7 +268,7 @@ return (
             </div>
             <ImageCard>
               <img
-                src={`https://ipfs.near.social/ipfs/${state.image.cid}`}
+                src={`${props.gateway}/ipfs/${state.image.cid}`}
                 alt="uploaded image"
                 width="100%"
                 height="100%"
