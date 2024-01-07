@@ -26,7 +26,7 @@ State.init({
   : props.setActiveStep(1);
 props.image ? State.update({ image: props.image }) : null;
 props.activeStep == 0 ? State.update({ image: null }) : null;
-
+console.log("activeStep", props.activeStep);
 const handleMint = () => {
   if (!state.image.cid) {
     return;
