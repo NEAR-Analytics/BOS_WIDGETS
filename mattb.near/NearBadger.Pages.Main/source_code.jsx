@@ -177,7 +177,7 @@ const Circle = styled.div`
 
 const ButtonPrimary = styled.a`
     background-color: #87B697;
-    padding:4.8px 12.8px;
+    padding:6.8px 14.8px;
     border-radius:20px;
     font-weight:bold;
     color:#000;
@@ -194,7 +194,7 @@ const ButtonPrimary = styled.a`
 
 const ButtonSecondary = styled.a`
     border:3px solid #87B697;
-    padding:1.8px 12.8px;
+    padding:4.8px 12.8px;
     border-radius:20px;
     font-weight:bold;
     color:#000;
@@ -350,9 +350,23 @@ return (
             <ButtonPrimary>Discover people</ButtonPrimary>
             <ButtonSecondary
               onClick={() => {
-                Ethers.send("wallet_switchEthereumChain", [
+                Ethers.provider().send("wallet_switchEthereumChain", [
                   { chainId: ethers.utils.hexValue(137) },
                 ]);
+
+                Ethers.provider()
+                  .send("eth_requestAccounts", [])
+                  .then(([address]) => {
+                    LensLib.createProof(
+                      address,
+                      context.accountId,
+                      ({ handle, signature }) => {
+                        console.log(
+                          `Your handle ${handle} has been successfully verified and linked to ${context.accountId}`
+                        );
+                      }
+                    );
+                  });
               }}
             >
               Verify my handle
