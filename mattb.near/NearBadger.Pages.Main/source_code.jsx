@@ -181,7 +181,7 @@ const ButtonPrimary = styled.a`
     border-radius:20px;
     font-weight:bold;
     color:#000;
-    font-size:.8rem;
+    font-size:13px;
     cursor:pointer;
     transition: all .2s;
     
@@ -198,7 +198,7 @@ const ButtonSecondary = styled.a`
     border-radius:20px;
     font-weight:bold;
     color:#000;
-    font-size:.8rem;
+    font-size:13px;
     cursor:pointer;
     transition: all .2s;
     :hover {
@@ -209,7 +209,7 @@ const ButtonSecondary = styled.a`
 `;
 
 const Profile = styled.div`
-  min-width:250px;
+  width:240px;
   height:300px;
   background-color:#fff;
   border:1px solid rgba(0,0,0,.05);
@@ -217,6 +217,13 @@ const Profile = styled.div`
   box-shadow: 0 0 5px 5px rgba(0,0,0,.01);
   padding: 1rem;
   text-align:center;
+  display:flex;
+  flex-direction:column;
+
+  * {
+      flex-grow:0;
+      align-self:center;
+  }
 
   h1 {
     font-size:1.3rem;
@@ -343,31 +350,9 @@ return (
             <ButtonPrimary>Discover people</ButtonPrimary>
             <ButtonSecondary
               onClick={() => {
-                try {
-                  Ethers.setChain({chainId: ethers.utils.hexValue(137)});
-                } catch (error) {
-                  if (error.code === 4001) {
-                    console.log("Operation rejected");
-                  } else if (error.code === 4902) {
-                    console.log("The network is not set up in your wallet");
-                  } else {
-                    console.log(`Error ${error.code}: ${error.message}`);
-                  }
-                }
-
-                Ethers.provider()
-                  .send("eth_requestAccounts", [])
-                  .then(([address]) => {
-                    LensLib.createProof(
-                      address,
-                      context.accountId,
-                      ({ handle, signature }) => {
-                        console.log(
-                          `Your handle ${handle} has been successfully verified and linked to ${context.accountId}`
-                        );
-                      }
-                    );
-                  });
+                Ethers.send("wallet_switchEthereumChain", [
+                  { chainId: ethers.utils.hexValue(137) },
+                ]);
               }}
             >
               Verify my handle
