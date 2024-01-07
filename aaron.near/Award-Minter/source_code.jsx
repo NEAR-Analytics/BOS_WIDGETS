@@ -21,10 +21,13 @@ State.init({
   toastMessage: "",
 });
 
-!state.image ? props.setActiveStep(0) : props.setActiveStep(1);
-props.image ? State.update({ image: props.image }) : null;
-props.activeStep == 0 ? State.update({ image: null }) : null;
-console.log("activeStep", props.activeStep);
+!state.image || state.image.uploading
+  ? props.setActiveStep(0)
+  : props.setActiveStep(1);
+props.image
+  ? State.update({ image: props.image })
+  : State.update({ image: null });
+
 const handleMint = () => {
   if (!state.image.cid) {
     return;
