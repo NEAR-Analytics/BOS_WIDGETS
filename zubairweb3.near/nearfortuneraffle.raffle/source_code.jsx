@@ -98,8 +98,8 @@ const [errMessage, setErrorMessage] = useState("");
 const [isLoading, setIsLoading] = useState(false);
 
 console.log(email);
-console.log(fullname);
 
+console.log(fullname);
 const sendData = () => {
   setIsLoading(true);
   asyncFetch("https://rafflestore.000webhostapp.com/api/register.php", {
@@ -329,7 +329,7 @@ const Entries = styled.div`
 
 return (
   <>
-    {state.nftCheck ? (
+    {!state.nftCheck ? (
       <div
         class="modal fade"
         id="raffleModal"
