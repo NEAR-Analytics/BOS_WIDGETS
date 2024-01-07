@@ -24,7 +24,11 @@ const LensLib = {
             },
           },
           {
-            onCommit,
+            onCommit: () => {
+              if (typeof onCommit === "function") {
+                onCommit(handle);
+              }
+            },
             onCancel,
           }
         );
