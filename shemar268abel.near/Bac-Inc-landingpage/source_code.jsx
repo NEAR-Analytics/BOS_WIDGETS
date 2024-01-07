@@ -41,13 +41,11 @@ const proposalsStatus = fether.proposalsStatus(daoId);
 let activeProposalsCount;
 let totalProposalsCount;
 
-/* 
 proposalsStatus &&
   proposalsStatus.body?.forEach((p) => {
     activeProposalsCount += p["InProgress"] ? parseInt(p["InProgress"]) : 0;
     totalProposalsCount += p["Total"] ? parseInt(p["Total"]) : 0;
   });
-  */
 
 // -- Smart Contract
 const policy = Near.view(daoId, "get_policy");
