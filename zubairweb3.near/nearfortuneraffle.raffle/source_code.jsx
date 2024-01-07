@@ -330,6 +330,7 @@ return (
         tabindex="-1"
         aria-labelledby="exampleModalLabel"
         aria-hidden="true"
+        style={{ marginTop: "50px" }}
       >
         <div class="modal-dialog">
           <div class="modal-content">
