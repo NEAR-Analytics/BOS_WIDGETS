@@ -27,6 +27,8 @@ const Wrapper = styled.div`
   justify-content: space-between;
   align-items: center;
   place-items: center;
+  margin: 0;
+  grid-template-rows: auto 1fr;
 }
 .two-sides aside {
   position: fixed;
