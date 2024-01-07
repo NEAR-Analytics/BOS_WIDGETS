@@ -3,6 +3,8 @@ const LensLib = VM.require("mattb.near/widget/NearBadger.Libs.Lens");
 const LOGO_URL =
   "https://ipfs.near.social/ipfs/bafkreiayxdc7zwztpcvtlo4x7axev5racawcl5xh4x7k6mfamidebbqqc4";
 
+let recentlyVerified = LensLib.listRecentlyVerifiedProfiles();
+
 const Main = styled.div`
     background-color:#F3FBF6;
 `;
@@ -21,6 +23,7 @@ const Section = styled.div`
 
     h1 {
         font-weight:bold;
+        margin-bottom:1.3rem;
     }
 `;
 
@@ -180,6 +183,72 @@ const ButtonSecondary = styled.a`
     font-size:.8rem;
 `;
 
+const Profile = styled.div`
+  width:250px;
+  height:300px;
+  background-color:#fff;
+  border:1px solid rgba(0,0,0,.05);
+  border-radius:20px;
+  box-shadow: 0 0 5px 5px rgba(0,0,0,.01);
+  padding: 1rem;
+  text-align:center;
+
+  h1 {
+    font-size:1.3rem;
+  }
+
+  p {
+    position:relative;
+    display:inline-block;
+    background-color:#C0EBD0;
+    border-radius:20px;
+    padding:.1rem 1rem .1rem 40px;
+    color:rgba(0,0,0,.7);
+    font-size:.8rem;
+    overflow:hidden;
+    border:1px solid rgba(0,0,0,.05);
+
+    .badge {
+      border-radius:0;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      width:30px;
+      height:100%;
+      position:absolute;
+      left:0;
+      top:0;
+      background-color:rgba(0,0,0,.1);
+      border-right:1px solid rgba(0,0,0,.02);
+
+      img {
+        display:block;
+        position:relative;
+        padding:0;
+        margin:0;
+        left:1px;
+        width:20px;
+        height:20px;
+      }
+    }
+  }
+`;
+
+const ProfileHeader = styled.div`
+  height:30%;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  margin-bottom:.8rem;
+`;
+
+const Image = styled.div`
+  width:70px;
+  height:70px;
+  background-color:rgba(0,0,0,.05);
+  border-radius:100%;
+`;
+
 return (
   <>
     <Main>
@@ -205,11 +274,15 @@ return (
             <ButtonPrimary>Discover people</ButtonPrimary>
             <ButtonSecondary
               onClick={() => {
-                let [address] = Ethers.send("eth_accounts", []);
-
-                LensLib.createProof(address, context.accountId, (handle) => {
-                  console.log(
-                    `Your handle ${handle} has been successfully verified and linked to ${context.accountId}`
+                Ethers.provider().send("eth_requestAccounts", []).then(([address]) => {
+                  LensLib.createProof(
+                    address,
+                    context.accountId,
+                    ({ handle, signature }) => {
+                      console.log(
+                        `Your handle ${handle} has been successfully verified and linked to ${context.accountId}`
+                      );
+                    }
                   );
                 });
               }}
@@ -232,7 +305,7 @@ return (
             <Circle
               style={{
                 top: "50px",
-                left: "60px",
+                left: "60px"
               }}
             >
               <img
@@ -244,6 +317,22 @@ return (
         </Header>
         <Section>
           <h1>Recently verified</h1>
+          {recentlyVerified.map((verifiedProfile) => <Profile>
+            <ProfileHeader>
+              <Image>
+              </Image>
+            </ProfileHeader>
+            <h1>{verifiedProfile.accountId}</h1>
+            <p>
+              <span className="badge">
+                <img
+                  src="https://ipfs.near.social/ipfs/bafkreid622wknql44yrzupww3bmfgcdxppkwyzmb4upbmpdvgtos2hjhzy"
+                  width="100%"
+                />
+              </span>
+              {verifiedProfile.value.name}
+            </p>
+          </Profile>)}
         </Section>
       </Wrapper>
     </Main>
