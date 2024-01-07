@@ -29,7 +29,7 @@ const Wrapper = styled.div`
   cursor: pointer;
   transition: background-color 0.3s ease;
 }
-.aside a.active::after {
+.aside #tabs a.active::after {
   content: "";
   position: absolute;
   left: 0;
