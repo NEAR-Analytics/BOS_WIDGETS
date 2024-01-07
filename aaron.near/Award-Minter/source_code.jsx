@@ -21,7 +21,9 @@ State.init({
   toastMessage: "",
 });
 
-!state.image ? props.setActiveStep(0) : props.setActiveStep(1);
+!state.image || state.image.uploading
+  ? props.setActiveStep(0)
+  : props.setActiveStep(1);
 props.image ? State.update({ image: props.image }) : null;
 
 const handleMint = () => {
@@ -271,13 +273,23 @@ return (
               </Link>
             </div>
             <ImageCard>
-              <img
-                src={`${props.gateway}/ipfs/${state.image.cid}`}
-                alt="uploaded image"
-                width="100%"
-                height="100%"
-                className="rounded-3"
-              />
+              {props.generated ? (
+                <img
+                  src={`${props.gateway}/ipfs/${state.image.cid}`}
+                  alt="uploaded image"
+                  width="100%"
+                  height="100%"
+                  className="rounded-3"
+                />
+              ) : (
+                <img
+                  src={`https://ipfs.near.social/ipfs/${state.image.cid}`}
+                  alt="uploaded image"
+                  width="100%"
+                  height="100%"
+                  className="rounded-3"
+                />
+              )}
             </ImageCard>
           </Card>
           <div>
