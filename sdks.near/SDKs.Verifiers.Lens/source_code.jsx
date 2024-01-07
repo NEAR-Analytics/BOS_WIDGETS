@@ -7,7 +7,7 @@ const LensVerifier = {
       Ethers.provider().getSigner()
     );
   },
-  authenticateAndSign: (address, nearAccount) => {
+  createProof: (address, nearAccount) => {
     return LensVerifier.authenticate(address).then((success) => {
       if (success) {
         return LensSDK.getProfileByEthereumAddress(address).then((payload) => {
@@ -42,7 +42,7 @@ const LensVerifier = {
         expectedAddress
       );
 
-      return EthereumSigner.verify(message, expectedAddress, signature);
+      return EthereumSigner.verify(message, signature, expectedAddress);
     });
   },
   getChallenge: (handle, nearAccount, address) => {
