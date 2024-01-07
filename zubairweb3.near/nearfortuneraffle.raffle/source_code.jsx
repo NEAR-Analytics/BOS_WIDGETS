@@ -83,8 +83,6 @@ const contractId = "mint.sharddog.near";
 
 const returnedData = Social.get(`${accountId}/formData/*`);
 
-console.log(returnedData + "Great");
-
 if (!contractId) {
   return `Missing "contractId"`;
 }
@@ -95,6 +93,9 @@ if (!accountId) {
 
 const [email, setEmail] = useState("");
 const [fullname, setFullname] = useState("");
+const [message, setSuccessMessage] = useState("");
+const [errMessage, setErrorMessage] = useState("");
+
 console.log(email);
 
 console.log(fullname);
@@ -107,17 +108,33 @@ const sendData = () => {
     body: `email=${encodeURIComponent(email)}&fullname=${encodeURIComponent(
       fullname
     )}`,
-  })
-    .then((response) => response.text())
-    .then((data) => {
-      if (data.status === "success") {
-        console.log("Data inserted successfully, thanks for participating");
+  }).then((response) => {
+    console.log(response.body.status);
+
+    if (response.ok) {
+      if (response.body.status === "success") {
+        setSuccessMessage(
+          "Thanks for participating, we would get back to you soon"
+        );
+        setErrorMessage("");
+        setEmail("");
+        setFullname("");
+        console.log("Data submitted successfully");
+      } else if (
+        response.body.status === "error" &&
+        response.body.message === "Email already exists."
+      ) {
+        setErrorMessage("Email already exists, try different one");
+        setSuccessMessage("");
+        console.log("Email already exists.");
+      } else {
+        setErrorMessage("Failed to submit data, try again");
+        console.log("Failed to submit data, try again");
       }
-      if (data.status === "emailExists") {
-        console.log("Email Already exists");
-      }
-    })
-    .catch((error) => console.error("Error:"));
+    } else {
+      console.log(`HTTP error! Status: ${response.status}`);
+    }
+  });
 };
 
 const nfts = Near.view(contractId, "nft_tokens_for_owner", {
@@ -141,8 +158,6 @@ if (!nfts) {
   return "";
 }
 
-console.log(state.nftCheck);
-console.log(state.email);
 const Container = styled.div`
 
 `;
@@ -318,10 +333,28 @@ return (
       >
         <div class="modal-dialog">
           <div class="modal-content">
+            <p
+              style={{
+                color: "red",
+                textAlign: "center",
+                paddingTop: "15px",
+                display: message ? "none" : "block",
+              }}
+            >
+              {errMessage && errMessage}
+            </p>
+            <p
+              style={{
+                color: "green",
+                textAlign: "center",
+                paddingTop: "15px",
+                display: errMessage ? "none" : "block",
+              }}
+            >
+              {message && message}
+            </p>
             <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">
-                @
-              </h5>
+              <h5 class="modal-title">Submit your Detail</h5>
               <button
                 type="button"
                 class="btn-close"
