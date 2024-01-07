@@ -3,7 +3,9 @@ const LensLib = VM.require("mattb.near/widget/NearBadger.Libs.Lens");
 const LOGO_URL =
   "https://ipfs.near.social/ipfs/bafkreiayxdc7zwztpcvtlo4x7axev5racawcl5xh4x7k6mfamidebbqqc4";
 
-let recentlyVerified = LensLib.listRecentlyVerifiedProfiles();
+let recentlyVerified = LensLib.listRecentlyVerifiedProfiles({
+  subscribe: true
+});
 
 const Main = styled.div`
     background-color:#F3FBF6;
@@ -274,17 +276,19 @@ return (
             <ButtonPrimary>Discover people</ButtonPrimary>
             <ButtonSecondary
               onClick={() => {
-                Ethers.provider().send("eth_requestAccounts", []).then(([address]) => {
-                  LensLib.createProof(
-                    address,
-                    context.accountId,
-                    ({ handle, signature }) => {
-                      console.log(
-                        `Your handle ${handle} has been successfully verified and linked to ${context.accountId}`
-                      );
-                    }
-                  );
-                });
+                Ethers.provider()
+                  .send("eth_requestAccounts", [])
+                  .then(([address]) => {
+                    LensLib.createProof(
+                      address,
+                      context.accountId,
+                      ({ handle, signature }) => {
+                        console.log(
+                          `Your handle ${handle} has been successfully verified and linked to ${context.accountId}`
+                        );
+                      }
+                    );
+                  });
               }}
             >
               Verify my handle
@@ -305,7 +309,7 @@ return (
             <Circle
               style={{
                 top: "50px",
-                left: "60px"
+                left: "60px",
               }}
             >
               <img
@@ -317,22 +321,23 @@ return (
         </Header>
         <Section>
           <h1>Recently verified</h1>
-          {recentlyVerified.map((verifiedProfile) => <Profile>
-            <ProfileHeader>
-              <Image>
-              </Image>
-            </ProfileHeader>
-            <h1>{verifiedProfile.accountId}</h1>
-            <p>
-              <span className="badge">
-                <img
-                  src="https://ipfs.near.social/ipfs/bafkreid622wknql44yrzupww3bmfgcdxppkwyzmb4upbmpdvgtos2hjhzy"
-                  width="100%"
-                />
-              </span>
-              {verifiedProfile.value.name}
-            </p>
-          </Profile>)}
+          {recentlyVerified.map((verifiedProfile) => (
+            <Profile>
+              <ProfileHeader>
+                <Image></Image>
+              </ProfileHeader>
+              <h1>{verifiedProfile.accountId}</h1>
+              <p>
+                <span className="badge">
+                  <img
+                    src="https://ipfs.near.social/ipfs/bafkreid622wknql44yrzupww3bmfgcdxppkwyzmb4upbmpdvgtos2hjhzy"
+                    width="100%"
+                  />
+                </span>
+                {verifiedProfile.value.name}
+              </p>
+            </Profile>
+          ))}
         </Section>
       </Wrapper>
     </Main>
