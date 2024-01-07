@@ -10,6 +10,8 @@ const metadata = {
   image: `ipfs://${state.image.cid}`,
 };
 
+console.log("state image", state.image);
+
 State.init({
   award_title: "",
   award_description: "",
