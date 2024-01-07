@@ -247,7 +247,7 @@ return (
           <ImageUploadCard className="flex-grow-1">
             <Ellipse />
             <IpfsImageUpload
-              image={props.image}
+              image={state.image}
               className="btn text-decoration-none link-primary pe-auto"
             />
             <div>
