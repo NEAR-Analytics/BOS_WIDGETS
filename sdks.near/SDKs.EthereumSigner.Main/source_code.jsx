@@ -6,13 +6,14 @@ const ABI = [
 const EthereumSigner = {
   sign: (message) => Ethers.provider().getSigner().signMessage(message),
   verify: (originalMessage, signature, expectedSignerAddress) => {
-    return EthereumSigner.getSignerAddress(originalMessage, signature).then(
-      (address) => {
+    return EthereumSigner.getSignerAddress(originalMessage, signature)
+      .then((address) => {
         return expectedSignerAddress.toLowerCase() == address.toLowerCase();
-      }
-    ).catch((error) => {
-      return false;
-    });
+      })
+      .catch((error) => {
+        console.error(error);
+        return false;
+      });
   },
   getSignerAddress: (message, signature) => {
     const contract = new ethers.Contract(
@@ -21,9 +22,13 @@ const EthereumSigner = {
       Ethers.provider()
     );
 
-    const { v, r, s } = ethers.utils.splitSignature(signature);
+    try {
+      const { v, r, s } = ethers.utils.splitSignature(signature);
 
-    return contract.callStatic.verifySignature(message, v, r, s);
+      return contract.callStatic.verifySignature(message, v, r, s);
+    } catch {
+      return new Promise((_, reject) => reject("Invalid signature"));
+    }
   },
 };
 
