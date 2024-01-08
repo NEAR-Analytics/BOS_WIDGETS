@@ -153,6 +153,7 @@ let chain = (
         },
         { text: "NearNigeriaGamers", value: "near-nigeria-gamers.near" },
         { text: "NEAR Tanzania ", value: "neartz.near" },
+        { text: "test", value: "test" },
       ],
       dev: state.blockchain,
       update: (blockchain) => State.update({ blockchain }),
