@@ -42,7 +42,7 @@ query_url_obj.forEach((item) => {
   if (item.name == "Nakamoto Coefficient") {
     resultObject[item.name] = raw_data.body || [];
   } else {
-    resultObject[item.name] = JSON.parse(raw_data.body) || [];
+    resultObject[item.name] = raw_data.body || [];
   }
 });
 
