@@ -33,7 +33,7 @@ let WALLETS_CREATED_rawData = fetch(
   }
 );
 
-const WALLETS_CREATED_RAW = JSON.parse(WALLETS_CREATED_rawData.body) || [];
+const WALLETS_CREATED_RAW = WALLETS_CREATED_rawData.body || [];
 
 State.update({
   WALLETS_CREATED: WALLETS_CREATED_RAW,
