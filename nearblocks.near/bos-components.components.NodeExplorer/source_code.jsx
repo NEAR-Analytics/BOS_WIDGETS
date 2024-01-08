@@ -976,12 +976,12 @@ function MainComponent({ network, currentPage, setPage }) {
     initialValidatorFullData,
   );
   const [isLoading, setIsLoading] = useState(false);
-  const [totalSuppy, setTotalSupplay] = useState('');
+  const [totalSuppy, setTotalSupplay] = useState(0);
   const [expanded, setExpanded] = useState([]);
   const errorMessage = 'No validator data!';
   const config = getConfig(network);
 
-  const TotalSupply = yoctoToNear(Number(totalSuppy), false);
+  const TotalSupply = yoctoToNear(Number(totalSuppy || 0), false);
 
   useEffect(() => {
     function fetchValidatorData() {
@@ -1020,7 +1020,7 @@ function MainComponent({ network, currentPage, setPage }) {
         .then((res) => {
           const data = res.body;
 
-          setTotalSupplay(data.stats[0].total_supply);
+          setTotalSupplay(data.stats[0].total_supply || 0);
         })
         .catch(() => {})
         .finally(() => {
