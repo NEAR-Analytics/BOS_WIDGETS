@@ -66,9 +66,45 @@ const Header = styled.div`
     }
 
     .image {
+
+        @keyframes rotate {
+            0% {
+                transform:rotate(0deg);
+            }
+            100% {
+                transform:rotate(360deg);
+            }
+        }
+
+        @keyframes keep {
+            0% {
+                transform:rotate(0deg);
+            }
+            50% {
+                transform:rotate(-180deg);
+            }
+            100% {
+                transform:rotate(0deg);
+            }
+        }
+        
         position:relative;
         width:50%;
-
+        display:flex;
+        align-items:center;
+        justify-content:flex-start;
+        flex-direction:column;
+        animation-name: rotate;
+        animation-duration: 60s;
+        animation-fill-mode:backwards;
+        
+        * {
+            animation-name: keep;
+            animation-duration: 120s;
+            animation-delay:0;
+            animation-fill-mode:backwards;
+        }
+        
         > img {
             position:absolute;
             top:0;
@@ -104,8 +140,8 @@ const Circle = styled.div`
     }
 
     position:relative;
-    width:60px;
-    height:60px;
+    width:100px;
+    height:100px;
     border-radius:100%;
     background-color:#fffdea;
     border: 3px solid #87B697;
@@ -386,7 +422,7 @@ return (
             </Circle>
             <Circle
               style={{
-                top: "50px",
+                top: "30px",
                 left: "60px",
               }}
             >
