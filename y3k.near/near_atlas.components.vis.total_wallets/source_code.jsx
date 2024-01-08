@@ -1,5 +1,5 @@
 let raw_data = fetch(
-  "https://api.flipsidecrypto.com/api/v2/queries/91b91aba-f307-48c9-9731-c3d475838f1f/data/latest",
+  "https://api.flipsidecrypto.com/api/v2/queries/72167ffd-3e51-4006-8bcc-67a54b93b9e5/data/latest",
   {
     subscribe: true,
     method: "GET",
