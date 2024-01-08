@@ -1,40 +1,41 @@
 const Card = styled.div`
 .card {
-    width: 90vw;
-    background-color: #333;
-    color: white;
-    padding: 20px;
-    margin-bottom: 20px;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-    position: relative;
+  width: 90vw;
+  background-color: #333;
+  color: white;
+  padding: 20px;
+  margin-bottom: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  position: relative;
+  text-align: left;
 }
 
 .big-name {
-    font-size: 36px;
-    margin-bottom: 10px;
+  font-size: 36px;
+  margin-bottom: 10px;
 }
 
 .time {
-    font-size: 14px;
+  font-size: 14px;
 }
 
 .description {
-    font-size: 16px;
-    margin-top: 10px;
+  font-size: 16px;
+  margin-top: 10px;
 }
 
 .details {
-    display: flex;
-    justify-content: space-between;
-    gap: 15px;
-    margin-top: 10px;
+  display: flex;
+  justify-content: space-between;
+  gap: 15px;
+  margin-top: 10px;
 }
 
 .lock-icon {
-    position: absolute;
-    top: 10px;
-    right: 10px;
+  position: absolute;
+  top: 10px;
+  right: 10px;
 }
 `;
 
@@ -47,7 +48,7 @@ return (
   <Card>
     <div className="card">
       <div className="big-name">{props.name}</div>
-      <div className="description">{shortText(props.desc)}</div>
+      <div className="description">{shortText("props.desc")}</div>
       <div className="details">
         <div className="time">Open on: {props.open}</div>
         <div className="time">Close on: {props.close}</div>
