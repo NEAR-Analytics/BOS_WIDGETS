@@ -165,7 +165,7 @@ const Header = styled.div`
     color: #fff;
     margin: 5px 0px;
     border-radius: 15px;
-    height: 35vh;
+    height: 26vh;
     display: flex;
     flex-direction: column;
     align-items: center;
