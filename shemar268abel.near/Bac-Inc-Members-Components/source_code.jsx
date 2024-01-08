@@ -107,33 +107,31 @@ const Spacer = styled.div`
 `;
 
 return (
-  <Wrapper>
-    <Feature>
-      <Card>
-        <img className="prof" src={image} />
-        <p>{user}</p>
-        <p className="role">{role}</p>
-      </Card>
-      <Card>
-        <img className="prof" src={image} />
-        <p>{user}</p>
-        <p className="role">{role}</p>
-      </Card>
-      <Card>
-        <img className="prof" src={image} />
-        <p>{user}</p>
-        <p className="role">{role}</p>
-      </Card>
-      <Card>
-        <img className="prof" src={image} />
-        <p>{user}</p>
-        <p className="role">{role}</p>
-      </Card>
-      <Card>
-        <img className="prof" src={image} />
-        <p>{user}</p>
-        <p className="role">{role}</p>
-      </Card>
-    </Feature>
-  </Wrapper>
+  <Feature>
+    <Card>
+      <img className="prof" src={image} />
+      <p>{user}</p>
+      <p className="role">{role}</p>
+    </Card>
+    <Card>
+      <img className="prof" src={image} />
+      <p>{user}</p>
+      <p className="role">{role}</p>
+    </Card>
+    <Card>
+      <img className="prof" src={image} />
+      <p>{user}</p>
+      <p className="role">{role}</p>
+    </Card>
+    <Card>
+      <img className="prof" src={image} />
+      <p>{user}</p>
+      <p className="role">{role}</p>
+    </Card>
+    <Card>
+      <img className="prof" src={image} />
+      <p>{user}</p>
+      <p className="role">{role}</p>
+    </Card>
+  </Feature>
 );
