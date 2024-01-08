@@ -288,7 +288,7 @@ if (state.dydx_account == undefined) {
   }, [state.account, state.orders, state.nonce]);
 
   return (
-    <div>
+    <div class="mb-5">
       {state.account.address && (
         <div>
           <h2>Account Details</h2>
@@ -308,7 +308,7 @@ if (state.dydx_account == undefined) {
                       <div class="mb-2">
                         <OrderSide side={order.side}>{order.side}</OrderSide>
                         <OrderMarket>
-                          {ticker} at ${order.entryPrice}
+                          {ticker} at ${Big(order.entryPrice).toFixed(4)}
                         </OrderMarket>{" "}
                         <OrderSize> Size: {order.size}</OrderSize>
                         {order.createdAt
