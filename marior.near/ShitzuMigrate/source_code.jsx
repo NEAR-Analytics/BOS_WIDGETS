@@ -176,6 +176,19 @@ if (!!state.shitzuBalance) {
     .replace(/\d(?=(\d{3})+\.)/g, "$&,");
 }
 
+const totalSupply = Near.view("token.0xshitzu.near", "ft_total_supply");
+if (!totalSupply) return "";
+const progress = Big(totalSupply)
+  .mul(100)
+  .div(Big("576167000").mul(Big(10).pow(tokenDecimals)))
+  .toFixed(3);
+const price = fetch(
+  "https://api.dexscreener.com/latest/dex/pairs/near/refv1-4369"
+).body.pair.priceUsd;
+console.log("price", price);
+const marketCap = Big(price).mul("576167000").toFixed(2);
+console.log("marketCap", marketCap);
+
 const Wrapper = styled.div`
     display: flex;
     flex-direction: column;
@@ -195,10 +208,33 @@ const Text = styled.div`
   font-size: 1.1rem;
   font-style: italic;
 `;
+const Progress = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 0.8rem;
+  height: 1.6rem;
+  width: 100%;
+  background: ${({ progress }) =>
+    `linear-gradient(to right, lightblue 0% ${progress}%, lightgrey ${progress}% 100%)`};
+`;
 
 return (
   <Wrapper>
-    <h2>SHITZU migration component</h2>
+    <h2 style={{ alignSelf: "center" }}>SHITZU Migration</h2>
+
+    <Progress progress={progress}>{progress}% complete</Progress>
+
+    <h5>Market Cap: {marketCap}$</h5>
+
+    <a
+      style={{ alignSelf: "center" }}
+      href="https://app.ref.finance/#near|token.0xshitzu.near"
+      target="_blank"
+    >
+      <button>Buy SHITZU on Ref Finance</button>
+    </a>
+
     <Text>
       This BOS component lets you migrate SHITZU from Aurora to the new contract
       on Near. This migration will run indefinitely and you can migrate SHITZU
