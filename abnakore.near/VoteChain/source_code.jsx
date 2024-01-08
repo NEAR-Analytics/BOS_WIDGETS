@@ -49,8 +49,8 @@ return (
                     <Widget
                       src="abnakore.near/widget/VoteCard"
                       props={{
-                        name: "name",
-                        desc: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Impedit obcaecati iure rem nulla deleniti accusamus, qui, aut recusandae ut fugiat molestiae dicta asperiores, est aspernatur. Aliquid porro sed neque molestiae!",
+                        name: "",
+                        desc: "",
                         open: "27-03-2024 2:30PM",
                         close: "27-03-2024 2:30PM",
                         no_of_candidates: 10,
