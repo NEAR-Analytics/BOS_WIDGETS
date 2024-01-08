@@ -25,7 +25,7 @@ const handleDateRangeChange = (range) => {
   });
 };
 
-const data = JSON.parse(rawData.body) || [];
+const data = rawData.body || [];
 State.update({ rawData: data });
 
 let Style = styled.div`
