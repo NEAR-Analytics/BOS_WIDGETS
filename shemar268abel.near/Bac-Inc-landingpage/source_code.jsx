@@ -84,16 +84,9 @@ const profile = Social.get(`${daoId}/profile/**`, "final");
 
 const Wrapper = styled.div`
   background: #0c0c0c;
-  height: 100vh;
+  // height: 100%;
   padding: 10px;
   margin: 0;
-
-  .content-wrap {
-  min-height: calc(100% - 60px); /* Adjust 60px to the height of your footer */
-  /* Padding bottom equals to footer height */
-  padding-bottom: 60px; /* Same as footer height */
-  box-sizing: border-box; /* Include padding in the height calculation */
-}
 `;
 
 const Navbar = styled.div`
@@ -172,7 +165,7 @@ const Header = styled.div`
     color: #fff;
     margin: 5px 0px;
     border-radius: 15px;
-    height: 40%;
+    height: 35vh;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -227,7 +220,7 @@ const Stat = styled.div`
     
     color: #fff;
     border-radius: 15px;
-    height: 12%;
+    height: 10vh;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -338,6 +331,16 @@ const Members = styled.div`
 
 `;
 
+const Section = styled.div`
+  display: flex;
+  flex-directon: row;
+
+  .main {
+    display: flex;
+    flex-directon: column;
+  }
+`;
+
 return (
   <Wrapper className="content-wrap">
     <Navbar>
@@ -406,6 +409,8 @@ return (
       </Social>
     </Header>
 
+    <Spacer/>
+
     <Stat>
       <Glow>
         <p>
@@ -433,7 +438,6 @@ return (
         <p>Projects</p>
       </Glow>
     </Stat>
-
     <Spacer />
   </Wrapper>
 );
