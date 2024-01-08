@@ -5,33 +5,35 @@ State.init({
   inputValue: "",
 });
 
-function onChangeGreeting() {
-  if (state.greeting === defaultGreeting) {
-    State.update({
-      greeting: "Hello dev!",
-    });
-  } else {
-    State.update({
-      greeting: defaultGreeting,
-    });
-  }
+function onChangeGreeting(greeting) {
+  State.update({
+    greeting,
+  });
 }
 
 return (
   <div>
     <h1>{state.greeting}</h1>
 
-    <button onClick={onChangeGreeting}>Boring greeting, change it!</button>
+    <div class="d-grid gap-1">
+      <label>Change your greeting</label>
+      <input
+        value={inputValue}
+        onChange={(e) => {
+          State.update({
+            inputValue: e.target.value,
+          });
 
-    <input
-      value={inputValue}
-      onChange={(e) => {
-        State.update({
-          inputValue: e.target.value,
-        });
-
-        console.log(state.inputValue);
-      }}
-    />
+          console.log(state.inputValue);
+        }}
+      />
+      <button
+        onClick={() => {
+          onChangeGreeting(state.inputValue);
+        }}
+      >
+        Change
+      </button>
+    </div>
   </div>
 );
