@@ -4,11 +4,11 @@
  * License: Business Source License 1.1
  * Description: Top Tokens on Near Protocol.
  * @interface Props
- * @param {Function} t - A function for internationalization (i18n) provided by the next-translate package.
- * @param {string}  [network] - The network data to show, either mainnet or testnet.
- * @param {number} [currentPage] - The current page number being displayed. (Optional)
+ *  @property {Function} t - A function for internationalization (i18n) provided by the next-translate package.
+ *  @param {string}  [network] - The network data to show, either mainnet or testnet.
+ *  @param {number} [currentPage] - The current page number being displayed. (Optional)
  *                                 Example: If provided, currentPage=3 will display the third page of blocks.
- * @param {function} [setPage] - A function used to set the current page. (Optional)
+ *  @param {function} [setPage] - A function used to set the current page. (Optional)
  *                               Example: setPage={handlePageChange} where handlePageChange is a function to update the page.
  */
 
@@ -186,7 +186,18 @@ function convertToMetricPrefix(number) {
     Number(Math.floor(number * 100) / 100).toFixed(2) + ' ' + prefixes[count]
   );
 }
+function formatNumber(value) {
+  const suffixes = ['', 'K', 'M', 'B', 'T'];
+  let suffixIndex = 0;
 
+  while (value >= 10000 && suffixIndex < suffixes.length - 1) {
+    value /= 1000;
+    suffixIndex++;
+  }
+
+  const formattedValue = value.toFixed(1).replace(/\.0+$/, '');
+  return `${formattedValue} ${suffixes[suffixIndex]}`;
+}
 function gasFee(gas, price) {
   const near = yoctoToNear(Big(gas).mul(Big(price)).toString(), true);
 
@@ -494,7 +505,18 @@ function convertToMetricPrefix(number) {
     Number(Math.floor(number * 100) / 100).toFixed(2) + ' ' + prefixes[count]
   );
 }
+function formatNumber(value) {
+  const suffixes = ['', 'K', 'M', 'B', 'T'];
+  let suffixIndex = 0;
 
+  while (value >= 10000 && suffixIndex < suffixes.length - 1) {
+    value /= 1000;
+    suffixIndex++;
+  }
+
+  const formattedValue = value.toFixed(1).replace(/\.0+$/, '');
+  return `${formattedValue} ${suffixes[suffixIndex]}`;
+}
 function gasFee(gas, price) {
   const near = yoctoToNear(Big(gas).mul(Big(price)).toString(), true);
 
@@ -795,7 +817,18 @@ function convertToMetricPrefix(number) {
     Number(Math.floor(number * 100) / 100).toFixed(2) + ' ' + prefixes[count]
   );
 }
+function formatNumber(value) {
+  const suffixes = ['', 'K', 'M', 'B', 'T'];
+  let suffixIndex = 0;
 
+  while (value >= 10000 && suffixIndex < suffixes.length - 1) {
+    value /= 1000;
+    suffixIndex++;
+  }
+
+  const formattedValue = value.toFixed(1).replace(/\.0+$/, '');
+  return `${formattedValue} ${suffixes[suffixIndex]}`;
+}
 function gasFee(gas, price) {
   const near = yoctoToNear(Big(gas).mul(Big(price)).toString(), true);
 
@@ -1270,7 +1303,7 @@ function MainComponent({ t, network, currentPage, setPage }) {
       setIsLoading(true);
       const queryParams = qs ? qs + '&' : '';
       asyncFetch(
-        `${config?.backendUrl}fts?${queryParams}order=${sqs?.order}&sort=${sqs?.sort}&page=${currentPage}&per_page=${initialPagination.per_page}`,
+        `${config?.backendUrl}fts?${queryParams}order=${sqs?.order}&sort=${sqs?.sort}&page=${currentPage}&per_page=25`,
         {
           method: 'GET',
           headers: {
@@ -1686,7 +1719,7 @@ function MainComponent({ t, network, currentPage, setPage }) {
           isPagination: true,
           count: totalCount,
           page: currentPage,
-          limit: initialPagination.per_page,
+          limit: 25,
           pageLimit: 200,
           setPage: setPage,
           Error: errorMessage,
