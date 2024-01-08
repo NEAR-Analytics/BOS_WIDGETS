@@ -30,13 +30,33 @@ return (
           body: (
             <div className="main-body">
               <div className="body-contents">
-                <div className="two-sides"></div>
-                <Widget
-                  src="abnakore.near/widget/Aside"
-                  props={{ objs: pages, active: "/admin/manage_candidates" }}
-                />
-                <div className="body-contents">
-                  <h1>...</h1>
+                <div className="two-sides">
+                  <Widget
+                    src="abnakore.near/widget/Aside"
+                    props={{ objs: pages, active: "/admin/manage_candidates" }}
+                  />
+                  <div className="body-contents">
+                    <Widget
+                      src="abnakore.near/widget/VoteCard"
+                      props={{
+                        name: "name",
+                        desc: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Impedit obcaecati iure rem nulla deleniti accusamus, qui, aut recusandae ut fugiat molestiae dicta asperiores, est aspernatur. Aliquid porro sed neque molestiae!",
+                        open: "27-03-2024 2:30PM",
+                        close: "27-03-2024 2:30PM",
+                        no_of_candidates: 10,
+                      }}
+                    />
+                    <Widget
+                      src="abnakore.near/widget/VoteCard"
+                      props={{
+                        name: "name",
+                        desc: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Impedit obcaecati iure rem nulla deleniti accusamus, qui, aut recusandae ut fugiat molestiae dicta asperiores, est aspernatur. Aliquid porro sed neque molestiae!",
+                        open: "27-03-2024 2:30PM",
+                        close: "27-03-2024 2:30PM",
+                        no_of_candidates: 10,
+                      }}
+                    />
+                  </div>
                 </div>
               </div>
             </div>
