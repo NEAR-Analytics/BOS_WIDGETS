@@ -107,8 +107,9 @@ return (
   <Wrapper
     className="container-xl"
     negativeMargin={state.selectedTab === "posts"}
+    // <Widget src="shemar268abel.near/widget/community.Page" />
   >
-    <Widget src="shemar268abel.near/widget/community.Page" />
+    <Widget src="shemar268abel.near/widget/Bac-Inc-landingpage" />
     <Tabs
       halfMargin={state.selectedTab === "apps"}
       noMargin={state.selectedTab === "posts"}
