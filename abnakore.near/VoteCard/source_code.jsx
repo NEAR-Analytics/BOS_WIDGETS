@@ -52,7 +52,7 @@ function shortText(text) {
 
 return (
   <Card>
-    <div className="card-div">
+    <div className="card-div" style={props.style}>
       <div className="big-name">{props.name}</div>
       <div className="description">{shortText(props.desc)}</div>
       <div className="details">
