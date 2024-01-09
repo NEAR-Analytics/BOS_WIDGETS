@@ -52,7 +52,6 @@ if (
 }
 
 const DarkOverlay = styled.div`
-    z-index:1;
     display:flex;
     align-items:flex-start;
     justify-content:center;
