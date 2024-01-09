@@ -46,6 +46,7 @@ const FilterIcon = styled.div`
 
 const FilterMenu = styled.div`
   position: absolute;
+  background: #FFF;
   top: 100%;
   right: 0;
   padding: 8px;
