@@ -565,7 +565,7 @@ return (
                   size: "sm",
                   className: "info w-25",
                   onClick: () => {
-                    handleOpenArticle(data);
+                    switchShowPreview ? () => {} : handleOpenArticle(data);
                   },
                 }}
               />
