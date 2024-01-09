@@ -1,8 +1,55 @@
+const LensLib = VM.require("mattb.near/widget/NearBadger.Libs.Lens");
+
 const { onClose } = props;
+const POLYGON_CHAIN_ID = 137;
 
 State.init({
-  step: 0
+  step: 0,
+  address: null,
+  chainId: 0,
+  handle: null,
+  checkedHandle: false,
 });
+
+if (!Ethers.provider()) {
+  State.update({
+    address: null,
+  });
+} else {
+  Ethers.provider()
+    .send("eth_requestAccounts")
+    .then(([address]) => State.update({ address }));
+
+  Ethers.provider().on("network", (newNetwork) => {
+    State.update({
+      chainId: newNetwork.chainId,
+    });
+  });
+
+  Ethers.provider().on("accountsChanged", ([address]) => {
+    State.update({
+      address,
+    });
+  });
+}
+
+if (
+  state.address &&
+  state.chainId == POLYGON_CHAIN_ID &&
+  !state.checkedHandle
+) {
+  LensLib.getAddressHandle(state.address).then((handle) => {
+    if (handle) {
+      State.update({
+        handle,
+      });
+    }
+
+    State.update({
+      checkedHandle: true,
+    });
+  });
+}
 
 const DarkOverlay = styled.div`
     z-index:9999;
@@ -11,7 +58,7 @@ const DarkOverlay = styled.div`
     justify-content:center;
     width:100%;
     height:100vh;
-    background-color:rgba(0,0,0,.6);
+    background-color:rgba(0,0,0,.02);
     backdrop-filter:blur(5px);
     overflow-y:scroll;
     box-sizing:border-box;
@@ -24,8 +71,9 @@ const Box = styled.div`
     max-width:500px;
     border-radius:20px;
     background-color:#fff;
-    box-shadow: 0 0 10px 10px rgba(0,0,0,.1);
+    box-shadow: 0 0 20px 10px rgba(0,0,0,.1);
     padding:1.5rem;
+    border:2px solid rgba(0,0,0,.05);
 `;
 
 const Title = styled.h1`
@@ -40,7 +88,7 @@ const Text = styled.p`
 
 const Controls = styled.div`
     width:100%;
-    margin-top:2.5rem;
+    margin-top:1.2rem;
 `;
 
 const StepButton = styled.button`
@@ -68,7 +116,7 @@ const Requirements = styled.ul`
     padding:0;
     margin:0;
     list-style:none;
-    padding: 20px 0 20px 30px;
+    padding: 30px 0 30px 50px;
     border-radius:10px;
     background-color:#F2F2F2;
     overflow:hidden;
@@ -77,7 +125,7 @@ const Requirements = styled.ul`
         content:'';
         position:absolute;
         top:0;
-        left:20px;
+        left:40px;
         width:2px;
         height:100%;
         background-color:rgba(0,0,0,.1);
@@ -112,16 +160,39 @@ const Requirement = styled.li`
     font-size:.8rem;
     position:relative;
     padding-left:5px;
-    color:rgba(0,0,0,.3);
+    display:flex;
+    flex-direction:column;
+    justify-content:flex-start;
     
     :not(:last-of-type) {
         margin-bottom:10px;
     }
 
+    h2 {
+        color:rgba(0,0,0,.3);
+        font-size:.8rem;
+        font-weight:normal;
+        padding:0;
+        margin:0;
+
+        + .description {
+            margin-left:10px;
+        }
+    }
+
     &.selected {
-        color:#000;
-        font-size:.95rem;
-        font-weight:bold;
+        
+        h2 {
+            color:#000;
+            font-size:.95rem;
+            font-weight:bold;
+            padding:0;
+            margin:0;
+
+            + .description {
+                margin-left:10px;
+            }
+        }
 
         ::after {
             width:20px;
@@ -133,6 +204,12 @@ const Requirement = styled.li`
             width:12px;
             height:12px;
             left:-15px;
+        }
+
+        &.failed {
+            + .description {
+                display:block;
+            }
         }
     }
 
@@ -181,25 +258,158 @@ const Requirement = styled.li`
         left:-13px;
         z-index:1000;
     }
+
+    &+ .description {
+        display:none;
+    }
+`;
+
+const Description = styled.li`
+    margin-left:15px;
+    margin-bottom:10px;
+    font-size:.8rem;
+
+    button {
+        display:block;
+        z-index:99999;
+        cursor:pointer;
+        right:13px;
+        bottom:13px;
+        font-size:.8rem;
+        font-weight:bold;
+        color:#000;
+        opacity:.5;
+        background-color:rgba(0,0,0,.1);
+        padding: 3px 10px;
+        border-radius:20px;
+        border:0;
+        transition: all .2s;
+        border:1px solid rgba(0,0,0,.05);
+        margin:10px 0 15px;
+
+        :hover, :focus {
+            opacity:.7;
+            transition: all .2s;
+            color:#000;
+            background-color:rgba(0,0,0,.1);
+            border:1px solid rgba(0,0,0,.05);
+        }
+    }
+`;
+
+const Warning = styled.div`
+    width:100%;
+    background-color:#fff2c4;
+    border-radius:10px;
+    margin-top:20px;
+    padding:20px;
+
+    h2 {
+        font-size:1.2rem;
+        font-weight:bold;
+    }
+
+    p {
+        font-size:.8rem;
+        margin:0;
+        padding:0;
+    }
 `;
 
 let steps = [
   <>
     <Title>Verify handle</Title>
     <Text>
-      To become part of the family, first you need to meet the following
-      requirements:
+      Before starting the process, we need to check some things that might save
+      you time
     </Text>
     <Requirements>
-      <button className="retry">Retry</button>
-      <Requirement className="verified">
-        Ethereum wallet connected
+      <Requirement
+        className={`${
+          context.accountId != null ? "verified" : "selected failed"
+        }`}
+      >
+        <h2>NEAR account connected</h2>
       </Requirement>
-      <Requirement className="selected failed">Polygon Mainnet enabled</Requirement>
-      <Requirement>Lens handle available</Requirement>
-      <Requirement>NEAR account connected</Requirement>
+      <Description className="description">
+        Your NEAR account is not connected
+        <button>Check again</button>
+      </Description>
+      <Requirement
+        className={`
+          ${state.address ? "verified" : "selected failed"}
+      `}
+      >
+        <h2>Ethereum wallet connected</h2>
+      </Requirement>
+      <Description className="description">
+        Your wallet is not connected
+        <Web3Connect connectLabel="Connect wallet" />
+      </Description>
+      <Requirement
+        className={`
+          ${
+            state.address && state.chainId == POLYGON_CHAIN_ID ? "verified" : ""
+          }
+          ${
+            state.address && state.chainId != POLYGON_CHAIN_ID
+              ? "selected failed"
+              : ""
+          }
+      `}
+      >
+        <h2>Polygon network connected</h2>
+      </Requirement>
+      <Description className="description">
+        Your wallet is not connected to Polygon network
+        <button
+          onClick={() => {
+            try {
+              Ethers.setChain({
+                chainId: ethers.utils.hexlify(POLYGON_CHAIN_ID),
+              });
+            } catch {
+              Ethers.send("wallet_switchEthereumChain", [
+                {
+                  chainId: ethers.utils.hexlify(POLYGON_CHAIN_ID),
+                },
+              ]);
+            }
+          }}
+        >
+          Switch network
+        </button>
+      </Description>
+      <Requirement
+        className={`
+          ${state.handle && state.address ? "verified" : ""}
+          ${
+            !state.checkedHandle &&
+            state.address &&
+            state.chainId == POLYGON_CHAIN_ID
+              ? "pending"
+              : ""
+          }
+          ${
+            state.address && state.checkedHandle && !state.handle
+              ? "selected failed"
+              : ""
+          }
+      `}
+      >
+        <h2>Lens handle available</h2>
+      </Requirement>
+      <Description className="description">
+        Your address doesn't own any Lens handle
+      </Description>
     </Requirements>
-  </>
+    {state.handle && <Warning>
+      <h2>Warning</h2>
+      <Text>
+        You will need NEAR in your account to save your verified identity
+      </Text>
+    </Warning>}
+  </>,
 ];
 
 return (
@@ -234,11 +444,17 @@ return (
         )}
         {!steps[state.step + 1] && (
           <StepButton
-            onClick={() => {
-            }}
-            disabled={true}
+            onClick={() =>
+              LensLib.createProof(state.address, context.accountId)
+            }
+            disabled={
+              !context.accountId ||
+              !state.address ||
+              state.chainId != POLYGON_CHAIN_ID ||
+              !state.handle
+            }
           >
-            Finish
+            Sign & Save
           </StepButton>
         )}
       </Controls>
