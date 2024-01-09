@@ -49,7 +49,7 @@ return (
   <Card>
     <div className="card-div">
       <div className="big-name">{props.name}</div>
-      <div className="description">{shortText("props.desc")}</div>
+      <div className="description">{shortText(props.desc)}</div>
       <div className="details">
         <div className="time">Open on: {props.open}</div>
         <div className="time">Close on: {props.close}</div>
