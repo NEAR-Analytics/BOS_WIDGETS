@@ -61,7 +61,7 @@ const Post = (
       <StyledImage src={Image2} alt="raffle pics" />
     </ImageGroup>
     <p>
-      Thanks for entering the raffle! Winners will be emailed on Dec. 15 11:59pm
+      Thanks for entering the raffle! Winners will be emailed on Jan. 15 11:59pm
     </p>
     <ShareBtn>
       <span>Share on twitter</span>
@@ -154,6 +154,7 @@ const nfts = Near.view(contractId, "nft_tokens_for_owner", {
 const nftTitle = "Kano is bos jollof - 1";
 const nftTitle2 = "Black Dragon Token - 652";
 const nftTitle3 = "ShardDog - 1555";
+const nftTitle4 = "Kano is bos jollof - 2";
 
 console.log(nfts[0].metadata.title);
 
@@ -161,7 +162,12 @@ const id = "mint.sharddog.near:2cdbb07ea61d7a4175791ca1170ee4c3";
 State.init({ nftCheck: false });
 
 for (let i = 0; i < nfts.length; i++) {
-  if (nftTitle2 === nfts[i].metadata.title) {
+  if (
+    nfts[i].metadata.title === nftTitle ||
+    nfts[i].metadata.title === nftTitle2 ||
+    nfts[i].metadata.title === nftTitle3 ||
+    nfts[i].metadata.title === nftTitle4
+  ) {
     State.update({ nftCheck: true });
     break;
   }
@@ -460,7 +466,11 @@ return (
               ></button>
             </div>
             <div class="modal-body">
-              Ops! You must have Black Dragon Token - 652 to enter the raffle
+              Ops! You must have one of the following nfts to enter the raffle{" "}
+              <br />
+              - Kano is bos jollof - 1 <br />
+              - Black Dragon Token - 652 <br />
+              - Black Dragon Token - 531 <br />- ShardDog - 1555
             </div>
           </div>
         </div>
@@ -537,7 +547,7 @@ return (
           <CloseDate>
             <h4 style={{ fontWeight: "700", margin: "0" }}>CLOSES</h4>
             <p style={{ fontSize: "0.75rem", lineHeight: "1rem" }}>
-              Dec 13, 11:59 PM GMT+1
+              Jan 15, 11:59 PM GMT+1
             </p>
           </CloseDate>
           <Entries>
