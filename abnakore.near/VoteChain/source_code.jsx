@@ -9,6 +9,12 @@ padding: 20px 10px;
 @media screen and (min-width: 1200px) {
   width: 90%;
 }
+@media screen and (min-width: 1250px) {
+  width: 80%;
+}
+@media screen and (min-width: 1400px) {
+  width: 90%;
+}
 
 `;
 
