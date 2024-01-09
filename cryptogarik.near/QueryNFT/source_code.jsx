@@ -33,12 +33,19 @@ return (
     >
       <div>
         NFT contract
-        <input type="text" value={state.nft.contractId} />
+        <input
+          type="text"
+          value={state.nft.contractId}
+          disabled
+          placeholder="Choose a NFT"
+        />
         NFT token id
         <input
           type="text"
           value={state.nft.tokenId}
           onChange={updateTokenData}
+          disabled
+          placeholder="Choose a NFT"
         />
         {state.tokenData && (
           <div>
