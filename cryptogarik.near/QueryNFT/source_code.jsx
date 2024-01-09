@@ -2,9 +2,29 @@ const image = props.image;
 const onChange = props.onChange;
 
 State.init({
+  showTokenMetadataSection: false,
+  showTokenTransferSection: false,
   url: image.url,
   nft: image.nft ?? {},
 });
+
+const showTokenMetadataSection = () => {
+  const tokenData = Near.view(state.nft.contractId, "nft_token", {
+    token_id: state.nft.tokenId,
+  });
+  State.update({
+    showTokenMetadataSection: !state.showTokenMetadataSection,
+    showTokenTransferSection: false,
+    tokenData,
+  });
+};
+
+const showTokenTransferSection = () => {
+  State.update({
+    showTokenMetadataSection: false,
+    showTokenTransferSection: !state.showTokenTransferSection,
+  });
+};
 
 const updateTokenData = () => {
   const tokenData = Near.view(state.nft.contractId, "nft_token", {
@@ -47,7 +67,24 @@ return (
           disabled
           placeholder="Choose a NFT"
         />
-        {state.tokenData && (
+        {state.nft.contractId && state.nft.tokenId ? (
+          <div>
+            <button onClick={showTokenTransferSection}>Transfer</button>
+            <button onClick={showTokenMetadataSection}>Show metadata</button>
+          </div>
+        ) : null}
+        {state.showTokenTransferSection ? (
+          <div>
+            <input
+              type="text"
+              value={state.receiverId}
+              placeholder="Enter receiver id"
+              onChange={handleReceiverIdChange}
+            />
+            <button onClick={handleTransfer}>Send NFT</button>
+          </div>
+        ) : null}
+        {state.showTokenMetadataSection && (
           <div>
             <div>
               <h5>Token metadata</h5>
