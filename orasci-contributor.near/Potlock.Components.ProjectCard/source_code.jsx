@@ -6,7 +6,7 @@ const cardData = Social.getr(`${id}/profile`);
 
 console.log("cardData: ", cardData);
 
-const backgroundImage = `https://ipfs.near.social/ipfs/${cardData.backgroundImage}`;
+const backgroundImage = `https://ipfs.near.social/ipfs/${cardData.backgroundImage.ipfs_cid}`;
 
 const Card = styled.div`
   display: flex;
