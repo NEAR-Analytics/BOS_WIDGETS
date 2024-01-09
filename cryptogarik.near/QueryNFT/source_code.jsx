@@ -38,6 +38,30 @@ if (state.nft.contractId && state.nft.tokenId) {
   updateTokenData();
 }
 
+const handleReceiverIdChange = (event) => {
+  State.update({
+    showTokenMetadataSection: false,
+    showTokenTransferSection: true,
+    receiverId: event.target.value,
+  });
+};
+
+const handleTransfer = () => {
+  if (!(state.nft.contractId && state.nft.tokenId && state.receiverId)) {
+    return;
+  }
+
+  Near.call({
+    contractName: state.nft.contractId,
+    methodName: "nft_transfer",
+    args: {
+      token_id: state.nft.tokenId,
+      receiver_id: state.receiverId,
+    },
+    deposit: 1,
+  });
+};
+
 return (
   <div>
     <div
