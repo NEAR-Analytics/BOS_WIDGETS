@@ -93,6 +93,12 @@ function toggleShowModal() {
   State.update({ showModal: !state.showModal });
 }
 
+function switchShowPreviewExists() {
+  const exists = typeof switchShowPreview === "function";
+
+  return exists;
+}
+
 //================================================END FUNCTIONS=====================================================
 
 //==============================================STYLED COMPONENTS===================================================
@@ -550,7 +556,9 @@ return (
                     (articleSbts.length > 0 && !canLoggedUserCreateComment),
                   size: "sm",
                   className: "info outline w-25",
-                  onClick: toggleShowModal,
+                  onClick: switchShowPreviewExists()
+                    ? () => {}
+                    : toggleShowModal,
                 }}
               />
               <Widget
@@ -564,9 +572,7 @@ return (
                   ),
                   size: "sm",
                   className: "info w-25",
-                  onClick: () => {
-                    switchShowPreview ? () => {} : handleOpenArticle(data);
-                  },
+                  onClick: () => handleOpenArticle(data),
                 }}
               />
               {context.accountId === data.author && (
@@ -581,7 +587,7 @@ return (
                     ),
                     className: `info w-25`,
                     onClick: () =>
-                      switchShowPreview
+                      switchShowPreviewExists()
                         ? switchShowPreview()
                         : handleEditArticle(data),
                   }}
