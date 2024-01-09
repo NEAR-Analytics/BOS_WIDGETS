@@ -6,7 +6,7 @@ const Wrapper = styled.div`
   place-items: center;
   min-width: 320px;
   min-height: 100vh;
-  width: 100vw;
+  width: 100%;
 
 
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
@@ -68,7 +68,7 @@ aside {
   background-color: #333;
   padding: 20px;
   height: 50px;
-  width: 100vw;
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
