@@ -40,6 +40,12 @@ const projectthemes = {
 const queryHashes = [
   { id: 1, hash: "9027d2cc-9d8d-4baa-8bdf-7d93169d5077" }, //community-30days
   { id: 2, hash: "802b7a19-53b3-44d7-a966-edfaae614e64" }, //community-total
+  { id: 3, hash: "7eb69f42-ce91-4258-8131-3b80063263ae" }, //community-total-pie chart-Community members (form filled in total)
+  { id: 4, hash: "52801cba-294c-47e7-843f-5dc2680dc4b9" }, //community-total-pie chart-avg transactions
+  { id: 5, hash: "0d1a5459-fa99-4ff7-8fef-40f868209f87" }, //community-total-pie chart-social transactions
+  { id: 6, hash: "ea810c94-86ec-4829-8541-0c7d928267b3" }, //community-30days-pie chart-Community members (form filled in this month)
+  { id: 7, hash: "94f3025d-4bb7-4707-8d4d-e543729aeb99" }, //community-30days-pie chart-avg transactions
+  { id: 8, hash: "a2dde124-3164-4eee-b915-097d9829d218" }, //community-30days-pie chart-social transactions
 ];
 
 State.init({
@@ -127,6 +133,27 @@ if (state.error.length > 0) {
   }
   setTimeout(hide, 2500);
 }
+const getPieProps = (data, [key, value], colors, chartOption) => {
+  data = data || [];
+  colors = colors || [];
+  chartOption = chartOption || {};
+
+  const dataFormat = data.map((s) => [s[key], s[value]]);
+  const props = {
+    data: dataFormat,
+    colors: colors,
+    chartOption: {
+      title: "chart title",
+      type: "pie",
+      legend: false,
+      connector: false,
+      ...chartOption,
+    },
+    themeColor: { chart: themeColor.chart },
+    spinnerColors: themeColor.spinnerColors,
+  };
+  return props;
+};
 
 return (
   <div className="container-fluid py-2">
@@ -220,6 +247,89 @@ return (
             </div>
           </div>
         </div>
+      </div>
+      <div className="row w-100 py-4 g-4">
+        <div className=" col-12 col-md-4">
+          <div
+            style={{ background: themeColor?.sbt_area?.card_bg }}
+            className="w-100 mx-auto shadow-sm rounded-4"
+          >
+            <h6
+              style={{ color: themeColor?.sbt_area?.card_title_color }}
+              className="pt-4 ps-4"
+            >
+              <i> Community members (form filled in this month)</i>
+            </h6>
+            <Widget
+              src="lord1.near/widget/Pie-chart"
+              props={getPieProps(
+                state.data?.hash6?.data,
+                ["user", "member"],
+                themeColor.chartColor,
+                {
+                  title: "",
+                  type: "pie",
+                  connector: true,
+                  legend: true,
+                }
+              )}
+            />
+          </div>
+        </div>{" "}
+        <div className=" col-12 col-md-4">
+          <div
+            style={{ background: themeColor?.sbt_area?.card_bg }}
+            className="w-100 mx-auto shadow-sm rounded-4"
+          >
+            <h6
+              style={{ color: themeColor?.sbt_area?.card_title_color }}
+              className="pt-4 ps-4"
+            >
+              <i> Avg Transaction of Newcomers (in this month)</i>
+            </h6>
+            <Widget
+              src="lord1.near/widget/Pie-chart"
+              props={getPieProps(
+                state.data?.hash7?.data,
+                ["user", "member"],
+                themeColor.chartColor,
+                {
+                  title: "",
+                  type: "pie",
+                  connector: true,
+                  legend: true,
+                }
+              )}
+            />
+          </div>
+        </div>{" "}
+        <div className=" col-12 col-md-4">
+          <div
+            style={{ background: themeColor?.sbt_area?.card_bg }}
+            className="w-100 mx-auto shadow-sm rounded-4"
+          >
+            <h6
+              style={{ color: themeColor?.sbt_area?.card_title_color }}
+              className="pt-4 ps-4"
+            >
+              <i> Total social transaction (in this month)</i>
+            </h6>
+            <Widget
+              src="lord1.near/widget/Pie-chart"
+              props={getPieProps(
+                state.data?.hash8?.data,
+                ["user", "member"],
+                themeColor.chartColor,
+                {
+                  title: "",
+                  type: "pie",
+                  connector: true,
+                  legend: true,
+                }
+              )}
+            />
+          </div>
+        </div>{" "}
       </div>
       <div
         className="my-4 shadow-sm  rounded-4"
@@ -322,6 +432,89 @@ return (
             </div>
           </div>
         </div>
+      </div>
+      <div className="row w-100 py-4 g-4">
+        <div className=" col-12 col-md-4">
+          <div
+            style={{ background: themeColor?.sbt_area?.card_bg }}
+            className="w-100 mx-auto shadow-sm rounded-4"
+          >
+            <h6
+              style={{ color: themeColor?.sbt_area?.card_title_color }}
+              className="pt-4 ps-4"
+            >
+              <i> Community members (form filled in total)</i>
+            </h6>
+            <Widget
+              src="lord1.near/widget/Pie-chart"
+              props={getPieProps(
+                state.data?.hash3?.data,
+                ["user", "member"],
+                themeColor.chartColor,
+                {
+                  title: "",
+                  type: "pie",
+                  connector: true,
+                  legend: true,
+                }
+              )}
+            />
+          </div>
+        </div>{" "}
+        <div className=" col-12 col-md-4">
+          <div
+            style={{ background: themeColor?.sbt_area?.card_bg }}
+            className="w-100 mx-auto shadow-sm rounded-4"
+          >
+            <h6
+              style={{ color: themeColor?.sbt_area?.card_title_color }}
+              className="pt-4 ps-4"
+            >
+              <i> Avg Transaction</i>
+            </h6>
+            <Widget
+              src="lord1.near/widget/Pie-chart"
+              props={getPieProps(
+                state.data?.hash4?.data,
+                ["user", "member"],
+                themeColor.chartColor,
+                {
+                  title: "",
+                  type: "pie",
+                  connector: true,
+                  legend: true,
+                }
+              )}
+            />
+          </div>
+        </div>{" "}
+        <div className=" col-12 col-md-4">
+          <div
+            style={{ background: themeColor?.sbt_area?.card_bg }}
+            className="w-100 mx-auto shadow-sm rounded-4"
+          >
+            <h6
+              style={{ color: themeColor?.sbt_area?.card_title_color }}
+              className="pt-4 ps-4"
+            >
+              <i> Total social transaction</i>
+            </h6>
+            <Widget
+              src="lord1.near/widget/Pie-chart"
+              props={getPieProps(
+                state.data?.hash5?.data,
+                ["user", "member"],
+                themeColor.chartColor,
+                {
+                  title: "",
+                  type: "pie",
+                  connector: true,
+                  legend: true,
+                }
+              )}
+            />
+          </div>
+        </div>{" "}
       </div>
       <div className="toast-container position-fixed bottom-0 end-0 p-3">
         {state.error.length > 0 &&
