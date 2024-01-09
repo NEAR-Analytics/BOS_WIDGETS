@@ -73,6 +73,7 @@ const Box = styled.div`
     box-shadow: 0 0 20px 10px rgba(0,0,0,.1);
     padding:1.5rem;
     border:2px solid rgba(0,0,0,.05);
+    margin-top:100px;
 `;
 
 const Title = styled.h1`
@@ -402,12 +403,14 @@ let steps = [
         Your address doesn't own any Lens handle
       </Description>
     </Requirements>
-    {state.handle && <Warning>
-      <h2>Warning</h2>
-      <Text>
-        You will need NEAR in your account to save your verified identity
-      </Text>
-    </Warning>}
+    {state.handle && (
+      <Warning>
+        <h2>Warning</h2>
+        <Text>
+          You will need NEAR in your account to save your verified identity
+        </Text>
+      </Warning>
+    )}
   </>,
 ];
 
