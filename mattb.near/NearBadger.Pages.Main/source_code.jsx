@@ -51,7 +51,7 @@ const Header = styled.div`
     }
 
     div:first-of-type {
-        z-index:999;
+        z-index:10;
     }
 
     .image {
@@ -237,7 +237,7 @@ const Modal = styled.div`
     top:0;
     left:0;
     width:100%;
-    z-index:5;
+    z-index:11;
 `;
 
 return (
