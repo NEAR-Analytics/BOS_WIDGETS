@@ -237,7 +237,7 @@ const Modal = styled.div`
     top:0;
     left:0;
     width:100%;
-    z-index:9999;
+    z-index:2;
 `;
 
 return (
@@ -245,14 +245,16 @@ return (
     <Main>
       {state.displayModal && (
         <Modal>
-          <Widget src="mattb.near/widget/NearBadger.Components.Modal" 
-              props={{
-                  onClose: () => {
-                      State.update({
-                          displayModal: false
-                      });
-                  }
-              }}/>
+          <Widget
+            src="mattb.near/widget/NearBadger.Components.Modal"
+            props={{
+              onClose: () => {
+                State.update({
+                  displayModal: false,
+                });
+              },
+            }}
+          />
         </Modal>
       )}
       <Wrapper>
