@@ -5,6 +5,11 @@ const List = styled.div`
 width: auto;
 height: 100%;
 padding: 20px 10px;
+
+@media screen and (min-width: 1200px) {
+  width: 90%;
+}
+
 `;
 
 // Pages that can be reached via the aside tab
