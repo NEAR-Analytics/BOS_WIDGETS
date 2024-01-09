@@ -9,10 +9,6 @@ padding: 20px 10px;
 @media screen and (min-width: 1200px) {
   width: calc(100vw - 20%);
 }
-@media screen and (min-width: 1400px) {
-  width: calc(100vw - 20px);
-}
-
 `;
 
 // Pages that can be reached via the aside tab
