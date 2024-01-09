@@ -216,7 +216,7 @@ const renderCard = (account) => {
         </div>
       </CardLeft>
       <div>
-        <strong>Research Topic Selected:</strong>
+        <strong>Research Project:</strong>
         <br />
         {link ? (
           <a href={link} target="_blank" rel="noopener noreferrer">
