@@ -24,8 +24,12 @@ const getMembers = (accountId) => {
     )?.[accountId]?.graph?.follow || {}
   );
 
-  let members = [...new Set(following.filter((item) => followers.has(item)))];
-
+  let members = [];
+  if (accountId == "rc-dao.near") {
+    members = following;
+  } else {
+    members = [...new Set(following.filter((item) => followers.has(item)))];
+  }
   // The RC account is part of members
   members.push(accountId);
 
@@ -434,7 +438,7 @@ return (
         }
         hidden={state.selectedCommunityAccount !== null}
       >
-        List of RCs
+        All Regional Communities
       </button>
       <button
         onClick={() => State.update({ menu: "all-overview" })}
@@ -445,6 +449,14 @@ return (
         hidden={state.selectedCommunityAccount !== null}
       >
         Overview Stats
+      </button>
+      <button
+        onClick={() =>
+          State.update({ menu: "all-rc", selectedCommunityAccount: null })
+        }
+        hidden={state.selectedCommunityAccount === null}
+      >
+        🏠
       </button>
       <button
         onClick={() => State.update({ menu: "overview" })}
