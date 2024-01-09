@@ -22,7 +22,6 @@ const Wrapper = styled.div`
 }
 
 .two-sides {
-  display: grid;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
