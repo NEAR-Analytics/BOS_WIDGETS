@@ -325,7 +325,6 @@ const ZKE_DECIMALS = 18;
 const MINT_BURN_FEE_BASIS_POINTS = 25;
 const TAX_BASIS_POINTS = 60;
 const BASIS_POINTS_DIVISOR = 10000;
-const PLACEHOLDER_ACCOUNT = "0x769Fc809C22747F73D98D3E7a79921CFa840BFCc";
 const SECONDS_PER_YEAR = 31536000;
 
 // CHAINS
@@ -1236,26 +1235,23 @@ const readerContract = new ethers.Contract(
   Ethers.provider() && Ethers.provider().getSigner()
 );
 
-readerContract
-  .getTokenBalances(sender || PLACEHOLDER_ACCOUNT, tokenAddresses)
-  .then((result) => {
+if (sender) {
+  readerContract.getTokenBalances(sender, tokenAddresses).then((result) => {
     State.update({ tokenBalances: result });
   });
 
-readerContract
-  .getTokenBalancesWithSupplies(
-    sender || PLACEHOLDER_ACCOUNT,
-    tokensForBalanceAndSupplyQuery
-  )
-  .then((result) => {
-    State.update({ balancesAndSupplies: result });
-  });
+  readerContract
+    .getTokenBalancesWithSupplies(sender, tokensForBalanceAndSupplyQuery)
+    .then((result) => {
+      State.update({ balancesAndSupplies: result });
+    });
 
-readerContract
-  .getTokenBalancesWithSupplies(sender || PLACEHOLDER_ACCOUNT, [zlpAddress])
-  .then((result) => {
-    State.update({ zlpSupply: result[1] });
-  });
+  readerContract
+    .getTokenBalancesWithSupplies(sender, [zlpAddress])
+    .then((result) => {
+      State.update({ zlpSupply: result[1] });
+    });
+}
 
 const rewardTrackerContract = new ethers.Contract(
   rewardTrackerAddress,
@@ -1263,11 +1259,11 @@ const rewardTrackerContract = new ethers.Contract(
   Ethers.provider() && Ethers.provider().getSigner()
 );
 
-rewardTrackerContract
-  .stakedAmounts(sender || PLACEHOLDER_ACCOUNT)
-  .then((result) => {
+if (sender) {
+  rewardTrackerContract.stakedAmounts(sender).then((result) => {
     State.update({ zlpBalance: result });
   });
+}
 
 const vaultContract = new ethers.Contract(
   vaultAddress,
@@ -1323,12 +1319,7 @@ const { infoTokens } = useInfoTokens(
 );
 
 const tokensInfo = Object.values(infoTokens);
-if (
-  infoTokens &&
-  infoTokens[ADDRESS_ZERO].balance &&
-  !fromToken &&
-  sender !== PLACEHOLDER_ACCOUNT
-) {
+if (infoTokens && infoTokens[ADDRESS_ZERO].balance && !fromToken) {
   State.update({ fromToken: infoTokens[ADDRESS_ZERO] });
 }
 
@@ -1338,11 +1329,13 @@ const rewardReaderContract = new ethers.Contract(
   Ethers.provider() && Ethers.provider().getSigner()
 );
 
-rewardReaderContract
-  .getStakingInfo(sender || PLACEHOLDER_ACCOUNT, rewardTrackersForStakingInfo)
-  .then((result) => {
-    State.update({ stakingInfo: result });
-  });
+if (sender) {
+  rewardReaderContract
+    .getStakingInfo(sender, rewardTrackersForStakingInfo)
+    .then((result) => {
+      State.update({ stakingInfo: result });
+    });
+}
 
 const stakingData = getStakingData(stakingInfo);
 const nativeToken = infoTokens[ADDRESS_ZERO];
