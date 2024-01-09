@@ -475,7 +475,6 @@ function debounce(
 ) {
   let timer;
   let active = true;
-  console.log('hgjhgh');
   const debounced = (arg) => {
     if (active) {
       clearTimeout(timer);
@@ -623,7 +622,6 @@ function debounce(
 ) {
   let timer;
   let active = true;
-  console.log('hgjhgh');
   const debounced = (arg) => {
     if (active) {
       clearTimeout(timer);
@@ -713,7 +711,6 @@ function debounce(
 ) {
   let timer;
   let active = true;
-  console.log('hgjhgh');
   const debounced = (arg) => {
     if (active) {
       clearTimeout(timer);
@@ -757,6 +754,13 @@ function timeAgo(unixTimestamp) {
     const daysAgo = Math.floor(secondsAgo / 86400);
     return `${daysAgo} day${daysAgo > 1 ? 's' : ''} ago`;
   }
+}
+function shortenAddress(address) {
+  const string = String(address);
+
+  if (string.length <= 20) return string;
+
+  return `${string.substr(0, 10)}...${string.substr(-7)}`;
 }
 function shortenAddress(address) {
   const string = String(address);
@@ -847,7 +851,6 @@ function debounce(
 ) {
   let timer;
   let active = true;
-  console.log('hgjhgh');
   const debounced = (arg) => {
     if (active) {
       clearTimeout(timer);
@@ -978,6 +981,8 @@ function MainComponent({ network, currentPage, setPage }) {
   const [isLoading, setIsLoading] = useState(false);
   const [totalSuppy, setTotalSupplay] = useState(0);
   const [expanded, setExpanded] = useState([]);
+  const [timeRemaining, setTimeRemaining] = useState(0);
+  const [latestBlock, setLatestBlock] = useState(0);
   const errorMessage = 'No validator data!';
   const config = getConfig(network);
 
@@ -993,6 +998,7 @@ function MainComponent({ network, currentPage, setPage }) {
       })
         .then((res) => {
           const data = res.body;
+          setTimeRemaining(data?.totalSeconds ?? 0);
           const validators = {
             validatorEpochData: data?.validatorFullData ?? [],
             currentValidators: data?.currentValidators,
@@ -1027,9 +1033,36 @@ function MainComponent({ network, currentPage, setPage }) {
           setIsLoading(false);
         });
     }
+    function fetchLatestBlock() {
+      setIsLoading(true);
+      asyncFetch(`${config?.backendUrl}blocks/latests?limit=1`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      })
+        .then((res) => {
+          const data = res.body;
+
+          setLatestBlock(data.blocks[0].block_height || 0);
+        })
+        .catch(() => {})
+        .finally(() => {
+          setIsLoading(false);
+        });
+    }
+    fetchLatestBlock();
     fetchTotalSuppy();
     fetchValidatorData();
   }, [config?.backendUrl, currentPage]);
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      setTimeRemaining((prevTimeRemaining) => prevTimeRemaining - 1);
+    }, 1000);
+    return () => {
+      clearInterval(intervalId);
+    };
+  }, []);
 
   const handleRowClick = (rowIndex) => {
     const isRowExpanded = expanded.includes(rowIndex);
@@ -1068,21 +1101,45 @@ function MainComponent({ network, currentPage, setPage }) {
   const getStatusColorClass = (status) => {
     switch (status) {
       case 'active':
-        return 'text-[#28a745]';
+        return {
+          textColor: 'text-emerald-500',
+          bgColor: 'bg-emerald-50 text-emerald-500',
+        };
       case 'joining':
-        return 'text-[#ffc107]';
+        return {
+          textColor: 'text-yellow-500',
+          bgColor: 'bg-yellow-50 text-yellow-500',
+        };
       case 'leaving':
-        return 'text-[#dc3545]';
+        return {
+          textColor: 'text-red-500',
+          bgColor: 'bg-red-50]text-red-500',
+        };
       case 'proposal':
-        return 'text-[#17a2b8]';
+        return {
+          textColor: 'text-teal-900',
+          bgColor: 'bg-teal-300 text-teal-900',
+        };
       case 'idle':
-        return 'text-[#6c757d]';
+        return {
+          textColor: 'text-gray-600',
+          bgColor: 'bg-gray-300 text-gray-600',
+        };
       case 'newcomer':
-        return 'text-[#fd7e14]';
+        return {
+          textColor: 'text-orange-500',
+          bgColor: 'bg-orange-500 text-white',
+        };
       case 'onHold':
-        return 'text-[#007bff]';
+        return {
+          textColor: 'text-blue-500',
+          bgColor: 'bg-blue-500 text-white',
+        };
       default:
-        return 'text-black';
+        return {
+          textColor: 'text-emerald-500',
+          bgColor: 'bg-emerald-50 text-emerald-500',
+        };
     }
   };
   const columns = [
@@ -1098,7 +1155,7 @@ function MainComponent({ network, currentPage, setPage }) {
           </button>
         </div>
       ),
-      tdClassName: 'pl-6 py-4 whitespace-nowrap text-sm text-gray-500 ',
+      tdClassName: 'px-6 py-4 whitespace-nowrap text-sm text-gray-500 ',
       thClassName:
         'px-6 py-2 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider',
     },
@@ -1106,17 +1163,31 @@ function MainComponent({ network, currentPage, setPage }) {
       header: <span>Status</span>,
       key: 'View',
       cell: (row) => (
-        <div className="">
+        <div
+          className={`inline-block ${
+            getStatusColorClass(row?.stakingStatus ?? '').bgColor
+          } rounded-lg p-1 text-center`}
+        >
           <div>{stakingStatusLabel(row?.stakingStatus ?? '')}</div>
         </div>
       ),
-      tdClassName: 'pl-6 py-4 whitespace-nowrap text-sm text-gray-500 ',
+      tdClassName: 'px-6 py-4 whitespace-nowrap text-sm text-gray-500 ',
       thClassName:
         'px-6 py-2 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider',
     },
     {
       header: <span>VALIDATOR</span>,
       key: 'accountId',
+      cell: (row) => (
+        <span>
+          <a href={`/address/${row.accountId}`} className="hover:no-underline">
+            <a className="text-green-500 hover:no-underline">
+              {shortenAddress(row.accountId)}
+            </a>
+          </a>
+          <div>{row.publicKey ? shortenAddress(row.publicKey) : ''}</div>
+        </span>
+      ),
       tdClassName: 'pl-6 py-4 whitespace-nowrap text-sm text-gray-500 ',
       thClassName:
         'px-6 py-2 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider',
@@ -1135,29 +1206,30 @@ function MainComponent({ network, currentPage, setPage }) {
             : 'N/A'}
         </div>
       ),
-      tdClassName: 'pl-6 py-4 whitespace-nowrap text-sm text-gray-500 ',
+      tdClassName: 'px-6 py-4 whitespace-nowrap text-sm text-gray-500 ',
       thClassName:
         'px-6 py-2 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider',
     },
 
     {
-      header: 'DELEGATORS',
+      header: <span>DELEGATORS</span>,
       key: 'deligators',
       cell: (row) => {
         return (
           <div>
-            {row?.poolInfo?.delegatorsCount !== undefined
-              ? row?.poolInfo?.delegatorsCount
+            {row?.poolInfo?.delegatorsCount !== undefined &&
+            row.poolInfo.delegatorsCount !== null
+              ? formatWithCommas(row.poolInfo.delegatorsCount.toString())
               : 'N/A'}
           </div>
         );
       },
-      tdClassName: 'pl-6 py-4 whitespace-nowrap text-sm text-gray-500',
+      tdClassName: 'px-6 py-4 whitespace-nowrap text-sm text-gray-500',
       thClassName:
         'px-6 py-2 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider',
     },
     {
-      header: 'TOTAL STAKE',
+      header: <span className="flex w-max">TOTAL STAKE</span>,
       key: 'stake',
       cell: (row) => (
         <span>
@@ -1170,22 +1242,22 @@ function MainComponent({ network, currentPage, setPage }) {
           Ⓝ
         </span>
       ),
-      tdClassName: 'pl-6 py-4 whitespace-nowrap text-sm text-gray-500 ',
+      tdClassName: 'px-6 py-4 whitespace-nowrap text-sm text-gray-500 ',
       thClassName:
         'px-6 py-2 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider',
     },
     {
-      header: 'STAKE %',
+      header: <span className="flex w-max">STAKE %</span>,
       key: 'percentage',
       cell: (row) => {
         return <div>{row?.percent}%</div>;
       },
-      tdClassName: 'pl-6 py-4 whitespace-nowrap text-sm text-gray-500 ',
+      tdClassName: 'px-6 py-4 whitespace-nowrap text-sm text-gray-500 ',
       thClassName:
         'px-6 py-2 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider',
     },
     {
-      header: 'CUMULATIVE STAKE',
+      header: <span className="flex w-max">CUMULATIVE STAKE</span>,
       key: 'cumulative_stake',
       cell: (row) => {
         return (
@@ -1206,12 +1278,12 @@ function MainComponent({ network, currentPage, setPage }) {
           </div>
         );
       },
-      tdClassName: 'pl-6 py-4 whitespace-nowrap text-sm text-gray-500 ',
+      tdClassName: 'px-6 py-4 whitespace-nowrap text-sm text-gray-500 ',
       thClassName:
         'px-6 py-2 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider',
     },
     {
-      header: 'STAKE CHANGE (24H)',
+      header: <span className="flex w-max">STAKE CHANGE (24H)</span>,
       key: '24_change',
       cell: (row) => {
         if (!row?.stakeChange?.value) {
@@ -1224,18 +1296,26 @@ function MainComponent({ network, currentPage, setPage }) {
             return `${convertAmountToReadableString(
               Math.abs(Number(visibleStake)),
               'seatPriceAmount',
-            )} Ⓝ`;
+            )}  Ⓝ`;
           }
           return null;
         }
         return (
           <div className="flex">
-            {row?.stakeChange?.symbol}
-            <p>{row?.stakeChange?.value}Ⓝ</p>
+            <div
+              className={
+                row?.stakeChange.symbol === '+'
+                  ? 'text-green-500'
+                  : 'text-red-500'
+              }
+            >
+              {row?.stakeChange?.symbol}
+            </div>
+            <p> {row?.stakeChange?.value} Ⓝ</p>
           </div>
         );
       },
-      tdClassName: 'pl-6 py-4 whitespace-nowrap text-sm text-gray-500 ',
+      tdClassName: 'px-6 py-4  whitespace-nowrap text-sm text-gray-500 ',
       thClassName:
         'px-6 py-2 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider',
     },
@@ -1249,6 +1329,7 @@ function MainComponent({ network, currentPage, setPage }) {
       ? (progress.blocks.produced + progress.chunks.produced) /
         (progress.blocks.total + progress.chunks.total)
       : 0;
+
     return (
       <>
         <tr>
@@ -1332,9 +1413,15 @@ function MainComponent({ network, currentPage, setPage }) {
                       cell: () => {
                         return (
                           <div
-                            className={getStatusColorClass(
-                              row?.stakingStatus ?? '',
-                            )}
+                            className={
+                              Math.abs(telemetry.lastHeight - latestBlock) >
+                              1000
+                                ? 'text-danger'
+                                : Math.abs(telemetry.lastHeight - latestBlock) >
+                                  50
+                                ? 'text-warning'
+                                : undefined
+                            }
                           >
                             {telemetry?.lastHeight}
                           </div>
@@ -1412,7 +1499,7 @@ function MainComponent({ network, currentPage, setPage }) {
                               <a
                                 href="https://github.com/near/nearcore"
                                 target="_blank"
-                                className="text-blue-100"
+                                className="text-green-500 hover:no-underline"
                               >
                                 the official implementation.
                               </a>
@@ -1464,8 +1551,9 @@ function MainComponent({ network, currentPage, setPage }) {
                       key: 'web',
                       cell: (row) => {
                         return (
-                          <div className="text-sky-500">
+                          <div>
                             <a
+                              className="text-green-500 hover:no-underline"
                               href={
                                 row?.description?.url?.startsWith('http')
                                   ? row?.description?.url
@@ -1481,7 +1569,7 @@ function MainComponent({ network, currentPage, setPage }) {
                         );
                       },
                       tdClassName:
-                        'px-5 whitespace-nowrap text-sm text-gray-500 font-medium',
+                        'px-5 pb-4 whitespace-nowrap text-sm text-gray-500 font-medium',
                       thClassName:
                         'px-5 pt-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider',
                     },
@@ -1490,25 +1578,29 @@ function MainComponent({ network, currentPage, setPage }) {
                       key: 'email',
                       cell: (row) => {
                         return (
-                          <div className="text-sky-500">
-                            <a href={`mailto:${row?.description?.email}`}>
+                          <div>
+                            <a
+                              className="text-green-500 hover:no-underline"
+                              href={`mailto:${row?.description?.email}`}
+                            >
                               {row?.description?.email}{' '}
                             </a>
                           </div>
                         );
                       },
                       tdClassName:
-                        'px-5 whitespace-nowrap text-sm text-gray-500 font-medium',
+                        'pl-6 pb-4 whitespace-nowrap text-sm text-gray-500 font-medium',
                       thClassName:
-                        'px-5 pt-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider',
+                        'px-6 pt-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider',
                     },
                     row?.description?.twitter && {
                       header: 'Twitter',
                       key: 'twitter',
                       cell: (row) => {
                         return (
-                          <div className="text-sky-500">
+                          <div>
                             <a
+                              className="text-green-500 hover:no-underline"
                               href={`https://twitter.com/${row?.description?.twitter}`}
                               rel="noreferrer noopener"
                               target="_blank"
@@ -1519,17 +1611,18 @@ function MainComponent({ network, currentPage, setPage }) {
                         );
                       },
                       tdClassName:
-                        'px-5 whitespace-nowrap text-sm text-gray-500 font-medium',
+                        'px-2 pb-4 whitespace-nowrap text-sm text-gray-500 font-medium',
                       thClassName:
-                        'px-5 pt-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider',
+                        'px-2 pt-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider',
                     },
                     row?.description?.discord && {
                       header: 'Discord',
                       key: 'discord',
                       cell: (row) => {
                         return (
-                          <div className="text-sky-500">
+                          <div>
                             <a
+                              className="text-green-500 hover:no-underline"
                               href={row?.description?.discord}
                               rel="noreferrer noopener"
                               target="_blank"
@@ -1540,7 +1633,7 @@ function MainComponent({ network, currentPage, setPage }) {
                         );
                       },
                       tdClassName:
-                        'px-5 whitespace-nowrap text-sm text-gray-500 font-medium',
+                        'px-5 pb-4 whitespace-nowrap text-sm text-gray-500 font-medium',
                       thClassName:
                         'px-5 pt-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider',
                     },
@@ -1549,13 +1642,13 @@ function MainComponent({ network, currentPage, setPage }) {
                       key: 'description',
                       cell: (row) => {
                         return (
-                          <div className="text-gray-400">
+                          <div className="text-gray-400 w-full">
                             <small>{row?.description?.description}</small>
                           </div>
                         );
                       },
                       tdClassName:
-                        'px-5 whitespace-nowrap text-sm text-gray-500 font-medium',
+                        'px-5 pb-4 whitespace-nowrap text-sm text-gray-500 font-medium',
                       thClassName:
                         'px-5 pt-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider',
                     },
@@ -1571,7 +1664,7 @@ function MainComponent({ network, currentPage, setPage }) {
                 If you are node owner feel free to fill all &nbsp;
                 <a
                   href="https://github.com/zavodil/near-pool-details#description"
-                  className="text-sky-500"
+                  className="text-green-500 hover:no-underline"
                   rel="noreferrer noopener"
                   target="_blank"
                 >
@@ -1590,8 +1683,8 @@ function MainComponent({ network, currentPage, setPage }) {
   return (
     <div className="container mx-auto px-3 -mt-48">
       <div>
-        <div className="flex gap-4  mt-10">
-          <div className="w-full">
+        <div className="flex flex-col md:flex-row gap-4 mt-10">
+          <div className="w-full md:w-1/2">
             <div className="h-full bg-white soft-shadow rounded-lg overflow-hidden">
               <div>
                 <h2 className=" flex justify-between border-b p-3 text-gray-600 text-sm font-semibold">
@@ -1670,7 +1763,7 @@ function MainComponent({ network, currentPage, setPage }) {
               </div>
             </div>
           </div>
-          <div className="w-full">
+          <div className="w-full md:w-1/2">
             <div className="h-full bg-white soft-shadow rounded-lg overflow-hidden">
               <h2 className="border-b p-3 text-gray-600 text-sm font-semibold">
                 Epoch information
@@ -1694,7 +1787,7 @@ function MainComponent({ network, currentPage, setPage }) {
                     {!validatorFullData?.totalSeconds ? (
                       <Skeleton className="h-3 w-32" />
                     ) : (
-                      convertTimestampToTime(validatorFullData?.totalSeconds)
+                      convertTimestampToTime(timeRemaining)
                     )}
                   </div>
                 </div>
