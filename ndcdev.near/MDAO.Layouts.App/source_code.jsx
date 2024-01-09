@@ -83,6 +83,53 @@ const Container = styled.div`
   width: 100%;
   height: 100%;
   min-height: 100vh;
+
+  .btn {
+    &:disabled {
+      box-shadow: none;
+      border: 1px solid darkgray;
+      background: #eee;
+      color: #353333 !important;
+    }
+  }
+
+  .btn-primary {
+    border-radius: 10px;
+    background: #151718;
+    color: white !important;
+    text-decoration: none;
+    display: flex;
+    gap: 1rem;
+    box-shadow: 0px 20px 30px 0px rgba(0, 0, 0, 0.25);
+    padding: 10px 40px 10px 25px;
+
+    &:hover {
+      text-decoration: none;
+      cursor: pointer;
+    }
+  }
+
+  .btn-outline-primary {
+    border-radius: 10px;
+    border: 1px solid #151718;
+    color: #000 !important;
+    text-decoration: none;
+    display: flex;
+    gap: 1rem;
+    box-shadow: 0px 20px 30px 0px rgba(0, 0, 0, 0.25);
+    padding: 10px 40px 10px 25px;
+
+    &:hover {
+      text-decoration: none;
+      background: #151718;
+      color: white !important;
+    }
+  }
+
+  .btn-sm {
+    padding: 5px 10px 5px 20px;
+    box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.1);
+  }
 `;
 
 const ContentContainer = styled.div`
