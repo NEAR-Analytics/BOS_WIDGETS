@@ -60,7 +60,7 @@ const BodyContainer = styled.div`
   padding-inline: 10vw;
   padding-block: 6vh;
   @media screen and (max-width: 500px) {
-     padding-inline: 3vw;
+    padding-inline: 3vw;
     .justify-sm-self-center {
       justify-self: center;
     }
@@ -94,6 +94,12 @@ const Grid = styled.div`
     grid-template-columns: repeat(1, minmax(0, 1fr));
     gap: 0rem;
   }
+
+  @media screen and (max-width: 1000px) {
+    .mt-sm-2 {
+      margin-top: 1.5rem;
+    }
+  }
 `;
 
 const FooterText = styled.div`
@@ -105,11 +111,11 @@ const FooterText = styled.div`
 `;
 
 const GridText = styled.div`
-max-width:50%;
-font-weight:bolder;
-font-size:18px;
+  max-width: 50%;
+  font-weight: bolder;
+  font-size: 18px;
 
-@media screen and (max-width: 1000px) {
+  @media screen and (max-width: 1000px) {
     max-width: 95%;
   }
 `;
@@ -133,7 +139,7 @@ const WorkImage = styled.img`
   @media screen and (max-width: 1000px) {
     margin-left: 0%;
     margin-top: -8%;
-    justify-self:center;
+    justify-self: center;
   }
 
   @media screen and (max-width: 500px) {
@@ -242,6 +248,17 @@ return (
               src="https://ipfs.near.social/ipfs/bafkreibh3yt2wcr5w7gnxsryp4sznj7alybu7wgsupo4xqqg4y3famz76q"
               style={{ height: 150 }}
             />
+          </div>
+          <div class="mt-sm-2 justify-sm-self-center">
+            Watch our demo{" "}
+            <a
+              href="https://youtu.be/iAykJ1wCExo"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              here
+            </a>
+            .
           </div>
         </Grid>
       </div>
