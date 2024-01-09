@@ -1,6 +1,12 @@
 // Get accountId
 const accountId = context.accountId;
 
+const List = styled.div`
+width: 100%;
+height: 100vh;
+padding: 20px;
+`;
+
 // Pages that can be reached via the aside tab
 const [pages, setPage] = useState([
   {
@@ -36,26 +42,28 @@ return (
                     props={{ objs: pages, active: "/admin/manage_candidates" }}
                   />
                   <div className="body-contents">
-                    <Widget
-                      src="abnakore.near/widget/VoteCard"
-                      props={{
-                        name: "name",
-                        desc: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Impedit obcaecati iure rem nulla deleniti accusamus, qui, aut recusandae ut fugiat molestiae dicta asperiores, est aspernatur. Aliquid porro sed neque molestiae!",
-                        open: "27-03-2024 2:30PM",
-                        close: "27-03-2024 2:30PM",
-                        no_of_candidates: 10,
-                      }}
-                    />
-                    <Widget
-                      src="abnakore.near/widget/VoteCard"
-                      props={{
-                        name: "",
-                        desc: "",
-                        open: "27-03-2024 2:30PM",
-                        close: "27-03-2024 2:30PM",
-                        no_of_candidates: 10,
-                      }}
-                    />
+                    <List className="votes-list">
+                      <Widget
+                        src="abnakore.near/widget/VoteCard"
+                        props={{
+                          name: "Name",
+                          desc: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Impedit obcaecati iure rem nulla deleniti accusamus, qui, aut recusandae ut fugiat molestiae dicta asperiores, est aspernatur. Aliquid porro sed neque molestiae!",
+                          open: "27-03-2024 2:30PM",
+                          close: "27-03-2024 2:30PM",
+                          no_of_candidates: 10,
+                        }}
+                      />
+                      <Widget
+                        src="abnakore.near/widget/VoteCard"
+                        props={{
+                          name: "Name",
+                          desc: "You can use the slice method along with the spread operator (...) to create a new array containing the first two items.",
+                          open: "27-03-2024 2:30PM",
+                          close: "27-03-2024 2:30PM",
+                          no_of_candidates: 10,
+                        }}
+                      />
+                    </List>
                   </div>
                 </div>
               </div>
