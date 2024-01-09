@@ -915,7 +915,6 @@ function debounce(
 ) {
   let timer;
   let active = true;
-  console.log('hgjhgh');
   const debounced = (arg) => {
     if (active) {
       clearTimeout(timer);
@@ -1499,7 +1498,7 @@ function MainComponent({ network, t }) {
                   {isLoading ? (
                     <Skeleton className="h-4" />
                   ) : (
-                    <a href="/charts/blocks">
+                    <a href="/node-explorer">
                       <a className="leading-6 text-gray-400">
                         {localFormat(stats?.nodes_online ?? 0)}
                       </a>
@@ -1514,8 +1513,10 @@ function MainComponent({ network, t }) {
                 {isLoading ? (
                   <Skeleton className="h-4" />
                 ) : (
-                  <a className="leading-6 text-gray-400">
-                    {stats?.avg_block_time ?? 0} s
+                  <a href="/charts/blocks">
+                    <a className="leading-6 text-gray-400">
+                      {stats?.avg_block_time ?? 0} s
+                    </a>
                   </a>
                 )}
               </div>
