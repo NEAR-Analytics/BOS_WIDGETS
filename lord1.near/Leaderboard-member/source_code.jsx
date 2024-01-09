@@ -182,12 +182,7 @@ return (
                       description:
                         "The number of projects that the user has interacted with.",
                     },
-                    {
-                      title: "Contract",
-                      key: "contract",
-                      description:
-                        "The number of contracts that the user has interacted with.",
-                    },
+
                     {
                       title: "Social",
                       key: "social",
