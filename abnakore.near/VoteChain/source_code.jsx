@@ -2,7 +2,7 @@
 const accountId = context.accountId;
 
 const List = styled.div`
-width: 90%;
+width: 100%;
 height: 100%;
 padding: 20px 10px;
 `;
@@ -50,6 +50,9 @@ return (
                         open: "27-03-2024 2:30PM",
                         close: "27-03-2024 2:30PM",
                         no_of_candidates: 10,
+                        style: {
+                          color: "red",
+                        },
                       }}
                     />
                     <Widget
