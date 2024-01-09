@@ -3,10 +3,6 @@ const LensLib = VM.require("mattb.near/widget/NearBadger.Libs.Lens");
 const LOGO_URL =
   "https://ipfs.near.social/ipfs/bafkreiayxdc7zwztpcvtlo4x7axev5racawcl5xh4x7k6mfamidebbqqc4";
 
-let recentlyVerified = LensLib.listRecentlyVerifiedProfiles({
-  subscribe: true,
-});
-
 const Main = styled.div`
     background-color:#F3FBF6;
 `;
@@ -17,17 +13,6 @@ const Wrapper = styled.div`
     border-top:4px solid #87B697;
     overflow:hidden;
 background: linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(255,255,255,.7) 100%);
-`;
-
-const Section = styled.div`
-    height:100vh;
-    overflow:hidden;
-
-    h1 {
-        font-weight:bold;
-        margin-bottom:1.3rem;
-        padding:1rem 1.8rem 0;
-    }
 `;
 
 const Toolbar = styled.div`
@@ -65,6 +50,10 @@ const Header = styled.div`
       font-size:3.3rem;
     }
 
+    div:first-of-type {
+        z-index:999;
+    }
+
     .image {
 
         @keyframes rotate {
@@ -80,11 +69,8 @@ const Header = styled.div`
             0% {
                 transform:rotate(0deg);
             }
-            50% {
-                transform:rotate(-180deg);
-            }
             100% {
-                transform:rotate(0deg);
+                transform:rotate(-180deg);
             }
         }
         
@@ -97,12 +83,14 @@ const Header = styled.div`
         animation-name: rotate;
         animation-duration: 60s;
         animation-fill-mode:backwards;
+        animation-iteration-count:infinite;
         
         * {
             animation-name: keep;
-            animation-duration: 120s;
+            animation-duration: 60s;
             animation-delay:0;
             animation-fill-mode:backwards;
+            animation-iteration-count:infinite;
         }
         
         > img {
@@ -114,7 +102,7 @@ const Header = styled.div`
             margin:auto;
             max-width:200px;
             opacity:.1;
-            filter:blur(10px);
+            filter:blur(7px);
             transform:rotate(20deg);
         }
     }
@@ -244,126 +232,29 @@ const ButtonSecondary = styled.a`
     }
 `;
 
-const Profile = styled.div`
-  width:240px;
-  height:300px;
-  background-color:#fff;
-  border:1px solid rgba(0,0,0,.05);
-  border-radius:20px;
-  box-shadow: 0 0 5px 5px rgba(0,0,0,.01);
-  padding: 1rem;
-  text-align:center;
-  display:flex;
-  flex-direction:column;
-
-  * {
-      flex-grow:0;
-      align-self:center;
-  }
-
-  h1 {
-    font-size:1.3rem;
-  }
-
-  p {
-    position:relative;
-    display:inline-block;
-    border-radius:20px;
-    padding:.4rem 2rem .4rem 20%;
-    color:#000;
-    font-size:.8rem;
-    overflow:hidden;
-    border:1px solid rgba(0,0,0,.1);
-    z-index:0;
-    cursor:pointer;
-    transition:all .2s;
-    background-color:rgba(0,0,0,.05);
-    min-width:160px;
-
-    :hover {
-        box-shadow: 0 0 0 3px rgba(0,0,0,.1);
-    }
-
-    .badge, .verified {
-      border-radius:0;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      width:20%;
-      min-width:35px;
-      height:100%;
-      position:absolute;
-      left:0;
-      top:0;
-      border-right:1px solid rgba(0,0,0,.1);
-      background-color:#fff;
-
-      img {
-        display:block;
-        position:relative;
-        padding:0;
-        margin:0;
-        left:1px;
-        width:20px;
-        height:20px;
-        pointer-events:none;
-      }
-    }
-
-    .verified {
-        left:unset;
-        right:0;
-        background-color:transparent;
-        border:0;
-    }
-  }
-
-  button {
-    border-radius:20px;
-    padding:.3rem 2rem;
-    font-weight:bold;
-    background-color:#388909;
-    border:1px solid rgba(0,0,0,.1);
-    transition:all .2s;
-
-    :hover {
-        box-shadow: 0 0 0 3px rgba(0,0,0,.1);
-        background-color:#388909;
-    }
-  }
-`;
-
-const ProfileHeader = styled.div`
-  height:30%;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  margin-bottom:.8rem;
-`;
-
-const Image = styled.div`
-  width:70px;
-  height:70px;
-  background-color:rgba(0,0,0,.05);
-  border-radius:100%;
-`;
-
-const Carousel = styled.div`
-  display:flex;
-  flex-wrap:no-wrap;
-  overflow-y:auto;
-  padding:0 1.8rem 1rem;
-
-  > div {
-    :not(:last-of-type) {
-      margin-right:15px;
-    }
-  }
+const Modal = styled.div`
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    z-index:9999;
 `;
 
 return (
   <>
     <Main>
+      {state.displayModal && (
+        <Modal>
+          <Widget src="mattb.near/widget/NearBadger.Components.Modal" 
+              props={{
+                  onClose: () => {
+                      State.update({
+                          displayModal: false
+                      });
+                  }
+              }}/>
+        </Modal>
+      )}
       <Wrapper>
         <Toolbar>
           <img width={"200px"} src={LOGO_URL} />
@@ -386,6 +277,11 @@ return (
             <ButtonPrimary>Discover people</ButtonPrimary>
             <ButtonSecondary
               onClick={() => {
+                State.update({
+                  displayModal: true,
+                });
+
+                return;
                 Ethers.provider().send("wallet_switchEthereumChain", [
                   { chainId: ethers.utils.hexValue(137) },
                 ]);
@@ -433,35 +329,7 @@ return (
             </Circle>
           </div>
         </Header>
-        <Section>
-          <h1>Recently verified</h1>
-          <Carousel>
-            {recentlyVerified.map((verifiedProfile) => (
-              <Profile>
-                <ProfileHeader>
-                  <Image></Image>
-                </ProfileHeader>
-                <h1>{verifiedProfile.accountId}</h1>
-                <p>
-                  <span className="badge">
-                    <img
-                      src="https://ipfs.near.social/ipfs/bafkreid622wknql44yrzupww3bmfgcdxppkwyzmb4upbmpdvgtos2hjhzy"
-                      width="100%"
-                    />
-                  </span>
-                  {verifiedProfile.value.name}
-                  <span className="verified">
-                    <img
-                      src="https://ipfs.near.social/ipfs/bafkreidfh7bolog2hy6zfgre4tasxrsbaen6xmc6ottccvnf4db3gch3oi"
-                      width="100%"
-                    />
-                  </span>
-                </p>
-                <button>FOLLOW</button>
-              </Profile>
-            ))}
-          </Carousel>
-        </Section>
+        <Widget src="mattb.near/widget/NearBadger.Components.RecentlyVerified" />
       </Wrapper>
     </Main>
   </>
