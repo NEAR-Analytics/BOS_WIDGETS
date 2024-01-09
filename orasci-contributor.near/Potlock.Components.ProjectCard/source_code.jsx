@@ -1,6 +1,10 @@
 const { id, review_notes, status } = props;
 
+console.log("props: ", props);
+
 const cardData = Social.getr(`${id}/profile`);
+
+console.log("cardData: ", cardData);
 
 const backgroundImage = `https://ipfs.near.social/ipfs/${cardData.backgroundImage}`;
 
