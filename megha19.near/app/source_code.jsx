@@ -61,6 +61,15 @@ function Page() {
         />
       );
     }
+    // ?page=devDaoDashboard
+    case "devDaoDashboard": {
+      return (
+        <Widget
+          src={"megha19.near/widget/devhub.page.dashboard"}
+          props={passProps}
+        />
+      );
+    }
     // ?page=community
     case "community": {
       return (
