@@ -66,10 +66,10 @@ const LensLib = {
       ...options,
     });
   },
-  getAddressHandle: () => {
+  getAddressHandle: (address) => {
     return LensSDK.getProfileByEthereumAddress(address).then((payload) => {
-          let [profile] = payload.body.data.profiles.items;
-          return profile.handle;
+      let [profile] = payload.body.data.profiles.items;
+      return profile.handle;
     });
   },
 };
