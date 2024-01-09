@@ -8,6 +8,8 @@ console.log("cardData: ", cardData);
 
 const backgroundImage = `https://ipfs.near.social/ipfs/${cardData.backgroundImage.ipfs_cid}`;
 
+console.log("background image: ", backgroundImage)
+
 const Card = styled.div`
   display: flex;
   flex-direction: column;
