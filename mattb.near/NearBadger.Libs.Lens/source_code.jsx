@@ -1,4 +1,5 @@
 const LensVerifier = VM.require("mattb.near/widget/SDKs.Verifiers.Lens");
+const LensSDK = VM.require("mattb.near/widget/LensSDKRequire");
 
 const LensLib = {
   createProof: (address, nearAccount, onCommit, onCancel) => {
@@ -45,7 +46,7 @@ const LensLib = {
   listRecentlyVerifiedProfiles: (options) => {
     return LensLib.getIdentity({
       limit: 5,
-      ...options
+      ...options,
     });
   },
   getVerifiedProfiles: (nearAccounts) => {
@@ -63,6 +64,12 @@ const LensLib = {
     return Social.index("identity", "lens", {
       order: "desc",
       ...options,
+    });
+  },
+  getAddressHandle: () => {
+    return LensSDK.getProfileByEthereumAddress(address).then((payload) => {
+          let [profile] = payload.body.data.profiles.items;
+          return profile.handle;
     });
   },
 };
