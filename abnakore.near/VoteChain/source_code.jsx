@@ -2,7 +2,7 @@
 const accountId = context.accountId;
 
 const List = styled.div`
-width: 100%;
+width: auto;
 height: 100%;
 padding: 20px 10px;
 `;
