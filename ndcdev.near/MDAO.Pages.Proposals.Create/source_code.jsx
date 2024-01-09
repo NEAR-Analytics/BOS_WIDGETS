@@ -179,6 +179,8 @@ const handleChange = (el, value) => {
 
 const ProposalButton = () => (
   <CommitButton
+    style={{ width: "max-content" }}
+    className="btn btn-primary"
     disabled={form[formEls.type].some(
       (el) =>
         el.required &&
@@ -194,6 +196,7 @@ const ProposalButton = () => (
     }}
   >
     Create proposal
+    <i className="bi bi-plus-lg" />
   </CommitButton>
 );
 
