@@ -6,10 +6,15 @@ const Card = styled.div`
   padding: 20px;
   margin-bottom: 20px;
   border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 0 0px rgba(0, 0, 0, 0.5);
   position: relative;
   align-items: left;
   min-height: auto;
+}
+
+.card-div:hover {
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+  background-color: #555;
 }
 
 .big-name {
