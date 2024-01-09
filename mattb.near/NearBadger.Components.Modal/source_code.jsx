@@ -387,7 +387,7 @@ let steps = [
             !state.checkedHandle &&
             state.address &&
             state.chainId == POLYGON_CHAIN_ID
-              ? "pending"
+              ? "selected pending"
               : ""
           }
           ${
