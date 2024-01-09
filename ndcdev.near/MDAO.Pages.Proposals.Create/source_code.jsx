@@ -272,6 +272,13 @@ return (
           </div>
         ))}
         <ProposalButton />
+        <a
+          target="_blank"
+          href="https://docs.google.com/document/d/110CqEddPa-99JwM8iCl_kKJxdXLH6IlVePwubO5A55o/edit#heading=h.qya6e5j9ka46"
+        >
+          Near Digital Collective application form GUIDE
+          <i className="bi bi-box-arrow-up-right" />
+        </a>
       </FormWrapper>
     </div>
   </Container>
