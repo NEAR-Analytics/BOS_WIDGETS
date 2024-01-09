@@ -1382,8 +1382,6 @@ const receiveValueDisplay =
 
 const getIconForToken = () => {
   switch (fromToken.symbol) {
-    case "ETH":
-      return <IconETH />;
     case "USDC":
       return <IconUSDC />;
     case "WBTC":
