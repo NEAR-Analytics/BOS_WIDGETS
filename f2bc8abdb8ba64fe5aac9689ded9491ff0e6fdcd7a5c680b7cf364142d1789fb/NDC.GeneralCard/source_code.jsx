@@ -547,7 +547,9 @@ return (
                 props={{
                   children: (
                     <div className="d-flex align-items-center justify-content-center">
-                      <span className="mx-1">Add comment</span>
+                      <span className="mx-1 d-none d-lg-block">
+                        Add comment
+                      </span>
                       <i className="bi bi-chat-square-text-fill"></i>
                     </div>
                   ),
@@ -566,7 +568,7 @@ return (
                 props={{
                   children: (
                     <div className="d-flex align-items-center justify-content-center">
-                      <span className="mx-1">View</span>
+                      <span className="mx-1 d-none d-lg-block">View</span>
                       <i className="bi bi-eye fs-6"></i>
                     </div>
                   ),
@@ -581,7 +583,7 @@ return (
                   props={{
                     children: (
                       <div className="d-flex align-items-center justify-content-center">
-                        <span className="mx-1">Edit</span>
+                        <span className="mx-1 d-none d-lg-block">Edit</span>
                         <i className="bi bi-pencil"></i>
                       </div>
                     ),
