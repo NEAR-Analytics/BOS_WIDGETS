@@ -335,6 +335,15 @@ return (
                 >
                   Member' Leaderboard
                 </button>
+              </li>{" "}
+              <li className="tab-item">
+                <button
+                  className={`${state.tab === tabs.search ? "active" : ""}`}
+                  aria-current="page"
+                  onClick={() => setTab(tabs.search)}
+                >
+                  Community' Leaderboard
+                </button>
               </li>
             </ul>
           </Container>
@@ -351,6 +360,12 @@ return (
           {state.tab === "sbt-info" && (
             <Widget
               src="lord1.near/widget/Leaderboard-member"
+              props={{ themeColor: themeColor }}
+            />
+          )}
+          {state.tab === "search-sbt" && (
+            <Widget
+              src="lord1.near/widget/Leaderboard-Community"
               props={{ themeColor: themeColor }}
             />
           )}
