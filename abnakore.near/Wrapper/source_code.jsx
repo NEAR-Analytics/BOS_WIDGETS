@@ -334,7 +334,7 @@ button:focus-visible {
   justify-content: center;
   place-items: center;
   margin: 0;
-  min-width: 100vw;
+  min-width: 100%;
   min-height: 100%;
 }
 
