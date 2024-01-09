@@ -1,6 +1,6 @@
 const Card = styled.div`
 .card-div {
-  width: 90%;
+  width: 100%;
   background-color: #333;
   color: white;
   padding: 20px;
@@ -49,7 +49,7 @@ return (
   <Card>
     <div className="card-div">
       <div className="big-name">{props.name}</div>
-      <div className="description">{shortText(props.desc)}</div>
+      <div className="description">{shortText("props.desc")}</div>
       <div className="details">
         <div className="time">Open on: {props.open}</div>
         <div className="time">Close on: {props.close}</div>
