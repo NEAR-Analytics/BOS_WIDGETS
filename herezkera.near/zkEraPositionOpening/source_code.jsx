@@ -282,7 +282,6 @@ const MINT_BURN_FEE_BASIS_POINTS = 25;
 const STABLE_TAX_BASIS_POINTS = 5;
 const TAX_BASIS_POINTS = 60;
 const BASIS_POINTS_DIVISOR = 10000;
-const PLACEHOLDER_ACCOUNT = "0x769Fc809C22747F73D98D3E7a79921CFa840BFCc";
 
 const MARGIN_FEE_BASIS_POINTS = 10;
 const LEVERAGE_SHORTCUTS = [2, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50];
@@ -1288,20 +1287,17 @@ const readerContract = new ethers.Contract(
   Ethers.provider() && Ethers.provider().getSigner()
 );
 
-readerContract
-  .getTokenBalances(sender || PLACEHOLDER_ACCOUNT, tokenAddresses)
-  .then((result) => {
+if (sender) {
+  readerContract.getTokenBalances(sender, tokenAddresses).then((result) => {
     State.update({ tokenBalances: result });
   });
 
-readerContract
-  .getTokenBalancesWithSupplies(
-    sender || PLACEHOLDER_ACCOUNT,
-    tokensForBalanceAndSupplyQuery
-  )
-  .then((result) => {
-    State.update({ balancesAndSupplies: result });
-  });
+  readerContract
+    .getTokenBalancesWithSupplies(sender, tokensForBalanceAndSupplyQuery)
+    .then((result) => {
+      State.update({ balancesAndSupplies: result });
+    });
+}
 
 const vaultContract = new ethers.Contract(
   vaultAddress,
@@ -1356,12 +1352,7 @@ if (infoTokens) {
   });
 }
 
-if (
-  infoTokens &&
-  infoTokens[ADDRESS_ZERO].balance &&
-  !fromToken &&
-  sender !== PLACEHOLDER_ACCOUNT
-) {
+if (infoTokens && infoTokens[ADDRESS_ZERO].balance && !fromToken) {
   State.update({
     fromToken: infoTokens[ADDRESS_ZERO],
     toToken: infoTokens[ADDRESS_ZERO],
@@ -1425,8 +1416,6 @@ const liquidationPrice = getLiquidationPrice({
 
 const getIconForToken = (symbol) => {
   switch (symbol) {
-    case "ETH":
-      return <IconETH />;
     case "USDC":
       return <IconUSDC />;
     case "WBTC":
@@ -1921,7 +1910,6 @@ return (
         <div class="px-4 pt-4">
           <div class="relative flex justify-center">
             <LogoZkEra />
-
             {chainId && (
               <select
                 onChange={(e) => {
