@@ -92,7 +92,7 @@ const Title = styled.p`
   margin: ${(p) => (p.margin ? "0 0 24px" : "0")};
   overflow-wrap: anywhere;
   &:hover{
-      color:white;
+      color:purple;
   }
 `;
 
@@ -107,7 +107,7 @@ const Tabs = styled.div`
   position: sticky;
   top: 0;
   @media (max-width: 1200px) {
-    background: #f8f9fa;
+    background: #000;
     border: none;
     margin: 0;
     padding: 0;
@@ -134,36 +134,13 @@ const TabsButton = styled.button`
   text-align: center;
   text-decoration: none !important;
 
-  &:hover {
-    color:#9c9c9c;
+
+  ${(props) =>
+    props.isActive &&
+    `
     background: #9c9c9c;
-    cursor: pointer;
-
-  }
-
-  &::after {
-    content: "";
-    display: ${(p) => (p.selected ? "block" : "none")};
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    width: 6px;
-    background: none;
-    background-size: 200% 100%, 200% 100%;
-    background-position: 100% 0, 100% 0;
-
-    animation: moveLines 3s linear infinite;
-
-    @keyframes moveLines {
-      0% {
-        background-position: 200% 0, 200% 0;
-      }
-      100% {
-        background-position: -200% 0, -200% 0;
-      }
-    }
-}
+    color:  #9c9c9c; 
+  `}
 `;
 //Card
 const FormContainer = styled.div`
@@ -445,6 +422,14 @@ const handleSearchChange = (event) => {
   setSearchTerm(event.target.value);
 };
 
+//Middle
+const CenteredContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+`;
+
 // Render
 
 return (
@@ -489,7 +474,7 @@ return (
             </Tabs>
           </Wrapper>
         </div>
-        <div class="col-md-9">
+        <CenteredContainer class="col-md-9">
           {state.selectedTab === "home" && (
             <>
               <Widget src="marketplacebos.near/widget/ChartBalance" />
@@ -577,7 +562,7 @@ return (
               <br />
             </>
           )}
-        </div>
+        </CenteredContainer>
       </div>
     </div>
   </>
