@@ -474,6 +474,12 @@ return (
               >
                 <Title>Price📈</Title>
               </TabsButton>
+              <TabsButton
+                onClick={() => handleTabClick("swap")}
+                isActive={state.selectedTab === "swap"}
+              >
+                <Title>Swap💱</Title>
+              </TabsButton>
             </Tabs>
           </Wrapper>
         </div>
@@ -561,6 +567,13 @@ return (
           {state.selectedTab === "coin" && (
             <>
               <Widget src="pichtran.near/widget/CoinPrice" />
+              <br />
+              <br />
+            </>
+          )}
+          {state.selectedTab === "swap" && (
+            <>
+              <h1>Updating accountabstration swap</h1>
               <br />
               <br />
             </>
