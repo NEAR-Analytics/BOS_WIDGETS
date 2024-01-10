@@ -389,12 +389,14 @@ function isWithdrawalFinalized(txHash, isEth, cb, returnArgs) {
   );
 }
 
-// getting deposits and withdrawals
+// TX logs - getting deposits and withdrawals
 
 if (!state.initLogs) {
   State.update({ initLogs: true });
 
   // eth deposits
+
+  L1EthBridge;
 
   L2BridgeEth.queryFilter(L2BridgeEth.filters.Transfer(sender, sender)).then(
     (ethDeposits) => {
@@ -689,29 +691,27 @@ const { deposit, withdraw } = state;
 
 if (sender && !state.balancesUpdated) {
   // l1
-  Ethers.provider()
-    .getBalance(sender)
-    .then((balance) => {
-      const cloned = clone(deposit || defaultDeposit);
-      const formatted = ethers.utils.formatUnits(balance);
-      cloned.assets[0].balance = formatted.substring(
-        0,
-        formatted.indexOf(".") + 5
-      );
-      State.update({ deposit: cloned });
+  contracts[network].l1Provider.getBalance(sender).then((balance) => {
+    const cloned = clone(deposit || defaultDeposit);
+    const formatted = ethers.utils.formatUnits(balance);
+    cloned.assets[0].balance = formatted.substring(
+      0,
+      formatted.indexOf(".") + 5
+    );
+    State.update({ deposit: cloned });
 
-      // USDC
-      getTokenBalance(
-        sender,
-        true,
-        contracts[network].usdc.deposit,
-        tokens.usdc.decimals,
-        (balance) => {
-          cloned.assets[1].balance = balance;
-          State.update({ deposit: cloned });
-        }
-      );
-    });
+    // USDC
+    getTokenBalance(
+      sender,
+      true,
+      contracts[network].usdc.deposit,
+      tokens.usdc.decimals,
+      (balance) => {
+        cloned.assets[1].balance = balance;
+        State.update({ deposit: cloned });
+      }
+    );
+  });
 
   //l2;
   contracts[network].l2Provider
