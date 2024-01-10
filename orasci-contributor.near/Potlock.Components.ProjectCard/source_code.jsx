@@ -82,19 +82,19 @@ const CardAvatar = styled.img`
 
 return (
   <Card>
-    <CardImage
+    {/* <CardImage
       src={
         cardData && cardData?.backgroundImage
           ? `https://ipfs.near.social/ipfs/${cardData.backgroundImage.ipfs_cid}`
           : "https://ipfs.near.social/ipfs/bafkreih4i6kftb34wpdzcuvgafozxz6tk6u4f5kcr2gwvtvxikvwriteci"
       }
       alt="project background image"
-    />
+    /> */}
     <CardBody>
       <CardAvatar
         src={
           cardData && cardData?.image
-            ? cardData.image.ipfs_cid
+            ? `https://ipfs.near.social/ipfs/${cardData.image.ipfs_cid}`
             : "https://ipfs.near.social/ipfs/bafkreih4i6kftb34wpdzcuvgafozxz6tk6u4f5kcr2gwvtvxikvwriteci"
         }
         alt="project avatar"
@@ -105,9 +105,9 @@ return (
           ? cardData.description.slice(0, 60) + "..."
           : cardData.description}
       </CardDescription>
-      <CardTagContainer>
+      {/* <CardTagContainer>
         <CardTag>{cardData?.category}</CardTag>
-      </CardTagContainer>
+      </CardTagContainer> */}
     </CardBody>
   </Card>
 );
