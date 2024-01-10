@@ -133,14 +133,15 @@ const TabsButton = styled.button`
   outline: none;
   text-align: center;
   text-decoration: none !important;
+  &:hover {
+    color:#e09dff;
+    background: #e3e3e3;
+    cursor: pointer;
 
+  }
 
-  ${(props) =>
-    props.isActive &&
-    `
-    background: #9c9c9c;
-    color:  #9c9c9c; 
-  `}
+  background: ${(props) => (props.isActive ? "#e09dff" : "none")};
+  color: ${(props) => (props.isActive ? "#ffffff" : "#ffffff")};
 `;
 //Card
 const FormContainer = styled.div`
@@ -448,25 +449,25 @@ return (
             <Tabs>
               <TabsButton
                 onClick={() => handleTabClick("home")}
-                selected={state.selectedTab === "home"}
+                isActive={state.selectedTab === "home"}
               >
                 <Title>Balance💰</Title>
               </TabsButton>
               <TabsButton
                 onClick={() => handleTabClick("sends")}
-                selected={state.selectedTab === "sends"}
+                isActive={state.selectedTab === "sends"}
               >
                 <Title>Send💸</Title>
               </TabsButton>
               <TabsButton
                 onClick={() => handleTabClick("nfts")}
-                selected={state.selectedTab === "nfts"}
+                isActive={state.selectedTab === "nfts"}
               >
                 <Title>NFTs🧩</Title>
               </TabsButton>
               <TabsButton
                 onClick={() => handleTabClick("coin")}
-                selected={state.selectedTab === "coin"}
+                isActive={state.selectedTab === "coin"}
               >
                 <Title>Price📈</Title>
               </TabsButton>
