@@ -91,12 +91,13 @@ return (
       alt="project background image"
     />
     <CardBody>
+      <CardAvatar src={cardData?.image.ipfs_cid} alt="project avatar" />
       <CardTitle>{cardData?.name}</CardTitle>
-      <CardDescription>
+      {/* <CardDescription>
         {cardData && cardData?.description.length > MAX_DESCRIPTION_LENGTH
           ? cardData.description.slice(0, MAX_DESCRIPTION_LENGTH) + "..."
           : cardData.description}
-      </CardDescription>
+      </CardDescription> */}
       <CardTagContainer>
         <CardTag>{cardData?.category}</CardTag>
       </CardTagContainer>
