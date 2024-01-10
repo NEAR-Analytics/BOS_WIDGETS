@@ -15,14 +15,8 @@ const colors = {
 
 const props = { colors };
 
-const StyledThemeProvider = styled.div`
-  display: none;
-  visibility: hidden;
-  opacity: 0;
-`;
-
 function ThemeProvider({ children, props }) {
-  return <StyledThemeProvider {...props}>{children}</StyledThemeProvider>;
+  return <div {...props}>{children}</div>;
 }
 
 return { ThemeProvider };
