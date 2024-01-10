@@ -37,7 +37,7 @@ const SearchBarContainer = styled.div`
 const SearchBar = styled.input`
   background: none;
   width: 100%;
-  border-radius: 2px;
+  border-radius: 
   outline: none;
   border: none;
   color: #525252;
