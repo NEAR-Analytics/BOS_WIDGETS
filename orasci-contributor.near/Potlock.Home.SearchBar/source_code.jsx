@@ -1,6 +1,27 @@
-const { selectFilterType, filterList } = props;
+const { filterNewToOld, filterOldToNew } = props;
+
+const filterList = [
+  "Newest to Oldest",
+  "Oldest to Newest",
+  "Most to Least Donations",
+  "Least to Most Donations",
+];
+
+const [filterType, setFilterType] = useState(null);
 
 const [openFilter, setOpenFilter] = useState(false);
+
+const selectFilterType = (type) => {
+  switch (type) {
+    case "Newest to Oldest":
+      filterNewToOld();
+      break;
+    case "Oldest to Newest":
+      filterOldToNew();
+      break;
+  }
+  setFilterType(type);
+};
 
 const SearchBarContainer = styled.div`
   display: flex;
