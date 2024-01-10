@@ -21,4 +21,4 @@ function ThemeProvider({ children }) {
   return <div {...theme}>{children}</div>;
 }
 
-return { ThemeProvider };
+return { ThemeProvider, theme };
