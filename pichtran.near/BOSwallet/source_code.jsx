@@ -85,7 +85,7 @@ const Wrapper = styled.div`
 `;
 
 const Title = styled.p`
-  font-weight: 600;
+  font-weight: 300;
   font-size: ${(p) => p.size || "25px"};
   line-height: 1.2em;
   color: #11181c;
