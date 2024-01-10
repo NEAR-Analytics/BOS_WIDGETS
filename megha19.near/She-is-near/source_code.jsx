@@ -25,6 +25,9 @@ const MarketingTextImg =
 const EducationalTextImg =
   "https://ipfs.near.social/ipfs/bafkreidnycmhvr2nsm4zlobqrizg5awgv5xtcuzsrr4uhxi76tdwt5zuj4";
 
+const MarketingURL =
+  "https://near.org/megha19.near/widget/She-is-near-marketing";
+
 const cssFont = fetch(
   "https://fonts.googleapis.com/css2?family=Poppins&display=swap"
 ).body;
@@ -247,7 +250,7 @@ const LargeScreenComponent = () => {
             <a href={``} target="_blank" rel="noreferrer">
               <GridImg src={EducationalImg} />
             </a>
-            <a href={``} target="_blank" rel="noreferrer">
+            <a href={MarketingURL} target="_blank" rel="noreferrer">
               <GridImg src={MarketingImg} />
             </a>
             <a href={``} target="_blank" rel="noreferrer">
@@ -288,7 +291,7 @@ const MobileScreenComponent = () => {
           <a href={``} target="_blank" rel="noreferrer">
             <SmallImg src={PartnershipsTextImg} />
           </a>
-          <a href={``} target="_blank" rel="noreferrer">
+          <a href={MarketingURL} target="_blank" rel="noreferrer">
             <SmallImg src={MarketingTextImg} />
           </a>
           <a href={``} target="_blank" rel="noreferrer">
