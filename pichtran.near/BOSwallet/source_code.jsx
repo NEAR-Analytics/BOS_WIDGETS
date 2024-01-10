@@ -299,8 +299,7 @@ const Input = styled.input`
     transform: translateY(-50px);
   }`;
 
-// Define components
-const form = (
+const card = (
   <>
     <FormContainer>
       <Form>
@@ -324,7 +323,7 @@ const form = (
             onChange={(e) => State.update({ amount: e.target.value })}
           />
         </FormGroup>
-        <SubmitButton onClick={onClick}>Send!</SubmitButton>
+        <SubmitButton onClick={onClick}>Send</SubmitButton>
       </Form>
     </FormContainer>
 
@@ -375,7 +374,7 @@ if (!(res && res.body)) return "...";
 
 const nfts = res.body.data.mb_views_nft_tokens;
 
-const notLoggedInWarning = <p class="text-center py-2"> Login to send $NEAR</p>;
+const notLoggedInWarning = <p class="text-center py-2"> Login to send NEAR</p>;
 const StyledH6 = styled.h6`
   text-align: right;
   top: 0;
@@ -485,9 +484,9 @@ return (
           {state.selectedTab === "sends" && (
             <>
               <p class="text-center py-2">
-                Enter AccountID and amount of $NEAR to send
+                Enter AccountID and amount of NEAR to send
               </p>
-              {context.accountId ? form : notLoggedInWarning}
+              {context.accountId ? card : notLoggedInWarning}
               <br />
               <br />
             </>
