@@ -15,7 +15,7 @@ const colors = {
 
 const props = { colors };
 
-function ThemeProvider({ children, props }) {
+function ThemeProvider({ children }) {
   return <div {...props}>{children}</div>;
 }
 
