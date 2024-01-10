@@ -17,6 +17,8 @@ const colors = {
   warning: "#F17B2C",
 };
 
-console.log("colors", colors);
+function getTheme() {
+  return colors;
+}
 
-return { colors };
+return { getTheme };
