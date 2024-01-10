@@ -466,19 +466,25 @@ return (
                 onClick={() => handleTabClick("home")}
                 selected={state.selectedTab === "home"}
               >
-                <Title>Balance 💰</Title>
+                <Title>Balance💰</Title>
               </TabsButton>
               <TabsButton
                 onClick={() => handleTabClick("sends")}
                 selected={state.selectedTab === "sends"}
               >
-                <Title>Send 💸</Title>
+                <Title>Send💸</Title>
               </TabsButton>
               <TabsButton
                 onClick={() => handleTabClick("nfts")}
                 selected={state.selectedTab === "nfts"}
               >
-                <Title>NFTs 🧩</Title>
+                <Title>NFTs🧩</Title>
+              </TabsButton>
+              <TabsButton
+                onClick={() => handleTabClick("coin")}
+                selected={state.selectedTab === "coin"}
+              >
+                <Title>Price📈</Title>
               </TabsButton>
             </Tabs>
           </Wrapper>
@@ -505,7 +511,7 @@ return (
             <>
               <input
                 type="text"
-                placeholder="Search NFTs"
+                placeholder="Search NFTs 🔍"
                 value={searchTerm}
                 onChange={handleSearchChange}
                 style={{
@@ -562,6 +568,13 @@ return (
                     </div>
                   </Container>
                 ))}
+            </>
+          )}
+          {state.selectedTab === "coin" && (
+            <>
+              <Widget src="pichtran.near/widget/CoinPrice" />
+              <br />
+              <br />
             </>
           )}
         </div>
