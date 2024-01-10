@@ -462,6 +462,11 @@ const generateDappTimeline = (accountId) => {
   fetchRetry(`${API_URL}?${queryParams}`, 1000, 10, "dappTimelineChartData");
 };
 
+const generateDappVolume = (accountId) => {
+  const queryParams = `account_id=${accountId}&stats_type=dapp_volume`;
+  fetchRetry(`${API_URL}?${queryParams}`, 1000, 10, "dappVolumeChartData");
+};
+
 State.update({
   selectedCommunityAccountMembers: getMembers(state.selectedCommunityAccount),
 });
@@ -479,6 +484,7 @@ if (state.menu === "nft") generateNFTMints(state.selectedCommunityAccount);
 if (state.menu === "dapp") {
   generateDappUsage(state.selectedCommunityAccount);
   generateDappTimeline(state.selectedCommunityAccount);
+  generateDappVolume(state.selectedCommunityAccount);
 }
 if (state.menu === "all-overview") {
   State.update({
@@ -511,6 +517,7 @@ return (
           nftMintsChartData: null,
           dappUsageChartData: null,
           dappTimelineChartData: null,
+          dappVolumeChartData: null,
           totalWallets: null,
         })
       }
@@ -784,6 +791,15 @@ return (
             valueLabel: "transaction per day",
             label: "Transaction per Day",
             barColor: "rgb(85, 192, 192)",
+          })}
+        </div>
+        <div>
+          {chartDappUsage({
+            data: state["dappVolumeChartData"],
+            header: <b>Dapp Volume in NEAR</b>,
+            valueLabel: "volume_near",
+            label: "Volume in NEAR",
+            barColor: "rgb(85, 85, 180)",
           })}
         </div>
       </>
