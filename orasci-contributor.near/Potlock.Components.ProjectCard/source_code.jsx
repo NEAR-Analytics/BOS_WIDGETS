@@ -1,7 +1,16 @@
-const { id, review_notes, status } = props;
+const { id, review_notes, status, totalAmount } = props;
 
+const donationContractId = "donate.potlock.near";
 const IPFS_BASE_URL = "https://ipfs.near.social/ipfs/";
 const cardData = Social.getr(`${id}/profile`);
+
+const donationsForProject = Near.view(
+  donationContractId,
+  "get_donations_for_recipient",
+  {
+    recipient_id: id,
+  }
+);
 
 const Card = styled.div`
   display: flex;
@@ -79,6 +88,32 @@ const CardAvatar = styled.img`
     border: 3px solid #FFF;
 `;
 
+const CardFooter = styled.div`
+    border-top: 1px solid #000;
+    padding: 16px 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+`;
+
+const TotalDonate = styled.div`
+    color: #292929;
+    font-size: 17px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 24px;
+`;
+
+const DonationButton = styled.div`
+    padding: 12px 16px;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 20px; 
+    border-radius: 6px; 
+    box-shadow: 0px -2px 0px 0px #464646 inset, 0px 0px 0px 1px #464646; 
+`;
+
 return (
   <Card>
     <CardImage
@@ -114,5 +149,9 @@ return (
         </CardTag>
       </CardTagContainer>
     </CardBody>
+    <CardFooter>
+      <TotalDonate>${totalAmount(donationsForProject)} raised</TotalDonate>
+      <DonationButton>Donate</DonationButton>
+    </CardFooter>
   </Card>
 );
