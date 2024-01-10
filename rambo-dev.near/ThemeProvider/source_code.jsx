@@ -13,10 +13,12 @@ const colors = {
   warning: "#F17B2C",
 };
 
-const props = { colors };
+Storage.set("theme", colors);
+
+const theme = Storage.get("theme");
 
 function ThemeProvider({ children }) {
-  return <div {...props}>{children}</div>;
+  return <div {...theme}>{children}</div>;
 }
 
 return { ThemeProvider };
