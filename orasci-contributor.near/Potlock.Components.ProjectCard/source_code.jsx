@@ -1,14 +1,11 @@
 const { id, review_notes, status } = props;
 
-console.log("props: ", props);
-
 const cardData = Social.getr(`${id}/profile`);
 
-console.log("cardData: ", cardData);
-
-const backgroundImage = `https://ipfs.near.social/ipfs/${cardData.backgroundImage.ipfs_cid}`;
-
-console.log("background image: ", backgroundImage);
+useEffect(() => {
+  if (cardData) {
+  }
+}, []);
 
 const Card = styled.div`
   display: flex;
@@ -28,21 +25,20 @@ const Card = styled.div`
   overflow: hidden;
 `;
 
-const CardImage = styled.div`
-  background-image: gray
-    url(${
-      backgroundImage
-        ? backgroundImage
-        : "https://ipfs.near.social/ipfs/bafkreih4i6kftb34wpdzcuvgafozxz6tk6u4f5kcr2gwvtvxikvwriteci"
-    });
-  background-position: center;
-  background-size: cover;
+const CardImage = styled.img`
   height: 150px;
   width: 100%;
 `;
 
 return (
   <Card>
-    <CardImage />
+    <CardImage
+      src={
+        cardData && cardData?.backgroundImage
+          ? `https://ipfs.near.social/ipfs/${cardData.backgroundImage.ipfs_cid}`
+          : "https://ipfs.near.social/ipfs/bafkreih4i6kftb34wpdzcuvgafozxz6tk6u4f5kcr2gwvtvxikvwriteci"
+      }
+      alt="project background image"
+    />
   </Card>
 );
