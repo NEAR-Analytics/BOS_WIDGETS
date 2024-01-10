@@ -437,6 +437,13 @@ const TOKENS = {
 const RewardsContractABI = [
   {
     inputs: [],
+    name: "totalSupply",
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
     name: "decimals",
     outputs: [
       {
@@ -645,6 +652,39 @@ const PoolContractABI = [
     type: "function",
   },
 ];
+const LPTokenABI = [
+  {
+    inputs: [],
+    name: "getActualSupply",
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [{ internalType: "address", name: "account", type: "address" }],
+    name: "balanceOf",
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+    stateMutability: "view",
+    type: "function",
+  },
+];
+const COINGECKO_IDS = {
+  USDT: "tether",
+  USDC: "usd-coin",
+  sDAI: "savings-xdai",
+  WBTC: "wrapped-bitcoin",
+  WETH: "weth",
+  wstETH: "wrapped-steth",
+  crvUSD: "crvusd",
+  AURA: "aura-finance",
+  BAL: "balancer",
+  staBAL3: "balancer-stable-usd",
+  COW: "cow-protocol",
+  stEUR: "staked-ageur",
+  EURe: "monerium-eur-money",
+  GNO: "gnosis",
+};
+
 const initList = POOLS.map((item) => ({ ...item, stakedAmount: 0, reward: 0 }));
 const { toast } = props;
 State.init({
@@ -658,6 +698,8 @@ State.init({
   fresh: 1,
   isClaiming: false,
   isAllClaiming: false,
+  tokenPrices: "",
+  TVLS: [],
 });
 const account = Ethers.send("eth_requestAccounts", [])[0];
 
@@ -665,7 +707,9 @@ function initPoolList() {
   let getBalanceArray = [];
   let getPoolTokensArray = [];
   let getRewardsArray = [];
+  let getRewardsTotalSupplyArray = [];
   let getBPTArray = [];
+  let getBPTTotalSupplyArray = [];
 
   for (let i = 0; i < state.poolsList.length; i++) {
     const item = state.poolsList[i];
@@ -673,6 +717,9 @@ function initPoolList() {
     getPoolTokensArray.push(getPoolTokens(item));
     getRewardsArray.push(getRewards(item));
     getBPTArray.push(getBPTBalance(item));
+    getBPTTotalSupplyArray.push(getBPTTotalSupply(item));
+    getRewardsTotalSupplyArray.push(getRewardTotalSupply(item));
+    getRewardRate(item);
   }
 
   Promise.allSettled(getBalanceArray).then((res) => {
@@ -691,12 +738,13 @@ function initPoolList() {
   });
 
   Promise.allSettled(getPoolTokensArray).then((res) => {
-    console.log("getPoolTokensArray:", res);
     const temp = [...state.poolsList];
     for (let i = 0; i < res.length; i++) {
       if (res[i].status === "fulfilled") {
         const addrArray = res[i].value[0];
+        const tokenBalArray = res[i].value[1];
         temp[i].tokenAssets = addrArray;
+        temp[i].tokenBalance = tokenBalArray;
         temp[i].tokens = addrArray
           ? addrArray.map((addr) => TOKENS[addr].symbol)
           : [];
@@ -739,6 +787,35 @@ function initPoolList() {
       fresh: state.fresh + 1,
     });
   });
+
+  Promise.allSettled(getBPTTotalSupplyArray).then((res) => {
+    const temp = [...state.poolsList];
+    for (let i = 0; i < res.length; i++) {
+      if (res[i].status === "fulfilled") {
+        temp[i].bptTotalSupply = res[i].value;
+      } else {
+        temp[i].bptTotalSupply = 0;
+      }
+    }
+    State.update({
+      poolsList: temp,
+      fresh: state.fresh + 1,
+    });
+  });
+  Promise.allSettled(getRewardsTotalSupplyArray).then((res) => {
+    const temp = [...state.poolsList];
+    for (let i = 0; i < res.length; i++) {
+      if (res[i].status === "fulfilled") {
+        temp[i].rewardTotalSupply = res[i].value;
+      } else {
+        temp[i].rewardTotalSupply = 0;
+      }
+    }
+    State.update({
+      poolsList: temp,
+      fresh: state.fresh + 1,
+    });
+  });
 }
 
 function getPoolTokens(pool) {
@@ -766,15 +843,7 @@ function getPoolTokens(pool) {
 function getBPTBalance(pool) {
   const PoolContract = new ethers.Contract(
     pool.LP_token_address,
-    [
-      {
-        inputs: [{ internalType: "address", name: "account", type: "address" }],
-        name: "balanceOf",
-        outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
-        stateMutability: "view",
-        type: "function",
-      },
-    ],
+    LPTokenABI,
     Ethers.provider()
   );
   return PoolContract.balanceOf(account)
@@ -792,7 +861,29 @@ function getBPTBalance(pool) {
       console.log("getBPTBalance_error:", err);
     });
 }
-
+function getBPTTotalSupply(pool) {
+  const PoolContract = new ethers.Contract(
+    pool.LP_token_address,
+    LPTokenABI,
+    Ethers.provider()
+  );
+  return PoolContract.getActualSupply()
+    .then((res) => {
+      return res;
+    })
+    .catch((err) => {
+      console.log("getBPTBalance_error:", err);
+    });
+}
+// function testpp() {
+//   const ep = Big(404145240482690656857139).times(1.09);
+//   const r = Big(296420101889362424737222)
+//     .times(1.11)
+//     .plus(ep)
+//     .div(699663148517080204980206);
+//   const a = r.times(Big(260806212218232372369741));
+//   console.log(111111, a, a.toFixed(), a.toString());
+// }
 function getBalance(pool) {
   const BalanceContract = new ethers.Contract(
     pool.Rewards_contract_address,
@@ -813,57 +904,49 @@ function getBalance(pool) {
       console.log("getBalance_error:", err);
     });
 }
-
-function getOthers(contract) {
-  //??
-  // RewardsContract.totalAssets()
-  //   .then((res) => {
-  //     console.log(
-  //       data.poolName,
-  //       res,
-  //       res.toString(),
-  //       ethers.utils.formatUnits(res)
-  //     );
-  //   })
-  //   .catch((err) => {
-  //     console.log("currentRewards_err:", err);
-  //   });
-  // RewardsContract.convertToShares(8161)
-  //   .then((res) => {
-  //     console.log(
-  //       data.poolName,
-  //       res,
-  //       res.toString(),
-  //       ethers.utils.formatUnits(res)
-  //     );
-  //   })
-  //   .catch((err) => {
-  //     console.log("currentRewards_err:", err);
-  //   });
-  // like balanceof
-  // RewardsContract.maxWithdraw(account)
-  //   .then((res) => {
-  //     console.log(data.poolName, res, ethers.utils.formatUnits(res));
-  //   })
-  //   .catch((err) => {
-  //     console.log("currentRewards_err:", err);
-  //   });
-  // promise.all
-  // RewardsContract.allowance(account, RewardPoolDepositWrapper)
-  //   .then((allowanceRaw) => {
-  //     const allowAmount = ethers.utils.formatUnits(
-  //       allowanceRaw._hex,
-  //       state.curToken.decimals
-  //     );
-  //     console.info("get allow amount: ", allowAmount);
-  //     State.update({
-  //       allowance: allowAmount,
-  //     });
-  //   })
-  //   .catch((e) => {
-  //     console.log("TokenContracterr", e);
-  //   });
+function getRewardRate(pool) {
+  const RewardContract = new ethers.Contract(
+    pool.Rewards_contract_address,
+    RewardsContractABI,
+    Ethers.provider()
+  );
+  return RewardContract.rewardRate()
+    .then((res) => {
+      // console.log(
+      //   111111111,
+      //   pool.poolName,
+      //   res,
+      //   ethers.utils.formatUnits(res),
+      //   ethers.utils.formatUnits(res) * (86_400 * 365) * 11.44
+      // );
+    })
+    .catch((err) => {
+      console.log("getBalance_error:", err);
+    });
 }
+function getRewardTotalSupply(pool) {
+  const RewardContract = new ethers.Contract(
+    pool.Rewards_contract_address,
+    RewardsContractABI,
+    Ethers.provider()
+  );
+  return RewardContract.totalSupply()
+    .then((res) => {
+      console.log(pool.poolName, "totalSupply", res, res.toString());
+      // console.log(
+      //   "getBalance: ",
+      //   res,
+      //   res.toString(),
+      //   Big(ethers.utils.formatUnits(res)).toFixed(2)
+      // );
+      // return Big(ethers.utils.formatUnits(res)).toFixed(2);
+      return res;
+    })
+    .catch((err) => {
+      console.log("getBalance_error:", err);
+    });
+}
+
 const getRewards = (pool) => {
   const RewardsContract = new ethers.Contract(
     pool.Rewards_contract_address,
@@ -878,6 +961,77 @@ const getRewards = (pool) => {
       console.log("currentRewards_err:", err);
     });
 };
+
+function fetchTokenPrice(tokenIds) {
+  return asyncFetch(
+    `https://api.coingecko.com/api/v3/simple/price?ids=${tokenIds}&vs_currencies=usd`
+  ).then((res) => {
+    if (res.ok) {
+      return res.body;
+    }
+    return 0;
+  });
+}
+
+function getTokenPrices() {
+  const ids = Object.values(COINGECKO_IDS).join();
+  fetchTokenPrice(ids)
+    .then((res) => {
+      State.update({
+        tokenPrices: res,
+      });
+    })
+    .catch((error) => {
+      console.error("getTokenPrices_error: ", error);
+    });
+}
+
+function calcTVL() {
+  const temp = [...state.poolsList];
+  for (let i = 0; i < temp.length; i++) {
+    const tokens = temp[i].tokens;
+    const tokenBalance = temp[i].tokenBalance;
+
+    if (tokens && tokenBalance && state.tokenPrices) {
+      try {
+        const sum = tokens?.reduce((total, cur, j) => {
+          if (cur) {
+            const tokenId = COINGECKO_IDS[cur];
+            const price = state.tokenPrices[tokenId]?.usd || 0;
+
+            return Big(total)
+              .plus(
+                Big(ethers.utils.formatUnits(tokenBalance[j] || 0)).times(
+                  Big(price || 0)
+                )
+              )
+              .toFixed();
+          } else {
+            return total;
+          }
+        }, 0);
+
+        const bptPriceUsd = Big(sum).div(Big(temp[i].bptTotalSupply));
+        temp[i].poolValueUsd = sum;
+        temp[i].bptPriceUsd = bptPriceUsd;
+        temp[i].TVL = Big(temp[i].rewardTotalSupply)
+          .times(bptPriceUsd)
+          .toString();
+      } catch (error) {
+        console.log("calcTVL_error", error);
+      }
+    }
+  }
+
+  const tvls = temp.map((item) => ({
+    Aura_Pool_ID: item.Aura_Pool_ID,
+    TVL: item.TVL,
+  }));
+  State.update({
+    TVLS: tvls,
+  });
+}
+
 useEffect(() => {
   State.update({ account });
   if (account) {
@@ -886,6 +1040,7 @@ useEffect(() => {
 }, [account]);
 
 useEffect(() => {
+  getTokenPrices();
   Ethers.provider()
     .getNetwork()
     .then(({ chainId }) => {
@@ -895,7 +1050,7 @@ useEffect(() => {
 }, []);
 
 useEffect(() => {
-  console.log("POOLS_LIST: ", state.poolsList);
+  console.log("POOLS_LIST: ", state, state.poolsList, state.tokenPrices);
   const totalDepositAmount = state.poolsList.reduce((total, cur) => {
     return Big(cur.stakedAmount || 0)
       .plus(total)
@@ -906,16 +1061,19 @@ useEffect(() => {
       .plus(total)
       .toFixed(2);
   }, 0);
+
   const temp = state.poolsList.filter((item) =>
     Big(item.stakedAmount || 0).gt(0)
   );
+
+  calcTVL();
 
   State.update({
     totalDepositAmount,
     totalRewardsAmount,
     myPoolsList: temp,
   });
-}, [state.poolsList, state.fresh]);
+}, [state.poolsList, state.fresh, state.tokenPrices]);
 
 const handleChangeTabs = (value) => {
   State.update({
@@ -1089,6 +1247,7 @@ return (
                   RewardPoolDepositABI,
                   switchChain,
                   tokenIcons: getPoolIcon(item.tokenAssets),
+                  TVLS: state.TVLS,
                 }}
                 key={item.poolName}
               />
