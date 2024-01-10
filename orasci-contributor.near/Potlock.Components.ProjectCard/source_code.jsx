@@ -69,6 +69,7 @@ const CardTag = styled.div`
     padding: 8px;
     border-radius: 4px;
     box-shadow: 0px -1px 0px 0px #C7C7C7 inset, 0px 0px 0px 0.5px #C7C7C7; 
+    border: 1px solid #c7c7c7;
     font-size: 14px;
     font-style: normal;
     font-weight: 400;
