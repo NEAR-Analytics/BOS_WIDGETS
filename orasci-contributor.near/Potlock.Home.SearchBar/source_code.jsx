@@ -1,9 +1,4 @@
-const filterList = [
-  "Newes to Oldest",
-  "Oldest to Newest",
-  "Most to Least Donations",
-  "Least to Most Donations",
-];
+const { selectFilterType, filterList } = props;
 
 const [openFilter, setOpenFilter] = useState(false);
 
@@ -115,7 +110,9 @@ return (
       {openFilter && (
         <FilterMenu>
           {filterList.map((filter, key) => (
-            <FilterItem key={key}>{filter}</FilterItem>
+            <FilterItem key={key} onClick={() => selectFilterType(filter)}>
+              {filter}
+            </FilterItem>
           ))}
         </FilterMenu>
       )}
