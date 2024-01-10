@@ -91,7 +91,7 @@ return (
       alt="project background image"
     />
     <CardBody>
-      <CardAvatar src={cardData?.image} alt="project avatar" />
+      <CardAvatar src={cardData?.image.ipfs_cid} alt="project avatar" />
       <CardTitle>{cardData?.name}</CardTitle>
       <CardDescription>
         {cardData?.description.length > MAX_DESCRIPTION_LENGTH
