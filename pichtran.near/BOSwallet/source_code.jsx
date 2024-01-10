@@ -165,7 +165,7 @@ const TabsButton = styled.button`
     }
 }
 `;
-//card
+//Card
 const FormContainer = styled.div`
   width: 100%;
   background: linear-gradient(#212121, #212121) padding-box,
@@ -389,7 +389,6 @@ function fetchGraphQL() {
       operationName: "MyQuery",
     }),
   });
-  console.log("result", result);
   return result;
 }
 
