@@ -86,8 +86,8 @@ const Wrapper = styled.div`
 
 const Title = styled.p`
   font-weight: 300;
-  font-size: ${(p) => p.size || "25px"};
-  line-height: 1.2em;
+  font-size: ${(p) => p.size || "17px"};
+  line-height: 1em;
   color: #11181c;
   margin: ${(p) => (p.margin ? "0 0 24px" : "0")};
   overflow-wrap: anywhere;
