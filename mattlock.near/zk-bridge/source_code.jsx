@@ -9,6 +9,10 @@ const l2TxGasLimit = "900000";
 const l2TxGasLimitWithdraw = "6000000";
 const l2TxGasPerPubdataByte = "800";
 const l2MaxGasPrice = "2";
+const depositDisabledMsg =
+  "For deposits, please switch to Ethereum mainnet or Goerli testnet.";
+const withdrawDisabledMsg =
+  "For withdrawals, please switch to zkSync mainnet or zkSync testnet.";
 const l2DepositFee = ethers.utils.formatUnits(
   Big(l2MaxGasPrice)
     .mul(ethers.utils.parseUnits(l2TxGasLimit, "gwei"))
@@ -134,10 +138,10 @@ if (!state.chainId) {
         network = "mainnet";
       }
       console.log("chainId", chainId, network);
-      let log;
+      let log, depositDisabled;
       if (chainId === ZKSYNC_CHAIN_ID || chainId === ZKSYNC_GOERLI_CHAIN_ID) {
-        log =
-          "For deposits, please switch to Ethereum mainnet or Goerli testnet.";
+        log = depositDisabledMsg;
+        depositDisabled = true;
       }
       State.update({ chainId, network, log });
     });
@@ -395,8 +399,6 @@ if (!state.initLogs) {
   State.update({ initLogs: true });
 
   // eth deposits
-
-  L1EthBridge;
 
   L2BridgeEth.queryFilter(L2BridgeEth.filters.Transfer(sender, sender)).then(
     (ethDeposits) => {
@@ -717,7 +719,7 @@ if (sender && !state.balancesUpdated) {
   contracts[network].l2Provider
     .send("eth_getBalance", [sender])
     .then((balance) => {
-      const cloned = clone(deposit || defaultDeposit);
+      const cloned = clone(withdraw || defaultWithdraw);
       const formatted = ethers.utils.formatUnits(balance);
       cloned.assets[0].balance = formatted.substring(
         0,
@@ -752,22 +754,26 @@ const onAction = (data) => {
 
 const onTabChange = (tab) => {
   let log = null;
-  if (
+
+  const depositDisabled =
     tab === "deposit" &&
-    (chainId === ZKSYNC_CHAIN_ID || chainId === ZKSYNC_GOERLI_CHAIN_ID)
-  ) {
-    log = "For deposits, please switch to Ethereum mainnet or Goerli testnet.";
-  }
-  if (
+    (chainId === ZKSYNC_CHAIN_ID || chainId === ZKSYNC_GOERLI_CHAIN_ID);
+  const withdrawDisabled =
     tab === "withdraw" &&
-    (chainId === ETHEREUM_CHAIN_ID || chainId === GOERLI_CHAIN_ID)
-  ) {
-    log = "For withdrawals, please switch to zkSync mainnet or zkSync testnet.";
+    (chainId === ETHEREUM_CHAIN_ID || chainId === GOERLI_CHAIN_ID);
+
+  if (depositDisabled) {
+    log = depositDisabledMsg;
+  }
+  if (withdrawDisabled) {
+    log = withdrawDisabledMsg;
   }
 
   State.update({
     deposit: clone(withdraw),
     withdraw: clone(deposit),
+    depositDisabled,
+    withdrawDisabled,
     tab,
     log,
   });
@@ -821,7 +827,12 @@ return (
   <>
     <Widget
       src="mattlock.near/widget/bridge-ui"
-      props={{ ...state, onTabChange, onAction, title: "zkBridge" }}
+      props={{
+        ...state,
+        onTabChange,
+        onAction,
+        title: "zkBridge",
+      }}
     />
     <div style={{ textAlign: "center" }}>
       <div style={{ width: 300, margin: "auto" }}>
