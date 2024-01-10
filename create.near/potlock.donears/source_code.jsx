@@ -39,7 +39,7 @@ return (
       />{" "}
     </div>
     <div className="m-3">
-      <h5>Generous Donors</h5>
+      <h5>Genearous Donors</h5>
       {donorList.map((donation, index) => (
         <>
           <hr />
