@@ -1,4 +1,5 @@
-const { contentId } = props;
+const { contentId, nearAccountId } = props;
+const userAccountId = context.accountId || nearAccountId
 
 const CONTRACT_ADDRESS = "app.paywall.near";
 
@@ -96,12 +97,12 @@ if (!content) {
   return <></>;
 }
 
-const isPurchased =  context.accountId
+const isPurchased = userAccountId
   ? Near.view(
       CONTRACT_ADDRESS,
       "purchased",
       {
-        account_id: context.accountId,
+        account_id: userAccountId,
         content_id: contentId,
       },
       "final",
@@ -234,7 +235,7 @@ return (
       ) : (
         <>
           <img className="content-image" src={content.blurred} />
-          {context.accountId ? (
+          {userAccountId ? (
             <div className="unlock-content-overlay">
               <div className="text">Unlock this Tweet</div>
               <div className="price">{price} $NEAR</div>
