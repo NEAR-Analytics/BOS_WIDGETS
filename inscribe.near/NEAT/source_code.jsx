@@ -71,6 +71,8 @@ function getConfig(network) {
         },
         ftWrapper: "neat.nrc-20.near",
         refFinance: "https://app.ref.finance/",
+        minMintEvents: 1_000_000,
+        minHolders: 1_000,
       };
     case "testnet":
       return {
@@ -93,6 +95,8 @@ function getConfig(network) {
         },
         ftWrapper: "neat.nrc-20.testnet",
         refFinance: "https://testnet.ref-finance.com/",
+        minMintEvents: 10,
+        minHolders: 5,
       };
     default:
       throw Error(`Unconfigured environment '${network}'.`);
