@@ -205,7 +205,7 @@ fetchData();
   );
 };
 
-const chartDappUsage = ({ data, header, label }) => {
+const chartDappUsage = ({ data, header, valueLabel, label, barColor }) => {
   const srcDoc = `
 <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
 <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
@@ -229,11 +229,89 @@ const title = tempData.map((entry) => entry["dapp"]);
           datasets: [
           {
               label: "${label}",
-              data: tempData.map(entry => entry.txs)
+              data: tempData.map(entry => entry["${valueLabel}"]),
+              backgroundColor: "${barColor}"
           }
           ]
       }
   });
+}
+
+fetchData();
+</script>
+`;
+  return (
+    <Widget
+      src="contribut3.near/widget/Card"
+      props={{
+        header: header,
+        body: data ? (
+          <iframe
+            className="w-100"
+            style={{ height: "750px" }}
+            srcDoc={srcDoc}
+          />
+        ) : (
+          <div style={{ margin: "auto" }}>
+            <Widget src="flashui.near/widget/Loading" props={{}} />
+          </div>
+        ),
+      }}
+    />
+  );
+};
+
+const chartDappTimeline = ({ data, header }) => {
+  const srcDoc = `
+<script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+<script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<canvas id="myChart" style="position: relative; height:80vh; width:80vw"></canvas>
+
+<script>
+async function fetchData() {
+
+const tempData = ${data};
+
+const sortedData = tempData.sort((a, b) => {
+      return new Date(a["date"]) - new Date(b["date"]);
+    });
+
+    const dates = Array.from(new Set(sortedData.map((entry) => entry["date"])));
+
+    const dapps = Array.from(new Set(sortedData.map((entry) => entry["dapp"])));
+    const datasets = dapps.map((dapp) => {
+      return {
+        label: dapp,
+        data: dates.map((date) => {
+          return (
+            sortedData.find(
+              (entry) => entry["date"] == date && entry["dapp"] == dapp
+            )?.txs || 0
+          );
+        }),
+      };
+    });
+
+    var ctx = document.getElementById("myChart").getContext("2d");
+    var myChart = new Chart(ctx, {
+      type: "bar",
+      data: {
+        labels: dates.map(date => new Date(date).toLocaleDateString()),
+        datasets: datasets,
+      },
+      options: {
+        scales: {
+          x: {
+            stacked: true,
+          },
+          y: {
+            stacked: true,
+          },
+        },
+      },
+    });
 }
 
 fetchData();
@@ -379,6 +457,11 @@ const generateDappUsage = (accountId) => {
   fetchRetry(`${API_URL}?${queryParams}`, 1000, 10, "dappUsageChartData");
 };
 
+const generateDappTimeline = (accountId) => {
+  const queryParams = `account_id=${accountId}&stats_type=dapp_timeline`;
+  fetchRetry(`${API_URL}?${queryParams}`, 1000, 10, "dappTimelineChartData");
+};
+
 State.update({
   selectedCommunityAccountMembers: getMembers(state.selectedCommunityAccount),
 });
@@ -393,8 +476,10 @@ if (state.menu === "overview" || state.menu === "dapp")
 if (state.menu === "overview")
   generateTotalWalletsCreated(state.selectedCommunityAccount);
 if (state.menu === "nft") generateNFTMints(state.selectedCommunityAccount);
-if (state.menu === "dapp") generateDappUsage(state.selectedCommunityAccount);
-
+if (state.menu === "dapp") {
+  generateDappUsage(state.selectedCommunityAccount);
+  generateDappTimeline(state.selectedCommunityAccount);
+}
 if (state.menu === "all-overview") {
   State.update({
     allMembers: rcDaoMembers.flatMap((rcAccountId) => getMembers(rcAccountId)),
@@ -425,6 +510,7 @@ return (
           dauChartData: null,
           nftMintsChartData: null,
           dappUsageChartData: null,
+          dappTimelineChartData: null,
           totalWallets: null,
         })
       }
@@ -661,15 +747,46 @@ return (
       </>
     )}
     {state.menu === "dapp" && (
-      <div>
-        {chartDappUsage({
-          data: state["dappUsageChartData"],
-          header: <b>Dapp Usage</b>,
-          valueLabel: "txs",
-          label: "Total Transactions",
-          barColor: "rgb(85, 85, 180)",
-        })}
-      </div>
+      <>
+        <div>
+          {chartDappTimeline({
+            data: state["dappTimelineChartData"],
+            header: (
+              <b>
+                Popular dApps in terms of number of interactions on a weekly
+                basis
+              </b>
+            ),
+          })}
+        </div>
+        <div>
+          {chartDappUsage({
+            data: state["dappUsageChartData"],
+            header: <b>Interaction statistics with dapps (txs)</b>,
+            valueLabel: "txs",
+            label: "Total Transactions",
+            barColor: "rgb(85, 85, 180)",
+          })}
+        </div>
+        <div>
+          {chartDappUsage({
+            data: state["dappUsageChartData"],
+            header: <b>Activity Days</b>,
+            valueLabel: "activity days",
+            label: "Activity Days",
+            barColor: "rgb(85, 192, 192)",
+          })}
+        </div>
+        <div>
+          {chartDappUsage({
+            data: state["dappUsageChartData"],
+            header: <b>Transaction per Day</b>,
+            valueLabel: "transaction per day",
+            label: "Transaction per Day",
+            barColor: "rgb(85, 192, 192)",
+          })}
+        </div>
+      </>
     )}
 
     {state.menu === "widget-list" && (
