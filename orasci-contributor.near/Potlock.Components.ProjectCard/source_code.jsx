@@ -82,7 +82,9 @@ return (
   <Card>
     <CardImage
       src={
-        cardData && cardData?.backgroundImage
+        cardData &&
+        cardData?.backgroundImage &&
+        cardData?.backgroundImage?.ipfs_cid
           ? `https://ipfs.near.social/ipfs/${cardData.backgroundImage.ipfs_cid}`
           : "https://ipfs.near.social/ipfs/bafkreih4i6kftb34wpdzcuvgafozxz6tk6u4f5kcr2gwvtvxikvwriteci"
       }
@@ -91,7 +93,7 @@ return (
     <CardBody>
       <CardAvatar
         src={
-          cardData && cardData?.image
+          cardData && cardData?.image && cardData?.image?.ipfs_cid
             ? `https://ipfs.near.social/ipfs/${cardData.image.ipfs_cid}`
             : "https://ipfs.near.social/ipfs/bafkreih4i6kftb34wpdzcuvgafozxz6tk6u4f5kcr2gwvtvxikvwriteci"
         }
@@ -100,11 +102,15 @@ return (
       <CardTitle>{cardData?.name}</CardTitle>
       <CardDescription>
         {cardData && cardData?.description.length > 60
-          ? cardData.description.slice(0, 80) + "..."
+          ? cardData.description.slice(0, 70) + "..."
           : cardData.description}
       </CardDescription>
       <CardTagContainer>
-        <CardTag>{cardData && typeof(cardData?.category) === "object" ? cardData.category.text : cardData.category}</CardTag>
+        <CardTag>
+          {cardData && typeof cardData?.category === "object"
+            ? cardData.category.text
+            : cardData.category}
+        </CardTag>
       </CardTagContainer>
     </CardBody>
   </Card>
