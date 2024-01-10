@@ -32,19 +32,7 @@ const cssFont = fetch(
 if (!cssFont) return "";
 
 const Theme = styled.div`
-    font-family:
-        Poppins,
-        -apple-system,
-        BlinkMacSystemFont,
-        Segoe UI,
-        Roboto,
-        Oxygen,
-        Ubuntu,
-        Cantarell,
-        Fira Sans,
-        Droid Sans,
-        Helvetica Neue,
-        sans-serif;
+    font-family: "Poppins", sans-serif;
     ${cssFont}
 
     .grid-4 {
@@ -59,6 +47,10 @@ const Theme = styled.div`
 
     a {
         all: unset;
+    }
+
+    .body-text {
+        line-height: 30px;
     }
 `;
 
@@ -213,22 +205,24 @@ const SmallImg = styled.img`
     }
 `;
 
-const bodyText = ` Lorem ipsum dolor sit amet, consectetuer adipiscing
-elit, sed diam nonummy nibh euismod tincidunt ut laoreet
-dolore magna aliquam erat volutpat. Ut wisi enim ad
-minim veniam, quis nostrud exerci tation ullamcorper
-suscipit lobortis nisl ut aliquip ex ea commodo
-consequat. Duis autem vel eum Lorem ipsum dolor sit
-amet, consectetuer adipiscing elit, sed diam nonummy
-nibh euismod tincidunt ut laoreet dolore magna aliquam
-erat volutpat. Ut wisi enim ad minim veniam, quis
-nostrud exerci tation ullamcorper suscipit lobortis nisl
-ut aliquip ex ea commodo consequat. Duis autem vel eum
-iriure dolor in hendrerit in vulputate Ut wisi enim ad
-minim veniam, quis nostrud exerci tation ullamcorper
-suscipit lobortis nisl ut aliquip ex ea commodo
-consequat. Duis autem vel eum iriure dolor in hendrerit
-in vulputate`;
+const BodyText = () => {
+  return (
+    <div className="body-text">
+      Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy
+      nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut
+      wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit
+      lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum Lorem
+      ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh
+      euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi
+      enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit
+      lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum
+      iriure dolor in hendrerit in vulputate Ut wisi enim ad minim veniam, quis
+      nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea
+      commodo consequat. Duis autem vel eum iriure dolor in hendrerit in
+      vulputate
+    </div>
+  );
+};
 
 const LargeScreenComponent = () => {
   return (
@@ -242,7 +236,7 @@ const LargeScreenComponent = () => {
             The women’s DAO for the <br /> NEAR ecosystem{" "}
           </div>
           <div class="h3-custom">How did we get here?</div>
-          <div>{bodyText}</div>
+          <BodyText />
         </div>
         <div class="d-flex flex-column gap-3 align-items-center flex-1">
           <LogoImg src={Logo} />
@@ -289,7 +283,7 @@ const MobileScreenComponent = () => {
           style={{ objectFit: "cover", alignSelf: "center" }}
         />
         <div class="h3-custom">How did we get here?</div>
-        <div>{bodyText}</div>
+        <BodyText />
         <div className="d-flex flex-column gap-2">
           <a href={``} target="_blank" rel="noreferrer">
             <SmallImg src={PartnershipsTextImg} />
