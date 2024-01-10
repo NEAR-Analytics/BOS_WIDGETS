@@ -42,6 +42,7 @@ const CardBody = styled.div`
 
 const CardImage = styled.img`
   height: 150px;
+  min-height: 150px;
   width: 100%;
 `;
 
