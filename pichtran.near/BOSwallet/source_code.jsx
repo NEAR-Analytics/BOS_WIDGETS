@@ -137,11 +137,13 @@ const TabsButton = styled.button`
     color:#e09dff;
     background: #e3e3e3;
     cursor: pointer;
-
+    border-radius: 14px;
   }
 
   background: ${(props) => (props.isActive ? "#e09dff" : "none")};
   color: ${(props) => (props.isActive ? "#ffffff" : "#ffffff")};
+  border-radius: ${(props) => (props.isActive ? "14px" : "14px")};
+
 `;
 //Card
 const FormContainer = styled.div`
@@ -385,6 +387,7 @@ const StyledH6 = styled.h6`
 const StyledContainer = styled.div`
   border: 2px solid black; 
   padding: 3px; 
+  border-radius:10px;
 `;
 
 //Restyle
