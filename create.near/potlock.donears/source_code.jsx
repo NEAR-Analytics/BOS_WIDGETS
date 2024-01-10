@@ -1,5 +1,9 @@
 const donations = Near.view("donate.potlock.near", "get_donations");
 
+if (!donations) {
+    return "Loading..."
+}
+
 // Create an object to store aggregated donations by donor ID
 const donorDonations = {};
 
