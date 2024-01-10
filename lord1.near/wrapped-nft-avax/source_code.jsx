@@ -913,13 +913,13 @@ const updateResultState = ({ data, error, isLoading, queryRunId, id }) => {
         id: id,
       },
     };
-    const newLoader = loader.filter(({ id: loaderId }) => loaderId !== id);
+    //const newLoader = loader.filter(({ id: loaderId }) => loaderId !== id);
     if (error) {
       const queryError = `query${id} : ${error}`;
       return {
         ...state,
         result: { ...newResult },
-        loader: newLoader.length === 0 ? [] : newLoader,
+        //loader: newLoader.length === 0 ? [] : newLoader,
         error: [...state.error, queryError],
       };
     } else {
@@ -932,7 +932,7 @@ const updateResultState = ({ data, error, isLoading, queryRunId, id }) => {
       return {
         ...state,
         result: { ...newResult },
-        ...(data && { loader: newLoader.length === 0 ? [] : newLoader }),
+        // ...(data && { loader: newLoader.length === 0 ? [] : newLoader }),
       };
     }
   });
