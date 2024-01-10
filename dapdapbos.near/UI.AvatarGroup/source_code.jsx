@@ -7,7 +7,7 @@ const AvatarItem = styled.span`
 `;
 
 const { icons, size, gap } = props;
-console.log(11111, icons, size);
+
 return (
   <AvatarGroupWrap gap={gap}>
     {icons.map((icon, index) => {
