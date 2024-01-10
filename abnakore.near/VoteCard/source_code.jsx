@@ -45,9 +45,9 @@ const Card = styled.div`
 }
 .tick-icon {
   position: absolute;
-  margin-left: 10px;
-  top: 10px;
-  left: 10px;
+  margin-bottom: 10px;
+  top: 5px;
+  left: 5px;
 }
 `;
 
@@ -94,7 +94,7 @@ return (
         <div className="time">Close on: {props.close}</div>
         <div className="time">No of Candidates: {props.no_of_candidates}</div>
       </div>
-      <div className="lock-icon">🔒</div>
+      {props.locked ? <div className="lock-icon">🔐</div> : ""}
     </div>
   </Card>
 );
