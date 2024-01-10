@@ -71,6 +71,8 @@ function getConfig(network) {
         },
         ftWrapper: "neat.nrc-20.near",
         refFinance: "https://app.ref.finance/",
+        minMintEvents: 1_000_000,
+        minHolders: 1_000,
       };
     case "testnet":
       return {
@@ -93,6 +95,8 @@ function getConfig(network) {
         },
         ftWrapper: "neat.nrc-20.testnet",
         refFinance: "https://testnet.ref-finance.com/",
+        minMintEvents: 10,
+        minHolders: 5,
       };
     default:
       throw Error(`Unconfigured environment '${network}'.`);
@@ -129,6 +133,16 @@ const FormTitle = styled.div`
   @media (max-width: 768px) {
     font-size: 18px;
   }
+`;
+
+const FormDescription = styled.div`
+  font-size: 16px;
+  font-weight: 500;
+  font-style: italic;
+`;
+
+const FormDivider = styled.hr`
+  margin: 8px 0;
 `;
 
 const FormButton = styled.button`
@@ -205,6 +219,25 @@ function asyncFetchFromGraph(query) {
     body: JSON.stringify({
       query,
     }),
+  });
+}
+
+function fetchEventCounts(_tick) {
+  const tick = _tick || "NEAT";
+  return asyncFetchFromGraph(`
+    query {
+      eventCounts(where: {id:"${tick}"}) {
+        id
+        ticker
+        mintEventCount
+        transferEventCount
+      }
+    }
+  `).then((response) => {
+    if (response.body?.data?.eventCounts) {
+      return response.body.data.eventCounts;
+    }
+    return undefined;
   });
 }
 
@@ -328,12 +361,17 @@ function getNep141TotalSupply() {
 
 const accountId = props.accountId || context.accountId;
 const isSignedIn = !!accountId;
+const minMintEvents = config.minMintEvents;
+const minHolders = config.minHolders;
 function getVariantByAccount() {
   if (state.validAccount === false) return "red";
   if (state.validAccount === true) return "green";
   return undefined;
 }
 const variant = getVariantByAccount();
+
+const ERROR_INVALID_AIRDROP_PARAMS =
+  "Please fill in both airdrop amount and target token, or leave both of them empty";
 
 function updateBalance() {
   const interval = setInterval(() => {
@@ -351,6 +389,8 @@ State.init({
   totalSupplyInput: "",
   limitPerMintInput: "1",
   decimalsInput: "8",
+  airdropAmountInput: "",
+  targetNrc20TokenInput: "",
 });
 
 function updateTickInput(value) {
@@ -400,6 +440,7 @@ function updateTotalSupplyInput(value) {
       totalSupplyInputError: undefined,
       totalSupplyInput: removePrefix0(value),
     });
+    updateAirdropAmountInput(state.airdropAmountInput);
   }
 
   if (isDigit(value) && Big(value).eq(0)) {
@@ -445,6 +486,116 @@ function updateDecimalsInput(value) {
   }
 }
 
+function updateAirdropAmountInput(value) {
+  State.update({
+    airdropAmountInputError: undefined,
+  });
+  if (ERROR_INVALID_AIRDROP_PARAMS === state.targetNrc20TokenInputError) {
+    State.update({
+      targetNrc20TokenInputError: undefined,
+    });
+  }
+  if (!isSignedIn) {
+    State.update({
+      airdropAmountInputError: "Sign in please",
+    });
+    return;
+  }
+
+  if (value === "0") {
+    return;
+  }
+
+  if (value === "" || isInteger(value)) {
+    State.update({
+      airdropAmountInputError: undefined,
+      airdropAmountInput: removePrefix0(value),
+    });
+  }
+
+  const halfTotalSupply = Big(
+    isDigit(state.totalSupplyInput) ? state.totalSupplyInput : "0"
+  ).times(0.5);
+  if (isDigit(value)) {
+    if (Big(value).gt(halfTotalSupply)) {
+      State.update({
+        airdropAmountInputError:
+          "Airdrop amount should not exceed 50% of total supply!",
+      });
+    }
+  }
+}
+
+function updateTargetNrc20TokenInput(value) {
+  State.update({
+    targetNrc20TokenInputError: undefined,
+  });
+  if (ERROR_INVALID_AIRDROP_PARAMS === state.airdropAmountInputError) {
+    State.update({
+      airdropAmountInputError: undefined,
+    });
+  }
+  if (!isSignedIn) {
+    State.update({
+      targetNrc20TokenInputError: "Sign in please",
+    });
+    return;
+  }
+  State.update({ targetNrc20TokenInput: value });
+  // debounce
+  clearTimeout(state.timer);
+  State.update({
+    timer: setTimeout(() => {
+      if (value !== "") {
+        if (!isLetterAndDigit(value) || value.length < 3 || value.length > 8) {
+          State.update({
+            targetNrc20TokenInputError:
+              "Ticker must be of length 3 to 8 and contains letters and numbers only",
+          });
+          return;
+        }
+        fetchTokenInfoAsync(value).then((response) => {
+          if (response.tokenInfo) {
+            const holderCount = response.holderCount?.count;
+            if (
+              Big(response.tokenInfo.totalSupply ?? "0").lt(
+                response.tokenInfo.maxSupply ?? "0"
+              )
+            ) {
+              State.update({
+                targetNrc20TokenInputError:
+                  "The target token hasn't been 100% minted",
+              });
+              return;
+            } else if (Big(holderCount).lt(minHolders)) {
+              State.update({
+                targetNrc20TokenInputError: `Target token has less than ${minHolders.toLocaleString()} holders`,
+              });
+              return;
+            }
+            fetchEventCounts(value.toUpperCase()).then((response) => {
+              if (response && response.length > 0) {
+                const mintEventCount = response[0].mintEventCount ?? "0";
+                if (Big(mintEventCount).lt(minMintEvents)) {
+                  State.update({
+                    targetNrc20TokenInputError: `Target token has less than ${minMintEvents.toLocaleString()} valid mint events`,
+                  });
+                }
+              }
+            });
+            return;
+          } else {
+            State.update({
+              targetNrc20TokenInputError: "The ticker name does not exists",
+            });
+            return;
+          }
+        });
+      }
+    }, 300),
+  });
+}
+
 const disabled =
   state.tickInput === "" ||
   !isDigit(state.totalSupplyInput) ||
@@ -453,7 +604,17 @@ const disabled =
   !!state.tickInputError ||
   !!state.totalSupplyInputError ||
   !!state.limitPerMintInputError ||
-  !!state.decimalsInputError;
+  !!state.decimalsInputError ||
+  !!state.airdropAmountInputError ||
+  !!state.targetNrc20TokenInputError;
+
+const NRC20Link = styled.a`
+  color: white;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  display: flex;
+  align-items: center;
+`;
 
 return (
   <FormContainer>
@@ -495,10 +656,46 @@ return (
         error: state.decimalsInputError,
       }}
     />
+    <FormDivider />
+    <Widget
+      src={`${config.ownerId}/widget/NEAT.FormInput`}
+      props={{
+        title: "Airdrop Amount* (Optional)",
+        titleNormal: true,
+        value: state.airdropAmountInput,
+        onChange: updateAirdropAmountInput,
+        error: state.airdropAmountInputError,
+        placeholder: "≤ 50% of total supply",
+      }}
+    />
+    <Widget
+      src={`${config.ownerId}/widget/NEAT.FormInput`}
+      props={{
+        title: "Airdrop Target NRC-20 Token* (Optional)",
+        titleNormal: true,
+        value: state.targetNrc20TokenInput,
+        onChange: updateTargetNrc20TokenInput,
+        error: state.targetNrc20TokenInputError,
+        placeholder: `≥ ${minMintEvents.toLocaleString()} valid mint events and ≥ ${minHolders.toLocaleString()} holders`,
+      }}
+    />
+    <FormDescription>
+      <NRC20Link
+        href="https://docs.nrc-20.io/extension/airdrop/"
+        target="_blank"
+      >
+        Register Airdrop and Reach More Users
+        <img
+          src={`${ipfsPrefix}/bafkreic5cf2mzo67sfrloi7j3h6tpqry2zpvihzkx6d6nhb7atqlxrg75m`}
+          width={25}
+          height={25}
+        />
+      </NRC20Link>
+    </FormDescription>
     <FormButton
       disabled={disabled}
       onClick={() => {
-        Near.call({
+        const deployTx = {
           contractName: config.contractName,
           methodName: config.methodName,
           args: {
@@ -514,7 +711,33 @@ return (
             dec: Number(state.decimalsInput),
           },
           gas: GasPerTransaction,
-        });
+        };
+        if (state.airdropAmountInput && !state.targetNrc20TokenInput) {
+          State.update({
+            targetNrc20TokenInputError: ERROR_INVALID_AIRDROP_PARAMS,
+          });
+        } else if (!state.airdropAmountInput && state.targetNrc20TokenInput) {
+          State.update({
+            airdropAmountInputError: ERROR_INVALID_AIRDROP_PARAMS,
+          });
+        } else if (state.airdropAmountInput && state.targetNrc20TokenInput) {
+          const airdropTx = {
+            contractName: config.contractName,
+            methodName: config.methodName,
+            args: {
+              p: config.args.p,
+              op: "register_airdrop",
+              tick: state.tickInput.toLowerCase(),
+              to: state.targetNrc20TokenInput.toLowerCase(),
+              amt: Big(state.airdropAmountInput)
+                .times(Big(10).pow(Number(state.decimalsInput)))
+                .toFixed(0),
+            },
+          };
+          Near.call([deployTx, airdropTx]);
+        } else {
+          Near.call(deployTx);
+        }
       }}
     >
       Deploy
