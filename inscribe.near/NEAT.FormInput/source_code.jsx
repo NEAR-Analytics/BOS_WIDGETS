@@ -11,6 +11,7 @@ const {
   variant,
   disabled,
   placeholder,
+  titleNormal,
 } = props;
 
 function getVariantColor() {
@@ -52,7 +53,7 @@ const FormInputRow = styled.div`
 
 const FormInputTitle = styled.div`
   font-size: 18px;
-  font-weight: bold;
+  font-weight: ${titleNormal ? "500" : "bold"};
 
   @media (max-width: 768px) {
     font-size: 14px;
