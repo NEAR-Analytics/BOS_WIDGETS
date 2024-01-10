@@ -3,7 +3,7 @@ const userAccountId = context.accountId || nearAccountId
 
 const CONTRACT_ADDRESS = "app.paywall.near";
 
-const price = "0.5";
+const price = "0.05";
 
 /**
  * From near-api-js/packages/near-api-js/src/utils/format.ts
