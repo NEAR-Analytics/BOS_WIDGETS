@@ -2,8 +2,6 @@ const { id, review_notes, status } = props;
 
 const cardData = Social.getr(`${id}/profile`);
 
-console.log(cardData);
-
 const Card = styled.div`
   display: flex;
   flex-direction: column;
@@ -82,14 +80,14 @@ const CardAvatar = styled.img`
 
 return (
   <Card>
-    {/* <CardImage
+    <CardImage
       src={
         cardData && cardData?.backgroundImage
           ? `https://ipfs.near.social/ipfs/${cardData.backgroundImage.ipfs_cid}`
           : "https://ipfs.near.social/ipfs/bafkreih4i6kftb34wpdzcuvgafozxz6tk6u4f5kcr2gwvtvxikvwriteci"
       }
       alt="project background image"
-    /> */}
+    />
     <CardBody>
       <CardAvatar
         src={
@@ -102,12 +100,12 @@ return (
       <CardTitle>{cardData?.name}</CardTitle>
       <CardDescription>
         {cardData && cardData?.description.length > 60
-          ? cardData.description.slice(0, 60) + "..."
+          ? cardData.description.slice(0, 80) + "..."
           : cardData.description}
       </CardDescription>
-      {/* <CardTagContainer>
-        <CardTag>{cardData?.category}</CardTag>
-      </CardTagContainer> */}
+      <CardTagContainer>
+        <CardTag>{cardData && typeof(cardData?.category) === "object" ? cardData.category.text : cardData.category}</CardTag>
+      </CardTagContainer>
     </CardBody>
   </Card>
 );
