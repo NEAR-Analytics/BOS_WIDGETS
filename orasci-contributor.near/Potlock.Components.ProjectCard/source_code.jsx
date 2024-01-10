@@ -20,7 +20,7 @@ const Card = styled.div`
   border-radius: 2px;
   background: white;
   box-shadow: 0px -2px 0px #dbdbdb inset;
-  border: 1px solid #dbdbdb;
+  border: 1px solid #292929; 
   &:hover {
     text-decoration: none;
     cursor: pointer;
