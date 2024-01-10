@@ -1,127 +1,74 @@
-const accountId = context.accountId;
-// const props = {
-//   name: "Vote tenent",
-//   desc: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
-//   role: "part",
-//   creator: "abnakore.near",
-//   openTime: "2024-02-20T15:45",
-//   closeTime: "2024-03-20T15:45",
-//   createdOn: "2024-03-20T15:45",
-//   limit: 3,
-//   opened: true,
-//   passcode: "null",
-//   candidates: [1, 2, 3, 4, 5, 6, 6, 6],
-//   parties: [1, 2, 3, 4, 5, 6],
-//   voters: [],
-//   style: {},
-// };
-
-//  Format the date and time (January 7, 2024 at 5:57 PM)
-function formatDateTime(dateTimeString) {
-  // Assuming you have a date-time input with the format "YYYY-MM-DDTHH:mm" as a string
-  const dateTime = new Date(dateTimeString);
-
-  // Formatting the date and time in 12-hour format
-  const formattedDateTime = dateTime.toLocaleString("en-US", {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-    hour: "numeric",
-    minute: "numeric",
-    hour12: true, // Set to true for 12-hour format
-  });
-
-  return formattedDateTime;
+const Card = styled.div`
+.card-div {
+  width: 100%;
+  ${{ backgroundColor: props.voted ? "#444" : "#333" }}
+  color: white;
+  padding: 20px;
+  margin: 5px;
+  border-radius: 10px;
+  box-shadow: 0 0 0px rgba(0, 0, 0, 0.5);
+  position: relative;
+  align-items: left;
+  min-height: auto;
 }
 
-// Get the current date and time
-function getDateTime() {
-  var now = new Date();
-  now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
-  return now.toISOString().slice(0, 16);
+.card-div:hover {
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+  background-color: #555;
 }
 
-// check if the vote is ongoing
-function isOngoing() {
-  return props.closeTime !== ""
-    ? Date.parse(props.openTime) <= Date.parse(getDateTime()) &&
-        Date.parse(props.closeTime) > Date.parse(getDateTime())
-    : Date.parse(props.openTime) <= Date.parse(getDateTime());
+.big-name {
+  font-size: 36px;
+  margin-bottom: 10px;
 }
+
+.time {
+  font-size: 14px;
+}
+
+.description {
+  font-size: 16px;
+  margin-top: 10px;
+}
+
+.details {
+  display: flex;
+  justify-content: space-between;
+  gap: 15px;
+  margin-top: 10px;
+}
+
+.lock-icon {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+.tick-icon {
+  position: absolute;
+  margin-left: 10px;
+  top: 10px;
+  left: 10px;
+}
+`;
 
 function shortText(text) {
-  const words = text.split("");
-  return words.slice(0, 70).join("") + "...";
+  const words = text.split(" ");
+  return words.slice(0, 15).join(" ") + "...";
 }
-
-// Styles
-const Card = styled.div`
-    .card-div {
-    width: 100%;
-    background-color: ${isOngoing() ? "#333" : "#444"};
-    color: white;
-    padding: 20px;
-    margin: 5px;
-    border-radius: 10px;
-    box-shadow: 0 0 0px rgba(0, 0, 0, 0.5);
-    position: relative;
-    align-items: left;
-    min-height: auto;
-    transition: .5s ease;
-    }
-
-    .card-div:hover {
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
-    background-color: #555;
-    transform: scale(1.01);
-    }
-
-    .big-name {
-    font-size: 36px;
-    margin-bottom: 10px;
-    }
-
-    .time {
-    font-size: 14px;
-    }
-
-    .description {
-    font-size: 16px;
-    margin-top: 10px;
-    }
-
-    .details {
-    display: flex;
-    justify-content: space-between;
-    gap: 15px;
-    margin-top: 10px;
-    }
-
-    .lock-icon {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    }
-    .tick-icon {
-    position: absolute;
-    bottom: 5px;
-    right: 5px;
-    }
-`;
 
 return (
   <Card>
     <div className="card-div" style={{ ...props.style }}>
-      {props.voters.includes(accountId) && (
+      {props.voted && (
         <svg
           fill="#009a70"
-          width="20px"
-          height="20px"
+          width="25px"
+          height="25px"
           viewBox="-3.2 -3.2 38.40 38.40"
           version="1.1"
           xmlns="http://www.w3.org/2000/svg"
           stroke="#009a70"
-          stroke-width="0.5"
+          stroke-width="1.44"
           className="tick-icon"
           transform="matrix(1, 0, 0, 1, 0, 0)rotate(0)"
         >
@@ -143,24 +90,11 @@ return (
       <div className="big-name">{props.name}</div>
       <div className="description">{shortText(props.desc)}</div>
       <div className="details">
-        <div className="time">Open on: {formatDateTime(props.openTime)}</div>
-        {props.closeTime !== "" && (
-          <div className="time">
-            Close on: {formatDateTime(props.closeTime)}
-          </div>
-        )}
-        <div className="time">
-          Created By:{" "}
-          <a
-            href={`https://near.org/near/widget/ProfilePage?accountId=${accountId}`}
-            target="_blank"
-          >
-            {props.creator}
-          </a>
-        </div>
-        <div className="time">No of Candidates: {props.candidates.length}</div>
+        <div className="time">Open on: {props.open}</div>
+        <div className="time">Close on: {props.close}</div>
+        <div className="time">No of Candidates: {props.no_of_candidates}</div>
       </div>
-      {props.passcode !== "" ? <div className="lock-icon">🔐</div> : ""}
+      <div className="lock-icon">🔒</div>
     </div>
   </Card>
 );
