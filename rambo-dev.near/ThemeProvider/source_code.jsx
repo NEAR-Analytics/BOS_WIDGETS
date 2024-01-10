@@ -13,7 +13,7 @@ const colors = {
   warning: "#F17B2C",
 };
 
-Storage.set("theme", colors);
+Storage.set("theme", { colors });
 
 const theme = Storage.get("theme");
 
