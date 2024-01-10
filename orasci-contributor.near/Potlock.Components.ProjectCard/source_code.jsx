@@ -2,15 +2,12 @@ const { id, review_notes, status } = props;
 
 const cardData = Social.getr(`${id}/profile`);
 
-useEffect(() => {
-  if (cardData) {
-  }
-}, []);
+console.log(cardData);
 
 const Card = styled.div`
   display: flex;
   flex-direction: column;
-  width: 100%;
+  width: 408px;
   border-radius: 12px;
   background: white;
   box-shadow: 0px -2px 0px #dbdbdb inset;
