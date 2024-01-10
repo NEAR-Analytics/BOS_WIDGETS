@@ -14,9 +14,11 @@ const [openFilter, setOpenFilter] = useState(false);
 const selectFilterType = (type) => {
   switch (type) {
     case "Newest to Oldest":
+      console.log("run new to old");
       filterNewToOld();
       break;
     case "Oldest to Newest":
+      console.log("run old to new");
       filterOldToNew();
       break;
   }
