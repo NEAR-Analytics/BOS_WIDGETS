@@ -134,7 +134,7 @@ const Item = styled.button`
     outline: none;
   }
 `;
-console.log(2222, props);
+
 return (
   <Container>
     {noLabel ? <></> : <Label>{label}</Label>}
