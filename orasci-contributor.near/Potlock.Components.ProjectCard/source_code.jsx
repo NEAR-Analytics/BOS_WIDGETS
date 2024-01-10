@@ -3,6 +3,8 @@ const { id, review_notes, status } = props;
 const IPFS_BASE_URL = "https://nftstorage.link/ipfs/";
 const cardData = Social.getr(`${id}/profile`);
 
+console.log(`${IPFS_BASE_URL}${cardData.backgroundImage.ipfs_cid}`);
+
 const Card = styled.div`
   display: flex;
   flex-direction: column;
