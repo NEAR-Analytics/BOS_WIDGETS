@@ -1,4 +1,4 @@
-const { filterNewToOld, filterOldToNew } = props;
+const { filterNewToOld, filterOldToNew, projectLength } = props;
 
 const filterList = [
   "Newest to Oldest",
@@ -107,7 +107,7 @@ return (
         />
       </svg>
     </SearchIcon>
-    <SearchBar placeholder={`Search (${projects.length}) projects`} />
+    <SearchBar placeholder={`Search (${projectLength}) projects`} />
     <div
       style={{ position: "relative" }}
       onMouseOver={() => setOpenFilter(true)}
