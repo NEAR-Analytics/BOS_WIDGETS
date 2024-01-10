@@ -61,8 +61,9 @@ const BodyContainer = styled.div`
   padding-block: 6vh;
   @media screen and (max-width: 500px) {
     padding-inline: 3vw;
+    
     .justify-sm-self-center {
-      justify-self: center;
+      justify-self: center !important;
     }
   }
 `;
@@ -118,6 +119,11 @@ const GridText = styled.div`
   @media screen and (max-width: 1000px) {
     max-width: 95%;
   }
+`;
+
+const DemoText = styled.div`
+  font-weight: bolder;
+  font-size: 18px;
 `;
 
 const NumberItems = ({ number, title }) => {
@@ -249,7 +255,7 @@ return (
               style={{ height: 150 }}
             />
           </div>
-          <div class="mt-sm-2 justify-sm-self-center">
+          <DemoText className="mt-sm-2 justify-sm-self-center">
             Watch our demo{" "}
             <a
               href="https://youtu.be/iAykJ1wCExo"
@@ -259,7 +265,7 @@ return (
               here
             </a>
             .
-          </div>
+          </DemoText>
         </Grid>
       </div>
     </BodyContainer>
