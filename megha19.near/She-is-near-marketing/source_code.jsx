@@ -27,6 +27,8 @@ const EducationalTextImg =
 const LogoTextImg =
   "https://ipfs.near.social/ipfs/bafkreidumcmgej3m6dovy7ghsa7xbekg7zpwptwjudhqxvg7hobgcfdd4q";
 
+const LogoURL = "https://near.org/megha19.near/widget/She-is-near";
+
 const cssFont = fetch(
   "https://fonts.googleapis.com/css2?family=Poppins&display=swap"
 ).body;
@@ -279,7 +281,7 @@ const LargeScreenComponent = () => {
             <a href={``} target="_blank" rel="noreferrer">
               <GridImg src={EducationalImg} />
             </a>
-            <a href={``} target="_blank" rel="noreferrer">
+            <a href={LogoURL} target="_blank" rel="noreferrer">
               <GridImg src={Logo} />
             </a>
             <a href={``} target="_blank" rel="noreferrer">
@@ -326,7 +328,7 @@ const MobileScreenComponent = () => {
           <a href={``} target="_blank" rel="noreferrer">
             <SmallImg src={ChartedTextImg} />
           </a>
-          <a href={``} target="_blank" rel="noreferrer">
+          <a href={LogoURL} target="_blank" rel="noreferrer">
             <SmallImg src={LogoTextImg} />
           </a>
         </div>
