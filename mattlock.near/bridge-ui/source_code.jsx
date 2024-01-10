@@ -50,6 +50,8 @@
 const {
   deposit,
   withdraw,
+  depositDisabled,
+  withdrawDisabled,
   onTabChange,
   onAction,
   title,
@@ -193,6 +195,11 @@ const Container = styled.div`
 // console.log("selectedAsset", selectedAsset);
 // console.log("selectedAssetWithdraw", selectedAssetWithdraw);
 
+const actionDisabled =
+  isLoading ||
+  (actionTitle === "Deposit" && depositDisabled) ||
+  (actionTitle === "Withdraw" && withdrawDisabled);
+
 return (
   <Container>
     <div className="d-flex gap-4 align-items-center mb-3 justify-content-center">
@@ -274,7 +281,7 @@ return (
       <button
         className="action btn btn-primary"
         onClick={handleAction}
-        disabled={isLoading}
+        disabled={actionDisabled}
       >
         {isLoading ? "Loading..." : actionTitle}
       </button>
