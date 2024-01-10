@@ -36,6 +36,20 @@ const ChainBtnWrap = styled.div`
   display: flex;
 `;
 
+const BoosterLiteWrapper = "0x98Ef32edd24e2c92525E59afc4475C1242a30184";
+const BoosterLiteABI = [
+  {
+    inputs: [
+      { internalType: "uint256", name: "_pid", type: "uint256" },
+      { internalType: "uint256", name: "_amount", type: "uint256" },
+      { internalType: "bool", name: "_stake", type: "bool" },
+    ],
+    name: "deposit",
+    outputs: [{ internalType: "bool", name: "", type: "bool" }],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+];
 const {
   data,
   chainId,
@@ -216,7 +230,7 @@ function getTokenBal() {
     });
 }
 useEffect(() => {
-  // console.log("Stake_state: ", state);
+  console.log("Stake_state: ", state);
 
   // get token allowance when current token change
   if (!state.curToken) {
@@ -353,7 +367,62 @@ const simpleToExactAmount = (amount, decimals) => {
   return result;
 };
 
-const handleStake = () => {
+function handleStakeBPT() {
+  //TODO BTP APPROVE
+  const { Aura_Pool_ID } = data;
+  const BPTContract = new ethers.Contract(
+    BoosterLiteWrapper,
+    BoosterLiteABI,
+    Ethers.provider().getSigner()
+  );
+  console.log(props);
+  BPTContract.deposit(Aura_Pool_ID, state.inputValue, true, {
+    gasLimit: 1173642,
+  })
+    .then((tx) => {
+      console.log("tx: ", tx);
+      tx.wait()
+        .then((res) => {
+          const { status, transactionHash } = res;
+          console.info("tx_res: ", res);
+          if (status === 1) {
+            toast.success?.({
+              title: "Transaction Successful!",
+              text: `transactionHash ${transactionHash}`,
+            });
+          } else {
+            toast.fail?.({
+              title: "Transaction Failed!",
+              text: `transactionHash ${transactionHash}`,
+            });
+          }
+        })
+        .catch((error) => {
+          console.info("tx_error: ", error);
+          toast.fail?.({
+            title: "Transaction Failed!",
+            text: `${error.message}`,
+          });
+        })
+        .finally(() => {
+          State.update({
+            isStaking: false,
+          });
+        });
+    })
+    .catch((error) => {
+      console.log("Aura_Pool_ID_error:", error);
+    });
+}
+
+function handleStake() {
+  if (state.curToken === "BPT") {
+    handleStakeBPT();
+  } else {
+    handleStakeToken();
+  }
+}
+function handleStakeToken() {
   State.update({
     isStaking: true,
   });
@@ -447,7 +516,7 @@ const handleStake = () => {
     .catch((err) => {
       console.info("RewardsContract_error:", err);
     });
-};
+}
 
 const renderExtra = () => {
   if (chainId !== CHAIN_ID) {
