@@ -104,14 +104,37 @@ const TotalDonate = styled.div`
     line-height: 24px;
 `;
 
-const DonationButton = styled.div`
+const DonationButton = styled.button`
     padding: 12px 16px;
     font-size: 14px;
     font-style: normal;
     font-weight: 500;
     line-height: 20px; 
+    background: #FEF6EE;
     border-radius: 6px; 
+    border: none;
     box-shadow: 0px -2px 0px 0px #464646 inset, 0px 0px 0px 1px #464646; 
+    &:hover {
+        background: #dd3345;
+        color: #FFF;
+    }
+`;
+
+const AddToCartButton = styled.button`
+    border: none;
+    background: none;
+    color: #dd3345;
+    text-decoration: none;
+    &:hover {
+        text-decoration: underline;
+    }
+    padding: 12px 16px;
+`;
+
+const ButtonGroup = styled.div`
+    display: flex;
+    gap: 16px;
+    align-items: center;
 `;
 
 return (
@@ -150,8 +173,14 @@ return (
       </CardTagContainer>
     </CardBody>
     <CardFooter>
-      <TotalDonate>${totalAmount(donationsForProject)} raised</TotalDonate>
-      <DonationButton>Donate</DonationButton>
+      <TotalDonate>
+        ${totalAmount(donationsForProject)}{" "}
+        <span style={{ fontWeight: 400 }}>Raised</span>
+      </TotalDonate>
+      <ButtonGroup>
+        <AddToCartButton>Add to cart</AddToCartButton>
+        <DonationButton>Donate</DonationButton>
+      </ButtonGroup>
     </CardFooter>
   </Card>
 );
