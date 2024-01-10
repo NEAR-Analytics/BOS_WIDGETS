@@ -154,6 +154,8 @@ function getConfig(network) {
         },
         ftWrapper: "neat.nrc-20.near",
         refFinance: "https://app.ref.finance/",
+        minMintEvents: 1_000_000,
+        minHolders: 1_000,
       };
     case "testnet":
       return {
@@ -176,6 +178,8 @@ function getConfig(network) {
         },
         ftWrapper: "neat.nrc-20.testnet",
         refFinance: "https://testnet.ref-finance.com/",
+        minMintEvents: 10,
+        minHolders: 5,
       };
     default:
       throw Error(`Unconfigured environment '${network}'.`);
@@ -210,6 +214,25 @@ function asyncFetchFromGraph(query) {
     body: JSON.stringify({
       query,
     }),
+  });
+}
+
+function fetchEventCounts(_tick) {
+  const tick = _tick || "NEAT";
+  return asyncFetchFromGraph(`
+    query {
+      eventCounts(where: {id:"${tick}"}) {
+        id
+        ticker
+        mintEventCount
+        transferEventCount
+      }
+    }
+  `).then((response) => {
+    if (response.body?.data?.eventCounts) {
+      return response.body.data.eventCounts;
+    }
+    return undefined;
   });
 }
 
