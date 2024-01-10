@@ -261,6 +261,14 @@ const handleTabClick = (tab) => {
   });
 };
 
+//Croller
+
+const ScrollableContainer = styled.div`
+  height: 500px; 
+  overflow-y: auto;
+  padding: 1rem;
+`;
+
 const BoxInput = styled.div`
   position: relative;
 
@@ -400,9 +408,8 @@ const StyledH6 = styled.h6`
 // Render
 
 const StyledContainer = styled.div`
-  border: 2px solid black; /* Black border */
-  padding: 3px; /* Equivalent to p-3 */
-  /* Add any other styles you need */
+  border: 2px solid black; 
+  padding: 3px; 
 `;
 
 return (
@@ -462,7 +469,7 @@ return (
           {state.selectedTab === "nfts" && (
             <>
               {nfts.map((nft) => (
-                <div
+                <ScrollableContainer
                   key={nft.contract_id + nft.token_id}
                   style={{
                     display: "flex",
@@ -502,7 +509,7 @@ return (
                       [{nft.token_id}]
                     </div>
                   </div>
-                </div>
+                </ScrollableContainer>
               ))}
               <br />
               <br />
