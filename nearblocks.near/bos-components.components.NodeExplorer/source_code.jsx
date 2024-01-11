@@ -975,9 +975,9 @@ const initialValidatorFullData = {
 };
 
 function MainComponent({ network, currentPage, setPage }) {
-  const [validatorFullData, setValidatorFullData] = useState(
-    initialValidatorFullData,
-  );
+  const [validatorFullData, setValidatorFullData] = useState
+
+(initialValidatorFullData);
   const [isLoading, setIsLoading] = useState(false);
   const [totalSuppy, setTotalSupplay] = useState(0);
   const [expanded, setExpanded] = useState([]);
@@ -989,10 +989,10 @@ function MainComponent({ network, currentPage, setPage }) {
   const TotalSupply = yoctoToNear(Number(totalSuppy || 0), false);
 
   useEffect(() => {
-    function fetchValidatorData() {
+    function fetchValidatorData(page) {
       setIsLoading(true);
 
-      asyncFetch(`${config?.backendUrl}validators?page=${currentPage}`, {
+      asyncFetch(`${config?.backendUrl}validators?page=${page}`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -1000,19 +1000,24 @@ function MainComponent({ network, currentPage, setPage }) {
       })
         .then((res) => {
           const data = res.body;
-          setTimeRemaining(data?.totalSeconds ?? 0);
-          const validators = {
-            validatorEpochData: data?.validatorFullData ?? [],
-            currentValidators: data?.currentValidators,
-            totalStake: data?.totalStake ?? 0,
-            seatPrice: data?.epochStatsCheck ?? [],
-            elapsedTime: data?.elapsedTimeData ?? 0,
-            totalSeconds: data?.totalSeconds ?? 0,
-            epochProgress: data?.epochProgressData ?? 0,
-            validatorTelemetry: data?.validatorTelemetry ?? [],
-            total: data?.total,
-          };
-          setValidatorFullData(validators);
+          if (res.status === 200) {
+            setTimeRemaining(data?.totalSeconds ?? 0);
+            const validators = {
+              validatorEpochData: data?.validatorFullData ?? [],
+              currentValidators: data?.currentValidators,
+              totalStake: data?.totalStake ?? 0,
+              seatPrice: data?.epochStatsCheck ?? [],
+              elapsedTime: data?.elapsedTimeData ?? 0,
+              totalSeconds: data?.totalSeconds ?? 0,
+              epochProgress: data?.epochProgressData ?? 0,
+              validatorTelemetry: data?.validatorTelemetry ?? [],
+              total: data?.total,
+            };
+            setValidatorFullData((prevData) => ({
+              ...prevData,
+              [page]: validators || [],
+            }));
+          }
           setExpanded([]);
         })
         .catch(() => {})
@@ -1030,8 +1035,9 @@ function MainComponent({ network, currentPage, setPage }) {
       })
         .then((res) => {
           const data = res.body;
-
-          setTotalSupplay(data.stats[0].total_supply || 0);
+          if (res.status === 200) {
+            setTotalSupplay(data.stats[0].total_supply || 0);
+          }
         })
         .catch(() => {})
         .finally(() => {});
@@ -1045,15 +1051,16 @@ function MainComponent({ network, currentPage, setPage }) {
       })
         .then((res) => {
           const data = res.body;
-
-          setLatestBlock(data.blocks[0].block_height || 0);
+          if (res.status === 200) {
+            setLatestBlock(data.blocks[0].block_height || 0);
+          }
         })
         .catch(() => {})
         .finally(() => {});
     }
     fetchLatestBlock();
     fetchTotalSuppy();
-    fetchValidatorData();
+    fetchValidatorData(currentPage);
   }, [config?.backendUrl, currentPage]);
   useEffect(() => {
     const intervalId = setInterval(() => {
@@ -1317,7 +1324,8 @@ function MainComponent({ network, currentPage, setPage }) {
   ];
 
   const ExpandedRow = (row) => {
-    const telemetry = validatorFullData?.validatorTelemetry[row.accountId];
+    const telemetry =
+      validatorFullData[currentPage]?.validatorTelemetry[row.accountId];
     const progress = row?.currentEpoch?.progress;
 
     const productivityRatio = progress
@@ -1679,10 +1687,10 @@ function MainComponent({ network, currentPage, setPage }) {
                   Current Validators
                 </div>
                 <div className="w-full md:w-3/4 break-words">
-                  {isLoading ? (
+                  {!validatorFullData[currentPage]?.currentValidators ? (
                     <Skeleton className="h-4 w-16 break-words" />
                   ) : (
-                    validatorFullData?.currentValidators
+                    validatorFullData[currentPage]?.currentValidators
                   )}
                 </div>
               </div>
@@ -1691,11 +1699,11 @@ function MainComponent({ network, currentPage, setPage }) {
                   Total Staked
                 </div>
                 <div className="w-full md:w-3/4 break-words">
-                  {isLoading ? (
+                  {!validatorFullData[currentPage]?.totalStake ? (
                     <Skeleton className="h-4 w-16 break-words" />
                   ) : (
                     convertAmountToReadableString(
-                      validatorFullData?.totalStake,
+                      validatorFullData[currentPage]?.totalStake,
                       'totalStakeAmount',
                     )
                   )}
@@ -1705,12 +1713,12 @@ function MainComponent({ network, currentPage, setPage }) {
                 <div className="flex items-center justify-between md:w-1/2 py-4">
                   <div className="w-full mb-2 md:mb-0">Current Seat Price</div>
                   <div className="w-full break-words">
-                    {isLoading ? (
+                    {!validatorFullData[currentPage]?.seatPrice ? (
                       <Skeleton className="h-4 w-16 break-words" />
                     ) : (
                       <>
                         {convertAmountToReadableString(
-                          Number(validatorFullData?.seatPrice),
+                          Number(validatorFullData[currentPage]?.seatPrice),
                           'seatPriceAmount',
                         )}
                         Ⓝ
@@ -1758,17 +1766,19 @@ function MainComponent({ network, currentPage, setPage }) {
                   Epoch Elapsed Time:
                 </div>
                 <div className="w-full text-green-500 md:w-3/4 break-words">
-                  {!validatorFullData?.elapsedTime ? (
+                  {!validatorFullData[currentPage]?.elapsedTime ? (
                     <Skeleton className="h-3 w-32" />
                   ) : (
-                    convertTimestampToTime(validatorFullData?.elapsedTime)
+                    convertTimestampToTime(
+                      validatorFullData[currentPage]?.elapsedTime,
+                    )
                   )}
                 </div>
               </div>
               <div className="flex items-center justify-between py-4">
                 <div className="w-full md:w-1/4 mb-2 md:mb-0 ">ETA:</div>
                 <div className="w-full md:w-3/4 text-green-500 break-words">
-                  {!validatorFullData?.totalSeconds ? (
+                  {!validatorFullData[currentPage]?.totalSeconds ? (
                     <Skeleton className="h-3 w-32" />
                   ) : (
                     convertTimestampToTime(timeRemaining)
@@ -1778,7 +1788,7 @@ function MainComponent({ network, currentPage, setPage }) {
               <div className="flex items-center justify-between py-4">
                 <div className="w-full md:w-1/4 mb-2 md:mb-0 ">Progress</div>
                 <div className="w-full md:w-3/4 break-words">
-                  {!validatorFullData?.epochProgress ? (
+                  {!validatorFullData[currentPage]?.epochProgress ? (
                     <Skeleton className="h-3 w-full" />
                   ) : (
                     <div className="flex space-x-4 gap-2 items-center ">
@@ -1786,13 +1796,14 @@ function MainComponent({ network, currentPage, setPage }) {
                         <div
                           className="bg-green-500 h-2 rounded-full"
                           style={{
-                            width: `${validatorFullData?.epochProgress.toFixed(
-                              1,
-                            )}%`,
+                            width: `${validatorFullData[
+                              currentPage
+                            ]?.epochProgress.toFixed(1)}%`,
                           }}
                         ></div>
                       </div>
-                      {validatorFullData?.epochProgress.toFixed(0)}%
+                      {validatorFullData[currentPage]?.epochProgress.toFixed(0)}
+                      %
                     </div>
                   )}
                 </div>
@@ -1812,7 +1823,7 @@ function MainComponent({ network, currentPage, setPage }) {
                 </div>
               ) : (
                 <div className="leading-7 pl-3 px-3 text-sm mb-4 text-gray-500">
-                  {validatorFullData?.total}
+                  {validatorFullData[currentPage]?.total || 0}
                   Validators found
                 </div>
               )}
@@ -1822,8 +1833,8 @@ function MainComponent({ network, currentPage, setPage }) {
                 src={`${config?.ownerId}/widget/bos-components.components.Shared.Table`}
                 props={{
                   columns: columns,
-                  data: validatorFullData?.validatorEpochData || [],
-                  count: validatorFullData?.total,
+                  data: validatorFullData[currentPage]?.validatorEpochData,
+                  count: validatorFullData[currentPage]?.total,
                   isLoading: isLoading,
                   renderRowSubComponent: ExpandedRow,
                   expanded,
