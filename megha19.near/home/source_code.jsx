@@ -5,7 +5,7 @@ const {
     SmallContainer,
     SocialIconImg,
     SmallImg
-} = VM.require("she-is-near.sputnik-dao.near/widget/styles");
+} = VM.require("megha19.near/widget/styles");
 
 const {
     CharterURL,
@@ -24,7 +24,7 @@ const {
     PartnershipsTextImg,
     CharterTextImg,
     PartnershipsURL
-} = VM.require("she-is-near.sputnik-dao.near/widget/core.lib.url");
+} = VM.require("megha19.near/widget/core.lib.url");
 
 const BodyText = () => {
     return (
@@ -82,7 +82,7 @@ const LargeScreenComponent = () => {
                     </div>
                 </div>
                 <Widget
-                    src={"she-is-near.sputnik-dao.near/widget/components.socialLinks"}
+                    src={"megha19.near/widget/components.socialLinks"}
                     props={{ showRow: false }}
                 />
             </div>
@@ -116,7 +116,7 @@ const MobileScreenComponent = () => {
                     </a>
                 </div>
                 <Widget
-                    src={"she-is-near.sputnik-dao.near/widget/components.socialLinks"}
+                    src={"megha19.near/widget/components.socialLinks"}
                     props={{ showRow: false }}
                 />
             </div>
