@@ -61,6 +61,7 @@ const CardDescription = styled.div`
     font-style: normal;
     font-weight: 400;
     line-height: 28px;
+    flex-grow: 1;
 `;
 
 const CardTag = styled.div`
