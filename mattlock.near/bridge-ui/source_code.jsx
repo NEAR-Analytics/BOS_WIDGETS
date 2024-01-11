@@ -65,6 +65,18 @@ const {
   explorerLink,
   tokens,
 } = props;
+if (!tokens) {
+  tokens = {
+    eth: {
+      icon: "https://assets.coingecko.com/coins/images/279/standard/ethereum.png?1696501628",
+      decimals: 18,
+    },
+    usdc: {
+      icon: "https://assets.coingecko.com/coins/images/6319/standard/usdc.png?1696506694",
+      decimals: 6,
+    },
+  };
+}
 if (!deposit) deposit = defaultDeposit;
 if (!withdraw) withdraw = defaultWithdraw;
 const { action, amount } = state;
@@ -75,9 +87,7 @@ const actionTitle = isDeposit ? "Deposit" : "Withdraw";
 if (assets && !state.selectedAsset) {
   initState({
     selectedAsset: assets.find((a) => a.selected) || assets?.[0],
-    displayCurrencySelect: false,
-    currency: tokens[0],
-    selectedTokenAddress: tokens[0].address,
+    isTokenListOpen: true,
   });
 }
 
@@ -119,7 +129,6 @@ const handleTabChange = (tab) => {
 };
 
 const Theme = styled.div`
-
   --bg-color: #181a27;
   --border-color: #2c334b;
   --label-color: #82a7ff;
@@ -136,6 +145,38 @@ const Theme = styled.div`
   --dialog-bg-color: #373a53;
   --dialog-info-color: #ff61d3;
   --token-list-hover-color: rgba(24, 26, 39, 0.3);
+
+  .tokens {
+    .selected {
+      position: relative;
+    }
+    .token-row {
+      display: flex;
+      align-items: center;
+      padding: 8px;
+      > img {
+        width: 32px;
+        margin-right: 8px;
+      }
+      &:hover {
+        background-color: var(--dialog-bg-color);
+        border-radius: 8px;
+      }
+      &:nth-child(2) {
+        margin-top: 16px;
+      }
+    }
+    .token-list {
+      position: absolute;
+      top: 8px;
+      left: 8px;
+    }
+    .selected, .token-list {
+      background: var(--bg-color);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+    }
+  }
 
     max-width: 400px;
     width: 100%;
@@ -167,7 +208,7 @@ const Theme = styled.div`
       }
 
       label {
-        border: 1px solid black !important;
+      border: 1px solid var(--border-color);
         height: 38px;
         
         &:hover {
@@ -177,7 +218,7 @@ const Theme = styled.div`
     }
 
     button {
-      border: 1px solid black;
+      border: 1px solid var(--border-color);
       color: var(--button-color);
       background-color: var(--button-text-color);
     }
@@ -218,7 +259,7 @@ const actionDisabled =
   (actionTitle === "Deposit" && depositDisabled) ||
   (actionTitle === "Withdraw" && withdrawDisabled);
 
-const { currency, displayCurrencySelect } = state;
+const { isTokenListOpen } = state;
 
 return (
   <Theme>
@@ -253,56 +294,46 @@ return (
     </div>
     <div className="border border-secondary border-bottom-0 border-light" />
 
-    <Widget
-      src={"bluebiu.near/widget/Base.Bridge.Input"}
-      props={{
-        currency,
-        onCurrencySelectOpen: () => {
-          State.update({
-            displayCurrencySelect: !state.displayCurrencySelect,
-            selectedTokenAddress: state.currency.address,
-          });
-        },
-        onGetPrice: () => {},
-      }}
-    />
-
-    <Widget
-      src={"bluebiu.near/widget/Base.Bridge.TokenList"}
-      props={{
-        tokens,
-        display: displayCurrencySelect,
-        onSelect: (currency) => {
-          State.update({
-            currency,
-            selectedTokenAddress: currency.address,
-            displayCurrencySelect: false,
-          });
-        },
-        onClose: () => {
-          State.update({
-            displayCurrencySelect: false,
-          });
-        },
-      }}
-    />
-
     <div className="p-4">
       <div className="d-flex justify-content-between">
         <div className="assets d-flex flex-column gap-2">
           <span>{deposit.network.name}</span>
-          <select
-            className="form-select"
-            aria-label="select asset"
-            onChange={handleAssetChange}
-          >
-            {assets &&
-              assets.map((asset) => (
-                <option value={asset.id} selected={asset.selected}>
-                  {asset.name}
-                </option>
-              ))}
-          </select>
+          <div className="tokens">
+            <div className="selected">
+              {selectedAsset && (
+                <div
+                  className="token-row"
+                  onClick={() => {
+                    State.update({
+                      isTokenListOpen: !isTokenListOpen,
+                    });
+                  }}
+                >
+                  <img src={tokens[selectedAsset.id].icon} />
+                  <div>{selectedAsset.name}</div>
+                </div>
+              )}
+              {isTokenListOpen && (
+                <div className="token-list">
+                  {assets &&
+                    assets.map((asset) => (
+                      <div
+                        className="token-row"
+                        onClick={() => {
+                          State.update({
+                            selectedAsset: asset,
+                            isTokenListOpen: false,
+                          });
+                        }}
+                      >
+                        <img src={tokens[asset.id].icon} />
+                        <div>{asset.name}</div>
+                      </div>
+                    ))}
+                </div>
+              )}
+            </div>
+          </div>
         </div>
         <div className="d-flex flex-column gap-2">
           <div className="d-flex justify-content-between">
