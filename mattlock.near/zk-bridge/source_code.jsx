@@ -93,6 +93,7 @@ if (!state.initialized) {
     withdrawals: [],
     ethDeposits: [],
     ethWithdrawals: [],
+    tokens: [],
   });
   return "";
 }
@@ -215,9 +216,11 @@ const contracts = {
 
 const tokens = {
   eth: {
+    icon: "https://assets.coingecko.com/coins/images/279/standard/ethereum.png?1696501628",
     decimals: 18,
   },
   usdc: {
+    icon: "https://assets.coingecko.com/coins/images/6319/standard/usdc.png?1696506694",
     decimals: 6,
   },
 };
@@ -836,6 +839,7 @@ return (
         onTabChange,
         onAction,
         title: "zkBridge",
+        tokens,
       }}
     />
     <div style={{ textAlign: "center" }}>
