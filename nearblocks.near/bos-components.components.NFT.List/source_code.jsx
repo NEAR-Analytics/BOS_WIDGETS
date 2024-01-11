@@ -505,11 +505,30 @@ function shortenAddress(address) {
 
 
 
-const TokenImage = ({ appUrl, src, alt, className, onLoad }) => {
+
+const TokenImage = ({
+  appUrl,
+  src,
+  alt,
+  className,
+  onLoad,
+  onSetSrc,
+}) => {
   const placeholder = `${appUrl}images/tokenplaceholder.svg`;
-  const onError = (e) => {
-    e.target.onError = null;
-    e.target.src = placeholder;
+
+  const handleLoad = () => {
+    if (onLoad) {
+      onLoad();
+    }
+  };
+
+  const handleError = () => {
+    if (onSetSrc) {
+      onSetSrc(placeholder);
+    }
+    if (onLoad) {
+      onLoad();
+    }
   };
 
   return (
@@ -517,8 +536,8 @@ const TokenImage = ({ appUrl, src, alt, className, onLoad }) => {
       src={src || placeholder}
       alt={alt}
       className={className}
-      onLoad={onLoad}
-      onError={onError}
+      onLoad={handleLoad}
+      onError={handleError}
     />
   );
 };/* END_INCLUDE COMPONENT: "includes/icons/TokenImage.jsx" */
