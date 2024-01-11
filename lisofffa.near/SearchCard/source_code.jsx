@@ -95,13 +95,13 @@ const ButtonLink = styled.button`
   text-decoration: none;
   outline: none;
   border:none;
-  background: inherit
+ background: #fff;
   &:hover,
   &:focus {
     text-decoration: none;
     outline: none;
     border:none;
-    background: inherit
+   background: #fff;
   }
 `;
 
