@@ -631,6 +631,7 @@ return (
             handleShareButton,
             callLibs,
             baseActions,
+            kanbanColumns,
             sharedCommentId,
           }}
         />
