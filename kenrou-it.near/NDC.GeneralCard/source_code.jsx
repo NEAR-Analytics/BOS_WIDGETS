@@ -1,46 +1,72 @@
+// NDC.GeneralCard
 //===============================================INITIALIZATION=====================================================
 
 const {
   widgets,
   isTest,
   data,
-  displayOverlay,
-  renderReactions,
   handleOpenArticle,
   handleFilterArticles,
   addressForArticles,
   authorForWidget,
+  handleShareButton,
+  callLibs,
+  handleEditArticle,
+  baseActions,
+  switchShowPreview,
 } = props;
+
+if (!Array.isArray(data.tags) && typeof data.tags === "object") {
+  data.tags = Object.keys(data.tags);
+}
+
+data.tags = data.tags.filter((tag) => tag !== undefined && tag !== null);
 
 const tags = data.tags;
 const accountId = data.author;
-const title = data.articleId;
+const title = data.title;
 const content = data.body;
 const timeLastEdit = data.timeLastEdit;
+const id = data.id ?? `${data.author}-${data.timeCreate}`;
+const upVotes = data.upVotes;
 
-//TODO ask Dani how are we handling this "verified"
+//For the moment we'll allways have only 1 sbt in the array. If this change remember to do the propper work in lib.SBT and here.
+const articleSbts = articleToRenderData.sbts ?? data.sbts ?? [];
+
+const libSrcArray = [widgets.libComment];
+
+function stateUpdate(obj) {
+  State.update(obj);
+}
+
+const initLibsCalls = {
+  comment: [
+    {
+      functionName: "canUserCreateComment",
+      key: "canLoggedUserCreateComment",
+      props: {
+        accountId: context.accountId,
+        sbtsNames: articleSbts,
+      },
+    },
+  ],
+};
 
 State.init({
   verified: true,
   start: true,
   voted: false,
-  shareText: "Copy link to the clipboard",
   sliceContent: true,
+  libsCalls: initLibsCalls,
 });
 //=============================================END INITIALIZATION===================================================
 
 //===================================================CONSTS=========================================================
-//TODO pass this
-const item = {
-  type: "social",
-  path: `${data.author}/${addressForArticles}/main`,
-  realArticleId: data.id,
-};
+const canLoggedUserCreateComment = state.canLoggedUserCreateComment;
 
 //=================================================END CONSTS=======================================================
 
 //==================================================FUNCTIONS=======================================================
-
 function getPublicationDate(creationTimestamp) {
   if (creationTimestamp == 0) {
     return "Creation timestamp passed wrong";
@@ -63,108 +89,23 @@ const getShortUserName = () => {
   return name.length > 20 ? `${name.slice(0, 20)}...` : name;
 };
 
+function toggleShowModal() {
+  State.update({ showModal: !state.showModal });
+}
+
+function switchShowPreviewExists() {
+  const exists = typeof switchShowPreview === "function";
+
+  return exists;
+}
+
 //================================================END FUNCTIONS=====================================================
 
-//=============================================== OLD FUNCTIONS=====================================================
-
-// const isHuman = Near.view(registry_contract, "is_human", {
-//   account: context.accountId,
-// });
-// State.update({ verified: isHuman[0][1].length > 0 });
-
-// const httpRequestOpt = {
-//   headers: { "x-api-key": api_key },
-// };
-
-// function getVerifiedHuman() {
-//   asyncFetch(
-//     `https://api.pikespeak.ai/nominations/is-upvoted-by?candidate=${data.indexerData.nominee}&upvoter=${context.accountId}`,
-//     httpRequestOpt
-//   ).then((res) => {
-//     State.update({ voted: res.body });
-//   });
-// }
-
-// if (state.start) {
-//   getVerifiedHuman();
-//   State.update({ start: false });
-// }
-
-// function handleUpVote() {
-//   Near.call(
-//     nomination_contract,
-//     state.voted ? "remove_upvote" : "upvote",
-//     {
-//       candidate: data.indexerData.nominee,
-//     },
-//     300000000000000,
-//     state.voted ? 0 : 1000000000000000000000
-//   );
-// }
-
-// function handleShare() {
-//   State.update({ shareText: "Copied" });
-//   clipboard.writeText(
-//     "https://near.org/#/rubycop.near/widget/NDC.Nomination.Candidate.Page?house=" +
-//       data.indexerData.house +
-//       "&candidate=" +
-//       data.indexerData.nominee
-//   );
-// }
-
-// function getComponentURL() {
-//   const url =
-//     "https%3A%2F%2Fnear.org%2F%23%2Frubycop.near%2Fwidget%2FNDC.Nomination.Candidate.Page%3Fhouse%3D" +
-//     data.indexerData.house +
-//     "%26candidate%3D" +
-//     data.indexerData.nominee;
-//   return url;
-// }
-
-// const canUpvote = () =>
-//   state.verified && context.accountId != data.indexerData?.nominee;
-
-// const trimText = (text, limit) => {
-//   if (!text) return "";
-
-//   const _limit = limit ?? 200;
-//   const ending = text.length > _limit ? "..." : "";
-//   const trimmed = text.slice(0, limit ?? 200);
-
-//   return `${trimmed}${ending}`;
-// };
-
-// const keyIssues = [
-//   {
-//     title:
-//       "Involvement in the NEAR ecosystem, qualifications to be a candidate and reasons for being voted",
-//     desc: data.nominationData.HAYInvolve,
-//   },
-//   {
-//     title: "Strategy to develop the NEAR ecosystem",
-//     desc: data.nominationData.WIYStrategy,
-//   },
-//   {
-//     title: "Key Issue 1",
-//     desc: data.nominationData.Key_Issue_1,
-//   },
-//   {
-//     title: "Key Issue 2",
-//     desc: data.nominationData.Key_Issue_2,
-//   },
-//   {
-//     title: "Key Issue 3",
-//     desc: data.nominationData.Key_Issue_3,
-//   },
-//   {
-//     title: "Other Platform",
-//     desc: data.nominationData.addition_platform,
-//   },
-// ];
-
-//==============================================END OLD FUNCTIONS===================================================
-
 //==============================================STYLED COMPONENTS===================================================
+
+const CardContainer = styled.div`
+  box-shadow: rgba(140, 149, 159, 0.1) 0px 4px 28px 0px;
+`;
 
 const Card = styled.div`
   display: flex;
@@ -172,7 +113,7 @@ const Card = styled.div`
   align-items: flex-start;
   padding: 16px;
   gap: 16px;
-  background: #f8f8f9;
+  background: rgba(140, 149, 159, 0.1) 0px 4px 28px 0px;
   border-radius: 10px;
 `;
 const HeaderCard = styled.div`
@@ -189,11 +130,6 @@ const profilePictureStyles = {
   height: "45px",
   borderRadius: "50%",
 };
-const ProfilePicture = styled.img`
-  width: ${profilePictureStyles.width};
-  height: ${profilePictureStyles.height};
-  border-radius: ${profilePictureStyles.borderRadius};
-`;
 const HeaderContent = styled.div`
   display: flex;
   flex-direction: column;
@@ -202,25 +138,9 @@ const HeaderContent = styled.div`
   gap: 4px;
   width: 70%;
 `;
-const HeaderTag = styled.div`
+const HeaderButtonsContainer = styled.div`
   display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  padding: 4px 8px;
-  height: 18px;
-  background: linear-gradient(90deg, #9333ea 0%, #4f46e5 100%);
-  border-radius: 100px;
-`;
-const HeaderTagP = styled.p`
-  height: 10px;
-  font-style: normal;
-  font-weight: 500;
-  font-size: 11px;
-  display: flex;
-  align-items: center;
-  color: white;
-  margin: 0;
+  gap: 0.5rem;
 `;
 const HeaderContentText = styled.div`
   display: flex;
@@ -228,6 +148,7 @@ const HeaderContentText = styled.div`
   flex-direction: column;
   align-items: flex-start;
   padding: 0px;
+  cursor: pointer;
 `;
 const NominationName = styled.p`
   font-weight: 500;
@@ -252,73 +173,6 @@ const NominationUser = styled.p`
   overflow: hidden;
   text-overflow: ellipsis;
 `;
-const UpvoteButtonDisabled = styled.button`
-  display: flex;
-  padding: 2px 12px;
-  align-items: center;
-  gap: 6px;
-  border-radius: 4px;
-  background: var(--buttons-disable, #c3cace);
-  cursor: default !important;
-`;
-
-const UpvoteButton = styled.button`
-  padding: 6px 12px;
-  border-radius: 8px;
-  background: #fff;
-  font-size: 14px;
-  font-weight: 500;
-  line-height: 24px;
-  color: ${(props) => (props.disabled ? "#C3CACE" : "#9333EA")};
-  border: 1px solid #9333ea;
-  border-color: ${(props) => (props.disabled ? "#C3CACE" : "")};
-`;
-
-const UpvoteCount = styled.p`
-  font-size: 12px;
-  font-weight: 500;
-  line-height: 24px;
-  margin: 0px;
-  background: linear-gradient(90deg, #9333ea 0%, #4f46e5 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  text-fill-color: transparent;
-`;
-const Icon = styled.img`
-  width: 17px;
-  height: 17px;
-`;
-const CollapseCandidate = styled.div`
-  padding: 12px;
-  background: #ffffff;
-  border-radius: 6px;
-`;
-const CollapseCandidateContent = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: flex-start;
-  padding: 0px;
-  gap: 5px;
-`;
-const CollapseCandidateText = styled.p`
-  width: 274px;
-  font-style: normal;
-  font-weight: 700;
-  font-size: 12px;
-  line-height: 120%;
-  margin: 0px;
-  margin-bottom: 3px;
-  color: #000000;
-`;
-const DownArrow = styled.img`
-  width: 16px;
-  height: 16px;
-`;
-const CandidateTagContainer = styled.div`
-  gap: 4px;
-`;
 
 const KeyIssues = styled.div`
   display: flex;
@@ -326,7 +180,8 @@ const KeyIssues = styled.div`
   align-items: flex-start;
   padding: 12px;
   gap: 12px;
-  background: #ffffff;
+  background: #ffffff;  
+  border: 1px solid rgb(248, 248, 249);
   border-radius: 6px;
   width: 100%;
 `;
@@ -359,32 +214,16 @@ const KeyIssuesContainer = styled.div`
   padding: 0px;
   gap: 8px;
   overflow-y: scroll;
-  height: 250px;
+  max-height: 250px;
   width: 100%;
+  border: 1px solid rgb(248, 248, 249);
+  border-radius: var(--bs-border-radius-lg) !important;
 `;
 
 const ArticleBodyContainer = styled.div`
-  margin-right: 0.5rem;
+  margin: 0 0.5rem 0.5rem 0.5rem;
 `;
 
-const KeyIssueTitle = styled.p`
-  font-weight: 500;
-  font-size: 11px;
-  margin-bottom: 0px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-`;
-const KeyIssueDescription = styled.p`
-  font-weight: 400;
-  font-size: 11px;
-  margin-bottom: 0;
-`;
-const KeyIssueSeparator = styled.div`
-  height: 1px;
-  margin: 7px 0 2px 0;
-  background: rgba(208, 214, 217, 0.4);
-`;
 const LowerSection = styled.div`
   display: flex;
   width: 100%;
@@ -416,6 +255,7 @@ const TextLowerSectionContainer = styled.div`
   gap: 4px;
   width: 239px;
   height: 24px;
+  cursor: pointer;
 
   flex-grow: 1;
 `;
@@ -431,21 +271,6 @@ const TimestampText = styled.div`
   b {
     font-weight: 600;
   }
-`;
-const CommentsCounter = styled.p`
-  width: 96px;
-  height: 24px;
-  font-style: normal;
-  font-weight: 500;
-  font-size: 12px;
-  line-height: 24px;
-  margin: 0px;
-  text-align: right;
-  background: linear-gradient(90deg, #9333ea 0%, #4f46e5 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  text-fill-color: transparent;
 `;
 const ButtonsContainer = styled.div`
   display: flex;
@@ -465,72 +290,6 @@ const TagSection = styled.div`
   cursor: pointer;
 `;
 
-const CommentButtonDisabled = styled.button`
-  display: flex;
-  padding: 2px 12px;
-  align-items: center;
-  gap: 6px;
-  border-radius: 4px;
-  b
-  background: var(--buttons-disable, #c3cace);
-  cursor: default !important;
-`;
-const CommentButtonDiv = styled.button`
-  display: flex;
-  padding: 2px 12px;
-  align-items: center;
-  gap: 6px;
-  b
-  border-radius: 80px;
-  background-image: linear-gradient(#f8f8f9, #f8f8f9),
-    radial-gradient(circle at top left, #9333ea 0%, #4f46e5 100%);
-  background-origin: border-box;
-  background-clip: padding-box, border-box;
-  border-radius: 4px;
-`;
-const CommentButtonCounter = styled.p`
-  font-size: 12px;
-  font-weight: 500;
-  line-height: 24px;
-  margin: 0px;
-  background: linear-gradient(90deg, #9333ea 0%, #4f46e5 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  text-fill-color: transparent;
-`;
-const CommentButtonIcon = styled.img`
-  width: 14px;
-  height: 14px;
-`;
-
-const DropdownContainer = styled.div`
-  position: relative;
-  display: inline-block;
-`;
-
-const Dropbtn = styled.button`
-  background-color: #4caf50;
-  color: white;
-  padding: 16px;
-  font-size: 16px;
-`;
-
-const DropdownContent = styled.div`
-  display: none;
-  left: 0;
-  font-size: 12px;
-  flex-direction: column;
-  align-items: flex-start;
-  position: absolute;
-  border-radius: 8px;
-  background: #ffffff;
-  box-shadow: 0px 0px 30px 0px rgba(0, 0, 0, 0.2);
-  border-radius: 8px;
-  z-index: 1;
-  padding: 8px;
-`;
-
 const Element = styled.div`
   width: 150px;
   display: flex;
@@ -545,37 +304,14 @@ const Element = styled.div`
   }
 `;
 
-const ShareLink = styled.a`
-  color: black;
-  margin-right: 8px 12px;
-  text-decoration: none;
-  display: block;
-  text-align: start;
-`;
-
-const ShareIcon = styled.img`
-  width: 20px;
-`;
-
-const DropdownContainerHover = styled.div`
-  width: fit-content;
-  float: right;
-
-  &:hover ${DropdownContent} {
-    display: flex;
-    margin-top: -165px;
-  }
-`;
-
-const Separation = styled.div`
-    position: absolute;
-  }
+const CallLibrary = styled.div`
+  display: none;
 `;
 //============================================END STYLED COMPONENTS=================================================
 
 //=================================================MORE STYLES======================================================
 
-const sayALotProfileImageStyles = {
+const profileImageStyles = {
   width: profilePictureStyles.width,
   height: profilePictureStyles.height,
   borderRadius: profilePictureStyles.borderRadius,
@@ -589,13 +325,15 @@ const sayALotProfileImageStyles = {
 const inner = (
   <div className="d-flex flex-row mx-1">
     <Widget
-      src="mob.near/widget/ProfileImage"
+      src={widgets.newStyledComponents.Element.User}
       props={{
-        metadata,
         accountId,
-        widgetName,
-        style: sayALotProfileImageStyles,
-        className: "me-2 rounded-pill",
+        options: {
+          showHumanBadge: true,
+          showImage: true,
+          showSocialName: true,
+          shortenLength: 20,
+        },
       }}
     />
   </div>
@@ -604,22 +342,25 @@ const inner = (
 const renderTags = () => {
   return (
     <>
-      {tags.map((tag) => {
-        const filter = { filterBy: "tag", value: tag };
+      {tags &&
+        tags.map((tag) => {
+          const filter = { filterBy: "tag", value: tag };
 
-        return (
-          <div onClick={() => handleFilterArticles(filter)}>
-            {tag && (
-              <Widget
-                src={widgets.styledComponents}
-                props={{
-                  Tag: { title: tag },
-                }}
-              />
-            )}
-          </div>
-        );
-      })}
+          return (
+            <div onClick={() => handleFilterArticles(filter)}>
+              {tag && (
+                <Widget
+                  src={widgets.newStyledComponents.Element.Badge}
+                  props={{
+                    children: tag,
+                    variant: "round info outline",
+                    size: "lg",
+                  }}
+                />
+              )}
+            </div>
+          );
+        })}
     </>
   );
 };
@@ -629,7 +370,7 @@ const renderArticleBody = () => {
   return (
     <ArticleBodyContainer>
       <Widget
-        src="mob.near/widget/SocialMarkdown"
+        src={widgets.socialMarkdown}
         props={{
           text: displayedContent,
           onHashtag: (hashtag) => (
@@ -639,7 +380,7 @@ const renderArticleBody = () => {
               style={{ fontWeight: 500 }}
             >
               <a
-                href={`https://near.social/${authorForWidget}/widget/${widgets.thisWidget}?tagShared=${hashtag}`}
+                href={`https://near.social/${authorForWidget}/widget/${widgets.thisForum}?tagShared=${hashtag}`}
                 target="_blank"
               >
                 #{hashtag}
@@ -671,131 +412,94 @@ const renderArticleBody = () => {
 //===============================================END COMPONENTS====================================================
 
 //===================================================RENDER========================================================
+
 return (
-  <div className="p-2 col-lg-4 col-md-6 col-sm-12">
+  <CardContainer
+    className={`bg-white rounded-3 p-3 m-3 ${
+      switchShowPreviewExists() ? "" : "col-lg-8 col-md-8 col-sm-12"
+    }`}
+  >
     <Card>
       {state.showModal && (
         <Widget
           src={widgets.addComment}
           props={{
             widgets,
+            article: data,
             isReplying: false,
             isTest,
             username: data.author,
-            realArticleId: data.realArticleId,
-            onCloseModal: () => State.update({ showModal: false }),
+            id,
+            onCloseModal: toggleShowModal,
+            callLibs,
+            baseActions,
           }}
         />
       )}
-      <HeaderCard className="d-flex justify-content-between">
+      <HeaderCard className="d-flex justify-content-between pb-1 border-bottom border-dark">
         <div className="d-flex align-items-center gap-2">
           <Widget
-            src="mob.near/widget/Profile.OverlayTrigger"
+            src={widgets.profileOverlayTrigger}
             props={{ accountId, children: inner }}
           />
           {
-            //   cardType == "nomination" && (
-            //   <ProfilePicture
-            //     src={
-            //       data.imgURL ??
-            //       "https://apricot-straight-eagle-592.mypinata.cloud/ipfs/QmZBPPMKLdZG2zVpYaf9rcbtNfAp7c3BtsvzxzBb9pNihm?_gl=1*6avmrp*rs_ga*MzkyOTE0Mjc4LjE2ODY4NjgxODc.*rs_ga_5RMPXG14TE*MTY4NjkzMzM2NC4zLjEuMTY4NjkzMzM4Ni4zOC4wLjA."
-            //     }
-            //     alt="pic"
-            //   ></ProfilePicture>
-            // )
+            //   <HeaderContent>
+            //   <HeaderContentText
+            //     onClick={() => {
+            //       handleOpenArticle(data);
+            //     }}
+            //   >
+            //     <NominationName>{getUserName()}</NominationName>
+            //     <NominationUser>{getShortUserName()}</NominationUser>
+            //   </HeaderContentText>
+            // </HeaderContent>
           }
-          <HeaderContent>
-            {
-              //   cardType == "nomination" && (
-              //   <Widget
-              //     src={widgets.styledComponents}
-              //     props={{
-              //       Tag: {
-              //         title:
-              //           data.indexerData.house == "HouseOfMerit"
-              //             ? "House of Merit"
-              //             : data.indexerData.house == "CouncilOfAdvisors"
-              //             ? "Council of Advisors"
-              //             : "Transparency Commission",
-              //         className: "dark",
-              //       },
-              //     }}
-              //   />
-              // )
-            }
-            <HeaderContentText>
-              <NominationName>{getUserName()}</NominationName>
-              <NominationUser>{getShortUserName()}</NominationUser>
-            </HeaderContentText>
-          </HeaderContent>
         </div>
-        {
-          //TODO modify reactions to fit this area properly
-        }
-        {
-          // canUpvote() && cardType == "nomination"(
-          //     <Widget
-          //       src={widgets.styledComponents}
-          //       props={{
-          //         Button: {
-          //           text: `+${data.upVoteData?.upvotes ?? 0}`,
-          //           className: "secondary dark",
-          //           size: "sm",
-          //           onClick: handleUpVote,
-          //           icon: <i className="bi bi-hand-thumbs-up"></i>,
-          //         },
-          //       }}
-          //     />
-          //   )
-        }
+        <HeaderButtonsContainer>
+          <Widget
+            src={widgets.upVoteButton}
+            props={{
+              isTest,
+              authorForWidget,
+              reactedElementData: data,
+              widgets,
+              disabled:
+                !context.accountId ||
+                (articleSbts.length > 0 && !canLoggedUserCreateComment),
+              articleSbts,
+              upVotes,
+              callLibs,
+              baseActions,
+            }}
+          />
+          <Widget
+            src={widgets.newStyledComponents.Input.Button}
+            props={{
+              size: "sm",
+              className: "info outline icon",
+              children: <i className="bi bi-share"></i>,
+              onClick: () =>
+                handleShareButton(true, {
+                  type: "sharedBlockHeight",
+                  value: data.blockHeight,
+                }),
+            }}
+          />
+        </HeaderButtonsContainer>
       </HeaderCard>
-      {
-        //   cardType == "nomination" && (
-        //   <CollapseCandidate className="w-100">
-        //     <CollapseCandidateContent>
-        //       <CollapseCandidateText>
-        //         Candidate Affiliations
-        //       </CollapseCandidateText>
-        //       <CandidateTagContainer className="w-100 d-flex flex-wrap">
-        //         {JSON.parse(data.nominationData?.afiliation).map((data) => (
-        //           <>
-        //             {data.company_name && (
-        //               <Widget
-        //                 src={widgets.styledComponents}
-        //                 props={{
-        //                   Tag: { title: data.company_name },
-        //                 }}
-        //               />
-        //             )}
-        //           </>
-        //         ))}
-        //       </CandidateTagContainer>
-        //     </CollapseCandidateContent>
-        //   </CollapseCandidate>
-        // )
-      }
       <KeyIssuesHeader>
-        <KeyIssuesTitle>{title}</KeyIssuesTitle>
+        <KeyIssuesTitle
+          role="button"
+          onClick={() => {
+            handleOpenArticle(data);
+          }}
+        >
+          {title}
+        </KeyIssuesTitle>
       </KeyIssuesHeader>
-      <KeyIssues>
-        <KeyIssuesContent>
-          <KeyIssuesContainer>
-            {
-              // cardType == "nomination" &&
-              // keyIssues.map((issue, i) => (
-              //   <div className="w-100" key={i}>
-              //     <KeyIssueTitle>{issue.title}</KeyIssueTitle>
-              //     <KeyIssueDescription className="text-secondary">
-              //       {trimText(issue.desc)}
-              //     </KeyIssueDescription>
-              //     <KeyIssueSeparator />
-              //   </div>
-              // ))
-            }
-            {renderArticleBody()}
-          </KeyIssuesContainer>
-        </KeyIssuesContent>
-      </KeyIssues>
+      <KeyIssuesContent>
+        <KeyIssuesContainer>{renderArticleBody()}</KeyIssuesContainer>
+      </KeyIssuesContent>
       <LowerSection>
         <LowerSectionContainer>
           {tags.length > 0 && (
@@ -811,7 +515,12 @@ return (
             </KeyIssues>
           )}
           <ButtonsLowerSection>
-            <TextLowerSectionContainer className="align-items-center">
+            <TextLowerSectionContainer
+              className="align-items-center"
+              onClick={() => {
+                handleOpenArticle(data);
+              }}
+            >
               <i className="bi bi-clock"></i>
               <TimestampText>
                 <span>{getPublicationDate(timeLastEdit)}</span>
@@ -824,51 +533,87 @@ return (
               props={{
                 widgets,
                 isTest,
-                item,
+                authorForWidget,
+                elementReactedId: id,
+                disabled:
+                  !context.accountId ||
+                  (articleSbts.length > 0 && !canLoggedUserCreateComment),
+                callLibs,
+                baseActions,
+                sbtsNames: articleSbts,
               }}
             />
           </ButtonsLowerSection>
-          {/*TODO review buttons functionality in sayALot*/}
           <div className="d-flex w-100 align-items-center">
-            <div className="d-flex w-100 gap-2 justify-content-between">
+            <div className="d-flex w-100 gap-2 justify-content-start">
               <Widget
-                src={widgets.styledComponents}
-                //TODO review the button text
+                src={widgets.newStyledComponents.Input.Button}
                 props={{
-                  Button: {
-                    text: `Add comment`,
-                    disabled: !state.verified,
-                    size: "sm",
-                    className: "secondary dark w-100 justify-content-center",
-                    onClick: () => {
-                      State.update({ showModal: true });
-                    },
-                    icon: (
-                      <>
-                        <i className="bi bi-chat-square-text-fill"></i>
-                      </>
+                  children: (
+                    <div className="d-flex align-items-center justify-content-center">
+                      <span className="mx-1 d-none d-lg-block">
+                        Add comment
+                      </span>
+                      <i className="bi bi-chat-square-text-fill"></i>
+                    </div>
+                  ),
+                  disabled:
+                    !context.accountId ||
+                    (articleSbts.length > 0 && !canLoggedUserCreateComment),
+                  size: "sm",
+                  className: "info outline w-25",
+                  onClick: switchShowPreviewExists()
+                    ? () => {}
+                    : toggleShowModal,
+                }}
+              />
+              <Widget
+                src={widgets.newStyledComponents.Input.Button}
+                props={{
+                  children: (
+                    <div className="d-flex align-items-center justify-content-center">
+                      <span className="mx-1 d-none d-lg-block">View</span>
+                      <i className="bi bi-eye fs-6"></i>
+                    </div>
+                  ),
+                  size: "sm",
+                  className: "info w-25",
+                  onClick: () => handleOpenArticle(data),
+                }}
+              />
+              {context.accountId === data.author && (
+                <Widget
+                  src={widgets.newStyledComponents.Input.Button}
+                  props={{
+                    children: (
+                      <div className="d-flex align-items-center justify-content-center">
+                        <span className="mx-1 d-none d-lg-block">Edit</span>
+                        <i className="bi bi-pencil"></i>
+                      </div>
                     ),
-                  },
-                }}
-              />
-              <Widget
-                src={widgets.styledComponents}
-                props={{
-                  Button: {
-                    text: "View",
-                    size: "sm",
-                    className: "primary w-100 justify-content-center",
-                    icon: <i className="bi bi-eye fs-6"></i>,
-                    onClick: () => {
-                      handleOpenArticle(data);
-                    },
-                  },
-                }}
-              />
+                    className: `info w-25`,
+                    onClick: () =>
+                      switchShowPreviewExists()
+                        ? switchShowPreview()
+                        : handleEditArticle(data),
+                  }}
+                />
+              )}
             </div>
           </div>
         </LowerSectionContainer>
       </LowerSection>
     </Card>
-  </div>
+    <CallLibrary>
+      {libSrcArray.map((src) => {
+        return callLibs(
+          src,
+          stateUpdate,
+          state.libsCalls,
+          { baseAction: baseActions.commentBaseAction },
+          "General card"
+        );
+      })}
+    </CallLibrary>
+  </CardContainer>
 );
