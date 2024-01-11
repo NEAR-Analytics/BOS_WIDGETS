@@ -4,8 +4,12 @@ return {
     lens: {
       definitions: ["SDKs.Lens.Constants", "SDKs.Lens.Interfaces"],
       api: ["SDKs.Lens.API.Auth"],
-      commons: ["SDKs.Lens.Main"],
+      queries: [
+          "SDKs.Lens.Queries.Auth",
+          "SDKs.Lens.Queries.Health"
+      ],
+      sdk: ["SDKs.Lens.Main"],
     },
-    "light-client": "SDKs.LightClient"
+    "light-client": "SDKs.LightClient",
   },
 };
