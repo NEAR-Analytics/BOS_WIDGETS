@@ -1500,7 +1500,7 @@ function MainComponent({ t, network, currentPage, setPage }) {
           <button
             type="button"
             onClick={() => onOrder('volume')}
-            className="w-full px-6 py-2 text-left text-xs font-semibold uppercase tracking-wider text-green-500 focus:outline-none flex flex-row"
+            className="w-full px-6 py-2 text-left text-xs font-semibold uppercase tracking-wider text-green-500 focus:outline-none flex flex-row whitespace-nowrap"
           >
             {sorting.sort === 'volume' && (
               <div className="text-gray-500 font-semibold">
@@ -1530,7 +1530,7 @@ function MainComponent({ t, network, currentPage, setPage }) {
           <button
             type="button"
             onClick={() => onOrder('market_cap')}
-            className="w-full px-6 py-2 text-left text-xs font-semibold  tracking-wider text-green-500 focus:outline-none flex flex-row"
+            className="w-full px-6 py-2 text-left text-xs font-semibold  tracking-wider text-green-500 focus:outline-none flex flex-row whitespace-nowrap"
           >
             {sorting.sort === 'market_cap' && (
               <div className="text-gray-500 font-semibold">
@@ -1579,7 +1579,7 @@ function MainComponent({ t, network, currentPage, setPage }) {
           <button
             type="button"
             onClick={() => onOrder('onchain_market_cap')}
-            className="w-full px-6 py-2 text-left text-xs font-semibold  tracking-wider text-green-500 focus:outline-none flex flex-row"
+            className="w-full px-6 py-2 text-left text-xs font-semibold  tracking-wider text-green-500 focus:outline-none flex flex-row whitespace-nowrap"
           >
             {sorting.sort === 'onchain_market_cap' && (
               <div className="text-gray-500 font-semibold">
