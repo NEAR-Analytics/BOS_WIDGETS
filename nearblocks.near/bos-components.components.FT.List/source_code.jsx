@@ -1274,7 +1274,8 @@ function MainComponent({ t, network, currentPage, setPage }) {
   const [searchResults, setSearchResults] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [totalCount, setTotalCount] = useState(0);
-  const [tokens, setTokens] = useState([]);
+  const [tokens, setTokens] = useState({});
+
   const [sorting, setSorting] = useState(initialSorting);
   const errorMessage = t ? t('token:fts.top.empty') : 'No tokens found!';
   const config = getConfig(network);
@@ -1307,20 +1308,23 @@ function MainComponent({ t, network, currentPage, setPage }) {
 
 
 
+
 ) => {
             const resp = data?.body?.tokens?.[0];
-            setTotalCount(resp?.count | 0);
+            if (data.status === 200) {
+              setTotalCount(resp?.count | 0);
+            }
           },
         )
         .catch(() => {})
         .finally(() => {});
     }
 
-    function fetchTokens(qs, sqs) {
+    function fetchTokens(qs, sqs, page) {
       setIsLoading(true);
       const queryParams = qs ? qs + '&' : '';
       asyncFetch(
-        `${config?.backendUrl}fts?${queryParams}order=${sqs?.order}&sort=${sqs?.sort}&page=${currentPage}&per_page=25`,
+        `${config?.backendUrl}fts?${queryParams}order=${sqs?.order}&sort=${sqs?.sort}&page=${page}&per_page=25`,
         {
           method: 'GET',
           headers: {
@@ -1333,9 +1337,12 @@ function MainComponent({ t, network, currentPage, setPage }) {
 
 
 
+
 ) => {
             const resp = data?.body?.tokens;
-            setTokens(resp || []);
+            if (data.status === 200) {
+              setTokens((prevData) => ({ ...prevData, [page]: resp || [] }));
+            }
           },
         )
         .catch(() => {})
@@ -1345,10 +1352,10 @@ function MainComponent({ t, network, currentPage, setPage }) {
     }
 
     fetchTotalTokens();
-    fetchTokens('', sorting);
+    fetchTokens('', sorting, currentPage);
     if (sorting) {
       fetchTotalTokens();
-      fetchTokens('', sorting);
+      fetchTokens('', sorting, currentPage);
     }
   }, [config?.backendUrl, currentPage, sorting]);
 
@@ -1731,7 +1738,7 @@ function MainComponent({ t, network, currentPage, setPage }) {
         src={`${config.ownerId}/widget/bos-components.components.Shared.Table`}
         props={{
           columns: columns,
-          data: tokens,
+          data: tokens[currentPage],
           isLoading: isLoading,
           isPagination: true,
           count: totalCount,
