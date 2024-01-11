@@ -58,11 +58,9 @@ const parseRequest = (namespace) => [
   getType(getScope(namespace)),
   getPath(namespace),
 ];
-const getManifest = (account) => JSON.parse(Social.get(`${account}/widget/Manifest`) || "{}");
-const getResource = (manifest, resourceType) =>
-  resourceType in manifest ? manifest[resourceType] : {};
-const getDependencies = (resource, path) =>
-  path.split("/").reduce((path, nextPath) => (path || {})[nextPath], resource);
+const getManifest = (account) => VM.require(`${account}/widget/Manifest`);
+const getResource = (manifest, resourceType) => resourceType in manifest ? manifest[resourceType] : {};
+const getDependencies = (resource, path) => path.split("/").reduce((path, nextPath) => (path || {})[nextPath], resource);
 const loadDependencies = (account, dependencies) =>
   loaders[typeof dependencies !== "undefined" ? typeof dependencies : "void"](
     account,
@@ -71,7 +69,13 @@ const loadDependencies = (account, dependencies) =>
 const load = (account, resourceType, path) =>
   loadDependencies(
     account,
-    getDependencies(getResource(getManifest(account) || {}, resourceType), path)
+    getDependencies(
+        getResource(
+            getManifest(account) || {},
+            resourceType
+        ), 
+        path
+    )
   );
 
 return (namespace) => load(...parseRequest(namespace));
