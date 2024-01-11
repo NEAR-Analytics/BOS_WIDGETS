@@ -13,6 +13,7 @@ const {
   callLibs,
   handleEditArticle,
   baseActions,
+  switchShowPreview,
 } = props;
 
 if (!Array.isArray(data.tags) && typeof data.tags === "object") {
@@ -90,6 +91,12 @@ const getShortUserName = () => {
 
 function toggleShowModal() {
   State.update({ showModal: !state.showModal });
+}
+
+function switchShowPreviewExists() {
+  const exists = typeof switchShowPreview === "function";
+
+  return exists;
 }
 
 //================================================END FUNCTIONS=====================================================
@@ -407,7 +414,11 @@ const renderArticleBody = () => {
 //===================================================RENDER========================================================
 
 return (
-  <CardContainer className="bg-white rounded-3 p-3 m-3 col-lg-8 col-md-8 col-sm-12">
+  <CardContainer
+    className={`bg-white rounded-3 p-3 m-3 ${
+      switchShowPreviewExists() ? "" : "col-lg-8 col-md-8 col-sm-12"
+    }`}
+  >
     <Card>
       {state.showModal && (
         <Widget
@@ -540,7 +551,9 @@ return (
                 props={{
                   children: (
                     <div className="d-flex align-items-center justify-content-center">
-                      <span className="mx-1">Add comment</span>
+                      <span className="mx-1 d-none d-lg-block">
+                        Add comment
+                      </span>
                       <i className="bi bi-chat-square-text-fill"></i>
                     </div>
                   ),
@@ -549,7 +562,9 @@ return (
                     (articleSbts.length > 0 && !canLoggedUserCreateComment),
                   size: "sm",
                   className: "info outline w-25",
-                  onClick: toggleShowModal,
+                  onClick: switchShowPreviewExists()
+                    ? () => {}
+                    : toggleShowModal,
                 }}
               />
               <Widget
@@ -557,15 +572,13 @@ return (
                 props={{
                   children: (
                     <div className="d-flex align-items-center justify-content-center">
-                      <span className="mx-1">View</span>
+                      <span className="mx-1 d-none d-lg-block">View</span>
                       <i className="bi bi-eye fs-6"></i>
                     </div>
                   ),
                   size: "sm",
                   className: "info w-25",
-                  onClick: () => {
-                    handleOpenArticle(data);
-                  },
+                  onClick: () => handleOpenArticle(data),
                 }}
               />
               {context.accountId === data.author && (
@@ -574,12 +587,15 @@ return (
                   props={{
                     children: (
                       <div className="d-flex align-items-center justify-content-center">
-                        <span className="mx-1">Edit</span>
+                        <span className="mx-1 d-none d-lg-block">Edit</span>
                         <i className="bi bi-pencil"></i>
                       </div>
                     ),
                     className: `info w-25`,
-                    onClick: () => handleEditArticle(data),
+                    onClick: () =>
+                      switchShowPreviewExists()
+                        ? switchShowPreview()
+                        : handleEditArticle(data),
                   }}
                 />
               )}
