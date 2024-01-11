@@ -95,6 +95,7 @@ const widgets = {
   tagsEditor: `${componentsOwner}/widget/TagsEditor`,
   kanbanBoard: `${componentsOwner}/widget/NDC.KanbanBoard`,
   compactPost: `${componentsOwner}/widget/NDC.CompactPost`,
+  articleHistory: `${componentsOwner}/widget/NDC.ArticleHistory.Handler`,
 
   //Libs
   libSBT: `sayalot.near/widget/lib.SBT`,
