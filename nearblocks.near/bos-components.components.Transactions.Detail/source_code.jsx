@@ -4453,9 +4453,12 @@ function MainComponent(props) {
 
 
 
+
 ) => {
               const resp = res?.body?.stats;
-              setStatsData(resp);
+              if (res.status === 200) {
+                setStatsData(resp);
+              }
             },
           )
           .catch(() => {});
@@ -4480,9 +4483,12 @@ function MainComponent(props) {
 
 
 
+
 ) => {
           const resp = data?.body?.market_data?.current_price?.usd;
-          setPrice(resp);
+          if (data.status === 200) {
+            setPrice(resp);
+          }
         },
       );
     }
