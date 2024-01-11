@@ -58,7 +58,7 @@ const parseRequest = (namespace) => [
   getType(getScope(namespace)),
   getPath(namespace),
 ];
-const getManifest = (account) => VM.require(`${account}/widget/Manifest`);
+const getManifest = (account) => JSON.parse(Social.get(`${account}/widget/Manifest`) || "{}");
 const getResource = (manifest, resourceType) =>
   resourceType in manifest ? manifest[resourceType] : {};
 const getDependencies = (resource, path) =>
