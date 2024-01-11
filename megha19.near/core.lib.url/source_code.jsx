@@ -3,7 +3,7 @@ const CharterImg =
 const MarketingImg =
     "https://ipfs.near.social/ipfs/bafkreiapnuryaiqhjbri347uoyto3wlmqsdoqwzuv7xxtb7sc6tqpd44fa";
 const EducationalImg =
-    "https://ipfs.near.social/ipfs/bafkreicsxdahr5novaskzaoaporsptuqq22yqiihovy5ofdib6ttl2avlu";
+    "https://ipfs.near.social/ipfs/bafkreibo2sj72vznhd7km2vfqn66bcdxnttgwmbr3wmijwnz3jbrmg57ce";
 const PartnershipsImg =
     "https://ipfs.near.social/ipfs/bafkreih5qtgjcli6mw2eu7frtjorkevm5vpyzigthcv5ks7ifyby2q7bna";
 
@@ -21,7 +21,7 @@ const CharterTextImg =
 const MarketingTextImg =
     "https://ipfs.near.social/ipfs/bafkreigtdxg27goqmitdsfgglhhg4g6326vq5sx2b242mam44p5bipxkcm";
 const EducationalTextImg =
-    "https://ipfs.near.social/ipfs/bafkreidnycmhvr2nsm4zlobqrizg5awgv5xtcuzsrr4uhxi76tdwt5zuj4";
+    "https://ipfs.near.social/ipfs/bafkreihjgjuict7mzk7ob3xycrnxo6yspiwqkbqnktktypeboljszaiwb4";
 const LogoTextImg =
     "https://ipfs.near.social/ipfs/bafkreidumcmgej3m6dovy7ghsa7xbekg7zpwptwjudhqxvg7hobgcfdd4q";
 
@@ -38,7 +38,7 @@ const TelegramURL = "https://t.me/+tLN37-LpB0Y3ZjAy";
 const NearSocialURL =
     "https://near.social/mob.near/widget/ProfilePage?accountId=sheisneardao.near";
 const LinkdInURL = "https://www.linkedin.com/company/she-is-near/";
-const currentLink = "#/megha19.near/widget/app";
+const currentLink = "#/she-is-near.sputnik-dao.near/widget/app";
 const LogoURL = currentLink + "?page=home";
 const CharterURL =
     "https://docs.google.com/document/d/1Eo0Va3pyku7xKosZpnOv_qVQ7_bSM3ltEbBIhYsC_GQ/edit";
