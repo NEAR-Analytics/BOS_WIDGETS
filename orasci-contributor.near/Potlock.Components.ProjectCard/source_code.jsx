@@ -12,8 +12,6 @@ const donationsForProject = Near.view(
   }
 );
 
-console.log(donationsForProject)
-
 const Card = styled.div`
   display: flex;
   flex-direction: column;
