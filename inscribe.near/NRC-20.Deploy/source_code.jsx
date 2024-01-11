@@ -4,6 +4,8 @@ const GasPerTransaction = MaxGasPerTransaction.plus(TGas);
 const pageAmountOfPage = 5;
 const ipfsPrefix = "https://ipfs.near.social/ipfs";
 const landingUrl = "https://neatprotocol.ai";
+const partnerProgramUrl = "https://forms.gle/4M3fvw3LPiJSyffcA";
+const nrc20DocHost = "https://docs.nrc-20.io/";
 function toLocaleString(source, decimals, rm) {
   if (typeof source === "string") {
     return toLocaleString(Number(source), decimals);
@@ -680,10 +682,7 @@ return (
       }}
     />
     <FormDescription>
-      <NRC20Link
-        href="https://docs.nrc-20.io/extension/airdrop/"
-        target="_blank"
-      >
+      <NRC20Link href={`${nrc20DocHost}/extension/airdrop/`} target="_blank">
         Register Airdrop and Reach More Users
         <img
           src={`${ipfsPrefix}/bafkreic5cf2mzo67sfrloi7j3h6tpqry2zpvihzkx6d6nhb7atqlxrg75m`}
