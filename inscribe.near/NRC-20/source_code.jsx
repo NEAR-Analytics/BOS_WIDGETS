@@ -4,6 +4,8 @@ const GasPerTransaction = MaxGasPerTransaction.plus(TGas);
 const pageAmountOfPage = 5;
 const ipfsPrefix = "https://ipfs.near.social/ipfs";
 const landingUrl = "https://neatprotocol.ai";
+const partnerProgramUrl = "https://forms.gle/4M3fvw3LPiJSyffcA";
+const nrc20DocHost = "https://docs.nrc-20.io/";
 function toLocaleString(source, decimals, rm) {
   if (typeof source === "string") {
     return toLocaleString(Number(source), decimals);
@@ -144,6 +146,17 @@ const NeatLink = styled.a`
   text-decoration: underline;
 `;
 
+const NeatCommonLink = styled.a`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  color: #fff;
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: underline;
+`;
+
 const HeaderContainer = styled.div`
   padding: 18px 0;
   display: flex;
@@ -199,17 +212,12 @@ const FormContainer = styled.div`
   }
 `;
 
-const FooterContent = styled.a`
+const FooterWrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-
-  font-size: 14px;
-  font-weight: 600;
-  color: #fff;
-  text-decoration: underline;
-
-  margin-bottom: 40px;
+  gap: 8px;
+  margin: 40px 0;
 `;
 
 
@@ -300,8 +308,14 @@ return (
         <Widget src={`${config.ownerId}/widget/NRC-20.MyInscriptions`} />
       )}
     </BodyContainer>
-    <FooterContent href="https://docs.nrc-20.io/" target="_blank">
-      NRC-20 Standard Documentation
-    </FooterContent>
+    <FooterWrapper>
+      <NeatCommonLink href={nrc20DocHost} target="_blank">
+        NRC-20 Standard
+      </NeatCommonLink>
+      |
+      <NeatCommonLink href={partnerProgramUrl} target="_blank">
+        Partner Program
+      </NeatCommonLink>
+    </FooterWrapper>
   </Main>
 );
