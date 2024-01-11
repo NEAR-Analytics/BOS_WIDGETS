@@ -11,11 +11,6 @@ if (!state || state.hashtag !== hashtag || state.groupId !== groupId) {
 
 const options = [
   {
-    id: "following",
-    title: "Following",
-    disabled: !context.accountId,
-  },
-  {
     id: "all",
     title: "All Posts",
   },
