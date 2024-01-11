@@ -19,6 +19,10 @@ const SearchBar = styled.input`
   outline: none;
   border: none;
   color: #525252;
+  &:focus {
+      outline: none;
+      border: none;
+  }
 `;
 
 const FilterButton = styled.div`
