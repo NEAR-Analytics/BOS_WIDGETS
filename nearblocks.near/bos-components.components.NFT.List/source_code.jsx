@@ -598,15 +598,13 @@ function MainComponent({ network, currentPage, setPage, t }) {
   const [searchResults, setSearchResults] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [totalCount, setTotalCount] = useState(0);
-  const [tokens, setTokens] = useState([]);
-
+  const [tokens, setTokens] = useState({});
   const [sorting, setSorting] = useState(initialSorting);
   const errorMessage = t ? t('token:fts.top.empty') : 'No tokens found!';
   const config = getConfig(network);
 
   useEffect(() => {
     function fetchTotalTokens(qs) {
-      setIsLoading(true);
       const queryParams = qs ? '?' + qs : '';
       asyncFetch(`${config?.backendUrl}nfts/count${queryParams}`, {
         method: 'GET',
@@ -619,18 +617,19 @@ function MainComponent({ network, currentPage, setPage, t }) {
 
 
 
+
 ) => {
             const resp = data?.body?.tokens?.[0];
-            setTotalCount(resp?.count);
+            if (data.status === 200) {
+              setTotalCount(resp?.count);
+            }
           },
         )
         .catch(() => {})
-        .finally(() => {
-          setIsLoading(false);
-        });
+        .finally(() => {});
     }
-
-    function fetchTokens(qs, sqs) {
+    function fetchTokens(qs, sqs, page) {
+      setIsLoading(true);
       const queryParams = qs ? qs + '&' : '';
       asyncFetch(
         `${config?.backendUrl}nfts?${queryParams}order=${sqs?.order}&sort=${sqs?.sort}&page=${currentPage}&per_page=${initialPagination.per_page}`,
@@ -646,19 +645,25 @@ function MainComponent({ network, currentPage, setPage, t }) {
 
 
 
+
 ) => {
             const resp = data?.body?.tokens;
-            setTokens(resp);
+            if (data.status === 200) {
+              setTokens((prevData) => ({ ...prevData, [page]: resp || [] }));
+            }
           },
         )
-        .catch(() => {});
+        .catch(() => {})
+        .finally(() => {
+          setIsLoading(false);
+        });
     }
 
     fetchTotalTokens();
-    fetchTokens('', sorting);
+    fetchTokens('', sorting, currentPage);
     if (sorting) {
       fetchTotalTokens();
-      fetchTokens('', sorting);
+      fetchTokens('', sorting, currentPage);
     }
   }, [config?.backendUrl, currentPage, sorting]);
 
@@ -732,9 +737,7 @@ function MainComponent({ network, currentPage, setPage, t }) {
         </span>
       ),
       tdClassName:
-        'px-6 py-4 whitespace-nowrap text-sm text-gray-500 align-top',
-      thClassName:
-        'text-left text-xs font-semibold text-gray-500 uppercase tracking-wider',
+        'px-6 py-4 whitespace-nowrap text-sm  w-80 text-gray-500 align-top',
     },
     {
       header: (
@@ -937,7 +940,7 @@ function MainComponent({ network, currentPage, setPage, t }) {
           src={`${config.ownerId}/widget/bos-components.components.Shared.Table`}
           props={{
             columns: columns,
-            data: tokens,
+            data: tokens[currentPage],
             isLoading: isLoading,
             isPagination: true,
             count: totalCount,
