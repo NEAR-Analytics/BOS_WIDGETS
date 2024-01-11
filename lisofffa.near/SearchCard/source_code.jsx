@@ -16,8 +16,7 @@ const Card = styled.div`
   border-radius: 12px;
   background: #fff;
   border: 1px solid #eceef0;
-  box-shadow:
-    0px 1px 3px rgba(16, 24, 40, 0.1),
+  box-shadow: 0px 1px 3px rgba(16, 24, 40, 0.1),
     0px 1px 2px rgba(16, 24, 40, 0.06);
   overflow: hidden;
 `;
@@ -149,6 +148,37 @@ const ButtonLink = styled("Link")`
   }
 `;
 
+const plus = (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="40"
+    height="40"
+    viewBox="0 0 40 40"
+    fill="none"
+  >
+    <circle
+      cx="20"
+      cy="20"
+      r="14.4"
+      stroke="#7E869E"
+      stroke-opacity="0.25"
+      stroke-width="1.2"
+    />
+    <path
+      d="M20 13.3333L20 26.6667"
+      stroke="#222222"
+      stroke-width="1.2"
+      stroke-linecap="round"
+    />
+    <path
+      d="M26.6666 20L13.3333 20"
+      stroke="#222222"
+      stroke-width="1.2"
+      stroke-linecap="round"
+    />
+  </svg>
+);
+
 return (
   <Card>
     <CardBody>
@@ -173,15 +203,11 @@ return (
           @{accountId}
         </TextLink>
       </CardContent>
-    </CardBody>
-
-    {!props.hideButtons && (
-      <CardFooter>
-        <ButtonLink href={detailsUrl}>View Details</ButtonLink>
+      {!props.hideButtons && (
         <ButtonLink href={appUrl} primary>
-          Open
+          {plus}
         </ButtonLink>
-      </CardFooter>
-    )}
+      )}
+    </CardBody>
   </Card>
 );
