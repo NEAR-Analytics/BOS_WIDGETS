@@ -152,7 +152,7 @@ return (
           ? `${IPFS_BASE_URL}${cardData.backgroundImage.ipfs_cid}`
           : "https://ipfs.near.social/ipfs/bafkreih4i6kftb34wpdzcuvgafozxz6tk6u4f5kcr2gwvtvxikvwriteci"
       }
-      alt="project background image"
+      alt="background"
     />
     <CardBody>
       <CardAvatar
@@ -161,7 +161,7 @@ return (
             ? `${IPFS_BASE_URL}${cardData.image.ipfs_cid}`
             : "https://ipfs.near.social/ipfs/bafkreih4i6kftb34wpdzcuvgafozxz6tk6u4f5kcr2gwvtvxikvwriteci"
         }
-        alt="project avatar"
+        alt="avatar"
       />
       <CardTitle>{cardData?.name}</CardTitle>
       <CardDescription>
