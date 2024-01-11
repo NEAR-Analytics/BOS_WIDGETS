@@ -34,61 +34,10 @@ State.update({ libsCalls: newLibsCalls });
 const sbtWhiteList = state.sbtWhiteList
   ? state.sbtWhiteList.map((sbt) => sbt.value)
   : undefined;
-// const sbtWhiteList =
-//   context.networkId === "testnet"
-//     ? [
-//         "fractal-v2.i-am-human.testnet - class 1",
-//         "community-v2.i-am-human.testnet - class 1",
-//       ]
-//     : [
-//         "fractal.i-am-human.near - class 1",
-//         "community.i-am-human.near - class 1",
-//         "community.i-am-human.near - class 2",
-//         "community.i-am-human.near - class 3",
-//         "elections.ndc-gwg.near - class 2",
-//         "elections.ndc-gwg.near - class 3",
-//         "elections.ndc-gwg.near - class 4",
-//         "public",
-//       ];
 
 function createSbtOptions() {
   return state.sbtWhiteList;
 }
-
-// function createSbtOptions() {
-//   return sbtWhiteList.map((option, i) => {
-//     const title = "";
-
-//     if (option === "fractal.i-am-human.near - class 1") {
-//       title = "General";
-//     } else if (option === "community.i-am-human.near - class 1") {
-//       title = "OG";
-//     } else if (option === "community.i-am-human.near - class 2") {
-//       title = "Contributor";
-//     } else if (option === "community.i-am-human.near - class 3") {
-//       title = "Core Contributor";
-//     } else if (option === "elections.ndc-gwg.near - class 2") {
-//       title = "HoM";
-//     } else if (option === "elections.ndc-gwg.near - class 3") {
-//       title = "CoA";
-//     } else if (option === "elections.ndc-gwg.near - class 4") {
-//       title = "TC";
-//     } else if (option === "fractal-v2.i-am-human.testnet - class 1") {
-//       title = "Fractal";
-//     } else if (option === "community-v2.i-am-human.testnet - class 1") {
-//       title = "Community";
-//     } else {
-//       title = "Public";
-//     }
-
-//     if (i == 0) {
-//       //The first options is always the default one
-//       return { title, default: true, value: option };
-//     } else {
-//       return { title, value: option };
-//     }
-//   });
-// }
 
 // const componentsOwner =
 //   "f2bc8abdb8ba64fe5aac9689ded9491ff0e6fdcd7a5c680b7cf364142d1789fb";
