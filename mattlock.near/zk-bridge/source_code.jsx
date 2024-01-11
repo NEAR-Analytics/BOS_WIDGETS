@@ -13,6 +13,7 @@ const depositDisabledMsg =
   "For deposits, please switch to Ethereum mainnet or Goerli testnet.";
 const withdrawDisabledMsg =
   "For withdrawals, please switch to zkSync mainnet or zkSync testnet.";
+const sortByBlockNumber = (a, b) => b.blockNumber - a.blockNumber;
 const l2DepositFee = ethers.utils.formatUnits(
   Big(l2MaxGasPrice)
     .mul(ethers.utils.parseUnits(l2TxGasLimit, "gwei"))
@@ -402,7 +403,9 @@ if (!state.initLogs) {
 
   L2BridgeEth.queryFilter(L2BridgeEth.filters.Transfer(sender, sender)).then(
     (ethDeposits) => {
-      // console.log("ethDeposits", ethDeposits);
+      //TODO disambig eth deposits
+      ethDeposits.forEach((d) => (d.isEth = true));
+
       State.update({
         ethDeposits,
       });
@@ -780,8 +783,10 @@ const onTabChange = (tab) => {
 };
 
 const { deposits, withdrawals, ethDeposits, ethWithdrawals } = state;
-const allDeposits = [...deposits, ...ethDeposits];
-const allWithdrawals = [...withdrawals, ...ethWithdrawals];
+const allDeposits = [...deposits, ...ethDeposits].sort(sortByBlockNumber);
+const allWithdrawals = [...withdrawals, ...ethWithdrawals].sort(
+  sortByBlockNumber
+);
 
 const renderTxLink = (tx) => {
   const isZk =
@@ -799,16 +804,15 @@ const renderTxLink = (tx) => {
 };
 
 const renderTx = (tx, i) => {
-  const { transactionHash: h, finalized } = tx;
+  const { transactionHash: h, finalized, isEth } = tx;
   return (
     <>
-      <p>
+      <p style={{ textAlign: "left" }}>
+        {isEth ? "ETH " : "USDC"}
         {renderTxLink(h)}
         {typeof finalized === "boolean" && (
           <>
-            <span style={{ marginLeft: 16 }}>
-              Finalized: {finalized.toString()}
-            </span>
+            <span>{finalized ? "(finalized)" : "(not finalized)"}</span>
             {!finalized && false && (
               <p style={{ marginTop: 16 }}>
                 <button onClick={() => handleFinalizeEthWithdrawal(i)}>
