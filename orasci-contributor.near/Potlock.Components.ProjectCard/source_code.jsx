@@ -32,7 +32,6 @@ const Card = styled.div`
 
 const CardBody = styled.div`
     position: relative;
-    flex-grow: 1;
     padding: 24px;
     display: flex;
     flex-direction: column;
