@@ -4,6 +4,8 @@ const GasPerTransaction = MaxGasPerTransaction.plus(TGas);
 const pageAmountOfPage = 5;
 const ipfsPrefix = "https://ipfs.near.social/ipfs";
 const landingUrl = "https://neatprotocol.ai";
+const partnerProgramUrl = "https://forms.gle/4M3fvw3LPiJSyffcA";
+const nrc20DocHost = "https://docs.nrc-20.io/";
 function toLocaleString(source, decimals, rm) {
   if (typeof source === "string") {
     return toLocaleString(Number(source), decimals);
@@ -474,6 +476,17 @@ const NeatLink = styled.a`
   font-size: 18px;
   font-weight: 600;
   display: inline-block;
+  text-decoration: underline;
+`;
+
+const NeatCommonLink = styled.a`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  color: #fff;
+  font-size: 14px;
+  font-weight: 600;
   text-decoration: underline;
 `;
 
