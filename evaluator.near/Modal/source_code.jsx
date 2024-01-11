@@ -40,8 +40,8 @@ function Modal({ onClose, show, children, successValue }) {
           e.stopPropagation();
         }}
       >
-        <div class={`rounded-lg border-2 ${success ? "border-lime-300" : "border-red-300"} py-4 px-4`}>
-          {children}
+        <div class={`rounded-lg border-2 ${success? "border-lime-300" : "border-red-300"} py-4 px-4`}>
+                  {children}
         </div>
       </div>
     </div>
@@ -62,7 +62,7 @@ useEffect(() => {
         params: [props.transactionHashes, context.accountId],
       }),
     }).then((tx) => {
-      console.log(tx);
+    console.log(tx);
       setShowModal(true);
 
       const txMethodName =
@@ -93,7 +93,7 @@ return (
 
     <p>Method: {txDetails.txMethodName}</p>
     <div class="flex justify-end">
-      <p class="font-bold">Check your transaction:
+      <p class="font-bold">Check your transaction: 
         <a href={txDetails.txLink} class="border rounded py-1 px-3">here</a></p>
     </div>
   </Modal>
