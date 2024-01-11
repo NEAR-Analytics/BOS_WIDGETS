@@ -1,29 +1,7 @@
-const { filterNewToOld, filterOldToNew, projectLength } = props;
-
-const filterList = [
-  "Newest to Oldest",
-  "Oldest to Newest",
-  "Most to Least Donations",
-  "Least to Most Donations",
-];
-
-const [filterType, setFilterType] = useState(null);
+const { sortNewToOld, sortOldToNew, projectLength, filterList, setFilterType } =
+  props;
 
 const [openFilter, setOpenFilter] = useState(false);
-
-const selectFilterType = (type) => {
-  switch (type) {
-    case "Newest to Oldest":
-      console.log("run new to old");
-      filterNewToOld();
-      break;
-    case "Oldest to Newest":
-      console.log("run old to new");
-      filterOldToNew();
-      break;
-  }
-  setFilterType(type);
-};
 
 const SearchBarContainer = styled.div`
   display: flex;
@@ -134,7 +112,7 @@ return (
       {openFilter && (
         <FilterMenu>
           {filterList.map((filter, key) => (
-            <FilterItem key={key} onClick={() => selectFilterType(filter)}>
+            <FilterItem key={key} onClick={() => setFilterType(filter)}>
               {filter}
             </FilterItem>
           ))}
