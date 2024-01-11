@@ -190,7 +190,7 @@ function MainComponent(props) {
         </div>
         {error || (!isLoading && !txn) ? (
           <div className="text-gray-400 text-xs px-2 mb-4">
-            {t ? t('txnError') : 'Transaction Error'}
+            {t ? t('txns:txnError') : 'Transaction Error'}
           </div>
         ) : (
           <div className="bg-white soft-shadow rounded-lg pb-1">
