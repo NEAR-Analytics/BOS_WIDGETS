@@ -146,7 +146,7 @@ const ButtonGroup = styled.div`
 `;
 
 return (
-  <Card href={`?tab=project&projectId=${projectId}`} target="_blank">
+  <Card href={`?tab=project&projectId=${id}`} target="_blank">
     <CardImage
       src={
         cardData &&
