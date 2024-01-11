@@ -13,16 +13,14 @@ const tags = props.metadata
 const Card = styled.div`
   position: relative;
   width: 100%;
-  border-radius: 12px;
+  border-radius: 10px;
   background: #fff;
   border: 1px solid #eceef0;
-  box-shadow: 0px 1px 3px rgba(16, 24, 40, 0.1),
-    0px 1px 2px rgba(16, 24, 40, 0.06);
   overflow: hidden;
 `;
 
 const CardBody = styled.div`
-  padding: 16px;
+  padding: 19px;
   display: flex;
   gap: 16px;
   align-items: center;
@@ -34,33 +32,6 @@ const CardBody = styled.div`
 
 const CardContent = styled.div`
   width: 100%;
-`;
-
-const CardFooter = styled.div`
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 16px;
-  padding: 16px;
-  border-top: 1px solid #eceef0;
-`;
-
-const CardTag = styled.p`
-  margin: 0;
-  font-size: 9px;
-  line-height: 14px;
-  background: #eceef0;
-  color: #687076;
-  font-weight: 400;
-  white-space: nowrap;
-  position: absolute;
-  top: 0;
-  right: 0;
-  border-bottom-left-radius: 3px;
-  padding: 0 4px;
-
-  i {
-    margin-right: 3px;
-  }
 `;
 
 const TextLink = styled("Link")`
@@ -121,28 +92,11 @@ const Thumbnail = styled("Link")`
   }
 `;
 
-const TagsWrapper = styled.div`
-  position: relative;
-  margin-top: 4px;
-`;
-
 const ButtonLink = styled("Link")`
   padding: 8px;
-  height: 32px;
-  border: 1px solid #d7dbdf;
-  border-radius: 100px;
-  font-weight: 600;
-  font-size: 12px;
-  line-height: 15px;
-  text-align: center;
   cursor: pointer;
-  color: ${(p) => (p.primary ? "#006ADC" : "#11181C")} !important;
-  background: #fbfcfd;
-  white-space: nowrap;
-
   &:hover,
   &:focus {
-    background: #ecedee;
     text-decoration: none;
     outline: none;
   }
