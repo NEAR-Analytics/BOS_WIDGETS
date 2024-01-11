@@ -37,6 +37,7 @@ const CardBody = styled.div`
     display: flex;
     flex-direction: column;
     gap: 16px;
+    flex-grow: 1;
 `;
 
 const CardImage = styled.img`
