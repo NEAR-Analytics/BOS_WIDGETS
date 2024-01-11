@@ -796,7 +796,7 @@ State.init({
   searchedSinger: "",
   searchedInterval: "",
   result: {},
-  loader: [],
+  //loader: [],
   isLoading: false,
   error: [],
   queriesRuned: false,
@@ -810,13 +810,18 @@ const checkNewSinger = () => {
     State.update({
       searchedSinger: singer,
       searchedInterval: interval,
-      loader: [],
+      //loader: [],
+      loader: false,
       result: {},
       isLoading: true,
       queriesRuned: false,
     });
   }
+  return true;
 };
+if (checkNewSinger()) {
+  return <div>loading...</div>;
+}
 checkNewSinger();
 // handle hashed data #############################
 const handleHasedData = ({ hash, id }) => {
