@@ -53,7 +53,7 @@ function Page() {
         case "home": {
             return (
                 <Widget
-                    src="she-is-near.sputnik-dao.near/widget/home"
+                    src="megha19.near/widget/home"
                     props={passProps}
                 />
             );
@@ -62,7 +62,7 @@ function Page() {
         case "education": {
             return (
                 <Widget
-                    src={"she-is-near.sputnik-dao.near/widget/education"}
+                    src={"megha19.near/widget/education"}
                     props={passProps}
                 />
             );
@@ -71,7 +71,7 @@ function Page() {
         case "marketing": {
             return (
                 <Widget
-                    src={"she-is-near.sputnik-dao.near/widget/marketing"}
+                    src={"megha19.near/widget/marketing"}
                     props={passProps}
                 />
             );
@@ -80,7 +80,7 @@ function Page() {
         case "partnerships": {
             return (
                 <Widget
-                    src={"she-is-near.sputnik-dao.near/widget/partnerships"}
+                    src={"megha19.near/widget/partnerships"}
                     props={passProps}
                 />
             );
