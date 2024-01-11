@@ -3549,11 +3549,30 @@ const FaCaretRight = (props) => {
 
 
 
-const TokenImage = ({ appUrl, src, alt, className, onLoad }) => {
+
+const TokenImage = ({
+  appUrl,
+  src,
+  alt,
+  className,
+  onLoad,
+  onSetSrc,
+}) => {
   const placeholder = `${appUrl}images/tokenplaceholder.svg`;
-  const onError = (e) => {
-    e.target.onError = null;
-    e.target.src = placeholder;
+
+  const handleLoad = () => {
+    if (onLoad) {
+      onLoad();
+    }
+  };
+
+  const handleError = () => {
+    if (onSetSrc) {
+      onSetSrc(placeholder);
+    }
+    if (onLoad) {
+      onLoad();
+    }
   };
 
   return (
@@ -3561,8 +3580,8 @@ const TokenImage = ({ appUrl, src, alt, className, onLoad }) => {
       src={src || placeholder}
       alt={alt}
       className={className}
-      onLoad={onLoad}
-      onError={onError}
+      onLoad={handleLoad}
+      onError={handleError}
     />
   );
 };/* END_INCLUDE COMPONENT: "includes/icons/TokenImage.jsx" */
@@ -3965,14 +3984,9 @@ function formatWithCommas(number) {
 function tokenAmount(amount, decimal, format) {
   if (amount === undefined || amount === null) return 'N/A';
 
-  const near = Big(amount).div(Big(10).pow(+decimal));
+  const near = Big(amount).div(Big(10).pow(decimal));
 
-  return format
-    ? near.toString().toLocaleString(undefined, {
-        minimumFractionDigits: 0,
-        maximumFractionDigits: 8,
-      })
-    : near;
+  return format ? near.toFixed(8) : near.toFixed(decimal);
 }
 
 function mapRpcActionToAction(action) {
@@ -3995,7 +4009,7 @@ function mapRpcActionToAction(action) {
   return null;
 }
 
-const valueFromObj = (obj) => {
+function valueFromObj(obj) {
   const keys = Object.keys(obj);
 
   for (let i = 0; i < keys.length; i++) {
@@ -4015,7 +4029,7 @@ const valueFromObj = (obj) => {
   }
 
   return undefined;
-};
+}
 
 function txnLogs(txn) {
   let txLogs = [];
@@ -4398,7 +4412,7 @@ function MainComponent(props) {
       receipts.forEach(
         (receipt) =>
           receipt?.fts?.forEach((ft) => {
-            if (ft.ft_meta) fts.push(ft);
+            if (ft.ft_metas) fts.push(ft);
           }),
       );
       receipts.forEach(
