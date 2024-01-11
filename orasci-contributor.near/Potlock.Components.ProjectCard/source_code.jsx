@@ -24,6 +24,7 @@ const Card = styled.div`
     text-decoration: none;
     cursor: pointer;
   }
+  min-height: 429px;
   margin-left: auto;
   margin-right: auto;
   height: max-content;
