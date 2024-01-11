@@ -1149,7 +1149,7 @@ let TableScan = (
               { title: "Amount In", key: "swap_from_amount", round: "yes" },
               { title: "Symbol Out", key: "to_symbol", colors: "#806ce1" },
               { title: "Amount Out", key: "swap_to_amount", round: "yes" },
-              { title: "Volume", key: "usd", colors: "#806ce1" },
+              { title: "Volume (USD)", key: "usd", colors: "#806ce1" },
               { title: "Slippage", key: "arbitrage" },
               {
                 title: "Transactions",
