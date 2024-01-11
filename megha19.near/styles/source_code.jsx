@@ -129,6 +129,9 @@ const SocialIconImg = styled.img`
     @media screen and (max-width: 700px) {
         height: 80px;
     }
+    @media screen and (max-width: 400px) {
+        height: 50px;
+    }
 `;
 
 const SmallImg = styled.img`
