@@ -117,7 +117,7 @@ const MobileScreenComponent = () => {
                 </div>
                 <Widget
                     src={"megha19.near/widget/components.socialLinks"}
-                    props={{ showRow: false }}
+                    props={{ showRow: true }}
                 />
             </div>
         </SmallContainer>
