@@ -230,9 +230,9 @@ group by 1 order by 1
                   TX_ID as "trxs",
                   split(block_timestamp::date,'T')[0] as "date",
                   round(SWAP_FROM_AMOUNT,3) as "swap_from_amount",
-                  upper(coalesce(C.SYMBOL,'Unknown')) as "from_symbol",
+                  initcap(coalesce(C.SYMBOL,'Unknown')) as "from_symbol",
                   round(SWAP_TO_AMOUNT,3) as "swap_to_amount",
-                  upper(coalesce(B.SYMBOL,'Unknown'))  as "to_symbol",
+                  initcap(coalesce(B.SYMBOL,'Unknown'))  as "to_symbol",
                   case when (SWAP_TO_AMOUNT*B.Close is not null ) then round(SWAP_TO_AMOUNT*B.Close,3)
                   else round(SWAP_FROM_AMOUNT*C.Close,3) end as "usd",
                   split(Swap_program,' ')[2] as "swap_program",
@@ -707,7 +707,7 @@ const active_days = {
 const min_time = {
   height: "110px",
   align: "center",
-  brand: "First 2023 Transactions",
+  brand: "First Transactions",
   description: `${state.result.query4?.data[0]?.min_time || "0"}`,
   fontsize: "20px",
   fontweight: "25px",
