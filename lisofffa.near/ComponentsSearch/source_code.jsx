@@ -63,13 +63,19 @@ const items = state.searchResults || components;
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
+  padding-left: 15px;
+  padding-right: 15px;
   gap: 12px;
   padding-bottom: 25px;
   padding-top: 25px;
   width: 422px;
   border: 1px solid #d9d9d9;
-  background: var(--Colors-PureWhite, #fff);
+  background: #fff;
   border-radius: 8px;
+  box-shadow: rgba(0, 0, 0, 0.01) 0px 16px 16px 0px,
+    rgba(0, 0, 0, 0.049) 0px 65px 65px 0px,
+    rgba(0, 0, 0, 0.005) 0px 15px 17px 0px, rgba(0, 0, 0, 0.01) 0px 8px 13px 0px,
+    rgba(0, 0, 0, 0) 0px 14px 13px 0px;
 `;
 
 const Header = styled.div`
@@ -174,7 +180,7 @@ const Button = styled.button`
 `;
 
 return (
-  <Wrapper className="container-xl">
+  <Wrapper>
     <Search>
       <Widget
         src="near/widget/ComponentSearch"
