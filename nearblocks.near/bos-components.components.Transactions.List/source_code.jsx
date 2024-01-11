@@ -843,14 +843,9 @@ function gasPrice(yacto) {
 function tokenAmount(amount, decimal, format) {
   if (amount === undefined || amount === null) return 'N/A';
 
-  const near = Big(amount).div(Big(10).pow(+decimal));
+  const near = Big(amount).div(Big(10).pow(decimal));
 
-  return format
-    ? near.toString().toLocaleString(undefined, {
-        minimumFractionDigits: 0,
-        maximumFractionDigits: 8,
-      })
-    : near;
+  return format ? near.toFixed(8) : near.toFixed(decimal);
 }
 
 function mapRpcActionToAction(action) {
@@ -873,7 +868,7 @@ function mapRpcActionToAction(action) {
   return null;
 }
 
-const valueFromObj = (obj) => {
+function valueFromObj(obj) {
   const keys = Object.keys(obj);
 
   for (let i = 0; i < keys.length; i++) {
@@ -893,7 +888,7 @@ const valueFromObj = (obj) => {
   }
 
   return undefined;
-};
+}
 
 function txnLogs(txn) {
   let txLogs = [];
