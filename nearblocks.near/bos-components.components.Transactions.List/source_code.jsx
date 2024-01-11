@@ -1602,8 +1602,8 @@ function MainComponent(props) {
     t,
   } = props;
   const [isLoading, setIsLoading] = useState(false);
-  const [totalCount, setTotalCount] = useState(1);
-  const [txns, setTxns] = useState([]);
+  const [totalCount, setTotalCount] = useState(0);
+  const [txns, setTxns] = useState({});
   const [showAge, setShowAge] = useState(true);
   const [sorting, setSorting] = useState('desc');
   const errorMessage = t ? t('txns:noTxns') : ' No transactions found!';
@@ -1626,21 +1626,23 @@ function MainComponent(props) {
 
 
 
+
 ) => {
             const resp = data?.body?.txns?.[0];
-            setTotalCount(0);
-            setTotalCount(resp?.count);
+            if (data.status === 200) {
+              setTotalCount(resp?.count);
+            }
           },
         )
         .catch(() => {})
         .finally(() => {});
     }
 
-    function fetchTxnsData(qs, sqs) {
+    function fetchTxnsData(qs, sqs, page) {
       setIsLoading(true);
       const queryParams = qs ? qs + '&' : '';
       asyncFetch(
-        `${config?.backendUrl}txns?${queryParams}order=${sqs}&page=${currentPage}&per_page=25`,
+        `${config?.backendUrl}txns?${queryParams}order=${sqs}&page=${page}&per_page=25`,
         {
           method: 'GET',
           headers: {
@@ -1650,8 +1652,10 @@ function MainComponent(props) {
       )
         .then((data) => {
           const resp = data?.body?.txns;
-          if (Array.isArray(resp) && resp.length > 0) {
-            setTxns(resp);
+          if (data.status === 200) {
+            if (Array.isArray(resp) && resp.length > 0) {
+              setTxns((prevData) => ({ ...prevData, [page]: resp || [] }));
+            }
           }
         })
         .catch(() => {})
@@ -1671,13 +1675,10 @@ function MainComponent(props) {
 
     if (urlString && sorting) {
       fetchTotalTxns(urlString);
-      fetchTxnsData(urlString, sorting);
-    } else if (urlString) {
-      fetchTotalTxns(urlString);
-      fetchTxnsData(urlString);
+      fetchTxnsData(urlString, sorting, currentPage);
     } else if (sorting && (!filters || Object.keys(filters).length === 0)) {
       fetchTotalTxns();
-      fetchTxnsData('', sorting);
+      fetchTxnsData('', sorting, currentPage);
     }
   }, [config?.backendUrl, currentPage, filters, sorting]);
 
@@ -2136,7 +2137,7 @@ function MainComponent(props) {
           src={`${config.ownerId}/widget/bos-components.components.Shared.Table`}
           props={{
             columns: columns,
-            data: txns,
+            data: txns[currentPage],
             isLoading: isLoading,
             isPagination: true,
             count: totalCount,
