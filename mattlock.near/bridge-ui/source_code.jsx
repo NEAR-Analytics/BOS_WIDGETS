@@ -5,47 +5,52 @@
   "log": "The TX hash is: 0x2c5d223e47ecd9ac68fbdcd3eeb2bc4615ce6f7209d295104131c1440056497e Etherscan",
   "explorerLink": "https://etherscan.io/tx/123",
   "title": "zkBridge",
-  "deposit": {
-    "network": {
-      "id": "eth-testnet",
-      "name": "Ethereum Goerli"
-    },
-    "assets": [
-      {
-        "id": "eth",
-        "name": "ETH",
-        "balance": "123.22"
-      },
-      {
-        "id": "usdc",
-        "name": "USDC",
-        "selected": true,
-        "balance": "42.00"
-      }
-    ]
-  },
-  "withdraw": {
-    "network": {
-      "id": "zksync-testnet",
-      "name": "zkSync Era Testnet"
-    },
-    "assets": [
-      {
-        "id": "eth",
-        "name": "ETH",
-        "balance": "0.123"
-      },
-      {
-        "id": "usdc",
-        "name": "USDC",
-        "selected": true,
-        "balance": "0.42"
-      }
-    ]
-  },
+  "deposit": defaultDeposit,
+  "withdraw": defaultWithdraw,
   "amount": "0.1"
 }
 */
+
+const defaultDeposit = {
+  network: {
+    id: "l1",
+    name: "Ethereum",
+  },
+  assets: [
+    {
+      id: "eth",
+      name: "ETH",
+      selected: true,
+      balance: "0.00",
+    },
+    {
+      id: "usdc",
+      name: "USDC",
+      selected: false,
+      balance: "0.00",
+    },
+  ],
+};
+const defaultWithdraw = {
+  network: {
+    id: "l2",
+    name: "zkSync Era",
+  },
+  assets: [
+    {
+      id: "eth",
+      name: "ETH",
+      selected: false,
+      balance: "0.00",
+    },
+    {
+      id: "usdc",
+      name: "USDC",
+      selected: true,
+      balance: "0.00",
+    },
+  ],
+};
 
 const {
   deposit,
@@ -59,15 +64,19 @@ const {
   log,
   explorerLink,
 } = props;
+if (!deposit) deposit = defaultDeposit;
+if (!withdraw) withdraw = defaultWithdraw;
 const { action, amount } = state;
 const { assets } = deposit;
-
 const isDeposit = !action || action === "deposit";
 const actionTitle = isDeposit ? "Deposit" : "Withdraw";
 
 if (assets && !state.selectedAsset) {
   initState({
     selectedAsset: assets.find((a) => a.selected) || assets?.[0],
+    displayCurrencySelect: false,
+    currency: tokens[0],
+    selectedTokenAddress: tokens[0].address,
   });
 }
 
@@ -108,24 +117,41 @@ const handleTabChange = (tab) => {
   if (onTabChange) onTabChange(tab);
 };
 
-const Container = styled.div`
+const Theme = styled.div`
+
+  --bg-color: #181a27;
+  --border-color: #2c334b;
+  --label-color: #82a7ff;
+  --chain-name-color: #fff;
+  --input-border-color: #332c4b;
+  --button-color: #004bfc;
+  --button-text-color: #fff;
+  --thirdary-text-color: #7c7f96;
+  --arrow-color: #82a7ff;
+  --swap-icon-color: #787da1;
+  --tx-button-color: #64b5ff;
+  --processing-color: #979abe;
+  --success-color: #1abd00;
+  --dialog-bg-color: #373a53;
+  --dialog-info-color: #ff61d3;
+  --token-list-hover-color: rgba(24, 26, 39, 0.3);
+
     max-width: 400px;
     width: 100%;
     margin: 0 auto;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    border: 1px solid gray;
     padding-top: 1rem;
     border-radius: 0.5rem;
+    border: 1px solid var(--border-color);
     margin-top: 1rem;
+    background: var(--bg-color);
+    color: white;
 
     * {
         font-family: 'Inter custom',sans-serif;
     }
-
-    background: white;
-    color: black;
 
     .title {
       margin-top: 8px;
@@ -140,8 +166,6 @@ const Container = styled.div`
       }
 
       label {
-        color: gray;
-        background: white !important;
         border: 1px solid black !important;
         height: 38px;
         
@@ -151,12 +175,10 @@ const Container = styled.div`
       }
     }
 
-    button.max {
+    button {
       border: 1px solid black;
-    }
-
-    button.action {
-      background-color: black;
+      color: var(--button-color);
+      background-color: var(--button-text-color);
     }
 
     .action {
@@ -170,11 +192,6 @@ const Container = styled.div`
         background: #f5f6fd;
         color: black;
         border: 1px solid black;
-      }
-      button {
-        height: 38px;
-        background: #f5f6fd;
-        color: black;
       }
     }
 
@@ -200,8 +217,10 @@ const actionDisabled =
   (actionTitle === "Deposit" && depositDisabled) ||
   (actionTitle === "Withdraw" && withdrawDisabled);
 
+const { currency, displayCurrencySelect } = state;
+
 return (
-  <Container>
+  <Theme>
     <div className="d-flex gap-4 align-items-center mb-3 justify-content-center">
       <h5 className="title">{title || "Bridge"}</h5>
       <div className="actionTabs btn-group" role="group" aria-label="Deposit">
@@ -232,6 +251,41 @@ return (
       </div>
     </div>
     <div className="border border-secondary border-bottom-0 border-light" />
+
+    <Widget
+      src={"bluebiu.near/widget/Base.Bridge.Input"}
+      props={{
+        currency,
+        onCurrencySelectOpen: () => {
+          State.update({
+            displayCurrencySelect: !state.displayCurrencySelect,
+            selectedTokenAddress: state.currency.address,
+          });
+        },
+        onGetPrice: () => {},
+      }}
+    />
+
+    <Widget
+      src={"bluebiu.near/widget/Base.Bridge.TokenList"}
+      props={{
+        tokens,
+        display: displayCurrencySelect,
+        onSelect: (currency) => {
+          State.update({
+            currency,
+            selectedTokenAddress: currency.address,
+            displayCurrencySelect: false,
+          });
+        },
+        onClose: () => {
+          State.update({
+            displayCurrencySelect: false,
+          });
+        },
+      }}
+    />
+
     <div className="p-4">
       <div className="d-flex justify-content-between">
         <div className="assets d-flex flex-column gap-2">
@@ -296,5 +350,5 @@ return (
         </div>
       )}
     </div>
-  </Container>
+  </Theme>
 );
