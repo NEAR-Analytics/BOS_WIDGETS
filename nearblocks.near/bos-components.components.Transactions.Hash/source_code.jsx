@@ -125,9 +125,12 @@ function MainComponent(props) {
 
 
 
+
 ) => {
             const resp = data?.body?.txns?.[0];
-            setTxn(resp);
+            if (data.status === 200) {
+              setTxn(resp);
+            }
             setIsLoading(false);
           },
         )
@@ -160,9 +163,12 @@ function MainComponent(props) {
 
 
 
+
 ) => {
               const resp = res?.body?.result;
-              setRpcTxn(resp);
+              if (res.status === 200) {
+                setRpcTxn(resp);
+              }
             },
           )
           .catch(() => {});
