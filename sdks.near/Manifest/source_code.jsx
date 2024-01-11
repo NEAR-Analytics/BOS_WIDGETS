@@ -1,9 +1,12 @@
 return {
   libs: {
     "eth-signer": "SDKs.EthereumSigner.Main",
-    "lens": [
-        "SDKs.Lens.Main",
-        "SDKs.Lens.Interfaces"
-    ]
+    lens: {
+        api: [
+            "SDKs.Lens.API.Auth",
+            "SDKs.Lens.Interfaces"
+        ],
+        commons: ["SDKs.Lens.Main"]
+    },
   },
 };
