@@ -6,9 +6,6 @@ const metadata =
   props.metadata ??
   Social.get(`${accountId}/widget/${widgetName}/metadata/**`, "final") ??
   {};
-const tags = props.metadata
-  ? Object.keys(props.metadata.tags || {})
-  : Object.keys(metadata.tags || {});
 
 const Card = styled.div`
   position: relative;
@@ -34,7 +31,7 @@ const CardContent = styled.div`
   width: 100%;
 `;
 
-const TextLink = styled("Link")`
+const TextLink = styled.div`
   display: block;
   margin: 0;
   font-size: 14px;
@@ -69,7 +66,7 @@ const Text = styled.p`
   }
 `;
 
-const Thumbnail = styled("Link")`
+const Thumbnail = styled.div`
   display: block;
   width: 60px;
   height: 60px;
@@ -92,13 +89,19 @@ const Thumbnail = styled("Link")`
   }
 `;
 
-const ButtonLink = styled("Link")`
+const ButtonLink = styled.button`
   padding: 8px;
   cursor: pointer;
+  text-decoration: none;
+  outline: none;
+  border:none;
+  background: inherit
   &:hover,
   &:focus {
     text-decoration: none;
     outline: none;
+    border:none;
+    background: inherit
   }
 `;
 
@@ -136,7 +139,7 @@ const plus = (
 return (
   <Card>
     <CardBody>
-      <Thumbnail href={detailsUrl}>
+      <Thumbnail>
         <Widget
           src="mob.near/widget/Image"
           props={{
@@ -149,16 +152,16 @@ return (
       </Thumbnail>
 
       <CardContent>
-        <TextLink href={detailsUrl} bold ellipsis>
+        <TextLink bold ellipsis>
           {metadata.name || widgetName}
         </TextLink>
 
-        <TextLink small href={accountUrl} ellipsis>
+        <TextLink small ellipsis>
           @{accountId}
         </TextLink>
       </CardContent>
       {!props.hideButtons && (
-        <ButtonLink href={appUrl} primary>
+        <ButtonLink onClick={props.onComponentSelect} primary>
           {plus}
         </ButtonLink>
       )}
