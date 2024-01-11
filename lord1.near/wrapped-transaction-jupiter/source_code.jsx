@@ -730,7 +730,7 @@ State.init({
   searchedSinger: "",
   searchedInterval: "",
   result: {},
-  loader: [],
+  loader: false,
   isLoading: false,
   error: [],
   queriesRuned: false,
@@ -739,19 +739,23 @@ State.init({
 
 const checkNewSinger = () => {
   if (state.searchedSinger === singer && state.searchedInterval === interval) {
-    return;
+    return false;
   } else {
     State.update({
       searchedSinger: singer,
       searchedInterval: interval,
-      loader: [],
+      loader: false,
       result: {},
       isLoading: true,
       queriesRuned: false,
     });
   }
+  return true;
 };
-checkNewSinger();
+
+if (checkNewSinger()) {
+  return <div>loading...</div>;
+}
 // handle hashed data #############################
 const handleHasedData = ({ hash, id }) => {
   if (state.result["query" + id].isDone) return;
@@ -814,7 +818,6 @@ const fetchData = (hash) => {
     error: (data && !data.ok && (data.status || data.error)) || null,
     isLoading: !data && !error,
   };
-  console.log(result);
   return result;
 };
 // handle runed data ###################################
@@ -836,7 +839,7 @@ const isAllDataLoaded = () => {
   });
 };
 const updateResultState = ({ data, error, isLoading, queryRunId, id }) => {
-  State.update(({ result, loader }) => {
+  State.update(({ result }) => {
     const newResult = {
       ...result,
       [`query${id}`]: {
@@ -848,13 +851,11 @@ const updateResultState = ({ data, error, isLoading, queryRunId, id }) => {
         id: id,
       },
     };
-    //const newLoader = loader.filter(({ id: loaderId }) => loaderId !== id);
     if (error) {
       const queryError = `query${id} : ${error}`;
       return {
         ...state,
         result: { ...newResult },
-        //loader: newLoader.length === 0 ? [] : newLoader,
         error: [...state.error, queryError],
       };
     } else {
@@ -864,10 +865,10 @@ const updateResultState = ({ data, error, isLoading, queryRunId, id }) => {
           queryRunId
         );
       }
+
       return {
         ...state,
         result: { ...newResult },
-        //...(data && { loader: newLoader.length === 0 ? [] : newLoader }),
       };
     }
   });
