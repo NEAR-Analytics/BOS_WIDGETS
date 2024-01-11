@@ -246,6 +246,8 @@ const GasPerTransaction = MaxGasPerTransaction.plus(TGas);
 const pageAmountOfPage = 5;
 const ipfsPrefix = "https://ipfs.near.social/ipfs";
 const landingUrl = "https://neatprotocol.ai";
+const partnerProgramUrl = "https://forms.gle/4M3fvw3LPiJSyffcA";
+const nrc20DocHost = "https://docs.nrc-20.io/";
 function toLocaleString(source, decimals, rm) {
   if (typeof source === "string") {
     return toLocaleString(Number(source), decimals);
