@@ -51,6 +51,9 @@ const CardTitle = styled.div`
     font-style: normal;
     font-weight: 600;
     line-height: 24px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 `;
 
 const CardDescription = styled.div`
