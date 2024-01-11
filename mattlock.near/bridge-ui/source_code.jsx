@@ -63,6 +63,7 @@ const {
   isLoading,
   log,
   explorerLink,
+  tokens,
 } = props;
 if (!deposit) deposit = defaultDeposit;
 if (!withdraw) withdraw = defaultWithdraw;
