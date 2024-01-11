@@ -38,7 +38,7 @@ const TelegramURL = "https://t.me/+tLN37-LpB0Y3ZjAy";
 const NearSocialURL =
     "https://near.social/mob.near/widget/ProfilePage?accountId=sheisneardao.near";
 const LinkdInURL = "https://www.linkedin.com/company/she-is-near/";
-const currentLink = "#/she-is-near.sputnik-dao.near/widget/app";
+const currentLink = "#/megha19.near/widget/app";
 const LogoURL = currentLink + "?page=home";
 const CharterURL =
     "https://docs.google.com/document/d/1Eo0Va3pyku7xKosZpnOv_qVQ7_bSM3ltEbBIhYsC_GQ/edit";
