@@ -87,7 +87,7 @@ const actionTitle = isDeposit ? "Deposit" : "Withdraw";
 if (assets && !state.selectedAsset) {
   initState({
     selectedAsset: assets.find((a) => a.selected) || assets?.[0],
-    isTokenListOpen: true,
+    isTokenListOpen: false,
   });
 }
 
@@ -146,37 +146,6 @@ const Theme = styled.div`
   --dialog-info-color: #ff61d3;
   --token-list-hover-color: rgba(24, 26, 39, 0.3);
 
-  .tokens {
-    .selected {
-      position: relative;
-    }
-    .token-row {
-      display: flex;
-      align-items: center;
-      padding: 8px;
-      > img {
-        width: 32px;
-        margin-right: 8px;
-      }
-      &:hover {
-        background-color: var(--dialog-bg-color);
-        border-radius: 8px;
-      }
-      &:nth-child(2) {
-        margin-top: 16px;
-      }
-    }
-    .token-list {
-      position: absolute;
-      top: 8px;
-      left: 8px;
-    }
-    .selected, .token-list {
-      background: var(--bg-color);
-      border: 1px solid var(--border-color);
-      border-radius: 8px;
-    }
-  }
 
     max-width: 400px;
     width: 100%;
@@ -191,6 +160,42 @@ const Theme = styled.div`
     background: var(--bg-color);
     color: white;
 
+  .tokens {
+    .selected {
+      position: relative;
+      min-width: 108px;
+    }
+    .token-list {
+      min-width: 108px;
+      position: absolute;
+      top: 8px;
+      left: 8px;
+    }
+    .token-row {
+      display: flex;
+      align-items: center;
+      padding: 8px;
+      > img {
+        width: 32px;
+        margin-right: 8px;
+      }
+      &:hover {
+        border-color: var(--bs-btn-active-bg);
+        background-color: var(--dialog-bg-color);
+        border-radius: 8px;
+      }
+      &:nth-child(2) {
+        margin-top: 16px;
+      }
+    }
+    .selected, .token-list {
+      background: var(--bg-color);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+    }
+  }
+
+
     * {
         font-family: 'Inter custom',sans-serif;
     }
@@ -200,27 +205,22 @@ const Theme = styled.div`
     }
 
     .actionTabs {
-      border: 1px solid black;
+      background-color: var(--bs-btn-active-bg);
+      border: 1px solid var(--border-color);
       height: 38px;
 
       input:checked + label {
-        color: black;
-      }
-
-      label {
-      border: 1px solid var(--border-color);
-        height: 38px;
-        
-        &:hover {
-          color: black;
-        }
+        color: var(--button-text-color);
       }
     }
 
     button {
       border: 1px solid var(--border-color);
-      color: var(--button-color);
-      background-color: var(--button-text-color);
+      color: var(--button-text-color);
+      background-color: var(--bs-btn-active-bg) !important;
+      &:hover {
+        background-color: var(--border-color) !important;
+      }
     }
 
     .action {
@@ -230,10 +230,11 @@ const Theme = styled.div`
 
     .balance {
       input {
-        height: 38px;
-        background: #f5f6fd;
-        color: black;
-        border: 1px solid black;
+        height: 48px;
+        padding: 8px;
+        background: var(--bg-color);
+        color: white;
+        border: 1px solid var(--border-color);
       }
     }
 
@@ -350,9 +351,7 @@ return (
               placeholder="0.00"
               onChange={handleAmountChange}
             />
-            <button className="btn btn-light btn-sm max" onClick={handleMax}>
-              max
-            </button>
+            <button onClick={handleMax}>max</button>
           </div>
         </div>
       </div>
