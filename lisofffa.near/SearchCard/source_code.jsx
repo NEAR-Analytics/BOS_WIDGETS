@@ -20,7 +20,7 @@ const Card = styled.div`
 `;
 
 const CardBody = styled.div`
-  padding: 19px;
+  padding: 9px;
   display: flex;
   gap: 16px;
   align-items: center;
