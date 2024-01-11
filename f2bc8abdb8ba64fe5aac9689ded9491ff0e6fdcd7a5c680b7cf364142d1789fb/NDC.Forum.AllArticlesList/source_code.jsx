@@ -238,25 +238,27 @@ return (
             // If some widget posts data different than an array it will be ignored
             if (!Array.isArray(article.tags)) article.tags = [];
             return (
-              <Widget
-                src={widgets.generalCard}
-                props={{
-                  widgets,
-                  isTest,
-                  data: article,
-                  displayOverlay: true,
-                  renderReactions: true,
-                  addressForArticles,
-                  handleOpenArticle,
-                  handleFilterArticles,
-                  authorForWidget,
-                  handleShareButton,
-                  sbtWhiteList,
-                  handleEditArticle,
-                  callLibs,
-                  baseActions,
-                }}
-              />
+              <div key={article.id}>
+                <Widget
+                  src={widgets.generalCard}
+                  props={{
+                    widgets,
+                    isTest,
+                    data: article,
+                    displayOverlay: true,
+                    renderReactions: true,
+                    addressForArticles,
+                    handleOpenArticle,
+                    handleFilterArticles,
+                    authorForWidget,
+                    handleShareButton,
+                    sbtWhiteList,
+                    handleEditArticle,
+                    callLibs,
+                    baseActions,
+                  }}
+                />
+              </div>
             );
           })
         ) : (
