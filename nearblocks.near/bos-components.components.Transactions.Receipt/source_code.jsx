@@ -119,7 +119,7 @@ function mapRpcActionToAction(action) {
   return null;
 }
 
-const valueFromObj = (obj) => {
+function valueFromObj(obj) {
   const keys = Object.keys(obj);
 
   for (let i = 0; i < keys.length; i++) {
@@ -139,7 +139,7 @@ const valueFromObj = (obj) => {
   }
 
   return undefined;
-};
+}
 
 function txnLogs(txn) {
   let txLogs = [];
