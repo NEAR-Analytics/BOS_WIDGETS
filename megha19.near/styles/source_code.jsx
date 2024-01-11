@@ -134,6 +134,7 @@ const SocialIconImg = styled.img`
 const SmallImg = styled.img`
     cursor: pointer;
     height: 90px;
+    border-radius: 1rem;
     width: -webkit-fill-available;
 
     @media screen and (max-width: 600px) {
