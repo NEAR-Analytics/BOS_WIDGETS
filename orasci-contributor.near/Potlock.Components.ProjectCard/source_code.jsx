@@ -145,6 +145,8 @@ const ButtonGroup = styled.div`
     align-items: center;
 `;
 
+console.log(`${IPFS_BASE_URL}${cardData.image.ipfs_cid}`);
+
 return (
   <Card href={`?tab=project&projectId=${id}`} target="_blank">
     <CardImage
