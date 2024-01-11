@@ -1,24 +1,26 @@
-const owner = "sdks.near";
-const constants = VM.require(`${owner}/widget/SDKs.Lens.Constants`);
-const interfaces = VM.require(`${owner}/widget/SDKs.Lens.Interfaces`);
-const LightClient = VM.require(`${owner}/widget/SDKs.LightClient`);
+const $ = VM.require(`sdks.near/widget/Loader`);
+const { Constants, Interfaces, HealthAPI } = $("@sdks/lens");
+const { LightClient } = $("@sdks/light-client");
 
 const LensSDK = {
-  auth: interfaces.AUTH_INTERFACE,
-  challenge: interfaces.AUTH_CHALLENGE_INTERFACE,
-  tokenLifespan: constants.JWT_TOKEN_LIFESPAN_SECONDS,
-  refreshTokenLifespan: constants.JWT_REFRESH_TOKEN_LIFESPAN_SECONDS,
-  testnet: false,
-  profileId: "",
-  enableTestnet: () => LightClient.url = constants.TESTNET_URL,
-  enableMainnet: () => LightClient.url = constants.MAINNET_URL,
+  profile: Interfaces.PROFILE_INTERFACE,
+  enableTestnet: () => (LightClient.url = Constants.TESTNET_URL),
+  enableMainnet: () => (LightClient.url = Constants.MAINNET_URL),
+  isTestnet: () => LightClient.url == Constants.TESTNET_URL,
   init: () => {
     LensSDK.enableMainnet();
+    LightClient.auth = Interfaces.AUTH_INTERFACE;
+    LightClient.challenge = Interfaces.AUTH_CHALLENGE_INTERFACE;
+    LightClient.tokenLifespan = Constants.JWT_TOKEN_LIFESPAN_SECONDS;
+    LightClient.refreshTokenLifespan = Constants.JWT_REFRESH_TOKEN_LIFESPAN_SECONDS;
 
     return LensSDK;
   },
   health: {
-    ping: () => {},
+    ping: () =>
+      HealthAPI.ping(LightClient).then(
+        (response) => response == Constants.RESPONSE_HEALTH_OK
+      ),
   },
   authentication: {
     login: () => {},
@@ -27,8 +29,8 @@ const LensSDK = {
     verify: () => {},
     list: () => {},
     isAuthenticated: () => false,
-    getAccessToken: () => LensSDK.auth.accessToken,
-    getProfileId: () => LensSDK.profileId,
+    getAccessToken: () => LightClient.auth.accessToken,
+    getProfileId: () => LensSDK.profile.id || null,
   },
   profile: {
     create: () => {},
@@ -59,19 +61,19 @@ const LensSDK = {
     upvote: (publicationId) => {},
     downvote: (publicationId) => {},
     hide: (publicationId) => {},
-    report: (publicationId) => {}
+    report: (publicationId) => {},
   },
   search: {
     profiles: (searchTerm) => {},
-    publications: (searchTerm) => {}
+    publications: (searchTerm) => {},
   },
   notifications: {
-    fetch: () => {}
+    fetch: () => {},
   },
   transaction: {
     status: () => {},
-    txIdToTxHash: () => {}
-  }
+    txIdToTxHash: () => {},
+  },
 };
 
 return LensSDK.init();
