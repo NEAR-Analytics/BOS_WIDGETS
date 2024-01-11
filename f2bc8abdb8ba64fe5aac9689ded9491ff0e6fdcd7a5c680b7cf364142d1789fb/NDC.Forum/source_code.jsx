@@ -18,6 +18,8 @@ let {
   sharedArticleId,
   sharedCommentId,
   topicShared,
+  callLibs,
+  mainStateUpdate,
 } = props;
 
 const splitedTopic = topicShared ? topicShared.split("-class") : undefined;
@@ -117,10 +119,10 @@ State.init({
   sbtsNames: initSbtsNames,
   sbts: topicShared ? [topicShared] : initSbtsNames,
   firstRender: !isNaN(sharedBlockHeight) || typeof sharedArticleId === "string",
-  usersSBTs: [],
+  // usersSBTs: [],
 });
 
-const usersSBTs = state.usersSBTs;
+// const usersSBTs = state.usersSBTs;
 
 let newLibsCalls = state.functionsToCallByLibrary;
 
@@ -397,7 +399,9 @@ const renderSelectorLabel = () => {
 //==============================================END COMPONENTS======================================================
 
 //=================================================FUNCTIONS========================================================
-
+function stateUpdate(obj) {
+  State.update(obj);
+}
 function getValidEditArticleDataTags() {
   let tags = state.editArticleData.tags ?? [];
   let newFormatTags = {};
@@ -417,9 +421,9 @@ const initialCreateState = {
   sbts: [sbtWhiteList[0]],
 };
 
-function mainStateUpdate(obj) {
-  State.update(obj);
-}
+// function mainStateUpdate(obj) {
+//   State.update(obj);
+// }
 
 function handleOpenArticle(articleToRenderData) {
   State.update({
@@ -485,30 +489,30 @@ function handlePillNavigation(navegateTo) {
   State.update({ displayedTabId: navegateTo, editArticleData: undefined });
 }
 
-function callLibs(
-  src,
-  stateUpdate,
-  functionsToCallByLibrary,
-  extraProps,
-  callerWidget
-) {
-  return (
-    <Widget
-      src={src}
-      props={{
-        mainStateUpdate,
-        isTest,
-        stateUpdate,
-        functionsToCallByLibrary,
-        callLibs,
-        widgets,
-        callerWidget,
-        ...extraProps,
-        usersSBTs,
-      }}
-    />
-  );
-}
+// function callLibs(
+//   src,
+//   stateUpdate,
+//   functionsToCallByLibrary,
+//   extraProps,
+//   callerWidget
+// ) {
+//   return (
+//     <Widget
+//       src={src}
+//       props={{
+//         mainStateUpdate,
+//         isTest,
+//         stateUpdate,
+//         functionsToCallByLibrary,
+//         callLibs,
+//         widgets,
+//         callerWidget,
+//         ...extraProps,
+//         usersSBTs,
+//       }}
+//     />
+//   );
+// }
 
 function handleSbtSelection(selectedSbt) {
   State.update({
@@ -701,7 +705,7 @@ return (
       {libSrcArray.map((src) => {
         return callLibs(
           src,
-          mainStateUpdate,
+          stateUpdate,
           state.functionsToCallByLibrary,
           { baseAction: baseActions.articlesBaseAction, kanbanColumns },
           "NDC.Forum"
