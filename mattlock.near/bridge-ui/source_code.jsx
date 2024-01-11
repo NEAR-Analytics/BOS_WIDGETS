@@ -247,6 +247,9 @@ const Theme = styled.div`
 
     .alert {
       word-break: break-word;
+      background-color: var(--dialog-bg-color);
+      color: white;
+      border-color: rgb(13, 110, 253);
     }
 `;
 
@@ -261,6 +264,8 @@ const actionDisabled =
   (actionTitle === "Withdraw" && withdrawDisabled);
 
 const { isTokenListOpen } = state;
+
+log = "hello";
 
 return (
   <Theme>
@@ -371,7 +376,7 @@ return (
         {isLoading ? "Loading..." : actionTitle}
       </button>
       {log && (
-        <div className="alert alert-success" role="alert">
+        <div className="alert" role="alert">
           <div>{log}</div>
           {explorerLink && (
             <a href={explorerLink} className="alert-link" target="_blank">
