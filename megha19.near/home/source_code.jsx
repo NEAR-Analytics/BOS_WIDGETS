@@ -22,7 +22,8 @@ const {
     MarketingURL,
     PartnershipsImg,
     PartnershipsTextImg,
-    CharterTextImg
+    CharterTextImg,
+    PartnershipsURL
 } = VM.require("megha19.near/widget/core.lib.url");
 
 const BodyText = () => {
