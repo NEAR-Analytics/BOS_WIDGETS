@@ -26,7 +26,7 @@ const Card = styled.div`
   }
   margin-left: auto;
   margin-right: auto;
-  height: 422px;
+  height: max-content;
   overflow: hidden;
 `;
 
