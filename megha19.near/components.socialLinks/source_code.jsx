@@ -1,4 +1,4 @@
-const { SocialIconImg } = VM.require("she-is-near.sputnik-dao.near/widget/styles");
+const { SocialIconImg } = VM.require("megha19.near/widget/styles");
 
 const {
     TelegramURL,
@@ -7,7 +7,7 @@ const {
     NearSocialURL,
     LinkdinIcon,
     LinkdInURL
-} = VM.require("she-is-near.sputnik-dao.near/widget/core.lib.url");
+} = VM.require("megha19.near/widget/core.lib.url");
 
 const SocialIcons = ({ text, src }) => {
     return (
