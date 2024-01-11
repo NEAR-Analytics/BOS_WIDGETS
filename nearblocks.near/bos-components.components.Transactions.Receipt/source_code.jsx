@@ -328,7 +328,6 @@ function MainComponent(props) {
   useEffect(() => {
     if (rpcTxn) {
       const receipt = transactionReceipts(rpcTxn);
-      console.log('efewf', receipt);
       setReceipt(receipt);
     }
   }, [rpcTxn]);
