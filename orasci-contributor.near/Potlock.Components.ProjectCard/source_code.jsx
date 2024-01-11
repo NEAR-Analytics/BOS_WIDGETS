@@ -12,7 +12,7 @@ const donationsForProject = Near.view(
   }
 );
 
-const Card = styled.div`
+const Card = styled.a`
   display: flex;
   flex-direction: column;
   width: 408px;
@@ -146,7 +146,7 @@ const ButtonGroup = styled.div`
 `;
 
 return (
-  <Card>
+  <Card href={`?tab=project&projectId=${projectId}`} target="_blank">
     <CardImage
       src={
         cardData &&
