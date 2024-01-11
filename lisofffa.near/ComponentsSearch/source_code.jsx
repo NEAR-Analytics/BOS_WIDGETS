@@ -7,6 +7,7 @@ const componentsUrl = "/#/near/widget/ComponentsPage";
 State.init({
   currentPage: 0,
   selectedTab: props.tab || "apps",
+  selectedComponent: props.selectedComponent || null,
 });
 
 if (props.tab && props.tab !== state.selectedTab) {
@@ -14,6 +15,15 @@ if (props.tab && props.tab !== state.selectedTab) {
     selectedTab: props.tab,
   });
 }
+const onSelect = (widget) => {
+  try {
+    State.update({
+      selectedComponent: widget,
+    });
+  } catch (err) {
+    console.error(err);
+  }
+};
 
 const tagsData = Social.get("*/widget/*/metadata/tags/*", "final");
 
@@ -59,6 +69,7 @@ function onSearchChange({ result, term }) {
 }
 
 const items = state.searchResults || components;
+const selectedComponent = state.selectedComponent;
 
 const Wrapper = styled.div`
   display: flex;
@@ -196,14 +207,17 @@ return (
     {items.length > 0 && (
       <Items>
         {items.map((component, i) => {
-          console.log(component);
           return (
-            <Item key={component.accountId + component.widgetName}>
+            <Item
+              onClick={() => onSelect(component)}
+              key={component.accountId + component.widgetName}
+            >
               <Widget
                 src="lisofffa.near/widget/SearchCard"
                 props={{
                   src: `${component.accountId}/widget/${component.widgetName}`,
                   blockHeight: component.blockHeight,
+                  onSelect: onSelect,
                 }}
               />
             </Item>
