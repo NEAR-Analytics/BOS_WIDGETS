@@ -70,5 +70,6 @@ return {
     EducationURL,
     PartnershipsURL,
     MarketingURL,
-    MarketingLogoImg
+    MarketingLogoImg,
+    CharterURL
 };
