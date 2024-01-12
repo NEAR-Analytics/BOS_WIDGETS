@@ -1,4 +1,4 @@
-const { curChain, bridgeCb, theme, ...restProps } = props;
+const { curChain, bridgeCb, theme, dexConfig } = props;
 
 State.init({
   chainId: -1,
@@ -129,6 +129,17 @@ return (
 
         {ArrowRight}
       </BridgeBanner>
+      {state.chainIdNotSupport && (
+        <Widget
+          src="bluebiu.near/widget/Swap.ChainWarnigBox"
+          props={{
+            chain: curChain,
+            onSwitchChain: props.onSwitchChain,
+            switchingChain: props.switchingChain,
+            theme: dexConfig.theme?.button,
+          }}
+        />
+      )}
     </WidgetWrapper>
   </Dex>
 );
