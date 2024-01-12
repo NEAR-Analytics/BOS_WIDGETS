@@ -355,7 +355,7 @@ return (
           <slot />
         </ActionsWrapper>
 
-        <OverlayTrigger
+        <Overlay
           show={state.showMenu}
           trigger={["click"]}
           delay={{ show: 250, hide: 300 }}
@@ -364,7 +364,7 @@ return (
           style={{ transform: "none" }}
         >
           <ButtonPlus onClick={handleOpenMenu} />
-        </OverlayTrigger>
+        </Overlay>
       </TriggerShowPanel>
     ) : null}
   </OverlayTriggerWrapper>
