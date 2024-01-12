@@ -370,6 +370,8 @@ State.init({
   transferAmount: "",
   transferTo: "",
   balances: undefined,
+  // wrap, unwrap component
+  wrapTab: "wrap",
 });
 
 function fetchAllData() {
@@ -522,7 +524,6 @@ function updateBalance() {
 }
 
 function updateInputValue(value) {
-  State.update({ transferAmountInputError: undefined });
   if (!isSignedIn) {
     State.update({
       transferAmountInputError: "Sign in please",
@@ -530,7 +531,10 @@ function updateInputValue(value) {
     return;
   }
   if (value === "" || (isInputDigit(value) && isMaxDecimals(value, 8))) {
-    State.update({ transferAmount: removePrefix0(value) });
+    State.update({
+      transferAmount: removePrefix0(value),
+      transferAmountInputError: undefined,
+    });
   }
 
   if (
