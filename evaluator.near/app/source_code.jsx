@@ -10,6 +10,9 @@ if (progress === null) {
   return "Loading...";
 }
 
+let userAccountId;
+context.accountId === null ? userAccountId = "myaccount.near" : userAccountId = context.accountId;
+
 const menuLinks = [
   {
     label: "About",
@@ -51,12 +54,13 @@ const menuLinks = [
   },
 ];
 
-const lessons = [{
+const curriculumLinks = [{
   label: "Hello Near",
   component: {
     path: "evaluator.near/widget/Curriculum.HelloNear",
     bindings: {
       evaluation_method: "evaluate_hello_near",
+      userAccountId
     }
   },
 },
@@ -138,7 +142,7 @@ return (
           src="evaluator.near/widget/Menu"
           props={{
             menuLinks,
-            lessons,
+            curriculumLinks,
             progress,
             selected: activeComponent,
             identifier: communityId,
