@@ -1,4 +1,4 @@
-const { menuLinks, lessons, progress, selected, onSelect } = props;
+const { menuLinks, curriculumLinks, progress, selected, onSelect } = props;
 
 const capitalize = (words) => {
   return words
@@ -34,7 +34,7 @@ return (
           <li>
             <span class="flex font-medium text-sm text-gray-400 px-4 my-2 uppercase bg-gray-800 text-gray-100 rounded py-1">Curriculum</span>
           </li>
-          {lessons.map(({ label, component }, index) => (
+          {curriculumLinks.map(({ label, component }, index) => (
             <li class="my-px">
               <a
                 href={`#`}
