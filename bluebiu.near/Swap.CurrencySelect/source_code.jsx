@@ -46,7 +46,7 @@ const Content = styled.div`
   width: 320px;
   border-radius: 16px;
   border: 1px solid #373a53;
-  background: #303142;
+  background: #262836;
   @media (max-width: 900px) {
     width: 100%;
     border-radius: 16px 16px 0px 0px;
@@ -103,7 +103,7 @@ const IconBox = styled.div`
   cursor: pointer;
 `;
 
-const { tokens, chainIdNotSupport, account } = props;
+const { tokens, chainIdNotSupport } = props;
 
 State.init({
   tokens: props.tokens || [],
@@ -116,8 +116,7 @@ const handleSearch = (e) => {
       ? props.tokens.filter((token) => {
           return (
             token.address === e.target.value ||
-            token.name.toLowerCase().includes(e.target.value?.toLowerCase()) ||
-            token.symbol.toLowerCase().includes(e.target.value?.toLowerCase())
+            token.name.toLowerCase().includes(e.target.value?.toLowerCase())
           );
         })
       : props.tokens,
@@ -200,7 +199,6 @@ return (
                 currency,
                 display: props.display,
                 chainIdNotSupport,
-                account,
                 onClick: () => {
                   props.onSelect?.(currency);
                   props.onClose();
