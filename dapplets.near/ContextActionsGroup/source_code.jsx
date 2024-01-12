@@ -3,32 +3,10 @@ State.init({
   showMenu: false,
 });
 
-const actions = [
-  {
-    icon: "https://raw.githubusercontent.com/dapplets/community-badges/main/dapplet/src/icons/community-badges.png",
-    active: false,
-    id: "1",
-  },
-  {
-    icon: "https://raw.githubusercontent.com/dapplets/paywall-dapplet/main/dapplet/src/icon.png",
-    active: false,
-    id: "2",
-  },
-  {
-    icon: "https://raw.githubusercontent.com/dapplets/connecting-accounts-dapplet/master/src/icons/connected-accounts.png",
-    active: true,
-    id: "3",
-  },
-  {
-    icon: "https://raw.githubusercontent.com/dapplets/tipping-dapplet/master/dapplet/src/icons/money-logo.png",
-    active: false,
-    id: "4",
-  },
-];
-
 const handleOnMouseEnter = () => {
   State.update({ show: true });
 };
+
 const handleOnMouseLeave = () => {
   state.showMenu ? null : State.update({ show: false });
 };
@@ -282,16 +260,16 @@ const iconClose = (
     <path
       d="M18 6L6 18"
       stroke="#222222"
-      stroke-width="2"
-      stroke-linecap="round"
-      stroke-linejoin="round"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
     />
     <path
       d="M6 6L18 18"
       stroke="#222222"
-      stroke-width="2"
-      stroke-linecap="round"
-      stroke-linejoin="round"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
     />
   </svg>
 );
@@ -319,9 +297,9 @@ const iconDropdown = (
     <path
       d="M1 1L7 7L13 1"
       stroke="#747376"
-      stroke-width="2"
-      stroke-linecap="round"
-      stroke-linejoin="round"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
     />
   </svg>
 );
@@ -362,7 +340,6 @@ return (
       style={{ opacity: state.show ? 0 : 1 }}
       className="OverlayTrigger"
       onMouseEnter={handleOnMouseEnter}
-      onMouseLeave={handleOnMouseLeave}
     >
       <TriggerEar />
     </div>
@@ -374,7 +351,10 @@ return (
       >
         <TriggerShowLabel />
 
-        <slot />
+        <ActionsWrapper>
+          <slot />
+        </ActionsWrapper>
+
         <OverlayTrigger
           show={state.showMenu}
           trigger={["click"]}
