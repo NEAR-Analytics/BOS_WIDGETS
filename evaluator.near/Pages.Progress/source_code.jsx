@@ -39,17 +39,18 @@ function claimNFT() {
   return Near.call("eval.flmel.near", "claim_nft", {});
 }
 
-// // TODO: REMOVE
-// function progress() {
-//   return [true, true, true, true];
-// }
 
 function progress() {
-  return Near.view("eval.flmel.near", "get_progress", { account_id: context.accountId });
+  if (context.accountId === null) {
+    return [];
+  }
+  else {
+    return Near.view("eval.flmel.near", "get_progress", { account_id: context.accountId });
+  }
 }
 
 const passedEvaluationsCount = progress().filter(v => v === true).length;
-const evaluationsCount = props.progress.length;
+const evaluationsCount = curriculum.length;
 const eligibleToClaimNFT = passedEvaluationsCount === evaluationsCount;
 
 function DONE() {
@@ -89,7 +90,7 @@ return <>
     <div class="w-full text-gray-100 bg-blue-600 rounded-2xl py-4 px-4 mt-4 text-lg">
       <h2 class="text-6xl font-bold">Congratulations!</h2>
       <p class="mt-2 ">You have successfully completed all of the tasks and therefore eligible to claim your honorary NFT badge!</p>
-      <button class="bg-gray-100 rounded-lg text-blue-600 py-2 px-4 mt-2" onClick={claimNFT}>Claim your badge now</button>
+      <button class="bg-gray-100 rounded-lg text-blue-600 py-2 px-4 mt-2 hover:bg-blue-700 hover:text-white" onClick={claimNFT}>Claim your badge now</button>
     </div>
   }
   {/* Tasks Cards */}
