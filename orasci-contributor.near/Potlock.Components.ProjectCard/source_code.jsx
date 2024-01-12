@@ -198,7 +198,7 @@ return (
       <CardTagContainer>
         <CardTag>
           {cardData && typeof cardData?.category === "object"
-            ? cardData.category.value
+            ? getCategory(cardData.category.value)
             : getCategory(cardData.category)}
         </CardTag>
       </CardTagContainer>
