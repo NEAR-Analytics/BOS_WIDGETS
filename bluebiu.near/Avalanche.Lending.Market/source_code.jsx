@@ -122,7 +122,7 @@ const formateData = (sortKey) => {
     .map((market) => {
       const dapp = dapps[market.dapp];
       return {
-        icon: market.icon,
+        icon: market.underlyingToken.icon,
         symbol: market.underlyingToken.symbol,
         dappIcon: dapp.dappIcon,
         dappName: dapp.dappName,
