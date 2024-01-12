@@ -1382,7 +1382,7 @@ function MainComponent({ network, t }) {
                       {t ? t('home:nearPrice') : 'NEAR PRICE'}
                     </p>
                     {isLoading ? (
-                      <Skeleton className="h-4" />
+                      <Skeleton className="my-1 h-4" />
                     ) : (
                       <a href="/charts/near-price">
                         <a className="leading-6 text-gray-500">
@@ -1418,7 +1418,7 @@ function MainComponent({ network, t }) {
                       {t ? t('home:marketCap') : ' MARKET CAP'}
                     </p>
                     {isLoading ? (
-                      <Skeleton className="h-4" />
+                      <Skeleton className="my-1 h-4" />
                     ) : (
                       <a href="/charts/market-cap">
                         <a className="leading-6 text-gray-400">
@@ -1447,7 +1447,7 @@ function MainComponent({ network, t }) {
                     {t ? t('home:transactions') : 'TRANSACTIONS'}
                   </p>
                   {isLoading ? (
-                    <Skeleton className="h-4" />
+                    <Skeleton className="my-1 h-4" />
                   ) : (
                     <p className="leading-6 text-gray-400">
                       {currency(Number(stats?.total_txns ?? 0))}
@@ -1461,7 +1461,7 @@ function MainComponent({ network, t }) {
                   {t ? t('home:gasPrice') : 'GAS PRICE'}
                 </p>
                 {isLoading ? (
-                  <Skeleton className="h-4" />
+                  <Skeleton className="my-1 h-4" />
                 ) : (
                   <p className="leading-6 text-gray-400">
                     {gasPrice(Number(stats?.gas_price ?? 0))}
@@ -1484,7 +1484,7 @@ function MainComponent({ network, t }) {
                     {t ? t('home:activeValidator') : 'ACTIVE VALIDATORS'}
                   </p>
                   {isLoading ? (
-                    <Skeleton className="h-4" />
+                    <Skeleton className="my-1 h-4" />
                   ) : (
                     <a href="/node-explorer">
                       <a className="leading-6 text-gray-400">
@@ -1499,7 +1499,7 @@ function MainComponent({ network, t }) {
                   {t ? t('home:avgBlockTime') : 'AVG. BLOCK TIME'}
                 </p>
                 {isLoading ? (
-                  <Skeleton className="h-4" />
+                  <Skeleton className="my-1 h-4" />
                 ) : (
                   <a href="/charts/blocks">
                     <a className="leading-6 text-gray-400">
@@ -1511,25 +1511,24 @@ function MainComponent({ network, t }) {
             </div>
           </div>
           <div className="md:col-span-2 lg:col-span-1 flex flex-col lg:flex-col lg:items-stretch divide-y lg:divide-y lg:divide-x-0 md:pt-0 md:px-5">
-            <div className="flex-1 lg:px-0">
+            <div className="flex-1 py-5 lg:px-0">
               <p className="uppercase font-semibold text-gray-500 text-sm">
                 {' '}
                 {t
                   ? t('home:transactionHistory', { days: 14 })
                   : 'NEAR TRANSACTION HISTORY IN 14 DAYS'}
               </p>
-              <div className="pl-2 pr-4 h-full">
+              <div className="mt-1 h-28">
                 {chartData ? (
                   <iframe
                     srcDoc={iframeSrc}
                     style={{
                       width: '100%',
-                      height: '100%',
                       border: 'none',
                     }}
                   />
                 ) : (
-                  <Skeleton className="h-36" />
+                  <Skeleton className="h-28" />
                 )}
               </div>
             </div>
