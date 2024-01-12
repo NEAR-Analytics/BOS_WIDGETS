@@ -131,7 +131,7 @@ const ActionsItem = styled.div`
   background: #db504a;
   margin-bottom: 6px;
   cursor: pointer;
-box-sizing: border-box;
+  box-sizing: border-box;
   @keyframes translateAnimationItem {
     0% {
       opacity: 0;
@@ -354,286 +354,7 @@ const iconSwitch = (
   </svg>
 );
 
-const overlay = (
-  <div
-    style={{
-      display: "flex",
-      width: "100vw",
-      height: "100vh",
-      position: " absolute",
-      top: "0px",
-      left: "50%",
-      zIndex: "2000",
-      transform: "none",
-      transform: "translateX(-50%)",
-    }}
-  >
-    <div
-      style={{
-        display: "flex",
-        width: "500px",
-        padding: "10px",
-        flexDirection: "column",
-        borderRadius: "4px",
-        border: "1px solid rgba(231, 236, 239, 0.6)",
-        background: "#fff",
-        boxShadow: `rgba(0, 0, 0, 0.01) 0px 16px 16px 0px,
-    rgba(0, 0, 0, 0.049) 0px 65px 65px 0px,
-    rgba(0, 0, 0, 0.005) 0px 15px 17px 0px, rgba(0, 0, 0, 0.01) 0px 8px 13px 0px,
-    rgba(0, 0, 0, 0) 0px 14px 13px 0px`,
-        margin: "auto",
-        height: "420px",
-        fontFamily: "Roboto",
-      }}
-    >
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-        }}
-      >
-        <div
-          style={{
-            color: "#222",
-            fontSize: "18px",
-            fontWeight: "700",
-            lineHeight: "normal",
-          }}
-        >
-          Apply tipping something
-        </div>
-        <span style={{ cursor: "pointer" }} onClick={handleCloseMenu}>
-          {iconClose}
-        </span>
-      </div>
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          padding: "10px 20px",
-          borderRadius: "4px",
-          border: "1px solid #c1c6ce",
-          width: "auto",
-          marginTop: "10px",
-          marginBottom: " 10px",
-        }}
-      >
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
-            paddingTop: "10px",
-            paddingBottom: "10px",
-            width: "100%",
-            marginBottom: "14px",
-          }}
-        >
-          <div
-            style={{
-              color: " #222",
-              fontSize: "14px",
-              fontWeight: "400",
-              lineHeight: "normal",
-            }}
-          >
-            Onboarding
-          </div>
-          <button
-            style={{
-              cursor: "pounter",
-              display: "flex",
-              width: "70px",
-              justifyContent: "center",
-              alignItems: "center",
-              borderRadius: "4px",
-              background: "#db504a",
-              color: "#fff",
-              fontSize: "14px",
-              fontWeight: "400",
-              lineHeight: "normal",
-              border: "none",
-              height: "24px",
-            }}
-          >
-            Go
-          </button>
-        </div>
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            width: "100%",
-            alignItems: "flex-start",
-          }}
-        >
-          <div
-            style={{
-              color: " #222",
-              fontSize: "14px",
-              fontWeight: "400",
-              lineHeight: "normal",
-            }}
-          >
-            Trusted Users
-          </div>
-          <div
-            style={{
-              display: "flex",
-              padding: "10px 20px 10px 10px",
-              alignItems: "center",
-              borderRadius: "10px",
-              background: "#e7ecef",
-              color: "#747376",
-              fontSize: "14px",
-              fontStyle: "italic",
-              fontWeight: "400",
-              lineHeight: "normal",
-              width: "100%",
-              marginTop: "10px",
-              justifyContent: "space-between",
-              boxSizing: "border-box",
-              marginBottom: "14px",
-            }}
-          >
-            NEAR or Ethereum address... <span>{iconDropdown}</span>
-          </div>
-        </div>
-
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
-            paddingTop: "10px",
-            paddingBottom: "10px",
-            width: "100%",
-            marginBottom: "14px",
-          }}
-        >
-          <div
-            style={{
-              color: " #222",
-              fontSize: "14px",
-              fontWeight: "400",
-              lineHeight: "normal",
-            }}
-          >
-            Developer mode
-          </div>
-          <span>{iconSwitch}</span>
-        </div>
-
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
-            paddingTop: "10px",
-            paddingBottom: "10px",
-            width: "100%",
-            marginBottom: "14px",
-          }}
-        >
-          <div
-            style={{
-              color: " #222",
-              fontSize: "14px",
-              fontWeight: "400",
-              lineHeight: "normal",
-            }}
-          >
-            Bug reports
-          </div>
-          <span>{iconSwitch}</span>
-        </div>
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            width: "100%",
-            alignItems: "flex-start",
-          }}
-        >
-          <div
-            style={{
-              color: " #222",
-              fontSize: "14px",
-              fontWeight: "400",
-              lineHeight: "normal",
-            }}
-          >
-            User Agent Name
-          </div>
-          <div
-            style={{
-              display: "flex",
-              padding: "10px 20px 10px 10px",
-              alignItems: "center",
-              borderRadius: "10px",
-              background: "#e7ecef",
-              color: "#747376",
-              fontSize: "14px",
-              fontStyle: "italic",
-              fontWeight: "400",
-              lineHeight: "normal",
-              width: "100%",
-              marginTop: "10px",
-              height: "36px",
-              boxSizing: "border-box",
-            }}
-          ></div>
-        </div>
-      </div>
-      <div
-        style={{
-          display: "flex",
-          width: "100%",
-          justifyContent: "space-between",
-          alignItems: "center",
-        }}
-      >
-        <button
-          style={{
-            display: "flex",
-            width: "235px",
-            justifyContent: "center",
-            alignItems: "center",
-            borderRadius: "4px",
-            background: "#c1c6ce",
-            color: "#fff",
-            border: "none",
-            fontSize: "14px",
-            height: "40px",
-            fontWeight: "400",
-            lineHeight: "149%",
-          }}
-        >
-          Cancel
-        </button>
-        <button
-          style={{
-            display: "flex",
-            width: "235px",
-            justifyContent: "center",
-            alignItems: "center",
-            borderRadius: "4px",
-            background: "#db504a",
-            color: "#fff",
-            border: "none",
-            fontSize: "14px",
-            height: "40px",
-            fontWeight: "400",
-            lineHeight: "149%",
-          }}
-        >
-          Apply
-        </button>
-      </div>
-    </div>
-  </div>
-);
+const overlay = <Widget src="lisofffa.near/widget/ComponentsSearch" />;
 
 return (
   <OverlayTriggerWrapper>
@@ -654,34 +375,32 @@ return (
         <TriggerShowLabel />
 
         <ActionsWrapper>
-          <OverlayTrigger
-            show={state.showMenu}
-            trigger={["click"]}
-            delay={{ show: 250, hide: 300 }}
-            placement="auto"
-            overlay={overlay}
-            style={{ transform: "none" }}
-          >
-            <>
-              {actions.map((action, i) => (
-                <ActionsItem onClick={handleOpenMenu} key={i}>
-                  <span className={action.active ? "ItemActive" : ""}>
-                    <img
-                      style={{
-                        width: "34px",
-                        height: "34px",
-                        borderRadius: "50%",
-                      }}
-                      src={action.icon}
-                      alt=""
-                    />
-                  </span>
-                </ActionsItem>
-              ))}
-            </>
-          </OverlayTrigger>
+          {actions.map((action, i) => (
+            <ActionsItem key={i}>
+              <span className={action.active ? "ItemActive" : ""}>
+                <img
+                  style={{
+                    width: "34px",
+                    height: "34px",
+                    borderRadius: "50%",
+                  }}
+                  src={action.icon}
+                  alt=""
+                />
+              </span>
+            </ActionsItem>
+          ))}
         </ActionsWrapper>
-        <ButtonPlus />
+        <OverlayTrigger
+          show={state.showMenu}
+          trigger={["click"]}
+          delay={{ show: 250, hide: 300 }}
+          placement="auto"
+          overlay={overlay}
+          style={{ transform: "none" }}
+        >
+          <ButtonPlus onClick={handleOpenMenu} />
+        </OverlayTrigger>
       </TriggerShowPanel>
     ) : null}
   </OverlayTriggerWrapper>
