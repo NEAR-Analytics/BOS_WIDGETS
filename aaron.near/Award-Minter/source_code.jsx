@@ -2,7 +2,7 @@ const awardContract = "main.isnft.near";
 const ownerId = "codequity.near"; // attribution
 let accountId = context.accountId;
 const gas = 200000000000000;
-const deposit = 10000000000000000000000;
+const deposit = 11000000000000000000000n;
 const metadata = {
   name: state.award_title,
   description: state.award_description,
