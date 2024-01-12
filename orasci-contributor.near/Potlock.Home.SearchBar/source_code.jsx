@@ -99,7 +99,7 @@ return (
     </SearchIcon>
     <SearchBar
       placeholder={`Search (${projectLength}) projects`}
-      onChange={onSearchChanges}
+      onChange={onSearchChange}
     />
     <div
       style={{ position: "relative" }}
