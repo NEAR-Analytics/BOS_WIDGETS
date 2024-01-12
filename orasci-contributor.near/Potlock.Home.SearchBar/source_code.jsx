@@ -1,5 +1,12 @@
-const { sortNewToOld, sortOldToNew, projectLength, filterList, setFilterType } =
-  props;
+const {
+  sortNewToOld,
+  sortOldToNew,
+  projectLength,
+  filterList,
+  setFilterType,
+  isHasSearchingWord,
+  onSearchChange,
+} = props;
 
 const [openFilter, setOpenFilter] = useState(false);
 
@@ -20,8 +27,7 @@ const SearchBar = styled.input`
   border: none;
   color: #525252;
   &:focus {
-      outline: none;
-      border: none;
+      
   }
 `;
 
@@ -90,7 +96,10 @@ return (
         />
       </svg>
     </SearchIcon>
-    <SearchBar placeholder={`Search (${projectLength}) projects`} />
+    <SearchBar
+      placeholder={`Search (${projectLength}) projects`}
+      onChange={onSearchChange}
+    />
     <div
       style={{ position: "relative" }}
       onMouseOver={() => setOpenFilter(true)}
