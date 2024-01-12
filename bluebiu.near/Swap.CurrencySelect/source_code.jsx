@@ -114,7 +114,6 @@ const handleSearch = (e) => {
     searchVal: e.target.value,
     tokens: e.target.value
       ? props.tokens.filter((token) => {
-          console.log(token);
           return (
             token.address === e.target.value ||
             token.name.toLowerCase().includes(e.target.value?.toLowerCase())
