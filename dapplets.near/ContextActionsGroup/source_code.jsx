@@ -332,8 +332,6 @@ const iconSwitch = (
   </svg>
 );
 
-const overlay = <Widget src="lisofffa.near/widget/ComponentsSearch" />;
-
 return (
   <OverlayTriggerWrapper>
     <div
@@ -355,17 +353,14 @@ return (
           <slot />
         </ActionsWrapper>
 
-        <Overlay
-          show={state.showMenu}
-          trigger={["click"]}
-          delay={{ show: 250, hide: 300 }}
-          placement="auto"
-          overlay={overlay}
-          style={{ transform: "none" }}
-        >
-          <ButtonPlus onClick={handleOpenMenu} />
-        </Overlay>
+        <ButtonPlus onClick={handleOpenMenu} />
       </TriggerShowPanel>
+    ) : null}
+
+    {state.showMenu ? (
+      <Overlay>
+        <Widget src="lisofffa.near/widget/ComponentsSearch" />
+      </Overlay>
     ) : null}
   </OverlayTriggerWrapper>
 );
