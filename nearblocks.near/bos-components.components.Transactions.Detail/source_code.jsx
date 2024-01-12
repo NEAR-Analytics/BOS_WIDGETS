@@ -4571,8 +4571,8 @@ function MainComponent(props) {
                 </Tooltip.Trigger>
                 <Tooltip.Content
                   className="h-auto max-w-xs bg-black bg-opacity-90 z-10 text-xs text-white px-3 py-2"
-                  sideOffset={8}
-                  place="bottom"
+                  align="start"
+                  side="bottom"
                 >
                   {t
                     ? t('txns:txn.hash.tooltip')
@@ -4588,7 +4588,7 @@ function MainComponent(props) {
             </div>
           ) : (
             <div className="w-full md:w-3/4 font-semibold break-words">
-              {txn.transaction_hash}
+              {txn.transaction_hash ? txn.transaction_hash : ''}
             </div>
           )}
         </div>
@@ -4603,8 +4603,8 @@ function MainComponent(props) {
                 </Tooltip.Trigger>
                 <Tooltip.Content
                   className="h-auto max-w-xs bg-black bg-opacity-90 z-10 text-xs text-white px-3 py-2"
-                  sideOffset={8}
-                  place="bottom"
+                  align="start"
+                  side="bottom"
                 >
                   {t
                     ? t('txns:txn.status.tooltip')
@@ -4620,7 +4620,11 @@ function MainComponent(props) {
             </div>
           ) : (
             <div>
-              <TxnStatus showLabel status={txn.outcomes?.status} />
+              {txn.outcomes?.status ? (
+                <TxnStatus showLabel status={txn.outcomes?.status} />
+              ) : (
+                ''
+              )}
               {errorMessage && (
                 <div className="text-xs bg-orange-50 my-2 rounded-md text-center px-2 py-1">
                   {errorMessage}
@@ -4640,8 +4644,8 @@ function MainComponent(props) {
                 </Tooltip.Trigger>
                 <Tooltip.Content
                   className="h-auto max-w-xs bg-black bg-opacity-90 z-10 text-xs text-white px-3 py-2"
-                  sideOffset={8}
-                  place="bottom"
+                  align="start"
+                  side="bottom"
                 >
                   {t
                     ? t('txns:txn.block.tooltip')
@@ -4655,7 +4659,7 @@ function MainComponent(props) {
             <div className="w-full md:w-3/4">
               <Loader wrapperClassName="flex w-14" />
             </div>
-          ) : (
+          ) : txn.block?.block_height ? (
             <div className="w-full md:w-3/4 font-semibold break-words">
               <a
                 href={`/blocks/${txn.included_in_block_hash}`}
@@ -4666,6 +4670,8 @@ function MainComponent(props) {
                 </a>
               </a>
             </div>
+          ) : (
+            ''
           )}
         </div>
         <div className="flex flex-wrap p-4">
@@ -4679,8 +4685,8 @@ function MainComponent(props) {
                 </Tooltip.Trigger>
                 <Tooltip.Content
                   className="h-auto max-w-xs bg-black bg-opacity-90 z-10 text-xs text-white px-3 py-2"
-                  sideOffset={8}
-                  place="bottom"
+                  align="start"
+                  side="bottom"
                 >
                   {t
                     ? t('txns:txn.timestamp.tooltip')
@@ -4694,7 +4700,7 @@ function MainComponent(props) {
             <div className="w-full md:w-3/4">
               <Loader wrapperClassName="flex w-full max-w-sm" />
             </div>
-          ) : (
+          ) : txn?.block_timestamp ? (
             <div className="w-full md:w-3/4 break-words">
               {getTimeAgoString(nanoToMilli(Number(txn?.block_timestamp || 0)))}{' '}
               (
@@ -4704,10 +4710,13 @@ function MainComponent(props) {
               )}{' '}
               +UTC)
             </div>
+          ) : (
+            ''
           )}
         </div>
       </div>
-      {(actions.length > 0 || logs.length > 0) && (
+      {((actions.length > 0 && actions[0]?.action_kind) ||
+        (logs.length > 0 && logs[0]?.contract)) && (
         <div id="action-row" className="bg-white text-sm text-gray-500">
           <div className="flex items-start flex-wrap p-4">
             <div className="flex items-center w-full md:w-1/4 mb-2 md:mb-0 leading-7">
@@ -4720,8 +4729,8 @@ function MainComponent(props) {
                   </Tooltip.Trigger>
                   <Tooltip.Content
                     className="h-auto max-w-xs bg-black bg-opacity-90 z-10 text-xs text-white px-3 py-2"
-                    sideOffset={8}
-                    place="bottom"
+                    align="start"
+                    side="bottom"
                   >
                     Highlighted events of the transaction
                   </Tooltip.Content>
@@ -4772,8 +4781,8 @@ function MainComponent(props) {
                 </Tooltip.Trigger>
                 <Tooltip.Content
                   className="h-auto max-w-xs bg-black bg-opacity-90 z-10 text-xs text-white px-3 py-2"
-                  sideOffset={8}
-                  place="bottom"
+                  align="start"
+                  side="bottom"
                 >
                   {t
                     ? t('txns:txn.from.tooltip')
@@ -4811,8 +4820,8 @@ function MainComponent(props) {
                 </Tooltip.Trigger>
                 <Tooltip.Content
                   className="h-auto max-w-xs bg-black bg-opacity-90 z-10 text-xs text-white px-3 py-2"
-                  sideOffset={8}
-                  place="bottom"
+                  align="start"
+                  side="bottom"
                 >
                   {t
                     ? t('txns:txn.to.tooltip')
@@ -4856,8 +4865,8 @@ function MainComponent(props) {
                 </Tooltip.Trigger>
                 <Tooltip.Content
                   className="h-auto max-w-xs bg-black bg-opacity-90 z-10 text-xs text-white px-3 py-2"
-                  sideOffset={8}
-                  place="bottom"
+                  align="start"
+                  side="bottom"
                 >
                   List of tokens transferred in the transaction
                 </Tooltip.Content>
@@ -5062,8 +5071,8 @@ function MainComponent(props) {
                 </Tooltip.Trigger>
                 <Tooltip.Content
                   className="h-auto max-w-xs bg-black bg-opacity-90 z-10 text-xs text-white px-3 py-2"
-                  sideOffset={8}
-                  place="bottom"
+                  align="start"
+                  side="bottom"
                 >
                   {t
                     ? t('txns:txn.deposit.tooltip')
@@ -5094,8 +5103,8 @@ function MainComponent(props) {
                   </Tooltip.Trigger>
                   <Tooltip.Content
                     className="h-auto max-w-xs bg-black bg-opacity-90 z-10 text-xs text-white px-3 py-2"
-                    sideOffset={8}
-                    place="bottom"
+                    align="start"
+                    side="bottom"
                   >
                     {t
                       ? t('txns:txn.deposit.tooltip')
@@ -5115,8 +5124,8 @@ function MainComponent(props) {
                 </Tooltip.Trigger>
                 <Tooltip.Content
                   className="h-auto max-w-xs bg-black bg-opacity-90 z-10 text-xs text-white px-3 py-2"
-                  sideOffset={8}
-                  place="bottom"
+                  align="start"
+                  side="bottom"
                 >
                   {t
                     ? t('txns:txn.fee.tooltip')
@@ -5153,8 +5162,8 @@ function MainComponent(props) {
                 </Tooltip.Trigger>
                 <Tooltip.Content
                   className="h-auto max-w-xs bg-black bg-opacity-90 z-10 text-xs text-white px-3 py-2"
-                  sideOffset={8}
-                  place="bottom"
+                  align="start"
+                  side="bottom"
                 >
                   {t
                     ? t('txns:txn.price.tooltip')
@@ -5183,19 +5192,21 @@ function MainComponent(props) {
         collapsible
       >
         <Accordion.Item value="item-1">
-          <div className="flex flex-wrap p-4">
-            <Accordion.Trigger asChild onClick={toggleContent}>
-              {!more ? (
-                <span className="text-green-500 flex items-center">
-                  Click to see more <ArrowDown className="fill-current" />
-                </span>
-              ) : (
-                <span className="text-green-500 flex items-center">
-                  Click to see less <ArrowUp className="fill-current" />
-                </span>
-              )}
-            </Accordion.Trigger>
-          </div>
+          <Accordion.Header data-orientation="vertical">
+            <div className="flex flex-wrap p-4">
+              <Accordion.Trigger asChild onClick={toggleContent}>
+                {!more ? (
+                  <span className="text-green-500 flex items-center">
+                    Click to see more <ArrowDown className="fill-current" />
+                  </span>
+                ) : (
+                  <span className="text-green-500 flex items-center">
+                    Click to see less <ArrowUp className="fill-current" />
+                  </span>
+                )}
+              </Accordion.Trigger>
+            </div>
+          </Accordion.Header>
           <Accordion.Content>
             <div>
               <div className="flex flex-wrap p-4">
@@ -5207,8 +5218,8 @@ function MainComponent(props) {
                       </Tooltip.Trigger>
                       <Tooltip.Content
                         className="h-auto max-w-xs bg-black bg-opacity-90 z-10 text-xs text-white px-3 py-2"
-                        sideOffset={8}
-                        place="bottom"
+                        align="start"
+                        side="bottom"
                       >
                         {t
                           ? t('txns:txn.gas.tooltip')
@@ -5249,8 +5260,8 @@ function MainComponent(props) {
                       </Tooltip.Trigger>
                       <Tooltip.Content
                         className="h-auto max-w-xs bg-black bg-opacity-90 z-10 text-xs text-white px-3 py-2"
-                        sideOffset={8}
-                        place="bottom"
+                        align="start"
+                        side="bottom"
                       >
                         {t
                           ? t('txns:txn.burnt.tooltip')
