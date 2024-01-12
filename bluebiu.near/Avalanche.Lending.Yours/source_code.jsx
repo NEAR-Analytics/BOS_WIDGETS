@@ -38,7 +38,7 @@ const Right = styled.div`
   text-align: right;
 `;
 
-const { markets, dapps, currentDapp } = props;
+const { markets, dapps, toast, currentDapp } = props;
 const formatData = () => {
   let userTotalSupplyUsd = Big(0);
   let userTotalBorrowUsd = Big(0);
@@ -80,7 +80,7 @@ const formatData = () => {
 
       if (Big(market.userSupply || 0).gt(0)) {
         supplies.push({
-          icon: market.icon,
+          icon: market.underlyingToken.icon,
           symbol: market.underlyingToken.symbol,
           dappIcon: dapp.dappIcon,
           dappName: dapp.dappName,
@@ -103,7 +103,7 @@ const formatData = () => {
       }
       if (Big(market.userBorrow || 0).gt(0)) {
         borrows.push({
-          icon: market.icon,
+          icon: market.underlyingToken.icon,
           symbol: market.underlyingToken.symbol,
           dappIcon: dapp.dappIcon,
           dappName: dapp.dappName,
@@ -138,7 +138,7 @@ const formatData = () => {
           dappName: dapp.dappName,
           dailyReward: reward.dailyRewards,
           dailyReward_value: Big(reward.dailyRewards || 0)
-            .mul(reward.price)
+            .mul(reward.price || 0)
             .toString(),
           unclaimed: reward.unclaimed,
           unclaimed_value: Big(reward.unclaimed || 0)
@@ -149,7 +149,6 @@ const formatData = () => {
       });
     }
   });
-
   State.update({
     userTotalSupplyUsd: userTotalSupplyUsd.toString(),
     userTotalBorrowUsd: userTotalBorrowUsd.toString(),
@@ -242,6 +241,7 @@ return (
         data: state.rewards || [],
         dapps: props.dappsConfig,
         onSuccess: props.onSuccess,
+        toast,
       }}
     />
   </>
