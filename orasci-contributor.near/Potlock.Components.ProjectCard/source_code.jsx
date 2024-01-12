@@ -168,6 +168,7 @@ const getCategory = useMemo(() => {
         return "Community";
       case "education":
         return "Education";
+        s;
     }
   }
 }, [cardData]);
@@ -200,11 +201,7 @@ return (
           : cardData.description}
       </CardDescription>
       <CardTagContainer>
-        <CardTag>
-          {cardData && typeof cardData?.category === "object"
-            ? cardData.category.text
-            : cardData.category}
-        </CardTag>
+        <CardTag>{getCategory()}</CardTag>
       </CardTagContainer>
     </CardBody>
     <CardFooter>
