@@ -3,6 +3,29 @@ State.init({
   showMenu: false,
 });
 
+const actions = [
+  {
+    icon: "https://raw.githubusercontent.com/dapplets/community-badges/main/dapplet/src/icons/community-badges.png",
+    active: false,
+    id: "1",
+  },
+  {
+    icon: "https://raw.githubusercontent.com/dapplets/paywall-dapplet/main/dapplet/src/icon.png",
+    active: false,
+    id: "2",
+  },
+  {
+    icon: "https://raw.githubusercontent.com/dapplets/connecting-accounts-dapplet/master/src/icons/connected-accounts.png",
+    active: true,
+    id: "3",
+  },
+  {
+    icon: "https://raw.githubusercontent.com/dapplets/tipping-dapplet/master/dapplet/src/icons/money-logo.png",
+    active: false,
+    id: "4",
+  },
+];
+
 const handleOnMouseEnter = () => {
   State.update({ show: true });
 };
@@ -20,6 +43,7 @@ const handleCloseMenu = () => {
 
 const OverlayTriggerWrapper = styled.div`
   display: flex;
+  position: relative;
   .OverlayTrigger {
     position: absolute;
 
@@ -95,6 +119,77 @@ const ActionsWrapper = styled.div`
   }
   animation: translateAnimation 1.5s linear forwards;
   transition: all 0.3s;
+`;
+
+const ActionsItem = styled.div`
+  display: flex;
+  width: 34px;
+  height: 34px;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  background: #db504a;
+  margin-bottom: 6px;
+  cursor: pointer;
+  box-sizing: border-box;
+  @keyframes translateAnimationItem {
+    0% {
+      opacity: 0;
+    }
+    50% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+  animation: translateAnimationItem 1.5s linear forwards;
+  transition: all 0.3s;
+  &:hover {
+    border: 1px solid #c1c6ce;
+    box-shadow: 0px 4px 20px 0px rgba(11, 87, 111, 0.15),
+      0px 4px 5px 0px rgba(45, 52, 60, 0.1);
+  }
+  .ItemActive {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    img {
+      border: 1px solid #19ceae;
+      object-fit: cover;
+      border-radius: 50%;
+      width: 34px;
+      height: 34px;
+      display: block;
+    }
+    &:before {
+      content: "";
+      display: block;
+      position: absolute;
+      top: 0;
+      right: 0;
+      background: #fff;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+    }
+
+    &:after {
+      content: "";
+      display: block;
+      position: absolute;
+      top: 2px;
+      right: 2px;
+      background: #19ceae;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+    }
+  }
 `;
 
 const TriggerEar = styled.div`
@@ -259,286 +354,7 @@ const iconSwitch = (
   </svg>
 );
 
-const overlay = (
-  <div
-    style={{
-      display: "flex",
-      width: "100vw",
-      height: "100vh",
-      position: " absolute",
-      top: "0px",
-      left: "50%",
-      zIndex: "2000",
-      transform: "none",
-      transform: "translateX(-50%)",
-    }}
-  >
-    <div
-      style={{
-        display: "flex",
-        width: "500px",
-        padding: "10px",
-        flexDirection: "column",
-        borderRadius: "4px",
-        border: "1px solid rgba(231, 236, 239, 0.6)",
-        background: "#fff",
-        boxShadow: `rgba(0, 0, 0, 0.01) 0px 16px 16px 0px,
-    rgba(0, 0, 0, 0.049) 0px 65px 65px 0px,
-    rgba(0, 0, 0, 0.005) 0px 15px 17px 0px, rgba(0, 0, 0, 0.01) 0px 8px 13px 0px,
-    rgba(0, 0, 0, 0) 0px 14px 13px 0px`,
-        margin: "auto",
-        height: "420px",
-        fontFamily: "Roboto",
-      }}
-    >
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-        }}
-      >
-        <div
-          style={{
-            color: "#222",
-            fontSize: "18px",
-            fontWeight: "700",
-            lineHeight: "normal",
-          }}
-        >
-          Apply tipping something
-        </div>
-        <span style={{ cursor: "pointer" }} onClick={handleCloseMenu}>
-          {iconClose}
-        </span>
-      </div>
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          padding: "10px 20px",
-          borderRadius: "4px",
-          border: "1px solid #c1c6ce",
-          width: "auto",
-          marginTop: "10px",
-          marginBottom: " 10px",
-        }}
-      >
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
-            paddingTop: "10px",
-            paddingBottom: "10px",
-            width: "100%",
-            marginBottom: "14px",
-          }}
-        >
-          <div
-            style={{
-              color: " #222",
-              fontSize: "14px",
-              fontWeight: "400",
-              lineHeight: "normal",
-            }}
-          >
-            Onboarding
-          </div>
-          <button
-            style={{
-              cursor: "pounter",
-              display: "flex",
-              width: "70px",
-              justifyContent: "center",
-              alignItems: "center",
-              borderRadius: "4px",
-              background: "#db504a",
-              color: "#fff",
-              fontSize: "14px",
-              fontWeight: "400",
-              lineHeight: "normal",
-              border: "none",
-              height: "24px",
-            }}
-          >
-            Go
-          </button>
-        </div>
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            width: "100%",
-            alignItems: "flex-start",
-          }}
-        >
-          <div
-            style={{
-              color: " #222",
-              fontSize: "14px",
-              fontWeight: "400",
-              lineHeight: "normal",
-            }}
-          >
-            Trusted Users
-          </div>
-          <div
-            style={{
-              display: "flex",
-              padding: "10px 20px 10px 10px",
-              alignItems: "center",
-              borderRadius: "10px",
-              background: "#e7ecef",
-              color: "#747376",
-              fontSize: "14px",
-              fontStyle: "italic",
-              fontWeight: "400",
-              lineHeight: "normal",
-              width: "100%",
-              marginTop: "10px",
-              justifyContent: "space-between",
-              boxSizing: "border-box",
-              marginBottom: "14px",
-            }}
-          >
-            NEAR or Ethereum address... <span>{iconDropdown}</span>
-          </div>
-        </div>
-
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
-            paddingTop: "10px",
-            paddingBottom: "10px",
-            width: "100%",
-            marginBottom: "14px",
-          }}
-        >
-          <div
-            style={{
-              color: " #222",
-              fontSize: "14px",
-              fontWeight: "400",
-              lineHeight: "normal",
-            }}
-          >
-            Developer mode
-          </div>
-          <span>{iconSwitch}</span>
-        </div>
-
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
-            paddingTop: "10px",
-            paddingBottom: "10px",
-            width: "100%",
-            marginBottom: "14px",
-          }}
-        >
-          <div
-            style={{
-              color: " #222",
-              fontSize: "14px",
-              fontWeight: "400",
-              lineHeight: "normal",
-            }}
-          >
-            Bug reports
-          </div>
-          <span>{iconSwitch}</span>
-        </div>
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            width: "100%",
-            alignItems: "flex-start",
-          }}
-        >
-          <div
-            style={{
-              color: " #222",
-              fontSize: "14px",
-              fontWeight: "400",
-              lineHeight: "normal",
-            }}
-          >
-            User Agent Name
-          </div>
-          <div
-            style={{
-              display: "flex",
-              padding: "10px 20px 10px 10px",
-              alignItems: "center",
-              borderRadius: "10px",
-              background: "#e7ecef",
-              color: "#747376",
-              fontSize: "14px",
-              fontStyle: "italic",
-              fontWeight: "400",
-              lineHeight: "normal",
-              width: "100%",
-              marginTop: "10px",
-              height: "36px",
-              boxSizing: "border-box",
-            }}
-          ></div>
-        </div>
-      </div>
-      <div
-        style={{
-          display: "flex",
-          width: "100%",
-          justifyContent: "space-between",
-          alignItems: "center",
-        }}
-      >
-        <button
-          style={{
-            display: "flex",
-            width: "235px",
-            justifyContent: "center",
-            alignItems: "center",
-            borderRadius: "4px",
-            background: "#c1c6ce",
-            color: "#fff",
-            border: "none",
-            fontSize: "14px",
-            height: "40px",
-            fontWeight: "400",
-            lineHeight: "149%",
-          }}
-        >
-          Cancel
-        </button>
-        <button
-          style={{
-            display: "flex",
-            width: "235px",
-            justifyContent: "center",
-            alignItems: "center",
-            borderRadius: "4px",
-            background: "#db504a",
-            color: "#fff",
-            border: "none",
-            fontSize: "14px",
-            height: "40px",
-            fontWeight: "400",
-            lineHeight: "149%",
-          }}
-        >
-          Apply
-        </button>
-      </div>
-    </div>
-  </div>
-);
+const overlay = <Widget src="lisofffa.near/widget/ComponentsSearch" />;
 
 return (
   <OverlayTriggerWrapper>
@@ -546,24 +362,31 @@ return (
       style={{ opacity: state.show ? 0 : 1 }}
       className="OverlayTrigger"
       onMouseEnter={handleOnMouseEnter}
+      onMouseLeave={handleOnMouseLeave}
     >
       <TriggerEar />
     </div>
     {state.show ? (
-      <TriggerShowPanel style={{ margin: "0px -7px" }}>
+      <TriggerShowPanel
+        style={{ margin: "0px -7px" }}
+        onMouseEnter={handleOnMouseEnter}
+        onMouseLeave={handleOnMouseLeave}
+      >
         <TriggerShowLabel />
-        <ActionsWrapper onMouseLeave={handleOnMouseLeave}>
-          <OverlayTrigger
-            show={state.showMenu}
-            trigger={["click"]}
-            delay={{ show: 250, hide: 300 }}
-            placement="auto"
-            overlay={overlay}
-            style={{ transform: "none" }}
-          >
-            <slot></slot>
-          </OverlayTrigger>
+
+        <ActionsWrapper>
+          <slot />
         </ActionsWrapper>
+        <OverlayTrigger
+          show={state.showMenu}
+          trigger={["click"]}
+          delay={{ show: 250, hide: 300 }}
+          placement="auto"
+          overlay={overlay}
+          style={{ transform: "none" }}
+        >
+          <ButtonPlus onClick={handleOpenMenu} />
+        </OverlayTrigger>
       </TriggerShowPanel>
     ) : null}
   </OverlayTriggerWrapper>
