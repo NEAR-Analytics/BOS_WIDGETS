@@ -27,7 +27,8 @@ const SearchBar = styled.input`
   border: none;
   color: #525252;
   &:focus {
-      
+      outline: none;
+      border: none;
   }
 `;
 
@@ -98,7 +99,7 @@ return (
     </SearchIcon>
     <SearchBar
       placeholder={`Search (${projectLength}) projects`}
-      onChange={onSearchChange}
+      onChange={onSearchChanges}
     />
     <div
       style={{ position: "relative" }}
