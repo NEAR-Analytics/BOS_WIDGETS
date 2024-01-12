@@ -12,6 +12,8 @@ const donationsForProject = Near.view(
   }
 );
 
+console.log(`${id}, ${IPFS_BASE_URL}${cardData.backgroundImage.ipfs_cid}`);
+
 const Card = styled.a`
   display: flex;
   flex-direction: column;
