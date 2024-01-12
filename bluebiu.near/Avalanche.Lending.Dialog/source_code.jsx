@@ -255,6 +255,7 @@ const ERC20_ABI = [
 
 const { display, data, chainId, onClose, onSuccess } = props;
 if (!data) return "";
+
 const actionText = data.actionText;
 const isSupply = ["Deposit", "Withdraw"].includes(actionText);
 const isBorrow = ["Repay", "Borrow"].includes(actionText);
@@ -354,6 +355,8 @@ const handleAmountChange = (amount) => {
   params.isOverSize = isOverSize;
   params.isEmpty = false;
   State.update(params);
+
+  state.debouncedGetTrade();
 };
 
 const getAvailable = (_balance) => {
@@ -368,11 +371,7 @@ const getBalance = () => {
   State.update({
     balanceLoading: true,
   });
-  if (
-    isUnderlying &&
-    (data.underlyingToken.address === "native" ||
-      data.underlyingToken.description === "native")
-  ) {
+  if (isUnderlying && data.underlyingToken.address === "native") {
     Ethers.provider()
       .getBalance(account)
       .then((rawBalance) => {
@@ -383,7 +382,7 @@ const getBalance = () => {
       });
     return;
   }
-  if (isUnderlying) {
+  if (isUnderlying && data.underlyingToken.address) {
     const TokenContract = new ethers.Contract(
       data.underlyingToken.address,
       ERC20_ABI,
@@ -462,6 +461,30 @@ if (Storage.privateGet("prevAddress") !== data.address && display) {
   getBalance();
   Storage.privateSet("prevAddress", data.address);
 }
+
+useEffect(() => {
+  const debounce = (fn, wait) => {
+    let timer;
+    return () => {
+      clearTimeout(timer);
+      timer = setTimeout(fn, wait);
+    };
+  };
+
+  const getTrade = () => {
+    State.update({
+      loading: true,
+    });
+  };
+
+  const debouncedGetTrade = debounce(getTrade, 500);
+
+  State.update({
+    debouncedGetTrade,
+    getTrade,
+  });
+}, []);
+
 return (
   <Dialog className={display ? "display" : ""}>
     <Overlay
@@ -487,12 +510,14 @@ return (
                     APY {isSupply ? data.supplyApy : data.borrowApy}
                   </Apy>
                   {data.distributionApy &&
-                    data.distributionApy.map((reward) => (
-                      <RewardApyItem key={reward.symbol}>
-                        <RewardIcon src={reward.icon} />
-                        <RewardApy>{reward.supply}</RewardApy>
-                      </RewardApyItem>
-                    ))}
+                    data.distributionApy
+                      .filter((reward) => reward.supply !== "0.00%")
+                      .map((reward) => (
+                        <RewardApyItem key={reward.symbol}>
+                          <RewardIcon src={reward.icon} />
+                          <RewardApy>{reward.supply}</RewardApy>
+                        </RewardApyItem>
+                      ))}
                 </>
               )}
             </Title>
@@ -509,7 +534,7 @@ return (
                 ? "Disabling"
                 : "Enabling"}
               <Token>
-                <TokenLogo src={data.icon} />
+                <TokenLogo src={data.underlyingToken.icon} />
                 <TokenSymbol>{tokenSymbol}</TokenSymbol>
               </Token>
               as Collateral
@@ -679,6 +704,13 @@ return (
               addAction: props.addAction,
               toast: props.toast,
               chainId,
+              unsignedTx: state.unsignedTx,
+              isError: state.isError,
+              loading: state.loading,
+              gas: state.gas,
+              onApprovedSuccess: () => {
+                if (!state.gas) state.getTrade();
+              },
               onSuccess: () => {
                 handleClose();
                 onSuccess?.();
@@ -688,5 +720,23 @@ return (
         </BottomBox>
       </Content>
     </Overlay>
+    {data.config.handler && (
+      <Widget
+        src={data.config.handler}
+        props={{
+          update: state.loading,
+          data: data,
+          amount: state.amount,
+          account,
+          onLoad: (_data) => {
+            console.log(_data);
+            State.update({
+              ..._data,
+              loading: false,
+            });
+          },
+        }}
+      />
+    )}
   </Dialog>
 );
