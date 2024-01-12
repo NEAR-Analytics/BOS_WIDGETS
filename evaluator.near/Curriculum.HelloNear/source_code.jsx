@@ -12,6 +12,16 @@ return <>
     </p>
 
     <h3 class="font-bold text-xl my-1 mt-2">
+      <span class="bg-gray-800 text-gray-100 pr-1">Resources:</span>
+    </h3>
+    <p>lorem</p>
+
+    <h3 class="font-bold text-xl my-1 mt-2">
+      <span class="bg-gray-800 text-gray-100 pr-1">Task:</span>
+    </h3>
+    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Similique ipsam culpa assumenda id error illum pariatur ducimus fugiat rerum dolorem, provident doloremque nobis suscipit, nisi sint alias nam vitae tempore?</p>
+
+    <h3 class="font-bold text-xl my-1 mt-2">
       <span class="bg-gray-800 text-gray-100 pr-1">TODO:</span>
     </h3>
 
@@ -59,7 +69,12 @@ return <>
         </div>
 
       </div>
+
+      <h3 class="font-bold text-xl my-1 mt-2">
+        <span class="bg-gray-800 text-gray-100 pr-1">Run the tests:</span>
+      </h3>
     </div>
+
 
     {/* Evaluation */}
     <Widget src="evaluator.near/widget/Evaluate" props={{ evaluation_method: props.evaluation_method }} />
