@@ -370,6 +370,8 @@ State.init({
   transferAmount: "",
   transferTo: "",
   balances: undefined,
+  // wrap, unwrap component
+  wrapTab: "wrap",
 });
 
 function fetchAllData() {
@@ -511,14 +513,13 @@ function getVariantByAccount() {
 const variant = getVariantByAccount();
 
 function updateTickInput(value) {
-  State.update({ tickInputError: undefined });
   if (!isSignedIn) {
     State.update({
       tickInputError: "Sign in please",
     });
     return;
   }
-  State.update({ tickInput: value });
+  State.update({ tickInput: value, tickInputError: undefined });
   // debounce
   clearTimeout(state.timer);
   State.update({
@@ -571,7 +572,6 @@ function updateBalances() {
 }
 
 function updateInputValue(value) {
-  State.update({ transferAmountInputError: undefined });
   if (!isSignedIn) {
     State.update({
       transferAmountInputError: "Sign in please",
@@ -579,7 +579,10 @@ function updateInputValue(value) {
     return;
   }
   if (value === "" || (isInputDigit(value) && isMaxDecimals(value, decimals))) {
-    State.update({ transferAmount: removePrefix0(value) });
+    State.update({
+      transferAmount: removePrefix0(value),
+      transferAmountInputError: undefined,
+    });
   }
 
   if (
