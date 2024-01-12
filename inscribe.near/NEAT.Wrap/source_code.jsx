@@ -112,47 +112,18 @@ const tx = {
   gas: GasPerTransaction,
 };
 
-const InfoOuterWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 20px;
-  @media (max-width: 768px) {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-`;
-
-const InfoWrapper = styled.div`
-  display: flex;
-  min-width: 300px;
-  font-weight: 400;
-  flex-direction: column;
-`;
-
-const FormContainer = styled.div`
-  max-width: 650px;
-  width: 100%;
-  background: #141414;
-  border-radius: 4px;
-  border: 1px solid #ffffff1a;
-  display: flex;
-  flex-direction: column;
-  gap: 36px;
-
-  padding: 16px;
-  @media (min-width: 640px) {
-    padding: 24px;
-  }
-`;
-
-const FormTitle = styled.div`
-  font-size: 22px;
-  font-weight: 600px;
-
-  @media (max-width: 768px) {
-    font-size: 18px;
-  }
-`;
+const ArrowDown = () => (
+  <img
+    style={{
+      display: "inline-block",
+      margin: "0 auto",
+      marginTop: "-20px",
+      marginBottom: "-20px",
+    }}
+    src={`${ipfsPrefix}/bafkreic2xx3nuyxkqnfcjbkpoc334nqxo7r74jyij572qtvf2wgxwbfj7q`}
+    width="40px"
+  />
+);
 
 const FormButton = styled.button`
   height: 56px;
@@ -174,6 +145,38 @@ const FormButton = styled.button`
     background: rgba(255, 255, 255, 0.08);
   }
 `;
+
+const isInputDigit = (value) => /^(\d*(\.\d*)?|\.\d+)$/.test(value);
+const isDigit = (value) => /^\d+(\.\d+)?$/.test(value);
+const isInteger = (value) => /^\d+$/.test(value);
+const isLetterAndDigit = (value) => /^[a-zA-Z0-9]+$/.test(value);
+const removePrefix0 = (value) => {
+  if (!isDigit(value)) return value;
+  if (Number(value) === 0 && !value.includes(".")) return "0";
+  else {
+    if (value.includes(".")) {
+      if (!value.startsWith(".")) {
+        return value;
+      }
+      return value.replace(/^0+/, "0");
+    } // 00. transform to 0.
+    else return value.replace(/^0+/, ""); // 01 transform to 1
+  }
+};
+
+const isMaxDecimals = (_value, _decimals) => {
+  const value = String(_value);
+  const decimals = Number(_decimals ?? 0);
+  if (!value.includes(".")) {
+    return true;
+  }
+  const splits = value.split(".");
+  if (decimals === 0) {
+    return false;
+  }
+  const num = splits[1].length;
+  return decimals >= num;
+};
 
 function fetchFromGraph(query) {
   return fetch(config.graphUrl, {
@@ -374,6 +377,8 @@ State.init({
   transferAmount: "",
   transferTo: "",
   balances: undefined,
+  // wrap, unwrap component
+  wrapTab: "wrap",
 });
 
 function fetchAllData() {
@@ -471,70 +476,6 @@ function fetchAllData() {
 
 fetchAllData();
 
-const NeatLink = styled.a`
-  color: rgb(0, 214, 175);
-  font-size: 18px;
-  font-weight: 600;
-  display: inline-block;
-  text-decoration: underline;
-`;
-
-const NeatCommonLink = styled.a`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  color: #fff;
-  font-size: 14px;
-  font-weight: 600;
-  text-decoration: underline;
-`;
-
-const ArrowDown = () => (
-  <img
-    style={{
-      display: "inline-block",
-      margin: "0 auto",
-      marginTop: "-20px",
-      marginBottom: "-20px",
-    }}
-    src={`${ipfsPrefix}/bafkreic2xx3nuyxkqnfcjbkpoc334nqxo7r74jyij572qtvf2wgxwbfj7q`}
-    width="40px"
-  />
-);
-
-const isInputDigit = (value) => /^(\d*(\.\d*)?|\.\d+)$/.test(value);
-const isDigit = (value) => /^\d+(\.\d+)?$/.test(value);
-const isInteger = (value) => /^\d+$/.test(value);
-const isLetterAndDigit = (value) => /^[a-zA-Z0-9]+$/.test(value);
-const removePrefix0 = (value) => {
-  if (!isDigit(value)) return value;
-  if (Number(value) === 0 && !value.includes(".")) return "0";
-  else {
-    if (value.includes(".")) {
-      if (!value.startsWith(".")) {
-        return value;
-      }
-      return value.replace(/^0+/, "0");
-    } // 00. transform to 0.
-    else return value.replace(/^0+/, ""); // 01 transform to 1
-  }
-};
-
-const isMaxDecimals = (_value, _decimals) => {
-  const value = String(_value);
-  const decimals = Number(_decimals ?? 0);
-  if (!value.includes(".")) {
-    return true;
-  }
-  const splits = value.split(".");
-  if (decimals === 0) {
-    return false;
-  }
-  const num = splits[1].length;
-  return decimals >= num;
-};
-
 
 
 const accountId = props.accountId || context.accountId;
@@ -549,10 +490,17 @@ function updateBalance() {
       }
     });
   }, 500);
+  const interval2 = setInterval(() => {
+    getBalance().then((balance) => {
+      if (balance && state.balance !== balance) {
+        State.update({ balance });
+        clearInterval(interval2);
+      }
+    });
+  }, 500);
 }
 
 function updateInputValue(value) {
-  State.update({ wrapAmountInputError: undefined });
   if (!isSignedIn) {
     State.update({
       wrapAmountInputError: "Sign in please",
@@ -560,7 +508,10 @@ function updateInputValue(value) {
     return;
   }
   if (value === "" || (isInputDigit(value) && isMaxDecimals(value, 8))) {
-    State.update({ wrapAmount: removePrefix0(value) });
+    State.update({
+      wrapAmount: removePrefix0(value),
+      wrapAmountInputError: undefined,
+    });
   }
 
   if (
@@ -573,94 +524,64 @@ function updateInputValue(value) {
   }
 }
 
-const totalSupply = state.tokenInfo?.maxSupply
-  ? formatAmount(state.tokenInfo.maxSupply)
-  : "-";
-const nep141TotalSupply = state.nep141TotalSupply
-  ? formatAmount(state.nep141TotalSupply)
-  : "-";
-const nrc20TotalSupply = state.nrc20TotalSupply
-  ? formatAmount(state.nrc20TotalSupply)
-  : "-";
 return (
   <>
-    <FormContainer style={{ fontWeight: "bold" }}>
-      <InfoOuterWrapper>
-        <div>
-          🔥 Now NRC-20 $NEAT can be wrapped into a NEP-141 token and traded on{" "}
-          <NeatLink
-            href={`${config.refFinance}#${config.ftWrapper}%7Cnear`}
-            target="_blank"
-          >
-            Ref Finance
-          </NeatLink>
-        </div>
-        <InfoWrapper>
-          <div style={{ fontWeight: "bold" }}>Total Supply: {totalSupply}</div>
-          <div>NEAT(NRC-20): {nrc20TotalSupply}</div>
-          <div>NEAT(NEP-141): {nep141TotalSupply}</div>
-        </InfoWrapper>
-      </InfoOuterWrapper>
-    </FormContainer>
-    <FormContainer>
-      <FormTitle>Wrap</FormTitle>
-      <Widget
-        src={`${config.ownerId}/widget/NEAT.FormInput`}
-        props={{
-          title: "$NEAT (NRC-20)",
-          maxTitle: "Balance: ",
-          maxValue: state.balance ? formatAmount(state.balance) : "-",
-          value: state.wrapAmount,
-          unit: "$NEAT",
-          onChange: updateInputValue,
-          onClickMax: () =>
-            updateInputValue(
-              Big(state.balance ?? 0)
-                .div(Big(10).pow(8))
-                .toFixed()
-            ),
-          error: state.wrapAmountInputError,
-        }}
-      />
-      <ArrowDown />
-      <Widget
-        src={`${config.ownerId}/widget/NEAT.FormInput`}
-        props={{
-          title: "$NEAT (NEP-141)",
-          maxTitle: "Balance: ",
-          maxValue: state.wrappedFtBalance
-            ? formatAmount(state.wrappedFtBalance)
-            : "-",
-          unit: "$NEAT",
-          disabled: true,
-          variant: "grey",
-          value: state.wrapAmount,
-        }}
-      />
-      <FormButton
-        disabled={
-          !!state.wrapAmountInputError ||
-          !isDigit(state.wrapAmount) ||
-          Big(state.wrapAmount).lte(0)
-        }
-        onClick={() => {
-          Near.call({
-            contractName: config.ftWrapper,
-            methodName: "ft_wrap",
-            args: {
-              amount: Big(state.wrapAmount).times(Big(10).pow(8)).toFixed(0),
-            },
-            deposit: "10000000000000000000000", // 0.01 N
-          });
-          updateBalance();
-          State.update({
-            wrapAmount: "",
-            transferTo: "",
-          });
-        }}
-      >
-        Wrap
-      </FormButton>
-    </FormContainer>
+    <Widget
+      src={`${config.ownerId}/widget/NEAT.FormInput`}
+      props={{
+        title: "$NEAT (NRC-20)",
+        maxTitle: "Balance: ",
+        maxValue: state.balance ? formatAmount(state.balance) : "-",
+        value: state.wrapAmount,
+        unit: "$NEAT",
+        onChange: updateInputValue,
+        onClickMax: () =>
+          updateInputValue(
+            Big(state.balance ?? 0)
+              .div(Big(10).pow(8))
+              .toFixed()
+          ),
+        error: state.wrapAmountInputError,
+      }}
+    />
+    <ArrowDown />
+    <Widget
+      src={`${config.ownerId}/widget/NEAT.FormInput`}
+      props={{
+        title: "$NEAT (NEP-141)",
+        maxTitle: "Balance: ",
+        maxValue: state.wrappedFtBalance
+          ? formatAmount(state.wrappedFtBalance)
+          : "-",
+        unit: "$NEAT",
+        disabled: true,
+        variant: "grey",
+        value: state.wrapAmount,
+      }}
+    />
+    <FormButton
+      disabled={
+        !!state.wrapAmountInputError ||
+        !isDigit(state.wrapAmount) ||
+        Big(state.wrapAmount).lte(0)
+      }
+      onClick={() => {
+        Near.call({
+          contractName: config.ftWrapper,
+          methodName: "ft_wrap",
+          args: {
+            amount: Big(state.wrapAmount).times(Big(10).pow(8)).toFixed(0),
+          },
+          deposit: "10000000000000000000000", // 0.01 N
+        });
+        updateBalance();
+        State.update({
+          wrapAmount: "",
+          transferTo: "",
+        });
+      }}
+    >
+      Wrap
+    </FormButton>
   </>
 );
