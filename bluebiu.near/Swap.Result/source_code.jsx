@@ -176,14 +176,6 @@ useEffect(() => {
   });
 }, [gas, prices]);
 
-console.log(
-  inputCurrencyAmount,
-  outputCurrencyAmount,
-  Big(inputCurrencyAmount || 0)
-    .div(Big(outputCurrencyAmount || 0).eq(0) ? 1 : outputCurrencyAmount)
-    .toFixed(4)
-);
-
 return (
   <StyledContainer>
     <StyledFlexSpace>
