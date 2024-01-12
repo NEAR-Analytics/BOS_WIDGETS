@@ -4,9 +4,11 @@ const {
   connectProps,
   dapps,
   defaultDapp,
-  multicallv2,
   addAction,
   toast,
+  multicall,
+  multicallAddress,
+  wethAddress,
 } = props;
 
 const account = Ethers.send("eth_requestAccounts", [])[0];
@@ -22,15 +24,17 @@ if (!account) {
   );
 }
 
-State.init({
-  chainId: -1,
-  updateData: defaultDapp || "All",
-  showDialog: false,
-  tableButtonClickData: null,
-  currentTab: "Market",
-  currentDapp: defaultDapp || "All",
-  dapps: {},
-});
+useEffect(() => {
+  State.update({
+    chainId: -1,
+    updateData: defaultDapp || "All",
+    showDialog: false,
+    tableButtonClickData: null,
+    currentTab: "Market",
+    currentDapp: defaultDapp || "All",
+    dapps: {},
+  });
+}, []);
 
 Ethers.provider()
   .getNetwork()
@@ -55,6 +59,7 @@ const Container = styled.div`
   max-width: 1000px;
   width: 100%;
   margin: 0 auto;
+  position: relative;
 `;
 
 const handleTableButtonClick = (address, actionText) => {
@@ -65,7 +70,7 @@ const handleTableButtonClick = (address, actionText) => {
     tableButtonClickData: {
       ...dapp,
       ...market,
-      config: dappConfig,
+      config: { ...dappConfig, wethAddress },
       actionText,
     },
     showDialog: true,
@@ -73,7 +78,7 @@ const handleTableButtonClick = (address, actionText) => {
 };
 
 return (
-  <>
+  <Container>
     {state.updateData && (
       <>
         {(state.updateData === "All" || !state.dapps[state.updateData]) && (
@@ -82,10 +87,12 @@ return (
         <Widget
           src="bluebiu.near/widget/Avalanche.Lending.Data"
           props={{
-            multicallv2,
             update: state.updateData,
             dapps: dapps,
             chainId,
+            multicall,
+            multicallAddress,
+            wethAddress,
             onLoad: (data) => {
               const { markets, dapp } = data;
               const dapps = state.dapps;
@@ -103,93 +110,91 @@ return (
         />
       </>
     )}
-    <Container>
+    <Widget
+      src="bluebiu.near/widget/Avalanche.Lending.Tabs"
+      props={{
+        currentTab: state.currentTab,
+        onChange: (tab) => {
+          State.update({
+            currentTab: tab,
+            timestamp: Date.now(),
+          });
+        },
+      }}
+    />
+    <Widget
+      src="bluebiu.near/widget/Avalanche.Lending.Dapps"
+      props={{
+        dapps: Object.values(dapps) || [],
+        currentDapp: state.currentDapp,
+        onChange: (dapp) => {
+          let _updateDapp = "";
+          if (dapp == "All") {
+            _updateDapp =
+              Object.values(dapps).length === Object.values(state.dapps).length
+                ? ""
+                : "All";
+          } else {
+            _updateDapp = !state.dapps[dapp] ? dapp : "";
+          }
+          State.update({
+            currentDapp: dapp,
+            updateData: _updateDapp,
+            timestamp: Date.now(),
+          });
+        },
+      }}
+    />
+    {state.currentTab === "Market" && (
       <Widget
-        src="bluebiu.near/widget/Avalanche.Lending.Tabs"
+        src="bluebiu.near/widget/Avalanche.Lending.Market"
         props={{
-          currentTab: state.currentTab,
-          onChange: (tab) => {
-            State.update({
-              currentTab: tab,
-              timestamp: Date.now(),
-            });
-          },
-        }}
-      />
-      <Widget
-        src="bluebiu.near/widget/Avalanche.Lending.Dapps"
-        props={{
-          dapps: Object.values(dapps) || [],
           currentDapp: state.currentDapp,
-          onChange: (dapp) => {
-            let _updateDapp = "";
-            if (dapp == "All") {
-              _updateDapp =
-                Object.values(dapps).length ===
-                Object.values(state.dapps).length
-                  ? ""
-                  : "All";
-            } else {
-              _updateDapp = !state.dapps[dapp] ? dapp : "";
-            }
-            State.update({
-              currentDapp: dapp,
-              updateData: _updateDapp,
-              timestamp: Date.now(),
-            });
-          },
+          markets: state.markets,
+          dapps: state.dapps,
+          timestamp: state.timestamp,
+          onButtonClick: handleTableButtonClick,
         }}
       />
-      {state.currentTab === "Market" && (
-        <Widget
-          src="bluebiu.near/widget/Avalanche.Lending.Market"
-          props={{
-            currentDapp: state.currentDapp,
-            markets: state.markets,
-            dapps: state.dapps,
-            timestamp: state.timestamp,
-            onButtonClick: handleTableButtonClick,
-          }}
-        />
-      )}
-      {state.currentTab === "Yours" && (
-        <Widget
-          src="bluebiu.near/widget/Avalanche.Lending.Yours"
-          props={{
-            currentDapp: state.currentDapp,
-            markets: state.markets,
-            timestamp: state.timestamp,
-            dapps: state.dapps,
-            dappsConfig: dapps,
-            onButtonClick: handleTableButtonClick,
-            onSuccess: (dapp) => {
-              State.update({
-                updateData: dapp,
-              });
-            },
-          }}
-        />
-      )}
+    )}
+    {state.currentTab === "Yours" && (
       <Widget
-        src="bluebiu.near/widget/Avalanche.Lending.Dialog"
+        src="bluebiu.near/widget/Avalanche.Lending.Yours"
         props={{
-          display: state.showDialog,
-          data: state.tableButtonClickData,
-          chainId: state.chainId,
-          addAction,
+          currentDapp: state.currentDapp,
+          markets: state.markets,
+          timestamp: state.timestamp,
+          dapps: state.dapps,
+          dappsConfig: dapps,
           toast,
-          onClose: () => {
+          onButtonClick: handleTableButtonClick,
+          onSuccess: (dapp) => {
             State.update({
-              showDialog: false,
-            });
-          },
-          onSuccess: () => {
-            State.update({
-              updateData: state.tableButtonClickData.dappName,
+              updateData: dapp,
             });
           },
         }}
       />
-    </Container>
-  </>
+    )}
+    <Widget
+      src="bluebiu.near/widget/Avalanche.Lending.Dialog"
+      props={{
+        display: state.showDialog,
+        data: state.tableButtonClickData,
+        chainId: state.chainId,
+        addAction,
+        toast,
+        onClose: () => {
+          State.update({
+            showDialog: false,
+          });
+        },
+        onSuccess: () => {
+          State.update({
+            updateData: state.tableButtonClickData.dappName,
+          });
+        },
+      }}
+    />
+  </Container>
 );
