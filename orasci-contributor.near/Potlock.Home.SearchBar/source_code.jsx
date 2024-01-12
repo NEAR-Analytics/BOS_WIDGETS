@@ -5,10 +5,14 @@ const {
   filterList,
   setFilterType,
   isHasSearchingWord,
-  onSearchChange,
+  setSearchTerm,
 } = props;
 
 const [openFilter, setOpenFilter] = useState(false);
+
+const onSearchChange = (event) => {
+  setSearchTerm(event.target.value);
+};
 
 const SearchBarContainer = styled.div`
   display: flex;
