@@ -76,6 +76,10 @@ const Wrapper = styled.div`
   flex-direction: column;
   padding-left: 15px;
   padding-right: 15px;
+  position:absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, 50%);
   gap: 12px;
   padding-bottom: 25px;
   padding-top: 25px;
@@ -217,7 +221,6 @@ return (
                 props={{
                   src: `${component.accountId}/widget/${component.widgetName}`,
                   blockHeight: component.blockHeight,
-                  onSelect: onSelect,
                 }}
               />
             </Item>
