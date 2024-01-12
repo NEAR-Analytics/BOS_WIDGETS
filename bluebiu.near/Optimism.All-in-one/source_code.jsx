@@ -100,7 +100,7 @@ function changeTab(menu) {
   Storage.privateSet("opCachedActiveMenu", menu);
 }
 
-const { swapConfig, ...restProps } = props;
+const { swapConfig, lendingConfig, prices, ...restProps } = props;
 
 const bridgeIcon = (
   <svg
@@ -241,7 +241,7 @@ return (
           <>
             <Widget
               src="bluebiu.near/widget/Optimism.Lending"
-              props={{ ...restProps }}
+              props={{ ...lendingConfig, ...restProps, prices }}
             />
           </>
         ) : null}
