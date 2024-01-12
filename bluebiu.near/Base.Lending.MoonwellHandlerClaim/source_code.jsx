@@ -10,7 +10,7 @@ const UNITROLLER_ABI = [
 const account = Ethers.send("eth_requestAccounts", [])[0];
 const { loading, market, dapp, onSuccess, onError } = props;
 
-if (!loading) return "";
+if (!loading || !dapp.unitrollerAddress) return "";
 
 const CollateralContract = new ethers.Contract(
   dapp.unitrollerAddress,
@@ -23,8 +23,8 @@ CollateralContract.claimReward()
       onSuccess(res);
     });
   })
-  .catch(() => {
-    onError();
+  .catch((err) => {
+    onError(err);
   });
 
 return "";
