@@ -13,7 +13,7 @@ const donationsForProject = Near.view(
 );
 
 console.log(`${id}, ${IPFS_BASE_URL}${cardData.backgroundImage.ipfs_cid}`);
-
+console.log(cardData)
 const Card = styled.a`
   display: flex;
   flex-direction: column;
@@ -146,8 +146,6 @@ const ButtonGroup = styled.div`
     gap: 16px;
     align-items: center;
 `;
-
-console.log(`${IPFS_BASE_URL}${cardData.image.ipfs_cid}`);
 
 return (
   <Card href={`?tab=project&projectId=${id}`} target="_blank">
