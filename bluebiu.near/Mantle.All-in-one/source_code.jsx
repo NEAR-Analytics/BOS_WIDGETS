@@ -209,7 +209,7 @@ const liquidityIcon = (
   </svg>
 );
 
-const { swapConfig, ...restProps } = props;
+const { swapConfig, lendingConfig, prices, ...restProps } = props;
 
 return (
   <Layout>
@@ -266,7 +266,7 @@ return (
           <>
             <Widget
               src="bluebiu.near/widget/Mantle.Lending"
-              props={{ ...restProps }}
+              props={{ ...lendingConfig, ...restProps, prices }}
             />
           </>
         ) : null}
