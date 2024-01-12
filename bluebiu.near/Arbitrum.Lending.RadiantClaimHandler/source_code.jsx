@@ -10,7 +10,7 @@ const CLAIM_ABI = [
 const account = Ethers.send("eth_requestAccounts", [])[0];
 const { loading, market, dapp, onSuccess, onError } = props;
 
-if (!loading) return "";
+if (!loading || !dapp.incentiveController) return "";
 
 const CollateralContract = new ethers.Contract(
   dapp.incentiveController,
@@ -23,8 +23,8 @@ CollateralContract.claimAll(account)
       onSuccess(res);
     });
   })
-  .catch(() => {
-    onError();
+  .catch((err) => {
+    onError(err);
   });
 
 return "";
