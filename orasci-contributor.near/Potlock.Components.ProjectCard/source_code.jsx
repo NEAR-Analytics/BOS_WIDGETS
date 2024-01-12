@@ -147,31 +147,26 @@ const ButtonGroup = styled.div`
     align-items: center;
 `;
 
-const getCategory = useMemo(() => {
-  if (cardData && typeof cardData.category === "object") {
-    return cardData.category.text;
-  } else {
-    switch (cardData.category) {
-      case "social-impact":
-        return "Social Impact";
-      case "non-profit":
-        return "Non Profit";
-      case "climate":
-        return "Climate";
-      case "public-good":
-        return "Public Good";
-      case "de-sci":
-        return "Desci";
-      case "open-source":
-        return "Open Source";
-      case "community":
-        return "Community";
-      case "education":
-        return "Education";
-        s;
-    }
+const getCategory = (category) => {
+  switch (category) {
+    case "social-impact":
+      return "Social Impact";
+    case "non-profit":
+      return "Non Profit";
+    case "climate":
+      return "Climate";
+    case "public-good":
+      return "Public Good";
+    case "de-sci":
+      return "Desci";
+    case "open-source":
+      return "Open Source";
+    case "community":
+      return "Community";
+    case "education":
+      return "Education";
   }
-}, [cardData]);
+};
 
 return (
   <Card href={`?tab=project&projectId=${id}`} target="_blank">
@@ -201,7 +196,11 @@ return (
           : cardData.description}
       </CardDescription>
       <CardTagContainer>
-        <CardTag>{getCategory()}</CardTag>
+        <CardTag>
+          {cardData && typeof cardData?.category === "object"
+            ? cardData.category.value
+            : getCategory(cardData.category)}
+        </CardTag>
       </CardTagContainer>
     </CardBody>
     <CardFooter>
