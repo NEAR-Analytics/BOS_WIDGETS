@@ -394,6 +394,8 @@ State.init({
   transferAmount: "",
   transferTo: "",
   balances: undefined,
+  // wrap, unwrap component
+  wrapTab: "wrap",
 });
 
 function fetchAllData() {
