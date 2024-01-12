@@ -209,7 +209,7 @@ const liquidityIcon = (
   </svg>
 );
 
-const { swapConfig, ...restProps } = props;
+const { swapConfig, lendingConfig, prices, ...restProps } = props;
 
 return (
   <Layout>
@@ -282,7 +282,10 @@ return (
         ) : null}
         {activeMenu == "Lending" ? (
           <>
-            <Widget src="bluebiu.near/widget/Linea.Lending" props={restProps} />
+            <Widget
+              src="bluebiu.near/widget/Linea.Lending"
+              props={{ ...lendingConfig, ...restProps, prices }}
+            />
           </>
         ) : null}
       </div>
