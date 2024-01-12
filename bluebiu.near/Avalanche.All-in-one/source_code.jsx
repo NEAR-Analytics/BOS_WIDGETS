@@ -185,7 +185,7 @@ const lendingIcon = (
     />
   </svg>
 );
-const { swapConfig, ...restProps } = props;
+const { swapConfig, lendingConfig, prices, ...restProps } = props;
 
 return (
   <Layout>
@@ -241,7 +241,11 @@ return (
           <>
             <Widget
               src="bluebiu.near/widget/Avalanche.Lending"
-              props={restProps}
+              props={{
+                ...lendingConfig,
+                ...restProps,
+                prices,
+              }}
             />
           </>
         ) : null}
