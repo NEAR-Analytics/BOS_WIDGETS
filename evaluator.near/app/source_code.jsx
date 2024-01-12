@@ -87,15 +87,16 @@ const lessons = [{
     }
   }
 },
-{
-  label: "Complex Input (advanced)",
-  component: {
-    path: "evaluator.near/widget/Curriculum.ComplexInputAdvanced",
-    bindings: {
-      progress: '',
-    }
-  }
-}];
+  // {
+  //   label: "Complex Input (advanced)",
+  //   component: {
+  //     path: "evaluator.near/widget/Curriculum.ComplexInputAdvanced",
+  //     bindings: {
+  //       progress: '',
+  //     }
+  //   }
+  // }
+];
 
 const tailwindCssUrl = "https://dl.dropboxusercontent.com/scl/fi/d2krq3g6bibgq3j5dmz1i/output.css?rlkey=qn0cqs11ow7qw28tsffp8ia3b&dl=0";
 
