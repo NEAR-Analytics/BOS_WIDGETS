@@ -330,7 +330,9 @@ return (
       {tab === "transfer" && (
         <Widget src={`${config.ownerId}/widget/NEAT.Transfer`} />
       )}
-      {tab === "wrap" && <Widget src={`${config.ownerId}/widget/NEAT.Wrap`} />}
+      {tab === "wrap" && (
+        <Widget src={`${config.ownerId}/widget/NEAT.WrapUnwrap`} />
+      )}
     </BodyContainer>
     <FooterWrapper>
       <NeatCommonLink href={nrc20DocHost} target="_blank">
