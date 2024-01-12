@@ -25,7 +25,7 @@ State.init({
   record: null,
 });
 
-const { dapps, onSuccess } = props;
+const { dapps, toast, onSuccess } = props;
 return (
   <>
     <RewardsTable>
@@ -78,10 +78,14 @@ return (
             },
           ],
           onButtonClick: (record) => {
+            const toastId = toast?.loading({
+              title: `Claiming rewards...`,
+            });
             State.update({
               dapp: dapps[record.dappName],
               market: record,
               loading: true,
+              toastId,
             });
           },
         }}
@@ -96,11 +100,20 @@ return (
           dapp: state.dapp,
           record: state.record,
           onSuccess: (res) => {
+            toast?.dismiss(state.toastId);
             State.update({ loading: false });
+            toast?.success({ title: "Claimed successfully!" });
             onSuccess?.(state.dapp.name);
           },
           onError: (err) => {
+            toast?.dismiss(state.toastId);
             State.update({ loading: false });
+            toast?.fail({
+              title: err?.message?.includes("user rejected transaction")
+                ? "User rejected transaction"
+                : `Claimed faily!`,
+              chainId,
+            });
           },
         }}
       />
