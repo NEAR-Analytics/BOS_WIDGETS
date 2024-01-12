@@ -9,7 +9,7 @@ const UNITROLLER_ABI = [
 ];
 const { loading, dapp, onSuccess, onError } = props;
 
-if (!loading) return "";
+if (!loading || !dapp.unitrollerAddress) return "";
 
 const CollateralContract = new ethers.Contract(
   dapp.unitrollerAddress,
@@ -22,8 +22,8 @@ CollateralContract.claimLab()
       onSuccess(res);
     });
   })
-  .catch(() => {
-    onError();
+  .catch((err) => {
+    onError(err);
   });
 
 return "";
