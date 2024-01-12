@@ -374,9 +374,7 @@ return (
       >
         <TriggerShowLabel />
 
-        <ActionsWrapper>
-          <slot />
-        </ActionsWrapper>
+        <slot />
         <OverlayTrigger
           show={state.showMenu}
           trigger={["click"]}
