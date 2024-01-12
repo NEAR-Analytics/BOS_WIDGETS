@@ -87,7 +87,7 @@ const handleMint = () => {
               title: state.award_title,
               description: state.award_description,
               media: `https://ipfs.near.social/ipfs/${state.image.cid}`,
-              issued_at: `${Date.now()}`,
+              issued_at: Date.now(),
               extra: JSON.stringify({
                 type: "award",
                 citation: `${state.award_citation}`,
