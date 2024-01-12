@@ -1,7 +1,15 @@
 const account = Ethers.send("eth_requestAccounts", [])[0];
 
 if (!account) return;
-const { dapps, update, multicallv2, onLoad, chainId } = props;
+const {
+  dapps,
+  update,
+  multicall,
+  multicallAddress,
+  wethAddress,
+  onLoad,
+  chainId,
+} = props;
 
 const dappsToList = Object.values(dapps);
 if (!dappsToList.length || !update) return;
@@ -17,13 +25,15 @@ return (
         key={dapp.name}
         src={dapp.data}
         props={{
-          multicallAddress: multicallv2,
           ...dapp,
           dapp: dapp.name,
           loaded,
           update:
             dapp.name === update || (update === "All" && !loaded[dapp.name]),
           account,
+          multicall,
+          multicallAddress,
+          wethAddress,
           onLoad: (data) => {
             const { markets, ...rest } = data;
             loaded[dapp.name] = true;
@@ -32,7 +42,6 @@ return (
             if (allLoaded) {
               Storage.privateSet(cachedKey, {});
             }
-
             onLoad({
               markets,
               dapp: {
