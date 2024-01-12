@@ -23,22 +23,22 @@ const CLAIM_ABI = [
 const account = Ethers.send("eth_requestAccounts", [])[0];
 const { loading, market, dapp, record, onSuccess, onError } = props;
 
-if (!loading) return "";
+if (!loading || !dapp.unitrollerAddress) return "";
 
 const CollateralContract = new ethers.Contract(
   dapp.unitrollerAddress,
   CLAIM_ABI,
   Ethers.provider().getSigner()
 );
-console.log(record.symbol === "QI" ? 0 : 1, account);
+
 CollateralContract.claimReward(record.symbol === "QI" ? 0 : 1, account)
   .then((tx) => {
     tx.wait().then((res) => {
       onSuccess(res);
     });
   })
-  .catch(() => {
-    onError();
+  .catch((err) => {
+    onError(err);
   });
 
 return "";
