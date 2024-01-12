@@ -190,16 +190,6 @@ const getUnitAmount = () => {
 return (
   <SwapContainer>
     <Panel>
-      {chainIdNotSupport && (
-        <Widget
-          src="bluebiu.near/widget/Swap.ChainWarnigBox"
-          props={{
-            chain: curChain,
-            onSwitchChain: props.onSwitchChain,
-            switchingChain: props.switchingChain,
-          }}
-        />
-      )}
       <PanelHeader>
         <PanelLabelWrapper>
           <PanelLabel>Swap on</PanelLabel>
