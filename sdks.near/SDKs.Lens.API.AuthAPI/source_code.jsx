@@ -17,11 +17,11 @@ return {
     );
   },
   authenticate: (Client, signedChallengeRequest) => {
-      return Client.graphql(Auth.AUTHENTICATE_QUERY, signedChallengeRequest).then((payload) => {
-        return (
-          payload.body.data.authenticate || Interfaces.AUTH_INTERFACE
-        );
-      });
+    return Client.graphql(Auth.AUTHENTICATE_QUERY, signedChallengeRequest).then(
+      (payload) => {
+        return payload.body.data.authenticate || Interfaces.AUTH_INTERFACE;
+      }
+    );
   },
   refresh: (Client, refreshRequest) => {
     return Client.graphql(Auth.PROFILES_MANAGED_QUERY, refreshRequest).then(
