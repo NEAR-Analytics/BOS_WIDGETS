@@ -1,75 +1,43 @@
-const CharterImg =
-    "https://ipfs.near.social/ipfs/bafkreihluonmwtbubzmuvdgjhydlvtg3mevm6qk3fmawxhlsugn6ofizpy";
-const MarketingImg =
-    "https://ipfs.near.social/ipfs/bafkreiapnuryaiqhjbri347uoyto3wlmqsdoqwzuv7xxtb7sc6tqpd44fa";
-const EducationalImg =
-    "https://ipfs.near.social/ipfs/bafkreibo2sj72vznhd7km2vfqn66bcdxnttgwmbr3wmijwnz3jbrmg57ce";
-const PartnershipsImg =
-    "https://ipfs.near.social/ipfs/bafkreih5qtgjcli6mw2eu7frtjorkevm5vpyzigthcv5ks7ifyby2q7bna";
+/**
+ * Generates a URL to a widget.
+ *
+ * @param {Object} options - Configuration options for constructing the URL.
+ * @param {string} [options.gateway] - The gateway or server address where the widget source is hosted (optional).
+ * @param {string} options.widgetSrc - The source path of the widget (required).
+ * @param {Object} [options.params] - An object containing key-value pairs representing query parameters to be appended to the URL (optional).
+ * @returns {string} - The constructed URL.
+ */
+function href({ gateway, widgetSrc, params }) {
+  // Check if query parameters are provided and filter out null values
+  if (params) {
+    params = (Object.entries(params) || [])
+      .filter(([_key, nullable]) => (nullable ?? null) !== null)
+      .map(([key, value]) => {
+        // Omit the parameter if the value is null or the array is empty
+        if (value === null || (Array.isArray(value) && value.length === 0)) {
+          return null;
+        }
 
-const TelegramIcon =
-    "https://ipfs.near.social/ipfs/bafkreihviz6lmqnuij7ffyi7nlts66dcyr2amtxwhfcs4jm27h7sfb6kom";
-const NearIcon =
-    "https://ipfs.near.social/ipfs/bafkreibsyfqvtmo45ao3ap4kor7axsdldjd6lm6weirm3egchfgjld2vli";
-const LinkdinIcon =
-    "https://ipfs.near.social/ipfs/bafkreihxd2t2al5kbsppnw4zh2morfanwbxbndmi6mznm22ac6m4py7j3q";
+        // Convert array values to a comma-separated string with no spaces
+        if (Array.isArray(value)) {
+          return `${key}=${value.join(",")}`;
+        } else {
+          return `${key}=${value}`;
+        }
+      })
+      .join("&");
+  }
 
-const PartnershipsTextImg =
-    "https://ipfs.near.social/ipfs/bafkreihfvlvoydrc5l4usttqb6t7rlntsghdlzjmszsrt2p7pscok7bnhy";
-const CharterTextImg =
-    "https://ipfs.near.social/ipfs/bafkreidm6tmge4g34juxk3gabha6y4tb2urbq56qef3tnrypyhqdzrhje4";
-const MarketingTextImg =
-    "https://ipfs.near.social/ipfs/bafkreigtdxg27goqmitdsfgglhhg4g6326vq5sx2b242mam44p5bipxkcm";
-const EducationalTextImg =
-    "https://ipfs.near.social/ipfs/bafkreihjgjuict7mzk7ob3xycrnxo6yspiwqkbqnktktypeboljszaiwb4";
-const LogoTextImg =
-    "https://ipfs.near.social/ipfs/bafkreidumcmgej3m6dovy7ghsa7xbekg7zpwptwjudhqxvg7hobgcfdd4q";
+  // Check if the gateway already includes "https://" and construct the final URL accordingly
+  if (gateway) {
+    if (/(^https:\/\/)|(^http:\/\/)/.test(gateway)) {
+      return `/${gateway}/${widgetSrc}${params && `?${params}`}`;
+    } else {
+      return `https://${gateway}/${widgetSrc}${params && `?${params}`}`;
+    }
+  } else {
+    return `/${widgetSrc}${params && `?${params}`}`;
+  }
+}
 
-const Logo =
-    "https://ipfs.near.social/ipfs/bafkreiah5hm6yuiairy7mzrq3zy4bwiycxjsmbu7fcx7exuekcifyo2ote";
-const EducationLogoImg =
-    "https://ipfs.near.social/ipfs/bafkreie25rdvchaxuzqujqhxobvwyvoux4q3x62uis3zy4wdqdrkihnrlu";
-const PartnershipsLogoImg =
-    "https://ipfs.near.social/ipfs/bafkreids5fjs32b7cyruhiyibi3lrmtpk3gardtfomyelml2eywtn7hdzm";
-const MarketingLogoImg =
-    "https://ipfs.near.social/ipfs/bafkreidzdyaevlopap2aq3ygn6e4s7ur3g7xtr6eyqd7mvymtc7kczapxu";
-
-const TelegramURL = "https://t.me/+tLN37-LpB0Y3ZjAy";
-const NearSocialURL =
-    "https://near.social/mob.near/widget/ProfilePage?accountId=sheisneardao.near";
-const LinkdInURL = "https://www.linkedin.com/company/she-is-near/";
-const currentLink = "#/megha19.near/widget/app";
-const LogoURL = currentLink + "?page=home";
-const CharterURL =
-    "https://docs.google.com/document/d/1Eo0Va3pyku7xKosZpnOv_qVQ7_bSM3ltEbBIhYsC_GQ/edit";
-const EducationURL = currentLink + "?page=education";
-const MarketingURL = currentLink + "?page=marketing";
-const PartnershipsURL = currentLink + "?page=partnerships";
-
-return {
-    Logo,
-    CharterImg,
-    MarketingImg,
-    EducationalImg,
-    PartnershipsImg,
-    TelegramIcon,
-    NearIcon,
-    LinkdinIcon,
-    PartnershipsTextImg,
-    CharterTextImg,
-    MarketingTextIm,
-    EducationalTextImg,
-    LogoTextImg,
-    LogoURL,
-    EducationLogoImg,
-    TelegramURL,
-    LinkdInURL,
-    CharterTextImg,
-    PartnershipsLogoImg,
-    MarketingTextImg,
-    EducationURL,
-    PartnershipsURL,
-    MarketingURL,
-    MarketingLogoImg,
-    CharterURL
-};
+return { href };
