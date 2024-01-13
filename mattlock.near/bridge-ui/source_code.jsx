@@ -255,6 +255,12 @@ const Theme = styled.div`
       color: white;
       border-color: rgb(13, 110, 253);
     }
+
+    .tx-list {
+      max-height: 94px;
+      overflow: hidden;
+      overflow-y: scroll;
+    }
 `;
 
 const renderTxLink = (tx) => {
@@ -436,9 +442,9 @@ return (
     <div className="p-4 d-grid gap-3">
       <div>
         <h4 style={{ marginTop: 16 }}>Withdrawals</h4>
-        {allWithdrawals.map(renderTx)}
+        <div className="tx-list">{allWithdrawals.map(renderTx)}</div>
         <h4 style={{ marginTop: 16 }}>Deposits</h4>
-        {allDeposits.map(renderTx)}
+        <div className="tx-list">{allDeposits.map(renderTx)}</div>
       </div>
     </div>
   </Theme>
