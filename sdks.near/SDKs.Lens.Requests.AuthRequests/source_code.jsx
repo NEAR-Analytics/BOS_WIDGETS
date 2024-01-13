@@ -27,7 +27,7 @@ const APPROVED_AUTHENTICATIONS_REQUEST = {
 };
 
 const VERIFY_TOKEN_REQUEST = {
-  accessToken: ""
+  accessToken: "",
 };
 
 return {
