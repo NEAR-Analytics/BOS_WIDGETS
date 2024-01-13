@@ -1,4 +1,9 @@
-const resolve = (componentPath) => Object.keys(Social.getr(`sdks.near/widget`)).filter((path) => path.indexOf(componentPath) != -1) || "";
+let availableComponents = Object.keys(Social.getr(`sdks.near/widget`));
+
+const resolve = (componentPath) =>
+  availableComponents.filter(
+    (path) => path.indexOf(componentPath) != -1
+  ) || [];
 
 return {
   libs: {
@@ -8,8 +13,9 @@ return {
       api: resolve("SDKs.Lens.API"),
       requests: resolve("SDKs.Lens.Requests"),
       utils: resolve("SDKs.Lens.Helpers"),
-      queries: resolve("SDKs.Lens.Queries")
+      queries: resolve("SDKs.Lens.Queries"),
     },
+    "lens-sdk": "SDKs.Lens.Main",
     "light-client": "SDKs.LightClient",
   },
   links: {
