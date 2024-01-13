@@ -2,6 +2,9 @@ const StakePanel = styled.div`
   width: 510px;
   margin: 0 auto;
   /* reset input */
+  .form-control::placeholder {
+    color: rgba(255, 255, 255, 0.2);
+  }
   .bos-input-number {
     background-color: var(--dark);
     color: var(--white);
@@ -310,7 +313,7 @@ const simpleToExactAmount = (amount, decimals) => {
   console.log("simpleToExactAmount: ", amount, decimals);
   let amountString = amount.toString();
   const decimalsBN = new BN(decimals);
-  // console.log(555, decimalsBN, decimalsBN.toNumber(), decimalsBN.toString());
+
   // if (decimalsBN.gt(100)) {
   //   console.info(`Invalid decimals amount`);
   // }
@@ -411,6 +414,9 @@ function handleStakeBPT() {
         });
     })
     .catch((error) => {
+      State.update({
+        isStaking: false,
+      });
       console.log("Aura_Pool_ID_error:", error);
     });
 }
@@ -444,12 +450,12 @@ function handleStakeToken() {
         )
       : 0
   );
-  console.log(111, amountsIn);
+
   const userData = ethers.utils.defaultAbiCoder.encode(
     ["uint256", "uint256[]", "uint256"],
     [1, amountsIn, 0]
   );
-  console.log(222, userData);
+
   const params = {
     _rewardPoolAddress: Rewards_contract_address,
     _inputToken: state.curToken,
@@ -464,7 +470,7 @@ function handleStakeToken() {
       fromInternalBalance: false,
     },
   };
-  console.log(333, params);
+
   const {
     _rewardPoolAddress,
     _inputToken,
@@ -515,6 +521,9 @@ function handleStakeToken() {
     })
     .catch((err) => {
       console.info("RewardsContract_error:", err);
+      State.update({
+        isStaking: false,
+      });
     });
 }
 
