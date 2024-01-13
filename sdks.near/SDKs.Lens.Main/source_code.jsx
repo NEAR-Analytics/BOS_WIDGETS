@@ -1,8 +1,6 @@
 const $ = VM.require(`sdks.near/widget/Loader`);
-const { Constants, Interfaces } = $("@sdks/lens/definitions");
-const { HealthAPI, AuthAPI } = $("@sdks/lens/api");
-const { AuthRequests } = $("@sdks/lens/requests");
-const { ApiHelper } = $("@sdks/lens/utils");
+const { Constants, Interfaces, HealthAPI, AuthAPI, AuthRequests, ApiHelper } =
+  $("@sdks/lens");
 const { LightClient } = $("@sdks/light-client");
 
 const LensSDK = {
@@ -38,7 +36,7 @@ const LensSDK = {
         AuthRequests.CHALLENGE_REQUEST,
         challengeRequest
       ).then((challenge) =>
-        Ethers.getProvider()
+        Ethers.provider()
           .signMessage(challenge.text)
           .then((signature) => {
             let signedChallengeRequest = AuthRequests.SIGNED_CHALLENGE_REQUEST;
