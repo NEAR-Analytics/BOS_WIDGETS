@@ -15,7 +15,8 @@ const donationsForProject = Near.view(
 const Card = styled.a`
   display: flex;
   flex-direction: column;
-  width: 408px;
+  width: 100%;
+  max-width: 408px;
   border-radius: 2px;
   background: white;
   box-shadow: 0px -2px 0px #dbdbdb inset;
