@@ -29,12 +29,17 @@ getMessages();
 
 const content = (
   <div>
-    <div className="hero min-h-screen bg-danger">
+    <div className="hero min-h-screen bg-primary">
       <div className="hero-content text-center">
         <div className="max-w-md">
           <h1 className="text-5xl font-bold text-base-content">BOS Workshop</h1>
           <p className="mb-4 text-base-content">
             Welcome to the GuestBook, add your message for everyone to see!
+            current message count is:
+            <Widget
+              src="workshopcamp.near/widget/MessagesCount"
+              props={state.messages.length}
+            />
           </p>
           <p className="mb-4 text-base-content">
             You are logged in as <b>{accountId}</b>
@@ -71,7 +76,7 @@ const content = (
         </div>
       </div>
     </div>
-  </div>
+  </div >
 );
 
 return (
