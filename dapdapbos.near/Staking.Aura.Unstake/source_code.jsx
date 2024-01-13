@@ -36,6 +36,10 @@ const StakePanel = styled.div`
   width: 510px;
   margin: 0 auto;
   /* reset input */
+  .form-control::placeholder {
+    color: rgba(255, 255, 255, 0.2);
+  }
+
   .bos-input-number {
     background-color: var(--dark);
     color: var(--white);
@@ -127,6 +131,14 @@ const handleInputChange = (e) => {
 };
 
 useEffect(() => {
+  if (!state.inputValue) {
+    // input none
+    State.update({
+      canUnstake: false,
+    });
+    return false;
+  }
+
   if (
     !isNaN(Number(state.inputValue)) &&
     Big(state.inputValue || 0).lt(stakedAmount || 0)
@@ -225,57 +237,6 @@ const renderPoolIcon = () => {
     });
   }
 };
-const renderExtra = () => {
-  if (chainId !== CHAIN_ID) {
-    return (
-      <ChainBtnWrap>
-        <Widget
-          src="dapdapbos.near/widget/UI.Button"
-          props={{
-            text: "Switch to Gnosis",
-            type: "primary",
-            style: { flex: 1 },
-            onClick: switchChain,
-          }}
-        />
-      </ChainBtnWrap>
-    );
-  }
-
-  return (
-    <>
-      <AmountList>
-        {/* <span>${stakedAmount}</span> */}
-        <span></span>
-        <span>
-          You Staked: <span className="amount-white">{stakedAmount}</span> BPT
-        </span>
-      </AmountList>
-      <UnStakeBtnWrap>
-        <div className="switch-wrap">
-          <SwitchRoot
-            checked={state.isClaimRewards}
-            onCheckedChange={handleSwitch}
-          >
-            <SwitchThumb />
-          </SwitchRoot>
-          <span>Claim Rewards</span>
-        </div>
-        <Widget
-          src="dapdapbos.near/widget/UI.Button"
-          props={{
-            text: "Unstake",
-            type: "primary",
-            style: { flex: 1 },
-            loading: state.unstaking,
-            disabled: !state.canUnstake,
-            onClick: handleUnStake,
-          }}
-        />
-      </UnStakeBtnWrap>
-    </>
-  );
-};
 
 return (
   <StakePanel>
@@ -292,6 +253,50 @@ return (
         BPT
       </div>
     </div>
-    {renderExtra()}
+    {chainId !== CHAIN_ID ? (
+      <ChainBtnWrap>
+        <Widget
+          src="dapdapbos.near/widget/UI.Button"
+          props={{
+            text: "Switch to Gnosis",
+            type: "primary",
+            style: { flex: 1 },
+            onClick: switchChain,
+          }}
+        />
+      </ChainBtnWrap>
+    ) : (
+      <>
+        <AmountList>
+          {/* <span>${stakedAmount}</span> */}
+          <span></span>
+          <span>
+            You Staked: <span className="amount-white">{stakedAmount}</span> BPT
+          </span>
+        </AmountList>
+        <UnStakeBtnWrap>
+          <div className="switch-wrap">
+            <SwitchRoot
+              checked={state.isClaimRewards}
+              onCheckedChange={handleSwitch}
+            >
+              <SwitchThumb />
+            </SwitchRoot>
+            <span>Claim Rewards</span>
+          </div>
+          <Widget
+            src="dapdapbos.near/widget/UI.Button"
+            props={{
+              text: "Unstake",
+              type: "primary",
+              style: { flex: 1 },
+              loading: state.unstaking,
+              disabled: !state.canUnstake,
+              onClick: handleUnStake,
+            }}
+          />
+        </UnStakeBtnWrap>
+      </>
+    )}
   </StakePanel>
 );
