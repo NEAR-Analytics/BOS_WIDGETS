@@ -1,5 +1,4 @@
-const { projectLength, handleFilterChange, isHasSearchingWord, setSearchTerm } =
-  props;
+const { projectLength, handleFilterChange, setSearchTerm } = props;
 
 const filterList = [
   "Newest to Oldest",
