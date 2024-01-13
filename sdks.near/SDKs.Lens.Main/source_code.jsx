@@ -36,17 +36,18 @@ const LensSDK = {
         AuthRequests.CHALLENGE_REQUEST,
         challengeRequest
       ).then((challenge) =>
-        Ethers.provider().getSigner()
+        Ethers.provider()
+          .getSigner()
           .signMessage(challenge.text)
           .then((signature) => {
-            let signedChallengeRequest = AuthRequests.SIGNED_CHALLENGE_REQUEST;
-            signedChallengeRequest.id = challenge.id;
-            signedChallengeRequest.signature = signature;
+            let signedAuthChallengeRequest = AuthRequests.SIGNED_AUTH_CHALLENGE_REQUEST;
+            signedAuthChallengeRequest.id = challenge.id;
+            signedAuthChallengeRequest.signature = signature;
 
             return LensSDK._call(
               AuthAPI.authenticate,
               AuthRequests.SIGNED_CHALLENGE_REQUEST,
-              signedChallengeRequest
+              signedAuthChallengeRequest
             ).then((auth) => {
               LightClient.auth = auth;
               LensSDK.profile = {}; // Fetch logged user profile once profile API gets implemented
