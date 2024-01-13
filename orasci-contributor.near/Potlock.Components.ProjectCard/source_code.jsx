@@ -194,8 +194,10 @@ const ButtonGroup = styled.div`
 `;
 
 return (
-  <Card href={`?tab=project&projectId=${id}`} target="_blank">
+  <Card>
     <CardImage
+      href={`?tab=project&projectId=${id}`}
+      target="_blank"
       src={
         cardData &&
         cardData?.backgroundImage &&
@@ -205,7 +207,7 @@ return (
       }
       alt="background"
     />
-    <CardBody>
+    <CardBody href={`?tab=project&projectId=${id}`} target="_blank">
       <CardAvatar
         src={
           cardData && cardData?.image && cardData?.image?.ipfs_cid
