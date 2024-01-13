@@ -169,10 +169,12 @@ const DonationButton = styled.a`
     background: #FEF6EE;
     border-radius: 6px; 
     border: none;
+    color: #292929;
     box-shadow: 0px -2px 0px 0px #464646 inset, 0px 0px 0px 1px #464646; 
     &:hover {
         background: #dd3345;
         color: #FFF;
+        text-decoration: none;
     }
 `;
 
