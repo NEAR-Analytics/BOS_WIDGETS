@@ -1,13 +1,14 @@
+const resolve = (componentPath) => Object.keys(Social.getr(`sdks.near/widget`)).filter((path) => path.indexOf(componentPath) != -1) || "";
+
 return {
   libs: {
     "eth-signer": "SDKs.EthereumSigner.Main",
     lens: {
       definitions: ["SDKs.Lens.Constants", "SDKs.Lens.Interfaces"],
-      api: ["SDKs.Lens.API.AuthAPI", "SDKs.Lens.API.HealthAPI"],
-      requests: ["SDKs.Lens.Requests.AuthRequests"],
-      utils: ["SDKs.Lens.Helpers.ApiHelper"],
-      queries: ["SDKs.Lens.Queries.Auth", "SDKs.Lens.Queries.Health"],
-      sdk: ["SDKs.Lens.Main"],
+      api: resolve("SDKs.Lens.API"),
+      requests: resolve("SDKs.Lens.Requests"),
+      utils: resolve("SDKs.Lens.Helpers"),
+      queries: resolve("SDKs.Lens.Queries")
     },
     "light-client": "SDKs.LightClient",
   },
