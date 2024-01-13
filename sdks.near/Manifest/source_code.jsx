@@ -10,6 +10,6 @@ return {
     "light-client": "SDKs.LightClient",
   },
   links: {
-      telegram: "@OxMattB"
-  }
+    telegram: "@OxMattB",
+  },
 };
