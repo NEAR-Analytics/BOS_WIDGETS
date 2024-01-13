@@ -9,27 +9,19 @@ return {
       profilesManagedRequest
     ).then((payload) => payload.body.data.profilesManaged.items || []);
   },
-  login: (Client, signedChallengeRequest) => {
-    return new Promise((resolve, reject) => {
-      return Client.graphql(Auth.CHALLENGE_QUERY, signedChallengeRequest).then(
-        (data) => {
-          const challengeId = data.body.data.challenge.id;
-          const challengeText = data.body.data.challenge.text;
-          return Ethers.getProvider()
-            .signMessage(challengeText)
-            .then((signature) => {
-              return Client.graphql(Auth.AUTHENTICATE_QUERY, {
-                id: challengeId,
-                signature,
-              }).then((payload) => {
-                return (
-                  payload.body.data.authenticate || Interfaces.AUTH_INTERFACE
-                );
-              });
-            });
-        }
-      );
-    });
+  challenge: (Client, challengeRequest) => {
+    return Client.graphql(Auth.CHALLENGE_QUERY, challengeRequest).then(
+      (data) => {
+        return data.body.data.challenge || Interfaces.AUTH_CHALLENGE_INTERFACE;
+      }
+    );
+  },
+  authenticate: (Client, signedChallengeRequest) => {
+      return Client.graphql(Auth.AUTHENTICATE_QUERY, signedChallengeRequest).then((payload) => {
+        return (
+          payload.body.data.authenticate || Interfaces.AUTH_INTERFACE
+        );
+      });
   },
   refresh: (Client, refreshRequest) => {
     return Client.graphql(Auth.PROFILES_MANAGED_QUERY, refreshRequest).then(
