@@ -106,8 +106,7 @@ return (
     />
     <div
       style={{ position: "relative" }}
-      onMouseOver={() => setOpenFilter(true)}
-      onMouseOut={() => setOpenFilter(false)}
+      onClick={() => setOpenFilter(!openFilter)}
     >
       <FilterButton>
         Sort
@@ -127,7 +126,7 @@ return (
         </FilterIcon>
       </FilterButton>
       {openFilter && (
-        <FilterMenu>
+        <FilterMenu onClick={(e) => e.stopPropagation()}>
           {filterList.map((filter, key) => (
             <FilterItem key={key} onClick={() => handleFilterChange(filter)}>
               {filter}
