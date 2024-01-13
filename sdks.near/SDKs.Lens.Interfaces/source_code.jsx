@@ -3,8 +3,8 @@ const AUTH_INTERFACE = {
   refreshToken: "",
 };
 const AUTH_CHALLENGE_INTERFACE = {
-    id: "",
-    text: ""
+  id: "",
+  text: "",
 };
 
 return {
