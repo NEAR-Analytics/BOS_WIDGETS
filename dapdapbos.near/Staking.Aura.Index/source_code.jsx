@@ -137,6 +137,22 @@ const AssetsPanel = styled.div`
     justify-content: space-between;
   }
 `;
+const EmptyWrap = styled.div`
+  padding-top: 150px;
+  .empty-title {
+    color: #fff;
+    text-align: center;
+    font-size: 18px;
+    font-weight: 400;
+    margin-bottom: 13px;
+  }
+  .empty-intro {
+    color: #979abe;
+    text-align: center;
+    font-size: 14px;
+    font-weight: 400;
+  }
+`;
 // assets end
 
 // support chain
@@ -267,19 +283,19 @@ const POOLS = [
   //   Aura_Pool_ID: 23,
   //   poolType: POOL_TYPES.ComposableStablePool,
   // },
-  // {
-  //   poolName: "wstETH-COW",
-  //   Rewards_contract_address: "0x85298595d4f6f8fa91f8658ba9c10f9a85b17f62",
-  //   Rewards_depositor_contract_address:
-  //     "0x0fec3d212bcc29ef3e505b555d7a7343df0b7f76",
-  //   LP_token_address: "0x4cdabe9e07ca393943acfb9286bbbd0d0a310ff6",
-  //   Balancer_Gauge: "0xce18a3d0d928ab8883f355b5009d2de07d5c1d83",
-  //   Aura_Stash: "0x918a3d87ddb20f225647e1560f4f66f8e0590311",
-  //   Balancer_Pool_ID:
-  //     "0x4cdabe9e07ca393943acfb9286bbbd0d0a310ff600020000000000000000005c",
-  //   Aura_Pool_ID: 20,
-  //   poolType: POOL_TYPES.WeightedPool,
-  // },
+  {
+    poolName: "wstETH-COW",
+    Rewards_contract_address: "0x85298595d4f6f8fa91f8658ba9c10f9a85b17f62",
+    Rewards_depositor_contract_address:
+      "0x0fec3d212bcc29ef3e505b555d7a7343df0b7f76",
+    LP_token_address: "0x4cdabe9e07ca393943acfb9286bbbd0d0a310ff6",
+    Balancer_Gauge: "0xce18a3d0d928ab8883f355b5009d2de07d5c1d83",
+    Aura_Stash: "0x918a3d87ddb20f225647e1560f4f66f8e0590311",
+    Balancer_Pool_ID:
+      "0x4cdabe9e07ca393943acfb9286bbbd0d0a310ff600020000000000000000005c",
+    Aura_Pool_ID: 20,
+    poolType: POOL_TYPES.WeightedPool,
+  },
   // {
   //   poolName: "sDAI-wstETH",
   //   Rewards_contract_address: "0x49aadc30b5ccc57bddd55ac8bd7d8db7cf1f2b8b",
@@ -875,15 +891,7 @@ function getBPTTotalSupply(pool) {
       console.log("getBPTBalance_error:", err);
     });
 }
-// function testpp() {
-//   const ep = Big(404145240482690656857139).times(1.09);
-//   const r = Big(296420101889362424737222)
-//     .times(1.11)
-//     .plus(ep)
-//     .div(699663148517080204980206);
-//   const a = r.times(Big(260806212218232372369741));
-//   console.log(111111, a, a.toFixed(), a.toString());
-// }
+
 function getBalance(pool) {
   const BalanceContract = new ethers.Contract(
     pool.Rewards_contract_address,
@@ -898,7 +906,7 @@ function getBalance(pool) {
       //   res.toString(),
       //   Big(ethers.utils.formatUnits(res)).toFixed(2)
       // );
-      return Big(ethers.utils.formatUnits(res)).toFixed(2);
+      return Big(ethers.utils.formatUnits(res) || 0).toFixed(2);
     })
     .catch((err) => {
       console.log("getBalance_error:", err);
@@ -933,13 +941,7 @@ function getRewardTotalSupply(pool) {
   return RewardContract.totalSupply()
     .then((res) => {
       console.log(pool.poolName, "totalSupply", res, res.toString());
-      // console.log(
-      //   "getBalance: ",
-      //   res,
-      //   res.toString(),
-      //   Big(ethers.utils.formatUnits(res)).toFixed(2)
-      // );
-      // return Big(ethers.utils.formatUnits(res)).toFixed(2);
+
       return res;
     })
     .catch((err) => {
@@ -955,7 +957,7 @@ const getRewards = (pool) => {
   );
   return RewardsContract.rewards(account)
     .then((res) => {
-      return Big(ethers.utils.formatUnits(res)).toFixed(2);
+      return Big(ethers.utils.formatUnits(res) || 0).toFixed(2);
     })
     .catch((err) => {
       console.log("currentRewards_err:", err);
@@ -1089,17 +1091,35 @@ const getPoolIcon = (tokenAssets) => {
     return [];
   }
 };
-const renderPoolIcon = (tokenAssets) => {
+// const renderPoolIcon = (tokenAssets) => {
+//   const icons = getPoolIcon(tokenAssets);
+//   return (
+//     <Widget
+//       src="dapdapbos.near/widget/UI.AvatarGroup"
+//       props={{
+//         icons,
+//         size: 26,
+//       }}
+//     />
+//   );
+// };
+const renderPoolIcon = () => {
   const icons = getPoolIcon(tokenAssets);
-  return (
-    <Widget
-      src="dapdapbos.near/widget/UI.AvatarGroup"
-      props={{
-        icons,
-        size: 26,
-      }}
-    />
-  );
+  if (icons) {
+    return icons.map((addr, index) => {
+      if (TOKENS[addr]) {
+        return (
+          <span key={index} style={{ marginRight: -12 }}>
+            <Widget
+              src="dapdapbos.near/widget/UI.Avatar"
+              props={{ src: TOKENS[addr].icon }}
+            />
+          </span>
+        );
+      }
+      return null;
+    });
+  }
 };
 
 const switchChain = () => {
@@ -1268,54 +1288,57 @@ return (
                 ${state.totalRewardsAmount}
                 <span className="as-sub"></span>
               </div>
-              <Widget
-                src="dapdapbos.near/widget/UI.Button"
-                props={{
-                  text: "Claim All",
-                  type: "primary",
-                  style: { width: 118 },
-                  loading: state.isAllClaiming,
-                  disabled: !state.myPoolsList.length,
-                  onClick: handleClaimAll,
-                }}
-              />
+              {state.myPoolsList.length ? (
+                <Widget
+                  src="dapdapbos.near/widget/UI.Button"
+                  props={{
+                    text: "Claim All",
+                    type: "primary",
+                    style: { width: 118 },
+                    loading: state.isAllClaiming,
+                    disabled: !state.myPoolsList.length,
+                    onClick: handleClaimAll,
+                  }}
+                />
+              ) : null}
             </div>
           </AssetsPanel>
         </AssetsWrapper>
-        <GridContainer className="grid-pool-head">
-          <GridItem>Pool</GridItem>
-          <GridItem>APR</GridItem>
-          <GridItem>You Staked</GridItem>
-          <GridItem>Your rewards</GridItem>
-          <GridItem className="action-item-head">Action</GridItem>
-        </GridContainer>
-        <HeadWrapper>
-          {state.myPoolsList.length
-            ? state.myPoolsList?.map((item, index) => (
-                <PoolItem key={index}>
-                  <GridContainer className="pool-head">
-                    <GridItem>
-                      <div className="title-primary">
-                        {renderPoolIcon(item.tokenAssets)}
+        {state.myPoolsList.length ? (
+          <GridContainer className="grid-pool-head">
+            <GridItem>Pool</GridItem>
+            <GridItem>APR</GridItem>
+            <GridItem>You Staked</GridItem>
+            <GridItem>Your rewards</GridItem>
+            <GridItem className="action-item-head">Action</GridItem>
+          </GridContainer>
+        ) : null}
 
-                        <span style={{ marginLeft: 20 }}>{item.poolName}</span>
-                      </div>
-                    </GridItem>
-                    <GridItem>
-                      <div className="title-secondary">%</div>
-                      <div className="title-sub">proj. %</div>
-                    </GridItem>
-                    <GridItem>
-                      <div className="title-secondary">
-                        ${item.stakedAmount}
-                      </div>
-                    </GridItem>
-                    <GridItem>
-                      <div className="title-secondary">${item.reward}</div>
-                      <div className="title-sub"></div>
-                    </GridItem>
-                    <GridItem className="action-item">
-                      {/* <Widget
+        <HeadWrapper>
+          {state.myPoolsList.length ? (
+            state.myPoolsList?.map((item, index) => (
+              <PoolItem key={index}>
+                <GridContainer className="pool-head">
+                  <GridItem>
+                    <div className="title-primary">
+                      {renderPoolIcon(item.tokenAssets)}
+
+                      <span style={{ marginLeft: 20 }}>{item.poolName}</span>
+                    </div>
+                  </GridItem>
+                  <GridItem>
+                    <div className="title-secondary">%</div>
+                    <div className="title-sub">proj. %</div>
+                  </GridItem>
+                  <GridItem>
+                    <div className="title-secondary">${item.stakedAmount}</div>
+                  </GridItem>
+                  <GridItem>
+                    <div className="title-secondary">${item.reward}</div>
+                    <div className="title-sub"></div>
+                  </GridItem>
+                  <GridItem className="action-item">
+                    {/* <Widget
                         src="dapdapbos.near/widget/UI.Button"
                         props={{
                           text: "Unstake",
@@ -1325,23 +1348,31 @@ return (
                           onClick: () => {},
                         }}
                       /> */}
-                      <Widget
-                        src="dapdapbos.near/widget/UI.Button"
-                        props={{
-                          text: "Claim",
-                          type: "primary",
-                          style: { width: 118 },
-                          loading: state.isClaiming,
-                          onClick: () => {
-                            handleClaim(item.Rewards_contract_address);
-                          },
-                        }}
-                      />
-                    </GridItem>
-                  </GridContainer>
-                </PoolItem>
-              ))
-            : null}
+                    <Widget
+                      src="dapdapbos.near/widget/UI.Button"
+                      props={{
+                        text: "Claim",
+                        type: "primary",
+                        style: { width: 118 },
+                        loading: state.isClaiming,
+                        onClick: () => {
+                          handleClaim(item.Rewards_contract_address);
+                        },
+                      }}
+                    />
+                  </GridItem>
+                </GridContainer>
+              </PoolItem>
+            ))
+          ) : (
+            <EmptyWrap>
+              <div className="empty-title">No productive assets detected</div>
+              <div className="empty-intro">
+                Head over to the pools list and make a deposit to start earning
+                yield!
+              </div>
+            </EmptyWrap>
+          )}
         </HeadWrapper>
       </Tabs.Content>
     </Tabs.Root>
