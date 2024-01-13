@@ -24,7 +24,7 @@ const CHALLENGE_QUERY = `
     }
 `;
 
-const AUTHENTICATE_QUERY = `
+const SIGNED_AUTH_CHALLENGE_QUERY = `
     mutation Authenticate($signedAuthChallenge: SignedAuthChallenge!) {
       authenticate(request: $request) {
         accessToken
