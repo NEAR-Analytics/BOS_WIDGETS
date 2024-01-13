@@ -14,8 +14,8 @@ const CHALLENGE_REQUEST = {
 };
 
 const SIGNED_CHALLENGE_REQUEST = {
-    id: "",
-    signature: ""
+  id: "",
+  signature: "",
 };
 
 const REFRESH_REQUEST = {
