@@ -1,5 +1,6 @@
 const $ = VM.require(`sdks.near/widget/Loader`);
 const { Health } = $("@sdks/lens/queries");
+const { Constants } = $("@sdks/lens/definitions");
 
 return {
   ping: (Client) =>
@@ -9,6 +10,6 @@ return {
         return response;
       })
       .catch((error) => {
-        return "ponk";
+        return Constants.RESPONSE_HEALTH_KO;
       }),
 };
