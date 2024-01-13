@@ -8,9 +8,14 @@ const PROFILES_MANAGED_REQUEST = {
   includeOwned: true,
 };
 
-const SIGNED_CHALLENGE_REQUEST = {
+const CHALLENGE_REQUEST = {
   signedBy: "",
   for: "",
+};
+
+const SIGNED_CHALLENGE_REQUEST = {
+    id: "",
+    signature: ""
 };
 
 const REFRESH_REQUEST = {
@@ -32,6 +37,7 @@ const VERIFY_TOKEN_REQUEST = {
 
 return {
   PROFILES_MANAGED_REQUEST,
+  CHALLENGE_REQUEST,
   SIGNED_CHALLENGE_REQUEST,
   REFRESH_REQUEST,
   REVOKE_AUTHENTICATION_REQUEST,
