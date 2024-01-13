@@ -1,13 +1,4 @@
-const {
-  id,
-  review_notes,
-  status,
-  totalAmount,
-  setIsCartModalOpen,
-  addProjectsToCart,
-  removeProjectsFromCart,
-  isExistedInCart,
-} = props;
+const { id, review_notes, status, totalAmount, isExistedInCart } = props;
 
 const donationContractId = "donate.potlock.near";
 const IPFS_BASE_URL = "https://ipfs.near.social/ipfs/";
@@ -20,29 +11,6 @@ const donationsForProject = Near.view(
     recipient_id: id,
   }
 );
-
-console.log(props);
-
-const getCategory = (category) => {
-  switch (category) {
-    case "social-impact":
-      return "Social Impact";
-    case "non-profit":
-      return "Non Profit";
-    case "climate":
-      return "Climate";
-    case "public-good":
-      return "Public Good";
-    case "de-sci":
-      return "Desci";
-    case "open-source":
-      return "Open Source";
-    case "community":
-      return "Community";
-    case "education":
-      return "Education";
-  }
-};
 
 const Card = styled.a`
   display: flex;
@@ -178,6 +146,27 @@ const ButtonGroup = styled.div`
     align-items: center;
 `;
 
+const getCategory = (category) => {
+  switch (category) {
+    case "social-impact":
+      return "Social Impact";
+    case "non-profit":
+      return "Non Profit";
+    case "climate":
+      return "Climate";
+    case "public-good":
+      return "Public Good";
+    case "de-sci":
+      return "Desci";
+    case "open-source":
+      return "Open Source";
+    case "community":
+      return "Community";
+    case "education":
+      return "Education";
+  }
+};
+
 return (
   <Card href={`?tab=project&projectId=${id}`} target="_blank">
     <CardImage
@@ -219,9 +208,7 @@ return (
         <span style={{ fontWeight: 400 }}>Raised</span>
       </TotalDonate>
       <ButtonGroup>
-        <AddToCartButton>
-          {existsInCart ? "Remove from cart" : "Add to cart"}
-        </AddToCartButton>
+        <AddToCartButton>Add to cart</AddToCartButton>
         <DonationButton>Donate</DonationButton>
       </ButtonGroup>
     </CardFooter>
