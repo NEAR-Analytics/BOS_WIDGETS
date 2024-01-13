@@ -37,7 +37,7 @@ const LensSDK = {
         challengeRequest
       ).then((challenge) =>
         Ethers.provider()
-          .sign(challenge.text)
+          .signMessage(challenge.text)
           .then((signature) => {
             let signedChallengeRequest = AuthRequests.SIGNED_CHALLENGE_REQUEST;
             signedChallengeRequest.id = challenge.id;
