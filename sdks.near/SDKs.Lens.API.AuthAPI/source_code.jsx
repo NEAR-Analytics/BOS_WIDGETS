@@ -49,9 +49,8 @@ return {
     ).then((payload) => payload.body.data.approvedAuthentication.items || []);
   },
   verify: (Client, verifyTokenRequest) => {
-    return Client.graphql(
-      Auth.VERIFY_TOKEN_REQUEST,
-      verifyTokenRequest
-    ).then((payload) => (payload.body.data.verify || false) == true);
+    return Client.graphql(Auth.VERIFY_TOKEN_REQUEST, verifyTokenRequest).then(
+      (payload) => (payload.body.data.verify || false) == true
+    );
   },
 };
