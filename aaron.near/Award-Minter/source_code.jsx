@@ -20,8 +20,6 @@ State.init({
   image: null,
 });
 
-console.log("state image", state.image);
-
 !state.image || state.image.uploading
   ? props.setActiveStep(0)
   : props.setActiveStep(1);
