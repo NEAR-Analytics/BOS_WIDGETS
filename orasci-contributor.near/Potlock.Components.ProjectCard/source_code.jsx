@@ -59,7 +59,7 @@ const getCategory = (category) => {
   }
 };
 
-const Card = styled.a`
+const Card = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
