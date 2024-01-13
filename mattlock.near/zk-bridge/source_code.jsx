@@ -791,45 +791,6 @@ const allWithdrawals = [...withdrawals, ...ethWithdrawals].sort(
   sortByBlockNumber
 );
 
-const renderTxLink = (tx) => {
-  const isZk =
-    chainId === ZKSYNC_CHAIN_ID || chainId === ZKSYNC_GOERLI_CHAIN_ID;
-  return (
-    <a
-      href={`https://${
-        network === "testnet" ? "goerli." : ""
-      }explorer.zksync.io/tx/${tx}`}
-      target="_blank"
-    >
-      {tx.substring(0, 6)} ... {tx.substring(tx.length - 4)}
-    </a>
-  );
-};
-
-const renderTx = (tx, i) => {
-  const { transactionHash: h, finalized, isEth } = tx;
-  return (
-    <>
-      <p style={{ textAlign: "left" }}>
-        {isEth ? "ETH " : "USDC"}
-        {renderTxLink(h)}
-        {typeof finalized === "boolean" && (
-          <>
-            <span>{finalized ? "(finalized)" : "(not finalized)"}</span>
-            {!finalized && false && (
-              <p style={{ marginTop: 16 }}>
-                <button onClick={() => handleFinalizeEthWithdrawal(i)}>
-                  Finalize
-                </button>
-              </p>
-            )}
-          </>
-        )}
-      </p>
-    </>
-  );
-};
-
 return (
   <>
     <Widget
@@ -840,15 +801,9 @@ return (
         onAction,
         title: "zkBridge",
         tokens,
+        allDeposits,
+        allWithdrawals,
       }}
     />
-    <div style={{ textAlign: "center" }}>
-      <div style={{ width: 300, margin: "auto" }}>
-        <h4 style={{ marginTop: 16 }}>Withdrawals</h4>
-        {allWithdrawals.map(renderTx)}
-        <h4 style={{ marginTop: 16 }}>Deposits</h4>
-        {allDeposits.map(renderTx)}
-      </div>
-    </div>
   </>
 );
