@@ -8,17 +8,11 @@ if (policy === null) {
   return "";
 }
 
-const alreadyJoinedRolesNames = ["community", "council"];
-
+const deposit = policy.proposal_bond;
+const roleId = "community";
 const group = policy.roles
-  .filter((role) => alreadyJoinedRolesNames.includes(role.name))
-  .map((role) => {
-    return role.kind.Group;
-  });
-
-const accounts = new Set(group[0].concat(group[1]));
-
-const isCommunityOrCouncilMember = accounts.has(accountId);
+  .filter((role) => role.name === roleId)
+  .map((role) => role.kind.Group);
 
 const proposalId = Near.view(daoId, "get_last_proposal_id") - 1;
 
@@ -32,24 +26,7 @@ if (proposal === null) {
 }
 
 // check if the potential member submitted last proposal
-const canJoin =
-  accountId && accountId !== proposal.proposer && !isCommunityOrCouncilMember;
-
-const Bullet = styled.div`
-  width: fit-content;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 4px 12px;
-  background: rgba(81, 255, 234, 0.20);
-  color: rgba(81, 255, 234, 1);
-  border: 1px solid rgba(81, 255, 234, 0.20);
-  font-family: Satoshi, sans-serif;
-  font-size: 0.875rem;
-  font-weight: 500;
-  border-radius: 8px;
-`;
-
+const canJoin = accountId && accountId !== proposal.proposer;
 
 const Button = styled.a`
   width: max-content;
@@ -98,8 +75,6 @@ const Container = styled.div`
 
 return (
   <Container>
-    {canJoin ? (
-      <Button href={"/join"}>Join Now</Button>
-    ) : <Bullet>Joined</Bullet>}
+    {canJoin ? <Button href={"/join"}>Join Now</Button> : props.children}
   </Container>
 );
