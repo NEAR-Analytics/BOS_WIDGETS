@@ -160,7 +160,7 @@ const TotalDonate = styled.div`
     line-height: 24px;
 `;
 
-const DonationButton = styled.button`
+const DonationButton = styled.a`
     padding: 12px 16px;
     font-size: 14px;
     font-style: normal;
@@ -196,8 +196,6 @@ const ButtonGroup = styled.div`
 return (
   <Card>
     <CardImage
-      href={`?tab=project&projectId=${id}`}
-      target="_blank"
       src={
         cardData &&
         cardData?.backgroundImage &&
@@ -207,7 +205,7 @@ return (
       }
       alt="background"
     />
-    <CardBody href={`?tab=project&projectId=${id}`} target="_blank">
+    <CardBody>
       <CardAvatar
         src={
           cardData && cardData?.image && cardData?.image?.ipfs_cid
@@ -237,9 +235,11 @@ return (
       </TotalDonate>
       <ButtonGroup>
         <AddToCartButton onClick={handleCart}>
-          {existsInCart ? "Remove from cart" : "Add to cart"}
+          {isExistedInCart ? "Remove from cart" : "Add to cart"}
         </AddToCartButton>
-        <DonationButton>Donate</DonationButton>
+        <DonationButton href={`?tab=project&projectId=${id}`} target="_blank">
+          Donate
+        </DonationButton>
       </ButtonGroup>
     </CardFooter>
   </Card>
