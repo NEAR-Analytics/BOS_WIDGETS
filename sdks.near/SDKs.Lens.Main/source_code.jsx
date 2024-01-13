@@ -73,11 +73,7 @@ const LensSDK = {
         revokeAuthenticationRequest
       ),
     verify: (verifyRequest) =>
-      LensSDK._call(
-        AuthAPI.verify,
-        AuthRequests.VERIFY_REQUEST,
-        verifyRequest
-      ),
+      LensSDK._call(AuthAPI.verify, AuthRequests.VERIFY_REQUEST, verifyRequest),
     list: (approvedAuthenticationRequest) =>
       LensSDK._call(
         AuthAPI.list,
