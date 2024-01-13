@@ -1,1 +1,7 @@
-return <div>Hello World3</div>;
+const { messageCount } = props;
+
+return <div>
+
+  <h3>{messageCount}</h3>
+
+</div>;
