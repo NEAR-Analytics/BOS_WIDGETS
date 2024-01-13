@@ -1,4 +1,13 @@
-const { id, review_notes, status, totalAmount, isExistedInCart } = props;
+const {
+  id,
+  review_notes,
+  status,
+  totalAmount,
+  isExistedInCart,
+  removeProjectsFromCart,
+  addProjectsToCart,
+  setIsCartModalOpen,
+} = props;
 
 const donationContractId = "donate.potlock.near";
 const IPFS_BASE_URL = "https://ipfs.near.social/ipfs/";
@@ -11,6 +20,27 @@ const donationsForProject = Near.view(
     recipient_id: id,
   }
 );
+
+const getCategory = (category) => {
+  switch (category) {
+    case "social-impact":
+      return "Social Impact";
+    case "non-profit":
+      return "Non Profit";
+    case "climate":
+      return "Climate";
+    case "public-good":
+      return "Public Good";
+    case "de-sci":
+      return "Desci";
+    case "open-source":
+      return "Open Source";
+    case "community":
+      return "Community";
+    case "education":
+      return "Education";
+  }
+};
 
 const Card = styled.a`
   display: flex;
@@ -145,27 +175,6 @@ const ButtonGroup = styled.div`
     gap: 16px;
     align-items: center;
 `;
-
-const getCategory = (category) => {
-  switch (category) {
-    case "social-impact":
-      return "Social Impact";
-    case "non-profit":
-      return "Non Profit";
-    case "climate":
-      return "Climate";
-    case "public-good":
-      return "Public Good";
-    case "de-sci":
-      return "Desci";
-    case "open-source":
-      return "Open Source";
-    case "community":
-      return "Community";
-    case "education":
-      return "Education";
-  }
-};
 
 return (
   <Card href={`?tab=project&projectId=${id}`} target="_blank">
