@@ -55,6 +55,8 @@ const defaultWithdraw = {
 const {
   deposit,
   withdraw,
+  allWithdrawals,
+  allDeposits,
   depositDisabled,
   withdrawDisabled,
   onTabChange,
@@ -79,6 +81,8 @@ if (!tokens) {
 }
 if (!deposit) deposit = defaultDeposit;
 if (!withdraw) withdraw = defaultWithdraw;
+if (!allWithdrawals) allWithdrawals = [];
+if (!allDeposits) allDeposits = [];
 const { action, amount } = state;
 const { assets } = deposit;
 const isDeposit = !action || action === "deposit";
@@ -253,6 +257,45 @@ const Theme = styled.div`
     }
 `;
 
+const renderTxLink = (tx) => {
+  const isZk =
+    chainId === ZKSYNC_CHAIN_ID || chainId === ZKSYNC_GOERLI_CHAIN_ID;
+  return (
+    <a
+      href={`https://${
+        network === "testnet" ? "goerli." : ""
+      }explorer.zksync.io/tx/${tx}`}
+      target="_blank"
+    >
+      {tx.substring(0, 6)} ... {tx.substring(tx.length - 4)}
+    </a>
+  );
+};
+
+const renderTx = (tx, i) => {
+  const { transactionHash: h, finalized, isEth } = tx;
+  return (
+    <>
+      <p style={{ textAlign: "left" }}>
+        {isEth ? "ETH " : "USDC"}
+        {renderTxLink(h)}
+        {typeof finalized === "boolean" && (
+          <>
+            <span>{finalized ? "(finalized)" : "(not finalized)"}</span>
+            {!finalized && false && (
+              <p style={{ marginTop: 16 }}>
+                <button onClick={() => handleFinalizeEthWithdrawal(i)}>
+                  Finalize
+                </button>
+              </p>
+            )}
+          </>
+        )}
+      </p>
+    </>
+  );
+};
+
 // console.log("deposit", deposit);
 // console.log("withdraw", withdraw);
 // console.log("selectedAsset", selectedAsset);
@@ -359,11 +402,16 @@ return (
         </div>
       </div>
     </div>
-    <div className="border border-secondary border-bottom-0 border-light" />
-    <div className="p-4 d-flex justify-content-between">
-      <div>{withdraw.network.name}</div>
-      <div>Balance: {selectedAssetWithdraw.balance}</div>
-    </div>
+    {false && (
+      <>
+        <div className="border border-secondary border-bottom-0 border-light" />
+        <div className="p-4">
+          <div>
+            Balance on {withdraw.network.name}: {selectedAssetWithdraw.balance}
+          </div>
+        </div>
+      </>
+    )}
     <div className="border border-secondary border-bottom-0 border-light" />
     <div className="p-4 d-grid gap-3">
       <button
@@ -383,6 +431,15 @@ return (
           )}
         </div>
       )}
+    </div>
+    <div className="border border-secondary border-bottom-0 border-light" />
+    <div className="p-4 d-grid gap-3">
+      <div>
+        <h4 style={{ marginTop: 16 }}>Withdrawals</h4>
+        {allWithdrawals.map(renderTx)}
+        <h4 style={{ marginTop: 16 }}>Deposits</h4>
+        {allDeposits.map(renderTx)}
+      </div>
     </div>
   </Theme>
 );
