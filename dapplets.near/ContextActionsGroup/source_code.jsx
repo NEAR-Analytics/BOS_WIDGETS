@@ -359,7 +359,7 @@ return (
 
     {state.showMenu ? (
       <Overlay>
-        <Widget src="lisofffa.near/widget/ComponentsSearch" />
+        <Widget src="dapplets.near/widget/ComponentsSearch" />
       </Overlay>
     ) : null}
   </OverlayTriggerWrapper>
