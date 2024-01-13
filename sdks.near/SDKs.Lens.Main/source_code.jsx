@@ -35,8 +35,8 @@ const LensSDK = {
         AuthAPI.challenge,
         AuthRequests.CHALLENGE_REQUEST,
         challengeRequest
-      ).then((challenge) =>
-        Ethers.provider()
+      ).then((challenge) => {
+        return Ethers.provider()
           .getSigner()
           .signMessage(challenge.text)
           .then((signature) => {
@@ -55,7 +55,7 @@ const LensSDK = {
               return LensSDK.profile;
             });
           })
-      ),
+      }),
     refresh: (refreshTokenRequest) =>
       LensSDK._call(
         AuthAPI.refresh,
