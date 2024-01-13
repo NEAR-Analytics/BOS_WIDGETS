@@ -68,10 +68,6 @@ const Card = styled.div`
   background: white;
   box-shadow: 0px -2px 0px #dbdbdb inset;
   border: 1px solid #292929; 
-  &:hover {
-    text-decoration: none;
-    cursor: pointer;
-  }
   min-height: 429px;
   margin-left: auto;
   margin-right: auto;
