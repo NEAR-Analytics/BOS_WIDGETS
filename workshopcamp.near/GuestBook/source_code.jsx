@@ -29,7 +29,7 @@ getMessages();
 
 const content = (
   <div>
-    <div className="hero min-h-screen bg-primary">
+    <div className="hero min-h-screen bg-danger">
       <div className="hero-content text-center">
         <div className="max-w-md">
           <h1 className="text-5xl font-bold text-base-content">BOS Workshop</h1>
