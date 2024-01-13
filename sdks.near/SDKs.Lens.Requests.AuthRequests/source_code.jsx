@@ -3,7 +3,6 @@ const { Constants } = $("@sdks/lens/definitions");
 
 const PROFILES_MANAGED_REQUEST = {
   limit: Constants.API_REQUEST_LIMITS.TEN,
-  cursor: {},
   for: "",
   includeOwned: true,
 };
