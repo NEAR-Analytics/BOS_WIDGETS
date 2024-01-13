@@ -10,7 +10,7 @@ TYPES[TYPE_URL] = "links";
 
 let loaders = {};
 loaders[TYPES[TYPE_LIBRARY]] = {
-    string: (account, dependency) => {
+  string: (account, dependency) => {
     let result = {};
     result[dependency.split(".").pop()] = VM.require(
       `${account}/widget/${dependency}`
@@ -44,13 +44,13 @@ loaders[TYPES[TYPE_LIBRARY]] = {
 };
 
 loaders[TYPES[TYPE_IMAGE]] = {
-    string: (account, value) => value,
-    void: () => {},
+  string: (account, value) => value,
+  void: () => {},
 };
 
 loaders[TYPES[TYPE_URL]] = loaders[TYPES[TYPE_IMAGE]];
 loaders[TYPES[TYPE_JSON]] = {
-    string: (account, text) => JSON.parse(text),
+  string: (account, text) => JSON.parse(text),
   object: (account, data) => data,
   void: () => {},
 };
@@ -77,10 +77,9 @@ const getResource = (manifest, resourceType) =>
 const getDependencies = (resource, path) =>
   path.split("/").reduce((path, nextPath) => (path || {})[nextPath], resource);
 const loadDependencies = (account, loaderName, dependencies) =>
-  loaders[loaderName || TYPES[TYPE_LIBRARY]][typeof dependencies !== "undefined" ? typeof dependencies : "void"](
-    account,
-    dependencies
-  );
+  loaders[loaderName || TYPES[TYPE_LIBRARY]][
+    typeof dependencies !== "undefined" ? typeof dependencies : "void"
+  ](account, dependencies);
 const load = (account, resourceType, path) =>
   loadDependencies(
     account,
