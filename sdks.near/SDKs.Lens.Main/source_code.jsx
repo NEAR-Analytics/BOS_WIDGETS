@@ -54,7 +54,7 @@ const LensSDK = {
               LensSDK.profile = {}; // Fetch logged user profile once profile API gets implemented
               return LensSDK.profile;
             });
-          })
+          });
       }),
     refresh: (refreshTokenRequest) =>
       LensSDK._call(
