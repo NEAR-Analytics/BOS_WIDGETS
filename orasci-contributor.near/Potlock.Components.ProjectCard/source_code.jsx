@@ -21,6 +21,23 @@ const donationsForProject = Near.view(
   }
 );
 
+const handleCart = () => {
+  if (existsInCart) {
+    removeProjectsFromCart([id]);
+  } else {
+    addProjectsToCart([
+      {
+        id: id,
+        amount: "1",
+        ft: "NEAR",
+        referrerId: props.referrerId,
+        potId: props.potId,
+      },
+    ]);
+    setIsCartModalOpen(true);
+  }
+};
+
 const getCategory = (category) => {
   switch (category) {
     case "social-impact":
@@ -217,7 +234,9 @@ return (
         <span style={{ fontWeight: 400 }}>Raised</span>
       </TotalDonate>
       <ButtonGroup>
-        <AddToCartButton>Add to cart</AddToCartButton>
+        <AddToCartButton onClick={handleCart}>
+          {existsInCart ? "Remove from cart" : "Add to cart"}
+        </AddToCartButton>
         <DonationButton>Donate</DonationButton>
       </ButtonGroup>
     </CardFooter>
