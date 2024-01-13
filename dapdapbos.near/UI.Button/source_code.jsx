@@ -4,6 +4,7 @@ const Wrapper = styled.button`
   --white: #fff;
   --primary: #783ae3;
   --secondary: #3a4be3;
+  --green: #1aca8a;
   /* --dark:#979ABE */
 
   display: flex;
@@ -18,6 +19,8 @@ const Wrapper = styled.button`
         return "#783ae3";
       case "secondary":
         return "#3a4be3";
+      case "green":
+        return "#1ACA8A";
     }
   }};
 
@@ -27,7 +30,7 @@ const Wrapper = styled.button`
   overflow: hidden;
 
   &:disabled {
-    opacity: 0.65;
+    opacity: 0.3;
   }
 `;
 
