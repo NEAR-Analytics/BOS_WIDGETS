@@ -40,13 +40,14 @@ const LensSDK = {
           .getSigner()
           .signMessage(challenge.text)
           .then((signature) => {
-            let signedAuthChallengeRequest = AuthRequests.SIGNED_AUTH_CHALLENGE_REQUEST;
+            let signedAuthChallengeRequest =
+              AuthRequests.SIGNED_AUTH_CHALLENGE_REQUEST;
             signedAuthChallengeRequest.id = challenge.id;
             signedAuthChallengeRequest.signature = signature;
 
             return LensSDK._call(
               AuthAPI.authenticate,
-              AuthRequests.SIGNED_CHALLENGE_REQUEST,
+              AuthRequests.SIGNED_AUTH_CHALLENGE_REQUEST,
               signedAuthChallengeRequest
             ).then((auth) => {
               LightClient.auth = auth;
@@ -71,17 +72,17 @@ const LensSDK = {
         AuthRequests.REVOKE_AUTHENTICATION_REQUEST,
         revokeAuthenticationRequest
       ),
-    verify: (verifyTokenRequest) =>
+    verify: (verifyRequest) =>
       LensSDK._call(
         AuthAPI.verify,
-        AuthRequests.VERIFY_TOKEN_REQUEST,
-        verifyTokenRequest
+        AuthRequests.VERIFY_REQUEST,
+        verifyRequest
       ),
-    list: (approvedAuthenticationsRequest) =>
+    list: (approvedAuthenticationRequest) =>
       LensSDK._call(
         AuthAPI.list,
-        AuthRequests.APPROVED_AUTHENTICATIONS_REQUEST,
-        approvedAuthenticationsRequest
+        AuthRequests.APPROVED_AUTHENTICATION_REQUEST,
+        approvedAuthenticationRequest
       ),
     isAuthenticated: () => LensSDK.profile.id != "",
     getAccessToken: () => LightClient.auth.accessToken || null,
