@@ -1,6 +1,6 @@
 const PROFILES_MANAGED_QUERY = `
-    query profilesManaged($request: ProfilesManagedRequest!) {
-      profilesManaged(request: $request) {
+    query profilesManaged($profilesManagedRequest: ProfilesManagedRequest!) {
+      profilesManaged(request: $profilesManagedRequest) {
         items {
           id
           ownedBy {
@@ -17,15 +17,15 @@ const PROFILES_MANAGED_QUERY = `
 `;
 
 const CHALLENGE_QUERY = `
-    query Challenge($request: ChallengeRequest!) {
-      challenge(request: $request) {
+    query Challenge($challengeRequest: ChallengeRequest!) {
+      challenge(request: $challengeRequest) {
         text
       }
     }
 `;
 
 const AUTHENTICATE_QUERY = `
-    mutation Authenticate($request: SignedAuthChallenge!) {
+    mutation Authenticate($signedAuthChallenge: SignedAuthChallenge!) {
       authenticate(request: $request) {
         accessToken
         refreshToken
@@ -34,8 +34,8 @@ const AUTHENTICATE_QUERY = `
 `;
 
 const REFRESH_TOKEN_QUERY = `
-    mutation Refresh($request: RefreshRequest!) {
-      refresh(request: $request) {
+    mutation Refresh($refreshRequest: RefreshRequest!) {
+      refresh(request: $refreshRequest) {
         accessToken
         refreshToken
       }
@@ -43,14 +43,14 @@ const REFRESH_TOKEN_QUERY = `
 `;
 
 const REVOKE_AUTHENTICATION_QUERY = `
-    mutation RevokeAuthentication($request: RevokeAuthenticationRequest!) {
-      revokeAuthentication(request: $request)
+    mutation RevokeAuthentication($revokeAuthenticationRequest: RevokeAuthenticationRequest!) {
+      revokeAuthentication(request: $revokeAuthenticationRequest)
     }
 `;
 
 const APPROVED_AUTHENTICATIONS_QUERY = `
-    query ApprovedAuthentication($request: ApprovedAuthenticationRequest!) {
-      approvedAuthentication(request: $request) {
+    query ApprovedAuthentication($approvedAuthenticationRequest: ApprovedAuthenticationRequest!) {
+      approvedAuthentication(request: $approvedAuthenticationRequest) {
         pageInfo {
           prev
           next
@@ -70,8 +70,8 @@ const APPROVED_AUTHENTICATIONS_QUERY = `
 `;
 
 const VERIFY_TOKEN_QUERY = `
-    query Query($request: VerifyRequest!) {
-      verify(request: $request)
+    query Query($verifyRequest: VerifyRequest!) {
+      verify(request: $verifyRequest)
     }
 `;
 
@@ -81,6 +81,6 @@ return {
   PROFILES_MANAGED_QUERY,
   REFRESH_TOKEN_QUERY,
   REVOKE_AUTHENTICATION_QUERY,
-  APPROVED_AUTHENTICATIONS_QUERY,
-  VERIFY_TOKEN_QUERY,
+  APPROVED_AUTHENTICATION_QUERY,
+  VERIFY_QUERY,
 };
