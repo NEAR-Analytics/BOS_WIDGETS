@@ -8,8 +8,9 @@ TYPES[TYPE_IMAGE] = "images";
 TYPES[TYPE_JSON] = "data";
 TYPES[TYPE_URL] = "links";
 
-const loaders = {
-  string: (account, dependency) => {
+let loaders = {};
+loaders[TYPES[TYPE_LIBRARY]] = {
+    string: (account, dependency) => {
     let result = {};
     result[dependency.split(".").pop()] = VM.require(
       `${account}/widget/${dependency}`
@@ -42,6 +43,18 @@ const loaders = {
   void: () => {},
 };
 
+loaders[TYPES[TYPE_IMAGE]] = {
+    string: (account, value) => value,
+    void: () => {},
+};
+
+loaders[TYPES[TYPE_URL]] = loaders[TYPES[TYPE_IMAGE]];
+loaders[TYPES[TYPE_JSON]] = {
+    string: (account, text) => JSON.parse(text),
+  object: (account, data) => data,
+  void: () => {},
+};
+
 const getType = (type) => (type in TYPES ? TYPES[type] : null);
 const getScope = (namespace) =>
   namespace[0] in TYPES
@@ -59,23 +72,20 @@ const parseRequest = (namespace) => [
   getPath(namespace),
 ];
 const getManifest = (account) => VM.require(`${account}/widget/Manifest`);
-const getResource = (manifest, resourceType) => resourceType in manifest ? manifest[resourceType] : {};
-const getDependencies = (resource, path) => path.split("/").reduce((path, nextPath) => (path || {})[nextPath], resource);
-const loadDependencies = (account, dependencies) =>
-  loaders[typeof dependencies !== "undefined" ? typeof dependencies : "void"](
+const getResource = (manifest, resourceType) =>
+  resourceType in manifest ? manifest[resourceType] : {};
+const getDependencies = (resource, path) =>
+  path.split("/").reduce((path, nextPath) => (path || {})[nextPath], resource);
+const loadDependencies = (account, loaderName, dependencies) =>
+  loaders[loaderName || TYPES[TYPE_LIBRARY]][typeof dependencies !== "undefined" ? typeof dependencies : "void"](
     account,
     dependencies
   );
 const load = (account, resourceType, path) =>
   loadDependencies(
     account,
-    getDependencies(
-        getResource(
-            getManifest(account) || {},
-            resourceType
-        ), 
-        path
-    )
+    resourceType,
+    getDependencies(getResource(getManifest(account) || {}, resourceType), path)
   );
 
 return (namespace) => load(...parseRequest(namespace));
