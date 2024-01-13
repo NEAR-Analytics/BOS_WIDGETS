@@ -1,12 +1,12 @@
-const {
-  sortNewToOld,
-  sortOldToNew,
-  projectLength,
-  filterList,
-  setFilterType,
-  isHasSearchingWord,
-  setSearchTerm,
-} = props;
+const { projectLength, handleFilterChange, isHasSearchingWord, setSearchTerm } =
+  props;
+
+const filterList = [
+  "Newest to Oldest",
+  "Oldest to Newest",
+  "Most to Least Donations",
+  "Least to Most Donations",
+];
 
 const [openFilter, setOpenFilter] = useState(false);
 
@@ -130,7 +130,7 @@ return (
       {openFilter && (
         <FilterMenu>
           {filterList.map((filter, key) => (
-            <FilterItem key={key} onClick={() => setFilterType(filter)}>
+            <FilterItem key={key} onClick={() => handleFilterChange(filter)}>
               {filter}
             </FilterItem>
           ))}
