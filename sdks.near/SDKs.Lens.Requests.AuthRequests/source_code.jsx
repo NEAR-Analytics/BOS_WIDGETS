@@ -12,7 +12,7 @@ const CHALLENGE_REQUEST = {
   for: "",
 };
 
-const SIGNED_CHALLENGE_REQUEST = {
+const SIGNED_AUTH_CHALLENGE_REQUEST = {
   id: "",
   signature: "",
 };
