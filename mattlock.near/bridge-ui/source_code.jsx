@@ -441,9 +441,9 @@ return (
     <div className="border border-secondary border-bottom-0 border-light" />
     <div className="p-4 d-grid gap-3">
       <div>
-        <h4 style={{ marginTop: 16 }}>Withdrawals</h4>
+        <h4 style={{ marginTop: 16 }}>Withdrawals: {allWithdrawals.length}</h4>
         <div className="tx-list">{allWithdrawals.map(renderTx)}</div>
-        <h4 style={{ marginTop: 16 }}>Deposits</h4>
+        <h4 style={{ marginTop: 16 }}>Deposits: {allDeposits.length}</h4>
         <div className="tx-list">{allDeposits.map(renderTx)}</div>
       </div>
     </div>
