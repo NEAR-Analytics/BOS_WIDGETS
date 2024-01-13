@@ -181,6 +181,7 @@ const AddToCartButton = styled.button`
     background: none;
     color: #dd3345;
     text-decoration: none;
+    white-space: nowrap;
     &:hover {
         text-decoration: underline;
     }
