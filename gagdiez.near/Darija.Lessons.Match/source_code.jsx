@@ -119,10 +119,10 @@ const SelectButton = (side, idx) => {
       className={`my-1 card text-center ${colStatus[side][idx]}`}
       onClick={onClick}
     >
-      <h5 className="card-title pt-2">
+      <p className="card-title pt-2">
         {side === 'left' && options[side][idx].emoji}
         {options[side][idx][lang]}
-      </h5>
+      </p>
     </Selection>
   </>
 }
