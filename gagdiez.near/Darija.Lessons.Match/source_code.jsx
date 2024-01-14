@@ -120,6 +120,7 @@ const SelectButton = (side, idx) => {
       onClick={onClick}
     >
       <h5 className="card-title pt-2">
+        {side === 'right' && options[side][idx].emoji}
         {options[side][idx][lang]}
       </h5>
     </Selection>
