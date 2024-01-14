@@ -15,6 +15,7 @@ return {
     },
     "lens-sdk": "SDKs.Lens.LensSDK",
     "light-client": "SDKs.LightClient",
+    verifiers: resolve("SDKs.Verifiers"),
   },
   links: {
     telegram: "@OxMattB",
