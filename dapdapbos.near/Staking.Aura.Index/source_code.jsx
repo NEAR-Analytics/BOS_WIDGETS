@@ -1036,7 +1036,7 @@ function calcTVL() {
 
 useEffect(() => {
   State.update({ account });
-  if (account) {
+  if (account && state.chainId === CHAIN_ID) {
     initPoolList();
   }
 }, [account]);
@@ -1052,29 +1052,31 @@ useEffect(() => {
 }, []);
 
 useEffect(() => {
-  console.log("POOLS_LIST: ", state, state.poolsList, state.tokenPrices);
-  const totalDepositAmount = state.poolsList.reduce((total, cur) => {
-    return Big(cur.stakedAmount || 0)
-      .plus(total)
-      .toFixed(2);
-  }, 0);
-  const totalRewardsAmount = state.poolsList.reduce((total, cur) => {
-    return Big(cur.reward || 0)
-      .plus(total)
-      .toFixed(2);
-  }, 0);
+  if (state.chainId === CHAIN_ID) {
+    console.log("POOLS_LIST: ", state, state.poolsList, state.tokenPrices);
+    const totalDepositAmount = state.poolsList.reduce((total, cur) => {
+      return Big(cur.stakedAmount || 0)
+        .plus(total)
+        .toFixed(2);
+    }, 0);
+    const totalRewardsAmount = state.poolsList.reduce((total, cur) => {
+      return Big(cur.reward || 0)
+        .plus(total)
+        .toFixed(2);
+    }, 0);
 
-  const temp = state.poolsList.filter((item) =>
-    Big(item.stakedAmount || 0).gt(0)
-  );
+    const temp = state.poolsList.filter((item) =>
+      Big(item.stakedAmount || 0).gt(0)
+    );
 
-  calcTVL();
+    calcTVL();
 
-  State.update({
-    totalDepositAmount,
-    totalRewardsAmount,
-    myPoolsList: temp,
-  });
+    State.update({
+      totalDepositAmount,
+      totalRewardsAmount,
+      myPoolsList: temp,
+    });
+  }
 }, [state.poolsList, state.fresh, state.tokenPrices]);
 
 const handleChangeTabs = (value) => {
