@@ -38,6 +38,7 @@ const LensSDK = {
         challengeRequest
       ).then((challenge) => {
         LightClient.challenge = challenge;
+          
         return Ethers.provider()
           .getSigner()
           .signMessage(challenge.text)
