@@ -81,7 +81,6 @@ const Header = styled.div`
 
 const Jumbotron = styled.div`
     width:100%;
-    height:100vh;
     text-align:center;
     z-index:999999;
     margin-top:50px;
