@@ -4,29 +4,52 @@ const accountId = context.accountId;
 // All the votes
 const [allVotes, setAllVotes] = useState([]);
 
-const List = styled.div`
-width: calc(100vw - 20px);
-height: 100%;
-padding: 20px 10px;
+// Tabs
+const [tab, setTab] = useState("all");
 
-@media screen and (min-width: 1200px) {
-  width: calc(100vw - 20%);
-}
-`;
+// The user's watchlist
+const [watchlist, setWatchlist] = useState([]);
 
-// Get all the votes
-const Data = Social.get(`abnakore.near/votes`);
+// Votes to be rendered on the screen
+const [votesToRender, setVotesToRender] = useState(allVotes);
 
 useEffect(() => {
-  //   console.log(Data);
-  if (Data === undefined) {
+  // Get the only votes the user created
+  if (tab === "all") {
+    setVotesToRender(allVotes);
+  } else if (tab === "my_votes") {
+    setVotesToRender(allVotes.filter((vote) => vote.creator === accountId));
+  } else if (tab === "watchlist") {
+    setVotesToRender(allVotes.filter((vote) => watchlist.includes(vote.id)));
+  }
+}, [allVotes, tab, watchlist]);
+
+// Get all the votes
+const votesData = Social.get(`abnakore.near/votes`);
+
+useEffect(() => {
+  //   console.log(votesData);
+  if (votesData === undefined) {
     // Set the candidate to an empty list if there is no candidate
     setAllVotes([]);
   } else {
-    setAllVotes(JSON.parse(Data));
+    setAllVotes(JSON.parse(votesData));
   }
-  //   console.log(Data, "");
-}, [Data === null]);
+  setVotesToRender(allVotes);
+  //   console.log(votesData, "");
+}, [votesData === null]);
+
+// Get The watchlist of the user
+const watchlistData = Social.get(`${accountId}/voteChain_watchlist`);
+
+useEffect(() => {
+  if (watchlistData === undefined) {
+    // Set the watchlist to an empty array
+    setWatchlist([]);
+  } else {
+    setWatchlist(JSON.parse(watchlistData));
+  }
+}, [watchlistData === null]);
 
 // Pages that can be reached via the aside tab
 const [pages, setPage] = useState([
@@ -67,6 +90,15 @@ function formatDateTime(dateTimeString) {
   return formattedDateTime;
 }
 
+const List = styled.div`
+width: calc(100vw - 20px);
+height: 100%;
+padding: 20px 10px;
+
+@media screen and (min-width: 1200px) {
+  width: calc(100vw - 20%);
+}
+`;
 return (
   <>
     {accountId ? (
@@ -82,45 +114,25 @@ return (
                     props={{ objs: pages, active: "/admin/manage_candidates" }}
                   />
                   <List>
-                    {allVotes.map((vote) => (
-                      <Widget
-                        src="abnakore.near/widget/VoteCard"
-                        props={{
-                          name: vote.name,
-                          desc: vote.desc,
-                          open: formatDateTime(vote.openTime),
-                          close: formatDateTime(vote.closeTime),
-                          voted: vote.voters.includes(accountId),
-                          locked: vote.passcode && true,
-                          no_of_candidates: vote.candidates.length,
-                          style: {},
-                        }}
-                      />
+                    {votesToRender.map((vote) => (
+                      <a
+                        href={`https://near.org/abnakore.near/widget/App.jsx?vote=${vote.id}`}
+                      >
+                        <Widget
+                          src="abnakore.near/widget/VoteCard"
+                          props={{
+                            name: vote.name,
+                            desc: vote.desc,
+                            open: formatDateTime(vote.openTime),
+                            close: formatDateTime(vote.closeTime),
+                            voted: vote.voters.includes(accountId),
+                            locked: vote.passcode && true,
+                            no_of_candidates: vote.candidates.length,
+                            style: {},
+                          }}
+                        />
+                      </a>
                     ))}
-                    <Widget
-                      src="abnakore.near/widget/VoteCard"
-                      props={{
-                        name: "Name",
-                        desc: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Impedit obcaecati iure rem nulla deleniti accusamus, qui, aut recusandae ut fugiat molestiae dicta asperiores, est aspernatur. Aliquid porro sed neque molestiae!",
-                        open: "27-03-2024 2:30PM",
-                        close: "27-03-2024 2:30PM",
-                        no_of_candidates: 10,
-                        voted: true,
-                        locked: false,
-                      }}
-                    />
-                    <Widget
-                      src="abnakore.near/widget/VoteCard"
-                      props={{
-                        name: "Name",
-                        desc: "You can use the slice method along with the spread operator (...) to create a new array containing the first two items.",
-                        open: "27-03-2024 2:30PM",
-                        close: "27-03-2024 2:30PM",
-                        no_of_candidates: 10,
-                        voted: false,
-                        locked: true,
-                      }}
-                    />
                   </List>
                 </div>
               </div>
@@ -179,3 +191,29 @@ return (
 //     )}
 //   </>
 // );
+
+//
+// <Widget
+//   src="abnakore.near/widget/VoteCard"
+//   props={{
+//     name: "Name",
+//     desc: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Impedit obcaecati iure rem nulla deleniti accusamus, qui, aut recusandae ut fugiat molestiae dicta asperiores, est aspernatur. Aliquid porro sed neque molestiae!",
+//     open: "27-03-2024 2:30PM",
+//     close: "27-03-2024 2:30PM",
+//     no_of_candidates: 10,
+//     voted: true,
+//     locked: false,
+//   }}
+// />
+// <Widget
+//   src="abnakore.near/widget/VoteCard"
+//   props={{
+//     name: "Name",
+//     desc: "You can use the slice method along with the spread operator (...) to create a new array containing the first two items.",
+//     open: "27-03-2024 2:30PM",
+//     close: "27-03-2024 2:30PM",
+//     no_of_candidates: 10,
+//     voted: false,
+//     locked: true,
+//   }}
+// />
