@@ -165,7 +165,8 @@ const handleApprove = (tokenAddress) => {
   );
   console.info(
     "to approve: ",
-    state.inputValue,
+    tokenAddress,
+    state.curToken,
     TOKENS[state.curToken].decimals
   );
   TokenContract.approve(
@@ -201,6 +202,9 @@ const handleApprove = (tokenAddress) => {
     })
     .catch((err) => {
       console.info("approve_error: ", err);
+      State.update({
+        isApproving: false,
+      });
     });
 };
 
