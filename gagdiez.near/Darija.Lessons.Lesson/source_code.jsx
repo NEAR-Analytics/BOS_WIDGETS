@@ -1,5 +1,6 @@
-const indexed = Social.index("knowledge", "darija", { order: "desc" });
+const { shuffle } = VM.require('gagdiez.near/widget/Darija.Lessons.Utils');
 
+const indexed = Social.index("knowledge", "darija", { order: "desc" });
 if (!indexed) return "Loading ...";
 
 // find the index that matches the indexed.value.uuid == props.knowledg
@@ -14,4 +15,6 @@ if (!known) return "Loading ...";
 const { title, knowledge } = JSON.parse(known);
 const evaluator = props.evaluator;
 
-return <Widget src={evaluator} props={{ knowledge }} />;
+const [shuffled, setKnown] = useState(shuffle(knowledge));
+
+return <Widget src={evaluator} props={{ knowledge: shuffled }} />;
