@@ -45,7 +45,7 @@ const LensSDK = {
           .then((signature) => {
             let signedAuthChallengeRequest =
               AuthRequests.SIGNED_AUTH_CHALLENGE_REQUEST;
-              console.log(LightClient);
+            console.log(LightClient);
             signedAuthChallengeRequest.id = LightClient.challenge.id;
             signedAuthChallengeRequest.signature = signature;
 
