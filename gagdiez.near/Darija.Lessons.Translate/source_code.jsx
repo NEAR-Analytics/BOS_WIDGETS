@@ -86,7 +86,7 @@ const Restart = () => {
 if (lives === 0) {
   return (
     <div className="container text-center">
-      <h1 className="py-3"> Te quedaste sin vidas </h1>
+      <h1 className="py-3"> Ya no tienes vidas! </h1>
       <button onClick={Restart}> Restart </button>
     </div>
   );
