@@ -19,6 +19,7 @@ const PROFILES_MANAGED_QUERY = `
 const CHALLENGE_QUERY = `
     query Challenge($challengeRequest: ChallengeRequest!) {
       challenge(request: $challengeRequest) {
+        id
         text
       }
     }
