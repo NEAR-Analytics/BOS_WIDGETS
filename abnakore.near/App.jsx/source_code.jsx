@@ -151,7 +151,7 @@ return (
                   />
 
                   {/* Check if the vote is ongoing */}
-                  {!ongoing === true ? (
+                  {ongoing === true ? (
                     <div className="body-contents">
                       <i>
                         <svg
