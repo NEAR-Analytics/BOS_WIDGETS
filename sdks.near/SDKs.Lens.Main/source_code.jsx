@@ -11,6 +11,7 @@ const LensSDK = {
   init: () => {
     LensSDK.enableMainnet();
     LightClient.auth = Interfaces.AUTH_INTERFACE;
+    LightClient.challenge = Interfaces.AUTH_CHALLENGE_INTERFACE;
     LightClient.tokenLifespan = Constants.JWT_TOKEN_LIFESPAN_SECONDS;
     LightClient.refreshTokenLifespan =
       Constants.JWT_REFRESH_TOKEN_LIFESPAN_SECONDS;
@@ -36,14 +37,15 @@ const LensSDK = {
         AuthRequests.CHALLENGE_REQUEST,
         challengeRequest
       ).then((challenge) => {
+        LightClient.challenge = challenge;
         return Ethers.provider()
           .getSigner()
           .signMessage(challenge.text)
           .then((signature) => {
-              console.log(challenge);
+            console.log(challenge);
             let signedAuthChallengeRequest =
               AuthRequests.SIGNED_AUTH_CHALLENGE_REQUEST;
-            signedAuthChallengeRequest.id = challenge.id;
+            signedAuthChallengeRequest.id = LightClient.challenge.id;
             signedAuthChallengeRequest.signature = signature;
 
             return LensSDK._call(
