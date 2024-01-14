@@ -69,7 +69,7 @@ const ConnectWallet = styled.div`
 
 return (
   <Header>
-    <Logo>SDKs.near</Logo>
+    <Logo>sdks.near</Logo>
 
     <ul>
       <li>Home</li>
