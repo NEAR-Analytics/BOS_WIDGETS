@@ -10,6 +10,6 @@ const setGreeting = () => {
 return (
   <div>
     <p>Hello World</p>
-    <button>Set</button>
+    <button onClick={() => setGreeting()}>Set</button>
   </div>
 );
