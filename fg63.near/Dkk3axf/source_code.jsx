@@ -9,7 +9,7 @@ const setGreeting = () => {
   const res = Near.call(contract, "set_greeting", {
     greeting: value,
   });
-  State.update({ greeting: value });
+  State.update({ greeting: res });
 };
 
 return (
