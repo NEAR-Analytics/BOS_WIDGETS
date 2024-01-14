@@ -1,75 +1,86 @@
 const tasks = [
   {
     category: "twitter",
-    header: "Twitter Task 1",
-    text: "",
-    url: "",
+    header: "Twitter Thread Task",
+    created: "15.01.2024",
+    text: "Spread the word about NEAR on Twitter! Before completing the task, please read the rules. Good luck ❤️",
+    url: "https://public-degens-home.super.site/twitter",
   },
   {
     category: "reddit",
-    header: "Redit Task 1",
+    header: "Redit Task",
+    created: "15.01.2024",
     text: "",
     url: "",
   },
   {
     category: "articles",
-    header: "Articles Task 1",
-    created: "05.10.2023",
+    header: "Articles Task",
+    created: "15.01.2024",
     budget: 750,
     text: "It is crucial to adhere to these rules and thoroughly read them before participating in contest to understand the requirements. Please note that any content found to be in violation of the rules will be disqualified from the contest. Good luck!",
     url: "https://telegra.ph/Article-task-1-10-05",
   },
   {
     category: "video",
-    header: "Video Task 1",
-    text: "",
-    url: "",
+    header: "Video Task",
+    created: "15.01.2024",
+    text: "My my my my ",
+    url: "Test test test",
   },
   {
     category: "infographics",
-    header: "Infographics Task 1",
+    header: "Infographics Task",
+    created: "15.01.2024",
     text: "",
     url: "",
   },
   {
     category: "memes",
-    header: "Memes Task 1",
-    text: "",
-    url: "",
+    header: "Meme Task",
+    created: "15.01.2024",
+    text: "Test",
+    url: "Test",
   },
   {
     category: "twitter",
-    header: "Twitter Task 2",
+    created: "15.01.2024",
+    header: "Twitter Task",
     text: "",
     url: "",
   },
   {
     category: "reddit",
-    header: "Redit Task 2",
+    header: "Reddit Task",
+    created: "15.01.2024",
     text: "",
     url: "",
   },
   {
     category: "articles",
-    header: "Articles Task 2",
+    header: "Articles Task",
+    created: "15.01.2024",
     text: "",
     url: "",
   },
   {
     category: "video",
-    header: "Video Task 2",
+    header: "Video Task",
+    created: "15.01.2024",
     text: "",
     url: "",
   },
   {
     category: "infographics",
-    header: "Infographics Task 2",
+    header: "Infographics Task",
+    created: "15.01.2024",
     text: "",
     url: "",
   },
   {
     category: "memes",
-    header: "Memes Task 2",
+    header: "Meme Task",
+    created: "15.01.2024",
     text: "",
     url: "",
   },
@@ -226,7 +237,7 @@ return (
         Reddit
       </option>
       <option value="articles" selected={state.selected === "articles"}>
-        Aritcles
+        Articles
       </option>
       <option value="video" selected={state.selected === "video"}>
         Video
