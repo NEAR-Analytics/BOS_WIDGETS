@@ -1,15 +1,20 @@
 const contract = "hello.near-examples.near";
 
+State.init({
+  greeting: "hi",
+});
+
 const setGreeting = () => {
+  const value = Date.now().toString();
   const res = Near.call(contract, "set_greeting", {
-    greeting: Date.now().toString(),
+    greeting: value,
   });
-  console.log(res);
+  State.update({ greeting: value });
 };
 
 return (
   <div>
-    <p>Hello World</p>
+    <p>{state.greeting}</p>
     <button onClick={() => setGreeting()}>Set</button>
   </div>
 );
