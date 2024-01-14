@@ -3,14 +3,12 @@ const { EthereumSigner } = $("@sdks/eth-signer");
 
 const EthereumVerifier = {
   createProof: (nearAccount, address) => {
-    return EthereumVerifier.sign(nearAccount, address).then(
-        (signature) => {
-          return {
-            address,
-            signature,
-          };
-        }
-    );
+    return EthereumVerifier.sign(nearAccount, address).then((signature) => {
+      return {
+        address,
+        signature,
+      };
+    });
   },
   sign: (nearAccount, address) => {
     return EthereumSigner.sign(
@@ -19,7 +17,7 @@ const EthereumVerifier = {
   },
   verify: (nearAccount, address, signature) => {
     const message = EthereumVerifier.getChallenge(nearAccount, address);
-    
+
     return EthereumSigner.verify(message, signature, address);
   },
   getChallenge: (nearAccount, address) => {
@@ -27,4 +25,4 @@ const EthereumVerifier = {
   },
 };
 
-return LensVerifier;
+return EthereumVerifier;
