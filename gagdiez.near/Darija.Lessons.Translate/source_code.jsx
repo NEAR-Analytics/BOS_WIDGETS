@@ -1,3 +1,5 @@
+const { shuffle, SelectionStyle: Selected } = VM.require('gagdiez.near/widget/Darija.Lessons.Utils');
+
 if (context.loading) return <div>Loading...</div>;
 
 const knowledge = props.knowledge;
@@ -14,16 +16,6 @@ const [step, setStep] = useState("verify");
 const [toTestAgain, setToTest] = useState([]);
 const [showFinalScore, setShowFinalScore] = useState(false);
 const [possibleOptions, setPossibleOptions] = useState(knowledge[1][learn_lang].split(" ").concat(knowledge[0][learn_lang].split(" ")));
-
-function shuffle(array) {
-  for (let i = array.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    const tmp = array[i];
-    array[i] = array[j];
-    array[j] = tmp;
-  }
-  return array;
-}
 
 const createOptions = (answer) => {
   if(!answer) return
@@ -128,18 +120,6 @@ function removeElement(array, elem) {
   }
   return array
 }
-
-const Selected = styled.button`
-  &.success {
-    background-color: rgb(216 255 216);
-    border-color: rgb(216 255 216);
-  }
-
-  &.danger {
-    background-color: rgb(255 216 216);
-    border-color: rgb(255 216 216);
-  }
-`
 
 return (
   <>
