@@ -26,8 +26,8 @@ const CHALLENGE_QUERY = `
 `;
 
 const SIGNED_AUTH_CHALLENGE_QUERY = `
-    mutation Authenticate($signedAuthChallenge: SignedAuthChallenge!) {
-      authenticate(request: $signedAuthChallenge) {
+    mutation Authenticate($signedAuthChallengeRequest: SignedAuthChallenge!) {
+      authenticate(request: $signedAuthChallengeRequest) {
         accessToken
         refreshToken
       }
