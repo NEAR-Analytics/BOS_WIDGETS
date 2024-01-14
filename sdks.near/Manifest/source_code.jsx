@@ -17,6 +17,8 @@ return {
     "light-client": "SDKs.LightClient",
     verifiers: resolve("SDKs.Verifiers"),
     "eth-utils": [...resolve("Utils.Ethereum"), "SDKs.EthereumSigner"],
+    "near-utils": resolve("Utils.Near"),
+    "near-fs": "Utils.NearFS",
     "ens-resolver": "Utils.ENSResolver",
     utils: resolve("Utils."),
   },
