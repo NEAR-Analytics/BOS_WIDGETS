@@ -1,13 +1,11 @@
 let availableComponents = Object.keys(Social.getr(`sdks.near/widget`));
 
 const resolve = (componentPath) =>
-  availableComponents.filter(
-    (path) => path.indexOf(componentPath) != -1
-  ) || [];
+  availableComponents.filter((path) => path.indexOf(componentPath) != -1) || [];
 
 return {
   libs: {
-    "eth-signer": "SDKs.EthereumSigner.Main",
+    "eth-signer": "SDKs.EthereumSigner",
     lens: {
       definitions: ["SDKs.Lens.Constants", "SDKs.Lens.Interfaces"],
       api: resolve("SDKs.Lens.API"),
@@ -15,7 +13,7 @@ return {
       utils: resolve("SDKs.Lens.Helpers"),
       queries: resolve("SDKs.Lens.Queries"),
     },
-    "lens-sdk": "SDKs.Lens.Main",
+    "lens-sdk": "SDKs.Lens.LensSDK",
     "light-client": "SDKs.LightClient",
   },
   links: {
