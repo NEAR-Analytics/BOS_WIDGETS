@@ -163,6 +163,7 @@ table tr:hover {
 
 label {
   position: relative;
+  display: block;
 }
 label .input {
   background-color: #333;
