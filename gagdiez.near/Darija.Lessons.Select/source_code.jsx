@@ -126,9 +126,9 @@ return (
                 } ${opt[language] === wordSelected[language] && result}`}
               onClick={() => { step === "verify" && setSelected(opt) }}
             >
-              <h5 className="card-title pt-2 px-2">
+              <h6 className="card-title pt-2 px-2">
                 {opt.emoji} {opt[otherLanguage(language)]}
-              </h5>
+              </h6>
             </Selection>
           </div>
         ))}
