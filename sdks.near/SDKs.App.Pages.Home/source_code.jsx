@@ -241,7 +241,6 @@ let views = {
           }}
         />
         <Content>
-          <Widget src={`${WIDGET_OWNER}/widget/SDKs.App.Components.Header`} />
           <Jumbotron>
             <p>Explore BOS Libraries.</p>
             <Search
