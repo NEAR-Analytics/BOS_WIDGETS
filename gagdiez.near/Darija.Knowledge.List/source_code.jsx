@@ -1,9 +1,15 @@
 if (context.loading) return "Loading ...";
 
+// indexedKnowledge is basically a list of titles, uuids and blockheights
+const knowledge = Social.index("knowledge", "darija", { order: "desc" });
+
+if (knowledge === null) return "Loading ...";
+
 // We hardcode this, since anyway they need to be coded
 const evaluators = {
   Select: "gagdiez.near/widget/Darija.Lessons.Select",
   Translate: "gagdiez.near/widget/Darija.Lessons.Translate",
+  Match: "gagdiez.near/widget/Darija.Lessons.Match",
 };
 
 // map evaluators to their names
@@ -11,11 +17,6 @@ const evaluators2name = {};
 for (const key of Object.keys(evaluators)) {
   evaluators2name[evaluators[key]] = key;
 }
-
-// indexedKnowledge is basically a list of titles, uuids and blockheights
-const knowledge = Social.index("knowledge", "darija", { order: "desc" });
-
-if (!knowledge) return "Loading ...";
 
 const title2uuid = {};
 const uuids = [];
@@ -32,20 +33,22 @@ for (const indexed of knowledge) {
   uuids.push(uuid);
   title2uuid[title] = { uuid, blockHeight };
 }
-console.log("DONE");
 
 // We store the lessons as a JSON-encoded array, since anyway we might want to change them
 const [lessons, setLessons] = useState([]);
 const lessonsDB = Social.get("gagdiez.near/darija/lessons");
 
 useEffect(() => {
-  const parsed = JSON.parse(lessonsDB) || [];
+  if(lessonsDB === null || undefined) return;
+
+  const parsed = JSON.parse(lessonsDB);
 
   const readableLessons = parsed.map(({ name, knowledge, evaluator }) => ({
     name,
     knowledge: uuid2title[knowledge],
     evaluator: evaluators2name[evaluator],
   }));
+
   setLessons(readableLessons);
 }, [lessonsDB]);
 
