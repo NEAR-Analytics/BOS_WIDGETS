@@ -6,7 +6,8 @@ count(count: number)?: function,
 
 */
 
-if (typeof props.path !== "string") return "send {path} as string in props";
+if (typeof props.path !== "string")
+  return "send {path} as string in props";
 
 State.init({
   selectedTab: "code",
@@ -21,7 +22,8 @@ if (historyBlocksRequest === null) return "loading...";
 
 const [accountId, type, name] = props.path.split("/");
 
-let blocksChanges = historyBlocksRequest[accountId]?.[type]?.[name];
+let blocksChanges =
+  historyBlocksRequest[accountId]?.[type]?.[name];
 
 if (props.count) props.count(blocksChanges.length);
 
@@ -34,23 +36,6 @@ function getDatastringFromBlockHeight(blockHeight) {
   const date = new Date(block.header.timestamp_nanosec / 1e6);
   return date.toDateString() + " " + date.toLocaleTimeString();
 }
-
-const oldVersion = useMemo(() => {
-  const current = Social.get(props.path, state.selectedBlockHeight);
-  return current;
-}, [state.selectedBlockHeight]);
-
-const handleRevert = () => {
-  if (props.onRevert) {
-    props.onRevert(oldVersion);
-  } else {
-    Social.set({
-      [name]: {
-        [type]: oldVersion,
-      },
-    });
-  }
-};
 
 const renderBlockChangesLink = (blockHeight) => {
   return (
@@ -72,10 +57,10 @@ const renderBlockChangesLink = (blockHeight) => {
 function blockHeightToCode(blockHeight) {
   const index = blocksChanges.findIndex((el) => el == blockHeight);
   return (
-    <div className="mb-3">
+    <div class="mb-3">
       <Widget
         key={blockHeight}
-        src={"everycanvas.near/widget/History.CodeHistoryCard"}
+        src={"bozon.near/widget/WidgetHistory.CodeHistoryCard"}
         props={{
           pathToWidget: props.path,
           currentBlockHeight: blockHeight,
@@ -94,7 +79,7 @@ function blockHeightToRender(blockHeight) {
       src={"every.near/widget/thing"}
       props={{
         path: props.path,
-        blockHeight: blockHeight,
+        blockHeight: blockHeight
       }}
     />
   );
@@ -105,7 +90,7 @@ const Tabs = styled.div`
   display: flex;
   padding: 0 12px;
   height: 48px;
-  border-bottom: 1px solid #eceef0;
+  border-bottom: 1px solid #ECEEF0;
 `;
 
 const TabsButton = styled.button`
@@ -120,18 +105,18 @@ const TabsButton = styled.button`
   outline: none;
 
   &:hover {
-    color: #11181c;
+    color: #11181C;
   }
 
   &::after {
-    content: "";
+    content: '';
     display: ${(p) => (p.selected ? "block" : "none")};
     position: absolute;
     bottom: 0;
     left: 12px;
     right: 12px;
     height: 3px;
-    background: #0091ff;
+    background: #0091FF;
   }
 `;
 
@@ -141,28 +126,23 @@ return (
       <div>incorrent path</div>
     ) : (
       <div>
-        <div div className="card mb-3">
-          <div className="card-header">
-            <div className="d-flex justify-content-between align-items-center">
-              <h3>{blocksChanges.length} Commits </h3>
-              {state.selectedBlockHeight && blocksChanges[0] !== state.selectedBlockHeight && (
-                <button type="button" onClick={handleRevert}>
-                  Revert
-                </button>
-              )}
-            </div>
-          </div>
+        <div div class="card mb-3">
+          <h3 class="card-header">{blocksChanges.length} Commits</h3>
 
-          <div className="list-group">
-            {blocksChanges.slice(0, 5).map((height) => renderBlockChangesLink(height))}
+          <div class="list-group">
+            {blocksChanges
+              .slice(0, 5)
+              .map((height) => renderBlockChangesLink(height))}
 
-            <div className="collapse" id="collapseExample">
-              {blocksChanges.slice(5).map((height) => renderBlockChangesLink(height))}
+            <div class="collapse" id="collapseExample">
+              {blocksChanges
+                .slice(5)
+                .map((height) => renderBlockChangesLink(height))}
             </div>
 
             {blocksChanges.length > 5 && (
               <button
-                className="list-group-item active"
+                class="list-group-item active"
                 type="button"
                 data-bs-toggle="collapse"
                 data-bs-target="#collapseExample"
@@ -201,7 +181,9 @@ return (
           </TabsButton>
         </Tabs>
 
-        {state.selectedTab == "code" && <div>{blockHeightToCode(state.selectedBlockHeight)}</div>}
+        {state.selectedTab == "code" && (
+          <div>{blockHeightToCode(state.selectedBlockHeight)}</div>
+        )}
 
         {state.selectedTab == "render" && (
           <div>{blockHeightToRender(state.selectedBlockHeight)}</div>
