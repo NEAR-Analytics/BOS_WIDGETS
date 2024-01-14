@@ -5,6 +5,7 @@ const voteId = 0;
 // All the votes
 const [allVotes, setAllVotes] = useState([]);
 const [voteToRender, setVoteToRender] = useState([]);
+const [opened, setOpened] = useState(false);
 
 // Get all the votes
 const votesData = Social.get(`abnakore.near/votes`);
@@ -133,6 +134,9 @@ useEffect(() => {
   return () => clearInterval(interval);
 }, [voteToRender]);
 
+const secText = styled.h3`
+    text-align: center;
+`;
 return (
   <>
     {accountId ? (
@@ -152,93 +156,110 @@ return (
 
                   {/* Check if the vote is ongoing */}
                   {ongoing === true ? (
-                    <div className="body-contents">
-                      <i>
-                        <svg
-                          width="64px"
-                          height="64px"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                          <g
-                            id="SVGRepo_tracerCarrier"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                          ></g>
-                          <g id="SVGRepo_iconCarrier">
-                            {" "}
-                            <path
-                              d="M4 6H20M4 12H20M4 18H20"
-                              stroke="#fefefe"
-                              stroke-width="2"
+                    // Check if the vote has password
+                    voteToRender.passcode === "" || opened ? (
+                      <div className="body-contents">
+                        <i>
+                          <svg
+                            width="64px"
+                            height="64px"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                            <g
+                              id="SVGRepo_tracerCarrier"
                               stroke-linecap="round"
                               stroke-linejoin="round"
-                            ></path>{" "}
-                          </g>
-                        </svg>
-                      </i>
-                      <h1>{voteToRender.name}</h1>
-                      {JSON.stringify(ongoing)}
-                      <p
-                        style={{
-                          color: "green",
-                          display: voted.includes(context.accountId)
-                            ? "block"
-                            : "none",
-                        }}
-                      >
-                        You Have Succesfully Voted
-                      </p>
-                      <div className="card">
-                        <div>
-                          <select
+                            ></g>
+                            <g id="SVGRepo_iconCarrier">
+                              {" "}
+                              <path
+                                d="M4 6H20M4 12H20M4 18H20"
+                                stroke="#fefefe"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                              ></path>{" "}
+                            </g>
+                          </svg>
+                        </i>
+                        <h1>{voteToRender.name}</h1>
+                        {JSON.stringify(ongoing)}
+                        <p
+                          style={{
+                            color: "green",
+                            display: voted.includes(context.accountId)
+                              ? "block"
+                              : "none",
+                          }}
+                        >
+                          You Have Succesfully Voted
+                        </p>
+                        <div className="card">
+                          <div>
+                            <select
+                              disabled={
+                                voted.includes(context.accountId) ? true : false
+                              }
+                              className={`drop-down ${
+                                state.show_error_on_dropdown ? "error" : ""
+                              }`}
+                              value={candidate}
+                              onChange={updateDropdown}
+                              name="candidate"
+                              required
+                            >
+                              <option className="option" value={0}>
+                                Select Candidate
+                              </option>
+                              {voteToRender.candidates.map((candidate, i) => (
+                                <option
+                                  className="option"
+                                  key={candidate.id}
+                                  value={i + 1}
+                                >
+                                  {candidate.name}
+                                </option>
+                              ))}
+                            </select>
+                          </div>
+                          <button
                             disabled={
                               voted.includes(context.accountId) ? true : false
                             }
-                            className={`drop-down ${
-                              state.show_error_on_dropdown ? "error" : ""
-                            }`}
-                            value={candidate}
-                            onChange={updateDropdown}
-                            name="candidate"
-                            required
+                            onClick={vote}
                           >
-                            <option className="option" value={0}>
-                              Select Candidate
-                            </option>
-                            {voteToRender.candidates.map((candidate, i) => (
-                              <option
-                                className="option"
-                                key={candidate.id}
-                                value={i + 1}
-                              >
-                                {candidate.name}
-                              </option>
-                            ))}
-                          </select>
-                        </div>
-                        <button
-                          disabled={
-                            voted.includes(context.accountId) ? true : false
-                          }
-                          onClick={vote}
-                        >
-                          Vote
-                        </button>
+                            Vote
+                          </button>
 
-                        <p
-                          id="thanks"
-                          className={`read-the-docs ${
-                            !state.show_message ? "" : "hide"
-                          }`}
-                        >
-                          Thank you for voting{" "}
-                          {voteToRender.candidates[candidate - 1].name}
-                        </p>
+                          <p
+                            id="thanks"
+                            className={`read-the-docs ${
+                              !state.show_message ? "" : "hide"
+                            }`}
+                          >
+                            Thank you for voting{" "}
+                            {voteToRender.candidates[candidate - 1].name}
+                          </p>
+                        </div>
                       </div>
-                    </div>
+                    ) : (
+                      <div className="body-contents">
+                        <div className="form">
+                          <secText>Please Enter Passcode</secText>
+                          <Widget
+                            src="abnakore.near/widget/Input.jsx"
+                            props={{
+                              type: "text",
+                              placeholder: "Enter Passcode",
+                            }}
+                          />
+                          <button>Submit</button>
+                        </div>
+                      </div>
+                    )
                   ) : (
                     <div className="body-contents">
                       {voteToRender.closeTime !== ""
