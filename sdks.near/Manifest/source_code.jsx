@@ -16,8 +16,12 @@ return {
     "lens-sdk": "SDKs.Lens.LensSDK",
     "light-client": "SDKs.LightClient",
     verifiers: resolve("SDKs.Verifiers"),
+    "eth-utils": resolve("Utils.Ethereum"),
+    "utils": resolve("Utils.")
   },
   links: {
     telegram: "@OxMattB",
+    twitter: "@0xMattB",
+    near: "@mattb.near"
   },
 };
