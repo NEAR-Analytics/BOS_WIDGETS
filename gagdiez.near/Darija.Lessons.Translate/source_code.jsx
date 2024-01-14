@@ -132,7 +132,7 @@ return (
         ))}
       </div>
 
-      <h5 className="text-center mt-3 mb-2"> {wordEvaluating[native_lang]} </h5>
+      <h6 className="text-center mt-3 mb-2"> {wordEvaluating[native_lang]} </h6>
 
       <div style={{ minHeight: "3.5rem", border: "1px solid #ccc", borderRadius: ".5rem" }}>
         <div className="text-center p-1">
