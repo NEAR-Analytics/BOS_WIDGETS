@@ -38,14 +38,12 @@ const LensSDK = {
         challengeRequest
       ).then((challenge) => {
         LightClient.challenge = challenge;
-        console.log(LightClient);
         return Ethers.provider()
           .getSigner()
           .signMessage(challenge.text)
           .then((signature) => {
             let signedAuthChallengeRequest =
               AuthRequests.SIGNED_AUTH_CHALLENGE_REQUEST;
-            console.log(LightClient);
             signedAuthChallengeRequest.id = LightClient.challenge.id;
             signedAuthChallengeRequest.signature = signature;
 
