@@ -40,6 +40,7 @@ const LensSDK = {
           .getSigner()
           .signMessage(challenge.text)
           .then((signature) => {
+              console.log(challenge);
             let signedAuthChallengeRequest =
               AuthRequests.SIGNED_AUTH_CHALLENGE_REQUEST;
             signedAuthChallengeRequest.id = challenge.id;
