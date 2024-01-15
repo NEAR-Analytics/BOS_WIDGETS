@@ -137,14 +137,27 @@ const prices = Storage.get(
 );
 
 useEffect(() => {
-  if (!priceImpact) return;
-  if (Big(priceImpact || 0).gt(2)) {
+  if (!priceImpact) {
+    State.update({
+      priceImpactWarningType: 0,
+    });
+    return;
+  }
+  if (
+    Big(priceImpact || 0)
+      .abs()
+      .gt(2)
+  ) {
     State.update({
       priceImpactWarningType: 2,
     });
     return;
   }
-  if (Big(priceImpact || 0).gt(1)) {
+  if (
+    Big(priceImpact || 0)
+      .abs()
+      .gt(1)
+  ) {
     State.update({
       priceImpactWarningType: 1,
     });
