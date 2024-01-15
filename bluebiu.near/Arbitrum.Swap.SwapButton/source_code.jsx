@@ -13,7 +13,7 @@ const SwapButtonConnectWrapper = styled.button`
     transition: 0.5s;
     cursor: pointer;
     font-weight: 700;
-    background-color: var(--button-color);
+    background: var(--button-color);
     color: var(--button-text-color);
     :hover {
       opacity: 0.8;
@@ -35,7 +35,7 @@ const SwapButton = styled.button`
   border-radius: 10px;
   font-size: 18px;
   line-height: 22px;
-  background-color: var(--button-color);
+  background: var(--button-color);
   color: var(--button-text-color);
   border: none;
   transition: 0.5s;
@@ -70,7 +70,6 @@ const {
   chainId,
   unsignedTx,
   gas,
-  theme,
   onApprovedSuccess,
   chainIdNotSupport,
 } = props;
@@ -78,53 +77,33 @@ const {
 if (!account) {
   return (
     <SwapButtonConnectWrapper>
-      <Web3Connect
-        style={theme ? theme : {}}
-        className="connect-button"
-        connectLabel="Connect Wallet"
-      />
+      <Web3Connect className="connect-button" connectLabel="Connect Wallet" />
     </SwapButtonConnectWrapper>
   );
 }
 if (props.chainIdNotSupport) {
-  return (
-    <SwapButton disabled style={theme ? theme : {}}>
-      Switch Network
-    </SwapButton>
-  );
+  return <SwapButton disabled>Switch Network</SwapButton>;
 }
 
 if (Big(inputCurrencyAmount || 0).eq(0)) {
-  return (
-    <SwapButton disabled style={theme ? theme : {}}>
-      Enter An Amount
-    </SwapButton>
-  );
+  return <SwapButton disabled>Enter An Amount</SwapButton>;
 }
 if (!inputCurrency || !outputCurrency) {
-  return (
-    <SwapButton disabled style={theme ? theme : {}}>
-      Select a token
-    </SwapButton>
-  );
+  return <SwapButton disabled>Select a token</SwapButton>;
 }
 if (Big(outputCurrencyAmount || 0).lt("0.00000000001")) {
-  return (
-    <SwapButton disabled style={theme ? theme : {}}>
-      Insufficient Liquidity
-    </SwapButton>
-  );
+  return <SwapButton disabled>Insufficient Liquidity</SwapButton>;
 }
 if (Big(inputCurrencyAmount || 0).gt(maxInputBalance || 0)) {
   return (
-    <SwapButton disabled style={theme ? theme : {}}>
+    <SwapButton disabled>
       Insufficient {inputCurrency?.symbol} Balance
     </SwapButton>
   );
 }
 if (props.loading) {
   return (
-    <SwapButton disabled style={theme ? theme : {}}>
+    <SwapButton disabled>
       <Widget
         src="bluebiu.near/widget/0vix.LendingLoadingIcon"
         props={{
@@ -136,11 +115,7 @@ if (props.loading) {
 }
 
 if (props.noPair) {
-  return (
-    <SwapButton disabled style={theme ? theme : {}}>
-      Insufficient Liquidity
-    </SwapButton>
-  );
+  return <SwapButton disabled>Insufficient Liquidity</SwapButton>;
 }
 
 State.init({
@@ -281,11 +256,7 @@ const handleApprove = () => {
 
 if (!state.isApproved && wrapType === 0) {
   return (
-    <SwapButton
-      onClick={handleApprove}
-      disabled={state.approving}
-      style={theme ? theme : {}}
-    >
+    <SwapButton onClick={handleApprove} disabled={state.approving}>
       {state.approving ? (
         <Widget
           src="bluebiu.near/widget/0vix.LendingLoadingIcon"
@@ -398,7 +369,6 @@ const handleWrap = (type, success, onError) => {
 if (wrapType) {
   return (
     <SwapButton
-      style={theme ? theme : {}}
       onClick={() => {
         const toastId = toast?.loading({
           title: `Swap ${inputCurrencyAmount} ${inputCurrency.symbol} to ${outputCurrency.symbol}`,
@@ -470,7 +440,6 @@ useEffect(() => {
 return (
   <>
     <SwapButton
-      style={theme ? theme : {}}
       onClick={() => {
         const toastId = toast?.loading({
           title: `Swap ${inputCurrencyAmount} ${inputCurrency.symbol} to ${outputCurrency.symbol}`,
