@@ -23,7 +23,7 @@ return (
       {menu.map((item) => (
         <li class="list-group-item">
           <a
-            href={`/gagdiez.near/widget/Darija.Lessons.Lesson?uuid=${item.knowledge}&evaluator=${item.evaluator}`}
+            href={`embed/gagdiez.near/widget/Darija.Lessons.Lesson?uuid=${item.knowledge}&evaluator=${item.evaluator}`}
           >
             {item.name}
           </a>
