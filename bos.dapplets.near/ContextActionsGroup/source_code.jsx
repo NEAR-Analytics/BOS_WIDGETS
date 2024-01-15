@@ -20,6 +20,7 @@ const handleCloseMenu = () => {
 };
 
 const handleSelectComponent = (component) => {
+  State.update({ showMenu: false });
   props.injectWidget(`${component.accountId}/widget/${component.widgetName}`);
 };
 
