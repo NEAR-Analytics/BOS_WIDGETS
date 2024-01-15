@@ -244,7 +244,7 @@ return (
       <CloseModal onClick={props.handleCloseMenu}> {iconCloseModal}</CloseModal>
 
       <Widget
-        src="near/widget/ComponentSearch"
+        src="bos.dapplets.near/widget/ComponentSearchWidget"
         props={{
           limit: 4,
           onChange: onSearchChange,
