@@ -398,21 +398,27 @@ const getWalletBalance = () => {
     .then((res) => {
       _underlyingBalance = {};
       for (let i = 0, len = res.length; i < len; i++) {
-        _underlyingBalance[underlyingTokens[i].oTokenAddress] =
-          ethers.utils.formatUnits(
-            res[i][0]._hex,
-            underlyingTokens[i].decimals
-          );
+        _underlyingBalance[underlyingTokens[i].oTokenAddress] = res[i][0]
+          ? ethers.utils.formatUnits(
+              res[i][0]._hex,
+              underlyingTokens[i].decimals
+            )
+          : "0";
       }
-      const provider = Ethers.provider();
-      provider.getBalance(account).then((rawBalance) => {
-        _underlyingBalance[nativeOToken] = ethers.utils.formatUnits(
-          rawBalance._hex,
-          18
-        );
+      if (nativeOToken) {
+        const provider = Ethers.provider();
+        provider.getBalance(account).then((rawBalance) => {
+          _underlyingBalance[nativeOToken] = ethers.utils.formatUnits(
+            rawBalance._hex,
+            18
+          );
+          count++;
+          formatedData("underlyingTokens");
+        });
+      } else {
         count++;
         formatedData("underlyingTokens");
-      });
+      }
     })
     .catch(() => {
       setTimeout(() => {
