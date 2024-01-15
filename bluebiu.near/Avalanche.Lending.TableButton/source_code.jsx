@@ -11,10 +11,10 @@ const Button = styled.button`
   justify-content: center;
   gap: 6px;
   padding: 0px 10px;
-  opacity: 0.8;
+  opacity: 1;
 
   &:hover {
-    opacity: 1;
+    opacity: 0.8;
   }
 
   &.withdraw,
