@@ -19,6 +19,10 @@ const handleCloseMenu = () => {
   State.update({ showMenu: false });
 };
 
+const handleSelectComponent = (component) => {
+  console.log(component);
+};
+
 const OverlayTriggerWrapper = styled.div`
   display: flex;
   position: relative;
@@ -315,6 +319,7 @@ return (
         <Widget
           props={{
             handleCloseMenu: handleCloseMenu,
+            onSelect: handleSelectComponent,
           }}
           src="bos.dapplets.near/widget/ComponentsSearch"
         />
