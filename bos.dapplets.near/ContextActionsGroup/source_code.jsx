@@ -314,8 +314,8 @@ return (
       <TriggerShowPanel style={{ margin: "0px -7px" }}>
         <TriggerShowLabel />
 
-        <ActionsWrapper>
-          <slot onMouseLeave={handleOnMouseLeave} />
+        <ActionsWrapper onMouseLeave={handleOnMouseLeave}>
+          <slot />
         </ActionsWrapper>
 
         <ButtonPlus
