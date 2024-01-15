@@ -21,6 +21,7 @@ return {
     "near-fs": "Utils.NearFS",
     "ens-resolver": "Utils.Ethereum.ENSResolver",
     utils: resolve("Utils."),
+    abstracts: resolve("Abstracts.")
   },
   links: {
     telegram: "@OxMattB",
