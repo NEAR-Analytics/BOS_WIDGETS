@@ -16,11 +16,13 @@ const SwitchButton = styled.button`
   margin-top: 22px;
   height: 46px;
   border: none;
+  background: var(--button-color);
+  color: var(--button-text-color);
 `;
 
 const Wrapper = styled.div`
   position: absolute;
-  z-index: 100;
+  z-index: 40;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
