@@ -255,7 +255,7 @@ return (
       <Text>No components matched your search.</Text>
     )}
     {items.length > 0 && (
-      <Items style={{ paddingRight: items && items.length > 5 ? "20px" : "" }}>
+      <Items style={{ paddingRight: items && items.length >= 5 ? "20px" : "" }}>
         {items.map((component, i) => {
           return (
             <Item
