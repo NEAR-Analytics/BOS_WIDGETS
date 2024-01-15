@@ -145,6 +145,7 @@ return (
       src="bluebiu.near/widget/Arbitrum.Swap.CurrencyBalance"
       props={{
         address: props.currency?.address,
+        updateTokenBalance: props.updateTokenBalance,
         onLoad: (balance) => {
           State.update({
             balance: ethers.utils.formatUnits(balance, props.currency.decimals),
