@@ -1,3 +1,6 @@
+const $ = VM.require("sdks.near/widget/Loader");
+const { IframeDependency } = $("@sdks/abstracts");
+
 const code = `
 <script type="module" crossorigin>
     import { ethers } from "https://unpkg.com/ethers@6.10.0/dist/ethers.min.js";
@@ -13,4 +16,4 @@ const code = `
 </script>
 `;
 
-return (props) => <iframe srcDoc={code} style={{ display: "none" }} onMessage={(data) => props.onCreate(data)} />;
+return (props) => <IframeDependency code={code} onUpdate={props.onCreate} />;
