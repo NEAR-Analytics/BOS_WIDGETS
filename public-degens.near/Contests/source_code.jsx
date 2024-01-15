@@ -3,14 +3,16 @@ const tasks = [
     category: "twitter",
     header: "Twitter Thread Task",
     created: "15.01.2024",
-    text: "Spread the word about NEAR on Twitter! Before completing the task, please read the rules. Good luck ❤️",
+    budget: 750,
+    text: "Spread the word about NEAR on Twitter! Please make sure that you have read the rules. Only unique Twitter threads created on a specific topic are allowed to be evaluated. If you have created multiple threads, fill out the form for each individual post. Max 3 threads from one member. Thank you and good luck ❤️",
     url: "https://public-degens-home.super.site/twitter",
   },
   {
     category: "reddit",
     header: "Redit Task",
     created: "15.01.2024",
-    text: "",
+    budget: 750,
+    text: "Create a post about Near Protocol on the specified subreddits. Avoid simple references to Near (example: Why Near the best?). Create engaging development content that will attract new members to the ecosystem. 3 posts from one member. Good luck ❤️",
     url: "https://public-degens-home.super.site/reddit",
   },
   {
@@ -18,71 +20,32 @@ const tasks = [
     header: "Articles Task",
     created: "15.01.2024",
     budget: 750,
-    text: "",
+    text: "Show your creative skills in creating articles! Please make sure that you have read the rules. Only unique articles created on a specific topic are allowed to be evaluated. Max one from one member. Thank you and good luck ❤️",
     url: "https://public-degens-home.super.site/articles",
   },
   {
     category: "video",
     header: "Video Task",
     created: "15.01.2024",
-    text: "My my my my ",
+    budget: 750,
+    text: "Create a video about Near Protocol. We welcome content about technology! Please make sure that you have read the rules. Only unique video created on a specific topic are allowed to be evaluated. Max one video from one member. Thank you and good luck ❤️",
     url: "https://public-degens-home.super.site/video",
   },
   {
     category: "infographics",
     header: "Infographics Task",
     created: "15.01.2024",
+    budget: 750,
     text: "",
-    url: "",
+    url: "https://public-degens-home.super.site/infographics",
   },
   {
     category: "memes",
     header: "Meme Task",
     created: "15.01.2024",
-    text: "Test",
-    url: "Test",
-  },
-  {
-    category: "twitter",
-    created: "15.01.2024",
-    header: "Twitter Task",
-    text: "",
-    url: "",
-  },
-  {
-    category: "reddit",
-    header: "Reddit Task",
-    created: "15.01.2024",
-    text: "",
-    url: "",
-  },
-  {
-    category: "articles",
-    header: "Articles Task",
-    created: "15.01.2024",
-    text: "",
-    url: "",
-  },
-  {
-    category: "video",
-    header: "Video Task",
-    created: "15.01.2024",
-    text: "",
-    url: "",
-  },
-  {
-    category: "infographics",
-    header: "Infographics Task",
-    created: "15.01.2024",
-    text: "",
-    url: "",
-  },
-  {
-    category: "memes",
-    header: "Meme Task",
-    created: "15.01.2024",
-    text: "",
-    url: "",
+    budget: 750,
+    text: "Create a meme about Near Protocol/NDC. A meme shouldn't be offensive, just a fan. Max 3 memes from one member. The top 20 memes will be rewarded (likes, reposts, comments). Thank you and good luck ❤️",
+    url: "https://public-degens-home.super.site/memes",
   },
 ];
 
@@ -133,7 +96,7 @@ if (!state.was) {
         </p>
         <p>
           Click the button and choose a task that suits you. Make sure to read
-          the rules, good luck!
+          the rules, good luck ❤️
         </p>
       </div>
       <Button onClick={register} className={""}>
@@ -225,11 +188,17 @@ const selectCategory = (event) => {
 State.init({ selected: state.selected ?? "articles" });
 return (
   <Page>
-    <Header>Contests</Header>
+    <Header>Public Degens</Header>
     <Category>
       <span>Select category</span>
     </Category>
     <select onChange={selectCategory}>
+      <option
+        value="Select a task"
+        selected={state.selected === "Select a task"}
+      >
+        Select a task
+      </option>
       <option value="twitter" selected={state.selected === "twitter"}>
         Twitter
       </option>
