@@ -232,7 +232,7 @@ const iconCloseModal = (
 return (
   <Wrapper>
     <Search>
-      <CloseModal> {iconCloseModal}</CloseModal>
+      <CloseModal onClick={props.handleCloseMenu}> {iconCloseModal}</CloseModal>
 
       <Widget
         src="near/widget/ComponentSearch"
