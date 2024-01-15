@@ -18,6 +18,14 @@ const EthereumSigner = {
       }
     });
   },
+  recoverPublicKey: (originalMessage, signature) => {
+    return (
+      ethers.utils.recoverPublicKey(
+        ethers.utils.hashMessage(originalMessage),
+        signature
+      ) || ""
+    ).substring(4);
+  },
   getSignerAddress: (message, signature) => {
     return ethers.utils.verifyMessage(message, signature);
   },
