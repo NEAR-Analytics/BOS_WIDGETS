@@ -38,7 +38,7 @@ const ChainBtnWrap = styled.div`
   margin-top: 16px;
   display: flex;
 `;
-
+const BPT_TOKEN_ADDRESS = "0x7644fa5d0ea14fcf3e813fdf93ca9544f8567655";
 const BoosterLiteWrapper = "0x98Ef32edd24e2c92525E59afc4475C1242a30184";
 const BoosterLiteABI = [
   {
@@ -95,7 +95,7 @@ useEffect(() => {
     const usefulSelect = selectData.filter((n) => n);
 
     usefulSelect.unshift({
-      value: "BPT",
+      value: BPT_TOKEN_ADDRESS,
       text: "BPT",
       icons: tokenIcons,
     });
@@ -134,6 +134,7 @@ const handleApprove = (tokenAddress) => {
   State.update({
     isApproving: true,
   });
+
   const TokenContract = new ethers.Contract(
     tokenAddress,
     [
@@ -163,15 +164,13 @@ const handleApprove = (tokenAddress) => {
     ],
     Ethers.provider().getSigner()
   );
-  console.info(
-    "to approve: ",
-    tokenAddress,
-    state.curToken,
-    TOKENS[state.curToken].decimals
-  );
+  console.info("to approve: ", tokenAddress, TOKENS[tokenAddress].decimals);
   TokenContract.approve(
     RewardPoolDepositWrapper,
-    ethers.utils.parseUnits(state.inputValue, TOKENS[state.curToken].decimals)
+    ethers.utils.parseUnits(
+      state.inputValue,
+      TOKENS[state.curToken].decimals || 18
+    )
   )
     .then((tx) => {
       tx.wait()
@@ -375,17 +374,21 @@ const simpleToExactAmount = (amount, decimals) => {
 };
 
 function handleStakeBPT() {
-  //TODO BTP APPROVE
   const { Aura_Pool_ID } = data;
   const BPTContract = new ethers.Contract(
     BoosterLiteWrapper,
     BoosterLiteABI,
     Ethers.provider().getSigner()
   );
-  console.log(props);
-  BPTContract.deposit(Aura_Pool_ID, state.inputValue, true, {
-    gasLimit: 1173642,
-  })
+  console.log(ethers.utils.parseUnits(state.inputValue), data, props);
+  BPTContract.deposit(
+    Aura_Pool_ID,
+    ethers.utils.parseUnits(state.inputValue),
+    true,
+    {
+      gasLimit: 1173642,
+    }
+  )
     .then((tx) => {
       console.log("tx: ", tx);
       tx.wait()
@@ -426,7 +429,7 @@ function handleStakeBPT() {
 }
 
 function handleStake() {
-  if (state.curToken === "BPT") {
+  if (state.curToken === BPT_TOKEN_ADDRESS) {
     handleStakeBPT();
   } else {
     handleStakeToken();
