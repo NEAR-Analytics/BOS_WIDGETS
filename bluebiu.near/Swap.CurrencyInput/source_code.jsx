@@ -156,24 +156,20 @@ const handlers = {
 
 return (
   <Wrapper style={{ background: !state.focus ? "#2e3142" : "#1B1E27" }}>
-    {(props.updateTokenBalance || !state.balanceLoaded) && (
-      <Widget
-        src="bluebiu.near/widget/Arbitrum.Swap.CurrencyBalance"
-        props={{
-          address: props.currency?.address,
-          onLoad: (balance) => {
-            State.update({
-              balance: ethers.utils.formatUnits(
-                balance,
-                props.currency.decimals
-              ),
-              balanceLoaded: true,
-            });
-            props?.onUpdateCurrencyBalance(balance);
-          },
-        }}
-      />
-    )}
+    <Widget
+      src="bluebiu.near/widget/Arbitrum.Swap.CurrencyBalance"
+      props={{
+        address: props.currency?.address,
+        updateTokenBalance: props.updateTokenBalance,
+        onLoad: (balance) => {
+          State.update({
+            balance: ethers.utils.formatUnits(balance, props.currency.decimals),
+            balanceLoaded: true,
+          });
+          props?.onUpdateCurrencyBalance(balance);
+        },
+      }}
+    />
     <InputField>
       <InputWarpper>
         <Input
