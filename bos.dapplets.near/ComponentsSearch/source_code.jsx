@@ -177,13 +177,13 @@ const Items = styled.div`
   flex-direction: column;
       overflow: hidden;
     overflow-y: auto;
-     transition: all 0.3s;
+     transition: all 0.15s;
 `;
 
 const Item = styled.div`
   width: 100%;
   padding-top: 12px;
-   transition: all 0.3s;
+   transition: all 0.15s;
 `;
 
 const Button = styled.button`
