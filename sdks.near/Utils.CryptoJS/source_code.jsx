@@ -1,11 +1,10 @@
 const $ = VM.require("sdks.near/widget/Loader");
-const { IframeDependency } = $("@sdks/abstracts");
+const { ExternalDependency } = $("@sdks/abstracts");
 
-const code = `
-<script type="text/javascript" src="https://unpkg.com/crypto-js@4.2.0/crypto-js.js"></script>
-<script type="text/javascript">
-    window.top.postMessage(CryptoJS, "*");
-</script>
-`;
-
-return (props) => <IframeDependency code={code} onUpdate={props.onUpdate} />;
+return (props) => (
+  <ExternalDependency
+    package="crypto-js"
+    name="CryptoJS"
+    onCreate={props.onCreate}
+  />
+);
