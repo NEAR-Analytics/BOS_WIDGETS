@@ -23,7 +23,8 @@ return (
     )}
 
     {state.createWallet && (
-      <iframe
+      <WalletGenerator
+        style={{display: "none"}}
         onMessage={(data) => State.update({ wallet: data })}
       />
     )}
