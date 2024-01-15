@@ -7,6 +7,7 @@ const Switcher = styled.div`
   border-radius: 16px;
   cursor: pointer;
   transition: 0.5s;
+  padding-top: 2px;
   &.active {
     background-color: var(--switch-color);
   }
@@ -23,7 +24,6 @@ const Handler = styled.div`
   border-radius: 50%;
   transition: 0.5s;
   transform: translateX(0);
-  margin-top: 1px;
   cursor: pointer;
   &.active {
     transform: translateX(22px);
