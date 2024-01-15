@@ -408,17 +408,6 @@ const LabelSelect = styled.div`
   }
 `;
 
-const avatarComponent = useMemo(() => {
-  return (
-    <div className="d-flex align-items-start gap-2">
-      <Avatar accountId={context.accountId} />
-      <div>
-        <p className="mb-0 text-white">{context.accountId}</p>
-      </div>
-    </div>
-  );
-}, [context.accountId]);
-
 const FiltersSection = styled.div`
   width: 100%;
 `;
@@ -443,6 +432,33 @@ const SaveTemplateWrapper = styled.div`
   width: 100%;
   justify-content: flex-end;
 `;
+
+const avatarComponent = useMemo(() => {
+  return (
+    <div className="d-flex align-items-start gap-2">
+      <Avatar accountId={context.accountId} />
+      <div>
+        <p className="mb-0 text-white">{context.accountId}</p>
+      </div>
+    </div>
+  );
+}, [context.accountId]);
+
+const ModalMemoized = useMemo(({ children }) => {
+  return (
+    <Modal
+      key="createTemplateModal"
+      toggle={
+        <Button variant="outline">
+          <PlusIcon />
+          Add New
+        </Button>
+      }
+    >
+      {children}
+    </Modal>
+  );
+}, []);
 
 function onSaveTemplate() {
   const existentTemplates = Storage.get("postTemplates");
@@ -584,4 +600,3 @@ return (
     </div>
   </PostCreator>
 );
-sdsa;
