@@ -5,8 +5,8 @@ const Wrapper = styled.div`
 
 return (
   <Wrapper>
-    {props.widgets.map((widget) => (
-      <Widget src={widget.src} props={widget.props} />
+    {props.widgets.map((widget, i) => (
+      <Widget key={i} src={widget.src} props={widget.props} />
     ))}
   </Wrapper>
 );
