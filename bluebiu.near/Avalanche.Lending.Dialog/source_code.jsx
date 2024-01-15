@@ -253,7 +253,8 @@ const ERC20_ABI = [
   },
 ];
 
-const { display, data, chainId, onClose, onSuccess } = props;
+const { display, data, chainId, onClose, onSuccess, source } = props;
+
 if (!data) return "";
 
 const actionText = data.actionText;
@@ -504,7 +505,7 @@ return (
                 {isForCollateral ? "Collateral" : actionText}{" "}
                 {!isForCollateral && tokenSymbol}
               </span>
-              {!isForCollateral && (
+              {!isForCollateral && source !== "dapp" && (
                 <>
                   <Apy className={isSupply ? "supply-color" : "borrow-color"}>
                     APY {isSupply ? data.supplyApy : data.borrowApy}
@@ -542,13 +543,15 @@ return (
           )}
           {!isForCollateral && (
             <>
-              <AssetWrapper>
-                <AssetLabel>Asset from</AssetLabel>
-                <Dapp>
-                  <DappIcon src={data.dappIcon} />
-                  <DappName>{data.dappName}</DappName>
-                </Dapp>
-              </AssetWrapper>
+              {source !== "dapp" && (
+                <AssetWrapper>
+                  <AssetLabel>Asset from</AssetLabel>
+                  <Dapp>
+                    <DappIcon src={data.dappIcon} />
+                    <DappName>{data.dappName}</DappName>
+                  </Dapp>
+                </AssetWrapper>
+              )}
               <InputWrapper>
                 <Input
                   value={state.amount}
