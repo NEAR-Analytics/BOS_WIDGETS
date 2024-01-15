@@ -435,24 +435,29 @@ const getWalletBalance = () => {
     .then((res) => {
       _underlyingBalance = {};
       for (let i = 0, len = res.length; i < len; i++) {
-        _underlyingBalance[underlyingTokens[i].oTokenAddress] =
-          ethers.utils.formatUnits(
-            res[i][0]._hex,
-            underlyingTokens[i].decimals
-          );
+        _underlyingBalance[underlyingTokens[i].oTokenAddress] = res[i][0]
+          ? ethers.utils.formatUnits(
+              res[i][0]._hex,
+              underlyingTokens[i].decimals
+            )
+          : "0";
       }
-      const provider = Ethers.provider();
-      provider.getBalance(account).then((rawBalance) => {
-        _underlyingBalance[nativeOToken] = ethers.utils.formatUnits(
-          rawBalance._hex,
-          18
-        );
+      if (nativeOToken) {
+        const provider = Ethers.provider();
+        provider.getBalance(account).then((rawBalance) => {
+          _underlyingBalance[nativeOToken] = rawBalance._hex
+            ? ethers.utils.formatUnits(rawBalance._hex, 18)
+            : "0";
+          count++;
+          formatedData("underlyingTokens");
+        });
+      } else {
         count++;
         formatedData("underlyingTokens");
-      });
+      }
     })
     .catch((err) => {
-      console.log("err", err);
+      console.log("err getWalletBalance", err);
       setTimeout(() => {
         getWalletBalance();
       }, 500);
@@ -641,18 +646,18 @@ const getCTokenReward = ({ avaxPrice, qiPrice, cTokens, index }) => {
     provider: Ethers.provider(),
   })
     .then((res) => {
-      const qiBorrow = Big(ethers.utils.formatUnits(res[0][0]._hex, 18)).mul(
-        qiPrice
-      );
-      const avaxBorrow = Big(ethers.utils.formatUnits(res[1][0]._hex, 18)).mul(
-        avaxPrice
-      );
-      const qiSupply = Big(ethers.utils.formatUnits(res[2][0]._hex, 18)).mul(
-        qiPrice
-      );
-      const avaxSupply = Big(ethers.utils.formatUnits(res[3][0]._hex, 18)).mul(
-        avaxPrice
-      );
+      const qiBorrow = Big(
+        ethers.utils.formatUnits(res[0][0]._hex || "0", 18)
+      ).mul(qiPrice);
+      const avaxBorrow = Big(
+        ethers.utils.formatUnits(res[1][0]._hex || "0", 18)
+      ).mul(avaxPrice);
+      const qiSupply = Big(
+        ethers.utils.formatUnits(res[2][0]._hex || "0", 18)
+      ).mul(qiPrice);
+      const avaxSupply = Big(
+        ethers.utils.formatUnits(res[3][0]._hex || "0", 18)
+      ).mul(avaxPrice);
       _rewardsApy[token] = {
         avax: {
           borrow: avaxBorrow.mul(60 * 60 * 24 * 365),
