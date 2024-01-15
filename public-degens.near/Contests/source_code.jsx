@@ -1,50 +1,42 @@
 const tasks = [
   {
     category: "twitter",
-    header: "Twitter Thread Task",
+    header: "Create Twitter Thread",
     created: "15.01.2024",
-    budget: 750,
+    budget: 700,
     text: "Spread the word about NEAR on Twitter! Please make sure that you have read the rules. Only unique Twitter threads created on a specific topic are allowed to be evaluated. If you have created multiple threads, fill out the form for each individual post. Max 3 threads from one member. Thank you and good luck ❤️",
     url: "https://public-degens-home.super.site/twitter",
   },
   {
     category: "reddit",
-    header: "Redit Task",
+    header: "Create Reddit Post",
     created: "15.01.2024",
-    budget: 750,
+    budget: 400,
     text: "Create a post about Near Protocol on the specified subreddits. Avoid simple references to Near (example: Why Near the best?). Create engaging development content that will attract new members to the ecosystem. 3 posts from one member. Good luck ❤️",
     url: "https://public-degens-home.super.site/reddit",
   },
   {
     category: "articles",
-    header: "Articles Task",
+    header: "Create Article",
     created: "15.01.2024",
-    budget: 750,
+    budget: 800,
     text: "Show your creative skills in creating articles! Please make sure that you have read the rules. Only unique articles created on a specific topic are allowed to be evaluated. Max one from one member. Thank you and good luck ❤️",
     url: "https://public-degens-home.super.site/articles",
   },
   {
     category: "video",
-    header: "Video Task",
+    header: "Create Video Content",
     created: "15.01.2024",
-    budget: 750,
+    budget: 800,
     text: "Create a video about Near Protocol. We welcome content about technology! Please make sure that you have read the rules. Only unique video created on a specific topic are allowed to be evaluated. Max one video from one member. Thank you and good luck ❤️",
     url: "https://public-degens-home.super.site/video",
   },
   {
-    category: "infographics",
-    header: "Infographics Task",
-    created: "15.01.2024",
-    budget: 750,
-    text: "",
-    url: "https://public-degens-home.super.site/infographics",
-  },
-  {
     category: "memes",
-    header: "Meme Task",
+    header: "Create Meme",
     created: "15.01.2024",
-    budget: 750,
-    text: "Create a meme about Near Protocol/NDC. A meme shouldn't be offensive, just a fan. Max 3 memes from one member. The top 20 memes will be rewarded (likes, reposts, comments). Thank you and good luck ❤️",
+    budget: 300,
+    text: "Create a meme about Near Protocol/NDC. A meme shouldn't be offensive, just a fan. Max 3 memes from one member. Thank you and good luck ❤️",
     url: "https://public-degens-home.super.site/memes",
   },
 ];
@@ -210,9 +202,6 @@ return (
       </option>
       <option value="video" selected={state.selected === "video"}>
         Video
-      </option>
-      <option value="infographics" selected={state.selected === "infographics"}>
-        Infographics
       </option>
       <option value="memes" selected={state.selected === "memes"}>
         Memes
