@@ -88,6 +88,8 @@ const Wrapper = styled.div`
   padding-left: 15px;
   padding-right: 15px;
   position:absolute;
+  left:30%;
+  top:30%;
   gap: 12px;
   padding-bottom: 25px;
   padding-top: 50px;
