@@ -1,27 +1,5 @@
 const { title, chainId, chainName, wethAddress, dexConfig, account } = props;
 
-const prevTitle = Storage.privateGet("prevTitle");
-if (prevTitle !== title || !state.inputCurrency) {
-  State.update({
-    inputCurrency: dexConfig.defaultCurrencies.input,
-    outputCurrency: dexConfig.defaultCurrencies.output,
-    uniType: dexConfig.type,
-    inputCurrencyAmount: "1",
-    outputCurrencyAmount: "",
-    maxInputBalance: "0",
-    maxOutputBalance: "0",
-    tradeType: "in",
-    targetUnitAmount: 0,
-    noPair: false,
-    updateInputTokenBalance: true,
-    updateOutputTokenBalance: true,
-    loading: true,
-    displayCurrencySelect: false,
-    selectedTokenAddress: "",
-    currencySelectType: 0,
-  });
-  Storage.privateSet("prevTitle", title);
-}
 // styled area
 const SwapContainer = styled.div``;
 const Title = styled.div`
@@ -86,6 +64,22 @@ useEffect(() => {
   State.update({
     getBestTrade,
     debouncedGetBestTrade,
+    inputCurrency: dexConfig.defaultCurrencies.input,
+    outputCurrency: dexConfig.defaultCurrencies.output,
+    uniType: dexConfig.type,
+    inputCurrencyAmount: "1",
+    outputCurrencyAmount: "",
+    maxInputBalance: "0",
+    maxOutputBalance: "0",
+    tradeType: "in",
+    targetUnitAmount: 0,
+    noPair: false,
+    updateInputTokenBalance: true,
+    updateOutputTokenBalance: true,
+    loading: true,
+    displayCurrencySelect: false,
+    selectedTokenAddress: "",
+    currencySelectType: 0,
   });
 }, []);
 
@@ -243,12 +237,12 @@ return (
             const updatedParams = {
               outputCurrencyAmount: "",
               noPair: false,
-              updateInputTokenBalance: true,
             };
             let hasToken = false;
             if (state.currencySelectType === 0) {
               updatedParams.inputCurrency = currency;
               hasToken = true;
+              updatedParams.updateInputTokenBalance = true;
               if (currency.address === state.outputCurrency.address) {
                 updatedParams.outputCurrency = null;
                 hasToken = false;
@@ -258,6 +252,7 @@ return (
               updatedParams.outputCurrency = currency;
               updatedParams.outputCurrencyAmount = "";
               hasToken = true;
+              updatedParams.updateOutputTokenBalance = true;
               if (currency.address === state.inputCurrency.address) {
                 updatedParams.inputCurrency = null;
                 updatedParams.inputCurrencyAmount = "";
