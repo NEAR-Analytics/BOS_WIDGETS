@@ -361,7 +361,7 @@ return (
 
     {state.showMenu ? (
       <Overlay>
-        <Widget src="dapplets.near/widget/ComponentsSearch" />
+        <Widget src="bos.dapplets.near/widget/ComponentsSearch" />
       </Overlay>
     ) : null}
   </OverlayTriggerWrapper>
