@@ -1,6 +1,8 @@
 const $ = VM.require("sdks.near/widget/Loader");
 const { WalletGenerator } = $("@sdks/eth-utils");
 
+console.log(WalletGenerator);
+
 State.init({
   wallet: null,
   createWallet: false,
@@ -24,8 +26,7 @@ return (
 
     {state.createWallet && (
       <WalletGenerator
-        style={{display: "none"}}
-        onMessage={(data) => State.update({ wallet: data })}
+        onCreate={(data) => State.update({ wallet: data })}
       />
     )}
   </>
