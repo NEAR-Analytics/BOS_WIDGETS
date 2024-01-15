@@ -1,9 +1,16 @@
 /**
  * @interface Props
- *  @property {boolean} [isHeader] - If the component is part of a header, apply alternate styles.
- *  @property {Function} t - A function for internationalization (i18n) provided by the next-translate package.
- *  @param {string}  [network] - The network data to show, either mainnet or testnet.
+ * @param {string}  [network] - The network data to show, either mainnet or testnet.
+ * @param {Function} [t] - A function for internationalization (i18n) provided by the next-translate package.
+ * @param {boolean} [isHeader] - If the component is part of a header, apply alternate styles.
  */
+
+
+
+
+
+
+
 /* INCLUDE COMPONENT: "includes/icons/SearchIcon.jsx" */
 /**
  * @interface Props
@@ -651,11 +658,6 @@ function shortenAddress(address) {
   return `${string.substr(0, 10)}...${string.substr(-7)}`;
 }
 /* END_INCLUDE: "includes/libs.jsx" */
-
-
-
-
-
 
 
 function MainComponent({ isHeader, t, network }) {
