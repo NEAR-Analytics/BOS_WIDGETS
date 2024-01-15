@@ -19,11 +19,6 @@ const handleCloseMenu = () => {
   State.update({ showMenu: false });
 };
 
-const handleSelectComponent = (component) => {
-  State.update({ showMenu: false });
-  props.injectWidget(`${component.accountId}/widget/${component.widgetName}`);
-};
-
 const OverlayTriggerWrapper = styled.div`
   display: flex;
   position: relative;
@@ -34,7 +29,7 @@ const OverlayTriggerWrapper = styled.div`
     border: 1px solid #db504a;
     width: 6px;
     height: 49px;
-    right: -6px;
+    right: -3px;
     top: 10px;
     border-radius: 0px 4px 4px 0px;
     cursor: pointer;
@@ -58,20 +53,30 @@ const TriggerShowPanel = styled.div`
 
 const TriggerShowLabel = styled.div`
   background: #db504a;
-  width: 40px;
-  height: 40px;
+
+ 
   display: flex;
   border-radius: 0px 4px 4px 0px;
   z-index: 1070;
   cursor: pointer;
   position: absolute;
+      height: 40px;
   @keyframes scaleAnimation {
     0% {
       opacity: 1;
+width: 0;
     }
-
+   50% {
+         opacity: 1;
+     width: 40px;
+    }
+     90% {
+         opacity: 1;
+     width: 40px;
+    }
     100% {
       opacity: 0;
+     width: 40px;
     }
   }
   animation: scaleAnimation 1s linear forwards;
@@ -88,6 +93,13 @@ const ActionsWrapper = styled.div`
       display: none;
       height: 0;
       opacity: 0;
+        transform: scaleY(0)
+    }
+      50% {
+      display: none;
+      height: 0;
+      opacity: 0;
+        transform: scaleY(0)
     }
 
     100% {
@@ -98,9 +110,11 @@ const ActionsWrapper = styled.div`
       padding-top: 6px;
       border: 1px solid #db504a;
       opacity: 1;
+      right: 60px;
+         transform: scaleY(1)
     }
   }
-  animation: translateAnimation 1.5s linear forwards;
+  animation: translateAnimation 1.3s linear forwards;
   transition: all 0.3s;
  
 `;
@@ -303,9 +317,7 @@ return (
         <TriggerShowLabel />
 
         <ActionsWrapper>
-          {props.widgets.map((widget, i) => (
-            <Widget key={i} src={widget.src} props={widget.props} />
-          ))}
+          <slot onMouseLeave={handleOnMouseLeave} />
         </ActionsWrapper>
 
         <ButtonPlus
@@ -320,7 +332,6 @@ return (
         <Widget
           props={{
             handleCloseMenu: handleCloseMenu,
-            onSelect: handleSelectComponent,
           }}
           src="bos.dapplets.near/widget/ComponentsSearch"
         />
