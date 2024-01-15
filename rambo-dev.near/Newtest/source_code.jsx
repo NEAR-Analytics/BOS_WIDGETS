@@ -2,7 +2,6 @@ const { Avatar, Button, InputField, TextEditor } = VM.require(
   "buildhub.near/widget/components"
 );
 
-// const { H3 } = VM.require("buildhub.near/widget/components.Text.H3");
 const { Modal } = VM.require("rambo-dev.near/widget/ModalComponent");
 const { PlusIcon } = VM.require("rambo-dev.near/widget/PlusIcon");
 
@@ -253,7 +252,7 @@ function onSaveTemplate() {
   }
 }
 
-function CreateTemplateModal() {
+function CreatePostTemplateModal() {
   return (
     <Modal
       key="create"
@@ -271,7 +270,7 @@ function CreateTemplateModal() {
           key="templateTitleInput"
           label="Title"
           placeholder="Name your template"
-          value={statetemplateTitle}
+          value={state.templateTitle}
           onChange={(e) => {
             State.update({
               templateTitle: e.target.value,
@@ -314,4 +313,4 @@ function CreateTemplateModal() {
   );
 }
 
-return { CreateTemplateModal };
+return { CreatePostTemplateModal };
