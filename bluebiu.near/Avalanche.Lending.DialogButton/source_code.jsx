@@ -50,15 +50,14 @@ const ERC20_ABI = [
 ];
 const Button = styled.button`
   background-color: var(--switch-color);
-  line-height: 52px;
+  line-height: 46px;
   border-radius: 10px;
-  color: #fff;
+  color: var(--button-text-color);
   font-size: 18px;
   font-weight: 500;
   border: none;
   width: 100%;
   transition: 0.5s;
-  margin-top: 10px;
   &:hover {
     opacity: 0.8;
   }
