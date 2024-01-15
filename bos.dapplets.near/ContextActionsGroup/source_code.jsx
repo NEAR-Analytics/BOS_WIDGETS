@@ -20,7 +20,7 @@ const handleCloseMenu = () => {
 };
 
 const handleSelectComponent = (component) => {
-  console.log(component);
+  props.injectWidget(`${component.accountId}/widget/${component.widgetName}`);
 };
 
 const OverlayTriggerWrapper = styled.div`
