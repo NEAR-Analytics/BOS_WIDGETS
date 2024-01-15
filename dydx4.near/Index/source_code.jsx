@@ -206,8 +206,8 @@ const placeUserOrder = (side) => {
   let network_config = {
     env: "dydx-testnet-4",
     indexerConfig: {
-      restEndpoint: "https://dydx-testnet.imperator.co",
-      websocketEndpoint: "wss://dydx-testnet.imperator.co/v4/ws",
+      restEndpoint: "https://indexer.v4testnet.dydx.exchange",
+      websocketEndpoint: "wss://indexer.v4testnet.dydx.exchange",
     },
     validatorConfig: {
       restEndpoint: "https://test-dydx.kingnodes.com",
@@ -263,7 +263,7 @@ if (state.dydx_account == undefined) {
   const toSign = {
     domain: {
       name: "dYdX V4",
-      chainId: 5,
+      chainId: 11155111,
     },
     primaryType: "dYdX",
     types: {
@@ -449,11 +449,9 @@ if (state.dydx_account == undefined) {
       >
         Refresh
       </button>
-      {/*
       <hr />
       state:
       {JSON.stringify(state)}
-      */}
     </div>
   );
 }
