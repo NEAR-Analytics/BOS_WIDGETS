@@ -1,8 +1,8 @@
 const { Avatar, Button, InputField, TextEditor } = VM.require(
   "buildhub.near/widget/components"
 );
-const { Modal } = VM.require("rambo-dev.near/widget/ModalComponent");
-const { PlusIcon } = VM.require("rambo-dev.near/widget/PlusIcon");
+
+const { CreateTemplateModal } = VM.require("rambo-dev.near/widget/Newtest");
 
 Button = Button || (() => <></>);
 
@@ -17,8 +17,6 @@ const [view, setView] = useState("editor");
 const [postContent, setPostContent] = useState("");
 const [hideAdvanced, setHideAdvanced] = useState(true);
 const [labels, setLabels] = useState([]);
-const [templateTitle, setTemplateTitle] = useState("");
-const [templateContent, setTemplateContent] = useState("");
 
 setPostContent(draft || props.template);
 
@@ -408,31 +406,6 @@ const LabelSelect = styled.div`
   }
 `;
 
-const FiltersSection = styled.div`
-  width: 100%;
-`;
-
-const ModalContainer = styled.div`
-  width: 552px;
-  display: flex;
-  flex-direction: column;
-  gap: 24px 0;
-  flex-grow: 1;
-`;
-
-const H3 = styled.h3`
-  font-family: "Aekonik", sans-serif;
-  font-weight: 500;
-  font-size: 1.5rem;
-  line-height: 140%;
-`;
-
-const SaveTemplateWrapper = styled.div`
-  display: flex;
-  width: 100%;
-  justify-content: flex-end;
-`;
-
 const avatarComponent = useMemo(() => {
   return (
     <div className="d-flex align-items-start gap-2">
@@ -444,43 +417,6 @@ const avatarComponent = useMemo(() => {
   );
 }, [context.accountId]);
 
-const ModalMemoized = useMemo(({ children }) => {
-  return (
-    <Modal
-      key="createTemplateModal"
-      toggle={
-        <Button variant="outline">
-          <PlusIcon />
-          Add New
-        </Button>
-      }
-    >
-      {children}
-    </Modal>
-  );
-}, []);
-
-function onSaveTemplate() {
-  const existentTemplates = Storage.get("postTemplates");
-
-  if (existentTemplates === null) {
-    Storage.set("postTemplates", [
-      {
-        title: "",
-        content: "",
-      },
-    ]);
-  } else {
-    Storage.set("postTemplates", [
-      ...existentTemplates,
-      {
-        title: "",
-        content: "",
-      },
-    ]);
-  }
-}
-
 const isValidTemplateToCreate =
   templateTitle.length > 0 && templateContent.length > 0;
 
@@ -488,59 +424,7 @@ return (
   <PostCreator>
     {avatarComponent}
     <FiltersSection>
-      <Modal
-        key="create"
-        toggle={
-          <Button variant="outline">
-            <PlusIcon />
-            Add New
-          </Button>
-        }
-      >
-        <ModalContainer>
-          <H3>Add new markdown template</H3>
-
-          <InputField
-            key="templateTitleInput"
-            label="Title"
-            placeholder="Name your template"
-            value={templateTitle}
-            onChange={(e) => {
-              console.log("e", e.target.value);
-              setTemplateTitle(e.target.value);
-            }}
-          />
-
-          <TextareaWrapper
-            className="markdown-editor"
-            data-value={"templateContent"}
-            key={"templateContent"}
-          >
-            <Widget
-              src="mob.near/widget/MarkdownEditorIframe"
-              props={{
-                initialText: "# Hello World",
-                embedCss: MarkdownEditor,
-                onChange: (v) => {
-                  setTemplateContent(v);
-                },
-              }}
-            />
-          </TextareaWrapper>
-
-          <SaveTemplateWrapper>
-            <Button
-              disabled={isValidTemplateToCreate}
-              onClick={() => {
-                console.log("ja");
-              }}
-              variant="primary"
-            >
-              Save Template
-            </Button>
-          </SaveTemplateWrapper>
-        </ModalContainer>
-      </Modal>
+      <CreateTemplateModal />
     </FiltersSection>
 
     <div style={{ border: "none" }}>
