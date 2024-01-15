@@ -75,10 +75,10 @@ const CloseModal = styled.div`
   position: absolute;
           top: -40px;
           right: 0;
-          cursor: pointer
-             &:hover
-    {
-      transform:scale(1.2)
+          cursor: pointer;
+            transition: all 0.3s;
+             &:hover {
+      transform: scale(1.2);
     }
 `;
 
