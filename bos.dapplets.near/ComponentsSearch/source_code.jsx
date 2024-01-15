@@ -175,6 +175,8 @@ const Text = styled.p`
 const Items = styled.div`
   display: flex;
   flex-direction: column;
+      overflow: hidden;
+    overflow-y: scroll;
 `;
 
 const Item = styled.div`
