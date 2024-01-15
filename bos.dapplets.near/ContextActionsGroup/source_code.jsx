@@ -333,23 +333,18 @@ const iconSwitch = (
 );
 
 return (
-  <OverlayTriggerWrapper>
-    <div
-      style={{ opacity: state.show ? 0 : 1 }}
-      className="OverlayTrigger"
-      onMouseEnter={handleOnMouseEnter}
-    >
+  <OverlayTriggerWrapper
+    onMouseEnter={handleOnMouseEnter}
+    onMouseLeave={handleOnMouseLeave}
+  >
+    <div style={{ opacity: state.show ? 0 : 1 }} className="OverlayTrigger">
       <TriggerEar />
     </div>
     {state.show ? (
-      <TriggerShowPanel
-        style={{ margin: "0px -7px" }}
-        onMouseEnter={handleOnMouseEnter}
-        onMouseLeave={handleOnMouseLeave}
-      >
+      <TriggerShowPanel style={{ margin: "0px -7px" }}>
         <TriggerShowLabel />
 
-        <ActionsWrapper onMouseEnter={handleOnMouseEnter}>
+        <ActionsWrapper>
           <slot />
         </ActionsWrapper>
 
