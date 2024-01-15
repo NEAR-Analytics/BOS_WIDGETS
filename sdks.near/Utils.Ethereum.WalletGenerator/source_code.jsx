@@ -13,14 +13,6 @@ const code = `
 </script>
 `;
 
-const WalletGenerator = {
-    create: () => {
-        return new Promise((resolve, reject) => {
-            var callback = (data) => resolve(data);
-            <iframe srcDoc={code} onMessage={(data) => callback(data)} />
-        })
-    }
-};
+const WalletGenerator = <iframe srcDoc={code} />;
 
-
-console.log(WalletGenerator.create().then((data) => console.log(data)));
+return WalletGenerator;
