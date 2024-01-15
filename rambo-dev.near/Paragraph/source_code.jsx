@@ -32,10 +32,14 @@ const StyledParagraph = styled.p`
 function P({ children, pType, textColor }) {
   const defaults = {
     pType: pType ?? "p1",
-    textColor: textColor ?? "#FFFFFFF",
+    textColor: textColor ?? "#000000",
   };
 
-  return <StyledParagraph props={defaults}>{children}</StyledParagraph>;
+  return (
+    <StyledParagraph pType={defaults.pType} textColor={defaults.textColor}>
+      {children}
+    </StyledParagraph>
+  );
 }
 
 return { P };
