@@ -63,18 +63,22 @@ const TriggerShowLabel = styled.div`
     0% {
       opacity: 1;
 width: 0;
+margin-left:-40px;
     }
    50% {
-         opacity: 1;
+    opacity: 1;
      width: 40px;
+     margin-left:0px;
     }
      90% {
-         opacity: 1;
-     width: 40px;
+    opacity: 1;
+    width: 40px;
+    margin-left:0px;
     }
     100% {
-      opacity: 0;
-     width: 40px;
+    opacity: 0;
+    width: 40px;
+    margin-left:0px;
     }
   }
   animation: scaleAnimation 1s linear forwards;
