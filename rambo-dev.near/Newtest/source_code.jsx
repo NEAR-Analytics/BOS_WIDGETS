@@ -227,8 +227,10 @@ const MarkdownPreview = styled.div`
   }
 `;
 
-const [templateTitle, setTemplateTitle] = useState("");
-const [templateContent, setTemplateContent] = useState("");
+State.init({
+  templateTitle: "",
+  templateContent: "",
+});
 
 function onSaveTemplate() {
   const existentTemplates = Storage.get("postTemplates");
@@ -269,10 +271,11 @@ function CreateTemplateModal() {
           key="templateTitleInput"
           label="Title"
           placeholder="Name your template"
-          value={templateTitle}
+          value={statetemplateTitle}
           onChange={(e) => {
-            console.log("e", e.target.value);
-            setTemplateTitle(e.target.value);
+            State.update({
+              templateTitle: e.target.value,
+            });
           }}
         />
 
@@ -287,7 +290,9 @@ function CreateTemplateModal() {
               initialText: "# Hello World",
               embedCss: MarkdownEditor,
               onChange: (v) => {
-                setTemplateContent(v);
+                State.update({
+                  templateContent: v,
+                });
               },
             }}
           />
