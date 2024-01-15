@@ -3,7 +3,7 @@ const Wrapper = styled.div`
   border: 1px solid #f00;
 `;
 
-if (!props.widgets || props.widgets.length === 0) return null;
+if (!props.widgets || props.widgets.length === 0) return <></>;
 
 return (
   <Wrapper>
