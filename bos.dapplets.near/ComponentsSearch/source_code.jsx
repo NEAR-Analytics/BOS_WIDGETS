@@ -15,15 +15,6 @@ if (props.tab && props.tab !== state.selectedTab) {
     selectedTab: props.tab,
   });
 }
-const onSelect = (widget) => {
-  try {
-    State.update({
-      selectedComponent: widget,
-    });
-  } catch (err) {
-    console.error(err);
-  }
-};
 
 const tagsData = Social.get("*/widget/*/metadata/tags/*", "final");
 
@@ -261,7 +252,7 @@ return (
         {items.map((component, i) => {
           return (
             <Item
-              onClick={() => onSelect(component)}
+              onClick={() => props.onSelect(component)}
               key={component.accountId + component.widgetName}
             >
               <Widget
