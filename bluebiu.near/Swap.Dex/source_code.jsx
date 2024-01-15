@@ -100,7 +100,7 @@ const ArrowRight = (
   </svg>
 );
 return (
-  <Dex>
+  <Dex style={dexConfig.theme}>
     <WidgetWrapper>
       <Widget
         src="bluebiu.near/widget/Swap.Content"
