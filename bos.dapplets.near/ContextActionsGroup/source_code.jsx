@@ -29,7 +29,7 @@ const OverlayTriggerWrapper = styled.div`
     border: 1px solid #db504a;
     width: 6px;
     height: 49px;
-    right: -3px;
+    right: -6px;
     top: 10px;
     border-radius: 0px 4px 4px 0px;
     cursor: pointer;
