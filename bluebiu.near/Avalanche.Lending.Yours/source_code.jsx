@@ -166,14 +166,11 @@ const formatData = () => {
   });
 };
 
-const prevMarketTimestamp = Storage.privateGet("prevMarketTimestampYours");
-
-if (prevMarketTimestamp !== props.timestamp) {
+useEffect(() => {
   if (markets) {
     formatData();
-    Storage.privateSet("prevMarketTimestampYours", props.timestamp);
   }
-}
+}, []);
 
 return (
   <>
