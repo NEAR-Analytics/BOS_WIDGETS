@@ -3,4 +3,10 @@ const Wrapper = styled.div`
   border: 1px solid #f00;
 `;
 
-return <Wrapper>{props.children}</Wrapper>;
+return (
+  <Wrapper>
+    {props.widgets.map((widget) => (
+      <Widget src={widget.src} props={widget.props} />
+    ))}
+  </Wrapper>
+);
