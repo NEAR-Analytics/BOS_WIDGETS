@@ -12,7 +12,7 @@ const handleOnMouseLeave = () => {
 };
 
 const handleOpenMenu = () => {
-  State.update({ showMenu: true });
+  State.update({ showMenu: true, show: false });
 };
 
 const handleCloseMenu = () => {
