@@ -379,7 +379,7 @@ return (
 
     {state.showMenu ? (
       <Overlay>
-        {iconCloseModal}
+        <span onClick={handleCloseMenu}>{iconCloseModal}</span>
         <Widget src="dapplets.near/widget/ComponentsSearch" />
       </Overlay>
     ) : null}
