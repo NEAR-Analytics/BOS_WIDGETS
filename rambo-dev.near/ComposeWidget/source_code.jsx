@@ -4,7 +4,6 @@ const { Avatar, Button, InputField, TextEditor } = VM.require(
 const { Modal } = VM.require("rambo-dev.near/widget/ModalComponent");
 const { PlusIcon } = VM.require("rambo-dev.near/widget/PlusIcon");
 
-const Avatar = Avatar || (() => <></>);
 Button = Button || (() => <></>);
 
 const draftKey = props.feed.name || "draft";
@@ -16,9 +15,10 @@ if (draft === null) {
 
 const [view, setView] = useState("editor");
 const [postContent, setPostContent] = useState("");
-const [templateContent, setTemplateContent] = useState("");
 const [hideAdvanced, setHideAdvanced] = useState(true);
 const [labels, setLabels] = useState([]);
+const [templateTitle, setTemplateTitle] = useState("");
+const [templateContent, setTemplateContent] = useState("");
 
 setPostContent(draft || props.template);
 
@@ -445,29 +445,35 @@ const SaveTemplateWrapper = styled.div`
 `;
 
 function onSaveTemplate() {
-  if (isValidTemplateToCreate) {
-    console.log("Created");
+  const existentTemplates = Storage.get("postTemplates");
+
+  if (existentTemplates === null) {
+    Storage.set("postTemplates", [
+      {
+        title: "",
+        content: "",
+      },
+    ]);
   } else {
-    console.log("DISABLED");
+    Storage.set("postTemplates", [
+      ...existentTemplates,
+      {
+        title: "",
+        content: "",
+      },
+    ]);
   }
 }
 
 const isValidTemplateToCreate =
-  state.templateTitle.length > 0 && state.templateContent.length > 0;
-
-// <InputField
-//             key="templateTitle"
-//             label="Title"
-//             placeholder="Name your template"
-//             value={state.templateTitle}
-//             onChange={(e) => onChangeTemplateTitle(e.target.value)}
-//           />
+  templateTitle.length > 0 && templateContent.length > 0;
 
 return (
   <PostCreator>
     {avatarComponent}
     <FiltersSection>
       <Modal
+        key="create"
         toggle={
           <Button variant="outline">
             <PlusIcon />
@@ -477,6 +483,17 @@ return (
       >
         <ModalContainer>
           <H3>Add new markdown template</H3>
+
+          <InputField
+            key="templateTitleInput"
+            label="Title"
+            placeholder="Name your template"
+            value={templateTitle}
+            onChange={(e) => {
+              console.log("e", e.target.value);
+              setTemplateTitle(e.target.value);
+            }}
+          />
 
           <TextareaWrapper
             className="markdown-editor"
@@ -490,52 +507,25 @@ return (
                 embedCss: MarkdownEditor,
                 onChange: (v) => {
                   setTemplateContent(v);
-                  //   Storage.privateSet(draftKey, v || "");
                 },
               }}
             />
           </TextareaWrapper>
 
           <SaveTemplateWrapper>
-            <Button disabled onClick={onSaveTemplate} variant="primary">
+            <Button
+              disabled={isValidTemplateToCreate}
+              onClick={() => {
+                console.log("ja");
+              }}
+              variant="primary"
+            >
               Save Template
             </Button>
           </SaveTemplateWrapper>
         </ModalContainer>
       </Modal>
     </FiltersSection>
-
-    <Widget
-      src={"nearui.near/widget/Layout.Modal"}
-      props={{
-        toggle: () => <H3>Add new markdown template</H3>,
-        content: () => {
-          return (
-            <>
-              <H3>Add new markdown template</H3>
-
-              <TextareaWrapper
-                className="markdown-editor"
-                data-value={"templateContent"}
-                key={"templateContent"}
-              >
-                <Widget
-                  src="mob.near/widget/MarkdownEditorIframe"
-                  props={{
-                    initialText: "# Hello World",
-                    embedCss: MarkdownEditor,
-                    onChange: (v) => {
-                      setTemplateContent(v);
-                      //   Storage.privateSet(draftKey, v || "");
-                    },
-                  }}
-                />
-              </TextareaWrapper>
-            </>
-          );
-        },
-      }}
-    />
 
     <div style={{ border: "none" }}>
       {view === "editor" ? (
@@ -594,3 +584,4 @@ return (
     </div>
   </PostCreator>
 );
+sdsa;
