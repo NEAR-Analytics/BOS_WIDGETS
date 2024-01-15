@@ -251,15 +251,13 @@ return (
       <Items style={{ paddingRight: items && items.length >= 5 ? "20px" : "" }}>
         {items.map((component, i) => {
           return (
-            <Item
-              onClick={() => props.onSelect(component)}
-              key={component.accountId + component.widgetName}
-            >
+            <Item key={component.accountId + component.widgetName}>
               <Widget
                 src="lisofffa.near/widget/SearchCard"
                 props={{
                   src: `${component.accountId}/widget/${component.widgetName}`,
                   blockHeight: component.blockHeight,
+                  onComponentSelect: () => props.onSelect(component),
                 }}
               />
             </Item>
