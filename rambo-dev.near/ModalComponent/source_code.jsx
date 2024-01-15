@@ -29,6 +29,7 @@ const Content = styled.div`
   outline: none !important;
   background: ${({ colors }) => `${colors.bg2}`};
   border-radius: 16px;
+  color: white;
 `;
 
 const NoButton = styled.button`
@@ -49,30 +50,26 @@ const Icon = styled.i`
     font-size: 24px;
 `;
 
-function Modal() {
-  return (
-    <Dialog.Root open={open} onOpenChange={onOpenChange}>
-      <Dialog.Trigger asChild>
-        <NoButton {...toggleContainerProps}>{toggle}</NoButton>
-      </Dialog.Trigger>
-      <Dialog.Overlay asChild>
-        <Overlay>
-          <Dialog.Content asChild>
-            <Content {...theme}>
-              <Dialog.Trigger asChild>
-                <CloseContainer>
-                  <Button variant="outline" type="icon">
-                    <Icon className="bi bi-x" />
-                  </Button>
-                </CloseContainer>
-              </Dialog.Trigger>
-              {content}
-            </Content>
-          </Dialog.Content>
-        </Overlay>
-      </Dialog.Overlay>
-    </Dialog.Root>
-  );
-}
-
-return { Modal };
+return (
+  <Dialog.Root open={open} onOpenChange={onOpenChange}>
+    <Dialog.Trigger asChild>
+      <NoButton {...toggleContainerProps}>{toggle}</NoButton>
+    </Dialog.Trigger>
+    <Dialog.Overlay asChild>
+      <Overlay>
+        <Dialog.Content asChild>
+          <Content {...theme}>
+            <Dialog.Trigger asChild>
+              <CloseContainer>
+                <Button variant="outline" type="icon">
+                  <Icon className="bi bi-x" />
+                </Button>
+              </CloseContainer>
+            </Dialog.Trigger>
+            {content}
+          </Content>
+        </Dialog.Content>
+      </Overlay>
+    </Dialog.Overlay>
+  </Dialog.Root>
+);
