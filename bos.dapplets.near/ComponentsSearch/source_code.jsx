@@ -73,18 +73,34 @@ function onSearchChange({ result, term }) {
 const items = state.searchResults || components;
 const selectedComponent = state.selectedComponent;
 
+const CloseModal = styled.span`
+  position: absolute;
+          top: -40px;
+          right: 0;
+          cursor: pointer;
+            transition: all 0.3s;
+             &:hover {
+      transform: scale(1.2);
+    }
+`;
+
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   padding-left: 15px;
   padding-right: 15px;
   position:absolute;
-  left: 50%;
-  transform: translate(-50%, 50%);
+  left:50%;
+  top:50%;
   gap: 12px;
+  transform: translate(-50%,-50%);
+
   padding-bottom: 25px;
-  padding-top: 25px;
+  padding-top: 50px;
   width: 422px;
+  height: 547px;
+
+  
   border: 1px solid #d9d9d9;
   background: #fff;
   border-radius: 8px;
@@ -98,12 +114,13 @@ const Header = styled.div`
   display: flex;
   flex-direction: column;
   gap: 12px;
+ 
 `;
 
 const Search = styled.div`
   width: 392px;
   height: 46px;
-
+position:relative;
   @media (max-width: 500px) {
     width: 100%;
   }
@@ -160,11 +177,15 @@ const Text = styled.p`
 const Items = styled.div`
   display: flex;
   flex-direction: column;
+      overflow: hidden;
+    overflow-y: auto;
+     transition: all 0.15s;
 `;
 
 const Item = styled.div`
   width: 100%;
   padding-top: 12px;
+   transition: all 0.15s;
 `;
 
 const Button = styled.button`
@@ -194,12 +215,38 @@ const Button = styled.button`
     color: #687076 !important;
   }
 `;
+const iconCloseModal = (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="20"
+    height="21"
+    viewBox="0 0 20 21"
+    fill="none"
+  >
+    <path
+      d="M16.25 4.25L3.75 16.75"
+      stroke="#C1C6CE"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    />
+    <path
+      d="M3.75 4.25L16.25 16.75"
+      stroke="#C1C6CE"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    />
+  </svg>
+);
 
 return (
   <Wrapper>
     <Search>
+      <CloseModal onClick={props.handleCloseMenu}> {iconCloseModal}</CloseModal>
+
       <Widget
-        src="near/widget/ComponentSearch"
+        src="bos.dapplets.near/widget/ComponentSearchWidget"
         props={{
           limit: 4,
           onChange: onSearchChange,
@@ -210,7 +257,7 @@ return (
       <Text>No components matched your search.</Text>
     )}
     {items.length > 0 && (
-      <Items>
+      <Items style={{ paddingRight: items && items.length >= 5 ? "20px" : "" }}>
         {items.map((component, i) => {
           return (
             <Item
