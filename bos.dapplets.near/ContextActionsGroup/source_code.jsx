@@ -97,11 +97,7 @@ const ActionsWrapper = styled.div`
   }
   animation: translateAnimation 1.5s linear forwards;
   transition: all 0.3s;
-   slot {
-    bos-component {
-      background: "#ccc";
-    }
-  }
+ 
 `;
 
 const TriggerEar = styled.div`
