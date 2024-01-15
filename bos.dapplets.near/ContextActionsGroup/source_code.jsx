@@ -98,7 +98,7 @@ const ActionsWrapper = styled.div`
   animation: translateAnimation 1.5s linear forwards;
   transition: all 0.3s;
    slot {
-    div {
+    bos-component {
       background: "#ccc";
     }
   }
