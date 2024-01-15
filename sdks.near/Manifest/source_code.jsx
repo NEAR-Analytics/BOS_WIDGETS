@@ -19,7 +19,7 @@ return {
     "eth-utils": [...resolve("Utils.Ethereum"), "SDKs.EthereumSigner"],
     "near-utils": resolve("Utils.Near"),
     "near-fs": "Utils.NearFS",
-    "ens-resolver": "Utils.ENSResolver",
+    "ens-resolver": "Utils.Ethereum.ENSResolver",
     utils: resolve("Utils."),
   },
   links: {
