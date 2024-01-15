@@ -1,32 +1,32 @@
-const { contractName, canMint } = props;
+const { contractName, canMint, type, methodName, title } = props;
 const { Button } = VM.require(`memelol.near/widget/lol.Components.Button`);
 
 const OneNear = Big(10).pow(24);
 const TGas = Big(10).pow(12);
 
-const [boxAmount, setBoxAmount] = useState(1);
+const [amount, setAmount] = useState(1);
 
 const handleMint = () => {
   if (handleError() || !context.accountId || !canMint) return;
 
   const data = {
     contractName,
-    methodName: "open_box",
+    methodName,
     deposit: OneNear.mul(0.075),
     gas: TGas.mul(250),
   };
 
-  Near.call(Array(parseInt(boxAmount)).fill(data));
+  Near.call(Array(parseInt(amount)).fill(data));
 };
 
 const handleError = () => {
   let err = null;
 
   if (
-    !boxAmount ||
-    isNaN(boxAmount) ||
-    parseInt(boxAmount) < 1 ||
-    parseInt(boxAmount) > 100
+    !amount ||
+    isNaN(amount) ||
+    parseInt(amount) < 1 ||
+    parseInt(amount) > 100
   )
     err = "Value should be > 0 and <= 100";
 
@@ -82,8 +82,8 @@ return (
       <input
         type="number"
         disabled={!context.accountId || !canMint}
-        onInput={(e) => setBoxAmount(e.target.value)}
-        value={boxAmount}
+        onInput={(e) => setAmount(e.target.value)}
+        value={amount}
       />
       <Button
         className={`button ${
@@ -91,7 +91,10 @@ return (
         }`}
         onClick={handleMint}
       >
-        <span>Mint Box{boxAmount > 1 ? "es" : ""}</span>
+        <span>
+          {title}
+          {amount > 1 ? "es" : ""}
+        </span>
         <i className="bi bi-chevron-right" />
       </Button>
     </div>
