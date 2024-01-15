@@ -23,10 +23,9 @@ return (
     open={state.isModalOpen}
     onOpenChange={onChangeModalStatus}
     toggleContainerProps={{}}
-    content={
-      <div>
-        <h1>Hello Modal</h1>
-      </div>
-    }
-  />
+  >
+    <div>
+      <h1>Hello Modal</h1>
+    </div>
+  </Modal>
 );
