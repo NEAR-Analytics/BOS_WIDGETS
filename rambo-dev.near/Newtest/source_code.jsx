@@ -251,58 +251,62 @@ function onSaveTemplate() {
   }
 }
 
-return (
-  <Modal
-    key="create"
-    toggle={
-      <Button variant="outline">
-        <PlusIcon />
-        Add New
-      </Button>
-    }
-  >
-    <ModalContainer>
-      <H3>Add new markdown template</H3>
+function CreateTemplateModal() {
+  return (
+    <Modal
+      key="create"
+      toggle={
+        <Button variant="outline">
+          <PlusIcon />
+          Add New
+        </Button>
+      }
+    >
+      <ModalContainer>
+        <H3>Add new markdown template</H3>
 
-      <InputField
-        key="templateTitleInput"
-        label="Title"
-        placeholder="Name your template"
-        value={templateTitle}
-        onChange={(e) => {
-          console.log("e", e.target.value);
-          setTemplateTitle(e.target.value);
-        }}
-      />
-
-      <TextareaWrapper
-        className="markdown-editor"
-        data-value={"templateContent"}
-        key={"templateContent"}
-      >
-        <Widget
-          src="mob.near/widget/MarkdownEditorIframe"
-          props={{
-            initialText: "# Hello World",
-            embedCss: MarkdownEditor,
-            onChange: (v) => {
-              setTemplateContent(v);
-            },
+        <InputField
+          key="templateTitleInput"
+          label="Title"
+          placeholder="Name your template"
+          value={templateTitle}
+          onChange={(e) => {
+            console.log("e", e.target.value);
+            setTemplateTitle(e.target.value);
           }}
         />
-      </TextareaWrapper>
 
-      <SaveTemplateWrapper>
-        <Button
-          disabled={isValidTemplateToCreate}
-          onClick={() => {
-            console.log("ja");
-          }}
-          variant="primary"
+        <TextareaWrapper
+          className="markdown-editor"
+          data-value={"templateContent"}
+          key={"templateContent"}
         >
-          Save Template
-        </Button>
-      </SaveTemplateWrapper>
-    </ModalContainer>
-  </Modal>
-);
+          <Widget
+            src="mob.near/widget/MarkdownEditorIframe"
+            props={{
+              initialText: "# Hello World",
+              embedCss: MarkdownEditor,
+              onChange: (v) => {
+                setTemplateContent(v);
+              },
+            }}
+          />
+        </TextareaWrapper>
+
+        <SaveTemplateWrapper>
+          <Button
+            disabled={isValidTemplateToCreate}
+            onClick={() => {
+              console.log("ja");
+            }}
+            variant="primary"
+          >
+            Save Template
+          </Button>
+        </SaveTemplateWrapper>
+      </ModalContainer>
+    </Modal>
+  );
+}
+
+return { CreateTemplateModal };
