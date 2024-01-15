@@ -13,4 +13,4 @@ const code = `
 </script>
 `;
 
-return () => <iframe srcDoc={code} />;
+return (props) => <iframe srcDoc={code} style={{ display: "none" }} onMessage={(data) => props.onCreate(data)} />;
