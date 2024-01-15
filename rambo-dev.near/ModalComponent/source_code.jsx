@@ -49,14 +49,14 @@ const Icon = styled.i`
 function Modal({ children, open, onOpenChange, toggle, toggleContainerProps }) {
   return (
     <Dialog.Root open={open} onOpenChange={onOpenChange}>
-      <Dialog.Trigger>
+      <Dialog.Trigger asChild>
         <NoButton {...toggleContainerProps}>{toggle}</NoButton>
       </Dialog.Trigger>
       <Dialog.Overlay asChild>
         <Overlay>
           <Dialog.Content>
             <Content>
-              <Dialog.Trigger>
+              <Dialog.Trigger asChild>
                 <CloseContainer>
                   <Button variant="outline" type="icon">
                     <Icon className="bi bi-x" />
