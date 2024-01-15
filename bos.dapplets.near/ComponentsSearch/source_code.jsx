@@ -71,6 +71,17 @@ function onSearchChange({ result, term }) {
 const items = state.searchResults || components;
 const selectedComponent = state.selectedComponent;
 
+const CloseModal = styled.div`
+  position: absolute;
+          top: -40px;
+          right: 0;
+          cursor: pointer
+             &:hover
+    {
+      transform:scale(1.2)
+    }
+`;
+
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
@@ -94,6 +105,7 @@ const Header = styled.div`
   display: flex;
   flex-direction: column;
   gap: 12px;
+ 
 `;
 
 const Search = styled.div`
