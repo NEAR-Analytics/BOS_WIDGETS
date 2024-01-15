@@ -332,31 +332,6 @@ const iconSwitch = (
   </svg>
 );
 
-const iconCloseModal = (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    width="20"
-    height="21"
-    viewBox="0 0 20 21"
-    fill="none"
-  >
-    <path
-      d="M16.25 4.25L3.75 16.75"
-      stroke="#C1C6CE"
-      stroke-width="2"
-      stroke-linecap="round"
-      stroke-linejoin="round"
-    />
-    <path
-      d="M3.75 4.25L16.25 16.75"
-      stroke="#C1C6CE"
-      stroke-width="2"
-      stroke-linecap="round"
-      stroke-linejoin="round"
-    />
-  </svg>
-);
-
 return (
   <OverlayTriggerWrapper onMouseEnter={handleOnMouseEnter}>
     <div style={{ opacity: state.show ? 0 : 1 }} className="OverlayTrigger">
@@ -378,12 +353,14 @@ return (
     ) : null}
 
     {state.showMenu ? (
-      <>
-        <span onClick={handleCloseMenu}>{iconCloseModal}</span>
-        <Overlay>
-          <Widget src="dapplets.near/widget/ComponentsSearch" />
-        </Overlay>
-      </>
+      <Overlay>
+        <Widget
+          props={{
+            handleCloseMenu: handleCloseMenu,
+          }}
+          src="bos.dapplets.near/widget/ComponentsSearch"
+        />
+      </Overlay>
     ) : null}
   </OverlayTriggerWrapper>
 );
