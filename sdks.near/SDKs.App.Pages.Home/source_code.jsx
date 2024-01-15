@@ -274,7 +274,7 @@ let views = {
                     <span class="function">VM</span>
                     <span class="type">.</span>
                     <span class="variable">require</span>(
-                    <span class="string">"sdks.near/Loader"</span>);
+                    <span class="string">"sdks.near/widget/Loader"</span>);
                     <br />
                     <span class="type">const</span> {"{"}{" "}
                     <span class="variable">
