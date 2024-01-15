@@ -13,6 +13,4 @@ const code = `
 </script>
 `;
 
-const WalletGenerator = <iframe srcDoc={code} />;
-
-return WalletGenerator;
+return () => <iframe srcDoc={code} />;
