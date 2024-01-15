@@ -109,6 +109,7 @@ return (
           account,
           chainId: state.chainId,
           chainIdNotSupport: state.chainIdNotSupport,
+          onSwitchChain: props.onSwitchChain,
         }}
       />
       <BridgeBanner
