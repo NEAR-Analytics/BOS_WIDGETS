@@ -1,8 +1,7 @@
-const { address } = props;
+const { address, updateTokenBalance } = props;
 
 useEffect(() => {
-  if (!address) return;
-
+  if (!address || !updateTokenBalance) return;
   const account = Ethers.send("eth_requestAccounts", [])[0];
   if (!account) return;
 
@@ -46,6 +45,6 @@ useEffect(() => {
     .catch((err) => {
       console.log(err);
     });
-}, [address]);
+}, [address, updateTokenBalance]);
 
 return "";
