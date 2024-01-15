@@ -176,12 +176,14 @@ const Items = styled.div`
   display: flex;
   flex-direction: column;
       overflow: hidden;
-    overflow-y: scroll;
+    overflow-y: auto;
+     transition: all 0.3s;
 `;
 
 const Item = styled.div`
   width: 100%;
   padding-top: 12px;
+   transition: all 0.3s;
 `;
 
 const Button = styled.button`
@@ -253,7 +255,7 @@ return (
       <Text>No components matched your search.</Text>
     )}
     {items.length > 0 && (
-      <Items>
+      <Items style={{ paddingRight: items && items.length > 5 ? "20px" : "" }}>
         {items.map((component, i) => {
           return (
             <Item
