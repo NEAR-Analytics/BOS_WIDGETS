@@ -88,12 +88,17 @@ const Wrapper = styled.div`
   padding-left: 15px;
   padding-right: 15px;
   position:absolute;
-  left:30%;
-  top:30%;
+  left:50%;
+  top:50%;
   gap: 12px;
+  transform: translate(-50%,-50%);
+
   padding-bottom: 25px;
   padding-top: 50px;
   width: 422px;
+  height: 547px;
+
+  
   border: 1px solid #d9d9d9;
   background: #fff;
   border-radius: 8px;
