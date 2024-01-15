@@ -21,6 +21,30 @@ function Page() {
         />
       );
     }
+    case "profile": {
+      return (
+        <Widget
+          src={`memelol.near/widget/lol.Pages.Profile`}
+          props={pageProps}
+        />
+      );
+    }
+    case "puzzle": {
+      return (
+        <Widget
+          src={`memelol.near/widget/lol.Pages.Puzzle`}
+          props={pageProps}
+        />
+      );
+    }
+    case "mint": {
+      return (
+        <Widget
+          src={`memelol.near/widget/lol.Pages.Mint`}
+          props={pageProps}
+        />
+      );
+    }
 
     default: {
       const NotFound = styled.div`
