@@ -12,7 +12,7 @@ const handleOnMouseLeave = () => {
 };
 
 const handleOpenMenu = () => {
-  State.update({ showMenu: true });
+  State.update({ showMenu: true, show: false });
 };
 
 const handleCloseMenu = () => {
@@ -97,77 +97,7 @@ const ActionsWrapper = styled.div`
   }
   animation: translateAnimation 1.5s linear forwards;
   transition: all 0.3s;
-`;
-
-const ActionsItem = styled.div`
-  display: flex;
-  width: 34px;
-  height: 34px;
-  justify-content: center;
-  align-items: center;
-  border-radius: 50%;
-  background: #db504a;
-  margin-bottom: 6px;
-  cursor: pointer;
-  box-sizing: border-box;
-  @keyframes translateAnimationItem {
-    0% {
-      opacity: 0;
-    }
-    50% {
-      opacity: 0;
-    }
-    100% {
-      opacity: 1;
-    }
-  }
-  animation: translateAnimationItem 1.5s linear forwards;
-  transition: all 0.3s;
-  &:hover {
-    border: 1px solid #c1c6ce;
-    box-shadow: 0px 4px 20px 0px rgba(11, 87, 111, 0.15),
-      0px 4px 5px 0px rgba(45, 52, 60, 0.1);
-  }
-  .ItemActive {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    img {
-      border: 1px solid #19ceae;
-      object-fit: cover;
-      border-radius: 50%;
-      width: 34px;
-      height: 34px;
-      display: block;
-    }
-    &:before {
-      content: "";
-      display: block;
-      position: absolute;
-      top: 0;
-      right: 0;
-      background: #fff;
-      width: 12px;
-      height: 12px;
-      border-radius: 50%;
-    }
-
-    &:after {
-      content: "";
-      display: block;
-      position: absolute;
-      top: 2px;
-      right: 2px;
-      background: #19ceae;
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-    }
-  }
+ 
 `;
 
 const TriggerEar = styled.div`
@@ -332,21 +262,39 @@ const iconSwitch = (
   </svg>
 );
 
+const iconRemoveAction = (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="14"
+    height="14"
+    viewBox="0 0 14 14"
+    fill="none"
+  >
+    <circle cx="7" cy="7" r="6.5" fill="#DB504A" stroke="white" />
+    <path
+      d="M9.24976 4.75L4.74999 9.24977"
+      stroke="white"
+      stroke-width="1.5"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    />
+    <path
+      d="M4.75 4.75L9.24977 9.24977"
+      stroke="white"
+      stroke-width="1.5"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    />
+  </svg>
+);
+
 return (
-  <OverlayTriggerWrapper>
-    <div
-      style={{ opacity: state.show ? 0 : 1 }}
-      className="OverlayTrigger"
-      onMouseEnter={handleOnMouseEnter}
-    >
+  <OverlayTriggerWrapper onMouseEnter={handleOnMouseEnter}>
+    <div style={{ opacity: state.show ? 0 : 1 }} className="OverlayTrigger">
       <TriggerEar />
     </div>
     {state.show ? (
-      <TriggerShowPanel
-        style={{ margin: "0px -7px" }}
-        onMouseEnter={handleOnMouseEnter}
-        onMouseLeave={handleOnMouseLeave}
-      >
+      <TriggerShowPanel style={{ margin: "0px -7px" }}>
         <TriggerShowLabel />
 
         <ActionsWrapper>
@@ -355,13 +303,21 @@ return (
           ))}
         </ActionsWrapper>
 
-        <ButtonPlus onClick={handleOpenMenu} />
+        <ButtonPlus
+          onClick={handleOpenMenu}
+          onMouseLeave={handleOnMouseLeave}
+        />
       </TriggerShowPanel>
     ) : null}
 
     {state.showMenu ? (
       <Overlay>
-        <Widget src="bos.dapplets.near/widget/ComponentsSearch" />
+        <Widget
+          props={{
+            handleCloseMenu: handleCloseMenu,
+          }}
+          src="bos.dapplets.near/widget/ComponentsSearch"
+        />
       </Overlay>
     ) : null}
   </OverlayTriggerWrapper>
