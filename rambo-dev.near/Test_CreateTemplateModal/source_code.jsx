@@ -275,59 +275,63 @@ function onSaveTemplate(title, content) {
   onClose();
 }
 
-return (
-  <Modal
-    open={state.isOpen}
-    key="create"
-    onOpen={onOpen}
-    onClose={onClose}
-    toggle={<Button variant="primary">Add New</Button>}
-  >
-    <ModalContainer>
-      <InputField
-        key="templateTitleInput"
-        label="Title"
-        placeholder="Name your template"
-        value={state.templateTitle}
-        onChange={(e) => {
-          State.update({
-            templateTitle: e.target.value,
-          });
-        }}
-      />
-
-      <TextareaWrapper
-        className="markdown-editor"
-        data-value={"templateContent"}
-        key={"templateContent"}
-      >
-        <Widget
-          src="mob.near/widget/MarkdownEditorIframe"
-          props={{
-            initialText: templateContent,
-            embedCss: MarkdownEditor,
-            onChange: (v) => {
-              State.update({
-                templateContent: v,
-              });
-            },
+function CreatePostTemplateModal() {
+  return (
+    <Modal
+      open={state.isOpen}
+      key="create"
+      onOpen={onOpen}
+      onClose={onClose}
+      toggle={<Button variant="primary">Add New</Button>}
+    >
+      <ModalContainer>
+        <InputField
+          key="templateTitleInput"
+          label="Title"
+          placeholder="Name your template"
+          value={state.templateTitle}
+          onChange={(e) => {
+            State.update({
+              templateTitle: e.target.value,
+            });
           }}
         />
-      </TextareaWrapper>
 
-      <SaveTemplateWrapper>
-        <Dialog.Trigger asChild>
-          <Button
-            disabled={isValidTemplateToCreate}
-            onClick={() => {
-              onSaveTemplate(state.templateTitle, state.templateContent);
+        <TextareaWrapper
+          className="markdown-editor"
+          data-value={"templateContent"}
+          key={"templateContent"}
+        >
+          <Widget
+            src="mob.near/widget/MarkdownEditorIframe"
+            props={{
+              initialText: templateContent,
+              embedCss: MarkdownEditor,
+              onChange: (v) => {
+                State.update({
+                  templateContent: v,
+                });
+              },
             }}
-            variant="primary"
-          >
-            Save Template
-          </Button>
-        </Dialog.Trigger>
-      </SaveTemplateWrapper>
-    </ModalContainer>
-  </Modal>
-);
+          />
+        </TextareaWrapper>
+
+        <SaveTemplateWrapper>
+          <Dialog.Trigger asChild>
+            <Button
+              disabled={isValidTemplateToCreate}
+              onClick={() => {
+                onSaveTemplate(state.templateTitle, state.templateContent);
+              }}
+              variant="primary"
+            >
+              Save Template
+            </Button>
+          </Dialog.Trigger>
+        </SaveTemplateWrapper>
+      </ModalContainer>
+    </Modal>
+  );
+}
+
+return { CreatePostTemplateModal };
