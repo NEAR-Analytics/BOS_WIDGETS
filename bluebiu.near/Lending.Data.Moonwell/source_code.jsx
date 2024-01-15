@@ -473,10 +473,20 @@ const getOTokenLiquidity = () => {
     });
 };
 const getWalletBalance = () => {
-  const underlyingTokens = Object.values(markets).map((market) => ({
-    ...market.underlyingToken,
-    oTokenAddress: market.address,
-  }));
+  let nativeOToken = "";
+  const underlyingTokens = Object.values(markets)
+    .filter((market) => {
+      if (market.underlyingToken.address === "native")
+        nativeOToken = market.address;
+      return (
+        market.underlyingToken.address &&
+        market.underlyingToken.address !== "native"
+      );
+    })
+    .map((market) => ({
+      ...market.underlyingToken,
+      oTokenAddress: market.address,
+    }));
   const calls = underlyingTokens.map((token) => ({
     address: token.address,
     name: "balanceOf",
@@ -492,14 +502,27 @@ const getWalletBalance = () => {
     .then((res) => {
       _underlyingBalance = {};
       for (let i = 0, len = res.length; i < len; i++) {
-        _underlyingBalance[underlyingTokens[i].oTokenAddress] =
-          ethers.utils.formatUnits(
-            res[i][0]._hex,
-            underlyingTokens[i].decimals
-          );
+        _underlyingBalance[underlyingTokens[i].oTokenAddress] = res[i][0]
+          ? ethers.utils.formatUnits(
+              res[i][0]._hex,
+              underlyingTokens[i].decimals
+            )
+          : "0";
       }
-      count++;
-      formatedData("getWalletBalance");
+      if (nativeOToken) {
+        const provider = Ethers.provider();
+        provider.getBalance(account).then((rawBalance) => {
+          _underlyingBalance[nativeOToken] = ethers.utils.formatUnits(
+            rawBalance._hex,
+            18
+          );
+          count++;
+          formatedData("getWalletBalance");
+        });
+      } else {
+        count++;
+        formatedData("getWalletBalance");
+      }
     })
     .catch((err) => {
       console.log("getWalletBalance error", err);
