@@ -53,14 +53,12 @@ const TriggerShowPanel = styled.div`
 
 const TriggerShowLabel = styled.div`
   background: #db504a;
-
- 
   display: flex;
   border-radius: 0px 4px 4px 0px;
   z-index: 1070;
   cursor: pointer;
   position: absolute;
-      height: 40px;
+      height: 49px;
   @keyframes scaleAnimation {
     0% {
       opacity: 1;
