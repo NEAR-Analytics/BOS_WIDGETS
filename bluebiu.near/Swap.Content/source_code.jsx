@@ -370,7 +370,6 @@ return (
           chainId: props.chainId,
           gas: state.gas,
           chainIdNotSupport: props.chainIdNotSupport,
-          theme: dexConfig.theme?.button,
         }}
       />
     </Panel>
