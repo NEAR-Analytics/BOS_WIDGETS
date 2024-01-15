@@ -349,7 +349,7 @@ return (
       >
         <TriggerShowLabel />
 
-        <ActionsWrapper>
+        <ActionsWrapper onMouseEnter={handleOnMouseEnter}>
           <slot />
         </ActionsWrapper>
 
