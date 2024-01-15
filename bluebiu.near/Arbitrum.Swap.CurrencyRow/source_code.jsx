@@ -60,20 +60,19 @@ return (
     className={currency.address === selectedTokenAddress ? "active" : ""}
     onClick={onClick}
   >
-    {display && !state.balanceLoaded && (
-      <Widget
-        src="bluebiu.near/widget/Arbitrum.Swap.CurrencyBalance"
-        props={{
-          address: currency.address,
-          onLoad: (balance) => {
-            State.update({
-              balance: ethers.utils.formatUnits(balance, currency.decimals),
-              balanceLoaded: true,
-            });
-          },
-        }}
-      />
-    )}
+    <Widget
+      src="bluebiu.near/widget/Arbitrum.Swap.CurrencyBalance"
+      props={{
+        address: currency.address,
+        updateTokenBalance: display,
+        onLoad: (balance) => {
+          State.update({
+            balance: ethers.utils.formatUnits(balance, currency.decimals),
+            balanceLoaded: true,
+          });
+        },
+      }}
+    />
     <CurrencyLabel>
       <CurrencyIcon src={currency.icon} />
       <div>
