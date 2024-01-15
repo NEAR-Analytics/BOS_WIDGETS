@@ -4,7 +4,7 @@ const { Avatar, Button, InputField, TextEditor } = VM.require(
 const { Modal } = VM.require("rambo-dev.near/widget/ModalComponent");
 const { PlusIcon } = VM.require("rambo-dev.near/widget/PlusIcon");
 
-Avatar = Avatar || (() => <></>);
+const Avatar = Avatar || (() => <></>);
 Button = Button || (() => <></>);
 
 const draftKey = props.feed.name || "draft";
@@ -504,6 +504,38 @@ return (
         </ModalContainer>
       </Modal>
     </FiltersSection>
+
+    <Widget
+      src={"nearui.near/widget/Layout.Modal"}
+      props={{
+        toggle: () => <H3>Add new markdown template</H3>,
+        content: () => {
+          return (
+            <>
+              <H3>Add new markdown template</H3>
+
+              <TextareaWrapper
+                className="markdown-editor"
+                data-value={"templateContent"}
+                key={"templateContent"}
+              >
+                <Widget
+                  src="mob.near/widget/MarkdownEditorIframe"
+                  props={{
+                    initialText: "# Hello World",
+                    embedCss: MarkdownEditor,
+                    onChange: (v) => {
+                      setTemplateContent(v);
+                      //   Storage.privateSet(draftKey, v || "");
+                    },
+                  }}
+                />
+              </TextareaWrapper>
+            </>
+          );
+        },
+      }}
+    />
 
     <div style={{ border: "none" }}>
       {view === "editor" ? (
