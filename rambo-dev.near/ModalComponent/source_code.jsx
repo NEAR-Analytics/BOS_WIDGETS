@@ -46,9 +46,16 @@ const Icon = styled.i`
     font-size: 24px;
 `;
 
-function Modal({ children, open, onOpenChange, toggle, toggleContainerProps }) {
+function Modal({
+  children,
+  open,
+  onOpenChange,
+  toggle,
+  toggleContainerProps,
+  key,
+}) {
   return (
-    <Dialog.Root open={open} onOpenChange={onOpenChange}>
+    <Dialog.Root open={open} onOpenChange={onOpenChange} key={key}>
       <Dialog.Trigger asChild>
         <NoButton {...toggleContainerProps}>{toggle}</NoButton>
       </Dialog.Trigger>
