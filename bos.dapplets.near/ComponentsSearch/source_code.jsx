@@ -71,7 +71,7 @@ function onSearchChange({ result, term }) {
 const items = state.searchResults || components;
 const selectedComponent = state.selectedComponent;
 
-const CloseModal = styled.div`
+const CloseModal = styled.span`
   position: absolute;
           top: -40px;
           right: 0;
@@ -230,17 +230,8 @@ const iconCloseModal = (
 return (
   <Wrapper>
     <Search>
-      <span
-        style={{
-          position: "absolute",
-          top: "-40px",
-          right: "0",
-          cursor: "pointer",
-        }}
-        onClick={props.handleCloseMenu}
-      >
-        {iconCloseModal}
-      </span>
+      <CloseModal> {iconCloseModal}</CloseModal>
+
       <Widget
         src="near/widget/ComponentSearch"
         props={{
