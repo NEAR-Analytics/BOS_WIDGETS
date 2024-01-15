@@ -4,9 +4,9 @@
  * License: Business Source License 1.1
  * Description: Accounts component enable users to view information related to their accounts.
  * @interface Props
- * @param {string} [id] - The account identifier passed as a string.
  * @param {string} [network] - The network data to show, either mainnet or testnet
  * @param {Function} [t] - A function for internationalization (i18n) provided by the next-translate package.
+ * @param {string} [id] - The account identifier passed as a string.
  */
 
 
