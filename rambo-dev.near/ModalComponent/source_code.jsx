@@ -2,10 +2,6 @@ const { theme } = VM.require("rambo-dev.near/widget/ThemeProvider");
 const { Button } = VM.require("buildhub.near/widget/components.Button");
 
 const toggle = props.toggle ?? <Button variant="primary">Open Modal</Button>;
-// const toggleContainerProps = props.toggleContainerProps ?? {};
-// const content = props.content ?? <div className="p-5">Modal Content</div>;
-// const open = props.open;
-// const onOpenChange = props.onOpenChange;
 
 const Overlay = styled.div`
   position: fixed;
@@ -44,6 +40,7 @@ const CloseContainer = styled.div`
     display: flex;
     justify-content: flex-end;
     width: 100%;
+    padding-bottom: 24px;
 `;
 
 const Icon = styled.i`
