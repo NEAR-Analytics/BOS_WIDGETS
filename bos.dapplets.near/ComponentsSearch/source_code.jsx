@@ -82,7 +82,7 @@ const Wrapper = styled.div`
   transform: translate(-50%, 50%);
   gap: 12px;
   padding-bottom: 25px;
-  padding-top: 25px;
+  padding-top: 50px;
   width: 422px;
   border: 1px solid #d9d9d9;
   background: #fff;
@@ -221,7 +221,10 @@ const iconCloseModal = (
 return (
   <Wrapper>
     <Search>
-      <span style={{ position: absolute }} onClick={handleCloseMenu}>
+      <span
+        style={{ position: "absolute", top: "-40px", right: "0" }}
+        onClick={props.handleCloseMenu}
+      >
         {iconCloseModal}
       </span>
       <Widget
