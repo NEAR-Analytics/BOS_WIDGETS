@@ -1,29 +1,53 @@
 const { assets, content, contractName } = props;
 const { format, Token } = VM.require(`memelol.near/widget/lol.Utils`);
 const { Snow } = VM.require(`memelol.near/widget/lol.Components.Snow`);
+const { Navigation } = VM.require(
+  `memelol.near/widget/lol.Components.Navigation`,
+);
 const { Button } = VM.require(`memelol.near/widget/lol.Components.Button`);
+
+const TOKENOMIC = [
+  {
+    title: "In Circulation",
+    color: "rgb(89 110 255 / 90%)",
+    value: 537.75,
+    sub: [
+      { title: "Marketing spends", value: 10.35 },
+      { title: "LP amount", value: 231.14 },
+      { title: "Community funds", value: 296.26 },
+    ],
+  },
+  { title: "Burned Amount", color: "rgb(0 0 0 / 40%)", value: 218.48 },
+  { title: "Marketing", color: "#fff", value: 20.77 },
+];
+
+const totalSupply = TOKENOMIC.map((v) => v.value).reduce((a, b) => a + b, 0);
 
 const Container = styled.div`
   width: 100%;
   height: max-content;
   overflow: hidden;
-`;
 
-const InfoSection = styled.div`
-  flex-direction: row;
+  .buy-token {
+    width: 300px;
 
-  .btn {
-    width: 100%;
-    max-width: 400px;
-    padding: 15px 25px 15px 50px;
+    div {
+      padding: 12px 25px;
+    }
+
+    &:hover {
+      text-decoration: none;
+    }
 
     @media screen and (max-width: 786px) {
-      max-width: 100%;
+      width: 100%;
     }
   }
 
-  @media screen and (max-width: 786px) {
-    flex-direction: column;
+  .infos {
+    @media screen and (max-width: 786px) {
+      flex-direction: column;
+    }
   }
 `;
 
@@ -44,15 +68,6 @@ const Section = styled.div`
     background-position: center;
   }
 
-  &.prize-img {
-    border-radius: 20px;
-    width: 100%;
-    height: 100%;
-    background-image: url(${assets.bannerPrize});
-    background-size: contain;
-    background-position: center;
-  }
-
   &.notbad-img {
     border-radius: 20px;
     width: 100%;
@@ -62,78 +77,79 @@ const Section = styled.div`
     background-position: center;
   }
 
+  .header {
+    position: relative;
+    justify-content: space-between;
+    width: 700px;
+
+    @media screen and (max-width: 786px) {
+      width: 100%;
+    }
+
+    img {
+      position: relative;
+      width: 160px !important;
+      height: 160px !important;
+      z-index: 109;
+
+      @media screen and (max-width: 786px) {
+        width: 110px !important;
+        height: 110px !important;
+      }
+    }
+
+    .running-block {
+      position: absolute;
+      left: 117px;
+      top: 15px;
+      overflow: hidden;
+      width: 465px;
+      z-index: 110;
+
+      @media screen and (max-width: 786px) {
+        left: 85px;
+        width: 170px;
+      }
+    }
+  }
+
+  .pl {
+    padding-left: 27px;
+  }
+
+  &.info {
+    display: flex;
+    text-align: center;
+    flex-direction: column;
+    gap: 1rem;
+    padding: 2rem 1.5rem;
+    height: 300px;
+    justify-content: space-between;
+    align-items: center;
+
+    h1 {
+      font-size: 3.5rem;
+    }
+
+    small {
+      line-height: 2rem;
+    }
+
+    .small {
+      font-size: 14px;
+      margin-top: 1rem;
+      font-style: italic;
+      line-height: 1.5rem;
+    }
+  }
+
   .wrapper {
-    width: 100%;
+    width: 50%;
     flex-direction: row;
 
     @media screen and (max-width: 786px) {
       width: 100%;
       flex-direction: column;
-    }
-
-    .mint-section {
-      box-shadow: 0px 20px 30px 0px rgba(0, 0, 0, 0.5);
-      width: 100%;
-      max-width: 600px;
-      background: rgb(255 255 255 / 90%);
-      display: flex;
-      flex-direction: column;
-      gap: 2rem;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      padding: 2rem;
-      border: 3px solid black;
-      border-radius: 20px;
-      z-index: 2;
-
-      @media screen and (max-width: 786px) {
-        max-width: 100%;
-      }
-
-      &.my-stats {
-        max-width: 300px;
-        background: rgb(255 214 255 / 90%);
-
-        @media screen and (max-width: 786px) {
-          max-width: 100%;
-        }
-      }
-
-      .mint-rules {
-        display: flex;
-        flex-direction: column;
-        box-shadow: 0px 20px 30px 0px rgba(0, 0, 0, 0.2);
-        border: 3px solid black;
-        border-radius: 20px;
-        padding: 1.5rem;
-        gap: 0.1rem;
-        text-align: left;
-        background: rgb(148 182 255 / 30%);
-      }
-    }
-  }
-
-  .winners-list {
-    margin: 2rem 0;
-    width: 75%;
-    z-index: 2;
-
-    @media screen and (max-width: 786px) {
-      width: 100%;
-    }
-  }
-
-  .stat {
-    width: 25%;
-    margin: 0;
-    flex-direction: column;
-
-    @media screen and (max-width: 786px) {
-      flex-direction: row;
-      margin: 10px;
-      justify-content: space-between;
-      width: 100%;
     }
   }
 
@@ -157,231 +173,197 @@ const Overlay = styled.div`
   }
 `;
 
-const Card = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  gap: 1rem;
-  background: #fff;
-  text-align: center;
-  border: 3px solid black;
+const Img = styled.img`
   border-radius: 20px;
-  width: 210px;
-  height: 345px;
-  box-shadow: 0px 20px 30px 0px rgba(0, 0, 0, 0.25);
+  height: 300px;
+  background-image: url(${(props) => props.src});
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  box-shadow: 0px 20px 30px 0px rgba(0, 0, 0, 0.2);
+  border: 3px solid black;
 
-  h1 {
-    line-height: 1rem;
-  }
-
-  h3 {
-    width: 100px;
-  }
-
-  .meme {
-    width: 130px;
-    height: 130px;
-  }
-
-  .avaliability {
-    background: ${(props) => props.color};
-    border-top: 3px solid black;
-    border-radius: 0 0 18px 18px;
+  @media screen and (max-width: 786px) {
+    width: 100%;
   }
 `;
 
-const [stats, setStats] = useState({
-  participants: 0,
-  receivedNear: 0,
-  boxes: [],
-  boxesLeft: 0,
-  receivedLoL: 0,
-  startDate: 1704531600000,
-});
+const LOL = styled.div`
+  white-space: nowrap;
+  font-size: 6rem;
+  font-weight: 800;
+  color: white;
+  text-shadow: 3px 3px 10px black;
+  letter-spacing: 5px;
 
-const Stats = ({ text, value, near }) => (
-  <div className="stat d-flex gap-1 align-items-center">
-    <div>
-      <h4>{text}</h4>
-    </div>
-    {near != undefined ? (
-      <Token near={near} size={25}>
-        <h3 className="font">{format(value)}</h3>
-      </Token>
-    ) : (
-      <h3 className="font">{format(value)}</h3>
-    )}
-  </div>
+  -webkit-animation: scrolling 1s linear infinite;
+  animation: scrolling 1s linear infinite;
+
+  @keyframes scrolling {
+    0% {
+      transform: translateX(${(p) => (p.delay % 2 == 0 ? "-100%" : "-201%")});
+      -webkit-transform: translateX(
+        ${(p) => (p.delay % 2 == 0 ? "-100%" : "-201%")}
+      );
+    }
+    100% {
+      transform: translateX(0%);
+      -webkit-transform: translateX(0%);
+    }
+  }
+
+  @media screen and (max-width: 786px) {
+    font-size: 4rem;
+  }
+`;
+
+const ProgressBlock = styled.div`
+  border-radius: 50px;
+  height: 50px;
+  width: 100%;
+  display: flex;
+  border: 3px solid black;
+  padding: 5px;
+  background: white;
+`;
+
+const Bar = styled.div`
+  width: ${(p) => p.width}%;
+  text-align: center;
+  background: ${(p) => p.color};
+
+  &:first-child {
+    border-radius: 50px 0 0 50px;
+  }
+  &:last-child {
+    border-radius: 0 50px 50px 0;
+  }
+`;
+
+const Progress = ({ values }) => (
+  <ProgressBlock className="d-flex w-100">
+    {values.map((bar) => (
+      <Bar
+        width={parseFloat((bar.value / totalSupply) * 100)}
+        color={bar.color}
+      />
+    ))}
+  </ProgressBlock>
 );
-
-const receivedNear = (boxes, rewards) => {
-  if (!boxes) return 0;
-
-  const totalBoxes = [4449, 5000, 500, 50, 1];
-  const total = totalBoxes
-    .map((box, i) => box * rewards[i])
-    .reduce((a, b) => a + b, 0);
-  const available = boxes
-    .map((box, i) => box * rewards[i])
-    .reduce((a, b) => a + b, 0);
-
-  return total - available;
-};
-
-const receivedLol = (stats) =>
-  format(
-    new Big(stats[0] || 0)
-      .minus(new Big(stats[1] || 0))
-      .minus(new Big(stats[2] || 0))
-      .toNumber(),
-    24,
-  );
-
-const fetchStats = () => {
-  const stats = Near.view(contractName, "get_total_stats");
-
-  setStats({
-    participants: stats[0],
-    boxes: stats[1],
-    boxesLeft: stats[2],
-    receivedNear: receivedNear(stats[1], stats[5]),
-    receivedLoL: receivedLol(stats[4]),
-    startDate: stats[6]
-      ? new Big(stats[6] || 0).div(1000 * 1000).toNumber()
-      : 0,
-  });
-};
-
-fetchStats();
 
 return (
   <Container className="d-flex flex-column gap-4">
-    <InfoSection className="d-flex gap-3">
+    <Navigation />
+    <div className="d-flex gap-3">
       <Section
-        className="d-flex justify-content-center align-items-center gap-3"
-        color="#efefef"
+        className="d-flex justify-content-center align-items-center text-center gap-3"
+        color="rgb(255 242 158 / 90%)"
       >
-        <h3 className="font pb-2">Mint is available</h3>
+        <h3>
+          <b>
+            Decentrilized <span className="px-2">•</span> Community Owned{" "}
+            <span className="px-2">•</span> Built on BOS
+            <span className="px-2">•</span> Meme Coin
+          </b>
+        </h3>
       </Section>
-      <Button className="btn">
-        <a
-          href={content.shareLink}
-          className="w-100 d-flex justify-content-between align-items-center"
-        >
-          <span>Share to get FREE LOL</span>
-          <i className="bi bi-share" />
-        </a>
-      </Button>
-    </InfoSection>
+    </div>
     <Section className="p-0 position-relative banner-img">
       <Overlay color="rgb(89 110 255 / 80%)">
-        <div className="wrapper d-flex align-items-center gap-3 justify-content-center">
-          <div className="mint-section">
-            <h1 className="font">NEW YEAR MINT 🎉</h1>
-            <div className="mint-rules">
-              <h5>1. Mint Boxes.</h5>
-              <h5>
-                2. Receive <b>LOL</b> and/or <b>NEAR</b> rewards.
-              </h5>
-              <h5>3. Share your results.</h5>
-              <h5>
-                4. Trade <b>LOL{"<>"}NEAR</b> after quest ends.
-              </h5>
+        <div className="wrapper d-flex flex-column align-items-center gap-4 justify-content-center">
+          <div className="header d-flex align-items-center">
+            <img src="https://ipfs.near.social/ipfs/bafkreiaf4ztsvri5e5slfbzmjpu5mccgjy555m6liuq3updthosjdade54" />
+            <div className="running-block d-flex">
+              {[...Array(10).keys()].map((i) => (
+                <LOL className="font" delay={i}>
+                  {i % 2 == 0 ? "L" : "0"}
+                </LOL>
+              ))}
             </div>
-            <Widget
-              src="memelol.near/widget/lol.Components.MintBox"
-              props={{
-                contractName,
-                canMint: new Date(stats.startDate) <= new Date(),
-              }}
+            <img
+              style={{ transform: "scale(-1, 1)" }}
+              src="https://ipfs.near.social/ipfs/bafkreiaf4ztsvri5e5slfbzmjpu5mccgjy555m6liuq3updthosjdade54"
             />
           </div>
-          <Widget
-            src={`memelol.near/widget/lol.Components.MyStats`}
-            props={{ contractName, transactionHashes: props.transactionHashes }}
-          />
+          <a
+            className="buy-token"
+            href="https://app.ref.finance/#near|memelol.near"
+          >
+            <Button className="w-100 button justify-content-center">
+              Buy $LOL
+            </Button>
+          </a>
         </div>
-        <Snow />
       </Overlay>
     </Section>
 
-    <Section className="p-0 prize-img">
-      <Overlay color="rgb(255 242 158 / 90%)">
-        <div className="text-center font mb-5">
-          <h1>Limited Prizes 🎁</h1>
-        </div>
-        {content.prizes && (
-          <div className="d-flex flex-wrap gap-4 justify-content-center">
-            {content.prizes.map((prize, i) => (
-              <div key={`prize-${i}`}>
-                <Card color={prize.color}>
-                  <div className="d-flex p-2 pt-4 flex-column align-items-center">
-                    <img className="meme" src={prize.src} />
-                    <div className="d-flex flex-column gap-1">
-                      <span className="font">Reward</span>
-
-                      {prize.amountNear ? (
-                        <>
-                          <Token near size={40}>
-                            <h2>{prize.amountNear}</h2>
-                          </Token>
-                          <Token size={25}>
-                            <h4>{prize.amountLoL}</h4>
-                          </Token>
-                        </>
-                      ) : (
-                        <Token size={40}>
-                          <h3>{prize.amountLoL}</h3>
-                        </Token>
-                      )}
-                    </div>
-                  </div>
-                  <div className="avaliability d-flex p-2 flex-column justify-content-between">
-                    <h5 className={"nowrap"}>
-                      <small>Available:</small> <b>0</b>
-                    </h5>
-                  </div>
-                </Card>
-              </div>
-            ))}
-          </div>
-        )}
-      </Overlay>
-    </Section>
-    <Section
-      className="d-flex p-4 flex-wrap align-items-center justify-content-center"
-      color="rgb(255 177 255)"
-    >
-      <Stats text="Participants" value={stats.participants} />
-      <Stats text="Boxes Left" value={stats.boxesLeft} />
-      <Stats near={true} text="Near Collected" value={stats.receivedNear} />
-      <Stats near={false} text="LOL Collected" value={stats.receivedLoL} />
-    </Section>
     <Section className="p-0 notbad-img">
-      <Overlay color="rgb(148 182 255 / 90%)">
-        <div className="text-center font">
-          <h1>TOP Winners</h1>
+      <Overlay color="rgb(255 242 158 / 95%)">
+        <h1 className="font text-center mb-4">Tokenomics</h1>
+        <h3 className="text-center mb-2">
+          <b>
+            Decentrilized on{" "}
+            {parseInt(((totalSupply - TOKENOMIC[2].value) / totalSupply) * 100)}
+            %
+          </b>
+        </h3>
+        <Progress values={TOKENOMIC} />
+        <div className="d-flex w-100 flex-column gap-2 my-4 px-3">
+          {TOKENOMIC.slice(0, 2).map((t) => (
+            <>
+              <div className="d-flex justify-content-between align-items-center">
+                <div className="d-flex gap-2 align-items-center">
+                  <div
+                    style={{
+                      width: "20px",
+                      height: "20px",
+                      borderRadius: "50%",
+                      border: "3px solid black",
+                      backgroundColor: t.color,
+                    }}
+                  />
+                  <small>{t.title}</small>
+                </div>
+                <h3 className="font">{t.value}M</h3>
+              </div>
+              {t.sub &&
+                t.sub.map((t) => (
+                  <div className="pl d-flex justify-content-between align-items-center">
+                    <small>{t.title}</small>
+                    <small>{t.value}M</small>
+                  </div>
+                ))}
+            </>
+          ))}
+          <div className="d-flex justify-content-between align-ittems-center">
+            <small>
+              <b>Marketing left</b>
+            </small>
+            <h3 className="font">{TOKENOMIC[2].value}M</h3>
+          </div>
+          <div style={{ background: "#000", height: "3px" }} className="my-2" />
+          <div className="d-flex justify-content-between align-ittems-center">
+            <small>
+              <b>Total Supply</b>
+            </small>
+            <h3 className="font">{totalSupply}M</h3>
+          </div>
         </div>
-        <Widget
-          src={`memelol.near/widget/lol.Components.Leaderboard`}
-          props={{ contractName, assets }}
-        />
       </Overlay>
     </Section>
     <Section
       className="d-flex flex-column align-items-center justify-content-center"
       color="#efefef"
     >
-      <div className="text-center font">
-        <h1>FAQ</h1>
-      </div>
-      <div className="d-flex mt-3 flex-column w-100 gap-2">
-        {content.FAQ.map((faq, index) => (
-          <Widget
-            src="memelol.near/widget/lol.Components.FAQ"
-            props={{ faq, index }}
-          />
-        ))}
+      <h1 className="font text-center mt-2">How to Buy $LOL ?</h1>
+      <small className="mt-3">
+        Go on <a href="https://app.ref.finance/">https://app.ref.finance</a> add
+        a token and start swap it.
+      </small>
+      <div className="d-flex flex-wrap gap-2 my-5 justify-content-center align-items-center">
+        <Img src={assets.instructions[0]} />
+        <Img src={assets.instructions[1]} />
+        <Img src={assets.instructions[2]} />
       </div>
     </Section>
   </Container>
