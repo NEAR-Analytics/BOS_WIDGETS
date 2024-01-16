@@ -2,6 +2,8 @@ if (context.loading) {
   return;
 }
 
+const { evaluatorContract } = props;
+
 // TODO: add colors here so we can iterate over the array
 const curriculum = [{
   name: "Hello Near",
@@ -36,16 +38,16 @@ const curriculum = [{
 ];
 
 function claimNFT() {
-  return Near.call("eval.flmel.near", "claim_nft", {});
+  return Near.call(evaluatorContract, "claim_nft", {});
 }
 
 
 function progress() {
   if (context.accountId === null) {
-    return [];
+    return [false, false, false, false];
   }
   else {
-    return Near.view("eval.flmel.near", "get_progress", { account_id: context.accountId });
+    return Near.view(evaluatorContract, "get_progress", { account_id: context.accountId });
   }
 }
 
