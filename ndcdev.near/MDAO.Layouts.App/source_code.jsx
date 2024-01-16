@@ -1,5 +1,5 @@
 let fontCss = fetch(
-  "https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700&display=swap"
+  "https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700&display=swap",
 );
 
 if (!fontCss) {
@@ -12,7 +12,7 @@ fontCss = fontCss.body;
 
 const Theme = styled.div`
   position: fixed;
-  inset: 107px 0px 0px;
+  inset: 73px 0px 0px;
   width: 100%;
   height: 100%;
   min-height: 100vh;
