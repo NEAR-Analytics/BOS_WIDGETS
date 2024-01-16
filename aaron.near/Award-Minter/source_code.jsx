@@ -24,7 +24,9 @@ State.init({
   ? props.setActiveStep(0)
   : props.setActiveStep(1);
 
-props.image ? State.update({ image: props.image }) : null;
+if (props.image) {
+  State.update({ image: props.image });
+}
 
 if (props.proceed) {
   props.setActiveStep(0);
@@ -282,7 +284,7 @@ return (
             <ImageCard>
               {props.generated ? (
                 <img
-                  src={`${props.gateway}/${state.image.cid}/pinataGatewayToken=${props.gatewayKey}`}
+                  src={`${props.gateway}/ipfs/${state.image.cid}/pinataGatewayToken=${props.gatewayKey}`}
                   alt="uploaded image"
                   width="100%"
                   height="100%"
