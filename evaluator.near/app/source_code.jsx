@@ -2,9 +2,9 @@ if (context.loading) {
   return "Loading...";
 }
 
-const evaluator_contract = "eval.flmel.near";
+const evaluatorContract = "eval.flmel.near";
 
-let progress = Near.view(evaluator_contract, "get_progress", { account_id: context.accountId });
+let progress = Near.view(evaluatorContract, "get_progress", { account_id: context.accountId });
 
 if (progress === null) {
   return "Loading...";
@@ -20,7 +20,8 @@ const menuLinks = [
     component: {
       path: "evaluator.near/widget/Pages.About",
       bindings: {
-        evaluator_contract,
+        evaluatorContract,
+        userAccountId
       }
     }
   },
@@ -46,7 +47,7 @@ const menuLinks = [
     component: {
       path: "evaluator.near/widget/Pages.Progress",
       bindings: {
-        evaluator_contract,
+        evaluatorContract,
         progress,
         redirectTo: (component) => { setActiveComponent(component); },
       }
@@ -90,17 +91,7 @@ const curriculumLinks = [{
       progress: '',
     }
   }
-},
-  // {
-  //   label: "Complex Input (advanced)",
-  //   component: {
-  //     path: "evaluator.near/widget/Curriculum.ComplexInputAdvanced",
-  //     bindings: {
-  //       progress: '',
-  //     }
-  //   }
-  // }
-];
+}];
 
 const tailwindCssUrl = "https://dl.dropboxusercontent.com/scl/fi/d2krq3g6bibgq3j5dmz1i/output.css?rlkey=qn0cqs11ow7qw28tsffp8ia3b&dl=0";
 
@@ -131,7 +122,7 @@ return (
         src="evaluator.near/widget/Modal"
         props={{
           transactionHashes: props.transactionHashes,
-          evaluator_contract,
+          evaluatorContract,
         }}
       />
       : <></>
