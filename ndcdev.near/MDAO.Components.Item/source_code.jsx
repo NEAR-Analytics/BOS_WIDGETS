@@ -276,7 +276,7 @@ const CardItem = ({ item, index }) => (
           onClick={() => {
             clipboard
               .writeText(
-                `https://near.org/ndcdev.near/widget/MDAO.App?page=${item.type}s&id=${item.id}`
+                `https://near.org/ndcdev.near/widget/MDAO.App?page=${item.type}s&id=${item.id}`,
               )
               .then(() => setCopiedShareUrl(true));
           }}
