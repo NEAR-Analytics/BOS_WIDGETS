@@ -11,8 +11,8 @@ const HeroSection = styled.div`
     #95c3fe 98.55%
   );
   width: 100%;
+  padding: 5rem 8rem;
   height: 550px;
-  gap: 10rem;
 
   @media screen and (max-width: 786px) {
     padding: 2rem;
@@ -78,7 +78,7 @@ const HeroSection = styled.div`
 `;
 
 const Hero = () => (
-  <HeroSection className="d-flex justify-content-center align-items-center">
+  <HeroSection className="d-flex justify-content-between align-items-center">
     <div className="d-flex flex-column gap-5">
       <div>
         <h1>{content.heroTitle}</h1>
