@@ -42,20 +42,20 @@ function Page() {
       return (
         <Widget
           src={`ndcdev.near/widget/MDAO.Pages.Proposals.List`}
-          props={{ type: "report" }}
+          props={{ type: "report", ...passProps }}
         />
       );
-    }
-    case "communities": {
-      return <Widget src={`ndcdev.near/widget/MDAO.Pages.Communities`} />;
     }
     case "proposals": {
       return (
         <Widget
           src={`ndcdev.near/widget/MDAO.Pages.Proposals.List`}
-          props={{ type: "proposal" }}
+          props={{ type: "proposal", ...passProps }}
         />
       );
+    }
+    case "communities": {
+      return <Widget src={`ndcdev.near/widget/MDAO.Pages.Communities`} />;
     }
     case "createProposal": {
       return (
