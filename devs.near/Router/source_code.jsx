@@ -29,7 +29,7 @@ function handleNavigate(newRoute, passProps) {
 
 // const navigate = (v, params) => {
 //   State.update({ page: v, project: params?.project });
-//   const url = Url.construct("#/nearbuilders.testnet/widget/home", params);
+//   const url = Url.construct("#/devs.near/widget/home", params);
 //   Storage.set("url", url);
 // };
 
