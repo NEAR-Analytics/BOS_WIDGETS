@@ -5,7 +5,7 @@ const filter = context.accountId && {
 return (
   <Widget
     loading={props.loading}
-    src="nearbuilders.testnet/widget/PR.IndexFeed"
+    src="devs.near/widget/PR.IndexFeed"
     props={{ filter, ...props }}
   />
 );
