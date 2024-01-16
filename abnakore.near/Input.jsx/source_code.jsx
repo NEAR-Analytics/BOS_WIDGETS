@@ -46,7 +46,7 @@ return (
         <label>
           {props.kind === "textarea" ? (
             <textarea
-              className={props.otherAttributes.classes}
+              className="input"
               type={props.type}
               placeholder=""
               required={props.required}
@@ -57,7 +57,7 @@ return (
             />
           ) : (
             <input
-              className={props.otherAttributes.classes}
+              className="input"
               type={props.type}
               placeholder=""
               required={props.required}
