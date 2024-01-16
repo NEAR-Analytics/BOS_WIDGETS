@@ -1,6 +1,9 @@
 // Get the user's accountId
 const accountId = context.accountId;
+
+// Declaring variables
 const voteId = 0;
+const [passcodeEntered, setPasscodeEntered] = useState("");
 
 // All the votes
 const [allVotes, setAllVotes] = useState([]);
@@ -44,22 +47,51 @@ const [candidate, setCandidate] = useState(0);
 const [state, setState] = useState({
   show_message: false,
   show_error_on_dropdown: false,
+  show_error_on_passwordInput: false,
 });
+
+// Hashing function
+function hash(text) {
+  var hashed = "";
+  for (var i = 0; i < text.length; i++) {
+    // console.log(text.charAt(i), "=", text.charCodeAt(i));
+    hashed += text.charCodeAt(i);
+  }
+  //   console.log(hashed);
+  return hashed;
+}
+
+// Check the entered passcode if it is correct
+function checkPasscode() {
+  const hashedPasscode = hash(passcodeEntered);
+  if (hashedPasscode === voteToRender.passcode) {
+    console.log("true");
+    setOpened(true);
+    return true;
+  } else {
+    console.log("false");
+    setState({
+      ...state,
+      show_error_on_passwordInput: true,
+    });
+    return false;
+  }
+}
 
 // Pages that will be displayed in the aside
 const [pages, setPages] = useState([
   {
     name: "Voting Page",
-    link: "https://near.org/sandbox#/abnakore.near/widget/App.jsx",
+    link: "https://near.org/abnakore.near/widget/App.jsx",
   },
   {
     name: "Result",
-    link: "https://near.org/sandbox#/abnakore.near/widget/Result.jsx",
+    link: "https://near.org/abnakore.near/widget/Result.jsx",
   },
-  { name: "Log out", link: "https://near.org/signin" },
+  //   { name: "Log out", link: "https://near.org/signin" },
 ]);
 
-// Users tht already voted
+// Users that already voted
 const [voted, setVoted] = useState([1]);
 
 // Functions
@@ -155,7 +187,7 @@ return (
                   />
 
                   {/* Check if the vote is ongoing */}
-                  {ongoing === true ? (
+                  {!ongoing === true ? (
                     // Check if the vote has password
                     voteToRender.passcode === "" || opened ? (
                       <div className="body-contents">
@@ -174,14 +206,13 @@ return (
                               stroke-linejoin="round"
                             ></g>
                             <g id="SVGRepo_iconCarrier">
-                              {" "}
                               <path
                                 d="M4 6H20M4 12H20M4 18H20"
                                 stroke="#fefefe"
                                 stroke-width="2"
                                 stroke-linecap="round"
                                 stroke-linejoin="round"
-                              ></path>{" "}
+                              ></path>
                             </g>
                           </svg>
                         </i>
@@ -240,7 +271,7 @@ return (
                               !state.show_message ? "" : "hide"
                             }`}
                           >
-                            Thank you for voting{" "}
+                            Thank you for voting
                             {voteToRender.candidates[candidate - 1].name}
                           </p>
                         </div>
@@ -249,14 +280,33 @@ return (
                       <div className="body-contents">
                         <div className="form">
                           <secText>Please Enter Passcode</secText>
+                          <p
+                            className="error"
+                            style={{
+                              color: "red",
+                              display: state.show_error_on_passwordInput
+                                ? "block"
+                                : "none",
+                              textAlign: "center",
+                            }}
+                          >
+                            The Password you entered is incorrect
+                          </p>
                           <Widget
                             src="abnakore.near/widget/Input.jsx"
                             props={{
-                              type: "text",
+                              type: "password",
                               placeholder: "Enter Passcode",
+                              required: true,
+                              otherAttributes: {
+                                value: passcodeEntered, // state.show_error_on_dropdown ? "error" : ""
+                                onChange: (e) => {
+                                  setPasscodeEntered(e.target.value);
+                                },
+                              },
                             }}
                           />
-                          <button>Submit</button>
+                          <button onClick={checkPasscode}>Submit</button>
                         </div>
                       </div>
                     )
