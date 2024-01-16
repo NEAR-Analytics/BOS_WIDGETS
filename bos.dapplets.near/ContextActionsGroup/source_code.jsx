@@ -336,7 +336,7 @@ return (
     ) : null}
 
     {state.showMenu ? (
-      <Overlay>
+      <DappletOverlay>
         <Widget
           props={{
             handleCloseMenu: handleCloseMenu,
@@ -344,7 +344,7 @@ return (
           }}
           src="bos.dapplets.near/widget/ComponentsSearch"
         />
-      </Overlay>
+      </DappletOverlay>
     ) : null}
   </OverlayTriggerWrapper>
 );
