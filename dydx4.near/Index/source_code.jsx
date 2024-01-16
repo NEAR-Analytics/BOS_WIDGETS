@@ -1,3 +1,4 @@
+const defaultChainId = 11155111;
 State.init({
   orderSize: "0.0001",
   orderPrice: "2500",
@@ -124,15 +125,18 @@ const getWalletFromEvmSignature = (signature) => {
     });
     console.log("derrived wallet", wallet);
 
-    wallet.getAccounts().then(([dydx_account]) => {
-      console.log("dYdX account derived", dydx_account);
-      State.update({
-        dydx_account: dydx_account.address,
-        wallet: wallet,
-        mnemonic,
-        updateMarketPrice: true,
-      });
-    });
+    wallet
+      .getAccounts()
+      .then(([dydx_account]) => {
+        console.log("dYdX account derived", dydx_account);
+        State.update({
+          dydx_account: dydx_account.address,
+          wallet: wallet,
+          mnemonic,
+          updateMarketPrice: true,
+        });
+      })
+      .catch((err) => State.update({ error_msg: JSON.stringify(err) }));
   });
 };
 
@@ -263,7 +267,7 @@ if (state.dydx_account == undefined) {
   const toSign = {
     domain: {
       name: "dYdX V4",
-      chainId: 11155111,
+      chainId: defaultChainId,
     },
     primaryType: "dYdX",
     types: {
@@ -286,6 +290,10 @@ if (state.dydx_account == undefined) {
   useEffect(() => {
     loadAccount();
   }, [state.account, state.orders, state.nonce]);
+
+  if (!!state.chainId && state.chainId !== defaultChainId) {
+    return <>{`Please switch to chainId ${defaultChainId}`}</>;
+  }
 
   return (
     <div class="mb-5">
@@ -450,8 +458,13 @@ if (state.dydx_account == undefined) {
         Refresh
       </button>
       <hr />
-      state:
-      {JSON.stringify(state)}
+      {/*state:
+      {JSON.stringify(state)}*/}
+      {state.error_msg && (
+        <div class="alert alert-primary" role="alert">
+          {state.error_msg}
+        </div>
+      )}
     </div>
   );
 }
