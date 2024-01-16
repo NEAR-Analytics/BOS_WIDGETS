@@ -28,7 +28,7 @@ const Feed = ({ index, typeWhitelist, Item, Layout }) => {
   if (Array.isArray(index)) {
     return (
       <Widget
-        src="nearbuilders.testnet/widget/PR.MergedIndexFeed"
+        src="devs.near/widget/PR.MergedIndexFeed"
         props={{
           index,
           renderItem,
@@ -39,7 +39,7 @@ const Feed = ({ index, typeWhitelist, Item, Layout }) => {
   } else {
     return (
       <Widget
-        src="nearbuilders.testnet/widget/PR.FilteredIndexFeed"
+        src="devs.near/widget/PR.FilteredIndexFeed"
         props={{
           index,
           renderItem,
