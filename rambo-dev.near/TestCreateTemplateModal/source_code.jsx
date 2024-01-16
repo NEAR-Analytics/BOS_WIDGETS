@@ -4,6 +4,8 @@ const { Avatar, Button, InputField, TextEditor } = VM.require(
 const { PlusIcon } = VM.require("rambo-dev.near/widget/PlusIcon");
 const { Modal } = VM.require("rambo-dev.near/widget/ModalComponent");
 
+const StorageKey = "postTemplates";
+
 const FiltersSection = styled.div`
   width: 100%;
 `;
@@ -237,10 +239,12 @@ function onClose() {
 }
 
 function onSaveTemplate(title, content) {
-  const existentTemplates = Storage.get("postTemplates");
+  const existentTemplates = Storage.get(StorageKey);
+  console.log("existentTemplates", existentTemplates);
 
   if (existentTemplates === null) {
-    Storage.set("postTemplates", [
+    console.log("existentTemplates === null");
+    Storage.set(StorageKey, [
       {
         title,
         content,
@@ -251,11 +255,12 @@ function onSaveTemplate(title, content) {
       return template.title === title;
     })[0];
     if (alreadyExistsTemplate !== undefined) {
+      console.log("alreadyExistsTemplate !== undefined");
       const allButExistent = existentTemplates.filter((template) => {
         return template.title !== title;
       });
 
-      Storage.set("postTemplates", [
+      Storage.set(StorageKey, [
         ...allButExistent,
         {
           title,
@@ -263,7 +268,8 @@ function onSaveTemplate(title, content) {
         },
       ]);
     } else {
-      Storage.set("postTemplates", [
+      console.log("DOES NOT EXISTS");
+      Storage.set(StorageKey, [
         ...existentTemplates,
         {
           title,
