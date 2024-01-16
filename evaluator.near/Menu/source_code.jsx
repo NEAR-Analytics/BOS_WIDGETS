@@ -7,7 +7,6 @@ const capitalize = (words) => {
     .join(" ");
 };
 
-// let progress = [true, false, false, true]
 
 return (
   <>
