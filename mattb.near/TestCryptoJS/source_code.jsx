@@ -8,6 +8,4 @@ const code = `
 </script>
 `;
 
-return (props) => (
-  <IframeDependency code={code} onUpdate={(data) => console.log(data)} />
-);
+return <IframeDependency code={code} onUpdate={(data) => console.log(data)} />;
