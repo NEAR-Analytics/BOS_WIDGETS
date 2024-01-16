@@ -314,25 +314,99 @@ const build_trxs = {
 let header = (
   <div className="row">
     <div className="col-md-12">
-      <Widget src="lord1.near/widget/header-dynamic" props={hellosinger} />
       <div className="row">
         <div className="col-md-2">
-          <Widget src="lord1.near/widget/header-dynamic" props={singers} />
+          <OverlayTrigger
+            placement="top"
+            overlay={<Tooltip> Number of developers </Tooltip>}
+          >
+            <div>
+              {" "}
+              <Widget src="lord1.near/widget/header-dynamic" props={singers} />
+            </div>
+          </OverlayTrigger>{" "}
         </div>
         <div className="col-md-2">
-          <Widget src="lord1.near/widget/header-dynamic" props={total_trxs} />{" "}
+          <OverlayTrigger
+            placement="top"
+            overlay={
+              <Tooltip> Number of transactions (build + update) </Tooltip>
+            }
+          >
+            <div>
+              {" "}
+              <Widget
+                src="lord1.near/widget/header-dynamic"
+                props={total_trxs}
+              />
+            </div>
+          </OverlayTrigger>{" "}
         </div>
         <div className="col-md-2">
-          <Widget src="lord1.near/widget/header-dynamic" props={widget} />{" "}
+          <OverlayTrigger
+            placement="top"
+            overlay={<Tooltip> Number of widgets created </Tooltip>}
+          >
+            <div>
+              {" "}
+              <Widget src="lord1.near/widget/header-dynamic" props={widget} />
+            </div>
+          </OverlayTrigger>{" "}
         </div>
         <div className="col-md-2">
-          <Widget src="lord1.near/widget/header-dynamic" props={update_trxs} />
+          <OverlayTrigger
+            placement="top"
+            overlay={
+              <Tooltip>
+                {" "}
+                Number of transactions for updating the components{" "}
+              </Tooltip>
+            }
+          >
+            <div>
+              {" "}
+              <Widget
+                src="lord1.near/widget/header-dynamic"
+                props={update_trxs}
+              />
+            </div>
+          </OverlayTrigger>{" "}
         </div>{" "}
         <div className="col-md-2">
-          <Widget src="lord1.near/widget/header-dynamic" props={credits} />
+          <OverlayTrigger
+            placement="top"
+            overlay={
+              <Tooltip>
+                The total number of imported widgets by individuals is referred
+                to as credits
+              </Tooltip>
+            }
+          >
+            <div>
+              {" "}
+              <Widget src="lord1.near/widget/header-dynamic" props={credits} />
+            </div>
+          </OverlayTrigger>{" "}
         </div>{" "}
         <div className="col-md-2">
-          <Widget src="lord1.near/widget/header-dynamic" props={build_trxs} />
+          <OverlayTrigger
+            placement="top"
+            overlay={
+              <Tooltip>
+                The total number of transactions that have caused the widget to
+                be created (not subsequent transactions that are considered
+                updates).
+              </Tooltip>
+            }
+          >
+            <div>
+              {" "}
+              <Widget
+                src="lord1.near/widget/header-dynamic"
+                props={build_trxs}
+              />
+            </div>
+          </OverlayTrigger>{" "}
         </div>{" "}
       </div>
     </div>
@@ -455,8 +529,8 @@ let first = (
                 id: 1,
               },
               {
-                key: "active",
-                seriesName: "Active Dev",
+                key: "old",
+                seriesName: "Returend Dev",
                 type: "column",
                 id: 1,
               },
@@ -618,15 +692,58 @@ let third = (
                 beforehref: `https://near.social/mob.near/widget/ProfilePage?accountId=`,
                 hyperlink: "yes",
               },
-              { title: "Trxs", key: "total_trxs" },
-              { title: "Widget", key: "widget", colors: "#806ce1" },
-              { title: "First date", key: "min_date" },
-              { title: "Active date", key: "active_date" },
-              { title: "Update Trxs", key: "update_trxs" },
-              { title: "Build Trxs", key: "build_trxs" },
-              { title: "Trxs Rank", key: "trx_rank", colors: "#806ce1" },
-              { title: "Widget Rank", key: "widget_rank", colors: "#806ce1" },
-              { title: "Days Rank", key: "days_rank", colors: "#806ce1" },
+              {
+                title: "Trxs",
+                key: "total_trxs",
+                description: "Total transactions (Build + Update widgets) ",
+              },
+              {
+                title: "Widget",
+                key: "widget",
+                colors: "#806ce1",
+                description: "Total widgets created ",
+              },
+              {
+                title: "First date",
+                key: "min_date",
+                description: "The first day of BOS development activity",
+              },
+              {
+                title: "Active date",
+                key: "active_date",
+                description: "Number of days which developer has been active",
+              },
+              {
+                title: "Update Trxs",
+                key: "update_trxs",
+                description: "Number of transactions for updating components ",
+              },
+              {
+                title: "Build Trxs",
+                key: "build_trxs",
+                description: "Number of transactions for building components",
+              },
+              {
+                title: "Trxs Rank",
+                key: "trx_rank",
+                colors: "#806ce1",
+                description:
+                  "Developer rank based on the number of transactions (the lower the better)",
+              },
+              {
+                title: "Widget Rank",
+                key: "widget_rank",
+                colors: "#806ce1",
+                description:
+                  "Developer rank based on the number of widgets (the lower the better)",
+              },
+              {
+                title: "Days Rank",
+                key: "days_rank",
+                colors: "#806ce1",
+                description:
+                  "The rank of developers based on the age of their activities. The less the better.",
+              },
               { title: "Stars Received", key: "stars_received" },
               { title: "Stars Sent", key: "stars_sent" },
               { title: "Unstars Received", key: "unstars_received" },
