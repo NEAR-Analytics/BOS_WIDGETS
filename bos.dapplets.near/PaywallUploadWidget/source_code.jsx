@@ -79,10 +79,12 @@ const WrapperWidget = styled.div`
   border-radius: 16px;
   border: 1px solid #8899a6;
   background: #fff;
+      box-sizing: border-box;
   .ButtonUpload {
     cursor: pointer;
     border-radius: 4px;
     background: #3d7fff;
+        box-sizing: border-box;
     width: 128px;
     height: 44px;
     display: flex;
@@ -116,6 +118,7 @@ const InputsBlock = styled.div`
   width: 489px;
   height: 142px;
   margin-bottom: 14px;
+      box-sizing: border-box;
 `;
 
 const UploadBlock = styled.div`
@@ -123,6 +126,7 @@ const UploadBlock = styled.div`
   align-items: center;
   justify-content: space-between;
   margin-bottom: 14px;
+      box-sizing: border-box;
 `;
 
 const FileInput = styled.input`
@@ -139,6 +143,7 @@ const FileInput = styled.input`
   color: #222;
   border: none;
   outline: none;
+      box-sizing: border-box;
 `;
 
 const BlockAmount = styled.div`
@@ -151,6 +156,7 @@ const BlockAmount = styled.div`
   padding: 4px 10px;
   width: 469px;
   flex-direction: column;
+      box-sizing: border-box;
 `;
 const LabelAmount = styled.div`
   color: #919191;
@@ -165,6 +171,7 @@ const ButtonsBlock = styled.div`
   justify-content: space-between;
   padding: 0 10px;
   width: 489px;
+      box-sizing: border-box;
 `;
 
 const InputAmount = styled.input`
@@ -178,6 +185,7 @@ const InputAmount = styled.input`
   outline: none;
   width: 449px;
   height: 16px;
+      box-sizing: border-box;
 `;
 
 const ButtonCancel = styled.button`
@@ -195,6 +203,7 @@ const ButtonCancel = styled.button`
   height: 44px;
   font-weight: 400;
   line-height: 149%;
+      box-sizing: border-box;
   &:hover {
     opacity: 0.3;
   }
@@ -214,6 +223,7 @@ const ButtonSend = styled.button`
   height: 44px;
   font-weight: 400;
   line-height: 149%;
+      box-sizing: border-box;
   &:hover {
     opacity: 0.5;
   }
