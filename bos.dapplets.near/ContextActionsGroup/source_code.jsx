@@ -320,6 +320,13 @@ const RemoveAction = styled.div`
 position:absolute;
 right:0;
 top:0;
+cursor:pointer;
+  &:hover {
+    svg{
+          transform: scale(1.2); 
+    }
+ 
+  }
 
 `;
 
