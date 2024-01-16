@@ -4,7 +4,7 @@ const { Avatar, Button, InputField, TextEditor } = VM.require(
 const { PlusIcon } = VM.require("rambo-dev.near/widget/PlusIcon");
 const { Modal } = VM.require("rambo-dev.near/widget/ModalComponent");
 
-const StorageKey = "postTemplates";
+const onSaveTemplate = props.onSaveTemplate;
 
 const FiltersSection = styled.div`
   width: 100%;
@@ -236,49 +236,6 @@ function onClose() {
   State.update({
     isOpen: false,
   });
-}
-
-function onSaveTemplate(title, content) {
-  const existentTemplates = Storage.get(StorageKey);
-  console.log("existentTemplates", existentTemplates);
-
-  if (existentTemplates === null) {
-    console.log("existentTemplates === null");
-    Storage.set(StorageKey, [
-      {
-        title,
-        content,
-      },
-    ]);
-  } else {
-    const alreadyExistsTemplate = existentTemplates.filter((template) => {
-      return template.title === title;
-    })[0];
-    if (alreadyExistsTemplate !== undefined) {
-      console.log("alreadyExistsTemplate !== undefined");
-      const allButExistent = existentTemplates.filter((template) => {
-        return template.title !== title;
-      });
-
-      Storage.set(StorageKey, [
-        ...allButExistent,
-        {
-          title,
-          content,
-        },
-      ]);
-    } else {
-      console.log("DOES NOT EXISTS");
-      Storage.set(StorageKey, [
-        ...existentTemplates,
-        {
-          title,
-          content,
-        },
-      ]);
-    }
-  }
-  onClose();
 }
 
 return (
