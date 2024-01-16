@@ -82,6 +82,8 @@ const Replies = styled.div`
 
 const [showMore, setShowMore] = useState(showMoreDefault);
 const [showReply, setShowReply] = useState(showRepliesDefault);
+const [copiedShareUrl, setCopiedShareUrl] = useState(false);
+
 const [replies, setReplies] = useState([]);
 const [liked, setLiked] = useState(false);
 
@@ -259,6 +261,7 @@ const CardItem = ({ item, index }) => (
           {likes.length}
           <i className={`bi bi-heart${liked ? "-fill" : ""}`} /> Like
         </div>
+
         <div
           role="button"
           className="d-flex gap-2"
@@ -266,6 +269,20 @@ const CardItem = ({ item, index }) => (
         >
           <i className="bi bi-chat" />
           Reply
+        </div>
+        <div
+          role="button"
+          className="d-flex gap-2"
+          onClick={() => {
+            clipboard
+              .writeText(
+                `https://near.org/ndcdev.near/widget/MDAO.App?page=${item.type}s&id=${item.id}`
+              )
+              .then(() => setCopiedShareUrl(true));
+          }}
+        >
+          <i className="bi bi-share" />
+          {copiedShareUrl ? "Copied Url" : "Share"}
         </div>
       </div>
 
