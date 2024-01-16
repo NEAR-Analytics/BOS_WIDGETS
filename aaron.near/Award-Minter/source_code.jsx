@@ -284,7 +284,7 @@ return (
             <ImageCard>
               {props.generated ? (
                 <img
-                  src={`${props.gateway}/ipfs/${state.image.cid}?pinataGatewayToken=${props.gatewayKey}`}
+                  src={`${props.gateway}/ipfs/${state.image.cid}/?pinataGatewayToken=${props.gatewayKey}`}
                   alt="uploaded image"
                   width="100%"
                   height="100%"
