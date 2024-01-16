@@ -20,13 +20,22 @@ const contractId = newContractId; // default nft contract - genadrop-contract.nf
 const tokenId = props.tokenId ?? "1679119560198"; // maybe condtional check if props is eempty // default nft
 const fewfarmarket = "market.fewandfar.near";
 const tradeportmarket = "market.tradeport.near";
-y;
 const genadropmarket = "market-beta.genadrop.near";
 
 const fnfMsg = JSON.stringify({
   sale_conditions: {
     near: amount,
   },
+});
+
+const trpMsg = JSON.stringify({
+  price: amount,
+  market_type: "sale",
+  ft_token_id: "near",
+});
+
+const msg = JSON.stringify({
+  price: amount,
 });
 // need to find custom market link to work with
 
@@ -35,7 +44,7 @@ const tokenInfo = Near.view(contractId, "nft_token", {
   token_id: tokenId,
 });
 
-initState({
+State.init({
   contractId: contractId,
   tokenId: tokenId,
   amount: amount,
@@ -102,11 +111,6 @@ const parasLink = `https://paras.id/token/${state.contractId}::${state.tokenId}`
 const defaultCustomMarket = "apollo42.near";
 const mintbasemarket = "simple.market.mintbase1.near";
 const default_receiver = "minorityprogrammers.near"; // default reciver nft for transfers
-const trpMsg = JSON.stringify({
-  price: amount,
-  market_type: "sale",
-  ft_token_id: "near",
-});
 
 function fetchMintbaseURL() {
   asyncFetch("https://graph.mintbase.xyz/mainnet", {
@@ -390,7 +394,7 @@ const list = () => {
     loadingListing: true,
   });
 
-  console.log(state.trpMsg);
+  console.log("opioka", state.trpMsg, state.fnfMsg, state.msg);
   // need to buffer serialize arguments, add helper functions with state arguments
   const gas = 100000000000000; // 100 tGas
   //   const deposit = 1; // exactly 1 yocto
@@ -450,7 +454,7 @@ const list = () => {
       state.mintbase
         ? {
             contractName: mintbasemarket,
-            methodName: "storage_deposit",
+            methodName: "deposit_storage",
             args: {
               receiver_id: context.accountId,
             },
@@ -475,7 +479,7 @@ const list = () => {
       state.genadrop
         ? {
             contractName: genadropmarket,
-            methodName: "storage_deposit",
+            methodName: "deposit_storage",
             args: {
               receiver_id: context.accountId,
             },
@@ -562,6 +566,12 @@ const selectTradeport = () => {
 const selectMintbase = () => {
   State.update({
     mintbase: !state.mintbase,
+  });
+};
+
+const selectGenadrop = () => {
+  State.update({
+    genadrop: !state.genadrop,
   });
 };
 if (!accountId) {
@@ -653,6 +663,7 @@ return (
             loadingListing: state.loadingListing,
             selectCustom,
             selectMintbase,
+            selectGenadrop,
             marketLinks,
             chainState,
             onChangeCustomMarket,
