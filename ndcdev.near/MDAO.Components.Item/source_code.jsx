@@ -1,5 +1,4 @@
-const { item, index } = props;
-
+const { item, index, showMoreDefault, showRepliesDefault } = props;
 let { assets, content } = VM.require(`ndcdev.near/widget/MDAO.Config`);
 assets = assets.home;
 content = content.home;
@@ -81,8 +80,8 @@ const Replies = styled.div`
   padding-top: 1rem;
 `;
 
-const [showMore, setShowMore] = useState(null);
-const [showReply, setShowReply] = useState(false);
+const [showMore, setShowMore] = useState(showMoreDefault);
+const [showReply, setShowReply] = useState(showRepliesDefault);
 const [replies, setReplies] = useState([]);
 const [liked, setLiked] = useState(false);
 
@@ -124,7 +123,13 @@ const CardItem = ({ item, index }) => (
         </div>
       </div>
       <div className="d-flex flex-column gap-1">
-        <h3>{item.project_name}</h3>
+        <h3>
+          <Link
+            to={`/ndcdev.near/widget/MDAO.App?page=proposals&id=${item.id}`}
+          >
+            {item.project_name}
+          </Link>
+        </h3>
         <div className="d-flex flex-column gap-1">
           {item.type === "proposal" && (
             <div className="info">
@@ -180,6 +185,7 @@ const CardItem = ({ item, index }) => (
           <b>See more</b>
         </div>
       </small>
+
       {showMore === index && (
         <>
           {item.type === "report" ? (
@@ -231,12 +237,12 @@ const CardItem = ({ item, index }) => (
               </div>
             </>
           ) : (
-            <div>
+            <p>
               <Widget
                 src="mob.near/widget/SocialMarkdown"
                 props={{ text: item.description }}
               />
-            </div>
+            </p>
           )}
         </>
       )}
