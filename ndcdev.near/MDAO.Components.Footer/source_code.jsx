@@ -1,5 +1,5 @@
 let { assets, socials, content } = VM.require(
-  `ndcdev.near/widget/MDAO.Config`
+  `ndcdev.near/widget/MDAO.Config`,
 );
 
 const page = props.page;
