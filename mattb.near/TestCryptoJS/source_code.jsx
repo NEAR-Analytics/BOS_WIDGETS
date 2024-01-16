@@ -1,5 +1,13 @@
 const $ = VM.require("sdks.near/widget/Loader");
-const { CryptoJS } = $("@sdks/utils");
+const { IframeDependency } = $("@sdks/abstracts");
+
+const code = `
+<script type="module" crossorigin>
+    import { ethers } from "https://unpkg.com/ethers@6.10.0/dist/ethers.min.js";
+
+    window.top.postMessage(ethers, "*");
+</script>
+`;
 
 State.init({
   crypto: null,
@@ -8,6 +16,6 @@ State.init({
 return (
   <>
     <button onClick={() => console.log(state.crypto)}>Log</button>
-    <CryptoJS onCreate={(lib) => State.update({ crypto: lib })} />
+    <IframeDependency code={code} onUpdate={(lib) => console.log(lib)} />
   </>
 );
