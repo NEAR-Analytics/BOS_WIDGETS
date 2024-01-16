@@ -1,5 +1,5 @@
 let fontCss = fetch(
-  "https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700&display=swap",
+  "https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700&display=swap"
 );
 
 if (!fontCss) {
@@ -11,6 +11,14 @@ if (!fontCss) {
 fontCss = fontCss.body;
 
 const Theme = styled.div`
+  position: fixed;
+  inset: 107px 0px 0px;
+  width: 100%;
+  height: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow-y: scroll;
   font-weight: 500;
   font-family: "Montserrat", sans-serif;
   ${fontCss};
@@ -78,8 +86,6 @@ const Theme = styled.div`
 `;
 
 const Container = styled.div`
-  display: flex;
-  flex-direction: column;
   width: 100%;
   height: 100%;
   min-height: 100vh;
@@ -132,12 +138,10 @@ const Container = styled.div`
   }
 `;
 
-const ContentContainer = styled.div`
-  flex: 1;
+const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 100%;
 `;
 
 function AppLayout({ page, children }) {
@@ -145,7 +149,7 @@ function AppLayout({ page, children }) {
     <Theme>
       <Container>
         <Widget src={`ndcdev.near/widget/MDAO.Components.NavBar`} />
-        <ContentContainer>{children}</ContentContainer>
+        <Wrapper>{children}</Wrapper>
         <Widget src={`ndcdev.near/widget/MDAO.Components.Footer`} />
       </Container>
     </Theme>
