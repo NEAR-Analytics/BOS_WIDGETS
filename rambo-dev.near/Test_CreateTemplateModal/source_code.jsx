@@ -275,8 +275,7 @@ function onSaveTemplate(title, content) {
   onClose();
 }
 
-function CreatePostTemplateModal() {
-  return (
+return (
     <Modal
       open={state.isOpen}
       key="create"
@@ -333,5 +332,3 @@ function CreatePostTemplateModal() {
     </Modal>
   );
 }
-
-return { CreatePostTemplateModal };
