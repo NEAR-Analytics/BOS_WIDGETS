@@ -313,6 +313,10 @@ const iconRemoveAction = (
   </svg>
 );
 
+const ActionBlock = styled.span`
+position:relative;
+`;
+
 return (
   <OverlayTriggerWrapper onMouseEnter={handleOnMouseEnter}>
     <div style={{ opacity: state.show ? 0 : 1 }} className="OverlayTrigger">
@@ -324,7 +328,9 @@ return (
 
         <ActionsWrapper onMouseLeave={handleOnMouseLeave}>
           {props.widgets.map((widget, i) => (
-            <Widget key={i} src={widget.src} props={widget.props} />
+            <ActionBlock key={i}>
+              <Widget src={widget.src} props={widget.props} />
+            </ActionBlock>
           ))}
         </ActionsWrapper>
 
