@@ -2,14 +2,14 @@ if (context.loading) {
   return;
 }
 
-const evaluator_contract = "eval.flmel.near";
+const { evaluatorContract, userAccountId } = props;
 
 function isAccountRegistered() {
-  return Near.view(evaluator_contract, "check_account_registered", { account_id: context.accountId });
+  return Near.view(evaluatorContract, "check_account_registered", { account_id: userAccountId });
 }
 
 function registerAccount() {
-  Near.call(evaluator_contract, "register", {}); // TODO Fetch the required amount amount from the contract
+  Near.call(evaluatorContract, "register", {}); // TODO Fetch the required amount amount from the contract
 }
 
 return (
@@ -19,17 +19,17 @@ return (
       <div class="h-1 bg-gray-800"></div>
       <div class="mt-4">
         <p>This course is an opportunity for web developers to earn a Certificate of Completion that represents the ability to design, develop, test and deploy smart contracts on the NEAR platform.</p>
-        
+
         <h3 class="text-xl py-2 font-bold">Welcome</h3>
         <p>
-          Glad you could join us. We will be working together to learn to build decentralized applications on the smart contract platform known as NEAR Protocol. 
+          Glad you could join us. We will be working together to learn to build decentralized applications on the smart contract platform known as NEAR Protocol.
         </p>
-          
+
       </div>
       <div class="text-right">
-      <button class="rounded-lg py-2 px-4 bg-blue-700 hover:bg-blue-800 text-gray-100">
-        {isAccountRegistered() ? "Continue to the lessons" : "Enroll in the program now"}
-      </button>
+        <button class="rounded-lg py-2 px-4 bg-blue-700 hover:bg-blue-800 text-gray-100">
+          {isAccountRegistered() ? "Continue to the lessons" : "Enroll in the program now"}
+        </button>
       </div>
     </div>
   </>
