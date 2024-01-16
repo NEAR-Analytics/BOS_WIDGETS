@@ -288,7 +288,11 @@ return (
           <Button
             disabled={isValidTemplateToCreate}
             onClick={() => {
-              onSaveTemplate(state.templateTitle, state.templateContent);
+              onSaveTemplate(
+                state.templateTitle,
+                state.templateContent,
+                onClose
+              );
             }}
             variant="primary"
           >
