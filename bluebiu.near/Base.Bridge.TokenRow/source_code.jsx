@@ -41,13 +41,20 @@ const { display, currency, selectedTokenAddress, onSelect } = props;
 const utils = {
   balanceFormated: (currency) => {
     if (!currency.address) return "-";
-    if (!state.balanceLoaded)
+    if (state.loading)
       return <Widget src="bluebiu.near/widget/0vix.LendingLoadingIcon" />;
-    if (state.balance === "0" || Big(state.balance).eq(0)) return "0";
+    if (state.balance === "0" || Big(state.balance || 0).eq(0)) return "0";
     if (Big(state.balance).lt(0.01)) return "<0.01";
     return Big(state.balance).toFixed(2);
   },
 };
+
+useEffect(() => {
+  if (display === undefined) return;
+  State.update({
+    loading: display,
+  });
+}, [display]);
 
 return (
   <Item
@@ -60,20 +67,19 @@ return (
     }}
     className={`${!Big(state.balance || 0).gt(0) && "disabled"}`}
   >
-    {display && !state.balanceLoaded && (
-      <Widget
-        src="bluebiu.near/widget/Arbitrum.Swap.CurrencyBalance"
-        props={{
-          address: currency.isNative ? "native" : currency.address,
-          onLoad: (balance) => {
-            State.update({
-              balance: ethers.utils.formatUnits(balance, currency.decimals),
-              balanceLoaded: true,
-            });
-          },
-        }}
-      />
-    )}
+    <Widget
+      src="bluebiu.near/widget/Arbitrum.Swap.CurrencyBalance"
+      props={{
+        updateTokenBalance: display,
+        address: currency.isNative ? "native" : currency.address,
+        onLoad: (balance) => {
+          State.update({
+            balance: ethers.utils.formatUnits(balance, currency.decimals),
+            loading: false,
+          });
+        },
+      }}
+    />
     <TokenWrapper>
       <TokenImg src={currency.icon} />
       <TokenName>{currency.name}</TokenName>
