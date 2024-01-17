@@ -200,5 +200,3 @@ const test = (Store, status) => {
 
   return CryptoJS;
 };
-
-console.log(test(State, state));
