@@ -24,7 +24,7 @@ return (Store, status) => {
           : 0,
         instruction,
         value,
-        returnType: returnType || "object",
+        returnType: returnType || "string",
       };
     },
     request: (request) => {
