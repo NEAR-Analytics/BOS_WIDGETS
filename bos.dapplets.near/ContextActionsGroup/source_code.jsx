@@ -102,6 +102,7 @@ const ActionsWrapper = styled.div`
  width: 0px;
       opacity: 0;
    min-height: 0px;
+   height:0px;
      background: transparent;
     }
  
@@ -110,6 +111,7 @@ const ActionsWrapper = styled.div`
       border: 1px solid #db504a;
       opacity: 1;
       right: 60px;
+      height:auto;
        width: 40px;
         min-height: 34px;
           background: #fff;
