@@ -99,8 +99,8 @@ const ActionsWrapper = styled.div`
   @keyframes translateAnimation {
     0% {
       display: none;
-transform: scale(0);
-      opacity: 1;
+
+      opacity: 0;
   
     }
 
@@ -109,7 +109,6 @@ transform: scale(0);
       border: 1px solid #db504a;
       opacity: 1;
       right: 60px;
-    transform: scale(1);
     }
   }
   animation: translateAnimation 1.3s linear forwards;
