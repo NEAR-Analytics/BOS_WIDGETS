@@ -1,16 +1,24 @@
 // Pages that can be reached via the aside tab
 const [pages, setPage] = useState([
   {
-    name: "Home",
-    link: "https://near.org/sandbox#/abnakore.near/widget/AdminHome",
+    name: "Voting Page",
+    link: "https://near.org/abnakore.near/widget/App.jsx",
+  },
+  {
+    name: "Result",
+    link: "https://near.org/abnakore.near/widget/Result.jsx",
+  },
+  {
+    name: "Admin Home",
+    link: "https://near.org/abnakore.near/widget/AdminHome",
   },
   {
     name: "Manage Candidates",
-    link: "https://near.org/sandbox#/abnakore.near/widget/ManageCandidates",
+    link: "https://near.org/abnakore.near/widget/ManageCandidates",
   },
   {
     name: "Mange Parties",
-    link: "https://near.org/sandbox#/abnakore.near/widget/ManageParties",
+    link: "https://near.org/abnakore.near/widget/ManageParties",
   },
 ]);
 
