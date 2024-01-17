@@ -2,7 +2,7 @@
 const accountId = context.accountId;
 
 // Declaring variables
-const voteId = props ? props : 0;
+const voteId = props.tab && props.tab;
 const [passcodeEntered, setPasscodeEntered] = useState("");
 const [candidate, setCandidate] = useState(0);
 const [party, setparty] = useState(0);
