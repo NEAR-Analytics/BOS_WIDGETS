@@ -63,7 +63,7 @@ const TriggerShowLabel = styled.div`
   z-index: 1100;
   cursor: pointer;
   position: absolute;
-  min-height: 40px;
+  min-height: 150px;
   flex:1 1 auto;
   @keyframes scaleAnimation {
     0% {
@@ -82,7 +82,7 @@ const TriggerShowLabel = styled.div`
       margin-left: 0px;
     }
     100% {
-      opacity: 1;
+      opacity: 0;
       width: 40px;
       margin-left: 0px;
     }
