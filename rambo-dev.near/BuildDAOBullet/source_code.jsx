@@ -27,14 +27,4 @@ const StyledBullet = styled.div`
    }}
 `;
 
-function Bullet({ children, variant }) {
-  const defaultVariant = variant || "default";
-
-  return (
-    <StyledBullet theme={theme} variant={defaultVariant}>
-      {children}
-    </StyledBullet>
-  );
-}
-
-return { Bullet };
+return <StyledBullet>Hello</StyledBullet>;
