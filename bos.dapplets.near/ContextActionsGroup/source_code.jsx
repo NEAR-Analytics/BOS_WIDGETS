@@ -113,7 +113,7 @@ const ActionsWrapper = styled.div`
       right: 60px;
     }
   }
-  animation: translateAnimation 1.3s linear forwards;
+  animation: translateAnimation 1s linear forwards;
 `;
 
 const TriggerEar = styled.div`
@@ -180,9 +180,7 @@ const ButtonPlus = styled.div`
     0% {
       opacity: 0;
     }
-    50% {
-      opacity: 0;
-    }
+   
     100% {
       opacity: 1;
     }
