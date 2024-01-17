@@ -74,14 +74,14 @@ const TriggerShowLabel = styled.div`
     }
 
     100% {
-      opacity: 1;
+      opacity: 0.5;
   
  transform-origin: top left;
   transform: scale(1.1);
       display: none;
     }
   }
-  animation: scaleAnimation 0.4s linear forwards;
+  animation: scaleAnimation 0.5s linear forwards;
   transition: all 0.3s;
 `;
 
