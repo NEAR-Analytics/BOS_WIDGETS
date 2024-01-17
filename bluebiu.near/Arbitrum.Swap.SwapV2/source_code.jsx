@@ -1,5 +1,5 @@
-const { title, chainId, chainName, wethAddress, dexConfig, account } = props;
-
+const { title, chainId, chainName, wethAddress, dexConfig, account, prices } =
+  props;
 // styled area
 const SwapContainer = styled.div``;
 const Title = styled.div`
@@ -60,10 +60,14 @@ useEffect(() => {
   };
 
   const debouncedGetBestTrade = debounce(getBestTrade, 500);
-
   State.update({
     getBestTrade,
     debouncedGetBestTrade,
+  });
+}, []);
+
+useEffect(() => {
+  State.update({
     inputCurrency: dexConfig.defaultCurrencies.input,
     outputCurrency: dexConfig.defaultCurrencies.output,
     uniType: dexConfig.type,
@@ -81,7 +85,7 @@ useEffect(() => {
     selectedTokenAddress: "",
     currencySelectType: 0,
   });
-}, []);
+}, [title]);
 
 const getUnitAmount = () => {
   const bigInputAmount = Big(state.inputCurrencyAmount || 0);
@@ -282,6 +286,7 @@ return (
           inputCurrencyAmount: state.inputCurrencyAmount,
           wethAddress,
           account,
+          prices,
           ...dexConfig,
           onLoad: (data) => {
             console.log("amountOutFn", data);
