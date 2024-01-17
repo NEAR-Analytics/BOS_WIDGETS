@@ -28,32 +28,10 @@ const {
   toast,
   chainId,
   nativeCurrency,
+  isChainSupported,
 } = props;
 
 const account = Ethers.send("eth_requestAccounts", [])[0];
-
-useEffect(() => {
-  if (!account) {
-    return;
-  }
-
-  Ethers.provider()
-    .getNetwork()
-    .then(({ chainId }) => {
-      State.update({
-        chainId,
-        chainIdNotSupport: chainId !== curChain.chain_id,
-      });
-    })
-    .catch(() => {});
-}, [account]);
-
-useEffect(() => {
-  if (state.chainId === -1) return;
-  State.update({
-    chainIdNotSupport: state.chainId !== curChain.chain_id,
-  });
-}, [curChain]);
 
 return (
   <StyledContainer style={dexConfig.theme}>
@@ -95,16 +73,16 @@ return (
         multicallAddress,
         multicall,
         prices,
-        chainIdNotSupport: state.chainIdNotSupport,
+        chainIdNotSupport: !isChainSupported,
         account,
         addAction,
         toast,
-        chainId: state.chainId,
+        chainId,
         nativeCurrency,
         tab: state.tab,
       }}
     />
-    {state.chainIdNotSupport && (
+    {!isChainSupported && (
       <Widget
         src="bluebiu.near/widget/Swap.ChainWarnigBox"
         props={{
