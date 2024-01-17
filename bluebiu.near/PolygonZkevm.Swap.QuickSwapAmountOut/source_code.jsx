@@ -137,7 +137,6 @@ const {
   onLoad,
   slippage,
   account,
-  fees,
 } = props;
 
 const prices = Storage.get(
@@ -200,9 +199,9 @@ useEffect(() => {
         getTransaction({ amountOut: data.amountOut });
       })
       .catch((err) => {
-        console.log(203, err);
         onLoad({
           noPair: true,
+          outputCurrencyAmount: "",
         });
       });
   };
