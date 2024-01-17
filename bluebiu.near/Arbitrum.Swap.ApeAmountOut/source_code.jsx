@@ -189,12 +189,14 @@ useEffect(() => {
         } else {
           onLoad({
             noPair: true,
+            outputCurrencyAmount: "",
           });
         }
       })
       .catch((err) => {
         onLoad({
           noPair: true,
+          outputCurrencyAmount: "",
         });
       });
   };
@@ -255,6 +257,7 @@ useEffect(() => {
       .catch((err) => {
         onLoad({
           noPair: true,
+          outputCurrencyAmount: "",
         });
       });
   };
