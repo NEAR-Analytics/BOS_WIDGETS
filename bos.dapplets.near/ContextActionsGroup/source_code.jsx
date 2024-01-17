@@ -315,7 +315,7 @@ const RemoveAction = styled.span`
   right: 0;
   top: 0;
   cursor: pointer;
-  z-index: 1070;
+  z-index: 1200;
     @keyframes translateAnimationBtn {
     0% {
       opacity: 0;
