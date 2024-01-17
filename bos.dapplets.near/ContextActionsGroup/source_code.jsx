@@ -70,14 +70,14 @@ const TriggerShowLabel = styled.div`
     0% {
       opacity: 1;
        transform-origin: top left;
-    transform: scale(0);
+    transform: scaleX(0) scaleY(0);
     }
 
     100% {
       opacity: 0.5;
   
  transform-origin: top left;
-  transform: scale(1);
+  transform: scaleX(1) scaleY(1.5);
       display: none;
     }
   } 
