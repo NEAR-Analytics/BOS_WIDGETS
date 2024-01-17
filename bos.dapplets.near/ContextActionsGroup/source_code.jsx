@@ -100,26 +100,9 @@ const ActionsWrapper = styled.div`
       display: none;
       height: 0;
       opacity: 0;
-      transform: scaleY(0.2);
+      transform: scaleY(0);
     }
-    20% {
-      display: none;
-      height: 0;
-      opacity: 0;
-      transform: scaleY(0.7);
-    }
-
-    90% {
-      height: auto;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding-top: 6px;
-      border: 1px solid #db504a;
-      opacity: 1;
-      right: 60px;
-      transform: scaleY(1);
-    }
+  
     100% {
       height: auto;
       display: flex;
@@ -132,7 +115,7 @@ const ActionsWrapper = styled.div`
       transform: scaleY(1);
     }
   }
-  animation: translateAnimation 1.3s linear forwards;
+  animation: translateAnimation 1s linear forwards;
   transition: all 0.3s;
 `;
 
