@@ -266,6 +266,7 @@ return (
                         <p
                           style={{
                             textAlign: "center",
+                            padding: "10px 20px",
                           }}
                         >
                           {voteToRender.desc}
