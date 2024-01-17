@@ -709,7 +709,9 @@ const getUserRewards = (price) => {
       _accountRewards.price = price;
       for (let i = 0; i < res.length; i++) {
         if (i === res.length - 1) {
-          const accured = ethers.utils.formatUnits(res[i][0]._hex, 18);
+          const accured = res[i][0]
+            ? ethers.utils.formatUnits(res[i][0]._hex, 18)
+            : "0";
           _accountRewards.reward = accured;
           count++;
           formatedData("rewards");
