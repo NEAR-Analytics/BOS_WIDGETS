@@ -4,11 +4,71 @@ const accountId = context.accountId;
 // Declaring variables
 const voteId = 0;
 const [passcodeEntered, setPasscodeEntered] = useState("");
+const [candidate, setCandidate] = useState(0);
+const [party, setparty] = useState(0);
 
 // All the votes
 const [allVotes, setAllVotes] = useState([]);
 const [voteToRender, setVoteToRender] = useState([]);
 const [opened, setOpened] = useState(false);
+
+// Pages that will be displayed in the aside
+const [pages, setPages] = useState([
+  {
+    name: "Voting Page",
+    link: `https://near.org/abnakore.near/widget/App.jsx?vote=${voteToRender.id}`,
+  },
+  {
+    name: "Result",
+    link: `https://near.org/abnakore.near/widget/Result.jsx?vote=${voteToRender.id}`,
+  },
+  //   { name: "Log out", link: "https://near.org/signin" },
+]);
+
+// Add admin pages if the user is the creator of the vote
+useEffect(() => {
+  console.log(
+    "Is Admin?",
+    voteToRender.creator,
+    accountId,
+    voteToRender.creator === accountId
+  );
+  if (voteToRender.creator === accountId) {
+    setPages([
+      {
+        name: "Voting Page",
+        link: `https://near.org/abnakore.near/widget/App.jsx?vote=${voteToRender.id}`,
+      },
+      {
+        name: "Result",
+        link: `https://near.org/abnakore.near/widget/Result.jsx?vote=${voteToRender.id}`,
+      },
+      {
+        name: "Admin Home",
+        link: `https://near.org/abnakore.near/widget/AdminHome?vote=${voteToRender.id}`,
+      },
+      {
+        name: "Manage Candidates",
+        link: `https://near.org/abnakore.near/widget/ManageCandidates?vote=${voteToRender.id}`,
+      },
+      {
+        name: "Mange Parties",
+        link: `https://near.org/abnakore.near/widget/ManageParties?vote=${voteToRender.id}`,
+      },
+    ]);
+  } else {
+    setPages([
+      {
+        name: "Voting Page",
+        link: `https://near.org/abnakore.near/widget/App.jsx?vote=${voteToRender.id}`,
+      },
+      {
+        name: "Result",
+        link: `https://near.org/abnakore.near/widget/Result.jsx?vote=${voteToRender.id}`,
+      },
+    ]);
+  }
+}, [voteToRender.creator === accountId]);
 
 // Get all the votes
 const votesData = Social.get(`abnakore.near/votes`);
@@ -26,8 +86,6 @@ useEffect(() => {
 useEffect(() => {
   setVoteToRender(allVotes[voteId]);
 }, [allVotes]);
-
-const [candidate, setCandidate] = useState(0);
 
 // List of candidates and their curresponding number of votes
 // const [candidates, setCandidates] = useState(voteToRender.candidates);
@@ -78,19 +136,6 @@ function checkPasscode() {
   }
 }
 
-// Pages that will be displayed in the aside
-const [pages, setPages] = useState([
-  {
-    name: "Voting Page",
-    link: "https://near.org/abnakore.near/widget/App.jsx",
-  },
-  {
-    name: "Result",
-    link: "https://near.org/abnakore.near/widget/Result.jsx",
-  },
-  //   { name: "Log out", link: "https://near.org/signin" },
-]);
-
 // Users that already voted
 const [voted, setVoted] = useState([1]);
 
@@ -114,9 +159,10 @@ function vote() {
   }
 }
 
-// Update the value of the dropdown when changed
+// Update the value of the dropdowns when changed
 function updateDropdown(e) {
   setCandidate(e.target.value);
+  setparty(e.target.value);
   // Remove the error on the dropdown
   setState({
     ...state,
@@ -221,7 +267,9 @@ return (
                         <p
                           style={{
                             color: "green",
-                            display: voted.includes(context.accountId)
+                            display: voteToRender.voters.includes(
+                              context.accountId
+                            )
                               ? "block"
                               : "none",
                           }}
@@ -229,10 +277,12 @@ return (
                           You Have Succesfully Voted
                         </p>
                         <div className="card">
-                          <div>
+                          <div className="flex">
                             <select
                               disabled={
-                                voted.includes(context.accountId) ? true : false
+                                voteToRender.voters.includes(context.accountId)
+                                  ? true
+                                  : false
                               }
                               className={`drop-down ${
                                 state.show_error_on_dropdown ? "error" : ""
@@ -243,7 +293,7 @@ return (
                               required
                             >
                               <option className="option" value={0}>
-                                Select Candidate
+                                Select by candidate's name
                               </option>
                               {voteToRender.candidates.map((candidate, i) => (
                                 <option
@@ -255,10 +305,46 @@ return (
                                 </option>
                               ))}
                             </select>
+                            OR
+                            <select
+                              disabled={
+                                voteToRender.voters.includes(context.accountId)
+                                  ? true
+                                  : false
+                              }
+                              className={`drop-down ${
+                                state.show_error_on_dropdown ? "error" : ""
+                              }`}
+                              value={party}
+                              onChange={updateDropdown}
+                              name="party"
+                              required
+                            >
+                              <option className="option" value={0}>
+                                Select by Party
+                              </option>
+                              {voteToRender.parties
+                                .filter((party) =>
+                                  voteToRender.candidates
+                                    .map((c) => c.party)
+                                    .includes(party.acronym)
+                                )
+                                .map((party, i) => (
+                                  <option
+                                    className="option"
+                                    key={party.acronym}
+                                    value={i + 1}
+                                  >
+                                    {party.name}
+                                  </option>
+                                ))}
+                            </select>
                           </div>
                           <button
                             disabled={
-                              voted.includes(context.accountId) ? true : false
+                              voteToRender.voters.includes(context.accountId)
+                                ? true
+                                : false
                             }
                             onClick={vote}
                           >
@@ -299,7 +385,8 @@ return (
                               placeholder: "Enter Passcode",
                               required: true,
                               otherAttributes: {
-                                value: passcodeEntered, // state.show_error_on_dropdown ? "error" : ""
+                                value: passcodeEntered,
+                                autoFocus: true,
                                 onChange: (e) => {
                                   setPasscodeEntered(e.target.value);
                                 },
