@@ -106,7 +106,7 @@ const ActionsWrapper = styled.div`
       display: none;
 
       opacity: 0;
-      transform: scaleY(0);
+  
     }
 
     100% {
@@ -114,7 +114,7 @@ const ActionsWrapper = styled.div`
       border: 1px solid #db504a;
       opacity: 1;
       right: 60px;
-      transform: scaleY(1);
+    
     }
   }
   animation: translateAnimation 1.3s linear forwards;
