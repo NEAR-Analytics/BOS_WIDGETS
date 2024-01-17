@@ -77,7 +77,7 @@ const TriggerShowLabel = styled.div`
       opacity: 0.5;
   
  transform-origin: top left;
-  transform: scaleX(1) scaleY(1.5);
+  transform: scaleX(1) scaleY(1.2);
       display: none;
     }
   } 
