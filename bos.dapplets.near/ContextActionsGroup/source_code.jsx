@@ -99,7 +99,7 @@ const ActionsWrapper = styled.div`
       opacity: 0.3;
       min-height: 0px;
       height: 0px;
-      background: transparent;
+      background: #db504a;
     }
     80% {
       opacity: 1;
