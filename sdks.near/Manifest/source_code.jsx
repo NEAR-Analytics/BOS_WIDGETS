@@ -20,8 +20,9 @@ return {
     "near-utils": resolve("Utils.Near"),
     "near-fs": "Utils.NearFS",
     "ens-resolver": "Utils.Ethereum.ENSResolver",
+    "crypto-js": ["Abstracts.ExternalDependency", "Utils.CryptoJS"],
     utils: resolve("Utils."),
-    abstracts: resolve("Abstracts.")
+    abstracts: resolve("Abstracts."),
   },
   links: {
     telegram: "@OxMattB",
