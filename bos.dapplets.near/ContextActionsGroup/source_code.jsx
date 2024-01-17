@@ -103,6 +103,7 @@ const ActionsWrapper = styled.div`
     }
     80% {
       opacity: 1;
+      background: #db504a;
     }
     100% {
       padding-top: 6px;
