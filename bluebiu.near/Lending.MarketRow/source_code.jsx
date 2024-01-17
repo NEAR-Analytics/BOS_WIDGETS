@@ -10,6 +10,7 @@ const StyledRowHeader = styled.div`
   padding-left: 22px;
   padding-right: 24px;
   border-radius: 16px;
+  cursor: pointer;
 `;
 const StyledRowItem = styled.div`
   height: 100%;
@@ -48,6 +49,11 @@ return (
   <StyledRow>
     <StyledRowHeader
       style={{ borderRadius: state.expand ? "16px 16px 0px 0px" : "16px" }}
+      onClick={() => {
+        State.update({
+          expand: !state.expand,
+        });
+      }}
     >
       {columns.map((column) => (
         <StyledRowItem key={column.key} style={{ width: column.width }}>
@@ -80,14 +86,7 @@ return (
             />
           )}
           {column.key === "handler" && (
-            <StyledExpand
-              className={state.expand ? "expand" : ""}
-              onClick={() => {
-                State.update({
-                  expand: !state.expand,
-                });
-              }}
-            >
+            <StyledExpand className={state.expand ? "expand" : ""}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="11"
