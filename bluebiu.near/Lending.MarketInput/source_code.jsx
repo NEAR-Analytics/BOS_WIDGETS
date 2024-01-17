@@ -55,7 +55,13 @@ const { icon, symbol, balance, price, amount, onChange } = props;
 return (
   <StyledBox>
     <div>
-      <StyledInput placeholder="0.0" value={amount || ""} onChange={onChange} />
+      <StyledInput
+        placeholder="0.0"
+        value={amount || ""}
+        onChange={(ev) => {
+          onChange(ev.target.value);
+        }}
+      />
       <StyledValue>
         {" "}
         <Widget
@@ -80,7 +86,11 @@ return (
       />
       <StyledBalance>
         Balance:
-        <StyledBalanceAmount>
+        <StyledBalanceAmount
+          onClick={() => {
+            onChange(balance);
+          }}
+        >
           <Widget
             src="bluebiu.near/widget/Avalanche.Lending.Total"
             props={{
