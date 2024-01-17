@@ -64,29 +64,26 @@ const TriggerShowLabel = styled.div`
   cursor: pointer;
   position: absolute;
   height: calc(100% - 22px);
-  top:-1px;
+  top: -1px;
   @keyframes scaleAnimation {
     0% {
       opacity: 1;
       width: 0;
       margin-left: -40px;
     }
-  
+
     100% {
       opacity: 0;
       width: 40px;
       margin-left: 0px;
-      display:none;
+      display: none;
     }
   }
-  animation: scaleAnimation 0.7s linear forwards;
+  animation: scaleAnimation 0.9s linear forwards;
   transition: all 0.3s;
 `;
 
 const ActionsWrapper = styled.div`
-
- 
- 
   z-index: 1080;
   border-radius: 0px 4px 4px 0px;
   transition: all 0.3s;
@@ -96,24 +93,24 @@ const ActionsWrapper = styled.div`
   @keyframes translateAnimation {
     0% {
       display: none;
- width: 0px;
+      width: 0px;
       opacity: 0;
-   min-height: 0px;
-   height:0px;
-     background: transparent;
+      min-height: 0px;
+      height: 0px;
+      background: transparent;
     }
- 80%{
-    opacity: 1;
- }
+    80% {
+      opacity: 1;
+    }
     100% {
       padding-top: 6px;
       border: 1px solid #db504a;
       opacity: 1;
       right: 60px;
-      height:auto;
-       width: 40px;
-        min-height: 34px;
-          background: #fff;
+      height: auto;
+      width: 40px;
+      min-height: 34px;
+      background: #fff;
     }
   }
   animation: translateAnimation 0.5s linear forwards;
@@ -183,7 +180,7 @@ const ButtonPlus = styled.div`
     0% {
       opacity: 0;
     }
-   
+
     100% {
       opacity: 1;
     }
@@ -317,11 +314,11 @@ const RemoveAction = styled.span`
   top: 0;
   cursor: pointer;
   z-index: 1200;
-    @keyframes translateAnimationBtn {
+  @keyframes translateAnimationBtn {
     0% {
       opacity: 0;
     }
-   
+
     100% {
       opacity: 1;
     }
