@@ -8,7 +8,7 @@ const handleOnMouseEnter = () => {
 };
 
 const handleOnMouseLeave = () => {
-  console.log("");
+  state.showMenu ? null : State.update({ show: false });
 };
 
 const handleOpenMenu = () => {
@@ -93,25 +93,22 @@ const TriggerShowLabel = styled.div`
 const ActionsWrapper = styled.div`
   background: #fff;
   width: 40px;
-  min-height:34px;
+  min-height: 34px;
   z-index: 1080;
   border-radius: 0px 4px 4px 0px;
   transition: all 0.3s;
-     display: flex;
-      flex-direction: column;
-      align-items: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   @keyframes translateAnimation {
     0% {
       display: none;
-     
+
       opacity: 0;
       transform: scaleY(0);
     }
-  
-  
+
     100% {
-     
-   
       padding-top: 6px;
       border: 1px solid #db504a;
       opacity: 1;
@@ -120,7 +117,6 @@ const ActionsWrapper = styled.div`
     }
   }
   animation: translateAnimation 1.3s linear forwards;
-
 `;
 
 const TriggerEar = styled.div`
@@ -312,24 +308,22 @@ const iconRemoveAction = (
 );
 
 const ActionBlock = styled.span`
-position:relative;
-div{
-  z-index: 1000;  
-}
+  position: relative;
+  div {
+    z-index: 1000;
+  }
 `;
 const RemoveAction = styled.span`
-position:absolute;
-right:0;
-top:0;
-cursor:pointer;
-z-index: 1070;
+  position: absolute;
+  right: 0;
+  top: 0;
+  cursor: pointer;
+  z-index: 1070;
   &:hover {
-    svg{
-          transform: scale(1.2); 
+    svg {
+      transform: scale(1.2);
     }
- 
   }
-
 `;
 
 return (
