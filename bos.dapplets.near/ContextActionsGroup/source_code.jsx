@@ -74,6 +74,11 @@ const TriggerShowLabel = styled.div`
       transform: scale(0)
    
     }
+        90% {
+      opacity: 1;
+     
+   
+    }
 
     100% {
       opacity: 0;
