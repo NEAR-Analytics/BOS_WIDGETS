@@ -28,7 +28,7 @@ const Wrapper = styled.div`
   place-items: center;
   margin: 0;
   grid-template-rows: auto 1fr;
-  height: 100vh;
+  min-height: 100vh;
 }
 .two-sides aside {
   position: fixed;
