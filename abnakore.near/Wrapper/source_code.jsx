@@ -30,7 +30,7 @@ const Wrapper = styled.div`
   grid-template-rows: auto 1fr;
   min-height: 100vh;
 }
-.two-sides aside {
+aside {
   position: fixed;
   background-color: #333;
   padding: 20px;
