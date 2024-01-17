@@ -1,7 +1,17 @@
 return (props) => {
   const code = `
+        <script>
+            const ping = () => {
+                window.top.postMessage("ping", "*");
+            }
+        </script>
         <script type="text/javascript" src="https://unpkg.com/${props.adapter.package}"></script>
         <script type="text/javascript">
+
+            if (${props.adapter.name}) {
+                ping();
+            }
+        
             const getPackageMethod = (instruction, package) => {
                 return instruction.split(".").reduce((path, nextPath) => (path || {})[nextPath], package);
             };
@@ -40,7 +50,7 @@ return (props) => {
       srcDoc={code}
       style={{ display: "none" }}
       message={props.adapter.getRequest()}
-      onMessage={(data) => props.adapter.setResponse(data)}
+      onMessage={(data) => data == "ping" ? props.adapter.setAsReady() : props.adapter.setResponse(data)}
     />
   );
 };
