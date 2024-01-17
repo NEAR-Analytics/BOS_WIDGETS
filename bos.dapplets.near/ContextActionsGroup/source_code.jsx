@@ -64,19 +64,23 @@ const TriggerShowLabel = styled.div`
   cursor: pointer;
   position: absolute;
   height: calc(100% - 22px);
+  width: 40px;
   top: -1px;
   @keyframes scaleAnimation {
     0% {
       opacity: 1;
       width: 0;
       margin-left: -33px;
+      transform: scale(0)
+      transform-origin: top left;
     }
 
     100% {
       opacity: 0.1;
-      width: 40px;
+      transform: scale(1)
       margin-left: 0px;
       display: none;
+      transform-origin: top left;
     }
   }
   animation: scaleAnimation 0.5s linear forwards;
@@ -90,14 +94,18 @@ const ActionsWrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  height: auto;
+      width: 40px;
+      min-height: 34px;
   @keyframes translateAnimation {
     0% {
       display: none;
       width: 0px;
-      opacity: 0.3;
-      min-height: 0px;
-      height: 0px;
+    
+     
       background: transparent;
+         transform: scale(0)
+      transform-origin: top left;
     }
     80% {
       opacity: 1;
@@ -107,10 +115,10 @@ const ActionsWrapper = styled.div`
       border: 1px solid #db504a;
       opacity: 1;
       right: 60px;
-      height: auto;
-      width: 40px;
-      min-height: 34px;
+      
       background: #fff;
+         transform: scale(1)
+      transform-origin: top left;
     }
   }
   animation: translateAnimation 0.5s linear forwards;
