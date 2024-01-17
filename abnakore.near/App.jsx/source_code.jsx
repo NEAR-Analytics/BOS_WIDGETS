@@ -2,11 +2,10 @@
 const accountId = context.accountId;
 
 // Declaring variables
-const voteId = 0;
+const voteId = props ? props : 0;
 const [passcodeEntered, setPasscodeEntered] = useState("");
 const [candidate, setCandidate] = useState(0);
 const [party, setparty] = useState(0);
-const { tab } = props;
 
 // All the votes
 const [allVotes, setAllVotes] = useState([]);
@@ -33,7 +32,7 @@ useEffect(() => {
     voteToRender.creator,
     accountId,
     voteToRender.creator === accountId,
-    tab
+    props
   );
   if (voteToRender.creator === accountId) {
     setPages([
