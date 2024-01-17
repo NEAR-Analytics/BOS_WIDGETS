@@ -73,13 +73,13 @@ const TriggerShowLabel = styled.div`
     }
 
     100% {
-      opacity: 0;
+      opacity: 0.1;
       width: 40px;
       margin-left: 0px;
       display: none;
     }
   }
-  animation: scaleAnimation 0.4s linear forwards;
+  animation: scaleAnimation 0.5s linear forwards;
   transition: all 0.3s;
 `;
 
