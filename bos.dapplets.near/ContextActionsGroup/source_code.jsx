@@ -102,7 +102,7 @@ const ActionsWrapper = styled.div`
       opacity: 0;
       transform: scaleY(0);
     }
-    50% {
+    20% {
       display: none;
       height: 0;
       opacity: 0;
@@ -315,12 +315,16 @@ const iconRemoveAction = (
 
 const ActionBlock = styled.span`
 position:relative;
+div{
+  z-index: 1000;  
+}
 `;
-const RemoveAction = styled.div`
+const RemoveAction = styled.span`
 position:absolute;
 right:0;
 top:0;
 cursor:pointer;
+z-index: 1070;
   &:hover {
     svg{
           transform: scale(1.2); 
