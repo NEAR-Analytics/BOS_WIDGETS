@@ -100,15 +100,26 @@ const ActionsWrapper = styled.div`
       display: none;
       height: 0;
       opacity: 0;
-      transform: scaleY(0);
+      transform: scaleY(0.2);
     }
     20% {
       display: none;
       height: 0;
       opacity: 0;
-      transform: scaleY(0);
+      transform: scaleY(0.7);
     }
 
+    90% {
+      height: auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding-top: 6px;
+      border: 1px solid #db504a;
+      opacity: 1;
+      right: 60px;
+      transform: scaleY(1);
+    }
     100% {
       height: auto;
       display: flex;
