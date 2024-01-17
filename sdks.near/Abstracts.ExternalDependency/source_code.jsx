@@ -1,6 +1,6 @@
 return (props) => {
   const code = `
-        <script type="text/javascript" src="https://unpkg.com/${props.package}"></script>
+        <script type="text/javascript" src="https://unpkg.com/${props.adapter.package}"></script>
         <script type="text/javascript">
             const getPackageMethod = (instruction, package) => {
                 return instruction.split(".").reduce((path, nextPath) => (path || {})[nextPath], package);
