@@ -1,16 +1,24 @@
 // Pages that can be reached via the aside tab
 const [pages, setPage] = useState([
   {
-    name: "Home",
-    link: "https://near.org/sandbox#/abnakore.near/widget/AdminHome",
+    name: "Voting Page",
+    link: "https://near.org/abnakore.near/widget/App.jsx",
+  },
+  {
+    name: "Result",
+    link: "https://near.org/abnakore.near/widget/Result.jsx",
+  },
+  {
+    name: "Admin Home",
+    link: "https://near.org/abnakore.near/widget/AdminHome",
   },
   {
     name: "Manage Candidates",
-    link: "https://near.org/sandbox#/abnakore.near/widget/ManageCandidates",
+    link: "https://near.org/abnakore.near/widget/ManageCandidates",
   },
   {
     name: "Mange Parties",
-    link: "https://near.org/sandbox#/abnakore.near/widget/ManageParties",
+    link: "https://near.org/abnakore.near/widget/ManageParties",
   },
 ]);
 
@@ -68,39 +76,41 @@ return (
     props={{
       body: (
         <div className="main-body">
-          <Widget
-            src="abnakore.near/widget/Aside"
-            props={{ objs: pages, active: "/admin" }}
-          />
-          <div className="body-contents">
-            <h1>Admin Home</h1>
-            <a href="https://near.org/abnakore.near/widget/App.jsx">
-              Voting Page
-            </a>
-            <h4>Candidates Details</h4>
+          <div className="two-sides">
             <Widget
-              src="abnakore.near/widget/Table"
-              props={{
-                headings: [
-                  "S/N",
-                  "Candidate's Name",
-                  "Party",
-                  "Email",
-                  "Role",
-                  "Number of votes",
-                  "Rank",
-                ],
-                data: Object.values(candidates.map((c) => Object.values(c))),
-              }}
+              src="abnakore.near/widget/Aside"
+              props={{ objs: pages, active: "/admin" }}
             />
-            <h4>Parties Details</h4>
-            <Widget
-              src="abnakore.near/widget/Table"
-              props={{
-                headings: ["S/N", "Party Name", "Acronym"],
-                data: Object.values(parties.map((c) => Object.values(c))),
-              }}
-            />
+            <div className="body-contents">
+              <h1>Admin Home</h1>
+              <a href="https://near.org/abnakore.near/widget/App.jsx">
+                Voting Page
+              </a>
+              <h4>Candidates Details</h4>
+              <Widget
+                src="abnakore.near/widget/Table"
+                props={{
+                  headings: [
+                    "S/N",
+                    "Candidate's Name",
+                    "Party",
+                    "Email",
+                    "Role",
+                    "Number of votes",
+                    "Rank",
+                  ],
+                  data: Object.values(candidates.map((c) => Object.values(c))),
+                }}
+              />
+              <h4>Parties Details</h4>
+              <Widget
+                src="abnakore.near/widget/Table"
+                props={{
+                  headings: ["S/N", "Party Name", "Acronym"],
+                  data: Object.values(parties.map((c) => Object.values(c))),
+                }}
+              />
+            </div>
           </div>
         </div>
       ),
