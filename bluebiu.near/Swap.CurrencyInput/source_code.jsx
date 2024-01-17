@@ -3,13 +3,15 @@
 const account = Ethers.send("eth_requestAccounts", [])[0];
 
 const Wrapper = styled.div`
-  display: flex;
-  flex-wrap: nowrap;
-  justify-content: space-between;
   padding: 16px 16px 14px;
   border-radius: 12px;
   border: 1px solid #373a53;
   transition: 0.3s;
+`;
+const InputBox = styled.div`
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: space-between;
 `;
 const InputField = styled.div`
   margin-right: 8px;
@@ -124,17 +126,24 @@ const Amount = styled.div`
   text-align: right;
   cursor: pointer;
 `;
+const Label = styled.div`
+  color: #979abe;
+  font-family: Gantari;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+`;
+
 // styled area end
 
 State.init({
-  balanceLoaded: false,
   balance: "0",
 });
 
 const utils = {
   balanceFormated: () => {
     if (!props.currency?.address) return "-";
-    if (!state.balanceLoaded) return "Loading";
     if (state.balance === "0" || Big(state.balance).eq(0)) return "0";
     if (Big(state.balance).lt(0.0001)) return "<0.0001";
     return Big(state.balance).toFixed(4, 0);
@@ -143,9 +152,6 @@ const utils = {
 
 const handlers = {
   handleDisplayCurrencySelect: () => {
-    State.update({
-      balanceLoaded: false,
-    });
     props?.onCurrencySelectOpen();
   },
   handleInputChange: (ev) => {
@@ -164,72 +170,89 @@ return (
         onLoad: (balance) => {
           State.update({
             balance: ethers.utils.formatUnits(balance, props.currency.decimals),
-            balanceLoaded: true,
           });
           props?.onUpdateCurrencyBalance(balance);
         },
       }}
     />
-    <InputField>
-      <InputWarpper>
-        <Input
-          value={props.amount}
-          disabled={props.disabled}
-          onChange={handlers.handleInputChange}
-          onFocus={() => {
-            State.update({
-              focus: true,
-            });
-          }}
-          onBlur={() => {
-            State.update({
-              focus: false,
-            });
-          }}
-        />
-      </InputWarpper>
-      <Value>
-        ≈{" "}
-        <Widget
-          src="dapdapbos.near/widget/Linea.Uniswap.Swap.FormatValue"
-          props={{
-            symbol: props.currency.symbol,
-            amount: props.amount,
-            prev: "$",
-          }}
-        />
-      </Value>
-    </InputField>
-    <CurrencyField>
-      <CurrencySelect onClick={handlers.handleDisplayCurrencySelect}>
-        <CurrencyWrapper>
-          {props.currency?.icon && <CurrencyIcon src={props.currency.icon} />}
-          <CurrencySymbol>
-            {props.currency.symbol || (
-              <span className="fz-14">Select a token</span>
-            )}
-          </CurrencySymbol>
-        </CurrencyWrapper>
-        <Widget src="dapdapbos.near/widget/Swap.ArrowIcon" />
-      </CurrencySelect>
-      {account && !props.chainIdNotSupport && (
-        <Amount
-          onClick={() => {
-            const formatedBalance = utils.balanceFormated();
-            if (!["-", "Loading", "0"].includes(formatedBalance))
-              props.onAmountChange?.(state.balance);
-          }}
-        >
-          Balance:{" "}
-          <span
-            style={{
-              textDecoration: props.disabled ? "none" : "underline",
+    <Label>{props.type === "in" ? "You pay" : "You receive"}</Label>
+    <InputBox>
+      {" "}
+      <InputField>
+        <InputWarpper>
+          <Input
+            value={props.amount}
+            disabled={props.disabled}
+            onChange={handlers.handleInputChange}
+            onFocus={() => {
+              State.update({
+                focus: true,
+              });
+            }}
+            onBlur={() => {
+              State.update({
+                focus: false,
+              });
+            }}
+            placeholder="0"
+          />
+        </InputWarpper>
+        <Value>
+          ≈{" "}
+          <Widget
+            src="dapdapbos.near/widget/Linea.Uniswap.Swap.FormatValue"
+            props={{
+              symbol: props.currency.symbol,
+              amount: props.amount,
+              prev: "$",
+            }}
+          />
+        </Value>
+      </InputField>
+      <CurrencyField>
+        <CurrencySelect onClick={handlers.handleDisplayCurrencySelect}>
+          <CurrencyWrapper>
+            {props.currency?.icon && <CurrencyIcon src={props.currency.icon} />}
+            <CurrencySymbol>
+              {props.currency.symbol || (
+                <span className="fz-14">Select a token</span>
+              )}
+            </CurrencySymbol>
+          </CurrencyWrapper>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="12"
+            height="7"
+            viewBox="0 0 12 7"
+            fill="none"
+          >
+            <path
+              d="M1 1L6 5L11 1"
+              stroke="#979ABE"
+              strokeWidth="2"
+              strokeLinecap="round"
+            />
+          </svg>
+        </CurrencySelect>
+        {account && !props.chainIdNotSupport && (
+          <Amount
+            onClick={() => {
+              const formatedBalance = utils.balanceFormated();
+              if (!["-", "Loading", "0"].includes(formatedBalance))
+                props.onAmountChange?.(state.balance);
             }}
           >
-            {utils.balanceFormated()}
-          </span>
-        </Amount>
-      )}
-    </CurrencyField>
+            Balance:{" "}
+            <span
+              style={{
+                textDecoration: props.disabled ? "none" : "underline",
+              }}
+            >
+              {utils.balanceFormated()}
+            </span>
+          </Amount>
+        )}
+      </CurrencyField>
+    </InputBox>
   </Wrapper>
 );
