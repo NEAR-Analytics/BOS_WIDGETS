@@ -65,22 +65,22 @@ const TriggerShowLabel = styled.div`
   position: absolute;
   height: calc(100% - 22px);
   top: -1px;
-      width: 40px;
+  width: 40px;
   @keyframes scaleAnimation {
     0% {
       opacity: 1;
-       transform-origin: top left;
-    transform: scaleX(0) scaleY(0);
+      transform-origin: top left;
+      transform: scaleX(0) scaleY(0);
     }
 
     100% {
       opacity: 0.5;
-  
- transform-origin: top left;
-  transform: scaleX(1) scaleY(1.2);
+
+      transform-origin: top left;
+      transform: scaleX(1) scaleY(1.2);
       display: none;
     }
-  } 
+  }
   animation: scaleAnimation 0.5s ease forwards;
   transition: all 0.3s;
 `;
@@ -100,11 +100,10 @@ const ActionsWrapper = styled.div`
       min-height: 0px;
       height: 0px;
       transform-origin: top left;
-    transform: scale(0);
+      transform: scale(0);
     }
     80% {
       opacity: 1;
-  
     }
     100% {
       padding-top: 6px;
@@ -115,8 +114,8 @@ const ActionsWrapper = styled.div`
       width: 40px;
       min-height: 34px;
       background: #fff;
-        transform-origin: top left;
-    transform: scale(1);
+      transform-origin: top left;
+      transform: scale(1);
     }
   }
   animation: translateAnimation 0.5s ease forwards;
@@ -324,7 +323,7 @@ const RemoveAction = styled.span`
     0% {
       opacity: 0;
     }
-  50% {
+    50% {
       opacity: 0;
     }
     100% {
