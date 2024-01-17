@@ -105,7 +105,7 @@ const ActionsWrapper = styled.div`
     0% {
       display: none;
 
-      opacity: 0;
+      opacity: 1;
   
     }
 
