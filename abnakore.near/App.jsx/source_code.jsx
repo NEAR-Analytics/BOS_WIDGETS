@@ -6,6 +6,7 @@ const voteId = 0;
 const [passcodeEntered, setPasscodeEntered] = useState("");
 const [candidate, setCandidate] = useState(0);
 const [party, setparty] = useState(0);
+const { tab } = props;
 
 // All the votes
 const [allVotes, setAllVotes] = useState([]);
@@ -31,7 +32,8 @@ useEffect(() => {
     "Is Admin?",
     voteToRender.creator,
     accountId,
-    voteToRender.creator === accountId
+    voteToRender.creator === accountId,
+    tab
   );
   if (voteToRender.creator === accountId) {
     setPages([
@@ -141,7 +143,7 @@ const [voted, setVoted] = useState([1]);
 
 // Functions
 function vote() {
-  if (candidate > 0) {
+  if (candidate > 0 && party > 0) {
     // console.log(context.accountId);
     // console.log(voted);
     // setCandidates([...candidates]);
@@ -270,37 +272,6 @@ return (
                           }}
                         >
                           {voteToRender.desc}
-                          Lorem, ipsum dolor sit amet consectetur adipisicing
-                          elit. Voluptas voluptatum autem neque est provident,
-                          deserunt illum labore natus nam temporibus.
-                          Perspiciatis libero ex esse recusandae unde
-                          praesentium inventore fuga, illo, qui, expedita
-                          molestiae officia nobis nesciunt. Illum laudantium
-                          excepturi voluptas, a inventore reprehenderit commodi
-                          facilis culpa nihil officiis, placeat quam officia
-                          necessitatibus ea cumque numquam rerum, fugiat
-                          incidunt! In ipsum deserunt deleniti sunt architecto
-                          magni culpa consequatur cum labore possimus accusamus
-                          id facere provident quod aliquam nihil est, tempore
-                          nulla quibusdam ullam laudantium itaque error.
-                          Deserunt, quo quas voluptate quia doloremque est
-                          cupiditate corrupti exercitationem unde debitis
-                          deleniti labore, voluptatibus, itaque reiciendis
-                          perspiciatis adipisci reprehenderit nobis odio. Alias
-                          placeat, nobis laudantium aspernatur sit eius deleniti
-                          non. Soluta natus eveniet dolor illo consectetur
-                          incidunt eius placeat esse a eum voluptatibus ea,
-                          tempore exercitationem magnam quo praesentium vel,
-                          nobis, aliquid rerum quae dignissimos voluptas dolorum
-                          numquam accusamus! Adipisci beatae saepe tenetur
-                          labore dolorem consequuntur dicta, modi ipsum
-                          quisquam. Numquam molestias adipisci, deserunt dolorum
-                          praesentium ex, ab sit ipsum aliquid recusandae dolor?
-                          Dolorem sint aliquam, asperiores ipsam quisquam est
-                          harum temporibus atque laborum. Quis porro id
-                          repudiandae mollitia repellendus ipsa quisquam labore
-                          nesciunt voluptatibus, itaque inventore rem dolorem.
-                          Minus eos laborum harum sint.
                         </p>
                         <p
                           style={{
@@ -373,7 +344,7 @@ return (
                                     key={party.acronym}
                                     value={i + 1}
                                   >
-                                    {party.name}
+                                    {party.name} ({party.acronym})
                                   </option>
                                 ))}
                             </select>
