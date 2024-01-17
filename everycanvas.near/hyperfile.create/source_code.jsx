@@ -1,6 +1,6 @@
 const Wrapper = styled.div`
-  margin: 0 auto;
   max-width: 400px;
+  margin: 0 auto;
 `;
 
 const TabContent = styled.div`
@@ -81,8 +81,7 @@ function generateUID() {
   );
 }
 
-const handleCreate = (callback) => {
-  props.toggleModal();
+const handleCreate = () => {
   const isCreator = context.accountId === creatorId;
 
   // load in the state.adapter (modules for IPFS, Arweave, Ceramic, Verida, On Machina... )
@@ -137,20 +136,14 @@ const handleCreate = (callback) => {
       }
 
       // sometimes we're not logged in, so it doesn't do anything!
-      Social.set(hyperfile, {
-        force: true,
-        onCommit: () => {
-          // close modal
-          props.toggleModal();
-        },
-      });
+      Social.set(hyperfile, { force: true });
     });
   }
 };
 
 return (
   <Wrapper>
-    <h3>create</h3>
+    <h3>{context.accountId === creatorId ? "create" : "request merge"}</h3>
     <ul className="nav nav-tabs">
       <li className="nav-item">
         <a
@@ -230,13 +223,7 @@ return (
       )}
     </TabContent>
     <FormGroup>
-      <button
-        style={{
-          color: "white",
-        }}
-        className="btn btn-primary mb-2"
-        onClick={handleCreate}
-      >
+      <button className="btn btn-success mb-1" onClick={handleCreate}>
         Create
       </button>
     </FormGroup>
