@@ -113,7 +113,7 @@ const ActionsWrapper = styled.div`
       background: #fff;
     }
   }
-  animation: translateAnimation 0.5s linear forwards;
+  animation: translateAnimation 0.9s ease forwards;
 `;
 
 const TriggerEar = styled.div`
