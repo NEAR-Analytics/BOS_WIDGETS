@@ -193,6 +193,11 @@ useEffect(() => {
     });
     if (results.length) {
       getTransaction(max);
+    } else {
+      onLoad({
+        noPair: true,
+        outputCurrencyAmount: "",
+      });
     }
   };
 
@@ -253,7 +258,7 @@ useEffect(() => {
       const poolPrice = Big(
         prices[!isReverse ? inputCurrency.symbol : outputCurrency.symbol] || 0
       ).div(
-        prices[isReverse ? inputCurrency.symbol : outputCurrency.symbol] || 0
+        prices[isReverse ? inputCurrency.symbol : outputCurrency.symbol] || 1
       );
 
       const amountoutPrice = isReverse
@@ -262,7 +267,7 @@ useEffect(() => {
 
       priceImpact = poolPrice
         .minus(amountoutPrice)
-        .div(poolPrice)
+        .div(poolPrice.eq(0) ? 1 : poolPrice)
         .mul(100)
         .toString();
     }
