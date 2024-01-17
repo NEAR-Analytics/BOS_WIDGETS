@@ -107,10 +107,7 @@ const ActionsWrapper = styled.div`
       opacity: 0;
       transform: scaleY(0);
     }
-      20% {
-      opacity: 0;
-      
-    }
+  
   
     100% {
      
@@ -122,7 +119,7 @@ const ActionsWrapper = styled.div`
       transform: scaleY(1);
     }
   }
-  animation: translateAnimation 1s linear forwards;
+  animation: translateAnimation 1.3s linear forwards;
 
 `;
 
