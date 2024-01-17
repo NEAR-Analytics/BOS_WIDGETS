@@ -103,6 +103,10 @@ const ActionsWrapper = styled.div`
       opacity: 0;
       transform: scaleY(0);
     }
+      20% {
+      opacity: 0;
+      
+    }
   
     100% {
      
