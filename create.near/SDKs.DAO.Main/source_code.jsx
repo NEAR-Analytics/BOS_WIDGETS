@@ -1,7 +1,4 @@
-// ---------------
-// view methods //
-// ---------------
-
+const daoId = "build.sputnik-dao.near";
 const daos = Near.view(factoryId, "get_dao_list");
 const daoVersion = Near.view(daoId, "version");
 const factory = Near.view(daoId, "get_factory_info");
@@ -31,7 +28,7 @@ const groups = policy.roles
 
     return group;
   });
-const check = groups.map((group) => {
+const isMember = groups.map((group) => {
   return !group
     ? false
     : group.filter((address) => address === accountId).length > 0;
@@ -67,40 +64,6 @@ const claims = Near.view(daoId, "get_bounty_claims", {
 const numberOfClaims = Near.view(daoId, "get_bounty_number_of_claims", {
   id: bountyId,
 });
-const loadBounties = () => {
-  const lastBountyId =
-    state.lastBountyId !== null
-      ? state.lastBountyId
-      : Near.view(daoId, "get_last_bounty_id");
-  if (lastBountyId === null) return;
-
-  const fromIndex = Math.max(0, lastBountyId - bountiesPerPage + 1); // Ensures fromIndex is never less than 0
-  const limit = fromIndex === 0 ? lastBountyId + 1 : bountiesPerPage; // Ensure we don't fetch the same bounties twice if fromIndex is 0
-
-  const newBounties = Near.view(daoId, "get_bounties", {
-    from_index: fromIndex,
-    limit: limit,
-  });
-  if (newBounties === null) return;
-
-  State.update({
-    ...state,
-    hasMore: fromIndex > 0,
-    bounties: [...state.bounties, ...newBounties.reverse()],
-    lastBountyId: fromIndex - 1,
-  });
-};
-
-// BUFFER ZONE
-const function_call_args = JSON.stringify({
-  token_id: "2498",
-  receiver_id: "0xedward.near",
-});
-const args = Buffer.from(function_call_args, "utf-8").toString("base64");
-
-// -----------------
-// change methods //
-// -----------------
 
 // UTILS
 const call = ({ daoId, methodName, args, deposit }) => {
@@ -148,6 +111,8 @@ const proposalTypes = [
   };
 });
 
+// -----------------
+
 const addProposal = ({ daoId, proposal }) => {
   const policy = Near.view(daoId, "get_policy");
 
@@ -175,7 +140,7 @@ const newDao_args = {
 const dao_args = Buffer.from(JSON.stringify(newDao_args), "utf-8").toString(
   "base64"
 );
-const handleCreate = () => {
+const createDao = () => {
   Near.call([
     {
       contractName: "sputnik-dao.near",
@@ -191,7 +156,7 @@ const handleCreate = () => {
 };
 
 // ADD MEMBER
-const handleProposal = () => {
+const addMember = () => {
   Near.call([
     {
       contractName: daoId,
@@ -214,7 +179,7 @@ const handleProposal = () => {
 };
 
 // REMOVE MEMBER
-const handleProposal = () => {
+const removeMember = () => {
   Near.call([
     {
       contractName: daoId,
@@ -239,7 +204,7 @@ const handleProposal = () => {
 };
 
 // POLL
-const handleProposal = () => {
+const createPoll = () => {
   Near.call([
     {
       contractName: daoId,
@@ -281,7 +246,7 @@ const transferProposal = () => {
 };
 
 // BOUNTY PROPOSAL
-const handleProposal = () => {
+const bountyProposal = () => {
   const bounty = {
     description,
     token,
@@ -310,7 +275,7 @@ const handleProposal = () => {
 };
 
 // BOUNTY CLAIM
-const handleClaim = () => {
+const claimBounty = () => {
   Near.call([
     {
       contractName: daoId,
@@ -326,7 +291,7 @@ const handleClaim = () => {
 };
 
 // BOUNTY UNCLAIM
-const handleUnclaim = () => {
+const unclaimBounty = () => {
   Near.call([
     {
       contractName: daoId,
@@ -340,7 +305,7 @@ const handleUnclaim = () => {
 };
 
 // BOUNTY SUBMIT WORK
-const handleSubmit = () => {
+const submitBounty = () => {
   Near.call([
     {
       contractName: daoId,
@@ -495,4 +460,41 @@ const create = (v) => {
   });
 };
 
-return { createFunctionCallProposal, create };
+return {
+  daos,
+  daoVersion,
+  factory,
+  policy,
+  config,
+  proposal,
+  lastProposalId,
+  proposals,
+  groups,
+  isMember,
+  processPolicy,
+  allowedRoles,
+  bounty,
+  claims,
+  numberOfClaims,
+  call,
+  actions,
+  proposalTypes,
+  addProposal,
+  createDao,
+  addMember,
+  removeMember,
+  createPoll,
+  transferProposal,
+  bountyProposal,
+  claimBounty,
+  unclaimBounty,
+  submitBounty,
+  createFunctionCallProposal,
+  create,
+  decodeArgs,
+  actProposal,
+  vote,
+  handleApprove,
+  handleReject,
+  handleSpam,
+};
