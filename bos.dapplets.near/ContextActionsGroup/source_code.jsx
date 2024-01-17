@@ -93,6 +93,7 @@ const TriggerShowLabel = styled.div`
 const ActionsWrapper = styled.div`
   background: #fff;
   width: 40px;
+  min-height:34px;
   z-index: 1080;
   border-radius: 0px 4px 4px 0px;
   @keyframes translateAnimation {
