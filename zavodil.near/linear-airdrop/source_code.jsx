@@ -18,7 +18,7 @@ useEffect(() => {
 return (
   <div>
     <h1>Check LiNEAR Airdrop eligibility</h1>
-    <div>
+    <div class="mb-3">
       Input NEAR account
       <input
         type="text"
@@ -27,12 +27,13 @@ return (
       />
     </div>
     {!!state.balance && (
-      <div class="mt-3">
+      <div>
         <div>Points: {state.points.toLocaleString()} </div>
         <div>Claimable $LNR: {state.balance.toLocaleString()} </div>
         <div>
           <a
             href="https://app.linearprotocol.org/airdrop"
+            target="_blank"
             class="btn btn-success"
           >
             Claim
@@ -40,5 +41,6 @@ return (
         </div>
       </div>
     )}
+    {!state.balance && <div>{state.accountId} points were not found</div>}
   </div>
 );
