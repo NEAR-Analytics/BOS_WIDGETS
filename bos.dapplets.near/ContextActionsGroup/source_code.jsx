@@ -96,6 +96,10 @@ const ActionsWrapper = styled.div`
   min-height:34px;
   z-index: 1080;
   border-radius: 0px 4px 4px 0px;
+  transition: all 0.3s;
+     display: flex;
+      flex-direction: column;
+      align-items: center;
   @keyframes translateAnimation {
     0% {
       display: none;
@@ -110,9 +114,7 @@ const ActionsWrapper = styled.div`
   
     100% {
      
-      display: flex;
-      flex-direction: column;
-      align-items: center;
+   
       padding-top: 6px;
       border: 1px solid #db504a;
       opacity: 1;
@@ -121,7 +123,7 @@ const ActionsWrapper = styled.div`
     }
   }
   animation: translateAnimation 1.3s linear forwards;
-transition: all 0.3s;
+
 `;
 
 const TriggerEar = styled.div`
