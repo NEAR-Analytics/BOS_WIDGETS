@@ -1,12 +1,13 @@
 const $ = VM.require("sdks.near/widget/Loader");
 const { ExternalDependencyAdapter } = $("@sdks/abstracts");
 
-return (Store, status) => {
+const test = (Store, status) => {
   let adapter = ExternalDependencyAdapter(Store, status);
 
   const CryptoJS = {
     ...adapter,
     name: "CryptoJS",
+    package: "crypto-js@4.2.0/crypto-js.js",
     aes: {
       encrypt: (message, key, config) => {
         return CryptoJS.request(
@@ -199,3 +200,5 @@ return (Store, status) => {
 
   return CryptoJS;
 };
+
+console.log(test(State, state));
