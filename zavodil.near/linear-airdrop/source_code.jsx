@@ -41,6 +41,8 @@ return (
         </div>
       </div>
     )}
-    {!state.balance && <div>{state.accountId} points were not found</div>}
+    {state.accountId && !state.balance && (
+      <div>{state.accountId} points were not found</div>
+    )}
   </div>
 );
