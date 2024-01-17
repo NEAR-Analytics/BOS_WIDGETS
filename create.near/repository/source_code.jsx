@@ -19,7 +19,7 @@ if (props.tab && props.tab !== state.selectedTab) {
   });
 }
 
-const src = props.src ?? "hack.near/thing/directory";
+const src = props.src ?? "create.near/widget/repository";
 const [accountId, type, name] = src.split("/");
 const existsData = Social.keys(src);
 const exists = !existsData || Object.keys(existsData).length > 0;
@@ -27,7 +27,7 @@ const thing = Social.get(src);
 const data = Social.get(`${src}/**`);
 const metadata = data.metadata;
 const tags = Object.keys(metadata.tags || {});
-const detailsUrl = `/james.near/widget/repository?src=${src}`;
+const detailsUrl = `/create.near/widget/repository?src=${src}`;
 const shareUrl = `https://everything.dev${detailsUrl}`;
 const accountProfileDescription =
   Social.getr(`${accountId}/profile`).description ?? "";
@@ -473,7 +473,7 @@ return (
   <>
     <SummaryWrapper>
       <Widget
-        src="james.near/widget/summary"
+        src="create.near/widget/repository.plugins"
         props={{
           primaryAction: "open",
           size: "large",
@@ -524,14 +524,17 @@ return (
 
         {state.selectedTab === "source" && (
           <Content noSidebar>
-            <Widget src="james.near/widget/source" props={{ path: src }} />
+            <Widget
+              src="create.near/widget/repository.source"
+              props={{ path: src }}
+            />
           </Content>
         )}
 
         {state.selectedTab === "discussion" && (
           <Content noSidebar>
             <Widget
-              src="james.near/widget/discussion"
+              src="create.near/widget/repository.discussion"
               props={{
                 src,
               }}
