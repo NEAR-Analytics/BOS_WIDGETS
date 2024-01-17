@@ -70,17 +70,18 @@ const TriggerShowLabel = styled.div`
     0% {
       opacity: 1;
       width: 0;
-      
+         transform-origin: top left;
       transform: scale(0)
-      transform-origin: top left;
+   
     }
 
     100% {
-      opacity: 1;
+      opacity: 0;
+         transform-origin: top left;
       transform: scale(1)
       
       display: none;
-      transform-origin: top left;
+   
     }
   }
   animation: scaleAnimation 0.5s linear forwards;
@@ -102,10 +103,10 @@ const ActionsWrapper = styled.div`
       display: none;
       width: 0px;
     
-     
+      transform-origin: top left;
       background: transparent;
          transform: scale(0)
-      transform-origin: top left;
+     
     }
     80% {
       opacity: 1;
@@ -115,10 +116,10 @@ const ActionsWrapper = styled.div`
       border: 1px solid #db504a;
       opacity: 1;
       right: 60px;
-      
+        transform-origin: top left;
       background: #fff;
          transform: scale(1)
-      transform-origin: top left;
+    
     }
   }
   animation: translateAnimation 0.5s linear forwards;
