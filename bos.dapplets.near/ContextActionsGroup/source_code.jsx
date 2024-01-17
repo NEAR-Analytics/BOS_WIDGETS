@@ -76,6 +76,7 @@ const TriggerShowLabel = styled.div`
       opacity: 0;
       width: 40px;
       margin-left: 0px;
+      display:none;
     }
   }
   animation: scaleAnimation 0.7s linear forwards;
