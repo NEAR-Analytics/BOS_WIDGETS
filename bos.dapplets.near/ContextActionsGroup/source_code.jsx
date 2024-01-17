@@ -115,8 +115,8 @@ const ActionsWrapper = styled.div`
       transform: scaleY(1);
     }
   }
-  animation: translateAnimation 1.3s ease forwards;
-  transition: all 0.3s;
+  animation: translateAnimation 1.3s ease-in forwards;
+
 `;
 
 const TriggerEar = styled.div`
