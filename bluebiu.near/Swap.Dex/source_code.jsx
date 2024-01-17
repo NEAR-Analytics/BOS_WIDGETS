@@ -1,31 +1,11 @@
-const { curChain, bridgeCb, theme, dexConfig } = props;
+const { curChain, bridgeCb, theme, dexConfig, isChainSupported, chainId } =
+  props;
 
 State.init({
   chainId: -1,
 });
 
 const account = Ethers.send("eth_requestAccounts", [])[0];
-
-useEffect(() => {
-  if (!account) return;
-
-  Ethers.provider()
-    .getNetwork()
-    .then(({ chainId }) => {
-      State.update({
-        chainId,
-        chainIdNotSupport: chainId !== curChain.chain_id,
-      });
-    })
-    .catch(() => {});
-}, [account]);
-
-useEffect(() => {
-  if (state.chainId === -1) return;
-  State.update({
-    chainIdNotSupport: state.chainId !== curChain.chain_id,
-  });
-}, [curChain]);
 
 const Dex = styled.div`
   display: flex;
@@ -107,14 +87,14 @@ return (
         props={{
           ...props,
           account,
-          chainId: state.chainId,
-          chainIdNotSupport: state.chainIdNotSupport,
+          chainId,
+          chainIdNotSupport: !isChainSupported,
           onSwitchChain: props.onSwitchChain,
         }}
       />
       <BridgeBanner
         onClick={() => {
-          if (state.chainIdNotSupport) return;
+          if (!isChainSupported) return;
           if (bridgeCb) bridgeCb();
         }}
         style={theme?.bridge ? theme.bridge : {}}
@@ -130,7 +110,7 @@ return (
 
         {ArrowRight}
       </BridgeBanner>
-      {state.chainIdNotSupport && (
+      {!isChainSupported && (
         <Widget
           src="bluebiu.near/widget/Swap.ChainWarnigBox"
           props={{
