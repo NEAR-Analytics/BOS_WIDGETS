@@ -71,11 +71,7 @@ const TriggerShowLabel = styled.div`
       width: 0;
       margin-left: -40px;
     }
-   90% {
-        opacity: 0.9;
-      width: 40px;
-      margin-left: 0px;
-    }
+  
     100% {
       opacity: 0;
       width: 40px;
@@ -105,7 +101,9 @@ const ActionsWrapper = styled.div`
    height:0px;
      background: transparent;
     }
- 
+ 80%{
+    opacity: 1;
+ }
     100% {
       padding-top: 6px;
       border: 1px solid #db504a;
