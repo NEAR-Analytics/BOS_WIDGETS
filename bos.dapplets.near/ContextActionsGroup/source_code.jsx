@@ -98,13 +98,13 @@ const ActionsWrapper = styled.div`
   @keyframes translateAnimation {
     0% {
       display: none;
-      height: 0;
+     
       opacity: 0;
       transform: scaleY(0);
     }
   
     100% {
-      height: auto;
+     
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -115,8 +115,8 @@ const ActionsWrapper = styled.div`
       transform: scaleY(1);
     }
   }
-  animation: translateAnimation 1.3s ease-in forwards;
-
+  animation: translateAnimation 1.3s linear forwards;
+transition: all 0.3s;
 `;
 
 const TriggerEar = styled.div`
