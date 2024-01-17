@@ -220,6 +220,11 @@ useEffect(() => {
     });
     if (results.length) {
       getTransaction(max);
+    } else {
+      onLoad({
+        noPair: true,
+        outputCurrencyAmount: "",
+      });
     }
   };
 
