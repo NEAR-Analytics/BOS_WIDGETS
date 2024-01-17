@@ -82,13 +82,13 @@ const TriggerShowLabel = styled.div`
       margin-left: 0px;
     }
   }
-  animation: scaleAnimation 1s linear forwards;
+  animation: scaleAnimation 0.8s linear forwards;
   transition: all 0.3s;
 `;
 
 const ActionsWrapper = styled.div`
   background: #fff;
-  width: 40px;
+ 
   min-height: 34px;
   z-index: 1080;
   border-radius: 0px 4px 4px 0px;
@@ -99,7 +99,7 @@ const ActionsWrapper = styled.div`
   @keyframes translateAnimation {
     0% {
       display: none;
-
+ width: 0px;
       opacity: 0;
   
     }
@@ -109,9 +109,10 @@ const ActionsWrapper = styled.div`
       border: 1px solid #db504a;
       opacity: 1;
       right: 60px;
+       width: 40px;
     }
   }
-  animation: translateAnimation 1s linear forwards;
+  animation: translateAnimation 0.8s linear forwards;
 `;
 
 const TriggerEar = styled.div`
@@ -183,7 +184,7 @@ const ButtonPlus = styled.div`
       opacity: 1;
     }
   }
-  animation: translateAnimationBtn 1.5s linear forwards;
+  animation: translateAnimationBtn 0.8s linear forwards;
   transition: all 0.3s;
   &:hover {
     box-shadow: 0px 4px 20px 0px rgba(11, 87, 111, 0.15),
