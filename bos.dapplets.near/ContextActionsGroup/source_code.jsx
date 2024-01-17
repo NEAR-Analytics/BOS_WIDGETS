@@ -70,15 +70,15 @@ const TriggerShowLabel = styled.div`
     0% {
       opacity: 1;
       width: 0;
-      margin-left: -33px;
+      
       transform: scale(0)
       transform-origin: top left;
     }
 
     100% {
-      opacity: 0.1;
+      opacity: 1;
       transform: scale(1)
-      margin-left: 0px;
+      
       display: none;
       transform-origin: top left;
     }
