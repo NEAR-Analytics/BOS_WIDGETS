@@ -29,7 +29,7 @@ return (
     {!!state.balance && (
       <div>
         <div>Points: {state.points.toLocaleString()} </div>
-        <div>Claimable $LNR: {state.balance.toLocaleString()} </div>
+        <div>$LNR: {state.balance.toLocaleString()} </div>
         <div>
           <a
             href="https://app.linearprotocol.org/airdrop"
