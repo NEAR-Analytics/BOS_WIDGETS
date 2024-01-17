@@ -2,7 +2,7 @@ const GRAPHQL_ENDPOINT = "https://near-queryapi.api.pagoda.co";
 
 State.init({
   copiedShareUrl: false,
-  selectedTab: props.tab ?? "source",
+  selectedTab: props.tab ?? "content",
   isLoadingRpcImpressions: true,
   impressionsData: {
     impressions: undefined,
@@ -488,11 +488,11 @@ return (
       <Wrapper>
         <Tabs>
           <TabsButton
-            href={`${detailsUrl}&tab=source`}
-            selected={state.selectedTab === "source"}
+            href={`${detailsUrl}&tab=content`}
+            selected={state.selectedTab === "content"}
           >
-            <Icon className="bi bi-code" />
-            Source
+            <Icon className="bi bi-boxes" />
+            Content
           </TabsButton>
           <TabsButton
             href={`${detailsUrl}&tab=about`}
@@ -505,10 +505,20 @@ return (
             href={`${detailsUrl}&tab=discussion`}
             selected={state.selectedTab === "discussion"}
           >
-            <Icon className="bi bi-chat-text" />
+            <Icon className="bi bi-chat-left-text" />
             Discussion
           </TabsButton>
         </Tabs>
+        {state.selectedTab === "content" && (
+          <Content noSidebar>
+            <Widget
+              src="create.near/widget/repository.content"
+              props={{
+                src,
+              }}
+            />
+          </Content>
+        )}
 
         {state.selectedTab === "about" && (
           <Content noSidebar>
@@ -522,23 +532,9 @@ return (
           </Content>
         )}
 
-        {state.selectedTab === "source" && (
-          <Content noSidebar>
-            <Widget
-              src="create.near/widget/repository.source"
-              props={{ path: src }}
-            />
-          </Content>
-        )}
-
         {state.selectedTab === "discussion" && (
           <Content noSidebar>
-            <Widget
-              src="create.near/widget/repository.discussion"
-              props={{
-                src,
-              }}
-            />
+            <Widget src="james.near/widget/discussion" props={{ path: src }} />
           </Content>
         )}
       </Wrapper>
