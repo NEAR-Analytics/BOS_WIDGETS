@@ -79,7 +79,7 @@ const TriggerShowLabel = styled.div`
       display: none;
     }
   }
-  animation: scaleAnimation 0.9s linear forwards;
+  animation: scaleAnimation 0.4s linear forwards;
   transition: all 0.3s;
 `;
 
