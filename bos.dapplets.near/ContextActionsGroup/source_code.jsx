@@ -87,7 +87,7 @@ const TriggerShowLabel = styled.div`
 `;
 
 const ActionsWrapper = styled.div`
-  background: #fff;
+
  
  
   z-index: 1080;
@@ -102,6 +102,7 @@ const ActionsWrapper = styled.div`
  width: 0px;
       opacity: 0;
    min-height: 0px;
+     background: transparent;
     }
  
     100% {
@@ -111,6 +112,7 @@ const ActionsWrapper = styled.div`
       right: 60px;
        width: 40px;
         min-height: 34px;
+          background: #fff;
     }
   }
   animation: translateAnimation 0.5s linear forwards;
