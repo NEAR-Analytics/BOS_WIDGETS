@@ -8,7 +8,7 @@ const handleOnMouseEnter = () => {
 };
 
 const handleOnMouseLeave = () => {
-  console.log("");
+  state.showMenu ? null : State.update({ show: false });
 };
 
 const handleOpenMenu = () => {
@@ -340,10 +340,13 @@ return (
       <TriggerEar />
     </div>
     {state.show ? (
-      <TriggerShowPanel style={{ margin: "0px -7px" }}>
+      <TriggerShowPanel
+        onMouseLeave={handleOnMouseLeave}
+        style={{ margin: "0px -7px" }}
+      >
         <TriggerShowLabel />
 
-        <ActionsWrapper onMouseLeave={handleOnMouseLeave}>
+        <ActionsWrapper>
           {props.widgets.map((widget, i) => (
             <ActionBlock key={i}>
               <RemoveAction>{iconRemoveAction}</RemoveAction>
@@ -352,10 +355,7 @@ return (
           ))}
         </ActionsWrapper>
 
-        <ButtonPlus
-          onClick={handleOpenMenu}
-          onMouseLeave={handleOnMouseLeave}
-        />
+        <ButtonPlus onClick={handleOpenMenu} />
       </TriggerShowPanel>
     ) : null}
 
