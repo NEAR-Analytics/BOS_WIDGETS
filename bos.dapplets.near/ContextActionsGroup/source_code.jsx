@@ -77,11 +77,11 @@ const TriggerShowLabel = styled.div`
       opacity: 0.5;
   
  transform-origin: top left;
-  transform: scale(1.1);
+  transform: scale(1);
       display: none;
     }
   }
-  animation: scaleAnimation 0.5s ease forwards;
+  animation: scaleAnimation 0.6s ease forwards;
   transition: all 0.3s;
 `;
 
