@@ -65,21 +65,23 @@ const TriggerShowLabel = styled.div`
   position: absolute;
   height: calc(100% - 22px);
   top: -1px;
+      width: 40px;
   @keyframes scaleAnimation {
     0% {
       opacity: 1;
-      width: 0;
-  
+       transform-origin: top left;
+    transform: scale(0);
     }
 
     100% {
       opacity: 1;
-      width: 40px;
-
+  
+ transform-origin: top left;
+  transform: scale(1.1);
       display: none;
     }
   }
-  animation: scaleAnimation 0.9s linear forwards;
+  animation: scaleAnimation 0.7s linear forwards;
   transition: all 0.3s;
 `;
 
