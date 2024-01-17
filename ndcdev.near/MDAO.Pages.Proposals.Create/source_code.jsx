@@ -39,9 +39,6 @@ const FormWrapper = styled.div`
   }
 
   .title {
-    h2 {
-      font-weight: 300;
-    }
     b {
       font-weight: 600;
     }
@@ -184,7 +181,7 @@ const ProposalButton = () => (
     disabled={form[formEls.type].some(
       (el) =>
         el.required &&
-        (errors[el.name] === true || errors[el.name] === undefined),
+        (errors[el.name] === true || errors[el.name] === undefined)
     )}
     data={{
       index: {
@@ -204,14 +201,14 @@ return (
   <Container>
     <div className="d-flex justify-content-center">
       <FormWrapper className="my-5 d-flex flex-column gap-3">
-        <div className="title d-flex flex-column align-items-center">
-          <h2>Marketing DAO Reports & Proposals Form</h2>
-          <div className="text-center">
+        <div className="title d-flex flex-column align-items-center text-center mb-4">
+          <h1>Marketing DAO Reports & Proposals Form</h1>
+          <div className="mt-3 text-center">
             <p>
               <b>Please use this form to report key performance metrics.</b>
             </p>
-            <div className="d-flex gap-2 align-items-center">
-              <i className="fs-3 bi bi-info-circle-fill" /> Questions? Reach out
+            <div className="text-center">
+              <i className="fs-6 bi bi-info-circle-fill" /> Questions? Reach out
               via <a href="https://t.me/ndc_marketing">Telegram</a> or email:
               <a href="mailto:marketingdao@proton.me">marketingdao@proton.me</a>
               🙂
@@ -227,7 +224,7 @@ return (
             setFormEls(newFormEl);
           }}
         >
-          <label>Form type</label>
+          <p className="mb-2">Form type</p>
           <div className="d-flex gap-3 align-items-center">
             <Widget src={`ndcdev.near/widget/MDAO.Components.Switch`} />
             <TypeSection>
