@@ -112,8 +112,8 @@ const Amount = styled.div`
 // styled area end
 
 State.init({
-  balanceLoaded: false,
   balance: "0",
+  loading: false,
 });
 
 const getTokenPrice = () => {
@@ -124,7 +124,8 @@ const getTokenPrice = () => {
 const utils = {
   balanceFormated: () => {
     if (!props.currency?.address) return "-";
-    if (!state.balanceLoaded) return "Loading";
+    if (state.loading)
+      return <Widget src="bluebiu.near/widget/0vix.LendingLoadingIcon" />;
     if (state.balance === "0" || Big(state.balance).eq(0)) return "0";
     if (Big(state.balance).lt(0.0001)) return "<0.0001";
     return Big(state.balance).toFixed(4, 0);
@@ -133,9 +134,6 @@ const utils = {
 
 const handlers = {
   handleDisplayCurrencySelect: () => {
-    State.update({
-      balanceLoaded: false,
-    });
     props?.onCurrencySelectOpen();
   },
   handleInputChange: (ev) => {
@@ -176,28 +174,29 @@ useEffect(() => {
   props?.onGetPrice(getTokenPrice());
 }, [props.currency]);
 
+useEffect(() => {
+  if (props.updateTokenBalance === undefined) return;
+  State.update({
+    loading: props.updateTokenBalance,
+  });
+}, [props.updateTokenBalance]);
+
 return (
   <Wrapper>
-    {(props.updateTokenBalance || !state.balanceLoaded) && (
-      <Widget
-        src="bluebiu.near/widget/Arbitrum.Swap.CurrencyBalance"
-        props={{
-          address: props.currency?.isNative
-            ? "native"
-            : props.currency?.address,
-          onLoad: (balance) => {
-            State.update({
-              balance: ethers.utils.formatUnits(
-                balance,
-                props.currency.decimals
-              ),
-              balanceLoaded: true,
-            });
-            props?.onUpdateCurrencyBalance(balance);
-          },
-        }}
-      />
-    )}
+    <Widget
+      src="bluebiu.near/widget/Arbitrum.Swap.CurrencyBalance"
+      props={{
+        address: props.currency?.isNative ? "native" : props.currency?.address,
+        updateTokenBalance: props.updateTokenBalance,
+        onLoad: (balance) => {
+          State.update({
+            balance: ethers.utils.formatUnits(balance, props.currency.decimals),
+            loading: false,
+          });
+          props?.onUpdateCurrencyBalance(balance);
+        },
+      }}
+    />
     <InputField>
       <InputWarpper>
         <Input
