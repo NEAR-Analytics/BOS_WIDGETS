@@ -1,7 +1,10 @@
+const PopoverRoot = ({ children, ...props }) => (
+  <Popover.Root {...props}>{children}</Popover.Root>
+);
+
 const PopoverTrigg = ({ children, ...props }) => (
   <Popover.Trigger {...props}>{children}</Popover.Trigger>
 );
-
 
 const PopoverContent = ({ children, className, align, ...props }) => {
   const base =
@@ -19,4 +22,4 @@ const PopoverContent = ({ children, className, align, ...props }) => {
   );
 };
 
-return { PopoverContent, PopoverTrigg };
+return { PopoverContent, PopoverTrigg, PopoverRoot };
