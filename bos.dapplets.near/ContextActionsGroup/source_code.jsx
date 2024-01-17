@@ -337,9 +337,8 @@ return (
         onMouseLeave={handleOnMouseLeave}
         style={{ margin: "0px -7px" }}
       >
-        <TriggerShowLabel />
-
         <ActionsWrapper>
+          <TriggerShowLabel />
           {props.widgets.map((widget, i) => (
             <ActionBlock key={i}>
               <RemoveAction>{iconRemoveAction}</RemoveAction>
