@@ -63,24 +63,15 @@ const TriggerShowLabel = styled.div`
   z-index: 1100;
   cursor: pointer;
   position: absolute;
-  height: 100%;
-  
+  height: calc(100% - 22px);
+  top:-5px;
   @keyframes scaleAnimation {
     0% {
       opacity: 1;
       width: 0;
       margin-left: -40px;
     }
-    50% {
-      opacity: 1;
-      width: 40px;
-      margin-left: 0px;
-    }
-    90% {
-      opacity: 1;
-      width: 40px;
-      margin-left: 0px;
-    }
+
     100% {
       opacity: 0;
       width: 40px;
