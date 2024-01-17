@@ -60,7 +60,7 @@ const TriggerShowLabel = styled.div`
   background: #db504a;
   display: flex;
   border-radius: 0px 4px 4px 0px;
-  z-index: 1070;
+  z-index: 1100;
   cursor: pointer;
   position: absolute;
   min-height: 40px;
