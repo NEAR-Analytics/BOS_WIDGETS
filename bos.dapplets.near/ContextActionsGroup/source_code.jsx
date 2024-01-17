@@ -73,13 +73,13 @@ const TriggerShowLabel = styled.div`
     }
 
     100% {
-      opacity: 0.1;
+      opacity: 1;
       width: 40px;
 
       display: none;
     }
   }
-  animation: scaleAnimation 0.5s linear forwards;
+  animation: scaleAnimation 0.9s linear forwards;
   transition: all 0.3s;
 `;
 
@@ -113,7 +113,7 @@ const ActionsWrapper = styled.div`
       background: #fff;
     }
   }
-  animation: translateAnimation 0.9s ease forwards;
+  animation: translateAnimation 0.5s ease forwards;
 `;
 
 const TriggerEar = styled.div`
