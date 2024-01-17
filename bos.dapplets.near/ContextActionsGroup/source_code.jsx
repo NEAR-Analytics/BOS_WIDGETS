@@ -72,7 +72,7 @@ const TriggerShowLabel = styled.div`
       margin-left: -40px;
     }
    90% {
-        opacity: 0;
+        opacity: 0.9;
       width: 40px;
       margin-left: 0px;
     }
