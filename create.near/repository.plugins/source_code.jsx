@@ -464,7 +464,7 @@ return (
     <>
       {state.showUpdateModal && (
         <Widget
-          src="create.near/widget/repository.update"
+          src="create.near/widget/GitBos.update"
           props={{
             handleClose: () => State.update({ showUpdateModal: false }),
             src,
@@ -475,7 +475,7 @@ return (
     <>
       {state.showForkModal && (
         <Widget
-          src="create.near/widget/repository.fork"
+          src="create.near/widget/GitBos.fork"
           props={{
             handleClose: () => State.update({ showForkModal: false }),
             src,
