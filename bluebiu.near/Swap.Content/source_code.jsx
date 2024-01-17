@@ -7,6 +7,7 @@ const {
   CHAIN_LIST,
   curChain,
   wethAddress,
+  prices,
   onSwitchChain,
 } = props;
 
@@ -201,7 +202,7 @@ return (
               curChain,
               onSwitchChain,
             }}
-            src="dapdapbos.near/widget/Swap.ChainListDropDown"
+            src="bluebiu.near/widget/Swap.ChainListDropDown"
           />
         </PanelLabelWrapper>
         <PanelSettings>
@@ -257,6 +258,7 @@ return (
       <Widget
         src="bluebiu.near/widget/Swap.CurrencyInput"
         props={{
+          type: "in",
           currency: state.inputCurrency,
           chainIdNotSupport,
           amount: state.inputCurrencyAmount,
@@ -312,6 +314,7 @@ return (
       <Widget
         src="bluebiu.near/widget/Swap.CurrencyInput"
         props={{
+          type: "out",
           currency: state.outputCurrency,
           chainIdNotSupport,
           amount: state.outputCurrencyAmount,
@@ -432,6 +435,7 @@ return (
           inputCurrencyAmount: state.inputCurrencyAmount,
           account,
           wethAddress,
+          prices,
           ...dexConfig,
           slippage: state.slippage,
           onLoad: (data) => {
