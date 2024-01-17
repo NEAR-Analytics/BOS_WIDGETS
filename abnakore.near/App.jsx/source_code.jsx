@@ -263,7 +263,6 @@ return (
                           </svg>
                         </i>
                         <h1>{voteToRender.name}</h1>
-                        {JSON.stringify(ongoing)}
                         <p
                           style={{
                             color: "green",
@@ -293,7 +292,7 @@ return (
                               required
                             >
                               <option className="option" value={0}>
-                                Select by candidate's name
+                                Select by Candidate
                               </option>
                               {voteToRender.candidates.map((candidate, i) => (
                                 <option
@@ -354,7 +353,7 @@ return (
                           <p
                             id="thanks"
                             className={`read-the-docs ${
-                              !state.show_message ? "" : "hide"
+                              state.show_message ? "" : "hide"
                             }`}
                           >
                             Thank you for voting
