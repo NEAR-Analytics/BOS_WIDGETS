@@ -188,15 +188,15 @@ const {
   slippage,
   account,
   fees,
+  pools,
 } = props;
-
 const prices = Storage.get(
   "tokensPrice",
   "dapdapbos.near/widget/Linea.Uniswap.Swap.TokensPrice"
 );
 
 useEffect(() => {
-  if (!updater || !prices) return;
+  if (!updater || !prices || !pools.length) return;
 
   if (
     (!inputCurrency.address && !inputCurrency.isNative) ||
@@ -211,37 +211,17 @@ useEffect(() => {
     outputCurrency.address === "native" ? wethAddress : outputCurrency.address,
   ];
 
-  const pools = [
-    [
-      [
-        "0x4c078361fc9bbb78df910800a991c7c3dd2f6ce0",
-        "0xbb06dca3ae6887fabf931640f67cab3e3a16f4dc",
-        "0xea32a96608495e54156ae48931a7c20f0dcc1a21",
-      ],
-      "0xa35ad1b31059a652c2bad1114604845469b86692000000000000000000000006",
-    ],
-    [
-      [
-        "0x420000000000000000000000000000000000000a",
-        "0x433e43047b95cb83517abd7c9978bdf7005e9938",
-        "0xdeaddeaddeaddeaddeaddeaddeaddeaddead0000",
-        "0xea32a96608495e54156ae48931a7c20f0dcc1a21",
-      ],
-      "0x9c531f76b974fe0b7f545ba4c0623dd2fea3ef26000100000000000000000002",
-    ],
-  ];
-
   const finalPool = pools
     .filter(
       (poolData) =>
-        poolData[0].includes(path[0].toLowerCase()) &&
-        poolData[0].includes(path[1].toLowerCase())
+        poolData[0].includes(path[0]) && poolData[0].includes(path[1])
     )
     .map((poolData) => poolData[1]);
 
   if (finalPool.length === 0) {
     onLoad({
       noPair: true,
+      outputCurrencyAmount: "",
     });
     return;
   }
@@ -300,7 +280,7 @@ useEffect(() => {
       })
       .catch((err) => {
         console.log("err", err);
-        onLoad({ noPair: true });
+        onLoad({ noPair: true, outputCurrencyAmount: "" });
       });
   };
 
@@ -346,7 +326,7 @@ useEffect(() => {
 
       priceImpact = poolPrice
         .minus(amountoutPrice)
-        .div(poolPrice)
+        .div(poolPrice.eq(0) ? 1 : poolPrice)
         .mul(100)
         .toString();
     }
