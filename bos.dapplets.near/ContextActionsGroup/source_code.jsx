@@ -24,6 +24,10 @@ const handleSelectComponent = (component) => {
   props.injectWidget(`${component.accountId}/widget/${component.widgetName}`);
 };
 
+const handleRemoveWidget = (bosWidgetId, linkId) => {
+  props.removeWidget(bosWidgetId, linkId);
+}
+
 const OverlayTriggerWrapper = styled.div`
   display: flex;
   position: relative;
@@ -353,7 +357,7 @@ return (
           <TriggerShowLabel />
           {props.widgets.map((widget, i) => (
             <ActionBlock key={i}>
-              <RemoveAction>{iconRemoveAction}</RemoveAction>
+              <RemoveAction onClick={() => handleRemoveWidget(widget.src, widget.linkId)}>{iconRemoveAction}</RemoveAction>
               <Widget src={widget.src} props={widget.props} />
             </ActionBlock>
           ))}
