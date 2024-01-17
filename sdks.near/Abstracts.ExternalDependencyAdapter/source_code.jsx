@@ -8,7 +8,7 @@ return (Store, status) => {
       Store.init({
         [API.name]: {
           ongoingRequest: {},
-          responses: {},
+          responses: {}
         },
       });
 
@@ -74,6 +74,16 @@ return (Store, status) => {
     notify: (instruction, index, result) => {
       status[API.name].responses[instruction][index].resolve(result);
     },
+    isReady: () => {
+        return status[API.name].ready;
+    },
+    setAsReady: () => {
+      let newApi = status[API.name];
+      newApi.ready = true;
+      Store.update({
+          [API.name]: newApi
+      });
+    }
   };
 
   return API.init();
