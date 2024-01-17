@@ -374,8 +374,8 @@ return (
                       .toString(),
               price: data.underlyingPrice,
               amount: state.amount,
-              onChange: (ev) => {
-                onAmountChange(ev.target.value);
+              onChange: (val) => {
+                onAmountChange(val);
               },
             }}
           />
