@@ -78,7 +78,7 @@ const TriggerShowLabel = styled.div`
       margin-left: 0px;
     }
   }
-  animation: scaleAnimation 0.5s linear forwards;
+  animation: scaleAnimation 0.7s linear forwards;
   transition: all 0.3s;
 `;
 
