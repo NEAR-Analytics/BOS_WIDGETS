@@ -68,7 +68,7 @@ return (Store, status) => {
         result:
           response.returnType == "string"
             ? response.result
-            : console.log(response.result),
+            : JSON.parse(response.result),
       };
     },
     notify: (instruction, index, result) => {
