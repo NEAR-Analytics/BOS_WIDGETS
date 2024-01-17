@@ -81,7 +81,7 @@ const TriggerShowLabel = styled.div`
       display: none;
     }
   }
-  animation: scaleAnimation 0.6s ease forwards;
+  animation: scaleAnimation 0.5s ease forwards;
   transition: all 0.3s;
 `;
 
@@ -99,7 +99,8 @@ const ActionsWrapper = styled.div`
       opacity: 0.3;
       min-height: 0px;
       height: 0px;
-    
+      transform-origin: top left;
+    transform: scale(0);
     }
     80% {
       opacity: 1;
@@ -114,6 +115,8 @@ const ActionsWrapper = styled.div`
       width: 40px;
       min-height: 34px;
       background: #fff;
+        transform-origin: top left;
+    transform: scale(1);
     }
   }
   animation: translateAnimation 0.5s linear forwards;
