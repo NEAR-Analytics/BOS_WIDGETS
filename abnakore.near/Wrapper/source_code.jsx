@@ -29,8 +29,9 @@ const Wrapper = styled.div`
   margin: 0;
   grid-template-rows: auto 1fr;
   min-height: 100vh;
+  width: 100%;
 }
-aside {
+.two-sides aside {
   position: fixed;
   background-color: #333;
   padding: 20px;
