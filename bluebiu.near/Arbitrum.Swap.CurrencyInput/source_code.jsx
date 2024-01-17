@@ -112,14 +112,12 @@ const Amount = styled.div`
 // styled area end
 
 State.init({
-  balanceLoaded: false,
   balance: "0",
 });
 
 const utils = {
   balanceFormated: () => {
     if (!props.currency?.address) return "-";
-    if (!state.balanceLoaded) return "Loading";
     if (state.balance === "0" || Big(state.balance).eq(0)) return "0";
     if (Big(state.balance).lt(0.0001)) return "<0.0001";
     return Big(state.balance).toFixed(4);
@@ -128,9 +126,6 @@ const utils = {
 
 const handlers = {
   handleDisplayCurrencySelect: () => {
-    State.update({
-      balanceLoaded: false,
-    });
     props?.onCurrencySelectOpen();
   },
   handleInputChange: (ev) => {
@@ -149,7 +144,6 @@ return (
         onLoad: (balance) => {
           State.update({
             balance: ethers.utils.formatUnits(balance, props.currency.decimals),
-            balanceLoaded: true,
           });
           props?.onUpdateCurrencyBalance(balance);
         },
