@@ -76,7 +76,7 @@ if (parts.length > 2) {
   const regex = `^${escapedPath}(\\..+)?$`;
   const matchingKeys = flattenedKeys.filter((it) => it.match(regex));
   data = Social.getr(matchingKeys, "final");
-  // remove create.near and widget
+  // remove create.near and widget L0 and L1 from the object
 } else {
   data = Social.getr(path, "final");
 }
