@@ -60,6 +60,7 @@ return (
           nativeCurrency,
           dexConfig,
           account,
+          prices,
           onSuccess: () => {
             State.update({
               loading: true,
