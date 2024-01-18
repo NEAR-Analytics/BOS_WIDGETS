@@ -210,7 +210,7 @@ const ButtonPlus = styled.div`
   }
 `;
 
-const DeleteWidgetWrapper = styled.div`
+const WidgetBadgeWrapper = styled.div`
   position: absolute;
   right: 0;
   top: 0;
@@ -331,12 +331,18 @@ return (
           {props.widgets.map((widget) => (
             <ActionBlock key={widget.linkId}>
               {props.isEditMode ? (
-                <DeleteWidgetWrapper>
-                  <Widget
-                    src="bos.dapplets.near/widget/LayoutManager.DeleteWidgetButton"
-                    props={{ onClick: () => handleRemoveWidget(widget.linkId) }}
-                  />
-                </DeleteWidgetWrapper>
+                <WidgetBadgeWrapper>
+                  {widget.authorId === context.accountId ? (
+                    <Widget
+                      src="bos.dapplets.near/widget/LayoutManager.DeleteWidgetButton"
+                      props={{
+                        onClick: () => handleRemoveWidget(widget.linkId),
+                      }}
+                    />
+                  ) : (
+                    <Widget src="bos.dapplets.near/widget/LayoutManager.LockedWidgetBadge" />
+                  )}
+                </WidgetBadgeWrapper>
               ) : null}
               <Widget src={widget.src} props={widget.props} />
             </ActionBlock>
