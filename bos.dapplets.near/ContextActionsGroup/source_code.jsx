@@ -21,11 +21,11 @@ const handleCloseMenu = () => {
 
 const handleSelectComponent = (component) => {
   State.update({ showMenu: false });
-  props.injectWidget(`${component.accountId}/widget/${component.widgetName}`);
+  props.createUserLink(`${component.accountId}/widget/${component.widgetName}`);
 };
 
 const handleRemoveWidget = (bosWidgetId, linkId) => {
-  props.removeWidget(bosWidgetId, linkId);
+  props.deleteUserLink(bosWidgetId, linkId);
 }
 
 const OverlayTriggerWrapper = styled.div`
