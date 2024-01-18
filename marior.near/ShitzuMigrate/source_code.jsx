@@ -16,6 +16,7 @@ if (state.chainId !== undefined && state.chainId !== 1313161554) {
 }
 
 const shitzuNearAddress = "token.0xshitzu.near";
+const shitzuDaoAddress = "shitzu.sputnik-dao.near";
 const shitzuContractAddress = "0x68e401B61eA53889505cc1366710f733A60C2d41";
 const migrateContractAddress = "0xA6f40A8Ca2CE1A5D570A52BD34897aBDF75438FF";
 const tokenDecimals = 18;
@@ -264,6 +265,15 @@ return (
         }
         placeholder="Receiver (Near address)"
       />
+      <button
+        onClick={() => {
+          State.update({
+            receiverId: shitzuDaoAddress,
+          });
+        }}
+      >
+        Donate to DAO
+      </button>
       {state.receiverError && <Error>{state.receiverError}</Error>}
     </label>
 
