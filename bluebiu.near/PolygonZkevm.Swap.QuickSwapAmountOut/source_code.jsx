@@ -137,12 +137,8 @@ const {
   onLoad,
   slippage,
   account,
+  prices,
 } = props;
-
-const prices = Storage.get(
-  "tokensPrice",
-  "dapdapbos.near/widget/Linea.Uniswap.Swap.TokensPrice"
-);
 
 useEffect(() => {
   if (!updater || !prices) return;
