@@ -823,6 +823,7 @@ function getMultiRewards(pool, index) {
       const temp = [...state.poolsList];
       const [[balance], [rewardRate], [totalSupply], [rewards]] = res;
 
+      temp[index].rewardRate = rewardRate;
       temp[index].stakedAmount = Big(
         ethers.utils.formatUnits(balance) || 0
       ).toFixed(2);
@@ -945,6 +946,7 @@ function calcTVL() {
     const tokenBalance = temp[i].tokenBalance;
     const bptTotalSupply = temp[i].bptTotalSupply;
     const rewardTotalSupply = temp[i].rewardTotalSupply;
+    const rewardRate = temp[i].rewardRate;
 
     if (
       tokens &&
@@ -973,15 +975,64 @@ function calcTVL() {
 
         const bptPriceUsd = Big(sum).div(Big(bptTotalSupply));
 
+        const TVL = Big(rewardTotalSupply).times(bptPriceUsd).toFixed(0);
+
         // temp[i].poolValueUsd = sum;
         temp[i].bptPriceUsd = bptPriceUsd;
+        temp[i].TVL = TVL;
 
-        temp[i].TVL = Big(rewardTotalSupply).times(bptPriceUsd).toFixed(0);
+        // calc bal apr
+        const rewardPerYear = Big(ethers.utils.formatUnits(rewardRate)).times(
+          Big(86400).times(365)
+        );
+
+        const rewardPerYearUsd = rewardPerYear.times(
+          Big(state.tokenPrices["balancer"]["usd"])
+        );
+
+        temp[i].BAL_APR = rewardPerYearUsd.div(TVL).times(100).toFixed(2);
       } catch (error) {
         console.log("calcTVL_error", error);
       }
     }
   }
+}
+
+function getAuraMintAmount(balEarned, global) {
+  const reductionPerCliff = BigNumber.from(global.auraReductionPerCliff);
+  const maxSupply = BigNumber.from(global.auraMaxSupply);
+  const totalSupply = BigNumber.from(global.auraTotalSupply);
+  const totalCliffs = BigNumber.from(global.auraTotalCliffs);
+  const minterMinted = BigNumber.from(0);
+
+  // e.g. emissionsMinted = 6e25 - 5e25 - 0 = 1e25;
+  const emissionsMinted = totalSupply.sub(maxSupply).sub(minterMinted);
+
+  // e.g. reductionPerCliff = 5e25 / 500 = 1e23
+  // e.g. cliff = 1e25 / 1e23 = 100
+  const cliff = emissionsMinted.div(reductionPerCliff);
+
+  // e.g. 100 < 500
+  if (cliff.lt(totalCliffs)) {
+    // e.g. (new) reduction = (500 - 100) * 2.5 + 700 = 1700;
+    // e.g. (new) reduction = (500 - 250) * 2.5 + 700 = 1325;
+    // e.g. (new) reduction = (500 - 400) * 2.5 + 700 = 950;
+    const reduction = totalCliffs.sub(cliff).mul(5).div(2).add(700);
+    // e.g. (new) amount = 1e19 * 1700 / 500 =  34e18;
+    // e.g. (new) amount = 1e19 * 1325 / 500 =  26.5e18;
+    // e.g. (new) amount = 1e19 * 950 / 500  =  19e17;
+    let amount = simpleToExact(balEarned).mul(reduction).div(totalCliffs);
+
+    // e.g. amtTillMax = 5e25 - 1e25 = 4e25
+    const amtTillMax = maxSupply.sub(emissionsMinted);
+    if (amount.gt(amtTillMax)) {
+      amount = amtTillMax;
+    }
+
+    return amount;
+  }
+
+  return BigNumber.from(0);
 }
 
 useEffect(() => {
