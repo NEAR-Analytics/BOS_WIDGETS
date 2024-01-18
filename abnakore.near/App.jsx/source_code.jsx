@@ -2,7 +2,8 @@
 const accountId = context.accountId;
 
 // Declaring variables
-const voteId = props.tab && props.tab;
+// const voteId = props.vote && props.vote;
+const voteId = 0;
 const [passcodeEntered, setPasscodeEntered] = useState("");
 const [candidate, setCandidate] = useState(0);
 const [party, setparty] = useState(0);
@@ -150,7 +151,8 @@ function vote() {
       ...state,
       show_message: true,
     });
-    setVoted((prev) => prev.concat([context.accountId]));
+    // Update
+    setVoteToRender((vote) => vote.candidates[candidate - 1]);
   } else {
     // Set an error on the dropdown
     setState({
@@ -234,142 +236,157 @@ return (
                   />
 
                   {/* Check if the vote is ongoing */}
-                  {!ongoing === true ? (
+                  {ongoing === true ? (
                     // Check if the vote has password
                     voteToRender.passcode === "" || opened ? (
-                      <div className="body-contents">
-                        <i>
-                          <svg
-                            width="64px"
-                            height="64px"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            xmlns="http://www.w3.org/2000/svg"
-                          >
-                            <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                            <g
-                              id="SVGRepo_tracerCarrier"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                            ></g>
-                            <g id="SVGRepo_iconCarrier">
-                              <path
-                                d="M4 6H20M4 12H20M4 18H20"
-                                stroke="#fefefe"
-                                stroke-width="2"
+                      // Check if the vote reached to its voters limit
+                      voteToRender.limit !== "" &&
+                      voteToRender.limit > voteToRender.voters.length ? (
+                        <div className="body-contents">
+                          <i>
+                            <svg
+                              width="64px"
+                              height="64px"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              xmlns="http://www.w3.org/2000/svg"
+                            >
+                              <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                              <g
+                                id="SVGRepo_tracerCarrier"
                                 stroke-linecap="round"
                                 stroke-linejoin="round"
-                              ></path>
-                            </g>
-                          </svg>
-                        </i>
-                        <h1>{voteToRender.name}</h1>
-                        <p
-                          style={{
-                            textAlign: "center",
-                            padding: "10px 20px",
-                          }}
-                        >
-                          {voteToRender.desc}
-                        </p>
-                        <p
-                          style={{
-                            color: "green",
-                            display: voteToRender.voters.includes(
-                              context.accountId
-                            )
-                              ? "block"
-                              : "none",
-                          }}
-                        >
-                          You Have Succesfully Voted
-                        </p>
-                        <div className="card">
-                          <div className="flex">
-                            <select
-                              disabled={
-                                voteToRender.voters.includes(context.accountId)
-                                  ? true
-                                  : false
-                              }
-                              className={`drop-down ${
-                                state.show_error_on_dropdown ? "error" : ""
-                              }`}
-                              value={candidate}
-                              onChange={updateDropdown}
-                              name="candidate"
-                              required
-                            >
-                              <option className="option" value={0}>
-                                Select by Candidate
-                              </option>
-                              {voteToRender.candidates.map((candidate, i) => (
-                                <option
-                                  className="option"
-                                  key={candidate.id}
-                                  value={i + 1}
-                                >
-                                  {candidate.name}
+                              ></g>
+                              <g id="SVGRepo_iconCarrier">
+                                <path
+                                  d="M4 6H20M4 12H20M4 18H20"
+                                  stroke="#fefefe"
+                                  stroke-width="2"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                ></path>
+                              </g>
+                            </svg>
+                          </i>
+                          <h1>{voteToRender.name}</h1>
+                          <p
+                            style={{
+                              textAlign: "center",
+                              padding: "10px 20px",
+                            }}
+                          >
+                            {voteToRender.desc}
+                          </p>
+                          <p
+                            style={{
+                              color: "green",
+                              display: voteToRender.voters.includes(
+                                context.accountId
+                              )
+                                ? "block"
+                                : "none",
+                            }}
+                          >
+                            You Have Succesfully Voted
+                          </p>
+                          <div className="card">
+                            <div className="flex">
+                              <select
+                                disabled={
+                                  voteToRender.voters.includes(
+                                    context.accountId
+                                  )
+                                    ? true
+                                    : false
+                                }
+                                className={`drop-down ${
+                                  state.show_error_on_dropdown ? "error" : ""
+                                }`}
+                                value={candidate}
+                                onChange={updateDropdown}
+                                name="candidate"
+                                required
+                              >
+                                <option className="option" value={0}>
+                                  Select by Candidate
                                 </option>
-                              ))}
-                            </select>
-                            OR
-                            <select
-                              disabled={
-                                voteToRender.voters.includes(context.accountId)
-                                  ? true
-                                  : false
-                              }
-                              className={`drop-down ${
-                                state.show_error_on_dropdown ? "error" : ""
-                              }`}
-                              value={party}
-                              onChange={updateDropdown}
-                              name="party"
-                              required
-                            >
-                              <option className="option" value={0}>
-                                Select by Party
-                              </option>
-                              {voteToRender.parties
-                                .filter((party) =>
-                                  voteToRender.candidates
-                                    .map((c) => c.party)
-                                    .includes(party.acronym)
-                                )
-                                .map((party, i) => (
+                                {voteToRender.candidates.map((candidate, i) => (
                                   <option
                                     className="option"
-                                    key={party.acronym}
+                                    key={candidate.id}
                                     value={i + 1}
                                   >
-                                    {party.name} ({party.acronym})
+                                    {candidate.name}
                                   </option>
                                 ))}
-                            </select>
-                          </div>
-                          <button
-                            disabled={
-                              voteToRender.voters.includes(context.accountId)
-                                ? true
-                                : false
-                            }
-                            onClick={vote}
-                          >
-                            Vote
-                          </button>
+                              </select>
+                              OR
+                              <select
+                                disabled={
+                                  voteToRender.voters.includes(
+                                    context.accountId
+                                  )
+                                    ? true
+                                    : false
+                                }
+                                className={`drop-down ${
+                                  state.show_error_on_dropdown ? "error" : ""
+                                }`}
+                                value={party}
+                                onChange={updateDropdown}
+                                name="party"
+                                required
+                              >
+                                <option className="option" value={0}>
+                                  Select by Party
+                                </option>
+                                {voteToRender.parties
+                                  .filter((party) =>
+                                    voteToRender.candidates
+                                      .map((c) => c.party)
+                                      .includes(party.acronym)
+                                  )
+                                  .map((party, i) => (
+                                    <option
+                                      className="option"
+                                      key={party.acronym}
+                                      value={i + 1}
+                                    >
+                                      {party.name} ({party.acronym})
+                                    </option>
+                                  ))}
+                              </select>
+                            </div>
+                            <button
+                              disabled={
+                                voteToRender.voters.includes(context.accountId)
+                                  ? true
+                                  : false
+                              }
+                              onClick={vote}
+                            >
+                              Vote
+                            </button>
 
-                          <p
-                            id="thanks"
-                            className={`read-the-docs ${
-                              state.show_message ? "" : "hide"
-                            }`}
-                          >
-                            Thank you for voting
-                            {voteToRender.candidates[candidate - 1].name}
-                          </p>
+                            <p
+                              id="thanks"
+                              className={`read-the-docs ${
+                                state.show_message ? "" : "hide"
+                              }`}
+                            >
+                              Thank you for voting
+                              {voteToRender.candidates[candidate - 1].name}
+                            </p>
+                          </div>
                         </div>
-                      </div>
+                      ) : (
+                        <div className="body-contents">
+                          <secText>
+                            Sorry the max number of voters({voteToRender.limit})
+                            has been reached
+                          </secText>
+                        </div>
+                      )
                     ) : (
                       <div className="body-contents">
                         <div className="form">
@@ -395,6 +412,11 @@ return (
                               otherAttributes: {
                                 value: passcodeEntered,
                                 autoFocus: true,
+                                onKeyPress: (e) => {
+                                  if (e.key === "Enter") {
+                                    checkPasscode();
+                                  }
+                                },
                                 onChange: (e) => {
                                   setPasscodeEntered(e.target.value);
                                 },
