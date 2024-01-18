@@ -210,6 +210,13 @@ const ButtonPlus = styled.div`
   }
 `;
 
+const DeleteWidgetWrapper = styled.div`
+  position: absolute;
+  right: 0;
+  top: 0;
+  z-index: 1200;
+`;
+
 const iconClose = (
   <svg
     xmlns="http://www.w3.org/2000/svg"
@@ -307,31 +314,6 @@ const ActionBlock = styled.span`
     z-index: 1000;
   }
 `;
-const RemoveAction = styled.span`
-  position: absolute;
-  right: 0;
-  top: 0;
-  cursor: pointer;
-  z-index: 1200;
-  @keyframes translateAnimationBtn {
-    0% {
-      opacity: 0;
-    }
-    50% {
-      opacity: 0;
-    }
-    100% {
-      opacity: 1;
-    }
-  }
-  animation: translateAnimationBtn 0.5s linear forwards;
-  transition: all 0.3s;
-  &:hover {
-    svg {
-      transform: scale(1.2);
-    }
-  }
-`;
 
 return (
   <OverlayTriggerWrapper onMouseEnter={handleOnMouseEnter}>
@@ -349,10 +331,12 @@ return (
           {props.widgets.map((widget, i) => (
             <ActionBlock key={i}>
               {props.isEditMode ? (
-                <Widget 
-                  src="bos.dapplets.near/widget/LayoutManager.DeleteWidgetButton" 
-                  props={{ onClick:() => handleRemoveWidget(widget.src, widget.linkId) }}
-                />
+                <DeleteWidgetWrapper>
+                  <Widget 
+                    src="bos.dapplets.near/widget/LayoutManager.DeleteWidgetButton" 
+                    props={{ onClick: () => handleRemoveWidget(widget.src, widget.linkId) }}
+                  />
+                </DeleteWidgetWrapper>
               ) : null}
               <Widget src={widget.src} props={widget.props} />
             </ActionBlock>
