@@ -29,11 +29,11 @@ const handleRemoveWidget = (bosWidgetId, linkId) => {
 }
 
 const handleEditClick = () => {
-  props.setEditMode(true);
+  props.enableEditMode();
 }
 
 const handleApplyClick = () => {
-  props.setEditMode(false);
+  props.disableEditMode();
 }
 
 const OverlayTriggerWrapper = styled.div`
