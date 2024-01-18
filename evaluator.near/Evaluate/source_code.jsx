@@ -1,6 +1,7 @@
 const [contractAccountId, setContractAccountId] = useState('');
 const [inputRequired, setInputRequired] = useState(false);
-const { userAccountId, evaluation_method } = props;
+const { userAccountId, evaluationMethod, evaluatorContract } = props;
+
 
 function handleChange(e) {
   setContractAccountId(e.target.value);
@@ -11,7 +12,7 @@ function handleSubmit() {
     setInputRequired(true);
   } else {
     setInputRequired(false);
-    return Near.call("eval.flmel.near", props.evaluation_method, { "contract_account_id": contractAccountId }, 300000000000000);
+    return Near.call(evaluationContract, evaluationMethod, { "contract_account_id": contractAccountId }, 300000000000000);
   }
 };
 
@@ -36,6 +37,6 @@ return <>
     <p class="mt-1"><b>OR</b>, validate your contract trough the CLI using:</p>
     <p
       class="border border-gray-100 text-gray-100 font-mono subpixel-antialiased text-sm rounded-lg py-2 px-1 mt-2">
-      {`near call evaluator.near ${evaluation_method} '{"contract_account_id": "contract.${userAccountId}"}' --accountId ${userAccountId}`}</p>
+      {`near call evaluator.near ${evaluationContract} '{"contract_account_id": "contract.${userAccountId}"}' --accountId ${userAccountId}`}</p>
   </div>
 </>
