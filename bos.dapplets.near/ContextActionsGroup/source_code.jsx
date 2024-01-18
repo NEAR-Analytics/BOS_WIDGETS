@@ -28,6 +28,14 @@ const handleRemoveWidget = (bosWidgetId, linkId) => {
   props.deleteUserLink(bosWidgetId, linkId);
 }
 
+const handleEditClick = () => {
+  props.setEditMode(true);
+}
+
+const handleApplyClick = () => {
+  props.setEditMode(false);
+}
+
 const OverlayTriggerWrapper = styled.div`
   display: flex;
   position: relative;
@@ -257,10 +265,12 @@ const iconDropdown = (
   </svg>
 );
 
+const ButtonEdit = styled.button`
+  content: 'edit';
+`;
+
 const ButtonApply = styled.button`
-  &:hover {
-    background: #eb9dab;
-  }
+  content: 'apply';
 `;
 
 const ButtonCancel = styled.button`
@@ -362,6 +372,8 @@ return (
             </ActionBlock>
           ))}
         </ActionsWrapper>
+
+        {props.isEditMode ? <ButtonApply onClick={handleApplyClick} /> : <ButtonEdit onClick={handleEditClick} />}
 
         <ButtonPlus onClick={handleOpenMenu} />
       </TriggerShowPanel>
