@@ -2,8 +2,9 @@
 const accountId = context.accountId;
 
 // Declaring variables
-// const voteId = props.vote && props.vote;
-const voteId = 0;
+const voteId = props.vote && props.vote;
+// !!!
+// const voteId = 0;
 const [passcodeEntered, setPasscodeEntered] = useState("");
 const [candidate, setCandidate] = useState(0);
 const [party, setparty] = useState(0);
@@ -152,6 +153,7 @@ function vote() {
       show_message: true,
     });
     // Update
+    // !!!
     setVoteToRender((vote) => vote.candidates[candidate - 1]);
   } else {
     // Set an error on the dropdown
