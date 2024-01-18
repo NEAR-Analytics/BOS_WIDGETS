@@ -112,45 +112,34 @@ const AccordionContent = styled("Accordion.Content")`
 `;
 //Accordion end
 
-const { data, chainId, account, TOKENS, CHAIN_ID, TVLS } = props;
+const { data, chainId, account, TOKENS, CHAIN_ID, tokenPrices } = props;
 const {
+  tvl,
   poolName,
   tokenAddress,
   StakingAddress,
   poolType,
+  stakedAmount,
   totalDeposit,
   unlocking,
-  //
-  Aura_Pool_ID,
-  tokens,
-  tokenAssets,
-
-  reward,
+  rewardAmount,
+  LPPrice,
 } = data;
-
-const stakedAmount =
-  !isNaN(Number(totalDeposit)) && !isNaN(Number(unlocking))
-    ? `${Big(totalDeposit).minus(Big(unlocking))}`
-    : 0;
 
 State.init({
   currentTab: "STAKE_TAB",
 });
+
+function calcUSD(price, amount) {
+  if (!price || !amount) return "-";
+  return Big(price).times(Big(amount)).toFixed(2);
+}
 
 const handleChangeTabs = (value) => {
   State.update({
     currentTab: value,
   });
 };
-
-function renderTVL() {
-  const tvl = TVLS?.find((item) => item.Aura_Pool_ID === Aura_Pool_ID).TVL;
-  if (tvl) {
-    return `$${Big(tvl).toFixed(0)}`;
-  } else {
-    return "-";
-  }
-}
 
 return (
   <AccordionItem value={poolName}>
@@ -170,13 +159,19 @@ return (
             </div>
           </GridItem>
           <GridItem>
-            <div className="title-secondary">$</div>
+            <div className="title-secondary"></div>
             <div className="title-sub"></div>
           </GridItem>
           <GridItem>
-            <div className="title-secondary">{renderTVL()}</div>
+            <div className="title-secondary">${tvl}</div>
           </GridItem>
           <GridItem>
+            <div className="title-secondary">
+              $
+              {poolType === "Locking"
+                ? calcUSD(tokenPrices[tokenAddress], stakedAmount)
+                : calcUSD(LPPrice, stakedAmount)}
+            </div>
             <div style={{ display: "flex", alignItems: "center" }}>
               <Widget
                 src="dapdapbos.near/widget/UI.Avatar"
@@ -185,15 +180,14 @@ return (
                   size: 18,
                 }}
               />
-              <div className="title-secondary" style={{ marginLeft: 5 }}>
+              <div className="title-sub" style={{ marginLeft: 5 }}>
                 {stakedAmount}
               </div>
             </div>
-            <div className="title-sub"></div>
           </GridItem>
           <GridItem>
             <div className="title-secondary">
-              {!isNaN(Number(reward)) && Number(reward) > 0 ? `${reward}` : "-"}
+              ${!Number(rewardAmount) ? 0 : rewardAmount}
             </div>
             <div className="title-sub"></div>
           </GridItem>
