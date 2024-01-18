@@ -265,12 +265,18 @@ const iconDropdown = (
   </svg>
 );
 
+// ToDo: add styles
 const ButtonEdit = styled.button`
-  content: 'edit';
+  &:before {
+    content: 'edit';
+  }
 `;
 
+// ToDo: add styles
 const ButtonApply = styled.button`
-  content: 'apply';
+  &:before {
+    content: 'apply';
+  }
 `;
 
 const ButtonCancel = styled.button`
