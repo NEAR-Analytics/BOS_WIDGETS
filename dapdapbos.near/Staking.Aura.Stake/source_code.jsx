@@ -81,7 +81,7 @@ State.init({
 
 useEffect(() => {
   const { tokenAssets } = data;
-  console.log("Stake_tokenAssets:", tokenAssets);
+
   if (tokenAssets) {
     const selectData = tokenAssets.map((item) =>
       TOKENS[item]
@@ -236,8 +236,6 @@ function getTokenBal() {
     });
 }
 useEffect(() => {
-  console.log("Stake_state: ", state);
-
   // get token allowance when current token change
   if (!state.curToken) {
     // const defaultToken = data?.tokenAssets[0];
@@ -247,7 +245,7 @@ useEffect(() => {
       curSymbol: TOKENS[state.curToken].symbol,
     });
   } else {
-    if (state.curToken === "BPT") {
+    if (state.curToken === BPT_TOKEN_ADDRESS) {
       State.update({
         curTokenBal: data.bptAmount,
         curSymbol: "BPT",
@@ -589,7 +587,7 @@ const renderExtra = () => {
     </>
   );
 };
-
+console.log("STAKE_STATE", state);
 return (
   <StakePanel>
     <div className="input-group">
