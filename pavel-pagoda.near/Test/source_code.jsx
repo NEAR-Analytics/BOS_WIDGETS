@@ -14,9 +14,7 @@ const handleClick = () => {
     paulTest: {
       msg,
     },
-  });
-  Social.set({
-      index: {
+       index: {
           paulTest: {
               action: `savedMessage: ${msg}`,
           },
