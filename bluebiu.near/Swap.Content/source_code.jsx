@@ -263,6 +263,7 @@ return (
           chainIdNotSupport,
           amount: state.inputCurrencyAmount,
           updateTokenBalance: state.updateInputTokenBalance,
+          prices,
           onCurrencySelectOpen: () => {
             State.update({
               displayCurrencySelect: true,
@@ -320,6 +321,7 @@ return (
           amount: state.outputCurrencyAmount,
           updateTokenBalance: state.updateOutputTokenBalance,
           disabled: true,
+          prices,
           onCurrencySelectOpen: () => {
             State.update({
               displayCurrencySelect: true,
@@ -344,6 +346,7 @@ return (
           priceImpact: state.priceImpact,
           gas: state.gas,
           nativeCurrency: props.nativeCurrency,
+          prices,
         }}
       />
       <Widget
@@ -467,6 +470,5 @@ return (
         }}
       />
     )}
-    <Widget src="dapdapbos.near/widget/Linea.Uniswap.Swap.TokensPrice" />
   </SwapContainer>
 );
