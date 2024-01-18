@@ -302,7 +302,7 @@ function RenderData({ data, layout }) {
                             }}
                           >
                             <ItemDetails>
-                              <i className="bi bi-code"></i>
+                              <i className="bi bi-file-earmark"></i>
                               <span>{key.split(".").pop()}</span>{" "}
                             </ItemDetails>
                             <ItemInfo>
