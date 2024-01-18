@@ -1,37 +1,3 @@
-// switch begin
-const SwitchRoot = styled("Switch.Root")`
-  all: unset;
-  display: block;
-  width: 42px;
-  height: 24px;
-  background-color: #232534;
-  border-radius: 9999px;
-  position: relative;
-  box-shadow: 0 2px 10px #232534;
-  border: 1px solid #373a53;
-  &[data-state="checked"] {
-    background-color: #783ae3;
-  }
-`;
-
-const SwitchThumb = styled("Switch.Thumb")`
-  all: unset;
-  display: block;
-  width: 18px;
-  height: 18px;
-  background-color: white;
-  border-radius: 9999px;
-  box-shadow: 0 2px 2px var(--blackA7);
-  transition: transform 100ms;
-  transform: translateX(2px);
-  will-change: transform;
-  border: 1px solid #373a53;
-  &[data-state="checked"] {
-    transform: translateX(19px);
-  }
-`;
-// switch end
-
 const StakePanel = styled.div`
   width: 510px;
   margin: 0 auto;
@@ -74,10 +40,7 @@ const AmountList = styled.div`
     color: var(--white);
   }
 `;
-const StakeBtnWrap = styled.div`
-  display: flex;
-  column-gap: 14px;
-`;
+
 const UnStakeBtnWrap = styled.div`
   display: flex;
   column-gap: 22px;
@@ -99,22 +62,13 @@ const { data, chainId, account, TOKENS, CHAIN_ID, switchChain, slotLength } =
   props;
 const curToken = data.tokenAddress;
 const {
+  poolType,
   poolName,
   totalDeposit,
   unlocking,
   StakingAddress,
-  //
-
-  reward,
-  Rewards_contract_address,
-  Rewards_depositor_contract_address,
-  LP_token_address,
+  stakedAmount,
 } = data;
-
-const stakedAmount =
-  !isNaN(Number(totalDeposit)) && !isNaN(Number(unlocking))
-    ? `${Big(totalDeposit).minus(Big(unlocking))}`
-    : 0;
 
 State.init({
   // isClaimRewards: false,
@@ -122,12 +76,6 @@ State.init({
   canUnstake: false,
   unstaking: false,
 });
-
-// const handleSwitch = (isChecked) => {
-//   State.update({
-//     isClaimRewards: isChecked,
-//   });
-// };
 
 const handleInputChange = (e) => {
   State.update({
@@ -150,7 +98,16 @@ useEffect(() => {
   }
 }, [state.inputValue]);
 
-const handleUnStake = () => {
+function handleUnStake() {
+  if (poolType === "Locking") {
+    handleUnStakeLocking();
+  }
+  if (poolType === "MasterChief") {
+    handleUnStakeMasterChief();
+  }
+}
+
+function handleUnStakeLocking() {
   State.update({
     unstaking: true,
   });
@@ -218,8 +175,68 @@ const handleUnStake = () => {
       });
       console.log("getPoolTokens_error:", err);
     });
-};
+}
 
+function handleUnStakeMasterChief() {
+  State.update({
+    unstaking: true,
+  });
+  const UnstakeContract = new ethers.Contract(
+    StakingAddress,
+    [
+      {
+        type: "function",
+        stateMutability: "nonpayable",
+        outputs: [],
+        name: "withdraw",
+        inputs: [
+          {
+            type: "address",
+            name: "_lp",
+            internalType: "address",
+          },
+          {
+            type: "uint256",
+            name: "_amount",
+            internalType: "uint256",
+          },
+        ],
+      },
+    ],
+    Ethers.provider().getSigner()
+  );
+  UnstakeContract.withdraw(curToken, ethers.utils.parseUnits(state.inputValue))
+    .then((tx) => {
+      console.log("tx: ", tx);
+      tx.wait()
+        .then((res) => {
+          const { status, transactionHash } = res;
+          console.info("tx_res: ", res);
+          if (status === 1) {
+            toast.success?.({
+              title: "Transaction Successful!",
+              text: `transactionHash ${transactionHash}`,
+            });
+          } else {
+            toast.fail?.({
+              title: "Transaction Failed!",
+              text: `transactionHash ${transactionHash}`,
+            });
+          }
+        })
+        .finally(() => {
+          State.update({
+            unstaking: false,
+          });
+        });
+    })
+    .catch((err) => {
+      State.update({
+        unstaking: false,
+      });
+      console.log("getPoolTokens_error:", err);
+    });
+}
 const renderExtra = () => {
   if (chainId !== CHAIN_ID) {
     return (
@@ -246,7 +263,6 @@ const renderExtra = () => {
         </span>
       </AmountList>
       <UnStakeBtnWrap>
-        <div className="switch-wrap"></div>
         <Widget
           src="dapdapbos.near/widget/UI.Button"
           props={{
@@ -278,7 +294,6 @@ return (
           src="dapdapbos.near/widget/UI.Avatar"
           props={{ src: TOKENS[curToken].icon, size: 20 }}
         />
-        {/* {TOKENS[curToken].symbol} */}
       </div>
     </div>
     {renderExtra()}
