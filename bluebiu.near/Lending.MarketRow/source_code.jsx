@@ -39,6 +39,7 @@ const {
   dexConfig,
   onSuccess,
   account,
+  prices,
 } = props;
 
 State.init({
@@ -117,6 +118,7 @@ return (
         dexConfig,
         onSuccess,
         account,
+        prices,
       }}
     />
   </StyledRow>
