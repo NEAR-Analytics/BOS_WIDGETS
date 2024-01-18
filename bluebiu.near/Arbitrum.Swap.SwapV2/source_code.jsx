@@ -107,6 +107,7 @@ return (
           currency: state.inputCurrency,
           amount: state.inputCurrencyAmount,
           updateTokenBalance: state.updateInputTokenBalance,
+          prices,
           onCurrencySelectOpen: () => {
             State.update({
               displayCurrencySelect: true,
@@ -160,6 +161,7 @@ return (
           amount: state.outputCurrencyAmount,
           updateTokenBalance: state.updateOutputTokenBalance,
           disabled: true,
+          prices,
           onCurrencySelectOpen: () => {
             State.update({
               displayCurrencySelect: true,
