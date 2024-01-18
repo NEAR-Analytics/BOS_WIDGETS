@@ -15,9 +15,7 @@ const handleClick = () => {
       msg,
     },
        index: {
-          paulTest: {
-              action: `savedMessage: ${msg}`,
-          },
+          paulTest: JSON.stringify({key: "action", value: `savedMessage: ${msg}`}),
       },
   });
 };
