@@ -24,17 +24,17 @@ const handleSelectComponent = (component) => {
   props.createUserLink(`${component.accountId}/widget/${component.widgetName}`);
 };
 
-const handleRemoveWidget = (bosWidgetId, linkId) => {
-  props.deleteUserLink(bosWidgetId, linkId);
-}
+const handleRemoveWidget = (linkId) => {
+  props.deleteUserLink(linkId);
+};
 
 const handleEditClick = () => {
   props.enableEditMode();
-}
+};
 
 const handleApplyClick = () => {
   props.disableEditMode();
-}
+};
 
 const OverlayTriggerWrapper = styled.div`
   display: flex;
@@ -275,14 +275,14 @@ const iconDropdown = (
 // ToDo: add styles
 const ButtonEdit = styled.button`
   &:before {
-    content: 'edit';
+    content: "edit";
   }
 `;
 
 // ToDo: add styles
 const ButtonApply = styled.button`
   &:before {
-    content: 'apply';
+    content: "apply";
   }
 `;
 
@@ -328,13 +328,13 @@ return (
         <ActionsWrapper>
           <TriggerShowLabel />
 
-          {props.widgets.map((widget, i) => (
-            <ActionBlock key={i}>
+          {props.widgets.map((widget) => (
+            <ActionBlock key={widget.linkId}>
               {props.isEditMode ? (
                 <DeleteWidgetWrapper>
-                  <Widget 
-                    src="bos.dapplets.near/widget/LayoutManager.DeleteWidgetButton" 
-                    props={{ onClick: () => handleRemoveWidget(widget.src, widget.linkId) }}
+                  <Widget
+                    src="bos.dapplets.near/widget/LayoutManager.DeleteWidgetButton"
+                    props={{ onClick: () => handleRemoveWidget(widget.linkId) }}
                   />
                 </DeleteWidgetWrapper>
               ) : null}
@@ -345,8 +345,8 @@ return (
           {props.isEditMode ? (
             <ButtonApply onClick={handleApplyClick} />
           ) : (
-            <ButtonEdit onClick={handleEditClick} />)
-          }
+            <ButtonEdit onClick={handleEditClick} />
+          )}
         </ActionsWrapper>
 
         <ButtonPlus onClick={handleOpenMenu} />
