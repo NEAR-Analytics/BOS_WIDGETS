@@ -25,7 +25,9 @@ const handleClick = () => {
 
 
 const retrievedMsg = Social.get("pavel-pagoda.near/paulTest/msg");
-const messageEvents = Social.index("paulTest2", "action");
+const messageEvents = Social.index("paulTest2", "action", {
+    subscribe: true,
+});
 
 return (
   <div>
