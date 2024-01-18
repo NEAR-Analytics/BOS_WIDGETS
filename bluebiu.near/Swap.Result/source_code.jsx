@@ -131,11 +131,6 @@ const WarningIcon = (
   </svg>
 );
 
-const prices = Storage.get(
-  "tokensPrice",
-  "dapdapbos.near/widget/Linea.Uniswap.Swap.TokensPrice"
-);
-
 useEffect(() => {
   if (!priceImpact) {
     State.update({
@@ -170,7 +165,7 @@ useEffect(() => {
 
 useEffect(() => {
   if (!gas || !nativeCurrency?.symbol) return;
-  const price = prices[nativeCurrency.symbol];
+  const price = props.prices[nativeCurrency.symbol];
   let _value = Big(0);
   let isValue = false;
   if (!price) {
@@ -187,7 +182,7 @@ useEffect(() => {
   State.update({
     gas_usd: isValue ? `$${_res}` : `${_res}${nativeCurrency.symbol}`,
   });
-}, [gas, prices]);
+}, [gas, props.prices]);
 
 return (
   <StyledContainer>
