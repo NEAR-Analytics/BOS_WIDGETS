@@ -207,6 +207,20 @@ return (
               prev: "$",
             }}
           />
+          {props.prices[props.currency.symbol] ? (
+            <Widget
+              src="bluebiu.near/widget/Avalanche.Lending.Total"
+              props={{
+                total: Big(props.amount || 0)
+                  .mul(props.prices[props.currency.symbol])
+                  .toString(),
+                digit: 2,
+                unit: "$",
+              }}
+            />
+          ) : (
+            "-"
+          )}
         </Value>
       </InputField>
       <CurrencyField>
