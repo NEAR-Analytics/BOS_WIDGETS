@@ -18,7 +18,7 @@ const onClick = () => {
   Social.set({
       index: {
           paulTest: {
-              action: "savedMessage",
+              action: `savedMessage: ${msg}`,
           },
       },
   });
