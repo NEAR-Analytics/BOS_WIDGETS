@@ -189,11 +189,8 @@ const {
   account,
   fees,
   pools,
+  prices,
 } = props;
-const prices = Storage.get(
-  "tokensPrice",
-  "dapdapbos.near/widget/Linea.Uniswap.Swap.TokensPrice"
-);
 
 useEffect(() => {
   if (!updater || !prices || !pools.length) return;
@@ -287,6 +284,7 @@ useEffect(() => {
   const getTransaction = (result) => {
     const deadline = Math.ceil(Date.now() / 1000) + 60;
     const _amountOut = Big(result.amountOut)
+      .abs()
       .mul(1 - (slippage || 0.05))
       .toFixed(0);
 
@@ -302,6 +300,7 @@ useEffect(() => {
 
     const options = {
       value: inputCurrency.isNative ? amount : "0",
+      gasLimit: 11000000,
     };
 
     const _amount = Big(
@@ -341,7 +340,7 @@ useEffect(() => {
 
     const getTx = (gas) => {
       RouterContract.populateTransaction
-        .batchSwap(...params, { ...options, gasLimit: gas })
+        .batchSwap(...params, { ...options, gasLimit: gas || 11000000 })
         .then((res) => {
           onLoad({
             ...returnData,
@@ -356,7 +355,6 @@ useEffect(() => {
           });
         });
     };
-
     RouterContract.estimateGas
       .batchSwap(...params, options)
       .then((gas) => {
