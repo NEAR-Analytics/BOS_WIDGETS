@@ -214,6 +214,7 @@ const getPrompt = () => {
     State.update({ openModalPreview: true });
   });
 };
+
 const openModalCSS = (e, type) => {
   if (type == "show") {
     State.update({ openModalCSS: true, clickedModalCSS: false });
