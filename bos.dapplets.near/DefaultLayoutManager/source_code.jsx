@@ -1,13 +1,31 @@
 if (!props.widgets || props.widgets.length === 0) return <></>;
 
-const Wrapper = styled.div`
-    display: flex;
+const handleRemoveWidget = (bosWidgetId, linkId) => {
+  props.deleteUserLink(bosWidgetId, linkId);
+}
+
+const Container = styled.div`
+  display: flex;
 `;
 
+const DeleteWidgetWrapper = styled.div`
+  
+`
+
 return (
-  <Wrapper>
+  <Container>
     {props.widgets.map((widget, i) => (
-      <Widget key={i} src={widget.src} props={widget.props} />
+      <div>
+        <Widget key={i} src={widget.src} props={widget.props} />
+        {props.isEditMode ? (
+          <DeleteWidgetWrapper>
+            <Widget 
+              src="bos.dapplets.near/widget/LayoutManager.DeleteWidgetButton" 
+              props={{ onClick: () => handleRemoveWidget(widget.src, widget.linkId) }}
+            />
+          </DeleteWidgetWrapper>
+        ) : null}
+      </div>
     ))}
-  </Wrapper>
+  </Container>
 );
