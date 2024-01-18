@@ -9,35 +9,20 @@
 // `;
 
 const [msg, setMsg] = useState("");
-const handleClick = () => {
+const onClick = () => {
   Social.set({
-    paulTest: {
-      msg,
-    },
-    index: {
-      paulTest2: JSON.stringify({ 
-          key: "action", 
-          value: `savedMessage: ${msg}`,
-      }),
-    },
-  });
-};
-
-
-const retrievedMsg = Social.get("pavel-pagoda.near/paulTest/msg");
-const messageEvents = Social.index("paulTest2", "action", {
-    subscribe: true,
-});
+    post: {
+      main: JSON.stringify({
+        type: "md",
+        text: "I've read the docs!"
+      })
+    }
+  })
+}
 
 return (
   <div>
     <textarea value={msg} onChange={(e) => setMsg(e.target.value)} />
-
-    <button type="button" onClick={handleClick}>
-      Save
-    </button>
-    <hr />
-    <div>{retrievedMsg}</div>
-    <div>{JSON.stringify(messageEvents)}</div>
+    <button type="button">Save</button>
   </div>
 );
