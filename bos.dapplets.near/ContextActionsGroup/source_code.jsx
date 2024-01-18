@@ -315,8 +315,6 @@ const ActionBlock = styled.span`
   }
 `;
 
-console.log(context.accountId);
-
 return (
   <OverlayTriggerWrapper onMouseEnter={handleOnMouseEnter}>
     <div style={{ opacity: state.show ? 0 : 1 }} className="OverlayTrigger">
@@ -334,7 +332,7 @@ return (
             <ActionBlock key={widget.linkId}>
               {props.isEditMode ? (
                 <WidgetBadgeWrapper>
-                  {widget.authorId === context.accountId ? (
+                  {widget.linkAuthorId === context.accountId ? (
                     <Widget
                       src="bos.dapplets.near/widget/LayoutManager.DeleteWidgetButton"
                       props={{
