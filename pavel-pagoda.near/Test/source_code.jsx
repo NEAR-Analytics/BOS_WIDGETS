@@ -11,18 +11,19 @@
 const [msg, setMsg] = useState("");
 const onClick = () => {
   Social.set({
-    post: {
-      main: JSON.stringify({
-        type: "md",
-        text: "I've read the docs!"
-      })
-    }
-  })
-}
+    paulTest: {
+      msg,
+    },
+  });
+};
+
+const retrievedMsg = Social.get("pavel-pagoda.near/paulTest/msg");
 
 return (
   <div>
     <textarea value={msg} onChange={(e) => setMsg(e.target.value)} />
-    <button type="button">Save</button>
+    <button type="button" onClick={onClick}>Save</button>
+      <hr />
+     <div>{retrievedMsg}</div>
   </div>
 );
