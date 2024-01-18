@@ -253,7 +253,6 @@ const expensiveWork = () => {
     const isAllowedTo = (kind, action) => {
         // -- Check if the user is allowed to perform the action
         let allowed = false;
-        console.log(userRoles);
         userRoles
             .filter(({ permissions }) => {
                 if (isCongressDaoID) {
