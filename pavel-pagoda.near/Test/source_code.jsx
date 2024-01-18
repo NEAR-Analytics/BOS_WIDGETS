@@ -14,15 +14,18 @@ const handleClick = () => {
     paulTest: {
       msg,
     },
-       index: {
-          paulTest: JSON.stringify({key: "action", value: `savedMessage: ${msg}`}),
-      },
+    index: {
+      paulTest2: JSON.stringify({ 
+          key: "action", 
+          value: `savedMessage: ${msg}`,
+      }),
+    },
   });
 };
 
-const messageEvents = Social.index("paulTest", "action");
 
 const retrievedMsg = Social.get("pavel-pagoda.near/paulTest/msg");
+const messageEvents = Social.index("paulTest2", "action");
 
 return (
   <div>
