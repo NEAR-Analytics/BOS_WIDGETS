@@ -93,6 +93,5 @@ return (
         }}
       />
     )}
-    <Widget src="dapdapbos.near/widget/Linea.Uniswap.Swap.TokensPrice" />
   </StyledContainer>
 );
