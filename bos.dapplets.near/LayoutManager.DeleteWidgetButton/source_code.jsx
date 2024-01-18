@@ -50,7 +50,7 @@ const RemoveAction = styled.span`
 `;
 
 return (
-    <RemoveAction onClick={() => props.onClick}>
+    <RemoveAction onClick={props.onClick}>
         {RemoveIcon}
     </RemoveAction>
 )
