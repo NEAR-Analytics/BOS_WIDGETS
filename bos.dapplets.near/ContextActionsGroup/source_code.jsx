@@ -325,11 +325,11 @@ const FloatingModal = styled.div`
 
   @keyframes falling-animation {
     from {
-      transform: translateY(-200%);
+      transform: translate(-50%, -200%);
     }
 
     to {
-      transform: translateY(-50%);
+      transform: translate(-50%, -50%);
     }
   }
 `;
