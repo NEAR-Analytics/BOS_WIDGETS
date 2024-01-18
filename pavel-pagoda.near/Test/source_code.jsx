@@ -10,6 +10,7 @@
 
 const [msg, setMsg] = useState("");
 const onClick = () => {
+  console.log('msg', msg);
   Social.set({
     paulTest: {
       msg,
