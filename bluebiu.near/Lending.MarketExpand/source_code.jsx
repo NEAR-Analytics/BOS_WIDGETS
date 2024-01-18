@@ -203,6 +203,7 @@ const {
   onSuccess,
   dexConfig,
   account,
+  prices,
 } = props;
 
 const data = props.data || {};
@@ -449,16 +450,20 @@ return (
               </svg>
               <div style={{ display: "flex", alignItems: "center" }}>
                 ~
-                <Widget
-                  src="dapdapbos.near/widget/Linea.Uniswap.Swap.FormatValue"
-                  props={{
-                    symbol: nativeCurrency?.symbol,
-                    amount: Big(state.gas || 0)
-                      .div(Big(10).pow(nativeCurrency.decimals || 18))
-                      .toString(),
-                    prev: "$",
-                  }}
-                />
+                {props.prices[nativeCurrency?.symbol] ? (
+                  <Widget
+                    src="bluebiu.near/widget/Avalanche.Lending.Total"
+                    props={{
+                      total: Big(state.gas || 0)
+                        .div(Big(10).pow(nativeCurrency.decimals || 18))
+                        .toString(),
+                      digit: 2,
+                      unit: "$",
+                    }}
+                  />
+                ) : (
+                  "-"
+                )}
               </div>
             </StyledGasBox>
             <div style={{ flexGrow: 1 }}>
