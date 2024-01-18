@@ -75,23 +75,10 @@ const ApproveABI = [
   },
 ];
 
-const {
-  data,
-  chainId,
-  account,
-  TOKENS,
-  CHAIN_ID,
-  LockingABI,
-  //
-  RewardPoolDepositWrapper,
-  RewardPoolDepositABI,
-  toast,
-  switchChain,
-  tokenIcons,
-} = props;
+const { data, chainId, account, TOKENS, CHAIN_ID, toast, switchChain } = props;
 
 // curToken: token address
-const { poolType, tokenAddress: curToken, StakingAddress } = data;
+const { poolType, tokenAddress: curToken, tokenAddress, StakingAddress } = data;
 
 State.init({
   allowance: 0,
@@ -104,19 +91,19 @@ State.init({
   inputValue: "",
 });
 
-const getAllowance = (tokenAddress) => {
+function getAllowance(tokenAddress, spender) {
   const TokenContract = new ethers.Contract(
     tokenAddress,
     AllowanceABI,
     Ethers.provider()
   );
-  TokenContract.allowance(account, RewardPoolDepositWrapper)
+  TokenContract.allowance(account, spender)
     .then((allowanceRaw) => {
       const allowAmount = ethers.utils.formatUnits(
         allowanceRaw._hex,
         TOKENS[curToken].decimals
       );
-      console.info("get allow amount: ", allowAmount);
+      console.info(`get ${tokenAddress} allowance:`, allowAmount);
       State.update({
         allowance: allowAmount,
       });
@@ -124,9 +111,9 @@ const getAllowance = (tokenAddress) => {
     .catch((e) => {
       console.log("getAllowance_error", e);
     });
-};
+}
 
-const handleApprove = (tokenAddress) => {
+function handleApprove(tokenAddress, spender) {
   State.update({
     isApproving: true,
   });
@@ -137,7 +124,7 @@ const handleApprove = (tokenAddress) => {
   );
   console.info("to approve: ", state.inputValue, TOKENS[curToken].decimals);
   TokenContract.approve(
-    RewardPoolDepositWrapper,
+    spender,
     ethers.utils.parseUnits(state.inputValue, TOKENS[curToken].decimals)
   )
     .then((tx) => {
@@ -170,13 +157,13 @@ const handleApprove = (tokenAddress) => {
     .catch((err) => {
       console.info("approve_error: ", err);
     });
-};
+}
 
-function getTokenBal() {
+function getTokenBal(tokenAddress) {
   const erc20Abi = ["function balanceOf(address) view returns (uint256)"];
-  const { decimals } = TOKENS[curToken];
+  const { decimals } = TOKENS[tokenAddress];
   const tokenContract = new ethers.Contract(
-    curToken,
+    tokenAddress,
     erc20Abi,
     Ethers.provider()
   );
@@ -202,8 +189,8 @@ function getTokenBal() {
 }
 
 useEffect(() => {
-  getAllowance(curToken);
-  getTokenBal();
+  getAllowance(curToken, StakingAddress);
+  getTokenBal(curToken);
 }, []);
 
 useEffect(() => {
@@ -247,10 +234,89 @@ const handleInputChange = (e) => {
 };
 
 function handleStake() {
-  console.log("handleStake----", poolType);
   if (poolType === "Locking") {
     handleLocking();
   }
+  if (poolType === "MasterChief") {
+    handleMasterChief();
+  }
+}
+
+function handleMasterChief() {
+  State.update({
+    isStaking: true,
+  });
+  const MasterChiefContract = new ethers.Contract(
+    StakingAddress,
+    [
+      {
+        type: "function",
+        stateMutability: "nonpayable",
+        outputs: [],
+        name: "deposit",
+        inputs: [
+          {
+            type: "address",
+            name: "_lp",
+            internalType: "address",
+          },
+          {
+            type: "uint256",
+            name: "_amount",
+            internalType: "uint256",
+          },
+        ],
+      },
+    ],
+    Ethers.provider().getSigner()
+  );
+  const _amount = ethers.BigNumber.from(
+    ethers.utils.parseUnits(state.inputValue, TOKENS[curToken].decimals)
+  );
+  MasterChiefContract.deposit(
+    "0x31cfdA26D5841d92333D8F9B3acbd5efEedb39c1",
+    _amount,
+    {
+      gasLimit: 1173642,
+    }
+  )
+    .then((tx) => {
+      console.log("tx: ", tx);
+      tx.wait()
+        .then((res) => {
+          const { status, transactionHash } = res;
+          console.info("tx_res: ", res);
+          if (status === 1) {
+            toast.success?.({
+              title: "Transaction Successful!",
+              text: `transactionHash ${transactionHash}`,
+            });
+          } else {
+            toast.fail?.({
+              title: "Transaction Failed!",
+              text: `transactionHash ${transactionHash}`,
+            });
+          }
+        })
+        .catch((error) => {
+          console.info("tx_error: ", error);
+          toast.fail?.({
+            title: "Transaction Failed!",
+            text: `${error.message}`,
+          });
+        })
+        .finally(() => {
+          State.update({
+            isStaking: false,
+          });
+        });
+    })
+    .catch((err) => {
+      console.info("LockingContract_error:", err);
+      State.update({
+        isStaking: false,
+      });
+    });
 }
 
 function handleLocking() {
@@ -259,7 +325,21 @@ function handleLocking() {
   });
   const LockingContract = new ethers.Contract(
     StakingAddress,
-    LockingABI,
+    [
+      {
+        type: "function",
+        stateMutability: "nonpayable",
+        outputs: [],
+        name: "deposit",
+        inputs: [
+          {
+            type: "uint256",
+            name: "_amount",
+            internalType: "uint256",
+          },
+        ],
+      },
+    ],
     Ethers.provider().getSigner()
   );
   const _amount = ethers.BigNumber.from(
@@ -343,7 +423,7 @@ const renderExtra = () => {
             disabled: !state.needApprove || state.isApproved,
             loading: state.isApproving,
             onClick: () => {
-              handleApprove(curToken);
+              handleApprove(curToken, StakingAddress);
             },
           }}
         />
