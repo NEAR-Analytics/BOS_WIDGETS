@@ -370,21 +370,25 @@ function formatProgress(tokenInfo) {
 State.init({
   sortBy: "Holders", // Deploy Time / Holders
   orderDirection: "desc", // desc / asc
+  hasFetchData: false,
 });
 
 const { searchValue } = props;
 
-fetchTokenInfosAsync().then((data) => {
-  State.update({
-    tokenInfos: data.tokenInfos,
-    holderCounts: data.holderCounts,
+if (!state.hasFetchData) {
+  fetchTokenInfosAsync().then((data) => {
+    State.update({
+      tokenInfos: data.tokenInfos,
+      holderCounts: data.holderCounts,
+    });
   });
-});
+  State.update({ hasFetchData: true });
+}
 
-function compareByDeployTime(a, b) {
+function compareByDeployTime(a, b, orderDirection) {
   const t1 = Number(a.createdBlockTimestamp);
   const t2 = Number(b.createdBlockTimestamp);
-  if (state.orderDirection === "desc") {
+  if (orderDirection === "desc") {
     if (t1 < t2) return 1;
     else if (t1 > t2) return -1;
     else return 0;
@@ -395,20 +399,20 @@ function compareByDeployTime(a, b) {
   }
 }
 
-function compareByHolders(a, b) {
+function compareByHolders(a, b, orderDirection, holderCounts) {
   const h1 = Number(
-    state.holderCounts.find(
+    holderCounts.find(
       (holderCount) =>
         holderCount.ticker.toUpperCase() == a.ticker.toUpperCase()
     )?.count ?? "0"
   );
   const h2 = Number(
-    state.holderCounts.find(
+    holderCounts.find(
       (holderCount) =>
         holderCount.ticker.toUpperCase() == b.ticker.toUpperCase()
     )?.count ?? "0"
   );
-  if (state.orderDirection === "desc") {
+  if (orderDirection === "desc") {
     if (h1 < h2) return 1;
     else if (h1 > h2) return -1;
     else return 0;
@@ -419,21 +423,10 @@ function compareByHolders(a, b) {
   }
 }
 
-const tokenInfos = [...(state.tokenInfos ?? [])];
-const filteredTokenInfos = tokenInfos
-  ? tokenInfos
-      .sort((a, b) => {
-        if (state.sortBy === "Deploy Time") {
-          return compareByDeployTime(a, b);
-        } else {
-          return compareByHolders(a, b);
-        }
-      })
-      .filter((tokenInfo) =>
-        tokenInfo.ticker
-          .toUpperCase()
-          .includes((searchValue ?? "").toUpperCase())
-      )
+const filteredTokenInfos = state.tokenInfos
+  ? state.tokenInfos.filter((tokenInfo) =>
+      tokenInfo.ticker.toUpperCase().includes((searchValue ?? "").toUpperCase())
+    )
   : [];
 
 const current = String(state.current ?? "1");
@@ -443,17 +436,44 @@ const totalPage = String(
 
 function onClickSortButton(target) {
   if (state.sortBy !== target) {
+    const tokenInfos = [...(state.tokenInfos ?? [])];
+    const sortedTokenInfos = tokenInfos.sort((a, b) => {
+      if (target === "Deploy Time") {
+        return compareByDeployTime(a, b, "desc");
+      } else {
+        return compareByHolders(a, b, "desc", state.holderCounts);
+      }
+    });
     State.update({
+      tokenInfos: sortedTokenInfos,
       sortBy: target,
       orderDirection: "desc",
     });
   } else {
     if (state.orderDirection === "asc") {
+      const tokenInfos = [...(state.tokenInfos ?? [])];
+      const sortedTokenInfos = tokenInfos.sort((a, b) => {
+        if (target === "Deploy Time") {
+          return compareByDeployTime(a, b, "desc");
+        } else {
+          return compareByHolders(a, b, "desc", state.holderCounts);
+        }
+      });
       State.update({
+        tokenInfos: sortedTokenInfos,
         orderDirection: "desc",
       });
     } else {
+      const tokenInfos = [...(state.tokenInfos ?? [])];
+      const sortedTokenInfos = tokenInfos.sort((a, b) => {
+        if (target === "Deploy Time") {
+          return compareByDeployTime(a, b, "asc");
+        } else {
+          return compareByHolders(a, b, "asc", state.holderCounts);
+        }
+      });
       State.update({
+        tokenInfos: sortedTokenInfos,
         orderDirection: "asc",
       });
     }
