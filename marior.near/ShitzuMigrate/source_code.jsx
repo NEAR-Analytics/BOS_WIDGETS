@@ -194,9 +194,7 @@ const progress = Big(totalSupply)
 const price = fetch(
   "https://api.dexscreener.com/latest/dex/pairs/near/refv1-4369"
 ).body.pair.priceUsd;
-console.log("price", price);
 const marketCap = Big(price).mul("576167000").toFixed(2);
-console.log("marketCap", marketCap);
 
 const Wrapper = styled.div`
     display: flex;
