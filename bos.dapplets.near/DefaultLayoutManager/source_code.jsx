@@ -8,7 +8,7 @@ const Container = styled.div`
   display: flex;
 `;
 
-const DeleteWidgetWrapper = styled.div`
+const WidgetBadgeWrapper = styled.div`
   position: absolute;
   right: 0;
   top: 0;
@@ -19,15 +19,21 @@ return (
   <Container>
     {props.widgets.map((widget) => (
       <div key={widget.linkId}>
-        <Widget src={widget.src} props={widget.props} />
         {props.isEditMode ? (
-          <DeleteWidgetWrapper>
-            <Widget
-              src="bos.dapplets.near/widget/LayoutManager.DeleteWidgetButton"
-              props={{ onClick: () => handleRemoveWidget(widget.linkId) }}
-            />
-          </DeleteWidgetWrapper>
+          <WidgetBadgeWrapper>
+            {widget.linkAuthorId === context.accountId ? (
+              <Widget
+                src="bos.dapplets.near/widget/LayoutManager.DeleteWidgetButton"
+                props={{
+                  onClick: () => handleRemoveWidget(widget.linkId),
+                }}
+              />
+            ) : (
+              <Widget src="bos.dapplets.near/widget/LayoutManager.LockedWidgetBadge" />
+            )}
+          </WidgetBadgeWrapper>
         ) : null}
+        <Widget src={widget.src} props={widget.props} />
       </div>
     ))}
   </Container>
