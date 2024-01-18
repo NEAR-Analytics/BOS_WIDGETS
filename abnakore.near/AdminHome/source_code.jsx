@@ -78,54 +78,6 @@ useEffect(() => {
   }
 }, [voteToRender.creator === accountId]);
 
-// List of parties and their curresponding number of votes
-const [parties, setParties] = useState([
-  { id: 1, name: "Foo", acronym: "FOO" },
-  { id: 2, name: "Bar", acronym: "BAR" },
-  { id: 3, name: "Baz", acronym: "BAZ" },
-  { id: 4, name: "sass", acronym: "SAS" },
-]);
-
-// List of candidates and their curresponding number of votes
-const [candidates, setCandidates] = useState([
-  {
-    id: 1,
-    name: "Foo",
-    party: "APD",
-    email: "example@gmail.com",
-    role: "President",
-    votes: 3,
-    rank: 2,
-  },
-  {
-    id: 2,
-    name: "Bar",
-    party: "YMB",
-    email: "example@gmail.com",
-    role: "President",
-    votes: 5,
-    rank: 1,
-  },
-  {
-    id: 3,
-    name: "Baz",
-    party: "AAN",
-    email: "example@gmail.com",
-    role: "President",
-    votes: 1,
-    rank: 4,
-  },
-  {
-    id: 4,
-    name: "sass",
-    party: "AKA",
-    email: "example@gmail.com",
-    role: "President",
-    votes: 2,
-    rank: 3,
-  },
-]);
-
 return (
   <>
     {accountId ? (
