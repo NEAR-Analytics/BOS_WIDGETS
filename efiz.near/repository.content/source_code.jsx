@@ -74,9 +74,9 @@ if (parts.length > 2) {
   const flattenedKeys = flattenObject(keys);
   const escapedPath = path.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
   const regex = `^${escapedPath}(\\..+)?$`;
-  Git;
-  // return <p>{JSON.stringify(flattenedKeys)}</p>;
-  data = flattenedKeys.filter((it) => regex.match(it));
+  const matchingKeys = flattenedKeys.filter((it) => it.match(regex));
+  data = Social.getr(matchingKeys, "final");
+  // remove create.near and widget
 } else {
   data = Social.getr(path, "final");
 }
@@ -274,7 +274,7 @@ const handleColumnClick = (key) => {
   setActivePath([...state.activePath, key]);
 };
 
-const things = Object.keys(data);
+const things = Object.keys(data); //this
 
 function organizeData(data) {
   const result = {};
@@ -300,7 +300,8 @@ function organizeData(data) {
   return result;
 }
 
-const organizedData = organizeData(things);
+const organizedData = organizeData(things); // this
+return <p>{JSON.stringify(organizedData)}</p>;
 
 function RenderData({ data, layout }) {
   switch (layout) {
@@ -310,112 +311,116 @@ function RenderData({ data, layout }) {
 
       return (
         <>
-          {Object.keys(dataList).map((key) => (
-            <div key={key}>
-              <Widget
-                src="efiz.near/widget/voyager.item"
-                loading={<></>}
-                props={{
-                  path: key,
-                  data: dataList[key],
-                  level: 0,
-                  eFile: ({ key, data, level }) => {
-                    const updatedPath = [path, key].join("/");
-                    return (
-                      <ContextMenu
-                        Item={() => (
-                          // TODO: Honestly, eFile and eFolder should be the same component.
-                          <ItemContainer
-                            onDoubleClick={() => setPath(updatedPath)} // open file
-                            onClick={() => setSelectedPath(updatedPath)}
-                            style={{
-                              marginLeft: level * 20,
-                              backgroundColor:
-                                selectedPath === updatedPath
-                                  ? "#f0f0f0"
-                                  : "transparent",
-                            }}
-                          >
-                            <ItemDetails>
-                              <i className="bi bi-file-earmark"></i>
-                              <span>{key.split(".").pop()}</span>{" "}
-                            </ItemDetails>
-                            <ItemInfo>
-                              <span>{calculateSize(data)}</span>
-                              <span>{determineType(updatedPath, data)}</span>
-                              <span />
-                            </ItemInfo>
-                          </ItemContainer>
-                        )}
-                        passProps={{
-                          delete: { path: updatedPath, data },
-                        }}
-                        handlers={{
-                          delete: ({ path }) => {
-                            deleteFile(path);
-                          },
-                        }}
-                        items={{
-                          delete: () => (
-                            <>
-                              <i className="menu__item__icon bi bi-x-lg" />
-                              Delete
-                            </>
-                          ),
-                        }}
-                      />
-                    );
-                  },
-                  eFolder: ({ toggleExpand, isExpanded, key, level }) => {
-                    const updatedPath = [path, key].join("/");
-                    return (
-                      <ContextMenu
-                        Item={() => (
-                          <ItemContainer
-                            onDoubleClick={() => setPath(updatedPath)} // open folder
-                            onClick={() => {
-                              toggleExpand();
-                            }}
-                            style={{
-                              marginLeft: level * 20,
-                            }}
-                          >
-                            <ItemDetails>
-                              <ArrowIcon isExpanded={isExpanded} />
-                              <i className="bi bi-folder"></i>
-                              <span>{key.split("/").pop()}</span>{" "}
-                            </ItemDetails>
-                            <ItemInfo>
-                              <span>--</span>
-                              <span>Folder</span>
-                              <span />
-                            </ItemInfo>
-                          </ItemContainer>
-                        )}
-                        passProps={{
-                          delete: { path: updatedPath, data },
-                        }}
-                        handlers={{
-                          delete: ({ path, data }) => {
-                            // TODO: This is broken, I think because of the adjusted data object.
-                            deleteFolder(path, data);
-                          },
-                        }}
-                        items={{
-                          delete: () => (
-                            <>
-                              <i className="menu__item__icon bi bi-x-lg" />
-                              Delete
-                            </>
-                          ),
-                        }}
-                      />
-                    );
-                  },
-                }}
-              />
-            </div>
-          ))}
+          {Object.keys(dataList).map(
+            (
+              key // this
+            ) => (
+              <div key={key}>
+                <Widget
+                  src="efiz.near/widget/voyager.item"
+                  loading={<></>}
+                  props={{
+                    path: key,
+                    data: dataList[key],
+                    level: 0,
+                    eFile: ({ key, data, level }) => {
+                      const updatedPath = [path, key].join("/");
+                      return (
+                        <ContextMenu
+                          Item={() => (
+                            // TODO: Honestly, eFile and eFolder should be the same component.
+                            <ItemContainer
+                              onDoubleClick={() => setPath(updatedPath)} // open file
+                              onClick={() => setSelectedPath(updatedPath)}
+                              style={{
+                                marginLeft: level * 20,
+                                backgroundColor:
+                                  selectedPath === updatedPath
+                                    ? "#f0f0f0"
+                                    : "transparent",
+                              }}
+                            >
+                              <ItemDetails>
+                                <i className="bi bi-file-earmark"></i>
+                                <span>{key.split(".").pop()}</span>{" "}
+                              </ItemDetails>
+                              <ItemInfo>
+                                <span>{calculateSize(data)}</span>
+                                <span>{determineType(updatedPath, data)}</span>
+                                <span />
+                              </ItemInfo>
+                            </ItemContainer>
+                          )}
+                          passProps={{
+                            delete: { path: updatedPath, data },
+                          }}
+                          handlers={{
+                            delete: ({ path }) => {
+                              deleteFile(path);
+                            },
+                          }}
+                          items={{
+                            delete: () => (
+                              <>
+                                <i className="menu__item__icon bi bi-x-lg" />
+                                Delete
+                              </>
+                            ),
+                          }}
+                        />
+                      );
+                    },
+                    eFolder: ({ toggleExpand, isExpanded, key, level }) => {
+                      const updatedPath = [path, key].join("/");
+                      return (
+                        <ContextMenu
+                          Item={() => (
+                            <ItemContainer
+                              onDoubleClick={() => setPath(updatedPath)} // open folder
+                              onClick={() => {
+                                toggleExpand();
+                              }}
+                              style={{
+                                marginLeft: level * 20,
+                              }}
+                            >
+                              <ItemDetails>
+                                <ArrowIcon isExpanded={isExpanded} />
+                                <i className="bi bi-folder"></i>
+                                <span>{key.split("/").pop()}</span>{" "}
+                              </ItemDetails>
+                              <ItemInfo>
+                                <span>--</span>
+                                <span>Folder</span>
+                                <span />
+                              </ItemInfo>
+                            </ItemContainer>
+                          )}
+                          passProps={{
+                            delete: { path: updatedPath, data },
+                          }}
+                          handlers={{
+                            delete: ({ path, data }) => {
+                              // TODO: This is broken, I think because of the adjusted data object.
+                              deleteFolder(path, data);
+                            },
+                          }}
+                          items={{
+                            delete: () => (
+                              <>
+                                <i className="menu__item__icon bi bi-x-lg" />
+                                Delete
+                              </>
+                            ),
+                          }}
+                        />
+                      );
+                    },
+                  }}
+                />
+              </div>
+            )
+          )}
         </>
       );
 
