@@ -1,6 +1,6 @@
 const defaultChainId = 11155111;
 State.init({
-  orderSize: "0.0001",
+  orderSize: "0.001",
   orderPrice: "2500",
   orderMarketId: "ETH-USD",
   orderType: "LIMIT",
@@ -37,7 +37,25 @@ const OrderSize = styled.div`{
     background-color: #d1d4dc;
 }`;
 
+const OrderAction = styled.div`{
+    display: inline;
+    text-align: center;
+    min-width: 190px;
+    border-radius: 0.25rem;
+    letter-spacing: 0.04em;
+    user-select: none;
+    padding: 0.156rem 0.219rem 0.156rem 0.25rem;
+}`;
+
 const etherProviderEnabled = !!Ethers?.provider();
+
+const switchNetwork = (chainId) => {
+  if (etherProviderEnabled && chainId) {
+    Ethers.send("wallet_switchEthereumChain", [
+      { chainId: ethers.utils.hexValue(chainId) },
+    ]);
+  }
+};
 
 if (etherProviderEnabled) {
   Ethers.provider()
@@ -149,9 +167,11 @@ const headers = {
 };
 
 const loadAccount = () => {
-  asyncFetch(`${apiUrl}/addresses/${accountId}`, { headers }).then((r) =>
-    State.update({ account: r?.body?.subaccounts[0], all_accounts: r?.body })
-  );
+  asyncFetch(`${apiUrl}/addresses/${accountId}`, { headers })
+    .then((r) =>
+      State.update({ account: r?.body?.subaccounts[0], all_accounts: r?.body })
+    )
+    .catch((err) => State.update({ error_msg: JSON.stringify(err) }));
 
   asyncFetch(
     `${apiUrl}/orders?address=${accountId}&subaccountNumber=0&limit=100`,
@@ -186,27 +206,7 @@ if (state.updateMarketPrice == true) {
   }
 }
 
-const placeUserOrder = (side) => {
-  if (
-    !state.orderMarketId ||
-    !state.orderPrice ||
-    !state.orderSize ||
-    !state.orderType
-  ) {
-    console.log("NO DATA");
-    return;
-  }
-
-  let marketId = state.orderMarketId;
-  let type = state.orderType;
-  let price = Number(state.orderPrice);
-  let size = Number(state.orderSize);
-  let clientId = getRandomClientId();
-  let timeInForce = "GTT";
-  let execution = "DEFAULT";
-  let postOnly = false;
-  let reduceOnly = false;
-
+const getNetwork = () => {
   let network_config = {
     env: "dydx-testnet-4",
     indexerConfig: {
@@ -231,11 +231,50 @@ const placeUserOrder = (side) => {
     },
   };
 
-  let network = new Network(
+  return new Network(
     network_config.env,
     network_config.indexerConfig,
     network_config.validatorConfig
   );
+};
+
+const cancelUserOrder = (clientId, orderFlags, marketId) => {
+  let params = {
+    clientId,
+    orderFlags,
+    marketId,
+    goodTilBlock: 0,
+    goodTilTimeInSeconds: 999999,
+  };
+
+  cancelDydxOrder(getNetwork(), state.mnemonic, "dydx", 0, params)
+    .then((cancelOrderResp) => {
+      console.log("cancelOrderResp resp ", cancelOrderResp);
+      updateOrders();
+    })
+    .catch((err) => State.update({ error_msg: JSON.stringify(err) }));
+};
+
+const placeUserOrder = (side) => {
+  if (
+    !state.orderMarketId ||
+    !state.orderPrice ||
+    !state.orderSize ||
+    !state.orderType
+  ) {
+    console.log("NO DATA");
+    return;
+  }
+
+  let marketId = state.orderMarketId;
+  let type = state.orderType;
+  let price = Number(state.orderPrice);
+  let size = Number(state.orderSize);
+  let clientId = getRandomClientId();
+  let timeInForce = "GTT";
+  let execution = "DEFAULT";
+  let postOnly = false;
+  let reduceOnly = false;
 
   let params = {
     marketId,
@@ -255,15 +294,15 @@ const placeUserOrder = (side) => {
 
   console.log(params);
 
-  placeOrder(network, state.mnemonic, "dydx", 0, params).then(
-    (placeOrderResp) => {
+  placeDydxOrder(getNetwork(), state.mnemonic, "dydx", 0, params)
+    .then((placeOrderResp) => {
       console.log("placeOrder resp ", placeOrderResp);
       updateOrders();
-    }
-  );
+    })
+    .catch((err) => State.update({ error_msg: JSON.stringify(err) }));
 };
 
-if (state.dydx_account == undefined) {
+if (state.dydx_account == undefined && state.chainId == defaultChainId) {
   const toSign = {
     domain: {
       name: "dYdX V4",
@@ -292,7 +331,22 @@ if (state.dydx_account == undefined) {
   }, [state.account, state.orders, state.nonce]);
 
   if (!!state.chainId && state.chainId !== defaultChainId) {
-    return <>{`Please switch to chainId ${defaultChainId}`}</>;
+    return (
+      <div>
+        <div>{`Please switch to chainId ${defaultChainId}`}</div>
+        <div>
+          <button onClick={() => switchNetwork(defaultChainId)}>Switch</button>
+        </div>
+      </div>
+    );
+  }
+
+  if (state?.account?.address) {
+    getDydxAccountBalances(getNetwork(), state?.account?.address).then(
+      (data) => {
+        console.log("getDydxAccountBalances", data);
+      }
+    );
   }
 
   return (
@@ -434,7 +488,9 @@ if (state.dydx_account == undefined) {
             <h2 class="mt-5">Orders Log</h2>
             {(state.orders ?? []).map((order) => (
               <div class="mb-2">
+                {/*JSON.stringify(order)*/}
                 <OrderSide side={order.side}>{order.side}</OrderSide>
+                {order.status}
                 <OrderMarket>
                   {order.ticker} at ${order.price}
                 </OrderMarket>{" "}
@@ -445,6 +501,18 @@ if (state.dydx_account == undefined) {
                 {order.updatedAt
                   ? new Date(order.updatedAt).toLocaleString()
                   : ""}
+                {order.status == "OPEN" && (
+                  <OrderAction>
+                    <button
+                      type="button"
+                      class="btn-close btn-danger"
+                      aria-label="Close"
+                      onClick={() => {
+                        cancelUserOrder(order.clientId, 64, order.ticker);
+                      }}
+                    ></button>
+                  </OrderAction>
+                )}
               </div>
             ))}
           </>
