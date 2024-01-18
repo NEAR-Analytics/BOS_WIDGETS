@@ -15,15 +15,28 @@ const onClick = () => {
       msg,
     },
   });
+  Social.set({
+      index: {
+          paulTest: {
+              action: "savedMessage",
+          },
+      },
+  });
 };
+
+const messageEvents = Social.index("paulTest", "action");
 
 const retrievedMsg = Social.get("pavel-pagoda.near/paulTest/msg");
 
 return (
   <div>
     <textarea value={msg} onChange={(e) => setMsg(e.target.value)} />
-    <button type="button" onClick={onClick}>Save</button>
-      <hr />
-     <div>{retrievedMsg}</div>
+    
+    <button type="button" onClick={onClick}>
+      Save
+    </button>
+    <hr />
+    <div>{retrievedMsg}</div>
+      <div>{JSON.stringify(messageEvents)}</div>
   </div>
 );
