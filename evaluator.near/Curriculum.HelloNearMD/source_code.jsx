@@ -1,8 +1,6 @@
-const { userAccountId } = props;
-
-const evaluation_name = "Hello Near";
-const evaluation_method = "evaluate_hello_near";
-const accent_color = "#BEF264";
+const evaluationName = "Hello Near";
+const evaluationMethod = "evaluate_hello_near";
+const accentColor = "#BEF264";
 
 const text = (`
 # Hello Near
@@ -22,13 +20,13 @@ In this evaluation we will create a simple contract that will store a **'greetin
 
 ### Interacting with the contract:
 \`\`\`bash
-$ near call mycontract.${userAccountId} set_greeting '{"greeting": "howdy"}' --accountId ${userAccountId}
-# > ''
+$ near call <contract.myaccount.near> set_greeting '{"greeting": "howdy"}' --accountId ${context.accountId}
+> ''
 \`\`\`
 
 \`\`\`bash
-$ near view mycontract.${userAccountId} get_greeting
-# > 'howdy'
+$ near view <contract.myaccount.near> get_greeting
+> 'howdy'
 \`\`\`
 
 ### Run the tests:
@@ -36,4 +34,4 @@ $ near view mycontract.${userAccountId} get_greeting
 After we have made sure we are in the relevant directory we can run the tests by \`npm run test - ts\` or \`npm run test - rs\`
 `);
 
-return { evaluation_name, evaluation_method, accent_color, text }
+return { evaluationName, evaluationMethod, accentColor, text }
