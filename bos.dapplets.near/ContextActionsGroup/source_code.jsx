@@ -350,7 +350,7 @@ return (
             <ActionBlock key={i}>
               {props.isEditMode ? (
                 <Widget 
-                  src={'bos.dapplets.near/widget/LayoutManager.RemoveWidgetButton'} 
+                  src="bos.dapplets.near/widget/LayoutManager.DeleteWidgetButton" 
                   props={{ onClick:() => handleRemoveWidget(widget.src, widget.linkId) }}
                 />
               ) : null}
