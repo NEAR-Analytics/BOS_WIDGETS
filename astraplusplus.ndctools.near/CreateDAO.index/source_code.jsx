@@ -1,233 +1,525 @@
-// -- Read and process types from SocialDB + helper functions
+const DaoSDK = {
+    getDaoVersion: (daoId) => {
+        return Near.view(daoId, "version");
+    },
+    getDaosListByFactoryId: (factoryId) => {
+        return Near.view(factoryId, "get_dao_list");
+    },
+    getFactoryInfo: (daoId) => {
+        return Near.view(daoId, "get_factory_info");
+    },
+    getPolicy: (daoId) => {
+        return Near.view(daoId, "get_policy");
+    },
+    getConfig: (daoId) => {
+        return Near.view(daoId, "get_config");
+    },
 
-const isPrimitiveType = (type) =>
-    ["string", "number", "boolean"].includes(type);
-
-const isComplexType = (type) =>
-    Array.isArray(type)
-        ? "typesArray"
-        : type === "array"
-        ? "array"
-        : typeof type === "object"
-        ? "object"
-        : typeof type === "string" && !isPrimitiveType(type)
-        ? "custom"
-        : null;
-
-const rawTypes = Social.get("astraplusplus.ndctools.near/type/*", "final");
-if (rawTypes === null) return null;
-
-const types = {};
-// It finds custom types in the type definitions and fetches them from SocialDB.
-function getCustomTypes(type, depth) {
-    depth = depth || 0;
-    if (depth > 10) {
-        throw {
-            message: `Maximum type depth exceeded, please check your type definitions.`,
-            depth,
-            current: type,
-            types
-        };
-    }
-
-    type.properties.forEach((prop) => {
-        (Array.isArray(prop.type) ? prop.type : [prop.type]).forEach((type) => {
-            if (isComplexType(type) === "custom" && !types[type]) {
-                const rawType = Social.get(`${type}`, "final");
-                if (rawType) {
-                    types[type] = JSON.parse(rawType);
-                    getCustomTypes(types[type], depth + 1);
-                }
-            }
+    // PROPOSALS
+    getProposalById: (daoId, proposalId) => {
+        return Near.view(daoId, "get_proposal", {
+            id: parseInt(proposalId)
         });
-    });
-}
+    },
+    getLastProposalId: (daoId) => {
+        return Near.view(daoId, "get_last_proposal_id");
+    },
+    getProposals: (daoId, offset, limit) => {
+        return Near.view(daoId, "get_proposals", {
+            from_index: offset,
+            limit: limit
+        });
+    },
 
-Object.keys(rawTypes).forEach((key) => {
-    const type = JSON.parse(rawTypes[key]);
-    types["astraplusplus.ndctools.near/type/" + key] = type;
-    getCustomTypes(type);
+    // ROLES + PERMISSIONS
+    getMembersByGroupId: (daoId, groupId) => {
+        const policy = DaoSDK.getPolicy(daoId);
+        policy?.roles
+            .filter((role) => role.name === groupId)
+            .map((role) => {
+                const group = role.kind.Group;
+                return group;
+            });
+    },
+
+    isIdMemberOfDao: () => {
+        const policy = DaoSDK.getPolicy(daoId);
+    }
+};
+
+// ROLES + PERMISSIONS
+
+const isMember = groups.map((group) => {
+    return !group
+        ? false
+        : group.filter((address) => address === accountId).length > 0;
+})?.[0];
+const processPolicy = (policy) => {
+    const roles = {};
+    const options = [];
+    policy.roles.forEach((role) => {
+        if (role.kind.Group) {
+            if (!roles[role.name]) {
+                roles[role.name] = role;
+                options.push({ text: role.name, value: role.name });
+            }
+        }
+    });
+    State.update({ rolesOptions: options });
+    return roles;
+};
+const allowedRoles = useCache(
+    () =>
+        Near.asyncView(daoId, "get_policy").then((policy) =>
+            processPolicy(policy)
+        ),
+    daoId + "-remove-member-proposal",
+    { subscribe: false }
+);
+
+// BOUNTIES
+const bounty = Near.view(daoId, "get_bounty", {
+    id: bountyId
+});
+const claims = Near.view(daoId, "get_bounty_claims", {
+    account_id: accountId
+});
+const numberOfClaims = Near.view(daoId, "get_bounty_number_of_claims", {
+    id: bountyId
 });
 
-const PRIMITIVE_VALIDATIONS = {
-    string: (value, { min, max, pattern }) => {
-        if (typeof value !== "string")
-            return `Expected a string, got ${typeof value}.`;
-
-        if (min && value.length < min)
-            return `Must be at least ${min} characters long.`;
-
-        if (max && value.length > max)
-            return `Must be at most ${max} characters long.`;
-        // waiting for regexp
-        // if (pattern && !value.match(pattern))
-        //   return `The value "${value}" does not match expected pattern: ${pattern}`;
-    },
-    number: (value, { min, max }) => {
-        if (typeof value !== "number")
-            return `Expected a number, got ${typeof value}.`;
-
-        if (min && value < min) return `Must be at least ${min}.`;
-
-        if (max && value > max) return `Must be at most ${max}.`;
-    },
-    boolean: (value) => {
-        if (typeof value !== "boolean")
-            return `Expected a boolean, got ${typeof value}.`;
-    }
+// UTILS
+const call = ({ daoId, methodName, args, deposit }) => {
+    Near.call([
+        {
+            contractName: daoId,
+            methodName,
+            args,
+            deposit: deposit,
+            gas: gas
+        }
+    ]);
 };
 
-function validatePrimitiveType(type, value, constraints) {
-    if (!isPrimitiveType(type))
-        throw {
-            message: `Unknown primitive type: ${type}`,
-            type,
-            value
-        };
-
-    return PRIMITIVE_VALIDATIONS[type](value, constraints);
-}
-
-function validateType(type, value, parent) {
-    if (value === undefined || value === "" || value === null) {
-        if (parent.required) {
-            return `This field is required but missing.`;
-        }
-        return;
-    }
-
-    if (isPrimitiveType(type))
-        return validatePrimitiveType(type, value, parent[type].validation);
-
-    if (isComplexType(type) === "typesArray") {
-        const errors = [];
-        for (const subType of type) {
-            const error = validateType(subType, value, parent[subType]);
-            if (!error) return; // Stop if a valid type is found
-            errors.push(error);
-        }
-        if (errors.length === type.length) {
-            // only return the deepest error
-            for (const error of errors) {
-                if (typeof error === "object") return error;
-            }
-            return errors[errors.length - 1];
-        }
-    }
-
-    if (isComplexType(type) === "array") {
-        if (!Array.isArray(value)) {
-            return `Expected an array, got ${typeof value}.`;
-        }
-
-        if (
-            parent["array"].validation.min &&
-            value.length < parent["array"].validation.min
-        ) {
-            return `Must have at least ${parent["array"].validation.min} items.`;
-        }
-
-        if (
-            parent["array"].validation.max &&
-            value.length > parent["array"].validation.max
-        ) {
-            return `Must have at most ${parent["array"].validation.max} items.`;
-        }
-
-        for (const item of value) {
-            const error = validateType(
-                parent["array"].type,
-                item,
-                parent["array"]
-            );
-            if (error)
-                return {
-                    [value.indexOf(item)]: error
-                };
-        }
-    }
-
-    if (isComplexType(type) === "object") {
-        if (typeof value !== "object" || Array.isArray(value)) {
-            return `Expected an object, got ${typeof value}.`;
-        }
-
-        // Validate properties of the object
-        for (const property of type.properties) {
-            const propName = property.name;
-            const propType = property.type;
-            const propValue = value[propName];
-
-            if (property.required && propValue === undefined) {
-                return `Property ${propName} is required but missing.`;
-            }
-
-            if (propValue !== undefined) {
-                const error = validateType(propType, propValue, property);
-                if (error)
-                    return {
-                        [propName]: error
-                    };
-            }
-        }
-    }
-
-    if (isComplexType(type) === "custom") {
-        return validateType(types[type], value);
-    }
-}
-
-const typeToEmptyData = (type) => {
-    if (isPrimitiveType(type)) {
-        switch (type) {
-            case "string":
-                return "";
-            case "number":
-                return null;
-            case "boolean":
-                return null;
-        }
-    }
-    if (isComplexType(type) === "array") {
-        return [];
-    }
-    if (isComplexType(type) === "typesArray") {
-        return typeToEmptyData(type[0]);
-    }
-    if (isComplexType(type) === "object") {
-        const obj = {};
-
-        type.properties.forEach((prop) => {
-            const propType =
-                isComplexType(prop.type) === "typesArray"
-                    ? prop.type[0]
-                    : prop.type;
-
-            if (isPrimitiveType(propType)) {
-                obj[prop.name] = typeToEmptyData(propType);
-            } else if (isComplexType(propType) === "array") {
-                obj[prop.name] = typeToEmptyData(propType);
-            } else if (isComplexType(propType) === "object") {
-                obj[prop.name] = typeToEmptyData(prop[propType]);
-            } else if (isComplexType(propType) === "custom") {
-                obj[prop.name] = typeToEmptyData(types[propType]);
-            }
-        });
-
-        return obj;
-    }
-    if (isComplexType(type) === "custom") {
-        return typeToEmptyData(types[type]);
-    }
+const actions = {
+    AddProposal: "create proposal",
+    VoteApprove: "vote approve",
+    VoteReject: "vote reject",
+    VoteRemove: "vote remove"
 };
 
-return (
-    <Widget
-        src="astraplusplus.ndctools.near/widget/CreateDAO.form"
-        props={{
-            validateType,
-            typeToEmptyData,
-            types
-        }}
-    />
+const proposalTypes = [
+    "All",
+    "Transfer",
+    "Vote",
+    "FunctionCall",
+    "AddBounty",
+    "BountyDone",
+    "AddMemberToRole",
+    "RemoveMemberFromRole",
+    "ChangeConfig",
+    "ChangePolicy",
+    "ChangePolicyUpdateParameters",
+    "ChangePolicyUpdateDefaultVotePolicy",
+    "ChangePolicyRemoveRole",
+    "ChangePolicyAddOrUpdateRole",
+    "FactoryInfoUpdate",
+    "SetStakingContract",
+    "UpgradeRemote",
+    "UpgradeSelf"
+].map((t) => {
+    return {
+        value: t,
+        label: t
+    };
+});
+
+// -----------------
+
+const addProposal = ({ daoId, proposal }) => {
+    const policy = Near.view(daoId, "get_policy");
+
+    if (policy === null) {
+        return "Loading...";
+    }
+
+    const deposit = policy.proposal_bond;
+
+    call({
+        daoId,
+        methodName: "add_proposal",
+        args: {
+            proposal
+        },
+        deposit
+    });
+};
+
+// CREATE DAO
+const newDao_args = {
+    config,
+    policy
+};
+const dao_args = Buffer.from(JSON.stringify(newDao_args), "utf-8").toString(
+    "base64"
 );
+const createDao = () => {
+    Near.call([
+        {
+            contractName: "sputnik-dao.near",
+            methodName: "create",
+            args: {
+                name: daoName,
+                args: dao_args
+            },
+            deposit: "7000000000000000000000000",
+            gas: "200000000000000"
+        }
+    ]);
+};
+
+// ADD MEMBER
+const addMember = () => {
+    Near.call([
+        {
+            contractName: daoId,
+            methodName: "add_proposal",
+            args: {
+                proposal: {
+                    description: `add ${memberId ?? accountId} to ${
+                        roleId ?? "council"
+                    }`,
+                    kind: {
+                        AddMemberToRole: {
+                            member_id: memberId ?? accountId,
+                            role: roleId ?? "council"
+                        }
+                    }
+                }
+            },
+            gas: gas,
+            deposit: deposit
+        }
+    ]);
+};
+
+// REMOVE MEMBER
+const removeMember = () => {
+    Near.call([
+        {
+            contractName: daoId,
+            methodName: "add_proposal",
+            args: {
+                proposal: {
+                    description: `remove ${memberId ?? accountId} from ${
+                        roleId ?? "council"
+                    }`,
+                    kind: {
+                        RemoveMemberFromRole: {
+                            member_id: memberId ?? accountId,
+                            role: roleId ?? "council"
+                        }
+                    }
+                }
+            },
+            gas: gas,
+            deposit: deposit
+        }
+    ]);
+};
+
+// POLL
+const createPoll = () => {
+    Near.call([
+        {
+            contractName: daoId,
+            methodName: "add_proposal",
+            args: {
+                proposal: {
+                    description,
+                    kind: "Vote"
+                }
+            },
+            gas: gas,
+            deposit: deposit
+        }
+    ]);
+};
+
+// TRANSFER
+const transferProposal = () => {
+    Near.call([
+        {
+            contractName: daoId,
+            methodName: "add_proposal",
+            args: {
+                proposal: {
+                    description: `transfer ${amount} ${token_id} to ${receiver_id}`,
+                    kind: {
+                        Transfer: {
+                            token_id,
+                            receiver_id,
+                            amount
+                        }
+                    }
+                }
+            },
+            gas: gas,
+            deposit: deposit
+        }
+    ]);
+};
+
+// BOUNTY PROPOSAL
+const bountyProposal = () => {
+    const bounty = {
+        description,
+        token,
+        amount,
+        times,
+        max_deadline
+    };
+    Near.call([
+        {
+            contractName: daoId,
+            methodName: "add_proposal",
+            args: {
+                proposal: {
+                    description: `offer ${amount} ${token_id} (up to ${times} claims)`,
+                    kind: {
+                        AddBounty: {
+                            bounty
+                        }
+                    }
+                }
+            },
+            gas: gas,
+            deposit: deposit
+        }
+    ]);
+};
+
+// BOUNTY CLAIM
+const claimBounty = () => {
+    Near.call([
+        {
+            contractName: daoId,
+            methodName: "bounty_claim",
+            args: {
+                id: JSON.parse(bounty.id),
+                deadline: bounty.max_deadline
+            },
+            deposit: deposit,
+            gas: gas
+        }
+    ]);
+};
+
+// BOUNTY UNCLAIM
+const unclaimBounty = () => {
+    Near.call([
+        {
+            contractName: daoId,
+            methodName: "bounty_giveup",
+            args: {
+                id: JSON.parse(bounty.id)
+            },
+            gas: gas
+        }
+    ]);
+};
+
+// BOUNTY SUBMIT WORK
+const submitBounty = () => {
+    Near.call([
+        {
+            contractName: daoId,
+            methodName: "add_proposal",
+            args: {
+                proposal: {
+                    description: "work submitted",
+                    kind: {
+                        BountyDone: {
+                            receiver_id: accountId,
+                            bounty_id: JSON.parse(bounty.id)
+                        }
+                    }
+                }
+            },
+            deposit: deposit,
+            gas: gas
+        }
+    ]);
+};
+
+// FUNCTION CALL
+const createFunctionCallProposal = ({
+    daoId,
+    receiver_id,
+    method_name,
+    args
+}) => {
+    const proposal_args = Buffer.from(JSON.stringify(args), "utf-8").toString(
+        "base64"
+    );
+    addProposal({
+        daoId,
+        proposal: {
+            description: `call ${method_name} to ${receiver_id}`,
+            kind: {
+                FunctionCall: {
+                    receiver_id,
+                    actions: [
+                        {
+                            method_name,
+                            args: proposal_args,
+                            deposit: "100000000000000000000000",
+                            gas: "219000000000000"
+                        }
+                    ]
+                }
+            }
+        }
+    });
+};
+function decodeArgs() {
+    try {
+        const args64 = proposal.kind["FunctionCall"].actions[0].args;
+        const jsonArgs = JSON.parse(
+            Buffer.from(args64, "base64").toString("utf-8")
+        );
+        return JSON.stringify(jsonArgs, undefined, 2);
+    } catch {
+        return "failed to deserialize";
+    }
+}
+
+// VOTE
+const actProposal = ({ daoId, proposal }) => {
+    const policy = Near.view(daoId, "get_policy");
+
+    if (policy === null) {
+        return "Loading...";
+    }
+
+    const deposit = policy.proposal_bond;
+
+    call({
+        daoId,
+        methodName: "act_proposal",
+        args: {
+            proposal
+        },
+        deposit
+    });
+};
+function vote(action) {
+    return Near.call(daoId, "act_proposal", {
+        id: proposal.id,
+        action
+    });
+}
+const handleApprove = () => {
+    Near.call([
+        {
+            contractName: daoId,
+            methodName: "act_proposal",
+            args: {
+                id: JSON.parse(proposal.id),
+                action: "VoteApprove"
+            },
+            gas: gas
+        }
+    ]);
+};
+const handleReject = () => {
+    Near.call([
+        {
+            contractName: daoId,
+            methodName: "act_proposal",
+            args: {
+                id: JSON.parse(proposal.id),
+                action: "VoteReject"
+            },
+            gas: gas
+        }
+    ]);
+};
+const handleSpam = () => {
+    Near.call([
+        {
+            contractName: daoId,
+            methodName: "act_proposal",
+            args: {
+                id: JSON.parse(proposal.id),
+                action: "VoteRemove"
+            },
+            gas: gas
+        }
+    ]);
+};
+
+// CREATE DAO POST
+const create = (v) => {
+    createFunctionCallProposal({
+        daoId: "build.sputnik-dao.near",
+        receiver_id: "social.near",
+        method_name: "set",
+        args: {
+            data: {
+                "build.sputnik-dao.near": {
+                    post: {
+                        main: JSON.stringify(v)
+                    },
+                    index: {
+                        post: JSON.stringify({
+                            key: "main",
+                            value: {
+                                type: "md"
+                            }
+                        })
+                    }
+                }
+            }
+        }
+    });
+};
+
+return {
+    daos,
+    daoVersion,
+    factory,
+    policy,
+    config,
+    proposal,
+    lastProposalId,
+    proposals,
+    groups,
+    isMember,
+    processPolicy,
+    allowedRoles,
+    bounty,
+    claims,
+    numberOfClaims,
+    call,
+    actions,
+    proposalTypes,
+    addProposal,
+    createDao,
+    addMember,
+    removeMember,
+    createPoll,
+    transferProposal,
+    bountyProposal,
+    claimBounty,
+    unclaimBounty,
+    submitBounty,
+    createFunctionCallProposal,
+    create,
+    decodeArgs,
+    actProposal,
+    vote,
+    handleApprove,
+    handleReject,
+    handleSpam
+};
