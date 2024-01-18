@@ -207,6 +207,5 @@ return (
         }}
       />
     </WidgetWrapper>
-    <Widget src="dapdapbos.near/widget/Linea.Uniswap.Swap.TokensPrice" />
   </Dex>
 );
