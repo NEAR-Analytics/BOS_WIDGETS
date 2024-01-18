@@ -66,13 +66,13 @@ const selectedComponent = state.selectedComponent;
 
 const CloseModal = styled.span`
   position: absolute;
-          top: -40px;
-          right: 0;
-          cursor: pointer;
-            transition: all 0.3s;
-             &:hover {
-      transform: scale(1.2);
-    }
+  top: -40px;
+  right: 0;
+  cursor: pointer;
+  transition: all 0.3s;
+  &:hover {
+    transform: scale(1.2);
+  }
 `;
 
 const Wrapper = styled.div`
@@ -80,18 +80,13 @@ const Wrapper = styled.div`
   flex-direction: column;
   padding-left: 15px;
   padding-right: 15px;
-  position:absolute;
-  left:50%;
-  top:50%;
   gap: 12px;
-  transform: translate(-50%,-50%);
 
   padding-bottom: 25px;
   padding-top: 50px;
   width: 422px;
   height: 547px;
 
-  
   border: 1px solid #d9d9d9;
   background: #fff;
   border-radius: 8px;
@@ -105,13 +100,12 @@ const Header = styled.div`
   display: flex;
   flex-direction: column;
   gap: 12px;
- 
 `;
 
 const Search = styled.div`
   width: 392px;
   height: 46px;
-position:relative;
+  position: relative;
   @media (max-width: 500px) {
     width: 100%;
   }
@@ -168,15 +162,15 @@ const Text = styled.p`
 const Items = styled.div`
   display: flex;
   flex-direction: column;
-      overflow: hidden;
-    overflow-y: auto;
-     transition: all 0.15s;
+  overflow: hidden;
+  overflow-y: auto;
+  transition: all 0.15s;
 `;
 
 const Item = styled.div`
   width: 100%;
   padding-top: 12px;
-   transition: all 0.15s;
+  transition: all 0.15s;
 `;
 
 const Button = styled.button`
