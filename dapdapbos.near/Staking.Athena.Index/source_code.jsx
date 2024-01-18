@@ -60,6 +60,10 @@ const GridContainer = styled.div`
   display: grid;
   grid-template-columns: 40% 12% 12% 12% 24%;
 `;
+const GridContainer2 = styled.div`
+  display: grid;
+  grid-template-columns: 20% 20% 20% 20% 20%;
+`;
 
 const GridItem = styled.div`
   padding-left: 24px;
@@ -148,12 +152,14 @@ const POOLS = [
     tokenAddress: "0xa4ee142e34d0676edc2b760dd0016003d99a4cec",
     StakingAddress: "0xD481eD22a20708839aeB7f1d07E1d01cbc526184", // Locking
     poolType: "Locking", // Locking MasterChief Staking
+    tvl: 0,
   },
   {
     poolName: "HUM-xHUM",
     tokenAddress: "0x31cfdA26D5841d92333D8F9B3acbd5efEedb39c1",
-    StakingAddress: "0x652a63c4df14e29080Ab058d6f151aBa61F86c10", // Locking
+    StakingAddress: "0x652a63c4df14e29080Ab058d6f151aBa61F86c10", //Staking
     poolType: "MasterChief", // Locking MasterChief Staking
+    tvl: 0,
   },
 ];
 const TOKENS = {
@@ -164,6 +170,7 @@ const TOKENS = {
     symbol: "ATH",
     icon: "https://www.athenafinance.io/assets/tokens/LATH.svg",
     decimals: 18,
+    tokenId: "",
   },
   "0x31cfdA26D5841d92333D8F9B3acbd5efEedb39c1": {
     address: "0x31cfdA26D5841d92333D8F9B3acbd5efEedb39c1",
@@ -173,256 +180,14 @@ const TOKENS = {
     icon: "https://www.athenafinance.io/assets/tokens/HUMxHUM.svg",
     decimals: 18,
   },
-};
-const RewardsContractABI = [
-  {
-    inputs: [],
-    name: "totalSupply",
-    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
-    stateMutability: "view",
-    type: "function",
+  "0x4febd4ea737a0ae94dd56e754e9b7a83e1c459e9": {
+    address: "0x4febd4ea737a0ae94dd56e754e9b7a83e1c459e9",
+    chainId: CHAIN_ID,
+    name: "xHUM",
+    symbol: "xHUM",
+    icon: "https://www.athenafinance.io/assets/tokens/HUMxHUM.svg",
+    decimals: 18,
   },
-  {
-    inputs: [],
-    name: "decimals",
-    outputs: [
-      {
-        internalType: "uint8",
-        name: "",
-        type: "uint8",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "address",
-        name: "account",
-        type: "address",
-      },
-    ],
-    name: "balanceOf",
-    outputs: [
-      {
-        internalType: "uint256",
-        name: "",
-        type: "uint256",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "address",
-        name: "owner",
-        type: "address",
-      },
-    ],
-    name: "maxWithdraw",
-    outputs: [
-      {
-        internalType: "uint256",
-        name: "",
-        type: "uint256",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "newRewardRatio",
-    outputs: [
-      {
-        internalType: "uint256",
-        name: "",
-        type: "uint256",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "rewardRate",
-    outputs: [
-      {
-        internalType: "uint256",
-        name: "",
-        type: "uint256",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "address",
-        name: "",
-        type: "address",
-      },
-    ],
-    name: "rewards",
-    outputs: [
-      {
-        internalType: "uint256",
-        name: "",
-        type: "uint256",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "totalAssets",
-    outputs: [
-      {
-        internalType: "uint256",
-        name: "",
-        type: "uint256",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "uint256",
-        name: "assets",
-        type: "uint256",
-      },
-    ],
-    name: "convertToShares",
-    outputs: [
-      {
-        internalType: "uint256",
-        name: "",
-        type: "uint256",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-];
-const RewardPoolDepositWrapper = "0x0Fec3d212BcC29eF3E505B555D7a7343DF0B7F76";
-const PoolContractWrapper = "0xBA12222222228d8Ba445958a75a0704d566BF2C8";
-
-const RewardPoolDepositABI = [
-  {
-    inputs: [
-      {
-        internalType: "address",
-        name: "_rewardPoolAddress",
-        type: "address",
-      },
-      {
-        internalType: "contract IERC20",
-        name: "_inputToken",
-        type: "address",
-      },
-      {
-        internalType: "uint256",
-        name: "_inputAmount",
-        type: "uint256",
-      },
-      {
-        internalType: "bytes32",
-        name: "_balancerPoolId",
-        type: "bytes32",
-      },
-      {
-        components: [
-          {
-            internalType: "contract IAsset[]",
-            name: "assets",
-            type: "address[]",
-          },
-          {
-            internalType: "uint256[]",
-            name: "maxAmountsIn",
-            type: "uint256[]",
-          },
-          {
-            internalType: "bytes",
-            name: "userData",
-            type: "bytes",
-          },
-          {
-            internalType: "bool",
-            name: "fromInternalBalance",
-            type: "bool",
-          },
-        ],
-        internalType: "struct IBalancerVault.JoinPoolRequest",
-        name: "_request",
-        type: "tuple",
-      },
-    ],
-    name: "depositSingle",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-];
-const PoolContractABI = [
-  {
-    inputs: [{ internalType: "bytes32", name: "poolId", type: "bytes32" }],
-    name: "getPoolTokens",
-    outputs: [
-      {
-        internalType: "contract IERC20[]",
-        name: "tokens",
-        type: "address[]",
-      },
-      { internalType: "uint256[]", name: "balances", type: "uint256[]" },
-      {
-        internalType: "uint256",
-        name: "lastChangeBlock",
-        type: "uint256",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-];
-const LPTokenABI = [
-  {
-    inputs: [],
-    name: "getActualSupply",
-    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [{ internalType: "address", name: "account", type: "address" }],
-    name: "balanceOf",
-    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
-    stateMutability: "view",
-    type: "function",
-  },
-];
-const COINGECKO_IDS = {
-  USDT: "tether",
-  USDC: "usd-coin",
-  sDAI: "savings-xdai",
-  WBTC: "wrapped-bitcoin",
-  WETH: "weth",
-  wstETH: "wrapped-steth",
-  crvUSD: "crvusd",
-  AURA: "aura-finance",
-  BAL: "balancer",
-  staBAL3: "balancer-stable-usd",
-  COW: "cow-protocol",
-  stEUR: "staked-ageur",
-  EURe: "monerium-eur-money",
-  GNO: "gnosis",
 };
 
 const LockingABI = [
@@ -439,80 +204,7 @@ const LockingABI = [
     name: "ATH",
     inputs: [],
   },
-  {
-    type: "function",
-    stateMutability: "view",
-    outputs: [
-      {
-        type: "uint256",
-        name: "",
-        internalType: "uint256",
-      },
-    ],
-    name: "DENOMINATOR",
-    inputs: [],
-  },
-  {
-    type: "function",
-    stateMutability: "nonpayable",
-    outputs: [],
-    name: "__LockerV2_init_",
-    inputs: [
-      {
-        type: "address",
-        name: "_masterchief",
-        internalType: "address",
-      },
-      {
-        type: "uint256",
-        name: "_maxSlots",
-        internalType: "uint256",
-      },
-      {
-        type: "address",
-        name: "_rewarder",
-        internalType: "address",
-      },
-      {
-        type: "address",
-        name: "_stakingToken",
-        internalType: "address",
-      },
-    ],
-  },
-  {
-    type: "function",
-    stateMutability: "nonpayable",
-    outputs: [],
-    name: "addNewStrategy",
-    inputs: [
-      {
-        type: "uint256",
-        name: "_lockTime",
-        internalType: "uint256",
-      },
-      {
-        type: "uint256",
-        name: "_rewardPercent",
-        internalType: "uint256",
-      },
-      {
-        type: "uint256",
-        name: "_forfeitPercent",
-        internalType: "uint256",
-      },
-      {
-        type: "uint256",
-        name: "_instantUnstakePercent",
-        internalType: "uint256",
-      },
-      {
-        type: "bool",
-        name: "_isLinear",
-        internalType: "bool",
-      },
-    ],
-  },
+
   {
     type: "function",
     stateMutability: "nonpayable",
@@ -598,19 +290,7 @@ const LockingABI = [
       },
     ],
   },
-  {
-    type: "function",
-    stateMutability: "view",
-    outputs: [
-      {
-        type: "address",
-        name: "",
-        internalType: "address",
-      },
-    ],
-    name: "bribeManager",
-    inputs: [],
-  },
+
   {
     type: "function",
     stateMutability: "nonpayable",
@@ -679,30 +359,7 @@ const LockingABI = [
     name: "decimals",
     inputs: [],
   },
-  {
-    type: "function",
-    stateMutability: "nonpayable",
-    outputs: [
-      {
-        type: "bool",
-        name: "",
-        internalType: "bool",
-      },
-    ],
-    name: "decreaseAllowance",
-    inputs: [
-      {
-        type: "address",
-        name: "spender",
-        internalType: "address",
-      },
-      {
-        type: "uint256",
-        name: "subtractedValue",
-        internalType: "uint256",
-      },
-    ],
-  },
+
   {
     type: "function",
     stateMutability: "nonpayable",
@@ -773,55 +430,7 @@ const LockingABI = [
       },
     ],
   },
-  {
-    type: "function",
-    stateMutability: "view",
-    outputs: [
-      {
-        type: "uint256",
-        name: "startTime",
-        internalType: "uint256",
-      },
-      {
-        type: "uint256",
-        name: "endTime",
-        internalType: "uint256",
-      },
-      {
-        type: "uint256",
-        name: "amount",
-        internalType: "uint256",
-      },
-      {
-        type: "uint256",
-        name: "unlockingStrategy",
-        internalType: "uint256",
-      },
-      {
-        type: "uint256",
-        name: "alreadyUnstaked",
-        internalType: "uint256",
-      },
-      {
-        type: "uint256",
-        name: "alreadyWithdrawn",
-        internalType: "uint256",
-      },
-    ],
-    name: "getUserNthSlot",
-    inputs: [
-      {
-        type: "address",
-        name: "_user",
-        internalType: "address",
-      },
-      {
-        type: "uint256",
-        name: "n",
-        internalType: "uint256",
-      },
-    ],
-  },
+
   {
     type: "function",
     stateMutability: "view",
@@ -881,135 +490,6 @@ const LockingABI = [
   },
   {
     type: "function",
-    stateMutability: "nonpayable",
-    outputs: [],
-    name: "harvest",
-    inputs: [],
-  },
-  {
-    type: "function",
-    stateMutability: "nonpayable",
-    outputs: [
-      {
-        type: "bool",
-        name: "",
-        internalType: "bool",
-      },
-    ],
-    name: "increaseAllowance",
-    inputs: [
-      {
-        type: "address",
-        name: "spender",
-        internalType: "address",
-      },
-      {
-        type: "uint256",
-        name: "addedValue",
-        internalType: "uint256",
-      },
-    ],
-  },
-  {
-    type: "function",
-    stateMutability: "view",
-    outputs: [
-      {
-        type: "address",
-        name: "",
-        internalType: "address",
-      },
-    ],
-    name: "masterchief",
-    inputs: [],
-  },
-  {
-    type: "function",
-    stateMutability: "view",
-    outputs: [
-      {
-        type: "uint256",
-        name: "",
-        internalType: "uint256",
-      },
-    ],
-    name: "maxSlot",
-    inputs: [],
-  },
-  {
-    type: "function",
-    stateMutability: "view",
-    outputs: [
-      {
-        type: "bool",
-        name: "",
-        internalType: "bool",
-      },
-    ],
-    name: "migrated",
-    inputs: [
-      {
-        type: "address",
-        name: "",
-        internalType: "address",
-      },
-    ],
-  },
-  {
-    type: "function",
-    stateMutability: "view",
-    outputs: [
-      {
-        type: "string",
-        name: "",
-        internalType: "string",
-      },
-    ],
-    name: "name",
-    inputs: [],
-  },
-  {
-    type: "function",
-    stateMutability: "view",
-    outputs: [
-      {
-        type: "address",
-        name: "",
-        internalType: "address",
-      },
-    ],
-    name: "owner",
-    inputs: [],
-  },
-  {
-    type: "function",
-    stateMutability: "nonpayable",
-    outputs: [],
-    name: "pause",
-    inputs: [],
-  },
-  {
-    type: "function",
-    stateMutability: "view",
-    outputs: [
-      {
-        type: "bool",
-        name: "",
-        internalType: "bool",
-      },
-    ],
-    name: "paused",
-    inputs: [],
-  },
-  {
-    type: "function",
-    stateMutability: "nonpayable",
-    outputs: [],
-    name: "renounceOwnership",
-    inputs: [],
-  },
-  {
-    type: "function",
     stateMutability: "view",
     outputs: [
       {
@@ -1021,68 +501,7 @@ const LockingABI = [
     name: "rewarder",
     inputs: [],
   },
-  {
-    type: "function",
-    stateMutability: "nonpayable",
-    outputs: [],
-    name: "setBribeManager",
-    inputs: [
-      {
-        type: "address",
-        name: "_address",
-        internalType: "address",
-      },
-    ],
-  },
-  {
-    type: "function",
-    stateMutability: "nonpayable",
-    outputs: [],
-    name: "setMaxSlots",
-    inputs: [
-      {
-        type: "uint256",
-        name: "_maxDeposits",
-        internalType: "uint256",
-      },
-    ],
-  },
-  {
-    type: "function",
-    stateMutability: "nonpayable",
-    outputs: [],
-    name: "setStrategyStatus",
-    inputs: [
-      {
-        type: "uint256",
-        name: "strategyIndex",
-        internalType: "uint256",
-      },
-      {
-        type: "bool",
-        name: "status",
-        internalType: "bool",
-      },
-    ],
-  },
-  {
-    type: "function",
-    stateMutability: "nonpayable",
-    outputs: [],
-    name: "setWhitelistForTransfer",
-    inputs: [
-      {
-        type: "address",
-        name: "_for",
-        internalType: "address",
-      },
-      {
-        type: "bool",
-        name: "status",
-        internalType: "bool",
-      },
-    ],
-  },
+
   {
     type: "function",
     stateMutability: "nonpayable",
@@ -1178,91 +597,7 @@ const LockingABI = [
     name: "totalUnlocking",
     inputs: [],
   },
-  {
-    type: "function",
-    stateMutability: "nonpayable",
-    outputs: [
-      {
-        type: "bool",
-        name: "",
-        internalType: "bool",
-      },
-    ],
-    name: "transfer",
-    inputs: [
-      {
-        type: "address",
-        name: "recipient",
-        internalType: "address",
-      },
-      {
-        type: "uint256",
-        name: "amount",
-        internalType: "uint256",
-      },
-    ],
-  },
-  {
-    type: "function",
-    stateMutability: "nonpayable",
-    outputs: [
-      {
-        type: "bool",
-        name: "",
-        internalType: "bool",
-      },
-    ],
-    name: "transferFrom",
-    inputs: [
-      {
-        type: "address",
-        name: "sender",
-        internalType: "address",
-      },
-      {
-        type: "address",
-        name: "recipient",
-        internalType: "address",
-      },
-      {
-        type: "uint256",
-        name: "amount",
-        internalType: "uint256",
-      },
-    ],
-  },
-  {
-    type: "function",
-    stateMutability: "nonpayable",
-    outputs: [],
-    name: "transferOwnership",
-    inputs: [
-      {
-        type: "address",
-        name: "newOwner",
-        internalType: "address",
-      },
-    ],
-  },
-  {
-    type: "function",
-    stateMutability: "view",
-    outputs: [
-      {
-        type: "bool",
-        name: "",
-        internalType: "bool",
-      },
-    ],
-    name: "transferWhitelist",
-    inputs: [
-      {
-        type: "address",
-        name: "",
-        internalType: "address",
-      },
-    ],
-  },
+
   {
     type: "function",
     stateMutability: "nonpayable",
@@ -1320,13 +655,7 @@ const LockingABI = [
       },
     ],
   },
-  {
-    type: "function",
-    stateMutability: "nonpayable",
-    outputs: [],
-    name: "unpause",
-    inputs: [],
-  },
+
   {
     type: "function",
     stateMutability: "view",
@@ -1434,57 +763,7 @@ const LockingABI = [
     ],
     anonymous: false,
   },
-  {
-    type: "event",
-    name: "NewDeposit",
-    inputs: [
-      {
-        type: "address",
-        name: "user",
-        indexed: true,
-      },
-      {
-        type: "uint256",
-        name: "timestamp",
-        indexed: true,
-      },
-      {
-        type: "uint256",
-        name: "amount",
-        indexed: false,
-      },
-    ],
-    anonymous: false,
-  },
-  {
-    type: "event",
-    name: "OwnershipTransferred",
-    inputs: [
-      {
-        type: "address",
-        name: "previousOwner",
-        indexed: true,
-      },
-      {
-        type: "address",
-        name: "newOwner",
-        indexed: true,
-      },
-    ],
-    anonymous: false,
-  },
-  {
-    type: "event",
-    name: "Paused",
-    inputs: [
-      {
-        type: "address",
-        name: "account",
-        indexed: false,
-      },
-    ],
-    anonymous: false,
-  },
+
   {
     type: "event",
     name: "ResetSlot",
@@ -1512,28 +791,7 @@ const LockingABI = [
     ],
     anonymous: false,
   },
-  {
-    type: "event",
-    name: "Transfer",
-    inputs: [
-      {
-        type: "address",
-        name: "from",
-        indexed: true,
-      },
-      {
-        type: "address",
-        name: "to",
-        indexed: true,
-      },
-      {
-        type: "uint256",
-        name: "value",
-        indexed: false,
-      },
-    ],
-    anonymous: false,
-  },
+
   {
     type: "event",
     name: "Unlock",
@@ -1556,48 +814,125 @@ const LockingABI = [
     ],
     anonymous: false,
   },
+];
+const LPABI = [
   {
-    type: "event",
-    name: "UnlockStarts",
+    anonymous: false,
     inputs: [
       {
+        indexed: true,
+        internalType: "address",
+        name: "sender",
         type: "address",
-        name: "user",
+      },
+      {
         indexed: true,
+        internalType: "address",
+        name: "recipient",
+        type: "address",
       },
       {
-        type: "uint256",
-        name: "timestamp",
-        indexed: true,
-      },
-      {
-        type: "uint256",
-        name: "amount",
         indexed: false,
+        internalType: "uint256",
+        name: "amount0",
+        type: "uint256",
       },
       {
-        type: "uint256",
-        name: "strategyIndex",
         indexed: false,
+        internalType: "uint256",
+        name: "amount1",
+        type: "uint256",
       },
     ],
-    anonymous: false,
+    name: "Claim",
+    type: "event",
+  },
+
+  {
+    inputs: [
+      { internalType: "address", name: "", type: "address" },
+      { internalType: "address", name: "", type: "address" },
+    ],
+    name: "allowance",
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+    stateMutability: "view",
+    type: "function",
   },
   {
-    type: "event",
-    name: "Unpaused",
     inputs: [
-      {
-        type: "address",
-        name: "account",
-        indexed: false,
-      },
+      { internalType: "address", name: "spender", type: "address" },
+      { internalType: "uint256", name: "amount", type: "uint256" },
     ],
-    anonymous: false,
+    name: "approve",
+    outputs: [{ internalType: "bool", name: "", type: "bool" }],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [{ internalType: "address", name: "", type: "address" }],
+    name: "balanceOf",
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+    stateMutability: "view",
+    type: "function",
+  },
+
+  {
+    inputs: [],
+    name: "decimals",
+    outputs: [{ internalType: "uint8", name: "", type: "uint8" }],
+    stateMutability: "view",
+    type: "function",
+  },
+
+  {
+    inputs: [],
+    name: "reserve0",
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+    stateMutability: "view",
+    type: "function",
+  },
+
+  {
+    inputs: [],
+    name: "reserve1",
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+    stateMutability: "view",
+    type: "function",
+  },
+
+  {
+    inputs: [],
+    name: "token0",
+    outputs: [{ internalType: "address", name: "", type: "address" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "token1",
+    outputs: [{ internalType: "address", name: "", type: "address" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "tokens",
+    outputs: [
+      { internalType: "address", name: "", type: "address" },
+      { internalType: "address", name: "", type: "address" },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "totalSupply",
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+    stateMutability: "view",
+    type: "function",
   },
 ];
-
-const initList = POOLS.map((item) => ({ ...item, stakedAmount: 0, reward: 0 }));
+const initList = POOLS.map((item) => ({ ...item, stakedAmount: 0 }));
 const { toast } = props;
 State.init({
   currentTab: "TAB_POOL",
@@ -1606,205 +941,433 @@ State.init({
   poolsList: initList, //
   slotLength: 0,
   myPoolsList: [],
-  totalDepositAmount: 0,
-  totalRewardsAmount: 0,
-  fresh: 1,
+  // totalDepositAmount: 0,
+  // totalRewardsAmount: 0,
+  // fresh: 1,
   isClaiming: false,
   isAllClaiming: false,
   tokenPrices: "",
-  TVLS: [],
+  lockingTotalSupply: 0,
 });
 const account = Ethers.send("eth_requestAccounts", [])[0];
 
-function initPoolList() {
-  for (let i = 0; i < state.poolsList.length; i++) {
-    const item = state.poolsList[i];
+function formatTime(timestamp) {
+  var date = new Date(timestamp * 1000);
+  var year = date.getFullYear();
+  var month = ("0" + (date.getMonth() + 1)).slice(-2);
+  var day = ("0" + date.getDate()).slice(-2);
+  return year + "/" + month + "/" + day;
+}
+function multiCallV2(abi, calls, options, onSuccess, onError) {
+  // for metis 1088
+  const MULTICALL_ADDRESS = "0xc39aBB6c4451089dE48Cffb013c39d3110530e5C";
+  const MULTICALL_ABI = [
+    {
+      inputs: [
+        { internalType: "bool", name: "requireSuccess", type: "bool" },
+        {
+          components: [
+            { internalType: "address", name: "target", type: "address" },
+            { internalType: "bytes", name: "callData", type: "bytes" },
+          ],
+          internalType: "struct Multicall2.Call[]",
+          name: "calls",
+          type: "tuple[]",
+        },
+      ],
+      name: "tryAggregate",
+      outputs: [
+        {
+          components: [
+            { internalType: "bool", name: "success", type: "bool" },
+            { internalType: "bytes", name: "returnData", type: "bytes" },
+          ],
+          internalType: "struct Multicall2.Result[]",
+          name: "returnData",
+          type: "tuple[]",
+        },
+      ],
+      stateMutability: "nonpayable",
+      type: "function",
+    },
+  ];
+  const MulticallContract = new ethers.Contract(
+    MULTICALL_ADDRESS,
+    MULTICALL_ABI,
+    Ethers.provider().getSigner()
+  );
 
-    if (i === 0) {
+  const { requireSuccess, ...overrides } = options || {};
+  const itf = new ethers.utils.Interface(abi);
+  const calldata = calls.map((call) => ({
+    target: call.address.toLowerCase(),
+    callData: itf.encodeFunctionData(call.name, call.params),
+  }));
+  MulticallContract.callStatic
+    .tryAggregate(requireSuccess || true, calldata, overrides)
+    .then((res) => {
+      onSuccess(
+        res.map((call, i) => {
+          const [result, data] = call;
+          return result && data !== "0x"
+            ? itf.decodeFunctionResult(calls[i].name, data)
+            : null;
+        })
+      );
+    })
+    .catch((err) => {
+      onError?.(err);
+    });
+}
+
+function calcStakedAmount() {
+  const temp = [...state.poolsList];
+  const { totalDeposit, unlocking } = temp[0];
+  if (!isNaN(Number(totalDeposit)) && !isNaN(Number(unlocking))) {
+    temp[0].stakedAmount = `${Big(totalDeposit).minus(Big(unlocking))}`;
+  } else {
+    temp[0].stakedAmount = "-";
+  }
+  State.update({
+    poolsList: temp,
+    // fresh: state.fresh + 1,
+  });
+}
+
+function initPoolList() {
+  for (const item of state.poolsList) {
+    if (item.poolType === "Locking") {
       const temp = [...state.poolsList];
+      getMultiLocking(item);
       // Locking
-      getUserTotalDeposit(item).then((total) => {
-        temp[0].totalDeposit = total;
-        State.update({
-          poolsList: temp,
-          fresh: state.fresh + 1,
-        });
+
+      getLockingClaim(item).then((array) => {
+        if (array.length) {
+          fetchDexPrice("metis", array[0].join()).then((token_prices) => {
+            const _rewards = array[0].reduce((total, addr, index) => {
+              const _amount = ethers.utils.formatUnits(array[1][index]);
+              const _price = token_prices[addr.toLowerCase()];
+              return Big(_amount || 0)
+                .times(Big(_price || 0))
+                .plus(total)
+                .toFixed();
+            }, 0);
+
+            temp[0].rewardAmount = Big(_rewards).toFixed(2);
+            State.update({
+              poolsList: temp,
+              // fresh: state.fresh + 1,
+            });
+          });
+        }
       });
-      getUserUnlocking(item).then((unlocking) => {
-        temp[0].unlocking = unlocking;
-        State.update({
-          poolsList: temp,
-          fresh: state.fresh + 1,
-        });
-      });
-      getUserSlotLength(item).then((slotLength) => {
-        State.update({
-          slotLength,
-        });
-      });
-      getAllUserUnlocking(item);
-      // userUnlockings(item);
-      // getUserRewardPercentage(item);
+    }
+    if (item.poolType === "MasterChief") {
+      getMultiLP(item);
+      getMultiMasterChief(item);
     }
   }
 }
 
-function fetchTokenPrice(tokenIds) {
+function fetchDexPrice(network, addresses) {
   return asyncFetch(
-    `https://api.coingecko.com/api/v3/simple/price?ids=${tokenIds}&vs_currencies=usd`
-  ).then((res) => {
-    if (res.ok) {
-      return res.body;
+    `https://api.geckoterminal.com/api/v2/simple/networks/${network}/token_price/${addresses}`,
+    {
+      headers: {
+        Accept: "application/json;version=20230302",
+      },
     }
-    return 0;
+  )
+    .then((res) => {
+      if (res.ok) {
+        return res.body.data.attributes.token_prices;
+      }
+    })
+    .catch((error) => {
+      console.log("fetchDexPrice_error", error);
+    });
+}
+
+function getLockingClaim(pool) {
+  const myContract = new ethers.Contract(
+    pool.StakingAddress,
+    [
+      {
+        type: "function",
+        stateMutability: "nonpayable",
+        outputs: [
+          {
+            type: "address[]",
+            name: "rewardTokens",
+            internalType: "address[]",
+          },
+          {
+            type: "uint256[]",
+            name: "earnedRewards",
+            internalType: "uint256[]",
+          },
+        ],
+        name: "claimFor",
+        inputs: [
+          {
+            type: "address",
+            name: "_for",
+            internalType: "address",
+          },
+        ],
+      },
+    ],
+    Ethers.provider().getSigner()
+  );
+
+  return myContract.callStatic
+    .claimFor(account)
+    .then((res) => {
+      console.info(
+        res,
+        res[0].join(),
+        res[1].map((item) => item.toString())
+      );
+      return res;
+    })
+    .catch((err) => {
+      console.info("getClaim_error:", err);
+    });
+}
+
+function getMultiMasterChief(pool) {
+  const fns = ["userInfo", "depositInfo"];
+  const calls = fns.map((fn) => {
+    return {
+      address: pool.StakingAddress,
+      name: fn,
+      params: [pool.tokenAddress, account],
+    };
   });
+
+  multiCallV2(
+    [
+      {
+        type: "function",
+        stateMutability: "view",
+        outputs: [
+          {
+            type: "uint256",
+            name: "amount",
+            internalType: "uint256",
+          },
+          {
+            type: "uint256",
+            name: "rewardDebt",
+            internalType: "uint256",
+          },
+          {
+            type: "uint256",
+            name: "available",
+            internalType: "uint256",
+          },
+        ],
+        name: "userInfo",
+        inputs: [
+          {
+            type: "address",
+            name: "",
+            internalType: "address",
+          },
+          {
+            type: "address",
+            name: "",
+            internalType: "address",
+          },
+        ],
+      },
+      {
+        type: "function",
+        stateMutability: "view",
+        outputs: [
+          {
+            type: "uint256",
+            name: "availableAmount",
+            internalType: "uint256",
+          },
+        ],
+        name: "depositInfo",
+        inputs: [
+          {
+            type: "address",
+            name: "_lp",
+            internalType: "address",
+          },
+          {
+            type: "address",
+            name: "_user",
+            internalType: "address",
+          },
+        ],
+      },
+    ],
+    calls,
+    {},
+    (res) => {
+      console.log("getMultiMasterChief res:", res);
+      const temp = [...state.poolsList];
+      const stakedAmount = Big(ethers.utils.formatUnits(res[1][0])).toFixed(2);
+      const reward = ethers.utils.formatUnits(res[0][1]);
+      const athPrice = state.tokenPrices[state.poolsList[0].tokenAddress];
+      const rewardAmount = Big(reward).times(Big(athPrice));
+
+      temp[1].stakedAmount = stakedAmount;
+      temp[1].rewardAmount = rewardAmount.toFixed(2);
+
+      State.update({
+        poolsList: temp,
+      });
+    },
+    (err) => {
+      console.log("multicall_error", err);
+    }
+  );
 }
 
 function getTokenPrices() {
-  const ids = Object.values(COINGECKO_IDS).join();
-  fetchTokenPrice(ids)
-    .then((res) => {
+  const tokenAddresses = state.poolsList
+    .filter((item) => item.poolType === "Locking")
+    .map((item) => item.tokenAddress)
+    .join();
+  fetchDexPrice("metis", tokenAddresses).then((prices) => {
+    State.update({
+      tokenPrices: prices,
+    });
+  });
+}
+
+function getMultiLocking(pool) {
+  const fns = [
+    "getUserTotalDeposit",
+    "userUnlocking",
+    "getUserSlotLength",
+    "totalSupply",
+    "getAllUserUnlocking",
+  ];
+  const calls = fns.map((fn) => {
+    if (fn === "totalSupply") {
+      return {
+        address: pool.StakingAddress,
+        name: fn,
+      };
+    }
+    return {
+      address: pool.StakingAddress,
+      name: fn,
+      params: [account],
+    };
+  });
+
+  multiCallV2(
+    LockingABI,
+    calls,
+    {},
+    (res) => {
+      console.log("getMultiLocking res:", res);
+      const temp = [...state.poolsList];
+      temp[0].totalDeposit = Big(ethers.utils.formatUnits(res[0][0])).toFixed(
+        2
+      );
+      temp[0].unlocking = Big(ethers.utils.formatUnits(res[1][0])).toFixed(2);
+
+      const slotLength = res[2][0].toString();
+      const totalSupply = res[3][0];
+
+      const list = res[4][0].map((item) =>
+        item.map((number, index) => {
+          switch (index) {
+            case 0:
+            case 1:
+              return number;
+            case 2:
+              return Big(ethers.utils.formatUnits(number)).toFixed(2);
+            default:
+              return number;
+          }
+        })
+      );
+
       State.update({
-        tokenPrices: res,
+        lockingTotalSupply: totalSupply,
+        poolsList: temp,
+        slotLength,
+        myPoolsList: list.filter((item) => {
+          return item[2].toString() !== "0.00";
+        }),
       });
-    })
-    .catch((error) => {
-      console.error("getTokenPrices_error: ", error);
-    });
+      calcStakedAmount();
+    },
+    (err) => {
+      console.log("getLockingInfo_error", err);
+    }
+  );
 }
 
-function getUserUnlocking(pool) {
-  const LockingContract = new ethers.Contract(
-    pool.StakingAddress,
-    LockingABI,
-    Ethers.provider()
+function getMultiLP(pool) {
+  const fns = [
+    "reserve0",
+    "reserve1",
+    "totalSupply",
+    "balanceOf",
+    "token0",
+    "token1",
+  ];
+  const calls = fns.map((fn) => {
+    if (fn === "balanceOf") {
+      return {
+        address: pool.tokenAddress,
+        name: fn,
+        params: [pool.StakingAddress],
+      };
+    } else {
+      return {
+        address: pool.tokenAddress,
+        name: fn,
+      };
+    }
+  });
+
+  multiCallV2(
+    LPABI,
+    calls,
+    {},
+    (res) => {
+      const reserve0 = ethers.utils.formatUnits(res[0][0]);
+      const reserve1 = ethers.utils.formatUnits(res[1][0]);
+      const totalSupply = ethers.utils.formatUnits(res[2][0]);
+      const balanceOf = ethers.utils.formatUnits(res[3][0]);
+      const tokenAddresses = res.slice(4);
+
+      fetchDexPrice("metis", tokenAddresses).then((prices) => {
+        const pricesArray = Object.values(prices);
+        const LPPrice = Big(reserve0)
+          .times(pricesArray[0])
+          .plus(Big(reserve1).times(pricesArray[1]))
+          .div(Big(totalSupply));
+
+        const tvl = LPPrice.times(Big(balanceOf)).toFixed(2);
+        const temp = [...state.poolsList];
+        temp[1].tvl = tvl;
+        temp[1].LPPrice = LPPrice.toFixed();
+        State.update({
+          poolsList: temp,
+        });
+      });
+    },
+    (err) => {
+      console.log("multicall_error", err);
+    }
   );
-
-  return LockingContract.userUnlocking(account)
-    .then((res) => {
-      console.log(
-        "userUnlocking: ",
-        res,
-        res.toString(),
-        Big(ethers.utils.formatUnits(res)).toFixed(2)
-      );
-      return Big(ethers.utils.formatUnits(res)).toFixed(2);
-    })
-    .catch((err) => {
-      console.log("getUserUnlocking_error:", err);
-    });
-}
-
-function getUserSlotLength(pool) {
-  const LockingContract = new ethers.Contract(
-    pool.StakingAddress,
-    LockingABI,
-    Ethers.provider()
-  );
-
-  return LockingContract.getUserSlotLength(account)
-    .then((res) => {
-      return res.toString();
-    })
-    .catch((err) => {
-      console.log("getUserSlotLength_error:", err);
-    });
-}
-
-function getAllUserUnlocking(pool) {
-  const LockingContract = new ethers.Contract(
-    pool.StakingAddress,
-    LockingABI,
-    Ethers.provider()
-  );
-
-  return LockingContract.getAllUserUnlocking(account)
-    .then((res) => {
-      console.log(
-        "getAllUserUnlocking: ",
-        res
-        // res.toString(),
-        // Big(ethers.utils.formatUnits(res)).toFixed(2)
-      );
-      // return Big(ethers.utils.formatUnits(res)).toFixed(2);
-    })
-    .catch((err) => {
-      console.log("getAllUserUnlocking_error:", err);
-    });
-}
-
-// function userUnlockings(pool) {
-//   console.log(1111111, Ethers.provider());
-//   console.log(1111111, Ethers);
-//   const LockingContract = new ethers.Contract(
-//     pool.StakingAddress,
-//     LockingABI,
-//     Ethers.provider()
-//   );
-
-//   return LockingContract.userUnlockings(account, 0)
-//     .then((res) => {
-//       console.log(
-//         "22222: ",
-//         res,
-//         res.toString(),
-//         Big(ethers.utils.formatUnits(res)).toFixed(2)
-//       );
-//       return Big(ethers.utils.formatUnits(res)).toFixed(2);
-//     })
-//     .catch((err) => {
-//       console.log("3333:", err);
-//     });
-// }
-
-function getUserTotalDeposit(pool) {
-  const LockingContract = new ethers.Contract(
-    pool.StakingAddress,
-    LockingABI,
-    Ethers.provider()
-  );
-
-  return LockingContract.getUserTotalDeposit(account)
-    .then((res) => {
-      console.log(
-        "getUserTotalDeposit: ",
-        res,
-        res.toString(),
-        Big(ethers.utils.formatUnits(res)).toFixed(2)
-      );
-      return Big(ethers.utils.formatUnits(res)).toFixed(2);
-    })
-    .catch((err) => {
-      console.log("getUserTotalDeposit_error:", err);
-    });
-}
-
-function getUserRewardPercentage(pool) {
-  const LockingContract = new ethers.Contract(
-    pool.StakingAddress,
-    LockingABI,
-    Ethers.provider()
-  );
-
-  return LockingContract.getUserRewardPercentage(account)
-    .then((res) => {
-      console.log(
-        "getUserRewardPercentage: ",
-        res,
-        res.toString()
-        // Big(ethers.utils.formatUnits(res)).toFixed(2)
-      );
-      // return Big(ethers.utils.formatUnits(res)).toFixed(2);
-    })
-    .catch((err) => {
-      console.log("getUserRewardPercentage_error:", err);
-    });
 }
 
 useEffect(() => {
   State.update({ account });
   if (account) {
-    // getUserTotalDeposit("0xD481eD22a20708839aeB7f1d07E1d01cbc526184");
     initPoolList();
   }
 }, [account]);
@@ -1819,9 +1382,20 @@ useEffect(() => {
     .catch(() => {});
 }, []);
 
+// calc tvl for locking
 useEffect(() => {
-  console.log("state:", state.poolsList);
-}, [state.poolsList]);
+  const lockingPrice = state.tokenPrices[POOLS[0].tokenAddress];
+  if (!lockingPrice || !state.lockingTotalSupply) return;
+
+  const lockingTVL = Big(lockingPrice)
+    .times(Big(ethers.utils.formatUnits(state.lockingTotalSupply)))
+    .toFixed(2);
+  const temp = [...state.poolsList];
+  temp[0].tvl = lockingTVL;
+  State.update({
+    poolsList: temp,
+  });
+}, [state.tokenPrices, state.lockingTotalSupply]);
 
 const handleChangeTabs = (value) => {
   State.update({
@@ -1835,98 +1409,74 @@ const switchChain = () => {
   ]);
 };
 
-// const handleClaim = (address) => {
-//   State.update({
-//     isClaiming: true,
-//   });
-//   const ClaimRewardsContract = new ethers.Contract(
-//     address,
-//     [
-//       {
-//         inputs: [
-//           {
-//             internalType: "address",
-//             name: "_account",
-//             type: "address",
-//           },
-//           {
-//             internalType: "bool",
-//             name: "_claimExtras",
-//             type: "bool",
-//           },
-//         ],
-//         name: "getReward",
-//         outputs: [
-//           {
-//             internalType: "bool",
-//             name: "",
-//             type: "bool",
-//           },
-//         ],
-//         stateMutability: "nonpayable",
-//         type: "function",
-//       },
-//     ],
-//     Ethers.provider().getSigner()
-//   );
+function handleReLock(addr, index) {
+  // State.update({
+  //   unstaking: true,
+  // });
 
-//   return ClaimRewardsContract.getReward(account, true)
-//     .then((tx) => {
-//       console.log("tx: ", tx);
-//       tx.wait()
-//         .then((res) => {
-//           const { status, transactionHash } = res;
-//           console.info("tx_res: ", res);
-//           if (status === 1) {
-//             toast.success?.({
-//               title: "Transaction Successful!",
-//               text: `transactionHash ${transactionHash}`,
-//             });
-//           } else {
-//             toast.fail?.({
-//               title: "Transaction Failed!",
-//               text: `transactionHash ${transactionHash}`,
-//             });
-//           }
-//         })
-//         .finally(() => {
-//           State.update({
-//             isClaiming: false,
-//           });
-//         });
-//     })
-//     .catch((err) => {
-//       console.log("getPoolTokens_error:", err);
-//       State.update({
-//         isClaiming: false,
-//       });
-//     });
-// };
-
-// const handleClaimAll = () => {
-//   State.update({
-//     isAllClaiming: true,
-//   });
-//   // let getClaimAllArray = [];
-
-//   // for (let i = 0; i < state.myPoolsList.length; i++) {
-//   //   const addr = state.myPoolsList[i].Rewards_contract_address;
-//   //   getClaimAllArray.push(handleClaim(addr));
-//   // }
-//   // Promise.allSettled(getClaimAllArray)
-//   //   .then((res) => {
-//   //     console.info("getClaimAllArray: ", res);
-//   //   })
-//   //   .catch((error) => {
-//   //     console.info("getClaimAllArray: ", error);
-//   //   })
-//   //   .finally(() => {
-//   //     State.update({
-//   //       isAllClaiming: false,
-//   //     });
-//   //   });
-// };
-
+  const myContract = new ethers.Contract(
+    "0xD481eD22a20708839aeB7f1d07E1d01cbc526184",
+    [
+      {
+        type: "function",
+        stateMutability: "nonpayable",
+        outputs: [],
+        name: "startUnlock",
+        inputs: [
+          {
+            type: "uint256",
+            name: "strategyIndex",
+            internalType: "uint256",
+          },
+          {
+            type: "uint256",
+            name: "amount",
+            internalType: "uint256",
+          },
+          {
+            type: "uint256",
+            name: "slotIndex",
+            internalType: "uint256",
+          },
+        ],
+      },
+    ],
+    Ethers.provider().getSigner()
+  );
+  myContract
+    .startUnlock(0, 0, index)
+    .then((tx) => {
+      console.log("tx: ", tx);
+      tx.wait()
+        .then((res) => {
+          const { status, transactionHash } = res;
+          console.info("tx_res: ", res);
+          if (status === 1) {
+            toast.success?.({
+              title: "Transaction Successful!",
+              text: `transactionHash ${transactionHash}`,
+            });
+          } else {
+            toast.fail?.({
+              title: "Transaction Failed!",
+              text: `transactionHash ${transactionHash}`,
+            });
+          }
+        })
+        .finally(() => {
+          // State.update({
+          //   unstaking: false,
+          // });
+        });
+    })
+    .catch((err) => {
+      // State.update({
+      //   unstaking: false,
+      // });
+      console.log("getPoolTokens_error:", err);
+    });
+}
+// console.log("STATE:", state);
 return (
   <Wrapper>
     <Tabs.Root value={state.currentTab} onValueChange={handleChangeTabs}>
@@ -1972,12 +1522,10 @@ return (
                   CHAIN_ID,
                   LockingABI,
                   slotLength: state.slotLength,
+                  tokenPrices: state.tokenPrices,
                   //
-                  RewardPoolDepositWrapper,
-                  RewardPoolDepositABI,
                   switchChain,
                   // tokenIcons: getPoolIcon(item.tokenAssets),
-                  TVLS: state.TVLS,
                 }}
                 key={item.poolName}
               />
@@ -1986,7 +1534,7 @@ return (
         </Accordion.Root>
       </Tabs.Content>
       <Tabs.Content value="TAB_ASSETS">
-        <AssetsWrapper>
+        {/* <AssetsWrapper>
           <AssetsPanel>
             <div className="as-title">You deposit</div>
             <div className="as-amount">${state.totalDepositAmount}</div>
@@ -1995,7 +1543,7 @@ return (
             <div className="as-title">Claimable Rewards</div>
             <div className="as-action">
               <div className="as-amount">
-                ${state.totalRewardsAmount}
+                ${state.totalRewardsAmount} 
                 <span className="as-sub"></span>
               </div>
               <Widget
@@ -2008,60 +1556,61 @@ return (
                   disabled: !state.myPoolsList.length,
                   onClick: handleClaimAll,
                 }}
-              />
+              /> 
             </div>
-          </AssetsPanel>
-        </AssetsWrapper>
-        <GridContainer className="grid-pool-head">
-          <GridItem>Pool</GridItem>
-          <GridItem>APR</GridItem>
-          <GridItem>You Staked</GridItem>
-          <GridItem>Your rewards</GridItem>
-          <GridItem className="action-item-head">Action</GridItem>
-        </GridContainer>
+          </AssetsPanel> 
+        </AssetsWrapper>*/}
+        {state.myPoolsList.length ? (
+          <GridContainer2 className="grid-pool-head">
+            <GridItem>Start date</GridItem>
+            <GridItem>Amount</GridItem>
+            <GridItem>End date</GridItem>
+            <GridItem>Status</GridItem>
+            <GridItem className="action-item-head">Action</GridItem>
+          </GridContainer2>
+        ) : null}
         <HeadWrapper>
           {state.myPoolsList.length
             ? state.myPoolsList?.map((item, index) => (
                 <PoolItem key={index}>
-                  <GridContainer className="pool-head">
+                  <GridContainer2 className="pool-head">
                     <GridItem>
                       <div className="title-primary">
-                        <Widget
+                        {/* <Widget
                           src="dapdapbos.near/widget/UI.Avatar"
                           props={{ src: TOKENS[tokenAddress].icon }}
-                        />
+                        /> */}
 
-                        <span style={{ marginLeft: 8 }}>{item.poolName}</span>
+                        <span>{formatTime(item[0])}</span>
                       </div>
                     </GridItem>
                     <GridItem>
-                      <div className="title-secondary">%</div>
-                      <div className="title-sub">proj. %</div>
+                      <div className="title-secondary">{item[2]}</div>
+                      {/* <div className="title-sub">{item[1]}</div> */}
                     </GridItem>
                     <GridItem>
                       <div className="title-secondary">
-                        ${item.stakedAmount}
+                        {formatTime(item[1])}
                       </div>
                     </GridItem>
                     <GridItem>
-                      <div className="title-secondary">${item.reward}</div>
-                      <div className="title-sub"></div>
+                      <div className="title-secondary">In progress</div>
                     </GridItem>
                     <GridItem className="action-item">
                       <Widget
                         src="dapdapbos.near/widget/UI.Button"
                         props={{
-                          text: "Claim",
+                          text: "RE-LOCK",
                           type: "green",
                           style: { width: 118 },
-                          loading: state.isClaiming,
+                          // loading: state.isClaiming,
                           onClick: () => {
-                            // handleClaim(item.Rewards_contract_address);
+                            handleReLock(item, index);
                           },
                         }}
                       />
                     </GridItem>
-                  </GridContainer>
+                  </GridContainer2>
                 </PoolItem>
               ))
             : null}
