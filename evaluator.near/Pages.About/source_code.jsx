@@ -27,7 +27,7 @@ return (
 
       </div>
       <div class="text-right">
-        <button class="rounded-lg py-2 px-4 bg-blue-700 hover:bg-blue-800 text-gray-100">
+        <button class="rounded-lg py-2 px-4 bg-blue-600 hover:bg-blue-700 text-gray-100">
           {isAccountRegistered() ? "Continue to the lessons" : "Enroll in the program now"}
         </button>
       </div>
