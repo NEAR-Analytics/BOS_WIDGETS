@@ -159,14 +159,20 @@ return (
       </InputWarpper>
       <Value>
         ≈{" "}
-        <Widget
-          src="dapdapbos.near/widget/Linea.Uniswap.Swap.FormatValue"
-          props={{
-            symbol: props.currency.symbol,
-            amount: props.amount,
-            prev: "$",
-          }}
-        />
+        {props.prices[props.currency.symbol] && props.amount ? (
+          <Widget
+            src="bluebiu.near/widget/Avalanche.Lending.Total"
+            props={{
+              total: Big(props.amount || 0)
+                .mul(props.prices[props.currency.symbol])
+                .toString(),
+              digit: 2,
+              unit: "$",
+            }}
+          />
+        ) : (
+          "-"
+        )}
       </Value>
     </InputField>
     <CurrencyField>
