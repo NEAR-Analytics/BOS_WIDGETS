@@ -8,36 +8,39 @@ function removeMember(member) {
 
 function hasModerator({ account_id }) {
   return (
-    Near.view("devgovgigs.near", "has_moderator", { account_id }) ??
-    null
+    Near.view("devgovgigs.near", "has_moderator", { account_id }) ?? null
   );
 }
 
 function createCommunity({ inputs }) {
-  return Near.call("devgovgigs.near", "create_community", { inputs });
+  return Near.call(
+    "devhub.near",
+    "create_community",
+    { inputs },
+    Big(10).pow(14), // gas
+    Big(2) * Big(10).pow(24) // deposit (2N)
+  );
 }
 
 function getCommunity({ handle }) {
   return (
-    Near.view("devgovgigs.near", "get_community", { handle }) ?? null
+    Near.view("devhub.near", "get_community", { handle }) ?? null
   );
 }
 
 function getFeaturedCommunities() {
-  return (
-    Near.view("devgovgigs.near", "get_featured_communities") ?? null
-  );
+  return Near.view("devgovgigs.near", "get_featured_communities") ?? null;
 }
 
 function setFeaturedCommunities({ handles }) {
-  return Near.call("devgovgigs.near", "set_featured_communities", {
+  return Near.call("devhub.near", "set_featured_communities", {
     handles,
   });
 }
 
 function getAccountCommunityPermissions({ account_id, community_handle }) {
   return (
-    Near.view("devgovgigs.near", "get_account_community_permissions", {
+    Near.view("devhub.near", "get_account_community_permissions", {
       account_id,
       community_handle,
     }) ?? null
@@ -45,21 +48,21 @@ function getAccountCommunityPermissions({ account_id, community_handle }) {
 }
 
 function updateCommunity({ handle, community }) {
-  return Near.call("devgovgigs.near", "update_community", {
+  return Near.call("devhub.near", "update_community", {
     handle,
     community,
   });
 }
 
 function deleteCommunity({ handle }) {
-  return Near.call("devgovgigs.near", "delete_community", { handle });
+  return Near.call("devhub.near", "delete_community", { handle });
 }
 
 /**
  * Sets all addons, for configurating tabs
  */
 function setCommunityAddons({ handle, addons }) {
-  return Near.call("devgovgigs.near", "set_community_addons", {
+  return Near.call("devhub.near", "set_community_addons", {
     handle,
     addons,
   });
@@ -69,7 +72,7 @@ function setCommunityAddons({ handle, addons }) {
  * Sets specific addon, for configuring params
  */
 function setCommunityAddon({ handle, addon }) {
-  return Near.call("devgovgigs.near", "set_community_addon", {
+  return Near.call("devhub.near", "set_community_addon", {
     handle,
     community_addon: addon,
   });
@@ -79,13 +82,11 @@ function setCommunityAddon({ handle, addon }) {
  * Gets all available addons, these are controlled by devhub moderators
  */
 function getAllAddons() {
-  return Near.view("devgovgigs.near", "get_all_addons") ?? null;
+  return Near.view("devhub.near", "get_all_addons") ?? null;
 }
 
 function getAccessControlInfo() {
-  return (
-    Near.view("devgovgigs.near", "get_access_control_info") ?? null
-  );
+  return Near.view("devgovgigs.near", "get_access_control_info") ?? null;
 }
 
 function getAllAuthors() {
@@ -94,7 +95,7 @@ function getAllAuthors() {
 
 function getAllCommunitiesMetadata() {
   return (
-    Near.view("devgovgigs.near", "get_all_communities_metadata") ?? null
+    Near.view("devhub.near", "get_all_communities_metadata") ?? null
   );
 }
 
@@ -117,6 +118,15 @@ function getPostsByLabel({ label }) {
   return (
     Near.view("devgovgigs.near", "get_posts_by_label", {
       label,
+    }) ?? null
+  );
+}
+
+function setCommunitySocialDB({ handle, data }) {
+  return (
+    Near.call("devhub.near", "set_community_socialdb", {
+      handle,
+      data,
     }) ?? null
   );
 }
@@ -170,5 +180,6 @@ return {
   getPost,
   getPostsByAuthor,
   getPostsByLabel,
+  setCommunitySocialDB,
   useQuery,
 };
