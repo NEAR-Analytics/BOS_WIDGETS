@@ -75,13 +75,15 @@ if (parts.length > 2) {
   const escapedPath = path.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
   const regex = `^${escapedPath}(\\..+)?$`;
   const matchingKeys = flattenedKeys.filter((it) => it.match(regex));
+  // return <p>{JSON.stringify(matchingKeys)}</p>;
   data = Social.getr(matchingKeys, "final");
   // remove create.near and widget L0 and L1 from the object
 } else {
   data = Social.getr(path, "final");
 }
 
-return <p>{JSON.stringify(data)}</p>;
+return <p>{JSON.stringify(data)}</p>; // bad data
+
 const showPreview = props.showPreview || false;
 const setSelectedPath = props.setSelectedPath || (() => {});
 const selectedPath = props.selectedPath || "";
