@@ -53,6 +53,7 @@ const {
   dexConfig,
   onSuccess,
   account,
+  prices,
 } = props;
 
 useEffect(() => {
@@ -89,6 +90,7 @@ return (
           dexConfig,
           onSuccess,
           account,
+          prices,
         }}
       />
     ))}
