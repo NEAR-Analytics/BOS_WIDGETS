@@ -371,15 +371,20 @@ return (
       >
         <ActionsWrapper>
           <TriggerShowLabel />
+
           {props.widgets.map((widget, i) => (
             <ActionBlock key={i}>
               <RemoveAction onClick={() => handleRemoveWidget(widget.src, widget.linkId)}>{iconRemoveAction}</RemoveAction>
               <Widget src={widget.src} props={widget.props} />
             </ActionBlock>
           ))}
-        </ActionsWrapper>
 
-        {props.isEditMode ? <ButtonApply onClick={handleApplyClick} /> : <ButtonEdit onClick={handleEditClick} />}
+          {props.isEditMode ? (
+            <ButtonApply onClick={handleApplyClick} />
+          ) : (
+            <ButtonEdit onClick={handleEditClick} />)
+          }
+        </ActionsWrapper>
 
         <ButtonPlus onClick={handleOpenMenu} />
       </TriggerShowPanel>
