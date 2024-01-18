@@ -1,10 +1,10 @@
 const Content = styled.div`
   flex: 1;
+  margin: 8px;
   padding: 20px;
   background-color: #f9f9f9;
-  width: 100%;
+  width: 97.5%;
   overflow: auto;
-  // position: relative;
 `;
 
 const Overlay = styled.div`
@@ -45,7 +45,7 @@ const Column = styled.div`
 
 const layout = props.layout || "LIST";
 const setPath = props.setPath || (() => {});
-const path = props.path || context.accountId;
+const path = props.path || props.src || "create.near/widget";
 const data = Social.getr(path, "final");
 const showPreview = props.showPreview || false;
 const setSelectedPath = props.setSelectedPath || (() => {});
@@ -54,7 +54,7 @@ const selectedPath = props.selectedPath || "";
 console.log(selectedPath);
 
 if (!data) {
-  return <p>Loading...</p>;
+  return "Loading...";
 }
 
 State.init({
@@ -239,6 +239,34 @@ const handleColumnClick = (key) => {
   setActivePath([...state.activePath, key]);
 };
 
+const things = Object.keys(data);
+
+function organizeData(data) {
+  const result = {};
+
+  data.forEach((path) => {
+    const parts = path.split(".");
+    let current = result;
+
+    parts.forEach((part, index) => {
+      if (index === parts.length - 1) {
+        // Last part - it's a file or a leaf node
+        current[part] = path;
+      } else {
+        // Intermediate part - it's a folder
+        if (!current[part] || typeof current[part] === "string") {
+          current[part] = {}; // Initialize as an object if it's not already
+        }
+        current = current[part];
+      }
+    });
+  });
+
+  return result;
+}
+
+const organizedData = organizeData(things);
+
 function RenderData({ data, layout }) {
   switch (layout) {
     case "LIST":
@@ -274,8 +302,8 @@ function RenderData({ data, layout }) {
                             }}
                           >
                             <ItemDetails>
-                              <i className="bi bi-file"></i>
-                              <span>{key.split("/").pop()}</span>{" "}
+                              <i className="bi bi-code"></i>
+                              <span>{key.split(".").pop()}</span>{" "}
                             </ItemDetails>
                             <ItemInfo>
                               <span>{calculateSize(data)}</span>
@@ -416,19 +444,18 @@ function RenderData({ data, layout }) {
   }
 }
 
-function getNestedData(data, pathArray) {
-  return pathArray.reduce((currentData, key) => currentData[key] || {}, data);
+const [expandedFolder, setExpandedFolder] = useState(null);
+
+function toggleFolder(key) {
+  if (expandedFolder === key) {
+    setExpandedFolder(null);
+  } else {
+    setExpandedFolder(key);
+  }
 }
 
 return (
   <Content>
-    <RenderData layout={layout} data={data} />
-    {showPreview && (
-      <Overlay>
-        <div key={selectedPath}>
-          <p>lol it's way to slow to allow preview rn</p>
-        </div>
-      </Overlay>
-    )}
+    <RenderData layout={layout} data={organizedData} />
   </Content>
 );
