@@ -112,7 +112,7 @@ const AccordionContent = styled("Accordion.Content")`
 `;
 //Accordion end
 
-const { data, chainId, account, TOKENS, CHAIN_ID, TVLS } = props;
+const { data, chainId, account, TOKENS, CHAIN_ID } = props;
 const {
   Aura_Pool_ID,
   poolName,
@@ -123,6 +123,7 @@ const {
   Rewards_contract_address,
   Rewards_depositor_contract_address,
   LP_token_address,
+  TVL,
 } = data;
 State.init({
   currentTab: "STAKE_TAB",
@@ -133,7 +134,6 @@ const handleChangeTabs = (value) => {
     currentTab: value,
   });
 };
-// console.info(poolName, "de poo:", data);
 
 const renderPoolIcon = () => {
   if (tokenAssets) {
@@ -152,31 +152,13 @@ const renderPoolIcon = () => {
     });
   }
 };
-function nFormatter(num, digits) {
-  const si = [
-    { value: 1, symbol: "" },
-    { value: 1e3, symbol: "K" },
-    { value: 1e6, symbol: "M" },
-    { value: 1e9, symbol: "G" },
-    { value: 1e12, symbol: "T" },
-    { value: 1e15, symbol: "P" },
-    { value: 1e18, symbol: "E" },
-  ];
-  const rx = /\.0+$|(\.[0-9]*[1-9])0+$/;
-  let i;
-  for (i = si.length - 1; i > 0; i--) {
-    if (Number(num) >= si[i].value) {
-      break;
-    }
-  }
-  return (num / si[i].value).toFixed(digits).replace(rx, "$1") + si[i].symbol;
-}
 
 const simplifyNum = (number) => {
   if (typeof Number(number) !== "number") return 0;
   if (isNaN(Number(number))) return 0;
 
   let str_num;
+
   if (number >= 1e3 && number < 1e6) {
     str_num = number / 1e3;
     return str_num.toFixed(2) + "k";
@@ -184,20 +166,10 @@ const simplifyNum = (number) => {
     str_num = number / 1e6;
     return str_num.toFixed(2) + "m";
   } else {
-    //一千以下
-    return str_num.toFixed(2);
+    return Number(str_num).toFixed(2);
   }
 };
 
-function renderTVL() {
-  const tvl = TVLS?.find((item) => item.Aura_Pool_ID === Aura_Pool_ID).TVL;
-  if (tvl) {
-    // return `$${simplifyNum(86886)}`;
-    return `$${simplifyNum(Big(tvl).toFixed(0))}`;
-  } else {
-    return "-";
-  }
-}
 return (
   <AccordionItem value={poolName}>
     <Accordion.Trigger asChild>
@@ -214,7 +186,7 @@ return (
             <div className="title-sub">proj. %</div>
           </GridItem>
           <GridItem>
-            <div className="title-secondary">{renderTVL()}</div>
+            <div className="title-secondary">${simplifyNum(TVL)}</div>
           </GridItem>
           <GridItem>
             <div className="title-secondary">
