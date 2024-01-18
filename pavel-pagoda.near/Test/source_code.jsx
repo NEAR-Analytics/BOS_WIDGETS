@@ -9,8 +9,7 @@
 // `;
 
 const [msg, setMsg] = useState("");
-const onClick = () => {
-  console.log('msg', msg);
+const handleClick = () => {
   Social.set({
     paulTest: {
       msg,
@@ -32,12 +31,12 @@ const retrievedMsg = Social.get("pavel-pagoda.near/paulTest/msg");
 return (
   <div>
     <textarea value={msg} onChange={(e) => setMsg(e.target.value)} />
-    
-    <button type="button" onClick={onClick}>
+
+    <button type="button" onClick={handleClick}>
       Save
     </button>
     <hr />
     <div>{retrievedMsg}</div>
-      <div>{JSON.stringify(messageEvents)}</div>
+    <div>{JSON.stringify(messageEvents)}</div>
   </div>
 );
