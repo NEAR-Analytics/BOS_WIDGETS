@@ -315,6 +315,8 @@ const ActionBlock = styled.span`
   }
 `;
 
+console.log(context.accountId);
+
 return (
   <OverlayTriggerWrapper onMouseEnter={handleOnMouseEnter}>
     <div style={{ opacity: state.show ? 0 : 1 }} className="OverlayTrigger">
