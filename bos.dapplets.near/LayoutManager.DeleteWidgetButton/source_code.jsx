@@ -25,11 +25,7 @@ const RemoveIcon = (
 );
   
 const RemoveAction = styled.span`
-  position: absolute;
-  right: 0;
-  top: 0;
   cursor: pointer;
-  z-index: 1200;
 
   @keyframes translateAnimationBtn {
     0% {
