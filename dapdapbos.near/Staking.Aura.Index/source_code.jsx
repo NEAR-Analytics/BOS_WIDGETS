@@ -711,258 +711,207 @@ State.init({
   myPoolsList: [],
   totalDepositAmount: 0,
   totalRewardsAmount: 0,
-  fresh: 1,
   isClaiming: false,
   isAllClaiming: false,
   tokenPrices: "",
-  TVLS: [],
+  flag1: false,
+  flag2: false,
+  flag3: false,
+  flag4: false,
 });
 const account = Ethers.send("eth_requestAccounts", [])[0];
 
 function initPoolList() {
-  let getBalanceArray = [];
-  let getPoolTokensArray = [];
-  let getRewardsArray = [];
-  let getRewardsTotalSupplyArray = [];
-  let getBPTArray = [];
-  let getBPTTotalSupplyArray = [];
-
   for (let i = 0; i < state.poolsList.length; i++) {
     const item = state.poolsList[i];
-    getBalanceArray.push(getBalance(item));
-    getPoolTokensArray.push(getPoolTokens(item));
-    getRewardsArray.push(getRewards(item));
-    getBPTArray.push(getBPTBalance(item));
-    getBPTTotalSupplyArray.push(getBPTTotalSupply(item));
-    getRewardsTotalSupplyArray.push(getRewardTotalSupply(item));
-    getRewardRate(item);
+    getMultiRewards(item, i);
+    getMultiLPToken(item, i);
   }
 
-  Promise.allSettled(getBalanceArray).then((res) => {
-    const temp = [...state.poolsList];
-    for (let i = 0; i < res.length; i++) {
-      if (res[i].status === "fulfilled") {
-        temp[i].stakedAmount = res[i].value;
-      } else {
-        temp[i].stakedAmount = 0;
-      }
-    }
-    State.update({
-      poolsList: temp,
-      fresh: state.fresh + 1,
-    });
-  });
+  getMultiPoolTokens();
+}
 
-  Promise.allSettled(getPoolTokensArray).then((res) => {
-    const temp = [...state.poolsList];
-    for (let i = 0; i < res.length; i++) {
-      if (res[i].status === "fulfilled") {
-        const addrArray = res[i].value[0];
-        const tokenBalArray = res[i].value[1];
+function multiCallV2(abi, calls, options, onSuccess, onError) {
+  // for gnosis 100
+  const MULTICALL_ADDRESS = "0xAbd2FE441318a73414e3fa93297D3Bdb036CB2Fa";
+  const MULTICALL_ABI = [
+    {
+      inputs: [
+        { internalType: "bool", name: "requireSuccess", type: "bool" },
+        {
+          components: [
+            { internalType: "address", name: "target", type: "address" },
+            { internalType: "bytes", name: "callData", type: "bytes" },
+          ],
+          internalType: "struct Multicall2.Call[]",
+          name: "calls",
+          type: "tuple[]",
+        },
+      ],
+      name: "tryAggregate",
+      outputs: [
+        {
+          components: [
+            { internalType: "bool", name: "success", type: "bool" },
+            { internalType: "bytes", name: "returnData", type: "bytes" },
+          ],
+          internalType: "struct Multicall2.Result[]",
+          name: "returnData",
+          type: "tuple[]",
+        },
+      ],
+      stateMutability: "nonpayable",
+      type: "function",
+    },
+  ];
+  const MulticallContract = new ethers.Contract(
+    MULTICALL_ADDRESS,
+    MULTICALL_ABI,
+    Ethers.provider().getSigner()
+  );
+
+  const { requireSuccess, ...overrides } = options || {};
+  const itf = new ethers.utils.Interface(abi);
+  const calldata = calls.map((call) => ({
+    target: call.address.toLowerCase(),
+    callData: itf.encodeFunctionData(call.name, call.params),
+  }));
+  MulticallContract.callStatic
+    .tryAggregate(requireSuccess || true, calldata, overrides)
+    .then((res) => {
+      onSuccess(
+        res.map((call, i) => {
+          const [result, data] = call;
+          return result && data !== "0x"
+            ? itf.decodeFunctionResult(calls[i].name, data)
+            : null;
+        })
+      );
+    })
+    .catch((err) => {
+      onError?.(err);
+    });
+}
+function getMultiRewards(pool, index) {
+  const calls = [
+    {
+      address: pool.Rewards_contract_address,
+      name: "balanceOf",
+      params: [account],
+    },
+    {
+      address: pool.Rewards_contract_address,
+      name: "rewardRate",
+    },
+    {
+      address: pool.Rewards_contract_address,
+      name: "totalSupply",
+    },
+    {
+      address: pool.Rewards_contract_address,
+      name: "rewards",
+      params: [account],
+    },
+  ];
+
+  multiCallV2(
+    RewardsContractABI,
+    calls,
+    {},
+    (res) => {
+      console.log("getMultiRewards res:", res);
+      const temp = [...state.poolsList];
+      const [[balance], [rewardRate], [totalSupply], [rewards]] = res;
+
+      temp[index].stakedAmount = Big(
+        ethers.utils.formatUnits(balance) || 0
+      ).toFixed(2);
+      temp[index].rewardTotalSupply = totalSupply;
+      temp[index].reward = Big(ethers.utils.formatUnits(rewards) || 0).toFixed(
+        2
+      );
+      State.update({
+        poolsList: temp,
+        flag1: true,
+      });
+    },
+    (err) => {
+      console.log("multicall_error", err);
+    }
+  );
+}
+
+function getMultiLPToken(pool, index) {
+  const calls = [
+    {
+      address: pool.LP_token_address,
+      name: "balanceOf",
+      params: [account],
+    },
+    {
+      address: pool.LP_token_address,
+      name: "getActualSupply",
+    },
+  ];
+
+  multiCallV2(
+    LPTokenABI,
+    calls,
+    {},
+    (res) => {
+      console.log("getMultiLPToken res:", res);
+      const temp = [...state.poolsList];
+      const [[balance], [totalSupply]] = res;
+
+      temp[index].bptAmount = ethers.utils.formatUnits(balance);
+      temp[index].bptTotalSupply = totalSupply;
+
+      State.update({
+        poolsList: temp,
+        flag2: true,
+      });
+    },
+    (err) => {
+      console.log("multicall_error", err);
+    }
+  );
+}
+
+function getMultiPoolTokens() {
+  const ids = state.poolsList.map((item) => item.Balancer_Pool_ID);
+
+  const calls = ids.map((id) => ({
+    address: PoolContractWrapper,
+    name: "getPoolTokens",
+    params: [id],
+  }));
+  // https://gnosisscan.io/address/0xba12222222228d8ba445958a75a0704d566bf2c8#readContract
+  multiCallV2(
+    PoolContractABI,
+    calls,
+    {},
+    (res) => {
+      console.log("getMultiPoolTokens res:", res);
+      const temp = [...state.poolsList];
+      for (let i = 0; i < res.length; i++) {
+        const addrArray = res[i][0];
+        const tokenBalArray = res[i][1];
         temp[i].tokenAssets = addrArray;
         temp[i].tokenBalance = tokenBalArray;
         temp[i].tokens = addrArray
           ? addrArray.map((addr) => TOKENS[addr].symbol)
           : [];
-      } else {
-        temp[i].tokenAssets = [];
-        temp[i].tokens = [];
       }
+      State.update({
+        poolsList: temp,
+        flag3: true,
+      });
+    },
+    (err) => {
+      console.log("multicall_error", err);
     }
-    State.update({
-      poolsList: temp,
-      fresh: state.fresh + 1,
-    });
-  });
-
-  Promise.allSettled(getRewardsArray).then((res) => {
-    const temp = [...state.poolsList];
-    for (let i = 0; i < res.length; i++) {
-      if (res[i].status === "fulfilled") {
-        temp[i].reward = res[i].value;
-      } else {
-        temp[i].reward = 0;
-      }
-    }
-    State.update({
-      poolsList: temp,
-      fresh: state.fresh + 1,
-    });
-  });
-  Promise.allSettled(getBPTArray).then((res) => {
-    const temp = [...state.poolsList];
-    for (let i = 0; i < res.length; i++) {
-      if (res[i].status === "fulfilled") {
-        temp[i].bptAmount = res[i].value;
-      } else {
-        temp[i].bptAmount = 0;
-      }
-    }
-    State.update({
-      poolsList: temp,
-      fresh: state.fresh + 1,
-    });
-  });
-
-  Promise.allSettled(getBPTTotalSupplyArray).then((res) => {
-    const temp = [...state.poolsList];
-    for (let i = 0; i < res.length; i++) {
-      if (res[i].status === "fulfilled") {
-        temp[i].bptTotalSupply = res[i].value;
-      } else {
-        temp[i].bptTotalSupply = 0;
-      }
-    }
-    State.update({
-      poolsList: temp,
-      fresh: state.fresh + 1,
-    });
-  });
-  Promise.allSettled(getRewardsTotalSupplyArray).then((res) => {
-    const temp = [...state.poolsList];
-    for (let i = 0; i < res.length; i++) {
-      if (res[i].status === "fulfilled") {
-        temp[i].rewardTotalSupply = res[i].value;
-      } else {
-        temp[i].rewardTotalSupply = 0;
-      }
-    }
-    State.update({
-      poolsList: temp,
-      fresh: state.fresh + 1,
-    });
-  });
-}
-
-function getPoolTokens(pool) {
-  // https://gnosisscan.io/address/0xba12222222228d8ba445958a75a0704d566bf2c8#readContract
-  const PoolContract = new ethers.Contract(
-    PoolContractWrapper,
-    PoolContractABI,
-    Ethers.provider()
   );
-  return PoolContract.getPoolTokens(pool.Balancer_Pool_ID)
-    .then((res) => {
-      console.info(
-        pool.poolName,
-        res,
-        res[1].map((item) => ethers.utils.formatUnits(item)),
-        res[2].toString()
-      );
-      return res;
-    })
-    .catch((err) => {
-      console.log("getPoolTokens_error:", err);
-    });
 }
-
-function getBPTBalance(pool) {
-  const PoolContract = new ethers.Contract(
-    pool.LP_token_address,
-    LPTokenABI,
-    Ethers.provider()
-  );
-  return PoolContract.balanceOf(account)
-    .then((res) => {
-      // console.info(
-      //   pool.poolName,
-      //   "BPT: ",
-      //   res,
-      //   ethers.utils.formatUnits(res),
-      //   res.toString()
-      // );
-      return ethers.utils.formatUnits(res);
-    })
-    .catch((err) => {
-      console.log("getBPTBalance_error:", err);
-    });
-}
-function getBPTTotalSupply(pool) {
-  const PoolContract = new ethers.Contract(
-    pool.LP_token_address,
-    LPTokenABI,
-    Ethers.provider()
-  );
-  return PoolContract.getActualSupply()
-    .then((res) => {
-      return res;
-    })
-    .catch((err) => {
-      console.log("getBPTBalance_error:", err);
-    });
-}
-
-function getBalance(pool) {
-  const BalanceContract = new ethers.Contract(
-    pool.Rewards_contract_address,
-    RewardsContractABI,
-    Ethers.provider()
-  );
-  return BalanceContract.balanceOf(account)
-    .then((res) => {
-      // console.log(
-      //   "getBalance: ",
-      //   res,
-      //   res.toString(),
-      //   Big(ethers.utils.formatUnits(res)).toFixed(2)
-      // );
-      return Big(ethers.utils.formatUnits(res) || 0).toFixed(2);
-    })
-    .catch((err) => {
-      console.log("getBalance_error:", err);
-    });
-}
-function getRewardRate(pool) {
-  const RewardContract = new ethers.Contract(
-    pool.Rewards_contract_address,
-    RewardsContractABI,
-    Ethers.provider()
-  );
-  return RewardContract.rewardRate()
-    .then((res) => {
-      // console.log(
-      //   111111111,
-      //   pool.poolName,
-      //   res,
-      //   ethers.utils.formatUnits(res),
-      //   ethers.utils.formatUnits(res) * (86_400 * 365) * 11.44
-      // );
-    })
-    .catch((err) => {
-      console.log("getBalance_error:", err);
-    });
-}
-function getRewardTotalSupply(pool) {
-  const RewardContract = new ethers.Contract(
-    pool.Rewards_contract_address,
-    RewardsContractABI,
-    Ethers.provider()
-  );
-  return RewardContract.totalSupply()
-    .then((res) => {
-      console.log(pool.poolName, "totalSupply", res, res.toString());
-
-      return res;
-    })
-    .catch((err) => {
-      console.log("getBalance_error:", err);
-    });
-}
-
-const getRewards = (pool) => {
-  const RewardsContract = new ethers.Contract(
-    pool.Rewards_contract_address,
-    RewardsContractABI,
-    Ethers.provider()
-  );
-  return RewardsContract.rewards(account)
-    .then((res) => {
-      return Big(ethers.utils.formatUnits(res) || 0).toFixed(2);
-    })
-    .catch((err) => {
-      console.log("currentRewards_err:", err);
-    });
-};
 
 function fetchTokenPrice(tokenIds) {
   return asyncFetch(
@@ -981,6 +930,7 @@ function getTokenPrices() {
     .then((res) => {
       State.update({
         tokenPrices: res,
+        flag4: true,
       });
     })
     .catch((error) => {
@@ -993,8 +943,16 @@ function calcTVL() {
   for (let i = 0; i < temp.length; i++) {
     const tokens = temp[i].tokens;
     const tokenBalance = temp[i].tokenBalance;
+    const bptTotalSupply = temp[i].bptTotalSupply;
+    const rewardTotalSupply = temp[i].rewardTotalSupply;
 
-    if (tokens && tokenBalance && state.tokenPrices) {
+    if (
+      tokens &&
+      tokenBalance &&
+      state.tokenPrices &&
+      bptTotalSupply &&
+      rewardTotalSupply
+    ) {
       try {
         const sum = tokens?.reduce((total, cur, j) => {
           if (cur) {
@@ -1013,25 +971,17 @@ function calcTVL() {
           }
         }, 0);
 
-        const bptPriceUsd = Big(sum).div(Big(temp[i].bptTotalSupply));
-        temp[i].poolValueUsd = sum;
+        const bptPriceUsd = Big(sum).div(Big(bptTotalSupply));
+
+        // temp[i].poolValueUsd = sum;
         temp[i].bptPriceUsd = bptPriceUsd;
-        temp[i].TVL = Big(temp[i].rewardTotalSupply)
-          .times(bptPriceUsd)
-          .toString();
+
+        temp[i].TVL = Big(rewardTotalSupply).times(bptPriceUsd).toFixed(0);
       } catch (error) {
         console.log("calcTVL_error", error);
       }
     }
   }
-
-  const tvls = temp.map((item) => ({
-    Aura_Pool_ID: item.Aura_Pool_ID,
-    TVL: item.TVL,
-  }));
-  State.update({
-    TVLS: tvls,
-  });
 }
 
 useEffect(() => {
@@ -1053,31 +1003,43 @@ useEffect(() => {
 
 useEffect(() => {
   if (state.chainId === CHAIN_ID) {
-    console.log("POOLS_LIST: ", state, state.poolsList, state.tokenPrices);
-    const totalDepositAmount = state.poolsList.reduce((total, cur) => {
-      return Big(cur.stakedAmount || 0)
-        .plus(total)
-        .toFixed(2);
-    }, 0);
-    const totalRewardsAmount = state.poolsList.reduce((total, cur) => {
-      return Big(cur.reward || 0)
-        .plus(total)
-        .toFixed(2);
-    }, 0);
-
-    const temp = state.poolsList.filter((item) =>
-      Big(item.stakedAmount || 0).gt(0)
+    console.log(
+      "----------------",
+      state.flag1,
+      state.flag2,
+      state.flag3,
+      state.flag4,
+      state
     );
+    if (state.flag1 && state.flag2 && state.flag3 && state.flag4) {
+      try {
+        const totalDepositAmount = state.poolsList.reduce((total, cur) => {
+          return Big(cur.stakedAmount || 0)
+            .plus(total)
+            .toFixed(2);
+        }, 0);
+        const totalRewardsAmount = state.poolsList.reduce((total, cur) => {
+          return Big(cur.reward || 0)
+            .plus(total)
+            .toFixed(2);
+        }, 0);
 
-    calcTVL();
+        const temp = state.poolsList.filter((item) =>
+          Big(item.stakedAmount || 0).gt(0)
+        );
 
-    State.update({
-      totalDepositAmount,
-      totalRewardsAmount,
-      myPoolsList: temp,
-    });
+        calcTVL();
+        State.update({
+          totalDepositAmount,
+          totalRewardsAmount,
+          myPoolsList: temp,
+        });
+      } catch (error) {
+        console.log(333, error);
+      }
+    }
   }
-}, [state.poolsList, state.fresh, state.tokenPrices]);
+}, [state.flag1, state.flag2, state.flag3, state.flag4]);
 
 const handleChangeTabs = (value) => {
   State.update({
@@ -1093,18 +1055,7 @@ const getPoolIcon = (tokenAssets) => {
     return [];
   }
 };
-// const renderPoolIcon = (tokenAssets) => {
-//   const icons = getPoolIcon(tokenAssets);
-//   return (
-//     <Widget
-//       src="dapdapbos.near/widget/UI.AvatarGroup"
-//       props={{
-//         icons,
-//         size: 26,
-//       }}
-//     />
-//   );
-// };
+
 const renderPoolIcon = () => {
   const icons = getPoolIcon(tokenAssets);
   if (icons) {
@@ -1221,7 +1172,7 @@ const handleClaimAll = () => {
       });
     });
 };
-
+console.info("STATE: ", state);
 return (
   <Wrapper>
     <Tabs.Root value={state.currentTab} onValueChange={handleChangeTabs}>
@@ -1269,7 +1220,6 @@ return (
                   RewardPoolDepositABI,
                   switchChain,
                   tokenIcons: getPoolIcon(item.tokenAssets),
-                  TVLS: state.TVLS,
                 }}
                 key={item.poolName}
               />
