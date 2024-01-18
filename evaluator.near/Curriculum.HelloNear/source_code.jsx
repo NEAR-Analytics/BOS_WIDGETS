@@ -1,5 +1,5 @@
 const { userAccountId } = props;
-const { evaluation_name, evaluation_method, accent_color, text } = VM.require('evaluator.near/widget/Curriculum.HelloNearMD')
+const { evaluationName, evaluationMethod, accentColor, text } = VM.require('evaluator.near/widget/Curriculum.HelloNearMD')
 
 const Wrapper = styled.div`
   h1 {
@@ -7,7 +7,7 @@ const Wrapper = styled.div`
     font-size: 3.75rem;
     line-height: 1; 
     font-weight: 700; 
-    background-color: ${accent_color};
+    background-color: ${accentColor};
   }
 
   h3 {
@@ -20,7 +20,7 @@ const Wrapper = styled.div`
     display: inline-block;
     background-color: #1F2937; 
     color: #F3F4F6; 
-    padding: 0.25rem 0;
+    padding-right: 0.25rem; 
   }
 
   ul {
@@ -36,12 +36,20 @@ const Wrapper = styled.div`
     color: #1D4ED8; 
     text-decoration: underline; 
   }
+
+  code {
+    font-family: Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; 
+    font-size: 0.875rem;
+    line-height: 1.25rem; 
+    -webkit-font-smoothing: auto;
+    -moz-osx-font-smoothing: auto; 
+  }
 `;
 
 return <>
   <Wrapper>
-    <Markdown text={text} props={{ userAccountId }} />
+    <Markdown text={text} />
   </Wrapper>
-  <Widget src="evaluator.near/widget/Evaluate" props={{ evaluation_method, userAccountId }} />
-  <div class="h-1 mt-4" style={{ background: `${accent_color}` }}></div >
+  <Widget src="evaluator.near/widget/Evaluate" props={{ evaluationMethod, userAccountId }} />
+  <div class="h-1 mt-4" style={{ background: `${accentColor}` }}></div >
 </>
