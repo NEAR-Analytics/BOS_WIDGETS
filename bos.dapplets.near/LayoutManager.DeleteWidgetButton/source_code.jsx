@@ -24,6 +24,34 @@ const RemoveIcon = (
     </svg>
 );
   
+const RemoveAction = styled.span`
+  position: absolute;
+  right: 0;
+  top: 0;
+  cursor: pointer;
+  z-index: 1200;
+
+  @keyframes translateAnimationBtn {
+    0% {
+      opacity: 0;
+    }
+    50% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+
+  animation: translateAnimationBtn 0.5s linear forwards;
+  transition: all 0.3s;
+
+  &:hover {
+    svg {
+      transform: scale(1.2);
+    }
+  }
+`;
 
 return (
     <RemoveAction onClick={() => props.onClick}>
