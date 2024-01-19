@@ -64,7 +64,7 @@ const layout = props.layout || "LIST";
 const setPath = props.setPath || (() => {});
 const path = props.path || props.src || "create.near/widget/GitBos";
 
-let data;
+let data = null;
 const parts = path.split("/");
 if (parts.length > 2) {
   parts.pop();
