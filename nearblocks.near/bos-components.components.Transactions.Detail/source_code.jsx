@@ -4,11 +4,11 @@
  * License: Business Source License 1.1
  * Description: Details of specific Transaction on Near Protocol.
  * @interface Props
- * @param {boolean} [loading] - Indicates whether data is currently loading.
  * @param {string} [network] - The network data to show, either mainnet or testnet
+ * @param {Function} [t] - A function for internationalization (i18n) provided by the next-translate package.
+ * @param {boolean} [loading] - Indicates whether data is currently loading.
  * @param {TransactionInfo} [txn] - Information related to a transaction.
  * @param {RPCTransactionInfo} [rpcTxn] - RPC data of the transaction.
- * @param {Function} [t] - A function for internationalization (i18n) provided by the next-translate package.
  */
 
 
@@ -43,6 +43,7 @@ function getConfig(network) {
       return {};
   }
 }
+
 function debounce(
   delay,
   func,
@@ -99,6 +100,19 @@ function shortenAddress(address) {
   if (string.length <= 20) return string;
 
   return `${string.substr(0, 10)}...${string.substr(-7)}`;
+}
+
+function urlHostName(url) {
+  try {
+    const domain = new URL(url);
+    return domain?.hostname ?? null;
+  } catch (e) {
+    return null;
+  }
+}
+
+function holderPercentage(supply, quantity) {
+  return Math.min(Big(quantity).div(Big(supply)).mul(Big(100)).toFixed(2), 100);
 }
 /* END_INCLUDE: "includes/libs.jsx" */
 
@@ -161,6 +175,7 @@ function getConfig(network) {
       return {};
   }
 }
+
 function debounce(
   delay,
   func,
@@ -217,6 +232,19 @@ function shortenAddress(address) {
   if (string.length <= 20) return string;
 
   return `${string.substr(0, 10)}...${string.substr(-7)}`;
+}
+
+function urlHostName(url) {
+  try {
+    const domain = new URL(url);
+    return domain?.hostname ?? null;
+  } catch (e) {
+    return null;
+  }
+}
+
+function holderPercentage(supply, quantity) {
+  return Math.min(Big(quantity).div(Big(supply)).mul(Big(100)).toFixed(2), 100);
 }
 /* END_INCLUDE: "includes/libs.jsx" */
 
@@ -295,6 +323,7 @@ function getConfig(network) {
       return {};
   }
 }
+
 function debounce(
   delay,
   func,
@@ -351,6 +380,19 @@ function shortenAddress(address) {
   if (string.length <= 20) return string;
 
   return `${string.substr(0, 10)}...${string.substr(-7)}`;
+}
+
+function urlHostName(url) {
+  try {
+    const domain = new URL(url);
+    return domain?.hostname ?? null;
+  } catch (e) {
+    return null;
+  }
+}
+
+function holderPercentage(supply, quantity) {
+  return Math.min(Big(quantity).div(Big(supply)).mul(Big(100)).toFixed(2), 100);
 }
 /* END_INCLUDE: "includes/libs.jsx" */
 
@@ -441,6 +483,7 @@ function getConfig(network) {
       return {};
   }
 }
+
 function debounce(
   delay,
   func,
@@ -498,12 +541,38 @@ function shortenAddress(address) {
 
   return `${string.substr(0, 10)}...${string.substr(-7)}`;
 }
+
+function urlHostName(url) {
+  try {
+    const domain = new URL(url);
+    return domain?.hostname ?? null;
+  } catch (e) {
+    return null;
+  }
+}
+
+function holderPercentage(supply, quantity) {
+  return Math.min(Big(quantity).div(Big(supply)).mul(Big(100)).toFixed(2), 100);
+}
 function shortenAddress(address) {
   const string = String(address);
 
   if (string.length <= 20) return string;
 
   return `${string.substr(0, 10)}...${string.substr(-7)}`;
+}
+
+function urlHostName(url) {
+  try {
+    const domain = new URL(url);
+    return domain?.hostname ?? null;
+  } catch (e) {
+    return null;
+  }
+}
+
+function holderPercentage(supply, quantity) {
+  return Math.min(Big(quantity).div(Big(supply)).mul(Big(100)).toFixed(2), 100);
 }
 /* END_INCLUDE: "includes/libs.jsx" */
 
@@ -584,6 +653,7 @@ function getConfig(network) {
       return {};
   }
 }
+
 function debounce(
   delay,
   func,
@@ -641,12 +711,38 @@ function shortenAddress(address) {
 
   return `${string.substr(0, 10)}...${string.substr(-7)}`;
 }
+
+function urlHostName(url) {
+  try {
+    const domain = new URL(url);
+    return domain?.hostname ?? null;
+  } catch (e) {
+    return null;
+  }
+}
+
+function holderPercentage(supply, quantity) {
+  return Math.min(Big(quantity).div(Big(supply)).mul(Big(100)).toFixed(2), 100);
+}
 function shortenAddress(address) {
   const string = String(address);
 
   if (string.length <= 20) return string;
 
   return `${string.substr(0, 10)}...${string.substr(-7)}`;
+}
+
+function urlHostName(url) {
+  try {
+    const domain = new URL(url);
+    return domain?.hostname ?? null;
+  } catch (e) {
+    return null;
+  }
+}
+
+function holderPercentage(supply, quantity) {
+  return Math.min(Big(quantity).div(Big(supply)).mul(Big(100)).toFixed(2), 100);
 }
 /* END_INCLUDE: "includes/libs.jsx" */
 
@@ -727,6 +823,7 @@ function getConfig(network) {
       return {};
   }
 }
+
 function debounce(
   delay,
   func,
@@ -784,12 +881,38 @@ function shortenAddress(address) {
 
   return `${string.substr(0, 10)}...${string.substr(-7)}`;
 }
+
+function urlHostName(url) {
+  try {
+    const domain = new URL(url);
+    return domain?.hostname ?? null;
+  } catch (e) {
+    return null;
+  }
+}
+
+function holderPercentage(supply, quantity) {
+  return Math.min(Big(quantity).div(Big(supply)).mul(Big(100)).toFixed(2), 100);
+}
 function shortenAddress(address) {
   const string = String(address);
 
   if (string.length <= 20) return string;
 
   return `${string.substr(0, 10)}...${string.substr(-7)}`;
+}
+
+function urlHostName(url) {
+  try {
+    const domain = new URL(url);
+    return domain?.hostname ?? null;
+  } catch (e) {
+    return null;
+  }
+}
+
+function holderPercentage(supply, quantity) {
+  return Math.min(Big(quantity).div(Big(supply)).mul(Big(100)).toFixed(2), 100);
 }
 /* END_INCLUDE: "includes/libs.jsx" */
 
@@ -870,6 +993,7 @@ function getConfig(network) {
       return {};
   }
 }
+
 function debounce(
   delay,
   func,
@@ -927,12 +1051,38 @@ function shortenAddress(address) {
 
   return `${string.substr(0, 10)}...${string.substr(-7)}`;
 }
+
+function urlHostName(url) {
+  try {
+    const domain = new URL(url);
+    return domain?.hostname ?? null;
+  } catch (e) {
+    return null;
+  }
+}
+
+function holderPercentage(supply, quantity) {
+  return Math.min(Big(quantity).div(Big(supply)).mul(Big(100)).toFixed(2), 100);
+}
 function shortenAddress(address) {
   const string = String(address);
 
   if (string.length <= 20) return string;
 
   return `${string.substr(0, 10)}...${string.substr(-7)}`;
+}
+
+function urlHostName(url) {
+  try {
+    const domain = new URL(url);
+    return domain?.hostname ?? null;
+  } catch (e) {
+    return null;
+  }
+}
+
+function holderPercentage(supply, quantity) {
+  return Math.min(Big(quantity).div(Big(supply)).mul(Big(100)).toFixed(2), 100);
 }
 /* END_INCLUDE: "includes/libs.jsx" */
 
@@ -1013,6 +1163,7 @@ function getConfig(network) {
       return {};
   }
 }
+
 function debounce(
   delay,
   func,
@@ -1070,12 +1221,38 @@ function shortenAddress(address) {
 
   return `${string.substr(0, 10)}...${string.substr(-7)}`;
 }
+
+function urlHostName(url) {
+  try {
+    const domain = new URL(url);
+    return domain?.hostname ?? null;
+  } catch (e) {
+    return null;
+  }
+}
+
+function holderPercentage(supply, quantity) {
+  return Math.min(Big(quantity).div(Big(supply)).mul(Big(100)).toFixed(2), 100);
+}
 function shortenAddress(address) {
   const string = String(address);
 
   if (string.length <= 20) return string;
 
   return `${string.substr(0, 10)}...${string.substr(-7)}`;
+}
+
+function urlHostName(url) {
+  try {
+    const domain = new URL(url);
+    return domain?.hostname ?? null;
+  } catch (e) {
+    return null;
+  }
+}
+
+function holderPercentage(supply, quantity) {
+  return Math.min(Big(quantity).div(Big(supply)).mul(Big(100)).toFixed(2), 100);
 }
 /* END_INCLUDE: "includes/libs.jsx" */
 
@@ -1156,6 +1333,7 @@ function getConfig(network) {
       return {};
   }
 }
+
 function debounce(
   delay,
   func,
@@ -1213,12 +1391,38 @@ function shortenAddress(address) {
 
   return `${string.substr(0, 10)}...${string.substr(-7)}`;
 }
+
+function urlHostName(url) {
+  try {
+    const domain = new URL(url);
+    return domain?.hostname ?? null;
+  } catch (e) {
+    return null;
+  }
+}
+
+function holderPercentage(supply, quantity) {
+  return Math.min(Big(quantity).div(Big(supply)).mul(Big(100)).toFixed(2), 100);
+}
 function shortenAddress(address) {
   const string = String(address);
 
   if (string.length <= 20) return string;
 
   return `${string.substr(0, 10)}...${string.substr(-7)}`;
+}
+
+function urlHostName(url) {
+  try {
+    const domain = new URL(url);
+    return domain?.hostname ?? null;
+  } catch (e) {
+    return null;
+  }
+}
+
+function holderPercentage(supply, quantity) {
+  return Math.min(Big(quantity).div(Big(supply)).mul(Big(100)).toFixed(2), 100);
 }
 /* END_INCLUDE: "includes/libs.jsx" */
 
@@ -1300,6 +1504,7 @@ function getConfig(network) {
       return {};
   }
 }
+
 function debounce(
   delay,
   func,
@@ -1357,12 +1562,38 @@ function shortenAddress(address) {
 
   return `${string.substr(0, 10)}...${string.substr(-7)}`;
 }
+
+function urlHostName(url) {
+  try {
+    const domain = new URL(url);
+    return domain?.hostname ?? null;
+  } catch (e) {
+    return null;
+  }
+}
+
+function holderPercentage(supply, quantity) {
+  return Math.min(Big(quantity).div(Big(supply)).mul(Big(100)).toFixed(2), 100);
+}
 function shortenAddress(address) {
   const string = String(address);
 
   if (string.length <= 20) return string;
 
   return `${string.substr(0, 10)}...${string.substr(-7)}`;
+}
+
+function urlHostName(url) {
+  try {
+    const domain = new URL(url);
+    return domain?.hostname ?? null;
+  } catch (e) {
+    return null;
+  }
+}
+
+function holderPercentage(supply, quantity) {
+  return Math.min(Big(quantity).div(Big(supply)).mul(Big(100)).toFixed(2), 100);
 }
 /* END_INCLUDE: "includes/libs.jsx" */
 
@@ -1499,6 +1730,19 @@ function shortenAddress(address) {
 
   return `${string.substr(0, 10)}...${string.substr(-7)}`;
 }
+
+function urlHostName(url) {
+  try {
+    const domain = new URL(url);
+    return domain?.hostname ?? null;
+  } catch (e) {
+    return null;
+  }
+}
+
+function holderPercentage(supply, quantity) {
+  return Math.min(Big(quantity).div(Big(supply)).mul(Big(100)).toFixed(2), 100);
+}
 /* END_INCLUDE: "includes/libs.jsx" */
 
 const CreateAccount = (props) => {
@@ -1539,6 +1783,19 @@ function shortenAddress(address) {
   if (string.length <= 20) return string;
 
   return `${string.substr(0, 10)}...${string.substr(-7)}`;
+}
+
+function urlHostName(url) {
+  try {
+    const domain = new URL(url);
+    return domain?.hostname ?? null;
+  } catch (e) {
+    return null;
+  }
+}
+
+function holderPercentage(supply, quantity) {
+  return Math.min(Big(quantity).div(Big(supply)).mul(Big(100)).toFixed(2), 100);
 }
 /* END_INCLUDE: "includes/libs.jsx" */
 
@@ -1582,6 +1839,19 @@ function shortenAddress(address) {
 
   return `${string.substr(0, 10)}...${string.substr(-7)}`;
 }
+
+function urlHostName(url) {
+  try {
+    const domain = new URL(url);
+    return domain?.hostname ?? null;
+  } catch (e) {
+    return null;
+  }
+}
+
+function holderPercentage(supply, quantity) {
+  return Math.min(Big(quantity).div(Big(supply)).mul(Big(100)).toFixed(2), 100);
+}
 /* END_INCLUDE: "includes/libs.jsx" */
 
 
@@ -1619,13 +1889,13 @@ const DeployContract = (props) => {
 /* INCLUDE: "includes/libs.jsx" */
 function yoctoToNear(yocto, format) {
   const YOCTO_PER_NEAR = Big(10).pow(24).toString();
+
   const near = Big(yocto).div(YOCTO_PER_NEAR).toString();
 
   return format ? localFormat(near) : near;
 }
 
 function fiatValue(big, price) {
-  // @ts-ignore
   const value = Big(big).mul(Big(price)).toString();
   const formattedNumber = Number(value).toLocaleString('en', {
     minimumFractionDigits: 2,
@@ -1667,6 +1937,7 @@ function getConfig(network) {
       return {};
   }
 }
+
 function debounce(
   delay,
   func,
@@ -1723,6 +1994,19 @@ function shortenAddress(address) {
   if (string.length <= 20) return string;
 
   return `${string.substr(0, 10)}...${string.substr(-7)}`;
+}
+
+function urlHostName(url) {
+  try {
+    const domain = new URL(url);
+    return domain?.hostname ?? null;
+  } catch (e) {
+    return null;
+  }
+}
+
+function holderPercentage(supply, quantity) {
+  return Math.min(Big(quantity).div(Big(supply)).mul(Big(100)).toFixed(2), 100);
 }
 function localFormat(number) {
   const formattedNumber = Number(number).toLocaleString('en', {
@@ -1774,15 +2058,28 @@ function shortenAddress(address) {
 
   return `${string.substr(0, 10)}...${string.substr(-7)}`;
 }
+
+function urlHostName(url) {
+  try {
+    const domain = new URL(url);
+    return domain?.hostname ?? null;
+  } catch (e) {
+    return null;
+  }
+}
+
+function holderPercentage(supply, quantity) {
+  return Math.min(Big(quantity).div(Big(supply)).mul(Big(100)).toFixed(2), 100);
+}
 function yoctoToNear(yocto, format) {
   const YOCTO_PER_NEAR = Big(10).pow(24).toString();
+
   const near = Big(yocto).div(YOCTO_PER_NEAR).toString();
 
   return format ? localFormat(near) : near;
 }
 
 function fiatValue(big, price) {
-  // @ts-ignore
   const value = Big(big).mul(Big(price)).toString();
   const formattedNumber = Number(value).toLocaleString('en', {
     minimumFractionDigits: 2,
@@ -1824,6 +2121,7 @@ function getConfig(network) {
       return {};
   }
 }
+
 function debounce(
   delay,
   func,
@@ -1880,6 +2178,19 @@ function shortenAddress(address) {
   if (string.length <= 20) return string;
 
   return `${string.substr(0, 10)}...${string.substr(-7)}`;
+}
+
+function urlHostName(url) {
+  try {
+    const domain = new URL(url);
+    return domain?.hostname ?? null;
+  } catch (e) {
+    return null;
+  }
+}
+
+function holderPercentage(supply, quantity) {
+  return Math.min(Big(quantity).div(Big(supply)).mul(Big(100)).toFixed(2), 100);
 }
 function localFormat(number) {
   const formattedNumber = Number(number).toLocaleString('en', {
@@ -2202,6 +2513,7 @@ function truncateString(str, maxLength, suffix) {
 }
 function yoctoToNear(yocto, format) {
   const YOCTO_PER_NEAR = Big(10).pow(24).toString();
+
   const near = Big(yocto).div(YOCTO_PER_NEAR).toString();
 
   return format ? localFormat(near) : near;
@@ -2214,6 +2526,7 @@ function truncateString(str, maxLength, suffix) {
 }
 function yoctoToNear(yocto, format) {
   const YOCTO_PER_NEAR = Big(10).pow(24).toString();
+
   const near = Big(yocto).div(YOCTO_PER_NEAR).toString();
 
   return format ? localFormat(near) : near;
@@ -2226,6 +2539,7 @@ function truncateString(str, maxLength, suffix) {
 }
 function yoctoToNear(yocto, format) {
   const YOCTO_PER_NEAR = Big(10).pow(24).toString();
+
   const near = Big(yocto).div(YOCTO_PER_NEAR).toString();
 
   return format ? localFormat(near) : near;
@@ -2494,6 +2808,7 @@ function truncateString(str, maxLength, suffix) {
 }
 function yoctoToNear(yocto, format) {
   const YOCTO_PER_NEAR = Big(10).pow(24).toString();
+
   const near = Big(yocto).div(YOCTO_PER_NEAR).toString();
 
   return format ? localFormat(near) : near;
@@ -2506,6 +2821,7 @@ function truncateString(str, maxLength, suffix) {
 }
 function yoctoToNear(yocto, format) {
   const YOCTO_PER_NEAR = Big(10).pow(24).toString();
+
   const near = Big(yocto).div(YOCTO_PER_NEAR).toString();
 
   return format ? localFormat(near) : near;
@@ -2518,6 +2834,7 @@ function truncateString(str, maxLength, suffix) {
 }
 function yoctoToNear(yocto, format) {
   const YOCTO_PER_NEAR = Big(10).pow(24).toString();
+
   const near = Big(yocto).div(YOCTO_PER_NEAR).toString();
 
   return format ? localFormat(near) : near;
@@ -2813,6 +3130,7 @@ function truncateString(str, maxLength, suffix) {
 }
 function yoctoToNear(yocto, format) {
   const YOCTO_PER_NEAR = Big(10).pow(24).toString();
+
   const near = Big(yocto).div(YOCTO_PER_NEAR).toString();
 
   return format ? localFormat(near) : near;
@@ -2825,6 +3143,7 @@ function truncateString(str, maxLength, suffix) {
 }
 function yoctoToNear(yocto, format) {
   const YOCTO_PER_NEAR = Big(10).pow(24).toString();
+
   const near = Big(yocto).div(YOCTO_PER_NEAR).toString();
 
   return format ? localFormat(near) : near;
@@ -2837,6 +3156,7 @@ function truncateString(str, maxLength, suffix) {
 }
 function yoctoToNear(yocto, format) {
   const YOCTO_PER_NEAR = Big(10).pow(24).toString();
+
   const near = Big(yocto).div(YOCTO_PER_NEAR).toString();
 
   return format ? localFormat(near) : near;
@@ -3047,6 +3367,7 @@ function truncateString(str, maxLength, suffix) {
 }
 function yoctoToNear(yocto, format) {
   const YOCTO_PER_NEAR = Big(10).pow(24).toString();
+
   const near = Big(yocto).div(YOCTO_PER_NEAR).toString();
 
   return format ? localFormat(near) : near;
@@ -3059,6 +3380,7 @@ function truncateString(str, maxLength, suffix) {
 }
 function yoctoToNear(yocto, format) {
   const YOCTO_PER_NEAR = Big(10).pow(24).toString();
+
   const near = Big(yocto).div(YOCTO_PER_NEAR).toString();
 
   return format ? localFormat(near) : near;
@@ -3071,6 +3393,7 @@ function truncateString(str, maxLength, suffix) {
 }
 function yoctoToNear(yocto, format) {
   const YOCTO_PER_NEAR = Big(10).pow(24).toString();
+
   const near = Big(yocto).div(YOCTO_PER_NEAR).toString();
 
   return format ? localFormat(near) : near;
@@ -3374,6 +3697,7 @@ function truncateString(str, maxLength, suffix) {
 }
 function yoctoToNear(yocto, format) {
   const YOCTO_PER_NEAR = Big(10).pow(24).toString();
+
   const near = Big(yocto).div(YOCTO_PER_NEAR).toString();
 
   return format ? localFormat(near) : near;
@@ -3386,6 +3710,7 @@ function truncateString(str, maxLength, suffix) {
 }
 function yoctoToNear(yocto, format) {
   const YOCTO_PER_NEAR = Big(10).pow(24).toString();
+
   const near = Big(yocto).div(YOCTO_PER_NEAR).toString();
 
   return format ? localFormat(near) : near;
@@ -3398,6 +3723,7 @@ function truncateString(str, maxLength, suffix) {
 }
 function yoctoToNear(yocto, format) {
   const YOCTO_PER_NEAR = Big(10).pow(24).toString();
+
   const near = Big(yocto).div(YOCTO_PER_NEAR).toString();
 
   return format ? localFormat(near) : near;
@@ -3427,6 +3753,7 @@ function truncateString(str, maxLength, suffix) {
 }
 function yoctoToNear(yocto, format) {
   const YOCTO_PER_NEAR = Big(10).pow(24).toString();
+
   const near = Big(yocto).div(YOCTO_PER_NEAR).toString();
 
   return format ? localFormat(near) : near;
@@ -3439,6 +3766,7 @@ function truncateString(str, maxLength, suffix) {
 }
 function yoctoToNear(yocto, format) {
   const YOCTO_PER_NEAR = Big(10).pow(24).toString();
+
   const near = Big(yocto).div(YOCTO_PER_NEAR).toString();
 
   return format ? localFormat(near) : near;
@@ -3464,6 +3792,7 @@ function truncateString(str, maxLength, suffix) {
 }
 function yoctoToNear(yocto, format) {
   const YOCTO_PER_NEAR = Big(10).pow(24).toString();
+
   const near = Big(yocto).div(YOCTO_PER_NEAR).toString();
 
   return format ? localFormat(near) : near;
@@ -3530,8 +3859,6 @@ const FaCaretRight = (props) => {
     </svg>
   );
 };/* END_INCLUDE COMPONENT: "includes/icons/FaCaretRight.jsx" */
-/* INCLUDE: "includes/icons/NFTImage.jsx" */
-/* END_INCLUDE: "includes/icons/NFTImage.jsx" */
 /* INCLUDE COMPONENT: "includes/icons/TokenImage.jsx" */
 /**
  * @interface Props
@@ -3587,7 +3914,6 @@ const TokenImage = ({
 };/* END_INCLUDE COMPONENT: "includes/icons/TokenImage.jsx" */
 /* INCLUDE: "includes/libs.jsx" */
 function fiatValue(big, price) {
-  // @ts-ignore
   const value = Big(big).mul(Big(price)).toString();
   const formattedNumber = Number(value).toLocaleString('en', {
     minimumFractionDigits: 2,
@@ -3629,6 +3955,7 @@ function getConfig(network) {
       return {};
   }
 }
+
 function debounce(
   delay,
   func,
@@ -3685,6 +4012,19 @@ function shortenAddress(address) {
   if (string.length <= 20) return string;
 
   return `${string.substr(0, 10)}...${string.substr(-7)}`;
+}
+
+function urlHostName(url) {
+  try {
+    const domain = new URL(url);
+    return domain?.hostname ?? null;
+  } catch (e) {
+    return null;
+  }
+}
+
+function holderPercentage(supply, quantity) {
+  return Math.min(Big(quantity).div(Big(supply)).mul(Big(100)).toFixed(2), 100);
 }
 function getConfig(network) {
   switch (network) {
@@ -3708,6 +4048,7 @@ function getConfig(network) {
       return {};
   }
 }
+
 function debounce(
   delay,
   func,
@@ -3764,6 +4105,19 @@ function shortenAddress(address) {
   if (string.length <= 20) return string;
 
   return `${string.substr(0, 10)}...${string.substr(-7)}`;
+}
+
+function urlHostName(url) {
+  try {
+    const domain = new URL(url);
+    return domain?.hostname ?? null;
+  } catch (e) {
+    return null;
+  }
+}
+
+function holderPercentage(supply, quantity) {
+  return Math.min(Big(quantity).div(Big(supply)).mul(Big(100)).toFixed(2), 100);
 }
 function nanoToMilli(nano) {
   return new Big(nano).div(new Big(10).pow(6)).round().toNumber();
@@ -3798,6 +4152,7 @@ function getConfig(network) {
       return {};
   }
 }
+
 function debounce(
   delay,
   func,
@@ -3855,6 +4210,19 @@ function shortenAddress(address) {
 
   return `${string.substr(0, 10)}...${string.substr(-7)}`;
 }
+
+function urlHostName(url) {
+  try {
+    const domain = new URL(url);
+    return domain?.hostname ?? null;
+  } catch (e) {
+    return null;
+  }
+}
+
+function holderPercentage(supply, quantity) {
+  return Math.min(Big(quantity).div(Big(supply)).mul(Big(100)).toFixed(2), 100);
+}
 function shortenAddress(address) {
   const string = String(address);
 
@@ -3862,15 +4230,28 @@ function shortenAddress(address) {
 
   return `${string.substr(0, 10)}...${string.substr(-7)}`;
 }
+
+function urlHostName(url) {
+  try {
+    const domain = new URL(url);
+    return domain?.hostname ?? null;
+  } catch (e) {
+    return null;
+  }
+}
+
+function holderPercentage(supply, quantity) {
+  return Math.min(Big(quantity).div(Big(supply)).mul(Big(100)).toFixed(2), 100);
+}
 function yoctoToNear(yocto, format) {
   const YOCTO_PER_NEAR = Big(10).pow(24).toString();
+
   const near = Big(yocto).div(YOCTO_PER_NEAR).toString();
 
   return format ? localFormat(near) : near;
 }
 
 function fiatValue(big, price) {
-  // @ts-ignore
   const value = Big(big).mul(Big(price)).toString();
   const formattedNumber = Number(value).toLocaleString('en', {
     minimumFractionDigits: 2,
@@ -3912,6 +4293,7 @@ function getConfig(network) {
       return {};
   }
 }
+
 function debounce(
   delay,
   func,
@@ -3968,6 +4350,19 @@ function shortenAddress(address) {
   if (string.length <= 20) return string;
 
   return `${string.substr(0, 10)}...${string.substr(-7)}`;
+}
+
+function urlHostName(url) {
+  try {
+    const domain = new URL(url);
+    return domain?.hostname ?? null;
+  } catch (e) {
+    return null;
+  }
+}
+
+function holderPercentage(supply, quantity) {
+  return Math.min(Big(quantity).div(Big(supply)).mul(Big(100)).toFixed(2), 100);
 }
 function localFormat(number) {
   const formattedNumber = Number(number).toLocaleString('en', {
@@ -5030,16 +5425,21 @@ function MainComponent(props) {
                               className="hover:no-underline"
                             >
                               <a>
-                                <NFTImage
-                                  base={nft.nft_meta.base_uri}
-                                  media={nft.nft_token_meta.media}
-                                  reference={
-                                    nft.nft_meta.reference ||
-                                    nft.nft_token_meta.reference
-                                  }
-                                  alt={nft.nft_token_meta.title}
-                                  className="max-h-full rounded"
-                                />
+                                {
+                                  <Widget
+                                    src={`${config.ownerId}/widget/bos-components.components.Shared.NFTImage`}
+                                    props={{
+                                      base: nft.nft_meta.base_uri,
+                                      media: nft.nft_token_meta.media,
+                                      reference:
+                                        nft.nft_meta.reference ||
+                                        nft.nft_token_meta.reference,
+                                      alt: nft.nft_token_meta.title,
+                                      className: 'max-h-full rounded',
+                                      network: network,
+                                    }}
+                                  />
+                                }
                               </a>
                             </a>
                           </div>
