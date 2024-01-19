@@ -8,7 +8,7 @@ const handleOnMouseEnter = () => {
 };
 
 const handleOnMouseLeave = () => {
-  console.log("");
+  state.showMenu ? null : State.update({ show: false });
 };
 
 const handleOpenMenu = () => {
@@ -273,42 +273,42 @@ const iconDropdown = (
 );
 
 const ButtonEdit = styled.button`
- border: none;
- cursor:pointer;
-    width: 22px;
-    height: 22px ;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 50%;
-    padding: 0;
-    
-    box-shadow: 0px 4px 20px 0px rgba(11, 87, 111, 0.15), 0px 4px 5px 0px rgba(45, 52, 60, 0.10);
-    box-sizing: border-box;
-    background: #fff;
-    transition: all 0.3s;
-      &:hover {
-   transform: scale(1.2)
+  border: none;
+  cursor: pointer;
+  width: 22px;
+  height: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  padding: 0;
+
+  box-shadow: 0px 4px 20px 0px rgba(11, 87, 111, 0.15),
+    0px 4px 5px 0px rgba(45, 52, 60, 0.1);
+  box-sizing: border-box;
+  background: #fff;
+  transition: all 0.3s;
+  &:hover {
+    transform: scale(1.2);
   }
 `;
 
 const ButtonApply = styled.button`
- border: none;
-    width: 22px;
-    height: 22px ;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 50%;
-    padding: 0;
-   
-     cursor:pointer;
-    box-sizing: border-box;
-    transition: all 0.3s;
-        &:hover {
-   transform: scale(1.2)
-  }
+  border: none;
+  width: 22px;
+  height: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  padding: 0;
 
+  cursor: pointer;
+  box-sizing: border-box;
+  transition: all 0.3s;
+  &:hover {
+    transform: scale(1.2);
+  }
 `;
 
 const ButtonCancel = styled.button`
