@@ -184,7 +184,7 @@ ContextMenu = ContextMenu || (() => <></>);
 
 function deleteFile(path) {
   function buildObjectWithLastNull(path) {
-    const parts = path.split("/").slice(1);
+    const parts = path.split("/").slice(1); // Remove the first part of the path
     let currentObj = {};
     let pointer = currentObj;
 
@@ -294,40 +294,31 @@ const handleColumnClick = (key) => {
 
 const things = Object.keys(data); //this
 
-if (!things) {
-  return "Loading...";
-}
-
 function organizeData(data) {
   const result = {};
 
   data.forEach((path) => {
-    if (path.includes(".")) {
-      const parts = path.split(".");
-      let current = result;
+    const parts = path.split(".");
+    let current = result;
 
-      parts.forEach((part, index) => {
-        if (index === parts.length - 1) {
-          current[part] = path;
-        } else {
-          if (!current[part] || typeof current[part] === "string") {
-            current[part] = {};
-          }
-          current = current[part];
+    parts.forEach((part, index) => {
+      if (index === parts.length - 1) {
+        // Last part - it's a file or a leaf node
+        current[part] = path;
+      } else {
+        // Intermediate part - it's a folder
+        if (!current[part] || typeof current[part] === "string") {
+          current[part] = {}; // Initialize as an object if it's not already
         }
-      });
-    } else {
-      if (!result[path]) {
-        result[path] = {};
+        current = current[part];
       }
-      result[path][path] = path;
-    }
+    });
   });
 
   return result;
 }
 
-const organizedData = organizeData(things);
+const organizedData = organizeData(things); // this
 // return <p>{JSON.stringify(organizedData)}</p>;
 
 function RenderData({ data, layout }) {
@@ -344,7 +335,7 @@ function RenderData({ data, layout }) {
             ) => (
               <div key={key}>
                 <Widget
-                  src="create.near/widget/repository.file"
+                  src="efiz.near/widget/voyager.item"
                   loading={<></>}
                   props={{
                     path: key,
