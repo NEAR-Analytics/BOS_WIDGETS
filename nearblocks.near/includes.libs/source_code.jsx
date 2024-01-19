@@ -34,13 +34,13 @@ export function convertTimestampToTime(timestamp) {
 
 export function yoctoToNear(yocto, format) {
   const YOCTO_PER_NEAR = Big(10).pow(24).toString();
+
   const near = Big(yocto).div(YOCTO_PER_NEAR).toString();
 
   return format ? localFormat(near) : near;
 }
 
 export function fiatValue(big, price) {
-  // @ts-ignore
   const value = Big(big).mul(Big(price)).toString();
   const formattedNumber = Number(value).toLocaleString('en', {
     minimumFractionDigits: 2,
@@ -82,6 +82,7 @@ export function getConfig(network) {
       return {};
   }
 }
+
 export function debounce(
   delay,
   func,
@@ -138,4 +139,17 @@ export function shortenAddress(address) {
   if (string.length <= 20) return string;
 
   return `${string.substr(0, 10)}...${string.substr(-7)}`;
+}
+
+export function urlHostName(url) {
+  try {
+    const domain = new URL(url);
+    return domain?.hostname ?? null;
+  } catch (e) {
+    return null;
+  }
+}
+
+export function holderPercentage(supply, quantity) {
+  return Math.min(Big(quantity).div(Big(supply)).mul(Big(100)).toFixed(2), 100);
 }
