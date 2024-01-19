@@ -274,6 +274,7 @@ const iconDropdown = (
 
 const ButtonEdit = styled.button`
  border: none;
+ cursor:pointer;
     width: 22px;
     height: 22px ;
     display: flex;
@@ -285,6 +286,7 @@ const ButtonEdit = styled.button`
     box-shadow: 0px 4px 20px 0px rgba(11, 87, 111, 0.15), 0px 4px 5px 0px rgba(45, 52, 60, 0.10);
     box-sizing: border-box;
     background: #fff;
+    transition: all 0.3s;
       &:hover {
    transform: scale(1.2)
   }
@@ -300,7 +302,9 @@ const ButtonApply = styled.button`
     border-radius: 50%;
     padding: 0;
     margin-bottom: 6px;
+     cursor:pointer;
     box-sizing: border-box;
+    transition: all 0.3s;
         &:hover {
    transform: scale(1.2)
   }
@@ -438,7 +442,7 @@ return (
           {props.isEditMode ? (
             <ButtonApply onClick={handleApplyClick}>{iconApply}</ButtonApply>
           ) : (
-            <ButtonEdit onClick={handleEditClick}>{iconEdit}</ButtonEdit>
+            <ButtonEdit onClick={handleEditClick}>{iconApply}</ButtonEdit>
           )}
         </ActionsWrapper>
 
