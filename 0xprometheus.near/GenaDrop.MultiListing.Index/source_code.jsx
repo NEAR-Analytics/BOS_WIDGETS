@@ -20,7 +20,7 @@ const contractId = newContractId; // default nft contract - genadrop-contract.nf
 const tokenId = props.tokenId ?? "1679119560198"; // maybe condtional check if props is eempty // default nft
 const fewfarmarket = "market.fewandfar.near";
 const tradeportmarket = "market.tradeport.near";
-const genadropmarket = "market-beta.genadrop.near";
+const genadropmarket = "market.genadrop.near";
 
 const fnfMsg = JSON.stringify({
   sale_conditions: {
