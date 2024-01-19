@@ -211,16 +211,16 @@ const iconCloseModal = (
     <path
       d="M16.25 4.25L3.75 16.75"
       stroke="#C1C6CE"
-      stroke-width="2"
-      stroke-linecap="round"
-      stroke-linejoin="round"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
     />
     <path
       d="M3.75 4.25L16.25 16.75"
       stroke="#C1C6CE"
-      stroke-width="2"
-      stroke-linecap="round"
-      stroke-linejoin="round"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
     />
   </svg>
 );
