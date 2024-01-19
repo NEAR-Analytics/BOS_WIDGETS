@@ -443,9 +443,7 @@ return (
             <ButtonApply
               style={{
                 marginBottom:
-                  props.widgets && props.widgets.length
-                    ? " margin-bottom: 6px"
-                    : " margin-bottom: -3px",
+                  props.widgets && props.widgets.length ? "6px" : "-3px",
               }}
               onClick={handleApplyClick}
             >
@@ -455,9 +453,7 @@ return (
             <ButtonEdit
               style={{
                 marginBottom:
-                  props.widgets && props.widgets.length
-                    ? " margin-bottom: 6px"
-                    : " margin-bottom: -3px",
+                  props.widgets && props.widgets.length ? "6px" : " -3px",
               }}
               onClick={handleEditClick}
             >
