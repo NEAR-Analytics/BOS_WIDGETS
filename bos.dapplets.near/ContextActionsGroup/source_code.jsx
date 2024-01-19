@@ -334,6 +334,35 @@ const FloatingModal = styled.div`
   }
 `;
 
+const iconEdit = (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="22"
+    height="22"
+    viewBox="0 0 22 22"
+    fill="none"
+  >
+    <circle cx="11" cy="11" r="10.5" fill="white" stroke="#E3E3E3" />
+  </svg>
+);
+const iconApply = (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="22"
+    height="22"
+    viewBox="0 0 22 22"
+    fill="none"
+  >
+    <circle cx="11" cy="11" r="11" fill="#3D7FFF" />
+    <path
+      d="M17 7L8.75 15L5 11.3636"
+      stroke="white"
+      stroke-width="1.5"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    />
+  </svg>
+);
 return (
   <OverlayTriggerWrapper onMouseEnter={handleOnMouseEnter}>
     <div style={{ opacity: state.show ? 0 : 1 }} className="OverlayTrigger">
@@ -368,9 +397,9 @@ return (
           ))}
 
           {props.isEditMode ? (
-            <ButtonApply onClick={handleApplyClick} />
+            <ButtonApply onClick={handleApplyClick}>{iconApply}</ButtonApply>
           ) : (
-            <ButtonEdit onClick={handleEditClick} />
+            <ButtonEdit onClick={handleEditClick}>{iconEdit}</ButtonEdit>
           )}
         </ActionsWrapper>
 
