@@ -282,7 +282,7 @@ const ButtonEdit = styled.button`
     justify-content: center;
     border-radius: 50%;
     padding: 0;
-    margin-bottom: 6px;
+    
     box-shadow: 0px 4px 20px 0px rgba(11, 87, 111, 0.15), 0px 4px 5px 0px rgba(45, 52, 60, 0.10);
     box-sizing: border-box;
     background: #fff;
@@ -301,7 +301,7 @@ const ButtonApply = styled.button`
     justify-content: center;
     border-radius: 50%;
     padding: 0;
-    margin-bottom: 6px;
+   
      cursor:pointer;
     box-sizing: border-box;
     transition: all 0.3s;
@@ -440,9 +440,29 @@ return (
           ))}
 
           {props.isEditMode ? (
-            <ButtonApply onClick={handleApplyClick}>{iconApply}</ButtonApply>
+            <ButtonApply
+              style={{
+                marginBottom:
+                  props.widgets && props.widgets.length
+                    ? " margin-bottom: 6px"
+                    : " margin-bottom: -3px",
+              }}
+              onClick={handleApplyClick}
+            >
+              {iconApply}
+            </ButtonApply>
           ) : (
-            <ButtonEdit onClick={handleEditClick}>{iconApply}</ButtonEdit>
+            <ButtonEdit
+              style={{
+                marginBottom:
+                  props.widgets && props.widgets.length
+                    ? " margin-bottom: 6px"
+                    : " margin-bottom: -3px",
+              }}
+              onClick={handleEditClick}
+            >
+              {iconEdit}
+            </ButtonEdit>
           )}
         </ActionsWrapper>
 
