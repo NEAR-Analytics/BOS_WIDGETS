@@ -1,7 +1,9 @@
-let accountId = props.accountId || "mike";
+let accountId = props.accountId || "mike.near";
 let profile = socialGetr(`${accountId}/profile`);
 
-<div>
-  <img src={profile.image.url} />
-  <span>{profile.name}</span> <span>(@{accountId})</span>
-</div>;
+return (
+  <div>
+    <img src={profile.image.url} />
+    <span>{profile.name}</span> <span>(@{accountId})</span>
+  </div>
+);
