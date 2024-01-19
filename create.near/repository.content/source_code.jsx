@@ -294,6 +294,10 @@ const handleColumnClick = (key) => {
 
 const things = Object.keys(data); //this
 
+if (!things) {
+  return "Loading...";
+}
+
 function organizeData(data) {
   const result = {};
 
@@ -324,10 +328,6 @@ function organizeData(data) {
 }
 
 const organizedData = organizeData(things);
-
-if (!organizeData) {
-  return "Loading...";
-}
 // return <p>{JSON.stringify(organizedData)}</p>;
 
 function RenderData({ data, layout }) {
