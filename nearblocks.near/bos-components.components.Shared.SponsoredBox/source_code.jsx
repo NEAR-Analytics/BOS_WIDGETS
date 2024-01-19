@@ -185,6 +185,7 @@ function getConfig(network) {
       return {};
   }
 }
+
 function debounce(
   delay,
   func,
@@ -241,6 +242,19 @@ function shortenAddress(address) {
   if (string.length <= 20) return string;
 
   return `${string.substr(0, 10)}...${string.substr(-7)}`;
+}
+
+function urlHostName(url) {
+  try {
+    const domain = new URL(url);
+    return domain?.hostname ?? null;
+  } catch (e) {
+    return null;
+  }
+}
+
+function holderPercentage(supply, quantity) {
+  return Math.min(Big(quantity).div(Big(supply)).mul(Big(100)).toFixed(2), 100);
 }
 /* END_INCLUDE: "includes/libs.jsx" */
 
