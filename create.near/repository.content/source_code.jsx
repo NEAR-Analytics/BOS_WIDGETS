@@ -184,7 +184,7 @@ ContextMenu = ContextMenu || (() => <></>);
 
 function deleteFile(path) {
   function buildObjectWithLastNull(path) {
-    const parts = path.split("/").slice(1); // Remove the first part of the path
+    const parts = path.split("/").slice(1);
     let currentObj = {};
     let pointer = currentObj;
 
@@ -298,21 +298,26 @@ function organizeData(data) {
   const result = {};
 
   data.forEach((path) => {
-    const parts = path.split(".");
-    let current = result;
+    if (path.includes(".")) {
+      const parts = path.split(".");
+      let current = result;
 
-    parts.forEach((part, index) => {
-      if (index === parts.length - 1) {
-        // Last part - it's a file or a leaf node
-        current[part] = path;
-      } else {
-        // Intermediate part - it's a folder
-        if (!current[part] || typeof current[part] === "string") {
-          current[part] = {}; // Initialize as an object if it's not already
+      parts.forEach((part, index) => {
+        if (index === parts.length - 1) {
+          current[part] = path;
+        } else {
+          if (!current[part] || typeof current[part] === "string") {
+            current[part] = {};
+          }
+          current = current[part];
         }
-        current = current[part];
+      });
+    } else {
+      if (!result[path]) {
+        result[path] = {};
       }
-    });
+      result[path][path] = path;
+    }
   });
 
   return result;
@@ -335,7 +340,7 @@ function RenderData({ data, layout }) {
             ) => (
               <div key={key}>
                 <Widget
-                  src="efiz.near/widget/voyager.item"
+                  src="create.near/widget/repository.file"
                   loading={<></>}
                   props={{
                     path: key,
