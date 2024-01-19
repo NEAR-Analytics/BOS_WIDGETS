@@ -43,10 +43,63 @@ const Column = styled.div`
   border-right: 1px solid #e0e0e0;
 `;
 
+function flattenObject(obj, parentKey) {
+  parentKey = parentKey ?? "";
+  let paths = [];
+
+  Object.keys(obj).forEach((key) => {
+    const currentPath = parentKey ? `${parentKey}/${key}` : key;
+
+    if (typeof obj[key] === "object") {
+      paths = paths.concat(flattenObject(obj[key], currentPath));
+    } else if (obj[key] === true) {
+      paths.push(currentPath);
+    }
+  });
+
+  return paths;
+}
+
 const layout = props.layout || "LIST";
 const setPath = props.setPath || (() => {});
-const path = props.path || props.src || "create.near/widget";
-const data = Social.getr(path, "final");
+const path = props.path || props.src || "create.near/widget/GitBos";
+
+let data;
+const parts = path.split("/");
+if (parts.length > 2) {
+  parts.pop();
+  parts.push("*");
+  const newPath = parts.join("/");
+  const keys = Social.keys(newPath, "final");
+  const flattenedKeys = flattenObject(keys);
+  const escapedPath = path.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  const regex = `^${escapedPath}(\\..+)?$`;
+  const matchingKeys = flattenedKeys.filter((it) => it.match(regex));
+  let rawData = Social.getr(matchingKeys, "final");
+
+  function removeFirstTwoLevels(obj) {
+    let result = {};
+
+    Object.keys(obj).forEach((firstLevelKey) => {
+      let firstLevelObj = obj[firstLevelKey];
+      if (typeof firstLevelObj === "object" && firstLevelObj !== null) {
+        Object.keys(firstLevelObj).forEach((secondLevelKey) => {
+          let secondLevelObj = firstLevelObj[secondLevelKey];
+          if (typeof secondLevelObj === "object" && secondLevelObj !== null) {
+            result = { ...result, ...secondLevelObj };
+          }
+        });
+      }
+    });
+
+    return result;
+  }
+
+  data = removeFirstTwoLevels(rawData);
+} else {
+  data = Social.getr(path, "final");
+}
+
 const showPreview = props.showPreview || false;
 const setSelectedPath = props.setSelectedPath || (() => {});
 const selectedPath = props.selectedPath || "";
@@ -239,7 +292,7 @@ const handleColumnClick = (key) => {
   setActivePath([...state.activePath, key]);
 };
 
-const things = Object.keys(data);
+const things = Object.keys(data); //this
 
 function organizeData(data) {
   const result = {};
@@ -265,7 +318,8 @@ function organizeData(data) {
   return result;
 }
 
-const organizedData = organizeData(things);
+const organizedData = organizeData(things); // this
+// return <p>{JSON.stringify(organizedData)}</p>;
 
 function RenderData({ data, layout }) {
   switch (layout) {
@@ -275,112 +329,116 @@ function RenderData({ data, layout }) {
 
       return (
         <>
-          {Object.keys(dataList).map((key) => (
-            <div key={key}>
-              <Widget
-                src="efiz.near/widget/voyager.item"
-                loading={<></>}
-                props={{
-                  path: key,
-                  data: dataList[key],
-                  level: 0,
-                  eFile: ({ key, data, level }) => {
-                    const updatedPath = [path, key].join("/");
-                    return (
-                      <ContextMenu
-                        Item={() => (
-                          // TODO: Honestly, eFile and eFolder should be the same component.
-                          <ItemContainer
-                            onDoubleClick={() => setPath(updatedPath)} // open file
-                            onClick={() => setSelectedPath(updatedPath)}
-                            style={{
-                              marginLeft: level * 20,
-                              backgroundColor:
-                                selectedPath === updatedPath
-                                  ? "#f0f0f0"
-                                  : "transparent",
-                            }}
-                          >
-                            <ItemDetails>
-                              <i className="bi bi-file-earmark"></i>
-                              <span>{key.split(".").pop()}</span>{" "}
-                            </ItemDetails>
-                            <ItemInfo>
-                              <span>{calculateSize(data)}</span>
-                              <span>{determineType(updatedPath, data)}</span>
-                              <span />
-                            </ItemInfo>
-                          </ItemContainer>
-                        )}
-                        passProps={{
-                          delete: { path: updatedPath, data },
-                        }}
-                        handlers={{
-                          delete: ({ path }) => {
-                            deleteFile(path);
-                          },
-                        }}
-                        items={{
-                          delete: () => (
-                            <>
-                              <i className="menu__item__icon bi bi-x-lg" />
-                              Delete
-                            </>
-                          ),
-                        }}
-                      />
-                    );
-                  },
-                  eFolder: ({ toggleExpand, isExpanded, key, level }) => {
-                    const updatedPath = [path, key].join("/");
-                    return (
-                      <ContextMenu
-                        Item={() => (
-                          <ItemContainer
-                            onDoubleClick={() => setPath(updatedPath)} // open folder
-                            onClick={() => {
-                              toggleExpand();
-                            }}
-                            style={{
-                              marginLeft: level * 20,
-                            }}
-                          >
-                            <ItemDetails>
-                              <ArrowIcon isExpanded={isExpanded} />
-                              <i className="bi bi-folder"></i>
-                              <span>{key.split("/").pop()}</span>{" "}
-                            </ItemDetails>
-                            <ItemInfo>
-                              <span>--</span>
-                              <span>Folder</span>
-                              <span />
-                            </ItemInfo>
-                          </ItemContainer>
-                        )}
-                        passProps={{
-                          delete: { path: updatedPath, data },
-                        }}
-                        handlers={{
-                          delete: ({ path, data }) => {
-                            // TODO: This is broken, I think because of the adjusted data object.
-                            deleteFolder(path, data);
-                          },
-                        }}
-                        items={{
-                          delete: () => (
-                            <>
-                              <i className="menu__item__icon bi bi-x-lg" />
-                              Delete
-                            </>
-                          ),
-                        }}
-                      />
-                    );
-                  },
-                }}
-              />
-            </div>
-          ))}
+          {Object.keys(dataList).map(
+            (
+              key // this
+            ) => (
+              <div key={key}>
+                <Widget
+                  src="efiz.near/widget/voyager.item"
+                  loading={<></>}
+                  props={{
+                    path: key,
+                    data: dataList[key],
+                    level: 0,
+                    eFile: ({ key, data, level }) => {
+                      const updatedPath = [path, key].join("/");
+                      return (
+                        <ContextMenu
+                          Item={() => (
+                            // TODO: Honestly, eFile and eFolder should be the same component.
+                            <ItemContainer
+                              onDoubleClick={() => setPath(updatedPath)} // open file
+                              onClick={() => setSelectedPath(updatedPath)}
+                              style={{
+                                marginLeft: level * 20,
+                                backgroundColor:
+                                  selectedPath === updatedPath
+                                    ? "#f0f0f0"
+                                    : "transparent",
+                              }}
+                            >
+                              <ItemDetails>
+                                <i className="bi bi-file-earmark"></i>
+                                <span>{key.split(".").pop()}</span>{" "}
+                              </ItemDetails>
+                              <ItemInfo>
+                                <span>{calculateSize(data)}</span>
+                                <span>{determineType(updatedPath, data)}</span>
+                                <span />
+                              </ItemInfo>
+                            </ItemContainer>
+                          )}
+                          passProps={{
+                            delete: { path: updatedPath, data },
+                          }}
+                          handlers={{
+                            delete: ({ path }) => {
+                              deleteFile(path);
+                            },
+                          }}
+                          items={{
+                            delete: () => (
+                              <>
+                                <i className="menu__item__icon bi bi-x-lg" />
+                                Delete
+                              </>
+                            ),
+                          }}
+                        />
+                      );
+                    },
+                    eFolder: ({ toggleExpand, isExpanded, key, level }) => {
+                      const updatedPath = [path, key].join("/");
+                      return (
+                        <ContextMenu
+                          Item={() => (
+                            <ItemContainer
+                              onDoubleClick={() => setPath(updatedPath)} // open folder
+                              onClick={() => {
+                                toggleExpand();
+                              }}
+                              style={{
+                                marginLeft: level * 20,
+                              }}
+                            >
+                              <ItemDetails>
+                                <ArrowIcon isExpanded={isExpanded} />
+                                <i className="bi bi-folder"></i>
+                                <span>{key.split("/").pop()}</span>{" "}
+                              </ItemDetails>
+                              <ItemInfo>
+                                <span>--</span>
+                                <span>Folder</span>
+                                <span />
+                              </ItemInfo>
+                            </ItemContainer>
+                          )}
+                          passProps={{
+                            delete: { path: updatedPath, data },
+                          }}
+                          handlers={{
+                            delete: ({ path, data }) => {
+                              // TODO: This is broken, I think because of the adjusted data object.
+                              deleteFolder(path, data);
+                            },
+                          }}
+                          items={{
+                            delete: () => (
+                              <>
+                                <i className="menu__item__icon bi bi-x-lg" />
+                                Delete
+                              </>
+                            ),
+                          }}
+                        />
+                      );
+                    },
+                  }}
+                />
+              </div>
+            )
+          )}
         </>
       );
 
