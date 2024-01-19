@@ -64,7 +64,7 @@ const layout = props.layout || "LIST";
 const setPath = props.setPath || (() => {});
 const path = props.path || props.src || "create.near/widget/GitBos";
 
-let data = "";
+let data;
 const parts = path.split("/");
 if (parts.length > 2) {
   parts.pop();
@@ -323,7 +323,11 @@ function organizeData(data) {
   return result;
 }
 
-const organizedData = organizeData(things); // this
+const organizedData = organizeData(things);
+
+if (!organizeData) {
+  return "Loading...";
+}
 // return <p>{JSON.stringify(organizedData)}</p>;
 
 function RenderData({ data, layout }) {
