@@ -27,7 +27,8 @@ let tagCount = {};
 hashtags.forEach((item) => {
   const tags = findHashtags(item);
   tags.forEach((tag) => {
-    tagCount[tag] = (tagCount[tag] || 0) + 1;
+    let normalizedTag = tag.toLowerCase();
+    tagCount[normalizedTag] = (tagCount[normalizedTag] || 0) + 1;
   });
 });
 
