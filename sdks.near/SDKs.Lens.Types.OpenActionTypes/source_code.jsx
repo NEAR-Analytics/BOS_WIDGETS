@@ -18,7 +18,14 @@ const CATEGORY_TYPE = {
   COLLECT: "COLLECT",
 };
 
+const FILTER = {
+    address: "",
+    type: "",
+    category: ""
+};
+
 return {
   MODULE_TYPE,
   CATEGORY_TYPE,
+  FILTER,
 };
