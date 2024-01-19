@@ -191,6 +191,7 @@ function truncateString(str, maxLength, suffix) {
 }
 function yoctoToNear(yocto, format) {
   const YOCTO_PER_NEAR = Big(10).pow(24).toString();
+
   const near = Big(yocto).div(YOCTO_PER_NEAR).toString();
 
   return format ? localFormat(near) : near;
@@ -203,6 +204,7 @@ function truncateString(str, maxLength, suffix) {
 }
 function yoctoToNear(yocto, format) {
   const YOCTO_PER_NEAR = Big(10).pow(24).toString();
+
   const near = Big(yocto).div(YOCTO_PER_NEAR).toString();
 
   return format ? localFormat(near) : near;
@@ -215,6 +217,7 @@ function truncateString(str, maxLength, suffix) {
 }
 function yoctoToNear(yocto, format) {
   const YOCTO_PER_NEAR = Big(10).pow(24).toString();
+
   const near = Big(yocto).div(YOCTO_PER_NEAR).toString();
 
   return format ? localFormat(near) : near;
@@ -518,6 +521,7 @@ function truncateString(str, maxLength, suffix) {
 }
 function yoctoToNear(yocto, format) {
   const YOCTO_PER_NEAR = Big(10).pow(24).toString();
+
   const near = Big(yocto).div(YOCTO_PER_NEAR).toString();
 
   return format ? localFormat(near) : near;
@@ -530,6 +534,7 @@ function truncateString(str, maxLength, suffix) {
 }
 function yoctoToNear(yocto, format) {
   const YOCTO_PER_NEAR = Big(10).pow(24).toString();
+
   const near = Big(yocto).div(YOCTO_PER_NEAR).toString();
 
   return format ? localFormat(near) : near;
@@ -542,6 +547,7 @@ function truncateString(str, maxLength, suffix) {
 }
 function yoctoToNear(yocto, format) {
   const YOCTO_PER_NEAR = Big(10).pow(24).toString();
+
   const near = Big(yocto).div(YOCTO_PER_NEAR).toString();
 
   return format ? localFormat(near) : near;
@@ -570,6 +576,7 @@ function getConfig(network) {
       return {};
   }
 }
+
 function debounce(
   delay,
   func,
@@ -627,15 +634,28 @@ function shortenAddress(address) {
 
   return `${string.substr(0, 10)}...${string.substr(-7)}`;
 }
+
+function urlHostName(url) {
+  try {
+    const domain = new URL(url);
+    return domain?.hostname ?? null;
+  } catch (e) {
+    return null;
+  }
+}
+
+function holderPercentage(supply, quantity) {
+  return Math.min(Big(quantity).div(Big(supply)).mul(Big(100)).toFixed(2), 100);
+}
 function yoctoToNear(yocto, format) {
   const YOCTO_PER_NEAR = Big(10).pow(24).toString();
+
   const near = Big(yocto).div(YOCTO_PER_NEAR).toString();
 
   return format ? localFormat(near) : near;
 }
 
 function fiatValue(big, price) {
-  // @ts-ignore
   const value = Big(big).mul(Big(price)).toString();
   const formattedNumber = Number(value).toLocaleString('en', {
     minimumFractionDigits: 2,
@@ -677,6 +697,7 @@ function getConfig(network) {
       return {};
   }
 }
+
 function debounce(
   delay,
   func,
@@ -733,6 +754,19 @@ function shortenAddress(address) {
   if (string.length <= 20) return string;
 
   return `${string.substr(0, 10)}...${string.substr(-7)}`;
+}
+
+function urlHostName(url) {
+  try {
+    const domain = new URL(url);
+    return domain?.hostname ?? null;
+  } catch (e) {
+    return null;
+  }
+}
+
+function holderPercentage(supply, quantity) {
+  return Math.min(Big(quantity).div(Big(supply)).mul(Big(100)).toFixed(2), 100);
 }
 function localFormat(number) {
   const formattedNumber = Number(number).toLocaleString('en', {
@@ -894,6 +928,7 @@ function truncateString(str, maxLength, suffix) {
 }
 function yoctoToNear(yocto, format) {
   const YOCTO_PER_NEAR = Big(10).pow(24).toString();
+
   const near = Big(yocto).div(YOCTO_PER_NEAR).toString();
 
   return format ? localFormat(near) : near;
@@ -906,6 +941,7 @@ function truncateString(str, maxLength, suffix) {
 }
 function yoctoToNear(yocto, format) {
   const YOCTO_PER_NEAR = Big(10).pow(24).toString();
+
   const near = Big(yocto).div(YOCTO_PER_NEAR).toString();
 
   return format ? localFormat(near) : near;
@@ -942,6 +978,19 @@ function shortenAddress(address) {
   if (string.length <= 20) return string;
 
   return `${string.substr(0, 10)}...${string.substr(-7)}`;
+}
+
+function urlHostName(url) {
+  try {
+    const domain = new URL(url);
+    return domain?.hostname ?? null;
+  } catch (e) {
+    return null;
+  }
+}
+
+function holderPercentage(supply, quantity) {
+  return Math.min(Big(quantity).div(Big(supply)).mul(Big(100)).toFixed(2), 100);
 }
 /* END_INCLUDE: "includes/libs.jsx" */
 
@@ -1048,6 +1097,19 @@ function shortenAddress(address) {
 
   return `${string.substr(0, 10)}...${string.substr(-7)}`;
 }
+
+function urlHostName(url) {
+  try {
+    const domain = new URL(url);
+    return domain?.hostname ?? null;
+  } catch (e) {
+    return null;
+  }
+}
+
+function holderPercentage(supply, quantity) {
+  return Math.min(Big(quantity).div(Big(supply)).mul(Big(100)).toFixed(2), 100);
+}
 /* END_INCLUDE: "includes/libs.jsx" */
 
 const CreateAccount = (props) => {
@@ -1072,6 +1134,19 @@ function shortenAddress(address) {
   if (string.length <= 20) return string;
 
   return `${string.substr(0, 10)}...${string.substr(-7)}`;
+}
+
+function urlHostName(url) {
+  try {
+    const domain = new URL(url);
+    return domain?.hostname ?? null;
+  } catch (e) {
+    return null;
+  }
+}
+
+function holderPercentage(supply, quantity) {
+  return Math.min(Big(quantity).div(Big(supply)).mul(Big(100)).toFixed(2), 100);
 }
 /* END_INCLUDE: "includes/libs.jsx" */
 
@@ -1138,6 +1213,7 @@ function truncateString(str, maxLength, suffix) {
 }
 function yoctoToNear(yocto, format) {
   const YOCTO_PER_NEAR = Big(10).pow(24).toString();
+
   const near = Big(yocto).div(YOCTO_PER_NEAR).toString();
 
   return format ? localFormat(near) : near;
@@ -1150,6 +1226,7 @@ function truncateString(str, maxLength, suffix) {
 }
 function yoctoToNear(yocto, format) {
   const YOCTO_PER_NEAR = Big(10).pow(24).toString();
+
   const near = Big(yocto).div(YOCTO_PER_NEAR).toString();
 
   return format ? localFormat(near) : near;
@@ -1202,6 +1279,19 @@ function shortenAddress(address) {
 
   return `${string.substr(0, 10)}...${string.substr(-7)}`;
 }
+
+function urlHostName(url) {
+  try {
+    const domain = new URL(url);
+    return domain?.hostname ?? null;
+  } catch (e) {
+    return null;
+  }
+}
+
+function holderPercentage(supply, quantity) {
+  return Math.min(Big(quantity).div(Big(supply)).mul(Big(100)).toFixed(2), 100);
+}
 /* END_INCLUDE: "includes/libs.jsx" */
 
 
@@ -1228,6 +1318,19 @@ function shortenAddress(address) {
   if (string.length <= 20) return string;
 
   return `${string.substr(0, 10)}...${string.substr(-7)}`;
+}
+
+function urlHostName(url) {
+  try {
+    const domain = new URL(url);
+    return domain?.hostname ?? null;
+  } catch (e) {
+    return null;
+  }
+}
+
+function holderPercentage(supply, quantity) {
+  return Math.min(Big(quantity).div(Big(supply)).mul(Big(100)).toFixed(2), 100);
 }
 /* END_INCLUDE: "includes/libs.jsx" */
 /* INCLUDE: "includes/near.jsx" */
@@ -1356,6 +1459,7 @@ function truncateString(str, maxLength, suffix) {
 }
 function yoctoToNear(yocto, format) {
   const YOCTO_PER_NEAR = Big(10).pow(24).toString();
+
   const near = Big(yocto).div(YOCTO_PER_NEAR).toString();
 
   return format ? localFormat(near) : near;
@@ -1368,6 +1472,7 @@ function truncateString(str, maxLength, suffix) {
 }
 function yoctoToNear(yocto, format) {
   const YOCTO_PER_NEAR = Big(10).pow(24).toString();
+
   const near = Big(yocto).div(YOCTO_PER_NEAR).toString();
 
   return format ? localFormat(near) : near;
@@ -1401,13 +1506,13 @@ const FaCoins = (props) => {
 /* INCLUDE: "includes/libs.jsx" */
 function yoctoToNear(yocto, format) {
   const YOCTO_PER_NEAR = Big(10).pow(24).toString();
+
   const near = Big(yocto).div(YOCTO_PER_NEAR).toString();
 
   return format ? localFormat(near) : near;
 }
 
 function fiatValue(big, price) {
-  // @ts-ignore
   const value = Big(big).mul(Big(price)).toString();
   const formattedNumber = Number(value).toLocaleString('en', {
     minimumFractionDigits: 2,
@@ -1449,6 +1554,7 @@ function getConfig(network) {
       return {};
   }
 }
+
 function debounce(
   delay,
   func,
@@ -1505,6 +1611,19 @@ function shortenAddress(address) {
   if (string.length <= 20) return string;
 
   return `${string.substr(0, 10)}...${string.substr(-7)}`;
+}
+
+function urlHostName(url) {
+  try {
+    const domain = new URL(url);
+    return domain?.hostname ?? null;
+  } catch (e) {
+    return null;
+  }
+}
+
+function holderPercentage(supply, quantity) {
+  return Math.min(Big(quantity).div(Big(supply)).mul(Big(100)).toFixed(2), 100);
 }
 function localFormat(number) {
   const formattedNumber = Number(number).toLocaleString('en', {
@@ -1564,15 +1683,28 @@ function shortenAddress(address) {
 
   return `${string.substr(0, 10)}...${string.substr(-7)}`;
 }
+
+function urlHostName(url) {
+  try {
+    const domain = new URL(url);
+    return domain?.hostname ?? null;
+  } catch (e) {
+    return null;
+  }
+}
+
+function holderPercentage(supply, quantity) {
+  return Math.min(Big(quantity).div(Big(supply)).mul(Big(100)).toFixed(2), 100);
+}
 function yoctoToNear(yocto, format) {
   const YOCTO_PER_NEAR = Big(10).pow(24).toString();
+
   const near = Big(yocto).div(YOCTO_PER_NEAR).toString();
 
   return format ? localFormat(near) : near;
 }
 
 function fiatValue(big, price) {
-  // @ts-ignore
   const value = Big(big).mul(Big(price)).toString();
   const formattedNumber = Number(value).toLocaleString('en', {
     minimumFractionDigits: 2,
@@ -1614,6 +1746,7 @@ function getConfig(network) {
       return {};
   }
 }
+
 function debounce(
   delay,
   func,
@@ -1670,6 +1803,19 @@ function shortenAddress(address) {
   if (string.length <= 20) return string;
 
   return `${string.substr(0, 10)}...${string.substr(-7)}`;
+}
+
+function urlHostName(url) {
+  try {
+    const domain = new URL(url);
+    return domain?.hostname ?? null;
+  } catch (e) {
+    return null;
+  }
+}
+
+function holderPercentage(supply, quantity) {
+  return Math.min(Big(quantity).div(Big(supply)).mul(Big(100)).toFixed(2), 100);
 }
 function localFormat(number) {
   const formattedNumber = Number(number).toLocaleString('en', {
