@@ -5,8 +5,10 @@ const {
   HealthAPI,
   AuthAPI,
   ProfileAPI,
+  PublicationAPI,
   AuthRequests,
   ProfileRequests,
+  PublicationRequests,
   ApiHelper,
 } = $("@sdks/lens");
 const { LightClient } = $("@sdks/light-client");
@@ -208,8 +210,18 @@ const LensSDK = {
     isHandleAvailable: (handle) => LensSDK.profile.fetch({ forHandle: handle }),
   },
   publication: {
-    fetch: (publicationId) => {},
-    fetchAll: (profileId) => {},
+    fetch: (publicationRequest) =>
+      LensSDK._call(
+        PublicationAPI.fetch,
+        PublicationRequests.PUBLICATION_REQUEST,
+        publicationRequest
+      ),
+    fetchAll: (publicationsRequest) =>
+      LensSDK._call(
+        PublicationAPI.fetchAll,
+        PublicationRequests.PUBLICATIONS_REQUEST,
+        publicationsRequest
+      ),
     stats: (publicationId) => {},
     whoActed: (publicationId) => {},
     comments: (publicationId) => {},
