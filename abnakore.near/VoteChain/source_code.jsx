@@ -5,7 +5,7 @@ const accountId = context.accountId;
 const [allVotes, setAllVotes] = useState([]);
 
 // Tabs
-const [tab, setTab] = useState("all");
+const [tab, setTab] = useState(props.tab ? props.tab : "all");
 
 // The user's watchlist
 const [watchlist, setWatchlist] = useState([]);
@@ -113,27 +113,33 @@ return (
                     src="abnakore.near/widget/Aside"
                     props={{ objs: pages, active: "/admin/manage_candidates" }}
                   />
-                  <List>
-                    {votesToRender.map((vote) => (
-                      <a
-                        href={`https://near.org/abnakore.near/widget/App.jsx?vote=${vote.id}`}
-                      >
-                        <Widget
-                          src="abnakore.near/widget/VoteCard"
-                          props={{
-                            name: vote.name,
-                            desc: vote.desc,
-                            open: formatDateTime(vote.openTime),
-                            close: formatDateTime(vote.closeTime),
-                            voted: vote.voters.includes(accountId),
-                            locked: vote.passcode && true,
-                            no_of_candidates: vote.candidates.length,
-                            style: {},
-                          }}
-                        />
-                      </a>
-                    ))}
-                  </List>
+                  {!votesToRender.length > 0 ? (
+                    <List>
+                      {votesToRender.map((vote) => (
+                        <a
+                          href={`https://near.org/abnakore.near/widget/App.jsx?vote=${vote.id}`}
+                        >
+                          <Widget
+                            src="abnakore.near/widget/VoteCard"
+                            props={{
+                              name: vote.name,
+                              desc: vote.desc,
+                              open: formatDateTime(vote.openTime),
+                              close: formatDateTime(vote.closeTime),
+                              voted: vote.voters.includes(accountId),
+                              locked: vote.passcode && true,
+                              no_of_candidates: vote.candidates.length,
+                              style: {},
+                            }}
+                          />
+                        </a>
+                      ))}
+                    </List>
+                  ) : (
+                    <div className="body-contents">
+                      <h1>No Votes</h1>
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
