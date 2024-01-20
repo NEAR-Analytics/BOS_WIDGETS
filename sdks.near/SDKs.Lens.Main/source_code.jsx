@@ -150,14 +150,60 @@ const LensSDK = {
         ProfileRequests.PROFILE_ACTION_HISTORY_REQUEST,
         profileActionHistoryRequest
       ),
-    onChainIdentity: (profileId) => {},
-    isFollowedByMe: (profileId) => {},
-    isBlockedByMe: (profileId) => {},
-    isFollowingMe: (profileId) => {},
-    canFollow: (profileId) => {},
-    canUnfollow: (profileId) => {},
-    canBlock: (profileId) => {},
-    canUnblock: (profileId) => {},
+    onChainIdentity: (profileOnChainIdentityRequest) =>
+      LensSDK._call(
+        ProfileAPI.onChainIdentity,
+        ProfileRequests.PROFILE_ONCHAIN_IDENTITY_REQUEST,
+        profileOnChainIdentityRequest
+      ),
+    isFollowedByMe: (profileRequest) =>
+      LensSDK._call(
+        ProfileAPI.isFollowedByMe,
+        ProfileRequests.PROFILE_REQUEST,
+        profileRequest
+      ),
+    isBlockedByMe: (profileRequest) =>
+      LensSDK._call(
+        ProfileAPI.isBlockedByMe,
+        ProfileRequests.PROFILE_REQUEST,
+        profileRequest
+      ),
+    isFollowingMe: (profileRequest) =>
+      LensSDK._call(
+        ProfileAPI.isFollowingMe,
+        ProfileRequests.PROFILE_REQUEST,
+        profileRequest
+      ),
+    canFollow: (profileRequest) =>
+      LensSDK._call(
+        ProfileAPI.canFollow,
+        ProfileRequests.PROFILE_REQUEST,
+        profileRequest
+      ),
+    canUnfollow: (profileRequest) =>
+      LensSDK._call(
+        ProfileAPI.canUnfollow,
+        ProfileRequests.PROFILE_REQUEST,
+        profileRequest
+      ),
+    canBlock: (profileRequest) =>
+      LensSDK._call(
+        ProfileAPI.canBlock,
+        ProfileRequests.PROFILE_REQUEST,
+        profileRequest
+      ),
+    hasBlockedMe: (profileRequest) =>
+      LensSDK._call(
+        ProfileAPI.hasBlockedMe,
+        ProfileRequests.PROFILE_REQUEST,
+        profileRequest
+      ),
+    canUnblock: (profileRequest) =>
+      LensSDK._call(
+        ProfileAPI.canUnblock,
+        ProfileRequests.PROFILE_REQUEST,
+        profileRequest
+      ),
     fetchPublications: (profileId) => LensSDK.publications.fetchAll(profileId),
     isHandleAvailable: (handle) => LensSDK.profile.fetch({ forHandle: handle }),
   },
