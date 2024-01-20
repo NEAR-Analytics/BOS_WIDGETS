@@ -5,7 +5,7 @@ const accountId = context.accountId;
 const [allVotes, setAllVotes] = useState([]);
 
 // Tabs
-const [tab, setTab] = useState("watchlist");
+const [tab, setTab] = useState(props.tab ? props.tab : "all");
 
 // The user's watchlist
 const [watchlist, setWatchlist] = useState([]);
@@ -15,12 +15,12 @@ const [votesToRender, setVotesToRender] = useState(allVotes);
 
 useEffect(() => {
   // Get the only votes the user created
-  if (tab === "all") {
-    setVotesToRender(allVotes);
-  } else if (tab === "my_votes") {
+  if (tab === "my_votes") {
     setVotesToRender(allVotes.filter((vote) => vote.creator === accountId));
   } else if (tab === "watchlist") {
     setVotesToRender(allVotes.filter((vote) => watchlist.includes(vote.id)));
+  } else {
+    setVotesToRender(allVotes);
   }
 }, [allVotes, tab, watchlist]);
 
