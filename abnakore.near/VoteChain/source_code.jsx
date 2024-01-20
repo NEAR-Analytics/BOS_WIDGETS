@@ -113,7 +113,7 @@ return (
                     src="abnakore.near/widget/Aside"
                     props={{ objs: pages, active: "/admin/manage_candidates" }}
                   />
-                  {!votesToRender.length > 0 ? (
+                  {votesToRender.length > 0 ? (
                     <List>
                       {votesToRender.map((vote) => (
                         <a
