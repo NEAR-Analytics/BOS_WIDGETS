@@ -109,6 +109,92 @@ const PROFILE_ACTION_HISTORY_QUERY = `
     }
 `;
 
+const PROFILE_ONCHAIN_IDENTITY_QUERY = `
+    query Profile($profileId: ProfileId!) {
+      profile(request: { profileId: $profileId }) {
+        onChainIdentity {
+          ens {
+            name
+          }
+          proofOfHumanity
+          sybilDotOrg {
+            verified
+            source {
+              twitter {
+                handle
+              }
+            }
+          }
+          worldcoin {
+            isHuman
+          }
+        }
+      }
+    }
+`;
+
+const PROFILE_IS_FOLLOWED_BY_ME_QUERY = `
+    query Profile($profileRequest: ProfileRequest!) {
+      profile(request: $profileRequest) {
+        isFollowedByMe
+      }
+    }
+`;
+
+const PROFILE_IS_FOLLOWING_ME_QUERY = `
+    query Profile($profileRequest: ProfileRequest!) {
+      profile(request: $profileRequest) {
+        isFollowingMe
+      }
+    }
+`;
+
+const PROFILE_CAN_FOLLOW_QUERY = `
+    query Profile($profileRequest: ProfileRequest!) {
+      profile(request: $profileRequest) {
+        canFollow
+      }
+    }
+`;
+const PROFILE_CAN_UNFOLLOW_QUERY = `
+    query Profile($profileRequest: ProfileRequest!) {
+      profile(request: $profileRequest) {
+        canUnfollow
+      }
+    }
+`;
+
+const PROFILE_IS_BLOCKED_BY_ME_QUERY = `
+    query Profile($profileRequest: ProfileRequest!) {
+      profile(request: $profileRequest) {
+        isBlockedByMe
+      }
+    }
+`;
+
+const PROFILE_HAS_BLOCKED_ME_QUERY = `
+    query Profile($profileRequest: ProfileRequest!) {
+      profile(request: $profileRequest) {
+        hasBlockedMe
+      }
+    }
+`;
+
+const PROFILE_CAN_BLOCK_QUERY = `
+    query Profile($profileRequest: ProfileRequest!) {
+      profile(request: $profileRequest) {
+        canBlock
+      }
+    }
+`;
+const PROFILE_CAN_UNBLOCK_QUERY = `
+    query Profile($profileRequest: ProfileRequest!) {
+      profile(request: $profileRequest) {
+        canUnblock
+      }
+    }
+`;
+
 return {
   CREATE_PROFILE_QUERY,
   PROFILE_QUERY,
@@ -118,4 +204,13 @@ return {
   PROFILE_INTERESTS_QUERY,
   PROFILE_REPORT_QUERY,
   PROFILE_ACTION_HISTORY_QUERY,
+  PROFILE_ONCHAIN_IDENTITY_QUERY,
+  PROFILE_IS_FOLLOWED_BY_ME_QUERY,
+  PROFILE_IS_FOLLOWING_ME_QUERY,
+  PROFILE_CAN_FOLLOW_QUERY,
+  PROFILE_CAN_UNFOLLOW_QUERY,
+  PROFILE_IS_BLOCKED_BY_ME_QUERY,
+  PROFILE_CAN_BLOCK_QUERY,
+  PROFILE_CAN_UNBLOCK_QUERY,
+  PROFILE_HAS_BLOCKED_ME,
 };
