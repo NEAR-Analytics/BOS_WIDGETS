@@ -14,12 +14,12 @@ const [watchlist, setWatchlist] = useState([]);
 const [votesToRender, setVotesToRender] = useState(allVotes);
 
 useEffect(() => {
-  console.log(tab);
+  console.log(tab, allVotes);
   // Get the only votes the user created
   if (tab === "my_votes") {
     setVotesToRender(allVotes.filter((vote) => vote.creator === accountId));
   } else if (tab === "watchlist") {
-    setVotesToRender(allVotes);
+    setVotesToRender(allVotes.filter((vote) => watchlist.includes(vote.id)));
   } else {
     setVotesToRender(allVotes);
   }
