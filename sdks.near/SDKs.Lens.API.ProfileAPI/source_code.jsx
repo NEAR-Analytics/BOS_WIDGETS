@@ -52,9 +52,9 @@ return {
     Client.graphql(Profile.PROFILE_BLOCK_QUERY, {
       blockProfileRequest,
     }).then((payload) => payload.body || {}),
-  history: (Client, profileHistoryRequest) =>
-    Client.graphql(Profile.PROFILE_HISTORY_QUERY, {
-      profileHistoryRequest,
+  history: (Client, profileActionHistoryRequest) =>
+    Client.graphql(Profile.PROFILE_ACTION_HISTORY_QUERY, {
+      profileActionHistoryRequest,
     }).then((payload) => {
       return {
         history: payload.body.data.items || [],
