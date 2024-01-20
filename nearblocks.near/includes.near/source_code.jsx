@@ -1,4 +1,4 @@
-import { localFormat } from '@/includes/formats';
+import { dollarFormat, localFormat } from '@/includes/formats';
 import { yoctoToNear } from '@/includes/libs';
 
 
@@ -52,6 +52,20 @@ export function tokenAmount(amount, decimal, format) {
   return format ? near.toFixed(8) : near.toFixed(decimal);
 }
 
+export function tokenPercentage(
+  supply,
+  amount,
+  decimal,
+) {
+  const nearAmount = Big(amount).div(Big(10).pow(decimal));
+  const nearSupply = Big(supply);
+
+  return nearAmount.div(nearSupply).mul(Big(100)).toFixed(2);
+}
+export function price(amount, decimal, price) {
+  const nearAmount = Big(amount).div(Big(10).pow(decimal));
+  return dollarFormat(nearAmount.mul(Big(price || 0)).toString());
+}
 export function mapRpcActionToAction(action) {
   if (action === 'CreateAccount') {
     return {
