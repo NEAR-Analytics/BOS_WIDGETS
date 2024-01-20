@@ -61,13 +61,41 @@ return {
         pagination: payload.body.data.pageInfo || {},
       };
     }),
-  onChainIdentity: (profileId) => {},
-  isFollowedByMe: (profileId) => {},
-  isBlockedByMe: (profileId) => {},
-  isFollowingMe: (profileId) => {},
-  canFollow: (profileId) => {},
-  canUnfollow: (profileId) => {},
-  canBlock: (profileId) => {},
-  canUnblock: (profileId) => {},
-  fetchPublications: (profileId) => LensSDK.fetchAll(profileId),
+  onChainIdentity: (profileOnChainIdentityRequest) =>
+    Client.graphql(
+      Profile.PROFILE_ONCHAIN_IDENTITY_QUERY,
+      profileOnChainIdentityRequest
+    ).then((payload) => payload.body.data.profile.onChainIdentity || {}),
+  isFollowedByMe: (profileRequest) =>
+    Client.graphql(Profile.PROFILE_IS_FOLLOWED_BY_ME_QUERY, {
+      profileRequest,
+    }).then((payload) => payload.body.data.profile.isFollowedByMe || false),
+  isFollowingMe: (profileRequest) =>
+    Client.graphql(Profile.PROFILE_IS_FOLLOWING_ME_QUERY, {
+      profileRequest,
+    }).then((payload) => payload.body.data.profile.isFollowingMe || false),
+  canFollow: (profileRequest) =>
+    Client.graphql(Profile.PROFILE_CAN_FOLLOW_QUERY, {
+      profileRequest,
+    }).then((payload) => payload.body.data.profile.canFollow || false),
+  canUnfollow: (profileRequest) =>
+    Client.graphql(Profile.PROFILE_CAN_UNFOLLOW_QUERY, {
+      profileRequest,
+    }).then((payload) => payload.body.data.profile.canUnfollow || false),
+  isBlockedByMe: (profileRequest) =>
+    Client.graphql(Profile.PROFILE_IS_BLOCKED_BY_ME_QUERY, {
+      profileRequest,
+    }).then((payload) => payload.body.data.profile.isBlockedByMe || false),
+  canBlock: (profileRequest) =>
+    Client.graphql(Profile.PROFILE_CAN_BLOCK_QUERY, {
+      profileRequest,
+    }).then((payload) => payload.body.data.profile.canBlock || false),
+  hasBlockedMe: (profileRequest) =>
+    Client.graphql(Profile.PROFILE_HAS_BLOCKED_ME_QUERY, {
+      profileRequest,
+    }).then((payload) => payload.body.data.profile.hasBlockedMe || false),
+  canUnblock: (profileRequest) =>
+    Client.graphql(Profile.PROFILE_CAN_UNBLOCK_QUERY, {
+      profileRequest,
+    }).then((payload) => payload.body.data.profile.canUnblock || false),
 };
