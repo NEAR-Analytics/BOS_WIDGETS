@@ -3,8 +3,8 @@ const accountId = context.accountId;
 
 // Declaring variables
 // !!!
-// const voteId = props.vote && props.vote;
-const voteId = 0;
+const voteId = props.vote && props.vote;
+// const voteId = 0;
 
 // All the votes
 const [allVotes, setAllVotes] = useState([]);
