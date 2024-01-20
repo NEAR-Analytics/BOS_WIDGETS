@@ -341,10 +341,9 @@ function MainComponent(props) {
                         </td>
                       </tr>
                     )}
-
                     {row.isExpanded ||
                     (props.expanded.length > 0 &&
-                      props.expanded.includes(rowIndex))
+                      props.expanded.includes(row.index))
                       ? props.renderRowSubComponent(row)
                       : null}
                   </Fragment>
