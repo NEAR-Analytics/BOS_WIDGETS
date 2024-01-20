@@ -240,10 +240,10 @@ function formatLine(line, offset, format) {
 
   return result.trimEnd();
 }
-function localFormat(number) {
+function dollarFormat(number) {
   const formattedNumber = Number(number).toLocaleString('en', {
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 5,
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
   });
   return formattedNumber;
 }
@@ -254,10 +254,10 @@ function localFormat(number) {
   });
   return formattedNumber;
 }
-function localFormat(number) {
+function dollarFormat(number) {
   const formattedNumber = Number(number).toLocaleString('en', {
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 5,
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
   });
   return formattedNumber;
 }
@@ -265,6 +265,41 @@ function localFormat(number) {
   const formattedNumber = Number(number).toLocaleString('en', {
     minimumFractionDigits: 0,
     maximumFractionDigits: 5,
+  });
+  return formattedNumber;
+}
+function dollarFormat(number) {
+  const formattedNumber = Number(number).toLocaleString('en', {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  });
+  return formattedNumber;
+}
+function localFormat(number) {
+  const formattedNumber = Number(number).toLocaleString('en', {
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 5,
+  });
+  return formattedNumber;
+}
+function dollarFormat(number) {
+  const formattedNumber = Number(number).toLocaleString('en', {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  });
+  return formattedNumber;
+}
+function localFormat(number) {
+  const formattedNumber = Number(number).toLocaleString('en', {
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 5,
+  });
+  return formattedNumber;
+}
+function dollarFormat(number) {
+  const formattedNumber = Number(number).toLocaleString('en', {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
   });
   return formattedNumber;
 }
