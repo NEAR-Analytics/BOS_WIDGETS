@@ -251,7 +251,7 @@ button, select {
 }
 
 .error {
-  border-color: #ff6464;
+  border: 1px solid #ff6464;
 }
 
 button:hover, select:hover {
