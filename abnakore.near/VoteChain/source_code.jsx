@@ -28,18 +28,6 @@ useEffect(() => {
   //   console.log(votesData, "");
 }, [votesData === null]);
 
-useEffect(() => {
-  console.log(tab, allVotes);
-  // Get the only votes the user created
-  if (tab === "my_votes") {
-    setVotesToRender(allVotes.filter((vote) => vote.creator === accountId));
-  } else if (tab === "watchlist") {
-    setVotesToRender(allVotes.filter((vote) => watchlist.includes(vote.id)));
-  } else {
-    setVotesToRender(allVotes);
-  }
-}, [allVotes, tab, watchlist]);
-
 // Get The watchlist of the user
 const watchlistData = Social.get(`${accountId}/voteChain_watchlist`);
 
@@ -51,6 +39,18 @@ useEffect(() => {
     setWatchlist(JSON.parse(watchlistData));
   }
 }, [watchlistData === null]);
+
+useEffect(() => {
+  console.log(tab, allVotes);
+  // Get the only votes the user created
+  if (tab === "my_votes") {
+    setVotesToRender(allVotes.filter((vote) => vote.creator === accountId));
+  } else if (tab === "watchlist") {
+    setVotesToRender(allVotes.filter((vote) => watchlist.includes(vote.id)));
+  } else {
+    setVotesToRender(allVotes);
+  }
+}, [allVotes, tab, watchlist]);
 
 // Pages that can be reached via the aside tab
 const [pages, setPage] = useState([
