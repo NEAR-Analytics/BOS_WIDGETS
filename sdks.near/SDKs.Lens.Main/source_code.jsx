@@ -1,6 +1,14 @@
 const $ = VM.require(`sdks.near/widget/Loader`);
-const { Constants, Interfaces, HealthAPI, AuthAPI, AuthRequests, ApiHelper } =
-  $("@sdks/lens");
+const {
+  Constants,
+  Interfaces,
+  HealthAPI,
+  AuthAPI,
+  ProfileAPI,
+  AuthRequests,
+  ProfileRequests,
+  ApiHelper,
+} = $("@sdks/lens");
 const { LightClient } = $("@sdks/light-client");
 
 const LensSDK = {
@@ -38,7 +46,7 @@ const LensSDK = {
         challengeRequest
       ).then((challenge) => {
         LightClient.challenge = challenge;
-          
+
         return Ethers.provider()
           .getSigner()
           .signMessage(challenge.text)
@@ -88,15 +96,60 @@ const LensSDK = {
     getProfileId: () => LensSDK.profile.id || null,
   },
   profile: {
-    create: () => {},
-    fetch: (profileId) => {},
-    fetchAll: (profileIds) => {},
-    stats: (profileId) => {},
-    recommendations: (profileId) => {},
-    interests: (profileId) => {},
-    report: (profileId) => {},
-    block: (profileId) => {},
-    history: () => {},
+    create: (createProfileRequest) =>
+      LensSDK._call(
+        ProfileAPI.create,
+        ProfileRequests.CREATE_PROFILE_REQUEST,
+        createProfileRequest
+      ),
+    fetch: (profileRequest) =>
+      LensSDK._call(
+        ProfileAPI.fetch,
+        ProfileRequests.PROFILE_REQUEST,
+        profileRequest
+      ),
+    fetchAll: (profilesRequest) =>
+      LensSDK._call(
+        ProfileAPI.fetchAll,
+        ProfileRequests.PROFILES_REQUEST,
+        profilesRequest
+      ),
+    stats: (profileStatsRequest) =>
+      LensSDK._call(
+        ProfileAPI.stats,
+        ProfileRequests.PROFILE_STATS_REQUEST,
+        profileStatsRequest
+      ),
+    recommendations: (profileRecommendationsRequest) =>
+      LensSDK._call(
+        ProfileAPI.recommendations,
+        ProfileRequests.PROFILE_RECOMMENDATIONS_REQUEST,
+        profileRecommendationsRequest
+      ),
+    interests: (profileInterestsRequest) =>
+      LensSDK._call(
+        ProfileAPI.interests,
+        ProfileRequests.PROFILE_INTERESTS_REQUEST,
+        profileInterestsRequest
+      ),
+    report: (reportProfileRequest) =>
+      LensSDK._call(
+        ProfileAPI.report,
+        ProfileRequests.REPORT_PROFILE_REQUEST,
+        reportProfileRequest
+      ),
+    block: (blockProfileRequest) =>
+      LensSDK._call(
+        ProfileAPI.block,
+        ProfileRequests.BLOCK_PROFILE_REQUEST,
+        blockProfileRequest
+      ),
+    history: (profileActionHistoryRequest) =>
+      LensSDK._call(
+        ProfileAPI.history,
+        ProfileRequests.PROFILE_ACTION_HISTORY_REQUEST,
+        profileActionHistoryRequest
+      ),
     onChainIdentity: (profileId) => {},
     isFollowedByMe: (profileId) => {},
     isBlockedByMe: (profileId) => {},
@@ -105,7 +158,8 @@ const LensSDK = {
     canUnfollow: (profileId) => {},
     canBlock: (profileId) => {},
     canUnblock: (profileId) => {},
-    fetchPublications: (profileId) => LensSDK.fetchAll(profileId),
+    fetchPublications: (profileId) => LensSDK.publications.fetchAll(profileId),
+    isHandleAvailable: (handle) => LensSDK.profile.fetch({ forHandle: handle }),
   },
   publication: {
     fetch: (publicationId) => {},
