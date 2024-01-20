@@ -17,7 +17,7 @@ useEffect(() => {
   console.log(tab);
   // Get the only votes the user created
   if (tab === "my_votes") {
-    setVotesToRender(allVotes);
+    setVotesToRender(allVotes.filter((vote) => vote.creator === accountId));
   } else if (tab === "watchlist") {
     setVotesToRender(allVotes);
   } else {
