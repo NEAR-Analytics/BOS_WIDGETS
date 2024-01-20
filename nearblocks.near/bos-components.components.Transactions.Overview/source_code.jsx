@@ -1006,6 +1006,20 @@ function tokenAmount(amount, decimal, format) {
   return format ? near.toFixed(8) : near.toFixed(decimal);
 }
 
+function tokenPercentage(
+  supply,
+  amount,
+  decimal,
+) {
+  const nearAmount = Big(amount).div(Big(10).pow(decimal));
+  const nearSupply = Big(supply);
+
+  return nearAmount.div(nearSupply).mul(Big(100)).toFixed(2);
+}
+function price(amount, decimal, price) {
+  const nearAmount = Big(amount).div(Big(10).pow(decimal));
+  return dollarFormat(nearAmount.mul(Big(price || 0)).toString());
+}
 function mapRpcActionToAction(action) {
   if (action === 'CreateAccount') {
     return {
@@ -1140,10 +1154,10 @@ function yoctoToNear(yocto, format) {
 
   return format ? localFormat(near) : near;
 }
-function localFormat(number) {
+function dollarFormat(number) {
   const formattedNumber = Number(number).toLocaleString('en', {
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 5,
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
   });
   return formattedNumber;
 }
@@ -1154,10 +1168,10 @@ function localFormat(number) {
   });
   return formattedNumber;
 }
-function localFormat(number) {
+function dollarFormat(number) {
   const formattedNumber = Number(number).toLocaleString('en', {
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 5,
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
   });
   return formattedNumber;
 }
@@ -1168,10 +1182,66 @@ function localFormat(number) {
   });
   return formattedNumber;
 }
+function dollarFormat(number) {
+  const formattedNumber = Number(number).toLocaleString('en', {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  });
+  return formattedNumber;
+}
 function localFormat(number) {
   const formattedNumber = Number(number).toLocaleString('en', {
     minimumFractionDigits: 0,
     maximumFractionDigits: 5,
+  });
+  return formattedNumber;
+}
+function dollarFormat(number) {
+  const formattedNumber = Number(number).toLocaleString('en', {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  });
+  return formattedNumber;
+}
+function localFormat(number) {
+  const formattedNumber = Number(number).toLocaleString('en', {
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 5,
+  });
+  return formattedNumber;
+}
+function dollarFormat(number) {
+  const formattedNumber = Number(number).toLocaleString('en', {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  });
+  return formattedNumber;
+}
+function localFormat(number) {
+  const formattedNumber = Number(number).toLocaleString('en', {
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 5,
+  });
+  return formattedNumber;
+}
+function dollarFormat(number) {
+  const formattedNumber = Number(number).toLocaleString('en', {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  });
+  return formattedNumber;
+}
+function localFormat(number) {
+  const formattedNumber = Number(number).toLocaleString('en', {
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 5,
+  });
+  return formattedNumber;
+}
+function dollarFormat(number) {
+  const formattedNumber = Number(number).toLocaleString('en', {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
   });
   return formattedNumber;
 }
